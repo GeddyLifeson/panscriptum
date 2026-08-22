@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 17:12:08",
+ "at": "2026-08-22 17:22:10",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,18 +228,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 328,
+     "left": 326,
      "cap": 1000,
-     "frac": 0.328
+     "frac": 0.326
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
-   "worst": 0.328
+   "worst": 0.326
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -248,9 +248,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 33,
+     "left": 32,
      "cap": 250,
-     "frac": 0.132
+     "frac": 0.128
     },
     {
      "name": "rpm",
@@ -259,7 +259,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.132
+   "worst": 0.128
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -268,9 +268,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 19,
+     "left": 17,
      "cap": 250,
-     "frac": 0.076
+     "frac": 0.068
     },
     {
      "name": "rpm",
@@ -279,7 +279,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.076
+   "worst": 0.068
   },
   {
    "bucket": "github:free",
@@ -576,9 +576,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 849,
+     "left": 833,
      "cap": 1000,
-     "frac": 0.849
+     "frac": 0.833
     },
     {
      "name": "rpm",
@@ -587,7 +587,7 @@
      "frac": 0.975
     }
    ],
-   "worst": 0.849
+   "worst": 0.833
   },
   {
    "bucket": "openrouter:free",
@@ -636,9 +636,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 290,
+     "left": 289,
      "cap": 300,
-     "frac": 0.9667
+     "frac": 0.9633
     },
     {
      "name": "rpm",
@@ -647,7 +647,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.9667
+   "worst": 0.9633
   },
   {
    "bucket": "together:free",
@@ -692,32 +692,22 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 87,
-  "per_hour": 348,
+  "calls": 52,
+  "per_hour": 208,
   "buckets": [
    {
     "bucket": "nvidia:free",
-    "calls": 55,
-    "ok": 55
+    "calls": 35,
+    "ok": 35
    },
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 8,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 6,
+    "calls": 5,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 6,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 4,
+    "calls": 3,
     "ok": 0
    },
    {
@@ -726,8 +716,8 @@
     "ok": 0
    },
    {
-    "bucket": "zai:free",
-    "calls": 3,
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 2,
     "ok": 0
    },
    {
@@ -736,7 +726,17 @@
     "ok": 0
    },
    {
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 1,
+    "ok": 0
+   },
+   {
     "bucket": "hyperbolic:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
     "calls": 1,
     "ok": 0
    }
@@ -776,7 +776,7 @@
    "read": 33119,
    "settled": 40382,
    "feats": 16619,
-   "age_h": 0.5
+   "age_h": 0.7
   },
   "phases": [
    {
@@ -878,7 +878,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 348,
+   "observed": 208,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -914,7 +914,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": true,
-   "observed": "63% ok",
+   "observed": "67% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -968,7 +968,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.5h",
+   "observed": "0.7h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1028,5 +1028,5 @@
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T17:12:09"
+ "generated": "2026-08-22T17:22:10"
 }
