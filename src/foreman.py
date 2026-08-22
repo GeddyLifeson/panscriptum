@@ -222,6 +222,19 @@ def triage_swallowed():
     return True, f"{total:,} swallowed and archived, top: {detail}"
 
 
+def recatalogue_models():
+    """Re-ask every provider what it serves, so stale-ID findings cannot outlive their fix.
+
+    The standard read a file written before the six stale model IDs were corrected, and went on
+    reporting six for as long as nobody re-measured. Same shape as the failure ledger that never
+    forgot: a measurement taken once becomes a permanent verdict, and the fix looks like it did
+    not work.
+    """
+    r = _run([os.path.join(SRC, "catalogue_models.py")], timeout=900)
+    tail = [ln for ln in (r.stdout or "").splitlines() if "stale model reference" in ln]
+    return r.returncode == 0, (tail[-1] if tail else "provider lists refreshed")
+
+
 def refresh_coverage():
     """Re-measure cited/settled. Stale figures understate the library and mislead every other
     standard that reads them."""
@@ -253,6 +266,8 @@ REMEDIES = {
     "sources with a reachable wiki": [adopt_hosts, scout_hostless],
     "page roll complete": [rerun_roll],
     "swallowed failures not spiking": [triage_swallowed],
+    "unexpected swallowed failures": [triage_swallowed],
+    "model IDs their providers still serve": [recatalogue_models],
     # Both of these are the throughput standard wearing a different name: a passage nobody
     # answered and a read that will not finish are what a starved pool looks like from the
     # reader's side. Same diagnosis, same remedies -- and routing them to the owner instead

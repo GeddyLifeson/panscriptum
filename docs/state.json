@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 17:42:12",
+ "at": "2026-08-22 17:43:00",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 313,
+     "left": 312,
      "cap": 1000,
-     "frac": 0.313
+     "frac": 0.312
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 0.5
     }
    ],
-   "worst": 0.313
+   "worst": 0.312
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -254,9 +254,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.084
@@ -274,9 +274,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.012
@@ -302,20 +302,26 @@
    "worst": 1.0
   },
   {
-   "bucket": "groq:llama-3.1-8b-instant",
+   "bucket": "groq:groq/compound-mini",
    "model": "groq-llama31-8b",
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
+     "name": "tpd",
+     "left": 499225,
+     "cap": 500000,
+     "frac": 0.9984
     },
     {
      "name": "rpd",
-     "left": 14400,
+     "left": 14391,
      "cap": 14400,
+     "frac": 0.9994
+    },
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
      "frac": 1.0
     },
     {
@@ -323,47 +329,9 @@
      "left": 6000,
      "cap": 6000,
      "frac": 1.0
-    },
-    {
-     "name": "tpd",
-     "left": 500000,
-     "cap": 500000,
-     "frac": 1.0
     }
    ],
-   "worst": 1.0
-  },
-  {
-   "bucket": "groq:llama-3.3-70b-versatile",
-   "model": "groq-llama33-70b",
-   "unlimited": false,
-   "windows": [
-    {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
-    },
-    {
-     "name": "rpd",
-     "left": 1000,
-     "cap": 1000,
-     "frac": 1.0
-    },
-    {
-     "name": "tpm",
-     "left": 12000,
-     "cap": 12000,
-     "frac": 1.0
-    },
-    {
-     "name": "tpd",
-     "left": 100000,
-     "cap": 100000,
-     "frac": 1.0
-    }
-   ],
-   "worst": 1.0
+   "worst": 0.9984
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -396,6 +364,38 @@
     }
    ],
    "worst": 0.0
+  },
+  {
+   "bucket": "groq:openai/gpt-oss-20b",
+   "model": "groq-llama33-70b",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "tpd",
+     "left": 96877,
+     "cap": 100000,
+     "frac": 0.9688
+    },
+    {
+     "name": "rpd",
+     "left": 976,
+     "cap": 1000,
+     "frac": 0.976
+    },
+    {
+     "name": "rpm",
+     "left": 3,
+     "cap": 3,
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 12000,
+     "cap": 12000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.9688
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -576,18 +576,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 731,
+     "left": 725,
      "cap": 1000,
-     "frac": 0.731
+     "frac": 0.725
     },
     {
      "name": "rpm",
-     "left": 36,
+     "left": 34,
      "cap": 40,
-     "frac": 0.9
+     "frac": 0.85
     }
    ],
-   "worst": 0.731
+   "worst": 0.725
   },
   {
    "bucket": "openrouter:free",
@@ -635,19 +635,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 1,
-     "cap": 2,
-     "frac": 0.5
-    },
-    {
      "name": "rpd",
      "left": 278,
      "cap": 300,
      "frac": 0.9267
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.5
+   "worst": 0.9267
   },
   {
    "bucket": "together:free",
@@ -682,9 +682,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.492
@@ -692,23 +692,23 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 108,
-  "per_hour": 432,
+  "calls": 113,
+  "per_hour": 452,
   "buckets": [
    {
     "bucket": "nvidia:free",
-    "calls": 56,
-    "ok": 56
+    "calls": 60,
+    "ok": 60
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 10,
+    "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
     "calls": 10,
     "ok": 1
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 9,
-    "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.5-flash",
@@ -776,7 +776,7 @@
    "read": 33119,
    "settled": 40382,
    "feats": 16619,
-   "age_h": 1.0
+   "age_h": 1.1
   },
   "phases": [
    {
@@ -797,19 +797,19 @@
    },
    {
     "name": "cosmology",
-    "built": false
+    "built": true
    },
    {
     "name": "history",
-    "built": false
+    "built": true
    },
    {
     "name": "shelve",
-    "built": false
+    "built": true
    },
    {
     "name": "write",
-    "built": false
+    "built": true
    }
   ],
   "readfeats": 25
@@ -878,7 +878,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 432,
+   "observed": 452,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -914,7 +914,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": true,
-   "observed": "55% ok",
+   "observed": "56% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -968,7 +968,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "1.0h",
+   "observed": "1.1h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -985,9 +985,9 @@
   {
    "standard": "sources with a reachable wiki",
    "group": "library",
-   "holds": true,
+   "holds": false,
    "observed": "92%",
-   "floor": "80%",
+   "floor": "100%",
    "order": "Sources without a host are uncitable by construction. Run `python src/hostcheck.py --adopt --go`. For homebrew, try D&D Wiki and the publisher's own site -- homebrew is inconsistent about where it lives.",
    "severity": "medium"
   },
@@ -1013,20 +1013,137 @@
    "standard": "phases implemented",
    "group": "code",
    "holds": true,
-   "observed": "4/8",
+   "observed": "8/8",
    "floor": "at least 4",
-   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: cosmology, history, shelve, write",
+   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: none",
    "severity": "low"
   },
   {
-   "standard": "swallowed failures not spiking",
+   "standard": "unexpected swallowed failures",
    "group": "code",
-   "holds": false,
-   "observed": "13,070",
+   "holds": true,
+   "observed": "1,120",
    "floor": "2,000",
-   "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
+   "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
+  },
+  {
+   "standard": "probe failures (reported, not judged)",
+   "group": "code",
+   "holds": true,
+   "observed": "11,950",
+   "floor": "no floor",
+   "order": "Requests that failed as part of finding something out: endpoint detection trying six paths, the scout trying eight URLs. Volume here is work, not damage.",
+   "severity": "low"
+  },
+  {
+   "standard": "cached records that were fully read",
+   "group": "evidence",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "A record written while some of its chunks went unanswered is PERMANENTLY incomplete -- read_entity returns the cache forever after and queue never revisits it. Delete those files so the entities are read again; the guard in read.py stops new ones appearing.",
+   "severity": "high"
+  },
+  {
+   "standard": "rosters that name their own fiction",
+   "group": "evidence",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "A source whose mined pages never mention it was catalogued from the wrong wiki. That proves the HOST was wrong, not necessarily the roster -- read each one before purging, then `hostcheck.py --purge --go --source NAME`. `Lost Mines of Phandelver` held the cast of the television series Lost.",
+   "severity": "medium"
+  },
+  {
+   "standard": "shelfmarks are unique",
+   "group": "evidence",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "Two worlds sharing an address means the Ladder cannot tell them apart, and every citation to either is ambiguous. The address space has 115,000x headroom, so a collision is a bug in assignment rather than exhaustion.",
+   "severity": "high"
+  },
+  {
+   "standard": "hand-built assays match the charter",
+   "group": "instrument",
+   "holds": true,
+   "observed": "3/3",
+   "floor": "all of them",
+   "order": "The three reference assays reconstruct values the charter published. If one falls outside its interval, the instrument has drifted from the document it implements -- check assay.SIGMA_BY_ATTESTATION and the axis weights before trusting any new Magnitude.",
+   "severity": "high"
+  },
+  {
+   "standard": "files that parse",
+   "group": "instrument",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "A record that will not load is skipped in silence by every stage that reads it, so a corrupt cache is indistinguishable from an empty one -- and empty is a legitimate finding here. `allsweep.py` names the files.",
+   "severity": "high"
+  },
+  {
+   "standard": "verifiers all run",
+   "group": "instrument",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "A verifier that crashes stops verifying and says nothing. `verify_math` sat dead for an unknown period and every number it checks was unverified for exactly that long.",
+   "severity": "high"
+  },
+  {
+   "standard": "the full audit is recent",
+   "group": "instrument",
+   "holds": true,
+   "observed": "0.9h",
+   "floor": "6h",
+   "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
+   "severity": "medium"
+  },
+  {
+   "standard": "disk space",
+   "group": "machine",
+   "holds": true,
+   "observed": "31 GB",
+   "floor": "10 GB",
+   "order": "The roll writes hundreds of megabytes an hour. Out of disk, every stage fails at once and most of them fail quietly.",
+   "severity": "high"
+  },
+  {
+   "standard": "every managed job is running",
+   "group": "machine",
+   "holds": true,
+   "observed": "all up",
+   "floor": "all up",
+   "order": "The supervisor starts these every cycle, so one that is down means it failed on startup rather than never being launched -- read its log in state/. If the SUPERVISOR is down, the watchdog in autostart.py restarts it within three minutes.",
+   "severity": "medium"
+  },
+  {
+   "standard": "the published panel is fresh",
+   "group": "machine",
+   "holds": true,
+   "observed": "0.0h",
+   "floor": "2h",
+   "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
+   "severity": "low"
+  },
+  {
+   "standard": "model IDs their providers still serve",
+   "group": "pool",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "The config names a model the provider has retired. The KEY works; the string does not -- and the whole provider reads as dead. Six stale names once hid five live providers. `catalogue_models.py` lists what each one actually serves today.",
+   "severity": "high"
+  },
+  {
+   "standard": "every declared floor is measured",
+   "group": "standards",
+   "holds": true,
+   "observed": "all measured",
+   "floor": "all measured",
+   "order": "A floor nothing checks is a promise that something is being watched when nothing is. Either wire it into check() or delete it -- both are honest; leaving it is not.",
+   "severity": "high"
   }
  ],
- "generated": "2026-08-22T17:42:12"
+ "generated": "2026-08-22T17:43:06"
 }
