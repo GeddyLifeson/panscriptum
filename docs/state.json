@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 16:52:06",
+ "at": "2026-08-22 16:52:09",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -302,20 +302,26 @@
    "worst": 1.0
   },
   {
-   "bucket": "groq:llama-3.1-8b-instant",
+   "bucket": "groq:groq/compound-mini",
    "model": "groq-llama31-8b",
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
+     "name": "tpd",
+     "left": 499237,
+     "cap": 500000,
+     "frac": 0.9985
     },
     {
      "name": "rpd",
-     "left": 14400,
+     "left": 14393,
      "cap": 14400,
+     "frac": 0.9995
+    },
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
      "frac": 1.0
     },
     {
@@ -323,47 +329,9 @@
      "left": 6000,
      "cap": 6000,
      "frac": 1.0
-    },
-    {
-     "name": "tpd",
-     "left": 500000,
-     "cap": 500000,
-     "frac": 1.0
     }
    ],
-   "worst": 1.0
-  },
-  {
-   "bucket": "groq:llama-3.3-70b-versatile",
-   "model": "groq-llama33-70b",
-   "unlimited": false,
-   "windows": [
-    {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
-    },
-    {
-     "name": "rpd",
-     "left": 1000,
-     "cap": 1000,
-     "frac": 1.0
-    },
-    {
-     "name": "tpm",
-     "left": 12000,
-     "cap": 12000,
-     "frac": 1.0
-    },
-    {
-     "name": "tpd",
-     "left": 100000,
-     "cap": 100000,
-     "frac": 1.0
-    }
-   ],
-   "worst": 1.0
+   "worst": 0.9985
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -396,6 +364,38 @@
     }
    ],
    "worst": 0.0
+  },
+  {
+   "bucket": "groq:openai/gpt-oss-20b",
+   "model": "groq-llama33-70b",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 993,
+     "cap": 1000,
+     "frac": 0.993
+    },
+    {
+     "name": "tpd",
+     "left": 99619,
+     "cap": 100000,
+     "frac": 0.9962
+    },
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 12000,
+     "cap": 12000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.993
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -852,19 +852,19 @@
    },
    {
     "name": "cosmology",
-    "built": false
+    "built": true
    },
    {
     "name": "history",
-    "built": false
+    "built": true
    },
    {
     "name": "shelve",
-    "built": false
+    "built": true
    },
    {
     "name": "write",
-    "built": false
+    "built": true
    }
   ],
   "readfeats": 31
@@ -1028,9 +1028,9 @@
   {
    "standard": "sources with a reachable wiki",
    "group": "library",
-   "holds": true,
+   "holds": false,
    "observed": "92%",
-   "floor": "80%",
+   "floor": "100%",
    "order": "Sources without a host are uncitable by construction. Run `python src/hostcheck.py --adopt --go`. For homebrew, try D&D Wiki and the publisher's own site -- homebrew is inconsistent about where it lives.",
    "severity": "medium"
   },
@@ -1056,9 +1056,9 @@
    "standard": "phases implemented",
    "group": "code",
    "holds": true,
-   "observed": "4/8",
+   "observed": "8/8",
    "floor": "at least 4",
-   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: cosmology, history, shelve, write",
+   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: none",
    "severity": "low"
   },
   {
@@ -1071,5 +1071,5 @@
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T16:52:06"
+ "generated": "2026-08-22T16:52:10"
 }
