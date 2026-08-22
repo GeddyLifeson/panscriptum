@@ -308,7 +308,12 @@ def attempt_patch(finding, dry=True):
 
     body, start, end = _function_source(path, symbol)
     if not body:
-        return {"ok": False, "why": f"could not locate {symbol} as a function"}
+        # NOT EVERY FINDING POINTS AT PYTHON. `build_terminal.place` is JavaScript inside a
+        # template string and `assay.SIGMA_MAX` is a module constant -- both are real code and
+        # neither is a function this can replace. Retiring rather than refusing forever: an
+        # unactionable finding that stays open is a permanent breach of the standard that reads
+        # it, which trains everybody to ignore that standard.
+        return {"ok": False, "why": f"{symbol} is not a Python function here", "retire": True}
     if len(body.splitlines()) > 400:
         return {"ok": False, "why": "function too large to patch safely"}
 
@@ -362,6 +367,24 @@ def attempt_patch(finding, dry=True):
 
 
 # =========================================================================== the round
+
+def _retire(finding):
+    """Close a finding the model lane can never act on, so it stops blocking its standard."""
+    path = os.path.join(HERE, "data", "OVERWATCH.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            led = json.load(f)
+        for fid, v in (led.get("findings") or {}).items():
+            if (v.get("module") == finding.get("module")
+                    and v.get("symbol") == finding.get("symbol")
+                    and v.get("state") == "open"):
+                v["state"] = "retired"
+                v["retired_why"] = finding.get("why", "unactionable")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(led, f, indent=1, sort_keys=True)
+    except Exception:
+        silence.note("foreman.py:_retire")
+
 
 def _pool_has_room(floor=600):
     """Is there spare provider capacity, or is the corpus read starving?
@@ -450,6 +473,8 @@ def round_once(dry=True, patch=False):
             res = attempt_patch(f, dry=dry)
             print(f"   MODEL  {f.get('module')}.{f.get('symbol')}: {res.get('why')}")
             log["model"].append({"module": f.get("module"), "symbol": f.get("symbol"), **res})
+            if res.get("retire") and not dry:
+                _retire(f)
 
     owner_items = [o for o in orders if o["standard"] in log["owner"]]
     p = owner_queue(owner_items)
