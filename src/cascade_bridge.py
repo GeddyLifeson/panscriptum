@@ -170,6 +170,9 @@ _DEAD_LOCK = threading.Lock()
 # success clears the record entirely, because a provider that just answered is not down.
 FIRST_BENCH = 60
 MAX_BENCH = 900
+# A dead key is not a busy provider. Long enough to stop costing claims, short enough that a
+# key fixed this afternoon is back in rotation this evening.
+AUTH_BENCH = 4 * 3600
 
 
 LOCAL_PREFIX = "ollama:"
@@ -254,34 +257,53 @@ PROOF = os.path.join(HERE, "data", "POOL_PROOF.json")
 _PROVEN = [None]
 
 
-def proven():
-    """Buckets that have actually answered a call, from the last run of `prove()`.
+# A proof this old is no longer evidence about now. Free tiers roll their windows constantly,
+# and a bucket that was busy an hour ago is not a bucket that is broken.
+PROOF_TTL = 3600
 
-    Headroom is what a bucket says about its own meters. It is not evidence that the key works,
-    that the model still exists, or that the provider will accept a request -- and 25 of 36
-    buckets reported healthy quota while answering nothing. Each of those costs a full deadline
-    every time it is claimed, so the pool's REAL width, 11, was being diluted threefold by
-    buckets that were never going to reply.
 
-    An empty proof means "not measured", not "nothing works": with no file, every bucket is
-    allowed, because refusing them all on missing evidence would be the same error inverted.
+def dead_forever():
+    """Buckets excluded by proof — and ONLY for reasons that cannot fix themselves.
+
+    The first version of this excluded anything that failed to answer, and it made the pool
+    SMALLER rather than more accurate. Eleven buckets were recorded "no answer" at a 45-second
+    deadline, and `huggingface`, `zai` and `gemini-3.1-flash-lite` were observed answering
+    normally minutes afterwards -- they had been rate-limited at that instant, and a rate limit
+    is the most temporary condition a provider has. I wrote a transient failure down as a
+    permanent property, which is the precise mistake this project exists to stop making.
+
+    So exclusion now requires a reason that CANNOT resolve on its own:
+
+        401  the key is wrong                  a human must fix it
+        402  the account has no balance        a human must fix it
+        404  the model does not exist          the config is stale
+        410  the model was retired             it is not coming back
+
+    A timeout, a 429, or a silent minute excludes nothing. Those buckets stay in rotation and
+    fail over on their own, which is what the router is for -- and if they are genuinely down,
+    the deadline costs one call and the next claim goes elsewhere.
     """
     if _PROVEN[0] is not None:
         return _PROVEN[0]
+    out = set()
     try:
-        with open(PROOF, encoding="utf-8") as f:
-            rows = json.load(f)
-        ok = {r["bucket"] for r in rows if r.get("verdict") in ("answers", "local")}
-        _PROVEN[0] = ok if ok else None
+        if time.time() - os.path.getmtime(PROOF) <= PROOF_TTL:
+            with open(PROOF, encoding="utf-8") as f:
+                rows = json.load(f)
+            for r in rows:
+                v = str(r.get("verdict") or "")
+                if any(code in v for code in ("401", "402", "404", "410")):
+                    out.add(r["bucket"])
+                if "no such model" in v or "needs billing" in v or "bad key" in v:
+                    out.add(r["bucket"])
     except Exception:
-        silence.note("cascade_bridge.py:proven")
-        _PROVEN[0] = None
-    return _PROVEN[0]
+        silence.note("cascade_bridge.py:dead_forever")
+    _PROVEN[0] = out
+    return out
 
 
 def _alive(bucket):
-    known = proven()
-    if known is not None and bucket not in known:
+    if bucket in dead_forever():
         return False
     if bucket.startswith(LOCAL_PREFIX):
         # The GPU is read.py's own fallback and reaching it through here would hide that fact
@@ -297,8 +319,11 @@ def _alive(bucket):
     return True
 
 
-def _bury(bucket):
+def _bury(bucket, seconds=None):
     with _DEAD_LOCK:
+        if seconds:
+            _DEAD[bucket] = time.time() + seconds
+            return
         n = _STRIKES.get(bucket, 0) + 1
         _STRIKES[bucket] = n
         _DEAD[bucket] = time.time() + min(MAX_BENCH, FIRST_BENCH * (2 ** (n - 1)))
@@ -389,6 +414,7 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
                     box["answered"] = ev.get("label") or ev.get("model_id")
                 elif t == "error":
                     box["failed"] = True
+                    box["error"] = str(ev.get("error") or ev.get("text") or "")[:300]
                     return
         except Exception:
             silence.note("cascade_bridge.py:151")
@@ -421,6 +447,17 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
                 _bury(pinned.bucket)
             return None
         if box["failed"]:
+            # AN AUTH FAILURE IS NOT A BUSY SIGNAL.
+            #
+            # A 401 or 402 will still be a 401 or 402 in sixty seconds, and in ten minutes, and
+            # tomorrow -- it needs a human with an account page. Treating it like contention
+            # meant `cloudflare` and `hyperbolic` cycled back into rotation every few minutes to
+            # fail again, taking a claim and a deadline with them each time. Benched for hours
+            # so the rotation contains only providers that could plausibly answer.
+            err = box.get("error") or ""
+            if pinned and any(code in err for code in ("401", "402", "Authentication",
+                                                       "invalid_api_key", "credentials")):
+                _bury(pinned.bucket, AUTH_BENCH)
             return None
         if pinned:
             _clear(pinned.bucket)
@@ -503,5 +540,48 @@ def prove(pool="coding", timeout=45):
             silence.note("cascade_bridge.py:prove")
             verdict = type(ex).__name__
         out.append({"bucket": bucket, "model": m.id, "verdict": verdict,
+                    "seconds": round(time.time() - t, 1)})
+    return out
+
+
+def try_disabled(pool="coding", timeout=60):
+    """Test models that are switched off in config but DO have a working key.
+
+    Twelve providers are disabled for the only good reason there is -- no key. Seven models are
+    disabled while holding one, and that is capacity sitting idle. Some were switched off for
+    real causes that have not changed (a retired endpoint, an account needing balance) and some
+    for causes that have: GitHub Models refused a 22,000-token request during the oversized-chunk
+    experiment and would comfortably take the 2,700-token chunks used now.
+
+    Nothing is enabled on a guess. Each is called directly, once, and the answer decides.
+    """
+    e = engine()
+    if not e:
+        return []
+    out = []
+    for m in _ROUTER.models:
+        if pool not in (m.pools or []):
+            continue
+        st = _ROUTER.model_status(m)
+        if st.get("available") or st.get("reason") != "model disabled":
+            continue
+        prov = m.provider or {}
+        if not (prov.get("api_key") or prov.get("local")):
+            out.append({"model": m.id, "bucket": m.bucket, "verdict": "no key"})
+            continue
+        was = m.enabled
+        t = time.time()
+        try:
+            m.enabled = True
+            got = ask("Reply with JSON only.", 'Return {"ok": true}',
+                      {"type": "object", "properties": {"ok": {"type": "boolean"}},
+                       "required": ["ok"]}, pool=pool, timeout=timeout, pin=m.id)
+            verdict = "ANSWERS" if got else "no answer"
+        except Exception as ex:
+            silence.note("cascade_bridge.py:try_disabled")
+            verdict = type(ex).__name__
+        finally:
+            m.enabled = was
+        out.append({"model": m.id, "bucket": m.bucket, "verdict": verdict,
                     "seconds": round(time.time() - t, 1)})
     return out
