@@ -68,7 +68,6 @@ footer{padding:0 30px 40px;font-family:var(--mono);font-size:10.5px;color:var(--
 .order{margin:10px 0 0;padding:10px 12px;background:var(--panel-2);border-left:2px solid var(--warn)}
 .otitle{font-family:var(--mono);font-size:11px;color:var(--warn);margin-bottom:5px}
 .obody{font-size:13.5px;color:var(--ink-dim);line-height:1.5}
-td.up{color:var(--good)} td.down{color:var(--bad);font-weight:600}
 </style></head><body>
 <header>
   <h1>Panscriptum · Instruments</h1>
@@ -85,26 +84,6 @@ const cls=f=>f<=0.001?'bad':f<0.15?'bad':f<0.4?'warn':'good';
 const pct=f=>(f*100).toFixed(0)+'%';
 function bar(frac,kind){const b=el('div','bar');const i=el('i',kind||cls(frac));
   i.style.width=Math.max(0,Math.min(1,frac))*100+'%';b.appendChild(i);return b}
-
-function panelMovement(d){const s=el('section','wide');
-  s.appendChild(el('h2',null,'Movement — what has changed, not what the level is'));
-  const M=d.movement||[];
-  if(!M.length){s.appendChild(el('div','empty','No history yet. Deltas appear after the second reading.'));return s}
-  const t=el('table');
-  M.forEach(m=>{const tr=el('tr');
-    const d1=el('td','k',m.metric);
-    const d2=el('td',null,(m.now||0).toLocaleString());
-    let txt='—', cls='';
-    if(m.delta===null||m.delta===undefined){txt='first reading'}
-    else if(m.delta>0){txt='+'+m.delta.toLocaleString()+' in '+m.minutes+' min';cls='up'}
-    else if(m.delta<0){txt=m.delta.toLocaleString()+' in '+m.minutes+' min';cls='down'}
-    else{txt=m.stalled?('NO CHANGE in '+m.minutes+' min'):'no change yet';cls=m.stalled?'down':''}
-    const d3=el('td',cls,txt);
-    tr.append(d1,d2,d3);t.appendChild(tr)});
-  s.appendChild(t);
-  s.appendChild(el('div','sub','A bar that has not moved looks identical to one that just '+
-    'moved. This says which.'));
-  return s}
 
 function panelStandards(d){const s=el('section','wide');
   const S=d.standards||[];
@@ -228,8 +207,8 @@ async function tick(){
   try{const d=await (await fetch('./state.json',{cache:'no-store'})).json();
     document.getElementById('stamp').textContent=d.at;
     const w=document.getElementById('wrap');w.innerHTML='';
-    w.append(panelMovement(d),panelStandards(d),panelJobs(d),panelQuota(d),panelSpend(d),
-             panelLibrary(d),panelPhases(d),panelWatch(d));
+    w.append(panelStandards(d),panelJobs(d),panelQuota(d),panelSpend(d),panelLibrary(d),
+             panelPhases(d),panelWatch(d));
   }catch(e){document.getElementById('stamp').textContent='server unreachable';}
 }
 tick();setInterval(tick,30000);
