@@ -1,0 +1,946 @@
+{
+ "at": "2026-08-22 15:24:00",
+ "quotas": [
+  {
+   "bucket": "ai21:free",
+   "model": "a21-jamba",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "anthropic:paid",
+   "model": "claude-opus-5",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 20,
+     "cap": 20,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "bigmodel:free",
+   "model": "bm-glm",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "cerebras:free",
+   "model": "cb-glm47",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 5,
+     "cap": 5,
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 30000,
+     "cap": 30000,
+     "frac": 1.0
+    },
+    {
+     "name": "tpd",
+     "left": 1000000,
+     "cap": 1000000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "chutes:free",
+   "model": "ch-deepseek",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "cloudflare:free",
+   "model": "cf-qwen-coder",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 485,
+     "cap": 500,
+     "frac": 0.97
+    },
+    {
+     "name": "rpm",
+     "left": 20,
+     "cap": 20,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.97
+  },
+  {
+   "bucket": "cohere:free",
+   "model": "co-command",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 0,
+     "cap": 200,
+     "frac": 0.0
+    },
+    {
+     "name": "rpm",
+     "left": 5,
+     "cap": 5,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.0
+  },
+  {
+   "bucket": "dashscope:free",
+   "model": "ds-qwen",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "deepinfra:free",
+   "model": "di-qwen",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "gemini:models/gemini-2.5-flash",
+   "model": "gem-25-flash",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 250,
+     "cap": 250,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "gemini:models/gemini-2.5-flash-lite",
+   "model": "gem-25-lite",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 15,
+     "cap": 15,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 1000,
+     "cap": 1000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "gemini:models/gemini-3.1-flash-lite",
+   "model": "gem-31-lite",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 381,
+     "cap": 1000,
+     "frac": 0.381
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.381
+  },
+  {
+   "bucket": "gemini:models/gemini-3.5-flash",
+   "model": "gem-35-flash",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 84,
+     "cap": 250,
+     "frac": 0.336
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.336
+  },
+  {
+   "bucket": "gemini:models/gemini-3.6-flash",
+   "model": "gem-36-flash",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 72,
+     "cap": 250,
+     "frac": 0.288
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.288
+  },
+  {
+   "bucket": "github:free",
+   "model": "gh-gpt41",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 150,
+     "cap": 150,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "groq:llama-3.1-8b-instant",
+   "model": "groq-llama31-8b",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 14400,
+     "cap": 14400,
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 6000,
+     "cap": 6000,
+     "frac": 1.0
+    },
+    {
+     "name": "tpd",
+     "left": 500000,
+     "cap": 500000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "groq:llama-3.3-70b-versatile",
+   "model": "groq-llama33-70b",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 1000,
+     "cap": 1000,
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 12000,
+     "cap": 12000,
+     "frac": 1.0
+    },
+    {
+     "name": "tpd",
+     "left": 100000,
+     "cap": 100000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "groq:openai/gpt-oss-120b",
+   "model": "groq-gptoss120",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 0,
+     "cap": 103,
+     "frac": 0.0
+    },
+    {
+     "name": "tpd",
+     "left": 102720,
+     "cap": 200000,
+     "frac": 0.5136
+    },
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.0
+  },
+  {
+   "bucket": "groq:qwen/qwen3.6-27b",
+   "model": "groq-qwen36-27b",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 0,
+     "cap": 144,
+     "frac": 0.0
+    },
+    {
+     "name": "tpd",
+     "left": 101352,
+     "cap": 200000,
+     "frac": 0.5068
+    },
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.0
+  },
+  {
+   "bucket": "huggingface:free",
+   "model": "hf-qwen",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 144,
+     "cap": 200,
+     "frac": 0.72
+    },
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.72
+  },
+  {
+   "bucket": "hyperbolic:free",
+   "model": "hb-qwen",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 184,
+     "cap": 200,
+     "frac": 0.92
+    },
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.92
+  },
+  {
+   "bucket": "kluster:free",
+   "model": "kl-llama",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "mistral:free",
+   "model": "ms-codestral",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 0,
+     "cap": 2000,
+     "frac": 0.0
+    },
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.0
+  },
+  {
+   "bucket": "moonshot:free",
+   "model": "ms-kimi",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "nebius:free",
+   "model": "nb-qwen",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "novita:free",
+   "model": "nv-llama",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "nvidia:free",
+   "model": "nv-qwen3-coder",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 40,
+     "cap": 40,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 1000,
+     "cap": 1000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "openrouter:free",
+   "model": "or-nemotron-ultra",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 0,
+     "cap": 50,
+     "frac": 0.0
+    },
+    {
+     "name": "rpm",
+     "left": 20,
+     "cap": 20,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.0
+  },
+  {
+   "bucket": "ovh:free",
+   "model": "ovh-llama",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "sambanova:free",
+   "model": "sn-deepseek",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 300,
+     "cap": 300,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "together:free",
+   "model": "tg-llama70b",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 200,
+     "cap": 200,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
+  },
+  {
+   "bucket": "zai:free",
+   "model": "zai-glm47-flash",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 320,
+     "cap": 500,
+     "frac": 0.64
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.64
+  }
+ ],
+ "throughput": {
+  "window_min": 15,
+  "calls": 128,
+  "per_hour": 512,
+  "buckets": [
+   {
+    "bucket": "ollama:llama3.1:latest",
+    "calls": 25,
+    "ok": 6
+   },
+   {
+    "bucket": "ollama:local",
+    "calls": 15,
+    "ok": 7
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 13,
+    "ok": 0
+   },
+   {
+    "bucket": "ollama:qwen2.5:14b",
+    "calls": 13,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 12,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 11,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 9,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 8,
+    "ok": 1
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 6,
+    "ok": 1
+   },
+   {
+    "bucket": "huggingface:free",
+    "calls": 6,
+    "ok": 6
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 5,
+    "ok": 0
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 5,
+    "ok": 0
+   }
+  ]
+ },
+ "jobs": [
+  {
+   "name": "corpus read",
+   "unit": "chunks",
+   "done": 131,
+   "total": 51773,
+   "detail": "25/33,810 entities  \u00b7  615 feats  \u00b7  195.37 chunks/s",
+   "warn": "",
+   "eta_h": 0.1
+  },
+  {
+   "name": "page roll",
+   "unit": "entities",
+   "done": 53200,
+   "total": 53971,
+   "detail": "40,158 pages  \u00b7  543M characters  \u00b7  3.0/s",
+   "warn": "",
+   "eta_h": 0.1
+  }
+ ],
+ "library": {
+  "sources": {
+   "total": 210,
+   "with_host": 178,
+   "without_host": 32,
+   "entries_with_host": 50638,
+   "entries_without_host": 6110
+  },
+  "coverage": {
+   "entries": 56748,
+   "cited": 5367,
+   "read": 28192,
+   "settled": 33559,
+   "feats": 19187,
+   "age_h": 1.0
+  },
+  "phases": [
+   {
+    "name": "synthesis",
+    "built": true
+   },
+   {
+    "name": "entrypass",
+    "built": true
+   },
+   {
+    "name": "weave",
+    "built": true
+   },
+   {
+    "name": "chain",
+    "built": true
+   },
+   {
+    "name": "cosmology",
+    "built": false
+   },
+   {
+    "name": "history",
+    "built": false
+   },
+   {
+    "name": "shelve",
+    "built": false
+   },
+   {
+    "name": "write",
+    "built": false
+   }
+  ],
+  "readfeats": 31
+ },
+ "watch": {
+  "open": 2,
+  "high": 1,
+  "rounds": 2,
+  "findings": [
+   {
+    "module": "assay",
+    "symbol": "interval",
+    "actual": "The while loop condition checks `any(abs(v - centre) > interval for v in vals)`, but the loop body increases `interval` by 0.01 each time. However, the `interva",
+    "severity": "high"
+   },
+   {
+    "module": "assay",
+    "symbol": "SIGMA_MAX",
+    "actual": "SIGMA_MAX is defined as 9.9 / sqrt(12), which is correct for the standard deviation of a uniform distribution over [0.0, 9.9], but this value is used as a hard ",
+    "severity": "medium"
+   }
+  ],
+  "broken": [],
+  "swallowed": [
+   [
+    "silent:hostcheck.py:probe:HTTPError",
+    2618
+   ],
+   [
+    "silent:endpoint.py:detect-api:HTTPError",
+    1703
+   ],
+   [
+    "silent:endpoint.py:detect-raw:HTTPError",
+    1692
+   ],
+   [
+    "silent:endpoint.py:fetch_raw-http:HTTPError",
+    992
+   ],
+   [
+    "silent:cascade_bridge.py:deadline:None",
+    306
+   ],
+   [
+    "silent:hostcheck.py:candidates:HTTPError",
+    124
+   ]
+  ],
+  "swallowed_total": 7498
+ },
+ "standards": [
+  {
+   "standard": "model calls per hour",
+   "holds": false,
+   "observed": 512,
+   "floor": 900,
+   "order": "The pool is answering far below capacity. In order: check `data/`-side buckets pinned at rpm 1 by a learned cap (clear `learned` in state/cascade_scratch.db, the router now floors this at 2 and expires it after 6h); check how many buckets report headroom in the dashboard's quota panel; check that read.py is reaching the GPU as capacity rather than as a last resort after a backoff ladder.",
+   "severity": "high"
+  },
+  {
+   "standard": "chunks nobody answered",
+   "holds": true,
+   "observed": "none",
+   "floor": "none",
+   "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens, so nothing is lost -- but it means the pool and the GPU declined together, which is a capacity problem, not a reading problem. Same diagnosis as the throughput standard.",
+   "severity": "high"
+  },
+  {
+   "standard": "corpus read finishes inside a day",
+   "holds": true,
+   "observed": "0.1h",
+   "floor": "24h",
+   "order": "At this rate the read does not finish overnight. The lever is providers, not code: count the buckets with headroom, and if the answer is small the honest fix is more free tiers or waiting for the daily windows to roll.",
+   "severity": "high"
+  },
+  {
+   "standard": "every module imports",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "A module that will not import is a module nobody knows is broken -- `verify_math` sat dead for an unknown period and every number it checks was unverified for exactly that long. Run `python src/allsweep.py` and fix what the IMPORT tier names.",
+   "severity": "high"
+  },
+  {
+   "standard": "no high-severity findings open",
+   "holds": false,
+   "observed": 1,
+   "floor": 0,
+   "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each one, and fix or retire it.",
+   "severity": "medium"
+  },
+  {
+   "standard": "coverage figures are current",
+   "holds": true,
+   "observed": "1.0h",
+   "floor": "6h",
+   "order": "The cited/settled percentages predate whatever has run since, so they understate the library. `coverage.py` runs at the end of each supervisor cycle; if it is stale, the cycle is not completing.",
+   "severity": "low"
+  },
+  {
+   "standard": "sources with a reachable wiki",
+   "holds": true,
+   "observed": "85%",
+   "floor": "80%",
+   "order": "Sources without a host are uncitable by construction. Run `python src/hostcheck.py --adopt --go`, and for homebrew try D&D Wiki and the publisher's own site -- homebrew is inconsistent about where it lives.",
+   "severity": "medium"
+  },
+  {
+   "standard": "buckets with headroom",
+   "holds": true,
+   "observed": 27,
+   "floor": 6,
+   "order": "The pool has collapsed to a handful of providers. Check the quota panel for buckets reading `rpm 0/1` -- that is a learned cap, not a real one -- and for keys that have started returning 401 or 402.",
+   "severity": "high"
+  }
+ ],
+ "generated": "2026-08-22T15:24:00"
+}

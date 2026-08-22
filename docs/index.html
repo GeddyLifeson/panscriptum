@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Panscriptum — Instruments</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#e8e3d9; --ink-dim:#9b968c; --ink-faint:#6b675f;
+  --ground:#14140f; --panel:#1c1c16; --panel-2:#232219; --rule:#332f26;
+  --brass:#c8a44a; --brass-dim:#8a7333;
+  --good:#7fa650; --warn:#c8853a; --bad:#b4483c;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --serif:'Spectral',Georgia,'Times New Roman',serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--serif);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+header{padding:26px 30px 18px;border-bottom:1px solid var(--rule);
+  display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+h1{font-size:19px;font-weight:600;margin:0;letter-spacing:.14em;text-transform:uppercase}
+.stamp{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.1em}
+.wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(370px,1fr));gap:18px;padding:22px 30px 60px}
+section{background:var(--panel);border:1px solid var(--rule);border-radius:2px;padding:18px 20px 20px}
+section.wide{grid-column:1/-1}
+h2{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--brass);margin:0 0 14px;padding-bottom:9px;
+  border-bottom:1px solid var(--rule)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:11px 0 5px}
+.label{font-family:var(--mono);font-size:12px;color:var(--ink)}
+.value{font-family:var(--mono);font-size:12px;color:var(--ink-dim);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{height:7px;background:var(--panel-2);border:1px solid var(--rule);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--brass);transition:width .5s ease}
+.bar>i.good{background:var(--good)} .bar>i.warn{background:var(--warn)} .bar>i.bad{background:var(--bad)}
+.sub{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin:5px 0 14px;
+  font-variant-numeric:tabular-nums}
+.note{font-family:var(--mono);font-size:11px;color:var(--warn)}
+.bucket{margin:0 0 15px;padding-bottom:13px;border-bottom:1px solid var(--rule)}
+.bucket:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.win{display:grid;grid-template-columns:74px 1fr 96px;gap:9px;align-items:center;margin:4px 0}
+.win .n{font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:.08em;
+  text-transform:uppercase}
+.win .v{font-family:var(--mono);font-size:10.5px;color:var(--ink-dim);text-align:right;
+  font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+  padding:2px 7px;border:1px solid var(--rule);color:var(--ink-faint);text-transform:uppercase}
+.pill.dry{color:var(--bad);border-color:var(--bad)}
+.pill.low{color:var(--warn);border-color:var(--warn)}
+.pill.ok{color:var(--good);border-color:var(--good)}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11.5px}
+td{padding:5px 8px 5px 0;border-bottom:1px solid var(--rule);color:var(--ink-dim);
+  font-variant-numeric:tabular-nums}
+td.k{color:var(--ink)} tr:last-child td{border-bottom:none}
+.empty{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);font-style:normal}
+footer{padding:0 30px 40px;font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}
+</style></head><body>
+<header>
+  <h1>Panscriptum · Instruments</h1>
+  <span class="stamp" id="stamp">reading…</span>
+</header>
+<div class="wrap" id="wrap"></div>
+<footer>Served by <code>src/dashboard.py</code>. Every number is read from what the pipeline
+already writes — logs, ledgers, and Cascade's own accounting — so this page cannot disagree with
+the system it reports on. This is a published SNAPSHOT: the machine pushes it on a timer, so the timestamp above is when the numbers were true, not now. The live panel is <code>python src/dashboard.py</code> on the machine itself.</footer>
+<script>
+const el=(t,c,x)=>{const n=document.createElement(t);if(c)n.className=c;
+  if(x!==undefined)n.textContent=x;return n};
+const cls=f=>f<=0.001?'bad':f<0.15?'bad':f<0.4?'warn':'good';
+const pct=f=>(f*100).toFixed(0)+'%';
+function bar(frac,kind){const b=el('div','bar');const i=el('i',kind||cls(frac));
+  i.style.width=Math.max(0,Math.min(1,frac))*100+'%';b.appendChild(i);return b}
+
+function panelJobs(d){const s=el('section','wide');s.appendChild(el('h2',null,'Work in progress'));
+  if(!d.jobs.length){s.appendChild(el('div','empty','No job is writing a progress line right now.'));return s}
+  d.jobs.forEach(j=>{const f=j.total?j.done/j.total:0;
+    const r=el('div','row');r.appendChild(el('span','label',j.name));
+    r.appendChild(el('span','value',
+      j.done.toLocaleString()+' / '+j.total.toLocaleString()+' '+j.unit+
+      '  ·  '+pct(f)+'  ·  eta '+j.eta_h.toFixed(1)+'h'));
+    s.appendChild(r);s.appendChild(bar(f,''));
+    const sub=el('div','sub',j.detail);s.appendChild(sub);
+    if(j.warn){const w=el('div','note',j.warn);s.appendChild(w)}});
+  return s}
+
+function panelQuota(d){const s=el('section');
+  s.appendChild(el('h2',null,'Provider quota — what is left'));
+  if(!d.quotas.length){s.appendChild(el('div','empty','No buckets reporting.'));return s}
+  d.quotas.forEach(q=>{const b=el('div','bucket');
+    const r=el('div','row');r.appendChild(el('span','label',q.bucket));
+    const st=q.unlimited?'ok':(q.worst<=0.001?'dry':q.worst<0.2?'low':'ok');
+    const txt=q.unlimited?'unlimited':(q.worst<=0.001?'exhausted':pct(q.worst)+' left');
+    const p=el('span','pill '+st,txt);r.appendChild(p);b.appendChild(r);
+    q.windows.forEach(w=>{const g=el('div','win');
+      g.appendChild(el('div','n',w.name));g.appendChild(bar(w.frac,''));
+      g.appendChild(el('div','v',w.left.toLocaleString()+'/'+w.cap.toLocaleString()));
+      b.appendChild(g)});
+    if(q.unlimited)b.appendChild(el('div','sub','local — no meter'));
+    s.appendChild(b)});
+  return s}
+
+function panelSpend(d){const s=el('section');
+  s.appendChild(el('h2',null,'Provider spend — last '+d.throughput.window_min+' minutes'));
+  const r=el('div','row');r.appendChild(el('span','label','calls per hour'));
+  r.appendChild(el('span','value',d.throughput.per_hour.toLocaleString()));s.appendChild(r);
+  const t=el('table');
+  if(!d.throughput.buckets.length){s.appendChild(el('div','empty','Nothing has called out recently.'));return s}
+  d.throughput.buckets.forEach(b=>{const tr=el('tr');
+    const a=el('td','k',b.bucket);const c=el('td',null,b.calls+' calls');
+    const o=el('td',null,b.ok+' ok');tr.append(a,c,o);t.appendChild(tr)});
+  s.appendChild(t);return s}
+
+function panelLibrary(d){const s=el('section');s.appendChild(el('h2',null,'The library'));
+  const L=d.library;
+  if(L.coverage){const c=L.coverage;
+    [['cited',c.cited,c.entries],['settled',c.settled,c.entries]].forEach(([k,v,n])=>{
+      const r=el('div','row');r.appendChild(el('span','label',k));
+      r.appendChild(el('span','value',v.toLocaleString()+' / '+n.toLocaleString()+
+        '  ·  '+pct(v/n)));s.appendChild(r);s.appendChild(bar(v/n,''))});
+    s.appendChild(el('div','sub',c.feats.toLocaleString()+' feats on record  ·  measured '+
+      c.age_h+'h ago'))}
+  if(L.sources){const q=L.sources;const t=el('table');
+    [['sources with a host',q.with_host+' of '+q.total],
+     ['entries reachable',q.entries_with_host.toLocaleString()],
+     ['entries with no wiki',q.entries_without_host.toLocaleString()+
+       ' in '+q.without_host+' sources'],
+     ['entities read by the model',(L.readfeats||0).toLocaleString()]].forEach(([k,v])=>{
+      const tr=el('tr');tr.append(el('td','k',k),el('td',null,v));t.appendChild(tr)});
+    s.appendChild(t)}
+  return s}
+
+function panelPhases(d){const s=el('section');s.appendChild(el('h2',null,'Phases'));
+  const ph=(d.library.phases)||[];
+  if(!ph.length){s.appendChild(el('div','empty','Runner not readable.'));return s}
+  const built=ph.filter(p=>p.built).length;
+  const r=el('div','row');r.appendChild(el('span','label','implemented'));
+  r.appendChild(el('span','value',built+' of '+ph.length));s.appendChild(r);
+  s.appendChild(bar(built/ph.length,''));
+  const t=el('table');ph.forEach(p=>{const tr=el('tr');
+    tr.append(el('td','k',p.name),
+      el('td',null,p.built?'built':'not built'));t.appendChild(tr)});
+  s.appendChild(t);return s}
+
+function panelWatch(d){const s=el('section','wide');
+  s.appendChild(el('h2',null,'Overwatch — the standing sweep'));
+  const w=d.watch;
+  const r=el('div','row');r.appendChild(el('span','label','open findings'));
+  r.appendChild(el('span','value',w.open+' ('+w.high+' high) after '+w.rounds+' round(s)'));
+  s.appendChild(r);
+  if(w.findings.length){const t=el('table');w.findings.forEach(f=>{const tr=el('tr');
+    tr.append(el('td','k',f.module+'.py'),el('td',null,f.symbol||''),
+      el('td',null,f.actual));t.appendChild(tr)});s.appendChild(t)}
+  else s.appendChild(el('div','empty','Nothing open — every finding was fixed or retired when its file changed.'));
+  if(w.swallowed&&w.swallowed.length){
+    s.appendChild(el('div','sub','swallowed failures recorded: '+
+      (w.swallowed_total||0).toLocaleString()));
+    const t2=el('table');w.swallowed.forEach(([k,v])=>{const tr=el('tr');
+      tr.append(el('td','k',k),el('td',null,v.toLocaleString()));t2.appendChild(tr)});
+    s.appendChild(t2)}
+  return s}
+
+async function tick(){
+  try{const d=await (await fetch('./state.json',{cache:'no-store'})).json();
+    document.getElementById('stamp').textContent=d.at;
+    const w=document.getElementById('wrap');w.innerHTML='';
+    w.append(panelJobs(d),panelQuota(d),panelSpend(d),panelLibrary(d),panelPhases(d),panelWatch(d));
+  }catch(e){document.getElementById('stamp').textContent='server unreachable';}
+}
+tick();setInterval(tick,30000);
+</script></body></html>

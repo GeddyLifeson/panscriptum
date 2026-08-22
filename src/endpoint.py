@@ -1,0 +1,224 @@
+#!/usr/bin/env python3
+"""
+ENDPOINT — how to read a wiki that is not Fandom, and not Wikipedia, and not cooperative.
+
+THE ASSUMPTION THAT WAS BAKED IN
+--------------------------------
+Every request in this project went to `https://{host}/api.php`, with one special case bolted on
+for Wikipedia's `/w/api.php`. That assumption is wrong in three separate ways, and each one
+looked like an absence rather than a failure:
+
+    a self-hosted MediaWiki serves /api.php but is not Fandom   rimworldwiki.com
+    a wiki serves its API at /w/api.php and is not Wikipedia     many independent wikis
+    a wiki CLOSES its API to anonymous users entirely            dandwiki.com
+
+That last one is the interesting case and it is the one the owner asked about. D&D Wiki holds
+the homebrew — KibblesTasty, Mage Hand Press, Yorviing's, the whole third-party shelf — which is
+most of the sources this library has no host for. Its `api.php` answers every request with
+HTTP 403: *"To reduce server load, we had to restrict this action to logged in users only."*
+
+Read as a 403 that is a closed door. It is not:
+
+    https://www.dandwiki.com/w/index.php?title=Barbarian&action=raw   ->  {{dab|term1=Barbarian}}
+
+`action=raw` is a plain index.php view, not an API action, and it is open. It returns exactly
+what `prop=revisions` would have returned — the wikitext — one title per request instead of
+fifty. That is slower and it is not nothing, which is the whole difference.
+
+WHAT THIS MODULE IS
+-------------------
+A resolver that answers, per host and once, HOW to read it:
+
+    MODE_API   batched MediaWiki API at some path. Fifty titles a request.
+    MODE_RAW   index.php?action=raw, one title a request, no API at all.
+    MODE_DEAD  neither works.
+
+Detection is by probe, not by a list of hostnames, because a list is a thing somebody has to
+maintain and this project has been bitten by every list it ever wrote. The answer is cached to
+`data/ENDPOINTS.json` so the probe cost is paid once per host per project, not per request.
+"""
+import argparse
+import json
+import os
+import sys
+import threading
+import urllib.error
+import urllib.parse
+import urllib.request
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silence                                                          # noqa: E402
+
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
+CACHE = os.path.join(HERE, "data", "ENDPOINTS.json")
+MODE_API = "api"
+MODE_RAW = "raw"
+MODE_DEAD = "dead"
+
+API_PATHS = ("/api.php", "/w/api.php", "/wiki/api.php")
+RAW_PATHS = ("/w/index.php", "/index.php", "/wiki/index.php")
+
+_LOCK = threading.Lock()
+_MEM = None
+
+
+def _load():
+    global _MEM
+    with _LOCK:
+        if _MEM is None:
+            try:
+                with open(CACHE, encoding="utf-8") as f:
+                    _MEM = json.load(f)
+            except Exception:
+                silence.note("endpoint.py:load")
+                _MEM = {}
+        return _MEM
+
+
+def _save():
+    with _LOCK:
+        if _MEM is None:
+            return
+        try:
+            os.makedirs(os.path.dirname(CACHE), exist_ok=True)
+            tmp = CACHE + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(_MEM, f, indent=1, sort_keys=True)
+            os.replace(tmp, CACHE)
+        except Exception:
+            silence.note("endpoint.py:save")
+
+
+def _get(url, timeout=25):
+    import feats as F
+    F._throttle(urllib.parse.urlparse(url).netloc)
+    req = urllib.request.Request(url, headers={"User-Agent": F.UA})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read().decode("utf-8", "replace")
+
+
+def detect(host, force=False):
+    """How to read this host. Probed once, cached forever after.
+
+    Order matters: the API is tried first because one request answers for fifty titles, and raw
+    is the fallback because one request answers for one. A host that can do both should do the
+    cheap thing.
+    """
+    mem = _load()
+    if not force and host in mem:
+        return mem[host]
+
+    found = {"mode": MODE_DEAD, "path": None}
+    for path in API_PATHS:
+        try:
+            body = _get(f"https://{host}{path}?action=query&format=json&meta=siteinfo")
+            d = json.loads(body)
+            if isinstance(d, dict) and ("query" in d or "batchcomplete" in d):
+                found = {"mode": MODE_API, "path": path}
+                break
+        except Exception:
+            silence.note("endpoint.py:detect-api")
+
+    if found["mode"] == MODE_DEAD:
+        for path in RAW_PATHS:
+            try:
+                body = _get(f"https://{host}{path}?title=Main_Page&action=raw")
+                # A raw view returns wikitext. An error page returns HTML, and the difference
+                # is unmistakable at the first character.
+                if body and not body.lstrip().lower().startswith(("<!doctype", "<html")):
+                    found = {"mode": MODE_RAW, "path": path}
+                    break
+            except Exception:
+                silence.note("endpoint.py:detect-raw")
+
+    mem[host] = found
+    _save()
+    return found
+
+
+def api_url(host):
+    """The API base for this host, or None when it has no usable API."""
+    d = detect(host)
+    return f"https://{host}{d['path']}" if d["mode"] == MODE_API else None
+
+
+def raw_url(host, title):
+    d = detect(host)
+    if d["mode"] != MODE_RAW:
+        return None
+    q = urllib.parse.urlencode({"title": title.replace(" ", "_"), "action": "raw"})
+    return f"https://{host}{d['path']}?{q}"
+
+
+def fetch_raw(host, titles, workers=2):
+    """{title: wikitext} for a raw-only host, one request per title.
+
+    Deliberately few workers. A wiki that closed its API did so to reduce load, and answering
+    that by opening eight connections would be both rude and a fast route to being blocked
+    outright — which would turn a slow source into a dead one.
+    """
+    from concurrent.futures import ThreadPoolExecutor
+    out = {}
+
+    def one(t):
+        url = raw_url(host, t)
+        if not url:
+            return t, None
+        try:
+            body = _get(url, timeout=40)
+        except urllib.error.HTTPError:
+            silence.note("endpoint.py:fetch_raw-http")
+            return t, None
+        except Exception:
+            silence.note("endpoint.py:fetch_raw")
+            return t, None
+        if not body or body.lstrip().lower().startswith(("<!doctype", "<html")):
+            return t, None
+        return t, body
+
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for t, body in ex.map(one, titles):
+            if body:
+                out[t] = body
+    return out
+
+
+def exists_raw(host, titles, workers=2):
+    """Which of these titles the host actually serves. The raw-mode answer to a titles probe."""
+    return sorted(fetch_raw(host, titles, workers=workers))
+
+
+def main():
+    ap = argparse.ArgumentParser(description="how to read a wiki that is not Fandom")
+    ap.add_argument("hosts", nargs="*", help="hosts to probe")
+    ap.add_argument("--force", action="store_true", help="re-probe even if cached")
+    ap.add_argument("--list", action="store_true", help="show everything already known")
+    a = ap.parse_args()
+
+    if a.list or not a.hosts:
+        mem = _load()
+        if not mem:
+            print("nothing probed yet")
+            return 0
+        by = {}
+        for h, d in sorted(mem.items()):
+            by.setdefault(d["mode"], []).append((h, d["path"]))
+        for mode in (MODE_API, MODE_RAW, MODE_DEAD):
+            rows = by.get(mode) or []
+            print(f"\n{mode.upper()}  ({len(rows)})")
+            for h, path in rows:
+                print(f"   {h:<40}{path or ''}")
+        return 0
+
+    for h in a.hosts:
+        d = detect(h, force=a.force)
+        print(f"   {h:<40}{d['mode']:<6}{d['path'] or ''}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

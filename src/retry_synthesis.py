@@ -1,0 +1,152 @@
+#!/usr/bin/env python3
+"""
+RETRY the sources whose synthesis failed, WITHOUT touching anything the running pipeline owns.
+
+Twelve sources -- Dragon Ball Z and Dune among them -- carry `"ollama failure"` in the pipeline's
+failed-set. They failed during the memory-thrashing window, not because anything about them is
+hard, and the synthesis phase has since been marked done, so the pipeline will never revisit them
+on its own. Left alone they would reach the write phase with no ceiling and no band.
+
+THE CONSTRAINT THAT SHAPES THIS FILE
+------------------------------------
+The pipeline is still running. It owns state/PIPELINE_STATE.json and it read-modify-writes
+data/records/*.json as phase 2 bands each source. A second writer racing it on either would lose
+updates or truncate a record mid-write.
+
+So this script writes NEITHER. It reads records, calls the SAME already-loaded Ollama instance
+(no new model, no extra VRAM -- requests just queue behind the pipeline's), and appends results to
+data/SYNTHESIS_RETRY.json, which nothing else touches. Merging happens later, once the pipeline is
+idle, via --merge. That keeps the fix completely off the critical path.
+"""
+import argparse
+import json
+import os
+import re
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+
+import pipeline as PL          # noqa: E402
+
+SIDE = os.path.join(ROOT, "data", "SYNTHESIS_RETRY.json")
+
+
+def load_side():
+    if os.path.exists(SIDE):
+        with open(SIDE, encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+def save_side(d):
+    tmp = SIDE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f, indent=2, ensure_ascii=False)
+    os.replace(tmp, SIDE)
+
+
+def failed_sources():
+    with open(PL.STATE, encoding="utf-8") as f:
+        st = json.load(f)
+    return sorted(st.get("failed", {}).get("synthesis", {}))
+
+
+def synthesise(c, rec):
+    """Byte-identical prompt construction to phase_synthesis, so a retried source is not
+    scored by a different method than its neighbours."""
+    src = rec["source"]
+    sample = sorted(rec["entries"], key=lambda e: -len(e.get("description", "")))[:14]
+    lines = []
+    for e in sample:
+        d = re.sub(r"\s+", " ", e.get("description", ""))[:300]
+        lines.append(f"- {e['name']} [{e.get('type','')}]: {d}")
+    prompt = (f"SOURCE: {src}\n\nCATALOGUED ENTRIES (sample of "
+              f"{len(sample)} from {len(rec['entries'])}):\n" + "\n".join(lines) +
+              "\n\nIdentify the power ceiling and magnitude band for this source.")
+
+    got = PL.ask(c, PL.SYNTH_SYSTEM, prompt, PL.SYNTH_SCHEMA, timeout=420)
+    if got is None:
+        return None
+
+    band = (got.get("magnitude") or "").strip()
+    m = re.match(r"^(M(?:10|[0-9]))\b", band)
+    band = m.group(1) if m else "unassayed"
+
+    ev = (got.get("evidence") or "").strip()[:600]
+    # The pipeline's own invariant: no feat, no band. A retry must not smuggle in a band that
+    # the main phase would have refused.
+    if not PL.valid_scale_note(ev):
+        band = "unassayed"
+
+    return {
+        "ceiling_entity": (got.get("ceiling_entity") or "").strip(),
+        "provisional_magnitude": band,
+        "evidence": ev,
+        "rationale": (got.get("rationale") or "").strip()[:900],
+        "method": ("Band-only nomination by local model over the source's own catalogued "
+                   "entries; retried after an infrastructure failure, same prompt and same "
+                   "invariants as the main synthesis phase."),
+    }
+
+
+def do_merge():
+    """Fold the side file into the records. Run ONLY when the pipeline is stopped."""
+    side = load_side()
+    if not side:
+        print("nothing to merge")
+        return 0
+    merged = skipped = 0
+    for path, rec in PL.records():
+        src = rec["source"]
+        if src not in side:
+            continue
+        if rec.get("synthesis"):
+            skipped += 1
+            continue
+        rec["synthesis"] = side[src]
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(rec, f, indent=2, ensure_ascii=False)
+        os.replace(tmp, path)
+        merged += 1
+    print(f"merged {merged}, skipped {skipped} (already had synthesis)")
+    return 0
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--merge", action="store_true",
+                    help="fold results into records; run only with the pipeline stopped")
+    args = ap.parse_args()
+    if args.merge:
+        return do_merge()
+
+    c = PL.cfg()
+    want = set(failed_sources())
+    side = load_side()
+    print(f"{len(want)} sources failed synthesis; {len(side)} already retried")
+
+    todo = [(p, r) for p, r in PL.records()
+            if r["source"] in want and r["source"] not in side and not r.get("synthesis")]
+    print(f"{len(todo)} to do now\n")
+
+    for path, rec in todo:
+        src = rec["source"]
+        print(f"  {src:<44}", end="", flush=True)
+        got = synthesise(c, rec)
+        if got is None:
+            print("STILL FAILING")
+            continue
+        side[src] = got
+        save_side(side)
+        print(f"{got['provisional_magnitude']:<10} {got['ceiling_entity']}")
+
+    print(f"\nwrote {len(side)} results to data/SYNTHESIS_RETRY.json")
+    print("merge with:  python src/retry_synthesis.py --merge   (pipeline must be stopped)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

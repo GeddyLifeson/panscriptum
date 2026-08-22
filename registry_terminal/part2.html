@@ -1,0 +1,244 @@
+];
+/*DATA_END*/
+
+const QUOTES=[
+  '"There is no outside the Omniverse. There is, however, an index." — Custos-Prime Avar',
+  '"Adjectives are for eulogies. Give me the worksheet." — Lector Moth',
+  '"I tested this. I am sorry about 1,002." — Sister Quill, on the Rabiah advisory',
+  '"Clerical error." — Custos-Prime Avar, passim',
+  '"The Annex is the only book. The rest are its indexes." — carved opposite the Annex lintel',
+  '"A universe does not stop being real because it is fun." — Set II.P, opening line',
+  '"Do not shelve this art near the Outer Register." — the Unnamed Hand',
+  '"Still going." — the complete annotation on the Gravel Armistice',
+  '"We have decided not to think about it further." — the sentient-cars field note',
+  '"Objectivity, at rung 17, is not a vision. It is a treaty." — Part Four',
+  '"The Collections tell you what is. The Annex tells you what it cost." — the Annex lintel',
+  '"Everyone who woke before their world remembers waking it." — the First Argument case file'
+];
+const GRAND_MANIFEST="695,054,203,162,112";
+const CHIP_TOPICS=["preston garvey","hulk","rabiah","fireball","treaty","saxton hale","freeport gazette","spice","survey","celebrity","the pale","missing"];
+const LEXMETA={
+  SP:["Spell","Praxis (learned art)","VII.3"], MI:["Magic Item","Relic","VI.2"], IT:["Item","Object","VI.1"],
+  WP:["Weapon","Arm","VI.1"], AR:["Armor","Panoply","VI.1"], FT:["Feat","Praxis-grant","VII.8"],
+  RC:["Race / People","People","V"], AT:["Archetype / Subclass","Praxis-path","VII.8"], CL:["Class","Vocation of the Chord","VII.8"],
+  BG:["Background","Provenance","VII.8"], DE:["Deity","Divinity","III.10"], CO:["Companion","Bound partner","VII.2"],
+  LA:["Language","Tongue","W.10"], DM:["Dragonmark","Bloodline-grant","II.L.7.3"], WY:["Weapon Property","Object-law","VI.1"],
+  AF:["Archetype Feature","Path-technique","VII.8"], CF:["Class Feature","Vocation-technique","VII.8"],
+  RT:["Racial Trait","Inborn trait","VII.8"], BF:["Background Feature","Provenance-grant","VII.8"],
+  FF:["Feat Feature","Grant-technique","VII.8"], SO:["Source-work","Acquired book (your shelf)","VII.8"],
+  MX:["Apparatus","Mechanical apparatus","VII.8"]
+};
+
+const LOCS={
+"II.J.1":["the Commonwealth, near Diamond City","the Mojave, outside New Vegas","the Capital ruins, GNR plaza","Sanctuary Hills"],
+"II.D.1":["Manhattan, U-616","Hell's Kitchen rooftops","the Avengers compound perimeter","the Sanctum's street"],
+"II.D.2":["Gotham, Old Town","Metropolis, Centennial Park","Blüdhaven docks","the Watchtower's shadow"],
+"II.D.3":["Watchpoint: Gibraltar","King's Row, under advisory","Numbani outskirts"],
+"II.F.1":["the Outer Rim, Tatooine approaches","Coruscant underlevels","Mandalorian space","the Unknown Regions fringe"],
+"II.F.2":["Deep Space Nine, promenade","Sector 001","the old Neutral Zone"],
+"II.F.3":["the Citadel wards","Omega station","the Normandy memorial"],
+"II.F.4":["installation debris field","New Mombasa memorial","the Infinity's wake"],
+"II.F.5":["the Last City walls","the Tower plaza","Europa's ice","the Pale Heart"],
+"II.F.6":["Arrakeen, spice quarter","the deep desert","Guild concession offices"],
+"II.G.1":["Terra, Palace approaches","the Ultramar front","the Rift's edge, at station"],
+"II.G.2":["the End Times memorial","Altdorf-that-was (archive access only)"],
+"II.E":["Ravnica, Tenth District","Dominaria, Tolaria ruins","an Omenpath verge"],
+"II.A.1":["U-7 Earth, West City","the Tournament grounds","Kame House waters","Beerus's world (uninvited)"],
+"II.A.2":["Morioh, quiet streets","Cairo, a rooftop","the Steel Ball trail"],
+"II.A.3":["the New World, past Sabaody","Wano coastal waters","Egghead approaches"],
+"II.A.4":["Konoha, Hidden Leaf","the Valley of the End","Land of Iron passes"],
+"II.A.5":["the Death Omen wastes","Southern Cross ruins","the Hokuto shrine road"],
+"II.A.7":["the Freeport Circuit hall","the Iron Fist grounds","Metro City backstreets","the Chōjin ring"],
+"II.A.8":["Juban district, Tokyo overlay","the Moon ruins, restored wing"],
+"II.A.9":["Ryōzanpaku's gate","a training mountain, against advisement"],
+"II.A.10":["the Chroma Wastes, shack road","the Omanear estate","the black-and-white flats"],
+"II.B.3":["Side 3 colonies","the Neo-Japan colony ring","A Baoa Qu memorial"],
+"II.B.4":["Cybertron, Iacon ruins","the Ark's crash lane"],
+"II.B.5":["Sodor, Knapford station","Tidmouth sheds, on time"],
+"II.C.1":["Eternia, Grayskull approaches","Snake Mountain's shadow"],
+"II.H.1":["Mars, Tharsis city","the Bebop, adrift","Ganymede docks"],
+"II.H.2":["a motherbase platform","Shadow Moses memorial site"],
+"II.H.3":["Kamurocho, Champion District","Millennium Tower plaza","Shinjuku east gate"],
+"II.H.4":["a neon stairwell, camera unresolved"],
+"II.H.5":["Elysium clubs, after hours","1918 London overlay, Whitechapel"],
+"II.I":["a black-site, undisclosed","the gravel pits","City 17 outskirts","a siege perimeter"],
+"II.K.1":["the Indigo Plateau","Paldea academy grounds","Pallet Town road"],
+"II.K.2":["File Island shoreline","the Digital Sea's near layer"],
+"II.K.3":["the Palpagos, factory row"],
+"II.L.1":["the Shire's borders","Minas Tirith, seventh circle","the Grey Havens road"],
+"II.L.2":["Whiterun plains","the Imperial City","Solitude docks"],
+"II.L.3":["New Tristram","Westmarch","the Hells' border crossing"],
+"II.L.4":["Wraeclast shore, Lioneye's Watch"],
+"II.L.5":["Limsa Lominsa lower decks","Midgar, sector slums","Spira's pilgrimage road"],
+"II.L.7":["Waterdeep, the Yawning Portal","Baldur's Gate docks","the Sword Coast road"],
+"II.M":["a shoreline, holding","the factory perimeter"],
+"II.N.1":["[LOCATION EXPUNGED]","R'lyeh bearing, drifting"],
+"II.N.2":["the UAC facility ruins","Hell's border provinces"],
+"II.N.3":["the basement door","the Rot City, mid-reset"],
+"II.N.4":["Revachol, Martinaise","the pale shore, 2mm closer"],
+"II.O":["Traverse Town, second district","Destiny Islands","Radiant Garden gates"],
+"II.P.1":["the Island, storm's edge"],
+"III":["their Court's seat","the Concordat halls","a shrine still warm"],
+"XI":["[REDACTED]"]
+};
+const LOC_FALLBACK=["the Freeport of Fallen Skies, dockside","the middle Betweens, in transit","an unratified location (⟦↑3⟧, still climbing)","their home shelf, off the record"];
+const ACTS=["settling a debt","training, against advisement","attending a Circuit undercard","filing a grievance with the local registry","avoiding an old rival","escorting a caravan through a thin-wall zone","answering a summons from Embassy Row","chasing a rumor of the missing volume","refusing an interview with a Custos","paying in exact change","recruiting","recovering from a promotion-watch assay","buying senzu futures","under Masquerade advisory","paying respects at the memorial of drowned worlds","in a scheduling dispute with the Office of Endings","teaching, reluctantly","on Warden rotation","banned from the Orbital Pitch (boost violation)","translating hedge-records","testifying in a mirror case","leaving custody, politely","charting shallows","holding the line"];
+const SEEN=["seen (two witnesses, countersigned)","told (chain-delivered, one relay behind)","guessed (pattern of movement, Moth's model)","argued (two registries, two places, one person)"];
+const CUSTODY=["a private collector, Embassy Row","an unregistered holder; lien pending","the Freeport bonded vault, drawer unlisted","last consignment lot, unclaimed","a Warden quartermaster, receipt on file","in transit through the shallows; manifest sealed"];
+function hsh(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return Math.abs(h);}
+function locFor(name,sp){
+  let pool=LOC_FALLBACK;
+  let best=0;
+  for(const k in LOCS){ if(sp.startsWith(k)&&k.length>best){pool=LOCS[k];best=k.length;} }
+  const h=hsh(name);
+  if(h%7===0) pool=LOC_FALLBACK; // sometimes people travel
+  return pool[h%pool.length];
+}
+function whenFor(name){const h=hsh(name+"t");return ["early","mid","late"][h%3]+" 1,204 AS (final pre-Delivery sweep)";}
+function actFor(name){return ACTS[hsh(name+"a")%ACTS.length];}
+function seenFor(name){return SEEN[hsh(name+"s")%SEEN.length];}
+
+const $=id=>document.getElementById(id);
+const state={q:"",col:"",hz:"",cls:""};
+
+function hzLabel(h){return h==="s"?"Hz ∅":h==="0"?"Hz 0":"Hz "+["","I","II","III","IV"][+h];}
+function hzClass(h){return h==="s"?"hzsb":"hz"+h+"b";}
+function norm(x){return (x||"").toString().toLowerCase();}
+function esc(x){return (x||"").replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+function titleCase(s){return s.replace(/\b\w/g,c=>c.toUpperCase());}
+
+function vVolFor(letter){
+  const L=letter.toUpperCase();
+  if("AB".includes(L))return"V.1"; if("CD".includes(L))return"V.2"; if("EF".includes(L))return"V.3";
+  if("GH".includes(L))return"V.4"; if("IJK".includes(L))return"V.5"; if("LM".includes(L))return"V.6";
+  if("NO".includes(L))return"V.7"; if("PQ".includes(L))return"V.8"; if("RS".includes(L))return"V.9";
+  if("TUV".includes(L))return"V.10"; return"V.11";
+}
+
+function match(v){
+  if(state.col && v.c!==state.col) return false;
+  if(state.hz && String(v.h)!==state.hz) return false;
+  if(state.cls){
+    if(state.cls==="Keystone"){ if(v.l!=="Keystone") return false; }
+    else if(v.l!==state.cls) return false;
+  }
+  if(!state.q) return true;
+  const q=norm(state.q);
+  const hay=[v.s,v.t,v.v,v.g,v.k,v.o,(v.th||[]).join(" "),(v.tg||[]).join(" ")].map(norm).join(" · ");
+  return q.split(/\s+/).every(term=>hay.includes(term));
+}
+
+function spineTitle(sp){const hit=VOLS.find(v=>v.s===sp);return hit?hit.t:sp;}
+
+function personCite(name,sp){
+  const disp=titleCase(name);
+  const vvol=vVolFor(name[0]);
+  const home=spineTitle(sp);
+  return `<div class="card cite">
+    <div class="spine">⟦FORMAL CITATION — synthesized at this node⟧</div>
+    <div class="title">${esc(disp)}</div>
+    <div class="meta">Class: Person · Attestation: Transcribed (chain-delivered) · Assay: unworked — commission via X.2</div>
+    <div class="scope">Dossier: <b>${vvol}</b> (Registry of Persons, filed as spoken) · Home volume: <a onclick="thread('${sp}')">${sp}</a> — ${esc(home)}.<br><b>Last attested:</b> ${esc(locFor(name,sp))} — ${esc(whenFor(name))} · activity: ${esc(actFor(name))} · grade: ${esc(seenFor(name))}.</div>
+    <div class="threads">⌁ <a onclick="thread('${sp}')">${sp}</a> · <a onclick="thread('${vvol}')">${vvol}</a> · <a onclick="thread('X.3')">X.3</a> (Ledger, when assayed)</div>
+  </div>`;
+}
+
+function lexCite(e){
+  const [name,tcode,src,desc]=e;
+  const m=LEXMETA[tcode]||LEXMETA.MX;
+  return `<div class="card cite lex">
+    <div class="spine">⟦FORMAL CITATION — the Local Register⟧</div>
+    <div class="title">${esc(name)}</div>
+    <div class="meta">Class: ${m[1]} · Kind: ${m[0]} · Source: ${esc(src||"unattributed")}</div>
+    <div class="scope">${desc?esc(desc)+"<br>":""}Filed to <a onclick="thread('${m[2]}')">${m[2]}</a>; mechanics via <a onclick="thread('VII.8')">VII.8</a>. Attestation: Transcribed (your shelf).${["MI","WP","AR","IT"].includes(tcode)?`<br><b>Custody, last attested:</b> ${esc(CUSTODY[hsh(name)%CUSTODY.length])} — ${esc(whenFor(name))}.`:" Omniversal history: unfiled — give it a deed and it gains a past (0.1 §III.4)."}</div>
+    <div class="threads">⌁ <a onclick="thread('${m[2]}')">${m[2]}</a> · <a onclick="thread('VII.8')">VII.8</a> · <a onclick="thread('X.4')">X.4</a> (Rosetta)</div>
+  </div>`;
+}
+
+function concCite(e){
+  const [name,kind,era,blurb,th]=e;
+  return `<div class="card cite conc">
+    <div class="spine">⟦FORMAL CITATION — the Concordance Register⟧</div>
+    <div class="title">${esc(name)}</div>
+    <div class="meta">Class: ${esc(kind)} · Standing: ${esc(era)}</div>
+    <div class="scope">${esc(blurb)}</div>
+    <div class="threads">⌁ <a onclick="thread('${esc(th)}')">${esc(th)}</a> · <a onclick="thread('I.9')">I.9</a> (political geography)</div>
+  </div>`;
+}
+
+function resolveEntries(q){
+  if(!q||q.length<2) return {c:[],p:[],l:[],more:0};
+  const ql=norm(q);
+  const c=[];
+  for(const e of CONC){
+    if((norm(e[0])+" "+norm(e[1])+" "+norm(e[3])).includes(ql)){c.push(e); if(c.length>=8)break;}
+  }
+  const p=[];
+  for(const k in NAMES){
+    if(k.includes(ql)||ql.includes(k)){p.push([k,NAMES[k]]); if(p.length>=10)break;}
+  }
+  const l=[];let more=0;
+  for(const e of LEX2){
+    if(norm(e[0]).includes(ql)){ if(l.length<18) l.push(e); else more++; }
+  }
+  return {c,p,l,more};
+}
+
+function thread(t){
+  const m=t.match(/^([0IVWX]+\.[A-Z0-9.§ –-]*|W\.\d+|0\.\d)/);
+  $("q").value=m?m[1].split(" ")[0].replace(/[§–].*$/,""):t;
+  state.q=$("q").value; render();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function render(){
+  const hits=VOLS.filter(match);
+  const ent=(!state.col&&!state.hz&&!state.cls)?resolveEntries(state.q):{c:[],p:[],l:[],more:0};
+  const R=$("results");
+  let html="";
+  if(ent.c.length) html+=ent.c.map(concCite).join("");
+  if(ent.p.length) html+=ent.p.map(x=>personCite(x[0],x[1])).join("");
+  if(ent.l.length) html+=ent.l.map(lexCite).join("");
+  if(ent.more) html+=`<div class="empty" style="padding:6px 0">… and ${ent.more} further entries in the Local Register answer that term. Narrow the enquiry.</div>`;
+  html+=hits.map(cardV).join("");
+  if(!html){
+    html=`<div class="empty">No card, dossier, or local entry answers that enquiry.<br><br><i>If a person:</i> their dossier belongs in ${vVolFor((state.q||"a")[0])} — thread from their home world's volume.<br><i>If a thing:</i> route via VI (objects), VII (powers), or VIII (events).<br><br>The Delivered Collection is the abridgment. The full shelf ran ${GRAND_MANIFEST} volumes; the citation you seek may simply not have made the crates. You are invited to write it — see 0.1, the Hand's Reading.</div>`;
+  }
+  R.innerHTML=html;
+  const seeded=LEX2.length+Object.keys(NAMES).length+CONC.length;
+  $("count").textContent=`${hits.length} volume cards · ${ent.c.length+ent.p.length+ent.l.length} citations resolved · seeded citations: ${seeded.toLocaleString()} · curated target ≈ 500,000 · Grand Registry: unbounded`;
+}
+
+function cardV(v){
+  const missing=v.l==="Missing";
+  const hzc=(v.h==="3")?"hz3":(v.h==="4")?"hz4":"";
+  return `<div class="card ${hzc} ${missing?"miss":""}">
+    <div class="spine">▮ ${esc(v.s)}</div>
+    <div class="title">${esc(v.t)}${v.v?` <span class="vern">("${esc(v.v)}")</span>`:""}</div>
+    <div class="meta">${esc(v.k)} · ${esc(v.g)} · ${esc(v.l)} <span class="hzb ${hzClass(String(v.h))}">${hzLabel(String(v.h))}</span></div>
+    <div class="scope">${esc(v.o)}</div>
+    <div class="threads">⌁ ${(v.th||[]).map(t=>`<a onclick="thread('${esc(t).replace(/'/g,"\\'")}')">${esc(t)}</a>`).join(" · ")}</div>
+  </div>`;
+}
+
+$("q").addEventListener("input",e=>{state.q=e.target.value;render();});
+$("fcol").addEventListener("change",e=>{state.col=e.target.value;render();});
+$("fhz").addEventListener("change",e=>{state.hz=e.target.value;render();});
+$("fcls").addEventListener("change",e=>{state.cls=e.target.value;render();});
+
+const chipbox=$("chips");
+CHIP_TOPICS.forEach(t=>{
+  const b=document.createElement("span");
+  b.className="chip"; b.textContent=t;
+  b.onclick=()=>{$("q").value=t;state.q=t;render();window.scrollTo({top:0,behavior:"smooth"});};
+  chipbox.appendChild(b);
+});
+
+let qi=Math.floor((Date.now()/10000))%QUOTES.length;
+function rotQuote(){$("quote").textContent=QUOTES[qi%QUOTES.length];qi++;}
+rotQuote(); setInterval(rotQuote,12000);
+
+render();
+</script>
+</body>
+</html>

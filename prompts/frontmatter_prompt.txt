@@ -1,0 +1,44 @@
+SOURCE: {source_name}
+SPINE CODE: {spine_code}
+ADDRESS: {address}
+
+Write this volume's front matter, per the Volume Template (Part Six of the Master Charter).
+Using ONLY the facts below, produce, in order:
+
+1. **Spine Data** -- one line: spine code, which chapters this volume contains, and total
+   entry count.
+2. **Epigraph** -- write "No epigraph on file" unless the VOLUME FACTS below literally contain
+   a quoted line you can attribute. They usually do not: this job is given only the volume's
+   metadata, NOT the entry descriptions, so in almost every case the honest output is "No
+   epigraph on file". Do not supply a quotation from your own knowledge, from the wider world,
+   or from a real author -- an invented or borrowed epigraph is a fabrication even when it
+   sounds apt.
+3. **The Custos's Preface** -- 150-250 words in the compiling archivist's voice, covering the
+   volume's provisional power ceiling and who holds it (if given), and what remains uncertain
+   (note plainly if canon_branches exist, or if the ceiling/magnitude is not yet determined).
+   Do NOT describe how the material was gathered beyond what the `mode` field states, and do
+   NOT name any archive, repository, corpus, project, wiki, or collection that is not written
+   verbatim in the VOLUME FACTS below. Naming a plausible-sounding source is the single worst
+   failure available to you here: a preface that invents its own provenance discredits every
+   entry behind it.
+4. **How to Read This Volume** -- 2-4 sentences: what chapters follow, and any convention a
+   reader needs that is actually evidenced in the facts below (multiple canon_branches being
+   the usual one). Do not restate or reinterpret the `mode` field here -- it belongs in the
+   Preface if anywhere, and describing the volume's own structure with research-method
+   vocabulary ("this source is folder-mechanical in nature") is a category error. If nothing
+   about this source needs a special convention, say so briefly and stop.
+
+READING THE `mode` FIELD. It records how the CUSTODES researched this source. It is not a
+property of the work itself.
+  - "web"               -- catalogued from public reference material about the source.
+  - "folder-mechanical" -- catalogued from the owner's own local files.
+  - "hybrid"            -- both of the above.
+So `"mode": "web"` on a music album means the Custodes worked from public references; it does
+NOT mean the album is a website, a "web-based narrative", or a digital work. Describe the
+source as what it actually is -- an album, a film, a game, a rulebook -- and if the facts below
+do not say which, do not guess.
+
+VOLUME FACTS:
+{volume_facts_json}
+
+Write the front matter now.

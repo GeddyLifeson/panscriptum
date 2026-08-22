@@ -1,0 +1,145 @@
+# Panscriptum Library of Babel — local generation config
+# Edit these before running generate.py.
+
+ollama_host: "http://localhost:11434"
+
+# Don't just trust this default -- run `python3 src/pick_model.py --write` first. It queries
+# your actual installed Ollama models and picks the best one for long-form fact-grounded prose
+# rather than assuming whatever's hardcoded here is right for your setup. This value is only a
+# fallback for if you skip that step.
+# Chosen 2026-08-19 by benchmarking candidates against a real 10-entry chapter job
+# (II.C.2/Factions) on this machine's actual hardware -- RTX 3080 10GB, not the "RTX 3050 Ti
+# 4GB" the surrounding comments were written for. Measured:
+#
+#   qwen3:30b-a3b-instruct-2507   22.0 tok/s   57% on CPU   14,039 chars   full template
+#   gemma3:12b                    21.1 tok/s   17% on CPU    6,040 chars   4 sections dropped
+#
+# The counter-intuitive result is the load-bearing one: the 30B is FASTER than the 12B while
+# running 57% of its layers on the CPU, because it is a mixture-of-experts with only ~3B
+# parameters active per token. Offloading costs it little. A dense model at comparable offload
+# (qwen2.5:14b at 28% CPU) managed 4.7 tok/s. On a card this size, MoE beats "small enough to
+# fit".
+#
+# It must be the -instruct-2507 (non-thinking) variant: generate.py writes data["response"]
+# straight to disk with no <think>-tag stripping, so a reasoning variant would embed its
+# scratchpad in the finished volumes. Measured think-tag count on this build: 0.
+#
+# DON'T BOTHER WITH A SMALLER QUANT -- already tested, it loses. The obvious idea is that
+# since this model runs 57% on the CPU, a smaller quant would fit more layers on the GPU and
+# run faster. Measured, it does the opposite:
+#
+#   q4_K_M (18.6GB, ollama library)   22.0 tok/s   43% on GPU   exactly 3 Marginalia Hands
+#   Q3_K_M (14GB,  unsloth GGUF)      16.5 tok/s   52% on GPU   4 Hands (template caps at 3)
+#
+# Q3_K costs more to unpack per token than Q4_K_M, and that outweighs the residency gain.
+# Ollama's own library publishes only q4_K_M / q8_0 / fp16 for this model anyway; anything
+# smaller means a community GGUF. Stay on q4_K_M.
+model: "qwen3:30b-a3b-instruct-2507-q4_K_M"
+
+# Deterministic-as-possible decoding. Ollama isn't perfectly reproducible across hardware/
+# quantization, but fixed seed + temperature 0 gets you as close as local inference allows,
+# which matters for the "address = recipe, not a one-off blob" idea in CLAUDE.md.
+seed: 47
+temperature: 0.2
+# Raised from 8192 -> 12288 on 2026-08-19: the system prompt grew substantially once the
+# Instrument/Twelve Measures rules landed (Ground Rules 1-5, full ability-score banding table,
+# Transcendence Grade formula) -- 8192 was getting tight enough to risk truncation-driven
+# section-dropping on top of the model's own instruction-following limits. Paired with
+# OLLAMA_FLASH_ATTN=1 and OLLAMA_KV_CACHE_TYPE=q8_0 so the larger context doesn't just eat
+# more VRAM for nothing -- those two settings shrink the KV cache footprint enough to keep
+# more layers on GPU despite the larger window.
+#
+# CORRECTION 2026-08-19 (local session): the comment above claimed those two env vars were
+# "set as user env vars, active after the next `ollama serve` restart". They were NOT set --
+# verified via [Environment]::GetEnvironmentVariable(...,'User'), both came back empty, so
+# every run to date has used an f16 KV cache at roughly double the necessary footprint. They
+# are set now, at User scope. They only take effect after Ollama actually restarts; confirm
+# with `ollama ps` that a loaded model reads 100% GPU rather than an NN%/NN% CPU/GPU split.
+num_ctx: 6144
+
+# prompt template version tag -- bump this any time you materially edit prompts/*.txt so the
+# cache keys change and old generations don't get mistaken for matching the new prompt.
+# Bumped v1 -> v2 on 2026-08-19: prompts/frontmatter_prompt.txt was rewritten after a smoke
+# test showed the model inventing its own provenance -- it cited a "Rush Archives Project" and
+# "Chrono-Texts of 2112, a curated fan-compiled corpus", neither of which exists, and supplied
+# a Douglas Adams line as an in-fiction epigraph. Root causes were in the prompt, not the
+# model: it asked for "how this material was gathered" when the only input is a one-word
+# `mode` field, it never explained that `mode` is the Custodes' research method rather than a
+# property of the work (so "web" became "a web-based narrative by the band Rush"), and it
+# invited an epigraph from data that never contains quotable text. Bumping the version
+# invalidates anything generated under the old prompt.
+prompt_version: "v4"
+
+# how many source entries to fold into a single chapter-generation call. Big chapters (e.g.
+# Marvel Persons at 275 entries) get split into multiple calls of this size so they fit
+# num_ctx comfortably alongside the prompt scaffolding and don't get truncated.
+# Lowered from 30 -> 10 after the first local pilot run (qwen2.5:7b-instruct, RTX 3050 Ti 4GB):
+# at 30 entries/call the model was dropping template sections (missing Threads/Three Doors
+# headers) partway through a batch well before hitting the num_ctx ceiling -- an instruction-
+# following degradation across many repeated entries, not a context-length problem. Smaller
+# batches means more Ollama calls, but each one reliably completes the full entry template.
+# Revisit upward if you move to a stronger model/GPU and the pilot shows it holding the format.
+#
+# CORRECTION 2026-08-19 (local session): "RTX 3050 Ti 4GB" is not this machine. The actual
+# hardware is an RTX 3080 10GB / i9-11900K (16 threads) / 32GB RAM. Whoever wrote the tuning
+# above was sizing for a card the owner does not own, so treat 10 as an unvalidated starting
+# point rather than a measured result -- re-test upward once a model is chosen, since the
+# instruction-following degradation it was working around is model-dependent.
+max_entries_per_call: 10
+
+# generation call timeout, seconds.
+#
+# Raised 600 -> 1800 on 2026-08-19 after a smoke test lost a Persons chapter to a read
+# timeout. 600s was sized for short chapters: a Factions chapter runs ~90s, but a Persons
+# chapter emits the full six-axis Instrument block per entry and can fill the remaining
+# context (~8,000 tokens after the prompt), which at 22 tok/s is ~365s before any
+# contention. Anything that slows generation -- another model loading and pushing more
+# layers onto the CPU -- then pushes it past 600 and the whole chapter is discarded after
+# already having been paid for. The timeout is a safety net for a hung server, not a
+# throughput control, so it should sit far above the worst legitimate case.
+request_timeout: 1800
+
+# how many chapter jobs to run concurrently. Local Ollama serves one model at a time well;
+# raise this only if you know your hardware/Ollama setup can actually parallelize.
+#
+# Keep this at 1. On a single 10GB card the model is already the bottleneck and a second
+# in-flight request just splits the same VRAM and KV budget two ways. The 16 CPU threads do
+# not help here either -- they only matter for whatever share of layers is offloaded, and the
+# whole point of the model choice below is to stop offloading.
+concurrency: 1
+
+# NOTE (local session, 2026-08-19): the single biggest throughput factor on this machine is
+# not any setting in this file -- it is ORPHANED llama-server.exe PROCESSES.
+#
+# Ollama spawns a llama-server.exe child per loaded model. On this box they routinely survive
+# the parent shutting down, and each one keeps its VRAM allocation. Three of them were found
+# holding roughly 8GB between them, which is what forced every 9GB model to spill onto the
+# CPU and drop to single-digit tokens/sec. Measured directly:
+#
+#     VRAM used, no model loaded, orphans alive   9,809 MiB of 10,240
+#     VRAM used, no model loaded, orphans killed  1,926 MiB of 10,240
+#
+# So the real free-VRAM budget is ~8.1GB, not ~0.4GB -- but only if you reap the orphans.
+# Before any long run:
+#
+#     Get-Process llama-server -ErrorAction SilentlyContinue | Stop-Process -Force
+#
+# then confirm with `ollama ps` that a freshly loaded model reads 100% GPU rather than an
+# NN%/NN% CPU/GPU split. src/pick_model.py now reads *free* VRAM and warns when a model will
+# not fit, so run it after reaping rather than before.
+#
+# (An earlier draft of this note blamed desktop apps -- Wallpaper Engine, browsers, Discord --
+# for the VRAM pressure, citing a single-sample "72% GPU utilisation at idle". That was bad
+# measurement: GPU utilisation swings second-to-second, so one nvidia-smi reading is noise.
+# The desktop's genuine footprint is the ~1.9GB above, and idle utilisation averages ~51%
+# over a 30-sample sweep. The orphaned processes were the actual problem.)
+
+paths:
+  data_roll: "data/SWEEP_ROLL.json"
+  data_records: "data/records"
+  manifest: "output/index/manifest.json"
+  pilot_manifest: "output/index/manifest.pilot.json"
+  catalog: "output/index/catalog.json"
+  failures: "output/index/failures.json"
+  raw_dir: "output/raw"
+  compressed_dir: "output/compressed"

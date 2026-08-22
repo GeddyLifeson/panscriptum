@@ -1,0 +1,385 @@
+#!/usr/bin/env python3
+"""
+THE ONOMASTICON — distinct designations for the worlds that all call themselves Earth.
+
+THE PROBLEM, AND WHY IT IS NOT A LABELLING PROBLEM
+--------------------------------------------------
+Resolution finds thirty distinct worlds named Earth, eighteen named Moon, sixteen named Mars.
+Keeping them all as "Earth" produces a catalogue in which the commonest entry is a name shared by
+thirty unrelated planets, and every cross-reference to it is ambiguous.
+
+The tempting fix is a serial number. It is the wrong fix, because it treats the repetition as an
+accident of bookkeeping when the repetition is a FACT ABOUT THE OMNIVERSE that wants explaining.
+
+THE DOCTRINE OF CARRIED NAMES
+-----------------------------
+Thirty peoples, with no contact between them, call their world by the same word. That is not
+coincidence and it is not identity. It is DESCENT.
+
+Each of these peoples holds a founding tradition that their line began on Earth. Carrying the
+tradition, they carried the name, and applied it to the world they actually inhabit -- which is
+what every settled people has ever done. New Amsterdam, New England, New Carthage: the name
+travels with the people and lands on new ground.
+
+So the reading is:
+
+    THE NAME "EARTH" IS AN ENDONYM OF DESCENT, NOT A DESIGNATION OF IDENTITY.
+
+There is one Earth. There are thirty worlds whose peoples remember it, live somewhere else, and
+call that somewhere else by the remembered name. The Library therefore assigns each world its own
+catalogue designation and RECORDS the endonym, because what a people calls its own world is a
+fact about the people and belongs in the record.
+
+This generalises exactly as far as the mechanism does. It covers worlds and the toponyms carried
+onto them -- Earth, Moon, Mars, Venus, Sun, and terrestrial place-names reapplied to new ground.
+It does NOT cover Cerberus or Leviathan: two distinct beings sharing a name is ordinary homonymy,
+not a carried tradition, and inventing a mechanism for it would be the second-mechanism error
+X.10 §4 warns against.
+
+THE TWO NAMING LAYERS
+---------------------
+A world carries two names and they answer different questions, so neither is a compromise for the
+other. This began as a technical limitation -- Azgaar's generator will not take a culture set from
+a query string, so the names on a map cannot be steered from here -- and the owner's ruling turns
+it into the correct structure, which is what it should have been anyway.
+
+    CATALOGUE DESIGNATION   what the Library files the world under: Coriantum, Vilarum, Amastes.
+                            Assigned here, from the register its genre and features imply.
+                            Stable, unique, and the name every cross-reference uses.
+
+    INTERNAL TOPONYMY       what the world calls itself and its own parts: its endonym, and the
+                            names of its states, cities and rivers. Generated with the map, by
+                            the world rather than about it.
+
+This is the ordinary practice of every serious catalogue. A national library files a place under
+an authorised heading and the people who live there go on calling it what they call it; the
+exonym and the endonym are both correct and neither is the real one. The Doctrine of Carried
+Names above is the same distinction applied to a single word -- thirty peoples call their world
+Earth, and the Library files thirty designations -- so the layering was already here, and this
+only names it.
+
+What the record must never do is present one layer as the other. An entry gives the designation
+as its heading and the endonym in its body, because what a people calls its own world is a fact
+about that people and belongs in the record beside the shelfmark, not instead of it.
+
+REPRODUCIBILITY
+---------------
+Designations are generated deterministically from the world's own catalogue position, so a Custos
+who reruns this gets the same names. The Moth test applies to naming as much as to arithmetic:
+*can a stranger, given the citations, get your number?* -- and a name nobody else can re-derive is
+a name the Library cannot stand behind.
+"""
+import hashlib
+import json
+import os
+import re
+import sys
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+RESOLVED = os.path.join(HERE, "data", "RESOLVED_ENTITIES.json")
+OUT = os.path.join(HERE, "data", "ONOMASTICON.json")
+
+
+# ==================================================================================================
+# WHAT THE DOCTRINE COVERS
+# ==================================================================================================
+#
+# Solar-system bodies and terrestrial toponyms: the names a people of Earth-descent would carry
+# with them. Matched on the canonical name, case-insensitively, allowing a parenthetical gloss.
+CARRIED_NAMES = {
+    "earth", "the earth", "terra", "moon", "the moon", "luna", "mars", "venus", "mercury",
+    "jupiter", "saturn", "neptune", "uranus", "pluto", "sun", "the sun", "sol",
+    "japan", "china", "russia", "france", "england", "germany", "italy", "egypt", "greece",
+    "new york city", "new york", "london", "paris", "tokyo", "rome", "berlin", "moscow",
+    "chicago", "los angeles", "san francisco", "cairo", "athens", "atlantis",
+}
+
+
+def is_carried(name):
+    """Does this name fall under the doctrine? Strips a parenthetical gloss first."""
+    base = re.sub(r"\s*\([^)]*\)\s*", "", name or "").strip().lower()
+    return base in CARRIED_NAMES
+
+
+# ==================================================================================================
+# THE SYLLABARY
+# ==================================================================================================
+#
+# Six registers, each with its own phonotactics. The register is chosen by CONTINUITY, so worlds
+# sharing a continuity sound related to one another and worlds from unrelated universes do not --
+# which is the correct acoustic signal, since naming conventions are a property of a culture and
+# cultures do not cross shelves.
+REGISTERS = {
+    "classical": dict(
+        onset=["V", "S", "T", "C", "M", "L", "N", "R", "Val", "Ser", "Cor", "Tel", "Am", "Or"],
+        mid=["a", "e", "i", "o", "au", "ia", "eo"],
+        coda=["r", "n", "l", "s", "nt", "st", "rn", "ll"],
+        end=["ia", "us", "um", "or", "es", "anum", "ium"],
+    ),
+    "guttural": dict(
+        onset=["K", "G", "Kr", "Gr", "Dr", "Th", "Vh", "Kh", "Tor", "Kar", "Grim", "Vor"],
+        mid=["a", "u", "o", "ai", "ou"],
+        coda=["k", "g", "rk", "gg", "th", "kt", "rn", "zh"],
+        end=["ar", "un", "oth", "ak", "urn", "grad", "ok"],
+    ),
+    "liquid": dict(
+        onset=["El", "Ly", "Ae", "Mi", "Nu", "Ry", "Sil", "Ala", "Ily", "Ori", "Ven"],
+        mid=["a", "e", "i", "ae", "ei", "io", "ua"],
+        coda=["l", "n", "r", "m", "ll", "nn", "rl"],
+        end=["a", "ae", "eth", "iel", "ora", "wen", "ys"],
+    ),
+    "sibilant": dict(
+        onset=["S", "Sh", "Th", "Ves", "Ash", "Sy", "Zeph", "Xa", "Is", "Os"],
+        mid=["e", "i", "a", "ei", "ia", "yu"],
+        coda=["s", "sh", "th", "ss", "st", "vs", "z"],
+        end=["eth", "is", "ess", "ith", "asha", "yss", "ora"],
+    ),
+    "compact": dict(
+        onset=["Th", "Br", "Cr", "Dr", "Fen", "Hal", "Jor", "Kel", "Mor", "Pel", "Tarn"],
+        mid=["a", "e", "o", "u"],
+        coda=["n", "r", "d", "rn", "ld", "rd", "st"],
+        end=["e", "en", "ar", "on", "ath", "eld", "ock"],
+    ),
+    "long": dict(
+        onset=["Ten", "Osu", "Ana", "Kalu", "Mera", "Sura", "Tira", "Vana", "Ilo", "Uka"],
+        mid=["ra", "ka", "na", "va", "sa", "ta", "la", "ma"],
+        coda=["n", "l", "r", "m", ""],
+        end=["um", "ari", "ala", "eno", "ira", "oma", "uta"],
+    ),
+}
+REGISTER_ORDER = sorted(REGISTERS)
+
+
+def _stream(seed):
+    """A deterministic byte stream from a seed string. No RNG state, so no ordering hazards."""
+    buf, i = b"", 0
+    while True:
+        if not buf:
+            buf = hashlib.sha256(f"{seed}:{i}".encode("utf-8")).digest()
+            i += 1
+        yield buf[0]
+        buf = buf[1:]
+
+
+_VOWELS = set("aeiouy")
+
+
+def well_formed(name):
+    """Is this a name a Custos could say aloud and write down twice the same way?
+
+    The first generator produced Shiashiathasha, Goggoktok and Zgournazhun alongside perfectly
+    good names like Amastes and Valeornus. Random morpheme concatenation has no opinion about
+    whether a result is pronounceable, so the opinion has to be supplied.
+
+    Four constraints, all mechanical:
+      length      4 to 11 characters -- long enough to be distinctive, short enough to shelve
+      echo        no trigram appearing twice (kills Shiashiathasha, Shessasha)
+      stutter     no immediately doubled syllable (kills Goggoktok, Khakak)
+      cluster     no run of three consonants (kills Zgournazhun's opening)
+    """
+    n = name.lower()
+    if not (4 <= len(n) <= 11):
+        return False
+    for i in range(len(n) - 2):
+        if n.count(n[i:i + 3]) > 1:
+            return False
+    for i in range(len(n) - 3):
+        if n[i:i + 2] == n[i + 2:i + 4]:
+            return False
+    run = 0
+    for ch in n:
+        run = 0 if ch in _VOWELS else run + 1
+        if run >= 3:
+            return False
+    # Consonant density. Shessasha (s x4) and Goggournok (g x3) pass every repetition test above
+    # -- they alternate rather than repeat -- and still read as a stutter. Capping each consonant
+    # at two occurrences catches what the sequence tests structurally cannot. Vowels are exempt:
+    # Alaualora is fine, and vowel-rich names are the point of the liquid register.
+    for ch in set(n):
+        if ch not in _VOWELS and n.count(ch) > 2:
+            return False
+    vrun = 0
+    for ch in n:
+        vrun = vrun + 1 if ch in _VOWELS else 0
+        if vrun >= 3:                      # Aeeinna and friends
+            return False
+    return sum(1 for ch in n if ch in _VOWELS) >= 2
+
+
+def coin_name(seed, register):
+    """Build one name deterministically from the register's phonotactics."""
+    r = REGISTERS[register]
+    s = _stream(seed)
+
+    def pick(lst, avoid=None):
+        # Never draw the morpheme just used: repetition is what made the ugly names ugly.
+        opts = [x for x in lst if x != avoid] or lst
+        return opts[next(s) % len(opts)]
+
+    syllables = 2 + (next(s) % 2)
+    parts = [pick(r["onset"])]
+    last_mid = last_coda = None
+    for _ in range(syllables - 1):
+        last_mid = pick(r["mid"], last_mid)
+        parts.append(last_mid)
+        c = pick(r["coda"], last_coda)
+        last_coda = c
+        if c:
+            parts.append(c)
+    parts.append(pick(r["end"]))
+    name = re.sub(r"(.)\1{2,}", r"\1\1", "".join(parts))
+    return name[0].upper() + name[1:].lower()
+
+
+def coin_well_formed(base, register, taken, max_tries=400):
+    """First well-formed, unused name for this seed. Deterministic: same input, same output."""
+    for salt in range(max_tries):
+        nm = coin_name(f"{base}|{salt}", register)
+        if well_formed(nm) and nm.lower() not in taken:
+            return nm
+    # Deterministic fallback rather than an exception; a shelf still needs a designation.
+    return coin_name(f"{base}|fallback", register)
+
+
+# How a world's OWN character bends the register its source handed it.
+#
+# Influence runs both ways. A source supplies the register -- mythology sounds classical, grimdark
+# sounds guttural -- but a world is not merely an instance of its genre. A frozen world and a
+# tropical world in one setting are named by different people living different lives, and if the
+# generator cannot tell them apart it is modelling the source and not the world.
+#
+# So genre sets the base phonology and the world's own features shift it. The shift is a nudge,
+# not an override: a grimdark tropical world is still recognisably grimdark, just softer than its
+# frozen neighbour. Two worlds of one shelf stay kin, and stop being twins.
+FEATURE_SHIFT = {
+    ("climate", "frozen"):       "guttural",   # hard consonants; cold-country names run short
+    ("climate", "tropical"):     "liquid",     # vowel-rich, flowing
+    ("climate", "oceanic"):      "liquid",
+    ("climate", "volcanic"):     "guttural",
+    ("climate", "arid"):         "sibilant",   # dry, hissing
+    ("climate", "temperate"):    None,         # says nothing; casts no vote
+    ("landform", "archipelago"): "long",       # scattered peoples, longer compound names
+    ("landform", "isles"):       "liquid",
+    ("landform", "shattered"):   "sibilant",
+    ("landform", "highland"):    "compact",    # terse, defensible, monosyllabic
+    ("landform", "pangaea"):     "long",
+    ("landform", "continents"):  None,
+    ("condition", "ruined"):     "guttural",
+    ("condition", "wartorn"):    "compact",
+    ("condition", "thriving"):   "classical",
+    ("condition", "settled"):    None,
+    ("tech", "spacefaring"):     "sibilant",
+    ("tech", "primitive"):       "guttural",
+    ("tech", "magical"):         "liquid",
+    ("tech", "industrial"):      "compact",
+    ("tech", "medieval"):        None,
+}
+# The balance that makes influence genuinely two-way. A first attempt weighted the source at 2 and
+# each feature at 1, which meant a single feature could never outvote the genre and two rarely
+# could -- every grimdark world came back guttural whatever its geography, so the world had no
+# voice at all. At 3 against 2, ONE feature still cannot flip the register (the source is the more
+# reliable signal) but TWO AGREEING FEATURES CAN. A tropical archipelago stops sounding like a
+# frozen highland even when both are grimdark.
+GENRE_WEIGHT = 3
+FEATURE_WEIGHT = 2
+
+
+def register_for(group_id, genre_register=None, features=None):
+    """The naming register: what the source gives, bent by what the world is.
+
+    Falls back to a hash of the group id ONLY when neither a genre nor features are known. That
+    fallback used to be the whole function, and it produced the register that gave Alien and Doom
+    the flowing elvish sound and denied Greek myth the classical one.
+    """
+    if not genre_register and not features:
+        return REGISTER_ORDER[int(hashlib.sha256(str(group_id).encode()).hexdigest(), 16)
+                              % len(REGISTER_ORDER)]
+
+    votes = {}
+    if genre_register in REGISTERS:
+        votes[genre_register] = GENRE_WEIGHT
+    for axis, value in (features or {}).items():
+        shifted = FEATURE_SHIFT.get((axis, value))
+        if shifted in REGISTERS:
+            votes[shifted] = votes.get(shifted, 0) + FEATURE_WEIGHT
+    if not votes:
+        return genre_register if genre_register in REGISTERS else "classical"
+    # Ties break toward the source, which is the more reliable signal of the two.
+    best = max(votes.values())
+    tied = sorted(k for k, v in votes.items() if v == best)
+    return genre_register if genre_register in tied else tied[0]
+
+
+def name_worlds(resolved):
+    """Assign a distinct designation to every world bearing a carried name.
+
+    A name is only replaced where the SAME name occurs in more than one continuity: a world called
+    Earth in a shelf where nothing else is, needs no disambiguation and does not get renamed. The
+    doctrine explains repetition; where there is no repetition there is nothing to explain.
+    """
+    import collections
+    by_key = collections.defaultdict(list)
+    for cid, v in resolved.items():
+        if is_carried(v["canonical_name"]):
+            by_key[v["key"]].append((cid, v))
+
+    taken = set()
+    out = {}
+    for key, items in sorted(by_key.items()):
+        if len(items) < 2:
+            continue                                   # unique already; leave it alone
+        for cid, v in sorted(items, key=lambda t: t[0]):
+            reg = register_for(v["continuity_group"])
+            nm = coin_well_formed(f"{key}|{v['continuity_group']}", reg, taken)
+            taken.add(nm.lower())
+            out[cid] = {
+                "catalogue_name": nm,
+                "endonym": v["canonical_name"],
+                "register": reg,
+                "continuity_group": v["continuity_group"],
+                "attestations": v["attestations"],
+                "note": (f"Its people call it {v['canonical_name']}, holding by tradition that "
+                         f"their line began there. The Library records the endonym and shelves "
+                         f"the world under its own designation, the name being carried rather "
+                         f"than shared."),
+            }
+    return out
+
+
+def main():
+    with open(RESOLVED, encoding="utf-8") as f:
+        resolved = json.load(f)
+    named = name_worlds(resolved)
+
+    import collections
+    by_endonym = collections.defaultdict(list)
+    for cid, v in named.items():
+        by_endonym[v["endonym"]].append(v)
+
+    print("=" * 92)
+    print("THE ONOMASTICON — worlds that carry a name rather than share one")
+    print("=" * 92)
+    print(f"\nworlds given their own designation: {len(named):,}")
+    print(f"carried names resolved            : {len(by_endonym)}")
+
+    for endo in sorted(by_endonym, key=lambda k: -len(by_endonym[k]))[:4]:
+        rows = by_endonym[endo]
+        print(f"\n  {endo} — {len(rows)} worlds, none of them each other:")
+        for v in rows[:9]:
+            src = v["attestations"][0]
+            print(f"     {v['catalogue_name']:<16}{v['register']:<11}{src[:34]}")
+        if len(rows) > 9:
+            print(f"     ... and {len(rows)-9} more")
+
+    with open(OUT, "w", encoding="utf-8") as f:
+        json.dump(named, f, indent=2, ensure_ascii=False)
+    print(f"\nwrote {OUT}")
+    print("\nEvery designation is reproducible: reseeded from the world's own catalogue")
+    print("position, so a Custos who reruns this gets these names and not others.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

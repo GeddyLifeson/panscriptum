@@ -1,0 +1,19 @@
+SOURCE: {source_name}
+SPINE CODE: {spine_code}
+CHAPTER: {chapter_label}
+ADDRESS: {address}
+
+Below is the complete, factual entry data for this chapter, drawn from real research already
+completed on this source. Write this chapter of the Panscriptum now, in the Entry Template
+format fixed by your system instructions, covering every entry listed as its own ◈ entry.
+Open with one short framing paragraph situating this chapter within the source as a whole
+(you may use the SOURCE CONTEXT block below for that framing only -- do not restate it
+verbatim), then write each entry in full.
+
+SOURCE CONTEXT (for framing only, not to be dumped verbatim):
+{source_context}
+
+ENTRY DATA (the ground truth for this chapter -- use only this):
+{entries_json}
+
+Write the chapter now.
