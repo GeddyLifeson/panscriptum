@@ -50,6 +50,7 @@ including an exception in the checking itself. The bar is deliberately higher th
 because a human explains a change and a model does not.
 """
 import argparse
+import ast
 import json
 import os
 import shutil
@@ -278,6 +279,56 @@ def _function_source(path, symbol):
     return None, None, None
 
 
+def _literals(src):
+    """Every string literal in a fragment of code."""
+    out = []
+    text = src if src.lstrip().startswith(("def ", "async def")) else None
+    if text is None:
+        pad = chr(10) + " "
+        text = "def _wrapped():" + chr(10) + " " + src.replace(chr(10), pad)
+    try:
+        tree = ast.parse(text)
+    except SyntaxError:
+        # Only a PARSE failure is tolerable here, and it means the fragment is not valid Python
+        # -- which the caller already refuses. Anything else must be seen: this function was
+        # raising NameError because `ast` was never imported at module level, the bare `except`
+        # swallowed it, and the gate reported "no literals changed" for every patch ever
+        # examined. A safety check that fails open is worse than no safety check, and this one
+        # failed open silently, inside the file written to stop exactly that.
+        return out
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            out.append(node.value)
+    return out
+
+
+# Characters that make a string a PATTERN rather than a word. A changed literal containing any of
+# these is a changed regex, whatever the code around it looks like.
+_META = set(chr(92) + "^$.|?*+()[]{}")
+
+
+def regex_touched(before, after):
+    """Did this patch alter a pattern?
+
+    THE FIRST PATCH THE MODEL EVER PROPOSED DID EXACTLY THIS. It rewrote
+
+        re.sub(r"[^a-z0-9]+", ...)   ->   re.sub(r"[\\^a-z0-9]+", ...)
+
+    turning "not alphanumeric" into "a caret, or a-z, or 0-9" -- the inverse of the intended
+    class. It parses. It imports. `verify_math` does not touch that module, so it passes. Every
+    gate built so far would have waved it through, and every name comparison in the library would
+    have quietly inverted.
+
+    This project has already lost six separate regexes to a single character, invisibly each
+    time. A patch may fix logic; it may not become a different pattern on the way. If any literal
+    containing metacharacters changed at all, the patch is refused -- a genuine regex fix is rare
+    enough to be worth a human, and a wrong one is undetectable by everything else here.
+    """
+    b = sorted(x for x in _literals(before) if any(c in _META for c in x))
+    a = sorted(x for x in _literals(after) if any(c in _META for c in x))
+    return b != a
+
+
 def _checks_pass(module):
     """Everything that must still be true after a patch.
 
@@ -320,13 +371,32 @@ def attempt_patch(finding, dry=True):
     prompt = (f"MODULE: {module}.py\nSYMBOL: {symbol}\n"
               f"CLAIM: the code {finding.get('actual', '')}\n"
               f"IT SAYS: {finding.get('claim', '')}\n\nFUNCTION:\n{body}")
+    # LOCAL FIRST, AND THAT IS WHY THIS LANE NEVER RAN.
+    #
+    # It called `read._ask`, which goes to the cloud pool first -- so every patch attempt
+    # competed with the corpus read, and the guard that stops it doing that (`_pool_has_room`)
+    # was therefore true almost never. The lane was correct, fenced, and permanently asleep.
+    #
+    # The GPU is the right resource for this anyway. The reader now uses it only as a fallback,
+    # so the card is idle most of the time; a code review is unmetered there, private, and
+    # competes with nothing the library actually needs. The cloud is the fallback, not the
+    # default -- exactly inverted from the reader, because their scarcities are opposite.
+    got = None
     try:
         import read as R
-        R.ensure_transport(verbose=False)
-        got = R._ask(R.config(), PATCH_SYSTEM, prompt, PATCH_SCHEMA)
-    except Exception as e:
-        silence.note("foreman.py:attempt_patch-ask")
-        return {"ok": False, "why": f"model unreachable: {type(e).__name__}"}
+        got = R._local(R.config(), PATCH_SYSTEM, prompt, PATCH_SCHEMA)
+    except Exception:
+        silence.note("foreman.py:attempt_patch-local")
+    if got is None and _pool_has_room():
+        try:
+            import read as R
+            R.ensure_transport(verbose=False)
+            got = R._ask(R.config(), PATCH_SYSTEM, prompt, PATCH_SCHEMA)
+        except Exception as e:
+            silence.note("foreman.py:attempt_patch-ask")
+            return {"ok": False, "why": f"model unreachable: {type(e).__name__}"}
+    if got is None:
+        return {"ok": False, "why": "GPU busy and no spare pool capacity; will retry"}
     if not got:
         return {"ok": False, "why": "no answer from the model"}
     if got.get("verdict") != "fix":
@@ -340,6 +410,8 @@ def attempt_patch(finding, dry=True):
         return {"ok": False, "why": f"patch changes {delta} lines; cap is {MAX_PATCH_LINES}"}
     if new.strip() == body.strip():
         return {"ok": False, "why": "no change proposed", "retire": True}
+    if regex_touched(body, new):
+        return {"ok": False, "why": "refused: the patch alters a regex literal"}
     if dry:
         return {"ok": True, "why": "would patch", "delta": delta, "preview": new[:400]}
 
@@ -480,9 +552,7 @@ def round_once(dry=True, patch=False):
             if did:
                 break
 
-    if patch and not _pool_has_room():
-        print("   MODEL  skipped: the pool is below the floor and the corpus read needs it")
-    if patch and _pool_has_room():
+    if patch:
         try:
             led = json.load(open(os.path.join(HERE, "data", "OVERWATCH.json"), encoding="utf-8"))
             open_f = [f for f in (led.get("findings") or {}).values()

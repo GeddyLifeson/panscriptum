@@ -79,6 +79,13 @@ MAX_HIGH_FINDINGS = 0
 MAX_PHASES_MISSING = 4          # 5-8 are known unbuilt; a fifth would be a regression
 MIN_ROLL_PROGRESS = 0.95        # the page roll should be essentially complete
 MAX_SWALLOWED_NEW = 2000        # a spike in swallowed failures is a fault somewhere upstream
+MAX_UNANSWERED_RECORDS = 0      # a cached record with unread chunks is permanently incomplete
+MAX_FOREIGN_ROSTERS = 0         # a roster whose pages never name it came from the wrong wiki
+MAX_SHELFMARK_COLLISIONS = 0    # two worlds at one address make every citation ambiguous
+MAX_SWEEP_AGE_H = 6             # a stale audit reports on a system that no longer exists
+MIN_DISK_GB = 10                # the roll writes hundreds of MB an hour
+MAX_PUBLISH_AGE_H = 2           # the public panel is a snapshot; stale, it misleads quietly
+MAX_STALE_MODEL_IDS = 0         # a retired model name makes a live provider read as dead        # a spike in swallowed failures is a fault somewhere upstream
 
 
 def _s(name, holds, observed, floor, order, severity="medium", group="general"):
@@ -247,6 +254,225 @@ def check(state=None):
         "upstream is failing repeatedly and being tolerated. Read the top classes in the "
         "dashboard's overwatch panel -- the class names the module and the line.",
         "medium", "code"))
+    # ------------------------------------------------------------------ evidence integrity
+    #
+    # Everything above measures whether the machinery RUNS. These measure whether what it
+    # produced can be believed, which is a different question and the one the library is for.
+
+    unans_files = 0
+    try:
+        import glob as _g
+        for fp in _g.glob(os.path.join(HERE, "data", "readfeats", "**", "*.json"),
+                          recursive=True):
+            with open(fp, encoding="utf-8") as f:
+                head = f.read(700)
+            if '"chunks_unanswered": 0' not in head and "chunks_unanswered" in head:
+                unans_files += 1
+            elif "chunks_unanswered" not in head:
+                unans_files += 1          # written before the guard existed
+    except Exception:
+        silence.note("standards.py:unanswered-records")
+    out.append(_s(
+        "cached records that were fully read", unans_files <= MAX_UNANSWERED_RECORDS,
+        unans_files, MAX_UNANSWERED_RECORDS,
+        "A record written while some of its chunks went unanswered is PERMANENTLY incomplete -- "
+        "read_entity returns the cache forever after and queue never revisits it. Delete those "
+        "files so the entities are read again; the guard in read.py stops new ones appearing.",
+        "high", "evidence"))
+
+    fab = None
+    read = jobs.get("corpus read")
+    if read:
+        det = read.get("detail") or ""
+        try:
+            import re as _re
+            kept = int((_re.search(r"([\d,]+) feats", det).group(1)).replace(",", ""))
+            m = _re.search(r"dropped\s+([\d,]+)", read.get("raw") or "")
+            drop = int(m.group(1).replace(",", "")) if m else None
+            if drop is not None and (kept + drop):
+                fab = drop / (kept + drop)
+        except Exception:
+            silence.note("standards.py:fabrication")
+    if fab is not None:
+        out.append(_s(
+            "sentences that survive the verbatim check", fab <= MAX_FABRICATION,
+            f"{fab:.0%} rejected", f"{MAX_FABRICATION:.0%}",
+            "The model is returning text that is not in the source. A rate this high means the "
+            "passage is being truncated before it arrives -- check the chunk size against the "
+            "model's context -- or that a weak fallback model is carrying the run.",
+            "high", "evidence"))
+
+    try:
+        with open(os.path.join(HERE, "data", "ROSTER_AUDIT.json"), encoding="utf-8") as f:
+            ra = json.load(f)
+        foreign = [k for k, v in ra.items() if isinstance(v, dict) and v.get("rate", 1) < 0.10]
+        out.append(_s(
+            "rosters that name their own fiction", len(foreign) <= MAX_FOREIGN_ROSTERS,
+            len(foreign), MAX_FOREIGN_ROSTERS,
+            "A source whose mined pages never mention it was catalogued from the wrong wiki. "
+            "That proves the HOST was wrong, not necessarily the roster -- read each one before "
+            "purging, then `hostcheck.py --purge --go --source NAME`. `Lost Mines of "
+            "Phandelver` held the cast of the television series Lost.",
+            "medium", "evidence"))
+    except Exception:
+        silence.note("standards.py:roster-audit")
+
+    try:
+        with open(os.path.join(HERE, "data", "SHELFMARKS.json"), encoding="utf-8") as f:
+            marks = json.load(f)
+        addrs = [v.get("address") for v in marks.values() if isinstance(v, dict)]
+        collisions = len(addrs) - len(set(addrs))
+        out.append(_s(
+            "shelfmarks are unique", collisions <= MAX_SHELFMARK_COLLISIONS, collisions,
+            MAX_SHELFMARK_COLLISIONS,
+            "Two worlds sharing an address means the Ladder cannot tell them apart, and every "
+            "citation to either is ambiguous. The address space has 115,000x headroom, so a "
+            "collision is a bug in assignment rather than exhaustion.",
+            "high", "evidence"))
+    except Exception:
+        silence.note("standards.py:shelfmarks")
+
+    # ------------------------------------------------------------------ the instrument itself
+    #
+    # The Assay is the library's one original claim. If its arithmetic drifts, everything shelved
+    # under it is wrong in a way no amount of correct mining can rescue.
+
+    try:
+        with open(os.path.join(HERE, "data", "REFERENCE_ASSAYS.json"), encoding="utf-8") as f:
+            refs = json.load(f)
+        # COMPUTED against PUBLISHED, not a flag somebody remembered to write. The first draft
+        # of this looked for `inside_charter_interval`, a key the file has never had, and
+        # reported 0/3 -- an alarm about the instrument being broken, raised by a standard that
+        # was itself broken. Recomputing from the two numbers that actually exist means the
+        # check cannot drift from what it claims to check.
+        inside = 0
+        for v in refs.values():
+            if not isinstance(v, dict):
+                continue
+            ch = v.get("charter") or []
+            got = (v.get("reference") or {})
+            if len(ch) >= 3 and got.get("magnitude"):
+                band = str(ch[0])
+                published, tol = float(ch[1]), float(ch[2])
+                mine = float(str(band)[1:]) + float(got.get("decimal", 0))
+                if abs(mine - published) <= tol:
+                    inside += 1
+        out.append(_s(
+            "hand-built assays match the charter", inside >= len(refs) if refs else True,
+            f"{inside}/{len(refs)}", "all of them",
+            "The three reference assays reconstruct values the charter published. If one falls "
+            "outside its interval, the instrument has drifted from the document it implements -- "
+            "check assay.SIGMA_BY_ATTESTATION and the axis weights before trusting any new "
+            "Magnitude.", "high", "instrument"))
+    except Exception:
+        silence.note("standards.py:reference-assays")
+
+    try:
+        with open(os.path.join(HERE, "data", "ALLSWEEP.json"), encoding="utf-8") as f:
+            sweep = json.load(f)
+        bad_files = len(((sweep.get("estate") or {}).get("artifacts") or {}).get("bad") or [])
+        out.append(_s(
+            "files that parse", bad_files <= MAX_CORRUPT_FILES, bad_files, MAX_CORRUPT_FILES,
+            "A record that will not load is skipped in silence by every stage that reads it, so "
+            "a corrupt cache is indistinguishable from an empty one -- and empty is a legitimate "
+            "finding here. `allsweep.py` names the files.", "high", "instrument"))
+
+        crashed = [v for v in (sweep.get("verifiers") or [])
+                   if v.get("crashed") or v.get("timeout")]
+        out.append(_s(
+            "verifiers all run", not crashed, len(crashed), 0,
+            "A verifier that crashes stops verifying and says nothing. `verify_math` sat dead "
+            "for an unknown period and every number it checks was unverified for exactly that "
+            "long.", "high", "instrument"))
+        age = (time.time() - os.path.getmtime(
+            os.path.join(HERE, "data", "ALLSWEEP.json"))) / 3600
+        out.append(_s(
+            "the full audit is recent", age <= MAX_SWEEP_AGE_H, f"{age:.1f}h",
+            f"{MAX_SWEEP_AGE_H}h",
+            "`allsweep` is what notices a module that stopped importing. Stale, it is reporting "
+            "the health of a system that no longer exists. overwatch runs it every round.",
+            "medium", "instrument"))
+    except Exception:
+        silence.note("standards.py:allsweep")
+
+    # ------------------------------------------------------------------ the machine
+    try:
+        import shutil as _sh
+        free = _sh.disk_usage(HERE).free / 1e9
+        out.append(_s(
+            "disk space", free >= MIN_DISK_GB, f"{free:.0f} GB", f"{MIN_DISK_GB} GB",
+            "The roll writes hundreds of megabytes an hour. Out of disk, every stage fails at "
+            "once and most of them fail quietly.", "high", "machine"))
+    except Exception:
+        silence.note("standards.py:disk")
+
+    try:
+        import overnight as ON
+        dupes = []
+        for job in ("read.py", "feats.py", "pipeline.py", "overnight.py"):
+            # running() is a boolean; the reconcile tier counts instances. Here the question is
+            # only whether the supervisor's own exclusion held.
+            pass
+        alive = {j: ON.running(j) for j in ("dashboard.py", "publish.py", "foreman.py",
+                                            "overwatch.py", "read.py")}
+        down = [j for j, v in alive.items() if not v]
+        out.append(_s(
+            "every managed job is running", not down, ",".join(down) or "all up", "all up",
+            "The supervisor starts these every cycle, so one that is down means it failed on "
+            "startup rather than never being launched -- read its log in state/. If the "
+            "SUPERVISOR is down, the watchdog in autostart.py restarts it within three minutes.",
+            "medium", "machine"))
+    except Exception:
+        silence.note("standards.py:jobs-alive")
+
+    try:
+        pub = os.path.join(HERE, "state", "publish.log")
+        age = (time.time() - os.path.getmtime(pub)) / 3600 if os.path.exists(pub) else 99
+        out.append(_s(
+            "the published panel is fresh", age <= MAX_PUBLISH_AGE_H, f"{age:.1f}h",
+            f"{MAX_PUBLISH_AGE_H}h",
+            "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that "
+            "were true once and says so only in a timestamp nobody reads.",
+            "low", "machine"))
+    except Exception:
+        silence.note("standards.py:publish-age")
+
+    # ------------------------------------------------------------------ the provider config
+    try:
+        with open(os.path.join(HERE, "data", "PROVIDER_MODELS.json"), encoding="utf-8") as f:
+            pm = json.load(f)
+        stale = len(pm.get("stale") or [])
+        out.append(_s(
+            "model IDs their providers still serve", stale <= MAX_STALE_MODEL_IDS, stale,
+            MAX_STALE_MODEL_IDS,
+            "The config names a model the provider has retired. The KEY works; the string does "
+            "not -- and the whole provider reads as dead. Six stale names once hid five live "
+            "providers. `catalogue_models.py` lists what each one actually serves today.",
+            "high", "pool"))
+    except Exception:
+        silence.note("standards.py:provider-models")
+
+    # ------------------------------------------------------------------ the standards themselves
+    #
+    # A floor that is declared and never measured is worse than no floor: it reads as a promise
+    # that something is being watched. Three were found dead in this very file --
+    # MAX_CORRUPT_FILES, MAX_FABRICATION and MAX_UNANSWERED were all declared, all authoritative
+    # looking, and all measured nothing. This standard is the one that would have said so.
+    try:
+        import re as _re
+        src = open(os.path.abspath(__file__), encoding="utf-8").read()
+        declared = set(_re.findall(r"^(M(?:IN|AX)_[A-Z_]+)\s*=", src, _re.M))
+        body = src[src.index("def check("):]
+        dead = sorted(d for d in declared if d not in body)
+        out.append(_s(
+            "every declared floor is measured", not dead, ", ".join(dead) or "all measured",
+            "all measured",
+            "A floor nothing checks is a promise that something is being watched when nothing "
+            "is. Either wire it into check() or delete it -- both are honest; leaving it is not.",
+            "high", "standards"))
+    except Exception:
+        silence.note("standards.py:self-check")
+
     return out
 
 

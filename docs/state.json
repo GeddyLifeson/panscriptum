@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 17:22:10",
+ "at": "2026-08-22 17:30:51",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 471,
+     "left": 469,
      "cap": 500,
-     "frac": 0.942
+     "frac": 0.938
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.942
+   "worst": 0.938
   },
   {
    "bucket": "cohere:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 326,
+     "left": 320,
      "cap": 1000,
-     "frac": 0.326
+     "frac": 0.32
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.326
+   "worst": 0.32
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -248,9 +248,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 32,
+     "left": 27,
      "cap": 250,
-     "frac": 0.128
+     "frac": 0.108
     },
     {
      "name": "rpm",
@@ -259,7 +259,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.128
+   "worst": 0.108
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -268,9 +268,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 17,
+     "left": 10,
      "cap": 250,
-     "frac": 0.068
+     "frac": 0.04
     },
     {
      "name": "rpm",
@@ -279,7 +279,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.068
+   "worst": 0.04
   },
   {
    "bucket": "github:free",
@@ -302,20 +302,26 @@
    "worst": 1.0
   },
   {
-   "bucket": "groq:llama-3.1-8b-instant",
+   "bucket": "groq:groq/compound-mini",
    "model": "groq-llama31-8b",
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
+     "name": "tpd",
+     "left": 499225,
+     "cap": 500000,
+     "frac": 0.9984
     },
     {
      "name": "rpd",
-     "left": 14400,
+     "left": 14391,
      "cap": 14400,
+     "frac": 0.9994
+    },
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
      "frac": 1.0
     },
     {
@@ -323,47 +329,9 @@
      "left": 6000,
      "cap": 6000,
      "frac": 1.0
-    },
-    {
-     "name": "tpd",
-     "left": 500000,
-     "cap": 500000,
-     "frac": 1.0
     }
    ],
-   "worst": 1.0
-  },
-  {
-   "bucket": "groq:llama-3.3-70b-versatile",
-   "model": "groq-llama33-70b",
-   "unlimited": false,
-   "windows": [
-    {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
-    },
-    {
-     "name": "rpd",
-     "left": 1000,
-     "cap": 1000,
-     "frac": 1.0
-    },
-    {
-     "name": "tpm",
-     "left": 12000,
-     "cap": 12000,
-     "frac": 1.0
-    },
-    {
-     "name": "tpd",
-     "left": 100000,
-     "cap": 100000,
-     "frac": 1.0
-    }
-   ],
-   "worst": 1.0
+   "worst": 0.9984
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -378,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 102332,
+     "left": 102232,
      "cap": 200000,
-     "frac": 0.5117
+     "frac": 0.5112
     },
     {
      "name": "rpm",
@@ -398,6 +366,38 @@
    "worst": 0.0
   },
   {
+   "bucket": "groq:openai/gpt-oss-20b",
+   "model": "groq-llama33-70b",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 982,
+     "cap": 1000,
+     "frac": 0.982
+    },
+    {
+     "name": "tpd",
+     "left": 99446,
+     "cap": 100000,
+     "frac": 0.9945
+    },
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 12000,
+     "cap": 12000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.982
+  },
+  {
    "bucket": "groq:qwen/qwen3.6-27b",
    "model": "groq-qwen36-27b",
    "unlimited": false,
@@ -410,9 +410,9 @@
     },
     {
      "name": "tpd",
-     "left": 97032,
+     "left": 96570,
      "cap": 200000,
-     "frac": 0.4852
+     "frac": 0.4829
     },
     {
      "name": "rpm",
@@ -436,9 +436,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 112,
+     "left": 110,
      "cap": 200,
-     "frac": 0.56
+     "frac": 0.55
     },
     {
      "name": "rpm",
@@ -447,7 +447,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.56
+   "worst": 0.55
   },
   {
    "bucket": "hyperbolic:free",
@@ -456,9 +456,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 169,
+     "left": 167,
      "cap": 200,
-     "frac": 0.845
+     "frac": 0.835
     },
     {
      "name": "rpm",
@@ -467,7 +467,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.845
+   "worst": 0.835
   },
   {
    "bucket": "kluster:free",
@@ -576,18 +576,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 833,
+     "left": 772,
      "cap": 1000,
-     "frac": 0.833
+     "frac": 0.772
     },
     {
      "name": "rpm",
-     "left": 39,
+     "left": 37,
      "cap": 40,
-     "frac": 0.975
+     "frac": 0.925
     }
    ],
-   "worst": 0.833
+   "worst": 0.772
   },
   {
    "bucket": "openrouter:free",
@@ -636,9 +636,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 289,
+     "left": 283,
      "cap": 300,
-     "frac": 0.9633
+     "frac": 0.9433
     },
     {
      "name": "rpm",
@@ -647,7 +647,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.9633
+   "worst": 0.9433
   },
   {
    "bucket": "together:free",
@@ -676,9 +676,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 258,
+     "left": 252,
      "cap": 500,
-     "frac": 0.516
+     "frac": 0.504
     },
     {
      "name": "rpm",
@@ -687,57 +687,92 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.516
+   "worst": 0.504
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 52,
-  "per_hour": 208,
+  "calls": 119,
+  "per_hour": 476,
   "buckets": [
    {
     "bucket": "nvidia:free",
-    "calls": 35,
-    "ok": 35
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 5,
-    "ok": 0
+    "calls": 65,
+    "ok": 65
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 3,
-    "ok": 0
+    "calls": 7,
+    "ok": 1
    },
    {
-    "bucket": "sambanova:free",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 1,
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 6,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 1,
-    "ok": 0
+    "calls": 6,
+    "ok": 2
    },
    {
-    "bucket": "hyperbolic:free",
-    "calls": 1,
+    "bucket": "sambanova:free",
+    "calls": 6,
     "ok": 0
    },
    {
     "bucket": "zai:free",
-    "calls": 1,
+    "calls": 6,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 5,
+    "ok": 0
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "huggingface:free",
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "mistral:free",
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 2,
     "ok": 0
    }
   ]
@@ -776,7 +811,7 @@
    "read": 33119,
    "settled": 40382,
    "feats": 16619,
-   "age_h": 0.7
+   "age_h": 0.9
   },
   "phases": [
    {
@@ -797,22 +832,22 @@
    },
    {
     "name": "cosmology",
-    "built": false
+    "built": true
    },
    {
     "name": "history",
-    "built": false
+    "built": true
    },
    {
     "name": "shelve",
-    "built": false
+    "built": true
    },
    {
     "name": "write",
-    "built": false
+    "built": true
    }
   ],
-  "readfeats": 32
+  "readfeats": 25
  },
  "watch": {
   "open": 4,
@@ -878,7 +913,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 208,
+   "observed": 476,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -887,7 +922,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 27,
+   "observed": 26,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -968,7 +1003,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.7h",
+   "observed": "0.9h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -985,9 +1020,9 @@
   {
    "standard": "sources with a reachable wiki",
    "group": "library",
-   "holds": true,
+   "holds": false,
    "observed": "92%",
-   "floor": "80%",
+   "floor": "100%",
    "order": "Sources without a host are uncitable by construction. Run `python src/hostcheck.py --adopt --go`. For homebrew, try D&D Wiki and the publisher's own site -- homebrew is inconsistent about where it lives.",
    "severity": "medium"
   },
@@ -1013,9 +1048,9 @@
    "standard": "phases implemented",
    "group": "code",
    "holds": true,
-   "observed": "4/8",
+   "observed": "8/8",
    "floor": "at least 4",
-   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: cosmology, history, shelve, write",
+   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: none",
    "severity": "low"
   },
   {
@@ -1026,7 +1061,115 @@
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
+  },
+  {
+   "standard": "cached records that were fully read",
+   "group": "evidence",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "A record written while some of its chunks went unanswered is PERMANENTLY incomplete -- read_entity returns the cache forever after and queue never revisits it. Delete those files so the entities are read again; the guard in read.py stops new ones appearing.",
+   "severity": "high"
+  },
+  {
+   "standard": "rosters that name their own fiction",
+   "group": "evidence",
+   "holds": false,
+   "observed": 4,
+   "floor": 0,
+   "order": "A source whose mined pages never mention it was catalogued from the wrong wiki. That proves the HOST was wrong, not necessarily the roster -- read each one before purging, then `hostcheck.py --purge --go --source NAME`. `Lost Mines of Phandelver` held the cast of the television series Lost.",
+   "severity": "medium"
+  },
+  {
+   "standard": "shelfmarks are unique",
+   "group": "evidence",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "Two worlds sharing an address means the Ladder cannot tell them apart, and every citation to either is ambiguous. The address space has 115,000x headroom, so a collision is a bug in assignment rather than exhaustion.",
+   "severity": "high"
+  },
+  {
+   "standard": "hand-built assays match the charter",
+   "group": "instrument",
+   "holds": true,
+   "observed": "3/3",
+   "floor": "all of them",
+   "order": "The three reference assays reconstruct values the charter published. If one falls outside its interval, the instrument has drifted from the document it implements -- check assay.SIGMA_BY_ATTESTATION and the axis weights before trusting any new Magnitude.",
+   "severity": "high"
+  },
+  {
+   "standard": "files that parse",
+   "group": "instrument",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "A record that will not load is skipped in silence by every stage that reads it, so a corrupt cache is indistinguishable from an empty one -- and empty is a legitimate finding here. `allsweep.py` names the files.",
+   "severity": "high"
+  },
+  {
+   "standard": "verifiers all run",
+   "group": "instrument",
+   "holds": true,
+   "observed": 0,
+   "floor": 0,
+   "order": "A verifier that crashes stops verifying and says nothing. `verify_math` sat dead for an unknown period and every number it checks was unverified for exactly that long.",
+   "severity": "high"
+  },
+  {
+   "standard": "the full audit is recent",
+   "group": "instrument",
+   "holds": true,
+   "observed": "0.6h",
+   "floor": "6h",
+   "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
+   "severity": "medium"
+  },
+  {
+   "standard": "disk space",
+   "group": "machine",
+   "holds": true,
+   "observed": "31 GB",
+   "floor": "10 GB",
+   "order": "The roll writes hundreds of megabytes an hour. Out of disk, every stage fails at once and most of them fail quietly.",
+   "severity": "high"
+  },
+  {
+   "standard": "every managed job is running",
+   "group": "machine",
+   "holds": true,
+   "observed": "all up",
+   "floor": "all up",
+   "order": "The supervisor starts these every cycle, so one that is down means it failed on startup rather than never being launched -- read its log in state/. If the SUPERVISOR is down, the watchdog in autostart.py restarts it within three minutes.",
+   "severity": "medium"
+  },
+  {
+   "standard": "the published panel is fresh",
+   "group": "machine",
+   "holds": true,
+   "observed": "0.1h",
+   "floor": "2h",
+   "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
+   "severity": "low"
+  },
+  {
+   "standard": "model IDs their providers still serve",
+   "group": "pool",
+   "holds": false,
+   "observed": 6,
+   "floor": 0,
+   "order": "The config names a model the provider has retired. The KEY works; the string does not -- and the whole provider reads as dead. Six stale names once hid five live providers. `catalogue_models.py` lists what each one actually serves today.",
+   "severity": "high"
+  },
+  {
+   "standard": "every declared floor is measured",
+   "group": "standards",
+   "holds": true,
+   "observed": "all measured",
+   "floor": "all measured",
+   "order": "A floor nothing checks is a promise that something is being watched when nothing is. Either wire it into check() or delete it -- both are honest; leaving it is not.",
+   "severity": "high"
   }
  ],
- "generated": "2026-08-22T17:22:10"
+ "generated": "2026-08-22T17:30:55"
 }
