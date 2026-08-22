@@ -372,7 +372,13 @@ def main():
         #      buckets answer, re-running host adoption. Everything mechanical I did by hand
         #      today, on a loop. What it cannot fix goes to FOR_OWNER.md, and code defects go to
         #      the model lane. A list nobody acts on is a tidier version of the problem.
-        start("foreman", [os.path.join(SRC, "foreman.py"), "--go", "--loop", "30"],
+        # --patch ON. The model lane repairs code defects unattended, behind six gates: one
+        # file, never one on the denylist, it parses, under 40 lines changed, the module still
+        # imports, verify_math still reports 0 FAILED, and allsweep finds no new broken module.
+        # A backup is written before the patch and restored on ANY failure including an
+        # exception inside the checking. It also yields the pool when the corpus read is
+        # starving, because reading the library is the work and repairing the code protects it.
+        start("foreman", [os.path.join(SRC, "foreman.py"), "--go", "--patch", "--loop", "30"],
               "foreman.log")
         # 0b. THE WATCHER. Its own long-lived process, started once and left alone -- it outlives
         #    a cycle deliberately, because the whole point is that something is looking BETWEEN

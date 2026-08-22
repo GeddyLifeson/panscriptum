@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 16:22:01",
+ "at": "2026-08-22 16:28:49",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -107,19 +107,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 480,
-     "cap": 500,
-     "frac": 0.96
+     "name": "rpm",
+     "left": 19,
+     "cap": 20,
+     "frac": 0.95
     },
     {
-     "name": "rpm",
-     "left": 20,
-     "cap": 20,
-     "frac": 1.0
+     "name": "rpd",
+     "left": 479,
+     "cap": 500,
+     "frac": 0.958
     }
    ],
-   "worst": 0.96
+   "worst": 0.95
   },
   {
    "bucket": "cohere:free",
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 5,
+     "left": 4,
      "cap": 5,
-     "frac": 1.0
+     "frac": 0.8
     }
    ],
    "worst": 0.0
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 357,
+     "left": 354,
      "cap": 1000,
-     "frac": 0.357
+     "frac": 0.354
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 0.5
     }
    ],
-   "worst": 0.357
+   "worst": 0.354
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -248,18 +248,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 60,
+     "left": 56,
      "cap": 250,
-     "frac": 0.24
+     "frac": 0.224
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.24
+   "worst": 0.224
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -268,18 +268,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 47,
+     "left": 43,
      "cap": 250,
-     "frac": 0.188
+     "frac": 0.172
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.188
+   "worst": 0.172
   },
   {
    "bucket": "github:free",
@@ -384,15 +384,15 @@
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
     },
     {
      "name": "tpm",
-     "left": 7952,
+     "left": 8000,
      "cap": 8000,
-     "frac": 0.994
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -415,16 +415,16 @@
      "frac": 0.501
     },
     {
-     "name": "tpm",
-     "left": 7430,
-     "cap": 8000,
-     "frac": 0.9287
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
     },
     {
-     "name": "rpm",
-     "left": 29,
-     "cap": 30,
-     "frac": 0.9667
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -436,18 +436,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 129,
+     "left": 126,
      "cap": 200,
-     "frac": 0.645
+     "frac": 0.63
     },
     {
      "name": "rpm",
-     "left": 10,
+     "left": 7,
      "cap": 10,
-     "frac": 1.0
+     "frac": 0.7
     }
    ],
-   "worst": 0.645
+   "worst": 0.63
   },
   {
    "bucket": "hyperbolic:free",
@@ -456,9 +456,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 178,
+     "left": 177,
      "cap": 200,
-     "frac": 0.89
+     "frac": 0.885
     },
     {
      "name": "rpm",
@@ -467,7 +467,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.89
+   "worst": 0.885
   },
   {
    "bucket": "kluster:free",
@@ -675,60 +675,70 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
+     "name": "rpd",
+     "left": 282,
+     "cap": 500,
+     "frac": 0.564
     },
     {
-     "name": "rpd",
-     "left": 285,
-     "cap": 500,
-     "frac": 0.57
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.564
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 27,
-  "per_hour": 108,
+  "calls": 52,
+  "per_hour": 208,
   "buckets": [
    {
     "bucket": "zai:free",
-    "calls": 6,
+    "calls": 9,
     "ok": 6
    },
    {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 4,
-    "ok": 0
-   },
-   {
     "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 4,
+    "calls": 8,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 4,
+    "calls": 8,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 7,
     "ok": 0
    },
    {
     "bucket": "huggingface:free",
-    "calls": 4,
-    "ok": 4
+    "calls": 7,
+    "ok": 7
+   },
+   {
+    "bucket": "ollama:local",
+    "calls": 3,
+    "ok": 0
    },
    {
     "bucket": "cloudflare:free",
-    "calls": 1,
+    "calls": 2,
     "ok": 0
    },
    {
     "bucket": "cohere:free",
-    "calls": 1,
-    "ok": 1
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 2,
+    "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-120b",
@@ -741,7 +751,12 @@
     "ok": 1
    },
    {
-    "bucket": "hyperbolic:free",
+    "bucket": "mistral:free",
+    "calls": 1,
+    "ok": 1
+   },
+   {
+    "bucket": "openrouter:free",
     "calls": 1,
     "ok": 0
    }
@@ -760,11 +775,11 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 40400,
+   "done": 43200,
    "total": 54468,
-   "detail": "35,948 pages  \u00b7  678M characters  \u00b7  24.6/s",
+   "detail": "38,555 pages  \u00b7  767M characters  \u00b7  20.9/s",
    "warn": "",
-   "eta_h": 0.2
+   "eta_h": 0.1
   }
  ],
  "library": {
@@ -781,7 +796,7 @@
    "read": 32400,
    "settled": 38896,
    "feats": 14882,
-   "age_h": 0.1
+   "age_h": 0.2
   },
   "phases": [
    {
@@ -802,19 +817,19 @@
    },
    {
     "name": "cosmology",
-    "built": false
+    "built": true
    },
    {
     "name": "history",
-    "built": false
+    "built": true
    },
    {
     "name": "shelve",
-    "built": false
+    "built": true
    },
    {
     "name": "write",
-    "built": false
+    "built": true
    }
   ],
   "readfeats": 31
@@ -852,20 +867,20 @@
   "broken": [],
   "swallowed": [
    [
+    "silent:endpoint.py:fetch_html:HTTPError",
+    2713
+   ],
+   [
     "silent:hostcheck.py:probe:HTTPError",
     2618
    ],
    [
-    "silent:endpoint.py:fetch_html:HTTPError",
-    2119
+    "silent:endpoint.py:fetch_raw-http:HTTPError",
+    1782
    ],
    [
     "silent:endpoint.py:detect-api:HTTPError",
     1706
-   ],
-   [
-    "silent:endpoint.py:fetch_raw-http:HTTPError",
-    1700
    ],
    [
     "silent:endpoint.py:detect-raw:HTTPError",
@@ -876,14 +891,14 @@
     419
    ]
   ],
-  "swallowed_total": 11073
+  "swallowed_total": 11755
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 108,
+   "observed": 208,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -892,7 +907,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 26,
+   "observed": 27,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -901,7 +916,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "19% dry",
+   "observed": "16% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -919,7 +934,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "48% ok",
+   "observed": "35% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -964,7 +979,7 @@
    "standard": "page roll complete",
    "group": "read",
    "holds": false,
-   "observed": "74%",
+   "observed": "79%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -973,7 +988,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.1h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1018,20 +1033,20 @@
    "standard": "phases implemented",
    "group": "code",
    "holds": true,
-   "observed": "4/8",
+   "observed": "8/8",
    "floor": "at least 4",
-   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: cosmology, history, shelve, write",
+   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: none",
    "severity": "low"
   },
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "11,073",
+   "observed": "11,755",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T16:22:01"
+ "generated": "2026-08-22T16:28:50"
 }

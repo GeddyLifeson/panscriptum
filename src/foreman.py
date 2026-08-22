@@ -143,6 +143,63 @@ def adopt_hosts():
     return bool(tail), (tail[-1] if tail else "no adoption line in output")
 
 
+def scout_hostless():
+    """Ask the model where the sources with no host publish, and verify every answer.
+
+    This was the last step that needed a person: knowing that KibblesTasty's material is at
+    kthomebrew.com in the first place. `scout` asks the model and then PROVES each URL by
+    fetching it and checking the page contains this source's own catalogued names -- a
+    hallucinated URL 404s, a real URL about something else contains none of them. Nothing is
+    registered on the model's say-so.
+    """
+    try:
+        import scout as SC
+        res = SC.sweep(limit=4)
+        found = sum(1 for r in res if r.get("kept"))
+        return bool(found), f"{found} of {len(res)} sources given somewhere to read from"
+    except Exception as e:
+        silence.note("foreman.py:scout_hostless")
+        return False, f"{type(e).__name__}: {str(e)[:80]}"
+
+
+def rerun_roll():
+    """The page roll has not finished its pass. It is network-bound, so a stall is a host
+    problem rather than a quota one -- and the supervisor restarts it next cycle anyway. This
+    reports rather than acts, because two rolls at once is the failure the supervisor exists to
+    prevent."""
+    try:
+        import overnight as ON
+        if ON.running("feats.py"):
+            return True, "roll is running; it will finish its pass"
+    except Exception:
+        silence.note("foreman.py:rerun_roll")
+    return False, "roll is not running -- the supervisor starts it next cycle"
+
+
+def triage_swallowed():
+    """A spike in swallowed failures means something upstream is failing and being tolerated.
+
+    The remedy is not to clear the ledger -- that would be deleting the evidence. It is to name
+    the top classes, because the class names the module and the line, and a class that is 90% of
+    the total is a single fault wearing thousands of hats.
+    """
+    path = os.path.join(HERE, "state", "failures.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+    except Exception:
+        silence.note("foreman.py:triage_swallowed")
+        return False, "no ledger"
+    if not d:
+        return False, "ledger empty"
+    top = sorted(d.items(), key=lambda kv: -kv[1])[:3]
+    total = sum(d.values())
+    share = top[0][1] / max(total, 1)
+    detail = "; ".join(f"{k} x{v:,}" for k, v in top)
+    # A single class dominating is a finding worth escalating rather than tolerating.
+    return share < 0.5, f"{total:,} swallowed, top: {detail}"
+
+
 def refresh_coverage():
     """Re-measure cited/settled. Stale figures understate the library and mislead every other
     standard that reads them."""
@@ -169,9 +226,17 @@ REMEDIES = {
     "calls that succeed": [clear_learned_caps, reprove_pool],
     "model calls per hour": [clear_learned_caps, reprove_pool],
     "buckets with headroom": [reprove_pool],
-    "sources with a reachable wiki": [adopt_hosts],
     "coverage figures are current": [refresh_coverage],
     "corpus read is progressing": [restart_reader],
+    "sources with a reachable wiki": [adopt_hosts, scout_hostless],
+    "page roll complete": [rerun_roll],
+    "swallowed failures not spiking": [triage_swallowed],
+    # Both of these are the throughput standard wearing a different name: a passage nobody
+    # answered and a read that will not finish are what a starved pool looks like from the
+    # reader's side. Same diagnosis, same remedies -- and routing them to the owner instead
+    # would put a capacity problem in a file meant for decisions about money.
+    "chunks nobody answered": [clear_learned_caps, reprove_pool],
+    "corpus read finishes inside a day": [clear_learned_caps, reprove_pool],
 }
 
 
