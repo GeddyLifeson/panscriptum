@@ -298,6 +298,24 @@ def attempt_patch(finding, dry=True):
 
 # =========================================================================== the round
 
+def _pool_has_room(floor=600):
+    """Is there spare provider capacity, or is the corpus read starving?
+
+    Reading the library is the work. Repairing the code is what protects the work, and the
+    watcher, the publisher and this all draw on the same few hundred calls an hour the free tiers
+    allow. Four of my own processes competing for one thin pool is a self-inflicted outage, and
+    the reader is the one that must not lose.
+
+    A patch attempt costs several calls and the finding will still be there in half an hour.
+    """
+    try:
+        import dashboard as D
+        return (D.throughput(10) or {}).get("per_hour", 0) >= floor
+    except Exception:
+        silence.note("foreman.py:pool_has_room")
+        return False
+
+
 def owner_queue(items):
     """Everything nobody but the owner can decide, in one file they can read in ten seconds."""
     lines = ["# FOR THE OWNER", "",
@@ -353,7 +371,9 @@ def round_once(dry=True, patch=False):
             if did:
                 break
 
-    if patch:
+    if patch and not _pool_has_room():
+        print("   MODEL  skipped: the pool is below the floor and the corpus read needs it")
+    if patch and _pool_has_room():
         try:
             led = json.load(open(os.path.join(HERE, "data", "OVERWATCH.json"), encoding="utf-8"))
             open_f = [f for f in (led.get("findings") or {}).values()
