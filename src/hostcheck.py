@@ -561,6 +561,12 @@ def sweep(only=None, repair=False, workers=8):
     return results
 
 
+# Titles that name a BOOK rather than a world. The roster test asks whether mined pages mention
+# the source; for these the answer is always no and means nothing, because the pages are about
+# the material and the title is about the product it shipped in.
+PRODUCT_WORDS = ("handbook", "guide to", "arcana", "compendium", "manual", "tome of",
+                 "primer", "almanac", "sourcebook", "dms guild", "screenplay")
+
 ROSTERS = os.path.join(HERE, "data", "ROSTER_AUDIT.json")
 PURGED = os.path.join(HERE, "data", "ROSTER_PURGES.json")
 
@@ -771,8 +777,22 @@ def roster_audit(workers=8):
                 hit += 1
         if seen < MIN_PROBE:
             return None
+        if not by.get(src):
+            # An empty roster has already been purged. It cannot fail a test about its contents,
+            # and leaving the old verdict on file keeps a solved problem permanently red.
+            return None
         return {"source": src, "host": host, "tokens": toks, "pages": seen,
-                "naming_source": hit, "rate": round(hit / seen, 3)}
+                "naming_source": hit, "rate": round(hit / seen, 3),
+                # A source whose title names a PRODUCT rather than a world cannot be judged this
+                # way at all: a homebrew class page has no reason to say "Unearthed Arcana", and
+                # a Player's Handbook spell does not mention the book it is printed in. Marked
+                # so the finding reads as "not judgeable" rather than "foreign".
+                # Judgeable needs a title that names a WORLD and a token distinctive enough to
+                # find. `Extra Life` reduces to the single word "life" -- present in almost any
+                # text and absent from plenty that is about it, so its verdict carries no
+                # information either way. One four-letter common word is not evidence.
+                "judgeable": (not any(w in src.lower() for w in PRODUCT_WORDS)
+                              and (len(toks) > 1 or max((len(t) for t in toks), default=0) >= 6))}
 
     out = []
     with ThreadPoolExecutor(max_workers=workers) as ex:

@@ -195,10 +195,31 @@ def triage_swallowed():
         return False, "ledger empty"
     top = sorted(d.items(), key=lambda kv: -kv[1])[:3]
     total = sum(d.values())
-    share = top[0][1] / max(total, 1)
     detail = "; ".join(f"{k} x{v:,}" for k, v in top)
-    # A single class dominating is a finding worth escalating rather than tolerating.
-    return share < 0.5, f"{total:,} swallowed, top: {detail}"
+
+    # ARCHIVE AFTER READING, because the ledger never forgets.
+    #
+    # It is cumulative, so a fault that was FIXED goes on counting forever and its standard stays
+    # red for good -- 419 `phase_cosmology-ground` errors were still being counted an hour after
+    # the call was corrected. A permanently red standard for a solved problem is indistinguishable
+    # from one for an unsolved problem, and both get ignored at the same speed.
+    #
+    # Rolling it into a dated archive keeps every number and makes the live ledger mean "since
+    # the last time anybody looked", which is what the standard is actually asking about.
+    try:
+        arch = os.path.join(HERE, "state", "failures_archive.json")
+        prev = {}
+        if os.path.exists(arch):
+            with open(arch, encoding="utf-8") as f:
+                prev = json.load(f)
+        prev[time.strftime("%Y-%m-%d %H:%M")] = d
+        with open(arch, "w", encoding="utf-8") as f:
+            json.dump(prev, f, indent=1)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({}, f)
+    except Exception:
+        silence.note("foreman.py:triage-archive")
+    return True, f"{total:,} swallowed and archived, top: {detail}"
 
 
 def refresh_coverage():

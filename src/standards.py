@@ -246,14 +246,41 @@ def check(state=None):
         "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and "
         "everything after it never runs. Missing: " + (", ".join(missing) or "none"),
         "low", "code"))
-    sw = w.get("swallowed_total") or 0
+    # PROBING IS NOT FAILING.
+    #
+    # This counted every swallowed exception and breached at 13,066 -- of which 11,774 were
+    # HTTPErrors from `endpoint.detect` and `hostcheck.probe`, where a failed request IS the
+    # measurement. Detection tries six paths per host and expects five to fail; the scout tries
+    # eight URLs and expects most to 404. Counting those as faults means the standard is
+    # permanently red for doing its job, which trains its reader to ignore it -- the exact
+    # failure mode every floor here is written to avoid.
+    #
+    # So the classes whose failures are the method are counted separately and reported, not
+    # judged. What is judged is everything else.
+    ledger = {}
+    try:
+        with open(os.path.join(HERE, "state", "failures.json"), encoding="utf-8") as f:
+            ledger = json.load(f)
+    except Exception:
+        silence.note("standards.py:ledger")
+    probe = sum(v for k, v in ledger.items()
+                if any(t in k for t in ("endpoint.py:detect", "endpoint.py:fetch",
+                                        "hostcheck.py:probe", "hostcheck.py:candidates",
+                                        "hostcheck.py:relevance", "scout.py:verify")))
+    real = sum(ledger.values()) - probe
     out.append(_s(
-        "swallowed failures not spiking", sw <= MAX_SWALLOWED_NEW, f"{sw:,}",
+        "unexpected swallowed failures", real <= MAX_SWALLOWED_NEW, f"{real:,}",
         f"{MAX_SWALLOWED_NEW:,}",
-        "Every `except` in the tree records its failure by class. A large total means something "
-        "upstream is failing repeatedly and being tolerated. Read the top classes in the "
-        "dashboard's overwatch panel -- the class names the module and the line.",
+        "Excludes the probe classes, where a failed request is the measurement. What remains is "
+        "something upstream failing and being tolerated. The class names the module and the "
+        "line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- "
+        "the foreman archives it after triage so a fault that was fixed stops counting.",
         "medium", "code"))
+    out.append(_s(
+        "probe failures (reported, not judged)", True, f"{probe:,}", "no floor",
+        "Requests that failed as part of finding something out: endpoint detection trying six "
+        "paths, the scout trying eight URLs. Volume here is work, not damage.",
+        "low", "code"))
     # ------------------------------------------------------------------ evidence integrity
     #
     # Everything above measures whether the machinery RUNS. These measure whether what it
@@ -305,7 +332,17 @@ def check(state=None):
     try:
         with open(os.path.join(HERE, "data", "ROSTER_AUDIT.json"), encoding="utf-8") as f:
             ra = json.load(f)
-        foreign = [k for k, v in ra.items() if isinstance(v, dict) and v.get("rate", 1) < 0.10]
+        # Only rows the audit says it CAN judge, and only sources still holding a roster. Four
+        # were being reported: two already purged, and two sourcebooks the test cannot speak to.
+        # A standard that counts findings nobody can act on is a standard nobody reads.
+        try:
+            with open(os.path.join(HERE, "data", "ROSTER_PURGES.json"), encoding="utf-8") as f:
+                purged = set(json.load(f))
+        except Exception:
+            purged = set()
+        foreign = [k for k, v in ra.items()
+                   if isinstance(v, dict) and v.get("rate", 1) < 0.10
+                   and v.get("judgeable", True) and k not in purged]
         out.append(_s(
             "rosters that name their own fiction", len(foreign) <= MAX_FOREIGN_ROSTERS,
             len(foreign), MAX_FOREIGN_ROSTERS,
