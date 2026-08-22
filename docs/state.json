@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 16:42:04",
+ "at": "2026-08-22 16:42:16",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 5,
-     "frac": 0.4
+     "frac": 0.2
     }
    ],
    "worst": 0.0
@@ -302,68 +302,36 @@
    "worst": 1.0
   },
   {
-   "bucket": "groq:llama-3.1-8b-instant",
+   "bucket": "groq:groq/compound-mini",
    "model": "groq-llama31-8b",
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
-    },
-    {
-     "name": "rpd",
-     "left": 14400,
-     "cap": 14400,
-     "frac": 1.0
-    },
-    {
      "name": "tpm",
-     "left": 6000,
+     "left": 5243,
      "cap": 6000,
-     "frac": 1.0
+     "frac": 0.8738
+    },
+    {
+     "name": "rpm",
+     "left": 28,
+     "cap": 30,
+     "frac": 0.9333
     },
     {
      "name": "tpd",
-     "left": 500000,
+     "left": 499237,
      "cap": 500000,
-     "frac": 1.0
-    }
-   ],
-   "worst": 1.0
-  },
-  {
-   "bucket": "groq:llama-3.3-70b-versatile",
-   "model": "groq-llama33-70b",
-   "unlimited": false,
-   "windows": [
-    {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
+     "frac": 0.9985
     },
     {
      "name": "rpd",
-     "left": 1000,
-     "cap": 1000,
-     "frac": 1.0
-    },
-    {
-     "name": "tpm",
-     "left": 12000,
-     "cap": 12000,
-     "frac": 1.0
-    },
-    {
-     "name": "tpd",
-     "left": 100000,
-     "cap": 100000,
-     "frac": 1.0
+     "left": 14397,
+     "cap": 14400,
+     "frac": 0.9998
     }
    ],
-   "worst": 1.0
+   "worst": 0.8738
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -396,6 +364,38 @@
     }
    ],
    "worst": 0.0
+  },
+  {
+   "bucket": "groq:openai/gpt-oss-20b",
+   "model": "groq-llama33-70b",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 29,
+     "cap": 30,
+     "frac": 0.9667
+    },
+    {
+     "name": "rpd",
+     "left": 998,
+     "cap": 1000,
+     "frac": 0.998
+    },
+    {
+     "name": "tpd",
+     "left": 99913,
+     "cap": 100000,
+     "frac": 0.9991
+    },
+    {
+     "name": "tpm",
+     "left": 12000,
+     "cap": 12000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 0.9667
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -442,9 +442,9 @@
     },
     {
      "name": "rpm",
-     "left": 9,
+     "left": 10,
      "cap": 10,
-     "frac": 0.9
+     "frac": 1.0
     }
    ],
    "worst": 0.595
@@ -576,18 +576,18 @@
    "windows": [
     {
      "name": "rpm",
-     "left": 32,
+     "left": 30,
      "cap": 40,
-     "frac": 0.8
+     "frac": 0.75
     },
     {
      "name": "rpd",
-     "left": 992,
+     "left": 990,
      "cap": 1000,
-     "frac": 0.992
+     "frac": 0.99
     }
    ],
-   "worst": 0.8
+   "worst": 0.75
   },
   {
    "bucket": "openrouter:free",
@@ -692,8 +692,8 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 120,
-  "per_hour": 480,
+  "calls": 125,
+  "per_hour": 500,
   "buckets": [
    {
     "bucket": "zai:free",
@@ -727,8 +727,8 @@
    },
    {
     "bucket": "nvidia:free",
-    "calls": 8,
-    "ok": 8
+    "calls": 10,
+    "ok": 10
    },
    {
     "bucket": "ollama:llama3.1:latest",
@@ -742,8 +742,13 @@
    },
    {
     "bucket": "cohere:free",
-    "calls": 4,
-    "ok": 4
+    "calls": 5,
+    "ok": 5
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 3,
+    "ok": 2
    },
    {
     "bucket": "groq:openai/gpt-oss-120b",
@@ -773,11 +778,6 @@
    {
     "bucket": "groq:openai/gpt-oss-20b",
     "calls": 2,
-    "ok": 1
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 1,
     "ok": 1
    },
    {
@@ -852,19 +852,19 @@
    },
    {
     "name": "cosmology",
-    "built": false
+    "built": true
    },
    {
     "name": "history",
-    "built": false
+    "built": true
    },
    {
     "name": "shelve",
-    "built": false
+    "built": true
    },
    {
     "name": "write",
-    "built": false
+    "built": true
    }
   ],
   "readfeats": 31
@@ -903,7 +903,7 @@
   "swallowed": [
    [
     "silent:endpoint.py:fetch_html:HTTPError",
-    3878
+    3903
    ],
    [
     "silent:hostcheck.py:probe:HTTPError",
@@ -926,14 +926,14 @@
     419
    ]
   ],
-  "swallowed_total": 12937
+  "swallowed_total": 12962
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 480,
+   "observed": 500,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -969,7 +969,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "28% ok",
+   "observed": "30% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1068,20 +1068,20 @@
    "standard": "phases implemented",
    "group": "code",
    "holds": true,
-   "observed": "4/8",
+   "observed": "8/8",
    "floor": "at least 4",
-   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: cosmology, history, shelve, write",
+   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: none",
    "severity": "low"
   },
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "12,937",
+   "observed": "12,962",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T16:42:04"
+ "generated": "2026-08-22T16:42:17"
 }
