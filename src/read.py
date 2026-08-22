@@ -33,6 +33,7 @@ standing between a fluent paraphrase and a printed measurement.
 """
 import argparse
 import collections
+import hashlib
 import json
 import os
 import re
@@ -411,6 +412,46 @@ def cache_path(host, name):
                         re.sub(r"[^A-Za-z0-9]+", "_", name)[:80] + ".json")
 
 
+CHUNK_CACHE = os.path.join(HERE, "data", "chunkfeats")
+
+
+def _chunk_key(host, ch):
+    """A chunk's identity: its exact text. Independent of which entity asked for it.
+
+    Two entities attached to the same shared index page read the same passage, and there is no
+    reason to pay for it twice -- so the key is the passage, not the pair.
+    """
+    h = hashlib.sha256((host + chr(31) + ch).encode("utf-8")).hexdigest()
+    return h[:2], h[2:18]
+
+
+def _chunk_get(host, ch):
+    d, name = _chunk_key(host, ch)
+    p = os.path.join(CHUNK_CACHE, d, name + ".json")
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        silence.note("read.py:chunk_get")
+        return None
+
+
+def _chunk_put(host, ch, feats):
+    d, name = _chunk_key(host, ch)
+    folder = os.path.join(CHUNK_CACHE, d)
+    try:
+        os.makedirs(folder, exist_ok=True)
+        p = os.path.join(folder, name + ".json")
+        tmp = p + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump({"feats": feats}, f, ensure_ascii=False)
+        os.replace(tmp, p)
+    except Exception:
+        silence.note("read.py:chunk_put")
+
+
 def read_entity(c, host, name, cap_chunks=None):
     """Read one entity's cached pages with the model. Returns verified feats by axis."""
     path = cache_path(host, name)
@@ -465,8 +506,21 @@ def read_entity(c, host, name, cap_chunks=None):
         chunks = chunks[:cap_chunks]
     skipped = sum(len(b) for b in text.values()) // size - len(chunks)
 
+    # ANSWERS ARE CACHED PER CHUNK, NOT PER ENTITY.
+    #
+    # An entity is written only when every one of its chunks was answered -- correct, because a
+    # partial record is cached forever and reads as an entity with fewer feats. But with a thin
+    # pool almost every entity had at least one unanswered chunk, so almost nothing was ever
+    # written, and each pass re-read from scratch the same passages it had already paid for.
+    # Work happened; nothing accumulated. Forty-five entities in an hour, 168 chunks abandoned,
+    # and an estimate of 582 hours that really meant never.
+    #
+    # Caching the ANSWER TO A PASSAGE fixes it without weakening the guard: a retry re-asks only
+    # what is still missing, so every call ever made counts for something. The key is the
+    # passage text, so two entities sharing a wiki index page pay for it once between them.
     kept, fabricated, generic = [], 0, 0
     unanswered = 0
+    reused = 0
     for title, ch in chunks:
         # _ask, NOT P.ask. This one line is why every transport fix above did nothing.
         #
@@ -475,8 +529,15 @@ def read_entity(c, host, name, cap_chunks=None):
         # unconditionally. The hot loop called the second, so the reader spent the morning
         # serialising on one 10GB card while thirteen cloud buckets sat idle -- and every
         # diagnostic pointed at Cascade, because Cascade was never being asked.
-        got = _ask(c, SYSTEM, "ENTITY: " + name + "\nPAGE: " + title + "\n\n" + ch,
-                   SCHEMA)
+        cached = _chunk_get(host, ch)
+        if cached is not None:
+            got = cached
+            reused += 1
+        else:
+            got = _ask(c, SYSTEM, "ENTITY: " + name + "\nPAGE: " + title + "\n\n" + ch,
+                       SCHEMA)
+            if got is not None:
+                _chunk_put(host, ch, (got or {}).get("feats", []))
         if got is None:
             # NOBODY ANSWERED. Not "this passage holds no feats" -- nobody read it. Every
             # transport declined: the pool was exhausted or erroring and the GPU was benched.
@@ -511,6 +572,7 @@ def read_entity(c, host, name, cap_chunks=None):
 
     out = {"entity": name, "host": host, "pages": sorted(text),
            "chunks_read": len(chunks) - unanswered, "chunks_unanswered": unanswered,
+           "chunks_reused": reused,
            "chunks_skipped": max(0, skipped),
            "feats": kept, "fabricated_dropped": fabricated,
            "generic_dropped": generic,

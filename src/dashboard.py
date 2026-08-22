@@ -256,6 +256,64 @@ def watch():
     return out
 
 
+HISTORY = os.path.join(STATE, "dashboard_history.json")
+# How far back "moved" looks. Long enough that slow work still registers, short enough that the
+# number answers "is it going right now" rather than "did it ever".
+MOVED_WINDOW_MIN = 30
+
+
+def movement(now_state):
+    """What has CHANGED, not what the level is.
+
+    The panel showed bars and the bars did not move, so it read as a system doing nothing --
+    which was half right and impossible to tell from the levels alone. A progress bar at 12.8%
+    looks identical whether it reached 12.8% a minute ago or three hours ago.
+
+    So every reading is appended to a small history and the deltas are computed against the
+    oldest sample inside the window. A number that has not moved now SAYS it has not moved,
+    which is the difference between an instrument and a decoration.
+    """
+    keys = {
+        "cited": ((now_state.get("library") or {}).get("coverage") or {}).get("cited"),
+        "settled": ((now_state.get("library") or {}).get("coverage") or {}).get("settled"),
+        "feats": ((now_state.get("library") or {}).get("coverage") or {}).get("feats"),
+        "entities read": (now_state.get("library") or {}).get("readfeats"),
+        "chunks": next((j.get("done") for j in (now_state.get("jobs") or [])
+                        if j.get("name") == "corpus read"), None),
+        "standards met": sum(1 for x in (now_state.get("standards") or []) if x.get("holds")),
+    }
+    row = {"at": time.time(), **{k: v for k, v in keys.items() if v is not None}}
+    try:
+        hist = []
+        if os.path.exists(HISTORY):
+            with open(HISTORY, encoding="utf-8") as f:
+                hist = json.load(f)
+        hist.append(row)
+        cutoff = time.time() - 24 * 3600
+        hist = [h for h in hist if h.get("at", 0) > cutoff][-2000:]
+        tmp = HISTORY + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(hist, f)
+        os.replace(tmp, HISTORY)
+    except Exception:
+        silence.note("dashboard.py:movement")
+        return []
+
+    window = time.time() - MOVED_WINDOW_MIN * 60
+    older = [h for h in hist if h.get("at", 0) <= window]
+    base = older[-1] if older else (hist[0] if hist else {})
+    span = (row["at"] - base.get("at", row["at"])) / 60 if base else 0
+    out = []
+    for k, v in keys.items():
+        if v is None:
+            continue
+        was = base.get(k)
+        delta = None if was is None else v - was
+        out.append({"metric": k, "now": v, "delta": delta,
+                    "minutes": round(span), "stalled": delta == 0 and span >= 10})
+    return out
+
+
 def state():
     s = {"at": time.strftime("%Y-%m-%d %H:%M:%S"), "quotas": quotas(),
          "throughput": throughput(), "jobs": jobs(), "library": library(),
@@ -266,6 +324,7 @@ def state():
     except Exception:
         silence.note("dashboard.py:standards")
         s["standards"] = []
+    s["movement"] = movement(s)
     return s
 
 
@@ -341,6 +400,7 @@ footer{padding:0 30px 40px;font-family:var(--mono);font-size:10.5px;color:var(--
 .order{margin:10px 0 0;padding:10px 12px;background:var(--panel-2);border-left:2px solid var(--warn)}
 .otitle{font-family:var(--mono);font-size:11px;color:var(--warn);margin-bottom:5px}
 .obody{font-size:13.5px;color:var(--ink-dim);line-height:1.5}
+td.up{color:var(--good)} td.down{color:var(--bad);font-weight:600}
 </style></head><body>
 <header>
   <h1>Panscriptum · Instruments</h1>
@@ -357,6 +417,26 @@ const cls=f=>f<=0.001?'bad':f<0.15?'bad':f<0.4?'warn':'good';
 const pct=f=>(f*100).toFixed(0)+'%';
 function bar(frac,kind){const b=el('div','bar');const i=el('i',kind||cls(frac));
   i.style.width=Math.max(0,Math.min(1,frac))*100+'%';b.appendChild(i);return b}
+
+function panelMovement(d){const s=el('section','wide');
+  s.appendChild(el('h2',null,'Movement — what has changed, not what the level is'));
+  const M=d.movement||[];
+  if(!M.length){s.appendChild(el('div','empty','No history yet. Deltas appear after the second reading.'));return s}
+  const t=el('table');
+  M.forEach(m=>{const tr=el('tr');
+    const d1=el('td','k',m.metric);
+    const d2=el('td',null,(m.now||0).toLocaleString());
+    let txt='—', cls='';
+    if(m.delta===null||m.delta===undefined){txt='first reading'}
+    else if(m.delta>0){txt='+'+m.delta.toLocaleString()+' in '+m.minutes+' min';cls='up'}
+    else if(m.delta<0){txt=m.delta.toLocaleString()+' in '+m.minutes+' min';cls='down'}
+    else{txt=m.stalled?('NO CHANGE in '+m.minutes+' min'):'no change yet';cls=m.stalled?'down':''}
+    const d3=el('td',cls,txt);
+    tr.append(d1,d2,d3);t.appendChild(tr)});
+  s.appendChild(t);
+  s.appendChild(el('div','sub','A bar that has not moved looks identical to one that just '+
+    'moved. This says which.'));
+  return s}
 
 function panelStandards(d){const s=el('section','wide');
   const S=d.standards||[];
@@ -480,8 +560,8 @@ async function tick(){
   try{const d=await (await fetch('/api/state',{cache:'no-store'})).json();
     document.getElementById('stamp').textContent=d.at;
     const w=document.getElementById('wrap');w.innerHTML='';
-    w.append(panelStandards(d),panelJobs(d),panelQuota(d),panelSpend(d),panelLibrary(d),
-             panelPhases(d),panelWatch(d));
+    w.append(panelMovement(d),panelStandards(d),panelJobs(d),panelQuota(d),panelSpend(d),
+             panelLibrary(d),panelPhases(d),panelWatch(d));
   }catch(e){document.getElementById('stamp').textContent='server unreachable';}
 }
 tick();setInterval(tick,5000);
