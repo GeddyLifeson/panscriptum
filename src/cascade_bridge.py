@@ -286,7 +286,7 @@ def dead_buckets():
         return {b: round(t - now) for b, t in _DEAD.items() if t > now}
 
 
-def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75):
+def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75, pin=None):
     """One structured call through Cascade. Returns a parsed dict, or None.
 
     Mirrors pipeline.ask() so a caller can swap transports without changing anything else.
@@ -309,7 +309,15 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75)
     # So a timeout is remembered. The bucket is skipped for DEAD_FOR seconds and the claim is
     # retried, which costs one extra claim and buys back the whole worker.
     pinned = None
-    for _ in range(4):
+    if pin:
+        # A named model, claim or no claim. `prove()` needs to ask ONE bucket whether it works,
+        # and the router's job is the opposite -- to pick for you. Without this the prover would
+        # test whichever bucket happened to be least busy, twenty-eight times.
+        pinned = next((m for m in _ROUTER.models if m.id == pin), None)
+        if pinned is None:
+            return None
+        _ROUTER.reserve(pinned)
+    for _ in range(4 if pin is None else 0):
         claimed = _ROUTER.claim(pool, 1)
         if not claimed:
             break
@@ -457,7 +465,7 @@ def prove(pool="coding", timeout=45):
         try:
             got = ask("Reply with JSON only.", 'Return {"ok": true}',
                       {"type": "object", "properties": {"ok": {"type": "boolean"}},
-                       "required": ["ok"]}, pool=pool, timeout=timeout)
+                       "required": ["ok"]}, pool=pool, timeout=timeout, pin=m.id)
             verdict = "answers" if got else "no answer"
         except Exception as ex:
             silence.note("cascade_bridge.py:prove")

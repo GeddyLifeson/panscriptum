@@ -42,6 +42,7 @@ Usage:
 import argparse
 import datetime
 import glob
+import collections
 import json
 import os
 import re
@@ -878,6 +879,244 @@ def phase_chain(c, st):
     save_state(st)
 
 
+def phase_cosmology(c, st):
+    """Phase 5 -- chart the tiers, and answer the First Argument per cosmos.
+
+    Every piece of this existed and nothing dispatched to it. `tiers.chart` places each source in
+    a multiverse, metaverse, xenoverse and hyperverse from the resonance graph phase 3 built;
+    `grounding` answers what each cosmos says about its own origin; `cosmography.census` gives the
+    population arithmetic; `address_space` turns a tier stack into a real 89-bit address. Four
+    finished modules and no phase, so none of it ever ran inside the pipeline.
+
+    What comes out is the shelving skeleton: which universe a thing is in, as a number the Ladder
+    can read, instead of the charter's honest-but-empty `omega > ? > ?` placeholder.
+    """
+    import tiers as T
+    import grounding as G
+    import cosmography as CG
+    import address_space as AS
+
+    # chart() returns a tuple; the first element is the per-source tier stack. Unpacking by
+    # position rather than assuming a dict, because assuming cost a TypeError on the first run.
+    charted = T.chart()
+    if isinstance(charted, tuple):
+        charted = charted[0]
+    log("phase 5 cosmology: %d sources charted across the tiers" % len(charted))
+    json.dump(charted, open(os.path.join(HERE, "data/TIERS.json"), "w", encoding="utf-8"),
+              indent=1, ensure_ascii=False)
+
+    grounds = {}
+    for src in charted:
+        try:
+            grounds[src] = G.classify_source(src)
+        except Exception:
+            silence.note("pipeline.py:phase_cosmology-ground")
+            grounds[src] = {"type": G.UNGROUNDED}
+    def _kind(v):
+        if isinstance(v, dict):
+            return v.get("type") or v.get("grounding") or "ungrounded"
+        return str(v)
+    kinds = collections.Counter(_kind(v) for v in grounds.values())
+    log("  grounding: " + ", ".join("%s %d" % (k, n) for k, n in kinds.most_common(6)))
+    json.dump(grounds, open(os.path.join(HERE, "data/GROUNDINGS.json"), "w", encoding="utf-8"),
+              indent=1, ensure_ascii=False)
+
+    cen = CG.census("STANDARD")
+    log("  census: %.3g worlds, %.3g in a habitable zone, %.3g civilisations extant"
+        % (cen["exoplanets"], cen["habitable_zone_rocky"], cen["civilizations_extant"]))
+    json.dump(cen, open(os.path.join(HERE, "data/CENSUS.json"), "w", encoding="utf-8"),
+              indent=1, ensure_ascii=False)
+
+    try:
+        seeds = json.load(open(os.path.join(HERE, "data/WORLDSEEDS.json"), encoding="utf-8"))
+    except Exception:
+        silence.note("pipeline.py:phase_cosmology-seeds")
+        seeds = {}
+    marks = {}
+    for desig in seeds:
+        src = desig.split("::")[0]
+        addr = AS.assign(desig, charted.get(src) or {})
+        marks[desig] = {"address": addr, "shelfmark": AS.shelfmark(addr),
+                        "map_seed": AS.map_seed(addr)}
+    dupes = len(marks) - len({v["address"] for v in marks.values()})
+    log("  addressed %d worlds, %d collision(s)" % (len(marks), dupes))
+    json.dump(marks, open(os.path.join(HERE, "data/SHELFMARKS.json"), "w", encoding="utf-8"),
+              indent=1, ensure_ascii=False)
+
+    st["done"].setdefault("cosmology", []).append("all")
+    st["units_done"] += 1
+    save_state(st)
+
+
+def phase_history(c, st):
+    """Phase 6 -- the Chain of Record, and what "now" can mean across shelves.
+
+    `tempus` settles a question the Chronicle had been quietly assuming an answer to. Simultaneity
+    between universes has no physical referent -- there is no shared frame, so "at the same time"
+    means nothing between them. The library's `now` is therefore INSTITUTIONAL: two events are
+    contemporary iff they were accessioned together.
+
+    This phase computes that. Each source gets an ascension mark; shelves sharing a mark are
+    contemporary; and that grouping is the only claim about omniversal time the charter can
+    actually support.
+    """
+    import tempus as TP
+    try:
+        tiersd = json.load(open(os.path.join(HERE, "data/TIERS.json"), encoding="utf-8"))
+    except Exception:
+        silence.note("pipeline.py:phase_history-tiers")
+        log("phase 6 history: no charted tiers on disk -- phase 5 has not run")
+        tiersd = {}
+
+    # `concordance_now` is the real entry point: it returns the registry's position and each
+    # shelf's mark against it. Guessing at a `mark()` that did not exist produced a phase that
+    # ran, reported "0 shelves", and looked like an empty result rather than a wrong call --
+    # which is the defect this whole project is organised against, committed inside a phase
+    # written to close it.
+    marks = {}
+    try:
+        con = TP.concordance_now(sorted(tiersd)) if tiersd else {}
+        marks = con.get("shelves") if isinstance(con, dict) else {}
+        marks = marks or (con if isinstance(con, dict) else {})
+    except Exception:
+        silence.note("pipeline.py:phase_history-concordance")
+    log("phase 6 history: %d shelves placed against the Chain of Record" % len(marks))
+
+    groups = collections.defaultdict(list)
+    for src, m in (marks or {}).items():
+        if isinstance(m, dict):
+            key = round(float(m.get("ascension", m.get("mark", 0)) or 0), 1)
+        else:
+            key = round(float(m or 0), 1)
+        groups[key].append(src)
+    biggest = max((len(v) for v in groups.values()), default=0)
+    log("  %d contemporaneity classes, largest holds %d shelves" % (len(groups), biggest))
+    json.dump({"marks": marks,
+               "contemporary": {str(k): v for k, v in sorted(groups.items())}},
+              open(os.path.join(HERE, "data/CHRONICLE.json"), "w", encoding="utf-8"),
+              indent=1, ensure_ascii=False)
+    st["done"].setdefault("history", []).append("all")
+    st["units_done"] += 1
+    save_state(st)
+
+
+def phase_shelve(c, st):
+    """Phase 7 -- put every entry on a shelf, with a real address and a real spine code.
+
+    This is where the library stops being a database. Each entry takes the charter's
+    Collection/Set/Series/Volume spine code and a Ladder-of-Being shelfmark from the address
+    space. Everything it needs was built in phases 3 to 6; nothing until now put them together.
+
+    Hard Rule 2 is enforced rather than worked around: about half the roll is not in the charter's
+    Acquisitions Index, and inventing a spine code for those is exactly what that rule forbids.
+    They are RECORDED as unspined, which is a finding the owner can act on, not a gap.
+    """
+    import address as AD
+    import weave_index as WI
+
+    try:
+        marks = json.load(open(os.path.join(HERE, "data/SHELFMARKS.json"), encoding="utf-8"))
+    except Exception:
+        silence.note("pipeline.py:phase_shelve-marks")
+        marks = {}
+    try:
+        tiersd = json.load(open(os.path.join(HERE, "data/TIERS.json"), encoding="utf-8"))
+    except Exception:
+        silence.note("pipeline.py:phase_shelve-tiers")
+        tiersd = {}
+
+    def spine_of(src):
+        try:
+            return AD.spine_code_for(src)
+        except Exception:
+            silence.note("pipeline.py:phase_shelve-spine")
+            return None
+
+    shelved, unspined = {}, set()
+    for r in WI.load_records():
+        src = r["source"]
+        spine = spine_of(src)
+        if not spine:
+            unspined.add(src)
+        for e in r.get("entries", []):
+            key = "%s::%s" % (src, e.get("name"))
+            shelved[key] = {"source": src, "name": e.get("name"),
+                            "category": e.get("category"), "spine": spine,
+                            "tier": tiersd.get(src),
+                            "shelfmark": (marks.get(key) or {}).get("shelfmark")}
+    log("phase 7 shelve: %d entries placed, %d source(s) with no charter spine code"
+        % (len(shelved), len(unspined)))
+    json.dump({"entries": shelved, "unspined": sorted(unspined)},
+              open(os.path.join(HERE, "data/SHELVES.json"), "w", encoding="utf-8"),
+              indent=1, ensure_ascii=False)
+    st["done"].setdefault("shelve", []).append("all")
+    st["units_done"] += 1
+    save_state(st)
+
+
+# A source is written when this fraction of its entries is SETTLED -- cited, or read with nothing
+# found, which is a real finding rather than a gap. Below it the volume would be mostly silence
+# wearing the shape of scholarship.
+WRITE_SETTLED_MIN = 0.60
+
+
+def phase_write(c, st):
+    """Phase 8 -- the volumes themselves, and the one thing this library must never do.
+
+    Delegates to `manifest_builder`, which knows which jobs exist, and `generate.py`, which knows
+    how to turn a manifest into prose against the house style. This phase's own job is the guard
+    rail: it REFUSES to write about a source whose entries have not been read.
+
+    Prose about an entity with no evidence is the single output that would undo everything above
+    it. It would be indistinguishable from the cited kind -- same voice, same shelfmark, same
+    confident interval -- and the entire apparatus of verbatim checks, host fitness tests and
+    honest absences exists to keep that distinction real. A library that writes about what it has
+    not read is just a generator with a card catalogue.
+    """
+    import manifest_builder as MB
+
+    try:
+        rows = json.load(open(os.path.join(HERE, "data/COVERAGE.json"), encoding="utf-8"))
+    except Exception:
+        silence.note("pipeline.py:phase_write-coverage")
+        rows = []
+    ready, thin = [], []
+    for r in rows:
+        n = max(r.get("entries", 0), 1)
+        settled = (r.get("cited", 0) + r.get("read", 0)) / n
+        (ready if settled >= WRITE_SETTLED_MIN else thin).append((settled, r.get("source")))
+    log("phase 8 write: %d of %d sources are settled enough to write (>= %d%% read or cited)"
+        % (len(ready), len(rows), int(WRITE_SETTLED_MIN * 100)))
+    if not ready:
+        log("  nothing is ready, and that is a correct outcome rather than a failure:")
+        log("  the library does not write about entities nobody has read.")
+        st["done"].setdefault("write", []).append("all")
+        st["units_done"] += 1
+        save_state(st)
+        return
+
+    names = sorted({s for _, s in ready if s})
+    cfg = MB.load_config() if hasattr(MB, "load_config") else {}
+    jobs, refused = [], 0
+    for src in names:
+        try:
+            rec = MB.load_record(src)
+            jobs += MB.build_jobs_for_source(rec, cfg) or []
+        except Exception:
+            silence.note("pipeline.py:phase_write-jobs")
+            refused += 1
+    log("  manifest: %d job(s) across %d source(s), %d source(s) would not build"
+        % (len(jobs), len(names), refused))
+    if jobs:
+        out = os.path.join(HERE, "output", "index", "manifest.json")
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        json.dump(jobs, open(out, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
+        log("  -> output/index/manifest.json   (run generate.py against it)")
+    st["done"].setdefault("write", []).append("all")
+    st["units_done"] += 1
+    save_state(st)
+
+
 def phase_weave(c, st):
     """Phase 3 -- cross-source entity resolution. See weave.py for the reasoning.
 
@@ -940,7 +1179,18 @@ def phase_weave(c, st):
     return True
 
 
-IMPLEMENTED = {1: phase_synthesis, 2: phase_entrypass, 3: phase_weave}
+# BUILT FROM PHASES, NOT HAND-MAINTAINED.
+#
+# This was a literal dict of three entries, and it went stale the moment a phase was written
+# without somebody remembering to add it here. `chain` was finished, working, and reported by the
+# runner as "not implemented yet" for exactly that reason -- so phase 4 only ever ran by hand and
+# phases 5 through 8 were never attempted, because the runner stopped at the gap.
+#
+# Deriving it from PHASES means writing `phase_<name>` IS registering it, and the two can never
+# disagree again.
+IMPLEMENTED = {i: globals()["phase_" + name]
+               for i, name in enumerate(PHASES, 1)
+               if "phase_" + name in globals()}
 
 
 def main():

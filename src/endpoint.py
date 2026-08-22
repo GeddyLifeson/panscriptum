@@ -40,6 +40,7 @@ maintain and this project has been bitten by every list it ever wrote. The answe
 import argparse
 import json
 import os
+import re
 import sys
 import threading
 import urllib.error
@@ -222,3 +223,102 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+# ============================================================================ mode: html
+#
+# HOMEBREW DOES NOT LIVE ON WIKIS.
+#
+# The owner: "for a lot of the homebrew stuff you might have to do a little bit of internet
+# scouring for more information since homebrew can be inconsistent with where stuff is kept."
+# Exactly right, and it is the reason 6,110 catalogued entries are uncitable. KibblesTasty --
+# 1,335 of them -- lives at kthomebrew.com and on GM Binder. Neither is MediaWiki, so both modes
+# above return `dead` and the miner has nowhere to read.
+#
+# So a third mode: fetch the page and take the text out of the HTML. It is cruder than an API and
+# it is what the material actually is. One important consequence: there is no title lookup, so a
+# source in HTML mode is read from a LIST OF PAGES rather than by asking for an entity by name --
+# see data/SOURCE_PAGES.json. The reader's own name-matching then does the attribution, which is
+# what it already does for shared wiki pages.
+
+MODE_HTML = "html"
+
+_TAG = re.compile(r"<[^>]+>")
+_SCRIPT = re.compile(r"(?is)<(script|style|nav|footer|header|noscript)[^>]*>.*?</\1>")
+_WS = re.compile(r"[ \t\r\f\v]+")
+_BLANK = re.compile(r"\n{3,}")
+
+
+def html_text(body):
+    """Readable text out of an HTML page.
+
+    Deliberately not a parser. A homebrew page is prose in divs, and everything a parser would
+    buy -- structure, attributes, the DOM -- is irrelevant to a reader that wants sentences. What
+    matters is removing the things that produce FALSE sentences: script bodies, stylesheets, and
+    navigation, all of which read as text once the tags are stripped and none of which any entity
+    ever did.
+    """
+    body = _SCRIPT.sub(" ", body or "")
+    body = re.sub(r"(?i)<br\s*/?>", chr(10), body)
+    body = re.sub(r"(?i)</(p|div|li|h[1-6]|tr)>", chr(10), body)
+    body = _TAG.sub(" ", body)
+    for a, b in (("&nbsp;", " "), ("&amp;", "&"), ("&lt;", "<"), ("&gt;", ">"),
+                 ("&quot;", '"'), ("&#39;", "'"), ("&mdash;", "--"), ("&ndash;", "-")):
+        body = body.replace(a, b)
+    body = _WS.sub(" ", body)
+    body = chr(10).join(ln.strip() for ln in body.splitlines())
+    return _BLANK.sub(chr(10) + chr(10), body).strip()
+
+
+def fetch_html(urls, workers=2):
+    """{url: text} for a list of ordinary web pages.
+
+    Two workers, and politely. These are one-author sites on shared hosting, not Fandom's CDN,
+    and the entire point of reading them is that the author put the material there to be read.
+    """
+    from concurrent.futures import ThreadPoolExecutor
+    out = {}
+
+    def one(u):
+        try:
+            body = _get(u, timeout=45)
+        except Exception:
+            silence.note("endpoint.py:fetch_html")
+            return u, None
+        text = html_text(body)
+        return u, (text if len(text) > 400 else None)
+
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for u, t in ex.map(one, list(urls)):
+            if t:
+                out[u] = t
+    return out
+
+
+PAGES_FILE = os.path.join(HERE, "data", "SOURCE_PAGES.json")
+
+
+def source_pages(source):
+    """The URLs registered for a source that has no wiki. {} when it has none."""
+    try:
+        with open(PAGES_FILE, encoding="utf-8") as f:
+            return (json.load(f) or {}).get(source) or []
+    except Exception:
+        silence.note("endpoint.py:source_pages")
+        return []
+
+
+def register(source, urls):
+    """Record where a source's material actually lives."""
+    try:
+        with open(PAGES_FILE, encoding="utf-8") as f:
+            d = json.load(f)
+    except Exception:
+        d = {}
+    d[source] = sorted(set((d.get(source) or []) + list(urls)))
+    os.makedirs(os.path.dirname(PAGES_FILE), exist_ok=True)
+    tmp = PAGES_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f, indent=1, sort_keys=True)
+    os.replace(tmp, PAGES_FILE)
+    return d[source]

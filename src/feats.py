@@ -641,8 +641,23 @@ def evidence_for(host, name, cache=True):
         with open(path, encoding="utf-8") as f:
             return json.load(f)
 
-    titles = discover(host, name)
-    pages = fetch(host, titles)
+    # A SOURCE WITH NO WIKI IS READ FROM ITS OWN PAGES.
+    #
+    # Homebrew is scattered: kthomebrew.com, GM Binder, a publisher's own site. There is no title
+    # lookup on any of them, so discovery cannot ask "give me the page for this entity" -- the
+    # registered URLs ARE the corpus, and the reader's name-matching does the attribution, the
+    # same way it already does for a shared wiki index page.
+    # `pages:<source>` is a host that is not a host: a source whose material lives on ordinary
+    # web pages rather than any wiki. The sentinel keeps one host map for everything, so every
+    # stage that asks "does this source have somewhere to read from" gets a yes.
+    import endpoint as EP
+    urls = EP.source_pages(host[6:]) if host and host.startswith("pages:") else []
+    if urls:
+        pages = EP.fetch_html(urls)
+        titles = sorted(pages)
+    else:
+        titles = discover(host, name)
+        pages = fetch(host, titles)
     feats, rej, quants, text = [], [], [], {}
     for t, wt in pages.items():
         clean = strip_wikitext(wt)
