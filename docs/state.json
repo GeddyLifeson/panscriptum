@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 16:09:49",
+ "at": "2026-08-22 16:11:59",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -692,18 +692,18 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 31,
-  "per_hour": 124,
+  "calls": 30,
+  "per_hour": 120,
   "buckets": [
-   {
-    "bucket": "huggingface:free",
-    "calls": 6,
-    "ok": 6
-   },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
     "calls": 5,
     "ok": 0
+   },
+   {
+    "bucket": "huggingface:free",
+    "calls": 5,
+    "ok": 5
    },
    {
     "bucket": "zai:free",
@@ -755,9 +755,9 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 30600,
+   "done": 33000,
    "total": 54468,
-   "detail": "27,038 pages  \u00b7  426M characters  \u00b7  33.1/s",
+   "detail": "29,221 pages  \u00b7  475M characters  \u00b7  31.4/s",
    "warn": "",
    "eta_h": 0.2
   }
@@ -797,19 +797,19 @@
    },
    {
     "name": "cosmology",
-    "built": true
+    "built": false
    },
    {
     "name": "history",
-    "built": true
+    "built": false
    },
    {
     "name": "shelve",
-    "built": true
+    "built": false
    },
    {
     "name": "write",
-    "built": true
+    "built": false
    }
   ],
   "readfeats": 31
@@ -860,25 +860,25 @@
    ],
    [
     "silent:endpoint.py:fetch_raw-http:HTTPError",
-    1354
+    1416
    ],
    [
     "silent:endpoint.py:fetch_html:HTTPError",
-    1040
+    1228
    ],
    [
     "silent:pipeline.py:phase_cosmology-ground:AttributeError",
     419
    ]
   ],
-  "swallowed_total": 9467
+  "swallowed_total": 9717
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 124,
+   "observed": 120,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -914,7 +914,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "29% ok",
+   "observed": "27% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -959,7 +959,7 @@
    "standard": "page roll complete",
    "group": "read",
    "holds": false,
-   "observed": "56%",
+   "observed": "61%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -1013,20 +1013,20 @@
    "standard": "phases implemented",
    "group": "code",
    "holds": true,
-   "observed": "8/8",
+   "observed": "4/8",
    "floor": "at least 4",
-   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: none",
+   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: cosmology, history, shelve, write",
    "severity": "low"
   },
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "9,467",
+   "observed": "9,717",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T16:09:49"
+ "generated": "2026-08-22T16:11:59"
 }
