@@ -32,7 +32,8 @@ check-in, tested, while earlier phases are still grinding -- see handoff/AUTONOM
 STATE
   state/PIPELINE_STATE.json   phase progress + per-unit completion, the resume point
   state/pipeline.log          append-only run log
-  handoff/HANDOFF.md          human-readable status, rewritten after every unit
+  handoff/RUN_STATUS.md       machine-written run status, rewritten after every unit
+  handoff/HANDOFF.md          hand-written; the defects and the reasoning. NEVER written here.
 
 Usage:
     python3 src/pipeline.py --status
@@ -56,7 +57,18 @@ RECORDS = os.path.join(HERE, "data/records")
 STATE_DIR = os.path.join(HERE, "state")
 STATE = os.path.join(STATE_DIR, "PIPELINE_STATE.json")
 LOG = os.path.join(STATE_DIR, "pipeline.log")
-HANDOFF = os.path.join(HERE, "handoff/HANDOFF.md")
+# THE RUNNER GETS ITS OWN FILE.
+#
+# This pointed at handoff/HANDOFF.md, which is also the hand-written document that carries every
+# defect this project has found and the reasoning that keeps each one from recurring. The runner
+# rewrote it after every completed unit, so running the phases destroyed 629 lines of it and
+# replaced them with a status table. Nothing failed, nothing warned, and the loss was only
+# visible because a later edit could not find its own anchor.
+#
+# Two authors writing one file, one of them silently clobbering the other, is this project's
+# defect in its most literal form. The status is machine-written and belongs in a machine-written
+# file; the handoff is written by whoever last understood something and belongs in theirs.
+HANDOFF = os.path.join(HERE, "handoff/RUN_STATUS.md")
 
 sys.path.insert(0, os.path.dirname(__file__))
 import yaml  # noqa: E402
