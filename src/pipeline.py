@@ -917,10 +917,22 @@ def phase_cosmology(c, st):
     json.dump(charted, open(os.path.join(HERE, "data/TIERS.json"), "w", encoding="utf-8"),
               indent=1, ensure_ascii=False)
 
+    # classify_source takes the RECORD, not the source name -- it reads the catalogue's ORIGIN
+    # entries to see what a cosmos says about its own beginning. Passing the name gave 209
+    # AttributeErrors and 209 sources reported "ungrounded", which is a real category in the
+    # charter and was therefore completely invisible as a bug. The failure ledger caught it:
+    # 419 identical silent:phase_cosmology-ground entries, which is not what a real finding
+    # looks like.
+    import weave_index as WI
+    records = {r["source"]: r for r in WI.load_records()}
     grounds = {}
     for src in charted:
+        rec = records.get(src)
+        if not rec:
+            grounds[src] = {"type": G.UNGROUNDED, "why": "no catalogue record"}
+            continue
         try:
-            grounds[src] = G.classify_source(src)
+            grounds[src] = G.classify_source(rec)
         except Exception:
             silence.note("pipeline.py:phase_cosmology-ground")
             grounds[src] = {"type": G.UNGROUNDED}

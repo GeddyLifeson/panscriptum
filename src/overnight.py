@@ -171,6 +171,31 @@ def join(job, timeout_h):
             log(f"  {job['name']}: log handle {type(e).__name__}")
 
 
+def foreman_report():
+    """What the foreman fixed this cycle, and what it could not.
+
+    The supervisor log is where somebody looks in the morning, so the repair record belongs
+    beside the coverage numbers rather than in a file of its own that nobody opens.
+    """
+    path = os.path.join(HERE, "data", "FOREMAN.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            rounds = json.load(f)
+    except Exception:
+        return
+    if not rounds:
+        return
+    last = rounds[-1]
+    did = [a for a in (last.get("auto") or []) if a.get("did")]
+    if did:
+        log(f"  foreman: {len(did)} remedy(ies) applied at {last.get('at', '?')}")
+        for a in did[:5]:
+            log(f"    {a['standard']} -> {a['remedy']}: {a.get('result', '')[:70]}")
+    owner = last.get("owner") or []
+    if owner:
+        log(f"  foreman: {len(owner)} order(s) need the owner -- see FOR_OWNER.md")
+
+
 def watch_report(top=6):
     """What the standing debug sweep has open, surfaced where the night's log will show it.
 
@@ -342,6 +367,13 @@ def main():
         #      489MB of third-party wiki text and must never travel by accident.
         start("publish", [os.path.join(SRC, "publish.py"), "--push", "--loop", "10"],
               "publish.log")
+        # 0a3. THE FOREMAN. Reads the work orders `standards` produces and acts on the ones
+        #      with a scripted remedy -- clearing mis-learned rate caps, re-proving which
+        #      buckets answer, re-running host adoption. Everything mechanical I did by hand
+        #      today, on a loop. What it cannot fix goes to FOR_OWNER.md, and code defects go to
+        #      the model lane. A list nobody acts on is a tidier version of the problem.
+        start("foreman", [os.path.join(SRC, "foreman.py"), "--go", "--loop", "30"],
+              "foreman.log")
         # 0b. THE WATCHER. Its own long-lived process, started once and left alone -- it outlives
         #    a cycle deliberately, because the whole point is that something is looking BETWEEN
         #    the moments anybody looks. `start()` returns None if it is already running, which
@@ -369,6 +401,7 @@ def main():
         statuses.append(run("pipeline", [os.path.join(SRC, "pipeline.py")],
                             "pipeline_auto.log", timeout_h=2))
 
+        foreman_report()
         watch_report()
         ledger_report()
         snap = coverage_snapshot()

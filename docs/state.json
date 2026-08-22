@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 16:01:57",
+ "at": "2026-08-22 16:05:43",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -107,19 +107,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 19,
-     "cap": 20,
-     "frac": 0.95
-    },
-    {
      "name": "rpd",
      "left": 481,
      "cap": 500,
      "frac": 0.962
+    },
+    {
+     "name": "rpm",
+     "left": 20,
+     "cap": 20,
+     "frac": 1.0
     }
    ],
-   "worst": 0.95
+   "worst": 0.962
   },
   {
    "bucket": "cohere:free",
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 4,
+     "left": 5,
      "cap": 5,
-     "frac": 0.8
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 364,
+     "left": 361,
      "cap": 1000,
-     "frac": 0.364
+     "frac": 0.361
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 0.5
     }
    ],
-   "worst": 0.364
+   "worst": 0.361
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -248,9 +248,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 67,
+     "left": 65,
      "cap": 250,
-     "frac": 0.268
+     "frac": 0.26
     },
     {
      "name": "rpm",
@@ -259,7 +259,7 @@
      "frac": 0.5
     }
    ],
-   "worst": 0.268
+   "worst": 0.26
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -268,9 +268,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 55,
+     "left": 52,
      "cap": 250,
-     "frac": 0.22
+     "frac": 0.208
     },
     {
      "name": "rpm",
@@ -279,7 +279,7 @@
      "frac": 0.5
     }
    ],
-   "worst": 0.22
+   "worst": 0.208
   },
   {
    "bucket": "github:free",
@@ -436,18 +436,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 135,
+     "left": 133,
      "cap": 200,
-     "frac": 0.675
+     "frac": 0.665
     },
     {
      "name": "rpm",
-     "left": 7,
+     "left": 9,
      "cap": 10,
-     "frac": 0.7
+     "frac": 0.9
     }
    ],
-   "worst": 0.675
+   "worst": 0.665
   },
   {
    "bucket": "hyperbolic:free",
@@ -456,9 +456,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 180,
+     "left": 179,
      "cap": 200,
-     "frac": 0.9
+     "frac": 0.895
     },
     {
      "name": "rpm",
@@ -467,7 +467,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.9
+   "worst": 0.895
   },
   {
    "bucket": "kluster:free",
@@ -676,32 +676,32 @@
    "windows": [
     {
      "name": "rpm",
-     "left": 1,
+     "left": 0,
      "cap": 2,
-     "frac": 0.5
+     "frac": 0.0
     },
     {
      "name": "rpd",
-     "left": 295,
+     "left": 292,
      "cap": 500,
-     "frac": 0.59
+     "frac": 0.584
     }
    ],
-   "worst": 0.5
+   "worst": 0.0
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 37,
-  "per_hour": 148,
+  "calls": 29,
+  "per_hour": 116,
   "buckets": [
    {
-    "bucket": "zai:free",
+    "bucket": "huggingface:free",
     "calls": 7,
-    "ok": 3
+    "ok": 7
    },
    {
-    "bucket": "gemini:models/gemini-3.5-flash",
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
     "calls": 5,
     "ok": 0
    },
@@ -711,19 +711,14 @@
     "ok": 0
    },
    {
-    "bucket": "huggingface:free",
+    "bucket": "zai:free",
     "calls": 5,
-    "ok": 5
+    "ok": 2
    },
    {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "bucket": "gemini:models/gemini-3.5-flash",
     "calls": 4,
     "ok": 0
-   },
-   {
-    "bucket": "ollama:local",
-    "calls": 3,
-    "ok": 3
    },
    {
     "bucket": "cloudflare:free",
@@ -736,32 +731,7 @@
     "ok": 1
    },
    {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 1,
-    "ok": 1
-   },
-   {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 1,
-    "ok": 1
-   },
-   {
     "bucket": "hyperbolic:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "mistral:free",
-    "calls": 1,
-    "ok": 1
-   },
-   {
-    "bucket": "ollama:llama3.1:latest",
-    "calls": 1,
-    "ok": 1
-   },
-   {
-    "bucket": "openrouter:free",
     "calls": 1,
     "ok": 0
    }
@@ -780,11 +750,11 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 15600,
+   "done": 24200,
    "total": 54468,
-   "detail": "13,534 pages  \u00b7  158M characters  \u00b7  34.0/s",
+   "detail": "21,206 pages  \u00b7  285M characters  \u00b7  35.6/s",
    "warn": "",
-   "eta_h": 0.3
+   "eta_h": 0.2
   }
  ],
  "library": {
@@ -822,19 +792,19 @@
    },
    {
     "name": "cosmology",
-    "built": false
+    "built": true
    },
    {
     "name": "history",
-    "built": false
+    "built": true
    },
    {
     "name": "shelve",
-    "built": false
+    "built": true
    },
    {
     "name": "write",
-    "built": false
+    "built": true
    }
   ],
   "readfeats": 31
@@ -885,25 +855,25 @@
    ],
    [
     "silent:endpoint.py:fetch_raw-http:HTTPError",
-    1137
+    1236
+   ],
+   [
+    "silent:endpoint.py:fetch_html:HTTPError",
+    683
    ],
    [
     "silent:pipeline.py:phase_cosmology-ground:AttributeError",
     419
-   ],
-   [
-    "silent:endpoint.py:fetch_html:HTTPError",
-    382
    ]
   ],
-  "swallowed_total": 8592
+  "swallowed_total": 8992
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 148,
+   "observed": 116,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -912,7 +882,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 27,
+   "observed": 26,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -921,7 +891,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "16% dry",
+   "observed": "19% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -939,7 +909,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "43% ok",
+   "observed": "34% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -984,7 +954,7 @@
    "standard": "page roll complete",
    "group": "read",
    "holds": false,
-   "observed": "29%",
+   "observed": "44%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -1038,20 +1008,20 @@
    "standard": "phases implemented",
    "group": "code",
    "holds": true,
-   "observed": "4/8",
+   "observed": "8/8",
    "floor": "at least 4",
-   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: cosmology, history, shelve, write",
+   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: none",
    "severity": "low"
   },
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "8,592",
+   "observed": "8,992",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T16:01:58"
+ "generated": "2026-08-22T16:05:43"
 }
