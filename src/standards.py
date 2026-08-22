@@ -462,6 +462,40 @@ def check(state=None):
     except Exception:
         silence.note("standards.py:jobs-alive")
 
+    # ONE INSTANCE EACH. Three concurrent jobs once put the reader at two entities in twelve
+    # minutes with nothing individually broken, which is why `overnight.start` checks by process
+    # basename before launching. A second instance is not twice the work -- it is two processes
+    # racing on the same caches and dividing the same provider quota.
+    try:
+        import subprocess as _sp
+        # NOT `out` -- that is the results list this whole function is building, and assigning
+        # the subprocess output to it silently replaced thirty standards with a string. The
+        # traceback said `'str' object has no attribute 'append'` three lines later, which is a
+        # long way from the cause.
+        procs = _sp.run(["powershell", "-NoProfile", "-Command",
+                         "Get-CimInstance Win32_Process -Filter \"Name like '%python%'\" | "
+                         "ForEach-Object { $_.CommandLine }"],
+                        capture_output=True, text=True, timeout=60,
+                        encoding="utf-8", errors="replace").stdout or ""
+        lines = [x for x in procs.splitlines() if x.strip()]
+        dupes = []
+        for job in ("read.py --run", "feats.py --roll", "overnight.py", "foreman.py",
+                    "overwatch.py", "dashboard.py", "publish.py"):
+            n = sum(1 for x in lines if job in x)
+            if n > 1:
+                dupes.append(f"{job.split()[0]} x{n}")
+        _dup = _s("one instance of each job", not dupes,
+                  ", ".join(dupes) or "one each", "one each",
+                  "Two copies of the same job race on one cache and split one quota. The "
+                  "supervisor excludes by process basename before launching, so a duplicate "
+                  "means one was started outside it -- find and stop the older.",
+                  "high", "machine")
+    except Exception:
+        silence.note("standards.py:duplicates")
+        _dup = None
+    if _dup:
+        out.append(_dup)
+
     try:
         pub = os.path.join(HERE, "state", "publish.log")
         age = (time.time() - os.path.getmtime(pub)) / 3600 if os.path.exists(pub) else 99

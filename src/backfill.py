@@ -152,20 +152,15 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     have = {re.sub(r"[^a-z0-9]+", "", e["name"].lower()) for e in r["entries"]}
     names = roster(host)
     missing = [t for t in names if re.sub(r"[^a-z0-9]+", "", t.lower()) not in have]
-    # Ranked by article size, never alphabetically. A category listing comes back A-first, so a
-    # cap applied to it takes Abo, Abura and Ackman and leaves Goku out — which is precisely the
-    # failure this file exists to repair. Article length is the wiki's own vote on who matters:
-    # Goku's page runs six figures, Agarizame's runs three.
+    # Ranked by article size, never alphabetically. A category listing comes back A-first, so a # cap applied to it takes Abo, Abura and Ackman and leaves Goku out — which is precisely the # failure this file exists to repair. Article length is the wiki's own vote on who matters: # Goku's page runs six figures, Agarizame's runs three.
     sizes = {}
     for i in range(0, len(missing), 50):
         d = F.api(host, {"action": "query", "prop": "info", "titles": "|".join(missing[i:i + 50])})
         for pg in (d or {}).get("query", {}).get("pages", []):
             sizes[pg.get("title")] = pg.get("length", 0)
-    # Reported BEFORE the cap. Computing it after made "already held" the complement of the cap
-    # rather than of the match, and printed 1,459 held for a source that holds 300 entries total.
+    # Reported BEFORE the cap. Computing it after made "already held" the complement of the cap # rather than of the match, and printed 1,459 held for a source that holds 300 entries total.
     absent = len(missing)
-    # Ranked by article size so the deepest arrive first if this is ever interrupted, but NOT
-    # truncated: every character the wiki lists is a character the library should hold.
+    # Ranked by article size so the deepest arrive first if this is ever interrupted, but NOT # truncated: every character the wiki lists is a character the library should hold.
     missing = sorted(missing, key=lambda t: -sizes.get(t, 0))
     if cap:
         missing = missing[:cap]
@@ -177,7 +172,7 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
         for title, wt in pages.items():
             desc = lead(wt)
             if len(desc) < 40:
-                continue  # a stub is not a record
+                continue # a stub is not a record
             r["entries"].append({
                 "name": title,
                 "type": "Character",
@@ -187,15 +182,14 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
                 "scale_note": "",
                 "magnitude": "unassayed",
                 "wiki_page": f"https://{host}/wiki/" + title.replace(" ", "_"),
-                # Stamped, so a backfilled record is never mistaken for one the research pass
-                # produced. The provenance travels with the entry into every later phase.
+                # Stamped, so a backfilled record is never mistaken for one the research pass # produced. The provenance travels with the entry into every later phase.
                 "provenance": f"backfill:{host}",
                 "catalogued": False,
                 })
             added += 1
             time.sleep(0.2)
     P.write_record(path, r)
-    return {"source": source, "host": host, "roster": len(names), "missing": absent, "added": added, "entries_now": len(r["entries"])}
+    return {"source": source, "host": host, "roster": len(names), "missing": len(missing), "added": added, "entries_now": len(r["entries"])}
 
 
 def main():
