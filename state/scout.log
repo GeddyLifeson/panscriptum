@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Users\imarl\AppData\Local\Temp\claude\C--\660495b7-3c61-4e52-9082-f4290740f1e1\scratchpad\panscriptum-export\src\scout.py", line 224, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\Users\imarl\AppData\Local\Temp\claude\C--\660495b7-3c61-4e52-9082-f4290740f1e1\scratchpad\panscriptum-export\src\scout.py", line 219, in main
+    sweep(limit=a.limit, register=not a.dry)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\imarl\AppData\Local\Temp\claude\C--\660495b7-3c61-4e52-9082-f4290740f1e1\scratchpad\panscriptum-export\src\scout.py", line 175, in sweep
+    todo = hostless()
+  File "C:\Users\imarl\AppData\Local\Temp\claude\C--\660495b7-3c61-4e52-9082-f4290740f1e1\scratchpad\panscriptum-export\src\scout.py", line 165, in hostless
+    hosts = json.load(open(F.HOSTS, encoding="utf-8"))
+                      ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\imarl\\AppData\\Local\\Temp\\claude\\C--\\660495b7-3c61-4e52-9082-f4290740f1e1\\scratchpad\\panscriptum-export\\data\\WIKI_HOSTS.json'
