@@ -129,6 +129,11 @@ def sync_tree():
         if os.path.exists(srcp):
             shutil.copy2(srcp, os.path.join(SITE, f))
             n += 1
+    # Mark the copy AS a copy. Every module imports silence, which refuses to run from a tree
+    # carrying this marker -- so a command aimed at the wrong directory fails loudly instead of
+    # succeeding into nothing.
+    with open(os.path.join(SITE, ".is-export-copy"), "w", encoding="utf-8") as f:
+        f.write("Published copy of the Panscriptum. The project lives elsewhere." + chr(10))
     return n
 
 

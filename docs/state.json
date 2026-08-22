@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 16:42:16",
+ "at": "2026-08-22 16:52:06",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -107,19 +107,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 16,
-     "cap": 20,
-     "frac": 0.8
+     "name": "rpd",
+     "left": 472,
+     "cap": 500,
+     "frac": 0.944
     },
     {
-     "name": "rpd",
-     "left": 475,
-     "cap": 500,
-     "frac": 0.95
+     "name": "rpm",
+     "left": 20,
+     "cap": 20,
+     "frac": 1.0
     }
    ],
-   "worst": 0.8
+   "worst": 0.944
   },
   {
    "bucket": "cohere:free",
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 5,
      "cap": 5,
-     "frac": 0.2
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -227,19 +227,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
+     "name": "rpd",
+     "left": 337,
+     "cap": 1000,
+     "frac": 0.337
     },
     {
-     "name": "rpd",
-     "left": 342,
-     "cap": 1000,
-     "frac": 0.342
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.337
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -247,19 +247,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
+     "name": "rpd",
+     "left": 40,
+     "cap": 250,
+     "frac": 0.16
     },
     {
-     "name": "rpd",
-     "left": 45,
-     "cap": 250,
-     "frac": 0.18
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.16
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -267,19 +267,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
+     "name": "rpd",
+     "left": 26,
+     "cap": 250,
+     "frac": 0.104
     },
     {
-     "name": "rpd",
-     "left": 31,
-     "cap": 250,
-     "frac": 0.124
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.104
   },
   {
    "bucket": "github:free",
@@ -302,36 +302,68 @@
    "worst": 1.0
   },
   {
-   "bucket": "groq:groq/compound-mini",
+   "bucket": "groq:llama-3.1-8b-instant",
    "model": "groq-llama31-8b",
    "unlimited": false,
    "windows": [
     {
-     "name": "tpm",
-     "left": 5243,
-     "cap": 6000,
-     "frac": 0.8738
-    },
-    {
      "name": "rpm",
-     "left": 28,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9333
-    },
-    {
-     "name": "tpd",
-     "left": 499237,
-     "cap": 500000,
-     "frac": 0.9985
+     "frac": 1.0
     },
     {
      "name": "rpd",
-     "left": 14397,
+     "left": 14400,
      "cap": 14400,
-     "frac": 0.9998
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 6000,
+     "cap": 6000,
+     "frac": 1.0
+    },
+    {
+     "name": "tpd",
+     "left": 500000,
+     "cap": 500000,
+     "frac": 1.0
     }
    ],
-   "worst": 0.8738
+   "worst": 1.0
+  },
+  {
+   "bucket": "groq:llama-3.3-70b-versatile",
+   "model": "groq-llama33-70b",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 1000,
+     "cap": 1000,
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 12000,
+     "cap": 12000,
+     "frac": 1.0
+    },
+    {
+     "name": "tpd",
+     "left": 100000,
+     "cap": 100000,
+     "frac": 1.0
+    }
+   ],
+   "worst": 1.0
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -346,56 +378,24 @@
     },
     {
      "name": "tpd",
-     "left": 102480,
+     "left": 102332,
      "cap": 200000,
-     "frac": 0.5124
+     "frac": 0.5117
     },
     {
      "name": "rpm",
-     "left": 28,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9333
+     "frac": 1.0
     },
     {
      "name": "tpm",
-     "left": 7904,
+     "left": 8000,
      "cap": 8000,
-     "frac": 0.988
-    }
-   ],
-   "worst": 0.0
-  },
-  {
-   "bucket": "groq:openai/gpt-oss-20b",
-   "model": "groq-llama33-70b",
-   "unlimited": false,
-   "windows": [
-    {
-     "name": "rpm",
-     "left": 29,
-     "cap": 30,
-     "frac": 0.9667
-    },
-    {
-     "name": "rpd",
-     "left": 998,
-     "cap": 1000,
-     "frac": 0.998
-    },
-    {
-     "name": "tpd",
-     "left": 99913,
-     "cap": 100000,
-     "frac": 0.9991
-    },
-    {
-     "name": "tpm",
-     "left": 12000,
-     "cap": 12000,
      "frac": 1.0
     }
    ],
-   "worst": 0.9667
+   "worst": 0.0
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -410,21 +410,21 @@
     },
     {
      "name": "tpd",
-     "left": 98834,
+     "left": 97032,
      "cap": 200000,
-     "frac": 0.4942
-    },
-    {
-     "name": "tpm",
-     "left": 7275,
-     "cap": 8000,
-     "frac": 0.9094
+     "frac": 0.4852
     },
     {
      "name": "rpm",
-     "left": 28,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9333
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -436,9 +436,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 119,
+     "left": 112,
      "cap": 200,
-     "frac": 0.595
+     "frac": 0.56
     },
     {
      "name": "rpm",
@@ -447,7 +447,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.595
+   "worst": 0.56
   },
   {
    "bucket": "hyperbolic:free",
@@ -455,19 +455,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 8,
-     "cap": 10,
-     "frac": 0.8
+     "name": "rpd",
+     "left": 170,
+     "cap": 200,
+     "frac": 0.85
     },
     {
-     "name": "rpd",
-     "left": 174,
-     "cap": 200,
-     "frac": 0.87
+     "name": "rpm",
+     "left": 10,
+     "cap": 10,
+     "frac": 1.0
     }
    ],
-   "worst": 0.8
+   "worst": 0.85
   },
   {
    "bucket": "kluster:free",
@@ -502,9 +502,9 @@
     },
     {
      "name": "rpm",
-     "left": 28,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9333
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -576,18 +576,18 @@
    "windows": [
     {
      "name": "rpm",
-     "left": 30,
+     "left": 35,
      "cap": 40,
-     "frac": 0.75
+     "frac": 0.875
     },
     {
      "name": "rpd",
-     "left": 990,
+     "left": 908,
      "cap": 1000,
-     "frac": 0.99
+     "frac": 0.908
     }
    ],
-   "worst": 0.75
+   "worst": 0.875
   },
   {
    "bucket": "openrouter:free",
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 18,
+     "left": 20,
      "cap": 20,
-     "frac": 0.9
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -635,19 +635,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 9,
-     "cap": 10,
-     "frac": 0.9
+     "name": "rpd",
+     "left": 294,
+     "cap": 300,
+     "frac": 0.98
     },
     {
-     "name": "rpd",
-     "left": 299,
-     "cap": 300,
-     "frac": 0.9967
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.9
+   "worst": 0.98
   },
   {
    "bucket": "together:free",
@@ -675,60 +675,105 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
+     "name": "rpd",
+     "left": 262,
+     "cap": 500,
+     "frac": 0.524
     },
     {
-     "name": "rpd",
-     "left": 267,
-     "cap": 500,
-     "frac": 0.534
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.524
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 125,
-  "per_hour": 500,
+  "calls": 230,
+  "per_hour": 920,
   "buckets": [
    {
+    "bucket": "nvidia:free",
+    "calls": 92,
+    "ok": 92
+   },
+   {
     "bucket": "zai:free",
-    "calls": 15,
+    "calls": 13,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 13,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 13,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:local",
-    "calls": 13,
-    "ok": 0
+    "calls": 11,
+    "ok": 1
    },
    {
     "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 12,
-    "ok": 0
+    "calls": 11,
+    "ok": 1
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 11,
+    "ok": 1
    },
    {
     "bucket": "huggingface:free",
-    "calls": 10,
-    "ok": 10
+    "calls": 11,
+    "ok": 11
    },
    {
-    "bucket": "nvidia:free",
-    "calls": 10,
-    "ok": 10
+    "bucket": "ollama:local",
+    "calls": 8,
+    "ok": 0
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 7,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 7,
+    "ok": 7
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 7,
+    "ok": 2
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 7,
+    "ok": 5
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 7,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 6,
+    "ok": 5
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 6,
+    "ok": 6
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 6,
+    "ok": 0
+   },
+   {
+    "bucket": "mistral:free",
+    "calls": 6,
+    "ok": 6
    },
    {
     "bucket": "ollama:llama3.1:latest",
@@ -736,49 +781,9 @@
     "ok": 0
    },
    {
-    "bucket": "cloudflare:free",
-    "calls": 5,
+    "bucket": "sambanova:free",
+    "calls": 6,
     "ok": 0
-   },
-   {
-    "bucket": "cohere:free",
-    "calls": 5,
-    "ok": 5
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 3,
-    "ok": 2
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 3,
-    "ok": 3
-   },
-   {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 3,
-    "ok": 3
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "mistral:free",
-    "calls": 3,
-    "ok": 3
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 2,
-    "ok": 1
    },
    {
     "bucket": "ollama:hf.co/unsloth/Qwen3-14B-GGUF:Q4_K_M",
@@ -787,11 +792,6 @@
    },
    {
     "bucket": "ollama:qwen2.5:14b",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "sambanova:free",
     "calls": 1,
     "ok": 0
    }
@@ -810,20 +810,20 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 45400,
+   "done": 54200,
    "total": 54468,
-   "detail": "41,211 pages  \u00b7  909M characters  \u00b7  16.0/s",
+   "detail": "46,839 pages  \u00b7  1004M characters  \u00b7  15.9/s",
    "warn": "",
-   "eta_h": 0.2
+   "eta_h": 0.0
   }
  ],
  "library": {
   "sources": {
    "total": 210,
-   "with_host": 192,
-   "without_host": 18,
-   "entries_with_host": 54468,
-   "entries_without_host": 2280
+   "with_host": 193,
+   "without_host": 17,
+   "entries_with_host": 54858,
+   "entries_without_host": 1890
   },
   "coverage": {
    "entries": 56748,
@@ -831,7 +831,7 @@
    "read": 33119,
    "settled": 40382,
    "feats": 16619,
-   "age_h": 0.0
+   "age_h": 0.2
   },
   "phases": [
    {
@@ -852,40 +852,28 @@
    },
    {
     "name": "cosmology",
-    "built": true
+    "built": false
    },
    {
     "name": "history",
-    "built": true
+    "built": false
    },
    {
     "name": "shelve",
-    "built": true
+    "built": false
    },
    {
     "name": "write",
-    "built": true
+    "built": false
    }
   ],
   "readfeats": 31
  },
  "watch": {
-  "open": 4,
-  "high": 3,
+  "open": 2,
+  "high": 1,
   "rounds": 3,
   "findings": [
-   {
-    "module": "build_terminal",
-    "symbol": "place",
-    "actual": "The function uses a fixed arc fraction (0.08 and 0.92) to determine the span of each child node's wedge, which does not properly account for the total available",
-    "severity": "high"
-   },
-   {
-    "module": "assay",
-    "symbol": "interval",
-    "actual": "The while loop condition checks `any(abs(v - centre) > interval for v in vals)`, but the loop body increases `interval` by 0.01 each time. However, the `interva",
-    "severity": "high"
-   },
    {
     "module": "assay",
     "symbol": "SIGMA_MAX",
@@ -903,7 +891,7 @@
   "swallowed": [
    [
     "silent:endpoint.py:fetch_html:HTTPError",
-    3903
+    3962
    ],
    [
     "silent:hostcheck.py:probe:HTTPError",
@@ -926,14 +914,14 @@
     419
    ]
   ],
-  "swallowed_total": 12962
+  "swallowed_total": 13039
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
-   "holds": false,
-   "observed": 500,
+   "holds": true,
+   "observed": 920,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -942,7 +930,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 23,
+   "observed": 27,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -951,7 +939,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "28% dry",
+   "observed": "16% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -968,8 +956,8 @@
   {
    "standard": "calls that succeed",
    "group": "pool",
-   "holds": false,
-   "observed": "30% ok",
+   "holds": true,
+   "observed": "60% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1013,8 +1001,8 @@
   {
    "standard": "page roll complete",
    "group": "read",
-   "holds": false,
-   "observed": "83%",
+   "holds": true,
+   "observed": "100%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -1023,7 +1011,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1041,7 +1029,7 @@
    "standard": "sources with a reachable wiki",
    "group": "library",
    "holds": true,
-   "observed": "91%",
+   "observed": "92%",
    "floor": "80%",
    "order": "Sources without a host are uncitable by construction. Run `python src/hostcheck.py --adopt --go`. For homebrew, try D&D Wiki and the publisher's own site -- homebrew is inconsistent about where it lives.",
    "severity": "medium"
@@ -1059,7 +1047,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 3,
+   "observed": 1,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1068,20 +1056,20 @@
    "standard": "phases implemented",
    "group": "code",
    "holds": true,
-   "observed": "8/8",
+   "observed": "4/8",
    "floor": "at least 4",
-   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: none",
+   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: cosmology, history, shelve, write",
    "severity": "low"
   },
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "12,962",
+   "observed": "13,039",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T16:42:17"
+ "generated": "2026-08-22T16:52:06"
 }

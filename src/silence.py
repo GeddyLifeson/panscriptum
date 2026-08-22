@@ -53,6 +53,23 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+# THE EXPORT COPY IS NOT THE PROJECT.
+#
+# `publish.py` copies all of src/ into an export tree so the public repo carries the code.
+# That tree is a complete, runnable duplicate -- and running or editing it instead of the
+# live one is silent: the module imports, the edit succeeds, and the change lands somewhere
+# nothing reads. It caught me twice in one session, once losing a standards floor and once
+# pointing a sweep at a data directory that does not exist there.
+#
+# `publish` drops a marker beside the copy. Every module imports `silence`, so this one
+# check guards all of them, and a wrong-tree run now fails at import with the reason
+# instead of succeeding into the void.
+_MARKER = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                       ".is-export-copy")
+if os.path.exists(_MARKER):
+    raise SystemExit("This is the PUBLISHED COPY, not the project. Run from the real "
+                     "project directory -- edits and runs here reach nothing.")
+
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
     raise SystemExit(__file__ + ": a regex escape was eaten in transit.")

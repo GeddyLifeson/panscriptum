@@ -49,6 +49,13 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
     raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
 
 LOG = os.path.join(HERE, "data", "SCOUT.json")
+BLOCKED = os.path.join(HERE, "data", "SCOUT_BLOCKED.json")
+
+# The project's honest crawler identity. A site that declines THIS is declining consent, and the
+# correct response is to record that and stop asking -- not to put on a browser costume. The
+# material behind a storefront is purchased content and belongs to whoever bought it.
+_UA = ("PanscriptumResearchBot/1.0 (personal research archive; "
+       "contact imarlonlee@gmail.com) python-urllib")
 
 # A page must contain at least this fraction of the names probed against it. Low on purpose: an
 # index page carries many names and a single class page carries one, and both are worth reading.
@@ -114,15 +121,40 @@ def _names_in(text, names):
 
 
 def verify(url, names):
-    """Fetch a proposed URL and decide whether it is about this material."""
+    """Fetch a proposed URL and decide whether it is about this material.
+
+    The failure REASON is recorded, not just the failure, because three very different things
+    look identical as "no readable text" and only one of them is the model's fault:
+
+        404 / no such host   the URL was invented. Nothing to do; do not try it again.
+        403                  the page exists and declines automated readers. That is a real
+                             finding -- the material is there and consent was withheld -- and it
+                             belongs in front of the owner rather than in a retry loop.
+        200 but no names     a real page about something else.
+
+    Distinguishing them is what turns "the scout found nothing" into "these four are paid
+    products behind a storefront and these three do not exist".
+    """
+    import urllib.error
+    import urllib.request
     import endpoint as EP
-    got = EP.fetch_html([url])
-    text = got.get(url)
-    if not text:
-        return {"url": url, "ok": False, "why": "no readable text"}
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": _UA})
+        with urllib.request.urlopen(req, timeout=40) as r:
+            body = r.read().decode("utf-8", "replace")
+    except urllib.error.HTTPError as e:
+        silence.note("scout.py:verify-http")
+        kind = "exists but declines readers" if e.code in (401, 403, 429) else f"HTTP {e.code}"
+        return {"url": url, "ok": False, "why": kind, "code": e.code}
+    except Exception as e:
+        silence.note("scout.py:verify")
+        return {"url": url, "ok": False, "why": "no such host or no route",
+                "code": type(e).__name__}
+    text = EP.html_text(body)
+    if len(text) < 400:
+        return {"url": url, "ok": False, "why": "page has almost no text (script-rendered?)"}
     hits = _names_in(text, names)
-    return {"url": url, "ok": hits >= MIN_NAME_HITS, "hits": hits,
-            "chars": len(text),
+    return {"url": url, "ok": hits >= MIN_NAME_HITS, "hits": hits, "chars": len(text),
             "why": f"{hits} catalogued name(s) present"}
 
 
@@ -154,7 +186,21 @@ def scout(source, names, register=True):
                 json.dump(hosts, f, indent=1, sort_keys=True)
         except Exception:
             silence.note("scout.py:register-host")
+    # Pages that exist and decline us are a finding for the owner, not a retry target.
+    blocked = [c for c in checked if c.get("code") in (401, 403, 429)]
+    if blocked:
+        try:
+            prev = {}
+            if os.path.exists(BLOCKED):
+                with open(BLOCKED, encoding="utf-8") as f:
+                    prev = json.load(f)
+            prev[source] = sorted({c["url"] for c in blocked} | set(prev.get(source) or []))
+            with open(BLOCKED, "w", encoding="utf-8") as f:
+                json.dump(prev, f, indent=1, sort_keys=True)
+        except Exception:
+            silence.note("scout.py:blocked")
     return {"source": source, "proposed": len(urls), "kept": kept, "checked": checked,
+            "blocked": [c["url"] for c in blocked],
             "note": (got or {}).get("note", "")}
 
 
@@ -187,8 +233,8 @@ def sweep(limit=None, register=True):
             for u in r["kept"]:
                 print(f"            {u}")
         else:
-            why = r.get("note") or "nothing verified"
-            print(f"   none   {src[:38]:<40}{str(why)[:44]}")
+            reasons = ", ".join(sorted({c.get("why", "?") for c in (r.get("checked") or [])}))
+            print(f"   none   {src[:38]:<40}{reasons[:60]}")
     print(f"\n{found} of {len(order)} sources now have somewhere to read from")
     try:
         prev = json.load(open(LOG, encoding="utf-8")) if os.path.exists(LOG) else []

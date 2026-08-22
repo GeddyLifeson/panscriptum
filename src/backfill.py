@@ -149,19 +149,16 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     host = hosts.get(source)
     if not host:
         return {"source": source, "error": "no wiki host"}
-
     have = {re.sub(r"[^a-z0-9]+", "", e["name"].lower()) for e in r["entries"]}
     names = roster(host)
     missing = [t for t in names if re.sub(r"[^a-z0-9]+", "", t.lower()) not in have]
-
     # Ranked by article size, never alphabetically. A category listing comes back A-first, so a
     # cap applied to it takes Abo, Abura and Ackman and leaves Goku out — which is precisely the
     # failure this file exists to repair. Article length is the wiki's own vote on who matters:
     # Goku's page runs six figures, Agarizame's runs three.
     sizes = {}
     for i in range(0, len(missing), 50):
-        d = F.api(host, {"action": "query", "prop": "info",
-                         "titles": "|".join(missing[i:i + 50])})
+        d = F.api(host, {"action": "query", "prop": "info", "titles": "|".join(missing[i:i + 50])})
         for pg in (d or {}).get("query", {}).get("pages", []):
             sizes[pg.get("title")] = pg.get("length", 0)
     # Reported BEFORE the cap. Computing it after made "already held" the complement of the cap
@@ -173,17 +170,14 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     if cap:
         missing = missing[:cap]
     if dry or not missing:
-        return {"source": source, "host": host, "roster": len(names),
-                "already_held": len(names) - absent, "absent": absent,
-                "queued": len(missing), "sample": missing[:12], "added": 0}
-
+        return {"source": source, "host": host, "roster": len(names), "already_held": len(names) - absent, "absent": absent, "queued": len(missing), "sample": missing[:12], "added": 0}
     added = 0
     for i in range(0, len(missing), 40):
         pages = F.fetch(host, missing[i:i + 40])
         for title, wt in pages.items():
             desc = lead(wt)
             if len(desc) < 40:
-                continue                     # a stub is not a record
+                continue  # a stub is not a record
             r["entries"].append({
                 "name": title,
                 "type": "Character",
@@ -197,13 +191,11 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
                 # produced. The provenance travels with the entry into every later phase.
                 "provenance": f"backfill:{host}",
                 "catalogued": False,
-            })
+                })
             added += 1
-        time.sleep(0.2)
-
+            time.sleep(0.2)
     P.write_record(path, r)
-    return {"source": source, "host": host, "roster": len(names),
-            "missing": len(missing), "added": added, "entries_now": len(r["entries"])}
+    return {"source": source, "host": host, "roster": len(names), "missing": absent, "added": added, "entries_now": len(r["entries"])}
 
 
 def main():

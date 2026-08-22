@@ -63,7 +63,15 @@ MAX_UNANSWERED = 0              # a passage nobody read must never be counted as
 MIN_FEATS_PER_CHUNK = 0.5       # below this the reader is running but extracting nothing
 MAX_FABRICATION = 0.45          # verbatim-check rejections; above this the model is guessing
 MAX_COVERAGE_AGE_H = 6          # coverage older than this predates whatever has run since
-MIN_HOST_COVERAGE = 0.80        # sources with a reachable wiki
+# EVERY source must have somewhere to read from. Not most.
+#
+# This was 0.80, and 92% passed -- quietly accepting 18 sources and thousands of entries as
+# permanently uncitable. A floor that tolerates a gap closes the file on it: nothing retries, the
+# scout never fires, and the standard reports green forever. At 1.0 it stays breached until every
+# source has a wiki, a raw endpoint or a registered page list, and the foreman keeps scouting.
+# Some will never be found. A permanently breached standard whose remedy runs every cycle is a
+# system still looking; a satisfied one is a system that stopped.
+MIN_HOST_COVERAGE = 1.0
 MIN_SETTLED = 0.55              # cited or read; the rest is unexamined
 MAX_BROKEN_MODULES = 0
 MAX_CORRUPT_FILES = 0

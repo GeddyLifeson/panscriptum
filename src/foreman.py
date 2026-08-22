@@ -416,6 +416,27 @@ def owner_queue(items):
         lines.append(f"- observed **{it['observed']}**, floor **{it['floor']}**")
         lines.append(f"- {it['order']}")
         lines.append("")
+    # Material that EXISTS and declines automated readers. This is not a bug and not a gap in
+    # the automation -- it is a storefront, and the correct answer to a storefront is a person
+    # with an account, not a crawler in a costume. Surfaced with the URL so the decision is one
+    # click away.
+    try:
+        with open(os.path.join(HERE, "data", "SCOUT_BLOCKED.json"), encoding="utf-8") as f:
+            blocked = json.load(f)
+    except Exception:
+        blocked = {}
+    if blocked:
+        lines.append("### Material that exists but declines automated readers")
+        lines.append("")
+        lines.append("The scout found these and was refused. Mostly paid products. Nothing here "
+                     "can be automated -- the library can only read them if you supply the text.")
+        lines.append("")
+        for src, urls in sorted(blocked.items()):
+            lines.append(f"- **{src}**")
+            for u in urls[:3]:
+                lines.append(f"  - {u}")
+        lines.append("")
+
     if len(lines) <= 6:
         lines.append("Nothing outstanding.")
     with open(FOR_OWNER, "w", encoding="utf-8") as f:
