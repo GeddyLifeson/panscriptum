@@ -250,7 +250,39 @@ def cloud_buckets(pool="coding"):
         return []
 
 
+PROOF = os.path.join(HERE, "data", "POOL_PROOF.json")
+_PROVEN = [None]
+
+
+def proven():
+    """Buckets that have actually answered a call, from the last run of `prove()`.
+
+    Headroom is what a bucket says about its own meters. It is not evidence that the key works,
+    that the model still exists, or that the provider will accept a request -- and 25 of 36
+    buckets reported healthy quota while answering nothing. Each of those costs a full deadline
+    every time it is claimed, so the pool's REAL width, 11, was being diluted threefold by
+    buckets that were never going to reply.
+
+    An empty proof means "not measured", not "nothing works": with no file, every bucket is
+    allowed, because refusing them all on missing evidence would be the same error inverted.
+    """
+    if _PROVEN[0] is not None:
+        return _PROVEN[0]
+    try:
+        with open(PROOF, encoding="utf-8") as f:
+            rows = json.load(f)
+        ok = {r["bucket"] for r in rows if r.get("verdict") in ("answers", "local")}
+        _PROVEN[0] = ok if ok else None
+    except Exception:
+        silence.note("cascade_bridge.py:proven")
+        _PROVEN[0] = None
+    return _PROVEN[0]
+
+
 def _alive(bucket):
+    known = proven()
+    if known is not None and bucket not in known:
+        return False
     if bucket.startswith(LOCAL_PREFIX):
         # The GPU is read.py's own fallback and reaching it through here would hide that fact
         # behind a "Cascade" label, with a 90-second deadline on a call that legitimately takes

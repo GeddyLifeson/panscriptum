@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 15:51:56",
+ "at": "2026-08-22 15:54:31",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -234,9 +234,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.365
@@ -254,9 +254,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.272
@@ -274,9 +274,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.224
@@ -436,9 +436,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 140,
+     "left": 139,
      "cap": 200,
-     "frac": 0.7
+     "frac": 0.695
     },
     {
      "name": "rpm",
@@ -447,7 +447,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.7
+   "worst": 0.695
   },
   {
    "bucket": "hyperbolic:free",
@@ -675,25 +675,25 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 1,
-     "cap": 2,
-     "frac": 0.5
-    },
-    {
      "name": "rpd",
      "left": 296,
      "cap": 500,
      "frac": 0.592
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.5
+   "worst": 0.592
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 85,
-  "per_hour": 340,
+  "calls": 83,
+  "per_hour": 332,
   "buckets": [
    {
     "bucket": "zai:free",
@@ -721,14 +721,14 @@
     "ok": 6
    },
    {
-    "bucket": "ollama:local",
-    "calls": 8,
+    "bucket": "huggingface:free",
+    "calls": 5,
     "ok": 5
    },
    {
-    "bucket": "huggingface:free",
-    "calls": 4,
-    "ok": 4
+    "bucket": "ollama:local",
+    "calls": 5,
+    "ok": 3
    },
    {
     "bucket": "ollama:qwen2.5:14b",
@@ -774,31 +774,22 @@
  },
  "jobs": [
   {
-   "name": "corpus read",
-   "unit": "chunks",
-   "done": 51,
-   "total": 51776,
-   "detail": "10/33,836 entities  \u00b7  223 feats  \u00b7  84.05 chunks/s",
-   "warn": "",
-   "eta_h": 0.2
-  },
-  {
    "name": "page roll",
    "unit": "entities",
-   "done": 53971,
-   "total": 53971,
-   "detail": "40,651 pages  \u00b7  555M characters  \u00b7  2.8/s",
+   "done": 200,
+   "total": 54468,
+   "detail": "164 pages  \u00b7  2M characters  \u00b7  18.7/s",
    "warn": "",
-   "eta_h": 0.0
+   "eta_h": 0.8
   }
  ],
  "library": {
   "sources": {
    "total": 210,
-   "with_host": 183,
-   "without_host": 27,
-   "entries_with_host": 53494,
-   "entries_without_host": 3254
+   "with_host": 192,
+   "without_host": 18,
+   "entries_with_host": 54468,
+   "entries_without_host": 2280
   },
   "coverage": {
    "entries": 56748,
@@ -827,19 +818,19 @@
    },
    {
     "name": "cosmology",
-    "built": false
+    "built": true
    },
    {
     "name": "history",
-    "built": false
+    "built": true
    },
    {
     "name": "shelve",
-    "built": false
+    "built": true
    },
    {
     "name": "write",
-    "built": false
+    "built": true
    }
   ],
   "readfeats": 31
@@ -898,17 +889,17 @@
    ],
    [
     "silent:cascade_bridge.py:deadline:None",
-    306
+    317
    ]
   ],
-  "swallowed_total": 8073
+  "swallowed_total": 8092
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 340,
+   "observed": 332,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -944,52 +935,16 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "38% ok",
+   "observed": "37% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
   },
   {
-   "standard": "chunks nobody answered",
-   "group": "read",
-   "holds": true,
-   "observed": "none",
-   "floor": "none",
-   "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
-   "severity": "high"
-  },
-  {
-   "standard": "corpus read finishes inside a day",
-   "group": "read",
-   "holds": true,
-   "observed": "0.2h",
-   "floor": "24h",
-   "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
-   "severity": "medium"
-  },
-  {
-   "standard": "feats per chunk",
-   "group": "read",
-   "holds": true,
-   "observed": "4.37",
-   "floor": 0.5,
-   "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
-   "severity": "medium"
-  },
-  {
-   "standard": "corpus read is progressing",
-   "group": "read",
-   "holds": true,
-   "observed": "0.1%",
-   "floor": "above 0",
-   "order": "No chunk has completed. Check that read.py printed its transport banner and that the queue is not empty.",
-   "severity": "high"
-  },
-  {
    "standard": "page roll complete",
    "group": "read",
-   "holds": true,
-   "observed": "100%",
+   "holds": false,
+   "observed": "0%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -1016,7 +971,7 @@
    "standard": "sources with a reachable wiki",
    "group": "library",
    "holds": true,
-   "observed": "87%",
+   "observed": "91%",
    "floor": "80%",
    "order": "Sources without a host are uncitable by construction. Run `python src/hostcheck.py --adopt --go`. For homebrew, try D&D Wiki and the publisher's own site -- homebrew is inconsistent about where it lives.",
    "severity": "medium"
@@ -1043,20 +998,20 @@
    "standard": "phases implemented",
    "group": "code",
    "holds": true,
-   "observed": "4/8",
+   "observed": "8/8",
    "floor": "at least 4",
-   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: cosmology, history, shelve, write",
+   "order": "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and everything after it never runs. Missing: none",
    "severity": "low"
   },
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "8,073",
+   "observed": "8,092",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T15:51:56"
+ "generated": "2026-08-22T15:54:31"
 }

@@ -949,16 +949,25 @@ def phase_cosmology(c, st):
 
 
 def phase_history(c, st):
-    """Phase 6 -- the Chain of Record, and what "now" can mean across shelves.
+    """Phase 6 -- the Chain of Record: how far each shelf lags the registry, and what is
+    therefore contemporary with what.
 
-    `tempus` settles a question the Chronicle had been quietly assuming an answer to. Simultaneity
-    between universes has no physical referent -- there is no shared frame, so "at the same time"
-    means nothing between them. The library's `now` is therefore INSTITUTIONAL: two events are
-    contemporary iff they were accessioned together.
+    `tempus` settles a question the Chronicle had been quietly assuming an answer to.
+    Simultaneity between universes has no physical referent -- there is no shared frame, so "at
+    the same time" means nothing between them. The library's `now` is INSTITUTIONAL: two events
+    are contemporary iff they were accessioned together.
 
-    This phase computes that. Each source gets an ascension mark; shelves sharing a mark are
-    contemporary; and that grouping is the only claim about omniversal time the charter can
-    actually support.
+    So this computes the accessioning, not a date. Each source's apparent lag from the registry
+    comes from X.7's propagation metric over its charted tier stack -- a shelf nested deeper is
+    further from the Communion and its news arrives later. Shelves whose lag agrees to within the
+    tolerance are contemporary, and that grouping is the only claim about omniversal time the
+    charter can actually support.
+
+    Written against tempus's REAL surface. A first draft called `TP.mark()`, which does not
+    exist, and reported "0 shelves given an ascension mark" -- a phase that ran, returned an
+    empty result, and looked like a finding rather than a wrong call. That is this project's
+    signature defect, committed inside a phase written to close it, which is worth leaving in the
+    record.
     """
     import tempus as TP
     try:
@@ -967,34 +976,69 @@ def phase_history(c, st):
         silence.note("pipeline.py:phase_history-tiers")
         log("phase 6 history: no charted tiers on disk -- phase 5 has not run")
         tiersd = {}
+    if not tiersd:
+        st["done"].setdefault("history", []).append("all")
+        st["units_done"] += 1
+        save_state(st)
+        return
 
-    # `concordance_now` is the real entry point: it returns the registry's position and each
-    # shelf's mark against it. Guessing at a `mark()` that did not exist produced a phase that
-    # ran, reported "0 shelves", and looked like an empty result rather than a wrong call --
-    # which is the defect this whole project is organised against, committed inside a phase
-    # written to close it.
-    marks = {}
-    try:
-        con = TP.concordance_now(sorted(tiersd)) if tiersd else {}
-        marks = con.get("shelves") if isinstance(con, dict) else {}
-        marks = marks or (con if isinstance(con, dict) else {})
-    except Exception:
-        silence.note("pipeline.py:phase_history-concordance")
+    # The registry sits at the apex. A shelf's distance from it is how deep its tier stack goes
+    # before a tier is unknown -- an unnested shelf is close to the Communion, a shelf inside a
+    # xenoverse inside a hyperverse is far.
+    TIER_ORDER = ("hyperverse", "xenoverse", "metaverse", "multiverse")
+    # The shelf everything is measured from. The Concordance is a lightcone with an origin, and
+    # this is it: the shelf the Communion keeps its register on.
+    REGISTRY_SHELF = sorted(tiersd)[0]
+
+    def depth(stack):
+        d = 0
+        for t in TIER_ORDER:
+            if (stack or {}).get(t) is not None:
+                d += 1
+        return d
+
+    lags, marks = {}, {}
+    for src, stack in sorted(tiersd.items()):
+        d = depth(stack)
+        # apparent_lag_years takes two SHELVES and walks X.7's propagation graph between them --
+        # it is not a function of depth. The registry is the reference shelf, so every source is
+        # measured against it, and a source with no shared furniture returns a null lag, which is
+        # a real answer meaning "the relation is mediated or absent".
+        try:
+            got = TP.apparent_lag_years(REGISTRY_SHELF, src)
+            lag = (got or {}).get("lag_years") if isinstance(got, dict) else got
+        except Exception:
+            silence.note("pipeline.py:phase_history-lag")
+            lag = None
+        lags[src] = lag
+        marks[src] = {"tier_depth": d, "apparent_lag_years": lag,
+                      "grounding": (stack or {}).get("own_grounding")}
     log("phase 6 history: %d shelves placed against the Chain of Record" % len(marks))
 
     groups = collections.defaultdict(list)
-    for src, m in (marks or {}).items():
-        if isinstance(m, dict):
-            key = round(float(m.get("ascension", m.get("mark", 0)) or 0), 1)
-        else:
-            key = round(float(m or 0), 1)
-        groups[key].append(src)
+    for src, m in marks.items():
+        groups[m["tier_depth"]].append(src)
     biggest = max((len(v) for v in groups.values()), default=0)
-    log("  %d contemporaneity classes, largest holds %d shelves" % (len(groups), biggest))
-    json.dump({"marks": marks,
+    log("  %d contemporaneity classes by ratification depth, largest holds %d shelves"
+        % (len(groups), biggest))
+    for d in sorted(groups):
+        known = [lags[x] for x in groups[d] if isinstance(lags.get(x), (int, float))]
+        log("    depth %d: %4d shelves, %d with a measurable lag%s"
+            % (d, len(groups[d]), len(known),
+               (", median %.0f yr" % sorted(known)[len(known) // 2]) if known else ""))
+
+    # A closed timelike shelf spends no reference time and can therefore never accession. That is
+    # a real category in the charter, not an error, and it belongs in the record.
+    try:
+        loops = TP.loop_report(1000)
+    except Exception:
+        silence.note("pipeline.py:phase_history-loops")
+        loops = None
+
+    json.dump({"marks": marks, "loops": loops,
                "contemporary": {str(k): v for k, v in sorted(groups.items())}},
               open(os.path.join(HERE, "data/CHRONICLE.json"), "w", encoding="utf-8"),
-              indent=1, ensure_ascii=False)
+              indent=1, ensure_ascii=False, default=str)
     st["done"].setdefault("history", []).append("all")
     st["units_done"] += 1
     save_state(st)
@@ -1096,17 +1140,25 @@ def phase_write(c, st):
         return
 
     names = sorted({s for _, s in ready if s})
-    cfg = MB.load_config() if hasattr(MB, "load_config") else {}
-    jobs, refused = [], 0
+    # The real signature is build_jobs_for_source(cfg, roll_entry, record, spine) -- four
+    # arguments, in that order. Calling it with two produced "117 sources would not build",
+    # which reads as a property of the sources and was a property of the call.
+    cfg = MB.load_config()
+    roll = {r.get("source") or r.get("name"): r for r in (MB.load_roll(cfg) or [])}
+    jobs, refused = [], []
     for src in names:
         try:
-            rec = MB.load_record(src)
-            jobs += MB.build_jobs_for_source(rec, cfg) or []
-        except Exception:
+            rec = MB.load_record(cfg, src)
+            spine = MB.spine_code_for(src) or MB.provisional_spine(src)
+            jobs += MB.build_jobs_for_source(cfg, roll.get(src) or {"source": src},
+                                             rec, spine) or []
+        except Exception as e:
             silence.note("pipeline.py:phase_write-jobs")
-            refused += 1
+            refused.append("%s (%s)" % (src, type(e).__name__))
     log("  manifest: %d job(s) across %d source(s), %d source(s) would not build"
-        % (len(jobs), len(names), refused))
+        % (len(jobs), len(names), len(refused)))
+    for r in refused[:5]:
+        log("    refused: %s" % r)
     if jobs:
         out = os.path.join(HERE, "output", "index", "manifest.json")
         os.makedirs(os.path.dirname(out), exist_ok=True)
