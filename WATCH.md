@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 2  ·  last run 2026-08-22 14:42
+round 3  ·  last run 2026-08-22 15:03
 
 ## Structure
 
@@ -12,8 +12,12 @@ round 2  ·  last run 2026-08-22 14:42
 
 ## What the model found in the code
 
-**2 open** (1 high). Newest first.
+**4 open** (3 high). Newest first.
 
+- **build_terminal.py** `place` — [HIGH] The function uses a fixed arc fraction (0.08 and 0.92) to determine the span of each child node's wedge, which does not properly account for the total available arc. This causes in
+  - says: The function recursively lays out nodes in a radial tree with the given root at the center, distributing child nodes around the circle based on weighted arcs pr
+- **backfill.py** `backfill_source` — [HIGH] returns a dictionary with 'added' count and other metadata, but the 'missing' field in the return value is the number of entries that were processed (i.e., the capped list), not th
+  - says: returns a dictionary with 'added' count and other metadata about the backfill operation
 - **assay.py** `interval` — [HIGH] The while loop condition checks `any(abs(v - centre) > interval for v in vals)`, but the loop body increases `interval` by 0.01 each time. However, the `interval` is rounded to 2 d
   - says: The interval must cover every signed reading, enforced by a while loop that increases interval until all readings are within bounds.
 - **assay.py** `SIGMA_MAX` — [MEDIUM] SIGMA_MAX is defined as 9.9 / sqrt(12), which is correct for the standard deviation of a uniform distribution over [0.0, 9.9], but this value is used as a hard ceiling for uncertai

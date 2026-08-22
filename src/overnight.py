@@ -336,6 +336,12 @@ def main():
         #     running; the alternative is a dashboard that exists but is not on.
         start("dashboard", [os.path.join(SRC, "dashboard.py"), "--port", "8777"],
               "dashboard.log")
+        # 0a2. THE PUBLISHER. Syncs the code and a scrubbed snapshot to the public repo every
+        #      ten minutes, so the panel is readable from a phone. It copies a NAMED SUBSET into
+        #      a clean tree rather than ignoring things out of this one -- the mined corpus is
+        #      489MB of third-party wiki text and must never travel by accident.
+        start("publish", [os.path.join(SRC, "publish.py"), "--push", "--loop", "10"],
+              "publish.log")
         # 0b. THE WATCHER. Its own long-lived process, started once and left alone -- it outlives
         #    a cycle deliberately, because the whole point is that something is looking BETWEEN
         #    the moments anybody looks. `start()` returns None if it is already running, which

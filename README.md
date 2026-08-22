@@ -1,96 +1,59 @@
-# The Panscriptum
+# Panscriptum — Library of Babel Book-Generation Kit
 
-An omniverse encyclopedia, assembled from cited evidence rather than opinion.
+**Give this whole folder to a local Claude Code session running on your machine.** Its own
+`CLAUDE.md` is written as the briefing document — Claude Code will pick it up automatically.
+Read `CLAUDE.md` before running anything; there's more already built (a full charter, four
+finished keystone volumes, a working registry-terminal viewer app) than a first glance at
+`src/` and `data/` would suggest.
 
-The premise is a library that catalogues every named being, place, vessel, event and power system
-across ~210 fictional sources, and assigns each one a **Magnitude** — a measure of how much of
-reality that thing occupies — computed from feats quoted verbatim out of the source material,
-with an error bar that widens honestly when the evidence thins.
+## Why this exists
 
-**[Live instrument panel →](https://GEDDYLIFESON.github.io/panscriptum/)**
+The cloud session that built this kit can't reach your local Ollama install, so the actual
+prose-generation step has to run where Ollama does — on your machine, via Claude Code.
 
----
+## What's in here
 
-## What this actually is
+- `reference/keystone_volumes/` — the master charter (shelving system, Magnitude scale, Entry
+  and Volume templates, and the real spine-code index for most sources) plus four already-
+  written keystone volumes and the card-catalog source files.
+- `reference/pipeline_tooling/` — the cloud-side cataloguing scripts, for context on how
+  `data/` was produced.
+- `registry_terminal/` — an existing, working HTML card-catalog viewer app.
+- `data/` — a snapshot of everything catalogued so far: 215 sources, structured facts (named
+  people, factions, places, items, events, media, powers), plus the parsed real spine-code
+  lookup (`CHARTER_SPINE_CODES.json`).
+- `src/` — the pipeline: spine-code-aware addressing, manifest builder, local-model
+  auto-selection, the Ollama runner, compression, catalog query tool.
+- `prompts/` — the Entry Template / Volume Template prompts and the house-style guide, pulled
+  directly from the master charter's own format (Parts Six and Seven).
+- `config.yaml` — Ollama connection, chunking size. Model is picked automatically (see below),
+  not hand-set.
+- `output/` — where generated books land (empty until you run something).
 
-A pipeline, a measurement instrument, and a set of watchers that exist because the pipeline kept
-lying quietly.
+## Quick start
 
-**The pipeline.** `feats.py --roll` mines page text from ~180 wikis. `read.py` has a language
-model read those pages and return feats *verbatim* — every returned sentence is checked against
-the source text and discarded if it is not there, which is the only defence against a model that
-would rather be helpful than accurate. `pipeline.py` runs the phases in order.
+```
+cd panscriptum-library-kit
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
 
-**The instrument.** `assay.py` implements the charter's Custodial Assay: eleven weighted axes,
-scored on a log scale against real physical reference quantities, composited into a band and a
-decimal with a propagated error interval. `physics.py` holds the joules. `rigor.py` holds the
-commensuration maths — Bradley-Terry with Ford's condition enforced, Saaty's consistency ratio,
-HodgeRank's gradient/curl decomposition. `verify_math.py` independently recomputes all 237 of the
-numbers this project relies on, from first principles, and refuses to pass if any disagrees.
-
-**The watchers.** These are the interesting part, and the reason the repository is worth reading
-even if the subject is not to your taste.
-
-## The defect this project is organised around
-
-Every fault found here has had the same shape: **a layer converting a failure into a plausible
-negative result.**
-
-| what happened | what it looked like |
-|---|---|
-| Wikipedia served 404 on the wrong API path | "these 5,590 entities have no page" |
-| chunks overflowed the context window, truncated silently | "the model fabricates 51% of the time" |
-| `\b` arrived as a 0x08 backspace, six separate times | "the evidence gate is too strict" |
-| `strip_wikitext` ate template-wrapped articles | 3,736 entities "read as empty pages" |
-| a slug-guessed host answered, wrong fiction | 2,765 pages mined from *Descent* the board game |
-| a wrong host wrote a wrong **roster** | a D&D module catalogued as the cast of *Lost* |
-| the reader called the local model instead of the router | 4× throughput lost, no error, for a morning |
-| the pool declined and chunks were counted as read | 71% of passages never seen, entities filed as done |
-| a 429 taught a per-minute cap of 1, permanently | a 10× smaller provider pool, reported as "available" |
-
-None were hard to detect. Each was one measurement away. They persisted because nobody was
-measuring between the moments somebody looked.
-
-So:
-
-- **`silence.py`** audits every `except` in the tree and reports the ones that swallow a failure
-  and return. It found 67 of 80 and instrumented them; failures are now counted by class into a
-  ledger instead of vanishing.
-- **`allsweep.py`** runs every check at once — imports all 68 modules, runs nine verifiers, opens
-  all 45,000 files, and **reconciles the subsystems against each other**, which is the only place
-  a single verifier cannot look.
-- **`overwatch.py`** keeps doing it. Structure every round; a model reads the source for defects
-  of fact, filtered hard (the named symbol must exist, each finding reported once, style
-  discarded).
-- **`standards.py`** declares what *working* means in numbers and issues a **work order** when
-  reality falls below it. A number with no floor under it cannot be wrong.
-- **`hostcheck.py`** asks whether a wiki actually holds the fiction assigned to it, by measuring
-  **lift** against that host's own baseline for foreign names. Wikipedia answers for 50% of names
-  it has no reason to hold; D&D Wiki answers for 0%. The same 33% means opposite things.
-
-## Running it
-
-```bash
-python src/health.py --preflight     # always first — cheap, and it catches real faults
-python src/allsweep.py               # the full audit, ~45s
-python src/standards.py              # what is below spec, and the work order for it
-python src/dashboard.py              # instruments on http://127.0.0.1:8777
-python src/overnight.py              # the supervisor: roll ‖ read → pipeline → coverage
+ollama serve                             # if not already running
+python3 src/pick_model.py --write        # picks the best model you actually have installed
+python3 src/manifest_builder.py --pilot 3
+python3 src/generate.py --manifest output/index/manifest.pilot.json
+python3 src/catalog.py stats
 ```
 
-`handoff/HANDOFF.md` is the real documentation — every defect above is written up there with the
-reasoning, because the reasoning is what stops it recurring.
+Then read `CLAUDE.md` for the full picture: the real addressing system, what's already built,
+known gaps (about half the roll has no official shelf code yet — see
+`output/index/unassigned_sources.md` after your first manifest build), and what to do once the
+pilot looks good.
 
-## What is not here
+## A note on the data snapshot
 
-`data/` — 489MB of page text mined from ~200 wikis. Excluded deliberately: it is derived data
-regenerated by `feats.py --roll`, and it is third-party CC-BY-SA content this repository has no
-business redistributing. Run the roll and it rebuilds.
-
-## Status
-
-4 of 8 phases implemented (`synthesis`, `entrypass`, `weave`, `chain`). Cosmology, history,
-shelving and the prose generation itself are not built. 178 of 210 sources have a reachable wiki;
-the remaining 32 are one-author homebrew with genuinely nowhere to read from.
-
-The live panel above is a snapshot pushed on a timer, not a live reading.
+`data/` is current as of when this kit was built. About 100 of the 215 sources still show
+`entry_count: 0` in `data/SWEEP_ROLL.json` — mid-re-sweep on the cloud side after a session-
+limit hiccup zeroed out a batch of them. `manifest_builder.py` skips anything with zero
+entries automatically. Ask the owner for a refreshed `data/` folder periodically, or re-point
+`config.yaml`'s data paths at the live `panscriptum/sweep/` directory if you ever have access
+to both environments at once.

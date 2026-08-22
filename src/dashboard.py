@@ -257,9 +257,16 @@ def watch():
 
 
 def state():
-    return {"at": time.strftime("%Y-%m-%d %H:%M:%S"), "quotas": quotas(),
-            "throughput": throughput(), "jobs": jobs(), "library": library(),
-            "watch": watch()}
+    s = {"at": time.strftime("%Y-%m-%d %H:%M:%S"), "quotas": quotas(),
+         "throughput": throughput(), "jobs": jobs(), "library": library(),
+         "watch": watch()}
+    try:
+        import standards as ST
+        s["standards"] = ST.check(s)
+    except Exception:
+        silence.note("dashboard.py:standards")
+        s["standards"] = []
+    return s
 
 
 # --------------------------------------------------------------------------- the page
@@ -321,6 +328,19 @@ td{padding:5px 8px 5px 0;border-bottom:1px solid var(--rule);color:var(--ink-dim
 td.k{color:var(--ink)} tr:last-child td{border-bottom:none}
 .empty{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);font-style:normal}
 footer{padding:0 30px 40px;font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:14px 0 4px}
+.gname{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--brass-dim);margin-bottom:6px}
+.srow{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:baseline;
+  font-family:var(--mono);font-size:11px;padding:3px 0;border-bottom:1px solid var(--rule)}
+.srow:last-child{border-bottom:none}
+.sname{color:var(--ink-dim)} .sval{color:var(--good);font-variant-numeric:tabular-nums}
+.sfloor{grid-column:1/-1;font-size:9.5px;color:var(--ink-faint)}
+.srow.miss .sname{color:var(--ink)} .srow.miss .sval{color:var(--bad);font-weight:600}
+.srow.miss{border-left:2px solid var(--bad);padding-left:7px;margin-left:-9px}
+.order{margin:10px 0 0;padding:10px 12px;background:var(--panel-2);border-left:2px solid var(--warn)}
+.otitle{font-family:var(--mono);font-size:11px;color:var(--warn);margin-bottom:5px}
+.obody{font-size:13.5px;color:var(--ink-dim);line-height:1.5}
 </style></head><body>
 <header>
   <h1>Panscriptum · Instruments</h1>
@@ -337,6 +357,36 @@ const cls=f=>f<=0.001?'bad':f<0.15?'bad':f<0.4?'warn':'good';
 const pct=f=>(f*100).toFixed(0)+'%';
 function bar(frac,kind){const b=el('div','bar');const i=el('i',kind||cls(frac));
   i.style.width=Math.max(0,Math.min(1,frac))*100+'%';b.appendChild(i);return b}
+
+function panelStandards(d){const s=el('section','wide');
+  const S=d.standards||[];
+  const bad=S.filter(x=>!x.holds);
+  s.appendChild(el('h2',null,'Standards — where things stand against spec'));
+  if(!S.length){s.appendChild(el('div','empty','Standards not readable.'));return s}
+  const r=el('div','row');r.appendChild(el('span','label','met'));
+  r.appendChild(el('span','value',(S.length-bad.length)+' of '+S.length));
+  s.appendChild(r);s.appendChild(bar((S.length-bad.length)/S.length,''));
+  const groups={};S.forEach(x=>{(groups[x.group]=groups[x.group]||[]).push(x)});
+  const grid=el('div','sgrid');
+  Object.keys(groups).forEach(g=>{
+    const col=el('div','scol');col.appendChild(el('div','gname',g));
+    groups[g].forEach(x=>{
+      const row=el('div','srow '+(x.holds?'':'miss'));
+      row.appendChild(el('span','sname',x.standard));
+      row.appendChild(el('span','sval',String(x.observed)));
+      row.appendChild(el('span','sfloor','floor '+x.floor));
+      col.appendChild(row)});
+    grid.appendChild(col)});
+  s.appendChild(grid);
+  if(bad.length){
+    s.appendChild(el('div','sub','WORK ORDERS'));
+    bad.sort((a,b)=>({high:0,medium:1,low:2}[a.severity]||3)-({high:0,medium:1,low:2}[b.severity]||3));
+    bad.forEach(x=>{const o=el('div','order');
+      o.appendChild(el('div','otitle','['+x.severity.toUpperCase()+'] '+x.standard+
+        ' — observed '+x.observed+', floor '+x.floor));
+      o.appendChild(el('div','obody',x.order));
+      s.appendChild(o)})}
+  return s}
 
 function panelJobs(d){const s=el('section','wide');s.appendChild(el('h2',null,'Work in progress'));
   if(!d.jobs.length){s.appendChild(el('div','empty','No job is writing a progress line right now.'));return s}
@@ -430,7 +480,8 @@ async function tick(){
   try{const d=await (await fetch('/api/state',{cache:'no-store'})).json();
     document.getElementById('stamp').textContent=d.at;
     const w=document.getElementById('wrap');w.innerHTML='';
-    w.append(panelJobs(d),panelQuota(d),panelSpend(d),panelLibrary(d),panelPhases(d),panelWatch(d));
+    w.append(panelStandards(d),panelJobs(d),panelQuota(d),panelSpend(d),panelLibrary(d),
+             panelPhases(d),panelWatch(d));
   }catch(e){document.getElementById('stamp').textContent='server unreachable';}
 }
 tick();setInterval(tick,5000);

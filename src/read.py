@@ -330,10 +330,60 @@ def _ask(c, system, prompt, schema):
     return _local(c, system, prompt, schema)
 
 
+_FALLBACK_MODEL = [None]
+# The card is 10GB. A model needs room for weights AND context, so the budget is deliberately
+# under that -- a model that "fits" at 9.9GB does not fit once a 2,700-token prompt arrives.
+# 8.5GB on a 10GB card. Nine leaves barely a gigabyte for the context window, and a
+# model that fits its weights but not its prompt spills to CPU anyway -- which is the
+# whole failure being fixed here.
+VRAM_BUDGET_BYTES = 8.5e9
+
+
+def fallback_model(c):
+    """The largest installed local model that fits the card WHOLE.
+
+    config.yaml names a 30B MoE at 18.6GB. On a 10GB 3080 that runs at a 56/44 CPU/GPU split,
+    which is fine for a batch job nobody is waiting on and useless as a fallback: every request
+    blew the 180-second timeout, 18 in fifteen minutes, and the reader kept paying for them.
+    The card sat at 22% utilisation and 9,711MB of 10,240 -- not busy, thrashing.
+
+    A 12B that fits entirely in VRAM answers in seconds. It is a weaker model and it will
+    fabricate more, but the verbatim check already discards fabrication, so the cost is a few
+    wasted calls rather than bad data -- and the alternative is a fallback that never answers.
+
+    The phase work keeps config.yaml's model: synthesis and entrypass are batch jobs where the
+    bigger model's quality is worth the wait, which is exactly what a fallback is not.
+    """
+    if _FALLBACK_MODEL[0] is not None:
+        return _FALLBACK_MODEL[0]
+    try:
+        import urllib.request
+        host = c.get("ollama_host", "http://localhost:11434")
+        with urllib.request.urlopen(host + "/api/tags", timeout=20) as r:
+            tags = json.loads(r.read().decode("utf-8", "replace"))
+        fits = []
+        for m in tags.get("models", []):
+            name, size = m.get("name") or "", m.get("size") or 0
+            if not name or not (0 < size <= VRAM_BUDGET_BYTES):
+                continue
+            # Not every small model can do this job: an embedding model has no chat head and a
+            # 1B vision model cannot hold a schema. Excluded by name because Ollama's tag list
+            # does not say what a model is for.
+            if any(k in name.lower() for k in ("embed", "moondream", "vision", "clip")):
+                continue
+            fits.append((size, name))
+        _FALLBACK_MODEL[0] = max(fits)[1] if fits else c.get("model")
+    except Exception:
+        silence.note("read.py:fallback_model")
+        _FALLBACK_MODEL[0] = c.get("model")
+    return _FALLBACK_MODEL[0]
+
+
 def _local(c, system, prompt, schema):
     """The GPU, re-splitting anything too long for its window, benched when it stops answering."""
     if _GPU_DOWN_UNTIL[0] > time.time():
         return None
+    c = dict(c, model=fallback_model(c))
     if len(prompt) <= CHUNK + 2000:
         got = P.ask(c, system, prompt, schema, timeout=180)
         if got is None:
