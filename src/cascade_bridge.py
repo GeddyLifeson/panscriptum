@@ -174,6 +174,58 @@ MAX_BENCH = 900
 
 LOCAL_PREFIX = "ollama:"
 
+# ---------------------------------------------------------------------- per-bucket pacing
+#
+# A claim says "this bucket has headroom". It does not say "and it is your turn". Nine workers
+# claiming across a dozen buckets still put several requests a second into a provider whose free
+# tier allows ten a MINUTE, and the result was 4% of calls succeeding: every one of the other 96%
+# a 429, a cooldown, and -- until the router was fixed -- a learned cap that made the pool
+# permanently smaller.
+#
+# This is the same instrument `feats._throttle` uses on wiki hosts, applied to model providers:
+# a bucket may be entered once per 60/rpm seconds, and a worker that arrives early waits its
+# turn. Waiting two seconds beats a 429 that costs a cooldown, and it beats a retry ladder that
+# costs ninety.
+_PACE_LOCK = threading.Lock()
+_PACE_LAST = {}
+_PACE_GATE = {}
+# Never pace slower than this even for a bucket claiming a tiny rpm -- a genuinely 1-rpm provider
+# is not worth a worker standing still for a minute, and the deadline handles it either way.
+MAX_PACE_SECONDS = 8.0
+
+
+def _interval(bucket):
+    """Minimum seconds between entries to this bucket, from its own declared rate."""
+    try:
+        rpm = (_ROUTER.limits_for(bucket) or {}).get("rpm")
+    except Exception:
+        silence.note("cascade_bridge.py:interval")
+        return 0.0
+    if not rpm or rpm <= 0:
+        return 0.0
+    return min(MAX_PACE_SECONDS, 60.0 / float(rpm))
+
+
+def _pace(bucket):
+    """Block until this bucket's turn. One waiter at a time per bucket, so the queue is orderly.
+
+    The per-bucket gate matters: without it, ten workers all sleep until the same instant and
+    then arrive together, which is the burst the pacing exists to prevent.
+    """
+    gap = _interval(bucket)
+    if gap <= 0:
+        return
+    with _PACE_LOCK:
+        gate = _PACE_GATE.setdefault(bucket, threading.Lock())
+    with gate:
+        last = _PACE_LAST.get(bucket, 0.0)
+        wait = gap - (time.time() - last)
+        if wait > 0:
+            time.sleep(min(wait, MAX_PACE_SECONDS))
+        _PACE_LAST[bucket] = time.time()
+
+
+
 
 def cloud_buckets(pool="coding"):
     """Distinct REMOTE buckets in this pool — the real width of the fan-out.
@@ -276,6 +328,7 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75)
         # Returning None hands the decision back to the caller, which knows the GPU is a real
         # resource rather than a hiding place.
         return None
+    _pace(pinned.bucket)
     sys_msg = system
     if schema:
         sys_msg = (system + "\n\nReply with JSON ONLY, no prose and no code fence, "
@@ -369,3 +422,46 @@ def selftest():
 
 if __name__ == "__main__":
     sys.exit(selftest())
+
+
+# --------------------------------------------------------------------------- proving the pool
+
+def prove(pool="coding", timeout=45):
+    """Send one tiny call to EVERY bucket and record which actually answer.
+
+    "27 buckets with headroom" was fiction. Headroom is what a bucket reports about its own
+    meters; it says nothing about whether the key works, whether the model still exists, or
+    whether the provider will accept a request at all. Two buckets were returning HTTP 401 on
+    every attempt while reporting 100% of their daily allowance untouched, and the standards
+    floored on the fictional number.
+
+    One three-token call per bucket settles it. The result is fact rather than inference, and a
+    bucket that fails here is benched long enough to stop costing every claim that follows.
+    """
+    e = engine()
+    if not e:
+        return []
+    seen, out = {}, []
+    for m in _ROUTER.models:
+        if pool in (m.pools or []) and m.bucket not in seen:
+            seen[m.bucket] = m
+    for bucket, m in sorted(seen.items()):
+        if bucket.startswith(LOCAL_PREFIX):
+            out.append({"bucket": bucket, "model": m.id, "verdict": "local", "seconds": 0})
+            continue
+        ready, why = _ROUTER.provider_ready(m)
+        if not ready:
+            out.append({"bucket": bucket, "model": m.id, "verdict": why, "seconds": 0})
+            continue
+        t = time.time()
+        try:
+            got = ask("Reply with JSON only.", 'Return {"ok": true}',
+                      {"type": "object", "properties": {"ok": {"type": "boolean"}},
+                       "required": ["ok"]}, pool=pool, timeout=timeout)
+            verdict = "answers" if got else "no answer"
+        except Exception as ex:
+            silence.note("cascade_bridge.py:prove")
+            verdict = type(ex).__name__
+        out.append({"bucket": bucket, "model": m.id, "verdict": verdict,
+                    "seconds": round(time.time() - t, 1)})
+    return out
