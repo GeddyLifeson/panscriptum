@@ -184,6 +184,16 @@ def extract(rows, batch=8, limit=None, workers=8):
     """(winner, loser) pairs, read out of the sentences and checked against the index."""
     import threading
     from concurrent.futures import ThreadPoolExecutor
+    # Same ceiling rule as the assay. Eight extractors against one local model is the shape that
+    # produced HTTP 503 and dropped this pass from 64 edges to 25.
+    try:
+        import tuning as T
+        prof = T.profile(force=True)
+        workers = T.workers(workers)
+        print("   regime: %s (%s) -> %d worker(s)" % (prof["regime"], prof["why"], workers),
+              flush=True)
+    except Exception:
+        silence.note("chain.py:tuning")
     idx = entity_index()
     rows = rows[:limit] if limit else rows
     edges = collections.Counter()

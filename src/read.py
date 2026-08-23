@@ -859,6 +859,10 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
     # usable remote buckets and the rest of the sixteen queued on providers already busy or on
     # the single local GPU. Concurrency here is bounded by how many separately-metered places
     # there are to send a request, and that number is knowable rather than guessable.
+    # And the regime caps whatever that reasoning produces. The bucket-count logic below is
+    # correct WHEN THERE ARE BUCKETS; when the pool has shed to nothing and the local GPU is
+    # carrying the run, one-worker-per-bucket resolves to a number that describes a pool that
+    # no longer exists. The cap is applied after, not instead: on cloud it never binds.
     if workers in (None, 0, "auto"):
         try:
             import cascade_bridge as CB
@@ -874,6 +878,16 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
         except Exception:
             silence.note("read.py:auto-workers")
             workers = 8
+    try:
+        import tuning as T
+        prof = T.profile(force=True)
+        capped = T.workers(int(workers))
+        if capped != int(workers):
+            print("read: regime %s (%s) caps workers %s -> %d"
+                  % (prof["regime"], prof["why"], workers, capped), flush=True)
+        workers = capped
+    except Exception:
+        silence.note("read.py:tuning")
     print("read: %d entries with pages, %d workers, chunks %s"
           % (len(todo), workers, cap_chunks if cap_chunks else "uncapped"), flush=True)
     with ThreadPoolExecutor(max_workers=workers) as ex:

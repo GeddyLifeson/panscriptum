@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 00:03:03",
+ "at": "2026-08-23 00:13:04",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 411,
+     "left": 406,
      "cap": 500,
-     "frac": 0.822
+     "frac": 0.812
     },
     {
      "name": "rpm",
-     "left": 20,
+     "left": 19,
      "cap": 20,
-     "frac": 1.0
+     "frac": 0.95
     }
    ],
-   "worst": 0.822
+   "worst": 0.812
   },
   {
    "bucket": "cohere:free",
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 5,
+     "left": 4,
      "cap": 5,
-     "frac": 1.0
+     "frac": 0.8
     }
    ],
    "worst": 0.0
@@ -234,9 +234,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
    "worst": 0.0
@@ -254,9 +254,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
    "worst": 0.0
@@ -274,9 +274,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
    "worst": 0.0
@@ -378,21 +378,21 @@
     },
     {
      "name": "tpd",
-     "left": 99365,
+     "left": 99168,
      "cap": 200000,
-     "frac": 0.4968
+     "frac": 0.4958
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 29,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9667
     },
     {
      "name": "tpm",
-     "left": 8000,
+     "left": 7950,
      "cap": 8000,
-     "frac": 1.0
+     "frac": 0.9938
     }
    ],
    "worst": 0.0
@@ -410,21 +410,21 @@
     },
     {
      "name": "tpd",
-     "left": 67520,
+     "left": 66330,
      "cap": 200000,
-     "frac": 0.3376
-    },
-    {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
+     "frac": 0.3317
     },
     {
      "name": "tpm",
-     "left": 8000,
+     "left": 7730,
      "cap": 8000,
-     "frac": 1.0
+     "frac": 0.9663
+    },
+    {
+     "name": "rpm",
+     "left": 29,
+     "cap": 30,
+     "frac": 0.9667
     }
    ],
    "worst": 0.0
@@ -456,18 +456,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 103,
+     "left": 97,
      "cap": 200,
-     "frac": 0.515
+     "frac": 0.485
     },
     {
      "name": "rpm",
-     "left": 10,
+     "left": 9,
      "cap": 10,
-     "frac": 1.0
+     "frac": 0.9
     }
    ],
-   "worst": 0.515
+   "worst": 0.485
   },
   {
    "bucket": "kluster:free",
@@ -502,9 +502,9 @@
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 29,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9667
     }
    ],
    "worst": 0.0
@@ -582,9 +582,9 @@
     },
     {
      "name": "rpm",
-     "left": 40,
+     "left": 38,
      "cap": 40,
-     "frac": 1.0
+     "frac": 0.95
     }
    ],
    "worst": 0.0
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 20,
+     "left": 18,
      "cap": 20,
-     "frac": 1.0
+     "frac": 0.9
     }
    ],
    "worst": 0.0
@@ -635,16 +635,16 @@
    "unlimited": false,
    "windows": [
     {
+     "name": "rpm",
+     "left": 0,
+     "cap": 2,
+     "frac": 0.0
+    },
+    {
      "name": "rpd",
      "left": 0,
      "cap": 300,
      "frac": 0.0
-    },
-    {
-     "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -675,16 +675,16 @@
    "unlimited": false,
    "windows": [
     {
+     "name": "rpm",
+     "left": 0,
+     "cap": 2,
+     "frac": 0.0
+    },
+    {
      "name": "rpd",
      "left": 0,
      "cap": 500,
      "frac": 0.0
-    },
-    {
-     "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -692,42 +692,97 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 71,
-  "per_hour": 284,
+  "calls": 137,
+  "per_hour": 548,
   "buckets": [
    {
     "bucket": "ollama:local",
-    "calls": 27,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 13,
+    "calls": 33,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 10,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:qwen2.5:14b",
-    "calls": 10,
+    "calls": 19,
     "ok": 0
    },
    {
     "bucket": "ollama:llama3.1:latest",
-    "calls": 9,
+    "calls": 12,
     "ok": 0
    },
    {
-    "bucket": "cloudflare:free",
-    "calls": 1,
+    "bucket": "ollama:qwen2.5:14b",
+    "calls": 12,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 6,
     "ok": 0
    },
    {
     "bucket": "hyperbolic:free",
-    "calls": 1,
+    "calls": 6,
+    "ok": 0
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 5,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 4,
+    "ok": 1
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "mistral:free",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "nvidia:free",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 4,
     "ok": 0
    }
   ]
@@ -736,11 +791,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 585,
+   "done": 590,
    "total": 100623,
-   "detail": "195/40,418 entities  \u00b7  3,354 feats  \u00b7  0.03 chunks/s",
-   "warn": "1364 unanswered",
-   "eta_h": 864.7
+   "detail": "200/40,418 entities  \u00b7  3,412 feats  \u00b7  0.01 chunks/s",
+   "warn": "1409 unanswered",
+   "eta_h": 4884.5
   },
   {
    "name": "page roll",
@@ -766,7 +821,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 2.5
+   "age_h": 2.6
   },
   "phases": [
    {
@@ -805,9 +860,9 @@
   "readfeats": 39
  },
  "watch": {
-  "open": 7,
-  "high": 4,
-  "rounds": 11,
+  "open": 6,
+  "high": 3,
+  "rounds": 12,
   "findings": [
    {
     "module": "build_terminal",
@@ -844,37 +899,39 @@
     "symbol": "silence.note",
     "actual": "The code does not actually log anything, as `silence.note` is never called.",
     "severity": "medium"
-   },
-   {
-    "module": "chain",
-    "symbol": "chunk[min(i, len(chunk) - 1)]",
-    "actual": "The code incorrectly attributes outcomes to sentences based on an assumption about the model's behavior, leading to misattribution of outcomes to incorrect sent",
-    "severity": "high"
    }
   ],
   "broken": [],
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    1014
+    1698
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    336
+    575
+   ],
+   [
+    "silent:endpoint.py:fetch_raw-http:HTTPError",
+    50
    ],
    [
     "silent:publish.py:main:RuntimeError",
     25
+   ],
+   [
+    "silent:verify_math.py:47:ValueError",
+    2
    ]
   ],
-  "swallowed_total": 1375
+  "swallowed_total": 2350
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 284,
+   "observed": 548,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -910,7 +967,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "0% ok",
+   "observed": "21% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -919,7 +976,7 @@
    "standard": "chunks nobody answered",
    "group": "read",
    "holds": false,
-   "observed": "1364 unanswered",
+   "observed": "1409 unanswered",
    "floor": "none",
    "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
    "severity": "high"
@@ -928,7 +985,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "864.7h",
+   "observed": "4884.5h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -937,7 +994,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "5.73",
+   "observed": "5.78",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -964,7 +1021,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "2.5h",
+   "observed": "2.6h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1000,7 +1057,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 4,
+   "observed": 3,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1017,12 +1074,12 @@
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
-   "holds": true,
-   "observed": "1,375",
+   "holds": false,
+   "observed": "2,350",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T00:03:03"
+ "generated": "2026-08-23T00:13:04"
 }

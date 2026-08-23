@@ -658,9 +658,19 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
     from concurrent.futures import ThreadPoolExecutor
 
     c = config()
+    # The requested worker count is a CEILING, never a floor. On local hardware twelve workers
+    # do not run twelve assays: they queue behind one model on one card and time each other out.
+    # That is how a 393-entity batch scored ZERO tonight while the same code, with the pool up,
+    # had scored seven.
+    try:
+        import tuning as T
+        prof = T.profile(force=True)
+        workers = T.workers(workers)
+        print("regime: %s (%s) -> %d worker(s)" % (prof["regime"], prof["why"], workers))
+    except Exception:
+        silence.note("magnitude.py:tuning")
     print("transport: " + ("cloud pool (cascade)" if pool_ready()
-                           else "LOCAL ONLY -- evidence will be budgeted to " + str(LOCAL_BUDGET)
-                                + " chars per entity"))
+                           else "LOCAL ONLY -- oversized entities are DEFERRED, never truncated"))
     done = {}
     if resume and os.path.exists(OUT):
         try:
