@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 05:13:41",
+ "at": "2026-08-23 05:23:43",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -114,9 +114,9 @@
     },
     {
      "name": "rpm",
-     "left": 18,
+     "left": 20,
      "cap": 20,
-     "frac": 0.9
+     "frac": 1.0
     }
    ],
    "worst": 0.718
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 3,
+     "left": 5,
      "cap": 5,
-     "frac": 0.6
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -234,9 +234,9 @@
     },
     {
      "name": "rpm",
-     "left": 13,
+     "left": 15,
      "cap": 15,
-     "frac": 0.8667
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -247,16 +247,16 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
-    },
-    {
      "name": "rpd",
      "left": 0,
      "cap": 250,
      "frac": 0.0
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -267,16 +267,16 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
-    },
-    {
      "name": "rpd",
      "left": 0,
      "cap": 250,
      "frac": 0.0
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -384,15 +384,15 @@
     },
     {
      "name": "rpm",
-     "left": 28,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9333
+     "frac": 1.0
     },
     {
      "name": "tpm",
-     "left": 7903,
+     "left": 8000,
      "cap": 8000,
-     "frac": 0.9879
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -415,16 +415,16 @@
      "frac": 0.1872
     },
     {
-     "name": "tpm",
-     "left": 7137,
-     "cap": 8000,
-     "frac": 0.8921
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
     },
     {
-     "name": "rpm",
-     "left": 28,
-     "cap": 30,
-     "frac": 0.9333
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -462,9 +462,9 @@
     },
     {
      "name": "rpm",
-     "left": 8,
+     "left": 10,
      "cap": 10,
-     "frac": 0.8
+     "frac": 1.0
     }
    ],
    "worst": 0.22
@@ -502,9 +502,9 @@
     },
     {
      "name": "rpm",
-     "left": 28,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9333
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -582,9 +582,9 @@
     },
     {
      "name": "rpm",
-     "left": 38,
+     "left": 40,
      "cap": 40,
-     "frac": 0.95
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 16,
+     "left": 18,
      "cap": 20,
-     "frac": 0.8
+     "frac": 0.9
     }
    ],
    "worst": 0.0
@@ -635,16 +635,16 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
-    },
-    {
      "name": "rpd",
      "left": 0,
      "cap": 300,
      "frac": 0.0
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -675,16 +675,16 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
-    },
-    {
      "name": "rpd",
      "left": 0,
      "cap": 500,
      "frac": 0.0
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -692,12 +692,12 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 120,
-  "per_hour": 480,
+  "calls": 124,
+  "per_hour": 496,
   "buckets": [
    {
     "bucket": "openrouter:free",
-    "calls": 38,
+    "calls": 40,
     "ok": 0
    },
    {
@@ -707,12 +707,12 @@
    },
    {
     "bucket": "ollama:llama3.1:latest",
-    "calls": 10,
+    "calls": 11,
     "ok": 0
    },
    {
     "bucket": "ollama:qwen2.5:14b",
-    "calls": 10,
+    "calls": 11,
     "ok": 0
    },
    {
@@ -821,7 +821,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 0.3
+   "age_h": 0.5
   },
   "phases": [
    {
@@ -862,7 +862,7 @@
  "watch": {
   "open": 6,
   "high": 3,
-  "rounds": 23,
+  "rounds": 24,
   "findings": [
    {
     "module": "build_terminal",
@@ -905,29 +905,37 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    1514
+    2199
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    480
+    720
    ],
    [
     "silent:endpoint.py:fetch_raw-http:HTTPError",
-    50
+    144
+   ],
+   [
+    "silent:hostcheck.py:probe:URLError",
+    30
    ],
    [
     "silent:verify_math.py:47:ValueError",
-    2
+    4
+   ],
+   [
+    "silent:endpoint.py:detect-api:URLError",
+    1
    ]
   ],
-  "swallowed_total": 2046
+  "swallowed_total": 3098
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 480,
+   "observed": 496,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -1017,7 +1025,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.3h",
+   "observed": "0.5h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1071,11 +1079,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "2,046",
+   "observed": "3,098",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T05:13:42"
+ "generated": "2026-08-23T05:23:43"
 }
