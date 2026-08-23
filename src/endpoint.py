@@ -102,8 +102,17 @@ def _get(url, timeout=25):
         return r.read().decode("utf-8", "replace")
 
 
+# A DEAD verdict expires; a live one is forever. The asymmetry is the point: a host that once
+# answered its API keeps answering it (MediaWiki paths do not move), but "dead" is a claim about
+# one afternoon's network. Today the entire fandom.com domain dropped this machine's connections
+# at the socket for a while -- any host probed during such a window would have been branded
+# MODE_DEAD in a cache with no expiry, permanently unreadable for the price of one bad hour.
+# 2,958 dead entries are on file; none of the real assigned hosts is among them, by luck of the
+# cache's mtime alone.
+DEAD_TTL = 24 * 3600
+
 def detect(host, force=False):
-    """How to read this host. Probed once, cached forever after.
+    """How to read this host. Probed once; a DEAD verdict is re-probed after DEAD_TTL.
 
     Order matters: the API is tried first because one request answers for fifty titles, and raw
     is the fallback because one request answers for one. A host that can do both should do the
@@ -111,7 +120,13 @@ def detect(host, force=False):
     """
     mem = _load()
     if not force and host in mem:
-        return mem[host]
+        got = mem[host]
+        if got.get("mode") != MODE_DEAD:
+            return got
+        import time as _t
+        if _t.time() - (got.get("at") or 0) < DEAD_TTL:
+            return got
+        # dead verdict has aged out -- fall through and probe again
 
     found = {"mode": MODE_DEAD, "path": None}
     for path in API_PATHS:
@@ -136,6 +151,9 @@ def detect(host, force=False):
             except Exception:
                 silence.note("endpoint.py:detect-raw")
 
+    if found["mode"] == MODE_DEAD:
+        import time as _t
+        found["at"] = _t.time()
     mem[host] = found
     _save()
     return found
