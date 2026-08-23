@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 07:04:08",
+ "at": "2026-08-23 07:14:20",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 334,
+     "left": 330,
      "cap": 500,
-     "frac": 0.668
+     "frac": 0.66
     },
     {
      "name": "rpm",
-     "left": 17,
+     "left": 20,
      "cap": 20,
-     "frac": 0.85
+     "frac": 1.0
     }
    ],
-   "worst": 0.668
+   "worst": 0.66
   },
   {
    "bucket": "cohere:free",
@@ -384,9 +384,9 @@
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 27,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9
     },
     {
      "name": "tpm",
@@ -456,18 +456,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 20,
+     "left": 17,
      "cap": 200,
-     "frac": 0.1
+     "frac": 0.085
     },
     {
      "name": "rpm",
-     "left": 8,
+     "left": 10,
      "cap": 10,
-     "frac": 0.8
+     "frac": 1.0
     }
    ],
-   "worst": 0.1
+   "worst": 0.085
   },
   {
    "bucket": "kluster:free",
@@ -692,62 +692,57 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 117,
-  "per_hour": 468,
+  "calls": 136,
+  "per_hour": 544,
   "buckets": [
    {
     "bucket": "ollama:local",
-    "calls": 22,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:llama3.1:latest",
-    "calls": 17,
-    "ok": 0
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 15,
-    "ok": 0
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 14,
-    "ok": 0
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 13,
+    "calls": 41,
     "ok": 0
    },
    {
     "bucket": "ollama:qwen2.5:14b",
+    "calls": 31,
+    "ok": 0
+   },
+   {
+    "bucket": "ollama:llama3.1:latest",
+    "calls": 21,
+    "ok": 0
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 12,
+    "ok": 0
+   },
+   {
+    "bucket": "cloudflare:free",
     "calls": 11,
     "ok": 0
    },
    {
+    "bucket": "hyperbolic:free",
+    "calls": 9,
+    "ok": 0
+   },
+   {
     "bucket": "groq:groq/compound-mini",
-    "calls": 6,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 6,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 6,
+    "calls": 3,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 4,
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 3,
     "ok": 0
    },
    {
     "bucket": "mistral:free",
-    "calls": 3,
+    "calls": 2,
     "ok": 0
    }
   ]
@@ -786,7 +781,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 2.2
+   "age_h": 2.3
   },
   "phases": [
    {
@@ -870,37 +865,25 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    4882
+    3852
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    1618
+    1279
    ],
    [
-    "silent:scout.py:verify-http:HTTPError",
-    14
-   ],
-   [
-    "silent:foreman.py:remedy-raised:TimeoutExpired",
-    4
-   ],
-   [
-    "silent:cascade_bridge.py:100:JSONDecodeError",
-    3
-   ],
-   [
-    "silent:scout.py:verify:URLError",
-    3
+    "ledger:unreadable",
+    1
    ]
   ],
-  "swallowed_total": 6526
+  "swallowed_total": 5132
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 468,
+   "observed": 544,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -990,7 +973,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "2.2h",
+   "observed": "2.3h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1044,11 +1027,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "6,526",
+   "observed": "5,132",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T07:04:08"
+ "generated": "2026-08-23T07:14:20"
 }
