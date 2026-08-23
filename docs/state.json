@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 10:15:26",
+ "at": "2026-08-23 10:25:27",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 161,
+     "left": 153,
      "cap": 500,
-     "frac": 0.322
+     "frac": 0.306
     },
     {
      "name": "rpm",
-     "left": 20,
+     "left": 19,
      "cap": 20,
-     "frac": 1.0
+     "frac": 0.95
     }
    ],
-   "worst": 0.322
+   "worst": 0.306
   },
   {
    "bucket": "cohere:free",
@@ -378,15 +378,15 @@
     },
     {
      "name": "rpd",
-     "left": 704,
+     "left": 696,
      "cap": 1000,
-     "frac": 0.704
+     "frac": 0.696
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 29,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9667
     },
     {
      "name": "tpm",
@@ -410,15 +410,15 @@
     },
     {
      "name": "rpd",
-     "left": 664,
+     "left": 656,
      "cap": 1000,
-     "frac": 0.664
+     "frac": 0.656
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 29,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9667
     },
     {
      "name": "tpm",
@@ -692,12 +692,12 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 208,
-  "per_hour": 832,
+  "calls": 148,
+  "per_hour": 592,
   "buckets": [
    {
     "bucket": "openrouter:free",
-    "calls": 41,
+    "calls": 34,
     "ok": 0
    },
    {
@@ -706,28 +706,28 @@
     "ok": 0
    },
    {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 16,
-    "ok": 0
-   },
-   {
     "bucket": "cloudflare:free",
-    "calls": 14,
+    "calls": 11,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 14,
+    "calls": 11,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 11,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 14,
+    "calls": 11,
     "ok": 0
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 14,
+    "calls": 11,
     "ok": 0
    },
    {
@@ -738,51 +738,6 @@
    {
     "bucket": "ollama:qwen2.5:14b",
     "calls": 11,
-    "ok": 0
-   },
-   {
-    "bucket": "cohere:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "mistral:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "nvidia:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "sambanova:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 4,
     "ok": 0
    },
    {
@@ -811,11 +766,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 862,
+   "done": 912,
    "total": 100623,
-   "detail": "75/40,418 entities  \u00b7  5,784 feats  \u00b7  0.06 chunks/s",
+   "detail": "80/40,418 entities  \u00b7  6,195 feats  \u00b7  0.03 chunks/s",
    "warn": "45 unanswered",
-   "eta_h": 453.2
+   "eta_h": 1043.4
   },
   {
    "name": "page roll",
@@ -841,7 +796,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 5.4
+   "age_h": 5.5
   },
   "phases": [
    {
@@ -877,7 +832,7 @@
     "built": false
    }
   ],
-  "readfeats": 68
+  "readfeats": 70
  },
  "watch": {
   "open": 6,
@@ -955,7 +910,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 832,
+   "observed": 592,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -1009,7 +964,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "453.2h",
+   "observed": "1043.4h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -1018,7 +973,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "6.71",
+   "observed": "6.79",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -1045,7 +1000,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "5.4h",
+   "observed": "5.5h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1105,5 +1060,5 @@
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T10:15:27"
+ "generated": "2026-08-23T10:25:28"
 }
