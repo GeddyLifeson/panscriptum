@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 22:32:51",
+ "at": "2026-08-22 22:42:52",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 426,
+     "left": 425,
      "cap": 500,
-     "frac": 0.852
+     "frac": 0.85
     },
     {
      "name": "rpm",
-     "left": 20,
+     "left": 19,
      "cap": 20,
-     "frac": 1.0
+     "frac": 0.95
     }
    ],
-   "worst": 0.852
+   "worst": 0.85
   },
   {
    "bucket": "cohere:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 99,
+     "left": 88,
      "cap": 1000,
-     "frac": 0.099
+     "frac": 0.088
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.099
+   "worst": 0.088
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -456,18 +456,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 119,
+     "left": 118,
      "cap": 200,
-     "frac": 0.595
+     "frac": 0.59
     },
     {
      "name": "rpm",
-     "left": 10,
+     "left": 9,
      "cap": 10,
-     "frac": 1.0
+     "frac": 0.9
     }
    ],
-   "worst": 0.595
+   "worst": 0.59
   },
   {
    "bucket": "kluster:free",
@@ -636,18 +636,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 58,
+     "left": 47,
      "cap": 300,
-     "frac": 0.1933
+     "frac": 0.1567
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.1933
+   "worst": 0.1567
   },
   {
    "bucket": "together:free",
@@ -675,44 +675,44 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
+     "name": "rpd",
+     "left": 14,
+     "cap": 500,
+     "frac": 0.028
     },
     {
-     "name": "rpd",
-     "left": 25,
-     "cap": 500,
-     "frac": 0.05
+     "name": "rpm",
+     "left": 1,
+     "cap": 2,
+     "frac": 0.5
     }
    ],
-   "worst": 0.0
+   "worst": 0.028
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 136,
-  "per_hour": 544,
+  "calls": 130,
+  "per_hour": 520,
   "buckets": [
    {
     "bucket": "ollama:local",
-    "calls": 39,
+    "calls": 36,
     "ok": 0
    },
    {
     "bucket": "sambanova:free",
-    "calls": 19,
+    "calls": 18,
     "ok": 0
    },
    {
     "bucket": "zai:free",
-    "calls": 19,
+    "calls": 18,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 16,
+    "calls": 17,
     "ok": 0
    },
    {
@@ -732,12 +732,12 @@
    },
    {
     "bucket": "cloudflare:free",
-    "calls": 2,
+    "calls": 1,
     "ok": 0
    },
    {
     "bucket": "hyperbolic:free",
-    "calls": 2,
+    "calls": 1,
     "ok": 0
    }
   ]
@@ -746,11 +746,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 529,
+   "done": 532,
    "total": 100623,
-   "detail": "130/40,418 entities  \u00b7  2,873 feats  \u00b7  0.02 chunks/s",
-   "warn": "896 unanswered",
-   "eta_h": 1759.4
+   "detail": "135/40,418 entities  \u00b7  2,889 feats  \u00b7  0.01 chunks/s",
+   "warn": "936 unanswered",
+   "eta_h": 2457.4
   },
   {
    "name": "page roll",
@@ -776,7 +776,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 0.9
+   "age_h": 1.1
   },
   "phases": [
    {
@@ -866,21 +866,21 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    557
+    1240
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    189
+    428
    ]
   ],
-  "swallowed_total": 746
+  "swallowed_total": 1668
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 544,
+   "observed": 520,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -898,7 +898,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "28% dry",
+   "observed": "25% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -925,7 +925,7 @@
    "standard": "chunks nobody answered",
    "group": "read",
    "holds": false,
-   "observed": "896 unanswered",
+   "observed": "936 unanswered",
    "floor": "none",
    "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
    "severity": "high"
@@ -934,7 +934,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "1759.4h",
+   "observed": "2457.4h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -970,7 +970,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.9h",
+   "observed": "1.1h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1024,11 +1024,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": true,
-   "observed": "746",
+   "observed": "1,668",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T22:32:51"
+ "generated": "2026-08-22T22:42:53"
 }
