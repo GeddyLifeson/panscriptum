@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 10:25:27",
+ "at": "2026-08-23 10:35:29",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 153,
+     "left": 144,
      "cap": 500,
-     "frac": 0.306
+     "frac": 0.288
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 20,
      "cap": 20,
-     "frac": 0.95
+     "frac": 1.0
     }
    ],
-   "worst": 0.306
+   "worst": 0.288
   },
   {
    "bucket": "cohere:free",
@@ -378,15 +378,15 @@
     },
     {
      "name": "rpd",
-     "left": 696,
+     "left": 687,
      "cap": 1000,
-     "frac": 0.696
+     "frac": 0.687
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -410,15 +410,15 @@
     },
     {
      "name": "rpd",
-     "left": 656,
+     "left": 646,
      "cap": 1000,
-     "frac": 0.656
+     "frac": 0.646
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -436,9 +436,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 82,
+     "left": 83,
      "cap": 200,
-     "frac": 0.41
+     "frac": 0.415
     },
     {
      "name": "rpm",
@@ -447,7 +447,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.41
+   "worst": 0.415
   },
   {
    "bucket": "hyperbolic:free",
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 17,
+     "left": 16,
      "cap": 20,
-     "frac": 0.85
+     "frac": 0.8
     }
    ],
    "worst": 0.0
@@ -692,72 +692,97 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 148,
-  "per_hour": 592,
+  "calls": 198,
+  "per_hour": 792,
   "buckets": [
    {
     "bucket": "openrouter:free",
-    "calls": 34,
+    "calls": 45,
     "ok": 0
    },
    {
     "bucket": "ollama:local",
-    "calls": 33,
-    "ok": 0
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 11,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 11,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 11,
+    "calls": 30,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 11,
+    "calls": 14,
     "ok": 0
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 11,
+    "calls": 14,
+    "ok": 0
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 13,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 13,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 13,
     "ok": 0
    },
    {
     "bucket": "ollama:llama3.1:latest",
-    "calls": 11,
+    "calls": 10,
     "ok": 0
    },
    {
     "bucket": "ollama:qwen2.5:14b",
-    "calls": 11,
+    "calls": 10,
     "ok": 0
    },
    {
-    "bucket": "cerebras:free",
-    "calls": 1,
+    "bucket": "cohere:free",
+    "calls": 4,
     "ok": 0
    },
    {
-    "bucket": "chutes:free",
-    "calls": 1,
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 4,
     "ok": 0
    },
    {
-    "bucket": "deepinfra:free",
-    "calls": 1,
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 4,
     "ok": 0
    },
    {
-    "bucket": "huggingface:free",
-    "calls": 1,
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "mistral:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "nvidia:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 4,
     "ok": 0
    }
   ]
@@ -796,7 +821,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 5.5
+   "age_h": 5.7
   },
   "phases": [
    {
@@ -832,7 +857,7 @@
     "built": false
    }
   ],
-  "readfeats": 70
+  "readfeats": 72
  },
  "watch": {
   "open": 6,
@@ -880,37 +905,21 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    1689
-   ],
-   [
-    "silent:endpoint.py:fetch_raw:URLError",
-    1034
+    206
    ],
    [
     "silent:wiki_source.py:229:URLError",
-    564
-   ],
-   [
-    "silent:hostcheck.py:probe:URLError",
-    345
-   ],
-   [
-    "silent:publish.py:main:RuntimeError",
-    25
-   ],
-   [
-    "silent:verify_math.py:47:ValueError",
-    12
+    69
    ]
   ],
-  "swallowed_total": 3669
+  "swallowed_total": 275
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 592,
+   "observed": 792,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -1000,7 +1009,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "5.5h",
+   "observed": "5.7h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1053,12 +1062,12 @@
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
-   "holds": false,
-   "observed": "3,669",
+   "holds": true,
+   "observed": "275",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T10:25:28"
+ "generated": "2026-08-23T10:35:29"
 }
