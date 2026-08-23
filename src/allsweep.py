@@ -294,6 +294,34 @@ def main():
     for r in broken:
         print(f"   BROKEN  {r['module']:<26}{r['detail']}")
 
+    # LINT — every line of every module, for the fault class importing cannot catch.
+    #
+    # The IMPORT tier above proves a module loads. It does NOT prove the module's functions
+    # run: `wiki_source.py` used `os.path` in one function without importing `os`, imported
+    # fine, passed this sweep twice, and then failed at the exact moment the re-catalogue asked
+    # it to resolve DC -- with the NameError swallowed by an except and filed in silence.
+    # An undefined name is detectable STATICALLY, on every line, without executing anything,
+    # and pyflakes does precisely that. This tier is the sweep's answer to "examine every line
+    # of every module": a machine does it, on every run, rather than a person doing it once.
+    lint_bad = []
+    try:
+        lr = subprocess.run([sys.executable, "-m", "pyflakes"] +
+                            [os.path.join(SRC, m + ".py") for m in mods],
+                            capture_output=True, text=True, timeout=120,
+                            encoding="utf-8", errors="replace")
+        for ln in (lr.stdout or "").splitlines():
+            if "undefined name" in ln or "local variable" in ln and "referenced before" in ln:
+                lint_bad.append(ln.strip())
+    except Exception:
+        silence.note("allsweep.py:lint")
+        lint_bad.append("pyflakes did not run -- the lint tier is BLIND this sweep, not clean")
+    print(f"\nLINT — every line, statically")
+    if lint_bad:
+        for ln in lint_bad[:20]:
+            print(f"   UNDEFINED  {ln[:100]}")
+    else:
+        print("  no undefined names in any module")
+
     verifiers = []
     if not a.quick:
         print(f"\nVERIFY — {len(VERIFIERS)} verifiers in parallel")

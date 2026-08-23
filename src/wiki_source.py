@@ -145,7 +145,17 @@ _rate_lock = threading.Lock()
 #     48 workers @ 0.01s       0.033 s/page   <- 13.6x faster than serial
 # Gains are clearly flattening past 32; raise further only with evidence. 429s from Fandom
 # would surface as retries in _get and as a falling success ratio here.
-MIN_GAP = 0.01
+# 0.15s, NOT the 0.01 the benchmark ladder arrived at. The ladder was honest -- 48 workers at
+# 0.01s really did retrieve 60/60 pages 13.6x faster -- but it was measured on 60-PAGE samples,
+# and the number was then applied to a 30,207-entry catalogue pull. Fandom's edge answered that
+# the way any CDN answers a 100-req/s siege from one address: it stopped answering. Every
+# fandom.com host now drops our connections at the socket (curl: 12s timeout, HTTP 000) while
+# Wikipedia answers in 0.17s, which is what an IP block looks like as opposed to an outage.
+#
+# A benchmark on a sample authorises the rate FOR THE SAMPLE. Sustained rate against someone
+# else's infrastructure is a different quantity, and the cost of getting it wrong is not a slow
+# page -- it is every fandom source going dark at once, which is most of the library's shelves.
+MIN_GAP = 0.15
 WORKERS = 48
 
 
