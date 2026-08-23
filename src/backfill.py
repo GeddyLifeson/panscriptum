@@ -189,7 +189,10 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
             added += 1
             time.sleep(0.2)
     P.write_record(path, r)
-    return {"source": source, "host": host, "roster": len(names), "missing": len(missing), "added": added, "entries_now": len(r["entries"])}
+    # `absent` is the true count of names the catalogue was missing before this run; `missing`
+    # by this point is the (ranked, possibly capped) worklist that was actually fetched. Reporting
+    # the worklist length under "missing" made a capped run claim it had closed the whole gap.
+    return {"source": source, "host": host, "roster": len(names), "missing": absent, "queued": len(missing), "added": added, "entries_now": len(r["entries"])}
 
 
 def main():
@@ -233,7 +236,7 @@ def main():
             tot += res.get("added", 0)
             print("  %3d/%d  %-46sroster %5d  absent %5d  added %4d"
                   % (i, len(thin), x["source"][:44], res.get("roster", 0),
-                     res.get("absent", 0), res.get("added", 0)), flush=True)
+                     res.get("missing", res.get("absent", 0)), res.get("added", 0)), flush=True)
         print("total characters added: %d" % tot)
         return 0
 
