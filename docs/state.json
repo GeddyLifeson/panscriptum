@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 02:23:20",
+ "at": "2026-08-23 02:33:21",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -726,11 +726,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 654,
+   "done": 666,
    "total": 100623,
-   "detail": "305/40,418 entities  \u00b7  4,004 feats  \u00b7  0.01 chunks/s",
-   "warn": "2142 unanswered",
-   "eta_h": 2995.4
+   "detail": "315/40,418 entities  \u00b7  4,143 feats  \u00b7  0.03 chunks/s",
+   "warn": "2197 unanswered",
+   "eta_h": 902.1
   },
   {
    "name": "page roll",
@@ -756,7 +756,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 4.8
+   "age_h": 5.0
   },
   "phases": [
    {
@@ -840,30 +840,14 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    5223
+    480
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    1738
-   ],
-   [
-    "silent:endpoint.py:fetch_raw-http:HTTPError",
-    288
-   ],
-   [
-    "silent:hostcheck.py:probe:URLError",
-    60
-   ],
-   [
-    "silent:scout.py:verify-http:HTTPError",
-    12
-   ],
-   [
-    "silent:cascade_bridge.py:deadline:None",
-    7
+    146
    ]
   ],
-  "swallowed_total": 7342
+  "swallowed_total": 626
  },
  "standards": [
   {
@@ -915,7 +899,7 @@
    "standard": "chunks nobody answered",
    "group": "read",
    "holds": false,
-   "observed": "2142 unanswered",
+   "observed": "2197 unanswered",
    "floor": "none",
    "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
    "severity": "high"
@@ -924,7 +908,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "2995.4h",
+   "observed": "902.1h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -933,7 +917,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "6.12",
+   "observed": "6.22",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -942,7 +926,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": true,
-   "observed": "0.6%",
+   "observed": "0.7%",
    "floor": "above 0",
    "order": "No chunk has completed. Check that read.py printed its transport banner and that the queue is not empty.",
    "severity": "high"
@@ -960,7 +944,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "4.8h",
+   "observed": "5.0h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1013,12 +997,12 @@
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
-   "holds": false,
-   "observed": "7,342",
+   "holds": true,
+   "observed": "626",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T02:23:20"
+ "generated": "2026-08-23T02:33:21"
 }
