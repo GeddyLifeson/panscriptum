@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 01:23:12",
+ "at": "2026-08-23 01:33:14",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 397,
+     "left": 393,
      "cap": 500,
-     "frac": 0.794
+     "frac": 0.786
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.794
+   "worst": 0.786
   },
   {
    "bucket": "cohere:free",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 98968,
+     "left": 98768,
      "cap": 200000,
-     "frac": 0.4948
+     "frac": 0.4938
     },
     {
      "name": "rpm",
@@ -410,9 +410,9 @@
     },
     {
      "name": "tpd",
-     "left": 64752,
+     "left": 62486,
      "cap": 200000,
-     "frac": 0.3238
+     "frac": 0.3124
     },
     {
      "name": "rpm",
@@ -456,9 +456,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 90,
+     "left": 86,
      "cap": 200,
-     "frac": 0.45
+     "frac": 0.43
     },
     {
      "name": "rpm",
@@ -467,7 +467,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.45
+   "worst": 0.43
   },
   {
    "bucket": "kluster:free",
@@ -692,37 +692,97 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 11,
-  "per_hour": 44,
+  "calls": 80,
+  "per_hour": 320,
   "buckets": [
    {
     "bucket": "ollama:local",
-    "calls": 3,
+    "calls": 9,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 2,
+    "calls": 8,
+    "ok": 2
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 5,
+    "ok": 4
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "mistral:free",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "nvidia:free",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 4,
+    "ok": 4
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 4,
     "ok": 0
    },
    {
     "bucket": "ollama:llama3.1:latest",
-    "calls": 2,
+    "calls": 3,
     "ok": 0
    },
    {
     "bucket": "ollama:qwen2.5:14b",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 1,
+    "calls": 3,
     "ok": 0
    }
   ]
@@ -731,11 +791,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 611,
+   "done": 613,
    "total": 100623,
-   "detail": "255/40,418 entities  \u00b7  3,563 feats  \u00b7  0.01 chunks/s",
-   "warn": "1820 unanswered",
-   "eta_h": 2832.7
+   "detail": "260/40,418 entities  \u00b7  3,568 feats  \u00b7  0.00 chunks/s",
+   "warn": "1852 unanswered",
+   "eta_h": 10648.6
   },
   {
    "name": "page roll",
@@ -761,7 +821,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 3.8
+   "age_h": 4.0
   },
   "phases": [
    {
@@ -802,7 +862,7 @@
  "watch": {
   "open": 6,
   "high": 3,
-  "rounds": 14,
+  "rounds": 15,
   "findings": [
    {
     "module": "build_terminal",
@@ -845,21 +905,33 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    1199
+    1883
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    399
+    637
+   ],
+   [
+    "silent:endpoint.py:fetch_raw-http:HTTPError",
+    84
+   ],
+   [
+    "silent:hostcheck.py:probe:URLError",
+    16
+   ],
+   [
+    "silent:verify_math.py:47:ValueError",
+    2
    ]
   ],
-  "swallowed_total": 1598
+  "swallowed_total": 2622
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 44,
+   "observed": 320,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -895,7 +967,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "0% ok",
+   "observed": "38% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -904,7 +976,7 @@
    "standard": "chunks nobody answered",
    "group": "read",
    "holds": false,
-   "observed": "1820 unanswered",
+   "observed": "1852 unanswered",
    "floor": "none",
    "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
    "severity": "high"
@@ -913,7 +985,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "2832.7h",
+   "observed": "10648.6h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -922,7 +994,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "5.83",
+   "observed": "5.82",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -949,7 +1021,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "3.8h",
+   "observed": "4.0h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1002,12 +1074,12 @@
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
-   "holds": true,
-   "observed": "1,598",
+   "holds": false,
+   "observed": "2,622",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T01:23:13"
+ "generated": "2026-08-23T01:33:14"
 }
