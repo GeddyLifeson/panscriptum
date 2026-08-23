@@ -254,9 +254,106 @@ def restart_reader():
     return False, "reader is not running -- the supervisor starts it next cycle"
 
 
+def kill_stalled_job():
+    """A job that is UP and writing nothing is worse than a job that is down.
+
+    Down, the supervisor restarts it next cycle. Up-and-idle, it holds the supervisor's
+    single-instance lock forever and nothing ever restarts it -- so a stall is permanent by
+    construction, and the liveness standard reports it as healthy the whole time.
+
+    Every job here is resumable by design (the reader caches only fully-read entities, the
+    catalogue writes per source, the assay writes per entity and defers rather than truncating),
+    so killing a wedged one loses at most the unit it was stuck on. That is the unit it was
+    never going to finish.
+    """
+    import re as _re
+    import signal
+    try:
+        import standards as ST
+        import dashboard as D
+        rows = ST.check(D.state())
+    except Exception:
+        silence.note("foreman.py:kill_stalled-read")
+        return False, "could not read the standards to learn which job stalled"
+
+    row = next((r for r in rows if r["standard"] == "every running job is advancing"), None)
+    if not row or row.get("holds"):
+        return True, "no job is stalled now"
+
+    names = _re.findall(r"([A-Za-z0-9_]+) \(\d+ min", str(row.get("observed") or ""))
+    if not names:
+        return False, "stall reported but no job name parsed: " + str(row.get("observed"))[:80]
+
+    killed = []
+    for job in names:
+        try:
+            out = subprocess.run(
+                ["wmic", "process", "where",
+                 "name='python.exe'", "get", "ProcessId,CommandLine", "/format:csv"],
+                capture_output=True, text=True, timeout=40).stdout
+        except Exception:
+            silence.note("foreman.py:kill_stalled-list")
+            continue
+        for line in out.splitlines():
+            if job in line and "python.exe" in line:
+                m = _re.search(r",(\d+)\s*$", line.strip())
+                if not m:
+                    continue
+                pid = int(m.group(1))
+                if pid == os.getpid():
+                    continue
+                try:
+                    os.kill(pid, signal.SIGTERM)
+                    killed.append(job + ":" + str(pid))
+                except Exception:
+                    silence.note("foreman.py:kill_stalled-kill")
+    if killed:
+        return True, "killed stalled " + ", ".join(killed) + "; supervisor restarts next cycle"
+    return False, "stalled jobs found but no process matched: " + ", ".join(names)
+
+
+def run_catalogue_gap():
+    """Catalogue coverage is short. Start the pass that closes it, now.
+
+    THE POINT OF THIS ONE. Every other remedy here reacts to something broken. This reacts to
+    something UNFINISHED, which the standards system previously had no way to express: the
+    library knew it held 4.9% of its own sources' characters and that fact sat in a JSON file
+    waiting for a person to notice. Work that is known to be outstanding should dispatch itself.
+    """
+    try:
+        import overnight as ON
+        if ON.running("catalogue_web.py"):
+            return True, "catalogue pass already running"
+        ON.start("catalogue gap", ["src/catalogue_web.py", "--recatalogue", "--shortfall", "100"],
+                 "recatalogue.log")
+        return True, "started catalogue_web --recatalogue --shortfall 100"
+    except Exception as e:
+        silence.note("foreman.py:run_catalogue_gap")
+        return False, "could not start the catalogue pass: " + str(e)[:90]
+
+
+def run_completeness_audit():
+    """Re-measure the gap. Cheap (one API call per category) and needs no model at all."""
+    try:
+        import overnight as ON
+        if ON.running("completeness.py"):
+            return True, "completeness audit already running"
+        ON.start("completeness", ["src/completeness.py", "--workers", "6"], "completeness.log")
+        return True, "started completeness.py"
+    except Exception as e:
+        silence.note("foreman.py:run_completeness_audit")
+        return False, "could not start the completeness audit: " + str(e)[:90]
+
+
 # standard name -> remedies to try, in order. A standard with no entry falls to the OWNER lane,
 # which is the right default: acting on a breach nobody scripted a remedy for is guessing.
 REMEDIES = {
+    # A stall is now ACTED ON rather than reported. This is the entry whose absence let a
+    # catalogue run sit on its first source for 28 minutes while the jobs standard read green.
+    "every running job is advancing": [kill_stalled_job],
+    # Unfinished work dispatches itself. Coverage short -> start the pass; and re-measure, so
+    # the next round is judged against what is true rather than against a stale audit.
+    "every source is fully catalogued": [run_catalogue_gap, run_completeness_audit],
     "no bucket pinned at rpm 1": [clear_learned_caps],
     "calls that succeed": [clear_learned_caps, reprove_pool],
     "model calls per hour": [clear_learned_caps, reprove_pool],

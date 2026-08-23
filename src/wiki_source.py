@@ -296,12 +296,27 @@ _META_CATEGORY = re.compile(
     r"\b(stubs?|templates?|images?|disambiguation)\b", re.I)
 
 
+_ALLCATS = {}
+_ALLCATS_LOCK = threading.Lock()
+
+
 def all_categories(subdomain, min_pages=40, hard_stop=6000):
     """[(size, name)] for every category on a wiki holding at least `min_pages` pages.
 
+    CACHED PER (SUBDOMAIN, MIN_PAGES), and it has to be. `find_categories` calls this once for
+    each of the seven canonical classes, so an uncached version walks a wiki's entire category
+    listing seven times per source -- on Marvel that is seven full traversals before a single
+    entity is fetched, and the catalogue run appears to hang. The listing does not change
+    between those seven calls.
+
     `hard_stop` bounds the API walk, not the answer: it exists so a wiki with a hundred thousand
-    year-buckets cannot spin here forever. It is reported when it bites -- see find_categories.
+    year-buckets cannot spin here forever.
     """
+    key = (subdomain, min_pages)
+    with _ALLCATS_LOCK:
+        if key in _ALLCATS:
+            return _ALLCATS[key]
+
     out, cont = [], None
     while len(out) < hard_stop:
         p = {"action": "query", "list": "allcategories", "aclimit": 500,
@@ -320,6 +335,8 @@ def all_categories(subdomain, min_pages=40, hard_stop=6000):
         cont = d.get("continue", {}).get("accontinue")
         if not cont:
             break
+    with _ALLCATS_LOCK:
+        _ALLCATS[key] = out
     return out
 
 

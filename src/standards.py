@@ -85,6 +85,35 @@ MAX_SHELFMARK_COLLISIONS = 0    # two worlds at one address make every citation 
 MAX_SWEEP_AGE_H = 6             # a stale audit reports on a system that no longer exists
 MIN_DISK_GB = 10                # the roll writes hundreds of MB an hour
 MAX_PUBLISH_AGE_H = 2           # the public panel is a snapshot; stale, it misleads quietly
+
+# How long a RUNNING job may write nothing before it counts as stalled.
+#
+# THE GAP THIS CLOSES. Every liveness check in this file asks whether a process exists.
+# `overnight.running(job)` returns a boolean and the "every managed job is running" standard is
+# satisfied by a process that is alive and doing absolutely nothing -- which is the same
+# alive-but-idle confusion the whole project exists to refuse, wearing a supervisor's uniform.
+#
+# It happened exactly as you would predict. A catalogue run sat on its first source for 28
+# minutes and wrote 207 bytes total. The process was up, so the jobs standard passed. The
+# dashboard's own `movement()` DOES compute a `stalled` flag -- and nothing here ever read it,
+# so the stall was drawn on a panel and never became a work order. A finding nobody is dispatched
+# to fix is decoration.
+#
+# 15 minutes is generous on purpose: the corpus reader can legitimately spend ten minutes on one
+# oversized page, and a false stall that halts a healthy job is worse than a slow report.
+MAX_JOB_SILENCE_MIN = 15
+JOB_WATCH = os.path.join(HERE, "state", "job_progress.json")
+
+# Fraction of each source's own cast the catalogue must hold. DELIBERATELY 1.0 AND DELIBERATELY
+# UNSATISFIABLE, like MIN_HOST_COVERAGE: its job is not to be met, it is to keep the catalogue
+# pass dispatching itself for as long as anything is missing.
+#
+# This is the standard the library most needed and did not have. It knew -- in a file, in
+# writing -- that it held 4.9% of its sources' characters, with Marvel at 0.4% and DC at 0.5%,
+# and that number sat in COMPLETENESS.json waiting for somebody to read it. Nothing was
+# dispatched, because no floor said a shortfall was a fault. A cap had removed the characters
+# and the absence of a floor kept them removed.
+MIN_CATALOGUE_COVERAGE = 1.0
 MAX_STALE_MODEL_IDS = 0         # a retired model name makes a live provider read as dead        # a spike in swallowed failures is a fault somewhere upstream
 
 
@@ -431,6 +460,94 @@ def check(state=None):
             "medium", "instrument"))
     except Exception:
         silence.note("standards.py:allsweep")
+
+    # ------------------------------------------------------------------ is the cast all here?
+    try:
+        with open(os.path.join(HERE, "data", "COMPLETENESS.json"), encoding="utf-8") as f:
+            comp = json.load(f)
+        good = [c for c in comp if not c.get("unreliable")]
+        wiki = sum(c.get("wiki_persons") or 0 for c in good)
+        have = sum(c.get("catalogued_persons") or 0 for c in good)
+        cov = (have / wiki) if wiki else 0.0
+        worst = sorted(good, key=lambda c: c.get("coverage", 0))[:3]
+        detail = "; ".join("%s %.1f%%" % (str(c["source"])[:18], 100 * c.get("coverage", 0))
+                           for c in worst)
+        out.append(_s(
+            "every source is fully catalogued", cov >= MIN_CATALOGUE_COVERAGE,
+            "%.1f%% (%s of %s) -- worst: %s" % (100 * cov, f"{have:,}", f"{wiki:,}", detail),
+            "100%",
+            "The wikis' own categoryinfo says how many characters each source has; the "
+            "catalogue says how many it holds. Every point of shortfall is a character that "
+            "reads, from inside the library, as NOT IN THAT FICTION rather than not reached "
+            "yet. Molecule Man, Mister Mxyzptlk and the Black Winter were all in that gap. The "
+            "remedy starts `catalogue_web --recatalogue --shortfall 100`, largest gap first, "
+            "and re-measures afterwards.",
+            "high", "library"))
+    except Exception:
+        silence.note("standards.py:catalogue-coverage")
+
+    # ------------------------------------------------------------------ jobs that are ADVANCING
+    #
+    # Not "is it running". Whether it has produced a single byte since the last time anyone
+    # looked. A log's size is the cheapest honest proxy for work done: every long-running job
+    # here prints progress, so a log that has not grown is a job that has not progressed.
+    try:
+        import overnight as _ON
+        prev = {}
+        if os.path.exists(JOB_WATCH):
+            with open(JOB_WATCH, encoding="utf-8") as f:
+                prev = json.load(f)
+
+        now = time.time()
+        stalled, watched, cur = [], 0, {}
+        for fn in sorted(os.listdir(os.path.join(HERE, "state"))):
+            if not fn.endswith(".log"):
+                continue
+            job = fn[:-4]
+            path = os.path.join(HERE, "state", fn)
+            try:
+                size = os.path.getsize(path)
+            except Exception:
+                silence.note("standards.py:job-size")
+                continue
+            cur[job] = {"size": size, "at": now}
+
+            # Only a job whose process is UP can stall. A finished job's log stops growing
+            # because it is finished, and calling that a fault would cry wolf on every
+            # completed run -- which is how a standards system gets ignored.
+            alive = False
+            try:
+                alive = bool(_ON.running(job + ".py")) or bool(_ON.running(job))
+            except Exception:
+                silence.note("standards.py:job-alive")
+            if not alive:
+                continue
+            watched += 1
+            p = prev.get(job)
+            if not p:
+                continue
+            quiet_min = (now - p.get("at", now)) / 60.0
+            if p.get("size") == size and quiet_min >= MAX_JOB_SILENCE_MIN:
+                stalled.append("%s (%d min, %d bytes)" % (job, round(quiet_min), size))
+
+        tmp = JOB_WATCH + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(cur, f)
+        os.replace(tmp, JOB_WATCH)
+
+        out.append(_s(
+            "every running job is advancing", not stalled,
+            ", ".join(stalled) or ("%d running, all advancing" % watched),
+            "no silent job",
+            "A process that is UP and producing nothing is the failure this whole library is "
+            "built to refuse, and until now the only check on it asked whether the process "
+            "existed. Read the named log's tail: a job repeating one line is looping, a job "
+            "silent from its first line is wedged on its first unit of work. `dashboard.py` "
+            "already flags this in its movement panel -- if the panel says stalled and this "
+            "standard does not, the two are measuring different things and this one is wrong.",
+            "high", "machine"))
+    except Exception:
+        silence.note("standards.py:job-advance")
 
     # ------------------------------------------------------------------ the machine
     try:
