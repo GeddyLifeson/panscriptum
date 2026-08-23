@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 19:12:23",
+ "at": "2026-08-22 19:22:24",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 458,
+     "left": 457,
      "cap": 500,
-     "frac": 0.916
+     "frac": 0.914
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.916
+   "worst": 0.914
   },
   {
    "bucket": "cohere:free",
@@ -228,18 +228,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 268,
+     "left": 263,
      "cap": 1000,
-     "frac": 0.268
+     "frac": 0.263
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.268
+   "worst": 0.263
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -456,9 +456,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 155,
+     "left": 154,
      "cap": 200,
-     "frac": 0.775
+     "frac": 0.77
     },
     {
      "name": "rpm",
@@ -467,7 +467,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.775
+   "worst": 0.77
   },
   {
    "bucket": "kluster:free",
@@ -576,18 +576,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 369,
+     "left": 334,
      "cap": 1000,
-     "frac": 0.369
+     "frac": 0.334
     },
     {
      "name": "rpm",
-     "left": 39,
+     "left": 36,
      "cap": 40,
-     "frac": 0.975
+     "frac": 0.9
     }
    ],
-   "worst": 0.369
+   "worst": 0.334
   },
   {
    "bucket": "openrouter:free",
@@ -635,19 +635,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 236,
-     "cap": 300,
-     "frac": 0.7867
+     "name": "rpm",
+     "left": 1,
+     "cap": 2,
+     "frac": 0.5
     },
     {
-     "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
+     "name": "rpd",
+     "left": 232,
+     "cap": 300,
+     "frac": 0.7733
     }
    ],
-   "worst": 0.7867
+   "worst": 0.5
   },
   {
    "bucket": "together:free",
@@ -676,9 +676,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 211,
+     "left": 208,
      "cap": 500,
-     "frac": 0.422
+     "frac": 0.416
     },
     {
      "name": "rpm",
@@ -687,23 +687,18 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.422
+   "worst": 0.416
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 100,
-  "per_hour": 400,
+  "calls": 73,
+  "per_hour": 292,
   "buckets": [
    {
     "bucket": "nvidia:free",
-    "calls": 54,
-    "ok": 54
-   },
-   {
-    "bucket": "sambanova:free",
-    "calls": 8,
-    "ok": 0
+    "calls": 47,
+    "ok": 47
    },
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
@@ -711,59 +706,19 @@
     "ok": 0
    },
    {
-    "bucket": "zai:free",
-    "calls": 6,
+    "bucket": "sambanova:free",
+    "calls": 7,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
     "calls": 5,
-    "ok": 2
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 2,
-    "ok": 2
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 2,
-    "ok": 2
-   },
-   {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 2,
-    "ok": 2
-   },
-   {
-    "bucket": "huggingface:free",
-    "calls": 2,
-    "ok": 2
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "mistral:free",
-    "calls": 2,
-    "ok": 2
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 2,
     "ok": 1
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 5,
+    "ok": 0
    },
    {
     "bucket": "cloudflare:free",
@@ -771,9 +726,9 @@
     "ok": 0
    },
    {
-    "bucket": "cohere:free",
+    "bucket": "hyperbolic:free",
     "calls": 1,
-    "ok": 1
+    "ok": 0
    }
   ]
  },
@@ -792,7 +747,7 @@
    "unit": "entities",
    "done": 54858,
    "total": 54858,
-   "detail": "47,348 pages  \u00b7  1007M characters  \u00b7  5529.2/s",
+   "detail": "47,348 pages  \u00b7  1007M characters  \u00b7  7537.3/s",
    "warn": "",
    "eta_h": 0.0
   }
@@ -810,7 +765,7 @@
    "cited": 7408,
    "read": 33716,
    "settled": 41124,
-   "feats": 16929,
+   "feats": 17065,
    "age_h": 0.1
   },
   "phases": [
@@ -847,7 +802,7 @@
     "built": false
    }
   ],
-  "readfeats": 32
+  "readfeats": 34
  },
  "watch": {
   "open": 2,
@@ -890,18 +845,18 @@
     1694
    ],
    [
-    "silent:pipeline.py:phase_cosmology-ground:AttributeError",
-    419
+    "silent:overnight.py:81:ValueError",
+    436
    ]
   ],
-  "swallowed_total": 13509
+  "swallowed_total": 13559
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 400,
+   "observed": 292,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -937,7 +892,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": true,
-   "observed": "68% ok",
+   "observed": "66% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1045,11 +1000,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "13,509",
+   "observed": "13,559",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T19:12:24"
+ "generated": "2026-08-22T19:22:25"
 }

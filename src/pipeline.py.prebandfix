@@ -236,21 +236,18 @@ HARD RULES:
 3. If no entry shows a demonstrated feat, set ceiling_entity to "" and magnitude "unassayed".
    That is a correct, expected answer for many sources.
 
-MAGNITUDE BANDS -- the scale of PRESENCE, not of threat. Ask how much of reality the thing
-occupies, pervades or registers within; never ask who would win. The band names are the
-charter's own (Part One, the band table) and the scale terms are exact: a planetary system
-is not a planet, multiversal is not metaversal.
-  M0 Mundane - a village
-  M1 Heroic - a city or nation
-  M2 Paragon - a continent
-  M3 Worldshaker - A PLANET
-  M4 Planetary Sovereign - A PLANETARY OR STELLAR SYSTEM
-  M5 Stellar - star clusters, associations, nebulae
-  M6 Galactic - a galaxy, group or cluster
-  M7 Universal - a universe and its fundamental laws
-  M8 Multiversal - whole multiverses
-  M9 Metaversal - metaverses and xenoverses
-  M10 Omniversal - everything
+MAGNITUDE BANDS:
+  M0 Mundane - ordinary human capability
+  M1 Heroic - peak human, small-scale combat
+  M2 Paragon - superhuman, city-block effects
+  M3 Worldshaker - city to continent scale
+  M4 Planetary Sovereign - planet-scale power
+  M5 Stellar - star or solar-system scale
+  M6 Galactic
+  M7 Universal
+  M8 Multiversal
+  M9 Metaversal
+  M10 Omniversal / ground-of-being
 """
 
 SYNTH_SCHEMA = {
@@ -433,10 +430,10 @@ For each entry return:
     legendary king" demonstrates NOTHING and is "unassayed". A description that says they
     destroyed a city is M3. Rank the feat, never the reputation.
 
-      M0 a village         M1 a city or nation  M2 a continent
-      M3 A PLANET          M4 A STELLAR SYSTEM  M5 star clusters
-      M6 a galaxy          M7 a universe        M8 multiverses
-      M9 metaverses        M10 everything
+      M0 ordinary human    M1 peak human      M2 superhuman, city-block
+      M3 city to continent M4 planet-scale    M5 star / solar system
+      M6 galactic          M7 universal       M8 multiversal
+      M9 metaversal        M10 omniversal / ground-of-being
 
     Most entries are "unassayed" and that is the correct, expected answer. Do not reach for a
     band to avoid saying so -- these bands order the entire encyclopedia, and an inflated one
