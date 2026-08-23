@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 19:22:24",
+ "at": "2026-08-22 19:32:26",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 263,
+     "left": 259,
      "cap": 1000,
-     "frac": 0.263
+     "frac": 0.259
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 0.5
     }
    ],
-   "worst": 0.263
+   "worst": 0.259
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -576,18 +576,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 334,
+     "left": 305,
      "cap": 1000,
-     "frac": 0.334
+     "frac": 0.305
     },
     {
      "name": "rpm",
-     "left": 36,
+     "left": 38,
      "cap": 40,
-     "frac": 0.9
+     "frac": 0.95
     }
    ],
-   "worst": 0.334
+   "worst": 0.305
   },
   {
    "bucket": "openrouter:free",
@@ -635,19 +635,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 1,
-     "cap": 2,
-     "frac": 0.5
+     "name": "rpd",
+     "left": 230,
+     "cap": 300,
+     "frac": 0.7667
     },
     {
-     "name": "rpd",
-     "left": 232,
-     "cap": 300,
-     "frac": 0.7733
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.5
+   "worst": 0.7667
   },
   {
    "bucket": "together:free",
@@ -676,9 +676,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 208,
+     "left": 206,
      "cap": 500,
-     "frac": 0.416
+     "frac": 0.412
     },
     {
      "name": "rpm",
@@ -687,47 +687,37 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.416
+   "worst": 0.412
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 73,
-  "per_hour": 292,
+  "calls": 70,
+  "per_hour": 280,
   "buckets": [
    {
     "bucket": "nvidia:free",
-    "calls": 47,
-    "ok": 47
+    "calls": 49,
+    "ok": 49
    },
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 7,
+    "calls": 8,
     "ok": 0
    },
    {
     "bucket": "sambanova:free",
-    "calls": 7,
+    "calls": 5,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 5,
+    "calls": 4,
     "ok": 1
    },
    {
     "bucket": "zai:free",
-    "calls": 5,
-    "ok": 0
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 1,
+    "calls": 4,
     "ok": 0
    }
   ]
@@ -747,7 +737,7 @@
    "unit": "entities",
    "done": 54858,
    "total": 54858,
-   "detail": "47,348 pages  \u00b7  1007M characters  \u00b7  7537.3/s",
+   "detail": "47,348 pages  \u00b7  1007M characters  \u00b7  5150.9/s",
    "warn": "",
    "eta_h": 0.0
   }
@@ -802,24 +792,36 @@
     "built": false
    }
   ],
-  "readfeats": 34
+  "readfeats": 35
  },
  "watch": {
-  "open": 2,
-  "high": 1,
-  "rounds": 4,
+  "open": 4,
+  "high": 3,
+  "rounds": 5,
   "findings": [
+   {
+    "module": "build_terminal",
+    "symbol": "place",
+    "actual": "The function uses a fixed arc fraction (0.08 and 0.92) to determine the span of each child node's wedge, which does not properly account for the total available",
+    "severity": "high"
+   },
+   {
+    "module": "assay",
+    "symbol": "interval",
+    "actual": "The while loop condition checks `any(abs(v - centre) > interval for v in vals)`, but the loop body increases `interval` by 0.01 each time. However, the `interva",
+    "severity": "high"
+   },
+   {
+    "module": "autostart",
+    "symbol": "sys.exit(main())",
+    "actual": "exit with the return value of main() but discard any exception it raises",
+    "severity": "high"
+   },
    {
     "module": "assay",
     "symbol": "SIGMA_MAX",
     "actual": "SIGMA_MAX is defined as 9.9 / sqrt(12), which is correct for the standard deviation of a uniform distribution over [0.0, 9.9], but this value is used as a hard ",
     "severity": "medium"
-   },
-   {
-    "module": "backfill",
-    "symbol": "backfill_source",
-    "actual": "returns a dictionary with 'added' count and other metadata, but the 'missing' field in the return value is the number of entries that were processed (i.e., the ",
-    "severity": "high"
    }
   ],
   "broken": [],
@@ -846,17 +848,17 @@
    ],
    [
     "silent:overnight.py:81:ValueError",
-    436
+    486
    ]
   ],
-  "swallowed_total": 13559
+  "swallowed_total": 13617
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 292,
+   "observed": 280,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -892,7 +894,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": true,
-   "observed": "66% ok",
+   "observed": "71% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -982,7 +984,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 1,
+   "observed": 3,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1000,11 +1002,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "13,559",
+   "observed": "13,617",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T19:22:25"
+ "generated": "2026-08-22T19:32:26"
 }
