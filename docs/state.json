@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 03:13:26",
+ "at": "2026-08-23 03:23:27",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 380,
+     "left": 377,
      "cap": 500,
-     "frac": 0.76
+     "frac": 0.754
     },
     {
      "name": "rpm",
-     "left": 20,
+     "left": 18,
      "cap": 20,
-     "frac": 1.0
+     "frac": 0.9
     }
    ],
-   "worst": 0.76
+   "worst": 0.754
   },
   {
    "bucket": "cohere:free",
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 5,
+     "left": 3,
      "cap": 5,
-     "frac": 1.0
+     "frac": 0.6
     }
    ],
    "worst": 0.0
@@ -234,9 +234,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
+     "left": 13,
+     "cap": 15,
+     "frac": 0.8667
     }
    ],
    "worst": 0.0
@@ -254,9 +254,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
+     "left": 9,
+     "cap": 10,
+     "frac": 0.9
     }
    ],
    "worst": 0.0
@@ -274,9 +274,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
+     "left": 9,
+     "cap": 10,
+     "frac": 0.9
     }
    ],
    "worst": 0.0
@@ -373,20 +373,20 @@
     {
      "name": "rpd",
      "left": 0,
-     "cap": 142,
+     "cap": 192,
      "frac": 0.0
     },
     {
      "name": "tpd",
-     "left": 98376,
+     "left": 93630,
      "cap": 200000,
-     "frac": 0.4919
+     "frac": 0.4682
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 29,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9667
     },
     {
      "name": "tpm",
@@ -403,28 +403,28 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
+     "name": "rpm",
      "left": 0,
-     "cap": 194,
+     "cap": 3,
      "frac": 0.0
     },
     {
      "name": "tpd",
-     "left": 58308,
+     "left": 53893,
      "cap": 200000,
-     "frac": 0.2915
-    },
-    {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
+     "frac": 0.2695
     },
     {
      "name": "tpm",
-     "left": 8000,
+     "left": 3585,
      "cap": 8000,
-     "frac": 1.0
+     "frac": 0.4481
+    },
+    {
+     "name": "rpd",
+     "left": 761,
+     "cap": 1000,
+     "frac": 0.761
     }
    ],
    "worst": 0.0
@@ -456,18 +456,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 67,
+     "left": 65,
      "cap": 200,
-     "frac": 0.335
+     "frac": 0.325
     },
     {
      "name": "rpm",
-     "left": 10,
+     "left": 9,
      "cap": 10,
-     "frac": 1.0
+     "frac": 0.9
     }
    ],
-   "worst": 0.335
+   "worst": 0.325
   },
   {
    "bucket": "kluster:free",
@@ -502,9 +502,9 @@
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 29,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9667
     }
    ],
    "worst": 0.0
@@ -582,9 +582,9 @@
     },
     {
      "name": "rpm",
-     "left": 40,
+     "left": 39,
      "cap": 40,
-     "frac": 1.0
+     "frac": 0.975
     }
    ],
    "worst": 0.0
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 20,
+     "left": 19,
      "cap": 20,
-     "frac": 1.0
+     "frac": 0.95
     }
    ],
    "worst": 0.0
@@ -642,9 +642,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
    "worst": 0.0
@@ -682,9 +682,9 @@
     },
     {
      "name": "rpm",
-     "left": 20,
+     "left": 19,
      "cap": 20,
-     "frac": 1.0
+     "frac": 0.95
     }
    ],
    "worst": 0.0
@@ -692,22 +692,52 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 10,
-  "per_hour": 40,
+  "calls": 58,
+  "per_hour": 232,
   "buckets": [
    {
     "bucket": "ollama:local",
-    "calls": 3,
+    "calls": 15,
     "ok": 0
    },
    {
-    "bucket": "hyperbolic:free",
-    "calls": 2,
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 8,
+    "ok": 3
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 5,
+    "ok": 3
+   },
+   {
+    "bucket": "ollama:llama3.1:latest",
+    "calls": 5,
+    "ok": 0
+   },
+   {
+    "bucket": "ollama:qwen2.5:14b",
+    "calls": 5,
     "ok": 0
    },
    {
     "bucket": "cloudflare:free",
-    "calls": 1,
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 2,
     "ok": 0
    },
    {
@@ -716,17 +746,52 @@
     "ok": 0
    },
    {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 1,
+    "ok": 1
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 1,
+    "ok": 1
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 1,
+    "ok": 1
+   },
+   {
     "bucket": "huggingface:free",
     "calls": 1,
     "ok": 0
    },
    {
-    "bucket": "ollama:llama3.1:latest",
+    "bucket": "mistral:free",
+    "calls": 1,
+    "ok": 1
+   },
+   {
+    "bucket": "nvidia:free",
+    "calls": 1,
+    "ok": 1
+   },
+   {
+    "bucket": "openrouter:free",
     "calls": 1,
     "ok": 0
    },
    {
-    "bucket": "ollama:qwen2.5:14b",
+    "bucket": "sambanova:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
     "calls": 1,
     "ok": 0
    }
@@ -766,7 +831,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 5.6
+   "age_h": 5.8
   },
   "phases": [
    {
@@ -807,7 +872,7 @@
  "watch": {
   "open": 6,
   "high": 3,
-  "rounds": 18,
+  "rounds": 19,
   "findings": [
    {
     "module": "build_terminal",
@@ -850,11 +915,11 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    3162
+    3819
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    1057
+    1250
    ],
    [
     "silent:endpoint.py:fetch_raw-http:HTTPError",
@@ -873,14 +938,14 @@
     1
    ]
   ],
-  "swallowed_total": 4399
+  "swallowed_total": 5249
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 40,
+   "observed": 232,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -916,7 +981,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "0% ok",
+   "observed": "26% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -970,7 +1035,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "5.6h",
+   "observed": "5.8h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1024,11 +1089,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "4,399",
+   "observed": "5,249",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T03:13:26"
+ "generated": "2026-08-23T03:23:28"
 }
