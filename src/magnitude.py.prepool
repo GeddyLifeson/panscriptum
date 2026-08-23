@@ -72,79 +72,6 @@ if any(c in open(os.path.abspath(__file__), encoding='utf-8').read() for c in _B
 OUT = os.path.join(HERE, "data", "ASSAYS.json")
 AXES = list(A.WEIGHTS)                       # 11: eight physical, three faculty
 
-# ------------------------------------------------------------------------------- transport
-#
-# THE ASSAY HAD NO POOL, AND THAT IS WHY THE LIBRARY HAS 49 ASSAYS OUT OF 21,663 ENTITIES.
-#
-# Every other reading stage here -- read.py, chain.py -- tries `cascade_bridge` first and falls
-# back to the local model. This module called `P.ask(config(), ...)`, which is local Ollama and
-# nothing else: one 6,144-token context, one 420-second timeout, one entity at a time.
-#
-# The second half of the defect is worse than the slowness. An entity's prompt is built from
-# EVERY candidate sentence its pages yielded -- deliberately uncapped, because "capping at six
-# decided that an entity with forty pieces of Ruin evidence had six". So prompt size scales with
-# how well-documented an entity is, and measured against the local window:
-#
-#     Goten     4,825 chars   0.2x   fits          -> assayable
-#     Krillin  13,453 chars   0.5x   fits          -> assayable
-#     Gohan    28,242 chars   1.1x   over          -> "unassayed"
-#     Frieza   46,382 chars   1.9x   over
-#     Vegeta   49,761 chars   2.0x   over          -> "unassayed"
-#     Goku     58,099 chars   2.4x   over          -> "unassayed"
-#
-# The instrument could only measure entities it barely knew, and it reported everything else as
-# "unassayed" -- the identical word it uses for entities nobody has looked at yet. A failure that
-# is indistinguishable from a queue.
-#
-# Cloud buckets carry 128k-token contexts, so the full prompt fits with room to spare and the
-# cap below never binds. It binds only when the pool is unreachable and the local model is
-# carrying the run, and when it binds it is REPORTED on the sheet rather than silently applied.
-
-LOCAL_BUDGET = 18000          # chars of evidence; leaves headroom in a 6,144-token window
-
-# Index pages that the character sweep catalogued as though they were people. Only 43 of 14,927,
-# but they are the LONGEST pages on their wikis, and the queue runs richest-evidence-first -- so
-# unfiltered they are the first dozen things the instrument would ever assay, and it would
-# publish a Magnitude for "List of tertiary characters".
-NOT_AN_ENTITY = re.compile(
-    r"^(list of|category:|template:|index of|timeline of|glossary|gallery\b)|"
-    r"\(disambiguation\)$", re.I)
-_POOL = [None]                # resolved once, before any worker starts
-
-
-def pool_ready():
-    """Is the cloud pool reachable? Resolved ONCE and cached.
-
-    read.py learned this the expensive way: ten workers racing the same probe drove the answer
-    to False permanently, and every transport fix afterwards landed on a flag that was already
-    wrong. Resolve before the pool starts, then never again.
-    """
-    if _POOL[0] is None:
-        try:
-            import cascade_bridge as CB
-            _POOL[0] = bool(CB.engine())
-        except Exception:
-            silence.note("magnitude.py:pool_ready")
-            _POOL[0] = False
-    return _POOL[0]
-
-
-def _ask(c, system, prompt, schema, timeout=420):
-    """Cascade first, local second -- the same order read.py and chain.py already use."""
-    if pool_ready():
-        try:
-            import cascade_bridge as CB
-            got = CB.ask(system, prompt, schema)
-            if got is not None:
-                return got
-        except Exception:
-            silence.note("magnitude.py:_ask-cascade")
-    try:
-        return P.ask(c, system, prompt, schema, timeout=timeout)
-    except Exception:
-        silence.note("magnitude.py:_ask-local")
-        return None
-
 # --------------------------------------------------------------------------- guard 2: relevance
 #
 # What a feat has to be ABOUT to license a score on each axis. These are deliberately narrow.
@@ -388,31 +315,6 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
         return {"entity": entity, "result": None,
                 "reason": "no axis cleared its gate on this entity's own source pages"}
 
-    # Budget only when the local model is carrying the run. Round-robin across axes rather than
-    # filling axis by axis: a budget spent in declaration order would hand the whole allowance to
-    # Ruin and leave Suasion with nothing, which silently converts "not measured" into "no
-    # evidence" -- and those are different findings, one of which is a lie.
-    budget = None if pool_ready() else LOCAL_BUDGET
-    offered = {ax: list(cand[ax]) for ax in AXES}
-    dropped = 0
-    if budget:
-        keep, spent, depth = {ax: [] for ax in AXES}, 0, 0
-        while True:
-            progressed = False
-            for ax in AXES:
-                if depth < len(offered[ax]):
-                    r = offered[ax][depth]
-                    cost = len(r["feat"]) + 8
-                    if spent + cost <= budget:
-                        keep[ax].append(r)
-                        spent += cost
-                        progressed = True
-            if not progressed:
-                break
-            depth += 1
-        dropped = sum(len(offered[ax]) for ax in AXES) - sum(len(keep[ax]) for ax in AXES)
-        cand = keep
-
     blocks, flat, i = [], {}, 0
     for ax in AXES:
         if not cand[ax]:
@@ -429,12 +331,9 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
               + "\n".join(blocks)
               + "\n\nCite only from an axis's own list. An axis with no list takes a status.")
 
-    got = _ask(c, SYSTEM, prompt, SCHEMA, timeout=420)
+    got = P.ask(c, SYSTEM, prompt, SCHEMA, timeout=420)
     if not got:
-        return {"entity": entity, "result": None,
-                "reason": ("no answer from the pool or the local model"
-                           + ("" if pool_ready() else " (pool unreachable; local only)")),
-                "prompt_chars": len(prompt)}
+        return {"entity": entity, "result": None, "reason": "ollama failure"}
 
     anchor = got.get("anchor") if got.get("anchor") in A.LADDER else "M0"
     if ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
@@ -472,12 +371,6 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             "worksheet": sheet, "rejections": rejects,
             "candidates": {k: len(v) for k, v in cand.items() if v},
             "quantities_seen": len(ev["quantities"]),
-            "prompt_chars": len(prompt),
-            # A sheet scored on a trimmed body of evidence must say so. Left off, a budgeted
-            # assay is indistinguishable from a complete one, and the number carries a
-            # confidence it has not earned.
-            "evidence_dropped_to_fit": dropped,
-            "transport": "pool" if pool_ready() else "local",
             "pages": ev["pages_read"]}
 
 
@@ -538,110 +431,11 @@ def calibrate():
     return band_hits
 
 
-def queue(host=None, limit=None):
-    """Every catalogued entity with mined evidence, least-assayed first.
-
-    Reads the same character sweep the dashboard reads, so "how many are left" means the same
-    number in both places.
-    """
-    path = os.path.join(HERE, "data", "CHARACTER_SWEEP.json")
-    with open(path, encoding="utf-8") as f:
-        rows = json.load(f)
-    out, seen = [], set()
-    for r in rows:
-        if not isinstance(r, dict) or not r.get("host") or not r.get("name"):
-            continue
-        if host and r["host"] != host:
-            continue
-        if not (r.get("chars") or 0):
-            continue                       # nothing mined; the assay would have nothing to read
-        if NOT_AN_ENTITY.match(r["name"]):
-            continue
-        k = r["host"] + "|" + r["name"]
-        if k in seen:                      # the sweep carries duplicate rows for shared pages
-            continue
-        seen.add(k)
-        out.append((r["host"], r["name"], r.get("chars") or 0))
-    # Richest evidence first. These are the entities the old single-call path could never do,
-    # and they are also the ones anybody actually looks up.
-    out.sort(key=lambda t: -t[2])
-    return out[:limit] if limit else out
-
-
-def run_batch(host=None, limit=None, workers=8, resume=True):
-    """Assay the queue in parallel, writing after every result.
-
-    Written to be killed. The roll runs for hours against a rate-limited pool, and a crash at
-    hour three must not cost hours one and two -- so ASSAYS.json is rewritten on each completion
-    and `--resume` skips anything already in it.
-    """
-    import threading
-    from concurrent.futures import ThreadPoolExecutor
-
-    c = config()
-    print("transport: " + ("cloud pool (cascade)" if pool_ready()
-                           else "LOCAL ONLY -- evidence will be budgeted to " + str(LOCAL_BUDGET)
-                                + " chars per entity"))
-    done = {}
-    if resume and os.path.exists(OUT):
-        try:
-            with open(OUT, encoding="utf-8") as f:
-                done = json.load(f)
-        except Exception:
-            silence.note("magnitude.py:resume")
-            done = {}
-
-    todo = [(h, n, ch) for h, n, ch in queue(host, limit) if (h + "|" + n) not in done]
-    print("queue: %d entities, %d already assayed, %d to do"
-          % (len(queue(host, limit)), len(done), len(todo)))
-    lock = threading.Lock()
-    tally = {"n": 0, "scored": 0, "band_only": 0}
-
-    def work(item):
-        h, n, _ch = item
-        try:
-            r = assay_entity(c, n, h)
-        except Exception as e:
-            silence.note("magnitude.py:run_batch")
-            r = {"entity": n, "host": h, "result": None,
-                 "reason": type(e).__name__ + ": " + str(e)[:160]}
-        with lock:
-            done[h + "|" + n] = r
-            tally["n"] += 1
-            if (r.get("result") or {}).get("decimal") is not None:
-                tally["scored"] += 1
-            else:
-                tally["band_only"] += 1
-            tmp = OUT + ".tmp"
-            with open(tmp, "w", encoding="utf-8") as f:
-                json.dump(done, f, ensure_ascii=False)
-            os.replace(tmp, OUT)
-            if tally["n"] % 10 == 0 or tally["n"] == len(todo):
-                print("   %5d/%d   scored %d   no-number %d"
-                      % (tally["n"], len(todo), tally["scored"], tally["band_only"]),
-                      flush=True)
-
-    with ThreadPoolExecutor(max_workers=workers) as ex:
-        list(ex.map(work, todo))
-
-    print("")
-    print("assayed with a decimal: %d" % tally["scored"])
-    print("band-only or refused  : %d" % tally["band_only"])
-    print("-> " + OUT)
-    return tally["scored"]
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--calibrate", action="store_true",
                     help="run the charter's six published assays")
     ap.add_argument("--one", nargs=2, metavar=("HOST", "ENTITY"))
-    ap.add_argument("--batch", action="store_true",
-                    help="assay the whole queue, richest evidence first")
-    ap.add_argument("--host", help="restrict --batch to one wiki")
-    ap.add_argument("--limit", type=int)
-    ap.add_argument("--workers", type=int, default=8)
-    ap.add_argument("--fresh", action="store_true", help="ignore existing ASSAYS.json")
     a = ap.parse_args()
 
     if a.calibrate:
@@ -649,9 +443,6 @@ def main():
     if a.one:
         r = assay_entity(config(), a.one[1], a.one[0])
         print(json.dumps(r, indent=1, ensure_ascii=False)[:4000])
-        return 0
-    if a.batch:
-        run_batch(host=a.host, limit=a.limit, workers=a.workers, resume=not a.fresh)
         return 0
     ap.print_help()
     return 0

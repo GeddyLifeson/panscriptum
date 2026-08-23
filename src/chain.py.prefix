@@ -57,15 +57,10 @@ OUTCOME = re.compile(
     r"outmatched|lost to|fell to|surrender(?:ed)? to|conced(?:ed|es)|"
     r"destroy(?:ed|s)?|struck down|put down|subdued)\b", re.I)
 
-SYSTEM = """You read NUMBERED sentences from a fiction wiki and report CONTEST OUTCOMES.
+SYSTEM = """You read one sentence from a fiction wiki and report a CONTEST OUTCOME.
 
-For each sentence that records one, name who WON and who LOST, and give that sentence's own
-number in `index`. Both parties must be named or clearly referred to in the sentence itself.
-
-Skip freely -- most sentences record no contest at all -- but never renumber. `index` is the
-bracketed number printed in front of the sentence you read, not the position of your answer in
-your reply. An outcome carrying the wrong number is filed against a different page, and takes
-that page's continuity with it.
+Given the sentence and the entity it is filed under, name who WON and who LOST. Both must be
+named or clearly referred to in the sentence itself.
 
 Return nothing when:
   - the sentence names no opponent ("he destroyed the city" has no loser, a city is not a party)
@@ -81,9 +76,8 @@ SCHEMA = {
     "properties": {
         "outcomes": {"type": "array", "items": {
             "type": "object",
-            "properties": {"index": {"type": "integer"},
-                           "winner": {"type": "string"}, "loser": {"type": "string"}},
-            "required": ["index", "winner", "loser"]}}},
+            "properties": {"winner": {"type": "string"}, "loser": {"type": "string"}},
+            "required": ["winner", "loser"]}}},
     "required": ["outcomes"],
 }
 
@@ -197,28 +191,8 @@ def extract(rows, batch=8, limit=None, workers=8):
                  for i, r in enumerate(chunk, 1)]
         got = _ask(SYSTEM, "SENTENCES:\n" + "\n".join(lines), SCHEMA)
         local = []
-        for o in (got or {}).get("outcomes", []):
-            # THE SENTENCE IS NAMED BY THE MODEL, NOT GUESSED FROM POSITION.
-            #
-            # This read `chunk[min(i, len(chunk) - 1)]` -- outcome number i belongs to sentence
-            # number i. The model is handed eight sentences and told that skipping is "the
-            # common and correct answer", so the two lists are almost never the same length.
-            # Every outcome after the first skipped sentence was therefore attributed to the
-            # wrong sentence, and inherited the wrong page and the wrong CONTINUITY.
-            #
-            # The names on the edge stayed correct, which is why this never looked like a bug:
-            # a real contest between two real fighters, filed under a branch neither of them
-            # was in. Then `ID.node(name, continuity)` keys them onto branch-specific nodes,
-            # and a graph that should connect fragments into per-branch islands -- 21 of them,
-            # 70 of 82 fighters holding a single edge. Ford's condition cannot be met by a
-            # graph assembled this way no matter how many sentences are fed to it.
-            try:
-                pos = int(o.get("index", 0)) - 1
-            except (TypeError, ValueError):
-                continue
-            if not (0 <= pos < len(chunk)):
-                continue
-            src = chunk[pos]
+        for i, o in enumerate((got or {}).get("outcomes", [])):
+            src = chunk[min(i, len(chunk) - 1)]
             w, l = (o.get("winner") or "").strip(), (o.get("loser") or "").strip()
             if not w or not l or w.lower() == l.lower():
                 continue
@@ -281,10 +255,7 @@ def adjudicate_mutuals(edges, prov):
     if not mutual:
         print("\nmutual pairs: none -- no contest is recorded in both directions")
         return edges
-    # Was indented one level deeper, i.e. after the `return` inside `if not mutual` -- so the
-    # one line announcing that mutual pairs are being adjudicated could only ever run when
-    # there were none. The dating below has always executed; nothing said so.
-    print(f"\nmutual pairs: {len(mutual)} -- dating each side before it reaches the fit")
+        print(f"\nmutual pairs: {len(mutual)} -- dating each side before it reaches the fit")
     out = collections.Counter(edges)
     split = kept = 0
     for (w, l) in mutual:
