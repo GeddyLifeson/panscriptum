@@ -1,5 +1,5 @@
 {
- "at": "2026-08-22 21:52:45",
+ "at": "2026-08-22 22:02:47",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -114,9 +114,9 @@
     },
     {
      "name": "rpm",
-     "left": 18,
+     "left": 20,
      "cap": 20,
-     "frac": 0.9
+     "frac": 1.0
     }
    ],
    "worst": 0.866
@@ -227,19 +227,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 143,
-     "cap": 1000,
-     "frac": 0.143
+     "name": "rpm",
+     "left": 0,
+     "cap": 2,
+     "frac": 0.0
     },
     {
-     "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
+     "name": "rpd",
+     "left": 131,
+     "cap": 1000,
+     "frac": 0.131
     }
    ],
-   "worst": 0.143
+   "worst": 0.0
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -462,9 +462,9 @@
     },
     {
      "name": "rpm",
-     "left": 9,
+     "left": 10,
      "cap": 10,
-     "frac": 0.9
+     "frac": 1.0
     }
    ],
    "worst": 0.635
@@ -635,19 +635,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 108,
-     "cap": 300,
-     "frac": 0.36
+     "name": "rpm",
+     "left": 0,
+     "cap": 2,
+     "frac": 0.0
     },
     {
-     "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
+     "name": "rpd",
+     "left": 94,
+     "cap": 300,
+     "frac": 0.3133
     }
    ],
-   "worst": 0.36
+   "worst": 0.0
   },
   {
    "bucket": "together:free",
@@ -675,38 +675,33 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 77,
-     "cap": 500,
-     "frac": 0.154
+     "name": "rpm",
+     "left": 0,
+     "cap": 2,
+     "frac": 0.0
     },
     {
-     "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
+     "name": "rpd",
+     "left": 63,
+     "cap": 500,
+     "frac": 0.126
     }
    ],
-   "worst": 0.154
+   "worst": 0.0
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 138,
-  "per_hour": 552,
+  "calls": 136,
+  "per_hour": 544,
   "buckets": [
    {
     "bucket": "ollama:local",
-    "calls": 36,
+    "calls": 42,
     "ok": 0
    },
    {
     "bucket": "sambanova:free",
-    "calls": 18,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
     "calls": 17,
     "ok": 0
    },
@@ -721,13 +716,18 @@
     "ok": 0
    },
    {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 14,
+    "ok": 0
+   },
+   {
     "bucket": "ollama:llama3.1:latest",
-    "calls": 15,
+    "calls": 14,
     "ok": 0
    },
    {
     "bucket": "ollama:qwen2.5:14b",
-    "calls": 15,
+    "calls": 14,
     "ok": 0
    },
    {
@@ -739,16 +739,6 @@
     "bucket": "hyperbolic:free",
     "calls": 1,
     "ok": 0
-   },
-   {
-    "bucket": "nvidia:free",
-    "calls": 1,
-    "ok": 1
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 1,
-    "ok": 1
    }
   ]
  },
@@ -756,11 +746,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 499,
+   "done": 506,
    "total": 100623,
-   "detail": "105/40,418 entities  \u00b7  2,681 feats  \u00b7  0.05 chunks/s",
-   "warn": "659 unanswered",
-   "eta_h": 569.4
+   "detail": "110/40,418 entities  \u00b7  2,744 feats  \u00b7  0.01 chunks/s",
+   "warn": "721 unanswered",
+   "eta_h": 3672.6
   },
   {
    "name": "page roll",
@@ -786,7 +776,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 0.3
+   "age_h": 0.4
   },
   "phases": [
    {
@@ -827,7 +817,7 @@
  "watch": {
   "open": 7,
   "high": 4,
-  "rounds": 6,
+  "rounds": 7,
   "findings": [
    {
     "module": "build_terminal",
@@ -899,14 +889,14 @@
     2618
    ]
   ],
-  "swallowed_total": 37653
+  "swallowed_total": 38556
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 552,
+   "observed": 544,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -915,7 +905,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 24,
+   "observed": 21,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -924,7 +914,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "25% dry",
+   "observed": "34% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -942,7 +932,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "1% ok",
+   "observed": "0% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -951,7 +941,7 @@
    "standard": "chunks nobody answered",
    "group": "read",
    "holds": false,
-   "observed": "659 unanswered",
+   "observed": "721 unanswered",
    "floor": "none",
    "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
    "severity": "high"
@@ -960,7 +950,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "569.4h",
+   "observed": "3672.6h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -969,7 +959,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "5.37",
+   "observed": "5.42",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -996,7 +986,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.3h",
+   "observed": "0.4h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1050,11 +1040,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "37,653",
+   "observed": "38,556",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-22T21:52:46"
+ "generated": "2026-08-22T22:02:48"
 }

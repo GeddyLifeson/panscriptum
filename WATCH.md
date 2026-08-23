@@ -1,14 +1,13 @@
 # OVERWATCH
 
-round 6  ·  last run 2026-08-22 21:10
+round 7  ·  last run 2026-08-22 21:52
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 0 inspected
+- files that will not parse: **0** of 57,227 inspected
 - catalogued sources with no host: **17** Arcanum Worlds (Odyssey of the Dragonlords), Clockwork Angels (Rush), Curious DM
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
-- MORE THAN ONE INSTANCE RUNNING: **2** overnight.py: 2 processes
 
 ## What the model found in the code
 
