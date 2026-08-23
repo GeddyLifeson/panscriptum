@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 17:13:00",
+ "at": "2026-08-23 17:21:27",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 5,
+     "left": 7,
      "cap": 1000,
-     "frac": 0.005
+     "frac": 0.007
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.005
+   "worst": 0.007
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -268,9 +268,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 4,
+     "left": 5,
      "cap": 250,
-     "frac": 0.016
+     "frac": 0.02
     },
     {
      "name": "rpm",
@@ -279,7 +279,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.016
+   "worst": 0.02
   },
   {
    "bucket": "github:free",
@@ -576,18 +576,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 17,
+     "left": 13,
      "cap": 1000,
-     "frac": 0.017
+     "frac": 0.013
     },
     {
      "name": "rpm",
-     "left": 39,
+     "left": 31,
      "cap": 40,
-     "frac": 0.975
+     "frac": 0.775
     }
    ],
-   "worst": 0.017
+   "worst": 0.013
   },
   {
    "bucket": "openrouter:free",
@@ -692,58 +692,13 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 67,
-  "per_hour": 268,
+  "calls": 17,
+  "per_hour": 68,
   "buckets": [
    {
-    "bucket": "openrouter:free",
-    "calls": 27,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:local",
-    "calls": 12,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 9,
-    "ok": 1
-   },
-   {
-    "bucket": "ollama:llama3.1:latest",
-    "calls": 5,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:qwen2.5:14b",
-    "calls": 5,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 2,
-    "ok": 0
-   },
-   {
     "bucket": "nvidia:free",
-    "calls": 1,
-    "ok": 1
+    "calls": 17,
+    "ok": 17
    }
   ]
  },
@@ -760,11 +715,11 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 17000,
+   "done": 17800,
    "total": 84014,
-   "detail": "14,708 pages  \u00b7  171M characters  \u00b7  3.8/s",
+   "detail": "15,413 pages  \u00b7  180M characters  \u00b7  3.5/s",
    "warn": "",
-   "eta_h": 4.8
+   "eta_h": 5.2
   }
  ],
  "library": {
@@ -781,7 +736,7 @@
    "read": 33159,
    "settled": 40632,
    "feats": 39267,
-   "age_h": 1.7
+   "age_h": 1.9
   },
   "phases": [
    {
@@ -865,37 +820,37 @@
   "swallowed": [
    [
     "silent:overnight.py:81:ValueError",
-    273
-   ],
-   [
-    "silent:feats.py:139:URLError",
-    75
+    553
    ],
    [
     "silent:wiki_source.py:160:URLError",
-    75
+    168
+   ],
+   [
+    "silent:feats.py:139:URLError",
+    150
    ],
    [
     "silent:completeness.py:category_size:URLError",
-    25
+    51
+   ],
+   [
+    "silent:wiki_source.py:229:URLError",
+    6
    ],
    [
     "silent:endpoint.py:detect-raw:URLError",
     3
-   ],
-   [
-    "silent:endpoint.py:detect-api:URLError",
-    2
    ]
   ],
-  "swallowed_total": 455
+  "swallowed_total": 935
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 268,
+   "observed": 68,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -930,8 +885,8 @@
   {
    "standard": "calls that succeed",
    "group": "pool",
-   "holds": false,
-   "observed": "3% ok",
+   "holds": true,
+   "observed": "100% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -976,7 +931,7 @@
    "standard": "page roll complete",
    "group": "read",
    "holds": false,
-   "observed": "20%",
+   "observed": "21%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -985,7 +940,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "1.7h",
+   "observed": "1.9h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1039,7 +994,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "750",
+   "observed": "930",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1111,7 +1066,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "1.8h",
+   "observed": "1.9h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1183,7 +1138,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.2h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1212,44 +1167,44 @@
    "metric": "cited",
    "now": 7473,
    "delta": 0,
-   "minutes": 40,
+   "minutes": 36,
    "stalled": true
   },
   {
    "metric": "settled",
    "now": 40632,
    "delta": 0,
-   "minutes": 40,
+   "minutes": 36,
    "stalled": true
   },
   {
    "metric": "feats",
    "now": 39267,
    "delta": 0,
-   "minutes": 40,
+   "minutes": 36,
    "stalled": true
   },
   {
    "metric": "entities read",
    "now": 528,
    "delta": 0,
-   "minutes": 40,
+   "minutes": 36,
    "stalled": true
   },
   {
    "metric": "chunks",
    "now": 4144,
    "delta": 0,
-   "minutes": 40,
+   "minutes": 36,
    "stalled": true
   },
   {
    "metric": "standards met",
-   "now": 26,
-   "delta": -1,
-   "minutes": 40,
+   "now": 27,
+   "delta": 1,
+   "minutes": 36,
    "stalled": false
   }
  ],
- "generated": "2026-08-23T17:14:50"
+ "generated": "2026-08-23T17:23:22"
 }

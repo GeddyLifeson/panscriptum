@@ -420,6 +420,8 @@ ANCHOR_SCHEMA = {
 # Per-slice ceiling for split calls, in characters of evidence. Small enough for every live
 # bucket's per-minute token caps AND the local window.
 SPLIT_SLICE = 8000
+# Above this, a single call's recall is measurably unreliable and the split path is DEFAULT.
+ONE_SHOT_MAX = 30000
 
 
 def _split_assay(c, entity, cand, epoch):
@@ -533,6 +535,25 @@ def compose(entity, cand, epoch, budget):
     return prompt, flat, dropped
 
 
+def _split_gate(got, cand):
+    """Verbatim + relevance gate for split-path sheets. Axis-relevance is by construction
+    (each axis was scored only from its own candidate list); verbatim is checked against that
+    same list."""
+    scores, sheet, rejects = {}, {}, []
+    for ax, v in (got.get("axes") or {}).items():
+        sc, ft = v.get("score"), (v.get("feat") or "").strip()
+        own = {r["feat"] for r in (cand.get(ax) or [])}
+        if isinstance(sc, (int, float)) and ft and any(ft in o or o in ft for o in own):
+            scores[ax] = max(0.0, min(9.9, float(sc)))
+            sheet[ax] = ft
+        elif isinstance(sc, (int, float)):
+            rejects.append((ax, "split citation not verbatim in this axis's candidates"))
+            scores[ax] = A.UNESTIMABLE
+        else:
+            scores[ax] = A.UNESTIMABLE
+    return scores, sheet, rejects
+
+
 def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling=None):
     ev = F.evidence_for(host, entity)
     cand = candidates(ev)
@@ -552,7 +573,16 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
     prompt, flat, dropped = compose(entity, cand, epoch, None)
     got = None
     used = "pool"
-    if pool_ready():
+    # SPLIT-FIRST above the recall cliff. read.py measured it directly: the same page at
+    # 36,000 characters yielded 19 feats against 41 at 10,000 -- attention over a long prompt
+    # thins, and a citation the model half-remembers fails the verbatim gate. Jace's 140k
+    # one-shot came back with EVERY axis rejected: the pool accepted the prompt and the answer
+    # was worthless. Big evidence goes through the per-axis split by default; one-shot is for
+    # prompts a model can actually hold in mind.
+    if len(prompt) > ONE_SHOT_MAX:
+        used = "split"
+        got = _split_assay(c, entity, cand, epoch)
+    elif pool_ready():
         try:
             import cascade_bridge as CB
             got = CB.ask(SYSTEM, prompt, SCHEMA)
@@ -560,7 +590,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             silence.note("magnitude.py:pool-call")
             got = None
 
-    if got is None:
+    if got is None and used != "split":
         # HARD RULE 0. The local window is 6,144 tokens and Goku's evidence is 58,099
         # characters, so the obvious fallback is to trim the evidence until it fits. That is
         # forbidden, and rightly: "a cap on an ordered listing is not a sample, it is a
@@ -592,7 +622,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
 
     if not got:
         return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
-                "reason": "no answer from the pool or the local model; retried on the next run",
+                "reason": "no transport answered (one-shot, split, or local); retried next run",
                 "prompt_chars": len(prompt), "transport_tried": used}
 
     anchor = got.get("anchor") if got.get("anchor") in A.LADDER else "M0"
@@ -600,7 +630,25 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
         anchor = ceiling[1]                 # a fiction cannot be out-scaled by its own inhabitant
     ev_v = dict(ev)
     ev_v["feats"] = [flat[k][1] for k in sorted(flat)]
-    scores, sheet, rejects = verify(entity, got, ev_v)
+    if used.startswith("split"):
+        scores, sheet, rejects = _split_gate(got, cand)
+    else:
+        scores, sheet, rejects = verify(entity, got, ev_v)
+        if not sheet and any(cand.values()):
+            # A ONE-SHOT WHOSE EVERY CITATION FAILED VERBATIM IS A QUALITY FAILURE, NOT A
+            # FINDING. Jace one-shot three times: two M2 anchors and an M0, every axis
+            # rejected each time -- whichever bucket took the call paraphrased its citations
+            # and the gate (correctly) threw them all away. Filing that as band-only would
+            # record the transport's bad day as the entity's evidence ceiling. The split re-asks
+            # axis by axis in slices a model can actually hold, which is where citation
+            # fidelity comes back.
+            retry = _split_assay(c, entity, cand, epoch)
+            if retry is not None:
+                got, used = retry, "split-retry"
+                anchor = got.get("anchor") if got.get("anchor") in A.LADDER else anchor
+                if ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
+                    anchor = ceiling[1]
+                scores, sheet, rejects = _split_gate(got, cand)
 
     # Cross-axis citation is now checkable by INDEX rather than by lexicon: every candidate knows
     # which axis it was offered under, so a line filed elsewhere is caught exactly.
