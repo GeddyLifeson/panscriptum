@@ -89,17 +89,6 @@ def running(fragment):
     return False
 
 
-# Windows opens a console for every child process unless told not to. `autostart.py` already
-# passes CREATE_NO_WINDOW for the supervisor itself -- but the supervisor then spawns eight jobs
-# of its own without it, so the watchdog starts silently and then eight empty black windows
-# appear on the owner's desktop. Every one of them shows nothing, because stdout is redirected
-# into state/*.log by the lines just below.
-#
-# DETACHED_PROCESS is deliberately NOT set here, unlike in autostart: these children are joined
-# and their return codes are read, and a detached child cannot be waited on.
-NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
-
-
 def run(name, args, logfile, timeout_h=6):
     """Run one stage to completion, refusing to start a duplicate."""
     # Matched on BASENAME. The stage is invoked with an absolute path while an already-running
@@ -116,8 +105,7 @@ def run(name, args, logfile, timeout_h=6):
         with open(lf, "w", encoding="utf-8") as fh:
             env = dict(os.environ, PYTHONIOENCODING="utf-8")
             p = subprocess.Popen([PY, "-u"] + args, cwd=HERE, stdout=fh,
-                                 stderr=subprocess.STDOUT, env=env,
-                                 creationflags=NO_WINDOW)
+                                 stderr=subprocess.STDOUT, env=env)
             p.wait(timeout=timeout_h * 3600)
         el = time.time() - t0
         log(f"  {name}: finished rc={p.returncode} in {el/60:.0f}m")
@@ -150,8 +138,7 @@ def start(name, args, logfile):
     fh = open(lf, "w", encoding="utf-8")
     env = dict(os.environ, PYTHONIOENCODING="utf-8")
     p = subprocess.Popen([PY, "-u"] + args, cwd=HERE, stdout=fh,
-                         stderr=subprocess.STDOUT, env=env,
-                         creationflags=NO_WINDOW)
+                         stderr=subprocess.STDOUT, env=env)
     return {"name": name, "proc": p, "fh": fh, "t0": time.time()}
 
 
