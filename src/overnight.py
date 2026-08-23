@@ -308,7 +308,7 @@ def preflight():
                            capture_output=True, text=True, timeout=1800,
                            env=dict(os.environ, PYTHONIOENCODING="utf-8"))
         out = r.stdout
-    except Exception as e:
+    except Exception:
         silence.note("overnight.py:141")
         return 0, False
     for ln in out.splitlines():

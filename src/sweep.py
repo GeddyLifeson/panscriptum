@@ -180,7 +180,7 @@ def report(rows, top=18):
     for a, c in ax.most_common():
         print(f"   {a:<15}{c:>7,}  {c/max(f['read'],1):>6.1%} of characters read")
 
-    print(f"\nDEEPEST EVIDENCE — the characters most ready to assay")
+    print("\nDEEPEST EVIDENCE — the characters most ready to assay")
     best = sorted(rows, key=lambda r: (-r["axes"], -r["quantities"], -r["chars"]))[:top]
     print(f"   {'axes':>4}{'qty':>5}{'chars':>10}   {'character':<30}{'source':<26}native")
     for r in best:
@@ -188,12 +188,12 @@ def report(rows, top=18):
         print(f"   {r['axes']:>4}{r['quantities']:>5}{r['chars']:>10,}   "
               f"{r['name'][:29]:<30}{r['source'][:25]:<26}{nat}")
 
-    print(f"\nBIGGEST GAPS — sources whose characters are unreachable")
+    print("\nBIGGEST GAPS — sources whose characters are unreachable")
     gap = collections.Counter(r["source"] for r in rows if not r["host"])
     for s, c in gap.most_common(10):
         print(f"   {c:>6,}  {s[:60]}")
 
-    print(f"\nREACHED BUT SILENT — read, yet no axis found anything")
+    print("\nREACHED BUT SILENT — read, yet no axis found anything")
     sil = [r for r in rows if r["pages"] and not r["axes"]]
     bysrc = collections.Counter(r["source"] for r in sil)
     print(f"   {len(sil):,} characters ({len(sil)/max(f['read'],1):.0%} of those read)")

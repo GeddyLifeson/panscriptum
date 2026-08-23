@@ -313,7 +313,7 @@ def main():
     except Exception:
         silence.note("allsweep.py:lint")
         lint_bad.append("pyflakes did not run -- the lint tier is BLIND this sweep, not clean")
-    print(f"\nLINT — every line, statically")
+    print("\nLINT — every line, statically")
     if lint_bad:
         for ln in lint_bad[:20]:
             print(f"   UNDEFINED  {ln[:100]}")

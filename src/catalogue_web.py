@@ -177,7 +177,6 @@ def catalogue(source_name, verbose=True):
     # answer to it is ordering, not truncation: every category is ranked by article size above,
     # so if a run is interrupted the richest material is already in hand and the tail is still
     # queued rather than discarded.
-    total = sum(len(t) for _, _, t in planned)
     if MAX_PER_SOURCE is not None:
         raise SystemExit("catalogue_web: MAX_PER_SOURCE was set to " + str(MAX_PER_SOURCE)
                          + ". Hard Rule 0 forbids a per-source ceiling. Refusing to run rather "

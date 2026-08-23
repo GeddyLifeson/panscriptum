@@ -33,7 +33,6 @@ Two families of scale, two parsers:
             useless — it is the second kind.
 """
 import argparse
-import collections
 import json
 import os
 import re

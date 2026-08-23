@@ -37,11 +37,17 @@ ollama_host: "http://localhost:11434"
 model: "qwen3:30b-a3b-instruct-2507-q4_K_M"
 
 # Deterministic-as-possible decoding. Ollama isn't perfectly reproducible across hardware/
-# quantization, but fixed seed + temperature 0 gets you as close as local inference allows,
+# quantization, but a fixed seed + low temperature (0.2 below -- NOT 0; 0.2 measured better
+# template adherence on the pilot) gets you as close as local inference allows,
 # which matters for the "address = recipe, not a one-off blob" idea in CLAUDE.md.
 seed: 47
 temperature: 0.2
-# Raised from 8192 -> 12288 on 2026-08-19: the system prompt grew substantially once the
+# 6144 IS THE CURRENT, MEASURED VALUE -- the history below describes an earlier era.
+# It was raised 8192 -> 12288 on 2026-08-19 for prose generation, then brought DOWN to 6144
+# when the reading pass became the main consumer: read.py sizes its 10,000-char chunks against
+# exactly this window (see the arithmetic at the top of src/read.py), and a bigger window on a
+# 10GB card just pushes KV cache off the GPU. If you change this, change read.CHUNK's math too.
+# --- historical note (2026-08-19): raised 8192 -> 12288 because the system prompt grew once the
 # Instrument/Twelve Measures rules landed (Ground Rules 1-5, full ability-score banding table,
 # Transcendence Grade formula) -- 8192 was getting tight enough to risk truncation-driven
 # section-dropping on top of the model's own instruction-following limits. Paired with

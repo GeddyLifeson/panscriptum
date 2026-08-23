@@ -162,7 +162,7 @@ def report(a, top=8):
     else:
         print("   none")
 
-    print(f"\nDENSITY")
+    print("\nDENSITY")
     print(f"   em-dashes per entry   {a['em_per_entry']:.2f}"
           f"{'   OVER (target <= 1)' if a['em_per_entry'] > 1 else ''}")
     print(f"   entries ending on a turn  {a['turn_endings']:,}  ({a['turn_rate']:.1%})"

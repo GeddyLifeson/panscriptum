@@ -110,17 +110,17 @@ def report(rows, show=26):
           f"looked at and answered either way")
     print(f"\n  total feats on record: {feats:,}")
 
-    print(f"\nSOURCES WITH NO WIKI HOST — nothing can ever be cited here")
+    print("\nSOURCES WITH NO WIKI HOST — nothing can ever be cited here")
     for r in sorted((x for x in rows if not x["host"]), key=lambda x: -x["entries"])[:12]:
         print(f"   {r['entries']:>6,}  {r['source'][:58]}")
 
-    print(f"\nWORST COVERED WITH A HOST — where the work is")
+    print("\nWORST COVERED WITH A HOST — where the work is")
     have = [r for r in rows if r["host"] and r["entries"] >= 40]
     for r in sorted(have, key=lambda x: (x["coverage"], -x["entries"]))[:show]:
         print(f"   {r['coverage']:>6.1%} cited  {r['settled']:>6.1%} settled  "
               f"{r['entries']:>6,} entries   {r['source'][:44]}")
 
-    print(f"\nBEST COVERED")
+    print("\nBEST COVERED")
     for r in sorted(have, key=lambda x: -x["coverage"])[:10]:
         print(f"   {r['coverage']:>6.1%} cited  {r['feats']:>6,} feats  "
               f"{r['entries']:>6,} entries   {r['source'][:44]}")

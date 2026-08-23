@@ -201,11 +201,11 @@ def main():
         total += len(bs)
     print(f"\nworlds        : {len(worlds):,}")
     print(f"burgs         : {total:,}   ({total/max(1,len(worlds)):.0f} per world)")
-    print(f"storage       : 0 bytes — every one is derived from its world's seed")
+    print("storage       : 0 bytes — every one is derived from its world's seed")
 
     import collections
     cls = collections.Counter(b["class"] for bs in per_world.values() for b in bs)
-    print(f"\nsettlement classes (the rank-size rule doing the work):")
+    print("\nsettlement classes (the rank-size rule doing the work):")
     for k, _, _, _ in CLASSES:
         print(f"   {k:<10}{cls.get(k, 0):>7,}  {cls.get(k,0)/max(1,total):6.1%}")
 

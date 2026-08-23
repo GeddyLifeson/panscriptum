@@ -182,7 +182,6 @@ def logrank_weights(A):
     that makes Theorem 1 true.
     """
     A = np.asarray(A, dtype=float)
-    n = A.shape[0]
     F = np.log(A)
     F = 0.5 * (F - F.T)                     # enforce exact antisymmetry
     theta = F.mean(axis=1)                  # closed form: row mean of the log matrix
@@ -688,7 +687,6 @@ def mathematical_resonance():
         depended_on.update(q["parents"])
     orphans = [k for k in L if k not in depended_on]
 
-    fanin = {k: len(L[k]["parents"]) for k in L}
     fanout = {}
     for k, q in L.items():
         for p in q["parents"]:
@@ -734,7 +732,7 @@ def main():
     print("-" * 96)
     A_consistent = consistent_matrix(A.WEIGHTS)
     t = theorem_1_check(A_consistent)
-    print(f"   charter's declared 8 weights, read as a ratio matrix:")
+    print("   charter's declared 8 weights, read as a ratio matrix:")
     print(f"     CR = {t['CR']:.2e}   curl fraction = {t['curl_fraction']:.2e}   "
           f"both consistent: {t['both_say_consistent']}")
     print(f"     Perron and log-least-squares weights agree to {t['max_weight_disagreement']:.2e}")
@@ -745,9 +743,9 @@ def main():
     # A genuinely elicited, imperfect set of judgments behaves differently.
     B = np.array([[1, 3, 5], [1/3, 1, 3], [1/5, 1/3, 1]], dtype=float)   # mildly inconsistent
     tb = theorem_1_check(B)
-    print(f"\n   an ELICITED 3x3 with real disagreement:")
+    print("\n   an ELICITED 3x3 with real disagreement:")
     print(f"     CR = {tb['CR']:.4f}   curl fraction = {tb['curl_fraction']:.4f}")
-    print(f"     both rise together — that is Theorem 1 visible")
+    print("     both rise together — that is Theorem 1 visible")
 
     print("\n3. MDL — beta by counting, auditing the charter's declared costs")
     print("-" * 96)
@@ -825,7 +823,7 @@ def main():
     mr = mathematical_resonance()
     print(f"   quantities {mr['quantities']}   relations {mr['relations']}   "
           f"density {mr['density']}   max depth {mr['max_depth']}")
-    print(f"   load-bearing: " + ", ".join(f"{k}({v})" for k, v in mr["load_bearing"][:6]))
+    print("   load-bearing: " + ", ".join(f"{k}({v})" for k, v in mr["load_bearing"][:6]))
     print()
     print("=" * 96)
     return 0

@@ -188,7 +188,7 @@ def main():
         gl = GROUNDINGS[g]["gloss"] if g in GROUNDINGS else UNGROUNDED_GLOSS
         print(f"   H:{g:<15}{n:>4}  {gl}")
 
-    print(f"\nCOVERAGE: every source has a type — 'ungrounded' is an ANSWER, not a gap")
+    print("\nCOVERAGE: every source has a type — 'ungrounded' is an ANSWER, not a gap")
     print(f"   with a positive origin account : {len(out)-dist[UNGROUNDED]:>4}")
     print(f"   regress runs on unhalted       : {dist[UNGROUNDED]:>4}")
 

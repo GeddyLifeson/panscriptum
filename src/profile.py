@@ -126,7 +126,6 @@ def galaxy_api(address, base="https://galaxy-generator.oogabooga.dev/api/galaxy"
 
 def build_all(limit=None):
     import json
-    import pipeline as PL
     try:
         genres = json.load(open(os.path.join(HERE, "data", "GENRES.json"), encoding="utf-8"))
     except Exception:

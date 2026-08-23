@@ -19,7 +19,6 @@ Run with --apply to write. Without it, reports only.
 """
 import argparse
 import collections
-import json
 import os
 import sys
 
@@ -84,11 +83,11 @@ def main():
     print("=" * 96)
     print("RE-PASS — corrected evidence gate applied to work already done")
     print("=" * 96)
-    print(f"\nENTRY BANDS")
+    print("\nENTRY BANDS")
     print(f"  banded before      : {total_banded:,}")
     print(f"  survive the gate   : {len(kept_entries):,}  ({len(kept_entries)/max(1,total_banded):.1%})")
     print(f"  demoted to unassayed: {len(demoted_entries):,}")
-    print(f"\nSOURCE CEILINGS")
+    print("\nSOURCE CEILINGS")
     print(f"  demoted to unassayed: {len(demoted_sources):,} of 211")
     print(f"\nscale notes cleared (no longer evidence): {cleared_notes:,}")
 

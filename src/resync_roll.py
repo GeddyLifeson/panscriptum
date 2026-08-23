@@ -15,7 +15,6 @@ safe to run at any time and changes nothing else about the roll.
 """
 import json
 import os
-import re
 import sys
 import silence
 

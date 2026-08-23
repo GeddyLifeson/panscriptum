@@ -40,7 +40,6 @@ so that "these two things are in relation" is a number everywhere it is claimed.
 import collections
 import itertools
 import json
-import math
 import os
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -61,7 +60,6 @@ def hodge_decompose(edges):
     is that a Hand must be able to recompute it.
     """
     nodes = sorted({n for e in edges for n in e})
-    idx = {n: i for i, n in enumerate(nodes)}
     theta = {n: 0.0 for n in nodes}
 
     nbrs = collections.defaultdict(list)

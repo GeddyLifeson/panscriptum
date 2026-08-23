@@ -508,9 +508,8 @@ def selftest():
     if not available():
         print(f"cascade not found at {CASCADE}")
         return 1
-    e = engine()
+    engine()
     print(f"engine built. pools: {pools()}")
-    snap = _ROUTER.snapshot()
     ready = [m.label for m in _ROUTER.models if _ROUTER.provider_ready(m)[0]]
     print(f"models configured: {len(_ROUTER.models)}   provider-ready: {len(ready)}")
     for lab in ready[:12]:

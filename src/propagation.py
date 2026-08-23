@@ -186,7 +186,6 @@ def main():
         return
 
     # Default: the diameter survey -- who is far from whom
-    nodes = sorted(adj)
     print("SAMPLE DISTANCES — arrival delay and what each shelf currently sees:")
     probes = [
         ("all Black Ops", "all Pixar films"),
