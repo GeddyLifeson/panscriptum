@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 09:25:09",
+ "at": "2026-08-23 09:35:10",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 207,
+     "left": 199,
      "cap": 500,
-     "frac": 0.414
+     "frac": 0.398
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 20,
      "cap": 20,
-     "frac": 0.95
+     "frac": 1.0
     }
    ],
-   "worst": 0.414
+   "worst": 0.398
   },
   {
    "bucket": "cohere:free",
@@ -378,15 +378,15 @@
     },
     {
      "name": "rpd",
-     "left": 753,
+     "left": 745,
      "cap": 1000,
-     "frac": 0.753
+     "frac": 0.745
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -403,16 +403,16 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 0,
-     "cap": 249,
-     "frac": 0.0
-    },
-    {
      "name": "tpd",
      "left": 35727,
      "cap": 200000,
      "frac": 0.1786
+    },
+    {
+     "name": "rpd",
+     "left": 702,
+     "cap": 1000,
+     "frac": 0.702
     },
     {
      "name": "rpm",
@@ -427,7 +427,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.1786
   },
   {
    "bucket": "huggingface:free",
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 17,
+     "left": 16,
      "cap": 20,
-     "frac": 0.85
+     "frac": 0.8
     }
    ],
    "worst": 0.0
@@ -692,32 +692,27 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 197,
-  "per_hour": 788,
+  "calls": 162,
+  "per_hour": 648,
   "buckets": [
    {
     "bucket": "openrouter:free",
-    "calls": 38,
+    "calls": 40,
     "ok": 0
    },
    {
     "bucket": "ollama:local",
-    "calls": 36,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 18,
-    "ok": 0
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 15,
+    "calls": 39,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 14,
+    "calls": 13,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 13,
     "ok": 0
    },
    {
@@ -731,78 +726,18 @@
     "ok": 0
    },
    {
+    "bucket": "cloudflare:free",
+    "calls": 12,
+    "ok": 0
+   },
+   {
     "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 6,
-    "ok": 0
-   },
-   {
-    "bucket": "cohere:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 4,
+    "calls": 10,
     "ok": 0
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "mistral:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "nvidia:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "sambanova:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "cerebras:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "chutes:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "deepinfra:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "huggingface:free",
-    "calls": 1,
+    "calls": 9,
     "ok": 0
    }
   ]
@@ -841,7 +776,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 4.5
+   "age_h": 4.7
   },
   "phases": [
    {
@@ -877,7 +812,7 @@
     "built": false
    }
   ],
-  "readfeats": 58
+  "readfeats": 59
  },
  "watch": {
   "open": 6,
@@ -955,7 +890,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 788,
+   "observed": 648,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -964,7 +899,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 21,
+   "observed": 22,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -973,7 +908,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "34% dry",
+   "observed": "31% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1045,7 +980,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "4.5h",
+   "observed": "4.7h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1105,5 +1040,5 @@
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T09:25:10"
+ "generated": "2026-08-23T09:35:11"
 }
