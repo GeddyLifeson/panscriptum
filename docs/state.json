@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 08:54:54",
+ "at": "2026-08-23 09:04:56",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 233,
+     "left": 225,
      "cap": 500,
-     "frac": 0.466
+     "frac": 0.45
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 0.95
     }
    ],
-   "worst": 0.466
+   "worst": 0.45
   },
   {
    "bucket": "cohere:free",
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 18,
+     "left": 15,
      "cap": 20,
-     "frac": 0.9
+     "frac": 0.75
     }
    ],
    "worst": 0.0
@@ -692,12 +692,12 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 205,
-  "per_hour": 820,
+  "calls": 150,
+  "per_hour": 600,
   "buckets": [
    {
     "bucket": "openrouter:free",
-    "calls": 44,
+    "calls": 45,
     "ok": 0
    },
    {
@@ -707,17 +707,12 @@
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 18,
+    "calls": 14,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 17,
-    "ok": 0
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 16,
+    "calls": 13,
     "ok": 0
    },
    {
@@ -731,58 +726,8 @@
     "ok": 0
    },
    {
-    "bucket": "cohere:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "mistral:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "nvidia:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "sambanova:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 4,
+    "bucket": "cloudflare:free",
+    "calls": 12,
     "ok": 0
    },
    {
@@ -811,11 +756,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 674,
+   "done": 754,
    "total": 100623,
-   "detail": "60/40,418 entities  \u00b7  4,359 feats  \u00b7  0.03 chunks/s",
+   "detail": "65/40,418 entities  \u00b7  4,906 feats  \u00b7  0.09 chunks/s",
    "warn": "45 unanswered",
-   "eta_h": 982.7
+   "eta_h": 315.5
   },
   {
    "name": "page roll",
@@ -841,7 +786,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 4.0
+   "age_h": 4.2
   },
   "phases": [
    {
@@ -877,12 +822,12 @@
     "built": false
    }
   ],
-  "readfeats": 53
+  "readfeats": 56
  },
  "watch": {
   "open": 6,
   "high": 3,
-  "rounds": 30,
+  "rounds": 31,
   "findings": [
    {
     "module": "build_terminal",
@@ -925,7 +870,7 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    750
+    816
    ],
    [
     "silent:endpoint.py:fetch_raw:URLError",
@@ -933,7 +878,7 @@
    ],
    [
     "silent:wiki_source.py:229:URLError",
-    251
+    273
    ],
    [
     "silent:hostcheck.py:probe:URLError",
@@ -948,14 +893,14 @@
     6
    ]
   ],
-  "swallowed_total": 1584
+  "swallowed_total": 1672
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 820,
+   "observed": 600,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -1009,7 +954,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "982.7h",
+   "observed": "315.5h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -1018,7 +963,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "6.47",
+   "observed": "6.51",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -1045,7 +990,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "4.0h",
+   "observed": "4.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1099,11 +1044,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": true,
-   "observed": "1,584",
+   "observed": "1,672",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T08:54:55"
+ "generated": "2026-08-23T09:04:56"
 }
