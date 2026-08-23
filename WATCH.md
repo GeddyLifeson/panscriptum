@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 11  ·  last run 2026-08-22 23:41
+round 12  ·  last run 2026-08-23 00:09
 
 ## Structure
 
@@ -11,10 +11,8 @@ round 11  ·  last run 2026-08-22 23:41
 
 ## What the model found in the code
 
-**7 open** (4 high). Newest first.
+**6 open** (3 high). Newest first.
 
-- **chain.py** `chunk[min(i, len(chunk) - 1)]` — [HIGH] The code incorrectly attributes outcomes to sentences based on an assumption about the model's behavior, leading to misattribution of outcomes to incorrect sentences.
-  - says: The model is handed eight sentences and told that skipping is "the common and correct answer", so the two lists are almost never the same length. Every outcome 
 - **autostart.py** `sys.exit(main())` — [HIGH] exit with the return value of main() but discard any exception it raises
   - says: exit with the return value of main()
 - **build_terminal.py** `place` — [HIGH] The function uses a fixed arc fraction (0.08 and 0.92) to determine the span of each child node's wedge, which does not properly account for the total available arc. This causes in

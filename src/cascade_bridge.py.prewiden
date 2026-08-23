@@ -383,37 +383,6 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
             pinned = cand
             break
         _ROUTER.release(cand)
-    if pinned is None and pin is None:
-        # THE POOL IS NARROWER THAN THE ACCOUNT. Widen before giving up.
-        #
-        # The router only routes models carrying a pool tag, and on this configuration that is
-        # ten models out of forty-two. `cloud_buckets("coding")` therefore reports FOUR buckets
-        # -- cerebras, chutes, deepinfra, huggingface -- and every one of those four is currently
-        # answering HTTP 402. Meanwhile the account holds working credentials for roughly
-        # twenty-six more (cohere, mistral, nvidia, zai, github, cloudflare, sambanova, five
-        # Geminis, together, hyperbolic, nebius, kluster, bigmodel, moonshot, dashscope, novita,
-        # ovh, ai21), and the prover reaches them -- it pins by name and skips the pool entirely,
-        # which is exactly why POOL_PROOF.json cheerfully reported "7 answering" while `ask`
-        # returned None in 0.0 seconds for hours.
-        #
-        # Two views of the same pool disagreeing is the defect this project keeps meeting: the
-        # measurement was taken down a path the work never travels. So when the tagged pool is
-        # exhausted, fall through to ANY alive remote model. Locals stay excluded for the reason
-        # below -- they are one GPU wearing several names, and letting a cloud call land there
-        # silently is how thirty-eight of seventy-five calls once went to a reloading card.
-        for m in _ROUTER.models:
-            if m.bucket.startswith(LOCAL_PREFIX):
-                continue
-            if not _alive(m.bucket):
-                continue
-            try:
-                _ROUTER.reserve(m)
-            except Exception:
-                silence.note("cascade_bridge.py:widen-reserve")
-                continue
-            pinned = m
-            break
-
     if pinned is None:
         # NO CLOUD BUCKET IS FREE, SO SAY SO. Calling stream_chat without a pin lets the engine
         # choose, and the engine happily chooses a LOCAL model -- which meant "Cascade" calls
