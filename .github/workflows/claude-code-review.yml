@@ -6,9 +6,17 @@ name: Claude code review
 # 2026-08-23: src/overwatch.py's in-project auditor is deliberately report-only (see its own
 # module docstring), and this repo had no GitHub-side review wiring at all before this file.
 #
-# Requires an ANTHROPIC_API_KEY repository secret (Settings -> Secrets and variables -> Actions).
-# Without it this workflow will run and fail at the "Run Claude" step rather than silently
-# no-op — check the Actions tab if PRs stop getting reviewed.
+# Requires a CLAUDE_CODE_OAUTH_TOKEN repository secret (Settings -> Secrets and variables ->
+# Actions). This authenticates against the owner's existing Claude subscription rather than
+# metered Anthropic API billing -- deliberately NOT anthropic_api_key, which would charge
+# per-token on top of a subscription that already covers this. Generate the token locally with
+# an authenticated `claude` CLI:
+#
+#   claude setup-token
+#
+# then paste the printed token in as the secret's value. Without it this workflow will run and
+# fail at the "Run Claude" step rather than silently no-op — check the Actions tab if PRs stop
+# getting reviewed.
 
 on:
   pull_request:
@@ -40,7 +48,7 @@ jobs:
       - name: Run Claude
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # On a fresh PR: review for correctness bugs and reuse/simplification/efficiency
           # issues, same shape as this project's own /code-review skill, and push small
           # high-confidence fixes directly rather than only commenting. On an @claude mention:
