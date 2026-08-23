@@ -233,8 +233,24 @@ def verify_wiki_matches(subdomain, source_name):
 
 
 def resolve_wiki(source_name):
-    """Return (subdomain, sitename) for a verified wiki, or (None, None)."""
+    """Return (subdomain, sitename) for a verified wiki, or (None, None).
+
+    THE LIBRARY'S OWN HOST MAP IS CONSULTED FIRST. This function guessed subdomains and
+    verified each guess over the network -- while data/WIKI_HOSTS.json, sitting on the same
+    disk, has known for days that DC is dc.fandom.com and Marvel is marvel.fandom.com. The
+    guess-list happened not to contain 'dc' (too short for the slug generator), the verifier
+    got nothing to verify, and the re-catalogue SKIPPED the two largest sources on the roll
+    with 'no wiki resolved' -- a resolver failing to resolve a host the library had already
+    resolved, recorded, and mined 380 feat files from.
+    """
     cands = []
+    try:
+        with open(os.path.join(HERE, "data", "WIKI_HOSTS.json"), encoding="utf-8") as f:
+            known = json.load(f).get(source_name)
+        if isinstance(known, str) and known.endswith(".fandom.com"):
+            cands.append(known[: -len(".fandom.com")])
+    except Exception:
+        silence.note("wiki_source.py:resolve-known")
     if source_name in WIKI_OVERRIDES:
         cands.append(WIKI_OVERRIDES[source_name])
     cands += [c for c in subdomain_candidates(source_name) if c not in cands]

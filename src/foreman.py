@@ -384,7 +384,13 @@ def run_catalogue_gap():
 
 
 def run_completeness_audit():
-    """Re-measure the gap. Cheap (one API call per category) and needs no model at all."""
+    """Re-measure the gap. Cheap (one API call per category) and needs no model at all.
+
+    MARKED `always`: a measurement is not an alternative to a repair. Without the mark this sits
+    second in the list behind run_catalogue_gap, which returns True, and never runs -- which is
+    how the catalogue standard reported 0.4% coverage for Marvel while marvel.json held 30,207
+    entries.
+    """
     try:
         import overnight as ON
         if ON.running("completeness.py"):
@@ -394,6 +400,10 @@ def run_completeness_audit():
     except Exception as e:
         silence.note("foreman.py:run_completeness_audit")
         return False, "could not start the completeness audit: " + str(e)[:90]
+
+
+run_completeness_audit.always = True
+refresh_coverage.always = True
 
 
 # standard name -> remedies to try, in order. A standard with no entry falls to the OWNER lane,
@@ -752,7 +762,32 @@ def round_once(dry=True, patch=False):
             print(f"   AUTO   {o['standard']} -> {fn.__name__}: {what}")
             log["auto"].append({"standard": o["standard"], "remedy": fn.__name__,
                                 "did": did, "result": what})
-            if did:
+            # A REMEDY LIST IS USUALLY ALTERNATIVES, BUT NOT ALWAYS.
+            #
+            # `if did: break` treats every list as "try these until one works", which is right
+            # for clear_learned_caps/reprove_pool -- two ways to fix one pool -- and WRONG for
+            # a repair paired with a re-measurement. `every source is fully catalogued` runs
+            # run_catalogue_gap then run_completeness_audit; the first returns True, the break
+            # fires, and the audit never runs. So the catalogue pass did its job (Marvel went
+            # from 401 entries to 30,207) while COMPLETENESS.json still reported 401, eighteen
+            # hours stale, and the standard went on reporting 0.4% coverage forever.
+            #
+            # The repair worked and the instrument did not notice -- this project's own defect,
+            # committed by the thing built to fix it. A remedy marked `always` runs regardless
+            # of what came before, because measuring is not an alternative to repairing.
+            if did and not getattr(fn, "always", False):
+                remaining = [g for g in remedies[remedies.index(fn) + 1:]
+                             if getattr(g, "always", False)]
+                for g in remaining:
+                    try:
+                        d2, w2 = g()
+                    except Exception as e:
+                        d2, w2 = False, ("remedy raised " + type(e).__name__
+                                         + ": " + str(e)[:110])
+                        silence.note("foreman.py:always-raised")
+                    print(f"   AUTO   {o['standard']} -> {g.__name__} (always): {w2}")
+                    log["auto"].append({"standard": o["standard"], "remedy": g.__name__,
+                                        "did": d2, "result": w2, "always": True})
                 break
 
     if patch:
