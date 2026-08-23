@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 09:55:13",
+ "at": "2026-08-23 10:05:25",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 179,
+     "left": 168,
      "cap": 500,
-     "frac": 0.358
+     "frac": 0.336
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 20,
      "cap": 20,
-     "frac": 0.95
+     "frac": 1.0
     }
    ],
-   "worst": 0.358
+   "worst": 0.336
   },
   {
    "bucket": "cohere:free",
@@ -378,15 +378,15 @@
     },
     {
      "name": "rpd",
-     "left": 724,
+     "left": 711,
      "cap": 1000,
-     "frac": 0.724
+     "frac": 0.711
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -410,15 +410,15 @@
     },
     {
      "name": "rpd",
-     "left": 682,
+     "left": 671,
      "cap": 1000,
-     "frac": 0.682
+     "frac": 0.671
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 16,
+     "left": 18,
      "cap": 20,
-     "frac": 0.8
+     "frac": 0.9
     }
    ],
    "worst": 0.0
@@ -692,12 +692,12 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 163,
-  "per_hour": 652,
+  "calls": 224,
+  "per_hour": 896,
   "buckets": [
    {
     "bucket": "openrouter:free",
-    "calls": 37,
+    "calls": 51,
     "ok": 0
    },
    {
@@ -706,28 +706,28 @@
     "ok": 0
    },
    {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 14,
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 17,
     "ok": 0
    },
    {
     "bucket": "cloudflare:free",
-    "calls": 12,
+    "calls": 15,
     "ok": 0
    },
    {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 12,
+    "bucket": "groq:groq/compound-mini",
+    "calls": 15,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 12,
+    "calls": 15,
     "ok": 0
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 12,
+    "calls": 15,
     "ok": 0
    },
    {
@@ -741,23 +741,48 @@
     "ok": 0
    },
    {
-    "bucket": "cerebras:free",
-    "calls": 1,
+    "bucket": "cohere:free",
+    "calls": 4,
     "ok": 0
    },
    {
-    "bucket": "chutes:free",
-    "calls": 1,
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 4,
     "ok": 0
    },
    {
-    "bucket": "deepinfra:free",
-    "calls": 1,
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 4,
     "ok": 0
    },
    {
-    "bucket": "huggingface:free",
-    "calls": 1,
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "mistral:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "nvidia:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 4,
     "ok": 0
    }
   ]
@@ -796,7 +821,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 5.0
+   "age_h": 5.2
   },
   "phases": [
    {
@@ -832,7 +857,7 @@
     "built": false
    }
   ],
-  "readfeats": 65
+  "readfeats": 67
  },
  "watch": {
   "open": 6,
@@ -880,19 +905,19 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    1398
+    1511
    ],
    [
     "silent:endpoint.py:fetch_raw:URLError",
-    827
+    1034
    ],
    [
     "silent:wiki_source.py:229:URLError",
-    467
+    504
    ],
    [
     "silent:hostcheck.py:probe:URLError",
-    276
+    345
    ],
    [
     "silent:publish.py:main:RuntimeError",
@@ -903,14 +928,14 @@
     10
    ]
   ],
-  "swallowed_total": 3003
+  "swallowed_total": 3429
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 652,
+   "observed": 896,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -1000,7 +1025,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "5.0h",
+   "observed": "5.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1054,11 +1079,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "3,003",
+   "observed": "3,429",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T09:55:14"
+ "generated": "2026-08-23T10:05:26"
 }
