@@ -32,6 +32,8 @@ import datetime
 import json
 import os
 import subprocess
+_NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
 import sys
 import time
 import silence
@@ -69,9 +71,9 @@ def running(fragment):
     try:
         out = subprocess.run(
             ["powershell", "-NoProfile", "-Command",
-             "Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | "
+             "Get-CimInstance Win32_Process -Filter \"Name='python.exe' or Name='pythonw.exe'\" | "
              "ForEach-Object { $_.ProcessId.ToString() + '|' + $_.CommandLine }"],
-            capture_output=True, text=True, timeout=60).stdout
+            capture_output=True, text=True, timeout=60, creationflags=_NO_WIN).stdout
     except Exception:
         silence.note("overnight.py:73")
         return False
@@ -288,7 +290,7 @@ def coverage_snapshot():
     try:
         subprocess.run([PY, os.path.join(SRC, "coverage.py")], cwd=HERE,
                        capture_output=True, text=True, timeout=1800,
-                       env=dict(os.environ, PYTHONIOENCODING="utf-8"))
+                       env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
         rows = json.load(open(os.path.join(HERE, "data", "COVERAGE.json"), encoding="utf-8"))
     except Exception as e:
         silence.note("overnight.py:124")
@@ -306,7 +308,7 @@ def preflight():
     try:
         r = subprocess.run([PY, os.path.join(SRC, "health.py"), "--preflight"], cwd=HERE,
                            capture_output=True, text=True, timeout=1800,
-                           env=dict(os.environ, PYTHONIOENCODING="utf-8"))
+                           env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
         out = r.stdout
     except Exception:
         silence.note("overnight.py:141")
@@ -350,6 +352,13 @@ def main():
     ap.add_argument("--read-workers", default="auto",
                     help="number, or 'auto' to match the pool's usable buckets")
     a = ap.parse_args()
+
+    # ONE SUPERVISOR. Two watchdogs once launched two of these twenty seconds apart; both ran
+    # full cycles, their foremen shot each other's children, and the pair respawned every three
+    # minutes. running() excludes this process's own pid, so a survivor here means a TWIN.
+    if running("overnight.py"):
+        log("another supervisor is already running -- exiting rather than duelling it")
+        return 0
 
     log("=" * 70)
     log("overnight supervisor starting")

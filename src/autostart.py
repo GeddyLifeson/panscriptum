@@ -28,6 +28,8 @@ watching it and one that runs.
 import argparse
 import os
 import subprocess
+_NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
 import sys
 import time
 
@@ -116,8 +118,45 @@ def start_supervisor(read_hours=10):
         cwd=HERE, env=env, stdout=out, stderr=err, creationflags=flags)
 
 
+def _twin_watchdog():
+    """Is another autostart --watch already running (any interpreter, excluding self)?"""
+    import subprocess
+    try:
+        out = subprocess.run(
+            ["powershell", "-NoProfile", "-Command",
+             "Get-CimInstance Win32_Process -Filter \"Name='python.exe' or Name='pythonw.exe'\" | "
+             "ForEach-Object { $_.ProcessId.ToString() + '|' + $_.CommandLine }"],
+            capture_output=True, text=True, timeout=60,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)).stdout
+    except Exception:
+        return False
+    me = os.getpid()
+    for ln in out.splitlines():
+        pid, _, cmd = ln.partition("|")
+        try:
+            if int(pid.strip()) == me:
+                continue
+        except ValueError:
+            continue
+        if "autostart.py" in cmd and "--watch" in cmd:
+            return True
+    return False
+
+
 def watch(read_hours=10):
-    """Keep the supervisor alive. The one thing it cannot do for itself."""
+    """Keep the supervisor alive. The one thing it cannot do for itself.
+
+    ONE WATCHDOG. Three of these once ran at once -- the logon .vbs copy, a shell relaunch,
+    and a PowerShell relaunch -- each starting supervisors on its own three-minute clock. The
+    supervisors' foremen then treated each other's stacks as duplicates and shot them, and the
+    whole arrangement respawned itself in a loop. A watchdog that finds a twin at startup
+    exits; the twin is already doing the job.
+    """
+    if _twin_watchdog():
+        with open(os.path.join(LOGDIR, "autostart.log"), "a", encoding="utf-8") as f:
+            f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] another watchdog is already "
+                    f"running; this one exits" + chr(10))
+        return
     log = os.path.join(LOGDIR, "autostart.log")
     while True:
         try:

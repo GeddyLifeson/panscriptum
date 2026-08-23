@@ -55,6 +55,12 @@ import json
 import os
 import shutil
 import subprocess
+# Windows: a child process spawned from a windowless (pythonw) parent ALLOCATES ITS OWN
+# CONSOLE unless told not to. Under the old console launcher every subprocess inherited a
+# hidden console and nobody noticed; under pythonw each powershell/wmic/python child
+# flashed a black window -- dozens per cycle across the stack. Passed on every spawn.
+_NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
 import sqlite3
 import sys
 import time
@@ -87,7 +93,7 @@ MAX_PATCH_LINES = 40
 # not in a repair the foreman waits on.
 def _run(args, timeout=900):
     return subprocess.run([PY] + args, capture_output=True, text=True, timeout=timeout,
-                          env=ENV, cwd=HERE, encoding="utf-8", errors="replace")
+                          env=ENV, cwd=HERE, encoding="utf-8", errors="replace", creationflags=_NO_WIN)
 
 
 # =========================================================================== the AUTO lane
@@ -300,7 +306,7 @@ def kill_stalled_job():
             out = subprocess.run(
                 ["wmic", "process", "where",
                  "name='python.exe'", "get", "ProcessId,CommandLine", "/format:csv"],
-                capture_output=True, text=True, timeout=40).stdout
+                capture_output=True, text=True, timeout=40, creationflags=_NO_WIN).stdout
         except Exception:
             silence.note("foreman.py:kill_stalled-list")
             continue
@@ -335,7 +341,7 @@ def kill_duplicate_jobs():
         out = subprocess.run(
             ["wmic", "process", "where", "name='python.exe'",
              "get", "ProcessId,CreationDate,CommandLine", "/format:csv"],
-            capture_output=True, text=True, timeout=40).stdout
+            capture_output=True, text=True, timeout=40, creationflags=_NO_WIN).stdout
     except Exception:
         silence.note("foreman.py:dupes-list")
         return False, "could not enumerate processes"
@@ -348,6 +354,15 @@ def kill_duplicate_jobs():
         if not (m and pid):
             continue
         job, p = m.group(1), int(pid.group(1))
+        # The supervision chain is NEVER a valid duplicate target. Two watchdogs spawned two
+        # supervisors spawned two foremen, and each foreman -- keeping "the oldest" of every
+        # job -- shot the other stack's members on its first round. The stacks killed each
+        # other every three minutes for half an hour; the watchdogs dutifully restarted them;
+        # the user watched the corpses flash by as console windows. Duplicate SUPERVISORS are
+        # the watchdog's own self-guard's problem; a repair tool that can kill its own
+        # dispatcher is a repair tool that can dismantle the system it repairs.
+        if job in ("overnight", "autostart"):
+            continue
         if p == os.getpid() or job in DENYLIST:
             continue
         stamp = started.group(1) if started else "9" * 14

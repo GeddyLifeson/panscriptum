@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 44  ·  last run 2026-08-23 13:57
+round 45  ·  last run 2026-08-23 15:56
 
 ## Structure
 
@@ -11,20 +11,14 @@ round 44  ·  last run 2026-08-23 13:57
 
 ## What the model found in the code
 
-**6 open** (3 high). Newest first.
+**3 open** (1 high). Newest first.
 
-- **autostart.py** `sys.exit(main())` — [HIGH] exit with the return value of main() but discard any exception it raises
-  - says: exit with the return value of main()
-- **build_terminal.py** `place` — [HIGH] The function uses a fixed arc fraction (0.08 and 0.92) to determine the span of each child node's wedge, which does not properly account for the total available arc. This causes in
-  - says: The function recursively lays out nodes in a radial tree with the given root at the center, distributing child nodes around the circle based on weighted arcs pr
-- **assay.py** `interval` — [HIGH] The while loop condition checks `any(abs(v - centre) > interval for v in vals)`, but the loop body increases `interval` by 0.01 each time. However, the `interval` is rounded to 2 d
-  - says: The interval must cover every signed reading, enforced by a while loop that increases interval until all readings are within bounds.
-- **completeness.py** `silence.note` — [MEDIUM] The code does not actually log anything, as `silence.note` is never called.
-  - says: Logs a note when category_size fails.
-- **backfill.py** `missing` — [MEDIUM] Truncated by cap if provided
-  - says: Ranked by article size so the deepest arrive first if this is ever interrupted, but NOT truncated: every character the wiki lists is a character the library sho
-- **assay.py** `SIGMA_MAX` — [MEDIUM] SIGMA_MAX is defined as 9.9 / sqrt(12), which is correct for the standard deviation of a uniform distribution over [0.0, 9.9], but this value is used as a hard ceiling for uncertai
+- **assay.py** `SIGMA_MAX` — [HIGH] SIGMA_MAX is set to 9.9 / sqrt(12), which is approximately 2.86, but the comment incorrectly states it as the maximum entropy dispersion for the scale, which is correct, yet the co
   - says: The maximum standard deviation for any axis, derived from a uniform prior over 0.0-9.9.
+- **assay.py** `FACULTY_WEIGHTS` — [MEDIUM] FACULTY_WEIGHTS is defined but never used in the code. The weights for the faculties are instead used via the global WEIGHTS dictionary, which includes them, but FACULTY_WEIGHTS it
+  - says: The FACULTY_WEIGHTS dictionary contains the weights for the faculties, which are set to 1/11 each.
+- **anchors.py** `vector_score` — [MEDIUM] Returns 10.0 for any input >= 17, but the LADDER_RUNGS is 17, so input 17 should return 10.0, which it does. However, the function is called with 17 in The Seat of the Creator, whi
+  - says: Vector on the 0-10 decimal scale, derived from the Ladder's own height. No new quantity.
 
 ---
 

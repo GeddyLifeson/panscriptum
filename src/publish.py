@@ -38,6 +38,12 @@ import os
 import re
 import shutil
 import subprocess
+# Windows: a child process spawned from a windowless (pythonw) parent ALLOCATES ITS OWN
+# CONSOLE unless told not to. Under the old console launcher every subprocess inherited a
+# hidden console and nobody noticed; under pythonw each powershell/wmic/python child
+# flashed a black window -- dozens per cycle across the stack. Passed on every spawn.
+_NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
 import sys
 import time
 
@@ -118,7 +124,7 @@ def git(*args, check=True):
     if os.path.isdir(gh_dir) and gh_dir not in env.get("PATH", ""):
         env["PATH"] = env.get("PATH", "") + os.pathsep + gh_dir
     r = subprocess.run(["git"] + list(args), cwd=SITE, capture_output=True,
-                       text=True, encoding="utf-8", errors="replace", env=env)
+                       text=True, encoding="utf-8", errors="replace", env=env, creationflags=_NO_WIN)
     if check and r.returncode != 0:
         raise RuntimeError("git " + " ".join(args) + ": "
                            + (r.stderr or r.stdout).strip()[:220])

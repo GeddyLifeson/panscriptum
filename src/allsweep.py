@@ -42,6 +42,12 @@ import glob
 import json
 import os
 import subprocess
+# Windows: a child process spawned from a windowless (pythonw) parent ALLOCATES ITS OWN
+# CONSOLE unless told not to. Under the old console launcher every subprocess inherited a
+# hidden console and nobody noticed; under pythonw each powershell/wmic/python child
+# flashed a black window -- dozens per cycle across the stack. Passed on every spawn.
+_NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
 import sys
 import time
 
@@ -100,7 +106,7 @@ def check_import(name):
     t = time.time()
     r = subprocess.run([PY, os.path.join(SRC, name + ".py"), "--help"],
                        capture_output=True, text=True, timeout=120, env=ENV, cwd=HERE,
-                       encoding="utf-8", errors="replace")
+                       encoding="utf-8", errors="replace", creationflags=_NO_WIN)
     ok = r.returncode == 0
     err = ""
     if not ok:
@@ -125,7 +131,7 @@ def run_verifier(item):
                            # typography. A verifier whose report contains an em-dash would have
                            # crashed the auditor rather than been read.
                            capture_output=True, text=True, timeout=1800, env=ENV, cwd=HERE,
-                           encoding="utf-8", errors="replace")
+                           encoding="utf-8", errors="replace", creationflags=_NO_WIN)
         out = (r.stdout or "") + (r.stderr or "")
         crashed = "Traceback" in out
         return {"check": label, "rc": r.returncode, "crashed": crashed,
@@ -255,7 +261,7 @@ def reconcile():
                             "Get-CimInstance Win32_Process -Filter \"Name like '%python%'\" | "
                             "ForEach-Object { $_.CommandLine }"],
                            capture_output=True, text=True, timeout=120,
-                           encoding="utf-8", errors="replace")
+                           encoding="utf-8", errors="replace", creationflags=_NO_WIN)
         live = [ln.strip() for ln in (r.stdout or "").splitlines() if ln.strip()]
         for job in ("read.py", "feats.py --roll", "pipeline.py", "overnight.py"):
             n = sum(1 for ln in live if job in ln)
@@ -306,7 +312,7 @@ def main():
         lr = subprocess.run([sys.executable, "-m", "pyflakes"] +
                             [os.path.join(SRC, m + ".py") for m in mods],
                             capture_output=True, text=True, timeout=120,
-                            encoding="utf-8", errors="replace")
+                            encoding="utf-8", errors="replace", creationflags=_NO_WIN)
         for ln in (lr.stdout or "").splitlines():
             if "undefined name" in ln or "local variable" in ln and "referenced before" in ln:
                 lint_bad.append(ln.strip())

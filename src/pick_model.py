@@ -20,6 +20,8 @@ Usage:
                                                 # silently settling for a worse model
 """
 import argparse
+_NO_WIN = getattr(__import__("subprocess"), "CREATE_NO_WINDOW", 0)
+
 import os
 import re
 import sys
@@ -143,7 +145,7 @@ def free_vram_gb():
     try:
         out = subprocess.run(
             ["nvidia-smi", "--query-gpu=memory.free", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=15)
+            capture_output=True, text=True, timeout=15, creationflags=_NO_WIN)
         if out.returncode != 0:
             return None
         return int(out.stdout.strip().splitlines()[0]) / 1024.0
