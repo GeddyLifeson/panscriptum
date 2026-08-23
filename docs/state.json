@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 06:53:56",
+ "at": "2026-08-23 07:04:08",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 349,
+     "left": 334,
      "cap": 500,
-     "frac": 0.698
+     "frac": 0.668
     },
     {
      "name": "rpm",
-     "left": 20,
+     "left": 17,
      "cap": 20,
-     "frac": 1.0
+     "frac": 0.85
     }
    ],
-   "worst": 0.698
+   "worst": 0.668
   },
   {
    "bucket": "cohere:free",
@@ -456,18 +456,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 34,
+     "left": 20,
      "cap": 200,
-     "frac": 0.17
+     "frac": 0.1
     },
     {
      "name": "rpm",
-     "left": 10,
+     "left": 8,
      "cap": 10,
-     "frac": 1.0
+     "frac": 0.8
     }
    ],
-   "worst": 0.17
+   "worst": 0.1
   },
   {
    "bucket": "kluster:free",
@@ -692,97 +692,62 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 52,
-  "per_hour": 208,
+  "calls": 117,
+  "per_hour": 468,
   "buckets": [
    {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 9,
-    "ok": 1
-   },
-   {
     "bucket": "ollama:local",
-    "calls": 8,
+    "calls": 22,
     "ok": 0
    },
    {
-    "bucket": "openrouter:free",
-    "calls": 5,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 4,
-    "ok": 1
-   },
-   {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 4,
-    "ok": 1
-   },
-   {
-    "bucket": "ollama:qwen2.5:14b",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "nvidia:free",
-    "calls": 2,
-    "ok": 2
-   },
-   {
-    "bucket": "sambanova:free",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 2,
+    "bucket": "ollama:llama3.1:latest",
+    "calls": 17,
     "ok": 0
    },
    {
     "bucket": "cloudflare:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "cohere:free",
-    "calls": 1,
-    "ok": 1
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 1,
-    "ok": 1
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 1,
-    "ok": 1
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 1,
+    "calls": 15,
     "ok": 0
    },
    {
     "bucket": "hyperbolic:free",
-    "calls": 1,
+    "calls": 14,
+    "ok": 0
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 13,
+    "ok": 0
+   },
+   {
+    "bucket": "ollama:qwen2.5:14b",
+    "calls": 11,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 6,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 6,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 6,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 4,
     "ok": 0
    },
    {
     "bucket": "mistral:free",
-    "calls": 1,
-    "ok": 1
-   },
-   {
-    "bucket": "ollama:llama3.1:latest",
-    "calls": 1,
+    "calls": 3,
     "ok": 0
    }
   ]
@@ -821,7 +786,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 2.0
+   "age_h": 2.2
   },
   "phases": [
    {
@@ -905,37 +870,37 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    2525
+    4882
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    851
+    1618
    ],
    [
-    "silent:endpoint.py:fetch_raw-http:HTTPError",
-    144
+    "silent:scout.py:verify-http:HTTPError",
+    14
    ],
    [
-    "silent:hostcheck.py:probe:URLError",
-    30
+    "silent:foreman.py:remedy-raised:TimeoutExpired",
+    4
    ],
    [
-    "silent:verify_math.py:47:ValueError",
-    2
+    "silent:cascade_bridge.py:100:JSONDecodeError",
+    3
    ],
    [
-    "silent:endpoint.py:detect-api:URLError",
-    1
+    "silent:scout.py:verify:URLError",
+    3
    ]
   ],
-  "swallowed_total": 3553
+  "swallowed_total": 6526
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 208,
+   "observed": 468,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -971,7 +936,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "17% ok",
+   "observed": "0% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1025,7 +990,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "2.0h",
+   "observed": "2.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1079,11 +1044,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "3,553",
+   "observed": "6,526",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T06:53:56"
+ "generated": "2026-08-23T07:04:08"
 }
