@@ -96,11 +96,15 @@ AXES = list(A.WEIGHTS)                       # 11: eight physical, three faculty
 # "unassayed" -- the identical word it uses for entities nobody has looked at yet. A failure that
 # is indistinguishable from a queue.
 #
-# Cloud buckets carry 128k-token contexts, so the full prompt fits with room to spare and the
-# cap below never binds. It binds only when the pool is unreachable and the local model is
-# carrying the run, and when it binds it is REPORTED on the sheet rather than silently applied.
+# Cloud buckets carry 128k-token contexts, so the full prompt fits there with room to spare and
+# the whole record is read. When the pool declines a call, an entity whose evidence exceeds the
+# local window is DEFERRED rather than trimmed to fit -- see the Hard Rule 0 note in
+# assay_entity(). Nothing here ever assays a partial record and calls it a Magnitude.
 
-LOCAL_BUDGET = 18000          # chars of evidence; leaves headroom in a 6,144-token window
+# The largest prompt the local model can actually read, in characters. NOT a budget to trim
+# evidence down to -- Hard Rule 0 forbids that -- but a threshold for deciding whether the local
+# model can take this entity AT ALL. Over it, the entity waits for the pool.
+LOCAL_FITS = 20000
 
 # Index pages that the character sweep catalogued as though they were people. Only 43 of 14,927,
 # but they are the LONGEST pages on their wikis, and the queue runs richest-evidence-first -- so
@@ -381,27 +385,22 @@ def candidates(ev, cap=None):
             else sorted(v, key=lambda r: -len(r["feat"])) for ax, v in out.items()}
 
 
-def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling=None):
-    ev = F.evidence_for(host, entity)
-    cand = candidates(ev)
-    if not sum(len(v) for v in cand.values()) and not ev["quantities"]:
-        return {"entity": entity, "result": None,
-                "reason": "no axis cleared its gate on this entity's own source pages"}
+def compose(entity, cand, epoch, budget):
+    """Build the prompt at a given evidence budget. Returns (prompt, flat, dropped).
 
-    # Budget only when the local model is carrying the run. Round-robin across axes rather than
-    # filling axis by axis: a budget spent in declaration order would hand the whole allowance to
-    # Ruin and leave Suasion with nothing, which silently converts "not measured" into "no
-    # evidence" -- and those are different findings, one of which is a lie.
-    budget = None if pool_ready() else LOCAL_BUDGET
-    offered = {ax: list(cand[ax]) for ax in AXES}
+    Round-robin across axes rather than filling axis by axis: a budget spent in declaration
+    order hands the whole allowance to Ruin and leaves Suasion with nothing, which silently
+    converts "not measured" into "no evidence". Those are different findings, and one of them
+    is a lie.
+    """
     dropped = 0
     if budget:
         keep, spent, depth = {ax: [] for ax in AXES}, 0, 0
         while True:
             progressed = False
             for ax in AXES:
-                if depth < len(offered[ax]):
-                    r = offered[ax][depth]
+                if depth < len(cand[ax]):
+                    r = cand[ax][depth]
                     cost = len(r["feat"]) + 8
                     if spent + cost <= budget:
                         keep[ax].append(r)
@@ -410,7 +409,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             if not progressed:
                 break
             depth += 1
-        dropped = sum(len(offered[ax]) for ax in AXES) - sum(len(keep[ax]) for ax in AXES)
+        dropped = sum(len(cand[ax]) for ax in AXES) - sum(len(keep[ax]) for ax in AXES)
         cand = keep
 
     blocks, flat, i = [], {}, 0
@@ -424,17 +423,71 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             blocks.append("  [" + str(i) + "] " + r["feat"])
     head = "ENTITY: " + entity
     if epoch:
-        head += "\nEPOCH (score THIS state and no other): " + epoch
-    prompt = (head + "\n\nCANDIDATE EVIDENCE, GROUPED BY THE AXIS IT BEARS ON:\n"
-              + "\n".join(blocks)
-              + "\n\nCite only from an axis's own list. An axis with no list takes a status.")
+        head += chr(10) + "EPOCH (score THIS state and no other): " + epoch
+    nl = chr(10)
+    prompt = (head + nl + nl + "CANDIDATE EVIDENCE, GROUPED BY THE AXIS IT BEARS ON:" + nl
+              + nl.join(blocks) + nl + nl
+              + "Cite only from an axis's own list. An axis with no list takes a status.")
+    return prompt, flat, dropped
 
-    got = _ask(c, SYSTEM, prompt, SCHEMA, timeout=420)
-    if not got:
+
+def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling=None):
+    ev = F.evidence_for(host, entity)
+    cand = candidates(ev)
+    if not sum(len(v) for v in cand.values()) and not ev["quantities"]:
         return {"entity": entity, "result": None,
-                "reason": ("no answer from the pool or the local model"
-                           + ("" if pool_ready() else " (pool unreachable; local only)")),
-                "prompt_chars": len(prompt)}
+                "reason": "no axis cleared its gate on this entity's own source pages"}
+
+    # TRY THE POOL WITH EVERYTHING, THEN THE LOCAL MODEL WITH WHAT FITS IN IT.
+    #
+    # The first version of this decided the budget once, from pool_ready(), and built a single
+    # prompt. That is wrong in the exact case that matters: the pool is REACHABLE but declines
+    # this particular call -- every bucket rate-limited, or four of them shed to HTTP 402 mid-run
+    # -- and the un-budgeted 58,000-character prompt then falls back onto a 24,576-character
+    # local window and times out. Eight of the first twelve batch entities died precisely there,
+    # and the reason string said "no answer from the pool or the local model", which is true and
+    # useless. So the prompt is composed twice, at two sizes, for two different transports.
+    prompt, flat, dropped = compose(entity, cand, epoch, None)
+    got = None
+    used = "pool"
+    if pool_ready():
+        try:
+            import cascade_bridge as CB
+            got = CB.ask(SYSTEM, prompt, SCHEMA)
+        except Exception:
+            silence.note("magnitude.py:pool-call")
+            got = None
+
+    if got is None:
+        # HARD RULE 0. The local window is 6,144 tokens and Goku's evidence is 58,099
+        # characters, so the obvious fallback is to trim the evidence until it fits. That is
+        # forbidden, and rightly: "a cap on an ordered listing is not a sample, it is a
+        # TRUNCATION, and it silently decides that everything past the cutoff does not exist."
+        # An entity assayed on the two-fifths of its own record that happened to fit would
+        # carry a Magnitude indistinguishable from one assayed on all of it.
+        #
+        # So an entity too large for the local model is DEFERRED, not shrunk. `settled()` treats
+        # a deferral as unfinished business and the next run picks it up, which is the rule's
+        # own prescription: more providers, or more time, never a smaller universe.
+        if len(prompt) <= LOCAL_FITS:
+            used = "local"
+            try:
+                got = P.ask(c, SYSTEM, prompt, SCHEMA, timeout=420)
+            except Exception:
+                silence.note("magnitude.py:local-call")
+                got = None
+        else:
+            return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
+                    "reason": ("pool declined this call, and this entity's evidence is "
+                               + str(len(prompt)) + " chars against a local window of "
+                               + str(LOCAL_FITS) + ". Deferred rather than truncated "
+                               "(HARD RULE 0). Retried on the next run."),
+                    "prompt_chars": len(prompt), "transport_tried": "pool"}
+
+    if not got:
+        return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
+                "reason": "no answer from the pool or the local model; retried on the next run",
+                "prompt_chars": len(prompt), "transport_tried": used}
 
     anchor = got.get("anchor") if got.get("anchor") in A.LADDER else "M0"
     if ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
@@ -476,8 +529,8 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             # A sheet scored on a trimmed body of evidence must say so. Left off, a budgeted
             # assay is indistinguishable from a complete one, and the number carries a
             # confidence it has not earned.
-            "evidence_dropped_to_fit": dropped,
-            "transport": "pool" if pool_ready() else "local",
+            "evidence_dropped_to_fit": dropped,   # always 0 now; kept so a future budget cannot be silent
+            "transport": used,
             "pages": ev["pages_read"]}
 
 
@@ -568,6 +621,32 @@ def queue(host=None, limit=None):
     return out[:limit] if limit else out
 
 
+def settled(rec):
+    """Is this record a FINDING, or just the last thing that happened to it?
+
+    The distinction the whole project turns on. Three of these are real results and must never
+    be recomputed:
+
+        a scored assay                      -- the entity has a Magnitude
+        "no axis cleared its gate"          -- the evidence genuinely does not support one
+        a saturation refusal                -- the sheet was rejected whole, on purpose
+
+    Everything else is a transport failure wearing a result's clothes. The first version of
+    run_batch() skipped any entity already present in ASSAYS.json, which meant eight entities
+    that timed out against a rate-limited pool were recorded as done and would never have been
+    attempted again -- the same defect as the poisoned read-cache, rebuilt from scratch in a
+    function written to avoid it.
+    """
+    if not isinstance(rec, dict):
+        return False
+    if (rec.get("result") or {}).get("decimal") is not None:
+        return True
+    if rec.get("status") == "DEFERRED":
+        return False
+    reason = rec.get("reason") or ""
+    return ("no axis cleared its gate" in reason) or ("sheet saturated" in reason)
+
+
 def run_batch(host=None, limit=None, workers=8, resume=True):
     """Assay the queue in parallel, writing after every result.
 
@@ -591,7 +670,8 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
             silence.note("magnitude.py:resume")
             done = {}
 
-    todo = [(h, n, ch) for h, n, ch in queue(host, limit) if (h + "|" + n) not in done]
+    todo = [(h, n, ch) for h, n, ch in queue(host, limit)
+            if not settled(done.get(h + "|" + n))]
     print("queue: %d entities, %d already assayed, %d to do"
           % (len(queue(host, limit)), len(done), len(todo)))
     lock = threading.Lock()
