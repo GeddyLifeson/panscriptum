@@ -379,6 +379,16 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
         if not claimed:
             break
         cand = claimed[0]
+        # THE ROUTER NEVER HANDS OUT A LOCAL BUCKET. Cascade's pool lists three ollama models,
+        # and on a 10GB card a claim on any of them asks the server to load a model it cannot
+        # fit beside whatever is resident -- measured this afternoon at 108 calls in fifteen
+        # minutes, zero ok, and Ollama answering everyone "maximum pending requests exceeded"
+        # once its queue filled. Every caller of this bridge already has its own local
+        # fallback (read._local picks the ONE model that fits whole and benches it when it
+        # stops answering); the router adding three more local claimants was pure queue flood.
+        if cand.bucket.startswith(LOCAL_PREFIX):
+            _ROUTER.release(cand)
+            continue
         if _alive(cand.bucket):
             pinned = cand
             break
@@ -401,9 +411,23 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
         # exhausted, fall through to ANY alive remote model. Locals stay excluded for the reason
         # below -- they are one GPU wearing several names, and letting a cloud call land there
         # silently is how thirty-eight of seventy-five calls once went to a reloading card.
-        for m in _ROUTER.models:
-            if m.bucket.startswith(LOCAL_PREFIX):
-                continue
+        # PROOF WINNERS FIRST. The models list is config order, and config order is a
+        # graveyard tour: the dashboard measured ~100 calls across gemini/zai/groq/openrouter
+        # for ONE success while mistral sat at 86-for-86. Every worker walked the same dead
+        # buckets, paid a failure and a 60s bench on each, and only then reached a live one --
+        # which is most of the difference between the pool's 952 calls/hour and the read's
+        # 0.36 chunks/s. POOL_PROOF.json already knows who actually answers; start there.
+        answering = set()
+        try:
+            with open(PROOF, encoding="utf-8") as _f:
+                answering = {r.get("bucket") for r in json.load(_f)
+                             if isinstance(r, dict) and r.get("verdict") == "answers"}
+        except Exception:
+            silence.note("cascade_bridge.py:widen-proof")
+        ranked = sorted((m for m in _ROUTER.models
+                         if not m.bucket.startswith(LOCAL_PREFIX)),
+                        key=lambda m: (m.bucket not in answering))
+        for m in ranked:
             if not _alive(m.bucket):
                 continue
             try:

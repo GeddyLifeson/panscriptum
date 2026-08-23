@@ -253,17 +253,38 @@ SYSTEM = f"""You are Custos-Prime of the Panscriptum, running Charter Part Three
 You are given FEATS mined verbatim from an entity's own source wiki. Score the entity from those
 feats and from nothing else. Knowledge you have that is not in the list may not be used.
 
-STEP 1 ANCHOR. Fix the integer band from the SCALE OF THIS THING'S PRESENCE -- how much of
-reality it occupies, pervades, or registers within. Not how dangerous it is.
+STEP 1 ANCHOR. Fix the integer band by CAPACITY TO DECIDE OUTCOMES AT SCALE (owner ruling,
+2026-08-23; Charter Part Three's own "what scale of conflict it can DECIDE, not merely what it
+can break", generalised to every kind of entry). One question, three projections:
+
+  a PERSON        who would they beat -- the scale of conflict their attested feats decide
+  an EQUIPABLE    how much stronger does it make its possessor -- the DELTA it grants, ranked
+                  exactly as a person's own power would be
+  anything else   how much effect does it have WITHIN THE SCOPE OF WHAT IT CAN INTERACT WITH
+                  -- an institution, a world-tree, a law of nature all decide outcomes without
+                  ever fighting
+
+These are one quantity manifesting differently, which is why unlike things stay comparable:
+Yggdrasil SUSTAINS at everything-scale, Dr. Manhattan ACTS at it, the completed Infinity
+Gauntlet GRANTS it -- three manifestations, one Magnitude ceiling.
 
   M0 a village   M1 a city or nation   M2 a continent   M3 a planet
   M4 a stellar system   M5 star clusters   M6 a galaxy   M7 a universe
   M8 multiverses   M9 metaverses and xenoverses   M10 everything
 
-Presence, not threat. Yggdrasil menaces nobody and its presence runs through the nine worlds --
-it anchors by what it spans. A treasure, an institution, an event and a law of nature all have a
-scale of presence; most of them have no threat at all, and the ladder's own names are scale
-names: Worldshaker, Stellar, Galactic, Universal, Multiversal.
+Effect, not menace. Yggdrasil menaces nobody and SUSTAINS nine worlds -- deciding, every
+moment, that they continue -- so it anchors at what its effect holds up. A treasure, an
+institution, an event and a law of nature all decide outcomes within what they can interact
+with; most of them have no threat at all, and the ladder's own names are scale names:
+Worldshaker, Stellar, Galactic, Universal, Multiversal.
+
+TRAVEL DECIDES NOTHING BY ITSELF. Crossing universes, walking between planes, or riding a
+time machine is VECTOR -- one axis, scored later -- and never the anchor. The anchor asks what
+scale of outcome the entity can DECIDE, and arriving somewhere is not deciding anything there.
+Goku anchors M7 because a tournament deciding twelve universes' survival turned on his fights;
+a planeswalker who crosses the multiverse but whose victories are duels and mind-edits decides
+outcomes at the scale of a person or a city, and anchors there. The charter's own published
+Jace Beleren is 𝔄 M2.88 for exactly this reason, with his Spark filed under Vector.
 
 Presence is also ABSOLUTE, never relative to an opponent. Goku is no threat to Brahman and
 Brahman is no threat to Goku, and neither fact touches either anchor: one is present at the
@@ -385,6 +406,87 @@ def candidates(ev, cap=None):
             else sorted(v, key=lambda r: -len(r["feat"])) for ax, v in out.items()}
 
 
+AXIS_SCHEMA = {
+    "type": "object",
+    "properties": {"score": {"type": ["number", "string"]}, "feat": {"type": "string"}},
+    "required": ["score", "feat"],
+}
+ANCHOR_SCHEMA = {
+    "type": "object",
+    "properties": {"anchor": {"type": "string", "enum": A.LADDER},
+                   "presence_evidence": {"type": "string"}, "epoch": {"type": "string"}},
+    "required": ["anchor", "presence_evidence", "epoch"],
+}
+# Per-slice ceiling for split calls, in characters of evidence. Small enough for every live
+# bucket's per-minute token caps AND the local window.
+SPLIT_SLICE = 8000
+
+
+def _split_assay(c, entity, cand, epoch):
+    """Assay an entity whose evidence no single call can carry: eleven axis calls plus one
+    anchor call, merged into the same sheet shape the one-shot path produces.
+
+    THIS IS A SPLIT, NEVER A TRUNCATION. Jace Beleren's evidence is ~140,000 characters; the
+    pool's fastest buckets cap tokens per minute well below that, the local window is 24k, and
+    the old behaviour was to DEFER him forever -- so the heaviest, best-documented entities in
+    the library were exactly the ones the automation could not assay, and a person did them by
+    hand. The owner's brief is that the person is not the instrument. Every candidate sentence
+    is still read: each axis's list is sent in SPLIT_SLICE-sized slices, an axis's score is the
+    best-evidenced slice's answer, and the anchor is then asked over the eleven winning
+    citations -- the same digest a hand worksheet ends up staring at.
+    """
+    axes_out = {}
+    for ax in AXES:
+        rows = cand.get(ax) or []
+        if not rows:
+            axes_out[ax] = {"score": "unestimable", "feat": ""}
+            continue
+        best = None
+        i = 0
+        while i < len(rows):
+            block, size = [], 0
+            while i < len(rows) and (size == 0 or size + len(rows[i]["feat"]) < SPLIT_SLICE):
+                block.append(rows[i]["feat"])
+                size += len(rows[i]["feat"]) + 4
+                i += 1
+            prompt = ("ENTITY: " + entity
+                      + ((chr(10) + "EPOCH (score THIS state and no other): " + epoch)
+                         if epoch else "")
+                      + chr(10) + chr(10) + "AXIS UNDER ASSAY: " + ax.upper()
+                      + chr(10) + "Score 0-9.9 from these candidate sentences ONLY, citing the"
+                      + " single strongest VERBATIM as `feat`. If none genuinely bears on this"
+                      + " axis, return score \"unestimable\" and an empty feat."
+                      + chr(10) + chr(10)
+                      + chr(10).join("- " + b for b in block))
+            got = _ask(c, SYSTEM, prompt, AXIS_SCHEMA)
+            if not got:
+                continue
+            sc = got.get("score")
+            if isinstance(sc, (int, float)):
+                if best is None or not isinstance(best[0], (int, float)) or sc > best[0]:
+                    best = (sc, (got.get("feat") or "").strip())
+            elif best is None:
+                best = (A.UNESTIMABLE, "")
+        axes_out[ax] = ({"score": best[0], "feat": best[1]} if best
+                        else {"score": A.UNESTIMABLE, "feat": ""})
+
+    cites = [v["feat"] for v in axes_out.values() if v.get("feat")]
+    if not cites:
+        return None
+    ap = ("ENTITY: " + entity
+          + ((chr(10) + "EPOCH: " + epoch) if epoch else "")
+          + chr(10) + chr(10) + "THE STRONGEST CITED FEAT PER AXIS:" + chr(10)
+          + chr(10).join("- " + f for f in cites)
+          + chr(10) + chr(10) + "Fix the ANCHOR band per STEP 1 of your instructions.")
+    got = _ask(c, SYSTEM, ap, ANCHOR_SCHEMA)
+    if not got or got.get("anchor") not in A.LADDER:
+        return None
+    return {"anchor": got["anchor"],
+            "presence_evidence": (got.get("presence_evidence") or "").strip(),
+            "epoch": got.get("epoch") or epoch or "unstamped",
+            "axes": axes_out}
+
+
 def compose(entity, cand, epoch, budget):
     """Build the prompt at a given evidence budget. Returns (prompt, flat, dropped).
 
@@ -477,12 +579,16 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
                 silence.note("magnitude.py:local-call")
                 got = None
         else:
-            return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
-                    "reason": ("pool declined this call, and this entity's evidence is "
-                               + str(len(prompt)) + " chars against a local window of "
-                               + str(LOCAL_FITS) + ". Deferred rather than truncated "
-                               "(HARD RULE 0). Retried on the next run."),
-                    "prompt_chars": len(prompt), "transport_tried": "pool"}
+            # TOO BIG FOR ANY SINGLE CALL -> SPLIT, never defer-first. The five heaviest
+            # entities in the library sat permanently deferred here while a person assayed
+            # them by hand, which inverts the whole point of the automation.
+            used = "split"
+            got = _split_assay(c, entity, cand, epoch)
+            if got is None:
+                return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
+                        "reason": ("no transport carried even the split calls; retried on the "
+                                   "next run"),
+                        "prompt_chars": len(prompt), "transport_tried": "pool+split"}
 
     if not got:
         return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
@@ -621,6 +727,40 @@ def queue(host=None, limit=None):
     return out[:limit] if limit else out
 
 
+_SCOPE_CACHE = {}
+
+
+def host_ceiling(host):
+    """This fiction's own ceiling band, cached per host. The clamp's input.
+
+    `SCOPE.scope_for` does live wiki calls, which is why the batch never passed a ceiling and
+    the clamp in assay_entity sat unused: Jace Beleren came back at M10.77 against the
+    charter's published 𝔄 M2.88, and Silver Surfer at M10.93 -- a band the charter reserves
+    for exactly one class of entry. The model, shown only feats, anchors on the grandest
+    sentence it sees; the SOURCE's own measured scope is the outside check, and it was
+    already on disk for 155 hosts.
+    """
+    if host in _SCOPE_CACHE:
+        return _SCOPE_CACHE[host]
+    cl = None
+    try:
+        with open(os.path.join(HERE, "data", "SCOPE.json"), encoding="utf-8") as f:
+            row = json.load(f).get(host)
+        if row and row.get("ceiling"):
+            cl = (row.get("scope"), row["ceiling"])
+    except Exception:
+        silence.note("magnitude.py:host_ceiling-disk")
+    if cl is None:
+        try:
+            row = SCOPE.scope_for(host)
+            if row and row.get("ceiling"):
+                cl = (row.get("scope"), row["ceiling"])
+        except Exception:
+            silence.note("magnitude.py:host_ceiling-live")
+    _SCOPE_CACHE[host] = cl
+    return cl
+
+
 def settled(rec):
     """Is this record a FINDING, or just the last thing that happened to it?
 
@@ -690,7 +830,7 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
     def work(item):
         h, n, _ch = item
         try:
-            r = assay_entity(c, n, h)
+            r = assay_entity(c, n, h, ceiling=host_ceiling(h))
         except Exception as e:
             silence.note("magnitude.py:run_batch")
             r = {"entity": n, "host": h, "result": None,

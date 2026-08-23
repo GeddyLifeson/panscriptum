@@ -274,10 +274,12 @@ HARD RULES:
 3. If no entry shows a demonstrated feat, set ceiling_entity to "" and magnitude "unassayed".
    That is a correct, expected answer for many sources.
 
-MAGNITUDE BANDS -- the scale of PRESENCE, not of threat. Ask how much of reality the thing
-occupies, pervades or registers within; never ask who would win. The band names are the
-charter's own (Part One, the band table) and the scale terms are exact: a planetary system
-is not a planet, multiversal is not metaversal.
+MAGNITUDE BANDS -- capacity to DECIDE OUTCOMES at scale (owner ruling 2026-08-23, restating
+Part Three's "what scale of conflict it can decide, not merely what it can break"). For a
+person: who would they beat. For an equipable thing: how much stronger it makes its possessor.
+For anything else: how much effect it has within the scope of what it can interact with. The
+band names are the charter's own and the scale terms are exact: a planetary system is not a
+planet, multiversal is not metaversal.
   M0 Mundane - a village
   M1 Heroic - a city or nation
   M2 Paragon - a continent
