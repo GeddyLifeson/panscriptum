@@ -1,7 +1,7 @@
 # PANSCRIPTUM — AUTONOMOUS RUN STATUS
 
 *Rewritten automatically by `src/pipeline.py` after every completed unit.*
-*Last update: 2026-08-22 16:16:46*
+*Last update: 2026-08-23 15:30:57*
 
 ## Where the run is
 
@@ -17,22 +17,22 @@
 |---|---|
 | Sources catalogued | **209/215** |
 | Records with entries | 210 |
-| Total entries | **56,748** |
-| Sources with a ceiling nominated (phase 1) | 210/210 |
-| Entries through the judgment pass (phase 2) | 56,564/56,748 |
+| Total entries | **85,904** |
+| Sources with a ceiling nominated (phase 1) | 209/210 |
+| Entries through the judgment pass (phase 2) | 55,513/85,904 |
 
 ## Phase ladder
 
-| # | phase | state | what it does |
-|---|---|---|---|
-| 1 | `synthesis` | **built** | per-source power ceiling + magnitude band |
-| 2 | `entrypass` | **built** | per-entry category, band, topic, grounded scale_note |
-| 3 | `weave` | **built** | cross-source entity resolution + the onomasticon |
-| 4 | `chain` | to build | the Chain of Defeats; Bradley-Terry theta per component |
-| 5 | `cosmology` | to build | universe → multiverse → metaverse → xenoverse → hyperverse |
-| 6 | `history` | to build | *The History of the Omniverse* |
-| 7 | `shelve` | to build | the topical A–Z encyclopedia volumes |
-| 8 | `write` | to build | volume prose |
+| # | phase | state |
+|---|---|---|
+| 1 | `synthesis` | **built** |
+| 2 | `entrypass` | **built** |
+| 3 | `weave` | **built** |
+| 4 | `chain` | **built** |
+| 5 | `cosmology` | **built** |
+| 6 | `history` | **built** |
+| 7 | `shelve` | **built** |
+| 8 | `write` | **built** |
 
 Volumes are organised by **topic across the omniverse**, never by source IP.
 

@@ -116,6 +116,10 @@ It is never a smaller universe.
 
 ```bash
 cd panscriptum-library-kit
+# ON THIS MACHINE: use miniconda's python directly (C:/Users/imarl/miniconda3/python.exe).
+# The bare `py` launcher and a fresh venv both hit Norton's TLS interception on pip
+# installs; the miniconda env already has requirements.txt plus pyflakes (the sweep's
+# LINT tier depends on it). The venv instructions below are for OTHER machines.
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
