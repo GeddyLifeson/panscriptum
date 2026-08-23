@@ -23,6 +23,7 @@ Two things learned the hard way, both encoded below:
    the source (see verify_wiki_matches).
 """
 import json
+import os
 import re
 import time
 import urllib.error
@@ -244,13 +245,20 @@ def resolve_wiki(source_name):
     resolved, recorded, and mined 380 feat files from.
     """
     cands = []
+    # NOTE the explicit path construction: this module has no HERE constant, and the first
+    # version of this block used one anyway. The NameError went into silence.note and the
+    # function fell back to guessing -- the same silent-failure this block exists to fix,
+    # introduced BY the fix. A missing hosts file is tolerable; a missing variable is not,
+    # so only the file operations sit inside the try.
+    _hosts_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                               "data", "WIKI_HOSTS.json")
     try:
-        with open(os.path.join(HERE, "data", "WIKI_HOSTS.json"), encoding="utf-8") as f:
+        with open(_hosts_path, encoding="utf-8") as f:
             known = json.load(f).get(source_name)
-        if isinstance(known, str) and known.endswith(".fandom.com"):
-            cands.append(known[: -len(".fandom.com")])
-    except Exception:
-        silence.note("wiki_source.py:resolve-known")
+    except OSError:
+        known = None
+    if isinstance(known, str) and known.endswith(".fandom.com"):
+        cands.append(known[: -len(".fandom.com")])
     if source_name in WIKI_OVERRIDES:
         cands.append(WIKI_OVERRIDES[source_name])
     cands += [c for c in subdomain_candidates(source_name) if c not in cands]
