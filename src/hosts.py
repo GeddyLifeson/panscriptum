@@ -93,8 +93,30 @@ def add(source, host, evidence=None, score=None):
 
 KEEP = ("holds", "partial")
 
+# A SECONDARY HOST IS JUDGED DIFFERENTLY FROM A PRIMARY ONE.
+#
+# `hostcheck.score` judges by LIFT -- hit rate minus the host's own baseline for names it has no
+# reason to hold. That is exactly right when choosing the ONE host a source will be mined from,
+# because it finds the specialist and refuses a site that answers everybody.
+#
+# It is exactly wrong when asking whether a site is worth reading IN ADDITION. Measured on Bleach:
+#
+#     en.wikipedia.org   probed 40   hits 14   rate 0.35   baseline 0.462   lift -0.112
+#                        about 1.00                        verdict "NAMES ONLY"
+#
+# Every page it matched is a real Bleach article -- Ichigo Kurosaki, Byakuya Kuchiki, Kenpachi
+# Zaraki -- and `about` says so at 1.00. The negative lift is not evidence against Wikipedia; it
+# is a statement that Wikipedia is an encyclopedia of everything, which was already known. Under
+# a lift rule NO general-purpose host can ever be adopted for ANY source, however much genuine
+# canon it holds. That is the rule silently deciding the library may only ever read fan wikis.
+#
+# So a secondary host is kept on ABOUTNESS and substance: the pages it returned must really be
+# about this fiction, and there must be enough of them to be worth a request.
+MIN_HITS_SECONDARY = 3
+MIN_ABOUT_SECONDARY = 0.6
 
-def discover(only=None, workers=6, per_source=8):
+
+def discover(only=None, workers=6, per_source=24):
     """Find every ADDITIONAL host each source can be read from, and keep all that hold.
 
     `hostcheck.adopt()` already does the hard part -- propose candidates, probe each against the
@@ -112,7 +134,9 @@ def discover(only=None, workers=6, per_source=8):
 
     by = HC.entities_by_source()
     prim = _load(PRIMARY, {})
-    todo = [s for s in prim if (not only or only.lower() in s.lower()) and by.get(s)]
+    wanted = [w.strip().lower() for w in only.split(",")] if only else None
+    todo = [s for s in prim
+            if (not wanted or any(w in s.lower() for w in wanted)) and by.get(s)]
     added, rows = 0, []
 
     def work(source):
@@ -121,10 +145,16 @@ def discover(only=None, workers=6, per_source=8):
             return None
         cur = primary_host(source)
         try:
-            cands = HC.candidates(source, cur, by=by)[:per_source]
+            cands = HC.candidates(source, cur, by=by)
         except Exception:
             silence.note("hosts.py:candidates")
             return None
+        # `candidates` returns grounded hosts first and speculation after. Probing every
+        # invented subdomain costs a network round trip each to learn it does not exist, so the
+        # tail is bounded -- but the bound sits AFTER the evidence, never through it, and what
+        # it drops is guesses rather than known hosts.
+        if per_source and len(cands) > per_source:
+            cands = cands[:per_source]
         keep = []
         for h in cands:
             if h == cur:
@@ -134,8 +164,16 @@ def discover(only=None, workers=6, per_source=8):
             except Exception:
                 silence.note("hosts.py:score")
                 continue
-            if r.get("verdict") in KEEP:
-                keep.append((r.get("lift") or 0, h, r.get("verdict"), r.get("rate")))
+            about = r.get("about")
+            hits = r.get("hits") or 0
+            # Either test admits a host: the specialist bar (lift over its own baseline), or the
+            # substance bar (it really holds this fiction's material, whatever else it holds).
+            specialist = r.get("verdict") in KEEP
+            substantial = (hits >= MIN_HITS_SECONDARY
+                           and about is not None and about >= MIN_ABOUT_SECONDARY)
+            if specialist or substantial:
+                why = r.get("verdict") if specialist else "about=" + str(about)
+                keep.append((r.get("lift") or 0, h, why, r.get("rate")))
         keep.sort(reverse=True)
         return (source, keep)
 

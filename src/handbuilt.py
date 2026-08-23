@@ -66,38 +66,53 @@ ROSTER = {
              "Albania, Argentina, Armenia, Australia. The category resolver took a "
              "by-nationality listing and catalogued the nations. There are no wrestlers in "
              "professional wrestling.",
-  presence="A promotion, and the whole of it, for thirty unbroken years. Not a world-ruler and "
-           "not trying to be: his extent is one institution that a nation watches, and inside it "
-           "he is a fixed feature rather than a participant. Four match types exist because he "
-           "exists -- 'the Casket match, the Buried Alive match, the Hell in a Cell and the Last "
-           "Ride match' -- which is a kind of presence very few entities in this library have, "
-           "where the RULES of the world are shaped around one being.",
+  presence="A promotion, wholly -- but the first version of this sheet read the summary "
+           "paragraph and scored a wrestler. The storyline canon is not a wrestler. He founds a "
+           "religious order, prophesies 'a plague of evil would be unleashed on the WWF' and "
+           "then delivers it, fuses that order with the company's own power structure into the "
+           "CORPORATE MINISTRY, and takes orders from a concealed 'higher power' that 'owned the "
+           "key to McMahon's heart and soul'. His extent is still one institution. What changed "
+           "is that within it he is not a competitor but a claimant on the souls of the people "
+           "running it.",
   axes=dict(
-   ruin=(3.0, "He ends careers rather than structures. Within a band of national institutions "
-              "his destructive output is a man's arm span", "wiki"),
-   continuity=(9.5, "'The gimmick that he was impervious to pain'; buried alive, sealed in "
-                    "caskets, thrown from cells, set on fire, and back the following month. An "
-                    "explicitly UNDEAD figure whose returns are the character's entire premise",
-               "wiki"),
+   ruin=(4.5, "'Throughout the PPV, the Undertaker appeared to have Austin EMBALMED ALIVE, have "
+              "Kane committed to a mental asylum, and CRUCIFY Austin.' He does not break "
+              "structures; he does things to people that have no counterpart on any other sheet "
+              "here", "wiki"),
+   continuity=(9.9, "CEILING, AND EARNED TWICE OVER. He is not merely hard to kill -- he DIES ON "
+                    "SCREEN AND RETURNS. Entombed in a casket at the 1994 Royal Rumble, where he "
+                    "'died and ascended to the heavens'; buried alive by The Executioner in "
+                    "1996, and 're-born a month later, descending to the ring from the rafters "
+                    "in black leather attire with bat-like wings'. Death is an episode in his "
+                    "record rather than an end to it", "wiki"),
    celerity=(4.0, "Deliberately, famously slow. The menace is that he does not hurry", "canon"),
-   reach=(4.5, "'Supernatural powers, such as teleportation and manipulation of flames and "
-               "lightning' -- arena-scale, but he arrives where he chooses", "wiki"),
-   transgression=(7.5, "Teleportation, lightning and fire at will inside a world that is "
-                       "otherwise two people in a ring. The building's lights obey him", "wiki"),
-   sustain=(9.0, "'From 1990 to 2020', and 'remains employed for WWE through a 15-year contract "
-                 "signed in 2019'. Thirty continuous years is a duration nothing else on that "
-                 "roster approaches", "wiki"),
-   vector=(5.0, "Appears and vanishes within the arena; no passage above it", "wiki"),
-   volition=(8.5, "'An undefeated streak at WrestleMania of 21-0.' Twenty-one consecutive years "
-                  "of refusing, against everyone sent at him, until Lesnar", "wiki"),
-   acumen=(6.0, "Built four specialty match types around his own strengths and made every "
-                "opponent fight on his terms", "wiki"),
-   discernment=(6.5, "The Deadman knows things he was not told; Paul Bearer's urn is carried as "
-                     "an instrument rather than a prop", "canon"),
-   suasion=(9.5, "THE HIGHEST SCORE ON ANY SHEET IN THIS LIBRARY, AND IT IS EARNED WITHOUT A "
-                 "WORD. The gong sounds, the arena goes dark, and twenty thousand people react "
-                 "identically -- on cue, for thirty years. Nagato and Obito were each turned by "
-                 "a speech; this is a crowd turned by a light cue, nightly", "canon"))),
+   reach=(6.5, "The Ministry acts at his word across the whole company -- a burning crucifix "
+               "left in McMahon's yard, the owner 'reduced to tears at the sight of a burning "
+               "teddy bear' that had belonged to his daughter. He reaches into people's homes "
+               "and childhoods", "wiki"),
+   transgression=(9.0, "Prophecy that comes true; a black wedding; an urn carried as the vessel "
+                       "of his power and 'stolen and used to attack Kane'; Paul Bearer 'returned "
+                       "after being brought out in a casket'; teleportation, lightning and fire. "
+                       "He does not break the rules of his world -- he installs new ones and "
+                       "everyone obeys them", "wiki"),
+   sustain=(9.0, "'From 1990 to 2020', across five distinct incarnations, plus a 15-year "
+                 "contract signed in 2019", "wiki"),
+   vector=(5.5, "Descends from the rafters, rises from graves, appears and vanishes at will "
+                "inside his own domain", "wiki"),
+   volition=(9.0, "'An undefeated streak at WrestleMania of 21-0' -- twenty-one consecutive "
+                  "years of refusing -- and a submission to the Higher Power that is his own "
+                  "choice rather than a compulsion", "wiki"),
+   acumen=(7.5, "Ran a months-long conspiracy with a CONCEALED PRINCIPAL, revealing the higher "
+                "power only when it suited him, and ended it holding the company. That is a "
+                "plot, not a gimmick", "wiki"),
+   discernment=(7.5, "He prophesies what is coming and is right; he knows what object in a "
+                     "billionaire's house will hurt him most", "wiki"),
+   suasion=(9.9, "CEILING, AND THE HIGHEST-EARNED SCORE IN THIS LIBRARY. Not the crowd pop -- "
+                 "the ORDER. Mideon, Viscera, Gangrel, Edge, Christian, Bradshaw and Farooq "
+                 "serve him as a faith, the company's owner is broken down to tears by symbols "
+                 "left where his daughter can see them, and the promotion's actual power "
+                 "structure merges into his ministry. Naruto turned three enemies with speeches. "
+                 "This is a congregation", "wiki"))),
 
  # Not a joke, and not a fiction either. Charter Part Three: "A treasure, an institution, an
  # event and a law of nature all have a scale of presence; most of them have no threat at all."

@@ -330,9 +330,26 @@ def candidates(source, current, by=None, hosts=None):
 
     for sl in F._slugs(source):
         add(sl if "." in sl else f"{sl}.fandom.com")
-    add("en.wikipedia.org")
-    # Speculation is capped; evidence is not.
-    return grounded[:1] + spec[:14] + grounded[1:]
+
+    # Universal hosts: places that hold SOMETHING about almost every fiction on the roll, and
+    # which no amount of slug-guessing will ever produce. They are grounded by definition -- we
+    # know they exist and we know they are readable -- so they lead. Whether any of them actually
+    # holds THIS source is decided by score(), which measures lift over the host's own baseline
+    # and is not fooled by a site that answers every name anybody asks about.
+    for u in ("en.wikipedia.org",):
+        add(u)
+
+    # EVIDENCE FIRST, SPECULATION AFTER.
+    #
+    # This read `grounded[:1] + spec[:14] + grounded[1:]`, which put ONE known-real host at the
+    # front and buried the rest behind fourteen guesses. Any caller taking a slice of the result
+    # -- and callers do -- got one real host and a fistful of invented subdomains. On Bleach the
+    # first eight entries were www.dandwiki.com followed by seven wikis that do not exist, while
+    # en.wikipedia.org sat at position sixteen.
+    #
+    # The interleave was itself a repair for this exact bug in a smaller form. The repair was to
+    # promote one grounded host. The fix is to promote all of them.
+    return grounded + spec
 
 
 # --------------------------------------------------------------------------- the sweep
