@@ -56,6 +56,49 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 OUT = os.path.join(HERE, "data", "HANDBUILT_ASSAYS.json")
 
 ROSTER = {
+ # The epoch line does real work on this one. His page distinguishes the performer, Mark
+ # Calaway, from the character, and says so in as many words: two contrasting personas, one of
+ # them "The Deadman, an undead, occult-like figure". The Deadman is what is assayed here.
+ # Calaway is a man from Houston with knee surgeries and would assay at M0.
+ "The Undertaker": dict(
+  anchor="M1", host="prowrestling.fandom.com", epoch="The Deadman, 1990-2020",
+  why_missed="his SOURCE is catalogued and its 158 entries are COUNTRIES -- Afghanistan, "
+             "Albania, Argentina, Armenia, Australia. The category resolver took a "
+             "by-nationality listing and catalogued the nations. There are no wrestlers in "
+             "professional wrestling.",
+  presence="A promotion, and the whole of it, for thirty unbroken years. Not a world-ruler and "
+           "not trying to be: his extent is one institution that a nation watches, and inside it "
+           "he is a fixed feature rather than a participant. Four match types exist because he "
+           "exists -- 'the Casket match, the Buried Alive match, the Hell in a Cell and the Last "
+           "Ride match' -- which is a kind of presence very few entities in this library have, "
+           "where the RULES of the world are shaped around one being.",
+  axes=dict(
+   ruin=(3.0, "He ends careers rather than structures. Within a band of national institutions "
+              "his destructive output is a man's arm span", "wiki"),
+   continuity=(9.5, "'The gimmick that he was impervious to pain'; buried alive, sealed in "
+                    "caskets, thrown from cells, set on fire, and back the following month. An "
+                    "explicitly UNDEAD figure whose returns are the character's entire premise",
+               "wiki"),
+   celerity=(4.0, "Deliberately, famously slow. The menace is that he does not hurry", "canon"),
+   reach=(4.5, "'Supernatural powers, such as teleportation and manipulation of flames and "
+               "lightning' -- arena-scale, but he arrives where he chooses", "wiki"),
+   transgression=(7.5, "Teleportation, lightning and fire at will inside a world that is "
+                       "otherwise two people in a ring. The building's lights obey him", "wiki"),
+   sustain=(9.0, "'From 1990 to 2020', and 'remains employed for WWE through a 15-year contract "
+                 "signed in 2019'. Thirty continuous years is a duration nothing else on that "
+                 "roster approaches", "wiki"),
+   vector=(5.0, "Appears and vanishes within the arena; no passage above it", "wiki"),
+   volition=(8.5, "'An undefeated streak at WrestleMania of 21-0.' Twenty-one consecutive years "
+                  "of refusing, against everyone sent at him, until Lesnar", "wiki"),
+   acumen=(6.0, "Built four specialty match types around his own strengths and made every "
+                "opponent fight on his terms", "wiki"),
+   discernment=(6.5, "The Deadman knows things he was not told; Paul Bearer's urn is carried as "
+                     "an instrument rather than a prop", "canon"),
+   suasion=(9.5, "THE HIGHEST SCORE ON ANY SHEET IN THIS LIBRARY, AND IT IS EARNED WITHOUT A "
+                 "WORD. The gong sounds, the arena goes dark, and twenty thousand people react "
+                 "identically -- on cue, for thirty years. Nagato and Obito were each turned by "
+                 "a speech; this is a crowd turned by a light cue, nightly", "canon"))),
+
  # Not a joke, and not a fiction either. Charter Part Three: "A treasure, an institution, an
  # event and a law of nature all have a scale of presence; most of them have no threat at all."
  # An institution is assayable BY CONSTRUCTION under the presence thesis, and would not have

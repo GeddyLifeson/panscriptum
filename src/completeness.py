@@ -113,6 +113,20 @@ def audit(only=None, workers=6):
     # would be an accusation against a source that did its job.
     shared = collections.Counter(h for _, h in todo)
 
+    # Sharing a host does not disqualify BOTH sources -- it disqualifies the borrower. When two
+    # sources point at marvel.fandom.com, one of them is Marvel and the other is drawing a
+    # subset of it, and Marvel's denominator is perfectly good. The primary source for a host is
+    # the one whose name survives inside the subdomain ('Marvel' -> 'marvel'); where no name
+    # matches, no source claims it and all of them are marked.
+    primary = {}
+    for src, h in todo:
+        sub = subdomain(h) or ""
+        key = "".join(ch for ch in str(src).lower() if ch.isalnum())
+        if key and key in sub.replace("-", ""):
+            # Longest match wins, so 'Marvel' beats a hypothetical 'Mar'.
+            if h not in primary or len(key) > len(primary[h][1]):
+                primary[h] = (src, key)
+
     rows = []
 
     def work(item):
@@ -137,8 +151,10 @@ def audit(only=None, workers=6):
         # that CATEGORY_PROBES missed the category this wiki actually uses -- The Division
         # catalogued 448 people against a probed "People" category holding 314.
         why = None
-        if shared[host] > 1:
-            why = "host shared by " + str(shared[host]) + " sources; denominator not attributable"
+        if shared[host] > 1 and (primary.get(host) or (None, None))[0] != src:
+            why = ("shares " + host + " with " + str(shared[host] - 1) + " other source(s) and "
+                   "is not the primary; denominator belongs to "
+                   + str((primary.get(host) or ("nobody",))[0]))
         elif cov > 1.0:
             why = ("catalogued exceeds the probed category, so the probe list missed this "
                    "wiki's real category name")

@@ -238,14 +238,49 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true", help="resolve wikis only")
     ap.add_argument("--limit", type=int, default=None)
-    ap.add_argument("--only", type=str, default=None)
+    ap.add_argument("--only", type=str, default=None,
+                    help="substring match against source names, comma-separated")
+    ap.add_argument("--recatalogue", action="store_true",
+                    help="include sources that already have entries (use after a cap is lifted)")
+    ap.add_argument("--shortfall", type=int, default=0, metavar="N",
+                    help="only sources COMPLETENESS.json says are short by N or more, "
+                         "largest gap first")
     args = ap.parse_args()
 
     roll = load_roll()
-    todo = [r for r in roll if r.get("entry_count", 0) == 0]
+    if args.recatalogue:
+        # Every source, regardless of entry_count. The default selection -- sources with zero
+        # entries -- is right for a first pass and exactly wrong after a CAP IS REMOVED, because
+        # every source the cap truncated has a non-zero entry_count and therefore looks finished.
+        # A truncated catalogue is indistinguishable from a complete one by that test, which is
+        # how MAX_PER_SOURCE survived as long as it did.
+        todo = list(roll)
+    else:
+        todo = [r for r in roll if r.get("entry_count", 0) == 0]
+
+    if args.shortfall:
+        # Target what the completeness audit says is actually missing, worst first, so an
+        # interrupted run has spent its time where the gap was largest.
+        try:
+            with open(os.path.join(HERE, "data", "COMPLETENESS.json"), encoding="utf-8") as f:
+                comp = json.load(f)
+        except Exception:
+            raise SystemExit("--shortfall needs data/COMPLETENESS.json; run completeness.py")
+        gap = {}
+        for c in comp:
+            if c.get("unreliable"):
+                continue
+            missing = (c.get("wiki_persons") or 0) - (c.get("catalogued_persons") or 0)
+            if missing >= args.shortfall:
+                gap[str(c["source"]).lower()] = missing
+        todo = [r for r in todo if r["name"].lower() in gap]
+        todo.sort(key=lambda r: -gap[r["name"].lower()])
+        print("targeting %d sources short by %d or more entries; largest gaps first"
+              % (len(todo), args.shortfall))
+
     if args.only:
-        wanted = {n.strip().lower() for n in args.only.split(",")}
-        todo = [r for r in todo if r["name"].lower() in wanted]
+        wanted = [n.strip().lower() for n in args.only.split(",")]
+        todo = [r for r in todo if any(w in r["name"].lower() for w in wanted)]
     if args.limit:
         todo = todo[: args.limit]
 

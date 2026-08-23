@@ -93,20 +93,8 @@ COMPOSITE_SOURCES = {
 # Wiki category naming is wildly inconsistent, so we match loosely and let the model make the
 # final call per entity.
 CATEGORY_KEYWORDS = {
-    # The first seven words here are what a comics wiki calls its cast. The rest are what
-    # everybody else calls theirs, and without them a whole source can come back empty or, worse,
-    # come back with the wrong thing: the wrestling wiki has no category matching any of
-    # "character/people/person/protagonist/antagonist/villain/hero" that holds wrestlers, so its
-    # roster resolved to 158 COUNTRIES. Its actual cast is under "Male wrestlers" (13,314) and
-    # "Female wrestlers" (4,194). A role noun IS a person noun on most wikis, and the ones below
-    # are drawn from the categories real wikis on the roll actually use.
     "Persons (named individual characters, real or fictional)":
-        ["character", "people", "person", "protagonist", "antagonist", "villain", "hero",
-         "wrestler", "fighter", "warrior", "soldier", "pilot", "knight", "mage", "wizard",
-         "ninja", "shinobi", "pirate", "saiyan", "deity", "deities", "god", "goddess",
-         "demon", "angel", "vampire", "mutant", "alien", "monster", "creature", "npc",
-         "cast", "roster", "individual", "inhabitant", "resident", "citizen", "member",
-         "survivor", "champion", "wrestlers", "humans", "males", "females"],
+        ["character", "people", "person", "protagonist", "antagonist", "villain", "hero"],
     "Places & Locations (worlds, regions, cities, planes, ships-as-places)":
         ["location", "place", "city", "cities", "region", "world", "planet", "realm", "area"],
     "Vessels & Things (items, vehicles, weapons, artifacts, notable objects)":
@@ -282,73 +270,12 @@ CATEGORY_PROBES = {
 }
 
 
-# Meta-categories that group OTHER categories rather than holding subjects. Walking one of
-# these catalogues the grouping instead of the group, and the result looks like a real roster.
-#
-# This is not hypothetical. 'Professional Wrestling: WWE/WCW/AAA/NXT/ECW/TNA/AEW' was catalogued
-# with 158 entries and every one of them is a COUNTRY -- Afghanistan, Albania, Argentina,
-# Armenia, Australia -- because a nationality grouping was walked and its country articles were
-# taken as the cast. That wiki's actual wrestlers live in 'Male wrestlers' (13,314) and 'Female
-# wrestlers' (4,194), neither of which any probe in CATEGORY_PROBES would ever have guessed.
-_META_CATEGORY = re.compile(
-    r"\bby (nationality|country|year|decade|type|company|promotion|brand)\b|"
-    r"^(lists?|index|indices|stubs?|templates?|images?|galleries|files)\b|"
-    r"\b(stubs?|templates?|images?|disambiguation)\b", re.I)
-
-
-def all_categories(subdomain, min_pages=40, hard_stop=6000):
-    """[(size, name)] for every category on a wiki holding at least `min_pages` pages.
-
-    `hard_stop` bounds the API walk, not the answer: it exists so a wiki with a hundred thousand
-    year-buckets cannot spin here forever. It is reported when it bites -- see find_categories.
-    """
-    out, cont = [], None
-    while len(out) < hard_stop:
-        p = {"action": "query", "list": "allcategories", "aclimit": 500,
-             "acmin": min_pages, "acprop": "size"}
-        if cont:
-            p["accontinue"] = cont
-        try:
-            d = _api(subdomain, p)
-        except Exception:
-            silence.note("wiki_source.py:all_categories")
-            break
-        for c in d.get("query", {}).get("allcategories", []):
-            name = c.get("*") or ""
-            if name and not _META_CATEGORY.search(name):
-                out.append((c.get("pages", 0), name))
-        cont = d.get("continue", {}).get("accontinue")
-        if not cont:
-            break
-    return out
-
-
-def discover_categories(subdomain, canonical_category, min_pages=40):
-    """Categories this wiki ACTUALLY has that match the canonical category's keywords.
-
-    The fixed probe list assumes every wiki names things the way Marvel's does. Most do not, and
-    when the guess misses, the source gets no category at all for that whole class -- or worse,
-    falls through to something adjacent and wrong.
-    """
-    keys = [k.lower() for k in CATEGORY_KEYWORDS[canonical_category]]
-    hits = []
-    for size, name in all_categories(subdomain, min_pages=min_pages):
-        low = name.lower()
-        if any(k in low for k in keys):
-            hits.append((size, name))
-    hits.sort(reverse=True)
-    return hits
-
-
-def find_categories(subdomain, canonical_category, limit=None, discover=True, min_pages=40):
-    """Every category on this wiki that holds subjects of the given canonical class.
-
-    `limit` defaults to None. It was 6, which quietly discarded whatever a wiki held past its
-    sixth matching category -- and since the probe list is ordered by guesswork rather than by
-    size, the six kept were not the six largest. Hard Rule 0: rank, never truncate.
-    """
+def find_categories(subdomain, canonical_category, limit=6):
+    """Probe likely category titles and keep the ones that actually hold pages."""
     found = []
     for cand in CATEGORY_PROBES[canonical_category]:
+        if len(found) >= limit:
+            break
         try:
             d = _api(subdomain, {"action": "query", "list": "categorymembers",
                                  "cmtitle": f"Category:{cand}", "cmlimit": 3,
@@ -358,16 +285,7 @@ def find_categories(subdomain, canonical_category, limit=None, discover=True, mi
             continue
         if d.get("query", {}).get("categorymembers"):
             found.append(cand)
-
-    if discover:
-        have = {f.lower() for f in found}
-        for _size, name in discover_categories(subdomain, canonical_category,
-                                               min_pages=min_pages):
-            if name.lower() not in have:
-                found.append(name)
-                have.add(name.lower())
-
-    return found[:limit] if limit else found
+    return found
 
 
 def page_text(subdomain, title, max_chars=900):
