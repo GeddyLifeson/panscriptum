@@ -1,11 +1,11 @@
 # OVERWATCH
 
-round 24  ·  last run 2026-08-23 05:21
+round 25  ·  last run 2026-08-23 05:48
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 57,384 inspected
+- files that will not parse: **0** of 57,510 inspected
 - catalogued sources with no host: **17** Arcanum Worlds (Odyssey of the Dragonlords), Clockwork Angels (Rush), Curious DM
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 

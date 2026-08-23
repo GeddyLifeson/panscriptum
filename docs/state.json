@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 05:43:46",
+ "at": "2026-08-23 05:53:47",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -114,9 +114,9 @@
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 20,
      "cap": 20,
-     "frac": 0.95
+     "frac": 1.0
     }
    ],
    "worst": 0.714
@@ -456,9 +456,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 43,
+     "left": 41,
      "cap": 200,
-     "frac": 0.215
+     "frac": 0.205
     },
     {
      "name": "rpm",
@@ -467,7 +467,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.215
+   "worst": 0.205
   },
   {
    "bucket": "kluster:free",
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 17,
+     "left": 16,
      "cap": 20,
-     "frac": 0.85
+     "frac": 0.8
     }
    ],
    "worst": 0.0
@@ -697,7 +697,7 @@
   "buckets": [
    {
     "bucket": "openrouter:free",
-    "calls": 53,
+    "calls": 51,
     "ok": 0
    },
    {
@@ -713,6 +713,11 @@
    {
     "bucket": "ollama:qwen2.5:14b",
     "calls": 12,
+    "ok": 0
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 2,
     "ok": 0
    },
    {
@@ -756,7 +761,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 0.8
+   "age_h": 1.0
   },
   "phases": [
    {
@@ -797,7 +802,7 @@
  "watch": {
   "open": 6,
   "high": 3,
-  "rounds": 24,
+  "rounds": 25,
   "findings": [
    {
     "module": "build_terminal",
@@ -840,11 +845,11 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    3542
+    4202
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    1152
+    1392
    ],
    [
     "silent:endpoint.py:fetch_raw-http:HTTPError",
@@ -856,14 +861,14 @@
    ],
    [
     "silent:verify_math.py:47:ValueError",
-    4
+    6
    ],
    [
     "silent:endpoint.py:detect-api:URLError",
     1
    ]
   ],
-  "swallowed_total": 4873
+  "swallowed_total": 5775
  },
  "standards": [
   {
@@ -960,7 +965,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.8h",
+   "observed": "1.0h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1014,11 +1019,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "4,873",
+   "observed": "5,775",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T05:43:46"
+ "generated": "2026-08-23T05:53:48"
 }
