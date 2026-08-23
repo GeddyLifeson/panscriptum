@@ -312,6 +312,52 @@ def kill_stalled_job():
     return False, "stalled jobs found but no process matched: " + ", ".join(names)
 
 
+def kill_duplicate_jobs():
+    """Keep the OLDEST instance of each job and end the rest.
+
+    Oldest rather than newest deliberately: the first instance is the one that acquired whatever
+    state exists and has been writing it, and the duplicate is the accident. Killing the elder
+    would throw away the work.
+    """
+    import re as _re
+    import signal
+    try:
+        out = subprocess.run(
+            ["wmic", "process", "where", "name='python.exe'",
+             "get", "ProcessId,CreationDate,CommandLine", "/format:csv"],
+            capture_output=True, text=True, timeout=40).stdout
+    except Exception:
+        silence.note("foreman.py:dupes-list")
+        return False, "could not enumerate processes"
+
+    seen, killed = {}, []
+    for line in out.splitlines():
+        m = _re.search(r"src[\\/](\w+)\.py", line)
+        pid = _re.search(r",(\d+)\s*$", line.strip())
+        started = _re.search(r",(\d{14})", line)
+        if not (m and pid):
+            continue
+        job, p = m.group(1), int(pid.group(1))
+        if p == os.getpid() or job in DENYLIST:
+            continue
+        stamp = started.group(1) if started else "9" * 14
+        seen.setdefault(job, []).append((stamp, p))
+
+    for job, procs in seen.items():
+        if len(procs) < 2:
+            continue
+        procs.sort()                       # oldest first
+        for _stamp, p in procs[1:]:
+            try:
+                os.kill(p, signal.SIGTERM)
+                killed.append(job + ":" + str(p))
+            except Exception:
+                silence.note("foreman.py:dupes-kill")
+    if killed:
+        return True, "ended duplicate " + ", ".join(killed)
+    return True, "no duplicates found now"
+
+
 def run_catalogue_gap():
     """Catalogue coverage is short. Start the pass that closes it, now.
 
@@ -351,6 +397,10 @@ REMEDIES = {
     # A stall is now ACTED ON rather than reported. This is the entry whose absence let a
     # catalogue run sit on its first source for 28 minutes while the jobs standard read green.
     "every running job is advancing": [kill_stalled_job],
+    # Two supervisors is the worst duplicate of all: each starts the jobs the other is already
+    # running, and the single-instance guards inside those jobs then fight. Keep the oldest,
+    # which is the one holding the state, and end the rest.
+    "one instance of each job": [lambda: kill_duplicate_jobs()],
     # Unfinished work dispatches itself. Coverage short -> start the pass; and re-measure, so
     # the next round is judged against what is true rather than against a stale audit.
     "every source is fully catalogued": [run_catalogue_gap, run_completeness_audit],

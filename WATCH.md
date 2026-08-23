@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 5  ·  last run 2026-08-22 18:53
+round 6  ·  last run 2026-08-22 21:10
 
 ## Structure
 
@@ -8,17 +8,22 @@ round 5  ·  last run 2026-08-22 18:53
 - files that will not parse: **0** of 0 inspected
 - catalogued sources with no host: **17** Arcanum Worlds (Odyssey of the Dragonlords), Clockwork Angels (Rush), Curious DM
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
+- MORE THAN ONE INSTANCE RUNNING: **2** overnight.py: 2 processes
 
 ## What the model found in the code
 
-**5 open** (3 high). Newest first.
+**7 open** (4 high). Newest first.
 
+- **chain.py** `chunk[min(i, len(chunk) - 1)]` — [HIGH] The code incorrectly attributes outcomes to sentences based on an assumption about the model's behavior, leading to misattribution of outcomes to incorrect sentences.
+  - says: The model is handed eight sentences and told that skipping is "the common and correct answer", so the two lists are almost never the same length. Every outcome 
 - **autostart.py** `sys.exit(main())` — [HIGH] exit with the return value of main() but discard any exception it raises
   - says: exit with the return value of main()
 - **build_terminal.py** `place` — [HIGH] The function uses a fixed arc fraction (0.08 and 0.92) to determine the span of each child node's wedge, which does not properly account for the total available arc. This causes in
   - says: The function recursively lays out nodes in a radial tree with the given root at the center, distributing child nodes around the circle based on weighted arcs pr
 - **assay.py** `interval` — [HIGH] The while loop condition checks `any(abs(v - centre) > interval for v in vals)`, but the loop body increases `interval` by 0.01 each time. However, the `interval` is rounded to 2 d
   - says: The interval must cover every signed reading, enforced by a while loop that increases interval until all readings are within bounds.
+- **completeness.py** `silence.note` — [MEDIUM] The code does not actually log anything, as `silence.note` is never called.
+  - says: Logs a note when category_size fails.
 - **backfill.py** `missing` — [MEDIUM] Truncated by cap if provided
   - says: Ranked by article size so the deepest arrive first if this is ever interrupted, but NOT truncated: every character the wiki lists is a character the library sho
 - **assay.py** `SIGMA_MAX` — [MEDIUM] SIGMA_MAX is defined as 9.9 / sqrt(12), which is correct for the standard deviation of a uniform distribution over [0.0, 9.9], but this value is used as a hard ceiling for uncertai
