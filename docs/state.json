@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 05:33:44",
+ "at": "2026-08-23 05:43:46",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 358,
+     "left": 357,
      "cap": 500,
-     "frac": 0.716
+     "frac": 0.714
     },
     {
      "name": "rpm",
-     "left": 20,
+     "left": 19,
      "cap": 20,
-     "frac": 1.0
+     "frac": 0.95
     }
    ],
-   "worst": 0.716
+   "worst": 0.714
   },
   {
    "bucket": "cohere:free",
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 16,
+     "left": 17,
      "cap": 20,
-     "frac": 0.8
+     "frac": 0.85
     }
    ],
    "worst": 0.0
@@ -692,12 +692,12 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 113,
-  "per_hour": 452,
+  "calls": 114,
+  "per_hour": 456,
   "buckets": [
    {
     "bucket": "openrouter:free",
-    "calls": 49,
+    "calls": 53,
     "ok": 0
    },
    {
@@ -707,21 +707,16 @@
    },
    {
     "bucket": "ollama:llama3.1:latest",
-    "calls": 13,
+    "calls": 12,
     "ok": 0
    },
    {
     "bucket": "ollama:qwen2.5:14b",
-    "calls": 13,
+    "calls": 12,
     "ok": 0
    },
    {
     "bucket": "cloudflare:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "hyperbolic:free",
     "calls": 1,
     "ok": 0
    }
@@ -761,7 +756,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 0.7
+   "age_h": 0.8
   },
   "phases": [
    {
@@ -845,11 +840,11 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    2867
+    3542
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    952
+    1152
    ],
    [
     "silent:endpoint.py:fetch_raw-http:HTTPError",
@@ -868,14 +863,14 @@
     1
    ]
   ],
-  "swallowed_total": 3998
+  "swallowed_total": 4873
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 452,
+   "observed": 456,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -965,7 +960,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.7h",
+   "observed": "0.8h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1019,11 +1014,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "3,998",
+   "observed": "4,873",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T05:33:44"
+ "generated": "2026-08-23T05:43:46"
 }
