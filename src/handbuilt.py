@@ -56,6 +56,206 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 OUT = os.path.join(HERE, "data", "HANDBUILT_ASSAYS.json")
 
 ROSTER = {
+ # Not a joke, and not a fiction either. Charter Part Three: "A treasure, an institution, an
+ # event and a law of nature all have a scale of presence; most of them have no threat at all."
+ # An institution is assayable BY CONSTRUCTION under the presence thesis, and would not have
+ # been under the threat one -- which is the clearest demonstration available of what changed
+ # when the anchor moved. Provenance is marked [record] throughout: this is the public record,
+ # not a mined wiki, and the sheet says so rather than borrowing the authority of a citation
+ # format it has not earned.
+ "The Internal Revenue Service": dict(
+  anchor="M1", host="(the public record)", epoch="post-FATCA, 2010 onward",
+  why_missed="not a fiction, and the Acquisitions Roll is a roll of fictions. The instrument "
+             "has no objection to it; the collection policy does.",
+  presence="A nation, pervaded rather than merely occupied. Almost every adult and every "
+           "business in the United States appears in its records annually, and the reach does "
+           "not stop at the border: the US is one of a bare handful of countries that taxes its "
+           "citizens on worldwide income regardless of where they live, and FATCA obliges "
+           "FOREIGN financial institutions to report on American account holders. Its presence "
+           "is a nation's population, wherever on Earth that population happens to stand.",
+  axes=dict(
+   ruin=(5.0, "Can levy wages and seize bank accounts administratively, without first suing "
+              "anyone. Total against an individual, negligible against a structure", "record"),
+   continuity=(9.0, "The office dates to 1862 and has outlasted every administration, party and "
+                    "constitutional argument raised against it since", "record"),
+   celerity=(1.5, "Correspondence measured in months and appeals in years. The slowest thing on "
+                  "any sheet in this library", "record"),
+   reach=(9.0, "Worldwide taxation of citizens by residence-independent rule, plus FATCA "
+               "compelling banks in other sovereign states to report on its behalf", "record"),
+   transgression=(7.0, "In a deficiency case the Commissioner's determination is presumed "
+                       "correct and the taxpayer carries the burden -- the ordinary direction of "
+                       "proof runs backwards inside its own forum", "record"),
+   sustain=(9.5, "Funded by the activity it exists to perform. It cannot run out of the thing "
+                 "it collects", "record"),
+   vector=(2.0, "It does not travel anywhere. It summons, and things come to it", "record"),
+   volition=(2.0, "It wants nothing. It executes statute written elsewhere, and changes course "
+                  "only when Congress says so", "record"),
+   acumen=(6.5, "Selects audits from returns algorithmically, at a scale no human review could "
+                "reach", "record"),
+   discernment=(8.5, "Third-party information returns mean it is told about most income "
+                     "independently of the person earning it. It largely knows the answer "
+                     "before it asks the question", "record"),
+   suasion=(9.0, "THE HIGHEST SCORE ON THIS SHEET, AND THE LEAST EXPECTED. The overwhelming "
+                 "majority of what it collects arrives voluntarily, filed on time, by people "
+                 "against whom no enforcement action is ever taken. An entire nation performs "
+                 "an elaborate annual ritual on its word alone", "record"))),
+
+ # The one sheet here that REFUSES most of its own axes. Zalama never acts on-page: his entire
+ # record is 2,310 characters, and everything known about him is known through the thing he
+ # built. Charter Part Three's answer to that is a STATUS, not a guess -- an axis with no
+ # evidence takes `unestimable` and the interval widens to say so. Every other entity in this
+ # file scores eleven axes; this one scores five, and its published interval is four times
+ # wider as a direct result. That is the instrument being honest about a thin record rather
+ # than manufacturing a number to fill the row.
+ "Zalama": dict(
+  anchor="M8", host="dragonball.fandom.com", epoch="the Dragon God, before recorded history",
+  why_missed="not catalogued; his own page is 2,310 chars with a single feat. The scale "
+             "evidence lives on the pages of the THINGS HE MADE, and nothing joins an artificer "
+             "to his artifacts.",
+  presence="Known entirely by his works, and his works are the highest-leverage objects in that "
+           "cosmology. He made 'a set of seven PLANET-SIZED Dragon Balls... the first known set "
+           "of Dragon Balls to be created, predating the creation of the Namekian Dragon Balls', "
+           "one of which is disguised as the Nameless Planet that gods hold tournaments on. What "
+           "they summon can restore SEVEN ERASED UNIVERSES and 'over trillions of beings' -- it "
+           "undoes the Omni-King's own erasures. An instrument that operates on universes as "
+           "objects places its maker above the scale of one.",
+  axes=dict(
+   ruin=("unestimable", "He is never shown destroying anything. His instrument could -- 'Beerus "
+                        "noted that he could have wished the dragon to destroy the universe if "
+                        "he wanted to' -- but that is Beerus's wish, not Zalama's act", "wiki"),
+   continuity=("unestimable", "No death, no injury, no threat is on record. There is nothing to "
+                              "measure and inventing a 9 would be a fabrication", "wiki"),
+   celerity=("unestimable", "Never depicted acting at all", "wiki"),
+   reach=(9.5, "Seven planet-sized bodies, 37,196 km across each, scattered so widely that one "
+               "of them passes for a planet; and the wish they carry 'brought back over "
+               "trillions of beings from seven erased universes'", "wiki"),
+   transgression=(9.5, "His engine reverses erasure by the Omni-King -- the one act in that "
+                       "cosmology stated to be final. The Grand Minister must address it 'in "
+                       "the language of the gods'", "wiki"),
+   sustain=(9.0, "The balls predate the Namekian set and are still working; they turn to stone "
+                 "and recharge rather than expiring", "wiki"),
+   vector=("unestimable", "Never shown travelling, or anywhere", "wiki"),
+   volition=("unestimable", "He built the thing and left. No want of his is recorded", "wiki"),
+   acumen=(8.5, "'He shaped the balls to be the size of planets, about 37,196 kilometres in "
+                "circumference' -- and hid the seventh as a planet. The design outlived every "
+                "civilisation that uses it", "wiki"),
+   discernment=("unestimable", "No perception attributed to him anywhere", "wiki"),
+   suasion=(8.0, "Two Gods of Destruction and two angels go looking for his handiwork; the "
+                 "Tournament of Power's prize is a wish on it. Gods organise expeditions around "
+                 "objects he left behind", "wiki"))),
+
+ "Molecule Man": dict(
+  anchor="M9", host="marvel.fandom.com", epoch="Secret Wars (2015), post-Beyonder absorption",
+  why_missed="not catalogued under either name, and 'Molecule Man' is a 3,688-byte "
+             "disambiguation. The real page is 'Owen Reece (Earth-616)', 61,587 chars.",
+  presence="He is not present IN the multiverse. He is present AS a term of it, in every "
+           "reality at once: 'They created the Molecule Man as A SINGULARITY, BEING THE SAME IN "
+           "EVERY REALITY, to have the function of a bomb, which would destroy his universe if "
+           "he died.' Both the death and the rebirth of a multiverse ran through him -- his "
+           "selves' deaths 'caused the Multiverse to contract, resulting in the incursions', and "
+           "afterwards he 'was crucial in the restoration of the Multiverse as the Eighth "
+           "Cosmos'. A being who remakes multiverses is not measured at the scale of one.",
+  axes=dict(
+   ruin=(9.5, "'They planned to kill all of the Molecule Men at the same time in 25 years to "
+              "destroy the entire Multiverse' -- he IS the ordnance, and the partial detonation "
+              "collapsed the Seventh Cosmos", "wiki"),
+   continuity=(9.0, "Survived the end of one multiverse and walked into the next; 'split himself "
+                    "in the process' rather than dying", "wiki"),
+   celerity=(5.0, "Never contests tempo. He alters the terms of the fight instead", "canon"),
+   reach=(9.5, "'As the Molecule Man powered up Reed's new Multiverse, he placed a sliver of The "
+               "Maker in every reality' -- one act, every universe", "wiki"),
+   transgression=(9.5, "'He rewrote some of Earth-616's history to fit Miles Morales in it.' "
+                       "Editing which history a universe HAD, as a courtesy", "wiki"),
+   sustain=(9.0, "'Nigh-Omnipotence... so powerful that Galactus has ever' -- no clock, no cost, "
+                 "no state to hold", "wiki"),
+   vector=(8.0, "Moves between realities and pocket dimensions at will; travelled back in time "
+                "with Doom to reach his other selves", "wiki"),
+   volition=(6.0, "Made as a weapon by others and spent his history being acted upon -- by the "
+                  "Beyonders, by the Beyonder, by Doom. Enormous power, borrowed purpose", "wiki"),
+   acumen=(6.5, "Worked out the Beyonders' design and conspired with Doom to sabotage it, then "
+                "misjudged the sabotage badly enough to collapse a multiverse", "wiki"),
+   discernment=(6.0, "Saw the plan; did not see what killing his other selves would do", "wiki"),
+   suasion=(7.0, "Doom's indispensable partner in building and running Battleworld, and the one "
+                 "being Doom could not simply overrule", "wiki"))),
+
+ "Rune King Thor": dict(
+  anchor="M7", host="marvel.fandom.com", epoch="Rune King, Ragnarok (Thor Vol 2 80-85)",
+  why_missed="the strongest Thor has no page of his own -- he is a passage inside a "
+             "171,750-character article filed under the base character, so the miner surfaced "
+             "Silver Age material and this arc never separated out.",
+  presence="Yggdrasil and everything hanging from it, including the things that were feeding on "
+           "it from outside. Having hung on the World Tree and taken the runes, he sought out "
+           "Those Who Sit Above in Shadow -- the gods ABOVE the Asgardian gods, who 'had "
+           "manipulated Asgard into the repeating cycle of Ragnarok, feeding on the energies "
+           "released by the deaths and rebirths of the gods' -- 'and gave his life to destroy "
+           "them.' He did not win a war; he ended a cosmological cycle that had always run.",
+  axes=dict(
+   ruin=(8.5, "Destroyed Those Who Sit Above in Shadow outright, an order of beings above his "
+              "own pantheon", "wiki"),
+   continuity=(8.0, "Gave his life to do it and returned; and 'overpowered M.Y.T.H.O.S, who had "
+                    "assimilated the full power of Yggdrasill, even after the Odin-Force had "
+                    "been stripped from Thor'", "wiki"),
+   celerity=(7.5, "God-tier tempo, never his distinguishing axis", "canon"),
+   reach=(8.5, "'His cries as a newborn created storms that shook the world tree AND EVERY REALM "
+               "IN ITS BRANCHES'; the Odin-Force operates 'across all the infinite planes of "
+               "reality'", "wiki"),
+   transgression=(9.0, "The runes are the writing the cosmos is made of. He broke an eternal "
+                       "cycle -- Ragnarok stopped being a law and became an event that had "
+                       "happened", "canon"),
+   sustain=(7.0, "The Odin-Force is his to spend and is spent; the state is bought with an eye, "
+                 "a hanging and a life", "canon"),
+   vector=(7.5, "Bifrost and the branches of Yggdrasil; moves between realms as a matter of "
+                "course", "wiki"),
+   volition=(9.5, "He hangs himself on the World Tree and gives up an eye for knowledge, then "
+                  "spends the resulting life to kill the authors of his people's suffering. The "
+                  "highest volition in the library, and it is not close", "canon"),
+   acumen=(8.5, "Odin's wisdom plus the runes: he identifies WHO has been farming Asgard's "
+                "deaths across all of history, which nobody had managed in any prior cycle",
+           "wiki"),
+   discernment=(9.0, "Runic omniscience -- he sees the whole loop, from outside it", "canon"),
+   suasion=(7.0, "Accepted the throne and the Odinpower, and became 'more distant and less "
+                 "empathetic' for it. His authority is total and his warmth is the cost", "wiki"))),
+
+ "The Sentry": dict(
+  anchor="M4", host="marvel.fandom.com", epoch="Post-reveal, New Avengers through Siege",
+  why_missed="NOTHING missed it -- catalogued, mined, 94,809 chars, 10 clean feats. The only "
+             "one of these four the machine could have assayed on its own, and it never got a "
+             "turn because 21,614 entities are queued ahead of nothing.",
+  presence="A planet and its moon. The reputation says otherwise -- 'the hero with the power of "
+           "a million exploding suns' -- but reputation is not extent, and his cited acts stop "
+           "at his own system: he shatters the moon, he erases himself from the mind of every "
+           "being on Earth, he trades blows with Galactus and Terrax without deciding anything "
+           "above his own sky. The Void's stated goal is 'destroying the entire universe and "
+           "more', and a goal is not a feat.",
+  axes=dict(
+   ruin=(7.5, "'Shattering the entire moon to reveal the Void's whereabouts and then kill him "
+              "easily by ripping him apart'; 'levelling whole city blocks'", "wiki"),
+   continuity=(8.5, "'When the Scarlet Witch rewrote the history of reality, the Sentry was able "
+                    "to resist and retain some memories of his life in the original reality' -- "
+                    "he persists through a rewrite of reality itself", "wiki"),
+   celerity=(5.0, "The wiki's own conservative figure, and it is modest: 'fast enough to move at "
+                  "orbital velocity (5 miles a second)'", "wiki"),
+   reach=(6.5, "'Able to erase himself from the memories of every being on the planet' -- "
+               "planetary reach, applied to every mind at once", "wiki"),
+   transgression=(8.5, "Memory erasure across a whole world including his own mind, memory "
+                       "implantation into another man's head, and resistance to a reality "
+                       "rewrite. He edits the record of what happened", "wiki"),
+   sustain=(6.0, "No clock on the power, but it is hostage to his psychiatric state and has "
+                 "failed him at every decisive moment on record", "canon"),
+   vector=(4.5, "Flight to orbit; no passage above his own system", "wiki"),
+   volition=(2.5, "THE AXIS THAT DEFINES HIM, AND IT IS NEAR THE FLOOR. His will is the thing "
+                  "that fails. He had his own existence erased from every mind INCLUDING HIS "
+                  "OWN to keep himself in check, and the Void is nothing but his own volition "
+                  "turned against him", "wiki"),
+   acumen=(3.5, "'This virus created delusions that if the Sentry used his powers, a devil would "
+                "appear' -- and he believed it. Agoraphobic and deceived through most of his "
+                "record", "wiki"),
+   discernment=(3.0, "He cannot tell what is real. That is not a weakness of the character, it "
+                     "IS the character, and it sits two points below a man who catches bullets",
+                "canon"),
+   suasion=(5.5, "The world's most beloved hero in a timeline nobody remembers; 'the Sentry's "
+                 "former friends assembled to defend him and the city'", "wiki"))),
+
  "The Black Winter": dict(
   anchor="M8", host="marvel.fandom.com", epoch="Thor Vol 6, the Herald of Thunder",
   why_missed="never catalogued, and its page title carries a DOUBLE parenthetical -- "

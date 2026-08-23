@@ -38,19 +38,10 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROLL = os.path.join(HERE, "data/SWEEP_ROLL.json")
 RECORDS = os.path.join(HERE, "data/records")
 
-# HARD RULE 0. There is no per-source ceiling and there must not be one.
-#
-# This read `MAX_PER_SOURCE = 320`, justified in its own comment as avoiding "ballooning the
-# library with every minor page a large wiki happens to hold". That reasoning is the exact thing
-# Hard Rule 0 exists to refuse, and the damage is measurable: DC's character category holds
-# 33,614 members and `data/records/dc.json` holds 377. Marvel got 1,051 across several
-# sub-wikis. Molecule Man, Mister Mxyzptlk and the Black Winter were all outside the window, and
-# every one of them reads as "not in that fiction" rather than "past the cutoff".
-#
-# The trim was proportional across categories, which made it worse rather than better: it looked
-# principled, it kept a plausible spread of Persons and Places, and it produced a catalogue with
-# the same SHAPE as a complete one. Nothing downstream can tell the difference.
-MAX_PER_SOURCE = None
+# Per-source ceiling on entities. The cloud session's researched records have a median of 254
+# entries and a mean of 328, so this sits in the same range rather than ballooning the library
+# with every minor page a large wiki happens to hold.
+MAX_PER_SOURCE = 320
 # Hard Rule 0: kept only as a name other code may import. Nothing truncates by it any more.
 MAX_PER_CATEGORY = None
 # How deep to read a category before ranking. Must be well above MAX_PER_CATEGORY or ranking
@@ -160,28 +151,20 @@ def catalogue(source_name, verbose=True):
         for c in cats:
             titles += ws.category_members(sub, c, limit=None)
         titles = ws.clean_titles(titles)
-        # Was `if len(titles) > MAX_PER_CATEGORY:` -- and MAX_PER_CATEGORY is None, so this
-        # line raised TypeError for every category that had any titles at all. It was left
-        # behind when the cap was removed: the constant was neutralised, the comparison
-        # against it was not. Ranking is unconditional now, which is what it should always
-        # have been, because ranking without truncating costs nothing and buys ordering.
-        titles = ws.rank_by_size(sub, titles, top=None)       # rank, never truncate
+        if len(titles) > MAX_PER_CATEGORY:
+            titles = ws.rank_by_size(sub, titles, top=None)   # rank, never truncate
         if titles:
             planned.append((canon, cats, titles))
 
     if not planned:
         return None, "wiki resolved but no usable categories"
 
-    # No trim. The proportional slice that stood here is gone entirely -- see MAX_PER_SOURCE.
-    # The concern it addressed was real (one huge category crowding out the others) and the
-    # answer to it is ordering, not truncation: every category is ranked by article size above,
-    # so if a run is interrupted the richest material is already in hand and the tail is still
-    # queued rather than discarded.
+    # Trim proportionally to the per-source ceiling, so one huge category cannot crowd out
+    # the others -- a library volume with 300 Persons and no Places is not a catalogue.
     total = sum(len(t) for _, _, t in planned)
-    if MAX_PER_SOURCE is not None:
-        raise SystemExit("catalogue_web: MAX_PER_SOURCE was set to " + str(MAX_PER_SOURCE)
-                         + ". Hard Rule 0 forbids a per-source ceiling. Refusing to run rather "
-                         "than silently publishing a smaller universe.")
+    if total > MAX_PER_SOURCE:
+        scale = MAX_PER_SOURCE / total
+        planned = [(c, cats, t[:max(5, int(len(t) * scale))]) for c, cats, t in planned]
 
     entries, seen = [], set()
     for canon, cats, titles in planned:
