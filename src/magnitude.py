@@ -547,7 +547,9 @@ def _split_gate(got, cand):
     for ax, v in (got.get("axes") or {}).items():
         sc, ft = v.get("score"), (v.get("feat") or "").strip()
         own = {r["feat"] for r in (cand.get(ax) or [])}
-        if isinstance(sc, (int, float)) and ft and any(ft in o or o in ft for o in own):
+        if isinstance(sc, (int, float)) and ft and any(ft in o for o in own):
+            # containment one way ONLY: a trimmed copy of a real candidate passes; a fabricated
+            # wrapper AROUND a real candidate (o in ft) is the fabrication direction and fails
             scores[ax] = max(0.0, min(9.9, float(sc)))
             sheet[ax] = ft
         elif isinstance(sc, (int, float)):
@@ -638,7 +640,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
         return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
                 "reason": ("epoch required for this source and the model returned "
                            + repr(final_epoch or "nothing") + "; retried next run"),
-                "transport_tried": used}
+                "prompt_chars": len(prompt), "transport_tried": used}
 
     anchor = got.get("anchor") if got.get("anchor") in A.LADDER else "M0"
     if ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
@@ -660,6 +662,18 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             retry = _split_assay(c, entity, cand, epoch, head_note=epoch_note)
             if retry is not None:
                 got, used = retry, "split-retry"
+                # THE RETRY IS A NEW ANSWER AND IS HELD TO EVERY GATE THE FIRST ONE WAS.
+                # The first draft validated the epoch on the ORIGINAL got and then let the
+                # retry replace it -- so a junk one-shot with a plausible epoch could pass the
+                # mandate, and the published accession would carry the junk answer's epoch on
+                # the retry's sheet. Re-derive, re-validate, re-clamp.
+                final_epoch = epoch or (got.get("epoch") or "").strip()
+                if not ID.epoch_acceptable(host, final_epoch):
+                    return {"entity": entity, "host": host, "result": None,
+                            "status": "DEFERRED",
+                            "reason": ("epoch required; the split retry returned "
+                                       + repr(final_epoch or "nothing") + "; retried next run"),
+                            "prompt_chars": len(prompt), "transport_tried": used}
                 anchor = got.get("anchor") if got.get("anchor") in A.LADDER else anchor
                 if ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
                     anchor = ceiling[1]

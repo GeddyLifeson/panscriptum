@@ -84,7 +84,10 @@ def running(fragment):
             if int(pid.strip()) == mine:
                 continue
         except ValueError:
-            silence.note("overnight.py:81")
+            # A non-integer pid field is a FORMATTING ROW of the probe's own output (header,
+            # blank, continuation), present on every call by construction. Noting it filed
+            # 35,806 ledger entries in two hours and buried every real failure class under a
+            # probe artefact. Routine expected structure is skipped, not recorded.
             continue
         # Normalise separators so a relative and an absolute invocation compare equal.
         if fragment in cmd.replace("\\", "/").split("/")[-1] or fragment in cmd:
