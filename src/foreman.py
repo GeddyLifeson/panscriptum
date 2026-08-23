@@ -80,6 +80,11 @@ DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards", "
 MAX_PATCH_LINES = 40
 
 
+# Remedy timeouts are bounded WELL UNDER the loop interval. A remedy allowed 1800
+# seconds inside a 20-minute round cannot finish in time by construction: it either
+# overruns the schedule or is killed, and either way the round it belongs to is
+# already stale when it returns. Long work belongs in a job the supervisor starts,
+# not in a repair the foreman waits on.
 def _run(args, timeout=900):
     return subprocess.run([PY] + args, capture_output=True, text=True, timeout=timeout,
                           env=ENV, cwd=HERE, encoding="utf-8", errors="replace")
@@ -139,7 +144,7 @@ def reprove_pool():
 def adopt_hosts():
     """Find a wiki for sources that have none. Entries with no host are uncitable forever."""
     r = _run([os.path.join(SRC, "hostcheck.py"), "--adopt", "--go", "--workers", "3"],
-             timeout=1800)
+             timeout=600)
     tail = [ln for ln in (r.stdout or "").splitlines() if "adopted" in ln]
     return bool(tail), (tail[-1] if tail else "no adoption line in output")
 
@@ -238,7 +243,7 @@ def recatalogue_models():
 def refresh_coverage():
     """Re-measure cited/settled. Stale figures understate the library and mislead every other
     standard that reads them."""
-    r = _run([os.path.join(SRC, "coverage.py")], timeout=1800)
+    r = _run([os.path.join(SRC, "coverage.py")], timeout=600)
     return r.returncode == 0, "coverage recomputed" if r.returncode == 0 else "coverage failed"
 
 
@@ -728,7 +733,22 @@ def round_once(dry=True, patch=False):
                 log["auto"].append({"standard": o["standard"], "remedy": fn.__name__,
                                     "dry": True})
                 continue
-            did, what = fn()
+            # A REMEDY MAY FAIL. IT MAY NOT TAKE THE FOREMAN WITH IT.
+            #
+            # `adopt_hosts` shells out to hostcheck with a 1800-second timeout, hit it, and
+            # raised TimeoutExpired straight through round_once and out of the `while True` in
+            # main(). The autonomous loop -- the thing whose entire purpose is to keep running
+            # unattended -- was ended permanently by one slow subprocess, and the log recorded a
+            # traceback rather than a work order.
+            #
+            # Every remedy is a repair attempt on a system already known to be faulty, so a
+            # remedy raising is ORDINARY, not exceptional. It is recorded as a failed remedy and
+            # the next one in the list is tried, which is exactly what the list is for.
+            try:
+                did, what = fn()
+            except Exception as e:
+                did, what = False, ("remedy raised " + type(e).__name__ + ": " + str(e)[:110])
+                silence.note("foreman.py:remedy-raised")
             print(f"   AUTO   {o['standard']} -> {fn.__name__}: {what}")
             log["auto"].append({"standard": o["standard"], "remedy": fn.__name__,
                                 "did": did, "result": what})
@@ -775,7 +795,18 @@ def main():
         print("=" * 88)
         print(f"FOREMAN  {time.strftime('%H:%M:%S')}" + ("" if a.go else "   (dry run)"))
         print("=" * 88)
-        round_once(dry=not a.go, patch=a.patch)
+        # The second layer, and it is not redundant with the per-remedy guard above. That one
+        # covers remedies; this one covers everything else a round touches -- reading the
+        # standards, the dashboard state, the overwatch ledger. A loop that can be ended by any
+        # of those is not a loop, it is a single run with optimistic scheduling.
+        try:
+            round_once(dry=not a.go, patch=a.patch)
+        except KeyboardInterrupt:
+            raise
+        except Exception as e:
+            silence.note("foreman.py:round-raised")
+            print("   ROUND FAILED: " + type(e).__name__ + ": " + str(e)[:200])
+            print("   the loop continues; the next round re-reads the standards from scratch")
         if not a.loop:
             return 0
         time.sleep(a.loop * 60)
