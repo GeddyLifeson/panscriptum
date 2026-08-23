@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 01:03:10",
+ "at": "2026-08-23 01:13:11",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -731,11 +731,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 599,
+   "done": 605,
    "total": 100623,
-   "detail": "235/40,418 entities  \u00b7  3,488 feats  \u00b7  0.03 chunks/s",
-   "warn": "1670 unanswered",
-   "eta_h": 988.6
+   "detail": "245/40,418 entities  \u00b7  3,525 feats  \u00b7  0.00 chunks/s",
+   "warn": "1740 unanswered",
+   "eta_h": 7862.5
   },
   {
    "name": "page roll",
@@ -761,7 +761,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 3.5
+   "age_h": 3.6
   },
   "phases": [
    {
@@ -802,7 +802,7 @@
  "watch": {
   "open": 6,
   "high": 3,
-  "rounds": 13,
+  "rounds": 14,
   "findings": [
    {
     "module": "build_terminal",
@@ -845,30 +845,14 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    4990
+    638
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    1677
-   ],
-   [
-    "silent:endpoint.py:fetch_raw-http:HTTPError",
-    288
-   ],
-   [
-    "silent:hostcheck.py:probe:URLError",
-    60
-   ],
-   [
-    "silent:publish.py:main:RuntimeError",
-    25
-   ],
-   [
-    "silent:scout.py:verify-http:HTTPError",
-    11
+    239
    ]
   ],
-  "swallowed_total": 7073
+  "swallowed_total": 877
  },
  "standards": [
   {
@@ -920,7 +904,7 @@
    "standard": "chunks nobody answered",
    "group": "read",
    "holds": false,
-   "observed": "1670 unanswered",
+   "observed": "1740 unanswered",
    "floor": "none",
    "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
    "severity": "high"
@@ -929,7 +913,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "988.6h",
+   "observed": "7862.5h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -938,7 +922,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "5.82",
+   "observed": "5.83",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -965,7 +949,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "3.5h",
+   "observed": "3.6h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1018,12 +1002,12 @@
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
-   "holds": false,
-   "observed": "7,073",
+   "holds": true,
+   "observed": "877",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T01:03:10"
+ "generated": "2026-08-23T01:13:12"
 }
