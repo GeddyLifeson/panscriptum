@@ -98,8 +98,23 @@ def snapshot():
 
 
 def git(*args, check=True):
+    # Two credential failures live in the environment, not the repo, and both are shed here.
+    #
+    # 1. GITHUB_TOKEN: assistant/CI sessions export a fine-grained PAT that gh prefers over the
+    #    user's own keyring login -- and that PAT has no write access to this repo, so every
+    #    push under it is a 403 reading "Permission to ... denied to GeddyLifeson", which looks
+    #    like an account problem and is actually an environment variable. The keyring account
+    #    (gho_ token) pushes fine. Remove the override and gh falls back to the login that works.
+    # 2. PATH: the supervisor's children inherit a logon PATH that does not always carry the
+    #    gh-cli directory, and git's credential call then fails with "gh.exe: No such file or
+    #    directory" from sh. The publish loop logged that every ten minutes -- the remote fell
+    #    122 commits behind while "synced N files" kept printing above it.
+    env = {k: v for k, v in os.environ.items() if k not in ("GITHUB_TOKEN", "GH_TOKEN")}
+    gh_dir = os.path.join(os.environ.get("LOCALAPPDATA", ""), "gh-cli", "bin")
+    if os.path.isdir(gh_dir) and gh_dir not in env.get("PATH", ""):
+        env["PATH"] = env.get("PATH", "") + os.pathsep + gh_dir
     r = subprocess.run(["git"] + list(args), cwd=SITE, capture_output=True,
-                       text=True, encoding="utf-8", errors="replace")
+                       text=True, encoding="utf-8", errors="replace", env=env)
     if check and r.returncode != 0:
         raise RuntimeError("git " + " ".join(args) + ": "
                            + (r.stderr or r.stdout).strip()[:220])

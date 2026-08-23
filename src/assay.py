@@ -619,17 +619,8 @@ def interval_from_hands(readings, attestation="Transcribed"):
 
     interval = round(math.sqrt(half_spread ** 2 + floor ** 2), 2)
 
-    # Constraint 1, enforced rather than hoped for. Was a `while` stepping interval by 0.01 until
-    # every reading fit -- correct, but its iteration count is bounded only by "however many
-    # hundredths the gap is" (measured over 200k random cases: up to 261 steps for a single
-    # interval), which is not a bound worth trusting on something published. Jump straight to the
-    # worst-covered reading's own hundredth instead, then one guaranteed top-up step covers the
-    # residual float noise a direct jump can leave (e.g. two 2-decimal readings averaging to a
-    # `centre` whose float representation is a hair off, so `needed` lands a few ULPs above the
-    # hundredth it mathematically equals) -- same result as the loop, at most one extra comparison.
-    needed = max(abs(v - centre) for v in vals)
-    interval = max(interval, round(needed, 2))
-    if needed > interval:
+    # Constraint 1, enforced rather than hoped for.
+    while any(abs(v - centre) > interval for v in vals):
         interval = round(interval + 0.01, 2)
 
     return {

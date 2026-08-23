@@ -693,39 +693,4 @@ python src/magnitude.py --calibrate     # against the charter's six published va
 8. Fellegi–Sunter for entity resolution (currently complete-linkage; F–S gives match probabilities
    and a principled threshold instead of an inspected cutoff).
 
-## 10. HOST CANDIDATES FOR THE "NEVER CATALOGUED" SIX (researched read-only, 2026-08-23)
-
-`WATCH.md` round 3 (15:03 on 8/22) reported **6** sources on the roll with zero catalogue
-records (`allsweep.py`'s `"on the roll but never catalogued"` check — `roll_src - set(recs)`,
-distinct from the 32 "catalogued but no host" sources). Its own display line truncates the
-`note()` detail string, so only 4½ names were legible in the file:
-
-```
-HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major [cut]
-```
-
-**This session cannot see `data/SWEEP_ROLL.json` or `data/weave_index` at all** — this checkout
-is `publish.py`'s export copy (see `.is-export-copy`; `src/silence.py` refuses to run pipeline
-code here on purpose), and it ships without `data/` entirely. So the exact 6th name, and
-confirmation that this list hasn't already moved since 15:03 on 8/22, need a live run:
-
-```bash
-python src/allsweep.py --quick    # reprints the untruncated "missing" list under RECONCILE
-```
-
-What could be worked out from the roll text and web research anyway, for whoever runs the
-above — `hostcheck.py --adopt` should confirm or correct these, not take them on faith:
-
-| roll entry | likely host | notes |
-|---|---|---|
-| HAWX (`all Tom Clancy` line, roll §VI) | `hawx.fandom.com` | dedicated wiki, 278 pages, covers both games, the novel, and the mobile spinoff. Distinct from the other Tom Clancy sub-franchises, which have their own wikis — don't let `--adopt`'s neighbour-candidate logic point this at e.g. `rainbowsix.fandom.com`. |
-| Heaven's Lost Property (roll §I) | `soranootoshimono.fandom.com` | the dedicated wiki, under the Japanese title (*Sora no Otoshimono*) — the English-title search surfaces several thinner cross-reference wikis (`versus-connections`, `animanga`, `neoencyclopedia`) first; those will score real but low `HELD`/`ABOUT` against this. |
-| Lost Mines of Phandelver (roll §XV, the Folder) | `forgottenrealms.fandom.com` | **§3a of this file already solved this one on 8/22 13:40** — it's the "wrong wiki" case (`lost.fandom.com`, the TV series *Lost*), corrected to Forgotten Realms with the mined roster purged (531 entries removed between this and the Witch Tradition). Its reappearance in the 15:03 "never catalogued" list is almost certainly that purge leaving it with zero records until the next `hostcheck --repair` + re-roll against the corrected host — not a new unhosted source. Re-sweep before doing anything else with it. |
-| Twilight Imperium (roll §XI) | `twilight-imperium.fandom.com` | dedicated wiki. `ti3reference.fandom.com` exists as a 3rd-edition-specific fork — worth checking which one `--adopt`'s HELD/ABOUT scoring prefers before locking it in, since the roll doesn't pin an edition. |
-| "major live-action Disney films" (roll §III, one umbrella roll line, not a title) | *(needs a decision, not a host)* | if `SWEEP_ROLL.json` really carries this phrase as a single literal source name (plausible — the roll itself lists it as one bullet, unlike the Pixar films which get their own line), no single wiki is "about" it by construction — it's an editorial category spanning many separate live-action films with separate wikis (`disney.fandom.com` covers general Disney content but isn't specific to this subset). Worth flagging to the owner as a curatorial question — split into per-film sources, or accept a broad host — same shape as the Extra Life / War-Thunder-composite / Witch-Tradition cases §3a already called "genuinely without a wiki that holds them," not a discovery failure. |
-| *(6th name, illegible in WATCH.md)* | unknown | `sorted()` on the roll set is plain ASCII order, so anything lowercase-initial (like `major live-action Disney films` above) sorts after every uppercase-initial roll name — the roll has several other lowercase-led entries (`the Elements Beyond`, `the Root Companions`, `the Sex Worker background`, `the Weaveshaper Ateliers`, `the Witch Tradition`, `swordmeow's Atavist`, `swecky's Nature Traditions`, `aurora_mods...`) any of which could be it. Don't guess a host for it sight unseen — rerun `allsweep.py --quick` first. |
-
-None of this was run against live data or verified with `hostcheck.py`'s HELD/ABOUT/ROSTER
-tests — treat the table above as candidates to feed `--adopt`, not as adopted hosts.
-
 ---
