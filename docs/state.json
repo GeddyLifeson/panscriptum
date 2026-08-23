@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 06:43:54",
+ "at": "2026-08-23 06:53:56",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -692,97 +692,97 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 121,
-  "per_hour": 484,
+  "calls": 52,
+  "per_hour": 208,
   "buckets": [
    {
-    "bucket": "openrouter:free",
-    "calls": 33,
-    "ok": 0
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 9,
+    "ok": 1
    },
    {
     "bucket": "ollama:local",
-    "calls": 24,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:qwen2.5:14b",
-    "calls": 10,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:llama3.1:latest",
     "calls": 8,
     "ok": 0
    },
    {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 7,
-    "ok": 3
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 3,
+    "bucket": "openrouter:free",
+    "calls": 5,
     "ok": 0
-   },
-   {
-    "bucket": "cohere:free",
-    "calls": 3,
-    "ok": 3
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 3,
-    "ok": 3
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 3,
-    "ok": 1
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 3,
-    "ok": 1
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 3,
-    "ok": 2
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 3,
-    "ok": 3
-   },
-   {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 3,
-    "ok": 3
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 3,
+    "calls": 4,
     "ok": 0
    },
    {
-    "bucket": "mistral:free",
-    "calls": 3,
-    "ok": 3
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 4,
+    "ok": 1
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 4,
+    "ok": 1
+   },
+   {
+    "bucket": "ollama:qwen2.5:14b",
+    "calls": 4,
+    "ok": 0
    },
    {
     "bucket": "nvidia:free",
-    "calls": 3,
-    "ok": 3
+    "calls": 2,
+    "ok": 2
    },
    {
     "bucket": "sambanova:free",
-    "calls": 3,
+    "calls": 2,
     "ok": 0
    },
    {
     "bucket": "zai:free",
-    "calls": 3,
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 1,
+    "ok": 1
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 1,
+    "ok": 1
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 1,
+    "ok": 1
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "mistral:free",
+    "calls": 1,
+    "ok": 1
+   },
+   {
+    "bucket": "ollama:llama3.1:latest",
+    "calls": 1,
     "ok": 0
    }
   ]
@@ -821,7 +821,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 1.8
+   "age_h": 2.0
   },
   "phases": [
    {
@@ -905,33 +905,37 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    1921
+    2525
    ],
    [
     "silent:wiki_source.py:301:URLError",
-    621
+    851
    ],
    [
     "silent:endpoint.py:fetch_raw-http:HTTPError",
-    84
+    144
    ],
    [
     "silent:hostcheck.py:probe:URLError",
-    16
+    30
    ],
    [
     "silent:verify_math.py:47:ValueError",
     2
+   ],
+   [
+    "silent:endpoint.py:detect-api:URLError",
+    1
    ]
   ],
-  "swallowed_total": 2644
+  "swallowed_total": 3553
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 484,
+   "observed": 208,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -967,7 +971,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "21% ok",
+   "observed": "17% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1021,7 +1025,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "1.8h",
+   "observed": "2.0h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1075,11 +1079,11 @@
    "standard": "swallowed failures not spiking",
    "group": "code",
    "holds": false,
-   "observed": "2,644",
+   "observed": "3,553",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T06:43:55"
+ "generated": "2026-08-23T06:53:56"
 }
