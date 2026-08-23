@@ -39,7 +39,6 @@ import os
 import re
 import socketserver
 import sys
-import threading
 import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -171,7 +170,8 @@ def throughput(minutes=15):
 def jobs():
     """The long-running work, each as a fraction of its own honest denominator."""
     out = []
-    r = _tail_match(os.path.join(STATE, "read_auto.log"), RE_READ)
+    import lognames as LN
+    r = _tail_match(os.path.join(STATE, LN.READ), RE_READ)
     if r:
         out.append({
             "name": "corpus read", "unit": "chunks",
@@ -180,7 +180,7 @@ def jobs():
                        f"{_num(r['feats']):,} feats  ·  {r['rate']} chunks/s"),
             "warn": (f"{_num(r['unans'])} unanswered" if _num(r["unans"]) else ""),
             "eta_h": float(r["eta"])})
-    roll = _tail_match(os.path.join(STATE, "roll_auto.log"), RE_ROLL)
+    roll = _tail_match(os.path.join(STATE, LN.ROLL), RE_ROLL)
     if roll:
         out.append({
             "name": "page roll", "unit": "entities",

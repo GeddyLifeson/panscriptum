@@ -32,7 +32,6 @@ sys.path.insert(0, HERE)
 
 import physics as PH       # noqa: E402
 import assay as A          # noqa: E402
-import feats as F          # noqa: E402
 
 
 # ==================================================================================================

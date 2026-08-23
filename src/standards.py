@@ -76,7 +76,7 @@ MIN_SETTLED = 0.55              # cited or read; the rest is unexamined
 MAX_BROKEN_MODULES = 0
 MAX_CORRUPT_FILES = 0
 MAX_HIGH_FINDINGS = 0
-MAX_PHASES_MISSING = 4          # 5-8 are known unbuilt; a fifth would be a regression
+MAX_PHASES_MISSING = 0          # all eight phases are built; ANY gap is a regression now
 MIN_ROLL_PROGRESS = 0.95        # the page roll should be essentially complete
 MAX_SWALLOWED_NEW = 2000        # a spike in swallowed failures is a fault somewhere upstream
 MAX_UNANSWERED_RECORDS = 0      # a cached record with unread chunks is permanently incomplete
@@ -114,7 +114,7 @@ JOB_WATCH = os.path.join(HERE, "state", "job_progress.json")
 # dispatched, because no floor said a shortfall was a fault. A cap had removed the characters
 # and the absence of a floor kept them removed.
 MIN_CATALOGUE_COVERAGE = 1.0
-MAX_STALE_MODEL_IDS = 0         # a retired model name makes a live provider read as dead        # a spike in swallowed failures is a fault somewhere upstream
+MAX_STALE_MODEL_IDS = 0         # a retired model name makes a live provider read as dead
 
 
 def _s(name, holds, observed, floor, order, severity="medium", group="general"):
@@ -486,6 +486,34 @@ def check(state=None):
     except Exception:
         silence.note("standards.py:catalogue-coverage")
 
+    # ------------------------------------------------------------------ derived data is FRESH
+    #
+    # Nothing enforces the dependency order recatalogue -> character sweep -> feats roll ->
+    # read -> assay. After the uncapped Marvel pull (1,051 -> 30,207 entries) every downstream
+    # stage kept reading the OLD sweep: magnitude.queue, hostcheck.entities_by_source and the
+    # chain's index all silently excluded 29,000 new entities while reporting normally. Stale
+    # derived data is this project's defect with a lineage: each stage is individually honest
+    # about inputs that are collectively out of date.
+    try:
+        import glob as _g
+        sweep_p = os.path.join(HERE, "data", "CHARACTER_SWEEP.json")
+        sweep_m = os.path.getmtime(sweep_p)
+        newest_rec = max((os.path.getmtime(f) for f in
+                          _g.glob(os.path.join(HERE, "data", "records", "*.json"))),
+                         default=0.0)
+        lag_h = (newest_rec - sweep_m) / 3600.0
+        out.append(_s(
+            "the character sweep is newer than the catalogue", lag_h <= 1.0,
+            ("fresh" if lag_h <= 1.0 else "%.1fh behind the newest record" % lag_h), "fresh",
+            "A record was re-catalogued after the sweep last ran, so every consumer of "
+            "CHARACTER_SWEEP.json -- the assay queue, the host fitness roster, the chain's "
+            "entity index -- is working from a cast list that no longer matches the shelves. "
+            "The remedy starts `sweep.py`; the feats roll and the reader then pick the new "
+            "entities up on their own next cycle.",
+            "high", "library"))
+    except Exception:
+        silence.note("standards.py:sweep-freshness")
+
     # ------------------------------------------------------------------ jobs that are ADVANCING
     #
     # Not "is it running". Whether it has produced a single byte since the last time anyone
@@ -550,6 +578,33 @@ def check(state=None):
         silence.note("standards.py:job-advance")
 
     # ------------------------------------------------------------------ the machine
+    # ------------------------------------------------------------------ the network
+    #
+    # On 2026-08-23 every fandom.com host dropped this machine's connections at the socket for
+    # hours -- an IP block earned by our own 100-req/s catalogue rate -- and NOTHING on the
+    # board said so. The recatalogue skipped DC as "no wiki resolved", the roll's failures piled
+    # into the swallowed-ledger, and the diagnosis took a person with curl. A network-shape
+    # fault deserves its own light: unreachable-with-DNS-working is a block, not an outage.
+    try:
+        import socket as _sk
+        try:
+            _sk.create_connection(("community.fandom.com", 443), timeout=8).close()
+            _fandom_ok = True
+        except OSError:
+            _fandom_ok = False
+        out.append(_s(
+            "fandom answers this machine", _fandom_ok,
+            "reachable" if _fandom_ok else "connections dropped at the socket",
+            "reachable",
+            "DNS resolves but the TCP connect times out on every *.fandom.com host while "
+            "Wikipedia answers normally: that is an IP block, usually earned by our own "
+            "request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, "
+            "catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed "
+            "at its polite value. The catalogue remedy is gated on this same probe.",
+            "high", "machine"))
+    except Exception:
+        silence.note("standards.py:fandom-reachable")
+
     try:
         import shutil as _sh
         free = _sh.disk_usage(HERE).free / 1e9

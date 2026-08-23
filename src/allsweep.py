@@ -38,8 +38,6 @@ Nothing here writes. It is safe to run at any time, including against live jobs,
 supervisor calls it so the answer is never more than one cycle old.
 """
 import argparse
-import ast
-import collections
 import glob
 import json
 import os

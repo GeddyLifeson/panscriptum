@@ -167,6 +167,16 @@ def _get(url, timeout=25, retries=2):
     That overlap is the entire speedup -- these calls are latency-bound, not CPU-bound.
     """
     for attempt in range(retries + 1):
+        # ONE throttle for the whole project (M6 of the audit). feats._throttle is per-host and
+        # Wikipedia-aware; this module's private global gap was the second, laxer system, and it
+        # is the one that earned the fandom.com IP block. The global MIN_GAP stays as the FLOOR
+        # under the shared throttle so two modules can never again disagree about politeness.
+        try:
+            import feats as _F
+            import urllib.parse as _up
+            _F._throttle(_up.urlparse(url).netloc)
+        except Exception:
+            silence.note("wiki_source.py:throttle-shared")
         with _rate_lock:
             gap = time.time() - _last_call[0]
             if gap < MIN_GAP:

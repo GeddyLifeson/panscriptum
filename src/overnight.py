@@ -35,6 +35,7 @@ import subprocess
 import sys
 import time
 import silence
+import lognames as LN
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(HERE, "src")
@@ -400,7 +401,7 @@ def main():
         start("overwatch", [os.path.join(SRC, "overwatch.py"), "--loop", "20", "--modules", "4"],
               "overwatch.log")
         roll = start("roll", [os.path.join(SRC, "feats.py"), "--roll", "--workers", "6"],
-                     "roll_auto.log")
+                     LN.ROLL)
 
         # 2. GPU: the model reads pages and extracts cited feats. The long pole; capped so the
         #    cycle keeps turning and coverage keeps being measured.
@@ -412,7 +413,7 @@ def main():
         # cloud meter runs dry the work falls back to the GPU instead of stopping.
         statuses.append(run("read", [os.path.join(SRC, "read.py"), "--run",
                                      "--workers", str(a.read_workers)],
-                            "read_auto.log", timeout_h=a.read_hours))
+                            LN.READ, timeout_h=a.read_hours))
         statuses.append(join(roll, timeout_h=4))
 
         # 3. GPU: absorb the new feats into ceilings and per-entry judgements. Runs after the

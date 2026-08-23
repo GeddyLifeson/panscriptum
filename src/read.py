@@ -32,7 +32,6 @@ produced, so a better reader does not make them less necessary; it makes them th
 standing between a fluent paraphrase and a printed measurement.
 """
 import argparse
-import collections
 import hashlib
 import json
 import os
@@ -247,8 +246,44 @@ def ensure_transport(verbose=True):
     return _CASCADE_OK
 
 
+# ------------------------------------------------------------------ the adaptive gate (M11)
+#
+# A ThreadPoolExecutor is sized once, at construction, from whatever the regime was at launch --
+# and the regime CHANGES underneath a long run. Last night a batch started on cloud settings
+# with twelve workers, four buckets shed to HTTP 402 mid-flight, and twelve threads went on
+# queueing against one local model, timing each other out for the rest of the run. The pool
+# cannot shrink; this gate can. Every model call passes through it, and when the regime reads
+# local/starved only GATE_LOCAL_N calls are in flight at once -- the surplus workers WAIT at the
+# gate instead of stacking onto the card. On cloud the wide gate never binds. The regime is
+# re-read lazily on a timer, so a mid-run recovery re-opens the gate without a restart.
+GATE_CLOUD_N = 12
+GATE_LOCAL_N = 2
+GATE_RECHECK_S = 120
+_GATE_CLOUD = threading.BoundedSemaphore(GATE_CLOUD_N)
+_GATE_LOCAL = threading.BoundedSemaphore(GATE_LOCAL_N)
+_GATE_STATE = {"at": 0.0, "regime": "cloud"}
+
+
+def _gate():
+    now = time.time()
+    if now - _GATE_STATE["at"] > GATE_RECHECK_S:
+        try:
+            import tuning as T
+            _GATE_STATE["regime"] = T.regime()
+        except Exception:
+            silence.note("read.py:gate-regime")
+        _GATE_STATE["at"] = now
+    return _GATE_CLOUD if _GATE_STATE["regime"] == "cloud" else _GATE_LOCAL
+
+
 def _ask(c, system, prompt, schema):
-    """One structured call, by whichever transport is available."""
+    """One structured call, by whichever transport is available -- through the adaptive gate."""
+    with _gate():
+        return _ask_ungated(c, system, prompt, schema)
+
+
+def _ask_ungated(c, system, prompt, schema):
+    """The transport ladder itself. Call _ask, not this, unless you are the gate."""
     if _TRANSPORT in ("auto", "cascade"):
         if ensure_transport(verbose=False):
             # RETRY ACROSS BUCKETS BEFORE SURRENDERING THE CHUNK TO THE GPU.
@@ -721,7 +756,6 @@ def queue(all_entries=True):
         for e in r["entries"]:
             if not all_entries and not (e.get("category") or "").startswith("Persons"):
                 continue
-            cp = FF.evidence_for.__self__ if False else None
             path = os.path.join(FF.CACHE, re.sub(r"[^A-Za-z0-9]+", "_", h)[:40],
                                 re.sub(r"[^A-Za-z0-9]+", "_", e["name"])[:80] + ".json")
             if not os.path.exists(path):
@@ -801,7 +835,6 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
             n = done["n"]
             if n % 5 == 0 or n == len(todo):
                 el = time.time() - t0
-                rate = n / max(el, 1e-9)
                 dead = ""
                 try:
                     import cascade_bridge as CB
@@ -918,7 +951,6 @@ def main():
         for f in out["feats"][:12]:
             print("   %-14s %s" % (f["axis"], f["feat"][:104]))
         return 0
-    set_transport(a.transport)
     if a.run:
         w = a.workers
         if isinstance(w, str) and w.strip().isdigit():

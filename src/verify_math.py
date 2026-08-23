@@ -18,7 +18,6 @@ import silence             # noqa: E402
 import physics as PH       # noqa: E402
 import assay as A          # noqa: E402
 import cosmography as C    # noqa: E402
-import feats as F          # noqa: E402
 import propagation as P    # noqa: E402
 
 PASS, FAIL = [], []
@@ -384,9 +383,11 @@ check("one point of any axis at M5 = band_resolution(M5)/10 bits",
       R.measure_bit_value("M5"), T.band_resolution("M5") / 10.0, tol=1e-12,
       note="was rung_description_length (cumulative), which made every M0 point worth zero bits; "
            "the anchor validation exposed the conflation")
-check("Ruin and Acumen carry identical bit-worth at the same band",
-      R.measure_bit_value("M7") == R.measure_bit_value("M7"), True,
-      note="same unit by X.6 §3 + X.10 §6; parity rate by the zero-parameter argument")
+check("bit-worth is a function of the BAND alone -- no per-axis table exists",
+      "axis" not in R.measure_bit_value.__code__.co_varnames, True,
+      note="the claim that Ruin and Acumen share a unit is structural: the function cannot "
+           "take an axis, so it cannot differ by one. (An earlier form of this check compared "
+           "measure_bit_value('M7') to itself -- a tautology that could never fail.)")
 check("the faculties carry real weight after the parity erratum",
       sum(A.FACULTY_WEIGHTS.values()), 3.0 / 11.0, tol=1e-12,
       note="was 0.0 — the one value a shared unit forbids. See assay.py's erratum note")
@@ -785,6 +786,8 @@ print("=" * 96)
 import profile as PR         # noqa: E402
 import genre as GN           # noqa: E402
 
+# A SAMPLE, and labelled as one: 400 profiles is plenty to prove round-tripping and far
+# cheaper than the full set. If decode ever breaks it breaks on the first row, not the 40,001st.
 _rows = PR.build_all(limit=400)
 check("every profile round-trips to its own address",
       all(PR.decode(r["profile"])["address"] == r["address"] for r in _rows), True,

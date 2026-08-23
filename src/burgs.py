@@ -51,10 +51,8 @@ and check the exponent against q = 1. Until that is done these are modelled, not
 import argparse
 import hashlib
 import json
-import math
 import os
 import sys
-import urllib.parse
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

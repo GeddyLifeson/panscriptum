@@ -25,9 +25,9 @@ PHASES
                  Persons of Importance shelved by Magnitude band then A-Z
   8  write       volume prose
 
-Phases 4-8 are declared here but not yet implemented; the orchestrator stops cleanly at the
-first unimplemented phase rather than pretending to run it. They are built one per custodian
-check-in, tested, while earlier phases are still grinding -- see handoff/AUTONOMOUS_PLAN.md.
+All eight phases are implemented (the IMPLEMENTED dict at the bottom is derived from PHASES,
+so writing `phase_<name>` IS registering it). The orchestrator still stops cleanly at any gap,
+should one ever reopen.
 
 STATE
   state/PIPELINE_STATE.json   phase progress + per-unit completion, the resume point
@@ -211,9 +211,47 @@ def records():
 
 
 def write_record(path, rec):
+    """Write a record back WITHOUT clobbering a concurrent writer's work.
+
+    The catalogue and the pipeline both write these files, and they write them WHOLE. The
+    pipeline loads its records at phase start and holds them for hours; the re-catalogue
+    rewrites the same file in the meantime -- marvel.json went from 1,051 entries to 30,207 in
+    one such pass. Writing the pipeline's stale in-memory copy over that would silently revert
+    twenty-nine thousand entries, and the loss would read as "the re-catalogue never ran".
+
+    So: if the file on disk has drifted (different entry count), this MERGES instead of
+    overwriting. The pipeline only ever changes per-entry judgment fields and the source-level
+    synthesis block, so those move onto the disk copy by entry name; every entry the disk
+    version has that this in-memory copy lacks is kept. The fast path -- no drift -- writes
+    directly, which is the common case.
+    """
+    merged = rec
+    try:
+        with open(path, encoding="utf-8") as f:
+            disk = json.load(f)
+        if len(disk.get("entries") or []) != len(rec.get("entries") or []):
+            by_name = {e.get("name"): e for e in rec.get("entries") or []}
+            for de in disk.get("entries") or []:
+                se = by_name.get(de.get("name"))
+                if not se:
+                    continue
+                for fld in ("category", "scale_note", "scale_note_rejected",
+                            "magnitude", "topic", "catalogued"):
+                    if fld in se:
+                        de[fld] = se[fld]
+            for key, val in rec.items():
+                if key != "entries":
+                    disk[key] = val
+            merged = disk
+            log(f"    write_record: {os.path.basename(path)} drifted on disk "
+                f"({len(rec.get('entries') or [])} -> {len(disk['entries'])} entries); merged")
+    except FileNotFoundError:
+        pass
+    except Exception:
+        silence.note("pipeline.py:write_record-merge")
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(rec, f, indent=2, ensure_ascii=False)
+        json.dump(merged, f, indent=2, ensure_ascii=False)
     os.replace(tmp, path)
 
 
@@ -747,16 +785,36 @@ def phase_entrypass(c, st):
 
 # ------------------------------------------------------------------------------- handoff
 
+_HANDOFF_CACHE = {"at": 0.0, "counts": None}
+HANDOFF_RECOUNT_S = 120
+
+
 def update_handoff(st):
     try:
-        recs = records()
-        total = sum(len(r["entries"]) for _, r in recs)
-        with_syn = sum(1 for _, r in recs if r.get("synthesis"))
-        catted = sum(1 for _, r in recs for e in r["entries"] if e.get("catalogued"))
+        # Re-parsing every record after EVERY unit was fine at 254 entries a source and is not
+        # fine now that marvel.json alone holds 30,207 -- the status file becomes the heaviest
+        # thing in the phase. The counts change slowly; the file only has to be roughly live.
+        import time as _t
+        if _HANDOFF_CACHE["counts"] and _t.time() - _HANDOFF_CACHE["at"] < HANDOFF_RECOUNT_S:
+            total, with_syn, catted, n_recs = _HANDOFF_CACHE["counts"]
+        else:
+            recs = records()
+            total = sum(len(r["entries"]) for _, r in recs)
+            with_syn = sum(1 for _, r in recs if r.get("synthesis"))
+            catted = sum(1 for _, r in recs for e in r["entries"] if e.get("catalogued"))
+            n_recs = len(recs)
+            _HANDOFF_CACHE.update(at=_t.time(), counts=(total, with_syn, catted, n_recs))
         with open(os.path.join(HERE, "data/SWEEP_ROLL.json"), encoding="utf-8") as f:
             roll = json.load(f)
         have = sum(1 for r in roll if r.get("entry_count", 0) > 0)
 
+        # The table is DERIVED from IMPLEMENTED, never hand-maintained. The hand-written
+        # version listed phases 4-8 as "to build" long after all eight existed, and this file
+        # is rewritten after every unit -- a stale table here is published continuously.
+        phase_rows = chr(10).join(
+            "| %d | `%s` | %s |" % (i, name,
+                                    "**built**" if i in IMPLEMENTED else "to build")
+            for i, name in enumerate(PHASES, 1))
         phase = st.get("phase", 1)
         name = PHASES[phase - 1] if 1 <= phase <= len(PHASES) else "?"
         fails = sum(len(v) for v in st.get("failed", {}).values())
@@ -778,24 +836,17 @@ def update_handoff(st):
 
 | | |
 |---|---|
-| Sources catalogued | **{have}/215** |
-| Records with entries | {len(recs)} |
+| Sources catalogued | **{have}/{len(roll)}** |
+| Records with entries | {n_recs} |
 | Total entries | **{total:,}** |
-| Sources with a ceiling nominated (phase 1) | {with_syn}/{len(recs)} |
+| Sources with a ceiling nominated (phase 1) | {with_syn}/{n_recs} |
 | Entries through the judgment pass (phase 2) | {catted:,}/{total:,} |
 
 ## Phase ladder
 
-| # | phase | state | what it does |
-|---|---|---|---|
-| 1 | `synthesis` | **built** | per-source power ceiling + magnitude band |
-| 2 | `entrypass` | **built** | per-entry category, band, topic, grounded scale_note |
-| 3 | `weave` | **built** | cross-source entity resolution + the onomasticon |
-| 4 | `chain` | to build | the Chain of Defeats; Bradley-Terry theta per component |
-| 5 | `cosmology` | to build | universe → multiverse → metaverse → xenoverse → hyperverse |
-| 6 | `history` | to build | *The History of the Omniverse* |
-| 7 | `shelve` | to build | the topical A–Z encyclopedia volumes |
-| 8 | `write` | to build | volume prose |
+| # | phase | state |
+|---|---|---|
+{phase_rows}
 
 Volumes are organised by **topic across the omniverse**, never by source IP.
 
@@ -885,10 +936,7 @@ def phase_chain(c, st):
         log(f"  identified: {res.get('identified')}  components: {len(res.get('components', []))}"
             f"  deviance/df: {res.get('deviance_per_df')}")
 
-    json.dump({"edges": [[a, b, n] for (a, b), n in edges.items()],
-               "unmatched": unmatched.most_common(40), "fit": res},
-              open(os.path.join(HERE, "data/CHAIN.json"), "w", encoding="utf-8"),
-              indent=1, ensure_ascii=False)
+    CH.write_result(edges, res, unmatched)   # one schema, one writer -- see chain.write_result
     st["done"].setdefault("chain", []).append("all")
     st["units_done"] += 1
     save_state(st)
@@ -1015,6 +1063,10 @@ def phase_history(c, st):
     TIER_ORDER = ("hyperverse", "xenoverse", "metaverse", "multiverse")
     # The shelf everything is measured from. The Concordance is a lightcone with an origin, and
     # this is it: the shelf the Communion keeps its register on.
+    # CONVENTION, and a soft one: the registry shelf is the alphabetically first charted
+    # source, which today is "2112 (Rush)". Nothing in the charter designates a registry shelf
+    # yet, and every lag below is RELATIVE to this origin -- consistent within a run, arbitrary
+    # across the doctrine. When the owner designates one, pin it here and every lag re-derives.
     REGISTRY_SHELF = sorted(tiersd)[0]
 
     def depth(stack):

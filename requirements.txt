@@ -2,3 +2,4 @@ requests>=2.31
 PyYAML>=6.0
 zstandard>=0.22
 tqdm>=4.66
+pyflakes>=3.0

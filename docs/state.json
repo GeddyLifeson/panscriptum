@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 15:09:45",
+ "at": "2026-08-23 15:21:14",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 2,
      "cap": 500,
-     "frac": 0.0
+     "frac": 0.004
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.004
   },
   {
    "bucket": "cohere:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 18,
+     "left": 21,
      "cap": 1000,
-     "frac": 0.018
+     "frac": 0.021
     },
     {
      "name": "rpm",
@@ -239,31 +239,11 @@
      "frac": 0.9231
     }
    ],
-   "worst": 0.018
+   "worst": 0.021
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
    "model": "gem-35-flash",
-   "unlimited": false,
-   "windows": [
-    {
-     "name": "rpd",
-     "left": 5,
-     "cap": 250,
-     "frac": 0.02
-    },
-    {
-     "name": "rpm",
-     "left": 1,
-     "cap": 2,
-     "frac": 0.5
-    }
-   ],
-   "worst": 0.02
-  },
-  {
-   "bucket": "gemini:models/gemini-3.6-flash",
-   "model": "gem-36-flash",
    "unlimited": false,
    "windows": [
     {
@@ -280,6 +260,26 @@
     }
    ],
    "worst": 0.024
+  },
+  {
+   "bucket": "gemini:models/gemini-3.6-flash",
+   "model": "gem-36-flash",
+   "unlimited": false,
+   "windows": [
+    {
+     "name": "rpd",
+     "left": 8,
+     "cap": 250,
+     "frac": 0.032
+    },
+    {
+     "name": "rpm",
+     "left": 1,
+     "cap": 2,
+     "frac": 0.5
+    }
+   ],
+   "worst": 0.032
   },
   {
    "bucket": "github:free",
@@ -308,15 +308,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 13663,
+     "left": 13643,
      "cap": 14400,
-     "frac": 0.9488
-    },
-    {
-     "name": "rpm",
-     "left": 29,
-     "cap": 30,
-     "frac": 0.9667
+     "frac": 0.9474
     },
     {
      "name": "tpd",
@@ -325,13 +319,19 @@
      "frac": 0.9972
     },
     {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
      "name": "tpm",
      "left": 6000,
      "cap": 6000,
      "frac": 1.0
     }
    ],
-   "worst": 0.9488
+   "worst": 0.9474
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -345,22 +345,22 @@
      "frac": 0.0
     },
     {
+     "name": "tpm",
+     "left": 5930,
+     "cap": 8000,
+     "frac": 0.7412
+    },
+    {
      "name": "tpd",
-     "left": 165353,
+     "left": 165597,
      "cap": 200000,
-     "frac": 0.8268
+     "frac": 0.828
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 28,
      "cap": 30,
-     "frac": 1.0
-    },
-    {
-     "name": "tpm",
-     "left": 8000,
-     "cap": 8000,
-     "frac": 1.0
+     "frac": 0.9333
     }
    ],
    "worst": 0.0
@@ -410,9 +410,9 @@
     },
     {
      "name": "tpd",
-     "left": 97975,
+     "left": 97127,
      "cap": 200000,
-     "frac": 0.4899
+     "frac": 0.4856
     },
     {
      "name": "rpm",
@@ -436,9 +436,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 124,
+     "left": 130,
      "cap": 200,
-     "frac": 0.62
+     "frac": 0.65
     },
     {
      "name": "rpm",
@@ -447,7 +447,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.62
+   "worst": 0.65
   },
   {
    "bucket": "hyperbolic:free",
@@ -502,9 +502,9 @@
     },
     {
      "name": "rpm",
-     "left": 22,
+     "left": 15,
      "cap": 30,
-     "frac": 0.7333
+     "frac": 0.5
     }
    ],
    "worst": 0.0
@@ -692,72 +692,72 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 695,
-  "per_hour": 2780,
+  "calls": 511,
+  "per_hour": 2044,
   "buckets": [
    {
     "bucket": "mistral:free",
-    "calls": 233,
-    "ok": 233
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 166,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 112,
-    "ok": 106
+    "calls": 290,
+    "ok": 290
    },
    {
     "bucket": "ollama:local",
-    "calls": 47,
-    "ok": 0
+    "calls": 49,
+    "ok": 16
    },
    {
     "bucket": "ollama:qwen2.5:14b",
-    "calls": 32,
+    "calls": 37,
+    "ok": 3
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 30,
     "ok": 0
    },
    {
     "bucket": "ollama:llama3.1:latest",
-    "calls": 18,
-    "ok": 8
+    "calls": 30,
+    "ok": 9
    },
    {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 16,
-    "ok": 0
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 21,
+    "ok": 12
    },
    {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 16,
-    "ok": 0
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 11,
+    "ok": 1
    },
    {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 14,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 14,
+    "bucket": "openrouter:free",
+    "calls": 11,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 13,
+    "calls": 10,
+    "ok": 1
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 10,
     "ok": 0
    },
    {
-    "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 12,
+    "bucket": "zai:free",
+    "calls": 9,
     "ok": 0
    },
    {
-    "bucket": "groq:qwen/qwen3.6-27b",
+    "bucket": "groq:openai/gpt-oss-120b",
     "calls": 2,
+    "ok": 1
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 1,
     "ok": 0
    }
   ]
@@ -766,11 +766,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 3837,
+   "done": 4110,
    "total": 99815,
-   "detail": "480/39,959 entities  \u00b7  23,817 feats  \u00b7  0.63 chunks/s",
+   "detail": "530/39,959 entities  \u00b7  25,128 feats  \u00b7  0.42 chunks/s",
    "warn": "",
-   "eta_h": 42.4
+   "eta_h": 63.9
   },
   {
    "name": "page roll",
@@ -796,7 +796,7 @@
    "read": 33322,
    "settled": 40632,
    "feats": 24707,
-   "age_h": 1.3
+   "age_h": 1.5
   },
   "phases": [
    {
@@ -832,7 +832,7 @@
     "built": true
    }
   ],
-  "readfeats": 474
+  "readfeats": 525
  },
  "watch": {
   "open": 0,
@@ -843,29 +843,29 @@
   "swallowed": [
    [
     "silent:cascade_bridge.py:deadline:None",
-    76
+    101
    ],
    [
     "silent:wiki_source.py:160:URLError",
-    38
+    57
    ],
    [
     "silent:wiki_source.py:229:URLError",
-    12
+    18
    ],
    [
     "silent:verify_math.py:47:ValueError",
     2
    ]
   ],
-  "swallowed_total": 128
+  "swallowed_total": 178
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
    "holds": true,
-   "observed": 2780,
+   "observed": 2044,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -883,7 +883,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "31% dry",
+   "observed": "28% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -900,8 +900,8 @@
   {
    "standard": "calls that succeed",
    "group": "pool",
-   "holds": false,
-   "observed": "50% ok",
+   "holds": true,
+   "observed": "65% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -919,7 +919,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "42.4h",
+   "observed": "63.9h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -928,7 +928,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "6.21",
+   "observed": "6.11",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -937,7 +937,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": true,
-   "observed": "3.8%",
+   "observed": "4.1%",
    "floor": "above 0",
    "order": "No chunk has completed. Check that read.py printed its transport banner and that the queue is not empty.",
    "severity": "high"
@@ -955,7 +955,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "1.3h",
+   "observed": "1.5h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1009,7 +1009,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "128",
+   "observed": "178",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1081,7 +1081,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.1h",
+   "observed": "0.3h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1099,7 +1099,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": true,
-   "observed": "7 running, all advancing",
+   "observed": "8 running, all advancing",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1183,25 +1183,25 @@
   },
   {
    "metric": "entities read",
-   "now": 474,
-   "delta": 183,
+   "now": 525,
+   "delta": 159,
    "minutes": 35,
    "stalled": false
   },
   {
    "metric": "chunks",
-   "now": 3837,
-   "delta": 1144,
+   "now": 4110,
+   "delta": 910,
    "minutes": 35,
    "stalled": false
   },
   {
    "metric": "standards met",
-   "now": 26,
-   "delta": 0,
+   "now": 28,
+   "delta": 2,
    "minutes": 35,
-   "stalled": true
+   "stalled": false
   }
  ],
- "generated": "2026-08-23T15:11:13"
+ "generated": "2026-08-23T15:23:21"
 }

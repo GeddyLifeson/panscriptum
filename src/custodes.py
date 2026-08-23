@@ -51,7 +51,6 @@ dict of attestation grades plus a coverage penalty -- a declared constant wearin
 clothes. After it, the ± is a MEASURED DISPERSION of ten independent readings, and its split into
 reducible and irreducible parts is computed rather than asserted.
 """
-import math
 import os
 import statistics
 import sys

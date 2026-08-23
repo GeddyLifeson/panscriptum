@@ -187,7 +187,6 @@ INAPPLICABLE = "n/a"
 #   NONE vs 0.0           -- a point versus a clamped bound. Same composite, different knowledge.
 NONE = "none"
 UNESTIMABLE = "unestimable"
-INAPPLICABLE = "n/a"
 
 # Reference energies, for converting described feats into joules. Every one is a real physical
 # quantity, which is the entire point: they mean the same thing in every fiction.

@@ -61,7 +61,11 @@ PAGE = os.path.join(DOCS, "index.html")
 COPY_DIRS = ("src", "prompts", "reference", "registry_terminal", "handoff")
 COPY_FILES = ("CLAUDE.md", "README.md", "config.yaml", "requirements.txt",
               "WATCH.md", "STATUS.md")
-SKIP_SUFFIX = (".pyc", ".presilence")
+# Backups and scratch copies never travel. The .pre* family is session backups of live modules
+# -- seven of them were sitting in src/ and being published to the PUBLIC repo because this
+# tuple only knew about two suffixes.
+SKIP_SUFFIX = (".pyc", ".presilence", ".prebandfix", ".precapfix", ".prefix", ".prepool",
+               ".preprobe", ".prewiden", ".prewindow", ".bak", ".tmp", ".orig")
 
 _SECRET = re.compile(
     r"(sk-[A-Za-z0-9_\-]{16,}|gsk_[A-Za-z0-9]{20,}|AIza[A-Za-z0-9_\-]{20,}|"

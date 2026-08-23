@@ -145,8 +145,13 @@ def adopt_hosts():
     """Find a wiki for sources that have none. Entries with no host are uncitable forever."""
     r = _run([os.path.join(SRC, "hostcheck.py"), "--adopt", "--go", "--workers", "3"],
              timeout=600)
-    tail = [ln for ln in (r.stdout or "").splitlines() if "adopted" in ln]
-    return bool(tail), (tail[-1] if tail else "no adoption line in output")
+    # The summary line always says "N adopted", including N=0 -- and a substring match on
+    # "adopted" reported that zero as a successful remedy. Only a non-zero count is an action.
+    import re as _re
+    m = None
+    for ln in (r.stdout or "").splitlines():
+        m = _re.match(r"([1-9]\d*) adopted", ln.strip()) or m
+    return bool(m), (m.group(0) + " host(s)" if m else "nothing adopted")
 
 
 def scout_hostless():
@@ -363,6 +368,23 @@ def kill_duplicate_jobs():
     return True, "no duplicates found now"
 
 
+def _fandom_reachable(timeout=8):
+    """Can this machine currently open a socket to fandom.com at all?
+
+    On 2026-08-23 the whole domain dropped our connections at the socket for a while (an IP
+    block earned by a 100-req/s catalogue pull). During such a window every fandom-facing job
+    fails on every request while burning its retry budget and PROLONGING the block -- and this
+    remedy, left ungated, would have re-dispatched the catalogue into it every round.
+    One cheap socket probe answers the only question that matters before starting hours of work.
+    """
+    import socket
+    try:
+        socket.create_connection(("community.fandom.com", 443), timeout=timeout).close()
+        return True
+    except OSError:
+        return False
+
+
 def run_catalogue_gap():
     """Catalogue coverage is short. Start the pass that closes it, now.
 
@@ -375,12 +397,29 @@ def run_catalogue_gap():
         import overnight as ON
         if ON.running("catalogue_web.py"):
             return True, "catalogue pass already running"
+        if not _fandom_reachable():
+            return False, ("fandom.com is dropping connections (IP block or outage); "
+                           "catalogue deferred rather than dispatched into it")
         ON.start("catalogue gap", ["src/catalogue_web.py", "--recatalogue", "--shortfall", "100"],
                  "recatalogue.log")
         return True, "started catalogue_web --recatalogue --shortfall 100"
     except Exception as e:
         silence.note("foreman.py:run_catalogue_gap")
         return False, "could not start the catalogue pass: " + str(e)[:90]
+
+
+def run_character_sweep():
+    """Rebuild CHARACTER_SWEEP.json so downstream stages see the re-catalogued cast."""
+    try:
+        import overnight as ON
+        import lognames as LN
+        if ON.running("sweep.py"):
+            return True, "character sweep already running"
+        ON.start("character sweep", ["src/sweep.py"], LN.SWEEP)
+        return True, "started sweep.py"
+    except Exception as e:
+        silence.note("foreman.py:run_character_sweep")
+        return False, "could not start the sweep: " + str(e)[:90]
 
 
 def run_completeness_audit():
@@ -419,6 +458,7 @@ REMEDIES = {
     # Unfinished work dispatches itself. Coverage short -> start the pass; and re-measure, so
     # the next round is judged against what is true rather than against a stale audit.
     "every source is fully catalogued": [run_catalogue_gap, run_completeness_audit],
+    "the character sweep is newer than the catalogue": [run_character_sweep],
     "no bucket pinned at rpm 1": [clear_learned_caps],
     "calls that succeed": [clear_learned_caps, reprove_pool],
     "model calls per hour": [clear_learned_caps, reprove_pool],

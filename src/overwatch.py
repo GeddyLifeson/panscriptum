@@ -54,12 +54,9 @@ The output is `WATCH.md`, written for a human to read in ten seconds, and `data/
 for the ledger.
 """
 import argparse
-import ast
-import glob
 import hashlib
 import json
 import os
-import subprocess
 import sys
 import time
 

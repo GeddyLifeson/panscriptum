@@ -30,7 +30,6 @@ import argparse
 import json
 import os
 import re
-import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROLL = os.path.join(HERE, "data/SWEEP_ROLL.json")

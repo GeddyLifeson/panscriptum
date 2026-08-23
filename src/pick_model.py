@@ -20,7 +20,6 @@ Usage:
                                                 # silently settling for a worse model
 """
 import argparse
-import json
 import os
 import re
 import sys

@@ -618,16 +618,11 @@ def purge(dry=True, only=None):
     adventure. Leaving them in would put fabrications in the library under the exact appearance
     of research, which is worse than the gap they would leave.
 
-    The rule is deliberately narrow, because deleting catalogue data on a heuristic is its own
-    way to lose a world:
-
-      the roster must never name its own fiction (the audit's finding), AND
-      the host that mined it must no longer be this source's host -- either repointed by
-      hostcheck or recorded unfit.
-
-    Both together mean an independent measurement already rejected that wiki for this source.
-    A roster that merely reads oddly, or one mined from a host still considered correct, is
-    reported and kept. Every purge is written to ROSTER_PURGES.json with what was removed, so
+    The safety here is the HUMAN, not a second automated condition. An earlier docstring
+    claimed the code also required the host to have been independently rejected; it never did
+    (the check was loaded and unused), and pretending a safeguard exists is worse than naming
+    the real one: nothing is purged except sources a person explicitly listed with --source,
+    after reading the roster. Every purge is written to ROSTER_PURGES.json with what was removed, so
     the gap it leaves is a recorded finding rather than a silence.
     """
     import feats as F
@@ -639,14 +634,6 @@ def purge(dry=True, only=None):
     except Exception:
         print("no roster audit on disk -- run --rosters first")
         return []
-    unfit = {}
-    if os.path.exists(UNFIT):
-        try:
-            with open(UNFIT, encoding="utf-8") as f:
-                unfit = json.load(f)
-        except Exception:
-            silence.note("hostcheck.py:purge-unfit")
-
     if not only:
         print("  --source is required: the audit shortlists, a person decides.")
         print("  Pass --source NAME (repeatable) to purge exactly those.")
@@ -757,6 +744,12 @@ def roster_audit(workers=8):
         silence.note("hostcheck.py:mined_host")
 
     def one(src):
+        if not by.get(src):
+            # An empty roster has already been purged. It cannot fail a test about its
+            # contents, and leaving the old verdict on file keeps a solved problem permanently
+            # red. (This sat AFTER the seen<MIN_PROBE return for a while -- unreachable, since
+            # an empty roster always trips that first.)
+            return None
         # The distinctive words in a source name are its PROPER NOUNS, not its longest words.
         # Ranking by length asked whether Pixar's roster mentions "films" and whether Gundam's
         # mentions "centuries", and flagged both as foreign when they answered no. Capitalisation
@@ -793,10 +786,6 @@ def roster_audit(workers=8):
             if any(t in body for t in toks):
                 hit += 1
         if seen < MIN_PROBE:
-            return None
-        if not by.get(src):
-            # An empty roster has already been purged. It cannot fail a test about its contents,
-            # and leaving the old verdict on file keeps a solved problem permanently red.
             return None
         return {"source": src, "host": host, "tokens": toks, "pages": seen,
                 "naming_source": hit, "rate": round(hit / seen, 3),
@@ -856,7 +845,10 @@ def adopt(dry=True, workers=4):
     print("")
 
     def one(src):
-        best = (0.0, None, "")
+        # (lift, rate, host, verdict). The first slot is LIFT and only lift -- an earlier
+        # version stored the RATE there and then compared other candidates' lift against it,
+        # so the units changed between iterations and a worse-lift host could win.
+        best = (0.0, 0.0, None, "")
         # The WHOLE candidate list, not its head. Wikipedia is deliberately ranked last -- it
         # answers for almost anything and must not win on names alone -- so a head-only scan
         # never reached it, and every pantheon and astrology source came back "no wiki" while
@@ -870,17 +862,17 @@ def adopt(dry=True, workers=4):
             # is a list, and every list this project wrote was eventually wrong.
             ok = r["verdict"] in ("holds", "partial")
             if ok and r["lift"] is not None and r["lift"] > best[0]:
-                best = (r["rate"], h, r["verdict"])
-            if best[0] >= GOOD:
+                best = (r["lift"], r["rate"] or 0.0, h, r["verdict"])
+            if best[0] >= GOOD_LIFT:
                 break
         return src, best
 
     found = {}
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        for src, (rate, host, verdict) in ex.map(one, hostless):
+        for src, (lift, rate, host, verdict) in ex.map(one, hostless):
             if host:
                 found[src] = host
-                print("   {:>+5.0%} lift  {:<9}{:<34}{}".format(rate, verdict, host, src[:40]),
+                print("   {:>+5.0%} lift  {:<9}{:<34}{}".format(lift, verdict, host, src[:40]),
                       flush=True)
             else:
                 print("      -   none      {:<34}{}".format("", src[:40]), flush=True)

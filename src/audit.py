@@ -15,7 +15,6 @@ The seed is fixed so the same sample can be re-read after a fix.
 """
 import argparse
 import collections
-import json
 import os
 import random
 import re

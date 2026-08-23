@@ -88,6 +88,31 @@ SCHEMA = {
 }
 
 
+def write_result(edges, res, unmatched=None):
+    """THE ONE WRITER for data/CHAIN.json, whatever schema the fit came back in.
+
+    This file used to be written by two callers with two different shapes: this module's own
+    main() wrote {edges, names, strengths, identified, components, deviance_per_df} and
+    pipeline.phase_chain wrote {edges, unmatched, fit}. Every consumer worked against whichever
+    writer had run last and broke against the other. One schema, both callers, and the fit's
+    refusal is a field rather than a different document.
+    """
+    out = {
+        "edges": [[a, b, n] for (a, b), n in edges.items()],
+        "identified": bool(res.get("identified")),
+        "components": [sorted(c) for c in (res.get("components") or [])],
+        "names": res.get("names"),
+        "strengths": (list(res["strengths"]) if res.get("strengths") is not None else None),
+        "deviance_per_df": res.get("deviance_per_df"),
+        "fit_error": res.get("error") or res.get("refusal"),
+        "unmatched": (unmatched.most_common(40) if hasattr(unmatched, "most_common")
+                      else (unmatched or [])),
+    }
+    with open(OUT, "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=1, ensure_ascii=False)
+    return out
+
+
 def harvest():
     """Every mined feat sentence that reads like a contest outcome."""
     rows, seen = [], set()
@@ -374,10 +399,7 @@ def main():
         print()
         print("Re-run with --prior 0.5 for regularised strengths. They exist for every entrant,")
         print("but order ACROSS components by the prior's assumption rather than by evidence.")
-        with open(OUT, "w", encoding="utf-8") as f:
-            json.dump({"edges": [[a_, b_, c] for (a_, b_), c in edges.items()],
-                       "identified": False,
-                       "components": [sorted(c) for c in comps]}, f, ensure_ascii=False)
+        write_result(edges, res, unmatched)
         print(f"-> {OUT}   (edges kept; the graph is the result)")
         return 0
     order = sorted(zip(res["names"], res["strengths"]), key=lambda kv: -kv[1])
@@ -386,12 +408,7 @@ def main():
     for n, s in [x for x in order if x[0] in big][:14]:
         print(f"   {s:.5f}  {n[:50]}")
 
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump({"edges": [[a_, b_, c] for (a_, b_), c in edges.items()],
-                   "names": res["names"], "strengths": list(res["strengths"]),
-                   "identified": res["identified"],
-                   "components": [sorted(c) for c in comps],
-                   "deviance_per_df": res["deviance_per_df"]}, f, ensure_ascii=False)
+    write_result(edges, res, unmatched)
     print(f"\n-> {OUT}")
     return 0
 
