@@ -1,5 +1,5 @@
 {
- "at": "2026-08-23 07:54:36",
+ "at": "2026-08-23 08:04:37",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -88,9 +88,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 199,
+     "left": 198,
      "cap": 200,
-     "frac": 0.995
+     "frac": 0.99
     },
     {
      "name": "rpm",
@@ -99,7 +99,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.995
+   "worst": 0.99
   },
   {
    "bucket": "cloudflare:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 287,
+     "left": 278,
      "cap": 500,
-     "frac": 0.574
+     "frac": 0.556
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 20,
      "cap": 20,
-     "frac": 0.95
+     "frac": 1.0
     }
    ],
-   "worst": 0.574
+   "worst": 0.556
   },
   {
    "bucket": "cohere:free",
@@ -168,9 +168,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 198,
+     "left": 197,
      "cap": 200,
-     "frac": 0.99
+     "frac": 0.985
     },
     {
      "name": "rpm",
@@ -179,7 +179,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.99
+   "worst": 0.985
   },
   {
    "bucket": "gemini:models/gemini-2.5-flash",
@@ -436,9 +436,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 88,
+     "left": 87,
      "cap": 200,
-     "frac": 0.44
+     "frac": 0.435
     },
     {
      "name": "rpm",
@@ -447,7 +447,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.44
+   "worst": 0.435
   },
   {
    "bucket": "hyperbolic:free",
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 16,
      "cap": 20,
-     "frac": 0.95
+     "frac": 0.8
     }
    ],
    "worst": 0.0
@@ -692,42 +692,117 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 319,
-  "per_hour": 1276,
+  "calls": 189,
+  "per_hour": 756,
   "buckets": [
    {
     "bucket": "openrouter:free",
-    "calls": 174,
+    "calls": 41,
     "ok": 0
    },
    {
     "bucket": "ollama:local",
-    "calls": 51,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:llama3.1:latest",
-    "calls": 20,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:qwen2.5:14b",
-    "calls": 20,
-    "ok": 0
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 19,
+    "calls": 39,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 19,
+    "calls": 17,
+    "ok": 0
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 16,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 16,
+    "calls": 13,
+    "ok": 0
+   },
+   {
+    "bucket": "ollama:llama3.1:latest",
+    "calls": 13,
+    "ok": 0
+   },
+   {
+    "bucket": "ollama:qwen2.5:14b",
+    "calls": 13,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "mistral:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "nvidia:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "cerebras:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "chutes:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "deepinfra:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "huggingface:free",
+    "calls": 1,
     "ok": 0
    }
   ]
@@ -736,11 +811,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 545,
+   "done": 598,
    "total": 100623,
-   "detail": "45/40,418 entities  \u00b7  3,278 feats  \u00b7  0.08 chunks/s",
-   "warn": "28 unanswered",
-   "eta_h": 366.0
+   "detail": "50/40,418 entities  \u00b7  3,877 feats  \u00b7  0.06 chunks/s",
+   "warn": "41 unanswered",
+   "eta_h": 449.8
   },
   {
    "name": "page roll",
@@ -766,7 +841,7 @@
    "read": 33715,
    "settled": 41124,
    "feats": 17148,
-   "age_h": 3.0
+   "age_h": 3.2
   },
   "phases": [
    {
@@ -802,12 +877,12 @@
     "built": false
    }
   ],
-  "readfeats": 44
+  "readfeats": 46
  },
  "watch": {
   "open": 6,
   "high": 3,
-  "rounds": 28,
+  "rounds": 29,
   "findings": [
    {
     "module": "build_terminal",
@@ -850,29 +925,25 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    2787
-   ],
-   [
-    "silent:wiki_source.py:301:URLError",
-    846
+    187
    ],
    [
     "silent:wiki_source.py:229:URLError",
-    96
+    63
    ],
    [
-    "ledger:unreadable",
-    1
+    "silent:verify_math.py:47:ValueError",
+    2
    ]
   ],
-  "swallowed_total": 3730
+  "swallowed_total": 252
  },
  "standards": [
   {
    "standard": "model calls per hour",
    "group": "pool",
-   "holds": true,
-   "observed": 1276,
+   "holds": false,
+   "observed": 756,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -917,7 +988,7 @@
    "standard": "chunks nobody answered",
    "group": "read",
    "holds": false,
-   "observed": "28 unanswered",
+   "observed": "41 unanswered",
    "floor": "none",
    "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
    "severity": "high"
@@ -926,7 +997,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "366.0h",
+   "observed": "449.8h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -935,7 +1006,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "6.01",
+   "observed": "6.48",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -944,7 +1015,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": true,
-   "observed": "0.5%",
+   "observed": "0.6%",
    "floor": "above 0",
    "order": "No chunk has completed. Check that read.py printed its transport banner and that the queue is not empty.",
    "severity": "high"
@@ -962,7 +1033,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "3.0h",
+   "observed": "3.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1015,12 +1086,12 @@
   {
    "standard": "swallowed failures not spiking",
    "group": "code",
-   "holds": false,
-   "observed": "3,730",
+   "holds": true,
+   "observed": "252",
    "floor": "2,000",
    "order": "Every `except` in the tree records its failure by class. A large total means something upstream is failing repeatedly and being tolerated. Read the top classes in the dashboard's overwatch panel -- the class names the module and the line.",
    "severity": "medium"
   }
  ],
- "generated": "2026-08-23T07:54:36"
+ "generated": "2026-08-23T08:04:38"
 }
