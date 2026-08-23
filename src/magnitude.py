@@ -55,6 +55,7 @@ import pipeline as P                                                    # noqa: 
 import feats as F                                                       # noqa: E402
 import assay as A                                                       # noqa: E402
 import scope as SCOPE                                                   # noqa: E402
+import identity as ID                                                   # noqa: E402
 import silence
 
 # A regex escape arriving as a literal control character matches nothing and fails SILENTLY.
@@ -424,7 +425,7 @@ SPLIT_SLICE = 8000
 ONE_SHOT_MAX = 30000
 
 
-def _split_assay(c, entity, cand, epoch):
+def _split_assay(c, entity, cand, epoch, head_note=None):
     """Assay an entity whose evidence no single call can carry: eleven axis calls plus one
     anchor call, merged into the same sheet shape the one-shot path produces.
 
@@ -477,6 +478,7 @@ def _split_assay(c, entity, cand, epoch):
         return None
     ap = ("ENTITY: " + entity
           + ((chr(10) + "EPOCH: " + epoch) if epoch else "")
+          + ((chr(10) + head_note) if head_note else "")
           + chr(10) + chr(10) + "THE STRONGEST CITED FEAT PER AXIS:" + chr(10)
           + chr(10).join("- " + f for f in cites)
           + chr(10) + chr(10) + "Fix the ANCHOR band per STEP 1 of your instructions.")
@@ -489,7 +491,7 @@ def _split_assay(c, entity, cand, epoch):
             "axes": axes_out}
 
 
-def compose(entity, cand, epoch, budget):
+def compose(entity, cand, epoch, budget, head_note=None):
     """Build the prompt at a given evidence budget. Returns (prompt, flat, dropped).
 
     Round-robin across axes rather than filling axis by axis: a budget spent in declaration
@@ -528,6 +530,8 @@ def compose(entity, cand, epoch, budget):
     head = "ENTITY: " + entity
     if epoch:
         head += chr(10) + "EPOCH (score THIS state and no other): " + epoch
+    if head_note:
+        head += chr(10) + head_note
     nl = chr(10)
     prompt = (head + nl + nl + "CANDIDATE EVIDENCE, GROUPED BY THE AXIS IT BEARS ON:" + nl
               + nl.join(blocks) + nl + nl
@@ -570,7 +574,8 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
     # local window and times out. Eight of the first twelve batch entities died precisely there,
     # and the reason string said "no answer from the pool or the local model", which is true and
     # useless. So the prompt is composed twice, at two sizes, for two different transports.
-    prompt, flat, dropped = compose(entity, cand, epoch, None)
+    epoch_note = None if epoch else ID.epoch_directive(host)
+    prompt, flat, dropped = compose(entity, cand, epoch, None, head_note=epoch_note)
     got = None
     used = "pool"
     # SPLIT-FIRST above the recall cliff. read.py measured it directly: the same page at
@@ -581,7 +586,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
     # prompts a model can actually hold in mind.
     if len(prompt) > ONE_SHOT_MAX:
         used = "split"
-        got = _split_assay(c, entity, cand, epoch)
+        got = _split_assay(c, entity, cand, epoch, head_note=epoch_note)
     elif pool_ready():
         try:
             import cascade_bridge as CB
@@ -613,7 +618,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             # entities in the library sat permanently deferred here while a person assayed
             # them by hand, which inverts the whole point of the automation.
             used = "split"
-            got = _split_assay(c, entity, cand, epoch)
+            got = _split_assay(c, entity, cand, epoch, head_note=epoch_note)
             if got is None:
                 return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
                         "reason": ("no transport carried even the split calls; retried on the "
@@ -624,6 +629,16 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
         return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
                 "reason": "no transport answered (one-shot, split, or local); retried next run",
                 "prompt_chars": len(prompt), "transport_tried": used}
+
+    final_epoch = epoch or (got.get("epoch") or "").strip()
+    if not ID.epoch_acceptable(host, final_epoch):
+        # OWNER RULING 2026-08-23: for epoch-mandatory sources an unstamped sheet is refused,
+        # not published. An oldwalker and a neowalker are different power classes; a sheet
+        # that does not say which it measured is a measurement of an unspecified subject.
+        return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
+                "reason": ("epoch required for this source and the model returned "
+                           + repr(final_epoch or "nothing") + "; retried next run"),
+                "transport_tried": used}
 
     anchor = got.get("anchor") if got.get("anchor") in A.LADDER else "M0"
     if ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
@@ -642,7 +657,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             # record the transport's bad day as the entity's evidence ceiling. The split re-asks
             # axis by axis in slices a model can actually hold, which is where citation
             # fidelity comes back.
-            retry = _split_assay(c, entity, cand, epoch)
+            retry = _split_assay(c, entity, cand, epoch, head_note=epoch_note)
             if retry is not None:
                 got, used = retry, "split-retry"
                 anchor = got.get("anchor") if got.get("anchor") in A.LADDER else anchor
@@ -672,7 +687,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
                 "rejections": rejects}
 
     res = A.assay(anchor, scores, attestation=attestation,
-                  epoch=epoch or got.get("epoch") or "unstamped", worksheet=sheet)
+                  epoch=final_epoch or "unstamped", worksheet=sheet)
     return {"entity": entity, "host": host, "anchor": anchor,
             "presence": got.get("presence_evidence",
                                 got.get("hegemonic_feat", "")), "result": res,

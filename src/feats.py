@@ -571,8 +571,15 @@ AXIS_ACT = {
                      r"phas(?:ed)? through|immune",
     "sustain": r"maintain|sustain|held|kept up|for (?:hours|days|weeks|years)|"
                r"without (?:rest|tiring|food|sleep)|continuous|indefinit|never stopped|fought on",
+    # `planeswalk` added after the automation assayed the most famous planeswalker in fiction
+    # and marked his VECTOR unestimable -- every sentence describing the ability was invisible
+    # to the candidate gate because the franchise's own verb for it was not in the vocabulary.
+    # The neighbours are the same class of miss: `shunpo`/`flash step` (Bleach), `apparat`
+    # (Harry Potter), `blink`, `portal`, `rift`, `dimension(-hop)`.
     "vector": r"teleport|travel(?:l?ed)?|fl(?:y|ew|ies)|cross(?:ed|es)?|traverse|warp|phas(?:ed)?|"
-              r"step(?:ped)? (?:through|between)|arriv|appear(?:ed)? (?:at|in)",
+              r"step(?:ped)? (?:through|between)|arriv|appear(?:ed)? (?:at|in)|"
+              r"planeswalk|plane ?shift|apparat|shunpo|flash ?step|blink(?:ed|s)?|"
+              r"portal(?:ed|s)?|rift|dimension(?:al)? (?:travel|hop|door)",
     "volition": r"master|train|learn|adapt|counter(?:ed)?|outfought|outmatch|defeat|best(?:ed)?|"
                 r"overpower|wield|perfect(?:ed)?|develop(?:ed)? (?:a|the|his|her)",
     "acumen": r"predict|calculat|deduc|plan(?:ned)?|analy[sz]|solv|forese|anticipat|devis|"

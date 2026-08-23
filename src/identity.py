@@ -412,3 +412,51 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+# ---------------------------------------------------------------- epoch-mandatory sources
+#
+# OWNER RULING, 2026-08-23: "mtg and dnd need epoch markings like come on." Correct, and for a
+# reason the fictions themselves state: these franchises draw their POWER BOUNDARIES in time
+# rather than in branches. Marvel splits into Earths; Magic splits at the MENDING -- an
+# oldwalker (Urza, pre-Mending) and a neowalker (Jace) are different power classes wearing one
+# card type, and a sheet that does not say which it measured is a measurement of an unspecified
+# subject. The Forgotten Realms redraw everyone's capabilities at each era boundary: the Time
+# of Troubles, the Spellplague, the Second Sundering.
+#
+# For these hosts an assay WITHOUT an epoch is refused, not published unstamped. The eras below
+# are the recognised coarse markers; a finer state ("Living Guildpact of Ravnica", "compleated
+# by Phyrexia") is better still and always accepted.
+EPOCH_REQUIRED = {
+    "mtg.fandom.com": {
+        "eras": ["pre-Mending", "post-Mending"],
+        "note": ("Magic's power history splits at THE MENDING. Say which side this state is "
+                 "on, and name the storyline state when the page centres one -- 'Living "
+                 "Guildpact of Ravnica', 'Gatewatch era', 'compleated by Phyrexia'."),
+    },
+    "forgottenrealms.fandom.com": {
+        "eras": ["pre-Time of Troubles", "post-Time of Troubles", "Spellplague era",
+                 "post-Second Sundering"],
+        "note": ("The Realms redraw capability at era boundaries. Fix the era the cited feats "
+                 "belong to; an edition marker (1e-5e) also serves."),
+    },
+}
+
+
+def epoch_directive(host):
+    """The prompt block that makes an epoch mandatory for this host, or None."""
+    spec = EPOCH_REQUIRED.get(host)
+    if not spec:
+        return None
+    return ("EPOCH IS MANDATORY FOR THIS SOURCE. " + spec["note"]
+            + " Recognised coarse eras: " + ", ".join(spec["eras"])
+            + ". Score ONLY feats belonging to the one epoch you name; an answer with no "
+              "epoch, or 'unstamped', is refused.")
+
+
+def epoch_acceptable(host, epoch):
+    """Is this epoch tag good enough to publish for this host?"""
+    if host not in EPOCH_REQUIRED:
+        return True
+    e = (epoch or "").strip().lower()
+    return bool(e) and e not in ("unstamped", "unknown", "n/a", "none", "current", "modern")
