@@ -256,7 +256,7 @@ def ensure_transport(verbose=True):
 # local/starved only GATE_LOCAL_N calls are in flight at once -- the surplus workers WAIT at the
 # gate instead of stacking onto the card. On cloud the wide gate never binds. The regime is
 # re-read lazily on a timer, so a mid-run recovery re-opens the gate without a restart.
-GATE_CLOUD_N = 12
+GATE_CLOUD_N = 16
 GATE_LOCAL_N = 2
 GATE_RECHECK_S = 120
 _GATE_CLOUD = threading.BoundedSemaphore(GATE_CLOUD_N)
@@ -907,7 +907,19 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
             # dropping the passage -- so every worker ends up asleep. Twenty workers ran at 0.33
             # chunks a second; fourteen ran at ten. The decline storm costs more than the
             # parallelism buys.
-            workers = max(2, len(CB.cloud_buckets())) if _CASCADE_OK else 2
+            # ANSWERING lanes, not TAGGED ones. cloud_buckets() counts the router's pool
+            # tags (~5); the widened fallback reaches every funded bucket, and the proof
+            # says how many actually answer right now (14 this evening). Auto ran the reader
+            # at a third of the pool's real width for a day.
+            try:
+                import json as _j, os as _o
+                _pp = _o.path.join(HERE, "data", "POOL_PROOF.json")
+                _n = sum(1 for x in _j.load(open(_pp, encoding="utf-8"))
+                         if isinstance(x, dict) and x.get("verdict") == "answers")
+            except Exception:
+                silence.note("read.py:auto-proof")
+                _n = len(CB.cloud_buckets())
+            workers = max(2, min(16, _n + 2)) if _CASCADE_OK else 2
         except Exception:
             silence.note("read.py:auto-workers")
             workers = 8

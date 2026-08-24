@@ -176,6 +176,7 @@ AUTH_BENCH = 4 * 3600
 
 
 LOCAL_PREFIX = "ollama:"
+_WIDEN_RR = [0]                 # round-robin cursor for the widened fallback
 
 # ---------------------------------------------------------------------- per-bucket pacing
 #
@@ -424,9 +425,37 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
                              if isinstance(r, dict) and r.get("verdict") == "answers"}
         except Exception:
             silence.note("cascade_bridge.py:widen-proof")
+        # THE PAID BURST LANE — opt-in, capped, and counted. anthropic:paid sits at 20 RPM and
+        # is never claimed by the free-tier pool tags; the owner turned it on ("MORE",
+        # 2026-08-23) with a hard call cap in state/PAID_BURST.json. Every pin through it
+        # increments the counter; at the cap the lane closes itself. Delete the file or set
+        # enabled:false to kill it instantly. This is real money per call, which is why the
+        # cap is enforced HERE rather than trusted to restraint.
+        paid_ok = False
+        try:
+            with open(os.path.join(HERE, "state", "PAID_BURST.json"), encoding="utf-8") as _f:
+                _pb = json.load(_f)
+            paid_ok = bool(_pb.get("enabled")) and _pb.get("used", 0) < _pb.get("cap", 0)
+        except Exception:
+            _pb = None
+        if paid_ok:
+            answering = set(answering) | {b for b in
+                                          {m.bucket for m in _ROUTER.models}
+                                          if b.startswith("anthropic:")}
         ranked = sorted((m for m in _ROUTER.models
                          if not m.bucket.startswith(LOCAL_PREFIX)),
                         key=lambda m: (m.bucket not in answering))
+        # ROTATE. First-alive-wins pinned EVERY call to the same front-ranked bucket, and the
+        # whole pool serialised through one provider's per-minute cap -- 20 buckets with quota
+        # idle while mistral carried everything at 10 RPM. The dashboard read "significant drop
+        # in call rate, still a lot of models available", which is exactly what a fallback with
+        # no rotation looks like from outside. The offset spreads consecutive calls across the
+        # alive set; the sort still puts proven answerers ahead of unproven ones.
+        if ranked:
+            off = _WIDEN_RR[0] % len(ranked)
+            _WIDEN_RR[0] += 1
+            ranked = ranked[off:] + ranked[:off]
+            ranked.sort(key=lambda m: (m.bucket not in answering))
         for m in ranked:
             if not _alive(m.bucket):
                 continue
@@ -436,6 +465,14 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
                 silence.note("cascade_bridge.py:widen-reserve")
                 continue
             pinned = m
+            if m.bucket.startswith("anthropic:") and _pb is not None:
+                _pb["used"] = _pb.get("used", 0) + 1
+                try:
+                    with open(os.path.join(HERE, "state", "PAID_BURST.json"), "w",
+                              encoding="utf-8") as _f:
+                        json.dump(_pb, _f, indent=1)
+                except Exception:
+                    silence.note("cascade_bridge.py:paid-count")
             break
 
     if pinned is None:

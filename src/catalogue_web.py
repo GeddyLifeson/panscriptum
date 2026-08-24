@@ -297,31 +297,45 @@ def main():
         return
 
     roll_by_name = {r["name"]: r for r in roll}
-    done = failed = 0
-    for i, r in enumerate(todo, 1):
+    # SOURCES IN PARALLEL. Each source is a different wiki, and per-host politeness lives in
+    # the throttle -- serializing sources added nothing but wall-clock. Three at once puts
+    # DC, Gundam and SpongeBob in flight together instead of in a queue. Record and roll
+    # writes are serialized under a lock; a source is still written atomically, whole.
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+    _wlock = threading.Lock()
+    tally = {"done": 0, "failed": 0, "i": 0}
+
+    def _one(r):
         name = r["name"]
-        print(f"[{i}/{len(todo)}] {name}", flush=True)
+        with _wlock:
+            tally["i"] += 1
+            print(f"[{tally['i']}/{len(todo)}] {name}", flush=True)
         t0 = time.time()
         try:
             record, note = catalogue(name)
         except Exception as e:
             record, note = None, f"error: {type(e).__name__} {str(e)[:60]}"
-        if not record:
-            print(f"      -> SKIPPED ({note})\n", flush=True)
-            failed += 1
-            continue
+        with _wlock:
+            if not record:
+                print(f"      -> SKIPPED {name} ({note})", flush=True)
+                tally["failed"] += 1
+                return
+            record["category"] = r.get("category")
+            with open(os.path.join(RECORDS, slug(name) + ".json"), "w",
+                      encoding="utf-8") as f:
+                json.dump(record, f, indent=2, ensure_ascii=False)
+            roll_by_name[name]["entry_count"] = len(record["entries"])
+            roll_by_name[name]["status"] = "catalogued"
+            save_roll(roll)
+            tally["done"] += 1
+            print(f"      -> {name}: {len(record['entries'])} entries in "
+                  f"{time.time()-t0:.0f}s", flush=True)
 
-        record["category"] = r.get("category")
-        with open(os.path.join(RECORDS, slug(name) + ".json"), "w", encoding="utf-8") as f:
-            json.dump(record, f, indent=2, ensure_ascii=False)
-        roll_by_name[name]["entry_count"] = len(record["entries"])
-        roll_by_name[name]["status"] = "catalogued"
-        save_roll(roll)
-        done += 1
-        print(f"      -> {len(record['entries'])} entries in {time.time()-t0:.0f}s\n",
-              flush=True)
+    with ThreadPoolExecutor(max_workers=3) as ex:
+        list(ex.map(_one, todo))
 
-    print(f"Catalogued {done}/{len(todo)} sources ({failed} skipped).")
+    print(f"Catalogued {tally['done']}/{len(todo)} sources ({tally['failed']} skipped).")
 
 
 if __name__ == "__main__":

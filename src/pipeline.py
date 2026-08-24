@@ -161,7 +161,23 @@ def cfg():
         return yaml.safe_load(f)
 
 
-def ask(c, system, prompt, schema, retries=2, timeout=None):
+METRICS = os.path.join(STATE_DIR, "model_metrics.jsonl")
+
+
+def _metric(row):
+    """One line per model call: tokens, latency, phase. The file the blame lives in.
+
+    When something is slow, this is which stage and which call shape to blame -- Ollama
+    already returns eval counts and durations on every response; they were being read and
+    thrown away."""
+    try:
+        with open(METRICS, "a", encoding="utf-8") as f:
+            f.write(json.dumps(row) + chr(10))
+    except Exception:
+        silence.note("pipeline.py:metric")
+
+
+def ask(c, system, prompt, schema, retries=2, timeout=None, num_ctx=None, tag=""):
     """One structured Ollama call. Returns parsed dict, or None on repeated failure.
 
     `timeout` deliberately does NOT default to config's request_timeout (1800s). That value is
@@ -179,16 +195,26 @@ def ask(c, system, prompt, schema, retries=2, timeout=None):
         # costs ~170s to bring back (measured), against ~12s for the call itself. Belt and
         # braces is correct here.
         "keep_alive": -1,
+        # num_ctx SIZED TO THE CALL, not a generous default. The KV cache scales with the
+        # window: a 2,400-token entrypass batch inside a 6,144 window pays 2.5x the VRAM it
+        # needs, which is exactly the headroom the 10GB card keeps running out of.
         "options": {"seed": c.get("seed", 47), "temperature": 0.1,
-                    "num_ctx": c.get("num_ctx", 6144)},
+                    "num_ctx": num_ctx or c.get("num_ctx", 6144)},
     }).encode()
     for attempt in range(retries + 1):
         try:
             req = urllib.request.Request(c["ollama_host"].rstrip("/") + "/api/generate",
                                          data=body,
                                          headers={"Content-Type": "application/json"})
+            t0 = time.time()
             with urllib.request.urlopen(req, timeout=timeout or 420) as r:
-                return json.loads(json.loads(r.read().decode()).get("response", "{}"))
+                raw = json.loads(r.read().decode())
+            _metric({"tag": tag or "ask", "s": round(time.time() - t0, 2),
+                     "in_tok": raw.get("prompt_eval_count"), "out_tok": raw.get("eval_count"),
+                     "tps": (round(raw["eval_count"] / (raw["eval_duration"] / 1e9), 1)
+                             if raw.get("eval_duration") and raw.get("eval_count") else None),
+                     "model": c.get("model")})
+            return json.loads(raw.get("response", "{}"))
         except Exception as e:
             if attempt == retries:
                 log(f"    ollama failed after {retries + 1} tries: {type(e).__name__} {str(e)[:80]}")
@@ -401,7 +427,7 @@ def phase_synthesis(c, st):
                   f"{len(sample)} from {len(rec['entries'])}):\n" + "\n".join(lines) +
                   "\n\nIdentify the power ceiling and magnitude band for this source.")
 
-        got = ask(c, SYNTH_SYSTEM, prompt, SYNTH_SCHEMA, timeout=420)
+        got = ask(c, SYNTH_SYSTEM, prompt, SYNTH_SCHEMA, timeout=420, num_ctx=4096, tag="synthesis")
         if got is None:
             st["failed"].setdefault("synthesis", {})[src] = "ollama failure"
             save_state(st)
@@ -706,7 +732,7 @@ def phase_entrypass(c, st):
             prompt = (f"SOURCE: {src}\n\nENTRIES:\n" + "\n".join(lines) +
                       f"\n\nReturn results for all {len(batch)} entries.")
 
-            got = ask(c, ENTRY_SYSTEM, prompt, ENTRY_SCHEMA, timeout=600)
+            got = ask(c, ENTRY_SYSTEM, prompt, ENTRY_SCHEMA, timeout=600, num_ctx=4096, tag="entrypass")
             if got is None:
                 st["failed"].setdefault("entrypass", {})[key] = "ollama failure"
                 save_state(st)

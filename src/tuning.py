@@ -63,6 +63,9 @@ PROFILES = {
     # chunk          characters of source text per read call
     # timeout        seconds per call
     # max_prompt     None = no ceiling; else defer units larger than this rather than truncate
+    # workers on cloud DERIVE from how many buckets actually answer (the proof), one worker
+    # per answering lane plus slack, clamped 4..16. A constant 12 was wrong in both directions:
+    # too many for a 4-bucket evening, too few for a 14-lane afternoon.
     "cloud": dict(workers=12, chunk=36000, timeout=180, max_prompt=None,
                   note="independent buckets; concurrency is free until they rate-limit"),
     "local": dict(workers=2, chunk=8000, timeout=420, max_prompt=20000,
@@ -126,6 +129,9 @@ def regime(force=False):
 def profile(force=False):
     r = regime(force=force)
     p = dict(PROFILES[r])
+    if r == "cloud":
+        n, _ = _answering_buckets()
+        p["workers"] = max(4, min(16, n + 2))
     p["regime"] = r
     p["why"] = _CACHE["why"]
     return p

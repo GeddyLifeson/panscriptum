@@ -438,12 +438,16 @@ def _split_assay(c, entity, cand, epoch, head_note=None):
     best-evidenced slice's answer, and the anchor is then asked over the eleven winning
     citations -- the same digest a hand worksheet ends up staring at.
     """
-    axes_out = {}
-    for ax in AXES:
+    # AXES IN PARALLEL. Eleven independent questions were being asked one after another, so a
+    # heavyweight's split assay took eleven round-trips end to end while fifteen pool lanes sat
+    # idle. The axes share nothing; six at a time cuts the wall clock without adding a single
+    # extra call.
+    from concurrent.futures import ThreadPoolExecutor as _TPE
+
+    def _one_axis(ax):
         rows = cand.get(ax) or []
         if not rows:
-            axes_out[ax] = {"score": "unestimable", "feat": ""}
-            continue
+            return ax, {"score": A.UNESTIMABLE, "feat": ""}
         best = None
         i = 0
         while i < len(rows):
@@ -470,8 +474,11 @@ def _split_assay(c, entity, cand, epoch, head_note=None):
                     best = (sc, (got.get("feat") or "").strip())
             elif best is None:
                 best = (A.UNESTIMABLE, "")
-        axes_out[ax] = ({"score": best[0], "feat": best[1]} if best
-                        else {"score": A.UNESTIMABLE, "feat": ""})
+        return ax, ({"score": best[0], "feat": best[1]} if best
+                    else {"score": A.UNESTIMABLE, "feat": ""})
+
+    with _TPE(max_workers=6) as _ex:
+        axes_out = dict(_ex.map(_one_axis, AXES))
 
     cites = [v["feat"] for v in axes_out.values() if v.get("feat")]
     if not cites:

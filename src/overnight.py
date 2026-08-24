@@ -412,7 +412,13 @@ def main():
         #    is the normal case after the first cycle.
         start("overwatch", [os.path.join(SRC, "overwatch.py"), "--loop", "20", "--modules", "4"],
               "overwatch.log")
-        roll = start("roll", [os.path.join(SRC, "feats.py"), "--roll", "--workers", "6"],
+        # THE GPU-SERIAL RULE IS OBSOLETE, AND KEEPING IT WAS WASTING A WHOLE STAGE. It
+        # existed because read.py and pipeline.py both drove local Ollama. The reader has been
+        # cascade-first for a day -- its local fallback is rare and benched -- so the card sat
+        # idle while 33,000 new Marvel entries waited for entrypass judgment. The phases ARE
+        # the GPU's job now. running() guards the singleton as everywhere else.
+        start("pipeline", [os.path.join(SRC, "pipeline.py")], "pipeline_auto.log")
+        roll = start("roll", [os.path.join(SRC, "feats.py"), "--roll", "--workers", "12"],
                      LN.ROLL)
 
         # 2. GPU: the model reads pages and extracts cited feats. The long pole; capped so the

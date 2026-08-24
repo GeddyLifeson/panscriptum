@@ -968,6 +968,57 @@ check("an archipelago is mostly coastal, a highland mostly not",
 
 print()
 print("=" * 96)
+print("18. THE DAY'S JOINTS — settled, epochs, the split gate, the clamp (added 2026-08-23)")
+print("=" * 96)
+
+import magnitude as MG      # noqa: E402
+import identity as IDN      # noqa: E402
+import lognames as LN       # noqa: E402
+
+check("a scored result is SETTLED",
+      MG.settled({"result": {"decimal": 0.5}}), True)
+check("a deferral is NOT settled -- it must requeue",
+      MG.settled({"status": "DEFERRED", "result": None}), False)
+check("'no axis cleared its gate' is a FINDING, settled",
+      MG.settled({"result": None, "reason": "no axis cleared its gate on ..."}), True)
+check("a bare transport failure is not settled",
+      MG.settled({"result": None, "reason": "no answer"}), False)
+
+check("epoch mandate: mtg refuses 'unstamped'",
+      IDN.epoch_acceptable("mtg.fandom.com", "unstamped"), False)
+check("epoch mandate: mtg refuses empty",
+      IDN.epoch_acceptable("mtg.fandom.com", ""), False)
+check("epoch mandate: mtg accepts a named state",
+      IDN.epoch_acceptable("mtg.fandom.com", "Living Guildpact of Ravnica"), True)
+check("epoch mandate: non-mandated hosts accept anything",
+      IDN.epoch_acceptable("dragonball.fandom.com", ""), True)
+check("the directive exists for mandated hosts and only them",
+      bool(IDN.epoch_directive("mtg.fandom.com")) and
+      IDN.epoch_directive("dragonball.fandom.com") is None, True)
+
+_cand = {"ruin": [{"feat": "he destroyed the entire mountain range with one blow"}]}
+_ok = MG._split_gate({"axes": {"ruin": {"score": 7.0,
+      "feat": "destroyed the entire mountain range"}}}, _cand)
+check("split gate: a trimmed verbatim citation scores", _ok[0].get("ruin"), 7.0, tol=1e-9)
+_fab = MG._split_gate({"axes": {"ruin": {"score": 9.9,
+      "feat": "he destroyed the entire mountain range with one blow and then ate a galaxy"}}},
+      _cand)
+check("split gate: a fabricated WRAPPER around a real quote is refused",
+      _fab[0].get("ruin"), A.UNESTIMABLE)
+check("and the refusal is recorded as a rejection", len(_fab[2]) >= 1, True)
+
+check("the one-shot ceiling sits above the split slice",
+      MG.ONE_SHOT_MAX > MG.SPLIT_SLICE, True,
+      note="a prompt too big to one-shot must still be sliceable")
+check("index pages are not entities",
+      bool(MG.NOT_AN_ENTITY.match("List of tertiary characters")), True)
+check("but a person with 'of' in the name is",
+      bool(MG.NOT_AN_ENTITY.match("Monkey D. Luffy")), False)
+check("job log names are shared constants, not string twins",
+      LN.READ == "read_auto.log" and LN.ROLL == "roll_auto.log", True)
+
+print()
+print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)
 if FAIL:
