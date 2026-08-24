@@ -2088,6 +2088,49 @@ check("an unreadable lease is reclaimed rather than stranding the card",
       _GL._expired(None, 900), True)
 check("the lane keeps at least one slot", _GL.MAX_SLOTS >= 1, True)
 
+
+# ---- Section 19t: a prompt may never be larger than the window it is sent into ----------------
+# Added 2026-08-24 (m46/m52). A feats prompt measured 41,469 characters against `num_ctx: 6144`
+# -- roughly 1.9x the window. Ollama TRUNCATES an over-long prompt and answers anyway, and
+# `generate._covered` verifies only that an entity's NAME appears, so a block whose deed list
+# was cut would still have been written to catalog.json as a finished chapter. That is a Hard
+# Rule 0 truncation with no slice in the source for a reader to find. Three defences, each
+# checked here: the budget is derived from the window, feats jobs drop the chapter-only half of
+# the system prompt, and an over-budget prompt raises instead of being sent.
+import context_budget as _CB     # noqa: E402
+import manifest_builder as _MBd  # noqa: E402
+
+_cbcfg = {"num_ctx": 6144}
+check("the feats system prompt drops THE ENTRY TEMPLATE",
+      "THE ENTRY TEMPLATE" in _CB.system_for("feats", "voice\nTHE ENTRY TEMPLATE\nbody"), False,
+      note="feats_prompt.txt forbids the scoring that section describes")
+check("a chapter job still gets the whole system prompt",
+      "THE ENTRY TEMPLATE" in _CB.system_for("chapter", "voice\nTHE ENTRY TEMPLATE\nbody"), True)
+check("a system prompt with no template heading is left intact",
+      _CB.system_for("feats", "just voice"), "just voice",
+      note="degrade to today's behaviour rather than guess at a split point")
+check("the block budget GROWS with the window",
+      _CB.feats_block_budget({"num_ctx": 12288}) > _CB.feats_block_budget({"num_ctx": 6144}),
+      True, note="the old constant had no arithmetic relationship to num_ctx at all")
+check("an over-long prompt raises instead of being truncated",
+      _raises(lambda: _CB.assert_fits(_cbcfg, "s" * 1000, "u" * 200000, "feats")), True)
+check("a prompt that fits does not raise",
+      _CB.assert_fits(_cbcfg, "s" * 100, "u" * 100, "feats")["headroom_tokens"] >= 0, True)
+
+# The packer, against the derived budget: nothing lost, and no slice over budget except the
+# single-deed case that cannot be helped (a lone deed larger than the whole window).
+_fb = _CB.feats_block_budget(_cbcfg)
+_row = {"entity": "E", "entry": {}, "pages": [], "feat_count": 40,
+        "axis_counts": {}, "feats": [{"feat": "d" * 400, "axis": "a", "page": "p"}] * 40}
+_blocks = _MBd.pack_feats([_row], "S", _fb)
+_emitted = sum(len(e["feats"]) for b in _blocks for e in b)
+check("slicing an oversized entity loses no deed", _emitted, 40)
+check("every slice carries its span so a partial block is legible",
+      all(e.get("feat_span") for b in _blocks for e in b), True)
+check("no slice of a multi-deed entity exceeds the budget",
+      max(len(json.dumps(e["feats"], ensure_ascii=False)) for b in _blocks for e in b) <= _fb,
+      True, note="the packer used to test the budget AFTER appending, so every slice overshot")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

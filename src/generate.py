@@ -120,7 +120,16 @@ def build_prompt(job, chapter_tpl, front_tpl):
         )
 
 
-def call_ollama(cfg, system_prompt, user_prompt):
+def call_ollama(cfg, system_prompt, user_prompt, job_type="chapter"):
+    # THE INPUT SIDE OF THE SAME WINDOW (m46/m52). `num_predict: -1` below removes the OUTPUT
+    # ceiling and its comment correctly names silent truncation as what Hard Rule 0 forbids --
+    # but `num_ctx` is shared between prompt and answer, and nothing checked the prompt against
+    # it. Measured 2026-08-24: a feats prompt came to 41,469 characters against a 6,144-token
+    # window, ~1.9x over. Ollama truncates an over-long prompt and answers anyway, and the
+    # coverage check below cannot see a shortened deed list -- so the chapter would be filed as
+    # complete. Refusing here turns an invisible loss into a recorded failure.
+    import context_budget as _CBUD
+    _CBUD.assert_fits(cfg, system_prompt, user_prompt, job_type, label=job_type)
     url = cfg["ollama_host"].rstrip("/") + "/api/generate"
     payload = {
         "model": cfg["model"],
@@ -166,6 +175,40 @@ def _covered(name, text):
     return bool(words) and words[0] in t and words[-1] in t
 
 
+def _deed_traced(deed, text):
+    """Is there evidence THIS deed reached the prose, not merely its entity's name?
+
+    A rare-word probe rather than a substring match: the chapter reports an attested sentence
+    in the Custodes' voice, so the sentence itself is reworded, but a distinctive proper noun or
+    long term inside it survives. The longest alphabetic token of six characters or more is that
+    probe. Short and common words are useless here -- "the" proves nothing.
+    """
+    words = [w for w in re.split(r"[^A-Za-z]+", str(deed or "")) if len(w) >= 6]
+    if not words:
+        return True                       # nothing distinctive to look for; do not penalise it
+    probe = max(words, key=len)
+    return probe.lower() in text.lower()
+
+
+# A feats block whose traceable deeds fall under this fraction was probably cut, not summarised.
+# BACKSTOP ONLY. The real defence against a truncated prompt is `context_budget.assert_fits`,
+# which refuses to send one; this catches a shortfall that arrives some other way. The floor is
+# deliberately lenient because the probe is a proxy and a false failure would discard good work
+# -- it is set to catch a block that lost most of its evidence, not one that paraphrased well.
+DEED_TRACE_FLOOR = 0.34
+
+
+def _deed_shortfall(ents, text):
+    """-> (traced, total, fraction) across every deed in the block. Never a sample."""
+    traced = total = 0
+    for e in ents:
+        for f in (e.get("feats") or []):
+            total += 1
+            if _deed_traced(f.get("feat") if isinstance(f, dict) else f, text):
+                traced += 1
+    return traced, total, (traced / total if total else 1.0)
+
+
 def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
     """One manifest job -> the full text, written in verified blocks.
 
@@ -187,13 +230,21 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         # filed as a failure rather than written short.
         ents = job["entities"]
         up = build_prompt(job, chapter_tpl, front_tpl)
-        text = call_ollama(cfg, system_prompt, up)
+        # A FEATS CHAPTER DOES NOT USE THE ENTRY TEMPLATE, so it does not carry it (m46).
+        # `system_style.txt` is two documents: ground rules and voice, then THE ENTRY TEMPLATE
+        # with its Four Hands marginalia and The Instrument. A feats chapter writes none of
+        # that, and `feats_prompt.txt` explicitly forbids the scoring The Instrument sets out.
+        # Sending 11,149 characters of instruction that the user prompt then countermands was
+        # not merely wasteful, it was contradictory -- and it was most of the overflow.
+        import context_budget as _CBUD
+        sysp = _CBUD.system_for("feats", system_prompt)
+        text = call_ollama(cfg, sysp, up, "feats")
         lacking = [e for e in ents if not _covered(e.get("entity", ""), text)]
         if lacking or not text.strip():
-            retry = call_ollama(cfg, system_prompt, up + (
+            retry = call_ollama(cfg, sysp, up + (
                 "\n\nYour previous attempt omitted these entities entirely; every listed "
                 "entity must appear with its deeds: "
-                + ", ".join(e.get("entity", "?") for e in lacking)))
+                + ", ".join(e.get("entity", "?") for e in lacking)), "feats")
             if retry.strip() and len(
                     [e for e in ents if not _covered(e.get("entity", ""), retry)]) < len(lacking):
                 text = retry
@@ -203,6 +254,17 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         if lacking:
             raise RuntimeError("feats block omitted: "
                                + ", ".join(e.get("entity", "?") for e in lacking))
+        # EVERY ENTITY APPEARING IS NOT EVERY DEED APPEARING. The name check above is what a
+        # truncated block would still pass: the entities are listed early in the prompt and
+        # their headings survive, while the tail of the deed list does not. Measured shortfall
+        # is reported in the failure so the next reader gets the number, not a suspicion.
+        traced, total, frac = _deed_shortfall(ents, text)
+        if total and frac < DEED_TRACE_FLOOR:
+            raise RuntimeError(
+                f"feats block kept every entity heading but only {traced}/{total} deeds "
+                f"({frac:.0%}) are traceable in the prose — below the {DEED_TRACE_FLOOR:.0%} "
+                f"floor. A block that names its entities and drops their evidence is exactly "
+                f"what a truncated prompt produces; check num_ctx against context_budget.")
         return text
 
     entries = job["entries"]

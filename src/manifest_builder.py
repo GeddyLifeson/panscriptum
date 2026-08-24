@@ -181,14 +181,29 @@ def pack_feats(rows, source_name, budget=FEATS_BLOCK_CHARS):
         if cur:
             blocks.append(cur)
             cur, cur_cost = [], 0
+        # FLUSH BEFORE EXCEEDING, not after. The first version appended a deed and then asked
+        # whether the slice had reached the budget, so a slice always overshot by its last
+        # deed -- and deeds are not uniform. Measured on Warhammer 40,000: a Black Templars
+        # slice reached 5,414 characters against a 2,987 budget because one long deed landed on
+        # an almost-full slice. That was harmless while the budget was decorative; now that the
+        # budget is derived from `num_ctx` it is the difference between a block that fits and a
+        # ContextOverflow. Checking before appending keeps every slice inside the budget except
+        # the one case that cannot be helped, below.
         slice_, start = [], 0
-        for i, f in enumerate(feats):
-            slice_.append(f)
-            if cost(slice_) >= budget or i == len(feats) - 1:
+        for f in feats:
+            if slice_ and cost(slice_ + [f]) > budget:
                 span = f"{start + 1}-{start + len(slice_)} of {len(feats)}"
                 blocks.append([shell(r, list(slice_), span)])
                 start += len(slice_)
                 slice_ = []
+            # A SINGLE deed larger than the whole budget still gets its own block and is NOT
+            # dropped or clipped -- Hard Rule 0. It will fail `assert_fits` loudly at generation
+            # time, which is the correct outcome: one un-writable deed is a reported problem,
+            # and silently discarding it is the thing this project exists to refuse.
+            slice_.append(f)
+        if slice_:
+            span = f"{start + 1}-{start + len(slice_)} of {len(feats)}"
+            blocks.append([shell(r, list(slice_), span)])
     if cur:
         blocks.append(cur)
     return blocks
@@ -296,8 +311,23 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
         silence.note("manifest_builder.py:feats")
         feat_rows = []
     if feat_rows:
-        blocks = pack_feats(feat_rows, source_name,
-                            int(cfg.get("feats_block_chars", FEATS_BLOCK_CHARS)))
+        # DERIVED, NOT DECLARED (m46). `FEATS_BLOCK_CHARS` had no arithmetic relationship to
+        # `num_ctx`: at the configured window the packed block plus its scaffolding came to
+        # ~1.9x the context, and Ollama truncates an over-long prompt rather than refusing it.
+        # `context_budget` computes what actually fits from the window, the measured prompt
+        # scaffolding, and an output reserve -- so raising num_ctx widens the blocks by itself
+        # and lowering it narrows them. An explicit `feats_block_chars` in config still wins,
+        # for an owner who wants to override the arithmetic deliberately.
+        import context_budget as _CBUD
+        budget = cfg.get("feats_block_chars")
+        budget = int(budget) if budget else _CBUD.feats_block_budget(cfg)
+        if budget <= 0:
+            # Not clamped to something small and carried on: a window this narrow cannot carry
+            # a feats block at all, and pretending otherwise is how the cap comes back.
+            raise _CBUD.ContextOverflow(
+                f"{source_name}: num_ctx={_CBUD.window(cfg)} leaves no room for feats content "
+                f"after the prompt scaffolding. Raise num_ctx or trim the prompts.")
+        blocks = pack_feats(feat_rows, source_name, budget)
         multi = len(blocks) > 1
         ctx = {
             "mode": record.get("mode"),
