@@ -148,7 +148,10 @@ def save(d):
         tmp = LEDGER + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(d, f, indent=1, sort_keys=True)
-        os.replace(tmp, LEDGER)
+        # replace_retry, not a bare os.replace: the dashboard and the standards board both read
+        # this file on their own clocks, and on Windows a rename is DENIED while a reader holds
+        # the target -- which here would throw away the whole round's findings.
+        silence.replace_retry(tmp, LEDGER)
     except Exception:
         silence.note("overwatch.py:save")
 

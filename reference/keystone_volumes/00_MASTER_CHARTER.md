@@ -851,3 +851,127 @@ All dates below use the One Calendar's era notation: **AS — After the Sunderin
 *Manifest totals: 12 numbered Collections + the Weave + the Chronica Annex (17 Canons, 275 vols — the second library) • 16 Sets in the Catalogue of Worlds • 6 Wings, 16 Grand Series, and 1 Annex under the Law of Shelf-Load • 523 volumes on the manifest, 522 delivered.*
 
 *"There is no outside the Omniverse. There is, however, an index." — Custos-Prime Avar, Vol. 0.1*
+
+---
+
+### AMENDMENT — ACQUISITIONS INDEX, ADDITIONS 2026-08-24
+
+*The Roll outgrew the Index. These 112 sources were added to the Acquisitions Roll after the Index was last written, and are placed here by owner ruling on 2026-08-24. The Index above is left exactly as it stood; this block extends it.*
+
+*Three entries the Index already carried are also restored to `CHARTER_SPINE_CODES.json` here — `Final Fantasy (all)`, `Magic: The Gathering (all planes)` and the `D&D settings` row. All three had a parenthetical in the code column (`(Grand Series)`, `Set … (Wing)`), which the parser that builds the JSON silently dropped. They were never unassigned; they were lost in transit.*
+
+| Source | Code |
+|---|---|
+| A Plethora of Paladins | II.L.7 |
+| ARMS | II.P |
+| Acquisitions Incorporated | II.L.7 |
+| Adventure Time | II.Q |
+| Adventurers League | II.L.7 |
+| Alien | II.N |
+| Arcanum Worlds (Odyssey of the Dragonlords) | II.L.7 |
+| Baki | II.A |
+| Battlestar Galactica | II.F |
+| Bleach | II.A |
+| Chowder | II.Q |
+| Crash Bandicoot | II.P |
+| Critical Role (Tal'Dorei Campaign Setting) | II.L.7 |
+| Curious DM Investigations (the Sharkin) | II.L.7 |
+| Curse of Strahd | II.L.7 |
+| DMs Guild: Heroes of Hell | II.L.7 |
+| DMs Guild: Mirt's Undermountain Survival Guide | II.L.7 |
+| DMs Guild: The Great Dale | II.L.7 |
+| DMs Guild: Walrock Homebrew | II.L.7 |
+| DMs Guild: Wayfinder's Guide to Eberron | II.L.7 |
+| DMs Guild: Xanathar's Lost Notes to Everything Else | II.L.7 |
+| Descent into Avernus | II.L.7 |
+| Dr. Firestorm's Engineering Corps | II.L.7 |
+| Draconic Cult Relics | II.L.7 |
+| Dungeon Master's Guide | II.L.7 |
+| Dungeon of the Mad Mage | II.L.7 |
+| Eberron: Rising from the Last War | II.L.7 |
+| Explorer's Guide to Wildemount | II.L.7 |
+| Extra Life | II.L.7 |
+| Fire Emblem | II.L |
+| Genuine Fantasy Press (Forgotten Secrets) | II.L.7 |
+| Ghosts of Saltmarsh | II.L.7 |
+| God of War | II.L |
+| Guildmasters' Guide to Ravnica | II.L.7 |
+| Helldivers 1 & 2 | II.F |
+| Hoard of the Dragon Queen | II.L.7 |
+| Invincible | II.D |
+| JMBrew | II.L.7 |
+| Journey to the West (incl. its associated adaptations) | III.8 |
+| KBP Unlikely Heroes | II.L.7 |
+| KibblesTasty (techno-psionic line) | II.L.7 |
+| Kobold Press (Midgard Heroes Handbook, Midgard Worldbook) | II.L.7 |
+| League of Legends | II.L |
+| Legend of Zelda | II.L |
+| Lost Mines of Phandelver | II.L.7 |
+| Mage Hand Press | II.L.7 |
+| Magic: The Gathering — all planes | II.E |
+| Mario and his expanded universe | II.P |
+| Monster Manual | II.L.7 |
+| Mordenkainen's Tome of Foes | II.L.7 |
+| Mythic Odysseys of Theros | II.L.7 |
+| Native Combat Traditions | II.L.7 |
+| Out of the Abyss | II.L.7 |
+| Pantheon: Chinese | III.8 |
+| Pantheon: Greek | III.1 |
+| Pantheon: Inuit | III.9 |
+| Pantheon: Japanese | III.8 |
+| Pantheon: Korean | III.8 |
+| Pantheon: Polynesian | III.9 |
+| Pantheon: Roman | III.1 |
+| Player's Handbook | II.L.7 |
+| Pokemon | II.K |
+| Predator | II.I |
+| Prime World Equipment | II.L.7 |
+| Princes of the Apocalypse | II.L.7 |
+| Problem Solverz | II.Q |
+| Professional Wrestling: WWE/WCW/AAA/NXT/ECW/TNA/AEW | II.C |
+| ROOT (the board game) | II.P |
+| Regular Show | II.Q |
+| Rick and Morty | II.Q |
+| Rime of the Frostmaiden | II.L.7 |
+| Rise of Tiamat | II.L.7 |
+| Robocop | II.H |
+| Rock of Ages | II.P |
+| Rosario + Vampire | II.A |
+| Sakamoto Days | II.H |
+| Savant | II.L.7 |
+| SpongeBob SquarePants | II.Q |
+| Star Fox | II.F |
+| StarCraft | II.F |
+| Storm King's Thunder | II.L.7 |
+| Sword Coast Adventurer's Guide | II.L.7 |
+| Tales from the Yawning Portal | II.L.7 |
+| Terminator | II.J |
+| The Amazing Digital Circus | II.Q |
+| The Amazing World of Gumball | II.Q |
+| The Elements Beyond | II.L.7 |
+| The Grim Adventures of Billy & Mandy | II.Q |
+| Tomb of Annihilation | II.L.7 |
+| Toy Soldiers | II.P |
+| Twilight Imperium | II.P |
+| Uncle Grandpa | II.Q |
+| Unearthed Arcana (incl. the Planeshift documents) | II.L.7 |
+| Volo's Guide to Monsters | II.L.7 |
+| Waterdeep: Dragon Heist | II.L.7 |
+| Who Framed Roger Rabbit (incl. all content from its associated crossover-toon IPs) | II.Q |
+| World of Warcraft | II.L |
+| Xanathar's Guide to Everything | II.L.7 |
+| Xenoblade | II.F |
+| Yorviing's Arcane Grimoire | II.L.7 |
+| all Civilization games | II.P |
+| all Final Fantasy | II.L.5 |
+| all the Fate series | II.A |
+| aurora_mods (Way of the Inkmaster) | II.L.7 |
+| swecky's Nature Traditions | II.L.7 |
+| swordmeow's Atavist | II.L.7 |
+| the FFXIV / Eorzea conversion | II.L.7 |
+| the Root Companions | II.L.7 |
+| the Sex Worker background | II.L.7 |
+| the Weaveshaper Ateliers | II.L.7 |
+| the Witch Tradition | II.L.7 |
+| witchcraft traditions in full | VII.7 |
+

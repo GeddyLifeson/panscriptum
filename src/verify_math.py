@@ -1440,6 +1440,7 @@ try:                                  # SystemExit is a BaseException; _raises w
     _FT.discover("h", "n", extra=25)
     _capped = False
 except SystemExit:
+    _ = "silence-exempt: catching the refusal IS the assertion; a note would file a pass"
     _capped = True
 check("feats.discover refuses a numeric cap", _capped, True)
 
@@ -1511,6 +1512,7 @@ def _refuses_cap(fn):             # SystemExit is a BaseException; _raises would
         fn()
         return False
     except SystemExit:
+        _ = "silence-exempt: catching the refusal IS the assertion; a note would file a pass"
         return True
 
 

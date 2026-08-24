@@ -1,5 +1,5 @@
 {
- "at": "2026-08-24 10:14:05",
+ "at": "2026-08-24 10:25:05",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 143,
+     "left": 150,
      "cap": 500,
-     "frac": 0.286
+     "frac": 0.3
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.286
+   "worst": 0.3
   },
   {
    "bucket": "cohere:free",
@@ -308,15 +308,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 3,
-     "cap": 765,
-     "frac": 0.0039
-    },
-    {
-     "name": "rpm",
-     "left": 29,
-     "cap": 30,
-     "frac": 0.9667
+     "left": 2,
+     "cap": 759,
+     "frac": 0.0026
     },
     {
      "name": "tpd",
@@ -325,19 +319,31 @@
      "frac": 0.9999
     },
     {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
      "name": "tpm",
      "left": 6000,
      "cap": 6000,
      "frac": 1.0
     }
    ],
-   "worst": 0.0039
+   "worst": 0.0026
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
    "model": "groq-gptoss120",
    "unlimited": false,
    "windows": [
+    {
+     "name": "rpm",
+     "left": 0,
+     "cap": 30,
+     "frac": 0.0
+    },
     {
      "name": "rpd",
      "left": 0,
@@ -346,15 +352,9 @@
     },
     {
      "name": "tpd",
-     "left": 78397,
+     "left": 77858,
      "cap": 200000,
-     "frac": 0.392
-    },
-    {
-     "name": "rpm",
-     "left": 29,
-     "cap": 30,
-     "frac": 0.9667
+     "frac": 0.3893
     },
     {
      "name": "tpm",
@@ -384,9 +384,9 @@
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 29,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9667
     },
     {
      "name": "tpm",
@@ -410,15 +410,15 @@
     },
     {
      "name": "tpd",
-     "left": 45303,
+     "left": 43151,
      "cap": 200000,
-     "frac": 0.2265
+     "frac": 0.2158
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 29,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9667
     },
     {
      "name": "tpm",
@@ -456,9 +456,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 23,
+     "left": 22,
      "cap": 200,
-     "frac": 0.115
+     "frac": 0.11
     },
     {
      "name": "rpm",
@@ -467,7 +467,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.115
+   "worst": 0.11
   },
   {
    "bucket": "kluster:free",
@@ -582,9 +582,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
    "worst": 0.0
@@ -692,41 +692,41 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 474,
-  "per_hour": 1896,
+  "calls": 263,
+  "per_hour": 1052,
   "buckets": [
    {
     "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 427,
-    "ok": 1
+    "calls": 233,
+    "ok": 2
+   },
+   {
+    "bucket": "nvidia:free",
+    "calls": 10,
+    "ok": 10
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 13,
+    "calls": 7,
     "ok": 0
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 13,
-    "ok": 0
-   },
-   {
-    "bucket": "nvidia:free",
-    "calls": 12,
-    "ok": 12
+    "calls": 7,
+    "ok": 1
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 6,
-    "ok": 0
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 2,
+    "calls": 4,
     "ok": 0
    },
    {
     "bucket": "cloudflare:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "hyperbolic:free",
     "calls": 1,
     "ok": 0
    }
@@ -736,20 +736,20 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 7085,
+   "done": 7648,
    "total": 100081,
-   "detail": "1,150/39,944 entities  \u00b7  40,350 feats  \u00b7  0.53 chunks/s",
-   "warn": "221 unanswered",
-   "eta_h": 49.0
+   "detail": "1,300/39,944 entities  \u00b7  41,961 feats  \u00b7  2.12 chunks/s",
+   "warn": "253 unanswered",
+   "eta_h": 12.1
   },
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 44200,
+   "done": 44400,
    "total": 83437,
-   "detail": "50,793 pages  \u00b7  880M characters  \u00b7  12.1/s",
+   "detail": "51,011 pages  \u00b7  893M characters  \u00b7  8.4/s",
    "warn": "",
-   "eta_h": 0.9
+   "eta_h": 1.3
   }
  ],
  "library": {
@@ -766,7 +766,7 @@
    "read": 32913,
    "settled": 40916,
    "feats": 54440,
-   "age_h": 0.0
+   "age_h": 0.2
   },
   "phases": [
    {
@@ -802,7 +802,7 @@
     "built": true
    }
   ],
-  "readfeats": 1239
+  "readfeats": 1240
  },
  "watch": {
   "open": 19,
@@ -886,47 +886,47 @@
   "swallowed": [
    [
     "silent:feats.py:139:URLError",
-    227
+    428
    ],
    [
     "silent:wiki_source.py:160:URLError",
-    133
+    228
    ],
    [
     "silent:completeness.py:category_size:URLError",
-    42
+    72
    ],
    [
     "silent:verify_math.py:47:ValueError",
-    14
+    16
    ]
   ],
-  "swallowed_total": 416
+  "swallowed_total": 744
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1941,
+   "n": 1944,
    "p50": 9.9,
-   "p95": 16.1,
+   "p95": 16.0,
    "ok_pct": 3,
    "tps": null
   },
   {
    "tag": "entrypass",
-   "n": 109,
-   "p50": 35.1,
+   "n": 110,
+   "p50": 35.2,
    "p95": 39.2,
    "ok_pct": null,
-   "tps": 19.1
+   "tps": 19.0
   },
   {
    "tag": "overwatch",
-   "n": 41,
-   "p50": 25.4,
-   "p95": 37.0,
+   "n": 36,
+   "p50": 26.3,
+   "p95": 37.6,
    "ok_pct": null,
-   "tps": 31.9
+   "tps": 32.2
   }
  ],
  "standards": [
@@ -934,7 +934,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": true,
-   "observed": 1896,
+   "observed": 1052,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -970,7 +970,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "3% ok",
+   "observed": "5% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -979,7 +979,7 @@
    "standard": "chunks nobody answered",
    "group": "read",
    "holds": false,
-   "observed": "221 unanswered",
+   "observed": "253 unanswered",
    "floor": "none",
    "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
    "severity": "high"
@@ -987,8 +987,8 @@
   {
    "standard": "corpus read finishes inside a day",
    "group": "read",
-   "holds": false,
-   "observed": "49.0h",
+   "holds": true,
+   "observed": "12.1h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -997,7 +997,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "5.70",
+   "observed": "5.49",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -1006,7 +1006,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": true,
-   "observed": "7.1%",
+   "observed": "7.6%",
    "floor": "above 0",
    "order": "No chunk has completed. Check that read.py printed its transport banner and that the queue is not empty.",
    "severity": "high"
@@ -1024,7 +1024,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1078,7 +1078,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "416",
+   "observed": "744",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1159,7 +1159,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1177,7 +1177,7 @@
    "standard": "the character sweep is newer than the catalogue",
    "group": "library",
    "holds": false,
-   "observed": "1.1h behind the newest record",
+   "observed": "1.2h behind the newest record",
    "floor": "fresh",
    "order": "A record was re-catalogued after the sweep last ran, so every consumer of CHARACTER_SWEEP.json -- the assay queue, the host fitness roster, the chain's entity index -- is working from a cast list that no longer matches the shelves. The remedy starts `sweep.py`; the feats roll and the reader then pick the new entities up on their own next cycle.",
    "severity": "high"
@@ -1221,8 +1221,8 @@
   {
    "standard": "every managed job is running",
    "group": "machine",
-   "holds": true,
-   "observed": "all up",
+   "holds": false,
+   "observed": "overwatch.py",
    "floor": "all up",
    "order": "The supervisor starts these every cycle, so one that is down means it failed on startup rather than never being launched -- read its log in state/. If the SUPERVISOR is down, the watchdog in autostart.py restarts it within three minutes.",
    "severity": "medium"
@@ -1269,44 +1269,44 @@
    "metric": "cited",
    "now": 8003,
    "delta": 212,
-   "minutes": 35,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "settled",
    "now": 40916,
    "delta": 308,
-   "minutes": 35,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "feats",
    "now": 54440,
    "delta": 1586,
-   "minutes": 35,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "entities read",
-   "now": 1239,
-   "delta": 9,
-   "minutes": 35,
+   "now": 1240,
+   "delta": 4,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "chunks",
-   "now": 7085,
-   "delta": 1877,
-   "minutes": 35,
+   "now": 7648,
+   "delta": 1936,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "standards met",
-   "now": 28,
-   "delta": 2,
-   "minutes": 35,
-   "stalled": false
+   "now": 27,
+   "delta": 0,
+   "minutes": 36,
+   "stalled": true
   }
  ],
- "generated": "2026-08-24T10:14:08"
+ "generated": "2026-08-24T10:25:08"
 }
