@@ -107,7 +107,126 @@ TOOLS = [
             "replace": {"type": "string"},
             "why": {"type": "string", "description": "one sentence, for the audit trail"}},
             "required": ["path", "find", "replace", "why"]}}},
+    {"type": "function", "function": {
+        "name": "find_symbol",
+        "description": "Locate every definition of a function or class by NAME. Returns each "
+                       "as file:line with its enclosing class if it has one, and says how many "
+                       "definitions share the name. Use this before patching a function, to "
+                       "make sure you are changing the right one.",
+        "parameters": {"type": "object", "properties": {
+            "name": {"type": "string", "description": "bare function or class name"}},
+            "required": ["name"]}}},
+    {"type": "function", "function": {
+        "name": "run_check",
+        "description": "Run one of the project's own verifiers and return its output. "
+                       "Read-only: these check the tree, they never modify it. Use this to "
+                       "TEST a claim before proposing a patch, and again to confirm a patch "
+                       "did what you said. Allowed: 'verify_math' (the full invariant suite), "
+                       "'pyflakes' (lint one file or all of src), 'compile' (does a file "
+                       "parse and import), 'silence' (the swallowed-exception audit).",
+        "parameters": {"type": "object", "properties": {
+            "check": {"type": "string", "description":
+                      "verify_math | pyflakes | compile | silence"},
+            "path": {"type": "string", "description":
+                     "for pyflakes/compile: the file to check, default all of src"}},
+            "required": ["check"]}}},
 ]
+
+
+def t_find_symbol(name, **_):
+    """Every definition of `name`, with its enclosing class and a uniqueness verdict.
+
+    THE MODEL LANE CAN OVERWRITE THE WRONG FUNCTION (m38): `foreman._function_source` resolves
+    a symbol by bare name with no uniqueness check, and with `--patch` live that is a real
+    edit to a real file. Giving the model a tool that SAYS a name is ambiguous is the cheap
+    half of that fix -- it cannot disambiguate what it was never told was ambiguous.
+    """
+    want = (name or "").strip()
+    if not want:
+        return {"error": "no name given"}
+    hits = []
+    for root, dirs, files in os.walk(os.path.join(HERE, "src")):
+        dirs[:] = [d for d in dirs if d not in ("__pycache__", "deprecated")]
+        for fn in sorted(files):
+            if not fn.endswith(".py"):
+                continue
+            full = os.path.join(root, fn)
+            try:
+                with open(full, encoding="utf-8") as f:
+                    tree = ast.parse(f.read())
+            except Exception:
+                continue
+            rel = os.path.relpath(full, HERE).replace("\\", "/")
+
+            def walk(node, cls=None):
+                for child in ast.iter_child_nodes(node):
+                    if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                        if child.name == want:
+                            hits.append({"file": rel, "line": child.lineno,
+                                         "kind": type(child).__name__.replace("Def", "").lower(),
+                                         "enclosing_class": cls})
+                        walk(child, child.name if isinstance(child, ast.ClassDef) else cls)
+                    else:
+                        walk(child, cls)
+            walk(tree)
+    return {"name": want, "count": len(hits), "definitions": hits,
+            "unique": len(hits) == 1,
+            "warning": (None if len(hits) <= 1 else
+                        f"{len(hits)} definitions share this name -- say which file you mean "
+                        f"and quote enough surrounding text that `find` matches only one")}
+
+
+# The ONLY commands the model may cause to run. An allowlist of fixed argument vectors, not a
+# shell string it can influence: the model proposes which CHECK to run, never what to execute.
+_CHECKS = ("verify_math", "pyflakes", "compile", "silence")
+
+
+def t_run_check(check="", path=None, **_):
+    """Run one of the repo's own verifiers, read-only, and hand back what it said.
+
+    WHY THIS TOOL EXISTS. The lane could read code and propose an edit but could not TEST
+    anything, so every claim it made about behaviour was inference from reading -- and this
+    project's most repeated lesson is that a comment or a reading is not evidence (three false
+    claims found in day-old code across two runs). A model that can run `verify_math` before
+    and after its own patch is arguing from a result instead of from a guess.
+
+    Read-only by construction: none of the four writes to the tree. `propose_patch` remains the
+    only path to a change, and it keeps every one of its existing gates.
+    """
+    check = (check or "").strip()
+    if check not in _CHECKS:
+        return {"error": f"unknown check {check!r}; allowed: {', '.join(_CHECKS)}"}
+    target = None
+    if path:
+        target = _safe(path)
+        if not target:
+            return {"error": "path outside the project"}
+    if check == "verify_math":
+        argv = [PY, os.path.join(HERE, "src", "verify_math.py")]
+    elif check == "silence":
+        argv = [PY, os.path.join(HERE, "src", "silence.py")]
+    elif check == "pyflakes":
+        argv = [PY, "-m", "pyflakes", target or os.path.join(HERE, "src")]
+    else:
+        argv = [PY, "-c",
+                "import py_compile,sys; py_compile.compile(sys.argv[1], doraise=True); "
+                "print('parses OK')", target or os.path.join(HERE, "src", "verify_math.py")]
+    try:
+        env = dict(os.environ, PYTHONIOENCODING="utf-8")
+        r = subprocess.run(argv, cwd=HERE, capture_output=True, text=True, timeout=900,
+                           encoding="utf-8", errors="replace", env=env)
+    except Exception as e:
+        return {"error": f"{type(e).__name__}: {str(e)[:160]}"}
+    out = ((r.stdout or "") + (r.stderr or "")).strip()
+    # The TAIL, because a verifier's verdict is at the end -- and it is labelled as a window
+    # rather than presented as the whole output, so the model is never misled about what it
+    # has seen. Hard Rule 0 is about listings the library serves, not about a console window,
+    # but saying which part you are showing costs nothing and prevents a false conclusion.
+    tail = out[-6000:]
+    return {"check": check, "exit_code": r.returncode, "ok": r.returncode == 0,
+            "output_tail": tail,
+            "truncated": len(out) > len(tail),
+            "note": "showing the last 6000 characters; the verdict line is at the end"}
 
 
 def _safe(path):
@@ -313,7 +432,8 @@ def run(task, model=None, apply=True, quiet=False):
     messages = [{"role": "system", "content": SYSTEM},
                 {"role": "user", "content": task}]
     patches, tool_calls_seen = [], 0
-    impl = {"read_file": t_read_file, "list_dir": t_list_dir, "grep": t_grep}
+    impl = {"read_file": t_read_file, "list_dir": t_list_dir, "grep": t_grep,
+            "find_symbol": t_find_symbol, "run_check": t_run_check}
     for turn in range(MAX_TURNS):
         try:
             msg = _chat(model, messages, host)

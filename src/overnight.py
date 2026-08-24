@@ -28,6 +28,7 @@ So the rules here are about ORDER and EXCLUSION, not about doing anything new:
   morning question is answered by a file rather than by an archaeology session over four logs.
 """
 import argparse
+import contextlib
 import datetime
 import json
 import os
@@ -182,7 +183,23 @@ def start(name, args, logfile):
         return None
     lf = os.path.join(STATE, logfile)
     log(f"  {name}: starting (background)")
-    fh = open(lf, "w", encoding="utf-8")
+    # APPEND, NEVER TRUNCATE (m23). This was `open(lf, "w")`, so every keeper-driven restart
+    # destroyed that job's entire history -- and the keeper restarts a standing job whenever it
+    # finds it down, which is the NORMAL path, not an edge case. It cost two investigations:
+    # the 59-503 record that diagnosed the Ollama wedge in run #4 existed only in
+    # pipeline_auto.log and was erased minutes after being read, and run #7 hit the same wall.
+    # Any problem needing more than one restart to understand could not be investigated at all.
+    #
+    # Append plus a session separator rather than rotation, deliberately: the dashboard's
+    # `_tail_match` readers assume ONE current file per job, and rotating to `<job>.N.log` would
+    # silently change what they read. This keeps the file they expect and stops throwing the
+    # evidence away. Borrowed from `trading_bot/log.py` and `rent_engine/scripts/weekly.py`,
+    # which both open long-lived logs in append mode for exactly this reason.
+    fh = open(lf, "a", encoding="utf-8")
+    with contextlib.suppress(Exception):
+        stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        fh.write(f"\n{'=' * 78}\n=== {name} started {stamp} (pid pending)\n{'=' * 78}\n")
+        fh.flush()
     env = dict(os.environ, PYTHONIOENCODING="utf-8")
     p = subprocess.Popen([PY, "-u"] + args, cwd=HERE, stdout=fh,
                          stderr=subprocess.STDOUT, env=env,
@@ -447,6 +464,56 @@ def main():
                     silence.note("overnight.py:keeper")
 
     _th.Thread(target=_keep, daemon=True).start()
+
+    def _keep_warm():
+        """Hold the model resident AT THE CONFIGURED num_ctx.
+
+        Two separate costs this pays off, both measured 2026-08-24.
+
+        The ordinary one, which `motoko/discord_bot.py:495` records on this same card: Ollama
+        evicts an idle model after about five minutes and reloading it costs tens of seconds on
+        whatever call happens to be next. Its note -- "most of what 'she's slow' actually was".
+
+        The sharp one, which is ours. Ollama serves a resident model at ONE context size, and a
+        call asking for a different `num_ctx` must tear the runner down and rebuild it. Under
+        contention that rebuild loses to the queue and simply never completes: measured, a call
+        at the resident 4096 answered in 9-38 s while calls at 6144 and 8192 did not return at
+        all, so the whole library was pinned to whichever size loaded first. A periodic ping AT
+        THE CONFIGURED SIZE keeps the runner the right shape as well as merely warm.
+
+        Skipped whenever the card is busy -- this must never become one more competitor for the
+        thing it is protecting.
+        """
+        import json as _json
+        import urllib.request as _ur
+        try:
+            import gpu_lane as _gl
+        except Exception:
+            _gl = None
+        while True:
+            time.sleep(120)
+            try:
+                if _gl is not None and (_gl.status()["slots"] or _gl.foreground_active()):
+                    continue                      # busy; poking it would only add to the queue
+                cfg = {}
+                with contextlib.suppress(Exception):
+                    import yaml
+                    with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
+                        cfg = yaml.safe_load(f) or {}
+                host = cfg.get("ollama_host", "http://localhost:11434")
+                body = _json.dumps({
+                    "model": cfg.get("model"), "prompt": "ok", "stream": False,
+                    "keep_alive": "10m",
+                    "options": {"num_ctx": int(cfg.get("num_ctx", 6144)), "num_predict": 1},
+                }).encode()
+                req = _ur.Request(host.rstrip("/") + "/api/generate", data=body,
+                                  headers={"Content-Type": "application/json"})
+                with _ur.urlopen(req, timeout=120):
+                    pass
+            except Exception:
+                silence.note("overnight.py:keep_warm")
+
+    _th.Thread(target=_keep_warm, daemon=True).start()
 
     history = []
     idle = 0

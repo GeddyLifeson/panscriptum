@@ -78,13 +78,16 @@
 - **catalogue_models** — CATALOGUE MODELS — ask each provider what it actually serves, instead of trusting the config
 - **chord_field** — THE CHORD AS A FIELD — the adjudication that lets ki and shrinking share one physics
 - **cleanup** — CLEANUP — the presentation defects the backscan turned up
+- **context_budget** — CONTEXT BUDGET — the cap the code did not choose, and the refusal that replaces it
 - **cosmography** — THE PLANETARY CENSUS — a calculable template from universe-size down to a single world
 - **cosmology_graph** — Phase 4, first half — the shared-stage graph. Pure Python, no model
 - **custodes** — THE CUSTODES — one standpoint per degree of freedom, and the interval as their disagreement
 - **derivation** — THE DERIVATION LEDGER — every quantity in the omniverse, and what it stands on
 - **descending_ladder** — THE DESCENDING LADDER — the rungs below Planet, and the Quantum Fold
+- **entity_match** — ENTITY MATCH — near-miss name resolution that cannot merge two continuities
 - **feats_index** — FEATS_INDEX — the join that makes 39,862 mined feats reachable as a chapter
 - **genre** — GENRE — classify a source once, and let everything downstream follow from it
+- **gpu_lane** — GPU LANE — one card, nine processes, and an order of precedence
 - **grounding** — THE HYPERVERSE — grounding type, or: which answer to the First Argument does this cosmos live under
 - **halo** — HALO — the top of the setting, assayed under the presence thesis
 - **handbuilt** — HAND-BUILT — assays for entities the automated pass cannot reach, and why it cannot

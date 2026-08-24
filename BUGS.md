@@ -357,6 +357,78 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+*Owner-directed session 2026-08-24 ~14:30 local. Ordered by the owner: the GPU lane first, then
+entity matching, then feats.*
+
+- **[m46/m52] A PROMPT ~1.9x LARGER THAN ITS WINDOW — closed by derivation, a split prompt, and
+  a refusal.** Three defences, because one was not enough. (a) **The budget is derived**:
+  `FEATS_BLOCK_CHARS = 20000` had no arithmetic relationship to `num_ctx`, so raising the window
+  did not widen blocks and lowering it did not protect them. `context_budget.feats_block_budget`
+  now computes what fits from the window, the measured scaffolding, a `JOB_OVERHEAD_CHARS` of
+  2,000 (measured max 1,536 across 331 real blocks) and a `METADATA_INFLATION` of 1.20 (measured
+  ~10%). (b) **Feats jobs stop carrying the chapter-only half of the system prompt**:
+  `system_style.txt` is two documents, ground rules and voice (6,963 chars) then THE ENTRY
+  TEMPLATE (11,149 chars). A feats chapter writes none of the template, and `feats_prompt.txt`
+  explicitly FORBIDS the scoring The Instrument describes — so 11,149 characters of instruction
+  were being countermanded by the user prompt. Split on the heading, never a line number.
+  (c) **Overflow raises**: `context_budget.assert_fits` refuses to send an over-long prompt,
+  naming the numbers, because Ollama truncates rather than refusing and `_covered` only checks
+  the entity NAME.
+  **Also fixed in passing:** `pack_feats`'s oversized slicer tested the budget AFTER appending,
+  so every slice overshot by its last deed — measured, one Black Templars slice reached 5,414
+  chars against a 2,987 budget. It now flushes before exceeding; a single deed larger than the
+  whole budget still gets its own block and is never clipped.
+  **Verified across five large sources: 1,370 blocks, 0 overflowing, 0 deeds lost** (Warhammer
+  40,000 7,354/7,354, Dragon Ball Z 5,790/5,790, One Piece 1,464/1,464, Marvel 282/282, DC
+  1,453/1,453). Tightest headroom +298 tokens. Pinned by verify_math §19t.
+- **[m23] JOB LOGS NO LONGER TRUNCATED ON RESTART.** `overnight.start()` opened every job log
+  `"w"`, so each keeper-driven restart destroyed that job's whole history — and the keeper
+  restarts a standing job whenever it finds it down, which is the normal path. It cost two
+  investigations (run #4's 59-503 Ollama-wedge record, erased minutes after being read; run #7
+  again). Now `"a"` plus a dated session separator, deliberately NOT rotation: the dashboard's
+  `_tail_match` readers assume one current file per job, and `<job>.N.log` would silently change
+  what they read. Adopted from `trading_bot/log.py` and `rent_engine/scripts/weekly.py`.
+- **[NEW — the contention m5 left behind] `gpu_lane`: nine processes, one card, an order of
+  precedence.** Killing the foreign orphan freed the sockets but Panscriptum's own nine standing
+  jobs still stampeded the daemon — measured, a 50 ms call took 0.057 s with a free slot and
+  28-35 s without, and calls at a non-resident `num_ctx` never completed at all, which is how
+  the library got pinned to one context size. Adapted from `motoko/discord_bot.py:256-298`,
+  which recorded the identical problem on this same card ("96-149s with the life loop running vs
+  ~10s without"). Motoko's is an `asyncio.Lock`; Panscriptum is nine separate processes, so this
+  version arbitrates through file leases: `MAX_SLOTS` (2) concurrent calls, background work
+  yields to any live foreground claim, every lease carries a PID and heartbeat, and **every
+  failure path proceeds rather than blocks** — a lane that deadlocked nine standing jobs would
+  be worse than no lane. Wired into all three call sites: `pipeline.ask` (which carries read,
+  feats, magnitude and ingest_doc), `generate.call_ollama` (foreground), `local_agent`.
+  Also added a keep-warm ping to `overnight` that holds the runner resident **at the configured
+  `num_ctx`** — motoko's idea, plus the context-size half that is ours.
+  **A REAL BUG WAS FOUND IN THIS CODE BY ITS OWN TESTS, and it is worth recording**: the first
+  version used the POSIX idiom `os.kill(pid, 0)` and checked for `ESRCH`. On Windows a
+  nonexistent PID raises **errno 22 / winerror 87**, so every dead process read as ALIVE and no
+  lease was ever reclaimed — a ghost slot stranded the card for its full 900-second lease
+  (measured 338.5 s in a test that should take under a second). Caught only because the
+  concurrency test hung. Now uses `OpenProcess` + `GetExitCodeProcess`. Pinned by §19s.
+- **[NEW] `entity_match`: near-miss name resolution that cannot merge two continuities.** Ranks
+  catalogue entries for a name the exact fold missed, and is built around one absolute refusal —
+  a parenthetical qualifier must match exactly or be absent from both sides. **Measured against
+  the live corpus: 3 records / 240 deeds strand on bound hosts and the matcher recovers ZERO of
+  them, which is the correct answer** — all three are `Wally West (New Earth)`, `(Prime Earth)`
+  and `Brood`, and every one comes back with a typed reason (2 × `qualifier-conflict`, 1 ×
+  `qualifier-missing`) instead of silence. So this recovers no evidence today; what it does is
+  make the obvious wrong fix structurally impossible and give the 240 stranded deeds a name.
+  Embeddings are supported but OFF: this machine has one model and no embedding model, and
+  embedding 85,968 names would re-saturate the card `gpu_lane` was just written to protect.
+  Reason codes adopted from `SAM/betting_suite/fetch.py` and `rent_engine/core/property_key.py`.
+  Pinned by §19r.
+- **[NEW] The local model lane can now VERIFY instead of only inferring.** `local_agent` gained
+  `run_check` (a strict allowlist of the repo's own read-only verifiers — verify_math, pyflakes,
+  compile, silence) and `find_symbol` (every definition of a name, with its enclosing class and
+  an explicit ambiguity warning). The lane could read code and propose an edit but could not test
+  anything, so every claim it made was inference from reading — and this project's most repeated
+  finding is that a reading is not evidence. `find_symbol` is also the cheap half of **m38**:
+  the lane cannot disambiguate a symbol nobody told it was ambiguous, and `main` has **74**
+  definitions in `src/`. `propose_patch` keeps every existing gate; nothing new can write.
+
 *Run #10 (2026-08-24 ~12:55 local, export commit = run #10's `publish.py --push` sync). Full
 detail in HANDOFF.md's run #10 entry:*
 
