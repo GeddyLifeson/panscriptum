@@ -129,7 +129,8 @@ section-label pairs in `verify_math.py`, not one; all renamed, `BUGS.md`'s three
 headings merged.
 
 **THE BATTERY.** `verify_math` **482 passed, 0 FAILED** (473 at run start; +9 new checks).
-`allsweep` **0 subsystems bad**. `pyflakes` clean. `silence` **35 silent of 395 handlers** — the
+`allsweep` **0 subsystems bad, and back to nine `running` lines** — m49's roster count, which
+read eight-plus-`NOT RUNNING read.py` at the start of this run. `pyflakes` clean. `silence` **35 silent of 395 handlers** — the
 count held at 35 across my edits, so **I added none**; the +3 against run #13's 32 arrived with
 the foreman's own `--patch` commits at 17:06–17:10, not from this run. Preflight 2 FAILs as
 above.
