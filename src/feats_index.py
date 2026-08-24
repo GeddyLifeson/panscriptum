@@ -30,10 +30,24 @@ THE JOIN THAT WORKS
 then match the feats record's `entity` against the source's entry NAMES, normalised. Measured
 over the whole store: **1,224 of 1,241 records and 39,400 of 39,862 feats -- 98.6%**.
 
-The seventeen that miss are hosts with no `WIKI_HOSTS` entry at all (the amazing digital circus,
-date a live, sakamoto days, uncle grandpa) -- sources whose host was never recorded, which is a
-gap in that file rather than in this join. They are REPORTED by `audit()` rather than dropped
-quietly, because an unjoined feats record is a mined deed that no volume will ever print.
+The seventeen that miss are TWO different problems, and an earlier version of this note called
+them all one. Measured 2026-08-24:
+
+  * **14 records / 222 feats** are hosts with no `WIKI_HOSTS` entry at all (the amazing digital
+    circus, date a live, sakamoto days, uncle grandpa) -- sources whose host was never recorded.
+    A gap in that file rather than in this join, and binding those four hosts fixes them.
+  * **3 records / 240 feats -- the MAJORITY of the stranded deeds -- are on hosts that ARE bound**
+    (`dc.fandom.com` -> DC, `marvel.fandom.com` -> Marvel): `Wally West (New Earth)`, `Wally West
+    (Prime Earth)` and `Brood`. The host is known; the catalogue simply holds no entry under a
+    matching name. Binding hosts will never recover these, and neither will loosening `_norm`
+    (see its docstring, which measures why). They are catalogue gaps.
+
+The distinction matters because it changes who fixes it, and 52% of the stranded evidence sits on
+the side the original note did not describe. `audit()` and `main()` already report a known host
+separately from an unrecorded one -- the code was right and only this note was wrong.
+
+They are REPORTED rather than dropped quietly, because an unjoined feats record is a mined deed
+that no volume will ever print.
 
 ON SHARED HOSTS, DELIBERATELY
 -----------------------------
@@ -76,10 +90,23 @@ _CACHE = {"hosts": None, "index": None}
 def _norm(s):
     """Fold a name to its comparable core.
 
-    Case and punctuation differ freely between a wiki page title and the catalogue's entry name
-    ("Zangetsu (Zanpakutou spirit)" vs "Zangetsu"), and both are written by different passes.
-    Alphanumerics only. Measured: loose normalisation recovers nothing the strict form misses on
-    the current store, so this is here for stability rather than for a known gain.
+    Case and punctuation differ freely between a wiki page title and the catalogue's entry name,
+    and both are written by different passes. Alphanumerics only.
+
+    THIS DOES NOT STRIP A PARENTHETICAL, and an earlier version of this docstring claimed it did
+    -- it offered "Zangetsu (Zanpakutou spirit)" vs "Zangetsu" as a case this folds together.
+    It does not: alphanumeric-only folding gives `zangetsuzanpakutouspirit` against `zangetsu`.
+    Corrected 2026-08-24 after measuring, because a comment that promises a capability the code
+    lacks is how the next reader mis-diagnoses a stranded record.
+
+    The STRICT form is nonetheless the right one, and that part of the original claim held up.
+    79 of 1,241 feats records carry a parenthetical and 76 of them join anyway, because the
+    catalogue overwhelmingly records the SAME disambiguated form. Loosening it would recover
+    none of the three that miss (`Wally West (New Earth)` and `Wally West (Prime Earth)` would
+    fold onto the catalogue's `Wally West (Earth-16)`, silently merging three DC continuities;
+    Marvel has no plain `Brood` entry under any spelling) while risking exactly that class of
+    conflation across the whole store. Those three are catalogue gaps, not folding failures --
+    see `audit()`, which reports a known host separately from an unrecorded one.
     """
     return "".join(c for c in (s or "").lower() if c.isalnum())
 

@@ -1946,6 +1946,24 @@ check("host_to_sources drops the `pages:` sentinels rather than colliding them",
 check("feats_for_source returns [] for a source with no host binding",
       _FI.feats_for_source("a source that does not exist", {"entries": []}), [])
 
+# --- _norm is STRICT on parentheticals, and that is load-bearing --------------------------------
+# Added 2026-08-24 (maintenance run #9). `_norm`'s docstring used to offer
+# "Zangetsu (Zanpakutou spirit)" vs "Zangetsu" as a pair it folds together. It does not, and the
+# strict behaviour is CORRECT: 79 of 1,241 feats records carry a parenthetical and 76 join
+# anyway, because the catalogue records the same disambiguated form. Loosening it is the obvious
+# "fix" for the three that miss and it is a trap -- `Wally West (New Earth)` and `Wally West
+# (Prime Earth)` would both fold onto the catalogue's `Wally West (Earth-16)`, merging three DC
+# continuities into one cast entry and attaching 177 deeds to the wrong continuity. These checks
+# exist so that a future reader who notices the stranded records cannot quietly make that trade.
+check("_norm does NOT fold a parenthetical away",
+      _FI._norm("Zangetsu (Zanpakutou spirit)") == _FI._norm("Zangetsu"), False,
+      note="if this ever becomes True, three DC continuities silently become one entry")
+check("_norm still folds case and punctuation",
+      _FI._norm("Wally West!") == _FI._norm("wally  west"), True,
+      note="strict about parentheses is not the same as strict about everything")
+check("two disambiguated forms of one character stay DISTINCT",
+      _FI._norm("Wally West (New Earth)") == _FI._norm("Wally West (Prime Earth)"), False)
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

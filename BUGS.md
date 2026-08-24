@@ -27,7 +27,47 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   sources unhosted; HTML answers a browser UA, so a design decision is needed: build an
   HTML-path reader with a browser UA (politeness/ToS question — HUMAN CALL) or leave the four
   sources owner-supplied. Noted in `data/SCOUT_BLOCKED.json`. Not auto-fixable.
+### Major
+- **[m42] BOUNCING A STANDING JOB ORPHANS ITS LONG-RUNNING CHILDREN, and the orphan then writes
+  shared state from a stale snapshot.** Found live in run #9. `foreman.adopt_hosts()` shells out
+  via `subprocess.run(..., timeout=1800)` to `hostcheck.py --adopt --go`. `subprocess.run` does
+  kill its child on timeout — but only if the PARENT is still alive to do it. Run #8 bounced the
+  foreman at 11:22 to ship the m40 fix; the foreman it replaced had launched a `--adopt` child at
+  11:15:25 which was left with **parent PID 35128, a process that no longer exists**. Its killer
+  was dead, so its 1800-second timeout could never fire, and at 12:20 it was still alive with
+  2.9s of CPU over 65 minutes (blocked on fandom sockets, which are down — M3). `adopt()` ends in
+  `hosts.update(found); _land(F.HOSTS, hosts)`, a **whole-file replace of `WIKI_HOSTS.json` from
+  the snapshot it read at 11:15**, and the CURRENT foreman had meanwhile launched a second,
+  legitimate `--adopt` (PID 17724, parent 5420, started 12:15:27). Two processes, each holding
+  its own snapshot, each ending in a whole-file write: whichever landed last would silently
+  discard the other's adoptions.
+  **This is m40's exact shape one run later in a different module, and it was CREATED BY the act
+  of shipping m40's fix** — every keeper bounce of a job that shells out to a slow child makes one.
+  Damage this time was nil (`WIKI_HOSTS.json` was untouched since 08:55, md5 `451703b8…` before
+  and after) because neither had finished; the orphan was killed and the ledger verified. **The
+  instance is closed. The missing guard is the open bug**, and it has two candidate fixes, which
+  is why it is filed rather than patched: either `_land` gains m40's digest-compare (write only
+  if the file is as it was read, else re-read and merge), or long children are made to notice
+  their parent is gone. `hostcheck._land` is atomic (`tmp` + `replace_retry`) but **atomicity is
+  not the property that was missing** — a stale whole-file write lands perfectly intact.
+- **[m43] Nothing in the kit detects an orphaned child**, which is the reason m40 and m42 were
+  both found by hand. Run #8 said as much in prose; run #9 found the second instance 65 minutes
+  later, so this is now a recurring cost rather than an observation. A check is cheap and
+  self-contained: any `panscriptum` python process whose ParentProcessId names a dead process is
+  an orphan by construction. Candidate home is `allsweep`'s RECONCILE block or `health
+  --preflight`. **Not self-authorized in run #9** because it adds a new reported subsystem and
+  the two runs that hit it disagree about the right remedy (kill vs. report).
+
 ### Minor
+- **[m44] `hostcheck.null_rate` computes its sampling stride from the WRONG list — currently
+  inert, deliberately not fixed.** `foreign = sorted(set(foreign))[::max(1, len(foreign) //
+  sample)][:sample]`: the RHS is evaluated before the assignment, so `len(foreign)` is the length
+  of the list WITH duplicates while the stride is applied to the DEDUPED one. Measured on the
+  live corpus: raw 618, deduped 599, so the stride is 15 where it should be 14 — and both yield
+  the full 40 names, because dedup only removes 19. **Fixing it would change the control sample
+  for every host and therefore host-adoption verdicts, for no gain while it returns the right
+  count.** Filed so the next reader who spots it knows it was measured and left alone on purpose;
+  becomes live only if the roster ever dedups heavily.
 - **[m26] the completeness audit structurally cannot see 46 of 210 sources** — `audit()`'s
   `todo` is filtered on `subdomain(h)`, which only resolves fandom hosts, so the 21
   Wikipedia-hosted and 25 other-hosted sources have never been in scope. Not widened silently
@@ -149,6 +189,27 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #9 (2026-08-24 12:30 local, export commit = run #9's `publish.py --push` sync). Full detail
+in HANDOFF.md's run #9 entry:*
+
+- **[m45] `feats_index._norm`'s docstring promised a fold it does not perform, and the module
+  docstring blamed all 17 stranded records on one cause when they have two.** Both corrected in
+  place; no code changed, because the code was right both times. (a) `_norm`'s docstring offered
+  *"Zangetsu (Zanpakutou spirit)" vs "Zangetsu"* as a pair it folds together. It does not —
+  alphanumeric-only folding yields `zangetsuzanpakutouspirit` against `zangetsu`. The STRICT
+  behaviour is nonetheless correct and is now defended by three verify_math checks (§19o), because
+  loosening it is the obvious fix for the stranded records and is a trap: `Wally West (New Earth)`
+  and `Wally West (Prime Earth)` would both fold onto the catalogue's `Wally West (Earth-16)`,
+  merging three DC continuities into one cast entry and attaching 177 deeds to the wrong one.
+  Measured: 79 of 1,241 records carry a parenthetical and 76 join anyway, so strict costs almost
+  nothing. (b) The module docstring, and `NEXT_STEPS` item C, said the 17 strays were all hosts
+  missing from `WIKI_HOSTS`. Re-measured: **14 records / 222 feats** are missing hosts, but
+  **3 records / 240 feats — 52% of the stranded evidence — sit on hosts that ARE bound**
+  (`dc.fandom.com`→DC, `marvel.fandom.com`→Marvel). Binding the four missing hosts will never
+  recover those; they are catalogue gaps. `audit()` and `main()` already reported the distinction
+  correctly — only the prose was wrong. Root cause of both: a docstring written from the shape of
+  the answer rather than from a re-measurement, in code less than an hour old.
 
 *Run #8 (2026-08-24 12:00 local, export commit = run #8's `publish.py --push` sync). Full detail
 in HANDOFF.md's run #8 entry:*

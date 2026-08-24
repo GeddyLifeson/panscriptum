@@ -9,6 +9,124 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 12:30 (local) — Run #9 (the fix that made the next orphan, and the 240 stranded deeds nobody was going to look for)
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets, no money movement, no data loss.** The paid lane is unchanged for a fourth run:
+   `598 used / cap 500`, `paid_lane_open()` → **False**. **M4 is still your decision, not a leak.**
+2. **A second orphaned process was found and stopped — and this one was created by run #8's own
+   fix.** Run #8 bounced the foreman to ship its m40 patch; the foreman it replaced had a slow
+   child mid-flight, and that child outlived its killer. Details below; it is the run's main find,
+   and like m40 it was caught by listing processes rather than by any check the kit runs.
+   **Nothing was lost** — `WIKI_HOSTS.json` was byte-identical before and after.
+3. **Half the "stranded" feats evidence was misfiled in the ledgers, including in the queue item
+   written for you.** `NEXT_STEPS` item C asked you to rule on four missing host bindings to
+   recover 17 stranded records / 462 mined deeds. Re-measured: binding those hosts recovers 14
+   records / 222 deeds. **The other 3 records carry 240 deeds — 52% — and sit on hosts that are
+   already bound** (DC, Marvel). No host ruling will ever recover them; they are catalogue gaps.
+   The decision you were asked to make was smaller than advertised.
+4. **The free local-model rung is real but SATURATED, and the foreman is telling the truth.**
+   `foreman.log`'s repeated *"GPU busy and no spare pool capacity"* looked like a swallowed error
+   to be fixed. Measured instead: a trivial call in the kit's exact shape got **no answer in 240
+   seconds**, while the same model answered a bare `/api/chat` in **32.6s wall for 28ms of actual
+   compute** — i.e. 32.5 seconds sitting in a queue. The message is accurate. Only **one** model
+   is installed (`qwen3:8b`), so every job shares one runner.
+5. **fandom.com is still down at the socket** — unchanged across runs #5–#9. Both `health
+   --preflight` FAILs are the two known outages (M3 fandom, M1 dandwiki), not new faults.
+
+**THE RUN'S THEME: a fix is an event, and events make orphans.** Run #8's theme was "the dangerous
+writer is the one that has been away." Run #9's is narrower and more uncomfortable: **the act of
+shipping that fix created the next instance of the same bug.**
+
+**m42 — THE ORPHAN THAT RUN #8 MADE.** `foreman.adopt_hosts()` shells out to `hostcheck.py
+--adopt --go` under `subprocess.run(..., timeout=1800)`. That call does kill its child on timeout
+— but only while the parent lives to do it. Run #8 bounced the foreman at **11:22** to ship the
+m40 patch. The foreman it replaced had launched an `--adopt` child at **11:15:25**, and that child
+was left holding **parent PID 35128, a process that no longer exists**. Verified directly: no
+process with that PID. Its killer was dead, so its 30-minute timeout could never fire; at 12:20 it
+was still alive on **2.9 seconds of CPU across 65 minutes** — the m40 ratio exactly, blocked on
+fandom sockets that are down.
+
+`adopt()` ends in `hosts.update(found)` then `_land(F.HOSTS, hosts)` — **a whole-file replace of
+`WIKI_HOSTS.json` built on the snapshot it read at 11:15**. Meanwhile the CURRENT foreman had
+started its own legitimate `--adopt` at **12:15:27** (PID 17724, parent 5420, alive and
+supervised). Two processes, two snapshots, both ending in a whole-file write: the later landing
+would silently discard the earlier's adoptions. Killed the orphan; kept the supervised one;
+confirmed `WIKI_HOSTS.json` md5 `451703b8…` **unchanged before and after**, 202 bindings, 191
+non-empty. **Nothing was lost this time**, because neither had finished.
+
+**Filed the guard rather than patching it, on purpose.** `hostcheck._land` is already atomic —
+`tmp` + `replace_retry` — and **atomicity is not the property that was missing**: a stale
+whole-file write lands perfectly intact. The real fix is either m40's digest-compare extended to
+`_land`, or making long children notice a dead parent, and those are different contracts. Also
+filed **m43**: nothing in the kit detects an orphan at all, which is why both instances were found
+by hand. The check is trivial (a `panscriptum` python process whose parent PID is dead), but it
+adds a reported subsystem and the two runs that hit this disagree on the remedy — kill, or report.
+
+**A CORRECTION TO THE RECORD, which the relay asks for explicitly.** The 12:05 interactive session
+built the feats join and wrote that its 17 stranded records were *"hosts missing from WIKI_HOSTS
+… a gap in that file, not in the join."* Its own numbers reproduce exactly (1,241 records / 1,224
+joined / 39,400 feats), so the join is sound. But the stranded-host counter also names
+`dc.fandom.com` and `marvel.fandom.com` — and both **are** bound, to DC and Marvel. Re-measured:
+
+* **14 records / 222 feats** — genuinely unrecorded hosts. Binding four hosts fixes them.
+* **3 records / 240 feats** — `Wally West (New Earth)`, `Wally West (Prime Earth)`, `Brood`, on
+  bound hosts. **The majority of the stranded evidence**, and no host ruling touches it.
+
+**The obvious repair is a trap, and measuring it was the useful part.** `_norm` folds to
+alphanumerics, so it does not strip a parenthetical — and its docstring claimed it did, offering
+*"Zangetsu (Zanpakutou spirit)" vs "Zangetsu"* as a pair it folds. It does not. But **loosening it
+recovers none of the three**: DC's catalogue holds `Wally West (Earth-16)`, a THIRD continuity, so
+stripping parentheses would fold all three onto one entry and attach 177 deeds to the wrong
+continuity; Marvel has no plain `Brood` under any spelling. So the strict form is right, the
+original docstring's *measured* claim ("loose normalisation recovers nothing") was right, and only
+its worked example was false. **Corrected the prose, changed no code, and pinned the behaviour
+with three verify_math checks** so that a future reader who notices the stranded records cannot
+quietly make that trade. This is the m41 lesson again: *a comment asserting a property is not
+evidence of that property* — here in code less than an hour old.
+
+**m44, found and deliberately NOT fixed.** Sweeping for the hash-order tie-breaks run #8 left
+undone (NEXT_STEPS item 22) turned up no new ones — navtree's two are fixed, every `sorted(set(`
+is deterministic — but it did surface `hostcheck.null_rate`: `foreign = sorted(set(foreign))[::max
+(1, len(foreign) // sample)][:sample]` computes the stride from the list WITH duplicates and
+applies it to the DEDUPED one. Measured on the live corpus: raw 618, deduped 599, stride 15 where
+it should be 14, **and both return the full 40 names**. Inert. Fixing it would perturb the control
+sample for every host and therefore adoption verdicts, for no gain — so it is filed with its
+measurement rather than tidied.
+
+**Queue items closed this run:**
+* **Q2 (m40 merge holding)** — `OVERWATCH.json` at **rounds 68, 64 findings**, exactly where run
+  #8 left it. Not lower either way; the merge holds.
+* **Q4 (m41 nav names)** — **PASS, and stronger than asked.** Two `navtree.py --write` runs in
+  separate processes (so different hash seeds) left `data/NAVTREE.json` **byte-identical**, md5
+  `1cbb6657…` across all three samples. The names are a genuine fixed point.
+* **Q5 (M4 money)** — `598 False`. Fourth flat run.
+* **Q3 (orphans)** — ran it; it found m42. This check has now earned its place twice.
+* **Q1 (m31) — STILL UNMEASURED, and honestly so.** No `returned N/M` line exists in
+  `state/pipeline_auto.log` at all, and the log has not been written since **11:52** (the two
+  *"unusable shape"* lines are still the newest entries). `pipeline.py` is alive (PID 3056, 51s
+  CPU). Per the queue's own instruction, no `returned` lines means the pipeline has not finished a
+  batch — so the consequence of run #7's fix is **not** confirmed and **not** refuted. Given
+  finding 4 (one saturated model serving every job), a batch simply may not have completed. Do not
+  read this as either outcome.
+
+**On the delegation ladder, honestly:** the local rung was measured before use and found saturated
+(finding 4), so it could carry nothing this run. **No Claude subagents were spawned** — the queue
+held enough verified concrete work, and the surface-rotation list is untouched and still the right
+place for a run that arrives with a real diff.
+
+**Battery:** verify_math **427 passed / 0 FAILED** (+3, §19o) · allsweep **0 subsystems bad** (84s)
+· health --preflight **2 FAIL, both the known M3/M1 outages** · silence **12 silent handlers,
+roster unchanged** · pyflakes **1 pre-existing warning** (`deprecated/catalogue_local.py:244`).
+
+**Still true and worth not re-deriving:** `allsweep`'s `running` detector reported 4 jobs while the
+process list showed 10 alive. Run #8 saw 1, run #7 saw 4. The jobs are demonstrably up, so this is
+a detection false-negative, not an outage — but it is now three runs of disagreement, and the
+detector is what a future run would trust to decide a job is down.
+
+---
+
 ## 2026-08-24 12:05 (local) — Interactive session: the Feats chapter, and Powers split from mechanics
 
 **Owner brief:** *"Should we implement an encyclopedia of powers section as well? ... powers and
