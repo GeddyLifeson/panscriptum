@@ -238,6 +238,10 @@ def main():
             continue
         counts = sorted(len(x) for x in parents.values())
         lo, hi = counts[0], counts[-1]
+        # m30, same shape as custodes' covers_every_reading: `seams()` already clamps every child
+        # count to SPAN, so "OVER SPAN" cannot print for any input. This displays a GUARANTEE, not
+        # a discovery. Kept because it states the bound where a reader looks for it; it becomes a
+        # real check only if seams() ever stops clamping.
         ok = "OK" if hi <= SPAN else "OVER SPAN"
         print(f"{t:<12}{f'{lo}-{hi}':<24}{len(parents)} parents   {ok}")
 

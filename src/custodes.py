@@ -332,6 +332,15 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
         "prior_divergence_share": round(prior_share, 3),
         "attestation_floor_share": round(1.0 - prior_share, 3),
         "reading_spread": {r["custos"]: round(r["reading"], 3) for r in readings},
+        # m30: this is a GUARANTEE being published, not a check being run. `half` is defined
+        # above as max(1.96*sd, max|v - consensus|) and only ever widened after, so this is true
+        # by construction for every possible input and cannot fail. It is left in place because
+        # it states the invariant at the point a reader would look for it -- but it must not be
+        # mistaken for verification, and it becomes a live check the moment `half` stops being
+        # defined to cover. What it does NOT report, and what would be genuine information, is
+        # whether the 1.96*sd band ALONE covered every reading, i.e. whether the widening had to
+        # fire. See NEXT_STEPS: that is an addition to the contract, not a repair, so it is
+        # raised as a question rather than shipped here.
         "covers_every_reading": all(abs(v - consensus) <= half + 1e-12 for v in vals),
         "interpretation": ("a high prior share means further fieldwork will NOT narrow this; the "
                            "disagreement is between standpoints, not about facts"),

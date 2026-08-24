@@ -9,6 +9,176 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 11:45 (local) — Run #7 (the fix that never reached production, and the batch that was never really asked)
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **The money lane is genuinely shut, verified.** `state/PAID_BURST.json` still reads
+   **598 used / cap 500**, byte-identical to how run #6 left it, and
+   `cascade_bridge.paid_lane_open()` returns **False**. The counter has NOT moved since run #6
+   fixed the enforcement hole, which is the evidence that the fix holds — a rising counter past
+   a closed lane was the failure mode to watch for and it did not happen. **M4 stays open
+   because it is your decision, not because anything is still leaking.** Raise `cap`, set
+   `enabled: false` (which now genuinely works), or delete the file.
+2. **Run #6's genre fix had never reached production, and now has.** It was correct and it was
+   inert. `data/GENRES.json` — the *only* bridge from `genre.py` into the running system — has
+   **no automated writer anywhere in `src/`**: it is produced solely by `genre.py --write`, a
+   manual CLI, and it was last run **2026-08-20**. Meanwhile `genre.classify_source` has **zero
+   runtime callers** (its sibling `grounding.classify_source` is called by `pipeline.py:1274`
+   every phase, which is why *that* half of run #6's work landed by itself). Regenerated this
+   run. Measured against the stale file across the whole corpus: **12 of 209 sources answer
+   differently, and 11 of those change REGISTER**, which is prose voice. Seven are run #6's
+   uncap; the other five (Darksiders, Diablo, Extra Life, Kinnikuman, Overwatch) drifted because
+   the corpus grew since the 20th. Marvel `superhero → mythology` (register `compact →
+   classical`). **QUESTION for you, in NEXT_STEPS: should GENRES.json have an automated writer,
+   or is a hand-run classification deliberate curatorial control?** I regenerated the artifact;
+   I did not wire up a job, because that changes a cadence.
+3. **The pipeline was throwing away every Marvel batch it judged, and had been for hours.**
+   `state/pipeline_auto.log` since 08:41 held four batch results and **all four were
+   `returned 0/20 - left open for retry`** — not a sample, the entire population. The same batch
+   put to the local model directly returned **20 valid results in 54s**. Diagnosis and fix below.
+4. **fandom.com is still down at the socket** — unchanged across runs #5, #6 and #7.
+   `health --preflight` reports it, and the completeness audit remains honestly UNMEASURED.
+   Not a code fault.
+
+**THE RUN'S THEME: a fix is not landed until something in production actually reads it.** Two of
+this run's three biggest findings are the same shape — correct code that nothing was calling
+(genre), and a working fallback arm that nothing could reach (the pool).
+
+**WHY EVERY MARVEL BATCH SCORED ZERO.** `ask_pool_first` is the phases' cloud-first/local-second
+helper. Its whole contract is that a bad cloud answer falls through to the local model. It
+tested the cloud answer with `if got is not None`. That is not a test of usability, and the
+cloud path cannot make it one: `cascade_bridge.py:18` says so outright — *"Ollama constrains
+generation to a JSON schema. Cloud endpoints do not all offer that, so the schema is carried in
+the prompt."* In the prompt, i.e. as a **request**. So a cloud bucket can return perfectly valid
+JSON of entirely the wrong shape, `_extract_json` parses it happily, `ask_pool_first` returns it
+because it is not None, `phase_entrypass` finds no result whose index it actually asked about,
+and the batch scores 0/20 — indistinguishable downstream from the model having judged every
+entry and found nothing. **A cloud-first/local-second helper that accepts any non-None answer
+has no second.** Fixed: an answer must satisfy the schema's `required` keys (generic, free) and
+an optional caller predicate (`accept=`), because "usable" is caller knowledge — entrypass now
+supplies one requiring at least one result whose index is among the ones it named. A pool answer
+that fails either is logged as an unusable shape and the local arm gets its turn. verify_math
+§19l, 12 checks.
+
+**HONESTY ABOUT THAT DIAGNOSIS: the mechanism is confirmed, the incident is not reproduced.**
+By the time I probed, the pool had collapsed to 2 of 36 answering (below the `>= 3` gate), so
+`CB.ask` returns None in 2s and the call correctly falls through to local — I could not make it
+fail again on demand. What is *verified*: the local path returns 20/20 (run twice); the cloud
+path has no shape validation anywhere (read); 4 of 4 logged batches scored 0/20 while the pool
+proof read >= 3 answering; and `_extract_json` is documented and written to return None rather
+than an empty result, so an empty-but-parsed reply is the remaining way through. I did not see
+the bad reply itself. The fix is justified on its own terms regardless — a fallback that cannot
+be reached is a defect whether or not it caused this particular loss.
+
+**m27 — THE RUN GUARD HAD NO IMPLEMENTATION AT ALL.** This is the root cause under the bug as
+filed. `state/MAINTENANCE_RUN.json` is the one thing every maintenance run depends on, and
+grepping `src/` for it returned **nothing** — the protocol lived in prose in `MAINTENANCE.md`
+and every run re-improvised the read-modify-write inline. That is *why* nobody checked
+ownership: there was no single place to check it. Now `src/runguard.py`, with the invariant in
+one line — **a run may only refresh, or close, a record that carries its own name**. `beat()`
+refuses a foreign record loudly and leaves its heartbeat untouched; `release()` refuses to close
+one (the same bug pointed the other way — stamping `done` on a LIVE run hands its guard to the
+next comer); a closed record cannot be reopened by a stray heartbeat; a stale record can be
+taken over and the takeover records whose it was. Falsified against the m27 scenario before
+shipping: the pre-fix helper moves the foreign heartbeat, the new one does not. This run drove
+its own guard through it. verify_math §19k, 15 checks.
+
+**m28 — `overwatch.load()` answered a torn ledger with an empty one.** Now copies
+`health.flush()`'s treatment: preserve the wreck as `.corrupt`, say so on stderr, start fresh
+only then — and, added, it distinguishes ABSENT (the ordinary first run, no `.corrupt` written)
+from DAMAGED, which the old single `except` could not. Verified across all three states.
+
+**`local_agent`'s six-gate discipline was skipped entirely for every non-Python file.**
+Found by an audit subagent, verified in source, and worse than reported. `t_propose_patch`
+computed `modname = None` for anything not ending `.py`, then called the gates only
+`if modname` — so a patch to `config.yaml`, a prompt file, or any `data/*.json` was **written to
+disk and reported `applied: True` having passed no check whatever**: no parse, no lint, no
+import, no verify_math. The module's own docstring promises the opposite in as many words. The
+same `None` also made the **denylist unanswerable for non-Python paths**, so `config.yaml` — read
+by every module in the kit for model, host and `num_ctx` — was freely writable by the local
+model. Fixed three ways: the gates now run for every file type (parse per format — `ast.parse`
+on YAML is a guaranteed false rejection, not a check); verify_math runs unconditionally, since a
+broken config does no damage a parse check can see and every damage a whole-suite run can; and
+`DENYLIST_PATHS` covers non-module files, with `config.yaml` in it.
+
+**Four more discarded write-verdicts and a gate measuring the wrong quantity**, all audit
+findings verified in source before touching anything:
+
+- **`completeness.land()` promised "Returns True if the file now holds `rows`" and returned True
+  unconditionally**, discarding `replace_retry`'s boolean. This is the file whose measurement has
+  gone wrong three separate ways this week, and its own docstring names the readers that hold it
+  open — on Windows a held handle *is* a denied rename. The two existing guards protect the
+  CONTENT; neither checked that the content reached the disk. A run could measure correctly,
+  report success, exit 0, and leave the stale file in place. Now returns False and says which
+  measurement is actually on disk. **SHRINK_FLOOR closed the data-shrank shape; this was the
+  write-failed shape, and it was not covered.**
+- **`foreman.reprove_pool()`** discarded the same boolean *and then* cleared `CB._PROVEN[0]`,
+  forcing the next `_alive()` to re-read from disk — so a denied rename threw away the fresh
+  in-memory proof AND pointed the router at the stale file, while telling `round_once` it had
+  handled the remedy (which makes it `break` for a whole cycle).
+- **`foreman.triage_swallowed()`** discarded both of its write verdicts. These two writes are a
+  MOVE, not two saves: clearing a ledger whose archive was denied destroys the counts outright.
+  Now archive-first, clear-only-if-the-archive-landed, distinct message for each failure.
+- **`foreman.attempt_patch`'s size gate measured `abs(len(new) - len(old))`** — a net line
+  COUNT — while the module docstring sells it as bounding how much of a function a model rewrite
+  may change, and while its own refusal message said "patch changes N lines". Falsified: a
+  rewrite replacing **every line of an 80-line function**, landing on 82 lines, scored **2** and
+  passed a cap of 40. Now `lines_changed()` (difflib, stdlib) scores it 82 and refuses it.
+  Small patches unaffected (one-line edit: old metric 0, new metric 1).
+
+**Hard Rule 0: a cap was truncating the OWNER'S OWN decision document.** `foreman.owner_queue()`
+wrote `for u in urls[:3]` into `FOR_OWNER.md` — the file whose stated purpose is "everything
+nobody but the owner can decide, in one place". The rule's exact shape, aimed at a human
+decision instead of a catalogue: you read three URLs, rule on what those three imply, and never
+learn a fourth existed. Uncapped. (Visible in the current `FOR_OWNER.md`: several blocked
+sources show exactly three.)
+
+**m30 — documented rather than "fixed", deliberately.** `custodes.covers_every_reading` and
+`sevenfold`'s `OVER SPAN` are both **enforced invariants being published as checks**, true by
+construction and incapable of failing. Changing what they compute would be design work, so both
+now say plainly in-source that they state a guarantee, that they cannot catch a regression, and
+what would make each a live check again. The genuinely informative measurement in the custodes
+case — whether the 1.96·sd band alone covered every reading, i.e. whether the widening had to
+fire — is raised as a QUESTION in NEXT_STEPS rather than shipped unasked.
+
+**Battery (post-fix):** verify_math **389 passed / 0 FAILED** (+51 over run #6, across §19k,
+§19l, §19m) · allsweep **0 subsystems bad** · pyflakes clean across `src/` — and it earned its
+place this run, catching two `undefined name 'delta'` references I left behind when renaming a
+variable in `foreman.attempt_patch` · silence audit **347 handlers, 12 silent** (roster
+unchanged from run #6; `runguard`'s absent-file branch marked `silence-exempt`) ·
+`health --preflight` **2 problems, both pre-existing and known** (M3 fandom, M1 dandwiki),
+`ok state consistency`.
+
+**Jobs bounced.** `pipeline` (PID 34872 → **3056**), whose fix concerns work it is doing right
+now rather than work already done — that is what made this a different call from run #6's, which
+correctly left it alone. `foreman` and `overwatch`, both changed. Logs transcribed to the
+scratchpad **before** each bounce (m23 truncates on restart) and the keeper caught the pipeline
+within seconds. `read.py` and `feats.py --roll` left alone per their supervisor cadence.
+
+**Delegation.** Rung (a): the bots' own outputs read first — `FOR_OWNER.md`, `ALLSWEEP.json`,
+`failures.json` + `failure_samples.json`, `POOL_PROOF.json`. The failure samples are what pointed
+at `cascade_bridge`'s JSON-decode sites and started the 0/20 thread. Rung (b) Ollama: **runner
+verified live** (`llama-server.exe` PID 37544 resident, `qwen3:8b`, real call returned in 13s) —
+so the run-#3b wedge is absent. It was used this run as the **measurement instrument** rather
+than for file work: the finding under investigation was the pipeline's own model path, so putting
+the disputed batch to the local model directly is what produced the decisive 20/20. Rung (c):
+two sonnet-tier audit subagents over five un-rotated surfaces; **one died on a 403 auth error
+and was relaunched**, which is worth knowing about as a normal event. **Every finding was
+re-verified against source before anything was touched** — and the `local_agent` one was
+understated by the agent (it missed the denylist consequence), while its `chain.py` findings are
+recorded but NOT acted on this run, having had no second opinion. Rung (d): the diagnosis, the
+corpus diff, the guard module, the ledgers.
+
+**Notes.** No caps introduced; one removed (`FOR_OWNER.md`). Two data keys dropped from
+`GENRES.json` by re-derivation — `Lost Mines of Phandelver` and `the Witch Tradition`, both
+sources with no record in the corpus — flagged here rather than done silently. `cleanup.py
+--apply` deliberately not re-run: m29's predicate is still an open owner question and run #6
+made exclusions permanent. Verified independently that all **149** `excluded` entries remain
+`catalogued: True` and none have been re-flipped, exactly as run #6 measured.
+
+---
+
 ## 2026-08-24 15:35 — Run #6 (the decision-shaped class: work that was undone, and a cap that chose the answer)
 
 **FOR THE OWNER, AT THE TOP:**

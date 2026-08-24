@@ -144,7 +144,15 @@ def reprove_pool():
         _pp = os.path.join(HERE, "data", "POOL_PROOF.json")
         with open(_pp + ".tmp", "w", encoding="utf-8") as f:
             json.dump(rows, f, indent=1)
-        silence.replace_retry(_pp + ".tmp", _pp)
+        # A DENIED RENAME HERE IS WORSE THAN A LOST WRITE, because of the line below it.
+        # Clearing `_PROVEN[0]` forces the next `_alive()` to re-read POOL_PROOF.json from
+        # disk -- so if the rename did not land, we have just thrown away the in-memory proof
+        # AND pointed the router at the stale file, then told round_once we handled it (which
+        # makes it `break` and skip the remedy for a whole cycle). Report the failure and keep
+        # the cached proof rather than invalidating it in favour of something older.
+        if not silence.replace_retry(_pp + ".tmp", _pp):
+            return False, "pool re-proved but POOL_PROOF.json write was DENIED; routing still " \
+                          "reads the previous proof"
         CB._PROVEN[0] = None                      # force the next _alive() to re-read
         return True, f"{len(ok)} of {len(rows)} buckets answer"
     except Exception as e:
@@ -241,10 +249,19 @@ def triage_swallowed():
         # (BUGS m18, 2026-08-24.)
         with open(arch + ".tmp", "w", encoding="utf-8") as f:
             json.dump(prev, f, indent=1)
-        silence.replace_retry(arch + ".tmp", arch)
+        # ARCHIVE FIRST, AND ONLY CLEAR IF THE ARCHIVE LANDED. These two writes are a move,
+        # not two independent saves, and the order matters in both directions: clearing a
+        # ledger whose archive was denied destroys the counts outright, while archiving without
+        # clearing merely re-archives them next round. Neither return value was checked, so
+        # both failures reported the same cheerful "swallowed and archived".
+        if not silence.replace_retry(arch + ".tmp", arch):
+            return False, "failures archive write DENIED; ledger left INTACT rather than " \
+                          "cleared into nothing"
         with open(path + ".tmp", "w", encoding="utf-8") as f:
             json.dump({}, f)
-        silence.replace_retry(path + ".tmp", path)
+        if not silence.replace_retry(path + ".tmp", path):
+            return False, f"{total:,} archived, but clearing state/failures.json was DENIED; " \
+                          f"the same batch will archive again next round"
     except Exception:
         silence.note("foreman.py:triage-archive")
     return True, f"{total:,} swallowed and archived, top: {detail}"
@@ -672,6 +689,22 @@ def _literals(src):
 _META = set(chr(92) + "^$.|?*+()[]{}")
 
 
+def lines_changed(body, new):
+    """How many lines a rewrite actually touches.
+
+    NOT `abs(len(new) - len(old))`, which is what this gate used to measure while the module
+    docstring sold it as bounding how much of a function a model rewrite may change. A rewrite
+    that replaced every line of an 80-line function and landed on 82 lines scored 2 and passed
+    a cap of 40 -- and the refusal message, when it did fire, reported that net figure as
+    "patch changes N lines". Each non-equal opcode costs the LARGER of the two spans it spans:
+    30 old lines replaced by 30 new ones is 30 changed, not 0, and 2 replaced by 40 is 40.
+    """
+    import difflib
+    old_l, new_l = body.splitlines(), new.splitlines()
+    return sum(max(i2 - i1, j2 - j1) for tag, i1, i2, j1, j2 in
+               difflib.SequenceMatcher(None, old_l, new_l).get_opcodes() if tag != "equal")
+
+
 def regex_touched(before, after):
     """Did this patch alter a pattern?
 
@@ -781,15 +814,21 @@ def attempt_patch(finding, dry=True):
     new = (got.get("function") or "").rstrip() + "\n"
     if not new.lstrip().startswith("def ") and not new.lstrip().startswith("async def"):
         return {"ok": False, "why": "reply is not a function"}
-    delta = abs(len(new.splitlines()) - len(body.splitlines()))
-    if delta > MAX_PATCH_LINES:
-        return {"ok": False, "why": f"patch changes {delta} lines; cap is {MAX_PATCH_LINES}"}
+    # LINES CHANGED, not the difference in line COUNT. This gate is the one the module
+    # docstring sells as bounding how much of a function a model rewrite may touch, and it was
+    # measuring `abs(len(new) - len(old))` -- a net total. A rewrite that replaced every line of
+    # an 80-line function and happened to land on 82 lines scored `delta = 2` and passed a gate
+    # meant to stop exactly that. The message said "patch changes 2 lines", which was false.
+    # difflib is stdlib, so this costs nothing and finally measures the quantity it names.
+    changed = lines_changed(body, new)
+    if changed > MAX_PATCH_LINES:
+        return {"ok": False, "why": f"patch changes {changed} lines; cap is {MAX_PATCH_LINES}"}
     if new.strip() == body.strip():
         return {"ok": False, "why": "no change proposed", "retire": True}
     if regex_touched(body, new):
         return {"ok": False, "why": "refused: the patch alters a regex literal"}
     if dry:
-        return {"ok": True, "why": "would patch", "delta": delta, "preview": new[:400]}
+        return {"ok": True, "why": "would patch", "delta": changed, "preview": new[:400]}
 
     os.makedirs(BACKUPS, exist_ok=True)
     backup = os.path.join(BACKUPS, f"{module}.{int(time.time())}.py")
@@ -804,7 +843,7 @@ def attempt_patch(finding, dry=True):
         if not good:
             shutil.copy2(backup, path)
             return {"ok": False, "why": f"reverted: {why}", "backup": backup}
-        return {"ok": True, "why": "patched and verified", "delta": delta, "backup": backup}
+        return {"ok": True, "why": "patched and verified", "delta": changed, "backup": backup}
     except Exception as e:
         silence.note("foreman.py:attempt_patch-apply")
         try:
@@ -909,7 +948,14 @@ def owner_queue(items):
         lines.append("")
         for src, urls in sorted(blocked.items()):
             lines.append(f"- **{src}**")
-            for u in urls[:3]:
+            # EVERY url, not the first three. This is the owner's decision document -- the file
+            # whose whole purpose is "everything nobody but the owner can decide, in one place".
+            # A cap here is Hard Rule 0's exact shape aimed at a human decision instead of a
+            # catalogue: the owner reads three URLs, rules on what those three imply, and never
+            # learns the fourth existed. Whether a source is genuinely unreachable or merely
+            # blocked on the one mirror the scout happened to list first is precisely the
+            # question the missing entries answer.
+            for u in urls:
                 lines.append(f"  - {u}")
         lines.append("")
 

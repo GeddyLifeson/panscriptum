@@ -52,6 +52,12 @@ SLICE = 12000                 # chars per read_file call -- a WINDOW, not a cap:
 DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards",
             "verify_math", "local_agent"}
 
+# The same bar, for files that are not python modules and therefore have no module name to
+# match on. Repo-relative, forward slashes. config.yaml is here because every module in the kit
+# reads it for the model, the host and num_ctx: one bad edit misroutes the whole pipeline, and
+# unlike a broken .py it fails silently rather than at import.
+DENYLIST_PATHS = {"config.yaml"}
+
 # Models known tool-trained and fitting a 10GB card, for the capability report when the
 # configured model turns out not to emit tool calls at all.
 # GPU-resident on a 10GB card AND tool-trained -- the ruling of 2026-08-24 excludes anything
@@ -164,16 +170,40 @@ def t_grep(pattern, subtree="src", **_):
 
 def _gates(full, modname):
     """The foreman's bar, verbatim in spirit: parse, lint, import, whole-suite. Returns
-    None when every gate passes, else the first failure's name."""
-    try:
-        ast.parse(open(full, encoding="utf-8").read())
-    except SyntaxError as e:
-        return "does not parse: " + str(e)[:100]
-    r = subprocess.run([PY, "-m", "pyflakes", full], capture_output=True, text=True,
-                       timeout=120, creationflags=_NO_WIN)
-    if "undefined name" in (r.stdout or ""):
-        return "pyflakes: " + r.stdout.strip().splitlines()[0][:120]
+    None when every gate passes, else the first failure's name.
+
+    EVERY applied patch reaches this function, whatever the file's type. It used to be reached
+    only for `.py` files -- `t_propose_patch` computed `modname` as None for anything else and
+    then called the gates only `if modname`, so a patch to `config.yaml`, a prompt file or a
+    `data/*.json` artifact was written to disk and reported `applied: True` having passed no
+    check at all. That directly contradicted this module's own docstring, which promises a
+    patch is applied only if it parses, lints, imports and leaves verify_math at 0 FAILED.
+
+    The parse gate is per-format, because `ast.parse` on a YAML file is not a check, it is a
+    guaranteed false rejection. verify_math runs for every type: it is the whole-suite gate,
+    and a broken config.yaml is precisely the kind of damage only a whole-suite run catches.
+    """
     if full.endswith(".py"):
+        try:
+            ast.parse(open(full, encoding="utf-8").read())
+        except SyntaxError as e:
+            return "does not parse: " + str(e)[:100]
+        r = subprocess.run([PY, "-m", "pyflakes", full], capture_output=True, text=True,
+                           timeout=120, creationflags=_NO_WIN)
+        if "undefined name" in (r.stdout or ""):
+            return "pyflakes: " + r.stdout.strip().splitlines()[0][:120]
+    elif full.endswith(".json"):
+        try:
+            json.load(open(full, encoding="utf-8"))
+        except Exception as e:
+            return "not valid JSON: " + str(e)[:100]
+    elif full.endswith((".yaml", ".yml")):
+        try:
+            import yaml
+            yaml.safe_load(open(full, encoding="utf-8"))
+        except Exception as e:
+            return "not valid YAML: " + str(e)[:100]
+    if full.endswith(".py") and modname:
         r = subprocess.run([PY, "-c", "import sys; sys.path.insert(0, r'%s'); import %s"
                             % (os.path.join(HERE, "src"), modname)],
                            capture_output=True, text=True, timeout=180,
@@ -181,12 +211,16 @@ def _gates(full, modname):
                            creationflags=_NO_WIN, cwd=HERE)
         if r.returncode != 0:
             return "import fails: " + (r.stderr or "").strip().splitlines()[-1][:120]
-        r = subprocess.run([PY, os.path.join(HERE, "src", "verify_math.py")],
-                           capture_output=True, text=True, timeout=600,
-                           env=dict(os.environ, PYTHONIOENCODING="utf-8"),
-                           creationflags=_NO_WIN, cwd=HERE)
-        if "0 FAILED" not in (r.stdout or ""):
-            return "verify_math regressed"
+    # THE WHOLE-SUITE GATE RUNS FOR EVERY FILE TYPE, not just Python. config.yaml carries the
+    # model, the host and the num_ctx every module reads; a prompt file carries the system text
+    # the phases judge with. Breaking either does no damage that a parse check can see and every
+    # damage a whole-suite run can. This is also the gate the docstring promises unconditionally.
+    r = subprocess.run([PY, os.path.join(HERE, "src", "verify_math.py")],
+                       capture_output=True, text=True, timeout=600,
+                       env=dict(os.environ, PYTHONIOENCODING="utf-8"),
+                       creationflags=_NO_WIN, cwd=HERE)
+    if "0 FAILED" not in (r.stdout or ""):
+        return "verify_math regressed"
     return None
 
 
@@ -195,9 +229,16 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     if not full or not os.path.isfile(full):
         return {"applied": False, "error": "no such file: " + str(path)}
     modname = os.path.basename(full)[:-3] if full.endswith(".py") else None
-    if modname in DENYLIST:
-        return {"applied": False, "error": modname + " is on the denylist -- the checking "
-                                                     "machinery may not edit itself"}
+    # The denylist has to be answerable for NON-python files too. It used to be tested against
+    # `modname`, which is None for anything that is not a `.py` -- so no non-python path could
+    # ever be denied, and `config.yaml` (read by every module in the kit for model, host and
+    # num_ctx) was freely writable by the local model. Match on the module name when there is
+    # one, and on the repo-relative path otherwise.
+    rel = os.path.relpath(full, HERE).replace(os.sep, "/")
+    denied = modname if modname in DENYLIST else (rel if rel in DENYLIST_PATHS else None)
+    if denied:
+        return {"applied": False, "error": str(denied) + " is on the denylist -- the checking "
+                                                         "machinery may not edit itself"}
     original = open(full, encoding="utf-8").read()
     if original.count(find) != 1:
         return {"applied": False,
@@ -213,7 +254,7 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     try:
         with open(full, "w", encoding="utf-8") as f:
             f.write(original.replace(find, replace, 1))
-        fail = _gates(full, modname) if modname else None
+        fail = _gates(full, modname)
         if fail:
             with open(full, "w", encoding="utf-8") as f:
                 f.write(backup)

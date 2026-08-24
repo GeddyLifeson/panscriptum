@@ -102,6 +102,7 @@
 - **resonance** — RESONANCE — the relational ontology, made computable
 - **resync_roll** — Rebuilds SWEEP_ROLL.json's entry_count/status from the record files on disk
 - **rosetta** — ROSETTA — each fiction's own power scale, mined and used as ground truth
+- **runguard** — RUNGUARD — the overlap guard for the maintenance pass, as code instead of as a convention
 - **scale_theories** — THE SCALE-CHANGE THEORIES — what would have to be true, and what it would cost
 - **sevenfold** — THE SEVENFOLD ORDER — seven hyperverses, and a span of one to seven at every tier beneath
 - **tempus** — DE TEMPORE — time across the omniverse, and what "now" can possibly mean

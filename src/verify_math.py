@@ -1581,6 +1581,182 @@ check("an unranked source takes what it earns", _AD.promote(None, 500), "series"
 check("holding steady changes nothing", _AD.promote("series", 500), "series")
 
 
+# ---- Section 19k: a run may only refresh or close a record that is ITS OWN --------------------
+# m27. The overlap guard's CLAIM was always checked; its HEARTBEAT never was. On 2026-08-24 an
+# interactive session took the guard mid-run and run #6 spent ~45 minutes stamping that session's
+# record, which made a FINISHED run look live -- the exact inverse of what the guard is for.
+# Until this section there was no implementation of the guard in src/ at all: the protocol lived
+# in prose and every run re-improvised the read-modify-write. These pin the invariant.
+
+import tempfile as _tf         # noqa: E402
+import time as _time           # noqa: E402
+import runguard as _RG         # noqa: E402
+
+_gd = _tf.mkdtemp()
+_gp = os.path.join(_gd, "GUARD.json")
+
+_ok, _ = _RG.claim("runA", _gp)
+check("a run can claim a free guard", _ok, True)
+check("and refresh its own heartbeat", _RG.beat("runA", _gp), True)
+
+# Someone else takes the guard. This is the m27 state, reproduced exactly.
+json.dump({"started": _time.time(), "heartbeat": _time.time(), "done": False,
+            "agent": "runB"}, open(_gp, "w"))
+_before = _RG.read(_gp)["heartbeat"]
+check("a run REFUSES to refresh a record carrying another agent's name",
+      _RG.beat("runA", _gp), False,
+      note="the m27 failure: refreshing a foreign record keeps a finished run looking live, "
+           "and the next run stands down for a corpse")
+check("and the foreign heartbeat is left exactly as it was",
+      _RG.read(_gp)["heartbeat"], _before,
+      note="returning False while still writing would be the same bug wearing a verdict")
+check("nor may it close a record it does not hold",
+      _RG.release("runA", _gp), False,
+      note="m27 pointed the other way: stamping done on a LIVE run hands its guard away")
+check("the true owner is undisturbed", _RG.read(_gp).get("done"), False)
+
+# A closed record must not be reopened by a stray heartbeat.
+os.remove(_gp)
+_RG.claim("runC", _gp)
+_RG.release("runC", _gp)
+check("releasing sets done", _RG.read(_gp)["done"], True)
+check("and a later heartbeat REFUSES to reopen it", _RG.beat("runC", _gp), False)
+
+# Liveness: unfinished AND fresh. Any other combination must let a successor through, or a
+# crashed run wedges the pass forever.
+_now = _time.time()
+check("a live predecessor blocks",
+      _RG.holder_is_live({"done": False, "heartbeat": _now}, _now), True)
+check("a crashed run (stale heartbeat) does NOT block",
+      _RG.holder_is_live({"done": False, "heartbeat": _now - _RG.STALE_AFTER_S - 1}, _now), False,
+      note="blocking on an unfinished record alone would wedge every future run")
+check("a finished run does not block even seconds old",
+      _RG.holder_is_live({"done": True, "heartbeat": _now}, _now), False,
+      note="landing on a just-finished predecessor is the NORMAL case at this cadence")
+check("an absent record does not block", _RG.holder_is_live(None, _now), False)
+check("a heartbeat-less record does not block",
+      _RG.holder_is_live({"done": False}, _now), False)
+
+# Taking over a crashed run records whose it was, so the takeover is legible in the file.
+os.remove(_gp)
+json.dump({"started": 1.0, "heartbeat": 2.0, "done": False, "agent": "crashed"},
+           open(_gp, "w"))
+_ok, _ = _RG.claim("runD", _gp)
+check("a stale record can be taken over", _ok, True)
+check("and the takeover names the run it superseded",
+      _RG.read(_gp)["superseded"]["agent"], "crashed",
+      note="a crashed run's work is unfinished by definition; the next run should be able to "
+           "see that it inherited rather than started clean")
+
+# ---- Section 19l: a CLOUD answer must be usable, not merely non-None ------------------------
+# Ollama constrains generation to the schema; the cloud path cannot, and carries the schema as
+# prompt text only (cascade_bridge.py:18). So a cloud model can return valid JSON of the wrong
+# shape, and `ask_pool_first` used to accept it on the sole test `got is not None` -- leaving
+# the working local arm unreached. Observed 2026-08-24: four consecutive Marvel entrypass
+# batches logged `returned 0/20` while the pool proof read >= 3 answering; the same batch put
+# to the local model returned 20 valid results. These pin the shape gate and the caller gate.
+
+_SCH = {"type": "object", "properties": {"results": {"type": "array"}}, "required": ["results"]}
+
+check("a non-dict cloud answer is unusable",
+      _PL._pool_answer_usable("results: none", _SCH, None), False)
+check("None is unusable", _PL._pool_answer_usable(None, _SCH, None), False)
+check("a dict missing a REQUIRED key is unusable",
+      _PL._pool_answer_usable({"entries": [{"index": 0}]}, _SCH, None), False,
+      note="valid JSON, wrong shape -- the exact thing a schema-in-the-prompt cannot prevent")
+check("a dict carrying every required key is usable",
+      _PL._pool_answer_usable({"results": [{"index": 0}]}, _SCH, None), True)
+check("an empty list still satisfies the SHAPE gate alone",
+      _PL._pool_answer_usable({"results": []}, _SCH, None), True,
+      note="shape cannot know whether empty is a real verdict; that is the caller's question")
+
+# The caller gate. entrypass asks about N named indices, so an answer judging none of them has
+# answered nothing -- however well-formed.
+_acc = lambda g, _n=20: any(isinstance(r.get("index"), int) and 0 <= r["index"] < _n
+                            for r in (g.get("results") or []))
+check("an answer judging NONE of the indices we asked about is a pool MISS",
+      _PL._pool_answer_usable({"results": []}, _SCH, _acc), False,
+      note="this is the 0/20 case: it must fall through to local, not be returned as a verdict")
+check("an answer whose indices are all out of range is also a miss",
+      _PL._pool_answer_usable({"results": [{"index": 99}, {"index": -1}]}, _SCH, _acc), False,
+      note="the results loop discards these, so the batch scores zero either way")
+check("one in-range judgment is enough to accept the cloud answer",
+      _PL._pool_answer_usable({"results": [{"index": 3}]}, _SCH, _acc), True)
+check("a full answer is accepted",
+      _PL._pool_answer_usable({"results": [{"index": i} for i in range(20)]}, _SCH, _acc), True)
+
+# A predicate that raises must not take the call down with it, and must not be read as consent.
+def _boom(_g):
+    raise RuntimeError("predicate blew up")
+check("a raising accept-predicate is a miss, not a crash and not an acceptance",
+      _PL._pool_answer_usable({"results": [{"index": 0}]}, _SCH, _boom), False)
+
+# A schema with no `required` list must not become a gate that rejects everything.
+check("a schema declaring nothing required accepts any dict",
+      _PL._pool_answer_usable({"anything": 1}, {"type": "object"}, None), True)
+check("and a missing schema does not crash the gate",
+      _PL._pool_answer_usable({"results": []}, None, None), True)
+
+# ---- Section 19m: a write that was DENIED is not a write that succeeded ----------------------
+# Three functions reported success while discarding the one boolean that says whether their
+# write reached the disk. `silence.replace_retry` returns False rather than raising when the
+# rename is denied for all its attempts, and on Windows a reader holding the target IS a denied
+# rename -- which each of these three files documents, by name, as a thing that happens to it.
+# Plus the foreman's patch-size gate, which measured a net line COUNT while claiming to bound
+# how many lines a model rewrite changes.
+
+import foreman as _FM           # noqa: E402
+import completeness as _CP      # noqa: E402
+
+# --- the patch-size gate ---------------------------------------------------------------------
+_body80 = "\n".join("    a%d = %d" % (i, i) for i in range(80))
+_rewrite82 = "\n".join("    b%d = %d" % (i, i * 2) for i in range(82))
+check("a TOTAL rewrite is measured as a total rewrite",
+      _FM.lines_changed(_body80, _rewrite82), 82,
+      note="the old metric, abs(len(new)-len(old)), scored this 2 and waved it through a "
+           "cap of 40 -- every line of the function replaced, reported as 'changes 2 lines'")
+check("and it exceeds the cap it is meant to be bounded by",
+      _FM.lines_changed(_body80, _rewrite82) > _FM.MAX_PATCH_LINES, True)
+check("a one-line edit still measures one",
+      _FM.lines_changed("    x = 1\n    y = 2\n", "    x = 1\n    y = 3\n"), 1,
+      note="the old metric scored this 0: same line count, so no change detected at all")
+check("pure growth counts the lines added",
+      _FM.lines_changed("a\nb\n", "a\nb\nc\nd\n"), 2)
+check("pure deletion counts the lines removed",
+      _FM.lines_changed("a\nb\nc\nd\n", "a\nb\n"), 2)
+check("an identical body changes nothing", _FM.lines_changed("a\nb\n", "a\nb\n"), 0)
+
+# --- completeness.land must not claim a denied write landed ------------------------------------
+_land_dir = _tf.mkdtemp()
+_CP_OUT, _CP.OUT = _CP.OUT, os.path.join(_land_dir, "COMPLETENESS.json")
+_rows = [{"source": "s%d" % i, "pct": 1.0} for i in range(200)]
+try:
+    check("land() reports success when the rename lands", _CP.land(_rows), True)
+    check("and the rows are genuinely on disk",
+          len(json.load(open(_CP.OUT, encoding="utf-8"))), 200)
+
+    # Deny the rename exactly as a held reader would, and check the VERDICT, not the intent.
+    _real_rr = silence.replace_retry
+    silence.replace_retry = lambda tmp, dst, attempts=5: False
+    try:
+        check("land() reports FAILURE when the rename is denied", _CP.land(_rows), False,
+              note="its own docstring promises 'Returns True if the file now holds rows'; "
+                   "returning True on a denied rename made that line false in the one case "
+                   "the caller needed to hear about -- main() exits 0 on a stale file")
+        check("and the file still holds the PREVIOUS measurement, not a partial one",
+              len(json.load(open(_CP.OUT, encoding="utf-8"))), 200,
+              note="the tmp file is what got written; the real file is untouched")
+    finally:
+        silence.replace_retry = _real_rr
+
+    # The guards that were already there must still hold -- this fix must not weaken them.
+    check("an empty measurement is still refused over real rows", _CP.land([]), False)
+    check("and a 98% shrink is still refused",
+          _CP.land(_rows[:3]), False,
+          note="SHRINK_FLOOR; the new return path must not become a way past it")
+finally:
+    _CP.OUT = _CP_OUT
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

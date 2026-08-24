@@ -134,12 +134,35 @@ SCHEMA = {
 # --------------------------------------------------------------------------- the ledger
 
 def load():
+    """The ledger, or a fresh one -- but never a fresh one that silently REPLACED a damaged one.
+
+    m28. This used to answer every failure with an empty ledger, so a torn OVERWATCH.json
+    discarded every open finding and the round counter, and the next save() wrote that emptiness
+    back as fact. `health.flush()` faces the identical situation and handles it properly: keep
+    the wreck as `.corrupt`, say so on stderr, and start fresh only then. Same treatment here.
+
+    An ABSENT file and a DAMAGED one are not the same event and must not get the same response.
+    Absent is the ordinary first run. Damaged means findings existed and are now unreadable --
+    recoverable by hand from the preserved copy, but only if something preserves it.
+    """
+    fresh = {"findings": {}, "seen": {}, "rounds": 0}
+    if not os.path.exists(LEDGER):
+        return fresh
     try:
         with open(LEDGER, encoding="utf-8") as f:
             return json.load(f)
-    except Exception:
+    except Exception as e:
         silence.note("overwatch.py:load")
-        return {"findings": {}, "seen": {}, "rounds": 0}
+        try:
+            silence.replace_retry(LEDGER, LEDGER + ".corrupt")
+            kept = os.path.basename(LEDGER) + ".corrupt"
+        except Exception:
+            silence.note("overwatch.py:load-preserve")
+            kept = "NOT PRESERVED -- the wreck could not be renamed"
+        print(f"overwatch: ledger unreadable ({type(e).__name__}); kept as {kept}. "
+              f"Open findings and the round counter are NOT lost, but they are no longer live; "
+              f"recover them from that file if the next round matters.", file=sys.stderr)
+        return fresh
 
 
 def save(d):

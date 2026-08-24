@@ -81,19 +81,30 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   page list or a chunk list — but it is a truncation of an ordered listing and the rule's text
   does not carve out logs explicitly. **Question, not a fix.** Same family as m16's diagnostics
   ruling; one decision could settle both.
-- **[m27] the run guard's HEARTBEAT does not check whose record it is refreshing.** Claiming the
-  guard is checked; refreshing it is not. The helper reads `state/MAINTENANCE_RUN.json`, updates
-  `heartbeat`, and writes it back — so when the interactive session took the guard mid-run on
-  2026-08-24, run #6 spent ~45 minutes faithfully refreshing the heartbeat of
-  `claude-interactive-completeness`, making a finished run look live. Small fix (refuse to
-  refresh a record whose `agent` is not ours, and say so loudly), but the guard is the one piece
-  of machinery every future run depends on, so it is filed rather than changed silently.
-- **[m28] `overwatch.load()` turns a corrupt ledger into an empty one.** `except` → return
-  `{"findings": {}, "seen": {}, "rounds": 0}`, so a torn `OVERWATCH.json` silently discards every
-  open finding and the round counter, and the next `save()` writes that emptiness back as fact.
-  It does call `silence.note`, so it is observed rather than silent — but `health.flush()` faces
-  the identical situation and handles it properly, preserving the wreck as `.corrupt` and saying
-  so on stderr. Same treatment would suit. Low exposure now that `save()` uses `replace_retry`.
+- **[m37] `chain.py` writes `data/CHAIN.json` and NOTHING reads it.** Reported by an audit
+  subagent and NOT independently verified this run — recorded so the next run can confirm or
+  refute rather than rediscover. The claim: `chain.write_result()` persists edges, Bradley-Terry
+  strengths and the Ford's-condition `identified` verdict, `pipeline.phase_chain` calls it every
+  cycle, and no reader exists anywhere in `src/` — so the cross-check the module's docstring
+  calls its entire purpose ("the only one that checks the others") is never performed against
+  the Assay. Same agent also reported `chain.py:191` using `sentence[:120]` as a dedup key
+  (two distinct contest sentences sharing a 120-char prefix collide and one is dropped — a
+  Hard Rule 0 truncation that DECIDES which contests exist), `chain.write_result`'s bare
+  `open(OUT,"w")`, and a discarded `replace_retry` on the harvest index. **Verify before
+  fixing**; audit findings this run were right about WHERE more reliably than about WHY.
+- **[m38] `foreman._function_source()` resolves a symbol by bare name with no uniqueness
+  check.** `symbol.split("(")[0].split(".")[-1]` deliberately strips a class qualifier, then
+  takes whichever same-named function `ast.walk` reaches first. A finding naming
+  `ClassA.validate` can therefore hand `ClassB.validate`'s body to the model lane and, with
+  `--patch` live, overwrite the wrong function with a fix meant for the other — syntactically
+  valid, so `_checks_pass` need not catch it. Verified in source; not fixed this run because the
+  right behaviour (refuse an ambiguous symbol? honour the qualifier?) is a contract choice.
+- **[m39] `scout.sweep(limit=4)` can starve lower-ranked sources indefinitely.** `foreman`'s
+  `scout_hostless` calls it with `limit=4`; `scout.sweep` sorts `todo` by page count and takes
+  `[:limit]`. The ranking is deterministic and recomputed every round, so while the top four
+  remain hostless the fifth and below are never attempted — round after round. Hard Rule 0's
+  ranked-then-truncated shape, but removing the cap changes per-round load, so it is an owner
+  call rather than a silent fix.
 - **[m29] `cleanup.py`'s `_EMPTY_MECHANIC` predicate cannot tell a rules construct from a real
   entity whose description failed to fetch.** It strikes an entry when the description is empty
   AND the name ends in `variant|feature|trait|slot|...`. But an empty description is a signal this
@@ -104,19 +115,12 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   next entrypass. **Owner call before `cleanup.py --apply` is run again** — and note that the 149
   entries struck earlier have all since been flipped back, so re-running is what would re-strike
   them. Deliberately not re-run this session.
-- **[m30] `custodes.convene`'s `covers_every_reading` is a tautology**, and `sevenfold`'s
-  `OVER SPAN` can never print. `half` is defined as `max(1.96*sd, max|v-consensus|)` and the very
-  next line checks `all(abs(v-consensus) <= half)` — true by construction. Likewise `seams()`
-  clamps child counts to `SPAN`, so the balance table's `hi <= SPAN` check cannot fail for any
-  input. Neither corrupts anything; both are checks that present as verification while being
-  incapable of catching a regression. Cosmetic, but this is now the third and fourth instance of
-  the unreachable-branch family (after m12 and the one fixed in run #2), which is worth noticing
-  as a pattern rather than filing four times.
 
 *Open items are now: two operational blocks that are not code faults (M3 fandom, M1 dandwiki),
 one money decision (M4), three contract questions (m24, m25, m26), the standing HUMAN CALLs
-(m12, m13, m16, m29 and M1), three small implementable items (m27, m28, m30) and two watched
-states (m1, m2).*
+(m12, m13, m16, m29 and M1), two contract choices raised by run #7's audits (m38, m39), one
+unverified audit report to confirm or refute (m37) and two watched states (m1, m2).
+Run #7 resolved m27, m28 and m30 and added m31-m36 to the paper trail.*
 
 ## Watching (not bugs — expected states with a clock on them)
 - **`MAX_JOB_SILENCE_MIN = 15` is a live threshold as of run #3** — the stall detector could not
@@ -139,6 +143,80 @@ states (m1, m2).*
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #7 (2026-08-24 11:45 local). Full detail in HANDOFF.md's run #7 entry:*
+
+- **[m31] `ask_pool_first` accepted any non-None cloud answer, so a cloud-first/local-second
+  helper had no second.** The cloud path cannot constrain generation to the schema — it carries
+  the schema in the prompt as a REQUEST (`cascade_bridge.py:18`) — so a bucket can return valid
+  JSON of the wrong shape, `_extract_json` parses it, and the helper returns it on the sole test
+  `got is not None`. Downstream that is indistinguishable from the model judging every entry and
+  finding nothing: **four of four logged Marvel entrypass batches read `returned 0/20`** while
+  the same batch put to the local model returned 20 valid results in 54s. Now an answer must
+  carry the schema's `required` keys AND satisfy an optional caller predicate (`accept=`);
+  entrypass supplies one requiring at least one result whose index it actually asked about. A
+  failing answer is logged as an unusable shape and the local arm runs. verify_math §19l.
+  **Mechanism confirmed by source and log; the incident itself was NOT reproduced** — the pool
+  had collapsed to 2 of 36 answering by the time it was probed, below the `>= 3` gate.
+- **[m27] The run guard had no implementation in `src/` at all.** Filed as "the heartbeat does
+  not check whose record it is refreshing"; the root cause is that the protocol lived only in
+  prose in `MAINTENANCE.md`, so every run re-improvised the read-modify-write and there was no
+  single place for the ownership check to live. Now `src/runguard.py`: a run may only refresh or
+  close a record carrying its own name. `beat()` refuses a foreign record loudly and leaves its
+  heartbeat untouched, `release()` refuses to close one, a closed record cannot be reopened by a
+  stray heartbeat, and taking over a stale record records whose it was. Falsified against the
+  m27 scenario (the pre-fix helper moves the foreign heartbeat; this one does not).
+  verify_math §19k.
+- **[m28] `overwatch.load()` turned a corrupt ledger into an empty one.** Now copies
+  `health.flush()`'s treatment — preserve the wreck as `.corrupt`, say so on stderr, start fresh
+  only then — and additionally distinguishes ABSENT (ordinary first run, no `.corrupt` written)
+  from DAMAGED, which the single `except` could not. Verified across absent / intact / torn.
+- **[m32] `local_agent`'s six-gate discipline was skipped entirely for every non-Python file.**
+  `t_propose_patch` set `modname = None` for anything not `.py` and then ran the gates only
+  `if modname`, so a patch to `config.yaml`, a prompt file or any `data/*.json` was written and
+  reported `applied: True` having passed no parse, lint, import or verify_math check — the exact
+  opposite of the module docstring's promise. The same `None` also made the **denylist
+  unanswerable for non-Python paths**. Fixed: gates run for every file type with a per-format
+  parse check (`ast.parse` on YAML is a false rejection, not a check), verify_math runs
+  unconditionally, and `DENYLIST_PATHS` covers non-module files with `config.yaml` in it.
+- **[m33] `completeness.land()` claimed a write landed without checking.** Its docstring says
+  "Returns True if the file now holds `rows`"; it discarded `replace_retry`'s boolean and
+  returned True unconditionally. The two existing guards protect the CONTENT (empty, and the
+  SHRINK_FLOOR added the same day); neither checks that the content reached the disk, and this
+  file's own docstring names the readers that hold it open — on Windows a held handle is a denied
+  rename. A run could measure correctly, report success, exit 0, and leave the stale file.
+  Now returns False and names which measurement is actually on disk. verify_math §19m.
+- **[m34] `foreman.reprove_pool()` discarded the same boolean and then invalidated the cache
+  anyway.** Clearing `CB._PROVEN[0]` forces the next `_alive()` to re-read from disk, so a denied
+  rename threw away the fresh in-memory proof AND pointed the router at the stale file, while
+  reporting `did=True` — which makes `round_once` `break` and skip the remedy for a full cycle.
+  Now reports the failure and leaves the cached proof standing.
+- **[m35] `foreman.triage_swallowed()` discarded both of its write verdicts.** Those two writes
+  are a MOVE, not two saves: clearing `state/failures.json` when the archive rename was denied
+  destroys the counts outright. Now archive-first, clear-only-if-the-archive-landed, with a
+  distinct message per failure.
+- **[m36] `foreman.attempt_patch`'s size gate measured the wrong quantity.**
+  `abs(len(new) - len(old))` is a net line COUNT, while the module docstring sells the gate as
+  bounding how much of a function a model rewrite may change and the refusal message said "patch
+  changes N lines". Falsified: a rewrite replacing **every line of an 80-line function**, landing
+  on 82, scored **2** against a cap of 40 and passed. Now `foreman.lines_changed()` (difflib,
+  stdlib) scores it 82 and refuses. One-line edit: old metric 0, new metric 1. verify_math §19m.
+- **[Hard Rule 0] `foreman.owner_queue()` truncated the OWNER'S decision document.**
+  `for u in urls[:3]` into `FOR_OWNER.md` — the file whose purpose is "everything nobody but the
+  owner can decide, in one place". The rule's exact shape aimed at a human decision rather than a
+  catalogue: three URLs read, ruled on, and a fourth never known to exist. Uncapped.
+- **[m30] Two checks that could not fail — documented, not changed.** `custodes.convene`'s
+  `covers_every_reading` and `sevenfold`'s `OVER SPAN` are enforced invariants published as
+  checks, true by construction. Changing what they compute is design work, so each now says
+  in-source that it states a guarantee, cannot catch a regression, and what would make it live
+  again. The informative version of the custodes one is raised as a question in NEXT_STEPS.
+- **[genre reaches production] Run #6's uncap was correct and inert.** `data/GENRES.json` has no
+  automated writer — only the manual `genre.py --write`, last run 2026-08-20 — and
+  `genre.classify_source` has zero runtime callers, unlike `grounding.classify_source` which
+  `pipeline.py:1274` calls every phase. Regenerated: **12 of 209 sources changed genre and 11
+  changed register** against the stale file (seven from run #6's uncap, five from corpus growth).
+  Consumers are `profile.build_all` (genre and register encoded into every world profile) and
+  `navtree` (tier naming). The missing-writer question is open in NEXT_STEPS.
 
 *Run #6 (2026-08-24 15:35). Full detail in HANDOFF.md's run #6 entry:*
 

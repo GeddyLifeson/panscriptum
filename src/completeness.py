@@ -389,7 +389,21 @@ def land(rows, only=None):
     tmp = OUT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(rows, f, indent=1, ensure_ascii=False)
-    silence.replace_retry(tmp, OUT)
+    # THE THIRD WAY TO LOSE THE MEASUREMENT, and the one the two guards above do not cover.
+    # Both of them protect the CONTENT; neither checks that the content reached the disk.
+    # `replace_retry` returns False -- it does not raise -- when the rename is denied for all
+    # its attempts, and this file's denial is not hypothetical: the docstring above names the
+    # readers (`standards.check`, `catalogue_web --shortfall`) that hold it open on their own
+    # clocks, and on Windows a held handle IS a denied rename. Discarding that boolean and
+    # returning True made this function's own contract line -- "Returns True if the file now
+    # holds `rows`" -- false in exactly the case the caller most needs to hear about: the run
+    # measured correctly, reported success, exited 0, and left the stale file in place.
+    if not silence.replace_retry(tmp, OUT):
+        sys.stderr.write("completeness: measured %d row(s) but the write to COMPLETENESS.json "
+                         "was DENIED (a reader is holding it). The file still holds the "
+                         "PREVIOUS measurement -- this run's numbers are not on disk. Re-run "
+                         "when the readers are quiet.\n" % (len(rows),))
+        return False
     return True
 
 

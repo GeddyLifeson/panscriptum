@@ -254,7 +254,43 @@ def _pool_answering(ttl=120):
     return _PHASE_POOL["n"]
 
 
-def ask_pool_first(c, system, prompt, schema, timeout=None, num_ctx=None, tag=""):
+def _pool_answer_usable(got, schema, accept):
+    """Is a CLOUD answer actually usable, or merely non-None?
+
+    THE GAP THIS CLOSES. Ollama constrains generation to the JSON schema; the cloud path cannot
+    -- cascade_bridge.py:18 says so in as many words: "Cloud endpoints do not all offer that, so
+    the schema is carried in the prompt." It is a REQUEST there, not a constraint. So a cloud
+    model can return perfectly valid JSON of entirely the wrong shape, `_extract_json` parses it
+    happily, and `ask_pool_first` used to return it on the sole test `got is not None`.
+
+    Downstream that is indistinguishable from the model judging every entry and finding nothing.
+    On 2026-08-24 four consecutive Marvel entrypass batches logged `returned 0/20 - left open
+    for retry` while the pool proof reported >= 3 answering -- and the SAME batch, put to the
+    local model directly, returned 20 valid results in 54s. The batch was not hard. The cloud
+    answer was unusable and the local arm, which works, was never reached, because a
+    cloud-first/local-second helper that accepts any non-None answer has no second.
+
+    Two checks, cheapest first:
+      * SHAPE -- every key the schema marks `required` must be present. Free, and generic.
+      * ACCEPT -- an optional caller predicate, because "usable" is caller knowledge. A call
+        that asked for judgments on 20 named entries and got zero back has not been answered;
+        a call that legitimately may return an empty list has. Only the caller knows which.
+    """
+    if not isinstance(got, dict):
+        return False
+    for k in (schema or {}).get("required", []):
+        if k not in got:
+            return False
+    if accept is not None:
+        try:
+            return bool(accept(got))
+        except Exception:
+            silence.note("pipeline.py:pool-accept")
+            return False
+    return True
+
+
+def ask_pool_first(c, system, prompt, schema, timeout=None, num_ctx=None, tag="", accept=None):
     """Cloud pool first, local second -- for the PHASES' own judgment calls.
 
     OWNER QUESTION 2026-08-24: "why do we keep using ollama when there are free cloud ais?"
@@ -273,8 +309,15 @@ def ask_pool_first(c, system, prompt, schema, timeout=None, num_ctx=None, tag=""
         try:
             import cascade_bridge as CB
             got = CB.ask(system, prompt, schema)
-            if got is not None:
+            if _pool_answer_usable(got, schema, accept):
                 return got
+            if got is not None:
+                # Not a transport failure -- a bucket answered, with something this call cannot
+                # use. Say so, because it is invisible otherwise: the batch just scores zero and
+                # the log blames the model. Then fall through to the local arm, which is the
+                # entire point of a cloud-FIRST helper.
+                log(f"    pool answered {tag or 'call'} with an unusable shape; "
+                    f"falling back to local")
         except Exception:
             silence.note("pipeline.py:phase-pool")
     return ask(c, system, prompt, schema, timeout=timeout, num_ctx=num_ctx, tag=tag)
@@ -961,8 +1004,16 @@ def phase_entrypass(c, st):
             prompt = (f"SOURCE: {src}\n\nENTRIES:\n" + "\n".join(lines) +
                       f"\n\nReturn results for all {len(batch)} entries.")
 
+            # This call names N entries by index and asks for a judgment on each. An answer
+            # carrying no result whose index is one of the ones we ASKED about has judged
+            # nothing, however well-formed it looks -- so it is a pool miss, not an empty
+            # verdict, and the local arm gets its turn. See _pool_answer_usable.
+            def _judged_something(g, _n=len(batch)):
+                return any(isinstance(r.get("index"), int) and 0 <= r["index"] < _n
+                           for r in (g.get("results") or []))
+
             got = ask_pool_first(c, ENTRY_SYSTEM, prompt, ENTRY_SCHEMA, timeout=600,
-                                 num_ctx=4096, tag="entrypass")
+                                 num_ctx=4096, tag="entrypass", accept=_judged_something)
             if got is None:
                 st["failed"].setdefault("entrypass", {})[key] = "ollama failure"
                 save_state(st)
