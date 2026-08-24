@@ -47,7 +47,9 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-import sevenfold as SF          # noqa: E402
+# `sevenfold` is no longer imported here: the only use was `children_of`'s SF.TIERS gate, which
+# asserted a schema instead of reading the tree (see the note there). pyflakes is load-bearing in
+# this project's LINT tier, so a kept-for-documentation import would fail the sweep.
 
 FMG = "https://azgaar.github.io/Fantasy-Map-Generator/"
 GALAXY = "https://galaxy-generator.oogabooga.dev/api/galaxy"
@@ -164,7 +166,14 @@ def children_of(tier, coord, tree=None):
     pools = {**tree.get("sources", {}), **tree.get("worlds", {})}
     idx = TIER_ORDER.index(tier)
     child_tier = TIER_ORDER[idx + 1] if idx + 1 < len(TIER_ORDER) else None
-    if child_tier not in SF.TIERS:
+    # Gate on whether the TREE charts the child tier, not on whether the child tier is one of
+    # SF.TIERS. The two agree today -- SEVENFOLD.json's deepest coordinate is `universe`, so
+    # `universe` has no charted children by either test -- but the SF.TIERS form is an
+    # assumption about the schema rather than a reading of it: the moment galaxy coordinates are
+    # charted, `children_of("universe", ...)` would keep returning [] and the emptiness would
+    # look like data rather than a stale guard. The per-entry `child_tier not in c` check below
+    # already does the honest work.
+    if child_tier is None:
         return []
     prefix = TIER_ORDER[:idx + 1]
     buckets = {}

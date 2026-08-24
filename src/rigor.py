@@ -357,6 +357,12 @@ def bradley_terry(wins, iters=500, tol=1e-12, prior=0.0):
     W = np.zeros((n, n))
     for (a, b), c in wins.items():
         W[idx[a], idx[b]] += c
+    # Keep the OBSERVED contests. The undefeated/winless report below is a statement about the
+    # real data, and the prior added just below is by construction symmetric -- so once it is
+    # folded in, every entrant has both a win and a loss and those two lists come back empty for
+    # any prior > 0, no matter who actually went undefeated. The report then reads "nobody in
+    # this set is undefeated" about a set containing someone who is.
+    observed = W.copy()
     if prior > 0:
         # Symmetric virtual contests: every entrant against every other, both directions equally.
         # Adds no information about ranking, only about comparability.
@@ -397,9 +403,9 @@ def bradley_terry(wins, iters=500, tol=1e-12, prior=0.0):
 
     # An entrant who never lost (or never won) inside the whole set drives theta to +/- infinity.
     undefeated = [names[i] for i in range(n)
-                  if W[i].sum() > 0 and W[:, i].sum() == 0]
+                  if observed[i].sum() > 0 and observed[:, i].sum() == 0]
     winless = [names[i] for i in range(n)
-               if W[:, i].sum() > 0 and W[i].sum() == 0]
+               if observed[:, i].sum() > 0 and observed[i].sum() == 0]
 
     out = {"names": names, "strengths": p, "deviance": dev, "df": df,
            "prior": prior, "regularised": bool(prior > 0),
@@ -699,7 +705,10 @@ def mathematical_resonance():
         "orphan_rate": round(len(orphans) / n, 3),
         "orphans": sorted(orphans),
         "max_depth": max(D.depth(k) for k in L),
-        "load_bearing": sorted(fanout.items(), key=lambda kv: -kv[1])[:8],
+        # Ranked, never truncated (Hard Rule 0). The sole consumer slices for display; a
+        # RETURNED field that stops at eight decides on the ledger's behalf that the ninth
+        # load-bearing quantity is not load-bearing.
+        "load_bearing": sorted(fanout.items(), key=lambda kv: -kv[1]),
         "reading": ("a terminal quantity with no dependents is not an error -- results are "
                     "allowed to be results. A quantity with no PARENTS and no citation would be, "
                     "and the ledger refuses those separately"),

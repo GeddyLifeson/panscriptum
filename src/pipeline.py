@@ -120,6 +120,37 @@ TOPICS = ["Persons", "Places", "Factions", "Weapons", "Relics",
 # entry and not just to each source's ceiling.
 BANDS = ["M10", "M9", "M8", "M7", "M6", "M5", "M4", "M3", "M2", "M1", "M0", "unassayed"]
 
+# A CLEAN BAND IS THE WHOLE STRING, NOT ITS PREFIX.
+#
+# Both band gates used to read `re.match(r"^(M(?:10|[0-9]))\b", value)`. `re.match` anchors only
+# the START, and `\b` is satisfied by any non-word character -- including a decimal point. So
+# "M4.31 +/- 0.30" matched, `group(1)` returned "M4", and a fabricated Assay decimal was
+# LAUNDERED into a clean published band, which is precisely what the phase-2 comment below says
+# must be refused ("treat anything else -- prose, A DECIMAL, an empty string -- as unassayed")
+# and what the system prompt calls a fabrication. Charter Part Three's "no worksheet, no number"
+# rule forbids a decimal that no worksheet produced; accepting its integer part invents a
+# provenance for it. Full-match, so a band is a band or it is nothing.
+_CLEAN_BAND = re.compile(r"M(?:10|[0-9])")
+
+
+def clean_band(value):
+    """The band a value actually is, or "unassayed". Never a prefix of one."""
+    text = str(value or "").strip()
+    return text if _CLEAN_BAND.fullmatch(text) else "unassayed"
+
+
+def ceiling_band(value):
+    """A source's ceiling read for CLAMPING only, where a legacy dirty value is still usable.
+
+    Deliberately laxer than `clean_band`: the clamp can only ever LOWER an entry's band, never
+    raise one, so reading a pre-gate record whose `provisional_magnitude` still carries a
+    decimal is safe -- while refusing to read it would silently drop the ceiling clamp for
+    exactly the oldest records. Acceptance is strict, clamping is forgiving; the asymmetry is
+    the point. Returns None when there is no band to clamp against.
+    """
+    m = re.match(r"^(M(?:10|[0-9]))\b", str(value or "").strip())
+    return m.group(1) if m else None
+
 CATEGORIES = [
     "Persons (named individual characters, real or fictional)",
     "Places & Locations (worlds, regions, cities, planes, ships-as-places)",
@@ -299,7 +330,25 @@ def write_record_catalogue(path, rec):
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(rec, f, indent=2, ensure_ascii=False)
-    silence.replace_retry(tmp, path)
+    return _landed(tmp, path)
+
+
+def _landed(tmp, path):
+    """Rename `tmp` over `path`, and SAY whether it actually happened.
+
+    `silence.replace_retry` records persistent denial and returns False rather than raising, on
+    the reasoning that "the caller's write lands next round". That is only true if the caller
+    comes back -- and both record writers are called by phases that then mark their unit DONE,
+    which means there is no next round. A denied rename plus a recorded done-key is the exact
+    silent permanent loss the phase-2 comment at the `done_keys` gate says was already paid for
+    once. So the writers now return the verdict and the callers gate their done-keys on it.
+    """
+    if silence.replace_retry(tmp, path):
+        return True
+    silence.note("pipeline.py:write-did-not-land")
+    log(f"    WRITE DID NOT LAND: {os.path.basename(path)} is still the pre-write copy; "
+        f"this unit stays open so the next run redoes it")
+    return False
 
 
 def write_record(path, rec):
@@ -345,7 +394,7 @@ def write_record(path, rec):
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(merged, f, indent=2, ensure_ascii=False)
-    silence.replace_retry(tmp, path)
+    return _landed(tmp, path)
 
 
 # ------------------------------------------------------------------------------- phase 1
@@ -500,14 +549,7 @@ def phase_synthesis(c, st):
             save_state(st)
             continue
 
-        band = (got.get("magnitude") or "").strip()
-        m = re.match(r"^(M(?:10|[0-9]))\b", band)
-        if not m and band.lower() not in ("unassayed", ""):
-            band = "unassayed"  # reject anything that is not a clean band
-        elif m:
-            band = m.group(1)
-        else:
-            band = "unassayed"
+        band = clean_band(got.get("magnitude"))  # reject anything that is not a clean band
 
         # NO FEAT, NO BAND -- at phase 1 as well as phase 2.
         #
@@ -531,7 +573,11 @@ def phase_synthesis(c, st):
                        "real Assay pass must confirm."),
             "assessed_at": datetime.datetime.now().isoformat(timespec="seconds"),
         }
-        write_record(path, rec)
+        if not write_record(path, rec):
+            # The synthesis exists only in memory; recording it done would lose it silently.
+            st["failed"].setdefault("synthesis", {})[src] = "write denied"
+            save_state(st)
+            continue
         done_keys.append(src)
         # A later attempt succeeded, so the earlier failure is no longer true. Without this the
         # failed-set becomes a permanent record of every transient ollama hiccup, and a run that
@@ -831,9 +877,7 @@ def phase_entrypass(c, st):
                 # anything else -- prose, a decimal, an empty string -- as unassayed. These
                 # bands order the whole Persons series (Mx A-Z), so a malformed value would
                 # silently misfile an entity rather than fail loudly.
-                mb = (res.get("magnitude") or "").strip()
-                m = re.match(r"^(M(?:10|[0-9]))\b", mb)
-                band = m.group(1) if m else "unassayed"
+                band = clean_band(res.get("magnitude"))
 
                 # NO FEAT, NO BAND. A Magnitude with no surviving scale_note behind it is a
                 # number with no evidence -- exactly what Charter Part Three's "no worksheet,
@@ -850,13 +894,11 @@ def phase_entrypass(c, st):
                 # band. Without it the two passes could disagree forever: allsweep's band
                 # reconcile found Starkiller Base at M5 inside an M4 source the night this
                 # was added (2026-08-23).
-                syn = re.match(r"^(M(?:10|[0-9]))\b",
-                               str((rec.get("synthesis") or {}).get("provisional_magnitude")
-                                   or ""))
+                syn = ceiling_band((rec.get("synthesis") or {}).get("provisional_magnitude"))
                 if band != "unassayed" and syn:
                     order = ["M%d" % n for n in range(11)]
-                    if order.index(band) > order.index(syn.group(1)):
-                        band = syn.group(1)
+                    if order.index(band) > order.index(syn):
+                        band = syn
                 batch[i]["magnitude"] = band
 
                 topic = (res.get("topic") or "").strip()
@@ -864,8 +906,9 @@ def phase_entrypass(c, st):
                     batch[i]["topic"] = topic
                 batch[i]["catalogued"] = True
 
-            write_record(path, rec)
-            # A batch is done only when every entry in it carries a result. The model is asked
+            landed = write_record(path, rec)
+            # A batch is done only when every entry in it carries a result AND the write that
+            # carries those results actually reached the disk -- see `_landed`. The model is asked
             # for N and sometimes returns fewer, or returns an out-of-range index that the loop
             # above discards -- and marking the batch done on the WRITE rather than on the
             # RESULT stranded those entries permanently. 95 batches were sitting complete with
@@ -874,8 +917,10 @@ def phase_entrypass(c, st):
             # An unfinished batch is simply not recorded, so the next run picks it up again. The
             # cost of re-doing a mostly-complete batch is one call; the cost of the old behaviour
             # was silent, permanent data loss.
-            if all(e.get("catalogued") for e in batch):
+            if landed and all(e.get("catalogued") for e in batch):
                 done_keys.append(key)
+            elif not landed:
+                log(f"    batch {key} judged in full but its write was denied - left open")
             else:
                 log(f"    batch {key} returned {sum(1 for e in batch if e.get('catalogued'))}"
                     f"/{len(batch)} - left open for retry")

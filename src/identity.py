@@ -318,53 +318,12 @@ def epoch_of(sentence):
     return str(d.get("epoch") or "").strip()[:60]
 
 
-def adjudicate(edges):
-    """Split mutual pairs in time, and only mutual pairs.
-
-    `edges` is a list of dicts carrying at least `winner`, `loser`, `sentence`. A mutual pair is
-    one where both directions are recorded. For each such pair the two sentences are dated, and
-    where the epochs differ the LATER-DATED side is re-keyed onto its own node -- which is the
-    honest reading: the record is not inconsistent, it is longitudinal.
-
-    Returns `(edges, report)`. Edges outside a mutual pair are returned untouched, because
-    spending a model call to date a sentence that contradicts nothing buys nothing.
-    """
-    seen = collections.defaultdict(list)
-    for e in edges:
-        seen[(e.get("winner"), e.get("loser"))].append(e)
-    mutual = []
-    for (w, l) in list(seen):
-        if w and l and (l, w) in seen and (l, w) > (w, l):
-            mutual.append(((w, l), (l, w)))
-
-    report = {"mutual_pairs": len(mutual), "split": 0, "undated": 0, "detail": []}
-    for a, b in mutual:
-        ea, eb = seen[a][0], seen[b][0]
-        pa = epoch_of(ea.get("sentence", ""))
-        pb = epoch_of(eb.get("sentence", ""))
-        row = {"pair": [list(a), list(b)], "epoch_a": pa, "epoch_b": pb}
-        if pa and pb and pa != pb:
-            # Two different points in one history. Re-key the side that names an epoch onto its
-            # own node so the contest graph stops seeing a contradiction that is not there.
-            for e in seen[a]:
-                e["winner_epoch"] = pa
-            for e in seen[b]:
-                e["winner_epoch"] = pb
-            report["split"] += 1
-            row["resolution"] = "split by epoch"
-        elif pa or pb:
-            for e in (seen[a] + seen[b]):
-                e["winner_epoch"] = pa or pb
-            report["split"] += 1
-            row["resolution"] = "one side dated; split"
-        else:
-            # Neither sentence carries a marker. This is a genuine split decision or a genuine
-            # inconsistency in the source, and the library records it as such rather than
-            # inventing a chronology to dissolve it.
-            report["undated"] += 1
-            row["resolution"] = "left standing -- neither sentence dates itself"
-        report["detail"].append(row)
-    return edges, report
+# `adjudicate(edges)` (mutual-pair time-splitting over `winner`/`loser` edges) lived here and
+# was deleted 2026-08-23 maintenance run #2, one cycle after being flagged dead in run #1's
+# audit: superseded by `chain.adjudicate_mutuals()`, nothing called it, and nothing anywhere in
+# src/ ever read the `winner_epoch` field it wrote (both re-verified by grep immediately before
+# deletion). `epoch_of()` above it is still live -- `chain.py:381` calls it directly -- so it
+# stays.
 
 
 # --------------------------------------------------------------------------- CLI

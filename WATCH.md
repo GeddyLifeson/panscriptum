@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 49  ·  last run 2026-08-23 21:31
+round 51  ·  last run 2026-08-23 22:29
 
 ## Structure
 
@@ -11,14 +11,22 @@ round 49  ·  last run 2026-08-23 21:31
 
 ## What the model found in the code
 
-**7 open** (0 high). Newest first.
+**11 open** (2 high). Newest first.
 
-- **cascade_bridge.py** `_clear` — [MEDIUM] Does not check if _STRIKES or _DEAD is None before trying to access it
-  - says: Clear a bucket's strikes and dead time
+- **feats.py** `api` — [HIGH] May make a MediaWiki API call to the wrong endpoint if the wiki is not Fandom or Wikipedia
+  - says: Makes a MediaWiki API call to the correct endpoint
+- **endpoint.py** `fetch_html` — [HIGH] The function `fetch_html` uses a hardcoded timeout value of 45 seconds, which contradicts the comment that says it should be polite
+  - says: {url: text} for a list of ordinary web pages.
+- **endpoint.py** `register` — [MEDIUM] The function `register` does not handle the case where the source already exists in the dictionary, which could lead to duplicate URLs
+  - says: Record where a source's material actually lives.
+- **endpoint.py** `exists_raw` — [MEDIUM] The function `exists_raw` calls `fetch_raw` but the docstring does not mention this function
+  - says: Which of these titles the host actually serves. The raw-mode answer to a titles probe.
+- **endpoint.py** `fetch_raw` — [MEDIUM] The function `fetch_raw` is called with `workers=workers` but the docstring does not mention this parameter
+  - says: Fetch raw content from URLs derived from titles
+- **custodes.py** `ATTESTATION_QUALITY` — [MEDIUM] hardcoded values
+  - says: derived from _ATT_BASE
 - **cascade_bridge.py** `_bury` — [MEDIUM] Does not check if _DEAD is None before trying to access it
   - says: Bury a bucket for a certain amount of time
-- **cascade_bridge.py** `_alive` — [MEDIUM] Does not check if _DEAD is None before trying to access it
-  - says: Check if a bucket is alive
 - **cascade_bridge.py** `dead_forever` — [MEDIUM] Does not check if rows is None before trying to iterate over it
   - says: Buckets excluded by proof — and ONLY for reasons that cannot fix themselves.
 - **cascade_bridge.py** `_pace` — [MEDIUM] Does not check if gap is None before trying to compare it to 0.0

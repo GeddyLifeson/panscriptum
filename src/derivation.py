@@ -487,7 +487,7 @@ def scan_constants(mod):
     try:
         tree = ast.parse(src)
     except SyntaxError:
-        silence.note("derivation.py:488")
+        silence.note("derivation.py:scan_constants-parse")
         return None
     names = []
     for node in tree.body:

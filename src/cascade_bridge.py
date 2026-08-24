@@ -322,6 +322,15 @@ def _alive(bucket):
 
 
 def _bury(bucket, seconds=None):
+    # NO `_DEAD = {}` GUARD HERE. It used to open this function and it made every call throw.
+    # `_DEAD` is a module-level dict that is never None, so the guard was dead -- but the mere
+    # presence of an ASSIGNMENT to `_DEAD` in this scope made Python treat the name as local
+    # throughout, so the `if _DEAD is None` that read it raised UnboundLocalError before
+    # anything could be benched. The two call sites sit in a try/finally with no except, so the
+    # error escaped the whole call: no provider was ever benched, exhausted and 401-ing
+    # providers cycled back into rotation every few minutes taking a claim and a deadline each
+    # time, and the deadline path raised instead of returning None for a clean GPU fallback.
+    # Mutating a module-level dict needs no `global`; introducing one here would re-arm the trap.
     with _DEAD_LOCK:
         if seconds:
             _DEAD[bucket] = time.time() + seconds

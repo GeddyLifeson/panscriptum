@@ -48,6 +48,7 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import assay as A                                                       # noqa: E402
+import silence                                                          # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
@@ -439,6 +440,30 @@ def main():
     ap.add_argument("--full", action="store_true")
     a = ap.parse_args()
     out = compute()
+
+    # THE ARTIFACT LANDS BEFORE ANYTHING IS PRINTED.
+    #
+    # This write used to sit after the report loop, and the report loop prints `moth_number`,
+    # which opens with U+1D504 (FRAKTUR CAPITAL A). On this machine's default console that is
+    # cp1252, so `python src/handbuilt.py` died with UnicodeEncodeError partway through the
+    # first sheet -- BEFORE the write -- and HANDBUILT_ASSAYS.json silently stopped being
+    # regenerated while every stale copy on disk went on looking current. A display encoding
+    # must never be able to cost the file. Writing first makes the console strictly cosmetic;
+    # the reconfigure below then keeps the console working too.
+    tmp = OUT + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=1, ensure_ascii=False)
+    if not silence.replace_retry(tmp, OUT):
+        silence.note("handbuilt.py:write-did-not-land")
+        print("WRITE DID NOT LAND: " + OUT)
+        return 1
+    print("-> " + OUT)
+
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        _ = "silence-exempt: an un-reconfigurable stdout still prints, just with replacements"
+
     for n, rec in sorted(out.items(),
                          key=lambda kv: -(A.LADDER.index(kv[1]["assay"]["magnitude"])
                                           + kv[1]["assay"]["decimal"])):
@@ -455,9 +480,6 @@ def main():
                 print("   %-15s%5.1f  [%s] %s"
                       % (ax, d["score"], d["provenance"], d["cited"][:58]))
         print("")
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
-    print("-> " + OUT)
     return 0
 
 
