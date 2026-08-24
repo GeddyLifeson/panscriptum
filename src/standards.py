@@ -861,7 +861,13 @@ def report(state=None):
         mark = "ok  " if r["holds"] else "MISS"
         lines.append(f"    {mark}  {r['standard']:<36}{str(r['observed']):>14}   "
                      f"floor {r['floor']}")
-    for r in sorted(bad, key=lambda v: v["severity"]):
+    # By RANK, not alphabetically. Sorting the severity strings gives high, low, medium -- so
+    # the CLI report buried every medium work order below the lows, which is the opposite of
+    # worst-first. `work_orders()` in this file already defines this exact rank dict for this
+    # exact purpose, and the dashboard's panel already uses it; only this report was out of
+    # step. (2026-08-24.)
+    _rank = {"high": 0, "medium": 1, "low": 2}
+    for r in sorted(bad, key=lambda v: _rank.get(v["severity"], 3)):
         lines.append("")
         lines.append(f"WORK ORDER [{r['severity'].upper()}] — {r['standard']}")
         lines.append(f"  observed {r['observed']}, floor {r['floor']}")

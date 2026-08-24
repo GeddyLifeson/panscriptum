@@ -118,6 +118,28 @@ run #3 — check before fixing.*
 
 ## Resolved (paper trail)
 
+*Run #3b (2026-08-24 00:00, continuation pass). Full detail in HANDOFF.md's run #3b entry:*
+
+- **Ollama was hard down and self-sustainingly wedged** — queue saturated (`maximum pending
+  requests exceeded`) while `/api/ps` reported a resident model with **no `llama-server.exe`
+  runner process in existence**, so nothing drained the queue and every call, including each
+  attempt to load a model, failed instantly. The phase runner logged 59 unbroken 503s in 31
+  minutes doing zero work. Fixed by restarting the daemon; a real runner now holds 8.5 GB VRAM
+  and the 503 loop stopped dead. **This corrects run #3's diagnosis of "GPU contention"** — a
+  wedge, not contention, and it would never have cleared by waiting.
+- **[m18] `foreman.py`'s three shared-state writes** (`POOL_PROOF.json`, `FOREMAN.json`,
+  `failures_archive.json` + the `failures.json` reset) now use `tmp` + `silence.replace_retry`,
+  the pattern `_retire()` in the same file already used. Readers confirmed live in all three
+  cases; the `failures.json` reset was the one that could lose a concurrent `health.flush()`.
+- **[m19] `standards.report()` sorted work orders alphabetically** (`high < low < medium`, so
+  every MEDIUM printed below every LOW). Now uses the rank dict `work_orders()` already defines.
+  Verified live: HIGH, HIGH, MEDIUM×5, LOW, LOW.
+- **[m21] `kill_duplicate_jobs` was registered as a bare lambda**, so it logged itself as
+  `<lambda>` in the operational log. Unwrapped.
+- **[m22] `catalog.py`'s docstring advertised a `PANSCRIPTUM://…` address form the code has
+  never implemented.** Replaced with real `SpineCode/Chapter[#PageRange]` examples, both verified
+  to answer.
+
 *Run #3 (2026-08-23 23:06, export commit `cc42d0c`). Root causes one line each — full detail in
 HANDOFF.md's run #3 entry:*
 

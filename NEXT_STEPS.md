@@ -1,6 +1,29 @@
 # Next Steps — priority queue for the next maintenance run
 
-*Overwritten each run; history lives in HANDOFF.md. Run #3 wrote this on 2026-08-23 ~23:40.*
+*Overwritten each run; history lives in HANDOFF.md. Run #3 wrote this on 2026-08-23 ~23:40;
+run #3b amended it 2026-08-24 ~00:35.*
+
+## 0a. Run #3b's amendments — read these before item 0 below
+
+- **Ollama was hard down for the whole of run #3 and is now restarted.** Queue saturated with
+  no runner process in existence; 59 unbroken 503s in the phase runner. **This supersedes run
+  #3's "GPU contention" reading and its item 12 below** — the local rung was not contended, it
+  was wedged, and it could not have recovered on its own. If it wedges again, the signature is:
+  `/api/ps` names a resident model, `tasklist` shows **no `llama-server.exe`**, and a direct
+  `/api/generate` returns `maximum pending requests exceeded`. The remedy is restarting
+  `ollama.exe` (the tray app respawns it). **Worth considering a standard for this** — the
+  wedge is invisible to every existing check, and `health --preflight`'s "Ollama up" reading
+  came back 200 throughout.
+- **Item 2 below (the stranded count) could not have cleared** and is not evidence against the
+  gate fix: judging those 5 entries needs a model call, and none succeeded for 31 minutes.
+  Still worth checking, with that in mind.
+- **A completed local model call has still not been observed** since the restart. The runner is
+  measurably busy (80 CPU-seconds per 10 wall seconds) but `pipeline_auto.log` has logged
+  nothing either way since 00:11:39. **Confirm a phase-2 batch actually lands** — that single
+  observation validates both the Ollama recovery and the stranded-batch fix at once.
+- **[m18], [m19], [m21], [m22] are fixed** (see BUGS.md paper trail); items 15 and 19–22 below
+  are done. **[m20] is confirmed vestigial but deliberately not deleted** — it needs an owner
+  review cycle, not more verification.
 
 ## 0. Verify first — things run #3 changed that need a second pair of eyes
 

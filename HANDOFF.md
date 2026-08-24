@@ -9,6 +9,89 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 00:00 — Run #3b, continuation pass (owner: "do what you think is best")
+
+Short follow-on pass in the window before the next scheduled fire, settling the items run #3
+had recorded on a subagent's word rather than its own. Guard re-claimed as
+`claude-maintenance-run3b` so a scheduled fire could not collide.
+
+**FLAGGED — the local model rung was hard down and is now back.** This is the important part of
+this pass, and it was found by chasing run #3's own open question ("does the stranded count fall
+to 0 once the bounced pipeline laps?"). It did not, and the reason was not the fix:
+`state/pipeline_auto.log` showed **59 consecutive `ollama failed after 3 tries: HTTP 503`, one
+every ~20 seconds, unbroken from 23:40:53 to 00:11:39** — the phase runner had been burning
+cycles doing no work at all since the moment run #3 bounced it.
+
+The cause was not GPU contention, which is what run #3 assumed and wrote down. A direct request
+returned the real body: `{"error":"server busy, please try again. maximum pending requests
+exceeded"}` — Ollama's request queue was saturated. And the daemon was in an inconsistent state
+underneath that: `/api/ps` cheerfully reported `qwen3:30b-a3b-instruct-2507-q4_K_M` resident
+while **no `llama-server.exe` runner process existed at all**, so nothing was draining the queue
+and every call — including each new attempt to load a model — failed instantly and forever. A
+self-sustaining wedge: full queue, no runner, no path back on its own.
+
+Restarted the daemon (killed `ollama.exe`; the tray app respawned it). A real runner now exists
+(`llama-server.exe`, 8.5 GB VRAM resident) and the 503 loop **stopped dead — the count has been
+frozen at 59 for twenty minutes** while the pipeline waits on a genuinely slow call instead of
+failing fast.
+
+Two synthetic probes still timed out (180s and 280s), which on its own could mean "recovered" or
+"hung differently", so it was measured rather than assumed: **`llama-server.exe` consumed 80.8
+CPU-seconds in 10 seconds of wall clock** — pegged across roughly eight cores doing real
+inference. The runner is saturated, not stuck; with a 30B MoE at 8.5 GB on a 10 GB card and a
+deep queue of real work from pipeline/read/roll/overwatch, a newly-arriving probe simply waits
+behind everything. Slow and busy is the healthy state here. **What is still not demonstrated is
+a single completed call** — `pipeline_auto.log` has produced no new line either way since
+00:11:39, success or failure. Next run should confirm a phase-2 batch actually lands.
+
+**Two corrections to run #3's own account, on the record:**
+- Run #3 wrote the Ollama 503 up as "GPU contention against the live read/roll workers." That
+  was wrong. It was a saturated queue plus a phantom-resident model with no runner — a wedge
+  that would never have cleared by waiting, which is what "contention" implies.
+- Run #3's BUGS entry predicted the stranded-batch count would clear "on the pipeline's next
+  lap." It could not have, through no fault of the gate fix: judging those 5 reopened entries
+  needs a model call, and no model call had succeeded for half an hour. **The fix remains
+  unproven end-to-end in production** — it is proven by verify_math §18d and by direct
+  inspection, but the live count is still 5 and will stay 5 until a phase-2 call lands.
+
+**Verified and fixed this pass** (each re-verified against source first — all four had been
+recorded by run #3 as reported-but-not-independently-checked):
+- **[m18] `foreman.py`'s three shared-state writes made atomic.** Confirmed all three were bare
+  `open(...,"w")` + `json.dump`, and confirmed the readers are real and live: `POOL_PROOF.json`
+  is read inside `cascade_bridge`'s routing plus `read.py` and `tuning.py`; `FOREMAN.json` is
+  read every supervisor cycle by `overnight.foreman_report()` (two long-running processes, one
+  file); `state/failures.json` is touched by seven modules and read-modify-written by every
+  process's `health.flush()`. All three now use the `tmp` + `silence.replace_retry` pattern that
+  `_retire()` in the same file already used correctly 650 lines away. The `failures.json` reset
+  was the one that could lose another process's concurrent flush outright rather than merely
+  cost it a cycle. Pattern exercised on temp files (landed, tmp cleaned, content intact) rather
+  than by racing the live foreman on its own log.
+- **[m19] `standards.report()` now sorts work orders by rank, not alphabetically.** String sort
+  put every MEDIUM below every LOW (`high < low < medium`). `work_orders()` in the same file
+  already defined the correct rank dict, and the dashboard already used it. **Verified live**:
+  the report now prints HIGH, HIGH, MEDIUM×5, LOW, LOW.
+- **[m21] `kill_duplicate_jobs` unwrapped from its lambda** — every `round_once` log line prints
+  `fn.__name__`, so this one remedy reported itself as `<lambda>` in the operational log. Now
+  prints its name; confirmed by reading `REMEDIES` back after import.
+- **[m22] `catalog.py`'s docstring documented an address form the code has never implemented** —
+  `PANSCRIPTUM://Collection/Source/.../Chapter` appears nowhere else in the codebase. Real
+  addresses are `SpineCode/Chapter[#PageRange]`, exactly as keyed in `output/index/catalog.json`.
+  Replaced with two real ones and **verified both answer** (`catalog.py address "II.L.6/Persons"`
+  returns the record). Typing the old example always returned "No entry for address", which
+  reads as an empty catalogue rather than as a bad example.
+
+**[m20] confirmed vestigial but deliberately NOT deleted.** The `for job in (...)` loop with a
+bare `pass` body and its unread `dupes = []` provably cannot affect behaviour (the real
+duplicate check has its own `dupes` in a different block 30 lines down). The project's guardrail
+says deletions get a flagged review cycle, and "it is obviously dead" is not a licence to
+self-authorize one — so it stays, now recorded as confirmed rather than suspected. Note the
+comment inside it documents a real decision (why the count lives in the reconcile tier) and is
+worth keeping even if the loop goes.
+
+**Battery:** `verify_math` **284 passed / 0 FAILED**, `allsweep` **0 subsystems in a bad state**,
+`pyflakes` clean over `src/*.py`. `health --preflight` unchanged at 3 problems — the same three
+as run #3, none introduced here, and the stranded-batch one is explained above.
+
 ## 2026-08-23 23:06 — Run #3, triggered by commit 4660388 (code: cc42d0c)
 
 **FLAGGED FOR HUMAN REVIEW — read these three before the next run:**

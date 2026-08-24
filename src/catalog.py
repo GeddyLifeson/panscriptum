@@ -5,8 +5,14 @@ Query what's been generated so far.
 Usage:
     python3 src/catalog.py stats
     python3 src/catalog.py search "One Piece"
-    python3 src/catalog.py address "PANSCRIPTUM://Anime&Manga/OnePiece/Primary/Persons"
-    python3 src/catalog.py read "PANSCRIPTUM://Anime&Manga/OnePiece/Primary/Persons"
+    python3 src/catalog.py address "II.L.6/Persons"
+    python3 src/catalog.py read "II.L.6/Factions#11-13"
+
+Addresses are `SpineCode/Chapter[#PageRange]`, exactly as they are keyed in
+output/index/catalog.json. An earlier version of this docstring advertised a
+`PANSCRIPTUM://Collection/Source/.../Chapter` URI form that appears nowhere else in the
+codebase and that nothing has ever produced -- typing it verbatim always answered "No entry
+for address", which reads as an empty catalogue rather than as a bad example. (2026-08-24.)
 """
 import argparse
 import json

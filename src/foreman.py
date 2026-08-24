@@ -138,8 +138,13 @@ def reprove_pool():
         import cascade_bridge as CB
         rows = CB.prove()
         ok = [r for r in rows if r.get("verdict") == "answers"]
-        with open(os.path.join(HERE, "data", "POOL_PROOF.json"), "w", encoding="utf-8") as f:
+        # Atomic, like _retire() below: cascade_bridge reads this file live inside `ask()` to
+        # decide routing, and read.py and tuning.py read it on their own clocks -- a torn read
+        # costs one of them a cycle, silently. (BUGS m18, 2026-08-24.)
+        _pp = os.path.join(HERE, "data", "POOL_PROOF.json")
+        with open(_pp + ".tmp", "w", encoding="utf-8") as f:
             json.dump(rows, f, indent=1)
+        silence.replace_retry(_pp + ".tmp", _pp)
         CB._PROVEN[0] = None                      # force the next _alive() to re-read
         return True, f"{len(ok)} of {len(rows)} buckets answer"
     except Exception as e:
@@ -229,10 +234,17 @@ def triage_swallowed():
             with open(arch, encoding="utf-8") as f:
                 prev = json.load(f)
         prev[time.strftime("%Y-%m-%d %H:%M")] = d
-        with open(arch, "w", encoding="utf-8") as f:
+        # Both atomic. state/failures.json is the highest-traffic shared file in the project --
+        # the dashboard polls it, standards reads it, and EVERY process read-modify-writes it
+        # through health.flush(). Truncating it with a bare open() is the one write here that
+        # could lose another process's concurrent flush outright, not merely cost it a cycle.
+        # (BUGS m18, 2026-08-24.)
+        with open(arch + ".tmp", "w", encoding="utf-8") as f:
             json.dump(prev, f, indent=1)
-        with open(path, "w", encoding="utf-8") as f:
+        silence.replace_retry(arch + ".tmp", arch)
+        with open(path + ".tmp", "w", encoding="utf-8") as f:
             json.dump({}, f)
+        silence.replace_retry(path + ".tmp", path)
     except Exception:
         silence.note("foreman.py:triage-archive")
     return True, f"{total:,} swallowed and archived, top: {detail}"
@@ -532,7 +544,10 @@ REMEDIES = {
     # Two supervisors is the worst duplicate of all: each starts the jobs the other is already
     # running, and the single-instance guards inside those jobs then fight. Keep the oldest,
     # which is the one holding the state, and end the rest.
-    "one instance of each job": [lambda: kill_duplicate_jobs()],
+    # Bare function, not a lambda wrapper: every log line in round_once prints `fn.__name__`,
+    # and the wrapper made this one remedy report itself as "<lambda>" in the operational log
+    # the project reads to find out what the foreman did. (2026-08-24.)
+    "one instance of each job": [kill_duplicate_jobs],
     # Unfinished work dispatches itself. Coverage short -> start the pass; and re-measure, so
     # the next round is judged against what is true rather than against a stale audit.
     "every source is fully catalogued": [run_catalogue_gap, run_completeness_audit],
@@ -974,8 +989,11 @@ def round_once(dry=True, patch=False):
         silence.note("foreman.py:942")
         prev = []
     prev.append(log)
-    with open(LOG, "w", encoding="utf-8") as f:
+    # Atomic: overnight.foreman_report() reads this every supervisor cycle, so this is two
+    # long-running processes on one file. (BUGS m18, 2026-08-24.)
+    with open(LOG + ".tmp", "w", encoding="utf-8") as f:
         json.dump(prev[-200:], f, indent=1)
+    silence.replace_retry(LOG + ".tmp", LOG)
     return log
 
 
