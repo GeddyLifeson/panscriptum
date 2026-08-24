@@ -632,8 +632,16 @@ def by_axis(text, page):
         s = s.strip()
         if not (20 < len(s) < 400):
             continue
+        # The statblock, patient and evidence-object gates do not depend on the axis, yet the
+        # per-axis loop was re-running all three eleven times per sentence -- a 3x regex
+        # redundancy over an 874MB corpus (round-2 optimization audit, finding 1). Hoisted:
+        # each runs once per sentence, and only the axis vocabulary check stays inside.
+        if P._STATBLOCK.search(s) or P._PATIENT.search(s):
+            continue
+        if not (_OBJ.search(s) or P._MAGNITUDE.search(s) or _CMP.search(s)):
+            continue
         for ax in AXIS_ACT:
-            if axis_evidence(s, ax):
+            if _AXIS_ACT_RE[ax].search(s):
                 out[ax].append({"feat": s, "page": page})
     return out
 

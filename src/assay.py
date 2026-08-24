@@ -366,7 +366,7 @@ def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=N
 
 
 def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
-          hand_readings=None):
+          hand_readings=None, weights=None):
     """Compute a Moth Number: 𝔄 = M_a + (sum w_i * s_i) / 10   (Charter Part Three, step 3).
 
     Returns a dict, never a bare float -- a value without its interval, epoch and worksheet
@@ -380,8 +380,13 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
         return {"magnitude": anchor, "decimal": None, "interval": None,
                 "reason": "no worksheet supplied; band-only per honesty theorem H5"}
 
+    # An optional per-call weight table. custodes' axis-emphasis readings used to mutate
+    # the module-global WEIGHTS under a try/finally -- correct alone, silently wrong the
+    # moment any other thread called assay() mid-window (round-2 audit, finding 1). A local
+    # view makes the reweighting invisible to everyone else by construction.
+    W = weights if weights is not None else WEIGHTS
     used = {k: v for k, v in scores.items()
-            if k in WEIGHTS and isinstance(v, (int, float))}
+            if k in W and isinstance(v, (int, float))}
     if not used:
         return {"magnitude": anchor, "decimal": None, "interval": None,
                 "reason": "no axis scored from cited feats; band-only"}
@@ -392,9 +397,9 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     # existing physical-only decimal untouched.
     # NONE joins the numerator at nil and the denominator at full weight: knowing an axis is
     # absent is knowing something, and it must pull the composite down rather than be ignored.
-    nil = [k for k in WEIGHTS if scores.get(k) == NONE]
-    wsum = sum(WEIGHTS[k] for k in used) + sum(WEIGHTS[k] for k in nil)
-    composite = sum(WEIGHTS[k] * used[k] for k in used) / wsum
+    nil = [k for k in W if scores.get(k) == NONE]
+    wsum = sum(W[k] for k in used) + sum(W[k] for k in nil)
+    composite = sum(W[k] * used[k] for k in used) / wsum
     value = LADDER.index(anchor) + composite / 10.0
 
     # Interval per step 4: attestation grade sets confidence, and unscored axes add ignorance.
@@ -403,11 +408,11 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     # missing information -- it is information, and charging ignorance for it would punish an
     # assessor for knowing that a landslide has no Suasion.
     # UNESTIMABLE stays in the denominator: it IS ignorance, unlike INAPPLICABLE.
-    applicable = [k for k in WEIGHTS if scores.get(k) != INAPPLICABLE]
-    unestimable = sorted(k for k in WEIGHTS if scores.get(k) == UNESTIMABLE)
-    unscored = sorted(k for k in WEIGHTS if k not in used and k not in nil
+    applicable = [k for k in W if scores.get(k) != INAPPLICABLE]
+    unestimable = sorted(k for k in W if scores.get(k) == UNESTIMABLE)
+    unscored = sorted(k for k in W if k not in used and k not in nil
                       and scores.get(k) not in (INAPPLICABLE, UNESTIMABLE))
-    denom = sum(WEIGHTS[k] for k in applicable) or 1.0
+    denom = sum(W[k] for k in applicable) or 1.0
     coverage = wsum / denom
     interval, var_parts = _interval(scores, used, nil, applicable, attestation, denom,
                                     hand_readings=hand_readings)

@@ -227,7 +227,7 @@ function draw(){
     s+=`<text x="${CX}" y="${CY+11}" text-anchor="middle" fill="${css('--s0')}" font-family="${css('--serif')}" font-size="34">&#937;</text>`;
   }else{
     s+=`<text x="${CX}" y="${CY+100}" text-anchor="middle" fill="${tierCol(root.node)}" font-family="${css('--serif')}" font-size="72" letter-spacing="4">${(root.node.name||rootKey).slice(0,24)}</text>`;
-    s+=`<text x="${CX}" y="${CY+205}" text-anchor="middle" fill="${css('--dim')}" font-family="${css('--mono')}" font-size="44">${LABEL[root.node.t]||root.node.t}</text>`;
+    s+=`<text x="${CX}" y="${CY+205}" text-anchor="middle" fill="${css('--muted')}" font-family="${css('--mono')}" font-size="44">${LABEL[root.node.t]||root.node.t}</text>`;
   }
 
   Object.entries(pos).forEach(([k,p])=>{
@@ -248,7 +248,7 @@ function draw(){
       s+=`<text x="${p.x.toFixed(1)}" y="${(p.y+fit*0.34).toFixed(1)}" text-anchor="middle" `
        + `fill="${col}" font-family="${css('--serif')}" font-size="${fit.toFixed(1)}">${nm}</text>`;
       s+=`<text x="${p.x.toFixed(1)}" y="${(p.y+rr*0.76).toFixed(1)}" text-anchor="middle" `
-       + `fill="${css('--dim')}" font-family="${css('--mono')}" font-size="44" letter-spacing="3">`
+       + `fill="${css('--muted')}" font-family="${css('--mono')}" font-size="44" letter-spacing="3">`
        + `${(LABEL[p.node.t]||p.node.t)}</text>`;
       return;
     }

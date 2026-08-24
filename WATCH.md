@@ -1,31 +1,32 @@
 # OVERWATCH
 
-round 48  ·  last run 2026-08-23 20:02
+round 49  ·  last run 2026-08-23 21:31
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 58,348 inspected
-- catalogued sources with no host: **17** Arcanum Worlds (Odyssey of the Dragonlords), Clockwork Angels (Rush), Curious DM
+- files that will not parse: **0** of 58,979 inspected
+- catalogued sources with no host: **20** Clockwork Angels (Rush), Curious DM Investigations (the Sharkin), Dr. Firestorm'
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
-- ENTRIES BANDED ABOVE THEIR OWN SOURCE'S CEILING: **2** Star Trek:Trilithium (weapon use) M5>M4, Star Wars:Starkiller Base M5>M4
 
 ## What the model found in the code
 
-**6 open** (2 high). Newest first.
+**7 open** (0 high). Newest first.
 
-- **catalogue_web.py** `record` — [HIGH] record is used but never defined in this file or its imports if the condition 'if not record' is false
-  - says: record is defined before being used
-- **catalogue_web.py** `MAX_PER_CATEGORY` — [HIGH] None, so the line that uses it raises TypeError
-  - says: How deep to read a category before ranking. Must be well above MAX_PER_CATEGORY or ranking has nothing to choose from and the alphabetical bias returns.
-- **cascade_bridge.py** `_alive` — [MEDIUM] Does not check if bucket is in _STRIKES or _DEAD before returning False
-  - says: Returns False if bucket is in dead_forever() or starts with LOCAL_PREFIX
-- **cascade_bridge.py** `dead_forever` — [MEDIUM] Excludes buckets with verdicts containing 'no such model', 'needs billing', or 'bad key', but does not check if these verdicts are actually permanent
+- **cascade_bridge.py** `_clear` — [MEDIUM] Does not check if _STRIKES or _DEAD is None before trying to access it
+  - says: Clear a bucket's strikes and dead time
+- **cascade_bridge.py** `_bury` — [MEDIUM] Does not check if _DEAD is None before trying to access it
+  - says: Bury a bucket for a certain amount of time
+- **cascade_bridge.py** `_alive` — [MEDIUM] Does not check if _DEAD is None before trying to access it
+  - says: Check if a bucket is alive
+- **cascade_bridge.py** `dead_forever` — [MEDIUM] Does not check if rows is None before trying to iterate over it
   - says: Buckets excluded by proof — and ONLY for reasons that cannot fix themselves.
-- **cascade_bridge.py** `_interval` — [MEDIUM] Returns 0.0 if rpm is not found or is <= 0, but does not handle the case where rpm is None
+- **cascade_bridge.py** `_pace` — [MEDIUM] Does not check if gap is None before trying to compare it to 0.0
+  - says: Block until this bucket's turn. One waiter at a time per bucket, so the queue is orderly.
+- **cascade_bridge.py** `_interval` — [MEDIUM] Returns 0.0 if rpm is not found or is <= 0, but does not check if rpm is None before trying to divide by it
   - says: Minimum seconds between entries to this bucket, from its own declared rate.
-- **cascade_bridge.py** `_CFG` — [MEDIUM] This variable is defined but never used in the provided code slice.
-  - says: This variable is used to store configuration settings for the Engine.
+- **autostart.py** `ap.add_argument('--read-hours', type=float, default=10)` — [MEDIUM] read-hours argument is used to start the supervisor
+  - says: read-hours argument is used to determine the hours to read
 
 ---
 

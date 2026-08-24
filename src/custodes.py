@@ -243,18 +243,13 @@ def _custos_reading(name, anchor, scores, attestation, worksheet):
 
     emph = c.get("axis_emphasis") or {}
     if emph:
-        saved = dict(A.WEIGHTS)
-        try:
-            for k, m in emph.items():
-                if k in A.WEIGHTS:
-                    A.WEIGHTS[k] = saved[k] * m
-            tot = sum(A.WEIGHTS.values())
-            for k in A.WEIGHTS:
-                A.WEIGHTS[k] /= tot
-            base = A.assay(anchor, scores, attestation=attestation, worksheet=worksheet)
-        finally:
-            A.WEIGHTS.clear()
-            A.WEIGHTS.update(saved)
+        # A PRIVATE weight table, never the shared global: the old mutate-and-restore was
+        # correct single-threaded and silently wrong beside any concurrent assay() call.
+        w = {k: v * emph.get(k, 1.0) for k, v in A.WEIGHTS.items()}
+        tot = sum(w.values())
+        w = {k: v / tot for k, v in w.items()}
+        base = A.assay(anchor, scores, attestation=attestation, worksheet=worksheet,
+                       weights=w)
 
     q = ATTESTATION_QUALITY.get(attestation, 0.4)
     # The tilt has two parts, and separating them is the whole point:

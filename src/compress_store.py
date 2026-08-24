@@ -32,7 +32,7 @@ def store(text: str, compressed_dir: str) -> dict:
 
     if _HAVE_ZSTD:
         codec = "zstd"
-        cctx = zstd.ZstdCompressor(level=19)
+        cctx = zstd.ZstdCompressor(level=10)
         blob = cctx.compress(raw_bytes)
         path = os.path.join(compressed_dir, f"{h}.zst")
     else:

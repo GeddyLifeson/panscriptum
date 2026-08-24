@@ -66,7 +66,10 @@ PAGE = os.path.join(DOCS, "index.html")
 # these and stays home.
 COPY_DIRS = ("src", "prompts", "reference", "registry_terminal", "handoff")
 COPY_FILES = ("CLAUDE.md", "README.md", "config.yaml", "requirements.txt",
-              "WATCH.md", "STATUS.md")
+              "WATCH.md", "STATUS.md",
+              # the maintenance-pass ledgers: run journal, bug paper-trail, priority
+              # queue, and the framework the scheduled super-supervisor reads first
+              "HANDOFF.md", "BUGS.md", "NEXT_STEPS.md", "MAINTENANCE.md")
 # Backups and scratch copies never travel. The .pre* family is session backups of live modules
 # -- seven of them were sitting in src/ and being published to the PUBLIC repo because this
 # tuple only knew about two suffixes.
@@ -147,6 +150,16 @@ def sync_tree():
                 srcp = os.path.join(base, f)
                 dstp = os.path.join(SITE, os.path.relpath(srcp, HERE))
                 os.makedirs(os.path.dirname(dstp), exist_ok=True)
+                # rsync-style short-circuit: this loop was copying 139 files / 14.5MB every
+                # ten minutes unconditionally (~2GB/day of writes for Norton to re-scan) when
+                # a normal sync changes a handful. copy2 preserves mtime, so equal
+                # mtime+size means the destination already IS this file.
+                try:
+                    st_s, st_d = os.stat(srcp), os.stat(dstp)
+                    if st_s.st_mtime == st_d.st_mtime and st_s.st_size == st_d.st_size:
+                        continue
+                except OSError:
+                    pass
                 shutil.copy2(srcp, dstp)
                 n += 1
     for f in COPY_FILES:

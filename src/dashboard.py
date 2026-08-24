@@ -192,7 +192,27 @@ def jobs():
     return out
 
 
+_TTL_MEMO = {}
+
+
+def _ttl(key, seconds, fn):
+    """A 5-second client poll against sources that change on an hours clock was recomputing
+    85,904-entry sums and a recursive glob per tick (round-2 optimization audit, finding 6).
+    Same pattern as overnight._proc_lines: within the TTL, everyone reads the same answer."""
+    now = time.time()
+    hit = _TTL_MEMO.get(key)
+    if hit and now - hit[0] < seconds:
+        return hit[1]
+    val = fn()
+    _TTL_MEMO[key] = (now, val)
+    return val
+
+
 def library():
+    return _ttl("library", 30, _library)
+
+
+def _library():
     """What the library actually holds: hosts, coverage, and the phases that exist."""
     out = {}
     try:
@@ -234,6 +254,10 @@ def library():
 
 
 def watch():
+    return _ttl("watch", 30, _watch)
+
+
+def _watch():
     """The standing sweep's verdict, so the dashboard says when the code itself is suspect."""
     out = {"open": 0, "high": 0, "rounds": 0, "findings": [], "broken": []}
     try:

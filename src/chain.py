@@ -130,6 +130,14 @@ def harvest():
     except Exception:
         _ = "silence-exempt: a missing or corrupt index rebuilds whole; documented safe"
         idx = {}
+    # The designator inventory, loaded ONCE. identify() with inv=None re-reads
+    # DESIGNATORS.json from disk per call, and harvest called it per outcome sentence --
+    # thousands of 54KB parses per pass (round-2 optimization audit, finding 5).
+    try:
+        _inv = ID.load()
+    except Exception:
+        silence.note("chain.py:inv-load")
+        _inv = None
     live, changed = set(), 0
     for base in ("readfeats", "feats"):
         for fp in glob.glob(os.path.join(HERE, "data", base, "**", "*.json"), recursive=True):
@@ -160,7 +168,7 @@ def harvest():
                 # it here is what lets an Earth-616 win stay an Earth-616 win instead of being
                 # averaged into a being no source recorded.
                 page = x.get("page", "")
-                _, cont = ID.identify(page, host)
+                _, cont = ID.identify(page, host, inv=_inv)
                 found.append({"entity": ent, "sentence": t, "page": page,
                               "host": host, "continuity": cont})
             idx[rel] = {"mt": mt, "rows": found}

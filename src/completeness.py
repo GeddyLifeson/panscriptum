@@ -30,6 +30,7 @@ It never truncates anything, and it writes no catalogue. It is a measurement.
 import argparse
 import json
 import os
+import time
 import sys
 import collections
 from concurrent.futures import ThreadPoolExecutor
@@ -57,19 +58,56 @@ def subdomain(host):
     return host[: -len(".fandom.com")]
 
 
+_CS_CACHE_P = os.path.join(HERE, "state", "category_sizes.json")
+_CS_CACHE = {"loaded": False, "d": {}}
+_CS_TTL = 12 * 3600
+
+
+def _cs_load():
+    if not _CS_CACHE["loaded"]:
+        try:
+            with open(_CS_CACHE_P, encoding="utf-8") as f:
+                _CS_CACHE["d"] = json.load(f)
+        except Exception:
+            _ = "silence-exempt: no cache yet is the normal first state"
+        _CS_CACHE["loaded"] = True
+    return _CS_CACHE["d"]
+
+
 def category_size(sub, category):
-    """How many pages a category holds, per the wiki itself. One call, no enumeration."""
+    """How many pages a category holds, per the wiki itself. One call, no enumeration --
+    and CACHED 12h to disk: the always-remedy runs this audit every foreman round, and
+    uncached that was ~1,300 live calls per half hour to the domain that has IP-banned this
+    machine once already (round-2 optimization audit, finding 3). Category counts move on a
+    days clock; the standard's job is to keep the shortfall visible, not to re-ask fandom
+    the same question 48 times a day."""
+    d = _cs_load()
+    k = sub + "|" + category
+    hit = d.get(k)
+    if hit and time.time() - hit.get("at", 0) < _CS_TTL:
+        return hit.get("n")
     try:
         d = ws._api(sub, {"action": "query", "titles": "Category:" + category,
                           "prop": "categoryinfo"})
     except Exception:
         silence.note("completeness.py:category_size")
         return None
+    got = None
     for p in (d.get("query", {}).get("pages", {}) or {}).values():
         ci = p.get("categoryinfo")
         if ci:
-            return ci.get("pages", 0)
-    return None
+            got = ci.get("pages", 0)
+            break
+    cache = _cs_load()
+    cache[k] = {"at": time.time(), "n": got}
+    try:
+        tmp = _CS_CACHE_P + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(cache, f)
+        silence.replace_retry(tmp, _CS_CACHE_P)
+    except Exception:
+        silence.note("completeness.py:cs-cache")
+    return got
 
 
 def catalogued_counts():

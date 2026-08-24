@@ -1,7 +1,7 @@
 # PANSCRIPTUM — AUTONOMOUS RUN STATUS
 
 *Rewritten automatically by `src/pipeline.py` after every completed unit.*
-*Last update: 2026-08-23 21:34:32*
+*Last update: 2026-08-23 21:35:32*
 
 ## Where the run is
 
@@ -9,7 +9,7 @@
 |---|---|
 | Current phase | **2 — entrypass** |
 | Units completed this run | 3,375 |
-| Failures logged | 12 |
+| Failures logged | 15 |
 
 ## Corpus
 

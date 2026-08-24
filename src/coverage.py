@@ -46,32 +46,78 @@ def _p(base, host, name):
                         re.sub(r"[^A-Za-z0-9]+", "_", name)[:80] + ".json")
 
 
+# Per-file result cache, mtime-keyed and persisted. state_of() only ever wants two list
+# LENGTHS, but the evidence files are 95% page text -- measure() was deserializing on the
+# order of the whole 874MB corpus per run, several runs a day (round-2 optimization audit,
+# finding 2). A file re-parses only when its mtime moves; everything else is a dict hit.
+_SO_CACHE_P = os.path.join(HERE, "state", "coverage_cache.json")
+_SO = {"loaded": False, "d": {}, "dirty": 0}
+
+
+def _so_load():
+    if not _SO["loaded"]:
+        try:
+            with open(_SO_CACHE_P, encoding="utf-8") as f:
+                _SO["d"] = json.load(f)
+        except Exception:
+            _ = "silence-exempt: no cache yet is the normal first state"
+        _SO["loaded"] = True
+    return _SO["d"]
+
+
+def _so_save():
+    if not _SO["dirty"]:
+        return
+    try:
+        import silence as _sil
+        tmp = _SO_CACHE_P + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(_SO["d"], f)
+        _sil.replace_retry(tmp, _SO_CACHE_P)
+        _SO["dirty"] = 0
+    except Exception:
+        silence.note("coverage.py:so-save")
+
+
 def state_of(host, name):
     """(state, n_feats, n_pages) for one entry."""
     if not host:
         return "NO HOST", 0, 0
+    cache = _so_load()
     best = ("NO PAGE", 0, 0)
     for base in (READ_CACHE, F.CACHE):
         fp = _p(base, host, name)
-        if not os.path.exists(fp):
-            continue
         try:
-            with open(fp, encoding="utf-8") as f:
-                d = json.load(f)
-        except Exception:
-            silence.note("coverage.py:60")
+            mt = os.path.getmtime(fp)
+        except OSError:
             continue
-        pages = d.get("pages_read") or d.get("pages") or []
-        feats = d.get("feats") or []
-        if feats:
-            return "CITED", len(feats), len(pages)
-        if pages:
-            best = ("READ", 0, len(pages))
+        rel = os.path.relpath(fp, HERE)
+        hit = cache.get(rel)
+        if hit and hit[0] == mt:
+            st, nf, np = hit[1], hit[2], hit[3]
+        else:
+            try:
+                with open(fp, encoding="utf-8") as f:
+                    d = json.load(f)
+            except Exception:
+                silence.note("coverage.py:60")
+                continue
+            pages = d.get("pages_read") or d.get("pages") or []
+            feats = d.get("feats") or []
+            st = "CITED" if feats else ("READ" if pages else "NO PAGE")
+            nf, np = len(feats), len(pages)
+            cache[rel] = [mt, st, nf, np]
+            _SO["dirty"] += 1
+        if st == "CITED":
+            return "CITED", nf, np
+        if st == "READ":
+            best = ("READ", 0, np)
     return best
 
 
 def measure():
     hosts = json.load(open(F.HOSTS, encoding="utf-8"))
+    _so_load()
     rows = []
     for _, r in P.records():
         host = hosts.get(r["source"])
@@ -88,6 +134,7 @@ def measure():
                      "feats": feats,
                      "coverage": c["CITED"] / max(n, 1),
                      "settled": (c["CITED"] + c["READ"]) / max(n, 1)})
+    _so_save()
     return rows
 
 

@@ -154,7 +154,9 @@ def detect(host, force=False):
     if found["mode"] == MODE_DEAD:
         import time as _t
         found["at"] = _t.time()
-    mem[host] = found
+    # Under the cache's own lock: the write was accidentally-safe GIL behaviour, not design.
+    with _LOCK:
+        mem[host] = found
     _save()
     return found
 

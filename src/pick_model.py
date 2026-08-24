@@ -94,8 +94,13 @@ def save_config(cfg):
         raw = f.read()
     # targeted replace of the model: line so we don't clobber comments/formatting elsewhere
     new_raw = re.sub(r'^model:\s*.*$', f'model: "{cfg["model"]}"', raw, count=1, flags=re.M)
-    with open(os.path.join(HERE, "config.yaml"), "w", encoding="utf-8") as f:
+    # Atomic: config.yaml is re-read by nine running modules; a truncated mid-write copy
+    # hands one of them a YAML parse error at whatever instant it reloads.
+    import silence as _sil
+    p = os.path.join(HERE, "config.yaml")
+    with open(p + ".tmp", "w", encoding="utf-8") as f:
         f.write(new_raw)
+    _sil.replace_retry(p + ".tmp", p)
 
 
 def list_installed_models(ollama_host):
