@@ -11,20 +11,28 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ## 2026-08-24 00:45 — Run #4 (owner: delete m20, handle the rest, and run a real pass)
 
-**The stranded-batch fix is now PROVEN IN PRODUCTION, and not by waiting for a lap.** Run #3
-left it verified only by unit test, and run #3b could not prove it because Ollama was wedged.
-The proof was already sitting in live state: `state/PIPELINE_STATE.json` holds
-`failed.entrypass["Arcanum Worlds (Odyssey of the Dragonlords)#280"] = "ollama failure"` **while
-that same key is still present in `done.entrypass`**. Phase 2 selected and attempted that batch
-with the key already recorded done — which is exactly what the old `if key in done_keys: continue`
-made impossible. The gate fired in production; only the 503 outage stopped the entries being
-judged. `--preflight` will still read 5 until a phase-2 call lands, and that is now the only
-thing outstanding on it.
+**THE STRANDED-BATCH FIX IS CLOSED, END TO END, IN PRODUCTION.** Run #3 verified it only by unit
+test; run #3b could not prove it at all because Ollama was wedged. This run closed it twice over.
 
-Also worth recording plainly: the live pipeline is **blocked, not broken**. `units_done` sat at
-3382 across a 40-second sample with the state file freshly written, i.e. it is inside one long
-call. `llama-server.exe` is burning ~8 cores. A 30B MoE at 8.5 GB on a 10 GB card is simply slow,
-so a phase-2 batch may take a long while to come round.
+First, the gate: `state/PIPELINE_STATE.json` held
+`failed.entrypass["Arcanum Worlds (Odyssey of the Dragonlords)#280"] = "ollama failure"` **while
+that same key was still present in `done.entrypass`** — phase 2 selected and attempted a batch
+whose key was already recorded done, which is precisely what the old
+`if key in done_keys: continue` made impossible.
+
+Then, after the pipeline was bounced onto the new code with Ollama serving again, the whole chain
+completed on its own within a minute:
+
+    [2026-08-24 00:46:40]   Arcanum Worlds (Odyssey of the Dragonlords)   done
+
+- `failed.entrypass` no longer holds the key (the failure was retired on success, as designed)
+- `done.entrypass` still holds it
+- **uncatalogued entries in that tail batch: 0** — all five doc-ingested entries are judged
+- `health.py --preflight` now reports **`ok  state consistency`**; the stranded count went 5 → 0
+  and preflight dropped from 3 problems to 2, both of which are owner decisions, not faults
+
+The fresh pipeline instance also logged **zero 503s** where its predecessor was 100% 503, which
+independently confirms run #3b's Ollama restart took.
 
 **Deleted with owner sign-off — [m20].** The `for job in (...)` loop with a bare `pass` body and
 its unread `dupes = []` are gone from `standards.py`. The comment it carried is kept, because the

@@ -1,5 +1,5 @@
 {
- "at": "2026-08-24 00:44:30",
+ "at": "2026-08-24 00:49:00",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 11,
+     "left": 14,
      "cap": 500,
-     "frac": 0.022
+     "frac": 0.028
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.022
+   "worst": 0.028
   },
   {
    "bucket": "cohere:free",
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 4,
+     "left": 5,
      "cap": 5,
-     "frac": 0.8
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -227,16 +227,16 @@
    "unlimited": false,
    "windows": [
     {
+     "name": "rpm",
+     "left": 0,
+     "cap": 2,
+     "frac": 0.0
+    },
+    {
      "name": "rpd",
      "left": 0,
      "cap": 1000,
      "frac": 0.0
-    },
-    {
-     "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -308,15 +308,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 1,
      "cap": 772,
-     "frac": 0.0
-    },
-    {
-     "name": "rpm",
-     "left": 28,
-     "cap": 30,
-     "frac": 0.9333
+     "frac": 0.0013
     },
     {
      "name": "tpd",
@@ -325,13 +319,19 @@
      "frac": 0.9998
     },
     {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
      "name": "tpm",
      "left": 6000,
      "cap": 6000,
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0013
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -345,22 +345,22 @@
      "frac": 0.0
     },
     {
-     "name": "tpm",
-     "left": 4856,
-     "cap": 8000,
-     "frac": 0.607
-    },
-    {
      "name": "tpd",
-     "left": 130004,
+     "left": 130204,
      "cap": 200000,
-     "frac": 0.65
+     "frac": 0.651
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 26,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 0.8667
+    },
+    {
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -378,15 +378,15 @@
     },
     {
      "name": "tpd",
-     "left": 60191,
+     "left": 60384,
      "cap": 100000,
-     "frac": 0.6019
+     "frac": 0.6038
     },
     {
      "name": "rpm",
-     "left": 26,
+     "left": 30,
      "cap": 30,
-     "frac": 0.8667
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -410,21 +410,21 @@
     },
     {
      "name": "tpd",
-     "left": 72471,
+     "left": 74049,
      "cap": 200000,
-     "frac": 0.3624
-    },
-    {
-     "name": "tpm",
-     "left": 5786,
-     "cap": 8000,
-     "frac": 0.7232
+     "frac": 0.3702
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -456,9 +456,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 1,
+     "left": 5,
      "cap": 200,
-     "frac": 0.005
+     "frac": 0.025
     },
     {
      "name": "rpm",
@@ -467,7 +467,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.005
+   "worst": 0.025
   },
   {
    "bucket": "kluster:free",
@@ -502,9 +502,9 @@
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -636,9 +636,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 2,
      "cap": 300,
-     "frac": 0.0
+     "frac": 0.0067
     },
     {
      "name": "rpm",
@@ -647,7 +647,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0067
   },
   {
    "bucket": "together:free",
@@ -676,9 +676,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 3,
      "cap": 500,
-     "frac": 0.0
+     "frac": 0.006
     },
     {
      "name": "rpm",
@@ -687,23 +687,23 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.006
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 515,
-  "per_hour": 2060,
+  "calls": 424,
+  "per_hour": 1696,
   "buckets": [
    {
     "bucket": "mistral:free",
-    "calls": 362,
-    "ok": 362
+    "calls": 229,
+    "ok": 229
    },
    {
     "bucket": "ollama:local",
-    "calls": 47,
-    "ok": 35
+    "calls": 72,
+    "ok": 63
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
@@ -712,33 +712,58 @@
    },
    {
     "bucket": "nvidia:free",
-    "calls": 23,
-    "ok": 22
+    "calls": 16,
+    "ok": 15
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 14,
+    "ok": 2
    },
    {
     "bucket": "cohere:free",
-    "calls": 11,
-    "ok": 11
+    "calls": 10,
+    "ok": 10
    },
    {
     "bucket": "ollama:qwen2.5:14b",
-    "calls": 9,
+    "calls": 10,
+    "ok": 0
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 7,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 5,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 7,
+    "calls": 5,
     "ok": 1
    },
    {
     "bucket": "ollama:llama3.1:latest",
-    "calls": 7,
+    "calls": 5,
     "ok": 0
    },
    {
-    "bucket": "groq:openai/gpt-oss-120b",
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 4,
+    "ok": 1
+   },
+   {
+    "bucket": "cloudflare:free",
     "calls": 2,
-    "ok": 2
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 2,
+    "ok": 0
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
@@ -746,37 +771,12 @@
     "ok": 2
    },
    {
-    "bucket": "cloudflare:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 1,
+    "bucket": "sambanova:free",
+    "calls": 2,
     "ok": 0
    },
    {
     "bucket": "hyperbolic:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "sambanova:free",
     "calls": 1,
     "ok": 0
    },
@@ -821,7 +821,7 @@
    "read": 32987,
    "settled": 40608,
    "feats": 47716,
-   "age_h": 0.1
+   "age_h": 0.2
   },
   "phases": [
    {
@@ -857,17 +857,23 @@
     "built": true
    }
   ],
-  "readfeats": 845
+  "readfeats": 848
  },
  "watch": {
-  "open": 6,
-  "high": 2,
+  "open": 7,
+  "high": 3,
   "rounds": 55,
   "findings": [
    {
     "module": "feats",
     "symbol": "api",
     "actual": "May make a MediaWiki API call to the wrong endpoint if the wiki is not Fandom or Wikipedia",
+    "severity": "high"
+   },
+   {
+    "module": "manifest_builder",
+    "symbol": "load_record",
+    "actual": "The function incorrectly checks `norm_target in norm_fname` (substring containment) and `norm_target.startswith(norm_fname)` (prefix containment), but the logic",
     "severity": "high"
    },
    {
@@ -909,11 +915,11 @@
    ],
    [
     "silent:feats.py:139:URLError",
-    1124
+    1150
    ],
    [
     "silent:wiki_source.py:160:URLError",
-    1051
+    1088
    ],
    [
     "silent:endpoint.py:fetch_raw-http:HTTPError",
@@ -928,32 +934,32 @@
     391
    ]
   ],
-  "swallowed_total": 29073
+  "swallowed_total": 29151
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1854,
-   "p50": 12.1,
+   "n": 1846,
+   "p50": 12.2,
    "p95": 75.1,
-   "ok_pct": 66,
+   "ok_pct": 65,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 14,
-   "p50": 43.3,
+   "n": 19,
+   "p50": 42.9,
    "p95": 271.4,
    "ok_pct": null,
-   "tps": 32.1
+   "tps": 32.2
   },
   {
    "tag": "entrypass",
-   "n": 10,
+   "n": 14,
    "p50": 46.0,
    "p95": 503.4,
    "ok_pct": null,
-   "tps": 23.6
+   "tps": 23.9
   }
  ],
  "standards": [
@@ -961,7 +967,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": true,
-   "observed": 2060,
+   "observed": 1696,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -979,7 +985,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "41% dry",
+   "observed": "31% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -997,7 +1003,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": true,
-   "observed": "85% ok",
+   "observed": "77% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1051,7 +1057,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.1h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1087,7 +1093,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 2,
+   "observed": 3,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1105,7 +1111,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": false,
-   "observed": "27,755",
+   "observed": "27,833",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1222,7 +1228,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": true,
-   "observed": "2 running, all advancing",
+   "observed": "3 running, all advancing",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1276,7 +1282,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.1h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1305,44 +1311,44 @@
    "metric": "cited",
    "now": 7621,
    "delta": 71,
-   "minutes": 32,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "settled",
    "now": 40608,
    "delta": 0,
-   "minutes": 32,
+   "minutes": 36,
    "stalled": true
   },
   {
    "metric": "feats",
    "now": 47716,
    "delta": 4800,
-   "minutes": 32,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "entities read",
-   "now": 845,
-   "delta": 144,
-   "minutes": 32,
+   "now": 848,
+   "delta": 147,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "chunks",
    "now": 6579,
    "delta": 770,
-   "minutes": 32,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "standards met",
-   "now": 29,
-   "delta": 3,
-   "minutes": 32,
+   "now": 28,
+   "delta": 2,
+   "minutes": 36,
    "stalled": false
   }
  ],
- "generated": "2026-08-24T00:44:34"
+ "generated": "2026-08-24T00:49:03"
 }

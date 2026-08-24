@@ -12,6 +12,16 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   HTML-path reader with a browser UA (politeness/ToS question — HUMAN CALL) or leave the four
   sources owner-supplied. Noted in `data/SCOUT_BLOCKED.json`. Not auto-fixable.
 ### Minor
+- **[m23] `overnight.start()` TRUNCATES a job's log on every restart** (`fh = open(lf, "w")`),
+  so each keeper-driven bounce destroys that job's entire history. Found the hard way in run #4:
+  the 59-503 record that diagnosed the Ollama wedge existed only in `pipeline_auto.log`, and the
+  keeper's restart erased it minutes after it was read — the counts survive only because they
+  were transcribed into HANDOFF.md first. The keeper restarts standing jobs every five minutes
+  when they are down, so this is the normal path, not an edge case: any problem that needs more
+  than one restart to understand cannot be investigated. Fix is small (`"a"` plus a
+  session-separator line, or rotate to `<job>.N.log`) but it changes an operational convention
+  and the dashboard's `_tail_match` readers assume a single current file — **worth an owner
+  glance before changing**, not a silent flip.
 - **[m1] Marvel completeness row 25h stale** (0.4% vs 30,207 on disk) — re-measure was
   launched this run (`completeness.py --workers 6`); verify the row after it lands. If still
   wrong after a fresh run, the byslug matching in `completeness.py` becomes a real suspect.
@@ -50,10 +60,8 @@ watched (m1, m2). As of run #4 there are no open bugs awaiting only implementati
   watched `units_done` hold at 3382 across a 40s sample with the state file freshly written:
   blocked inside one call, not broken. If phase 2 makes no measurable progress over a few hours,
   the question is model choice / offload split, not correctness.
-- **`entries stranded in closed batches: 5`** — the reopen gate is **proven** (run #4: the batch
-  appears in `failed.entrypass` while its key is still in `done.entrypass`, which the old gate
-  made impossible). The count clears when a phase-2 model call finally lands on that batch.
-  Do NOT re-fix the gate on the strength of this number.
+- ~~`entries stranded in closed batches`~~ **CLEARED to 0 in run #4** — moved to the paper
+  trail. `health --preflight` now reads `ok  state consistency`.
 - Charter regression: `data/CHARTER_REGRESSION.json` **landed** (22:24, run #3 confirmed it on
   disk). Verify the `automation reproduces the charter` standard now takes a real reading.
 - Dragonlords ingest miner: patient loop (60-miss ≈ 5h), waiting out the evening pool for the
@@ -65,11 +73,12 @@ watched (m1, m2). As of run #4 there are no open bugs awaiting only implementati
 
 *Run #4 (2026-08-24 00:45). Full detail in HANDOFF.md's run #4 entry:*
 
-- **The stranded-batch fix is PROVEN IN PRODUCTION** — live state holds
-  `failed.entrypass["Arcanum Worlds (Odyssey of the Dragonlords)#280"]` while that same key is
-  still in `done.entrypass`. Phase 2 attempted a batch whose key was already recorded done,
-  which the old gate made impossible. `--preflight` still reads 5 only because no phase-2 model
-  call has landed since (the pipeline is blocked inside one slow call, not broken).
+- **The stranded-batch fix is CLOSED end-to-end in production.** Live state first showed the
+  gate firing (`failed.entrypass[...#280]` present while the same key was still in
+  `done.entrypass` — impossible under the old gate); then, once the pipeline ran on the new code
+  with Ollama serving, `Arcanum Worlds … done` at 00:46:40, the failure retired on success,
+  **0 uncatalogued entries left in the tail batch**, and `health --preflight` flipped to
+  `ok  state consistency` (stranded 5 → 0, preflight 3 problems → 2).
 - **[m6] eleven phase artifacts made atomic** via the new `pipeline.land_json()` — the old
   `json.dump(obj, open(path,"w"))` truncates before serialising, so an unencodable value left
   the real file unparseable (reproduced). **And the second half**: `phase_history` treated absent

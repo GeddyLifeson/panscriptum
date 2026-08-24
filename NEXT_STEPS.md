@@ -8,20 +8,22 @@ watched (m1, m2). Runs #3/#3b/#4 closed m3–m11, m14, m15, m17–m22 plus the t
 bugs and the Ollama wedge. So this run's queue is mostly *verification* and *owner decisions* —
 if both are clear, the honest next move is a new audit surface (section 4), not invented work.
 
+*Nothing from run #4 is left hanging: the stranded-batch fix closed end-to-end (preflight now
+reads `ok  state consistency`), Ollama is serving with zero 503s in the fresh pipeline log, and
+every implementation-ready bug is fixed. Start at section 2 unless something below has drifted.*
+
 ## 1. Verify first
 
-1. **Confirm a phase-2 model call actually lands.** This single observation closes three open
-   threads at once: it proves the local model is genuinely serving again after run #3b's wedge,
-   it drops `entries stranded in closed batches` from 5 to 0, and it completes the end-to-end
-   demonstration of the reopen gate. Check `state/pipeline_auto.log` for a non-503 line after
-   2026-08-24 00:11, and `health.py --preflight`. **Do not re-fix the gate on the strength of
-   the number 5** — run #4 proved the gate fires in production (the batch is in
-   `failed.entrypass` while its key is still in `done.entrypass`, impossible under the old code).
-2. **Watch local-model throughput, not liveness.** The runner is up and pegged, but a 30B MoE at
-   8.5 GB on a 10 GB card offloads heavily to CPU. If phase 2 shows no measurable progress over
-   a few hours, that is a model-choice / offload question for the owner (`pick_model.py` ranks
-   candidates), not a correctness bug. Sample `units_done` in `PIPELINE_STATE.json` twice a few
-   minutes apart before concluding anything.
+1. **Local-model throughput, not liveness.** The runner is up and serving (run #4: 0 × 503 in a
+   fresh `pipeline_auto.log`, and a full phase-2 source completed in under a minute). But a 30B
+   MoE at 8.5 GB on a 10 GB card offloads heavily to CPU, and an earlier instance sat inside a
+   single call for 40+ minutes. If phase 2 stops showing progress, sample `units_done` in
+   `PIPELINE_STATE.json` twice a few minutes apart before concluding anything — and treat it as a
+   model-choice / offload question for the owner (`pick_model.py` ranks candidates), not a
+   correctness bug.
+2. **[m23] job logs are truncated on every restart** — this bit run #4 directly (see BUGS). Until
+   it is fixed, transcribe anything you are diagnosing out of `state/<job>.log` before the keeper
+   bounces the job, or the evidence goes with it.
 3. **The new `the local model has a live runner` standard** should read `runner up, N resident`.
    If it ever reads `NO llama-server process`, the remedy is restarting `ollama.exe` by hand
    (the tray app respawns it) — it is in the OWNER lane deliberately and will not self-heal.
