@@ -9,6 +9,111 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 15:35 (local) — Interactive session: M6 CLOSED, by measuring the number two runs agreed not to touch
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets, no money movement, no data loss.** No job was bounced, no process killed, no
+   record rewritten. Changes are three source files and `config.yaml`.
+2. **M6 IS FIXED: chapter generation went from refusing 17,370 of 17,370 calls to refusing 22 of
+   17,579 — 99.87% now fit.** Verified by replaying the real code path (`build_prompt` per
+   `WRITE_CHUNK` group through `context_budget.fits`) across every job, no sampling.
+3. **THE VRAM COST OF THE BIGGER WINDOW HAS NOT BEEN OBSERVED, and that is the one loose end.**
+   `num_ctx` 6144 -> 12288 was chosen on arithmetic; forcing the resident runner to reload would
+   have disrupted three live jobs, so it was left to reload naturally. Predicted ~+0.8 GB (about
+   6.3 GB of 10 GB) from the measured KV rate, **but `OLLAMA_NUM_PARALLEL = 2` may allocate the
+   window per slot and double that.** First item in the next run's queue: confirm `/api/ps` reads
+   `context_length: 12288` and the model is still fully on GPU. **If it spilled to CPU, drop to
+   8192 and trim the chapter system prompt instead — do not leave it spilled.**
+4. **The foreign process was already gone before this session looked.** Run #12's paper trail
+   records it killed with your authorisation in the 13:35 session. The rung is healthy: 15
+   established connections, spread across our own jobs.
+
+**THE RUN'S THEME: `CHARS_PER_TOKEN = 3.0` was a placeholder wearing a safety margin's clothes,
+and two runs in a row respected it instead of measuring it.** Run #12 was right to refuse to
+touch it — *"do not raise `CHARS_PER_TOKEN` until someone has measured the real tokenizer
+ratio"* — and right that guessing upward would restore silent truncation. But the instruction
+that follows from that is *measure it*, and the measurement had been blocked twice only by GPU
+contention, which had since cleared.
+
+**HOW IT WAS MEASURED, since the module's header says no tokenizer is available.** One is:
+`prompt_eval_count` in the `/api/generate` response reports the tokens the runner **actually
+evaluated**. Send a payload with `num_predict: 1`, subtract a calibrated per-call overhead, and
+that is a real tokenizer reading with no new dependency. On 5,000-char slices sent well inside
+the resident window (far enough in that the count cannot clamp, which would have read falsely
+high — the dangerous direction):
+
+    prompts/system_style.txt, voice half      1,194 tokens  ->  4.19 chars/token
+    prompts/system_style.txt, template half   1,080 tokens  ->  4.63 chars/token
+
+**Instruction prose runs at ~4.2-4.6, not 3.0.** The single global constant was charging the
+18,112-char system prompt 6,038 tokens when it really costs ~4,528 — **1,510 tokens, a quarter
+of a 6144 window, spent on nothing.** That phantom overhead was most of the reason a chapter
+job could not fit its own scaffolding.
+
+**THE FIX, AND WHAT WAS DELIBERATELY NOT FIXED.** The ratio is now split:
+`PROSE_CHARS_PER_TOKEN = 4.0` for the system prompt and templates,
+`CHARS_PER_TOKEN = 3.0` unchanged for entity JSON. Both sit **below** their measured values, so
+the refusal keeps its safety direction. **The content ratio was left alone on purpose: that
+measurement timed out and is still a guess, and raising it too would have been precisely the
+mistake run #12 warned against.** Then `num_ctx` 6144 -> 12288, chosen from the real
+distribution rather than a round number — over all 17,370 rendered blocks (median 4,084 chars,
+p90 9,457, p99 11,978), 8192 would have covered only **52%** of calls while 12288 covers p99
+with headroom.
+
+**Two things were checked before changing anything, and one of them saved a wrong answer.**
+First: no verify_math check pinned `CHARS_PER_TOKEN`, so the split was compatible. Second, and
+more useful — **the first pass at measuring how many jobs refuse was WRONG.** It rendered
+whole-job prompts, when `generate_job` splits a chapter into `WRITE_CHUNK = 8` groups and calls
+`assert_fits` per BLOCK. That made every prompt up to 8x too large and reported "36 jobs
+refuse". Replaying the real per-block path gives 17,370 calls, which is exactly the figure run
+#12 reported — the two measurements reconcile only after the error was found. *Same lesson as
+run #11's manifest-size mistake, one day later: when a number decides a severity, render it the
+way the code renders it, not the way it is convenient to render it.*
+
+**Also raised as a QUESTION rather than changed (§2 A2):** the machine now serves three window
+sizes — 4096 (pipeline, continuously), 8192 (magnitude), 12288 (generate) — and with
+`MAX_LOADED_MODELS = 1` plus `KEEP_ALIVE = -1` **every switch evicts and reloads a 5.3 GB
+runner.** `pipeline.py:344` defends its small window on KV-cache grounds, which was sound before
+the daemon was pinned to one resident runner and is arguably inverted now. **It is deliberate
+design with a stated rationale, so it was left alone.** Confirmed first that raising the config
+did NOT silently change pipeline: both its call sites pass `num_ctx=4096` explicitly.
+
+**Filed, not fixed: m60**, the 22 blocks still too large (largest rendered block 46,840 chars
+against a p99 of 11,978). **Unlike M6, shrinking the group DOES fix these** — M6 refused even an
+empty prompt, these refuse only on content volume. But the two remedies are a poor global trade
+(`WRITE_CHUNK` 8 -> 4 doubles calls for 9,153 jobs to fix 0.13%) or new machinery in
+`generate_job`'s loop, and 22 loud refusals cost nothing while generation waits on the omniverse
+history. **Owner's call.**
+
+**Pinned by verify_math §19r** (5 checks): prose is charged more efficiently than JSON, the
+prose ratio stays at or below what was measured, the system prompt is charged at the prose rate,
+a p99-sized block fits the CONFIGURED window — **and a companion check that the same block does
+NOT fit 6144, so the first cannot pass for the wrong reason** if someone lowers the window later.
+
+**Battery:** verify_math **467 passed / 0 FAILED** (+5, §19r) · pyflakes **0 warnings** ·
+health --preflight **3 FAIL — the two known M3/M1 outages plus "entries stranded in closed
+batches: 4", which run #12 documented as a thermometer, not a bug; it is unchanged, not
+climbing** · silence **32 silent handlers of 386 — SEE BELOW.**
+
+**ONE THING NOBODY HAS RECORDED, AND IT IS NOT MINE: the silent-handler count TRIPLED today,
+12 -> 32.** That roster read exactly **12** in every handoff entry back through run #4; run #12
+recorded **15** and named its three; it is **32** now. **The 17 beyond run #12's count are
+`gpu_lane.py` 13** (lines 105, 134, 140, 142, 144, 152, 169, 201, 256, 258, 321, 351) **and
+`context_budget.py` 4** (246, 252, 265, 270 — fallback-to-empty-string on a prompt-file read).
+**None came from this session**: no exception handler was added here, and the `except` count in
+`context_budget.py` is byte-identical to the committed version — checked, not assumed.
+**Why it matters more than the number suggests:** the silence audit exists because this project's
+most-repeated bug shape is a failure that becomes a plausible negative result, and `gpu_lane` is
+the module run #12 says is **not live in any running job** and **must not be bounced into
+service until m54 and m55 are fixed**. Thirteen swallow-and-continue sites in an unproven
+resource arbitrator is worth a read BEFORE it takes its first real load, not after.
+**Filed as an observation, not a bug** — I did not read all 13 to see how many are legitimate,
+and calling them defects without reading them would be the same sin as the count going
+unremarked. Added to the queue.
+
+---
+
 ## 2026-08-24 15:15 (local) — Run #12 (the fix landed, the running system never saw it)
 
 **FOR THE OWNER, AT THE TOP:**

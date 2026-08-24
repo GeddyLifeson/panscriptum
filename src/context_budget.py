@@ -38,12 +38,24 @@ THREE CHANGES, AND THE ORDER MATTERS
 
 ON THE TOKEN ESTIMATE, HONESTLY. There is no tokenizer here -- `ollama` exposes no tokenize
 endpoint and installing one is a dependency this kit does not need. So the ratio is measured in
-characters and deliberately PESSIMISTIC: 3.0 characters per token, where ordinary English runs
-nearer 4 and JSON with heavy punctuation runs nearer 3.2. Being wrong in this direction costs
-smaller blocks and more calls. Being wrong in the other direction costs silently truncated
-evidence, which is the thing the whole project exists to refuse. An attempt to measure the true
-ratio against the live daemon on 2026-08-24 timed out twice under GPU contention; if that
-becomes cheap later, `CHARS_PER_TOKEN` is the one number to re-measure.
+characters and deliberately PESSIMISTIC: being wrong in that direction costs smaller blocks and
+more calls, and being wrong in the other costs silently truncated evidence, which is the thing
+the whole project exists to refuse.
+
+ONE HALF OF IT IS NOW MEASURED (2026-08-24, owner-directed session, after the foreign process
+that was saturating the daemon exited and the rung came back). `prompt_eval_count` from
+`/api/generate` with `num_predict: 1` reports the tokens the runner ACTUALLY evaluated, which is
+a real tokenizer reading without installing one. On 5,000-char slices sent well inside the
+resident window, minus a calibrated 10-token per-call overhead:
+
+    system_style.txt, voice half      1,194 tokens   ->  4.19 chars/token
+    system_style.txt, template half   1,080 tokens   ->  4.63 chars/token
+
+So instruction prose runs at ~4.2-4.6, not 3.0, and the single global constant was overcharging
+the scaffolding by about 40%. The ratio is now SPLIT -- `PROSE_CHARS_PER_TOKEN = 4.0` for the
+system prompt and templates, `CHARS_PER_TOKEN = 3.0` for entity JSON content. The content half
+is still a guess: that measurement timed out under contention and is the honest remaining gap.
+Both constants stay below their measured values, so the refusal keeps its safety direction.
 """
 import os
 
@@ -52,7 +64,32 @@ PROMPTS = os.path.join(HERE, "prompts")
 
 # Pessimistic on purpose -- see the header. Fewer chars per token => a larger token estimate
 # => a smaller content budget => an earlier refusal.
+#
+# This one governs CONTENT: entity JSON, which is punctuation-heavy and tokenizes densely. It
+# stays at 3.0 because it has NOT been measured -- the attempt timed out (see PROSE_CHARS_PER_TOKEN
+# below) and guessing upward here is the direction that truncates evidence.
 CHARS_PER_TOKEN = 3.0
+
+# This one governs SCAFFOLDING: the system prompt and the job templates, which are ordinary
+# English instruction prose and tokenize far more efficiently than JSON does.
+#
+# MEASURED 2026-08-24 against the live daemon, which the header above could not do. Method:
+# `prompt_eval_count` from `/api/generate` with `num_predict: 1`, on 5,000-char slices sent into
+# the resident 6144 window (far enough inside it that the count cannot clamp), minus a
+# calibrated 10-token per-call template overhead:
+#
+#     prompts/system_style.txt, voice half      5,000 chars -> 1,194 tokens -> 4.19 chars/token
+#     prompts/system_style.txt, template half   5,000 chars -> 1,080 tokens -> 4.63 chars/token
+#
+# 4.0 is set BELOW both measurements, keeping the pessimism the header argues for while ending
+# the phantom overhead: charging the 18,112-char system prompt at 3.0 books it as 6,038 tokens
+# when it really costs ~4,323 -- about 1,700 tokens, 28% of a 6144 window, spent on nothing.
+# That error alone is most of the reason a chapter job could not fit its own scaffolding.
+#
+# The content ratio is deliberately NOT raised to match: the entity-JSON measurement timed out
+# under GPU contention and remains the honest gap here. If it becomes cheap, measure it and set
+# CHARS_PER_TOKEN from data rather than from caution.
+PROSE_CHARS_PER_TOKEN = 4.0
 
 # Room the model needs to WRITE its answer, inside the same window as the prompt. A feats block
 # reports several entities' deeds in prose; a chapter block writes full template entries.
@@ -68,9 +105,18 @@ class ContextOverflow(RuntimeError):
     """A prompt that does not fit its window. Raised rather than sent and truncated."""
 
 
-def estimate_tokens(text):
-    """Characters -> a deliberately high token estimate."""
-    return int(len(text or "") / CHARS_PER_TOKEN + 0.999)
+def estimate_tokens(text, chars_per_token=None):
+    """Characters -> a deliberately high token estimate.
+
+    Defaults to the CONTENT ratio, so an unqualified call keeps the pessimistic behaviour it
+    always had. Pass PROSE_CHARS_PER_TOKEN for instruction text, which is measured.
+    """
+    return int(len(text or "") / (chars_per_token or CHARS_PER_TOKEN) + 0.999)
+
+
+def estimate_prose_tokens(text):
+    """Token estimate for instruction prose -- the system prompt and job templates."""
+    return estimate_tokens(text, PROSE_CHARS_PER_TOKEN)
 
 
 def split_system_prompt(system_text):
@@ -113,13 +159,18 @@ def content_budget_chars(cfg, scaffold_chars, job_type="feats"):
     be done at this window" rather than clamping it to something small and carrying on. A
     clamped budget is how a cap gets reintroduced wearing the shape of a safety margin.
     """
-    usable = window(cfg) - reserve_for(job_type) - estimate_tokens("x" * int(scaffold_chars))
+    # Scaffolding is prose and is charged at the MEASURED prose ratio; what rides along with it
+    # is content and is converted back at the pessimistic content ratio.
+    usable = window(cfg) - reserve_for(job_type) - estimate_prose_tokens("x" * int(scaffold_chars))
     return int(usable * CHARS_PER_TOKEN)
 
 
 def measure(cfg, system_prompt, user_prompt, job_type="feats"):
     """The full arithmetic, as data. Every number the failure message would need."""
-    sys_t = estimate_tokens(system_prompt)
+    # The system prompt is pure instruction prose -- charged at the measured ratio. The user
+    # prompt is mostly entity JSON, so it keeps the pessimistic content ratio even though its
+    # template portion is prose; being wrong there costs a smaller block, not lost evidence.
+    sys_t = estimate_prose_tokens(system_prompt)
     usr_t = estimate_tokens(user_prompt)
     res = reserve_for(job_type)
     win = window(cfg)
@@ -128,7 +179,8 @@ def measure(cfg, system_prompt, user_prompt, job_type="feats"):
             "user_tokens": usr_t, "reserve_tokens": res,
             "needed_tokens": sys_t + usr_t + res,
             "headroom_tokens": win - (sys_t + usr_t + res),
-            "chars_per_token": CHARS_PER_TOKEN, "job_type": job_type}
+            "chars_per_token": CHARS_PER_TOKEN,
+            "prose_chars_per_token": PROSE_CHARS_PER_TOKEN, "job_type": job_type}
 
 
 def fits(cfg, system_prompt, user_prompt, job_type="feats"):

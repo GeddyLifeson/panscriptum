@@ -2131,6 +2131,35 @@ check("no slice of a multi-deed entity exceeds the budget",
       max(len(json.dumps(e["feats"], ensure_ascii=False)) for b in _blocks for e in b) <= _fb,
       True, note="the packer used to test the budget AFTER appending, so every slice overshot")
 
+# ---- Section 19r: the window admits a real chapter block, and prose is charged as prose ------
+# Added 2026-08-24 (owner-directed session), pinning the M6 fix. At `num_ctx: 6144` EVERY chapter
+# call refused -- 17,370 of 17,370 -- because the scaffolding outweighed the window before any
+# content was added. Two causes, both fixed: the system prompt was charged at the CONTENT ratio
+# (3.0 chars/token) when instruction prose actually measures 4.19-4.63 against the live daemon,
+# inventing ~1,510 tokens of overhead; and the window itself was too small for the real blocks.
+# Measured over all 17,370 rendered chapter blocks: median 4,084 chars, p90 9,457, p99 11,978.
+_cb_sys = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "prompts", "system_style.txt"), encoding="utf-8").read()
+import read as _RD               # noqa: E402
+_livecfg = _RD.config()
+
+check("instruction prose is charged more efficiently than JSON content",
+      _CB.PROSE_CHARS_PER_TOKEN > _CB.CHARS_PER_TOKEN, True,
+      note="prose measured 4.19-4.63 chars/token; entity JSON is denser and stays pessimistic")
+check("the prose ratio stays at or below what was MEASURED",
+      _CB.PROSE_CHARS_PER_TOKEN <= 4.19, True,
+      note="4.19 is the densest measured slice; going above it would under-count and truncate")
+check("the system prompt is charged at the prose rate, not the content rate",
+      _CB.measure({"num_ctx": 12288}, "p" * 4000, "u" * 100, "chapter")["system_tokens"],
+      _CB.estimate_prose_tokens("p" * 4000))
+check("a p99-sized chapter block fits the CONFIGURED window",
+      _CB.fits(_livecfg, _CB.system_for("chapter", _cb_sys), "u" * 12000, "chapter")[0], True,
+      note="12,000 chars is the p99 of all 17,370 real blocks; if this fails, generation refuses "
+           "again -- either num_ctx was lowered or the system prompt grew")
+check("the same block does NOT fit the window M6 was filed against",
+      _CB.fits({"num_ctx": 6144}, _CB.system_for("chapter", _cb_sys), "u" * 12000, "chapter")[0],
+      False, note="guards the check above from passing for the wrong reason")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

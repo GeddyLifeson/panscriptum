@@ -61,7 +61,25 @@ temperature: 0.2
 # every run to date has used an f16 KV cache at roughly double the necessary footprint. They
 # are set now, at User scope. They only take effect after Ollama actually restarts; confirm
 # with `ollama ps` that a loaded model reads 100% GPU rather than an NN%/NN% CPU/GPU split.
-num_ctx: 6144
+# RAISED 6144 -> 12288 on 2026-08-24 (owner-directed session) to clear M6: at 6144 EVERY chapter
+# job refused, 17,370 of 17,370, because the scaffolding alone (system prompt 18,112 chars +
+# template + job overhead) outweighed the window before a single entry of content was added --
+# a call with an EMPTY user prompt refused too, so no amount of shrinking WRITE_CHUNK could help.
+# Measured against the real manifest, chapter entity JSON runs median 6,939 chars, p90 11,688:
+#
+#     num_ctx    chapter content budget    covers median?   covers p90?
+#      6,144            -3,375 chars            no              no
+#      8,192             2,769                  no              no
+#     12,288            15,057                 YES             YES
+#
+# 12288 is the first window that clears p90 with real headroom. VRAM: the KV cache measured
+# ~0.127 GB per 1k tokens on this card with q8_0 + flash attention (5.30 GB resident at ctx
+# 4096, 5.56 GB at 6144), so this costs roughly +0.8 GB over 6144 -- about 6.3 GB total against
+# 10 GB. NOTE `OLLAMA_NUM_PARALLEL = 2`: if Ollama allocates the window PER SLOT, the true cost
+# is double this, so confirm with `ollama ps` / nvidia-smi after the runner reloads.
+# NOTE ALSO `OLLAMA_KEEP_ALIVE = -1` with `OLLAMA_MAX_LOADED_MODELS = 1`: the resident runner
+# never expires, so this value only takes effect once it is evicted and reloaded.
+num_ctx: 12288
 
 # prompt template version tag -- bump this any time you materially edit prompts/*.txt so the
 # cache keys change and old generations don't get mistaken for matching the new prompt.

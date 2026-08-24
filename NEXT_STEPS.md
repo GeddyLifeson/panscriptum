@@ -11,12 +11,15 @@
    14:31. **Before you write anything, check `git -C C:\\Users\\imarl\\panscriptum-export log
    --oneline -5` and `ls -lt src/*.py | head` — if either shows activity in the last few minutes,
    you are not alone, and bouncing jobs or editing source is off the table.**
-2. **THE BIG ONE IS M6: chapter generation refuses 100% of its calls.** 17,370 of 17,370, every
-   job affected, *including a call with an empty user prompt* — the scaffolding alone is 8,086
-   tokens against a 6,144 window. It is LATENT (generation waits on the omniverse history) and it
-   is a BETTER failure than the silent truncation it replaced. **Do not treat it as closed
-   because m46 is: the 14:23 session closed "m46/m52" as one item and only the feats half was
-   fixed.**
+2. **M6 IS FIXED — 17,370/17,370 refusing became 22/17,579 (99.87% now fit).** An owner-directed
+   session at ~15:20 measured the real tokenizer ratio that run #12 said must be measured before
+   anyone touched it (`prompt_eval_count` with `num_predict: 1`: instruction prose is **4.19-4.63
+   chars/token, not 3.0**), split the constant into `PROSE_CHARS_PER_TOKEN = 4.0` for scaffolding
+   vs `CHARS_PER_TOKEN = 3.0` for entity JSON, and raised `num_ctx` **6144 -> 12288**. Pinned by
+   verify_math §19r. **Two things are now on you rather than settled:** the residue is **m60**
+   (22 oversized blocks), and **the VRAM cost of the bigger window has NOT been observed yet** —
+   see §1 item 2, which is the first thing to do next run. **The content ratio is still a guess**
+   (that measurement timed out); do not raise it without measuring, for the reason run #12 gave.
 3. **NOTHING RUNNING USES `gpu_lane` (m56), AND IT MUST NOT BE BOUNCED INTO SERVICE UNTIL m54 AND
    m55 ARE FIXED.** All nine standing jobs predate the code. Two latent defects in the lane would
    activate on the first restart, under exactly the load it exists to serve.
@@ -38,12 +41,21 @@
    python -c "import sys;sys.path.insert(0,'src');import gpu_lane;print(gpu_lane.status())"
    nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv
    ```
-2. **[M6 — has anything generated?]** Must stay near 6 while M6 is open:
+2. **[THE UNVERIFIED HALF OF THE M6 FIX — do this before trusting the bigger window.]**
+   `num_ctx` was raised 6144 -> 12288 on arithmetic, and **the VRAM cost was never observed**,
+   because forcing the resident runner to reload would have disrupted three live jobs. The KV
+   cache measured ~0.127 GB per 1k tokens on this card (5.30 GB resident at ctx 4096, 5.56 GB at
+   6144), predicting **~+0.8 GB, about 6.3 GB of 10 GB** — but `OLLAMA_NUM_PARALLEL = 2` may
+   allocate the window PER SLOT, which would double it. When a runner next loads at 12288:
    ```
-   python -c "import json;d=json.load(open('output/index/catalog.json',encoding='utf-8'));print(len(d))"
+   curl.exe -s --max-time 20 http://127.0.0.1:11434/api/ps
+   nvidia-smi --query-gpu=memory.used,memory.free --format=csv
    ```
-   If it has moved, check `state/failures.json` for `ContextOverflow` entries — under M6 a
-   generation attempt produces recorded failures, not prose, and that is the system working.
+   **`context_length` should read 12288 and the model should still be fully on GPU.** If it has
+   spilled to CPU, the window is too big for this card and the honest move is 8192 plus trimming
+   the chapter system prompt — not leaving it spilled. Also still true: `catalog.json` must stay
+   near **6** until the owner starts generation, and if it moves, check `state/failures.json` for
+   `ContextOverflow` — under m60 a handful of recorded refusals is the system working.
 3. **[the local rung — two cheap facts, in this order.]** A trivial call at the resident size, and
    only then the split probe. **If the control fails, stop: you cannot measure the variable.**
    ```
@@ -80,13 +92,23 @@
 
 ## 2. Human decisions needed (owner)
 
-A. **[M6] Which remedy for the 100% chapter refusal?** The arithmetic is tight and only three
-   levers exist: raise `num_ctx` to ~11,000-12,000 (median call needs 10,088 tokens, max 16,943 —
-   a VRAM question on a 10 GB card, and **no longer blocked by M5**); trim the chapter system
-   prompt from 18,112 chars to **~6,282**; or restructure what a chapter call carries. **Lowering
-   `WRITE_CHUNK` does not work** — an empty user prompt refuses too. **Do not lower the reserve or
-   raise `CHARS_PER_TOKEN` to make it pass** without measuring the real tokenizer ratio first;
-   that reintroduces silent truncation wearing a safety margin's shape.
+A. **[m60] Which trade for the last 22 oversized chapter blocks?** M6 is fixed; these 22 (of
+   17,579 calls) refuse only because their eight entries are enormous — largest rendered block
+   **46,840 chars** against a p99 of 11,978. **Unlike M6, shrinking the group DOES fix these.**
+   Either lower `WRITE_CHUNK` globally (8 -> 4 roughly doubles the call count for all 9,153 jobs
+   to fix 0.13% — poor trade) or split adaptively only when a block does not fit (better, but new
+   machinery in `generate_job`'s loop, and `WRITE_CHUNK` was tuned 30 -> 10 -> 8 for
+   instruction-following reasons, not context ones — so it is a deliberate constant, not a knob).
+A2. **[the `num_ctx` spread] Should every call site use ONE window?** Raising the config to 12288
+   did NOT change `pipeline.py` — its only two model call sites both pass `num_ctx=4096`
+   explicitly (`pipeline.py:660` synthesis, `1026` entrypass), so no new thrashing was
+   introduced. But the machine now serves 4096 (pipeline, continuously), 8192 (`magnitude.py:628`)
+   and 12288 (generate) — and with `OLLAMA_MAX_LOADED_MODELS = 1` plus `KEEP_ALIVE = -1`, **each
+   switch evicts and reloads a 5.3 GB runner.** `pipeline.py:344`'s comment defends the small
+   window on KV-cache grounds ("sized to the call, not a generous default"), which was sound
+   before the daemon was pinned to one resident runner and is now arguably inverted — a reload
+   costs far more than the KV cache saves. **This is deliberate design, so it is a QUESTION, not
+   a fix**; it was left alone.
 B. **[m54 + m55, and they are one decision] Fix the two `gpu_lane` defects, then bounce — in that
    order.** m54: call `_touch` from inside `lane()`'s hold, or shorten the leases to match real
    call durations. m55: route the six `os.remove` sites through a retry-with-backoff (the
@@ -144,9 +166,17 @@ O. **`site/state.json` is two days stale (2026-08-22 15:23) and nothing in `src/
 
 ## 3. Small implementable items (no decision needed)
 
-1. **15 silent exception handlers** (`python src/silence.py`), up from 12 — the three new ones are
+1. **32 silent exception handlers of 386** (`python src/silence.py`) — **the roster read 12 for
+   nine runs, run #12 recorded 15, and it is 32 now. This tripled in one day and no entry has
+   remarked on it.** The 17 beyond run #12's count: **`gpu_lane.py` 13** (105, 134, 140, 142,
+   144, 152, 169, 201, 256, 258, 321, 351) and **`context_budget.py` 4** (246, 252, 265, 270 —
+   fallback-to-empty-string when a prompt file cannot be read, which would silently generate
+   against an EMPTY system prompt rather than fail). **Read the `gpu_lane` 13 BEFORE bouncing it
+   into service** (see §2 B): the silence audit exists because this project's most-repeated bug
+   is a failure that becomes a plausible negative result, and thirteen of them sit in an unproven
+   resource arbitrator that has never taken real load. Run #12's three are also still open:
    `entity_match.py:255`, `overnight.py:491` (**inside the keep-warm loop, so a keep-warm that
-   never works would be invisible**) and `local_agent.py:463`. Still open from before:
+   never works would be invisible**), `local_agent.py:463`. And from before:
    `pipeline.py:321` records to `state/failures.json` but writes **nothing to
    `state/pipeline.log`**, the file an operator actually watches.
 2. **`pipeline.py`'s 9 shared cross-phase JSON writes** still use raw `open+json.dump` rather than

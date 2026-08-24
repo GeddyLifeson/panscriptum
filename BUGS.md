@@ -7,35 +7,21 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
-- **[M6] CHAPTER GENERATION NOW REFUSES 100% OF ITS CALLS AT THE LIVE WINDOW — this
-  SUPERSEDES m52 and corrects the 14:23 paper-trail entry, which closed "m46/m52" as one item
-  when only the feats half was fixed.** Measured run #12 over the live 88 MB manifest, by
-  replaying the real code path (`generate.load_prompt_templates` -> `build_prompt` per
-  `WRITE_CHUNK` group -> `context_budget.fits`) across **every** chapter job, no sampling:
-  **17,370 of 17,370 chapter calls (100%) raise `ContextOverflow`; 9,153 of 9,153 jobs have at
-  least one refusing call.** Median overflow 3,304 tokens, max 17,563.
-  **It is structural, not data-dependent, and the second measurement is the one that proves
-  it: a chapter call with an EMPTY user prompt also refuses.** The chapter system prompt is
-  18,112 chars = 6,038 tok at `CHARS_PER_TOKEN = 3.0`, plus `CHAPTER_RESERVE_TOKENS = 2048`,
-  = **8,086 tokens before a single entry is added, against `num_ctx: 6144` — headroom -1,942.**
-  **Why the feats fix does not carry over.** m46 was closed by splitting `system_style.txt` and
-  sending feats jobs only the 6,963-char voice half, because a feats chapter writes none of THE
-  ENTRY TEMPLATE and `feats_prompt.txt` forbids its scoring. **A chapter needs the entry
-  template**, so `system_for("chapter", ...)` correctly returns the full 18,112 chars and the
-  same remedy is unavailable.
-  **This is an improvement over what it replaced, and still latent.** Before `assert_fits` the
-  overflow was a silent runtime truncation that `_covered()` could not see; now it is a
-  recorded refusal. `catalog.json` still holds **6 addresses**, the owner has ruled that prose
-  generation waits until the omniverse history is written, so nothing is failing today.
-  **But the first real chapter run now produces zero chapters and 9,153 recorded failures.**
-  **HUMAN CALL on the remedy, and note the arithmetic constrains it tightly:** the median real
-  chapter call needs **10,088 tokens** (p90 10,583, max 16,943), so `num_ctx` would have to
-  reach ~11,000-12,000 — a VRAM question on a 10 GB card, no longer blocked by M5. The
-  alternative is trimming the chapter system prompt to **~6,282 chars** (from 18,112) or
-  lowering `WRITE_CHUNK`, which does NOT help: the empty-prompt result shows the scaffolding
-  alone is over. **Do not "fix" this by lowering the reserve or raising `CHARS_PER_TOKEN` until
-  someone has measured the real tokenizer ratio** — that would restore the silent truncation
-  wearing a safety margin's shape.
+- **[m60] 22 CHAPTER BLOCKS ARE STILL TOO LARGE FOR THE WINDOW — the bounded residue of M6.**
+  After M6's fix (see paper trail) **17,557 of 17,579 chapter calls fit; 22 do not**, across 22
+  jobs, worst needing **9,909 tokens more than the 12,288 window**. These are single
+  `WRITE_CHUNK` groups whose eight entries are enormous — the largest rendered block prompt is
+  **46,840 chars** against a p99 of 11,978, so this is a long tail, not a systemic fault.
+  **The behaviour today is correct**: each raises `ContextOverflow` and is recorded rather than
+  silently truncated. **The remedy that did NOT work for M6 now DOES work here** — M6 refused
+  even an empty prompt, so shrinking the group could not help; these 22 refuse only because of
+  content volume, so splitting the group further fixes them. Options: lower `WRITE_CHUNK`
+  globally (**8 -> 4 would roughly double the call count for all 9,153 jobs to fix 0.13%** —
+  poor trade), or split adaptively only when a block does not fit (better, but it is new
+  machinery in `generate_job`'s loop and changes a deliberate constant — `config.yaml` records
+  that `WRITE_CHUNK` was tuned 30 -> 10 -> 8 for instruction-following reasons, not context
+  ones). **Filed rather than fixed: it needs the owner's call on which trade to take, and 22
+  loud refusals are not costing anything while generation waits on the omniverse history.**
 - **[m56] THE `gpu_lane` AND KEEP-WARM WORK LANDED AT 13:59-14:20 IS NOT LIVE IN A SINGLE
   RUNNING JOB, so the contention it was written to arbitrate is still completely
   unarbitrated.** A Python process does not re-read its own source: every standing job predates
@@ -358,6 +344,47 @@ remaining item is either an outage, a decision, or a watched state.***
 ## Resolved (paper trail)
 
 *Run #12 (2026-08-24 ~15:10 local) moved three items out of Open. Full detail in HANDOFF.md.*
+
+- **[M6] CHAPTER GENERATION REFUSED 100% OF ITS CALLS — fixed 2026-08-24 (owner-directed
+  session), 17,370/17,370 refusing -> 22/17,579. Export commit: see the 15:2x sync.**
+  **What it was.** At `num_ctx: 6144` every chapter call raised `ContextOverflow`, including a
+  call with an EMPTY user prompt: the chapter system prompt (18,112 chars, charged 6,038 tok)
+  plus `CHAPTER_RESERVE_TOKENS = 2048` came to 8,086 tokens before a single entry was added.
+  Structural, not data-dependent. m46's remedy did not carry over because a chapter genuinely
+  needs THE ENTRY TEMPLATE that feats jobs correctly drop.
+  **Root cause, and it was TWO things — the second one had been guessed at for two runs.**
+  (1) The window was too small for the real blocks. (2) **The scaffolding was being charged at
+  the wrong rate.** `CHARS_PER_TOKEN = 3.0` was applied to *everything*, but that constant was
+  chosen for entity JSON; the system prompt is ordinary instruction prose. Run #12 said
+  explicitly: *"Do not fix this by lowering the reserve or raising `CHARS_PER_TOKEN` until
+  someone has measured the real tokenizer ratio."*
+  **So it was measured, against the live daemon, once the rung came back.** `prompt_eval_count`
+  from `/api/generate` with `num_predict: 1` reports the tokens the runner actually evaluated —
+  a real tokenizer reading with no new dependency. On 5,000-char slices sent well inside the
+  resident window, minus a calibrated 10-token per-call overhead:
+
+      system_style.txt, voice half      1,194 tokens  ->  4.19 chars/token
+      system_style.txt, template half   1,080 tokens  ->  4.63 chars/token
+
+  Instruction prose runs at ~4.2-4.6, not 3.0. The single global constant was overcharging the
+  18,112-char system prompt by **1,510 tokens — 25% of a 6144 window — spent on nothing.**
+  **The fix, in two parts.** The ratio is now SPLIT: `PROSE_CHARS_PER_TOKEN = 4.0` for the
+  system prompt and templates, `CHARS_PER_TOKEN = 3.0` unchanged for entity JSON. Both sit
+  BELOW their measured values so the refusal keeps its safety direction, and **the content
+  ratio was deliberately left alone because that measurement timed out and remains a guess** —
+  raising it too would have been the exact mistake run #12 warned against. Then `num_ctx`
+  6144 -> **12288**, chosen from the real distribution rather than a round number: over all
+  17,370 rendered blocks the content budget covers median (4,084 chars) and p99 (11,978) with
+  headroom, where 8192 would have covered only 52% of calls.
+  **Verified by replaying the real code path**, `build_prompt` per `WRITE_CHUNK` group through
+  `context_budget.fits`, no sampling: **6144 -> 0 of 17,579 calls fit; 12288 -> 17,557 fit
+  (99.87%).** The residue is **m60**, 22 oversized blocks, filed open.
+  **Pinned by verify_math §19r** (5 checks), including one that asserts a p99-sized block fits
+  the CONFIGURED window and a companion that asserts the same block does NOT fit 6144 — so the
+  first check cannot pass for the wrong reason if someone lowers the window later.
+  *Lesson: two runs treated `CHARS_PER_TOKEN` as a safety margin to be respected rather than a
+  measurement to be taken. It was a placeholder wearing a margin's clothes, and the cost of not
+  measuring it was 25% of every window.*
 
 - **[M5] THE STARVED LOCAL RUNG — closed, WITH A CORRECTION TO ITS ROOT CAUSE.** The foreign
   orphan (`semsearch.cli watch`, PID 25188) was killed with the owner's authorisation in the
