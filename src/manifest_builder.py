@@ -269,9 +269,23 @@ def main():
     print(f"Skipped {len(skipped_empty)} sources with entry_count == 0 "
           f"(re-sweep pending on the cloud side).")
 
+    # A REPORT MUST BE CLEARED WHEN ITS FINDING IS. This block only ran when `unassigned` was
+    # non-empty, so the day the last source got a spine code the file simply stopped being
+    # rewritten -- and went on asserting "47 populated sources aren't in the appendix" for as
+    # long as anyone cared to read it. Caught 2026-08-24, 4.6 days stale, the same hour the
+    # count actually reached zero. A stale report is worse than no report: it is a confident
+    # answer to a question nobody re-asked.
+    report_path = os.path.join(HERE, "output/index/unassigned_sources.md")
+    os.makedirs(os.path.dirname(report_path), exist_ok=True)
+    if not unassigned or args.include_unassigned:
+        with open(report_path, "w", encoding="utf-8") as f:
+            f.write("# Sources with no spine code yet\n\n")
+            f.write("**None.** Every populated source on the Acquisitions Roll resolves to a "
+                    "real spine code as of this manifest build.\n"
+                    if not unassigned else
+                    "Generated with `--include-unassigned`: provisional codes were used, so "
+                    "nothing was skipped. These still need real assignments.\n")
     if unassigned and not args.include_unassigned:
-        report_path = os.path.join(HERE, "output/index/unassigned_sources.md")
-        os.makedirs(os.path.dirname(report_path), exist_ok=True)
         with open(report_path, "w", encoding="utf-8") as f:
             f.write("# Sources with no spine code yet\n\n")
             f.write(f"{len(unassigned)} populated sources aren't in the charter's Acquisitions "

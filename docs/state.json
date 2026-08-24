@@ -1,5 +1,5 @@
 {
- "at": "2026-08-24 10:38:56",
+ "at": "2026-08-24 10:42:17",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 159,
+     "left": 161,
      "cap": 500,
-     "frac": 0.318
+     "frac": 0.322
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.318
+   "worst": 0.322
   },
   {
    "bucket": "cohere:free",
@@ -308,15 +308,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 1,
-     "cap": 752,
-     "frac": 0.0013
-    },
-    {
-     "name": "rpm",
-     "left": 29,
-     "cap": 30,
-     "frac": 0.9667
+     "left": 0,
+     "cap": 751,
+     "frac": 0.0
     },
     {
      "name": "tpd",
@@ -325,13 +319,19 @@
      "frac": 0.9999
     },
     {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
      "name": "tpm",
      "left": 6000,
      "cap": 6000,
      "frac": 1.0
     }
    ],
-   "worst": 0.0013
+   "worst": 0.0
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -352,9 +352,9 @@
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -692,33 +692,33 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 487,
-  "per_hour": 1948,
+  "calls": 379,
+  "per_hour": 1516,
   "buckets": [
    {
     "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 413,
+    "calls": 312,
     "ok": 3
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 16,
+    "calls": 13,
     "ok": 3
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 16,
+    "calls": 13,
     "ok": 3
    },
    {
-    "bucket": "nvidia:free",
-    "calls": 9,
-    "ok": 8
+    "bucket": "groq:groq/compound-mini",
+    "calls": 8,
+    "ok": 0
    },
    {
-    "bucket": "groq:groq/compound-mini",
+    "bucket": "nvidia:free",
     "calls": 6,
-    "ok": 0
+    "ok": 5
    },
    {
     "bucket": "cloudflare:free",
@@ -801,7 +801,7 @@
    "read": 32913,
    "settled": 40916,
    "feats": 54440,
-   "age_h": 0.4
+   "age_h": 0.5
   },
   "phases": [
    {
@@ -925,31 +925,31 @@
    ],
    [
     "silent:feats.py:139:URLError",
-    628
+    703
    ],
    [
     "silent:wiki_source.py:160:URLError",
-    339
-   ],
-   [
-    "silent:completeness.py:category_size:URLError",
-    111
+    358
    ],
    [
     "silent:endpoint.py:fetch_raw-absent:HTTPError",
-    82
+    162
    ],
    [
-    "silent:verify_math.py:47:ValueError",
-    20
+    "silent:completeness.py:category_size:URLError",
+    117
+   ],
+   [
+    "silent:hostcheck.py:probe:URLError",
+    29
    ]
   ],
-  "swallowed_total": 24776
+  "swallowed_total": 24978
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1981,
+   "n": 1982,
    "p50": 10.0,
    "p95": 16.0,
    "ok_pct": 3,
@@ -977,7 +977,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": true,
-   "observed": 1948,
+   "observed": 1516,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -995,7 +995,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "38% dry",
+   "observed": "41% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1013,7 +1013,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "3% ok",
+   "observed": "4% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1067,7 +1067,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.4h",
+   "observed": "0.5h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1121,7 +1121,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": false,
-   "observed": "24,676",
+   "observed": "24,778",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1130,7 +1130,7 @@
    "standard": "probe failures (reported, not judged)",
    "group": "code",
    "holds": true,
-   "observed": "100",
+   "observed": "200",
    "floor": "no floor",
    "order": "Requests that failed as part of finding something out: endpoint detection trying six paths, the scout trying eight URLs. Volume here is work, not damage.",
    "severity": "low"
@@ -1181,6 +1181,15 @@
    "severity": "high"
   },
   {
+   "standard": "the library's counters are moving",
+   "group": "throughput",
+   "holds": true,
+   "observed": "4/4 moved in 43m",
+   "floor": ">= 1 in 45m",
+   "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
+   "severity": "high"
+  },
+  {
    "standard": "files that parse",
    "group": "instrument",
    "holds": true,
@@ -1202,7 +1211,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.4h",
+   "observed": "0.5h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1283,7 +1292,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.2h",
+   "observed": "0.0h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1311,45 +1320,45 @@
   {
    "metric": "cited",
    "now": 8003,
-   "delta": 212,
-   "minutes": 40,
-   "stalled": false
+   "delta": 0,
+   "minutes": 31,
+   "stalled": true
   },
   {
    "metric": "settled",
    "now": 40916,
-   "delta": 308,
-   "minutes": 40,
-   "stalled": false
+   "delta": 0,
+   "minutes": 31,
+   "stalled": true
   },
   {
    "metric": "feats",
    "now": 54440,
-   "delta": 1586,
-   "minutes": 40,
-   "stalled": false
+   "delta": 0,
+   "minutes": 31,
+   "stalled": true
   },
   {
    "metric": "entities read",
    "now": 1241,
    "delta": 2,
-   "minutes": 40,
+   "minutes": 31,
    "stalled": false
   },
   {
    "metric": "chunks",
    "now": 8068,
-   "delta": 1132,
-   "minutes": 40,
+   "delta": 983,
+   "minutes": 31,
    "stalled": false
   },
   {
    "metric": "standards met",
-   "now": 27,
-   "delta": 0,
-   "minutes": 40,
-   "stalled": true
+   "now": 28,
+   "delta": -1,
+   "minutes": 31,
+   "stalled": false
   }
  ],
- "generated": "2026-08-24T10:38:58"
+ "generated": "2026-08-24T10:42:19"
 }
