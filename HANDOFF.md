@@ -9,6 +9,131 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 15:15 (local) — Run #12 (the fix landed, the running system never saw it)
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets, no money movement, no data loss.** The paid lane is retired and closed three
+   ways: `enabled: false`, `used 598 / cap 500`, `cascade_bridge.PAID_LANE_RETIRED = True`,
+   `paid_lane_open()` -> **False**. `WIKI_HOSTS.json` unchanged for a seventh run — md5
+   `451703b8...`, 202 bindings, 191 non-empty. `catalog.json` still **6 addresses**, 0 feats.
+2. **CHAPTER GENERATION IS NOW IMPOSSIBLE AT THE LIVE CONFIG — 100% of calls refuse, and this
+   corrects the 14:23 entry that closed "m46/m52" as one item.** The feats half really is fixed
+   (independently re-verified: 1,105 blocks across the two richest sources, **zero feats lost**).
+   The chapter half is not. Replaying the real code path over **every** chapter job — no
+   sampling — **17,370 of 17,370 calls raise `ContextOverflow`**, all 9,153 jobs affected.
+   **It is structural: a chapter call with an EMPTY user prompt also refuses**, because the
+   18,112-char chapter system prompt is 6,038 tokens and the reserve is 2,048, which is 8,086
+   against a 6,144 window before a single entry is added. The feats remedy cannot carry over —
+   feats jobs drop THE ENTRY TEMPLATE, and **a chapter needs it**. Filed as **M6**, superseding
+   m52. Still latent (generation waits on the omniverse history, per your ruling), but the first
+   real run would now produce zero chapters and 9,153 recorded failures instead of prose.
+   **The remedy is bounded arithmetic:** the median chapter call needs **10,088 tokens** (max
+   16,943), so `num_ctx` ~11,000-12,000, or a chapter system prompt trimmed to ~6,282 chars.
+   Lowering `WRITE_CHUNK` does nothing — the empty-prompt result proves the scaffolding alone is
+   over. **This is a better failure than the one it replaced** (a silent truncation `_covered()`
+   could not see), which is exactly why it should be decided before generation, not during it.
+3. **THE 13:59-14:23 SESSION'S WORK IS NOT RUNNING ANYWHERE.** `gpu_lane`, the keep-warm ping and
+   the three wired call sites are real and in the source — and **every one of the nine standing
+   jobs predates them**, so not one is using them. A Python process does not re-read its own
+   source. Corroborated rather than assumed: `gpu_lane.status()` sampled six times over a minute
+   showed **0 slots, 0 foreground** while `nvidia-smi` showed **99% GPU** and three logs streamed
+   `ollama failed after 3 tries: TimeoutError`. Filed as **m56** with the restart topology.
+4. **DO NOT BOUNCE THE JOBS UNTIL TWO DEFECTS IN `gpu_lane` ARE FIXED — they are latent only
+   because nothing uses it yet.** `_touch`, the heartbeat refresh its own docstring calls
+   essential, **has zero call sites** (**m54**), so a foreground prose claim silently expires
+   after 300 s against a 1,800 s call timeout and can then delete another process's live lease.
+   And all six lease deletions use an unretried `os.remove` inside a bare `suppress(Exception)`
+   (**m55**), which on Windows is precisely the sharing violation `silence.replace_retry` exists
+   to outwait; a subagent reproduced real slot stranding with 8 processes. **Bouncing today
+   would activate both under the exact load the lane was written for.**
+5. **M5's ROOT CAUSE WAS MISDIAGNOSED, and the correction matters because it will come back.**
+   Killing the foreign orphan was right and it has stayed gone. But the infinite pin was **not**
+   the foreign client: a fresh runner was resident again at `expires_at: 2318` hours after that
+   pin was released, with semsearch long dead. The real source is machine configuration —
+   **`OLLAMA_KEEP_ALIVE = -1`** and **`OLLAMA_MAX_LOADED_MODELS = 1`** are set as user
+   environment variables, so every load pins forever and only one runner may ever be resident.
+   That pair, not the orphan, is why a call at a non-resident `num_ctx` never completes.
+   (`OLLAMA_NUM_PARALLEL = 2` — worth noting `gpu_lane` hardcodes `MAX_SLOTS = 2` rather than
+   reading it.) **These are yours to set; nothing was changed.**
+6. **The cloud lane is burning ~26 calls a minute at a 2.8% success rate** — 1,571 calls in the
+   last hour, 44 ok; 4,778 over three hours at 3.2%. `read.py` is the caller and its own progress
+   line shows the cost: **989 of 1,012 chunks UNANSWERED**, corpus-read ETA swinging 59 h to
+   10,813 h. Nothing is lost (unanswered chunks are not cached, so they are retried), but this is
+   the free tier being hammered. **m59**, filed as a question because backoff policy is a design
+   call.
+7. **fandom and dandwiki still down** (M3/M1, runs #5-#12). `health --preflight` now shows a
+   **third** FAIL — "entries stranded in closed batches: 4" — which is **not a new bug**: the
+   `batch_settled` guard that fixes it landed 2026-08-23 23:36 and is in the running pipeline;
+   the four entries are simply waiting on model calls that keep timing out. It is a saturation
+   symptom and a useful live indicator.
+
+**THE RUN'S THEME: a fix that exists in the source is not a fix in the system.** Three of this
+run's findings are the same shape — the gpu_lane wiring, the keep-warm ping, and run #11's
+un-bounced entrypass change are all correct code that no running process has read. The relay
+kept saying "shipped"; the process table says otherwise. *The general lesson for the ledger: when
+a run reports a fix as done, the next run should ask what is EXECUTING it, not what file contains
+it — and the cheapest test is a process start time against a file mtime.*
+
+**A SECOND CLAUDE SESSION WAS LIVE IN THIS REPO DURING THIS RUN.** Commits landed at 14:12, 14:18
+and 14:23 — one minute before this run claimed the guard — and one of its GPU probe processes was
+observed holding a socket on the daemon at 14:31. The overlap guard only covers maintenance runs,
+so it read `done: true` and let this run start. **Nothing was bounced, no source file was touched
+and no job was restarted for that reason**, on top of the m54/m55 reason above. That session also
+**never wrote a HANDOFF entry** — its work is recorded only in BUGS.md's paper trail, which is why
+run #12 re-verified its claims from the outside rather than taking them as read.
+
+**Verified rather than restated (the queue's section 1):** catalog 6 addresses / 0 feats; overwatch
+**69/66 -> 70/66 during this run**, so m40 stays closed and the merge is alive; hosts md5 unchanged;
+paid lane closed; allsweep reports **nine** `running` lines and 0 subsystems bad; verify_math
+**462 passed / 0 FAILED**; pyflakes **clean**; `silence` now lists 15 handlers (up from 12 — the
+three new ones are in `entity_match:255`, `overnight:491` and `local_agent:463`).
+
+**Corrections to the record, both directions.** A subagent reported `METADATA_INFLATION = 1.20`
+being breached at a nominal 20,000 budget (median 23,441 / max 25,743). Re-measured through the
+real signature, Warhammer gives median **20,168 / max 21,993** — reproducing the code comment's own
+figures to the character. The audit was wrong, and **my own first attempt made the identical
+mistake**: `pack_feats(rows, source_name, budget)` takes the budget THIRD, and passing it second
+silently uses the default. I also mis-tested `context_budget.fits`, which returns a
+`(ok, measurement)` **tuple** — `if not fits(...)` is always False, and my first chapter sweep
+therefore reported a triumphant **0 overflows** before the correct run reported 17,370. *Both slips
+were the same species: calling an unfamiliar helper without reading its signature, then believing a
+clean result. A surprising all-clear deserves the same suspicion as a surprising alarm.*
+
+**Closed from the queue:** run #11's item 3.4, the unexplained 52,101-char manifest job. It is
+`The Elements Beyond` `II.L.7.45/Places#1-10`, and **the size is honest** — three homebrew race
+writeups with ~11.6 KB descriptions. What it exposed instead is **m58**: every entry in that
+"Places & Locations" chapter is a Race, Sub Race or Background, across 42 `folder-mechanical`
+sources. Filed as a QUESTION, not a strike, because the shelfmark reads `[UNCHARTED -- Ladder-of-
+Being pass not yet done]` and provisional routing may be the design.
+
+**Also filed:** **m57**, `catalogue_web.py:212`'s `cats[0].rstrip("s")` — strips every trailing `s`
+and mishandles `-ies`, giving `Abilitie` 205, `Citie` 139, `Countrie` 81 across the live corpus.
+Not fixed here: entry `type` feeds matching, and the rule is that a matching change is unverified
+until the whole corpus is diffed either side of it — not something to begin with another session
+live in the repo.
+
+**On the delegation ladder, honestly.** Rung (b) was measured before use and found **unusable**:
+a 5-arm interleaved `num_ctx` probe returned nothing within 120 s on every arm, *including the
+three at the resident size*, so no local work was routed there and — importantly — **the num_ctx
+split could not be re-measured, because a control that fails tells you nothing about the
+variable.** Rung (c): two sonnet subagents on the two brand-new unaudited modules. Both were
+useful and both were partly wrong; each of their headline numbers was re-measured here, one
+confirmed (`_touch` is dead code, the `os.remove` sites are unretried) and one refuted (the
+inflation figure). The gpu_lane audit was **right about WHERE and understated WHY** on chapters —
+it rated the chapter gap a "design-completeness gap, not a safety hole"; measuring it turned that
+into M6's 100%.
+
+**Battery:** verify_math **462 passed / 0 FAILED** · allsweep **0 subsystems bad, nine jobs
+running** · health `--preflight` **3 problems (2 known outages + 1 saturation symptom)** ·
+`silence` 15 handlers · pyflakes **clean**.
+
+**Deliberately not done:** no job bounced (m54/m55 must land first, and a second session was live);
+no source file touched; `catalogue_web.py`'s singulariser left alone pending a corpus diff; the
+`OLLAMA_*` environment variables left exactly as found.
+
+---
+
 ## 2026-08-24 13:35 (local) — Interactive session: M5 CLEARED AT THE ROOT, and the paid lane retired
 
 **M5 IS RESOLVED. The owner authorised the kill; both halves of it are now done and verified.**

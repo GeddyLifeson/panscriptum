@@ -7,118 +7,126 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
-- **[M5] THE LOCAL MODEL RUNG IS BEING STARVED BY AN ORPHANED PROCESS THAT IS NOT OURS — HUMAN
-  CALL, and it is the cheapest win on this list.** Measured 2026-08-24 12:35 (run #10). PID
-  25188, command line `pythonw.exe -m semsearch.cli watch`, started 2026-08-23 13:46, **parent
-  PID 9420 is dead** — an orphan by the same construction as m40/m42, but belonging to a
-  DIFFERENT project on this machine. It was holding **13,942 of the 13,945 established TCP
-  connections to the shared Ollama daemon** (28,044 sockets to `127.0.0.1:11434` in total, of
-  which 14,098 in TIME_WAIT — so it is churning connections, not merely holding them). For
-  comparison, Panscriptum's own pipeline and overwatch held **one connection each** and were
-  queued behind it.
-  **The measured cost to this project:** a request needing 50 ms of compute returned in 0.057 s
-  when it caught a free slot and in 28.4 s / 35.0 s when it did not (three consecutive probes,
-  same trivial prompt) — i.e. up to 99.85% queue. By 12:50 the daemon would not answer a
-  4,000-character prompt within 240 s at all. This is what has been reported for three runs as
-  the foreman's *"GPU busy and no spare pool capacity"*, and it accounts for **overwatch
-  completing zero rounds since 11:37** (hence `OVERWATCH.json` frozen at 68/64 across runs #8,
-  #9 and #10, which two runs filed as a possible merge fault) and for **m31** (`pipeline.py`
-  alive but no `returned N/M` line since 11:52 — verified holding an ESTABLISHED socket to
-  11434, so it is queued, not wedged).
-  **NOT ACTED ON, deliberately:** killing a foreign long-running process is the owner's call,
-  not this pass's — it belongs to another project and may be mid-work. Restarting or stopping
-  `semsearch.cli watch` should restore the free local rung for the whole kit at a stroke.
-  **This also corrects run #9's diagnosis**, which measured the saturation accurately (32.6 s
-  wall for 28 ms of compute) but attributed it to honest contention between Panscriptum's own
-  jobs over one installed model. The contention is real; the load is overwhelmingly foreign.
-  **MECHANISM FOUND — run #11, 2026-08-24 13:05-13:13. It is not simply queue depth: the kit is
-  cleanly SPLIT by the `num_ctx` it asks for.** The foreign client has pinned the only runner
-  with `context_length: 4096` and `expires_at: 2318-12-04` (i.e. an effectively infinite
-  keep_alive), 5.30 GB resident on a 10 GB card. A controlled probe — **the identical 6-character
-  prompt "say ok", 4 output tokens, arms interleaved so drifting queue depth hits both equally**
-  — gives:
-
-  | requested `num_ctx` | wall | result |
-  |---|---|---|
-  | omitted (matches resident 4096) | **9.1 s** | ok |
-  | 6144 | **200.0 s** | TIMEOUT |
-  | omitted | **18.0 s** | ok |
-  | 6144 | **200.0 s** | TIMEOUT |
-  | 8192 | **200.0 s** | TIMEOUT |
-
-  `/api/ps` was read after every single call and **never showed a second runner** — the resident
-  one stayed at ctx 4096 throughout.
-  **Confirmed independently from live telemetry, which rules out prompt size as the cause.**
-  `state/model_metrics.jsonl` shows `entrypass` — which passes **`num_ctx=4096`**
-  (`pipeline.py:1016`), matching the resident runner — **completing continuously right now at
-  24-38 s per call**, while `overwatch` (higher `num_ctx`) logs nothing but
-  `ollama failed after 3 tries: TimeoutError`. The probe controls for prompt size directly (both
-  arms sent the same 6 characters), so the causal variable is `num_ctx`, not payload.
-  **Why this matters more than the queue framing:** `pipeline.py:348` sends an explicit
-  `num_ctx` on EVERY call (`num_ctx or c.get("num_ctx", 6144)`) — there is no code path that
-  omits it. So `synthesis` and `entrypass` (both hardcoded 4096, lines 654 and 1016) are the
-  only lanes that work, and every other consumer — `generate.py` (6144), `overwatch`,
-  `magnitude` and `local_agent` (8192), `ingest_doc` (6144) — is not slow but **dead**.
-  INFERRED (not measured): Ollama must start a separate runner for a different context size, and
-  cannot, because the pinned 5.30 GB runner never goes idle long enough to be evicted on a 10 GB
-  card. **Consequence for the owner's remedy list: raising `num_ctx` for m46/m52 would currently
-  take those paths from "slow" to "never answers".** Clearing the foreign process remains the
-  fix; this only sharpens what it is costing.
-- **[m46] THE FEATS CHAPTER'S PROMPT IS ~1.9x LARGER THAN THE CONTEXT WINDOW IT IS SENT INTO —
-  latent, nothing generated yet, and it must be settled BEFORE the first feats generation run.**
-  Measured on a real job built by the real code path (run #10): `build_jobs_for_source` for
-  Warhammer 40,000 emits **106 Feats jobs**, and job #1 carries `entities_json` 20,545 chars +
-  `prompts/system_style.txt` 18,112 + `prompts/feats_prompt.txt` 2,812 = **41,469 characters of
-  input**. `config.yaml:64` sets `num_ctx: 6144` and `generate.py:133` passes it through
-  unchanged. At 3.5–4.5 chars/token that prompt needs ~9,200–11,800 tokens: **1.5–1.9x the
-  window.** It would take an implausible >6.7 chars/token for it to fit.
-  **Why it matters, precisely:** `num_predict: -1` removes the OUTPUT ceiling and `generate.py`
-  is careful about that, but `num_ctx` is the SHARED input+output window and nothing checks the
-  input against it. Ollama truncates an over-long prompt rather than refusing it, and
-  `_covered()` (`generate.py:146-159`) verifies only that an entity's NAME appears in the
-  returned text — not that its individual deeds do. So a block whose tail was silently trimmed
-  would pass the coverage check and be written to `catalog.json` as a complete chapter. That is
-  a Hard Rule 0 truncation arriving from the runtime instead of from the code.
-  **Currently harmless and that is why this is the moment:** `output/index/catalog.json` holds
-  **0 addresses containing "Feats"**, and `manifest.json` (built 10:41, before the feats branch
-  shipped at 12:05) contains **0 feats jobs** — the zero is staleness, not a fault. No feats
-  chapter has ever been generated, so nothing is corrupted yet.
-  **HUMAN CALL because every remedy is a tuning trade on a 10 GB card:** raise `num_ctx` (larger
-  KV cache, fewer layers on GPU — see config.yaml's own note), lower `feats_block_chars` (no
-  data loss, `pack_feats` paginates correctly, but ~2x the calls on a GPU that is already the
-  bottleneck), trim the 18 KB system prompt for feats jobs specifically, or some mix. **A
-  verify_math check asserting the prompt fits should be added once a remedy is chosen** — it was
-  deliberately not added now because it would fail on arrival and turn the battery red.
-- **[m52] 94% OF THE CHAPTER JOBS ALREADY OVERFLOW `num_ctx`, NOT JUST THE FEATS ONES — m46 is
-  ~86x wider than it was filed as.** Measured 2026-08-24 (run #11) over the live
-  `output/index/manifest.json` (88 MB, 9,362 jobs), by serialising each job and adding the
-  system prompt that every call carries:
-  - `prompts/system_style.txt` transmits **18,112 chars** (18,338 on disk; text-mode read strips
-    220 `\r`). Verified directly, matching m46's figure.
-  - **chapter jobs (9,153 of the 9,362 — the main body of the library):** payload median
-    **7,406 chars**, p90 12,128, max 52,101. Add the system prompt and the median total input is
-    **25,518 chars ≈ 7,291 tok @3.5, 6,380 @4.0, 5,671 @4.5** against `num_ctx: 6144`.
-    **8,623 / 9,153 (94.2%) exceed the window at 3.5 chars/token, and 5,487 (59.9%) exceed it
-    even at a generous 4.0.** The largest job is **70,213 chars ≈ 17,553–20,061 tokens: 3.3x
-    the window.**
-  - **frontmatter jobs (209): clean.** Median total 19,014 chars, max 20,046 → **0 of 209 over
-    the window at any divisor tested.** Stated because a clean result is worth as much.
-  **The irony is in the code itself.** `generate.py:137-139` sets `num_predict: -1` and its
-  comment explicitly names Hard Rule 0 — "a capped response ends a chapter mid-entry without
-  error, the silent-truncation failure Hard Rule 0 exists to forbid." The OUTPUT side is guarded
-  with that reasoning written out; `num_ctx` is the SHARED input+output window on the same call
-  (`generate.py:133`, `cfg.get("num_ctx", 8192)` → 6144 from `config.yaml:64`) and the INPUT
-  side has no guard at all. `_covered()` (`generate.py:146-159`) checks only that an entity's
-  NAME appears in the returned text, so a chapter whose tail was trimmed passes and is written
-  to `catalog.json` as complete.
-  **STILL LATENT, and that is why this is the moment — same as m46.** `output/index/catalog.json`
-  holds **6 addresses total** (1 Persons, 0 Feats): generation has effectively never run at
-  volume. Nothing is corrupted. But the manifest is BUILT and these 9,153 jobs are queued.
-  **HUMAN CALL, and note it is now CONSTRAINED by M5:** the obvious remedy — raise `num_ctx` —
-  currently makes things strictly worse, because a call requesting any `num_ctx` other than the
-  resident runner's 4096 does not complete AT ALL (measured, see M5). Lowering the per-block
-  entry count (`WRITE_CHUNK = 8`, `generate.py:37`) or trimming the system prompt for chapter
-  jobs are the remedies that do not depend on the daemon being healthy first.
+- **[M6] CHAPTER GENERATION NOW REFUSES 100% OF ITS CALLS AT THE LIVE WINDOW — this
+  SUPERSEDES m52 and corrects the 14:23 paper-trail entry, which closed "m46/m52" as one item
+  when only the feats half was fixed.** Measured run #12 over the live 88 MB manifest, by
+  replaying the real code path (`generate.load_prompt_templates` -> `build_prompt` per
+  `WRITE_CHUNK` group -> `context_budget.fits`) across **every** chapter job, no sampling:
+  **17,370 of 17,370 chapter calls (100%) raise `ContextOverflow`; 9,153 of 9,153 jobs have at
+  least one refusing call.** Median overflow 3,304 tokens, max 17,563.
+  **It is structural, not data-dependent, and the second measurement is the one that proves
+  it: a chapter call with an EMPTY user prompt also refuses.** The chapter system prompt is
+  18,112 chars = 6,038 tok at `CHARS_PER_TOKEN = 3.0`, plus `CHAPTER_RESERVE_TOKENS = 2048`,
+  = **8,086 tokens before a single entry is added, against `num_ctx: 6144` — headroom -1,942.**
+  **Why the feats fix does not carry over.** m46 was closed by splitting `system_style.txt` and
+  sending feats jobs only the 6,963-char voice half, because a feats chapter writes none of THE
+  ENTRY TEMPLATE and `feats_prompt.txt` forbids its scoring. **A chapter needs the entry
+  template**, so `system_for("chapter", ...)` correctly returns the full 18,112 chars and the
+  same remedy is unavailable.
+  **This is an improvement over what it replaced, and still latent.** Before `assert_fits` the
+  overflow was a silent runtime truncation that `_covered()` could not see; now it is a
+  recorded refusal. `catalog.json` still holds **6 addresses**, the owner has ruled that prose
+  generation waits until the omniverse history is written, so nothing is failing today.
+  **But the first real chapter run now produces zero chapters and 9,153 recorded failures.**
+  **HUMAN CALL on the remedy, and note the arithmetic constrains it tightly:** the median real
+  chapter call needs **10,088 tokens** (p90 10,583, max 16,943), so `num_ctx` would have to
+  reach ~11,000-12,000 — a VRAM question on a 10 GB card, no longer blocked by M5. The
+  alternative is trimming the chapter system prompt to **~6,282 chars** (from 18,112) or
+  lowering `WRITE_CHUNK`, which does NOT help: the empty-prompt result shows the scaffolding
+  alone is over. **Do not "fix" this by lowering the reserve or raising `CHARS_PER_TOKEN` until
+  someone has measured the real tokenizer ratio** — that would restore the silent truncation
+  wearing a safety margin's shape.
+- **[m56] THE `gpu_lane` AND KEEP-WARM WORK LANDED AT 13:59-14:20 IS NOT LIVE IN A SINGLE
+  RUNNING JOB, so the contention it was written to arbitrate is still completely
+  unarbitrated.** A Python process does not re-read its own source: every standing job predates
+  the code. Verified run #12 from process start times against file mtimes — `read.py` and
+  `feats.py --roll` 08:55, `pipeline.py` 11:17, `foreman.py` 11:22, `overwatch.py` 11:37,
+  `ingest_doc.py` (Dragonlords, still running after 17 h) 2026-08-23 21:32, `overnight.py`
+  2026-08-23 21:30 — against `gpu_lane.py` created **13:59** and wired into
+  `pipeline.ask` / `generate.call_ollama` / `local_agent` at **14:12**, and `overnight`'s
+  keep-warm thread added at **14:19**.
+  **Corroborated, not merely inferred:** `gpu_lane.status()` sampled six times over a minute
+  reported **0 slots and 0 foreground holders** while `nvidia-smi` reported **99% GPU
+  utilisation** and `pipeline.log`, `read_auto.log` and `overwatch.log` logged
+  `ollama failed after 3 tries: TimeoutError` continuously.
+  **What is actually contending:** three steady clients on the daemon across a 48 s sample —
+  `ingest_doc` (17 h old), `overwatch`, `pipeline` — against `OLLAMA_NUM_PARALLEL = 2`.
+  `read.py`'s load is NOT on the card; it is going to the cloud (see m59).
+  **NOT BOUNCED THIS RUN, deliberately, and the reason is in the restart topology:** the keeper
+  restores only the STANDING set (dashboard, publish, foreman, overwatch, pipeline) and only
+  when it finds a job DOWN, so pipeline/overwatch/foreman will otherwise carry pre-lane code
+  forever; but `read.py` and `feats.py --roll` hang off the supervisor's hours-long lap, and
+  `ingest_doc` is a hand-launched job with no restarter at all. Bouncing only the cheap half
+  puts the participants under a 2-slot cap while the actual GPU holders ignore it. **Also, a
+  second Claude session was live in this repo during run #12** (its probe process was observed
+  on the daemon), which is not a moment to restart nine jobs. Ordered recipe in `NEXT_STEPS.md`.
+- **[m55] `gpu_lane` DELETES ITS LEASE FILES WITH AN UNRETRIED `os.remove`, and on Windows that
+  is the one operation this project already knows fails under contention.** Six sites —
+  `gpu_lane.py:195, 224, 253, 265, 326` and the foreground path — every one wrapped in a bare
+  `contextlib.suppress(Exception)`; `grep -c replace_retry src/gpu_lane.py` is **0**. On Windows
+  `os.remove` raises `WinError 32` while any concurrent `_read()` holds the file open, which is
+  exactly the sharing violation `silence.replace_retry` exists to outwait. A release that
+  silently fails leaves a lease that is neither held nor expired, and that slot index is then
+  unavailable to everyone — including the process that thinks it released it — until the full
+  `SLOT_LEASE_SECONDS` (900) ages out.
+  **VERIFIED at source by this pass; the stranding was reproduced by a subagent** running 8
+  real processes against a scratch-redirected lane dir: `os.remove` failed 2 of 20 releases,
+  and once a slot stranded, 5 of 8 workers got no slot for the rest of the run. **Latent only
+  because m56 means nothing uses the lane yet** — it would bite on the first bounce, under
+  exactly the nine-process load the lane exists to serve. Fails open (a caller that never gets
+  a slot still proceeds), so it degrades to "no arbitration", never to a deadlock.
+- **[m54] `gpu_lane._touch` — the heartbeat refresh the module's own docstring calls essential —
+  IS DEAD CODE.** Defined at `gpu_lane.py:271`, **zero call sites in the entire repo**
+  (verified: the only other `_touch` hits are `foreman.regex_touched` and
+  `rigor.adjudication_beta`'s `n_laws_touched`, unrelated names). So a heartbeat is written once
+  at acquire and never updated, while `_expired()` (`gpu_lane.py:156-162`) checks heartbeat age
+  **before** it checks whether the PID is alive. Any call outliving its lease has its own live
+  lease judged stale: `CLAIM_LEASE_SECONDS` is **300 s** for a foreground claim against
+  `config.yaml:106 request_timeout: 1800`, and `generate.py:151`'s own comment says a real prose
+  call "legitimately runs for minutes". Consequences, in order of nastiness: a long foreground
+  prose call stops advertising itself after 5 minutes so background callers stop yielding to it;
+  and when it finally returns, its `finally: os.remove(slot)` deletes whatever now occupies that
+  path — **possibly another process's live lease**. Latent with m56; same first-bounce trigger.
+- **[m59] THE CLOUD LANE IS IN A HOT RETRY LOOP AT A 2.8% SUCCESS RATE, and the pool proof
+  cannot see it because it measures reachability, not capacity.** Measured run #12 from
+  `state/model_metrics.jsonl`: **1,571 cloud calls in the last 60 minutes, 44 succeeded
+  (2.8%)**; over 3 hours, 4,778 calls / 152 ok (3.2%). That is ~26 calls per minute against
+  free-tier providers, 97% failing, sustained. Meanwhile `data/POOL_PROOF.json` (written 14:01)
+  says **4 of 36 buckets answer** — over the `>= 3` gate, so `ask_pool_first` keeps choosing the
+  pool. Both readings are honest: the proof sends one trivial probe per bucket and certifies
+  that a bucket ANSWERS, which is not a claim about throughput under a 26/min load. **This is
+  the same shape as m51** — a check that is true and scoped to less than its name implies.
+  The caller is `read.py`'s `_ask` (`read.py:335, 351`, `CB.ask` defaults to `pool="coding"`),
+  whose own progress line reports the cost plainly: **989 of 1,012 chunks UNANSWERED** and a
+  corpus-read ETA swinging between 59 h and 10,813 h. Unanswered chunks are recorded as "not
+  cached", so this is waste and delay rather than data loss. **QUESTION, not a fix: should a
+  bucket that fails N consecutive live calls be stood down until the next proof, and should the
+  proof measure a rate rather than a single answer?** Filed rather than patched because backoff
+  policy is a design decision and m24's paper trail shows how easily a bucket gets buried.
+- **[m57] A NAIVE SINGULARISER IS MANGLING ENTRY TYPES ACROSS THE CORPUS.**
+  `catalogue_web.py:212` does `cats[0].rstrip("s")`, which (a) strips EVERY trailing `s`, not
+  one, and (b) does not handle `-ies`. Measured over the live manifest's 85,882 entries:
+  **`Abilitie` 205, `Citie` 139, `Countrie` 81** — 425 entries carrying a mangled type, plus
+  `Valkyrie` 39 which is a false positive of my own detector (a genuine word ending in "ie",
+  listed here so the next reader does not re-count it as damage). **Not fixed this run**
+  because entry `type` feeds classification and matching, and this project's rule is that a
+  matching-logic change is not verified until the whole corpus is diffed before and after —
+  which is not a thing to start while another session is live in the repo. Small, real,
+  self-contained; the fix is a proper singulariser plus a re-derive.
+- **[m58] THE `folder-mechanical` ROUTER FILES RACES AND BACKGROUNDS UNDER "Places &
+  Locations" — QUESTION, because the mode may be doing exactly what it says.** Found while
+  root-causing the manifest's largest job (`NEXT_STEPS` run #11 item 3.4, now closed): the
+  52,101-char outlier is `The Elements Beyond` `II.L.7.45/Places#1-10`, and its size is honest —
+  three homebrew race writeups with ~11.6 KB `description` fields (Deepling 12,104, Crystalkin
+  10,426, Fairy 8,064). **The anomaly is not the size, it is the contents:** all ten entries in
+  that Places chapter are `type` Race, Sub Race, or Background, and not one is a place. Their
+  `category` field is just the chapter label copied down, so it carries no independent signal.
+  Scope: **42 sources are `folder-mechanical`** (760 chapter jobs); the `web` mode looks sane by
+  comparison (Places chapters there hold Location 7,480, Place 260, Planet 165, City 142) though
+  it files 647 `Character` entries under Places too. **Is folder-mechanical routing meant to be
+  provisional — the entries land by file and a later pass re-shelves them — or is this a
+  misroute?** The shelfmark says `[UNCHARTED -- Ladder-of-Being pass not yet done]`, which reads
+  like the former, so this is a question and not a strike.
 - **[m51] `health.py`'s "context budget" preflight does not cover the path that overflows —
   its `ok` is false assurance.** `check_context_budget()` (`health.py:168-190`) imports
   `read as R` and measures **`R.SYSTEM` (read.py's own 1,586-char feats-extraction prompt)** and
@@ -241,16 +249,8 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   this session: a measure called "completeness" that ignores a fifth of the corpus is a naming
   and design question (should it measure them, or should it be renamed to say what it measures?)
   rather than a bug to be patched. **Owner call.**
-- **[m23] `overnight.start()` TRUNCATES a job's log on every restart** (`fh = open(lf, "w")`),
-  so each keeper-driven bounce destroys that job's entire history. Found the hard way in run #4:
-  the 59-503 record that diagnosed the Ollama wedge existed only in `pipeline_auto.log`, and the
-  keeper's restart erased it minutes after it was read — the counts survive only because they
-  were transcribed into HANDOFF.md first. The keeper restarts standing jobs every five minutes
-  when they are down, so this is the normal path, not an edge case: any problem that needs more
-  than one restart to understand cannot be investigated. Fix is small (`"a"` plus a
-  session-separator line, or rotate to `<job>.N.log`) but it changes an operational convention
-  and the dashboard's `_tail_match` readers assume a single current file — **worth an owner
-  glance before changing**, not a silent flip.
+*(m23 -- job logs truncated on restart -- was fixed at 14:23 and its Open entry was removed by run #12; verified at source: `overnight.py` now opens each job log in append mode with a dated session separator. Paper trail below.)*
+
 - **[m1] Marvel completeness row 25h stale** (0.4% vs 30,207 on disk) — re-measure was
   launched this run (`completeness.py --workers 6`); verify the row after it lands. If still
   wrong after a fresh run, the byslug matching in `completeness.py` becomes a real suspect.
@@ -356,6 +356,42 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #12 (2026-08-24 ~15:10 local) moved three items out of Open. Full detail in HANDOFF.md.*
+
+- **[M5] THE STARVED LOCAL RUNG — closed, WITH A CORRECTION TO ITS ROOT CAUSE.** The foreign
+  orphan (`semsearch.cli watch`, PID 25188) was killed with the owner's authorisation in the
+  13:35 session and it has stayed gone; established connections to the daemon are back to a
+  handful. **But the diagnosis that the foreign CLIENT pinned the runner was wrong.** Run #12
+  found a fresh runner (`llama-server.exe` started 13:29) resident again at
+  `expires_at: 2318-12-04` hours after that pin was released with a `keep_alive: 0` unload, with
+  semsearch long dead. The actual source is **machine-level daemon configuration**:
+  `OLLAMA_KEEP_ALIVE = -1` is set as a USER environment variable, so *every* load gets an
+  effectively infinite keep-alive no matter who issues it, and `OLLAMA_MAX_LOADED_MODELS = 1`
+  means exactly one runner may be resident. That pair — not the foreign process — is the
+  mechanism behind "a call at a non-resident `num_ctx` never completes": serving a different
+  context size requires evicting the only permitted runner, which never expires on its own.
+  (`OLLAMA_NUM_PARALLEL = 2`, which is also where `gpu_lane`'s `MAX_SLOTS = 2` should be read
+  from rather than hardcoded.) **The num_ctx split could NOT be re-measured this run** — a
+  5-arm interleaved probe (6144/4096/6144/8192/6144, identical 6-char prompt) returned nothing
+  within 120 s on *every* arm including the three at the resident size, because the card was at
+  99% with three of our own jobs on it. **A control that fails tells you nothing about the
+  variable**, so M5's mechanism is closed on the env-var evidence, not on a re-run of the probe.
+- **[m46] The feats prompt overflow — genuinely closed**, by the 14:23 session's derived budget,
+  split system prompt and `assert_fits` refusal. Independently re-verified run #12: at the live
+  derived budget of 2,987 chars, Warhammer 40,000 packs 638 blocks and Dragon Ball Z 467, with
+  **zero feats lost** in both, max inflation 1.15x and 1.21x of budget.
+  **One subagent number did not reproduce and is corrected here:** an audit reported
+  `METADATA_INFLATION = 1.20` being breached at a nominal 20,000 budget (claimed median 23,441 /
+  max 25,743, +17%/+29%). Re-measured through the real `pack_feats(rows, source_name, budget)`
+  signature, Warhammer gives median **20,168** and max **21,993** — which reproduces the code
+  comment's own "median 20,464, max 21,993" to the character. The margin IS tight (DBZ reaches
+  1.21x at the live budget) but it is not breached as reported. *The audit's error and my own
+  first attempt were the same error: passing the budget positionally into `source_name`.*
+- **[m52] SUPERSEDED BY M6, NOT CLOSED.** The 14:23 entry closed "m46/m52" as a single item.
+  The feats half is closed (m46 above); the chapter half is not, and measuring it at the real
+  call granularity — per `WRITE_CHUNK` group rather than per job — moves it from "94% of jobs
+  overflow" to **100% of 17,370 calls refuse**. See M6 in Open.
 
 *Owner-directed session 2026-08-24 ~14:30 local. Ordered by the owner: the GPU lane first, then
 entity matching, then feats.*
