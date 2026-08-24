@@ -460,7 +460,7 @@ def kill_duplicate_jobs():
     return True, "no duplicates found now"
 
 
-def _fandom_reachable(timeout=8):
+def _fandom_reachable(timeout=8, _opener=None):
     """Is fandom.com actually ANSWERING right now?
 
     On 2026-08-23 the whole domain dropped our connections for a while (an IP block earned by a
@@ -474,12 +474,32 @@ def _fandom_reachable(timeout=8):
     drops the request. So this gate, written to defer work during exactly that kind of outage,
     was answering "reachable" for the whole of one and deferring nothing. Ask the API instead:
     it is the same one cheap call, and it tests the thing the caller actually depends on.
+
+    AND THEN ASKING THE API INTRODUCED THE OPPOSITE ERROR, which is why the two fixes are
+    recorded together. The rewrite above called `urlopen` on a bare URL, so the request went out
+    as `Python-urllib/3.13` and MediaWiki answered **403 Forbidden in 0.13 seconds** -- from
+    fandom AND from Wikipedia, healthy or not. This gate therefore returned False on every call
+    it has ever made, and `run_catalogue_gap` deferred the catalogue every foreman round while
+    reporting "fandom.com is dropping connections (IP block or outage)". A gate that always
+    says "outage" is not conservative, it is off. Send the project's own polite UA, the one
+    `wiki_source` has always sent: with it, the same two URLs return 200.
+
+    THE HOST MATTERS AS MUCH AS THE HEADER. `community.fandom.com` is the only fandom host
+    publishing AAAA records, so it answers over IPv6 while every A-record-only CONTENT wiki is
+    dead at the socket -- which is exactly the state of this machine on 2026-08-24, and exactly
+    what the `fandom answers this machine` standard missed for the same reason. Ask a content
+    host (`standards.FANDOM_PROBE_HOST`), which is the path the catalogue actually uses. If that
+    one host is individually down the gate defers a round it could have run: that is the safe
+    direction, and it is the reason to prefer it over the host that cannot fail correctly.
     """
     try:
         import urllib.request
-        with urllib.request.urlopen(
-                "https://community.fandom.com/api.php?action=query&meta=siteinfo&format=json",
-                timeout=timeout) as r:
+        import wiki_source as _ws
+        import standards as _ST
+        url = ("https://%s/api.php?action=query&meta=siteinfo&format=json"
+               % _ST.FANDOM_PROBE_HOST)
+        req = urllib.request.Request(url, headers=_ws.UA)
+        with (_opener or urllib.request.urlopen)(req, timeout=timeout) as r:
             return r.status == 200
     except Exception:
         silence.note("foreman.py:fandom-unreachable")

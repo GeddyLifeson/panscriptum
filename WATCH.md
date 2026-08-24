@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 70  ·  last run 2026-08-24 13:25
+round 71  ·  last run 2026-08-24 17:00
 
 ## Structure
 
@@ -11,18 +11,14 @@ round 70  ·  last run 2026-08-24 13:25
 
 ## What the model found in the code
 
-**12 open** (5 high). Newest first.
+**10 open** (1 high). Newest first.
 
-- **descending_ladder.py** `compton_confinement_energy` — [HIGH] Returns the kinetic energy from momentum spread p ~ hbar/(2r), but uses HBAR (reduced Planck constant) instead of hbar/2 in the momentum calculation, leading to incorrect scaling. 
-  - says: Energy required to CONFINE a mass to a given size, from the uncertainty principle.
-- **cosmography.py** `_fmt` — [HIGH] is used but never defined in this file or its imports
-  - says: formats a value for display in the Kardashev distribution output
-- **cleanup.py** `clean_ceiling` — [HIGH] The function returns the original ceiling unchanged only if no strategy succeeds, but the 'unresolved' case is reported via the `ceil_unres` list in `main()`, which means the ceili
-  - says: If none of the strategies land, the ceiling is left ALONE and reported -- guessing a name would be worse than admitting phase 1 answered the wrong question.
-- **silence.py** `note` — [HIGH] Records the exception currently being handled, but also flushes the health ledger every FLUSH_EVERY calls, even if the exception was not successfully recorded due to an internal fa
-  - says: Record the exception currently being handled, then return.
 - **build_terminal.py** `view.w` — [HIGH] The view width is set to the maximum of the SVG's width and height scaled by the aspect ratio, but the code uses `view.w = Math.max(b.width, b.height * ar) * 1.07;` which incorrect
   - says: The view width is adjusted based on the SVG's actual bounding box dimensions after drawing.
+- **endpoint.py** `source_pages` — [MEDIUM] endpoint.py:334
+  - says: endpoint.py:source_pages
+- **dashboard.py** `metrics` — [MEDIUM] Returns a list of metrics per tag, aggregating data from the model_metrics.jsonl file, but the code does not actually process the data as described in the docstring. The docstring 
+  - says: Per-tag latency and outcome from state/model_metrics.jsonl -- the observability baseline. Local rows (pipeline.ask) carry token counts and tps from Ollama's own
 - **catalogue_web.py** `write_record_catalogue` — [MEDIUM] returns whether the rename was successful
   - says: returns whether the rename LANDED
 - **catalogue_web.py** `ws.rank_by_size` — [MEDIUM] truncates at top=None

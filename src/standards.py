@@ -196,6 +196,59 @@ def ollama_token_flow(ttl=300.0, timeout=300):
     return ok, secs
 
 
+# A CONTENT wiki, deliberately, and one this corpus actually reads (WIKI_HOSTS binds it to
+# "Marvel" and to "major fantasy pantheons"). `community.fandom.com` is the wrong host to ask:
+# it is the only fandom host publishing AAAA records, so it answers over IPv6 while every
+# content wiki -- all of them A-record-only -- is unreachable. This is not a sample standing in
+# for the others: every fandom content host resolves to the SAME two Cloudflare IPv4 addresses,
+# so one connect tests the identical socket all 191 bound hosts must open.
+FANDOM_PROBE_HOST = "marvel.fandom.com"
+
+
+def fandom_ipv4_reachable(host=FANDOM_PROBE_HOST, timeout=8, _sk=None):
+    """Can this machine open a TCP connection to fandom's edge OVER IPv4? `(ok, detail)`.
+
+    THE FAMILY IS THE WHOLE POINT, and it is why this standard read green through a total
+    outage on 2026-08-24. The old probe was `create_connection(("community.fandom.com", 443))`,
+    which walks whatever `getaddrinfo` returns and stops at the first success. `community` is
+    the one fandom host that publishes AAAA records, so it connected over IPv6 in 0.02s and the
+    board said "reachable" while EVERY content wiki -- marvel, forgottenrealms, starwars,
+    aneurism, all A-record-only -- timed out at the socket. 164 of 164 rows in
+    COMPLETENESS.json carried "no denominator was obtained", preflight said "fandom API
+    unreachable", and this standard, whose entire reason for existing is to catch exactly that
+    shape, stayed green.
+
+    Measured that day: the content hosts and `community` resolve to the SAME two Cloudflare
+    IPv4 addresses (162.159.142.170, 172.66.2.166), and BOTH time out from here while
+    Wikipedia, GitHub and 1.1.1.1 over IPv4 answer in under 0.05s. So pinning the family to
+    AF_INET is not a sample of one host standing in for the others -- it is the identical
+    socket every content wiki has to open, asked once.
+
+    `_sk` exists so the regression checks can drive this with a stub instead of the network."""
+    if _sk is None:
+        import socket as _sk
+    try:
+        infos = _sk.getaddrinfo(host, 443, _sk.AF_INET, _sk.SOCK_STREAM)
+    except OSError:
+        silence.note("standards.py:fandom-v4-dns")
+        return False, "no A record for " + host
+    detail = "no address tried"
+    for fam, typ, proto, _canon, sa in infos:
+        s = _sk.socket(fam, typ, proto)
+        try:
+            s.settimeout(timeout)
+            s.connect(sa)
+            return True, str(sa[0])
+        except OSError as e:
+            detail = "%s %s" % (sa[0], type(e).__name__)
+        finally:
+            try:
+                s.close()
+            except OSError:
+                silence.note("standards.py:fandom-v4-close")
+    return False, detail
+
+
 def job_stamp(prev_entry, size, now):
     """`(held, at)` for one watched log: has it held this size, and since when?
 
@@ -792,23 +845,23 @@ def check(state=None):
     # board said so. The recatalogue skipped DC as "no wiki resolved", the roll's failures piled
     # into the swallowed-ledger, and the diagnosis took a person with curl. A network-shape
     # fault deserves its own light: unreachable-with-DNS-working is a block, not an outage.
+    # The probe is PINNED TO IPv4 (see `fandom_ipv4_reachable`). It used to take whatever
+    # family resolved first, and on 2026-08-24 that let `community.fandom.com`'s IPv6 record
+    # answer for a fleet of A-record-only content wikis that were all dead at the socket.
     try:
-        import socket as _sk
-        try:
-            _sk.create_connection(("community.fandom.com", 443), timeout=8).close()
-            _fandom_ok = True
-        except OSError:
-            silence.note("standards.py:656")
-            _fandom_ok = False
+        _fandom_ok, _fandom_where = fandom_ipv4_reachable()
         out.append(_s(
             "fandom answers this machine", _fandom_ok,
-            "reachable" if _fandom_ok else "connections dropped at the socket",
+            ("reachable over IPv4 at " + _fandom_where) if _fandom_ok
+            else ("IPv4 connect fails: " + _fandom_where),
             "reachable",
             "DNS resolves but the TCP connect times out on every *.fandom.com host while "
             "Wikipedia answers normally: that is an IP block, usually earned by our own "
             "request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, "
             "catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed "
-            "at its polite value. The catalogue remedy is gated on this same probe.",
+            "at its polite value. The catalogue remedy is gated on this same probe. NOTE the "
+            "family: content wikis are A-record-only, so IPv4 is the only path they have, and "
+            "an IPv6 route that still works does NOT mean fandom answers this machine.",
             "high", "machine"))
     except Exception:
         silence.note("standards.py:fandom-reachable")

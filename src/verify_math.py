@@ -1576,7 +1576,7 @@ check("a mixed batch waits on the entry that is genuinely unjudged",
                         [{"excluded": "x"}, {"catalogued": True}, {"catalogued": False}]), False)
 
 
-# ---- Section 19f: the promotion ladder (owner amendment 2026-08-24) ----------------------------
+# ---- Section 19w: the promotion ladder (owner amendment 2026-08-24) ----------------------------
 #
 # "Each classification should have a standard that over x entries it increases in overall
 # classification hierarchy." Thresholds were fitted to the real corpus (209 sources, median 194,
@@ -1779,7 +1779,7 @@ try:
 finally:
     _CP.OUT = _CP_OUT
 
-# ---- Section 19m: a STALE ledger writer must not erase a fresher one ------------------------
+# ---- Section 19x: a STALE ledger writer must not erase a fresher one ------------------------
 # m40. `overwatch.save()` is a whole-file replace, and two PROCESSES hold the ledger routinely --
 # the standing `--loop` job plus any ad-hoc `verify_open` call a maintenance run leaves behind.
 # Observed 2026-08-24 11:28: an orphaned 09:02 call, blocked on a model reply for 2h26m (2.8s of
@@ -2064,7 +2064,7 @@ check("candidates() does not truncate by default",
       note="Hard Rule 0: a ranked listing is returned whole unless a caller asks otherwise")
 
 
-# ---- Section 19s: the GPU lane must never mistake a dead holder for a live one ----------------
+# ---- Section 19u: the GPU lane must never mistake a dead holder for a live one ----------------
 # Added 2026-08-24. `gpu_lane` arbitrates one card between nine processes with leases held in
 # files. Reclaiming a dead holder's lease is the ONLY thing standing between a killed job and a
 # permanently stranded card. The first version used the POSIX idiom `os.kill(pid, 0)` and checked
@@ -2089,7 +2089,7 @@ check("an unreadable lease is reclaimed rather than stranding the card",
 check("the lane keeps at least one slot", _GL.MAX_SLOTS >= 1, True)
 
 
-# ---- Section 19t: a prompt may never be larger than the window it is sent into ----------------
+# ---- Section 19v: a prompt may never be larger than the window it is sent into ----------------
 # Added 2026-08-24 (m46/m52). A feats prompt measured 41,469 characters against `num_ctx: 6144`
 # -- roughly 1.9x the window. Ollama TRUNCATES an over-long prompt and answers anyway, and
 # `generate._covered` verifies only that an entity's NAME appears, so a block whose deed list
@@ -2131,7 +2131,7 @@ check("no slice of a multi-deed entity exceeds the budget",
       max(len(json.dumps(e["feats"], ensure_ascii=False)) for b in _blocks for e in b) <= _fb,
       True, note="the packer used to test the budget AFTER appending, so every slice overshot")
 
-# ---- Section 19r: the window admits a real chapter block, and prose is charged as prose ------
+# ---- Section 19y: the window admits a real chapter block, and prose is charged as prose ------
 # Added 2026-08-24 (owner-directed session), pinning the M6 fix. At `num_ctx: 6144` EVERY chapter
 # call refused -- 17,370 of 17,370 -- because the scaffolding outweighed the window before any
 # content was added. Two causes, both fixed: the system prompt was charged at the CONTENT ratio
@@ -2245,6 +2245,136 @@ check("the nested acquire does NOT deadlock when the regime already chose the lo
            "worker blocks forever on a permit it is itself holding")
 check("the nested path is still bounded to the card's slot count",
       _gl_nested[0] <= _RD.GATE_LOCAL_N, True, note=f"peak {_gl_nested[0]} concurrent")
+
+# ---- Section 19z: the fandom probe asks over IPv4, the only family content wikis have --------
+#
+# 2026-08-24. `fandom answers this machine` read GREEN through a total content-wiki outage, and
+# it is the one standard whose entire reason for existing is to catch that shape. The probe was
+# `create_connection(("community.fandom.com", 443))`, which walks whatever getaddrinfo returns
+# and stops at the first success. `community` is the ONLY fandom host publishing AAAA records;
+# it answered over IPv6 in 0.02s. Every content wiki -- marvel, forgottenrealms, starwars,
+# aneurism -- is A-record-only, and all of them timed out at the socket. Meanwhile 164 of 164
+# COMPLETENESS.json rows said "no denominator was obtained" and preflight said "fandom API
+# unreachable". Three surfaces told the truth and the one built for it did not.
+#
+# These checks drive the probe with a stub network, so they pin the FAMILY rather than the
+# weather: the second one reproduces the exact 2026-08-24 configuration and must come back
+# False. A probe that passes it is once again able to certify a dead corpus as reachable.
+import standards as _STx      # noqa: E402
+
+
+class _StubSock:
+    def __init__(self, reachable):
+        self._reachable = reachable
+
+    def settimeout(self, _t):
+        pass
+
+    def connect(self, sa):
+        if sa[0] not in self._reachable:
+            raise OSError("timed out")
+
+    def close(self):
+        pass
+
+
+class _StubNet:
+    """A stand-in socket module: which addresses exist, and which of them answer."""
+    AF_INET, AF_INET6, SOCK_STREAM = 2, 23, 1
+
+    def __init__(self, records, reachable):
+        self.records, self.reachable, self.asked = records, reachable, []
+
+    def getaddrinfo(self, host, port, family=0, socktype=0):
+        self.asked.append(family)
+        rows = self.records.get(family)
+        if not rows:
+            raise OSError("no such record for " + host)
+        return [(family, self.SOCK_STREAM, 6, "", (a, port)) for a in rows]
+
+    def socket(self, _fam, _typ, _proto):
+        return _StubSock(self.reachable)
+
+
+_V4, _V6 = "162.159.142.170", "2606:4700:7::29e"
+_both = {_StubNet.AF_INET: [_V4], _StubNet.AF_INET6: [_V6]}
+
+_net_blocked = _StubNet(_both, {_V6})            # the 2026-08-24 shape, exactly
+_blocked_ok, _blocked_where = _STx.fandom_ipv4_reachable(_sk=_net_blocked)
+check("an IPv6-only route does NOT certify fandom as reachable",
+      _blocked_ok, False,
+      note=f"probe answered {_blocked_ok!r} ({_blocked_where}); content wikis are "
+           "A-record-only, so a working IPv6 leg says nothing about the path they must use")
+check("the fandom probe asks the resolver for IPv4 and nothing else",
+      _net_blocked.asked, [_StubNet.AF_INET],
+      note="AF_UNSPEC lets the first family that answers speak for both -- that is the bug")
+
+_net_up = _StubNet(_both, {_V4, _V6})
+_up_ok, _up_where = _STx.fandom_ipv4_reachable(_sk=_net_up)
+check("a live IPv4 leg still reads as reachable", (_up_ok, _up_where), (True, _V4))
+
+_net_nov4 = _StubNet({_StubNet.AF_INET6: [_V6]}, {_V6})
+_nov4_ok, _nov4_where = _STx.fandom_ipv4_reachable(_sk=_net_nov4)
+check("a host with no A record fails the probe instead of raising",
+      (_nov4_ok, _nov4_where.startswith("no A record")), (False, True))
+
+
+# ---- Section 19aa: the catalogue's fandom gate identifies itself, and asks a content host ----
+#
+# 2026-08-24, found while checking whether §19z's fix would cascade. `foreman._fandom_reachable`
+# had been hardened that morning from a TCP connect to a real API call -- correctly, "a socket
+# is not an answer" -- but the new call went out on a bare `urlopen`, so MediaWiki saw
+# `Python-urllib/3.13` and returned **403 Forbidden in 0.13s**. From fandom AND from Wikipedia,
+# healthy or not. The gate therefore answered False on every call it ever made, and
+# `run_catalogue_gap` deferred the catalogue every round while blaming an IP block. With the
+# project's own UA the same two URLs return 200.
+#
+# Two checks, because the gate has two ways to lie: the HEADER (a 403 that reads as an outage)
+# and the HOST (`community.fandom.com` answers over IPv6 while every content wiki is dead).
+import foreman as _FMx      # noqa: E402
+
+
+class _StubResp:
+    def __init__(self, status):
+        self.status = status
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_exc):
+        return False
+
+
+_seen_req = []
+
+
+def _stub_opener(status):
+    def _open(req, timeout=None):
+        _seen_req.append(req)
+        _ = timeout
+        return _StubResp(status)
+    return _open
+
+
+_gate_ok = _FMx._fandom_reachable(_opener=_stub_opener(200))
+_gate_req = _seen_req[-1] if _seen_req else None
+_gate_ua = (_gate_req.get_header("User-agent") or "") if _gate_req else ""
+check("the catalogue's fandom gate identifies itself to the API",
+      bool(_gate_ua) and "python-urllib" not in _gate_ua.lower(), True,
+      note=f"UA sent: {_gate_ua!r}; a bare urlopen earns 403 Forbidden from MediaWiki in 0.13s, "
+           "which this gate reports as 'fandom.com is dropping connections'")
+check("a 200 from the API opens the catalogue gate", _gate_ok, True)
+
+check("a 403 does NOT read as reachable", _FMx._fandom_reachable(_opener=_stub_opener(403)),
+      False)
+
+check("the fandom gate asks a CONTENT wiki, not the one host with an IPv6 route",
+      _STx.FANDOM_PROBE_HOST != "community.fandom.com", True,
+      note=f"probe host is {_STx.FANDOM_PROBE_HOST!r}; `community` is the only fandom host "
+           "publishing AAAA records, so it answers while every A-only content wiki is dead")
+check("the gate's URL actually names that host",
+      _STx.FANDOM_PROBE_HOST in (_gate_req.full_url if _gate_req else ""), True)
+
 
 print()
 print("=" * 96)
