@@ -55,6 +55,7 @@ import json
 import os
 import shutil
 import subprocess
+import silence
 # Windows: a child process spawned from a windowless (pythonw) parent ALLOCATES ITS OWN
 # CONSOLE unless told not to. Under the old console launcher every subprocess inherited a
 # hidden console and nobody noticed; under pythonw each powershell/wmic/python child
@@ -68,7 +69,6 @@ import time
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(HERE, "src")
 sys.path.insert(0, SRC)
-import silence                                                          # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
@@ -419,6 +419,7 @@ def _fandom_reachable(timeout=8):
         socket.create_connection(("community.fandom.com", 443), timeout=timeout).close()
         return True
     except OSError:
+        silence.note("foreman.py:421")
         return False
 
 
@@ -495,6 +496,7 @@ def run_charter_regression():
                 answering = sum(1 for r in json.load(f)
                                 if isinstance(r, dict) and r.get("verdict") == "answers")
         except Exception:
+            silence.note("foreman.py:497")
             answering = 0
         if answering < 3:
             return False, f"pool too thin for the regression ({answering} answering); waiting"
@@ -533,7 +535,6 @@ REMEDIES = {
     "corpus read is progressing": [restart_reader],
     "sources with a reachable wiki": [adopt_hosts, scout_hostless],
     "page roll complete": [rerun_roll],
-    "swallowed failures not spiking": [triage_swallowed],
     "unexpected swallowed failures": [triage_swallowed],
     "model IDs their providers still serve": [recatalogue_models],
     # Both of these are the throughput standard wearing a different name: a passage nobody
@@ -599,6 +600,7 @@ def _literals(src):
         # swallowed it, and the gate reported "no literals changed" for every patch ever
         # examined. A safety check that fails open is worse than no safety check, and this one
         # failed open silently, inside the file written to stop exactly that.
+        silence.note("foreman.py:595")
         return out
     for node in ast.walk(tree):
         if isinstance(node, ast.Constant) and isinstance(node.value, str):
@@ -756,8 +758,13 @@ def _retire(finding):
                     and v.get("state") == "open"):
                 v["state"] = "retired"
                 v["retired_why"] = finding.get("why", "unactionable")
-        with open(path, "w", encoding="utf-8") as f:
+        # Atomic, and the read-modify-write held as tight as possible: overwatch owns this
+        # file and persists after every module it reviews; a torn or stale write here would
+        # silently discard its newest finding (2026-08-23 audit, finding 2).
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
             json.dump(led, f, indent=1, sort_keys=True)
+        silence.replace_retry(tmp, path)
     except Exception:
         silence.note("foreman.py:_retire")
 
@@ -822,6 +829,7 @@ def owner_queue(items):
         with open(os.path.join(HERE, "data", "SCOUT_BLOCKED.json"), encoding="utf-8") as f:
             blocked = json.load(f)
     except Exception:
+        silence.note("foreman.py:824")
         blocked = {}
     if blocked:
         lines.append("### Material that exists but declines automated readers")
@@ -940,6 +948,7 @@ def round_once(dry=True, patch=False):
     try:
         prev = json.load(open(LOG, encoding="utf-8")) if os.path.exists(LOG) else []
     except Exception:
+        silence.note("foreman.py:942")
         prev = []
     prev.append(log)
     with open(LOG, "w", encoding="utf-8") as f:
@@ -965,6 +974,7 @@ def main():
         try:
             round_once(dry=not a.go, patch=a.patch)
         except KeyboardInterrupt:
+            silence.note("foreman.py:967")
             raise
         except Exception as e:
             silence.note("foreman.py:round-raised")

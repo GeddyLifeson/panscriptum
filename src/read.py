@@ -482,7 +482,7 @@ def _chunk_put(host, ch, feats):
         tmp = p + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump({"feats": feats}, f, ensure_ascii=False)
-        os.replace(tmp, p)
+        silence.replace_retry(tmp, p)
     except Exception:
         silence.note("read.py:chunk_put")
 
@@ -491,8 +491,18 @@ def read_entity(c, host, name, cap_chunks=None):
     """Read one entity's cached pages with the model. Returns verified feats by axis."""
     path = cache_path(host, name)
     if os.path.exists(path):
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
+        # SELF-HEALING: a kill mid-write once left truncated JSON here, and the raise was
+        # swallowed upstream -- the entity silently vanished from every future pass while the
+        # cache said it existed. A cache that will not parse is deleted and re-earned.
+        try:
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            silence.note("read.py:corrupt-cache")
+            try:
+                os.remove(path)
+            except OSError:
+                pass
 
     ev = F.evidence_for(host, name)
     text = ev.get("text") or {}
@@ -627,8 +637,10 @@ def read_entity(c, host, name, cap_chunks=None):
     if unanswered:
         return out
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1, ensure_ascii=False)
+    silence.replace_retry(tmp, path)
     return out
 
 

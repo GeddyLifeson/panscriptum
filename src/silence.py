@@ -184,6 +184,26 @@ def main():
 
 
 
+def replace_retry(tmp, dst, attempts=5):
+    """os.replace with a short retry, because on Windows the rename is DENIED while any
+    reader holds the target open -- and this project's state files all have readers on their
+    own clocks (the dashboard polls records and ASSAYS, standards scans readfeats). One such
+    collision took an assay worker down mid-batch (2026-08-23, WinError 5). A brief backoff
+    outwaits any honest reader; persistent denial is recorded, never raised -- the caller's
+    write lands next round."""
+    import time as _t
+    for a in range(attempts):
+        try:
+            os.replace(tmp, dst)
+            return True
+        except PermissionError:
+            if a == attempts - 1:
+                note("replace-denied:" + os.path.basename(dst))
+            else:
+                _t.sleep(0.3 * (a + 1))
+    return False
+
+
 # --------------------------------------------------------------------------- the recorder
 
 _ATEXIT_ARMED = False

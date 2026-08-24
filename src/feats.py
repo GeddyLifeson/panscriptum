@@ -645,8 +645,17 @@ def evidence_for(host, name, cache=True):
     path = os.path.join(CACHE, re.sub(r"[^A-Za-z0-9]+", "_", host)[:40],
                         re.sub(r"[^A-Za-z0-9]+", "_", name)[:80] + ".json")
     if cache and os.path.exists(path):
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
+        # Self-healing, same as read.py's cache: a truncated file (kill mid-write) must be
+        # re-earned, never allowed to permanently masquerade as the entity's evidence.
+        try:
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            silence.note("feats.py:corrupt-cache")
+            try:
+                os.remove(path)
+            except OSError:
+                pass
 
     # A SOURCE WITH NO WIKI IS READ FROM ITS OWN PAGES.
     #
@@ -702,8 +711,10 @@ def evidence_for(host, name, cache=True):
            "chars_read": sum(len(v) for v in pages.values()),
            "feats": feats, "quantities": quants, "gate_rejected": rej, "text": text}
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1, ensure_ascii=False)
+    silence.replace_retry(tmp, path)
     return out
 
 

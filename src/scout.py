@@ -239,6 +239,7 @@ def sweep(limit=None, register=True):
     try:
         prev = json.load(open(LOG, encoding="utf-8")) if os.path.exists(LOG) else []
     except Exception:
+        silence.note("scout.py:241")
         prev = []
     prev.append({"at": time.strftime("%Y-%m-%d %H:%M"), "results": results})
     with open(LOG, "w", encoding="utf-8") as f:

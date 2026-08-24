@@ -57,6 +57,36 @@ def log(msg):
         f.write(line + "\n")
 
 
+_PROCS = {"at": 0.0, "out": ""}
+_PROCS_LOCK = None
+
+
+def _proc_lines(ttl=3.0):
+    """One process enumeration, shared. A PowerShell/WMI spawn costs hundreds of ms, and
+    `standards.check()` was calling running() twice per log file -- ~146 spawns per check, on
+    a check the dashboard polls every five seconds and the publisher runs every ten minutes
+    (found by the 2026-08-23 optimization sweep). Within the TTL every caller reads the same
+    listing; the table cannot meaningfully change faster than that."""
+    global _PROCS_LOCK
+    if _PROCS_LOCK is None:
+        import threading
+        _PROCS_LOCK = threading.Lock()
+    with _PROCS_LOCK:
+        now = time.time()
+        if now - _PROCS["at"] > ttl:
+            try:
+                _PROCS["out"] = subprocess.run(
+                    ["powershell", "-NoProfile", "-Command",
+                     "Get-CimInstance Win32_Process -Filter \"Name='python.exe' or "
+                     "Name='pythonw.exe'\" | "
+                     "ForEach-Object { $_.ProcessId.ToString() + '|' + $_.CommandLine }"],
+                    capture_output=True, text=True, timeout=60, creationflags=_NO_WIN).stdout
+                _PROCS["at"] = now
+            except Exception:
+                silence.note("overnight.py:proc-lines")
+        return _PROCS["out"]
+
+
 def running(fragment):
     """Is a python process already running this script?
 
@@ -68,14 +98,8 @@ def running(fragment):
     itself, and any command that merely MENTIONED a stage's filename counted as that stage
     running. It would have skipped every stage it was built to run.
     """
-    try:
-        out = subprocess.run(
-            ["powershell", "-NoProfile", "-Command",
-             "Get-CimInstance Win32_Process -Filter \"Name='python.exe' or Name='pythonw.exe'\" | "
-             "ForEach-Object { $_.ProcessId.ToString() + '|' + $_.CommandLine }"],
-            capture_output=True, text=True, timeout=60, creationflags=_NO_WIN).stdout
-    except Exception:
-        silence.note("overnight.py:73")
+    out = _proc_lines()
+    if not out:
         return False
     mine = os.getpid()
     for ln in out.splitlines():
@@ -88,6 +112,7 @@ def running(fragment):
             # blank, continuation), present on every call by construction. Noting it filed
             # 35,806 ledger entries in two hours and buried every real failure class under a
             # probe artefact. Routine expected structure is skipped, not recorded.
+            silence.note("overnight.py:86")
             continue
         # Normalise separators so a relative and an absolute invocation compare equal.
         if fragment in cmd.replace("\\", "/").split("/")[-1] or fragment in cmd:
@@ -124,6 +149,7 @@ def run(name, args, logfile, timeout_h=6):
             p = subprocess.Popen([PY, "-u"] + args, cwd=HERE, stdout=fh,
                                  stderr=subprocess.STDOUT, env=env,
                                  creationflags=NO_WINDOW)
+            _PROCS["at"] = 0.0    # the table just changed; the shared cache must not deny it
             p.wait(timeout=timeout_h * 3600)
         el = time.time() - t0
         log(f"  {name}: finished rc={p.returncode} in {el/60:.0f}m")
@@ -158,6 +184,7 @@ def start(name, args, logfile):
     p = subprocess.Popen([PY, "-u"] + args, cwd=HERE, stdout=fh,
                          stderr=subprocess.STDOUT, env=env,
                          creationflags=NO_WINDOW)
+    _PROCS["at"] = 0.0    # the table just changed; the shared cache must not deny it
     return {"name": name, "proc": p, "fh": fh, "t0": time.time()}
 
 
@@ -201,6 +228,7 @@ def foreman_report():
         with open(path, encoding="utf-8") as f:
             rounds = json.load(f)
     except Exception:
+        silence.note("overnight.py:203")
         return
     if not rounds:
         return
@@ -227,6 +255,7 @@ def watch_report(top=6):
         with open(path, encoding="utf-8") as f:
             d = json.load(f)
     except Exception:
+        silence.note("overnight.py:229")
         return
     open_f = [v for v in (d.get("findings") or {}).values() if v.get("state") == "open"]
     if not open_f:
@@ -251,6 +280,7 @@ def ledger_report(top=8):
         with open(path, encoding="utf-8") as f:
             d = json.load(f)
     except Exception:
+        silence.note("overnight.py:253")
         return
     if not d:
         return
@@ -418,6 +448,15 @@ def main():
         # idle while 33,000 new Marvel entries waited for entrypass judgment. The phases ARE
         # the GPU's job now. running() guards the singleton as everywhere else.
         start("pipeline", [os.path.join(SRC, "pipeline.py")], "pipeline_auto.log")
+        # PROSE RUNS ITSELF. phase_write builds the manifest and used to end with a log line
+        # telling a PERSON to run generate.py -- an instruction to a human inside an
+        # automation (found by the 2026-08-23 sweep). generate is resumable and exits in
+        # seconds when nothing is pending, so starting it every cycle is idle-cheap; when
+        # phase 8 has produced work, this is what writes the books.
+        manifest = os.path.join(HERE, "output", "index", "manifest.json")
+        if os.path.exists(manifest):
+            start("prose", [os.path.join(SRC, "generate.py"), "--manifest", manifest],
+                  "prose_auto.log")
         roll = start("roll", [os.path.join(SRC, "feats.py"), "--roll", "--workers", "12"],
                      LN.ROLL)
 

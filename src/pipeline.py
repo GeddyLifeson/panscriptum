@@ -52,6 +52,7 @@ import sys
 import time
 import traceback
 import urllib.request
+import silence
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RECORDS = os.path.join(HERE, "data/records")
@@ -73,7 +74,6 @@ HANDOFF = os.path.join(HERE, "handoff/RUN_STATUS.md")
 
 sys.path.insert(0, os.path.dirname(__file__))
 import yaml  # noqa: E402
-import silence
 
 # A regex escape arriving as a literal control character matches nothing and fails SILENTLY.
 # A word-boundary escape written through a shell heredoc has arrived here as a 0x08 backspace
@@ -154,7 +154,7 @@ def save_state(st):
     tmp = STATE + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(st, f, indent=2, ensure_ascii=False)
-    os.replace(tmp, STATE)  # atomic: a crash mid-write must not corrupt the resume point
+    silence.replace_retry(tmp, STATE)  # atomic; retried, readers poll this file
 
 
 def cfg():
@@ -263,6 +263,44 @@ def records():
     return out
 
 
+def write_record_catalogue(path, rec):
+    """The CATALOGUE's side of the two-writer contract; write_record below is the pipeline's.
+
+    Direction matters, and one merge cannot serve both writers: write_record keeps the DISK
+    entry list because the pipeline's in-memory copy is the stale side. The catalogue is the
+    opposite case -- its fresh cast IS the authority -- and routing it through write_record
+    would have discarded a 30,207-entry re-catalogue in favour of the 1,051 stale entries on
+    disk (caught during the 2026-08-23 audit before any catalogue ever did it; they were
+    writing raw, non-atomically, which was its own hazard). Here rec's entry LIST wins, the
+    disk copy's per-entry judgments (bands, scale notes, topics) are preserved onto matching
+    names, and disk-only entries are kept -- a merge never shrinks a cast.
+    """
+    try:
+        with open(path, encoding="utf-8") as f:
+            disk = json.load(f)
+        by = {e.get("name"): e for e in rec.get("entries") or [] if isinstance(e, dict)}
+        for de in disk.get("entries") or []:
+            if not isinstance(de, dict):
+                continue
+            se = by.get(de.get("name"))
+            if se is None:
+                rec.setdefault("entries", []).append(de)
+                continue
+            for fld in ("category", "scale_note", "scale_note_rejected",
+                        "magnitude", "topic", "catalogued"):
+                dv, sv = de.get(fld), se.get(fld)
+                if dv and (not sv or sv == "unassayed"):
+                    se[fld] = dv
+    except FileNotFoundError:
+        pass
+    except Exception:
+        silence.note("pipeline.py:write_record_catalogue")
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(rec, f, indent=2, ensure_ascii=False)
+    silence.replace_retry(tmp, path)
+
+
 def write_record(path, rec):
     """Write a record back WITHOUT clobbering a concurrent writer's work.
 
@@ -299,13 +337,14 @@ def write_record(path, rec):
             log(f"    write_record: {os.path.basename(path)} drifted on disk "
                 f"({len(rec.get('entries') or [])} -> {len(disk['entries'])} entries); merged")
     except FileNotFoundError:
+        silence.note("pipeline.py:301")
         pass
     except Exception:
         silence.note("pipeline.py:write_record-merge")
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(merged, f, indent=2, ensure_ascii=False)
-    os.replace(tmp, path)
+    silence.replace_retry(tmp, path)
 
 
 # ------------------------------------------------------------------------------- phase 1
@@ -805,6 +844,18 @@ def phase_entrypass(c, st):
                 # band does real damage: it files an ordinary character beside a god.
                 if not sn:
                     band = "unassayed"
+                # A FICTION CANNOT BE OUT-SCALED BY ITS OWN INHABITANT -- the same clamp the
+                # assay applies from SCOPE.json, here against this record's own synthesis
+                # band. Without it the two passes could disagree forever: allsweep's band
+                # reconcile found Starkiller Base at M5 inside an M4 source the night this
+                # was added (2026-08-23).
+                syn = re.match(r"^(M(?:10|[0-9]))\b",
+                               str((rec.get("synthesis") or {}).get("provisional_magnitude")
+                                   or ""))
+                if band != "unassayed" and syn:
+                    order = ["M%d" % n for n in range(11)]
+                    if order.index(band) > order.index(syn.group(1)):
+                        band = syn.group(1)
                 batch[i]["magnitude"] = band
 
                 topic = (res.get("topic") or "").strip()
@@ -940,7 +991,7 @@ python3 src/pipeline.py --status   # no work, just report
 record files; that happened on 2026-08-21 and the records survived by luck. Check before starting:
 
 ```
-powershell -Command "Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | Select CommandLine"
+powershell -Command "Get-CimInstance Win32_Process -Filter \"Name='python.exe' or Name='pythonw.exe'\" | Select CommandLine"
 ```
 """
         os.makedirs(os.path.dirname(HANDOFF), exist_ok=True)

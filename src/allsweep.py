@@ -42,6 +42,7 @@ import glob
 import json
 import os
 import subprocess
+import silence
 # Windows: a child process spawned from a windowless (pythonw) parent ALLOCATES ITS OWN
 # CONSOLE unless told not to. Under the old console launcher every subprocess inherited a
 # hidden console and nobody noticed; under pythonw each powershell/wmic/python child
@@ -54,7 +55,6 @@ import time
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(HERE, "src")
 sys.path.insert(0, SRC)
-import silence                                                          # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
@@ -138,6 +138,7 @@ def run_verifier(item):
                 "seconds": round(time.time() - t, 1),
                 "tail": [ln for ln in out.strip().splitlines() if ln.strip()][-14:]}
     except subprocess.TimeoutExpired:
+        silence.note("allsweep.py:140")
         return {"check": label, "rc": None, "crashed": False, "timeout": True,
                 "seconds": round(time.time() - t, 1), "tail": ["timed out after 30 minutes"]}
     except Exception as e:

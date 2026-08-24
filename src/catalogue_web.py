@@ -264,6 +264,7 @@ def main():
             with open(os.path.join(HERE, "data", "COMPLETENESS.json"), encoding="utf-8") as f:
                 comp = json.load(f)
         except Exception:
+            silence.note("catalogue_web.py:266")
             raise SystemExit("--shortfall needs data/COMPLETENESS.json; run completeness.py")
         gap = {}
         for c in comp:
@@ -322,9 +323,10 @@ def main():
                 tally["failed"] += 1
                 return
             record["category"] = r.get("category")
-            with open(os.path.join(RECORDS, slug(name) + ".json"), "w",
-                      encoding="utf-8") as f:
-                json.dump(record, f, indent=2, ensure_ascii=False)
+            # Atomic + judgment-preserving: the raw truncating write here raced the pipeline
+            # phases and a SIGTERM mid-dump left corrupt JSON (2026-08-23 audit, finding 3).
+            import pipeline as _P
+            _P.write_record_catalogue(os.path.join(RECORDS, slug(name) + ".json"), record)
             roll_by_name[name]["entry_count"] = len(record["entries"])
             roll_by_name[name]["status"] = "catalogued"
             save_roll(roll)

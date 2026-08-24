@@ -71,6 +71,7 @@ def _num(s):
     try:
         return int(str(s).replace(",", ""))
     except Exception:
+        silence.note("dashboard.py:73")
         return 0
 
 
@@ -294,7 +295,7 @@ def movement(now_state):
         tmp = HISTORY + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(hist, f)
-        os.replace(tmp, HISTORY)
+        silence.replace_retry(tmp, HISTORY)
     except Exception:
         silence.note("dashboard.py:movement")
         return []
@@ -334,6 +335,7 @@ def metrics(tail_bytes=250_000):
                 if isinstance(r, dict) and r.get("tag"):
                     rows.append(r)
             except Exception:
+                silence.note("dashboard.py:336")
                 pass
     except Exception:
         silence.note("dashboard.py:metrics")

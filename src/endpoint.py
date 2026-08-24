@@ -332,6 +332,7 @@ def register(source, urls):
         with open(PAGES_FILE, encoding="utf-8") as f:
             d = json.load(f)
     except Exception:
+        silence.note("endpoint.py:334")
         d = {}
     d[source] = sorted(set((d.get(source) or []) + list(urls)))
     os.makedirs(os.path.dirname(PAGES_FILE), exist_ok=True)

@@ -38,13 +38,13 @@ import os
 import re
 import sys
 import glob
+import silence
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rigor as RG                                                      # noqa: E402
 import weave_index as WI                                                # noqa: E402
 import identity as ID                                                   # noqa: E402
-import silence
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
@@ -113,11 +113,34 @@ def write_result(edges, res, unmatched=None):
     return out
 
 
+HARVEST_IDX = os.path.join(HERE, "state", "chain_harvest_idx.json")
+
+
 def harvest():
-    """Every mined feat sentence that reads like a contest outcome."""
-    rows, seen = [], set()
+    """Every mined feat sentence that reads like a contest outcome.
+
+    INCREMENTAL. The feats corpus is ~56,000 files and ~900MB, and this re-parsed all of it
+    every pipeline cycle to re-derive contests that only grow between runs (2026-08-23
+    optimization sweep: minutes of I/O per cycle). The index keeps, per file, its mtime and
+    the contest rows it yielded; only files newer than their indexed mtime are re-opened.
+    Deleting the index file is always safe -- the next run rebuilds it whole."""
+    try:
+        with open(HARVEST_IDX, encoding="utf-8") as f:
+            idx = json.load(f)
+    except Exception:
+        idx = {}
+    live, changed = set(), 0
     for base in ("readfeats", "feats"):
         for fp in glob.glob(os.path.join(HERE, "data", base, "**", "*.json"), recursive=True):
+            rel = os.path.relpath(fp, HERE)
+            live.add(rel)
+            try:
+                mt = os.path.getmtime(fp)
+            except OSError:
+                continue
+            cached = idx.get(rel)
+            if cached and cached.get("mt") == mt:
+                continue
             try:
                 with open(fp, encoding="utf-8") as f:
                     d = json.load(f)
@@ -126,21 +149,40 @@ def harvest():
                 continue
             ent = d.get("entity")
             host = d.get("host") or os.path.basename(os.path.dirname(fp)).replace("_", ".")
+            found = []
             for x in (d.get("feats") or []):
                 t = x.get("feat") or ""
                 if not OUTCOME.search(t):
                     continue
-                k = (ent, t[:120])
-                if k in seen:
-                    continue
-                seen.add(k)
                 # The page a sentence was mined from carries the branch it belongs to. Keeping
                 # it here is what lets an Earth-616 win stay an Earth-616 win instead of being
                 # averaged into a being no source recorded.
                 page = x.get("page", "")
                 _, cont = ID.identify(page, host)
-                rows.append({"entity": ent, "sentence": t, "page": page,
-                             "host": host, "continuity": cont})
+                found.append({"entity": ent, "sentence": t, "page": page,
+                              "host": host, "continuity": cont})
+            idx[rel] = {"mt": mt, "rows": found}
+            changed += 1
+    # A file that vanished takes its contests with it -- an index must never outlive its corpus.
+    for rel in [k for k in idx if k not in live]:
+        del idx[rel]
+        changed += 1
+    if changed:
+        try:
+            tmp = HARVEST_IDX + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(idx, f, ensure_ascii=False)
+            silence.replace_retry(tmp, HARVEST_IDX)
+        except Exception:
+            silence.note("chain.py:harvest-idx")
+    rows, seen = [], set()
+    for rel in sorted(idx):
+        for r in idx[rel].get("rows", []):
+            k = (r.get("entity"), (r.get("sentence") or "")[:120])
+            if k in seen:
+                continue
+            seen.add(k)
+            rows.append(r)
     return rows
 
 
@@ -250,6 +292,7 @@ def extract(rows, batch=8, limit=None, workers=8):
             try:
                 pos = int(o.get("index", 0)) - 1
             except (TypeError, ValueError):
+                silence.note("chain.py:252")
                 continue
             if not (0 <= pos < len(chunk)):
                 continue

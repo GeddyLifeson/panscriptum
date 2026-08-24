@@ -191,6 +191,7 @@ def structure(deep=True):
                             or "never catalogued" in r["finding"]
                             or "MORE THAN ONE" in r["finding"]]
     except Exception as e:
+        silence.note("overwatch.py:193")
         out["error"] = f"{type(e).__name__}: {str(e)[:90]}"
     if not deep:
         return out
@@ -200,6 +201,7 @@ def structure(deep=True):
         out["corrupt_files"] = [r["path"] + " — " + r["error"] for r in art["bad"]]
         out["files"] = art["total"]
     except Exception as e:
+        silence.note("overwatch.py:202")
         out["estate_error"] = f"{type(e).__name__}: {str(e)[:90]}"
     return out
 

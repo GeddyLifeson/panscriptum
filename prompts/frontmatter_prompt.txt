@@ -42,3 +42,10 @@ VOLUME FACTS:
 {volume_facts_json}
 
 Write the front matter now.
+
+SCALE ALTITUDE OF THE VOLUME: in the front matter's framing, name the rungs of the Scale
+Ladder this source actually occupies (Household, Village, Region, Nation, Cultural Sphere,
+World, Planar, Meta, Xeno, Omniverse) based only on the volume facts above -- a single-city
+fiction is framed at its city, a planes-spanning one at its planes. Do not restate cosmology
+that belongs to a higher rung than the source itself reaches, and do not pad a small setting
+with cosmic framing it does not have.

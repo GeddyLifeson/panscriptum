@@ -147,9 +147,25 @@ def norm(name):
     return s + "@" + keep if keep else s
 
 
+_REC_CACHE = {"sig": None, "out": None}
+
+
 def load_records():
+    """All records with entries -- cached against the directory's own signature.
+
+    63MB across 217 files (marvel.json alone is 27MB), and this was re-parsed on EVERY
+    dashboard poll and three separate times per allsweep run (2026-08-23 optimization sweep).
+    The signature is (count, max mtime), so any write anywhere in the directory invalidates.
+    Callers get the shared list: read it, never mutate it."""
+    files = sorted(glob.glob(os.path.join(RECORDS, "*.json")))
+    try:
+        sig = (len(files), max((os.path.getmtime(p) for p in files), default=0))
+    except OSError:
+        sig = None
+    if sig is not None and sig == _REC_CACHE["sig"]:
+        return _REC_CACHE["out"]
     out = []
-    for p in sorted(glob.glob(os.path.join(RECORDS, "*.json"))):
+    for p in files:
         try:
             with open(p, encoding="utf-8") as f:
                 r = json.load(f)
@@ -158,6 +174,7 @@ def load_records():
             continue
         if r.get("entries"):
             out.append(r)
+    _REC_CACHE.update({"sig": sig, "out": out})
     return out
 
 

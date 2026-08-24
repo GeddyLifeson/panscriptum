@@ -176,7 +176,8 @@ AUTH_BENCH = 4 * 3600
 
 
 LOCAL_PREFIX = "ollama:"
-_WIDEN_RR = [0]                 # round-robin cursor for the widened fallback
+_WIDEN_RR = [0]
+_RR_LOCK = threading.Lock()                 # round-robin cursor for the widened fallback
 
 # ---------------------------------------------------------------------- per-bucket pacing
 #
@@ -464,6 +465,7 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                 _pb = json.load(_f)
             paid_ok = bool(_pb.get("enabled")) and _pb.get("used", 0) < _pb.get("cap", 0)
         except Exception:
+            silence.note("cascade_bridge.py:466")
             _pb = None
         if paid_ok:
             answering = set(answering) | {b for b in
@@ -479,8 +481,11 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         # no rotation looks like from outside. The offset spreads consecutive calls across the
         # alive set; the sort still puts proven answerers ahead of unproven ones.
         if ranked:
-            off = _WIDEN_RR[0] % len(ranked)
-            _WIDEN_RR[0] += 1
+            # Locked: concurrent workers reading the same cursor both rotated to the same
+            # bucket, quietly re-creating the pinning the rotation exists to prevent.
+            with _RR_LOCK:
+                off = _WIDEN_RR[0] % len(ranked)
+                _WIDEN_RR[0] += 1
             ranked = ranked[off:] + ranked[:off]
             ranked.sort(key=lambda m: (m.bucket not in answering))
         for m in ranked:

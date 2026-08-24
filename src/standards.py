@@ -59,7 +59,6 @@ MIN_LIVE_BUCKETS = 6            # below this the pool cannot absorb even modest 
 MAX_DRY_FRACTION = 0.60         # more than this exhausted means the day's allowance is spent
 MAX_PINNED_AT_ONE = 0           # a bucket reading rpm 0/1 is a mis-learned cap, never a real one
 MAX_ETA_HOURS = 24              # the corpus read is meant to be an overnight job
-MAX_UNANSWERED = 0              # a passage nobody read must never be counted as read
 MIN_FEATS_PER_CHUNK = 0.5       # below this the reader is running but extracting nothing
 MAX_FABRICATION = 0.45          # verbatim-check rejections; above this the model is guessing
 MAX_COVERAGE_AGE_H = 6          # coverage older than this predates whatever has run since
@@ -115,6 +114,9 @@ JOB_WATCH = os.path.join(HERE, "state", "job_progress.json")
 # and the absence of a floor kept them removed.
 MIN_CATALOGUE_COVERAGE = 1.0
 MAX_STALE_MODEL_IDS = 0         # a retired model name makes a live provider read as dead
+
+
+_UNANS_CACHE = {"at": 0.0, "n": 0}
 
 
 def _s(name, holds, observed, floor, order, severity="medium", group="general"):
@@ -315,17 +317,24 @@ def check(state=None):
     # Everything above measures whether the machinery RUNS. These measure whether what it
     # produced can be believed, which is a different question and the one the library is for.
 
+    # Cached on a 2-minute clock: 531 file-opens per call, on a check the dashboard polls
+    # every five seconds, for an answer that only changes when the reader finishes an entity.
     unans_files = 0
     try:
         import glob as _g
-        for fp in _g.glob(os.path.join(HERE, "data", "readfeats", "**", "*.json"),
-                          recursive=True):
-            with open(fp, encoding="utf-8") as f:
-                head = f.read(700)
-            if '"chunks_unanswered": 0' not in head and "chunks_unanswered" in head:
-                unans_files += 1
-            elif "chunks_unanswered" not in head:
-                unans_files += 1          # written before the guard existed
+        now_m = time.time()
+        if now_m - _UNANS_CACHE["at"] < 120:
+            unans_files = _UNANS_CACHE["n"]
+        else:
+            for fp in _g.glob(os.path.join(HERE, "data", "readfeats", "**", "*.json"),
+                              recursive=True):
+                with open(fp, encoding="utf-8") as f:
+                    head = f.read(700)
+                if '"chunks_unanswered": 0' not in head and "chunks_unanswered" in head:
+                    unans_files += 1
+                elif "chunks_unanswered" not in head:
+                    unans_files += 1          # written before the guard existed
+            _UNANS_CACHE.update({"at": now_m, "n": unans_files})
     except Exception:
         silence.note("standards.py:unanswered-records")
     out.append(_s(
@@ -368,6 +377,7 @@ def check(state=None):
             with open(os.path.join(HERE, "data", "ROSTER_PURGES.json"), encoding="utf-8") as f:
                 purged = set(json.load(f))
         except Exception:
+            silence.note("standards.py:370")
             purged = set()
         foreign = [k for k, v in ra.items()
                    if isinstance(v, dict) and v.get("rate", 1) < 0.10
@@ -447,6 +457,7 @@ def check(state=None):
             age_h = (time.time() - float(reg.get("at") or 0)) / 3600
             rows = [r for r in (reg.get("results") or []) if isinstance(r, dict)]
         except Exception:
+            silence.note("standards.py:449")
             reg, age_h, rows = None, 1e9, []
         scored = [r for r in rows if r.get("status") == "SCORED"]
         bad = [r for r in scored if not r.get("consistent")]
@@ -624,7 +635,7 @@ def check(state=None):
         tmp = JOB_WATCH + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(cur, f)
-        os.replace(tmp, JOB_WATCH)
+        silence.replace_retry(tmp, JOB_WATCH)
 
         out.append(_s(
             "every running job is advancing", not stalled,
@@ -654,6 +665,7 @@ def check(state=None):
             _sk.create_connection(("community.fandom.com", 443), timeout=8).close()
             _fandom_ok = True
         except OSError:
+            silence.note("standards.py:656")
             _fandom_ok = False
         out.append(_s(
             "fandom answers this machine", _fandom_ok,
@@ -769,7 +781,15 @@ def check(state=None):
         src = open(os.path.abspath(__file__), encoding="utf-8").read()
         declared = set(_re.findall(r"^(M(?:IN|AX)_[A-Z_]+)\s*=", src, _re.M))
         body = src[src.index("def check("):]
-        dead = sorted(d for d in declared if d not in body)
+        # Comment-stripped and word-bounded: MAX_UNANSWERED read as "measured" for two
+        # independent bad reasons -- it was quoted inside a comment, and it was a prefix of
+        # the genuinely-used MAX_UNANSWERED_RECORDS. Found by the 2026-08-23 audit; either
+        # alone defeated a plain substring test.
+        body_code = chr(10).join(ln.split("#")[0] for ln in body.splitlines())
+        wordb = chr(92) + "b"      # regex word boundary built from codes -- the
+        # escaped form of this exact line was eaten by a heredoc once already
+        dead = sorted(d for d in declared
+                      if not _re.search(wordb + _re.escape(d) + wordb, body_code))
         out.append(_s(
             "every declared floor is measured", not dead, ", ".join(dead) or "all measured",
             "all measured",

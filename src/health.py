@@ -177,6 +177,10 @@ def check_api_paths():
     for h in hosts.values():
         if not h:
             continue
+        # `pages:` and `doc:` are sentinels, not hosts -- probing them as a "fandom family
+        # member" produced a false API-unreachable alarm on every preflight (found 2026-08-23).
+        if h.startswith("pages:") or h.startswith("doc:"):
+            continue
         fams.setdefault("wikipedia" if "wikipedia" in h else "fandom", h)
     for fam, host in fams.items():
         d = F.api(host, {"action": "query", "meta": "siteinfo"}, retries=0)

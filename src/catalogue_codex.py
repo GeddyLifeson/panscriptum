@@ -186,9 +186,9 @@ def main():
         joined = sum(1 for e in rec["entries"] if not e["description"].startswith(e["type"]))
         print(f"  {len(rec['entries']):5d} entries ({joined} with register text)  {r['name']}")
         if not args.dry_run:
-            with open(os.path.join(RECORDS, slug(r["name"]) + ".json"), "w",
-                      encoding="utf-8") as f:
-                json.dump(rec, f, indent=2, ensure_ascii=False)
+            import pipeline as _P
+            _P.write_record_catalogue(
+                os.path.join(RECORDS, slug(r["name"]) + ".json"), rec)
             r["entry_count"] = len(rec["entries"])
             r["status"] = "catalogued"
 

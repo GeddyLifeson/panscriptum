@@ -157,6 +157,7 @@ def mine(source):
         with open(state_p, encoding="utf-8") as f:
             state = json.load(f)
     except Exception:
+        silence.note("ingest_doc.py:159")
         state = {"next": 0, "found": 0}
 
     # Chunk on page boundaries so a citation's page label survives.
@@ -190,13 +191,14 @@ def mine(source):
             # PATIENCE, NOT ABANDONMENT. Against an evening pool the first launch of this
             # died on chunk 1 of 252 -- an honest stop, but a 5-minute nap and another try is
             # what the free-tier tide actually calls for; the midnight window reset feeds it.
-            # A dozen consecutive misses means something structural, and THEN it stops.
+            # Sixty consecutive misses (~5 hours) outlasts any daily-window drought;
+            # only something structural survives that long, and THEN it stops.
             misses += 1
-            if misses >= 12:
-                print("  chunk %d/%d: 12 consecutive misses; stopping (resumable)"
+            if misses >= 60:
+                print("  chunk %d/%d: 60 consecutive misses (~5h); stopping (resumable)"
                       % (ci + 1, len(chunks)))
                 break
-            print("  chunk %d/%d: no transport; napping 300s (miss %d/12)"
+            print("  chunk %d/%d: no transport; napping 300s (miss %d/60)"
                   % (ci + 1, len(chunks), misses))
             time.sleep(300)
             continue

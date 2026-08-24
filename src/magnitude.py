@@ -937,10 +937,11 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
             silence.note("magnitude.py:resume")
             done = {}
 
-    todo = [(h, n, ch) for h, n, ch in queue(host, limit)
+    all_q = queue(host, limit)                 # 13MB sweep parsed ONCE, not twice
+    todo = [(h, n, ch) for h, n, ch in all_q
             if not settled(done.get(h + "|" + n))]
     print("queue: %d entities, %d already assayed, %d to do"
-          % (len(queue(host, limit)), len(done), len(todo)))
+          % (len(all_q), len(done), len(todo)))
     lock = threading.Lock()
     tally = {"n": 0, "scored": 0, "band_only": 0}
 
@@ -962,7 +963,20 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
             tmp = OUT + ".tmp"
             with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(done, f, ensure_ascii=False)
-            os.replace(tmp, OUT)
+            # On Windows os.replace is DENIED while any reader holds the target open --
+            # the dashboard and settled() both read ASSAYS.json on their own clocks, and
+            # one collision took a worker down mid-batch (2026-08-23, WinError 5). A short
+            # retry outwaits any honest reader; a result that still cannot land is requeued
+            # by settled() next run rather than lost.
+            for attempt in range(5):
+                try:
+                    os.replace(tmp, OUT)
+                    break
+                except PermissionError:
+                    if attempt == 4:
+                        silence.note("magnitude.py:assays-replace")
+                    else:
+                        time.sleep(0.3 * (attempt + 1))
             if tally["n"] % 10 == 0 or tally["n"] == len(todo):
                 print("   %5d/%d   scored %d   no-number %d"
                       % (tally["n"], len(todo), tally["scored"], tally["band_only"]),

@@ -139,9 +139,9 @@ def main():
         }
         written.append((r, record))
         if not args.dry_run:
-            with open(os.path.join(RECORDS, slug(source_name) + ".json"), "w",
-                      encoding="utf-8") as f:
-                json.dump(record, f, indent=2, ensure_ascii=False)
+            import pipeline as _P
+            _P.write_record_catalogue(
+                os.path.join(RECORDS, slug(source_name) + ".json"), record)
             r["entry_count"] = len(entries)
             r["status"] = "catalogued"
 

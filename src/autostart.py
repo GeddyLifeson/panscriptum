@@ -129,6 +129,7 @@ def _twin_watchdog():
             capture_output=True, text=True, timeout=60,
             creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)).stdout
     except Exception:
+        silence.note("autostart.py:131")
         return False
     me = os.getpid()
     for ln in out.splitlines():
@@ -137,6 +138,7 @@ def _twin_watchdog():
             if int(pid.strip()) == me:
                 continue
         except ValueError:
+            silence.note("autostart.py:139")
             continue
         if "autostart.py" in cmd and "--watch" in cmd:
             return True
@@ -172,6 +174,7 @@ def watch(read_hours=10):
                     f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] watchdog error: "
                             f"{type(e).__name__}{chr(10)}")
             except Exception:
+                silence.note("autostart.py:174")
                 pass
         time.sleep(CHECK_SECONDS)
 

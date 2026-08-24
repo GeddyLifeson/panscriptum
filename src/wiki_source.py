@@ -29,6 +29,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import silence
 
 UA = {"User-Agent": "Panscriptum-Cataloguer/1.0 (local library research tool)"}
 
@@ -125,7 +126,6 @@ CATEGORY_KEYWORDS = {
 
 import threading  # noqa: E402
 from concurrent.futures import ThreadPoolExecutor  # noqa: E402
-import silence
 
 _last_call = [0.0]
 _rate_lock = threading.Lock()
@@ -276,6 +276,7 @@ def resolve_wiki(source_name):
         with open(_hosts_path, encoding="utf-8") as f:
             known = json.load(f).get(source_name)
     except OSError:
+        silence.note("wiki_source.py:278")
         known = None
     if isinstance(known, str) and known.endswith(".fandom.com"):
         cands.append(known[: -len(".fandom.com")])
