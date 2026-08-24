@@ -2468,6 +2468,41 @@ check("a reasoning model's truncated generation reads as FLOW, not a wedge",
       note="the exact payload measured on 2026-08-24 that the old predicate called wedged")
 
 
+# ---- Section 19ac: a worker request is a ceiling at every value, including zero -------------
+#
+# 2026-08-24, from the first line-by-line audit of tuning.py. `workers()` promises "a caller's
+# request is treated as a CEILING, never a floor", and implemented it as
+# `min(requested, n) if requested else n`. Python truthiness then inverted the contract at
+# exactly one input: `requested=0` -- the only request that unambiguously means "run nothing" --
+# took the falsy branch and returned the full profile count. Dormant (no caller passes 0), but
+# a contract that reverses on a boundary is a trap laid for the next caller.
+import tuning as _TUNx      # noqa: E402
+
+
+class _FakeProfile:
+    """profile() stubbed, so this tests the ceiling arithmetic and not the live pool."""
+
+    def __init__(self, n):
+        self.n = n
+
+    def __call__(self, force=False):
+        _ = force
+        return {"workers": self.n, "regime": "cloud", "why": "stub"}
+
+
+_real_profile19ac = _TUNx.profile
+try:
+    _TUNx.profile = _FakeProfile(8)
+    check("a request of 0 workers is honoured as a ceiling", _TUNx.workers(0), 0,
+          note="`if requested` sent 0 down the falsy branch and returned the full profile "
+               "count -- the ceiling became a floor at the one value that meant 'none'")
+    check("no request at all still yields the profile count", _TUNx.workers(None), 8)
+    check("a request below the profile still wins", _TUNx.workers(3), 3)
+    check("a request above the profile is clamped to the profile", _TUNx.workers(99), 8)
+finally:
+    _TUNx.profile = _real_profile19ac
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

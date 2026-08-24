@@ -143,10 +143,19 @@ def workers(requested=None, force=False):
     A caller's request is treated as a CEILING, never a floor. A job asking for eight workers on
     local hardware is asking for the failure mode, and honouring that request politely is how
     the 393-entity batch scored zero.
+
+    ZERO IS A REQUEST, NOT AN ABSENCE. The test was `if requested`, so a caller asking for 0
+    workers -- the one request that unambiguously means "run nothing here" -- fell through the
+    falsy branch and received the FULL profile count instead. The ceiling promised one line
+    above became a floor of `n` in the single case where the caller wanted none. No caller
+    passes 0 today (chain.py, magnitude.py and read.py all pass a positive int), so this is
+    dormant rather than live; it is fixed because a contract that inverts itself on a boundary
+    value is exactly what the next caller will trust. `None` still means "no request" and
+    still yields the profile count. Pinned by verify_math S19ac.
     """
     p = profile(force=force)
     n = p["workers"]
-    return min(requested, n) if requested else n
+    return min(requested, n) if requested is not None else n
 
 
 def main():

@@ -1,6 +1,6 @@
 # Next Steps — priority queue for the next maintenance run
 
-*Overwritten each run; history lives in HANDOFF.md. Run #14 wrote this on 2026-08-24 ~17:50 local.*
+*Overwritten each run; history lives in HANDOFF.md. Run #15 wrote this on 2026-08-24 ~18:40 local.*
 
 **Read this first.** Four things shape what is worth doing next run:
 
@@ -9,160 +9,163 @@
    **NOT** see interactive sessions — before writing anything, check
    `git -C C:\Users\imarl\panscriptum-export log --oneline -5` and `ls -lt src/*.py | head`. If
    either shows activity in the last few minutes you are not alone, and bouncing jobs or editing
-   source is off the table. **Run #14 ended at `6fb290d` (code) + the ledger commit after it.**
-2. **[M8] FANDOM IS UNREACHABLE OVER IPv4 AND THAT IS THE OWNER'S DECISION, NOT YOURS.** Every
-   content wiki (`marvel`, `forgottenrealms`, `aneurism` — all A-record-only) times out at the
-   socket; `community.fandom.com` answers only because it is the one host with AAAA records.
-   **Do not route around it by forcing IPv6** — that evades a block the destination may have
-   applied on purpose. The *standard* is fixed and now reads red honestly. Re-measure with §1.1,
-   do not re-derive.
-3. **THE FOREMAN IS RUNNING STALE CODE ON PURPOSE, AND THERE IS A DEADLINE ON IT.** Run #14 fixed
-   `foreman._fandom_reachable` (m65) but did **not** bounce the foreman, because it was holding a
-   live `hostcheck.py --adopt` child — §2 F's exact hazard. **While the block lasts, stale and
-   fixed return the same answer, so nothing is lost.** The moment fandom answers again, the stale
-   foreman keeps the catalogue switched off for the wrong reason. See §1.2.
-4. **M7'S GATE IS FINALLY LIVE AND ITS VERDICT IS STILL OUTSTANDING.** `read.py` restarted 17:42
-   and holds **2** Ollama connections (was 9) — the gate binds. **But the discard rate is not yet
-   re-measured**, because a restarted reader replays cache first (`0 to GPU` at 10,000+ chunks/s
-   is that artefact, not health). **Reading one GPU-phase progress line is the single highest-value
-   thing you can do next run.** See §1.3.
+   source is off the table. **Run #15 ended at `5400a97` (code) + the ledger commit after it.**
+2. **M7 IS THE WHOLE JOB NEXT RUN, AND ITS VERDICT IS NO LONGER OUTSTANDING — IT IS BAD.**
+   The gate binds and the reader still discards **76% rising to 93%** of handed chunks
+   (`44 to GPU, 41 UNANSWERED`; `dropped 5554`). Run #15 **refuted** the tempting hypothesis:
+   `read.config()` reads `num_ctx` from config correctly, so read does **not** share the m66/m68
+   window defect. **Do not re-derive that.** What is left is contention against a physically
+   tighter card — see §1.1, which is the highest-value thing you can do.
+3. **WHEN A DIAGNOSTIC HANGS, THE DIAGNOSTIC IS A SUSPECT.** Run #15's whole finding came from
+   an ad-hoc "is Ollama alive" one-liner that copied the standard's own shape, hung for three
+   minutes, and had to be killed for competing with the card. It was not measuring the wedge; it
+   *was* the wedge. **Your probes run on the same machine, under the same contention, as the
+   thing you are measuring.** See §5.
+4. **THE FOREMAN IS STILL RUNNING STALE CODE ON PURPOSE AND STILL HOLDS AN `--adopt` CHILD.**
+   Verified run #15: pid **45432, parent 5420 (the foreman)**. §1.3's do-not-bounce condition is
+   LIVE. Fandom is still blocked, so stale and fixed still return the same answer and nothing is
+   lost — but the moment fandom answers, this matters.
 
 ## 1. Verify first
 
-1. **[M8 — is fandom back? Four seconds, and it is unambiguous.]** No politeness cost, TCP only:
-   ```
-   python -c "import sys;sys.path.insert(0,'src');import standards as ST;print(ST.fandom_ipv4_reachable())"
-   ```
-   **`(True, '<ipv4>')` means it recovered — and that makes §1.2 urgent.** `(False, '... TimeoutError')`
-   means it has not. **A fast `False` (<1s) is a THIRD answer and means something new is wrong**, not
-   a block: a block times out, it does not answer instantly. That distinction is exactly what
-   caught m65. If it recovered, the corroborating numbers are `every source is fully catalogued`
-   and `sources with a reachable wiki` on the page, and `probe_failures` in `data/COMPLETENESS.json`
-   (run #14: **164 of 164 rows unmeasurable**).
-2. **[m65 — bounce the foreman ONLY when §1.1 says fandom is back, and check the child first.]**
-   ```
-   powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like '*adopt*' } | ForEach-Object { '{0} parent={1}' -f $_.ProcessId, $_.ParentProcessId }"
-   ```
-   **An `--adopt` child under the foreman's PID means DO NOT BOUNCE** — the orphan rewrites
-   `WIKI_HOSTS.json` from a stale snapshot (m42's paper trail, and m42 has held `202 / 191 /
-   451703b8` for nine runs; do not be the run that loses it). No child = bounce is safe; the
-   keeper restores the foreman within 5 minutes.
-3. **[M7 — the verdict. Read the reader's OWN log, never a status summary.]**
+1. **[M7 — THE MEASUREMENT THAT DECIDES THE FIX. Do this before anything else.]** The question
+   is no longer "is it bleeding" but "which of two causes". Read the reader's own log first —
+   **ignore any line reading `0 to GPU`, that is cache replay**:
    ```
    tail -3 state/read_auto.log
    ```
-   The progress line ends `(N to GPU, M UNANSWERED, not cached)`. **Ignore any line reading
-   `0 to GPU` — that is cache replay.** Wait for N to be non-trivial, then M/N is the verdict:
-   run #13 measured **94.6%** and anything above ~20% means it is still bleeding. Corroborate
-   with the connection count, which must sit at `GATE_LOCAL_N` (2), not 9:
+   Then get the physical picture in one shot:
+   ```
+   ollama ps
+   ```
+   **Run #15 measured `qwen3:8b` at 12288 context occupying 8.0 GB of a 10 GB card** — run #13
+   saw 4096 / 5.3 GB, so the resident window CHANGED and §2 F's long-standing question ("has the
+   12288 window ever loaded?") is now answered **yes**. Against that sit `OLLAMA_NUM_PARALLEL=2`,
+   read's `GATE_LOCAL_N=2`, **plus** `pipeline` and `overwatch` each holding a live connection:
    ```
    powershell -NoProfile -Command "Get-NetTCPConnection -RemotePort 11434 -State Established -ErrorAction SilentlyContinue | Group-Object OwningProcess | ForEach-Object { $p=Get-Process -Id $_.Name -ErrorAction SilentlyContinue; '{0,-8} {1,-16} conns={2}' -f $_.Name, ($(if($p){$p.ProcessName}else{'?'})), $_.Count }"
    ```
-   **`read.py` is NOT keeper-restored.** If it is down, check WHY before restarting: run #14's
-   restart was justified because the supervisor's own lap had ended it (`rc=15 in 490m`) and was
-   blocked in a 4-hour roll join, so there was no live reader to interrupt and no downtime cost.
-   That reasoning is the precedent — **not** a standing licence to bounce a working reader.
-4. **[the keeper did not fire within its five minutes, and that is worth one look.]** Run #14
-   bounced `dashboard` and `publish` at ~17:33 and the keeper had not restored them by 17:40,
-   though it logged normally at 17:07 and 17:12. The keeper is a daemon thread on a flat
-   `time.sleep(300)` loop (`overnight.py:462`), so it should have. **Is the supervisor's keeper
-   thread still alive, or did it die inside a `start()` while the main lap sits in
-   `join(roll, timeout_h=4)`?** Cheap check — bounce nothing, just watch:
+   **Four claimants, two slots, and read's 360s deadline.** The decisive experiment is cheap and
+   nobody has run it: **time a probe at the resident window while the reader is in a GPU phase,
+   and again after pausing `overwatch`.** Run #15 measured 32.9s for an 8-token generation under
+   full load and 1.5s minutes later — *a 20x spread on the same call*, which is queue wait, not
+   compute. If read's chunks are simply queueing past 360s, the fix is arbitration
+   (`gpu_lane`, §2 H) or fewer standing claimants, **not** a longer timeout — a longer timeout
+   buys the same discard later.
+2. **[M7's other half — is a dropped chunk recoverable?]** Still §2 C, and now urgent rather than
+   theoretical: **5,554 chunks** are logged `UNANSWERED, not cached` and no later pass knows to
+   look at them again. **Even a perfect capacity fix does not get those back.** Whatever else
+   happens, decide whether the drop should be *recorded* so a later pass can retry.
+3. **[m65 — bounce the foreman ONLY when fandom is back, and check the child first.]** Unchanged
+   and re-verified run #15 — **there IS a live `--adopt` child (45432 under 5420)**:
    ```
-   tail -6 state/overnight.log
+   powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like '*adopt*' } | ForEach-Object { '{0} parent={1}' -f $_.ProcessId, $_.ParentProcessId }"
    ```
-   A `keeper:` line newer than the last job death means it is alive. **If it is dead, every
-   "the keeper restores it within 5 minutes" claim in these ledgers is false** and a lot of
-   run-planning rests on it. Note also: `overnight.start()` inherits `sys.executable`, so jobs
-   restarted from a maintenance run appear as `python.exe` where the supervisor's are
-   `pythonw.exe`. Cosmetic — `running()` matches the command line — but do not read it as a double.
-5. **[M4 — money]** Must print `598 False False True`:
+   An `--adopt` child under the foreman's PID means **DO NOT BOUNCE** — the orphan rewrites
+   `WIKI_HOSTS.json` from a stale snapshot (m42's paper trail; m42 has now held `202 / 191 /
+   451703b8` for a **tenth** run — do not be the run that loses it).
+4. **[M8 — is fandom back? Four seconds, TCP only, no politeness cost.]**
    ```
-   python -c "import sys;sys.path.insert(0,'src');import json,cascade_bridge as c;pb=json.load(open('state/PAID_BURST.json'));print(pb['used'],pb.get('enabled'),c.paid_lane_open(pb),c.PAID_LANE_RETIRED)"
+   python -c "import sys;sys.path.insert(0,'src');import standards as ST;print(ST.fandom_ipv4_reachable())"
    ```
-6. **[m42 — hosts]** `WIKI_HOSTS.json` should still hold **202 bindings, 191 non-empty**, md5
-   `451703b8`. Held for a **ninth** run. A DROP means a stale writer won (see §1.2).
-7. **[m40 — the roster, and it is MOVING again]** Run #14: **71 rounds / 68 findings**, up from
-   70/66. **Run #13's call was right**: flat was a symptom of M7, not an overwatch bug, and it
-   un-flattened as soon as the reader stopped holding the card. Only a number going DOWN is a bug.
-   ```
-   python -c "import json;d=json.load(open('data/OVERWATCH.json',encoding='utf-8'));print(d['rounds'],len(d['findings']))"
-   ```
-8. **[preflight — 2 FAILs now, not 3]** "entries stranded in closed batches" is **GONE**, which
-   §1.11 of the last queue pre-registered as "0 = the rung recovered". The remaining two are
-   `API paths per host family` (**this is M8, not a separate bug**) and `feats/www_dandwiki_com:
-   all 200 sampled entries empty` (that is M1, the dandwiki 403).
-9. **[m64 — publishing]** CLOSED and now permanent (`pipeline.py` restarted 17:12:54). Wants
-   `(True, 'ledger')` in ~0.0s; **a multi-second answer means the live probe is back**:
+   **`(True, '<ipv4>')` means it recovered — and that makes §1.3 urgent.** Run #15 got
+   `(False, '172.66.2.166 TimeoutError')` in **16.0s**. **Read the latency, not just the
+   boolean**: a slow False is a block; a fast False (<1s) is a THIRD answer meaning something new
+   is wrong. That distinction caught m65.
+5. **[m66/m67/m68 — the fixes are live; confirm they stayed live.]** Wants `(True, 'ledger')` in
+   ~0.0s, or a **fast** number if the ledger is quiet. **A multi-minute answer means a hardcoded
+   window is back:**
    ```
    python -c "import sys,time;sys.path.insert(0,'src');import standards as ST;t=time.time();print(ST.ollama_token_flow(),'%.1fs'%(time.time()-t))"
    ```
-   The 120 `! [rejected] ... (fetch first)` lines in `publish.log` were the **doubled publisher
-   racing itself**, now resolved to one — not a credential fault. A gap of more than ~20 minutes
-   between export commits means the standing `--loop 10` is wedged again.
+   `verify_math` §19ab now fails the whole battery if any module hardcodes a `num_ctx` inside an
+   `options` dict, so this should be structurally impossible — **that check going red is the
+   real alarm**, not this one-liner.
+6. **[M4 — money]** Must print `598 False False True`:
+   ```
+   python -c "import sys;sys.path.insert(0,'src');import json,cascade_bridge as c;pb=json.load(open('state/PAID_BURST.json'));print(pb['used'],pb.get('enabled'),c.paid_lane_open(pb),c.PAID_LANE_RETIRED)"
+   ```
+7. **[m40 — the roster]** Run #15: **71 rounds / 68 findings**, flat against run #14. Flat is not
+   a fault; **only a number going DOWN is a bug.**
+   ```
+   python -c "import json;d=json.load(open('data/OVERWATCH.json',encoding='utf-8'));print(d['rounds'],len(d['findings']))"
+   ```
+8. **[preflight — still exactly 2 FAILs, and both are owner-facing, not new bugs]**
+   `API paths per host family` (**this is M8**) and `feats/www_dandwiki_com: all 200 sampled
+   entries empty` (**this is M1**). Unchanged run #14 → #15. A THIRD FAIL is the finding.
+9. **[the keeper — ANSWERED, do not re-investigate.]** Run #14 doubted it; run #15 caught it
+   working: `state/overnight.log` shows `18:33:02 keeper: pipeline was down mid-cycle` followed by
+   the restart. **The keeper thread is alive.** Run #14's seven-minute wait was a slow round, not
+   a dead thread. Treat "restored within five minutes" as roughly true again.
+10. **[the transient `publish.py` red — one look, no chase.]** The 18:12 page showed
+    `every managed job is running: publish.py` red, but minutes later all five returned `True`
+    from `overnight.running()` and publish had been up since 17:40 pushing normally. **Recorded
+    as unexplained because it did not reproduce.** If it appears again, suspect `_proc_lines()`
+    returning empty or truncated under load — but do not spend on a single non-reproducing blip.
 
 ## 2. Human decisions needed (owner)
 
-A. **[M8 — THE NEW ONE, AND THE ONLY ONE THAT BLOCKS REAL WORK] Is the fandom IPv4 outage a
-   block we earned, or a network fault between here and Cloudflare?** Evidence that cannot
-   separate them: all fandom content hosts share two Cloudflare IPv4 addresses and both time
-   out; the same edge answers instantly over IPv6; other IPv4 destinations are fine. If it is a
-   block, the standard's own order applies (stop fandom-facing jobs, let it age out, check
-   `wiki_source.MIN_GAP`). If it is a route fault, that is a router/ISP/Norton question.
-   **Either way, forcing IPv6 to get around it is a decision only you can make, and this run
-   deliberately did not take it.**
-B. **[M7, link 1 — still the fix for the CLASS rather than the instance] Should `tuning.regime()`
-   decide on a measured success RATE instead of bucket reachability?** It returns `"cloud"` when
-   `_answering_buckets() >= CLOUD_MIN_BUCKETS` while the live cloud rate is **4%** (the page's
-   `calls that succeed` standard is red at `4% ok` against a 50% floor). Everything downstream
-   inherits it: `_gate()` opens to 16, `profile()` and `workers()` size every job in the kit from
-   that word. **M8 is the same lesson in a second place** — reachability certified over a path
-   the callers cannot use. Same root as m59 and §5.
-C. **[M7's other half] Should a dropped chunk be recoverable?** A chunk that times out is logged
-   `UNANSWERED, not cached` and no later pass knows to look again. Even with the gate fixed,
-   timeouts will happen. Compare `write_record`'s `_landed` discipline: a write that does not
-   land keeps the unit open rather than marking it done.
-D. **[new — the stale local buckets]** The reader logs **50 `REMOVED local-<model>: HTTP 404`**
-   lines across **five** pruned models (`qwen3-30b`, `qwen3-30b-q3`, `gemma3-12b`, `qwen25-14b`,
-   `llama31`). Self-healing per process, so not a fault — but every consumer rediscovers the same
-   five absences on every start. The roster lives **outside `src/`** (Cascade's config /
-   `state/cascade_scratch.db`), so pruning it is a question, not a fix. Related: only `qwen3:8b`
-   is installed where the ledgers record nine; `read.fallback_model()` still resolves, to
-   `qwen3:8b`, so "fall back to a smaller model that fits the card" is now a **no-op rather than a
-   bug**. Confirm the prune was intentional and let the ledger say so.
-E. **[m60] Which trade for the last 22 oversized chapter blocks?** Largest rendered block
-   **46,840 chars** against a p99 of 11,978. Lower `WRITE_CHUNK` globally (8 → 4 roughly doubles
-   the call count for all 9,153 jobs to fix 0.13% — poor trade) or split adaptively only when a
-   block does not fit (better, but new machinery in `generate_job`'s loop, and `WRITE_CHUNK` was
-   tuned 30 → 10 → 8 for instruction-following reasons, not context ones).
-F. **[the `num_ctx` spread] Should every call site use ONE window?** The machine serves 4096
-   (`pipeline.py:660`, `1026`), 8192 (`magnitude.py:628`) and 12288 (generate). With
-   `OLLAMA_MAX_LOADED_MODELS = 1` and `KEEP_ALIVE = -1`, each switch evicts and reloads a 5.3 GB
-   runner. **The resident runner currently reads `context_length: 4096`, `-np 1`** — so the 12288
-   window STILL has not loaded and run #12's question is still unanswered, not answered. VRAM at
-   the 4096 runner: **8,552 MiB used / 1,502 MiB free**, which is tighter than the 7,482/2,572
-   run #13 saw. `pipeline.py:344` defends the small window on KV-cache grounds — deliberate
-   design with a stated rationale, so a QUESTION, not a fix.
-G. **[the `OLLAMA_*` variables — three constants, one physical fact]** `OLLAMA_NUM_PARALLEL = 2`
-   is the real source of truth for both `gpu_lane.MAX_SLOTS = 2` and `read.GATE_LOCAL_N = 2`, with
-   no link between them. **And the live runner is now `-np 1`**, so the environment and the runner
-   already disagree — the gate lets 2 through a card serving 1 slot. Should they read it?
-   `KEEP_ALIVE = -1` + `MAX_LOADED_MODELS = 1` are user environment variables, so the infinite
-   expiry returns on every load — **do not re-file that as a bug.**
+A. **[M8 — STILL THE ONLY ONE BLOCKING REAL WORK] Is the fandom IPv4 outage a block we earned,
+   or a network fault between here and Cloudflare?** Evidence that cannot separate them: all
+   fandom content hosts share two Cloudflare IPv4 addresses and both time out; the same edge
+   answers instantly over IPv6; other IPv4 destinations are fine. **Forcing IPv6 to get around it
+   is a decision only you can make, and runs #14 and #15 both deliberately declined to take it.**
+B. **[M7, link 1 — the fix for the CLASS] Should `tuning.regime()` decide on a measured success
+   RATE instead of bucket reachability?** It returns `"cloud"` when
+   `_answering_buckets() >= CLOUD_MIN_BUCKETS` while the live cloud rate is **42%** against a
+   50% floor (page, run #15). Everything downstream inherits it. **Same root as m59, M8, and §5.
+   Still nobody's decision but yours, and it is now the oldest open one.**
+C. **[M7's other half] Should a dropped chunk be recoverable?** See §1.2 — **5,554 and counting.**
+   Compare `write_record`'s `_landed` discipline: a write that does not land keeps the unit open
+   rather than marking it done.
+D. **[NEW — from the first `tuning.py` audit] Should `profile()`'s cloud worker count have a
+   floor of 4 when the pool has collapsed?** `tuning.py:134` is
+   `p["workers"] = max(4, min(16, n + 2))`. Because `regime()` caches for `RECHECK_SECONDS=180`
+   while `profile()` re-reads the bucket count live, a *stale* `"cloud"` label can be paired with
+   `n = 0` and still yield **4 workers against a dead pool** — structurally the "workers against
+   one card" case the module exists to prevent. The clamp is documented ("clamped 4..16"), so
+   **this is a question, not a fix.** Related, same audit: `"local"` and `"starved"` keep
+   hardcoded `workers=2`/`1` and never derive from anything — deliberate (one card, one model) or
+   oversight?
+E. **[NEW — same audit] Two cache layers compound to pin a stale regime longer than either TTL
+   advertises.** `tuning.RECHECK_SECONDS=180` and `read._GATE_STATE`'s `GATE_RECHECK_S=120` run on
+   independent clocks, so read's gate width can be up to **240s** stale, not the 120s its constant
+   implies. The audit verified this by reading both cache conditions; it did **not** instrument it
+   live, so treat the 240s as arithmetic rather than observation. Also `read.py:285` defaults
+   `_GATE_STATE["regime"]` to `"cloud"` — i.e. **open-wide before the first refresh**.
+F. **[NEW — same audit] `tuning._ollama_up()` ignores `config.yaml`'s `ollama_host`.**
+   `tuning.py:80` hardcodes `http://localhost:11434` as a default and line 119 calls it with no
+   argument, while **every** other module reads the host from config. **Currently latent** —
+   config.yaml names that same URL — so this is a small implementable item the day the host moves,
+   and a trap until then. `tuning.py` imports no config module at all today, which may be
+   deliberate dependency hygiene; that is the question.
+G. **[NEW — same audit] `CLOUD_MIN_BUCKETS` has drifted into three reimplementations.**
+   `pipeline.py:308` tests `_pool_answering() >= 3` with a **bare literal**, not
+   `tuning.CLOUD_MIN_BUCKETS`, and `foreman.py:588` and `read.py:1018` each re-read
+   `POOL_PROOF.json` on their own clocks. Change the constant and pipeline silently disagrees.
 H. **[m54 + m55, one decision] Fix the two `gpu_lane` defects, then bounce — in that order.**
-   m54: call `_touch` from inside `lane()`'s hold, or shorten the leases. m55: route the six
-   `os.remove` sites through retry-with-backoff (`replace_retry`'s pattern, adapted — that helper
-   wraps `os.replace`, not `os.remove`). **Read `gpu_lane`'s 13 silent handlers BEFORE bouncing it
-   into service** (§3.3). Restart order, cheapest first: `overwatch` and `pipeline`; **`foreman`
-   LAST and only per §1.2**; `read.py` and `feats.py --roll` are not keeper-restored.
-I. **[m56] Nine jobs still predate `gpu_lane.py` (13:59)** and `gpu_lane.status()` reported
-   `slots: []` while nine requests were in flight — the lane is arbitrating nothing.
+   **This is now M7-adjacent rather than housekeeping**: §1.1's four-claimants-two-slots picture
+   is exactly what `gpu_lane` exists to arbitrate, and **m56 says it is arbitrating nothing**
+   (`slots: []` while nine requests were in flight). m54: call `_touch` from inside `lane()`'s
+   hold, or shorten the leases. m55: route the six `os.remove` sites through retry-with-backoff.
+   **Read `gpu_lane`'s 13 silent handlers BEFORE bouncing it into service** (§3.2). Restart order,
+   cheapest first: `overwatch` and `pipeline`; **`foreman` LAST and only per §1.3**; `read.py` and
+   `feats.py --roll` are not keeper-restored.
+I. **[§2 F, PARTLY ANSWERED — update it rather than re-asking] The `num_ctx` spread.** The
+   machine still serves 4096 / 8192 / 12288 from different call sites, and with
+   `OLLAMA_MAX_LOADED_MODELS=1` each switch evicts a runner. **What changed: the 12288 window HAS
+   now loaded** (8.0 GB resident, run #15) and **the two sites that named a foreign window are
+   fixed** (m66, m68) — so the remaining spread is between *config-derived defaults* in modules
+   whose configs agree, not live disagreement. `pipeline.py:344` defends the small window on
+   KV-cache grounds. **Still a question, but a much smaller one than when it was filed.**
 J. **[m59 / m24] Should a bucket that fails N consecutive LIVE calls stand down until the next
    proof, and should the proof measure a rate rather than a single answer?** Same root as B.
+   Also: `tuning.py:105` counts a **>1h stale** `POOL_PROOF.json` at full strength and only
+   annotates the age ("Believe it, but say so"). Given m59 showed even a *fresh* proof certified
+   4-of-36 while live calls ran at 2.8%, should age discount the count rather than caption it?
 K. **[m58] Is `folder-mechanical` routing provisional?** Races and Backgrounds file under
-   "Places & Locations" across 42 sources; the shelfmark says `[UNCHARTED -- Ladder-of-Being pass
-   not yet done]`, which suggests yes — in which case it is not a bug, and the answer belongs in
-   the ledger so nobody files it again.
+   "Places & Locations" across 42 sources; the shelfmark says `[UNCHARTED]`, which suggests yes —
+   in which case it is not a bug, and the answer belongs in the ledger so nobody files it again.
 L. **[m57] The singulariser fix needs a corpus diff.** `catalogue_web.py:212` — 425 mangled
    types. Mechanical, but entry `type` feeds matching, so it needs a before/after diff of the
    whole corpus. Quiet-repo job.
@@ -173,9 +176,16 @@ M. **[the 240-char description truncation]** `pipeline.py:992` truncates every e
 N. **[m25 / m16 / dashboard `findings` cap of 12] — ONE ruling, four sites: does Hard Rule 0 bind
    diagnostics and run logs, or only reader-facing listings?** Carried since run #5. **"Does
    anything downstream act on the truncated list?" is the workable test.**
-O. **[m51]** Should `check_context_budget` cover the generate path, or be renamed to say what it
-   covers? Preflight still prints `ok context budget`.
-P. **[M4] The burst lane** — 598/500, retired structurally. Raise, delete, or leave as evidence.
+O. **[the stale local buckets]** The reader logs **50 `REMOVED local-<model>: HTTP 404`** lines
+   across five pruned models. Self-healing per process, so not a fault — but every consumer
+   rediscovers the same five absences on every start. The roster lives **outside `src/`**, so
+   pruning it is a question. Only `qwen3:8b` is installed (confirmed again run #15);
+   `read.fallback_model()` still resolves to it, so "fall back to something smaller" is a
+   **no-op rather than a bug**. Confirm the prune was intentional and let the ledger say so.
+P. **[m51]** Should `check_context_budget` cover the generate path, or be renamed to say what it
+   covers? **[m60]** Which trade for the last 22 oversized chapter blocks (largest **46,840**
+   chars against a p99 of 11,978)? **[M4]** The burst lane — 598/500, retired structurally: raise,
+   delete, or leave as evidence?
 Q. **[m48] 70 sources collide under `_norm`**; **[m47]** what a failed feats join should look
    like; the 17 stranded feats records; the 87 hybrid Powers entries; should feats be their own
    VOLUME. **[m37]** Nothing reads `data/CHAIN.json`. **[M]** `GENRES.json` / `NAVTREE.json` have
@@ -199,16 +209,18 @@ S. **`site/state.json` is stale and nothing in `src/` references `site/`** — t
 1. **[m62] Make the two `model_metrics.jsonl` appends atomic.** Five live processes append with a
    plain `open(path, "a")`; 5 lines are corrupt, three mid-record fragments. One `os.write` to an
    `O_APPEND` handle, at `cascade_bridge._metric` and `pipeline._metric`. Low exposure (0.019%).
-   **Note `standards.py:168` is a downstream symptom** — it silently `continue`s past unparseable
-   ledger lines, which is correct behaviour but means the tearing is invisible from there.
-2. **32 → 35 silent exception handlers of 395** (`python src/silence.py`). **Run #14 added none**;
-   the +3 arrived with the foreman's own `--patch` commits at 17:06–17:10, which is worth knowing:
-   **the model lane can raise this count unattended.** Concentration still matters: **`gpu_lane.py`
-   13** (105, 134, 140, 142, 144, 152, 169, 201, 256, 258, 321, 351) and **`context_budget.py` 4**
-   (246, 252, 265, 270 — fallback-to-empty-string when a prompt file cannot be read, which would
-   generate against an EMPTY system prompt rather than fail). Also open: `entity_match.py:255`,
-   `overnight.py:500` (**inside the keep-warm loop, so a keep-warm that never works is
-   invisible**), `local_agent.py:463`, `publish.py:161`, `coverage.py:92`, and `pipeline.py:1559`.
+   **Note `standards.py:186` is a downstream symptom** — it silently `continue`s past unparseable
+   ledger lines, which is correct behaviour but means the tearing is invisible from there. (That
+   line moved from 168; run #15's docstring grew above it.)
+2. **35 silent exception handlers of 397** (`python src/silence.py`). **Run #15 added net zero** —
+   one was introduced by the new §19ab scan and converted to a recorded, asserted failure before
+   it landed, which is the pattern to copy. Concentration still matters: **`gpu_lane.py` 13**
+   (105, 134, 140, 142, 144, 152, 169, 201, 256, 258, 321, 351 — **read these before §2 H**) and
+   **`context_budget.py` 4** (246, 252, 265, 270 — fallback-to-empty-string when a prompt file
+   cannot be read, which would generate against an EMPTY system prompt rather than fail). Also
+   open: `entity_match.py:255`, `overnight.py:500` (**inside the keep-warm loop, so a keep-warm
+   that never works is invisible**), `local_agent.py:157`/`475`, `publish.py:161`, `coverage.py:92`,
+   `pipeline.py:1559`, `foreman.py:625`/`643`, `health.py:143`/`245`.
 3. **`pipeline.py`'s 9 shared cross-phase JSON writes** still use raw `open+json.dump` rather than
    `_landed`/`replace_retry`. Medium surgery, 9 call sites, open since run #2. Same family as m62.
 4. **The three run #5 audit findings, still un-actioned**: `hostcheck`'s `judgeable` flag is
@@ -221,21 +233,27 @@ S. **`site/state.json` is stale and nothing in `src/` references `site/`** — t
 6. **`JOB_OVERHEAD_CHARS`'s comment does not reproduce.** It cites "min 314, median 1,193, max
    1,536 across 331 blocks"; a re-measure across 3,386 real blocks gives min 115 / median 142 /
    max 368. The constant (2,000) errs conservative — the comment is wrong, not the code.
-7. **DONE, do not redo:** m63 (five duplicate `verify_math` section labels + `BUGS.md`'s three
-   `### Major` headings — run #14, all renamed/merged); m64 (publishing, closed permanently once
-   `pipeline.py` restarted); m65 (the foreman's missing User-Agent — run #14, pinned by §19aa);
-   M8's *standard* (run #14, pinned by §19z — **the outage itself is open**); m61 (§19s); the M7
-   gate fix (§19t, and it is now LIVE); the 52,101-char manifest anomaly; the pyflakes warning;
-   m23's log truncation; the entrypass count mismatch (§19q); the `allsweep` roster (§19p).
+7. **[NEW, from the `tuning.py` audit — cosmetic]** `tuning.py:105` hardcodes `if age > 3600:`
+   inside a module whose entire premise is "the settings that should never have been constants".
+   Lift it to a named constant beside `RECHECK_SECONDS`. No behavioural consequence.
+8. **[NEW, from the `tuning.py` audit — efficiency, benign]** A "print regime, then get workers"
+   cycle re-reads `data/POOL_PROOF.json` up to **three** times within milliseconds
+   (`profile(force=True)` then `workers()`, which re-enters `profile()` with its own
+   `force=False`). Idempotent and mitigated by the atomic write, so **not** a correctness bug.
+9. **DONE, do not redo:** m66 / m67 (the token-flow probe's window AND its success predicate —
+   run #15, pinned by §19ab); m68 (`local_agent._chat`'s hardcoded 8192 — run #15, §19ab);
+   m69 (`tuning.workers()`'s zero — run #15, §19ac); m63 and m65 (run #14); m64 (publishing,
+   closed permanently); M8's *standard* (run #14, §19z/§19aa — **the outage itself is open**);
+   m61 (§19s); the M7 gate fix (§19t — live, and **insufficient**, see §1.1); the 52,101-char
+   manifest anomaly; m23's log truncation; the entrypass count mismatch (§19q).
 
 ## 4. Surface rotation for the next audit fan-out
 
-**Run #14 spawned no subagents, and like run #13 that was a choice rather than an omission** —
-the page's own opening work-list turned into two live, verified defects (M8 and m65) that were
-worth more than a rotation audit, and both were found by direct measurement rather than by
-reading code. **Rotation therefore unchanged from run #12.** One surface did shrink: `standards.py`
-and `foreman.py`'s network gates are now read line-by-line and pinned, but only those two
-functions.
+**Run #15 spawned ONE subagent — `tuning.py`, §4's named highest-yield unaudited surface — and it
+paid.** Seven findings; **one** verified into a fix (m69), **six** promoted to questions (§2 D, E,
+F, G, J and §3.7, §3.8). That ratio is the point: the audit's job is to surface candidates, and
+**verification against source is what separates them.** Two of its findings carried an explicit
+"unverified" from the agent itself, and those stayed questions.
 
 Covered, do **not** re-read unless the diff touched them: the round-1 full-codebase audit and
 evening sweep (`handoff/AUDIT_*.md`); run #2's four surfaces; run #3's two; run #5's three;
@@ -243,53 +261,58 @@ run #6's four; run #7's five; run #9's `feats_index.py` and `hostcheck`; run #10
 `manifest_builder.pack_feats` + `generate.py`'s feats branch; run #11's `system_style.txt` and
 `pipeline.py`'s `ask`/`ask_pool_first`/`phase_entrypass`; run #12's `gpu_lane.py` and
 `context_budget.py`; run #13's `read.py` transport ladder (`_ask` / `_ask_ungated` / `_local` /
-`_gate` only).
+`_gate` only); **run #15's `tuning.py` (all 169 lines)**.
 
-**Not yet audited line-by-line** — pick from here: **`tuning.py`** (link 1 of M7's chain, §2 B,
-and still nobody has read it — the highest-yield item on this list), **`entity_match.py`** (still
-the only one of the three new modules nobody has audited), **`read.py`'s chunking / caching /
-`_chunk_key` paths** (the transport ladder is covered, the rest of the file is not),
-`address_space.py`, `profile.py`, `burgs.py`, `tells.py`, `style_audit.py`, `audit.py`,
-`descending_ladder.py`, `cosmography.py`, `genre.py`, `reference.py`, `resync_roll.py`,
-`retry_synthesis.py`, `build_terminal.py`, `sweep.py`, `runguard.py`, `compress_store.py`.
+**Not yet audited line-by-line** — pick from here: **`read.py`'s chunking / caching / `_chunk_key`
+paths** (now the highest-yield item, because M7's remaining cause lives near them and the
+transport ladder above them is already covered), **`entity_match.py`** (still the only one of the
+three new modules nobody has audited), `address_space.py`, `profile.py`, `burgs.py`, `tells.py`,
+`style_audit.py`, `audit.py`, `descending_ladder.py`, `cosmography.py`, `genre.py`, `reference.py`,
+`resync_roll.py`, `retry_synthesis.py`, `build_terminal.py`, `sweep.py`, `runguard.py`,
+`compress_store.py`.
 
-**Two open overwatch HIGHs were refuted at source by run #14** — `cosmography._fmt` ("used but
-never defined" — it is defined at `cosmography.py:256`, and pyflakes is clean) and
-`descending_ladder.compton_confinement_energy` ("uses HBAR instead of hbar/2" — the code is
-`p = HBAR / (2.0 * size_m)`, which IS hbar/(2r), exactly as documented). Not hand-closed in
-`data/OVERWATCH.json`, because overwatch owns that file and auto-triage re-verifies each round.
-**Do not spend on them again.** The other two highs (`cleanup.clean_ceiling`, `silence.note`)
-read as observations rather than defects and remain unverified.
+**Two open overwatch HIGHs were refuted at source by run #14** — `cosmography._fmt` (it IS defined
+at `cosmography.py:256`) and `descending_ladder.compton_confinement_energy` (the code is
+`p = HBAR / (2.0 * size_m)`, which IS hbar/(2r) as documented). **Do not spend on them again.**
+The other two (`cleanup.clean_ceiling`, `silence.note`) read as observations rather than defects.
 
 ## 5. Lessons worth keeping
 
+- **When a diagnostic hangs, the diagnostic is a suspect.** Run #15's headline finding was
+  diagnosed by accidentally reproducing it: an ad-hoc "is Ollama alive" one-liner copied the
+  standard's own `num_ctx: 512` shape, hung for three minutes, and had to be killed for competing
+  with the card. The tool reaching for the answer *was* the bug. **Your probes run on the same
+  machine, under the same contention, as the thing they measure.**
+- **A check can manufacture the fault it reports — and inflict it on what it watches.** The
+  512-token probe did not merely misread the daemon; with `keep_alive: -1` a probe that *won* its
+  rebuild would have pinned a 512-token runner forever and forced every real caller to evict it
+  back. **Ask what a diagnostic COSTS the system, not only whether it is accurate.**
+- **One symptom can hide two independent defects, and fixing the visible one is not finishing.**
+  The same probe had the wrong window *and* the wrong success predicate. Fixing the window alone
+  would have moved it from "times out" to "completes and still reports a fault" — a change that
+  looks like progress and is not.
+- **Prove the fix by measuring the thing, not by reading the diff.** 512 → 180.1s timeout;
+  12288 → 32.9s; the repaired function end-to-end → **1.5s**. Three numbers, one machine, minutes
+  apart. **"A fix in the source is not a fix in the system" now has a companion: a fix asserted is
+  not a fix measured.**
+- **Refutations are findings and belong in the ledger.** Run #15 spent real effort on "does
+  `read.py` share the window defect?" and the answer was **no**. Written down, that saves the next
+  run the same hour. **An untested hypothesis and a refuted one look identical in a summary.**
+- **Ranking the page's reds by whether they are ACTIONABLE beats working top to bottom.** Eleven
+  reds; eight were known owner-facing states, one was transient and did not reproduce, and two
+  were real. The page is a work-list, not a task-list.
 - **A probe that lets the resolver choose is not measuring the path its callers are forced onto.**
-  M8's whole mechanism was a DNS record type: `community.fandom.com` publishes AAAA, every content
-  wiki does not, and `create_connection` stops at the first family that answers. Nothing in the
-  code or its comment could have revealed that — it took `getaddrinfo`. Generalise it: when a
-  check picks ONE representative, ask what makes that one representative, and measure the answer.
+  (M8's mechanism: a DNS record type.) **A check that certifies reachability is not a check on
+  capacity.** Now the documented root of M7, m59, §2 B and M8 — **five sites, one mistake**, and
+  m66 is its sixth cousin: a check that certified *the wrong window*.
+- **When you flip a check red, go find its consumers before you ship** — and when you fix a call
+  site, grep for the others. That is what turned m66 into m68 in one step, and it is the second
+  consecutive run where that habit paid.
 - **A fast failure and a slow failure are different findings.** m65 was caught because a gate that
-  should time out against a block returned False in **0.13 seconds**. The verdict was "correct",
-  and correct-for-the-wrong-reason is how a permanently-off gate survives. **Read the latency, not
-  just the boolean.**
-- **When you flip a check red, go find its consumers before you ship.** That search is what
-  surfaced m65 — a second gate with the same host choice and a worse defect. The inverse of the
-  lesson already on the books ("when you add a consumer of a shared file, grep the WRITERS").
-- **A fix can introduce its own exact inverse, and both belong in the same docstring.**
-  `foreman._fandom_reachable` went from "a socket is not an answer" (right) to a bare `urlopen`
-  that 403s on every call (wrong in the opposite direction), inside one morning. Neither author
-  was careless. The record is only legible if both halves sit together.
-- **Liveness is not progress.** `allsweep` said nine running lines and 0 subsystems bad while
-  `read.py` threw away 94.6% of its work for seven and a half hours. **The job's own log said so
-  on every line.** When a job's output matters, read the output, not the roster.
-- **A surprising result from a measurement you just changed is evidence about the measurement
-  first.** Two runs in a row were caught by this shape; run #14 avoided a third by checking
-  `curl.exe` against Python before blaming Norton's TLS interception — the machine's most
-  plausible-sounding culprit, and the wrong one.
-- **A fix in the source is not a fix in the system.** A Python process does not re-read its own
-  file. M7's gate sat inert for two runs; it took a restart, and the proof was a connection count,
-  not a code review. **When a ledger says a fix landed, ask what is EXECUTING it.**
-- **"The keeper restores it within five minutes" is a claim, not a guarantee** — run #14 waited
-  seven and restored two jobs by hand. See §1.4.
-- **A check that certifies reachability is not a check on capacity.** Now the documented root of
-  M7, m59, §2 B **and M8**. Four sites, one mistake.
+  should time out against a block returned False in **0.13 seconds**. Applied again run #15: the
+  fandom probe's **16.0s** False is what confirms M8 is still a block rather than something new.
+- **Liveness is not progress.** `allsweep` says 0 subsystems bad and nine jobs running while the
+  reader throws away 93% of its work. **The job's own log said so on every line.**
+- **"The keeper restores it within five minutes" is a claim** — doubted by run #14, and **verified
+  true by run #15** (`18:33:02 keeper: pipeline was down mid-cycle`). Claims in these ledgers are
+  evidence, not proof; this one survived its test.

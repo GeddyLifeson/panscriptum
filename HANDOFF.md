@@ -9,6 +9,111 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 18:40 (local) — Run #15: the wedge on the dashboard was made by the probe that reported it
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets, no money movement, no data loss.** No record was rewritten. Changes are four
+   source files (`standards.py`, `local_agent.py`, `tuning.py`, `verify_math.py`) and the
+   ledgers. The paid lane is still closed three ways (`598 / False / False / True`);
+   `WIKI_HOSTS.json` unchanged for a **tenth** run (202 bindings, 191 non-empty, md5
+   `451703b8`).
+2. **THE PAGE'S "the local model produces tokens — daemon up, generation TIMED OUT, queue is
+   wedged" WAS A FAULT THE CHECK CREATED.** `standards.ollama_token_flow`'s live probe asked
+   Ollama for `num_ctx: 512` while every real caller in the kit derives the window from
+   `config.yaml` (12288). Ollama serves a resident model at ONE context size, so that request
+   was not a small generation — it was a runner teardown and rebuild, which `gpu_lane.py`'s own
+   measured table records as *"240 s+, never completed"*. The probe could not succeed on a busy
+   machine, and it published its own timeout as a red standard. **Measured both ways, minutes
+   apart, same daemon, same load: at 512 it failed on a 180s deadline; at 12288 it completed in
+   32.9s.** End-to-end after the fix, the live arm returns `(True, 1.5)` in **1.5 seconds**.
+3. **The same probe had a second, independent defect that the window fix alone would not have
+   cured.** Its success test was `bool(response.strip())`. `qwen3` is a reasoning model: its
+   first tokens land in `thinking` and `response` stays empty until the reasoning closes, so at
+   `num_predict: 8` a *perfectly healthy* generation ends `done_reason: "length"` with
+   `response: ""`. Measured: `eval_count 8`, `thinking "Okay, the user just said"`,
+   `response ""` — which the old predicate called a dead daemon. Flow is now judged on
+   `eval_count`, which is the thing the function's own docstring says it measures.
+4. **[M8 — STILL YOURS, UNCHANGED] Fandom is still unreachable over IPv4** (`172.66.2.166
+   TimeoutError`, **16.0s** — a slow failure, so still a block and not a new fault). Nothing was
+   routed around it. The foreman was **not** bounced: it holds a live `--adopt` child (pid 45432
+   under foreman pid 5420), which is §1.2's exact do-not-bounce condition.
+5. **Run #14's open question about the keeper is answered: it is ALIVE.** `state/overnight.log`
+   shows `18:33:02 keeper: pipeline was down mid-cycle` followed by a restart. The claim "the
+   keeper restores it within five minutes" survives — run #14's seven-minute wait was a slow
+   round, not a dead thread.
+
+**What the page said, and what was actually true.** The opening diagnostic was fresh (generated
+18:12, read at 18:20) and showed **11 red standards of 39**. Three were worth the run: the local
+model reading wedged (finding 2 above — manufactured), `publish.py` reading down, and two jobs
+silent. `publish.py` was **up** when checked and all five managed jobs returned `True` from
+`overnight.running()`; that red was transient and is recorded as unexplained rather than
+diagnosed, because it did not reproduce. The other eight reds are known and owner-facing (M8's
+two, the pool's throughput and success rate, settled/roll percentages, the swallowed-failure
+floor).
+
+**The reader's verdict, finally measured, and it is bad.** `state/read_auto.log` on a real GPU
+phase (not cache replay): `(29 to GPU, 22 UNANSWERED)`, then `(44 to GPU, 41 UNANSWERED)` —
+**76% rising to 93% of handed chunks discarded**, with `dropped 5554` cumulative and
+`ollama failed after 3 tries: TimeoutError` in the log. **M7's gate fix bounded concurrency but
+did not stop the bleeding.** One hypothesis was tested and **refuted**: `read.config()` reads
+`num_ctx` from `config.yaml` correctly, so the reader is *not* the evictor and does not share
+the defect fixed above. The remaining cause is contention and VRAM — the 12288 runner now
+occupies **8.0 GB of a 10 GB card** with `OLLAMA_NUM_PARALLEL=2`, against read's gate of 2 plus
+pipeline and overwatch each holding a connection. That is not fixed and is the top item for
+run #16.
+
+**Fixed this run (all four verified at source, and by measurement where measurable):**
+
+- **[m66] `standards.ollama_token_flow` probed at a window nobody serves.** `num_ctx: 512` →
+  `int(cfg.get("num_ctx", 6144))`. Also actively harmful: the probe carries `keep_alive: -1`, so
+  a probe that ever *won* its rebuild would pin a 512-token runner forever and force every real
+  12288 caller to evict it back — a diagnostic inflicting the fault it reports on the jobs it
+  watches.
+- **[m67] The same probe judged flow by prose instead of tokens.** Now
+  `bool(eval_count) or bool(response.strip())`.
+- **[m68] `local_agent._chat` hardcoded `num_ctx: 8192`** — the same defect, same day, in the
+  delegation ladder's *own second rung*. Every local-agent task named a non-resident window and
+  paid for a rebuild, which is why that rung has been unreliable in a way nobody could pin on
+  the model's competence. Now derived from config.
+- **[m69] `tuning.workers()` inverted its own contract at zero.** The docstring promises "a
+  caller's request is treated as a CEILING, never a floor"; the code was
+  `min(requested, n) if requested else n`, so `requested=0` — the one request that
+  unambiguously means "run nothing" — took the falsy branch and got the **full** profile count.
+  Dormant (no caller passes 0) and fixed anyway. Found by the first line-by-line audit of
+  `tuning.py`.
+
+**Regression checks added — `verify_math` §19ab and §19ac, and the battery ends 491 passed, 0
+FAILED** (was 484). §19ab is deliberately **structural rather than per-site**: it walks every
+module's AST for the Ollama request-body shape (a `num_ctx` inside an `options` dict) and
+refuses a bare integer literal, so a *third* site cannot appear quietly. It was sanity-tested
+against a synthetic offender, a config-derived site, and this file's own top-level test configs
+— catching the first, clearing the other two. It also asserts that every module *parsed*, because
+a scan that silently skips an unreadable file would go green **because** something was broken.
+
+**Delegation, honestly.** Rung 1 (the bots) supplied the whole opening work-list. **Rung 2
+(Ollama) was deliberately skipped**: the local model was the very thing under investigation and
+the card was saturated, so routing work to it would have added load to a thrashing GPU and
+corrupted the measurement. Rung 3: one sonnet-tier subagent audited `tuning.py` line-by-line —
+§4's named highest-yield unaudited surface. **Its findings were verified against source before
+any action**, and only one of seven was acted on; the rest are recorded as questions in
+NEXT_STEPS, including two the audit itself marked unverified.
+
+**A note on method, because it is the run's real lesson.** The 512-token probe was diagnosed by
+*accidentally reproducing it*: an ad-hoc "is Ollama alive" check written at the start of this
+run copied the standard's own shape, hung for three minutes, and had to be killed for competing
+with the card. The bug was in the tool reaching for the answer. **When a diagnostic hangs, the
+diagnostic is a suspect** — it is running on the same machine, under the same contention, as
+the thing it is measuring.
+
+**Battery:** `verify_math` 491/0 · `allsweep` **0 subsystems bad**, all 9 jobs single-instance ·
+`health --preflight` **2 FAILs, both known and both owner-facing** (M8's fandom API paths, M1's
+dandwiki empties) — unchanged from run #14, no new breakage · `silence.py` **35 silent handlers,
+net zero added** (the one this run introduced was found and converted before it landed) ·
+`pyflakes` clean.
+
+---
+
 ## 2026-08-24 17:50 (local) — Run #14: the standard built to catch a fandom block read green through one, because the only host it asked answers over IPv6
 
 **FOR THE OWNER, AT THE TOP:**

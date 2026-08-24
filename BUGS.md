@@ -11,6 +11,23 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   LIVENESS CHECK — 1,168 of 1,235 chunks handed to the card came back UNANSWERED and uncached.**
   Found run #13 by reading `state/read_auto.log` rather than a status summary; `allsweep`
   reported **nine `running` lines and 0 subsystems bad** at the same moment.
+
+  > **UPDATE, run #15 (2026-08-24 18:30 local) — THE GATE FIX IS LIVE AND THE BLEEDING
+  > CONTINUES.** Run #14 pre-registered "read one GPU-phase progress line" as the outstanding
+  > verdict. It is now read, on real GPU traffic rather than cache replay:
+  > `(29 to GPU, 22 UNANSWERED)` then `(44 to GPU, 41 UNANSWERED)` — **76% rising to 93%
+  > discarded**, `dropped 5554` cumulative, with `ollama failed after 3 tries: TimeoutError`
+  > in the log. The gate binds (read holds `GATE_LOCAL_N`=2) and it was **not sufficient**.
+  > **One hypothesis was tested and REFUTED, so nobody re-runs it:** read.py does *not* share
+  > the m66/m68 hardcoded-window defect — `read.config()` (`read.py:522`) reads
+  > `cfg.get("num_ctx", 6144)` from `config.yaml` and therefore asks for the resident 12288.
+  > The reader is not the evictor.
+  > **What is left is contention and VRAM, and the physical numbers changed under us:** the
+  > resident runner is now `qwen3:8b` at **12288 context occupying 8.0 GB of a 10 GB card**
+  > (run #13 saw 4096 / 5.3 GB, and §2 F recorded that the 12288 window "STILL has not loaded"
+  > — it has now). Against that sit `OLLAMA_NUM_PARALLEL=2`, read's gate of 2, **plus**
+  > `pipeline` and `overwatch` each holding a live connection to 11434. Four claimants, two
+  > slots, and a 360s deadline that a queued call cannot make.
   **The chain, every link measured:**
   1. `tuning.regime()` answers `"cloud"` whenever `_answering_buckets() >= CLOUD_MIN_BUCKETS`.
      That is a REACHABILITY proof, not a capacity one — the lesson already in `NEXT_STEPS` §5
@@ -473,6 +490,70 @@ remaining item is either an outage, a decision, or a watched state.***
 ## Resolved (paper trail)
 
 *Run #12 (2026-08-24 ~15:10 local) moved three items out of Open. Full detail in HANDOFF.md.*
+
+- **[m66 — RESOLVED `5400a97`] THE TOKEN-FLOW PROBE ASKED FOR A CONTEXT WINDOW NOBODY SERVES,
+  AND PUBLISHED ITS OWN TIMEOUT AS A RED STANDARD — fixed run #15 (2026-08-24 18:25 local).**
+  **What it was.** `standards.ollama_token_flow`'s live probe hardcoded `num_ctx: 512`
+  (`standards.py:182`) while every real caller in the kit derives the window from `config.yaml`
+  (12288). Ollama serves a resident model at ONE context size, so that request was never a
+  small generation — it was a runner teardown and rebuild, which `gpu_lane.py:10-13`'s own
+  measured table records as **"240 s+, never completed"** against a queue that never drains.
+  Whenever the metrics ledger went quiet and the probe was actually reached, it timed out and
+  the page went red with *"daemon up, generation TIMED OUT — queue is wedged"* while the 12288
+  runner sat resident and served two other clients normally.
+  **The measurement.** Same daemon, same machine, same load, minutes apart: **`num_ctx: 512`
+  failed on a 180.1s deadline; `num_ctx: 12288` completed in 32.9s.** `ollama ps` showed the
+  12288 runner still resident throughout — the rebuild never won. After the fix the function's
+  live arm returns `(True, 1.5)` in **1.5 seconds**.
+  **The half worth remembering.** The probe carries `keep_alive: -1`. A probe that ever *won*
+  its rebuild would have pinned a 512-token runner **forever**, forcing every real 12288 caller
+  to evict it back. This was not merely a check that lied; it was a diagnostic that
+  manufactured the fault it reported and inflicted it on the jobs it was watching.
+  **Pinned by** `verify_math` §19ab, which is structural rather than per-site: it walks every
+  module's AST for the request-body shape (`num_ctx` inside an `options` dict) and refuses a
+  bare integer literal, so a third site cannot appear quietly.
+
+- **[m67 — RESOLVED `5400a97`] THE SAME PROBE JUDGED "DID TOKENS FLOW" BY PROSE RETURNED, WHICH
+  IS THE WRONG QUESTION FOR THE MODEL THIS LIBRARY RUNS — fixed run #15.**
+  **What it was.** The success test was `bool(response.strip())`. `qwen3` is a reasoning model:
+  its first tokens land in `thinking` and `response` stays empty until the reasoning closes. At
+  the probe's `num_predict: 8` a **healthy** generation therefore ends `done_reason: "length"`
+  with `response: ""`. Measured 2026-08-24: `eval_count 8`, `thinking "Okay, the user just
+  said"`, `response ""` — read by the old predicate as a dead daemon.
+  **Why it mattered independently of m66.** Fixing the window alone would have moved the probe
+  from *timing out* to *completing and still reporting a fault*. Two defects, one function, and
+  only the first was visible from the symptom. Flow is now judged on `eval_count`, which is what
+  the function's own docstring says it measures. **Pinned by** `verify_math` §19ab, including a
+  check against the exact payload measured.
+
+- **[m68 — RESOLVED `5400a97`] THE DELEGATION LADDER'S OWN SECOND RUNG CARRIED THE SAME DEFECT —
+  fixed run #15.**
+  **What it was.** `local_agent._chat` hardcoded `"num_ctx": 8192` (`local_agent.py:406`)
+  against a daemon serving 12288, so **every local-agent task** named a non-resident window and
+  paid for a runner rebuild. This is the documented reason the local-model rung has been
+  unreliable in a way that kept getting attributed to the 8B's competence rather than to the
+  request. Now derived from `config.yaml`, with the config read behind `silence.note` rather
+  than a bare fallback.
+  **How it was found.** By grepping the WRITERS after fixing m66 — the inverse of the standing
+  lesson, and the second run in a row that "go find the other sites" paid out. Every other live
+  call site (`pipeline`, `overnight`'s keep-warm, `generate`, `magnitude`, `read`, `ingest_doc`)
+  already derived from config and was verified clean. **Pinned by** `verify_math` §19ab.
+
+- **[m69 — RESOLVED `5400a97`] `tuning.workers()` INVERTED ITS OWN CONTRACT AT ZERO — fixed
+  run #15.**
+  **What it was.** The docstring promises *"a caller's request is treated as a CEILING, never a
+  floor."* The code was `min(requested, n) if requested else n`, so `requested=0` — the single
+  request that unambiguously means "run nothing here" — took the falsy branch and received the
+  **full profile worker count**. The promised ceiling became a floor of `n` in exactly the case
+  where the caller wanted none.
+  **Exposure.** Dormant: `chain.py:295`, `magnitude.py:929` and `read.py:1031` all pass a
+  positive int, and no caller passes 0 today. Fixed anyway, because a contract that reverses on
+  a boundary value is a trap laid for the next caller. `None` still means "no request".
+  **How it was found.** The first line-by-line audit of `tuning.py` (run #15's subagent, §4's
+  named highest-yield unaudited surface). Six other findings from that audit were **not** acted
+  on — they are recorded as questions in `NEXT_STEPS.md`, two of them marked unverified by the
+  audit itself. **Pinned by** `verify_math` §19ac, which tests the ceiling at 0, `None`, below
+  and above the profile.
 
 - **[m63 — RESOLVED `6fb290d`] DUPLICATE SECTION LABELS IN `verify_math.py`, and there were
   FIVE pairs, not one — fixed run #14 (2026-08-24 17:30 local).**
