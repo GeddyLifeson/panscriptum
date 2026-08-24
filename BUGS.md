@@ -7,13 +7,6 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
-- **[M2] `publish.py --push` does not fetch/rebase before pushing** — five consecutive
-  `! [rejected] main -> main (fetch first)` failures in `state/publish.log` on 2026-08-24 while
-  a second session published concurrently. Commits landed locally and did NOT reach GitHub;
-  `origin/main` and local are in sync again now, but with two writers on this tree it will
-  recur, and the failure is only visible if somebody reads publish.log. Fix is a pull/rebase in
-  the publish path — a change to the release mechanism, so **flagged for a review cycle rather
-  than made silently** (guardrail: no unannounced changes to shared machinery).
 - **[M3] fandom.com is dropping connections at the socket** — measured 2026-08-24 08:35:
   `marvel.fandom.com` api and html, `dc.fandom.com`, `onepiece.fandom.com` all HTTP 000 after
   20–21s; `en.wikipedia.org` answers in 0.25s from the same machine. A live probe run took 129s
@@ -75,8 +68,8 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   ruling; one decision could settle both.
 
 *Open items are now: two operational blocks that are not code faults (M3 fandom, M1 dandwiki),
-one flagged mechanism change awaiting review (M2 publish), two contract questions (m24, m25),
-the four standing HUMAN CALLs (m12, m13, m16 and M1) and two watched states (m1, m2).*
+two contract questions (m24, m25), the standing HUMAN CALLs (m12, m13, m16 and M1) and two
+watched states (m1, m2). Nothing open is awaiting only implementation.*
 
 ## Watching (not bugs — expected states with a clock on them)
 - **`MAX_JOB_SILENCE_MIN = 15` is a live threshold as of run #3** — the stall detector could not
@@ -146,6 +139,13 @@ detail in HANDOFF.md's run #5 entry:*
 - **NEW: `run_completeness_audit` gated on `_fandom_reachable()`**, as `run_catalogue_gap` beside
   it already was. Ungated it cost ~47 minutes of pure failure per foreman round against a domain
   that has IP-banned this machine once already.
+- **[M2] `publish.py --push` failed whenever a second session published concurrently** — five
+  `! [rejected] main -> main (fetch first)` failures in one morning, visible only to somebody
+  reading `state/publish.log`. Raised by this run as a flagged mechanism change rather than
+  edited unilaterally; **fixed by the concurrent session within the hour** (export `fbcbe57`):
+  publish now fetch-rebases before pushing, and a conflicting rebase is aborted and reported
+  rather than forced. Verified end-to-end — this run's own closing push succeeded and left local
+  and `origin/main` in sync.
 
 *Run #4 (2026-08-24 00:45). Full detail in HANDOFF.md's run #4 entry:*
 

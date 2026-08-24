@@ -22,53 +22,51 @@ audits and owner questions, not repairs.
    -- 0 row(s) ...`; real rows → a genuine percentage. It should never again print `0.0% (0 of
    0)`. Verified this run in the empty state only; the populated state is unverified because
    fandom is down.
-3. **`publish.py --push` (BUGS M2) fails whenever a second session publishes concurrently** —
-   `! [rejected] (fetch first)`, five times in `state/publish.log`. Read that log before assuming
-   a run's commits reached GitHub. The fix (pull/rebase in the publish path) is flagged for
-   review, not applied.
+3. **`publish.py` now fetch-rebases before pushing** (BUGS M2, fixed by the concurrent session
+   in export `fbcbe57` while run #5 was writing its ledger). Run #5's closing push succeeded and
+   left local and `origin/main` in sync. Still worth reading `state/publish.log` before assuming
+   a run's commits reached GitHub — this is the first cadence with two publishers in it.
 4. **[m23] job logs are still truncated on every restart.** It blocked a diagnosis again this run
    — `state/completeness.log` was 0 bytes at exactly the moment it would have explained the wipe.
    Transcribe anything you are diagnosing before the keeper bounces the job.
 
 ## 2. Human decisions needed (owner)
 
-5. **[M2] publish.py's push path** — add a fetch/rebase before push? It is the release mechanism,
-   so it wants a deliberate yes rather than a maintenance-run edit.
-6. **[m24] `cascade_bridge.dead_forever`** buries buckets on `no such model` / `needs billing` /
+5. **[m24] `cascade_bridge.dead_forever`** buries buckets on `no such model` / `needs billing` /
    `bad key`, which its own docstring's "permanent codes only" rule does not cover. Inert today.
    Document those three as permanent, or drop them?
-7. **[m25] `scout.sweep`'s `prev[-40:]` run history** — and the same ruling would settle **[m16]**
+6. **[m25] `scout.sweep`'s `prev[-40:]` run history** — and the same ruling would settle **[m16]**
    (`weave.py`'s `shared_sample`) and `dashboard.py`'s `findings` cap of 12. **One decision,
    three sites: does Hard Rule 0 bind diagnostics and run logs, or only reader-facing listings?**
-8. **[m12] `thread_integrity.py`'s asymmetric/dangling detection is structurally unreachable.**
+7. **[m12] `thread_integrity.py`'s asymmetric/dangling detection is structurally unreachable.**
    Is it meant to compare implied threads against a separately-recorded DIRECTED thread graph it
    currently is not given? Not a one-line fix either way.
-9. **[m13] `phase_synthesis`'s 14-entity ceiling sample** can clamp a whole source to a lesser
+8. **[m13] `phase_synthesis`'s 14-entity ceiling sample** can clamp a whole source to a lesser
    band if the true strongest entity is not sampled. Raise, re-rank, or accept.
-10. **[M1] dandwiki.com** — browser-UA HTML reader vs. owner-supplied. Politeness/ToS call, open
-    since run #1. `health --preflight` will keep reporting its cache all-empty until it is
-    decided; that FAIL is this decision, not a fault.
-11. **Permanently hostless roll entries** (Clockwork Angels, Twilight Imperium, HAWX, …) — stay
+9. **[M1] dandwiki.com** — browser-UA HTML reader vs. owner-supplied. Politeness/ToS call, open
+   since run #1. `health --preflight` will keep reporting its cache all-empty until it is
+   decided; that FAIL is this decision, not a fault.
+10. **Permanently hostless roll entries** (Clockwork Angels, Twilight Imperium, HAWX, …) — stay
     on the roll as owner-supplied-text candidates, or come off?
-12. **Paid burst lane** — 500-call cap, counter in `state/PAID_BURST.json`. Raise, keep, retire?
-13. **Two spine assignments still land in UNASSIGNED** (`Sword Coast Adventurer's Guide`, `Who
+11. **Paid burst lane** — 500-call cap, counter in `state/PAID_BURST.json`. Raise, keep, retire?
+12. **Two spine assignments still land in UNASSIGNED** (`Sword Coast Adventurer's Guide`, `Who
     Framed Roger Rabbit (…)`) — Hard Rule 2 curatorial work, not a code fix.
 
 ## 3. Carried operational items
 
-14. **[m1] Marvel completeness row** — cannot be re-measured until fandom answers (M3). The
+13. **[m1] Marvel completeness row** — cannot be re-measured until fandom answers (M3). The
     byslug-matching suspicion is still unresolved and still untestable.
-15. **[m2] 6 roll sources never catalogued, 20 catalogued with no host** — overlaps item 11.
-16. **Charter regression** — `data/CHARTER_REGRESSION.json` exists and its writer is now atomic.
+14. **[m2] 6 roll sources never catalogued, 20 catalogued with no host** — overlaps item 10.
+15. **Charter regression** — `data/CHARTER_REGRESSION.json` exists and its writer is now atomic.
     Confirm the `automation reproduces the charter` standard takes a real reading from it rather
     than a vacuous pass. **This is the same shape as the bug run #5 found**: a standard reading a
     file that is not there, or is empty, and reporting a number anyway. Worth an explicit check.
-17. **The local model roster changed under us (owner ruling 2026-08-24: GPU-only residency).**
+16. **The local model roster changed under us (owner ruling 2026-08-24: GPU-only residency).**
     Only `qwen3:8b` is installed; the 30B MoE is gone; `pick_model.py` now refuses anything that
     cannot sit entirely in VRAM. **Run #4's "30B MoE throughput" watch item is obsolete — deleted
     rather than carried.** Phases are now pool-first (`pipeline.ask_pool_first`, gated on ≥3
     proven-answering buckets), so phase-2 throughput is a *pool* question now, not a GPU one.
-18. **Delegation note for the next run:** rung 2 (Ollama) was skipped this run on purpose — one
+17. **Delegation note for the next run:** rung 2 (Ollama) was skipped this run on purpose — one
     8B model, the pipeline mid-phase-2 on it, and the foreman's own model lane reporting "GPU busy
     and no spare pool capacity" on three items. Check that state before routing work to
     `local_agent.py`; contending with the pipeline for the only model is not delegation.

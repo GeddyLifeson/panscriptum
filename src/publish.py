@@ -262,6 +262,17 @@ def push(message=None):
                  + ("; ".join(parts) or "no-op"))
     git("-c", "user.name=panscriptum", "-c", "user.email=noreply@users.noreply.github.com",
         "commit", "-q", "-m", stamp)
+    try:
+        git("fetch", "-q", "origin")
+        git("rebase", "-q", "origin/main")
+    except RuntimeError as e:
+        try:
+            git("rebase", "--abort", check=False)
+        except Exception:
+            silence.note("publish.py:rebase-abort")
+        print("push held: rebase onto origin/main failed (" + str(e)[:120]
+              + "); retrying next loop on a fresh tree", file=sys.stderr)
+        return False
     git("push", "-q", "-u", "origin", "main")
     return True
 
