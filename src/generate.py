@@ -137,7 +137,14 @@ def call_ollama(cfg, system_prompt, user_prompt):
             "num_predict": -1,
         },
     }
-    resp = requests.post(url, json=payload, timeout=cfg.get("request_timeout", 600))
+    # PROSE IS THE FOREGROUND. This is the library's actual product; the corpus read, the roll,
+    # the phases and the model lane are all in service of it, so they yield here rather than
+    # the other way round. Measured 2026-08-24: a call that caught a free slot returned in
+    # 0.057s and the same call queued behind the standing jobs took 28-35s. gpu_lane fails
+    # open -- if arbitration breaks, the call still goes.
+    import gpu_lane
+    with gpu_lane.lane("generate", priority=True):
+        resp = requests.post(url, json=payload, timeout=cfg.get("request_timeout", 600))
     resp.raise_for_status()
     data = resp.json()
     return data.get("response", "")

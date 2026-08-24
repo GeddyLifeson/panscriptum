@@ -2027,6 +2027,67 @@ check("the struck-entry skip that makes lines shorter than batch is still there"
       'if e.get("excluded"):' in _pipe_src, True,
       note="if this goes, the count above stops being the meaningful one")
 
+
+# ---- Section 19r: near-miss name matching may never merge two continuities --------------------
+# Added 2026-08-24. `entity_match` ranks catalogue entries for a name the exact fold missed. The
+# whole module is built around ONE refusal: a parenthetical qualifier must match exactly or be
+# absent from both sides. Three DC records (`Wally West (New Earth)`, `(Prime Earth)`, and the
+# catalogue's `(Earth-16)`) carry 240 mined deeds between them, and any similarity measure --
+# string or embedding -- rates them nearly identical. §19o already forbids loosening `_norm` to
+# fold them; these checks stop the fuzzy matcher becoming the way around §19o.
+import entity_match as _EM      # noqa: E402
+
+check("two DC continuities are never compatible",
+      _EM.qualifier_compatible("Wally West (New Earth)", "Wally West (Prime Earth)")[0], False,
+      note="if this passes, 177 deeds attach to the wrong continuity")
+check("a third continuity is refused too",
+      _EM.qualifier_compatible("Wally West (New Earth)", "Wally West (Earth-16)")[0], False)
+check("a disambiguated name never matches the bare name",
+      _EM.qualifier_compatible("Zangetsu (Zanpakutou spirit)", "Zangetsu")[0], False,
+      note="the exact pair §19o's docstring was corrected over")
+check("a qualifier conflict is REPORTED, not silently dropped",
+      _EM.qualifier_compatible("A (x)", "A (y)")[1], _EM.MatchReason.QUALIFIER_CONFLICT)
+check("a missing qualifier has its own distinct reason",
+      _EM.qualifier_compatible("A (x)", "A")[1], _EM.MatchReason.QUALIFIER_MISSING)
+check("identical qualifiers DO match, modulo case and spacing",
+      _EM.qualifier_compatible("Wally West (New Earth)", "wally  west (NEW EARTH)")[0], True)
+check("similarity still folds case and punctuation on the base name",
+      _EM.similarity("Son Goku", "son-goku"), 1.0)
+check("a weak match is never returned as best",
+      _EM.best("Kratos", [{"name": "Kraven"}])[0], None,
+      note="this module proposes; a weak hit applied automatically mis-attaches a deed")
+check("an unmatched name carries a reason code, never a bare empty result",
+      _EM.candidates("Nobody At All", [{"name": "Somebody Else"}])["reason"],
+      _EM.MatchReason.NO_CANDIDATE)
+check("candidates() does not truncate by default",
+      _EM.candidates("A", [{"name": f"A{i}"} for i in range(50)])["truncated"], False,
+      note="Hard Rule 0: a ranked listing is returned whole unless a caller asks otherwise")
+
+
+# ---- Section 19s: the GPU lane must never mistake a dead holder for a live one ----------------
+# Added 2026-08-24. `gpu_lane` arbitrates one card between nine processes with leases held in
+# files. Reclaiming a dead holder's lease is the ONLY thing standing between a killed job and a
+# permanently stranded card. The first version used the POSIX idiom `os.kill(pid, 0)` and checked
+# for ESRCH -- which is WRONG on Windows, where a nonexistent PID raises errno 22 / winerror 87.
+# Every dead process therefore read as alive: a ghost slot stranded the card for its full
+# 900-second lease (measured 338.5 s in a test that should finish in under a second) and a ghost
+# foreground claim stalled all background work for the 240-second yield ceiling. Caught only
+# because the concurrency test hung.
+import time as _time            # noqa: E402
+import gpu_lane as _GL          # noqa: E402
+
+check("a nonexistent PID reads as DEAD", _GL._alive(999999), False,
+      note="os.kill(pid,0)/ESRCH is wrong on Windows; this is that regression")
+check("our own PID reads as alive", _GL._alive(os.getpid()), True)
+check("a record held by a dead PID is expired despite a fresh heartbeat",
+      _GL._expired({"pid": 999999, "heartbeat": _time.time()}, 900), True,
+      note="a fresh heartbeat from a dead holder is exactly the stranding case")
+check("a live holder with a fresh heartbeat is NOT expired",
+      _GL._expired({"pid": os.getpid(), "heartbeat": _time.time()}, 900), False)
+check("an unreadable lease is reclaimed rather than stranding the card",
+      _GL._expired(None, 900), True)
+check("the lane keeps at least one slot", _GL.MAX_SLOTS >= 1, True)
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

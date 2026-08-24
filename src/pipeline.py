@@ -347,14 +347,20 @@ def ask(c, system, prompt, schema, retries=2, timeout=None, num_ctx=None, tag=""
         "options": {"seed": c.get("seed", 47), "temperature": 0.1,
                     "num_ctx": num_ctx or c.get("num_ctx", 6144)},
     }).encode()
+    import gpu_lane
     for attempt in range(retries + 1):
         try:
             req = urllib.request.Request(c["ollama_host"].rstrip("/") + "/api/generate",
                                          data=body,
                                          headers={"Content-Type": "application/json"})
             t0 = time.time()
-            with urllib.request.urlopen(req, timeout=timeout or 420) as r:
-                raw = json.loads(r.read().decode())
+            # THE LANE. Every phase call is background work: it yields to prose generation and
+            # to an owner's interactive run, then queues for one of the card's slots. Nine
+            # standing jobs used to arrive here at once and the card served none of them well.
+            # gpu_lane fails open, so a fault in it costs nothing but the arbitration.
+            with gpu_lane.lane(f"pipeline:{tag or 'ask'}"):
+                with urllib.request.urlopen(req, timeout=timeout or 420) as r:
+                    raw = json.loads(r.read().decode())
             _metric({"tag": tag or "ask", "s": round(time.time() - t0, 2),
                      "in_tok": raw.get("prompt_eval_count"), "out_tok": raw.get("eval_count"),
                      "tps": (round(raw["eval_count"] / (raw["eval_duration"] / 1e9), 1)

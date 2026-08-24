@@ -291,10 +291,14 @@ def _chat(model, messages, host, timeout=420):
     # A 503 is Ollama's queue saying "not yet", not "no" -- under an evening pool the batch's
     # local fallbacks keep the queue full for minutes at a stretch. Waiting out a few rounds
     # is what every other patient consumer here does; a real outage still surfaces.
+    import gpu_lane
     for attempt in range(4):
         try:
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                return json.loads(r.read()).get("message") or {}
+            # Background: the model lane is repair work, and it must never make the library's
+            # own prose calls queue behind it. See gpu_lane's header for the measurements.
+            with gpu_lane.lane("local_agent"):
+                with urllib.request.urlopen(req, timeout=timeout) as r:
+                    return json.loads(r.read()).get("message") or {}
         except urllib.error.HTTPError as e:
             if e.code != 503 or attempt == 3:
                 raise
