@@ -235,6 +235,51 @@ def _metric(row):
         silence.note("pipeline.py:metric")
 
 
+_PHASE_POOL = {"at": 0.0, "n": 0}
+
+
+def _pool_answering(ttl=120):
+    """How many cloud buckets actually answer, from the proof -- never from headroom."""
+    now = time.time()
+    if now - _PHASE_POOL["at"] > ttl:
+        try:
+            with open(os.path.join(HERE, "data", "POOL_PROOF.json"), encoding="utf-8") as f:
+                rows = json.load(f)
+            _PHASE_POOL["n"] = sum(1 for r in rows
+                                   if isinstance(r, dict) and r.get("verdict") == "answers")
+        except Exception:
+            silence.note("pipeline.py:pool-proof")
+            _PHASE_POOL["n"] = 0
+        _PHASE_POOL["at"] = now
+    return _PHASE_POOL["n"]
+
+
+def ask_pool_first(c, system, prompt, schema, timeout=None, num_ctx=None, tag=""):
+    """Cloud pool first, local second -- for the PHASES' own judgment calls.
+
+    OWNER QUESTION 2026-08-24: "why do we keep using ollama when there are free cloud ais?"
+    Answer: every reading stage already is pool-first; the phases were local-only from the era
+    when the GPU sat idle and the pool was the reader's. That era ended -- eight buckets were
+    measured answering while entrypass queued behind one 8B model. Phase judgment calls are
+    small structured JSON, exactly what the free lanes are best at. Gated on the PROOF (>=3
+    answering), not on reported quota: headroom is not evidence -- 25 of 36 buckets once
+    reported healthy quota while answering nothing. Prose stays local by charter design; its
+    book-length outputs would drain a free tier in minutes.
+
+    Every other caller of ask() (magnitude, ingest_doc, overwatch, read's fallback) manages
+    its own pool order and uses ask() as the deliberately-LOCAL arm; only the phase call
+    sites route through here, so nothing double-claims a bucket it already tried."""
+    if _pool_answering() >= 3:
+        try:
+            import cascade_bridge as CB
+            got = CB.ask(system, prompt, schema)
+            if got is not None:
+                return got
+        except Exception:
+            silence.note("pipeline.py:phase-pool")
+    return ask(c, system, prompt, schema, timeout=timeout, num_ctx=num_ctx, tag=tag)
+
+
 def ask(c, system, prompt, schema, retries=2, timeout=None, num_ctx=None, tag=""):
     """One structured Ollama call. Returns parsed dict, or None on repeated failure.
 
@@ -562,7 +607,8 @@ def phase_synthesis(c, st):
                   f"{len(sample)} from {len(rec['entries'])}):\n" + "\n".join(lines) +
                   "\n\nIdentify the power ceiling and magnitude band for this source.")
 
-        got = ask(c, SYNTH_SYSTEM, prompt, SYNTH_SCHEMA, timeout=420, num_ctx=4096, tag="synthesis")
+        got = ask_pool_first(c, SYNTH_SYSTEM, prompt, SYNTH_SCHEMA, timeout=420,
+                             num_ctx=4096, tag="synthesis")
         if got is None:
             st["failed"].setdefault("synthesis", {})[src] = "ollama failure"
             save_state(st)
@@ -892,7 +938,8 @@ def phase_entrypass(c, st):
             prompt = (f"SOURCE: {src}\n\nENTRIES:\n" + "\n".join(lines) +
                       f"\n\nReturn results for all {len(batch)} entries.")
 
-            got = ask(c, ENTRY_SYSTEM, prompt, ENTRY_SCHEMA, timeout=600, num_ctx=4096, tag="entrypass")
+            got = ask_pool_first(c, ENTRY_SYSTEM, prompt, ENTRY_SCHEMA, timeout=600,
+                                 num_ctx=4096, tag="entrypass")
             if got is None:
                 st["failed"].setdefault("entrypass", {})[key] = "ollama failure"
                 save_state(st)

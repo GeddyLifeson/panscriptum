@@ -265,9 +265,15 @@ def resolve_hosts(records, verify=True):
         else:
             known[src] = None
 
+    # tmp + replace_retry, not a bare open("w"). This file is read by `read.py:queue()` with an
+    # unguarded json.load and by completeness, ingest_doc and wiki_source besides; a truncating
+    # write racing `read.py --run` could take down a multi-hour pass with a JSONDecodeError, and
+    # a half-written host map reads as "no source has a wiki" to everything downstream.
     os.makedirs(os.path.dirname(HOSTS), exist_ok=True)
-    with open(HOSTS, "w", encoding="utf-8") as f:
+    tmp = HOSTS + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(known, f, indent=1, ensure_ascii=False, sort_keys=True)
+    silence.replace_retry(tmp, HOSTS)
     return known
 
 

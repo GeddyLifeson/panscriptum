@@ -808,9 +808,13 @@ def calibrate():
     print("-" * 96)
     print(f"anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays")
     out = {"at": time.time(), "model": c["model"], "results": rows}
-    with open(os.path.join(HERE, "data", "CHARTER_REGRESSION.json"), "w",
-              encoding="utf-8") as f:
+    # A standard reads this file (`standards.py`, `automation reproduces the charter`), so a
+    # truncating write can leave that check reading an unparseable artifact -- which it would
+    # report as a failure to reproduce the charter rather than as a failure to write a file.
+    _cr = os.path.join(HERE, "data", "CHARTER_REGRESSION.json")
+    with open(_cr + ".tmp", "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1, ensure_ascii=False)
+    silence.replace_retry(_cr + ".tmp", _cr)
     return band_hits
 
 

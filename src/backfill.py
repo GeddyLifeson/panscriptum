@@ -189,7 +189,15 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
             added += 1
             time.sleep(0.2)
     P.write_record(path, r)
-    return {"source": source, "host": host, "roster": len(names), "missing": len(missing), "added": added, "entries_now": len(r["entries"])}
+    # `absent` is the PRE-cap truth and the dry path has always returned it; the real path
+    # returned only a post-cap `missing`, so main()'s `res.get("absent", 0)` found no key and
+    # printed **absent 0 for every source on every non-dry run** -- a completeness report that
+    # read "nothing was missing" precisely when characters were being added to fix what was.
+    # Both numbers are now reported, named for what they are, on both paths. 2026-08-24.
+    return {"source": source, "host": host, "roster": len(names),
+            "already_held": len(names) - absent, "absent": absent,
+            "queued": len(missing), "missing": len(missing),
+            "added": added, "entries_now": len(r["entries"])}
 
 
 def main():

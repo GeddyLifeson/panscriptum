@@ -216,8 +216,10 @@ def load(refresh=False):
             silence.note("identity.py:load")
     inv = mine()
     os.makedirs(os.path.dirname(CACHE), exist_ok=True)
-    with open(CACHE, "w", encoding="utf-8") as f:
+    tmp = CACHE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(inv, f, indent=1, sort_keys=True)
+    silence.replace_retry(tmp, CACHE)
     return inv
 
 

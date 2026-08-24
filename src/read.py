@@ -741,7 +741,7 @@ def _save_qcache(d):
         tmp = QCACHE + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(d, f)
-        os.replace(tmp, QCACHE)
+        silence.replace_retry(tmp, QCACHE)
     except Exception:
         silence.note("read.py:qcache-save")
 
@@ -759,7 +759,16 @@ def queue(all_entries=True):
     """
     import feats as FF
     recs = P.records()
-    hosts = json.load(open(FF.HOSTS, encoding="utf-8"))
+    # Self-healing, like every other cache read in this file. This is a multi-hour pass and the
+    # host map has three writers; an unguarded load meant a single racing write could end the
+    # whole run with a JSONDecodeError and no note. An unreadable host map is a real fault, so
+    # it is recorded rather than shrugged off -- but it must not be able to discard the pass.
+    try:
+        with open(FF.HOSTS, encoding="utf-8") as _hf:
+            hosts = json.load(_hf)
+    except Exception:
+        silence.note("read.py:hosts-unreadable")
+        hosts = {}
     qcache = _load_qcache()
     rows = []
     for _, r in recs:

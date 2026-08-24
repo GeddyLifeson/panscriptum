@@ -51,6 +51,19 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 LOG = os.path.join(HERE, "data", "SCOUT.json")
 BLOCKED = os.path.join(HERE, "data", "SCOUT_BLOCKED.json")
 
+
+def _land(path, obj, sort_keys=True):
+    """Write a shared artifact whole or not at all -- tmp + `silence.replace_retry`.
+
+    WIKI_HOSTS.json in particular is written from here AND from two call sites in
+    `hostcheck.py`, and read by several long-running jobs. A bare `open(path, "w")` truncates
+    before json.dump starts, so a losing writer leaves the host map empty or unparseable for
+    every reader -- and an empty host map reads downstream as "no source has a wiki". 2026-08-24."""
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, indent=1, sort_keys=sort_keys)
+    silence.replace_retry(tmp, path)
+
 # The project's honest crawler identity. A site that declines THIS is declining consent, and the
 # correct response is to record that and stop asking -- not to put on a browser costume. The
 # material behind a storefront is purchased content and belongs to whoever bought it.

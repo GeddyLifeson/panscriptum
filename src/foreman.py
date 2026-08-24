@@ -411,11 +411,21 @@ def kill_duplicate_jobs():
             continue
         if p == os.getpid() or job in DENYLIST:
             continue
-        stamp = started.group(1) if started else "9" * 14
-        seen.setdefault(job, []).append((stamp, p))
+        # AN UNREADABLE CREATION TIME IS NOT A TIMESTAMP. The old fallback invented "9" * 14,
+        # which sorts as the NEWEST possible process -- so an instance whose CreationDate field
+        # WMIC garbled or omitted was always placed last and always SIGTERMed, even when it was
+        # in fact the oldest and the one this function promises to keep. Guessing a timestamp in
+        # order to decide which process to kill is the same species of error as `_checks_pass`
+        # accepting "10 FAILED" (run #3): a destructive action taken on a value that was never
+        # read. `None` is carried instead and the job is skipped below. 2026-08-24.
+        seen.setdefault(job, []).append((started.group(1) if started else None, p))
 
     for job, procs in seen.items():
         if len(procs) < 2:
+            continue
+        if any(stamp is None for stamp, _ in procs):
+            silence.note("foreman.py:dedup-unstamped")
+            unaged.append(job)
             continue
         procs.sort()                       # oldest first
         for _stamp, p in procs[1:]:
