@@ -1001,8 +1001,12 @@ def phase_entrypass(c, st):
             # The category list lives in the system prompt only. It used to be repeated here
             # as well, paying ~200 input tokens per call across ~2,600 calls for a list the
             # model already had.
+            # len(lines), NOT len(batch): struck entries are skipped above, so a span of 20
+            # holding 3 excluded ones shows the model 17. Asking for "all 20" invited it to
+            # invent verdicts for entries it was never shown -- harmless, because the index
+            # guards below discard them, but it spent tokens and muddied the instruction.
             prompt = (f"SOURCE: {src}\n\nENTRIES:\n" + "\n".join(lines) +
-                      f"\n\nReturn results for all {len(batch)} entries.")
+                      f"\n\nReturn results for all {len(lines)} entries.")
 
             # This call names N entries by index and asks for a judgment on each. An answer
             # carrying no result whose index is one of the ones we ASKED about has judged

@@ -180,6 +180,16 @@ LOCAL_PREFIX = "ollama:"
 # place that used to test it, because the test now has to happen in TWO places that must not
 # drift: the candidate filter that enforces the cap, and the counter that records the spend.
 PAID_PREFIX = "anthropic:"
+
+# THE PAID LANE IS RETIRED. Owner ruling 2026-08-24: "there shouldn't be a paid lane anywhere."
+# This is a STRUCTURAL kill, not a flag: `state/PAID_BURST.json` also reads `enabled: false`, but
+# a file is something a future session can flip back by accident, and this project has already
+# spent 598 calls against a cap of 500 because a gate that looked closed was not. While this is
+# True, no bucket whose name starts with PAID_PREFIX is a candidate for anything, whatever the
+# file says. `paid_lane_open()` is left intact and honest about the file's contents -- it is the
+# file's predicate, not the gate -- so the cap logic stays testable and the counter stays
+# readable as evidence. To bring a paid lane back, an owner has to change THIS line and say so.
+PAID_LANE_RETIRED = True
 _WIDEN_RR = [0]
 _RR_LOCK = threading.Lock()                 # round-robin cursor for the widened fallback
 _PAID_LOCK = threading.Lock()               # serialises the read-modify-write of the spend counter
@@ -332,7 +342,8 @@ def widen_candidates(models, paid_ok):
     """
     return [m for m in models
             if not m.bucket.startswith(LOCAL_PREFIX)
-            and (paid_ok or not m.bucket.startswith(PAID_PREFIX))]
+            and ((paid_ok and not PAID_LANE_RETIRED)
+                 or not m.bucket.startswith(PAID_PREFIX))]
 
 
 def _alive(bucket):
@@ -522,7 +533,7 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         except Exception:
             silence.note("cascade_bridge.py:466")
             _pb = None
-        paid_ok = paid_lane_open(_pb)
+        paid_ok = paid_lane_open(_pb) and not PAID_LANE_RETIRED
         if paid_ok:
             answering = set(answering) | {b for b in
                                           {m.bucket for m in _ROUTER.models}

@@ -31,6 +31,39 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **This also corrects run #9's diagnosis**, which measured the saturation accurately (32.6 s
   wall for 28 ms of compute) but attributed it to honest contention between Panscriptum's own
   jobs over one installed model. The contention is real; the load is overwhelmingly foreign.
+  **MECHANISM FOUND — run #11, 2026-08-24 13:05-13:13. It is not simply queue depth: the kit is
+  cleanly SPLIT by the `num_ctx` it asks for.** The foreign client has pinned the only runner
+  with `context_length: 4096` and `expires_at: 2318-12-04` (i.e. an effectively infinite
+  keep_alive), 5.30 GB resident on a 10 GB card. A controlled probe — **the identical 6-character
+  prompt "say ok", 4 output tokens, arms interleaved so drifting queue depth hits both equally**
+  — gives:
+
+  | requested `num_ctx` | wall | result |
+  |---|---|---|
+  | omitted (matches resident 4096) | **9.1 s** | ok |
+  | 6144 | **200.0 s** | TIMEOUT |
+  | omitted | **18.0 s** | ok |
+  | 6144 | **200.0 s** | TIMEOUT |
+  | 8192 | **200.0 s** | TIMEOUT |
+
+  `/api/ps` was read after every single call and **never showed a second runner** — the resident
+  one stayed at ctx 4096 throughout.
+  **Confirmed independently from live telemetry, which rules out prompt size as the cause.**
+  `state/model_metrics.jsonl` shows `entrypass` — which passes **`num_ctx=4096`**
+  (`pipeline.py:1016`), matching the resident runner — **completing continuously right now at
+  24-38 s per call**, while `overwatch` (higher `num_ctx`) logs nothing but
+  `ollama failed after 3 tries: TimeoutError`. The probe controls for prompt size directly (both
+  arms sent the same 6 characters), so the causal variable is `num_ctx`, not payload.
+  **Why this matters more than the queue framing:** `pipeline.py:348` sends an explicit
+  `num_ctx` on EVERY call (`num_ctx or c.get("num_ctx", 6144)`) — there is no code path that
+  omits it. So `synthesis` and `entrypass` (both hardcoded 4096, lines 654 and 1016) are the
+  only lanes that work, and every other consumer — `generate.py` (6144), `overwatch`,
+  `magnitude` and `local_agent` (8192), `ingest_doc` (6144) — is not slow but **dead**.
+  INFERRED (not measured): Ollama must start a separate runner for a different context size, and
+  cannot, because the pinned 5.30 GB runner never goes idle long enough to be evicted on a 10 GB
+  card. **Consequence for the owner's remedy list: raising `num_ctx` for m46/m52 would currently
+  take those paths from "slow" to "never answers".** Clearing the foreign process remains the
+  fix; this only sharpens what it is costing.
 - **[m46] THE FEATS CHAPTER'S PROMPT IS ~1.9x LARGER THAN THE CONTEXT WINDOW IT IS SENT INTO —
   latent, nothing generated yet, and it must be settled BEFORE the first feats generation run.**
   Measured on a real job built by the real code path (run #10): `build_jobs_for_source` for
@@ -56,6 +89,50 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   bottleneck), trim the 18 KB system prompt for feats jobs specifically, or some mix. **A
   verify_math check asserting the prompt fits should be added once a remedy is chosen** — it was
   deliberately not added now because it would fail on arrival and turn the battery red.
+- **[m52] 94% OF THE CHAPTER JOBS ALREADY OVERFLOW `num_ctx`, NOT JUST THE FEATS ONES — m46 is
+  ~86x wider than it was filed as.** Measured 2026-08-24 (run #11) over the live
+  `output/index/manifest.json` (88 MB, 9,362 jobs), by serialising each job and adding the
+  system prompt that every call carries:
+  - `prompts/system_style.txt` transmits **18,112 chars** (18,338 on disk; text-mode read strips
+    220 `\r`). Verified directly, matching m46's figure.
+  - **chapter jobs (9,153 of the 9,362 — the main body of the library):** payload median
+    **7,406 chars**, p90 12,128, max 52,101. Add the system prompt and the median total input is
+    **25,518 chars ≈ 7,291 tok @3.5, 6,380 @4.0, 5,671 @4.5** against `num_ctx: 6144`.
+    **8,623 / 9,153 (94.2%) exceed the window at 3.5 chars/token, and 5,487 (59.9%) exceed it
+    even at a generous 4.0.** The largest job is **70,213 chars ≈ 17,553–20,061 tokens: 3.3x
+    the window.**
+  - **frontmatter jobs (209): clean.** Median total 19,014 chars, max 20,046 → **0 of 209 over
+    the window at any divisor tested.** Stated because a clean result is worth as much.
+  **The irony is in the code itself.** `generate.py:137-139` sets `num_predict: -1` and its
+  comment explicitly names Hard Rule 0 — "a capped response ends a chapter mid-entry without
+  error, the silent-truncation failure Hard Rule 0 exists to forbid." The OUTPUT side is guarded
+  with that reasoning written out; `num_ctx` is the SHARED input+output window on the same call
+  (`generate.py:133`, `cfg.get("num_ctx", 8192)` → 6144 from `config.yaml:64`) and the INPUT
+  side has no guard at all. `_covered()` (`generate.py:146-159`) checks only that an entity's
+  NAME appears in the returned text, so a chapter whose tail was trimmed passes and is written
+  to `catalog.json` as complete.
+  **STILL LATENT, and that is why this is the moment — same as m46.** `output/index/catalog.json`
+  holds **6 addresses total** (1 Persons, 0 Feats): generation has effectively never run at
+  volume. Nothing is corrupted. But the manifest is BUILT and these 9,153 jobs are queued.
+  **HUMAN CALL, and note it is now CONSTRAINED by M5:** the obvious remedy — raise `num_ctx` —
+  currently makes things strictly worse, because a call requesting any `num_ctx` other than the
+  resident runner's 4096 does not complete AT ALL (measured, see M5). Lowering the per-block
+  entry count (`WRITE_CHUNK = 8`, `generate.py:37`) or trimming the system prompt for chapter
+  jobs are the remedies that do not depend on the daemon being healthy first.
+- **[m51] `health.py`'s "context budget" preflight does not cover the path that overflows —
+  its `ok` is false assurance.** `check_context_budget()` (`health.py:168-190`) imports
+  `read as R` and measures **`R.SYSTEM` (read.py's own 1,586-char feats-extraction prompt)** and
+  `R.CHUNK` (read.py's 10,000-char wiki-passage size). That is the wiki-READING pass. It never
+  touches `prompts/system_style.txt` or any `generate.py` job, so **the writing path measured in
+  m52 has zero static coverage anywhere in the codebase** — and the preflight prints `ok
+  context budget` while 94% of chapter jobs are over their window. The check is not wrong about
+  what it measures (read.py's pass genuinely fits: 3,799 tok vs 6144, a 38% margin, and it
+  passes under every divisor tested, so its result is not an artifact of the divisor). It is
+  scoped to one of two paths and named as though it covered both.
+  **Minor sub-finding, cosmetic:** the same sum uses two chars-per-token divisors —
+  `len(R.SYSTEM) / 4` and `R.CHUNK / 3.7`. The 3.7 is sourced (`read.py:56-58, 67-68`, cited for
+  English wiki prose); the `/4` for instruction text has no citation found. It does not change
+  the outcome here — worth a comment, not a fix.
 - **[M4] The paid burst counter stands at 598 against a cap of 500 — HUMAN CALL on what to do
   about it.** The enforcement bug is FIXED (run #6, see paper trail): no paid bucket is a
   candidate unless the lane is open, and both documented kill switches now genuinely kill. What
@@ -361,6 +438,17 @@ in HANDOFF.md's run #8 entry:*
   68 → 2; the new one keeps all three findings and both writers' work. §19m, 10 checks.
   The orphan was killed (it did no work anything depended on) and the live loop bounced onto
   the fix; the keeper re-asserted it at 11:37.
+  **CONFIRMED WORKING IN THE FIELD — run #11, 2026-08-24 13:00.** Runs #8, #9 and #10 each read
+  `OVERWATCH.json` at exactly **68 rounds / 64 findings** and each recorded the merge as a
+  possible suspect for the freeze (#10 downgraded it to starvation after reading the log, but
+  left it open). It was never frozen: the ledger now reads **69 rounds / 66 findings** — it grew
+  in BOTH dimensions, and `state/overwatch.log` shows the round that did it completing via cloud
+  fallback (`catalogue_web  2 raw  2 new  105s  (GPU busy; 3 calls to the cloud)`). The round was
+  simply in flight across three consecutive reads, each ~25 minutes apart, because a round now
+  takes 48-152 s PER MODULE under M5. **The merge is exonerated by observation, not by argument.**
+  *Lesson: three runs read the same two numbers and inferred "stuck" from a repeated sample. A
+  value that has not changed across N reads is only evidence of a freeze if the reads are spaced
+  wider than the thing's natural period — and nobody had measured the period.*
 - **[m41] Every `navtree --write` renamed a chunk of the tree — the Registry Terminal's node
   names depended on the PROCESS HASH SEED.** `register_for()` chose a node's naming register with
   `max(set(regs), key=regs.count)`, and `build()` chose a hyperverse's grounding type the same

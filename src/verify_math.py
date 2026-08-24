@@ -1469,10 +1469,32 @@ _models = [_M("mistral:free"), _M("anthropic:paid"), _M("ollama:qwen3"), _M("gem
 _open = [m.bucket for m in _CB.widen_candidates(_models, True)]
 _shut = [m.bucket for m in _CB.widen_candidates(_models, False)]
 
-check("an OPEN lane keeps the paid bucket selectable", "anthropic:paid" in _open, True)
+# THE LANE IS RETIRED (owner ruling 2026-08-24: "there shouldn't be a paid lane anywhere").
+# `PAID_LANE_RETIRED` excludes every paid bucket regardless of the file, so the paid bucket is
+# now unselectable in BOTH directions -- that is the property to defend, and it is what these
+# first checks assert. If someone flips the constant back, these fail and say why.
+check("the paid lane is retired in code, not just in a file", _CB.PAID_LANE_RETIRED, True)
+check("a RETIRED lane refuses the paid bucket even when the file says open",
+      "anthropic:paid" in _open, False,
+      note="the file can say enabled:true; the constant outranks it")
 check("a CLOSED lane removes it from the candidates", "anthropic:paid" in _shut, False)
-check("closing the lane removes ONLY the paid bucket", _shut, ["mistral:free", "gemini:free"])
+check("retirement removes ONLY the paid bucket", _shut, ["mistral:free", "gemini:free"])
 check("locals are excluded either way", [b for b in _open if b.startswith("ollama:")], [])
+
+# The CAP predicate underneath must stay correct, or un-retiring would restore a broken gate
+# rather than a working one. Exercised with the retirement lifted, then restored.
+_was = _CB.PAID_LANE_RETIRED
+try:
+    _CB.PAID_LANE_RETIRED = False
+    _o2 = [m.bucket for m in _CB.widen_candidates(_models, True)]
+    _s2 = [m.bucket for m in _CB.widen_candidates(_models, False)]
+    check("with retirement lifted, an OPEN lane would select the paid bucket",
+          "anthropic:paid" in _o2, True,
+          note="proves the retirement is what excludes it, not a broken predicate")
+    check("with retirement lifted, a CLOSED lane still refuses it", "anthropic:paid" in _s2, False)
+finally:
+    _CB.PAID_LANE_RETIRED = _was
+check("the retirement was restored after the probe", _CB.PAID_LANE_RETIRED, True)
 
 # The cap itself, and both documented kill switches.
 check("at the cap the lane is shut", _CB.paid_lane_open({"enabled": True, "used": 500, "cap": 500}), False)
@@ -1989,6 +2011,21 @@ _allsweep_src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "a
 check("allsweep reads the shared roster instead of keeping its own",
       "ALL_JOBS" in _allsweep_src, True,
       note="if this fails, a private copy of the job list has grown back in allsweep")
+
+# ---- Section 19q: the entrypass prompt asks for the count it actually showed ------------------
+# Added 2026-08-24 (maintenance run #11). `phase_entrypass` skips struck entries when building
+# `lines`, then closed the prompt with "Return results for all {len(batch)} entries" -- so a span
+# of 20 holding 3 excluded ones showed the model 17 entries and asked for 20. It could not
+# corrupt output (the index guards discard a verdict for an entry that was never shown), but it
+# spent tokens inviting the model to invent three of them. This fails if len(batch) comes back.
+_pipe_src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "pipeline.py"),
+                 encoding="utf-8").read()
+check("the entrypass prompt counts the entries it SHOWED, not the whole span",
+      "Return results for all {len(lines)} entries" in _pipe_src, True,
+      note="len(batch) counts struck entries the model was never given")
+check("the struck-entry skip that makes lines shorter than batch is still there",
+      'if e.get("excluded"):' in _pipe_src, True,
+      note="if this goes, the count above stops being the meaningful one")
 
 print()
 print("=" * 96)

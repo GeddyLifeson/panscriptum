@@ -9,6 +9,109 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 13:20 (local) — Run #11 (the daemon is not slow, it is sorting us by a number we choose)
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets, no money movement, no data loss.** Paid lane flat for a sixth run: `598 used /
+   cap 500`, `paid_lane_open()` → **False**. `WIKI_HOSTS.json` unchanged — md5 `451703b8…`,
+   202 bindings, 191 non-empty.
+2. **THE SCHEDULE WAS CHANGED AT YOUR REQUEST, MID-RUN: this task now runs HOURLY (`11 * * * *`)
+   instead of every 15 minutes (`11,26,41,56 * * * *`).** That was the right call independent of
+   preference — run #10 finished **93 seconds** before this run started, so consecutive runs were
+   landing on each other constantly and the overlap guard was doing real work every time.
+3. **`semsearch.cli watch` (PID 25188) IS STILL THERE and still yours to decide on** — now
+   **14,244** established connections to the Ollama daemon, up from 13,942 at run #10, so it is
+   still churning. Not a Panscriptum process; not touched. **BUGS M5.**
+4. **M5's MECHANISM IS NOW KNOWN, and it changes your remedy list for m46/m52.** The daemon is
+   not merely slow — **it is cleanly split by the `num_ctx` we ask for.** The foreign client has
+   pinned the only runner at `context_length: 4096` with `expires_at: 2318` (infinite
+   keep_alive), 5.30 GB on a 10 GB card. Controlled probe, identical 6-character prompt, arms
+   interleaved: **no `num_ctx` → 9.1 s and 18.0 s, both OK. `num_ctx: 6144` → 200 s TIMEOUT,
+   twice. `num_ctx: 8192` → 200 s TIMEOUT.** `/api/ps` never showed a second runner. Confirmed
+   from live telemetry, which rules out prompt size: `entrypass`, which hardcodes **4096**
+   (`pipeline.py:1016`), is completing **right now at 24-38 s per call**, while everything
+   asking for more logs only timeouts. Since `pipeline.py:348` sends an explicit `num_ctx` on
+   **every** call, `synthesis` and `entrypass` are the only living lanes; `generate.py`,
+   `overwatch`, `magnitude`, `local_agent` and `ingest_doc` are **not slow, they are dead.**
+   **So "raise `num_ctx`" — the obvious fix for the overflow bugs — currently converts those
+   paths from slow to never-answers.**
+5. **m52 — THE OVERFLOW IS ~86x WIDER THAN m46 SAID, and it is the ordinary chapter path, not
+   the feats one.** Measured over the live 88 MB manifest: of **9,153 chapter jobs**, the median
+   total input is **25,518 chars** against a 6,144-token window — **8,623 (94.2%) overflow at
+   3.5 chars/token and 5,487 (59.9%) overflow even at a generous 4.0.** Largest job: **3.3x the
+   window.** Frontmatter is **clean, 0 of 209 over.** **Still latent** — `catalog.json` holds
+   **6 addresses total**, so generation has never run at volume and nothing is corrupted. But
+   the jobs are built and queued. **Decision needed before the first real generation run.**
+6. **fandom.com still down at the socket**, runs #5–#11. Both `health --preflight` FAILs are the
+   known M3/M1 outages.
+
+**THE RUN'S THEME: the previous three runs read the same two numbers and called it a freeze.**
+Run #10 handed this run a clean, careful queue whose framing was right about almost everything —
+and two of its inherited certainties dissolved on contact with a fresh measurement. That is the
+relay working, not the relay failing.
+
+**m40 IS EXONERATED BY OBSERVATION.** Runs #8, #9 and #10 each read `OVERWATCH.json` at exactly
+**68 rounds / 64 findings**; #8 and #9 filed the merge as a possible fault and #10 downgraded it
+to starvation but left it open. It now reads **69 / 66** — grown in BOTH dimensions — and
+`state/overwatch.log` shows the round that did it finishing via cloud fallback
+(`catalogue_web  2 raw  2 new  105s  (GPU busy; 3 calls to the cloud)`). **It was never frozen.
+A round takes 48-152 s per module under M5 and was simply in flight across three reads.**
+*Lesson written into the paper trail: a value unchanged across N reads is evidence of a freeze
+only if the reads are spaced wider than the thing's natural period — and nobody had measured the
+period.* Overwatch also degrades to cloud rather than dying, which is why it still produces.
+
+**m51 — THE PREFLIGHT THAT SAYS `ok context budget` IS MEASURING THE OTHER PATH.**
+`health.check_context_budget()` imports `read as R` and measures `R.SYSTEM` (read.py's own
+**1,586-char** prompt) and `R.CHUNK` — the wiki-READING pass. It never touches
+`prompts/system_style.txt` (**18,112 chars transmitted**, verified directly) or any `generate.py`
+job. So the writing path in m52 has **no static check anywhere in the codebase**, and the
+preflight prints `ok` while 94% of chapter jobs are over their window. The check is not wrong
+about what it measures — read.py's pass genuinely fits with a 38% margin under every divisor
+tested. It is scoped to one of two paths and named as though it covered both.
+
+**The irony is written in the code.** `generate.py:137-139` sets `num_predict: -1` and its
+comment invokes Hard Rule 0 by name — a capped response "ends a chapter mid-entry without error."
+The OUTPUT side is guarded with that reasoning spelled out. `num_ctx` is the shared input+output
+window on the same call, and the INPUT side has no guard at all.
+
+**Fixed this run (small, verified):**
+* **The entrypass prompt asked for a count it had not shown.** `phase_entrypass` skips struck
+  entries when building `lines`, then closed with `"Return results for all {len(batch)}
+  entries"` — a span of 20 holding 3 excluded ones showed the model 17 and asked for 20. It
+  could not corrupt output (the index guards at `pipeline.py:1025-1030` discard a verdict for an
+  entry never shown) but it spent tokens inviting three invented ones. Now `len(lines)`, pinned
+  by **verify_math §19q** (2 checks). **NOT bounced deliberately** — `pipeline.py` is the one
+  lane still working under M5, the change is token-hygiene with no correctness impact, and a
+  bounce would abandon an in-flight batch to ship it. It lands on the next natural restart.
+* **The single pyflakes warning is gone** (`deprecated/catalogue_local.py:244`, f-string with no
+  placeholders). **The tree now lints completely clean, 0 warnings.**
+
+**On the delegation ladder, honestly:** rung (b) was measured before use, as instructed — and
+measuring it *is* what produced the run's main finding, because the probe that showed the rung
+starved was the same probe that showed WHY. Two sonnet subagents at rung (c) on the rotation
+list's named surfaces (`system_style.txt` against its budget; `pipeline.py`'s `ask`/
+`ask_pool_first`/`phase_entrypass`). **One subagent number was wrong and I caught it by
+re-measuring**: it reported chapter block bodies at a 3,331-char median from a sampling method I
+could not reproduce; serialising the real manifest gives **7,406**. My own first attempt was also
+wrong — it summed only top-level string fields and missed the nested payload entirely, reporting
+a 154-char median. **Both errors pointed the same way (too small), and the corrected number is
+what makes m52 severe rather than marginal.**
+
+**Queue items closed this run:** Q1 (M5 choke) — still present, now with a mechanism. Q2 (m49
+roster) — **held**, allsweep reports **nine** running jobs, 0 subsystems bad. Q3 (m46 feats) —
+**still zero feats addresses**, m46 has not fired. Q4 (m40) — **closed, exonerated.** Q5 (m31
+pipeline) — still no `returned N/M` line, now explained: entrypass runs at 4096 and works, the
+batch-completion line needs the phases that do not. Q6 (M4) — `598 False`, sixth flat run.
+Q7 (m42 hosts) — md5 `451703b8…`, 202/191, holds. Q8 (orphans) — all nine standing jobs alive
+under live parents; no Panscriptum stray.
+
+**Battery:** verify_math **433 passed / 0 FAILED** (+2, §19q) · allsweep **0 subsystems bad**
+(83 s, nine running jobs) · health --preflight **2 FAIL, both the known M3/M1 outages** ·
+silence **12 silent handlers, roster unchanged** · pyflakes **0 warnings (was 1)**.
+
+---
+
 ## 2026-08-24 12:55 (local) — Run #10 (the thing throttling the library was never ours)
 
 **FOR THE OWNER, AT THE TOP:**

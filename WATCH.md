@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 68  ·  last run 2026-08-24 09:59
+round 69  ·  last run 2026-08-24 11:37
 
 ## Structure
 
@@ -11,10 +11,8 @@ round 68  ·  last run 2026-08-24 09:59
 
 ## What the model found in the code
 
-**19 open** (8 high). Newest first.
+**16 open** (6 high). Newest first.
 
-- **standards.py** `job_stamp` — [HIGH] The function is never defined or imported in this slice.
-  - says: Carrying the stamp forward while the size holds is what makes the number mean silence.
 - **descending_ladder.py** `compton_confinement_energy` — [HIGH] Returns the kinetic energy from momentum spread p ~ hbar/(2r), but uses HBAR (reduced Planck constant) instead of hbar/2 in the momentum calculation, leading to incorrect scaling. 
   - says: Energy required to CONFINE a mass to a given size, from the uncertainty principle.
 - **cosmography.py** `_fmt` — [HIGH] is used but never defined in this file or its imports
@@ -27,18 +25,16 @@ round 68  ·  last run 2026-08-24 09:59
   - says: The 'band' field in the profile is decoded correctly from the 'u' or a base32 digit, and mapped to 'unassayed' or a band value from BANDS.
 - **build_terminal.py** `view.w` — [HIGH] The view width is set to the maximum of the SVG's width and height scaled by the aspect ratio, but the code uses `view.w = Math.max(b.width, b.height * ar) * 1.07;` which incorrect
   - says: The view width is adjusted based on the SVG's actual bounding box dimensions after drawing.
-- **manifest_builder.py** `load_record` — [HIGH] The function incorrectly checks `norm_target in norm_fname` (substring containment) and `norm_target.startswith(norm_fname)` (prefix containment), but the logic is reversed: it sho
-  - says: Finds the best matching record file by checking if the normalized source name is a substring of the normalized filename or if the normalized filename is a prefi
+- **catalogue_web.py** `write_record_catalogue` — [MEDIUM] returns whether the rename was successful
+  - says: returns whether the rename LANDED
+- **catalogue_web.py** `ws.rank_by_size` — [MEDIUM] truncates at top=None
+  - says: rank, never truncate
 - **cascade_bridge.py** `ask` — [MEDIUM] The function is used in a way that may not align with its intended purpose, as the code may not correctly handle the 'pin' parameter and the 'timeout' parameter might not be proper
   - says: Send one tiny call to EVERY bucket and record which actually answer.
 - **hostcheck.py** `add` — [MEDIUM] Adds a host to the grounded list if speculative is False, but the function is called with speculative=True for some cases, which is not handled correctly
   - says: Adds a host to either the speculative or grounded list
 - **feats.py** `roll` — [MEDIUM] restrict the roll to sources containing this string
   - says: mine the whole corpus
-- **standards.py** `work_orders` — [MEDIUM] Sorted by severity rank, but the comment and the code in report() contradict this by sorting by severity strings (high, low, medium) instead of using the rank dict
-  - says: Only the breaches, worst first — the thing a person or a model is meant to act on.
-- **standards.py** `_RUNNER` — [MEDIUM] update a dictionary named _RUNNER
-  - says: update the runner status
 - **rigor.py** `p_point` — [MEDIUM] p_point is computed as 1.0 - math.exp(-(10.0 ** log10_median)), which is P evaluated at the mean of lambda, but the comment claims this is the 'point-estimate column' and warns it 
   - says: the point-estimate column is the one to distrust; it is P evaluated at the mean, not the mean of P
 - **endpoint.py** `fetch_html` — [MEDIUM] The function uses `max_workers=2` but the comment says 'Two workers, and politely' — however, the actual value is hardcoded as 2, which contradicts the implication that it's a conf
@@ -49,8 +45,6 @@ round 68  ·  last run 2026-08-24 09:59
   - says: The stage event listeners for wheel and pointermove are bound to enable zoom and pan, with proper handling of pointer events.
 - **build_terminal.py** `srFit` — [MEDIUM] The variable srFit is computed using fitIn with the maximum length of the source names, the radius sr, and a font size of 46, but this value is never used. Instead, the code uses s
   - says: The variable srFit is computed using fitIn with the maximum length of the source names, the radius sr, and a font size of 46, to determine how much text fits in
-- **autostart.py** `ap.add_argument('--read-hours', type=float, default=10)` — [MEDIUM] read-hours argument is used to start the supervisor
-  - says: read-hours argument is used to determine the hours to read
 
 ---
 

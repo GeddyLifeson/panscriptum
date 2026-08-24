@@ -241,7 +241,7 @@ def main():
         t0 = time.time()
         entries, per_cat = catalogue_source(cfg, r)
         if not entries:
-            print(f"      -> nothing recognised, leaving uncatalogued\n")
+            print("      -> nothing recognised, leaving uncatalogued\n")
             continue
 
         record = {
