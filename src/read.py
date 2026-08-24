@@ -164,7 +164,21 @@ def _names(sentence, entity):
     """
     low = sentence.lower()
     parts = [w for w in re.split(r'[^A-Za-z]+', entity) if len(w) > 3]
-    if any(w.lower() in low for w in parts):
+    # A NAME WORD MUST START A WORD OF THE SENTENCE. This was raw substring containment
+    # (`w.lower() in low`), directly under a comment explaining why the pronoun test below was
+    # tokenised -- the boundary discipline was applied to the second check and not the first.
+    # Substring matching attributed 'MetalGarurumon then defeats Azulongmon' to GARURUMON (a
+    # different catalogue entity, whose magnitude the borrowed feat then inflates) and put every
+    # sentence mentioning the Daily 'Planet' onto LOIS LANE, via 'lane'.
+    #
+    # Full-corpus diff before shipping, per the run-#3 lesson that a matching change is not
+    # verified until the cases nobody reported are checked -- 39,198 sentences across all 1,219
+    # readfeats files. Plain word-boundary tokenisation was measured FIRST and rejected: it
+    # dropped 265 real matches, because wiki prose inflects ('Xenomorphs', 'glaives',
+    # 'Geraldos') and a name word is a stem far more often than it is a whole token. Matching at
+    # the START of a token keeps every one of those 265 and removes 37 sentences, every one of
+    # them a suffix collision of the MetalGarurumon/Planet kind. 0 real matches lost.
+    if any(t.startswith(w.lower()) for t in re.split(r'[^a-z0-9]+', low) if t for w in parts):
         return True
     # Tokenised rather than pattern-matched. A word-boundary escape has been eaten in
     # transit six times in this project, and here the failure would have been

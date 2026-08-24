@@ -392,7 +392,7 @@ def kill_duplicate_jobs():
         silence.note("foreman.py:dupes-list")
         return False, "could not enumerate processes"
 
-    seen, killed = {}, []
+    seen, killed, unaged = {}, [], []
     for line in out.splitlines():
         m = _re.search(r"src[\\/](\w+)\.py", line)
         pid = _re.search(r",(\d+)\s*$", line.strip())
@@ -434,8 +434,12 @@ def kill_duplicate_jobs():
                 killed.append(job + ":" + str(p))
             except Exception:
                 silence.note("foreman.py:dupes-kill")
+    note = ("; left alone (creation time unreadable, so no victim can be chosen): "
+            + ", ".join(unaged)) if unaged else ""
     if killed:
-        return True, "ended duplicate " + ", ".join(killed)
+        return True, "ended duplicate " + ", ".join(killed) + note
+    if unaged:
+        return True, "no duplicate ended" + note
     return True, "no duplicates found now"
 
 
@@ -506,6 +510,15 @@ def run_completeness_audit():
         import overnight as ON
         if ON.running("completeness.py"):
             return True, "completeness audit already running"
+        # Gated on fandom exactly as `run_catalogue_gap` above is, and for the same reason its
+        # own docstring gives: dispatching into a live block burns the retry budget and PROLONGS
+        # the block. This audit is 8 category probes per source across 164 fandom sources, and
+        # under the 2026-08-24 block each probe took 129 seconds to fail (25s timeout x retries)
+        # -- measured, not estimated. That is a ~47-minute round of pure failure, restarted every
+        # foreman round, against the domain that has IP-banned this machine once already.
+        if not _fandom_reachable():
+            return False, ("fandom.com is dropping connections (IP block or outage); "
+                           "completeness audit deferred rather than dispatched into it")
         ON.start("completeness", ["src/completeness.py", "--workers", "6"], "completeness.log")
         return True, "started completeness.py"
     except Exception as e:

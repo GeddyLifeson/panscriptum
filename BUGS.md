@@ -7,6 +7,20 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M2] `publish.py --push` does not fetch/rebase before pushing** — five consecutive
+  `! [rejected] main -> main (fetch first)` failures in `state/publish.log` on 2026-08-24 while
+  a second session published concurrently. Commits landed locally and did NOT reach GitHub;
+  `origin/main` and local are in sync again now, but with two writers on this tree it will
+  recur, and the failure is only visible if somebody reads publish.log. Fix is a pull/rebase in
+  the publish path — a change to the release mechanism, so **flagged for a review cycle rather
+  than made silently** (guardrail: no unannounced changes to shared machinery).
+- **[M3] fandom.com is dropping connections at the socket** — measured 2026-08-24 08:35:
+  `marvel.fandom.com` api and html, `dc.fandom.com`, `onepiece.fandom.com` all HTTP 000 after
+  20–21s; `en.wikipedia.org` answers in 0.25s from the same machine. A live probe run took 129s
+  per probe, all 8 failing. NOT a code fault and not auto-fixable — an IP block or edge drop
+  that has cleared on its own before. Everything fandom-facing is blocked behind it: page roll
+  52%, reachable-wiki 90%, the completeness audit. `run_completeness_audit` and
+  `run_catalogue_gap` are both now gated on `_fandom_reachable()` so neither dispatches into it.
 - **[M1] dandwiki.com is API-blocked (HTTP 403 to every non-browser client)** — 4 homebrew
   sources unhosted; HTML answers a browser UA, so a design decision is needed: build an
   HTML-path reader with a browser UA (politeness/ToS question — HUMAN CALL) or leave the four
@@ -46,8 +60,23 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   diagnostic evidence for why the weave linked two shelves, not a reader-facing catalogue
   listing, but Hard Rule 0's text says "no sample" without carving out diagnostics explicitly.
   HUMAN CALL requested in NEXT_STEPS rather than assumed out of scope.
-*Everything still open above is a HUMAN CALL (M1, m12, m13, m16) or an operational state being
-watched (m1, m2). As of run #4 there are no open bugs awaiting only implementation.*
+- **[m24] `cascade_bridge.dead_forever` buries buckets for three undocumented reasons** — the
+  docstring says exclusion is permanent-codes-only (401/402/404/410) and that "a timeout, a 429,
+  or a silent minute excludes nothing", but the code also buries on the substrings `no such
+  model`, `needs billing`, `bad key`. **Currently inert** — verified that no writer of `verdict`
+  produces those strings today (`prove()` writes `answers`/`no answer`/`local`, an exception
+  class name, or `provider disabled`/`no API key`). It becomes live the moment a verdict carries
+  an exception *message* instead of its class name. Contract question rather than a defect:
+  should those three be permanent exclusions (then document them) or not (then drop them)?
+- **[m25] `scout.sweep` keeps only the last 40 run entries** (`prev[-40:]` into `SCOUT.json`).
+  Judged NOT a Hard Rule 0 violation this run — a run history is not a roster, an entry list, a
+  page list or a chunk list — but it is a truncation of an ordered listing and the rule's text
+  does not carve out logs explicitly. **Question, not a fix.** Same family as m16's diagnostics
+  ruling; one decision could settle both.
+
+*Open items are now: two operational blocks that are not code faults (M3 fandom, M1 dandwiki),
+one flagged mechanism change awaiting review (M2 publish), two contract questions (m24, m25),
+the four standing HUMAN CALLs (m12, m13, m16 and M1) and two watched states (m1, m2).*
 
 ## Watching (not bugs — expected states with a clock on them)
 - **`MAX_JOB_SILENCE_MIN = 15` is a live threshold as of run #3** — the stall detector could not
@@ -70,6 +99,53 @@ watched (m1, m2). As of run #4 there are no open bugs awaiting only implementati
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #5 (2026-08-24 08:55, export commits `2989776` / `85c5dba` and the closing sync). Full
+detail in HANDOFF.md's run #5 entry:*
+
+- **COMPLETENESS.json was wiped to `[]` and a HIGH standard reported `0.0% (0 of 0)` off it for
+  two hours.** Two defects in series. (a) `work()` deleted any row it could not fully measure:
+  m3's guard required UNANIMOUS probe failure, so 7 transport errors + 1 clean "no such
+  category" scored 7 < 8 and dropped the row exactly as before the fix — and under a fandom
+  socket-drop that is the normal shape, so all 164 rows vanished. Now any transport failure
+  marks the row `unreliable`; genuine absence is `failed == 0 and not sizes`. (b) `main()` wrote
+  the empty list over the good file with a raw truncating `open("w")`. New `land()`: tmp +
+  `replace_retry`, and it REFUSES to replace a non-empty measurement with an empty one. `--only`
+  is now read-only. verify_math §19d pins both halves.
+- **`standards.py` reported a fabricated 0% instead of "unmeasured"** — with no denominator the
+  arithmetic yields a clean-looking `0.0% (0 of 0)` on a HIGH standard, outranking every real
+  fault while accusing the catalogue of holding nothing. Now says `UNMEASURED` and names which
+  of the two failures it is, because the repairs point in opposite directions.
+- **`read._names` matched by raw substring**, so MetalGarurumon's feats landed on GARURUMON and
+  every Daily *Planet* sentence on LOIS LANE (via `lane`). Fixed to start-of-token matching,
+  chosen by a whole-corpus diff (39,198 sentences, 1,219 files): plain tokenisation lost 265
+  real inflected matches; start-of-token lost 0 and removed 37 suffix collisions. §19f.
+- **`assay._interval` read the global WEIGHTS while using the override's denominator** — a
+  custom-weighted assay's error bar was normalised against a table it did not come from.
+  `custodes.py` builds such a table per Custos. §19e — and §19e itself was rewritten after the
+  obvious relational checks were caught passing under the buggy code.
+- **[Hard Rule 0] `feats.discover`'s `extra=25`** truncated the ranked evidence-page list for
+  exactly the entities with the most written about them; **`scout`'s `[:8]`** truncated proposed
+  URLs *before* verification, so the 9th was never tested; **`worldseed`'s `d[:200]`** windowed a
+  plain in-memory regex against a 167-character median description. All three uncapped; the
+  `extra` parameter now raises rather than capping silently. §19g.
+- **`backfill` printed "absent 0" on every non-dry run** — the real path returned no `absent`
+  key at all, only a post-cap `missing`, while `main()` prints `res.get("absent", 0)`. The
+  completeness column read "nothing missing" precisely while characters were being added.
+- **`foreman.kill_duplicate_jobs` could kill the instance it promised to keep** — an unreadable
+  `CreationDate` defaulted to `"9" * 14`, sorting as the newest, so a garbled-timestamp process
+  was always the one SIGTERMed even when it was the oldest. Now carries `None` and skips the job
+  rather than choosing a victim it cannot age.
+- **Eleven non-atomic writes to shared artifacts** routed through `silence.replace_retry`:
+  `hostcheck` ×7, `scout` ×3, `feats` (WIKI_HOSTS), `identity` (DESIGNATORS), `magnitude`
+  (CHARTER_REGRESSION — a standard reads it), `read` (`_save_qcache`'s bare `os.replace`).
+  WIKI_HOSTS.json was the one that mattered: three writers, six readers, and a truncating write
+  leaves every reader seeing an empty host map, which reads downstream as "no source has a wiki".
+- **`read.py:queue()`'s unguarded `json.load` of WIKI_HOSTS** could have ended a multi-hour pass
+  on a JSONDecodeError with nothing logged. Self-healing with a note now.
+- **NEW: `run_completeness_audit` gated on `_fandom_reachable()`**, as `run_catalogue_gap` beside
+  it already was. Ungated it cost ~47 minutes of pure failure per foreman round against a domain
+  that has IP-banned this machine once already.
 
 *Run #4 (2026-08-24 00:45). Full detail in HANDOFF.md's run #4 entry:*
 

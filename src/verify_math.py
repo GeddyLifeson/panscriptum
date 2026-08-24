@@ -1340,6 +1340,75 @@ check("a --only slice never lands over the whole-corpus file",
       if _CP.land([{"source": "B", "unreliable": None}], only="B") else "?", "A")
 
 
+# ---- Section 19e: the error bar is built from the weights the composite was built from -------
+#
+# `assay(weights=...)` keeps its override local so no other caller sees it; `_interval` read the
+# module-global WEIGHTS while being handed the OVERRIDE's denominator, so a custom-weighted
+# assay's interval was normalised against a table it did not come from. custodes.py builds such
+# a table per Custos. Found 2026-08-24.
+import assay as _AS2                                                   # noqa: E402
+
+_sc = {k: 5.0 for k in _AS2.WEIGHTS}
+_flat = {k: 1.0 for k in _AS2.WEIGHTS}
+_heavy = dict(_flat)
+_heavy[sorted(_heavy)[0]] = 40.0
+
+# A worksheet is required for a number at all (H5), and one axis must be INAPPLICABLE so that
+# `denom` is a strict subset of the table -- that is the only arrangement in which the global
+# and the override can disagree about normalisation.
+_sc[sorted(_sc)[-1]] = _AS2.INAPPLICABLE
+_WS = "regression 19e"
+
+_base = _AS2.assay("M5", _sc, worksheet=_WS, weights=_flat)
+_skew = _AS2.assay("M5", _sc, worksheet=_WS, weights=_heavy)
+check("a reweighted assay produces a real interval", isinstance(_base["interval"], float), True)
+
+# THE VALUES ARE PINNED, and pinned deliberately rather than asserted as a relation, because the
+# obvious relational checks are VACUOUS here -- both "an override equal to the global table
+# reproduces the global interval" and "two different overrides differ" hold under the BUGGY code
+# too, and were written and discarded before this was settled by running the old function
+# against the new checks. Only the arithmetic discriminates. Under the bug, with the global
+# WEIGHTS and the override's denom, these read 0.01 and 0.00; the flat table's own axes are
+# equal, so a flat override must land exactly where the global table lands on equal scores.
+check("a flat weight table gives the flat table's interval", _base["interval"], 0.06)
+check("and an axis weighted 40x widens it", _skew["interval"], 0.15)
+
+
+# ---- Section 19f: a name word must START a word of the sentence ------------------------------
+#
+# `read._names` matched by raw substring containment, which put MetalGarurumon's feats on
+# GARURUMON and every mention of the Daily Planet on LOIS LANE. Whole-corpus diff before the
+# change (39,198 sentences, 1,219 files): plain tokenisation lost 265 real inflected matches;
+# start-of-token matching lost 0 and removed 37 suffix collisions. Fixed 2026-08-24.
+import read as _RD                                                     # noqa: E402
+
+check("an inflected name still matches", _RD._names("Certain Xenomorphs were observed.",
+                                                    "Xenomorph XX121 (Alien)"), True)
+check("and so does a pluralised name word", _RD._names("Throws ricocheting glaives.",
+                                                       "Glaive Dominus"), True)
+check("a name buried at the END of another name does NOT match",
+      _RD._names("MetalGarurumon then defeats Azulongmon.", "Garurumon (Survive)"), False)
+check("nor does a name buried inside an unrelated word",
+      _RD._names("a party at the Planet that day", "Lois Lane (New Earth)"), False)
+check("a generic subject still fails", _RD._names("The user channels energy.", "Goku"), False)
+check("a pronoun still carries the sentence", _RD._names("She lifted the mountain.", "Goku"), True)
+
+
+# ---- Section 19g: caps refused, not honoured, on ranked listings -----------------------------
+#
+# feats.discover ranked evidence pages by article size and then took the top 25 -- rank-then-
+# truncate, which Hard Rule 0 names outright. The parameter survives so no caller breaks, but a
+# numeric value is now refused loudly rather than applied silently. 2026-08-24.
+import feats as _FT                                                    # noqa: E402
+
+try:                                  # SystemExit is a BaseException; _raises would not see it
+    _FT.discover("h", "n", extra=25)
+    _capped = False
+except SystemExit:
+    _capped = True
+check("feats.discover refuses a numeric cap", _capped, True)
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

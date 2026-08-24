@@ -9,6 +9,149 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 08:55 — Run #5 (the empty-file class: a measurement that measured nothing)
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **fandom.com is dropping our connections at the socket RIGHT NOW.** Measured this run, not
+   inferred: `marvel.fandom.com/api.php` → HTTP 000 after 21.3s; `marvel.fandom.com/wiki/...`,
+   `dc.fandom.com`, `onepiece.fandom.com` → HTTP 000 after 20s each; `en.wikipedia.org` answers
+   in **0.25s** from the same machine and second. That is an IP block or an edge drop, not an
+   outage. A live 8-probe run against Marvel took **129 seconds per probe, all eight failing**.
+   Everything fandom-facing (page roll at 52%, hosts at 90%, the completeness audit) is blocked
+   on this, and it is not a code fault. It has cleared on its own before.
+2. **`publish.py --push` was failing repeatedly and silently-ish**: `! [rejected] main -> main
+   (fetch first)`, five times in `state/publish.log`. It does not fetch/rebase before pushing,
+   so any concurrent publisher makes it fail. Local and `origin/main` are back in sync as of
+   this run, but with two writers on this tree that will recur. **Flagged, not fixed** — the
+   fix is a pull/rebase in the publish path and that is a change to the release mechanism.
+3. **This run overlapped a live interactive session** that was editing the same tree (config.
+   yaml, pick_model, local_agent, pipeline, MAINTENANCE/STATUS/WATCH). No collision — disjoint
+   file sets — but a periodic publisher swept this run's **in-flight, not-yet-verified** edits
+   into export commits `2989776` (08:38) and `85c5dba` (08:40) before the battery had run. The
+   battery has since passed on the merged tree. Worth knowing that the publisher does not
+   distinguish a finished edit from a half-finished one.
+
+**THE RUN'S FINDING: a HIGH standard reported a fabricated catastrophe off an empty file.**
+`data/COMPLETENESS.json` held exactly `[]` (2 bytes) from 07:05, and the `every source is fully
+catalogued` standard — HIGH severity, top of the queue — read `0.0% (0 of 0)` off it and
+outranked every real fault for two hours. Two independent defects had to line up:
+
+- **`completeness.work()` deleted any row it could not fully measure.** The m3 fix (run #3)
+  promoted an unmeasurable source into `unreliable` only when **every** probe failed
+  (`failed < len(probes)`). Seven transport failures plus one clean "no such category" answer
+  scores 7 < 8, so the row was deleted exactly as before the fix. Simulated all five shapes:
+  8 errors → kept; **7 errors + 1 clean miss → DROPPED**; 1 error + 7 clean → DROPPED; 8 clean
+  → dropped (correct); 7 errors + 1 real size → kept. Under a fandom socket-drop, mostly-failed
+  -with-one-clean-miss is the *normal* shape. 164 sources probed, 0 rows written. Now: any
+  transport failure at all makes the row `unreliable`; genuine absence is `failed == 0 and not
+  sizes`, which is what the English always said. Rows also carry `probe_failures`/`probes_run`.
+- **`main()` then wrote that empty list over the good file, non-atomically.** Raw
+  `open(OUT,"w")` + `json.dump` — the m6 pattern, which truncates *before* serialising. New
+  `completeness.land()`: tmp + `silence.replace_retry`, and it **refuses** to replace a
+  non-empty measurement with an empty one, exiting non-zero and saying why on stderr. An empty
+  result is the absence of a measurement, not a measurement that everything is empty. `--only`
+  is now read-only for the same reason: a filtered run is already not a whole-corpus answer.
+- **`standards.py` no longer reports `0.0% (0 of 0)`.** With no denominator it reads
+  `UNMEASURED -- N row(s), M measurable, no denominator obtained. This is the audit failing to
+  measure, NOT the catalogue measuring empty.` Still a fault; the two repairs point in opposite
+  directions and the operator must be told which one this is. Live-verified.
+- **The foreman no longer dispatches the audit into a live block.** `run_completeness_audit` is
+  now gated on `_fandom_reachable()`, exactly as `run_catalogue_gap` beside it already was, and
+  for the reason that function's own docstring gives: dispatching into a block burns the retry
+  budget and *prolongs* it. Measured cost of not gating: ~47 minutes of pure failure per round,
+  restarted every round, against the domain that has IP-banned this machine once already.
+
+**`read._names` matched by raw substring — MetalGarurumon's feats were landing on Garurumon.**
+The check that decides whether a verified sentence is about the entity used `w.lower() in low`,
+sitting directly beneath a comment explaining why the *pronoun* test below it was tokenised.
+So "Lois Lane" collected every sentence mentioning the Daily **Planet** (via `lane`), and
+**MetalGarurumon** — a different catalogue entity — donated its feats to **Garurumon**, inflating
+its magnitude. Per run #3's lesson, diffed over the whole corpus before shipping: **39,198
+sentences, all 1,219 readfeats files.** Plain word-boundary tokenisation was measured FIRST and
+**rejected** — it lost **265 real matches**, because wiki prose inflects (`Xenomorphs`,
+`glaives`, `Geraldos`) and a name word is a stem more often than a whole token. Matching at the
+**start of a token** keeps all 265 and removes **37**, every one a suffix collision of the
+MetalGarurumon/Planet kind. 0 real matches lost. That measurement is what chose the fix.
+
+**The Assay's error bar was built from the wrong weight table.** `assay(weights=...)` keeps its
+override local (`W`) so a reweighting stays invisible to other callers — but `_interval` read
+the module-global `WEIGHTS` while being handed the *override's* denominator, so a custom-weighted
+assay took its composite from one table and its interval from another, normalised against a
+denominator belonging to neither. `custodes.py` builds exactly such a table per Custos; it reads
+only `decimal` today, which is why nothing caught it. Fixed by passing `W` through.
+
+**Two Hard Rule 0 truncations, both rank-then-truncate on ranked listings:**
+- `feats.discover(extra=25)` — `sorted(hits, reverse=True)[:extra]` on the *evidence page list*,
+  never overridden by any caller. It dropped the tail for exactly the entities with the most
+  written about them. Ranking kept, truncation gone; the parameter survives so no caller breaks
+  but now raises `SystemExit` rather than silently capping.
+- `scout.py` — `[:8]` on the URLs the model proposes, applied **before** verification, so the
+  9th candidate was never even tested. The prompt itself invites a spread across seven-plus
+  platforms per creator. Uncapped; verification is one cheap fetch each.
+- `worldseed.py` searched `d[:200]` for a world keyword. Plain in-memory regex, no token budget
+  to justify a window, and the module's own note says the median description is 167 characters
+  — so a real tail of Places whose defining word fell past character 200 were silently excluded
+  from ever getting an address. Searches the whole description now.
+
+**`backfill` printed "absent 0" on every real run.** The non-dry return had no `"absent"` key at
+all — only a post-cap `"missing"` — while `main()` prints `res.get("absent", 0)`. So the
+operator-facing completeness column read *nothing was missing* precisely while characters were
+being added to fix what was. Both numbers now returned on both paths, named for what they are.
+
+**`foreman.kill_duplicate_jobs` could SIGTERM the instance it promised to keep.** An unreadable
+`CreationDate` defaulted to `"9" * 14`, which sorts as the *newest* possible process — so the
+one instance whose timestamp WMIC garbled was always sorted last and always killed, even when it
+was in fact the oldest. Guessing a timestamp in order to choose a kill target is the same
+species of error as `_checks_pass` accepting `"10 FAILED"`. Now carries `None` and **skips the
+job**, reporting it, rather than picking a victim it cannot age.
+
+**Eleven non-atomic writes to shared artifacts, routed through `silence.replace_retry`** —
+`hostcheck` ×7 (WIKI_HOSTS ×2, HOST_UNFIT, HOST_FITNESS, ROSTER_PURGES, ROSTER_AUDIT, and a
+per-source record file in `purge()`), `scout` ×3 (WIKI_HOSTS, SCOUT_BLOCKED, SCOUT), `feats`
+(WIKI_HOSTS), `identity` (DESIGNATORS), `magnitude` (CHARTER_REGRESSION, which a standard reads),
+`read` (`_save_qcache` used a bare `os.replace`). **WIKI_HOSTS.json is the one that mattered**:
+written from three call sites in two modules, read by feats, read, completeness, ingest_doc and
+wiki_source. A truncating write leaves every reader looking at an empty host map — and an empty
+host map reads downstream as "no source has a wiki", the same inversion this run spent its
+morning on. `read.py:queue()`'s unguarded `json.load` of that file — which could have ended a
+multi-hour pass on a `JSONDecodeError` with nothing logged — is now self-healing with a note.
+
+**Regression checks added (verify_math §19d–§19g, 292 → 313 checks, 0 FAILED)** covering the
+completeness row-drop and write contract, the Assay weight table, `_names`, and the refused cap.
+**§19e was rewritten after being caught vacuous**: the obvious relational assertions ("an
+override equal to the global table reproduces its interval", "two different overrides differ")
+**both pass under the buggy code**. Only the arithmetic discriminates, so the values are pinned
+— and the pin was verified by running the *pre-fix* function against the new checks: flat reads
+0.01 and heavy 0.00 under the bug, 0.06 and 0.15 under the fix. A green check nobody has seen
+fail is not evidence.
+
+**Delegation.** Rung 1 (the repo's own bots) settled three overwatch findings for free —
+pyflakes refutes every "used but never defined" claim in seconds. Rung 2 (Ollama) was **skipped
+deliberately and the reason is worth recording**: the GPU had exactly one model (`qwen3:8b`),
+the pipeline was mid-phase-2 on it, and the foreman's own model lane was reporting *"GPU busy
+and no spare pool capacity; will retry"* on three separate items. Adding `local_agent` load
+would have contended with the work it was meant to accelerate. Rung 3: four subagents — three
+audit surfaces plus one verifying overwatch's 20 open HIGH findings.
+
+**Overwatch's local model is reporting fixed bugs as live ones.** Of its 20 open HIGH findings,
+**3 were real** (the foreman sort default, `backfill`'s label, and `cascade_bridge.dead_forever`
+accepting three undocumented verdict substrings — currently inert, since no writer produces
+those strings) and **17 were false**. The dominant failure mode is specific and fixable: the
+model reads an inline comment *narrating a historical bug* and reports the narration as the
+current behaviour. `chain`'s off-by-one, `pipeline`'s 209 AttributeErrors, `catalogue_web`'s
+MAX_PER_CATEGORY TypeError and `manifest_builder`'s reversed containment are all **documented
+past fixes** whose comments the model mistook for present tense. That is a prompt problem, not a
+model problem, and it is why every finding is verified against source before anything is touched.
+
+**Battery:** `verify_math` 313 passed / 0 FAILED · `allsweep` 0 subsystems in a bad state ·
+`health --preflight` 2 problems, **both owner decisions** (dandwiki M1; the dandwiki feats cache
+empty as a consequence) · `silence` 12 silent handlers of 342, unchanged · `pyflakes` clean but
+for one pre-existing f-string warning in `src/deprecated/`. Bounced `read.py`, `feats.py` and
+`completeness.py`, whose launch-time imports this run changed.
+
+---
+
 ## 2026-08-24 00:45 — Run #4 (owner: delete m20, handle the rest, and run a real pass)
 
 **THE STRANDED-BATCH FIX IS CLOSED, END TO END, IN PRODUCTION.** Run #3 verified it only by unit

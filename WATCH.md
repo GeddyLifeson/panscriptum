@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 64  ·  last run 2026-08-24 08:04
+round 65  ·  last run 2026-08-24 08:32
 
 ## Structure
 
@@ -11,8 +11,10 @@ round 64  ·  last run 2026-08-24 08:04
 
 ## What the model found in the code
 
-**21 open** (13 high). Newest first.
+**22 open** (13 high). Newest first.
 
+- **standards.py** `job_stamp` — [HIGH] The function is never defined or imported in this slice.
+  - says: Carrying the stamp forward while the size holds is what makes the number mean silence.
 - **descending_ladder.py** `compton_confinement_energy` — [HIGH] Returns the kinetic energy from momentum spread p ~ hbar/(2r), but uses HBAR (reduced Planck constant) instead of hbar/2 in the momentum calculation, leading to incorrect scaling. 
   - says: Energy required to CONFINE a mass to a given size, from the uncertainty principle.
 - **cosmography.py** `_fmt` — [HIGH] is used but never defined in this file or its imports
@@ -21,8 +23,6 @@ round 64  ·  last run 2026-08-24 08:04
   - says: If none of the strategies land, the ceiling is left ALONE and reported -- guessing a name would be worse than admitting phase 1 answered the wrong question.
 - **backfill.py** `backfill_source` — [HIGH] returns a dictionary with 'missing' key indicating how many entries were missing after applying the cap, not the original number of missing entries
   - says: returns a dictionary with 'absent' key indicating how many entries were missing from the source's roster
-- **verify_math.py** `_raises` — [HIGH] the check uses _raises(lambda: AS.pack(99, 0, 0, 0, 0, 0, 0, 0)), True, which assumes _raises is defined and checks that the call raises an exception — but _raises is not defined i
-  - says: an out-of-range field RAISES rather than wrapping silently
 - **silence.py** `note` — [HIGH] Records the exception currently being handled, but also flushes the health ledger every FLUSH_EVERY calls, even if the exception was not successfully recorded due to an internal fa
   - says: Record the exception currently being handled, then return.
 - **profile.py** `decode` — [HIGH] The 'band' field is decoded correctly, but the code uses B32.index(band) when band is 'u', which raises ValueError because 'u' is not in B32. The code should check for 'u' before u
@@ -39,8 +39,10 @@ round 64  ·  last run 2026-08-24 08:04
   - says: Keep the OLDEST instance of each job and end the rest.
 - **feats.py** `api` — [HIGH] May make a MediaWiki API call to the wrong endpoint if the wiki is not Fandom or Wikipedia
   - says: Makes a MediaWiki API call to the correct endpoint
-- **verify_math.py** `AS.map_seed` — [MEDIUM] the check compares AS.map_seed(_a) == AS.map_seed(_a), which is always true regardless of implementation — it does not verify that the seed is derived from the address, only that t
-  - says: the map seed is derived from the address, not stored
+- **standards.py** `work_orders` — [MEDIUM] Sorted by severity rank, but the comment and the code in report() contradict this by sorting by severity strings (high, low, medium) instead of using the rank dict
+  - says: Only the breaches, worst first — the thing a person or a model is meant to act on.
+- **standards.py** `_RUNNER` — [MEDIUM] update a dictionary named _RUNNER
+  - says: update the runner status
 - **rigor.py** `p_point` — [MEDIUM] p_point is computed as 1.0 - math.exp(-(10.0 ** log10_median)), which is P evaluated at the mean of lambda, but the comment claims this is the 'point-estimate column' and warns it 
   - says: the point-estimate column is the one to distrust; it is P evaluated at the mean, not the mean of P
 - **endpoint.py** `fetch_html` — [MEDIUM] The function uses `max_workers=2` but the comment says 'Two workers, and politely' — however, the actual value is hardcoded as 2, which contradicts the implication that it's a conf

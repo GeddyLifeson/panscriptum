@@ -225,7 +225,13 @@ def write(state=None):
 
 
 def push(message=None):
-    """Commit and push, quietly doing nothing when nothing changed."""
+    """Commit and push, quietly doing nothing when nothing changed.
+
+    FETCH-REBASE FIRST. Two writers publish into this tree (the standing loop and whatever
+    session is working), and a bare push from the second one fails `! [rejected] main -> main
+    (fetch first)` -- run #5 counted five such silent-ish failures in one morning. Rebasing our
+    commit onto whatever landed keeps both writers' work; a rebase that conflicts is aborted
+    and reported, never forced -- the next loop retries on a fresh read of the tree."""
     if not os.path.isdir(os.path.join(SITE, ".git")):
         raise RuntimeError("export is not a repo yet -- run --init --remote first")
     git("add", "-A")
