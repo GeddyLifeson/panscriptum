@@ -106,6 +106,21 @@ with the card. The bug was in the tool reaching for the answer. **When a diagnos
 diagnostic is a suspect** — it is running on the same machine, under the same contention, as
 the thing it is measuring.
 
+**Outcome on the page: 11 red standards down to 9.** `the local model produces tokens` now reads
+`holds=True` (the manufactured red — gone), alongside `every managed job is running` and
+`one instance of each job`. **The 9 that remain are all known and owner-facing**: the pool's
+throughput and success rate (§2 B), M8's three, settled/roll percentages, `every running job is
+advancing`, and `chunks nobody answered` — **that last one is M7 finally surfacing honestly**
+rather than a new fault.
+
+**Jobs bounced: `dashboard` and `publish` only**, because a running process holds the module
+object it imported at launch, so the m66/m67 fix could not reach the page without a restart.
+**The foreman was deliberately left alone** (§1.3's `--adopt` child), as were `read`, `pipeline`,
+`feats --roll`, `overwatch`, `overnight` and `autostart`. Both came back on the fixed module and
+`one instance of each job` verifies green. One process-matching command was careless enough to
+match its own shell and kill it — no project job was affected, and the roster was re-verified by
+PID afterwards.
+
 **Battery:** `verify_math` 491/0 · `allsweep` **0 subsystems bad**, all 9 jobs single-instance ·
 `health --preflight` **2 FAILs, both known and both owner-facing** (M8's fandom API paths, M1's
 dandwiki empties) — unchanged from run #14, no new breakage · `silence.py` **35 silent handlers,

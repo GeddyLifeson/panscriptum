@@ -1,5 +1,5 @@
 {
- "at": "2026-08-24 18:41:47",
+ "at": "2026-08-24 18:43:21",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -384,9 +384,9 @@
     },
     {
      "name": "rpm",
-     "left": 28,
+     "left": 26,
      "cap": 30,
-     "frac": 0.9333
+     "frac": 0.8667
     },
     {
      "name": "tpm",
@@ -692,77 +692,77 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 115,
-  "per_hour": 460,
+  "calls": 61,
+  "per_hour": 244,
   "buckets": [
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 43,
-    "ok": 5
-   },
-   {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 27,
-    "ok": 1
-   },
-   {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 7,
+    "calls": 44,
     "ok": 3
    },
    {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 2,
+    "ok": 0
+   },
+   {
     "bucket": "nvidia:free",
-    "calls": 6,
-    "ok": 6
-   },
-   {
-    "bucket": "cloudflare:free",
-    "calls": 5,
-    "ok": 0
-   },
-   {
-    "bucket": "cohere:free",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 3,
-    "ok": 1
-   },
-   {
-    "bucket": "hyperbolic:free",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 3,
-    "ok": 0
+    "calls": 2,
+    "ok": 2
    },
    {
     "bucket": "sambanova:free",
-    "calls": 3,
+    "calls": 2,
     "ok": 0
    },
    {
     "bucket": "zai:free",
-    "calls": 3,
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 1,
     "ok": 0
    }
   ]
@@ -771,11 +771,11 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 4989,
+   "done": 5047,
    "total": 104442,
-   "detail": "700/40,243 entities  \u00b7  29,509 feats  \u00b7  0.52 chunks/s",
+   "detail": "710/40,243 entities  \u00b7  29,864 feats  \u00b7  1.40 chunks/s",
    "warn": "52 unanswered",
-   "eta_h": 53.5
+   "eta_h": 19.8
   },
   {
    "name": "page roll",
@@ -801,7 +801,7 @@
    "read": 32906,
    "settled": 40916,
    "feats": 54826,
-   "age_h": 0.1
+   "age_h": 0.2
   },
   "phases": [
    {
@@ -837,7 +837,7 @@
     "built": true
    }
   ],
-  "readfeats": 1267
+  "readfeats": 1269
  },
  "watch": {
   "open": 0,
@@ -848,16 +848,16 @@
   "swallowed": [
    [
     "silent:feats.py:139:URLError",
-    50
+    75
    ]
   ],
-  "swallowed_total": 50
+  "swallowed_total": 75
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1919,
-   "p50": 4.5,
+   "n": 1917,
+   "p50": 4.2,
    "p95": 15.9,
    "ok_pct": 5,
    "tps": null
@@ -872,11 +872,11 @@
   },
   {
    "tag": "ask",
-   "n": 36,
-   "p50": 65.8,
+   "n": 38,
+   "p50": 66.1,
    "p95": 178.6,
    "ok_pct": null,
-   "tps": 14.7
+   "tps": 14.9
   },
   {
    "tag": "overwatch",
@@ -900,7 +900,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 460,
+   "observed": 244,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -936,7 +936,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "14% ok",
+   "observed": "8% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -953,8 +953,8 @@
   {
    "standard": "corpus read finishes inside a day",
    "group": "read",
-   "holds": false,
-   "observed": "53.5h",
+   "holds": true,
+   "observed": "19.8h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -963,7 +963,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "5.91",
+   "observed": "5.92",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -990,7 +990,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.1h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1044,7 +1044,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "50",
+   "observed": "75",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1125,7 +1125,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.1h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1152,7 +1152,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "roll_auto (19 min, 22289 bytes)",
+   "observed": "roll_auto (21 min, 22289 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1196,8 +1196,8 @@
   {
    "standard": "every managed job is running",
    "group": "machine",
-   "holds": false,
-   "observed": "publish.py",
+   "holds": true,
+   "observed": "all up",
    "floor": "all up",
    "order": "The supervisor starts these every cycle, so one that is down means it failed on startup rather than never being launched -- read its log in state/. If the SUPERVISOR is down, the watchdog in autostart.py restarts it within three minutes.",
    "severity": "medium"
@@ -1205,8 +1205,8 @@
   {
    "standard": "one instance of each job",
    "group": "machine",
-   "holds": true,
-   "observed": "one each",
+   "holds": false,
+   "observed": "publish.py x2",
    "floor": "one each",
    "order": "Two copies of the same job race on one cache and split one quota. The supervisor excludes by process basename before launching, so a duplicate means one was started outside it -- find and stop the older.",
    "severity": "high"
@@ -1244,44 +1244,44 @@
    "metric": "cited",
    "now": 8010,
    "delta": 5,
-   "minutes": 35,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "settled",
    "now": 40916,
    "delta": 0,
-   "minutes": 35,
+   "minutes": 36,
    "stalled": true
   },
   {
    "metric": "feats",
    "now": 54826,
    "delta": 293,
-   "minutes": 35,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "entities read",
-   "now": 1267,
-   "delta": 20,
-   "minutes": 35,
+   "now": 1269,
+   "delta": 22,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "chunks",
-   "now": 4989,
-   "delta": 504,
-   "minutes": 35,
+   "now": 5047,
+   "delta": 562,
+   "minutes": 36,
    "stalled": false
   },
   {
    "metric": "standards met",
-   "now": 27,
-   "delta": 0,
-   "minutes": 35,
-   "stalled": true
+   "now": 28,
+   "delta": 1,
+   "minutes": 36,
+   "stalled": false
   }
  ],
- "generated": "2026-08-24T18:42:23"
+ "generated": "2026-08-24T18:43:57"
 }
