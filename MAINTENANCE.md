@@ -79,7 +79,14 @@ the platform safely allows, with an overlap guard so runs never stack.*
   `panscriptum-export` (the `.is-export-copy` guard refuses); pyflakes is the linter,
   `verify_math.py` + `allsweep.py` are the suite.
 
-## THE RUN PROMPT (canonical — the scheduled task fires exactly this)
+## THE RUN PROMPT
+
+*Rewritten 2026-08-24. The canonical text now lives in the task itself
+(`~/.claude/scheduled-tasks/panscriptum-maintenance/SKILL.md`) — read it there rather than
+here, because this copy has drifted before. Its opening section is CONTINUITY: it states
+plainly that each fire is a new session with no memory, names the exact read order for
+reconstructing state, and tells the run to treat a predecessor's claim as evidence rather
+than proof. The summary below is a sketch, not the source of truth.*
 
 > You are the Panscriptum maintenance super-supervisor, a recurring scheduled run in
 > `C:\Users\imarl\panscriptum-library-kit`. Read `MAINTENANCE.md` at the repo root FIRST and
@@ -98,10 +105,22 @@ the platform safely allows, with an overlap guard so runs never stack.*
 
 ## Cadence
 
-**Hourly (minute :20 local) — the platform's floor for a recurring scheduled task**, which
-is therefore "as often as possible" here; the scheduler rejects sub-hourly minute lists.
+**Every 15 minutes — cron `11,26,41,56 * * * *` (local), plus a few minutes of dispatch
+jitter.** (Corrected 2026-08-24: this section previously claimed "hourly at :20, the
+platform's floor", and that the scheduler rejects sub-hourly minute lists. Neither is true —
+the live task has been firing four times an hour. The claim went unchallenged because nothing
+ever read the cron back; if you change the cadence, change it HERE and in the task, and check
+`list_scheduled_tasks` rather than trusting this file.)
+
+A run takes roughly 20–35 minutes, so **fires routinely land on a live predecessor, and that
+is the designed steady state, not a fault** — the overlap guard exits in seconds and the
+repo's own continuous machinery covers the gaps. It also means the *effective* cadence is
+"a new run starts whenever the previous one has finished", which is the real intent.
+
+Every fire is a FRESH SESSION with no memory of the last one; continuity comes entirely from
+the ledgers (`NEXT_STEPS.md` → `HANDOFF.md` → `BUGS.md`). That is why the ledger-writing step
+is not bookkeeping — it is the only channel between runs.
+
 Runs execute while the Claude app is open (a fire missed while closed runs on next launch).
-The overlap guard makes any frequency harmless — a fire landing on a live predecessor exits
-in seconds — and the repo's own continuous machinery covers the minutes between fires. Task
-id: `panscriptum-maintenance` (Scheduled section of the app sidebar; prompt stored at
+Task id: `panscriptum-maintenance` (Scheduled section of the app sidebar; prompt stored at
 `~/.claude/scheduled-tasks/panscriptum-maintenance/SKILL.md`).
