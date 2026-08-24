@@ -514,6 +514,29 @@ Universes whose deepest physics are the rules of a game. The Custodes catalogued
 - **II.P.3 — The Concrete Liturgies** *(the skate universes: San Vanelona, New San Vanelona, and Port Carverton, where gravity is negotiable, security guards are an eternal and apparently self-renewing order, and the session marker grants ambient, low-band time rewind to anyone on a board — making skaters the lowest-magnitude entities in the entire library to carry a measurable time-Transgression score. This volume contains Lector Moth's favorite worksheet: the full assay of a street skater, printed as proof that the Assay resolves M0 to the same two decimals as M7.)*
 - **II.P.4 — The Rules of Play** *(synthesis: game-law as cosmology — how a universe's rules can be its physics; comparative study across the Monkey Aeons, the Farce Front, the Rot City, and the Loop; and the Set's closing question, left open on purpose: who is playing?)*
 
+---
+
+### AMENDMENT — THE PROMOTION LADDER *(owner ruling, 2026-08-24)*
+
+*A source's rank in the hierarchy follows the size of its catalogued cast, rather than a judgement made once when it joined the Acquisitions Roll and never revisited. The Custodes' reasoning is that a shelf is a claim about how much there is to say, and a claim of that kind should be answerable to the count.*
+
+| Catalogued entries | Rank |
+|---|---|
+| under 400 | **Volume** |
+| 400 – 899 | **Series** |
+| 900 – 2,999 | **Grand Series** or **Wing** |
+| 3,000 and above | **Set** |
+
+These floors were fitted to the Roll as it actually stands — 209 sources carrying entries, a median cast of 194 and a maximum of 30,207 — and yield 163 Volumes, 37 Series, 8 Grand Series and a single Set. That Set is Marvel, which this charter had already promoted to a Set with two Wings by hand, years before the count was taken. A rule whose only automatic promotion is one the librarian already made is a rule that agrees with the librarian.
+
+Two provisions bind it, and they matter more than the numbers:
+
+**Promotion only, never demotion.** A cast count is a measurement, and measurements in this library have gone briefly and wrongly to zero more than once. A source that appears to shrink has almost certainly suffered a broken read, not a loss of substance; demoting on that reading would rewrite its address downward and silently break every cross-reference aimed at the old one. Growth is real. Shrinkage is usually a wound in the instrument.
+
+**A promotion raises a question, it does not answer one.** Crossing a floor changes a source's *rank*. It does NOT change its spine code, because where a work sits in the Collection/Set/Series structure is a curatorial judgement reserved to the owner under Hard Rule 2, and an address quietly deepened by machinery is exactly the invented address that rule forbids. So a promotion records itself and raises a standing work order — *this source has outgrown its code* — and waits. The Custodes note that this is the same discipline they apply to themselves: the Assay may measure a god, but only a Custos may move one.
+
+---
+
 ### COLLECTION III — THEOGRAPHIA *(12 volumes)*
 *The catalogue of gods. Each volume records the pantheon's courts, domains, servants, faiths, sites, and — in the For the Table sidebars — divine stat guidance by Magnitude.*
 

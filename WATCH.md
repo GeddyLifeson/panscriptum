@@ -1,15 +1,17 @@
 # OVERWATCH
 
-round 67  ·  last run 2026-08-24 09:27
+round 68  ·  last run 2026-08-24 09:59
 
 ## Structure
 
 - modules that will not import: **0**
 - files that will not parse: **0** of 64,919 inspected
+- catalogued sources with no host: **20** Clockwork Angels (Rush), Curious DM Investigations (the Sharkin), Dr. Firestorm'
+- on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**18 open** (8 high). Newest first.
+**19 open** (8 high). Newest first.
 
 - **standards.py** `job_stamp` — [HIGH] The function is never defined or imported in this slice.
   - says: Carrying the stamp forward while the size holds is what makes the number mean silence.
@@ -27,6 +29,8 @@ round 67  ·  last run 2026-08-24 09:27
   - says: The view width is adjusted based on the SVG's actual bounding box dimensions after drawing.
 - **manifest_builder.py** `load_record` — [HIGH] The function incorrectly checks `norm_target in norm_fname` (substring containment) and `norm_target.startswith(norm_fname)` (prefix containment), but the logic is reversed: it sho
   - says: Finds the best matching record file by checking if the normalized source name is a substring of the normalized filename or if the normalized filename is a prefi
+- **cascade_bridge.py** `ask` — [MEDIUM] The function is used in a way that may not align with its intended purpose, as the code may not correctly handle the 'pin' parameter and the 'timeout' parameter might not be proper
+  - says: Send one tiny call to EVERY bucket and record which actually answer.
 - **hostcheck.py** `add` — [MEDIUM] Adds a host to the grounded list if speculative is False, but the function is called with speculative=True for some cases, which is not handled correctly
   - says: Adds a host to either the speculative or grounded list
 - **feats.py** `roll` — [MEDIUM] restrict the roll to sources containing this string

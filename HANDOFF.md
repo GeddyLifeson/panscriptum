@@ -9,6 +9,56 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 ~10:15 — Interactive session, part 2 (the promotion ladder)
+
+**WHY COMPLETENESS KEPT EMPTYING — the actual answer, and a hole still open.** The audit is
+dispatched by the foreman **every round**, marked `always`. So any shape of bad run recurs
+unattended, hourly, forever — that cadence is the reason a fragile measurement kept ending up
+wrong rather than being wrong once. Three defects each produced an empty file, and each fix was
+written against precisely the failure observed, so the next slightly-different shape walked past
+it: `work()` dropped unmeasurable rows (fixed run #5), `main()` wrote unconditionally and
+non-atomically (fixed run #5), and — found today — **`land()`'s guard covered only `[]`, not
+shrinkage**. Verified: `164 rows -> 3 rows` landed silently, a 98% loss, after which the
+standard would have read a confident coverage figure off the three survivors. Added
+`SHRINK_FLOOR = 0.5`: a run carrying under half the rows already on disk is refused loudly.
+Verified across empty / 98%-loss / ordinary-fluctuation / growth. verify_math extended.
+
+**OWNER AMENDMENT: the promotion ladder.** "Each classification should have a standard that over
+x entries it increases in overall classification hierarchy." Thresholds fitted to the real
+corpus (209 sources with entries, median 194, max 30,207), not invented: **Volume <400, Series
+400-899, Grand Series/Wing 900-2999, Set 3000+**. That yields 163/37/8/1 — and the single
+automatic Set is Marvel, which the charter had already promoted by hand. Written into the
+charter as a formal amendment; `address.tier_for` / `promote` implement it; verify_math §19f
+pins the boundaries.
+
+Two provisions carry the actual safety:
+- **Promotion only, never demotion.** A cast count is a measurement, and this project's
+  measurements have gone wrongly to zero twice this week. Demoting on a bad read would rewrite
+  an address downward and break every cross-reference aimed at it. Proven in a sandbox: a source
+  at `grand` survives a 1200→0 read unchanged.
+- **A promotion raises a question, it does not answer one.** Crossing a floor changes the RANK.
+  It does **not** change the spine code, because that is curatorial work Hard Rule 2 reserves
+  for the owner — an address quietly deepened by machinery is the invented address that rule
+  forbids. `phase_shelve` records `rank`, `rank_at_code` and `code_amendment_pending`, and a new
+  standard (`promotions have their spine codes amended`, medium) surfaces the gap as a work
+  order. `rank_at_code` moves only when a human amends the charter. On first sighting it is set
+  to the source's current rank, so day one raises no false work orders; the flag fires only on
+  genuine later growth.
+
+**The 112, resolved to 91 DECIDED / 21 PROPOSED / 0 open** (`output/index/PROPOSED_SPINE_CODES.md`).
+Owner rulings this session: D&D folder (53) → II.L.7; cartoon block (10) → new Set II.Q, with
+Who Framed Roger Rabbit as its keystone; Pantheon:X → merged into existing III codes; board games
+→ II.P; Alien → II.N but Predator → II.I (split); Journey to the West → III.8 as a real mythic
+tradition; Professional Wrestling → II.C; God of War → II.L cross-shelved against III.1/III.2;
+Helldivers → II.F; Mario → II.P, explicitly *following the ladder rather than being excepted from
+it*. **Still not written to `CHARTER_SPINE_CODES.json`.**
+
+**A design point the owner should see:** `CHARTER_SPINE_CODES.json` has **no writer anywhere in
+`src/`**. CLAUDE.md says it is parsed from the charter's Acquisitions Index, so the charter is
+canonical and the JSON is derived — meaning decisions written only into the JSON are erased the
+next time anyone re-derives it. The 91 rulings should land in the charter appendix first, JSON
+second.
+
 ## 2026-08-24 ~09:40 — Interactive session (owner: "go fix fucking completeness")
 
 **GUARD VIOLATION, MINE, RECORDED HONESTLY.** The guard held `claude-maintenance-run6` with

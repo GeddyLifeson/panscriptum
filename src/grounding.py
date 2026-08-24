@@ -118,14 +118,34 @@ def classify_text(text, top=3):
     return scores.most_common(top)
 
 
-def classify_source(rec, cap=140000, floor=6):
+def classify_source(rec, cap=None, floor=6):
     """Which answer to the First Argument does this source's cosmos give?
 
     `floor` matters. A single stray "created the world" is not a cosmogony, and forcing every
     shelf into a type would manufacture exactly the false confidence the Omega Band's own
     integrity rules forbid. Below the floor the honest answer is UNGROUNDED -- which is a real
     type here, not a failure code.
+
+    [HARD RULE 0] `cap` was 140,000 characters, applied to the origin-bearing entries in STORED
+    order. Six sources exceed it; Marvel carries 3,888,267 characters across 5,012 origin
+    entries, so the cap read 3.6% of the cosmogony and stopped. Whole-corpus check before this
+    changed (210 records): no source's VERDICT flipped -- but that is luck, not safety, and the
+    reported evidence was wrong regardless. Marvel's `origin_entries` read 153 instead of 5,012
+    and its score 95 instead of 930, so the record understated its own attestation 33-fold on
+    the very field a reader would use to judge how well-founded the claim is.
+
+    Sibling `genre.classify_source` had the same shape and there SEVEN sources answered
+    differently once uncapped -- which is what the two-verdict difference between these modules
+    really shows: the cap is a coin toss whose outcome nobody was checking.
+
+    Parameter kept so no caller breaks; a numeric value is refused loudly, as in
+    `feats.discover` and `genre.classify_source`. 2026-08-24.
     """
+    if cap is not None:
+        raise SystemExit(
+            "grounding.classify_source: `cap` truncates the origin-entry list in STORED order "
+            "(Marvel: 153 of 5,012 origin entries read). Hard Rule 0 -- rank if you must, never "
+            "truncate. Pass cap=None.")
     # A cosmogony is stated in a source's ORIGIN entries, not smeared across its whole catalogue.
     # Reading everything let incidental vocabulary outvote the actual creation account -- which is
     # how "recurring character" nearly made eternal recurrence the commonest cosmology in the
@@ -138,8 +158,6 @@ def classify_source(rec, cap=140000, floor=6):
             continue
         origin_entries += 1
         parts.append(blob)
-        if sum(len(p) for p in parts) > cap:
-            break
     syn = rec.get("synthesis") or {}
     parts.append((syn.get("rationale") or "") + " " + (syn.get("evidence") or ""))
     ranked = classify_text(" ".join(parts))

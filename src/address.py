@@ -194,7 +194,61 @@ def recipe_hash(address: str, model: str, seed, prompt_version: str, content_has
     return hashlib.sha256(key.encode("utf-8")).hexdigest()[:24]
 
 
+# ---------------------------------------------------------------- the promotion ladder
+#
+# OWNER AMENDMENT, 2026-08-24: "each classification should have a standard that over x entries
+# it increases in overall classification hierarchy." A source's shelf rank is a function of how
+# much of it there actually is, rather than a judgement made once when it joined the roll and
+# never revisited.
+#
+# The thresholds were chosen against the real corpus, not invented: 209 sources carry entries,
+# median 194, mean 410, max 30,207 (Marvel). This ladder yields 163 Volumes, 37 Series, 8 Grand
+# Series/Wings and 1 Set -- and that one Set is Marvel, which the charter had already promoted
+# to a Set with two Wings by hand. A rule whose only automatic Set is the one a human already
+# made is a rule that agrees with the librarian.
+#
+# Deliberately conservative. Lowering Set to 1,000 would mint six Sets at a stroke (Black Ops,
+# KibblesTasty, Unearthed Arcana, Battlefield, Gears of War alongside Marvel), which is a
+# structural change to Collection II rather than a shelving correction.
+TIER_FLOORS = (("volume", 0), ("series", 400), ("grand", 900), ("set", 3000))
+
+
+def tier_for(entry_count):
+    """Which rung a cast of this size earns. Pure function of the count."""
+    rank = "volume"
+    for name, floor in TIER_FLOORS:
+        if (entry_count or 0) >= floor:
+            rank = name
+    return rank
+
+
+def tier_rank(tier):
+    """Ordinal position of a tier, so two tiers can be compared."""
+    order = [n for n, _ in TIER_FLOORS]
+    return order.index(tier) if tier in order else 0
+
+
+def promote(current, entry_count):
+    """The tier a source should now hold, given what it holds today.
+
+    PROMOTION ONLY, NEVER DEMOTION -- and that asymmetry is the whole safety of running this
+    automatically. A cast count is a measurement, and this project's measurements have gone
+    briefly to zero more than once (COMPLETENESS.json emptied itself twice; a fandom block makes
+    every roster look small for an afternoon). Demoting on a dip would rewrite a source's address
+    downward on bad data, and every cross-reference already pointing at the old code would break
+    for a reason nobody could see. Growing is real; shrinking is usually a broken read.
+
+    Returns the tier to use. `current` may be None for a source not yet ranked."""
+    earned = tier_for(entry_count)
+    if not current:
+        return earned
+    return earned if tier_rank(earned) > tier_rank(current) else current
+
+
 if __name__ == "__main__":
+    for n in (0, 194, 399, 400, 899, 900, 2999, 3000, 30207):
+        print("%6d entries -> %s" % (n, tier_for(n)))
+    print("demotion refused:", promote("set", 12))
     for name in ["One Piece", "Marvel", "DC", "all Black Ops", "Some Brand New Unlisted Thing"]:
         print(f"{name!r:45s} -> {spine_code_for(name)}")
     print(build_address("One Piece", "Persons (named individual characters, real or fictional)"))

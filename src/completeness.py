@@ -45,6 +45,11 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
     raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
 
 OUT = os.path.join(HERE, "data", "COMPLETENESS.json")
+
+# A landing run must carry at least this fraction of the rows already on disk. 0.5 is deliberately
+# generous: it exists to catch a broken run (transport collapse, a truncated hosts file, an audit
+# that measured almost nothing), not to freeze the roll. `[]` is the degenerate case of it.
+SHRINK_FLOOR = 0.5
 HOSTS = os.path.join(HERE, "data", "WIKI_HOSTS.json")
 RECORDS = os.path.join(HERE, "data", "records")
 
@@ -358,18 +363,29 @@ def land(rows, only=None):
         sys.stderr.write("completeness: --only is a spot check; COMPLETENESS.json not written "
                          "(it would replace the whole-corpus measurement with a slice)\n")
         return True
-    if not rows:
-        prior = []
-        try:
-            with open(OUT, encoding="utf-8") as f:
-                prior = json.load(f)
-        except Exception:
-            _ = "silence-exempt: no prior file is a legitimate first state"
-        if prior:
-            sys.stderr.write("completeness: measured 0 rows; REFUSING to overwrite %d existing "
-                             "rows. An unmeasurable run is not a measurement of nothing -- see "
-                             "the transport failures in `health.py --failures`.\n" % len(prior))
-            return False
+    prior = []
+    try:
+        with open(OUT, encoding="utf-8") as f:
+            prior = json.load(f)
+    except Exception:
+        _ = "silence-exempt: no prior file is a legitimate first state"
+
+    # EMPTY IS NOT THE ONLY WAY TO LOSE THE MEASUREMENT, and guarding only against it left the
+    # door open next to the one that was locked. `[]` was refused while 164 rows -> 3 rows was
+    # written without comment -- a 98% loss, silently, and the standard downstream would have
+    # read a confident coverage figure off the three survivors. The audit runs from the foreman
+    # EVERY round (`always`-marked), so whatever shape of bad run is possible will happen
+    # repeatedly and unattended; that cadence is exactly why this file kept ending up wrong.
+    #
+    # A real corpus does not lose half its sources between two rounds. Sources do leave the roll,
+    # so this is a floor and not an equality, and it is loud rather than silent when it trips.
+    if prior and len(rows) < len(prior) * SHRINK_FLOOR:
+        sys.stderr.write("completeness: measured %d row(s) against %d already on disk (below the "
+                         "%.0f%% floor); REFUSING to overwrite. A run that lost most of the "
+                         "corpus is a broken run, not a smaller corpus -- check transport in "
+                         "`health.py --failures`, then re-run.\n"
+                         % (len(rows), len(prior), 100 * SHRINK_FLOOR))
+        return False
     tmp = OUT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(rows, f, indent=1, ensure_ascii=False)

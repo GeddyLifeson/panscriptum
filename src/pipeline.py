@@ -889,8 +889,18 @@ def batch_settled(key, done_keys, batch):
     verify_math section 18d. The rule is deliberately NOT "the key is recorded": a record's
     entry list grows after entrypass runs (doc ingest appends through write_record_catalogue),
     which widens the tail batch under a key already in `done_keys`. Membership plus a fully
-    judged span is the honest gate; membership alone strands every later-appended entry."""
-    return key in done_keys and all(e.get("catalogued") for e in batch)
+    judged span is the honest gate; membership alone strands every later-appended entry.
+
+    AN EXCLUDED ENTRY COUNTS AS SETTLED. `cleanup.py` strikes wiki-navigation cruft and
+    description-less rules constructs by setting `catalogued = False` and writing an `excluded`
+    reason. Under the old gate that unsettled the whole batch, which reopened it, which sent it
+    back through `phase_entrypass` -- where `catalogued = True` is set unconditionally. So every
+    exclusion was reverted by the next pass, and the marker recording WHY was read by nothing.
+    Measured 2026-08-24: 149 entries carried `excluded`, and all 149 had already been flipped
+    back to catalogued. Cleanup's entire effect on the corpus had been undone.
+
+    A struck entry is a decision, not unfinished work."""
+    return key in done_keys and all(e.get("catalogued") or e.get("excluded") for e in batch)
 
 
 def phase_entrypass(c, st):
@@ -927,11 +937,24 @@ def phase_entrypass(c, st):
                 continue
             lines = []
             for i, e in enumerate(batch):
+                # Struck entries are not sent to the model. They are not entities, so there is
+                # nothing to categorise, and asking would spend a call to re-manufacture the
+                # `catalogued` flag that cleanup deliberately cleared. The label keeps the TRUE
+                # batch index so the result indices below stay aligned with `batch`.
+                if e.get("excluded"):
+                    continue
                 # 380 -> 240 chars. Classification needs the opening clause ("X is a city in
                 # ...", "a technique used by ..."), not the whole lead paragraph. Feats, when
                 # present, are almost always stated early too.
                 d = re.sub(r"\s+", " ", e.get("description", ""))[:240]
                 lines.append(f"[{i}] {e['name']} (type: {e.get('type','')}): {d}")
+            if not lines:
+                # Every entry in this span was struck. Record the key so the span is not
+                # rewalked forever, and spend no call on a batch with nothing to judge.
+                if key not in done_keys:
+                    done_keys.append(key)
+                    save_state(st)
+                continue
             # The category list lives in the system prompt only. It used to be repeated here
             # as well, paying ~200 input tokens per call across ~2,600 calls for a list the
             # model already had.
@@ -948,6 +971,12 @@ def phase_entrypass(c, st):
             for res in got.get("results", []):
                 i = res.get("index")
                 if not isinstance(i, int) or not (0 <= i < len(batch)):
+                    continue
+                # A struck entry was never in the prompt, so any result claiming to be one is
+                # the model addressing an index it was not given. Honouring it would set
+                # `catalogued = True` and undo the exclusion by the back door -- which is how
+                # all 149 of them came back the first time.
+                if batch[i].get("excluded"):
                     continue
                 ci = res.get("category")
                 if isinstance(ci, int) and 1 <= ci <= len(CATEGORIES):
@@ -1436,18 +1465,64 @@ def phase_shelve(c, st):
             silence.note("pipeline.py:phase_shelve-spine")
             return None
 
+    # THE PROMOTION LADDER (owner amendment 2026-08-24). A source's shelf RANK follows the size
+    # of its cast: >=400 a Series, >=900 a Grand Series, >=3000 a Set. Applied automatically, by
+    # the owner's ruling -- and one-way, by `address.promote`, because demoting on a bad read
+    # would rewrite an address downward and break every cross-reference aimed at it.
+    #
+    # NOTE the field is `rank`, not `tier`: `tier` in this record already means the COSMOLOGY
+    # tier (hyperverse/xenoverse/...) read from TIERS.json a few lines above. Two different
+    # hierarchies, and collapsing them into one name would have made both unreadable.
+    ranks_p = os.path.join(HERE, "data", "SHELF_RANKS.json")
+    try:
+        with open(ranks_p, encoding="utf-8") as f:
+            ranks = json.load(f)
+    except FileNotFoundError:
+        ranks = {}
+    except Exception:
+        silence.note("pipeline.py:phase_shelve-ranks-corrupt")
+        log("phase 7 shelve: SHELF_RANKS.json will not parse -- leaving phase open rather than "
+            "re-ranking the library from an empty prior (that would read as a mass demotion)")
+        return
+
+    promoted = []
     shelved, unspined = {}, set()
     for r in WI.load_records():
         src = r["source"]
         spine = spine_of(src)
         if not spine:
             unspined.add(src)
+        n = len(r.get("entries", []))
+        prior = ranks.get(src) or {}
+        was = prior.get("rank")
+        now = AD.promote(was, n)
+        # A PROMOTION IS NOT A RE-SHELVING. The rank is measured; the ADDRESS is curatorial, and
+        # Hard Rule 2 forbids this code inventing one. A source that outgrows Volume into Series
+        # needs its spine code deepened in the charter's Acquisitions Index by the owner -- so
+        # the promotion is recorded together with the rank the current code was written for, and
+        # the gap between them is surfaced as a standing work order rather than acted on.
+        # `rank_at_code` only ever moves when a human amends the charter.
+        at_code = prior.get("rank_at_code") or (was or now)
+        if now != was:
+            promoted.append("%s %s->%s (%d entries)" % (src, was or "-", now, n))
+        ranks[src] = {"rank": now, "entries": n, "rank_at_code": at_code,
+                      "code_amendment_pending": AD.tier_rank(now) > AD.tier_rank(at_code),
+                      "spine": spine}
         for e in r.get("entries", []):
             key = "%s::%s" % (src, e.get("name"))
             shelved[key] = {"source": src, "name": e.get("name"),
                             "category": e.get("category"), "spine": spine,
-                            "tier": tiersd.get(src),
+                            "tier": tiersd.get(src), "rank": now,
                             "shelfmark": (marks.get(key) or {}).get("shelfmark")}
+
+    land_json(ranks_p, ranks)
+    if promoted:
+        log("phase 7 shelve: %d source(s) promoted -- %s"
+            % (len(promoted), "; ".join(promoted)))
+    pending = [s for s, v in ranks.items() if v.get("code_amendment_pending")]
+    if pending:
+        log("phase 7 shelve: %d source(s) have OUTGROWN THEIR SPINE CODE and need the charter's "
+            "Acquisitions Index amended by hand -- %s" % (len(pending), ", ".join(sorted(pending))))
     log("phase 7 shelve: %d entries placed, %d source(s) with no charter spine code"
         % (len(shelved), len(unspined)))
     land_json(os.path.join(HERE, "data/SHELVES.json"),

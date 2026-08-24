@@ -140,18 +140,44 @@ def classify_text(text, top=3):
     return scores.most_common(top)
 
 
-def classify_source(rec, cap=120000):
+def classify_source(rec, cap=None):
     """Classify one source from its own catalogued entries.
 
     Uses names and descriptions together: a source's vocabulary is what identifies it, and neither
     field alone is enough -- names carry the proper nouns, descriptions carry the idiom.
+
+    [HARD RULE 0] `cap` was 120,000 characters and it was DECIDING ANSWERS. The scan walks
+    `rec["entries"]` in stored order -- scrape order, nothing ranked -- so the cap did not sample
+    a source's vocabulary, it read the front of it. Marvel holds 18,765,902 characters of names
+    and descriptions: the cap read 0.64% of them and stopped.
+
+    Measured over the whole corpus before this changed (210 records, capped vs uncapped):
+    SEVEN sources answered differently once the whole text was read --
+        Marvel                              post_apocalyptic -> mythology
+        KibblesTasty (techno-psionic line)  grimdark         -> high_fantasy
+        Bleach                              high_fantasy     -> eastern
+        Yorviing's Arcane Grimoire          grimdark         -> high_fantasy
+        Dr. Firestorm's Engineering Corps   military_modern  -> high_fantasy
+        Crash Bandicoot                     mythology        -> grimdark
+        Digimon                             eastern          -> cyberpunk
+    These are not near-misses: Marvel scored 240 for post_apocalyptic off the truncated head and
+    41,891 for mythology off the whole record. `genre` sets `register` and `priors`, so each of
+    those seven was dressing its prose in a voice chosen by scrape order.
+
+    The parameter survives so that no caller breaks, but a numeric value is now refused loudly
+    rather than applied silently -- the same treatment `feats.discover`'s `extra` got. Uncapped
+    costs ~77s on Marvel and is negligible on everything else; per Hard Rule 0 the answer to slow
+    is more time, never a smaller universe. 2026-08-24.
     """
+    if cap is not None:
+        raise SystemExit(
+            "genre.classify_source: `cap` truncates the entry list in STORED order and changed "
+            "the answer for 7 of 210 sources (Marvel: post_apocalyptic -> mythology). "
+            "Hard Rule 0 -- rank if you must, never truncate. Pass cap=None.")
     parts = []
     for e in rec.get("entries", []):
         parts.append(e.get("name") or "")
         parts.append(e.get("description") or "")
-        if sum(len(p) for p in parts) > cap:
-            break
     ranked = classify_text(" ".join(parts))
     if not ranked or ranked[0][1] == 0:
         return {"genre": "unclassified", "score": 0, "confidence": 0.0,

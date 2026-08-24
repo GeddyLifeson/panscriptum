@@ -1363,6 +1363,17 @@ check("a --only slice never lands over the whole-corpus file",
       json.load(open(_CP.OUT, encoding="utf-8"))[0]["source"]
       if _CP.land([{"source": "B", "unreliable": None}], only="B") else "?", "A")
 
+# Empty was never the only way to lose the measurement, and guarding only against it left the
+# door open beside the one that was locked: 164 rows -> 3 rows landed silently. Kept LAST in this
+# block because it necessarily rewrites the file the checks above assert against.
+_CP.land([{"source": "S%d" % i, "unreliable": None} for i in range(20)])
+check("a run that loses most of the corpus REFUSES too",
+      _CP.land([{"source": "A", "unreliable": None}]), False)
+check("and the fuller measurement survives it",
+      len(json.load(open(_CP.OUT, encoding="utf-8"))), 20)
+check("while an ordinary fluctuation still lands",
+      _CP.land([{"source": "S%d" % i, "unreliable": None} for i in range(18)]), True)
+
 
 # ---- Section 19e: the error bar is built from the weights the composite was built from -------
 #
@@ -1468,6 +1479,104 @@ check("past the cap it stays shut", _CB.paid_lane_open({"enabled": True, "used":
 check("under the cap it is open", _CB.paid_lane_open({"enabled": True, "used": 499, "cap": 500}), True)
 check("enabled:false kills it", _CB.paid_lane_open({"enabled": False, "used": 0, "cap": 500}), False)
 check("a deleted/unreadable file kills it", _CB.paid_lane_open(None), False)
+
+
+# ---- Section 19i: the two classifier caps read the FRONT of a record, not a sample -----------
+#
+# genre.classify_source(cap=120000) and grounding.classify_source(cap=140000) both walked
+# rec["entries"] in STORED order and stopped at a character budget. Marvel holds 18,765,902
+# characters of names+descriptions (genre read 0.64%) and 3,888,267 across 5,012 origin entries
+# (grounding read 3.6%). Whole-corpus diff, 210 records, capped vs uncapped: SEVEN sources
+# changed genre outright -- Marvel post_apocalyptic -> mythology, Bleach high_fantasy -> eastern,
+# Digimon eastern -> cyberpunk, and four more. Grounding's verdicts happened to hold, but Marvel
+# reported 153 origin entries instead of 5,012.
+#
+# A cap is refused rather than silently applied, as with feats.discover's `extra`. These checks
+# use a record built to answer differently from its head than from its whole, so they FAIL under
+# the pre-fix code (which would read only the head) rather than merely asserting a default.
+# 2026-08-24.
+import grounding as _GR                                                 # noqa: E402
+
+# The head must OVERRUN the old 120,000-character budget, or the check is vacuous: a fixture
+# that fits inside the cap classifies identically before and after, and would have passed
+# against the very code this section exists to catch. Falsified against the pre-fix expression
+# (walk entries, `break` once the budget is exceeded), which answers "grimdark" here -- one weak
+# signal in 140,014 characters of filler -- while the whole record says "mythology".
+_head = [{"name": "x", "description": "grimdark ruin " + ("filler " * 20000)}]
+_tail = [{"name": "y", "description": "temple oracle pantheon demigod myth " * 400}]
+_rec_ht = {"entries": _head + _tail}
+
+def _refuses_cap(fn):             # SystemExit is a BaseException; _raises would not see it
+    try:
+        fn()
+        return False
+    except SystemExit:
+        return True
+
+
+check("genre reads past the head of the record",
+      GN.classify_source(_rec_ht)["genre"], "mythology")
+check("genre refuses a numeric cap",
+      _refuses_cap(lambda: GN.classify_source(_rec_ht, cap=1000)), True)
+check("grounding refuses a numeric cap",
+      _refuses_cap(lambda: _GR.classify_source({"entries": []}, cap=1000)), True)
+check("grounding counts EVERY origin entry, not the ones inside a budget",
+      _GR.classify_source({"entries": [
+          {"name": "a", "description": "the world was created from nothing " * 60}
+          for _ in range(50)]})["origin_entries"], 50)
+
+
+# ---- Section 19j: a struck entry stays struck -------------------------------------------------
+#
+# cleanup.py strikes non-entities with `catalogued=False` + an `excluded` reason. The entrypass
+# resume gate demanded `all(catalogued)`, so a struck entry left its batch unsettled -> reopened
+# -> phase_entrypass, which sets `catalogued = True` unconditionally. Nothing anywhere read
+# `excluded`. Measured 2026-08-24: 149 entries carried it and ALL 149 had already been flipped
+# back, so cleanup's whole effect on the corpus had been silently reverted.
+#
+# The first check FAILS under the pre-fix gate (`all(e.get("catalogued") ...)`), which is what
+# makes it a regression check rather than a restatement of the default. 2026-08-24.
+import pipeline as _PL                                                  # noqa: E402
+
+check("an excluded entry settles its batch",
+      _PL.batch_settled("s#0", ["s#0"], [{"excluded": "wiki navigation", "catalogued": False}]),
+      True)
+check("a merely uncatalogued entry still reopens it",
+      _PL.batch_settled("s#0", ["s#0"], [{"catalogued": False}]), False)
+check("a catalogued entry settles as it always did",
+      _PL.batch_settled("s#0", ["s#0"], [{"catalogued": True}]), True)
+check("a batch whose key was never recorded is never settled",
+      _PL.batch_settled("s#0", [], [{"excluded": "x"}]), False)
+check("a mixed batch waits on the entry that is genuinely unjudged",
+      _PL.batch_settled("s#0", ["s#0"],
+                        [{"excluded": "x"}, {"catalogued": True}, {"catalogued": False}]), False)
+
+
+# ---- Section 19f: the promotion ladder (owner amendment 2026-08-24) ----------------------------
+#
+# "Each classification should have a standard that over x entries it increases in overall
+# classification hierarchy." Thresholds were fitted to the real corpus (209 sources, median 194,
+# max 30,207) and yield exactly one automatic Set -- Marvel -- which the charter had already
+# promoted by hand. These pin the boundaries and, above all, the one-way rule.
+
+import address as _AD          # noqa: E402
+
+check("below the first floor is a Volume", _AD.tier_for(399), "volume")
+check("400 earns a Series", _AD.tier_for(400), "series")
+check("900 earns a Grand Series", _AD.tier_for(900), "grand")
+check("3000 earns a Set", _AD.tier_for(3000), "set")
+check("Marvel's real cast earns a Set", _AD.tier_for(30207), "set")
+check("an empty cast is still a Volume, not an error", _AD.tier_for(0), "volume")
+check("None is treated as zero", _AD.tier_for(None), "volume")
+
+# THE ONE-WAY RULE. A cast count is a measurement, and this project's measurements have gone to
+# zero twice this week. Demoting on a bad read would rewrite an address downward and silently
+# break every cross-reference pointing at it.
+check("growth promotes", _AD.promote("volume", 1000), "grand")
+check("a dip NEVER demotes", _AD.promote("set", 12), "set")
+check("nor does a partial read", _AD.promote("grand", 0), "grand")
+check("an unranked source takes what it earns", _AD.promote(None, 500), "series")
+check("holding steady changes nothing", _AD.promote("series", 500), "series")
 
 
 print()

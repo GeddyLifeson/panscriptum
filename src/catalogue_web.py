@@ -68,8 +68,15 @@ def load_roll():
 
 
 def save_roll(roll):
-    with open(ROLL, "w", encoding="utf-8") as f:
+    # Atomic for the same reason the record write beside it is: SWEEP_ROLL.json is written from
+    # three worker threads here and read elsewhere by `load_roll` and `resync_roll.py`, BOTH of
+    # which do an unguarded `json.load`. A truncating write interrupted mid-dump therefore does
+    # not degrade anything gracefully -- it kills the next run of either script outright.
+    import silence as _sil
+    tmp = ROLL + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(roll, f, indent=2, ensure_ascii=False)
+    _sil.replace_retry(tmp, ROLL)
 
 
 def catalogue_composite(source_name, verbose=True):
@@ -326,7 +333,18 @@ def main():
             # Atomic + judgment-preserving: the raw truncating write here raced the pipeline
             # phases and a SIGTERM mid-dump left corrupt JSON (2026-08-23 audit, finding 3).
             import pipeline as _P
-            _P.write_record_catalogue(os.path.join(RECORDS, slug(name) + ".json"), record)
+            # GATE ON THE WRITE, like every other caller. write_record_catalogue returns whether
+            # the rename LANDED, and it returns it precisely so a denied write is not recorded as
+            # done (pipeline.py:381-396; pipeline.py:641 and ingest_doc.py:246 both check it).
+            # This was the one call site throwing the verdict away and then setting
+            # `status = "catalogued"` regardless -- so a persistent PermissionError left a stale
+            # record on disk beside a roll claiming N entries. The default work selection is
+            # `entry_count == 0`, so that source would never be picked up again and the loss
+            # was permanent and silent.
+            if not _P.write_record_catalogue(os.path.join(RECORDS, slug(name) + ".json"), record):
+                print(f"      -> WRITE DENIED {name}; roll left untouched", flush=True)
+                tally["failed"] += 1
+                return
             roll_by_name[name]["entry_count"] = len(record["entries"])
             roll_by_name[name]["status"] = "catalogued"
             save_roll(roll)

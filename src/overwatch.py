@@ -428,6 +428,14 @@ def write_report(led, struct):
 
 def round_once(limit=6, local=True, skip_model=False):
     import allsweep as A
+    # THE BUDGET IS PER ROUND, AND UNTIL NOW IT WAS PER PROCESS. CLOUD_BUDGET's own comment
+    # calls it "calls the watcher may take from the shared pool in one round", and the yield it
+    # guards is explicitly meant to last "for as long as the busy period lasted" -- but nothing
+    # ever reset the counter. In `--loop` mode (the standing sweep, which runs for days) one
+    # busy stretch pushed the lifetime total past 20 and every later GPU-busy call returned None
+    # forever after, with no cloud fallback. The watcher quietly stopped watching, which this
+    # file's own comment names as the thing it exists to prevent. Reset where the round begins.
+    _LOCAL_BUSY[0] = 0
     led = load()
     led["rounds"] = led.get("rounds", 0) + 1
     led["last_run"] = time.strftime("%Y-%m-%d %H:%M")

@@ -761,6 +761,32 @@ def check(state=None):
     except Exception:
         silence.note("standards.py:disk")
 
+    # ------------------------------------------- promotions whose spine code has not caught up
+    #
+    # Owner amendment 2026-08-24: a source's rank follows its cast size automatically, but its
+    # ADDRESS is curatorial work Hard Rule 2 reserves for the owner. So a promotion does not
+    # re-shelve anything -- it raises this. Without a standard the flag would sit in a JSON file
+    # nobody opens, which is the exact shape of every silent fault this project has paid for.
+    try:
+        with open(os.path.join(HERE, "data", "SHELF_RANKS.json"), encoding="utf-8") as f:
+            _ranks = json.load(f)
+        _pending = sorted(s for s, v in _ranks.items() if v.get("code_amendment_pending"))
+        out.append(_s(
+            "promotions have their spine codes amended", not _pending,
+            (", ".join(_pending)[:120] if _pending else "none outstanding"),
+            "no source outgrowing its code",
+            "A source whose cast crossed a promotion floor now outranks the spine code it was "
+            "given. The code cannot be rewritten automatically -- where a source sits in the "
+            "Collection/Set/Series structure is the owner's judgement (Hard Rule 2), and a "
+            "silently deepened address would break every cross-reference aimed at the old one. "
+            "Amend the charter's Acquisitions Index, then set `rank_at_code` to the new rank in "
+            "data/SHELF_RANKS.json to clear this.",
+            "medium", "catalogue"))
+    except FileNotFoundError:
+        _ = "silence-exempt: phase 7 has not run yet, so there is nothing to rank"
+    except Exception:
+        silence.note("standards.py:shelf-ranks")
+
     # ------------------------------------------------------ the local model is really serving
     try:
         import urllib.request as _ur
