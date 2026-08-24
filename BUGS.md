@@ -19,20 +19,16 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   Mines of Phandelver, Twilight Imperium, +2) and **16 catalogued sources with no host** —
   scout/adopt remedies keep retrying; some (music albums, board games) may be permanently
   hostless and deserve an owner ruling on whether they stay on the roll.
-- **[m3] `completeness.py category_size()` masks its own `unreliable` bucket** — a source whose
-  every category probe hits `URLError` returns `None` from `work()` and vanishes from
-  `COMPLETENESS.json` entirely, instead of landing in the `unreliable` list the module's own
-  docstring built specifically for this case. 313 `URLError`s recorded at this site as of run
-  #2. Fix: on all-probes-failed, append to `unreliable` rather than returning `None` silently.
-- **[m4] `wiki_source.page_text()` gives up after one transient failure on section 0** —
-  `except Exception: return ""` instead of `continue`, so a single timeout fetching section 0
-  skips sections 1/2 entirely even though they are independent calls. Reproduces the exact
-  "transient hiccup read as genuine silence" failure the module's own header essay names as
-  its worst historical bug class. Fix: `continue` instead of `return ""`.
-- **[m5] duplicate `silence.note()` label `wiki_source.py:278`** used by two unrelated failure
-  sites (a local `WIKI_HOSTS.json` read failure vs. a live per-candidate category probe miss) —
-  defeats the ledger's own stated purpose of making a failure class legible. Give each site its
-  own content label.
+- **[m18] `foreman.py`'s three shared-state writes bypass `silence.replace_retry`** — same
+  class as m6/m7, and the same file already does it correctly in `_retire()`. `reprove_pool()`
+  writes `data/POOL_PROOF.json`, read live mid-run by `cascade_bridge.ask()`, `read.py` and
+  `tuning.py`; `round_once()` writes `data/FOREMAN.json`, read every supervisor cycle by
+  `overnight.foreman_report()` — two long-running processes racing one file; `triage_swallowed()`
+  writes `state/failures_archive.json` and resets `state/failures.json`, the highest-traffic
+  shared file in the project (polled by the dashboard, read by standards, read-modify-written by
+  every process's `health.flush()`). No reader crashes today — all wrap the load — but each
+  skips a cycle silently on a torn read. Reported by the run-#3 ops audit; **not independently
+  re-verified by me**, so confirm before fixing.
 - **[m6] `pipeline.py` 9 shared/cross-phase-read JSON writes still non-atomic** —
   `phase_cosmology` (TIERS/GROUNDINGS/CENSUS/SHELFMARKS.json), `phase_history`
   (CHRONICLE.json), `phase_shelve` (SHELVES.json), `phase_weave` (CONTINUITY_GROUPS/
@@ -47,21 +43,12 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   the write before the crashing report loop, it's still a raw `open+json.dump`, not routed
   through `silence.replace_retry`. No live second writer of `HANDBUILT_ASSAYS.json` today, so
   lower priority than [now-fixed] the ordering bug was.
-- **[m8] `build_terminal.py` "Shelved here" note caps at 8 with no "+N more"** — Hard Rule 0,
-  display layer: `nd.s.slice(0,8)` in the side-panel note, while the ring SVG and the "sources
-  below" count above it are both uncapped. Small, targeted fix.
-- **[m9] `build_terminal.py` "contains" row undercounts a node with both branch-children and
-  directly-shelved sources** — `nd.k.length||nd.w.length||nd.s.length` short-circuits instead
-  of summing; a node with 2 catalogued children AND 5 shelved sources shows "2" not "7".
 - **[m10] `build_terminal.py` interpolates catalogue text into `innerHTML` unescaped
   throughout**, and splices `NAVTREE.json` into an inline `<script>` block via plain string
   replace with no `</script>`-sequence guard. A name containing `&`/`<`/`>`/`"` (plausible —
   "Dungeons & Dragons") can corrupt the resulting markup; `render.py`'s `containment_svg()`
   already does this correctly (`html.escape()`) in the same codebase. Multi-site JS-generation
   fix; do as its own pass.
-- **[m11] `navtree.py sources_under()`'s `key.startswith(path)` arm has no `.`-boundary
-  check** (the sibling arm does) — key `"0.1.20"` can false-match path `"0.1.2"`, pulling an
-  unrelated sibling branch's sources into a node's naming-vote register.
 - **[m12] `thread_integrity.py`'s asymmetric-thread detection is structurally unreachable** —
   `implied_threads()` builds `pairs` symmetrically by construction, so `classify()`'s `back =
   pairs.get((b,a))` is always truthy and every implied thread reports RECIPROCAL; the
@@ -88,20 +75,98 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   diagnostic evidence for why the weave linked two shelves, not a reader-facing catalogue
   listing, but Hard Rule 0's text says "no sample" without carving out diagnostics explicitly.
   HUMAN CALL requested in NEXT_STEPS rather than assumed out of scope.
-- **[m17] `weave_index.py designations()` caches forever with no invalidation** — unlike its
-  sibling `load_records()`, which is signature-keyed by (file count, max mtime). Low exposure
-  today (the one caller never varies the `records` arg), but the same stale-cache shape that
-  bit `chain_harvest_idx` and `weave_index.load_records` before their own fixes.
+### Cosmetic / low
+- **[m19] `standards.py:report()` sorts work orders by severity STRING, not rank** — alphabetical
+  gives high, low, medium. `work_orders()` in the same file already defines the correct
+  `{"high":0,"medium":1,"low":2}` rank for exactly this, and the dashboard's panel uses it;
+  only the CLI report is out of step. Display-only — `foreman.py`'s consumption is unaffected.
+- **[m20] `standards.py` carries a dead loop** — a `for job in (...)` whose body is a bare
+  `pass`, building a `dupes` list nothing reads. Reads as if it should be computing something.
+  Confirm it is vestigial rather than an unfinished check before deleting (deletions need a
+  flagged review cycle).
+- **[m21] `foreman.py`'s `kill_duplicate_jobs` remedy is registered as a bare lambda**, so its
+  operational log line reads `-> <lambda>:` instead of the function name every other remedy
+  prints. Readability of the log this project leans on.
+- **[m22] `catalog.py`'s module docstring documents a `PANSCRIPTUM://…` address form that the
+  code does not implement** — every real address is `SpineCode/Chapter[#PageRange]` (as
+  CLAUDE.md's own example shows). Typing the docstring's example verbatim always returns "No
+  entry for address", which reads as an empty catalog.
+
+*m19–m22 come from the run-#3 ops and generation-side audits and are recorded as reported;
+each is small enough to verify and fix in one pass, but none was independently re-verified by
+run #3 — check before fixing.*
 
 ## Watching (not bugs — expected states with a clock on them)
-- Charter regression first run dispatched autonomously 21:31 (`magnitude.py --calibrate`,
-  foreman AUTO). Verify `data/CHARTER_REGRESSION.json` lands and the standard flips.
+- **`MAX_JOB_SILENCE_MIN = 15` is a live threshold as of run #3** — the stall detector could not
+  previously reach it (see the Resolved entry). During run #3 a healthy `roll_auto.log` sat
+  unchanged for 4.5 minutes; a page roll waiting on a slow host could plausibly cross 15 and
+  trigger the AUTO kill remedy. Watch for false alarms; raise the constant if they appear.
+- **Ollama returned HTTP 503 to `local_agent.py` during run #3** while `/api/tags` answered 200
+  and `qwen3:30b-a3b-instruct-2507-q4_K_M` was loaded — reads as GPU contention against the live
+  read/roll workers, the same window `overwatch` hit in run #2. If the local rung is 503 on
+  every run, it is effectively unavailable during working hours and the ladder's rung (b) is
+  not being exercised. Two data points so far; watching for a third.
+- **`entries stranded in closed batches: 5`** will persist in `health --preflight` until the
+  bounced pipeline walks Arcanum Worlds on the new code. If it is still 5 after a full lap, the
+  reopen gate is not doing what run #3's tests say it does — investigate rather than re-fix.
+- Charter regression: `data/CHARTER_REGRESSION.json` **landed** (22:24, run #3 confirmed it on
+  disk). Verify the `automation reproduces the charter` standard now takes a real reading.
 - Dragonlords ingest miner: patient loop (60-miss ≈ 5h), waiting out the evening pool for the
   midnight free-tier window. Cursor at chunk 1/252 after the writer fix.
 - Deferred assay backlog (heavyweights, Jace accessions, Infinity Gauntlet) self-requeues
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #3 (2026-08-23 23:06, export commit `cc42d0c`). Root causes one line each — full detail in
+HANDOFF.md's run #3 entry:*
+
+- **Doc-ingested entries stranded permanently by the entrypass resume gate** — the resume key
+  `source#start` names a span `entries[start:start+B]` that GROWS when `ingest_doc` appends
+  through `write_record_catalogue`, so the tail batch widened under a key already in
+  `done_keys` (Arcanum Worlds: 292 → 297 entries, 5 never judged). Gate now reads the span, not
+  the ledger (`pipeline.batch_settled`); verify_math §18d pins it.
+- **`ingest_doc.mine()` advanced its resume cursor on a denied write** — `write_record_catalogue`'s
+  landed-flag was discarded, so entities never written were skipped forever and `known` had
+  already absorbed their names. Denied write now rewinds `known` and stops without advancing;
+  state file also made atomic.
+- **[m3] `completeness.py` dropped any source whose every category probe failed** — `work()`
+  returned `None`, deleting the row from `COMPLETENESS.json`, where absence reads as "no wiki
+  presence". New `category_size_probe()` returns `(n, error)`; all-probes-failed lands in
+  `unreliable`. `category_size()` unchanged for other callers.
+- **[m4] `wiki_source.page_text()` abandoned a page after one transient failure** — `return ""`
+  instead of `continue` on a section-0 exception skipped the independent sections 1 and 2. High
+  volume: 1,700–3,200 URLErrors per foreman round at this site.
+- **[m5] duplicate `silence.note()` label `wiki_source.py:278`** across two unrelated sites —
+  split into content labels; `:301` likewise.
+- **[m8] Hard Rule 0: "Shelved here" roster sliced to 8** (node 6.6.6 hid 30 of 38) — uncapped,
+  bounded by scroll rather than by a "+N more" that would still leave 30 names unreachable.
+- **[m9] "contains" row undercounted** — `a||b||c` returns the first non-zero, so 6.6.6 showed
+  7 instead of 45; 37 nodes affected. Now sums. m8/m9 live-verified in the browser.
+- **[m11] `navtree.sources_under()` false-matched on a digit prefix** — `key.startswith(path)`
+  lacked the `.` boundary its sibling arm has; `0.1.2` counted as above `0.1.20`.
+- **[m17] `weave_index.designations()` cached forever** — now keyed on the same directory
+  signature as `load_records()` (shared `_records_sig()`); explicitly-passed record lists are
+  no longer cached at all, having no signature to key on.
+- **`address.spine_code_for()` shelved two sources into DC Comics** — the index's two-letter
+  `"DC"` matched raw letters with spaces stripped (`swor-d-c-oast`), so `Sword Coast
+  Adventurer's Guide` and `Who Framed Roger Rabbit (…)` both returned II.D.2, and matching
+  *wrong* kept them out of the unassigned report that would have caught it. Containment now
+  runs on whole words, with letter-equality kept as its own tier for spacing variants
+  (`Soulcalibur`/`Soul Calibur`). No volumes were mis-shelved; nothing to regenerate.
+- **`manifest_builder.load_record()` missed truncated record slugs** — tested only `target in
+  filename`, so a 304-entry catalogued record reported as "no matching record file". Reverse
+  arm is prefix-anchored, candidates ranked by closeness.
+- **`foreman._checks_pass` kept patches that broke a round number of checks** — `"0 FAILED" not
+  in stdout` is satisfied by `"10 FAILED"`, `"20 FAILED"`, `"100 FAILED"`. Now parses the count
+  numerically and fails closed on an unreadable result line.
+- **`standards.py`'s stall detector could never fire, for any job** — the watch stamp was
+  re-written every pass, so "how long silent" measured checker cadence; and jobs were derived
+  from log filenames (`read_auto.py` has never existed), hiding the three live jobs while
+  matching stale legacy logs as alive. Stamp now carried forward (`standards.job_stamp`); jobs
+  taken from the new `lognames.OWNER` map, which `foreman.kill_stalled_job` also now uses.
+  verify_math §19b pins both. **Its AUTO remedy is destructive and was previously inert — see
+  the flagged item at the top of HANDOFF.md run #3.**
 
 *Run #2 (2026-08-23 late, export commit pending as of this write). Root causes one line each —
 full detail in HANDOFF.md's run #2 entry:*

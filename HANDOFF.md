@@ -9,6 +9,181 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-23 23:06 — Run #3, triggered by commit 4660388 (code: cc42d0c)
+
+**FLAGGED FOR HUMAN REVIEW — read these three before the next run:**
+
+1. **A high-severity standard that could never fire, can now — and its AUTO remedy kills
+   processes.** `every running job is advancing` has been reporting "all advancing" *by
+   construction* since it was written: the watch stamp was re-written to `now` on every pass,
+   so "how long has this log been silent" always evaluated to "how long since the last check"
+   — a few minutes, never the 15-minute floor. It has now been fixed and genuinely watches the
+   three live jobs. Its remedy `kill_stalled_job` sits in the **AUTO lane**, so from this run
+   on the foreman may SIGTERM a job the standard reports stalled. That is the designed
+   behaviour (jobs are resumable, the keeper restores them) but it is a *previously inert
+   destructive remedy going live*, so it is your call, not mine. **`MAX_JOB_SILENCE_MIN = 15`
+   is now a real threshold and probably wants tuning**: during this run `roll_auto.log` sat
+   unchanged for 4.5 minutes while perfectly healthy, and a page roll waiting on a slow host
+   could plausibly cross 15. If it starts crying wolf, raise the constant rather than
+   re-breaking the timer.
+2. **The gate that decides whether a model-authored patch to live source is kept or reverted
+   had a substring false positive.** `_checks_pass` tested `"0 FAILED" not in stdout`, and
+   `"10 FAILED"`, `"20 FAILED"`, `"100 FAILED"` all contain `"0 FAILED"`. Any patch that broke
+   exactly a round number of verify_math checks was **kept** rather than reverted. verify_math
+   is at 284/0 now, so nothing bad is currently resident — but the foreman's patch history is
+   worth a sceptical read if anything downstream looks off.
+3. **Two roll sources were being addressed into DC Comics' spine.** The Acquisitions Index
+   holds a two-letter entry `"DC" → II.D.2`, and the containment tier matched raw letters with
+   spaces stripped, so `"dc"` fell inside `swor-d-c-oast` and `associate-d-c-rossover`:
+   `Sword Coast Adventurer's Guide` and `Who Framed Roger Rabbit (…)` both resolved to
+   **II.D.2**. That is the invented address Hard Rule 2 forbids, and it did a second harm —
+   a source that matches *wrong* never reaches `unassigned_sources.md`, so the owner sign-off
+   that would have caught it was never requested. **No volumes were actually mis-shelved**
+   (checked `output/raw/` and the generation catalog: nothing under II.D.2 exists, generation
+   is still at pilot scale), so there is nothing to regenerate. Both now land in UNASSIGNED
+   and will appear in the next unassigned-sources report for your real assignment.
+
+No secrets found. No deletions, no public-signature breaks, no new dependencies.
+
+**Delegation ladder, as used.** Bots' own outputs read first (`FOR_OWNER.md`, `ALLSWEEP.json`,
+`OVERWATCH.json`, `failures.json`/`failure_samples.json`, `health --preflight`, the dashboard
+state) — all fresh, and they are what surfaced the entry point for this run. **Ollama (rung b)
+was routed to first for file work and failed**: `local_agent.py --no-apply` returned
+`{"ok": false, "error": "transport: HTTPError HTTP Error 503"}` even though the daemon answers
+(`/api/tags` → 200, `qwen3:30b-a3b-instruct-2507-q4_K_M` loaded). A 503 with a healthy daemon
+and a loaded model reads as GPU contention against the live read/roll workers rather than a
+model-capability problem — the same contention window run #2 hit through `overwatch`. Not
+worked around, recorded: **if this recurs every run, the local rung is effectively unavailable
+during working hours and that is worth the owner knowing.** Two sonnet subagents (rung c) then
+took surfaces neither the round-1 audit, the evening sweep, nor run #2's four agents had
+covered: the generation-side chain (`ingest_doc`/`manifest_builder`/`generate`/`address`/
+`catalog`) and the operations layer (`foreman`/`standards`/`publish`/`overnight`/`dashboard`).
+**Every agent finding was re-verified against source before any fix** — and that mattered
+twice: one agent's account of the stall detector named the right file for the wrong reason (it
+diagnosed only the job-name mismatch and missed that the timer could not reach its threshold
+regardless), and two of my own first-cut fixes turned out to regress real behaviour under a
+whole-roll diff (below).
+
+**Resolved this run (each reproduced before fixing, and re-diffed after):**
+- **Doc-ingested entries were being stranded permanently by the entrypass resume gate**
+  (`pipeline.py`). This was the run's entry point: `health --preflight` had been reporting
+  "entries stranded in closed batches: 5" since run #2, which left it uninvestigated as
+  possibly a mid-edit artefact. It is real and structural. The resume key is `source#start`,
+  but the span it names is `entries[start:start+B]` — and a record's entry list **grows** after
+  entrypass has walked it, because `ingest_doc.py` appends doc-derived entries through
+  `write_record_catalogue`. So the tail batch silently widens under a key already in
+  `done_keys`. `Arcanum Worlds (Odyssey of the Dragonlords)` grew from 292 to 297 entries after
+  batch `#280` closed; those 5 entries (identifiable by their `doc_pages`/`origin_work`/
+  `wiki_page` shape and their missing `catalogued`/`topic`) were never categorised, never given
+  a scale_note, never banded, and never would be. Same failure mode as the 378 entries phase 2
+  already paid for — that fix stopped batches *closing over* unjudged entries, but nothing
+  reopened a batch that *acquired* unjudged entries afterwards. The gate now reads the span, not
+  the ledger (`pipeline.batch_settled`, extracted so it is testable without an Ollama call), and
+  re-recording a reopened key is guarded so `done_keys` cannot grow forever. **verify_math §18d
+  added** (4 checks). Note: `--preflight` still reports 5 — correctly. The count clears when the
+  live pipeline next walks that record on the new code; `pipeline.py` was bounced for that.
+- **`ingest_doc.mine()` advanced its resume cursor without checking that the write landed** —
+  the other half of the same story, in the module that created those 5 entries.
+  `write_record_catalogue` returns whether the rename actually landed (it never raises, because
+  on Windows it can be denied while a reader holds the file) and the return was discarded, so a
+  denied write advanced `state["next"]` past entities that were never saved — permanent, silent,
+  and compounding within the run, since `known` had already absorbed the names and a later chunk
+  mentioning the same entity would skip it as "already known". A denied write now rewinds
+  `known` and stops without moving the cursor. The state file also now lands atomically instead
+  of via a bare `open`+`json.dump`. **Verified end to end on a temp fixture**: denied →
+  `next=0, found=0, 0 entries on disk`; landed → `next=2, found=1, 1 entry on disk`. Under the
+  old code the denied case left `next=2, found=1, 0 on disk`.
+- **[m3] `completeness.py` deleted any source whose every category probe failed.** `work()`
+  returned `None` on all-probes-failed, so the row vanished from `COMPLETENESS.json` entirely —
+  and an absent row reads downstream as "this source has no wiki presence", the exact inversion
+  of "the wiki did not answer" (313 URLErrors were recorded at this site as of run #2). Added
+  `category_size_probe()` returning `(n, error)`; `category_size()` is unchanged for every
+  other caller. All-probes-failed now lands in the `unreliable` bucket the module's own
+  docstring built for it; genuine absence still returns `None` as before. Verified by forcing
+  every probe to `URLError`: previously 0 rows, now 1 row correctly marked unreliable. Both
+  consumers (`standards.py`, `catalogue_web.py`) already filter `unreliable`, so no downstream
+  change.
+- **[m4] `wiki_source.page_text()` abandoned a page after one transient failure** — `return ""`
+  instead of `continue` on a section-0 exception, so a single timeout skipped sections 1 and 2,
+  which are independent calls. This is the module's own worst failure shape: a hiccup wearing
+  the face of a page with no prose, recorded as genuine silence and never re-asked. **This site
+  is high volume** — the foreman's swallowed-failure archive shows it at 1,700–3,200 URLErrors
+  *per round*, every one of them a page given up on early. Verified with a forced section-0
+  timeout: now reaches section 1 and returns the real prose. **Takes effect when `read.py` and
+  `feats.py --roll` next cycle** — deliberately not bounced (they are driven by the supervisor's
+  hours-long main lap, not the 5-minute keeper, so killing them would have taken the reader down
+  for hours to land a fix that arrives free on the next lap).
+- **[m5] duplicate `silence.note()` label** — `wiki_source.py:278` was the label for two
+  unrelated sites (a local hosts-file read and a live category probe), so the ledger reported
+  one class where two different things were failing. Split into content labels
+  (`wiki_source-hosts-read`, `wiki_source-category-probe`); `wiki_source.py:301` likewise became
+  `wiki_source-page_text-section`. Line-number labels drift; content labels cannot.
+- **[m8] Hard Rule 0: the "Shelved here" roster was sliced to 8.** Node `6.6.6` holds 38 shelved
+  sources and showed 8, with nothing to indicate the other 30 existed. **Uncapped rather than
+  given a "+N more"** — the rule's whole point is that a cap returns a smaller universe wearing
+  the same shape, and "+30 more" still leaves 30 names unreachable. The panel is now bounded by
+  scroll instead of by truncation (`.roster`, `max-height` + `overflow-y`).
+- **[m9] the "contains" row undercounted** — `nd.k.length||nd.w.length||nd.s.length` returns the
+  *first non-zero*, so node `6.6.6` reported "contains 7" while holding 7 branches and 38
+  shelved sources. 37 nodes were affected. Now sums. **Both m8 and m9 live-verified in the
+  browser** against the rebuilt terminal: the panel reads `contains 45`, and all 38 names render
+  and scroll.
+- **[m11] `navtree.sources_under()` false-matched on a digit prefix** — `key.startswith(path)`
+  with no `.` boundary (the sibling arm has one), so a source shelved at `0.1.2` was counted as
+  sitting above node `0.1.20`, an unrelated sibling branch, and its genre register voted in that
+  node's naming ballot. Verified across the ancestor/descendant/exact/false-match cases: the two
+  false matches are gone, every legitimate relation preserved.
+- **[m17] `weave_index.designations()` cached forever with no invalidation** — a bare global, so
+  a long-lived process (dashboard, keeper) kept answering from a corpus snapshot taken at import
+  time; this set decides whether `(Earth-616)` is a continuity marker or part of a name, so a
+  stale answer misreads every entity ingested since. Now keyed on the same directory signature
+  as its sibling `load_records()` (shared `_records_sig()`), and — a case the bug report did not
+  raise — an explicitly-passed `records` list is no longer cacheable at all, since it has no
+  signature to key on and caching it would serve one caller's answer to the next. Verified:
+  caches, invalidates on `utime` of a record, explicit callers isolated.
+- **`address.spine_code_for()` mis-shelved two sources into DC Comics** — see flagged item 3.
+  Containment now runs on whole words, with letter-level **equality** kept as its own tier
+  because the index writes `Soulcalibur` and the roll writes `Soul Calibur`. **That equality
+  tier exists because my first fix regressed it**: a whole-roll before/after diff showed 3
+  changes, not 2, with `Soul Calibur` falling out of `II.A.7`. Final diff over all 215 roll
+  entries: exactly the 2 intended changes, nothing else moved.
+- **`manifest_builder.load_record()` could not find a truncated record slug** — it tested only
+  `target in filename`, and record slugs are cut to a fixed length, so `Who Framed Roger Rabbit
+  (incl. all content from its associated crossover-toon IPs)` (**304 catalogued entries**) was
+  reported as having no record file at all, with the operator told the wrong reason. The reverse
+  arm is prefix-anchored (slugs are cut from the front) and candidates are ranked by closeness.
+  **Ranking was the second self-inflicted regression**: my first version ranked by *longest*
+  match and sent source `DC` to `sword-coast-adventurer-s-guide.json` (that filename also
+  contains the letters `dc`). Whole-roll diff now shows exactly 1 change — the intended one —
+  and nothing lost.
+- **`foreman._checks_pass` substring false positive** — see flagged item 2. Now parses the count
+  numerically, and a missing/unreadable result line fails closed. Verified against synthetic
+  result lines for 0/3/10/20/100/110.
+- **`standards.py`'s stall detector: two independent defects** — see flagged item 1. (a) The
+  stamp is now carried forward while a log holds its size, so the number means silence rather
+  than checker cadence (`standards.job_stamp`, extracted for testability). (b) Jobs are now
+  taken from the new `lognames.OWNER` map rather than from log filenames: deriving the job from
+  the filename asked whether `read_auto.py` was running — no such script has ever existed — so
+  the corpus reader, page roll and phase pipeline were *all* invisible, while stale legacy logs
+  whose stems collide with a live script (`read.log`, 52 bytes, last written two days ago,
+  beside a running `read.py`) were matched as live and would have become permanent false alarms
+  the moment the timer was fixed. `foreman.kill_stalled_job` resolved the same broken names and
+  so could never have killed anything; it now resolves through `OWNER` too, which also tightens
+  its matcher (a bare `job in line` test would match any command line merely mentioning
+  "pipeline"). The standard now honestly reports **3 running** rather than an inflated 15.
+  **verify_math §19b added** (8 checks) pinning the carry-forward rule and the OWNER map.
+
+**Battery, after all edits:** `verify_math` **284 passed / 0 FAILED** (272 at run start; +12
+regression checks added by this run), `allsweep` **0 subsystems in a bad state**, `pyflakes`
+clean over `src/*.py` (one pre-existing f-string warning remains in `src/deprecated/`,
+untouched), `silence.py` unchanged in shape, `health --preflight` 3 problems — all three known
+and none introduced here (fandom host unreachable; the dandwiki cache, which is BUGS M1's
+IP-block awaiting an owner ruling; and the stranded-batch count, which clears on the pipeline's
+next lap as described above).
+
+**Bounced:** `pipeline.py` (edited its own module; the keeper re-asserts it within 5 minutes).
+Not bounced, deliberately: `read.py` and `feats.py --roll`, per the reasoning under [m4].
+
 ## 2026-08-23 late — Run #2, triggered by commit d33d23c
 
 **Flagged for human review:** none new. dandwiki, disk*, hostless-roll, paid-burst-lane
