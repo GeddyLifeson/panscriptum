@@ -9,6 +9,149 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 17:50 (local) — Run #14: the standard built to catch a fandom block read green through one, because the only host it asked answers over IPv6
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets, no money movement, no data loss.** No record was rewritten. Changes are three
+   source files (`standards.py`, `foreman.py`, `verify_math.py`) and the ledgers. The paid lane
+   is still closed three ways (`598 / False / False / True`); `WIKI_HOSTS.json` unchanged for a
+   **ninth** run (202 bindings, 191 non-empty, md5 `451703b8`).
+2. **[M8 — NEEDS YOUR DECISION] EVERY FANDOM CONTENT WIKI IS UNREACHABLE FROM THIS MACHINE OVER
+   IPv4, AND HAS BEEN ALL DAY.** `marvel`, `forgottenrealms`, `aneurism` — all time out at the
+   socket. Wikipedia, GitHub and 1.1.1.1 over IPv4 answer in under 0.05s, so IPv4 is not
+   broken; fandom's edge specifically is. **I did not route around it.** The IPv6 path to the
+   same edge works fine, and forcing traffic onto it would evade a block the destination may
+   have applied deliberately — this machine earned one on 2026-08-23. Two readings fit and I
+   cannot separate them from here: fandom is blocking our IPv4 address, or something between
+   here and Cloudflare's IPv4 edge is dropping SYNs. **That is your call, not mine.**
+3. **THE PART THAT IS A BUG, AND IT IS FIXED: the standard that exists to catch exactly this
+   read `reachable` throughout.** `fandom answers this machine` probed
+   `community.fandom.com` — the **only** fandom host publishing AAAA records — so it connected
+   over IPv6 in 0.02s and certified a dead corpus as healthy. Every content wiki is
+   A-record-only. Three other surfaces were telling the truth at the same moment (164 of 164
+   `COMPLETENESS.json` rows "no denominator was obtained", `sources with a reachable wiki 90%`,
+   preflight's `fandom API unreachable`) and the one instrument built for it did not.
+4. **A SECOND, INDEPENDENT BLINDNESS FOUND WHILE CHECKING THE FIRST — and this one had switched
+   the catalogue off.** `foreman._fandom_reachable` was hardened THIS MORNING from a TCP
+   connect to a real API call, on correct reasoning. But the new call went out on a bare
+   `urlopen`, so MediaWiki saw `Python-urllib/3.13` and answered **403 Forbidden in 0.13s** —
+   from fandom **and from Wikipedia**, healthy or not. **The gate therefore returned False on
+   every call it has ever made**, and `run_catalogue_gap` deferred the catalogue every foreman
+   round while reporting "fandom.com is dropping connections (IP block or outage)". Fixed.
+5. **M7's gate is LIVE for the first time and measured binding: `read.py` holds 2 connections to
+   Ollama where run #13 measured 9.** The reader was already down when I started (its own
+   supervisor lap ended it at 17:05), and the lap could not restore it for ~3.5h, so restarting
+   it cost nothing and interrupted nothing. **The discard rate is NOT yet re-measured** — a
+   restarted reader replays cache first. Next run reads it.
+
+**THE RUN'S THEME: a probe is only as honest as the population it can reach, and this time the
+population was a DNS record type.** Nothing about the old probe was lazy — one cheap TCP
+connect to a fandom host is a reasonable design. It failed because `community.fandom.com` is
+not a representative fandom host in the one dimension that mattered, and nothing in the code or
+the comment could have told you that. It took `getaddrinfo`.
+
+**HOW M8 WAS FOUND, IN THE ORDER IT ACTUALLY WENT.** The page (opening diagnostic, per the
+owner's ruling) showed 11 red standards of 38. Three were library-HIGH and pointed the same
+way: `every source is fully catalogued = UNMEASURED — 164 rows in COMPLETENESS.json, 0
+measurable, no denominator obtained`. Reading the file directly: **164 of 164 rows** carried
+`wiki_persons: null`, `wiki_categories: {}`, `probe_failures: 8 / probes_run: 8`. Not a
+catalogue measuring empty — an audit unable to measure at all.
+
+A live `ws._api` probe hung past 120s. **`curl.exe` failed the same way** (`http=000` at 21s),
+which killed the obvious hypothesis: this machine's Norton TLS interception breaks Python and
+Java HTTPS, but curl uses the system stack and curl failed too. So it was the socket, not TLS.
+
+Then the shape resolved in three measurements:
+- `community.fandom.com` connects in **0.05s**; `aneurism`, `forgottenrealms`, `marvel` all
+  **time out at 16s**.
+- **All four resolve to the same two Cloudflare IPv4 addresses.** So it cannot be per-host.
+- Connecting to those **literal IPv4 addresses** times out **including for `community`**.
+
+`community` is the only one with AAAA records. `create_connection` walks `getaddrinfo` and stops
+at the first family that answers. That is the entire bug, and it is worth stating as a rule:
+**a probe that lets the resolver choose is not measuring the path its callers are forced onto.**
+
+**THE FIX, AND WHY IT IS NOT A SAMPLE.** `standards.fandom_ipv4_reachable()` pins the family to
+`AF_INET` and asks `marvel.fandom.com`, a content host this corpus actually binds
+(`WIKI_HOSTS` maps it from "Marvel" and "major fantasy pantheons"). Picking one host would
+normally raise the Hard-Rule-0 question. It does not here, and the measurement is why: every
+fandom content host resolves to the **same two** Cloudflare IPv4 addresses, so one connect
+opens the identical socket all 191 bound hosts must open. The standard now reads
+**`holds=False — IPv4 connect fails: 172.66.2.166 TimeoutError`**. Pinned by **§19z**, 4 checks
+driven off a stub network so they pin the FAMILY rather than the weather; the second
+reproduces the exact 2026-08-24 configuration and must come back False.
+
+**THE SECOND BUG IS THE MORE INSTRUCTIVE ONE, because I only found it by asking who consumes
+the standard I had just flipped red.** The answer was "nothing automated" — but the search
+surfaced `foreman._fandom_reachable`, a separate gate with the same host choice. I expected it
+to be blind the same way. **It returned False, which is correct — in 0.13 seconds, which is
+not.** A block times out; it does not answer instantly. That 0.13s was a 403, and the same 403
+came back from Wikipedia. Missing User-Agent. `wiki_source` has always sent a polite UA; this
+gate never did.
+
+So `run_catalogue_gap` has been switching itself off every round, and **its false negative was
+phrased as a diagnosis** ("fandom.com is dropping connections") — the most expensive kind,
+because it reads as the system working. Both the morning's fix and its inverse are now recorded
+in the one docstring, since neither makes sense without the other. Pinned by **§19aa**, 5 checks
+off a stub opener. It now returns False in **16.1s**, the honest timeout.
+
+**WHAT I DID NOT TOUCH, AND WHY.** The foreman was holding a live `hostcheck.py --adopt` child
+(PID 44900) — **exactly** the hazard `NEXT_STEPS` §2 F warns about, where bouncing the parent
+orphans a child that then rewrites `WIKI_HOSTS.json` from a stale snapshot. I checked before
+assuming, found it true, and left the foreman on stale code. That is safe here for a specific
+reason worth recording: while the block lasts, the stale gate and the fixed gate return the
+same answer. **It must be bounced before fandom recovers**, or the catalogue stays switched off
+for the wrong reason. Top of `NEXT_STEPS`.
+
+**TWO OF THE FOUR OPEN HIGH-SEVERITY OVERWATCH FINDINGS ARE REFUTED AT SOURCE.**
+`cosmography._fmt` "is used but never defined" — it is defined at `cosmography.py:256` and
+pyflakes over `src/` is clean, which would have caught an undefined name.
+`descending_ladder.compton_confinement_energy` "uses HBAR instead of hbar/2" — the code is
+`p = HBAR / (2.0 * size_m)`, which **is** hbar/(2r), exactly what its docstring claims. I did
+not hand-edit `data/OVERWATCH.json` to close them: overwatch (PID 30532) owns that file and the
+auto-triage re-verifies open findings each round. Recording the verdicts here so the next run
+does not spend on them again. The other two highs (`cleanup.clean_ceiling`, `silence.note`)
+read as observations rather than defects and were not verified this run.
+
+**VERIFIED FROM THE QUEUE.** **m64 is CLOSED and now permanently** — its own stated condition
+was a restarted `pipeline.py`, and the keeper restarted it at **17:12:54**;
+`ollama_token_flow()` returns `(True, 'ledger')` in **0.0s**. The 120 `! [rejected] ... (fetch
+first)` lines in `publish.log` were the **doubled publisher the page reported racing itself**,
+not a credential or rebase fault: after a plain `git fetch`, local and origin were **0/0
+apart**. One publisher runs now and its push succeeds. **M4** `598 False False True`. **m42**
+`202 / 191 / 451703b8`, ninth run. **m40 has UN-FLATTENED — 70/66 → 71/68** — which is run
+#13's prediction cashing out exactly: it called the flat number a symptom of M7 rather than an
+overwatch bug, and the number moved as soon as the reader left the card. **Preflight is down to
+2 FAILs from 3**: "entries stranded in closed batches" is **gone**, which `NEXT_STEPS` §1.11
+pre-registered as "0 = the rung recovered". **m63 was worse than filed** — five duplicate
+section-label pairs in `verify_math.py`, not one; all renamed, `BUGS.md`'s three `### Major`
+headings merged.
+
+**THE BATTERY.** `verify_math` **482 passed, 0 FAILED** (473 at run start; +9 new checks).
+`allsweep` **0 subsystems bad**. `pyflakes` clean. `silence` **35 silent of 395 handlers** — the
+count held at 35 across my edits, so **I added none**; the +3 against run #13's 32 arrived with
+the foreman's own `--patch` commits at 17:06–17:10, not from this run. Preflight 2 FAILs as
+above.
+
+**JOBS TOUCHED.** Bounced `dashboard.py` and `publish.py` (both hold `standards`, both are in
+the keeper's STANDING set). **The keeper did not restore them within its five minutes** — the
+supervisor's lap is blocked in a 4-hour roll join and the keeper thread had last logged at
+17:12:53 — so I restored them myself through `overnight.start()`, which carries the same
+singleton guard the keeper uses. Both up at 17:40:50, port 8777 listening. One cosmetic
+consequence: `start()` inherits `sys.executable`, so they are now `python.exe` where they had
+been `pythonw.exe`. Harmless, and `running()` matches on the command line, so the singleton
+guard is unaffected. Restarted `read.py` (see above). **Did not bounce the foreman** (adopt
+child), `overwatch`, or `feats.py --roll` (advancing at 1.6/s, 47,600/83,437).
+
+**ALSO OBSERVED, NOT FIXED.** The reader logs **50 `REMOVED local-<model>: HTTP 404 (no such
+model)`** lines across **five** pruned models (`qwen3-30b`, `qwen3-30b-q3`, `gemma3-12b`,
+`qwen25-14b`, `llama31`) — the tail of the model prune `NEXT_STEPS` §2 S flagged. Each consumer
+rediscovers the same five absences on every start, one 404 per bucket per worker. Self-healing,
+so not a fault; the bucket roster lives outside `src/` (Cascade's own config /
+`state/cascade_scratch.db`), which makes it a question rather than a fix.
+
+
 ## 2026-08-24 16:45 (local) — Run #13: the reader has been throwing away 95% of its work behind nine green `running` lines
 
 **FOR THE OWNER, AT THE TOP:**
