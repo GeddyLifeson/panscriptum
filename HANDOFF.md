@@ -9,6 +9,91 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 00:45 — Run #4 (owner: delete m20, handle the rest, and run a real pass)
+
+**The stranded-batch fix is now PROVEN IN PRODUCTION, and not by waiting for a lap.** Run #3
+left it verified only by unit test, and run #3b could not prove it because Ollama was wedged.
+The proof was already sitting in live state: `state/PIPELINE_STATE.json` holds
+`failed.entrypass["Arcanum Worlds (Odyssey of the Dragonlords)#280"] = "ollama failure"` **while
+that same key is still present in `done.entrypass`**. Phase 2 selected and attempted that batch
+with the key already recorded done — which is exactly what the old `if key in done_keys: continue`
+made impossible. The gate fired in production; only the 503 outage stopped the entries being
+judged. `--preflight` will still read 5 until a phase-2 call lands, and that is now the only
+thing outstanding on it.
+
+Also worth recording plainly: the live pipeline is **blocked, not broken**. `units_done` sat at
+3382 across a 40-second sample with the state file freshly written, i.e. it is inside one long
+call. `llama-server.exe` is burning ~8 cores. A 30B MoE at 8.5 GB on a 10 GB card is simply slow,
+so a phase-2 batch may take a long while to come round.
+
+**Deleted with owner sign-off — [m20].** The `for job in (...)` loop with a bare `pass` body and
+its unread `dupes = []` are gone from `standards.py`. The comment it carried is kept, because the
+decision it records is still true: `running()` is a boolean, so counting instances is the
+reconcile tier's job, not that check's. 37 → 38 floors after the new standard below; the
+`every managed job is running` reading is unchanged (`all up`).
+
+**New machinery: a standard for the failure mode that was invisible.** Run #3b's Ollama wedge was
+reported healthy by every check in the project, because they all ask `/api/tags`, which answered
+200 throughout. Added **`the local model has a live runner`** (high, machine, OWNER lane): if
+`/api/ps` names a resident model while no `llama-server.exe` process exists, that is a flat
+contradiction and always a fault. Verified both directions — it holds now (`runner up, 1
+resident`), and fires `high` on a simulated wedge (`resident qwen3…, NO llama-server process`)
+while a probe that cannot tell (`None`) is never reported as a fault. The process lookup is
+TTL-cached at 120s because the dashboard polls `check()` every five seconds. **Deliberately given
+no REMEDIES entry**, so it lands in the OWNER lane rather than auto-restarting a service —
+consistent with run #3's flag that activating destructive automation is the owner's call.
+
+**[m6] closed, both halves.** Eleven phase artifacts (TIERS, GROUNDINGS, CENSUS, SHELFMARKS,
+CHRONICLE, SHELVES, manifest, CONTINUITY_GROUPS, RESOLVED_ENTITIES, RESONANCE_GRAPH,
+ONOMASTICON) were written as `json.dump(obj, open(path, "w"), ...)` — not atomic, and the handle
+never explicitly closed either. All now go through a new `pipeline.land_json()`.
+**Demonstrated why it mattered rather than asserting it**: that pattern truncates the target
+*before* serialising, so a value json cannot encode leaves the real file holding
+`{\n "ok": 1,\n "when": ` — unparseable. Reproduced on a stand-in TIERS.json.
+And the second half: `phase_history` caught absent and corrupt in one `except Exception`, gave
+both the message "phase 5 has not run", and **marked phase 6 done with an empty result**, so an
+unreadable TIERS.json was never revisited. Absent and corrupt are now separate: absent proceeds
+as before, corrupt logs loudly and leaves the phase OPEN. Same fix applied to `phase_shelve`,
+which takes every entry's `tier` and `shelfmark` from those two files and would otherwise have
+shelved the entire library tierless and marked itself done. Both behaviours tested in a sandbox
+(corrupt → not done; absent → done).
+
+**[m10] closed and live-verified.** Added a JS `esc()` helper — the same discipline
+`render.py`'s `containment_svg()` already uses on the Python side — and applied it to every
+catalogue-derived interpolation: panel/source/world headings, the endonym, the shelved-here
+roster, four SVG `<title>`s, the `data-k` attribute and seven SVG `<text>` name renders. Separately,
+the `NAVTREE.json` splice into the inline `<script>` now neutralises `<` as `<`, which kills
+`</script>`, `<script` and `<!--` at once; inside a JSON string that escape parses straight back
+to `<`, so no name changes. **Proved in the browser**: DATA still parses to all 734 nodes, and a
+source named `Evil <img src=x onerror=alert(1)> & "Co"` renders as literal text with **0 injected
+nodes**. m8/m9 re-checked in the same pass and still hold (`contains 45`, 38 roster entries).
+
+**[m14] fixed, and honestly scoped.** A `topic` failing its `TOPICS` enum check left no key at
+all while `catalogued = True` was still set, so the resume gate never revisited it — and a
+missing topic is not inert: `worldseed` selects on `topic == "Places"` and `weave` builds its
+topic set from truthy values, so the entry was silently dropped from both, permanently. Now
+mirrors the `magnitude`/`scale_note` idiom already in the file: an explicit `"unclassified"`
+sentinel plus `topic_rejected` holding the raw value. **Measured before claiming a win: 0 of
+55,653 catalogued entries currently lack a topic**, so this is prophylactic — it repairs no
+existing damage, it closes a hole.
+
+**[m15] fixed.** `endpoint.fetch_raw` returned `None` for every HTTP status, so a 403, 429 or 500
+reached the caller as the identical answer a genuine 404 gives — "this page does not exist" — and
+a rate-limit during a raw pass was filed as permanent absence. Same family as run #3's [m4]. The
+signature is unchanged (both callers read only presence), so the fix makes the two cases legible
+in the ledger where the counts are what distinguish a block from a wiki that lacks the page:
+404/410 → `fetch_raw-absent`, everything else → `fetch_raw-refused-<code>`. Verified across
+404/410/403/429/500.
+
+**[m7] was already fixed — the BUGS entry was stale.** `handbuilt.py` writes through
+`tmp` + `silence.replace_retry` with a landed check. Moved to the paper trail as such rather than
+left sitting open.
+
+**Battery:** `verify_math` **292 passed / 0 FAILED** (+8 this pass, §19c pinning the land_json
+write contract including "an unencodable value must not damage the existing artifact", plus the
+topic-sentinel non-collision), `pyflakes` clean over `src/*.py`, `allsweep` 0 subsystems bad,
+`health --preflight` unchanged at its 3 known items.
+
 ## 2026-08-24 00:00 — Run #3b, continuation pass (owner: "do what you think is best")
 
 Short follow-on pass in the window before the next scheduled fire, settling the items run #3

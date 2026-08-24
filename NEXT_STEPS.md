@@ -1,130 +1,93 @@
 # Next Steps — priority queue for the next maintenance run
 
-*Overwritten each run; history lives in HANDOFF.md. Run #3 wrote this on 2026-08-23 ~23:40;
-run #3b amended it 2026-08-24 ~00:35.*
+*Overwritten each run; history lives in HANDOFF.md. Run #4 wrote this on 2026-08-24 ~01:00.*
 
-## 0a. Run #3b's amendments — read these before item 0 below
+**State of the ledger: there are no open bugs awaiting only implementation.** Everything left in
+BUGS.md's Open section is either a HUMAN CALL (M1, m12, m13, m16) or an operational state being
+watched (m1, m2). Runs #3/#3b/#4 closed m3–m11, m14, m15, m17–m22 plus the two matching-logic
+bugs and the Ollama wedge. So this run's queue is mostly *verification* and *owner decisions* —
+if both are clear, the honest next move is a new audit surface (section 4), not invented work.
 
-- **Ollama was hard down for the whole of run #3 and is now restarted.** Queue saturated with
-  no runner process in existence; 59 unbroken 503s in the phase runner. **This supersedes run
-  #3's "GPU contention" reading and its item 12 below** — the local rung was not contended, it
-  was wedged, and it could not have recovered on its own. If it wedges again, the signature is:
-  `/api/ps` names a resident model, `tasklist` shows **no `llama-server.exe`**, and a direct
-  `/api/generate` returns `maximum pending requests exceeded`. The remedy is restarting
-  `ollama.exe` (the tray app respawns it). **Worth considering a standard for this** — the
-  wedge is invisible to every existing check, and `health --preflight`'s "Ollama up" reading
-  came back 200 throughout.
-- **Item 2 below (the stranded count) could not have cleared** and is not evidence against the
-  gate fix: judging those 5 entries needs a model call, and none succeeded for 31 minutes.
-  Still worth checking, with that in mind.
-- **A completed local model call has still not been observed** since the restart. The runner is
-  measurably busy (80 CPU-seconds per 10 wall seconds) but `pipeline_auto.log` has logged
-  nothing either way since 00:11:39. **Confirm a phase-2 batch actually lands** — that single
-  observation validates both the Ollama recovery and the stranded-batch fix at once.
-- **[m18], [m19], [m21], [m22] are fixed** (see BUGS.md paper trail); items 15 and 19–22 below
-  are done. **[m20] is confirmed vestigial but deliberately not deleted** — it needs an owner
-  review cycle, not more verification.
+## 1. Verify first
 
-## 0. Verify first — things run #3 changed that need a second pair of eyes
+1. **Confirm a phase-2 model call actually lands.** This single observation closes three open
+   threads at once: it proves the local model is genuinely serving again after run #3b's wedge,
+   it drops `entries stranded in closed batches` from 5 to 0, and it completes the end-to-end
+   demonstration of the reopen gate. Check `state/pipeline_auto.log` for a non-503 line after
+   2026-08-24 00:11, and `health.py --preflight`. **Do not re-fix the gate on the strength of
+   the number 5** — run #4 proved the gate fires in production (the batch is in
+   `failed.entrypass` while its key is still in `done.entrypass`, impossible under the old code).
+2. **Watch local-model throughput, not liveness.** The runner is up and pegged, but a 30B MoE at
+   8.5 GB on a 10 GB card offloads heavily to CPU. If phase 2 shows no measurable progress over
+   a few hours, that is a model-choice / offload question for the owner (`pick_model.py` ranks
+   candidates), not a correctness bug. Sample `units_done` in `PIPELINE_STATE.json` twice a few
+   minutes apart before concluding anything.
+3. **The new `the local model has a live runner` standard** should read `runner up, N resident`.
+   If it ever reads `NO llama-server process`, the remedy is restarting `ollama.exe` by hand
+   (the tray app respawns it) — it is in the OWNER lane deliberately and will not self-heal.
+4. **The stall detector is still young.** Run #3 made `every running job is advancing` able to
+   fire for the first time. Check `state/job_progress.json`: stamps should age on quiet logs and
+   reset on growing ones. If it reports a job stalled, verify the job was really wedged before
+   trusting it — and if false positives recur, raise `MAX_JOB_SILENCE_MIN` (15) rather than
+   re-breaking the timer. Its AUTO remedy SIGTERMs the job.
+5. **Two spine assignments now land in UNASSIGNED** (`Sword Coast Adventurer's Guide`, `Who
+   Framed Roger Rabbit (…)`) and appear in `output/index/unassigned_sources.md`. They need the
+   owner's real Collection/Set assignment — Hard Rule 2 curatorial work, not a code fix.
 
-1. **The stall detector is live for the first time.** `every running job is advancing` could
-   never fire before run #3 (the watch stamp was re-written every pass, so it measured checker
-   cadence, not silence). It now watches 3 real jobs. **Check `state/job_progress.json` and the
-   standard's reading**: are the `at` stamps genuinely ageing on quiet logs, and has the
-   standard reported any job stalled? If it fired, was the job actually wedged? Its AUTO remedy
-   `kill_stalled_job` SIGTERMs the job, so a false positive costs a restart (resumable, keeper
-   restores) — but a *pattern* of false positives means `MAX_JOB_SILENCE_MIN = 15` is too tight
-   and should be raised. **Do not "fix" it by re-breaking the timer.**
-2. **`entries stranded in closed batches` should fall from 5 to 0** once the bounced
-   `pipeline.py` walks `Arcanum Worlds (Odyssey of the Dragonlords)` on the new code. If it is
-   still 5 after a full lap, the reopen gate is not behaving as verify_math §18d claims —
-   investigate the live path rather than re-patching the predicate.
-3. **[m4] takes effect only when `read.py` and `feats.py --roll` next cycle** — run #3
-   deliberately did not bounce them (they hang off the supervisor's hours-long main lap, not
-   the 5-minute keeper). Confirm the fix is live by checking whether the
-   `wiki_source-page_text-section` label appears in the silence ledger *without* a matching
-   drop in pages recovered. The old `wiki_source.py:301` label ran 1,700–3,200 URLErrors per
-   foreman round; the new label should show similar volume but no longer cost the whole page.
-4. **Two spine assignments moved to UNASSIGNED** (`Sword Coast Adventurer's Guide`, `Who Framed
-   Roger Rabbit (…)`). They will now appear in `output/index/unassigned_sources.md`. **These
-   need the owner's real Collection/Set assignment** — Hard Rule 2 work, not a code fix.
+## 2. Human decisions needed (owner) — unchanged unless noted
 
-## 1. Human decisions needed (owner)
+6. **`kill_stalled_job` is in the AUTO lane** and now reachable for the first time. Keep it
+   automatic, or move it to OWNER?
+7. **Should the Ollama-wedge standard get an AUTO remedy?** Run #4 deliberately did not add one.
+   A restart is mechanical and reversible, and the wedge cannot clear on its own — but it is a
+   service restart, so it is the owner's call whether the foreman may do it unattended.
+8. **[m12] `thread_integrity.py`'s asymmetric/dangling detection is structurally unreachable.**
+   Is the module meant to compare implied threads against a separately-recorded DIRECTED thread
+   graph it currently isn't given? Not a one-line fix either way.
+9. **[m13] `phase_synthesis`'s 14-entity ceiling sample** can clamp a whole source to a lesser
+   band if the true strongest entity isn't sampled. Raise, re-rank, or accept.
+10. **[m16] `weave.py`'s `shared_sample` (8, sliced to 6)** — diagnostic evidence, not
+    reader-facing content, but Hard Rule 0's text doesn't carve out diagnostics. **Same ruling
+    settles `dashboard.py`'s `/api/state` `findings` cap of 12.** One decision, two sites.
+11. **[M1] dandwiki.com** — browser-UA HTML reader vs. owner-supplied. Politeness/ToS call,
+    open since run #1. `health --preflight` will keep reporting its cache all-empty until this
+    is decided; that FAIL is this decision, not a fault.
+12. **Permanently hostless roll entries** (Clockwork Angels, Twilight Imperium, HAWX, …) — stay
+    on the roll as owner-supplied-text candidates, or come off?
+13. **Paid burst lane** — 500-call cap, counter in `state/PAID_BURST.json`. Raise, keep, retire?
 
-5. **The AUTO kill remedy going live** (item 0.1) — the owner should know a previously inert
-   destructive remedy now has teeth. Keep, or move `kill_stalled_job` to the OWNER lane?
-6. **[m12] `thread_integrity.py`'s asymmetric/dangling detection is structurally unreachable** —
-   `implied_threads()` builds its pair map symmetrically, so ASYMMETRIC-LAWFUL/-SUSPECT and
-   DANGLING can never be reported. Is the module meant to compare implied threads against a
-   separately-recorded DIRECTED thread graph it currently isn't given? Unchanged from run #2.
-7. **[m13] `pipeline.py phase_synthesis`'s 14-entity ceiling sample** can clamp a whole source
-   to a lesser band if the true strongest entity isn't sampled. Raise, re-rank, or accept.
-8. **[m16] `weave.py`'s `shared_sample` (8, sliced to 6)** — diagnostic evidence, not
-   reader-facing content, but Hard Rule 0's text doesn't carve out diagnostics. Rule on scope.
-   **Related, same question:** `dashboard.py`'s `/api/state` caps its `findings` list to 12 —
-   a returned data structure, but on a live-monitoring endpoint feeding an HTML panel. One
-   ruling should settle both.
-9. **dandwiki.com (BUGS M1)** — browser-UA HTML reader vs. owner-supplied. Politeness/ToS call,
-   unchanged since run #1. Note `health --preflight` still reports its cache all-empty; that is
-   this decision, not a new fault.
-10. **Permanently hostless roll entries** (Clockwork Angels, Twilight Imperium, HAWX, …) — stay
-    on the roll as owner-supplied-text candidates, or come off? Unchanged since run #1.
-11. **Paid burst lane** — 500-call cap stands, counter in `state/PAID_BURST.json`. Raise, keep,
-    or retire?
-12. **Is the local model rung actually available?** Run #3's `local_agent.py` got HTTP 503 with
-    a healthy daemon and a loaded model; run #2's `overwatch` hit the same window. If Ollama is
-    reliably contended out by the read/roll workers, rung (b) of the delegation ladder is
-    theoretical and the framework should say so.
+## 3. Carried operational items
 
-## 2. Open bugs, by severity (see BUGS.md for full detail)
+14. **[m1] Marvel completeness row** — re-check whether still ~0.4% stale. Note run #3's m3 fix
+    changed what `completeness.py` reports for all-probes-failed sources, so re-read the row
+    before suspecting the byslug matching.
+15. **[m2] 6 roll sources never catalogued, 20 catalogued with no host** — scout/adopt keep
+    retrying; overlaps item 12.
+16. **Charter regression** — `data/CHARTER_REGRESSION.json` exists. Confirm the `automation
+    reproduces the charter` standard takes a real reading from it rather than a vacuous pass.
 
-Medium surgery — do in a quiet window, own pass:
-13. **[m6] `pipeline.py`'s 9 remaining raw JSON writes** (cosmology/history/shelve/weave/write
-    phases) — route through `pipeline._landed`, and fix `phase_history`'s `TIERS.json` read
-    handler so a corrupt file isn't misdiagnosed as "phase 5 hasn't run". **Now the largest
-    open item of its class**; run #3 closed the `ingest_doc` and `write_record` instances.
-14. **[m10] `build_terminal.py` HTML/JS escaping** — `html.escape()` every interpolated
-    catalogue string (`render.py`'s `containment_svg()` is the correct pattern in-repo), and
-    guard the `<script>` splice against a literal `</script>` in `NAVTREE.json`. Note run #3
-    touched this file (m8/m9) but deliberately did not widen into the escaping pass.
-15. **[m18] `foreman.py`'s three non-atomic shared-state writes** — `POOL_PROOF.json`,
-    `FOREMAN.json`, `failures.json`/`failures_archive.json`. Reported by run #3's ops audit but
-    **not independently re-verified** — confirm each against source first.
-16. **[m7] `handbuilt.py`'s artifact write** — route through `silence.replace_retry`.
-17. **[m14] `phase_entrypass` can mark an entry permanently topicless** — `topic` fails its
-    enum check silently with no `"unassayed"`-style fallback, yet `catalogued=True` is still
-    set. **Run #3's `batch_settled` fix does NOT rescue this**: the entry carries `catalogued`,
-    so the reopen gate correctly skips it. Needs its own fallback, in the same shape
-    `magnitude` already has.
-18. **[m15] `endpoint.py fetch_raw` treats every HTTPError as "page doesn't exist"** — 403/429/
-    500 misfiled as permanent absence. Same failure family as the [m4] fix run #3 just landed,
-    and a good next target for the same reason: a transient read as genuine silence.
+## 4. Surface rotation for the next audit fan-out
 
-Small / good first pass (all reported, none independently re-verified — check before fixing):
-19. **[m19]** `standards.report()` sorts work orders alphabetically, not by rank.
-20. **[m20]** dead `dupes` loop in `standards.py` (bare `pass`) — confirm vestigial, and note
-    deletions need a flagged review cycle.
-21. **[m21]** `kill_duplicate_jobs` registered as a bare lambda, so its log line loses its name.
-22. **[m22]** `catalog.py`'s docstring documents a `PANSCRIPTUM://…` address form the code
-    doesn't implement.
-
-## 3. Surface rotation for the next audit fan-out
-
-Covered so far — do **not** re-read these unless the diff touched them: the round-1
-full-codebase audit and the evening sweep (`handoff/AUDIT_*.md`); run #2's four surfaces
-(derivation/rigor/handbuilt; sweep/endpoint/wiki_source/coverage; build_terminal/weave/
-weave_index/navtree/render; pipeline/ledger/thread_integrity); run #3's two (ingest_doc/
-manifest_builder/generate/address/catalog; foreman/standards/publish/overnight/dashboard).
+Covered, do **not** re-read unless the diff touched them: the round-1 full-codebase audit and
+evening sweep (`handoff/AUDIT_*.md`); run #2's four surfaces (derivation/rigor/handbuilt;
+sweep/endpoint/wiki_source/coverage; build_terminal/weave/weave_index/navtree/render;
+pipeline/ledger/thread_integrity); run #3's two (ingest_doc/manifest_builder/generate/address/
+catalog; foreman/standards/publish/overnight/dashboard).
 
 **Not yet audited line-by-line** — pick from here: `assay.py`, `magnitude.py`, `chain.py`,
 `identity.py`, `cascade_bridge.py` (only partly covered), `compress_store.py`, `module_index.py`,
-`hostcheck.py`, `scout.py`, `tuning.py`, `catalogue_web.py`, `silence.py` itself, `health.py`,
-`overwatch.py`, `local_agent.py`, `read.py`, `feats.py`.
+`hostcheck.py`, `scout.py`, `tuning.py`, `catalogue_web.py`, `silence.py`, `health.py`,
+`overwatch.py`, `local_agent.py`, `read.py`, `feats.py`, `estate.py`, `worldseed.py`, `onomast.py`.
 
-**A note on agent findings, earned twice this run:** both audits were right about *where* and
-partly wrong about *why* — one named the stall detector's job-name mismatch but missed that the
-timer could not reach its threshold regardless, which was the bigger half. And two of run #3's
-own first-cut fixes regressed real behaviour (`Soul Calibur` fell out of II.A.7; source `DC`
-was sent to the Sword Coast record) and were caught only by diffing all 215 roll entries before
-and after. **Diff the whole corpus before and after any matching-logic change.** A fix that
-looks right on the reported case is not verified until the cases nobody reported are checked.
+## 5. Two lessons worth keeping
+
+- **Diff the whole corpus before and after any matching-logic change.** Run #3 shipped two
+  first-cut fixes that regressed real behaviour — `Soul Calibur` fell out of II.A.7, and source
+  `DC` was misrouted to the Sword Coast record — and *both* were caught only by diffing all 215
+  roll entries. A fix that looks right on the reported case is not verified until the cases
+  nobody reported are checked.
+- **Distrust a green liveness check.** The Ollama wedge was reported healthy by every probe in
+  the project for 31 minutes because they all asked `/api/tags`. When a job is doing no work,
+  read the job's own log before believing any status summary — and prefer a check that asserts a
+  contradiction cannot exist (resident model with no runner) over one that asserts a service
+  answered.

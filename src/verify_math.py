@@ -1237,6 +1237,46 @@ check("and every owner fragment names a real script",
                                       f.split()[0])) for f in _LN2.OWNER.values()), True)
 
 
+# ---- Section 19c: phase artifacts land whole or not at all ------------------------------------
+#
+# The later phases wrote their artifacts as `json.dump(obj, open(path, "w"), ...)`, which
+# truncates the target BEFORE serialising -- so a value json cannot encode left the real file
+# holding a half-written fragment. Several of these are read by a later phase in the SAME run,
+# and phase 6's own handler then reported that corruption as "phase 5 has not run" and marked
+# itself done with an empty result. These pin the write contract. (BUGS m6.)
+
+import datetime as _dt          # noqa: E402
+
+_ad = _tf.mkdtemp()
+_ap = os.path.join(_ad, "TIERS.json")
+with open(_ap, "w", encoding="utf-8") as _f:
+    _f.write('{"prior": "contents"}')
+
+check("land_json lands a good write", _PL.land_json(_ap, {"charted": [1, 2]}), True)
+check("and the artifact is what was asked for",
+      json.load(open(_ap, encoding="utf-8")), {"charted": [1, 2]})
+check("and no .tmp is left behind", os.path.exists(_ap + ".tmp"), False)
+check("indent is honoured", "\n  " in open(os.path.join(_ad, "B.json"), encoding="utf-8").read()
+      if _PL.land_json(os.path.join(_ad, "B.json"), {"k": 1}, indent=2) else False, True)
+check("default= carries the CHRONICLE case",
+      _PL.land_json(os.path.join(_ad, "C.json"), {"d": _dt.date(2026, 8, 24)}, default=str), True)
+
+# The regression itself: an unencodable value must NOT be able to damage the existing artifact.
+with open(_ap, "w", encoding="utf-8") as _f:
+    _f.write('{"prior": "contents"}')
+try:
+    _PL.land_json(_ap, {"d": _dt.date(2026, 8, 24)})       # no default= -> TypeError mid-dump
+    _raised = False
+except TypeError:
+    _raised = True
+check("an unencodable value still raises", _raised, True)
+check("but the previous artifact is UNTOUCHED",
+      json.load(open(_ap, encoding="utf-8")), {"prior": "contents"})
+
+# And the topic sentinel must not be mistakable for a real topic (BUGS m14).
+check("'unclassified' is not a real topic", "unclassified" in _PL.TOPICS, False)
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

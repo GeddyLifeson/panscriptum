@@ -351,6 +351,25 @@ def _landed(tmp, path):
     return False
 
 
+def land_json(path, obj, indent=1, default=None):
+    """Write a phase artifact atomically. Returns whether it landed.
+
+    The later phases wrote their artifacts as `json.dump(obj, open(path, "w"), ...)`: not
+    atomic, and the handle never explicitly closed either, so a reader could see a
+    half-serialised file and CPython's refcount close was the only thing flushing it. Several of
+    these are read by a LATER PHASE IN THE SAME RUN -- phase 6 reads phase 5's TIERS.json -- so
+    a crash or a slow reader mid-write does not just cost a cycle, it feeds the next phase a
+    truncated file. `phase_history`'s own TIERS.json handler then reports that corruption as
+    "phase 5 has not run" and marks itself done with an empty result.
+
+    Same discipline as the record writers; `_landed` already explains why the verdict is
+    returned rather than swallowed. (BUGS m6, 2026-08-24.)"""
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, indent=indent, ensure_ascii=False, default=default)
+    return _landed(tmp, path)
+
+
 def write_record(path, rec):
     """Write a record back WITHOUT clobbering a concurrent writer's work.
 
@@ -929,9 +948,22 @@ def phase_entrypass(c, st):
                         band = syn
                 batch[i]["magnitude"] = band
 
+                # AN UNREADABLE TOPIC IS RECORDED, NOT DROPPED. `magnitude` has an explicit
+                # "unassayed" for exactly this and `scale_note` keeps its rejected raw text --
+                # `topic` alone failed its enum check by leaving no key at all, while
+                # `catalogued = True` was still set below, so the resume gate never revisited
+                # it. A missing topic is not inert: `worldseed` selects on `topic == "Places"`
+                # and `weave` builds its per-shelf topic set from truthy values only, so the
+                # entry was silently excluded from both, permanently, with nothing anywhere
+                # saying so. A sentinel can be counted; an absent key cannot. (BUGS m14.)
                 topic = (res.get("topic") or "").strip()
                 if topic in TOPICS:
                     batch[i]["topic"] = topic
+                    batch[i].pop("topic_rejected", None)
+                else:
+                    batch[i]["topic"] = "unclassified"
+                    if topic:
+                        batch[i]["topic_rejected"] = topic[:120]
                 batch[i]["catalogued"] = True
 
             landed = write_record(path, rec)
@@ -1146,8 +1178,7 @@ def phase_cosmology(c, st):
     if isinstance(charted, tuple):
         charted = charted[0]
     log("phase 5 cosmology: %d sources charted across the tiers" % len(charted))
-    json.dump(charted, open(os.path.join(HERE, "data/TIERS.json"), "w", encoding="utf-8"),
-              indent=1, ensure_ascii=False)
+    land_json(os.path.join(HERE, "data/TIERS.json"), charted)
 
     # classify_source takes the RECORD, not the source name -- it reads the catalogue's ORIGIN
     # entries to see what a cosmos says about its own beginning. Passing the name gave 209
@@ -1174,14 +1205,12 @@ def phase_cosmology(c, st):
         return str(v)
     kinds = collections.Counter(_kind(v) for v in grounds.values())
     log("  grounding: " + ", ".join("%s %d" % (k, n) for k, n in kinds.most_common(6)))
-    json.dump(grounds, open(os.path.join(HERE, "data/GROUNDINGS.json"), "w", encoding="utf-8"),
-              indent=1, ensure_ascii=False)
+    land_json(os.path.join(HERE, "data/GROUNDINGS.json"), grounds)
 
     cen = CG.census("STANDARD")
     log("  census: %.3g worlds, %.3g in a habitable zone, %.3g civilisations extant"
         % (cen["exoplanets"], cen["habitable_zone_rocky"], cen["civilizations_extant"]))
-    json.dump(cen, open(os.path.join(HERE, "data/CENSUS.json"), "w", encoding="utf-8"),
-              indent=1, ensure_ascii=False)
+    land_json(os.path.join(HERE, "data/CENSUS.json"), cen)
 
     try:
         seeds = json.load(open(os.path.join(HERE, "data/WORLDSEEDS.json"), encoding="utf-8"))
@@ -1196,8 +1225,7 @@ def phase_cosmology(c, st):
                         "map_seed": AS.map_seed(addr)}
     dupes = len(marks) - len({v["address"] for v in marks.values()})
     log("  addressed %d worlds, %d collision(s)" % (len(marks), dupes))
-    json.dump(marks, open(os.path.join(HERE, "data/SHELFMARKS.json"), "w", encoding="utf-8"),
-              indent=1, ensure_ascii=False)
+    land_json(os.path.join(HERE, "data/SHELFMARKS.json"), marks)
 
     st["done"].setdefault("cosmology", []).append("all")
     st["units_done"] += 1
@@ -1226,12 +1254,25 @@ def phase_history(c, st):
     record.
     """
     import tempus as TP
+    # ABSENT AND CORRUPT ARE DIFFERENT ANSWERS. One `except Exception` gave both the same
+    # message ("phase 5 has not run") and, worse, the same consequence: phase 6 then marked
+    # itself DONE with an empty result, so an unreadable TIERS.json was never looked at again.
+    # A missing file genuinely means phase 5 has not run and there is nothing to do; a file that
+    # exists but will not parse means phase 5's write was damaged, and the honest response is to
+    # leave phase 6 OPEN so the next run retries once phase 5 has rewritten it. (BUGS m6.)
+    _tp = os.path.join(HERE, "data/TIERS.json")
     try:
-        tiersd = json.load(open(os.path.join(HERE, "data/TIERS.json"), encoding="utf-8"))
-    except Exception:
-        silence.note("pipeline.py:phase_history-tiers")
+        tiersd = json.load(open(_tp, encoding="utf-8"))
+    except FileNotFoundError:
+        silence.note("pipeline.py:phase_history-tiers-absent")
         log("phase 6 history: no charted tiers on disk -- phase 5 has not run")
         tiersd = {}
+    except Exception as e:
+        silence.note("pipeline.py:phase_history-tiers-corrupt")
+        log("phase 6 history: TIERS.json EXISTS BUT WILL NOT PARSE (%s) -- phase 5's write was "
+            "damaged. Leaving phase 6 open rather than recording an empty result; the next run "
+            "retries after phase 5 rewrites it." % type(e).__name__)
+        return
     if not tiersd:
         st["done"].setdefault("history", []).append("all")
         st["units_done"] += 1
@@ -1295,10 +1336,10 @@ def phase_history(c, st):
         silence.note("pipeline.py:phase_history-loops")
         loops = None
 
-    json.dump({"marks": marks, "loops": loops,
+    land_json(os.path.join(HERE, "data/CHRONICLE.json"),
+              {"marks": marks, "loops": loops,
                "contemporary": {str(k): v for k, v in sorted(groups.items())}},
-              open(os.path.join(HERE, "data/CHRONICLE.json"), "w", encoding="utf-8"),
-              indent=1, ensure_ascii=False, default=str)
+              default=str)
     st["done"].setdefault("history", []).append("all")
     st["units_done"] += 1
     save_state(st)
@@ -1318,16 +1359,28 @@ def phase_shelve(c, st):
     import address as AD
     import weave_index as WI
 
-    try:
-        marks = json.load(open(os.path.join(HERE, "data/SHELFMARKS.json"), encoding="utf-8"))
-    except Exception:
-        silence.note("pipeline.py:phase_shelve-marks")
-        marks = {}
-    try:
-        tiersd = json.load(open(os.path.join(HERE, "data/TIERS.json"), encoding="utf-8"))
-    except Exception:
-        silence.note("pipeline.py:phase_shelve-tiers")
-        tiersd = {}
+    # Absent is tolerable, corrupt is not -- same distinction as phase 6, and for the same
+    # reason. Every entry below takes its `tier` from tiersd and its `shelfmark` from marks, so
+    # reading an unparseable file as `{}` shelves the WHOLE library tierless and shelfmarkless
+    # and then marks phase 7 done, permanently. If phases 5/6 simply have not run yet the files
+    # are missing, and placing entries by spine code alone is the intended partial result.
+    def _phase_input(name):
+        try:
+            return json.load(open(os.path.join(HERE, "data", name), encoding="utf-8")), None
+        except FileNotFoundError:
+            silence.note("pipeline.py:phase_shelve-%s-absent" % name)
+            return {}, None
+        except Exception as e:
+            silence.note("pipeline.py:phase_shelve-%s-corrupt" % name)
+            return None, type(e).__name__
+
+    marks, m_bad = _phase_input("SHELFMARKS.json")
+    tiersd, t_bad = _phase_input("TIERS.json")
+    if m_bad or t_bad:
+        log("phase 7 shelve: a phase input EXISTS BUT WILL NOT PARSE (%s) -- refusing to shelve "
+            "the library with empty tiers/shelfmarks and mark itself done. Leaving phase 7 open."
+            % (m_bad or t_bad))
+        return
 
     def spine_of(src):
         try:
@@ -1350,9 +1403,8 @@ def phase_shelve(c, st):
                             "shelfmark": (marks.get(key) or {}).get("shelfmark")}
     log("phase 7 shelve: %d entries placed, %d source(s) with no charter spine code"
         % (len(shelved), len(unspined)))
-    json.dump({"entries": shelved, "unspined": sorted(unspined)},
-              open(os.path.join(HERE, "data/SHELVES.json"), "w", encoding="utf-8"),
-              indent=1, ensure_ascii=False)
+    land_json(os.path.join(HERE, "data/SHELVES.json"),
+              {"entries": shelved, "unspined": sorted(unspined)})
     st["done"].setdefault("shelve", []).append("all")
     st["units_done"] += 1
     save_state(st)
@@ -1422,7 +1474,7 @@ def phase_write(c, st):
     if jobs:
         out = os.path.join(HERE, "output", "index", "manifest.json")
         os.makedirs(os.path.dirname(out), exist_ok=True)
-        json.dump(jobs, open(out, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
+        land_json(out, jobs)
         log("  -> output/index/manifest.json   (run generate.py against it)")
     st["done"].setdefault("write", []).append("all")
     st["units_done"] += 1
@@ -1460,27 +1512,22 @@ def phase_weave(c, st):
         f"{sum(1 for v in resolved.values() if v['n_attestations'] > 1):,} fused")
     log(f"  resonance diameter {res['diameter']} hops, six degrees: {res['six_degrees_holds']}")
 
-    json.dump({"threshold": thr, "groups": groups},
-              open(os.path.join(HERE, "data/CONTINUITY_GROUPS.json"), "w", encoding="utf-8"),
-              indent=2, ensure_ascii=False)
-    json.dump(resolved,
-              open(os.path.join(HERE, "data/RESOLVED_ENTITIES.json"), "w", encoding="utf-8"),
-              indent=2, ensure_ascii=False)
-    json.dump({"threshold": thr, "metric": "name-surprisal (bits)", "topology": res,
+    land_json(os.path.join(HERE, "data/CONTINUITY_GROUPS.json"),
+              {"threshold": thr, "groups": groups}, indent=2)
+    land_json(os.path.join(HERE, "data/RESOLVED_ENTITIES.json"), resolved, indent=2)
+    land_json(os.path.join(HERE, "data/RESONANCE_GRAPH.json"),
+              {"threshold": thr, "metric": "name-surprisal (bits)", "topology": res,
                "pairs": [{"a": a, "b": b, "weight": round(v, 2),
                           "shared_sample": shared[(a, b)][:6]}
                          for (a, b), v in sorted(w.items(), key=lambda kv: -kv[1])
-                         if v >= thr]},
-              open(os.path.join(HERE, "data/RESONANCE_GRAPH.json"), "w", encoding="utf-8"),
-              indent=2, ensure_ascii=False)
+                         if v >= thr]}, indent=2)
 
     # The onomasticon belongs to this phase, not a later one: resolution is what reveals that
     # thirty distinct worlds are all called Earth, and a catalogue that knows this and still files
     # them under one name is worse off than before resolution ran.
     import onomast as O
     named = O.name_worlds(resolved)
-    json.dump(named, open(os.path.join(HERE, "data/ONOMASTICON.json"), "w", encoding="utf-8"),
-              indent=2, ensure_ascii=False)
+    land_json(os.path.join(HERE, "data/ONOMASTICON.json"), named, indent=2)
     endos = len({v["endonym"] for v in named.values()})
     log(f"  onomasticon: {len(named):,} worlds given designations across {endos} carried names")
 

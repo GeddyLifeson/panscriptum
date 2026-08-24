@@ -191,8 +191,21 @@ def fetch_raw(host, titles, workers=2):
             return t, None
         try:
             body = _get(url, timeout=40)
-        except urllib.error.HTTPError:
-            silence.note("endpoint.py:fetch_raw-http")
+        except urllib.error.HTTPError as e:
+            # A REFUSAL IS NOT AN ABSENCE. This returned None for every HTTP status, so a 403,
+            # a 429 or a 500 reached the caller as the exact same answer a genuine 404 gives --
+            # "this page does not exist" -- and a rate-limit during a raw pass was therefore
+            # filed as permanent absence. Same failure family as wiki_source.page_text()'s
+            # abandon-on-first-error: a transient wearing the face of settled fact.
+            #
+            # The signature is unchanged (callers in feats.py and hostcheck.py read only
+            # presence), so the fix is to make the two cases legible in the ledger, where the
+            # counts are what tell a real block apart from a wiki that simply lacks the page.
+            # 404/410 are the only statuses that actually mean "not here". (BUGS m15.)
+            if getattr(e, "code", None) in (404, 410):
+                silence.note("endpoint.py:fetch_raw-absent")
+            else:
+                silence.note("endpoint.py:fetch_raw-refused-%s" % getattr(e, "code", "?"))
             return t, None
         except Exception:
             silence.note("endpoint.py:fetch_raw")

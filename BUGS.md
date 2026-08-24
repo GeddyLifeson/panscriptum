@@ -19,36 +19,6 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   Mines of Phandelver, Twilight Imperium, +2) and **16 catalogued sources with no host** —
   scout/adopt remedies keep retrying; some (music albums, board games) may be permanently
   hostless and deserve an owner ruling on whether they stay on the roll.
-- **[m18] `foreman.py`'s three shared-state writes bypass `silence.replace_retry`** — same
-  class as m6/m7, and the same file already does it correctly in `_retire()`. `reprove_pool()`
-  writes `data/POOL_PROOF.json`, read live mid-run by `cascade_bridge.ask()`, `read.py` and
-  `tuning.py`; `round_once()` writes `data/FOREMAN.json`, read every supervisor cycle by
-  `overnight.foreman_report()` — two long-running processes racing one file; `triage_swallowed()`
-  writes `state/failures_archive.json` and resets `state/failures.json`, the highest-traffic
-  shared file in the project (polled by the dashboard, read by standards, read-modify-written by
-  every process's `health.flush()`). No reader crashes today — all wrap the load — but each
-  skips a cycle silently on a torn read. Reported by the run-#3 ops audit; **not independently
-  re-verified by me**, so confirm before fixing.
-- **[m6] `pipeline.py` 9 shared/cross-phase-read JSON writes still non-atomic** —
-  `phase_cosmology` (TIERS/GROUNDINGS/CENSUS/SHELFMARKS.json), `phase_history`
-  (CHRONICLE.json), `phase_shelve` (SHELVES.json), `phase_weave` (CONTINUITY_GROUPS/
-  RESOLVED_ENTITIES/RESONANCE_GRAPH/ONOMASTICON.json), `phase_write` (manifest.json) all use
-  raw `open(...,'w')` + `json.dump`, not the `pipeline._landed`/`silence.replace_retry`
-  discipline run #2 just extended to `write_record`/`write_record_catalogue`. Several of these
-  are read by later phases in the same run, so a crash mid-write leaves the next phase reading
-  a truncated file — and `phase_history`'s own `TIERS.json` read failure handler
-  (`pipeline.py:1156`) currently mislabels that exact corruption as "phase 5 has not run" and
-  marks phase 6 done with an empty result. Medium surgery, 9+ call sites; do in a quiet window.
-- **[m7] `handbuilt.py`'s own artifact write is non-atomic** — even after run #2's fix moved
-  the write before the crashing report loop, it's still a raw `open+json.dump`, not routed
-  through `silence.replace_retry`. No live second writer of `HANDBUILT_ASSAYS.json` today, so
-  lower priority than [now-fixed] the ordering bug was.
-- **[m10] `build_terminal.py` interpolates catalogue text into `innerHTML` unescaped
-  throughout**, and splices `NAVTREE.json` into an inline `<script>` block via plain string
-  replace with no `</script>`-sequence guard. A name containing `&`/`<`/`>`/`"` (plausible —
-  "Dungeons & Dragons") can corrupt the resulting markup; `render.py`'s `containment_svg()`
-  already does this correctly (`html.escape()`) in the same codebase. Multi-site JS-generation
-  fix; do as its own pass.
 - **[m12] `thread_integrity.py`'s asymmetric-thread detection is structurally unreachable** —
   `implied_threads()` builds `pairs` symmetrically by construction, so `classify()`'s `back =
   pairs.get((b,a))` is always truthy and every implied thread reports RECIPROCAL; the
@@ -62,53 +32,28 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   length) may not include the source's true strongest entity; that entity's own later-mined M6
   feat then gets clamped down to whatever lesser ceiling was nominated. UNCERTAIN whether this
   is Hard-Rule-0-shaped; HUMAN CALL requested in NEXT_STEPS.
-- **[m14] `pipeline.py phase_entrypass` can mark an entry permanently topicless** — `topic`
-  fails its `TOPICS` enum check silently (no fallback, unlike `magnitude`'s explicit
-  `"unassayed"`), yet `catalogued=True` is still set, and the `done_keys` resume gate then
-  never revisits it.
-- **[m15] `endpoint.py fetch_raw` treats every HTTPError as "page doesn't exist"** — 403/429/500
-  are indistinguishable from a genuine 404 at this layer; a rate-limit or transient block during
-  raw fetching would be misfiled as permanent absence. `endpoint.py register()` also mutates
-  `SOURCE_PAGES.json` without the lock `ENDPOINTS.json` uses elsewhere in the same file — no
-  concurrent caller observed, flagged UNCERTAIN.
 - **[m16] `weave.py`'s per-pair `shared_sample` field is capped (8, then re-sliced to 6)** —
   diagnostic evidence for why the weave linked two shelves, not a reader-facing catalogue
   listing, but Hard Rule 0's text says "no sample" without carving out diagnostics explicitly.
   HUMAN CALL requested in NEXT_STEPS rather than assumed out of scope.
-### Cosmetic / low
-- **[m19] `standards.py:report()` sorts work orders by severity STRING, not rank** — alphabetical
-  gives high, low, medium. `work_orders()` in the same file already defines the correct
-  `{"high":0,"medium":1,"low":2}` rank for exactly this, and the dashboard's panel uses it;
-  only the CLI report is out of step. Display-only — `foreman.py`'s consumption is unaffected.
-- **[m20] `standards.py` carries a dead loop** — a `for job in (...)` whose body is a bare
-  `pass`, building a `dupes` list nothing reads. Reads as if it should be computing something.
-  Confirm it is vestigial rather than an unfinished check before deleting (deletions need a
-  flagged review cycle).
-- **[m21] `foreman.py`'s `kill_duplicate_jobs` remedy is registered as a bare lambda**, so its
-  operational log line reads `-> <lambda>:` instead of the function name every other remedy
-  prints. Readability of the log this project leans on.
-- **[m22] `catalog.py`'s module docstring documents a `PANSCRIPTUM://…` address form that the
-  code does not implement** — every real address is `SpineCode/Chapter[#PageRange]` (as
-  CLAUDE.md's own example shows). Typing the docstring's example verbatim always returns "No
-  entry for address", which reads as an empty catalog.
-
-*m19–m22 come from the run-#3 ops and generation-side audits and are recorded as reported;
-each is small enough to verify and fix in one pass, but none was independently re-verified by
-run #3 — check before fixing.*
+*Everything still open above is a HUMAN CALL (M1, m12, m13, m16) or an operational state being
+watched (m1, m2). As of run #4 there are no open bugs awaiting only implementation.*
 
 ## Watching (not bugs — expected states with a clock on them)
 - **`MAX_JOB_SILENCE_MIN = 15` is a live threshold as of run #3** — the stall detector could not
   previously reach it (see the Resolved entry). During run #3 a healthy `roll_auto.log` sat
   unchanged for 4.5 minutes; a page roll waiting on a slow host could plausibly cross 15 and
   trigger the AUTO kill remedy. Watch for false alarms; raise the constant if they appear.
-- **Ollama returned HTTP 503 to `local_agent.py` during run #3** while `/api/tags` answered 200
-  and `qwen3:30b-a3b-instruct-2507-q4_K_M` was loaded — reads as GPU contention against the live
-  read/roll workers, the same window `overwatch` hit in run #2. If the local rung is 503 on
-  every run, it is effectively unavailable during working hours and the ladder's rung (b) is
-  not being exercised. Two data points so far; watching for a third.
-- **`entries stranded in closed batches: 5`** will persist in `health --preflight` until the
-  bounced pipeline walks Arcanum Worlds on the new code. If it is still 5 after a full lap, the
-  reopen gate is not doing what run #3's tests say it does — investigate rather than re-fix.
+- **Local model throughput is the live constraint.** Not a 503 any more (that was the run-#3b
+  wedge, resolved) — the runner is up and measurably pegged at ~8 cores, but a 30B MoE at 8.5 GB
+  on a 10 GB card means heavy CPU offload, and a phase-2 batch can sit for a long time. Run #4
+  watched `units_done` hold at 3382 across a 40s sample with the state file freshly written:
+  blocked inside one call, not broken. If phase 2 makes no measurable progress over a few hours,
+  the question is model choice / offload split, not correctness.
+- **`entries stranded in closed batches: 5`** — the reopen gate is **proven** (run #4: the batch
+  appears in `failed.entrypass` while its key is still in `done.entrypass`, which the old gate
+  made impossible). The count clears when a phase-2 model call finally lands on that batch.
+  Do NOT re-fix the gate on the strength of this number.
 - Charter regression: `data/CHARTER_REGRESSION.json` **landed** (22:24, run #3 confirmed it on
   disk). Verify the `automation reproduces the charter` standard now takes a real reading.
 - Dragonlords ingest miner: patient loop (60-miss ≈ 5h), waiting out the evening pool for the
@@ -117,6 +62,43 @@ run #3 — check before fixing.*
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #4 (2026-08-24 00:45). Full detail in HANDOFF.md's run #4 entry:*
+
+- **The stranded-batch fix is PROVEN IN PRODUCTION** — live state holds
+  `failed.entrypass["Arcanum Worlds (Odyssey of the Dragonlords)#280"]` while that same key is
+  still in `done.entrypass`. Phase 2 attempted a batch whose key was already recorded done,
+  which the old gate made impossible. `--preflight` still reads 5 only because no phase-2 model
+  call has landed since (the pipeline is blocked inside one slow call, not broken).
+- **[m6] eleven phase artifacts made atomic** via the new `pipeline.land_json()` — the old
+  `json.dump(obj, open(path,"w"))` truncates before serialising, so an unencodable value left
+  the real file unparseable (reproduced). **And the second half**: `phase_history` treated absent
+  and corrupt identically, reported both as "phase 5 has not run", and marked phase 6 **done with
+  an empty result** so the corruption was never revisited. Absent and corrupt are now separate,
+  corrupt leaves the phase open. Same fix in `phase_shelve`, which would otherwise have shelved
+  the whole library tierless and marked itself done. verify_math §19c pins the write contract.
+- **[m10] build_terminal escaping** — new JS `esc()` applied to every catalogue-derived
+  interpolation (headings, endonym, roster, 4 SVG titles, `data-k`, 7 SVG text renders), and the
+  `NAVTREE.json` splice now neutralises `<` as `<`, killing `</script>` / `<script` / `<!--`.
+  Live-verified: 734 nodes still parse, and a name carrying `<img onerror=…>` renders as literal
+  text with 0 injected nodes.
+- **[m14] topicless entries** — a `topic` failing its enum check left no key while
+  `catalogued=True` blocked revisiting, silently dropping the entry from `worldseed` and `weave`
+  forever. Now an explicit `"unclassified"` sentinel plus `topic_rejected`, matching the
+  `magnitude`/`scale_note` idiom. **Prophylactic: 0 of 55,653 catalogued entries are currently
+  affected.**
+- **[m15] `endpoint.fetch_raw` filed refusals as absences** — 403/429/500 were indistinguishable
+  from 404 to the caller. Signature unchanged; the ledger now splits `fetch_raw-absent` from
+  `fetch_raw-refused-<code>`, where the counts are what tell a block from a missing page.
+- **[m20] dead loop deleted** with owner sign-off. Its comment is kept — the decision it records
+  (counting instances belongs to the reconcile tier) is still true.
+- **[m7] was already fixed; the entry was stale.** `handbuilt.py` writes through
+  `tmp` + `silence.replace_retry` with a landed check.
+- **NEW: `the local model has a live runner` standard added** (high, machine, OWNER lane) —
+  `/api/ps` naming a resident model with no `llama-server.exe` process is a flat contradiction
+  and was the exact shape of run #3b's 31-minute invisible outage. Fires on a simulated wedge,
+  silent when it cannot tell, TTL-cached at 120s. No REMEDIES entry by design: restarting a
+  service is not automation this pass will switch on unasked.
 
 *Run #3b (2026-08-24 00:00, continuation pass). Full detail in HANDOFF.md's run #3b entry:*
 

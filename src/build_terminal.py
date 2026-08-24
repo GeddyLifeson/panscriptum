@@ -77,6 +77,14 @@ TEMPLATE = r"""<title>The Registry Terminal</title>
 
 <script>
 const DATA = __DATA__;
+// Every catalogue-derived string goes through this before it reaches innerHTML. The names come
+// from the roll and from wikis, so "Dungeons & Dragons" is not a hypothetical: unescaped, an
+// `&` starts an entity, and a `<` in any name silently eats the rest of the panel's markup.
+// render.py's containment_svg() already does exactly this with html.escape(); this is the same
+// discipline on the JS side. (BUGS m10, 2026-08-24.)
+function esc(v){ return String(v==null?"":v)
+  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
 const TIERS=["hyperverse","xenoverse","metaverse","multiverse","universe"];
 const LABEL={hyperverse:"H",xenoverse:"X",metaverse:"Mt.",multiverse:"Mv.",universe:"U-"};
 const SHELL=["--s0","--s1","--s2","--s3","--s4","--s5"];
@@ -226,11 +234,11 @@ function draw(){
   // The nucleus is whatever you are inside. Clicking it steps back out one tier, so the atom is
   // navigable in both directions without reaching for the buttons.
   const up=parentOf(rootKey);
-  s+=`<circle cx="${CX}" cy="${CY}" r="46" fill="#161a24" stroke="${tierCol(root.node)}" stroke-width="1.6" class="n" data-up="${up===null?'':up}" data-hasup="${up===null?0:1}"><title>${rootKey===""?"the omniverse":(root.node.name||rootKey)}${up===null?"":" &#183; click to step out"}</title></circle>`;
+  s+=`<circle cx="${CX}" cy="${CY}" r="46" fill="#161a24" stroke="${tierCol(root.node)}" stroke-width="1.6" class="n" data-up="${up===null?'':up}" data-hasup="${up===null?0:1}"><title>${esc(rootKey===""?"the omniverse":(root.node.name||rootKey))}${up===null?"":" &#183; click to step out"}</title></circle>`;
   if(rootKey===""){
     s+=`<text x="${CX}" y="${CY+11}" text-anchor="middle" fill="${css('--s0')}" font-family="${css('--serif')}" font-size="34">&#937;</text>`;
   }else{
-    s+=`<text x="${CX}" y="${CY+100}" text-anchor="middle" fill="${tierCol(root.node)}" font-family="${css('--serif')}" font-size="72" letter-spacing="4">${(root.node.name||rootKey).slice(0,24)}</text>`;
+    s+=`<text x="${CX}" y="${CY+100}" text-anchor="middle" fill="${tierCol(root.node)}" font-family="${css('--serif')}" font-size="72" letter-spacing="4">${esc((root.node.name||rootKey).slice(0,24))}</text>`;
     s+=`<text x="${CX}" y="${CY+205}" text-anchor="middle" fill="${css('--muted')}" font-family="${css('--mono')}" font-size="44">${LABEL[root.node.t]||root.node.t}</text>`;
   }
 
@@ -240,7 +248,7 @@ function draw(){
     const dr=p.depth===1?discR(pos[rootKey].node.k?pos[rootKey].node.k.length:DATA.roots.length,p.r):0;
     const nav=p.depth===1&&dr>=NAMED_MIN;
     const rr=nav?dr:dotR(p.depth);
-    s+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${rr}" fill="#151924" stroke="${col}" stroke-width="${nav?2.2:1.4}" class="n" data-k="${k}"><title>${p.node.name||k} &#183; ${LABEL[p.node.t]||p.node.t} &#183; ${n} worlds &#183; ${p.node.src} sources</title></circle>`;
+    s+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${rr}" fill="#151924" stroke="${col}" stroke-width="${nav?2.2:1.4}" class="n" data-k="${esc(k)}"><title>${esc(p.node.name||k)} &#183; ${esc(LABEL[p.node.t]||p.node.t)} &#183; ${n} worlds &#183; ${p.node.src} sources</title></circle>`;
 
     if(nav){
       // The name goes in the circle, so the circle has to hold the name. Rather than pick one
@@ -250,7 +258,7 @@ function draw(){
       const nm=(p.node.name||k);
       const fit=fitIn(sibs.reduce((a,b)=>b.length>a?b.length:a,1),rr,58);
       s+=`<text x="${p.x.toFixed(1)}" y="${(p.y+fit*0.34).toFixed(1)}" text-anchor="middle" `
-       + `fill="${col}" font-family="${css('--serif')}" font-size="${fit.toFixed(1)}">${nm}</text>`;
+       + `fill="${col}" font-family="${css('--serif')}" font-size="${fit.toFixed(1)}">${esc(nm)}</text>`;
       s+=`<text x="${p.x.toFixed(1)}" y="${(p.y+rr*0.76).toFixed(1)}" text-anchor="middle" `
        + `fill="${css('--muted')}" font-family="${css('--mono')}" font-size="44" letter-spacing="3">`
        + `${(LABEL[p.node.t]||p.node.t)}</text>`;
@@ -287,7 +295,7 @@ function draw(){
       s+=`<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${flip?'end':'start'}" `
        + `transform="rotate(${flip?deg+180:deg} ${lx.toFixed(1)} ${ly.toFixed(1)})" `
        + `fill="${col}" font-family="${css('--serif')}" font-size="${fs}" `
-       + `letter-spacing="${rim?4:0}">${nm}</text>`;
+       + `letter-spacing="${rim?4:0}">${esc(nm)}</text>`;
     }
   });
 
@@ -318,18 +326,18 @@ function draw(){
       const a=-Math.PI/2+2*Math.PI*(i+0.5)/ss.length;
       const x=CX+R*Math.cos(a), y=CY+R*Math.sin(a);
       s+=`<line x1="${CX}" y1="${CY}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${css('--muted')}" stroke-width="0.8" stroke-dasharray="8 10" opacity="0.4"/>`;
-      s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(named?sr:NODE_R).toFixed(1)}" fill="#141720" stroke="${css('--muted')}" stroke-width="1.6" stroke-dasharray="7 7" class="n" data-s="${i}"><title>${nm} &#183; shelved here, cosmology not yet run</title></circle>`;
+      s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(named?sr:NODE_R).toFixed(1)}" fill="#141720" stroke="${css('--muted')}" stroke-width="1.6" stroke-dasharray="7 7" class="n" data-s="${i}"><title>${esc(nm)} &#183; shelved here, cosmology not yet run</title></circle>`;
       const t=shown[i];
       if(named){
         const fit=srFit;
         s+=`<text x="${x.toFixed(1)}" y="${(y+fit*0.34).toFixed(1)}" text-anchor="middle" `
-         + `fill="${css('--muted')}" font-family="${css('--serif')}" font-size="${fit.toFixed(1)}">${t}</text>`;
+         + `fill="${css('--muted')}" font-family="${css('--serif')}" font-size="${fit.toFixed(1)}">${esc(t)}</text>`;
       }else{
         const lx=CX+(R+NODE_R+16)*Math.cos(a), ly=CY+(R+NODE_R+16)*Math.sin(a);
         const deg=a*180/Math.PI, flip=(deg>90||deg<-90);
         s+=`<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${flip?'end':'start'}" `
          + `transform="rotate(${flip?deg+180:deg} ${lx.toFixed(1)} ${ly.toFixed(1)})" `
-         + `fill="${css('--muted')}" font-family="${css('--serif')}" font-size="62">${t}</text>`;
+         + `fill="${css('--muted')}" font-family="${css('--serif')}" font-size="62">${esc(t)}</text>`;
       }
     });
   }
@@ -344,17 +352,17 @@ function draw(){
       const x=CX+R*Math.cos(a), y=CY+R*Math.sin(a);
       const nm=(w.cat||w.d.split("::").pop()||"").slice(0,22);
       s+=`<line x1="${CX}" y1="${CY}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${css('--s5')}" stroke-width="0.8" opacity="0.42"/>`;
-      s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(named?wr:NODE_R).toFixed(1)}" fill="#1d1a12" stroke="${css('--s5')}" stroke-width="${named?2.2:1.4}" class="n" data-w="${i}"><title>${w.cat||w.d}</title></circle>`;
+      s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(named?wr:NODE_R).toFixed(1)}" fill="#1d1a12" stroke="${css('--s5')}" stroke-width="${named?2.2:1.4}" class="n" data-w="${i}"><title>${esc(w.cat||w.d)}</title></circle>`;
       if(named){
         const fit=wrFit;
         s+=`<text x="${x.toFixed(1)}" y="${(y+fit*0.34).toFixed(1)}" text-anchor="middle" `
-         + `fill="${css('--s5')}" font-family="${css('--serif')}" font-size="${fit.toFixed(1)}">${nm}</text>`;
+         + `fill="${css('--s5')}" font-family="${css('--serif')}" font-size="${fit.toFixed(1)}">${esc(nm)}</text>`;
       }else{
         const lx=CX+(R+NODE_R+16)*Math.cos(a), ly=CY+(R+NODE_R+16)*Math.sin(a);
         const deg=a*180/Math.PI, flip=(deg>90||deg<-90);
         s+=`<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${flip?'end':'start'}" `
          + `transform="rotate(${flip?deg+180:deg} ${lx.toFixed(1)} ${ly.toFixed(1)})" `
-         + `fill="${css('--s5')}" font-family="${css('--serif')}" font-size="62">${nm}</text>`;
+         + `fill="${css('--s5')}" font-family="${css('--serif')}" font-size="62">${esc(nm)}</text>`;
       }
     });
   }
@@ -474,14 +482,14 @@ function panel(){
   // while actually holding 7 branches and 38 shelved sources. 37 nodes were undercounting.
   const holds = k==="" ? DATA.roots.length
     : (nd.k.length + (nd.w?nd.w.length:0) + (nd.s?nd.s.length:0));
-  p.innerHTML=`<h2>${tier}</h2>
-    <div class="endo">${kind}</div>
+  p.innerHTML=`<h2>${esc(tier)}</h2>
+    <div class="endo">${esc(kind)}</div>
     <div class="mark">${shelfmark(k)}</div>
     <div class="row"><span>shell</span><span>${k===""?"nucleus":k.split(".").length}</span></div>
     <div class="row"><span>contains</span><span>${holds}</span></div>
     <div class="row"><span>worlds below</span><span>${worlds.toLocaleString()}</span></div>
     <div class="row"><span>sources below</span><span>${srcs.toLocaleString()}</span></div>
-    ${nd&&nd.s&&nd.s.length?`<div class="note">${nd.s.length} shelved here, not yet catalogued:<div class="roster">${nd.s.map(x=>"&#183; "+x).join("<br>")}</div></div>`:""}
+    ${nd&&nd.s&&nd.s.length?`<div class="note">${nd.s.length} shelved here, not yet catalogued:<div class="roster">${nd.s.map(x=>"&#183; "+esc(x)).join("<br>")}</div></div>`:""}
     ${nd&&nd.w&&nd.w.length?`<p class="note">${nd.w.length} world${nd.w.length>1?"s":""} on the valence. Click one for its map.</p>`:`<p class="note">Structure only. Terrain begins at the valence.</p>`}
     <div class="ctl"><button id="bn">nucleus</button><button id="br">recentre</button></div>`;
   document.getElementById("bn").onclick=()=>{descend("");};
@@ -490,7 +498,7 @@ function panel(){
 
 function selectSource(name){
   const p=document.getElementById("panel");
-  p.innerHTML=`<h2>${name}</h2>
+  p.innerHTML=`<h2>${esc(name)}</h2>
     <div class="endo">source</div>
     <div class="mark">${shelfmark(rootKey)}</div>
     <p class="note">Shelved at this address. Its worlds, and everything below them, appear once
@@ -511,8 +519,8 @@ const TPL={archipelago:"archipelago",isles:"lowIsland",shattered:"shattered",
   const u=`https://azgaar.github.io/Fantasy-Map-Generator/?seed=${w.s}&options=default&template=${tpl}&width=${MAPW}&height=${MAPH}`;
   const cat = w.cat || w.d.split("::").pop();
   const endo = w.endo || cat;
-  p.innerHTML=`<h2>${cat}</h2>
-    ${w.carried?`<div class="endo">endonym: <b>${endo}</b></div>`:""}
+  p.innerHTML=`<h2>${esc(cat)}</h2>
+    ${w.carried?`<div class="endo">endonym: <b>${esc(endo)}</b></div>`:""}
     <div class="mark">${shelfmark(rootKey)} › P<br>seed ${w.s}</div>
     <div class="row"><span>landform</span><span>${f.landform||"?"}</span></div>
     <div class="row"><span>climate</span><span>${f.climate||"?"}</span></div>
@@ -549,6 +557,16 @@ window.addEventListener("resize",()=>{applyView();});
 def main():
     with open(DATA, encoding="utf-8") as f:
         data = f.read()
+
+    # NEUTRALISE `<` BEFORE SPLICING JSON INTO AN INLINE <script>. The browser looks for the
+    # literal characters `</script>` inside the block without any knowledge of JSON strings, so
+    # one catalogue name containing that sequence would close the block early and take the whole
+    # terminal down -- and `<!--` / `<script` can shift the parser too. Inside a JSON string
+    # `<` is a valid escape that parses straight back to `<`, so this costs the data
+    # nothing: every name still renders exactly as written. Done on the TEXT rather than by
+    # re-serialising, so the file's own formatting is untouched. (BUGS m10, 2026-08-24.)
+    data = data.replace("<", "\\u003c")
+
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     html = TEMPLATE.replace("__DATA__", data)
     with open(OUT, "w", encoding="utf-8") as f:

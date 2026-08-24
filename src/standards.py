@@ -104,6 +104,36 @@ MAX_JOB_SILENCE_MIN = 15
 JOB_WATCH = os.path.join(HERE, "state", "job_progress.json")
 
 
+_RUNNER = {"at": 0.0, "up": None}
+
+
+def ollama_runner_up(ttl=120.0):
+    """Is a model-runner PROCESS actually alive? Cached, because this costs a process spawn.
+
+    Deliberately separate from "does the daemon answer". On 2026-08-24 the daemon answered
+    `/api/tags` with 200 and `/api/ps` named a resident model while NO `llama-server.exe`
+    existed at all -- nothing was draining the request queue, so every call returned
+    `503 maximum pending requests exceeded`, including each attempt to load a model. The phase
+    runner logged 59 unbroken 503s over 31 minutes doing no work, and every liveness check in
+    this project reported Ollama healthy throughout, because they all ask `/api/tags`.
+
+    `None` means "could not tell" and is never reported as a fault."""
+    now = time.time()
+    if now - _RUNNER["at"] < ttl:
+        return _RUNNER["up"]
+    up = None
+    try:
+        import subprocess as _sp
+        out = _sp.run(
+            ["tasklist", "/FI", "IMAGENAME eq llama-server.exe", "/NH"],
+            capture_output=True, text=True, timeout=25).stdout or ""
+        up = "llama-server" in out.lower()
+    except Exception:
+        silence.note("standards.py:ollama-runner")
+    _RUNNER.update({"at": now, "up": up})
+    return up
+
+
 def job_stamp(prev_entry, size, now):
     """`(held, at)` for one watched log: has it held this size, and since when?
 
@@ -716,13 +746,45 @@ def check(state=None):
     except Exception:
         silence.note("standards.py:disk")
 
+    # ------------------------------------------------------ the local model is really serving
+    try:
+        import urllib.request as _ur
+        resident = None
+        try:
+            with _ur.urlopen("http://localhost:11434/api/ps", timeout=8) as r:
+                resident = [m.get("name") for m in (json.load(r).get("models") or [])]
+        except Exception:
+            resident = None          # a daemon that will not answer at all is another question
+        if resident:
+            runner = ollama_runner_up()
+            # The contradiction IS the fault: the daemon cannot have a model resident with no
+            # runner process holding it. When that happened the queue filled behind the missing
+            # runner and stayed full, so every call 503'd forever and nothing recovered on its
+            # own -- it needed `ollama.exe` restarting by hand. `runner is None` means the probe
+            # itself failed and is never reported as a fault.
+            out.append(_s(
+                "the local model has a live runner", runner is not False,
+                ("resident %s, NO llama-server process" % resident[0][:28]) if runner is False
+                else ("runner up, %d resident" % len(resident)),
+                "a runner for every resident model",
+                "Ollama reported this model resident with no runner process on 2026-08-24; the "
+                "request queue filled behind the gap and every call returned '503 maximum "
+                "pending requests exceeded' for 31 minutes while `/api/tags` kept answering "
+                "200, so every other liveness check in this project called it healthy. If this "
+                "fires, restart ollama.exe -- the tray app respawns it -- then confirm a real "
+                "call completes. Nothing drains that queue on its own.",
+                "high", "machine"))
+    except Exception:
+        silence.note("standards.py:ollama-runner-standard")
+
     try:
         import overnight as ON
-        dupes = []
-        for job in ("read.py", "feats.py", "pipeline.py", "overnight.py"):
-            # running() is a boolean; the reconcile tier counts instances. Here the question is
-            # only whether the supervisor's own exclusion held.
-            pass
+        # (Removed 2026-08-24 with owner sign-off, BUGS m20: a `for job in (...)` loop whose body
+        # was a bare `pass`, building a `dupes` list nothing read. The decision it recorded is
+        # kept here because it is still true -- `running()` is a boolean, so COUNTING instances
+        # is the reconcile tier's job, not this check's; this one asks only whether the
+        # supervisor's own exclusion held. The real duplicate count lives in the
+        # "one instance of each job" check below, which has its own `dupes`.)
         alive = {j: ON.running(j) for j in ("dashboard.py", "publish.py", "foreman.py",
                                             "overwatch.py", "read.py")}
         down = [j for j, v in alive.items() if not v]
