@@ -1309,6 +1309,13 @@ def _stub(pattern):
 
 _E, _N, _V = (None, "URLError"), (None, None), (1000, None)
 
+# These checks exercise the PROBE branch, so the reachability gate in front of it is held open.
+# Without this they test the gate instead and silently stop covering what they were written for
+# (2026-08-24: adding `host_reachable` broke exactly three of them, which is the gate proving it
+# short-circuits -- correct behaviour, wrong thing under test).
+_cp_reach = _CP.host_reachable
+_CP.host_reachable = lambda host, timeout=8: True
+
 _CP.category_size_probe = _stub([_E] * _nprobes)
 check("all probes failed -> row KEPT as unreliable", len(_CP.audit(workers=1)), 1)
 
@@ -1327,6 +1334,23 @@ _r = _CP.audit(workers=1)
 check("a real denominator among failures is still measurable",
       bool(_r) and not _r[0]["unreliable"], True)
 
+# ---- the reachability gate itself -------------------------------------------------------------
+# An unreachable host must still produce a ROW -- a source missing from COMPLETENESS.json reads
+# downstream as "nothing on the wiki", the opposite of "we could not ask", and losing every
+# fandom source during an outage is the empty-file catastrophe wearing a smaller hat. It must
+# also cost ZERO category probes: the whole point is not walking a blocked host into eight
+# 42-second failures.
+_probe_calls = []
+_CP.category_size_probe = lambda sub, cand: (_probe_calls.append(cand), _V)[1]
+_CP.host_reachable = lambda host, timeout=8: False
+_r = _CP.audit(workers=1)
+check("an unreachable host still yields a row", len(_r), 1)
+check("marked unreliable, naming the host",
+      bool(_r) and "host unreachable" in (_r[0]["unreliable"] or ""), True)
+check("and it is NOT probed even once", len(_probe_calls), 0)
+check("its probes_run is honestly zero", _r[0]["probes_run"] if _r else None, 0)
+
+_CP.host_reachable = _cp_reach
 _CP.HOSTS, _CP.RECORDS, _CP.category_size_probe = _cp_hosts, _cp_recs, _cp_probe
 
 # The write contract: an empty measurement must not be able to erase a real one.
@@ -1407,6 +1431,43 @@ try:                                  # SystemExit is a BaseException; _raises w
 except SystemExit:
     _capped = True
 check("feats.discover refuses a numeric cap", _capped, True)
+
+
+# ---- Section 19h: the paid burst cap is enforced at SELECTION ---------------------------------
+#
+# `state/PAID_BURST.json` reached 598 calls against a cap of 500 -- ~$1.96 of real money past a
+# hard limit. The cap only ever decided whether to PROMOTE the paid bucket into the proven-
+# answering set; the bucket sat in the router's model list unconditionally and stayed fully
+# selectable, so a closed lane merely ranked it lower. The exhausted-pool fallback that reaches
+# it is the normal path whenever the free tier is failing, which it was.
+#
+# These check the REAL predicate (`widen_candidates`), not a paraphrase of it. Falsified against
+# the pre-fix expression `[m for m in models if not m.bucket.startswith(LOCAL_PREFIX)]`, which
+# passes checks 1 and 4 and FAILS 2, 3, 5 and 6 -- so the closed-lane cases are what discriminate.
+# 2026-08-24.
+import cascade_bridge as _CB                                            # noqa: E402
+
+
+class _M:                                          # the one attribute widen_candidates reads
+    def __init__(self, b):
+        self.bucket = b
+
+
+_models = [_M("mistral:free"), _M("anthropic:paid"), _M("ollama:qwen3"), _M("gemini:free")]
+_open = [m.bucket for m in _CB.widen_candidates(_models, True)]
+_shut = [m.bucket for m in _CB.widen_candidates(_models, False)]
+
+check("an OPEN lane keeps the paid bucket selectable", "anthropic:paid" in _open, True)
+check("a CLOSED lane removes it from the candidates", "anthropic:paid" in _shut, False)
+check("closing the lane removes ONLY the paid bucket", _shut, ["mistral:free", "gemini:free"])
+check("locals are excluded either way", [b for b in _open if b.startswith("ollama:")], [])
+
+# The cap itself, and both documented kill switches.
+check("at the cap the lane is shut", _CB.paid_lane_open({"enabled": True, "used": 500, "cap": 500}), False)
+check("past the cap it stays shut", _CB.paid_lane_open({"enabled": True, "used": 598, "cap": 500}), False)
+check("under the cap it is open", _CB.paid_lane_open({"enabled": True, "used": 499, "cap": 500}), True)
+check("enabled:false kills it", _CB.paid_lane_open({"enabled": False, "used": 0, "cap": 500}), False)
+check("a deleted/unreadable file kills it", _CB.paid_lane_open(None), False)
 
 
 print()

@@ -46,6 +46,10 @@ import time
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+# Imported AFTER the path insert, and safe despite the apparent cycle: silence.py imports health
+# only lazily, inside note() and its instrumenter, never at module scope.
+import silence                                                          # noqa: E402
+
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
     raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
@@ -97,9 +101,26 @@ def flush():
                   f"kept as failures.json.corrupt", file=sys.stderr)
     for k, v in LEDGER.items():
         prev[k] = prev.get(k, 0) + v
-    with open(LEDGER_PATH, "w", encoding="utf-8") as f:
+    # ATOMIC, and this is the write that most needed to be. foreman.py:237 already says it:
+    # "state/failures.json is the highest-traffic shared file in the project -- the dashboard
+    # polls it, standards reads it, and EVERY process read-modify-writes it through
+    # health.flush()." m18 (2026-08-24) then hardened foreman's OWN three writes and left the
+    # writer that sentence names untouched -- the canonical one, called every 25 records and
+    # again at exit, from every one-shot subprocess in the kit.
+    #
+    # A bare open("w") truncates BEFORE serialising, so an interrupted flush leaves 0 bytes.
+    # The corrupt-read branch above then does exactly what it promises: preserves the wreck as
+    # .corrupt and starts a fresh ledger -- discarding the entire accumulated failure history
+    # the file exists to hold. The recorder must not become the sixteenth instance of the
+    # defect it exists to expose, and that principle has to cover the WRITE as well as the read.
+    #
+    # LEDGER is cleared only if the rename LANDED. A denied replace (Windows, reader holding
+    # the file) otherwise silently discarded the counts it failed to persist.
+    tmp = LEDGER_PATH + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(prev, f, indent=1, sort_keys=True)
-    LEDGER.clear()
+    if silence.replace_retry(tmp, LEDGER_PATH):
+        LEDGER.clear()
     if _SAMPLES:
         try:
             old = {}
@@ -109,9 +130,16 @@ def flush():
             for k, ring in _SAMPLES.items():
                 merged = (old.get(k) or []) + ring
                 old[k] = merged[-SAMPLES_KEEP:]
-            with open(SAMPLES_PATH, "w", encoding="utf-8") as f:
+            # Same treatment, and this file needs it MORE than the ledger does, not less: it
+            # has no .corrupt self-healing path. Once torn, every future flush hits the blanket
+            # `except` below at the read step and drops its samples silently and permanently --
+            # the evidence bag going quietly empty and staying that way, with nothing recorded
+            # anywhere, because the recorder cannot safely record against itself.
+            stmp = SAMPLES_PATH + ".tmp"
+            with open(stmp, "w", encoding="utf-8") as f:
                 json.dump(old, f, indent=1, sort_keys=True, ensure_ascii=False)
-            _SAMPLES.clear()
+            if silence.replace_retry(stmp, SAMPLES_PATH):
+                _SAMPLES.clear()
         except Exception:
             pass          # the evidence bag must never break the ledger write
 
@@ -267,8 +295,16 @@ def reopen_stranded(dry=True):
     """
     import pipeline as P
     path = os.path.join(HERE, "state", "PIPELINE_STATE.json")
-    with open(path, encoding="utf-8") as f:
-        st = json.load(f)
+    try:
+        with open(path, encoding="utf-8") as f:
+            st = json.load(f)
+    except Exception as e:
+        # Say which of the two it is. This tool's whole job is repairing PIPELINE_STATE.json, so
+        # "cannot read it" is the one message it must never deliver as a bare traceback -- and an
+        # absent file and a torn one call for opposite responses (run it later vs. restore it).
+        print(f"health: PIPELINE_STATE.json unreadable ({type(e).__name__}: {e}); "
+              f"nothing re-opened", file=sys.stderr)
+        return []
     done = st.get("done", {}).get("entrypass", [])
     doneset = set(done)
     B = P.ENTRY_BATCH
@@ -292,9 +328,21 @@ def reopen_stranded(dry=True):
         print("   " + k)
     if not dry:
         st["done"]["entrypass"] = [k for k in done if k not in set(reopen)]
-        with open(path, "w", encoding="utf-8") as f:
+        # PIPELINE_STATE.json is the file pipeline.py owns and writes ONLY through
+        # silence.replace_retry ("atomic writes; safe to kill the process"). This repair tool
+        # was the one writer breaking that contract, with a truncating write, on the single most
+        # important state file in the kit -- and it is invoked precisely when a pipeline may be
+        # live, since that is when batches strand. Landing it the same way pipeline does.
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
             json.dump(st, f, indent=1)
-        print("-> PIPELINE_STATE.json")
+        if silence.replace_retry(tmp, path):
+            print("-> PIPELINE_STATE.json")
+        else:
+            # Do not report a repair that did not land. Returning the list unchanged would read
+            # to the caller as "these were re-opened".
+            print("health: PIPELINE_STATE.json write DENIED; nothing re-opened", file=sys.stderr)
+            return []
     return reopen
 
 

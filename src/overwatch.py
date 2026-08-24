@@ -296,6 +296,74 @@ def review(module, local=True, ledger=None):
 
 # --------------------------------------------------------------------------- the round
 
+VERIFY_SYSTEM = (
+    "You are re-checking an OLD finding against the CURRENT code. The finding claims the code "
+    "has a specific defect. Read the numbered code region and judge: 'refuted' if the code "
+    "plainly does not have the defect as described (the claim mischaracterizes it, describes "
+    "something the code guards against, or refers to a shape no longer present); 'confirmed' "
+    "if the defect is really there as described; 'unclear' if this region cannot settle it. "
+    "Never guess: unclear is the honest third answer. One-sentence why, citing a line number."
+)
+
+VERIFY_SCHEMA = {
+    "type": "object",
+    "properties": {"verdict": {"type": "string", "enum": ["confirmed", "refuted", "unclear"]},
+                   "why": {"type": "string"}},
+    "required": ["verdict", "why"],
+}
+
+
+def verify_open(led, local=True, budget=6):
+    """The CLOSER the findings lifecycle never had (owner, 2026-08-24: "fix the bug that
+    persists stale work orders instead of removing them").
+
+    Digest-retirement clears findings whose file changed; nothing ever cleared the rest --
+    every filed claim sat open until a person triaged it, and after a busy day the open count
+    only grew. This re-verifies open findings oldest-verification-first against the current
+    source, on the resident local model: refuted closes with a recorded verdict, confirmed
+    stays open and says so, unclear cycles back later. Budgeted per round like the review
+    rotation itself -- pacing, not truncation; every finding cycles through."""
+    opens = sorted(((fid, f) for fid, f in led["findings"].items()
+                    if f.get("state") == "open"),
+                   key=lambda kv: kv[1].get("last_verified", kv[1].get("first_seen", 0)))
+    checked = closed = 0
+    for fid, f in opens[:budget]:
+        path = os.path.join(SRC, f.get("module", "") + ".py")
+        try:
+            lines = open(path, encoding="utf-8").read().splitlines()
+        except Exception:
+            silence.note("overwatch.py:verify-read")
+            continue
+        span = f.get("lines") or [1, 1]
+        a = max(0, int(span[0]) - 40)
+        b = min(len(lines), int(span[-1]) + 40)
+        region = chr(10).join("%d: %s" % (i, l)
+                              for i, l in enumerate(lines[a:b], a + 1))
+        prompt = ("FINDING under re-check, filed against %s.%s:%s" % (
+                      f.get("module"), f.get("symbol"), chr(10))
+                  + "CLAIM: " + str(f.get("claim"))[:400] + chr(10)
+                  + "OBSERVED THEN: " + str(f.get("actual"))[:400] + chr(10) + chr(10)
+                  + "CURRENT CODE (lines %d-%d of %s.py):" % (a + 1, b, f.get("module"))
+                  + chr(10) + region)
+        got = _ask(VERIFY_SYSTEM, prompt, VERIFY_SCHEMA, local=local)
+        f["last_verified"] = time.time()
+        checked += 1
+        verdict = (got or {}).get("verdict")
+        why = str((got or {}).get("why") or "")[:300]
+        if verdict == "refuted":
+            f["state"] = "closed"
+            f["verdict"] = "auto-triage refuted: " + why
+            f["closed_at"] = time.time()
+            closed += 1
+        elif verdict == "confirmed":
+            f["confirmed_n"] = f.get("confirmed_n", 0) + 1
+            f["last_confirm_why"] = why
+    if checked:
+        print("   auto-triage: %d open finding(s) re-verified, %d refuted and closed"
+              % (checked, closed), flush=True)
+    return checked, closed
+
+
 def rotation(led, modules_all):
     """Which modules to read this round: the ones that changed, then the longest unread.
 
@@ -391,6 +459,8 @@ def round_once(limit=6, local=True, skip_model=False):
             f["retired_at"] = led["last_run"]
 
     if not skip_model:
+        verify_open(led, local=local, budget=limit)
+        save(led)
         mods = [m for m in A.modules()
                 if not m.startswith("_") and m not in ("overwatch", "allsweep")]
         changed, stale = rotation(led, mods)

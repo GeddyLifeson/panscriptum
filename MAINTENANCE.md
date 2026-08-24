@@ -14,9 +14,19 @@ the platform safely allows, with an overlap guard so runs never stack.*
    `allsweep` (imports, pyflakes LINT tier, reconcile, corrupt-file scan) + `verify_math`
    (270+ checks incl. mocked assay topology and the two-writer contract) + `health
    --preflight` + `silence.py` are the integrity and test suite. The keeper thread and
-   watchdog keep the stack alive. **A maintenance run STARTS by reading their outputs**
-   (`FOR_OWNER.md`, `data/ALLSWEEP.json`, `data/OVERWATCH.json`, `state/failures.json` +
-   `failure_samples.json`, the dashboard state) — never by re-deriving what they already
+   watchdog keep the stack alive. **A maintenance run STARTS with THE PAGE** (owner ruling
+   2026-08-24): fetch https://geddylifeson.github.io/panscriptum/state.json — or compute the
+   same dict locally via `dashboard.state()` if the network declines — and read it as the
+   opening diagnostic. One document already answers: which standards are red and why, what
+   moved and what stalled (MOVEMENT), which jobs are up, doubled, or down, what the
+   work-order queue says, and whether the snapshot itself is fresh (a stale `generated`
+   stamp is itself the first finding — the publisher is down). Run #5's morning proved the
+   method: the page showed a fabricated 0-of-0 catastrophe, a doubled publisher, and a down
+   reader before any code was opened. Everything amiss on the page becomes the run's opening
+   work-list. Then the deeper outputs (`FOR_OWNER.md`, `data/ALLSWEEP.json`,
+   `data/OVERWATCH.json` — whose open findings now AUTO-TRIAGE: overwatch re-verifies them
+   each round on the local model and closes refuted ones with recorded verdicts —
+   `state/failures.json` + `failure_samples.json`) — never re-deriving what they already
    measured.
 2. **Ollama next — the GPU is unlimited, private, and metered by nobody** (owner ruling
    2026-08-23: the local model sits between the bots and the subagents). Route to it every

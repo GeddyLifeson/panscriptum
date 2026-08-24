@@ -19,6 +19,12 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   HTML-path reader with a browser UA (politeness/ToS question — HUMAN CALL) or leave the four
   sources owner-supplied. Noted in `data/SCOUT_BLOCKED.json`. Not auto-fixable.
 ### Minor
+- **[m26] the completeness audit structurally cannot see 46 of 210 sources** — `audit()`'s
+  `todo` is filtered on `subdomain(h)`, which only resolves fandom hosts, so the 21
+  Wikipedia-hosted and 25 other-hosted sources have never been in scope. Not widened silently
+  this session: a measure called "completeness" that ignores a fifth of the corpus is a naming
+  and design question (should it measure them, or should it be renamed to say what it measures?)
+  rather than a bug to be patched. **Owner call.**
 - **[m23] `overnight.start()` TRUNCATES a job's log on every restart** (`fh = open(lf, "w")`),
   so each keeper-driven bounce destroys that job's entire history. Found the hard way in run #4:
   the 59-503 record that diagnosed the Ollama wedge existed only in `pipeline_auto.log`, and the
@@ -92,6 +98,30 @@ watched states (m1, m2). Nothing open is awaiting only implementation.*
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Interactive session 2026-08-24 ~09:40 (owner-directed). Full detail in HANDOFF.md:*
+
+- **COMPLETENESS.json was stuck at `[]` and could not recover.** Run #5 fixed the two bugs that
+  emptied it, but neither could refill it: `land()`'s guard only protects a **non-empty** file,
+  and `run_completeness_audit` was gated on `_fandom_reachable()`, so while fandom was blocked
+  the only thing that could rewrite the file never ran. Emptied by one bug, frozen empty by the
+  fix for another. Now **164 honest rows** where there were 2 bytes, and the standard reads
+  `UNMEASURED -- 164 row(s), 0 measurable...` instead of a fabricated `0.0% (0 of 0)`.
+- **Reachability was measured with a TCP socket, which is not the question.** Measured mid-block:
+  the socket to `community.fandom.com` opened **instantly** while `GET marvel.fandom.com/api.php`
+  returned nothing after **21.3s** — so `foreman._fandom_reachable`, written to detect exactly
+  that outage, answered "reachable" throughout it. Both probes now ask the **API**, via
+  `endpoint._get` (a bare `urllib.urlopen` is 403'd by both Wikipedia and Fandom on User-Agent)
+  and `endpoint.api_url` (hardcoding `/api.php` called en.wikipedia.org unreachable while curl
+  fetched it in 0.16s).
+- **The block is PER-TENANT, not farm-wide.** In the same second: `community.fandom.com` 0.2s OK;
+  `marvel` / `dc` / `onepiece` each failed at 42s. So `host_reachable()` is keyed per HOST, not
+  per domain — asking the farm would have pronounced all 164 sources healthy and then walked each
+  into eight 42s failures. One 8s question now replaces ~5.6 min of guaranteed per-source
+  failure, and the foreman's all-or-nothing gate is gone because the audit handles a blocked host
+  itself. verify_math §19d extended: 4 new checks (a row is still produced, marked, and **not
+  probed even once**), and the 3 pre-existing probe checks now hold the gate open so they keep
+  testing what they were written for.
 
 *Run #5 (2026-08-24 08:55, export commits `2989776` / `85c5dba` and the closing sync). Full
 detail in HANDOFF.md's run #5 entry:*

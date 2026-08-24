@@ -176,8 +176,13 @@ AUTH_BENCH = 4 * 3600
 
 
 LOCAL_PREFIX = "ollama:"
+# Buckets that cost real money per call. Named here rather than spelled inline at the one
+# place that used to test it, because the test now has to happen in TWO places that must not
+# drift: the candidate filter that enforces the cap, and the counter that records the spend.
+PAID_PREFIX = "anthropic:"
 _WIDEN_RR = [0]
 _RR_LOCK = threading.Lock()                 # round-robin cursor for the widened fallback
+_PAID_LOCK = threading.Lock()               # serialises the read-modify-write of the spend counter
 
 # ---------------------------------------------------------------------- per-bucket pacing
 #
@@ -302,6 +307,32 @@ def dead_forever():
         silence.note("cascade_bridge.py:dead_forever")
     _PROVEN[0] = out
     return out
+
+
+def paid_lane_open(pb):
+    """Is the paid burst lane open? `pb` is the parsed PAID_BURST.json, or None if unreadable.
+
+    Both documented kill switches live here, and an unreadable/absent file is CLOSED. That last
+    case is deliberate: the counter can only be maintained against a file that parses, so a lane
+    that cannot be counted must not be spent. The old code took the opposite view by accident --
+    an unreadable file left the bucket selectable and the counter silent.
+    """
+    if not isinstance(pb, dict):
+        return False
+    return bool(pb.get("enabled")) and pb.get("used", 0) < pb.get("cap", 0)
+
+
+def widen_candidates(models, paid_ok):
+    """The candidate buckets for the exhausted-pool fallback, in config order.
+
+    Locals never (one GPU wearing several names -- see `_alive`). Paid buckets ONLY while the
+    lane is open: this is where the burst cap is actually enforced, and it is a function rather
+    than an inline comprehension so that a regression check can exercise the real predicate
+    instead of a paraphrase of it.
+    """
+    return [m for m in models
+            if not m.bucket.startswith(LOCAL_PREFIX)
+            and (paid_ok or not m.bucket.startswith(PAID_PREFIX))]
 
 
 def _alive(bucket):
@@ -468,20 +499,35 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         # increments the counter; at the cap the lane closes itself. Delete the file or set
         # enabled:false to kill it instantly. This is real money per call, which is why the
         # cap is enforced HERE rather than trusted to restraint.
-        paid_ok = False
+        #
+        # THE CAP WAS NOT ACTUALLY ENFORCED (found 2026-08-24, counter standing at 598/500).
+        # `paid_ok` only ever decided whether to PROMOTE anthropic into `answering`. The bucket
+        # is in `_ROUTER.models` unconditionally, is not local, and `_alive()` returns True for
+        # it -- so a closed lane merely RANKED it lower and it stayed fully selectable. This
+        # branch is the exhausted-pool fallback; when the free tier is at 3% success (its state
+        # today) the walk reaches the bottom of the list routinely, and every one of those pins
+        # was a real charge past a cap whose own comment above promises enforcement here.
+        # 98 calls -- about $1.96 -- got through that way before anyone counted.
+        #
+        # `enabled: false` was no better: it cleared `paid_ok` and changed nothing about
+        # selectability, so the documented kill switch did not kill anything. DELETING the file
+        # was actively the worst option, because `_pb is None` stopped the COUNTER while the
+        # calls carried on -- spend continuing, now invisible.
+        #
+        # So the gate moves into the candidate list itself: no paid bucket is a candidate
+        # unless the lane is open. Both documented kill switches now genuinely kill.
         try:
             with open(os.path.join(HERE, "state", "PAID_BURST.json"), encoding="utf-8") as _f:
                 _pb = json.load(_f)
-            paid_ok = bool(_pb.get("enabled")) and _pb.get("used", 0) < _pb.get("cap", 0)
         except Exception:
             silence.note("cascade_bridge.py:466")
             _pb = None
+        paid_ok = paid_lane_open(_pb)
         if paid_ok:
             answering = set(answering) | {b for b in
                                           {m.bucket for m in _ROUTER.models}
-                                          if b.startswith("anthropic:")}
-        ranked = sorted((m for m in _ROUTER.models
-                         if not m.bucket.startswith(LOCAL_PREFIX)),
+                                          if b.startswith(PAID_PREFIX)}
+        ranked = sorted(widen_candidates(_ROUTER.models, paid_ok),
                         key=lambda m: (m.bucket not in answering))
         # ROTATE. First-alive-wins pinned EVERY call to the same front-ranked bucket, and the
         # whole pool serialised through one provider's per-minute cap -- 20 buckets with quota
@@ -506,12 +552,26 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                 silence.note("cascade_bridge.py:widen-reserve")
                 continue
             pinned = m
-            if m.bucket.startswith("anthropic:") and _pb is not None:
-                _pb["used"] = _pb.get("used", 0) + 1
+            if m.bucket.startswith(PAID_PREFIX) and _pb is not None:
+                # COUNT THE SPEND FROM DISK, NOT FROM A STALE SNAPSHOT. `_pb` was read at the
+                # top of this branch, and every concurrent worker holds its own copy of the
+                # same number. Incrementing that snapshot and writing it back is a lost-update
+                # race in which N workers all turn 500 into 501 -- so the counter drifts BELOW
+                # true spend, which on a money file is the wrong direction to be wrong in.
+                # Re-read inside the lock, increment what is actually on disk, land it
+                # atomically (a truncating write here can leave the cap unreadable, and an
+                # unreadable cap used to mean `_pb is None`, which used to mean uncounted).
                 try:
-                    with open(os.path.join(HERE, "state", "PAID_BURST.json"), "w",
-                              encoding="utf-8") as _f:
-                        json.dump(_pb, _f, indent=1)
+                    with _PAID_LOCK:
+                        _pbp = os.path.join(HERE, "state", "PAID_BURST.json")
+                        with open(_pbp, encoding="utf-8") as _f:
+                            _cur = json.load(_f)
+                        _cur["used"] = _cur.get("used", 0) + 1
+                        _tmp = _pbp + ".tmp"
+                        with open(_tmp, "w", encoding="utf-8") as _f:
+                            json.dump(_cur, _f, indent=1)
+                        silence.replace_retry(_tmp, _pbp)
+                        _pb = _cur
                 except Exception:
                     silence.note("cascade_bridge.py:paid-count")
             break

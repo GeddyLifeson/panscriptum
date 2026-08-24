@@ -144,6 +144,65 @@ def catalogued_counts():
     return out
 
 
+_REACH = {}
+
+
+def host_reachable(host, timeout=8):
+    """Is `host` answering its API right now? One short probe, cached per host per process.
+
+    Asked ONCE per host with a short timeout, instead of 8 category probes each discovering the
+    same outage the slow way. Under the 2026-08-24 block a category probe took ~42s to fail, so
+    a blocked source cost ~5.6 minutes of guaranteed failure; this replaces that with one 8s
+    question whose answer is the same.
+
+    This exists so the audit can be RUN during a block rather than deferred. Deferring the whole
+    audit was the previous answer and it had a worse failure mode than the one it fixed: the
+    foreman gated the entire pass on fandom being up, so while fandom was down COMPLETENESS.json
+    -- already emptied to `[]` by the bug run #5 fixed -- could never be rewritten by anything,
+    and the HIGH `every source is fully catalogued` standard read UNMEASURED indefinitely. A
+    measurement that cannot be retaken is not deferred, it is abandoned.
+
+    IT IS AN HTTP PROBE, NOT A SOCKET PROBE, and that distinction is the whole point. Measured
+    2026-08-24 during the live block: `socket.create_connection(("community.fandom.com", 443))`
+    succeeded INSTANTLY while `GET marvel.fandom.com/api.php` returned nothing after 21.3
+    seconds. The edge accepts the TCP handshake and then drops the request, so a socket probe
+    reports a blocked domain as healthy -- which is exactly what `foreman._fandom_reachable`
+    was doing, meaning the gate built to defer this audit had been answering "reachable"
+    throughout the outage it existed to detect. Ask the API the question the caller actually
+    cares about.
+
+    The API PATH is resolved through `endpoint.api_url`, never hardcoded: this project already
+    learned that `/api.php` is a Fandom assumption and that plenty of wikis (Wikipedia among
+    them) serve `/w/api.php` instead -- see endpoint.py's own header. Hardcoding `/api.php` here
+    reported en.wikipedia.org as unreachable while curl fetched it in 0.16s, which would have
+    marked all 21 Wikipedia-hosted sources unreliable for no reason."""
+    if not host:
+        return False
+    if host in _REACH:
+        return _REACH[host]
+    # PER HOST, NOT PER DOMAIN. Measured 2026-08-24: community.fandom.com answered in 0.2s
+    # while marvel / dc / onepiece.fandom.com each failed after 42s, in the same second, from
+    # this machine. The block is per-tenant, so asking the farm is worse than asking nothing --
+    # it would pronounce all 164 fandom sources healthy and then walk each one into eight
+    # 42-second failures. The farm being up says nothing about the tenant.
+    try:
+        import endpoint as EP
+        base = EP.api_url(host)
+        if not base:
+            _REACH[host] = False
+            return False
+        # Through endpoint._get, which carries the project's User-Agent. A bare
+        # urllib.urlopen sends Python's default UA and BOTH Wikipedia and Fandom answer it
+        # 403 -- so a hand-rolled probe reports every host on earth unreachable and marks the
+        # whole corpus unreliable. Use the transport the rest of the module already uses.
+        _REACH[host] = bool(EP._get(base + "?action=query&meta=siteinfo&format=json",
+                                    timeout=timeout))
+    except Exception:
+        silence.note("completeness.py:host-unreachable")
+        _REACH[host] = False
+    return _REACH[host]
+
+
 def audit(only=None, workers=6):
     with open(HOSTS, encoding="utf-8") as f:
         hosts = json.load(f)
@@ -184,8 +243,26 @@ def audit(only=None, workers=6):
     def work(item):
         src, host = item
         sub = subdomain(host)
-        sizes = {}
         probes = ws.CATEGORY_PROBES[PERSONS]
+
+        # A HOST THAT IS DOWN STILL GETS A ROW. Asking the domain once and emitting an honest
+        # `unreliable` row costs one socket call; probing it 8 times per source costs ~17 minutes
+        # per source under a block and produces the identical conclusion. The row matters: a
+        # source missing from COMPLETENESS.json reads downstream as "nothing on the wiki", which
+        # is the opposite of "we could not ask", and a file that loses every fandom source during
+        # an outage is the empty-file catastrophe of 2026-08-24 wearing a smaller hat.
+        if not host_reachable(host):
+            rec0 = byslug.get(str(src).lower()) or byslug.get(str(src).lower().replace("-", " "))
+            return {"source": src, "host": host, "wiki_persons": None,
+                    "wiki_categories": {}, "catalogued_total": (rec0 or {}).get("total"),
+                    "catalogued_persons": (sum(v for k, v in rec0["by_category"].items()
+                                               if k.startswith("Persons")) if rec0 else None),
+                    "coverage": 0.0, "probe_failures": len(probes), "probes_run": 0,
+                    "unreliable": ("host unreachable: %s did not answer its API at audit time, "
+                                   "so no denominator could be requested. Not probed further, "
+                                   "deliberately -- see completeness.host_reachable." % host)}
+
+        sizes = {}
         failed = 0
         for cand in probes:
             n, err = category_size_probe(sub, cand)

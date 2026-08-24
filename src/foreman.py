@@ -444,20 +444,28 @@ def kill_duplicate_jobs():
 
 
 def _fandom_reachable(timeout=8):
-    """Can this machine currently open a socket to fandom.com at all?
+    """Is fandom.com actually ANSWERING right now?
 
-    On 2026-08-23 the whole domain dropped our connections at the socket for a while (an IP
-    block earned by a 100-req/s catalogue pull). During such a window every fandom-facing job
-    fails on every request while burning its retry budget and PROLONGING the block -- and this
-    remedy, left ungated, would have re-dispatched the catalogue into it every round.
-    One cheap socket probe answers the only question that matters before starting hours of work.
+    On 2026-08-23 the whole domain dropped our connections for a while (an IP block earned by a
+    100-req/s catalogue pull). During such a window every fandom-facing job fails on every
+    request while burning its retry budget and PROLONGING the block -- and this remedy, left
+    ungated, would have re-dispatched the catalogue into it every round.
+
+    A SOCKET IS NOT AN ANSWER. This used to open a TCP connection and call that reachable, and
+    on 2026-08-24 -- mid-block -- that handshake succeeded INSTANTLY while a real API request to
+    the same domain returned nothing after 21.3 seconds. The edge accepts the connection and
+    drops the request. So this gate, written to defer work during exactly that kind of outage,
+    was answering "reachable" for the whole of one and deferring nothing. Ask the API instead:
+    it is the same one cheap call, and it tests the thing the caller actually depends on.
     """
-    import socket
     try:
-        socket.create_connection(("community.fandom.com", 443), timeout=timeout).close()
-        return True
-    except OSError:
-        silence.note("foreman.py:421")
+        import urllib.request
+        with urllib.request.urlopen(
+                "https://community.fandom.com/api.php?action=query&meta=siteinfo&format=json",
+                timeout=timeout) as r:
+            return r.status == 200
+    except Exception:
+        silence.note("foreman.py:fandom-unreachable")
         return False
 
 
@@ -510,15 +518,16 @@ def run_completeness_audit():
         import overnight as ON
         if ON.running("completeness.py"):
             return True, "completeness audit already running"
-        # Gated on fandom exactly as `run_catalogue_gap` above is, and for the same reason its
-        # own docstring gives: dispatching into a live block burns the retry budget and PROLONGS
-        # the block. This audit is 8 category probes per source across 164 fandom sources, and
-        # under the 2026-08-24 block each probe took 129 seconds to fail (25s timeout x retries)
-        # -- measured, not estimated. That is a ~47-minute round of pure failure, restarted every
-        # foreman round, against the domain that has IP-banned this machine once already.
-        if not _fandom_reachable():
-            return False, ("fandom.com is dropping connections (IP block or outage); "
-                           "completeness audit deferred rather than dispatched into it")
+        # NO LONGER GATED ON FANDOM (2026-08-24). The gate was right about the cost -- 8 probes
+        # x 164 fandom sources at ~129s per failure is a ~47-minute round of pure failure against
+        # a domain that has IP-banned this machine once already -- but wrong about the remedy,
+        # and the cure was worse than the disease: COMPLETENESS.json had ALREADY been emptied to
+        # `[]`, and gating the only thing that could rewrite it meant the file stayed empty for
+        # as long as the block lasted, with a HIGH standard reading UNMEASURED off it the whole
+        # time. A measurement that cannot be retaken is abandoned, not deferred.
+        # `completeness.host_reachable()` now asks each DOMAIN once and emits an honest
+        # `unreliable` row for its sources without probing them, so the expensive failure is
+        # gone while the 46 sources on reachable hosts still get measured.
         ON.start("completeness", ["src/completeness.py", "--workers", "6"], "completeness.log")
         return True, "started completeness.py"
     except Exception as e:
