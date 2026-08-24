@@ -29,6 +29,26 @@
 
 ## 1. Verify first
 
+0. **[m64 — IS PUBLISHING STILL WORKING? DO THIS FIRST; THE UNBLOCK EXPIRES.]** Publishing was
+   stalled 15:27→17:06 because `standards.ollama_token_flow()` (added by the foreman at 16:40)
+   proves token flow from a metrics row with a `tps` **and** a fresh `at` — and `tps` rows are
+   exactly the ones m61 left unstamped. The cheap path could never fire, so every
+   `standards.check()` took a 300 s live probe against M7's saturated card: **116.9 s**, inside
+   `publish.write()`. Fixing m61 fixed it (**check 116.9 s → 1.4 s**), **but it now rests on ONE
+   fresh row** written by a short-lived process. **`pipeline.py` (PID 3056, up since 11:17) is
+   still writing unstamped rows.** When that row ages past 900 s, publishing stalls again.
+   ```
+   python -c "import sys,time;sys.path.insert(0,'src');import standards as ST;t=time.time();print(ST.ollama_token_flow(),'%.1fs'%(time.time()-t))"
+   ```
+   **Want `(True, 'ledger')` in ~0.0s.** `(None, ...)` or a multi-second answer means the probe
+   is live again. **The permanent fix is restarting `pipeline.py`, which the keeper restores
+   within 5 minutes** — the cheapest item on m56's restart list, and it also makes m61 real.
+   Confirm the export repo is actually current:
+   ```
+   git -C C:\Users\imarl\panscriptum-export log --oneline -3
+   ```
+   Run #13 ended at **`c3369f0`**. A gap of more than ~20 minutes between commits means the
+   standing `publish.py --push --loop 10` is wedged again.
 1. **[M7 — is the reader still throwing work away? Three numbers, two minutes.]** The discard
    rate is the whole diagnosis; everything else is commentary.
    ```
@@ -285,6 +305,13 @@ M7's chain and nobody has read it**), `address_space.py`, `profile.py`, `burgs.p
 - **A check that certifies reachability is not a check on capacity.** Written down for three
   runs; it is now the documented root of M7, m59, and §2 A. `regime()` reads "cloud" at a 4.1%
   live success rate, and every worker count in the kit is derived from that word.
+- **A field nobody reads is not harmless — it is a trap with the trigger not yet installed.**
+  `pipeline._metric` omitting `at` cost nothing for the ledger's entire life. Then a standard was
+  added 20 minutes before this run that keyed on exactly that field, and publishing stopped for
+  100 minutes. **The author of the standard was not careless and neither was the author of the
+  row; they simply never met.** When you add a consumer of a shared file, check that every
+  WRITER of that file actually writes the field you are keying on — `grep` the writers, not the
+  schema you assume.
 - **Three constants, one physical fact, no link between them.** `OLLAMA_NUM_PARALLEL = 2`,
   `gpu_lane.MAX_SLOTS = 2`, `read.GATE_LOCAL_N = 2`. Change the environment variable and two
   files keep silently throttling to the old number.

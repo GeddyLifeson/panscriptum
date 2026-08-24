@@ -464,7 +464,7 @@ def main():
                   indent=2, ensure_ascii=False)
         json.dump({"threshold": thr, "metric": "name-surprisal, bits",
                    "pairs": [{"a": a, "b": b, "weight": round(v, 2),
-                              "shared_sample": shared[(a, b)][:6]}
+                              "shared_sample": shared[(a, b)]}   # WHOLE list (key name kept: resonance.py reads it) -- Hard Rule 0, ruled 2026-08-24
                              for (a, b), v in sorted(kept.items(), key=lambda kv: -kv[1])]},
                   open(OUT_GRAPH, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
         print("\nwrote CONTINUITY_GROUPS / RESOLVED_ENTITIES / SHARED_STAGE_GRAPH_IDF")

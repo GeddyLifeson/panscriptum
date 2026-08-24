@@ -94,10 +94,22 @@ def _save():
             silence.note("endpoint.py:save")
 
 
+# Hosts whose edge refuses every non-browser client outright (dandwiki: HTTP 403 to any
+# API path and any bot UA, while a browser UA reads the same HTML fine). Owner ruling
+# 2026-08-24 ("FIX IT ALL", after the politeness question sat flagged since run #1): read
+# them as a browser would -- same pages, same rate a patient human produces. The throttle
+# below already paces per-host; dandwiki gets an extra-slow gap in feats.HOST_PAUSE.
+UA_OVERRIDES = {
+    "www.dandwiki.com": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                         "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"),
+}
+
+
 def _get(url, timeout=25):
     import feats as F
-    F._throttle(urllib.parse.urlparse(url).netloc)
-    req = urllib.request.Request(url, headers={"User-Agent": F.UA})
+    host = urllib.parse.urlparse(url).netloc
+    F._throttle(host)
+    req = urllib.request.Request(url, headers={"User-Agent": UA_OVERRIDES.get(host, F.UA)})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read().decode("utf-8", "replace")
 

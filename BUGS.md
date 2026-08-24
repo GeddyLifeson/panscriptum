@@ -246,6 +246,42 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   resources we need**" — clients on `11434`, handles on our state files — which is a different
   and more honest subsystem than the one m43 originally proposed. Still an owner call.
 
+### Major
+- **[m64] PUBLISHING WAS STALLED FOR 100 MINUTES BY THE m61 TIMESTAMP BUG, THROUGH A STANDARD
+  ADDED 20 MINUTES EARLIER — and the two were written by different authors who never met.**
+  Found run #13 when `publish.py --push` hung twice; the export repo's last commit was **15:27**
+  and it was **17:06** before one landed. **Not a push/credential problem** (no `git` process was
+  ever spawned; the earlier `! [rejected] ... (fetch first)` lines in `publish.log` were stale
+  and a plain `git fetch` showed local and origin **0/0 apart**).
+  **The chain, each link timed:**
+  1. The foreman's `--patch` lane added `standards.ollama_token_flow()` at **16:40** — a good
+     standard, with a deliberately cheap path: prove token flow from the LEDGER (any local
+     metrics row carrying a `tps` and newer than 900s) and only fall through to a live
+     `/api/generate` probe, `timeout=300`, if the ledger is silent.
+  2. **`tps` is written by exactly one writer — `pipeline._metric` — and those are precisely the
+     rows that carried no `at` field (m61).** So `now - float(r.get("at", 0)) < 900` compared
+     against **0**, i.e. 1970, and was False for **all 977** rows that had a `tps`. Measured:
+     977 rows with `tps`, **1** with an `at`, and that one written after the m61 fix landed.
+  3. The cheap path therefore could NEVER fire, and every call took the live probe — against the
+     card M7 had saturated. **`standards.check()` measured 116.9 s**, against the **2.3 s** run
+     #1 optimised it to.
+  4. `standards.check()` is called by `dashboard.state()`, which is called by `publish.write()`,
+     which is why `sync_tree()` and `render_page()` returned in 0.0 s and `write()` never
+     returned inside a 240 s budget.
+  **RESOLVED as a side effect of fixing m61**, and verified end to end: `ollama_token_flow()`
+  now returns `(True, 'ledger')` in **0.0 s**, **`standards.check()` 116.9 s -> 1.4 s**, and
+  `publish.py --push` completed and pushed (export `c3369f0`).
+  **THE UNBLOCK IS TEMPORARY AND THIS IS THE PART TO CARRY FORWARD.** It rests on ONE fresh
+  `tps`+`at` row, written by a short-lived process that happened to import the fixed
+  `pipeline.py`. **`pipeline.py` (PID 3056, up since 11:17) is still running the unfixed code and
+  writing unstamped rows.** When that single row ages past the 900 s window, if no fixed
+  long-running writer has replaced it, the ledger goes silent again, the 300 s live probe
+  returns, and **publishing stalls again.** Restarting `pipeline.py` makes it permanent —
+  it is keeper-restored within 5 minutes, so it is the cheap half of m56's restart list.
+  **Neither party was wrong on its own:** the standard is well designed and its author could not
+  see that the field it keys on was unstamped; m61 was a silent omission that had been harmless
+  for the ledger's whole life until something finally depended on it.
+
 ### Minor
 - **[m62] `state/model_metrics.jsonl` IS BEING TORN BY CONCURRENT APPENDS — 5 corrupt lines,
   and it is ONGOING, not a healed historical event.** Two writers (`cascade_bridge._metric`
@@ -270,7 +306,10 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   does not identify one thing. Cosmetic — no check is skipped or double-counted — but "§19r
   failed" is now ambiguous in exactly the moment someone needs it not to be. Run #13 added its
   own sections as **19s** and **19t** to avoid deepening it, rather than renaming a predecessor's
-  label unasked.
+  label unasked. **`BUGS.md` has the same disease worse: the Open list is now split across
+  THREE `### Major` headings** (lines ~9, ~204, ~249) — two were already there and **run #13
+  added the third** filing m64, rather than reordering a predecessor's list mid-run. All three
+  should be merged into one; it is pure formatting, no content moves.
 - **[m47] an exception inside the feats join silently becomes "this source has no feats."**
   `manifest_builder.py`'s Feats block wraps `feats_index.feats_for_source` in
   `except Exception: silence.note(...); feat_rows = []`, and the job-creating block below is

@@ -269,7 +269,7 @@ def _watch():
         out["findings"] = [{"module": f.get("module"), "symbol": f.get("symbol"),
                             "actual": (f.get("actual") or "")[:160],
                             "severity": f.get("severity", "medium")}
-                           for f in openf[:12]]
+                           for f in openf]     # ALL open findings -- a monitoring cap ruled a truncation, 2026-08-24
     except Exception:
         silence.note("dashboard.py:watch")
     try:

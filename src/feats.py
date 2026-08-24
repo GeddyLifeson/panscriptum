@@ -59,7 +59,7 @@ PAUSE = 0.34
 # workers on nineteen Wikipedia-routed sources earned a flat 429 across the whole host, which
 # then read as "the API is unreachable" -- another failure wearing the costume of an absence.
 # Per-family limits, with Wikipedia deliberately slow.
-HOST_PAUSE = {"wikipedia.org": 1.5}
+HOST_PAUSE = {"wikipedia.org": 1.5, "dandwiki.com": 2.0}
 TIMEOUT = 45
 BATCH = 40                      # MediaWiki accepts 50 titles per query; 40 leaves headroom
 

@@ -650,40 +650,49 @@ def phase_synthesis(c, st):
         with_feats.sort(key=lambda e: -len(feats_for[e["name"]]))
         rest = sorted((e for e in rec["entries"] if not feats_for.get(e["name"])),
                       key=lambda e: -len(e.get("description", "")))
-        sample = (with_feats[:14] or [])[:14]
-        if len(sample) < 14:
-            sample += rest[:14 - len(sample)]
-        lines = []
-        for e in sample:
-            fl = feats_for.get(e["name"]) or []
-            if fl:
-                d = " | ".join(re.sub(r"\s+", " ", x)[:150] for x in fl[:3])[:420]
-            else:
-                d = re.sub(r"\s+", " ", e.get("description", ""))[:300]
-            lines.append(f"- {e['name']} [{e.get('type','')}]: {d}")
-        prompt = (f"SOURCE: {src}\n\nCATALOGUED ENTRIES (sample of "
-                  f"{len(sample)} from {len(rec['entries'])}):\n" + "\n".join(lines) +
-                  "\n\nIdentify the power ceiling and magnitude band for this source.")
-
-        got = ask_pool_first(c, SYNTH_SYSTEM, prompt, SYNTH_SCHEMA, timeout=420,
-                             num_ctx=4096, tag="synthesis")
-        if got is None:
+        # EVERY feat-bearing entry is nominated, fourteen per call, best band across chunks
+        # wins. The fixed sample-of-14 could silently clamp a whole source to a lesser
+        # ceiling whenever the true strongest entity ranked fifteenth by feat-count -- and
+        # the clamp then cut that entity's own later evidence down to the wrong band (BUGS
+        # m13, Hard-Rule-0-shaped, ruled by the owner 2026-08-24: FIX IT ALL). Ranking is
+        # kept -- richest evidence leads, so an interrupted pass still saw the likeliest
+        # ceiling first -- but no feat-bearing entry is ever excluded from nomination. The
+        # description-only fallback stays a single ranked chunk deliberately: a lead
+        # paragraph cannot carry a ceiling feat (the 99.6%-unassayed lesson above).
+        chunks = [with_feats[i:i + 14] for i in range(0, len(with_feats), 14)] or [rest[:14]]
+        best = None
+        for ci, sample in enumerate(chunks):
+            lines = []
+            for e in sample:
+                fl = feats_for.get(e["name"]) or []
+                if fl:
+                    d = " | ".join(re.sub(r"\s+", " ", x)[:150] for x in fl[:3])[:420]
+                else:
+                    d = re.sub(r"\s+", " ", e.get("description", ""))[:300]
+                lines.append(f"- {e['name']} [{e.get('type','')}]: {d}")
+            prompt = (f"SOURCE: {src}\n\nCATALOGUED ENTRIES (nomination block {ci + 1} of "
+                      f"{len(chunks)}, {len(sample)} of {len(rec['entries'])} entries):\n"
+                      + "\n".join(lines) +
+                      "\n\nIdentify the power ceiling and magnitude band for this source.")
+            g = ask_pool_first(c, SYNTH_SYSTEM, prompt, SYNTH_SCHEMA, timeout=420,
+                               num_ctx=4096, tag="synthesis")
+            if g is None:
+                continue
+            b = clean_band(g.get("magnitude"))
+            # NO FEAT, NO BAND -- at phase 1 as well as phase 2. 70 of 211 sources once
+            # carried a ceiling whose evidence field was the EMPTY STRING; an unevidenced
+            # source ceiling does not misplace one entity, it tilts a whole shelf.
+            _ev = (g.get("evidence") or "").strip()
+            if b != "unassayed" and not valid_scale_note(_ev):
+                b = "unassayed"
+            r_ = int(b[1:]) if b != "unassayed" else -1
+            if best is None or r_ > best[0]:
+                best = (r_, g, b)
+        if best is None:
             st["failed"].setdefault("synthesis", {})[src] = "ollama failure"
             save_state(st)
             continue
-
-        band = clean_band(got.get("magnitude"))  # reject anything that is not a clean band
-
-        # NO FEAT, NO BAND -- at phase 1 as well as phase 2.
-        #
-        # This was enforced only in entrypass, and the backscan found the consequence: 70 of 211
-        # sources carried a synthesis band whose evidence field was the EMPTY STRING. A source-level
-        # ceiling is the anchor every entry in that source is later read against, so an unevidenced
-        # one is the most expensive kind of unearned number in the library -- it does not misplace
-        # one entity, it tilts a whole shelf.
-        _ev = (got.get("evidence") or "").strip()
-        if band != "unassayed" and not valid_scale_note(_ev):
-            band = "unassayed"
+        got, band = best[1], best[2]
 
         rec["synthesis"] = {
             "ceiling_entity": (got.get("ceiling_entity") or "").strip(),
@@ -1710,7 +1719,7 @@ def phase_weave(c, st):
     land_json(os.path.join(HERE, "data/RESONANCE_GRAPH.json"),
               {"threshold": thr, "metric": "name-surprisal (bits)", "topology": res,
                "pairs": [{"a": a, "b": b, "weight": round(v, 2),
-                          "shared_sample": shared[(a, b)][:6]}
+                          "shared_sample": shared[(a, b)]}   # WHOLE list -- Hard Rule 0, ruled 2026-08-24
                          for (a, b), v in sorted(w.items(), key=lambda kv: -kv[1])
                          if v >= thr]}, indent=2)
 

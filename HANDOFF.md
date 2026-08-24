@@ -121,6 +121,33 @@ third FAIL **steady at 4**, not climbing. `ingest_doc` is alive but stalled ("no
 napping 300s, miss 2/60") — it is no longer a GPU holder, which is why the card was idle enough
 to measure at all.
 
+**[m64] AND THEN THE COMMIT WOULD NOT GO, WHICH TURNED OUT TO BE THE SAME BUG WEARING A THIRD
+FACE.** `publish.py --push` hung twice. It was not the push — no `git` process was ever spawned,
+and the `! [rejected] ... (fetch first)` lines in `publish.log` were stale (a plain `git fetch`
+put local and origin **0/0 apart**). Timing publish's three phases put it in `write()`:
+`sync_tree` 0.0 s, `render_page` 0.0 s, `write()` never returned inside 240 s. `write()` calls
+`dashboard.state()` calls **`standards.check()`, which measured 116.9 s against the 2.3 s run #1
+optimised it to.**
+
+**The cause was the foreman's own good work meeting m61 in the dark.** At 16:40 its `--patch`
+lane added `standards.ollama_token_flow()` — a well-built standard with a deliberately cheap
+path: prove token flow from the LEDGER (a local metrics row with a `tps`, newer than 900 s), and
+only fall through to a live `/api/generate` probe with `timeout=300` if the ledger is silent.
+**But `tps` is written by exactly one writer, `pipeline._metric` — the same rows that carried no
+`at`.** So `now - float(r.get("at", 0)) < 900` compared against 1970 and was False for **all 977
+rows that had a `tps`**. The cheap path could never fire; every check took the 300 s probe
+against the card M7 had saturated; publishing stalled from **15:27 to 17:06**.
+**Fixing m61 fixed it, verified end to end:** `ollama_token_flow()` now answers
+`(True, 'ledger')` in 0.0 s, **`standards.check()` 116.9 s → 1.4 s**, and the commit went
+(export **`c3369f0`**). **Neither author was wrong alone.** The standard is sound and could not
+see that the field it keys on was unstamped; m61 had been harmless for the ledger's entire life
+until something finally depended on it.
+**THE UNBLOCK IS TEMPORARY — carry this forward.** It rests on **one** fresh `tps`+`at` row,
+written by a short-lived process that happened to import the fixed `pipeline.py`. **PID 3056 is
+still running the unfixed code.** When that row ages past 900 s with no fixed long-running
+writer behind it, the probe returns and publishing stalls again. **Restarting `pipeline.py`
+makes it permanent, and it is keeper-restored within 5 minutes** — the cheap half of m56's list.
+
 **Battery:** verify_math **473 passed / 0 FAILED** (+6: §19s ×2, §19t ×4) · allsweep **0
 subsystems bad**, nine running · pyflakes **clean** · silence **32 of 386, unchanged** — my
 edits added no handler · health --preflight **3 FAIL**, all three pre-existing and unchanged
