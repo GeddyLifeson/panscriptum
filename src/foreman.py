@@ -260,13 +260,35 @@ def refresh_coverage():
 
 def restart_reader():
     """The reader is not progressing. Restarting is safe: every entity is cached only when it was
-    fully read, so nothing is lost and nothing is re-read that was finished."""
+    fully read, so nothing is lost and nothing is re-read that was finished.
+
+    This BOUNCES a running reader rather than declining to touch it. The 2026-08-23 idempotency
+    review found both branches returned without acting -- a remedy named restart that never
+    restarted -- and the counters-flat stall it serves is precisely the case where the reader
+    is alive, logging failures, and doing nothing. Down-and-absent still defers to the
+    supervisor, which is the only party allowed to start jobs."""
+    import re as _re
+    import signal
     try:
-        import overnight as ON
-        if ON.running("read.py"):
-            return False, "reader is running; not touching it"
+        out = subprocess.run(
+            ["wmic", "process", "where", "name='python.exe' or name='pythonw.exe'",
+             "get", "ProcessId,CommandLine", "/format:csv"],
+            capture_output=True, text=True, timeout=40, creationflags=_NO_WIN).stdout
     except Exception:
-        silence.note("foreman.py:restart_reader")
+        silence.note("foreman.py:restart_reader-list")
+        return False, "could not enumerate processes"
+    killed = []
+    for line in out.splitlines():
+        if "read.py" in line and "--run" in line:
+            m = _re.search(r",(\d+)\s*$", line.strip())
+            if m and int(m.group(1)) != os.getpid():
+                try:
+                    os.kill(int(m.group(1)), signal.SIGTERM)
+                    killed.append(m.group(1))
+                except Exception:
+                    silence.note("foreman.py:restart_reader-kill")
+    if killed:
+        return True, "bounced reader pid " + ", ".join(killed) + "; supervisor restarts next cycle"
     return False, "reader is not running -- the supervisor starts it next cycle"
 
 
@@ -305,13 +327,13 @@ def kill_stalled_job():
         try:
             out = subprocess.run(
                 ["wmic", "process", "where",
-                 "name='python.exe'", "get", "ProcessId,CommandLine", "/format:csv"],
+                 "name='python.exe' or name='pythonw.exe'", "get", "ProcessId,CommandLine", "/format:csv"],
                 capture_output=True, text=True, timeout=40, creationflags=_NO_WIN).stdout
         except Exception:
             silence.note("foreman.py:kill_stalled-list")
             continue
         for line in out.splitlines():
-            if job in line and "python.exe" in line:
+            if job in line and "python" in line:
                 m = _re.search(r",(\d+)\s*$", line.strip())
                 if not m:
                     continue
@@ -339,7 +361,7 @@ def kill_duplicate_jobs():
     import signal
     try:
         out = subprocess.run(
-            ["wmic", "process", "where", "name='python.exe'",
+            ["wmic", "process", "where", "name='python.exe' or name='pythonw.exe'",
              "get", "ProcessId,CreationDate,CommandLine", "/format:csv"],
             capture_output=True, text=True, timeout=40, creationflags=_NO_WIN).stdout
     except Exception:
@@ -770,6 +792,28 @@ def owner_queue(items):
         lines.append(f"- observed **{it['observed']}**, floor **{it['floor']}**")
         lines.append(f"- {it['order']}")
         lines.append("")
+    # REAL MONEY REPORTS ITSELF. The paid burst lane counts every pin in PAID_BURST.json; the
+    # owner turned it on and the owner should never have to open a JSON file to learn what it
+    # has cost. The per-call estimate lives in the same file (est_usd_per_call) so correcting
+    # it is a one-field edit, not a code change.
+    try:
+        with open(os.path.join(HERE, "state", "PAID_BURST.json"), encoding="utf-8") as f:
+            pb = json.load(f)
+        used, cap = pb.get("used", 0), pb.get("cap", 0)
+        est = float(pb.get("est_usd_per_call", 0.02))
+        lines.append("### The paid burst lane")
+        lines.append("")
+        lines.append(f"- {'ENABLED' if pb.get('enabled') else 'off'} — {used}/{cap} calls "
+                     f"used, estimated **${used * est:.2f}** so far "
+                     f"(at ~${est:.02f}/call; edit `est_usd_per_call` in "
+                     "`state/PAID_BURST.json` if that rate is wrong)")
+        if pb.get("enabled") and used >= cap:
+            lines.append("- the cap is REACHED; the lane has closed itself. Raise `cap` or "
+                         "set `enabled: false` to retire it.")
+        lines.append("")
+    except Exception:
+        silence.note("foreman.py:paid-burst-report")
+
     # Material that EXISTS and declines automated readers. This is not a bug and not a gap in
     # the automation -- it is a storefront, and the correct answer to a storefront is a person
     # with an account, not a crawler in a costume. Surfaced with the URL so the decision is one

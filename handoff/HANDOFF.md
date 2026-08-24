@@ -801,23 +801,47 @@ a headline. Do not quote a curl number until the graph has real cycles in it.
    of cached page text on a cold index (49s) and 4s warm. Deleting that file is safe but costs a
    minute at every start.
 
-## 8. RUNBOOK
+## 8. RUNBOOK (refreshed 2026-08-23)
+
+Day-to-day, NOTHING here needs running by hand — the watchdog starts the supervisor, the
+supervisor starts every job, the foreman repairs, and standards dispatch the rest. These are
+the commands for looking, and for the rare deliberate act:
 
 ```bash
+# LOOK (all read-only)
 python src/health.py --preflight        # ALWAYS first — cheap, and it has caught real faults
+python src/verify_math.py               # 267 checks incl. the mocked assay topology; no network
+python src/allsweep.py                  # the full audit battery: imports, lint, reconcile, estate
 python src/silence.py                   # how many handlers still swallow a failure silently
-python src/overnight.py                 # the supervisor: roll || read -> pipeline -> coverage
-python src/coverage.py                  # the dashboard, per source, with the blocker named
-python src/hostcheck.py --repair        # does each wiki hold the fiction it is assigned to
-python src/hostcheck.py --rosters       # is each catalogued cast from its own source
-python src/identity.py                  # the continuity inventory, mined not listed
-python src/chain.py --prior 0.5         # phase 4, now continuity- and epoch-aware
-python src/reference.py                 # the three hand-built calibration assays
-python src/magnitude.py --calibrate     # against the charter's six published values
+python src/dashboard.py --port 8777     # the instrument panel (usually already running)
+python src/tuning.py --force            # which regime the machine is in and what follows
+
+# ASSAY
+python src/magnitude.py --calibrate     # the charter regression; persists CHARTER_REGRESSION.json
+python src/magnitude.py --one <host> "<entity>"
+python src/magnitude.py --batch --workers 12   # workers are a CEILING; tuning.py decides
+
+# CORPUS
+python src/completeness.py --workers 6  # sources vs the wikis' own category counts
+python src/catalogue_web.py --recatalogue --shortfall 100
+python src/hostcheck.py --adopt --go --workers 3
+python src/ingest_doc.py --pdf <path> --source "<name>"   # owner-supplied book -> corpus
+python src/ingest_doc.py --source "<name>" --mine         # its entity pass (resumable, patient)
+
+# PROSE
+python src/manifest_builder.py          # then generate.py; chapters write in verified 8-entry blocks
+python src/generate.py --manifest output/index/manifest.json
+
+# PUBLISH (the supervisor's publisher loop already does this)
+PANSCRIPTUM_EXPORT="C:\Users\imarl\panscriptum-export" python src/publish.py --push
 ```
 
-`STATUS.md` is rewritten each supervisor cycle — read that first in the morning. Then read the
-`swallowed failures:` block in `state/overnight.log`; a new entry there is a bug, not data.
+Morning reading order: `FOR_OWNER.md` (decisions queued for you, paid-lane spend included) ->
+the dashboard's MOVEMENT panel (flat counters with running jobs is the one stall class the
+logs cannot show; a standard watches it now) -> `state/failure_samples.json` beside
+`state/failures.json` (each class carries its last three concrete instances). On THIS machine
+always use miniconda's python directly, never `py`, and never run anything from
+`panscriptum-export` — the `.is-export-copy` guard will refuse.
 
 ## 9. NEXT (rewritten 2026-08-23)
 

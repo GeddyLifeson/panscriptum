@@ -215,7 +215,9 @@ def _ask(system, prompt, schema, local=True):
     import read as R
     if local:
         import pipeline as P
-        got = P.ask(R.config(), system, prompt, schema, timeout=300)
+        nc = 4096 if len(prompt) + len(system) < 11000 else 8192
+        got = P.ask(R.config(), system, prompt, schema, timeout=300, num_ctx=nc,
+                    tag="overwatch")
         if got is not None:
             return got
         # LOCAL FIRST, BUT NEVER LOCAL-ONLY.

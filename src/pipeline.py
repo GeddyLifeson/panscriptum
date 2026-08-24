@@ -47,6 +47,7 @@ import collections
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 import traceback
@@ -164,6 +165,29 @@ def cfg():
 METRICS = os.path.join(STATE_DIR, "model_metrics.jsonl")
 
 
+_VRAM = {"at": 0.0, "mb": None}
+
+
+def _vram_mb():
+    """Card memory in use, sampled at most every 30s. When tok/s craters, this column says
+    whether the model was fully resident or spilling to CPU -- gemma3:12b at 7.3 tok/s on a
+    3080 (2026-08-23) was that question with no answer on file."""
+    now = time.time()
+    if now - _VRAM["at"] < 30:
+        return _VRAM["mb"]
+    _VRAM["at"] = now
+    try:
+        r = subprocess.run(["nvidia-smi", "--query-gpu=memory.used",
+                            "--format=csv,noheader,nounits"],
+                           capture_output=True, text=True, timeout=8,
+                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        _VRAM["mb"] = int(r.stdout.strip().splitlines()[0])
+    except Exception:
+        silence.note("pipeline.py:vram")
+        _VRAM["mb"] = None
+    return _VRAM["mb"]
+
+
 def _metric(row):
     """One line per model call: tokens, latency, phase. The file the blame lives in.
 
@@ -171,6 +195,9 @@ def _metric(row):
     already returns eval counts and durations on every response; they were being read and
     thrown away."""
     try:
+        v = _vram_mb()
+        if v is not None:
+            row = dict(row, vram_mb=v)
         with open(METRICS, "a", encoding="utf-8") as f:
             f.write(json.dumps(row) + chr(10))
     except Exception:

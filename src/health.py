@@ -41,6 +41,7 @@ import json
 import os
 import sys
 import threading
+import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -58,10 +59,23 @@ _LOCK = threading.Lock()
 LEDGER_PATH = os.path.join(HERE, "state", "failures.json")
 
 
-def record(kind, detail=""):
-    """Note a failure by CLASS. The class is what makes a pattern visible; the instance does not."""
+SAMPLES_PATH = os.path.join(HERE, "state", "failure_samples.json")
+_SAMPLES = {}
+SAMPLES_KEEP = 3
+
+
+def record(kind, detail="", sample=None):
+    """Note a failure by CLASS. The class is what makes a pattern visible; the instance does
+    not -- but a class with NO instance on file costs a grep and a reproduction every time it
+    is diagnosed, so the last few concrete examples ride along in a small ring beside the
+    counts. Counts are the ledger; samples are the evidence bag."""
     with _LOCK:
-        LEDGER[f"{kind}:{detail}" if detail else kind] += 1
+        key = f"{kind}:{detail}" if detail else kind
+        LEDGER[key] += 1
+        if sample:
+            ring = _SAMPLES.setdefault(key, [])
+            ring.append({"at": time.strftime("%Y-%m-%d %H:%M:%S"), "sample": str(sample)[:240]})
+            del ring[:-SAMPLES_KEEP]
 
 
 def flush():
@@ -86,6 +100,20 @@ def flush():
     with open(LEDGER_PATH, "w", encoding="utf-8") as f:
         json.dump(prev, f, indent=1, sort_keys=True)
     LEDGER.clear()
+    if _SAMPLES:
+        try:
+            old = {}
+            if os.path.exists(SAMPLES_PATH):
+                with open(SAMPLES_PATH, encoding="utf-8") as f:
+                    old = json.load(f)
+            for k, ring in _SAMPLES.items():
+                merged = (old.get(k) or []) + ring
+                old[k] = merged[-SAMPLES_KEEP:]
+            with open(SAMPLES_PATH, "w", encoding="utf-8") as f:
+                json.dump(old, f, indent=1, sort_keys=True, ensure_ascii=False)
+            _SAMPLES.clear()
+        except Exception:
+            pass          # the evidence bag must never break the ledger write
 
 
 def summary():

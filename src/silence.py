@@ -204,10 +204,12 @@ def note(site):
     """
     global _ATEXIT_ARMED, _SINCE_FLUSH
     try:
-        exc = sys.exc_info()[0]
+        exc, val = sys.exc_info()[0], sys.exc_info()[1]
         name = exc.__name__ if exc else "None"
         import health
-        health.record(f"silent:{site}", name)
+        # The repr of the actual exception rides along as a sample -- a class with a count but
+        # no instance costs a grep and a reproduction every time somebody diagnoses it.
+        health.record(f"silent:{site}", name, sample=repr(val) if val else None)
         if not _ATEXIT_ARMED:
             import atexit
             atexit.register(health.flush)

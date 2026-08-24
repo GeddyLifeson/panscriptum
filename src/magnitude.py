@@ -145,7 +145,11 @@ def _ask(c, system, prompt, schema, timeout=420):
         except Exception:
             silence.note("magnitude.py:_ask-cascade")
     try:
-        return P.ask(c, system, prompt, schema, timeout=timeout)
+        # Sized, not defaulted: a split slice is ~8k chars and fits 4096 tokens with room; the
+        # config default of 6144 was both too big for slices (wasted KV on a shared card) and
+        # too small for anything larger (Ollama truncates the tail silently, no error).
+        nc = 4096 if len(prompt) + len(system) < 11000 else 8192
+        return P.ask(c, system, prompt, schema, timeout=timeout, num_ctx=nc, tag="assay-split")
     except Exception:
         silence.note("magnitude.py:_ask-local")
         return None
@@ -618,7 +622,11 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
         if len(prompt) <= LOCAL_FITS:
             used = "local"
             try:
-                got = P.ask(c, SYSTEM, prompt, SCHEMA, timeout=420)
+                # LOCAL_FITS is 20,000 chars ~ 5,400 tokens of prompt: over the config default
+                # of 6,144 once the system prompt and reply are counted, and Ollama truncates
+                # the overflow without a word. 8,192 holds the whole one-shot.
+                got = P.ask(c, SYSTEM, prompt, SCHEMA, timeout=420, num_ctx=8192,
+                            tag="assay-local")
             except Exception:
                 silence.note("magnitude.py:local-call")
                 got = None

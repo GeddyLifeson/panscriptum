@@ -1,5 +1,10 @@
-requests>=2.31
-PyYAML>=6.0
-zstandard>=0.22
-tqdm>=4.66
-pyflakes>=3.0
+# Floors are the versions verified working on the owner's machine, 2026-08-23. On THIS
+# machine pip upgrades go through Norton's TLS interception and often fail -- prefer the
+# miniconda env that already satisfies these, and bump a floor only after the new version has
+# actually run the sweep (verify_math + allsweep) clean.
+requests>=2.34
+PyYAML>=6.0.3
+zstandard>=0.24
+tqdm>=4.67
+pyflakes>=3.4
+PyMuPDF>=1.28        # ingest_doc.py: owner-supplied PDFs -> library corpus

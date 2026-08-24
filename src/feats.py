@@ -657,17 +657,36 @@ def evidence_for(host, name, cache=True):
     # `pages:<source>` is a host that is not a host: a source whose material lives on ordinary
     # web pages rather than any wiki. The sentinel keeps one host map for everything, so every
     # stage that asks "does this source have somewhere to read from" gets a yes.
-    import endpoint as EP
-    urls = EP.source_pages(host[6:]) if host and host.startswith("pages:") else []
-    if urls:
-        pages = EP.fetch_html(urls)
+    # `doc:<slug>` is the `pages:` sentinel's sibling: an OWNER-SUPPLIED document ingested by
+    # ingest_doc.py. The book's own pages are the corpus; name-matching does the attribution,
+    # the same way it does for a shared wiki index page. The text is already plain -- running
+    # the wikitext stripper over real prose eats legitimate brackets.
+    plain = bool(host) and host.startswith("doc:")
+    if plain:
+        dp = os.path.join(HERE, "data", "docs", host[4:], "pages.json")
+        with open(dp, encoding="utf-8") as f:
+            all_pages = json.load(f)
+        low = (name or "").lower()
+        words = [w for w in re.split(r"[^a-z0-9]+", low) if w]
+
+        def _mentions(t):
+            tl = t.lower()
+            return low in tl or (bool(words) and words[0] in tl and words[-1] in tl)
+
+        pages = {t: txt for t, txt in all_pages.items() if _mentions(txt)}
         titles = sorted(pages)
     else:
-        titles = discover(host, name)
-        pages = fetch(host, titles)
+        import endpoint as EP
+        urls = EP.source_pages(host[6:]) if host and host.startswith("pages:") else []
+        if urls:
+            pages = EP.fetch_html(urls)
+            titles = sorted(pages)
+        else:
+            titles = discover(host, name)
+            pages = fetch(host, titles)
     feats, rej, quants, text = [], [], [], {}
     for t, wt in pages.items():
-        clean = strip_wikitext(wt)
+        clean = wt if plain else strip_wikitext(wt)
         text[t] = clean
         k, r, q = mine(clean, t)
         feats += k
