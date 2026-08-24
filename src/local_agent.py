@@ -54,8 +54,9 @@ DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards",
 
 # Models known tool-trained and fitting a 10GB card, for the capability report when the
 # configured model turns out not to emit tool calls at all.
-TOOL_CAPABLE = ["qwen3:30b-a3b-instruct-2507-q4_K_M (MoE, fits)", "qwen3:8b", "qwen3:4b",
-                "llama3.1:8b-instruct-q4_K_M", "mistral-nemo:12b-instruct-2407-q4_K_M"]
+# GPU-resident on a 10GB card AND tool-trained -- the ruling of 2026-08-24 excludes anything
+# that offloads, which is why no 12B+ dense model or 30B MoE appears here any more.
+TOOL_CAPABLE = ["qwen3:8b (the standing choice)", "qwen3:4b", "llama3.1:8b-instruct-q4_K_M"]
 
 SYSTEM = (
     "You are a maintenance agent working on the Panscriptum library kit, a Python project. "

@@ -269,7 +269,13 @@ def build_all(limit=None):
             if not e.get("catalogued") or e.get("topic") != "Places":
                 continue
             nm, d = e.get("name") or "", e.get("description") or ""
-            if not (WORLD.search(d[:200]) or WORLD.search(nm)):
+            # The whole description, not its first 200 characters. This is a plain in-memory
+            # regex over text already loaded -- there is no token budget here to justify a
+            # window -- and the median description is 167 characters, so a meaningful tail of
+            # them run past the cutoff. A Place whose defining "world"/"planet"/"moon" word
+            # fell past character 200 was silently excluded from ever receiving a worldseed
+            # address, with nothing counting what was skipped. Fixed 2026-08-24.
+            if not (WORLD.search(d) or WORLD.search(nm)):
                 continue
             desig = f"{src}::{nm}"
             out.append(to_options(desig, nm, d, e.get("magnitude") or "unassayed", reg, g))

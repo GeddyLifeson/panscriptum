@@ -280,9 +280,23 @@ _EVIDENCE_TITLE = re.compile(
     r"skill|feat|strength|combat)", re.I)
 
 
-def discover(host, name, extra=25):
+def discover(host, name, extra=None):
     """Titles worth reading for one entity: its own page, its evidence subpages, and any page
-    whose title names both the entity and an evidence word."""
+    whose title names both the entity and an evidence word.
+
+    HARD RULE 0. `extra` was 25, applied as `sorted(hits, reverse=True)[:extra]` -- ranking by
+    article size and then TRUNCATING, which the rule names outright ("Ranking is still allowed
+    and is encouraged ... Ranking then truncating is not"). The pages it dropped were the tail
+    of the evidence list for exactly the entities that have the most written about them, which
+    is to say the ones the read prioritises. Nothing logged the drop, so an entity with 40
+    qualifying evidence pages was read as an entity with 25 and looked complete. Ranking is
+    kept -- richest first still means an interrupted run got the best material -- and the
+    truncation is gone. The parameter survives so no caller breaks, but a numeric value is now
+    refused loudly rather than honoured silently."""
+    if extra is not None:
+        raise SystemExit("feats.discover: `extra` was a cap on a ranked page list and is "
+                         "refused under Hard Rule 0. Pass None (the default); the list is "
+                         "ranked richest-first and returned whole.")
     titles, seen = [], set()
 
     def add(t):
@@ -317,7 +331,7 @@ def discover(host, name, extra=25):
     hits = [(row.get("size", 0), row["title"])
             for row in (sr or {}).get("query", {}).get("search", [])
             if key in row["title"].lower() and _EVIDENCE_TITLE.search(row["title"])]
-    for _, t in sorted(hits, reverse=True)[:extra]:
+    for _, t in sorted(hits, reverse=True):
         add(t)
     return titles
 

@@ -62,6 +62,22 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 OUT = os.path.join(HERE, "data", "HOST_FITNESS.json")
 UNFIT = os.path.join(HERE, "data", "HOST_UNFIT.json")
 
+
+def _land(path, obj, sort_keys=True, ensure_ascii=True):
+    """Write a shared artifact whole or not at all.
+
+    Every write in this module was a bare `open(path, "w")` + `json.dump`, which truncates the
+    target BEFORE serialising and takes no account of the readers holding it open on their own
+    clocks. WIKI_HOSTS.json is the one that matters most -- written from here, from `adopt()`,
+    and from `scout.py`, and read by feats, read, completeness, ingest_doc and wiki_source --
+    but the same reasoning covers the fitness, unfit, purge and roster artifacts.
+    `silence.replace_retry` carries the Windows backoff: os.replace is DENIED while any reader
+    holds the destination open, and a brief retry outwaits an honest reader."""
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, indent=1, sort_keys=sort_keys, ensure_ascii=ensure_ascii)
+    silence.replace_retry(tmp, path)
+
 GOOD = 0.35        # at or above: the host holds the fiction
 DEAD = 0.05        # at or below: the host is about something else entirely
 PROBE = 40         # names per host. One API call takes 50; forty leaves room for redirects.
@@ -563,17 +579,22 @@ def sweep(only=None, repair=False, workers=8):
                                 "held": results[k]["rate"],
                                 "about": results[k].get("about")}
                     hosts.pop(k, None)
-            with open(F.HOSTS, "w", encoding="utf-8") as f:
-                json.dump(hosts, f, indent=1, sort_keys=True)
-            with open(UNFIT, "w", encoding="utf-8") as f:
-                json.dump(unfit, f, indent=1, sort_keys=True)
+            # WIKI_HOSTS.json is written from THREE call sites in two modules (this function,
+            # `adopt()` below, and `scout.py`'s host registration) and read by feats, read,
+            # completeness, ingest_doc and wiki_source, several of them long-running. A bare
+            # open("w") truncates before json.dump starts, so a losing writer or a mid-dump
+            # failure leaves every one of those readers looking at an unparseable or empty host
+            # map -- and an empty host map reads downstream as "no source has a wiki", which is
+            # how COMPLETENESS.json came to hold zero rows on 2026-08-24. tmp + replace_retry,
+            # the pattern the rest of the tree already uses. 2026-08-24.
+            _land(F.HOSTS, hosts)
+            _land(UNFIT, unfit)
             print(f"\nWIKI_HOSTS.json updated: {sum(1 for v in fixed.values() if v)} "
                   f"repointed, {sum(1 for v in fixed.values() if not v)} recorded unfit")
             print(f"-> {UNFIT}   (every rejection kept, so a gap reads as a gap)")
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=1, sort_keys=True)
+    _land(OUT, results)
     print(f"-> {OUT}")
     return results
 
@@ -678,8 +699,12 @@ def purge(dry=True, only=None):
                 r["entries"] = []
                 r["purged_roster"] = {"mined_from": mined, "reason": "wrong fiction",
                                       "removed": n_entries}
-                with open(fp, "w", encoding="utf-8") as f:
-                    json.dump(r, f, indent=1, ensure_ascii=False)
+                # Deliberately a direct write and NOT pipeline.write_record_catalogue: that
+                # writer merges and never shrinks an entry list, which is exactly right for a
+                # cast-growing pass and exactly wrong for a purge whose whole purpose is to
+                # empty one. It is made atomic here so a kill mid-dump cannot leave a record
+                # file unparseable, which would lose the entries AND the purge note together.
+                _land(fp, r, sort_keys=False, ensure_ascii=False)
         # the caches those entries wrote
         for base in ("feats", "readfeats"):
             d = os.path.join(HERE, "data", base, re.sub(r"[^A-Za-z0-9]+", "_", mined)[:40])
@@ -702,8 +727,7 @@ def purge(dry=True, only=None):
             except Exception:
                 silence.note("hostcheck.py:purge-log")
         prev.update(log)
-        with open(PURGED, "w", encoding="utf-8") as f:
-            json.dump(prev, f, indent=1, sort_keys=True)
+        _land(PURGED, prev)
         print(f"-> {PURGED}")
     return log
 
@@ -814,8 +838,7 @@ def roster_audit(workers=8):
           f"{len(bad)} carry a roster that never names their own fiction")
     for r in sorted(bad, key=lambda x: x["rate"]):
         print(f"   {r['source']}  ({r['host']}, looked for {', '.join(r['tokens'])})")
-    with open(ROSTERS, "w", encoding="utf-8") as f:
-        json.dump({r["source"]: r for r in out}, f, indent=1, sort_keys=True)
+    _land(ROSTERS, {r["source"]: r for r in out})
     print(f"-> {ROSTERS}")
     return out
 
@@ -882,8 +905,7 @@ def adopt(dry=True, workers=4):
         len(found), len(hostless) - len(found)))
     if found and not dry:
         hosts.update(found)
-        with open(F.HOSTS, "w", encoding="utf-8") as f:
-            json.dump(hosts, f, indent=1, sort_keys=True)
+        _land(F.HOSTS, hosts)
         print("-> " + F.HOSTS)
     return found
 

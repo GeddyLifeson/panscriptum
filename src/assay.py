@@ -322,7 +322,8 @@ SIGMA_UNKNOWN = SIGMA_MAX
 SIGMA_NIL_FACTOR = 0.5
 
 
-def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=None):
+def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=None,
+              weights=None):
     """Half-width of the honest error bar, in BAND units, by variance propagation.
 
     TWO components, because one cannot reproduce the charter's own numbers. Goku is published at
@@ -340,10 +341,18 @@ def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=N
     # min() rather than a bare lookup: an unknown attestation grade must not be able to claim
     # more certainty than the ceiling, and a future edit to the table must not either.
     sigma = min(SIGMA_MAX, SIGMA_BY_ATTESTATION.get(attestation, SIGMA_MAX))
+    # THE SAME WEIGHT TABLE THE COMPOSITE WAS BUILT FROM. `assay()` takes a `weights=` override
+    # and deliberately keeps it local (`W`) so a per-call reweighting stays invisible to every
+    # other caller -- but this function read the module-global WEIGHTS while being handed the
+    # OVERRIDE's `denom`, so a custom-weighted assay got its composite from one table and its
+    # error bar from another, normalised against a denominator belonging to neither. custodes.py
+    # builds exactly such a table per Custos (`axis_emphasis`); it happens to read only
+    # `decimal` today, which is why nothing had caught this. Found 2026-08-24.
+    W = weights if weights is not None else WEIGHTS
     var = 0.0
     parts = {}
     for k in applicable:
-        w = WEIGHTS[k] / denom            # normalised so the weights sum to 1 over applicable
+        w = W[k] / denom                  # normalised so the weights sum to 1 over applicable
         if k in used:
             s_i = sigma
         elif k in nil:
@@ -415,7 +424,7 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     denom = sum(W[k] for k in applicable) or 1.0
     coverage = wsum / denom
     interval, var_parts = _interval(scores, used, nil, applicable, attestation, denom,
-                                    hand_readings=hand_readings)
+                                    hand_readings=hand_readings, weights=W)
 
     # CEILING BEHAVIOUR. composite is in [0,10], so decimal reaches 1.00 when every scored axis
     # maxes -- and 1.00 is not a decimal within the band, it is the FLOOR OF THE NEXT ONE. Left

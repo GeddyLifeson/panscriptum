@@ -199,7 +199,18 @@ def audit(only=None, workers=6):
         # answer". Genuine absence (every probe answered, none of the categories exist) still
         # returns None as before; only the no-answer case is promoted into `unreliable`, which
         # is the bucket this module's own docstring built for exactly this.
-        if not sizes and failed < len(probes):
+        #
+        # 2026-08-24: the m3 fix demanded UNANIMITY (`failed < len(probes)`) and that was one
+        # notch too narrow. Seven transport failures plus a single clean "no such category"
+        # answer scored failed=7, which is < 8, so the row was deleted anyway -- and under the
+        # fandom socket-drop this module's own transport documents (wiki_source.py, MIN_GAP
+        # note), mostly-failed-with-one-clean-miss IS the normal shape. It emptied
+        # COMPLETENESS.json outright: 164 sources probed, 0 rows written, and the `every source
+        # is fully catalogued` standard then reported a fabricated `0.0% (0 of 0)` off the empty
+        # file for two hours. ANY transport failure means the denominator was not established,
+        # so the row is unreliable, not absent. Genuine absence is now the one case it always
+        # was in plain English: every probe answered, and none of the categories exist.
+        if not sizes and failed == 0:
             return None
         best = max(sizes.values()) if sizes else None
         rec = byslug.get(str(src).lower()) or byslug.get(str(src).lower().replace("-", " "))
@@ -214,9 +225,16 @@ def audit(only=None, workers=6):
         # catalogued 448 people against a probed "People" category holding 314.
         why = None
         if not sizes:
-            why = ("every category probe failed (%d/%d transport errors) -- no denominator was "
-                   "obtained, so this row carries no coverage judgment either way"
-                   % (failed, len(probes)))
+            why = ("no category probe returned a size and %d/%d failed at the transport -- no "
+                   "denominator was obtained, so this row carries no coverage judgment either "
+                   "way" % (failed, len(probes)))
+        # A row that DID obtain a denominator while some probes failed is still reported as
+        # measurable, because `best` is a real category count that a real wiki really returned.
+        # But the failure count rides along on the row rather than being discarded: if the
+        # category that failed was the big one, `best` is an undercount and coverage reads
+        # flatteringly high. Whether that should disqualify the row is a judgment about what the
+        # `every source is fully catalogued` standard MEASURES, so it is a question in
+        # NEXT_STEPS, not a silent change of the aggregate here.
         elif shared[host] > 1 and (primary.get(host) or (None, None))[0] != src:
             why = ("shares " + host + " with " + str(shared[host] - 1) + " other source(s) and "
                    "is not the primary; denominator belongs to "
@@ -226,7 +244,8 @@ def audit(only=None, workers=6):
                    "wiki's real category name")
         return {"source": src, "host": host, "wiki_persons": best,
                 "wiki_categories": sizes, "catalogued_total": got,
-                "catalogued_persons": persons,
+                "catalogued_persons": persons, "probe_failures": failed,
+                "probes_run": len(probes),
                 "coverage": cov, "unreliable": why}
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
@@ -238,6 +257,49 @@ def audit(only=None, workers=6):
     return rows
 
 
+def land(rows, only=None):
+    """Write COMPLETENESS.json atomically, and REFUSE to replace a real measurement with an
+    empty one. Returns True if the file now holds `rows`.
+
+    Two faults in one line, both of them this project's oldest species. The old write was
+    `open(OUT, "w")` + `json.dump` -- the m6 pattern, which truncates the target BEFORE
+    serialising, so an unencodable value leaves the real file unparseable, and which races the
+    readers (`standards.check`, `catalogue_web --shortfall`) that hold it open on their own
+    clocks. And it wrote unconditionally: on 2026-08-24 an audit that measured nothing wrote
+    `[]` over 164 good rows, after which the HIGH `every source is fully catalogued` standard
+    reported `0.0% (0 of 0)` -- a fabricated catastrophe, sourced from an empty file, ranked
+    above every real fault in the queue for two hours.
+
+    An empty result is not a measurement that every source has nothing. It is the absence of a
+    measurement, and the previous measurement is better evidence than it. A run that genuinely
+    has nothing to say leaves the last real answer standing and says so on stderr, loudly enough
+    that the operator sees it and the exit code is non-zero.
+
+    `--only` is exempted from the emptiness guard in one direction only: a filtered run is
+    ALREADY not a whole-corpus answer, so it must never land over the full file at all."""
+    if only:
+        sys.stderr.write("completeness: --only is a spot check; COMPLETENESS.json not written "
+                         "(it would replace the whole-corpus measurement with a slice)\n")
+        return True
+    if not rows:
+        prior = []
+        try:
+            with open(OUT, encoding="utf-8") as f:
+                prior = json.load(f)
+        except Exception:
+            _ = "silence-exempt: no prior file is a legitimate first state"
+        if prior:
+            sys.stderr.write("completeness: measured 0 rows; REFUSING to overwrite %d existing "
+                             "rows. An unmeasurable run is not a measurement of nothing -- see "
+                             "the transport failures in `health.py --failures`.\n" % len(prior))
+            return False
+    tmp = OUT + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(rows, f, indent=1, ensure_ascii=False)
+    silence.replace_retry(tmp, OUT)
+    return True
+
+
 def main():
     ap = argparse.ArgumentParser(description="measure catalogue completeness per source")
     ap.add_argument("--only", help="restrict to sources containing this string")
@@ -247,8 +309,8 @@ def main():
     a = ap.parse_args()
 
     rows = audit(only=a.only, workers=a.workers)
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(rows, f, indent=1, ensure_ascii=False)
+    if not land(rows, only=a.only):
+        return 1
 
     good = [r for r in rows if not r["unreliable"]]
     bad = [r for r in rows if r["unreliable"]]

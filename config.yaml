@@ -34,7 +34,7 @@ ollama_host: "http://localhost:11434"
 # Q3_K costs more to unpack per token than Q4_K_M, and that outweighs the residency gain.
 # Ollama's own library publishes only q4_K_M / q8_0 / fp16 for this model anyway; anything
 # smaller means a community GGUF. Stay on q4_K_M.
-model: "qwen3:30b-a3b-instruct-2507-q4_K_M"
+model: "qwen3:8b"
 
 # Deterministic-as-possible decoding. Ollama isn't perfectly reproducible across hardware/
 # quantization, but a fixed seed + low temperature (0.2 below -- NOT 0; 0.2 measured better

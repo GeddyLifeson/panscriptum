@@ -588,9 +588,24 @@ def check(state=None):
         worst = sorted(good, key=lambda c: c.get("coverage", 0))[:3]
         detail = "; ".join("%s %.1f%%" % (str(c["source"])[:18], 100 * c.get("coverage", 0))
                            for c in worst)
+        # NO DENOMINATOR IS NOT ZERO COVERAGE. With an empty or all-unreliable COMPLETENESS.json
+        # the arithmetic above yields a clean-looking `0.0% (0 of 0)`, and this standard is HIGH
+        # severity, so a file the audit failed to write outranked every real fault in the queue
+        # for two hours on 2026-08-24 while accusing the catalogue of holding nothing. The fault
+        # is real either way -- an unmeasured library is not a measured one -- but the operator
+        # must be told which of the two it is, because the repairs point in opposite directions:
+        # a true 0% wants `catalogue_web --recatalogue`, an unmeasured one wants the transport
+        # looked at.
+        if not wiki:
+            reading = ("UNMEASURED -- %d row(s) in COMPLETENESS.json, %d measurable, no "
+                       "denominator obtained. This is the audit failing to measure, NOT the "
+                       "catalogue measuring empty." % (len(comp), len(good)))
+        else:
+            reading = "%.1f%% (%s of %s) -- worst: %s" % (100 * cov, f"{have:,}",
+                                                          f"{wiki:,}", detail)
         out.append(_s(
-            "every source is fully catalogued", cov >= MIN_CATALOGUE_COVERAGE,
-            "%.1f%% (%s of %s) -- worst: %s" % (100 * cov, f"{have:,}", f"{wiki:,}", detail),
+            "every source is fully catalogued", bool(wiki) and cov >= MIN_CATALOGUE_COVERAGE,
+            reading,
             "100%",
             "The wikis' own categoryinfo says how many characters each source has; the "
             "catalogue says how many it holds. Every point of shortfall is a character that "

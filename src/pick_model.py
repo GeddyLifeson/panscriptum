@@ -64,6 +64,7 @@ FAMILY_TIERS = [
 # Rough on-disk weight size in GB for tags this script knows about, used for the VRAM-fit
 # warning below. Anything not listed here falls back to estimating from parameter count.
 KNOWN_WEIGHT_GB = {
+    "qwen3:8b": 5.2,
     "qwen3:14b": 9.3,
     "qwen3:30b-a3b-instruct-2507-q4_K_M": 18.6,
     "qwen3:32b": 20.2,
@@ -77,8 +78,19 @@ KNOWN_WEIGHT_GB = {
 
 # Families that are mixture-of-experts: only a small fraction of parameters is active per
 # token, so spilling layers to system RAM costs far less than it does for a dense model of the
-# same file size. Relevant on a 10GB card, where nothing good fits entirely in VRAM.
+# same file size. STILL DISQUALIFYING under the residency mandate below -- the tolerance this
+# marker used to buy is what produced 40-minute single calls.
 MOE_MARKERS = ["a3b", "a22b", "gpt-oss", "mixtral"]
+
+# OWNER RULING 2026-08-24: GPU-ONLY, AND STICK TO IT. The 30B MoE ran at 19.0GB resident with
+# 8.4GB on the card -- over half the model on CPU -- and a single phase call could sit for 40
+# minutes. "MoE spills cheaply" was true relative to a dense spill and still catastrophic in
+# absolute terms. The picker now refuses any model whose weights + context KV cannot sit
+# entirely in the card's VRAM; disqualified models are still LISTED with the reason, never
+# silently hidden. KV_GB budgets ~8k ctx at q8_0 across OLLAMA_NUM_PARALLEL=2.
+RESIDENT_ONLY = True
+KV_GB = 1.2
+VRAM_RESERVE_GB = 1.0          # driver + desktop float; subtracted from the card's total
 
 EXCLUDE_PATTERNS = ["embed", "embedding", "bge-", "nomic-embed", "clip", "llava", "moondream",
                      "minilm"]  # vision/embedding models -- wrong tool for prose generation
@@ -139,6 +151,28 @@ def is_instruct_tuned(model_entry):
     return True
 
 
+def total_vram_gb():
+    """The card's total VRAM in GB, or None. The residency gate sizes against TOTAL minus a
+    reserve, not against free -- free varies with whatever the desktop holds this minute, and
+    the mandate is about the model class, not the moment."""
+    import subprocess
+    try:
+        out = subprocess.run(
+            ["nvidia-smi", "--query-gpu=memory.total", "--format=csv,noheader,nounits"],
+            capture_output=True, text=True, timeout=15, creationflags=_NO_WIN)
+        if out.returncode != 0:
+            return None
+        return int(out.stdout.strip().splitlines()[0]) / 1024.0
+    except Exception:
+        silence.note("pick_model.py:total_vram")
+        return None
+
+
+def resident(model_entry, budget_gb):
+    """Does this model fit ENTIRELY on the card, weights + context, per the ruling?"""
+    return weight_gb(model_entry) + KV_GB <= budget_gb
+
+
 def free_vram_gb():
     """Free VRAM in GB via nvidia-smi, or None if it isn't available.
 
@@ -162,18 +196,14 @@ def free_vram_gb():
 def print_pull_suggestions():
     """Recommendations sized for a 10GB card, best first. Kept in one place so the no-models
     path and the below-quality-bar path can't drift apart."""
-    print("  ollama pull qwen3:30b-a3b-instruct-2507-q4_K_M")
-    print("      18.6GB. Mixture-of-experts, only ~3B params active per token, so the layers")
-    print("      that don't fit in VRAM cost far less than they would for a dense model this")
-    print("      size. The -instruct-2507 variant is non-thinking, which matters: generate.py")
-    print("      writes data['response'] straight to disk and has no <think>-tag stripping,")
-    print("      so a reasoning variant would embed its scratchpad in the finished volumes.")
-    print("  ollama pull gemma3:12b")
-    print("      8.1GB. Fits entirely in 10GB once the desktop isn't holding ~2.3GB of it.")
-    print("      Faster, strong prose voice, somewhat weaker at holding a rigid repeated")
-    print("      template across ten entries in one call.")
+    print("  ollama pull qwen3:8b")
+    print("      5.2GB. THE STANDING CHOICE (owner ruling 2026-08-24: GPU-only, and stick to")
+    print("      it). Fully resident on the 10GB card with KV headroom at NUM_PARALLEL=2,")
+    print("      tool-trained (local_agent.py's loop needs that), measured 24-42 tok/s here")
+    print("      against the 30B MoE's ~7 tok/s when half-offloaded to CPU.")
     print("  ollama pull llama3.1:8b")
-    print("      4.9GB. Comfortable fallback; measured at 20.2 tok/s here, fully GPU-resident.")
+    print("      4.9GB. Tool-trained fallback of the same class; measured 20.2 tok/s here,")
+    print("      fully GPU-resident.")
 
 
 def is_moe(name):
@@ -243,12 +273,18 @@ def main():
         print_pull_suggestions()
         sys.exit(1)
 
-    scored = []
+    budget = (total_vram_gb() or 10.0) - VRAM_RESERVE_GB
+    scored, refused = [], []
     for m in models:
         s = score_model(m)
-        if s is not None:
-            scored.append((s, m))
+        if s is None:
+            continue
+        if RESIDENT_ONLY and not resident(m, budget):
+            refused.append((s, m))
+            continue
+        scored.append((s, m))
     scored.sort(key=lambda x: -x[0])
+    refused.sort(key=lambda x: -x[0])
 
     vram_gb = free_vram_gb()
     print(f"{len(models)} models installed, {len(scored)} usable for text generation.")
@@ -257,6 +293,12 @@ def main():
               f"this):\n")
     else:
         print("(couldn't read free VRAM -- nvidia-smi not available)\n")
+    if refused:
+        print("REFUSED under the GPU-only residency ruling (2026-08-24) -- would offload:")
+        for sc, m in refused:
+            print(f"   {m['name']:<55} ~{weight_gb(m) + KV_GB:.1f}GB needed vs "
+                  f"{budget:.1f}GB budget")
+        print("")
     for s, m in scored:
         tier = family_tier(m["name"])
         params = parse_param_size(m)

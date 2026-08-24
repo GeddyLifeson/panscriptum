@@ -165,7 +165,13 @@ def scout(source, names, register=True):
               f"CATALOGUED UNDER IT: {', '.join(sample[:18])}\n\n"
               f"Where is this material readable online?")
     got = _ask(prompt)
-    urls = [u for u in ((got or {}).get("urls") or []) if str(u).startswith("http")][:8]
+    # Every URL the model proposes gets PROVEN, not the first eight of them. The prompt above
+    # explicitly invites a spread across seven or more platforms (own site, GM Binder,
+    # Homebrewery, D&D Wiki, DMs Guild, itch.io, subreddit wiki, GitHub) for one creator, so a
+    # well-documented author is precisely the case where a ninth URL exists -- and the cap sat
+    # BEFORE verification, so the dropped candidates were never even tested. Verification is one
+    # cheap fetch each. Uncapped 2026-08-24 (Hard Rule 0).
+    urls = [u for u in ((got or {}).get("urls") or []) if str(u).startswith("http")]
     if not urls:
         return {"source": source, "proposed": 0, "kept": [], "note": "model proposed nothing"}
 
@@ -182,8 +188,7 @@ def scout(source, names, register=True):
             import feats as F
             hosts = json.load(open(F.HOSTS, encoding="utf-8"))
             hosts[source] = "pages:" + source
-            with open(F.HOSTS, "w", encoding="utf-8") as f:
-                json.dump(hosts, f, indent=1, sort_keys=True)
+            _land(F.HOSTS, hosts)
         except Exception:
             silence.note("scout.py:register-host")
     # Pages that exist and decline us are a finding for the owner, not a retry target.
@@ -195,8 +200,7 @@ def scout(source, names, register=True):
                 with open(BLOCKED, encoding="utf-8") as f:
                     prev = json.load(f)
             prev[source] = sorted({c["url"] for c in blocked} | set(prev.get(source) or []))
-            with open(BLOCKED, "w", encoding="utf-8") as f:
-                json.dump(prev, f, indent=1, sort_keys=True)
+            _land(BLOCKED, prev)
         except Exception:
             silence.note("scout.py:blocked")
     return {"source": source, "proposed": len(urls), "kept": kept, "checked": checked,
@@ -242,8 +246,7 @@ def sweep(limit=None, register=True):
         silence.note("scout.py:241")
         prev = []
     prev.append({"at": time.strftime("%Y-%m-%d %H:%M"), "results": results})
-    with open(LOG, "w", encoding="utf-8") as f:
-        json.dump(prev[-40:], f, indent=1)
+    _land(LOG, prev[-40:], sort_keys=False)
     return results
 
 

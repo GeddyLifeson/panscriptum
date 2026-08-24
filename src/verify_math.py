@@ -1277,6 +1277,69 @@ check("but the previous artifact is UNTOUCHED",
 check("'unclassified' is not a real topic", "unclassified" in _PL.TOPICS, False)
 
 
+# ---- Section 19d: a completeness row that could not be measured is not a row of nothing -------
+#
+# Pins the 2026-08-24 regression on both sides. The m3 fix promoted an unmeasurable source into
+# `unreliable` only when EVERY probe failed; seven transport failures plus one clean "no such
+# category" scored 7 < 8 and the row was deleted exactly as before. Under the fandom socket-drop
+# that shape is the common one, and it emptied COMPLETENESS.json outright -- 164 sources probed,
+# 0 rows written -- after which the HIGH `every source is fully catalogued` standard reported a
+# fabricated `0.0% (0 of 0)` off the empty file. Both halves are checked here: the row must
+# survive, and an empty result must never land over a real one.
+import completeness as _CP                                             # noqa: E402
+
+_cd = _tf.mkdtemp()
+_chosts = os.path.join(_cd, "WIKI_HOSTS.json")
+with open(_chosts, "w", encoding="utf-8") as _f:
+    json.dump({"Testsource": "testsource.fandom.com"}, _f)
+_crecs = os.path.join(_cd, "records")
+os.makedirs(_crecs, exist_ok=True)
+
+_cp_hosts, _cp_recs, _cp_probe = _CP.HOSTS, _CP.RECORDS, _CP.category_size_probe
+_CP.HOSTS, _CP.RECORDS = _chosts, _crecs
+_nprobes = len(_CP.ws.CATEGORY_PROBES[_CP.PERSONS])
+
+
+def _stub(pattern):
+    """pattern: list of (n, err) consumed in probe order, one call per probe."""
+    seq = list(pattern)
+    order = {c: i for i, c in enumerate(_CP.ws.CATEGORY_PROBES[_CP.PERSONS])}
+    return lambda sub, cand: seq[order[cand]]
+
+
+_E, _N, _V = (None, "URLError"), (None, None), (1000, None)
+
+_CP.category_size_probe = _stub([_E] * _nprobes)
+check("all probes failed -> row KEPT as unreliable", len(_CP.audit(workers=1)), 1)
+
+_CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_N])
+_r = _CP.audit(workers=1)
+check("one clean miss among transport failures -> row still KEPT", len(_r), 1)
+check("and it is marked unreliable, not scored", bool(_r[0]["unreliable"]) if _r else False, True)
+check("and it carries its failure count", _r[0]["probe_failures"] if _r else None, _nprobes - 1)
+
+_CP.category_size_probe = _stub([_N] * _nprobes)
+check("genuine absence (every probe answered, no categories) -> row dropped",
+      len(_CP.audit(workers=1)), 0)
+
+_CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_V])
+_r = _CP.audit(workers=1)
+check("a real denominator among failures is still measurable",
+      bool(_r) and not _r[0]["unreliable"], True)
+
+_CP.HOSTS, _CP.RECORDS, _CP.category_size_probe = _cp_hosts, _cp_recs, _cp_probe
+
+# The write contract: an empty measurement must not be able to erase a real one.
+_CP.OUT = os.path.join(_cd, "COMPLETENESS.json")
+check("a real result lands", _CP.land([{"source": "A", "unreliable": None}]), True)
+check("and no .tmp is left behind", os.path.exists(_CP.OUT + ".tmp"), False)
+check("an empty result REFUSES to overwrite it", _CP.land([]), False)
+check("and the real rows are untouched", len(json.load(open(_CP.OUT, encoding="utf-8"))), 1)
+check("a --only slice never lands over the whole-corpus file",
+      json.load(open(_CP.OUT, encoding="utf-8"))[0]["source"]
+      if _CP.land([{"source": "B", "unreliable": None}], only="B") else "?", "A")
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
