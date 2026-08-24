@@ -7,6 +7,55 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M5] THE LOCAL MODEL RUNG IS BEING STARVED BY AN ORPHANED PROCESS THAT IS NOT OURS — HUMAN
+  CALL, and it is the cheapest win on this list.** Measured 2026-08-24 12:35 (run #10). PID
+  25188, command line `pythonw.exe -m semsearch.cli watch`, started 2026-08-23 13:46, **parent
+  PID 9420 is dead** — an orphan by the same construction as m40/m42, but belonging to a
+  DIFFERENT project on this machine. It was holding **13,942 of the 13,945 established TCP
+  connections to the shared Ollama daemon** (28,044 sockets to `127.0.0.1:11434` in total, of
+  which 14,098 in TIME_WAIT — so it is churning connections, not merely holding them). For
+  comparison, Panscriptum's own pipeline and overwatch held **one connection each** and were
+  queued behind it.
+  **The measured cost to this project:** a request needing 50 ms of compute returned in 0.057 s
+  when it caught a free slot and in 28.4 s / 35.0 s when it did not (three consecutive probes,
+  same trivial prompt) — i.e. up to 99.85% queue. By 12:50 the daemon would not answer a
+  4,000-character prompt within 240 s at all. This is what has been reported for three runs as
+  the foreman's *"GPU busy and no spare pool capacity"*, and it accounts for **overwatch
+  completing zero rounds since 11:37** (hence `OVERWATCH.json` frozen at 68/64 across runs #8,
+  #9 and #10, which two runs filed as a possible merge fault) and for **m31** (`pipeline.py`
+  alive but no `returned N/M` line since 11:52 — verified holding an ESTABLISHED socket to
+  11434, so it is queued, not wedged).
+  **NOT ACTED ON, deliberately:** killing a foreign long-running process is the owner's call,
+  not this pass's — it belongs to another project and may be mid-work. Restarting or stopping
+  `semsearch.cli watch` should restore the free local rung for the whole kit at a stroke.
+  **This also corrects run #9's diagnosis**, which measured the saturation accurately (32.6 s
+  wall for 28 ms of compute) but attributed it to honest contention between Panscriptum's own
+  jobs over one installed model. The contention is real; the load is overwhelmingly foreign.
+- **[m46] THE FEATS CHAPTER'S PROMPT IS ~1.9x LARGER THAN THE CONTEXT WINDOW IT IS SENT INTO —
+  latent, nothing generated yet, and it must be settled BEFORE the first feats generation run.**
+  Measured on a real job built by the real code path (run #10): `build_jobs_for_source` for
+  Warhammer 40,000 emits **106 Feats jobs**, and job #1 carries `entities_json` 20,545 chars +
+  `prompts/system_style.txt` 18,112 + `prompts/feats_prompt.txt` 2,812 = **41,469 characters of
+  input**. `config.yaml:64` sets `num_ctx: 6144` and `generate.py:133` passes it through
+  unchanged. At 3.5–4.5 chars/token that prompt needs ~9,200–11,800 tokens: **1.5–1.9x the
+  window.** It would take an implausible >6.7 chars/token for it to fit.
+  **Why it matters, precisely:** `num_predict: -1` removes the OUTPUT ceiling and `generate.py`
+  is careful about that, but `num_ctx` is the SHARED input+output window and nothing checks the
+  input against it. Ollama truncates an over-long prompt rather than refusing it, and
+  `_covered()` (`generate.py:146-159`) verifies only that an entity's NAME appears in the
+  returned text — not that its individual deeds do. So a block whose tail was silently trimmed
+  would pass the coverage check and be written to `catalog.json` as a complete chapter. That is
+  a Hard Rule 0 truncation arriving from the runtime instead of from the code.
+  **Currently harmless and that is why this is the moment:** `output/index/catalog.json` holds
+  **0 addresses containing "Feats"**, and `manifest.json` (built 10:41, before the feats branch
+  shipped at 12:05) contains **0 feats jobs** — the zero is staleness, not a fault. No feats
+  chapter has ever been generated, so nothing is corrupted yet.
+  **HUMAN CALL because every remedy is a tuning trade on a 10 GB card:** raise `num_ctx` (larger
+  KV cache, fewer layers on GPU — see config.yaml's own note), lower `feats_block_chars` (no
+  data loss, `pack_feats` paginates correctly, but ~2x the calls on a GPU that is already the
+  bottleneck), trim the 18 KB system prompt for feats jobs specifically, or some mix. **A
+  verify_math check asserting the prompt fits should be added once a remedy is chosen** — it was
+  deliberately not added now because it would fail on arrival and turn the battery red.
 - **[M4] The paid burst counter stands at 598 against a cap of 500 — HUMAN CALL on what to do
   about it.** The enforcement bug is FIXED (run #6, see paper trail): no paid bucket is a
   candidate unless the lane is open, and both documented kill switches now genuinely kill. What
@@ -57,8 +106,49 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   an orphan by construction. Candidate home is `allsweep`'s RECONCILE block or `health
   --preflight`. **Not self-authorized in run #9** because it adds a new reported subsystem and
   the two runs that hit it disagree about the right remedy (kill vs. report).
+  **RUN #10 REFINEMENT — the proposed rule is wrong at BOTH ends, and the evidence is M5.**
+  (a) *It would have missed the orphan that actually cost this project anything.* The rule as
+  written scopes to "a **panscriptum** python process whose parent is dead". M5 — the orphan
+  holding 13,942 sockets to the Ollama daemon and starving the entire local rung for three runs
+  — is `semsearch.cli watch`, which matches nothing in this repo. **The damaging orphan was a
+  FOREIGN process contending for a SHARED resource.** Scoping the check by command line looks
+  natural and encodes the assumption that only our own strays can hurt us.
+  (b) *It false-positives on the root of our own tree.* `autostart.py --watch` (PID 28188)
+  legitimately has a dead parent — it is the launcher, started at login by the VBS shim, and
+  its parent exited by design. A naive "dead parent ⇒ orphan" check reports the supervisor's
+  own root as an orphan on **every** run, forever.
+  So the useful check is probably not "whose parent is dead" but "**what is holding the
+  resources we need**" — clients on `11434`, handles on our state files — which is a different
+  and more honest subsystem than the one m43 originally proposed. Still an owner call.
 
 ### Minor
+- **[m47] an exception inside the feats join silently becomes "this source has no feats."**
+  `manifest_builder.py`'s Feats block wraps `feats_index.feats_for_source` in
+  `except Exception: silence.note(...); feat_rows = []`, and the job-creating block below is
+  gated on `if feat_rows:`. A source whose join RAISED is therefore indistinguishable from a
+  source with genuinely nothing mined, and it loses its **entire** Feats chapter rather than
+  the one entity that broke. Reachable via `feats_index`'s unguarded `.get()` calls on
+  catalogue entries and feat items: one non-dict item anywhere in a source's `entries` or in
+  one `readfeats` file raises `AttributeError` and takes the whole source down with it.
+  **Verified DORMANT today** — scanned all `data/records/*.json` and all 1,241
+  `data/readfeats/**/*.json`: zero non-dict items. Filed rather than patched because the fix is
+  a contract choice (fail loud and lose the run, or record the skip somewhere the owner
+  actually reads — `output/index/failures.json` is the file CLAUDE.md points at and manifest-
+  build-time skips never reach it). This is the exact shape `silence.py`'s own header essay
+  names as the project's recurring defect: the loss gets filed as a result.
+- **[m48] 70 sources carry catalogue entries whose names collide under `feats_index._norm`,
+  and only the first survives the join map.** `entries_by_norm.setdefault(_norm(name), e)`
+  keeps the first entry per normalised key. Measured across all 209 record files: **70 sources
+  affected**, worst `dr-firestorm-s-engineering-corps.json` with **125 collisions**, then
+  `adventurers-league` and `all-black-ops` at 75 each. Zero entries normalise to the empty
+  string, so the degenerate case is absent. Two distinct causes are mixed in the count and they
+  want different answers: exact duplicates (`Power Boots` vs `Power Boots`, `KGB` vs `KGB` —
+  a catalogue-quality question about duplicate entries) and genuine spelling folds
+  (`New Hampshire Darkmagics` vs `Newhamp Shire (Darkmagics)` — the join doing its job).
+  **Not a data-loss bug as far as measured**: the feats still attach to the surviving twin and
+  still reach the chapter. What is lost is the ability of the second entry to carry evidence.
+  **Owner call** on whether duplicate catalogue entries should be merged upstream; do NOT
+  "fix" this by loosening `_norm`, which §19o forbids for the reasons in m45's paper trail.
 - **[m44] `hostcheck.null_rate` computes its sampling stride from the WRONG list — currently
   inert, deliberately not fixed.** `foreign = sorted(set(foreign))[::max(1, len(foreign) //
   sample)][:sample]`: the RHS is evaluated before the assignment, so `len(foreign)` is the length
@@ -189,6 +279,45 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #10 (2026-08-24 ~12:55 local, export commit = run #10's `publish.py --push` sync). Full
+detail in HANDOFF.md's run #10 entry:*
+
+- **[m49] `allsweep`'s "what is actually running" check reported 4 live jobs against a process
+  table holding 9 — for four runs straight (#7, #8, #9, #10).** Root cause was NOT the process
+  matching, which every run had assumed and which is why it stayed open: the block iterated a
+  **hardcoded four-job tuple** `("read.py", "feats.py --roll", "pipeline.py", "overnight.py")`.
+  Dashboard, publish, foreman, overwatch and autostart were never asked about. The roster was
+  one of THREE partial copies of the same list — `overnight.main()`'s `STANDING` held five and
+  `autostart`'s status display held six — none of them agreeing, none of them the source of
+  truth. A job missing from a roster does not read as "not listed"; it reads as NOT RUNNING,
+  and this is the reading a later run would have trusted to declare a job dead.
+  **Fix:** hoisted `STANDING` from inside `overnight.main()` to module scope and added
+  `overnight.ALL_JOBS` (the standing set plus `read.py`, `feats.py --roll`, `overnight.py`,
+  `autostart.py`) as the single roster; `allsweep` now imports it instead of keeping its own.
+  A job at zero is now reported as `NOT RUNNING` rather than silently omitted, and is
+  deliberately NOT counted as a bad subsystem — the keeper restores a standing job within five
+  minutes and a job between laps is not a fault. **Verified:** allsweep now reports all nine
+  standing jobs, exit still `0 subsystem(s) in a bad state`. Pinned by verify_math §19p (4
+  checks), including one that fails if a private copy of the job list grows back in `allsweep`.
+- **[m50] `manifest_builder`'s `FEATS_BLOCK_CHARS` comment carried a false measurement and a
+  false citation.** It claimed feats are "far denser than catalogue entries -- 137 characters
+  each". Measured over all 39,862 feats on disk: **207.0 chars each**, and a feat is **0.30x**
+  the size of a catalogue entry (683.6 chars), so the density comparison was backwards too. The
+  comment's own worked example already refuted the figure — 121,299 / 569 = 213. It also
+  credited the input-attention-thinning measurement to `generate.py`, which explicitly
+  attributes it to `read.py` (the measurement is at `read.py:80`). **No code changed: the
+  conclusion the comment supports was right the whole time** — the weight is per ENTITY, where
+  ~7,079 chars of feats stand against 683 for a catalogue entry, 10.4x, exactly the "order of
+  magnitude" the last sentence turns on. Corrected in place, with the per-entity arithmetic
+  written out so the next reader can check it. The two other figures in the comment (569 feats
+  / 121,299 chars for Goku's techniques; 39 entities over 30,000) verified **exact**.
+  Also documented there: the budget is a floor, not a ceiling — `cost()` weighs only each
+  entity's `feats` list while the emitted block also carries per-entity metadata, so measured
+  blocks run ~10% over (Warhammer 40,000: 106 blocks, median 20,464, max 21,993 against a
+  nominal 20,000). Still 8,000 clear of the 30,000 line, so the margin holds; it is narrower
+  than the number suggests. `pack_feats` itself was audited and is **correct** — 7,354 feats in,
+  7,354 emitted, genuine pagination, no cap.
 
 *Run #9 (2026-08-24 12:30 local, export commit = run #9's `publish.py --push` sync). Full detail
 in HANDOFF.md's run #9 entry:*

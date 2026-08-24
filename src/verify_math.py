@@ -1964,6 +1964,32 @@ check("_norm still folds case and punctuation",
 check("two disambiguated forms of one character stay DISTINCT",
       _FI._norm("Wally West (New Earth)") == _FI._norm("Wally West (Prime Earth)"), False)
 
+
+# ---- Section 19p: ONE job roster, not four partial copies of one ------------------------------
+# Added 2026-08-24 (maintenance run #10). `allsweep`'s "what is actually running" block carried
+# its own four-job tuple while the keeper's STANDING set held five and `autostart`'s status
+# display held six. It therefore reported 4 live jobs against a process table holding NINE, in
+# runs #7, #8, #9 and #10 -- and a job missing from the roster does not read as "not listed", it
+# reads as NOT RUNNING. That is the reading a later run would trust to decide a job had died.
+# These checks fail if anyone re-hardcodes a roster next to the real one.
+import overnight as _ON      # noqa: E402
+
+_standing_basenames = [os.path.basename(args[0]) for _n, args, _l in _ON.STANDING]
+check("every job the keeper restarts is visible to the roster readers",
+      [j for j in _standing_basenames if j not in _ON.ALL_JOBS], [],
+      note="a STANDING job absent from ALL_JOBS is invisible to every 'is it up?' check")
+check("the roster also carries the jobs the keeper does NOT restart",
+      all(j in _ON.ALL_JOBS for j in ("read.py", "feats.py --roll", "overnight.py",
+                                      "autostart.py")), True,
+      note="read.py and feats.py --roll hang off the supervisor's main lap, not the keeper")
+check("the roster names each job exactly once", len(set(_ON.ALL_JOBS)), len(_ON.ALL_JOBS))
+
+_allsweep_src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "allsweep.py"),
+                     encoding="utf-8").read()
+check("allsweep reads the shared roster instead of keeping its own",
+      "ALL_JOBS" in _allsweep_src, True,
+      note="if this fails, a private copy of the job list has grown back in allsweep")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

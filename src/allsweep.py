@@ -297,12 +297,23 @@ def reconcile():
                            capture_output=True, text=True, timeout=120,
                            encoding="utf-8", errors="replace", creationflags=_NO_WIN)
         live = [ln.strip() for ln in (r.stdout or "").splitlines() if ln.strip()]
-        for job in ("read.py", "feats.py --roll", "pipeline.py", "overnight.py"):
+        # The roster comes from overnight.ALL_JOBS, not from a copy kept here. The four-job
+        # tuple this replaced omitted dashboard, publish, foreman, overwatch and autostart, so
+        # the sweep reported "4 running" against a process table holding nine -- for four runs
+        # straight. Nothing was down; the roster simply could not see them. A hand-kept subset
+        # of a list that lives somewhere else is a false negative with a delay fuse, and this
+        # is the reading a later run would trust to decide a job had died.
+        import overnight as _ON
+        for job in _ON.ALL_JOBS:
             n = sum(1 for ln in live if job in ln)
             if n > 1:
                 note("MORE THAN ONE INSTANCE RUNNING", f"{job}: {n} processes", n)
             elif n:
                 note("running", job, n)
+            else:
+                # Reported, not counted as a bad subsystem: on this machine the keeper brings a
+                # standing job back within five minutes, and a job between laps is not a fault.
+                note("NOT RUNNING", job, 0)
     except Exception as e:
         note("process check failed", f"{type(e).__name__}: {str(e)[:90]}")
 

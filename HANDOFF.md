@@ -9,6 +9,120 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 12:55 (local) — Run #10 (the thing throttling the library was never ours)
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets, no money movement, no data loss.** Paid lane unchanged for a fifth run:
+   `598 used / cap 500`, `paid_lane_open()` → **False**. M4 is still your decision, not a leak.
+   `WIKI_HOSTS.json` unchanged — md5 `451703b8…`, 202 bindings, 191 non-empty.
+2. **ONE ACTION WOULD GIVE THE WHOLE KIT ITS FREE LOCAL MODEL BACK, and it is not a code fix.**
+   A process called `semsearch.cli watch` (PID 25188, started yesterday 13:46, **parent PID 9420
+   is dead**) was holding **13,942 of the 13,945 established connections to your Ollama daemon**
+   — 28,044 sockets to `127.0.0.1:11434` in total, 14,098 of them in TIME_WAIT, so it is churning
+   connections continuously. Panscriptum's own pipeline and overwatch held **one each**, queued
+   behind it. **It is not a Panscriptum process, so this pass did not touch it** — stopping or
+   restarting it is your call. Filed as **BUGS M5**. Measured cost: a request needing 50 ms of
+   compute came back in 0.057 s when it caught a free slot and in 28.4 s and 35.0 s when it did
+   not; by 12:50 a 4,000-character prompt would not answer inside 240 seconds at all.
+3. **That single finding closes three open questions that had been mis-attributed for two runs.**
+   The foreman's *"GPU busy and no spare pool capacity"*, `OVERWATCH.json` frozen at 68/64 across
+   runs #8–#10, and **m31** (pipeline alive but no `returned N/M` line since 11:52) are one cause,
+   not three. Overwatch has completed **zero rounds since 11:37** — `state/overwatch.log` shows
+   nothing but `ollama failed after 3 tries: TimeoutError` at 11:53, 12:02, 12:12 and 12:27. Both
+   pipeline and overwatch were verified holding an ESTABLISHED socket to 11434: **queued, not
+   wedged, not broken.** Two runs had these filed as a possible merge fault and an unmeasurable
+   pipeline.
+4. **A Hard Rule 0 truncation is loaded and pointed at the Feats chapter, and has not fired yet.**
+   The feats prompt is **~1.9x larger than the context window it is sent into** — 41,469
+   characters of input against `num_ctx: 6144`. Ollama truncates rather than refuses, and the
+   coverage check only looks for the entity's NAME, so a chapter missing half its deeds would be
+   written to the catalog as complete. **Nothing is corrupted: no feats chapter has ever been
+   generated** (`catalog.json` holds 0 Feats addresses). Every remedy is a VRAM trade on a 10 GB
+   card, so it is **BUGS m46, a decision for you, and it should be settled BEFORE the first feats
+   generation run.**
+5. **fandom.com is still down at the socket**, runs #5–#10. Both `health --preflight` FAILs are
+   the known M3/M1 outages, not new faults.
+
+**THE RUN'S THEME: we kept diagnosing our own machine for a problem coming from outside it.**
+Run #9 measured the local-model saturation carefully and correctly — 32.6 s wall for 28 ms of
+compute — and concluded it was honest contention between Panscriptum's own jobs over the one
+installed model, and that the right output was *no code change*. The measurement was right and
+reproduced exactly this run (0.057 s / 28.4 s / 35.0 s for ~50 ms of work). **The attribution was
+wrong**, and it was wrong in the direction that costs the most: it made an external, fixable
+condition look like an internal, permanent one, and told the next three runs not to look. What
+found it was not a smarter reading of the logs — it was asking *who else is on this port*.
+
+**M5 — THE ORPHAN THAT ISN'T OURS.** The check run #9 promoted to the top of the queue (list
+processes, read the parent PID) works, and this run ran it first. It came back clean: all nine
+standing Panscriptum jobs alive under live parents, no strays. The orphan was invisible to it
+**because the check is scoped to command lines matching `panscriptum`**, and this one is
+`semsearch.cli watch`. It has the same shape as m40 and m42 — long-running, parent dead, nothing
+left that can ever kill it — but it belongs to a different project and contends for a SHARED
+resource. Filed as a refinement under **m43**, which asked whether the kit should detect orphans:
+the rule as drafted would have **missed this one entirely** and would **false-positive forever on
+`autostart.py --watch`**, whose parent is legitimately dead because it is the login launcher. The
+useful question is not "whose parent is dead" but "what is holding the resources we need."
+
+**m49 — `allsweep` HAS BEEN LYING ABOUT WHICH JOBS ARE UP FOR FOUR RUNS, and the cause was not
+what anyone assumed.** Runs #7–#10 all recorded the same disagreement: allsweep reports 4 running
+jobs, the process table holds 9. Every entry framed it as a matching false-negative and suggested
+starting by reading how it matches a process. It does not match badly — **it iterates a hardcoded
+four-job tuple** and never asks about dashboard, publish, foreman, overwatch or autostart. That
+roster was one of THREE partial copies of the same list living in three files, none agreeing and
+none authoritative. Hoisted `STANDING` to module scope in `overnight.py`, added `ALL_JOBS`, and
+`allsweep` now imports it; a job at zero is reported as `NOT RUNNING` instead of silently omitted,
+and deliberately does not count as a bad subsystem, because the keeper restores a standing job
+within five minutes. **Verified: all nine now reported, exit still `0 subsystem(s) bad`.** Pinned
+by **verify_math §19p**, including a check that fails if a private roster grows back in allsweep.
+*The lesson worth keeping: four runs described this symptom accurately and each proposed the same
+wrong starting point, because the first run to see it guessed a cause in passing and every run
+after inherited the guess as the description.*
+
+**m50 — a false measurement in an hour-old comment, again.** Run #9 found two false claims in
+`feats_index` written that morning; the neighbouring `FEATS_BLOCK_CHARS` comment in
+`manifest_builder` had a third. It claimed feats are "far denser than catalogue entries — 137
+characters each." Measured over all 39,862 feats: **207.0 chars each**, and a feat is **0.30x** a
+catalogue entry, so the comparison was backwards too. **The comment's own worked example already
+refuted it** — 121,299 / 569 = 213. It also credited the attention-thinning measurement to
+`generate.py`, which explicitly credits `read.py`. **No code changed, because the conclusion was
+right the whole time**: the weight is per ENTITY, ~7,079 chars of feats against 683 for a
+catalogue entry — 10.4x, exactly the "order of magnitude" the argument turns on. Corrected with
+the arithmetic written out. The comment's other two figures verified exact.
+
+**What the audit did NOT find, stated because a clean result is worth as much as a finding.**
+`pack_feats` is correct: on Warhammer 40,000, 7,354 feats in and 7,354 emitted across 106 blocks,
+genuine pagination with contiguous spans, no cap, no drop. Ordering is deterministic under varied
+hash seeds. The recipe/content-hash resume path is sound. Two subagents (sonnet, read-only) were
+spawned against the surface `NEXT_STEPS` named as never-reviewed; **every finding was
+re-verified against the source before anything was written**, and one — "no live data triggers
+the join's name collisions" — turned out to be wrong in the safe direction: there are **70
+sources with collisions**, worst at 125 (m48).
+
+**Queue items closed this run:**
+* **Q1 (m31) — CAUSE FOUND, and it is M5.** Still no `returned N/M` line, but `pipeline.py` was
+  verified holding an ESTABLISHED socket to the Ollama daemon: it is queued behind the orphan.
+  The consequence of run #7's `ask_pool_first` fix remains **neither confirmed nor refuted** —
+  but the reason is now known rather than open.
+* **Q2 (m42 guard / hosts)** — `WIKI_HOSTS.json` md5 `451703b8…`, 202/191, unchanged. Holds.
+* **Q3 (orphans)** — ran first, as instructed. Clean for Panscriptum; see M5 for what it missed.
+* **Q4 (m40 merge)** — `OVERWATCH.json` at **68 rounds / 64 findings** for a THIRD run. Per the
+  queue's own instruction, read `state/overwatch.log` before assuming: it shows zero completed
+  rounds since 11:37 and four consecutive Ollama timeouts. **Not a merge fault. Starvation.**
+* **Q6 (M4 money)** — `598 False`. Fifth flat run.
+
+**On the delegation ladder, honestly:** rung (b) was measured before use and found starved — and
+this time the cause was diagnosed rather than accepted, which is what produced M5. Two sonnet
+subagents at rung (c), on the rotation list's named highest-yield surface. Everything they
+returned was verified here before it reached a file.
+
+**Battery:** verify_math **431 passed / 0 FAILED** (+4, §19p) · allsweep **0 subsystems bad** (81s,
+now reporting 9 running jobs instead of 4) · health --preflight **2 FAIL, both the known M3/M1
+outages** · silence **12 silent handlers, roster unchanged** · pyflakes **1 pre-existing warning**
+(`deprecated/catalogue_local.py:244`).
+
+---
+
 ## 2026-08-24 12:30 (local) — Run #9 (the fix that made the next orphan, and the 240 stranded deeds nobody was going to look for)
 
 **FOR THE OWNER, AT THE TOP:**

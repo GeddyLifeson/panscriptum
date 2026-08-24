@@ -299,6 +299,31 @@ MIN_CYCLE_SECONDS = 300
 IDLE_LIMIT = 3
 WAIT_SECONDS = 600
 
+# THE STANDING SET — the jobs the keeper re-asserts every five minutes. Module-level, and
+# deliberately so: this roster used to live inside main() while THREE other places carried
+# their own partial copy of it (allsweep's process check knew four jobs, autostart's status
+# display knew six, this knew five). A job missing from a roster does not read as "not
+# listed", it reads as NOT RUNNING — which is how allsweep came to report 4 live jobs across
+# runs #7-#10 while the process table held nine. One list, imported by its readers.
+STANDING = [
+    ("dashboard", [os.path.join(SRC, "dashboard.py"), "--port", "8777"], "dashboard.log"),
+    ("publish", [os.path.join(SRC, "publish.py"), "--push", "--loop", "10"], "publish.log"),
+    ("foreman", [os.path.join(SRC, "foreman.py"), "--go", "--patch", "--loop", "30"],
+     "foreman.log"),
+    ("overwatch", [os.path.join(SRC, "overwatch.py"), "--loop", "20", "--modules", "4"],
+     "overwatch.log"),
+    ("pipeline", [os.path.join(SRC, "pipeline.py")], "pipeline_auto.log"),
+]
+
+# Every long-lived job the kit runs, as the command-line fragment that identifies it. The
+# keeper's STANDING set is the subset it can restart on its own; `read.py` and `feats.py
+# --roll` hang off this supervisor's hours-long main lap, and the supervisor and its launcher
+# sit above all of it. Anything asking "what should be up right now?" reads THIS, not a
+# hand-kept subset of it.
+ALL_JOBS = (["autostart.py", "overnight.py"]
+            + [os.path.basename(args[0]) for _n, args, _l in STANDING]
+            + ["read.py", "feats.py --roll"])
+
 
 def tail(path, name, n=12):
     """Put a failed job's last words in the supervisor log.
@@ -407,16 +432,6 @@ def main():
     # minutes from wherever the cycle happens to be blocked. start() keeps the singleton
     # guard, so the keeper can never double anything.
     import threading as _th
-
-    STANDING = [
-        ("dashboard", [os.path.join(SRC, "dashboard.py"), "--port", "8777"], "dashboard.log"),
-        ("publish", [os.path.join(SRC, "publish.py"), "--push", "--loop", "10"], "publish.log"),
-        ("foreman", [os.path.join(SRC, "foreman.py"), "--go", "--patch", "--loop", "30"],
-         "foreman.log"),
-        ("overwatch", [os.path.join(SRC, "overwatch.py"), "--loop", "20", "--modules", "4"],
-         "overwatch.log"),
-        ("pipeline", [os.path.join(SRC, "pipeline.py")], "pipeline_auto.log"),
-    ]
 
     def _keep():
         while True:

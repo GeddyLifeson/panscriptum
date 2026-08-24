@@ -109,12 +109,29 @@ def chunk(lst, size):
         yield lst[i:i + size], i + 1, min(i + size, len(lst))
 
 
-# Characters of feat JSON one generation call may carry. `generate.py`'s own note records the
-# measured lesson: input attention thins past ~30,000 characters and entries start going
-# missing. Feats are far denser than catalogue entries -- 137 characters each, and one entity
-# ("List of techniques used by Goku") carries 569 of them for 121,299 characters on its own,
-# with 39 entities exceeding 30,000. Blocking by ENTITY COUNT would therefore have produced
-# single calls an order of magnitude past the point where the model silently drops material.
+# Characters of feat JSON one generation call may carry. The measured lesson is `read.py`'s,
+# not `generate.py`'s (generate.py cites it for OUTPUT attention; the input measurement is at
+# read.py:80 -- 10,000 chars/5 chunks found 41 feats where 36,000 chars/2 chunks found 19).
+# Input attention thins past ~30,000 characters and material starts going missing.
+#
+# The weight is per ENTITY, which is the unit blocking would otherwise have used: a feat is
+# 207 characters (measured 2026-08-24 over all 39,862 on disk) and an entity carries a mean of
+# 34 of them, so ~7,079 characters of feats per entity against 683 for its catalogue entry --
+# 10.4x, the order of magnitude this comment's last sentence turns on. One entity ("List of
+# techniques used by Goku") carries 569 deeds for 121,299 characters alone, and 39 entities
+# exceed 30,000. Blocking by ENTITY COUNT would therefore have produced single calls an order
+# of magnitude past the point where the model silently drops material.
+#
+# Corrected in maintenance run #10: this comment claimed "137 characters each" and called
+# feats "far denser than catalogue entries". Both were wrong -- 207, and a feat is 0.30x a
+# catalogue ENTRY, denser only per entity. The comment's own worked example already refuted
+# the figure (121,299 / 569 = 213). The conclusion it supports was right the whole time.
+#
+# The budget is a floor on emitted size, not a ceiling: `cost()` weighs only each entity's
+# `feats` list, while the block also carries entity/shelfmark/magnitude/topic/pages/axis_counts
+# per entity. Measured on Warhammer 40,000 (the richest source, 91 rows, 7,354 deeds): 106
+# blocks, median 20,464 chars, max 21,993 -- 58 blocks over the nominal 20,000, none within
+# 8,000 of the 30,000 line. The margin is real but ~10% narrower than the number suggests.
 FEATS_BLOCK_CHARS = 20000
 
 
