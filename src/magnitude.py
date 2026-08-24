@@ -753,24 +753,45 @@ def config():
 
 
 def calibrate():
+    """Run the charter's published assays through the WHOLE automation and persist the verdict.
+
+    This is the instrument's regression test: the model is never shown the target, the run
+    goes through every gate a stranger's entity would (evidence mine, split, epoch mandate,
+    ceiling clamp), and the result lands in data/CHARTER_REGRESSION.json where a standard
+    reads it. Consistency is interval OVERLAP -- two measurements with error bars agree when
+    |got - published| <= ci_published + ci_got -- because the automation's honest coverage
+    (it scores only the axes whose feats survive the verbatim gate) legitimately differs from
+    a hand worksheet's, and demanding the point value land inside the charter's own interval
+    would fail runs the instrument actually got right.
+    """
     c = config()
     print(f"model: {c['model']}\n")
     print(f"{'entity':<20}{'charter':>10}{'assayed':>12}{'band':>7}{'axes':>6}"
           f"{'rej':>5}  worksheet")
     print("-" * 96)
-    band_hits = 0
+    band_hits, rows = 0, []
     for name, host, band, val, ci, epoch in BENCHMARKS:
         t = time.time()
         sc = SCOPE.scope_for(host) if host else None
         cl = (sc["scope"], sc["ceiling"]) if sc else None
         r = assay_entity(c, name, host, epoch=epoch, ceiling=cl)
         res = r.get("result")
+        row = {"entity": name, "host": host, "published": val, "ci": ci, "band": band}
         if not res or res.get("decimal") is None:
+            row.update({"status": r.get("status") or "NO_SCORE",
+                        "reason": (r.get("reason") or "band only")[:120], "consistent": None})
+            rows.append(row)
             print(f"{name:<20}{band + '.' + str(int(val % 1 * 100)):>10}{'--':>12}{'--':>7}"
                   f"{'--':>6}{len(r.get('rejections', [])):>5}  {r.get('reason', 'band only')[:40]}")
             continue
         got_band = res["magnitude"]
         band_hits += (got_band == band)
+        got_val = float(str(got_band)[1:]) + float(res.get("decimal") or 0)
+        got_ci = float(res.get("interval") or 0)
+        row.update({"status": "SCORED", "got_band": got_band, "got": round(got_val, 2),
+                    "got_ci": got_ci, "band_match": got_band == band,
+                    "consistent": got_band == band and abs(got_val - val) <= ci + got_ci})
+        rows.append(row)
         mark = "OK" if got_band == band else "MISS"
         print(f"{name:<20}{band}.{int(val % 1 * 100):02d}{'':>4}"
               f"{res['moth_number'][2:14]:>12}{mark:>7}"
@@ -778,6 +799,10 @@ def calibrate():
               f"{time.time() - t:.0f}s")
     print("-" * 96)
     print(f"anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays")
+    out = {"at": time.time(), "model": c["model"], "results": rows}
+    with open(os.path.join(HERE, "data", "CHARTER_REGRESSION.json"), "w",
+              encoding="utf-8") as f:
+        json.dump(out, f, indent=1, ensure_ascii=False)
     return band_hits
 
 

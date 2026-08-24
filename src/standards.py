@@ -433,6 +433,40 @@ def check(state=None):
     except Exception:
         silence.note("standards.py:reference-assays")
 
+    # The standard above proves the ARITHMETIC; this one proves the AUTOMATION. calibrate()
+    # runs the charter's six published assays through the whole live chain -- evidence mine,
+    # split, epoch mandate, ceiling clamp, cascade transport -- and persists the verdict.
+    # Consistency is interval overlap (see calibrate's docstring). A file older than 26h means
+    # the regression has not run today and the foreman dispatches it; that is the freshness
+    # floor, not a fault in the instrument.
+    try:
+        reg_path = os.path.join(HERE, "data", "CHARTER_REGRESSION.json")
+        try:
+            with open(reg_path, encoding="utf-8") as f:
+                reg = json.load(f)
+            age_h = (time.time() - float(reg.get("at") or 0)) / 3600
+            rows = [r for r in (reg.get("results") or []) if isinstance(r, dict)]
+        except Exception:
+            reg, age_h, rows = None, 1e9, []
+        scored = [r for r in rows if r.get("status") == "SCORED"]
+        bad = [r for r in scored if not r.get("consistent")]
+        holds = bool(scored) and not bad and age_h <= 26
+        if reg is None:
+            obs = "never run"
+        else:
+            obs = "%d/%d consistent, %d unscored, %.0fh old" % (
+                len(scored) - len(bad), len(scored), len(rows) - len(scored), age_h)
+        out.append(_s(
+            "the automation reproduces the charter", holds, obs,
+            "every scored reference overlaps its published interval, within 26h",
+            "The charter's six published assays re-run end-to-end through the live automation "
+            "daily -- the same code path a stranger's entity takes. A reference that stops "
+            "overlapping its published interval means something in the chain drifted (prompt, "
+            "gate, clamp, transport), and every number published since the drift is suspect.",
+            "high", "instrument"))
+    except Exception:
+        silence.note("standards.py:charter-regression")
+
     try:
         with open(os.path.join(HERE, "data", "ALLSWEEP.json"), encoding="utf-8") as f:
             sweep = json.load(f)

@@ -344,7 +344,34 @@ def dead_buckets():
         return {b: round(t - now) for b, t in _DEAD.items() if t > now}
 
 
+_METRICS = os.path.join(HERE, "state", "model_metrics.jsonl")
+
+
+def _metric(row):
+    """Same ledger pipeline.ask writes, cloud lane. Ollama reports token counts; a stream
+    through Cascade does not, so these rows carry character counts and the aggregator keys on
+    which fields exist. Append-only, best-effort -- a metrics failure must never cost a call."""
+    try:
+        with open(_METRICS, "a", encoding="utf-8") as f:
+            f.write(json.dumps(row) + chr(10))
+    except Exception:
+        silence.note("cascade_bridge.py:metric")
+
+
 def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75, pin=None):
+    """Instrumented wrapper: wall time, outcome and answering model per call, so 'the pool got
+    slow' is a measurement rather than a feeling. The real work is _ask_call."""
+    t0 = time.time()
+    got = _ask_call(system, prompt, schema=schema, pool=pool, temperature=temperature,
+                    timeout=timeout, pin=pin)
+    _metric({"at": round(t0, 1), "tag": "cascade:" + pool, "s": round(time.time() - t0, 2),
+             "ok": got is not None, "model": (got or {}).get("_via") or "",
+             "in_chars": len(system) + len(prompt),
+             "out_chars": len(json.dumps(got, default=str)) if got is not None else 0})
+    return got
+
+
+def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75, pin=None):
     """One structured call through Cascade. Returns a parsed dict, or None.
 
     Mirrors pipeline.ask() so a caller can swap transports without changing anything else.

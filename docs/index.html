@@ -175,6 +175,17 @@ function panelSpend(d){const s=el('section');
     const o=el('td',null,b.ok+' ok');tr.append(a,c,o);t.appendChild(tr)});
   s.appendChild(t);return s}
 
+function panelMetrics(d){const s=el('section');
+  s.appendChild(el('h2',null,'Call metrics — recent, per lane'));
+  if(!d.metrics||!d.metrics.length){s.appendChild(el('div','empty','No instrumented calls yet.'));return s}
+  const t=el('table');
+  d.metrics.forEach(m=>{const tr=el('tr');
+    tr.append(el('td','k',m.tag),el('td',null,m.n+' calls'),
+      el('td',null,'p50 '+m.p50+'s / p95 '+m.p95+'s'),
+      el('td',null,m.ok_pct==null?(m.tps==null?'':m.tps+' tok/s'):m.ok_pct+'% ok'));
+    t.appendChild(tr)});
+  s.appendChild(t);return s}
+
 function panelLibrary(d){const s=el('section');s.appendChild(el('h2',null,'The library'));
   const L=d.library;
   if(L.coverage){const c=L.coverage;
@@ -229,7 +240,7 @@ async function tick(){
     document.getElementById('stamp').textContent=d.at;
     const w=document.getElementById('wrap');w.innerHTML='';
     w.append(panelMovement(d),panelStandards(d),panelJobs(d),panelQuota(d),panelSpend(d),
-             panelLibrary(d),panelPhases(d),panelWatch(d));
+             panelMetrics(d),panelLibrary(d),panelPhases(d),panelWatch(d));
   }catch(e){document.getElementById('stamp').textContent='server unreachable';}
 }
 tick();setInterval(tick,30000);

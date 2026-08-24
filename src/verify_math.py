@@ -1017,6 +1017,119 @@ check("but a person with 'of' in the name is",
 check("job log names are shared constants, not string twins",
       LN.READ == "read_auto.log" and LN.ROLL == "roll_auto.log", True)
 
+
+# ---- Section 18b: the assay's TOPOLOGY under a mocked transport ---------------------------------
+#
+# Section 18 proves the pure functions; this proves the ROUTING -- the five ways a call can go
+# (one-shot scored, junk one-shot rescued by the split retry, epoch refusal, no transport,
+# split-first over the recall cliff) with every model call faked, so the test is deterministic,
+# free, and runs with the pool down. Each fake answers the schema it is shown; the real compose,
+# verify, gates and clamp all run.
+
+import cascade_bridge as _CBm
+
+_FEAT = "He destroyed the entire fortress city with a single unaided strike."
+_AX0 = next((ax for ax in MG.AXES if MG.AXIS_RE[ax].search(_FEAT)), None)
+check("the probe feat lands in some axis vocabulary", _AX0 is not None, True,
+      note="if this fails the vocab changed; pick a new probe sentence")
+
+_EV = {"text": {}, "quantities": [], "pages_read": 1}
+_CAND_HOLDER = [None]
+_CFG = {"model": "mock", "ollama_host": "http://localhost:11434", "seed": 47, "num_ctx": 6144}
+
+
+def _cand_small():
+    c = {ax: [] for ax in MG.AXES}
+    c[_AX0] = [{"feat": _FEAT, "page": "TestPage"}]
+    return c
+
+
+def _good_axes():
+    return {ax: ({"score": 2.0, "feat": _FEAT} if ax == _AX0
+                 else {"score": "unestimable", "feat": ""}) for ax in MG.AXES}
+
+
+_saved = (MG.F.evidence_for, MG.candidates, _CBm.ask, MG.P.ask, MG._ask, MG._POOL[0])
+try:
+    MG.F.evidence_for = lambda host, entity: dict(_EV)
+    MG.candidates = lambda ev, cap=None: {k: [dict(r) for r in v]
+                                          for k, v in _CAND_HOLDER[0].items()}
+    MG._POOL[0] = True
+    MG.P.ask = lambda *a, **k: None
+
+    # A. one-shot scored, and the source ceiling clamps the anchor
+    _CAND_HOLDER[0] = _cand_small()
+    _CBm.ask = lambda *a, **k: {"anchor": "M2", "presence_evidence": _FEAT,
+                                "epoch": "test era of the mock", "axes": _good_axes()}
+    _rA = MG.assay_entity(_CFG, "Mock Entity", "example-not-mandated.org",
+                          ceiling=("test scope", "M1"))
+    check("one-shot path scores", (_rA.get("result") or {}).get("decimal") is not None, True)
+    check("and travels as 'pool'", _rA.get("transport"), "pool")
+    check("and the ceiling clamps the anchor", (_rA.get("result") or {}).get("magnitude"), "M1")
+    check("and a scored sheet is settled", MG.settled(_rA), True)
+
+    # B. junk one-shot (every citation fabricated) -> split retry rescues it
+    _junk = {ax: {"score": 2.0, "feat": "A completely invented sentence about triumph."}
+             for ax in MG.AXES}
+    _CBm.ask = lambda *a, **k: {"anchor": "M0", "presence_evidence": "x",
+                                "epoch": "test era of the mock", "axes": dict(_junk)}
+
+    def _fake_split_ask(c, system, prompt, schema, timeout=420):
+        if "anchor" in (schema.get("properties") or {}):
+            return {"anchor": "M2", "presence_evidence": _FEAT,
+                    "epoch": "test era of the mock"}
+        return {"score": 2.0, "feat": _FEAT}
+
+    MG._ask = _fake_split_ask
+    _rB = MG.assay_entity(_CFG, "Mock Entity", "example-not-mandated.org")
+    check("a fabricated one-shot is rescued by the split retry",
+          _rB.get("transport"), "split-retry")
+    check("and the retry scores from real candidates",
+          (_rB.get("result") or {}).get("decimal") is not None, True)
+
+    # C. the epoch mandate: an unstamped sheet from a mandated host is refused...
+    _CBm.ask = lambda *a, **k: {"anchor": "M2", "presence_evidence": _FEAT,
+                                "epoch": "unknown", "axes": _good_axes()}
+    _rC = MG.assay_entity(_CFG, "Mock Entity", "mtg.fandom.com")
+    check("a mandated host refuses an unstamped sheet", _rC.get("status"), "DEFERRED")
+    check("and says why", "epoch" in (_rC.get("reason") or ""), True)
+
+    # ...and a stamped one passes the same gate
+    _CBm.ask = lambda *a, **k: {"anchor": "M2", "presence_evidence": _FEAT,
+                                "epoch": "post-Mending", "axes": _good_axes()}
+    _rC2 = MG.assay_entity(_CFG, "Mock Entity", "mtg.fandom.com")
+    check("a stamped sheet passes the mandate",
+          (_rC2.get("result") or {}).get("decimal") is not None, True)
+
+    # D. nothing answers anywhere -> DEFERRED, never a truncated or invented sheet
+    _CBm.ask = lambda *a, **k: None
+    MG._ask = lambda *a, **k: None
+    _rD = MG.assay_entity(_CFG, "Mock Entity", "example-not-mandated.org")
+    check("no transport means DEFERRED", _rD.get("status"), "DEFERRED")
+    check("and a deferral is not settled", MG.settled(_rD), False)
+
+    # E. evidence above the recall cliff goes split-FIRST
+    _big = {ax: [] for ax in MG.AXES}
+    _big[_AX0] = [{"feat": "He destroyed the great fortress number %d with a single strike." % i,
+                   "page": "TestPage"} for i in range(700)]
+    _CAND_HOLDER[0] = _big
+    _picked = _big[_AX0][3]["feat"]
+
+    def _fake_big_ask(c, system, prompt, schema, timeout=420):
+        if "anchor" in (schema.get("properties") or {}):
+            return {"anchor": "M2", "presence_evidence": _picked,
+                    "epoch": "test era of the mock"}
+        return {"score": 2.0, "feat": _picked}
+
+    MG._ask = _fake_big_ask
+    _rE = MG.assay_entity(_CFG, "Mock Entity", "example-not-mandated.org")
+    check("oversized evidence goes split-first", _rE.get("transport"), "split")
+    check("and the split path scores",
+          (_rE.get("result") or {}).get("decimal") is not None, True)
+finally:
+    MG.F.evidence_for, MG.candidates, _CBm.ask, MG.P.ask, MG._ask, MG._POOL[0] = _saved
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

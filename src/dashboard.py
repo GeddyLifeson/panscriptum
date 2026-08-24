@@ -314,10 +314,54 @@ def movement(now_state):
     return out
 
 
+def metrics(tail_bytes=250_000):
+    """Per-tag latency and outcome from state/model_metrics.jsonl -- the observability
+    baseline. Local rows (pipeline.ask) carry token counts and tps from Ollama's own eval
+    fields; cloud rows (cascade_bridge.ask) carry ok/chars, because a stream reports no
+    counts. Tail-read only: the ledger is append-forever and the panel wants the recent past,
+    not an archaeology dig."""
+    p = os.path.join(HERE, "state", "model_metrics.jsonl")
+    rows = []
+    try:
+        size = os.path.getsize(p)
+        with open(p, "rb") as f:
+            if size > tail_bytes:
+                f.seek(-tail_bytes, 2)
+            raw = f.read().decode("utf-8", "replace").splitlines()
+        for ln in raw[1:] if size > tail_bytes else raw:
+            try:
+                r = json.loads(ln)
+                if isinstance(r, dict) and r.get("tag"):
+                    rows.append(r)
+            except Exception:
+                pass
+    except Exception:
+        silence.note("dashboard.py:metrics")
+        return []
+    by = {}
+    for r in rows:
+        by.setdefault(r["tag"], []).append(r)
+
+    def pct(v, q):
+        v = sorted(v)
+        return v[min(len(v) - 1, int(q * len(v)))] if v else None
+
+    out = []
+    for tag, rs in sorted(by.items(), key=lambda kv: -len(kv[1])):
+        secs = [r["s"] for r in rs if isinstance(r.get("s"), (int, float))]
+        oks = [r.get("ok") for r in rs if "ok" in r]
+        tps = [r["tps"] for r in rs if isinstance(r.get("tps"), (int, float))]
+        out.append({"tag": tag, "n": len(rs),
+                    "p50": round(pct(secs, 0.5) or 0, 1), "p95": round(pct(secs, 0.95) or 0, 1),
+                    "ok_pct": round(100 * sum(1 for o in oks if o) / len(oks)) if oks else None,
+                    "tps": round(sum(tps) / len(tps), 1) if tps else None})
+    return out
+
+
 def state():
     s = {"at": time.strftime("%Y-%m-%d %H:%M:%S"), "quotas": quotas(),
          "throughput": throughput(), "jobs": jobs(), "library": library(),
-         "watch": watch()}
+         "watch": watch(), "metrics": metrics()}
     try:
         import standards as ST
         s["standards"] = ST.check(s)
@@ -507,6 +551,17 @@ function panelSpend(d){const s=el('section');
     const o=el('td',null,b.ok+' ok');tr.append(a,c,o);t.appendChild(tr)});
   s.appendChild(t);return s}
 
+function panelMetrics(d){const s=el('section');
+  s.appendChild(el('h2',null,'Call metrics — recent, per lane'));
+  if(!d.metrics||!d.metrics.length){s.appendChild(el('div','empty','No instrumented calls yet.'));return s}
+  const t=el('table');
+  d.metrics.forEach(m=>{const tr=el('tr');
+    tr.append(el('td','k',m.tag),el('td',null,m.n+' calls'),
+      el('td',null,'p50 '+m.p50+'s / p95 '+m.p95+'s'),
+      el('td',null,m.ok_pct==null?(m.tps==null?'':m.tps+' tok/s'):m.ok_pct+'% ok'));
+    t.appendChild(tr)});
+  s.appendChild(t);return s}
+
 function panelLibrary(d){const s=el('section');s.appendChild(el('h2',null,'The library'));
   const L=d.library;
   if(L.coverage){const c=L.coverage;
@@ -561,7 +616,7 @@ async function tick(){
     document.getElementById('stamp').textContent=d.at;
     const w=document.getElementById('wrap');w.innerHTML='';
     w.append(panelMovement(d),panelStandards(d),panelJobs(d),panelQuota(d),panelSpend(d),
-             panelLibrary(d),panelPhases(d),panelWatch(d));
+             panelMetrics(d),panelLibrary(d),panelPhases(d),panelWatch(d));
   }catch(e){document.getElementById('stamp').textContent='server unreachable';}
 }
 tick();setInterval(tick,5000);

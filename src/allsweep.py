@@ -255,6 +255,39 @@ def reconcile():
     except Exception as e:
         note("phase reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
 
+    # --- no entry may out-band its own source's ceiling -------------------------------------
+    #
+    # The assay clamps against SCOPE.json, but phase 3's synthesis band and phase 4's entry
+    # bands are two separate model passes over the same source, and nothing compared them: an
+    # entry banded above the fiction it lives in is the Jace fault (M10.77 in an M2-scale
+    # setting) wearing entrypass clothes. Bands are ordinal, so the comparison is one index
+    # lookup per entry -- 'unassayed' rows are skipped, they claim nothing yet.
+    try:
+        import weave_index as WI
+        order = ["M" + str(i) for i in range(11)]
+
+        def _band(s):
+            s = str(s or "").strip().split(".")[0].split(" ")[0]
+            return order.index(s) if s in order else None
+
+        over, examples = 0, []
+        for r in WI.load_records():
+            ceil = _band((r.get("synthesis") or {}).get("provisional_magnitude"))
+            if ceil is None:
+                continue
+            for e in (r.get("entries") or []):
+                b = _band(e.get("magnitude")) if isinstance(e, dict) else None
+                if b is not None and b > ceil:
+                    over += 1
+                    if len(examples) < 6:
+                        examples.append(f"{r['source']}:{e.get('name')} "
+                                        f"{e.get('magnitude')}>{order[ceil]}")
+        if over:
+            note("ENTRIES BANDED ABOVE THEIR OWN SOURCE'S CEILING",
+                 ", ".join(examples), over)
+    except Exception as e:
+        note("band reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
+
     # --- what is actually running right now ------------------------------------------------
     try:
         r = subprocess.run(["powershell", "-NoProfile", "-Command",

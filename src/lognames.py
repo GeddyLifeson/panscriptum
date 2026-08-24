@@ -12,3 +12,4 @@ ROLL = "roll_auto.log"          # the page roll (feats.py --roll)
 PIPELINE = "pipeline_auto.log"  # the phase runner, when the supervisor drives it
 RECATALOGUE = "recatalogue.log"  # catalogue_web --recatalogue, foreman-dispatched
 SWEEP = "sweep.log"             # the character sweep rebuild (sweep.py)
+CALIBRATE = "calibrate.log"     # the daily charter regression (magnitude.py --calibrate)

@@ -456,6 +456,33 @@ def run_completeness_audit():
         return False, "could not start the completeness audit: " + str(e)[:90]
 
 
+def run_charter_regression():
+    """The daily instrument check: the charter's six published assays, end-to-end, live chain.
+
+    Gated on the pool the way the catalogue is gated on fandom: dispatching six full assays
+    into a starved pool produces six DEFERRED rows and a red standard that reads like drift
+    when it is only the meter -- wait for buckets instead.
+    """
+    try:
+        import overnight as ON
+        import lognames as LN
+        if ON.running("--calibrate"):
+            return True, "charter regression already running"
+        try:
+            with open(os.path.join(HERE, "data", "POOL_PROOF.json"), encoding="utf-8") as f:
+                answering = sum(1 for r in json.load(f)
+                                if isinstance(r, dict) and r.get("verdict") == "answers")
+        except Exception:
+            answering = 0
+        if answering < 3:
+            return False, f"pool too thin for the regression ({answering} answering); waiting"
+        ON.start("charter regression", ["src/magnitude.py", "--calibrate"], LN.CALIBRATE)
+        return True, "started magnitude.py --calibrate"
+    except Exception as e:
+        silence.note("foreman.py:run_charter_regression")
+        return False, "could not start the regression: " + str(e)[:90]
+
+
 run_completeness_audit.always = True
 refresh_coverage.always = True
 
@@ -474,6 +501,7 @@ REMEDIES = {
     # the next round is judged against what is true rather than against a stale audit.
     "every source is fully catalogued": [run_catalogue_gap, run_completeness_audit],
     "the character sweep is newer than the catalogue": [run_character_sweep],
+    "the automation reproduces the charter": [run_charter_regression],
     "no bucket pinned at rpm 1": [clear_learned_caps],
     "calls that succeed": [clear_learned_caps, reprove_pool],
     "model calls per hour": [clear_learned_caps, reprove_pool],
