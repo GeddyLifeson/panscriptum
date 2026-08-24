@@ -49,6 +49,10 @@ TEMPLATE = r"""<title>The Registry Terminal</title>
            font-style:italic;margin-top:3px}
   .note{color:var(--muted);font-family:var(--serif);font-style:italic;font-size:11.5px;
         line-height:1.65;margin-top:15px;border-top:1px solid var(--rule);padding-top:11px}
+  /* The shelved-here roster is UNCAPPED (Hard Rule 0) -- it used to be sliced to 8, which hid
+     30 of node 6.6.6's 38 sources behind no indication at all. The panel is bounded by scroll
+     instead of by truncation: every name stays reachable, the box stays a box. */
+  .roster{max-height:190px;overflow-y:auto;margin-top:6px}
   .ctl{display:flex;gap:6px;margin-top:14px}
   .ctl button{flex:1;background:none;border:1px solid var(--rule);color:var(--muted);
     cursor:pointer;padding:6px;font-family:var(--mono);font-size:11px;border-radius:2px}
@@ -465,8 +469,11 @@ function panel(){
   const kind = k==="" ? "omniverse" : nd.t;
   const worlds = k==="" ? DATA.roots.reduce((a,r)=>a+DATA.nodes[r].n,0) : nd.n;
   const srcs = k==="" ? DATA.roots.reduce((a,r)=>a+DATA.nodes[r].src,0) : nd.src;
+  // SUM, not short-circuit. `a||b||c` returns the FIRST non-zero, so a node holding both
+  // branch-children and shelved sources reported only its branches: 6.6.6 showed "contains 7"
+  // while actually holding 7 branches and 38 shelved sources. 37 nodes were undercounting.
   const holds = k==="" ? DATA.roots.length
-    : (nd.k.length||(nd.w?nd.w.length:0)||(nd.s?nd.s.length:0));
+    : (nd.k.length + (nd.w?nd.w.length:0) + (nd.s?nd.s.length:0));
   p.innerHTML=`<h2>${tier}</h2>
     <div class="endo">${kind}</div>
     <div class="mark">${shelfmark(k)}</div>
@@ -474,7 +481,7 @@ function panel(){
     <div class="row"><span>contains</span><span>${holds}</span></div>
     <div class="row"><span>worlds below</span><span>${worlds.toLocaleString()}</span></div>
     <div class="row"><span>sources below</span><span>${srcs.toLocaleString()}</span></div>
-    ${nd&&nd.s&&nd.s.length?`<p class="note">Shelved here, not yet catalogued:<br>${nd.s.slice(0,8).map(x=>"&#183; "+x).join("<br>")}</p>`:""}
+    ${nd&&nd.s&&nd.s.length?`<div class="note">${nd.s.length} shelved here, not yet catalogued:<div class="roster">${nd.s.map(x=>"&#183; "+x).join("<br>")}</div></div>`:""}
     ${nd&&nd.w&&nd.w.length?`<p class="note">${nd.w.length} world${nd.w.length>1?"s":""} on the valence. Click one for its map.</p>`:`<p class="note">Structure only. Terrain begins at the valence.</p>`}
     <div class="ctl"><button id="bn">nucleus</button><button id="br">recentre</button></div>`;
   document.getElementById("bn").onclick=()=>{descend("");};

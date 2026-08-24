@@ -94,17 +94,30 @@ _DESIGNATIONS = None
 
 
 def designations(records=None):
-    """The set of parentheticals this corpus uses as designations rather than as aliases."""
+    """The set of parentheticals this corpus uses as designations rather than as aliases.
+
+    Cached against the records directory's own signature, exactly like `load_records()`. The
+    first version cached in a bare global with no invalidation at all, so a long-lived process
+    (the dashboard, the keeper) that called this once kept answering from a corpus snapshot
+    taken at import time -- and this set decides whether "(Earth-616)" is a continuity marker
+    or part of a name, so a stale answer misreads every entity ingested since. Same stale-cache
+    shape that bit `chain_harvest_idx` and `load_records` before their own fixes. (BUGS m17.)"""
     global _DESIGNATIONS
-    if _DESIGNATIONS is not None:
-        return _DESIGNATIONS
+    # Only the corpus-derived answer is cacheable. A caller-supplied `records` list has no
+    # signature to key on, so caching it would let one explicit call's answer be served to the
+    # next -- a worse staleness than the one being fixed. Explicit callers always recompute.
+    cacheable = records is None
+    sig = _records_sig()[1] if cacheable else None
+    if cacheable and _DESIGNATIONS is not None and _DESIGNATIONS[0] == sig:
+        return _DESIGNATIONS[1]
     seen = {}
     try:
         recs = records if records is not None else load_records()
     except Exception:
-        silence.note("weave_index.py:104")
-        _DESIGNATIONS = set()
-        return _DESIGNATIONS
+        silence.note("weave_index-designations-load")
+        if cacheable:
+            _DESIGNATIONS = (sig, set())
+        return set()
     for r in recs:
         for e in r.get("entries", []):
             base = re.sub(r"\s*\([^)]*\)", "", e.get("name", "")).strip().lower()
@@ -112,10 +125,12 @@ def designations(records=None):
                 head = inner.split("/")[0].strip().lower()
                 if 1 < len(head) < 40:
                     seen.setdefault(head, set()).add(base)
-    _DESIGNATIONS = {k for k, v in seen.items() if len(v) >= DESIGNATION_MIN_NAMES}
-    _DESIGNATIONS |= _SEED
-    _DESIGNATIONS |= {k for k in seen if _EARTH.match(k)}
-    return _DESIGNATIONS
+    out = {k for k, v in seen.items() if len(v) >= DESIGNATION_MIN_NAMES}
+    out |= _SEED
+    out |= {k for k in seen if _EARTH.match(k)}
+    if cacheable:
+        _DESIGNATIONS = (sig, out)
+    return out
 
 
 def continuity_of(name):
@@ -150,6 +165,19 @@ def norm(name):
 _REC_CACHE = {"sig": None, "out": None}
 
 
+def _records_sig():
+    """(file count, newest mtime) over the records directory, or None if it cannot be stat'd.
+
+    Shared by both caches below so they invalidate on exactly the same event. Pulled out
+    2026-08-23 (BUGS m17) when `designations()` turned out to have no invalidation at all."""
+    files = sorted(glob.glob(os.path.join(RECORDS, "*.json")))
+    try:
+        return files, (len(files), max((os.path.getmtime(p) for p in files), default=0))
+    except OSError:
+        _ = "silence-exempt: an unstattable dir just skips the cache fast-path"
+        return files, None
+
+
 def load_records():
     """All records with entries -- cached against the directory's own signature.
 
@@ -157,12 +185,7 @@ def load_records():
     dashboard poll and three separate times per allsweep run (2026-08-23 optimization sweep).
     The signature is (count, max mtime), so any write anywhere in the directory invalidates.
     Callers get the shared list: read it, never mutate it."""
-    files = sorted(glob.glob(os.path.join(RECORDS, "*.json")))
-    try:
-        sig = (len(files), max((os.path.getmtime(p) for p in files), default=0))
-    except OSError:
-        _ = "silence-exempt: an unstattable dir just skips the cache fast-path"
-        sig = None
+    files, sig = _records_sig()
     if sig is not None and sig == _REC_CACHE["sig"]:
         return _REC_CACHE["out"]
     out = []

@@ -1182,6 +1182,61 @@ check("a catalogue merge never shrinks a cast",
       sorted(e["name"] for e in _got["entries"]), ["A", "B", "C"])
 
 
+# ---- Section 18d: the entrypass resume gate against a GROWN batch -------------------------------
+#
+# The other half of the two-writer story. write_record_catalogue is allowed to append entries to
+# a record that entrypass has already walked -- so a batch key recorded in `done.entrypass` names
+# a span that can widen underneath it. Skipping on membership alone stranded 5 doc-ingested
+# entries of Arcanum Worlds (Odyssey of the Dragonlords) permanently: never categorised, never
+# given a scale_note, never banded, and invisible except as health.py's "entries stranded in
+# closed batches" count. The gate must read the span, not just the ledger.
+
+_dk = ["T#0"]
+_judged = [{"name": "A", "catalogued": True}, {"name": "B", "catalogued": True}]
+check("a recorded, fully judged batch is skipped",
+      _PL.batch_settled("T#0", _dk, _judged), True)
+check("an unrecorded batch is never skipped",
+      _PL.batch_settled("T#20", _dk, _judged), False)
+# The regression itself: same key, same ledger, one entry appended since it closed.
+check("a recorded batch that GREW is reopened",
+      _PL.batch_settled("T#0", _dk, _judged + [{"name": "C"}]), False)
+check("and an explicit catalogued=False is reopened too",
+      _PL.batch_settled("T#0", _dk, _judged + [{"name": "C", "catalogued": False}]), False)
+
+
+# ---- Section 19b: the stall detector can actually reach its own threshold ----------------------
+#
+# `every running job is advancing` is the high-severity standard the project describes as the
+# failure it exists to refuse, and it was structurally unable to fire: the watch stamp was reset
+# on every pass, so "how long has this log been silent" evaluated to "how long since the last
+# check" -- always a few minutes, never the 15-minute floor. These pin the two halves: the stamp
+# survives while the size holds, and every managed log declares who writes it.
+
+import standards as _ST       # noqa: E402
+import lognames as _LN2       # noqa: E402
+
+_t0 = 1_000_000.0
+check("a first sighting is not 'held'", _ST.job_stamp(None, 500, _t0)[0], False)
+check("and stamps now", _ST.job_stamp(None, 500, _t0)[1], _t0)
+check("a grown log re-stamps to now",
+      _ST.job_stamp({"size": 400, "at": _t0 - 3600}, 500, _t0), (False, _t0))
+# The regression itself: an unchanged log must keep its ORIGINAL stamp, not take a fresh one.
+check("an unchanged log keeps its original stamp",
+      _ST.job_stamp({"size": 500, "at": _t0 - 3600}, 500, _t0), (True, _t0 - 3600))
+check("so quiet minutes can exceed the floor",
+      (_t0 - _ST.job_stamp({"size": 500, "at": _t0 - 3600}, 500, _t0)[1]) / 60.0
+      >= _ST.MAX_JOB_SILENCE_MIN, True)
+
+check("every managed log declares its owning process",
+      sorted(_LN2.OWNER) == sorted([_LN2.READ, _LN2.ROLL, _LN2.PIPELINE,
+                                    _LN2.RECATALOGUE, _LN2.SWEEP, _LN2.CALIBRATE]), True)
+check("and no owner fragment is a log name (the bug that hid three jobs)",
+      any(f.endswith(".log") or "_auto" in f for f in _LN2.OWNER.values()), False)
+check("and every owner fragment names a real script",
+      all(os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                      f.split()[0])) for f in _LN2.OWNER.values()), True)
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

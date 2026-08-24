@@ -145,7 +145,12 @@ def build():
         out = []
         for name, c in sources.items():
             path = ".".join(str(c[t]) for t in ("hyperverse", "xenoverse", "metaverse"))
-            if path == key or path.startswith(key + ".") or key.startswith(path):
+            # The `+ "."` on BOTH arms, not just the first. Without it `key.startswith(path)`
+            # matched on a digit prefix, so a source shelved at "0.1.2" was counted as sitting
+            # above node "0.1.20" -- an unrelated sibling branch -- and its genre register voted
+            # in that node's naming ballot. The exact-equality case is already the first arm,
+            # so both startswith arms want the strict-descendant form. (BUGS m11, 2026-08-23.)
+            if path == key or path.startswith(key + ".") or key.startswith(path + "."):
                 out.append(name)
         return out
 

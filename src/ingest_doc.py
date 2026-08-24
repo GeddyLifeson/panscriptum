@@ -230,11 +230,33 @@ def mine(source):
             # found (2026-08-23, caught within minutes because found-count and record-count
             # disagreed). Each side of the two-writer contract has its own writer; this is
             # the catalogue side.
-            P.write_record_catalogue(rp, rec)
+            # ADVANCE ON THE WRITE, NOT ON THE INTENT. `write_record_catalogue` returns whether
+            # the rename actually landed (`pipeline._landed`) precisely because on Windows it
+            # can be denied while a reader holds the file, and it never raises -- so discarding
+            # the result advanced the resume cursor past entities that were never saved. The
+            # cursor is the only record of what has been done, so that loss is permanent and
+            # silent: this is the same shape as the 378 stranded entries phase 2 already paid
+            # for, and the same shape as the 5 doc-ingested entries this module stranded in
+            # Arcanum Worlds. It compounds inside one run too -- `known` had already absorbed
+            # the names, so a later chunk mentioning the same entity would skip it as
+            # "already known" when nothing had ever been written.
+            #
+            # A denied write therefore rewinds `known` and stops the run WITHOUT moving the
+            # cursor. Nothing is lost; the next run resumes on this chunk. (2026-08-23.)
+            if not P.write_record_catalogue(rp, rec):
+                for e in fresh:
+                    known.discard(_key(e["name"]))
+                print("  chunk %d/%d: record write denied; stopping without advancing "
+                      "(resumable)" % (ci + 1, len(chunks)))
+                break
             state["found"] += len(fresh)
         state["next"] = ci + 1
-        with open(state_p, "w", encoding="utf-8") as f:
+        # Atomic, like every other resume cursor in this project: a crash between `open` and
+        # `json.dump` left a zero-byte state file, which `mine()` reads as "start from chunk 0".
+        tmp_state = state_p + ".tmp"
+        with open(tmp_state, "w", encoding="utf-8") as f:
             json.dump(state, f)
+        silence.replace_retry(tmp_state, state_p)
         if (ci + 1) % 10 == 0 or fresh:
             print("  chunk %d/%d  +%d new  (%d total this ingest)"
                   % (ci + 1, len(chunks), len(fresh), state["found"]))

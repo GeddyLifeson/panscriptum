@@ -276,7 +276,11 @@ def resolve_wiki(source_name):
         with open(_hosts_path, encoding="utf-8") as f:
             known = json.load(f).get(source_name)
     except OSError:
-        silence.note("wiki_source.py:278")
+        # Content labels, not line numbers: this label was shared with the live category probe
+        # at `category_probes` below, so the ledger reported one class where two unrelated
+        # things were failing -- a missing local hosts file and a wiki refusing a query. That
+        # defeats the whole point of the ledger. (BUGS m5, fixed 2026-08-23.)
+        silence.note("wiki_source-hosts-read")
         known = None
     if isinstance(known, str) and known.endswith(".fandom.com"):
         cands.append(known[: -len(".fandom.com")])
@@ -416,8 +420,8 @@ def find_categories(subdomain, canonical_category, limit=None, discover=True, mi
                                  "cmtitle": f"Category:{cand}", "cmlimit": 3,
                                  "cmnamespace": 0})
         except Exception:
-            silence.note("wiki_source.py:278")
-            continue
+            silence.note("wiki_source-category-probe")   # see the hosts-read note above: this
+            continue                                     # site used to share that one's label
         if d.get("query", {}).get("categorymembers"):
             found.append(cand)
 
@@ -449,8 +453,14 @@ def page_text(subdomain, title, max_chars=900):
             d = _api(subdomain, {"action": "parse", "page": title, "prop": "text",
                                  "section": section, "redirects": 1}, timeout=40)
         except Exception:
-            silence.note("wiki_source.py:301")
-            return ""
+            # CONTINUE, NOT RETURN. The three sections are three independent calls, so one
+            # timeout on section 0 says nothing whatever about sections 1 and 2 -- and this
+            # `return ""` handed the caller the module's own worst failure shape: a transient
+            # hiccup wearing the face of a page with no prose, which then gets recorded as
+            # genuine silence and never re-asked. Exhausting all three before answering "" is
+            # what makes that answer mean something. (BUGS m4, fixed 2026-08-23.)
+            silence.note("wiki_source-page_text-section")
+            continue
         text = _paragraphs(d.get("parse", {}).get("text", {}).get("*", ""), max_chars)
         if text:
             return text

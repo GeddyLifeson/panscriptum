@@ -817,6 +817,17 @@ def scale_note_needs_rephrase(text):
     return bool(text) and bool(_SETTING_META.search(text))
 
 
+def batch_settled(key, done_keys, batch):
+    """True when an entrypass batch may be skipped on resume.
+
+    Pulled out of `phase_entrypass` so the rule can be tested without an Ollama call -- see
+    verify_math section 18d. The rule is deliberately NOT "the key is recorded": a record's
+    entry list grows after entrypass runs (doc ingest appends through write_record_catalogue),
+    which widens the tail batch under a key already in `done_keys`. Membership plus a fully
+    judged span is the honest gate; membership alone strands every later-appended entry."""
+    return key in done_keys and all(e.get("catalogued") for e in batch)
+
+
 def phase_entrypass(c, st):
     """Per-entry category correction + grounded scale_note. Multi-day; fully resumable."""
     done_keys = st["done"].setdefault("entrypass", [])
@@ -829,9 +840,26 @@ def phase_entrypass(c, st):
         entries = rec["entries"]
         for start in range(0, len(entries), ENTRY_BATCH):
             key = f"{src}#{start}"
-            if key in done_keys:
-                continue
             batch = entries[start:start + ENTRY_BATCH]
+            # A CLOSED BATCH IS NOT A CLOSED SPAN. The resume key is `source#start`, but the
+            # span it names is `entries[start:start+B]` -- and a record's entry list GROWS after
+            # entrypass has run over it (`ingest_doc.py` appends doc-derived entries through
+            # write_record_catalogue). So the tail batch silently widens under a key that is
+            # already in done_keys, and every entry appended past the old end is skipped
+            # forever: never categorised, never given a scale_note, never banded.
+            #
+            # Found 2026-08-23 by health.py --preflight ("entries stranded in closed batches:
+            # 5") -- Arcanum Worlds (Odyssey of the Dragonlords) grew from 292 to 297 entries
+            # after batch #280 closed, and the 5 doc-ingested entries carried no `catalogued`
+            # flag and no `topic`. This is the SAME failure mode the write-gate comment below
+            # was written to kill; that fix stopped batches closing over unjudged entries, but
+            # nothing reopened a batch that acquired unjudged entries afterwards.
+            #
+            # The gate is therefore the work, not the bookkeeping: skip only when the span as it
+            # stands right now is fully judged. Re-doing a grown batch costs one call, which is
+            # what the write-gate comment below already priced and accepted.
+            if batch_settled(key, done_keys, batch):
+                continue
             lines = []
             for i, e in enumerate(batch):
                 # 380 -> 240 chars. Classification needs the opening clause ("X is a city in
@@ -918,7 +946,8 @@ def phase_entrypass(c, st):
             # cost of re-doing a mostly-complete batch is one call; the cost of the old behaviour
             # was silent, permanent data loss.
             if landed and all(e.get("catalogued") for e in batch):
-                done_keys.append(key)
+                if key not in done_keys:      # a reopened grown batch is already recorded --
+                    done_keys.append(key)     # re-appending would grow the resume list forever
             elif not landed:
                 log(f"    batch {key} judged in full but its write was denied - left open")
             else:

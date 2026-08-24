@@ -74,24 +74,28 @@ def _cs_load():
     return _CS_CACHE["d"]
 
 
-def category_size(sub, category):
-    """How many pages a category holds, per the wiki itself. One call, no enumeration --
-    and CACHED 12h to disk: the always-remedy runs this audit every foreman round, and
-    uncached that was ~1,300 live calls per half hour to the domain that has IP-banned this
-    machine once already (round-2 optimization audit, finding 3). Category counts move on a
-    days clock; the standard's job is to keep the shortfall visible, not to re-ask fandom
-    the same question 48 times a day."""
+def category_size_probe(sub, category):
+    """`category_size` with its failure visible: returns `(n, error)`.
+
+    Added 2026-08-23 (BUGS m3). `category_size` answers `None` for two opposite situations --
+    "this wiki has no such category" and "this wiki did not answer" -- and the audit below,
+    which only ever saw the `None`, dropped an all-errors source out of COMPLETENESS.json
+    entirely. A missing row reads as a source with nothing to catalogue, which is the exact
+    inversion of what a transport failure means. 313 URLErrors were recorded at this site as of
+    run #2, all of them silently deciding a row did not exist.
+
+    `category_size` stays as it was for every caller that only wants the number."""
     d = _cs_load()
     k = sub + "|" + category
     hit = d.get(k)
     if hit and time.time() - hit.get("at", 0) < _CS_TTL:
-        return hit.get("n")
+        return hit.get("n"), None
     try:
         d = ws._api(sub, {"action": "query", "titles": "Category:" + category,
                           "prop": "categoryinfo"})
-    except Exception:
+    except Exception as e:
         silence.note("completeness.py:category_size")
-        return None
+        return None, type(e).__name__
     got = None
     for p in (d.get("query", {}).get("pages", {}) or {}).values():
         ci = p.get("categoryinfo")
@@ -107,7 +111,17 @@ def category_size(sub, category):
         silence.replace_retry(tmp, _CS_CACHE_P)
     except Exception:
         silence.note("completeness.py:cs-cache")
-    return got
+    return got, None
+
+
+def category_size(sub, category):
+    """How many pages a category holds, per the wiki itself. One call, no enumeration --
+    and CACHED 12h to disk: the always-remedy runs this audit every foreman round, and
+    uncached that was ~1,300 live calls per half hour to the domain that has IP-banned this
+    machine once already (round-2 optimization audit, finding 3). Category counts move on a
+    days clock; the standard's job is to keep the shortfall visible, not to re-ask fandom
+    the same question 48 times a day."""
+    return category_size_probe(sub, category)[0]
 
 
 def catalogued_counts():
@@ -171,13 +185,23 @@ def audit(only=None, workers=6):
         src, host = item
         sub = subdomain(host)
         sizes = {}
-        for cand in ws.CATEGORY_PROBES[PERSONS]:
-            n = category_size(sub, cand)
+        probes = ws.CATEGORY_PROBES[PERSONS]
+        failed = 0
+        for cand in probes:
+            n, err = category_size_probe(sub, cand)
+            if err:
+                failed += 1
             if n:
                 sizes[cand] = n
-        if not sizes:
+        # A ROW THAT COULD NOT BE MEASURED IS NOT A ROW WITH NOTHING IN IT. Returning None here
+        # for an all-errors source deleted it from COMPLETENESS.json, and an absent row is read
+        # downstream as "this source has no wiki presence" -- the opposite of "the wiki did not
+        # answer". Genuine absence (every probe answered, none of the categories exist) still
+        # returns None as before; only the no-answer case is promoted into `unreliable`, which
+        # is the bucket this module's own docstring built for exactly this.
+        if not sizes and failed < len(probes):
             return None
-        best = max(sizes.values())
+        best = max(sizes.values()) if sizes else None
         rec = byslug.get(str(src).lower()) or byslug.get(str(src).lower().replace("-", " "))
         got = (rec or {}).get("total")
         persons = None
@@ -189,7 +213,11 @@ def audit(only=None, workers=6):
         # that CATEGORY_PROBES missed the category this wiki actually uses -- The Division
         # catalogued 448 people against a probed "People" category holding 314.
         why = None
-        if shared[host] > 1 and (primary.get(host) or (None, None))[0] != src:
+        if not sizes:
+            why = ("every category probe failed (%d/%d transport errors) -- no denominator was "
+                   "obtained, so this row carries no coverage judgment either way"
+                   % (failed, len(probes)))
+        elif shared[host] > 1 and (primary.get(host) or (None, None))[0] != src:
             why = ("shares " + host + " with " + str(shared[host] - 1) + " other source(s) and "
                    "is not the primary; denominator belongs to "
                    + str((primary.get(host) or ("nobody",))[0]))

@@ -64,11 +64,41 @@ def load_roll(cfg):
 def load_record(cfg, source_name):
     records_dir = os.path.join(HERE, cfg["paths"]["data_records"])
     norm_target = "".join(ch for ch in source_name.lower() if ch.isalnum())
+    if not norm_target:
+        return None
+
+    # THE SLUG IS A TRUNCATION OF THE NAME, so the containment runs both ways. This tested only
+    # `target in filename`, and record slugs are cut to a fixed length -- "Who Framed Roger
+    # Rabbit (incl. all content from its associated crossover-toon IPs)" is stored as
+    # who-framed-roger-rabbit-incl-all-content-from-its-associated.json, which the full name is
+    # NOT a substring of. The result: a source with 304 catalogued entries reported as having
+    # no record file at all, and the operator told the wrong reason. (`ingest_doc.record_path`
+    # already tests both directions and finds this same file correctly.)
+    #
+    # The reverse arm is PREFIX-anchored, not free containment: slugs are cut from the front, so
+    # a genuine truncation is always a prefix, while free containment would let a short slug
+    # match anywhere inside an unrelated long name -- the same accident that had "DC" swallowing
+    # "Sword Coast Adventurer's Guide" over in address.py.
+    #
+    # Candidates are ranked by CLOSENESS, not by file order and not by raw length: an exact
+    # match always wins, otherwise the smallest length difference does. Ranking by longest
+    # instead sent source "DC" to sword-coast-adventurer-s-guide.json, because that filename
+    # also contains the letters "dc" (swor-d-c-oast) and is far longer than dc.json. First-match
+    # ordering had been hiding that by luck of `listdir`.
+    best_name, best_score = None, None
     for fname in os.listdir(records_dir):
-        norm_fname = "".join(ch for ch in fname.lower() if ch.isalnum())
-        if norm_target and norm_target in norm_fname:
-            with open(os.path.join(records_dir, fname), encoding="utf-8") as f:
-                return json.load(f)
+        if not fname.endswith(".json"):
+            continue
+        norm_fname = "".join(ch for ch in fname[:-5].lower() if ch.isalnum())
+        if not norm_fname:
+            continue
+        if norm_target in norm_fname or norm_target.startswith(norm_fname):
+            score = abs(len(norm_fname) - len(norm_target))
+            if best_score is None or score < best_score:
+                best_name, best_score = fname, score
+    if best_name:
+        with open(os.path.join(records_dir, best_name), encoding="utf-8") as f:
+            return json.load(f)
     return None
 
 

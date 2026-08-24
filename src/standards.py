@@ -103,6 +103,18 @@ MAX_PUBLISH_AGE_H = 2           # the public panel is a snapshot; stale, it misl
 MAX_JOB_SILENCE_MIN = 15
 JOB_WATCH = os.path.join(HERE, "state", "job_progress.json")
 
+
+def job_stamp(prev_entry, size, now):
+    """`(held, at)` for one watched log: has it held this size, and since when?
+
+    Pulled out so the rule can be tested without processes or files -- see verify_math 19b.
+    `at` must survive across checks while the size holds, because the question the stall
+    detector asks is "how long has this log been silent", not "how long since I last looked".
+    Re-stamping unconditionally made those two the same number, and since the checker runs far
+    more often than MAX_JOB_SILENCE_MIN, the threshold became unreachable for every job."""
+    held = bool(prev_entry) and prev_entry.get("size") == size
+    return held, (prev_entry.get("at", now) if held else now)
+
 # Fraction of each source's own cast the catalogue must hold. DELIBERATELY 1.0 AND DELIBERATELY
 # UNSATISFIABLE, like MIN_HOST_COVERAGE: its job is not to be met, it is to keep the catalogue
 # pass dispatching itself for as long as anything is missing.
@@ -600,36 +612,50 @@ def check(state=None):
             with open(JOB_WATCH, encoding="utf-8") as f:
                 prev = json.load(f)
 
+        import lognames as LN
         now = time.time()
         stalled, watched, cur = [], 0, {}
-        for fn in sorted(os.listdir(os.path.join(HERE, "state"))):
-            if not fn.endswith(".log"):
-                continue
-            job = fn[:-4]
+        # THE MANAGED JOBS, BY NAME, not every *.log in the directory. Deriving the job from the
+        # log filename asked whether `read_auto.py` was running -- no such script exists -- so
+        # the three jobs that matter were never watched, while stale legacy logs whose stems
+        # collide with a live script name (`read.log` beside a running `read.py`) were. See
+        # lognames.OWNER for the full account.
+        for fn, owner in sorted(LN.OWNER.items()):
+            job = fn[:-4] if fn.endswith(".log") else fn
             path = os.path.join(HERE, "state", fn)
             try:
                 size = os.path.getsize(path)
             except Exception:
                 silence.note("standards.py:job-size")
                 continue
-            cur[job] = {"size": size, "at": now}
+
+            # WHEN DID IT LAST MOVE, not when did this check last run. `at` was re-stamped to
+            # `now` on every pass, so `quiet_min` measured the interval between two consecutive
+            # standards runs -- a few minutes, always -- and could not reach the 15-minute floor
+            # no matter how long a job had actually been silent. The standard this file's own
+            # docstring calls "the failure this whole library is built to refuse" was therefore
+            # structurally unable to fire, for any job, and had been reporting "all advancing"
+            # by construction. Carrying the stamp forward while the size holds is what makes the
+            # number mean silence. (Found 2026-08-23; regression pinned in verify_math.)
+            p = prev.get(job)
+            held, stamp = job_stamp(p, size, now)
+            cur[job] = {"size": size, "at": stamp}
 
             # Only a job whose process is UP can stall. A finished job's log stops growing
             # because it is finished, and calling that a fault would cry wolf on every
             # completed run -- which is how a standards system gets ignored.
             alive = False
             try:
-                alive = bool(_ON.running(job + ".py")) or bool(_ON.running(job))
+                alive = bool(_ON.running(owner))
             except Exception:
                 silence.note("standards.py:job-alive")
             if not alive:
                 continue
             watched += 1
-            p = prev.get(job)
-            if not p:
+            if not held:
                 continue
-            quiet_min = (now - p.get("at", now)) / 60.0
-            if p.get("size") == size and quiet_min >= MAX_JOB_SILENCE_MIN:
+            quiet_min = (now - cur[job]["at"]) / 60.0
+            if quiet_min >= MAX_JOB_SILENCE_MIN:
                 stalled.append("%s (%d min, %d bytes)" % (job, round(quiet_min), size))
 
         tmp = JOB_WATCH + ".tmp"

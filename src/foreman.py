@@ -322,8 +322,20 @@ def kill_stalled_job():
     if not names:
         return False, "stall reported but no job name parsed: " + str(row.get("observed"))[:80]
 
+    # Resolve the reported job name to the command line that actually owns it. The stall
+    # report names a LOG ("read_auto"), and matching that against a process command line found
+    # nothing -- `read_auto` appears in no invocation, so this remedy could never kill anything
+    # even once the standard was able to fire. Worse, the bare `job in line` test it used is
+    # loose in the other direction too: a stem like "pipeline" matches any command line that
+    # merely mentions it. lognames.OWNER carries the specific fragment for each managed job.
+    import lognames as _LN
+    owners = {fn[:-4]: frag for fn, frag in _LN.OWNER.items()}
+
     killed = []
     for job in names:
+        frag = owners.get(job)
+        if not frag:
+            continue          # a job with no declared owner is not one this remedy may kill
         try:
             out = subprocess.run(
                 ["wmic", "process", "where",
@@ -333,7 +345,7 @@ def kill_stalled_job():
             silence.note("foreman.py:kill_stalled-list")
             continue
         for line in out.splitlines():
-            if job in line and "python" in line:
+            if frag in line and "python" in line:
                 m = _re.search(r",(\d+)\s*$", line.strip())
                 if not m:
                     continue
@@ -645,8 +657,19 @@ def _checks_pass(module):
     if r.returncode != 0:
         return False, "module no longer imports"
     r = _run([os.path.join(SRC, "verify_math.py")], timeout=1200)
-    if "0 FAILED" not in (r.stdout or ""):
-        return False, "verify_math no longer passes"
+    # READ THE NUMBER, DO NOT SUBSTRING IT. verify_math prints "RESULT: N passed, M FAILED",
+    # and `"0 FAILED" in stdout` is satisfied by "10 FAILED", "20 FAILED", "100 FAILED" -- the
+    # zero is just the last digit of M. This is the gate that decides whether a model-authored
+    # patch to live source is KEPT or REVERTED, so the false positive kept exactly the patches
+    # that broke a round number of checks. Same bug class as the `adopt_hosts` "0 adopted"
+    # substring already fixed above; this instance had teeth. (Found by the ops audit and
+    # reproduced against synthetic result lines, 2026-08-23.)
+    import re as _re
+    m = _re.search(r"RESULT:\s*\d+\s+passed,\s*(\d+)\s+FAILED", r.stdout or "")
+    if not m:
+        return False, "verify_math produced no readable result line"
+    if m.group(1) != "0":
+        return False, "verify_math no longer passes (%s failing)" % m.group(1)
     r = _run([os.path.join(SRC, "allsweep.py"), "--quick"], timeout=900)
     if "BROKEN" in (r.stdout or ""):
         return False, "allsweep reports a broken module"

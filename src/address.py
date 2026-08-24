@@ -61,11 +61,42 @@ def spine_code_for(source_name: str) -> str:
     if source_name in codes:
         return codes[source_name]
 
+    # CONTAINMENT ON WHOLE WORDS, NOT ON RAW LETTERS. `_normalize` strips spaces, so the old
+    # test asked whether one name's letters appeared anywhere inside the other's -- and the
+    # Acquisitions Index contains the two-letter entry "DC" (-> II.D.2). "dc" falls inside
+    # "swor-d-c-oast..." and "associate-d-c-rossover...", so BOTH of these came back as DC
+    # Comics:
+    #     Sword Coast Adventurer's Guide            -> II.D.2
+    #     Who Framed Roger Rabbit (...crossover...) -> II.D.2
+    # A D&D sourcebook and a Disney film, shelved inside DC Comics' spine. That is the invented
+    # address Hard Rule 2 forbids, and it does a second harm on the way: a source that matches
+    # WRONG never reaches `unassigned_sources.md`, so the owner sign-off that would have caught
+    # it never gets asked for. A miss is cheap here and a false hit is not -- the whole point of
+    # the UNASSIGNED fallback is that it is the safe answer.
+    #
+    # Padding with spaces makes the boundary explicit: "one piece" still matches "one piece all
+    # arcs", while "dc" now matches only a genuine "dc" word. (Found by the generation-side
+    # audit, 2026-08-23; verified against all 215 roll entries before and after.)
+    # Letter-level EQUALITY first, though: the index writes "Soulcalibur" and the roll writes
+    # "Soul Calibur", and a spacing variant is the same title by any honest reading. Equality
+    # cannot false-match the way containment can, so it is safe to keep at full letter level --
+    # dropping it was the one real regression the word-boundary fix introduced, caught by
+    # diffing all 215 roll assignments before and after.
     norm_target = _normalize(source_name)
-    for name, code in codes.items():
-        norm_name = _normalize(name)
-        if norm_target and (norm_target in norm_name or norm_name in norm_target):
-            return code
+    if norm_target:
+        for name, code in codes.items():
+            if _normalize(name) == norm_target:
+                return code
+
+    def _worded(n):
+        return " " + " ".join(re.findall(r"[a-z0-9]+", n.lower())) + " "
+
+    w_target = _worded(source_name)
+    if w_target.strip():
+        for name, code in codes.items():
+            w_name = _worded(name)
+            if w_target in w_name or w_name in w_target:
+                return code
 
     # word-order-independent fallback (handles "all Black Ops" vs "Black Ops (all)")
     target_tokens = _token_set(source_name)
