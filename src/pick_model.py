@@ -102,17 +102,36 @@ def load_config():
 
 
 def save_config(cfg):
-    with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
+    """Point config.yaml at `cfg["model"]`. Returns True only if the file now says so.
+
+    Two ways this used to claim a success it had not had, and the caller printed
+    "config.yaml updated" for both:
+      - `replace_retry`'s boolean was discarded. On Windows the rename is DENIED while any of
+        the nine modules that re-read config.yaml holds it, which is the normal case on a
+        working machine, not an edge one.
+      - the targeted `re.sub` matched nothing. A config with no top-level `model:` line wrote
+        itself back BYTE-IDENTICAL and reported that the model had been changed.
+    """
+    p = os.path.join(HERE, "config.yaml")
+    with open(p, encoding="utf-8") as f:
         raw = f.read()
     # targeted replace of the model: line so we don't clobber comments/formatting elsewhere
-    new_raw = re.sub(r'^model:\s*.*$', f'model: "{cfg["model"]}"', raw, count=1, flags=re.M)
+    new_raw, n = re.subn(r'^model:\s*.*$', f'model: "{cfg["model"]}"', raw, count=1, flags=re.M)
+    if n == 0:
+        print("pick_model: config.yaml has no top-level 'model:' line to replace; "
+              "nothing was written.", file=sys.stderr)
+        return False
     # Atomic: config.yaml is re-read by nine running modules; a truncated mid-write copy
     # hands one of them a YAML parse error at whatever instant it reloads.
     import silence as _sil
-    p = os.path.join(HERE, "config.yaml")
     with open(p + ".tmp", "w", encoding="utf-8") as f:
         f.write(new_raw)
-    _sil.replace_retry(p + ".tmp", p)
+    if not _sil.replace_retry(p + ".tmp", p):
+        _sil.note("pick_model.py:save_config-denied")
+        print("pick_model: config.yaml is held open and could not be replaced; it still names "
+              "the PREVIOUS model.", file=sys.stderr)
+        return False
+    return True
 
 
 def list_installed_models(ollama_host):
@@ -324,8 +343,12 @@ def main():
     print(f"\nBest available: {best['name']}")
     if args.write:
         cfg["model"] = best["name"]
-        save_config(cfg)
-        print(f"config.yaml updated: model: \"{best['name']}\"")
+        if save_config(cfg):
+            print(f"config.yaml updated: model: \"{best['name']}\"")
+        else:
+            print("config.yaml was NOT updated -- see the reason above. The running modules "
+                  "still use the model config.yaml already named.")
+            sys.exit(1)
     else:
         print("(dry run -- re-run with --write to update config.yaml)")
 

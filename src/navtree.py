@@ -159,7 +159,13 @@ def build():
         regs = [r for r in regs if r in O.REGISTERS]
         if not regs:
             return "classical"
-        return max(set(regs), key=regs.count)
+        # m41. `max(set(regs), key=regs.count)` is NOT deterministic. On a tie -- two registers
+        # equally common under this node, the ordinary case for a small branch -- max() keeps
+        # whichever the SET yielded first, and set order for strings is hash-randomized per
+        # process. The register is an input to coin_well_formed below, so a flipped tie renames
+        # the node. Measured: two consecutive `navtree --write` runs renamed 75 of 734 nodes.
+        # The name as secondary key makes the tie-break explicit and repeatable.
+        return max(set(regs), key=lambda r: (regs.count(r), r))
 
     taken = set()
     names = {}
@@ -169,7 +175,9 @@ def build():
             srcs_here = sources_under(k)
             gs = [grounds.get(s, {}).get("grounding") for s in srcs_here]
             gs = [g for g in gs if g and g != "ungrounded"]
-            top = max(set(gs), key=gs.count) if gs else "ungrounded"
+            # Same hash-order tie-break as register_for above (m41): this one picks the
+            # hyperverse's grounding type, and so its name straight out of HYPER_NAME.
+            top = max(set(gs), key=lambda g: (gs.count(g), g)) if gs else "ungrounded"
             pool = HYPER_NAME.get(top, HYPER_NAME["ungrounded"])
             nm = next((x for x in pool if x.lower() not in taken), None)
             if nm is None:

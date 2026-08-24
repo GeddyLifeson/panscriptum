@@ -108,8 +108,17 @@ def write_result(edges, res, unmatched=None):
         "unmatched": (unmatched.most_common(40) if hasattr(unmatched, "most_common")
                       else (unmatched or [])),
     }
-    with open(OUT, "w", encoding="utf-8") as f:
+    # Write-then-rename, not a bare truncating open. This is a published phase artifact, and a
+    # bare open() leaves a TORN CHAIN.json if the process dies mid-dump or a reader holds it --
+    # the half-written state being indistinguishable, to anything that later reads it, from a
+    # fit that genuinely found fewer edges. Every other phase artifact in the kit lands this way.
+    tmp = OUT + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1, ensure_ascii=False)
+    if not silence.replace_retry(tmp, OUT):
+        silence.note("chain.py:write_result-denied")
+        print("chain: CHAIN.json could not be replaced; it still holds the PREVIOUS cycle's fit.",
+              file=sys.stderr)
     return out
 
 
@@ -182,13 +191,30 @@ def harvest():
             tmp = HARVEST_IDX + ".tmp"
             with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(idx, f, ensure_ascii=False)
-            silence.replace_retry(tmp, HARVEST_IDX)
+            # The VERDICT, not just the attempt. A denied rename here is not harmless: the index
+            # is the incremental cache, so a silent failure means every following cycle re-parses
+            # ~900MB of feats to rediscover the same rows -- minutes of I/O per cycle presenting
+            # as "the pipeline is just slow". Deleting the index is documented safe; NOT KNOWING
+            # whether it was written is what costs. (Same family as m33-m35.)
+            if not silence.replace_retry(tmp, HARVEST_IDX):
+                silence.note("chain.py:harvest-idx-denied")
+                print("chain: harvest index could not be replaced (reader holding it?); this "
+                      "cycle's incremental gains are lost and the next pass re-parses whole.",
+                      file=sys.stderr)
         except Exception:
             silence.note("chain.py:harvest-idx")
     rows, seen = [], set()
     for rel in sorted(idx):
         for r in idx[rel].get("rows", []):
-            k = (r.get("entity"), (r.get("sentence") or "")[:120])
+            # m37. The key was `sentence[:120]`, which made the dedup DECIDE WHICH CONTESTS EXIST:
+            # two different sentences about the same entity sharing a 120-character prefix -- the
+            # ordinary shape of wiki prose, which front-loads the subject -- collided, and the
+            # second was dropped as a duplicate it was not. Measured over the live index on
+            # 2026-08-24: 6,317 rows, of which 2 distinct contests were being discarded this way
+            # (a Frieza technique entry and a Phlox entry, both long lead-ins). Hard Rule 0: an
+            # identity key may not be a truncation. The full sentence can only make the dedup
+            # finer, never coarser, so nothing that was kept before stops being kept.
+            k = (r.get("entity"), r.get("sentence") or "")
             if k in seen:
                 continue
             seen.add(k)

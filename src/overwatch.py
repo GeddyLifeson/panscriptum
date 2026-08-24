@@ -71,6 +71,13 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 
 LEDGER = os.path.join(HERE, "data", "OVERWATCH.json")
 REPORT = os.path.join(HERE, "WATCH.md")
+
+# m40. What this process believed the ledger was when it last read or wrote it. `save()` compares
+# it against the file on disk, because two PROCESSES can hold this ledger at once even though only
+# this module ever writes it -- the standing `--loop` job plus any ad-hoc `verify_open` call. A
+# save is a whole-file replace, so a writer holding an old snapshot erases everything the other
+# recorded in between. None means "never read the file", where there is nothing to compare.
+_SNAPSHOT = {"digest": None}
 PY = sys.executable
 ENV = dict(os.environ, PYTHONIOENCODING="utf-8")
 
@@ -147,11 +154,15 @@ def load():
     """
     fresh = {"findings": {}, "seen": {}, "rounds": 0}
     if not os.path.exists(LEDGER):
+        _SNAPSHOT["digest"] = ""
         return fresh
     try:
         with open(LEDGER, encoding="utf-8") as f:
-            return json.load(f)
+            d = json.load(f)
+        _SNAPSHOT["digest"] = _digest(LEDGER)
+        return d
     except Exception as e:
+        _SNAPSHOT["digest"] = ""
         silence.note("overwatch.py:load")
         try:
             silence.replace_retry(LEDGER, LEDGER + ".corrupt")
@@ -166,8 +177,22 @@ def load():
 
 
 def save(d):
+    """Write the ledger, MERGING first if another process wrote it since we read it.
+
+    m40. A save is a whole-file replace, and two processes hold this ledger routinely: the
+    standing `--loop` job, plus any ad-hoc `verify_open` call a maintenance run leaves behind.
+    A writer holding a stale snapshot used to erase every finding recorded in between -- silently,
+    because the write itself succeeds. Observed 2026-08-24: an orphaned 09:02 call, blocked on a
+    model reply for two and a half hours, was one return away from wiping four findings and
+    regressing the round counter from 68.
+
+    Merging is safe here precisely because NOTHING in this module ever deletes a finding or a
+    `seen` entry -- retirement is a state change, not a removal -- so the union of two ledgers
+    loses nothing that either writer knew. See `_merge_ledgers` for the per-key rule.
+    """
     try:
         os.makedirs(os.path.dirname(LEDGER), exist_ok=True)
+        d = _reconcile_with_disk(d)
         tmp = LEDGER + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(d, f, indent=1, sort_keys=True)
@@ -175,6 +200,7 @@ def save(d):
         # this file on their own clocks, and on Windows a rename is DENIED while a reader holds
         # the target -- which here would throw away the whole round's findings.
         silence.replace_retry(tmp, LEDGER)
+        _SNAPSHOT["digest"] = _digest(LEDGER)
     except Exception:
         silence.note("overwatch.py:save")
 
@@ -191,6 +217,91 @@ def _digest(path):
     except Exception:
         silence.note("overwatch.py:digest")
         return ""
+
+
+# How far along a finding's life a state is. A terminal verdict outranks an open one, so whichever
+# writer reached the verdict wins the key -- in either direction, which is the point: the stale
+# writer is not always the one with less to say, it is only the one that must not overwrite blind.
+_STATE_RANK = {"open": 0, "stale": 1, "confirmed": 1, "refuted": 2, "retired": 2, "closed": 2}
+
+
+def _progress(f):
+    if not isinstance(f, dict):
+        return (-1, "", 0)
+    return (_STATE_RANK.get(str(f.get("state", "")).lower(), 0),
+            str(f.get("retired_at") or f.get("closed_at") or ""),
+            len(f))
+
+
+def _merge_ledgers(disk, mine):
+    """Union of two ledgers. Never drops a finding, a `seen` entry, or a round.
+
+    Per-key rules, all of them monotone -- applying this twice changes nothing the second time:
+      findings  union by fingerprint; a key in both goes to whichever is further along
+                (`_progress`), ties to disk, since disk is by definition the more recent write.
+      seen      union by module; a key in both goes to the LATER `at`, which is what the
+                digest-vs-`at` staleness check downstream actually reads.
+      rounds    max. It is a monotone counter and regressing it re-reviews finished work.
+      last_run  max as a string; these are zero-padded 'YYYY-MM-DD HH:MM', so that is time order.
+      anything else  mine, falling back to disk -- an unknown key is not something to guess at.
+    """
+    if not isinstance(disk, dict):
+        return mine
+    out = dict(disk)
+    out.update({k: v for k, v in mine.items()
+                if k not in ("findings", "seen", "rounds", "last_run")})
+
+    df, mf = disk.get("findings") or {}, mine.get("findings") or {}
+    merged = dict(df)
+    for k, v in mf.items():
+        if k not in merged or _progress(v) > _progress(merged[k]):
+            merged[k] = v
+    out["findings"] = merged
+
+    ds, ms = disk.get("seen") or {}, mine.get("seen") or {}
+    seen = dict(ds)
+    for k, v in ms.items():
+        old = seen.get(k)
+        if not isinstance(old, dict) or float((v or {}).get("at") or 0) > float(old.get("at") or 0):
+            seen[k] = v
+    out["seen"] = seen
+
+    try:
+        out["rounds"] = max(int(disk.get("rounds") or 0), int(mine.get("rounds") or 0))
+    except Exception:
+        # A non-numeric round counter is not a thing to shrug at: it is the one field that says
+        # how much review has already happened, and this merge exists to stop it regressing.
+        silence.note("overwatch.py:merge-rounds")
+        out["rounds"] = mine.get("rounds", disk.get("rounds", 0))
+    lr = [str(x) for x in (disk.get("last_run"), mine.get("last_run")) if x]
+    if lr:
+        out["last_run"] = max(lr)
+    return out
+
+
+def _reconcile_with_disk(d):
+    """`d`, or `d` merged over a ledger that changed underneath us since we read it."""
+    known = _SNAPSHOT.get("digest")
+    if known is None or not os.path.exists(LEDGER):
+        return d                                  # never read it; nothing to be stale against
+    current = _digest(LEDGER)
+    if not current or current == known:
+        return d
+    try:
+        with open(LEDGER, encoding="utf-8") as f:
+            disk = json.load(f)
+    except Exception:
+        # Unreadable on disk. load() owns the preserve-the-wreck path; here the safe move is to
+        # write what we hold rather than lose it too.
+        silence.note("overwatch.py:reconcile")
+        return d
+    merged = _merge_ledgers(disk, d)
+    gained = len(merged.get("findings", {})) - len(d.get("findings", {}))
+    if gained > 0:
+        print(f"overwatch: ledger changed under this process since it was read; merged rather "
+              f"than replaced ({gained} finding(s) kept that this process had not seen).",
+              file=sys.stderr)
+    return merged
 
 
 # --------------------------------------------------------------------------- structure

@@ -81,17 +81,20 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   page list or a chunk list — but it is a truncation of an ordered listing and the rule's text
   does not carve out logs explicitly. **Question, not a fix.** Same family as m16's diagnostics
   ruling; one decision could settle both.
-- **[m37] `chain.py` writes `data/CHAIN.json` and NOTHING reads it.** Reported by an audit
-  subagent and NOT independently verified this run — recorded so the next run can confirm or
-  refute rather than rediscover. The claim: `chain.write_result()` persists edges, Bradley-Terry
-  strengths and the Ford's-condition `identified` verdict, `pipeline.phase_chain` calls it every
-  cycle, and no reader exists anywhere in `src/` — so the cross-check the module's docstring
-  calls its entire purpose ("the only one that checks the others") is never performed against
-  the Assay. Same agent also reported `chain.py:191` using `sentence[:120]` as a dedup key
-  (two distinct contest sentences sharing a 120-char prefix collide and one is dropped — a
-  Hard Rule 0 truncation that DECIDES which contests exist), `chain.write_result`'s bare
-  `open(OUT,"w")`, and a discarded `replace_retry` on the harvest index. **Verify before
-  fixing**; audit findings this run were right about WHERE more reliably than about WHY.
+- **[m37] `data/CHAIN.json` is written every cycle and NOTHING reads it — CONFIRMED run #8,
+  and now the only part of m37 still open.** Verified repo-wide, not just `src/`: the string
+  `CHAIN.json` occurs in exactly two places outside documentation and this ledger — `chain.py:53`
+  (`OUT`, the writer) and `chain.py:92` (its docstring). `pipeline.py:1255` imports chain and
+  drives the WRITE side. No consumer exists in `src/`, in the dashboard, or in the published
+  site. So `write_result` persists the edges, the Bradley-Terry strengths and the Ford's-condition
+  `identified` verdict every cycle, and the cross-check the module's docstring calls its entire
+  purpose ("the only one that checks the others") is never performed against the Assay.
+  **HUMAN CALL — this is a design question, not a repair**: wire a consumer that actually runs
+  the cross-check, or say plainly that CHAIN.json is an archival record and stop calling it a
+  check. Deliberately not self-authorized in run #8: inventing a consumer invents a contract.
+  *The audit agent's other three claims about this module were all verified true and are FIXED
+  in run #8 — see the paper trail (`[:120]` dedup key, bare `open(OUT,"w")`, discarded
+  `replace_retry`). The agent was right about WHERE and WHY on every one of the four.*
 - **[m38] `foreman._function_source()` resolves a symbol by bare name with no uniqueness
   check.** `symbol.split("(")[0].split(".")[-1]` deliberately strips a class qualifier, then
   takes whichever same-named function `ast.walk` reaches first. A finding naming
@@ -119,8 +122,11 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 *Open items are now: two operational blocks that are not code faults (M3 fandom, M1 dandwiki),
 one money decision (M4), three contract questions (m24, m25, m26), the standing HUMAN CALLs
 (m12, m13, m16, m29 and M1), two contract choices raised by run #7's audits (m38, m39), one
-unverified audit report to confirm or refute (m37) and two watched states (m1, m2).
-Run #7 resolved m27, m28 and m30 and added m31-m36 to the paper trail.*
+CONFIRMED design question (m37 — CHAIN.json has no reader) and two watched states (m1, m2).
+Run #7 resolved m27, m28 and m30 and added m31-m36. Run #8 confirmed m37's core claim, fixed
+its three sub-findings, and added m40 (stale overwatch writer) and m41 (hash-seed-dependent
+nav names) to the paper trail. **Nothing on the open list is a live data-loss risk; every
+remaining item is either an outage, a decision, or a watched state.***
 
 ## Watching (not bugs — expected states with a clock on them)
 - **`MAX_JOB_SILENCE_MIN = 15` is a live threshold as of run #3** — the stall detector could not
@@ -143,6 +149,68 @@ Run #7 resolved m27, m28 and m30 and added m31-m36 to the paper trail.*
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #8 (2026-08-24 12:00 local, export commit = run #8's `publish.py --push` sync). Full detail
+in HANDOFF.md's run #8 entry:*
+
+- **[m40] A STALE `overwatch.save()` writer silently erased a fresher ledger.** `save()` is a
+  whole-file replace, and although this module is the ledger's only writer, it is not its only
+  WRITING PROCESS: the standing `--loop` job plus any ad-hoc `verify_open` call a maintenance run
+  leaves behind both hold it. Caught in the act — an orphaned diagnostic call launched **09:02**
+  by an earlier session was still alive at **11:28** with 2.8 seconds of CPU across 2h26m (i.e.
+  blocked on a model reply, not working), holding a 09:02 snapshot, one `return` away from
+  replacing a 68-round / 64-finding ledger with it. Measured exposure: **4 findings destroyed**
+  (3 open — `feats.roll`, `hostcheck.add`, `cascade_bridge.ask` — plus 1 retired), **1 retirement
+  reverted**, and the round counter regressed. The write would have SUCCEEDED, which is why
+  nothing would ever have reported it. Root cause: no writer checked whether the file had changed
+  under it. Fixed — `load()` stamps the digest it read, `save()` compares and MERGES rather than
+  replaces when they differ (union of findings, terminal verdicts win, `seen` keeps the later
+  sighting, `rounds` takes the max). Merging is sound only because nothing in the module ever
+  deletes a finding, and verify_math §19m now pins that premise too. Falsified against the real
+  event before shipping: the pre-fix `save` drops both interloper findings and regresses rounds
+  68 → 2; the new one keeps all three findings and both writers' work. §19m, 10 checks.
+  The orphan was killed (it did no work anything depended on) and the live loop bounced onto
+  the fix; the keeper re-asserted it at 11:37.
+- **[m41] Every `navtree --write` renamed a chunk of the tree — the Registry Terminal's node
+  names depended on the PROCESS HASH SEED.** `register_for()` chose a node's naming register with
+  `max(set(regs), key=regs.count)`, and `build()` chose a hyperverse's grounding type the same
+  way. On a TIE — two registers equally common under one node, the ordinary case on a small
+  branch — `max` keeps whichever the **set** yielded first, and string set order is randomized
+  per process. The register is an input to `onomast.coin_well_formed`, so a flipped tie renames
+  the node. Both the module's own comment ("seeded on the node's own key so the name is stable")
+  and `coin_well_formed`'s docstring ("Deterministic: same input, same output") asserted the
+  opposite of the behaviour. Measured: two consecutive `--write` runs on identical inputs renamed
+  **75 of 734 nodes**; with `PYTHONHASHSEED=0` two separate processes agreed byte for byte, which
+  is what identified the cause. NAVTREE.json feeds `build_terminal.py`, `reference.py` and
+  `sweep.py`, so these are reader-facing names. Fixed by making the tie-break explicit
+  (`key=lambda r: (regs.count(r), r)`); three processes with random seeds now agree exactly.
+  The artifact was regenerated once to settle the names — **146 of 734 names changed, structure
+  identical (734 nodes, 0 added, 0 removed, no non-name field changed)** — and a second `--write`
+  is now a no-op. verify_math §19n, 5 checks. *Found only because a routine staleness check was
+  diffed twice instead of once.*
+- **[m37 sub-findings, all three verified true and fixed]**
+  **`chain.harvest`'s dedup key was `sentence[:120]`** — a truncation that DECIDED WHICH CONTESTS
+  EXIST, since wiki prose front-loads its subject and two different sentences about one entity
+  routinely share a 120-character prefix; the second was dropped as a duplicate it was not.
+  Hard Rule 0. Measured on the live index: **22 distinct contests were being discarded** (12 of
+  them Khan Noonien Singh sentences diverging only after char 120), up from 2 when the index was
+  smaller — the loss GROWS with the corpus. Now keyed on the full sentence, which can only make
+  the dedup finer, never coarser. **`chain.write_result` used a bare `open(OUT,"w")`** on a
+  published phase artifact — a torn CHAIN.json after a mid-dump death is indistinguishable from
+  a fit that found fewer edges; now write-then-`replace_retry` with the verdict checked.
+  **The harvest index discarded `replace_retry`'s boolean** — a denied rename silently costs the
+  whole incremental cache, so the next cycle re-parses ~900MB and presents as "the pipeline is
+  slow"; now reported. (Same family as m33–m35.)
+- **`pick_model.save_config` reported a success it had not had, two ways.** It discarded
+  `replace_retry`'s boolean, and its targeted `re.sub` could match nothing — a config with no
+  top-level `model:` line wrote itself back byte-identical — while `main()` printed
+  "config.yaml updated" unconditionally for both. Now returns a real verdict (`re.subn`, and the
+  rename checked), and `main()` exits 1 rather than claiming a model switch that never happened.
+- **`local_agent`'s pyflakes gate could not fail.** It tested `r.stdout` for "undefined name"
+  only, so a pyflakes that never executed produced empty stdout and was read as a clean pass —
+  waving a patch through one of the six gates that stand between a local model and live source.
+  The very next gate checks `returncode`, which is what makes this an oversight. Now a code
+  outside pyflakes' own (0, 1), or a stderr that looks like the tool failing, is a gate failure.
 
 *Run #7 (2026-08-24 11:45 local). Full detail in HANDOFF.md's run #7 entry:*
 

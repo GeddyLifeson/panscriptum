@@ -9,6 +9,152 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 12:00 (local) — Run #8 (the writer that was two and a half hours out of date, and the names that were never the same twice)
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets, no money movement, no data loss. The paid lane is still shut and has not
+   moved:** `598 used / cap 500`, byte-identical to how runs #6 and #7 left it, and
+   `paid_lane_open()` returns **False**. Three runs of a flat counter is now the evidence that
+   run #6's enforcement fix holds. **M4 remains YOUR decision, not a leak.**
+2. **A process from an earlier session was two hours into silently corrupting the review
+   ledger, and was stopped.** Details below — it is the run's main find, and it was caught by
+   listing processes rather than by any check the kit runs.
+3. **The Registry Terminal's node names were random.** Not stale, not wrong — *random*, changing
+   on every regeneration, because a tie-break read a hash-randomized set. Now deterministic and
+   settled once. This one is worth knowing because it means **any earlier "the nav names
+   changed" observation was noise, not signal.**
+4. **Run #7's biggest fix is now CONFIRMED IN PRODUCTION, by the test run #7 wrote for it.**
+   Run #7 could only justify its `ask_pool_first` fix by construction — the cloud pool died
+   before the failure could be reproduced — so it left a falsifiable check behind. That check has
+   now fired: `state/pipeline_auto.log` at **11:33:11** reads *"pool answered entrypass with an
+   unusable shape; falling back to local"*. That is the predicted signature exactly. **The cloud
+   really was returning valid JSON of the wrong shape, run #7's diagnosis was right, and the
+   guard catches it.** Honest limit: no batch has posted a `returned N/M` line since the 11:17
+   bounce, so the *consequence* (0/20 becoming non-zero) is still unmeasured — but there are also
+   **zero new `returned 0/20` lines**. See NEXT_STEPS item 1 for the one command that finishes it.
+5. **fandom.com is still down at the socket** — unchanged across runs #5–#8. `health --preflight`
+   reports it every run. Not a code fault, and the completeness audit stays honestly UNMEASURED.
+6. **This run began 2 minutes after run #7 ended** (11:26:49 → 11:28:44). The scheduler fires
+   faster than a run takes. The guard was correctly closed, so this was a legitimate run, not an
+   overlap — but it means the code diff since the last run was nil and the value here came from
+   working the queue rather than from reading a diff.
+
+**THE RUN'S THEME: the dangerous writer is the one that has been away.** Both headline findings
+are the same shape — a process or a function acting on a picture of the world it formed a while
+ago, writing the whole thing back as if nothing had happened in between.
+
+**m40 — AN ORPHANED PROCESS WAS ONE `return` AWAY FROM WIPING THE REVIEW LEDGER.** Listing
+python processes turned up PID 35016: an ad-hoc `overwatch.verify_open` one-liner launched by an
+**earlier session at 09:02**, still alive at 11:28 with **2.8 seconds of CPU across 2h26m** —
+that ratio means blocked on a model reply, not working. It ends in `OW.save(led)`, and
+`overwatch.save()` is a **whole-file replace**. It was holding a 09:02 snapshot of a ledger that
+had since reached 68 rounds and 64 findings. Measured exactly what its return would have cost:
+**4 findings destroyed** (3 open — `feats.roll`, `hostcheck.add`, and, pointedly,
+`cascade_bridge.ask` — plus 1 retired), **1 retirement reverted**, and the round counter
+regressed. **The write would have succeeded.** Nothing in the kit would have reported it; the
+findings would simply never have existed. Killed it (it did no work anything depended on) and
+confirmed the ledger was untouched.
+
+The orphan is the instance; **the missing guard is the bug.** `save()` never asked whether the
+file had changed under it. Now `load()` stamps the digest it read and `save()` compares: on a
+mismatch it MERGES instead of replacing — union of findings, terminal verdicts win in either
+direction, `seen` keeps the later sighting, `rounds` takes the max. Merging is only sound because
+nothing in the module ever deletes a finding, so **verify_math pins that premise too** — if
+retirement ever becomes a removal, the suite says so before it ships. Falsified against the real
+event first: the pre-fix `save` drops both interloper findings and regresses rounds 68 → 2; the
+new one keeps everything and still lands its own work. §19m, 10 checks. Bounced the live loop
+onto the fix; the keeper re-asserted it at 11:37.
+
+**A note on why this class keeps recurring: every maintenance run that leaves a long foreground
+call behind creates one of these.** That is a habit, not an accident, and the guard is the only
+thing that makes the habit survivable.
+
+**m41 — THE NAV TREE'S NAMES WERE NEVER THE SAME TWICE, AND I NEARLY RECORDED THE CHURN AS A
+FIX.** Chasing NEXT_STEPS item 2 (did run #7's genre regeneration reach its consumers?) I found
+`data/NAVTREE.json` dated **08-21**, three days older than the regenerated `GENRES.json`, while
+its downstream `output/registry_terminal.html` had been rebuilt **12 minutes earlier**. So a
+reader-facing page was being rebuilt continuously from stale nav data — a tidy story, and I
+regenerated the file: **168 of 734 node names changed**. I was one step from writing that up as
+"the genre fix reaching production."
+
+**Then I ran it a second time. 75 more names changed, with identical inputs.** The names were
+not stale; they were nondeterministic. `PYTHONHASHSEED=0` made two separate processes agree byte
+for byte, which named the cause: `register_for()` picks a node's naming register with
+`max(set(regs), key=regs.count)`, and on a TIE — two registers equally common under one node, the
+ordinary case on a small branch — `max` keeps whichever the **set** yielded first. String set
+order is randomized per process. The register is an input to `coin_well_formed`, so a flipped tie
+renames the node. `build()` picked hyperverse grounding types the same way. Both the module's own
+comment ("seeded on the node's own key so the name is stable") and `coin_well_formed`'s docstring
+("Deterministic: same input, same output") asserted the opposite of the behaviour — **the code
+said it was deterministic and was believed.** Fixed by making the tie-break explicit
+(`key=lambda r: (regs.count(r), r)`). Three processes with random seeds now agree exactly.
+
+I **restored the 08-21 file byte-identically** the moment I learned the diff was noise, then
+regenerated once on the fixed code to settle the names: **146 of 734 names changed, structure
+untouched** (734 nodes, 0 added, 0 removed, not one non-name field), and a second `--write` is
+now a genuine no-op. §19n, 5 checks.
+
+**And the actual answer to item 2, which the churn was hiding:** `profile.build_all` reads
+`GENRES.json` at runtime and **persists nothing**, so it has been current since the moment run #7
+rewrote the file — no action needed, ever. `navtree` also reads it at runtime, but writes an
+artifact that only a hand-run `--write` produces. Structurally that artifact was **already
+current** (734 nodes before and after, nothing added or removed), so the genre change had no
+structural consequence to deliver. Marvel's `superhero → mythology` / `compact → classical` move
+is live in `GENRES.json` and reaches anything that computes from it.
+
+**m37 — the audit subagent was right on all four counts, which is worth recording because the
+standing advice says to expect otherwise.** Verified each against source before touching
+anything. Confirmed repo-wide, not just `src/`: **nothing reads `data/CHAIN.json`** — the string
+occurs outside documentation only at `chain.py:53` (the writer) and `chain.py:92` (its
+docstring), and `pipeline.py:1255` drives the write side. So the Bradley-Terry strengths and the
+Ford's-condition verdict are persisted every cycle and the cross-check the module calls its whole
+purpose never runs. **Left open as a HUMAN CALL** — wiring a consumer invents a contract, and
+"it obviously should do X" is not a licence. The other three were repairs and are fixed:
+the **`sentence[:120]` dedup key** (Hard Rule 0 — measured **22 distinct contests** being
+discarded on the live index, up from 2 on a smaller one, so the loss *grows with the corpus*),
+the **bare `open(OUT,"w")`** on a published artifact, and the **discarded `replace_retry`** on
+the harvest index.
+
+**Two more discarded verdicts closed, from NEXT_STEPS items 21 and 22.** `pick_model.save_config`
+claimed success two ways — it dropped `replace_retry`'s boolean AND its targeted `re.sub` could
+match nothing, writing the file back byte-identical while `main()` printed "config.yaml updated"
+regardless. `local_agent`'s **pyflakes gate could not fail**: it tested stdout alone, so a
+pyflakes that never ran looked clean and waved a patch through one of the six gates standing
+between a local model and live source. Both now report the truth.
+
+**THE LADDER, honestly.** The repo's own bots did the generic work and I read their outputs
+rather than redoing them. **Ollama is healthy** — `/api/ps` names qwen3:8b *and*
+`llama-server.exe` (PID 37544) exists, so the known 503 wedge is absent; proved it with a real
+generate call (HTTP 200, `OK`, 15.9s) rather than trusting `/api/tags`. **No Claude subagents
+were spawned this run**: the queue had enough verified, concrete work in it that a fan-out would
+have been invented work, and the rotation list is untouched and waiting for a run with a real
+diff to read.
+
+**BATTERY: `verify_math` 404 passed / 0 FAILED** (389 before this run's 15 new checks),
+`allsweep` **0 subsystems in a bad state**, `health --preflight` 2 problems (M3 fandom, M1
+dandwiki — both unchanged outages, not regressions), `pyflakes` clean across `src/`, and the
+silence audit **13 → 12** silent handlers. That last one is not a boast: **the audit caught a
+silent `except` I had just introduced in the m40 merge**, and I fixed it before shipping. The
+battery is not ceremony.
+
+**LESSONS**
+
+- **Diff it twice.** The genre story was coherent, well-evidenced, and wrong, and the only thing
+  that caught it was running the same command a second time and comparing. A single diff cannot
+  tell "changed because of my fix" from "changes every time".
+- **A comment asserting determinism is not evidence of determinism.** Two separate docstrings
+  claimed the nav names were stable. Both were sincere and both were wrong.
+- **`max(set(...))` is a bug, not a style.** Any tie-break over a set of strings is
+  hash-order-dependent. Worth grepping for elsewhere; this run did not.
+- **Check for orphans from previous sessions.** The kit's own health checks look at standing
+  jobs; nothing looks for a two-hour-old foreground call from a dead session holding a stale
+  snapshot of a shared file. Listing processes found in one command what no check would have.
+- **"Only one module writes this file" does not mean one writer.** It means one *code path*, and
+  a code path can be running in several processes at once.
+
+---
+
 ## 2026-08-24 11:45 (local) — Run #7 (the fix that never reached production, and the batch that was never really asked)
 
 **FOR THE OWNER, AT THE TOP:**

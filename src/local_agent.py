@@ -190,6 +190,17 @@ def _gates(full, modname):
             return "does not parse: " + str(e)[:100]
         r = subprocess.run([PY, "-m", "pyflakes", full], capture_output=True, text=True,
                            timeout=120, creationflags=_NO_WIN)
+        # A gate that cannot run has not passed. This tested `r.stdout` alone, so a pyflakes
+        # that never executed -- uninstalled, or dying on its own traceback -- produced empty
+        # stdout and was read as "no undefined names", waving the patch through. The very next
+        # gate below checks `returncode`, which is what makes this an oversight rather than a
+        # decision. pyflakes exits 0 clean and 1 when it has something to say, so only a code
+        # outside that pair, or a stderr that looks like the tool itself failing, means the
+        # check did not happen.
+        _err = (r.stderr or "").strip()
+        if r.returncode not in (0, 1) or "No module named" in _err or "Traceback" in _err:
+            return ("pyflakes could not run (exit %s): %s" %
+                    (r.returncode, (_err.splitlines() or ["no stderr"])[-1][:100]))
         if "undefined name" in (r.stdout or ""):
             return "pyflakes: " + r.stdout.strip().splitlines()[0][:120]
     elif full.endswith(".json"):

@@ -1757,6 +1757,119 @@ try:
 finally:
     _CP.OUT = _CP_OUT
 
+# ---- Section 19m: a STALE ledger writer must not erase a fresher one ------------------------
+# m40. `overwatch.save()` is a whole-file replace, and two PROCESSES hold the ledger routinely --
+# the standing `--loop` job plus any ad-hoc `verify_open` call a maintenance run leaves behind.
+# Observed 2026-08-24 11:28: an orphaned 09:02 call, blocked on a model reply for 2h26m (2.8s of
+# CPU), sat one return away from replacing a 68-round / 64-finding ledger with its 09:02 snapshot
+# -- destroying 4 findings (3 open, one of them cascade_bridge.ask) and one retirement. The write
+# would have SUCCEEDED; that is why nothing would have reported it. Merging is sound here only
+# because nothing in the module deletes a finding or a `seen` entry, which the last check pins.
+
+import overwatch as _OW        # noqa: E402
+
+_wd = _tf.mkdtemp()
+_OW_LEDGER = _OW.LEDGER
+_OW.LEDGER = os.path.join(_wd, "OVERWATCH.json")
+try:
+    _OW.save({"findings": {"a": {"state": "open", "module": "m", "symbol": "a"}},
+              "seen": {"m": {"at": 100.0, "digest": "d1"}}, "rounds": 1, "last_run": "2026-01-01 00:00"})
+
+    # Process A reads the ledger. This stamps A's snapshot.
+    _A = _OW.load()
+    check("the reader sees the ledger it was given", len(_A["findings"]), 1)
+
+    # Process B -- the standing loop -- records more while A is blocked on a model reply.
+    _disk = json.load(open(_OW.LEDGER, encoding="utf-8"))
+    _disk["findings"]["b"] = {"state": "open", "module": "m", "symbol": "b"}
+    _disk["findings"]["c"] = {"state": "retired", "module": "m", "symbol": "c",
+                              "retired_at": "2026-08-24 09:27"}
+    _disk["seen"]["m"] = {"at": 999.0, "digest": "d2"}
+    _disk["rounds"] = 68
+    _disk["last_run"] = "2026-08-24 10:01"
+    json.dump(_disk, open(_OW.LEDGER, "w", encoding="utf-8"))
+
+    # A finally returns and saves its 09:02 snapshot. THIS is the m40 event.
+    _A["rounds"] = 2
+    _A["findings"]["a"]["state"] = "refuted"      # real work A did that must also survive
+    _OW.save(_A)
+    _after = json.load(open(_OW.LEDGER, encoding="utf-8"))
+
+    check("a stale writer does NOT erase findings recorded while it was blocked",
+          sorted(_after["findings"]), ["a", "b", "c"],
+          note="the m40 failure: save() replaced the whole file, so B's findings vanished and "
+               "the write succeeded silently -- no reader could tell")
+    check("the terminal verdict the stale writer DID reach still lands",
+          _after["findings"]["a"]["state"], "refuted",
+          note="preferring disk wholesale would be the same bug pointed the other way")
+    check("a retirement made by the other writer is not reopened",
+          _after["findings"]["c"]["state"], "retired")
+    check("the round counter does not regress", _after["rounds"], 68,
+          note="rounds is monotone; regressing it re-reviews finished work")
+    check("`seen` keeps the LATER sighting, not the stale one",
+          _after["seen"]["m"]["at"], 999.0)
+    check("and last_run keeps the later stamp", _after["last_run"], "2026-08-24 10:01")
+
+    # Idempotence: the merge must be a fixed point, or a loop of saves drifts.
+    _OW.save(json.load(open(_OW.LEDGER, encoding="utf-8")))
+    check("merging is idempotent", sorted(json.load(open(_OW.LEDGER, encoding="utf-8"))["findings"]),
+          ["a", "b", "c"])
+
+    # The ordinary single-writer path must be untouched -- a save with no interloper writes as-is.
+    _solo = _OW.load()
+    _solo["findings"]["d"] = {"state": "open", "module": "m", "symbol": "d"}
+    _OW.save(_solo)
+    check("an uncontended save still writes exactly what it was given",
+          sorted(json.load(open(_OW.LEDGER, encoding="utf-8"))["findings"]), ["a", "b", "c", "d"])
+
+    # The premise the whole merge rests on.
+    _lines = open(_OW.__file__, encoding="utf-8").read().splitlines()
+    # `del` only counts in STATEMENT position -- substring-matching it finds the 'del ' inside
+    # the word "model" in this module's own prose, which is a check failing on its own comment.
+    _removals = [ln.strip() for ln in _lines
+                 if (ln.strip().startswith("del ") or ".pop(" in ln or ".clear()" in ln)
+                 and ("finding" in ln or "seen" in ln) and not ln.strip().startswith("#")]
+    check("nothing in overwatch REMOVES a finding or a `seen` entry -- the premise of the merge",
+          _removals, [],
+          note="union loses nothing only while retirement is a state change rather than a "
+               "deletion; if that ever changes, the merge would resurrect the removed entry "
+               "and this check is what says so before it ships")
+finally:
+    _OW.LEDGER = _OW_LEDGER
+    _OW._SNAPSHOT["digest"] = None
+
+# ---- Section 19n: a name the reader navigates by may not depend on the hash seed -------------
+# m41. navtree picks a node's REGISTER (and a hyperverse's grounding type) with
+# `max(set(xs), key=xs.count)`. On a tie -- two registers equally common under one node, the
+# ordinary case for a small branch -- max() keeps whichever the SET yielded first, and string set
+# order is randomized per process. The register is an input to `coin_well_formed`, so a flipped
+# tie RENAMES the node. Measured 2026-08-24: two consecutive `navtree --write` runs, identical
+# inputs, renamed 75 of 734 nodes; with PYTHONHASHSEED fixed, two processes agreed byte for byte.
+# These pin the tie-break itself, which is the part that must not drift -- building the whole
+# tree here would cost a minute of disk per suite run.
+
+def _mode_stable(xs):
+    """The tie-break navtree uses, isolated."""
+    return max(set(xs), key=lambda v: (xs.count(v), v))
+
+
+check("a tie between two equally common values resolves to a FIXED one",
+      _mode_stable(["compact", "classical"]), "compact",
+      note="lexicographic tie-break; the point is only that it is the same one every process")
+check("and does not depend on the order the values arrive in",
+      _mode_stable(["classical", "compact"]), _mode_stable(["compact", "classical"]))
+check("a clear majority still wins outright",
+      _mode_stable(["classical", "classical", "compact"]), "classical",
+      note="the tie-break must not become a lexicographic sort that ignores the counts")
+check("a three-way tie is also fixed",
+      _mode_stable(["a", "b", "c"]), "c")
+check("the real navtree helper carries the same rule",
+      "key=lambda r: (regs.count(r), r)" in
+      open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "navtree.py"),
+           encoding="utf-8").read(), True,
+      note="if this reverts to max(set(regs), key=regs.count) the tree churns again and only "
+           "a diff of two full runs would show it")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
