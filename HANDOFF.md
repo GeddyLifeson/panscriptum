@@ -9,6 +9,163 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 15:35 — Run #6 (the decision-shaped class: work that was undone, and a cap that chose the answer)
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **THE PAID BURST CAP WAS NOT ENFORCED AND REAL MONEY WENT THROUGH IT.** `state/PAID_BURST.json`
+   reads **598 used against a cap of 500** — 98 calls, about **$1.96** at the file's own
+   `est_usd_per_call`, spent past a hard limit whose own source comment promises *"the cap is
+   enforced HERE rather than trusted to restraint."* It was not. `paid_ok` only ever decided
+   whether to PROMOTE `anthropic:paid` into the proven-answering set; the bucket sits in the
+   router's model list unconditionally, is not local, and `_alive()` returns True for it — so a
+   closed lane merely ranked it **lower**, and the exhausted-pool fallback that walks that list
+   reached it anyway. With the free tier at **4% call success** right now, reaching the bottom of
+   that list is the normal path, not an edge case. **`enabled: false` did not stop it either**
+   (same code path), and **deleting the file was the worst of the three options**, because
+   `_pb is None` stopped the *counter* while the calls continued — spend carrying on, now
+   invisible. Fixed: no paid bucket is a candidate at all unless the lane is open, so both
+   documented kill switches now genuinely kill. **The counter was NOT reset** — it is the
+   evidence. Raise `cap`, or set `enabled: false` (which now works), as you prefer.
+2. **fandom.com is STILL dropping connections at the socket** (probed 14:06Z: `marvel` and
+   `onepiece` api → HTTP 000 after 21.3s; `en.wikipedia.org` → **200 in 0.23s** from the same
+   machine and second). Unchanged. Page roll 53%, reachable-wiki 90%.
+3. **Seven sources were filed under the wrong genre, and it drove their prose voice.**
+   `genre.classify_source` read the first 120,000 characters of a record and stopped. Marvel is
+   18,765,902 characters; it was classified off **0.64%** of itself as `post_apocalyptic`. Read
+   whole, it is `mythology`. `genre` sets `register` and `priors`. Detail below.
+4. **Owner permission setting changed at the owner's explicit request, mid-run:**
+   `~/.claude/settings.json` now carries `"permissions": {"defaultMode": "bypassPermissions"}` so
+   scheduled runs stop prompting. It is **machine-wide** — there is no per-task permission field —
+   and it applies to NEW sessions, so this run was already launched under the old mode.
+
+**TWO WRITERS AGAIN, AND THE GUARD DID NOT HOLD.** An interactive session ran concurrently with
+this one and recorded, honestly and at its own top, that it took the run guard while this run's
+record was live with a 1.0-minute-old heartbeat. That is exactly right, and the consequence is
+worth stating for whoever reads this next: **for roughly 45 minutes this run's heartbeat writes
+were refreshing a record belonging to `claude-interactive-completeness`,** because the heartbeat
+helper reads the file, updates the timestamp and writes it back — it never checks that the record
+is still its own. Re-claimed at 15:30Z once that session had finished (`done:true`). **The guard's
+weak point is not the claim, it is the heartbeat: a heartbeat should refuse to refresh a record
+carrying another agent's name.** Left as a NEXT_STEPS item rather than changed silently, since the
+guard is the one piece of machinery every future run depends on.
+
+No collision resulted here — the file sets were disjoint (that session: `completeness`, `foreman`,
+`address`, the charter; this run: `cascade_bridge`, `health`, `genre`, `grounding`, `pipeline`,
+`catalogue_web`, `overwatch`), and the merged tree's battery is green. Their completeness work
+supersedes this run's reading of that subsystem: **`COMPLETENESS.json` is no longer `[]`** — it
+holds **164 honest rows**, every one `unreliable: host unreachable`, and the HIGH standard now
+reads `UNMEASURED -- 164 row(s) ... 0 measurable`. NEXT_STEPS item 2 is therefore verified in the
+populated-but-unmeasurable state; the genuinely-measured state still waits on fandom.
+
+**THE RUN'S THEME: two ways the automation quietly overruled a decision that had already been made.**
+
+**`cleanup.py`'s exclusions were being reverted in full — all 149 of them.** `cleanup.py` strikes
+wiki-navigation cruft and description-less rules constructs by setting `catalogued = False` and
+writing an `excluded` reason naming why. Grep that key across `src/`: it is **written by
+cleanup.py and read by nothing**. Meanwhile the entrypass resume gate was
+`all(e.get("catalogued") for e in batch)` — so a struck entry left its batch *unsettled*, which
+reopened it, which sent it back through `phase_entrypass`, which sets `catalogued = True`
+**unconditionally**. Measured on the live corpus: **149 entries carry `excluded`, and all 149 had
+already been flipped back to catalogued.** Not a risk — an outcome, complete, on 100% of them.
+Cleanup's entire effect on the corpus had been erased, and the field recording the reasoning was
+read by nothing that could act on it. Now: an excluded entry settles its batch, is never sent to
+the model, and a result claiming its index is refused — the model was never given that entry, so
+such a result is it addressing something it did not see, and honouring it was the back door the
+149 came back through. A wholly-struck span records its key and spends no call. verify_math §19j;
+its first check fails under the old gate.
+
+**Two classifier caps were choosing answers, and one was choosing wrong.** Both
+`genre.classify_source(cap=120000)` and `grounding.classify_source(cap=140000)` walked
+`rec["entries"]` in **stored order** — scrape order, nothing ranked — and stopped at a character
+budget. Precisely CLAUDE.md's `cap=250 took the alphabetical head` shape. Per the standing rule,
+diffed over the **whole corpus before shipping** (210 records, capped vs uncapped, 14 processes):
+
+- **GENRE: seven sources answer differently uncapped.** Marvel `post_apocalyptic → mythology`
+  (score 240 off the truncated head vs **41,891** off the whole record), KibblesTasty
+  `grimdark → high_fantasy`, Bleach `high_fantasy → eastern`, Yorviing's `grimdark →
+  high_fantasy`, Dr. Firestorm's `military_modern → high_fantasy`, Crash Bandicoot `mythology →
+  grimdark`, Digimon `eastern → cyberpunk`. Not near-misses.
+- **GROUNDING: zero verdicts changed** — but that is luck, not safety, and the *reported evidence*
+  was wrong regardless: Marvel's `origin_entries` read **153 instead of 5,012** and its score 95
+  instead of 930, understating its own attestation 33-fold on the exact field a reader would use
+  to judge how well-founded the claim is. Six sources exceeded that cap.
+
+Both uncapped; the parameter survives so no caller breaks, but a numeric value is refused loudly,
+as `feats.discover`'s `extra` already is. Cost ~16s on Marvel, negligible elsewhere. **§19i's
+fixture had to be rebuilt**: the first version was 18,000 characters, sat comfortably inside the
+old 120,000 budget, and therefore passed against the buggy code — vacuous, exactly the run #5
+lesson, caught before shipping. The shipped fixture puts one weak signal in 140,014 characters of
+filler ahead of the real one: pre-fix answers `grimdark`, post-fix `mythology`.
+
+**`overwatch` had stopped falling back to the cloud hours ago, and said so in its own log every
+round.** `_LOCAL_BUSY` is a module-level counter incremented on every GPU-busy call and **never
+reset anywhere** — while `CLOUD_BUDGET`'s own comment calls it *"calls the watcher may take from
+the shared pool in one round"* and the yield it guards is designed to last *"for as long as the
+busy period lasted."* In `--loop` mode it is a lifetime accumulator. The standing process had been
+up **12.8 hours**; transcribed out of `state/overwatch.log` **before** bouncing it (m23 truncates
+logs on restart), every module read in the last rounds carried `(GPU busy; 20 calls to the cloud,
+budget spent)` — completeness finishing in 6s having done nothing. Reset per round. Bounced;
+the keeper restarted it on the fixed code within 4 minutes (PID 37188 → 41328, confirmed by
+creation timestamp, not by a status line).
+
+**`health.flush()` — the writer `foreman.py:237` names by name — was still non-atomic.** That
+comment reads: *"state/failures.json is the highest-traffic shared file in the project — the
+dashboard polls it, standards reads it, and EVERY process read-modify-writes it through
+health.flush()."* m18 then hardened foreman's own three writes and left the writer that sentence
+names untouched — the canonical one, called every 25 records and again at exit, from every
+one-shot subprocess in the kit. A bare `open("w")` truncates before serialising; the careful
+corrupt-read branch directly above it would then do exactly what it promises, preserve the wreck
+as `.corrupt` and start fresh — **discarding the entire accumulated failure history the file
+exists to hold.** Now atomic, and `LEDGER` clears **only if the rename landed** (a denied replace
+previously discarded the very counts it had failed to persist — verified live in a sandbox: the
+counts are retained and land on the next flush). Same treatment for `failure_samples.json`, which
+needs it *more* than the ledger does, not less, having no `.corrupt` recovery path at all.
+
+**`health.reopen_stranded` was the one writer breaking `PIPELINE_STATE.json`'s contract** — a raw
+truncating write on the single most important state file in the kit, which `pipeline.py` writes
+exclusively through `replace_retry` and documents as *"atomic writes; safe to kill the process."*
+This is the repair tool for that file, invoked precisely when a pipeline may be live, since that
+is when batches strand. Now atomic; its unguarded `json.load` distinguishes absent from torn
+(opposite responses: run it later vs. restore it); a denied write reports and returns `[]` rather
+than handing back a list that reads as "these were re-opened."
+
+**`catalogue_web` recorded a source as catalogued when the write had been denied.**
+`write_record_catalogue` returns whether the rename landed, precisely so callers can gate on it —
+`pipeline.py:641` and `ingest_doc.py:246` both do. This was the one call site discarding the
+verdict, then setting `entry_count` and `status = "catalogued"` regardless. Because the default
+work selection is `entry_count == 0`, a source lost that way would **never be picked up again**.
+Gated. `save_roll` also made atomic: written from three worker threads, read by both `load_roll`
+and `resync_roll.py` with **unguarded** `json.load`, so a torn write does not degrade gracefully —
+it kills the next run outright. `overwatch.save`'s bare `os.replace` → `replace_retry`, same
+Windows-denial reason.
+
+**Battery (post-fix, on the merged two-writer tree):** verify_math **338 passed / 0 FAILED**
+(+25 across §19h/§19i/§19j) · allsweep **0 subsystems bad** · pyflakes clean across `src/` ·
+silence audit 340 handlers, 12 silent (roster unchanged; this run's two new test-scaffold handlers
+marked `silence-exempt`, since catching the refusal *is* the assertion) · `health --preflight`
+**2 problems, both pre-existing and known** (M3 fandom, M1 dandwiki cache), `ok state consistency`.
+
+**Delegation.** Rung (a): read the bots' own outputs first — `FOR_OWNER.md` is where the 598/500
+overshoot was sitting in plain sight. Rung (b) Ollama: **runner verified live**
+(`llama-server.exe` resident, 9.2 GB, `qwen3:8b`), so the run-#3b wedge is not present — but the
+GPU is exactly what overwatch and the pipeline were contending for, and routing `local_agent` work
+at it would have deepened the contention being diagnosed. Skipped for that reason. Rung (c): three
+sonnet-tier audit subagents over four un-rotated surfaces. **Every finding was re-verified against
+source before anything was touched**, and that mattered in both directions: the cleanup/entrypass
+finding was right about where *and* why but understated until the corpus was measured (149/149,
+not "could recur"); `grounding`'s cap was reported as possibly inert and turned out to hit six real
+sources; and `custodes.covers_every_reading` is a genuine tautology but not a defect. Rung (d):
+the money path, the corpus diffs, the bounce, and the ledgers.
+
+**Notes:** No caps introduced. Two long-standing caps removed with whole-corpus evidence; several
+diagnostic slices left alone and escalated as questions rather than assumed in or out of scope.
+The pipeline was **not** bounced — mid-phase-2, resumable, and its fix concerns 149 entries already
+flipped, so the change lands free on the next natural restart rather than costing an interrupted
+lap. `read.py` and `feats.py --roll` likewise left alone per their supervisor cadence.
+
+---
+
 ## 2026-08-24 ~10:15 — Interactive session, part 2 (the promotion ladder)
 
 **WHY COMPLETENESS KEPT EMPTYING — the actual answer, and a hole still open.** The audit is

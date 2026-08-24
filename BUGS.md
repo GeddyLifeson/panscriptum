@@ -7,6 +7,15 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M4] The paid burst counter stands at 598 against a cap of 500 — HUMAN CALL on what to do
+  about it.** The enforcement bug is FIXED (run #6, see paper trail): no paid bucket is a
+  candidate unless the lane is open, and both documented kill switches now genuinely kill. What
+  remains is the owner's decision, and the reason this is filed Major rather than closed: ~98
+  calls (~$1.96 at the file's own `est_usd_per_call`) were spent past a hard cap, the counter was
+  **deliberately not reset** because it is the evidence, and the lane currently reads
+  `enabled: true` with `used > cap` — so it is closed by the cap, not by intent. Raise `cap`,
+  set `enabled: false`, or delete the file (deletion is now safe; before the fix it was the worst
+  of the three, since it silenced the counter without stopping the spend).
 - **[M3] fandom.com is dropping connections at the socket** — measured 2026-08-24 08:35:
   `marvel.fandom.com` api and html, `dc.fandom.com`, `onepiece.fandom.com` all HTTP 000 after
   20–21s; `en.wikipedia.org` answers in 0.25s from the same machine. A live probe run took 129s
@@ -72,10 +81,42 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   page list or a chunk list — but it is a truncation of an ordered listing and the rule's text
   does not carve out logs explicitly. **Question, not a fix.** Same family as m16's diagnostics
   ruling; one decision could settle both.
+- **[m27] the run guard's HEARTBEAT does not check whose record it is refreshing.** Claiming the
+  guard is checked; refreshing it is not. The helper reads `state/MAINTENANCE_RUN.json`, updates
+  `heartbeat`, and writes it back — so when the interactive session took the guard mid-run on
+  2026-08-24, run #6 spent ~45 minutes faithfully refreshing the heartbeat of
+  `claude-interactive-completeness`, making a finished run look live. Small fix (refuse to
+  refresh a record whose `agent` is not ours, and say so loudly), but the guard is the one piece
+  of machinery every future run depends on, so it is filed rather than changed silently.
+- **[m28] `overwatch.load()` turns a corrupt ledger into an empty one.** `except` → return
+  `{"findings": {}, "seen": {}, "rounds": 0}`, so a torn `OVERWATCH.json` silently discards every
+  open finding and the round counter, and the next `save()` writes that emptiness back as fact.
+  It does call `silence.note`, so it is observed rather than silent — but `health.flush()` faces
+  the identical situation and handles it properly, preserving the wreck as `.corrupt` and saying
+  so on stderr. Same treatment would suit. Low exposure now that `save()` uses `replace_retry`.
+- **[m29] `cleanup.py`'s `_EMPTY_MECHANIC` predicate cannot tell a rules construct from a real
+  entity whose description failed to fetch.** It strikes an entry when the description is empty
+  AND the name ends in `variant|feature|trait|slot|...`. But an empty description is a signal this
+  project has repeatedly shown to be unreliable (`feats._unwrap_templates` turned 190KB pages into
+  30 characters and it "read as CORRECT SILENCE"), and real entities do end in those words —
+  Marvel's Loki *Variants* are the obvious case. **Relevant now in a way it was not before**: run
+  #6 made exclusions durable, so a wrong strike is now permanent rather than being undone by the
+  next entrypass. **Owner call before `cleanup.py --apply` is run again** — and note that the 149
+  entries struck earlier have all since been flipped back, so re-running is what would re-strike
+  them. Deliberately not re-run this session.
+- **[m30] `custodes.convene`'s `covers_every_reading` is a tautology**, and `sevenfold`'s
+  `OVER SPAN` can never print. `half` is defined as `max(1.96*sd, max|v-consensus|)` and the very
+  next line checks `all(abs(v-consensus) <= half)` — true by construction. Likewise `seams()`
+  clamps child counts to `SPAN`, so the balance table's `hi <= SPAN` check cannot fail for any
+  input. Neither corrupts anything; both are checks that present as verification while being
+  incapable of catching a regression. Cosmetic, but this is now the third and fourth instance of
+  the unreachable-branch family (after m12 and the one fixed in run #2), which is worth noticing
+  as a pattern rather than filing four times.
 
 *Open items are now: two operational blocks that are not code faults (M3 fandom, M1 dandwiki),
-two contract questions (m24, m25), the standing HUMAN CALLs (m12, m13, m16 and M1) and two
-watched states (m1, m2). Nothing open is awaiting only implementation.*
+one money decision (M4), three contract questions (m24, m25, m26), the standing HUMAN CALLs
+(m12, m13, m16, m29 and M1), three small implementable items (m27, m28, m30) and two watched
+states (m1, m2).*
 
 ## Watching (not bugs — expected states with a clock on them)
 - **`MAX_JOB_SILENCE_MIN = 15` is a live threshold as of run #3** — the stall detector could not
@@ -98,6 +139,59 @@ watched states (m1, m2). Nothing open is awaiting only implementation.*
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #6 (2026-08-24 15:35). Full detail in HANDOFF.md's run #6 entry:*
+
+- **[M4-enforcement] The paid burst cap was never enforced at SELECTION, and ~$1.96 of real money
+  went past it.** `paid_ok` only decided whether to PROMOTE `anthropic:paid` into the proven-
+  answering set. The bucket is in `_ROUTER.models` unconditionally, is not local, and `_alive()`
+  returns True for it — so a closed lane merely ranked it lower and the exhausted-pool fallback
+  reached it anyway (free tier at 4% success, so reaching the list's bottom is the normal path).
+  `enabled: false` failed identically, and deleting the file was worse still: `_pb is None`
+  stopped the counter while the calls continued. Now `widen_candidates()` excludes paid buckets
+  unless `paid_lane_open()`, and the counter re-reads from disk under a lock and lands atomically
+  (the old snapshot-increment was a lost-update race that drifted the count BELOW true spend —
+  the wrong direction on a money file). verify_math §19h, falsified against the pre-fix
+  expression. The remaining owner decision stays open as M4.
+- **[Hard Rule 0] `genre.classify_source(cap=120000)` was choosing genres off the front of a
+  record.** Stored order, not ranked. Marvel: 18,765,902 characters, 0.64% read,
+  `post_apocalyptic` (score 240) where the whole record says `mythology` (41,891). Whole-corpus
+  diff, 210 records: **seven sources answered differently uncapped** (Marvel, KibblesTasty,
+  Bleach, Yorviing's, Dr. Firestorm's, Crash Bandicoot, Digimon). `genre` sets `register` and
+  `priors`, so each was dressing its prose in a voice chosen by scrape order. Uncapped; a numeric
+  cap is now refused loudly. §19i — whose fixture was rebuilt after the first version proved
+  vacuous (it fitted inside the old budget and passed against the buggy code).
+- **[Hard Rule 0] `grounding.classify_source(cap=140000)`** — same shape, six sources over the
+  cap. No verdict changed, but Marvel reported **153 origin entries instead of 5,012** and score
+  95 instead of 930, understating its own attestation 33-fold on the field a reader would use to
+  judge it. Uncapped; numeric cap refused.
+- **`cleanup.py`'s exclusions were reverted in full — 149 of 149.** `excluded` was written by
+  cleanup and read by nothing, while `batch_settled` demanded `all(catalogued)`, so a struck entry
+  unsettled its batch, reopened it, and `phase_entrypass` set `catalogued = True` unconditionally.
+  Measured: every one of the 149 had already been flipped back. Now an excluded entry settles its
+  batch, is never sent to the model, and a result claiming its index is refused; a wholly-struck
+  span costs no call. §19j. **See m29 before re-running `cleanup.py --apply`.**
+- **`overwatch`'s `_LOCAL_BUSY` was a lifetime accumulator, not a per-round budget** — never reset
+  anywhere, while `CLOUD_BUDGET`'s own comment says "in one round". The standing job had been up
+  12.8 hours and every module read in its last rounds logged `budget spent`, with no cloud
+  fallback at all; completeness "finished" in 6s having done nothing. Reset per round, job bounced,
+  keeper restart confirmed by PID and creation timestamp (37188 → 41328).
+- **`health.flush()` wrote `state/failures.json` non-atomically** — the exact writer
+  `foreman.py:237` names ("EVERY process read-modify-writes it through health.flush()") and the
+  one m18 did not fix. A torn write would trip the careful corrupt-read branch above it, which
+  preserves the wreck as `.corrupt` and starts fresh — discarding all accumulated failure history.
+  Atomic now, and `LEDGER` clears only if the rename landed (a denied replace used to discard the
+  counts it had just failed to persist). `failure_samples.json` likewise, which needed it more,
+  having no `.corrupt` recovery path.
+- **`health.reopen_stranded` broke `PIPELINE_STATE.json`'s single-writer-atomic contract** — raw
+  truncating write on the kit's most important state file, from the repair tool that runs
+  precisely when a pipeline is live. Atomic now; absent vs. torn distinguished on read; a denied
+  write reports and returns `[]` instead of a list that reads as "these were re-opened".
+- **`catalogue_web` marked a source catalogued when the record write had been DENIED** — the one
+  call site discarding `write_record_catalogue`'s landed verdict. Since work selection is
+  `entry_count == 0`, such a source would never be picked up again. Gated. `save_roll` made
+  atomic (two unguarded `json.load` readers); `overwatch.save`'s bare `os.replace` →
+  `replace_retry`.
 
 *Interactive session 2026-08-24 ~09:40 (owner-directed). Full detail in HANDOFF.md:*
 
