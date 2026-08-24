@@ -3,7 +3,7 @@
 *Hand-written. `src/pipeline.py` rewrites its own status block below the line; everything above
 it is durable and should be read first.*
 
-Last substantive update: **2026-08-22**
+Last substantive update: **2026-08-23** (section 0b is the day; the 2026-08-22 sections below it stand unchanged)
 
 ---
 
@@ -30,6 +30,121 @@ richest material lands first if a run is interrupted. **Ranking then truncating 
 
 If something is genuinely too slow, the answer is more workers, more providers, or more time.
 It is never a smaller universe.
+
+---
+
+## 0b. 2026-08-23 — DOCTRINE, THE CAP PURGE, THE LOOP WAR, AND THE ASSAY GOING INDUSTRIAL
+
+The audits carry the detail (`handoff/AUDIT_2026-08-23.md`, `handoff/AUDIT_2026-08-23_EVENING.md`
+— every module read line-by-line, morning and evening). What a successor must know:
+
+**OWNER RULINGS, ratified in FOR_OWNER.md and encoded in the code the bots execute:**
+- **Magnitude = capacity to decide outcomes at scale.** Person -> who would win; equipable ->
+  the delta granted to a possessor; anything else -> effect within what it can interact with.
+  One quantity, three manifestations (Yggdrasil sustains / Dr. Manhattan acts / the Infinity
+  Gauntlet grants), which keeps unlike things comparable. Restates Part Three's own "decide,
+  not merely break". Lives in `magnitude.SYSTEM` and both `pipeline` glosses. The
+  presence-attendance reading is retired to `data/REFERENCE_ASSAYS_PRESENCE.json`
+  (`_superseded` note inside); the charter's published Goku/Naruto/Luffy values stand as canon.
+- **Epoch-mandatory sources** (`identity.EPOCH_REQUIRED`): mtg.fandom.com (the MENDING —
+  oldwalker vs neowalker are different power classes) and forgottenrealms.fandom.com (Time of
+  Troubles / Spellplague / Second Sundering). An unstamped sheet for these hosts is REFUSED and
+  requeued, enforced in `assay_entity` on every path including the split-retry. One entity may
+  hold multiple accessions, keyed `host|name@epoch`.
+- Travel is Vector, never the anchor (the Jace clause, in the prompt).
+
+**THE CAP PURGE.** `catalogue_web.MAX_PER_SOURCE = 320` silently truncated every source's cast
+— Marvel held 1,051 of 103,554 characters; Molecule Man, Mxyzptlk and the Black Winter all read
+as "not in that fiction". Removed, with a guard that refuses to run if re-capped. Marvel
+re-catalogued to **30,207 entries**. `completeness.py` measures every source against the wiki's
+own categoryinfo (excluding rows whose denominator it cannot stand behind); the
+`every source is fully catalogued` standard (floor 1.0, deliberately unsatisfiable) keeps the
+catalogue dispatching itself. `wiki_source.find_categories` now DISCOVERS a wiki's real
+categories from its own allcategories listing (pro wrestling's cast lived in "Male wrestlers",
+13,314 pages — the fixed probe list had catalogued 158 COUNTRIES from a nationality grouping).
+
+**THE FANDOM IP BAN.** `wiki_source.MIN_GAP=0.01` (100 req/s, benchmarked on 60-page samples)
+drove the Marvel pull; fandom.com dropped this machine at the socket for hours. Rate is 0.15s
+now, `feats._throttle` is the shared politeness layer, `endpoint.detect` DEAD verdicts expire
+(24h — a bad hour must not brand a host permanently unreadable), and a `fandom answers this
+machine` standard plus a socket gate on the catalogue remedy stop the automation dispatching
+into a block. Ban shape: fandom HTTP 000 at the socket while Wikipedia answers in 0.2s.
+
+**GITHUB WAS 122 COMMITS BEHIND, SILENTLY.** Session `GITHUB_TOKEN`/`GH_TOKEN` PATs override
+the keyring gh login and 403 every push; supervisor children lacked gh-cli on PATH.
+`publish.git()` sheds both. The export repo moved out of the session scratchpad to
+`C:\Users\imarl\panscriptum-export` (`PANSCRIPTUM_EXPORT` set at User scope). Backup strays
+(`src/*.pre*`) were being published to the public repo; SKIP_SUFFIX extended, backups now live
+in `state/backups/`.
+
+**THE LOOP WAR** (an afternoon of black windows and 3-minute respawns). Root causes, each now
+guarded: `overnight.running()` and `autostart.supervisor_alive()` filtered on `python.exe`
+ONLY and went blind when the stack moved to pythonw — the watchdog restarted a "dead"
+supervisor every cycle; THREE watchdogs ran at once and their supervisors' foremen shot each
+other's stacks (`kill_duplicate_jobs` may now never target overnight/autostart; watchdog and
+supervisor both carry self-guards); a creationflags mass-patch omitted the `_NO_WIN` constant
+in overnight and the NameError sat inside `silence.note` for an hour; and every
+powershell/wmic/python/git child of a windowless parent ALLOCATES A CONSOLE unless
+CREATE_NO_WINDOW is passed — it now is, in every module that spawns. The Startup `.vbs`
+launches pythonw.
+
+**THE ASSAY WENT INDUSTRIAL** (7 scored -> 210+). `magnitude.py` now has: the cascade pool
+with a proof-ranked fallback (POOL_PROOF.json first — config order was a graveyard tour, ~100
+failed calls per success; and the router never hands out local buckets, which had flooded one
+10GB card with three competing model loads until Ollama answered everyone "maximum pending
+requests exceeded"); `--batch` with `settled()` (a score, "no axis cleared its gate", or a
+saturation refusal are findings; everything else requeues); the SOURCE CEILING clamp from
+`data/SCOPE.json` via `host_ceiling()` (Jace one-shot at M10.77 against the charter's
+published M2.88 — the clamp existed all along and only calibrate() ever passed it);
+SPLIT-FIRST above `ONE_SHOT_MAX=30k` (the recall cliff: 36k chars gave 19 feats vs 41 at 10k)
+with per-axis slices, an anchor call over the winning citations, `_split_gate` (verbatim
+containment ONE WAY — a fabricated wrapper around a real quote fails), and a split-RETRY when
+a one-shot's every citation fails verbatim (a transport's bad day is not the entity's evidence
+ceiling). Every gate re-applies to the retry — epoch and clamp both; the bypass was the
+evening sweep's C1. `feats.AXIS_ACT` vector vocabulary gained
+planeswalk/plane shift/apparate/shunpo/flash step/blink/portal/rift — the most famous
+planeswalker in fiction had VECTOR unestimable because his franchise's own verb was not in the
+list. Proof of the whole chain, bots only:
+**Jace M10.77 -> A M2.56 +/- 0.08 with vector scored, vs charter M2.88 +/- 0.25.**
+
+**AUTOMATION CLOSES ITS OWN LOOP.** 35 standards (new today: jobs must be ADVANCING, not
+merely alive — log growth vs a stored snapshot; catalogue coverage vs the wikis' own counts;
+sweep-freshness vs the newest record; fandom reachability). Foreman: per-remedy AND per-round
+exception guards (one remedy's TimeoutExpired once ended the autonomous loop permanently),
+remedy timeouts bounded under the loop interval, `always`-remedies (a measurement is not an
+alternative to a repair — Marvel read 0.4% coverage for 18 hours after it was actually fixed),
+kill_stalled_job / kill_duplicate_jobs, and the catalogue / sweep / completeness / adopt
+dispatches all fire from work orders. Work-order lifecycle: standards orders are STATELESS
+(met floor -> order gone next round), FOR_OWNER.md is regenerated whole each round, overwatch
+findings keep closed history for recurrence detection — delete-on-resolve for orders,
+keep-on-resolve for findings. `allsweep` gained a LINT tier (pyflakes on every module, every
+run — undefined names are how two of the day's faults hid behind silence.note). `lognames.py`
+is the single place job log filenames live; dashboard, standards and foreman all read it.
+
+**PIPELINE SAFETY.** `pipeline.write_record` now MERGES when the on-disk record has drifted —
+the recatalogue and the phases are two whole-file writers, and the pipeline's stale in-memory
+copy would have silently reverted Marvel 30,207 -> 1,051. `chain.write_result` is the ONE
+writer for CHAIN.json (two callers had two schemas). `update_handoff` derives its phase table
+from IMPLEMENTED (the hand table said "to build" about built phases, published every unit) and
+caches its counts (it was re-parsing ~86k entries after every completed unit).
+
+**CURRENT STATE (2026-08-23 ~21:00).** Catalogue 85,904 entities across 210 sources (Marvel
+30,207; DC re-catalogue running). ASSAYS.json: 507 records, 210 scored; multi-accession keys
+live. Standards 27/35 met (reds are the evening pool tide — free-tier daily windows drained —
+plus coverage pending DC and settled 47%). Overwatch open findings: 0 (all six triaged with
+recorded verdicts; one was checked against the code before refuting). The swallowed ledger was
+94% one probe artefact (35,806 entries from overnight.running noting its own output's
+formatting rows) — cleaned; what accrues now is real pool-decline noise. Running unattended:
+one watchdog -> one supervisor -> one of each job; the mandate-era 400-batch; DC recatalogue;
+host adoption; Jace's two accessions plus the Infinity Gauntlet (the equipable doctrine's
+first live test) queued behind the thin pool.
+
+**BITES ADDED TODAY.** A batch in flight carries the code it launched with — bounce
+read/foreman/overwatch after editing anything they import. Evening = pool tide: expect defers,
+not failures; nothing false publishes and settled() requeues everything. wmic/powershell/git
+spawned from pythonw flash console windows without CREATE_NO_WINDOW. Never run project
+commands after cd-ing into the export copy — the `.is-export-copy` guard refuses, and it fired
+for real today, correctly.
 
 ---
 
@@ -674,23 +789,24 @@ python src/magnitude.py --calibrate     # against the charter's six published va
 `STATUS.md` is rewritten each supervisor cycle — read that first in the morning. Then read the
 `swallowed failures:` block in `state/overnight.log`; a new entry there is a bug, not data.
 
-## 9. NEXT
+## 9. NEXT (rewritten 2026-08-23)
 
-1. **Let the reader finish.** ~9.7h for all 32,705 entries with pages, uncapped, at 13 workers.
-   CITED should move off 9.4% substantially — this is the first pass where the model has actually
-   been reading rather than the GPU trickling.
-2. Re-run `hostcheck --repair` and then `--rosters --purge --go` once the roll settles, so the
-   wrong-fiction rosters come out before anything is written about them.
-3. Close the NO PAGE gap with `feats.resolve_title` — measured 16% recovery ≈ 2,700 entries.
-4. Fit ρ from the chain, then put the compensation question to the owner with a number.
-5. **Phases 5–8 (`cosmology`, `history`, `shelve`, `write`) are not implemented**; the runner
-   stops cleanly at the first missing one. This is the largest single block of unbuilt work.
-6. Charter errata to raise with the owner: rungs 10 (Supercluster), 11 (Filament/Void) and 16
-   (Hyperverse) have **no Magnitude band**, and M0–M2 sit below rung 1.
-7. Rewrite `reference.py`'s three calibration cards' AXIS notes in presence language — the anchor
-   statements were converted on 2026-08-22 (`hegemonic` → `presence` throughout the assay stack),
-   but the per-axis prose still reads as threat in places.
-8. Fellegi–Sunter for entity resolution (currently complete-linkage; F–S gives match probabilities
-   and a principled threshold instead of an inspected cutoff).
+1. **Pool rollover (tonight):** the free tiers' daily windows reset; the mandate-era batch
+   clears the deferred backlog — including the split-path heavyweights — without supervision.
+2. **The dependency chain after DC's re-catalogue:** sweep rebuild -> feats roll -> read ->
+   assay. The sweep-freshness standard plus foreman dispatch enforce the order now; let it run.
+3. **Coverage re-measure** happens via the `always`-remedy after the shortfall list drains.
+   One open oddity: Marvel shows 30,207 on disk but the completeness row still reads low —
+   check the row's byslug match before trusting the next percentage.
+4. **Chain of Defeats on the post-recatalogue index** — Lex Luthor, Wally West et al. become
+   matchable edges; Ford's condition gets its first real shot at holding.
+5. **Charter errata for the owner:** Supercluster / Filament / Hyperverse rungs have no
+   Magnitude band. The anchor-vs-axes "chord view" (eleven-axis profile beside every Moth
+   number) was offered and awaits a yes.
+6. Phase 8 prose: WRITE_SETTLED_MIN = 0.60 gates on the settled fraction — rises as the read
+   runs on the refreshed pool.
+7. Terminal rebuild (`build_terminal.py`) once the catalogue settles — registry data is Aug 19.
+8. Mid-run executor resize (the tuning regime is start-of-run; the adaptive gate covers
+   read.py only). Fellegi-Sunter for the weave remains the principled upgrade.
 
 ---
