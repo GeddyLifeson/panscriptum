@@ -32,6 +32,7 @@ produced, so a better reader does not make them less necessary; it makes them th
 standing between a fluent paraphrase and a printed measurement.
 """
 import argparse
+import contextlib
 import hashlib
 import json
 import os
@@ -290,9 +291,40 @@ def _gate():
     return _GATE_CLOUD if _GATE_STATE["regime"] == "cloud" else _GATE_LOCAL
 
 
+_CARD_HELD = threading.local()
+
+
+@contextlib.contextmanager
+def _card_gate():
+    """Hold one of the card's GATE_LOCAL_N permits -- unless this thread already holds one.
+
+    RE-ENTRANCY HERE IS A DEADLOCK, NOT A NUISANCE. _gate() hands out _GATE_LOCAL itself when
+    the regime reads local/starved, and _ask holds it for the whole ladder. A second, nested
+    acquire of that same BoundedSemaphore from the same thread cannot be satisfied once
+    GATE_LOCAL_N threads are inside the ladder: each holds the only permits there are and each
+    blocks forever waiting for another. So the permit is tracked PER THREAD, and a thread that
+    is already inside the card's gate passes straight through instead of acquiring twice.
+    """
+    if getattr(_CARD_HELD, "on", False):
+        yield
+        return
+    with _GATE_LOCAL:
+        _CARD_HELD.on = True
+        try:
+            yield
+        finally:
+            _CARD_HELD.on = False
+
+
 def _ask(c, system, prompt, schema):
     """One structured call, by whichever transport is available -- through the adaptive gate."""
-    with _gate():
+    gate = _gate()
+    if gate is _GATE_LOCAL:
+        # The regime already chose the narrow gate; take it through _card_gate so the nested
+        # acquire in _local() sees that this thread is holding it and does not deadlock.
+        with _card_gate():
+            return _ask_ungated(c, system, prompt, schema)
+    with gate:
         return _ask_ungated(c, system, prompt, schema)
 
 
@@ -430,12 +462,46 @@ def fallback_model(c):
 
 
 def _local(c, system, prompt, schema):
-    """The GPU, re-splitting anything too long for its window, benched when it stops answering."""
+    """The GPU, bounded to the card's real slot count, benched when it stops answering.
+
+    THE GATE HAS TO BIND ON WHERE THE CALL LANDS, NOT ON WHAT THE REGIME IS CALLED.
+
+    _gate() picks its width from tuning.regime(), and regime() answers "cloud" whenever enough
+    buckets ANSWER A PROOF CALL. Reachability is not capacity. Measured 2026-08-24: regime read
+    "cloud", so every worker passed the wide GATE_CLOUD_N=16 gate -- while the live cloud success
+    rate was 4.1% over the previous hour, so nearly every chunk fell straight through the ladder
+    onto the card. Nine requests were in flight against OLLAMA_NUM_PARALLEL=2. Seven of them sat
+    in the daemon's queue, and a trivial 7-token call measured 113s and 178s of pure queue wait
+    against 0.58s unloaded -- past the 180s timeout below, which benches the GPU for GPU_BENCH
+    and DISCARDS the chunk. Result over 7.5 hours: 1,235 chunks handed to the GPU, 1,168 of them
+    UNANSWERED and not cached -- 94.6% of the work thrown away by a job that looked healthy.
+
+    That is precisely the pile-up GATE_LOCAL_N exists to prevent ("the surplus workers WAIT at
+    the gate instead of stacking onto the card"), and it did not bind because the regime label
+    disagreed with where the traffic actually went. So the local leg now takes the local gate
+    unconditionally: whatever the regime is called, only GATE_LOCAL_N calls touch the card at
+    once. Waiting for a permit costs a worker seconds; timing out costs the chunk entirely.
+
+    The bench check is deliberately BEFORE the gate -- a benched card should not consume a
+    permit just to return None.
+    """
     if _GPU_DOWN_UNTIL[0] > time.time():
         return None
+    with _card_gate():
+        return _local_carded(c, system, prompt, schema)
+
+
+def _local_carded(c, system, prompt, schema):
+    """The local call itself. Call _local, not this: this one does not hold the card's gate."""
     c = dict(c, model=fallback_model(c))
     if len(prompt) <= CHUNK + 2000:
-        got = P.ask(c, system, prompt, schema, timeout=180)
+        # 360s, not 180: sized for the 8B's real service time on a full chunk (prefill on a
+        # 10k-token prompt plus a structured reply), WITH the gate bounding concurrency to the
+        # card's slots so queue wait stays near zero. At 180s the card burned at 98% while 94%
+        # of handed chunks died at the deadline AFTER their compute was spent -- the thrash of
+        # 2026-08-24: paying for work and discarding it. A completed slow call beats a fast
+        # discard every time; chunks that still miss are deferred, never lost.
+        got = P.ask(c, system, prompt, schema, timeout=360)
         if got is None:
             _GPU_DOWN_UNTIL[0] = time.time() + GPU_BENCH
         return got

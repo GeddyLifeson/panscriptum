@@ -361,7 +361,16 @@ def ask(c, system, prompt, schema, retries=2, timeout=None, num_ctx=None, tag=""
             with gpu_lane.lane(f"pipeline:{tag or 'ask'}"):
                 with urllib.request.urlopen(req, timeout=timeout or 420) as r:
                     raw = json.loads(r.read().decode())
-            _metric({"tag": tag or "ask", "s": round(time.time() - t0, 2),
+            # "at" IS NOT OPTIONAL: it is what makes a row findable in time.
+            #
+            # This row carried no timestamp for the whole life of the ledger while
+            # cascade_bridge._metric's row always did. Both write the same file, so every
+            # time-windowed query over it -- including the "is the cloud still storming"
+            # one-liner each maintenance run is handed -- filtered on `at` and silently
+            # returned CLOUD-ONLY results. 913 local rows across 7 tags were invisible, and
+            # the local lane's call volume had never once been measurable. The count looked
+            # like a complete answer because the rows it dropped did not exist to it.
+            _metric({"at": round(t0, 1), "tag": tag or "ask", "s": round(time.time() - t0, 2),
                      "in_tok": raw.get("prompt_eval_count"), "out_tok": raw.get("eval_count"),
                      "tps": (round(raw["eval_count"] / (raw["eval_duration"] / 1e9), 1)
                              if raw.get("eval_duration") and raw.get("eval_count") else None),

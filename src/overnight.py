@@ -148,7 +148,16 @@ def run(name, args, logfile, timeout_h=6):
     log(f"  {name}: starting")
     t0 = time.time()
     try:
-        with open(lf, "w", encoding="utf-8") as fh:
+        # APPEND, same m23 fix as start() below: run()-managed jobs (read, pipeline) restart
+        # every supervisor lap, and "w" erased each lap's evidence just as surely as the
+        # keeper's bounces did for standing jobs. Same separator idiom, same single-file
+        # contract for the dashboard's _tail_match readers.
+        with open(lf, "a", encoding="utf-8") as fh:
+            with contextlib.suppress(Exception):
+                fh.write(chr(10) + "=" * 28 + " %s session %s " % (
+                    name, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                    + "=" * 28 + chr(10))
+                fh.flush()
             env = dict(os.environ, PYTHONIOENCODING="utf-8")
             p = subprocess.Popen([PY, "-u"] + args, cwd=HERE, stdout=fh,
                                  stderr=subprocess.STDOUT, env=env,

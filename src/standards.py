@@ -134,6 +134,68 @@ def ollama_runner_up(ttl=120.0):
     return up
 
 
+_TOKENFLOW = {"at": 0.0, "ok": None, "s": None}
+
+
+def ollama_token_flow(ttl=300.0, timeout=300):
+    """Does a generation actually COMPLETE? The third liveness lesson in two days.
+
+    The runner-process check above closed the first wedge (resident model, no runner). On the
+    same day the inverse appeared: runner alive, model fully GPU-resident, /api/tags fine --
+    and a trivial generate timing out for TWO HOURS while every check here read green. Process
+    presence and API reachability are both proxies; the only proof of a model server is a
+    completed generation.
+
+    BUSY IS NOT WEDGED. The first draft probed with a 90s timeout and cried wolf the moment a
+    healthy queue held a few worker calls -- exactly the false-alarm class this file's own
+    docstring warns trains readers to scroll past. So the LEDGER answers first: any local
+    call completing in the last 15 minutes (a metrics row with a tps) is proof of flow at
+    zero cost. Only a silent ledger earns the live probe, and the probe waits like a worker
+    would. `None` = could not tell, never reported as a fault."""
+    now = time.time()
+    if now - _TOKENFLOW["at"] < ttl:
+        return _TOKENFLOW["ok"], _TOKENFLOW["s"]
+    try:
+        mp = os.path.join(HERE, "state", "model_metrics.jsonl")
+        size = os.path.getsize(mp)
+        with open(mp, "rb") as f:
+            if size > 120_000:
+                f.seek(-120_000, 2)
+            tail = f.read().decode("utf-8", "replace").splitlines()
+        for ln in reversed(tail):
+            try:
+                r = json.loads(ln)
+            except Exception:
+                continue
+            if r.get("tps") and now - float(r.get("at", 0)) < 900:
+                _TOKENFLOW.update({"at": now, "ok": True, "s": "ledger"})
+                return True, "ledger"
+    except Exception:
+        _ = "silence-exempt: no metrics ledger yet just means the probe decides"
+    ok, secs = None, None
+    try:
+        import urllib.request as _ur
+        import yaml as _yaml
+        cfg = _yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
+        body = json.dumps({"model": cfg.get("model"), "prompt": "say ok", "stream": False,
+                           "keep_alive": -1,
+                           "options": {"num_ctx": 512, "num_predict": 8}}).encode()
+        req = _ur.Request(str(cfg.get("ollama_host", "http://localhost:11434")).rstrip("/")
+                          + "/api/generate", data=body,
+                          headers={"Content-Type": "application/json"})
+        t0 = time.time()
+        with _ur.urlopen(req, timeout=timeout) as r:
+            ok = bool(json.loads(r.read()).get("response", "").strip())
+        secs = round(time.time() - t0, 1)
+    except Exception as e:
+        # A timeout or 5xx here IS the finding: the daemon exists and tokens do not flow.
+        ok, secs = False, None
+        silence.note("standards.py:token-flow")
+        _ = e
+    _TOKENFLOW.update({"at": now, "ok": ok, "s": secs})
+    return ok, secs
+
+
 def job_stamp(prev_entry, size, now):
     """`(held, at)` for one watched log: has it held this size, and since when?
 
@@ -817,6 +879,25 @@ def check(state=None):
                 "high", "machine"))
     except Exception:
         silence.note("standards.py:ollama-runner-standard")
+
+    # The runner check's inverse, found the same day it landed: runner ALIVE, model fully
+    # GPU-resident, tags answering -- and a trivial generate timed out for two hours while
+    # everything above read green. Only a completed generation proves a model server.
+    try:
+        flow, secs = ollama_token_flow()
+        if flow is not None:
+            out.append(_s(
+                "the local model produces tokens", flow,
+                ("probe completed in %ss" % secs) if flow
+                else "daemon up, generation TIMED OUT -- queue is wedged",
+                "one tiny generation completes",
+                "Process presence and API reachability are proxies; on 2026-08-24 both read "
+                "healthy through a two-hour wedge in which zero tokens flowed. If this fires, "
+                "restart ollama.exe (the tray app respawns it) and re-probe. Nothing drains "
+                "a wedged queue on its own.",
+                "high", "machine"))
+    except Exception:
+        silence.note("standards.py:token-flow-standard")
 
     try:
         import overnight as ON

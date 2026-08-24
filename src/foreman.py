@@ -586,10 +586,64 @@ refresh_coverage.always = True
 
 # standard name -> remedies to try, in order. A standard with no entry falls to the OWNER lane,
 # which is the right default: acting on a breach nobody scripted a remedy for is guessing.
+RESTART_STAMP = os.path.join(HERE, "state", "OLLAMA_RESTARTS.json")
+
+
+def restart_ollama():
+    """Restart the local model service when tokens stop flowing. AUTO by owner ruling
+    (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon
+    answered /api/tags while zero generations completed, once with no runner process and once
+    with a runner spinning at 98% completing nothing -- and both times the only cure was a
+    restart a person had to perform. The restart is mechanical and reversible (the tray app
+    respawns the daemon; the resident model reloads on first call), and it is rate-limited:
+    at most one automated restart per 30 minutes, so a deeper fault escalates to the owner
+    instead of being restart-looped into invisibility."""
+    try:
+        try:
+            with open(RESTART_STAMP, encoding="utf-8") as f:
+                st = json.load(f)
+        except Exception:
+            st = {"count": 0, "last": 0}
+        if time.time() - st.get("last", 0) < 1800:
+            return False, ("restarted %.0f min ago and tokens still do not flow -- this is "
+                           "deeper than a wedge; owner attention needed"
+                           % ((time.time() - st.get("last", 0)) / 60))
+        subprocess.run(["powershell", "-NoProfile", "-Command",
+                        "Stop-Process -Name llama-server -Force -ErrorAction SilentlyContinue; "
+                        "Stop-Process -Name ollama -Force -ErrorAction SilentlyContinue"],
+                       capture_output=True, text=True, timeout=60, creationflags=_NO_WIN)
+        time.sleep(12)
+        import urllib.request as _ur
+        up = False
+        for _ in range(6):
+            try:
+                _ur.urlopen("http://localhost:11434/api/tags", timeout=8)
+                up = True
+                break
+            except Exception:
+                time.sleep(5)
+        st = {"count": st.get("count", 0) + 1, "last": time.time()}
+        tmp = RESTART_STAMP + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(st, f)
+        silence.replace_retry(tmp, RESTART_STAMP)
+        if up:
+            return True, ("ollama restarted (automated restart #%d); daemon answering, model "
+                          "reloads on first call" % st["count"])
+        return False, "ollama killed but the tray did not respawn it within 40s -- owner needed"
+    except Exception as e:
+        silence.note("foreman.py:restart_ollama")
+        return False, "restart failed: " + type(e).__name__ + " " + str(e)[:80]
+
+
 REMEDIES = {
     # A stall is now ACTED ON rather than reported. This is the entry whose absence let a
     # catalogue run sit on its first source for 28 minutes while the jobs standard read green.
     "every running job is advancing": [kill_stalled_job],
+    # The wedge remedies. Both liveness standards route to the same cure, because both wedge
+    # shapes (no runner; runner spinning, nothing completing) have the same one.
+    "the local model produces tokens": [restart_ollama],
+    "the local model has a live runner": [restart_ollama],
     # Two supervisors is the worst duplicate of all: each starts the jobs the other is already
     # running, and the single-instance guards inside those jobs then fight. Keep the oldest,
     # which is the one holding the state, and end the rest.

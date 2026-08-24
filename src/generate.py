@@ -308,7 +308,15 @@ def main():
 
     cfg = load_config()
     manifest = load_json(args.manifest, {"jobs": []})
-    jobs = manifest["jobs"]
+    # Both manifest shapes are in the wild: manifest_builder writes {"jobs": [...]} and at
+    # least one phase-8 path wrote a bare list -- the mismatch crash-looped the supervisor's
+    # prose job on every keeper restart (2026-08-24, found via the published page's job
+    # panel). Accept both, loudly note which arrived.
+    if isinstance(manifest, list):
+        print("note: manifest is a bare list (phase-8 writer); wrapping as jobs")
+        jobs = manifest
+    else:
+        jobs = manifest.get("jobs") or []
 
     catalog = load_json(cfg["paths"]["catalog"], {})
     failures = load_json(cfg["paths"]["failures"], {})

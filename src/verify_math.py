@@ -2160,6 +2160,92 @@ check("the same block does NOT fit the window M6 was filed against",
       _CB.fits({"num_ctx": 6144}, _CB.system_for("chapter", _cb_sys), "u" * 12000, "chapter")[0],
       False, note="guards the check above from passing for the wrong reason")
 
+# ---- Section 19s: both writers of the metrics ledger stamp a timestamp -----------------------
+# Added 2026-08-24 (run #13). `state/model_metrics.jsonl` has TWO writers -- cascade_bridge._metric
+# (cloud) and pipeline._metric (local) -- and only the cloud one wrote an "at" field. Every
+# time-windowed query over the shared ledger therefore filtered on `at` and silently returned
+# cloud-only results: 913 local rows across 7 tags (entrypass, overwatch, ask, ingest, bench:*,
+# repro) were invisible, and local call VOLUME had never been measurable at all. The reading
+# looked complete because the rows it dropped could not appear in it. This check reads the two
+# writers' source directly, because the symptom is only visible in a file neither writer owns.
+_mx_src = {}
+for _mx_mod, _mx_fn in (("pipeline", "_metric"), ("cascade_bridge", "_metric")):
+    _mx_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), _mx_mod + ".py")
+    _mx_src[_mx_mod] = open(_mx_path, encoding="utf-8").read()
+
+check("pipeline._metric's row carries a timestamp",
+      '"at": round(t0, 1), "tag"' in _mx_src["pipeline"], True,
+      note="without it, every time-filtered read of model_metrics.jsonl is cloud-only")
+check("cascade_bridge._metric's row carries a timestamp",
+      '"at": round(t0, 1)' in _mx_src["cascade_bridge"], True,
+      note="the writer that always had one; both must, or the shared ledger is unqueryable")
+
+# ---- Section 19t: the local leg never stacks more calls than the card has slots -------------
+# Added 2026-08-24 (run #13), pinning M7. read.py's adaptive gate sized itself from
+# tuning.regime(), which answers "cloud" on bucket REACHABILITY, not on capacity. With the live
+# cloud rate at 4.1% nearly every chunk fell through to the GPU while the gate stayed at
+# GATE_CLOUD_N=16, so 9 requests queued against OLLAMA_NUM_PARALLEL=2, blew read.py's 180s local
+# timeout, benched the card and DISCARDED the chunk: 1,168 of 1,235 GPU handoffs unanswered over
+# 7.5 hours. The local leg now takes the card's gate whatever the regime is called. Both arms
+# below matter: the bound, and the per-thread re-entrancy that stops the nested acquire (regime
+# "local", where _ask already holds the same semaphore) from deadlocking every worker.
+import threading                 # noqa: E402
+import time                      # noqa: E402
+
+_gl_peak, _gl_cur, _gl_lock = [0], [0], threading.Lock()
+_gl_real_ask, _gl_real_fbm = _RD.P.ask, _RD.fallback_model
+
+
+def _gl_fake_ask(c, system, prompt, schema, timeout=None, **kw):
+    with _gl_lock:
+        _gl_cur[0] += 1
+        _gl_peak[0] = max(_gl_peak[0], _gl_cur[0])
+    time.sleep(0.05)
+    with _gl_lock:
+        _gl_cur[0] -= 1
+    return {"feats": []}
+
+
+def _gl_probe(regime, entry):
+    """Fire GATE_LOCAL_N*4 threads at the local leg and report (peak concurrency, threads stuck)."""
+    _RD.P.ask, _RD.fallback_model = _gl_fake_ask, (lambda c: "probe")
+    _RD._GPU_DOWN_UNTIL[0] = 0
+    _RD._GATE_STATE.update({"at": time.time() + 10 ** 9, "regime": regime})
+    _gl_peak[0] = 0
+    try:
+        ths = [threading.Thread(target=lambda: entry({}, "s", "p" * 10, None))
+               for _ in range(_RD.GATE_LOCAL_N * 4)]
+        for t in ths:
+            t.start()
+        for t in ths:
+            t.join(timeout=20)
+        return _gl_peak[0], sum(1 for t in ths if t.is_alive())
+    finally:
+        _RD.P.ask, _RD.fallback_model = _gl_real_ask, _gl_real_fbm
+        _RD._GATE_STATE.update({"at": 0.0, "regime": "cloud"})
+
+
+_gl_direct = _gl_probe("cloud", _RD._local)
+check("the local leg never exceeds the card's slot count (regime says 'cloud')",
+      _gl_direct[0] <= _RD.GATE_LOCAL_N, True,
+      note=f"peak {_gl_direct[0]} concurrent vs GATE_LOCAL_N={_RD.GATE_LOCAL_N}; this is the "
+           "gate M7 needed and did not get -- a wide gate here discards ~95% of GPU work")
+check("no worker is stranded at the card's gate (regime says 'cloud')",
+      _gl_direct[1], 0)
+
+_gl_saved_tr, _gl_saved_ok = _RD._TRANSPORT, _RD._CASCADE_OK
+_RD._TRANSPORT, _RD._CASCADE_OK = "ollama", False
+try:
+    _gl_nested = _gl_probe("local", _RD._ask)
+finally:
+    _RD._TRANSPORT, _RD._CASCADE_OK = _gl_saved_tr, _gl_saved_ok
+check("the nested acquire does NOT deadlock when the regime already chose the local gate",
+      _gl_nested[1], 0,
+      note="_ask holds _GATE_LOCAL and _local re-enters it; without per-thread tracking every "
+           "worker blocks forever on a permit it is itself holding")
+check("the nested path is still bounded to the card's slot count",
+      _gl_nested[0] <= _RD.GATE_LOCAL_N, True, note=f"peak {_gl_nested[0]} concurrent")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

@@ -7,6 +7,60 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M7] THE READER HAS BEEN DISCARDING ~95% OF ITS GPU WORK FOR 7.5 HOURS BEHIND A GREEN
+  LIVENESS CHECK — 1,168 of 1,235 chunks handed to the card came back UNANSWERED and uncached.**
+  Found run #13 by reading `state/read_auto.log` rather than a status summary; `allsweep`
+  reported **nine `running` lines and 0 subsystems bad** at the same moment.
+  **The chain, every link measured:**
+  1. `tuning.regime()` answers `"cloud"` whenever `_answering_buckets() >= CLOUD_MIN_BUCKETS`.
+     That is a REACHABILITY proof, not a capacity one — the lesson already in `NEXT_STEPS` §5
+     ("the pool proof says 4 of 36 buckets answer and it is true; the live rate is 2.8%"). It
+     read `"cloud"` this run while the measured cloud success rate over the previous hour was
+     **4.1% (40 ok of 976)** and **18% lifetime over 26,094 calls**.
+  2. So `read._gate()` handed every worker the wide `GATE_CLOUD_N = 16` gate.
+  3. The ladder in `_ask_ungated` tries the pool twice, then falls to the GPU. At a ~4-18%
+     cloud rate that means nearly every chunk lands on the card — **`read.py` (PID 17492) was
+     observed holding 9 established connections to Ollama** against `OLLAMA_NUM_PARALLEL = 2`.
+  4. Seven of nine therefore sit in the daemon's queue. Measured directly: a trivial 7-token
+     call took **113s and 178s of pure queue wait** (`eval_count: 7` both times) against
+     **0.58s** on the same window with the card unloaded.
+  5. That exceeds `_local`'s **180s** timeout, which benches the card for `GPU_BENCH = 900` and
+     **drops the chunk — "UNANSWERED, not cached"**, so no later pass knows to look again.
+  **This is precisely the pile-up `GATE_LOCAL_N = 2` was written to prevent** ("the surplus
+  workers WAIT at the gate instead of stacking onto the card") — it did not bind because the
+  gate's width is chosen from what the regime is CALLED, not from where the traffic actually
+  goes. First `ollama failed after 3 tries: TimeoutError` at **09:02:18**; **137 of them** in
+  the log; unanswered rate **85-100% from the very first GPU handoff onward**.
+  *(The high early "chunks/s" rows in that log are cache replay, not a healthy baseline — the
+  honest constant is the discard rate, which was never good.)*
+  **PARTIALLY FIXED run #13, NOT YET LIVE.** `read._local` now takes the card's gate
+  unconditionally via a new `_card_gate()`, so only `GATE_LOCAL_N` calls touch the card whatever
+  the regime is called. The permit is tracked **per thread**, because `_gate()` hands out that
+  same semaphore when the regime reads `local` and a nested acquire of a `BoundedSemaphore` from
+  a thread already holding it deadlocks every worker — that shape was caught before shipping and
+  is pinned by verify_math §19t (4 checks: bounded + no-deadlock, in both regimes; 12 threads
+  peak at 2, 0 stranded). **`read.py` has not been restarted, so the fix is executing nowhere**
+  — and `read.py` is NOT keeper-restored (see m56's restart topology), so it costs real
+  downtime and is the owner's call.
+  **THE BLAST RADIUS IS NOT CONFINED TO `read.py` — it starves every other model consumer on the
+  box, and this is what makes M7 the most expensive item on the ledger.** `read.py` saturates the
+  card; everything else then finds it busy and falls to the same 4% cloud:
+  - **`overwatch` produces nothing, slowly.** Its 16:40 round reported `0 raw 0 new` for EVERY
+    module with the note `(GPU busy; 8 calls to the cloud)`, and `cascade_bridge` took
+    **7,873 s (2.2 hours) to return zero findings**. **This is the honest explanation of m40's
+    flat `70 rounds / 66 findings`:** the standing rule says only a number that goes DOWN is a
+    bug, and this one is not going down — it is not going anywhere, because the rounds run and
+    find nothing. **Flat is a SYMPTOM here, not an all-clear.**
+  - **`ingest_doc` (Dragonlords) is alive but stalled** at chunk 22/252 — `no transport; napping
+    300s (miss 2/60)`. It is no longer a GPU holder, which is the only reason the card was idle
+    enough this run to take a control measurement at all.
+  - **`pipeline`, `foreman` and `overwatch`** all log the same `ollama failed after 3 tries:
+    TimeoutError`.
+  So ~95% discard is the *measurable* cost; the *unmeasured* cost is every analysis job on the
+  machine running at cloud-failure rates behind it.
+  **STILL OPEN AND NOT THIS RUN'S TO DECIDE (link 1 of the chain):** should `regime()` decide on
+  a measured success RATE rather than on reachability? That changes `profile()`/`workers()`
+  globally, so it is a design question — see `NEXT_STEPS` §2 and m59, which is the same root.
 - **[m60] 22 CHAPTER BLOCKS ARE STILL TOO LARGE FOR THE WINDOW — the bounded residue of M6.**
   After M6's fix (see paper trail) **17,557 of 17,579 chapter calls fit; 22 do not**, across 22
   jobs, worst needing **9,909 tokens more than the 12,288 window**. These are single
@@ -193,6 +247,30 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   and more honest subsystem than the one m43 originally proposed. Still an owner call.
 
 ### Minor
+- **[m62] `state/model_metrics.jsonl` IS BEING TORN BY CONCURRENT APPENDS — 5 corrupt lines,
+  and it is ONGOING, not a healed historical event.** Two writers (`cascade_bridge._metric`
+  and `pipeline._metric`) share the file, and it is appended from at least five live processes
+  (`read`, `feats --roll`, `pipeline`, `foreman`, `overwatch`), each with a plain
+  `open(path, "a")` + `f.write(...)`. Three of the five bad lines are **record fragments split
+  mid-write** — `'11657, "out_chars": 1353}'`, `'}'`, `'0}'` — and two are stray blanks. Dated
+  by walking back to the nearest parseable neighbour: 08-23 20:38, 08-23 20:57, 08-24 07:17,
+  and **08-24 13:07 and 13:08**, so it is still happening.
+  **Exposure is low and worth stating honestly:** 5 of 26,970 lines (0.019%), and the one
+  in-repo consumer (`dashboard.metrics()`) parses per line inside a `try`, so nothing crashes —
+  the cost is the lost records plus any ad-hoc reader that assumes the file is clean. **The
+  NEXT_STEPS m59 one-liner is exactly such a reader and dies on it** (`JSONDecodeError` on the
+  first blank), which is how this was found.
+  **Not fixed this run, deliberately:** the remedy is a single atomic append (one `os.write` to
+  an `O_APPEND` handle, or the project's lock discipline) at both writers, and changing the
+  write path of a hot ledger held open by five live processes is not a change to make in the
+  same run as M7's. Fix pattern exists; needs its own quiet window.
+- **[m63] `verify_math.py` has TWO different sections both labelled "Section 19r"** (lines 2031
+  and 2134) — near-miss name matching, and the M6 window/prose-ratio pins. Same class as the
+  `wiki_source.py:278` duplicate `silence.note` label already on the books: a ledger key that
+  does not identify one thing. Cosmetic — no check is skipped or double-counted — but "§19r
+  failed" is now ambiguous in exactly the moment someone needs it not to be. Run #13 added its
+  own sections as **19s** and **19t** to avoid deepening it, rather than renaming a predecessor's
+  label unasked.
 - **[m47] an exception inside the feats join silently becomes "this source has no feats."**
   `manifest_builder.py`'s Feats block wraps `feats_index.feats_for_source` in
   `except Exception: silence.note(...); feat_rows = []`, and the job-creating block below is
@@ -344,6 +422,33 @@ remaining item is either an outage, a decision, or a watched state.***
 ## Resolved (paper trail)
 
 *Run #12 (2026-08-24 ~15:10 local) moved three items out of Open. Full detail in HANDOFF.md.*
+
+- **[m61] THE LOCAL HALF OF THE METRICS LEDGER CARRIED NO TIMESTAMP, so every time-windowed
+  reading of model behaviour ever taken was silently CLOUD-ONLY — fixed run #13
+  (2026-08-24 ~16:35 local), `pipeline.py:364`.**
+  **What it was.** `state/model_metrics.jsonl` has two writers. `cascade_bridge._metric`'s row
+  always opened with `"at": round(t0, 1)`; `pipeline._metric`'s row — the LOCAL lane, tags
+  `entrypass`, `overwatch`, `ask`, `ingest`, `bench:*`, `repro` — never wrote an `at` field at
+  all. Every consumer that windows by time filters on `at`, so all **913 local rows** were
+  dropped from every such reading while **26,094 cloud rows** passed. Local call VOLUME had
+  therefore never been measurable, from the first line of the ledger onward.
+  **How it was found, and the near-miss worth recording.** The `m59` monitoring one-liner that
+  `NEXT_STEPS` hands to each successive run crashed on this file (`JSONDecodeError`, m62). While
+  fixing the reader, the tag histogram came back **100% `cascade:coding`** — which read as "the
+  local lane is dead", a dramatic and wrong conclusion. It was the query's own `at` filter
+  removing the rows. Re-running without the filter produced the 913. *Same shape as run #12's
+  `fits()`-tuple all-clear: the surprising result was an artefact of how it was measured, and
+  the measurement was mine.*
+  **Consequence for the record:** m59's "1,571 calls/hour", "26/minute", and this run's
+  "976/hour at 4.1%" are all **cloud-only figures**. They were never wrong about the cloud; they
+  were silently not about the whole system. That mattered directly for M7, whose entire
+  mechanism is local traffic those readings could not see.
+  **Fix.** `"at": round(t0, 1)` added to pipeline's row (`t0` was already in scope, set just
+  before the request). Additive; no signature change; historical rows stay unstamped and are
+  simply older than the fix. Verified by exercising the real call path. Pinned by verify_math
+  **§19s** (2 checks — both writers must stamp, read from source, because the symptom only
+  appears in a file neither writer owns). **`pipeline.py` has not been restarted, so new local
+  rows stay unstamped until it is** (same class as m56).
 
 - **[M6] CHAPTER GENERATION REFUSED 100% OF ITS CALLS — fixed 2026-08-24 (owner-directed
   session), 17,370/17,370 refusing -> 22/17,579. Export commit: see the 15:2x sync.**
