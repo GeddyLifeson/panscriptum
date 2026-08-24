@@ -2376,6 +2376,98 @@ check("the gate's URL actually names that host",
       _STx.FANDOM_PROBE_HOST in (_gate_req.full_url if _gate_req else ""), True)
 
 
+# ---- Section 19ab: no Ollama request names a context window the daemon is not serving -------
+#
+# 2026-08-24. Ollama serves a resident model at ONE context size; a request naming a different
+# `num_ctx` needs the runner torn down and rebuilt, which `gpu_lane.py`'s measured table records
+# as "240 s+, never completed" against a queue that never drains. So a hardcoded window in a
+# request body is not a style question -- it is a call that structurally cannot complete on a busy
+# machine, and it evicts the runner every other job is using.
+#
+# Two sites had one. `standards.ollama_token_flow`'s live probe asked for 512 and therefore
+# PUBLISHED A FAULT IT CREATED: whenever the metrics ledger went quiet, the probe timed out on
+# a rebuild and the page went red with "generation TIMED OUT -- queue is wedged" while the
+# 12288 runner sat resident serving two other clients normally. `local_agent._chat` asked for
+# 8192, which is why the local-model rung -- the delegation ladder's second step -- had been
+# unreliable in a way nobody could pin on the model. Both now derive the window from config.
+#
+# The check is structural rather than per-site, so a THIRD site cannot appear quietly: it walks
+# every module for the Ollama request-body shape (an `options` dict inside a call body) and
+# refuses a bare integer literal for `num_ctx`. Test configs elsewhere in this file use
+# `{"num_ctx": 6144}` at the top level, which is not that shape and is correctly ignored.
+import ast as _ast19ab          # noqa: E402
+import glob as _glob19ab        # noqa: E402
+import inspect as _insp19ab     # noqa: E402
+import yaml as _yaml19ab        # noqa: E402
+
+_SRC19ab = os.path.dirname(os.path.abspath(__file__))
+_ROOT19ab = os.path.dirname(_SRC19ab)
+
+_ctx_literals = []
+_unparsed19ab = []
+for _p19 in sorted(_glob19ab.glob(os.path.join(_SRC19ab, "*.py"))):
+    try:
+        with open(_p19, encoding="utf-8") as _f19:
+            _tree19 = _ast19ab.parse(_f19.read())
+    except Exception:
+        # NOT a silent skip. A module this scan cannot parse is a module the scan cannot
+        # clear, and swallowing that would let an offending site hide inside a broken file --
+        # the check would go green BECAUSE something was wrong. Recorded, and asserted below.
+        silence.note("verify_math.py:S19ab-parse")
+        _unparsed19ab.append(os.path.basename(_p19))
+        continue
+    for _n19 in _ast19ab.walk(_tree19):
+        if not isinstance(_n19, _ast19ab.Dict):
+            continue
+        for _k19, _v19 in zip(_n19.keys, _n19.values):
+            # the request-body shape: {..., "options": {..., "num_ctx": <expr>}}
+            if not (isinstance(_k19, _ast19ab.Constant) and _k19.value == "options"):
+                continue
+            if not isinstance(_v19, _ast19ab.Dict):
+                continue
+            for _ok19, _ov19 in zip(_v19.keys, _v19.values):
+                if (isinstance(_ok19, _ast19ab.Constant) and _ok19.value == "num_ctx"
+                        and isinstance(_ov19, _ast19ab.Constant)
+                        and isinstance(_ov19.value, int)):
+                    _ctx_literals.append(
+                        f"{os.path.basename(_p19)}:{_ov19.lineno} num_ctx={_ov19.value}")
+
+check("no Ollama request body hardcodes a context window", _ctx_literals, [],
+      note="a literal num_ctx that differs from config.yaml's forces a runner teardown+rebuild "
+           "(gpu_lane: '240 s+, never completed'); standards' probe did this at 512 and "
+           "published the timeout it caused as a red standard. Derive from config.yaml. "
+           "Offenders: " + ("; ".join(_ctx_literals) or "none"))
+
+check("every module was readable by the context-window scan", _unparsed19ab, [],
+      note="a module this scan cannot parse is one it cannot clear; without this the check "
+           "above would read green precisely because a file was broken. Unparsed: "
+           + ("; ".join(_unparsed19ab) or "none"))
+
+# And the two repaired sites specifically, because the structural check above would pass if
+# someone replaced the literal with a DIFFERENT hardcoded source. These must track config.
+_cfg19ab = _yaml19ab.safe_load(
+    open(os.path.join(_ROOT19ab, "config.yaml"), encoding="utf-8")) or {}
+_win19ab = int(_cfg19ab.get("num_ctx", 6144))
+_probe_src19ab = _insp19ab.getsource(_STx.ollama_token_flow)
+check("the token-flow probe asks for config's window",
+      "num_ctx" in _probe_src19ab and 'cfg.get("num_ctx"' in _probe_src19ab, True,
+      note=f"config serves num_ctx={_win19ab}; the probe must ask for that window or it is "
+           "measuring a rebuild it triggered rather than the runner its callers use")
+
+# The probe's SUCCESS PREDICATE, which was the second half of the same fault. `response` alone
+# is not proof of flow for a reasoning model: qwen3 fills `thinking` first, so a healthy
+# generation truncated at num_predict returns `response: ""` and `done_reason: "length"`.
+# Measured 2026-08-24: eval_count 8, thinking non-empty, response empty -- read as a wedge.
+check("the token-flow probe counts tokens, not prose", "eval_count" in _probe_src19ab, True,
+      note="a reasoning model's first tokens land in `thinking`; judging flow by `response` "
+           "alone reports a healthy truncated generation as a dead daemon")
+
+_flow19ab = {"eval_count": 8, "response": "", "thinking": "Okay, the user just said"}
+check("a reasoning model's truncated generation reads as FLOW, not a wedge",
+      bool(_flow19ab.get("eval_count")) or bool(_flow19ab.get("response", "").strip()), True,
+      note="the exact payload measured on 2026-08-24 that the old predicate called wedged")
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

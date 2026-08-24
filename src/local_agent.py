@@ -402,8 +402,20 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
 
 
 def _chat(model, messages, host, timeout=420):
+    # num_ctx FROM CONFIG, not a literal. This read 8192 while config.yaml serves 12288, so
+    # every local-agent task named a window the daemon did not have resident and paid for a
+    # runner teardown+rebuild -- "240 s+, never completed" by gpu_lane.py's own measurement.
+    # That is why this rung has been unreliable: not the model's competence, the window.
+    # Same defect, same day, as standards.ollama_token_flow's 512. Pinned by verify_math S19ab.
+    try:
+        import yaml as _yaml
+        _cfg = _yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8")) or {}
+        _ctx = int(_cfg.get("num_ctx", 8192))
+    except Exception:
+        silence.note("local_agent.py:chat-ctx")
+        _ctx = 8192
     body = {"model": model, "stream": False, "messages": messages, "tools": TOOLS,
-            "options": {"num_ctx": 8192, "temperature": 0.1}}
+            "options": {"num_ctx": _ctx, "temperature": 0.1}}
     req = urllib.request.Request(host.rstrip("/") + "/api/chat",
                                  data=json.dumps(body).encode(),
                                  headers={"Content-Type": "application/json"})

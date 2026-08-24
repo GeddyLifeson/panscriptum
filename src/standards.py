@@ -151,7 +151,25 @@ def ollama_token_flow(ttl=300.0, timeout=300):
     docstring warns trains readers to scroll past. So the LEDGER answers first: any local
     call completing in the last 15 minutes (a metrics row with a tps) is proof of flow at
     zero cost. Only a silent ledger earns the live probe, and the probe waits like a worker
-    would. `None` = could not tell, never reported as a fault."""
+    would. `None` = could not tell, never reported as a fault.
+
+    THE PROBE MUST ASK FOR THE WINDOW THE LIBRARY ACTUALLY SERVES. Measured 2026-08-24: this
+    probe hardcoded `num_ctx: 512` while every real caller derives the window from
+    `config.yaml` (12288). Ollama serves a resident model at ONE context size, so a call
+    naming a different window needs the runner torn down and rebuilt -- `gpu_lane.py`'s own
+    measured table puts that at "240 s+, never completed" against a queue that never drains.
+    The consequence was not slowness, it was a MANUFACTURED FINDING: whenever the ledger was
+    silent, this probe asked for a window nobody serves, timed out, and published
+    "generation TIMED OUT -- queue is wedged" as a red standard. Reproduced live at 18:22 --
+    a `num_predict: 8` "say ok" at 512 failed on a 180s deadline while `ollama ps` showed the
+    12288 runner still resident and two other clients being served normally.
+
+    It was also actively harmful, which is the half worth remembering. The probe carries
+    `keep_alive: -1`, so a probe that ever WON its rebuild would pin a 512-token runner
+    forever, and every real 12288 caller would then have to evict it back -- a diagnostic
+    that manufactures the fault it reports, and inflicts it on the jobs it is watching.
+    Deriving the window from config makes the probe measure the resident runner, which is
+    what a caller experiences. Pinned by verify_math S19ab."""
     now = time.time()
     if now - _TOKENFLOW["at"] < ttl:
         return _TOKENFLOW["ok"], _TOKENFLOW["s"]
@@ -177,15 +195,27 @@ def ollama_token_flow(ttl=300.0, timeout=300):
         import urllib.request as _ur
         import yaml as _yaml
         cfg = _yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
+        # num_ctx FROM CONFIG, never a literal -- see the docstring. A foreign window turns
+        # this probe into a runner rebuild, which is the one call shape that cannot finish.
         body = json.dumps({"model": cfg.get("model"), "prompt": "say ok", "stream": False,
                            "keep_alive": -1,
-                           "options": {"num_ctx": 512, "num_predict": 8}}).encode()
+                           "options": {"num_ctx": int(cfg.get("num_ctx", 6144)),
+                                       "num_predict": 8}}).encode()
         req = _ur.Request(str(cfg.get("ollama_host", "http://localhost:11434")).rstrip("/")
                           + "/api/generate", data=body,
                           headers={"Content-Type": "application/json"})
         t0 = time.time()
         with _ur.urlopen(req, timeout=timeout) as r:
-            ok = bool(json.loads(r.read()).get("response", "").strip())
+            _raw = json.loads(r.read())
+        # PROOF OF FLOW IS TOKENS PRODUCED, NOT PROSE RETURNED. The predicate here was
+        # `bool(response.strip())`, which is wrong for the model this library actually runs.
+        # qwen3 is a reasoning model: its first tokens land in `thinking`, and `response` stays
+        # empty until the reasoning closes. With num_predict 8 the call ends `done_reason:
+        # "length"` mid-thought -- a perfectly healthy generation reporting `response: ""`.
+        # Measured 2026-08-24: eval_count 8, thinking "Okay, the user just said", response "".
+        # The old predicate called that a wedged daemon. `eval_count` is the direct measure of
+        # the thing this function exists to prove, so it is what decides.
+        ok = bool(_raw.get("eval_count")) or bool(_raw.get("response", "").strip())
         secs = round(time.time() - t0, 1)
     except Exception as e:
         # A timeout or 5xx here IS the finding: the daemon exists and tokens do not flow.
