@@ -467,6 +467,35 @@ def check(state=None):
     except Exception:
         silence.note("standards.py:charter-regression")
 
+    # THE COUNTERS MUST MOVE. The job-advancing standard watches LOG GROWTH, and a job whose
+    # every model call fails grows its log beautifully -- 2026-08-23 evening: fourteen
+    # processes alive, logs streaming timeout lines, and cited/settled/feats/entities-read
+    # flat for 36 minutes. The owner saw it on the movement panel before anything here did.
+    # So the panel's own history is the measurement: if every output counter is unchanged
+    # across 45 minutes of samples, the system is running and producing nothing, whatever
+    # the logs say. The remedy chain (reprove the pool, restart the reader) is safe to fire
+    # even when the true cause is an empty evening pool -- it converts a silent stall into a
+    # measured one.
+    try:
+        hist_p = os.path.join(HERE, "state", "dashboard_history.json")
+        with open(hist_p, encoding="utf-8") as f:
+            hist = [h for h in json.load(f) if isinstance(h, dict)]
+        now_t = time.time()
+        window = [h for h in hist if now_t - h.get("at", 0) <= 45 * 60]
+        span_min = (window[-1]["at"] - window[0]["at"]) / 60 if len(window) >= 2 else 0
+        counters = ("cited", "settled", "feats", "entities read")
+        if span_min >= 40:
+            moved = sum(1 for k in counters
+                        if len({h.get(k) for h in window if h.get(k) is not None}) > 1)
+            out.append(_s(
+                "the library's counters are moving", moved > 0,
+                f"{moved}/{len(counters)} moved in {span_min:.0f}m", ">= 1 in 45m",
+                "Cited, settled, feats and entities-read are the library's output. All four "
+                "flat while jobs run means every model call is failing -- log growth cannot "
+                "see that, only the counters can.", "high", "throughput"))
+    except Exception:
+        silence.note("standards.py:counters-moving")
+
     try:
         with open(os.path.join(HERE, "data", "ALLSWEEP.json"), encoding="utf-8") as f:
             sweep = json.load(f)

@@ -74,7 +74,7 @@ num_ctx: 6144
 # property of the work (so "web" became "a web-based narrative by the band Rush"), and it
 # invited an epigraph from data that never contains quotable text. Bumping the version
 # invalidates anything generated under the old prompt.
-prompt_version: "v4"
+prompt_version: "v5"   # v5 2026-08-23: scale-ladder altitude + full-length chunked volumes
 
 # how many source entries to fold into a single chapter-generation call. Big chapters (e.g.
 # Marvel Persons at 275 entries) get split into multiple calls of this size so they fit

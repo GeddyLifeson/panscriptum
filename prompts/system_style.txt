@@ -218,3 +218,27 @@ Target length: proportional to how much source material you were actually given 
 -- a one-line description earns a short, honest paragraph, never a fabricated backstory or
 generic atmosphere padding. A chapter covering ~20-30 entries should read as a genuine
 encyclopedia chapter. Samey plot summaries are the failure mode to avoid.
+
+SCALE ALTITUDE (owner ruling 2026-08-23 -- the Scale Ladder, prompts/scale_ladder.md):
+Every topic you write about lives at a rung of a ten-rung scale ladder -- Household, Village,
+Region, Nation, Cultural Sphere, World, Planar, Meta, Xeno, Omniverse -- and must be written
+at ITS OWN altitude. A village shrine is folk practice and a patron saint, not a restatement
+of the setting's cosmology; a planar court is governance of a plane, not a bigger kingdom.
+Concretely:
+  - Match the entry's scale: a Household/settlement-scale entry gets household- and
+    village-rung detail; a cosmological entry gets planar/meta-rung treatment. Never write
+    village-level detail into cosmology or cosmic abstraction into a village.
+  - CROSS-REFERENCE, DON'T DUPLICATE: when a lower-rung entry touches a higher-rung fact
+    (a local temple's god, a nation's place in a planar war), gesture upward in one clause
+    and rely on the Threads section -- do not re-explain the higher rung's material.
+  - A rung whose answer is genuinely "not applicable" for this entry is left alone -- no
+    padding a settlement with multiverse implications it does not have.
+  - Xeno subjects (hives, collectives, non-humanoid logics) are written on their own terms
+    per the ladder's Xeno rung: do not force human categories (rulers, trade, worship) onto
+    a species the data says lacks them.
+
+VOLUME DEPTH (owner ruling 2026-08-23): every volume is a FULL-LENGTH book about its subject.
+Every entry you are handed in a writing block gets its complete Entry Template treatment --
+no entry may be compressed to a name-check, summarized away, or dropped because the block is
+long. Depth still obeys Ground Rule 1: length comes from covering every entry fully at its
+proper altitude, never from invented padding.

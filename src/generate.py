@@ -26,6 +26,16 @@ import silence
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# VOLUME DEPTH (owner ruling 2026-08-23): every volume is a full-length book, and a local
+# model asked for thirty complete Entry Template entries in one response writes eight of them
+# properly and waves at the rest -- output attention thins exactly the way read.py measured
+# input attention thinning past 30k characters. So a chapter is WRITTEN IN BLOCKS of a few
+# entries per model call and stitched, with every entry's presence verified in the text it
+# came back in. A missing entry retries once; still missing fails the whole job LOUDLY so the
+# next run redoes it, because a book quietly missing its own entries is the prose version of
+# the catalogue cap: a smaller universe wearing the shape of the real one.
+WRITE_CHUNK = 8
+
 
 def load_config():
     with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
@@ -93,12 +103,77 @@ def call_ollama(cfg, system_prompt, user_prompt):
             "seed": cfg.get("seed", 47),
             "temperature": cfg.get("temperature", 0.2),
             "num_ctx": cfg.get("num_ctx", 8192),
+            # No output ceiling. Ollama's default num_predict caps the response, and a capped
+            # response ends a chapter mid-entry without error -- the silent-truncation failure
+            # Hard Rule 0 exists to forbid, wearing a generation flag.
+            "num_predict": -1,
         },
     }
     resp = requests.post(url, json=payload, timeout=cfg.get("request_timeout", 600))
     resp.raise_for_status()
     data = resp.json()
     return data.get("response", "")
+
+
+def _covered(name, text):
+    """Is this entry actually present in the block the model returned?
+
+    Loose on purpose: the template renders names with markers and occasional reformatting, so
+    an exact-substring miss on a real entry would retry work that was done. First and last
+    words of the name both appearing is the floor for 'this entry exists in the text'."""
+    t = text.lower()
+    n = (name or "").lower().strip()
+    if not n:
+        return True
+    if n in t:
+        return True
+    words = [w for w in re.split(r"[^a-z0-9]+", n) if w]
+    return bool(words) and words[0] in t and words[-1] in t
+
+
+def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
+    """One manifest job -> the full text, written in verified blocks.
+
+    Frontmatter is one call. A chapter is written WRITE_CHUNK entries at a time; each block's
+    entries are verified present and a lacking block is retried once; an entry still missing
+    after the retry raises, which files the job as a failure and leaves it pending for the
+    next run -- never a book quietly missing its own entries."""
+    if job["type"] == "frontmatter":
+        text = call_ollama(cfg, system_prompt, build_prompt(job, chapter_tpl, front_tpl))
+        if not text.strip():
+            raise RuntimeError("empty response from Ollama")
+        return text
+
+    entries = job["entries"]
+    groups = [entries[i:i + WRITE_CHUNK] for i in range(0, len(entries), WRITE_CHUNK)]
+    parts, missing = [], []
+    for gi, g in enumerate(groups):
+        sub = dict(job, entries=g)
+        if len(groups) > 1:
+            sub["chapter_label"] = (f"{job['chapter_label']} — writing block {gi + 1} of "
+                                    f"{len(groups)}")
+        up = build_prompt(sub, chapter_tpl, front_tpl)
+        if gi:
+            up += ("\n\nThis is a CONTINUATION block of the same chapter: do not write "
+                   "another framing paragraph, continue directly with the next ◈ entry.")
+        text = call_ollama(cfg, system_prompt, up)
+        lacking = [e for e in g if not _covered(e.get("name", ""), text)]
+        if lacking or not text.strip():
+            retry = call_ollama(cfg, system_prompt, up + (
+                "\n\nYour previous attempt omitted these entries entirely; every listed entry "
+                "must appear in full: " + ", ".join(e.get("name", "?") for e in lacking)))
+            if retry.strip() and len([e for e in g if not _covered(e.get("name", ""), retry)]) \
+                    < len(lacking):
+                text = retry
+                lacking = [e for e in g if not _covered(e.get("name", ""), text)]
+        if not text.strip():
+            raise RuntimeError(f"empty response on block {gi + 1}/{len(groups)}")
+        parts.append(text.strip())
+        missing.extend(e.get("name", "?") for e in lacking)
+    if missing:
+        raise RuntimeError(f"entries not written after retry: {', '.join(missing[:8])}"
+                           + (f" (+{len(missing) - 8} more)" if len(missing) > 8 else ""))
+    return "\n\n".join(parts)
 
 
 def main():
@@ -158,11 +233,8 @@ def main():
     fail_count = 0
 
     for job, rh in tqdm(pending, desc="generating"):
-        user_prompt = build_prompt(job, chapter_tpl, front_tpl)
         try:
-            text = call_ollama(cfg, system_prompt, user_prompt)
-            if not text.strip():
-                raise RuntimeError("empty response from Ollama")
+            text = generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl)
         except Exception as e:
             silence.note("generate.py:166")
             fail_count += 1

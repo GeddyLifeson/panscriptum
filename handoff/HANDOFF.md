@@ -144,6 +144,36 @@ read/foreman/overwatch after editing anything they import. Evening = pool tide: 
 not failures; nothing false publishes and settled() requeues everything. wmic/powershell/git
 spawned from pythonw flash console windows without CREATE_NO_WINDOW. Never run project
 commands after cd-ing into the export copy — the `.is-export-copy` guard refuses, and it fired
+
+**LATE EVENING (2026-08-23, after the sweep).** The engineering-rubric pass, executed:
+(1) **The charter regression is a standard now** -- `magnitude.py --calibrate` runs the six
+published assays through the whole live chain and persists `data/CHARTER_REGRESSION.json`;
+the `automation reproduces the charter` standard (consistency = interval OVERLAP, 26h
+freshness) dispatches `run_charter_regression` via the foreman, gated on >=3 answering
+buckets. (2) **verify_math section 18b**: the assay's five transport paths (one-shot, junk ->
+split-retry, epoch refusal, no-transport defer, split-first) proven under a fully mocked
+model -- **267 checks, 0 failed**, runs with the pool down. (3) **Per-call metrics both
+lanes**: `pipeline.ask` (tok/s from Ollama's eval counts) and `cascade_bridge.ask` (wall/ok)
+append to `state/model_metrics.jsonl`; the dashboard grew a per-lane p50/p95 panel. (4)
+**Band reconcile**: allsweep flags any entry banded above its own source's synthesis ceiling.
+(5) README rewritten to the real architecture. (6) **`the library's counters are moving`
+standard**: the owner caught a 36-minute output flatline (fourteen processes alive, logs
+streaming timeout lines, cited/settled/feats flat) that log-growth liveness cannot see; the
+dashboard's own movement history is now the measurement, remedied by reprove+restart-reader.
+Cause that evening: the GPU thrashing between a benchmark's gemma load and the batch's 30B
+calls under MAX_LOADED_MODELS=1, atop a 13%-ok evening pool -- never bench on a contended
+card.
+
+**TWO OWNER RULINGS, encoded in the prompt layer:** the **Scale Ladder**
+(`prompts/scale_ladder.md`, digest in `system_style.txt`) -- ten rungs from Household to
+Omniverse, every topic written at its own altitude, cross-reference upward instead of
+re-explaining cosmology in a village, honest N/A rungs, Xeno on its own terms; and **VOLUME
+DEPTH** -- every volume is a full-length book: `generate.py` now writes chapters in
+WRITE_CHUNK=8-entry blocks with per-entry presence verification (one retry, then a LOUD
+job failure that stays pending), `num_predict: -1` so Ollama's default output cap cannot
+end a chapter mid-entry, and `prompt_version` bumped to v5 so every thin pre-ruling volume
+regenerates. The model bench (gemma3:12b vs the 30B MoE for judgment phases) remains open --
+run it in a quiet window, never beside the batch.
 for real today, correctly.
 
 ---

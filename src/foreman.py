@@ -502,6 +502,7 @@ REMEDIES = {
     "every source is fully catalogued": [run_catalogue_gap, run_completeness_audit],
     "the character sweep is newer than the catalogue": [run_character_sweep],
     "the automation reproduces the charter": [run_charter_regression],
+    "the library's counters are moving": [reprove_pool, restart_reader],
     "no bucket pinned at rpm 1": [clear_learned_caps],
     "calls that succeed": [clear_learned_caps, reprove_pool],
     "model calls per hour": [clear_learned_caps, reprove_pool],
