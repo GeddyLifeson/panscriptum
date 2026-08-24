@@ -9,6 +9,66 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 13:35 (local) — Interactive session: M5 CLEARED AT THE ROOT, and the paid lane retired
+
+**M5 IS RESOLVED. The owner authorised the kill; both halves of it are now done and verified.**
+
+**Half one — the socket flood.** PID 25188 (`pythonw -m semsearch.cli watch`, parent 9420 dead
+since 2026-08-23) was stopped with the owner's explicit go-ahead. Directly observed before the
+kill: **13,942 of 13,945** established connections to `127.0.0.1:11434` were its, against **one
+each** for Panscriptum's pipeline and overwatch. After: established connections to the daemon
+went **14,082 → 2**. Root cause read out of its source: `semsearch/embed.py:12` calls the
+module-level `requests.post` per embed with **no shared `Session`**, driven by a
+12-worker pool (`config.py:52`) over **134,039 candidate files**, in a `while True:` re-sweep
+every 5 minutes forever (`watcher.py:25-41`). Windows holds each closed socket in TIME_WAIT, so
+the churn outran the ~16,384-port ephemeral range (`netsh int ipv4 show dynamicport tcp`) — this
+was **machine-wide TCP port exhaustion**, not merely "the GPU is busy."
+**Not our code, and it will come back:** `SemSearch.vbs` is in the Startup folder, so it returns
+at next logon. Confirmed Panscriptum has **no dependency** on it — the only `nomic-embed` hit in
+`src/` is `pick_model.py:95`, which lists embedding models to EXCLUDE from prose generation.
+
+**Half two — the context pin, which the kill did NOT fix, and which was the real blocker.**
+Run #11 found the mechanism (a call asking `num_ctx` 6144/8192 never completes) but could not act
+on it. After killing semsearch, `/api/ps` still showed the runner pinned at
+**`context_length: 4096` with `expires_at: 2318-12-04`** — an effectively infinite keep-alive that
+**outlived the client that set it**, exactly as run #11's queue warned. Released it surgically
+with a `keep_alive: 0` unload rather than restarting the daemon (`/api/generate`, 200 in 0.005 s);
+`expires_at` dropped to a normal 5-minute expiry.
+**Measured before and after, same trivial prompt:**
+
+    num_ctx 6144, pin in place     no answer in 150 s / 240 s / 300 s (three attempts)
+    num_ctx 6144, pin released     HTTP 200 in 48.7 s, runner reloaded at context_length 6144
+
+**This lifts the constraint that runs #10 and #11 both filed as blocking.** m46 and m52 were
+written up as "the remedy cannot be raising `num_ctx` while M5 stands." M5 no longer stands, so
+raising it is back on the table and should be re-costed against VRAM rather than ruled out.
+**Honest limit:** this did not make the daemon fast. A trivial call still took 34.6 s on one of
+three samples afterwards, ~14,000 TIME_WAIT sockets were still draining, and Panscriptum's own
+nine standing jobs contend with each other (`read.py` alone held 10 connections). **Our own
+multi-process fan-out is now the largest remaining source of contention** and nothing has been
+done about it.
+
+**THE PAID LANE IS RETIRED — owner ruling: "there shouldn't be a paid lane anywhere."**
+Done in two places on purpose. `state/PAID_BURST.json` now reads `enabled: false`, and
+`cascade_bridge.PAID_LANE_RETIRED = True` makes it **structural**: while that constant is set, no
+bucket starting with `anthropic:` is a candidate for anything, whatever the file says. A file is
+something a future session can flip back by accident, and this project has already spent 598 calls
+against a cap of 500 because a gate that looked closed was not. **`used: 598` was deliberately NOT
+reset — it is the evidence.** Verified live: 1 paid bucket exists in the router of 38 total,
+**0 are selectable**. Enumerated the rest for the owner: 6 are local Ollama (free), 31 are
+free-tier cloud. Pinned by five verify_math checks that also lift the retirement temporarily to
+prove the cap predicate underneath still discriminates, then restore it.
+
+**Battery:** verify_math **437 passed / 0 FAILED** · pyflakes 1 pre-existing warning.
+
+**Not done, and owed:** the m46/m52 feats-and-chapter restructure the owner asked for
+("structure the feats stuff such that truncation doesn't occur") is **not implemented** — the
+context-pin work above changes its cost basis, so it should be re-planned before it is built.
+Owner also ruled: **prose generation waits until the omniverse history is written**, so no
+generation run is imminent and the restructure is not urgent — but m52 still blocks one.
+
+---
+
 ## 2026-08-24 13:20 (local) — Run #11 (the daemon is not slow, it is sorting us by a number we choose)
 
 **FOR THE OWNER, AT THE TOP:**
