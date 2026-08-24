@@ -88,6 +88,7 @@
 - **halo** — HALO — the top of the setting, assayed under the presence thesis
 - **handbuilt** — HAND-BUILT — assays for entities the automated pass cannot reach, and why it cannot
 - **ledger** — DE PRETIO — the Ledger Standard, formalised
+- **local_agent** — LOCAL_AGENT — the GPU model with hands: read, search, and gated writes on this repo
 - **module_index** — MODULE_INDEX — the map of the 87 modules, generated from their own first lines
 - **navtree** — NAVTREE — the terminal's navigation data, with every branch reachable
 - **onomast** — THE ONOMASTICON — distinct designations for the worlds that all call themselves Earth

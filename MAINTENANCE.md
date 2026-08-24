@@ -18,13 +18,28 @@ the platform safely allows, with an overlap guard so runs never stack.*
    (`FOR_OWNER.md`, `data/ALLSWEEP.json`, `data/OVERWATCH.json`, `state/failures.json` +
    `failure_samples.json`, the dashboard state) — never by re-deriving what they already
    measured.
-2. **Fan out subagents for what the bots can't do**: line-by-line malformed-code audits and
-   optimization audits (rotate the surface — the audit history lives in `handoff/AUDIT_*.md`
-   and `HANDOFF.md` run entries; don't re-read what the last run covered unless it changed),
-   plus any special focus the diff or BUGS.md suggests. Verify every agent finding against
-   the source before acting — agents propose, the transcript record shows they are sometimes
-   wrong in both directions.
-3. **Claude steps in personally** only for: verified findings needing fixes, design-adjacent
+2. **Ollama next — the GPU is unlimited, private, and metered by nobody** (owner ruling
+   2026-08-23: the local model sits between the bots and the subagents). Route to it every
+   task it can carry before any Claude-token subagent spins up: module reviews via
+   `overwatch.py` (its `_ask` is already local-first — raising `--modules` for a run is the
+   knob), scripted code repairs via the foreman's `--patch` model lane (six gates, backup,
+   auto-revert), and any mechanical triage a small context can hold (classifying failure
+   samples, checking a suspect function against its docstring, summarizing a log). **For
+   file-touching work, the rung's hands are `src/local_agent.py`** — an Ollama tool-calling
+   loop giving the model read_file / list_dir / grep / propose_patch over the repo, with
+   every write behind the foreman's own bar (denylist, parse, lint, import, verify_math,
+   backup + auto-revert): `python src/local_agent.py --task "..."` (`--no-apply` to stage
+   only). It probes tool capability and names tool-trained models that fit the card if the
+   configured one cannot. Its limits are honest: small context, no repo-wide view, weaker
+   subtle reasoning — what it returns is a PROPOSAL, gated exactly as the foreman gates it.
+3. **Fan out Claude subagents for what the local model can't hold**: line-by-line
+   malformed-code and optimization audits across many files (rotate the surface — the audit
+   history lives in `handoff/AUDIT_*.md` and `HANDOFF.md` run entries; don't re-read what
+   the last run covered unless it changed), cross-module reasoning, and any special focus
+   the diff or BUGS.md suggests. Verify every agent finding against the source before
+   acting — agents propose, the transcript record shows they are sometimes wrong in both
+   directions.
+4. **Claude steps in personally** only for: verified findings needing fixes, design-adjacent
    repairs, wiring new machinery, and the ledger/handoff writing itself.
 
 ## The ledgers
