@@ -216,9 +216,31 @@ def push(message=None):
     if not os.path.isdir(os.path.join(SITE, ".git")):
         raise RuntimeError("export is not a repo yet -- run --init --remote first")
     git("add", "-A")
-    if not git("status", "--porcelain"):
+    porcelain = git("status", "--porcelain")
+    if not porcelain:
         return False
-    stamp = message or ("instruments " + time.strftime("%Y-%m-%d %H:%M"))
+    # A history of identical "instruments <time>" messages answers no question anybody brings
+    # to a history. The message now names what actually moved: which code files, how much of
+    # everything else -- derived from the same status the commit is about to record.
+    if message:
+        stamp = message
+    else:
+        code, other = [], 0
+        for ln in porcelain.splitlines():
+            p = ln[3:].strip().strip('"')
+            if p.startswith("src/") and p.endswith(".py"):
+                code.append(os.path.basename(p)[:-3])
+            else:
+                other += 1
+        parts = []
+        if code:
+            head = ", ".join(sorted(code)[:6])
+            more = f" +{len(code) - 6}" if len(code) > 6 else ""
+            parts.append(f"code: {head}{more}")
+        if other:
+            parts.append(f"{other} data/site file(s)")
+        stamp = ("sync " + time.strftime("%Y-%m-%d %H:%M") + " — "
+                 + ("; ".join(parts) or "no-op"))
     git("-c", "user.name=panscriptum", "-c", "user.email=noreply@users.noreply.github.com",
         "commit", "-q", "-m", stamp)
     git("push", "-q", "-u", "origin", "main")

@@ -398,6 +398,41 @@ def main():
 
     log("=" * 70)
     log("overnight supervisor starting")
+
+    # THE KEEPER. The cycle re-asserts the standing jobs only at its TOP, and then blocks for
+    # hours inside run(read) / join(roll) / run(pipeline) -- so a standing job that dies (or
+    # is deliberately bounced onto new code) mid-cycle stays down until the next lap. Found
+    # live on 2026-08-23: dashboard, publisher, foreman and overwatch were all down for the
+    # length of a 4-hour roll join. This thread re-asserts the standing set every five
+    # minutes from wherever the cycle happens to be blocked. start() keeps the singleton
+    # guard, so the keeper can never double anything.
+    import threading as _th
+
+    STANDING = [
+        ("dashboard", [os.path.join(SRC, "dashboard.py"), "--port", "8777"], "dashboard.log"),
+        ("publish", [os.path.join(SRC, "publish.py"), "--push", "--loop", "10"], "publish.log"),
+        ("foreman", [os.path.join(SRC, "foreman.py"), "--go", "--patch", "--loop", "30"],
+         "foreman.log"),
+        ("overwatch", [os.path.join(SRC, "overwatch.py"), "--loop", "20", "--modules", "4"],
+         "overwatch.log"),
+        ("pipeline", [os.path.join(SRC, "pipeline.py")], "pipeline_auto.log"),
+    ]
+
+    def _keep():
+        while True:
+            time.sleep(300)
+            for name, args, lf in STANDING:
+                try:
+                    # Checked silently first: start() logs "left alone" for a healthy job,
+                    # and five of those every five minutes is log spam wearing a uniform.
+                    if not running(os.path.basename(args[0])):
+                        log(f"  keeper: {name} was down mid-cycle")
+                        start(name, args, lf)
+                except Exception:
+                    silence.note("overnight.py:keeper")
+
+    _th.Thread(target=_keep, daemon=True).start()
+
     history = []
     idle = 0
     for cycle in range(1, a.cycles + 1):

@@ -1,7 +1,7 @@
 # PANSCRIPTUM — AUTONOMOUS RUN STATUS
 
 *Rewritten automatically by `src/pipeline.py` after every completed unit.*
-*Last update: 2026-08-23 20:21:14*
+*Last update: 2026-08-23 21:31:11*
 
 ## Where the run is
 
@@ -9,7 +9,7 @@
 |---|---|
 | Current phase | **2 — entrypass** |
 | Units completed this run | 3,375 |
-| Failures logged | 7 |
+| Failures logged | 12 |
 
 ## Corpus
 
@@ -71,5 +71,5 @@ python3 src/pipeline.py --status   # no work, just report
 record files; that happened on 2026-08-21 and the records survived by luck. Check before starting:
 
 ```
-powershell -Command "Get-CimInstance Win32_Process -Filter "Name='python.exe'" | Select CommandLine"
+powershell -Command "Get-CimInstance Win32_Process -Filter "Name='python.exe' or Name='pythonw.exe'" | Select CommandLine"
 ```

@@ -864,6 +864,8 @@ python src/generate.py --manifest output/index/manifest.json
 PANSCRIPTUM_EXPORT="C:\Users\imarl\panscriptum-export" python src/publish.py --push
 ```
 
+Maps: `handoff/MODULE_INDEX.md` (all 88 modules, one line each -- regenerate with `python src/module_index.py`) and `handoff/PHASE_CONTRACTS.md` (every phase's reads/writes/invariant on one page).
+
 Morning reading order: `FOR_OWNER.md` (decisions queued for you, paid-lane spend included) ->
 the dashboard's MOVEMENT panel (flat counters with running jobs is the one stall class the
 logs cannot show; a standard watches it now) -> `state/failure_samples.json` beside
