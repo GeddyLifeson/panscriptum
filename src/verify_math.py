@@ -2503,6 +2503,97 @@ finally:
     _TUNx.profile = _real_profile19ac
 
 
+# ---- Section 19ad: a held GPU slot keeps its own lease alive ---------------------------------
+#
+# 2026-08-24 (m54). `gpu_lane._touch` existed to refresh a slot's lease and was called from
+# NOWHERE IN THE TREE -- verified by grep across src/. A slot's heartbeat was therefore written
+# once, at acquisition, and never again. `config.yaml` sets `request_timeout: 1800` against a
+# `SLOT_LEASE_SECONDS` of 900, so every prose call outlived its lease by 2x, was read as
+# abandoned by `_take_slot`, and had its slot deleted and handed to a competitor WHILE STILL
+# RUNNING. MAX_SLOTS was violated by exactly the longest calls -- the card over-subscribed
+# precisely when busiest, which is the M7 pile-up arriving through the module built to stop it.
+#
+# The real property (a 20-minute call keeps its slot) cannot be asserted in a test suite, so
+# these assert the MECHANISM: the beat refreshes, it cannot resurrect a released slot, it will
+# not touch another process's lease, and the slot count still binds. Everything runs against a
+# throwaway lane directory -- the live jobs' real lane is never touched.
+import tempfile as _tmp19ad      # noqa: E402
+import threading as _th19ad      # noqa: E402
+import gpu_lane as _GLx          # noqa: E402
+
+_real_lane19ad = _GLx.LANE
+_real_beat19ad = _GLx._BEAT_SECONDS
+try:
+    _GLx.LANE = os.path.join(_tmp19ad.mkdtemp(prefix="panscript-lane-"), "lane")
+
+    check("_touch refuses to resurrect a slot that was already released",
+          (lambda p: (_GLx._touch(p), os.path.exists(p))[1])(
+              os.path.join(_GLx.LANE, "slot.gone.json")), False,
+          note="the beat thread is joined with a timeout, so a late beat could otherwise "
+               "re-create a released slot -- leasing it forever to nobody")
+
+    _GLx._ensure_dir()
+    _foreign19ad = os.path.join(_GLx.LANE, "slot.foreign.json")
+    with open(_foreign19ad, "w", encoding="utf-8") as _f19ad:
+        json.dump({"pid": os.getpid() + 99999, "label": "someone else", "heartbeat": 1.0},
+                  _f19ad)
+    _GLx._touch(_foreign19ad)
+    check("_touch will not refresh another process's lease",
+          json.load(open(_foreign19ad, encoding="utf-8"))["heartbeat"], 1.0,
+          note="refreshing a foreign lease would keep a dead holder's slot alive forever")
+
+    check("_remove_retry treats an already-gone lease as released",
+          _GLx._remove_retry(os.path.join(_GLx.LANE, "slot.absent.json")), True)
+
+    # THE BEAT ITSELF. Shrink the interval so the assertion is about behaviour, not patience.
+    _GLx._BEAT_SECONDS = 0.05
+    _seen19ad = {}
+    with _GLx.lane("verify:beat"):
+        _held19ad = [n for n in os.listdir(_GLx.LANE) if n.startswith("slot.")
+                     and n not in ("slot.foreign.json",)]
+        _seen19ad["held"] = len(_held19ad)
+        _p19ad = os.path.join(_GLx.LANE, _held19ad[0]) if _held19ad else None
+        _first19ad = json.load(open(_p19ad, encoding="utf-8"))["heartbeat"] if _p19ad else None
+        time.sleep(0.35)
+        _later19ad = json.load(open(_p19ad, encoding="utf-8"))["heartbeat"] if _p19ad else None
+    check("holding the lane takes exactly one slot", _seen19ad["held"], 1)
+    check("a held slot's lease is refreshed while the call runs",
+          bool(_first19ad is not None and _later19ad > _first19ad), True,
+          note=f"heartbeat {_first19ad} -> {_later19ad}; before m54 this number never moved "
+               "after acquisition, so a call longer than the lease lost its own slot")
+    check("the slot is released when the call ends",
+          [n for n in os.listdir(_GLx.LANE)
+           if n.startswith("slot.") and n != "slot.foreign.json"], [])
+
+    # AND THE COUNT STILL BINDS. MAX_SLOTS concurrent holders, the next one waits.
+    _GLx._remove_retry(_foreign19ad)
+    _peak19ad = {"n": 0, "cur": 0}
+    _lk19ad = _th19ad.Lock()
+
+    def _holder19ad():
+        with _GLx.lane("verify:concurrency"):
+            with _lk19ad:
+                _peak19ad["cur"] += 1
+                _peak19ad["n"] = max(_peak19ad["n"], _peak19ad["cur"])
+            time.sleep(0.25)
+            with _lk19ad:
+                _peak19ad["cur"] -= 1
+
+    _threads19ad = [_th19ad.Thread(target=_holder19ad) for _ in range(_GLx.MAX_SLOTS + 2)]
+    for _t19ad in _threads19ad:
+        _t19ad.start()
+    for _t19ad in _threads19ad:
+        _t19ad.join(timeout=30)
+    check("never more than MAX_SLOTS calls hold the card at once",
+          _peak19ad["n"] <= _GLx.MAX_SLOTS, True,
+          note=f"peak concurrent holders was {_peak19ad['n']} against MAX_SLOTS="
+               f"{_GLx.MAX_SLOTS}")
+    check("every lane holder released on the way out", _peak19ad["cur"], 0)
+finally:
+    _GLx.LANE = _real_lane19ad
+    _GLx._BEAT_SECONDS = _real_beat19ad
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

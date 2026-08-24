@@ -58,6 +58,13 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 CLOUD_MIN_BUCKETS = 3
 RECHECK_SECONDS = 180
 
+# Past this age a pool proof is annotated as stale but still counted at full strength. Named
+# rather than inlined because this file's whole premise is that the numbers deciding behaviour
+# should be visible and arguable, and a bare `3600` buried in a branch is neither. Whether a
+# stale proof should be DISCOUNTED rather than merely captioned is a live question (m59: even a
+# FRESH proof once certified 4-of-36 while live calls succeeded at 2.8%) and is not settled here.
+PROOF_STALE_SECONDS = 3600
+
 PROFILES = {
     # workers        how many concurrent model callers
     # chunk          characters of source text per read call
@@ -77,9 +84,31 @@ PROFILES = {
 _CACHE = {"at": 0.0, "regime": None, "why": ""}
 
 
-def _ollama_up(host="http://localhost:11434"):
+def _ollama_host():
+    """The host the LIBRARY talks to, not the one this module happened to assume.
+
+    This probe hardcoded `http://localhost:11434` as a default and was called with no argument,
+    while every other module in the kit -- `read`, `magnitude`, `local_agent`, `overnight`,
+    `standards`, `pick_model`, `pipeline`, `ingest_doc` -- reads `ollama_host` from
+    `config.yaml`. Latent today, because config.yaml names that same URL. The day the host moves,
+    `regime()` would certify a local model at an address nobody calls: "starved" while Ollama is
+    healthy, or "local" while it is unreachable. That is this project's most-repeated defect
+    (M7, m59, M8, m66) in its cheapest possible form -- a check measuring a path its callers are
+    not on -- so it is closed here rather than filed again. Falls back to the same literal.
+    """
     try:
-        with urllib.request.urlopen(host + "/api/tags", timeout=6) as r:
+        import yaml
+        cfg = yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8")) or {}
+        return str(cfg.get("ollama_host") or "http://localhost:11434")
+    except Exception:
+        silence.note("tuning.py:ollama-host")
+        return "http://localhost:11434"
+
+
+def _ollama_up(host=None):
+    try:
+        host = host or _ollama_host()
+        with urllib.request.urlopen(host.rstrip("/") + "/api/tags", timeout=6) as r:
             return r.status == 200
     except Exception:
         silence.note("tuning.py:ollama_up")
@@ -102,7 +131,7 @@ def _answering_buckets():
         silence.note("tuning.py:pool_proof")
         return 0, "no pool proof on disk"
     n = sum(1 for r in rows if isinstance(r, dict) and r.get("verdict") == "answers")
-    if age > 3600:
+    if age > PROOF_STALE_SECONDS:
         # A stale proof is a claim about a pool that may no longer exist. Believe it, but say so.
         return n, "%d answering (proof is %.1fh old)" % (n, age / 3600)
     return n, "%d answering" % n

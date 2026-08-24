@@ -272,7 +272,16 @@ def ensure_transport(verbose=True):
 # gate instead of stacking onto the card. On cloud the wide gate never binds. The regime is
 # re-read lazily on a timer, so a mid-run recovery re-opens the gate without a restart.
 GATE_CLOUD_N = 16
-GATE_LOCAL_N = 2
+
+# ONE PHYSICAL FACT, READ RATHER THAN RESTATED. How many requests the card serves at once is
+# decided by the daemon's `OLLAMA_NUM_PARALLEL`, and it was previously spelled out a second time
+# here as a bare `2` and a third time as `gpu_lane.MAX_SLOTS`. Three constants for one fact, with
+# nothing linking them: change the daemon's setting and this gate keeps admitting the old number,
+# silently over- or under-subscribing the card. `PANSCRIPTUM_GPU_SLOTS` still wins if set, so the
+# lane and this gate can be pinned together for an experiment. The 2 at the end is the last
+# resort, not the source of truth.
+GATE_LOCAL_N = max(1, int(os.environ.get("PANSCRIPTUM_GPU_SLOTS")
+                          or os.environ.get("OLLAMA_NUM_PARALLEL") or "2"))
 GATE_RECHECK_S = 120
 _GATE_CLOUD = threading.BoundedSemaphore(GATE_CLOUD_N)
 _GATE_LOCAL = threading.BoundedSemaphore(GATE_LOCAL_N)

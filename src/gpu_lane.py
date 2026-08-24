@@ -45,6 +45,7 @@ once with a foreign one that pinned the daemon for two days (M5).
 import contextlib
 import json
 import os
+import threading
 import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -55,7 +56,13 @@ LANE = os.path.join(HERE, "state", "gpu_lane")
 # each waits behind the rest AND the daemon cannot rebuild a runner while the queue is full.
 # Two rather than one: a single slot would serialise the whole library behind one slow call,
 # and the daemon does overlap prompt evaluation with generation to a useful degree.
-MAX_SLOTS = int(os.environ.get("PANSCRIPTUM_GPU_SLOTS", "2"))
+# ONE PHYSICAL FACT, READ RATHER THAN RESTATED: how many requests the card serves at once is
+# `OLLAMA_NUM_PARALLEL`, the daemon's own setting. This was a bare "2" default, and `read.py`
+# spelled the same number out a third time as GATE_LOCAL_N -- three constants for one fact with
+# no link between them, so raising the daemon's parallelism silently left both gates on the old
+# number. `PANSCRIPTUM_GPU_SLOTS` still wins when set, for pinning the two together deliberately.
+MAX_SLOTS = max(1, int(os.environ.get("PANSCRIPTUM_GPU_SLOTS")
+                       or os.environ.get("OLLAMA_NUM_PARALLEL") or "2"))
 
 # A slot is a lease, not a lock. If the holder dies mid-call its slot must return to the pool
 # without anyone intervening. Generous, because a real prose call legitimately runs for minutes
@@ -191,8 +198,7 @@ def foreground_active(ignore_pid=None):
             path = os.path.join(LANE, name)
             rec = _read(path)
             if _expired(rec, CLAIM_LEASE_SECONDS):
-                with contextlib.suppress(Exception):
-                    os.remove(path)
+                _remove_retry(path)      # m55: a release that silently fails strands the claim
                 continue
             if ignore_pid is not None and int(rec.get("pid") or 0) == int(ignore_pid):
                 continue
@@ -220,8 +226,7 @@ def foreground(label="foreground"):
         cur = _read(path) or {}
         d = int(cur.get("depth") or 1) - 1
         if d <= 0:
-            with contextlib.suppress(Exception):
-                os.remove(path)
+            _remove_retry(path)          # m55
         else:
             _write_claim(path, d, label)
 
@@ -249,8 +254,9 @@ def _take_slot(label):
         path = os.path.join(LANE, f"slot.{i}.json")
         rec = _read(path)
         if rec is not None and _expired(rec, SLOT_LEASE_SECONDS):
-            with contextlib.suppress(Exception):
-                os.remove(path)          # the holder is gone; the lease returns to the pool
+            # the holder is gone; the lease returns to the pool (m55: retried, because a
+            # denial here silently leaves the slot claimed by a process that no longer exists)
+            _remove_retry(path)
         try:
             fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
         except FileExistsError:
@@ -261,24 +267,80 @@ def _take_slot(label):
             with os.fdopen(fd, "w", encoding="utf-8") as f:
                 json.dump({"pid": os.getpid(), "label": label, "heartbeat": _now()}, f)
         except Exception:
-            with contextlib.suppress(Exception):
-                os.remove(path)
+            _remove_retry(path)          # m55: we created it and could not write it
             return None
         return path
     return None
 
 
 def _touch(path):
-    """Refresh a lease. A long, healthy call must not look abandoned."""
+    """Refresh a lease. A long, healthy call must not look abandoned.
+
+    NEVER RESURRECTS. The first version did `rec = _read(path) or {}` and wrote the result, so
+    calling it on a slot that had already been released RE-CREATED the file -- with a fresh
+    heartbeat and no live holder, i.e. a slot leased forever to nobody. That is reachable: the
+    heartbeat thread below is joined with a timeout, and a thread that wakes after the join
+    gave up would otherwise resurrect the slot it was supposed to be keeping alive. So a
+    missing record, or one belonging to another PID, is left exactly as found.
+    """
     if not path:
         return
     with contextlib.suppress(Exception):
-        rec = _read(path) or {}
+        rec = _read(path)
+        if not isinstance(rec, dict) or rec.get("pid") != os.getpid():
+            return
         rec["heartbeat"] = _now()
-        tmp = path + ".tmp"
+        tmp = path + "." + str(os.getpid()) + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(rec, f)
         os.replace(tmp, path)
+
+
+# How often a held slot refreshes its lease. A third of the lease means two consecutive missed
+# beats before anyone judges the holder gone -- tolerant of a stalled thread, still far short of
+# the lease itself.
+_BEAT_SECONDS = max(5.0, SLOT_LEASE_SECONDS / 3.0)
+
+
+def _heartbeat(path, stop):
+    """Keep one held slot's lease fresh until the call finishes.
+
+    THE DEFECT THIS CLOSES (m54, measured 2026-08-24). `_touch` existed and was called from
+    NOWHERE IN THE TREE -- verified by grep across `src/`. So a slot's heartbeat was written
+    once, at acquisition, and never again. Meanwhile `config.yaml` sets `request_timeout: 1800`
+    while `SLOT_LEASE_SECONDS` is 900: every prose call outlives its own lease by a factor of
+    two, at which point `_take_slot` reads it as expired, deletes the file, and hands the slot
+    to somebody else. The holder is still running. MAX_SLOTS is then violated by exactly the
+    calls that take longest, which is to say the card is over-subscribed precisely when it is
+    busiest -- the M7 pile-up, arriving through the module built to prevent it.
+
+    Daemon thread, bounded waits, every failure swallowed: this must never be able to stop a
+    model call. `stop.wait()` returns True the moment the call ends, so release is immediate
+    rather than waiting out a sleep.
+    """
+    while not stop.wait(_BEAT_SECONDS):
+        _touch(path)
+
+
+def _remove_retry(path, attempts=4):
+    """Release a lease, outwaiting a transient Windows denial (m55).
+
+    A plain `os.remove` under `suppress(Exception)` loses the race against any reader holding
+    the file open -- `status()` and a competing `_take_slot` both open slot files -- and a
+    release that silently does not happen strands the slot for the rest of its lease. Same
+    reasoning as `silence.replace_retry`, which wraps `os.replace` rather than `os.remove`.
+    Persistent failure is not raised: the lease expiry is the backstop.
+    """
+    for a in range(attempts):
+        try:
+            os.remove(path)
+            return True
+        except FileNotFoundError:
+            return True
+        except Exception:
+            if a < attempts - 1:
+                time.sleep(0.15 * (a + 1))
+    return False
 
 
 @contextlib.contextmanager
@@ -297,6 +359,8 @@ def lane(label="background", priority=False):
 
     slot = None
     fg = None
+    beat = None
+    stop = None
     try:
         if priority:
             fg = foreground(label)
@@ -317,13 +381,29 @@ def lane(label="background", priority=False):
             if slot:
                 break
             time.sleep(_POLL)
+        # HOLD THE LEASE FOR AS LONG AS THE CALL ACTUALLY RUNS (m54). Without this the slot
+        # ages out mid-call and a competitor reclaims it while the holder is still working.
+        if slot:
+            with contextlib.suppress(Exception):
+                stop = threading.Event()
+                beat = threading.Thread(target=_heartbeat, args=(slot, stop),
+                                        name="gpu-lane-beat", daemon=True)
+                beat.start()
         yield
     except Exception:
         raise
     finally:
-        if slot:
+        # ORDER MATTERS: stop the heartbeat BEFORE releasing, or a beat landing between the
+        # remove and the thread noticing would re-create the file. `_touch` refuses to
+        # resurrect a missing record as a second guard, so this is belt and braces.
+        if stop is not None:
             with contextlib.suppress(Exception):
-                os.remove(slot)
+                stop.set()
+        if beat is not None:
+            with contextlib.suppress(Exception):
+                beat.join(timeout=2.0)
+        if slot:
+            _remove_retry(slot)
         if fg is not None:
             with contextlib.suppress(Exception):
                 fg.__exit__(None, None, None)

@@ -403,11 +403,9 @@ def _metric(row):
     """Same ledger pipeline.ask writes, cloud lane. Ollama reports token counts; a stream
     through Cascade does not, so these rows carry character counts and the aggregator keys on
     which fields exist. Append-only, best-effort -- a metrics failure must never cost a call."""
-    try:
-        with open(_METRICS, "a", encoding="utf-8") as f:
-            f.write(json.dumps(row) + chr(10))
-    except Exception:
-        silence.note("cascade_bridge.py:metric")
+    # ONE SYSCALL, NOT A BUFFERED WRITE (m62): five processes share this file and a buffered
+    # append can be split mid-line, producing rows that parse as neither writer's.
+    silence.append_line(_METRICS, json.dumps(row))
 
 
 def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75, pin=None):

@@ -229,8 +229,8 @@ def _metric(row):
         v = _vram_mb()
         if v is not None:
             row = dict(row, vram_mb=v)
-        with open(METRICS, "a", encoding="utf-8") as f:
-            f.write(json.dumps(row) + chr(10))
+        # ONE SYSCALL, NOT A BUFFERED WRITE (m62). See silence.append_line.
+        silence.append_line(METRICS, json.dumps(row))
     except Exception:
         silence.note("pipeline.py:metric")
 
@@ -305,7 +305,18 @@ def ask_pool_first(c, system, prompt, schema, timeout=None, num_ctx=None, tag=""
     Every other caller of ask() (magnitude, ingest_doc, overwatch, read's fallback) manages
     its own pool order and uses ask() as the deliberately-LOCAL arm; only the phase call
     sites route through here, so nothing double-claims a bucket it already tried."""
-    if _pool_answering() >= 3:
+    # THE THRESHOLD IS TUNING'S, NOT A SECOND COPY OF IT. This read `>= 3` as a bare literal
+    # while `tuning.CLOUD_MIN_BUCKETS` held the same 3 and carried the argument for changing it
+    # ("Two is not enough..."). Two spellings of one policy: raise it there and this call site
+    # silently keeps the old bar. Falls back to 3 if tuning cannot be imported, so the routing
+    # decision never depends on the import succeeding.
+    try:
+        import tuning as _T
+        _min_buckets = int(_T.CLOUD_MIN_BUCKETS)
+    except Exception:
+        silence.note("pipeline.py:min-buckets")
+        _min_buckets = 3
+    if _pool_answering() >= _min_buckets:
         try:
             import cascade_bridge as CB
             got = CB.ask(system, prompt, schema)

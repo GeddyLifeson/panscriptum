@@ -456,7 +456,35 @@ def _unwrap_templates(c, depth=0):
         return c
     out, i, n = [], 0, len(c)
     while i < n:
-        if c.startswith("{{", i):
+        if c.startswith("{{{", i):
+            # A TEMPLATE PARAMETER, NOT A TEMPLATE CALL. `{{{name|default}}}` is wikitext's
+            # parameter syntax and it is three braces, not two. The `{{` branch below matched it
+            # anyway, consumed two of the three, scanned to the first `}}` and left the THIRD
+            # closing brace behind as literal text: `{{{1|just a param}}}` rendered as
+            # `" just a param }"` and `prose {{{2}}} more` as `"prose   } more"`. Measured
+            # 2026-08-24 -- filed by the run #5 audit as "miscounts brace nesting on {{{" and
+            # open ever since.
+            #
+            # The stray brace is not cosmetic. This text is what the reader hands the model AND
+            # what the VERBATIM check compares its answers against, so a `}` injected into a
+            # sentence makes a genuine quotation fail `_norm_q(s) not in _norm_q(ch)` and be
+            # counted as a FABRICATION -- the one thing this pipeline is most careful about.
+            #
+            # A parameter renders as its default: the text after the first pipe, or nothing.
+            j, level = i + 3, 1
+            while j < n and level:
+                if c.startswith("{{{", j):
+                    level += 1
+                    j += 3
+                elif c.startswith("}}}", j):
+                    level -= 1
+                    j += 3
+                else:
+                    j += 1
+            _, _, dflt = c[i + 3:j - 3].partition("|")
+            out.append(" " + _unwrap_templates(dflt, depth + 1) + " ")
+            i = j
+        elif c.startswith("{{", i):
             j, level = i + 2, 1
             while j < n and level:
                 if c.startswith("{{", j):

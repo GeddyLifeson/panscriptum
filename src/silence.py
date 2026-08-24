@@ -184,6 +184,42 @@ def main():
 
 
 
+def append_line(path, text):
+    """Append ONE line to a shared ledger without tearing it (m62).
+
+    Five live processes append to `state/model_metrics.jsonl` -- both `_metric` writers, across
+    `pipeline`, `cascade_bridge` and every job that imports them. They each used
+    `open(path, "a")` plus `f.write(...)`, which is a BUFFERED write: Python may split one line
+    into several underlying writes, and two processes interleaving mid-line produce a row that
+    parses as neither. Measured 2026-08-24: 5 corrupt lines, three of them mid-record fragments.
+
+    Exposure was low (0.019%) and the consequence is quiet rather than loud, which is the
+    argument for fixing it rather than against: `standards.py`'s ledger reader `continue`s past
+    an unparseable line, correctly, so a torn row is invisible from the one place that reads
+    them most. The metrics ledger is also now load-bearing -- `ollama_token_flow` decides a
+    standard from it.
+
+    One `os.write` to an `O_APPEND` descriptor is a single syscall, and the kernel does the
+    seek-to-end and the write together. That is not a general atomicity guarantee for arbitrary
+    sizes, but for a sub-page JSON line it is the difference between interleaved-and-corrupt and
+    interleaved-but-whole. Best-effort exactly as before: a metrics failure must never cost a
+    call.
+    """
+    try:
+        data = text.encode("utf-8") if isinstance(text, str) else text
+        if not data.endswith(b"\n"):
+            data += b"\n"
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o644)
+        try:
+            os.write(fd, data)
+        finally:
+            os.close(fd)
+        return True
+    except Exception:
+        note("silence.py:append_line")
+        return False
+
+
 def replace_retry(tmp, dst, attempts=5):
     """os.replace with a short retry, because on Windows the rename is DENIED while any
     reader holds the target open -- and this project's state files all have readers on their
