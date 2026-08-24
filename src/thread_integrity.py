@@ -79,8 +79,25 @@ def implied_threads(candidates_path=None):
     return pairs
 
 
-def classify(pairs, distance_fn=None, event_age_years=300.0):
-    """Sort implied threads into the four classes."""
+def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents=None):
+    """Sort threads into the classes -- honestly about which are measurable TODAY.
+
+    THE 2026-08-24 CORRECTION (BUGS m12, owner: FIX IT ALL). `implied_threads` builds its
+    pair map SYMMETRICALLY by construction -- both (a,b) and (b,a) exist for every shared
+    entity -- so comparing it against itself made every pair RECIPROCAL and left the
+    ASYMMETRIC classes structurally unreachable: the module was measuring its own input's
+    shape and calling it the omniverse's. Asymmetry is real only against a DIRECTED record
+    of which entries actually carry a Thread -- and per Hard Rule 5 that graph does not
+    exist until the owner's Step 4 entanglement pass. So:
+
+      recorded=None (today)   implied pairs classify as IMPLIED-UNRECORDED -- obligations
+                              awaiting the entanglement pass, counted and listed, never
+                              dressed as reciprocity nobody verified. DANGLING is computed
+                              for real, against the live records: a candidate key whose
+                              source no longer holds that entity (weave drift).
+      recorded={(a,b),...}    the future directed graph. The original four-way
+                              classification runs, asymmetry classes and all.
+    """
     out = collections.Counter()
     detail = collections.defaultdict(list)
     seen = set()
@@ -88,7 +105,17 @@ def classify(pairs, distance_fn=None, event_age_years=300.0):
         if (b, a) in seen or (a, b) in seen:
             continue
         seen.add((a, b))
-        back = pairs.get((b, a))
+        if ents is not None:
+            gone = [k for k in shared if k not in ents.get(a, ()) or k not in ents.get(b, ())]
+            if gone and len(gone) == len(shared):
+                out["DANGLING"] += 1
+                detail["DANGLING"].append((a, b, len(gone)))
+                continue
+        if recorded is None:
+            out["IMPLIED-UNRECORDED"] += 1
+            detail["IMPLIED-UNRECORDED"].append((a, b, len(shared)))
+            continue
+        back = (b, a) in recorded
         if back:
             out["RECIPROCAL"] += 1
             detail["RECIPROCAL"].append((a, b, len(shared)))
@@ -132,10 +159,13 @@ def main():
         dist = None
         print("(propagation graph unavailable; asymmetry cannot be excused by distance)")
 
-    counts, detail = classify(pairs, dist, args.age)
+    counts, detail = classify(pairs, dist, args.age, ents=ents)
     total = sum(counts.values())
     print("THREAD INTEGRITY")
-    for k in ("RECIPROCAL", "ASYMMETRIC-LAWFUL", "ASYMMETRIC-SUSPECT", "DANGLING"):
+    print("(no directed thread graph exists yet -- Hard Rule 5; asymmetry classes activate "
+          "with the Step 4 entanglement pass)")
+    for k in ("IMPLIED-UNRECORDED", "RECIPROCAL", "ASYMMETRIC-LAWFUL", "ASYMMETRIC-SUSPECT",
+              "DANGLING"):
         if counts.get(k):
             print(f"  {k:20s} {counts[k]:6,}  ({counts[k]/total:5.1%})")
     print()

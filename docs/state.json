@@ -1,5 +1,5 @@
 {
- "at": "2026-08-24 17:09:12",
+ "at": "2026-08-24 17:10:22",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -692,12 +692,12 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 287,
-  "per_hour": 1148,
+  "calls": 285,
+  "per_hour": 1140,
   "buckets": [
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 254,
+    "calls": 252,
     "ok": 1
    },
    {
@@ -766,7 +766,7 @@
    "read": 32911,
    "settled": 40916,
    "feats": 54510,
-   "age_h": 0.5
+   "age_h": 0.6
   },
   "phases": [
    {
@@ -880,7 +880,7 @@
   "swallowed": [
    [
     "silent:feats.py:139:URLError",
-    76
+    101
    ],
    [
     "silent:wiki_source.py:160:URLError",
@@ -903,7 +903,7 @@
     2
    ]
   ],
-  "swallowed_total": 108
+  "swallowed_total": 133
  },
  "metrics": [
   {
@@ -944,7 +944,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": true,
-   "observed": 1148,
+   "observed": 1140,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -980,7 +980,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "3% ok",
+   "observed": "4% ok",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1034,7 +1034,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.5h",
+   "observed": "0.6h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1088,7 +1088,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "108",
+   "observed": "133",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1196,7 +1196,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": true,
-   "observed": "2 running, all advancing",
+   "observed": "1 running, all advancing",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1241,7 +1241,7 @@
    "standard": "every managed job is running",
    "group": "machine",
    "holds": false,
-   "observed": "read.py",
+   "observed": "dashboard.py,read.py",
    "floor": "all up",
    "order": "The supervisor starts these every cycle, so one that is down means it failed on startup rather than never being launched -- read its log in state/. If the SUPERVISOR is down, the watchdog in autostart.py restarts it within three minutes.",
    "severity": "medium"
@@ -1288,44 +1288,44 @@
    "metric": "cited",
    "now": 8005,
    "delta": 0,
-   "minutes": 37,
+   "minutes": 38,
    "stalled": true
   },
   {
    "metric": "settled",
    "now": 40916,
    "delta": 0,
-   "minutes": 37,
+   "minutes": 38,
    "stalled": true
   },
   {
    "metric": "feats",
    "now": 54510,
    "delta": 46,
-   "minutes": 37,
+   "minutes": 38,
    "stalled": false
   },
   {
    "metric": "entities read",
    "now": 1246,
    "delta": 0,
-   "minutes": 37,
+   "minutes": 38,
    "stalled": true
   },
   {
    "metric": "chunks",
    "now": 8831,
    "delta": 28,
-   "minutes": 37,
+   "minutes": 38,
    "stalled": false
   },
   {
    "metric": "standards met",
    "now": 27,
    "delta": 1,
-   "minutes": 37,
+   "minutes": 38,
    "stalled": false
   }
  ],
- "generated": "2026-08-24T17:09:15"
+ "generated": "2026-08-24T17:10:25"
 }
