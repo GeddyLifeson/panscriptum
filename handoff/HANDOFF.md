@@ -174,6 +174,34 @@ job failure that stays pending), `num_predict: -1` so Ollama's default output ca
 end a chapter mid-entry, and `prompt_version` bumped to v5 so every thin pre-ruling volume
 regenerates. The model bench (gemma3:12b vs the 30B MoE for judgment phases) remains open --
 run it in a quiet window, never beside the batch.
+
+**THE COMPREHENSIVE SWEEP (owner-ordered, ~21:30).** Two model auditors (malformed-code +
+optimization) over the whole tree, findings verified against source before any fix. Optimization,
+measured: `overnight.running()` now shares ONE process enumeration on a 3s TTL (standards.check
+was spawning ~146 PowerShells per call -- it runs in 2.3s now, was tens of seconds), cache
+invalidated on every launch so the duplicate guard stays honest; `weave_index.load_records` is
+signature-cached (63MB was re-parsed per dashboard poll, three times per allsweep);
+`chain.harvest` is incremental via `state/chain_harvest_idx.json` (56k files / 900MB re-parsed
+per cycle -> 3s warm); readfeats scan cached 2min; run_batch no longer parses the 13MB sweep
+twice. Malformed-code, all fixed: `silence.replace_retry` everywhere readers race writers (a
+WinError-5 os.replace collision killed an assay worker mid-batch); catalogue writers routed
+through NEW `pipeline.write_record_catalogue` -- direction-aware merge, because write_record's
+disk-wins merge would have DISCARDED a 30k re-catalogue (each side of the two-writer contract
+now has its own writer); feats/read evidence caches atomic + self-healing (truncated cache ->
+deleted and re-earned, was a permanent silent drop); `_WIDEN_RR` rotation locked; foreman
+`_retire` atomic; dead `MAX_UNANSWERED` floor deleted and the floors self-check hardened
+(word-bounded, comment-stripped -- a comment naming a constant had hidden its death); dead
+REMEDIES key removed; RUN_STATUS's operator instruction taught pythonw. Operational: 1,060
+stranded Marvel entrypass batches reopened; dandwiki 403s ALL non-browser API clients -- its 4
+sources unhosted for the scout, misleading all-empty cache deleted, noted in SCOUT_BLOCKED;
+orphan caches of renamed hosts removed; entrypass now CLAMPS entry bands to the source's own
+synthesis ceiling (allsweep's new reconcile caught Starkiller Base M5 in an M4 source);
+`--instrument` had resurrected the probe-noise ledger class -- the handler now carries a
+`silence-exempt` marker both the audit and the instrumenter honour, and benign self-heal
+handlers are marked likewise (silent count: recorders' own 7, the designed floor). Prose now
+runs itself: the supervisor starts `generate.py` each cycle (phase 8's log line had been an
+instruction to a HUMAN). Battery after everything: 267/267 checks, 87/87 compile, lint clean,
+0 bad subsystems, standards 2.3s.
 for real today, correctly.
 
 ---

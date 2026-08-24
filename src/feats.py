@@ -655,6 +655,7 @@ def evidence_for(host, name, cache=True):
             try:
                 os.remove(path)
             except OSError:
+                _ = "silence-exempt: removing an already-gone corrupt cache needs no record"
                 pass
 
     # A SOURCE WITH NO WIKI IS READ FROM ITS OWN PAGES.

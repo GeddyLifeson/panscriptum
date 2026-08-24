@@ -292,6 +292,7 @@ def write_record_catalogue(path, rec):
                 if dv and (not sv or sv == "unassayed"):
                     se[fld] = dv
     except FileNotFoundError:
+        _ = "silence-exempt: no disk copy yet means nothing to merge; first write"
         pass
     except Exception:
         silence.note("pipeline.py:write_record_catalogue")

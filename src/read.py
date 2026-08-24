@@ -502,6 +502,7 @@ def read_entity(c, host, name, cap_chunks=None):
             try:
                 os.remove(path)
             except OSError:
+                _ = "silence-exempt: removing an already-gone corrupt cache needs no record"
                 pass
 
     ev = F.evidence_for(host, name)

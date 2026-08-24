@@ -161,6 +161,7 @@ def load_records():
     try:
         sig = (len(files), max((os.path.getmtime(p) for p in files), default=0))
     except OSError:
+        _ = "silence-exempt: an unstattable dir just skips the cache fast-path"
         sig = None
     if sig is not None and sig == _REC_CACHE["sig"]:
         return _REC_CACHE["out"]

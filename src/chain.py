@@ -128,6 +128,7 @@ def harvest():
         with open(HARVEST_IDX, encoding="utf-8") as f:
             idx = json.load(f)
     except Exception:
+        _ = "silence-exempt: a missing or corrupt index rebuilds whole; documented safe"
         idx = {}
     live, changed = set(), 0
     for base in ("readfeats", "feats"):
@@ -137,6 +138,7 @@ def harvest():
             try:
                 mt = os.path.getmtime(fp)
             except OSError:
+                _ = "silence-exempt: a file deleted mid-scan is simply not part of this harvest"
                 continue
             cached = idx.get(rel)
             if cached and cached.get("mt") == mt:
