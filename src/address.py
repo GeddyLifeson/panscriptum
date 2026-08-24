@@ -136,7 +136,43 @@ CHAPTER_SLUGS = {
     "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)": "Media",
     "Powers, Abilities & Systems (magic systems, power systems, tech systems, disciplines)": "Powers",
     "Mechanical/Named Content": "MechanicalContent",
+    "Feats & Attested Deeds (quoted feats mined from the source's own pages)": "Feats",
 }
+
+POWERS_LABEL = ("Powers, Abilities & Systems "
+                "(magic systems, power systems, tech systems, disciplines)")
+MECHANICAL_LABEL = "Mechanical/Named Content"
+FEATS_LABEL = "Feats & Attested Deeds (quoted feats mined from the source's own pages)"
+
+# A source whose MODE is this writes game mechanics, not cosmology. `mode` is already recorded
+# per source on the roll and per record in the corpus, so this is a reading of existing data
+# rather than a new classification.
+MECHANICAL_MODES = {"folder-mechanical"}
+
+
+def chapter_label_for(category_label: str, mode: str = None) -> str:
+    """Which chapter an entry's category belongs to, given the SOURCE it came from.
+
+    THE PROBLEM THIS SOLVES. The entrypass classifier can emit seven categories, and
+    `Powers, Abilities & Systems` is the only bucket offered for an ability. So a 3rd-level
+    evocation from a homebrew PDF and Ichigo's Bankai land in the same chapter. Measured on the
+    corpus: **65.9% of all `Powers` entries come from `folder-mechanical` sources** -- spells and
+    subclass features -- against 32.8% narrative. An encyclopedia of powers built on the raw
+    category would be two-thirds D&D spell lists wearing the same cover as Haki.
+
+    `CHAPTER_SLUGS` has carried a `Mechanical/Named Content` slug since the charter, with NO
+    producer: nothing has ever assigned that label, because it is not one of the seven the
+    classifier can emit. This is its producer, and it needs no per-entry reclassification --
+    the source's own `mode` already says which kind of book it is. Measured: 98.7% of Powers
+    entries route cleanly, `folder-mechanical` one way and `web` the other.
+
+    The remaining 1.2% are `hybrid` sources (87 entries, 6 sources), which genuinely mix the two
+    and cannot be routed wholesale. They stay under `Powers` and are flagged as an owner
+    question rather than guessed at -- see NEXT_STEPS.
+    """
+    if category_label == POWERS_LABEL and mode in MECHANICAL_MODES:
+        return MECHANICAL_LABEL
+    return category_label
 
 
 def chapter_slug(category_label: str) -> str:

@@ -1870,6 +1870,82 @@ check("the real navtree helper carries the same rule",
       note="if this reverts to max(set(regs), key=regs.count) the tree churns again and only "
            "a diff of two full runs would show it")
 
+# ---- Section 19o: the Feats chapter paginates and the Powers chapter is routed by mode -------
+# Two structures added 2026-08-24 so that mined feats can become prose at all, and so that a
+# homebrew spell and a narrative power stop sharing a chapter. Both are places where a cap would
+# be the obvious implementation and would be wrong.
+
+import manifest_builder as _MB     # noqa: E402
+import feats_index as _FI          # noqa: E402
+import address as _ADR             # noqa: E402
+
+# --- routing: the SOURCE's mode decides, not the entry's category ------------------------------
+check("a mechanical source's Powers become MechanicalContent",
+      _ADR.chapter_label_for(_ADR.POWERS_LABEL, "folder-mechanical"), _ADR.MECHANICAL_LABEL,
+      note="65.9% of all Powers entries come from folder-mechanical sources -- spells and "
+           "subclass features filed beside Bankai because the classifier has one bucket")
+check("a web source keeps its Powers",
+      _ADR.chapter_label_for(_ADR.POWERS_LABEL, "web"), _ADR.POWERS_LABEL)
+check("a hybrid source keeps its Powers rather than being guessed at",
+      _ADR.chapter_label_for(_ADR.POWERS_LABEL, "hybrid"), _ADR.POWERS_LABEL,
+      note="87 entries across 6 sources genuinely mix the two; an owner question, not a route")
+check("an unknown mode changes nothing",
+      _ADR.chapter_label_for(_ADR.POWERS_LABEL, None), _ADR.POWERS_LABEL)
+check("no OTHER category is ever rerouted by mode",
+      _ADR.chapter_label_for("Persons (named individual characters, real or fictional)",
+                             "folder-mechanical"),
+      "Persons (named individual characters, real or fictional)")
+check("MechanicalContent finally has a producer and a slug",
+      _ADR.chapter_slug(_ADR.MECHANICAL_LABEL), "MechanicalContent",
+      note="the slug shipped with the charter and nothing had ever assigned the label")
+check("and the Feats chapter has one", _ADR.chapter_slug(_ADR.FEATS_LABEL), "Feats")
+
+# --- packing: HARD RULE 0. every mined feat must reach a block ---------------------------------
+def _row(name, n, chars=100):
+    return {"entity": name, "feat_count": n, "pages": ["p"], "axis_counts": {"ruin": n},
+            "entry": {"magnitude": "M3", "topic": "Persons"},
+            "feats": [{"feat": "x" * chars, "axis": "ruin", "page": "p"} for _ in range(n)]}
+
+def _emitted(blocks):
+    return sum(len(e["feats"]) for b in blocks for e in b)
+
+_small = [_row("A", 5), _row("B", 5), _row("C", 5)]
+_bk = _MB.pack_feats(_small, "S", budget=100000)
+check("small entities pack into one block", len(_bk), 1)
+check("and nothing is lost", _emitted(_bk), 15)
+
+# The case the whole packer exists for: one entity far larger than a single call may carry.
+_huge = [_row("Goku", 569)]
+_bk = _MB.pack_feats(_huge, "S", budget=20000)
+check("an OVERSIZED entity is split across blocks, not truncated",
+      _emitted(_bk), 569,
+      note="569 attested deeds silently becoming the first 90 is precisely the cap Hard Rule 0 "
+           "forbids; the real record is 'List of techniques used by Goku' at 121,299 chars")
+check("and it takes more than one block to do it", len(_bk) > 1, True)
+check("each split block carries only that entity",
+      all(len(b) == 1 for b in _bk), True)
+_spans = [e["feat_span"] for b in _bk for e in b]
+check("every split block declares which span it holds", len(_spans), len(_bk))
+check("the spans start at the first deed", _spans[0].startswith("1-"), True)
+check("and end at the last", _spans[-1].endswith("of 569"), True)
+check("the spans are contiguous and cover the whole record",
+      sum(int(s.split(" of ")[0].split("-")[1]) - int(s.split("-")[0]) + 1 for s in _spans), 569,
+      note="a gap between two spans would be a silent loss wearing the shape of pagination")
+
+# Mixed: a giant beside several small ones must not drag them into its slices.
+_mixed = [_row("Giant", 400), _row("A", 3), _row("B", 3)]
+check("a giant beside small entities loses nothing",
+      _emitted(_MB.pack_feats(_mixed, "S", budget=20000)), 406)
+check("an empty row list packs to no blocks", _MB.pack_feats([], "S"), [])
+
+# --- the join itself ---------------------------------------------------------------------------
+check("host_to_sources drops the `pages:` sentinels rather than colliding them",
+      any(h.startswith("pages:") for h in _FI.host_to_sources()), False,
+      note="owner-supplied books record `pages:<title>` where a wiki records a host; inverting "
+           "them would pile every such source onto one pseudo-host")
+check("feats_for_source returns [] for a source with no host binding",
+      _FI.feats_for_source("a source that does not exist", {"entries": []}), [])
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

@@ -83,6 +83,7 @@
 - **custodes** — THE CUSTODES — one standpoint per degree of freedom, and the interval as their disagreement
 - **derivation** — THE DERIVATION LEDGER — every quantity in the omniverse, and what it stands on
 - **descending_ladder** — THE DESCENDING LADDER — the rungs below Planet, and the Quantum Fold
+- **feats_index** — FEATS_INDEX — the join that makes 39,862 mined feats reachable as a chapter
 - **genre** — GENRE — classify a source once, and let everything downstream follow from it
 - **grounding** — THE HYPERVERSE — grounding type, or: which answer to the First Argument does this cosmos live under
 - **halo** — HALO — the top of the setting, assayed under the presence thesis

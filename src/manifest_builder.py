@@ -32,7 +32,9 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from address import (spine_code_for, slugify, chapter_slug,  # noqa: E402
-                     placeholder_shelfmark)
+                     placeholder_shelfmark, chapter_label_for, FEATS_LABEL)
+import feats_index  # noqa: E402
+import silence  # noqa: E402
 
 import yaml  # noqa: E402
 
@@ -107,6 +109,74 @@ def chunk(lst, size):
         yield lst[i:i + size], i + 1, min(i + size, len(lst))
 
 
+# Characters of feat JSON one generation call may carry. `generate.py`'s own note records the
+# measured lesson: input attention thins past ~30,000 characters and entries start going
+# missing. Feats are far denser than catalogue entries -- 137 characters each, and one entity
+# ("List of techniques used by Goku") carries 569 of them for 121,299 characters on its own,
+# with 39 entities exceeding 30,000. Blocking by ENTITY COUNT would therefore have produced
+# single calls an order of magnitude past the point where the model silently drops material.
+FEATS_BLOCK_CHARS = 20000
+
+
+def pack_feats(rows, source_name, budget=FEATS_BLOCK_CHARS):
+    """Pack ranked feat rows into blocks under a character budget.
+
+    Two rules, and the second is the one that matters:
+
+      * Entities are packed together while they fit, so a source of many small casts does not
+        pay one call per entity.
+      * AN ENTITY LARGER THAN THE BUDGET IS SPLIT ACROSS BLOCKS BY ITS OWN FEATS, and every
+        slice is emitted. This is PAGINATION, not truncation -- Hard Rule 0. Each slice says
+        which span of that entity's deeds it holds, so the prose can name the span and a reader
+        can tell a partial block from a complete one. Dropping the overflow would have been the
+        cap this project exists to refuse: 569 attested deeds silently becoming the first 90.
+    """
+    def cost(feats):
+        return len(json.dumps(feats, ensure_ascii=False))
+
+    def shell(r, feats, span=None):
+        out = {
+            "entity": r["entity"],
+            "shelfmark": placeholder_shelfmark(source_name),
+            "magnitude": (r["entry"] or {}).get("magnitude", "unassayed"),
+            "topic": (r["entry"] or {}).get("topic"),
+            "pages": r["pages"],
+            "feat_count": r["feat_count"],
+            "axis_counts": r["axis_counts"],
+            "feats": feats,
+        }
+        if span:
+            out["feat_span"] = span
+        return out
+
+    blocks, cur, cur_cost = [], [], 0
+    for r in rows:
+        feats = r["feats"]
+        c = cost(feats)
+        if c <= budget:
+            if cur and cur_cost + c > budget:
+                blocks.append(cur)
+                cur, cur_cost = [], 0
+            cur.append(shell(r, feats))
+            cur_cost += c
+            continue
+        # Oversized: flush what is open, then slice this entity alone across whole blocks.
+        if cur:
+            blocks.append(cur)
+            cur, cur_cost = [], 0
+        slice_, start = [], 0
+        for i, f in enumerate(feats):
+            slice_.append(f)
+            if cost(slice_) >= budget or i == len(feats) - 1:
+                span = f"{start + 1}-{start + len(slice_)} of {len(feats)}"
+                blocks.append([shell(r, list(slice_), span)])
+                start += len(slice_)
+                slice_ = []
+    if cur:
+        blocks.append(cur)
+    return blocks
+
+
 def provisional_spine(roll_entry):
     """Only used with --include-unassigned. Clearly marked PROVISIONAL, never silently real."""
     cat = slugify(roll_entry.get("category", "Uncategorized"))
@@ -120,9 +190,14 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
     if not entries:
         return jobs
 
+    # ROUTE BY THE SOURCE'S MODE, not by the entry's category alone. The classifier has one
+    # bucket for every ability, so a homebrew spell and a narrative power arrive identically
+    # labelled; the source's `mode` is what distinguishes a rulebook from a wiki. See
+    # address.chapter_label_for -- 65.9% of all Powers entries are mechanical.
+    mode = record.get("mode")
     by_chapter = {}
     for e in entries:
-        chap = e.get("category", "Uncategorized")
+        chap = chapter_label_for(e.get("category", "Uncategorized"), mode)
         by_chapter.setdefault(chap, []).append(e)
 
     max_per_call = cfg.get("max_entries_per_call", 30)
@@ -185,6 +260,50 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
                 "entries": part,
                 "source_context": source_context,
                 "content_hash": content_hash({"entries": part, "context": source_context}),
+            })
+
+    # ---------------------------------------------------------------- the Feats chapter
+    #
+    # 39,862 mined feats existed before this and no volume could print one. They are not
+    # catalogue entries, so the category grouping above cannot see them; `feats_index` joins
+    # them to this source's cast by name (98.6% of the store). Each feat is a QUOTED sentence
+    # carrying its own page and one of the eleven Assay axes -- Charter Part Three's worksheet
+    # material, which is exactly why this chapter must never be asked to rank or score: the
+    # prose reports what was attested and nothing else. See prompts/feats_prompt.txt.
+    #
+    # Ranked richest-first by feat count, and PAGINATED, never truncated: every entity with
+    # feats gets a block, and a large cast simply produces more blocks.
+    try:
+        feat_rows = feats_index.feats_for_source(source_name, record)
+    except Exception:
+        silence.note("manifest_builder.py:feats")
+        feat_rows = []
+    if feat_rows:
+        blocks = pack_feats(feat_rows, source_name,
+                            int(cfg.get("feats_block_chars", FEATS_BLOCK_CHARS)))
+        multi = len(blocks) > 1
+        ctx = {
+            "mode": record.get("mode"),
+            "ceiling_entity": synth.get("ceiling_entity"),
+            "provisional_magnitude": synth.get("provisional_magnitude"),
+            "entities_with_feats": len(feat_rows),
+            "feats_in_source": sum(r["feat_count"] for r in feat_rows),
+        }
+        for bi, slim in enumerate(blocks, 1):
+            addr = f"{spine}/{chapter_slug(FEATS_LABEL)}"
+            if multi:
+                addr += f"#b{bi}"
+            jobs.append({
+                "job_id": addr,
+                "type": "feats",
+                "source_name": source_name,
+                "spine_code": spine,
+                "chapter_label": "Feats & Attested Deeds",
+                "address": addr,
+                "page_range": f"block {bi} of {len(blocks)}" if multi else None,
+                "entities": slim,
+                "source_context": ctx,
+                "content_hash": content_hash({"entities": slim}),
             })
     return jobs
 

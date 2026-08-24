@@ -1,0 +1,53 @@
+SOURCE: {source_name}
+SPINE CODE: {spine_code}
+CHAPTER: {chapter_label}
+ADDRESS: {address}
+
+This is the FEATS & ATTESTED DEEDS chapter. It is not like the other chapters and the rules
+below override the general entry format where they differ.
+
+Every line of feat text below is a QUOTATION mined from this source's own pages, together with
+the page it came from and the Assay axis it speaks to. This chapter's whole value is that it is
+evidence. Treat it as testimony you are arranging, never as material to embellish.
+
+WHAT TO WRITE
+
+For each entity below, in the order given, write one section:
+
+  * A heading with the entity's name and its shelfmark exactly as supplied.
+  * One short paragraph stating what the record shows in aggregate -- how many deeds are
+    attested, which axes they cluster on, and which pages they were drawn from. This is a
+    statement about the EVIDENCE, not about the character's importance.
+  * Then the deeds themselves, grouped under their axis, each one presented as the quotation it
+    is, with its page cited. Preserve the wording. You may trim a leading conjunction or a
+    dangling clause for readability; you may not paraphrase, merge two deeds into one, or
+    smooth a specific number into a vague one.
+
+HARD CONSTRAINTS -- these are the point of the chapter
+
+  * DO NOT INVENT A DEED. If you know something about this entity from elsewhere, it does not
+    belong here. Only what is listed below is attested.
+  * DO NOT SCORE. Do not produce an Assay decimal, a +/- interval, or a ranking of entities
+    against one another. The Magnitude band supplied for an entity may be REPORTED as given;
+    a band shown as "unassayed" must be reported as unassayed and never guessed at. Charter
+    Part Three's rule stands: no worksheet, no number.
+  * DO NOT INFER AN AXIS. Each deed's axis is supplied. Do not re-file one because it reads
+    better elsewhere, and do not invent an axis name that is not in the data.
+  * DO NOT RANK OR COMPARE. That a deed is more impressive than another is exactly the
+    judgement the Assay exists to make under its own method, and this chapter is its input,
+    not its output.
+  * If an entity's deeds are thin or repetitive, say so plainly. A sparse record is a true
+    fact about the evidence and is more useful than a padded page.
+  * Threads stay pending, as everywhere else in the library.
+
+Open the chapter with one short framing paragraph: what this chapter is, that it is quoted
+evidence drawn from the source's own pages, and what the reader should and should not conclude
+from it. Use the SOURCE CONTEXT for that framing only, and do not restate it verbatim.
+
+SOURCE CONTEXT (for framing only):
+{source_context}
+
+ATTESTED DEEDS (the ground truth for this chapter -- use only this):
+{entities_json}
+
+Write the chapter now.

@@ -9,6 +9,100 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 12:05 (local) — Interactive session: the Feats chapter, and Powers split from mechanics
+
+**Owner brief:** *"Should we implement an encyclopedia of powers section as well? ... powers and
+abilities ... and an encyclopedia of feats"*, then *"just make sure the structures for it all are
+in place properly so that things generate accordingly."* So: structures, not a generation run.
+
+**Ran under the guard, correctly.** The first claim was REFUSED — `claude-maintenance-run8` was
+live with a 9.2-minute-old heartbeat. That is the m27 fix from run #7 doing exactly its job on
+the first real occasion it had. Waited it out, claimed on release. No two-writer episode.
+
+**FINDING 1 — the feats store could not reach a volume at all.** `feats.py` has mined **39,862
+attested deeds across 1,166 entities** (mean 34 each; each one a QUOTED sentence carrying its
+page and one of the eleven Assay axes). `assay` and `magnitude` consume them per-entity when
+scoring. **Nothing else could see them**: `manifest_builder` groups a source's CATALOGUE entries
+by category, and feats are not catalogue entries. The best-evidenced material in the library was
+structurally unable to become prose.
+
+**The obvious join fails, and the reason is worth keeping.** Keying on the entry's `wiki_page`
+URL reaches **676 of 1,241** records. It fails because **a catalogue entry need not have a URL**:
+all 341 `all Bloons TD` entries carry `wiki_page: None`, so Geraldo, Gravelord Lych and Magus
+Perfectus — present in the catalogue by name, all mined successfully — could never match. A key
+that is absent on a whole source is not a weak key, it is no key. The join that works inverts
+`data/WIKI_HOSTS.json` (the authoritative source→host binding) and matches the feats record's
+entity against the source's entry NAMES, normalised: **1,224 of 1,241 records, 39,400 of 39,862
+feats — 98.6%**. New module `src/feats_index.py`, with an `audit()` that NAMES the stranded
+records rather than letting a smaller total imply them. The 17 strays are hosts missing from
+`WIKI_HOSTS` (the amazing digital circus, date a live, sakamoto days, uncle grandpa) — a gap in
+that file, not in the join.
+
+**FINDING 2 — Powers was two different chapters wearing one label.** The entrypass classifier can
+emit seven categories and `Powers, Abilities & Systems` is the only bucket offered for an
+ability, so a 3rd-level evocation and Ichigo's Bankai landed together. Measured: **65.9% of all
+7,122 Powers entries come from `folder-mechanical` sources** — spells and subclass features —
+against 32.8% narrative. An encyclopedia of powers built on the raw category would have been
+two-thirds D&D spell lists.
+
+`CHAPTER_SLUGS` has carried a `Mechanical/Named Content` slug since the charter **with no
+producer** — nothing ever assigned that label, because it is not one of the seven. It has one
+now, and it needed **no per-entry reclassification**: the record's own `mode` field already says
+which kind of book it is. Measured, **98.7% routes cleanly** (`folder-mechanical` → Mechanical,
+`web` → Powers). The remaining **1.2% — 87 entries across 6 `hybrid` sources** — genuinely mix
+the two, cannot be routed wholesale, and are left under Powers and raised as an owner question
+rather than guessed at. Whole corpus: **30 sources now route to MechanicalContent, 105 keep a
+Powers chapter.**
+
+**THE SIZING DECISION, which is where a cap would have been the natural mistake.** Feats are far
+denser than catalogue entries — 137 characters each — and the distribution has a long tail:
+median 19 per entity, p95 102, **max 569** (`List of techniques used by Goku`, **121,299
+characters on its own**), with **39 entities exceeding 30,000 characters of feats alone**.
+`generate.py`'s own note records that input attention thins past ~30,000 characters and entries
+start going missing. Blocking by ENTITY COUNT would therefore have produced single calls an
+order of magnitude past the point where the model silently drops material — and the loss would
+have looked exactly like a complete chapter.
+
+So `manifest_builder.pack_feats` blocks by CHARACTER BUDGET, and **an entity larger than the
+budget is split across blocks by its own feats, every slice emitted, each declaring the span it
+holds** (`"1-113 of 569"`). Pagination, not truncation. Whole-corpus check: **40,026 feats
+available, 40,026 emitted into jobs, zero loss**, 558 feats jobs across 99 sources, largest block
+**23,136 characters** — under the ceiling.
+
+**What was built:** `src/feats_index.py` (the join + audit); `address.chapter_label_for` plus
+`Feats` and the now-live `MechanicalContent` in `CHAPTER_SLUGS`; `manifest_builder.pack_feats`
+and a `feats` job type; `prompts/feats_prompt.txt`; a `feats` branch in `generate.build_prompt`
+and `generate_job`. The prompt is the load-bearing part and is written against Hard Rules 1 and
+3: the deeds are **quoted evidence**, so it forbids inventing a deed, scoring an Assay decimal,
+re-filing an axis, and ranking entities against one another — *"this chapter is the Assay's
+input, not its output"* — and requires a sparse record be reported as sparse rather than padded.
+`generate_job` verifies every entity in a block appears, retries once, then FAILS the job rather
+than writing a chapter short of its own deeds.
+
+**Deliberately NOT done:** no generation run, no new spine code. A cross-source encyclopedia
+(feats organised by axis across the whole library rather than per-source) would need its own
+spine code, which is curatorial work Hard Rule 2 reserves for the owner. The per-source `Feats`
+chapter slots into the existing volume structure exactly as Persons and Places do and needs no
+ruling. Raised as a question.
+
+**Also confirmed while here:** run #7's m31 fix is **firing in production** — `state/
+pipeline_auto.log` carries *"pool answered entrypass with an unusable shape; falling back to
+local"* at 11:33:11 and 11:52:45, which independently confirms run #7's diagnosis that the cloud
+pool returns well-formed JSON of the wrong shape. **The consequence is still unmeasured**: no
+`returned N/M` line has posted since the 11:17 restart, so whether batches now score non-zero is
+still open. That remains run #8's NEXT_STEPS item 1.
+
+**Battery:** verify_math **424 passed / 0 FAILED** (+35, §19o) · allsweep **0 subsystems bad** ·
+pyflakes clean across `src/` · silence **352 handlers, 12 silent** (roster unchanged) · every
+standing job confirmed up by process list.
+
+**One thing noticed, not chased:** `allsweep`'s `running` detector reported only `overnight.py`
+while the process list showed all nine standing jobs alive. Run #7's allsweep reported four. The
+jobs are demonstrably up, so this is a detection false-negative rather than an outage — filed in
+NEXT_STEPS rather than investigated, since nothing depends on it today.
+
+---
+
 ## 2026-08-24 12:00 (local) — Run #8 (the writer that was two and a half hours out of date, and the names that were never the same twice)
 
 **FOR THE OWNER, AT THE TOP:**

@@ -70,6 +70,30 @@
 
 ## 2. Human decisions needed (owner)
 
+*Added by the 2026-08-24 12:05 interactive session (Feats chapter + Powers/Mechanical split).
+These three are the only open questions that work left behind; the structures themselves are
+built, tested and committed.*
+
+A. **[hybrid Powers — 87 entries, 6 sources] Which chapter do hybrid sources' abilities belong
+   to?** `address.chapter_label_for` routes a source's Powers by its `mode`: `folder-mechanical`
+   → MechanicalContent, `web` → Powers. That covers **98.7%**. The `hybrid` sources genuinely mix
+   a rulebook's mechanics with narrative powers in one catalogue, so no wholesale route is
+   honest. Options: leave them under Powers (current behaviour), route them to Mechanical, or
+   split per-entry — which needs a real per-entry signal, and an empty description is NOT one
+   (see m29 for why that signal has burned this project before).
+B. **[cross-source feats encyclopedia] Should feats also exist as their own VOLUME, not only as
+   a per-source chapter?** What was built is `<spine>/Feats` — a chapter inside each source's
+   volume, which slots into the existing structure exactly as Persons and Places do and needed
+   no ruling. A library-wide encyclopedia organised BY AXIS across all 99 sources ("every `ruin`
+   deed attested anywhere") is a different and arguably more useful book — but it needs its own
+   spine code, and inventing one is curatorial work **Hard Rule 2 reserves for the owner**. The
+   join and the packer would both serve it unchanged; only the addressing is missing.
+C. **[17 stranded feats records] Four hosts are missing from `data/WIKI_HOSTS.json`** — the
+   amazing digital circus, date a live, sakamoto days, uncle grandpa — so 17 records / 462 mined
+   deeds join to no source and no volume will print them. `python src/feats_index.py` names them
+   every time it runs. Adding the host bindings is mechanical, but which source each belongs to
+   is an owner call.
+
 7. **[M4] The burst lane** — 598/500, closed by the cap rather than by intent. Raise `cap`, set
    `enabled: false` (which genuinely works now), delete the file (now safe), or retire the lane.
 8. **[m37 — now CONFIRMED, and the shape of the question has changed] Nothing reads

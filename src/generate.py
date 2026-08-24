@@ -73,7 +73,35 @@ def load_prompt_templates():
     return system, chapter_tpl, front_tpl
 
 
+_FEATS_TPL = [None]
+
+
+def feats_template():
+    """The Feats chapter template, loaded once, on demand.
+
+    Deliberately NOT added to `load_prompt_templates()`'s return tuple: that tuple is unpacked
+    at four call sites and threaded through `generate_job`, so widening it would be a signature
+    change across the module for a template only one branch ever uses.
+    """
+    if _FEATS_TPL[0] is None:
+        with open(os.path.join(HERE, "prompts", "feats_prompt.txt"), encoding="utf-8") as f:
+            _FEATS_TPL[0] = f.read()
+    return _FEATS_TPL[0]
+
+
 def build_prompt(job, chapter_tpl, front_tpl):
+    if job["type"] == "feats":
+        # A feats chapter carries `entities`, not `entries`, and its own contract: the deeds are
+        # quoted evidence and must not be scored, ranked or embellished. See feats_prompt.txt.
+        return feats_template().format(
+            source_name=job["source_name"],
+            spine_code=job["spine_code"],
+            chapter_label=job["chapter_label"],
+            address=job["address"],
+            source_context=json.dumps(job.get("source_context", {}), indent=2,
+                                      ensure_ascii=False),
+            entities_json=json.dumps(job["entities"], indent=2, ensure_ascii=False),
+        )
     if job["type"] == "frontmatter":
         return front_tpl.format(
             source_name=job["source_name"],
@@ -142,6 +170,32 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         text = call_ollama(cfg, system_prompt, build_prompt(job, chapter_tpl, front_tpl))
         if not text.strip():
             raise RuntimeError("empty response from Ollama")
+        return text
+
+    if job["type"] == "feats":
+        # A feats block is ALREADY sized by `manifest_builder.pack_feats` against a character
+        # budget, so it is one call -- re-chunking here by entity count would undo the packing
+        # that exists precisely because feats are dense. The coverage check is kept: every
+        # entity in the block must appear, and a block that omits one is retried once and then
+        # filed as a failure rather than written short.
+        ents = job["entities"]
+        up = build_prompt(job, chapter_tpl, front_tpl)
+        text = call_ollama(cfg, system_prompt, up)
+        lacking = [e for e in ents if not _covered(e.get("entity", ""), text)]
+        if lacking or not text.strip():
+            retry = call_ollama(cfg, system_prompt, up + (
+                "\n\nYour previous attempt omitted these entities entirely; every listed "
+                "entity must appear with its deeds: "
+                + ", ".join(e.get("entity", "?") for e in lacking)))
+            if retry.strip() and len(
+                    [e for e in ents if not _covered(e.get("entity", ""), retry)]) < len(lacking):
+                text = retry
+                lacking = [e for e in ents if not _covered(e.get("entity", ""), text)]
+        if not text.strip():
+            raise RuntimeError("empty response on feats block")
+        if lacking:
+            raise RuntimeError("feats block omitted: "
+                               + ", ".join(e.get("entity", "?") for e in lacking))
         return text
 
     entries = job["entries"]
