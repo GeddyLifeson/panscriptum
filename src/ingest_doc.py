@@ -225,7 +225,12 @@ def mine(source):
             with open(rp, encoding="utf-8") as f:
                 rec = json.load(f)
             rec.setdefault("entries", []).extend(fresh)
-            P.write_record(rp, rec)
+            # write_record_CATALOGUE, not write_record: this is a cast-growing writer, and
+            # write_record's disk-wins merge DISCARDED the first 14 entities this module ever
+            # found (2026-08-23, caught within minutes because found-count and record-count
+            # disagreed). Each side of the two-writer contract has its own writer; this is
+            # the catalogue side.
+            P.write_record_catalogue(rp, rec)
             state["found"] += len(fresh)
         state["next"] = ci + 1
         with open(state_p, "w", encoding="utf-8") as f:

@@ -1130,6 +1130,58 @@ finally:
     MG.F.evidence_for, MG.candidates, _CBm.ask, MG.P.ask, MG._ask, MG._POOL[0] = _saved
 
 
+
+# ---- Section 18c: the two-writer contract, both directions ---------------------------------------
+#
+# One record file, two writers, two OPPOSITE correct merges: the pipeline's in-memory copy is
+# the stale side (disk entry-list wins), the catalogue's fresh cast is the authority (rec
+# entry-list wins, disk judgments preserved). Using either writer for the other's job silently
+# destroys entries -- write_record dropped the doc-ingest's first 14 finds the night this was
+# added. These checks pin the directions with real files.
+
+import tempfile as _tf
+import pipeline as _PL
+
+_tdir = _tf.mkdtemp()
+_rp = os.path.join(_tdir, "rec.json")
+
+_disk = {"source": "T", "entries": [
+    {"name": "A", "magnitude": "M2", "scale_note": "kept"},
+    {"name": "B", "magnitude": "unassayed"}]}
+with open(_rp, "w", encoding="utf-8") as _f:
+    json.dump(_disk, _f)
+
+# Pipeline direction: a STALE one-entry copy must not shrink the disk cast.
+_stale = {"source": "T", "entries": [{"name": "A", "magnitude": "M3"}]}
+_PL.write_record(_rp, _stale)
+_got = json.load(open(_rp, encoding="utf-8"))
+check("write_record keeps the DISK cast against a stale copy",
+      sorted(e["name"] for e in _got["entries"]), ["A", "B"])
+check("and still lands the stale copy's judgment",
+      next(e for e in _got["entries"] if e["name"] == "A")["magnitude"], "M3")
+
+# Catalogue direction: a FRESH larger cast wins, disk judgments ride along.
+with open(_rp, "w", encoding="utf-8") as _f:
+    json.dump(_disk, _f)
+_fresh = {"source": "T", "entries": [
+    {"name": "A", "magnitude": "unassayed"},
+    {"name": "B"}, {"name": "C", "magnitude": "unassayed"}]}
+_PL.write_record_catalogue(_rp, _fresh)
+_got = json.load(open(_rp, encoding="utf-8"))
+check("write_record_catalogue keeps the FRESH cast",
+      sorted(e["name"] for e in _got["entries"]), ["A", "B", "C"])
+check("and preserves the disk judgment onto the matching name",
+      next(e for e in _got["entries"] if e["name"] == "A")["magnitude"], "M2")
+
+# And the catalogue merge never shrinks: a disk-only entry survives a smaller fresh cast.
+with open(_rp, "w", encoding="utf-8") as _f:
+    json.dump(_disk, _f)
+_PL.write_record_catalogue(_rp, {"source": "T", "entries": [{"name": "C"}]})
+_got = json.load(open(_rp, encoding="utf-8"))
+check("a catalogue merge never shrinks a cast",
+      sorted(e["name"] for e in _got["entries"]), ["A", "B", "C"])
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
