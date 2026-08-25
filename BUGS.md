@@ -1511,6 +1511,66 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+- **[m160 — RESOLVED, run #27] THREE CAPS AT ONCE ON THE FIELD THE ORDER TEXT SAYS TO READ, AND
+  A FALSE CLAIM THAT EVERY ROW WAS LIVE.** `standards.py:952` built the observed string for
+  `every pool failure is recognised` from `sorted(...)[:3]` with each error cut at `[:60]` and no
+  age. Fourteen rows were open; three were shown. **The cap hid a pattern, not just data:** all
+  fourteen were `All 1 candidates failed: <label>` — one unnamed engine wrapper across fourteen
+  buckets — and from three samples that is invisible, which is why run #26 chased the top row
+  alone and recorded the rest as "genuinely unexplained". The order also ended "anything here is
+  happening NOW", while rows live 24h; all fourteen predated the fix that resolved them and none
+  had recurred since the 06:51 bounce. **Root cause:** the same sentence as m145
+  (`available_sample: models[:8]`) in a second file — a cap on the field a person reads to act.
+  **Fix:** every row, whole text, with its age; order text now says to read the age and to read
+  the rows as a set. *Export commit: the `run #27` sync of 2026-08-25.*
+
+- **[m163 — MAJOR, RESOLVED, run #27] AN EMPTY CITATION PASSED THE VERBATIM GUARD, ALWAYS, AND
+  TOOK AN UNRELATED FEAT WITH IT AS ITS EVIDENCE.** `magnitude.py:356`'s guard 1 exists to refuse
+  any citation that is not one of the sentences handed to the model. `_norm("")` is `""`, and
+  `"" in t` is True for every non-empty `t`, so the match generator succeeded on its **first**
+  iteration: a model returning a number with no citation at all — precisely what the guard is
+  for — got `hit` = whichever feat happened to be first in `mined_norm`, and `text` became that
+  unrelated sentence. Guards 2 and 3 then judged the wrong evidence, so if that arbitrary feat
+  mentioned the axis and named the subject, an **uncited score entered the library wearing a
+  citation the model never made**. Found by the run #27 sweep (batch 07), confirmed by direct
+  test of `_norm`. **Root cause:** the "a check that cannot fail looks exactly like a check that
+  passed" shape, in the one place where passing means fabricated provenance. **Fix:** blank
+  citation is now its own rejection (`"no citation given"`) before the match is attempted.
+  *Export commit: the `run #27` sync of 2026-08-25.*
+
+- **[m164 — RESOLVED, run #27] A REGRESSION CHECK THAT FAILED BECAUSE THE CODE IT GUARDS WAS
+  IMPROVED, SHIPPED UNDER A GREEN CLAIM.** `verify_math.py:3541` grepped module source for the
+  literal `record_unrecognised(pinned.bucket, raw or box.get`. Run #26 added the wider
+  explain-only lookup and renamed that argument to `_text` — a strictly better version of the
+  behaviour the check protects — and the check went red on a correct fix. It shipped unseen
+  because run #26 ran its battery **before** that final edit (`verify_math.py` mtime 06:31,
+  `cascade_bridge.py` 06:38) and recorded "719 passed, 0 FAILED". **Two root causes, both worth
+  more than the check:** a source-grep check false-fails on any equivalent rephrasing (batch 01
+  found several more of these), and a battery result is only evidence about the tree as it stood
+  when it ran. **Fix:** re-pinned to the contract rather than the wording, and widened from one
+  check to three (the recorded text is not the engine's raw aggregate; it is the unwrapped text;
+  the wider lookup is still wired in). *Export commit: the `run #27` sync of 2026-08-25.*
+
+- **[m165 / m166 — RESOLVED, run #27] TWO MORE SIBLINGS OF ALREADY-RULED SHAPES, NEITHER EVER
+  VISITED.** Lesson 14's exact pattern, twice. `wh40k.py:230` wrote `data/WH40K_ASSAYS.json` with
+  a raw `open(...,'w')` + `json.dump` while its **twin** `zfighters.py:478` — same shape, same
+  job, same `main()` ending in a hand-built assay dump — was made atomic as "the m100 tail" on
+  2026-08-25; now `silence.write_json`. `tiers.py:271`'s `deliberate_joins` capped shared evidence
+  at `[:3]` on the same `shared_sample` key that `weave.py:478` and `pipeline.py:1795` both carry
+  `# WHOLE list -- Hard Rule 0, ruled 2026-08-24` on, and that `cosmology_graph.py:86` was brought
+  in line on in run #26 (m144) — the fourth member of the family. It mattered more than the key
+  name suggests: the function's own docstring calls that list *the evidence* a xenoverse is
+  artificial, and its only caller prints it as the justification, so three was the number of
+  reasons a person could ever see for a join built on nine. *Export commit: the `run #27` sync.*
+
+- **[m167 — RESOLVED, run #27] A BARE COUNT THAT COULD NOT DISTINGUISH FORTY SOURCES DRIFTING
+  FROM ONE SOURCE GROWING.** `health.check_state` reported `entries stranded in closed batches:
+  227` and nothing else, so diagnosis began with re-deriving the breakdown by hand. It took one
+  query and the answer changed the reading entirely: **all 227 in a single source.** Now names
+  every affected source, worst first, and records in-code why entries strand. The underlying
+  positional-key defect is filed open as **M20** — this fix is the instrument, not the repair.
+  *Export commit: the `run #27` sync of 2026-08-25.*
+
 *Run #21 (2026-08-25 ~00:50 local) resolved four items, one of them Major. Detail in HANDOFF.md.
 Export commit: the `run #21` sync of 2026-08-25 (see `git -C %PANSCRIPTUM_EXPORT% log`).*
 

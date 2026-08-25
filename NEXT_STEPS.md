@@ -1,6 +1,6 @@
 # Next Steps — priority queue for the next maintenance run
 
-*Overwritten each run; history lives in HANDOFF.md. Run #26 wrote this on 2026-08-25 ~07:0x local.*
+*Overwritten each run; history lives in HANDOFF.md. Run #27 wrote this on 2026-08-25 ~08:2x local.*
 
 **THE THREE OWNER RULINGS OF 2026-08-25 STILL SHAPE THE RUN. Read these first.**
 
@@ -12,230 +12,256 @@
    `python src/sweep_plan.py --batches 16`, one sonnet-tier agent per batch, all launched
    together; each writes its full report to `handoff/sweep<N>/AUDIT_batchNN.md` and returns **only
    a compact summary**. Then `sweep_plan.missing("run<N>")` **proves** coverage.
-   **Run #26's pass: 95 modules, 40,431 lines, 0 uncovered, 16 reports on disk (15.5–32.4 KB).**
-   **Launch the 16 agents FIRST and work the immediate queue while they run** — run #26 did this
-   and the first batch reported back before the opening diagnostics were finished.
+   **Run #27's pass: 95 modules, 40,728 lines, 0 uncovered, 16 reports (12.9–29.0 KB, 336 KB).**
+   **Launch the 16 agents FIRST and work the immediate queue while they run.** Note `sweep_plan.py
+   --batches N` prints a trailing `# 95 modules...` comment line after the JSON — strip from the
+   last `]` before parsing, or use `sweep_plan.batches(16)` directly.
 3. **AN UNRECOGNISED FAILURE IS A BUG, NOT WEATHER.** If `every pool failure is recognised` is
-   red, it is the run's first job. **Read the ledger before believing its size** — see lesson 8.
+   red, it is the run's first job — but see lesson 16: **read the AGE column before believing it.**
 
-**And the standing lessons. 14 and 15 are new; 14 is this run's whole spine.**
+**And the standing lessons. 16, 17 and 18 are new.**
 
 4. **VERIFY THE CADENCE WITH `list_scheduled_tasks`. NEVER FROM A FILE, INCLUDING THIS ONE.**
    Hourly, `11 * * * *` + 523s jitter, firing ~:19–:20. The **15 minutes in the overlap guard is
-   the heartbeat-staleness threshold** — a different number answering a different question. Do
-   not "fix" it to match the schedule.
-5. **BOUNCE WHAT YOU CHANGED, OR YOU CANNOT SEE THAT YOU FIXED IT.** Run #26's opening diagnostic
-   showed `every pool failure is recognised` red on two rows run #25 had ALREADY classified — the
-   process rendering the page carried a launch-time import from before that commit. **A long-lived
-   job is a photograph of the code at its launch.** Run #25 shipped the fix and did not bounce the
-   readers, so the page reported a fixed system's pre-fix answer for an hour. STANDING =
+   the heartbeat-staleness threshold** — a different number answering a different question.
+5. **BOUNCE WHAT YOU CHANGED, OR YOU CANNOT SEE THAT YOU FIXED IT.** STANDING =
    `{dashboard, publish, foreman, overwatch, pipeline}` (keeper restores in 300s); `read.py` and
-   `feats.py --roll` are OUTSIDE it and cost a supervisor lap — do not kill them casually (M15).
-6. **AGE `data/COVERAGE.json` BEFORE BELIEVING ANY COVERAGE STALL.** Under 0.5h → real; over →
-   artefact. `cited`/`settled`/`feats` come from `COVERAGE.json` (written once per supervisor
-   cycle); `entities read`/`chunks` come from a live glob and a live log tail.
-7. **AGE EVERY `bucket_state.last_error` ROW AND READ THE TEXT.** Rows 27–37 HOURS old are not
-   evidence about now — but see lesson 15: too NARROW a window has its own failure mode.
-8. **AGE EVERY FILE A STANDARD READS — ESPECIALLY WHEN IT READS GREEN.** A stale file producing a
-   false ALL-CLEAR is never looked at again. **Ask of every green high-severity standard: how old
-   is the evidence?**
-9. **A CHECK THAT CANNOT FAIL LOOKS EXACTLY LIKE A CHECK THAT PASSED.** When something has never
-   once failed, that is the finding. Run #26 found four: `anchors.py` printing its invariant and
-   exiting 0 (m155), `allsweep` grading two of four tiers (m156), the `or True` guard blind to the
-   wrapped spelling (m159), and overwatch's 0-open reading off 51-of-69 unverified retirements.
-10. **A GUARD CAN FAIL BY DOING THE THING IT PREVENTS.** `endpoint.register()` this run: it
-    overwrote the registry it could not read (m139), the same sentence as run #24's `write_record`
-    in a second file. **Read every `except` above a write and ask what the variable being written
-    still holds.**
-11. **A BARE NUMBER IN A LOG IS NOT A DIAGNOSIS.** Anywhere the code prints a raw code, ask whether
-    anything can say what it MEANS.
+   `feats.py --roll` are OUTSIDE it and cost a supervisor lap (M15). **Run #27 confirmed the
+   converse is checkable in one command:** `Get-CimInstance Win32_Process` start times showed all
+   five restarted 06:51, after run #26's 06:42 commit — so the page was trustworthy that hour.
+   Check start times before spending a run on a stale-import hypothesis.
+6. **AGE `data/COVERAGE.json` BEFORE BELIEVING ANY COVERAGE STALL.** `cited`/`settled`/`feats`
+   come from it (written once per supervisor cycle); `entities read`/`chunks` come from a live
+   glob and log tail. Batch 11 confirms `dashboard.movement()` cannot tell a real stall from the
+   file's write cadence — `settled` and `standards met` read `stalled` on the run #27 page purely
+   because `COVERAGE.json` had not been rewritten.
+7. **AGE EVERY `bucket_state.last_error` ROW AND READ THE TEXT.**
+8. **AGE EVERY FILE A STANDARD READS — ESPECIALLY WHEN IT READS GREEN.**
+9. **A CHECK THAT CANNOT FAIL LOOKS EXACTLY LIKE A CHECK THAT PASSED.** Run #27's m163 is the
+   sharpest instance yet: `"" in t` is True for every `t`, so an empty citation passed the
+   VERBATIM guard **always** and took an unrelated feat as its evidence.
+10. **A GUARD CAN FAIL BY DOING THE THING IT PREVENTS.**
+11. **A BARE NUMBER IN A LOG IS NOT A DIAGNOSIS.** m167: `stranded: 227` became actionable the
+    moment it said *which source*.
 12. **A GUARD THAT MATCHES ONLY THE UNOBFUSCATED SPELLING IS GREEN ON PURPOSE, FOR EVER.**
-    Case, alias, encoding, separator, wording — **and now line-wrapping** (m159). Ask of every
-    guard: what are the OTHER spellings? And check the test that decides whether the guard runs.
-13. **DO NOT MATCH PROCESSES BY A LITERAL YOUR OWN COMMAND LINE CONTAINS.** Assemble the needle at
-    runtime or use `lognames.OWNER`. Never a bare literal.
-14. **[NEW, RUN #26] AN OWNER RULING IS NOT APPLIED UNTIL EVERY FILE OF THAT SHAPE IS VISITED.**
-    One step earlier than lesson 12. The ruling gets made, applied to the file in front of it, and
-    the identical construction one module over is never opened. **In three of run #26's four cases
-    the sibling file carries a comment naming the ruling BY DATE while the unfixed file sits
-    beside it** — which is what makes the shape survivable: it looks done from every angle except
-    the one nobody checked. `cosmology_graph.py` kept an `< 8` cap on the same `shared_sample` key
-    `weave.py` and `pipeline.py` were both fixed on (m144); `rosetta.py` kept a bare write while
-    `scout.py`/`grounding.py`/`coverage.py` all name the sweep that fixed theirs (m151);
-    `chain.py` kept two of m100's twelve temp names (m152); `backfill.py`'s subcategory cap was
-    fixed at the inner loop and left standing one line up (m140).
-    **When you fix a shape, GREP THE TREE FOR IT and fix every instance in the same run.**
-15. **[NEW, RUN #26] ONE FRESHNESS WINDOW CANNOT SERVE TWO QUESTIONS.** `provider_error`'s 180s
-    gate is exactly right for BENCHING — claiming a stale row benches a live provider for four
-    hours (m103's harm) — and far too narrow for EXPLAINING, because during a burst the engine's
-    aggregate arrives minutes after the provider row that explains it. The biggest open
-    unrecognised row (`gpt-oss-120b`, x30, holding a HIGH standard red) had its cause sitting in
-    `bucket_state` the whole time: a Groq tokens-per-day limit. **Ask of every age gate: which
-    question is it answering, and is something else quietly asking the other one?**
+13. **DO NOT MATCH PROCESSES BY A LITERAL YOUR OWN COMMAND LINE CONTAINS.**
+14. **AN OWNER RULING IS NOT APPLIED UNTIL EVERY FILE OF THAT SHAPE IS VISITED.** Run #27 found
+    two more: `wh40k.py` (twin of the already-fixed `zfighters.py`) and `tiers.py`'s
+    `deliberate_joins` (fourth member of the `shared_sample` family). **When you fix a shape,
+    GREP THE TREE FOR IT.** It has now produced findings in six consecutive runs.
+15. **ONE FRESHNESS WINDOW CANNOT SERVE TWO QUESTIONS.** `provider_error`'s 180s gate is right
+    for BENCHING and far too narrow for EXPLAINING.
+16. **[NEW, RUN #27] A CAP ON A DIAGNOSTIC HIDES THE PATTERN, NOT JUST THE ROWS.** This is why
+    Hard Rule 0 covers the page and not only the data. `standards.py:952` showed 3 of 14
+    unrecognised rows; **all 14 were the same shape**, and from three samples that is invisible —
+    run #26 read the top row, chased it alone, and recorded the rest as "genuinely unexplained".
+    Uncapped, one glance settles it. **Ask of every truncated diagnostic: could the thing I most
+    need to notice only be visible in the part that was cut?** Sibling caps still open are
+    listed in §3; batch 01 found two inside `verify_math` itself.
+17. **[NEW, RUN #27] A BATTERY RESULT IS EVIDENCE ONLY ABOUT THE TREE AS IT STOOD WHEN IT RAN.**
+    Run #26 ran `verify_math`, made one more edit, and recorded "719 passed, 0 FAILED"; the run
+    ended red and nobody knew for an hour. **Re-run after the LAST edit, not the last interesting
+    one**, and treat a predecessor's green as a claim to re-test, not a fact to inherit.
+18. **[NEW, RUN #27] WHEN A NUMBER WON'T EXPLAIN ITSELF, THE CAUSE MAY NOT BE IN THAT SUBSYSTEM
+    AT ALL.** Three runs worked `model calls per hour` from the pool while the constraint was a
+    semaphore in the reader — and the ceiling was derivable all along by multiplying two numbers
+    nothing on the page multiplied. **When every sub-standard is green under a red headline, stop
+    subdividing the headline and go looking for a limiter OUTSIDE it.**
 
 ## 1. OWNER RULINGS NEEDED — these are blocking real work
 
-1. **[M18, CONFIRMED A THIRD TIME] `axis_score()` RETURNS A FLAT 9.9 FOR EVERY INPUT AT M10.**
-   Two independent agents re-confirmed it this run, one by live numeric test: `assay.py:221-223`
-   returns `9.9` for x = 1e30, 1e33, 1e36 and 1e40 alike, ten orders of magnitude collapsed to one
-   number, while the docstring states a log-interpolation. It is LIVE: `magnitude.py:244` calls it
-   inside `quantity_scores()`, whose results overwrite `scores[ax]` at `magnitude.py:706-707`.
-   `ledger.py:127-133` answers the same missing edge case a **different, incompatible** silent way
-   (`hi == lo` → `joules` collapses to the M10 floor regardless of `ruin_score`).
-   **New this run:** `tempus.band_resolution()` (`tempus.py:199-210`) already implements the
-   correct fallback for this exact edge case — "inherits the M9→M10 width" — so the repair exists
-   in the tree and simply was not reused. The bottom rung M0 has no equivalent bug (its clamp is
-   documented, deliberate and tested). **Which behaviour is correct at the top rung is a charter
-   question. Either resolution changes computed magnitudes across the library.**
-2. **[NEW] THE INSTRUMENT'S FLOOR→CEILING INVARIANT IS CURRENTLY VIOLATED, AND `anchors.py` NOW
-   SAYS SO OUT LOUD.** Measured run #26: `A Sword` (0.10) sits BELOW `The Skate Guy` (0.22), and
-   `Goku` (5.42) below `Yggdrasil` (6.18). The script used to print this and exit 0; it now exits
-   1 (m155), so `allsweep`'s instrument tier will start reporting it. **Whether the ordering or the
-   scores are wrong is an assay question, not a script fix.** Related and probably the same
-   subject: `assay.py:302-322`'s `SIGMA_BY_ATTESTATION` rescale (`_SCALE`) silently discards the
-   raw sigma (4.08) the adjacent comment says was calibrated to reproduce the charter's Kenshiro
-   `±0.12` — live-verified, `A.assay()` on that scenario now returns interval `0.06`, **half the
-   claimed calibration**. A likely direct contributor to `the automation reproduces the charter`
-   sitting red.
-3. **[M15, STILL OPEN] THE FOREMAN KILLS THE READER FOR LOOKING STALLED WHEN THE POOL IS WHAT
-   STALLED.** Unchanged and re-confirmed at source this run (`foreman.py:342-384,387-460`). Three
-   possible fixes, all design choices: teach the stall remedies to check pool refusal first and
-   decline; put `read.py` in `STANDING`; or make the kill notes tell the truth about how long
-   "next cycle" is for a non-STANDING job. **Additionally found this run:** `reprove_pool`
-   (`foreman.py:161-162,753`) returns True even when **zero** buckets answer, deadening its own
-   escalation into `restart_reader`.
-4. **[NEW] OVERWATCH'S ZERO IS NOT EVIDENCE.** Of 69 findings ever filed, **51 were retired with
-   no model verdict**: 27 by `overwatch.py:623-629`'s whole-file digest (any edit anywhere in the
-   file retires every open finding in it, unthrottled, before `verify_open` runs) and 24 by
-   `foreman._retire()` (`foreman.py:1016-1038`), a **second, unguarded writer to OVERWATCH.json**
-   that bypasses overwatch's own merge contract and matches by `(module, symbol)` rather than
-   fingerprint. Only 12 (17%) were genuinely re-checked. `_ask`→None is correctly NOT treated as
-   refuted. **Retirement policy is a routing decision; the second-writer bypass is arguably just a
-   two-writer-contract violation and could be fixed without a ruling — say which.**
-5. **[M16, STILL OPEN] `feats.api()`'s RETURN CONTRACT.** Re-verified line by line this run, holds
-   exactly as described, no drift. The repair changes the contract across every caller — a
-   public-signature change needing a review cycle. **New this run:** `discover()`/`fetch()`
-   (`feats.py:311-368,427-453`) share the identical shape and fire on **every** `roll()` entity via
-   `evidence_for()`, a broader blast radius than M16's own text names.
-6. **[NEW] `retry_synthesis.py:60`'s `sorted(...)[:14]` IS A HARD RULE 0 CAP AND THE FIX HAS A
-   COST.** Its docstring claims "byte-identical prompt construction to phase_synthesis", which is
-   false: `pipeline.phase_synthesis` chunks ALL feat-bearing entries in groups of 14 and takes the
-   best band across chunks (the m13 fix the owner ruled on 2026-08-24); this truncates to 14.
-   **I did not fix it this run on purpose.** Making it faithful multiplies model calls per retried
-   source — on a pool currently at 32 calls/hour against a floor of 900, that is a routing decision
-   with blast radius, not a mechanical repair. **Rule on it and it takes ten minutes.**
+1. **[M19, NEW — THE BIGGEST ONE] SHOULD THE READER SQUEEZE CLOUD CALLS THROUGH THE GPU CARD'S
+   SEMAPHORE?** Measured run #27, end to end. `read._ask` (`read.py:327-337`) runs the *whole*
+   transport ladder — cloud attempt included — inside whichever gate `tuning.regime()` selects.
+   On `local`/`starved` that is `GATE_LOCAL_N` = the **card's** parallelism (2), not
+   `GATE_CLOUD_N` (16), and `tuning.profile()` drops workers to match. **900 × 2/16 = 112.5;
+   observed 112.** The gate's stated purpose is to stop over-subscribing the card, and a cloud
+   call never touches the card — so it is also *starving the local calls the gate exists to
+   reserve*. Regime flipped to `cloud` twelve minutes later and throughput went **112 → 280**.
+   **Three options, all policy:** (a) acquire the local gate only around the local call;
+   (b) keep the ladder gated but size it `max(GATE_LOCAL_N, some cloud width)`; (c) leave it and
+   accept the ceiling on a starved machine. Also worth ruling on the trigger:
+   `CLOUD_MIN_SUCCESS` = 0.35 lost by **1.7 points** on a 24-call sample, and the loop is
+   self-feeding — narrow gate → few calls → noisy sample → narrow gate. Batch 06 adds that the
+   sample is dominated by the one or two buckets `quality_first` ranking sends the traffic to.
+   **The state is now visible on the page** (`the reader's gate is open`), so a ruling can be
+   checked the moment it lands.
+2. **[M20, NEW] THE ENTRYPASS DONE-MARKER IS POSITIONAL AND ANOTHER WRITER MUTATES THE LIST.**
+   227 entries stranded, all in `Gundam`. `f"{source}#{start}"` is an index; insertion or
+   re-ordering slides entries into a range already marked done and nothing re-opens a batch.
+   Re-keying by content invalidates every marker on disk and re-runs entrypass across the corpus
+   — real model spend on the constrained pool. **Rule: re-key, back-fill just the stranded
+   entries, or accept and document?**
+3. **[DECISION C, NOW MEASURED] `publish._scrub()` CLAIMS TO REFUSE "ANYTHING CREDENTIAL-SHAPED"
+   AND MATCHES 8 VENDOR PREFIXES.** (`publish.py:145-164`, batch 03.) AWS keys, Slack tokens,
+   generic bearer tokens and PEM blocks pass through unredacted into the **published** repo. The
+   docstring is the dangerous part: it reads as a guarantee. **Either widen it or correct the
+   claim — but this one is about what leaves the machine, so it wants your call, not mine.**
+4. **[M18, CONFIRMED A FOURTH TIME] `axis_score()` RETURNS A FLAT 9.9 FOR EVERY INPUT AT M10.**
+   Re-confirmed unchanged at source this run (batch 15). `ledger.py:127-133` answers the same
+   missing edge case a different, incompatible silent way; `tempus.band_resolution()`
+   (`tempus.py:199-210`) already implements the correct fallback and was re-verified correct this
+   run. **Which behaviour is right at the top rung is a charter question.**
+5. **[STILL OPEN] THE INSTRUMENT'S FLOOR→CEILING INVARIANT IS VIOLATED AND `anchors.py` EXITS 1.**
+   Re-run live this run: `A Sword` (0.10) below `The Skate Guy` (0.22); `Goku` (5.42) below
+   `Yggdrasil` (6.18). Related: `assay.py:302-322`'s `_SCALE` rescale discards the raw sigma the
+   adjacent comment says was calibrated to the charter's Kenshiro `±0.12`.
+6. **[M15, STILL OPEN — AND IT IS NOW COSTING A SECOND RED STANDARD] THE FOREMAN KILLS JOBS FOR
+   LOOKING STALLED WHEN THE POOL IS WHAT STALLED.** Batch 15 traced `the automation reproduces
+   the charter` sitting **33h stale** to exactly this: `foreman` re-dispatches
+   `magnitude.py --calibrate` roughly hourly (01:38/02:32/03:49/05:27/06:30 in `state/foreman.log`)
+   and **`kill_stalled_job` kills every attempt before it reaches its final write**. The producer
+   never stopped; it is being killed. Batch 04 adds that `run_charter_regression` has an explicit
+   pool-health gate and the `corpus read is progressing` remedy has **none**, and that
+   `reprove_pool` returning True at zero answering buckets silently disables its own paired
+   `restart_reader` fallback.
+7. **[M16, STILL OPEN] `feats.api()`'s RETURN CONTRACT.** Re-verified unchanged (batch 08). A
+   public-signature change needing a review cycle. `discover()`/`fetch()` share the shape.
+8. **[STILL OPEN] OVERWATCH'S ZERO IS NOT EVIDENCE.** 51 of 69 findings ever filed were retired
+   with no model verdict. Batch 13 adds a **compounding** defect: `overwatch.py:652` dedups by
+   fingerprint **key existence only, not state**, so a retired finding can never reopen — the same
+   live bug rediscovered later is silently swallowed. Retirement policy is a routing decision;
+   the `foreman._retire()` second-writer bypass is arguably just a two-writer violation and could
+   be fixed without a ruling — **say which.**
+9. **[STILL OPEN] `retry_synthesis.py:60`'s `sorted(...)[:14]` IS A HARD RULE 0 CAP WITH A COST.**
+   Batch 09 confirmed by direct diff that the docstring's "byte-identical to phase_synthesis" is
+   false. Making it faithful multiplies model calls per retried source. **Rule on it and it takes
+   ten minutes.**
 
 ## 2. Machinery worth building (no ruling needed, just time)
 
-- **Give `allsweep.reconcile()`'s `note()` a severity, so the tier can gate.** Run #26 tried
-  summing `len(findings)` into `bad` and a green machine reported 16 bad subsystems — because the
-  same undifferentiated list holds `catalogued sources with no host` (a real disagreement) beside
-  `phases implemented 8` and `running 1 dashboard.py` (healthy facts). Reverted and documented in
-  the code. Until a severity exists the tier prints as explicitly **ungraded**.
-- **`standards.py`'s probe/unexpected split is a hardcoded 6-substring match on SITE NAME, not on
-  exception type.** A future genuine bug inside `detect()`/`fetch()`/`probe()` falls into "probe"
-  and never trips the standard. (batch 11)
-- **Four standards have no staleness gate** while five siblings in the same file do:
-  `rosters that name their own fiction`, `shelfmarks are unique`, `hand-built assays match the
-  charter`, `every source is fully catalogued`. Lesson 8's exact subject. (batch 03/13)
-- **`sweep_plan.record()`'s cross-process lost update** — `_RECORD_LOCK` is a `threading.Lock`,
-  which gives zero cross-process exclusion; reproduced with two real processes in run #25.
+- **Give `allsweep.reconcile()`'s `note()` a severity, so the tier can gate.** Still ungraded and
+  still honestly printed as such (16 rows this run, "read them, they are not all faults").
+- **Behavioural checks to replace `verify_math`'s source-greps.** m164 is the proof they
+  false-fail; batch 01 lists more (`verify_math.py:2262-2268`, `2094-2098`, others). Each one
+  that greps a literal is a check that will go red the next time someone improves the code.
+- **`standards.py`'s probe/unexpected split is a hardcoded 6-substring match on SITE NAME.**
+  Batch 03 adds that `"hostcheck.py:candidates"` in that list matches **zero** call sites today.
+- **Four standards still have no staleness gate** while five siblings in the same file do.
+- **[NEW, batch 03] Most data-file-backed standards VANISH on a read error instead of reporting
+  UNMEASURED** — including three HIGH ones sharing one `ALLSWEEP.json` try block. A standard that
+  disappears is green by absence. The fix pattern already exists in the same file (lines 739-750),
+  applied to exactly one standard.
+- **[NEW, batch 03] `every declared floor is measured` slices `src[idx("def check("):]` with no
+  end bound**, so it scans `report()`/`main()` too — a constant used only outside `check()` reads
+  as measured.
+- **`sweep_plan.record()`'s cross-process lost update** — `_RECORD_LOCK` is a `threading.Lock`.
   `missing()` is verified safe (both failure paths over-report gaps, never a false "0 uncovered"),
-  so the coverage proof still stands. Fix: per-writer coverage fragments unioned at read time.
+  so the coverage proof stands. Run #27 side-stepped it by recording all 16 batches from one
+  process after verifying the reports on disk; that is a workaround, not the fix.
 
 ## 3. Verified sweep findings I did not repair this run — real work, with file and line
 
-**Silent truncation / data loss**
-- `read.py:605-760` — `cap_chunks`/`--chunks` truncates before the ask loop, so those chunks never
-  count toward `unanswered` and the write guard misses the path entirely: a pilot run's capped
-  entity is cached "complete" and never self-heals. Not hit by `overnight.py` (no `--chunks`).
+**Reproduced-live crashes and false claims**
+- `zfighters.py:474` — `--full` crashes `KeyError: 'provenance'` on Son Goku (merged-in
+  `REFERENCE_ASSAYS_PRESENCE.json` axes lack the key ROSTER-built axes always have). `:24-29`'s
+  headline claim is false against its own output: Vegito outranks Goku 7.63 vs 7.60.
+- `sevenfold.py:204` — world-level `shelve()` gets empty weights, degenerating `seams()` into
+  k-1 singletons + one giant block; reproduced (50 members → [44,1,1,1,1,1,1]).
+- `reference.py:245` — `shelfmark()` hardcodes `RUNGS[3+i]` assuming `upper` has exactly 3
+  elements; reproduced silent wrong output with non-3-part tier_keys.
+- `gpu_lane.py:270` — `_take_slot` skips `_expired()` when `rec is None`, so a **corrupt** slot
+  lease starves that index forever; reproduced live with an injected corrupt `slot.0.json`.
+  `:66-67` `int(os.environ[...])` with no try/except crashes module import for all 9 processes,
+  contradicting the file's own "FAIL OPEN, ALWAYS".
+- `coverage.py:10-18 vs :82-115` — docstring promises 5 states incl. UNREACHABLE ("the only state
+  that is purely a defect"); `state_of()` returns 4, and fetch-failed collapses into NO PAGE.
+- `autostart.py:131-133` — `_twin_watchdog()` returns False on any failure of its own detection
+  call, defaulting to "proceed" — re-opens the multi-watchdog respawn loop its docstring fixes.
+- `scope.py:106-114` — `build()` sets `out[h]=None` on failure then permanently skips `h`
+  thereafter: m143's failure-memoisation bug, unfixed here.
+- `identity.py:180-207` — `_is_continuity` requires n>=2 bearers, so a single-bearer designator
+  (the module's own "(Fates)" example) can never be recognised; risks merging two continuities.
+
+**Silent truncation / data loss (lesson 16's list)**
+- `read.py:605-760` — `cap_chunks`/`--chunks` truncates before the ask loop; capped entity caches
+  "complete". `skipped` now also conflates mention-filtered with cap-excluded.
 - `hostcheck.py:419-420,538` — `null_rate()` folds a failed baseline probe to `0.0` and caches it
-  process-wide; `judged_any` treats ANY reachable candidate as proof the search was adequate, so a
-  source's real host can be evicted when only the correct candidate failed transiently. M16's
-  shape, and likely part of why `sources with a reachable wiki` sits at 93%. `--repair` also has no
-  `--go` gate, unlike `purge`/`adopt`.
-- `local_agent.py:561` — `json.dumps(res)[:SLICE]` reuses the 12000-char read window as the
-  tool-message cap, silently cutting the `chars_after_slice`/`total_chars` disclosure fields off
-  the end of every large read, contradicting the module's own "never a truncation" docstring.
-- `chain.py:108` — `unmatched.most_common(40)` truncates a field **written into CHAIN.json**.
-- `scope.py:86-93` — no-signal fallback reintroduces the frequency bias the docstring calls wrong,
-  precisely for thin wikis; `titles[:8]` cap on scope-signal pages.
-- `weave_index.py:215,224` — STOPNAME/short-key entries dropped from `index` entirely, and
-  `description[:400]` persisted. **Trace the downstream consumer before calling it a violation.**
-- `feats.py` — `aplimit=500`/`srlimit=50` with no continuation (m82), now instrumented via
-  `_CAP_BOUND` but still unfixed.
+  process-wide; `judged_any` lets one wrong-but-reachable candidate justify unassigning a source
+  whose real host merely timed out. `--repair` still has no `--go` gate.
+- `chain.py:108` — `unmatched.most_common(40)` truncates a field written into `CHAIN.json`.
+  `:354` uses a truncated string as a dict key (m37's class, unfixed).
+- `local_agent.py:561` — `json.dumps(res)[:SLICE]` can produce invalid JSON and cuts the
+  disclosure fields off every large read. `:406-407` `modname=None` for ANY non-`.py` extension
+  skips the denylist and all three gates. `:446-476` no lock around write/gate/revert.
+- `genre.py:135,182,187` — `most_common(top=3)` truncates ranked genres AND the confidence
+  denominator, inflating confidence; sibling cap already fixed in the same file.
+- `backfill.py:176` — "already held" set built from ALL entries, not just Persons, so a name
+  collision with any Faction/Place/Vessel hides a real missing character.
+- `wiki_source.py:549-568` — `category_members` returns a partial roster on transient API failure
+  with no completeness flag; a plausible live cause of DC under 1%.
+- `weave_index.py:224` + `weave.py:195-198` — `description[:400]` at write time blinds the
+  mechanic-detection regex to any tell later in the text. Downstream consumer traced.
+- `feats.py:348-361` — `aplimit=500`/`srlimit=50`, no continuation (m82).
+- `ingest_doc.py:216` — entity description hard-truncated to 2000 chars, no disclosure.
+- `dashboard.py:296 vs 301` — `swallowed[:6]` is an unfixed twin of the findings-list cap the
+  adjacent comment says was fixed 2026-08-24.
+- `health.py:220-253` — `check_caches()` samples `files[:200]` per host dir with no justification.
+- `scope.py:81` — `titles[:8]`; `:86-93` no-signal fallback reintroduces frequency bias.
+- `verify_math.py:286` (`_problems[:3]`) and `:811` (`build_all(limit=400)`) — the suite's own two.
 
 **Swallowed / indistinguishable failures**
-- `endpoint.py:327-334` — `fetch_html`'s `one()` swallows every exception identically with no
-  404/410 split; the same bug already fixed in `fetch_raw` (m15) in the same file, on the
-  highest-value fetch path.
-- `catalogue_models.py:88-106` — a provider answering 200-but-empty and a provider unreachable
-  collapse to the same `{"error": ...}`; no "confirmed serves nothing" vs "unknown" distinction.
-  `last` also leaks a stale exception message across independent URL retries.
-- `completeness.py:194-268` — `host_reachable()` gates on API-mode-only `endpoint.api_url()`, so
-  RAW-mode wikis (dandwiki) always read unreachable/0%. **This explains the standing `health
-  --preflight` failure `feats/www_dandwiki_com: all 200 sampled entries empty`.**
-- `silence.py:115-138` — `uses_exc` is always True for any `except X as name:` because
-  `ast.dump(node)` includes the handler's own `name=` field; `records` substring-matches "log"/
-  "record" against the whole dump. **The silence detector under-counts silence, both ways.**
-- `context_budget.py:242-253` — prompt-file read failure silently defaults to `""`, inflating the
-  budget in the dangerous direction; live via `manifest_builder.py:331`.
+- `dashboard.py:284-305` — `_watch()` defaults to `{open:0, high:0}` **before** the try, so an
+  `OVERWATCH.json` read failure is indistinguishable from zero findings; sibling `movement()` was
+  hardened against this exact class and `watch()` was not.
+- `silence.py:115-138` — `uses_exc` always True; `records` substring-matches the whole ast dump.
+  `:115-122` and `:378-381` silently return `[]` for any unparseable file — the audit undercounts
+  invisibly, in two sibling places.
+- `endpoint.py:327-334` — `fetch_html`'s `one()` swallows every exception; `fetch_raw` got the
+  404/410 split (m15) and this did not.
+- `completeness.py:194-268` — `host_reachable()` gates on API-mode-only `api_url()`, so RAW-mode
+  wikis always read unreachable. **This is the standing `health --preflight` dandwiki failure.**
+  `:110-118` writes a shared cache via fixed-name tmp from a 6-worker pool.
+- `catalogue_models.py:88-106` — 200-but-empty and unreachable collapse; `last` leaks a stale
+  exception across retries. `:158` `r["models"][:10]` is the unfixed half of m145.
+- `context_budget.py:242-271` — prompt-file read failure defaults to `""` with no log, in both
+  `feats_block_budget()` and `report()`; live via `manifest_builder.py:331`.
+- `cascade_bridge.py:225-234` — `_interval()` returns `0.0` (no pacing) on any exception.
+- `magnitude.py:668-677` — retry-on-all-citations-failed doesn't fire when honest status axes
+  coexist with all-failed numeric axes. `:451-482` per-slice transport failures silently skipped.
 
 **Concurrency / contract**
-- `runguard.py:98-121` — `claim()` has no atomic test-and-set; two callers can both believe they
-  hold the guard. Reintroduces the m27-class race this module exists to fix.
-- `scout.py:200-206` — unlocked RMW of shared `WIKI_HOSTS.json` across ≥4 call sites.
-- `resync_roll.py:65-68` — comment says "Fixed 2026-08-25" but only the WRITE was made atomic; the
-  read→full-scan→write clobber window the docstring describes is unchanged. **A fix comment now
-  hides an open bug** — the most dangerous kind of stale comment.
-- `retry_synthesis.py:44-47` — `save_side` uses fixed-name temps with no retry and no `silence`.
-- `pipeline.py:1327` — `update_handoff` uses raw `os.replace`, not `silence.replace_retry`.
-- `wh40k.py:230` — direct `open(...,'w')`+`json.dump` to `data/WH40K_ASSAYS.json`.
-- `address_space.py:106-142` — charted-tier fields sized with zero headroom and cached; `fit()`
-  silently wraps overflow via modulo instead of raising like `pack()` does. `pipeline.py:1396-1442`
-  computes a possibly-larger tier stack in the same phase before calling `assign()` — a silent
-  tier alias means an **ambiguous shelfmark**, which `shelfmarks are unique` may not catch.
+- `runguard.py:98-121` — `claim()` has no atomic test-and-set (the module exists to fix this).
+- `publish.py:283-290` — shared `docs/state.json` written with a fixed `.tmp` + bare `os.replace`;
+  the file's own `push()` docstring admits two concurrent writers.
+- `foreman.py:150/158,255-267,715,1041,1126,1247` — **every** shared JSON write uses a fixed-name
+  temp, reopening the race `silence.write_json`'s docstring says was closed repo-wide.
+  `:794-806` `_function_source` drops class qualifiers and walks by bare name — `endpoint.py` has
+  two functions named `one` today, so the model could be asked to fix the wrong one.
+- `health.py:61-144` — `flush()`'s read-merge-write on `state/failures.json` has a
+  `threading.Lock` only, on explicitly the highest-traffic multi-process shared file.
+- `endpoint.py:83-94` — `_save()` fixed temp name + `threading.Lock`, never migrated.
+- `cascade_bridge.py:502-542` — `record_unrecognised` RMW race across processes; the comment
+  declares the hazard closed but only the write-collision half is fixed.
+- `resync_roll.py:65-68` — "Fixed 2026-08-25" made only the WRITE atomic; the
+  read→full-scan→write clobber window is fully open. **A fix comment hiding an open bug.**
+- `scout.py:200-206` unlocked RMW of `WIKI_HOSTS.json`; `:208-218` `--dry` still writes
+  `SCOUT_BLOCKED.json`.
+- `magnitude.py:966-983` — `run_batch` writes `ASSAYS.json` raw, fixed-name tmp.
+- `pipeline.py:521` — `write_record`'s drift-merge is gated on entry **count** only; same-count
+  content drift takes the fast path and overwrites disk with the stale in-memory copy, silently.
+  `:1327` `update_handoff` uses raw `os.replace`.
+- `worldseed.py:317-322`, `manifest_builder.py:436-437`, `burgs.py:226-229`,
+  `retry_synthesis.py:44-47`, `module_index.py:75` — raw writes to shared files.
+- `dashboard.py:349-369` — `movement()` RMW on `dashboard_history.json`, no lock, under
+  `daemon_threads=True`. `:150-168` `throughput()` never closes its sqlite connection.
+- `address_space.py:106-142,251-252` — `fit()` modulo-wraps overflow where `pack()` raises; a
+  silent tier alias means an ambiguous shelfmark.
 
-**Reproduced-live crashes and false claims**
-- `zfighters.py:474` — `--full` crashes `KeyError: 'provenance'` on Son Goku.
-- `zfighters.py:24-29` — the module's headline claim is false against its own computed output.
-- `magnitude.py:553-571` — `_split_gate()` never applies guard 3 SUBJECT (`_HANDOFF`); the split
-  path is the default for evidence >30k chars, i.e. the heaviest entities (Goku, Jace), so it can
-  reintroduce the exact Zeno-attributed-to-Goku bug the guards exist for.
-- `allsweep.py:98-119` — `check_import()` has no try/except around `subprocess.run(timeout=120)`;
-  one hung module's `--help` crashes `main()` via `ex.map()`, skipping LINT/VERIFY/ESTATE/RECONCILE
-  and leaving `ALLSWEEP.json` stale. Same gap at `:397`.
-- `allsweep.py:78-88` — `VERIFIERS` omits `style_audit.py` and `hostcheck.py` despite the module's
-  own docstring claiming both are unified here.
-- `overnight.py:145` — `running()`'s `or fragment in cmd` fallback is an unconstrained whole
-  command-line substring match, reopening the false positive the docstring says was fixed.
-- `catalogue_web.py:87-148` — `catalogue_composite()` never got run #25's progress fix and is still
-  structurally killable by `kill_stalled_job` on a large sub-wiki category.
-- `local_agent.py:407` — `.pyw` yields `modname=None`, so denylist and all three gates skip. **Gate
-  bypass number five in shape**, latent only because no `.pyw` file exists in the repo.
-- `derivation.py:476-477` — `SCAN_MODULES` omits `physics.py`, `cosmology_graph.py`,
-  `magnitude.py`, `address.py`, `pantheon.py`, all of which hold live module-level constants — and
-  `physics.MATERIAL`'s own comment calls itself "the anchor the Ledger Standard reuses".
-- `tells.py:70` — `"not merely X but Y"` regex alternation precedence bug, reproduced live.
-- `style_audit.py:38-39` — `TURN_ENDING` uses `re.M`, so `$` matches every internal line break,
-  overcounting against a hard 25% threshold. `main()` also always exits 0.
-- `gpu_lane.py:267-273` — `_take_slot` never reclaims a **corrupt** slot lease, permanently
-  starving that slot index; `foreground_active()` handles the identical case correctly one
-  function over.
+## 4. The pool, for whoever reads the page next — NOW ANSWERED
 
-## 4. The pool, for whoever reads the page next
-
-`model calls per hour` is 32 against a floor of 900, with **one bucket (nvidia:free) serving every
-call while 27 have headroom**. Two candidate causes were narrowed this run and neither is
-confirmed:
-- `cascade_bridge.py:697-716` — the primary claim loop takes `_ROUTER.claim(pool,1)`'s first alive
-  candidate and breaks; **no rotation exists outside the widen-fallback path.** `bucket_state`
-  shows 21 of 23 buckets untouched for 30–49 minutes while nvidia was reclaimed repeatedly.
-- `read.py:264-337` + `tuning.py:98-101` — both the worker cap and `_gate()`/`_card_gate()` throttle
-  to 1–2 concurrent callers whenever `tuning.regime()` reads "local"/"starved", and `_gate()` forces
-  even cloud attempts through that local-sized semaphore. `regime()` keys off a 15-minute measured
-  success rate, **not** bucket quota or headroom — so low concurrency means the cascade never needs
-  to try past the first bucket that answers, which would produce exactly this picture.
-**These two would produce the same symptom and could both be true. Instrument before fixing.**
-Note also that the pool is genuinely part-dry: Groq is at its tokens-per-day limit, OpenRouter's
-free-models-per-day is spent, and Cohere's trial key is a 1000-call month.
+Run #26 left two candidate causes, "neither confirmed", and said instrument before fixing. Run #27
+instrumented, and **both are true and they compound**:
+- **The volume ceiling is the reader's gate (M19).** `regime` → `local` → 2 permits, not 16.
+  900 × 2/16 = 112.5 against an observed 112. This is the binding constraint.
+- **The concentration is the router's ranking.** Batch 06 traced it into
+  `C:\Users\imarl\cascade\cascade\router.py`: strategy is `quality_first` (config.json:6), which
+  ranks by static config rank with a headroom tie-break. `nvidia:free` is rank 89 and
+  `gemini:*` 85-88, which is exactly the observed near-monopoly. Inflight-based spreading only
+  activates under real concurrency — and the gate above ensures there is none. Rotation exists
+  **only** in the widen-fallback (`cascade_bridge.py:763-789`, verified correct by hand), which
+  is gated behind the primary pool fully failing and is therefore essentially unreached.
+  Also: `cascade_bridge.py:259-266`'s "sixteen buckets / five local" comment is stale — the
+  coding pool has 40 models across 27 buckets.
+- The pool is **also** genuinely part-dry: Groq at tokens-per-day, OpenRouter's free-models-per-day
+  spent, Cohere on a 1000-call trial month. That is real and unrelated to the two above.
