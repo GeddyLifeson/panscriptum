@@ -62,6 +62,11 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 
 PY = sys.executable
 ENV = dict(os.environ, PYTHONIOENCODING="utf-8")
+
+# The sentence `escalation.assert_clear` raises with when the plant-wide halt is standing. A
+# child that prints this REFUSED; it did not break. Taken from the live message rather than
+# guessed, and pinned by verify_math so the two cannot drift into disagreement silently.
+_HALT_REFUSAL = "THE LIBRARY IS HALTED"
 OUT = os.path.join(HERE, "data", "ALLSWEEP.json")
 
 # Modules whose no-argument run does real, expensive or mutating work. They are still IMPORT
@@ -112,10 +117,31 @@ def check_import(name):
     if not ok:
         # A module with no argparse exits nonzero on --help, which is not a fault. A module that
         # cannot IMPORT raises, and the traceback is what separates the two.
+        blob = (r.stderr or "") + (r.stdout or "")
         tail = (r.stderr or "").strip().splitlines()
         err = tail[-1][:150] if tail else f"rc={r.returncode}"
-        if "Traceback" not in (r.stderr or ""):
-            ok, err = True, "no CLI (imported cleanly)"
+        # A SAFETY THAT STOPS WORK IS NOT A FAULT THAT STOPS WORK. Owner ruling 2026-08-25,
+        # after the halt made every job exit on purpose and the SUPERVISOR read that as every
+        # job crashing, declared the library broken and quit. That was fixed in `overnight.py`
+        # (M26) and the identical construction here was never visited -- so with a halt standing
+        # this tier reported "8 subsystem(s) in a bad state" while those eight subsystems were
+        # doing exactly what they are built to do. Found run #31, by running the battery under a
+        # live halt. Deliberate refusal is its own verdict, and it is not red.
+        if _HALT_REFUSAL in blob:
+            ok, err = True, "refused: the library is halted (obeying the interlock)"
+        elif "Traceback" not in blob:
+            # AND THE SAME TEST IN THE OTHER DIRECTION. Absence of a traceback used to mean
+            # "imported cleanly" outright, so anything dying via `raise SystemExit(msg)` --
+            # which prints no traceback -- was graded green. That is not hypothetical: every
+            # module in this tree carries a `_BAD_CHARS` guard that raises exactly that way when
+            # a regex escape is eaten in transit, and run #31's new fail-closed interlocks do
+            # too. The IMPORT tier was blind to its own corruption detector. A bare nonzero exit
+            # with nothing to say is still "no CLI"; one that PRINTED a refusal is a finding.
+            said = blob.strip()
+            if said:
+                ok, err = False, "exited without a traceback, saying: " + said.splitlines()[-1][:150]
+            else:
+                ok, err = True, "no CLI (imported cleanly)"
     return {"module": name, "ok": ok, "detail": err, "seconds": round(time.time() - t, 1)}
 
 

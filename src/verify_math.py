@@ -4133,10 +4133,21 @@ check("a later run's shard does not remove a module from an earlier run's covere
            "runA read alpha.py?' (yes), and reported a gap that never happened")
 check("and the later run still owns what it actually read",
       sorted(_covered20n(_shards20n, "runB")), ["alpha.py"])
+# THE RUN LABEL IS NOT A LITERAL ANY MORE. This read `missing("run29")`, hardcoded, so from
+# run #30 onward it asked about a sweep that had already finished: no later sweep could move it,
+# complete or skipped alike, and it sat red through run #30 and half of #31 saying eight modules
+# were unaudited while the agents that read them filed their reports. Ask the shards which run
+# is newest and hold THAT one to the standard. `latest_run()` answers None when nothing has ever
+# swept, which must FAIL rather than pass vacuously -- an empty `missing()` over no evidence at
+# all is the trivially-empty-input shape this file refuses everywhere else. (run #31)
+_run20n = _SP20n.latest_run()
+check("the sweep coverage ledger names a run at all", _run20n is not None, True,
+      note="None means no shard on disk; without this the completeness check below would "
+           "prove the completeness of a sweep that never ran")
 check("the live sweep proves its own completeness",
-      _SP20n.missing("run29"), [],
-      note="95 modules, every one recorded by the batch that read it; a non-empty list here "
-           "is either a genuinely skipped module or a broken proof, and both need chasing")
+      _SP20n.missing(_run20n) if _run20n else ["<no sweep on record>"], [],
+      note="every module in src/, each recorded by the batch that read it; a non-empty list "
+           "here is either a genuinely skipped module or a broken proof, and both need chasing")
 
 check("an UNMEASURED fabrication guard does not read as green",
       [r["holds"] for r in _st20k
@@ -4302,6 +4313,112 @@ check("the prose gate module still declares every layer",
 check("the required-per-entry set still includes Threads",
       "Threads:" in _PGate.REQUIRED_PER_ENTRY, True,
       note="Threads is the section that must say 'pending' until Step 4 lands")
+
+print()
+print("32. §20p  A SAFETY THAT CANNOT BE ASKED IS A SAFETY THAT IS OFF — the nine interlocks,")
+print("          the drill that wrote the gate, and the refusal that reported success")
+# Run #31. Three faults, one shape: a safety did its job and NOBODY DOWNSTREAM COULD TELL.
+#
+#   1. Every job's plant-wide interlock read `try: import escalation ... except ImportError:
+#      pass`. Nine sites, eight jobs. A deleted or unparseable `escalation.py` switched the
+#      whole chain of command off in silence -- which is Hard Rule -1's own incident, since the
+#      last one began with an autonomous run removing a safety it thought unnecessary. Measured
+#      before the fix by blocking the import in a subprocess: 8 of 8 jobs started anyway.
+#      After: 8 of 8 refuse.
+#   2. `drill._gates_agree` wrote five trial values of `prose_enabled` into the LIVE config.yaml
+#      and restored it in a `finally`. One of the five (`yes`) parses to boolean True, `finally`
+#      does not run on a kill, and the foreman SIGTERMs stalled jobs as routine -- so the drill
+#      that proves the prose gate could leave the prose gate OPEN. It never needed the disk.
+#   3. `publish.main()` caught the credential scanner's own `RuntimeError("PUBLISH REFUSED")`
+#      and returned 0. The scanner could refuse a push carrying a live secret and still hand its
+#      caller a success code -- and its caller is every maintenance run's final step.
+_here20p = os.path.dirname(os.path.abspath(__file__))
+
+
+def _src20p(name):
+    with open(os.path.join(_here20p, name), encoding="utf-8") as f:
+        return f.read()
+
+
+_INTERLOCKED = ("dashboard.py", "feats.py", "foreman.py", "overnight.py", "overwatch.py",
+                "pipeline.py", "publish.py", "read.py")
+_failopen20p = []
+for _f20p in _INTERLOCKED:
+    _t20p = _src20p(_f20p)
+    for _m20p in __import__("re").finditer(
+            r"import escalation as _ESC\s*\n\s*_ESC\.assert_clear[^\n]*\n\s*except ImportError:"
+            r"\s*\n\s*pass", _t20p):
+        _failopen20p.append(_f20p)
+check("no job swallows a missing escalation module", _failopen20p, [],
+      note="THE BUG: `except ImportError: pass` around the halt check meant deleting "
+           "escalation.py disabled the plant-wide halt in eight jobs at once, quietly")
+for _f20p in _INTERLOCKED:
+    check("%s refuses to start when the chain is unimportable" % _f20p,
+          "REFUSING TO" in _src20p(_f20p), True,
+          note="fail closed: a job that cannot read the halt has no business starting")
+
+_drill20p = _src20p("drill.py")
+# ASKED OF THE AST, NOT OF THE TEXT -- and this one caught me writing the same bug I had just
+# fixed. The first draft matched the source for `open(real, "w"`, which went red against a
+# DOCSTRING quoting the removed code. A literal cannot tell code from prose about code: it fails
+# on an honest description and it passes on a comment. So: no function in drill.py may both name
+# config.yaml and open something in a write mode.
+def _writes_the_config20p(tree):
+    out = []
+    for fn in _ast_mod.walk(tree):
+        if not isinstance(fn, (_ast_mod.FunctionDef, _ast_mod.AsyncFunctionDef)):
+            continue
+        names, writes = False, False
+        for n in _ast_mod.walk(fn):
+            if isinstance(n, _ast_mod.Constant) and n.value == "config.yaml":
+                names = True
+            if (isinstance(n, _ast_mod.Call) and isinstance(n.func, _ast_mod.Name)
+                    and n.func.id == "open" and len(n.args) >= 2
+                    and isinstance(n.args[1], _ast_mod.Constant)
+                    and isinstance(n.args[1].value, str)
+                    and n.args[1].value[:1] in ("w", "a", "x")):
+                writes = True
+        if names and writes:
+            out.append(fn.name)
+    return out
+
+
+check("the drill never opens the owner's config for writing",
+      _writes_the_config20p(_ast_mod.parse(_drill20p)), [],
+      note="THE BUG: _gates_agree wrote prose_enabled into the live config.yaml five times a "
+           "cycle; a kill in that window left the gate open on disk permanently")
+check("both gate layers can be asked about a config in memory",
+      _ON.__dict__["_prose_enabled"].__code__.co_argcount == 1
+      and _PGate.gate_open.__code__.co_argcount == 1, True,
+      note="the drill compares them without a disk write only because both take `cfg`")
+check("the drill still proves it left the gate alone",
+      "_drill_never_writes_the_gate" in _drill20p, True,
+      note="the attack that defeats the fix is reintroducing the write, so a net watches for it")
+
+_pub20p = _src20p("publish.py")
+check("a refused publish does not return success",
+      "return rc" in _pub20p and "rc = 1" in _pub20p, True,
+      note="THE BUG: `return 0` after catching PUBLISH REFUSED told every caller the push "
+           "succeeded while a live credential sat staged for the PUBLIC repo")
+
+# And the halt must stay distinguishable from a crash in the sweep's own IMPORT tier, which is
+# where run #31 found it reporting "8 subsystem(s) in a bad state" over eight jobs obeying it.
+_alls20p = __import__("allsweep")
+_esc20p = __import__("escalation")
+try:
+    _esc20p.assert_clear("verify_math probe")
+    _msg20p = None
+except _esc20p.SystemHalted as _e20p:
+    _msg20p = str(_e20p)
+check("the marker allsweep reads a halt by is the sentence escalation actually raises",
+      (_alls20p._HALT_REFUSAL in _msg20p) if _msg20p else "no live halt to check against",
+      True if _msg20p else "no live halt to check against",
+      note="two files agreeing on a sentence by coincidence is how a refusal starts reading "
+           "as a crash again; when a halt IS standing this compares them for real")
+check("the import tier is not blind to a bare SystemExit",
+      "exited without a traceback" in _src20p("allsweep.py"), True,
+      note="absence of a traceback used to mean 'imported cleanly', so every module's own "
+           "_BAD_CHARS corruption guard -- which raises SystemExit -- was graded green")
 
 print()
 print("=" * 96)

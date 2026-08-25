@@ -7,6 +7,120 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M27 — RESOLVED, run #31] NINE PLANT-WIDE HALT INTERLOCKS FAILED **OPEN** ON A MISSING
+  `escalation.py`, AND NOTHING WOULD HAVE SAID SO.** Found run #31 by batch 12, verified by
+  measurement across all eight jobs. Every entry point carried
+  `try: import escalation as _ESC; _ESC.assert_clear(...) except ImportError: pass` — nine sites
+  in eight modules (`dashboard`, `feats`, `foreman`, `overnight` ×2, `overwatch`, `pipeline`,
+  `publish`, `read`). If `escalation.py` were deleted, renamed, or left with a syntax error, the
+  entire chain of command switched off **in silence** and every job carried on as though the
+  library were running clear.
+  **This is Hard Rule -1's own incident, generalised.** That incident began with an autonomous
+  run deleting a safety it had concluded was unnecessary; the interlock meant to make such a
+  thing survivable was itself deletable without a sound. FAIL CLOSED is one of the three
+  non-negotiable properties, and this violated it in nine places at once.
+  **Measured, not argued.** A probe blocked the `escalation` import and entered each job's
+  `main()` in a fresh subprocess. **Before: 0 held, 8 BREACHED** — every job started, `dashboard`
+  went as far as serving. **After: 8 held, 8 refused** with
+  `REFUSING TO START: the escalation chain (src/escalation.py) could not be imported`.
+  Pinned by `verify_math` §20p, which scans all eight files for the swallow and for the refusal.
+
+- **[M28 — RESOLVED, run #31] THE DRILL THAT PROVES THE PROSE GATE COULD OPEN THE PROSE GATE.**
+  Found run #31 by batch 11, verified at source and by execution. `drill._gates_agree` compared
+  the two gate implementations by **writing five trial values of `prose_enabled` into the LIVE
+  `config.yaml`** with a bare `open(real, "w")`, then restoring the original in a `finally`.
+  Three faults, and the third is the one that matters:
+  1. `open(w)` truncates before it fills, so a reader in the gap saw an empty or half-written gate.
+  2. **The supervisor runs the drill every cycle**, so the window recurred every cycle.
+  3. `finally` does not run when a process is killed — and the foreman SIGTERMs stalled jobs as
+     routine (M15). A kill inside that window leaves the written value on disk permanently.
+  **Which value matters, and it was measured rather than assumed.** Of the five trial values,
+  four (`"false"`, `"true"`, `1`, `"no"`) are refused by the strict gate, because a quoted string
+  is not `True`. The fifth, **`yes`, parses to boolean `True`** — so a kill in that one-in-five
+  window leaves `prose_enabled: true` on disk and **the prose gate genuinely OPEN**, with nobody
+  informed. The incident that gate exists to prevent is 145 unauthorised chapters.
+  **Fixed without a disk write at all**: `prose_gate.gate_open` already took a `cfg` mapping;
+  `overnight._prose_enabled` now takes one too (additive, mirrors its sibling exactly), so both
+  layers are asked about the same in-memory dict. New drill net
+  `and proving that never writes the owner's gate` reads config.yaml's bytes either side of the
+  comparison and requires them identical. Pinned by `verify_math` §20p, **asked of the AST** —
+  the first draft matched source text and went red against a docstring quoting the removed code.
+
+- **[M29 — RESOLVED, run #31] `publish.py` RETURNED EXIT CODE 0 WHEN THE CREDENTIAL SCANNER
+  REFUSED THE PUSH.** Found run #31 by batch 14, verified at source. `main()`'s `except Exception`
+  caught every failure the publish loop can have — including `push()`'s own
+  `RuntimeError("PUBLISH REFUSED: ...")`, raised when the pre-push scanner finds a credential-
+  shaped value staged for the **public** repo — printed a line, and then `return 0` on the
+  one-shot path. **A refused publish reported success to its caller, and that caller is every
+  maintenance run's final step.** The scanner did exactly its job on 2026-08-25 at 12:04
+  (`SECRET_IN_EXPORT`, two hits) and the exit code said nothing. Now tracks `rc` and returns it;
+  the `--loop` daemon still keeps retrying, which is correct for a daemon. Pinned by §20p.
+
+- **[M30 — RESOLVED, run #31] A DRILL NET RAISED AN OWNER HALT ON A COINCIDENCE, AND STOPPED THE
+  WHOLE LIBRARY.** The net `the live colliding pairs get separate verdicts` compared
+  `coverage.state_of()` for two name pairs that sanitise to one filename, and failed when the two
+  answers were **equal** and not `NO PAGE` — inferring "these share one document" from "these
+  report the same numbers". The state is a 3-tuple of small integers, so equality is ordinary
+  coincidence. **Measured live:** `Ten Towns` and `Ten-Towns` on `forgottenrealms.fandom.com`
+  both read `('READ', 0, 1)` while loading **two different files** —
+  `Ten_Towns__e84ad6558f.json` (entity `Ten Towns`) and `Ten_Towns.json` (entity `Ten-Towns`).
+  That is the M23 disambiguation working exactly as designed, and the net halted the library over
+  it at 12:33. An alarm that sounds when nothing is wrong is furniture, not a safety.
+  **Repaired by making it stricter about the right thing, never quieter**: it now asks for FILE
+  IDENTITY and OWNERSHIP — two names must resolve to two documents, and each document must carry
+  its own `entity` — neither of which a coincidence can satisfy. A companion net
+  `and a real collision would still be refused` stages the pre-M23 world in a scratch tree and
+  requires `load` to refuse to hand one entity's file to the other, so the loosening did not
+  create a check that cannot fail. Drill: **113 nets, 113 held.**
+
+- **[M31 — RESOLVED, run #31] THE SWEEP'S OWN COMPLETENESS PROOF WAS FROZEN ON RUN #29, BY A
+  HARDCODED LITERAL.** `verify_math`'s `the live sweep proves its own completeness` called
+  `sweep_plan.missing("run29")` — a run label written into the source. From run #30 onward it
+  answered a question about a sweep that had already finished: **no later sweep could move it**,
+  complete or skipped alike. It sat red through run #30 and half of #31 naming eight modules as
+  unaudited while the agents that read them were filing their reports.
+  **This is the third spelling of the same defect in three consecutive runs** — #28 found
+  `record()` losing an update, #29 found `missing()` asking *"was run N the LAST to read X?"*
+  instead of *"did run N read X?"*, and this is the instrument frozen on a past run. Standing
+  lesson 25 keeps being right: the sweep audits the sweep, and that is where the best finding
+  keeps being. New `sweep_plan.latest_run()` reads the newest shard and returns **None** when
+  nothing has ever swept, so the check FAILS rather than proving the completeness of a sweep that
+  never ran.
+
+- **[M32 — RESOLVED, run #31] THE SWEEP'S IMPORT TIER CALLED EIGHT JOBS BROKEN FOR OBEYING THE
+  HALT — AND WAS BLIND TO ITS OWN CORRUPTION GUARD.** Found run #31 by running the battery under
+  a live halt, converging with batch 15's independent reading of the same function.
+  `allsweep.check_import` runs each module with `--help` and separates "no CLI" from "cannot
+  import" by looking for the word `Traceback` in stderr. Two failures, opposite directions:
+  * With a halt standing, every job raises `SystemHalted` **on purpose**, which prints a
+    traceback — so allsweep reported **"8 subsystem(s) in a bad state"** over eight subsystems
+    doing precisely what they are built to do. This is the owner's own lesson of 2026-08-25 (*a
+    safety that stops work must be told apart from a fault that stops work*), which was applied
+    to `overnight.py` as M26 and **never carried to this file** — run #26's theme exactly.
+  * In the other direction, `if "Traceback" not in stderr: ok = True` graded **anything dying via
+    `raise SystemExit(msg)`** as importing cleanly — and every module in this tree carries a
+    `_BAD_CHARS` guard that raises exactly that way when a regex escape is eaten in transit. The
+    import tier could not see the project's oldest enemy.
+  Both fixed and both watched: the eight halt refusals now read `refused: the library is halted
+  (obeying the interlock)`, and a scratch module raising `SystemExit` is now **caught** where it
+  was previously graded green. Pinned by §20p, including a check that the sentence allsweep
+  matches on is the sentence `escalation.assert_clear` actually raises.
+
+- **[M33 — RESOLVED, run #31] `retry_synthesis` RE-SCORED FAILED SOURCES BY A WEAKER METHOD THAN
+  THEIR NEIGHBOURS, UNDER A DOCSTRING PROMISING IT DID NOT.** Found run #31 by batch 08,
+  re-confirming batch 03's earlier reading; verified at source. `synthesise()` built
+  `sorted(rec["entries"], key=-len(description))[:14]` — a single rank-then-truncate block that
+  **never consulted a mined feat** — while its docstring claimed *"byte-identical prompt
+  construction to phase_synthesis"*. `phase_synthesis` had been rewritten away from exactly that
+  construction under the owner's m13 ruling of 2026-08-24 (*FIX IT ALL*): every feat-bearing
+  entry nominated, fourteen per call, best band across blocks winning.
+  So the module whose entire purpose is rescuing sources that failed for an **infrastructure**
+  reason scored them by the method the library had already rejected — Hard-Rule-0-shaped, since a
+  source's true ceiling could rank fifteenth and fall outside the window while the run reported
+  success. **Fixed at the root rather than copied across**: the block rule and the prompt text now
+  live once, in `pipeline.synthesis_blocks` / `pipeline.synthesis_prompt`, and both callers read
+  them — because copying a fix is how m138/m139 happened. `save_side()` also moved off its
+  hand-rolled fixed-name tmp onto `silence.write_json`.
 - **[M26 — RESOLVED SAME DAY, kept here because the SHAPE recurs] A REMEDY CAUSED THE BREACH IT
   PREVENTS, TWICE IN ONE HOUR, AND THE SECOND ONE WAS THE NEW SAFETY LAYER ITSELF.**
   Found by the owner 2026-08-25, from the page: `read.py` dead since 10:59, all four library

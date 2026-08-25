@@ -242,6 +242,46 @@ def covered_by(run):
     return out
 
 
+def latest_run():
+    """The run label of the most recently written shard, or None if nothing has ever swept.
+
+    THE COMPLETENESS CHECK MUST NOT NAME A RUN IN A LITERAL. `verify_math`'s "the live sweep
+    proves its own completeness" asked `missing("run29")`, hardcoded -- so from run #30 onward
+    it was answering a question about a sweep that had already finished, and no later sweep,
+    however complete or however skipped, could move it. It is the THIRD spelling of the same
+    defect in three consecutive runs: #28 found `record()` losing an update, #29 found
+    `missing()` asking "was run N the LAST to read X?" instead of "did run N read X?", and this
+    is #31's -- the instrument frozen on a past run. Lesson 25 keeps being right: the sweep
+    audits the sweep, and that is where the best finding keeps being.
+
+    Returns None rather than a guess when there is no evidence, so the caller can FAIL CLOSED
+    instead of proving the completeness of a sweep that never happened.
+    """
+    newest = None
+    try:
+        paths = glob.glob(os.path.join(SHARDS, "*.json"))
+    except Exception:
+        paths = []
+    for p in paths:
+        try:
+            with open(p, encoding="utf-8") as f:
+                rec = json.load(f)
+        except Exception:
+            try:
+                import silence
+                silence.note("sweep_plan.py:shard-unreadable")
+            except Exception:
+                pass
+            continue
+        at = rec.get("at")
+        run = rec.get("run")
+        if run is None or not isinstance(at, (int, float)):
+            continue
+        if newest is None or at > newest[0]:
+            newest = (at, str(run))
+    return newest[1] if newest else None
+
+
 def missing(run):
     """Modules NOT covered by `run` — the proof that a sweep was complete, or the list of what
     it silently skipped. A sweep that cannot answer this is a sweep nobody can trust."""

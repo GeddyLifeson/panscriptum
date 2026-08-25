@@ -75,6 +75,7 @@
 - **audit** — BACKSCAN — an audit of everything catalogued so far
 - **backfill** — BACKFILL — recover the main casts the original cataloguing crawl missed
 - **burgs** — BURGS — the settlement tier, and the bottom of the seed hierarchy
+- **cachekey** — CACHE KEY — one entity, one file, and a read that proves it before believing it
 - **catalogue_models** — CATALOGUE MODELS — ask each provider what it actually serves, instead of trusting the config
 - **chord_field** — THE CHORD AS A FIELD — the adjudication that lets ki and shrinking share one physics
 - **cleanup** — CLEANUP — the presentation defects the backscan turned up
@@ -84,7 +85,9 @@
 - **custodes** — THE CUSTODES — one standpoint per degree of freedom, and the interval as their disagreement
 - **derivation** — THE DERIVATION LEDGER — every quantity in the omniverse, and what it stands on
 - **descending_ladder** — THE DESCENDING LADDER — the rungs below Planet, and the Quantum Fold
+- **drill** — DRILL — attack every safety net in the library and report which ones actually held
 - **entity_match** — ENTITY MATCH — near-miss name resolution that cannot merge two continuities
+- **escalation** — ESCALATION — the chain of command, from the janitor to the owner, and the halt at the top
 - **feats_index** — FEATS_INDEX — the join that makes 39,862 mined feats reachable as a chapter
 - **genre** — GENRE — classify a source once, and let everything downstream follow from it
 - **gpu_lane** — GPU LANE — one card, nine processes, and an order of precedence
@@ -92,6 +95,8 @@
 - **halo** — HALO — the top of the setting, assayed under the presence thesis
 - **handbuilt** — HAND-BUILT — assays for entities the automated pass cannot reach, and why it cannot
 - **ledger** — DE PRETIO — the Ledger Standard, formalised
+- **ledger_guard** — LEDGER GUARD — the relay's own integrity, checked rather than trusted
+- **liveness** — LIVENESS — find the checks that cannot fail and the code that never runs
 - **local_agent** — LOCAL_AGENT — the GPU model with hands: read, search, and gated writes on this repo
 - **module_index** — MODULE_INDEX — the map of the 87 modules, generated from their own first lines
 - **navtree** — NAVTREE — the terminal's navigation data, with every branch reachable
@@ -100,6 +105,7 @@
 - **physics** — PHYSICS — the real-world quantities the Assay converts fiction into, and where they come from
 - **profile** — THE WORLD PROFILE — one string that says everything, and from which everything regenerates
 - **propagation** — INFORMATION PROPAGATION — how long it takes the omniverse to learn a thing
+- **prose_gate** — PROSE GATE — the interlocks that stand between the catalogue and a written volume
 - **recover_folder_records** — Rebuilds the missing folder-mode records from data the cloud session already gathered
 - **render** — RENDER — one dispatcher, nine tiers, from a burg to a hyperverse
 - **repass_bands** — RE-PASS — re-apply the corrected evidence gate to everything already catalogued
@@ -109,11 +115,13 @@
 - **runguard** — RUNGUARD — the overlap guard for the maintenance pass, as code instead of as a convention
 - **scale_theories** — THE SCALE-CHANGE THEORIES — what would have to be true, and what it would cost
 - **sevenfold** — THE SEVENFOLD ORDER — seven hyperverses, and a span of one to seven at every tier beneath
+- **snapshot** — SNAPSHOT — take a copy before doing something that cannot be undone, and prove it restores
 - **sweep_plan** — Partition EVERY module in `src/` into balanced audit batches, and record what got covered
 - **tempus** — DE TEMPORE — time across the omniverse, and what "now" can possibly mean
 - **thread_integrity** — THREAD INTEGRITY — does the omniverse hold together when you walk it?
 - **tiers** — THE COSMOLOGICAL TIERS — the xenoverse charted, and the hyperverse declined with cause
 - **weave** — PHASE 3 — THE WEAVE. Cross-source entity resolution, with homonymy as the default
 - **wh40k** — WARHAMMER 40,000 — the top of the setting, assayed under the presence thesis
+- **withdraw_chapters** — Withdraw generated chapters from the library, preserving them for the record
 - **worldseed** — WORLDSEED — a compact address that regenerates an inhabited world, derived from its catalogue entry
 - **zfighters** — Z FIGHTERS -- hand-built assays under the presence thesis
