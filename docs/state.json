@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 12:13:37",
+ "at": "2026-08-25 12:14:02",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -114,9 +114,9 @@
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 20,
      "cap": 20,
-     "frac": 0.95
+     "frac": 1.0
     }
    ],
    "worst": 0.644
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.4
@@ -234,9 +234,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.284
@@ -254,9 +254,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.272
@@ -274,9 +274,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.184
@@ -307,12 +307,6 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 28,
-     "cap": 30,
-     "frac": 0.9333
-    },
-    {
      "name": "rpd",
      "left": 14141,
      "cap": 14400,
@@ -325,13 +319,19 @@
      "frac": 0.9979
     },
     {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
      "name": "tpm",
      "left": 6000,
      "cap": 6000,
      "frac": 1.0
     }
    ],
-   "worst": 0.9333
+   "worst": 0.982
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -352,15 +352,15 @@
     },
     {
      "name": "rpm",
-     "left": 27,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9
+     "frac": 1.0
     },
     {
      "name": "tpm",
-     "left": 7950,
+     "left": 8000,
      "cap": 8000,
-     "frac": 0.9938
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -384,15 +384,15 @@
     },
     {
      "name": "rpm",
-     "left": 28,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9333
+     "frac": 1.0
     },
     {
      "name": "tpm",
-     "left": 11914,
+     "left": 12000,
      "cap": 12000,
-     "frac": 0.9928
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -415,16 +415,16 @@
      "frac": 0.3505
     },
     {
-     "name": "tpm",
-     "left": 5895,
-     "cap": 8000,
-     "frac": 0.7369
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
     },
     {
-     "name": "rpm",
-     "left": 28,
-     "cap": 30,
-     "frac": 0.9333
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -462,9 +462,9 @@
     },
     {
      "name": "rpm",
-     "left": 9,
+     "left": 10,
      "cap": 10,
-     "frac": 0.9
+     "frac": 1.0
     }
    ],
    "worst": 0.26
@@ -575,19 +575,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
+     "name": "rpd",
+     "left": 391,
+     "cap": 1000,
+     "frac": 0.391
     },
     {
-     "name": "rpd",
-     "left": 390,
-     "cap": 1000,
-     "frac": 0.39
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.391
   },
   {
    "bucket": "openrouter:free",
@@ -602,9 +602,9 @@
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 20,
      "cap": 20,
-     "frac": 0.95
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -642,9 +642,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.3633
@@ -682,9 +682,9 @@
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
    "worst": 0.294
@@ -781,9 +781,9 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 45600,
+   "done": 46000,
    "total": 100888,
-   "detail": "61,482 pages  \u00b7  834M characters  \u00b7  64.2/s",
+   "detail": "61,843 pages  \u00b7  845M characters  \u00b7  62.3/s",
    "warn": "",
    "eta_h": 0.2
   }
@@ -872,7 +872,7 @@
     96
    ]
   ],
-  "swallowed_total": 7140
+  "swallowed_total": 7141
  },
  "metrics": [
   {
@@ -919,7 +919,7 @@
    "breached": [],
    "liveness": 38,
    "liveness_ceiling": 38,
-   "age_min": 0.1
+   "age_min": 0.5
   },
   "escalation_recent": {
    "SUPERVISOR": 31,
@@ -956,7 +956,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 27,
+   "observed": 28,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -965,7 +965,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "16% dry",
+   "observed": "12% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1037,7 +1037,7 @@
    "standard": "page roll complete",
    "group": "read",
    "holds": false,
-   "observed": "45%",
+   "observed": "46%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -1100,7 +1100,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "1,352",
+   "observed": "1,353",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1327,7 +1327,7 @@
    "metric": "cited",
    "now": 12751,
    "delta": 664,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": false
   },
@@ -1335,7 +1335,7 @@
    "metric": "settled",
    "now": 81677,
    "delta": 12410,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": false
   },
@@ -1343,7 +1343,7 @@
    "metric": "feats",
    "now": 68782,
    "delta": 1304,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": false
   },
@@ -1351,7 +1351,7 @@
    "metric": "entities read",
    "now": 1348,
    "delta": 2,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": false
   },
@@ -1359,7 +1359,7 @@
    "metric": "chunks",
    "now": 1217,
    "delta": -1699,
-   "minutes": 32,
+   "minutes": 33,
    "reset": true,
    "stalled": false
   },
@@ -1367,10 +1367,10 @@
    "metric": "standards met",
    "now": 33,
    "delta": 4,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": false
   }
  ],
- "generated": "2026-08-25T12:13:41"
+ "generated": "2026-08-25T12:14:06"
 }
