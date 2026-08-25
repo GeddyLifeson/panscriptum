@@ -3268,6 +3268,117 @@ finally:
     _si21.note = _realnote21
 
 print()
+print("24. §20e  NO CONSOLE WINDOWS, EVER — every child spawn must suppress its window")
+# ---------------------------------------------------------------------------------------------
+# OWNER DIRECTIVE, 2026-08-25, stated in the strongest terms: no command windows may EVER open.
+#
+# On Windows a child process gets its own console unless the parent passes CREATE_NO_WINDOW (or
+# an explicit startupinfo with SW_HIDE). This tree spawns children constantly -- the supervisor
+# starts eight jobs, the foreman shells out to PowerShell to enumerate processes several times a
+# minute, allsweep runs `--help` against every module, the patch lane runs verify_math and
+# pyflakes as subprocesses. ONE missed kwarg is one black window popping up on the owner's
+# desktop, potentially several times a minute, for ever.
+#
+# That is exactly how it happened: 23 of 24 spawn sites passed the flag and `local_agent.py`'s
+# sandboxed-command runner did not. A count is not a guarantee, so this check does not count --
+# it PARSES. Grepping for `creationflags` on the same physical line as `subprocess.run(` both
+# misses real hits (the kwarg is usually on a later line) and passes sites that merely mention
+# the word, so the audit walks the AST and inspects each call's actual keyword set.
+#
+# This is a whole-tree invariant with no exceptions list on purpose: a new module that shells out
+# and forgets the flag must fail the suite, not be discovered by the owner.
+import ast as _ast20e
+import glob as _glob20e
+
+_SPAWNERS20e = {"run", "Popen", "call", "check_output", "check_call"}
+_unguarded20e = []
+_guarded20e = 0
+_osspawn20e = []
+for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
+    try:
+        _t20e = _ast20e.parse(open(_p20e, encoding="utf-8").read())
+    except SyntaxError:
+        continue                      # allsweep's LINT tier owns syntax; not this check's job
+    for _n20e in _ast20e.walk(_t20e):
+        if not isinstance(_n20e, _ast20e.Call):
+            continue
+        _f20e = _n20e.func
+        if not isinstance(_f20e, _ast20e.Attribute) or not isinstance(_f20e.value, _ast20e.Name):
+            continue
+        _mod20e, _fn20e = _f20e.value.id, _f20e.attr
+        _kw20e = {k.arg for k in _n20e.keywords if k.arg}
+        _where20e = f"{os.path.basename(_p20e)}:{_n20e.lineno}"
+        if _mod20e == "os" and _fn20e in {"system", "popen", "startfile"}:
+            _osspawn20e.append(_where20e)
+        elif _mod20e == "subprocess" and _fn20e in _SPAWNERS20e:
+            if "creationflags" in _kw20e or "startupinfo" in _kw20e:
+                _guarded20e += 1
+            else:
+                _unguarded20e.append(_where20e)
+
+check("every subprocess spawn in src/ suppresses its console window",
+      _unguarded20e, [],
+      note="CREATE_NO_WINDOW on every child; one missed kwarg is a black window on the desktop")
+check("no os.system / os.popen / os.startfile anywhere in src/",
+      _osspawn20e, [],
+      note="these cannot suppress a window at all -- use subprocess with creationflags instead")
+check("the guard is actually finding the spawn sites (it has not silently matched nothing)",
+      _guarded20e >= 20, True,
+      note="a parser bug that found zero calls would pass the two checks above vacuously")
+
+print()
+print("25. §20f  RIGOR'S PROSE MUST NOT OUTLIVE RIGOR'S DATA — a section that printed the")
+print("          true weights and then announced they were zero")
+# ---------------------------------------------------------------------------------------------
+# `rigor.py` is a diagnostic report, so its FINDINGS ARE ITS OUTPUT -- stale narrative there is
+# not a comment rotting quietly, it is the module returning a wrong answer. Two instances, both
+# found by the run #21 audit (first end-to-end read of the file) and both verified at source:
+#
+#   1. `main()` printed `A.FACULTY_WEIGHTS` (1/11 each, since assay.py's ERRATUM X.11) and then
+#      unconditionally printed "Int/Wis/Cha currently cannot affect a Magnitude at all" -- a
+#      literal string, contradicted by the line immediately above it.
+#   2. `measure_bit_value`'s worked example quoted `7.0 * 13.23 = 92.6 bits`. 13.234 is
+#      `rung_description_length/10`, the CUMULATIVE figure the function deliberately abandoned
+#      (it makes every M0 point worth zero bits). The code moved to `band_resolution`; the
+#      docstring did not. Real answer: 3.043 -> 21.3 bits.
+#
+# Both are the signature failure class -- one fact, two copies, one copy fixed. The repairs make
+# the prose DERIVED (computed from the same data it describes) rather than asserted, and these
+# checks pin the derivation so the copies cannot drift apart again. 2026-08-25, run #21.
+import rigor as _rg21
+import tempus as _tp21
+import assay as _as21
+
+check("measure_bit_value uses band_resolution, not the cumulative length",
+      _rg21.measure_bit_value("M5"), _tp21.band_resolution("M5") / 10.0,
+      note="the cumulative figure made every M0 axis point worth zero bits")
+check("and is NOT the cumulative figure the stale docstring quoted",
+      _rg21.measure_bit_value("M5") == _tp21.rung_description_length("M5") / 10.0, False,
+      note="13.234 was the number in the worked example for an unknown length of time")
+_doc21 = _rg21.measure_bit_value.__doc__
+_v21 = _rg21.measure_bit_value("M5")
+check("the worked example quotes the value the function actually returns",
+      f"7.0 * {_v21:.3f}" in _doc21, True,
+      note="pins PROSE to DATA -- the only way this particular rot cannot recur silently")
+check("and quotes the product that follows from it",
+      f"= {7.0 * _v21:.1f} bits" in _doc21, True)
+
+_rgsrc21 = open(os.path.join(_here19, "rigor.py"), encoding="utf-8").read()
+_rgcode21 = "\n".join(ln.split("#", 1)[0] for ln in _rgsrc21.splitlines())
+check("the faculty finding is derived from the weights, not asserted",
+      "for k, w in A.FACULTY_WEIGHTS.items() if not w" in _rgcode21, True)
+check("no surviving unconditional claim that the faculties are muted",
+      "cannot affect a Magnitude at all" in _rgcode21, False,
+      note="it printed directly beneath the non-zero weights that refuted it")
+check("every faculty weight really is non-zero right now",
+      sorted(k for k, w in _as21.FACULTY_WEIGHTS.items() if not w), [],
+      note="if this ever fails the finding above should start firing again, and now will")
+check("the ratio-matrix label counts the weights instead of hardcoding 8",
+      "declared {len(A.WEIGHTS)} weights" in _rgcode21, True,
+      note="it said 8 while assay.WEIGHTS held 11 -- labelling a different matrix than it built")
+check("assay.WEIGHTS is the 11 the label now reports", len(_as21.WEIGHTS), 11)
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)

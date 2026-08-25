@@ -104,14 +104,23 @@ def measure_bit_value(band, module=None):
     one point is L_r/10 bits. This holds for a physical Measure and a faculty alike -- which is
     the whole content of the coherence framework:
 
-        Ruin 7.0 at M5   ->  7.0 * 13.23 = 92.6 bits
-        Acumen 7.0 at M5 ->  7.0 * 13.23 = 92.6 bits
+        Ruin 7.0 at M5   ->  7.0 * 3.043 = 21.3 bits
+        Acumen 7.0 at M5 ->  7.0 * 3.043 = 21.3 bits
 
     They are equal in UNIT, necessarily, and equal in VALUE by the parity convention argued in the
     module header (the unique zero-parameter choice). The reading is that a being who can specify
-    92.6 bits of world by force and one who can specify 92.6 bits by foresight have constrained
+    21.3 bits of world by force and one who can specify 21.3 bits by foresight have constrained
     the world equally -- which is a claim about what the Ladder measures, and the library should
     own it as such rather than present it as a theorem.
+
+    THE NUMBERS ABOVE WERE WRONG UNTIL 2026-08-25 (run #21) AND THE WRONG ONES ARE INSTRUCTIVE.
+    This example read `7.0 * 13.23 = 92.6`. 13.234 is `tempus.rung_description_length("M5")/10`
+    -- the CUMULATIVE quantity this function deliberately stopped using, because cumulative
+    content makes every M0 axis point worth zero bits (the note below, and `tempus.py:182-186`,
+    which split `band_resolution` out for exactly this reason). The code was corrected then and
+    pinned by `verify_math.py:382-384`; this worked example was not, so the file's own docstring
+    went on quoting the pre-fix figure. Same failure class as everything else in this project:
+    one fact, two copies, one of them fixed. Pinned now by §20f.
     """
     import tempus as T
     # band_resolution, NOT rung_description_length: see the note there. Using cumulative content
@@ -734,14 +743,28 @@ def main():
 
     print(f"\n   charter faculty weights : {A.FACULTY_WEIGHTS}")
     print(f"   parity implies          : {faculty_parity_weights()['uniform_weight']:.4f} each")
-    print("   FINDING: zero is an exchange rate too, and it is the one rate the bit-equivalence")
-    print("            forbids. Int/Wis/Cha currently cannot affect a Magnitude at all.")
+    # DERIVED, NOT ASSERTED. This printed a flat "Int/Wis/Cha cannot affect a Magnitude at all"
+    # regardless of the data -- directly beneath the line that printed the data refuting it.
+    # `assay.py`'s ERRATUM (X.11) had already given every faculty a 1/11 weight, so the section
+    # showed the true weights and then announced they were zero. A diagnostic that cannot be
+    # contradicted by its own evidence is not a diagnostic. 2026-08-25, run #21.
+    _muted = sorted(k for k, w in A.FACULTY_WEIGHTS.items() if not w)
+    if _muted:
+        print("   FINDING: zero is an exchange rate too, and it is the one rate the "
+              "bit-equivalence")
+        print(f"            forbids. Muted at weight zero: {', '.join(_muted)}.")
+    else:
+        print("   FINDING: none -- every faculty axis carries a non-zero weight, so the "
+              "bit-equivalence")
+        print("            holds across all of them. Closed by assay.py's ERRATUM (X.11).")
 
     print("\n2. THEOREM 1 — Saaty's CR and Moth's chord index are one measurement")
     print("-" * 96)
     A_consistent = consistent_matrix(A.WEIGHTS)
     t = theorem_1_check(A_consistent)
-    print("   charter's declared 8 weights, read as a ratio matrix:")
+    # Counted, not hardcoded: this said "8" while assay.WEIGHTS had grown to 11 under ERRATUM
+    # (X.11), so the label described a different matrix from the one being analysed below it.
+    print(f"   charter's declared {len(A.WEIGHTS)} weights, read as a ratio matrix:")
     print(f"     CR = {t['CR']:.2e}   curl fraction = {t['curl_fraction']:.2e}   "
           f"both consistent: {t['both_say_consistent']}")
     print(f"     Perron and log-least-squares weights agree to {t['max_weight_disagreement']:.2e}")
