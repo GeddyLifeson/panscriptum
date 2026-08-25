@@ -9,6 +9,136 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 06:20–07:0x (local) — Run #26 (scheduled): the caps that outlived their own owner ruling, and a de-duplication key that could not tell case from meaning
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found.** Nothing in this run touched credential-bearing paths; the standing
+   scrub gap (decision **C**) is unchanged and still wants a ruling.
+2. **THREE OWNER QUESTIONS ARE NOW BLOCKING REAL WORK**, all listed in `NEXT_STEPS.md` §1.
+   M18 (`axis_score` returns a flat 9.9 at M10) was confirmed a third time this run, by two
+   independent agents, one of them by live numeric test. `anchors.py` now EXITS 1 because the
+   instrument's own floor→ceiling invariant is currently violated — `A Sword` (0.10) sits below
+   `The Skate Guy` (0.22) and `Goku` (5.42) below `Yggdrasil` (6.18). That is a reading about
+   the assay, not a script bug, and it needs your call.
+3. **The `no high-severity findings open` standard is green off an auditor that mostly does not
+   ask.** Measured against the live ledger: of 69 findings overwatch has ever filed, **51 were
+   retired with no model verdict at all** — 27 by a whole-file digest change (any edit anywhere
+   in the file retires every open finding in it) and 24 by `foreman._retire()`, a second writer
+   that closes findings out-of-band. Only 12 (17%) were ever genuinely re-checked and refuted.
+   The zero on the page is not evidence the tree is clean. Retirement policy is yours to rule.
+
+**The run's shape: a cap that survives the ruling that abolished it.** Run #25's lesson was a
+guard matching one spelling. This run's is one step earlier — an owner ruling was made, applied
+to the file in front of it, and the identical construction one module over was never visited.
+Four of this run's fixes are that exact shape, and in three of them a sibling file carries a
+comment naming the ruling by date while the unfixed file sits beside it:
+
+- `weave.py:478` and `pipeline.py:1795` both carry `# WHOLE list -- Hard Rule 0, ruled
+  2026-08-24` on the `shared_sample` key. `cosmology_graph.py:86` wrote the same key with an
+  `< 8` cap and was the one member of the family never brought in line. `resonance.py:146`
+  reads that key back as a pair's real shared evidence, so a ninth shared entity did not exist.
+- `scout.py`, `grounding.py` and `coverage.py` each carry a comment naming the 2026-08-25 sweep
+  that made their writes atomic. `rosetta.py` already imported `silence` and never used it.
+- m100 retired the fixed-temp-name collision at twelve sites. `chain.py`'s two were missed, and
+  `write_result` has two documented concurrent callers.
+- The subcategory walk in `backfill.py` had its `< 12` cap fixed at the inner loop and left
+  standing one line up, at the decision to loop at all.
+
+**And the headline defect, found in the ledger rather than the code.** `every pool failure is
+recognised` was red. Reading `state/POOL_UNRECOGNISED.json` showed eight buckets each holding
+`Every model in this pool is rate limited or unconfigured.` **and** the same sentence lowercased
+as two separate permanent rows. `cascade_bridge.py:873` folded the error text at derivation while
+`record_unrecognised` de-duplicated on EXACT text, so a code change that started folding split
+every pre-existing row from its own successor. This is m132's lesson one letter over: m132 named
+the two engine wordings for "answered with nothing" and stopped there, when the thing that needed
+fixing was the KEY. The key now folds and the recorded text no longer does — folding it was
+separately lossy, because a provider's complaint carries case-bearing `request_id` and
+`org_01KYDH…` identifiers a person may have to quote back.
+
+**A stale import was publishing a fixed system's pre-fix answer.** The page showed three open
+unrecognised rows. Re-triaged live with current code, two of them (`empty response`,
+sambanova's rate-limit JSON) were already absorbed by run #25's classifier — the process
+rendering the page was carrying a launch-time import from before that commit. Run #25 shipped
+the fix and did not bounce the readers. **The bounce rule is not bookkeeping; it is the
+difference between fixing a thing and being able to see that you fixed it.**
+
+The third row was genuinely unexplained, and its cause was sitting in `bucket_state` the whole
+time: a Groq tokens-per-day rate limit. `provider_error()`'s **180s** window is right for
+benching (claiming a stale row would bench a live provider for four hours — m103's harm) and far
+too narrow for explaining, because during a burst the engine's aggregate arrives minutes after
+the provider row that explains it. There is now a second, wider lookup used **only** to enrich
+the recorded text; it reaches no bench and no routing decision.
+
+### Fixed this run (all verified at source before the edit; `verify_math` 719 passed, 0 FAILED)
+
+| # | What | Where |
+|---|---|---|
+| m138 | Unrecognised-ledger key folded; recorded text kept verbatim | `cascade_bridge.py:873,895,924,510` |
+| m139 | `register()` overwrote the registry it could not read — every other source's pages erased | `endpoint.py:356` |
+| m140 | Subcategory walk skipped entirely when the top level returned ≥40 | `backfill.py:84` |
+| m141 | `members()` returned a partial roster on a transport failure as if complete | `backfill.py:66` |
+| m142 | `all_categories(hard_stop=6000)` truncated DC's categories **alphabetically**; docstring claimed it "bounds the API walk, not the answer" | `wiki_source.py:352` |
+| m143 | A failed category walk was memoised, so one API blip decided a wiki's size for the process | `wiki_source.py:386` |
+| m144 | `pair_shared` capped at 8 under a key two sibling writers had already been ruled on | `cosmology_graph.py:86` |
+| m145 | `available_sample: models[:8]` — capped the field a person reads to replace a retired model | `catalogue_models.py:146` |
+| m146 | `attempt_patch` reported "reverted" when the backup restore **also failed**, on live source | `foreman.py:1009` |
+| m147 | Model-patch lane attempted only the top 3 open findings, for ever, with no rotation | `foreman.py:1205` |
+| m148 | `movement()` could never repair a corrupt history file — 82 swallowed JSONDecodeErrors and a panel reading "No history yet" | `dashboard.py:335` |
+| m149 | A counter that **fell** was reported as movement (`chunks` at −3689, `stalled: false`) | `dashboard.py:361` |
+| m150 | `CHARACTER_SWEEP.json` truncate-then-filled while three modules read it live | `sweep.py:233` |
+| m151 | `ROSETTA.json` written non-atomically in both `--mine` and destructive `--refine` | `rosetta.py:364,377` |
+| m152 | `chain.py`'s two fixed temp names, with two documented concurrent callers | `chain.py:115,191` |
+| m153 | `hosts.add()` bare RMW + `os.replace`; a denied write was indistinguishable from a duplicate host | `hosts.py:84` |
+| m154 | `names[:40]` — candidate hosts scored against an alphabetical first forty of the cast | `hosts.py:143` |
+| m155 | `anchors.py` computed its invariant, printed it, discarded it, exited 0 | `anchors.py:225` |
+| m156 | `allsweep`'s LINT tier was computed, printed and dropped — a real undefined-name exited 0 and left no `lint` key in ALLSWEEP.json | `allsweep.py:437` |
+| m157 | `retry_synthesis.do_merge()` wrote `data/records/*.json` directly, bypassing `write_record`'s drift-merge | `retry_synthesis.py:109` |
+| m158 | The unrecognised recorder's own `except: pass` left no trace — the one recorder whose failure was invisible | `cascade_bridge.py:529` |
+| m159 | The `or True` disarm guard matched only the SINGLE-LINE spelling; dozens of checks in the same file wrap onto two lines | `verify_math.py:3757,3791` |
+
+### A change I made, measured, and reverted in the same run
+
+I added `len(findings)` (the RECONCILE tier) to `allsweep`'s `bad` count on a sweep agent's
+report that the tier was ungraded. It was ungraded — but the report was half right, and running
+it proved the other half: `reconcile()`'s `note()` carries **no severity**, so the same
+undifferentiated list holds `catalogued sources with no host` (a real disagreement) beside
+`phases implemented 8` and `running 1 dashboard.py` (plain healthy facts). A green machine
+promptly reported **16 subsystems in a bad state**. Reverted, and recorded in the code rather
+than quietly dropped. The LINT half of the change is correct and stays. Giving `note()` a
+severity so the tier CAN gate is in `NEXT_STEPS`.
+
+**This is the run's own instance of its lesson, and it is worth stating plainly: a subagent
+finding is a hypothesis. Nineteen of this run's twenty-two fixes survived verification at source.
+This one did not, and only running it showed that.**
+
+### The comprehensive sweep — 95 modules, 40,431 lines, 16 agents
+
+`sweep_plan.missing("run26")` returns **0 uncovered**; all sixteen reports are on disk in
+`handoff/sweep26/` (15.5–32.4 KB each). Verified findings I could not repair this run are in
+`NEXT_STEPS.md` §3 with file and line, not summarised away.
+
+### Battery
+
+`verify_math` **719 passed, 0 FAILED** (up from 715 — four new checks: two pinning the widened
+disarm guard by actually tripping it in both spellings, two pinning the folded ledger key and the
+unfolded recorded text). `allsweep` **0 bad, exit 0**, with the LINT tier now graded and RECONCILE
+honestly printed as ungraded. `pyflakes` clean over `src/`. `silence.py` clean. `health
+--preflight`: **1 pre-existing problem** — `feats/www_dandwiki_com: all 200 sampled entries
+empty`, which batch 08 independently explains (`completeness.host_reachable()` gates on
+API-mode-only `endpoint.api_url()`, so RAW-mode wikis like dandwiki always read unreachable).
+Not introduced here; queued.
+
+### Bounced
+
+`dashboard`, `publish`, `foreman`, `overwatch`, `pipeline` — all carry launch-time imports of
+`cascade_bridge`, which changed. All five are in `overnight.STANDING`, so the keeper restores
+them inside 300s. `read.py` was deliberately **not** killed: it is outside `STANDING` (open bug
+M15), so killing it costs a full supervisor lap. Process matching used `lognames.OWNER`
+fragments assembled at runtime, never a bare literal my own command line contains (lesson 13).
+
+---
+
 ## 2026-08-25 05:20–06:0x (local) — Run #25 (scheduled): a guard that only recognises the unobfuscated spelling, and the catalogue that was never allowed to finish
 
 **FOR THE OWNER, AT THE TOP:**

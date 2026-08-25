@@ -81,6 +81,183 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
 
+### Minor-but-new (run #26 — the fifth whole-tree sweep)
+
+*95 modules, 40,431 lines, 16 parallel agents; `sweep_plan.missing("run26")` returned **0
+uncovered** and all 16 reports are on disk (15.5–32.4 KB each) in `handoff/sweep26/`. As always:
+**only findings I VERIFIED AT SOURCE MYSELF get bug numbers**; the agents' other credible findings
+are cited in NEXT_STEPS §3 with file and line.*
+
+*The run's shape: **a cap that outlived the owner ruling which abolished it.** Run #25's shape was
+a guard matching one spelling of what it forbade. This is one step earlier — a ruling was made,
+applied to the file in front of it, and the identical construction one module over was never
+visited. In three of the four cases the sibling file carries a comment naming the ruling BY DATE
+while the unfixed file sits beside it, which is what makes this shape survivable: the fix looks
+done from every angle except the one nobody checked.*
+
+- **[m138 — MAJOR, RESOLVED] THE UNRECOGNISED LEDGER COULD NOT TELL CASE FROM MEANING, SO ONE
+  FAULT HELD TWO PERMANENT ROWS.** `every pool failure is recognised` was red. The ledger held
+  eight buckets each carrying `Every model in this pool is rate limited or unconfigured.` AND the
+  same sentence lowercased, as separate rows with separate counts. Root cause:
+  `cascade_bridge.py:873` did `err = (box.get("error") or "").lower()` while
+  `record_unrecognised` keyed on `bucket + "|" + text[:80]` — de-duplication on EXACT text — so a
+  change that started folding split every pre-existing row from its own successor.
+  **This is m132 one letter over.** m132 named the two engine wordings for "answered with
+  nothing" and stopped; the thing that needed fixing was the KEY, not the vocabulary. The key now
+  folds (`text[:80].lower()`) and the recorded text does not. Folding the text was separately
+  lossy: `record_unrecognised`'s whole premise is "enough text to classify it", and a provider's
+  complaint carries case-bearing `request_id` and `org_01KYDH…` identifiers a maintenance run may
+  have to quote back to the provider. `raw` and `err` are now two variables with two jobs.
+  Verified: two rows differing only in case now merge to one row with count 2, text verbatim.
+  Pinned by `verify_math` §22 (two checks).
+
+- **[m139 — MAJOR, RESOLVED] `endpoint.register()` OVERWROTE THE REGISTRY IT COULD NOT READ.**
+  `except Exception: d = {}` followed by a whole-file write, so ANY read failure — a torn file
+  from a concurrent writer (no lock, and the temp name was fixed so writers collided on it), a
+  Norton object-lock, a truncated tail — silently republished `SOURCE_PAGES.json` holding ONE
+  source and **erased every other source's registered pages**. Nothing restored them;
+  `source_pages()` would answer "none" for ever after, and a source with no wiki and no
+  registered pages is uncitable. **This is run #24's lesson 10 in a second file** — `write_record`
+  overwriting the disk copy it could not read, same sentence, different module. Absent (write
+  `{}`, correct) and unreadable (know nothing, refuse) are now distinguished, and the write goes
+  through `silence.write_json`.
+
+- **[m140/m141 — MAJOR, RESOLVED] `backfill.roster()` STOPPED LOOKING AT ≥40, AND CALLED A
+  TIMED-OUT WALK COMPLETE.** Two faults in one function, in the module whose entire purpose is
+  repairing missing casts.
+  - `if len(out) < 40:` gated the subcategory walk, so a wiki with 40 characters at the top level
+    and 6,000 under "Villains"/"Heroes"/"Kryptonians" returned the 40 and reported a complete
+    roster. A Hard Rule 0 cap wearing a threshold's clothing. **The inner `< 12` cap on the same
+    walk had already been found and fixed; the fix stopped one line short of the decision to loop
+    at all.** `seen` already de-duplicates, so walking unconditionally changes no result.
+  - `members()` did `d = F.api(host, q); if not d: return rows` — and `api()` answers `None` for a
+    timeout and for an absent page alike (open bug M16). A network failure mid-pagination returned
+    a roster stopping wherever the network died, unmarked, which `backfill_source` then wrote as
+    the source's complete cast. Now raises `RosterIncomplete`, a named class; the caller already
+    catches per source and prints the exception class, so the cost is one source's pass instead of
+    that source's missing characters, permanently.
+
+- **[m142/m143 — MAJOR, RESOLVED] `all_categories(hard_stop=6000)` TRUNCATED DC ALPHABETICALLY,
+  UNDER A DOCSTRING SAYING IT DID NOT.** The docstring read *"`hard_stop` bounds the API walk, not
+  the answer"*. `out` **is** the answer and `while len(out) < hard_stop` cut it. Measured run #26:
+  DC runs past 10,000 categories at `min_pages=40`, and `allcategories` returns alphabetically —
+  so every catalogue run on DC saw an alphabetical first 6,000. **DC sits at 0.5% catalogued and
+  is the worst source on the page.** A comment that contradicts its code is how this survived
+  twenty-five runs. Default is now `None`; the kwarg is kept so no signature breaks, and nothing
+  in the tree passes it.
+  Separately, the `except` below it broke out with a partial list which was then **memoised** —
+  `find_categories` calls this once per canonical class, so one transient API error decided a
+  wiki's size for all seven classes and the rest of the process. A failed or bounded walk is no
+  longer cached.
+
+- **[m144 — MAJOR, RESOLVED] THE ONE MEMBER OF THE `shared_sample` FAMILY NEVER BROUGHT IN LINE.**
+  `cosmology_graph.py:86` did `if len(pair_shared[p]) < 8: pair_shared[p].append(name)`.
+  `weave.py:478` and `pipeline.py:1795` write the same key and **both carry the comment `# WHOLE
+  list -- Hard Rule 0, ruled 2026-08-24`**. `resonance.py:146` reads `shared_sample` back as the
+  pair's actual shared evidence, so a ninth shared entity did not exist to anything downstream.
+  Cap removed, key name kept exactly as the siblings keep it.
+
+- **[m145 — MINOR, RESOLVED] `catalogue_models.py:146` CAPPED THE FIELD YOU READ TO FIX THE
+  STANDARD.** `available_sample: r["models"][:8]`, persisted, in the record a person consults to
+  replace a retired model name — while `model IDs their providers still serve` sits red at 8
+  stale. If the provider's ninth model was the right substitute, nothing could see it.
+
+- **[m146 — MAJOR, RESOLVED] THE FOREMAN SAID "REVERTED" WHEN THE REVERT HAD ALSO FAILED, ON LIVE
+  SOURCE CODE.** `attempt_patch`'s outer handler tried `shutil.copy2(backup, path)`, swallowed a
+  failure via `silence.note`, and returned `{"why": f"reverted after {type(e).__name__}"}`
+  regardless. The worst place in the tree for an optimistic report: the file it could not restore
+  holds a model's unverified patch, the round prints a line saying the patch was rolled back, and
+  the next importer gets the patch. Now returns `reverted: False` and names the backup path to
+  restore by hand.
+
+- **[m147 — MAJOR, RESOLVED] THE MODEL-PATCH LANE ATTEMPTED THE TOP THREE FINDINGS FOR EVER.**
+  `sorted(open_f, ...)[:3]` with no rotation, so the fourth-ranked open finding was never
+  attempted in any round while three stayed open. Hard Rule 0's shape, and the same shape the
+  owner abolished in the sweep rotation on 2026-08-25. Ranking survives (high severity first);
+  the truncation does not. Each attempt now prints `(i/n)` so a long round announces itself rather
+  than going silent and looking wedged to `kill_stalled_job` — saying what is happening, not
+  weakening the detector, which is run #25's remedy pattern.
+
+- **[m148/m149 — MAJOR, RESOLVED] THE MOVEMENT PANEL COULD NOT REPAIR ITSELF, AND READ A FALLING
+  COUNTER AS PROGRESS.** `silent:dashboard.py:movement:JSONDecodeError` stood at **82 and
+  climbing**.
+  - The history read and write shared one `try`, so a torn `HISTORY` file threw on `json.load`,
+    **skipped the write that would have replaced it**, and returned `[]` — which the panel renders
+    as the cheerful "No history yet". Every five-second poll re-threw on the same bytes, so the
+    only code that writes the file could never repair it, and the one instrument that can see
+    "every counter flat while every job is up" was dark while reporting that it was merely new.
+    The load is now isolated and the file self-heals.
+  - `stalled` tested `delta == 0`, so a **negative** delta counted as movement. The page showed
+    `chunks` at **−3689** with `stalled: false`. Cause is benign — `read.py`'s `done["chunks"]` is
+    an in-process counter reset on launch and never persisted, so a reader restart makes the total
+    fall — but the reporting was not: a restart READ AS MOVEMENT, which is exactly the condition
+    `the library's counters are moving` exists to catch, so a restart could mask a real stall. Now
+    carries an explicit `reset` flag; the delta stays honest.
+
+- **[m150/m151/m152/m153 — RESOLVED] FOUR WRITES THE ATOMIC-WRITE SWEEPS MISSED.**
+  - `sweep.py:233` truncate-then-filled `CHARACTER_SWEEP.json` while `hostcheck.py`,
+    `magnitude.py` and `standards.py` read it live and unguarded — a half-written file parses as a
+    shorter cast list rather than failing. The standard `the character sweep is newer than the
+    catalogue` is red at 2.4h behind.
+  - `rosetta.py:364,377` wrote `ROSETTA.json` with a bare `open(...,"w")` in both `--mine` and the
+    **destructive** `--refine`. `scout.py`, `grounding.py` and `coverage.py` each carry a comment
+    naming the 2026-08-25 sweep that fixed this exact pattern; `rosetta.py` already imported
+    `silence` and never used it.
+  - `chain.py:115,191` built `OUT + ".tmp"` and `HARVEST_IDX + ".tmp"` — the renames were already
+    atomic and verdict-checked, but the temp NAMES were not unique, and `write_result` has two
+    documented concurrent callers (`chain.main`, `pipeline.phase_chain`). That is the collision
+    m100 closed at twelve sites; these two were missed.
+  - `hosts.add()` did a bare read-modify-write plus `os.replace` on shared `SOURCE_HOSTS` extras,
+    where an uncaught `PermissionError` took `discover()` down mid-walk. It also returned `False`
+    for a denied write and for a duplicate host alike — **a lost host looked like a known one.**
+
+- **[m154 — MAJOR, RESOLVED] CANDIDATE HOSTS WERE SCORED AGAINST AN ALPHABETICAL FIRST FORTY.**
+  `hosts.py:143` `names = list(by.get(source) or [])[:40]`, undocumented. This roster is the
+  evidence a candidate host is judged by, so a wiki holding the back half of a cast could not be
+  told from one holding none of it — the CLAUDE.md canonical violation applied to the decision of
+  where a source lives.
+
+- **[m155 — MAJOR, RESOLVED] `anchors.py` COMPUTED ITS INVARIANT, PRINTED IT, AND EXITED 0.**
+  `ok` was calculated, displayed, and discarded; `__main__` called `run()` and returned success
+  whatever it said. `allsweep` lists this module under "the instrument" and judges it by exit
+  code, so a violated floor→ceiling ordering read to every automated caller as a clean instrument.
+  Lesson 9, in the one script whose whole job is to fail when the assay drifts; `audit.py` gets it
+  right one file over. **It exits 1 today** — see the open owner question below.
+
+- **[m156 — MAJOR, RESOLVED] `allsweep` RAN FOUR TIERS AND GRADED TWO.** `lint_bad` was computed,
+  printed and dropped, so a real pyflakes undefined-name anywhere in `src/` left the integrity
+  suite exiting 0 — and `ALLSWEEP.json` had no `lint` key at all, so nothing could even read it
+  back. That includes the line `lint_bad` appends when pyflakes itself will not run: **the tier
+  announces it is BLIND, and being blind scored identically to being clean.** LINT now counts and
+  is persisted. RECONCILE deliberately still does not — see the reverted change in HANDOFF and
+  NEXT_STEPS §2.
+
+- **[m157 — MAJOR, RESOLVED] `retry_synthesis.do_merge()` WROTE RECORDS BEHIND THE TWO-WRITER
+  CONTRACT.** A bare temp plus `os.replace` straight onto `data/records/*.json`, bypassing
+  `pipeline.write_record` and therefore verify_math §18c's whole subject. Not merely procedural:
+  `write_record` re-reads and MERGES precisely so a stale in-memory copy cannot be published over
+  a fresher disk one, and this loop holds a `rec` taken before an unbounded number of model calls
+  — so on a source re-catalogued meanwhile it wrote the OLD entry list back whole, which is the
+  30,207-entries-to-1,051 revert `write_record`'s docstring names. The docstring's "run ONLY when
+  the pipeline is stopped" was a convention nothing enforced.
+
+- **[m158 — MINOR, RESOLVED] THE ONE RECORDER WHOSE OWN FAILURE WAS INVISIBLE.**
+  `record_unrecognised`'s outer `except: pass` never called `silence.note`, so the function built
+  to make failures visible was the single place whose failure left no mark anywhere — the ledger
+  could quietly stop recording and the page would read "none".
+
+- **[m159 — MAJOR, RESOLVED] THE `or True` DISARM GUARD MATCHED ONLY THE SINGLE-LINE SPELLING.**
+  §20i's needle is assembled at runtime to avoid matching its own source — correct, and not
+  enough. It searched the raw file text for a one-line spelling, while this file wraps the boolean
+  expression and the `True,` want-argument onto separate lines in dozens of checks (2201-2202,
+  2219-2220, 2911-2912, 3878-3879 among them). Disarming any of those was invisible to the one
+  guard whose entire purpose is to notice it — **lesson 12 inside the file that exists to fail.**
+  Now whitespace-normalised, with two alternate spellings, and — the part that matters — **the
+  guard is now exercised rather than declared**: two new checks feed it a disarmed check in the
+  wrapped spelling and require it to SEE that, then require it to leave an ordinary wrapped check
+  alone. Asserting that a detector says False over a clean file proves nothing; it read green for
+  nine runs doing exactly that.
+
 ### Minor-but-new (run #25 — the fourth whole-tree sweep)
 
 *95 modules, 40,135 lines, 16 parallel agents; `sweep_plan.missing("run25")` returned **0
