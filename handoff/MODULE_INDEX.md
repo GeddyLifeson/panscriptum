@@ -74,6 +74,7 @@
 - **address_space** — THE ADDRESS SPACE — a 74-bit name for every planet in the omniverse
 - **audit** — BACKSCAN — an audit of everything catalogued so far
 - **backfill** — BACKFILL — recover the main casts the original cataloguing crawl missed
+- **binding_health** — BINDING HEALTH — prove each wiki host still answers the way it did, before trusting it again
 - **burgs** — BURGS — the settlement tier, and the bottom of the seed hierarchy
 - **cachekey** — CACHE KEY — one entity, one file, and a read that proves it before believing it
 - **catalogue_models** — CATALOGUE MODELS — ask each provider what it actually serves, instead of trusting the config
@@ -103,6 +104,7 @@
 - **onomast** — THE ONOMASTICON — distinct designations for the worlds that all call themselves Earth
 - **pantheon** — PANTHEON -- the divine tier of Universes 6 and 7, hand-built under the presence thesis
 - **physics** — PHYSICS — the real-world quantities the Assay converts fiction into, and where they come from
+- **policy** — POLICY — checks as DATA, with the observed value recorded, not just pass or fail
 - **profile** — THE WORLD PROFILE — one string that says everything, and from which everything regenerates
 - **propagation** — INFORMATION PROPAGATION — how long it takes the omniverse to learn a thing
 - **prose_gate** — PROSE GATE — the interlocks that stand between the catalogue and a written volume
@@ -116,6 +118,7 @@
 - **scale_theories** — THE SCALE-CHANGE THEORIES — what would have to be true, and what it would cost
 - **sevenfold** — THE SEVENFOLD ORDER — seven hyperverses, and a span of one to seven at every tier beneath
 - **snapshot** — SNAPSHOT — take a copy before doing something that cannot be undone, and prove it restores
+- **suppressions** — SUPPRESSIONS — the exceptions a detector is allowed, each with a reason and an expiry
 - **sweep_plan** — Partition EVERY module in `src/` into balanced audit batches, and record what got covered
 - **tempus** — DE TEMPORE — time across the omniverse, and what "now" can possibly mean
 - **thread_integrity** — THREAD INTEGRITY — does the omniverse hold together when you walk it?
@@ -123,5 +126,6 @@
 - **weave** — PHASE 3 — THE WEAVE. Cross-source entity resolution, with homonymy as the default
 - **wh40k** — WARHAMMER 40,000 — the top of the setting, assayed under the presence thesis
 - **withdraw_chapters** — Withdraw generated chapters from the library, preserving them for the record
+- **workorders** — WORK ORDERS — what the nets found, who should fix it, and deletion when it is fixed
 - **worldseed** — WORLDSEED — a compact address that regenerates an inhabited world, derived from its catalogue entry
 - **zfighters** — Z FIGHTERS -- hand-built assays under the presence thesis
