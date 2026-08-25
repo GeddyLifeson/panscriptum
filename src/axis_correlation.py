@@ -1,0 +1,211 @@
+"""AXIS CORRELATION — the Measures are not independent, and here is by how much.
+
+THE QUESTION, AND WHY IT WAS WORTH ASKING. `assay._interval` computed the error bar as
+
+    Var(C) = SUM over axes of  (w_i * sigma_i)^2
+
+which is the correct propagation formula **for independent quantities** and silently wrong for
+anything else. The omitted term is the whole of the covariance:
+
+    Var(C) = SUM (w_i sigma_i)^2  +  2 * SUM over i<j of  w_i w_j rho_ij sigma_i sigma_j
+
+Nobody had ever asked whether the eight physical Measures actually are independent. The
+suspicion is easy to state -- a character who can level a city (Ruin) probably also operates at
+a scale that reaches a long way (Reach) -- and if it is right, then every published interval in
+the library is too NARROW, which is the direction this project least wants to be wrong. An
+overstated confidence is a claim the evidence does not support.
+
+WHAT THE MEASUREMENT SAID, 2026-08-25. Measured over every entity in the library carrying two or
+more NUMERIC axis scores -- 45 of them, from the hand-built and reference assays -- giving 55
+measurable pairs at n = 42 to 45 each:
+
+    reach x ruin              r = +0.816   n = 44      <- the suspected pair, confirmed
+    continuity x sustain      r = +0.773   n = 42
+    continuity x reach        r = +0.756   n = 44
+    reach x sustain           r = +0.694   n = 43
+    acumen x discernment      r = +0.653   n = 44
+    ...
+    mean r = +0.319           EVERY sizeable pair positive, none meaningfully negative
+
+The Measures are strongly and consistently positively correlated, and the direction is not in
+doubt even if the exact figures move as the sample grows. On the charter's own Kenshiro
+worksheet -- eight physical axes, Witnessed -- the covariance term is +3.125 against an
+independent variance of 1.440, so the honest interval is **1.78x wider** than the one the
+library was publishing.
+
+WHAT THIS DOES NOT CLAIM. n is 45, not 4,500. These are hand-built and reference assays, which
+are the library's most carefully scored entities and also its most extreme ones, so the sample
+is not a random draw from the corpus. A correlation measured on titans may not hold among
+ordinary people. That is a reason to keep measuring and to re-run this as the numbers grow --
+it is NOT a reason to keep publishing rho = 0, which is the one value the data rules out.
+
+AND THE GAP THIS EXPOSED, WHICH MATTERS MORE THAN THE NUMBER. Only 45 entities in the entire
+library have recoverable numeric axis scores. `ASSAYS.json` holds 507 automated assays and
+persists `axes_scored` (which axes) and `variance_by_axis` (their weighted variance) but NOT the
+scores themselves -- so 217 assays with at least one scored axis contribute nothing here. The
+automated pass has been discarding its own primary measurement. Filed as a work order; until it
+is fixed this matrix cannot improve no matter how long the crawl runs.
+"""
+import argparse
+import itertools
+import json
+import math
+import os
+import sys
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silence  # noqa: E402
+
+OUT = os.path.join(HERE, "data", "AXIS_CORRELATION.json")
+
+# Where numeric per-axis scores actually live. Named explicitly rather than globbed loosely: a
+# file that merely CONTAINS the word "score" is not a file of assays, and quietly hoovering up
+# the wrong shape would produce a correlation matrix nobody could trace to a source.
+SOURCES = ("data/HANDBUILT_ASSAYS.json", "data/HERO_ASSAYS.json", "data/PANTHEON.json",
+           "data/HALO_ASSAYS.json", "data/WH40K_ASSAYS.json", "data/Z_FIGHTERS.json",
+           "data/REFERENCE_ASSAYS_PRESENCE.json")
+
+MIN_N = 4          # below this a Pearson r is noise wearing a decimal point
+
+
+def observations():
+    """-> [{axis: score}], one dict per entity carrying two or more numeric axis scores."""
+    rows = []
+    for rel in SOURCES:
+        p = os.path.join(HERE, rel)
+        if not os.path.exists(p):
+            continue
+        try:
+            with open(p, encoding="utf-8") as f:
+                d = json.load(f)
+        except Exception:
+            silence.note("axis_correlation.py:load")
+            continue
+        for v in (d.values() if isinstance(d, dict) else d):
+            if not isinstance(v, dict):
+                continue
+            ax = v.get("axes")
+            if not isinstance(ax, dict):
+                continue
+            s = {k: x["score"] for k, x in ax.items()
+                 if isinstance(x, dict) and isinstance(x.get("score"), (int, float))}
+            if len(s) >= 2:
+                rows.append(s)
+    return rows
+
+
+def _pearson(xs, ys):
+    n = len(xs)
+    if n < MIN_N:
+        return None
+    mx, my = sum(xs) / n, sum(ys) / n
+    sx = math.sqrt(sum((x - mx) ** 2 for x in xs))
+    sy = math.sqrt(sum((y - my) ** 2 for y in ys))
+    if sx == 0 or sy == 0:
+        return None            # a constant column has no correlation, it has no variance
+    return sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / (sx * sy)
+
+
+def measure(rows=None):
+    """-> {'pairs': {'a|b': {'r':..,'n':..}}, 'mean_r':.., 'n_entities':.., 'axes':[..]}."""
+    rows = observations() if rows is None else rows
+    axes = sorted({k for r in rows for k in r})
+    pairs, vals = {}, []
+    for a, b in itertools.combinations(axes, 2):
+        xs = [r[a] for r in rows if a in r and b in r]
+        ys = [r[b] for r in rows if a in r and b in r]
+        r_ = _pearson(xs, ys)
+        if r_ is None:
+            continue
+        pairs["%s|%s" % (a, b)] = {"r": round(r_, 4), "n": len(xs)}
+        vals.append(r_)
+    return {"pairs": pairs, "axes": axes, "n_entities": len(rows),
+            "mean_r": round(sum(vals) / len(vals), 4) if vals else None,
+            "measured_pairs": len(pairs)}
+
+
+def write(doc=None):
+    doc = doc or measure()
+    doc["note"] = ("MEASURED, not decreed. Rebuild with `python src/axis_correlation.py "
+                   "--write` whenever the number of entities with numeric axis scores grows. "
+                   "rho = 0 is the one value this data rules out.")
+    silence.write_json(OUT, doc, indent=2, sort_keys=True)
+    return OUT
+
+
+def load():
+    """-> the stored matrix, or None. Callers must handle None; see `assay._rho`."""
+    try:
+        with open(OUT, encoding="utf-8") as f:
+            d = json.load(f)
+        return d if isinstance(d, dict) and d.get("pairs") else None
+    except Exception:
+        silence.note("axis_correlation.py:load-matrix")
+        return None
+
+
+def rho(a, b, doc=None, default=None):
+    """Correlation between two axes. -> float.
+
+    THE DEFAULT IS THE MEASURED MEAN, NOT ZERO, and that is the entire point of this function.
+    An unmeasured pair is a pair we know nothing about -- and "know nothing" must not resolve to
+    the single value the data has ruled out. Falling back to 0.0 would silently restore the
+    independence assumption for exactly the pairs with the least evidence behind them, which is
+    the failure mode this module was written to end.
+    """
+    doc = doc or load()
+    if not doc:
+        return 0.0 if default is None else default
+    lo, hi = sorted((a, b))
+    hit = doc["pairs"].get("%s|%s" % (lo, hi))
+    if hit:
+        return float(hit["r"])
+    if default is not None:
+        return default
+    return float(doc.get("mean_r") or 0.0)
+
+
+def widening(weights, sigma, axes, doc=None):
+    """How much wider the honest bar is than the independent one. -> (factor, indep, cov).
+
+    Returns a FACTOR rather than a corrected interval so callers cannot accidentally apply it
+    twice, and so the two components stay separately inspectable in the report.
+    """
+    doc = doc or load()
+    denom = sum(weights[k] for k in axes)
+    if not denom:
+        return 1.0, 0.0, 0.0
+    w = {k: weights[k] / denom for k in axes}
+    indep = sum((w[k] * sigma) ** 2 for k in axes)
+    cov = 0.0
+    for a, b in itertools.combinations(axes, 2):
+        cov += 2 * w[a] * w[b] * rho(a, b, doc) * sigma * sigma
+    total = max(indep + cov, 1e-12)
+    return math.sqrt(total / indep) if indep else 1.0, indep, cov
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--write", action="store_true", help="rebuild data/AXIS_CORRELATION.json")
+    ap.add_argument("--top", type=int, default=15)
+    a = ap.parse_args()
+    doc = measure()
+    print("AXIS CORRELATION — measured over %d entities carrying >=2 numeric axis scores"
+          % doc["n_entities"])
+    print("=" * 78)
+    ranked = sorted(doc["pairs"].items(), key=lambda kv: -abs(kv[1]["r"]))
+    for key, v in ranked[:a.top]:
+        x, y = key.split("|")
+        print("   r=%+.3f  n=%2d   %s x %s" % (v["r"], v["n"], x, y))
+    print("-" * 78)
+    print("   %d pair(s) measured, mean r = %+.4f" % (doc["measured_pairs"], doc["mean_r"]))
+    if doc["mean_r"] and doc["mean_r"] > 0.1:
+        print("   The Measures are NOT independent. rho = 0 is ruled out by this data.")
+    if a.write:
+        print("\nwrote " + write(doc))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

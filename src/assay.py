@@ -367,12 +367,27 @@ _ANCHOR_RAW = _RAW_SIGMA[_ANCHOR_GRADE]
 # SOLVED, not guessed: the Witnessed sigma that reproduces the charter's published Kenshiro
 # interval under the CURRENT two-component `_interval`, on the charter's own EIGHT-axis battery
 # with the three faculty axes marked INAPPLICABLE (they postdate Part Three -- see below).
-# The published interval is given to two decimals, so a RANGE of sigmas reproduces it. Swept at
-# 0.0005 resolution, 2026-08-25: sigma 3.0670 .. 3.3335 all yield +/- 0.12, and the MIDPOINT is
-# taken rather than the first root. Sitting on the edge of a rounding bucket is how a constant
-# comes to depend on the last bit of a float -- the first bisection landed on 3.0669, one
-# ten-thousandth below the boundary, and printed 0.11.
-_ANCHOR_SIGMA = 3.2003
+# The published interval is given to two decimals, so a RANGE of sigmas reproduces it. The
+# MIDPOINT is taken rather than the first root: sitting on the edge of a rounding bucket is how
+# a constant comes to depend on the last bit of a float, and an earlier bisection landed one
+# ten-thousandth below the boundary and printed 0.11.
+#
+# RE-SOLVED 2026-08-25 WHEN THE COVARIANCE TERM WAS ADDED, and the charter's number is what
+# stayed fixed. Owner ruling: the charter publishes +/- 0.12 and the charter is the ground
+# truth, so the intermediate constant moves and the published bar does not. Swept again at
+# 0.0005 resolution under the three-component `_interval`: sigma 1.7225 .. 1.8720 all yield
+# +/- 0.12 on Kenshiro. Previously 3.2003, against a formula that omitted the larger half of
+# the variance.
+#
+# AND THE RESULT IS COHERENT FOR THE FIRST TIME, which is the strongest evidence the covariance
+# term belongs here. The long comment below records that the old ceiling had to be abandoned
+# because the charter's own calibration point could not be represented under it -- raw Witnessed
+# fitted to 4.08 on a scale whose maximum-entropy dispersion is 2.86, i.e. the charter's best
+# grade of testimony came out MORE uncertain than knowing nothing at all. That was never a
+# defect in the charter. It was the missing covariance being absorbed into the per-axis sigma,
+# which is the only place the old formula had to put it. With the term present, Witnessed sits
+# at 1.80 -- comfortably inside the uniform-prior bound, in the order one would expect.
+_ANCHOR_SIGMA = 1.7973
 _SCALE = _ANCHOR_SIGMA / _ANCHOR_RAW
 
 # Straight proportion, so every ratio and the whole ORDER the charter gives is preserved.
@@ -531,6 +546,42 @@ def calibration_report():
             "sigma": saved, "band_lo": lo, "band_hi": hi, "margin": margin}
 
 
+_RHO_CACHE = [None]
+
+
+def _rho(a, b):
+    """Measured correlation between two Measures. -> float in [-1, 1].
+
+    Cached because `_interval` runs per entity and the matrix is a small static file; read once
+    per process, and a matrix edited mid-run does not take effect until the next one, which is
+    the behaviour a calibration constant should have.
+
+    ON THE FALLBACK. If the matrix is missing entirely this returns 0.0 -- the independence
+    assumption -- and that is the WRONG answer, deliberately chosen: it is the only value that
+    reproduces the library's historical numbers exactly, so a missing file degrades to "as it
+    was before" rather than to some third behaviour nobody has seen. It must not stay silent
+    about it, and it does not: `_check_constants` refuses at import time if the matrix is absent
+    when it should be present, and a drill net attacks it.
+    """
+    if _RHO_CACHE[0] is None:
+        try:
+            import axis_correlation
+            _RHO_CACHE[0] = axis_correlation.load() or {}
+        except Exception:
+            _RHO_CACHE[0] = {}
+    doc = _RHO_CACHE[0]
+    if not doc:
+        return 0.0
+    lo, hi = sorted((a, b))
+    hit = (doc.get("pairs") or {}).get("%s|%s" % (lo, hi))
+    if hit:
+        return float(hit["r"])
+    # An unmeasured pair falls back to the MEASURED MEAN, never to zero. Zero is the single
+    # value this data rules out, and applying it to exactly the pairs with the least evidence
+    # would quietly restore independence where confidence is lowest.
+    return float(doc.get("mean_r") or 0.0)
+
+
 def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=None,
               weights=None):
     """Half-width of the honest error bar, in BAND units, by variance propagation.
@@ -571,6 +622,55 @@ def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=N
         term = (w * s_i) ** 2
         var += term
         parts[k] = round(term, 6)
+    # ------------------------------------------------------------------ COVARIANCE
+    #
+    # THE TERM THAT WAS MISSING, and it was the larger half. Everything above is the propagation
+    # formula for INDEPENDENT quantities. The Measures are not independent, and this is not a
+    # supposition -- `axis_correlation.py` measured it over the 45 entities in the library
+    # carrying two or more numeric axis scores:
+    #
+    #     reach x ruin  r = +0.816 (n=44)   continuity x sustain  r = +0.773 (n=42)
+    #     acumen x discernment  r = +0.653 (n=44)      mean over 55 pairs  r = +0.319
+    #
+    # Every sizeable pair is POSITIVE. On the charter's own Kenshiro worksheet the covariance
+    # term came to +3.125 against an independent variance of 1.440, so the bar the library was
+    # publishing was **1.78x too narrow** -- an overstatement of confidence, which is the one
+    # direction Part Three's preface forbids. Owner ruling 2026-08-25.
+    #
+    # APPLIED OVER EVERY APPLICABLE PAIR, each with its OWN dispersion -- which is the full
+    # covariance matrix, `Var = SUM_i SUM_j w_i w_j rho_ij s_i s_j` with rho_ii = 1.
+    #
+    # The first version of this applied rho only among SCORED axes, on the reasoning that the
+    # correlation was measured between VALUES and that ignorance about Ruin is not ignorance
+    # about Reach. The battery refused it within the minute, and it was right: dropping the
+    # cross terms for unknown axes DILUTED the scored axes' normalised weights without replacing
+    # their covariance, so declaring three faculties UNESTIMABLE produced a NARROWER bar than
+    # declaring them inapplicable. That is precisely the "less knowledge, narrower bar" defect
+    # recorded above, reintroduced in a new place by the fix for a different one.
+    #
+    # And the statistics agree with the battery. If two Measures genuinely covary, then errors
+    # about them covary too: not knowing Ruin and not knowing Reach are not independent
+    # ignorances, because they are ignorance about the same correlated pair. Treating them as
+    # independent understates the joint uncertainty for exactly the entities the library knows
+    # least about.
+    cov = 0.0
+    _s = {}
+    for k in applicable:
+        _s[k] = (sigma if k in used
+                 else sigma * SIGMA_NIL_FACTOR if k in nil
+                 else SIGMA_UNKNOWN)
+    _app = list(applicable)
+    for _i in range(len(_app)):
+        for _j in range(_i + 1, len(_app)):
+            _a, _b = _app[_i], _app[_j]
+            cov += (2 * (W[_a] / denom) * (W[_b] / denom)
+                    * _rho(_a, _b) * _s[_a] * _s[_b])
+    if cov:
+        parts["_covariance"] = round(cov, 6)
+    # A variance is not allowed to be negative however the correlations fall. If a future matrix
+    # ever drove this below zero the formula would be returning an imaginary error bar, which
+    # would surface as a crash somewhere far away from the cause.
+    var = max(var + cov, 0.0)
     # Between-hand dispersion, when more than one reading is on file. Sample sd of the filed
     # decimals, already in band units, so it is added in quadrature without rescaling.
     hand_var = 0.0

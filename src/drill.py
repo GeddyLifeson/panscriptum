@@ -1360,6 +1360,87 @@ def drill_inspector():
         "the ceiling is a ratchet: lower it when you clean up, never raise it to go green")
 
 
+def drill_correlation():
+    """The covariance term — a correction that could silently become a decoration.
+
+    Adding `rho` to `_interval` made every published bar wider, which is the honest direction.
+    But a correlation term has three ways to stop working and none of them are loud: the matrix
+    file goes missing and the formula degrades to independence; a future edit writes rho = 0,
+    which is the one value the data rules out; or the term is present but so small it changes
+    nothing. All three leave an instrument that reports exactly as it did when it was working.
+    """
+    a = "CORRELATION — the covariance term, and the ways it could quietly stop mattering"
+
+    def measures_are_not_independent():
+        """The matrix must be present AND must say what the measurement said."""
+        import axis_correlation as AC
+        doc = AC.load()
+        if not doc:
+            return False                       # a missing matrix silently restores rho = 0
+        mean = doc.get("mean_r")
+        return isinstance(mean, (int, float)) and mean > 0.1 and doc.get("n_entities", 0) >= 20
+    net(a, "the measured correlation matrix exists and rules out independence",
+        measures_are_not_independent,
+        "rho = 0 is the single value 45 entities and 55 pairs have excluded")
+
+    def correlation_actually_widens_the_bar():
+        """Positive rho must produce a WIDER interval than independence. Prove it arithmetically
+        rather than trusting that a term which is present is a term which is doing work."""
+        import assay as A
+        import itertools as _it
+        phys = list(A.CHARTER_PHYSICAL_WEIGHTS)
+        sigma = A.SIGMA_BY_ATTESTATION["Witnessed"]
+        denom = sum(A.WEIGHTS[k] for k in phys)
+        w = {k: A.WEIGHTS[k] / denom for k in phys}
+        indep = sum((w[k] * sigma) ** 2 for k in phys)
+        cov = sum(2 * w[x] * w[y] * A._rho(x, y) * sigma * sigma
+                  for x, y in _it.combinations(phys, 2))
+        return cov > 0 and (indep + cov) > indep * 1.2
+    net(a, "the covariance term measurably widens the interval", correlation_actually_widens_the_bar,
+        "a correction that changes nothing is a comment, not a correction")
+
+    def more_ignorance_never_narrows():
+        """THE ONE THAT ALREADY CAUGHT A BUG. Marking axes UNESTIMABLE must cost more than
+        marking them INAPPLICABLE. The first covariance implementation applied rho only among
+        SCORED axes, which diluted their weights without replacing their cross terms, and made
+        declaring three faculties unknown produce a NARROWER bar. The battery caught it; this
+        net is here so the drill catches it next time too."""
+        import assay as A
+        base = {"ruin": 2.1, "continuity": 4.8, "celerity": 6.5, "reach": 1.2,
+                "transgression": 8.7, "sustain": 7.4, "vector": 0.8, "volition": 9.6}
+        na = dict(base, acumen=A.INAPPLICABLE, discernment=A.INAPPLICABLE,
+                  suasion=A.INAPPLICABLE)
+        unk = dict(base, acumen=A.UNESTIMABLE, discernment=A.UNESTIMABLE,
+                   suasion=A.UNESTIMABLE)
+        i_na = A.assay("M3", na, attestation="Witnessed", worksheet="drill")["interval"]
+        i_unk = A.assay("M3", unk, attestation="Witnessed", worksheet="drill")["interval"]
+        return i_unk >= i_na
+    net(a, "three UNESTIMABLE axes never cost less than three INAPPLICABLE ones",
+        more_ignorance_never_narrows,
+        "less knowledge must never buy a narrower bar -- this project's oldest arithmetic bug")
+
+    def charter_bar_still_reproduced():
+        """The correction moved the intermediate constant. It must NOT have moved the charter's
+        published number, which is the only external authority the instrument answers to."""
+        import assay as A
+        r = A.calibration_report()
+        return bool(r.get("holds")) and r["interval"] == A.CHARTER_KENSHIRO_INTERVAL
+    net(a, "the charter's published Kenshiro bar survived the recalibration",
+        charter_bar_still_reproduced,
+        "the constant moves, the charter does not")
+
+    def anchor_sigma_is_physically_coherent():
+        """Witnessed must sit BELOW the maximum-entropy dispersion of the scale. Under the old
+        independent formula the raw fit was 4.08 against a uniform-prior sd of 2.86 -- the
+        charter's best testimony coming out more uncertain than knowing nothing, which was the
+        missing covariance being absorbed into the per-axis sigma."""
+        import assay as A
+        return A._ANCHOR_SIGMA < A.SIGMA_UNIFORM_PRIOR
+    net(a, "the Witnessed sigma sits inside the maximum-entropy bound",
+        anchor_sigma_is_physically_coherent,
+        "a grade of testimony more uncertain than total ignorance is a formula, not a fact")
+
+
 def drill_outside():
     """The derived index and the outside opinion — two new ways to be confidently wrong.
 

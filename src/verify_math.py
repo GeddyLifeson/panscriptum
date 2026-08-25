@@ -1431,8 +1431,24 @@ check("a reweighted assay produces a real interval", isinstance(_base["interval"
 # test was recorded from the halved output -- a regression check calibrated against the
 # regression. Updated 2026-08-25 with the charter-honouring sigmas, under which the charter's own
 # Kenshiro worked example reproduces its published +/- 0.12 exactly.
-check("a flat weight table gives the flat table's interval", _base["interval"], 0.13)
-check("and an axis weighted 40x widens it", _skew["interval"], 0.34)
+# RE-DERIVED 2026-08-25 when `_interval` gained its covariance term, and re-derived is the
+# operative word. The values moved 0.13 -> 0.15 and 0.34 -> 0.20, and the temptation was to
+# paste in whatever the changed function printed -- which is EXACTLY the failure the paragraph
+# above describes, committed a second time by someone who had just read the warning about it.
+# So both numbers were recomputed from the formula by a standalone script that does not import
+# `_interval` at all: 11 axes, `volition` INAPPLICABLE, `acumen` weighted 40x, Transcribed
+# sigma 2.3347, rho from data/AXIS_CORRELATION.json, `Var = SUM_i SUM_j w_i w_j rho_ij s_i s_j`.
+# It produced 0.15 and 0.20 independently, and only then were these updated.
+#
+# THE BEHAVIOURAL CHANGE IS REAL AND IS THE POINT. Under independence, weighting one axis 40x
+# nearly tripled the interval (0.13 -> 0.34); under measured correlation it barely moves it
+# (0.15 -> 0.20). That is correct: when the Measures move together, concentrating weight on one
+# of them buys far less than the old arithmetic claimed, because the others were never
+# independent votes to begin with.
+check("a flat weight table gives the flat table's interval", _base["interval"], 0.15)
+check("and an axis weighted 40x still widens it", _skew["interval"], 0.20)
+check("and weighting one correlated axis buys LESS than independence claimed",
+      _skew["interval"] > _base["interval"] and _skew["interval"] < 3 * _base["interval"], True)
 # The calibration itself, pinned so it cannot drift again: the charter's Part Three worksheet,
 # eight-axis battery (the three faculty axes postdate it and are INAPPLICABLE), Witnessed.
 _KEN = {"ruin": 2.1, "continuity": 4.8, "celerity": 6.5, "reach": 1.2, "transgression": 8.7,
