@@ -3532,9 +3532,53 @@ for _tok22 in ("401", "402", "403", "insufficient balance", "no resource package
           note="dropping a token silently returns that provider to the rotation forever")
 check("the auth bench is still four hours",
       __import__("re").search(r"AUTH_BENCH = 4 \* 3600", _cb22) is not None, True)
+# THIS CHECK USED TO MATCH THE SOURCE TEXT `'if isinstance(got, dict) else ""'` AND IT WENT RED
+# ON A REFLOW (run #31). The guarded expression grew a second branch -- failures now record
+# `tried:<buckets>` so a failed row says which providers spent the deadline -- the line wrapped,
+# and the literal stopped matching while the invariant it protects was never once broken. That
+# is the worse half of standing lesson 9 in its other direction: a check keyed to SPELLING can
+# fail on a correct change, and it can equally pass on a WRONG one, because the same literal
+# sitting in a comment would satisfy it. So ask the AST what the code does. Every `.get("_via")`
+# in the module must sit in the body of a conditional whose test is an `isinstance(_, dict)` --
+# formatting-independent, and it goes red if the guard is ever actually removed.
+_ast22 = __import__("ast").parse(_cb22)
+_ast_mod = __import__("ast")
+
+
+def _via_gets(tree):
+    """Every `<expr>.get("_via")` call in the tree, as AST nodes."""
+    out = []
+    for n in _ast_mod.walk(tree):
+        if (isinstance(n, _ast_mod.Call) and isinstance(n.func, _ast_mod.Attribute)
+                and n.func.attr == "get" and n.args
+                and isinstance(n.args[0], _ast_mod.Constant) and n.args[0].value == "_via"):
+            out.append(n)
+    return out
+
+
+def _dict_guarded(tree):
+    """Those same calls that sit inside `... if isinstance(<name>, dict) else ...`."""
+    ok = []
+    for n in _ast_mod.walk(tree):
+        if not isinstance(n, _ast_mod.IfExp):
+            continue
+        t = n.test
+        if (isinstance(t, _ast_mod.Call) and isinstance(t.func, _ast_mod.Name)
+                and t.func.id == "isinstance" and len(t.args) == 2
+                and isinstance(t.args[1], _ast_mod.Name) and t.args[1].id == "dict"):
+            ok.extend(_via_gets(n.body))
+    return ok
+
+
+_all_via = _via_gets(_ast22)
+_safe_via = _dict_guarded(_ast22)
+check("there is still a _via read to guard", len(_all_via) >= 1, True,
+      note="if this ever hits zero the check below passes vacuously, which is the "
+           "trivially-empty-input shape this file exists to refuse")
 check("the metrics line reads _via only from a dict",
-      'if isinstance(got, dict) else ""' in _cb22, True,
-      note="_extract_json can return a list or bool; (got or {}).get crashed the call")
+      len(_all_via) == len(_safe_via), True,
+      note="_extract_json can return a list or bool; an unguarded (got or {}).get crashed the "
+           "call. Asked of the AST, so a reflow cannot fail it and a comment cannot pass it")
 
 # THE HALF THAT WAS STILL MISSING, found hours later by the standard added alongside it.
 # Cascade's engine does not hand this code a provider error -- it hands it an AGGREGATE:

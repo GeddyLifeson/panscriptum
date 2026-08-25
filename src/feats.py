@@ -951,9 +951,18 @@ def main():
     # Placed first in main() so there is no path into this job that skips it.
     try:
         import escalation as _ESC
-        _ESC.assert_clear(os.path.basename(__file__))
-    except ImportError:
-        pass
+    except ImportError as _esc_gone:
+        # FAIL CLOSED. This used to be `except ImportError: pass`, which meant a deleted or
+        # unparseable `escalation.py` silently switched the plant-wide halt off in every job
+        # at once -- nine sites, all of them quiet about it. That is Hard Rule -1's own
+        # incident wearing different clothes: the last one began with an autonomous run
+        # removing a safety it had concluded was unnecessary, and nothing downstream could
+        # tell. A job that cannot ask whether the library is halted has no business
+        # starting. Pinned by verify_math so the swallow cannot come back. (run #31)
+        raise SystemExit(
+            "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+    _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--probe", nargs=2, metavar=("HOST", "ENTITY"),
                     help="mine one entity from one wiki host")

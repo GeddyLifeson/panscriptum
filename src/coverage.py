@@ -13,7 +13,10 @@ Every entry sits in exactly one state:
     READ         pages were fetched and read, and honestly contained no feat.
                  This is a RESULT, not a gap. A tavern has no feats. A Pixar side character has
                  no feats. The library saying so with the pages read is a finding.
-    NO PAGE      the wiki has no article under this name
+    NO PAGE      the wiki was ASKED and has no article under this name
+    NOT ATTEMPTED nothing has ever fetched this entity. NOT a finding about the wiki --
+                 a finding about US. Split out 2026-08-25 after 30,102 of Marvel's 30,207
+                 entries were reported as "no article" when nothing had ever asked.
     NO HOST      the source has no wiki at all
     UNREACHABLE  a host exists but the fetch failed -- the only state that is purely a defect
 
@@ -90,17 +93,35 @@ def state_of(host, name):
     if not host:
         return "NO HOST", 0, 0
     cache = _so_load()
-    best = ("NO PAGE", 0, 0)
+    # NOT_ATTEMPTED IS ITS OWN STATE, and conflating it with NO PAGE was this module's oldest
+    # lie. The report prints NO PAGE as "no article under this name" -- a claim about the WIKI --
+    # while the code reached it by default, whenever no cache file existed. Measured 2026-08-24:
+    # 42,582 entries were reported that way, and **30,102 of them were Marvel**, which had 30,207
+    # entries and 3,181 cache files. Those articles all exist; nothing had fetched them. Anyone
+    # reading the coverage table would conclude the corpus was near-exhausted when it was ~12%
+    # attempted. (Trivy draws the same distinction and for the same reason: "not scanned" and
+    # "scanned, clean" are different findings and must never share a cell.)
+    best = ("NOT ATTEMPTED", 0, 0)
     for base in (READ_CACHE, F.CACHE):
         for fp in cachekey.candidate_paths(base, host, name):
             st_np = _state_of_file(fp, name, cache)
             if st_np is None:
                 continue
             st, nf, np = st_np
+            # STRICT PRECEDENCE: CITED > READ > NO PAGE > NOT ATTEMPTED. The first version of
+            # this loop only ever promoted to READ, so a cache file with zero pages -- a genuine
+            # "we asked and the wiki has nothing" -- fell through and was reported as NOT
+            # ATTEMPTED. The whole point of splitting the two states is lost if one of them can
+            # never be reached, and `measure()` duly reported **no_page: 0** across the entire
+            # corpus while 2,003 cache files sat on disk with empty page lists. A state that
+            # cannot occur is a check that cannot fail, arriving inside the fix for a check that
+            # could not fail.
             if st == "CITED":
                 return "CITED", nf, np
             if st == "READ":
                 best = ("READ", 0, np)
+            elif st == "NO PAGE" and best[0] == "NOT ATTEMPTED":
+                best = ("NO PAGE", 0, 0)
     return best
 
 
@@ -159,6 +180,7 @@ def measure():
         rows.append({"source": r["source"], "host": host, "entries": n,
                      "cited": c["CITED"], "read": c["READ"],
                      "no_page": c["NO PAGE"], "no_host": c["NO HOST"],
+                     "not_attempted": c["NOT ATTEMPTED"],
                      "feats": feats,
                      "coverage": c["CITED"] / max(n, 1),
                      "settled": (c["CITED"] + c["READ"]) / max(n, 1)})
@@ -171,6 +193,7 @@ def report(rows, show=26):
     cited = sum(r["cited"] for r in rows)
     read = sum(r["read"] for r in rows)
     nopage = sum(r["no_page"] for r in rows)
+    untried = sum(r.get("not_attempted", 0) for r in rows)
     nohost = sum(r["no_host"] for r in rows)
     feats = sum(r["feats"] for r in rows)
     print("=" * 84)
@@ -178,7 +201,8 @@ def report(rows, show=26):
     print("=" * 84)
     print(f"\n  CITED       {cited:>8,}  {cited/n:>6.1%}   carries a verbatim feat")
     print(f"  READ        {read:>8,}  {read/n:>6.1%}   pages read, honestly no feat")
-    print(f"  NO PAGE     {nopage:>8,}  {nopage/n:>6.1%}   no article under this name")
+    print(f"  NO PAGE     {nopage:>8,}  {nopage/n:>6.1%}   asked; the wiki has no such article")
+    print(f"  NOT TRIED   {untried:>8,}  {untried/n:>6.1%}   nothing has ever fetched this")
     print(f"  NO HOST     {nohost:>8,}  {nohost/n:>6.1%}   source has no wiki")
     print(f"  {'-'*46}")
     print(f"  SETTLED     {cited+read:>8,}  {(cited+read)/n:>6.1%}   "

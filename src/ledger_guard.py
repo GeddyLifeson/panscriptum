@@ -27,6 +27,7 @@ THREE INDEPENDENT SYSTEMS, per the standing doctrine:
 These are deliberately cheap -- string containment and a section split, no model, no network --
 because a guard that costs anything gets skipped on the run that most needed it.
 """
+import json
 import os
 import re
 
@@ -108,6 +109,101 @@ def check_all():
     return out
 
 
+CHAIN = os.path.join(HERE, "state", "ledger_chain.jsonl")
+
+
+def _digest(text):
+    import hashlib
+    return hashlib.sha256((text or "").encode("utf-8")).hexdigest()[:32]
+
+
+def seal():
+    """Append a hash-chained record of the ledgers' current state. -> the new link.
+
+    THE THIRD MECHANISM, and it answers what the other two cannot.
+
+    `check_append_only` proves a PROPOSED write keeps history -- but only if it is called, and
+    only by a writer that chose to call it. `check_structure` proves the file parses. Neither
+    can answer the question a relay actually needs: *did anything change these files between the
+    last run and this one, and if so what?* A run that edits HANDOFF.md directly, or a crash
+    mid-write, or an edit made by hand between runs, leaves both of them satisfied.
+
+    A hash chain answers it. Each link records the digest of every ledger plus the digest of the
+    PREVIOUS link, so the sequence is tamper-evident: change any past link and every link after
+    it stops verifying. Borrowed from the audit-trail pattern used for autonomous-agent logs
+    (Asqav), minus the signing -- there is one writer here and no adversary to authenticate
+    against, so the chain-of-hashes property is the whole value and the PKI would be theatre.
+
+    Deliberately a SEPARATE file rather than hashes embedded in the markdown: the ledgers are
+    prose a person reads and an agent appends to, and threading hashes through them would make
+    every ordinary edit look like tampering.
+    """
+    prev = None
+    links = read_chain()
+    if links:
+        prev = links[-1].get("self")
+    import time
+    rec = {"at": time.time(), "prev": prev,
+           "ledgers": {n: {"digest": _digest(_read(n) or ""), "bytes": len((_read(n) or ""))}
+                       for n in sorted(MIN_BYTES)}}
+    rec["self"] = _digest(json.dumps({k: rec[k] for k in ("at", "prev", "ledgers")},
+                                     sort_keys=True))
+    try:
+        os.makedirs(os.path.dirname(CHAIN), exist_ok=True)
+        with open(CHAIN, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except Exception:
+        return None
+    return rec
+
+
+def read_chain():
+    out = []
+    try:
+        with open(CHAIN, encoding="utf-8") as f:
+            for ln in f:
+                ln = ln.strip()
+                if ln:
+                    try:
+                        out.append(json.loads(ln))
+                    except Exception:
+                        continue
+    except FileNotFoundError:
+        return []
+    except Exception:
+        return []
+    return out
+
+
+def verify_chain():
+    """-> (ok, [problems]). Recompute every link and report the first that does not verify.
+
+    Two distinct faults are reported separately, because they mean different things:
+      BROKEN LINK   the chain itself was edited -- someone rewrote history
+      SHRANK        a ledger got SMALLER between two links. Not proof of wrongdoing (a file can
+                    legitimately be rewritten) but it is exactly the shape of a truncation, and
+                    it is invisible to every other check once the write has happened.
+    """
+    links = read_chain()
+    problems = []
+    prev = None
+    for i, rec in enumerate(links):
+        body = {k: rec.get(k) for k in ("at", "prev", "ledgers")}
+        if rec.get("self") != _digest(json.dumps(body, sort_keys=True)):
+            problems.append("link %d does not verify -- the chain has been edited" % i)
+        if rec.get("prev") != prev:
+            problems.append("link %d does not follow link %d" % (i, i - 1))
+        if i:
+            for name, cur in (rec.get("ledgers") or {}).items():
+                was = ((links[i - 1].get("ledgers") or {}).get(name) or {}).get("bytes")
+                now = (cur or {}).get("bytes")
+                if was and now and name in APPEND_ONLY and now < was:
+                    problems.append("%s SHRANK between link %d and %d (%d -> %d bytes)"
+                                    % (name, i - 1, i, was, now))
+        prev = rec.get("self")
+    return (not problems), problems
+
+
 def assert_intact():
     """Raise unless every ledger is whole. Called by `publish` before anything is pushed.
 
@@ -121,6 +217,11 @@ def assert_intact():
         raise LedgerViolation(
             "the relay's ledgers are not intact:\n"
             + "\n".join("  %s: %s" % (n, "; ".join(p)) for n, p in sorted(bad.items())))
+    ok, problems = verify_chain()
+    if not ok:
+        raise LedgerViolation(
+            "the ledger hash chain does not verify:\n  " + "\n  ".join(problems[:6]))
+    seal()
     return True
 
 

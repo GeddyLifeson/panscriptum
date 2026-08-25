@@ -522,9 +522,18 @@ def main():
     # Placed first in main() so there is no path into this job that skips it.
     try:
         import escalation as _ESC
-        _ESC.assert_clear(os.path.basename(__file__))
-    except ImportError:
-        pass
+    except ImportError as _esc_gone:
+        # FAIL CLOSED. This used to be `except ImportError: pass`, which meant a deleted or
+        # unparseable `escalation.py` silently switched the plant-wide halt off in every job
+        # at once -- nine sites, all of them quiet about it. That is Hard Rule -1's own
+        # incident wearing different clothes: the last one began with an autonomous run
+        # removing a safety it had concluded was unnecessary, and nothing downstream could
+        # tell. A job that cannot ask whether the library is halted has no business
+        # starting. Pinned by verify_math so the swallow cannot come back. (run #31)
+        raise SystemExit(
+            "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+    _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser(description="publish the project and its instruments")
     ap.add_argument("--init", action="store_true", help="create the export repo")
     ap.add_argument("--remote", help="git remote URL")
@@ -536,6 +545,15 @@ def main():
         ensure_site(remote=a.remote)
         print("export repo at " + SITE + (("  -> " + a.remote) if a.remote else ""))
 
+    # A REFUSED PUBLISH MUST NOT REPORT SUCCESS. The `except Exception` below catches every
+    # failure this loop can have -- including `push()`'s own `RuntimeError("PUBLISH REFUSED")`
+    # when the credential scanner finds a live secret staged for the PUBLIC repo -- and the
+    # one-shot path then `return 0`'d regardless. So the scanner could do exactly its job, be
+    # heard by nobody, and hand its caller a success code: the same shape as the nine halt
+    # interlocks fixed alongside this (run #31), and the one that mattered most, because the
+    # caller here is every maintenance run's final step. The loop keeps looping on purpose --
+    # a daemon publisher should retry -- but it remembers, and the exit code tells the truth.
+    rc = 0
     while True:
         try:
             n = sync_tree()
@@ -551,8 +569,9 @@ def main():
         except Exception as e:
             silence.note("publish.py:main")
             print(f"publish failed: {type(e).__name__}: {str(e)[:180]}")
+            rc = 1
         if not a.loop:
-            return 0
+            return rc
         time.sleep(a.loop * 60)
 
 

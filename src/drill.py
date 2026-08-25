@@ -719,6 +719,67 @@ def drill_stale_writer():
         shutil.rmtree(d, ignore_errors=True)
 
 
+# ============================================================== THE CLOUD POOL (cascade)
+
+def drill_cascade():
+    """The remote model pool: many providers, separate quotas, and failures that look alike.
+
+    The pool's characteristic failure is not an outage -- it is a bucket that is CLAIMED,
+    spends the deadline, and returns nothing, for hours, while the metrics cannot say which
+    bucket it was. That is the owner's own open ruling ("two dead keys and a spent account")
+    and it was unanswerable from the data: 426 cascade failures in six hours, every one
+    recorded as bucket "?".
+    """
+    a = "THE CLOUD POOL — can a provider burn deadlines without anyone being able to name it?"
+    import cascade_bridge as CB
+
+    def failure_names_its_bucket():
+        CB._tried_reset()
+        CB._tried_add("groq:free")
+        CB._tried_add("gemini:free")
+        return CB._tried() == ["groq:free", "gemini:free"]
+    net(a, "a failed call records which buckets it tried", failure_names_its_bucket,
+        "without this, 'which key is dead?' cannot be answered from the metrics at all")
+
+    def tried_is_thread_local():
+        import threading
+        CB._tried_reset()
+        CB._tried_add("mine")
+        seen = {}
+
+        def other():
+            CB._tried_reset()
+            CB._tried_add("theirs")
+            seen["other"] = CB._tried()
+        t = threading.Thread(target=other)
+        t.start()
+        t.join()
+        return CB._tried() == ["mine"] and seen.get("other") == ["theirs"]
+    net(a, "one worker's failure is not attributed to another's bucket", tried_is_thread_local,
+        "the readers run sixteen wide; a wrong name is worse than no name")
+
+    # dead_forever must bury ONLY conditions a human has to fix. A 429 or a timeout is the most
+    # temporary thing a provider does, and burying those made the pool smaller, not more
+    # accurate -- the module's own docstring records that mistake.
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "cascade_bridge.py"),
+               encoding="utf-8").read()
+    net(a, "burial is documented as permanent-codes-only",
+        lambda: all(c in src for c in ("401", "402", "404", "410")) and "429" in src,
+        "a rate limit must never be written down as a permanent property")
+    net(a, "there is no paid lane to spend",
+        lambda: "THERE IS NO PAID LANE" in src,
+        "the lane overspent its own cap 598/500 because the cap gated promotion, not selection")
+    net(a, "the local prefix is excluded from cloud claims",
+        lambda: "LOCAL_PREFIX" in src and "cand.bucket.startswith(LOCAL_PREFIX)" in src,
+        "the router handing out ollama buckets flooded a 10GB card with its own queue")
+
+    def empty_pool_is_not_silence():
+        """An exhausted pool must be reportable, not an empty answer that reads as 'no data'."""
+        return hasattr(CB, "pool_exhausted") and callable(CB.pool_exhausted)
+    net(a, "an exhausted pool is a NAMED condition", empty_pool_is_not_silence,
+        "a pool with nothing alive returning None is indistinguishable from a real empty result")
+
+
 # ============================================================== THE INSPECTOR
 
 def drill_inspector():
@@ -827,7 +888,7 @@ def main():
 
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
-               drill_snapshot, drill_stale_writer, drill_park, drill_inspector):
+               drill_snapshot, drill_stale_writer, drill_cascade, drill_park, drill_inspector):
         fn()
 
     area = None

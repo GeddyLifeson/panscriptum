@@ -710,6 +710,53 @@ def _mined_feats(rec):
     return out
 
 
+def synthesis_blocks(rec):
+    """The nomination blocks for one source, and the mined feat text behind them.
+
+    ONE SPELLING OF THE BLOCK RULE, BECAUSE THERE WERE TWO AND THEY DISAGREED. Extracted
+    2026-08-25 (run #31). `phase_synthesis` was rewritten under the owner's `FIX IT ALL`
+    ruling of 2026-08-24 so that EVERY feat-bearing entry is nominated, fourteen per call,
+    best band across blocks winning -- the m13 fix. `retry_synthesis.synthesise()` kept its
+    own copy, `sorted(entries, by description length)[:14]`: a single ranked-then-truncated
+    block, no feats consulted at all, under a docstring claiming the construction was
+    "byte-identical to phase_synthesis". It was not, and a source that failed the main phase
+    for an infrastructure reason was then re-scored by a WEAKER method than its neighbours --
+    which is the one thing that docstring promised would not happen.
+
+    This is the project's recorded failure shape (BUGS m138/m139, run #26's whole theme): a
+    ruling gets applied to the file in front of the person applying it, and the identical
+    construction one module over is never visited. The cure is not to copy the fix across; it
+    is to leave only one place where the rule is written down. Both callers now read it here.
+    """
+    feats_for = _mined_feats(rec)
+    with_feats = [e for e in rec["entries"] if feats_for.get(e["name"])]
+    with_feats.sort(key=lambda e: -len(feats_for[e["name"]]))
+    rest = sorted((e for e in rec["entries"] if not feats_for.get(e["name"])),
+                  key=lambda e: -len(e.get("description", "")))
+    # The description-only fallback stays a single ranked block DELIBERATELY, and that is a
+    # documented decision rather than an oversight: a description is a wiki lead paragraph --
+    # biography, not a deed -- and the evidence gate is looking for an act upon an object.
+    # Sampling more lead paragraphs buys nothing; this is the 99.6%-unassayed lesson.
+    return ([with_feats[i:i + 14] for i in range(0, len(with_feats), 14)] or [rest[:14]],
+            feats_for)
+
+
+def synthesis_prompt(src, sample, feats_for, ci, nchunks, total):
+    """The prompt for one nomination block. Same spelling for the main phase and the retry."""
+    lines = []
+    for e in sample:
+        fl = feats_for.get(e["name"]) or []
+        if fl:
+            d = " | ".join(re.sub(r"\s+", " ", x)[:150] for x in fl[:3])[:420]
+        else:
+            d = re.sub(r"\s+", " ", e.get("description", ""))[:300]
+        lines.append(f"- {e['name']} [{e.get('type','')}]: {d}")
+    return (f"SOURCE: {src}\n\nCATALOGUED ENTRIES (nomination block {ci + 1} of "
+            f"{nchunks}, {len(sample)} of {total} entries):\n"
+            + "\n".join(lines) +
+            "\n\nIdentify the power ceiling and magnitude band for this source.")
+
+
 def phase_synthesis(c, st):
     """Per-source ceiling + band. ~186 units, roughly 45s each."""
     # A source that FAILED still had a synthesis block written, with empty fields. Filtering on
@@ -748,35 +795,19 @@ def phase_synthesis(c, st):
         # The library now holds mined feats for these same entities. An entity with a feat on
         # record is exactly what a ceiling nomination wants to see, so those go first and carry
         # their feat text with them.
-        feats_for = _mined_feats(rec)
-        with_feats = [e for e in rec["entries"] if feats_for.get(e["name"])]
-        with_feats.sort(key=lambda e: -len(feats_for[e["name"]]))
-        rest = sorted((e for e in rec["entries"] if not feats_for.get(e["name"])),
-                      key=lambda e: -len(e.get("description", "")))
         # EVERY feat-bearing entry is nominated, fourteen per call, best band across chunks
         # wins. The fixed sample-of-14 could silently clamp a whole source to a lesser
         # ceiling whenever the true strongest entity ranked fifteenth by feat-count -- and
         # the clamp then cut that entity's own later evidence down to the wrong band (BUGS
         # m13, Hard-Rule-0-shaped, ruled by the owner 2026-08-24: FIX IT ALL). Ranking is
         # kept -- richest evidence leads, so an interrupted pass still saw the likeliest
-        # ceiling first -- but no feat-bearing entry is ever excluded from nomination. The
-        # description-only fallback stays a single ranked chunk deliberately: a lead
-        # paragraph cannot carry a ceiling feat (the 99.6%-unassayed lesson above).
-        chunks = [with_feats[i:i + 14] for i in range(0, len(with_feats), 14)] or [rest[:14]]
+        # ceiling first -- but no feat-bearing entry is ever excluded from nomination.
+        # The rule itself now lives in `synthesis_blocks`, which the retry path reads too.
+        chunks, feats_for = synthesis_blocks(rec)
         best = None
         for ci, sample in enumerate(chunks):
-            lines = []
-            for e in sample:
-                fl = feats_for.get(e["name"]) or []
-                if fl:
-                    d = " | ".join(re.sub(r"\s+", " ", x)[:150] for x in fl[:3])[:420]
-                else:
-                    d = re.sub(r"\s+", " ", e.get("description", ""))[:300]
-                lines.append(f"- {e['name']} [{e.get('type','')}]: {d}")
-            prompt = (f"SOURCE: {src}\n\nCATALOGUED ENTRIES (nomination block {ci + 1} of "
-                      f"{len(chunks)}, {len(sample)} of {len(rec['entries'])} entries):\n"
-                      + "\n".join(lines) +
-                      "\n\nIdentify the power ceiling and magnitude band for this source.")
+            prompt = synthesis_prompt(src, sample, feats_for, ci, len(chunks),
+                                      len(rec["entries"]))
             g = ask_pool_first(c, SYNTH_SYSTEM, prompt, SYNTH_SCHEMA, timeout=420,
                                num_ctx=4096, tag="synthesis")
             if g is None:
@@ -1890,9 +1921,18 @@ def main():
     # Placed first in main() so there is no path into this job that skips it.
     try:
         import escalation as _ESC
-        _ESC.assert_clear(os.path.basename(__file__))
-    except ImportError:
-        pass
+    except ImportError as _esc_gone:
+        # FAIL CLOSED. This used to be `except ImportError: pass`, which meant a deleted or
+        # unparseable `escalation.py` silently switched the plant-wide halt off in every job
+        # at once -- nine sites, all of them quiet about it. That is Hard Rule -1's own
+        # incident wearing different clothes: the last one began with an autonomous run
+        # removing a safety it had concluded was unnecessary, and nothing downstream could
+        # tell. A job that cannot ask whether the library is halted has no business
+        # starting. Pinned by verify_math so the swallow cannot come back. (run #31)
+        raise SystemExit(
+            "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+    _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", type=int, default=None)
     ap.add_argument("--status", action="store_true")

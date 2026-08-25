@@ -29,6 +29,7 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
 import pipeline as PL          # noqa: E402
+import silence                 # noqa: E402
 
 SIDE = os.path.join(ROOT, "data", "SYNTHESIS_RETRY.json")
 
@@ -41,10 +42,10 @@ def load_side():
 
 
 def save_side(d):
-    tmp = SIDE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(d, f, indent=2, ensure_ascii=False)
-    os.replace(tmp, SIDE)
+    # `silence.write_json`, not a hand-rolled `path + ".tmp"`: the fixed tmp name collides when
+    # two processes write at once, and the bare `os.replace` raises on the Windows lock this
+    # project hits routinely -- here that would abort the whole retry run mid-pass. Run #31.
+    silence.write_json(SIDE, d, indent=2, ensure_ascii=False)
 
 
 def failed_sources():
@@ -54,31 +55,48 @@ def failed_sources():
 
 
 def synthesise(c, rec):
-    """Byte-identical prompt construction to phase_synthesis, so a retried source is not
-    scored by a different method than its neighbours."""
+    """Same nomination method as `phase_synthesis`, because it now literally shares the code.
+
+    THE DOCSTRING HERE USED TO SAY "byte-identical prompt construction to phase_synthesis"
+    AND IT WAS NOT TRUE (found run #31). This function built a single
+    `sorted(entries, by description length)[:14]` block and never consulted a mined feat --
+    the construction `phase_synthesis` was rewritten AWAY from under the owner's m13 ruling of
+    2026-08-24 ("FIX IT ALL"). So a source that failed the main phase for an infrastructure
+    reason -- which is the entire population this script exists to rescue -- was re-scored by a
+    weaker method than its neighbours, which is the exact outcome the old docstring promised
+    could not happen. Worse, it was Hard-Rule-0-shaped: rank the cast, keep fourteen, and let
+    a source's true ceiling fall outside the window while the run reports success.
+
+    Both the block rule and the prompt text now come from `pipeline`, so the two cannot drift
+    apart again. Best band across blocks wins, exactly as in the main phase.
+    """
     src = rec["source"]
-    sample = sorted(rec["entries"], key=lambda e: -len(e.get("description", "")))[:14]
-    lines = []
-    for e in sample:
-        d = re.sub(r"\s+", " ", e.get("description", ""))[:300]
-        lines.append(f"- {e['name']} [{e.get('type','')}]: {d}")
-    prompt = (f"SOURCE: {src}\n\nCATALOGUED ENTRIES (sample of "
-              f"{len(sample)} from {len(rec['entries'])}):\n" + "\n".join(lines) +
-              "\n\nIdentify the power ceiling and magnitude band for this source.")
+    chunks, feats_for = PL.synthesis_blocks(rec)
+    best = None
+    for ci, sample in enumerate(chunks):
+        prompt = PL.synthesis_prompt(src, sample, feats_for, ci, len(chunks),
+                                     len(rec["entries"]))
+        got = PL.ask(c, PL.SYNTH_SYSTEM, prompt, PL.SYNTH_SCHEMA, timeout=420)
+        if got is None:
+            continue
 
-    got = PL.ask(c, PL.SYNTH_SYSTEM, prompt, PL.SYNTH_SCHEMA, timeout=420)
-    if got is None:
+        band = (got.get("magnitude") or "").strip()
+        m = re.match(r"^(M(?:10|[0-9]))\b", band)
+        band = m.group(1) if m else "unassayed"
+
+        ev = (got.get("evidence") or "").strip()[:600]
+        # The pipeline's own invariant: no feat, no band. A retry must not smuggle in a band
+        # that the main phase would have refused.
+        if not PL.valid_scale_note(ev):
+            band = "unassayed"
+
+        rank = int(band[1:]) if band != "unassayed" else -1
+        if best is None or rank > best[0]:
+            best = (rank, got, band, ev)
+
+    if best is None:
         return None
-
-    band = (got.get("magnitude") or "").strip()
-    m = re.match(r"^(M(?:10|[0-9]))\b", band)
-    band = m.group(1) if m else "unassayed"
-
-    ev = (got.get("evidence") or "").strip()[:600]
-    # The pipeline's own invariant: no feat, no band. A retry must not smuggle in a band that
-    # the main phase would have refused.
-    if not PL.valid_scale_note(ev):
-        band = "unassayed"
+    _, got, band, ev = best
 
     return {
         "ceiling_entity": (got.get("ceiling_entity") or "").strip(),

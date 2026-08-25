@@ -726,6 +726,29 @@ def dead_buckets():
 _METRICS = os.path.join(HERE, "state", "model_metrics.jsonl")
 
 
+import threading as _threading
+
+# Per-thread record of which buckets THIS call claimed, so a failed metric row can name them.
+# Thread-local by construction: the readers run sixteen workers wide, and a module-global slot
+# would attribute one worker's failure to another's bucket -- a wrong name is worse than none.
+_TRIED = _threading.local()
+
+
+def _tried_reset():
+    _TRIED.names = []
+
+
+def _tried_add(bucket):
+    if not hasattr(_TRIED, "names"):
+        _TRIED.names = []
+    if bucket and bucket not in _TRIED.names:
+        _TRIED.names.append(str(bucket))
+
+
+def _tried():
+    return list(getattr(_TRIED, "names", []) or [])
+
+
 def _metric(row):
     """Same ledger pipeline.ask writes, cloud lane. Ollama reports token counts; a stream
     through Cascade does not, so these rows carry character counts and the aggregator keys on
@@ -739,6 +762,7 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
     """Instrumented wrapper: wall time, outcome and answering model per call, so 'the pool got
     slow' is a measurement rather than a feeling. The real work is _ask_call."""
     t0 = time.time()
+    _tried_reset()
     got = _ask_call(system, prompt, schema=schema, pool=pool, temperature=temperature,
                     timeout=timeout, pin=pin)
     _metric({"at": round(t0, 1), "tag": "cascade:" + pool, "s": round(time.time() - t0, 2),
@@ -748,7 +772,22 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
              # non-dict itself -- so a provider answering ```json\n[1,2]\n``` crashed the
              # metrics line with AttributeError and took the whole call with it.
              "ok": got is not None,
-             "model": (got.get("_via") or "") if isinstance(got, dict) else "",
+             # A FAILURE MUST NAME THE BUCKET IT BURNED (owner finding, 2026-08-25).
+             #
+             # `_via` is stamped by the ANSWERING model, so on failure this field was "" and the
+             # row was unattributable. Measured when found: **426 cascade calls in six hours,
+             # every one a failure, every one recorded as bucket "?"** -- so the question the
+             # owner's own ruling queue asks ("which keys are dead and still being claimed?")
+             # could not be answered from the metrics at all, only from a provider's error text
+             # if somebody happened to be reading a log at the right moment.
+             #
+             # `_LAST_TRIED` is filled by `_ask_call` with the buckets it actually claimed, so a
+             # failed row now says which providers spent the deadline. Thread-local because the
+             # readers run sixteen workers wide and a shared slot would attribute one thread's
+             # failure to another thread's bucket -- which is worse than no attribution.
+             "model": ((got.get("_via") or "") if isinstance(got, dict)
+                       else ("tried:" + ",".join(_tried()) if _tried() else "")),
+             "tried": _tried(),
              "in_chars": len(system) + len(prompt),
              "out_chars": len(json.dumps(got, default=str)) if got is not None else 0})
     return got
@@ -802,6 +841,7 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             continue
         if _alive(cand.bucket):
             pinned = cand
+            _tried_add(cand.bucket)
             break
         _ROUTER.release(cand)
     if pinned is None and pin is None:
@@ -1085,7 +1125,12 @@ def selftest():
     got = ask("You extract feats. Copy sentences verbatim.",
               "ENTITY: Test\n\nHe lifted the boulder over his head and hurled it across the "
               "valley. He liked tea.\n\nReturn feats.", schema)
-    print(f"\nlive call -> {'OK via ' + str(got.get('_via')) if got else 'FAILED'}")
+    # `if got` is TRUTHINESS, not type. `_extract_json` can return a list, and a non-empty list
+    # is truthy -- so this line would raise AttributeError on exactly the reply shape the metrics
+    # line above was fixed for. Same bug, same file, one path further down, and the AST check in
+    # verify_math counts BOTH reads. Guarded the same way rather than differently.
+    _via = (got.get("_via") if isinstance(got, dict) else None)
+    print(f"\nlive call -> {'OK via ' + str(_via) if got else 'FAILED'}")
     if got:
         print(json.dumps({k: v for k, v in got.items() if k != '_via'}, indent=1)[:400])
     return 0 if got else 1
