@@ -280,23 +280,62 @@ def check_state():
     # done-marker on disk and re-run entrypass across the corpus -- real model spend on a pool
     # that is currently the binding constraint -- so it is an owner ruling, in NEXT_STEPS.
     # (run #27)
+    # "STRANDED" WAS THE OLD BUG'S NAME, AND IT OUTLIVED THE BUG (measured 2026-08-25).
+    #
+    # This counted entries lacking `catalogued` inside a span whose key is in `done_keys`, and
+    # called them stranded -- a word that means PERMANENTLY LOST, and did mean that once: a batch
+    # closed on WRITE rather than on RESULT and 378 entries never came back. `reopen_stranded()`
+    # below exists to repair that era.
+    #
+    # `batch_settled()` fixed it. It re-derives the span from the LIVE entry list and requires
+    # every entry in it to be settled, so a batch that acquires an unjudged entry after closing
+    # fails the gate and is reprocessed. Verified against the live corpus: of the 874 entries this
+    # check was reporting, **874 reopen and 0 are unreachable.**
+    #
+    # So the number is a BACKLOG -- work queued behind entrypass's throughput -- and reporting it
+    # as loss sent four consecutive runs chasing data that was never lost, and put it in the
+    # owner's ruling queue as "ACCELERATING". It is accelerating because the catalogue is growing
+    # faster than the judge can keep up, which is a throughput finding (M19/M35), not a defect.
+    # A count and a REACHABILITY test are different questions; this now asks both and says which.
     done = set(st.get("done", {}).get("entrypass", []))
     B = P.ENTRY_BATCH
-    orphan = 0
+    queued = lost = 0
     per_source = {}
+    lost_where = {}
     for _, r in P.records():
         E = r["entries"]
         for start in range(0, len(E), B):
-            if f"{r['source']}#{start}" in done:
-                n = sum(1 for e in E[start:start + B] if not e.get("catalogued"))
-                if n:
-                    orphan += n
-                    per_source[r["source"]] = per_source.get(r["source"], 0) + n
-    if orphan:
+            key = f"{r['source']}#{start}"
+            if key not in done:
+                continue
+            batch = E[start:start + B]
+            n = sum(1 for e in batch
+                    if not e.get("catalogued") and not e.get("excluded"))
+            if not n:
+                continue
+            if P.batch_settled(key, done, batch):
+                # The gate would SKIP this span: these entries are genuinely unreachable.
+                lost += n
+                lost_where[r["source"]] = lost_where.get(r["source"], 0) + n
+            else:
+                queued += n
+                per_source[r["source"]] = per_source.get(r["source"], 0) + n
+    if lost:
+        where = ", ".join("%s %d" % (s, n) for s, n in
+                          sorted(lost_where.items(), key=lambda kv: -kv[1]))
+        out.append(("entries UNREACHABLE in closed batches", "%d (%s)" % (lost, where)))
+    if queued:
         # EVERY source, worst first -- not a sample. The whole point is to see the shape.
+        # Reported, but NOT as a problem: this is the judge's queue depth, and it is the honest
+        # measure of how far entrypass is behind the catalogue.
         where = ", ".join("%s %d" % (s, n) for s, n in
                           sorted(per_source.items(), key=lambda kv: -kv[1]))
-        out.append(("entries stranded in closed batches", "%d (%s)" % (orphan, where)))
+        # PRINTED, NOT RETURNED. Everything in `out` is rendered as a FAIL by the preflight, and
+        # a queue depth is not a fault -- reporting it as one is what put this in the owner's
+        # ruling queue. It still has to be VISIBLE, though: an unreported backlog is how a judge
+        # falling permanently behind would look exactly like a judge keeping up.
+        print("  info  entries awaiting re-judgement (queued, NOT lost): %d (%s)"
+              % (queued, where))
     stale = 0
     for src in st.get("failed", {}).get("synthesis", {}):
         rec = next((r for _, r in P.records() if r["source"] == src), None)

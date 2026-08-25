@@ -143,6 +143,25 @@ def escalate(level, code, what, evidence=None, source=None, who=None):
         health.record("escalation:%s:%s" % (NAMES.get(level, level), code), rec["what"])
     except Exception:
         silence.note("escalation.py:health")
+    # EVERY ESCALATION BECOMES A WORK ORDER (owner ruling 2026-08-25). The chain says how bad a
+    # thing is and who may stop the line; the work order says WHO FIXES IT and disappears when
+    # they have. Two questions, deliberately two files -- collapsing them gives a queue where
+    # everything is urgent and nothing is addressed.
+    #
+    # The rung-to-handler map is intentionally NOT one-to-one. An OPERATOR-level refusal (one
+    # block failed) is mechanical and belongs to the local model; an OWNER-level halt is a
+    # library-wide invariant and belongs to a person. Severity and addressee are different axes.
+    try:
+        import workorders as WO
+        handler = {JANITOR: "LOCAL", OPERATOR: "LOCAL", SUPERVISOR: "BOTS",
+                   SAFETY: "RUN", MANAGER: "RUN", OWNER: "SESSION"}.get(level, "RUN")
+        severity = {JANITOR: "INFO", OPERATOR: "MINOR", SUPERVISOR: "MINOR",
+                    SAFETY: "MAJOR", MANAGER: "MAJOR", OWNER: "BLOCKING"}.get(level, "MAJOR")
+        WO.file_order(rec["code"], rec["what"], handler, severity,
+                      where=rec.get("source") or "", evidence=rec.get("evidence"),
+                      found_by=rec.get("who") or "escalation")
+    except Exception:
+        silence.note("escalation.py:workorder")
     if level >= OWNER:
         _raise_halt(rec)
     return rec
