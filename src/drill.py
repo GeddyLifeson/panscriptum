@@ -488,10 +488,16 @@ def main():
     out = os.path.join(HERE, "state", "drill_last.json")
     try:
         os.makedirs(os.path.dirname(out), exist_ok=True)
+        try:
+            import liveness
+            _lv = sum(len(v) for v in liveness.scan().values())
+        except Exception:
+            _lv = None
         with open(out, "w", encoding="utf-8") as f:
             json.dump({"nets": len(RESULTS), "held": held,
-                       "breached": [r["net"] for r in breached], "results": RESULTS},
-                      f, indent=1, ensure_ascii=False)
+                       "breached": [r["net"] for r in breached],
+                       "liveness": _lv, "ceiling": LIVENESS_CEILING,
+                       "results": RESULTS}, f, indent=1, ensure_ascii=False)
     except Exception:
         pass
 

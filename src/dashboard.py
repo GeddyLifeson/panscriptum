@@ -463,10 +463,76 @@ def metrics(tail_bytes=250_000):
     return out
 
 
+def safety():
+    """The interlocks, as data. The FIRST thing the page shows and the first thing a run reads.
+
+    Every field here is READ from a file, never computed by running the thing it reports on. The
+    dashboard polls every five seconds; a panel that ran the drill would be a denial-of-service
+    against its own library, and a panel that ran `liveness` would take a minute per poll. So the
+    drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD
+    that is -- an age is not decoration here, it is the difference between "57 nets held" and
+    "57 nets held, at some point, possibly before the change you are looking at".
+    """
+    out = {"halted": None, "prose_gate": None, "drill": None, "escalation_recent": None}
+    try:
+        import escalation as ESC
+        halted, rec = ESC.status()
+        rec = rec or {}
+        # A CLEARED halt leaves its record on disk, which is the point -- it is the paper trail.
+        # But reporting its `code` and `what` alongside `halted: false` reads as a live fault to
+        # anyone consuming state.json directly, and this project has lost whole runs to a stale
+        # field that looked current. The reason travels ONLY while the halt stands; once lifted
+        # it becomes `last_cleared`, which is unambiguous about being history.
+        out["halted"] = {"halted": bool(halted)}
+        if halted:
+            out["halted"].update({"code": rec.get("code"), "what": rec.get("what"),
+                                  "by": rec.get("by"), "source": rec.get("source"),
+                                  "also": len(rec.get("also") or [])})
+        elif rec:
+            out["halted"]["last_cleared"] = {
+                "code": rec.get("code"), "ruling": rec.get("ruling"),
+                "cleared_by": rec.get("cleared_by")}
+    except Exception:
+        silence.note("dashboard.py:safety-halt")
+    try:
+        import prose_gate as PG
+        ok, why = PG.gate_open()
+        out["prose_gate"] = {"open": bool(ok), "why": why}
+    except Exception:
+        silence.note("dashboard.py:safety-gate")
+    try:
+        p = os.path.join(HERE, "state", "drill_last.json")
+        with open(p, encoding="utf-8") as f:
+            d = json.load(f)
+        out["drill"] = {"nets": d.get("nets"), "held": d.get("held"),
+                        "breached": d.get("breached") or [],
+                        "liveness": d.get("liveness"), "liveness_ceiling": d.get("ceiling"),
+                        "age_min": round((time.time() - os.path.getmtime(p)) / 60.0, 1)}
+    except Exception:
+        _ = "silence-exempt: no drill has run yet is a legitimate first state, and the panel "\
+            "says so rather than pretending"
+    try:
+        p = os.path.join(HERE, "state", "escalation.log")
+        cutoff = time.time() - 24 * 3600
+        by = {}
+        with open(p, encoding="utf-8") as f:
+            for ln in f:
+                try:
+                    r = json.loads(ln)
+                except Exception:
+                    continue
+                if (r.get("at") or 0) >= cutoff:
+                    by[r.get("level_name") or "?"] = by.get(r.get("level_name") or "?", 0) + 1
+        out["escalation_recent"] = by
+    except Exception:
+        _ = "silence-exempt: an empty escalation log is the good state"
+    return out
+
+
 def state():
     s = {"at": time.strftime("%Y-%m-%d %H:%M:%S"), "quotas": quotas(),
          "throughput": throughput(), "jobs": jobs(), "library": library(),
-         "watch": watch(), "metrics": metrics()}
+         "watch": watch(), "metrics": metrics(), "safety": safety()}
     try:
         import standards as ST
         s["standards"] = ST.check(s)
@@ -686,6 +752,69 @@ function panelLibrary(d){const s=el('section');s.appendChild(el('h2',null,'The l
     s.appendChild(t)}
   return s}
 
+function panelSafety(d){const s=el('section','wide');
+  const sf=d.safety||{};
+  const h=sf.halted||{};
+  s.appendChild(el('h2',null,'Safety'));
+  // THE HALT IS THE HEADLINE. If the library has stopped itself, nothing else on this page
+  // matters until a person rules on it, so it is rendered first, loud, and with the reason --
+  // a halt whose cause you have to go and find is a halt that stays up longer than it should.
+  if(h.halted){
+    const b=el('div','row');
+    b.appendChild(el('span','label','THE LIBRARY IS HALTED'));
+    b.appendChild(el('span','value bad',(h.code||'?')));
+    s.appendChild(b);
+    s.appendChild(el('div','empty',(h.what||'no reason recorded — which is itself a fault')));
+    const c=el('div','row');c.appendChild(el('span','label','raised by'));
+    c.appendChild(el('span','value',(h.by||'?')+(h.source?(' · '+h.source):'')));
+    s.appendChild(c);
+    if(h.also){s.appendChild(el('div','empty',h.also+' further fault(s) recorded while halted'))}
+    s.appendChild(el('div','empty',
+      'Only a person may lift it:  python src/escalation.py --clear --ruling "…"'));
+  }else{
+    const b=el('div','row');b.appendChild(el('span','label','library'));
+    b.appendChild(el('span','value ok','running — no halt standing'));s.appendChild(b);
+  }
+  // The prose gate. Closed is the CORRECT state right now; the page says which and why, so a
+  // future reader does not mistake a deliberate hold for a broken pipeline.
+  const g=sf.prose_gate||{};
+  const gr=el('div','row');gr.appendChild(el('span','label','prose gate'));
+  gr.appendChild(el('span','value '+(g.open?'warn':'ok'),
+    g.open===undefined?'unknown':(g.open?'OPEN — books may be written':'closed (owner ruling)')));
+  s.appendChild(gr);
+  if(g.why){s.appendChild(el('div','empty',g.why))}
+  // The drill. A count with no age is a claim about an unknown moment.
+  const dr=sf.drill;
+  if(!dr){s.appendChild(el('div','empty','no safety drill has run yet'))}
+  else{
+    const n=dr.nets||0,held=dr.held||0,br=(dr.breached||[]);
+    const r=el('div','row');r.appendChild(el('span','label','safety drill'));
+    r.appendChild(el('span','value '+(br.length?'bad':'ok'),
+      held+' of '+n+' nets held'+(br.length?(' — '+br.length+' BREACHED'):'')));
+    s.appendChild(r);
+    s.appendChild(bar(n?held/n:0,br.length?'bad':'ok'));
+    br.slice(0,6).forEach(x=>s.appendChild(el('div','empty','BREACHED: '+x)));
+    const a=el('div','row');a.appendChild(el('span','label','last drilled'));
+    a.appendChild(el('span','value '+(dr.age_min>90?'warn':''),
+      (dr.age_min==null?'?':dr.age_min+' min ago')));
+    s.appendChild(a);
+    if(dr.liveness!=null){
+      const lv=el('div','row');lv.appendChild(el('span','label','checks that cannot fail'));
+      lv.appendChild(el('span','value '+((dr.liveness>dr.liveness_ceiling)?'bad':''),
+        dr.liveness+' (ceiling '+dr.liveness_ceiling+')'));
+      s.appendChild(lv);
+    }
+  }
+  const esc=sf.escalation_recent||{};
+  const keys=Object.keys(esc);
+  if(keys.length){
+    const t=el('table');
+    t.appendChild((()=>{const tr=el('tr');tr.append(el('td','k','escalations, 24h'),
+      el('td',null,keys.map(k=>k+' '+esc[k]).join(' · ')));return tr})());
+    s.appendChild(t);
+  }
+  return s}
+
 function panelPhases(d){const s=el('section');s.appendChild(el('h2',null,'Phases'));
   const ph=(d.library.phases)||[];
   if(!ph.length){s.appendChild(el('div','empty','Runner not readable.'));return s}
@@ -720,8 +849,8 @@ async function tick(){
   try{const d=await (await fetch('/api/state',{cache:'no-store'})).json();
     document.getElementById('stamp').textContent=d.at;
     const w=document.getElementById('wrap');w.innerHTML='';
-    w.append(panelMovement(d),panelStandards(d),panelJobs(d),panelQuota(d),panelSpend(d),
-             panelMetrics(d),panelLibrary(d),panelPhases(d),panelWatch(d));
+    w.append(panelSafety(d),panelMovement(d),panelStandards(d),panelJobs(d),panelQuota(d),
+             panelSpend(d),panelMetrics(d),panelLibrary(d),panelPhases(d),panelWatch(d));
   }catch(e){document.getElementById('stamp').textContent='server unreachable';}
 }
 tick();setInterval(tick,5000);
