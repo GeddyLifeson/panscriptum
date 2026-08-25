@@ -3551,6 +3551,66 @@ check("overwatch.py lands WATCH.md through replace_retry",
       note="not JSON, so it uses replace_retry directly rather than write_json")
 
 print()
+print("27. §20h  A NAMED FAILURE IS NOT AN UNKNOWN ONE, AND A STALE FILE IS NOT AN ALL-CLEAR")
+print("-" * 96)
+# Run #23. Three faults, one shape: a check that could not fail, so it never did.
+#
+#  (a) `cascade_bridge`'s refusal classifier knew only "permanent" and "unrecognised" -- it had
+#      no word for "busy", the commonest thing a free-tier pool says. The ledger built to
+#      surface UNKNOWN failures held 44 rows, 122 occurrences, and exactly ONE genuine unknown.
+#  (b) `standards`' `model IDs their providers still serve` (HIGH severity) read GREEN off a
+#      58-HOUR-OLD snapshot. Refreshing it found EIGHT stale Ollama names live.
+#  (c) `local_agent`'s denylist -- the gate stopping the local model editing the checking
+#      machinery -- was case-sensitive on a case-INSENSITIVE filesystem, so `src/Foreman.py`
+#      resolved to the real file and sailed through; and `_safe()` compared with a bare
+#      `startswith`, so any SIBLING directory sharing the project's name prefix was in bounds.
+_cb20h = __import__("cascade_bridge")
+check("a plain 429 is recognised, not filed as unknown",
+      _cb20h.named_transient("Rate limit exceeded"), True)
+check("a tokens-per-day refusal is recognised",
+      _cb20h.named_transient("rate limit reached ... tokens per day (tpd): limit 200000"), True)
+check("the engine's whole-pool wrapper is recognised",
+      _cb20h.named_transient("Every model in this pool is rate limited or unconfigured."), True)
+check("a multi-candidate aggregate reads as pool exhaustion",
+      _cb20h.pool_exhausted("All 11 candidates failed: A, B"), True)
+check("a SINGLE-candidate aggregate stays unknown",
+      _cb20h.pool_exhausted("All 1 candidates failed: GLM 4.7 Flash (Z.AI)"), False,
+      note="this row shape is what exposed m108; keeping it loud preserves the discovery path")
+check("a billing refusal is never called transient",
+      _cb20h.named_transient('{"code":"1113","message":"Insufficient balance"}'), False)
+check("an auth refusal is never called transient",
+      _cb20h.named_transient("HTTP 401: Could not validate credentials"), False)
+check("a genuine unknown is not swallowed as transient",
+      _cb20h.named_transient("empty response"), False)
+check("a config fault is not swallowed by a lone word",
+      _cb20h.named_transient("invalid connection string"), False,
+      note="'connection' as a bare substring used to match this; phrases only now")
+check("a trace id containing 429 does not read as a rate limit",
+      _cb20h.named_transient("req_id 8842900f"), False)
+_pm20h = os.path.join(_here19, "..", "data", "PROVIDER_MODELS.json")
+_st20h = open(os.path.join(_here19, "standards.py"), encoding="utf-8").read()
+check("the provider-catalogue standard ages its evidence",
+      "MAX_PROVIDER_MODELS_AGE_H" in _st20h and "getmtime" in _st20h, True,
+      note="an empty stale-list from three days ago is the ABSENCE of a measurement")
+check("its UNMEASURED verdict does not read as a pass",
+      "UNMEASURED" in _st20h, True)
+_la20h = __import__("local_agent")
+check("the local model's denylist is case-folded",
+      "d.lower() for d in DENYLIST" in open(
+          os.path.join(_here19, "local_agent.py"), encoding="utf-8").read(), True,
+      note="src/Foreman.py resolved to the real foreman.py and bypassed the gate")
+check("_safe() refuses a sibling sharing the name prefix",
+      _la20h._safe(os.path.join("..", os.path.basename(_la20h.HERE) + "-EVIL", "x.py")), None,
+      note="a prefix is not a directory boundary; the export copy matched too")
+check("_safe() still admits a file inside the project",
+      _la20h._safe("src/tells.py") is not None, True,
+      note="the fix must not over-block; a denylist that refuses everything is also broken")
+check("a failed revert cannot report itself as reverted",
+      'reverted = False' in open(
+          os.path.join(_here19, "local_agent.py"), encoding="utf-8").read(), True,
+      note="'reverted': True was a literal, emitted even when the restoring write had raised")
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)

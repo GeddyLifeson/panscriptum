@@ -365,11 +365,19 @@ SCRATCH_DB = os.path.join(HERE, "state", "cascade_scratch.db")
 # Word boundaries on the numeric codes, for m103's reason: a bare `"429" in err` also matches
 # the 429 inside a request id, and a classifier that cries wolf on a trace hash is worse than
 # one that stays quiet.
+# Each entry is a PHRASE, not a lone word. `"connection"` and `"capacity"` were on this list
+# for one draft and the sweep agent auditing the same session was right to object: a bare
+# `"connection" in err` also matches `invalid connection string`, which is a configuration
+# fault someone must fix, and quietly calling it "busy" is how a real unknown stops being
+# reported. Every marker here has to be a thing a provider says when it is TEMPORARILY unable,
+# and nothing else -- because the cost of over-matching is the ledger going quiet again.
 _TRANSIENT_WORDS = (
     "rate limit", "rate-limit", "rate_limit", "ratelimit", "too many requests",
-    "quota", "throttl", "overloaded", "capacity", "high demand", "try again",
-    "temporarily", "timed out", "timeout", "could not resolve host",
-    "connection", "unconfigured", "service unavailable", "bad gateway",
+    "quota", "throttl", "overloaded", "over capacity", "at capacity",
+    "high demand", "try again", "temporarily", "timed out", "timeout",
+    "could not resolve host", "connection reset", "connection refused",
+    "could not connect", "failed to connect", "unconfigured",
+    "service unavailable", "bad gateway",
 )
 _TRANSIENT_CODES = re.compile(r"\b(408|409|425|429|500|502|503|504)\b")
 
