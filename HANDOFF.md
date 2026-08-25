@@ -9,6 +9,154 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 (local) — RUN #33: the queue was blind, and that is why four runs missed things
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets are staged.** The scanner returned 8 findings, all previously waived
+   (documented audit-report quotations); **0 actionable**. Nothing credential-shaped is
+   heading for the public repo.
+2. **THE WORK-ORDER QUEUE WAS BLIND TO THE BATTERY, AND SAID SO IN THE WORDS OF A CLEAN RUN.**
+   This run opened with `workorders --sweep` printing *"no open work orders — the nets found
+   nothing outstanding"* while `verify_math` was **FAILING** and `health --preflight` was
+   **FAILING**. Both faults were real, and both were found the old way: by a run reading
+   console output. `drill.py` escalated; `verify_math`, `health`, `allsweep` and `liveness`
+   never called `escalate()` and were in no detector, so a red battery filed nothing. The
+   ruling that reorganised this project around "the detectors file, the run works the file"
+   was resting on a queue that could not see two thirds of the battery. **This is fixed** —
+   see §A — but it is the finding of the run, and it is worth your knowing that the queue's
+   reassuring sentence was, until today, not evidence of anything.
+3. **`www.dandwiki.com` is permanently unusable and that is now a decision waiting on you.**
+   Its API answers **HTTP 403 — "restricted to logged in users"** to every request. All 805
+   cached entries are empty (779 fully blank, 21 trivial, 5 redirect stubs). No retry schedule
+   recovers this; the only technical remedy is an account, and **creating one is not an action
+   I will take**. The host is quarantined with that reason recorded. The curatorial call —
+   drop the source, re-bind it to another wiki, or accept that it contributes no evidence — is
+   yours. Filed as an OWNER-facing note in `NEXT_STEPS.md`; the queue holds it at BOTS as a
+   standing quarantine, not as work anyone can close.
+4. **I falsely quarantined 20 wiki hosts mid-run, then found the cause and released 14 of
+   them.** Nothing had ever run the full host canary; when I ran it, it quarantined 20 of 134
+   hosts. That was **the canary's bug, not the hosts'** — see §C. After the fix, **one** host
+   is quarantined (dandwiki, correctly) and five are flagged as binding-suspect. Reporting it
+   because for roughly forty minutes this run had made the library's host health *worse*, and
+   a run that only reports its net result would have hidden that.
+5. **The full 16-batch sweep ran: 107/107 modules audited, 112 findings, all filed.** None
+   were dropped. 6 were fixed and closed this run; the rest are routed, **65 to the free local
+   model** and 45 to a future run.
+
+---
+
+### A. The missing net: a red battery now files
+
+The detector sweep deliberately excludes expensive checks — correct, and not the problem. The
+problem was that nothing else picked them up either.
+
+* `health.preflight()` now stamps `state/preflight_last.json` (the pattern `drill.py` has used
+  for `drill_last.json` since run #29). A check that reports only to a terminal is not a
+  detector; it is a rumour.
+* `workorders.battery_faults()` is a **pure** function over that stamp plus `data/ALLSWEEP.json`,
+  returning `{code: fault or None}` for `PREFLIGHT_PROBLEM`, `PREFLIGHT_STALE`,
+  `BATTERY_GRADED`, `BATTERY_STALE`. Pure so the drill can attack it with a fabricated red
+  battery — a net that can only be tested by genuinely breaking the library is a net nobody
+  ever tests.
+* **Absence and staleness refuse to read as green.** A missing artifact fires STALE. "Nobody has
+  run the battery since Tuesday" and "the battery is green" are different sentences.
+* `BATTERY_GRADED` mirrors `allsweep`'s own `bad` formula exactly, so the two cannot drift into
+  disagreeing about what "bad" means. `reconcile` stays excluded, for allsweep's own stated
+  reason.
+* **9 new drill nets** in `drill_workorders()`. All HELD. On its first live sweep the new tier
+  filed a real order — `allsweep grades 1 subsystem(s) bad: import verify_math` — which is the
+  fault §B fixed.
+
+**A bug caught in review of my own fix, recorded because it is the interesting kind:**
+`resolve_code` closes `order_id(code, where)`. My first version took `where` from the live fault
+dict, so when a fault *cleared* there was no `where` to pass — it would have filed orders it
+could never close. `BATTERY_WHERE` is now a table, pinned per code, and a drill net asserts
+every code this tier files can also be closed.
+
+### B. `verify_math` FAILED → the run33 sweep, 107/107
+
+The failing check was the sweep-completeness proof: the newest sweep must have audited every
+module in `src/`. Three modules — `workorders.py`, `policy.py`, `suppressions.py` — postdated
+run32 and had **never been audited by any sweep**. That is not a bug to patch; it is a sweep
+falling due. Ran it: 16 batches, 16 agents, each recording its own coverage because the agent is
+the only thing that knows it actually read the file. `sweep_plan.missing('run33')` is empty.
+`verify_math`: **795 passed, 0 FAILED**.
+
+### C. The canary was asking wikis for pages that cannot exist
+
+`known_present_title()` returns a **catalogue entry name**, and entry names carry the
+cataloguer's disambiguators: `Scout (Jeremy Willis)`, `Sweet Tooth (Marcus "Needles" Kane)`,
+`Cetana (the Synthetic Queen)`. No wiki has an article at that string. The probe asked for one
+title, got nothing, and convicted the **host**. Three changes:
+
+1. **Strip the trailing parenthetical.** `Scout (Jeremy Willis)` → `Scout` → 12,169 chars.
+2. **Try several candidates, stop at the first hit.** Stripping alone is insufficient: `Cetana`
+   is a real entry whose article that wiki genuinely lacks, and one absent page must not convict
+   a host. Bounded at `PRESENT_CANDIDATES = 8`, and **the bound is reported in the reason** —
+   "8 known-present title(s) all returned nothing" — rather than left implicit.
+3. **A third probe: is the host reachable at all?** This is the one that matters. The canary had
+   two outcomes and had to force every failure into one of them, so *"this wiki is down"* and
+   *"these entry names are not article titles on this wiki"* both came out as DEAD. They have
+   opposite remedies. `verdict()` is now three-valued and pure — `True` healthy, `False` the
+   host is at fault, `None` the host is up but the binding is suspect — and **`None` does not
+   quarantine**, because a quarantine stops mining and mining a live wiki is still correct.
+
+Measured: 20 quarantined → 6 after (1) and (2) → **1 after (3)**. `eberron.fandom.com` answers
+siteinfo with HTTP 200 and is a live wiki; its bound source is a D&D sourcebook whose catalogued
+entries are rules features the wiki has no articles for. That is a binding fault, and it now has
+its own code (`BINDING_SUSPECT`, 5 hosts, BOTS) instead of being reported as a dead host.
+**5 new drill nets** cover the verdict table, including that an unreachable host is *still*
+called dead — otherwise dandwiki's 403 would have started reading as healthy.
+
+### D. Fixed from the sweep's own findings
+
+* **`drill.py:1037` — a net that could not fail.** It read
+  `"pages_refused" in F.evidence_for.__doc__ or True`. The `or True` made it unconditionally
+  true, and the masked half was testing the wrong thing anyway: it asked about a **docstring**,
+  which does not contain that string, so the net would have failed the moment anyone removed the
+  `or True`. Replaced with `_refusal_is_recorded()`, which asserts `feats.py` actually carries
+  `"pages_refused": unreal` **and** populates it on the refusal branch. **Watched it go red
+  twice** — once with the key removed, once with the branch gutted — and green again on restore.
+  (`drill.py:706`'s `or True` is a different, legitimate sequencing idiom; left alone.)
+* **`runguard.py:_land()` — BLOCKING.** The overlap guard, the file whose entire job is stopping
+  two maintenance runs racing, wrote through a fixed `path + ".tmp"` shared by every process.
+  Now `silence.write_json`, which puts pid and thread in the temp name. `HANDOFF.md` already
+  recorded `runguard._land:PermissionError` firing 99 times in production — that was this.
+* **`liveness.py:_parse()` — the scanner's own foundation.** A module that failed to parse was
+  dropped with a bare `continue` and reported identically to a clean module. The dead-code and
+  tautology scanner had a check that cannot fail at its own base. Now returns an `unparsed`
+  list, which raises the count the drill ratchet watches. (0 unparsed today.)
+* **`workorders.py` detector 3 — a queue that only grew.** The comment promised "each closes on
+  its own recovery"; what stood in that place was `filed.extend([])`, a no-op. Released hosts
+  kept their orders for ever. Visible at scale this run: 14 hosts released, 14 orders still
+  open. Now closes them — the live sweep closed **19** stale orders and BOTS fell 20 → 6.
+* **`health.check_caches()`** no longer re-reports empty caches on **quarantined** hosts as fresh
+  problems; it prints them as `info`. The fault is held once, by `binding_health`, with the
+  canary detail that diagnosed it. A permanent red is not extra safety — it is how a preflight
+  stops being read. (The host-directory key is `host.replace(".","_").replace("-","_")`;
+  comparing the two spellings directly would have matched nothing and left an exemption that
+  looked implemented and did nothing.)
+
+### E. The sweep: 112 findings, none dropped
+
+Every finding in all 16 reports is filed as a work order (Hard Rule 0 — ranking by severity and
+handler rung, never truncation). The reports in `handoff/sweep33/` are the full record.
+Independently corroborated my own §A finding from two directions: batch 10 found that
+`allsweep`'s grading can print "0 subsystem(s) in a bad state" while a graded verifier genuinely
+failed, and batch 16 found the `HOST_QUARANTINED` no-op before I hit it live.
+
+The four BLOCKING findings were each **verified against source** before filing — all four were
+real. Audits are wrong in both directions, and the ones I checked happened to be right; the
+remaining 108 are filed as *reported*, not as *confirmed*.
+
+**Queue at close: 116 open — 65 LOCAL, 6 BOTS, 45 RUN.** The LOCAL block is the point: 65 of
+these are mechanical (a comment that lies, a flag nobody reads, a bare `os.replace` where the
+project's own retry helper belongs) and the free local model can carry them without spending a
+metered token.
+
+---
+
 ## 2026-08-25 13:20–13:5x (local) — RUN #32: the write-verdict fix that never reached its twelve callers, and a full 17-batch sweep
 
 **FOR THE OWNER, AT THE TOP:**

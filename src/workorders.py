@@ -331,11 +331,57 @@ def sweep_detectors():
         import binding_health as BH
         q = BH.quarantined()
         for host, rec in sorted(q.items()):
-            file_order("HOST_QUARANTINED", "%s: %s" % (host, rec.get("reason", "")),
-                       "BOTS", "MINOR", where=host, found_by="binding_health")
-        filed.extend([])
+            filed.append(file_order("HOST_QUARANTINED", "%s: %s" % (host, rec.get("reason", "")),
+                                    "BOTS", "MINOR", where=host, found_by="binding_health"))
+        # AND CLOSE THE ONES THAT RECOVERED. The comment above promised "each closes on its own
+        # recovery" and nothing ever did it: `filed.extend([])` was a no-op standing where the
+        # close pass should have been, so a released host kept its order for ever. Run #33 made
+        # that visible at scale -- a canary sweep quarantined 20 hosts, a fix to the probe
+        # released 14 of them, and all 14 orders stayed open against hosts that were healthy
+        # again. A queue that only grows is one people stop reading. Found by the run #33 sweep
+        # (batch 16), which read the promise and the no-op sitting next to each other.
+        for oid, o in list(_load().items()):
+            if o.get("code") == "HOST_QUARANTINED" and o.get("where") not in q:
+                if resolve(oid, "host is no longer quarantined", by="workorders.sweep"):
+                    closed.append("HOST_QUARANTINED:" + str(o.get("where")))
     except Exception:
         silence.note("workorders.py:bindings")
+
+    # 3b. HOSTS THAT ARE UP BUT WHOSE TITLES DO NOT RESOLVE. Not a quarantine -- the host is
+    #     serving -- so nothing above would ever file it, and until run #33 nothing did: the
+    #     canary had no verdict for "the binding is wrong" and reported it as a dead host.
+    #     Filed at BOTS because `hostcheck.py --repair` is the tool that re-probes a binding.
+    try:
+        import binding_health as BH2
+        rec = {}
+        try:
+            with open(BH2.OUT, encoding="utf-8") as f:
+                rec = json.load(f)
+        except Exception:
+            rec = {}
+        suspect = [h for h in (rec.get("hosts") or [])
+                   if h.get("healthy") is None and "no catalogued title resolved"
+                   in str(h.get("reason") or "")]
+        seen_hosts = set()
+        for h in suspect:
+            host = h.get("host") or "?"
+            seen_hosts.add(host)
+            file_order("BINDING_SUSPECT",
+                       "%s answers its API but none of its catalogued titles resolve -- the "
+                       "source may be bound to the wrong wiki, or its entry names may not be "
+                       "article titles there. Mining continues; this is not a quarantine."
+                       % host,
+                       "BOTS", "MINOR", where=host, evidence=h.get("reason"),
+                       found_by="binding_health.canary")
+        # Close the ones that have recovered, so this cannot become a queue that only grows.
+        for h in (rec.get("hosts") or []):
+            host = h.get("host") or ""
+            if host and host not in seen_hosts and h.get("healthy") is True:
+                if resolve_code("BINDING_SUSPECT", "titles resolve again", where=host,
+                                by="workorders.sweep"):
+                    closed.append("BINDING_SUSPECT:" + host)
+    except Exception:
+        silence.note("workorders.py:binding-suspect")
 
     # 4. secrets staged for the public repo
     try:

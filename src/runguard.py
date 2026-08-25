@@ -70,14 +70,19 @@ def read(path=GUARD):
 
 
 def _land(rec, path):
-    tmp = path + ".tmp"
-    try:
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(rec, f, indent=2)
-    except Exception:
-        silence.note("runguard._land")
-        return False
-    return silence.replace_retry(tmp, path)
+    """Land the run guard atomically.
+
+    THROUGH `silence.write_json`, WHICH PUTS PID AND THREAD IN THE TEMP NAME. This wrote to a
+    fixed `path + ".tmp"` until run #33 -- one temp filename shared by every process that ever
+    claims a guard. That is the precise collision `sweep_plan`'s shard docstring warns about and
+    `silence.write_json` was written to end: two claimants racing can have the loser's partial
+    file replace the winner's target, and the file at stake here is the one that decides whether
+    two maintenance runs may run at once. `HANDOFF.md` already records
+    `runguard._land:PermissionError` firing 99 times in production, which is direct evidence
+    that multiple writers do contend on this path in the live system rather than in theory.
+    Found by the run #33 sweep (batch 04).
+    """
+    return silence.write_json(path, rec, indent=2)
 
 
 def holder_is_live(rec, now=None):

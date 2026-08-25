@@ -79,10 +79,19 @@ def _parse(path):
 
 def scan():
     """-> {'dead': [...], 'tautology': [...], 'phantom': [...]} over every module in src/."""
-    trees, used = {}, set()
+    trees, used, unparsed = {}, set(), []
     for name, path in _modules():
         t = _parse(path)
         if t is None:
+            # A MODULE THAT WILL NOT PARSE IS NOT A CLEAN MODULE. Until run #33 this `continue`
+            # was silent, so a source file that failed to parse -- including from the literal
+            # control-character corruption this project has hit more than once, and from
+            # `local_agent`'s gated writes being killed mid-write -- vanished from every check
+            # below and reported exactly like a module with nothing wrong in it. The scanner
+            # whose whole purpose is finding checks that cannot fail had one at its own
+            # foundation. Reported as a finding of its own, so the count rises and the ratchet
+            # in `drill.py` sees it. Found by the run #33 sweep (batch 08).
+            unparsed.append("%s: will not parse -- excluded from every liveness check" % name)
             continue
         trees[name] = t
 
@@ -160,7 +169,7 @@ def scan():
                     phantom.append("%s:%d guard names '%s', never defined in this module"
                                    % (name, n2.lineno, sub.id))
     return {"dead": sorted(set(dead)), "tautology": sorted(set(taut)),
-            "phantom": sorted(set(phantom))}
+            "phantom": sorted(set(phantom)), "unparsed": sorted(set(unparsed))}
 
 
 def main():

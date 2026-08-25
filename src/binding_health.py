@@ -191,17 +191,73 @@ def _probe_absent(host, timeout=25):
     return True, "correctly absent"
 
 
+def _probe_reachable(host):
+    """Does this host's API answer at all? -> (ok, detail).
+
+    THE THIRD PROBE, and the one that decides whether a failure is the HOST's fault. Without it
+    the canary had exactly two outcomes and had to force every failure into one of them, so
+    "this wiki is down" and "these entry names are not article titles on this wiki" both came
+    out as DEAD. They are not the same fault and they do not have the same remedy: the first
+    should stop mining the host, the second must not, because the host is fine and mining it is
+    still the right thing to do.
+
+    Run #33 measured the difference. `eberron.fandom.com` answers siteinfo with HTTP 200 and is
+    a perfectly live wiki; its bound source is the D&D sourcebook *Rising from the Last War*,
+    whose catalogued entries are rules features -- `Alchemical Savant`, `Arcane Firearm`,
+    `Eldritch Cannon` -- which that wiki has no articles for. Eight candidates, eight misses,
+    and the old canary called the host dead. `www.dandwiki.com` fails this probe outright: 403,
+    "restricted to logged in users". Only the second is a host fault.
+    """
+    try:
+        import feats as F
+        d = F.api(host, {"action": "query", "meta": "siteinfo"}, retries=0)
+    except Exception as e:
+        return False, "%s: %s" % (type(e).__name__, str(e)[:120])
+    if not isinstance(d, dict) or "query" not in d:
+        return False, "siteinfo returned nothing usable -- the API is not answering"
+    return True, "siteinfo answered"
+
+
+def verdict(ok_present, ok_absent, ok_reachable, det_p="", det_a="", det_r=""):
+    """PURE. The three probe outcomes -> (healthy, reason).
+
+    Separated from `canary` so the drill can attack every combination without a network. The
+    decision this encodes is the whole point of run #33's change and is easy to get subtly
+    wrong, so it is asserted directly rather than inferred from a live probe that can only ever
+    exercise whichever branch today's internet happens to produce.
+    """
+    if ok_present and ok_absent:
+        return True, None
+    if not ok_absent:
+        # A host that resolves a title nobody holds is answering yes to everything; its hits
+        # prove nothing. That IS a host fault, whether or not it is reachable.
+        return False, "absent probe resolved: " + det_a
+    if ok_reachable:
+        return None, ("host is UP but no catalogued title resolved (%s) -- suspect the binding "
+                      "or the entry names, not the host" % det_p)
+    return False, "host unreachable: %s (present probe: %s)" % (det_r, det_p)
+
+
 def canary(host, present_title):
-    """Both probes for one host. -> record."""
+    """All three probes for one host. -> record.
+
+    The verdict is deliberately THREE-VALUED. `healthy` is True when the host serves what we
+    know it holds and correctly refuses what nobody holds; False when the host itself is at
+    fault; and None -- neither healthy nor quarantined -- when the host is demonstrably up but
+    no catalogued title resolved, which is a fault in the BINDING or the entry names, not in the
+    host. `run()` quarantines only on False, because a quarantine stops mining and mining a live
+    wiki is still correct even when this particular probe could not find a page.
+    """
     ok_p, det_p = _probe_present(host, present_title)
     ok_a, det_a = _probe_absent(host)
-    healthy = ok_p and ok_a
+    ok_r, det_r = (True, "not probed -- the known-present title resolved") if ok_p \
+        else _probe_reachable(host)
+    healthy, reason = verdict(ok_p, ok_a, ok_r, det_p, det_a, det_r)
     return {"host": host, "at": time.time(), "healthy": healthy,
             "present": {"title": present_title, "ok": ok_p, "detail": det_p},
             "absent": {"title": ABSENT_PROBE, "ok": ok_a, "detail": det_a},
-            "reason": None if healthy else
-            ("known-present probe failed: " + det_p if not ok_p
-             else "absent probe resolved: " + det_a)}
+            "reachable": {"ok": ok_r, "detail": det_r},
+            "reason": reason}
 
 
 def _title_variants(name):
@@ -307,6 +363,13 @@ def run(limit=None, only=None):
             quarantine(h, rec.get("reason") or "canary failed")
         elif rec.get("healthy") is True and is_quarantined(h):
             release(h)
+        elif rec.get("healthy") is None and is_quarantined(h):
+            # A HOST HELD ON THE OLD VERDICT GOES FREE. `healthy is None` now means the host
+            # answered its API and correctly refused a title nobody holds -- it is up. It was
+            # quarantined under the two-valued canary, which had no way to say that, and a
+            # quarantine that outlives the reasoning behind it is just an outage nobody
+            # remembers starting. The binding is still suspect and is still reported.
+            release(h, "host is reachable; the failure was in the titles, not the host")
     _land(OUT, {"at": time.time(), "checked": len(out), "failed": failed, "hosts": out})
     return out, failed
 

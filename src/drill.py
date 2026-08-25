@@ -1210,6 +1210,25 @@ def drill_workorders():
             W.BATTERY_WHERE.get(c) for c in W.BATTERY_CODES),
         "resolve_code closes order_id(code, where) -- a detector filing under one `where` and "
         "clearing under another files orders nobody can ever close")
+    import binding_health as _BH33
+    net(a, "a host that is UP but resolves no title is NOT quarantined",
+        lambda: _BH33.verdict(False, True, True)[0] is None,
+        "a quarantine stops mining, and mining a live wiki is still correct when it was only "
+        "the probe titles that were wrong -- 5 live wikis were quarantined this way in run #33")
+    net(a, "an UNREACHABLE host is still called dead",
+        lambda: _BH33.verdict(False, True, False)[0] is False,
+        "if unreachable stopped being a host fault, dandwiki's 403 would read as healthy")
+    net(a, "a host that answers yes to EVERYTHING is dead however reachable it is",
+        lambda: _BH33.verdict(True, False, True)[0] is False
+        and _BH33.verdict(False, False, True)[0] is False,
+        "a soft-404 or a login wall dressed as an article makes every hit worthless")
+    net(a, "a host that serves what we know it holds is healthy",
+        lambda: _BH33.verdict(True, True, True)[0] is True,
+        "a canary that can never say yes quarantines the whole library eventually")
+    net(a, "every unhealthy verdict carries a REASON",
+        lambda: all(_BH33.verdict(p, a2, r)[1] for p in (True, False) for a2 in (True, False)
+                    for r in (True, False) if _BH33.verdict(p, a2, r)[0] is not True),
+        "a quarantine with no reason is one nobody can ever judge or lift")
     net(a, "no code in this tier is UNREACHABLE",
         lambda: set(W.BATTERY_CODES) <= (
             fired(None, None)
