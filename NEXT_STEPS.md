@@ -17,9 +17,14 @@
    config entries, not more providers.** See §2 A.
 3. **THE PAGE'S OPENING DIAGNOSTIC IS SOUND AND ITS GUIDANCE IS NOW LESS WRONG.** The
    `model calls per hour` order text no longer ends "the reader is not asking" — it names
-   refusal as the co-equal candidate and gives the SQL. The dashboard was bounced at 21:47 to
-   adopt it; **the foreman and overwatch still carry the OLD text until they restart** (the
-   foreman must not be bounced while it has an `--adopt` child).
+   refusal as the co-equal candidate and gives the SQL. **The dashboard AND the publish loop
+   were both bounced to adopt it, and the publisher is the one that counts:**
+   `publish.py:171-172` imports `standards` and calls `ST.check(s)` itself to build
+   `docs/state.json`, so **the page's text comes from the publisher's module cache** — bouncing
+   the dashboard alone would have changed nothing the public can see. **Remember this the next
+   time you edit `standards.py`.** The **foreman still carries the OLD text** (it must not be
+   bounced while it has an `--adopt` child), so `FOR_OWNER.md` will quote the old wording until
+   the foreman restarts on its own.
 4. **`bucket_state.last_error` HAS NO HISTORY — AGE EVERY ROW BEFORE BELIEVING IT.** Run #18
    nearly reported a live 4-provider DNS outage that turned out to be 31.9 hours stale.
    `select bucket,last_error,updated_at from bucket_state` and subtract.

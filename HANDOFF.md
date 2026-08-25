@@ -19,10 +19,19 @@ amount of waiting will fix.*
 
 **FOR THE OWNER, AT THE TOP:**
 
-1. **No secrets found. Nothing deleted. No money moved.** One process bounced (the dashboard,
-   PID 42380, so the page would pick up corrected guidance text; it is STANDING and the keeper
-   restores it within 300s). The foreman was **not** bounced — it had a live `hostcheck
-   --adopt` child (PID 47096), which NEXT_STEPS §1.7 correctly says means leave it alone.
+1. **No secrets found. Nothing deleted. No money moved.** Two processes bounced, both STANDING
+   and both restored by the keeper within 300s: the **dashboard** (PID 42380) and the **publish
+   loop** (PID 17356). The second was the one that mattered and I nearly missed it —
+   `publish.py:171-172` imports `standards` and calls `ST.check(s)` itself to build the
+   published `docs/state.json`, so **the public page's guidance text comes from the publisher's
+   module cache, not the dashboard's.** Bouncing only the dashboard would have left the
+   corrected text invisible on the page it was written for. The **foreman was NOT bounced** — it
+   had a live `hostcheck --adopt` child (PID 47096), which NEXT_STEPS §1.7 correctly says means
+   leave it alone; it therefore still writes `FOR_OWNER.md` with the old text until it restarts.
+   *(Aside worth keeping: a `Where-Object CommandLine -like '*dashboard*'` filter returned five
+   PIDs and briefly looked like I had created duplicates. Four were my own shells, whose command
+   lines contained the string. Adding `Name -match 'python'` showed the one real process. That
+   is the "kill by PID, not by pattern" lesson arriving as a false alarm instead of a casualty.)*
 2. **[NEW — THE HIGHEST-LEVERAGE THING ON THIS MACHINE] Four provider buckets are permanently
    dead and the router retries them forever.** Read from `bucket_state.last_error`, ages from
    `updated_at`, all current within 12 minutes:
@@ -57,6 +66,18 @@ amount of waiting will fix.*
 5. **A subagent traced the code ceiling on that gap at ~7h10m** (join(roll) 4h + pipeline 2h +
    coverage 0.5h + sleep + next preflight 0.5h), which is **wider than the 4h worst case ever
    observed**. Unverified by me beyond reading the quoted timeouts; recorded as a question.
+
+**THE LOOP WAS OBSERVED CLOSING, LIVE, IN THE LAST TEN MINUTES OF THIS RUN.** After the 21:17:58
+restart the reader printed its startup banner at 21:18:08 and **nothing since** — 20 minutes of
+log silence at the time of writing, well past `MAX_JOB_SILENCE_MIN` (15). It is **not wedged**:
+PID 42972 is alive, burning CPU (9.2s → 11.7s across the window) and asking — **25 calls in 15
+minutes, of which 3 succeeded** (12 `rate_limited`, 10 `error`). At three successes per quarter
+hour it completes an entity too rarely to print a progress line, so it presents to
+`kill_stalled_job` as a stalled job. **The next foreman round is therefore expected to SIGTERM
+it again, and the lap will hold it down again.** Nothing was done to prevent this: the remedies
+are deliberate machinery and the fix is the owner's ruling in §2 B. Recording the prediction here
+so the next run can check it — **if `overnight.log` shows another `read: finished rc=15` shortly
+after 21:40, that is this loop, confirmed for the second time.**
 
 **What was fixed (both verified, battery green after):**
 

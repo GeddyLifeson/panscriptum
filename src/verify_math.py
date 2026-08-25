@@ -2979,7 +2979,11 @@ _p20a = _sp20a.Popen([sys.executable, "-c", "import time;time.sleep(30)"])
 try:
     os.kill(_p20a.pid, _sig20a.SIGTERM)
     _rc20a = _p20a.wait(timeout=30)
-except Exception:                                  # never let a probe wedge the whole suite
+except Exception:
+    # A probe that spawns a process must never be able to wedge or fail the suite it runs in:
+    # if the kill or the wait misbehaves, `_rc20a` stays None and the check below FAILS loudly
+    # with got=None, which is the report we want. Nothing is hidden by catching here.
+    _ = "silence-exempt: the failure is reported by the check itself, not swallowed"
     _p20a.kill()
     _rc20a = None
 check("a SIGTERMed child reports returncode 15 on this platform", _rc20a, 15,
