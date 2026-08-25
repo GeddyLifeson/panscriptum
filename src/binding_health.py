@@ -57,6 +57,11 @@ RETRY_AFTER_S = 24 * 3600
 # answering yes to everything and its "hits" prove nothing.
 ABSENT_PROBE = "Panscriptum_Canary_NoSuchPage_9f3a2c_DoNotCreate"
 
+# How many known-present titles a host may fail before the canary calls it dead. Bounded because
+# the failure branch costs one API call per candidate; generous because the cost of a FALSE
+# quarantine is that a healthy host stops being mined. See `_probe_present`.
+PRESENT_CANDIDATES = 8
+
 
 def _load(path, default):
     try:
@@ -114,23 +119,58 @@ def release(host, why="canary passed"):
     return why
 
 
-def _probe_present(host, title, timeout=25):
-    """Does this host still resolve a title we know it holds? -> (ok, detail)."""
+def _fetch_chars(host, title):
+    """-> (chars, error-or-None) for one title. Never raises."""
     try:
         import feats as F
         got = F.fetch(host, [title])
     except Exception as e:
-        return False, "%s: %s" % (type(e).__name__, str(e)[:120])
+        return 0, "%s: %s" % (type(e).__name__, str(e)[:120])
     if not got:
-        return False, "known-present title returned nothing"
-    text = ""
-    if isinstance(got, dict):
-        text = " ".join(str(v) for v in got.values())
-    else:
-        text = str(got)
-    if len(text.strip()) < 200:
-        return False, "known-present title returned %d chars -- too thin to be the page" % len(text)
-    return True, "%d chars" % len(text)
+        return 0, None
+    text = " ".join(str(v) for v in got.values()) if isinstance(got, dict) else str(got)
+    return len(text.strip()), None
+
+
+def _probe_present(host, title, timeout=25):
+    """Does this host still resolve a title we know it holds? -> (ok, detail).
+
+    TAKES A LIST, AND ONE HIT IS ENOUGH. This probed exactly one title until run #33, and that
+    single title came from `known_present_title`, which returns a CATALOGUE ENTRY NAME. Entry
+    names carry the cataloguer's disambiguators -- `Scout (Jeremy Willis)`, `Sweet Tooth (Marcus
+    "Needles" Kane)`, `Cetana (the Synthetic Queen)` -- and no wiki has an article at that
+    string. So the probe asked live wikis for pages that could not exist, got nothing, and
+    concluded the HOST was dead. Run #33's first full canary sweep quarantined 20 of 134 hosts
+    on this alone: teamfortress, stellaris, rocketleague and seventeen more, every one of them
+    up and serving. A quarantine stops mining, so a false one is not a cosmetic error.
+
+    Two changes, both needed. The parenthetical is stripped, which recovers `Scout` (12,169
+    chars) from `Scout (Jeremy Willis)`. And SEVERAL candidates are tried rather than one,
+    because stripping is not sufficient either: `Cetana` is a real entry whose article this wiki
+    genuinely does not have, and one absent page must not convict a host. The first title that
+    resolves ends the probe -- that is a short-circuit on success, not a truncation, since the
+    question is "does this host serve anything we know it holds" and one hit answers it.
+
+    The failure branch IS bounded, at `PRESENT_CANDIDATES`, and that bound is reported in the
+    detail rather than left implicit: a host is called dead only after that many known titles
+    all came back empty, and the reader can see how many were asked.
+    """
+    tried, errors = [], []
+    for t in ([title] if isinstance(title, str) else list(title or []))[:PRESENT_CANDIDATES]:
+        n, err = _fetch_chars(host, t)
+        tried.append(t)
+        if err:
+            errors.append(err)
+            continue
+        if n >= 200:
+            return True, "%d chars from %r (candidate %d of %d tried)" % (
+                n, t, len(tried), len(tried))
+    if not tried:
+        return False, "no catalogued title to probe with"
+    if errors and len(errors) == len(tried):
+        return False, "every probe errored: %s" % errors[0]
+    return False, ("%d known-present title(s) all returned nothing or too little to be a page "
+                   "(tried: %s)" % (len(tried), ", ".join(repr(t) for t in tried[:4])))
 
 
 def _probe_absent(host, timeout=25):
@@ -162,6 +202,53 @@ def canary(host, present_title):
             "reason": None if healthy else
             ("known-present probe failed: " + det_p if not ok_p
              else "absent probe resolved: " + det_a)}
+
+
+def _title_variants(name):
+    """A catalogue entry name -> the article titles a wiki might actually have it under.
+
+    The raw name first (some wikis really do disambiguate in the title), then the name with a
+    trailing parenthetical removed. Written with an explicit scan rather than a regex because
+    this file has been through the eaten-escape corruption once already.
+    """
+    name = (name or "").strip()
+    out = [name] if name else []
+    if name.endswith(")") and "(" in name:
+        bare = name[:name.rindex("(")].strip()
+        if bare and bare != name and len(bare) > 2:
+            out.append(bare)
+    return out
+
+
+def known_present_titles(host, hosts_map=None, records_dir=None, want=None):
+    """Ordered candidate titles this host is believed to hold. See `_probe_present` for why a
+    single title is not enough to convict a host."""
+    import glob
+    want = PRESENT_CANDIDATES if want is None else want
+    hosts_map = hosts_map if hosts_map is not None else _load(
+        os.path.join(HERE, "data", "WIKI_HOSTS.json"), {})
+    sources = [s for s, h in (hosts_map or {}).items() if h == host]
+    if not sources:
+        return []
+    want_src = set(sources)
+    out, seen = [], set()
+    for p in sorted(glob.glob(os.path.join(records_dir or os.path.join(HERE, "data", "records"),
+                                           "*.json"))):
+        try:
+            with open(p, encoding="utf-8") as f:
+                rec = json.load(f)
+        except Exception:
+            continue
+        if rec.get("source") not in want_src:
+            continue
+        for e in (rec.get("entries") or []):
+            for t in _title_variants((e or {}).get("name")):
+                if len(t) > 3 and t not in seen:
+                    seen.add(t)
+                    out.append(t)
+                    if len(out) >= want:
+                        return out
+    return out
 
 
 def known_present_title(host, hosts_map=None, records_dir=None):
@@ -203,7 +290,7 @@ def run(limit=None, only=None):
         hosts = hosts[:limit]
     out, failed = [], 0
     for h in hosts:
-        title = known_present_title(h, hosts_map)
+        title = known_present_titles(h, hosts_map)
         if not title:
             out.append({"host": h, "healthy": None, "reason": "no catalogued entry to probe with"})
             continue
@@ -230,7 +317,19 @@ def main():
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--host", action="append", help="only these hosts")
     ap.add_argument("--quarantined", action="store_true")
+    ap.add_argument("--titles", metavar="HOST",
+                    help="show the candidate titles the canary would probe this host with -- "
+                         "the first question to ask when a live host fails its canary")
     a = ap.parse_args()
+    if a.titles:
+        cands = known_present_titles(a.titles)
+        print("primary : %r" % (known_present_title(a.titles),))
+        if not cands:
+            print("no catalogued entry to probe with -- this host cannot be canaried")
+            return 1
+        for i, t in enumerate(cands, 1):
+            print("  %2d. %r" % (i, t))
+        return 0
     if a.quarantined:
         q = quarantined()
         if not q:

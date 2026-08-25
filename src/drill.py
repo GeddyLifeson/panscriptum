@@ -1024,6 +1024,29 @@ def _policy_corpus_clean():
 
 # ============================================================== THE FETCH (network manners)
 
+def _refusal_is_recorded():
+    """A page that was REFUSED must reach the cached record as a refusal, not as an absence.
+
+    THIS NET COULD NOT FAIL UNTIL RUN #33. It read:
+
+        lambda: "pages_refused" in F.evidence_for.__doc__ or True
+
+    -- and `or True` made the whole expression unconditionally true. Worse, the masked half was
+    testing the wrong thing anyway: it asked whether a DOCSTRING mentioned the key, and that
+    docstring does not mention it, so the net would have failed had anyone ever removed the
+    `or True`. A net asserting a fact about prose, then defanged so the wrong assertion could
+    not embarrass anyone, is the exact shape this project calls a check that cannot fail. Found
+    by the run #33 sweep.
+
+    What actually carries the guarantee is `feats.evidence_for`: the refusal branch records the
+    reason under the title, and the written record carries that map. Both halves are asserted,
+    because either one alone can be removed without the other looking wrong.
+    """
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "feats.py"),
+               encoding="utf-8").read()
+    return '"pages_refused": unreal' in src and "unreal[t] = why" in src
+
+
 def drill_fetch():
     """Between the wiki and the model: the two ways a network failure becomes a false absence."""
     a = "THE FETCH — can a blocked or throttled page read as an empty subject?"
@@ -1034,7 +1057,7 @@ def drill_fetch():
 
     import feats as F
     net(a, "a refused page is RECORDED, not dropped",
-        lambda: "pages_refused" in F.evidence_for.__doc__ or True,
+        _refusal_is_recorded,
         "the distinction between 'no evidence' and 'we were blocked' must survive to the cache")
     net(a, "persistent throttling hands off to quarantine rather than hammering",
         lambda: F.THROTTLE_STRIKES >= 1 and hasattr(F, "note_throttled"),

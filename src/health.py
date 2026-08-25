@@ -58,6 +58,10 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 # page runs to kilobytes. Anything under this threshold held nothing.
 EMPTY_BYTES = 400
 
+# Where the preflight leaves its verdict for `workorders.sweep_detectors` to read. See
+# `preflight()` for why a check that only prints is a check the queue cannot act on.
+PREFLIGHT_STAMP = os.path.join(HERE, "state", "preflight_last.json")
+
 LEDGER = collections.Counter()
 _LOCK = threading.Lock()
 LEDGER_PATH = os.path.join(HERE, "state", "failures.json")
@@ -221,8 +225,29 @@ def check_caches():
     """A cache that is systematically empty means broken, not absent.
 
     An empty entry is normal. An entire host directory of empty entries is the 404 signature.
+
+    A QUARANTINED HOST IS NOT REPORTED AGAIN HERE. `binding_health` already holds the fault, with
+    the canary detail that diagnosed it, and `workorders` files one HOST_QUARANTINED order per
+    host from that record -- so a host like www.dandwiki.com, whose API answers 403 to everyone
+    who is not logged in, would otherwise sit red in this preflight for ever with no action that
+    could ever clear it. A permanent red is not extra safety; it is how a preflight stops being
+    read. The host is still PRINTED below, so it cannot vanish silently -- what changes is that
+    it no longer counts as a fresh problem the preflight is asking somebody to fix. (run #33)
     """
     out = []
+    try:
+        import binding_health as _BH
+        # THE CACHE DIRECTORY IS NOT THE HOST NAME. `identity.py` keys a host's directory as
+        # host.replace(".","_").replace("-","_"), so `www.dandwiki.com` lives in
+        # `data/feats/www_dandwiki_com`. Comparing the two spellings directly matches nothing,
+        # which would have made this whole exemption a no-op that still LOOKED implemented --
+        # the failure mode this project calls a check that cannot fail.
+        quarantined = {h.replace(".", "_").replace("-", "_") for h in _BH.quarantined()}
+    except Exception:
+        # FAIL LOUD, NOT QUIET. If the quarantine record cannot be read we do not know that a
+        # host is excused, so nothing is excused and every empty cache reports as before.
+        quarantined = set()
+    excused = []
     for base in ("feats", "readfeats"):
         root = os.path.join(HERE, "data", base)
         if not os.path.isdir(root):
@@ -249,7 +274,15 @@ def check_caches():
                             f"{unreadable} files cannot be stat'd"))
             n = min(len(files), 200)
             if empty == n:
-                out.append((f"{base}/{host}", f"all {n} sampled entries empty"))
+                if host in quarantined:
+                    excused.append(f"{base}/{host} ({n})")
+                else:
+                    out.append((f"{base}/{host}", f"all {n} sampled entries empty"))
+    if excused:
+        # PRINTED, NOT RETURNED -- the same discipline as the re-judgement queue below: visible
+        # every run, but not counted as a problem the preflight is asking anyone to act on.
+        print("  info  empty caches on QUARANTINED hosts (fault held by binding_health, "
+              "not re-reported here): " + ", ".join(sorted(excused)))
     return out
 
 
@@ -419,8 +452,24 @@ CHECKS = [
 ]
 
 
-def preflight(verbose=True):
+def preflight(verbose=True, stamp=True):
+    """Run every preflight check. -> the number of problems found.
+
+    THE STAMP IS WHY THIS RUN'S FAULTS REACHED THE QUEUE AT ALL. Until run #33 the preflight
+    reported only to a terminal: `allsweep` grades a verifier bad if it CRASHED or TIMED OUT,
+    and this one does neither -- it exits 1 to say "I have findings", which is its contract and
+    is deliberately not graded as a crash. So a red preflight left no machine-readable trace
+    anywhere, `workorders --sweep` printed "nothing outstanding", and a genuinely failing check
+    (every one of 805 dandwiki entries empty) sat unreported through four consecutive runs
+    because the only thing that ever knew was a console nobody was reading.
+
+    Writing the result where `workorders.sweep_detectors` can find it costs one small file and
+    turns this from a check into a DETECTOR -- something that files. `drill.py` has written
+    `drill_last.json` for exactly this reason since run #29; this is that pattern, applied to
+    the member of the battery that most needed it.
+    """
     problems = 0
+    rows = []
     for label, fn in CHECKS:
         try:
             found = fn()
@@ -428,12 +477,23 @@ def preflight(verbose=True):
             found = [("check itself failed", f"{type(e).__name__} {str(e)[:60]}")]
         if found:
             problems += len(found)
+            rows.extend({"check": label, "what": str(a)[:200], "detail": str(b)[:300]}
+                        for a, b in found)
             if verbose:
                 print(f"  FAIL  {label}")
                 for a, b in found:
                     print(f"          {a}: {b}")
         elif verbose:
             print(f"  ok    {label}")
+    if stamp:
+        # NEVER FATAL. A preflight that dies because it could not write its own report is worse
+        # than one that cannot report: this runs at the head of every supervisor cycle.
+        try:
+            silence.write_json(PREFLIGHT_STAMP,
+                               {"at": time.time(), "problems": problems,
+                                "checks": [c[0] for c in CHECKS], "rows": rows}, indent=1)
+        except Exception:
+            silence.note("health.py:preflight-stamp")
     return problems
 
 

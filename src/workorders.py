@@ -63,6 +63,117 @@ class BadOrder(ValueError):
     """A work order that could not be routed. Refused rather than filed unroutable."""
 
 
+# --------------------------------------------------------------------- the battery's artifacts
+#
+# How long a battery result stays meaningful. A STALE result is a fault in its own right and is
+# deliberately NOT treated as a pass: "nobody has run the battery since Tuesday" and "the battery
+# is green" are different sentences, and a queue that cannot tell them apart reports the second
+# when it means the first. Absence is handled the same way -- a missing artifact fires STALE,
+# never silence.
+PREFLIGHT_MAX_AGE = 6 * 3600
+ALLSWEEP_MAX_AGE = 24 * 3600
+
+# Every code this tier owns, each pinned to the `where` it files under. Named once so
+# `sweep_detectors` can close each one when its detector goes quiet, rather than leaving orders
+# that only ever accumulate.
+#
+# THE `where` IS PART OF THE FAULT'S IDENTITY: `resolve_code` closes `order_id(code, where)`, so
+# a detector that files under one `where` and clears under another files an order it can never
+# close. Written as a table rather than passed around precisely so the filing and the closing
+# cannot disagree -- caught in review of this very function, which first took `where` from the
+# live fault dict and therefore had nothing to pass when the fault went away.
+BATTERY_WHERE = {
+    "PREFLIGHT_PROBLEM": "health.preflight",
+    "PREFLIGHT_STALE": "state/preflight_last.json",
+    "BATTERY_GRADED": "allsweep",
+    "BATTERY_STALE": "data/ALLSWEEP.json",
+}
+BATTERY_CODES = tuple(BATTERY_WHERE)
+
+
+def battery_faults(preflight=None, allsweep=None, now=None):
+    """PURE. Given the battery's two artifacts, -> {code: fault-dict or None}.
+
+    WHY THIS EXISTS (run #33). `drill.py` escalated; nothing else in the battery did.
+    `verify_math`, `health`, `allsweep` and `liveness` never called `escalate()` and were not in
+    `sweep_detectors`, so a RED battery filed no work order at all. On 2026-08-25 the queue
+    printed "nothing outstanding" while verify_math was FAILING its sweep-completeness check and
+    the preflight was FAILING on a host whose every cached entry was empty. Both were found by a
+    human reading console output -- which is precisely the re-derivation the owner's ruling was
+    meant to end. A detector that reports only to a terminal is not a detector; it is a rumour.
+
+    PURE ON PURPOSE, taking parsed artifacts rather than reading disk, so `drill.py` can attack
+    it with a fabricated red battery and watch it file. A net that can only be tested by
+    genuinely breaking the library is a net nobody ever tests.
+    """
+    now = time.time() if now is None else now
+    out = {c: None for c in BATTERY_CODES}
+
+    # ---- the preflight
+    if not isinstance(preflight, dict):
+        out["PREFLIGHT_STALE"] = {
+            "what": "health.py --preflight has left no result: state/preflight_last.json is "
+                    "missing or unreadable, so nothing knows whether the checks pass",
+            "handler": "BOTS", "severity": "MAJOR"}
+    else:
+        age = now - float(preflight.get("at") or 0)
+        if age > PREFLIGHT_MAX_AGE:
+            out["PREFLIGHT_STALE"] = {
+                "what": "the preflight result is %.1f hours old (ceiling %.0fh) -- stale is not "
+                        "green" % (age / 3600.0, PREFLIGHT_MAX_AGE / 3600.0),
+                "handler": "BOTS", "severity": "MINOR"}
+        rows = preflight.get("rows") or []
+        if rows:
+            out["PREFLIGHT_PROBLEM"] = {
+                "what": "health.py --preflight reports %d problem(s): %s"
+                        % (len(rows), "; ".join("%s -> %s" % (r.get("what"), r.get("detail"))
+                                                for r in rows[:3])),
+                "handler": "RUN", "severity": "MAJOR", "evidence": rows[:20]}
+
+    # ---- allsweep's GRADED tiers
+    #
+    # Mirrors allsweep's own `bad` formula exactly -- imports, crashed/timed-out verifiers, lint,
+    # bad estate artifacts -- so the two cannot drift into disagreeing about what "bad" means.
+    # `reconcile` is excluded here for the reason allsweep excludes it: its rows carry no
+    # severity and are not all faults. Summing them made a green machine report sixteen broken
+    # subsystems in run #26.
+    if not isinstance(allsweep, dict):
+        out["BATTERY_STALE"] = {
+            "what": "allsweep has left no result: data/ALLSWEEP.json is missing or unreadable",
+            "handler": "BOTS", "severity": "MAJOR"}
+    else:
+        at = allsweep.get("at")
+        if at is None:
+            # allsweep does not stamp a time inside the file; fall back to the caller's, and if
+            # the caller could not supply one, say so rather than assuming freshness.
+            at = allsweep.get("_mtime")
+        age = None if at is None else now - float(at)
+        if age is None or age > ALLSWEEP_MAX_AGE:
+            out["BATTERY_STALE"] = {
+                "what": ("allsweep's result carries no timestamp" if age is None else
+                         "the allsweep result is %.1f hours old (ceiling %.0fh) -- stale is not "
+                         "green" % (age / 3600.0, ALLSWEEP_MAX_AGE / 3600.0)),
+                "handler": "BOTS", "severity": "MINOR"}
+        bad = []
+        for r in (allsweep.get("imports") or []):
+            if not r.get("ok"):
+                bad.append("import %s: %s" % (r.get("module"), str(r.get("detail"))[:160]))
+        for r in (allsweep.get("verifiers") or []):
+            if r.get("crashed") or r.get("timeout"):
+                bad.append("verifier %s %s" % (r.get("check"),
+                                               "timed out" if r.get("timeout") else "crashed"))
+        for ln in (allsweep.get("lint") or []):
+            bad.append("lint %s" % str(ln)[:160])
+        for art in (((allsweep.get("estate") or {}).get("artifacts") or {}).get("bad") or []):
+            bad.append("estate artifact %s" % str(art)[:160])
+        if bad:
+            out["BATTERY_GRADED"] = {
+                "what": "allsweep grades %d subsystem(s) bad: %s"
+                        % (len(bad), "; ".join(bad[:3])),
+                "handler": "RUN", "severity": "MAJOR", "evidence": bad[:20]}
+    return out
+
+
 def _load():
     try:
         with open(OPEN_FILE, encoding="utf-8") as f:
@@ -248,7 +359,33 @@ def sweep_detectors():
     except Exception:
         silence.note("workorders.py:secrets")
 
-    # 5. ORDERS FILED BY THE ESCALATION CHAIN, closed when their detector is clean again.
+    # 5. THE BATTERY. Cheap because it reads the artifacts the battery already leaves behind
+    #    rather than re-running it -- two small JSON files, not the 100-second sweep. See
+    #    `battery_faults` for why the battery was silent to this queue until run #33.
+    try:
+        def _read(path, stamp_mtime=False):
+            try:
+                with open(path, encoding="utf-8") as f:
+                    got = json.load(f)
+                if stamp_mtime and isinstance(got, dict) and got.get("at") is None:
+                    got["_mtime"] = os.path.getmtime(path)
+                return got
+            except Exception:
+                return None
+
+        faults = battery_faults(
+            preflight=_read(os.path.join(HERE, "state", "preflight_last.json")),
+            allsweep=_read(os.path.join(HERE, "data", "ALLSWEEP.json"), stamp_mtime=True))
+        for code in BATTERY_CODES:
+            f = faults.get(code)
+            _fire(f is None, code,
+                  (f or {}).get("what", ""), (f or {}).get("handler", "RUN"),
+                  (f or {}).get("severity", "MAJOR"), where=BATTERY_WHERE[code],
+                  evidence=(f or {}).get("evidence"), found_by="battery")
+    except Exception:
+        silence.note("workorders.py:battery")
+
+    # 6. ORDERS FILED BY THE ESCALATION CHAIN, closed when their detector is clean again.
     #
     # Everything above files from a detector it can also re-run. `escalate()` files too, and
     # those orders had NO path back to closed -- so a drill breach that was fixed minutes later
