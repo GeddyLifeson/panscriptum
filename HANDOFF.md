@@ -9,6 +9,186 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 04:20–05:1x (local) — Run #24 (scheduled): four guards that fell through into the harm they guarded against
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found.** A sweep agent re-grepped every path `publish.py` syncs to the public
+   repo (`src/`, `prompts/`, `reference/`, `registry_terminal/`, `handoff/`, `config.yaml`)
+   against key/token/password/bearer patterns and embedded URL credentials. Nothing live. The
+   run #22b decision **C** scrub gap itself is unchanged and still wants a ruling.
+2. **THE LOCAL MODEL'S WRITE GATE WAS BYPASSABLE A THIRD WAY, AND IS NOW FIXED.** After m113
+   (case) and m114 (name prefix), run #24 found the same shape again: `src/foreman.py::$DATA`.
+   An NTFS **alternate data stream** is the same bytes as the file it names — `os.path.isfile`
+   says True and the write lands in the real module — but the string does not end in `.py`, so
+   `modname` came out `None`, the module denylist could not match, and the path denylist was
+   tested against a name that is not in it either. **Reproduced on this machine before fixing.**
+   For `health`, `allsweep`, `estate` and `local_agent` the loss was total: `verify_math` never
+   imports those, so the parse/lint/import gates had nothing to say about them either. (m121)
+3. **THREE BUCKETS IN THE POOL ARE HOLDING DEAD CREDENTIALS.** Chased out of the unrecognised
+   ledger as its own order text instructs. `cloudflare:free` → `HTTP 401 Authentication error`;
+   `hyperbolic:free` → `HTTP 401 Could not validate credentials`; `zai:free` → `Insufficient
+   balance or no resource package` (code 1113). All three rows fresh. These cannot fix
+   themselves and they are not in this repo — the config is `C:\Users\imarl\cascade\config.json`.
+   **Owner action: re-key or remove.** Alongside m91's 8 stale Ollama model names, still live —
+   `state/read_auto.log` shows the reader 404-removing `llama3.1:latest`, `qwen2.5:14b`,
+   `gemma3:12b`, `qwen3:30b-a3b-*` on **every start**.
+4. **Nothing deleted.** No public signatures broken, no dependencies added.
+5. **Run #23's reading of `read.py`'s `rc=4294967295` was wrong, and it was wrong for a
+   structural reason.** See below — this is the run's most useful finding.
+
+---
+
+### The run's spine: a guard that fails by doing the thing it prevents
+
+Four of this run's eight fixes are one shape, and it is a sharper version of run #23's "a check
+that cannot fail". **These checks could fail — and on the failure path they performed the exact
+harm they existed to prevent.** A guard that merely does nothing is visible eventually. A guard
+that *inverts* on its error path is invisible forever, because the damage looks like ordinary
+operation and the docstring overhead promises the opposite.
+
+**[m119 / m120 — MAJOR, RESOLVED] BOTH RECORD WRITERS OVERWROTE WHAT THEY COULD NOT READ.**
+Found by the sweep, verified at source before touching. `pipeline.write_record` initialises
+`merged = rec` — the **stale in-memory copy** — and only replaces it with the disk-merged version
+if the read succeeds. Its `except Exception` swallowed the error and **fell through into the
+write**, putting the pipeline's hours-old copy over the disk file whole. That is precisely the
+30,207-entries-to-1,051 revert the docstring says the function was written to stop, performed by
+the guard itself.
+
+**And the trigger is not exotic — it is the exact condition the merge exists for.** The read
+fails most readily when the other writer is mid-write, because a torn or momentarily-empty file
+is a `JSONDecodeError`. The rarer the condition, the more total the loss.
+`write_record_catalogue` had the same fall-through pointing the other way: skip the merge and
+the write **drops every disk-only entry and blanks every judgment already made**, one screen
+below a docstring promising "a merge never shrinks a cast". Both now refuse and return `False`,
+which is this module's own established idiom — `_landed()`'s docstring already argues that a
+writer must SAY when it did not land so the caller leaves its unit open and the next run redoes
+it. Losing one update is recoverable; overwriting a fresh re-catalogue is not.
+
+**[m118 — MAJOR, RESOLVED] THE UNRECOGNISED LEDGER NEVER RE-ASKED ITS OWN QUESTION.**
+Ruling 3 makes the pool ledger the run's first job, so it was read first: **48 open rows**, up
+from the 11 run #23 left. That looked like m109 regressing. It was not.
+
+**"Unrecognised" is a statement about the CURRENT classifier, and nothing ever re-evaluated it.**
+`unrecognised_open()` aged rows at 24h but never re-triaged them, so every row written before a
+classifier improvement stayed open forever — still inside the window, still red, still
+unactionable. Measured: **36 of the 48 were ordinary throttles that `named_transient` or
+`pool_exhausted` already understood**, burying the one genuine unknown (`groq/compound-mini:
+empty response`) thirty-six rows deep and holding a HIGH standard red on debris. Filtering now
+happens on READ, which also makes the answer independent of *which process* wrote the row and
+which version of the classifier that process had imported — a long-lived job carries its
+launch-time import, and `feats.py --roll` has been up since 19:03 yesterday with a pre-m109
+bridge. A write-side-only fix would have left it quietly refilling the ledger for hours.
+**48 rows → 12.** Of the 12, eleven are the deliberately-loud `All 1 candidates failed` shape
+that NEXT_STEPS says to keep and chase by bucket; chasing them is what found the three dead keys
+in item 3. One is the genuine unknown, unchanged.
+
+Also confirmed while in there, and **not** a live bug: the ledger's case-duplicated rows
+(`Every model…` beside `every model…`) are fossils of the m108→m109 change, not two writers.
+`_ask_call` lowercases `err` at `cascade_bridge.py:822` before recording, so today's writes are
+uniformly lowercase.
+
+**[m121 — MAJOR / SECURITY-ADJACENT, RESOLVED] THE ADS BYPASS.** Item 2 above. Fixed in `_safe()`
+rather than at the denylist, because `_safe()` is what every tool funnels through. The check is
+no longer "does this name look denied" but **"is this a plain name at all"**: a colon anywhere
+past the drive letter is refused outright. Trailing dots and spaces — the other two Windows
+names that resolve to the same file — turn out to be normalised away by `abspath` before the
+denylist sees them, so `src/foreman.py.` correctly yields `modname == "foreman"` and is denied
+on the ordinary path; that is asserted too, so it cannot silently stop being true. Verified not
+to over-block: `src/tells.py` is still patchable.
+
+---
+
+### The three defects in the file whose whole job is finding defects
+
+The sweep pointed an agent at `verify_math.py` — 3,620 lines, never audited end to end before —
+and it came back with the suite's own control flow, not its mathematics. **All three are the
+"cannot fail" shape, in the file that exists to fail.**
+
+**[m122 — MAJOR, RESOLVED] A CHECK DISARMED WITH `or True`.** At `verify_math.py:3086`, the
+STANDING-horizon check read `"import overnight" in _fm19._restart_horizon.__doc__ or True`. The
+docstring says "STANDING is imported rather than copied" and has never contained the literal
+`import overnight`, so the assertion was simply **false** — and rather than correct it, an
+always-true disjunct had been added, with a note explaining that the real assertion was the two
+checks above. It now asserts against the **function body**, which genuinely does `import
+overnight` and read `_ON.STANDING`, so it is a real check that passes for a real reason. A
+self-check that no other check in the file carries an always-true disjunct is pinned alongside
+it — and had to have its needle assembled at runtime, because written as a literal it matched
+its own source line and failed forever, which is the self-referential form of the bug it hunts.
+
+**[m123 — MAJOR, RESOLVED] THE SUITE COULD BE SILENCED BY THE DEFECT IT WAS POINTED AT.**
+`check()`'s float branch did `abs(got - want)` with no type guard. A non-numeric `got` — which
+is the commonest way for code under test to be broken — raised `TypeError`, and **nothing wraps
+this script**, so it escaped the whole run: every check after that point never executed and the
+`RESULT` line never printed. A suite that reports nothing looks a lot like a suite that has not
+finished. Now recorded as a failed check. Deliberately narrow: `bool` is an `int` subclass, so
+bool-against-float keeps its old arithmetic verdict and **no check that passed before this guard
+changes its answer** — confirmed against the 682-check baseline before the new section was added.
+
+**[m124 — MINOR, RESOLVED] THE TEST HARNESS WAS FILING ITS OWN PASSES AS PRODUCTION FAULTS.**
+`_raises()` called `silence.note("verify_math.py:47")` on every **expected** test-triggered
+exception. That flows into `state/failures.json` — the ledger the dashboard polls and
+`standards` reads — where the "unexpected swallowed failures" standard counted them as genuine
+unrecognised production faults, the probe key not being in its allowlist. **87 rows had
+accumulated** (29 `ContextOverflow`, 58 `ValueError`) from that one line. The exception IS the
+expected result there; this file already adopts exactly that exemption elsewhere, for exactly
+this reason.
+
+---
+
+### `read.py`'s exit code, and why nobody could read it
+
+**[m125 — RESOLVED] `rc=<number>` IS NOT A DIAGNOSIS.** The reader was down 75 minutes when this
+run started. Its exit history, read back out of `state/overnight.log`, splits cleanly into two
+eras: **every exit up to 02:17 today was `rc=15`** — psutil's kill, i.e. a foreman remedy, which
+is M15 — and **every exit after 02:30 is `rc=4294967295`**, three in a row (02:41, 02:50, 03:47).
+
+Run #23 saw the first two, matched them against run #22b's commit times, and recorded them as
+"a process bounce, not a fault". **The third disproves that** — nothing was bouncing the tree at
+03:47. And `read.py`'s `main()` returns only 0, so this is not a crash either: `4294967295` is
+`TerminateProcess(handle, -1)`, which no remedy in this repo emits (they exit 15) and no Python
+error emits (those exit 1). **What killed it is still unidentified and is the top item for the
+next run.**
+
+The structural finding is why it went unread for three occurrences. The pool side has
+`record_unrecognised` and a standard that goes red on an unnameable refusal; **the job side had
+no vocabulary at all** — the supervisor logged a bare integer and moved on, so a guess about it
+was never testable. `overnight.name_rc()` now names what an exit code means, and says
+`UNRECOGNISED exit code — investigate rather than assume` for anything it has no entry for. That
+is the "an unrecognised failure is a bug, not weather" rule reaching the job layer.
+
+---
+
+### The comprehensive sweep
+
+**95 modules, 39,865 lines, 16 parallel sonnet agents, all launched together.** Coverage proved
+two independent ways: `sweep_plan.missing("run24")` returns **0 uncovered**, and all **16 reports
+are on disk** at 13.8–29.3 KB each. Coverage was recorded from a single process gated on each
+report's actual existence and size, rather than from the agents' self-reports — which also
+sidesteps `sweep_plan.record()`'s still-unfixed cross-process race (NEXT_STEPS §3).
+
+The agents were right on every finding I checked at source this run, including three in code
+written within the previous two hours. As last run, **only findings I verified myself get bug
+numbers**; the rest are cited and queued in NEXT_STEPS §3, not dropped. The queue is large and
+genuinely worth working — it now includes a live `local_agent.py` backup that is never persisted
+to disk, `overwatch.py`'s inability to ever reopen a closed finding, `feats.py`'s
+`resolve_title()` being fully written but **never called**, `hosts.py` truncating candidate hosts
+at 24 before verification, and `wiki_source.py`'s 6000-category alphabetical cut confirmed
+alphabetical against the live MediaWiki API.
+
+**BATTERY:** `verify_math` **697 passed, 0 FAILED** (baseline was 682; +15 new checks pinning
+this run's eight fixes). `allsweep` **0 subsystems in a bad state**. `health --preflight` **1
+problem — the known M1 `feats/www_dandwiki_com` baseline**, not a second one. `silence.py` 47
+silent handlers of 424. `pyflakes src/` clean.
+
+**BOUNCED:** the supervisor, to pick up `overnight.py` and because `read.py` — which it owns and
+which is not in the keeper's STANDING set — had been down 75 minutes. `autostart.py --watch`
+restores it. `feats.py --roll` was deliberately left alone despite carrying a nine-hour-old
+`cascade_bridge`: bouncing it costs a supervisor lap, and m118's read-side design already makes
+its stale classifier harmless, which was much of the point of fixing it on that side.
+
+---
+
 ## 2026-08-25 03:20–04:1x (local) — Run #23 (scheduled): three checks that could not fail, and the gate a capital letter walked through
 
 **FOR THE OWNER, AT THE TOP:**

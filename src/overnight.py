@@ -188,7 +188,7 @@ def run(name, args, logfile, timeout_h=6):
             _PROCS["at"] = 0.0    # the table just changed; the shared cache must not deny it
             p.wait(timeout=timeout_h * 3600)
         el = time.time() - t0
-        log(f"  {name}: finished rc={p.returncode} in {el/60:.0f}m")
+        log(f"  {name}: finished {name_rc(p.returncode)} in {el/60:.0f}m")
         if p.returncode != 0:
             tail(lf, name)
         return "ok" if p.returncode == 0 else f"rc={p.returncode}"
@@ -251,7 +251,7 @@ def join(job, timeout_h):
     try:
         job["proc"].wait(timeout=timeout_h * 3600)
         rc = job["proc"].returncode
-        log(f"  {job['name']}: finished rc={rc} in {(time.time()-job['t0'])/60:.0f}m")
+        log(f"  {job['name']}: finished {name_rc(rc)} in {(time.time()-job['t0'])/60:.0f}m")
         if rc != 0:
             tail(os.path.join(STATE, os.path.basename(job["fh"].name)), job["name"])
         return "ok" if rc == 0 else f"rc={rc}"
@@ -387,6 +387,53 @@ STANDING = [
 ALL_JOBS = (["autostart.py", "overnight.py"]
             + [os.path.basename(args[0]) for _n, args, _l in STANDING]
             + ["read.py", "feats.py --roll"])
+
+
+def name_rc(rc):
+    """Say what an exit code MEANS, not just what it is. `rc=<number>` is not a diagnosis.
+
+    Run #24. `read.py` exited `rc=4294967295` three times running (02:41, 02:50, 03:47) and the
+    supervisor logged the bare number each time. Run #23 read the first two, matched them
+    against its own commit times, and filed them as "run #22b's process bounce, not a fault" --
+    a reasonable guess that the third occurrence disproves, because nothing was bouncing at
+    03:47. The number carried no information either way, so the guess was never testable.
+
+    That is the "unrecognised failure is a bug, not weather" rule reaching the JOB layer. The
+    pool side already has `cascade_bridge.record_unrecognised` and a standard that goes red on
+    an unnameable refusal; the job side had nothing, so an exit code nobody could name simply
+    scrolled past. Naming them is what makes the reader's history readable at a glance -- and
+    read back over `state/overnight.log` it immediately separates the eras: every reader exit
+    up to 02:17 today was `15`, a foreman remedy (M15); every one after 02:30 is `-1`, which no
+    remedy in this repo produces.
+
+    The three that matter here, and they are genuinely different faults:
+      15   psutil's kill() on Windows terminates with the signal number -- a foreman remedy.
+      1    an ordinary Python error exit, or subprocess.Popen.kill().
+      -1   TerminateProcess(handle, -1) by something OUTSIDE this supervisor. Not a remedy and
+           not a Python crash, both of which land elsewhere. This is the one to chase.
+    """
+    try:
+        rc = int(rc)
+    except Exception:
+        return "rc=%r" % (rc,)
+    if rc == 0:
+        return "rc=0 (clean)"
+    signed = rc - (1 << 32) if rc >= (1 << 31) else rc
+    known = {
+        1: "a python error exit, or subprocess kill()",
+        15: "SIGTERM -- a foreman remedy killed it (M15)",
+        -1: "TerminateProcess(-1) from OUTSIDE this supervisor -- not a remedy (those are 15) "
+            "and not a python crash (those are 1)",
+        0xC000013A - (1 << 32): "STATUS_CONTROL_C_EXIT -- the console was closed or Ctrl-C'd",
+        0xC0000005 - (1 << 32): "STATUS_ACCESS_VIOLATION -- a native crash",
+        0xC0000409 - (1 << 32): "STATUS_STACK_BUFFER_OVERRUN",
+        0xC00000FD - (1 << 32): "STATUS_STACK_OVERFLOW",
+    }
+    if signed in known:
+        return "rc=%d (%s)" % (rc, known[signed])
+    if rc >= 0xC0000000:
+        return "rc=%d (0x%X: an unnamed Windows NTSTATUS crash code -- INVESTIGATE)" % (rc, rc)
+    return "rc=%d (UNRECOGNISED exit code -- investigate rather than assume)" % rc
 
 
 def tail(path, name, n=12):

@@ -3711,6 +3711,20 @@ check("a non-numeric got is recorded as a failed check, never raised",
 # needle assembled at runtime: written as a literal it would match its OWN source line and
 # fail forever -- the self-referential version of the bug it is checking for.
 _needle20i = " or " + "True, " + "True,"
+# --- the supervisor can NAME a job's exit code --------------------------------------------------
+# `rc=<number>` is not a diagnosis. read.py exited 4294967295 three times running and the bare
+# number let run #23 file the first two as a harmless process bounce -- a guess the third
+# occurrence disproves. The three codes that actually occur here are three different faults.
+_on20i = __import__("overnight")
+check("a foreman SIGTERM is named as one", "M15" in _on20i.name_rc(15), True)
+check("an external TerminateProcess(-1) is not confused with either",
+      "OUTSIDE this supervisor" in _on20i.name_rc(4294967295), True,
+      note="read.py's live signature since 02:30 on 2026-08-25; no remedy in this repo emits it")
+check("a python error exit is named as one", "python error exit" in _on20i.name_rc(1), True)
+check("and an exit code with no entry says so rather than reading as ordinary",
+      "UNRECOGNISED" in _on20i.name_rc(7), True,
+      note="the job-layer form of 'an unrecognised failure is a bug, not weather'")
+
 # --- the local model's write gate refuses a name that is not a plain one -----------------------
 # m113 (case) and m114 (prefix) were gates keyed on a STRING while the filesystem resolved a
 # DIFFERENT string to the same object. Run #24 found the third road: `foreman.py::$DATA` is the

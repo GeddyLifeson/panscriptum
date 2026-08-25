@@ -81,6 +81,112 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
 
+### Minor-but-new (run #24 — the third whole-tree sweep)
+
+*95 modules, 39,865 lines, 16 parallel agents; `sweep_plan.missing("run24")` returned 0 uncovered
+and all 16 reports are on disk (13.8–29.3 KB each), recorded from one process gated on the report
+files themselves rather than on agent self-reports. Full detail in
+`handoff/sweep24/AUDIT_batch01..16.md`. As last run: **only findings I VERIFIED AT SOURCE MYSELF
+get bug numbers**. The agents' other findings are credible, cited, and queued in NEXT_STEPS §3.*
+
+*The run's shape: **a guard that, on its failure path, performs the harm it exists to prevent.**
+That is run #23's "a check that cannot fail" sharpened — these checks could fail, and failing is
+exactly when they did the damage. Four of the eight are that shape.*
+
+- **[m118 — MAJOR, RESOLVED IN THIS RUN] THE UNRECOGNISED LEDGER NEVER RE-ASKED ITS OWN
+  QUESTION.** Ruling 3 makes the pool ledger the first job, so it was read first: **48 open rows**,
+  up from the 11 run #23 left, which looked like m109 regressing. It was not.
+  **"Unrecognised" is a statement about the CURRENT classifier, and nothing re-evaluated it.**
+  `unrecognised_open()` aged rows at 24h but never re-triaged, so every row written before a
+  classifier improvement stayed open forever — inside the window, red, unactionable. Measured:
+  **36 of 48 were throttles `named_transient`/`pool_exhausted` already understood**, burying the
+  one genuine unknown (`groq/compound-mini: empty response`) thirty-six rows deep.
+  **Fix:** filter on READ, using the same predicates the write side uses. Doing it on the read
+  side also makes the verdict independent of which process wrote the row and which classifier
+  version it had imported — `feats.py --roll` has been up since 19:03 the previous day with a
+  pre-m109 bridge, and a write-side-only fix would have left it refilling the ledger for hours.
+  **48 rows → 12**, of which 11 are the deliberately-loud `All 1 candidates failed` shape and 1
+  is the genuine unknown. Pinned by `verify_math` §20i.
+  *Not a bug, confirmed while in there:* the case-duplicated rows (`Every model…` beside
+  `every model…`) are m108→m109 fossils, not two writers — `cascade_bridge.py:822` lowercases
+  `err` before recording, so today's writes are uniformly lowercase.
+
+- **[m119 — MAJOR, RESOLVED IN THIS RUN] `write_record` OVERWROTE WHAT IT COULD NOT READ.**
+  `merged = rec` initialises to the **stale in-memory copy** and only becomes the disk-merged
+  version if the read succeeds. The `except Exception` swallowed the error and **fell through
+  into the write**, putting the pipeline's hours-old copy over the disk file whole — the exact
+  30,207-to-1,051 revert the docstring says the function was written to stop, performed by the
+  guard. **The trigger is the condition the merge exists for:** the read fails most readily when
+  the other writer is mid-write, because a torn or momentarily-empty file is a `JSONDecodeError`.
+  **Fix:** refuse and return `False`, which is this module's own idiom — `_landed()` already
+  argues a writer must SAY when it did not land so the caller leaves its unit open. Pinned by §20i.
+
+- **[m120 — MAJOR, RESOLVED IN THIS RUN] `write_record_catalogue`, THE SAME FALL-THROUGH POINTING
+  THE OTHER WAY.** Here `rec` is the authority for the entry list, so a swallowed read does not
+  revert the cast — it does something quieter and just as permanent. The merge is what carries
+  the disk copy's per-entry judgments forward and re-appends disk-only entries; skipping it
+  **drops every disk-only entry and blanks every judgment already made**, one screen below a
+  docstring promising "a merge never shrinks a cast". Same remedy. Pinned by §20i.
+
+- **[m121 — MAJOR / SECURITY-ADJACENT, RESOLVED IN THIS RUN] THE LOCAL MODEL'S WRITE GATE, A
+  THIRD ROAD IN: AN NTFS ALTERNATE DATA STREAM.** After m113 (case) and m114 (name prefix),
+  `src/foreman.py::$DATA` is the **same bytes** as the denied file — `os.path.isfile` says True
+  and the write lands in the real module — but the string does not end in `.py`, so `modname`
+  came out `None`, the module denylist could not match, and `DENYLIST_PATHS` was tested against a
+  name (`foreman.py::$DATA`) not in it either. **Reproduced on this machine before fixing.** For
+  `health`, `allsweep`, `estate` and `local_agent` the loss was total: `verify_math` does not
+  import those, so the parse/lint/import gates had nothing to say about them either.
+  **Fix in `_safe()`**, which every tool funnels through, and reframed — the test is no longer
+  "does this name look denied" but **"is this a plain name at all"**: a colon anywhere past the
+  drive letter is refused. Trailing dots and spaces turn out to be normalised away by `abspath`
+  before the denylist sees them, so `src/foreman.py.` correctly yields `modname == "foreman"` and
+  is denied on the ordinary path — asserted too, so it cannot silently stop being true. Verified
+  not to over-block (`src/tells.py` still patchable). Pinned by §20i.
+
+- **[m122 — MAJOR, RESOLVED IN THIS RUN] A CHECK DISARMED WITH AN ALWAYS-TRUE DISJUNCT, IN THE
+  FILE THAT EXISTS TO FAIL.** `verify_math.py:3086` read
+  `"import overnight" in _fm19._restart_horizon.__doc__ or True`. The docstring says "STANDING is
+  imported rather than copied" and has never contained that literal, so the assertion was
+  **false** — and instead of correcting it, an always-true disjunct had been added, with a note
+  conceding the real assertion was the two checks above. Now asserts against the **function
+  body**, which genuinely does `import overnight` and reads `_ON.STANDING`. A self-check that no
+  other check carries an always-true disjunct is pinned beside it — its needle assembled at
+  runtime, because as a literal it matched its own source line and failed forever, which is the
+  self-referential form of the bug it hunts.
+
+- **[m123 — MAJOR, RESOLVED IN THIS RUN] THE SUITE COULD BE SILENCED BY THE DEFECT IT WAS POINTED
+  AT.** `check()`'s float branch did `abs(got - want)` with no type guard. A non-numeric `got` —
+  the commonest way for code under test to be broken — raised `TypeError`, and **nothing wraps
+  this script**, so it escaped the whole run: every check after that point never executed and the
+  `RESULT` line never printed. A suite that reports nothing resembles a suite still running.
+  Now recorded as a failed check. Deliberately narrow: `bool` is an `int` subclass, so
+  bool-against-float keeps its old arithmetic verdict and **no previously-passing check changes
+  its answer** — confirmed against the 682-check baseline before the new section was added.
+
+- **[m124 — MINOR, RESOLVED IN THIS RUN] THE TEST HARNESS FILED ITS OWN PASSES AS PRODUCTION
+  FAULTS.** `_raises()` called `silence.note("verify_math.py:47")` on every **expected**
+  test-triggered exception, flowing into `state/failures.json` — the ledger the dashboard polls
+  and `standards` reads — where the "unexpected swallowed failures" standard counted them as
+  genuine unrecognised production faults, the probe key not being in its allowlist. **87 rows had
+  accumulated** (29 `ContextOverflow`, 58 `ValueError`) from that one line. The exception IS the
+  expected result there, and this file already adopts exactly that exemption elsewhere.
+
+- **[m125 — MAJOR, RESOLVED IN THIS RUN] `rc=<number>` IS NOT A DIAGNOSIS, AND THAT IS WHY
+  `read.py`'s NEW CRASH SIGNATURE WENT UNREAD THREE TIMES.** The reader's exit history splits
+  cleanly: **every exit up to 02:17 on 2026-08-25 was `rc=15`** (psutil's kill — a foreman
+  remedy, i.e. M15), and **every exit after 02:30 is `rc=4294967295`**, three consecutively
+  (02:41, 02:50, 03:47). Run #23 saw the first two, matched them to run #22b's commit times and
+  filed them as a harmless process bounce; **the third disproves that**, nothing being bounced at
+  03:47. Nor is it a crash — `read.py`'s `main()` returns only 0, and `4294967295` is
+  `TerminateProcess(handle, -1)`, which no remedy here emits (they exit 15) and no Python error
+  emits (those exit 1).
+  **The structural fault:** the pool side has `record_unrecognised` and a standard that reddens
+  on an unnameable refusal; the **job side had no vocabulary at all**, so the supervisor logged a
+  bare integer and a guess about it was never testable. `overnight.name_rc()` now names what an
+  exit code means and says `UNRECOGNISED exit code — investigate rather than assume` for anything
+  it has no entry for. Pinned by §20i. **What actually kills the reader is still unidentified —
+  it is NEXT_STEPS' top item, and it is a live outage, not a historical curiosity.**
+
 ### Minor-but-new (run #23 — the second whole-tree sweep)
 
 *95 modules, 39,687 lines, 16 parallel agents; `sweep_plan.missing("run23")` returned 0 uncovered
