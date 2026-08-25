@@ -539,18 +539,39 @@ def cache_path(host, name):
 CHUNK_CACHE = os.path.join(HERE, "data", "chunkfeats")
 
 
-def _chunk_key(host, ch):
-    """A chunk's identity: its exact text. Independent of which entity asked for it.
+def _chunk_key(host, ch, entity):
+    """A chunk's identity: its exact text AND the entity it was read FOR.
 
-    Two entities attached to the same shared index page read the same passage, and there is no
-    reason to pay for it twice -- so the key is the passage, not the pair.
+    THE ENTITY BELONGS IN THE KEY, AND LEAVING IT OUT LOST REAL FEATS SILENTLY (2026-08-24).
+
+    The original premise was "two entities attached to the same shared index page read the same
+    passage, and there is no reason to pay for it twice -- so the key is the passage, not the
+    pair." That is true of the PASSAGE and false of the ANSWER. The model is not summarising the
+    passage: `SYSTEM` opens "You are reading one page of a fiction wiki to collect POWER FEATS
+    for an entity", the prompt carries `ENTITY: <name>`, and what comes back is the feats OF
+    THAT ENTITY.
+
+    So on a shared franchise index -- exactly the case the old docstring cited as the win -- the
+    first entity to arrive cached ITS feats under a key naming no entity, and every later entity
+    hitting that passage was served the first one's answer. Downstream, `_names(s, name)`
+    correctly rejects sentences that do not name the later entity, so they were counted as
+    `generic_dropped`, the chunk was recorded as ANSWERED, and `read_entity` wrote the record as
+    complete. This is the one path in this file that loses work PERMANENTLY: the "deferred, not
+    lost" guarantee (`if unanswered: return out`) never fires, because nothing went unanswered.
+    The entity is filed as having no feats in a passage that describes its feats -- this
+    project's signature failure, once more in a new costume.
+
+    Keying on the entity too costs a sharing that was never legitimate. Entries written under
+    the old key simply stop being found; they are LEFT IN PLACE, not deleted, and those passages
+    are re-asked per entity as the reader reaches them.
     """
-    h = hashlib.sha256((host + chr(31) + ch).encode("utf-8")).hexdigest()
+    h = hashlib.sha256(
+        (host + chr(31) + (entity or "") + chr(31) + ch).encode("utf-8")).hexdigest()
     return h[:2], h[2:18]
 
 
-def _chunk_get(host, ch):
-    d, name = _chunk_key(host, ch)
+def _chunk_get(host, ch, entity):
+    d, name = _chunk_key(host, ch, entity)
     p = os.path.join(CHUNK_CACHE, d, name + ".json")
     if not os.path.exists(p):
         return None
@@ -562,13 +583,18 @@ def _chunk_get(host, ch):
         return None
 
 
-def _chunk_put(host, ch, feats):
-    d, name = _chunk_key(host, ch)
+def _chunk_put(host, ch, entity, feats):
+    d, name = _chunk_key(host, ch, entity)
     folder = os.path.join(CHUNK_CACHE, d)
     try:
         os.makedirs(folder, exist_ok=True)
         p = os.path.join(folder, name + ".json")
-        tmp = p + ".tmp"
+        # A PER-WRITER TEMP NAME. This was `p + ".tmp"`, derived only from the cache key, so two
+        # workers answering the same passage at once opened and truncated ONE file -- each
+        # writing over the other mid-dump, then both renaming it. `replace_retry` makes the
+        # rename safe; nothing made the WRITE safe. The pid and thread id make the staging file
+        # private, so the only shared operation left is the atomic rename.
+        tmp = "%s.%d.%d.tmp" % (p, os.getpid(), threading.get_ident())
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump({"feats": feats}, f, ensure_ascii=False)
         silence.replace_retry(tmp, p)
@@ -664,7 +690,7 @@ def read_entity(c, host, name, cap_chunks=None):
         # unconditionally. The hot loop called the second, so the reader spent the morning
         # serialising on one 10GB card while thirteen cloud buckets sat idle -- and every
         # diagnostic pointed at Cascade, because Cascade was never being asked.
-        cached = _chunk_get(host, ch)
+        cached = _chunk_get(host, ch, name)
         if cached is not None:
             got = cached
             reused += 1
@@ -672,7 +698,7 @@ def read_entity(c, host, name, cap_chunks=None):
             got = _ask(c, SYSTEM, "ENTITY: " + name + "\nPAGE: " + title + "\n\n" + ch,
                        SCHEMA)
             if got is not None:
-                _chunk_put(host, ch, (got or {}).get("feats", []))
+                _chunk_put(host, ch, name, (got or {}).get("feats", []))
         if got is None:
             # NOBODY ANSWERED. Not "this passage holds no feats" -- nobody read it. Every
             # transport declined: the pool was exhausted or erroring and the GPU was benched.
@@ -736,6 +762,10 @@ def read_entity(c, host, name, cap_chunks=None):
 
 # An own page this size is a deep subject: tens of model calls, and worth them.
 DEEP_CHARS = 50_000
+
+# Below this much evidence a hostless entity is RANKED LAST -- never excluded. It was previously
+# an unnamed literal `2000` that decided membership of the queue rather than position in it.
+THIN_CHARS = 2_000
 # Short subjects admitted alongside each deep one. Four keeps the pool mixed without starving
 # the deep end -- at ten workers there is always one long read running and nine short ones.
 WEAVE = 4
@@ -785,11 +815,27 @@ def priority(rows):
     # 241 read ones off a 97,000-character own page. A large TOTAL with a small own page means
     # the opposite: a name that appeared in somebody else's index.
     have_page = [r for r in rows if r.get("own", 0) > 0]
-    no_page = [r for r in rows if not r.get("own", 0) and r.get("chars", 0) >= 2000]
+    no_page = [r for r in rows if not r.get("own", 0) and r.get("chars", 0) >= THIN_CHARS]
+    # THE THIRD BUCKET, WHICH USED TO BE NO BUCKET AT ALL (Hard Rule 0, found 2026-08-24).
+    #
+    # This function built exactly two lists -- own-page rows, and hostless rows with at least
+    # THIN_CHARS of evidence -- and returned `woven + no_page`. An entity with no own page AND
+    # under THIN_CHARS of mentions therefore appeared in NEITHER list and was silently absent
+    # from the queue this function's own comment calls "the full list". Measured against the
+    # live queue index: 40,884 rows, of which **668 were dropped**, every one of them holding
+    # real evidence text. Nothing raised, nothing logged, and the reader reported completing a
+    # corpus it had never been handed.
+    #
+    # That is precisely the shape CLAUDE.md's Hard Rule 0 forbids: not a sample, a TRUNCATION,
+    # "a smaller universe wearing the same shape as the real one". Ranking is still allowed and
+    # is still what happens -- thin rows sort last, so an interrupted run has lost nothing that
+    # a richer row would have given it. They are simply no longer discarded for being thin.
+    thin = [r for r in rows if not r.get("own", 0) and r.get("chars", 0) < THIN_CHARS]
     have_page.sort(key=lambda r: (-r.get("own", 0), -yield_per_chunk(r)))
     # Then the names that only ever appeared inside other articles, densest mention first. These
     # are still read -- nothing here is dropped -- they are simply the thinner half of the work.
     no_page.sort(key=lambda r: (-yield_per_chunk(r), r.get("chars", 0)))
+    thin.sort(key=lambda r: (-yield_per_chunk(r), r.get("chars", 0)))
 
     # DEPTH AND BREADTH, not depth then breadth. Sorted purely by own-page size the queue opens
     # with Dark Angels, Space Wolves, Ultramarines and Blood Angels -- four Warhammer chapters at
@@ -809,7 +855,7 @@ def priority(rows):
         for _ in range(WEAVE):
             if li < len(light):
                 woven.append(light[li]); li += 1
-    return woven + no_page
+    return woven + no_page + thin
 
 
 QCACHE = os.path.join(HERE, "state", "read_queue_index.json")

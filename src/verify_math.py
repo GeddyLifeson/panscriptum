@@ -2594,6 +2594,163 @@ finally:
     _GLx._BEAT_SECONDS = _real_beat19ad
 
 
+# ---- Section 19ae: "cloud" means succeeding, not merely reachable -----------------------------
+#
+# 2026-08-24. The root defect this project keeps rediscovering, closed at the site where it was
+# first named. `regime()` returned "cloud" on bucket REACHABILITY alone; every job in the kit
+# sizes itself from that word. Measured: regime "cloud" while the live cloud success rate was
+# 4%, so `_gate()` opened to 16 and 1,168 of 1,235 chunks fell onto one card and were destroyed.
+# The label now requires answering buckets AND a measured rate at or above CLOUD_MIN_SUCCESS.
+#
+# The measurement must not be allowed to overreact either: a handful of failures during a blip
+# must not flip the whole library to local, and no evidence at all must never read as a fault.
+_real_ab19ae = _TUNx._answering_buckets
+_real_csr19ae = _TUNx.cloud_success_rate
+_real_up19ae = _TUNx._ollama_up
+try:
+    _TUNx._ollama_up = lambda host=None: True
+
+    def _set19ae(buckets, rate, calls):
+        _TUNx._answering_buckets = lambda: (buckets, "%d answering" % buckets)
+        _TUNx.cloud_success_rate = lambda minutes=15: (rate, calls)
+
+    _set19ae(8, 0.90, 200)
+    check("plenty of buckets AND a healthy rate reads cloud", _TUNx.regime(force=True), "cloud")
+
+    _set19ae(8, 0.04, 200)
+    check("plenty of buckets but a 4% success rate does NOT read cloud",
+          _TUNx.regime(force=True), "local",
+          note="this is the exact measured condition that destroyed 1,168 chunks: eight "
+               "buckets answering a proof while the calls themselves were failing")
+
+    _set19ae(8, 0.04, 3)
+    check("a bad rate over too few calls does not get a vote",
+          _TUNx.regime(force=True), "cloud",
+          note=f"under MIN_CALLS_TO_JUDGE={_TUNx.MIN_CALLS_TO_JUDGE} the rate is noise; a "
+               "provider blip must not flip the whole library to local")
+
+    _set19ae(8, None, 0)
+    check("no evidence at all is never treated as a fault", _TUNx.regime(force=True), "cloud")
+
+    _set19ae(1, 0.99, 200)
+    check("a perfect rate cannot rescue a pool with too few buckets",
+          _TUNx.regime(force=True), "local")
+
+    check("the success floor sits below the standard's 50% ok bar",
+          _TUNx.CLOUD_MIN_SUCCESS < 0.5, True,
+          note="this decides how WIDE to open, so it is deliberately more permissive than the "
+               "standard that merely reports; reading local while the cloud is mediocre costs "
+               "a slower run, reading cloud while it is failing costs the work itself")
+finally:
+    _TUNx._answering_buckets = _real_ab19ae
+    _TUNx.cloud_success_rate = _real_csr19ae
+    _TUNx._ollama_up = _real_up19ae
+    _TUNx._CACHE.update({"at": 0.0, "regime": None, "why": ""})
+
+
+# ---- Section 19af: template parameters do not leak braces into the evidence -------------------
+#
+# 2026-08-24, filed by the run #5 audit and open ever since. `feats._unwrap_templates` matched
+# wikitext's THREE-brace parameter syntax `{{{name|default}}}` with its two-brace template
+# branch, consumed two of the three, and left the third closing brace behind as literal text.
+#
+# Not cosmetic: this text is both what the reader hands the model AND what the verbatim check
+# compares the model's answers against, so an injected `}` makes a genuine quotation fail
+# `_norm_q(s) not in _norm_q(ch)` and be counted as a FABRICATION.
+import feats as _FEx      # noqa: E402
+
+for _src19af, _want19af in [
+        ("{{{1|just a param}}}", "just a param"),
+        ("prose {{{2}}} more prose", "prose more prose"),
+        ("{{T|{{{1|fallback}}}|keep this prose}}", "fallback keep this prose"),
+        ("{{{outer|{{{inner|deep}}}}}}", "deep"),
+        ("{{Infobox|name=Bob|age=7}}", "Bob 7")]:
+    _got19af = " ".join(_FEx._unwrap_templates(_src19af).split())
+    check(f"unwrapping {_src19af!r} leaves no stray brace",
+          ("{" in _got19af or "}" in _got19af), False, note=f"got {_got19af!r}")
+    check(f"unwrapping {_src19af!r} keeps its prose", _got19af, _want19af)
+
+
+# ---- Section 19ag: the shared metrics ledger is appended a whole line at a time ---------------
+#
+# m62. Five live processes append to `state/model_metrics.jsonl` with a BUFFERED `open(path,"a")`
+# write, which may be split into several underlying writes; two processes interleaving mid-line
+# produce a row that parses as neither. Measured: 5 corrupt lines, three mid-record fragments.
+# One `os.write` to an `O_APPEND` descriptor is a single syscall.
+def _json_try(ln):
+    try:
+        return json.loads(ln)
+    except Exception:
+        _ = "silence-exempt: whether a line parses IS the measurement this check reports"
+        return None
+
+
+_ledger19ag = os.path.join(_tmp19ad.mkdtemp(prefix="panscript-ledger-"), "m.jsonl")
+for _i19ag in range(50):
+    silence.append_line(_ledger19ag, json.dumps({"i": _i19ag, "pad": "x" * 200}))
+with open(_ledger19ag, encoding="utf-8") as _f19ag:
+    _lines19ag = [ln for ln in _f19ag.read().splitlines() if ln.strip()]
+check("every appended row is a whole line", len(_lines19ag), 50)
+check("every appended row parses",
+      sum(1 for ln in _lines19ag if isinstance(_json_try(ln), dict)), 50)
+check("append_line reports failure rather than raising",
+      silence.append_line(os.path.join(_ledger19ag, "not-a-dir", "x.jsonl"), "{}"), False,
+      note="a metrics failure must never cost a model call")
+
+
+# ---- Section 19ah: the reader's queue keeps everything, and its cache answers the right entity -
+#
+# Two defects found 2026-08-24 by the first audit of read.py's queue and caching paths.
+#
+# (1) HARD RULE 0. `priority()` built `have_page` (own > 0) and `no_page` (no own AND
+#     chars >= 2000) and returned only those two. A row with no own page and under 2000
+#     characters was in NEITHER and never reached the queue -- while the function's own comment
+#     three lines below read "These are still read -- nothing here is dropped". Measured against
+#     the live queue index: 40,884 rows, **668 dropped**, every one holding real evidence.
+#
+# (2) PERMANENT LOSS THROUGH THE CACHE. `_chunk_key` hashed (host, chunk) only, but the answer
+#     is entity-conditioned -- SYSTEM asks for "POWER FEATS for an entity" and the prompt names
+#     it. Two entities sharing an index passage produced the same key, so the second was served
+#     the first's feats, `_names()` rejected them as not naming it, the chunk counted as
+#     ANSWERED, and the record was written complete. The "deferred, not lost" guarantee
+#     (`if unanswered: return out`) cannot fire, because nothing went unanswered.
+import read as _RDx      # noqa: E402
+
+_rows19ah = [
+    {"name": "deep",   "own": 90000, "chars": 90000, "axes": 5, "quantities": 2},
+    {"name": "light",  "own": 4000,  "chars": 4000,  "axes": 2, "quantities": 1},
+    {"name": "nopage", "own": 0,     "chars": 9000,  "axes": 2, "quantities": 1},
+    {"name": "thin",   "own": 0,     "chars": 500,   "axes": 1, "quantities": 0},
+    {"name": "thin2",  "own": 0,     "chars": 12,    "axes": 0, "quantities": 0},
+]
+_out19ah = _RDx.priority(list(_rows19ah))
+check("priority() returns EVERY row it was given", len(_out19ah), len(_rows19ah),
+      note="668 real entities were dropped by a `chars >= 2000` membership test in a function "
+           "whose own comment promises 'the full list is still the full list'")
+check("no thin entity is dropped from the queue",
+      sorted(r["name"] for r in _out19ah), sorted(r["name"] for r in _rows19ah))
+check("thin rows are RANKED LAST rather than excluded",
+      [r["name"] for r in _out19ah][-2:], ["thin", "thin2"],
+      note="Hard Rule 0 permits ranking and forbids truncation; this is the ranking half")
+
+_ck19ah = _RDx._chunk_key
+check("two entities reading the SAME passage get different cache keys",
+      _ck19ah("h.example", "shared passage text", "Goku")
+      != _ck19ah("h.example", "shared passage text", "Vegeta"), True,
+      note="entity-blind keys served one entity's feats to another, and the chunk counted as "
+           "answered -- the only path in read.py that loses work permanently")
+check("the same entity and passage still hit the same key",
+      _ck19ah("h.example", "shared passage text", "Goku"),
+      _ck19ah("h.example", "shared passage text", "Goku"),
+      note="the legitimate half of the cache -- a retry re-asks only what is still missing")
+check("a different passage still keys differently",
+      _ck19ah("h.example", "passage A", "Goku") != _ck19ah("h.example", "passage B", "Goku"),
+      True)
+check("a different host still keys differently",
+      _ck19ah("a.example", "same text", "Goku") != _ck19ah("b.example", "same text", "Goku"),
+      True)
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

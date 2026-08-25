@@ -78,6 +78,8 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import silence                                                          # noqa: E402
+
 RESOLVED = os.path.join(HERE, "data", "RESOLVED_ENTITIES.json")
 OUT = os.path.join(HERE, "data", "ONOMASTICON.json")
 
@@ -239,7 +241,27 @@ def coin_well_formed(base, register, taken, max_tries=400):
         nm = coin_name(f"{base}|{salt}", register)
         if well_formed(nm) and nm.lower() not in taken:
             return nm
-    # Deterministic fallback rather than an exception; a shelf still needs a designation.
+    # THE FALLBACK USED TO ABANDON BOTH INVARIANTS AT ONCE. It was a bare
+    # `return coin_name(f"{base}|fallback", register)` -- no `well_formed` check and, worse, no
+    # `taken` check, so the one path taken when naming is HARDEST returned a name that could be
+    # malformed AND could duplicate a name already issued. "Shelfmarks are unique" is one of the
+    # 39 standards, and this was the single code path capable of breaking it silently. Filed by
+    # the run #5 audit; open until 2026-08-24.
+    #
+    # Determinism is preserved -- same input, same output -- by continuing the SAME deterministic
+    # walk into a wider salt space rather than inventing a different rule. Only the range grows.
+    nm = coin_name(f"{base}|fallback", register)
+    if well_formed(nm) and nm.lower() not in taken:
+        return nm
+    for salt in range(max_tries, max_tries * 25):
+        nm = coin_name(f"{base}|{salt}", register)
+        if well_formed(nm) and nm.lower() not in taken:
+            return nm
+    # Genuinely exhausted: 10,000 deterministic candidates and every one taken or malformed.
+    # That is not a naming problem, it is a register that has run out of namespace, and it must
+    # be LOUD rather than a quietly duplicated shelfmark. Recorded, then the caller still gets a
+    # designation -- refusing to name anything would be the worse failure.
+    silence.note("onomast.py:coin-exhausted")
     return coin_name(f"{base}|fallback", register)
 
 

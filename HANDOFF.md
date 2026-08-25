@@ -9,6 +9,126 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 19:05 (local) — Run #15b: "just fix it all" — the queue was not the full list, and the cache was answering the wrong entity
+
+*Continuation of run #15 under an explicit owner instruction to stop deferring and implement the
+queue. Eleven defects closed. Two of them are the most serious findings in several runs and are
+at the top because they were both SILENT DATA LOSS, not slowness.*
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets, no money movement.** The paid lane is still closed three ways
+   (`598 / False / False / True`); `WIKI_HOSTS.json` unchanged for an **eleventh** run
+   (202 / 191 / `451703b8`). **Nothing was deleted.**
+2. **[M9 — HARD RULE 0 WAS BEING BROKEN, AND THE COMMENT THREE LINES BELOW SAID IT WASN'T.]**
+   `read.priority()` built two lists — own-page rows, and hostless rows with **≥ 2000
+   characters** — and returned only those two. A row with no own page **and** under 2,000
+   characters was in neither, so it never entered the queue at all. Measured against the live
+   index: **40,884 rows, 668 dropped, every one of them holding real evidence text.** The
+   function's own comment reads *"These are still read — nothing here is dropped"* and
+   *"the full list is still the full list."* Thin rows are now **ranked last**, which is what
+   Hard Rule 0 permits, instead of excluded, which is what it forbids.
+3. **[M10 — THE CHUNK CACHE WAS SERVING ONE ENTITY'S ANSWER TO ANOTHER, AND THE RESULT WAS
+   RECORDED AS COMPLETE.]** `_chunk_key` hashed `(host, chunk_text)` only, on the stated premise
+   that "two entities attached to the same shared index page read the same passage". That is true
+   of the passage and **false of the answer**: `SYSTEM` opens *"collect POWER FEATS for an
+   entity"* and the prompt carries `ENTITY: <name>`. So on a shared franchise index the first
+   entity's feats were cached under an entity-blind key, the next entity was served them,
+   `_names()` correctly rejected them as not naming it, they were counted `generic_dropped` —
+   and because **nothing went unanswered**, `read_entity`'s `if unanswered: return out` guard
+   never fired and the record was written as complete. **This is the one path in read.py that
+   loses work permanently**, and it files an entity as having no feats in a passage that
+   describes its feats. The entity is now part of the key.
+   **CONSEQUENCE YOU SHOULD KNOW ABOUT: this orphans the existing 8,194 cached chunk answers.**
+   They are written under the old key and simply stop being found. **Nothing was deleted** — they
+   sit on disk — but those passages will be re-asked per entity as the reader reaches them. That
+   is real GPU cost on a saturated card, accepted deliberately: the cache was full of answers
+   attributed to the wrong entity, and a smaller-but-wrong library is the one outcome this
+   project refuses.
+4. **[M7 — THE ACTUAL MECHANISM, FOUND AND FIXED.]** `gpu_lane._touch` — the function whose only
+   job is to refresh a held slot's lease — **was called from nowhere in the tree.** Verified by
+   grep across `src/`. So a slot's heartbeat was written once, at acquisition, and never again,
+   while `config.yaml` sets `request_timeout: 1800` against a `SLOT_LEASE_SECONDS` of **900**.
+   Every prose call outlived its own lease by 2×, was read as abandoned, and had its slot deleted
+   and handed to a competitor **while it was still running**. `MAX_SLOTS` was therefore violated
+   by exactly the longest calls — the card over-subscribed precisely when busiest. That is the
+   M7 pile-up, arriving through the module built to prevent it.
+5. **[§2 B — the oldest open decision, taken.]** `tuning.regime()` now requires answering buckets
+   **and** a measured success rate (`CLOUD_MIN_SUCCESS = 0.35`), read from the router's own
+   `usage` table. Live effect, immediately: the pool is succeeding at **5% over 22 calls**, so
+   regime reads **`local` with 2 workers** where it previously said `cloud` and opened the gate
+   to **16**. A rate below `MIN_CALLS_TO_JUDGE = 20` calls gets no vote, and no evidence at all
+   is never a fault.
+
+**Also closed** (each verified at source before the fix, each pinned by a regression check):
+
+- **[m54]** `gpu_lane` now heartbeats a held slot from a daemon thread; `_touch` refuses to
+  resurrect a released or foreign lease, which is a real hazard because the beat thread is
+  joined with a timeout.
+- **[m55]** the six `os.remove` lease-release sites now retry with backoff — a release that
+  silently fails strands a slot for its whole lease.
+- **[m62]** both `_metric` writers append through one `os.write` to an `O_APPEND` handle
+  (`silence.append_line`) instead of a buffered write five processes could interleave mid-line.
+- **[m70]** `tuning._ollama_up` read a hardcoded `localhost` while every other module reads
+  `ollama_host` from config — the same "measuring a path the callers are not on" defect as
+  M7/m59/M8/m66, in its cheapest form. Latent, and closed rather than filed again.
+- **[m71]** `pipeline.py`'s pool-routing test used a bare literal `3` where
+  `tuning.CLOUD_MIN_BUCKETS` holds the same 3 and carries the argument for changing it.
+- **[m72]** `feats._unwrap_templates` matched wikitext's **three**-brace parameter syntax with
+  its two-brace branch and left the third closing brace in the prose: `{{{1|just a param}}}`
+  rendered as `" just a param }"`. **Not cosmetic** — that text is what the verbatim check
+  compares against, so an injected `}` turns a genuine quotation into a counted *fabrication*.
+  Open since the run #5 audit.
+- **[m73]** `onomast.coin_well_formed`'s fallback abandoned **both** its invariants at once —
+  no `well_formed` check and no `taken` check — on the one path taken when naming is hardest.
+  "Shelfmarks are unique" is one of the 39 standards and this was the single code path able to
+  break it silently. The deterministic walk now continues into a wider salt space, and genuine
+  exhaustion is recorded loudly instead of quietly duplicating a shelfmark.
+- **[m74]** `_chunk_put` staged every write to `p + ".tmp"`, derived only from the cache key, so
+  two workers answering the same passage truncated one another's file mid-dump. The staging name
+  now carries pid and thread id; `replace_retry` already made the rename safe, nothing had made
+  the *write* safe.
+- **[§2 G]** `gpu_lane.MAX_SLOTS` and `read.GATE_LOCAL_N` both derive from
+  `OLLAMA_NUM_PARALLEL` instead of restating it as a literal — one physical fact, previously
+  spelled three ways with nothing linking them.
+
+**Refuted, and written down so nobody pays for it twice:** NEXT_STEPS §2 C claimed a dropped
+chunk was unrecoverable. **It is not.** `read_entity` does `if unanswered: return out` *without*
+writing the record, so an entity with any unanswered chunk is re-queued and `_chunk_put` keeps
+the chunks that did answer. Timed-out chunks are **deferred, not lost** — which is exactly why
+M10 above matters so much more: it is the one case that slips past that guarantee. Also refuted:
+`hostcheck`'s `judgeable` flag is **not** ignored — `standards.py:571` consumes it, so that run #5
+finding is stale.
+
+**Delegation.** One sonnet-tier subagent audited `read.py`'s never-examined chunking/caching/queue
+paths. It returned nine findings; **every one was checked against source before anything was
+touched.** Two were real and serious (M9, M10 — both confirmed, M9 with a measured count of 668),
+two were real and small (m74, and a stale comment), and five are now questions in NEXT_STEPS
+rather than fixes. The agent also flagged two of its own findings "unverified", and those stayed
+questions. **The GPU rung was deliberately skipped again** — the card is the thing under repair.
+
+**Battery: `verify_math` 525 passed / 0 FAILED** (up from 484 at the start of run #15) ·
+`allsweep` **0 subsystems bad** · `health --preflight` **2 FAILs, the same two known
+owner-facing ones** (M8's fandom, M1's dandwiki) — no new breakage · `silence.py` **35 silent
+handlers, net zero added** (three were introduced during this work, found, and converted before
+they landed) · `pyflakes` clean.
+
+**Jobs bounced:** `read`, `feats --roll`, `pipeline`, `overwatch`, `dashboard`, `publish` — all
+six held changed code, and a running process keeps the module object it imported at launch.
+**The foreman was left alone**: it still holds a live `--adopt` child (pid 45432 under 5420),
+§1.3's do-not-bounce condition. All nine jobs verified up and single-instance afterwards; the
+roll resumed at 48,200/83,437. **The keeper beat me to four of the six restarts** ("already
+running, left alone"), which is a third independent confirmation that it is healthy.
+
+**New regression sections:** §19ad (the lane's heartbeat, release, and slot-count bound, run
+against a throwaway lane directory so live jobs are untouched), §19ae ("cloud" means succeeding),
+§19af (no stray braces in the evidence), §19ag (whole-line ledger appends), §19ah (the queue
+keeps everything; the cache answers the right entity). **The lane and brace checks were both
+tested for non-vacuity** — confirmed to fail against the pre-fix behaviour rather than passing
+regardless.
+
+---
+
 ## 2026-08-24 18:40 (local) — Run #15: the wedge on the dashboard was made by the probe that reported it
 
 **FOR THE OWNER, AT THE TOP:**

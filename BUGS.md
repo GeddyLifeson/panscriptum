@@ -28,6 +28,21 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   > — it has now). Against that sit `OLLAMA_NUM_PARALLEL=2`, read's gate of 2, **plus**
   > `pipeline` and `overwatch` each holding a live connection to 11434. Four claimants, two
   > slots, and a 360s deadline that a queued call cannot make.
+
+  > **UPDATE, run #15b (2026-08-24 19:05 local) — THE MECHANISM IS FOUND, AND TWO OF THE THREE
+  > LINKS ARE NOW CLOSED.** The contention was not merely "too many jobs". `gpu_lane._touch`,
+  > the function that refreshes a held slot's lease, **was called from nowhere in the tree**, so
+  > every call longer than `SLOT_LEASE_SECONDS` (900) had its slot reclaimed by a competitor
+  > while still running — and `config.yaml`'s `request_timeout` is **1800**. `MAX_SLOTS` was
+  > therefore violated by exactly the longest calls (**m54**, now fixed and pinned by §19ad).
+  > Link 1 is closed too: `regime()` now requires a measured success rate, so a 4%-succeeding
+  > pool no longer opens the gate to 16 (**§2 B**, pinned by §19ae). On landing, regime read
+  > `local` with **2** workers.
+  > **STILL OPEN: the physical ceiling.** The 12288 runner occupies **8.0 GB of a 10 GB card**
+  > with `OLLAMA_NUM_PARALLEL=2`. Arbitration is now honest, but the card still serves two
+  > requests at a time and the reader's own re-work grew: **M10's fix orphans 8,194 cached
+  > chunk answers**, all of which must be re-asked. Expect the discard rate to move for TWO
+  > reasons at once next run, and measure before attributing.
   **The chain, every link measured:**
   1. `tuning.regime()` answers `"cloud"` whenever `_answering_buckets() >= CLOUD_MIN_BUCKETS`.
      That is a REACHABILITY proof, not a capacity one — the lesson already in `NEXT_STEPS` §5
@@ -490,6 +505,141 @@ remaining item is either an outage, a decision, or a watched state.***
 ## Resolved (paper trail)
 
 *Run #12 (2026-08-24 ~15:10 local) moved three items out of Open. Full detail in HANDOFF.md.*
+
+- **[M9 — RESOLVED, run #15b] HARD RULE 0 WAS BEING BROKEN BY `read.priority()`: 668 ENTITIES
+  WITH REAL EVIDENCE NEVER ENTERED THE QUEUE.**
+  **What it was.** The function built exactly two lists — `have_page` (`own > 0`) and `no_page`
+  (`not own and chars >= 2000`) — and returned `woven + no_page`. A row with no own page **and**
+  under 2,000 characters belonged to neither and was silently absent from the queue. There was no
+  flag, no later pass, and no log line: `queue()` rebuilds `rows` from the evidence cache every
+  time and reapplies the same threshold, so the exclusion was permanent and repeatable.
+  **The measurement.** Against the live `read_queue_index.json`: **40,884 rows → 36,260
+  have_page + 3,956 no_page + 668 DROPPED**, and all 668 held evidence text.
+  **Why it is a Rule 0 violation and not a ranking.** `CLAUDE.md` is explicit: "a cap on an
+  ordered listing is not a sample, it is a TRUNCATION". This was a value threshold deciding
+  MEMBERSHIP of the queue rather than POSITION in it — and the function's own comments say
+  *"These are still read -- nothing here is dropped"* and *"the full list is still the full
+  list"*. Code and comment had diverged and the comment was believed.
+  **The fix.** A third bucket, `thin`, sorted by the same density key and appended last:
+  `return woven + no_page + thin`. Ranking is preserved (an interrupted run still gets the
+  richest material first); nothing is excluded. The literal `2000` is now `THIN_CHARS`.
+  **Pinned by** `verify_math` §19ah, which asserts `priority()` returns every row it was given
+  and that thin rows come last.
+
+- **[M10 — RESOLVED, run #15b] THE CHUNK CACHE SERVED ONE ENTITY'S FEATS TO ANOTHER AND THE
+  RESULT WAS FILED AS COMPLETE — the only permanent-loss path in `read.py`.**
+  **What it was.** `_chunk_key(host, ch)` hashed the passage and the host only, on the explicit
+  premise that "two entities attached to the same shared index page read the same passage, and
+  there is no reason to pay for it twice -- so the key is the passage, not the pair." True of the
+  passage; **false of the answer**. `SYSTEM` opens *"You are reading one page of a fiction wiki to
+  collect POWER FEATS for an entity"*, the prompt carries `ENTITY: <name>`, and what returns is
+  that entity's feats.
+  **The mechanism, and why every existing guard missed it.** On a shared franchise index the
+  first entity cached ITS feats under an entity-blind key. The next entity hit that key, got the
+  first one's sentences, and `_names(s, name)` — working correctly — rejected them for not naming
+  it. They were counted `generic_dropped`. Crucially the chunk was recorded as **answered**, so
+  `unanswered` stayed 0, `read_entity`'s `if unanswered: return out` guard never fired, and the
+  record was written. The entity is then cached forever as having no feats in a passage that
+  describes its feats. **The "deferred, not lost" guarantee cannot catch this**, because nothing
+  went unanswered — which is precisely what made it invisible.
+  **The fix.** The entity is now part of the key. The sharing it removes was never legitimate;
+  the sharing it keeps — the same entity retrying and re-asking only what is still missing, which
+  was the documented reason the cache exists — is untouched.
+  **The cost, recorded deliberately.** This orphans the **8,194** existing cached answers, which
+  are written under the old key and stop being found. **They were NOT deleted**; those passages
+  are simply re-asked per entity. That is real GPU cost on a saturated card and it was accepted:
+  the cache held answers attributed to the wrong entity, and a smaller-but-wrong library is the
+  outcome Hard Rule 0 exists to refuse.
+  **Pinned by** `verify_math` §19ah: two entities on the same passage key differently, the same
+  entity keys identically, and host/passage still discriminate.
+
+- **[m54 + m55 — RESOLVED, run #15b] `gpu_lane` LOST HELD SLOTS MID-CALL, WHICH IS THE M7
+  OVER-SUBSCRIPTION MECHANISM.**
+  **m54, and it is the sharper half.** `_touch` — whose entire purpose is refreshing a held
+  slot's lease — **was called from nowhere in the tree**, verified by grep across `src/`. A slot's
+  heartbeat was written once at acquisition and never again. `config.yaml` sets
+  `request_timeout: 1800` against `SLOT_LEASE_SECONDS = 900`, so **every prose call outlived its
+  own lease by a factor of two**, was read as abandoned by `_take_slot`, and had its slot deleted
+  and handed to a competitor while still running. `MAX_SLOTS` was violated by exactly the longest
+  calls — the card over-subscribed precisely when it was busiest.
+  **The fix.** A daemon heartbeat thread refreshes the lease every `SLOT_LEASE_SECONDS / 3` for
+  as long as the call runs, stopped before release. `_touch` now refuses to write a record that
+  is missing or belongs to another pid — necessary, because the beat thread is joined with a
+  timeout and a late beat would otherwise **resurrect** a released slot as a lease held by
+  nobody.
+  **m55.** The six `os.remove` release sites now go through `_remove_retry` (backoff, treats
+  "already gone" as released, never raises). A release that silently fails strands a slot for its
+  whole lease, and `status()` and competing `_take_slot` calls both open these files.
+  **Pinned by** `verify_math` §19ad — refresh, no-resurrect, no-foreign-touch, release, and a
+  concurrency test asserting the peak holder count never exceeds `MAX_SLOTS`. **Verified
+  non-vacuous**: with the beat disabled the heartbeat provably does not move.
+
+- **[M7 link 1 / §2 B — RESOLVED, run #15b] "CLOUD" NOW MEANS SUCCEEDING, NOT MERELY REACHABLE.**
+  **What it was.** `tuning.regime()` returned `"cloud"` on `_answering_buckets() >=
+  CLOUD_MIN_BUCKETS` alone, and every job in the kit sizes itself from that one word. Measured:
+  regime read `"cloud"` while the live cloud success rate was **4%**, so `_gate()` opened to 16
+  and nearly every chunk fell through the ladder onto one card. **1,168 of 1,235 chunks were then
+  handed to a GPU that could not serve them and destroyed.** This is the documented root of M7,
+  m59, M8 and m66 — a check certifying reachability where the caller needs capacity — and this is
+  the site where it was first named.
+  **The fix.** `regime()` now requires enough answering buckets **and** a measured success rate
+  ≥ `CLOUD_MIN_SUCCESS` (0.35), read from `state/cascade_scratch.db`'s `usage` table — the
+  router's own record of what actually happened, and the same source the dashboard's throughput
+  panel and the "calls that succeed" standard already use. Deliberately not a fresh probe: a
+  probe measures whether a call can be made, and the question here is whether calls are working.
+  **Guarded against overreacting**: under `MIN_CALLS_TO_JUDGE` (20) the rate gets no vote, and
+  no evidence at all is never treated as a fault.
+  **Live effect on landing.** Pool succeeding at **5% over 22 calls** → regime `local`, workers
+  **2**, where it previously said `cloud` and opened the gate to **16**.
+  **Pinned by** `verify_math` §19ae, including the exact measured condition (8 buckets, 4%).
+
+- **[m62 — RESOLVED, run #15b] The shared metrics ledger could tear mid-line.** Five live
+  processes appended to `state/model_metrics.jsonl` with a buffered `open(path, "a")`, which may
+  be split into several underlying writes; two interleaving produce a row parsing as neither.
+  Measured: 5 corrupt lines, three mid-record fragments (0.019%). Both `_metric` writers now use
+  `silence.append_line` — one `os.write` to an `O_APPEND` descriptor. Exposure was low and the
+  argument for fixing it is that the consequence is *quiet*: `standards.py` correctly `continue`s
+  past unparseable rows, so tearing is invisible from the one place that reads them most — and
+  that ledger now decides a standard (`ollama_token_flow`). **Pinned by** §19ag.
+
+- **[m70 — RESOLVED, run #15b] `tuning._ollama_up` probed a hardcoded host.** `def _ollama_up(
+  host="http://localhost:11434")`, called with no argument, while `read`, `magnitude`,
+  `local_agent`, `overnight`, `standards`, `pick_model`, `pipeline` and `ingest_doc` all read
+  `ollama_host` from `config.yaml`. Latent only because config names that same URL. The day the
+  host moves, `regime()` would certify a local model at an address nobody calls. Same family as
+  M7/m59/M8/m66; closed rather than filed a fifth time.
+
+- **[m71 — RESOLVED, run #15b] `CLOUD_MIN_BUCKETS` had drifted into a second spelling.**
+  `pipeline.py`'s pool-first routing tested `_pool_answering() >= 3` as a bare literal while
+  `tuning.CLOUD_MIN_BUCKETS` held the same 3 **and** the comment arguing it may need to change.
+  Two spellings of one policy; raising it in tuning left the call site on the old bar. Now read
+  from tuning, with a fallback so routing never depends on the import.
+
+- **[m72 — RESOLVED, run #15b] Template parameters leaked a brace into the evidence, and the
+  evidence is what the fabrication check compares against.** `feats._unwrap_templates` matched
+  wikitext's three-brace parameter syntax `{{{name|default}}}` with its two-brace template
+  branch, consumed two of the three, scanned to the first `}}`, and left the third closing brace
+  as literal text: `{{{1|just a param}}}` → `" just a param }"`, `prose {{{2}}} more` →
+  `"prose   } more"`. **Not cosmetic**: this text is both what the reader hands the model and what
+  `_norm_q(s) not in _norm_q(ch)` checks answers against, so an injected `}` makes a genuine
+  quotation fail and be counted a **fabrication** — the thing this pipeline is most careful
+  about. A parameter now renders as its default. Open since the run #5 audit. **Pinned by** §19af,
+  including nested `{{{outer|{{{inner|deep}}}}}}`.
+
+- **[m73 — RESOLVED, run #15b] `onomast.coin_well_formed`'s fallback abandoned both invariants at
+  once.** After `max_tries` it did a bare `return coin_name(f"{base}|fallback", register)` — no
+  `well_formed` check and, worse, no `taken` check. The one path taken when naming is hardest
+  could return a malformed name **and** duplicate one already issued, and "shelfmarks are unique"
+  is one of the 39 standards: this was the single code path able to break it silently. Filed by
+  the run #5 audit. The deterministic walk now continues into a wider salt space (same rule, wider
+  range, so determinism is preserved) and genuine exhaustion is recorded via `silence.note`
+  rather than quietly duplicating a shelfmark.
+
+- **[m74 — RESOLVED, run #15b] `_chunk_put` staged every write to one shared temp path.**
+  `tmp = p + ".tmp"` derived only from the cache key, so two workers answering the same passage
+  opened and truncated the same file, each writing over the other mid-dump before both renamed
+  it. `silence.replace_retry` made the *rename* safe; nothing made the *write* safe. The staging
+  name now carries pid and thread id, leaving the atomic rename as the only shared operation.
 
 - **[m66 — RESOLVED `5400a97`] THE TOKEN-FLOW PROBE ASKED FOR A CONTEXT WINDOW NOBODY SERVES,
   AND PUBLISHED ITS OWN TIMEOUT AS A RED STANDARD — fixed run #15 (2026-08-24 18:25 local).**

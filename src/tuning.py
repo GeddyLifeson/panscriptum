@@ -65,6 +65,26 @@ RECHECK_SECONDS = 180
 # FRESH proof once certified 4-of-36 while live calls succeeded at 2.8%) and is not settled here.
 PROOF_STALE_SECONDS = 3600
 
+# THE SECOND HALF OF "CLOUD": not just that buckets answer a proof, but that calls SUCCEED.
+#
+# This is the project's most-repeated defect, and this is the site it was first named at. A
+# bucket answering a proof call certifies REACHABILITY. Sizing every job in the kit from that
+# certifies CAPACITY -- a different claim. Measured 2026-08-24: `regime()` read "cloud" (four
+# buckets answered) while the live cloud success rate was 4%, so `_gate()` opened to 16 and
+# nearly every chunk fell through the ladder onto one card. 1,168 of 1,235 chunks were then
+# handed to a GPU that could not serve them and were thrown away. The same mistake has now been
+# found at four other sites (m59, M8, m66, and `foreman`'s catalogue gate).
+#
+# So the label now requires both: enough buckets answering AND a measured success rate at or
+# above this floor. 35% rather than 50% deliberately -- this decides how WIDE to open, and the
+# cost of reading "local" while the cloud is merely mediocre is a slower run, whereas the cost
+# of reading "cloud" while it is failing is work destroyed.
+CLOUD_MIN_SUCCESS = 0.35
+
+# Below this many recorded calls the rate is noise and is not allowed to veto. A handful of
+# failures during a provider blip must not flip the whole library to local.
+MIN_CALLS_TO_JUDGE = 20
+
 PROFILES = {
     # workers        how many concurrent model callers
     # chunk          characters of source text per read call
@@ -137,13 +157,50 @@ def _answering_buckets():
     return n, "%d answering" % n
 
 
+def cloud_success_rate(minutes=15):
+    """The pool's MEASURED success rate over the recent past: (rate, calls).
+
+    Read from `state/cascade_scratch.db`'s `usage` table -- the router's own record of what
+    actually happened, which is the same source the dashboard's throughput panel and the
+    "calls that succeed" standard both use. Deliberately NOT a fresh probe: a probe measures
+    whether a call can be made, and the whole point here is to measure whether calls are
+    WORKING. `(None, 0)` means no evidence, which is never treated as a fault.
+    """
+    import sqlite3
+    path = os.path.join(HERE, "state", "cascade_scratch.db")
+    try:
+        conn = sqlite3.connect(path, timeout=2.0)
+        try:
+            row = conn.execute(
+                "select count(*), sum(outcome='ok') from usage where ts > ?",
+                (time.time() - minutes * 60,)).fetchone()
+        finally:
+            conn.close()
+        total = int((row or [0])[0] or 0)
+        if not total:
+            return None, 0
+        return (int(row[1] or 0) / total), total
+    except Exception:
+        silence.note("tuning.py:cloud-success")
+        return None, 0
+
+
 def regime(force=False):
-    """'cloud' | 'local' | 'starved', re-read on a timer."""
+    """'cloud' | 'local' | 'starved', re-read on a timer.
+
+    "Cloud" now means answering AND succeeding -- see CLOUD_MIN_SUCCESS. Reachability was never
+    the question the callers of this function are asking.
+    """
     now = time.time()
     if not force and _CACHE["regime"] and now - _CACHE["at"] < RECHECK_SECONDS:
         return _CACHE["regime"]
     n, why = _answering_buckets()
-    if n >= CLOUD_MIN_BUCKETS:
+    rate, calls = cloud_success_rate()
+    # A rate only gets a vote once there is enough of it to mean anything.
+    judged = rate is not None and calls >= MIN_CALLS_TO_JUDGE
+    if judged:
+        why += "; %.0f%% ok over %d calls" % (rate * 100, calls)
+    if n >= CLOUD_MIN_BUCKETS and (not judged or rate >= CLOUD_MIN_SUCCESS):
         r = "cloud"
     elif _ollama_up():
         r = "local"
