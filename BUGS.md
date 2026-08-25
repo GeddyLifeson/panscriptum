@@ -64,6 +64,14 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   `chain.py:354`. **Why NOT patched:** re-keying by content invalidates every done-marker on disk
   and re-runs entrypass across the corpus — real model spend on a pool that is currently the
   binding constraint. **Owner ruling needed — NEXT_STEPS §1.**
+
+  **UPDATE, run #29: THIS IS ACCRUING, NOT FROZEN — AND THE "ONE SOURCE" REASONING NO LONGER
+  HOLDS.** `health --preflight` now reports **412 stranded, across TWO sources**: Gundam 227
+  (unchanged) and **SpongeBob SquarePants 185 (new)**. The single-source containment was the main
+  reason this looked cheap to defer — it read as one historical re-sort in one fiction. A second
+  source appearing means the insertion/re-order path is still live and still closing entries out
+  of reach, so the cost of deferring grows with every catalogue pass. The ruling is now more
+  urgent than when it was filed, and the back-fill option is 412 entries rather than 227.
 - **[M18] `axis_score()` RETURNS A FLAT 9.9 FOR EVERY INPUT AT M10, AND `ledger.py` RESOLVES THE
   SAME EDGE CASE A DIFFERENT, INCOMPATIBLE WAY.** Found by the run #21 `assay.py` audit (first
   end-to-end read of the file), **verified numerically before filing**: `A.axis_score(x, "M10",
@@ -1532,6 +1540,75 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+- **[m172 — RESOLVED, run #29] THE CHARTER REGRESSION HAD NOT DRIFTED; IT WAS NEVER ALLOWED TO
+  FINISH.** `the automation reproduces the charter` (HIGH) sat 35 hours stale while
+  `magnitude.py --calibrate` ran near-continuously, and three runs read that as instrument drift.
+  `calibrate()` wrote `CHARTER_REGRESSION.json` ONCE, after all six benchmarks
+  (`magnitude.py:829-836`), while the foreman kills it on its next lap (M15). Six charter assays
+  against a rate-limited pool do not finish inside one lap, so **every killed attempt discarded
+  every benchmark it had completed** — the job did the work and threw it away, on a timer.
+  **Root cause:** a long job that is routinely killed, written as if it would not be. Its sibling
+  `run_batch()` has the correct pattern and says so: *"Written to be killed."*
+  **Fix:** checkpoint after every benchmark; resume an unfinished pass rather than restart it;
+  abandon a pass older than the standard's own 26h floor. **And the trap inside the fix:** the
+  standard holds on `bool(scored) and not bad`, so a partial file would turn it GREEN on the
+  first consistent benchmark with five references unrun — green-by-absence aimed at the
+  instrument. So `at` is withheld until the pass completes, the partial state names itself
+  (`pass IN PROGRESS: N of 6`), and the verdict became a pure function
+  (`standards.charter_regression_verdict`) so the half-finished state is assertable on synthetic
+  input. Regression: `verify_math` §20m, six checks. Verified live: the file advanced for the
+  first time in 35h.
+
+- **[m175 — RESOLVED, run #29] THE COMPLETENESS PROOF ANSWERED A DIFFERENT QUESTION THAN THE ONE
+  IT WAS ASKED.** Two defects in one mechanism, the second found by the sweep auditing the fix
+  for the first, in the same run. (a) `sweep_plan.record()` serialised sixteen concurrent batches
+  behind a `threading.Lock` — the right lock for the wrong topology, since run #28 each batch
+  records in its own SUBPROCESS, so they contended as if unlocked. (b) The replacement derived
+  `missing(run)` from a **newest-wins** merge over every shard on disk, which converts *"did run
+  N read module X?"* into *"was run N the LAST run to read module X?"*. Shards are never pruned,
+  so those diverge permanently once a later run records the same module.
+  **Root cause:** a membership question answered with a recency instrument.
+  **Fix:** per-run/batch/pid shard files (no shared mutable file on the write path), and
+  `covered_by()` answering membership directly. Regression: `verify_math` §20n. Proven this run:
+  95 modules, 0 uncovered.
+
+- **[m173 — RESOLVED, run #29] `UNMEASURED` READ AS GREEN, ONE LINE UNDER THE COMMENT WARNING
+  ABOUT EXACTLY THAT.** `sentences that survive the verbatim check` (HIGH) computed
+  `True if fab is None else fab <= MAX_FABRICATION`, so the one state its own order text names in
+  capitals — *"IF THIS READS UNMEASURED, TREAT THAT AS THE FINDING"* — was the state that
+  SATISFIED the standard. `work_orders()` reads the boolean, so the finding could never be
+  dispatched. **Root cause:** run #28 fixed this standard's ABSENCE and left its EMPTINESS green
+  — the same defect one layer in. **Fix:** `fab is not None and fab <= MAX_FABRICATION`.
+  Regression pinned in `verify_math`.
+
+- **[m174 — RESOLVED, run #29] `dead_forever()` MEMOISED THE POOL'S DEAD BUCKETS FOR THE LIFE OF
+  THE PROCESS.** `if _PROVEN[0] is not None: return _PROVEN[0]` cached the first answer and never
+  looked again, inside jobs that run for hours or days. Broken both ways: a key that dies at noon
+  is proven dead by the next `prove()` but a reader that first asked at 09:00 keeps claiming it,
+  burning a deadline per call until restart — the shape of `hyperbolic:free` and
+  `cloudflare:free` sitting at 0 successful calls while still being claimed — and a key the owner
+  ROTATES stays excluded until restart, so the fix does not take. **Root cause:** a
+  process-lifetime memo silently overriding `PROOF_TTL`, which already said an hour-old proof is
+  not evidence about now. **Fix:** cache keyed on the proof file's mtime.
+
+- **[m176 — RESOLVED, run #29] THE AUTONOMOUS WRITER COULD PATCH THE CONTRACT-ENFORCEMENT CODE.**
+  `local_agent.DENYLIST` held the machinery that JUDGES a patch (foreman, silence, health,
+  allsweep, estate, standards, verify_math) but not the machinery that governs every WRITE:
+  `pipeline` (the two-writer contract itself), `runguard` (claim discipline), `gpu_lane` (the
+  card's arbitration), `sweep_plan` (the completeness proof). **Root cause:** the gate list was
+  drawn around "things that check patches", not "things a patch must not be able to weaken" —
+  and every gate below would still have passed, since they verify a patch parses, lints, imports
+  and leaves `verify_math` green, not that it left the contract intact. **Fix:** all four added.
+  Found by sweep batch 16.
+
+- **[m177 — RESOLVED, run #29] `cleanup.py` MARKED THIN DESCRIPTIONS AND THREW THE MARK AWAY.**
+  `cleanup.py:174-177` set `e["thin_description"] = True` without setting `changed`, so a record
+  whose only edit was that mark was never handed to `write_record` — the flag was set on an
+  in-memory dict and dropped when the loop moved on. The module's docstring says thin entries are
+  "marked, not deleted"; for every entry with no other defect they were neither. **Root cause:**
+  a missed line in one branch of three; its two siblings both set it. Found by sweep batch 05,
+  reproduced.
 
 - **[m160 — RESOLVED, run #27] THREE CAPS AT ONCE ON THE FIELD THE ORDER TEXT SAYS TO READ, AND
   A FALSE CLAIM THAT EVERY ROW WAS LIVE.** `standards.py:952` built the observed string for

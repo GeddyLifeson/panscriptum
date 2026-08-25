@@ -9,6 +9,152 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 09:20–10:1x (local) — Run #29 (scheduled): the regression that never got to finish, and a proof that answered the wrong question
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found.** Nothing this run touched credential-bearing paths, and the push was
+   not blocked. Standing decision **C** (`publish._scrub()` claims to refuse "anything
+   credential-shaped" and matches 8 vendor prefixes) is unchanged and still wants a ruling —
+   see `NEXT_STEPS.md` §1.
+2. **The credential ruling from run #28 is still open and still free throughput.**
+   `hyperbolic:free` and `cloudflare:free` both return HTTP 401 at **0 successful calls**;
+   `zai:free` reports "Insufficient balance". A maintenance run does not touch credentials.
+   **This run did remove one reason they were costing so much** — see m174 — but the keys
+   themselves still need you.
+3. **Everything else below is machine work, already done and verified.** Nothing is waiting on
+   a decision to be safe.
+
+**The shape of the run.** The page was fresh (generated 3 minutes before the run opened) and
+showed **7 red standards of 42**. Two of the seven were live faults nobody had chased; the rest
+were known. The full comprehensive sweep ran underneath the whole thing: **16 batches, 95
+modules, 41,134 lines, 0 uncovered, 388 KB of reports** in `handoff/sweep29/`.
+
+---
+
+### THE INSTRUMENT'S REGRESSION TEST HAD NOT DRIFTED. IT HAD NEVER BEEN ALLOWED TO FINISH.
+
+`the automation reproduces the charter` — a HIGH standard — sat **35 hours stale** while
+`magnitude.py --calibrate` ran essentially continuously. Every previous run read that as the
+instrument having drifted. It had not.
+
+`calibrate()` wrote `CHARTER_REGRESSION.json` **once**, after all six benchmarks
+(`magnitude.py:829-836`). The foreman kills it on its next lap, roughly hourly (M15). Six
+charter assays against a rate-limited pool do not finish inside one lap — so **every killed
+attempt threw away every benchmark it had already completed**, and the file could only ever be
+written by a pass that happened to survive a whole lap. None had, for a day and a half. The job
+was doing the work and discarding it, on a timer.
+
+Its sibling `run_batch()` has the correct pattern and says so in its own docstring: *"Written to
+be killed."* It checkpoints after every completion. `calibrate()` now does the same, and
+resumes an unfinished pass rather than restarting it (m172).
+
+**The trap inside the repair, which is the more interesting half.** Checkpointing a HIGH
+standard's input introduces a worse bug than the one it fixes unless the partial state is
+explicitly not-green: the standard holds when `bool(scored) and not bad`, so the **first**
+consistent benchmark written early would have turned it green with five charter references
+still unrun. That is green-by-absence (run #28's §20k lesson) aimed at the instrument itself.
+So `calibrate()` withholds `at` until the pass is complete, `standards.py` reports the partial
+pass as `pass IN PROGRESS: N of 6`, and the verdict was pulled out into a pure function
+(`standards.charter_regression_verdict`) precisely so the half-finished state could be asserted
+on synthetic input instead of waiting for a real one to appear on disk.
+
+**It is working, verified live at 10:0x**, and this is the first time this file has advanced in
+35 hours:
+
+```
+the automation reproduces the charter
+  pass IN PROGRESS: 1 of 6 benchmarks done, started 0.0h ago
+  -- pending: Kenshiro, Monkey D. Luffy, Naruto Uzumaki, Goku, Jace Beleren
+```
+
+Still red, correctly — one benchmark is not six. But the work now survives the kill, so
+successive laps accumulate instead of resetting to zero.
+
+---
+
+### THE COVERAGE PROOF WAS ANSWERING A DIFFERENT QUESTION THAN THE ONE IT WAS ASKED
+
+`sweep_plan.record()` serialised sixteen concurrent batches behind a `threading.Lock`. That is
+the right lock for the wrong topology: since run #28 each batch records **in its own
+subprocess**, and a threading lock is not held across processes — so sixteen agents contended
+exactly as if there were no lock at all, and a lost update would make `missing()` report a gap
+that never happened, or hide one that did. Fixed by removing the shared mutable file from the
+write path entirely: each caller writes its own run/batch/pid-named shard, and the reader merges
+(m170).
+
+**Then the sweep audited the fix, in the same run that shipped it, and found it wrong.** Batch
+08 reproduced that `missing(run)` derived its answer from a **newest-wins** merge across every
+shard on disk — which quietly converts *"did run N read module X?"* into *"was run N the LAST
+run to read module X?"*. Shards are never pruned, so the two answers diverge permanently the
+moment a later run records the same module. The failure mode is the worst available shape: a gap
+reported in a module the agent demonstrably read, inside the one instrument whose entire purpose
+is proving nothing was skipped. A membership question now gets a membership answer
+(`covered_by()`), and the regression is pinned in `verify_math` §20n (m175).
+
+**This is the second run running in which the sweep's most useful finding was about the sweep.**
+Worth keeping: the batch that audits the auditing machinery earns its slot.
+
+---
+
+### THE OTHER FIXES, ALL VERIFIED AGAINST SOURCE BEFORE TOUCHING
+
+- **m173 — `UNMEASURED` was green, one line under run #28's own comment about green-by-absence.**
+  `sentences that survive the verbatim check` computed `True if fab is None else fab <= MAX`.
+  Its own order text says, in capitals, *"IF THIS READS UNMEASURED, TREAT THAT AS THE FINDING"* —
+  so the row and its boolean said opposite things, and `work_orders()` reads the boolean, which
+  means the finding could **never** be dispatched. Run #28 fixed this standard's *absence* and
+  left its *emptiness* green. Same defect, one layer in.
+- **m174 — `cascade_bridge.dead_forever()` memoised for the life of the process.** It cached the
+  first answer and never looked again, in jobs that run for hours. Broken in both directions: a
+  key that dies at noon keeps being claimed and burning a deadline per call until restart (the
+  exact shape of `hyperbolic:free` and `cloudflare:free` sitting at 0 successful calls while
+  still being claimed), and a key you **rotate** stays excluded until restart, so your fix does
+  not take. `PROOF_TTL` already said an hour-old proof is not evidence about now; the memo
+  silently overrode it with "forever". Now keyed on the proof file's mtime.
+- **m176 — `local_agent`'s DENYLIST omitted the contract-enforcement modules.** The autonomous
+  writer could propose-patch `pipeline`, `runguard`, `gpu_lane` and `sweep_plan` — i.e. the
+  two-writer contract itself, the claim discipline, the card's arbitration, and the sweep's
+  completeness proof. Every gate below would still have passed, because they check that a patch
+  parses, lints, imports and leaves `verify_math` green, not that it left the contract intact.
+- **m177 — `cleanup.py` marked thin descriptions and threw the mark away.** `thin_description`
+  was set on the in-memory dict without setting `changed`, so a record whose only edit was that
+  mark was never handed to `write_record`. Its two sibling branches both set it; this one was
+  missed. The docstring says thin entries are "marked, not deleted" — for every entry with no
+  other defect they were neither.
+
+### FALSE ALARMS I TALKED MYSELF OUT OF, BOTH BY THE SAME LESSON
+
+- I ran a process query filtered on `*panscriptum-library-kit*` and concluded no `--calibrate`
+  was running, which would have made the stalled-job standard a false positive. **It was my
+  query that was wrong**: calibrate is launched with a *relative* path (`src/magnitude.py`), so
+  the filter could not match it. Lesson 22 from run #28, arriving again, in a new spelling.
+- After the bounce, `allsweep` and a process query both said dashboard/publish/foreman were
+  still down ten minutes later, which reads as the keeper's documented guarantee being broken.
+  **The keeper had simply not reached that point in its cycle**; `overnight.log` shows all three
+  restored at 09:36:57–59. Verify a restore by reading start times and the supervisor's own log,
+  never by relaunching.
+
+### BATTERY
+
+`verify_math` **737 passed, 0 FAILED** (11 new checks this run: §20m the checkpoint invariant,
+§20n the completeness proof, plus the UNMEASURED guard). `allsweep` **0 subsystems in a bad
+state**, graded tiers all 0. `pyflakes` clean across `src/`. `silence.py` clean. `health
+--preflight` reports its **two standing failures, both pre-existing and both already in the
+ledger**: dandwiki's empty cache (M21, `action=raw` does not follow redirects) and stranded
+entries in closed batches — **now 412, up from 227, and it has spread to a second source**
+(Gundam 227, SpongeBob SquarePants 185). That growth is new information: M20 is not a frozen
+historical artifact, it is accruing.
+
+**Bounced:** dashboard, publish, foreman (all import `standards`), and the live `--calibrate`
+holding the old `magnitude`. The keeper restored the three at 09:36:57–59; the foreman
+redispatched calibrate, which has already checkpointed its first benchmark under the new code.
+
+**Standards: 7 red → 6 red of 42.** `every running job is advancing` went green;
+`model calls per hour` moved 260 → 412.
+
+---
+
 ## 2026-08-25 08:20–09:0x (local) — Run #28 (scheduled): the guard that had never once run, and a page that was ninety minutes behind its own source
 
 **FOR THE OWNER, AT THE TOP:**
