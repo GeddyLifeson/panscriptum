@@ -473,6 +473,25 @@ def push(message=None):
     except ImportError:
         pass
 
+    # NEVER PUBLISH DELIBERATELY BROKEN CODE. `mutate.py` corrupts real source files on disk --
+    # that is its entire method -- and on 2026-08-25 a push landed in the middle of a mutation
+    # run and shipped a `prose_gate.py` whose `cited_fraction()` matched every source EXCEPT the
+    # one it was asked about. To GitHub. The gate protecting the library, published inverted.
+    #
+    # Nothing caught it: the secret scan does not read logic, `ledger_guard` checks the ledgers,
+    # and the drill was itself confused by the same corruption. The only thing that can know is
+    # the process doing the corrupting, so it now says so in a lock file and this refuses.
+    try:
+        import mutate as _MUT
+        _busy, _rec = _MUT.active()
+        if _busy:
+            raise RuntimeError(
+                "REFUSING TO PUSH: a mutation run is active, so files in src/ may be "
+                "deliberately corrupt right now (%s). Wait for it to finish; it restores every "
+                "file it touches." % json.dumps(_rec)[:200])
+    except ImportError:
+        pass
+
     leaks = [h for h in scan_for_secrets(SITE) if not str(h[2]).startswith('SUPPRESSED')]
     # Suppressed findings are REPORTED by the scanner and excluded from the refusal --
     # visible in the audit trail, not a reason to block a push.

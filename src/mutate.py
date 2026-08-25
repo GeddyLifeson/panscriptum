@@ -42,6 +42,7 @@ it refuses to touch a file with uncommitted changes it did not make itself.
 import argparse
 import ast
 import hashlib
+import json
 import os
 import subprocess
 import sys
@@ -69,6 +70,92 @@ GATES = (
     ("verify_math", [sys.executable, "src/verify_math.py"]),
     ("drill", [sys.executable, "src/drill.py"]),
 )
+
+
+# --------------------------------------------------------------------------- the lock
+#
+# THE INCIDENT THIS EXISTS BECAUSE OF, 2026-08-25, within an hour of this module being written.
+# A mutation run was in progress -- `prose_gate.py` deliberately corrupted on disk, as designed
+# -- when two other things touched the same file:
+#
+#   * a separate `drill.py` run read the mutated gate, found two nets failing, and **HALTED THE
+#     LIBRARY**, which is precisely the "a safety that stops work is not a fault that stops work"
+#     confusion recorded in CLAUDE.md, arriving from a direction nobody had guarded;
+#   * `publish.py --push` synced the corrupted file and **SHIPPED A BROKEN PROSE GATE TO
+#     GITHUB**, where `cited_fraction()` matched every source EXCEPT the one it was asked about.
+#
+# The second is the serious one. Mutation testing's whole method is putting wrong code on disk,
+# so every other consumer of that disk has to know. This lock is how they know, and `publish.py`
+# refuses to push while it is held.
+#
+# STALENESS IS HANDLED, because a lock that outlives its holder is an outage. The record carries
+# the PID and the start time; `active()` treats a lock whose process is gone as absent, and says
+# so rather than silently ignoring it.
+LOCK = os.path.join(HERE, "state", "MUTATION_ACTIVE.json")
+_TOKEN_ENV = "PANSCRIPTUM_MUTATION_TOKEN"
+
+
+def _pid_alive(pid):
+    """-> True if that PID is still running. Unknown counts as ALIVE.
+
+    Fails toward "the lock is real". A false 'stale' releases the lock while a mutation run is
+    genuinely mid-flight, which puts corrupted source back in reach of the publisher -- the
+    exact failure this whole mechanism exists to prevent. A false 'alive' merely delays a push.
+    """
+    try:
+        if os.name == "nt":
+            r = subprocess.run(["tasklist", "/FI", "PID eq %d" % pid], capture_output=True,
+                               text=True, creationflags=_NO_WIN, timeout=30)
+            return str(pid) in (r.stdout or "")
+        os.kill(pid, 0)
+        return True
+    except Exception:
+        return True
+
+
+def active():
+    """-> (bool, record). Is a mutation run putting wrong code on disk right now?"""
+    try:
+        with open(LOCK, encoding="utf-8") as f:
+            rec = json.load(f)
+    except FileNotFoundError:
+        return False, None
+    except Exception:
+        # An unreadable lock is treated as HELD. If this file exists at all, something claimed
+        # the right to corrupt the tree, and "I could not read the claim" is not permission.
+        return True, {"unreadable": True}
+    pid = rec.get("pid")
+    if isinstance(pid, int) and not _pid_alive(pid):
+        rec["stale"] = True
+        return False, rec
+    return True, rec
+
+
+def _lock_acquire(targets, token):
+    held, rec = active()
+    if held:
+        raise RuntimeError("a mutation run is already active (%s); refusing to start a second"
+                           % json.dumps(rec)[:160])
+    os.makedirs(os.path.dirname(LOCK), exist_ok=True)
+    with open(LOCK, "w", encoding="utf-8") as f:
+        json.dump({"pid": os.getpid(), "started": time.time(),
+                   "targets": list(targets), "token": token,
+                   "warning": "SOURCE FILES IN src/ MAY BE DELIBERATELY CORRUPT RIGHT NOW. "
+                              "Do not publish, and do not read a failing check as a real fault."},
+                  f, indent=2)
+
+
+def _lock_release():
+    try:
+        os.remove(LOCK)
+    except FileNotFoundError:
+        pass
+    except Exception:
+        # A lock we cannot remove will block every future push. Loud, not silent.
+        import escalation as _esc
+        _esc.escalate("MANAGER", "MUTATION_LOCK_STUCK",
+                      "could not remove %s; publishing stays blocked until it is gone" % LOCK,
+                      who="mutate.py")
 
 
 def _read(path):
@@ -149,10 +236,10 @@ def _mutations(tree, text):
 
 # --------------------------------------------------------------------------- running them
 
-def _gate_passes(name, cmd, timeout=1200):
+def _gate_passes(name, cmd, timeout=1200, env=None):
     try:
         r = subprocess.run(cmd, cwd=HERE, capture_output=True, text=True,
-                           creationflags=_NO_WIN, timeout=timeout)
+                           creationflags=_NO_WIN, timeout=timeout, env=env)
     except subprocess.TimeoutExpired:
         return False, "timeout"
     except Exception as e:
@@ -211,6 +298,9 @@ def run(target, limit=None, gates=GATES):
 
     lines = text.splitlines(keepends=True)
     survivors, killed = [], 0
+    token = hashlib.sha256(("%s|%d" % (target, os.getpid())).encode()).hexdigest()[:16]
+    _lock_acquire([target], token)
+    env = dict(os.environ, **{_TOKEN_ENV: token})
     try:
         for lineno, desc, old_line, new_line in muts:
             mutated = list(lines)
@@ -218,7 +308,7 @@ def run(target, limit=None, gates=GATES):
             _write(path, "".join(mutated).encode("utf-8"))
             died_at = None
             for gname, cmd in gates:
-                ok, why = _gate_passes(gname, cmd)
+                ok, why = _gate_passes(gname, cmd, env=env)
                 if not ok:
                     died_at = "%s (%s)" % (gname, why)
                     break
@@ -230,6 +320,7 @@ def run(target, limit=None, gates=GATES):
                                   "became": new_line.strip()[:120]})
     finally:
         _write(path, original)
+        _lock_release()
 
     restored = _digest(_read(path))
     return {"target": target, "mutants": len(muts), "killed": killed,

@@ -1712,6 +1712,28 @@ def main():
         pass
 
     if breached:
+        # A DELIBERATE CORRUPTION IS NOT A FAULT. `mutate.py` breaks source files on purpose and
+        # runs THIS as one of its gates, so a breach during a mutation run is the expected
+        # answer, not an incident. On 2026-08-25 a drill run that happened to overlap one read a
+        # mutated `prose_gate.py`, saw two nets fail, and halted the entire library over code
+        # that was about to be restored seconds later.
+        #
+        # This is CLAUDE.md's own standing lesson pointed at a new target: "a safety that stops
+        # work must be distinguishable from a fault that stops work." Here the pair is a safety
+        # that refuses because the code is genuinely wrong, and one that refuses because someone
+        # made it wrong on purpose to see whether it would. The breach is still PRINTED and still
+        # returned -- mutate reads it from stdout, which is how a mutant gets killed. Only the
+        # halt is withheld.
+        try:
+            import mutate as _MUT
+            _busy, _ = _MUT.active()
+        except Exception:
+            _busy = False
+        if _busy:
+            print("\n%d net(s) did not hold — but a MUTATION RUN IS ACTIVE, so this is the"
+                  " expected answer to code that was broken on purpose. NOT halting." % len(breached))
+            print("  " + "; ".join(r["net"] for r in breached[:5]))
+            return 1
         # A BREACHED NET IS ITSELF AN OWNER-LEVEL EVENT. A safety that does not refuse is worse
         # than an absent one, because the whole system is built assuming it refuses.
         ESC.escalate(ESC.OWNER, "DRILL_BREACH",

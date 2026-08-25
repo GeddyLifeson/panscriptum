@@ -152,7 +152,7 @@ def cited_fraction(source, rows=None):
     except Exception:
         return None
     for r in rows:
-        if isinstance(r, dict) and r.get("source") != source:
+        if isinstance(r, dict) and r.get("source") == source:
             n = r.get("entries") or 0
             if not n:
                 return None
