@@ -947,7 +947,12 @@ def evidence_for(host, name, cache=True):
            # Pages that arrived but were NOT the article. Kept on the record so a later reader
            # can tell "this entity has no evidence" from "we were served a block page" -- the
            # distinction the whole project keeps losing.
-           "pages_refused": unreal}
+           "pages_refused": unreal,
+           # PROVENANCE: a digest of the exact page text these feats were mined from. Lets a
+           # later pass ask whether a citation is still PROVEN, or merely was once -- a source
+           # page can be edited or deleted after mining, and the evidence file would otherwise
+           # go on asserting it for ever. (in-toto's materials idea, stdlib-sized.)
+           "provenance": cachekey.text_digest(text)}
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:

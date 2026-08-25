@@ -364,6 +364,20 @@ def drill_cache():
         "the live collision this fix exists for")
     net(a, "its own document is accepted",
         lambda: CK.owns({"entity": "Magic 8 Ball"}, "Magic 8 Ball"), "")
+    # PROVENANCE (the in-toto materials idea, stdlib-sized). Three outcomes, and the third is
+    # the one that matters: nothing recorded must read as UNVERIFIABLE, never as verified.
+    net(a, "unchanged source text verifies as PROVEN",
+        lambda: CK.provenance_ok(CK.text_digest({"P": "the hero lifted it"}),
+                                 {"P": "the hero lifted it"})[0] is True,
+        "evidence mined from text that has not moved is still proven")
+    net(a, "changed source text is NOT proven",
+        lambda: CK.provenance_ok(CK.text_digest({"P": "the hero lifted it"}),
+                                 {"P": "the hero did something else"})[0] is False,
+        "a citation is not wrong when its page is edited -- it is no longer PROVEN, which is a "
+        "different state and must not share a cell with proven")
+    net(a, "no recorded provenance is UNVERIFIABLE, not verified",
+        lambda: CK.provenance_ok({}, {"P": "anything"})[0] is None,
+        "the coverage no_page lesson: 'nobody recorded it' and 'it checked out' differ")
     net(a, "a document with no entity field is not trusted",
         lambda: not CK.owns({"feats": [1]}, "Magic 8 Ball"),
         "all 86,288 files carry one; a file without it was written by something else")

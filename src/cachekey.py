@@ -116,47 +116,51 @@ def load(base, host, name, on_corrupt=None):
     return None, None
 
 
-def materials_digest(paths):
-    """A digest over the exact inputs a step consumed. -> {relpath: sha1} plus a roll-up.
+def text_digest(text_map):
+    """A digest over the page text an evidence record was mined FROM.
 
-    THE in-toto IDEA, WITHOUT THE ECOSYSTEM. in-toto's link metadata records the MATERIALS a
-    step read and the PRODUCTS it wrote, each by digest, so a later reader can prove an output
-    came from the inputs it claims. That property is exactly what this project needs and the
-    tooling around it is exactly what it does not: in-toto needs its own library and a key
-    management story, and sigstore needs a network call to a transparency-log service. Neither
-    is worth a dependency to answer "did this chapter come from that evidence".
+    THE in-toto IDEA, WITHOUT THE ECOSYSTEM. in-toto's link metadata records the MATERIALS a step
+    read and the PRODUCTS it wrote, each by digest, so a later reader can prove an output came
+    from the inputs it claims. That property is worth having; the tooling is not -- in-toto needs
+    its own library and a key-management story, and sigstore needs a network call to a
+    transparency-log service. Neither earns a dependency to answer "did this evidence come from
+    that page".
 
-    The property survives the simplification. A dict of input digests recorded beside the output
-    answers the same question in ten lines of stdlib, and it composes with the writer stamps
-    already on records: the stamp says WHO wrote a file, this says WHAT it was written FROM.
+    Applied where this project actually HAS inputs: not files on disk, but the fetched page text
+    an entity's feats were extracted from. It composes with the writer stamps already on records
+    -- the stamp says WHO wrote a file, this says WHAT it was written FROM.
+
+    (A file-path variant was written first and deleted the same hour: it had no caller, and this
+    project's own liveness ratchet flagged it within minutes. Forward-looking API is dead code
+    wearing a plan.)
     """
     import hashlib
-    out = {}
-    for p in paths or ():
-        try:
-            with open(p, "rb") as f:
-                out[os.path.relpath(p, HERE).replace(os.sep, "/")] = \
-                    hashlib.sha1(f.read()).hexdigest()[:16]
-        except OSError:
-            continue
+    per = {}
+    for title, body in (text_map or {}).items():
+        per[str(title)] = hashlib.sha1((body or "").encode("utf-8")).hexdigest()[:16]
     roll = hashlib.sha1(
-        "\n".join("%s=%s" % (k, v) for k, v in sorted(out.items())).encode("utf-8")
+        "\n".join("%s=%s" % (k, v) for k, v in sorted(per.items())).encode("utf-8")
     ).hexdigest()[:16]
-    return {"materials": out, "roll": roll, "n": len(out)}
+    return {"pages": per, "roll": roll, "n": len(per)}
 
 
-def provenance_ok(recorded, paths):
-    """-> (ok, changed). Do the inputs still hash to what the output recorded?
+def provenance_ok(recorded, text_map):
+    """-> (ok, changed). Does this evidence still match the text it was mined from?
 
-    Answers the drift question the study named: a citation that was true when mined, against a
-    source page that has since been edited or deleted. The output is not wrong retroactively --
-    but it is no longer PROVEN, and those are different states that must not share a cell.
+    THREE OUTCOMES, and the middle one is the reason this exists:
+        True   the pages still hash to what was recorded -- the evidence is PROVEN
+        False  the source text changed since mining -- the citation is not wrong retroactively,
+               but it is no longer proven, and those are different states
+        None   nothing was recorded -- UNVERIFIABLE, which must never be reported as verified
+
+    That third case is the whole discipline. `coverage` learned the same lesson today: "nobody
+    asked" and "asked and found nothing" were one number for months.
     """
-    now = materials_digest(paths)
-    if not isinstance(recorded, dict) or not recorded.get("materials"):
-        return None, []          # nothing recorded: unverifiable, NOT verified
-    changed = [k for k, v in (recorded.get("materials") or {}).items()
-               if now["materials"].get(k) != v]
+    if not isinstance(recorded, dict) or not recorded.get("pages"):
+        return None, []
+    now = text_digest(text_map)
+    changed = [k for k, v in (recorded.get("pages") or {}).items()
+               if now["pages"].get(k) != v]
     return (not changed), changed
 
 
