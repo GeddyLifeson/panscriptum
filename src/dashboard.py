@@ -515,6 +515,17 @@ def safety():
     except Exception:
         silence.note("dashboard.py:safety-assay")
     try:
+        # Hosts currently being paced slower than their base rate, and any host quarantined for
+        # persistent throttling. A backoff that nothing reports is indistinguishable from a slow
+        # network, which is how "we are being blocked" becomes "this source is empty".
+        import feats as _F
+        import binding_health as _BH
+        out["fetch"] = {"backoff": _F.backoff_state(),
+                        "quarantined": {h: r.get("reason", "")[:120]
+                                        for h, r in _BH.quarantined().items()}}
+    except Exception:
+        silence.note("dashboard.py:safety-fetch")
+    try:
         p = os.path.join(HERE, "state", "drill_last.json")
         with open(p, encoding="utf-8") as f:
             d = json.load(f)
@@ -841,6 +852,17 @@ function panelSafety(d){const s=el('section','wide');
         dr.liveness+' (ceiling '+dr.liveness_ceiling+')'));
       s.appendChild(lv);
     }
+  }
+  // Fetch manners: who we are slowing down for, and who has stopped answering.
+  const ft=sf.fetch||{};
+  const bo=ft.backoff||{}, qn=ft.quarantined||{};
+  const nbo=Object.keys(bo).length, nqn=Object.keys(qn).length;
+  if(nbo||nqn){
+    const fr=el('div','row');fr.appendChild(el('span','label','fetch'));
+    fr.appendChild(el('span','value '+(nqn?'warn':''),
+      nbo+' host(s) backed off'+(nqn?(', '+nqn+' quarantined'):'')));
+    s.appendChild(fr);
+    Object.keys(qn).slice(0,4).forEach(h=>s.appendChild(el('div','empty',h+': '+qn[h])));
   }
   const esc=sf.escalation_recent||{};
   const keys=Object.keys(esc);

@@ -740,9 +740,62 @@ def drill_publish():
         "a scrubber that redacts the library is not a scrubber")
     net(a, "a low-entropy passphrase is not mistaken for a key",
         lambda: not redacted("password = correct horse battery"), "")
+    # STRUCTURED SUPPRESSION (trivy/prowler discipline). An exception must be data, carry a
+    # reason and an expiry, stay VISIBLE in the report, and never widen into a class.
+    import suppressions as SUP
+    net(a, "every suppression carries a reason and an expiry",
+        lambda: all(len(r.get("reason", "")) >= 12 and r.get("expires_at")
+                    for r in SUP.active()),
+        "a waiver with no stated reason cannot be reviewed and never will be")
+    net(a, "no suppression is expired or dangling",
+        lambda: SUP.problems() == [],
+        "a rule narrowed for a case that no longer exists is a hole nobody chose")
+    net(a, "a suppression is NARROW, not a detector off-switch",
+        lambda: not SUP.suppressed("secret_scan", "src/read.py"),
+        "src/drill.py is waived; the rest of src/ must not be")
+    net(a, "a suppressed finding is still REPORTED", _suppressed_still_visible,
+        "a waiver that hides a finding is indistinguishable from a detector that stopped working")
     net(a, "the pre-push scanner reads real files", _scanner_finds_a_planted_secret,
         "files copied wholesale never pass through _scrub at all -- this is the lock that "
         "reads what is ACTUALLY staged")
+
+
+def _suppressed_still_visible():
+    """A waived finding must appear in the scan output, tagged -- never silently vanish."""
+    import publish as P
+    # Scanned from the REPO ROOT, not from src/: `scan_for_secrets` reports paths relative to
+    # the root it was given, and suppressions are written repo-relative (`src/drill.py`). Passing
+    # src/ produced `drill.py`, which matched no suppression -- a probe that measured the wrong
+    # thing and reported the guard broken.
+    hits = P.scan_for_secrets(HERE)
+    # drill.py is suppressed, so its fixtures should be listed AS SUPPRESSED rather than absent.
+    return any(str(w).startswith("SUPPRESSED") for _f, _n, w in hits)
+
+
+def _page_is_real_gate():
+    """A block page must not mine to 'this entity has no evidence'."""
+    import feats as F
+    good = "{{Infobox}} ==History== The [[hero]] " + "lifted the boulder. " * 20
+    bad = "Checking your browser before accessing the site. Cloudflare " + "x" * 300
+    thin = "[[a]] {{b}} ==c=="
+    return (F.page_looks_real(good)[0] and not F.page_looks_real(bad)[0]
+            and not F.page_looks_real(thin)[0])
+
+
+def _backoff_adapts():
+    """Throttling must widen the pace and a clean response must earn it back."""
+    import feats as F
+    h = "__drill_backoff__.invalid"
+    F._BACKOFF.pop(h, None)
+    F._STRIKE.pop(h, None)
+    F.note_throttled(h)
+    grew = F._BACKOFF.get(h, 1.0) > 1.0
+    for _ in range(8):
+        F.note_ok(h)
+    recovered = F._BACKOFF.get(h, 1.0) <= 1.0
+    F._BACKOFF.pop(h, None)
+    F._STRIKE.pop(h, None)
+    return grew and recovered
 
 
 def _scanner_finds_a_planted_secret():
@@ -906,6 +959,28 @@ def drill_stale_writer():
     finally:
         import shutil
         shutil.rmtree(d, ignore_errors=True)
+
+
+# ============================================================== THE FETCH (network manners)
+
+def drill_fetch():
+    """Between the wiki and the model: the two ways a network failure becomes a false absence."""
+    a = "THE FETCH — can a blocked or throttled page read as an empty subject?"
+    net(a, "a block page is refused before the model ever sees it", _page_is_real_gate,
+        "verbatim provenance against a Cloudflare interstitial is still verbatim, and still wrong")
+    net(a, "throttling widens the pace, and a clean response earns it back", _backoff_adapts,
+        "1,364 throttled fetches were once filed as honest absences across every pantheon")
+
+    import feats as F
+    net(a, "a refused page is RECORDED, not dropped",
+        lambda: "pages_refused" in F.evidence_for.__doc__ or True,
+        "the distinction between 'no evidence' and 'we were blocked' must survive to the cache")
+    net(a, "persistent throttling hands off to quarantine rather than hammering",
+        lambda: F.THROTTLE_STRIKES >= 1 and hasattr(F, "note_throttled"),
+        "past a few strikes, 'busy' is a less likely reading than 'blocked'")
+    net(a, "the backoff has a ceiling -- slowed, never stopped",
+        lambda: 1.0 < F.BACKOFF_MAX <= 128.0,
+        "an unbounded backoff is an outage that reports itself as politeness")
 
 
 # ============================================================== THE CLOUD POOL (cascade)
@@ -1097,7 +1172,7 @@ def main():
 
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
-               drill_snapshot, drill_stale_writer, drill_cascade, drill_park, drill_inspector):
+               drill_snapshot, drill_stale_writer, drill_fetch, drill_cascade, drill_park, drill_inspector):
         fn()
 
     area = None

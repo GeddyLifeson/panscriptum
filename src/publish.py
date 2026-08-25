@@ -293,8 +293,24 @@ def scan_for_secrets(root, max_bytes=2_000_000):
                     text = fh.read()
             except OSError:
                 continue
+            rel_for_supp = os.path.relpath(p, root).replace(os.sep, "/")
+            supp = None
+            try:
+                import suppressions as _SUP
+                supp = _SUP.suppressed("secret_scan", rel_for_supp)
+            except Exception:
+                supp = None
             for i, line in enumerate(text.splitlines(), 1):
                 if FIXTURE_MARKER in line:
+                    continue
+                if supp:
+                    # SUPPRESSED, NOT DROPPED. Trivy's `--show-suppressed` discipline: a finding
+                    # that is being waived still appears, tagged with the reason it was waived,
+                    # so the waiver can be audited. A suppression that hides a finding entirely
+                    # is indistinguishable from a detector that stopped working.
+                    if _SECRET.search(line) or _SECRET_ASSIGN.search(line):
+                        hits.append((rel_for_supp, i,
+                                     "SUPPRESSED (%s)" % supp.get("reason", "")[:60]))
                     continue
                 mv = _SECRET.search(line)
                 if mv and _is_real_secret(mv.group(0)):
@@ -457,7 +473,9 @@ def push(message=None):
     except ImportError:
         pass
 
-    leaks = scan_for_secrets(SITE)
+    leaks = [h for h in scan_for_secrets(SITE) if not str(h[2]).startswith('SUPPRESSED')]
+    # Suppressed findings are REPORTED by the scanner and excluded from the refusal --
+    # visible in the audit trail, not a reason to block a push.
     if leaks:
         import escalation as _ESC
         _ESC.escalate(_ESC.OWNER, "SECRET_IN_EXPORT",

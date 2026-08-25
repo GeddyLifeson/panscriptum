@@ -93,13 +93,132 @@ def _pause_for(host):
     return PAUSE
 
 
+# ADAPTIVE BACKOFF STATE, per host. A fixed pause is a guess about a remote server's mood; this
+# is a measurement of it. `_BACKOFF[host]` multiplies the base pause and is raised on every 429
+# or 503 and decayed on every clean response, so a host that starts throttling us slows us down
+# within one request instead of after a run's worth of them.
+_BACKOFF = {}
+BACKOFF_MAX = 32.0          # a 0.34s base becomes ~11s at the ceiling -- slow, never stopped
+BACKOFF_GROWTH = 2.0
+BACKOFF_DECAY = 0.8         # gentler than the growth: earn speed back slowly, lose it fast
+# Consecutive throttles after which the host is handed to `binding_health` for quarantine rather
+# than hammered further. Three is the point at which "busy right now" stops being the likelier
+# reading than "we are being blocked".
+THROTTLE_STRIKES = 3
+_STRIKE = {}
+
+
 def _throttle(host):
+    """Pace one request to `host`. Adaptive, per host, and enforced IN CODE.
+
+    WHY THIS IS WRITTEN RATHER THAN BORROWED. Four tools that face this at far greater scale were
+    studied for a pattern to copy and none of them has one worth copying:
+
+        sherlock  -- an acknowledged UNSOLVED problem (issue #816); rate-limited sites are
+                     misreported as false positives project-wide
+        maigret   -- exposes only `--timeout`, `--retries`, `-n` concurrency knobs
+        shannon   -- asks the AGENT, in English, to "throttle to under 5 requests per second and
+                     back off 60s on any 429". A prompt is not a rate limiter. This is the one
+                     pattern the study flagged as an ANTI-pattern rather than a gap.
+        strix     -- single-target; the question does not arise
+
+    So this is the contribution, not the borrowing. It matters here specifically because this
+    project has already been throttled into believing sources were EMPTY: 1,364 swallowed
+    HTTPErrors in one adoption pass, after which every pantheon and astrology source read as
+    "no wiki holds this fiction" when the truth was "we were being throttled". A 429 that reads
+    as an absence is the project's signature failure arriving over the network.
+    """
     with _HOST_LOCKS[host]:
+        base = _pause_for(host)
+        mult = _BACKOFF.get(host, 1.0)
         last = _HOST_LAST.get(host, 0.0)
-        wait = _pause_for(host) - (time.time() - last)
+        wait = (base * mult) - (time.time() - last)
         if wait > 0:
             time.sleep(wait)
         _HOST_LAST[host] = time.time()
+
+
+def note_throttled(host):
+    """Call on a 429/503. Widens this host's pause immediately, and quarantines a persistent one.
+
+    RAISED ON THE FIRST SIGN, not after a threshold: the cost of slowing down one host slightly
+    too early is nothing, and the cost of finding out too late is a source that reads as empty.
+    """
+    with _HOST_LOCKS[host]:
+        _BACKOFF[host] = min(BACKOFF_MAX, _BACKOFF.get(host, 1.0) * BACKOFF_GROWTH)
+        _STRIKE[host] = _STRIKE.get(host, 0) + 1
+        strikes, mult = _STRIKE[host], _BACKOFF[host]
+    if strikes >= THROTTLE_STRIKES:
+        # HAND OFF RATHER THAN HAMMER. Past this point "busy" is a less likely reading than
+        # "blocked", and continuing to spend requests on it costs the whole pool's politeness
+        # budget. binding_health records the reason and retries on a slow cadence.
+        try:
+            import binding_health as BH
+            if not BH.is_quarantined(host):
+                BH.quarantine(host, "throttled %d times consecutively; backoff at %.0fx"
+                              % (strikes, mult))
+        except Exception:
+            silence.note("feats.py:throttle-quarantine")
+    return mult
+
+
+def note_ok(host):
+    """Call on a clean response. Decays the backoff and clears the strike run."""
+    with _HOST_LOCKS[host]:
+        cur = _BACKOFF.get(host, 1.0)
+        if cur > 1.0:
+            _BACKOFF[host] = max(1.0, cur * BACKOFF_DECAY)
+        _STRIKE[host] = 0
+
+
+def backoff_state():
+    """-> {host: multiplier} for hosts currently slowed. Reported, never silent."""
+    return {h: round(m, 2) for h, m in _BACKOFF.items() if m > 1.0}
+
+
+# Text that a real wiki article carries and a block page does not. Deliberately weak signals
+# individually -- the point is that a page must clear SEVERAL, the way maigret's `checkType`
+# layers status, presence strings and absence strings rather than trusting one.
+_WIKI_MARKERS = ("[[", "{{", "==", "categor", "reflist", "infobox", "cite ", "'''")
+# Phrases that mean "you are being refused", whatever HTTP status accompanies them. A WAF often
+# answers 200 with an interstitial, which is the case a status check cannot see.
+_REFUSAL_MARKERS = ("enable javascript", "checking your browser", "cloudflare",
+                    "access denied", "are you a robot", "captcha", "rate limit",
+                    "too many requests", "ddos-guard", "request blocked",
+                    "temporarily unavailable")
+MIN_REAL_PAGE_CHARS = 200
+
+
+def page_looks_real(text, title=""):
+    """-> (ok, why). Is this the article, or something wearing its URL?
+
+    THE GAP THIS CLOSES. Every extracted sentence is already verified VERBATIM against the page
+    it came from, and that check is sound -- it cannot be fooled by a paraphrase. What it cannot
+    do is notice that the PAGE is wrong: a Cloudflare interstitial, a login wall, a soft-404 or a
+    rate-limit notice is a real document, and a model quoting it quotes it accurately. Verbatim
+    provenance against the wrong source is still wrong, and it looks exactly like success.
+
+    Layered on purpose (maigret/sherlock's `checkType` + `presenseStrs`/`absenceStrs` pattern):
+    length, then an explicit refusal phrase, then positive evidence that this is wiki markup at
+    all. One signal cannot separate "empty article" from "we were blocked", and this project has
+    already paid for that confusion -- 1,364 throttled fetches were filed as honest absences.
+
+    CHEAP BY CONSTRUCTION: string tests over bytes already in memory, no extra request, so it can
+    sit in front of the expensive model call without costing anything (nuclei's fingerprint-gate
+    idea -- a cheap check gates an expensive one).
+    """
+    t = (text or "")
+    if len(t.strip()) < MIN_REAL_PAGE_CHARS:
+        return False, ("only %d chars -- too thin to be an article, and an empty fetch must not "
+                       "read as an empty subject" % len(t.strip()))
+    low = t.lower()
+    for m in _REFUSAL_MARKERS:
+        if m in low:
+            return False, ("carries a refusal marker (%r) -- this is a block page, not the "
+                           "article, whatever status it arrived with" % m)
+    if not any(m in low for m in _WIKI_MARKERS):
+        return False, ("no wiki markup found at all -- not an article page")
+    return True, "%d chars, wiki markup present" % len(t.strip())
 
 
 
@@ -142,7 +261,11 @@ def api(host, params, retries=2):
             _throttle(host)
             req = urllib.request.Request(url, headers={"User-Agent": UA})
             with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
-                return json.loads(r.read().decode("utf-8", "replace"))
+                _body = r.read().decode("utf-8", "replace")
+                # A CLEAN RESPONSE EARNS SPEED BACK. Without this the backoff only ever
+                # grows, so one bad minute would slow a host for the rest of the run.
+                note_ok(host)
+                return json.loads(_body)
         except urllib.error.HTTPError as e:
             # 429 is a request to slow down, not a failure to retry at the same speed. Backing
             # off exponentially and honouring Retry-After is the difference between recovering
@@ -158,9 +281,14 @@ def api(host, params, retries=2):
                 silence.note("feats.py:api-404")
                 return None
             silence.note("feats.py:125")
-            if e.code == 429:
+            if e.code in (429, 503):
                 wait = int(e.headers.get("Retry-After") or 0) or (5 * (attempt + 1) ** 2)
                 _RATE_LIMITED[host] = _RATE_LIMITED.get(host, 0) + 1
+                # WIDEN THE PACE, not just this one sleep. The retry below waits and then
+                # carries on at the SAME rate, which is what let a throttling host be hit
+                # at full speed for a whole run. 503 is folded in with 429 deliberately:
+                # both mean "not now", and a wiki under load returns either.
+                note_throttled(host)
                 if attempt == retries:
                     return None
                 time.sleep(min(wait, 120))
@@ -791,8 +919,17 @@ def evidence_for(host, name, cache=True):
             titles = discover(host, name)
             pages = fetch(host, titles)
     feats, rej, quants, text = [], [], [], {}
+    unreal = {}
     for t, wt in pages.items():
         clean = wt if plain else strip_wikitext(wt)
+        # THE CHEAP GATE IN FRONT OF THE EXPENSIVE ONE. A block page, a soft-404 or a rate-limit
+        # interstitial is a real document that mines to zero feats, and "zero feats" is
+        # indistinguishable from an honest absence once it is written to the cache. Recorded
+        # rather than dropped: the whole point is that the reason is visible afterwards.
+        ok, why = page_looks_real(wt, t)
+        if not ok:
+            unreal[t] = why
+            continue
         text[t] = clean
         k, r, q = mine(clean, t)
         feats += k
@@ -806,7 +943,11 @@ def evidence_for(host, name, cache=True):
     # between iterating on the gate in seconds and iterating on it in days.
     out = {"entity": name, "host": host, "pages_read": sorted(pages),
            "chars_read": sum(len(v) for v in pages.values()),
-           "feats": feats, "quantities": quants, "gate_rejected": rej, "text": text}
+           "feats": feats, "quantities": quants, "gate_rejected": rej, "text": text,
+           # Pages that arrived but were NOT the article. Kept on the record so a later reader
+           # can tell "this entity has no evidence" from "we were served a block page" -- the
+           # distinction the whole project keeps losing.
+           "pages_refused": unreal}
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
