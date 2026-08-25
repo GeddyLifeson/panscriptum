@@ -817,17 +817,32 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             # Cascade recorded in its scratch DB at the same moment. Without this the classifier
             # below is judging the words "All 1 candidates failed: GLM 4.7 Flash (Z.AI)", which
             # will never match anything, forever.
-            if pinned and any(w in err for w in _WRAPPERS):
+            # DECIDE "WAS THE WHOLE POOL DRY" ON THE RAW TEXT, BEFORE THE UNWRAP DESTROYS IT.
+            #
+            # Caught the same run this branch was written, by the sweep agent auditing it.
+            # `All 11 candidates failed: ...` is a fact about the ENGINE'S WALK, and it lives
+            # only in the raw message -- once `err` is replaced by the pinned bucket's own last
+            # error, that fact is gone and `pool_exhausted(err)` below can never see it.
+            #
+            # Worse than losing the classification: it could BENCH ON THE WRONG EVIDENCE. A
+            # multi-candidate call is not necessarily an attempt on the pinned bucket at all
+            # (the ledger showed pin `groq:openai/gpt-oss-20b` against candidate label
+            # `Llama 3.3 70B (Groq)`), so unwrapping it could pull up a neighbouring
+            # "insufficient balance" and hand this bucket a FOUR HOUR bench for a call that
+            # failed because the pool was empty. That is m103's harm exactly -- shrinking the
+            # pool that is already the binding constraint -- reached by a new road.
+            exhausted = pool_exhausted(err)
+            if pinned and not exhausted and any(w in err for w in _WRAPPERS):
                 deeper = provider_error(pinned.bucket).lower()
                 if deeper:
                     err = deeper
             permanent_words = ("authentication", "invalid_api_key", "credentials",
                                "insufficient balance", "no resource package",
                                "payment required", "needs billing", "depleted")
-            if pinned and (re.search(r"\b(401|402|403)\b", err)
-                           or any(w in err for w in permanent_words)):
+            if pinned and not exhausted and (re.search(r"\b(401|402|403)\b", err)
+                                             or any(w in err for w in permanent_words)):
                 _bury(pinned.bucket, AUTH_BENCH)
-            elif pinned and (named_transient(err) or pool_exhausted(err)):
+            elif pinned and (exhausted or named_transient(err)):
                 # RECOGNISED, AND ALREADY COUNTED ELSEWHERE. A throttle is not a mystery: it is
                 # the most ordinary thing a free-tier pool says, it is tallied in the throughput
                 # panel and in `usage.outcome='rate_limited'`, and writing it into the

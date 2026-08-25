@@ -233,7 +233,14 @@ def t_run_check(check="", path=None, **_):
 def _safe(path):
     """A path the model may touch: inside the project, never the export copy or .git."""
     full = os.path.abspath(os.path.join(HERE, path or "."))
-    if not full.startswith(HERE) or ".git" in full.split(os.sep):
+    # A PREFIX IS NOT A DIRECTORY BOUNDARY. Found 2026-08-25 (run #23) by the comprehensive
+    # sweep. `full.startswith(HERE)` is true for `C:\...\panscriptum-library-kit-EVIL\x.py`
+    # and for `...-export\src\foo.py` -- any SIBLING whose name merely begins with this
+    # project's name, including the export copy this whole file is forbidden to touch.
+    # Comparing against `HERE + os.sep` makes the test mean what the docstring says.
+    if not (full == HERE or full.startswith(HERE + os.sep)):
+        return None
+    if ".git" in full.split(os.sep):
         return None
     return full
 
@@ -366,7 +373,23 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     # num_ctx) was freely writable by the local model. Match on the module name when there is
     # one, and on the repo-relative path otherwise.
     rel = os.path.relpath(full, HERE).replace(os.sep, "/")
-    denied = modname if modname in DENYLIST else (rel if rel in DENYLIST_PATHS else None)
+    # THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT. Found 2026-08-25 (run #23) by
+    # the comprehensive sweep, reproduced on this machine: `path="src/Foreman.py"` passes
+    # `os.path.isfile` (Windows resolves it to the real `foreman.py`), yields
+    # `modname == "Foreman"`, which is not in a set holding `"foreman"` -- so the gate that
+    # exists to stop the local model editing the checking machinery was defeated by ONE
+    # CAPITAL LETTER, for `foreman`, `silence`, `standards`, `verify_math`, `health`,
+    # `allsweep`, `estate` and `local_agent` (this file) alike.
+    #
+    # Folded on BOTH sides. A denylist that errs toward denying is safe; one that errs toward
+    # allowing is the entire failure. This is not Windows-only defensiveness either: a
+    # case-insensitive match on a case-sensitive filesystem can at worst refuse a patch to a
+    # differently-cased file that does not exist, and refusing is the harmless direction.
+    _deny = {d.lower() for d in DENYLIST}
+    _deny_paths = {p.lower() for p in DENYLIST_PATHS}
+    _mod_l = (modname or "").lower()
+    denied = (modname if _mod_l in _deny
+              else (rel if rel.lower() in _deny_paths else None))
     if denied:
         return {"applied": False, "error": str(denied) + " is on the denylist -- the checking "
                                                          "machinery may not edit itself"}
@@ -393,13 +416,26 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
         return {"applied": True, "why": why[:200]}
     except Exception as e:
         silence.note("local_agent.py:apply")
+        # A REVERT THAT FAILED MUST NOT REPORT ITSELF AS A REVERT. Found 2026-08-25 (run #23).
+        # `"reverted": True` used to be a literal in this return, emitted even when the inner
+        # write above had just raised -- so the one outcome that leaves a HALF-PATCHED MODULE
+        # ON DISK was the outcome that claimed most confidently to have cleaned up after
+        # itself. The gate's whole promise is "a bad patch cannot survive"; this path broke
+        # that promise and then said it hadn't.
+        reverted = True
         try:
             with open(full, "w", encoding="utf-8") as f:
                 f.write(backup)
         except Exception:
             silence.note("local_agent.py:revert")
-        return {"applied": False, "reverted": True,
-                "error": type(e).__name__ + ": " + str(e)[:120]}
+            reverted = False
+        out = {"applied": False, "reverted": reverted,
+               "error": type(e).__name__ + ": " + str(e)[:120]}
+        if not reverted:
+            out["ALARM"] = ("REVERT FAILED -- %s may be half-written on disk and the backup "
+                            "is only in memory. Restore it by hand before anything imports "
+                            "it." % rel)
+        return out
 
 
 def _chat(model, messages, host, timeout=420):
