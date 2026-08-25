@@ -111,6 +111,17 @@ def drill_dispatch():
     net(a, "the live gate is closed right now",
         lambda: not PG.gate_open()[0],
         "prose is held by owner ruling pending Step 4")
+    # THE STEP 4 GATE — the plan must be ratified before the entanglement pass can fire.
+    net(a, "the Step 4 gate is closed until its plan is ratified",
+        lambda: not PG.step4_gate_open()[0],
+        "the owner's instruction: plan Step 4 before beginning Step 4")
+    net(a, "the Step 4 gate refuses a stringy flag too",
+        lambda: not PG.step4_gate_open({"step4_enabled": "true"})[0],
+        "same strict identity as the prose gate; a typo is not a ratification")
+    net(a, "the Step 4 gate refuses if the PLAN ITSELF is missing", _step4_needs_its_plan,
+        "a ratification that refers to no document has ratified nothing")
+    net(a, "assert_step4_open RAISES when closed",
+        lambda: _refuses(lambda: PG.assert_step4_open({}), PG.ProseRefused), "")
 
 
 # ============================================================== THE TRAIN (restraints)
@@ -205,6 +216,19 @@ def drill_assay():
         "AUDIT DEFEAT 7: overnight used bool(), so prose_enabled: \"false\" read as TRUE")
 
 
+def _step4_needs_its_plan():
+    """Hide the plan and confirm the gate refuses even with the flag set true."""
+    plan = os.path.join(HERE, "STEP4_PLAN.md")
+    if not os.path.exists(plan):
+        return PG.step4_gate_open({"step4_enabled": True})[0] is False
+    tmp = plan + ".drill-moved"
+    os.rename(plan, tmp)
+    try:
+        return PG.step4_gate_open({"step4_enabled": True})[0] is False
+    finally:
+        os.rename(tmp, plan)
+
+
 def _gates_agree():
     """Both gate implementations must answer identically for the values that defeated one."""
     import overnight as ON
@@ -255,6 +279,90 @@ def drill_cache():
         return True
     net(a, "the live colliding pairs get separate verdicts", live_reads_are_separated,
         "measured against the real corpus, not a fixture")
+
+
+# ============================================================== THE INSTRUMENT (the Assay)
+
+def drill_assay_engine():
+    """The sigma is the one number every printed Magnitude in the library inherits.
+
+    A wrong interval here is not one bad entry, it is a library-wide falsehood -- and the quiet
+    kind, because `M3.52 +/- 0.06` reads exactly as well as `M3.52 +/- 0.12`. The halved interval
+    survived for months for precisely that reason, and the battery's own regression checks did
+    not catch it because they had been RECORDED FROM the halved output.
+    """
+    a = "THE INSTRUMENT — can a number be published that the charter would not recognise?"
+    import assay as A
+
+    net(a, "the charter's published interval is reproduced",
+        lambda: A.calibration_report()["holds"],
+        "re-DERIVED from the charter's own worked example, never asserted from a constant")
+    net(a, "the calibration is not sitting on a rounding edge",
+        lambda: (A.calibration_report().get("margin") or 0) >= 0.25,
+        "the first fix landed 0.0001 below the bucket boundary and printed 0.11")
+    net(a, "an off-scale score is REFUSED, not absorbed",
+        lambda: _refuses(lambda: A.assay("M3", dict(A.CHARTER_KENSHIRO, ruin=99.0),
+                                         attestation="Witnessed", worksheet="w"),
+                         A.AssayIntegrityError),
+        "ruin=99.0 used to yield a decimal and an interval with no complaint")
+    net(a, "a negative score is refused",
+        lambda: _refuses(lambda: A.assay("M3", dict(A.CHARTER_KENSHIRO, ruin=-5.0),
+                                         attestation="Witnessed", worksheet="w"),
+                         A.AssayIntegrityError), "")
+    net(a, "a non-numeric score is refused",
+        lambda: _refuses(lambda: A.assay("M3", dict(A.CHARTER_KENSHIRO, ruin="lots"),
+                                         attestation="Witnessed", worksheet="w"),
+                         A.AssayIntegrityError), "")
+    net(a, "a real reading is still accepted",
+        lambda: A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed",
+                        worksheet="w")["decimal"] is not None,
+        "an instrument that refuses everything is not an instrument")
+    net(a, "no worksheet, no number (H5)",
+        lambda: A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed",
+                        worksheet=None)["decimal"] is None,
+        "thin attestation yields a band window, never a fabricated point")
+    net(a, "better testimony never buys a wider bar", _sigmas_monotone,
+        "the pre-fix table let an UNREAD axis publish a tighter interval than a witnessed one")
+    net(a, "ignorance is never narrower than the worst testimony",
+        lambda: A.SIGMA_UNKNOWN >= max(A.SIGMA_BY_ATTESTATION.values()), "")
+    net(a, "marking axes INAPPLICABLE cannot buy a tighter bar", _inapplicable_not_gameable,
+        "measured clean: n/a renormalises the remaining weights, so the bar WIDENS")
+    net(a, "a broken sigma table refuses to load", _broken_table_refuses,
+        "the instrument checks itself at import, like the eaten-escape guard")
+
+
+def _sigmas_monotone():
+    import assay as A
+    order = ["Instrumented", "Witnessed", "Transcribed", "Reconstructed", "Disputed"]
+    v = [A.SIGMA_BY_ATTESTATION[g] for g in order]
+    return v == sorted(v) and len(set(v)) == len(v)
+
+
+def _inapplicable_not_gameable():
+    """Narrowing the worksheet must never narrow the interval."""
+    import assay as A
+    full = A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed",
+                   worksheet="w")["interval"]
+    thin = dict(A.CHARTER_KENSHIRO)
+    for k in ("vector", "sustain", "reach"):
+        thin[k] = A.INAPPLICABLE
+    return A.assay("M3", thin, attestation="Witnessed", worksheet="w")["interval"] >= full
+
+
+def _broken_table_refuses():
+    """Invert the sigma order and confirm the constants check catches it."""
+    import assay as A
+    saved = dict(A.SIGMA_BY_ATTESTATION)
+    try:
+        A.SIGMA_BY_ATTESTATION["Instrumented"] = 99.0      # best testimony, worst sigma
+        try:
+            A._check_constants()
+            return False
+        except A.AssayIntegrityError:
+            return True
+    finally:
+        A.SIGMA_BY_ATTESTATION.clear()
+        A.SIGMA_BY_ATTESTATION.update(saved)
 
 
 # ============================================================== THE PARK (halt + isolation)
@@ -483,8 +591,8 @@ def main():
                     help="finish by raising a REAL halt so the top rung is observed firing")
     a = ap.parse_args()
 
-    for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_cache,
-               drill_local_agent, drill_park, drill_inspector):
+    for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
+               drill_cache, drill_local_agent, drill_park, drill_inspector):
         fn()
 
     area = None

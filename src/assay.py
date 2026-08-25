@@ -306,6 +306,20 @@ def band_for_quantity(x, axis="ruin"):
 SIGMA_UNIFORM_PRIOR = 9.9 / (12 ** 0.5)
 SIGMA_MAX = SIGMA_UNIFORM_PRIOR
 
+# The axis scale, named rather than spelled `9.9` in eight places. An axis score outside it is a
+# DATA ERROR, and until 2026-08-25 it was absorbed in silence -- `ruin = 99.0` produced a decimal
+# and an interval that looked exactly like a real reading. See `_check_scores`.
+AXIS_MIN = 0.0
+# 10.0, NOT 9.9, and the difference is real rather than a rounding preference. `axis_score()`
+# SATURATES at 9.9 (that saturation is its own open bug, M18), but the composite range the engine
+# is built on is [0, 10] -- `assay()`'s own ceiling comment says so, and verify_math tests the
+# ceiling by scoring every axis at exactly 10.0. Setting this to 9.9 refused that legitimate
+# reading and broke the battery, which is a useful demonstration of the rule this whole layer
+# keeps arriving at: a guard tightened past what the system actually does is not a stricter
+# guard, it is a broken one. The values worth refusing -- 99.0, -5.0, "lots" -- are refused
+# either way.
+AXIS_MAX = 10.0
+
 # Attestation grades, rescaled so the worst of them just reaches the ceiling and the ORDER the
 # charter gives is preserved exactly. The between-hand term now carries what the old inflation
 # was standing in for, which is where that variance always belonged: two custodians disagreeing
@@ -391,6 +405,132 @@ SIGMA_UNKNOWN = SIGMA_MAX
 SIGMA_NIL_FACTOR = 0.5
 
 
+# ============================================================================================
+# THE ASSAY'S OWN SAFETY NETS (owner ruling 2026-08-25)
+# ============================================================================================
+# WHY THIS SUBSYSTEM GETS ITS OWN NETS, AND WHY THEY ESCALATE HIGHER THAN MOST.
+#
+# A wrong number here does not damage one entry. Every printed Magnitude in the library carries
+# an interval from this file, so a calibration that drifts is a library-wide falsehood, and it is
+# the QUIET kind: `M3.52 +/- 0.06` is exactly as convincing as `M3.52 +/- 0.12`. That is why the
+# halved interval survived for months without anybody noticing -- nothing about it looked wrong.
+#
+# The three properties CLAUDE.md's Hard Rule -1 requires, applied here:
+#   INDEPENDENT  four different mechanisms -- input validation at the call, a constants check at
+#                import, a calibration re-derivation against the charter, and drill attacks --
+#                and no two of them fail the same way.
+#   FAIL CLOSED  a score outside the axis scale RAISES rather than being absorbed; a broken
+#                constants table refuses to import at all.
+#   PROVEN       `calibration_report()` re-derives the charter's own published number instead of
+#                asserting a constant, and `drill.py` attacks each net.
+
+class AssayIntegrityError(ValueError):
+    """The instrument is not fit to publish a number. Never caught and continued past."""
+
+
+def _check_scores(scores):
+    """Every score must be a sentinel or a real number ON the axis scale.
+
+    THE GAP THIS CLOSES, measured 2026-08-25: `ruin = 99.0` on a 0-9.9 axis returned a decimal
+    and an interval with no complaint, and so did `ruin = -5.0`. A transcription slip, a
+    percentage pasted where a band score belongs, or a model emitting 85 because it was thinking
+    in percent -- all silently shifted the composite and published a confident number.
+
+    Raising is correct rather than clamping. A clamp would turn a data error into a plausible
+    reading, which is the exact failure this project keeps arriving at from new directions.
+    """
+    bad = []
+    for k, v in (scores or {}).items():
+        if v is NONE or v in (INAPPLICABLE, UNESTIMABLE) or v is None:
+            continue
+        if isinstance(v, bool) or not isinstance(v, (int, float)):
+            bad.append("%s=%r (not a number)" % (k, v))
+        elif not (AXIS_MIN <= float(v) <= AXIS_MAX):
+            bad.append("%s=%r (outside %.1f-%.1f)" % (k, v, AXIS_MIN, AXIS_MAX))
+    if bad:
+        raise AssayIntegrityError(
+            "axis scores off the scale: " + "; ".join(sorted(bad)[:6])
+            + ". The axis scale is %.1f-%.1f (Charter Part Three). A score outside it is a data "
+              "error, not a very strong reading, and it is refused rather than clamped so it "
+              "cannot become a plausible number." % (AXIS_MIN, AXIS_MAX))
+
+
+def _check_constants():
+    """The sigma table's invariants, verified AT IMPORT so a broken instrument cannot load.
+
+    Two of these are the exact failures this file has already had:
+      * monotonicity -- the pre-2026-08-25 table let an UNREAD axis publish a narrower bar than
+        a witnessed one, which is the wrong direction for a library to be confident in;
+      * the ceiling -- an attestation sigma above SIGMA_MAX is silently clamped by `_interval`,
+        so a table can look calibrated in the source and behave differently in the arithmetic.
+    """
+    order = ["Instrumented", "Witnessed", "Transcribed", "Reconstructed", "Disputed"]
+    vals = [SIGMA_BY_ATTESTATION[g] for g in order]
+    if vals != sorted(vals) or len(set(vals)) != len(vals):
+        raise AssayIntegrityError(
+            "attestation sigmas are not strictly increasing: %s. Better testimony must never be "
+            "assigned MORE uncertainty than worse testimony." % dict(zip(order, vals)))
+    if SIGMA_UNKNOWN < max(vals):
+        raise AssayIntegrityError(
+            "SIGMA_UNKNOWN (%.4f) is below the widest attestation grade (%.4f) -- an axis nobody "
+            "could read would publish a TIGHTER bar than the worst testimony on file."
+            % (SIGMA_UNKNOWN, max(vals)))
+    if max(vals) > SIGMA_MAX:
+        raise AssayIntegrityError(
+            "an attestation sigma (%.4f) exceeds SIGMA_MAX (%.4f); `_interval` clamps it, so the "
+            "table in the source is not the table in the arithmetic." % (max(vals), SIGMA_MAX))
+
+
+# The charter's own worked example, kept HERE beside the constants it calibrates rather than
+# only in the battery. Part Three's example predates Vol. X.6's three faculty axes, so they are
+# INAPPLICABLE -- getting this wrong is what makes the calibration look unreachable, and it cost
+# a full re-derivation on 2026-08-25 before the shape was noticed.
+CHARTER_KENSHIRO = {"ruin": 2.1, "continuity": 4.8, "celerity": 6.5, "reach": 1.2,
+                    "transgression": 8.7, "sustain": 7.4, "vector": 0.8, "volition": 9.6,
+                    "acumen": INAPPLICABLE, "discernment": INAPPLICABLE,
+                    "suasion": INAPPLICABLE}
+CHARTER_KENSHIRO_INTERVAL = 0.12      # Charter Part Three, published
+CHARTER_KENSHIRO_DECIMAL = 0.52
+
+
+def calibration_report():
+    """-> dict. Re-DERIVE the charter's published numbers; never assert a stored constant.
+
+    The distinction matters and this file has the scar: the battery's own regression checks for
+    the interval were recorded FROM the halved output, so they passed throughout the period the
+    instrument was wrong. A check calibrated against the regression cannot see the regression.
+    This one computes the charter's example through the live code and compares it to the number
+    the CHARTER publishes, which is the only external authority available.
+
+    `margin` is reported because the published interval has two decimals, so a range of sigmas
+    reproduces it -- and sitting on the edge of that range is how a constant comes to depend on
+    the last bit of a float. The first fix landed 0.0001 below the boundary and printed 0.11.
+    """
+    got = assay("M3", dict(CHARTER_KENSHIRO), attestation="Witnessed",
+                worksheet="charter Part Three")
+    lo = hi = None
+    saved = SIGMA_BY_ATTESTATION["Witnessed"]
+    try:
+        s = max(AXIS_MIN + 0.5, saved - 2.0)
+        while s <= min(SIGMA_MAX, saved + 2.0):
+            SIGMA_BY_ATTESTATION["Witnessed"] = s
+            if assay("M3", dict(CHARTER_KENSHIRO), attestation="Witnessed",
+                     worksheet="w")["interval"] == CHARTER_KENSHIRO_INTERVAL:
+                lo = s if lo is None else lo
+                hi = s
+            s += 0.005
+    finally:
+        SIGMA_BY_ATTESTATION["Witnessed"] = saved
+    margin = None
+    if lo is not None and hi is not None and hi > lo:
+        margin = round(min(saved - lo, hi - saved) / ((hi - lo) / 2.0), 3)
+    return {"interval": got.get("interval"), "want_interval": CHARTER_KENSHIRO_INTERVAL,
+            "decimal": got.get("decimal"), "want_decimal": CHARTER_KENSHIRO_DECIMAL,
+            "holds": (got.get("interval") == CHARTER_KENSHIRO_INTERVAL
+                      and got.get("decimal") == CHARTER_KENSHIRO_DECIMAL),
+            "sigma": saved, "band_lo": lo, "band_hi": hi, "margin": margin}
+
+
 def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=None,
               weights=None):
     """Half-width of the honest error bar, in BAND units, by variance propagation.
@@ -453,6 +593,8 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     """
     if anchor not in LADDER:
         raise ValueError(f"anchor must be one of {LADDER}")
+    # LAYER 1: the reading must be ON the scale before any arithmetic touches it.
+    _check_scores(scores)
     if not worksheet:
         # H5 of X.6: no worksheet, no number. Thin attestation yields a band window.
         return {"magnitude": anchor, "decimal": None, "interval": None,
@@ -716,3 +858,11 @@ def interval_from_hands(readings, attestation="Transcribed"):
                  "will NOT narrow the share attributable to the Hands' differing priors "
                  "(Vol. 0.5, Erratum 10)"),
     }
+
+
+# LAYER 2: THE INSTRUMENT CHECKS ITSELF AT IMPORT, and refuses to load if it is unfit.
+# Deliberately at import rather than on first use: a broken sigma table must not be able
+# to publish even one number while waiting to be noticed, and every consumer of this file
+# imports it before it computes anything. This mirrors the `_BAD_CHARS` guard at the top
+# of the kit's modules -- corruption stops the program rather than colouring its output.
+_check_constants()

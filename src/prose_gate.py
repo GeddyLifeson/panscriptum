@@ -87,6 +87,43 @@ def gate_open(cfg=None):
     return True, "prose_enabled: true"
 
 
+def step4_gate_open(cfg=None):
+    """-> (bool, reason). May the entanglement pass begin?
+
+    Same construction as `gate_open`, deliberately: strict identity (not truthiness), read fresh,
+    fails closed. What it guards is different -- not "may books be written" but "is the PLAN
+    settled" -- and the owner's instruction was explicit that the plan must be completed before
+    Phase 4 fires, which is a condition no amount of code quality can substitute for.
+
+    It ALSO requires the plan to exist on disk. A gate whose precondition is a document is a gate
+    that must check the document is there; otherwise the ratification refers to nothing.
+    """
+    try:
+        if cfg is None:
+            import yaml
+            with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
+                cfg = yaml.safe_load(f) or {}
+    except Exception as e:
+        return False, "config.yaml unreadable (%s) — refusing" % type(e).__name__
+    if not isinstance(cfg, dict):
+        return False, "config.yaml did not parse to a mapping — refusing"
+    if not os.path.exists(os.path.join(HERE, "STEP4_PLAN.md")):
+        return False, ("STEP4_PLAN.md is missing — the entanglement pass is gated on a plan that "
+                       "is not on disk, so there is nothing to have ratified")
+    if cfg.get("step4_enabled", False) is not True:
+        return False, ("step4_enabled is not true in config.yaml — the entanglement pass is held "
+                       "until the plan's open rulings are answered (STEP4_PLAN.md §7)")
+    return True, "step4_enabled: true"
+
+
+def assert_step4_open(cfg=None):
+    """Refuse to begin the entanglement pass until the plan is ratified."""
+    ok, why = step4_gate_open(cfg)
+    if not ok:
+        raise ProseRefused("STEP 4 GATE CLOSED: " + why)
+    return why
+
+
 def assert_gate_open(cfg=None):
     """Layer 2. The TOOL's own refusal, independent of whoever started it.
 

@@ -501,6 +501,20 @@ def safety():
     except Exception:
         silence.note("dashboard.py:safety-gate")
     try:
+        import prose_gate as PG4
+        ok4, why4 = PG4.step4_gate_open()
+        out["step4_gate"] = {"open": bool(ok4), "why": why4}
+    except Exception:
+        silence.note("dashboard.py:safety-step4")
+    try:
+        # The calibration is RE-DERIVED here, not read from a constant -- it is the one number
+        # every printed Magnitude in the library inherits, and the halved interval survived for
+        # months because the checks that watched it had been recorded from its own bad output.
+        import assay as _AS
+        out["assay_calibration"] = _AS.calibration_report()
+    except Exception:
+        silence.note("dashboard.py:safety-assay")
+    try:
         p = os.path.join(HERE, "state", "drill_last.json")
         with open(p, encoding="utf-8") as f:
             d = json.load(f)
@@ -783,6 +797,29 @@ function panelSafety(d){const s=el('section','wide');
     g.open===undefined?'unknown':(g.open?'OPEN — books may be written':'closed (owner ruling)')));
   s.appendChild(gr);
   if(g.why){s.appendChild(el('div','empty',g.why))}
+  const g4=sf.step4_gate||{};
+  if(g4.open!==undefined){
+    const r4=el('div','row');r4.appendChild(el('span','label','Step 4 gate'));
+    r4.appendChild(el('span','value '+(g4.open?'warn':'ok'),
+      g4.open?'OPEN — the entanglement pass may run':'closed (plan not ratified)'));
+    s.appendChild(r4);
+  }
+  // The Assay calibration. Re-derived every poll against the charter's published worked example,
+  // because this is the number every printed Magnitude inherits.
+  const cal=sf.assay_calibration;
+  if(cal){
+    const cr=el('div','row');cr.appendChild(el('span','label','assay calibration'));
+    cr.appendChild(el('span','value '+(cal.holds?'ok':'bad'),
+      cal.holds?('charter reproduced — '+cal.decimal+' +/- '+cal.interval)
+               :('DRIFTED — got '+cal.decimal+' +/- '+cal.interval
+                 +', charter publishes '+cal.want_decimal+' +/- '+cal.want_interval)));
+    s.appendChild(cr);
+    if(cal.margin!=null){
+      const mr=el('div','row');mr.appendChild(el('span','label','calibration margin'));
+      mr.appendChild(el('span','value '+(cal.margin<0.25?'warn':''),cal.margin));
+      s.appendChild(mr);
+    }
+  }
   // The drill. A count with no age is a claim about an unknown moment.
   const dr=sf.drill;
   if(!dr){s.appendChild(el('div','empty','no safety drill has run yet'))}

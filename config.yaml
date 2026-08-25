@@ -116,6 +116,21 @@ prose_enabled: false
 # well below the corpus's best sources. Re-tune once a source generated above it has been read.
 prose_min_cited_fraction: 0.35
 
+# ------------------------------------------------------ THE STEP 4 GATE (owner-held, 2026-08-25)
+# The entanglement pass may not begin until its PLAN is ratified. `STEP4_PLAN.md` exists, and it
+# ends with four open owner rulings -- the 35 unaddressed sources (which make T1 undefined for
+# ~12,000 entries and block everything downstream), whether the Great Identifications get thread
+# codes, the reciprocity policy, and what happens to the withdrawn chapters' Threads.
+#
+# This flag is the same shape as `prose_enabled` and for the same reason. The prose gate was
+# deleted by an automated run that read it as an instruction to a human; the lesson recorded in
+# CLAUDE.md's Hard Rule -1 is that a decision must be RELOCATED, never removed. So the decision
+# "is the plan settled?" lives here, where it is machine-checkable and cannot be reasoned away.
+#
+# Setting this true asserts: the plan has been read, its four rulings are answered, and Phase 4.0
+# (the addressing gap) is done. Nothing in the automation may flip it.
+step4_enabled: false
+
 # how many source entries to fold into a single chapter-generation call. Big chapters (e.g.
 # Marvel Persons at 275 entries) get split into multiple calls of this size so they fit
 # num_ctx comfortably alongside the prompt scaffolding and don't get truncated.

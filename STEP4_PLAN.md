@@ -91,6 +91,28 @@ Identifications' territory, it is a curatorial ruling, and §7 keeps it that way
 
 ## 4. The build order (each phase ships a verifiable artifact)
 
+**Phase 4.R — RATIFICATION. This document is itself the first gate, and it is machine-checked.**
+
+The owner's instruction was that Step 4 be planned before Step 4 begins, so that condition is
+enforced the same way the prose gate is rather than trusted to memory:
+
+```yaml
+# config.yaml
+step4_enabled: false      # owner-held. Nothing in the automation may flip it.
+```
+
+`prose_gate.step4_gate_open()` refuses while it is false, refuses on a stringy `"true"`, and
+**refuses even when set true if `STEP4_PLAN.md` is not on disk** — a ratification that refers to
+no document has ratified nothing. `drill.py` attacks all four conditions. Setting it true asserts
+three things at once: **the plan has been read, its §7 rulings are answered, and Phase 4.0 is
+done.**
+
+This is deliberately the same shape as the prose gate, for the reason recorded in CLAUDE.md's
+Hard Rule -1: the last gate this project lost was *deleted* by an automated run that read it as
+an instruction to a human. A decision must be relocated somewhere machine-checkable, never
+removed — and "has the owner agreed to this plan?" is exactly the kind of decision that
+otherwise evaporates.
+
 **Phase 4.0 — Close the addressing gap first.** 35 catalogued sources have no spine code
 (~12,000 entries), including Lord of the Rings, Fallout, Elder Scrolls and all six Pantheons.
 **T1 is undefined for them**, so they cannot be threaded at all. This is Hard Rule 2 territory —
