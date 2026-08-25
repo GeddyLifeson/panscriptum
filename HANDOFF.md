@@ -83,7 +83,20 @@ hours after I wrote it: an unguarded read-modify-write in `record()` (the one fu
 purpose is being called by sixteen concurrent batches) and an unreadable module silently reporting
 as a zero-line one — a file dropped from a sweep built to drop nothing. Both fixed.
 
-**Battery.** `verify_math` **659 passed, 0 FAILED** (613 at the run's start; +16 §20f, +5 §19h
+**LATE ADDITION, AND IT CORRECTS THIS SESSION'S HEADLINE.** The `every pool failure is
+recognised` standard added under ruling 2 went RED on its first publish and named the cause of
+its own existence: **the classifier never sees a provider error at all.** Cascade's engine
+returns an aggregate of its own making -- `All 1 candidates failed: GLM 4.7 Flash (Z.AI)`, or
+`Every model in this pool is rate limited or unconfigured` -- which carries no status code and
+no provider wording. So the permanent-refusal fix made earlier in this same session (m98) was
+judging a string that could never match, and `zai:free` went on being re-claimed forever while
+`bucket_state.last_error`, stamped the same minute, read "Insufficient balance or no resource
+package". **Repairing the classifier's wording was necessary and, alone, useless.** Fixed by
+unwrapping the real error out of Cascade's scratch DB before classifying (see BUGS m108);
+verified live across all six affected buckets. **The standard found the bug within the hour of
+being written, which is the whole argument for ruling 2.**
+
+**Battery.** `verify_math` **666 passed, 0 FAILED** (613 at the run's start; +16 §20f, +5 §19h
 rewrite, +25 §20g). `pyflakes` clean over all 95 modules. Every touched module re-imported
 individually. `allsweep` 0 subsystems bad. `health --preflight` **exactly the one known M1
 baseline**. Export commits `080f4f7`, `ea89738` (23 modules), and the ledger sync following this.

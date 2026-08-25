@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 02:49:49",
+ "at": "2026-08-25 02:51:03",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -227,19 +227,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 219,
-     "cap": 1000,
-     "frac": 0.219
+     "name": "rpm",
+     "left": 0,
+     "cap": 2,
+     "frac": 0.0
     },
     {
-     "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
+     "name": "rpd",
+     "left": 217,
+     "cap": 1000,
+     "frac": 0.217
     }
    ],
-   "worst": 0.219
+   "worst": 0.0
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -352,9 +352,9 @@
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 29,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9667
     },
     {
      "name": "tpm",
@@ -372,9 +372,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 4,
      "cap": 896,
-     "frac": 0.0
+     "frac": 0.0045
     },
     {
      "name": "tpd",
@@ -395,7 +395,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0045
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -636,18 +636,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 123,
+     "left": 122,
      "cap": 300,
-     "frac": 0.41
+     "frac": 0.4067
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.41
+   "worst": 0.4067
   },
   {
    "bucket": "together:free",
@@ -676,18 +676,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 158,
+     "left": 157,
      "cap": 500,
-     "frac": 0.316
+     "frac": 0.314
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.316
+   "worst": 0.314
   }
  ],
  "throughput": {
@@ -848,15 +848,15 @@
   "swallowed": [
    [
     "silent:endpoint.py:fetch_raw-absent:HTTPError",
-    1112
+    1128
    ],
    [
     "silent:endpoint.py:detect-api:HTTPError",
-    317
+    327
    ],
    [
     "silent:endpoint.py:detect-raw:HTTPError",
-    315
+    327
    ],
    [
     "silent:verify_math.py:47:ValueError",
@@ -871,7 +871,7 @@
     21
    ]
   ],
-  "swallowed_total": 1923
+  "swallowed_total": 1962
  },
  "metrics": [
   {
@@ -929,7 +929,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 22,
+   "observed": 21,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -1064,7 +1064,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "155",
+   "observed": "156",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1073,7 +1073,7 @@
    "standard": "probe failures (reported, not judged)",
    "group": "code",
    "holds": true,
-   "observed": "1,768",
+   "observed": "1,806",
    "floor": "no floor",
    "order": "Requests that failed as part of finding something out: endpoint detection trying six paths, the scout trying eight URLs. Volume here is work, not damage.",
    "severity": "low"
@@ -1124,6 +1124,15 @@
    "severity": "high"
   },
   {
+   "standard": "the library's counters are moving",
+   "group": "throughput",
+   "holds": true,
+   "observed": "4/4 moved in 40m",
+   "floor": ">= 1 in 45m",
+   "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
+   "severity": "high"
+  },
+  {
    "standard": "files that parse",
    "group": "instrument",
    "holds": true,
@@ -1145,7 +1154,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.1h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1172,7 +1181,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": true,
-   "observed": "5 running, all advancing",
+   "observed": "4 running, all advancing",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1217,7 +1226,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in 0.8s",
+   "observed": "probe completed in 0.7s",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. If this fires, restart ollama.exe (the tray app respawns it) and re-probe. Nothing drains a wedged queue on its own.",
    "severity": "high"
@@ -1225,8 +1234,8 @@
   {
    "standard": "every managed job is running",
    "group": "machine",
-   "holds": true,
-   "observed": "all up",
+   "holds": false,
+   "observed": "foreman.py,read.py",
    "floor": "all up",
    "order": "The supervisor starts these every cycle, so one that is down means it failed on startup rather than never being launched -- read its log in state/. If the SUPERVISOR is down, the watchdog in autostart.py restarts it within three minutes.",
    "severity": "medium"
@@ -1273,44 +1282,44 @@
    "metric": "cited",
    "now": 9646,
    "delta": 388,
-   "minutes": 33,
+   "minutes": 30,
    "stalled": false
   },
   {
    "metric": "settled",
    "now": 59649,
    "delta": 3671,
-   "minutes": 33,
+   "minutes": 30,
    "stalled": false
   },
   {
    "metric": "feats",
    "now": 59656,
    "delta": 1162,
-   "minutes": 33,
+   "minutes": 30,
    "stalled": false
   },
   {
    "metric": "entities read",
    "now": 1281,
    "delta": 1,
-   "minutes": 33,
+   "minutes": 30,
    "stalled": false
   },
   {
    "metric": "chunks",
    "now": 4584,
    "delta": 20,
-   "minutes": 33,
+   "minutes": 30,
    "stalled": false
   },
   {
    "metric": "standards met",
-   "now": 31,
-   "delta": 1,
-   "minutes": 33,
-   "stalled": false
+   "now": 30,
+   "delta": 0,
+   "minutes": 30,
+   "stalled": true
   }
  ],
- "generated": "2026-08-25T02:49:52"
+ "generated": "2026-08-25T02:51:08"
 }

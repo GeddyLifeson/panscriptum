@@ -140,6 +140,28 @@ they are the next run's work, not silently dropped.*
   which sorts last, packs into a bin as free weight, and reads exactly like an empty stub — a
   file silently dropped from a sweep whose whole purpose is that nothing is dropped. Now noted
   and flagged `unreadable`.
+- **[m108 — MAJOR, RESOLVED IN THIS RUN] THE CLASSIFIER NEVER SAW A PROVIDER ERROR AT ALL, WHICH
+  IS WHY THE BENCH STILL DID NOT FIRE AFTER m98 WAS "FIXED".** Found within the hour by the
+  `every pool failure is recognised` standard added alongside it — the new standard went red on
+  its first publish and named its own cause. Cascade's engine does not hand this code the
+  provider's error; it hands back an AGGREGATE of its own: `All 1 candidates failed: GLM 4.7
+  Flash (Z.AI)`, or `Every model in this pool is rate limited or unconfigured`. Neither carries a
+  status code or any provider wording, so the permanent-refusal classifier repaired earlier the
+  same day was judging a string that can never match — **`zai:free` went on being re-claimed
+  forever while its real error, recorded in `bucket_state.last_error` at the same minute, read
+  "Insufficient balance or no resource package".** Repairing m98's WORDING was necessary and, on
+  its own, useless.
+  **Fix.** `cascade_bridge.provider_error()` reads the pinned bucket's own last error from
+  Cascade's scratch DB — read-only, single row, aged at 180s so a fossil cannot bench a live
+  provider, and total so a diagnostic cannot kill the call it is trying to explain. The
+  classifier unwraps before it judges, and the unrecognised ledger records the UNWRAPPED text so
+  what reaches the page is a complaint someone can act on rather than the engine's aggregate.
+  **Verified live against all six affected buckets:** `zai`, `cloudflare` and `hyperbolic` now
+  classify as 4-hour permanent; `groq`, `sambanova` and `cohere` correctly stay transient.
+  Pinned by 7 more checks in `verify_math` §20f. Export commit `e234107`.
+  **The lesson worth keeping:** the standard that found this was added in the same session as
+  the bug it exposed, and it fired on its first publish. Surfacing an unrecognised failure is
+  not bookkeeping — it is what turns "the pool is slow" into a named, fixable fault in an hour.
 - **[m105 — OPEN, VERIFIED, NOT FIXED] ~14 MORE NON-ATOMIC WRITES REMAIN (the m100 tail).**
   `build_terminal.py:572`, `burgs.py:227`, `genre.py:236`, `halo.py:170`, `module_index.py:75`,
   `navtree.py:260`, `overnight.py:462`, `pantheon.py:260`, `publish.py:262`, `render.py:245`,
