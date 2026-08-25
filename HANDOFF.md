@@ -13,6 +13,32 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 **FOR THE OWNER, AT THE TOP:**
 
+0. **THE LIBRARY IS HALTED, AND ONLY YOU CAN LIFT IT.** `drill.py` raised `DRILL_BREACH` at the
+   close of this run. The breached net is *"no NEW dead code or unfailable check has appeared"*:
+   the liveness count went **38 → 39** against a ratchet ceiling of 38.
+
+   **It is not this run's doing, and it is not a fault in the library.** The single new entry is
+   `secondopinion.py:185 ran_clean()` — a function with no callers, in a module that landed in
+   `src/` at **15:41**, from the same concurrent session that added `corpus_db.py` at 15:38.
+   That is *after* the sweep partition was computed and *after* the drill was already running. I
+   checked directly: **no module this run touched contributes a single dead entry.**
+
+   **It will very likely resolve itself.** `ran_clean()` is a natural public helper for a module
+   that is minutes old and still being written, and it encodes that module's own doctrine
+   (*absent is not clean*). When its author wires up the caller, the count returns to 38 and the
+   drill goes green. Then a person lifts the halt.
+
+   **Do not raise `LIVENESS_CEILING` to clear this.** The drill's own expectation line is the
+   ruling: *the ceiling is a ratchet — lower it when you clean up, never raise it to go green.*
+   I did not edit `secondopinion.py`, because another session is actively authoring it and both
+   candidate fixes (wire up the caller, or drop the helper) are its author's call. Filed as
+   `HALT_NEEDS_RULING` (OWNER, BLOCKING) with the full evidence.
+
+   **Consequence for this run: `publish.py --push` refused, correctly** — it reads the halt
+   before doing anything, which is Hard Rule -1 working exactly as designed. **Every ledger below
+   is written to the working tree and none of it is pushed to the export repo.** The next run
+   after the halt is lifted should publish; nothing else is pending.
+
 1. **No secrets are staged.** The scanner returned 8 findings, all previously waived
    (documented audit-report quotations); **0 actionable**. Nothing credential-shaped is
    heading for the public repo.
@@ -42,7 +68,7 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
    a run that only reports its net result would have hidden that.
 5. **The full 16-batch sweep ran: 107/107 modules audited, 112 findings, all filed.** None
    were dropped. A **108th module appeared in `src/` mid-run** and was read, audited and
-   recorded separately — see §D2 — bringing the run to 108/108 and 114 findings. 6 were fixed
+   recorded separately — see §D2 — bringing the run to 108/108 and 114 findings. A **109th** landed at 15:41 and was audited too (§D2) — it is the one that halted the library. 6 were fixed
    and closed this run; the rest are routed, **64 to the free local model** and 48 to a future
    run.
 6. **A HARD RULE 0 VIOLATION IS LIVE IN THE AUTOMATION, and I filed it rather than fixing it.**
@@ -171,7 +197,25 @@ coverage under run33, and filed its findings — `handoff/sweep33/AUDIT_batch17_
 `sweep_plan.missing('run33')` is empty across all **108** modules and `verify_math` is back to
 795 / 0.
 
-One real finding: `rebuild()` discards `silence.replace_retry`'s verdict, so `--rebuild` prints
+**Then a second one landed at 15:41 — `secondopinion.py` — and that one halted the library.**
+See §0. Same concurrent session, same pattern: it arrived after the partition, after the
+seventeenth batch, and after the drill had already started running. Read, audited, recorded as
+batch 18 (`handoff/sweep33/AUDIT_batch18_secondopinion.md`), so `sweep_plan.missing('run33')` is
+empty across all **109** modules. Its purpose is well aimed at a real blind spot — every detector
+in `src/` was written by one author in one week from one theory of what a defect looks like, so
+`liveness.py`, `silence.py` and `publish.scan_for_secrets` share a failure mode, and running
+`ruff`, `vulture` and `detect-secrets` beside them buys the INDEPENDENT property Hard Rule -1
+demands rather than a fourth restatement of the same opinion. Its `NOT INSTALLED` status, kept
+distinct from "clean", is exactly the right call.
+
+**A note on the shape of this run, for whoever tunes the schedule.** Three times now — run #32
+once, run #33 twice — a maintenance run has computed a work partition and had `src/` change
+underneath it. Nothing was corrupted and the checks caught every instance, which is the system
+working. But a sweep is a photograph of a moving tree, and the completeness proof going red is
+how you find out it moved. That is cheap when the module is benign and expensive when it trips
+the ratchet at 15:41 with the drill already in flight.
+
+One real finding in `corpus_db.py`: `rebuild()` discards `silence.replace_retry`'s verdict, so `--rebuild` prints
 full counts and exits 0 even when the database was never replaced — and `replace_retry` returns
 False rather than raising exactly when a reader holds `corpus.db` open, which is this module's
 normal condition. **Third instance of the M36 pattern in one sweep** (with `suppressions.py:62`
@@ -191,7 +235,7 @@ The four BLOCKING findings were each **verified against source** before filing �
 real. Audits are wrong in both directions, and the ones I checked happened to be right; the
 remaining 108 are filed as *reported*, not as *confirmed*.
 
-**Queue at close: 118 open — 64 LOCAL, 6 BOTS, 48 RUN.** The LOCAL block is the point: 65 of
+**Queue at close: 121 open — 64 LOCAL, 6 BOTS, 48 RUN, 2 SESSION, 1 OWNER.** The LOCAL block is the point: 65 of
 these are mechanical (a comment that lies, a flag nobody reads, a bare `os.replace` where the
 project's own retry helper belongs) and the free local model can carry them without spending a
 metered token.
