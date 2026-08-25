@@ -9,6 +9,109 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 00:50 (local) — Run #21: every panel on this project was reporting its own author as a dead job, and the noise hid the one job that had really died
+
+*The page opened this run, exactly as the ruling says it should, and it opened with a lie it had
+probably been telling for a long time. The liveness roster said `publish.py` was down. `publish.py`
+was the process that wrote the page.*
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found. Nothing deleted. No money moved.** Three processes bounced by PID
+   (`publish.py` 38312, `dashboard.py` 5716, `foreman.py` 27896) — all STANDING, all restored by
+   the keeper inside 300s and confirmed back up. The bounce was mandatory, not tidiness: they
+   carry `standards.py` and `overnight.py` at launch, and an un-bounced one would have hit a
+   `TypeError` on the new keyword and dropped the standard silently into `standards.py:jobs-alive`.
+2. **[NEW — MAJOR, FIXED] EVERY RENDERER WAS DELETING ITSELF FROM THE ROSTER IT PUBLISHED.**
+   `overnight.running()` excludes the caller's own PID. That is correct for *"is anyone ELSE
+   running this?"* — a stage about to launch, a job refusing to start a second copy of itself —
+   and wrong for *"is job X up?"*. The "every managed job is running" standard asked the second
+   question with the first question's function, from inside whichever process was drawing the panel.
+   **Measured at one instant, three processes, three different answers:**
+   | who computed it | what it said was down |
+   |---|---|
+   | public page (`publish.py:168-172`, in publish.py's process) | `publish.py,read.py` |
+   | local page (`dashboard.py`, in dashboard.py's process) | `dashboard.py,read.py` |
+   | `allsweep.py` (neutral third process) | `read.py` only — both renderers up |
+   **The cost was not cosmetic.** "every managed job is running" has **no entry in
+   `foreman.REMEDIES`**, so every round shipped it to the owner's decision file carrying a name
+   that was always false — and `read.py`, genuinely dead from an M15 kill, sat in that string
+   beside the false one. This is precisely the finding-as-decoration failure that
+   `standards.MAX_JOB_SILENCE_MIN`'s comment was written to refuse, committed by the roster check
+   itself. Repair: additive `include_self` keyword, default unchanged so **no existing caller
+   moved**; passed by the one call site that asks about liveness rather than duplication. Pinned
+   by `verify_math` §20e, which uses the verifier's own process as the fixture — it asserts that
+   `running("verify_math.py")` is False and `running("verify_math.py", include_self=True)` is True.
+   **`one instance of each job` was checked and is NOT affected** — it runs its own enumeration
+   and never self-excludes, so the blast radius is exactly one standard.
+3. **[A HYPOTHESIS I NEARLY MADE THE HEADLINE, AND IT WAS WRONG.]** The reader's startup log
+   removes five `local-*` buckets as HTTP 404, and Ollama holds exactly one model (`qwen3:8b`).
+   I was one step from reporting that `overnight.py:655-656`'s documented safety net — *"if every
+   cloud meter runs dry the work falls back to the GPU instead of stopping"* — no longer existed,
+   which against a pool answering 4–17 of 36 buckets would have been this run's biggest finding.
+   **It is not true.** The working bucket is named `ollama:local`, is not one of the `local-*`
+   config entries, and shows **1,471 ok / 895 error in the last 24h**. The GPU fallback is alive.
+   What is real is smaller and still worth fixing: `ollama:qwen2.5:14b` and `ollama:llama3.1:latest`
+   took **695 calls in 24h and failed every one** (m91, and it lives in the Cascade project's
+   config, not this repo — owner's call).
+
+**M15 FIRED AGAIN AND THE RUN #19 HONEST-NOTE FIX IS CONFIRMED WORKING.** The 00:09:01 work order
+reads `killed stalled pipeline_auto:53748, read_auto:22824` and its note now names the true horizon
+— *"read.py --run is NOT in the keeper's STANDING set — nothing restarts it until the supervisor's
+next MAIN LAP, measured at 42-44 min typically and 4h at worst"*. No "next cycle". **Two more
+downtimes measured**, including the one NEXT_STEPS #1 asked for: **22:01:42 → 22:39:20 = 37.6 min**,
+and **00:09:54 → 00:29:48 = 19.9 min** (the shortest yet; the gating lap was short). The reader came
+back on its own while this run was working — I checked before starting one and did not double it.
+Series now: 1, 8, 19.9, 32, 37, 37.6, 42, 44 min, and once 4h. **Still not patched: still the
+owner's design choice among the three options in M15.**
+
+**RUNG (c) — TWO AUDITS ON NEVER-BEFORE-READ FILES** (`rigor.py`, `assay.py`; chosen by counting
+mentions across `HANDOFF.md`, both at zero). **Every finding below was verified at source or
+numerically before I touched anything, and one audit claim about scope I downgraded myself.**
+
+**`rigor.py` — a diagnostic that printed its evidence and then contradicted it (FIXED, m88/m89).**
+`main()` printed `A.FACULTY_WEIGHTS` and then unconditionally printed *"Int/Wis/Cha currently
+cannot affect a Magnitude at all"* — a literal string. `assay.py`'s ERRATUM (X.11) had already
+given every faculty a **1/11** weight. Verified live: the weights are `0.0909…` each, and the line
+beneath them announced they were zero. Same section labelled its matrix *"the charter's declared 8
+weights"* while `len(A.WEIGHTS)` is **11** — describing a different matrix from the one it built.
+Separately, `measure_bit_value`'s worked example quoted `7.0 * 13.23 = 92.6 bits`; **13.234 is
+`rung_description_length/10`, the cumulative figure the function deliberately abandoned** (it makes
+every M0 point worth zero bits). The code moved to `band_resolution` and was pinned; the docstring
+kept quoting the pre-fix number. Real answer **3.043 → 21.3 bits**, now confirmed by running the
+module. **Both repairs make the prose DERIVED rather than asserted** — the finding is computed from
+the weights, the label counts them — and §20f pins the docstring's numbers *to the function's own
+return value*, which is the only way this particular rot cannot come back quietly.
+
+**`assay.py` — three verified findings, none fixed, all queued, and the reason matters.**
+- **[M18, live]** `axis_score()` returns a flat **9.9** at M10 for any input — verified across ten
+  orders of magnitude (1e30 → 1e40, all 9.9), reachable through `magnitude.py:244`. `ledger.py:127-133`
+  resolves the *same* top-rung edge case a different and incompatible way. **Not patched, and it
+  would be wrong to patch quietly: this changes computed magnitudes across the library.** Owner.
+- **[m90]** `interval_from_hands()` carries a second, uncalibrated attestation→uncertainty table
+  whose `Reconstructed` 0.40 and `Disputed` 0.55 exceed the file's own ceiling
+  `SIGMA_MAX/10 = 0.2858` — re-committing the defect the file's largest comment block documents
+  fixing. **Confirmed dead code** (grepped: zero callers), so it is latent, not live.
+- **[m92]** `instrument()`'s undocumented precondition — it special-cases Python `None` but not
+  the file's own `NONE`/`UNESTIMABLE`/`INAPPLICABLE` statuses. Both current callers pre-filter, so
+  not live-broken.
+
+**[m87, FIXED] ONE HANDLER WAS 85% OF THE ENTIRE SWALLOWED-FAILURE LEDGER.** `sweep.load()`'s only
+call site does no existence check, so every character the reader has not reached yet raised
+`FileNotFoundError` there — **18,418 of 21,764 entries**, holding the "unexpected swallowed
+failures" standard red at 19,043 against a floor of 2,000. A standard that is always red reports
+nothing. **This is not hiding a failure — it is the only way the real one becomes visible:** a
+*corrupt* cache (a truncated write) was landing in the same bucket as those 18,418 non-events,
+where nobody could ever pick it out. Split, with the genuine path still recorded under a semantic
+label instead of a line number that goes stale the moment anything above it moves.
+
+**Battery.** `verify_math` **613 passed, 0 FAILED** (592 before; +21 across §20e and §20f).
+`allsweep` **0 subsystems bad**. `health --preflight` **exactly 1 FAIL** — the known M1 baseline
+(`feats/www_dandwiki_com`); **M8 passed again**. `silence` 33 silent handlers. `pyflakes` clean
+across `src/`. No regression introduced.
+
+---
+
 ## 2026-08-24 23:40 (local) — Run #20: 66 batches had been asking the model the same question for ever, and the item I called this section's highest-value was already fixed
 
 *Two of this run's three biggest results are corrections to things the ledgers asserted. The

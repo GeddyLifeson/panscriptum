@@ -7,6 +7,34 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M18] `axis_score()` RETURNS A FLAT 9.9 FOR EVERY INPUT AT M10, AND `ledger.py` RESOLVES THE
+  SAME EDGE CASE A DIFFERENT, INCOMPATIBLE WAY.** Found by the run #21 `assay.py` audit (first
+  end-to-end read of the file), **verified numerically before filing**: `A.axis_score(x, "M10",
+  "ruin")` returns `9.9` for x = 1e30, 1e33, 1e36 and 1e40 alike — ten orders of magnitude
+  collapsed to one number.
+  ```python
+  i = LADDER.index(band)
+  if i + 1 >= len(LADDER):      # assay.py:221-223
+      return 9.9
+  ```
+  The docstring states the rule as a log-interpolation between a band's floor and the next band's
+  floor. At M10 there is no next rung, so the code returns a constant — discarding the log-scale
+  discrimination every other band receives, with **no comment explaining the choice and no
+  `verify_math` check exercising `axis_score` at M10** (all three existing checks use M3).
+  **It is live, not latent.** `magnitude.py:244` calls it inside `quantity_scores()`, whose
+  results overwrite `scores[ax]` in `assay_entity()` (`magnitude.py:706-707`) for measured feats
+  — so a real M10-anchored entity with a measured quantity gets a constant 9.9 on that axis
+  regardless of magnitude.
+  **The same question, answered differently one file over.** `ledger.py:127-133` does
+  `hi = BAND_EDGES[LADDER[min(i + 1, len(LADDER) - 1)]]["ruin"]`, which at M10 makes `hi == lo`,
+  so `log(hi) - log(lo) == 0` and `joules` collapses to the M10 floor **regardless of
+  `ruin_score`** — silently making the score parameter irrelevant. Two files, one missing edge
+  case, two different silent resolutions, neither documented, neither tested. The project's
+  signature failure class applied to the top of the ladder.
+  **Why NOT patched by the maintenance pass:** either resolution changes computed magnitudes
+  across the library, and which behaviour is correct at the top rung is a charter question, not a
+  repair. **Owner ruling needed — NEXT_STEPS §1.**
+
 - **[M15] THE FOREMAN KILLS THE READER FOR LOOKING STALLED WHEN THE POOL IS WHAT STALLED, AND
   THE READER THEN WAITS UP TO A FULL SUPERVISOR LAP TO COME BACK.** Found run #18. This is
   M14's downtime with its cause attached, and it is a loop that feeds itself:
@@ -52,6 +80,44 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
     (`feats.py:807-809`). **An entire source is lost to one network blip, silently, forever.**
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
+
+### Minor-but-new (run #21)
+- **[m90] `assay.interval_from_hands()` CARRIES A SECOND, UNCALIBRATED COPY OF THE ATTESTATION →
+  UNCERTAINTY RULE, AND ITS NUMBERS BREAK THE FILE'S OWN CEILING.** Found by the run #21 audit.
+  The calibrated table (`assay.py:308-316`) is deliberately rescaled so nothing can claim more
+  certainty than `SIGMA_MAX = 9.9/√12 ≈ 2.8579` — the fix documented at length in the file's
+  largest comment block ("Witnessed came out at 4.08 — larger than knowing nothing at all"). But
+  `interval_from_hands` (`assay.py:630-631`) hardcodes its own floors:
+  `{Witnessed 0.10, Instrumented 0.08, Transcribed 0.20, Reconstructed 0.40, Disputed 0.55}`.
+  In decimal-band units the ceiling is `SIGMA_MAX/10 = 0.2858` (**verified live**), so
+  `Reconstructed` and `Disputed` both exceed it — `Disputed` before any between-hand spread is
+  even added in quadrature. It re-commits the exact defect the file documents fixing elsewhere.
+  **Latent, not live: `interval_from_hands` is dead code** — grepped the whole repo, zero callers,
+  and `verify_math` never exercises it, which is precisely how the bad table survived. The same
+  five figures are also hand-copied into `custodes.py:229-230` (whose comment claims they are
+  "DERIVED from assay()'s own attestation table" — they are not) and `verify_math.py:630`.
+  **Not fixed:** deleting a public function needs a review cycle, and deriving the three copies
+  from `SIGMA_BY_ATTESTATION` changes numbers. NEXT_STEPS §2.
+- **[m91] THE POOL SPENT 695 CALLS IN 24 HOURS ON OLLAMA MODELS THAT ARE NOT INSTALLED.**
+  `ollama:qwen2.5:14b` (357) and `ollama:llama3.1:latest` (338) failed **every** call in the last
+  24h. Ollama holds exactly one model — `qwen3:8b`, the standing choice under the 2026-08-24
+  GPU-only residency ruling — while the Cascade config defines **eight** `local-*` buckets, none
+  of which names it; the reader 404s and removes five of them at every startup.
+  **What this is NOT:** the GPU fallback is fine. The working bucket is `ollama:local`, is not one
+  of the `local-*` entries, and ran **1,471 ok / 895 error** in the same window, so
+  `overnight.py:655-656`'s "falls back to the GPU instead of stopping" still holds. Run #21 nearly
+  filed the opposite and checked first.
+  **Not fixed:** the config is `C:\Users\imarl\cascade\config.json`, which belongs to the Cascade
+  project, not this repo. Owner. NEXT_STEPS §2.
+- **[m92] `assay.instrument()` HAS AN UNDOCUMENTED PRECONDITION THAT ITS OWN FILE'S CONTRACT
+  INVITES YOU TO BREAK.** `assay.py:152-188` establishes four statuses available on EVERY axis
+  (a number, `NONE`, `UNESTIMABLE`, `INAPPLICABLE`) as a load-bearing epistemic distinction. But
+  `instrument()` (`assay.py:511-517`) special-cases only Python `None`; the other three are
+  strings, so `s is None` is False and it falls through to `s / 10.0` and raises `TypeError`.
+  **Not live-broken** — both callers (`anchors.py:186-188`, `verify_math.py`) pre-filter with
+  `isinstance(v, (int, float))`. It is the natural trap for the next caller that passes the same
+  `scores` dict used for `assay()` straight into `instrument()`. Fix is a docstring precondition
+  plus an explicit raise; queued rather than done because it is a public-signature question.
 
 ### Minor-but-new (run #20)
 - **[m86] `overnight.foreman_report()` REPLAYS THE FOREMAN'S LAST ROUND UNDER THE SUPERVISOR'S
@@ -696,6 +762,55 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #21 (2026-08-25 ~00:50 local) resolved four items, one of them Major. Detail in HANDOFF.md.
+Export commit: the `run #21` sync of 2026-08-25 (see `git -C %PANSCRIPTUM_EXPORT% log`).*
+
+- **[M17 — MAJOR, RESOLVED, run #21] EVERY RENDERER REPORTED ITSELF AS A DOWN JOB, AND THE FALSE
+  NAME HID THE JOB THAT WAS GENUINELY DOWN.**
+  **What it was.** `overnight.running()` excludes the caller's own PID — right for *"is anyone
+  ELSE running this?"* (a stage about to launch; a job refusing a second copy of itself), wrong
+  for *"is job X up?"*. The "every managed job is running" standard asked the second question with
+  the first question's function, from inside whichever process was rendering the panel.
+  **How it was proved** — one standard, one instant, three processes, three answers: the public
+  page (computed by `publish.py:168-172` inside publish.py) said `publish.py,read.py`; the local
+  page (computed by `dashboard.py` inside dashboard.py) said `dashboard.py,read.py`; `allsweep.py`,
+  a neutral third process, saw both renderers up and only `read.py` down.
+  **Why it mattered.** The standard has **no entry in `foreman.REMEDIES`**, so every round routed
+  it to the owner's decision file carrying a permanently false name — and `read.py`, genuinely
+  killed by an M15 remedy, was buried in the same string. The finding-as-decoration failure that
+  `standards.MAX_JOB_SILENCE_MIN`'s comment exists to refuse, committed by the roster check itself.
+  **Fix.** Additive `include_self` keyword on `running()`, default unchanged so no existing caller
+  moved; passed at the one liveness call site. `one instance of each job` was checked and is
+  unaffected — it runs its own enumeration and never self-excludes. Pinned by `verify_math` §20e,
+  which uses the verifier's own process as the fixture.
+- **[m87 — RESOLVED, run #21] ONE HANDLER PRODUCED 85% OF THE PROJECT'S ENTIRE SWALLOWED-FAILURE
+  LEDGER, MAKING THE STANDARD THAT WATCHES IT USELESS.** `sweep.load()`'s only call site
+  (`sweep.py:129`) does no existence check, so every character the reader has not yet reached
+  raised `FileNotFoundError` there: **18,418 of 21,764 ledger entries**, holding "unexpected
+  swallowed failures" red at 19,043 against a floor of 2,000 — permanently, so it reported nothing.
+  **The fix is not concealment.** A *corrupt* cache (a truncated write, a `JSONDecodeError`) is a
+  real fault and was landing in the same bucket as those 18,418 non-events, where it could never
+  be picked out; splitting them is the only way the real one becomes visible. The genuine path is
+  still recorded, under a semantic label rather than a line number that goes stale when anything
+  above it moves. Pinned by `verify_math` §20e.
+- **[m88 — RESOLVED, run #21] `rigor.py` PRINTED THE FACULTY WEIGHTS AND THEN ANNOUNCED, ONE LINE
+  LATER, THAT THEY WERE ZERO.** `main()` emitted the literal string *"Int/Wis/Cha currently cannot
+  affect a Magnitude at all"* unconditionally, directly beneath the line printing
+  `A.FACULTY_WEIGHTS` — which `assay.py`'s ERRATUM (X.11) had already set to **1/11 each**
+  (verified live: `0.0909…`). The same section labelled its matrix *"the charter's declared 8
+  weights"* while `len(A.WEIGHTS)` is **11**, describing a different matrix from the one it built.
+  Because `rigor.py` is a diagnostic report, stale narrative there is not a rotting comment — it
+  is the module returning a wrong answer. Fixed by making both DERIVED: the finding is computed
+  from the weights, the label counts them. Pinned by `verify_math` §20f.
+- **[m89 — RESOLVED, run #21] `measure_bit_value`'s WORKED EXAMPLE QUOTED THE PRE-FIX NUMBER.**
+  The docstring showed `7.0 * 13.23 = 92.6 bits`. **13.234 is `rung_description_length("M5")/10`**
+  — the cumulative quantity the function deliberately abandoned, because cumulative content makes
+  every M0 axis point worth zero bits (`tempus.py:182-186` split `band_resolution` out for exactly
+  that reason). The code was corrected and pinned by `verify_math.py:382-384`; the worked example
+  beside it was not, so the file went on quoting the figure its own code no longer used. True
+  value **3.043 → 21.3 bits**, confirmed by running the module. §20f now pins the docstring's
+  numbers to the function's own return value, so prose and data cannot drift apart silently again.
 
 *Run #20 (2026-08-24 ~23:40 local) resolved seven items, one of them Major. Detail in HANDOFF.md.*
 
