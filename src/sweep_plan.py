@@ -30,6 +30,7 @@ import time
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(HERE, "src")
 COVERAGE = os.path.join(HERE, "state", "SWEEP_COVERAGE.json")
+SHARDS = os.path.join(HERE, "state", "sweep_shards")
 
 
 def modules():
@@ -81,27 +82,89 @@ def batches(n=16):
 _RECORD_LOCK = threading.Lock()
 
 
-def record(run, covered):
+def _shard_path(run, batch):
+    """A filename no other writer can collide with: run + batch + pid.
+
+    The batch id alone is not enough — an agent that is retried, or a batch re-run by hand,
+    would land on the same name as its predecessor mid-write.
+    """
+    safe = "".join(c if c.isalnum() or c in "-_." else "_" for c in "%s.%s" % (run, batch))
+    return os.path.join(SHARDS, "%s.%d.json" % (safe, os.getpid()))
+
+
+def _read_shards():
+    """Every shard on disk, merged newest-wins. Unreadable shards are NOTED, never skipped
+    in silence — a shard that will not parse is a batch whose coverage we cannot prove."""
+    out = {}
+    try:
+        paths = sorted(glob.glob(os.path.join(SHARDS, "*.json")))
+    except Exception:
+        return out
+    for p in paths:
+        try:
+            with open(p, encoding="utf-8") as f:
+                rec = json.load(f)
+        except Exception:
+            try:
+                import silence
+                silence.note("sweep_plan.py:shard-unreadable")
+            except Exception:
+                pass
+            continue
+        run = rec.get("run")
+        at = rec.get("at") or 0
+        for m in (rec.get("modules") or []):
+            prev = out.get(m)
+            if prev is None or (at or 0) >= (prev.get("at") or 0):
+                out[m] = {"run": run, "at": at}
+    return out
+
+
+def record(run, covered, batch=None):
     """Stamp which modules a sweep actually read. `covered` is an iterable of basenames.
 
-    SERIALISED, because the whole point of this file is that sixteen batches run AT ONCE and
-    each one reports its own coverage. The first version did an unguarded read-modify-write:
-    two batches reading the same file, each adding its own modules, each writing back its own
-    copy -- and the loser's modules vanish from the record. That would make `missing()` report
-    a gap that never happened, or worse, hide one that did. The lock covers this process; the
-    atomic land covers a torn read. (Found by the sweep auditing this very file. 2026-08-25.)
+    WRITTEN AS A PER-BATCH SHARD, because the whole point of this file is that sixteen batches
+    run AT ONCE — and, since run #28, each one in ITS OWN PROCESS. The first version did an
+    unguarded read-modify-write and lost the loser's modules; the second serialised it behind a
+    `threading.Lock`, which is the right lock for the wrong topology: a threading lock is not
+    held across processes, so sixteen subagents each running `python -c "sweep_plan.record(...)"`
+    contend exactly as if there were no lock at all. Two of them interleaving read-modify-write
+    still drops one batch's modules, and `missing()` would then report a gap that never
+    happened — or, if the survivor happened to be the fuller file, hide one that did.
+
+    So there is no shared mutable file on the write path any more. Each caller writes its OWN
+    file, named for its run/batch/pid, and `missing()` merges them at read time. Concurrent
+    writers cannot collide because they never touch the same path. The lock is kept only for
+    the best-effort fold into the aggregate `SWEEP_COVERAGE.json`, which is now a CONVENIENCE
+    VIEW for `--coverage` — nothing draws a conclusion from it that the shards do not support.
+    (Race found by the sweep auditing this very file; topology bug found the run after, by the
+    sweep auditing it again. 2026-08-25.)
     """
+    covered = list(covered)
+    now = time.time()
+    try:
+        os.makedirs(SHARDS, exist_ok=True)
+        p = _shard_path(run, batch if batch is not None else "x")
+        tmp = "%s.tmp" % p
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump({"run": run, "batch": batch, "at": now, "modules": covered}, f, indent=1)
+        os.replace(tmp, p)
+    except Exception:
+        try:
+            import silence
+            silence.note("sweep_plan.py:shard-write")
+        except Exception:
+            pass
     with _RECORD_LOCK:
+        data = _read_shards()
         try:
             with open(COVERAGE, encoding="utf-8") as f:
-                data = json.load(f)
+                old = json.load(f)
+            if isinstance(old, dict):
+                for m, r in old.items():
+                    data.setdefault(m, r)
         except Exception:
-            data = {}
-        if not isinstance(data, dict):
-            data = {}
-        now = time.time()
-        for m in covered:
-            data[m] = {"run": run, "at": now}
+            pass
         try:
             import silence
             silence.write_json(COVERAGE, data, indent=1, sort_keys=True)
@@ -113,14 +176,25 @@ def record(run, covered):
         return data
 
 
+def coverage_map():
+    """The authoritative view: shards first, the aggregate file only where a shard is absent."""
+    data = _read_shards()
+    try:
+        with open(COVERAGE, encoding="utf-8") as f:
+            old = json.load(f)
+        if isinstance(old, dict):
+            for m, r in old.items():
+                if isinstance(r, dict):
+                    data.setdefault(m, r)
+    except Exception:
+        pass
+    return data
+
+
 def missing(run):
     """Modules NOT covered by `run` — the proof that a sweep was complete, or the list of what
     it silently skipped. A sweep that cannot answer this is a sweep nobody can trust."""
-    try:
-        with open(COVERAGE, encoding="utf-8") as f:
-            data = json.load(f)
-    except Exception:
-        data = {}
+    data = coverage_map()
     return [m["module"] for m in modules()
             if str((data.get(m["module"]) or {}).get("run")) != str(run)]
 

@@ -790,24 +790,94 @@ def calibrate():
     (it scores only the axes whose feats survive the verbatim gate) legitimately differs from
     a hand worksheet's, and demanding the point value land inside the charter's own interval
     would fail runs the instrument actually got right.
+
+    WRITTEN TO BE KILLED, like its sibling `run_batch()`. The foreman dispatches this roughly
+    hourly and kills it on the next lap (M15), and six charter benchmarks against a rate-limited
+    pool do not reliably finish inside one lap. The original wrote CHARTER_REGRESSION.json ONCE,
+    after the whole loop -- so every killed attempt threw away every benchmark it had completed,
+    and the file sat 35 hours stale while the job ran constantly. That is why the standard
+    `the automation reproduces the charter` was red: not because the instrument had drifted, but
+    because nothing it produced was ever persisted.
+
+    So the file is now the IN-PROGRESS pass, checkpointed after every benchmark, and the next
+    invocation RESUMES it instead of restarting. Two honesty properties matter more than the
+    speed-up:
+
+    * `at` is stamped ONLY when every benchmark has a row. A half-finished pass has not
+      reproduced the charter, and must not read as though it had -- one consistent row written
+      early would otherwise turn the standard green with five references unrun, which is the
+      project's "green by absence" failure mode exactly. `complete` and `pending` say so out
+      loud, and `standards.py` reports the partial pass as in-progress rather than as an age.
+    * A pass whose `started` is older than the standard's own 26h freshness floor is ABANDONED
+      and begun again. Rows carry their own `at`, so a pass spanning hours is visible as one;
+      a "daily" regression stitched from three days of fragments would not be one.
     """
     c = config()
+    _cr = os.path.join(HERE, "data", "CHARTER_REGRESSION.json")
+    now = time.time()
+    prior, started = {}, now
+    try:
+        with open(_cr, encoding="utf-8") as f:
+            old = json.load(f)
+        # Resume only a pass that is genuinely unfinished, recent, and from THIS model. A
+        # completed pass is what we are here to replace; a stale or foreign-model one would
+        # blend measurements the standard reads as a single verdict.
+        if (isinstance(old, dict) and not old.get("complete")
+                and old.get("model") == c["model"]
+                and (now - float(old.get("started") or 0)) < 26 * 3600):
+            started = float(old.get("started") or now)
+            for r in (old.get("results") or []):
+                if isinstance(r, dict) and r.get("entity"):
+                    prior[r["entity"]] = r
+    except FileNotFoundError:
+        pass
+    except Exception:
+        silence.note("magnitude.py:calibrate-resume")
+
+    def _land(rows, complete):
+        """Checkpoint. `at` appears only on a complete pass -- see the docstring."""
+        done = {r.get("entity") for r in rows}
+        out = {"started": started, "model": c["model"], "results": rows,
+               "complete": bool(complete),
+               "pending": [b[0] for b in BENCHMARKS if b[0] not in done]}
+        if complete:
+            out["at"] = time.time()
+        # A standard reads this file (`standards.py`, `automation reproduces the charter`), so a
+        # truncating write can leave that check reading an unparseable artifact -- which it would
+        # report as a failure to reproduce the charter rather than as a failure to write a file.
+        with open(_cr + ".tmp", "w", encoding="utf-8") as f:
+            json.dump(out, f, indent=1, ensure_ascii=False)
+        silence.replace_retry(_cr + ".tmp", _cr)
+
     print(f"model: {c['model']}\n")
+    if prior:
+        print(f"resuming pass started {(now - started) / 3600:.1f}h ago: "
+              f"{len(prior)} of {len(BENCHMARKS)} benchmarks already done\n")
     print(f"{'entity':<20}{'charter':>10}{'assayed':>12}{'band':>7}{'axes':>6}"
           f"{'rej':>5}  worksheet")
     print("-" * 96)
     band_hits, rows = 0, []
     for name, host, band, val, ci, epoch in BENCHMARKS:
         t = time.time()
+        if name in prior:
+            row = prior[name]
+            rows.append(row)
+            band_hits += bool(row.get("band_match"))
+            print(f"{name:<20}{band}.{int(val % 1 * 100):02d}{'':>4}"
+                  f"{'(resumed)':>12}{'--':>7}{'--':>6}{'--':>5}  "
+                  f"kept from this pass")
+            continue
         sc = SCOPE.scope_for(host) if host else None
         cl = (sc["scope"], sc["ceiling"]) if sc else None
         r = assay_entity(c, name, host, epoch=epoch, ceiling=cl)
         res = r.get("result")
         row = {"entity": name, "host": host, "published": val, "ci": ci, "band": band}
+        row["at"] = time.time()
         if not res or res.get("decimal") is None:
             row.update({"status": r.get("status") or "NO_SCORE",
                         "reason": (r.get("reason") or "band only")[:120], "consistent": None})
             rows.append(row)
+            _land(rows, False)
             print(f"{name:<20}{band + '.' + str(int(val % 1 * 100)):>10}{'--':>12}{'--':>7}"
                   f"{'--':>6}{len(r.get('rejections', [])):>5}  {r.get('reason', 'band only')[:40]}")
             continue
@@ -819,6 +889,7 @@ def calibrate():
                     "got_ci": got_ci, "band_match": got_band == band,
                     "consistent": got_band == band and abs(got_val - val) <= ci + got_ci})
         rows.append(row)
+        _land(rows, False)
         mark = "OK" if got_band == band else "MISS"
         print(f"{name:<20}{band}.{int(val % 1 * 100):02d}{'':>4}"
               f"{res['moth_number'][2:14]:>12}{mark:>7}"
@@ -826,14 +897,7 @@ def calibrate():
               f"{time.time() - t:.0f}s")
     print("-" * 96)
     print(f"anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays")
-    out = {"at": time.time(), "model": c["model"], "results": rows}
-    # A standard reads this file (`standards.py`, `automation reproduces the charter`), so a
-    # truncating write can leave that check reading an unparseable artifact -- which it would
-    # report as a failure to reproduce the charter rather than as a failure to write a file.
-    _cr = os.path.join(HERE, "data", "CHARTER_REGRESSION.json")
-    with open(_cr + ".tmp", "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
-    silence.replace_retry(_cr + ".tmp", _cr)
+    _land(rows, len(rows) == len(BENCHMARKS))
     return band_hits
 
 
