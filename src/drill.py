@@ -249,6 +249,9 @@ def drill_assay():
         "")
     net(a, "the supervisor gate agrees with the real gate on a stringy 'false'", _gates_agree,
         "AUDIT DEFEAT 7: overnight used bool(), so prose_enabled: \"false\" read as TRUE")
+    net(a, "and proving that never writes the owner's gate", _drill_never_writes_the_gate,
+        "run #31: the net above wrote prose_enabled: true into the LIVE config.yaml five "
+        "times a cycle and restored it in a finally -- which a kill does not run")
 
 
 def _step4_needs_its_plan():
@@ -265,23 +268,51 @@ def _step4_needs_its_plan():
 
 
 def _gates_agree():
-    """Both gate implementations must answer identically for the values that defeated one."""
+    """Both gate implementations must answer identically for the values that defeated one.
+
+    THIS NET USED TO WRITE THE LIVE config.yaml, AND THAT MADE IT THE MOST DANGEROUS CODE IN
+    THE REPOSITORY (found run #31). It parsed the real config, set `prose_enabled` to each of
+    five trial values -- `"true"` and `yes` among them -- wrote the file with a bare
+    `open(real, "w")`, compared the two gates, and restored the original in a `finally`. Three
+    things were wrong with that, and the third is the one that matters:
+      1. `open(w)` truncates before it fills, so any process reading config.yaml in the gap saw
+         an empty or half-written gate.
+      2. The supervisor runs this drill EVERY CYCLE, so the window recurred every cycle.
+      3. `finally` does not run when the process is killed -- and the foreman SIGTERMs stalled
+         jobs as a matter of routine. A kill in that window leaves `prose_enabled: true` on
+         disk, permanently, with nobody informed. The drill that exists to prove the prose gate
+         could open the prose gate, and the incident it guards against is precisely 145
+         unauthorised chapters.
+    The comparison never needed the disk. `gate_open` already took `cfg`; `_prose_enabled` now
+    takes it too (run #31), so both layers are asked about the same in-memory mapping and
+    config.yaml is never opened for writing by anything in this file.
+    """
     import overnight as ON
     import yaml
+    with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
+        base = yaml.safe_load(f) or {}
+    for val in ('"false"', '"true"', '1', '"no"', 'yes'):
+        cfg = dict(base)
+        cfg["prose_enabled"] = yaml.safe_load(val)
+        if ON._prose_enabled(cfg) != PG.gate_open(cfg)[0]:
+            return False
+    return True
+
+
+def _drill_never_writes_the_gate():
+    """The gate-comparison net must leave config.yaml byte-for-byte untouched.
+
+    The attack that defeats the fix above is simply reintroducing the write, so this is the
+    net that watches for it: run the comparison and require the owner's file to be unchanged.
+    Watched go red against the pre-fix `_gates_agree` on 2026-08-25 -- it reported the file
+    rewritten, which is what a drill opening the prose gate looks like from the outside.
+    """
     real = os.path.join(HERE, "config.yaml")
-    saved = open(real, encoding="utf-8").read()
-    try:
-        for val in ('"false"', '"true"', '1', '"no"', 'yes'):
-            cfg = yaml.safe_load(saved) or {}
-            cfg["prose_enabled"] = yaml.safe_load(val)
-            with open(real, "w", encoding="utf-8") as f:
-                yaml.safe_dump(cfg, f)
-            if ON._prose_enabled() != PG.gate_open()[0]:
-                return False
-        return True
-    finally:
-        with open(real, "w", encoding="utf-8") as f:
-            f.write(saved)
+    with open(real, "rb") as f:
+        before = f.read()
+    _gates_agree()
+    with open(real, "rb") as f:
+        return f.read() == before
 
 
 # ============================================================== THE RIDE RECORD (M23)
@@ -302,18 +333,67 @@ def drill_cache():
         lambda: CK.disambiguated_path("b", "h", "Magic 8 Ball")
         != CK.natural_path("b", "h", "Magic 8 Ball"), "")
 
+    _PAIRS = [("pixar.fandom.com", "Magic 8 Ball", "Magic 8-Ball"),
+              ("forgottenrealms.fandom.com", "Ten Towns", "Ten-Towns")]
+    _BASES = [os.path.join(HERE, "data", "readfeats"),
+              os.path.join(HERE, "data", "feats")]
+
     def live_reads_are_separated():
-        import coverage
-        pairs = [("pixar.fandom.com", "Magic 8 Ball", "Magic 8-Ball"),
-                 ("forgottenrealms.fandom.com", "Ten Towns", "Ten-Towns")]
-        for host, x, y in pairs:
-            if coverage.state_of(host, x) == coverage.state_of(host, y):
-                one = coverage.state_of(host, x)
-                if one[0] != "NO PAGE":     # both genuinely absent is fine; both CITED is not
+        """Neither name may be handed the other's document.
+
+        THIS NET USED TO COMPARE COVERAGE STATE TUPLES AND IT RAISED A FALSE HALT (run #31).
+        It called `coverage.state_of()` on both names and failed if the two answers were equal
+        and not "NO PAGE" -- inferring "these share one file" from "these report the same
+        numbers". The numbers are a 3-tuple of small integers, so equality is ordinary
+        coincidence: on 2026-08-25 `Ten Towns` and `Ten-Towns` both read ('READ', 0, 1) while
+        loading two DIFFERENT files, `Ten_Towns__e84ad6558f.json` (entity "Ten Towns") and
+        `Ten_Towns.json` (entity "Ten-Towns") -- which is the M23 disambiguation working
+        exactly as designed. The net halted the whole library over it, and an alarm that
+        sounds when nothing is wrong is furniture, not a safety.
+
+        So ask the question the fix is actually about: FILE IDENTITY and OWNERSHIP. Two names
+        that sanitise to one stem must resolve to two documents, and each document must carry
+        its own entity. Both are things `cachekey` can be held to; neither can be satisfied by
+        a coincidence.
+        """
+        for host, x, y in _PAIRS:
+            for base in _BASES:
+                dx, fx = CK.load(base, host, x)
+                dy, fy = CK.load(base, host, y)
+                # One file answering to both names is the collision itself.
+                if fx and fy and os.path.abspath(fx) == os.path.abspath(fy):
+                    return False
+                # And a document that came back for a name it does not belong to is the same
+                # fault caught one step later -- this is what `owns` exists to refuse.
+                if dx is not None and not CK.owns(dx, x):
+                    return False
+                if dy is not None and not CK.owns(dy, y):
                     return False
         return True
+
+    def _collision_would_still_be_caught():
+        """The net above must have teeth: build a real collision and watch it refuse.
+
+        A false alarm is repaired by making a check STRICTER about the right thing, never by
+        making it quieter -- a net that cannot fail looks exactly like a net that passed. So
+        this stages the pre-M23 world in a scratch tree (one file at the natural stem, owned by
+        one of the two names) and requires `load` to refuse to hand it to the other.
+        """
+        host, x, y = "forgottenrealms.fandom.com", "Ten Towns", "Ten-Towns"
+        with tempfile.TemporaryDirectory() as base:
+            nat = CK.natural_path(base, host, x)
+            os.makedirs(os.path.dirname(nat), exist_ok=True)
+            with open(nat, "w", encoding="utf-8") as f:
+                json.dump({"entity": x, "feats": []}, f)
+            dx, fx = CK.load(base, host, x)
+            dy, fy = CK.load(base, host, y)
+            # x owns it; y must get nothing rather than x's evidence.
+            return fx is not None and dy is None and fy is None
     net(a, "the live colliding pairs get separate verdicts", live_reads_are_separated,
         "measured against the real corpus, not a fixture")
+    net(a, "and a real collision would still be refused", _collision_would_still_be_caught,
+        "run #31 loosened the net above off state-tuple equality; this is the proof that "
+        "loosening it did not make it unfailable")
 
 
 # ============================================================== THE INSTRUMENT (the Assay)

@@ -41,8 +41,15 @@ import silence
 import lognames as LN
 
 
-def _prose_enabled():
+def _prose_enabled(cfg=None):
     """Is the owner's prose gate open? (M25 / owner ruling 2026-08-25.)
+
+    `cfg` mirrors `prose_gate.gate_open(cfg=None)` exactly: pass a parsed mapping to ask what
+    the gate WOULD say about it, leave it None in production to read config.yaml fresh. Added
+    run #31 so `drill._gates_agree` can compare the two layers in memory. It previously wrote
+    five trial values into the LIVE config.yaml on every supervisor cycle and restored the file
+    in a `finally` -- so a kill in that window left `prose_enabled: true` on disk permanently.
+    The drill that proves the prose gate could open the prose gate.
 
     Read fresh from config.yaml on every cycle, deliberately: the owner turning prose on should
     not require restarting the supervisor. FAILS CLOSED -- an unreadable or absent config keeps
@@ -62,7 +69,7 @@ def _prose_enabled():
     """
     try:
         import prose_gate
-        return prose_gate.gate_open()[0]
+        return prose_gate.gate_open(cfg)[0]
     except Exception:
         silence.note("overnight.py:prose-gate")
         return False
