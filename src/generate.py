@@ -51,10 +51,11 @@ def load_json(path, default):
 
 
 def save_json(path, obj):
+    # ATOMIC: catalog.json and failures.json are rewritten repeatedly across an hours-long
+    # generation run while estate.py and catalog.py read them; a truncate-then-fill here hands
+    # those readers an empty or half-written file. 2026-08-25.
     full = os.path.join(HERE, path)
-    os.makedirs(os.path.dirname(full), exist_ok=True)
-    with open(full, "w", encoding="utf-8") as f:
-        json.dump(obj, f, indent=2)
+    silence.write_json(full, obj, indent=2)
 
 
 def safe_filename(address, ext):

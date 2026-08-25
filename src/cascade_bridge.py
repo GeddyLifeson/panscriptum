@@ -683,11 +683,20 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             # recharge."}` -- no 401, no 402, no "credentials" -- and was therefore re-claimed
             # forever while reporting full headroom. `403` was missing for the same reason.
             # Matching is case-folded because providers do not agree on capitalisation.
+            # THE STATUS CODES ARE MATCHED ON WORD BOUNDARIES, THE WORDS AS SUBSTRINGS.
+            # A bare `"403" in err` also matches the 403 inside a request id like
+            # `req_4403abc` or a trace hash, and the penalty for a false positive here is
+            # FOUR HOURS of bench on a provider that was merely busy -- the opposite of the
+            # bug this classifier was added to fix, and worse, because it shrinks a pool that
+            # is already the binding constraint. `\b` refuses a match with a digit either
+            # side. The prose markers stay plain substrings: they are distinctive enough that
+            # an accidental hit is not a realistic failure, and providers word them freely.
             err = (box.get("error") or "").lower()
-            permanent = ("401", "402", "403", "authentication", "invalid_api_key",
-                         "credentials", "insufficient balance", "no resource package",
-                         "payment required", "needs billing", "depleted")
-            if pinned and any(code in err for code in permanent):
+            permanent_words = ("authentication", "invalid_api_key", "credentials",
+                               "insufficient balance", "no resource package",
+                               "payment required", "needs billing", "depleted")
+            if pinned and (re.search(r"\b(401|402|403)\b", err)
+                           or any(w in err for w in permanent_words)):
                 _bury(pinned.bucket, AUTH_BENCH)
             elif pinned:
                 # AN UNRECOGNISED FAILURE IS A THING TO INVESTIGATE, NOT A THING TO ABSORB.

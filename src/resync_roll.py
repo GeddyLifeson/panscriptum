@@ -63,8 +63,9 @@ def main():
                 r["status"] = "catalogued" if n else r.get("status", "catalogued")
 
     if changed and not dry:
-        with open(ROLL, "w", encoding="utf-8") as f:
-            json.dump(roll, f, indent=2, ensure_ascii=False)
+        # ATOMIC: this file's own docstring warned about the roll-clobber hazard while the
+        # code went on truncate-then-filling it. Fixed 2026-08-25.
+        silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
 
     verb = "Would fix" if dry else "Fixed"
     print(f"{verb} {len(changed)} roll entries out of sync with their record files:\n")

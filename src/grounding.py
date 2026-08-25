@@ -42,7 +42,6 @@ invented freehand. Each is a distinct way for the regress to halt, or to fail to
 """
 import argparse
 import collections
-import json
 import os
 import re
 import sys
@@ -235,8 +234,9 @@ def main():
 
     if args.write:
         p = os.path.join(HERE, "data", "GROUNDINGS.json")
-        with open(p, "w", encoding="utf-8") as f:
-            json.dump(out, f, indent=2, ensure_ascii=False)
+        # ATOMIC: GROUNDINGS.json is shared. 2026-08-25 whole-tree sweep.
+        import silence
+        silence.write_json(p, out, indent=2, ensure_ascii=False)
         print(f"\nwrote {p}")
     return 0
 

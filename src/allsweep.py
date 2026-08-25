@@ -430,11 +430,12 @@ def main():
     # ATOMIC. The audit reads every file in the tree including its own output, so a plain
     # truncate-then-write leaves a zero-byte ALLSWEEP.json on disk for as long as the dump takes
     # -- and the audit duly reported its own report as corrupt. Write beside, then rename.
-    tmp = OUT + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as fh:
-        json.dump({"imports": imports, "verifiers": verifiers, "reconcile": findings,
-                   "estate": est, "seconds": round(time.time() - t0, 1)}, fh, indent=1)
-    os.replace(tmp, OUT)
+    # `os.replace` alone raises PermissionError on Windows while any reader holds the target
+    # open, which is exactly this file's situation -- the dashboard and the next ESTATE tier
+    # read it. `silence.write_json` retries the rename instead of dying. 2026-08-25.
+    silence.write_json(OUT, {"imports": imports, "verifiers": verifiers,
+                             "reconcile": findings, "estate": est,
+                             "seconds": round(time.time() - t0, 1)}, indent=1)
     bad = (len(broken)
            + sum(1 for r in verifiers if r["crashed"] or r.get("timeout"))
            + len((est.get("artifacts") or {}).get("bad", [])))

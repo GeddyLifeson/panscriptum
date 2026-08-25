@@ -108,8 +108,8 @@ def register(source):
     if cur and not cur.startswith("doc:"):
         return cur                       # a live wiki outranks a static text; keep it
     hosts[source] = "doc:" + slug(source)
-    with open(HOSTS, "w", encoding="utf-8") as f:
-        json.dump(hosts, f, indent=1, ensure_ascii=False, sort_keys=True)
+    # ATOMIC: feats.resolve_hosts and standards both read WIKI_HOSTS on their own clocks.
+    silence.write_json(HOSTS, hosts, indent=1, ensure_ascii=False, sort_keys=True)
     return hosts[source]
 
 

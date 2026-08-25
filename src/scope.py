@@ -115,8 +115,8 @@ def build(records, hosts):
         if sc:
             print(f"  {i:>3}/{len(todo)}  {h:<34}{sc['scope']:<12}ceiling {sc['ceiling']}",
                   flush=True)
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
+    # ATOMIC: SCOPE.json is read by magnitude.py and pipeline.py. 2026-08-25.
+    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
     return out
 
 

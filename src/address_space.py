@@ -333,9 +333,11 @@ def main():
         for d, a in list(addrs.items())[:6]:
             print(f"     {d[:44]:<46}{shelfmark(a)}")
         out = os.path.join(HERE, "data", "SHELFMARKS.json")
-        with open(out, "w", encoding="utf-8") as f:
-            json.dump({d: {"address": a, "shelfmark": shelfmark(a), "map_seed": map_seed(a)}
-                       for d, a in addrs.items()}, f, indent=2, ensure_ascii=False)
+        # ATOMIC: pipeline.py and standards.py both read SHELFMARKS.json.
+        silence.write_json(out,
+                           {d: {"address": a, "shelfmark": shelfmark(a),
+                                "map_seed": map_seed(a)} for d, a in addrs.items()},
+                           indent=2, ensure_ascii=False)
         print(f"\n   wrote {out}")
     return 0
 

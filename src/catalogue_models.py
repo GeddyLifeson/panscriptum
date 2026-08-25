@@ -153,9 +153,8 @@ def sweep(config_path=None, workers=6):
                 print(f"  {name}: " + ", ".join(r["models"][:10]))
 
     payload = {"at": time.strftime("%Y-%m-%d %H:%M"), "providers": rows, "stale": stale}
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=1, sort_keys=True)
+    # ATOMIC: standards.py polls PROVIDER_MODELS.json on its own cycle. 2026-08-25.
+    silence.write_json(OUT, payload, indent=1, sort_keys=True)
     print(f"\n-> {OUT}")
     return payload
 

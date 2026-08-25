@@ -3450,6 +3450,78 @@ check("the metrics line reads _via only from a dict",
       note="_extract_json can return a list or bool; (got or {}).get crashed the call")
 
 print()
+print("26. §20g  A SHARED FILE IS LANDED, NEVER TRUNCATED-THEN-FILLED — the whole-tree sweep")
+print("          of 2026-08-25 found SIXTEEN non-atomic writes across FOURTEEN modules")
+# The comprehensive sweep ordered by the owner on 2026-08-25 turned up one systemic fault rather
+# than sixteen unrelated ones: `open(path, "w")` followed by `json.dump` is not a write, it is a
+# TRUNCATE and then a fill. A reader arriving in the gap sees an empty or half-written file; a
+# crash in the gap leaves it that way for good. The project already knew this -- `silence.py`
+# documents a WinError-5 collision that took an assay worker down, and
+# `catalogue_web.save_roll()` carried a comment warning that an interrupted write to the roll
+# "kills the next run of either script outright" -- but the knowledge lived in three files while
+# the other fourteen went on truncating. FOUR separate scripts were writing `data/SWEEP_ROLL.json`
+# this way, which is the exact hazard `resync_roll.py`'s own docstring described in prose.
+#
+# This check is deliberately a SOURCE SCAN over the whole tree rather than a test of one
+# function: the fault was never in any single writer, it was in there being no shared way to do
+# it right. `silence.write_json` is now that way, and this check is what stops a seventeenth.
+_atomic_src = {}
+for _p20g in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
+    _atomic_src[os.path.basename(_p20g)] = open(_p20g, encoding="utf-8").read()
+
+check("silence.write_json exists as the one correct way to land a JSON file",
+      hasattr(__import__("silence"), "write_json"), True)
+
+_sil20g = __import__("silence")
+_probe20g = os.path.join(_here19, "..", "state", "_VM_ATOMIC_PROBE.json")
+try:
+    check("write_json lands the file and returns True",
+          _sil20g.write_json(_probe20g, {"z": 1, "a": [1, 2]}, indent=2, sort_keys=True), True)
+    check("write_json round-trips exactly",
+          json.load(open(_probe20g, encoding="utf-8")), {"z": 1, "a": [1, 2]})
+    check("write_json leaves no temp file behind",
+          [f for f in os.listdir(os.path.dirname(_probe20g))
+           if f.startswith("_VM_ATOMIC_PROBE") and f.endswith(".tmp")], [])
+    # THE TMP NAME MUST BE UNIQUE PER WRITER. The old hand-rolled sites all used
+    # `path + ".tmp"`, so two writers of one path collided on the temp file itself and the
+    # loser could replace the winner's target with a partial file.
+    _src20g = __import__("inspect").getsource(_sil20g.write_json)
+    check("the temp name carries pid and thread, not a bare .tmp",
+          "os.getpid()" in _src20g and "get_ident()" in _src20g, True,
+          note="two concurrent writers of one path otherwise race on the temp file")
+finally:
+    try:
+        if os.path.exists(_probe20g):
+            os.remove(_probe20g)
+    except Exception:
+        pass
+
+# The tree scan. Each entry is (module, the shared artefact it writes) that the sweep repaired;
+# if any of them reverts to a bare truncating write, this names the file and the module.
+_REPAIRED_20g = [
+    ("catalogue_aurora.py", "ROLL"), ("catalogue_codex.py", "ROLL"),
+    ("recover_folder_records.py", "ROLL"), ("resync_roll.py", "ROLL"),
+    ("ingest_doc.py", "HOSTS"), ("weave_index.py", "OUT_INDEX"),
+    ("weave_index.py", "OUT_CAND"), ("catalogue_models.py", "OUT"),
+    ("cosmology_graph.py", "OUT"), ("coverage.py", "OUT"), ("scope.py", "OUT"),
+    ("tiers.py", "out"), ("address_space.py", "out"), ("allsweep.py", "OUT"),
+]
+for _m20g, _c20g in _REPAIRED_20g:
+    _pat20g = 'open(%s, "w"' % _c20g
+    check("%s no longer truncates %s in place" % (_m20g, _c20g),
+          _pat20g in _atomic_src[_m20g], False,
+          note="repaired 2026-08-25; use silence.write_json, not open(...,'w')+json.dump")
+for _m20g in ("weave.py", "generate.py", "feats.py"):
+    check("%s writes its shared artefacts through silence" % _m20g,
+          "silence.write_json" in _atomic_src[_m20g], True)
+check("weave.py no longer leaks a file handle into json.dump",
+      'open(OUT_GROUPS, "w"' in _atomic_src["weave.py"], False,
+      note="these were json.dump(obj, open(path,'w')) -- truncating AND never closed")
+check("overwatch.py lands WATCH.md through replace_retry",
+      "silence.replace_retry(_tmp, REPORT)" in _atomic_src["overwatch.py"], True,
+      note="not JSON, so it uses replace_retry directly rather than write_json")
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)

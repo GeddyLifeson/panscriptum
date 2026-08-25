@@ -559,8 +559,13 @@ def write_report(led, struct):
               "Written by `src/overwatch.py`. Structure is checked every round; the model reads "
               "modules that changed first, then whichever has gone longest unread. A finding "
               "stays open until the file it points at changes.", ""]
-    with open(REPORT, "w", encoding="utf-8") as f:
+    # ATOMIC: WATCH.md is read by the maintenance pass and by anyone watching the loop; a
+    # truncate-then-fill leaves it empty for the length of the write. Not JSON, so this uses
+    # replace_retry directly rather than silence.write_json. 2026-08-25.
+    _tmp = "%s.%d.tmp" % (REPORT, os.getpid())
+    with open(_tmp, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
+    silence.replace_retry(_tmp, REPORT)
 
 
 def round_once(limit=6, local=True, skip_model=False):

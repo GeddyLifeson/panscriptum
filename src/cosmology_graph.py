@@ -135,15 +135,17 @@ def main():
         print(f"  [{len(c):3d}] {', '.join(s[:20] for s in c[:6])}{' …' if len(c) > 6 else ''}")
 
     if args.write:
-        with open(OUT, "w", encoding="utf-8") as f:
-            json.dump({
-                "pairs": [{"a": a, "b": b, "weight": round(w, 3),
-                           "shared_sample": pair_shared[(a, b)]}
-                          for (a, b), w in sorted(pair_w.items(), key=lambda kv: -kv[1])
-                          if w >= 1.0],
-                "clusters": comps,
-                "threshold": args.threshold,
-            }, f, indent=2, ensure_ascii=False)
+        # ATOMIC: propagation.py and resonance.py both read SHARED_STAGE_GRAPH.json live, so a
+        # truncate-then-fill here hands them an empty graph they would silently trust.
+        import silence
+        silence.write_json(OUT, {
+            "pairs": [{"a": a, "b": b, "weight": round(w, 3),
+                       "shared_sample": pair_shared[(a, b)]}
+                      for (a, b), w in sorted(pair_w.items(), key=lambda kv: -kv[1])
+                      if w >= 1.0],
+            "clusters": comps,
+            "threshold": args.threshold,
+        }, indent=2, ensure_ascii=False)
         print(f"\nwrote {OUT}")
 
 

@@ -328,8 +328,9 @@ def main():
         print(card(name, rec, res))
         print()
 
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
+    # ATOMIC: standards.py and zfighters.py both read REFERENCE_ASSAYS.json. 2026-08-25.
+    import silence
+    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
     print(f"{inside}/{len(REFERENCE)} reconstructions land inside the charter's published "
           f"interval  ->  {OUT}")
 

@@ -821,8 +821,10 @@ def remine(path):
         rej += r
         quants += q
     ev["feats"], ev["gate_rejected"], ev["quantities"] = feats, rej, quants
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(ev, f, indent=1, ensure_ascii=False)
+    # ATOMIC: the per-entity evidence cache has live readers (the roll, the assay). This
+    # function currently has no callers, which is exactly when a truncation race is easiest
+    # to leave in place and hardest to notice later. 2026-08-25.
+    silence.write_json(path, ev, indent=1, ensure_ascii=False)
     return ev
 
 

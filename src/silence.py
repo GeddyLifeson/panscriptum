@@ -247,6 +247,46 @@ _SINCE_FLUSH = 0
 FLUSH_EVERY = 25
 
 
+def write_json(path, obj, **dump_kw):
+    """Land a JSON file ATOMICALLY. The one correct way to write a shared file in this project.
+
+    Found by the 2026-08-25 comprehensive sweep: TWELVE call sites across ten modules were
+    writing shared `data/` and `state/` files with a bare `open(path, "w")` + `json.dump`, which
+    is not a write but a TRUNCATE-THEN-FILL. A reader arriving in the gap sees an empty or
+    half-written file; a crash in the gap leaves it that way permanently. Four of those sites
+    were writing the SAME file -- `data/SWEEP_ROLL.json` -- from four different scripts, which
+    is the hazard `resync_roll.py`'s own docstring already warned about in prose while the code
+    went on doing it. `catalogue_web.save_roll()` had the atomic version and a comment saying an
+    interrupted write here "kills the next run of either script outright"; its siblings did not.
+
+    THE TMP NAME CARRIES PID AND THREAD, which the older hand-rolled `path + ".tmp"` sites did
+    not. Two writers of the same path otherwise collide on the temp file itself, and the loser
+    can replace the winner's target with a partial file -- the same race `read.py:_chunk_put`
+    was already fixed for individually, now unavailable to get wrong.
+
+    Returns True if the file landed. Never raises on a denied replace: `replace_retry` records
+    it and the caller's write lands next round, which is the established behaviour here.
+    """
+    import json as _j            # local, matching `replace_retry`'s own idiom: this module is
+    import threading as _th      # imported by nearly everything and stays deliberately thin
+    dump_kw.setdefault("indent", 1)
+    d = os.path.dirname(path)
+    if d:
+        os.makedirs(d, exist_ok=True)
+    tmp = "%s.%d.%d.tmp" % (path, os.getpid(), _th.get_ident())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            _j.dump(obj, f, **dump_kw)
+    except Exception:
+        try:
+            if os.path.exists(tmp):
+                os.remove(tmp)
+        except Exception:
+            pass
+        raise
+    return replace_retry(tmp, path)
+
+
 def note(site):
     """Record the exception currently being handled, then return.
 

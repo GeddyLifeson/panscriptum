@@ -146,8 +146,8 @@ def main():
             r["status"] = "catalogued"
 
     if not args.dry_run and written:
-        with open(ROLL, "w", encoding="utf-8") as f:
-            json.dump(roll, f, indent=2, ensure_ascii=False)
+        # ATOMIC: four scripts write this same roll (see silence.write_json). 2026-08-25.
+        silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
 
     verb = "Would write" if args.dry_run else "Wrote"
     print(f"{verb} {len(written)} records from Aurora XML:\n")

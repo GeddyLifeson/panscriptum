@@ -167,8 +167,9 @@ def pair_weights(occ, idf, min_sources=2):
             for j in range(i + 1, len(srcs)):
                 p = (srcs[i], srcs[j])
                 w[p] += s
-                if len(shared[p]) < 8:
-                    shared[p].append(k)
+                # NO CAP -- the idf twin of the same truncation removed in
+                # `surprisal_pair_weights` below; see the note there. 2026-08-25.
+                shared[p].append(k)
     return w, shared
 
 
@@ -213,8 +214,15 @@ def surprisal_pair_weights(occ, sur, min_sources=2, max_sources=60):
             for j in range(i + 1, len(srcs)):
                 p = (srcs[i], srcs[j])
                 w[p] += s
-                if len(shared[p]) < 8:
-                    shared[p].append(k)
+                # NO CAP. `if len(shared[p]) < 8` was the last cap standing in the weave, and it
+                # was invisible because it sat in the BUILDER while both consumers -- this
+                # module's own writer and `pipeline.py:1761`, the production path that writes
+                # `data/RESONANCE_GRAPH.json` -- carried the comment "WHOLE list -- Hard Rule 0,
+                # ruled 2026-08-24" directly above it. The comment described the ruling; the data
+                # had been truncated eight entries earlier. A cap LABELLED AS COMPLIANCE is the
+                # worst shape a cap can take, because the label is what stops anyone looking.
+                # Found by the whole-tree sweep, 2026-08-25.
+                shared[p].append(k)
     return w, shared
 
 
@@ -458,15 +466,19 @@ def main():
             print(f"     {names.get(k, k)[:26]:<28} {n} distinct entities")
 
     if args.write:
-        json.dump({"threshold": thr, "groups": groups},
-                  open(OUT_GROUPS, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-        json.dump(resolved, open(OUT_RESOLVED, "w", encoding="utf-8"),
-                  indent=2, ensure_ascii=False)
-        json.dump({"threshold": thr, "metric": "name-surprisal, bits",
-                   "pairs": [{"a": a, "b": b, "weight": round(v, 2),
-                              "shared_sample": shared[(a, b)]}   # WHOLE list (key name kept: resonance.py reads it) -- Hard Rule 0, ruled 2026-08-24
-                             for (a, b), v in sorted(kept.items(), key=lambda kv: -kv[1])]},
-                  open(OUT_GRAPH, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+        # ATOMIC, and the file handles now actually close. These three were
+        # `json.dump(obj, open(path, "w"))` -- truncate-then-fill AND a leaked handle, on files
+        # weave_index.py, resonance.py and cosmology_graph.py read live. 2026-08-25.
+        silence.write_json(OUT_GROUPS, {"threshold": thr, "groups": groups},
+                           indent=2, ensure_ascii=False)
+        silence.write_json(OUT_RESOLVED, resolved, indent=2, ensure_ascii=False)
+        silence.write_json(OUT_GRAPH,
+                           {"threshold": thr, "metric": "name-surprisal, bits",
+                            "pairs": [{"a": a, "b": b, "weight": round(v, 2),
+                                       "shared_sample": shared[(a, b)]}   # WHOLE list (key name kept: resonance.py reads it) -- Hard Rule 0, ruled 2026-08-24
+                                      for (a, b), v in sorted(kept.items(),
+                                                              key=lambda kv: -kv[1])]},
+                           indent=2, ensure_ascii=False)
         print("\nwrote CONTINUITY_GROUPS / RESOLVED_ENTITIES / SHARED_STAGE_GRAPH_IDF")
     return 0
 

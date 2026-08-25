@@ -30,6 +30,10 @@ import argparse
 import json
 import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silence                                                          # noqa: E402
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROLL = os.path.join(HERE, "data/SWEEP_ROLL.json")
@@ -193,8 +197,10 @@ def main():
             r["status"] = "catalogued"
 
     if not args.dry_run and written:
-        with open(ROLL, "w", encoding="utf-8") as f:
-            json.dump(roll, f, indent=2, ensure_ascii=False)
+        # ATOMIC: `catalogue_web.save_roll()` already wrote this file atomically with a comment
+        # warning an interrupted write here "kills the next run of either script outright";
+        # this sibling did not. Four scripts write this roll. Fixed 2026-08-25.
+        silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
     if args.dry_run:
         print("\n(dry run -- nothing written)")
 

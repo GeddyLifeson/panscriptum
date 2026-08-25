@@ -264,10 +264,10 @@ def main():
               f"{', '.join(s[:16] for s in srcs[:5])}{' …' if len(srcs) > 5 else ''}")
 
     if args.write:
-        with open(OUT_INDEX, "w", encoding="utf-8") as f:
-            json.dump({k: v for k, v in index.items()}, f, ensure_ascii=False)
-        with open(OUT_CAND, "w", encoding="utf-8") as f:
-            json.dump(candidates, f, indent=2, ensure_ascii=False)
+        # ATOMIC: cosmology_graph, thread_integrity and weave all read these concurrently.
+        silence.write_json(OUT_INDEX, {k: v for k, v in index.items()},
+                           indent=None, ensure_ascii=False)
+        silence.write_json(OUT_CAND, candidates, indent=2, ensure_ascii=False)
         print(f"\nwrote {OUT_INDEX}")
         print(f"wrote {OUT_CAND}  ({len(candidates):,} candidates for adjudication)")
 

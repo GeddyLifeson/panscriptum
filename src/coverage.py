@@ -179,8 +179,10 @@ def main():
     a = ap.parse_args()
     rows = measure()
     report(rows, show=a.show)
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(rows, f, indent=1, ensure_ascii=False)
+    # ATOMIC: COVERAGE.json holds the library's headline figures and is read by the dashboard,
+    # standards, allsweep and the published page. This file's own cache-save two functions
+    # above already lands atomically; the headline write did not. 2026-08-25.
+    silence.write_json(OUT, rows, indent=1, ensure_ascii=False)
     print(f"\nper-source table -> {OUT}")
     return 0
 

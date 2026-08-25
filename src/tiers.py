@@ -336,8 +336,9 @@ def main():
                   f"Mt{c['metaverse']} › Mv{c['multiverse']}")
 
     out = os.path.join(HERE, "data", "TIERS.json")
-    with open(out, "w", encoding="utf-8") as f:
-        json.dump(charted, f, indent=2, ensure_ascii=False)
+    # ATOMIC: the same pattern pipeline.py's `land_json` was already fixed for on this very
+    # file (bug m6); this writer was missed at the time. 2026-08-25.
+    silence.write_json(out, charted, indent=2, ensure_ascii=False)
     print(f"\nwrote {out}")
     return 0
 

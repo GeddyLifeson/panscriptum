@@ -395,8 +395,8 @@ def main():
         if len(rows) > 9:
             print(f"     ... and {len(rows)-9} more")
 
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(named, f, indent=2, ensure_ascii=False)
+    # ATOMIC: ONOMASTICON.json is shared. 2026-08-25 whole-tree sweep.
+    silence.write_json(OUT, named, indent=2, ensure_ascii=False)
     print(f"\nwrote {OUT}")
     print("\nEvery designation is reproducible: reseeded from the world's own catalogue")
     print("position, so a Custos who reruns this gets these names and not others.")

@@ -42,6 +42,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 
+import silence                                                          # noqa: E402
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 REGISTER = os.path.join(HERE, "reference/keystone_volumes/LOCAL_REGISTER.json")
@@ -140,15 +142,18 @@ def main():
 
         path = os.path.join(RECORDS, slug(name) + ".json")
         if not args.dry_run:
-            with open(path, "w", encoding="utf-8") as f:
-                json.dump(record, f, indent=2, ensure_ascii=False)
+            # ATOMIC. NOTE FOR REVIEW: the two-writer contract says a RECORD should be written
+            # through `pipeline.write_record_catalogue`, not straight to disk at all. Making the
+            # write atomic is the safe half of that repair; routing this recovery tool through
+            # the catalogue writer changes its merge semantics and is flagged in NEXT_STEPS.
+            silence.write_json(path, record, indent=2, ensure_ascii=False)
             roll_entry["entry_count"] = len(entries)
             roll_entry["status"] = "catalogued"
         written.append((name, len(entries), os.path.basename(path)))
 
     if not args.dry_run and written:
-        with open(ROLL, "w", encoding="utf-8") as f:
-            json.dump(roll, f, indent=2, ensure_ascii=False)
+        # ATOMIC: `resync_roll.py`'s docstring names THIS script as a roll-clobber source.
+        silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
 
     verb = "Would write" if args.dry_run else "Wrote"
     print(f"{verb} {len(written)} records, {sum(n for _, n, _ in written):,} entries:\n")

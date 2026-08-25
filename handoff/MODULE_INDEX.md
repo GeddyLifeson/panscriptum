@@ -109,6 +109,7 @@
 - **runguard** — RUNGUARD — the overlap guard for the maintenance pass, as code instead of as a convention
 - **scale_theories** — THE SCALE-CHANGE THEORIES — what would have to be true, and what it would cost
 - **sevenfold** — THE SEVENFOLD ORDER — seven hyperverses, and a span of one to seven at every tier beneath
+- **sweep_plan** — Partition EVERY module in `src/` into balanced audit batches, and record what got covered
 - **tempus** — DE TEMPORE — time across the omniverse, and what "now" can possibly mean
 - **thread_integrity** — THREAD INTEGRITY — does the omniverse hold together when you walk it?
 - **tiers** — THE COSMOLOGICAL TIERS — the xenoverse charted, and the hyperverse declined with cause
