@@ -1,5 +1,5 @@
 {
- "at": "2026-08-24 22:24:18",
+ "at": "2026-08-24 22:34:26",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 257,
+     "left": 258,
      "cap": 500,
-     "frac": 0.514
+     "frac": 0.516
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.514
+   "worst": 0.516
   },
   {
    "bucket": "cohere:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 135,
+     "left": 147,
      "cap": 1000,
-     "frac": 0.135
+     "frac": 0.147
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.135
+   "worst": 0.147
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -308,9 +308,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 13961,
+     "left": 13967,
      "cap": 14400,
-     "frac": 0.9695
+     "frac": 0.9699
     },
     {
      "name": "tpd",
@@ -331,7 +331,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.9695
+   "worst": 0.9699
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 55674,
+     "left": 56407,
      "cap": 100000,
-     "frac": 0.5567
+     "frac": 0.5641
     },
     {
      "name": "rpm",
@@ -496,9 +496,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 233,
+     "left": 354,
      "cap": 2000,
-     "frac": 0.1165
+     "frac": 0.177
     },
     {
      "name": "rpm",
@@ -507,7 +507,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.1165
+   "worst": 0.177
   },
   {
    "bucket": "moonshot:free",
@@ -636,9 +636,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 54,
+     "left": 73,
      "cap": 300,
-     "frac": 0.18
+     "frac": 0.2433
     },
     {
      "name": "rpm",
@@ -647,7 +647,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.18
+   "worst": 0.2433
   },
   {
    "bucket": "together:free",
@@ -676,9 +676,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 120,
+     "left": 135,
      "cap": 500,
-     "frac": 0.24
+     "frac": 0.27
     },
     {
      "name": "rpm",
@@ -687,41 +687,41 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.24
+   "worst": 0.27
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 10,
-  "per_hour": 40,
+  "calls": 6,
+  "per_hour": 24,
   "buckets": [
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 2,
-    "ok": 1
-   },
-   {
-    "bucket": "sambanova:free",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 2,
-    "ok": 0
-   },
    {
     "bucket": "cloudflare:free",
     "calls": 1,
     "ok": 0
    },
    {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 1,
+    "ok": 1
+   },
+   {
     "bucket": "hyperbolic:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
     "calls": 1,
     "ok": 0
    }
@@ -740,9 +740,9 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 58800,
+   "done": 59400,
    "total": 83562,
-   "detail": "64,638 pages  \u00b7  1082M characters  \u00b7  4.9/s",
+   "detail": "65,254 pages  \u00b7  1083M characters  \u00b7  4.7/s",
    "warn": "",
    "eta_h": 1.4
   }
@@ -761,7 +761,7 @@
    "read": 35920,
    "settled": 44468,
    "feats": 57540,
-   "age_h": 0.0
+   "age_h": 0.2
   },
   "phases": [
    {
@@ -824,14 +824,14 @@
    ],
    [
     "silent:verify_math.py:47:ValueError",
-    22
+    26
    ],
    [
     "silent:pipeline.py:pool-accept:RuntimeError",
-    11
+    13
    ]
   ],
-  "swallowed_total": 1991
+  "swallowed_total": 2003
  },
  "metrics": [
   {
@@ -880,7 +880,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 40,
+   "observed": 24,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -916,7 +916,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "UNMEASURED -- 10 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "observed": "UNMEASURED -- 6 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
    "floor": "50%",
    "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
    "severity": "medium"
@@ -961,7 +961,7 @@
    "standard": "page roll complete",
    "group": "read",
    "holds": false,
-   "observed": "70%",
+   "observed": "71%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -970,7 +970,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1024,7 +1024,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "545",
+   "observed": "557",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1087,7 +1087,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "3/4 moved in 44m",
+   "observed": "3/4 moved in 41m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1114,7 +1114,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.2h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1141,7 +1141,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "pipeline_auto (108 min, 3417 bytes)",
+   "observed": "pipeline_auto (118 min, 3417 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1177,7 +1177,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in 0.8s",
+   "observed": "probe completed in 0.6s",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. If this fires, restart ollama.exe (the tray app respawns it) and re-probe. Nothing drains a wedged queue on its own.",
    "severity": "high"
@@ -1272,5 +1272,5 @@
    "stalled": true
   }
  ],
- "generated": "2026-08-24T22:24:23"
+ "generated": "2026-08-24T22:34:32"
 }

@@ -72,6 +72,18 @@ _HOST_LOCKS = collections.defaultdict(threading.Lock)
 _HOST_LAST = {}
 _RATE_LIMITED = {}
 
+# HOW OFTEN THE DISCOVERY CAPS ACTUALLY BIND (m82, measured from run #19 onward).
+#
+# `discover()` asks for aplimit=500 subpages and srlimit=50 search hits and handles no
+# continuation token, so an entity with more than that is read in part. Nothing measured how
+# often that happens, which made it impossible to rank against Hard Rule 0 -- the rule forbids
+# caps, but the remedy (a continuation loop, more requests against every wiki) is only worth
+# its cost if the cap ever binds. MediaWiki says so itself: a response carrying a top-level
+# `continue` key means it withheld results. Counting that is free and settles the question with
+# a number instead of an argument. Reported in roll()'s summary alongside _RATE_LIMITED, which
+# had been incremented since the file was written and never once read.
+_CAP_BOUND = {}
+
 
 def _pause_for(host):
     for frag, val in HOST_PAUSE.items():
@@ -134,6 +146,16 @@ def api(host, params, retries=2):
             # 429 is a request to slow down, not a failure to retry at the same speed. Backing
             # off exponentially and honouring Retry-After is the difference between recovering
             # and being banned. A 404 is a real miss and retrying it only wastes the budget.
+            #
+            # The note is taken AFTER the status code is known (run #19). It used to fire first,
+            # so an expected 404 — which the branch below calls "a real miss", i.e. the wiki
+            # answering correctly that a page is absent — landed in the same swallowed-error
+            # bucket as a genuine 500. That made the ledger's count for this site unreadable:
+            # it mixed "the network is failing" with "the page does not exist". The 404 arm
+            # returns exactly what it returned before; only which counter it lands in changed.
+            if e.code == 404:
+                silence.note("feats.py:api-404")
+                return None
             silence.note("feats.py:125")
             if e.code == 429:
                 wait = int(e.headers.get("Retry-After") or 0) or (5 * (attempt + 1) ** 2)
@@ -142,7 +164,7 @@ def api(host, params, retries=2):
                     return None
                 time.sleep(min(wait, 120))
                 continue
-            if e.code == 404 or attempt == retries:
+            if attempt == retries:          # 404 already returned above
                 return None
             time.sleep(2 + attempt * 4)
         except Exception:
@@ -325,6 +347,8 @@ def discover(host, name, extra=None):
     # The subpage convention, asked for directly — cheaper and more precise than searching.
     ap = api(host, {"action": "query", "list": "allpages",
                     "apprefix": f"{name}/", "aplimit": "500"})
+    if (ap or {}).get("continue"):
+        _CAP_BOUND["aplimit"] = _CAP_BOUND.get("aplimit", 0) + 1
     for row in (ap or {}).get("query", {}).get("allpages", []):
         if _EVIDENCE_TITLE.search(row["title"]):
             add(row["title"])
@@ -333,6 +357,8 @@ def discover(host, name, extra=None):
     # name drags in every unrelated power page on the wiki.
     sr = api(host, {"action": "query", "list": "search", "srlimit": "50",
                     "srsearch": f"{name} power abilities strength feats"})
+    if (sr or {}).get("continue"):
+        _CAP_BOUND["srlimit"] = _CAP_BOUND.get("srlimit", 0) + 1
     key = name.lower().split()[0] if name.split() else name.lower()
     hits = [(row.get("size", 0), row["title"])
             for row in (sr or {}).get("query", {}).get("search", [])
@@ -575,7 +601,14 @@ def mine(text, page):
         elif _QUANTITY.search(s) or re.search(r"\b(destroy|obliterat|shatter|surviv)", s, re.I):
             rejected.append({"text": s, "page": page})
         for m in _QUANTITY.finditer(s):
-            quants.append({"value": m.group(1), "unit": m.group(3), "sentence": s[:220],
+            # The FULL sentence is stored, not a 220-char prefix (run #19). This field is not a
+            # display string: `magnitude.py` copies it verbatim into the permanent instrument-tier
+            # citation (`out[axis]["feat"]`), and `chain.py` uses it as a provenance dedup KEY —
+            # where a shared 220-char prefix would collide two different sentences into one.
+            # `s` is already bounded above by the 20 < len(s) < 400 gate, so this stores at most
+            # 400 characters. Callers that need a short form truncate at the point of display,
+            # which `_show` already does.
+            quants.append({"value": m.group(1), "unit": m.group(3), "sentence": s,
                            "page": page})
     return kept, rejected, quants
 
@@ -824,19 +857,29 @@ def roll(records, hosts, workers=8, limit=None, only=None):
     if limit:
         jobs = jobs[:limit]
 
-    done = {"n": 0, "feats": 0, "quant": 0, "pages": 0, "chars": 0, "empty": 0}
+    # `errored` is counted separately from `empty` (run #19). Before it existed, an entity whose
+    # evidence_for() raised incremented `n` and NOTHING else: not `empty`, not any other counter.
+    # A systemic fault — a bug in evidence_for, a host refusing every request — would therefore
+    # depress the roll's feats-per-entity rate with no visible signal anywhere in the summary,
+    # and read as "these entities simply had nothing". "Nothing found" and "we never got to look"
+    # are different facts and now have different counters.
+    done = {"n": 0, "feats": 0, "quant": 0, "pages": 0, "chars": 0, "empty": 0, "errored": 0}
     lock = threading.Lock()
     t0 = time.time()
 
     def work(job):
         h, src, name = job
+        errored = False
         try:
             ev = evidence_for(h, name)
         except Exception:
             silence.note("feats.py:695")
             ev = None
+            errored = True
         with lock:
             done["n"] += 1
+            if errored:
+                done["errored"] += 1
             if ev:
                 done["feats"] += len(ev["feats"])
                 done["quant"] += len(ev["quantities"])
@@ -860,7 +903,21 @@ def roll(records, hosts, workers=8, limit=None, only=None):
         list(ex.map(work, jobs))
     print(f"\ndone in {(time.time()-t0)/3600:.2f}h  "
           f"{done['feats']:,} feats, {done['quant']:,} quantities, "
-          f"{done['empty']:,} entities with no page")
+          f"{done['empty']:,} entities with no page, "
+          f"{done['errored']:,} entities that raised")
+    # Both of these were being counted and thrown away -- _RATE_LIMITED since the file was
+    # written, _CAP_BOUND as of run #19. A measurement nobody prints is not a measurement.
+    if _CAP_BOUND:
+        print("  discovery caps BOUND: "
+              + ", ".join(f"{k} x{v:,}" for k, v in sorted(_CAP_BOUND.items()))
+              + "  (m82: these entities were discovered in PART -- no continuation is handled)")
+    else:
+        print("  discovery caps bound: never (m82: aplimit=500 / srlimit=50 did not truncate)")
+    if _RATE_LIMITED:
+        tot = sum(_RATE_LIMITED.values())
+        ranked = sorted(_RATE_LIMITED.items(), key=lambda kv: -kv[1])   # ranked, never truncated
+        print(f"  429s absorbed: {tot:,} across {len(_RATE_LIMITED)} host(s), busiest first: "
+              + ", ".join(f"{h} x{n:,}" for h, n in ranked))
     return done
 
 

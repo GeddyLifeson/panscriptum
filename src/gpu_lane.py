@@ -48,6 +48,8 @@ import os
 import threading
 import time
 
+import silence                          # for replace_retry -- see _write_claim and _touch
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANE = os.path.join(HERE, "state", "gpu_lane")
 
@@ -106,11 +108,17 @@ def _alive(pid):
     costs a wait that the lease will end anyway.
     """
     if not pid:
-        return False
+        return False                     # no holder recorded at all -- an absence, not an unknown
     try:
         pid = int(pid)
     except Exception:
-        return False
+        # UNKNOWN, so ALIVE -- the policy in the docstring above (fixed run #19; this returned
+        # False and so contradicted the paragraph three lines up, the exact comment-versus-code
+        # shape behind this project's last four majors). An unparseable pid means a corrupt or
+        # partially-written claim record, which is precisely an "unknown answer": guessing dead
+        # breaks the lease and lets a second caller into an occupied slot, while guessing alive
+        # costs at most one lease's wait, because `_expired` reclaims it on the timeout anyway.
+        return True
     if pid == os.getpid():
         return True
 
@@ -239,7 +247,13 @@ def _write_claim(path, depth, label):
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump({"pid": os.getpid(), "depth": depth, "label": label,
                        "heartbeat": _now()}, f)
-        os.replace(tmp, path)
+        # replace_retry, not a bare os.replace (run #19). `_remove_retry` below cites the
+        # Windows rename-denied race (m55) as its own reason to exist, so this module already
+        # knows the hazard -- these two writers just did not use the remedy. This one is the
+        # sharper of the two: a NEW foreground claim's first write has no beat margin to absorb
+        # a miss, and a dropped first write means the claim never appears, so every background
+        # call proceeds straight through the yield this file exists to enforce.
+        silence.replace_retry(tmp, path)
 
 
 # --------------------------------------------------------------------------- the slots
@@ -293,7 +307,7 @@ def _touch(path):
         tmp = path + "." + str(os.getpid()) + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(rec, f)
-        os.replace(tmp, path)
+        silence.replace_retry(tmp, path)      # m55, as in _write_claim above
 
 
 # How often a held lease is refreshed. A third of the lease means two consecutive missed beats

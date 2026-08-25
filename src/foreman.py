@@ -39,11 +39,16 @@ in this project: the same defect class that produced eighteen silent faults woul
 patches. So a proposed patch must clear every one of these before it is kept:
 
     one file, and not one on the denylist
-    it parses
-    it changes fewer than MAX_PATCH_LINES lines
+    it parses -- but only as a side effect: see _checks_pass and regex_touched. The standalone
+        parse gate this line promises does not exist; an unparseable patch is caught by the
+        import check below, after being written and then reverted
+    it changes at most MAX_PATCH_LINES lines (the test is `> MAX`, so exactly MAX is allowed;
+        this line used to say "fewer than", which is one line stricter than the code)
     `python -c "import <module>"` still succeeds
     `verify_math.py` still reports 0 failures
-    `allsweep.py --quick` reports no new broken module
+    `allsweep.py --quick` reports no broken module -- NOT "no *new* broken module": no
+        pre-patch baseline is taken, so a module already broken for unrelated reasons refuses
+        every patch until it is fixed
 
 Anything that fails, reverts. The backup is written before the patch and restored on any failure,
 including an exception in the checking itself. The bar is deliberately higher than a human's,
@@ -262,8 +267,19 @@ def triage_swallowed():
         if not silence.replace_retry(path + ".tmp", path):
             return False, f"{total:,} archived, but clearing state/failures.json was DENIED; " \
                           f"the same batch will archive again next round"
-    except Exception:
+    except Exception as e:
+        # THE THIRD FALSE-SUCCESS PATH, missed when the other two were fixed (run #19).
+        #
+        # The comment above records that neither replace_retry return value was checked and that
+        # both failures "reported the same cheerful 'swallowed and archived'". Those two got
+        # honest returns; this handler did not, so it still fell through to the same cheerful
+        # line for every OTHER failure -- a corrupt failures_archive.json raising JSONDecodeError
+        # on the read at the top, a disk error on either open(). The ledger would be untouched
+        # and the round would log that it had been archived and cleared. Same defect, same
+        # function, one exit lower.
         silence.note("foreman.py:triage-archive")
+        return False, (f"{total:,} swallowed, but the archive/clear FAILED "
+                       f"({type(e).__name__}: {str(e)[:80]}); ledger left intact")
     return True, f"{total:,} swallowed and archived, top: {detail}"
 
 
@@ -287,6 +303,42 @@ def refresh_coverage():
     return r.returncode == 0, "coverage recomputed" if r.returncode == 0 else "coverage failed"
 
 
+def _restart_horizon(frag):
+    """How long "the supervisor restarts it" actually means for THIS job. Say the true number.
+
+    `frag` is the job's `lognames.OWNER` command-line fragment -- the same constant the killer
+    already matches processes with -- NOT a log stem and not a display name. Keying off the one
+    shared identifier is the point: a second, hand-kept name mapping is how this project got a
+    nine-job tree reporting as four.
+
+    Both killing remedies below used to end their note with the words "supervisor restarts next
+    cycle". For a job in the keeper's STANDING set that is true and cheap -- the keeper re-asserts
+    it every 300 seconds. For `read.py` and `feats.py --roll` it is badly false: they hang off the
+    supervisor's hours-long MAIN LAP (`overnight.py`'s STANDING comment says so explicitly), so
+    "next cycle" is a lap, not five minutes. Measured downtimes after a kill: 1, 8, 32, 37, 42 and
+    44 minutes, and once four hours.
+
+    That single misleading clause is why this cost went unnoticed for so long -- every kill
+    reported itself as a five-minute inconvenience, in the one log a human actually reads. This
+    changes NO behaviour; it only stops the remedy from understating its own price. Which of the
+    three candidate real fixes to apply is the owner's ruling (M15 / NEXT_STEPS §2 B).
+
+    STANDING is imported rather than copied: `overnight.py` keeps that roster module-level for
+    exactly this reason, after three separate partial copies of it disagreed and made a nine-job
+    tree report as four.
+    """
+    try:
+        import overnight as _ON
+        cmds = [" ".join([os.path.basename(a[0])] + list(a[1:])) for _n, a, _l in _ON.STANDING]
+    except Exception:
+        silence.note("foreman.py:restart-horizon")
+        return f"{frag}: restart horizon UNKNOWN -- could not read overnight.STANDING"
+    if any(c.startswith(frag) for c in cmds):
+        return f"{frag} is STANDING, so the keeper restarts it within 300s"
+    return (f"{frag} is NOT in the keeper's STANDING set -- nothing restarts it until the "
+            f"supervisor's next MAIN LAP, measured at 42-44 min typically and 4h at worst")
+
+
 def restart_reader():
     """The reader is not progressing. Restarting is safe: every entity is cached only when it was
     fully read, so nothing is lost and nothing is re-read that was finished.
@@ -306,9 +358,20 @@ def restart_reader():
     except Exception:
         silence.note("foreman.py:restart_reader-list")
         return False, "could not enumerate processes"
+    # ONE CONTIGUOUS FRAGMENT, NOT TWO LOOSE SUBSTRINGS (run #19).
+    #
+    # This tested `"read.py" in line and "--run" in line` independently, so anything whose
+    # command line happened to contain both -- a shell running a grep that mentions read.py, a
+    # future `build_read.py --run-tests` -- was a valid SIGTERM target. `kill_stalled_job` below
+    # documents having fixed exactly this loose-match class for its own matching and got the
+    # remedy: `lognames.OWNER` publishes the one fragment that identifies each managed job,
+    # precisely so the killer and the launcher cannot drift apart. This site was left behind.
+    # The fragment is "read.py --run", which is how overnight.py:619 actually launches it.
+    import lognames as _LN
+    frag = _LN.OWNER[_LN.READ]
     killed = []
     for line in out.splitlines():
-        if "read.py" in line and "--run" in line:
+        if frag in line:
             m = _re.search(r",(\d+)\s*$", line.strip())
             if m and int(m.group(1)) != os.getpid():
                 try:
@@ -317,8 +380,8 @@ def restart_reader():
                 except Exception:
                     silence.note("foreman.py:restart_reader-kill")
     if killed:
-        return True, "bounced reader pid " + ", ".join(killed) + "; supervisor restarts next cycle"
-    return False, "reader is not running -- the supervisor starts it next cycle"
+        return True, ("bounced reader pid " + ", ".join(killed) + "; " + _restart_horizon(frag))
+    return False, "reader is not running -- " + _restart_horizon(frag)
 
 
 def kill_stalled_job():
@@ -361,6 +424,7 @@ def kill_stalled_job():
     owners = {fn[:-4]: frag for fn, frag in _LN.OWNER.items()}
 
     killed = []
+    hit_frags = []            # the OWNER fragment of each job actually killed, for the horizon
     for job in names:
         frag = owners.get(job)
         if not frag:
@@ -384,10 +448,15 @@ def kill_stalled_job():
                 try:
                     os.kill(pid, signal.SIGTERM)
                     killed.append(job + ":" + str(pid))
+                    hit_frags.append(frag)
                 except Exception:
                     silence.note("foreman.py:kill_stalled-kill")
     if killed:
-        return True, "killed stalled " + ", ".join(killed) + "; supervisor restarts next cycle"
+        # Name the horizon PER JOB: this remedy can kill a STANDING job (pipeline, back in 300s)
+        # and a main-lap job (read, roll) in the same breath, and one blanket clause cannot be
+        # true of both. See _restart_horizon.
+        horizons = "; ".join(sorted({_restart_horizon(f) for f in hit_frags}))
+        return True, "killed stalled " + ", ".join(killed) + "; " + horizons
     return False, "stalled jobs found but no process matched: " + ", ".join(names)
 
 
@@ -826,7 +895,15 @@ def _checks_pass(module):
         return False, "verify_math no longer passes (%s failing)" % m.group(1)
     r = _run([os.path.join(SRC, "allsweep.py"), "--quick"], timeout=900)
     if "BROKEN" in (r.stdout or ""):
-        return False, "allsweep reports a broken module"
+        # SAY WHAT THIS ACTUALLY CHECKS (run #19). The gate list in the module docstring called
+        # this "no NEW broken module", which would need a pre-patch baseline; none is taken, so
+        # the real test is "no broken module at all". The difference has teeth: one unrelated
+        # module already broken before any patch is attempted refuses EVERY patch from then on,
+        # silently, and the old message blamed the patch for it. The gate is deliberately left
+        # strict -- loosening a safety check that guards model-authored writes to live source is
+        # not a change to make unasked -- but it no longer misreports why it fired.
+        return False, ("allsweep reports a broken module -- NOTE: no pre-patch baseline is "
+                       "taken, so this may pre-date the patch rather than be caused by it")
     return True, "checks pass"
 
 
@@ -1035,8 +1112,14 @@ def owner_queue(items):
 
     if len(lines) <= 6:
         lines.append("Nothing outstanding.")
-    with open(FOR_OWNER, "w", encoding="utf-8") as f:
+    # Atomic, like every other shared write in this file (run #19 -- this was the one that
+    # skipped it). FOR_OWNER.md is not private to the foreman: publish.py copies it into the
+    # export tree on its own 10-minute loop, so a bare truncating open() can be read mid-write
+    # and published as a half file. m18's reasoning, applied to the last writer that lacked it.
+    with open(FOR_OWNER + ".tmp", "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
+    if not silence.replace_retry(FOR_OWNER + ".tmp", FOR_OWNER):
+        silence.note("foreman.py:for-owner-write")
     return FOR_OWNER
 
 

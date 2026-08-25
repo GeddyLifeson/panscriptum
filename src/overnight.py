@@ -397,8 +397,17 @@ def preflight():
                            capture_output=True, text=True, timeout=1800,
                            env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
         out = r.stdout
-    except Exception:
+    except Exception as e:
         silence.note("overnight.py:141")
+        # SAY SO (run #19). The return value below is indistinguishable from a clean preflight --
+        # `(0, False)` takes neither of main()'s branches, so a health.py that crashed, timed out
+        # after its 30 minutes, or could not be launched at all read exactly like "checked,
+        # nothing wrong". The swallow was recorded only as a bare count in state/failures.json,
+        # under a stale line-number key, never labelled as the preflight. The behaviour is
+        # deliberately unchanged -- a preflight that cannot run must not block the cycle -- but
+        # it no longer passes for a pass.
+        log(f"  preflight: DID NOT RUN ({type(e).__name__}: {str(e)[:120]}) "
+            f"-- continuing, but this cycle was NOT checked")
         return 0, False
     for ln in out.splitlines():
         if ln.strip().startswith("FAIL"):
@@ -498,6 +507,16 @@ def main():
         try:
             import gpu_lane as _gl
         except Exception:
+            # The one handler in this file that recorded nothing at all (found run #19), in a
+            # module whose whole point is that a swallowed failure must leave a mark. It matters
+            # more than most: `_gl` is checked once, before the loop, so a failure here is STICKY
+            # for the process lifetime, and the busy-check below short-circuits to False forever
+            # -- turning keep-warm into exactly the competitor the docstring above forbids. No
+            # realistic failure surface on this machine (gpu_lane is stdlib-only and sits in the
+            # same directory), which is why it has never fired; that is a reason to record it,
+            # not a reason to leave it silent.
+            silence.note("overnight.py:keepwarm-no-gpu-lane")
+            log("  keep-warm: gpu_lane import FAILED -- busy-check disabled for this process")
             _gl = None
         while True:
             time.sleep(120)
@@ -614,8 +633,18 @@ def main():
         snap["cycle_seconds"] = round(time.time() - cycle_t0)
         snap.update({"cycle": cycle, "at": f"{datetime.datetime.now():%H:%M}"})
         history.append(snap)
-        log(f"  coverage: {snap.get('cited',0):,} cited ({snap.get('cited_pct')}%), "
-            f"{snap.get('settled_pct')}% settled, {snap.get('feats',0):,} feats")
+        # A crashed snapshot carries ONLY an "error" key, which nothing read (run #19). The log
+        # line below then printed "None% settled" and write_status()'s `.get(k, 0)` defaults
+        # rendered the cycle as a clean row of zeroes in STATUS.md -- a measurement failure
+        # wearing the shape of a measured zero. Nothing downstream acts on it (verified: no
+        # module parses STATUS.md; publish copies it verbatim and estate.py only hashes it), so
+        # this is a reporting fix, not a correctness one.
+        if snap.get("error"):
+            log(f"  coverage: SNAPSHOT FAILED ({snap['error']}) "
+                f"-- this cycle's row in STATUS.md is not a measurement")
+        else:
+            log(f"  coverage: {snap.get('cited',0):,} cited ({snap.get('cited_pct')}%), "
+                f"{snap.get('settled_pct')}% settled, {snap.get('feats',0):,} feats")
         write_status(cycle, history)
 
         # A cycle that does no work must not immediately begin another. Ten cycles once turned

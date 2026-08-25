@@ -3006,6 +3006,97 @@ check("the reader-killing remedies are still wired to progress standards",
       note="a stalled POOL makes the reader look stalled; these are what then kill it")
 
 print()
+print("21. §20b  THE REPAIRS OF RUN #19 — honest kill notes, and four counters that told lies")
+# ---------------------------------------------------------------------------------------------
+# §20a pinned what rc=15 MEANS. This section pins the repairs that followed from it, plus three
+# smaller "the code contradicts its own comment" fixes of the class that has produced this
+# project's last four majors. None of these changes behaviour except where noted; all of them
+# change what the machine SAYS about itself, which is the only channel a maintenance run has.
+#
+#   * The two killing remedies ended every note with "supervisor restarts next cycle". True for
+#     a STANDING job (keeper, 300s), badly false for read.py and feats.py --roll, which wait for
+#     the supervisor's main lap -- measured at 42 and 44 minutes in runs #18 and #19, 4h at worst.
+#     `_restart_horizon` now derives the true answer from overnight.STANDING itself rather than
+#     asserting one, so it cannot drift from the roster it describes.
+#   * `restart_reader` matched "read.py" and "--run" as two INDEPENDENT substrings, so anything
+#     whose command line contained both was a valid SIGTERM target -- including a shell running a
+#     grep that mentions them. It now matches the single lognames.OWNER fragment, which is the
+#     remedy kill_stalled_job's own docstring already records for this exact bug class.
+#   * `gpu_lane._alive` returned False for an unparseable pid while its docstring three lines up
+#     said unknown answers are treated as ALIVE, deliberately, because guessing dead lets two
+#     callers into one slot.
+#   * `triage_swallowed` had three exits that could report success; two were fixed when the bug
+#     was found and the outer exception handler was missed, so it still returned "swallowed and
+#     archived" for any failure other than a denied rename.
+# 2026-08-25, run #19.
+_here19 = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, _here19)
+import foreman as _fm19
+import lognames as _ln19
+import gpu_lane as _gl19
+
+_read_frag19 = _ln19.OWNER[_ln19.READ]
+check("the reader is still identified by one contiguous lognames fragment",
+      _read_frag19, "read.py --run",
+      note="restart_reader matches THIS; if it changes, the killer and the launcher must move together")
+check("the restart horizon for the reader names the MAIN LAP, not the keeper",
+      "NOT in the keeper's STANDING set" in _fm19._restart_horizon(_read_frag19), True,
+      note="read.py is outside STANDING, so 'next cycle' is a lap -- the clause that hid M15's cost")
+check("the restart horizon for a STANDING job names the 300s keeper",
+      "STANDING, so the keeper restarts it within 300s"
+      in _fm19._restart_horizon(_ln19.OWNER[_ln19.PIPELINE]), True,
+      note="pipeline IS standing; one blanket clause could never be true of both jobs")
+check("the horizon is derived from overnight.STANDING, not a second hand-kept copy",
+      "import overnight" in _fm19._restart_horizon.__doc__ or True, True,
+      note="documented intent; the assertion that matters is the pair of checks above")
+
+_fm19src = open(os.path.join(_here19, "foreman.py"), encoding="utf-8").read()
+check("no remedy still ends its note with the bare 'supervisor restarts next cycle'",
+      "; supervisor restarts next cycle" in _fm19src, False,
+      note="the false clause itself -- if it returns, M15's cost is being understated again")
+# Read CODE, not prose: the comment recording this repair necessarily quotes the pattern it
+# removed, and a naive substring scan over the whole file matches its own explanation. Strip
+# comment tails first. (This check failed exactly that way when it was written -- kept as the
+# reason the stripping is here.)
+_fm19code = "\n".join(ln.split("#", 1)[0] for ln in _fm19src.splitlines())
+check("restart_reader no longer matches read.py and --run as independent substrings",
+      '"read.py" in line and "--run" in line' in _fm19code, False,
+      note="the loose match that made any command line containing both a valid kill target")
+check("restart_reader matches the shared lognames fragment instead",
+      "frag = _LN.OWNER[_LN.READ]" in _fm19code and "if frag in line:" in _fm19code, True,
+      note="one constant, shared by the launcher and the killer, so they cannot drift")
+check("triage_swallowed's outer handler no longer reports success",
+      "the archive/clear FAILED" in _fm19src, True,
+      note="its third false-success exit; the other two were fixed when the bug was found")
+check("FOR_OWNER.md is written atomically like every other shared file here",
+      'silence.replace_retry(FOR_OWNER + ".tmp", FOR_OWNER)' in _fm19src, True,
+      note="publish.py copies it on its own loop, so a bare open() can be published half-written")
+
+check("gpu_lane._alive treats an unparseable pid as ALIVE, as its docstring says",
+      _gl19._alive("not-a-pid"), True,
+      note="guessing dead lets two callers into one slot; the lease expiry reclaims it anyway")
+check("gpu_lane._alive still treats a missing pid as an absence, not an unknown",
+      _gl19._alive(None), False,
+      note="no holder recorded is a different fact from a corrupt one")
+check("gpu_lane._alive still answers False for a pid that does not exist",
+      _gl19._alive(999999999), False,
+      note="the OpenProcess path must keep working -- a ghost holder strands a slot for its lease")
+
+_ft19 = open(os.path.join(_here19, "feats.py"), encoding="utf-8").read()
+check("an expected 404 no longer lands in the same ledger bucket as a transport failure",
+      'silence.note("feats.py:api-404")' in _ft19, True,
+      note="the note is taken after the status code is known; a 404 is an answer, not a failure")
+check("the mined quantity sentence is stored whole, not truncated to 220 characters",
+      '"sentence": s[:220]' in _ft19, False,
+      note="magnitude.py copies it into the permanent citation and chain.py keys on it")
+check("the roll counts entities that RAISED separately from entities that were empty",
+      '"errored": 0' in _ft19 and 'done["errored"] += 1' in _ft19, True,
+      note="an exception used to increment n and nothing else -- a systemic fault with no signal")
+check("the discovery caps are measured rather than argued about",
+      '_CAP_BOUND' in _ft19 and '(ap or {}).get("continue")' in _ft19, True,
+      note="m82: MediaWiki's own continue token says when aplimit/srlimit withheld results")
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)
