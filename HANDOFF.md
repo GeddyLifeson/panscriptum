@@ -9,6 +9,135 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 20:20 (local) — Run #17: the publisher was publishing into a dead session's temp directory, and had been for a day
+
+*The page was the opening diagnostic and it paid immediately: a `generated` stamp 37 minutes
+stale, on a machine where `publish.py --push --loop 10` was demonstrably alive and logging
+"synced 14 files" four times an hour. Both facts were true. They were about two different
+repositories.*
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found. Nothing deleted. No money moved.**
+2. **[M13 — MAJOR, FIXED] The standing publisher has been publishing the public page into a
+   temp directory belonging to a Claude session that no longer exists**, at
+   `...\AppData\Local\Temp\claude\C--\660495b7-...\scratchpad\panscriptum-export`. It is a
+   full second clone of the same GitHub remote, **160 commits ahead of `origin/main` and 63
+   behind** — a parallel history whose rebase can never land, which is why every cycle ended
+   "push held: rebase onto origin/main failed" and retried forever. Its `state.json` was
+   *fresher* than the live page's. **The public page has only been moving because maintenance
+   runs publish separately with the variable set correctly.** Fixed and verified live: the
+   real export repo was last touched at 19:43:11 when this run began and moved at **20:43:20**
+   under the fix.
+   **That stray 26 MB repo is still on disk and I did not delete it** (no deletions without a
+   review cycle). It holds 160 commits of page snapshots. See NEXT_STEPS §2 A before anyone
+   removes it.
+3. **The environment of the long-lived supervisor is itself poisoned** — `PANSCRIPTUM_EXPORT`
+   is set to that scratchpad path in the process tree that has been running since 2026-08-23,
+   and **nothing in `src/` sets it**. The fix does not depend on cleaning that up, but a
+   supervisor restart inherits whatever the owner's shell has, so it is worth knowing.
+4. **[M14 — NEW, OPEN] THE CORPUS READ WAS DOWN WHEN THIS RUN ENDED, AND THE ONE THING THAT
+   RESTARTS JOBS AUTOMATICALLY IS NOT ALLOWED TO RESTART IT.** It exited at 20:35:58 after 41
+   minutes, having printed no progress line in that time, and was **still down 25+ minutes
+   later**. `read.py` sits deliberately outside the keeper's standing set
+   (`overnight.py:344-347`), so it waits for the supervisor's hours-long main lap: measured from
+   the log's own history, past gaps run **1 min, 8 min, 32 min, 37 min, and once 4 hours.** In
+   the same window the keeper spotted `publish` down twice and restarted it both times, because
+   publish *is* in that set. **The bottleneck job is the one the keeper cannot restore.**
+   I did **not** start it by hand — the supervisor owns job lifecycle and a second reader would
+   contend for the same card and pool. **Verify it came back: NEXT_STEPS §1.2.**
+   *One thing to not chase:* `rc=15` is this reader's ordinary exit code, not a crash — all six
+   recorded exits are `rc=15`, over durations from 6m to 490m.
+
+**WHAT WAS FIXED**
+
+- **[M13 — MAJOR] `publish.py` resolved its export root into a throwaway directory, and the
+  fault had two faces — fixing only the first would have changed nothing while reading as a
+  repair.**
+  *Face one, the fallback:* `SITE` read `os.environ.get("TEMP") or os.path.expanduser("~")`.
+  The publish loop inherits its environment from whatever launched the supervisor, and on this
+  machine that was a Claude Code session whose `TEMP` is a per-session scratchpad. So the loop
+  git-init'd a second export there and published into it four times an hour.
+  *Face two, and this is the half worth remembering:* after correcting the fallback and
+  **adding the destination to the cycle log line**, the very next publish cycle printed
+  `synced 17 files, wrote docs/state.json  ->  C:\Users\...\scratchpad\panscriptum-export`.
+  Same wrong tree. `PANSCRIPTUM_EXPORT` is *itself* set to that path in the supervisor's
+  inherited environment, so the explicit variable — the thing the fallback was supposed to
+  defer to — was the actual carrier. **The one-line logging change is what exposed it, inside
+  five minutes, after the code fix had already convinced me the job was done.**
+  The guard therefore sits on the **resolved** path, not on any one variable: `_is_throwaway`
+  rejects any `temp` / `tmp` / `scratchpad` segment, `export_root` falls back to the home
+  export and **says so loudly on stderr every cycle**. Confirmed in the live log:
+  `publish: REFUSING PANSCRIPTUM_EXPORT=... -- it is under a temp/scratchpad directory;
+  publishing to C:\Users\imarl\panscriptum-export`.
+  Regression: **§19aj, 12 checks**, every one confirmed FAILING against the pre-fix resolver
+  first (`test_the_test` reproduced the old expression verbatim and showed it returning the
+  scratchpad path). One check deliberately asserts the *comment* recording the fault survives,
+  because the guard against reintroducing `get("TEMP")` strips comment lines and the paper
+  trail must not trip it.
+
+- **[m78 — 19 entries stranded in a closed batch, cleared with the tool built for it.]**
+  `health.py --preflight` returned **three** FAILs where NEXT_STEPS §1.8 pre-registered
+  exactly two — and the pre-registration is what made a routine line into a finding.
+  The third was `state consistency: entries stranded in closed batches: 19`, one batch,
+  `Arcanum Worlds (Odyssey of the Dragonlords)#480`, on the source that has had an
+  `ingest_doc --mine` running against it for ~23 hours. Exactly the shape
+  `reopen_stranded`'s docstring predicts: a stage interrupted between its work and its
+  bookkeeping — `pipeline` was restarted at 19:55. Backed up `PIPELINE_STATE.json` first, ran
+  `health.py --reopen --go`; preflight is **back to exactly the 2 known FAILs**. Nothing was
+  deleted and nothing fabricated: removing the done-key only makes the batch eligible again.
+
+**WHAT WAS MEASURED AND CHANGES THE PICTURE**
+
+- **The pool's standing red has a cause nobody has named, and the standard's own guidance
+  points away from it.** `model calls per hour` reads 32 against a floor of 900 with three of
+  four sub-standards holding, and its order text concludes *"the reader is not asking"* — which
+  is what sent run #16's NEXT_STEPS §1.3 to check the reader's transport. **The reader's
+  transport is fine**: `read_auto.log` line 1 reads `transport: Cascade (cloud buckets, local
+  Ollama as the last bucket)`, line 2 `41019 entries with pages, 8 workers, chunks uncapped`.
+  Measured straight from `state/cascade_scratch.db` instead: **116 calls in the last hour (46
+  ok), and 820 calls over three hours of which 636 — 78% — came back `rate_limited`.** The
+  reader *is* asking. The pool is refusing. No standard in the tree can see a 429 storm:
+  `buckets with headroom` counts quota headroom, which a rate-limiting bucket still has.
+  `zai:free` alone: **20 calls, 0 ok, all rate_limited.** See NEXT_STEPS §1.1 — this is now
+  the highest-value item and it is no longer unexplored, only unfixed.
+- **[M14] The page reports a dead reader's numbers as live.** `dashboard.py:178-183` builds
+  the corpus-read panel by regexing the last matching line out of `read_auto.log` —
+  `"eta_h": float(r["eta"])` is copied verbatim, nothing is recomputed (that is deliberate and
+  documented: "the dashboard can never disagree with the system it is reporting on"). The
+  cost is that when the reader dies or goes silent, **the panel keeps rendering the last line
+  it ever wrote, with no staleness marker** — the log's last write was 19:55:16 while the
+  process lived until 20:35:58. `coverage figures are current` guards the library group this
+  way; the jobs panel has no equivalent.
+- **`read.py`'s ETA is wrong in a specific, reproducible way: 122 of 122 progress lines in the
+  live log read `eta 0.0h`.** The rolling-rate window at `read.py:1014-1024` exists precisely
+  to stop this (its comment names the old symptom: "1,595 chunks per second and an ETA of 0.0
+  hours for eight hours of work — a number that is not merely wrong but reassuring, which is
+  worse"). It is still reassuring. The printed rate climbs monotonically 3,914 → 11,963
+  "chunks/s"; at the last two lines that implies **dt ≈ 1.7 ms for 20 chunks**, which is not
+  network latency. Not fixed this run — the reader was down and mid-restart, and the eviction
+  guard is design-adjacent. Recorded as **m79** with the arithmetic.
+
+**BATTERY** — `verify_math` **554 passed, 0 FAILED** (550 after §19aj's first eight checks,
+542 before this run); `allsweep` **0 subsystems bad**, 232s, one instance of each job — and it is
+what caught `read.py` **NOT RUNNING**; `health --preflight` **three** FAILs before the repair,
+**exactly the 2 known** after; `silence.py` **35 SILENT — net zero introduced**; `pyflakes`
+clean.
+
+**LESSON WORTH KEEPING** — *make the log name its destination, not just its action.* The code
+fix for M13 was correct, tested, and would have left the fault fully in place. What actually
+found it was the smaller change alongside it: a line that already said "synced 14 files, wrote
+docs/state.json" was made to say **where**, and the next cycle confessed in one line. A
+report that names the action but not the object cannot expose a fault in the object — and this
+one had been printing four times an hour, honestly, for a day.
+
+**SECOND LESSON** — *a pre-registered count turns a routine line into a finding.* NEXT_STEPS
+§1.8 said "still exactly 2 FAILs; a THIRD FAIL is the finding". Preflight printed three. With
+no pre-registration that is a wall of familiar text; with it, it is a stranded batch found and
+cleared in four minutes.
+
+---
+
 ## 2026-08-24 19:20 (local) — Run #16: the m54 fix stopped one variable short, and a standard was reporting health off an empty window
 
 *A quiet-looking run that found two defects of the same shape the project keeps naming: a
