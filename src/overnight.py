@@ -88,7 +88,7 @@ def _proc_lines(ttl=3.0):
         return _PROCS["out"]
 
 
-def running(fragment):
+def running(fragment, include_self=False):
     """Is a python process already running this script?
 
     Checked by live command line rather than by a lock file: a lock file survives a kill and
@@ -98,6 +98,28 @@ def running(fragment):
     as a substring of the command line, where it never appears -- so the supervisor matched
     itself, and any command that merely MENTIONED a stage's filename counted as that stage
     running. It would have skipped every stage it was built to run.
+
+    `include_self` EXISTS BECAUSE SELF-EXCLUSION ANSWERS ONLY ONE OF THE TWO QUESTIONS CALLERS
+    ASK. The default (False) answers *"is anyone ELSE running this?"*, which is what a job about
+    to launch a stage -- or refuse to start a second copy of itself -- needs. But a LIVENESS
+    REPORT asks a different question: *"is job X up?"* -- and there the asker's own process is
+    a perfectly good answer. Passing False for that question makes any job that reports on the
+    roster permanently report ITSELF as down.
+
+    That is not hypothetical; it was live for an unknown length of time and found on 2026-08-25
+    (run #21) by reading the same standard off two renderers at one moment. `publish.py` computes
+    the published page in its own process (`publish.py:168-172`), so the public panel said
+    `publish.py,read.py` were down; `dashboard.py` computes the local page in ITS process, so at
+    the same instant the local panel said `dashboard.py,read.py`. `allsweep.py`, a third and
+    neutral process, saw both up. Each renderer was deleting itself from its own roster.
+
+    The cost was not cosmetic. "every managed job is running" has NO remedy in `foreman.REMEDIES`,
+    so every round routed it to the owner's decision file as an unexplained red -- and the genuine
+    casualty (`read.py`, down from an M15 kill) was buried inside a string that ALWAYS contained
+    one false name, which is exactly the finding-as-decoration failure `MAX_JOB_SILENCE_MIN`'s
+    comment was written to refuse.
+
+    Additive keyword with the old behaviour as the default, so no existing caller changes.
     """
     out = _proc_lines()
     if not out:
@@ -106,8 +128,7 @@ def running(fragment):
     for ln in out.splitlines():
         pid, _, cmd = ln.partition("|")
         try:
-            if int(pid.strip()) == mine:
-                continue
+            is_mine = int(pid.strip()) == mine
         except ValueError:
             # A non-integer pid field is a FORMATTING ROW of the probe's own output (header,
             # blank, continuation), present on every call by construction. Noting it filed
@@ -117,6 +138,8 @@ def running(fragment):
             # the audit and the instrumenter both read it as "observed", so this handler
             # stays quiet on purpose and stays exempt.
             _ = "silence-exempt: routine formatting row of the probe's own output"
+            continue
+        if is_mine and not include_self:
             continue
         # Normalise separators so a relative and an absolute invocation compare equal.
         if fragment in cmd.replace("\\", "/").split("/")[-1] or fragment in cmd:

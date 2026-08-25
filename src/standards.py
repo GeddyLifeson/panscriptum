@@ -1042,8 +1042,16 @@ def check(state=None):
         # is the reconcile tier's job, not this check's; this one asks only whether the
         # supervisor's own exclusion held. The real duplicate count lives in the
         # "one instance of each job" check below, which has its own `dupes`.)
-        alive = {j: ON.running(j) for j in ("dashboard.py", "publish.py", "foreman.py",
-                                            "overwatch.py", "read.py")}
+        # `include_self=True` IS LOAD-BEARING AND MUST NOT BE DROPPED. This check runs inside
+        # whichever process is rendering the panel -- `publish.py` for the public page,
+        # `dashboard.py` for the local one -- and `running()`'s default excludes the caller's own
+        # pid. Without this argument each renderer reported ITSELF down: on 2026-08-25 the public
+        # panel read `publish.py,read.py` and the local panel read `dashboard.py,read.py` at the
+        # same instant, while `allsweep.py` saw both up. The standard has no remedy, so the false
+        # name went to the owner's file every round and hid the one job that was genuinely down.
+        alive = {j: ON.running(j, include_self=True)
+                 for j in ("dashboard.py", "publish.py", "foreman.py",
+                           "overwatch.py", "read.py")}
         down = [j for j, v in alive.items() if not v]
         out.append(_s(
             "every managed job is running", not down, ",".join(down) or "all up", "all up",
