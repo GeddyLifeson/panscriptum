@@ -1462,6 +1462,8 @@ check("feats.discover refuses a numeric cap", _capped, True)
 # like any other free one, because nothing in the file knows the name means money.
 import cascade_bridge as _CB                                            # noqa: E402
 
+_here19h = os.path.dirname(os.path.abspath(__file__))   # _here19h is defined ~1600 lines later
+
 
 class _M:                                          # the one attribute widen_candidates reads
     def __init__(self, b):
@@ -1471,7 +1473,7 @@ class _M:                                          # the one attribute widen_can
 _models = [_M("mistral:free"), _M("anthropic:paid"), _M("ollama:qwen3"), _M("gemini:free")]
 _cand = [m.bucket for m in _CB.widen_candidates(_models)]
 
-_cbsrc = open(os.path.join(_here19, "cascade_bridge.py"), encoding="utf-8").read()
+_cbsrc = open(os.path.join(_here19h, "cascade_bridge.py"), encoding="utf-8").read()
 for _gone in ("PAID_PREFIX", "PAID_LANE_RETIRED", "paid_lane_open", "_PAID_LOCK",
               "PAID_BURST.json", "est_usd_per_call"):
     check("the erased paid-lane name %r appears nowhere in cascade_bridge" % _gone,
@@ -1480,8 +1482,9 @@ for _gone in ("PAID_PREFIX", "PAID_LANE_RETIRED", "paid_lane_open", "_PAID_LOCK"
 check("widen_candidates takes only the model list now",
       list(__import__("inspect").signature(_CB.widen_candidates).parameters), ["models"],
       note="the `paid_ok` parameter was the gate's last handle; it is gone with the gate")
-check("no paid-lane report survives in foreman",
-      "PAID_BURST" in open(os.path.join(_here19, "foreman.py"), encoding="utf-8").read(), False)
+for _fgone in ("PAID_BURST", "est_usd_per_call", "paid burst lane"):
+    check("no paid-lane machinery survives in foreman: %r" % _fgone,
+          _fgone in open(os.path.join(_here19h, "foreman.py"), encoding="utf-8").read(), False)
 
 # The behavioural half: the bucket is not blocked, it is simply not special. This is the
 # difference between a retired lane and an erased one, and it is deliberate -- a config that
@@ -1505,11 +1508,11 @@ check("the unrecognised-failure branch exists and records",
       note="THE RULING: without this the else-branch falls through and the reason is lost")
 check("standards puts unrecognised failures on the page",
       "every pool failure is recognised"
-      in open(os.path.join(_here19, "standards.py"), encoding="utf-8").read(), True)
+      in open(os.path.join(_here19h, "standards.py"), encoding="utf-8").read(), True)
 
 _unrec_tmp = _CB.UNRECOGNISED
 try:
-    _CB.UNRECOGNISED = os.path.join(_here19, "..", "state", "_VM_UNRECOGNISED_TEST.json")
+    _CB.UNRECOGNISED = os.path.join(_here19h, "..", "state", "_VM_UNRECOGNISED_TEST.json")
     if os.path.exists(_CB.UNRECOGNISED):
         os.remove(_CB.UNRECOGNISED)
     _CB.record_unrecognised("probe:bucket", "  HTTP 418   I am a   teapot  ")

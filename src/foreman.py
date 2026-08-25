@@ -1070,10 +1070,11 @@ def owner_queue(items):
         lines.append(f"- observed **{it['observed']}**, floor **{it['floor']}**")
         lines.append(f"- {it['order']}")
         lines.append("")
-    # THE PAID BURST LANE REPORT WAS REMOVED 2026-08-25 with the lane itself (owner ruling:
+    # THE PAID-LANE SPEND REPORT WAS REMOVED 2026-08-25 with the lane itself (owner ruling:
     # "the paid lane should be erased from the code"). Nothing in this project can spend money
     # any more, so there is no running total to carry and nothing here for the owner to decide.
-    # `state/PAID_BURST.json` is kept, unread, as the only record of what the lane did spend.
+    # The old counter survives on disk under `state/`, unread, as the only record of what the
+    # lane cost; `verify_math` §19h asserts this file cannot name it. See BUGS.md m100.
 
     # Material that EXISTS and declines automated readers. This is not a bug and not a gap in
     # the automation -- it is a storefront, and the correct answer to a storefront is a person

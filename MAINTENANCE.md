@@ -42,13 +42,38 @@ the platform safely allows, with an overlap guard so runs never stack.*
    only). It probes tool capability and names tool-trained models that fit the card if the
    configured one cannot. Its limits are honest: small context, no repo-wide view, weaker
    subtle reasoning — what it returns is a PROPOSAL, gated exactly as the foreman gates it.
-3. **Fan out Claude subagents for what the local model can't hold**: line-by-line
-   malformed-code and optimization audits across many files (rotate the surface — the audit
-   history lives in `handoff/AUDIT_*.md` and `HANDOFF.md` run entries; don't re-read what
-   the last run covered unless it changed), cross-module reasoning, and any special focus
-   the diff or BUGS.md suggests. Verify every agent finding against the source before
-   acting — agents propose, the transcript record shows they are sometimes wrong in both
-   directions.
+3. **Fan out Claude subagents across EVERY MODULE, EVERY RUN.** Owner ruling 2026-08-25:
+   *"the first thing that should be done after what's immediate is a full in-depth
+   comprehensive sweep of every line of code across every module to map what's wrong, fix the
+   bugs, then everything else ... make it such that every sweep is as in-depth and
+   comprehensive as possible every time until nothing bad is reported back."*
+
+   **THE ROTATION IS DEAD, AND IT WAS A CAP.** Runs #1–#22 audited "the top two never-audited
+   files", with the rotation state kept in prose in `NEXT_STEPS.md`. That is Hard Rule 0's
+   exact forbidden shape wearing a schedule's clothing: 2 modules of 94 is a smaller universe
+   in the same shape as the real one, it never failed, and the handoff read like a completed
+   audit either way. At that rate a given file was re-read about twice a year, so "never
+   audited" was the normal state of most of the tree — and every deep read that did happen
+   (`rigor.py`, `assay.py`, `cascade_bridge.py`, `hostcheck.py`) produced verified findings on
+   the first pass, which is the measurement that condemns the rotation.
+
+   **The mechanism.** `python src/sweep_plan.py --batches 16` partitions all 94 modules into
+   balanced batches by line count; one subagent per batch, all launched together. Each agent
+   reads every line of its batch, writes its full report to `handoff/sweep<N>/AUDIT_batchNN.md`,
+   and returns **only a compact summary** — never the whole report, or one agent's output eats
+   the supervisor's context. Afterwards `sweep_plan.missing(run)` proves coverage was complete;
+   a sweep that cannot answer "which modules did I skip" is a sweep nobody can trust.
+
+   **The lens, every time**: correctness bugs, swallowed failures, **Hard Rule 0 caps**, the
+   two-writer contract, concurrency races, and comments that contradict their code. Verify
+   every agent finding against the source before acting — agents propose, and the record shows
+   they are sometimes wrong in both directions, as are the supervisor's own hypotheses.
+
+   **THE ONLY ACCEPTABLE QUIET RESULT.** A run ends clean when nothing bad is reported and the
+   only thing left to say is that work is *waiting* — the cloud pool is out of free quota for
+   the window, or the local model is simply grinding through its queue. "No findings because
+   nobody looked hard enough" is not a clean run; neither is a green page over an unaudited
+   tree. Keep sweeping until the findings genuinely run out.
 4. **Claude steps in personally** only for: verified findings needing fixes, design-adjacent
    repairs, wiring new machinery, and the ledger/handoff writing itself.
 
@@ -72,6 +97,18 @@ the platform safely allows, with an overlap guard so runs never stack.*
   every cadence into the heartbeat window.
 - **Priority**: correctness > safety/integrity > malformed repair > optimization. NEXT_STEPS
   items lead; BUGS.md top-to-bottom by severity next; new findings after.
+- **EVERYTHING AMISS IS INVESTIGATED THE MOMENT IT IS SPOTTED** (owner ruling 2026-08-25).
+  Not filed for later, not carried to the next run's queue as a fresh observation — worked, on
+  sight. What survives to `NEXT_STEPS.md` is what genuinely needs an OWNER RULING (a charter
+  question, a routing-policy choice, a contract change with blast radius), never something that
+  was merely inconvenient to chase. **Then, immediately after the immediate work, comes the
+  full comprehensive sweep of rung 3** — it is the second act of every run, not an optional
+  extra when there is time.
+- **An unrecognised failure is a bug, not weather.** Anything the code cannot NAME — a pool
+  refusal matching no known disposition, an exception class nobody classified — gets recorded
+  with its text and investigated the same run. `cascade_bridge.record_unrecognised` and the
+  `every pool failure is recognised` standard exist for exactly this; a silently absorbed
+  failure is how the pool sat at 64 calls/hour with every sub-standard green.
 - **Hard Rule 0 binds maintenance too**: no fix may introduce a cap, sample, or truncation.
 - **The two-writer contract**: records are written ONLY through `pipeline.write_record`
   (pipeline side) or `pipeline.write_record_catalogue` (cast-growing side); shared state

@@ -180,12 +180,12 @@ LOCAL_PREFIX = "ollama:"
 # THERE IS NO PAID LANE. Owner ruling 2026-08-25: "the paid lane should be erased from the code."
 #
 # This is the end of a three-step retreat, and the history is the reason the code is now empty
-# rather than merely switched off. The lane was opened 2026-08-23, capped at 500 calls in
-# `state/PAID_BURST.json`, and spent 598 -- because the cap only ever decided whether to PROMOTE
-# the paid bucket in the ranking, while the bucket stayed unconditionally selectable. Setting
-# `enabled: false` changed nothing about selectability; DELETING the file was worse still,
-# because it stopped the counter while the calls continued. On 2026-08-24 the ruling was "there
-# shouldn't be a paid lane anywhere" and a `PAID_LANE_RETIRED` flag was added to kill it
+# rather than merely switched off. The lane was opened 2026-08-23 with a hard cap of 500 calls
+# in a state file, and spent 598 -- because the cap only ever decided whether to PROMOTE the
+# paid bucket in the ranking, while the bucket stayed unconditionally selectable. Setting the
+# file's `enabled` to false changed nothing about selectability; DELETING the file was worse
+# still, because it stopped the counter while the calls continued. On 2026-08-24 the ruling was
+# "there shouldn't be a paid lane anywhere" and a retirement flag was added to kill it
 # structurally, with the cap machinery kept "readable as evidence". That machinery is now gone
 # too: a retired lane whose plumbing is intact is a lane one edit away from being live, and the
 # whole lesson of 598/500 is that a gate which merely looks closed is not closed.
@@ -193,8 +193,12 @@ LOCAL_PREFIX = "ollama:"
 # NOTHING IN THIS FILE KNOWS WHAT A PAID BUCKET IS. There is no prefix constant to match, no
 # cap to enforce, no counter to maintain, and no branch that could reach one. Re-introducing a
 # paid lane means writing it from scratch, deliberately, with an owner saying so -- which is
-# exactly the cost it should carry. `state/PAID_BURST.json` is deliberately NOT deleted: no code
-# reads it any more, and it is the only surviving record of what the lane actually spent.
+# exactly the cost it should carry.
+#
+# The old spend counter survives on disk, under `state/`, and is deliberately NOT deleted: it is
+# the only record of what the lane cost. It is not named here on purpose -- `verify_math` §19h
+# asserts that this file cannot even spell it, because a filename in a comment is the first
+# handhold anyone rebuilding the lane would reach for. The ledgers name it; the code does not.
 _WIDEN_RR = [0]
 _RR_LOCK = threading.Lock()                 # round-robin cursor for the widened fallback
 
