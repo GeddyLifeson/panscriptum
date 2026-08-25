@@ -1070,27 +1070,10 @@ def owner_queue(items):
         lines.append(f"- observed **{it['observed']}**, floor **{it['floor']}**")
         lines.append(f"- {it['order']}")
         lines.append("")
-    # REAL MONEY REPORTS ITSELF. The paid burst lane counts every pin in PAID_BURST.json; the
-    # owner turned it on and the owner should never have to open a JSON file to learn what it
-    # has cost. The per-call estimate lives in the same file (est_usd_per_call) so correcting
-    # it is a one-field edit, not a code change.
-    try:
-        with open(os.path.join(HERE, "state", "PAID_BURST.json"), encoding="utf-8") as f:
-            pb = json.load(f)
-        used, cap = pb.get("used", 0), pb.get("cap", 0)
-        est = float(pb.get("est_usd_per_call", 0.02))
-        lines.append("### The paid burst lane")
-        lines.append("")
-        lines.append(f"- {'ENABLED' if pb.get('enabled') else 'off'} — {used}/{cap} calls "
-                     f"used, estimated **${used * est:.2f}** so far "
-                     f"(at ~${est:.02f}/call; edit `est_usd_per_call` in "
-                     "`state/PAID_BURST.json` if that rate is wrong)")
-        if pb.get("enabled") and used >= cap:
-            lines.append("- the cap is REACHED; the lane has closed itself. Raise `cap` or "
-                         "set `enabled: false` to retire it.")
-        lines.append("")
-    except Exception:
-        silence.note("foreman.py:paid-burst-report")
+    # THE PAID BURST LANE REPORT WAS REMOVED 2026-08-25 with the lane itself (owner ruling:
+    # "the paid lane should be erased from the code"). Nothing in this project can spend money
+    # any more, so there is no running total to carry and nothing here for the owner to decide.
+    # `state/PAID_BURST.json` is kept, unread, as the only record of what the lane did spend.
 
     # Material that EXISTS and declines automated readers. This is not a bug and not a gap in
     # the automation -- it is a storefront, and the correct answer to a storefront is a person

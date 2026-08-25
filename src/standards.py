@@ -919,6 +919,39 @@ def check(state=None):
     except Exception:
         silence.note("standards.py:job-advance")
 
+    # A POOL FAILURE NOBODY CAN NAME IS THE ONE TO WORK FIRST.
+    #
+    # Owner ruling 2026-08-25: "an unrecognised failure should be immediately investigated and
+    # resolved upon spotting it." This standard is the spotting. `cascade_bridge` classifies a
+    # refusal as permanent (bench 4h) or as a deadline (bench, doubling); anything else used to
+    # fall through with its reason discarded, which is how the pool ran at 64 calls/hour against
+    # a floor of 900 while all four of its sub-standards read green. Every such failure now
+    # lands in `state/POOL_UNRECOGNISED.json` WITH ITS TEXT, and this puts it on the page.
+    #
+    # The remedy is deliberately a human/maintenance one, not a scripted bench: the point is to
+    # NAME the fault and either classify it (add it to the permanent list) or fix it, not to
+    # absorb it quietly. Rows age out after 24h, so a resolved fault leaves the page by itself.
+    try:
+        import cascade_bridge as _CB
+        _unrec = _CB.unrecognised_open()
+        _worst = sorted(_unrec, key=lambda r: -int(r.get("count", 0)))[:3]
+        out.append(_s(
+            "every pool failure is recognised", not _unrec,
+            ", ".join("%s: %s (x%d)" % (r.get("bucket"), str(r.get("error"))[:60],
+                                        int(r.get("count", 0))) for r in _worst) or "none",
+            "no unrecognised refusal",
+            "Each row is a provider failing for a reason this code cannot name, so it is "
+            "neither benched as permanent nor backed off as contention -- it just burns a "
+            "claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a "
+            "permanent refusal (a dead key, a spent account, a retired model), add its wording "
+            "to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for "
+            "four hours from then on. If it is a transport or parse fault, it is a bug and "
+            "belongs in BUGS.md. Rows older than 24h disappear on their own, so anything here "
+            "is happening NOW.",
+            "high", "pool"))
+    except Exception:
+        silence.note("standards.py:unrecognised-pool")
+
     # ------------------------------------------------------------------ the machine
     # ------------------------------------------------------------------ the network
     #

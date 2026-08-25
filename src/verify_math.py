@@ -1445,18 +1445,21 @@ except SystemExit:
 check("feats.discover refuses a numeric cap", _capped, True)
 
 
-# ---- Section 19h: the paid burst cap is enforced at SELECTION ---------------------------------
+# ---- Section 19h: there is NO paid lane, and the code cannot describe one -----------------------
 #
-# `state/PAID_BURST.json` reached 598 calls against a cap of 500 -- ~$1.96 of real money past a
-# hard limit. The cap only ever decided whether to PROMOTE the paid bucket into the proven-
-# answering set; the bucket sat in the router's model list unconditionally and stayed fully
-# selectable, so a closed lane merely ranked it lower. The exhausted-pool fallback that reaches
-# it is the normal path whenever the free tier is failing, which it was.
+# History, because this is a tombstone and a tombstone with no dates invites re-digging. The lane
+# was opened 2026-08-23 with a 500-call cap in `state/PAID_BURST.json` and spent 598 -- the cap
+# only ever decided whether to PROMOTE the paid bucket in the ranking, while the bucket stayed
+# unconditionally selectable. `enabled: false` changed nothing; deleting the file was worse,
+# stopping the counter while the spending continued. 2026-08-24 added a `PAID_LANE_RETIRED`
+# constant that excluded it structurally, keeping the cap machinery "readable as evidence".
+# 2026-08-25, owner ruling: "the paid lane should be erased from the code."
 #
-# These check the REAL predicate (`widen_candidates`), not a paraphrase of it. Falsified against
-# the pre-fix expression `[m for m in models if not m.bucket.startswith(LOCAL_PREFIX)]`, which
-# passes checks 1 and 4 and FAILS 2, 3, 5 and 6 -- so the closed-lane cases are what discriminate.
-# 2026-08-24.
+# So these checks no longer test a gate. THEY TEST AN ABSENCE, which is the only thing that
+# cannot be re-opened by flipping a constant. `widen_candidates` is still exercised as the real
+# predicate -- it is the function that used to carry the gate -- but the property defended now is
+# that it has no concept of a paid bucket at all: an `anthropic:paid` bucket is treated exactly
+# like any other free one, because nothing in the file knows the name means money.
 import cascade_bridge as _CB                                            # noqa: E402
 
 
@@ -1466,42 +1469,72 @@ class _M:                                          # the one attribute widen_can
 
 
 _models = [_M("mistral:free"), _M("anthropic:paid"), _M("ollama:qwen3"), _M("gemini:free")]
-_open = [m.bucket for m in _CB.widen_candidates(_models, True)]
-_shut = [m.bucket for m in _CB.widen_candidates(_models, False)]
+_cand = [m.bucket for m in _CB.widen_candidates(_models)]
 
-# THE LANE IS RETIRED (owner ruling 2026-08-24: "there shouldn't be a paid lane anywhere").
-# `PAID_LANE_RETIRED` excludes every paid bucket regardless of the file, so the paid bucket is
-# now unselectable in BOTH directions -- that is the property to defend, and it is what these
-# first checks assert. If someone flips the constant back, these fail and say why.
-check("the paid lane is retired in code, not just in a file", _CB.PAID_LANE_RETIRED, True)
-check("a RETIRED lane refuses the paid bucket even when the file says open",
-      "anthropic:paid" in _open, False,
-      note="the file can say enabled:true; the constant outranks it")
-check("a CLOSED lane removes it from the candidates", "anthropic:paid" in _shut, False)
-check("retirement removes ONLY the paid bucket", _shut, ["mistral:free", "gemini:free"])
-check("locals are excluded either way", [b for b in _open if b.startswith("ollama:")], [])
+_cbsrc = open(os.path.join(_here19, "cascade_bridge.py"), encoding="utf-8").read()
+for _gone in ("PAID_PREFIX", "PAID_LANE_RETIRED", "paid_lane_open", "_PAID_LOCK",
+              "PAID_BURST.json", "est_usd_per_call"):
+    check("the erased paid-lane name %r appears nowhere in cascade_bridge" % _gone,
+          _gone in _cbsrc, False,
+          note="erased 2026-08-25 by owner ruling; a surviving reference is a lane half-rebuilt")
+check("widen_candidates takes only the model list now",
+      list(__import__("inspect").signature(_CB.widen_candidates).parameters), ["models"],
+      note="the `paid_ok` parameter was the gate's last handle; it is gone with the gate")
+check("no paid-lane report survives in foreman",
+      "PAID_BURST" in open(os.path.join(_here19, "foreman.py"), encoding="utf-8").read(), False)
 
-# The CAP predicate underneath must stay correct, or un-retiring would restore a broken gate
-# rather than a working one. Exercised with the retirement lifted, then restored.
-_was = _CB.PAID_LANE_RETIRED
+# The behavioural half: the bucket is not blocked, it is simply not special. This is the
+# difference between a retired lane and an erased one, and it is deliberate -- a config that
+# still names an `anthropic:` bucket now gets no bespoke treatment of any kind.
+check("locals are still excluded", [b for b in _cand if b.startswith("ollama:")], [])
+check("every non-local bucket is a candidate, with no paid-lane exception",
+      _cand, ["mistral:free", "anthropic:paid", "gemini:free"],
+      note="NOT a regression: nothing can spend money any more, so nothing needs excluding. "
+           "The money gate lived in Cascade's config; this file no longer has an opinion.")
+
+# ---- Section 19h-bis: an unrecognised pool failure is written down, not absorbed ---------------
+#
+# Owner ruling 2026-08-25: "an unrecognised failure should be immediately investigated and
+# resolved upon spotting it." Before this, a refusal matching neither the permanent list nor the
+# deadline path returned None with its reason discarded -- the pool ran at 64 calls/hour against
+# a floor of 900 while every sub-standard read green, because the failures were never nameless,
+# just never written down. `record_unrecognised` keeps the TEXT (a count cannot be investigated)
+# and `standards` turns any live row red on the page.
+check("the unrecognised-failure branch exists and records",
+      "record_unrecognised(pinned.bucket" in _cbsrc, True,
+      note="THE RULING: without this the else-branch falls through and the reason is lost")
+check("standards puts unrecognised failures on the page",
+      "every pool failure is recognised"
+      in open(os.path.join(_here19, "standards.py"), encoding="utf-8").read(), True)
+
+_unrec_tmp = _CB.UNRECOGNISED
 try:
-    _CB.PAID_LANE_RETIRED = False
-    _o2 = [m.bucket for m in _CB.widen_candidates(_models, True)]
-    _s2 = [m.bucket for m in _CB.widen_candidates(_models, False)]
-    check("with retirement lifted, an OPEN lane would select the paid bucket",
-          "anthropic:paid" in _o2, True,
-          note="proves the retirement is what excludes it, not a broken predicate")
-    check("with retirement lifted, a CLOSED lane still refuses it", "anthropic:paid" in _s2, False)
+    _CB.UNRECOGNISED = os.path.join(_here19, "..", "state", "_VM_UNRECOGNISED_TEST.json")
+    if os.path.exists(_CB.UNRECOGNISED):
+        os.remove(_CB.UNRECOGNISED)
+    _CB.record_unrecognised("probe:bucket", "  HTTP 418   I am a   teapot  ")
+    _CB.record_unrecognised("probe:bucket", "HTTP 418 I am a teapot")
+    _rows = _CB.unrecognised_open()
+    check("an unrecognised failure lands in the ledger", len(_rows), 1,
+          note="same bucket + same leading text collapses to one row, so a repeating fault "
+               "does not flood the file")
+    check("the ledger keeps the error TEXT, not just a count",
+          _rows[0]["error"], "HTTP 418 I am a teapot",
+          note="whitespace normalised; a count alone cannot be classified")
+    check("repeats are counted", _rows[0]["count"], 2)
+    check("an aged-out row leaves the page by itself",
+          _CB.unrecognised_open(max_age_h=0), [],
+          note="a resolved fault should stop being reported without anyone editing a file")
+    check("recording never raises, whatever it is handed",
+          _CB.record_unrecognised(None, None), None,
+          note="this sits on the hot path of every failed call")
 finally:
-    _CB.PAID_LANE_RETIRED = _was
-check("the retirement was restored after the probe", _CB.PAID_LANE_RETIRED, True)
-
-# The cap itself, and both documented kill switches.
-check("at the cap the lane is shut", _CB.paid_lane_open({"enabled": True, "used": 500, "cap": 500}), False)
-check("past the cap it stays shut", _CB.paid_lane_open({"enabled": True, "used": 598, "cap": 500}), False)
-check("under the cap it is open", _CB.paid_lane_open({"enabled": True, "used": 499, "cap": 500}), True)
-check("enabled:false kills it", _CB.paid_lane_open({"enabled": False, "used": 0, "cap": 500}), False)
-check("a deleted/unreadable file kills it", _CB.paid_lane_open(None), False)
+    try:
+        if os.path.exists(_CB.UNRECOGNISED):
+            os.remove(_CB.UNRECOGNISED)
+    except Exception:
+        pass
+    _CB.UNRECOGNISED = _unrec_tmp
 
 
 # ---- Section 19i: the two classifier caps read the FRONT of a record, not a sample -----------
