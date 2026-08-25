@@ -24,6 +24,7 @@ import argparse
 import glob
 import json
 import os
+import threading
 import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -44,7 +45,19 @@ def modules():
             with open(p, encoding="utf-8", errors="replace") as f:
                 n = sum(1 for _ in f)
         except Exception:
-            n = 0
+            # NOT a zero-line module. An unreadable file used to fall through to `n = 0` with
+            # no note, which sorts it last, packs it into a bin as free weight, and reads in
+            # the plan exactly like an empty stub -- a file silently dropped out of a sweep
+            # whose entire purpose is that nothing is dropped. Recorded, and marked so the
+            # plan itself carries the fault. (Found by the sweep auditing this very file,
+            # hours after it was written. 2026-08-25.)
+            try:
+                import silence
+                silence.note("sweep_plan.py:module-lines")
+            except Exception:
+                pass
+            out.append({"module": os.path.basename(p), "lines": 0, "unreadable": True})
+            continue
         out.append({"module": os.path.basename(p), "lines": n})
     return sorted(out, key=lambda m: -m["lines"])
 
@@ -65,27 +78,39 @@ def batches(n=16):
     return [b for b in bins if b["modules"]]
 
 
+_RECORD_LOCK = threading.Lock()
+
+
 def record(run, covered):
-    """Stamp which modules a sweep actually read. `covered` is an iterable of basenames."""
-    try:
-        with open(COVERAGE, encoding="utf-8") as f:
-            data = json.load(f)
-    except Exception:
-        data = {}
-    if not isinstance(data, dict):
-        data = {}
-    now = time.time()
-    for m in covered:
-        data[m] = {"run": run, "at": now}
-    tmp = COVERAGE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=1, sort_keys=True)
-    try:
-        import silence
-        silence.replace_retry(tmp, COVERAGE)
-    except Exception:
-        os.replace(tmp, COVERAGE)
-    return data
+    """Stamp which modules a sweep actually read. `covered` is an iterable of basenames.
+
+    SERIALISED, because the whole point of this file is that sixteen batches run AT ONCE and
+    each one reports its own coverage. The first version did an unguarded read-modify-write:
+    two batches reading the same file, each adding its own modules, each writing back its own
+    copy -- and the loser's modules vanish from the record. That would make `missing()` report
+    a gap that never happened, or worse, hide one that did. The lock covers this process; the
+    atomic land covers a torn read. (Found by the sweep auditing this very file. 2026-08-25.)
+    """
+    with _RECORD_LOCK:
+        try:
+            with open(COVERAGE, encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception:
+            data = {}
+        if not isinstance(data, dict):
+            data = {}
+        now = time.time()
+        for m in covered:
+            data[m] = {"run": run, "at": now}
+        try:
+            import silence
+            silence.write_json(COVERAGE, data, indent=1, sort_keys=True)
+        except Exception:
+            tmp = "%s.%d.tmp" % (COVERAGE, os.getpid())
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=1, sort_keys=True)
+            os.replace(tmp, COVERAGE)
+        return data
 
 
 def missing(run):

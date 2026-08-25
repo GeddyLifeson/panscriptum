@@ -9,6 +9,94 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 02:55 (local) — Run #22b (interactive, owner-directed): the paid lane erased, and the first whole-tree sweep finds one systemic fault in fourteen modules
+
+*Three owner rulings arrived mid-run and reshaped the pass. This entry covers all three plus the
+sweep they ordered. The scheduled part of run #22 is the entry directly below this one.*
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found.** But `publish.py`'s guarantee is narrower than its docstring claims — see
+   decision **C**. Nothing deleted. **No money can now be spent by this project at all.**
+2. **THE PAID LANE IS GONE FROM THE CODE.** Not retired, not flagged off — erased. `PAID_PREFIX`,
+   `PAID_LANE_RETIRED`, `paid_lane_open()`, `_PAID_LOCK`, the burst-cap read, the spend counter,
+   and `foreman`'s spend report are all deleted. `verify_math` §19h now asserts an **absence**:
+   the file may not even spell the erased names, including in comments, because a filename in a
+   comment is the first handhold anyone rebuilding the lane would reach for. **The old spend
+   counter file is deliberately NOT deleted** — it is the only record of what the lane cost —
+   but nothing reads it. It is `state/PAID_BURST.json`; the ledgers name it, the code cannot.
+3. **THE AUDIT ROTATION IS ABOLISHED. It was a Hard Rule 0 cap wearing a schedule's clothing.**
+   "Audit the top two never-audited files" meant 2 modules of 94 per run — a smaller universe in
+   the same shape as the real one, never failing, always reading like a completed audit. At that
+   rate a file was re-read about twice a year. Every deep read that *did* happen produced verified
+   findings on the first pass, which is the measurement that condemns it.
+4. **One process bounce of everything** (`overwatch`, `dashboard`, `publish`, `foreman`, `read`,
+   `pipeline`, then `overnight`), because `silence.py` changed and effectively everything imports
+   it. All restored by the supervisor and the `autostart` watchdog, all confirmed up.
+
+**Ruling 1 — "the paid lane should be erased from the code."** Done as described above. The
+history is kept in the tombstone comment beside `LOCAL_PREFIX` because it is the argument for why
+the machinery went rather than just the switch: the lane spent **598 calls against a cap of 500**
+precisely because a gate that *looked* closed was not, and a retired lane whose plumbing is intact
+is one edit away from live.
+
+**Ruling 2 — "an unrecognised failure should be immediately investigated and resolved upon
+spotting it."** This needed machinery before it could be obeyed: a failure the code cannot name
+was previously discarded, leaving only a tick in a refusal count. Added
+`cascade_bridge.record_unrecognised()` — it keeps the **error text**, because a counter cannot be
+investigated — plus `unrecognised_open()` (24h ageing, so a resolved fault leaves the page by
+itself) and a new **`every pool failure is recognised`** standard that puts any live row on THE
+PAGE with the remedy written out. Deliberately **not** a bench: benching quietly is the opposite
+of surfacing, and whether an unrecognised failure should also cost a cooldown is decision **B**.
+
+**Ruling 3 — the comprehensive sweep. All 95 modules, 39,518 lines, in one pass.**
+New `src/sweep_plan.py` packs every module into balanced batches; 16 sonnet-tier agents read every
+line of their batch, wrote full reports to `handoff/sweep22/AUDIT_batch01..16.md`, and returned
+only compact summaries. `sweep_plan.missing("run22")` then **proved** coverage: 95 of 95, none
+skipped. That proof is the point — a sweep that cannot say what it skipped is one nobody can trust.
+
+**THE SWEEP'S HEADLINE: ONE FAULT, NOT SIXTY.** Across fourteen modules, **eighteen shared-file
+writes were `open(path,"w")` + `json.dump`** — which is not a write but a **truncate, then a fill**.
+A reader arriving in the gap gets an empty or half-written file; a crash in the gap makes it
+permanent. **Four separate scripts were writing `data/SWEEP_ROLL.json` that way**, which is exactly
+the hazard `resync_roll.py`'s own docstring described in prose while its code did it anyway. The
+project already knew the lesson — `silence.py` documents a WinError-5 collision that took an assay
+worker down, and `catalogue_web.save_roll()` carried a comment warning an interrupted write here
+"kills the next run of either script outright" — but the knowledge lived in three files while the
+other fourteen truncated. **Fixed by giving the project one correct way to do it**
+(`silence.write_json`, atomic, with a pid+thread-unique temp name that also closes the
+`path + ".tmp"` collision race) and converting every site. Pinned by 25 checks in a new §20g.
+
+**AND ONE CAP LABELLED AS COMPLIANCE — the worst shape a cap can take.** `weave.py:216` capped
+`shared[p]` at **8 entries** inside the *builder*, while both consumers — including
+`pipeline.py:1761`, the production path that writes `data/RESONANCE_GRAPH.json` — carried the
+comment **"WHOLE list -- Hard Rule 0, ruled 2026-08-24"** directly above it. The comment described
+the ruling; the data had been truncated eight entries earlier, in the live pipeline, since that
+ruling was made. Both builders uncapped.
+
+**The sweep also audited the work done earlier in this same session, and was right to.** It found
+that my own new `permanent` classifier matched `"403"` as a bare substring — which also matches
+the 403 inside a request id like `req_4403abc`, and the penalty for a false positive there is
+**four hours of bench on a provider that was merely busy**, shrinking the very pool that is the
+binding constraint. Now matched on word boundaries. It also found two real bugs in `sweep_plan.py`
+hours after I wrote it: an unguarded read-modify-write in `record()` (the one function whose whole
+purpose is being called by sixteen concurrent batches) and an unreadable module silently reporting
+as a zero-line one — a file dropped from a sweep built to drop nothing. Both fixed.
+
+**Battery.** `verify_math` **659 passed, 0 FAILED** (613 at the run's start; +16 §20f, +5 §19h
+rewrite, +25 §20g). `pyflakes` clean over all 95 modules. Every touched module re-imported
+individually. `allsweep` 0 subsystems bad. `health --preflight` **exactly the one known M1
+baseline**. Export commits `080f4f7`, `ea89738` (23 modules), and the ledger sync following this.
+
+**What is NOT done, stated plainly.** The sweep produced far more verified findings than one run
+could safely repair. I fixed the systemic class and the Hard-Rule-0 cap and stopped, rather than
+half-repairing a dozen unrelated subsystems late in a session. **A remaining tail of ~14 more
+non-atomic writes** (`build_terminal`, `burgs`, `genre`, `halo`, `module_index`, `navtree`,
+`overnight:462`, `pantheon`, `publish:262`, `render`, `rosetta` ×2, `sevenfold`, `foreman:996`)
+plus every per-module finding is queued in NEXT_STEPS §1 and the batch reports. **Nothing was
+filed that was merely inconvenient to chase — the tail is real work, not a backlog of excuses.**
+
+---
 ## 2026-08-25 01:50 (local) — Run #22: the pool's permanent-refusal bench could never fire, and the GPU fallback it falls back to was wedged — both at once
 
 *The page opened the run and its headline was `model calls per hour` at **64 against a floor of

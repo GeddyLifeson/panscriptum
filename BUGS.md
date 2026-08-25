@@ -81,6 +81,83 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
 
+### Minor-but-new (run #22b — the first whole-tree sweep)
+
+*All 95 modules were read line-by-line by 16 parallel agents; full reports live in
+`handoff/sweep22/AUDIT_batch01..16.md`. Only findings I VERIFIED AT SOURCE MYSELF are given
+bug numbers below. The batch reports contain many more that are credible but unverified by me —
+they are the next run's work, not silently dropped.*
+
+- **[m100 — MAJOR, RESOLVED IN THIS RUN] EIGHTEEN SHARED-FILE WRITES ACROSS FOURTEEN MODULES WERE
+  TRUNCATE-THEN-FILL, NOT ATOMIC LANDINGS.** `open(path, "w")` + `json.dump` empties the target
+  before writing a byte. A reader in the gap sees an empty or half-written file; a crash in the
+  gap makes it permanent. **Four scripts** (`catalogue_aurora`, `catalogue_codex`,
+  `recover_folder_records`, `resync_roll`) were doing it to the SAME file,
+  `data/SWEEP_ROLL.json` — the hazard `resync_roll.py`'s own docstring described in prose.
+  Others hit `COVERAGE.json` (the library's headline figures), `SHELFMARKS.json`, `SCOPE.json`,
+  `TIERS.json`, `WIKI_HOSTS.json`, `PROVIDER_MODELS.json`, `SHARED_STAGE_GRAPH.json`,
+  `ONOMASTICON.json`, `GROUNDINGS.json`, `REFERENCE_ASSAYS.json`, `ENTITY_INDEX.json`,
+  `ALLSWEEP.json`, `catalog.json`/`failures.json`, and `WATCH.md`. Three sites in `weave.py`
+  were `json.dump(obj, open(path, "w"))` — truncating **and** leaking the handle.
+  **Root cause:** there was no shared correct way to do it. `catalogue_web.save_roll()` had the
+  atomic version and a comment saying an interrupted write "kills the next run of either script
+  outright"; its siblings never got it. **Fix:** new `silence.write_json()` — atomic, with a
+  **pid+thread-unique temp name**, which also closes the older `path + ".tmp"` collision race
+  where two writers of one path fight over the temp file itself. All 18 sites converted.
+  Pinned by 25 checks in `verify_math` **§20g**. Export commit `ea89738`.
+- **[m101 — MAJOR, RESOLVED IN THIS RUN] A HARD RULE 0 CAP LABELLED AS HARD RULE 0 COMPLIANCE.**
+  `weave.py:216` (and its idf twin at :170) capped the shared-entity evidence list at **8**:
+  ```python
+  if len(shared[p]) < 8:
+      shared[p].append(k)
+  ```
+  while BOTH consumers — `weave.py`'s writer and **`pipeline.py:1761`, the production path that
+  writes `data/RESONANCE_GRAPH.json`** — carried the comment `# WHOLE list -- Hard Rule 0, ruled
+  2026-08-24` directly above the truncated data. The comment recorded the owner's ruling; the
+  data had been cut eight entries earlier, in the live pipeline, ever since. **A cap wearing a
+  compliance label is the worst shape a cap can take, because the label is what stops anyone
+  looking.** Both builders uncapped. Export commit `ea89738`.
+- **[m102 — MAJOR, RESOLVED IN THIS RUN] THE PAID LANE, ERASED.** Owner ruling 2026-08-25: *"the
+  paid lane should be erased from the code."* Removed `PAID_PREFIX`, `PAID_LANE_RETIRED`,
+  `paid_lane_open()`, `_PAID_LOCK`, the burst-cap file read, the spend counter, and `foreman`'s
+  spend report. `widen_candidates()` lost its `paid_ok` parameter (public-signature change, the
+  gate's last handle). `verify_math` §19h was rewritten to assert an **absence** — the erased
+  names may not appear in `cascade_bridge.py` or `foreman.py` **even in comments**, which caught
+  three surviving references in my own tombstone prose on the first run. `state/PAID_BURST.json`
+  is deliberately kept, unread, as the sole record of the 598-call / ~$11.96 spend.
+  Export commits `080f4f7`, `ea89738`.
+- **[m103 — MINOR, RESOLVED IN THIS RUN] MY OWN 4-HOUR BENCH COULD FIRE ON A TRACE ID.** The
+  `permanent` classifier added earlier in run #22 matched `"401"/"402"/"403"` as bare substrings,
+  so a request id like `req_4403abc` would bench a **merely rate-limited** provider for four
+  hours — shrinking the pool that is the system's binding constraint, i.e. the exact opposite of
+  the bug the classifier was added to fix. Now `re.search(r"\b(401|402|403)\b", err)`; the prose
+  markers stay substrings. Found by the sweep auditing the same session's own work.
+- **[m104 — MINOR, RESOLVED IN THIS RUN] TWO BUGS IN `sweep_plan.py`, HOURS AFTER I WROTE IT.**
+  (a) `record()` did an unguarded read-modify-write on `SWEEP_COVERAGE.json` — the one function
+  whose entire purpose is to be called by sixteen concurrent batches; a lost update would make
+  `missing()` report a gap that never happened or hide one that did. Now locked and landed
+  atomically. (b) `modules()` turned an unreadable file into a **0-line module** with no note,
+  which sorts last, packs into a bin as free weight, and reads exactly like an empty stub — a
+  file silently dropped from a sweep whose whole purpose is that nothing is dropped. Now noted
+  and flagged `unreadable`.
+- **[m105 — OPEN, VERIFIED, NOT FIXED] ~14 MORE NON-ATOMIC WRITES REMAIN (the m100 tail).**
+  `build_terminal.py:572`, `burgs.py:227`, `genre.py:236`, `halo.py:170`, `module_index.py:75`,
+  `navtree.py:260`, `overnight.py:462`, `pantheon.py:260`, `publish.py:262`, `render.py:245`,
+  `rosetta.py:365` and `:377`, `sevenfold.py:266`, `foreman.py:996` (this last one writes a LIVE
+  `src/*.py` during a model patch — it has a backup and an auto-revert, which is why it is not
+  urgent, but a crash mid-write leaves a corrupt module). Mechanical now that
+  `silence.write_json` exists; left undone rather than rushed at the end of a long session.
+- **[m106 — OPEN, VERIFIED] `endpoint.py:200-233` IS THE SHARED ROOT OF M16, m93 AND m94.**
+  `fetch_raw()` returns an identical `(t, None)` for a confirmed 404/410, an HTTP refusal, an
+  exception, and an HTML error body — **no caller can distinguish "absent" from "request
+  failed"**. Every downstream bug in this family is a symptom of that one return contract.
+  `detect()` (`:143-172`) compounds it: it treats a timeout/DNS/5xx exactly like a clean negative
+  and caches the merged verdict as `MODE_DEAD` for 24h, poisoning a host off one bad network
+  window. **A ruling on M16 should settle all four at once.**
+- **[m107 — OPEN, VERIFIED] A FOURTH INSTANCE OF THE SAME CLASS: `scope.py:108-118`.** A
+  transient network failure during `--build` permanently caches a host as "no scope", and
+  `h not in out` never retries it.
+
 ### Minor-but-new (run #22)
 
 - **[m93 — HIGH IMPACT, VERIFIED AT SOURCE, NOT FIXED] `hostcheck.probe()`'s RAW-MODE BRANCH

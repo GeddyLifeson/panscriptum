@@ -1,166 +1,154 @@
 # Next Steps — priority queue for the next maintenance run
 
-*Overwritten each run; history lives in HANDOFF.md. Run #22 wrote this on 2026-08-25 ~01:50 local.*
+*Overwritten each run; history lives in HANDOFF.md. Run #22b wrote this on 2026-08-25 ~02:55 local.*
 
-**Read this first.** Five things shape what is worth doing next run:
+**THREE OWNER RULINGS LANDED ON 2026-08-25 AND THEY CHANGE HOW A RUN IS SHAPED. Read these first.**
 
-1. **VERIFY THE CADENCE WITH `list_scheduled_tasks`. NEVER FROM A FILE, INCLUDING THIS ONE.**
-   Run #22 read it back and it is **hourly, `11 * * * *` + 523s jitter, firing ~:19–:20**, with
-   `lastRunAt` 06:19:54Z confirming. That matches MAINTENANCE.md — **the first run in a while
-   where it did.** It has still been wrong twice in opposite directions, always because nobody
-   read the cron back. It is one call. The **15 minutes in the overlap guard is the
-   heartbeat-staleness threshold** — a different number answering a different question. Do not
-   "fix" it to match the schedule. The guard does **NOT** see interactive sessions: before
-   writing anything, check `git -C C:\Users\imarl\panscriptum-export log --oneline -5` and
-   `ls -lt src/*.py | head`.
-2. **A SHARED LOG IS NOT A LIVENESS SIGNAL, AND RUN #22 NEARLY FILED A GOOD STANDARD AS A BUG.**
-   `every running job is advancing` watches `state/pipeline_auto.log` (the supervisor's stdout
-   capture) while `pipeline.py:61` writes its run log to `state/pipeline.log`. The second was
-   fresh while the first was stale, which looked exactly like run #21's "measurement taken from
-   inside the thing measured" lesson — **and it was wrong.** `pipeline.log` is written by *any*
-   process importing `pipeline.py`, so its freshness proves nothing; the job's own
-   `PIPELINE_STATE.json` was **54.6 minutes** cold and the job really was stalled.
-   **The generalisation, and it is the reusable part: before believing a freshness signal, ask
-   who else can write that file.** Named candidates, unchecked: anything keyed on
-   `state/pipeline.log`, `state/overnight.log`, or a `*_auto.log` stem.
-   Run #21's separate question — *what else measures a system it is running inside?* — is still
-   open and still unchecked for `dashboard.movement()`, `standards`' own age floors, and
-   `allsweep`'s reconcile tier.
-3. **THE PAGE OPENS THE RUN. CHECK ITS FRESHNESS AND ITS SELF-CONSISTENCY, NOT JUST ITS REDS.**
-   Run #22's page was fresh (0.6 min) and **its green lines were the misleading ones**: all four
-   pool sub-standards held while the pool was collapsing, and `the local model produces tokens`
-   read *"probe completed in 0.8s"* six minutes before four consecutive generates timed out.
-   When the top-level number is red and every cause beneath it is green, **the cause is the one
-   the sub-standards cannot see** — for the pool that is call disposition, and the order says so.
-4. **AGE `data/COVERAGE.json` BEFORE BELIEVING ANY COVERAGE STALL. IT BIT AGAIN, AND WAS AGAIN AN
-   ARTIFACT.** `dashboard.py:338` flags `stalled` over a **30-minute** window while
-   `allsweep.py:203-207` treats the file as fresh for **2 hours**, so a file not rewritten inside
-   the window *cannot* produce a delta.
-   ```
-   python -c "import os,time;print('%.2fh'%((time.time()-os.path.getmtime('data/COVERAGE.json'))/3600))"
-   ```
-   Under 0.5h → the stall is real. Over 0.5h → artifact. **Run #22 measured 0.87h, so its flat
-   `cited`/`settled`/`feats` were an artifact and correctly ignored** (as run #21's were at
-   0.90h). `chunks` and `entities read` do **not** share this hazard — different sources.
-5. **AGE EVERY `bucket_state.last_error` ROW AND READ THE ERROR TEXT, NOT JUST THE OK RATE.**
-   This is what found run #22's headline. A 0% bucket is a symptom; the error string is the
-   diagnosis, and **the age is what separates a live refusal from a fossil** — the four
-   `Could not resolve host` rows (deepinfra, huggingface, cerebras, chutes) were **36 hours old**
-   and are not evidence about now, while cloudflare/hyperbolic/zai were 7–12 minutes old and were
-   the bug. `sambanova:free` still looks identical to a dead key and is actually rate-limited.
+1. **EVERYTHING AMISS IS INVESTIGATED THE MOMENT IT IS SPOTTED.** Not filed for later, not carried
+   forward as a fresh observation next run — worked, on sight. **What is allowed to survive into
+   this file is what needs an OWNER RULING** (a charter question, a routing-policy choice, a
+   contract change with real blast radius), never something that was merely inconvenient to chase.
+2. **THEN, IMMEDIATELY: THE FULL COMPREHENSIVE SWEEP — every line of every module, every run.**
+   `python src/sweep_plan.py --batches 16`, one sonnet-tier agent per batch, all launched
+   together; each writes its full report to `handoff/sweep<N>/AUDIT_batchNN.md` and returns **only
+   a compact summary** (never the full report — one agent's output will otherwise eat your
+   context). Then `sweep_plan.missing("run<N>")` **proves** coverage. **The old "top two
+   never-audited files" rotation is abolished — it was a Hard Rule 0 cap wearing a schedule's
+   clothing.** Run #22b's first full pass: 95 modules, 39,518 lines, none skipped.
+   **THE ONLY ACCEPTABLE QUIET RESULT** is that nothing bad was found and the only thing left is
+   work *waiting* — the cloud pool out of free quota for the window, or the local model simply
+   grinding its queue. "No findings" because nobody looked hard enough is not a clean run.
+3. **AN UNRECOGNISED FAILURE IS A BUG, NOT WEATHER.** Anything the code cannot NAME is recorded
+   with its text by `cascade_bridge.record_unrecognised()` and shown by the
+   **`every pool failure is recognised`** standard. **If that standard is red, it is the run's
+   first job**: read the error text, and either add its wording to the `permanent` tuple in
+   `cascade_bridge._ask_call` (if it is a permanent refusal) or file it as a bug.
+
+**And four standing lessons that keep proving themselves:**
+
+4. **VERIFY THE CADENCE WITH `list_scheduled_tasks`. NEVER FROM A FILE, INCLUDING THIS ONE.**
+   Read back 2026-08-25: hourly, `11 * * * *` + 523s jitter, firing ~:19–:20. The **15 minutes in
+   the overlap guard is the heartbeat-staleness threshold** — a different number answering a
+   different question. Do not "fix" it to match the schedule. **The guard does NOT see interactive
+   sessions**: check `git -C C:\Users\imarl\panscriptum-export log --oneline -5` and
+   `ls -lt src/*.py | head` before writing anything.
+5. **A SHARED LOG IS NOT A LIVENESS SIGNAL — ASK WHO ELSE CAN WRITE THAT FILE.** `pipeline.log`
+   is written by *any* process importing `pipeline.py`, so its freshness proves nothing about the
+   pipeline job; the job's own `PIPELINE_STATE.json` is the real signal. This nearly cost run #22
+   a good standard, filed as a false positive.
+6. **AGE `data/COVERAGE.json` BEFORE BELIEVING ANY COVERAGE STALL.** Under 0.5h → real; over →
+   artifact. It has now been an artifact three runs running (0.90h, 0.87h).
+   **`dashboard.py`'s stall flag is at :362, not :338** — run #22b's audit corrected the line
+   number the last three queues had been repeating.
+7. **AGE EVERY `bucket_state.last_error` ROW AND READ THE TEXT.** The four `Could not resolve
+   host` rows were **36 hours old** and are not evidence about now; cloudflare/hyperbolic/zai were
+   7–12 minutes old and were the bug.
 
 ## 1. Verify first
 
-1. **[DID THE m98 BENCH ACTUALLY RAISE THROUGHPUT? This is the run's one real measurement.]**
-   Run #22 fixed the permanent-refusal bench but could only prove the *classifier* correct, not
-   the *throughput* — the fix needs an hour of live traffic to show. Compare against run #22's
-   baseline of **`model calls per hour` = 64 (floor 900)** and **187 rate_limited / 59 error / 82
-   ok over 3h**:
+1. **[DID THE m98 BENCH RAISE THROUGHPUT? Still unmeasured — it needs an hour of live traffic.]**
+   Baseline to beat: `model calls per hour` **64** against a floor of 900, and **187 rate_limited
+   / 59 error / 82 ok** over 3h.
    ```
    python -c "import sqlite3,time;c=sqlite3.connect('file:state/cascade_scratch.db?mode=ro',uri=True);t=time.time()-10800;print(list(c.execute('select outcome,count(*) from usage where ts>? group by outcome',(t,))))"
    ```
-   **If refusal is still ~65%, the bench is not the binding constraint and the next suspect is
-   worker count against bucket count** (the `no bucket pinned at rpm 1` order names this).
-2. **[M15 — DID THE READER GET KILLED AGAIN? Still the first thing to check, every run.]**
-   ```
-   grep -nE "kill_stalled_job|restart_reader|read: (finished|starting)" state/overnight.log | tail -12
-   ```
-   Downtime series is now **1, 8, 19.9, 32, 37, 37.6, 42, 44 min, and once 4h**. Run #22 found
-   `read.py` down again at 01:44 (`allsweep` caught it) and the supervisor restored it within the
-   same bounce. **Eight measured downtimes is plenty of evidence — this needs a ruling, not
-   another measurement.** Options unchanged: teach the stall remedies to check pool refusal first
-   and decline; put `read.py` in `STANDING`; or accept the lap.
-   **New evidence for the ruling:** run #22 showed the reader can be killed for being silent
-   while the *real* reason it is silent is that the pool is refusing **and** the GPU fallback is
-   wedged. Killing it does not fix either.
-3. **[M17 REGRESSION — one command, and it must stay boring.]**
-   ```
-   python -c "import sys;sys.path.insert(0,'src');import overnight as ON;print(ON.running('publish.py'),ON.running('publish.py',include_self=True))"
-   ```
-   Run #22 got `True True` (publish.py genuinely running under the loop), which is the healthy
-   shape. `verify_math` §20e pins it.
-4. **[preflight — the baseline is 1 FAIL. A SECOND is the finding.]** Run #22 got exactly one:
-   `caches empty ... feats/www_dandwiki_com` (**M1**). **`verify_math`'s baseline is now 629
-   passed, 0 FAILED** — run #22 added 16 checks in a new §20f. Anything less is a regression.
-5. **[Is the GPU lane still producing tokens?]** m99 was fixed by restarting the daemon but its
-   **root cause is not established and it will recur.**
-   ```
-   curl.exe -s --max-time 45 http://localhost:11434/api/generate -d "{\"model\":\"qwen3:8b\",\"prompt\":\"ok\",\"stream\":false,\"options\":{\"num_predict\":4}}" -w " http=%{http_code} t=%{time_total}s\n" -o NUL
-   ```
-   `/api/ps` and `/api/tags` both read green through the whole wedge — **only a completed
-   generation proves it.** If wedged: `ollama stop` will hang in `Stopping...`, and killing
-   `llama-server.exe` will NOT clear it. Restart `ollama.exe`; the tray app respawns it.
+   A 15-minute sample right after the fix showed 63 calls / 13 ok (vs 16 / 2 before) — **promising,
+   not proof**, and it is confounded with the GPU-lane restart. If refusal is still ~65%, the next
+   suspect is **worker count against bucket count**.
+2. **[FINISH THE m100 TAIL — ~14 non-atomic writes, now mechanical.]** `silence.write_json()`
+   exists; the pattern is `open(X, "w")` + `json.dump` → `silence.write_json(X, obj, ...)`.
+   Sites listed in BUGS m105. **`foreman.py:996` is the interesting one** — it writes a LIVE
+   `src/*.py` during a model patch; it has a backup and auto-revert, so it is not urgent, but a
+   crash mid-write leaves a corrupt module. Add each converted file to §20g's `_REPAIRED_20g` list.
+3. **[preflight baseline is 1 FAIL. A SECOND is the finding.]** `caches empty ...
+   feats/www_dandwiki_com` (**M1**). **`verify_math`'s baseline is now 659 passed, 0 FAILED.**
+4. **[Is the GPU lane still producing tokens?]** m99's root cause is NOT established and it will
+   recur. `/api/ps` and `/api/tags` read green through the entire wedge — **only a completed
+   generation proves it.** If wedged: `ollama stop` hangs in `Stopping...` and killing
+   `llama-server.exe` will NOT clear it; restart `ollama.exe` and the tray app respawns it.
+5. **[M15 — and the last three queues pointed the investigation at the wrong file.]** Run #22b's
+   audit established that **`overnight.py` has no stall-detection logic at all** — its only kill
+   path is wall-clock `TimeoutExpired`. The `kill_stalled_job` line in its log is a **replayed
+   FOREMAN.json line**. **The mechanism lives in `foreman.py`. Look there.**
 
 ## 2. Owner decisions — these are the queue's real content
 
 **A. [M18 — MAJOR, LIVE, unchanged] `axis_score()` returns a flat 9.9 at M10 for every input.**
-Verified across 1e30→1e40. Reachable through `magnitude.py:244` → `assay_entity()`, so real
-M10-anchored entities with measured quantities get a constant axis score. `ledger.py:127-133`
-answers the same top-rung question a different, incompatible way. **Either resolution changes
-computed magnitudes across the library, which is a charter question, not a repair.** See BUGS M18.
+Live through `magnitude.py:244` → `assay_entity()`. `ledger.py:127-133` answers the same question
+incompatibly. **Either resolution changes computed magnitudes across the library — a charter
+question, not a repair.** Related, same shape, found this sweep: `assay.INSTRUMENT_WINDOWS`
+collapses to `(30, 30)` for M5–M10.
 
-**B. [NEW — ROUTING POLICY, and the natural follow-on to m98] Should an UNRECOGNISED failure
-take a bench at all?** After run #22's fix, a failure that is neither a deadline timeout nor a
-recognised permanent refusal still takes **zero bench** and is re-claimable immediately — this
-includes a **fast 429** (only a 429 that hangs to the deadline gets the doubling ladder) and a
-bucket that reliably returns prose instead of JSON (**m96**). The audit recommends a default
-`_bury()` fallback. **Run #22 deliberately did not apply it:** it changes pool dynamics while the
-pool is the binding constraint, and benching a provider for one transient blip is exactly how a
-thin pool gets thinner. **This is a judgment call about routing, not a bug fix.**
+**B. [ROUTING POLICY] Should an UNRECOGNISED failure take a bench at all?** Ruling 3 made them
+*visible*; it did not say they should be *absorbed*. Today such a failure takes **zero** cooldown
+and is instantly re-claimable — including a **fast 429** (only one that hangs to the deadline gets
+the doubling ladder) and a bucket that reliably returns prose instead of JSON (**m96**). Adding a
+default bench is a routing change while the pool is the binding constraint, and benching on one
+transient blip is how a thin pool gets thinner. **Your call.**
 
-**C. [THE PAID LANE IS OVER ITS CEILING — 598/500 calls, est. $11.96]** `foreman.py` has been
-reporting this in `FOR_OWNER.md` across several runs with no ruling, and it is **the only item in
-the ledger that spends money**. `PAID_LANE_RETIRED = True` is correctly enforced in
-`widen_candidates()`, but the **primary claim loop (`cascade_bridge.py:455-473`) has no
-`PAID_PREFIX` guard at all** — it filters only on `LOCAL_PREFIX` and `_alive()`, and relies on an
-assumption stated in its own comment that Cascade's router config never offers the paid bucket to
-a free-tier pool tag. Given this project's history of a "closed" gate that still passed 598/500
-calls, **a defensive guard in the primary loop is cheap and was left unapplied only because it
-touches the money path and deserves a ruling.**
+**C. [SECURITY-ADJACENT — no live secret found, but the guarantee is overstated] `publish.py`
+scrubs only `state.json`.** `_scrub()` covers the generated snapshot; `sync_tree()`'s bulk copy of
+`src/`, `prompts/`, `reference/`, `registry_terminal/`, `handoff/` and `config.yaml` — all
+`git add -A`'d and pushed to a public repo — has **zero content scrubbing**, while the docstring's
+"carries no keys" reads as though it covers everything. **Nothing leaked today.** Worth either
+extending the scrub to the whole synced tree or narrowing the docstring's claim.
 
-**D. [m93/m94 — NEW, HIGH IMPACT, VERIFIED] `hostcheck.py` records failed network probes as real
-0% rates, in two places.** Both are the **M16 shape**. m93: the raw-mode branch can never produce
-`rate=None`, so an outage on a raw-only wiki becomes a `WRONG FICTION` verdict and can be written
-to `HOST_UNFIT.json`. m94: `null_rate()` caches a fabricated 0.0 baseline for the whole run, which
-**silently disables the aboutness veto** for generous hosts like `en.wikipedia.org`. **The repair
-changes `endpoint.fetch_raw`'s return contract across callers** — same reason M16 is still open.
+**D. [m106 — THE ROOT OF FOUR BUGS] `endpoint.py:200-233`'s return contract.** `fetch_raw()`
+returns an identical `(t, None)` for a confirmed 404/410, an HTTP refusal, an exception, and an
+HTML error body, so **no caller can tell "absent" from "request failed"**. M16, m93, m94 and m107
+are all symptoms. `detect()` compounds it by caching a timeout as `MODE_DEAD` for 24h. **One
+ruling settles all four**; the repair changes a contract every caller depends on.
 
-**E. [M16, unchanged] `feats.py` caches a network timeout as a verified "nothing here",
-permanently.** The repair changes `api()`'s return contract across every caller. **m93/m94 are the
-same defect in a second file — a ruling on M16 should probably settle all three at once.**
+**E. [m90, unchanged] Three hand-copied copies of the attestation→uncertainty rule.** Now
+confirmed to be **four**: `custodes.py:229-230`'s `_ATT_BASE` claims to be *derived* and is a
+third hand-typed copy of a table that already exists and is used in `assay.py:630-631`.
 
-**F. [m90, unchanged] Three hand-copied copies of the attestation→uncertainty rule, one of them
-uncalibrated and dead.** `assay.interval_from_hands` has zero callers and its floors breach the
-file's own `SIGMA_MAX/10 = 0.2858` ceiling; the same figures are restated in `custodes.py:229-230`
-(whose comment wrongly claims they are derived) and `verify_math.py:630`.
+**F. [Hard Rule 0 — still-open caps the sweep surfaced, each needing a judgment call]**
+`feats.py:348-368` `aplimit=500`/`srlimit=50` truncate when MediaWiki signals `continue` (the
+module's own docstring says this was deliberately left as "measure it", not "eliminate it");
+`wiki_source.py:352` `all_categories(hard_stop=6000)` caps alphabetically while its docstring
+claims it only bounds the API walk — **6000 is the same number that once lost Superman**;
+`rosetta.py:194` `srlimit=5`; `retry_synthesis.py:60` `sorted(...)[:14]` reverts the m13 fix for
+exactly the sources it exists to retry; `weave.py`'s `len(srcs) > 60` skip.
 
 **G. [m91, unchanged] The pool spends calls on Ollama models that are not installed.** Config is
-`C:\Users\imarl\cascade\config.json` (**the Cascade project, not this repo**). Run #22 confirmed
-the startup banner still removes eight `local-*` buckets as `404 no such model` on every launch.
-**The GPU fallback itself is FINE** — do not "fix" the fallback.
+`C:\Users\imarl\cascade\config.json` (**the Cascade project, not this repo**). **The GPU fallback
+itself is FINE** — do not "fix" the fallback.
 
-**H. [m92 / m79, unchanged] `assay.instrument()`'s undocumented precondition** (latent `TypeError`
-on its own `NONE`/`UNESTIMABLE`/`INAPPLICABLE` statuses; both callers pre-filter today), and
-**`read.py`'s rate window mixes cache hits with real model calls**, producing garbage `dt` at every
-`to GPU` transition.
+## 3. The sweep's unworked findings
 
-## 3. Audit rotation
+**Not a backlog of excuses — these are verified-by-agent, unverified-by-me, and they are next
+run's work.** Full detail with quoted code in `handoff/sweep22/AUDIT_batch01..16.md`. The ones I
+would take first, by blast radius:
 
-**Audited, do not re-read unless changed:** `pipeline.py`, `dashboard.py`, `foreman.py`,
-`feats.py`, `overnight.py`, `standards.py`, `read.py`, `tuning.py`, `gpu_lane.py`, the pool error
-path, `rigor.py`, `assay.py`, **`cascade_bridge.py` and `hostcheck.py` (run #22 — both first-ever
-reads, both produced verified findings; cascade_bridge's became the run's headline fix)**.
+- `overwatch.py:326-343` — the reconcile filter **drops real findings** (stale coverage, orphan
+  hosts, ghost entries) and every internal exception before they reach `WATCH.md`, and
+  `write_report` never reads the `error`/`estate_error` keys, so a **crashed** structural check
+  renders as "0 broken, 0 corrupt". The bug queue's own reporting is lying by omission.
+- `completeness.py:71-119` — an unguarded global dict mutated and `json.dump`-iterated across
+  `ThreadPoolExecutor` workers with no lock: a live `RuntimeError` crash risk.
+- `pipeline.py:487-530` — `write_record`'s drift check is **length-only**, so a concurrent
+  same-count writer is silently clobbered; and both merge field lists omit `"excluded"`, so a
+  deliberate `catalogued: False` strike can be flipped back to `True`.
+- `health.py:124-144` — `flush()`'s SAMPLES write ends in a bare `except: pass`, permanently
+  dropping the evidence bag, **in the module whose whole purpose is "no silent failures"**.
+- `feats_index.py:148` — `host_dir.replace("_", ".")` mis-reconstructs any hyphenated host
+  (`date-a-live.fandom.com`), silently breaking the join and producing a false diagnosis the
+  module's own docstring states as fact.
+- `tells.py:70` — regex alternation precedence makes the `but Y` requirement apply to only the
+  third alternative; verified false positives.
+- `onomast.py:311-356` — `register_for()`'s genre/feature voting is **dead**; the sole caller
+  passes only `group_id`, so every world uses the hash fallback the docstring says was replaced.
+- `sevenfold.py:198-209`, `anchors.py:215`, `autostart.py:208-211`, `overnight.py:416-455`
+  (two missing `returncode` checks that let a crashed subprocess re-report stale numbers as fresh).
 
-**Never audited, ranked by size × blast radius — take the top two:**
-`derivation.py` (558), `manifest_builder.py` (478), `zfighters.py` (484), `rosetta.py` (408),
-`reference.py` (357). **`endpoint.py` is now the highest-value unread file** — it is not the
-largest, but `fetch_raw`/`api()`'s return contract is the shared root of **M16, m93 and m94**, and
-a ruling on §2 D/E needs it read first.
+## 4. Audit rotation — ABOLISHED
 
-**Method that worked three times now:** point the agent at ONE file, demand `file.py:LINE`
-citations and an explicit VERIFIED/UNVERIFIED label per finding, and tell it a clean dimension is
-worth reporting. Then **verify every finding at source before touching anything** — run #22's two
-audits were right on every finding I checked, but **my own opening hypothesis about the silent-job
-standard was wrong** (see §2 above) and would have been the run's headline if I had not checked it.
-That is now three runs in a row where the agents were right and an unverified hypothesis of mine
-was not.
+There is no rotation any more; see ruling 2. `state/SWEEP_COVERAGE.json` records which run last
+read each module, and `sweep_plan.missing(run)` is the completeness proof. **Method that has now
+worked four times:** point one agent at a bounded set of files, demand `file.py:LINE` citations
+and an explicit VERIFIED/UNVERIFIED label, tell it a clean module is a worthwhile result, and make
+it write the long report to disk and return only a summary. **Then verify at source before
+touching anything** — this sweep's agents were right on every finding I checked, and they also
+caught two real bugs in code I had written an hour earlier plus a false-positive risk in my own
+classifier. **They are a better check on my work than I am.**
