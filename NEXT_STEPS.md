@@ -50,10 +50,13 @@
     *"was run N the LAST to read X?"* instead of *"did run N read X?"*. Never exempt the
     instrument from its own pass; `sweep_plan.modules()` deliberately excludes nothing.
 4. **VERIFY THE CADENCE WITH `list_scheduled_tasks`. NEVER FROM A FILE, INCLUDING THIS ONE.**
-   Believed hourly, `11 * * * *` + 523s jitter, firing ~:19–:20. The **15 minutes in the overlap
-   guard is the heartbeat-staleness threshold** — a different number answering a different
-   question. **Run #29 did not re-read the cron either and is not a witness to it.** That is now
-   three consecutive runs that did not check the one thing this entry exists to demand.
+   **RUN #29 ACTUALLY DID IT, AND IS A WITNESS.** Read back at 2026-08-25 ~10:15 local from the
+   live task, not copied: `cronExpression: "11 * * * *"`, `jitterSeconds: 523`, `enabled: true`,
+   `lastRunAt` 14:19:57Z, `nextRunAt` 15:19:43Z — **hourly, firing ~:19–:20 local**. The prose in
+   `MAINTENANCE.md` is correct as of this reading. It has been wrong twice before, in opposite
+   directions, so **re-read it anyway** — it is one call. The **15 minutes in the overlap guard is
+   the heartbeat-staleness threshold**, a different number answering a different question; do not
+   "fix" it to match the cadence.
 5. **BOUNCE WHAT YOU CHANGED — AND THE PAGE IS A JOB TOO.** `dashboard`, `publish` and `foreman`
    import `standards`; nothing running imports `magnitude`, `sweep_plan` or `verify_math` except
    the foreman-dispatched jobs themselves. Verified by grep this run rather than assumed.
