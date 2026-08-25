@@ -315,6 +315,46 @@ def _drill_never_writes_the_gate():
         return f.read() == before
 
 
+# ============================================================== HARD RULE 0 (no caps, ever)
+
+def drill_no_caps():
+    """A ranked truncation is the rule's exact prohibition, and it hides inside justifications.
+
+    `synthesis_blocks` kept `rest[:14]` for feat-less sources under a comment arguing that lead
+    paragraphs cannot carry a ceiling feat -- an argument that refutes its own conclusion, since
+    if they cannot, fourteen is as pointless as four hundred. Two independent readers flagged it
+    before the owner ruled. The lesson generalises past this one slice: a cap that arrives with a
+    paragraph of reasoning is harder to see than a bare `[:n]`, not easier.
+    """
+    a = "HARD RULE 0 — is anything still deciding what does not exist?"
+    import pipeline as PL
+
+    def nomination_drops_nothing():
+        rec = {"source": "T", "entries": [{"name": "e%03d" % i, "description": "x" * (500 - i)}
+                                          for i in range(97)]}
+        blocks, _ = PL.synthesis_blocks(rec)
+        return (sorted(e["name"] for b in blocks for e in b)
+                == sorted(e["name"] for e in rec["entries"]))
+    net(a, "no entry is dropped from nomination, feats or not", nomination_drops_nothing,
+        "a 97-entry source used to nominate 14 and publish a ceiling as if it had read them all")
+
+    def ranking_survives():
+        rec = {"source": "T", "entries": [{"name": "e%03d" % i, "description": "x" * (500 - i)}
+                                          for i in range(40)]}
+        blocks, _ = PL.synthesis_blocks(rec)
+        return bool(blocks) and bool(blocks[0]) and blocks[0][0]["name"] == "e000"
+    net(a, "the richest material still lands in the FIRST block", ranking_survives,
+        "Hard Rule 0 permits ranking and encourages it; it forbids truncating after ranking")
+
+    def feat_bearing_path_unchanged():
+        rec = {"source": "T", "entries": [{"name": "f%02d" % i, "description": "d"}
+                                          for i in range(30)]}
+        blocks, _ = PL.synthesis_blocks(rec)
+        return sum(len(b) for b in blocks) == 30
+    net(a, "the feat-bearing path is untouched by the fix", feat_bearing_path_unchanged,
+        "a fix that quietly changes the healthy path too is a second bug")
+
+
 # ============================================================== THE RIDE RECORD (M23)
 
 def drill_cache():
@@ -1016,7 +1056,7 @@ def main():
     a = ap.parse_args()
 
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
-               drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
+               drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_snapshot, drill_stale_writer, drill_cascade, drill_park, drill_inspector):
         fn()
 

@@ -224,11 +224,22 @@ def run():
     # CELERITY. The ladder's rungs are rung-threat scales, not combat records, and a being who
     # can destroy a planet is not thereby above the thing nine worlds hang from.
     #
-    # The Sword/Skate Guy pair below it is a SEPARATE violation and is NOT settled by this ruling
-    # -- see the note under the invariant print. Fixing one and leaving the other is deliberate:
-    # the owner ruled on one pair, and inventing a ruling for the second because it happened to
-    # be adjacent is exactly how a curatorial judgment gets made by a run instead of by a person.
-    order = ["The Skate Guy", "A Sword", "Goku", "Yggdrasil", "The Seat of the Creator"]
+    # AND THE SWORD/SKATE GUY PAIR, ruled separately the same day: *"the assay is right here for
+    # the sword vs skate guy."* So `A Sword` (0.10) sits BELOW `The Skate Guy` (0.22), where the
+    # instrument had it all along.
+    #
+    # BOTH violations resolved the same way, and that is the finding worth keeping. The invariant
+    # had been red for weeks and was read as *the assay has drifted from its calibration*. It had
+    # not. The DECLARED LADDER was wrong at two of its four steps, and the instrument was right at
+    # both -- so the check was reporting a real disagreement while everyone assumed it named the
+    # wrong culprit. A failing invariant says two things disagree; it does not say which is lying,
+    # and this file's own message ("a reading about the ASSAY") quietly asserted that it did.
+    #
+    # The scores are defensible on the charter's own axes in both cases. Yggdrasil is a REACH and
+    # CONTINUITY object -- a structure nine realms hang from -- against Goku's RUIN and CELERITY;
+    # rungs are rung-threat scales, not combat records. And an inert blade has no agency to score
+    # on most axes at all, while a person who acts does, however modestly.
+    order = ["A Sword", "The Skate Guy", "Goku", "Yggdrasil", "The Seat of the Creator"]
     vals = {}
     for name, a, res, inst, col in rows:
         vals[name] = A.LADDER.index(a["anchor"]) + (res.get("decimal") or 0.0)

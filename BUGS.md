@@ -7,6 +7,74 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+
+- **[M37 — OPEN, VERIFIED run #32] `silence.py:133`'s SILENT-HANDLER DETECTOR IS A TAUTOLOGY, AND
+  EVERY OTHER MODULE TRUSTS IT.** `uses_exc = bool(node.name) and node.name in body`, where
+  `body = ast.dump(node)` — and `ast.dump` **always** contains the handler's own `name=` field.
+  So `except X as e: pass` is classified "observed" every time, regardless of whether `e` is ever
+  used. This is the canonical detector behind `local_agent.py`'s `run_check(check="silence")` and
+  the failure-ledger triage. Batch 16 reproduced it with a script. Zero live false negatives in
+  the current tree, which is exactly what a check that cannot fail looks like. **Fix wants the
+  companion net that proves it still catches a genuinely unused binding.**
+
+- **[M38 — OPEN, VERIFIED run #32] THE FAIL-CLOSED LAYER CAN FAIL OPEN.** `escalation.py:154-183`:
+  `_raise_halt()` takes **no lock** and uses a non-disambiguated tmp filename, so two concurrent
+  first-time OWNER halts can have the second **overwrite** the first rather than record it as
+  corroboration — a lost fault in the one ledger that must never lose one. Worse, **if the
+  halt-file write itself fails** (permissions, disk), the OWNER fault is only noted to
+  stderr/`silence.note` and never persisted — every other process then reads "not halted" and
+  proceeds. Silence authorising continued operation is the precise inversion of Hard Rule -1's
+  FAIL CLOSED. Separately `escalation.py:97-106` appends the janitor log with buffered
+  `open(path,"a")` instead of `silence.append_line` (the m62 torn-line class).
+
+- **[M39 — OPEN, VERIFIED run #32] `catalogue_web.py` WRITES RECORDS STRAIGHT THROUGH A STANDING
+  HALT.** Its `main()` never imports `escalation` and never calls `assert_clear()`; batch 10
+  traced that `pipeline.write_record_catalogue()` does not check either. A library-wide OWNER halt
+  is supposed to mean nothing starts — this cataloguer does not ask.
+
+- **[M40 — OPEN, VERIFIED run #32] `withdraw_chapters.py:66-98` HAS NO CHAPTER-SELECTION LOGIC AT
+  ALL.** The docstring frames it as a targeted withdrawal of the 145 flagged chapters; `--go`
+  actually iterates the **entire** `catalog.json`, moves every entry's files, and wipes the
+  catalog to `{}` unconditionally. A destructive tool whose comment describes a selectivity the
+  code does not implement. **Do not run it.**
+
+- **[M41 — OPEN, VERIFIED run #32] `overwatch.py:369-378,421-430,647-648` MAKES PARTIAL COVERAGE
+  INDISTINGUISHABLE FROM A FULL REVIEW.** Once the per-round `CLOUD_BUDGET` is spent, `_ask`
+  returns None, `review()` swallows it as "no findings," and the module is **still marked seen
+  with a fresh digest and timestamp** — so it goes to the back of the re-review queue and can be
+  starved indefinitely while the system reports it reviewed. Same shape at `:485-497`, where
+  `last_verified` is stamped even on a failed re-check. *(Batch 15 confirmed the finding-closing
+  path itself is safe: only an explicit "refuted" verdict closes a finding.)*
+
+- **[M42 — OPEN, VERIFIED run #32] `local_agent.py:526-535` PUTS AN UNVETTED MODEL-AUTHORED PATCH
+  IN THE LIVE IMPORT PATH.** `t_propose_patch` writes the candidate **straight to the live `src/`
+  file** before any gate runs, and holds no lock; batch 16 bounds the window at **~900 s**
+  (pyflakes 120 + import 180 + verify_math 600), not the ~600 previously recorded. Any of the
+  ~14 running jobs that imports that module during the window gets the unvetted code. Relatedly,
+  `_safe` (`:293-331`) does no `realpath`/`islink` resolution, so the denylist protecting
+  `data/records/`, the charter, `output/index/` and `state/` is a string-prefix test a symlink
+  would walk around.
+
+- **[M43 — OPEN, VERIFIED run #32] `assay.py:496-531` MUTATES `SIGMA_BY_ATTESTATION` UNLOCKED
+  UNDER A THREADING SERVER.** `calibration_report()` mutates the global that every printed
+  Magnitude's interval is built from, with no lock anywhere in `assay.py`/`dashboard.py`; two
+  concurrent `/api/state` polls can leave it **permanently** shifted, because the restoring
+  thread's "saved" value can itself be mid-sweep garbage from the other thread.
+
+- **[M44 — OPEN, VERIFIED run #32] `address.py:101-114` INVENTS ADDRESSES — HARD RULE 2, INSIDE
+  THE MECHANISM THAT ENFORCES IT.** Live-confirmed: `spine_code_for("Alien Predator Doom
+  Crossover")` returns `"II.N"` (Alien's code) instead of UNASSIGNED. Root cause is the coverage
+  formula at `:110`, `overlap / min(len(target), len(name))`, which lets any single-word spine
+  entry score 100%; the `>` tie-break then resolves by **JSON dict order** rather than refusing.
+
+- **[M45 — OPEN, run #32] THE PARTITIONER IS A SNAPSHOT AND THE COMPLETENESS PROOF IS LIVE.**
+  `binding_health.py` was created at 13:35, thirteen minutes after `sweep_plan --batches 16` ran,
+  so no batch could be assigned it while `missing()` correctly counted it. A 17th agent closed the
+  gap by hand this run. Not a defect in `missing()` — but a sweep should notice mid-run arrivals
+  rather than depend on the supervisor reading the failure. **Also: nothing in `src/` imports
+  `binding_health` at all.** See NEXT_STEPS §1 for the owner question about who wrote it.
+
+### Major
 - **[M34 — OPEN, OWNER RULING NEEDED] THE ASSAY DISAGREES WITH ITS OWN CALIBRATION LADDER, AND
   THE SWEEP HAS BEEN GRADING THAT GREEN.** Surfaced run #31 the moment M32's import-tier fix
   landed, converging with batch 09's independent reading of the same lines. `anchors.py` scores a
@@ -1739,6 +1807,36 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+- **[M36 — RESOLVED, run #32] THE WRITE VERDICT NOBODY READ: A FIX THAT LANDED IN THE WRITER AND
+  NEVER REACHED THE TWELVE CALLERS ITS OWN DOCSTRING DESCRIBED.** `pipeline._landed()` returns
+  True/False deliberately, and says why in as many words — *"the writers now return the verdict
+  and the callers gate their done-keys on it."* **All twelve `land_json` call sites discarded it**
+  (`pipeline.py:1489,1516,1521,1536,1647,1759,1769,1840,1878,1880,1881,1893`) and then appended
+  their phase's done-key unconditionally. A denied rename therefore left the phase marked COMPLETE
+  over a **pre-write artifact**, and because the done-key was already recorded, no later run ever
+  redid it — the exact silent permanent loss `_landed` was written to close, reintroduced at every
+  caller it claimed to have fixed.
+  **Not hypothetical:** `runguard._land:PermissionError` has fired **99 times** and sits on the
+  page's own swallowed list, so denied renames are a live event on this machine. **Blast radius is
+  wider than one lost cycle:** phase artifacts are read by a later phase *in the same run* (phase 6
+  reads phase 5's `TIERS.json`), so a stale artifact is a wrong input the next phase reports as its
+  own empty result.
+  **Root cause:** the repair was made in the writer and the *sentence* describing the caller-side
+  obligation was never carried across. Standing lesson 28 — a fix must reach every file that makes
+  the same inference — in a new costume.
+  **Fix:** `pipeline.gate_done(st, phase, landed)`; all 12 sites collect their verdicts and gate
+  the done-key, and a phase whose write did not land stays open and logs why.
+  **Regression (verify_math §20q, AST not source-text, per lesson 26):** no `land_json` sits as a
+  bare `Expr`; the scan still finds ≥12 calls (the anti-vacuity companion lesson 30 demands); every
+  function calling `land_json` also calls `gate_done`.
+  **Drill (3 new nets, behavioural):** a False verdict leaves the phase open; an all-True verdict
+  still closes it (*a gate that refuses everything is a wall*); a phase that correctly wrote nothing
+  is not held open. **Watched going red** against the real pre-fix `pipeline.py` from export HEAD:
+  12 discarded verdicts, 5 ungated phases, drill net BREACHED, companion still HELD.
+  **Deliberately untouched:** four early-return done-key paths (`phase_chain` under ten contests,
+  `phase_history` with no charted tiers, `phase_write` with nothing settled) land nothing and are
+  correct outcomes; the check is scoped not to demand a verdict about writes that never happened.
 
 - **[m172 — RESOLVED, run #29] THE CHARTER REGRESSION HAD NOT DRIFTED; IT WAS NEVER ALLOWED TO
   FINISH.** `the automation reproduces the charter` (HIGH) sat 35 hours stale while

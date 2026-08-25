@@ -759,12 +759,36 @@ def synthesis_blocks(rec):
     with_feats.sort(key=lambda e: -len(feats_for[e["name"]]))
     rest = sorted((e for e in rec["entries"] if not feats_for.get(e["name"])),
                   key=lambda e: -len(e.get("description", "")))
-    # The description-only fallback stays a single ranked block DELIBERATELY, and that is a
-    # documented decision rather than an oversight: a description is a wiki lead paragraph --
-    # biography, not a deed -- and the evidence gate is looking for an act upon an object.
-    # Sampling more lead paragraphs buys nothing; this is the 99.6%-unassayed lesson.
-    return ([with_feats[i:i + 14] for i in range(0, len(with_feats), 14)] or [rest[:14]],
-            feats_for)
+    # IT WAS A CAP. OWNER RULING 2026-08-25, and the old comment above this line is REWRITTEN
+    # rather than merely deleted, because the way it was wrong is the instructive part.
+    #
+    # THE ORIGINAL JUSTIFICATION, VERBATIM: *"The description-only fallback stays a single ranked
+    # block DELIBERATELY... a description is a wiki lead paragraph -- biography, not a deed --
+    # and the evidence gate is looking for an act upon an object. Sampling more lead paragraphs
+    # buys nothing."*
+    #
+    # WHY IT CANNOT STAND, and two independent readers flagged it before the owner did: the
+    # argument refutes its own conclusion. If a lead paragraph genuinely cannot carry a ceiling
+    # feat, then **the number kept is irrelevant** -- fourteen is as useless as four hundred, and
+    # the honest form is to nominate none at all and record the source as unassayable. If a lead
+    # paragraph CAN carry one, then keeping the top fourteen by description LENGTH is a ranked
+    # truncation, and Hard Rule 0's own words apply exactly: *ranking then truncating is not
+    # sampling, it is deciding on the entity's behalf that everything past the cutoff does not
+    # exist.* There is no third reading in which fourteen is the right number.
+    #
+    # The owner ruled the second way: lead paragraphs CAN carry a ceiling feat. So the cap goes.
+    # `rest` is already sorted longest-first, which is the ranking Hard Rule 0 explicitly still
+    # permits and encourages -- the richest material lands in the first block, so an interrupted
+    # run has read the best of it. What changes is that the tail is now REACHED rather than
+    # discarded, in blocks of the same fourteen the feat-bearing path already uses.
+    #
+    # THE COST, stated because the ruling was asked for on exactly this basis: a feat-less source
+    # with 900 entries becomes 65 nomination calls instead of 1. That is real spend on a
+    # constrained pool, and it is the correct spend -- the alternative is a ceiling chosen from
+    # the first fourteen paragraphs and published as though the whole source had been read.
+    blocks = ([with_feats[i:i + 14] for i in range(0, len(with_feats), 14)]
+              or [rest[i:i + 14] for i in range(0, len(rest), 14)])
+    return (blocks, feats_for)
 
 
 def synthesis_prompt(src, sample, feats_for, ci, nchunks, total):
