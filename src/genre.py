@@ -35,13 +35,14 @@ comes with it.
 """
 import argparse
 import collections
-import json
 import os
 import re
 import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import silence                                                           # noqa: E402
 
 # Each genre: the vocabulary that identifies it, the naming register it implies, and the priors an
 # unattested world axis should draw from. Weights let a strong signal ("xenomorph") outrank a weak
@@ -233,8 +234,11 @@ def main():
 
     if args.write:
         p = os.path.join(HERE, "data", "GENRES.json")
-        with open(p, "w", encoding="utf-8") as f:
-            json.dump(out, f, indent=2, ensure_ascii=False)
+        # ATOMIC. `GENRES.json` is read by `navtree.py` and `profile.py`; a truncate-then-fill
+        # leaves it empty for the length of the write, and `profile.py:129-138` turns a failed
+        # load into a silent `{}` fallback that produces a fully-populated, blanket-default
+        # catalogue indistinguishable downstream from real data. The m100 tail, 2026-08-25.
+        silence.write_json(p, out, indent=2, ensure_ascii=False)
         print(f"\nwrote {p}")
     return 0
 

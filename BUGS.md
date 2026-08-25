@@ -81,6 +81,103 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
 
+### Minor-but-new (run #23 — the second whole-tree sweep)
+
+*95 modules, 39,687 lines, 16 parallel agents; `sweep_plan.missing("run23")` returned 0 uncovered
+and all 16 reports are on disk. Full detail in `handoff/sweep23/AUDIT_batch01..16.md`. As last
+run: **only findings I VERIFIED AT SOURCE MYSELF get bug numbers**. The agents' other findings are
+credible, cited, and queued in NEXT_STEPS §3 — not silently dropped.*
+
+- **[m109 — MAJOR, RESOLVED IN THIS RUN] THE UNRECOGNISED-FAILURE LEDGER HELD 122 KNOWN FAILURES
+  AND ONE UNKNOWN, BECAUSE THE CLASSIFIER HAD NO WORD FOR "BUSY".** Ruling 3 makes this the run's
+  first job, so the ledger was read first: **44 open rows, 122 occurrences, exactly one genuine
+  unknown** (`groq:groq/compound-mini: empty response`). Everything else was an ordinary throttle.
+  **Root cause:** `_ask_call`'s classification was binary — `permanent_words` → 4h bench, else
+  `record_unrecognised()`. There was no transient branch at all, so `Rate limit exceeded`, `429`,
+  `tokens per day (tpd): limit 200000` and Cohere's trial-key cap were all filed as mysteries.
+  m108 was a classifier that could never match; this is one that matched everything, and both
+  produce a page nobody can read.
+  **Fix:** `cascade_bridge.named_transient()` — phrase-matched, word-bounded on numeric codes,
+  checked AFTER the permanent classifier so a billing complaint that also says "try again" is
+  still benched. **Nothing is hidden:** a throttle is already counted in the throughput panel and
+  as `usage.outcome='rate_limited'` in Cascade's `usage` table, which is where `model calls per
+  hour` reads from. **44 rows → 11.** Pinned by `verify_math` §20h.
+
+- **[m110 — MAJOR, RESOLVED IN THIS RUN] THE m108 UNWRAP DESTROYED THE ONE FACT THE CLASSIFIER
+  NEEDED, AND COULD BENCH A BUCKET ON A NEIGHBOUR'S EVIDENCE.** Of the 23 rows surviving m109,
+  **15 named more than one candidate** (`All 11 candidates failed: ...`). For those,
+  `provider_error(pinned.bucket)` **cannot work by construction** — it reads the pinned bucket's
+  row, but a multi-candidate call is not necessarily an attempt on the pinned bucket. Proven from
+  the ledger itself: pin `groq:openai/gpt-oss-20b` against candidate label `Llama 3.3 70B (Groq)`.
+  **Fix, part one:** `pool_exhausted()` recognises a multi-candidate aggregate as a statement
+  about pool CAPACITY, not an unnameable provider fault. `All 1 candidates failed` deliberately
+  stays unrecognised — pin and attempt agree there, and that row shape is what exposed m108.
+  **Fix, part two, found by the sweep agent auditing this same session's code:** `pool_exhausted`
+  was being evaluated AFTER the unwrap, which destroys the text it reads — and worse, the unwrap
+  could pull a neighbouring bucket's `insufficient balance` into an aggregate and hand this bucket
+  a **four-hour bench for a call that failed because the pool was empty**. That is m103's harm
+  (shrinking the binding constraint) reached by a new road. Now decided on the RAW text before the
+  unwrap; a multi-candidate aggregate can never drive a bench. The same agent objected to
+  `"connection"` and `"capacity"` as bare substrings — `invalid connection string` is a config
+  fault, not a throttle — both are now phrases. Pinned by §20h.
+
+- **[m111 — MINOR, RESOLVED IN THIS RUN] `record_unrecognised()` USED THE PATTERN m100 RETIRED, IN
+  CODE WRITTEN THE SAME SESSION AS m100.** Hand-rolled `UNRECOGNISED + ".tmp"` + `replace_retry`.
+  `_UNREC_LOCK` is a `threading.Lock`, so it orders writers inside ONE process — but this file is
+  written from every process importing `cascade_bridge` (read, pipeline, feats, overwatch), and
+  those collide on the temp file itself. Converted to `silence.write_json`.
+
+- **[m112 — MAJOR, RESOLVED IN THIS RUN] A HIGH-SEVERITY STANDARD READ GREEN OFF A FIFTY-EIGHT-
+  HOUR-OLD SNAPSHOT.** `model IDs their providers still serve` did
+  `len(pm.get("stale") or [])` against `data/PROVIDER_MODELS.json` **with no age check**. The file
+  was stamped `2026-08-22 17:42` with `stale: []`, while `state/read_auto.log` showed the pool
+  removing **five model IDs with HTTP 404 (no such model) on every reader start**.
+  The project already ages `COVERAGE.json` before believing a coverage STALL. **This is the same
+  lesson from the more dangerous side:** a stale file producing a false ALARM gets investigated and
+  dismissed; a stale file producing a false ALL-CLEAR is never looked at again.
+  **Fix:** `MAX_PROVIDER_MODELS_AGE_H = 12`; the standard now reports `UNMEASURED` rather than
+  passing, with the refresh command in its order text. **Running that remedy found 8 stale Ollama
+  references, with `qwen3:8b` the only installed model** — matching the standing-model ruling. The
+  standard is now red on a real measurement. **The repair itself is m91 and is NOT in this repo**
+  (`C:\Users\imarl\cascade\config.json`). Pinned by §20h.
+
+- **[m113 — MAJOR/SECURITY-ADJACENT, RESOLVED IN THIS RUN] THE LOCAL MODEL'S WRITE GATE WAS
+  DEFEATED BY ONE CAPITAL LETTER.** `local_agent.py`'s `DENYLIST` — which stops the local model
+  patching `foreman`, `silence`, `standards`, `verify_math`, `health`, `allsweep`, `estate` and
+  `local_agent` itself — is a **case-sensitive set**, matched against `modname` derived from the
+  caller's own path string, on a **case-insensitive filesystem**. `path="src/Foreman.py"` passes
+  `os.path.isfile` (Windows resolves it to the real file), yields `modname == "Foreman"`, and
+  misses the set. **Reproduced on this machine before fixing.** Now folded on both sides; a
+  denylist that errs toward denying is safe, one that errs toward allowing is the whole failure.
+  Verified not to over-block (`src/tells.py` still patchable). Pinned by §20h.
+
+- **[m114 — MAJOR, RESOLVED IN THIS RUN] `local_agent._safe()` TREATED A PREFIX AS A DIRECTORY
+  BOUNDARY.** `full.startswith(HERE)` is true for any SIBLING whose name merely begins with this
+  project's — including `panscriptum-export`, the copy this module is forbidden to touch. Now
+  `full == HERE or full.startswith(HERE + os.sep)`. Pinned by §20h.
+
+- **[m115 — MINOR, RESOLVED IN THIS RUN] A FAILED REVERT REPORTED ITSELF AS A SUCCESSFUL ONE.**
+  `t_propose_patch()`'s exception path returned `"reverted": True` as a **literal**, emitted even
+  when the restoring write had just raised — so the one outcome that leaves a **half-patched module
+  on disk** was the outcome that claimed most confidently to have cleaned up. Now tracked, with an
+  `ALARM` key naming the file when the revert genuinely failed. Pinned by §20h.
+
+- **[m116 — MAJOR, RESOLVED IN THIS RUN] THE BUG QUEUE'S OWN REPORT RENDERED A CRASHED CHECK AS A
+  CLEAN ONE.** `overwatch.structure()` records its failures in `struct["error"]` /
+  `struct["estate_error"]`; `write_report()` **never read either key**. On a crash,
+  `broken_modules` and `corrupt_files` were absent, `len([])` was 0, and WATCH.md printed
+  *"modules that will not import: **0**"* — a clean bill of health from a check that never ran, in
+  the file whose whole job is reporting what is wrong. The only tell was `of 0 inspected`.
+  An error now **replaces** the number instead of sitting beside it. Both paths verified.
+  **NOTE: this fixes only the crash-reporting half.** The reconcile FILTER at `overwatch.py:326-343`
+  still drops real findings — see NEXT_STEPS §3, it is the top unworked item.
+
+- **[m117 — MINOR, RESOLVED IN THIS RUN] SIX MORE OF THE m100 TAIL.** `genre.py` (read by
+  `navtree` and `profile`, whose loader turns a failed read into a silent blanket-default
+  catalogue — so a torn write here is invisible downstream), `navtree.py` (**no temp staging at
+  all**, while already importing `silence`), `sevenfold.py`, `pantheon.py`, `zfighters.py` (read by
+  `pantheon`), `halo.py`. Three now-unused `import json` lines removed with them; pyflakes clean.
+
 ### Minor-but-new (run #22b — the first whole-tree sweep)
 
 *All 95 modules were read line-by-line by 16 parallel agents; full reports live in

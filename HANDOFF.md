@@ -9,6 +9,158 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 03:20–04:1x (local) — Run #23 (scheduled): three checks that could not fail, and the gate a capital letter walked through
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found.** The `publish.py` scrub gap from run #22b decision **C** is unchanged and
+   still worth a ruling; a sweep agent re-checked every synced path against the key/token/password
+   patterns this run and found nothing live.
+2. **THE LOCAL MODEL'S WRITE GATE WAS BYPASSABLE BY ONE CAPITAL LETTER, AND IS NOW FIXED.**
+   `local_agent.py`'s denylist — the thing that stops the local model patching `foreman`,
+   `silence`, `standards`, `verify_math`, `health`, `allsweep`, `estate` and `local_agent` itself
+   — was a **case-sensitive set** matched against a name taken from the caller's own string, on a
+   **case-insensitive filesystem**. `path="src/Foreman.py"` passes `os.path.isfile` (Windows
+   resolves it to the real `foreman.py`), yields `modname == "Foreman"`, and `"Foreman" in
+   {"foreman", ...}` is False. **Reproduced on this machine before fixing.** Found by the sweep.
+3. **Nothing deleted** beyond three `import json` lines that pyflakes reported unused after their
+   only `json.dump` was converted to `silence.write_json`.
+4. **One red standard is red BECAUSE I made it honest.** `model IDs their providers still serve`
+   now reports **8 stale Ollama model names**. It reported green for days. See below — that is a
+   repair, not a regression, and the remaining fix is m91, which lives in the Cascade project.
+
+**THE PAGE OPENED THE RUN, as ruled.** Snapshot fresh (7 minutes old), 31 of 40 standards holding,
+nine red. Two of the nine resolved themselves while the run worked (`every managed job is running`
+named `read.py`, which the supervisor restored at 03:31 after the M15-shaped lap; `every running
+job is advancing` named three jobs that were mid-restart from run #22b's bounce). The reader's
+`rc=4294967295` exits at 02:41 and 02:50 looked like a new crash signature and were chased on
+that basis — they are **run #22b's own process bounce**, matching its commit times, not a fault.
+Recorded here so the next run does not chase it again.
+
+---
+
+### The run's spine: three checks that could not fail
+
+Everything below is one shape. A check that cannot fail does not look broken — it looks **passed**,
+which is why all three survived so long.
+
+**[m109 — MAJOR, RESOLVED] THE LEDGER BUILT TO SURFACE UNKNOWN FAILURES HELD 122 KNOWN ONES AND
+ONE UNKNOWN.** Ruling 3 says an unrecognised pool failure is the run's first job, so I read the
+ledger first. It held **44 open rows, 122 occurrences**. Exactly **one** was a fault nobody could
+name: `groq:groq/compound-mini: empty response`. Everything else was an ordinary throttle —
+`Rate limit exceeded`, `429`, `tokens per day (tpd): limit 200000`, Cohere's trial-key cap.
+
+**Root cause: the classifier's vocabulary was binary — permanent, or unrecognised. It had no word
+for "busy"**, which is the single most common thing a free-tier pool says. So every throttle was
+filed as a mystery. m108 was a classifier that could never match; this is a classifier that
+matched everything, and both end at the same place — a page nobody can read. Added
+`named_transient()`: a failure whose text NAMES a rate limit, quota, throttle or unreachable
+transport is recognised, not recorded. **Nothing is hidden** — a throttle is already counted in the
+throughput panel and as `usage.outcome='rate_limited'` in Cascade's own table, which is where
+`model calls per hour` reads from. What changed is only that a named refusal stopped being filed
+as a nameless one. **44 rows → 11.**
+
+**[m110 — MAJOR, RESOLVED, AND THE SWEEP FOUND IT IN MY OWN WORK AN HOUR LATER] THE UNWRAP
+DESTROYED THE ONE FACT THE CLASSIFIER NEEDED, AND COULD BENCH ON THE WRONG BUCKET'S EVIDENCE.**
+Of the 23 rows left after m109, **15 named MORE THAN ONE candidate** (`All 11 candidates failed:
+...`). For those the m108 unwrap **cannot work by construction**: `provider_error()` reads the
+PINNED bucket's row, but a multi-candidate call is not necessarily an attempt on the pinned bucket
+at all. The ledger proves it — pin `groq:openai/gpt-oss-20b` against candidate label
+`Llama 3.3 70B (Groq)`. Different model; that bucket's `bucket_state` row was never touched by
+that call and had aged past the 180-second window.
+
+So I added `pool_exhausted()`: a multi-candidate aggregate is **not an unnameable provider fault**
+— it names no provider and affords no per-provider action. It is a statement about pool capacity,
+which three other standards already measure. **`All 1 candidates failed` deliberately stays
+unrecognised**, because there pin and attempt agree, and that exact row shape is what exposed
+m108. Keeping the single-candidate case loud is what preserves the discovery path.
+
+**Then the sweep agent auditing that batch found the bug in it**, and was right: I had computed
+`pool_exhausted(err)` **after** the unwrap, which destroys the very text it reads. Worse, an
+aggregate could pull up a neighbouring bucket's "insufficient balance" and hand this bucket a
+**four-hour bench for a call that failed because the pool was empty** — m103's harm exactly,
+reached by a new road. Now decided on the raw text, before the unwrap, and a multi-candidate
+aggregate can no longer drive a bench. The same agent objected to `"connection"` and `"capacity"`
+sitting in the transient list as bare words (`invalid connection string` is a config fault, not a
+throttle); both are now phrases. **Two real defects in code I had written that hour.**
+
+**[m112 — MAJOR, RESOLVED] A HIGH-SEVERITY STANDARD READ GREEN OFF A FIFTY-EIGHT-HOUR-OLD FILE.**
+`model IDs their providers still serve` did `len(pm.get("stale") or [])` against
+`data/PROVIDER_MODELS.json` **with no age check at all**. The file was stamped `2026-08-22 17:42`
+and said `stale: []` — while `state/read_auto.log` showed the live pool removing **five model IDs
+with HTTP 404 (no such model) on every single reader start**.
+
+The project already knows to age `COVERAGE.json` before believing a coverage STALL. **This is the
+same lesson from the more dangerous side**: a stale file producing a false ALARM gets investigated
+and dismissed; a stale file producing a false ALL-CLEAR is never looked at again. An empty stale
+list from three days ago is the *absence* of a measurement, and the two were rendering identically.
+The standard now ages its evidence and says `UNMEASURED` rather than passing.
+
+**Then I ran the remedy its own order text names.** `catalogue_models.py` refreshed the snapshot:
+**8 stale Ollama references, and `qwen3:8b` is the only model actually installed** — exactly the
+standing-model ruling. The standard is now red on a real measurement instead of green on a fossil.
+**The remaining repair is m91 and it is NOT in this repo** — the config is
+`C:\Users\imarl\cascade\config.json`. Owner call, now properly evidenced.
+
+**[m113 / m114 / m115 — RESOLVED] THE LOCAL MODEL'S WRITE GATE, THREE WAYS.** Item 2 above is m113.
+Alongside it: **m114**, `_safe()` used `full.startswith(HERE)` with no separator boundary, so any
+**sibling directory sharing the project's name prefix** was in bounds — including
+`panscriptum-export`, the copy this file is forbidden to touch. **m115**, the auto-revert path
+returned `"reverted": True` as a **literal**, emitted even when the restoring write had just
+raised — so the one outcome that leaves a half-patched module on disk was the outcome that claimed
+most confidently to have cleaned up after itself. All three fixed and pinned; the fix was checked
+against `src/tells.py` to confirm it does not over-block.
+
+**[m116 — MAJOR, RESOLVED] THE BUG QUEUE'S OWN REPORT RENDERED A CRASHED CHECK AS A CLEAN ONE.**
+`overwatch.structure()` records its own failures in `struct["error"]` and `struct["estate_error"]`,
+and `write_report()` **had never read either key**. When the import scan or the artifact scan
+raised, `broken_modules` and `corrupt_files` were simply absent, `len([])` was 0, and WATCH.md
+announced *"modules that will not import: **0**"* — a clean bill of health printed by a check that
+never ran, in the file whose entire job is reporting what is wrong. The only tell was
+`of 0 inspected`, which is the kind of tell nobody reads. An error now **replaces** the reassuring
+number. Verified both paths.
+
+**[m111, m117 — RESOLVED] THE m100 TAIL.** `record_unrecognised()` — written in the same session as
+m100 — used the exact `path + ".tmp"` pattern m100 retired, on a file written from every process
+that imports `cascade_bridge`. Converted. Six more shared-file writes converted to
+`silence.write_json`: **`genre.py`** (read by `navtree` and `profile`, whose loader turns a failed
+read into a silent blanket-default catalogue), **`navtree.py`** (which had *no* temp staging at all
+while already importing `silence`), `sevenfold.py`, `pantheon.py`, `zfighters.py` (read by
+`pantheon`), `halo.py`.
+
+---
+
+### The full comprehensive sweep — 95 modules, 39,687 lines, coverage PROVEN
+
+16 sonnet-tier agents in parallel, one per balanced batch, full reports in
+`handoff/sweep23/AUDIT_batch01..16.md`, compact summaries only to the supervisor.
+`sweep_plan.missing("run23")` returns **0 modules not covered**, and all 16 reports are on disk —
+two independent corroborations, which matters because the sweep found that `sweep_plan.record()`'s
+lock is a `threading.Lock` while the batches run as **separate OS processes** (see below).
+
+**Battery.** `verify_math` **682 passed, 0 FAILED** (666 at the run's start, +16 in a new **§20h**
+pinning every fault above). `pyflakes` clean over all 95 modules. `allsweep` 0 subsystems bad.
+`health --preflight` exactly the one known M1 baseline. Every touched module re-imported
+individually. Five jobs bounced for changed imports (`dashboard`, `publish`, `foreman`, `pipeline`,
+`read`); all restored, one instance each, no doubles.
+
+**A note on the bounce, worth keeping:** my first bounce script filtered on `"panscriptum" in
+cmdline`, which silently skipped the jobs launched with a **relative** path (`-u src/magnitude.py`).
+A filter that quietly matches less than it claims is the same shape as everything else in this
+entry. Caught by reading the output count against the process list.
+
+**What is NOT done, stated plainly.** The sweep produced far more verified findings than one run
+could safely repair. I fixed the three could-not-fail checks, the write gate, the reporting lie and
+the atomic-write tail, and stopped. The rest is in `NEXT_STEPS.md` §3 with file:line citations and
+in the batch reports — **real work, not a backlog of excuses.** The largest unrepaired items:
+`catalogue_codex.py:159` (70 codex elements verified miscategorised against real data),
+`feats_index.py:148` (four hyphenated hosts confirmed stranded live), `overwatch.py:326-343`
+(the reconcile *filter* still drops real findings — m116 fixed only the crash-reporting half),
+`onomast.py:311-356` (dead voting), `wiki_source.py:352` (`hard_stop=6000`, Hard Rule 0),
+`gpu_lane.py` (a wedged call can hold a GPU slot forever), and `sweep_plan.record()`'s
+cross-process race.
+
+---
 ## 2026-08-25 02:55 (local) — Run #22b (interactive, owner-directed): the paid lane erased, and the first whole-tree sweep finds one systemic fault in fourteen modules
 
 *Three owner rulings arrived mid-run and reshaped the pass. This entry covers all three plus the

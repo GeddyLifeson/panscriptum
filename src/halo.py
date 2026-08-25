@@ -25,13 +25,13 @@ genuinely lower than Warhammer's or Dragon Ball's, and saying so is the instrume
 setting does not get promoted for being well written.
 """
 import argparse
-import json
 import os
 import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import assay as A                                                       # noqa: E402
+import silence                                                          # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
@@ -167,8 +167,8 @@ def main():
             for ax in A.WEIGHTS:
                 d = rec["axes"][ax]
                 print("   %-15s%5.1f  %s" % (ax, d["score"], d["cited"][:54]))
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
+    # ATOMIC -- the m100 tail, 2026-08-25.
+    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
     print("")
     print("-> " + OUT)
     return 0

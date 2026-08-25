@@ -534,11 +534,31 @@ def write_report(led, struct):
     ]
     broken = struct.get("broken_modules") or []
     corrupt = struct.get("corrupt_files") or []
-    lines.append(f"- modules that will not import: **{len(broken)}**"
-                 + ("" if not broken else "  — " + ", ".join(broken[:4])))
-    lines.append(f"- files that will not parse: **{len(corrupt)}** of "
-                 f"{struct.get('files', 0):,} inspected"
-                 + ("" if not corrupt else "  — " + "; ".join(corrupt[:3])))
+    # A CHECK THAT CRASHED IS NOT A CHECK THAT PASSED.
+    #
+    # Found 2026-08-25 (run #23) by the whole-tree sweep. `structure()` records its own
+    # failures in `struct["error"]` and `struct["estate_error"]`, and this function had never
+    # read either key. So when the import scan or the artifact scan raised, `broken_modules`
+    # and `corrupt_files` were simply ABSENT, `len([])` was 0, and WATCH.md announced
+    # "modules that will not import: **0**" and "files that will not parse: **0** of 0
+    # inspected" -- a clean bill of health printed by a check that never ran. In the file
+    # whose entire job is to report what is wrong.
+    #
+    # The `of 0 inspected` was the only tell, and it is the kind of tell nobody reads.
+    # An error now REPLACES the reassuring number rather than sitting beside it.
+    if struct.get("error"):
+        lines.append("- modules that will not import: **UNKNOWN — the import scan itself "
+                     f"failed**  — {struct['error']}")
+    else:
+        lines.append(f"- modules that will not import: **{len(broken)}**"
+                     + ("" if not broken else "  — " + ", ".join(broken[:4])))
+    if struct.get("estate_error"):
+        lines.append("- files that will not parse: **UNKNOWN — the artifact scan itself "
+                     f"failed**  — {struct['estate_error']}")
+    else:
+        lines.append(f"- files that will not parse: **{len(corrupt)}** of "
+                     f"{struct.get('files', 0):,} inspected"
+                     + ("" if not corrupt else "  — " + "; ".join(corrupt[:3])))
     for r in (struct.get("reconcile") or []):
         n = r.get("count")
         lines.append(f"- {r['finding']}: **{n if n is not None else ''}** {r['detail'][:80]}")

@@ -257,8 +257,10 @@ def main():
         print("   " + p)
 
     if args.write and not problems:
-        with open(OUT, "w", encoding="utf-8") as f:
-            json.dump(data, f, separators=(",", ":"), ensure_ascii=False)
+        # ATOMIC. This site had no temp-file staging at all -- not even the bare
+        # `path + ".tmp"` + `os.replace` that other modules hand-rolled -- while `silence` was
+        # already imported here for other purposes. The m100 tail, 2026-08-25.
+        silence.write_json(OUT, data, separators=(",", ":"), ensure_ascii=False)
         print(f"\nwrote {OUT}  ({os.path.getsize(OUT)//1024} KB)")
     elif args.write:
         print("\nNOT WRITTEN — audit must be clean first")

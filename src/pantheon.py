@@ -257,8 +257,8 @@ def main():
     a = ap.parse_args()
 
     out = compute(GODS)
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
+    # ATOMIC -- the m100 tail, 2026-08-25.
+    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
 
     combined = dict(out)
     if not a.gods_only:

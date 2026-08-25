@@ -61,12 +61,12 @@ citation graph. Vol. X.7's propagation still runs on the resonance graph, untouc
 """
 import argparse
 import collections
-import json
 import os
 import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silence                                                          # noqa: E402
 
 SPAN = 7
 TIERS = ("hyperverse", "xenoverse", "metaverse", "multiverse", "universe")
@@ -263,9 +263,9 @@ def main():
 
     if args.write:
         p = os.path.join(HERE, "data", "SEVENFOLD.json")
-        with open(p, "w", encoding="utf-8") as f:
-            json.dump({"span": SPAN, "sources": coords, "worlds": worlds},
-                      f, indent=2, ensure_ascii=False)
+        # ATOMIC -- the m100 tail, 2026-08-25.
+        silence.write_json(p, {"span": SPAN, "sources": coords, "worlds": worlds},
+                           indent=2, ensure_ascii=False)
         print(f"\nwrote {p}")
     return 0
 

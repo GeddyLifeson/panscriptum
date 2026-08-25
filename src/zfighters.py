@@ -473,8 +473,9 @@ def main():
                 print("   %-15s%5.1f  [%s] %s"
                       % (ax, d["score"], d["provenance"], d["cited"][:60]))
 
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
+    # ATOMIC. `data/Z_FIGHTERS.json` is read by `pantheon.py`, so a crash mid-write corrupts a
+    # file another module consumes. The m100 tail, 2026-08-25.
+    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
     print("")
     print("-> " + OUT)
     return 0
