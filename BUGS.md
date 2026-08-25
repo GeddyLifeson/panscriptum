@@ -7,6 +7,36 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M26 — RESOLVED SAME DAY, kept here because the SHAPE recurs] A REMEDY CAUSED THE BREACH IT
+  PREVENTS, TWICE IN ONE HOUR, AND THE SECOND ONE WAS THE NEW SAFETY LAYER ITSELF.**
+  Found by the owner 2026-08-25, from the page: `read.py` dead since 10:59, all four library
+  counters flat. Four jobs were down, not one. Two independent causes, and both are standing
+  lesson 10 (*a guard fails by doing the thing it guards against*):
+  1. **`foreman.kill_stalled_job` killed jobs nothing would restart, and said so while doing
+     it.** Its own log: *"killed stalled read_auto:3592; read.py --run is NOT in the keeper's
+     STANDING set -- nothing restarts it until the supervisor's next MAIN LAP, measured at 42-44
+     min typically and 4h at worst."* The remedy for `every running job is advancing` directly
+     breached `the library's counters are moving`. It had the horizon computed, printed it, and
+     killed anyway. **FIXED:** `_restartable()` derives the answer from the keeper's STANDING
+     roster (the single authority m49 established, so it cannot drift into a second hand-kept
+     list) and **fails closed**; an unrestartable stalled job is now SPARED and escalated at
+     SUPERVISOR rung. A stall costs one wedged unit; an unrestartable kill costs hours.
+  2. **THE HALT CASCADE, and this one was self-inflicted by the safety layer added hours
+     earlier.** A drill breach raised an OWNER halt. The halt interlock makes every job's
+     `main()` exit immediately -- correct, and the point of it. But from the supervisor's seat
+     that is indistinguishable from every job crashing on startup, so `overnight.py` hit its
+     `IDLE_LIMIT`, logged *"That is not an idle library, it is a broken one"*, and **exited**.
+     Nothing then restarted anything, so **clearing the halt did not bring the library back** --
+     `read.py`, `pipeline.py` and `feats.py --roll` all stayed down. **FIXED:** the supervisor
+     consults the halt BEFORE concluding breakage and WAITS, because the entire promise of a
+     halt is that work resumes when a person clears it.
+  **Both are drill nets now** (`a remedy never kills a job nothing would restart`, `STANDING
+  jobs are still killable`, `a HALTED library does not read as a BROKEN one`). Recovery
+  verified: nine jobs up, counters moving again (cited 12,737 -> 12,751, no_page 27,399 ->
+  19,211 within the hour).
+  *The lesson worth keeping: the newest guard in the tree caused the longest outage of the day.
+  A safety that stops work must be told apart from a fault that stops work, by everything that
+  watches for faults -- otherwise the safety reads as the emergency.*
 - **[M21] `action=raw` DOES NOT FOLLOW REDIRECTS, AND AN ENTIRE SOURCE HAS MINED NOTHING.**
   Found run #28 by opening the cache instead of reasoning about it. Every one of dandwiki's 805
   cached entries holds ~40 characters reading `redirect SRD:<title>`: the RAW transport returns
