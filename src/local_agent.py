@@ -336,7 +336,9 @@ def _gates(full, modname):
     guaranteed false rejection. verify_math runs for every type: it is the whole-suite gate,
     and a broken config.yaml is precisely the kind of damage only a whole-suite run catches.
     """
-    if full.endswith(".py"):
+    # Case-folded, for the reason spelled out at `t_propose_patch` -- `src/foreman.PY` is the
+    # same file on this filesystem and must get the same gates, not none of them.
+    if full.lower().endswith(".py"):
         try:
             ast.parse(open(full, encoding="utf-8").read())
         except SyntaxError as e:
@@ -367,7 +369,7 @@ def _gates(full, modname):
             yaml.safe_load(open(full, encoding="utf-8"))
         except Exception as e:
             return "not valid YAML: " + str(e)[:100]
-    if full.endswith(".py") and modname:
+    if full.lower().endswith(".py") and modname:
         r = subprocess.run([PY, "-c", "import sys; sys.path.insert(0, r'%s'); import %s"
                             % (os.path.join(HERE, "src"), modname)],
                            capture_output=True, text=True, timeout=180,
@@ -392,7 +394,17 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     full = _safe(path)
     if not full or not os.path.isfile(full):
         return {"applied": False, "error": "no such file: " + str(path)}
-    modname = os.path.basename(full)[:-3] if full.endswith(".py") else None
+    # ...AND THE EXTENSION TEST HAS TO BE FOLDED TOO, which the run #23 fix below did not do.
+    # Folding the denylist while deriving `modname` through a CASE-SENSITIVE `.endswith(".py")`
+    # left the same door open one letter further along: `src/foreman.PY` resolves to the real
+    # `foreman.py` on NTFS and passes `os.path.isfile`, but fails `endswith(".py")`, so
+    # `modname` came out None, `_mod_l` came out "", and the case-folded module denylist was
+    # never consulted at all. `DENYLIST_PATHS` holds only `config.yaml`, so nothing caught it
+    # on the path side either -- and `_gates()` skipped the parse, lint and import checks for
+    # the same reason, leaving only the whole-suite verify_math run. That is bypass FOUR, after
+    # case (m113), name prefix (m114) and the NTFS alternate data stream (m121). Found run #25.
+    _lower = full.lower()
+    modname = os.path.basename(full)[:-3] if _lower.endswith(".py") else None
     # The denylist has to be answerable for NON-python files too. It used to be tested against
     # `modname`, which is None for anything that is not a `.py` -- so no non-python path could
     # ever be denied, and `config.yaml` (read by every module in the kit for model, host and

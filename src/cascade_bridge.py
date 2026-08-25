@@ -425,6 +425,34 @@ def named_transient(err):
     return bool(_TRANSIENT_CODES.search(e)) or any(w in e for w in _TRANSIENT_WORDS)
 
 
+# The provider answered, with nothing in it. Cascade's engine has two wordings for this one
+# condition (`cascade/engine.py:277` and `:343`), and because `record_unrecognised` de-duplicates
+# on EXACT text they arrived as two separate permanent rows for the same fault on the same
+# bucket -- `groq:groq/compound-mini` held both on 2026-08-25. Neither was a throttle, an
+# exhaustion or a dead key, so no existing predicate could name either, and the HIGH-severity
+# `every pool failure is recognised` standard sat red on them.
+#
+# EXACT MATCH ON THE WHOLE STRING, deliberately, not a substring test. A loose `"empty" in err`
+# would quietly swallow genuinely unknown failures that merely mention the word, which is the
+# one thing this ledger exists to prevent -- naming a fault must never become a way of not
+# seeing faults. Adding a wording here is a claim that this exact sentence is understood.
+#
+# Naming it does NOT bench it, exactly as `named_transient` does not: whether an empty
+# completion should cost a bucket a cooldown is the open routing question in NEXT_STEPS, and
+# answering it quietly inside a diagnostic is the failure mode this file's history warns about.
+# Tracked as a named condition in BUGS.md rather than vanishing off the page. (run #25)
+_EMPTY_CONTENT = (
+    "no answer text produced",
+    "produced no answer text",
+    "empty response",
+)
+
+
+def empty_content(err):
+    """True if `err` is the engine reporting a successful call that carried no content."""
+    return (err or "").strip().lower() in _EMPTY_CONTENT
+
+
 def provider_error(bucket, max_age_s=180):
     """The PROVIDER's own last error for `bucket`, from Cascade's scratch DB. "" if unknown.
 
@@ -534,7 +562,7 @@ def unrecognised_open(max_age_h=24):
             if float(r.get("last_seen", 0)) < cut:
                 continue
             err = r.get("error") or ""
-            if pool_exhausted(err) or named_transient(err):
+            if pool_exhausted(err) or named_transient(err) or empty_content(err):
                 continue
             live.append(r)
         return sorted(live, key=lambda r: -float(r.get("last_seen", 0)))

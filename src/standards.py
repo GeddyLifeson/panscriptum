@@ -129,7 +129,8 @@ def ollama_runner_up(ttl=120.0):
         import subprocess as _sp
         out = _sp.run(
             ["tasklist", "/FI", "IMAGENAME eq llama-server.exe", "/NH"],
-            capture_output=True, text=True, timeout=25).stdout or ""
+            capture_output=True, text=True, timeout=25,
+            creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0)).stdout or ""
         up = "llama-server" in out.lower()
     except Exception:
         silence.note("standards.py:ollama-runner")
@@ -1110,7 +1111,8 @@ def check(state=None):
                          "Get-CimInstance Win32_Process -Filter \"Name like '%python%'\" | "
                          "ForEach-Object { $_.CommandLine }"],
                         capture_output=True, text=True, timeout=60,
-                        encoding="utf-8", errors="replace").stdout or ""
+                        encoding="utf-8", errors="replace",
+                        creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0)).stdout or ""
         lines = [x for x in procs.splitlines() if x.strip()]
         dupes = []
         for job in ("read.py --run", "feats.py --roll", "overnight.py", "foreman.py",

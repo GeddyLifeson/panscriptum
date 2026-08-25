@@ -191,8 +191,14 @@ def main():
         print(f"  {len(rec['entries']):5d} entries ({joined} with register text)  {r['name']}")
         if not args.dry_run:
             import pipeline as _P
-            _P.write_record_catalogue(
-                os.path.join(RECORDS, slug(r["name"]) + ".json"), rec)
+            # GATE ON THE WRITE -- same fix, same reason as catalogue_aurora.py and
+            # catalogue_web.py: a roll row marked `catalogued` for a write that never landed is
+            # never revisited, because the default work selection is `entry_count == 0`.
+            # (run #25)
+            if not _P.write_record_catalogue(
+                    os.path.join(RECORDS, slug(r["name"]) + ".json"), rec):
+                print(f"      -> WRITE DENIED {r['name']}; roll left untouched", flush=True)
+                continue
             r["entry_count"] = len(rec["entries"])
             r["status"] = "catalogued"
 

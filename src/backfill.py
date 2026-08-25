@@ -188,7 +188,25 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
                 })
             added += 1
             time.sleep(0.2)
-    P.write_record(path, r)
+    # THE CAST-GROWING SIDE OF THE TWO-WRITER CONTRACT, not the pipeline side. This called
+    # `write_record`, which is documented to keep the DISK entry list on drift because the
+    # pipeline's in-memory copy is the stale one. Backfill is the opposite case and always has
+    # been: it has just APPENDED the missing characters to `r["entries"]`, so its copy is the
+    # fresh authority and the append itself guarantees a differing entry count -- i.e. drift is
+    # detected on every run that actually did something, the merge takes disk as the base, and
+    # every character just backfilled is dropped. The module's whole purpose was defeated on
+    # exactly the runs where it had work to do; a run that found nothing missing wrote
+    # correctly, so it never looked broken. Found and reproduced by the run #25 sweep.
+    #
+    # Gated, like every other caller: `write_record_catalogue` returns whether the rename
+    # LANDED, and reporting "added N" for a write that never reached disk is the same lie in a
+    # smaller font.
+    if not P.write_record_catalogue(path, r):
+        return {"source": source, "host": host, "roster": len(names),
+                "already_held": len(names) - absent, "absent": absent,
+                "queued": len(missing), "missing": len(missing),
+                "added": 0, "write_denied": True,
+                "entries_now": len(r["entries"]) - added}
     # `absent` is the PRE-cap truth and the dry path has always returned it; the real path
     # returned only a post-cap `missing`, so main()'s `res.get("absent", 0)` found no key and
     # printed **absent 0 for every source on every non-dry run** -- a completeness report that

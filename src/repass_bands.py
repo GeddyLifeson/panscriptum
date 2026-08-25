@@ -76,8 +76,15 @@ def main():
                     changed = True
 
         if changed:
-            PL.write_record(path, rec)
-            touched.append(src)
+            # GATE ON THE WRITE. `write_record` returns whether the write LANDED; this ignored
+            # it and appended to `touched` regardless, so the run's closing "APPLIED. N
+            # rewritten" counted sources whose file was never modified. Reproduced by the run
+            # #25 sweep against a torn file: the write was refused, the disk copy was untouched,
+            # and the script still reported it as rewritten. (run #25)
+            if PL.write_record(path, rec):
+                touched.append(src)
+            else:
+                print("  WRITE DENIED %s; left as it was" % src, flush=True)
 
     total_banded = len(demoted_entries) + len(kept_entries)
     print("=" * 96)

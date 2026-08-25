@@ -56,6 +56,11 @@ MAX_PER_CATEGORY = None
 # How deep to read a category before ranking. Must be well above MAX_PER_CATEGORY or ranking
 # has nothing to choose from and the alphabetical bias returns.
 CATEGORY_SCAN_DEPTH = None
+# How often `catalogue()` may print a progress line. NOT a cap on anything -- it rate-limits
+# OUTPUT, never work, and each line still reports a real completed unit. It must stay well
+# under `standards.MAX_JOB_SILENCE_MIN` (15 minutes) or a healthy pass on a big wiki reads as
+# a stall and the foreman kills it, which is precisely what it did before run #25.
+PROGRESS_EVERY_S = 20
 
 
 def slug(s):
@@ -152,7 +157,38 @@ def catalogue(source_name, verbose=True):
     if not sub:
         return None, "no wiki resolved"
     if verbose:
-        print(f"      wiki: {sub}.fandom.com ({sitename})")
+        print(f"      wiki: {sub}.fandom.com ({sitename})", flush=True)
+
+    # A WORKING JOB MUST LOOK LIKE A WORKING JOB, OR THE STALL REMEDY KILLS IT.
+    #
+    # Everything below this line -- category discovery, member listing, size ranking, page
+    # fetching -- used to print NOTHING until a whole canonical class was finished. On a small
+    # wiki that is seconds. On DC it is hours: MEASURED run #25, the `Persons` class alone
+    # resolves to 360 categories, the first of which lists 33,614 titles (23s) and takes ~3.8
+    # minutes just to rank. `standards.MAX_JOB_SILENCE_MIN` is 15, so `foreman.kill_stalled_job`
+    # killed the catalogue pass every single time it reached a large source -- and because
+    # `catalogue_web.py --recatalogue` is NOT in the keeper's STANDING set, it then stayed down
+    # until the supervisor's next main lap. `--shortfall` orders the work LARGEST GAP FIRST and
+    # runs three sources at once, so the pass began with the three biggest wikis in the library
+    # every time and was killed before finishing any of them. That is why `every source is
+    # fully catalogued` sat at 17.2% with its worst offenders being its biggest sources: DC at
+    # 0.5% is not a slow source, it is a source that has never once been allowed to finish.
+    # Killed 3 times in the visible foreman log alone.
+    #
+    # The fix is to say what is happening, not to weaken the detector: every line below is
+    # emitted on a REAL completed unit of work, merely rate-limited so a huge source does not
+    # write a million lines. A wedged fetch completes nothing, so it still goes silent and is
+    # still killed -- which is exactly what the stall standard is for.
+    _beat_at = [time.time()]
+
+    def _beat(what, done, total):
+        if not verbose:
+            return
+        now = time.time()
+        if now - _beat_at[0] < PROGRESS_EVERY_S:
+            return
+        _beat_at[0] = now
+        print(f"      {source_name[:20]:22s} {what:24s} {done}/{total}", flush=True)
 
     # gather candidate titles per canonical category
     planned = []
@@ -160,19 +196,22 @@ def catalogue(source_name, verbose=True):
         cats = ws.find_categories(sub, canon)
         if not cats:
             continue
+        _short = canon.split(" (")[0][:16]
         # Pull the category WIDE, then rank by article size and keep the top slice. Slicing
         # the raw listing instead would just take the alphabetically-first names -- that is
         # how an earlier run built a Bleach catalogue with no Ichigo Kurosaki in it.
         titles = []
-        for c in cats:
+        for _ci, c in enumerate(cats, 1):
             titles += ws.category_members(sub, c, limit=None)
+            _beat(_short + " cats", _ci, len(cats))
         titles = ws.clean_titles(titles)
         # Was `if len(titles) > MAX_PER_CATEGORY:` -- and MAX_PER_CATEGORY is None, so this
         # line raised TypeError for every category that had any titles at all. It was left
         # behind when the cap was removed: the constant was neutralised, the comparison
         # against it was not. Ranking is unconditional now, which is what it should always
         # have been, because ranking without truncating costs nothing and buys ordering.
-        titles = ws.rank_by_size(sub, titles, top=None)       # rank, never truncate
+        titles = ws.rank_by_size(sub, titles, top=None,       # rank, never truncate
+                                 progress=lambda d, t: _beat(_short + " ranking", d, t))
         if titles:
             planned.append((canon, cats, titles))
 
@@ -201,7 +240,8 @@ def catalogue(source_name, verbose=True):
             seen.add(key)
             wanted.append(title)
 
-        texts = ws.page_texts(sub, wanted)
+        texts = ws.page_texts(sub, wanted,
+                              progress=lambda d, t: _beat(_short + " fetching", d, t))
         got = 0
         for title in wanted:
             text = texts.get(title)
@@ -218,7 +258,8 @@ def catalogue(source_name, verbose=True):
             })
             got += 1
         if verbose:
-            print(f"      {canon.split(' (')[0][:28]:30s} {got:4d}")
+            print(f"      {canon.split(' (')[0][:28]:30s} {got:4d}", flush=True)
+            _beat_at[0] = time.time()
 
     if not entries:
         return None, "categories found but no page text retrievable"

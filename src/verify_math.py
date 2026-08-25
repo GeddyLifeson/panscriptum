@@ -3031,7 +3031,15 @@ print("20. §20a  rc=15 IS A KILL, NOT AN EXIT — what the supervisor log is ac
 import signal as _sig20a
 import subprocess as _sp20a
 
-_p20a = _sp20a.Popen([sys.executable, "-c", "import time;time.sleep(30)"])
+# CREATE_NO_WINDOW here too. This probe spawns a real child on every run of the suite, and
+# the suite runs from the foreman's patch lane, from allsweep, and from every maintenance
+# pass -- so a bare Popen is a black console window on the owner's desktop several times an
+# hour, for ever. It was the ONLY unguarded spawn in src/, and §20e below -- the check whose
+# entire job is to forbid exactly this -- could not see it, because it matched the literal
+# module name `subprocess` and this file imports it as `_sp20a`. Found run #25.
+_NO_WIN20a = getattr(_sp20a, "CREATE_NO_WINDOW", 0)
+_p20a = _sp20a.Popen([sys.executable, "-c", "import time;time.sleep(30)"],
+                     creationflags=_NO_WIN20a)
 try:
     os.kill(_p20a.pid, _sig20a.SIGTERM)
     _rc20a = _p20a.wait(timeout=30)
@@ -3359,13 +3367,40 @@ for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
         _t20e = _ast20e.parse(open(_p20e, encoding="utf-8").read())
     except SyntaxError:
         continue                      # allsweep's LINT tier owns syntax; not this check's job
+    # RESOLVE THE IMPORT ALIASES FIRST, because matching the literal name `subprocess` is a
+    # check that cannot fail on the one file that matters. This scan used to compare
+    # `_f20e.value.id == "subprocess"`, so `import subprocess as _sp20a` made it blind -- and
+    # the single unguarded spawn in the whole tree was in THIS file, three hundred lines above
+    # the check, spawned through exactly that alias. The check reported green for nine runs.
+    # A guard that only recognises the unobfuscated spelling of the thing it guards against is
+    # not a guard. (Found run #25; the spawn itself is fixed at §20a.)
+    _alias20e = {}                    # local name -> real module, for `import X as Y`
+    _direct20e = {}                   # local name -> (real module, attr), for `from X import Y`
+    for _i20e in _ast20e.walk(_t20e):
+        if isinstance(_i20e, _ast20e.Import):
+            for _a20e in _i20e.names:
+                if _a20e.name in {"subprocess", "os"}:
+                    _alias20e[_a20e.asname or _a20e.name] = _a20e.name
+        elif isinstance(_i20e, _ast20e.ImportFrom):
+            if _i20e.module in {"subprocess", "os"}:
+                for _a20e in _i20e.names:
+                    _direct20e[_a20e.asname or _a20e.name] = (_i20e.module, _a20e.name)
+
     for _n20e in _ast20e.walk(_t20e):
         if not isinstance(_n20e, _ast20e.Call):
             continue
         _f20e = _n20e.func
-        if not isinstance(_f20e, _ast20e.Attribute) or not isinstance(_f20e.value, _ast20e.Name):
+        _mod20e = _fn20e = None
+        if isinstance(_f20e, _ast20e.Attribute) and isinstance(_f20e.value, _ast20e.Name):
+            # `subprocess.run(...)`, and now `_sp20a.Popen(...)` too.
+            _mod20e = _alias20e.get(_f20e.value.id)
+            _fn20e = _f20e.attr
+        elif isinstance(_f20e, _ast20e.Name):
+            # `from subprocess import Popen` then a bare `Popen(...)` -- the other spelling
+            # that slipped past an attribute-only scan.
+            _mod20e, _fn20e = _direct20e.get(_f20e.id, (None, None))
+        if not _mod20e:
             continue
-        _mod20e, _fn20e = _f20e.value.id, _f20e.attr
         _kw20e = {k.arg for k in _n20e.keywords if k.arg}
         _where20e = f"{os.path.basename(_p20e)}:{_n20e.lineno}"
         if _mod20e == "os" and _fn20e in {"system", "popen", "startfile"}:

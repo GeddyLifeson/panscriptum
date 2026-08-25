@@ -467,21 +467,33 @@ def page_text(subdomain, title, max_chars=900):
     return ""
 
 
-def page_texts(subdomain, titles, max_chars=900, workers=None):
+def page_texts(subdomain, titles, max_chars=900, workers=None, progress=None):
     """Fetch lead prose for many pages concurrently. Returns {title: text}.
 
     Page fetching dominates runtime and is pure network wait, so running it in a pool is the
     single biggest speedup available -- serially at one request per 0.35s a 300-entity source
     spent minutes doing nothing but waiting.
+
+    `progress`, if given, is called `progress(done, total)` as each page comes back. It is an
+    additive default-kwarg (run #25) and every existing caller keeps its old behaviour by
+    passing nothing. It exists because this call is the longest silent stretch in the whole
+    catalogue pass -- 33,614 titles for one DC category -- and a job that prints nothing for
+    longer than MAX_JOB_SILENCE_MIN is killed by the foreman's stall remedy as wedged. The
+    callback reports REAL completions, never a timer: a genuinely wedged fetch still goes
+    silent and still gets killed, which is what the stall detector is for.
     """
     out = {}
     if not titles:
         return out
+    done, total = 0, len(titles)
     with ThreadPoolExecutor(max_workers=workers or WORKERS) as pool:
         for title, text in zip(titles, pool.map(
                 lambda t: page_text(subdomain, t, max_chars), titles)):
             if text:
                 out[title] = text
+            done += 1
+            if progress:
+                progress(done, total)
     return out
 
 
@@ -564,7 +576,7 @@ def extracts(subdomain, titles, chars=700):
     return out
 
 
-def rank_by_size(subdomain, titles, top=None):
+def rank_by_size(subdomain, titles, top=None, progress=None):
     """Order titles by article byte-length, longest first.
 
     Category listings come back ALPHABETICALLY. Taking the first N off a big category is
@@ -587,12 +599,19 @@ def rank_by_size(subdomain, titles, top=None):
     sizes = {}
     # Ranking a 1,200-title category is 24 batches; running them in the pool turns 24 serial
     # round trips into roughly one.
+    # `progress(done, total)` per BATCH, same contract and same reason as page_texts above:
+    # ranking DC's 33,614-title Characters category is 673 batches and takes minutes with no
+    # output of its own. Real completions only. (run #25)
+    _done20 = 0
     with ThreadPoolExecutor(max_workers=min(WORKERS, max(1, len(batches)))) as pool:
         for d in pool.map(fetch, batches):
             for page in d.get("query", {}).get("pages", {}).values():
                 t = page.get("title")
                 if t and "length" in page:
                     sizes[t] = page["length"]
+            _done20 += 1
+            if progress:
+                progress(_done20, len(batches))
     ranked = sorted(titles, key=lambda t: -sizes.get(t, 0))
     return ranked[:top] if top else ranked
 

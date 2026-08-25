@@ -140,8 +140,17 @@ def main():
         written.append((r, record))
         if not args.dry_run:
             import pipeline as _P
-            _P.write_record_catalogue(
-                os.path.join(RECORDS, slug(source_name) + ".json"), record)
+            # GATE ON THE WRITE. `write_record_catalogue` returns whether the rename LANDED,
+            # and this threw the verdict away and then marked the roll row `catalogued` with a
+            # real `entry_count` regardless. The default work selection is `entry_count == 0`,
+            # so a source recorded as catalogued is never picked up again: a denied write left
+            # a stale record on disk beside a roll confidently claiming N entries, permanently.
+            # `catalogue_web.py` already gates this exact call for this exact reason; these
+            # siblings did not. Found by the run #25 sweep. (run #25)
+            if not _P.write_record_catalogue(
+                    os.path.join(RECORDS, slug(source_name) + ".json"), record):
+                print(f"      -> WRITE DENIED {source_name}; roll left untouched", flush=True)
+                continue
             r["entry_count"] = len(entries)
             r["status"] = "catalogued"
 

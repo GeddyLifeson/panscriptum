@@ -146,7 +146,15 @@ def main():
             # through `pipeline.write_record_catalogue`, not straight to disk at all. Making the
             # write atomic is the safe half of that repair; routing this recovery tool through
             # the catalogue writer changes its merge semantics and is flagged in NEXT_STEPS.
-            silence.write_json(path, record, indent=2, ensure_ascii=False)
+            # GATE ON THE WRITE. `silence.write_json` returns False on a persistent lock and
+            # this ignored it, then marked the roll row `catalogued` with a real `entry_count`
+            # anyway -- so a write that never landed left the roll actively LYING about a record
+            # that is not on disk, and since work selection is `entry_count == 0` the source was
+            # never revisited. Staying honestly zero is recoverable; claiming a phantom record
+            # is not. (run #25)
+            if not silence.write_json(path, record, indent=2, ensure_ascii=False):
+                print(f"  WRITE DENIED {name}; roll left untouched", flush=True)
+                continue
             roll_entry["entry_count"] = len(entries)
             roll_entry["status"] = "catalogued"
         written.append((name, len(entries), os.path.basename(path)))
