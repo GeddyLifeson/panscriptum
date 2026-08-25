@@ -143,7 +143,12 @@ def sweep(config_path=None, workers=6):
               + (f"   CONFIG ASKS FOR {len(missing)} THAT NO LONGER EXIST" if missing else ""))
         for a in missing:
             print(f"      stale: {a}")
-            stale.append({"provider": name, "wants": a, "available_sample": r["models"][:8]})
+            # THE WHOLE LIST. `[:8]` here was a Hard Rule 0 cap on the very field a person reads
+            # to pick the replacement for a retired model name: if the provider's ninth model was
+            # the right substitute, nothing that consumed this record could see it. The key name
+            # keeps its `_sample` suffix only because the written record may already be on disk
+            # under it; the value is no longer a sample. (run #26)
+            stale.append({"provider": name, "wants": a, "available_sample": list(r["models"])})
     if stale:
         print(f"\n{len(stale)} stale model reference(s). The keys work; the names do not.")
         print("Current alternatives, per provider:")

@@ -3495,8 +3495,12 @@ check("pump() records the exception text, not just the failure flag",
 check("the except clause still binds the exception",
       "except Exception as exc:" in _cb22, True)
 check("the permanent-refusal list is matched case-folded",
-      '(box.get("error") or "").lower()' in _cb22, True,
+      "err = raw.lower()" in _cb22, True,
       note="providers do not agree on capitalisation of Authentication/Credentials")
+check("but the text handed to the LEDGER is not folded",
+      'raw = " ".join((box.get("error") or "").split())' in _cb22, True,
+      note="run #26: folding the recorded text split one fault into two permanent rows and "
+           "mangles the case-bearing request_id/org ids a person has to quote back")
 for _tok22 in ("401", "402", "403", "insufficient balance", "no resource package",
                "payment required", "needs billing", "depleted", "credentials",
                "invalid_api_key", "authentication"):
@@ -3521,7 +3525,7 @@ check("the metrics line reads _via only from a dict",
 check("the engine's aggregate wrappers are recognised as carrying no reason",
       _CB22b.__dict__.get("_WRAPPERS"), ("candidates failed", "every model in this pool"))
 check("the classifier unwraps before it judges",
-      "deeper = provider_error(pinned.bucket).lower()" in _cb22, True,
+      "deeper = provider_error(pinned.bucket)" in _cb22, True,
       note="THE BUG: without this the classifier judges 'All 1 candidates failed: ...' forever")
 check("the unwrap is gated on the wrapper, not run on every error",
       "any(w in err for w in _WRAPPERS)" in _cb22, True,
@@ -3534,7 +3538,7 @@ check("provider_error opens the scratch DB READ-ONLY",
 check("provider_error is total -- a diagnostic must not kill the call it explains",
       _CB22b.provider_error("no:such:bucket:ever"), "")
 check("the unrecognised ledger records the UNWRAPPED text",
-      "record_unrecognised(pinned.bucket, err or box.get" in _cb22, True,
+      "record_unrecognised(pinned.bucket, raw or box.get" in _cb22, True,
       note="otherwise the page shows the engine's aggregate, which nobody can act on")
 
 print()
@@ -3755,6 +3759,14 @@ check("a non-numeric got is recorded as a failed check, never raised",
 # needle assembled at runtime: written as a literal it would match its OWN source line and
 # fail forever -- the self-referential version of the bug it is checking for.
 _needle20i = " or " + "True, " + "True,"
+# AND THE OTHER SPELLINGS OF IT. Run #26, found by the whole-tree sweep: the needle above is a
+# SINGLE-LINE spelling, and this file wraps the boolean expression and the `True,` want-argument
+# onto separate lines in dozens of checks (2201-2202, 2219-2220, 2911-2912 and 3878-3879 among
+# them). Disarming any of THOSE was invisible to the one guard whose entire purpose is to notice
+# it -- lesson 12 reached inside the file that exists to fail, which is the worst place for it.
+# Collapsing runs of whitespace makes the wrapped and unwrapped spellings the same string, and
+# the alternates cover the disjuncts that are always-true without saying `True`.
+_needles20i = (_needle20i, " or " + "1, " + "True,", " or " + "True), " + "True,")
 # --- the supervisor can NAME a job's exit code --------------------------------------------------
 # `rc=<number>` is not a diagnosis. read.py exited 4294967295 three times running and the bare
 # number let run #23 file the first two as a harmless process bounce -- a guess the third
@@ -3788,11 +3800,29 @@ check("and an ordinary editable file is still admitted",
       note="the fix must not over-block; a gate that refuses everything is also broken")
 
 check("no check in this file is disarmed with a trailing always-true disjunct",
-      _needle20i in open(os.path.join(_here19, "verify_math.py"), encoding="utf-8").read(),
+      any(_n20i in " ".join(open(os.path.join(_here19, "verify_math.py"),
+                                 encoding="utf-8").read().split())
+          for _n20i in _needles20i),
       False,
       note="§20i's third case: the STANDING-horizon check asserted against a docstring that "
            "never contained the string, so an always-true disjunct had been added to keep it "
            "quiet -- a check that cannot fail, in the file that exists to fail")
+
+# AND THE GUARD IS EXERCISED, NOT MERELY DECLARED. Run #26: the check above read green for nine
+# runs while blind to the wrapped spelling, which is the exact failure it exists to report -- so
+# asserting that it says False over a clean file proves nothing at all. These two feed it a
+# disarmed check in each spelling and require it to SEE them, then require it to leave an
+# ordinary wrapped check alone. A detector nothing ever trips is not a detector.
+_disarmed20i = ('check("a wrapped check",\n      value == other or ' + 'True' + ',\n'
+                '      ' + 'True' + ', note="x")')
+_ordinary20i = ('check("a wrapped check",\n      value == other,\n'
+                '      ' + 'True' + ', note="x")')
+check("the disarm guard sees a disjunct wrapped onto the next line",
+      any(_n20i in " ".join(_disarmed20i.split()) for _n20i in _needles20i), True,
+      note="the spelling it was blind to until run #26; 2201-2202 and 2911-2912 are this shape")
+check("and it does not cry wolf on an ordinary wrapped check",
+      any(_n20i in " ".join(_ordinary20i.split()) for _n20i in _needles20i), False,
+      note="over-matching here would flag most of this file and the guard would be turned off")
 
 print()
 print("29. §20j  RUN #25 — A GUARD THAT ONLY RECOGNISES THE UNOBFUSCATED SPELLING")

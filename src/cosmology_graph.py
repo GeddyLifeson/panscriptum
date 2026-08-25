@@ -83,8 +83,14 @@ def build_graph():
             for j in range(i + 1, n):
                 p = (sources[i], sources[j])
                 pair_w[p] += w
-                if len(pair_shared[p]) < 8:
-                    pair_shared[p].append(name)
+                # WHOLE list, no cap -- Hard Rule 0, ruled 2026-08-24. `weave.py:478` and
+                # `pipeline.py:1795` write this same `shared_sample` key and were both brought in
+                # line under that ruling; this file is the one member of the family that was
+                # missed, and it kept an `< 8` cap for two more days. The cap was not cosmetic:
+                # `resonance.py:146` reads `shared_sample` back as the pair's actual shared
+                # evidence, so a ninth shared entity simply did not exist to anything downstream.
+                # The key name is kept exactly as the siblings keep it, for resonance's sake.
+                pair_shared[p].append(name)
     return pair_w, pair_shared, src_entities
 
 

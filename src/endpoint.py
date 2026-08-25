@@ -354,17 +354,41 @@ def source_pages(source):
 
 
 def register(source, urls):
-    """Record where a source's material actually lives."""
-    try:
-        with open(PAGES_FILE, encoding="utf-8") as f:
-            d = json.load(f)
-    except Exception:
-        silence.note("endpoint.py:334")
-        d = {}
+    """Record where a source's material actually lives.
+
+    A REGISTRY WE COULD NOT READ IS NEVER REPLACED BY ONE WE INVENTED.
+
+    Until run #26 this did `except Exception: d = {}` and then wrote `d` back over the whole
+    file, so ANY failure to read -- a torn file from a concurrent writer, a Norton object-lock,
+    a truncated tail -- silently republished the registry containing ONE source and erased every
+    other source's registered pages. Nothing restored them; `source_pages()` would simply answer
+    "none" ever after, and a source with no wiki and no registered pages is uncitable.
+
+    That is the project's own lesson 10 -- "a guard can fail by doing the thing it prevents" --
+    reached in a second file: run #24 found `write_record` overwriting the disk copy it could not
+    read, and this is the same sentence in a different module. The two cases are distinguished
+    now, because they are genuinely different facts:
+      - the file is ABSENT       -> `{}` is the truth, and writing it is correct;
+      - the file is UNREADABLE   -> we know nothing, and the only safe act is to not write.
+    Raising rather than returning quietly is deliberate: the caller asked to record something,
+    and reporting success while dropping it is how a registry rots without anyone noticing.
+
+    The write itself goes through `silence.write_json`, not a hand-rolled fixed-name temp: this
+    file is written from every process that probes an endpoint, and a shared `PAGES_FILE + ".tmp"`
+    is the collision m100 retired repo-wide.
+    """
+    d = {}
+    if os.path.exists(PAGES_FILE):
+        try:
+            with open(PAGES_FILE, encoding="utf-8") as f:
+                d = json.load(f)
+        except Exception:
+            silence.note("endpoint.py:register-unreadable")
+            raise
+        if not isinstance(d, dict):
+            silence.note("endpoint.py:register-nondict")
+            raise ValueError("SOURCE_PAGES.json is not an object; refusing to overwrite it")
     d[source] = sorted(set((d.get(source) or []) + list(urls)))
     os.makedirs(os.path.dirname(PAGES_FILE), exist_ok=True)
-    tmp = PAGES_FILE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(d, f, indent=1, sort_keys=True)
-    os.replace(tmp, PAGES_FILE)
+    silence.write_json(PAGES_FILE, d, indent=1, sort_keys=True)
     return d[source]

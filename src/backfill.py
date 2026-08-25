@@ -44,6 +44,20 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 
 PERSON_CATEGORY = "Persons (named individual characters, real or fictional)"
 
+
+class RosterIncomplete(RuntimeError):
+    """A category walk stopped on a transport failure instead of on the end of the listing.
+
+    Named, and raised rather than returned, because the two outcomes are indistinguishable in
+    the data: `F.api()` answers `None` both for "this page does not exist" and for a timeout
+    (open bug M16), and `members()` used to `return rows` on either -- handing back a roster that
+    stops at whatever page the network died on, with no mark on it. `backfill_source` then wrote
+    that partial cast as the source's complete cast, which is the exact defect THIS FILE EXISTS
+    TO REPAIR, performed by the repair. The caller at the bottom of this module already catches
+    per source and prints the exception's class name, so raising costs one source's pass and
+    prints why; returning silently costs the source's missing characters, permanently.
+    """
+
 # Pages that sit in a character category without being a character.
 _NOT_A_CHARACTER = re.compile(
     r"^(list of|index|category:|template:|file:|gallery|glossary|timeline|"
@@ -70,7 +84,10 @@ def roster(host, limit=None):
                 q["cmcontinue"] = cont
             d = F.api(host, q)
             if not d:
-                return rows
+                raise RosterIncomplete(
+                    "%s: category walk for %r stopped after %d title(s) -- the API returned "
+                    "nothing, which is the same answer it gives for a timeout as for an absent "
+                    "page, so this roster cannot be called complete" % (host, cat, len(rows)))
             rows += [x["title"] for x in d.get("query", {}).get("categorymembers", [])]
             cont = (d.get("continue") or {}).get("cmcontinue")
             if not cont or (limit and len(rows) >= limit):

@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 06:22:17",
+ "at": "2026-08-25 06:32:26",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -128,9 +128,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 14,
+     "left": 29,
      "cap": 200,
-     "frac": 0.07
+     "frac": 0.145
     },
     {
      "name": "rpm",
@@ -139,7 +139,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.07
+   "worst": 0.145
   },
   {
    "bucket": "dashscope:free",
@@ -228,18 +228,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 636,
+     "left": 617,
      "cap": 1000,
-     "frac": 0.636
+     "frac": 0.617
     },
     {
      "name": "rpm",
-     "left": 15,
+     "left": 12,
      "cap": 15,
-     "frac": 1.0
+     "frac": 0.8
     }
    ],
-   "worst": 0.636
+   "worst": 0.617
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -248,18 +248,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 55,
+     "left": 52,
      "cap": 250,
-     "frac": 0.22
+     "frac": 0.208
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.22
+   "worst": 0.208
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -268,18 +268,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 19,
+     "left": 17,
      "cap": 250,
-     "frac": 0.076
+     "frac": 0.068
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.076
+   "worst": 0.068
   },
   {
    "bucket": "github:free",
@@ -308,13 +308,13 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 25,
+     "left": 31,
      "cap": 361,
-     "frac": 0.0693
+     "frac": 0.0859
     },
     {
      "name": "tpd",
-     "left": 498969,
+     "left": 498963,
      "cap": 500000,
      "frac": 0.9979
     },
@@ -331,7 +331,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0693
+   "worst": 0.0859
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -346,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 118445,
+     "left": 117441,
      "cap": 200000,
-     "frac": 0.5922
+     "frac": 0.5872
     },
     {
      "name": "rpm",
@@ -372,15 +372,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 13,
-     "cap": 734,
-     "frac": 0.0177
+     "left": 0,
+     "cap": 717,
+     "frac": 0.0
     },
     {
      "name": "tpd",
-     "left": 63764,
+     "left": 62546,
      "cap": 100000,
-     "frac": 0.6376
+     "frac": 0.6255
     },
     {
      "name": "rpm",
@@ -395,7 +395,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0177
+   "worst": 0.0
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -410,9 +410,9 @@
     },
     {
      "name": "tpd",
-     "left": 67073,
+     "left": 64989,
      "cap": 200000,
-     "frac": 0.3354
+     "frac": 0.3249
     },
     {
      "name": "rpm",
@@ -576,18 +576,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 168,
+     "left": 161,
      "cap": 1000,
-     "frac": 0.168
+     "frac": 0.161
     },
     {
      "name": "rpm",
-     "left": 4,
+     "left": 3,
      "cap": 4,
-     "frac": 1.0
+     "frac": 0.75
     }
    ],
-   "worst": 0.168
+   "worst": 0.161
   },
   {
    "bucket": "openrouter:free",
@@ -636,9 +636,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 121,
+     "left": 126,
      "cap": 300,
-     "frac": 0.4033
+     "frac": 0.42
     },
     {
      "name": "rpm",
@@ -647,7 +647,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.4033
+   "worst": 0.42
   },
   {
    "bucket": "together:free",
@@ -676,9 +676,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 153,
+     "left": 163,
      "cap": 500,
-     "frac": 0.306
+     "frac": 0.326
     },
     {
      "name": "rpm",
@@ -687,18 +687,83 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.306
+   "worst": 0.326
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 3,
-  "per_hour": 12,
+  "calls": 83,
+  "per_hour": 332,
   "buckets": [
    {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 20,
+    "ok": 19
+   },
+   {
     "bucket": "nvidia:free",
-    "calls": 3,
+    "calls": 11,
+    "ok": 10
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 10,
+    "ok": 8
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 9,
     "ok": 3
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 5,
+    "ok": 1
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 4,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 4,
+    "ok": 3
+   },
+   {
+    "bucket": "cloudflare:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "hyperbolic:free",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 2,
+    "ok": 0
    }
   ]
  },
@@ -706,18 +771,18 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 1164,
-   "total": 127493,
-   "detail": "95/69,147 entities  \u00b7  8,046 feats  \u00b7  10.94 chunks/s",
+   "done": 1045,
+   "total": 128787,
+   "detail": "80/69,267 entities  \u00b7  7,018 feats  \u00b7  1274.76 chunks/s",
    "warn": "",
-   "eta_h": 3.2
+   "eta_h": 0.0
   },
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 84895,
-   "total": 84895,
-   "detail": "98,236 pages  \u00b7  1287M characters  \u00b7  123.9/s",
+   "done": 84904,
+   "total": 84904,
+   "detail": "98,421 pages  \u00b7  1288M characters  \u00b7  5751.1/s",
    "warn": "",
    "eta_h": 0.0
   }
@@ -736,7 +801,7 @@
    "read": 57185,
    "settled": 69258,
    "feats": 66601,
-   "age_h": 0.4
+   "age_h": 0.0
   },
   "phases": [
    {
@@ -783,7 +848,7 @@
   "swallowed": [
    [
     "silent:endpoint.py:fetch_raw-absent:HTTPError",
-    2979
+    3004
    ],
    [
     "silent:endpoint.py:detect-api:HTTPError",
@@ -806,15 +871,15 @@
     56
    ]
   ],
-  "swallowed_total": 4384
+  "swallowed_total": 4420
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1929,
+   "n": 1923,
    "p50": 0.8,
-   "p95": 36.1,
-   "ok_pct": 33,
+   "p95": 36.3,
+   "ok_pct": 35,
    "tps": null
   },
   {
@@ -839,7 +904,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 12,
+   "observed": 332,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -857,7 +922,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "9% dry",
+   "observed": "12% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -874,10 +939,10 @@
   {
    "standard": "calls that succeed",
    "group": "pool",
-   "holds": false,
-   "observed": "UNMEASURED -- 3 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "holds": true,
+   "observed": "53% ok of 83",
    "floor": "50%",
-   "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
+   "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
   },
   {
@@ -893,7 +958,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": true,
-   "observed": "3.2h",
+   "observed": "0.0h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -902,7 +967,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "6.91",
+   "observed": "6.72",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -911,7 +976,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": true,
-   "observed": "0.9%",
+   "observed": "0.8%",
    "floor": "above 0",
    "order": "No chunk has completed. Check that read.py printed its transport banner and that the queue is not empty.",
    "severity": "high"
@@ -929,7 +994,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.4h",
+   "observed": "0.0h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -983,7 +1048,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "449",
+   "observed": "460",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -992,7 +1057,7 @@
    "standard": "probe failures (reported, not judged)",
    "group": "code",
    "holds": true,
-   "observed": "3,935",
+   "observed": "3,960",
    "floor": "no floor",
    "order": "Requests that failed as part of finding something out: endpoint detection trying six paths, the scout trying eight URLs. Volume here is work, not damage.",
    "severity": "low"
@@ -1073,7 +1138,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.4h",
+   "observed": "0.6h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1099,8 +1164,8 @@
   {
    "standard": "every running job is advancing",
    "group": "machine",
-   "holds": false,
-   "observed": "read_auto (28 min, 145352 bytes)",
+   "holds": true,
+   "observed": "5 running, all advancing",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1109,7 +1174,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:openai/gpt-oss-120b: All 1 candidates failed: GPT-OSS 120B (Groq) (x30), groq:groq/compound-mini: empty response (x6), sambanova:free: {\"error\":{\"message\":\"rate limit exceeded\",\"type\":\"rate_limit (x6)",
+   "observed": "groq:openai/gpt-oss-120b: All 1 candidates failed: GPT-OSS 120B (Groq) (x30), groq:groq/compound-mini: empty response (x8), sambanova:free: {\"error\":{\"message\":\"rate limit exceeded\",\"type\":\"rate_limit (x6)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. Rows older than 24h disappear on their own, so anything here is happening NOW.",
    "severity": "high"
@@ -1118,7 +1183,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 162.159.142.170",
+   "observed": "reachable over IPv4 at 172.66.2.166",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1145,7 +1210,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in 1.0s",
+   "observed": "probe completed in 0.8s",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. If this fires, restart ollama.exe (the tray app respawns it) and re-probe. Nothing drains a wedged queue on its own.",
    "severity": "high"
@@ -1200,45 +1265,45 @@
   {
    "metric": "cited",
    "now": 12073,
-   "delta": 110,
-   "minutes": 31,
-   "stalled": false
+   "delta": 0,
+   "minutes": 30,
+   "stalled": true
   },
   {
    "metric": "settled",
    "now": 69258,
-   "delta": 403,
-   "minutes": 31,
-   "stalled": false
+   "delta": 0,
+   "minutes": 30,
+   "stalled": true
   },
   {
    "metric": "feats",
    "now": 66601,
-   "delta": 539,
-   "minutes": 31,
-   "stalled": false
+   "delta": 0,
+   "minutes": 30,
+   "stalled": true
   },
   {
    "metric": "entities read",
    "now": 1304,
-   "delta": 2,
-   "minutes": 31,
-   "stalled": false
+   "delta": 0,
+   "minutes": 30,
+   "stalled": true
   },
   {
    "metric": "chunks",
-   "now": 1164,
-   "delta": -3689,
-   "minutes": 31,
+   "now": 1045,
+   "delta": -119,
+   "minutes": 30,
    "stalled": false
   },
   {
    "metric": "standards met",
-   "now": 30,
-   "delta": -1,
-   "minutes": 31,
+   "now": 32,
+   "delta": 1,
+   "minutes": 30,
    "stalled": false
   }
  ],
- "generated": "2026-08-25T06:22:23"
+ "generated": "2026-08-25T06:32:31"
 }

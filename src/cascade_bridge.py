@@ -501,7 +501,17 @@ def record_unrecognised(bucket, err):
     """
     try:
         text = " ".join(str(err).split())[:300]
-        key = bucket + "|" + text[:80]
+        # THE KEY FOLDS; THE TEXT DOES NOT. Run #26: the ledger held eight buckets carrying
+        # `Every model in this pool is rate limited or unconfigured.` and the same sentence
+        # lowercased as SEPARATE PERMANENT ROWS, because this key was the raw text and a change
+        # upstream started folding it. One fault, two rows, both counted, both red.
+        #
+        # This is the third time de-duplication-on-exact-text has split one fault (m132 was the
+        # second, and named two engine wordings rather than fixing the key). Case is not a
+        # different failure and must never again be able to look like one. Folding here cannot
+        # hide anything: `text` -- the thing a person reads and classifies -- is stored verbatim,
+        # and two genuinely different errors do not become one by differing in case alone.
+        key = bucket + "|" + text[:80].lower()
         now = time.time()
         with _UNREC_LOCK:
             try:
@@ -870,7 +880,25 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             # is already the binding constraint. `\b` refuses a match with a digit either
             # side. The prose markers stay plain substrings: they are distinctive enough that
             # an accidental hit is not a realistic failure, and providers word them freely.
-            err = (box.get("error") or "").lower()
+            # TWO VARIABLES, DELIBERATELY. `err` is FOLDED FOR CLASSIFICATION; `raw` is the
+            # provider's own words, kept intact for the ledger. Run #26 found the ledger holding
+            # `Every model in this pool is rate limited or unconfigured.` and
+            # `every model in this pool is rate limited or unconfigured.` as TWO permanent rows
+            # on eight separate buckets, because this line folded the text and
+            # `record_unrecognised` de-duplicates on EXACT text -- so a code change that started
+            # folding split every pre-existing row from its own successor.
+            #
+            # That is m132's lesson recurring one letter over. m132 named the two engine
+            # wordings for "answered with nothing" and stopped there; case is simply a THIRD
+            # spelling of the same fault, and the de-duplication key was the thing that needed
+            # fixing, not the vocabulary. `record_unrecognised` now folds its KEY (see there).
+            #
+            # Folding the recorded TEXT is separately lossy and worth refusing on its own:
+            # `record_unrecognised`'s whole premise is "enough text to classify it", and a
+            # provider's complaint carries case-bearing identifiers -- model ids, `request_id`,
+            # `org_01KYDH...` -- that a maintenance run may have to quote back to the provider.
+            raw = " ".join((box.get("error") or "").split())
+            err = raw.lower()
             # UNWRAP FIRST. If the engine handed us one of its aggregate messages, the real
             # reason is not in this string at all -- it is the provider's own last error, which
             # Cascade recorded in its scratch DB at the same moment. Without this the classifier
@@ -892,9 +920,9 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             # pool that is already the binding constraint -- reached by a new road.
             exhausted = pool_exhausted(err)
             if pinned and not exhausted and any(w in err for w in _WRAPPERS):
-                deeper = provider_error(pinned.bucket).lower()
+                deeper = provider_error(pinned.bucket)
                 if deeper:
-                    err = deeper
+                    raw, err = deeper, deeper.lower()
             permanent_words = ("authentication", "invalid_api_key", "credentials",
                                "insufficient balance", "no resource package",
                                "payment required", "needs billing", "depleted")
@@ -921,7 +949,7 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                 # `err`, not `box["error"]` -- this records the UNWRAPPED text where one was
                 # found, so what lands on the page is the provider's actual complaint rather
                 # than the engine's "All 1 candidates failed", which is unactionable by design.
-                record_unrecognised(pinned.bucket, err or box.get("error") or "")
+                record_unrecognised(pinned.bucket, raw or box.get("error") or "")
             return None
         if pinned:
             _clear(pinned.bucket)
