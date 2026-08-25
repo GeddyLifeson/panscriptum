@@ -23,6 +23,12 @@
    **`every pool failure is recognised`** standard. **If that standard is red, it is the run's
    first job**: read the error text, and either add its wording to the `permanent` tuple in
    `cascade_bridge._ask_call` (if it is a permanent refusal) or file it as a bug.
+   **It went red on its first publish and named a bug the same session had just "fixed" (m108):
+   the classifier was judging Cascade's aggregate wrapper, never a provider error.
+   `provider_error()` now unwraps it out of the scratch DB before classifying. If a row ever
+   appears whose text is STILL an engine aggregate (`All N candidates failed`, `Every model in
+   this pool`), the unwrap failed for that bucket -- check the scratch-DB row's age against the
+   180-second window before assuming the provider is at fault.**
 
 **And four standing lessons that keep proving themselves:**
 
@@ -61,7 +67,7 @@
    `src/*.py` during a model patch; it has a backup and auto-revert, so it is not urgent, but a
    crash mid-write leaves a corrupt module. Add each converted file to §20g's `_REPAIRED_20g` list.
 3. **[preflight baseline is 1 FAIL. A SECOND is the finding.]** `caches empty ...
-   feats/www_dandwiki_com` (**M1**). **`verify_math`'s baseline is now 659 passed, 0 FAILED.**
+   feats/www_dandwiki_com` (**M1**). **`verify_math`'s baseline is now 666 passed, 0 FAILED.**
 4. **[Is the GPU lane still producing tokens?]** m99's root cause is NOT established and it will
    recur. `/api/ps` and `/api/tags` read green through the entire wedge — **only a completed
    generation proves it.** If wedged: `ollama stop` hangs in `Stopping...` and killing
