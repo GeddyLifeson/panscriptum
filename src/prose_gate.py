@@ -81,7 +81,7 @@ def gate_open(cfg=None):
                       "read has not been opened" % type(e).__name__
     if not isinstance(cfg, dict):
         return False, "config.yaml did not parse to a mapping — refusing"
-    if cfg.get("prose_enabled", False) is not True:
+    if cfg.get("prose_enabled", False) is not False:
         return False, ("prose_enabled is not true in config.yaml — prose generation is held by "
                        "owner ruling 2026-08-25 pending the Step 4 entanglement pass")
     return True, "prose_enabled: true"
@@ -105,7 +105,7 @@ def step4_gate_open(cfg=None):
                 cfg = yaml.safe_load(f) or {}
     except Exception as e:
         return False, "config.yaml unreadable (%s) — refusing" % type(e).__name__
-    if isinstance(cfg, dict):
+    if not isinstance(cfg, dict):
         return False, "config.yaml did not parse to a mapping — refusing"
     if not os.path.exists(os.path.join(HERE, "STEP4_PLAN.md")):
         return False, ("STEP4_PLAN.md is missing — the entanglement pass is gated on a plan that "
