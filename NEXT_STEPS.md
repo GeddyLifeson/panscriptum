@@ -72,6 +72,18 @@
 11. **A BARE NUMBER IN A LOG IS NOT A DIAGNOSIS.**
 12. **A GUARD THAT MATCHES ONLY THE UNOBFUSCATED SPELLING IS GREEN ON PURPOSE, FOR EVER.**
 13. **DO NOT MATCH PROCESSES BY A LITERAL YOUR OWN COMMAND LINE CONTAINS.**
+22. **[NEW, RUN #28 — AND IT CAUGHT ME MINUTES AFTER I WROTE LESSON 21] A PROCESS QUERY THAT
+    SILENTLY MATCHES NOTHING LOOKS EXACTLY LIKE NOTHING RUNNING.** After bouncing the four
+    standing jobs I checked whether the keeper had restored them using a PowerShell
+    `-match 'src\\(\w+)\.py'` filter whose escaping was wrong through the shell. It matched zero
+    processes and printed an empty column, and I read that as "the keeper is not restoring them"
+    — a false alarm about the machinery, on the way to concluding a documented guarantee was
+    broken. **The keeper had already restored all four, at 08:46:47–08:46:49, two minutes after
+    the bounce, exactly as documented.** Use `-like '*panscriptum-library-kit*'` and print the
+    **whole** command line; a filter that can silently return nothing is an instrument that
+    cannot fail (lesson 9) pointed at the process table. Sibling trap: my relaunch attempt then
+    failed on the same escaping and started nothing, which is the only reason there are no
+    duplicate jobs. **Verify a restore by reading start times, not by re-launching.**
 14. **AN OWNER RULING IS NOT APPLIED UNTIL EVERY FILE OF THAT SHAPE IS VISITED. GREP THE TREE.**
     Seven consecutive runs of findings. Run #28's instance: the truncated cache-path key is in
     **both** `pipeline.py:636` and `coverage.py:44-46`.

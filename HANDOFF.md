@@ -18,7 +18,19 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
    prefixes) is unchanged; batch 10 enumerated exactly what passes through into the **published**
    repo: AWS access/secret keys, Slack `xox*`, generic Bearer tokens, PEM private-key blocks,
    JWTs, Stripe `sk_live_`/`sk_test_`, DB connection strings with embedded credentials, and
-   Discord/npm/Twilio/SendGrid tokens. **Still wants a ruling.**
+   Discord/npm/Twilio/SendGrid tokens. **Still wants a ruling — and this run it stopped being
+   theoretical.**
+
+   **GITHUB'S PUSH PROTECTION BLOCKED THIS RUN'S COMMIT, AND `_scrub()` HAD PASSED IT.** The
+   auditor writing the enumeration above included a synthetic Stripe-shaped literal to *prove*
+   the regex gap (`AUDIT_batch10.md:34`). `_scrub()` did not match it — exactly as the finding
+   says — so it went into the export tree, and GitHub's secret scanner rejected the push with
+   `GH013 / Stripe API Key`. **I verified it was a constructed example and not a live
+   credential, then defanged the literal rather than clicking the "allow the secret" unblock
+   URL**, which would have trained the repository to accept precisely the shape decision C is
+   about. The three unpushed commits were soft-reset and re-made as one clean commit, so the
+   secret-shaped string is in no pushed history. The lesson is not about this one string: the
+   project's own scrub is not what is protecting the published repo today. GitHub is.
 2. **TWO OF YOUR API KEYS ARE DEAD AND THE POOL HAS BEEN BURNING CLAIMS ON THEM.** Surfaced the
    moment the unrecognised ledger was made to re-ask its question (m173): `hyperbolic:free` is
    returning `HTTP 401: Could not validate credentials` and `cloudflare:free` is returning
@@ -130,8 +142,22 @@ lesson 17.
 ### Bounced
 
 `dashboard.py`, `publish.py`, `foreman.py`, `overwatch.py` — all four import `standards`,
-`cascade_bridge` or `completeness` at launch, and this run changed all three. The keeper restores
-them within 300s. `pipeline.py` (started 08:16) postdates the last code commit and was left
+`cascade_bridge` or `completeness` at launch, and this run changed all three. **The keeper
+restored all four at 08:46:47–08:46:49, roughly two minutes after the 08:44 bounce — verified by
+start time, one instance each, correct arguments.** The 300s guarantee holds; this run is a
+witness to it rather than an inheritor of the claim.
+
+**Two self-inflicted errors this run, both caught, both worth the ink.** First, I checked the
+restore with a PowerShell regex whose escaping was wrong through the shell; it matched zero
+processes, printed an empty table, and I briefly concluded the keeper was broken. It was not — a
+process filter that can silently match nothing is lesson 9 pointed at the process table, and it
+produced a false alarm about the machinery within minutes of my writing lesson 21 about
+untested claims. The relaunch I then attempted failed on the *same* escaping and started nothing,
+which is the only reason there are no duplicate jobs. Second, I ran the credential-defanger over
+the whole tree instead of scoping it to `handoff/sweep28/`, and it rewrote 12 literals in
+`reference/VERBATIM_SESSION_TRANSCRIPT.md` — a file whose whole point is being verbatim. Restored
+byte-clean from the export copy within a minute and verified zero markers remain, but that was
+the export repo's luck, not my design. **Scope a rewriter to a directory before running it.** `pipeline.py` (started 08:16) postdates the last code commit and was left
 alone; `read.py` is outside STANDING and was not touched. Process identity was taken from
 `Get-CimInstance` start times, never from a literal my own command line contains.
 
