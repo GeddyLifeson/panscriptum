@@ -18,6 +18,27 @@
    Use `sweep_plan.batches(16)` directly and read `x["batch"]`, `x["lines"]`, `x["modules"]`;
    the CLI prints a trailing `# 95 modules...` comment after the JSON.
 3. **AN UNRECOGNISED FAILURE IS A BUG, NOT WEATHER.** Still true.
+4. **[NEW, 2026-08-25 OWNER SESSION — READ THIS BEFORE YOU TOUCH ANYTHING] A WHOLE SAFETY LAYER
+   LANDED TODAY, AND IT BINDS YOU.** See CLAUDE.md **Hard Rule -1** and MAINTENANCE.md **Rule
+   Zero**. In brief:
+   * **`python src/drill.py` is part of the battery now** — 105 nets attacked, must end
+     `0 BREACHED`. The supervisor runs it every cycle before any stage starts.
+   * **Check the halt with the overlap guard**: `python src/escalation.py --status`. You may
+     RAISE a halt; **only a person may lift one.**
+   * **NEVER open `prose_enabled` or `step4_enabled` in config.yaml.** Both are owner-held.
+     Prose is withheld pending Step 4; 145 chapters were withdrawn because a sweep deleted the
+     gate that said so. **The gate looking unnecessary is what it looks like when it works.**
+   * **When you add a guard, add the attack that defeats it to `drill.py`**, and watch it go red
+     once. Two adversarial audits defeated seven guards today that all had passing tests.
+   * New modules: `cachekey`, `prose_gate`, `escalation`, `drill`, `liveness`, `ledger_guard`,
+     `snapshot`, `withdraw_chapters`. `sweep_plan.missing()` will list them as uncovered until a
+     sweep reads them — **that red is honest; do not make it green by hand.**
+5. **[NEW, AND IT IS THE SHARPEST LESSON OF THE DAY] A SAFETY THAT STOPS WORK MUST BE TOLD APART
+   FROM A FAULT THAT STOPS WORK.** The halt made every job exit on purpose; the supervisor read
+   that as every job crashing, declared the library broken and QUIT, and nothing came back when
+   the halt was cleared. Four jobs down, counters flat, caused by the newest guard in the tree.
+   Fixed (M26), but the shape generalises: **every watcher that concludes "broken" from silence
+   must first ask whether the silence was deliberate.**
 
 **And the standing lessons. 23, 24 and 25 are new; 23 is the one that will bite you.**
 
