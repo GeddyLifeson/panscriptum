@@ -9,6 +9,93 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 01:50 (local) — Run #22: the pool's permanent-refusal bench could never fire, and the GPU fallback it falls back to was wedged — both at once
+
+*The page opened the run and its headline was `model calls per hour` at **64 against a floor of
+900**. The four pool standards beneath it all held, which is exactly the case the standard's own
+order says it cannot see: the pool was being asked, and it was being **refused**. Measuring
+refusal directly — the order names the query — gave **187 rate_limited / 59 error / 82 ok** over
+three hours. Most of that is honest free-tier throttling with no code remedy. Three buckets were
+not.*
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found. Nothing deleted. No money moved.** Four processes killed by PID, all
+   restored and confirmed: `llama-server.exe` 43612 and `ollama.exe` 45636 (the tray app
+   respawned the daemon as 41592, verified listening and generating), `pipeline.py` 11736 and
+   `foreman.py` 51896 (bounced under the bounce rule because they import `cascade_bridge.py`,
+   which this run edited; the supervisor restored both, plus `read.py`, inside 45s).
+2. **THE PAID LANE IS OVER ITS OWN CEILING AND HAS BEEN FOR A WHILE — 598/500 calls, est.
+   $11.96.** This is `foreman.py`'s own report in `FOR_OWNER.md`, not a new finding, but it has
+   now been carried across several runs without a ruling and it is the only item in the ledger
+   that spends money. `PAID_LANE_RETIRED = True` does hold in `widen_candidates()`, so nothing
+   new should be going out — but see decision **B** below, because the *primary* claim path has
+   no equivalent guard.
+3. **Two decisions are queued in NEXT_STEPS (§2 A and B) and both are one-line rulings.** M18
+   (`axis_score()` flat 9.9) is unchanged and still blocks on a charter question.
+
+**What was actually wrong, and what changed.**
+
+`cascade_bridge._ask_call` benches a permanently-refusing provider for `AUTH_BENCH` (4h), and the
+code's own comment states the intent plainly: *"Treating it like contention meant `cloudflare` and
+`hyperbolic` cycled back into rotation every few minutes to fail again."* They were still cycling.
+Measured at 01:22: `cloudflare:free` and `hyperbolic:free` both holding hard **401**s **12 minutes
+old**, `zai:free` holding **"Insufficient balance or no resource package"** **7 minutes old** — all
+three still being claimed, all three still reporting full headroom, which is precisely the failure
+the `buckets with headroom` order warns about. The bench was never reaching them, for two
+independent reasons, both now fixed and both pinned by regression checks:
+
+- **`pump()`'s `except Exception` set `box["failed"]` but never `box["error"]`.** A failure that
+  arrives as an **exception** rather than as a `type:"error"` event therefore matched the empty
+  string in the classifier below and took **no bench at all**. The classifier was structurally
+  unreachable for an entire class of failure. (`cascade_bridge.py:620-631`)
+- **The substring list was HTTP-status-shaped.** `zai:free` answers with a **200 carrying a
+  billing complaint in the body** — no 401, no 402, no "credentials" — so it matched nothing and
+  was re-claimed forever. `403` was missing for the same reason. The list is now case-folded and
+  covers the balance/billing wording. (`cascade_bridge.py:659-672`)
+
+**Proved against the live error strings before and after**: the new classifier benches exactly
+`zai:free`, `cloudflare:free` and `hyperbolic:free`, and correctly leaves every genuinely
+rate-limited bucket (groq ×4, gemini ×3, sambanova, nvidia, openrouter, cohere) in rotation. It
+does not over-bench — that was the risk worth checking, since the pool is the binding constraint.
+
+A third, smaller repair in the same file: `ask()`'s metrics line did `(got or {}).get("_via")`,
+which raises `AttributeError` when `_extract_json` returns a **list or bool** from a fenced reply
+(it can, and `_ask_call` only tags `_via` on dicts). That crash took the whole call with it.
+
+**The GPU fallback — the thing the pool falls back to — was wedged the entire time.**
+`the local model produces tokens` read green on the page (*"probe completed in 0.8s"*) at 01:19.
+At 01:25 a trivial 8-token generate timed out at 60s, then 45s, 45s, 40s — four probes, no tokens,
+while `/api/ps` showed `qwen3:8b` 100% GPU-resident and the daemon listening. This is the exact
+two-hour wedge `standards.py:1018-1032` documents. `ollama stop` was accepted and then hung in
+`Stopping...`; killing the runner (`llama-server.exe` 43612) did **not** clear it — the wedge was
+in the daemon. Restarting `ollama.exe` per the standard's prescribed remedy fixed it: **http=200,
+8 tokens, 150ms of actual generation**. So for some window before this run, the pool was refusing
+*and* its fallback was silently producing nothing. That is the real explanation for 64 calls/hour.
+
+**One hypothesis of mine was wrong, and checking it is the reusable part.**
+`every running job is advancing` flagged `pipeline_auto` silent 111 min. I noticed the standard
+watches `state/pipeline_auto.log` (the supervisor's stdout capture) while `pipeline.py:61` writes
+its real run log to `state/pipeline.log` — which was **fresh, 14 min**. That looked exactly like
+run #21's lesson (a measurement taken from inside the thing measured) and I nearly filed it as a
+false positive that was getting healthy jobs killed. It is not. `pipeline.log` is a **shared**
+append-only log written by *any* process importing `pipeline.py` — its freshness proves nothing
+about the pipeline job. The job's own `PIPELINE_STATE.json` had not been written in **54.6
+minutes**. The job was genuinely stalled, the standard was right, and `kill_stalled_job` was
+right to kill it. **`log()` printing *and* writing is what makes the two files normally agree;
+the shared-writer property is what makes `pipeline.log` useless as a liveness signal.**
+
+**Audits (rung c, both first-ever reads of the file, per the rotation).** `cascade_bridge.py`
+(788 lines) — findings 1–3 above, all verified at source by me before any edit. `hostcheck.py`
+(955 lines) — two verified HIGH findings filed as **m93/m94**, neither fixed: both are the M16
+shape (a failed request recorded as a real negative), and the repair changes `endpoint.fetch_raw`'s
+return contract across callers, which is a design call rather than a repair.
+
+**Battery.** `verify_math` **629 passed, 0 FAILED** (613 baseline + 16 new checks in a new §20f).
+`pyflakes` clean. `allsweep` 0 subsystems bad. `health --preflight` **exactly the one known M1
+baseline failure** (`feats/www_dandwiki_com`) — no regression. `silence.py` normal.
+
+---
 ## 2026-08-25 00:50 (local) — Run #21: every panel on this project was reporting its own author as a dead job, and the noise hid the one job that had really died
 
 *The page opened this run, exactly as the ruling says it should, and it opened with a lie it had

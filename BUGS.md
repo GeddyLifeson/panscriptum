@@ -81,6 +81,67 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
 
+### Minor-but-new (run #22)
+
+- **[m93 — HIGH IMPACT, VERIFIED AT SOURCE, NOT FIXED] `hostcheck.probe()`'s RAW-MODE BRANCH
+  RETURNS A REAL `rate` OF 0.0 WHEN THE NETWORK FAILED — the exact defect the same function's
+  API branch exists to prevent, committed twenty lines above it.**
+  ```python
+  if EP.detect(host)["mode"] == EP.MODE_RAW:          # hostcheck.py:134-139
+      got = EP.fetch_raw(host, names[:12])
+      n = min(len(names), 12)
+      return {"host": host, "probed": n, "hits": len(got),
+              "rate": round(len(got) / n, 3), ...}
+  ```
+  `endpoint.fetch_raw()` swallows every per-title exception (a DNS failure raises `URLError`) and
+  returns `None` for that title, so a **total** network failure yields `got == {}` and this branch
+  reports `hits=0, rate=0.0` **with no `error` key** — indistinguishable from "this wiki genuinely
+  holds none of these names". The batched-API branch at `hostcheck.py:150-155` handles the same
+  case correctly and its comment names the stakes: *"NOT a rate of zero... conflating them is
+  precisely the defect this file exists to catch -- committed here, by the tool built to catch it.
+  Seventy-four throttled probes came back as 0% and the repair pass unassigned
+  `warhammer40k.fandom.com` from Warhammer 40,000."* Because `rate` is never `None` on this path,
+  `score()` can never route it to `"UNREACHABLE — no judgement"`, so an outage on a raw-only wiki
+  flows into a `"WRONG FICTION"` verdict and, under `--repair`/`--adopt`, gets written to
+  `HOST_UNFIT.json`. **Not fixed deliberately:** the repair needs `fetch_raw` to distinguish
+  "confirmed absent" (404/410) from "request never completed", which changes its return contract
+  across callers — the same shape as **M16**, and a design call.
+- **[m94 — HIGH IMPACT, VERIFIED AT SOURCE, NOT FIXED] `hostcheck.null_rate()` TURNS A FAILED
+  CONTROL PROBE INTO A FABRICATED 0.0 BASELINE AND CACHES IT FOR THE WHOLE RUN.**
+  ```python
+  r = probe(host, foreign) or {}                      # hostcheck.py:418-422
+  rate = r.get("rate")
+  rate = 0.0 if rate is None else rate
+  with _NULL_LOCK:
+      _NULL_CACHE[host] = rate
+  ```
+  `probe()` legitimately returns `rate=None` on a failed request (and, via **m93**, sometimes a
+  fake 0.0 instead). This line collapses "I don't know" into "this host answers 0% of foreign
+  names" and locks it into `_NULL_CACHE` for the rest of the process, so every later `score()`
+  call for that host uses a corrupt baseline. **Second-order effect worth the HIGH label:**
+  `score()` only applies the aboutness veto when `base >= ABOUT_VETO_ABOVE` (0.25). A generous
+  host like `en.wikipedia.org` (documented at `hostcheck.py:432` as ~50% baseline) whose control
+  probe transiently failed gets cached at 0.0 — **silently disabling the aboutness veto for that
+  host for the whole run**, which is the "Rocket League nearly adopted onto Wikipedia" failure the
+  design exists to prevent. **Not fixed:** propagating `None` changes what `score()` must do with
+  an unjudgeable baseline; ruling wanted.
+- **[m95 — MINOR, VERIFIED] `cascade_bridge.dead_forever()` CHECKS `PROOF_TTL` ONLY ONCE PER
+  PROCESS.** `_PROVEN[0]` is memoised on first call (`cascade_bridge.py:303-319`), so a
+  `POOL_PROOF.json` written later in a multi-hour run — recording a newly-proved 401/402/404/410
+  — is never picked up. The TTL constant's own comment says *"a proof this old is no longer
+  evidence about now"*; the memoisation makes the check vacuous after the first call.
+- **[m96 — MINOR, VERIFIED] A BUCKET THAT RETURNS UNPARSEABLE JSON HAS ITS STRIKES CLEARED
+  ANYWAY.** `_clear(pinned.bucket)` runs on transport success (`cascade_bridge.py:673-681`)
+  **before** `_extract_json` is attempted, so a bucket that reliably answers prose instead of JSON
+  — a failure mode the module docstring itself calls out for cloud models — is never deprioritised
+  and keeps winning claims. Deliberately left: benching on a parse failure is a routing-policy
+  change, queued as a question in NEXT_STEPS §2 B.
+- **[m97 — COSMETIC, VERIFIED] `hostcheck.py:918-919`'s `--purge` HELP TEXT PROMISES A SAFETY
+  CHECK THAT `purge()`'s OWN DOCSTRING SAYS NEVER EXISTED.** The help string still reads *"remove
+  rosters the audit rejected AND whose host was independently rejected"*; the docstring at
+  `hostcheck.py:642-647` records that *"it never did (the check was loaded and unused)"*. The
+  docstring was corrected, the user-facing `--help` was not.
+
 ### Minor-but-new (run #21)
 - **[m90] `assay.interval_from_hands()` CARRIES A SECOND, UNCALIBRATED COPY OF THE ATTESTATION →
   UNCERTAINTY RULE, AND ITS NUMBERS BREAK THE FILE'S OWN CEILING.** Found by the run #21 audit.
@@ -766,6 +827,40 @@ remaining item is either an outage, a decision, or a watched state.***
 *Run #21 (2026-08-25 ~00:50 local) resolved four items, one of them Major. Detail in HANDOFF.md.
 Export commit: the `run #21` sync of 2026-08-25 (see `git -C %PANSCRIPTUM_EXPORT% log`).*
 
+- **[m98 — MAJOR, RESOLVED, run #22] THE POOL'S PERMANENT-REFUSAL BENCH WAS STRUCTURALLY
+  UNREACHABLE FOR A WHOLE CLASS OF FAILURE, AND BLIND TO SPENT ACCOUNTS THAT ANSWER 200.**
+  **What it was.** `cascade_bridge._ask_call` benches a permanently-refusing provider for
+  `AUTH_BENCH` (4h) so the rotation contains only providers that could plausibly answer. It was
+  not firing. Two independent causes: (1) `pump()`'s `except Exception` set `box["failed"] = True`
+  but never `box["error"]`, so any failure surfacing as an **exception** rather than a
+  `type:"error"` event matched the empty string in the classifier and took **no bench at all**;
+  (2) the classifier's substring list was HTTP-status-shaped (`401/402/Authentication/
+  invalid_api_key/credentials`), so a provider returning **200 with a billing complaint in the
+  body** matched nothing — `zai:free` answers `{"code":"1113","message":"Insufficient balance or
+  no resource package. Please recharge."}` — and `403` was missing for the same reason.
+  **How it was proved.** At 01:22 on 2026-08-25 the live `bucket_state` rows showed
+  `cloudflare:free` and `hyperbolic:free` holding hard 401s **12 minutes old** and `zai:free`
+  holding its balance error **7 minutes old**, all three still being claimed and all three still
+  counted by the `buckets with headroom` standard (22) — the exact case that standard's order
+  warns about. Direct refusal measurement over three hours: **187 rate_limited / 59 error / 82
+  ok**, with `model calls per hour` at **64 against a floor of 900**.
+  **Fix.** `pump()` now records `str(exc)[:300]`; the classifier is case-folded and covers `403`
+  plus balance/billing wording. Verified against the live error strings after the change: it
+  benches exactly the three dead accounts and leaves every genuinely rate-limited bucket (groq ×4,
+  gemini ×3, sambanova, nvidia, openrouter, cohere) in rotation — it does not over-bench.
+  Pinned by 16 new checks in `verify_math` **§20f**. Also repaired in the same pass: `ask()`'s
+  metrics line did `(got or {}).get("_via")`, an `AttributeError` whenever `_extract_json`
+  returned a list or bool from a fenced reply. Export commit: the `run #22` sync of 2026-08-25.
+- **[m99 — MAJOR, RESOLVED, run #22] THE GPU FALLBACK WAS WEDGED WHILE EVERY PROXY FOR IT READ
+  GREEN.** `the local model produces tokens` reported *"probe completed in 0.8s"* on the 01:19
+  page; six minutes later four consecutive trivial generates timed out (60s, 45s, 45s, 40s) with
+  `qwen3:8b` showing 100% GPU-resident and the daemon listening on 11434 — the two-hour wedge
+  `standards.py:1018-1032` documents. `ollama stop` was accepted then hung in `Stopping...`, and
+  killing the runner (`llama-server.exe` 43612) did not clear it: **the wedge was in the daemon,
+  not the runner.** Restarting `ollama.exe` (45636 → respawned by the tray app as 41592) restored
+  it — http=200, 8 tokens, 150ms of real generation. **Root cause of the wedge itself is not
+  established** and this will recur; the standard already fires correctly, and the remedy is
+  documented. Kept in `Watching`, not closed as understood. Export commit: the `run #22` sync.
 - **[M17 — MAJOR, RESOLVED, run #21] EVERY RENDERER REPORTED ITSELF AS A DOWN JOB, AND THE FALSE
   NAME HID THE JOB THAT WAS GENUINELY DOWN.**
   **What it was.** `overnight.running()` excludes the caller's own PID — right for *"is anyone
