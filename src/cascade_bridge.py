@@ -415,7 +415,13 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
     got = _ask_call(system, prompt, schema=schema, pool=pool, temperature=temperature,
                     timeout=timeout, pin=pin)
     _metric({"at": round(t0, 1), "tag": "cascade:" + pool, "s": round(time.time() - t0, 2),
-             "ok": got is not None, "model": (got or {}).get("_via") or "",
+             # `.get` ON WHATEVER PARSED, NOT ON WHATEVER IS TRUTHY. `_extract_json` will
+             # happily return a list, bool or number from a fenced reply, `_ask_call` only
+             # tags `_via` when the payload is a dict, and `(got or {})` then evaluates to the
+             # non-dict itself -- so a provider answering ```json\n[1,2]\n``` crashed the
+             # metrics line with AttributeError and took the whole call with it.
+             "ok": got is not None,
+             "model": (got.get("_via") or "") if isinstance(got, dict) else "",
              "in_chars": len(system) + len(prompt),
              "out_chars": len(json.dumps(got, default=str)) if got is not None else 0})
     return got
@@ -618,9 +624,18 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                     box["failed"] = True
                     box["error"] = str(ev.get("error") or ev.get("text") or "")[:300]
                     return
-        except Exception:
+        except Exception as exc:
             silence.note("cascade_bridge.py:151")
             box["failed"] = True
+            # THE TEXT IS THE DIAGNOSIS, AND IT USED TO BE THROWN AWAY HERE.
+            # A provider whose failure ARRIVES AS AN EXCEPTION rather than as a `type:"error"`
+            # event left `box["error"]` unset, so the auth classifier below matched the empty
+            # string, never fired, and the bucket took no bench at all. That is why the bench
+            # this file's own comment promises -- "benched for hours so the rotation contains
+            # only providers that could plausibly answer" -- was not reaching `cloudflare` and
+            # `hyperbolic`, which hold hard 401s and were still being re-claimed every few
+            # minutes on 2026-08-25. Recording the text is what makes the classifier reachable.
+            box["error"] = str(exc)[:300]
         finally:
             done.set()
 
@@ -656,9 +671,18 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             # meant `cloudflare` and `hyperbolic` cycled back into rotation every few minutes to
             # fail again, taking a claim and a deadline with them each time. Benched for hours
             # so the rotation contains only providers that could plausibly answer.
-            err = box.get("error") or ""
-            if pinned and any(code in err for code in ("401", "402", "Authentication",
-                                                       "invalid_api_key", "credentials")):
+            # A SPENT ACCOUNT IS AS PERMANENT AS A BAD KEY, AND SAYS SO IN WORDS, NOT CODES.
+            # The list below was HTTP-status-shaped, so a provider that returns 200 with a
+            # billing complaint in the body slipped through it. `zai:free` answers
+            # `{"code":"1113","message":"Insufficient balance or no resource package. Please
+            # recharge."}` -- no 401, no 402, no "credentials" -- and was therefore re-claimed
+            # forever while reporting full headroom. `403` was missing for the same reason.
+            # Matching is case-folded because providers do not agree on capitalisation.
+            err = (box.get("error") or "").lower()
+            permanent = ("401", "402", "403", "authentication", "invalid_api_key",
+                         "credentials", "insufficient balance", "no resource package",
+                         "payment required", "needs billing", "depleted")
+            if pinned and any(code in err for code in permanent):
                 _bury(pinned.bucket, AUTH_BENCH)
             return None
         if pinned:

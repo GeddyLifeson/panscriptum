@@ -3379,6 +3379,41 @@ check("the ratio-matrix label counts the weights instead of hardcoding 8",
 check("assay.WEIGHTS is the 11 the label now reports", len(_as21.WEIGHTS), 11)
 
 print()
+print("25. §20f  A PERMANENT REFUSAL MUST NOT BE FILED AS CONTENTION — the auth bench")
+print("          was unreachable for exception-surfaced failures and blind to spent accounts")
+# Found 2026-08-25 (run #22). `cascade_bridge._ask_call` benches a bucket for AUTH_BENCH when a
+# provider refuses permanently, and the file's own comment promises this stops `cloudflare` and
+# `hyperbolic` cycling. It was not happening, for two independent reasons, both pinned here:
+#   1. `pump()`'s `except Exception` set `box["failed"]` but never `box["error"]`, so a failure
+#      arriving as an EXCEPTION rather than a `type:"error"` event matched the empty string and
+#      took no bench at all.
+#   2. The substring list was HTTP-status-shaped, so `zai:free`'s "Insufficient balance or no
+#      resource package" -- a 200-with-a-billing-complaint -- matched nothing and was re-claimed
+#      forever while reporting full headroom.
+# Measured that morning: 187 rate_limited / 59 error / 82 ok over three hours, with the pool's
+# `model calls per hour` at 64 against a floor of 900.
+_cb22 = open(os.path.join(_here19, "cascade_bridge.py"), encoding="utf-8").read()
+check("pump() records the exception text, not just the failure flag",
+      'box["error"] = str(exc)[:300]' in _cb22, True,
+      note="THE BUG: without the text the classifier below matches '' and never benches")
+check("the except clause still binds the exception",
+      "except Exception as exc:" in _cb22, True)
+check("the permanent-refusal list is matched case-folded",
+      '(box.get("error") or "").lower()' in _cb22, True,
+      note="providers do not agree on capitalisation of Authentication/Credentials")
+for _tok22 in ("401", "402", "403", "insufficient balance", "no resource package",
+               "payment required", "needs billing", "depleted", "credentials",
+               "invalid_api_key", "authentication"):
+    check("a spent or unauthorised account is recognised by %r" % _tok22,
+          _tok22 in _cb22, True,
+          note="dropping a token silently returns that provider to the rotation forever")
+check("the auth bench is still four hours",
+      __import__("re").search(r"AUTH_BENCH = 4 \* 3600", _cb22) is not None, True)
+check("the metrics line reads _via only from a dict",
+      'if isinstance(got, dict) else ""' in _cb22, True,
+      note="_extract_json can return a list or bool; (got or {}).get crashed the call")
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)
