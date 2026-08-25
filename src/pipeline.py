@@ -440,7 +440,23 @@ def write_record_catalogue(path, rec):
         _ = "silence-exempt: no disk copy yet means nothing to merge; first write"
         pass
     except Exception:
+        # THE SAME FALL-THROUGH AS write_record, WITH THE LOSS POINTING THE OTHER WAY.
+        #
+        # Found run #24 alongside its twin. Here `rec` is the authority for the entry LIST, so
+        # a swallowed read does not revert the cast -- it does something quieter and just as
+        # permanent. The merge is what carries the disk copy's per-entry judgments (bands,
+        # scale notes, topics) forward onto matching names, and what re-appends the entries
+        # only disk has. Skip it and this write DROPS every disk-only entry and blanks every
+        # judgment the pipeline had already made, while the docstring one screen up promises
+        # "a merge never shrinks a cast".
+        #
+        # Same trigger as the twin: the read fails most readily when the other writer is
+        # mid-write. Same remedy, and it is this module's own idiom -- return False, the caller
+        # leaves its unit open, the next run redoes it against a readable file.
         silence.note("pipeline.py:write_record_catalogue")
+        log(f"    write_record_catalogue: {os.path.basename(path)} could not be read for "
+            f"merge; REFUSING to write an unmerged cast over it -- this unit stays open")
+        return False
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(rec, f, indent=2, ensure_ascii=False)
@@ -523,7 +539,25 @@ def write_record(path, rec):
         silence.note("pipeline.py:301")
         pass
     except Exception:
+        # A FAILED MERGE MUST NOT FALL THROUGH INTO THE OVERWRITE IT EXISTS TO PREVENT.
+        #
+        # Found run #24. `merged` is initialised to `rec` -- the STALE in-memory copy -- and
+        # only becomes the disk-merged version if the read above succeeds. So when this handler
+        # fired, the function swallowed the error and then wrote the pipeline's hours-old copy
+        # over the disk file WHOLE: exactly the 30,207-entries-to-1,051 revert the docstring
+        # says this function was written to stop, performed by the guard itself.
+        #
+        # And the trigger is not exotic. The read most likely fails precisely WHEN the other
+        # writer is mid-write -- a torn or momentarily-empty file is a JSONDecodeError -- which
+        # is the one moment the merge matters. The rarer the condition, the more total the loss.
+        #
+        # Refusing is the safe direction and it is already this module's idiom: `_landed`
+        # returns False so the caller leaves its unit open and the next run redoes it. Losing
+        # one update is recoverable; overwriting a fresh re-catalogue is not.
         silence.note("pipeline.py:write_record-merge")
+        log(f"    write_record: {os.path.basename(path)} could not be read for merge; "
+            f"REFUSING to write the in-memory copy over it -- this unit stays open")
+        return False
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(merged, f, indent=2, ensure_ascii=False)

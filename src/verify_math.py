@@ -42,18 +42,38 @@ def _nesting_violations(t):
 
 
 def _raises(fn):
+    # silence-exempt: THE EXCEPTION IS THE EXPECTED RESULT, SO NOTING IT FILES A PASS AS A FAULT.
+    # Until run #24 this called `silence.note("verify_math.py:47")`, which put every deliberately
+    # provoked exception into `state/failures.json` -- the highest-traffic shared ledger, which
+    # the dashboard polls and `standards` reads. 87 rows (29 ContextOverflow, 58 ValueError) had
+    # accumulated there from this one line, counted by the "unexpected swallowed failures"
+    # standard as genuine production faults, because the probe key is not in its allowlist.
+    # A test harness reporting its own passing assertions as production failures is noise in the
+    # one place the project cannot afford noise. This file already adopts exactly this exemption
+    # elsewhere, for exactly this reason.
     try:
         fn()
         return False
     except Exception:
-        silence.note("verify_math.py:47")
         return True
 
 
 
 
 def check(label, got, want, tol=1e-6, note=""):
-    ok = (abs(got - want) <= tol * max(1.0, abs(want))) if isinstance(want, float) else got == want
+    # A NON-NUMERIC `got` AGAINST A FLOAT `want` IS A FAILED CHECK, NOT A CRASHED SUITE.
+    # `abs(got - want)` raises TypeError when a check hands in None or a string -- which is the
+    # commonest way for the code under test to be broken. Nothing wraps this script, so that
+    # TypeError propagated out of the whole run: every check AFTER the first such failure never
+    # executed and the RESULT line never printed. The suite whose job is to fail loudly could be
+    # silenced entirely by the very defect it was pointed at. Verified reproducible, run #24.
+    # Deliberately narrow: `bool` is an `int` subclass, so bool-against-float keeps its old
+    # arithmetic verdict and no check that passed before this guard changes its answer.
+    if isinstance(want, float):
+        ok = (abs(got - want) <= tol * max(1.0, abs(want))
+              if isinstance(got, (int, float)) else False)
+    else:
+        ok = got == want
     (PASS if ok else FAIL).append((label, got, want, note))
     mark = "OK  " if ok else "FAIL"
     print(f"  {mark} {label:<52} got={got!r:<22} want={want!r}")
@@ -3083,8 +3103,12 @@ check("the restart horizon for a STANDING job names the 300s keeper",
       in _fm19._restart_horizon(_ln19.OWNER[_ln19.PIPELINE]), True,
       note="pipeline IS standing; one blanket clause could never be true of both jobs")
 check("the horizon is derived from overnight.STANDING, not a second hand-kept copy",
-      "import overnight" in _fm19._restart_horizon.__doc__ or True, True,
-      note="documented intent; the assertion that matters is the pair of checks above")
+      "import overnight" in __import__("inspect").getsource(_fm19._restart_horizon)
+      and "_ON.STANDING" in __import__("inspect").getsource(_fm19._restart_horizon), True,
+      note="asserted against the FUNCTION BODY. It read `... in __doc__ or True` until run #24: "
+           "the docstring says 'STANDING is imported rather than copied' and never contains the "
+           "literal 'import overnight', so the assertion was FALSE and `or True` had been added "
+           "to keep it quiet -- a check that cannot fail, in the file that exists to fail")
 
 _fm19src = open(os.path.join(_here19, "foreman.py"), encoding="utf-8").read()
 check("no remedy still ends its note with the bare 'supervisor restarts next cycle'",
@@ -3609,6 +3633,108 @@ check("a failed revert cannot report itself as reverted",
       'reverted = False' in open(
           os.path.join(_here19, "local_agent.py"), encoding="utf-8").read(), True,
       note="'reverted': True was a literal, emitted even when the restoring write had raised")
+
+print()
+print("28. §20i  A GUARD MUST NOT FALL THROUGH INTO THE HARM IT GUARDS AGAINST")
+print("-" * 96)
+# Run #24. Three defects of one shape: the failure path of a protective mechanism did the exact
+# thing the mechanism existed to prevent, and in all three cases the docstring above it promised
+# the opposite. Pinned here because none of them could fail on their own.
+
+_cb20i = __import__("cascade_bridge")
+_tdir20i = _tf.mkdtemp()
+
+# --- the unrecognised ledger re-triages on read -------------------------------------------------
+# "Unrecognised" is a statement about the CURRENT classifier. Rows written before a classifier
+# improvement stayed open forever: 48 rows of which 36 were ordinary throttles the classifier
+# already understood, burying the one genuine unknown and holding a HIGH standard red on debris.
+_led20i = os.path.join(_tdir20i, "unrec.json")
+_now20i = time.time()
+with open(_led20i, "w", encoding="utf-8") as _f:
+    json.dump({
+        "a|x": {"bucket": "a", "error": "Rate limit exceeded", "last_seen": _now20i, "count": 9},
+        "b|x": {"bucket": "b", "error": "Every model in this pool is rate limited or unconfigured.",
+                "last_seen": _now20i, "count": 4},
+        "c|x": {"bucket": "c", "error": "All 11 candidates failed: A, B", "last_seen": _now20i},
+        "d|x": {"bucket": "d", "error": "empty response", "last_seen": _now20i, "count": 5},
+        "e|x": {"bucket": "e", "error": "All 1 candidates failed: GLM 4.7 Flash (Z.AI)",
+                "last_seen": _now20i},
+    }, _f)
+_savedU = _cb20i.UNRECOGNISED
+try:
+    _cb20i.UNRECOGNISED = _led20i
+    _open20i = _cb20i.unrecognised_open()
+finally:
+    _cb20i.UNRECOGNISED = _savedU
+check("a throttle already named by the classifier is not still an open unknown",
+      sorted(r["bucket"] for r in _open20i), ["d", "e"],
+      note="a and b are named transients, c is a multi-candidate aggregate; only the genuine "
+           "unknown and the deliberately-loud single-candidate shape survive")
+
+# --- both record writers refuse rather than overwrite what they could not read ------------------
+# `merged` was initialised to the STALE in-memory copy, so a swallowed read error fell through
+# into writing it over the disk file whole -- the 30,207-to-1,051 revert write_record exists to
+# stop, performed by the guard. Same shape in the catalogue direction, dropping disk-only entries.
+for _fn20i, _lbl20i in ((_PL.write_record, "write_record"),
+                        (_PL.write_record_catalogue, "write_record_catalogue")):
+    _torn = os.path.join(_tdir20i, "torn_%s.json" % _lbl20i)
+    with open(_torn, "w", encoding="utf-8") as _f:
+        _f.write('{"source": "T", "entries": [')      # a file caught mid-write
+    _before20i = open(_torn, encoding="utf-8").read()
+    check("%s refuses to write over a file it could not read" % _lbl20i,
+          _fn20i(_torn, {"source": "T", "entries": [{"name": "A"}]}), False,
+          note="returning False is this module's own idiom -- the caller leaves its unit open")
+    check("and %s leaves that file byte-for-byte untouched" % _lbl20i,
+          open(_torn, encoding="utf-8").read(), _before20i)
+
+# --- check() itself cannot be silenced by the defect it is pointed at ---------------------------
+# `abs(got - want)` raised TypeError on a non-numeric `got`. Nothing wraps this script, so that
+# escaped the whole run: every check after it never executed and RESULT never printed.
+_savedP20i, _savedF20i = list(PASS), list(FAIL)
+PASS.clear()
+FAIL.clear()
+_raised20i = False
+try:
+    check("probe: a non-numeric got against a float want", None, 1.0)
+except TypeError:
+    _raised20i = True
+_recorded20i = (len(FAIL), len(PASS))
+PASS.clear()
+FAIL.clear()
+PASS.extend(_savedP20i)
+FAIL.extend(_savedF20i)
+check("a non-numeric got is recorded as a failed check, never raised",
+      (_raised20i, _recorded20i), (False, (1, 0)),
+      note="the probe above is deliberately failing and is scrubbed from the tally; what is "
+           "asserted is that it FAILED rather than taking the suite down with it")
+
+# needle assembled at runtime: written as a literal it would match its OWN source line and
+# fail forever -- the self-referential version of the bug it is checking for.
+_needle20i = " or " + "True, " + "True,"
+# --- the local model's write gate refuses a name that is not a plain one -----------------------
+# m113 (case) and m114 (prefix) were gates keyed on a STRING while the filesystem resolved a
+# DIFFERENT string to the same object. Run #24 found the third road: `foreman.py::$DATA` is the
+# same bytes, passes os.path.isfile, does not end in ".py" (so modname is None and the module
+# denylist cannot match), and is not in DENYLIST_PATHS either. Reproduced before fixing.
+_la20i = __import__("local_agent")
+check("an NTFS alternate data stream cannot smuggle a denied module past the gate",
+      _la20i._safe("src/foreman.py::$DATA"), None,
+      note="same file as src/foreman.py, which the denylist covers; the stream name is not")
+check("nor can a bare stream suffix",
+      _la20i._safe("src/foreman.py:stream"), None)
+check("a trailing dot still resolves to the real module so the denylist can see it",
+      (_la20i._safe("src/foreman.py.") or "").endswith(os.sep + "foreman.py"), True,
+      note="abspath normalises it away; what matters is that modname comes out as 'foreman'")
+check("and an ordinary editable file is still admitted",
+      _la20i._safe("src/tells.py") is not None, True,
+      note="the fix must not over-block; a gate that refuses everything is also broken")
+
+check("no check in this file is disarmed with a trailing always-true disjunct",
+      _needle20i in open(os.path.join(_here19, "verify_math.py"), encoding="utf-8").read(),
+      False,
+      note="§20i's third case: the STANDING-horizon check asserted against a docstring that "
+           "never contained the string, so an always-true disjunct had been added to keep it "
+           "quiet -- a check that cannot fail, in the file that exists to fail")
 
 print()
 print("=" * 96)

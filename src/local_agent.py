@@ -232,7 +232,33 @@ def t_run_check(check="", path=None, **_):
 
 def _safe(path):
     """A path the model may touch: inside the project, never the export copy or .git."""
-    full = os.path.abspath(os.path.join(HERE, path or "."))
+    raw = str(path if path is not None else ".")
+    # AN NTFS ALTERNATE DATA STREAM IS THE SAME FILE WEARING A NAME THE GATES DO NOT RECOGNISE.
+    #
+    # Found run #24 by the comprehensive sweep and reproduced on this machine. `src/foreman.py`
+    # is denied; `src/foreman.py::$DATA` is not, and it is the SAME BYTES. `os.path.isfile()`
+    # says True, the write goes through to the real file -- and because the string does not end
+    # in `.py`, `t_propose_patch` derives `modname is None`, so the module denylist cannot match
+    # and the path denylist is tested against a name (`foreman.py::$DATA`) that is not in it
+    # either. For `health`, `allsweep`, `estate` and `local_agent` the loss is total: verify_math
+    # never imports them, so the parse/lint/import gates have nothing to say about them either.
+    #
+    # This is m113 and m114's shape a third time -- a gate keyed on a STRING while the
+    # filesystem resolves a DIFFERENT string to the same object. So the check is no longer "does
+    # this name look denied" but "is this name a plain one at all": a colon anywhere past the
+    # drive letter, or a component with a trailing dot or space (Windows strips both silently,
+    # so `foreman.py ` and `foreman.py.` are also the same file), is refused outright.
+    #
+    # Refusing is the harmless direction, and nothing legitimate in this repo needs any of them.
+    drive, tail = os.path.splitdrive(os.path.abspath(os.path.join(HERE, raw)))
+    for comp in tail.replace("/", os.sep).split(os.sep):
+        if not comp:
+            continue
+        if ":" in comp or comp != comp.rstrip(". "):
+            return None
+    if ":" in raw.replace("\\", "/").split("/")[-1]:
+        return None
+    full = drive + tail
     # A PREFIX IS NOT A DIRECTORY BOUNDARY. Found 2026-08-25 (run #23) by the comprehensive
     # sweep. `full.startswith(HERE)` is true for `C:\...\panscriptum-library-kit-EVIL\x.py`
     # and for `...-export\src\foo.py` -- any SIBLING whose name merely begins with this
