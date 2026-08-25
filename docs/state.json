@@ -1,5 +1,5 @@
 {
- "at": "2026-08-24 21:04:39",
+ "at": "2026-08-24 21:15:20",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -692,30 +692,9 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 4,
-  "per_hour": 16,
-  "buckets": [
-   {
-    "bucket": "cloudflare:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 1,
-    "ok": 0
-   }
-  ]
+  "calls": 0,
+  "per_hour": 0,
+  "buckets": []
  },
  "jobs": [
   {
@@ -751,7 +730,7 @@
    "read": 32951,
    "settled": 41019,
    "feats": 55794,
-   "age_h": 0.4
+   "age_h": 0.6
   },
   "phases": [
    {
@@ -798,14 +777,14 @@
   "swallowed": [
    [
     "silent:feats.py:139:URLError",
-    301
+    476
    ],
    [
     "silent:dashboard.py:336:JSONDecodeError",
     1
    ]
   ],
-  "swallowed_total": 302
+  "swallowed_total": 477
  },
  "metrics": [
   {
@@ -854,7 +833,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 16,
+   "observed": 0,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low, the reader is not asking: check that read.py resolved its transport to Cascade and that its worker count matches the bucket count.",
    "severity": "high"
@@ -890,7 +869,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "UNMEASURED -- 4 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "observed": "UNMEASURED -- 0 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
    "floor": "50%",
    "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
    "severity": "medium"
@@ -944,7 +923,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.4h",
+   "observed": "0.6h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -998,7 +977,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "302",
+   "observed": "477",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1058,6 +1037,15 @@
    "severity": "high"
   },
   {
+   "standard": "the library's counters are moving",
+   "group": "throughput",
+   "holds": true,
+   "observed": "1/4 moved in 40m",
+   "floor": ">= 1 in 45m",
+   "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
+   "severity": "high"
+  },
+  {
    "standard": "files that parse",
    "group": "instrument",
    "holds": true,
@@ -1079,7 +1067,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.4h",
+   "observed": "0.6h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1106,7 +1094,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "pipeline_auto (29 min, 3417 bytes)",
+   "observed": "pipeline_auto (39 min, 3417 bytes), roll_auto (22 min, 45492 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1114,8 +1102,8 @@
   {
    "standard": "fandom answers this machine",
    "group": "machine",
-   "holds": false,
-   "observed": "IPv4 connect fails: 172.66.2.166 TimeoutError",
+   "holds": true,
+   "observed": "reachable over IPv4 at 172.66.2.166",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1142,7 +1130,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in 0.6s",
+   "observed": "probe completed in 0.8s",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. If this fires, restart ollama.exe (the tray app respawns it) and re-probe. Nothing drains a wedged queue on its own.",
    "severity": "high"
@@ -1198,44 +1186,44 @@
    "metric": "cited",
    "now": 8068,
    "delta": 0,
-   "minutes": 38,
+   "minutes": 32,
    "stalled": true
   },
   {
    "metric": "settled",
    "now": 41019,
    "delta": 0,
-   "minutes": 38,
+   "minutes": 32,
    "stalled": true
   },
   {
    "metric": "feats",
    "now": 55794,
-   "delta": 10,
-   "minutes": 38,
-   "stalled": false
+   "delta": 0,
+   "minutes": 32,
+   "stalled": true
   },
   {
    "metric": "entities read",
    "now": 1275,
    "delta": 0,
-   "minutes": 38,
+   "minutes": 32,
    "stalled": true
   },
   {
    "metric": "chunks",
    "now": 4557,
    "delta": 0,
-   "minutes": 38,
+   "minutes": 32,
    "stalled": true
   },
   {
    "metric": "standards met",
    "now": 29,
-   "delta": 2,
-   "minutes": 38,
+   "delta": 1,
+   "minutes": 32,
    "stalled": false
   }
  ],
- "generated": "2026-08-24T21:05:17"
+ "generated": "2026-08-24T21:15:41"
 }
