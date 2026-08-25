@@ -52,6 +52,7 @@ import sys
 import time
 import traceback
 import urllib.request
+import cachekey
 import silence
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -631,19 +632,16 @@ def _mined_feats(rec):
     host = hosts.get(rec["source"])
     if not host:
         return out
-    hd = re.sub(r"[^A-Za-z0-9]+", "_", host)[:40]
+    # M23: was `re.sub(...)[:80] + ".json"` inline, one of four independent spellings of a lossy
+    # key. `Magic 8 Ball` and `Magic 8-Ball` resolved to one file, so THIS loop would attach one
+    # entity's mined feats to the other's name and hand them to the chapter that cites them.
+    # `cachekey.load` proves the file's `entity` matches before the feats are believed.
     for e in rec["entries"]:
-        nd = re.sub(r"[^A-Za-z0-9]+", "_", e["name"])[:80] + ".json"
         for base in (os.path.join(HERE, "data", "readfeats"),
                      os.path.join(HERE, "data", "feats")):
-            fp = os.path.join(base, hd, nd)
-            if not os.path.exists(fp):
-                continue
-            try:
-                with open(fp, encoding="utf-8") as fh:
-                    d = json.load(fh)
-            except Exception:
-                silence.note("pipeline.py:277")
+            d, _fp = cachekey.load(base, host, e["name"],
+                                   on_corrupt=lambda _p: silence.note("pipeline.py:277"))
+            if d is None:
                 continue
             fl = [x.get("feat") for x in (d.get("feats") or []) if x.get("feat")]
             if fl:

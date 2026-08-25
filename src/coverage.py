@@ -24,13 +24,13 @@ import argparse
 import collections
 import json
 import os
-import re
 import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pipeline as P                                                    # noqa: E402
 import feats as F                                                       # noqa: E402
+import cachekey
 import silence
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
@@ -42,8 +42,14 @@ READ_CACHE = os.path.join(HERE, "data", "readfeats")
 
 
 def _p(base, host, name):
-    return os.path.join(base, re.sub(r"[^A-Za-z0-9]+", "_", host)[:40],
-                        re.sub(r"[^A-Za-z0-9]+", "_", name)[:80] + ".json")
+    """The entity's natural cache path. M23: reads through here MUST verify ownership.
+
+    This function used to be the whole answer, and it is lossy -- `Magic 8 Ball` and
+    `Magic 8-Ball` return the same path. `measure()` therefore counted one entity's mined feats
+    as evidence for BOTH, inflating CITED on either side of every collision. `state_of()` now
+    verifies via `cachekey.owns()` before believing a file.
+    """
+    return cachekey.natural_path(base, host, name)
 
 
 # Per-file result cache, mtime-keyed and persisted. state_of() only ever wants two list
@@ -86,33 +92,55 @@ def state_of(host, name):
     cache = _so_load()
     best = ("NO PAGE", 0, 0)
     for base in (READ_CACHE, F.CACHE):
-        fp = _p(base, host, name)
-        try:
-            mt = os.path.getmtime(fp)
-        except OSError:
-            continue
-        rel = os.path.relpath(fp, HERE)
-        hit = cache.get(rel)
-        if hit and hit[0] == mt:
-            st, nf, np = hit[1], hit[2], hit[3]
-        else:
-            try:
-                with open(fp, encoding="utf-8") as f:
-                    d = json.load(f)
-            except Exception:
-                silence.note("coverage.py:60")
+        for fp in cachekey.candidate_paths(base, host, name):
+            st_np = _state_of_file(fp, name, cache)
+            if st_np is None:
                 continue
-            pages = d.get("pages_read") or d.get("pages") or []
-            feats = d.get("feats") or []
-            st = "CITED" if feats else ("READ" if pages else "NO PAGE")
-            nf, np = len(feats), len(pages)
-            cache[rel] = [mt, st, nf, np]
-            _SO["dirty"] += 1
-        if st == "CITED":
-            return "CITED", nf, np
-        if st == "READ":
-            best = ("READ", 0, np)
+            st, nf, np = st_np
+            if st == "CITED":
+                return "CITED", nf, np
+            if st == "READ":
+                best = ("READ", 0, np)
     return best
+
+
+def _state_of_file(fp, name, cache):
+    """-> (state, n_feats, n_pages) for ONE candidate file, or None if it is not usable.
+
+    Split out of `state_of` so the ownership check has exactly one home. M23: a file is only
+    this entity's evidence if it says so.
+    """
+    try:
+        mt = os.path.getmtime(fp)
+    except OSError:
+        return None
+    # M23: the memo is keyed by PATH **and NAME**. Keying it by path alone was a second copy of
+    # the same bug one layer up -- two entities that share a path would also share the memo, so
+    # the ownership check below would be skipped for whichever asked second.
+    rel = os.path.relpath(fp, HERE) + "|" + name
+    hit = cache.get(rel)
+    if hit and hit[0] == mt:
+        if hit[1] == "NOT_MINE":
+            return None
+        return hit[1], hit[2], hit[3]
+    try:
+        with open(fp, encoding="utf-8") as f:
+            d = json.load(f)
+    except Exception:
+        silence.note("coverage.py:60")
+        return None
+    if not cachekey.owns(d, name):
+        # Someone else's evidence sitting at our path. NOT this entity's citation.
+        cache[rel] = [mt, "NOT_MINE", 0, 0]
+        _SO["dirty"] += 1
+        return None
+    pages = d.get("pages_read") or d.get("pages") or []
+    feats = d.get("feats") or []
+    st = "CITED" if feats else ("READ" if pages else "NO PAGE")
+    nf, np = len(feats), len(pages)
+    cache[rel] = [mt, st, nf, np]
+    _SO["dirty"] += 1
+    return st, nf, np
 
 
 def measure():

@@ -292,6 +292,31 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
                 lacking = [e for e in g if not _covered(e.get("name", ""), text)]
         if not text.strip():
             raise RuntimeError(f"empty response on block {gi + 1}/{len(groups)}")
+
+        # ======================= LAYER 4 — THE TRAIN'S OWN RESTRAINT CHECK ====================
+        # `_covered()` above asked only whether each entity's NAME appears, which is exactly what
+        # survives a generation that writes the first entries in full and then degrades into a
+        # list. 902 of 1,268 entries in the withdrawn batch passed that check having silently
+        # lost their Threads section. This inspects the prose the model actually returned against
+        # the template it was asked for, and refuses a half-written block rather than shelving
+        # it. A refusal is recoverable; a chapter filed as complete is not.
+        import prose_gate as _PG
+        _PG.assert_block_complete(text, len(g), f"block {gi + 1}/{len(groups)}")
+
+        # LAYER 4b — an assay nobody earned. Hard Rule 3: band-only Magnitude, because the
+        # decimals require a real worksheet against cited feats. An entity with no cited feat
+        # that comes back carrying numeric axis scores has been given a number with nothing
+        # under it, printed in the same shape as one that was earned.
+        _cited = {e.get("name") for e in g if (e.get("feats") or e.get("cited"))}
+        _unearned = _PG.unearned_instrument(text, _cited)
+        if _unearned:
+            raise RuntimeError(
+                "block %d/%d printed Instrument axis scores for %d entit%s with no cited feat: "
+                "%s. Hard Rule 3 forbids a fabricated assay, and a precise number is the most "
+                "convincing thing a model can invent."
+                % (gi + 1, len(groups), len(_unearned),
+                   "y" if len(_unearned) == 1 else "ies", "; ".join(_unearned[:5])))
+
         parts.append(text.strip())
         missing.extend(e.get("name", "?") for e in lacking)
     if missing:
@@ -308,6 +333,22 @@ def main():
     args = ap.parse_args()
 
     cfg = load_config()
+
+    # ============================ LAYER 2 — THE MACHINE'S OWN INTERLOCK ========================
+    # `overnight.py` also checks the gate. That is the control room, and it is not enough: it
+    # governs only the supervisor's own launch. A hand-run, a keeper restart, a stale supervisor
+    # still executing pre-gate code, or any future caller walks straight past it. This refusal
+    # lives at the machine. It runs BEFORE the manifest is even loaded, so there is no path
+    # through this program that reaches a model call without passing it.
+    import prose_gate as PG
+    try:
+        why = PG.assert_gate_open(cfg)
+    except PG.ProseRefused as e:
+        print(str(e))
+        print("nothing was generated. Open the gate in config.yaml if that is what you intend.")
+        return 0
+    print("prose gate: OPEN (%s)" % why)
+
     manifest = load_json(args.manifest, {"jobs": []})
     # Both manifest shapes are in the wild: manifest_builder writes {"jobs": [...]} and at
     # least one phase-8 path wrote a bare list -- the mismatch crash-looped the supervisor's
@@ -327,9 +368,31 @@ def main():
     model = cfg["model"]
     seed = cfg.get("seed", 47)
 
+    # ============================ LAYER 3 — THE QUEUE LINE ====================================
+    # A job that should never be written must not reach the platform at all. This is measured
+    # ONCE per source and cached, then applied to every job of that source. It fails closed on an
+    # unmeasured source, because "not in COVERAGE.json" is indistinguishable from "nothing has
+    # ever been read here", and that is exactly the state the withdrawn batch was written from.
+    floor = float(cfg.get("prose_min_cited_fraction", 0.35) or 0.0)
+    try:
+        cov_rows = PG._coverage_rows()
+    except Exception as e:
+        print("REFUSING EVERYTHING: data/COVERAGE.json unreadable (%s). The evidence floor "
+              "cannot be applied, so no source can be shown to be worth writing."
+              % type(e).__name__)
+        return 0
+    _ev_cache, refused_src = {}, {}
+
     pending = []
     stale_count = 0
     for job in jobs:
+        src = job.get("source_name")
+        if src not in _ev_cache:
+            _ev_cache[src] = PG.evidence_ok(src, floor, cov_rows)
+        ok_src, why_src = _ev_cache[src]
+        if not ok_src:
+            refused_src[src] = why_src
+            continue
         rh = recipe_hash(job["address"], model, seed, prompt_version, job.get("content_hash", ""))
         cached = catalog.get(job["address"], {})
         if cached.get("recipe_hash") == rh:
@@ -337,6 +400,15 @@ def main():
         if cached and cached.get("recipe_hash") != rh:
             stale_count += 1  # was generated before, but data/model/prompt changed since
         pending.append((job, rh))
+
+    if refused_src:
+        print("\nEVIDENCE FLOOR — %d source(s) held back at %.0f%% cited:"
+              % (len(refused_src), 100 * floor))
+        for s, w in sorted(refused_src.items(), key=lambda kv: str(kv[0]))[:20]:
+            print("   %s" % w)
+        if len(refused_src) > 20:
+            print("   ... and %d more" % (len(refused_src) - 20))
+        print("   These are NOT failures. They are sources the reader has not finished.\n")
 
     if stale_count:
         print(f"({stale_count} of those are stale -- previously generated, but the source data, "

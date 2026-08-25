@@ -53,6 +53,7 @@ import urllib.request
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cachekey                                                         # noqa: E402
 import silence                                                          # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
@@ -792,16 +793,13 @@ def roster_audit(workers=8):
             return None
         seen = hit = 0
         for name in by[src]:
-            fp = os.path.join(HERE, "data", "feats",
-                              re.sub(r"[^A-Za-z0-9]+", "_", host)[:40],
-                              re.sub(r"[^A-Za-z0-9]+", "_", name)[:80] + ".json")
-            if not os.path.exists(fp):
-                continue
-            try:
-                with open(fp, encoding="utf-8") as f:
-                    d = json.load(f)
-            except Exception:
-                silence.note("hostcheck.py:roster_audit")
+            # M23: the roster audit judges whether a host's pages actually name the source's
+            # entities. Reading a colliding neighbour's cached text here would credit THIS
+            # entity with a page that never mentioned it, so ownership is proved first.
+            d, fp = cachekey.load(
+                os.path.join(HERE, "data", "feats"), host, name,
+                on_corrupt=lambda _p: silence.note("hostcheck.py:roster_audit"))
+            if d is None:
                 continue
             body = " ".join((d.get("text") or {}).values()).lower()
             if not body:

@@ -4087,6 +4087,136 @@ check("a pre-checkpoint file, which has `at` and no `complete` key, still reads 
       note="every CHARTER_REGRESSION.json written before 2026-08-25 has this shape; reading "
            "one as a stalled pass would report a fault that is only a file-format change")
 
+# ---- Section 19s: THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS -------------
+# Added 2026-08-25 (owner ruling). 145 chapters were written that should not have been, and the
+# reason is worth stating exactly: NOTHING FAILED. Five reasonable things were each missing a
+# guard, and no test would have gone red for any of them.
+#
+# The design standard the owner set is the one used where safety is taken seriously: not three
+# copies of one brake, but brakes that fail in DIFFERENT directions, an interlock that refuses to
+# release until the previous condition is PROVEN clear, and a physical sensor rather than an
+# assumption. So these checks are grouped by LAYER, and each layer is tested for the property
+# that makes it a safety rather than a hope: does it refuse when it knows nothing?
+#
+# THE LAST GROUP IS THE IMPORTANT ONE. The gate did not fail here -- it was DELETED, by an
+# autonomous run acting on a fair reading of a code smell. So the deepest interlock is the one
+# that watches the operators: if a future run removes a gate, weakens a floor, or drops the
+# ownership check, the battery goes red and its own run has to answer for it.
+import prose_gate as _PGate    # noqa: E402
+import cachekey as _CK         # noqa: E402
+
+_gen_src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "generate.py"),
+                encoding="utf-8").read()
+_ovn_src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "overnight.py"),
+                encoding="utf-8").read()
+
+# --- LAYER 1: the control room. The supervisor must consult the gate before starting prose.
+check("the supervisor asks the gate before starting prose",
+      "_prose_enabled()" in _ovn_src and "start(\"prose\"" in _ovn_src, True,
+      note="if this fails, overnight.py starts generate.py unconditionally again")
+check("the supervisor's gate FAILS CLOSED on an unreadable config",
+      _ON._prose_enabled.__doc__ is not None and "FAILS CLOSED" in _ON._prose_enabled.__doc__,
+      True, note="the contract must be stated where the next reader will see it")
+
+# --- LAYER 2: the machine. The tool refuses on its own, whoever started it.
+check("generate.py refuses on its own authority",
+      "assert_gate_open" in _gen_src, True,
+      note="the supervisor gate governs only the supervisor; a hand-run must refuse too")
+check("an ABSENT flag is a closed gate", _PGate.gate_open({})[0], False,
+      note="silence must never authorise a book")
+check("a non-True truthy value is a closed gate", _PGate.gate_open({"prose_enabled": "yes"})[0],
+      False, note="only an explicit boolean true opens it -- 'yes' is a typo, not a ruling")
+check("an explicit true opens it", _PGate.gate_open({"prose_enabled": True})[0], True,
+      note="a gate that cannot open is not a gate, it is a wall (standing lesson 9)")
+check("the gate is CLOSED right now, as the owner ruled", _PGate.gate_open()[0], False,
+      note="prose is held pending Step 4; if this is True someone opened it")
+
+# --- LAYER 3: the queue line. A source with nothing under it never boards.
+check("an UNMEASURED source is refused",
+      _PGate.evidence_ok("no such source at all", 0.35, [])[0], False,
+      note="'not in COVERAGE.json' is how a zero-cited source presents")
+check("a source below the floor is refused",
+      _PGate.evidence_ok("S", 0.35, [{"source": "S", "entries": 100, "cited": 3}])[0], False)
+check("a source above the floor is admitted",
+      _PGate.evidence_ok("S", 0.35, [{"source": "S", "entries": 100, "cited": 90}])[0], True)
+check("a source with zero entries is refused, not divided by",
+      _PGate.evidence_ok("S", 0.35, [{"source": "S", "entries": 0, "cited": 0}])[0], False)
+# Read config.yaml DIRECTLY, not via read.config(), which returns a filtered four-key subset --
+# asking it about a key it does not carry returns None and would have read as "not declared".
+_raw_cfg = __import__("yaml").safe_load(
+    open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config.yaml"),
+         encoding="utf-8")) or {}
+check("the evidence floor is declared in config.yaml",
+      isinstance(_raw_cfg.get("prose_min_cited_fraction"), (int, float)), True)
+check("the evidence floor is a real fraction, not 0 or 1",
+      0.0 < float(_raw_cfg.get("prose_min_cited_fraction", 0)) < 1.0, True,
+      note="0 admits everything and 1 admits nothing; either would be a disabled interlock")
+check("the prose flag is a BOOLEAN in config, not a string",
+      isinstance(_raw_cfg.get("prose_enabled"), bool), True,
+      note="'false' the string is truthy -- a typo must not be able to open the gate")
+
+# --- LAYER 4: the train. What came back must be what was asked for.
+_good = ("◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
+         "**Threads: pending the entanglement pass**\n")
+_half = "◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"      # Threads dropped
+check("a complete entry passes the block validator",
+      _PGate.section_shortfall(_good, 1)[2], [])
+check("an entry that lost Threads is caught",
+      any("Threads" in m for m in _PGate.section_shortfall(_half, 1)[2]), True,
+      note="this is the exact shape that put 902 half-written entries into the library")
+check("an entry that produced no block at all is caught",
+      any("no ◈ block" in m for m in _PGate.section_shortfall(_good, 3)[2]), True,
+      note="two missing entries must not read as 100% of the one that arrived")
+check("a half-written block RAISES rather than being shelved",
+      _raises(lambda: _PGate.assert_block_complete(_half, 1, "t")), True)
+check("the section-loss floor is still zero",
+      _PGate.SECTION_LOSS_FLOOR, 0.0,
+      note="raising this is how a future run would make these failures quietly go away")
+
+# --- LAYER 4b: an assay nobody earned (Hard Rule 3).
+_axis = "◈ **Athuri**\nMagnitude: unassayed\nWisdom: 28 (Transcendent, Grade III)\n"
+check("axis scores on an UNCITED entity are refused",
+      _PGate.unearned_instrument(_axis, set()), ["Athuri"],
+      note="a precise number is the most convincing thing a model can invent")
+check("axis scores on a CITED entity are allowed",
+      _PGate.unearned_instrument(_axis, {"Athuri"}), [])
+
+# --- LAYER 5: M23, the cache that served one entity's evidence as another's.
+check("the natural path still collides — which is WHY ownership is checked",
+      _CK.natural_path("b", "h", "Magic 8 Ball") == _CK.natural_path("b", "h", "Magic 8-Ball"),
+      True, note="the key is deliberately unchanged so 86,288 files stay live; the READ verifies")
+check("a foreign document is not this entity's evidence",
+      _CK.owns({"entity": "Magic 8-Ball"}, "Magic 8 Ball"), False)
+check("its own document is", _CK.owns({"entity": "Magic 8 Ball"}, "Magic 8 Ball"), True)
+check("a document with no entity field is not trusted",
+      _CK.owns({"feats": []}, "Magic 8 Ball"), False,
+      note="all 86,288 files carry one; a file without it was not written by this scheme")
+check("the writer disambiguates rather than overwriting a neighbour",
+      _CK.disambiguated_path("b", "h", "Magic 8 Ball")
+      != _CK.natural_path("b", "h", "Magic 8 Ball"), True,
+      note="without this a colliding pair re-mines each other for ever")
+for _m in ("coverage", "feats", "hostcheck", "pipeline"):
+    _msrc = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), _m + ".py"),
+                 encoding="utf-8").read()
+    check("%s reads entity caches through cachekey" % _m, "cachekey" in _msrc, True,
+          note="four independent spellings of one key is four chances to drift (lesson 14)")
+
+# --- LAYER 6: THE OPERATORS. These go red if a future run removes a safety.
+check("no module rebuilds the entity cache path by hand",
+      sorted(m for m in ("coverage", "feats", "hostcheck", "pipeline")
+             if '"_", name)[:80]' in open(
+                 os.path.join(os.path.dirname(os.path.abspath(__file__)), m + ".py"),
+                 encoding="utf-8").read()), [],
+      note="an inline re-spelling of the lossy key is the regression this whole fix prevents")
+check("the prose gate module still declares every layer",
+      all(hasattr(_PGate, f) for f in ("gate_open", "assert_gate_open", "evidence_ok",
+                                       "section_shortfall", "assert_block_complete",
+                                       "unearned_instrument")), True,
+      note="a layer deleted is a layer that stops refusing, silently")
+check("the required-per-entry set still includes Threads",
+      "Threads:" in _PGate.REQUIRED_PER_ENTRY, True,
+      note="Threads is the section that must say 'pending' until Step 4 lands")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

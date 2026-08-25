@@ -42,6 +42,7 @@ import urllib.request
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cachekey                                                         # noqa: E402
 import pipeline as P                                                    # noqa: E402
 import silence
 
@@ -731,21 +732,27 @@ def by_axis(text, page):
 
 def evidence_for(host, name, cache=True):
     """Everything mined for one entity. Cached on disk: a re-run costs no requests."""
-    path = os.path.join(CACHE, re.sub(r"[^A-Za-z0-9]+", "_", host)[:40],
-                        re.sub(r"[^A-Za-z0-9]+", "_", name)[:80] + ".json")
-    if cache and os.path.exists(path):
+    # M23: the path is built by `cachekey`, and a HIT MUST PROVE IT IS THIS ENTITY'S. The four
+    # sites that used to sanitise the name inline all folded `Magic 8 Ball` and `Magic 8-Ball`
+    # onto one file, so a reader could be handed a neighbour's mined feats and count them as its
+    # own. `cachekey.load` compares the stored `entity` and treats a mismatch as a MISS, which
+    # re-mines this one entity instead of inheriting the wrong evidence.
+    path = cachekey.write_path(CACHE, host, name)
+
+    def _corrupt(fp):
         # Self-healing, same as read.py's cache: a truncated file (kill mid-write) must be
         # re-earned, never allowed to permanently masquerade as the entity's evidence.
+        silence.note("feats.py:corrupt-cache")
         try:
-            with open(path, encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            silence.note("feats.py:corrupt-cache")
-            try:
-                os.remove(path)
-            except OSError:
-                _ = "silence-exempt: removing an already-gone corrupt cache needs no record"
-                pass
+            os.remove(fp)
+        except OSError:
+            _ = "silence-exempt: removing an already-gone corrupt cache needs no record"
+            pass
+
+    if cache:
+        doc, _fp = cachekey.load(CACHE, host, name, on_corrupt=_corrupt)
+        if doc is not None:
+            return doc
 
     # A SOURCE WITH NO WIKI IS READ FROM ITS OWN PAGES.
     #
