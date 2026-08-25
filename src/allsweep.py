@@ -459,7 +459,12 @@ def main():
     # `os.replace` alone raises PermissionError on Windows while any reader holds the target
     # open, which is exactly this file's situation -- the dashboard and the next ESTATE tier
     # read it. `silence.write_json` retries the rename instead of dying. 2026-08-25.
-    silence.write_json(OUT, {"imports": imports, "verifiers": verifiers,
+    # STAMPED WITH ITS OWN CLOCK. `workorders.battery_faults` asks how old this result is, and
+    # without an `at` inside the file the only answer available is the file's mtime -- which a
+    # copy, a restore or a publish step rewrites, so a stale battery could present as fresh.
+    # An artifact that cannot say when it was made is one a detector has to guess about. (run #33)
+    silence.write_json(OUT, {"at": time.time(),
+                             "imports": imports, "verifiers": verifiers,
                              "lint": lint_bad,
                              "reconcile": findings, "estate": est,
                              "seconds": round(time.time() - t0, 1)}, indent=1)

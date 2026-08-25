@@ -1808,6 +1808,113 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+- **[M37 — RESOLVED, run #33] THE QUEUE WAS BLIND TO THE BATTERY, AND ITS BLINDNESS SPOKE IN THE
+  WORDS OF A CLEAN RUN.** `workorders --sweep` opened this run printing *"no open work orders —
+  the nets found nothing outstanding"* while `verify_math` was FAILING its own sweep-completeness
+  check and `health --preflight` was FAILING on a host with 805 empty entries. **`drill.py` was
+  the only battery member that escalated.** `verify_math`, `health`, `allsweep` and `liveness`
+  never called `escalate()` and appeared in no detector, so a red battery filed nothing anywhere.
+  **Root cause:** `allsweep` grades a verifier bad only if it CRASHED or TIMED OUT — deliberately,
+  because `silence` and `audit` exit 1 to mean "I have findings". `health --preflight` also exits
+  1, for a different reason, and fell into that exemption; it left no machine-readable trace at
+  all. The owner's ruling that reorganised this project around *"the detectors file, the run works
+  the file"* was resting on a queue that could not see two thirds of the battery.
+  **Blast radius:** every run since the ruling read a reassuring sentence that was not evidence of
+  anything. Both faults above were found the pre-ruling way — a run reading console output.
+  **Fix:** `health.preflight()` stamps `state/preflight_last.json` (the pattern `drill_last.json`
+  has used since run #29). `workorders.battery_faults()` — PURE, over that stamp plus
+  `data/ALLSWEEP.json` — files and closes `PREFLIGHT_PROBLEM`, `PREFLIGHT_STALE`, `BATTERY_GRADED`,
+  `BATTERY_STALE`. `BATTERY_GRADED` mirrors allsweep's own `bad` formula so the two cannot drift.
+  **Absence and staleness fire rather than pass:** "nobody has run the battery since Tuesday" and
+  "the battery is green" are different sentences.
+  **Caught in review of the fix itself:** `resolve_code` closes `order_id(code, where)`, and the
+  first version took `where` from the live fault dict — so a *cleared* fault had no `where` to pass
+  and would have filed orders nothing could ever close. `BATTERY_WHERE` is now a pinned table.
+  **Drill (9 new nets, behavioural, pure-function attacked):** a green battery files nothing; a red
+  preflight files; a failed import, a dirty lint tier and a crashed verifier each file; a MISSING
+  artifact and a STALE artifact each refuse to read as green; every code filed can also be closed;
+  no code is unreachable. All HELD. **Watched firing for real:** on its first live sweep the tier
+  filed `allsweep grades 1 subsystem(s) bad: import verify_math`.
+  **Corroborated independently:** run #33 sweep batch 10 found the same grading gap from the
+  `allsweep` side without knowing this was being fixed.
+
+- **[M38 — RESOLVED, run #33] THE CANARY ASKED WIKIS FOR PAGES THAT CANNOT EXIST, THEN CONVICTED
+  THE HOST.** Nothing had ever run the full host canary. Run #33 ran it and quarantined **20 of
+  134 hosts**. Nineteen were healthy.
+  **Root cause:** `_probe_present` probed exactly one title, from `known_present_title()`, which
+  returns a **catalogue entry name** — and entry names carry the cataloguer's disambiguators:
+  `Scout (Jeremy Willis)`, `Sweet Tooth (Marcus "Needles" Kane)`, `Cetana (the Synthetic Queen)`.
+  No wiki has an article at that string. Worse, the canary was two-valued and had to force every
+  failure into one of two outcomes, so *"this wiki is down"* and *"these entry names are not
+  article titles on this wiki"* both came out as DEAD — two faults with opposite remedies.
+  **Blast radius:** a quarantine STOPS MINING. Nineteen live wikis were taken out of service by a
+  probe fault, and the sicker a host's cache looked the likelier the canary was to be asked about
+  it. **Self-inflicted within the run and reported as such** — the library's host health was worse
+  for about forty minutes than when the run started.
+  **Fix, three parts, each measured:** (1) strip the trailing parenthetical — `Scout` returns
+  12,169 chars; (2) try up to `PRESENT_CANDIDATES = 8` candidates and stop at the first hit, with
+  **the bound named in the failure reason** rather than left implicit — stopping on success is
+  short-circuit, not truncation; (3) a third probe, `_probe_reachable`, and a pure three-valued
+  `verdict()`: `True` healthy, `False` the host is at fault, `None` the host is up but the binding
+  is suspect. **`None` does not quarantine.** New code `BINDING_SUSPECT` (BOTS) carries that fault
+  instead. Measured: 20 → 6 → **1**. The one is `www.dandwiki.com`, correctly: HTTP 403,
+  "restricted to logged in users".
+  **Drill (5 new nets, over the pure verdict table):** up-but-no-title is not quarantined; an
+  UNREACHABLE host is still called dead (*without this, dandwiki's 403 would start reading as
+  healthy*); a host answering yes to everything is dead however reachable; a good host is healthy;
+  every unhealthy verdict carries a reason.
+  **Related, same run:** `health.check_caches()` no longer re-reports empty caches on quarantined
+  hosts as fresh problems — the fault is held once, by `binding_health`. A permanent red is not
+  extra safety, it is how a preflight stops being read.
+
+- **[M39 — RESOLVED, run #33] A DRILL NET THAT COULD NOT FAIL, INSIDE THE BATTERY WHOSE JOB IS
+  FINDING CHECKS THAT CANNOT FAIL.** `drill.py:1037` read
+  `lambda: "pages_refused" in F.evidence_for.__doc__ or True`. The `or True` made the whole
+  expression unconditionally true. **The masked half was testing the wrong thing anyway:** it
+  asked whether a *docstring* mentioned the key, and that docstring does not — so the net would
+  have failed the instant anyone removed the `or True`. A net asserting a fact about prose, then
+  defanged so the wrong assertion could not embarrass anyone.
+  **Fix:** `_refusal_is_recorded()` asserts `feats.py` carries `"pages_refused": unreal` **and**
+  populates it on the refusal branch — both halves, because either can be removed without the
+  other looking wrong. **Watched going red twice** (key removed; branch gutted) and green again on
+  restore, with `feats.py` restored byte-for-byte.
+  **Deliberately untouched:** `drill.py:706`'s `(LA.blast_reset() or True) and ... == 0` is a
+  legitimate sequencing idiom whose real assertion can fail.
+  **Found by:** run #33 sweep batch 5, which had been told to hunt exactly this shape.
+
+- **[M40 — RESOLVED, run #33] THE OVERLAP GUARD RACED THROUGH A SHARED TEMP FILENAME.** BLOCKING.
+  `runguard._land()` wrote through a fixed `path + ".tmp"` — one temp name shared by every process
+  that ever claims the guard — in the one file whose entire job is preventing two maintenance runs
+  from running at once. This is the exact collision `sweep_plan`'s shard docstring warns about and
+  `silence.write_json` (pid + thread in the temp name) exists to end. **Not hypothetical:**
+  `runguard._land:PermissionError` has fired 99 times in production, which is direct evidence that
+  multiple writers contend on this path live.
+  **Fix:** `return silence.write_json(path, rec, indent=2)`. Verified: writes, reads back, leaves
+  no stray `.tmp`. **Found by:** run #33 sweep batch 4.
+
+- **[M41 — RESOLVED, run #33] THE DEAD-CODE SCANNER HAD A CHECK THAT CANNOT FAIL AT ITS OWN
+  FOUNDATION.** `liveness._parse()` swallowed every parse exception and returned `None`; `scan()`
+  then dropped that module with a bare `continue`. **A module that would not parse reported
+  identically to a module with nothing wrong in it** — in the tool whose whole purpose is finding
+  checks that cannot fail. The precondition is real, not theoretical: this project has hit literal
+  control-character corruption more than once, and `local_agent` patches source under model control
+  with a documented history of kill-mid-write.
+  **Fix:** `scan()` returns an `unparsed` list, so an unparseable module raises the finding count
+  the `drill.py` ratchet watches instead of quietly shrinking the corpus. 0 unparsed today.
+  **Found by:** run #33 sweep batch 8.
+
+- **[M42 — RESOLVED, run #33] A QUEUE THAT ONLY GREW: THE CLOSE PASS WAS A NO-OP STANDING WHERE
+  THE CODE SHOULD HAVE BEEN.** `workorders` detector 3 files one `HOST_QUARANTINED` order per
+  host and its comment promised *"one order per host, so each closes on its own recovery."* What
+  stood in that place was `filed.extend([])`. Nothing ever closed them, and `file_order`'s results
+  were discarded too, so the sweep under-reported what it had filed.
+  **Made visible at scale by M38 in the same run:** 14 hosts released, 14 orders still open against
+  healthy hosts. **Fix:** close every `HOST_QUARANTINED` order whose host is no longer in
+  `binding_health.quarantined()`, and actually collect the filed orders. Verified live — the sweep
+  closed **19** stale orders and BOTS fell from 20 to 6 (1 real quarantine + 5 binding-suspects).
+  **Found by:** run #33 sweep batch 16, which read the promise and the no-op sitting next to each
+  other — before the fault fired in production forty minutes later.
+
 - **[M36 — RESOLVED, run #32] THE WRITE VERDICT NOBODY READ: A FIX THAT LANDED IN THE WRITER AND
   NEVER REACHED THE TWELVE CALLERS ITS OWN DOCSTRING DESCRIBED.** `pipeline._landed()` returns
   True/False deliberately, and says why in as many words — *"the writers now return the verdict

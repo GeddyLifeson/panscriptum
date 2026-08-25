@@ -81,6 +81,7 @@
 - **chord_field** — THE CHORD AS A FIELD — the adjudication that lets ki and shrinking share one physics
 - **cleanup** — CLEANUP — the presentation defects the backscan turned up
 - **context_budget** — CONTEXT BUDGET — the cap the code did not choose, and the refusal that replaces it
+- **corpus_db** — CORPUS DB — the library as a queryable table, so a question costs a line instead of a script
 - **cosmography** — THE PLANETARY CENSUS — a calculable template from universe-size down to a single world
 - **cosmology_graph** — Phase 4, first half — the shared-stage graph. Pure Python, no model
 - **custodes** — THE CUSTODES — one standpoint per degree of freedom, and the interval as their disagreement

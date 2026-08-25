@@ -41,8 +41,21 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
    because for roughly forty minutes this run had made the library's host health *worse*, and
    a run that only reports its net result would have hidden that.
 5. **The full 16-batch sweep ran: 107/107 modules audited, 112 findings, all filed.** None
-   were dropped. 6 were fixed and closed this run; the rest are routed, **65 to the free local
-   model** and 45 to a future run.
+   were dropped. A **108th module appeared in `src/` mid-run** and was read, audited and
+   recorded separately — see §D2 — bringing the run to 108/108 and 114 findings. 6 were fixed
+   and closed this run; the rest are routed, **64 to the free local model** and 48 to a future
+   run.
+6. **A HARD RULE 0 VIOLATION IS LIVE IN THE AUTOMATION, and I filed it rather than fixing it.**
+   `foreman.scout_hostless()` calls `scout.sweep(limit=4)`, and `scout.sweep` does
+   `order = sorted(hostless(), key=-entries)[:limit]` — **ranking, then truncating**, which is
+   the one thing Hard Rule 0 names outright. It half-rotates: a *successful* scout removes a
+   source from `hostless()`, so the window moves on. A **failing** source does not, so it stays
+   in the top 4 for ever and every source ranked 5th or lower never gets a turn. I did not fix
+   it because the honest fix is to rotate by last-attempted rather than to raise the number, and
+   how often a failed source is retried is a cost decision (one model call and one fetch per
+   source per cycle) that is yours, not mine. **Please do not let anyone simply raise the 4** —
+   the rule is explicit that the answer is never a smaller universe. Filed as
+   `HARD_RULE_0_CAP` (RUN, MAJOR); it is §2 of `NEXT_STEPS.md`.
 
 ---
 
@@ -64,9 +77,13 @@ problem was that nothing else picked them up either.
 * `BATTERY_GRADED` mirrors `allsweep`'s own `bad` formula exactly, so the two cannot drift into
   disagreeing about what "bad" means. `reconcile` stays excluded, for allsweep's own stated
   reason.
-* **9 new drill nets** in `drill_workorders()`. All HELD. On its first live sweep the new tier
-  filed a real order — `allsweep grades 1 subsystem(s) bad: import verify_math` — which is the
-  fault §B fixed.
+* **9 new drill nets** in `drill_workorders()`. All HELD. **And the whole cycle was demonstrated
+  in production, not only in the drill:** on its first live sweep the new tier filed a real order
+  — `allsweep grades 1 subsystem(s) bad: import verify_math` — and after §B's sweep made
+  `verify_math` green, a later sweep **closed that same order by itself** (`BATTERY_GRADED |
+  detector stopped firing`, in `workorders_closed.jsonl`). Filed on a real fault, closed on the
+  real fix, with no human touching either end. That is the property the tier exists for, and it
+  is the one that is easiest to ship broken.
 
 **A bug caught in review of my own fix, recorded because it is the interesting kind:**
 `resolve_code` closes `order_id(code, where)`. My first version took `where` from the live fault
@@ -138,6 +155,30 @@ called dead — otherwise dandwiki's 403 would have started reading as healthy.
   comparing the two spellings directly would have matched nothing and left an exemption that
   looked implemented and did nothing.)
 
+### D2. A module appeared in `src/` mid-run, and the completeness check caught it
+
+`corpus_db.py` (270 lines) landed at **15:28**, after the sweep partition was computed. Run #32
+reported the same phenomenon and could not tell whose it was; this one is legible — its docstring
+records the owner asking whether established tools would beat home-made ones, and its rejected
+candidates (DuckDB installs and then fails to load, *"An Application Control policy has blocked
+this file"*, the same Norton interference that breaks Python's HTTPS here) are the notes of an
+attended session. **So: a concurrent session, not an unattended writer.**
+
+`verify_math` went red the moment it landed — `got ['corpus_db.py'], want []`. That is the check
+doing its job, and it is worth saying plainly: **a new module failing the completeness proof is
+the designed behaviour, not a false alarm.** I read the module in full, audited it, recorded
+coverage under run33, and filed its findings — `handoff/sweep33/AUDIT_batch17_corpus_db.md`.
+`sweep_plan.missing('run33')` is empty across all **108** modules and `verify_math` is back to
+795 / 0.
+
+One real finding: `rebuild()` discards `silence.replace_retry`'s verdict, so `--rebuild` prints
+full counts and exits 0 even when the database was never replaced — and `replace_retry` returns
+False rather than raising exactly when a reader holds `corpus.db` open, which is this module's
+normal condition. **Third instance of the M36 pattern in one sweep** (with `suppressions.py:62`
+and `pipeline.phase_chain`). One question left for the owner rather than answered: six of the nine
+canned queries end in `LIMIT 15`/`25` while three deliberately carry none, which either is a
+considered line or is Hard Rule 0 arriving somewhere new.
+
 ### E. The sweep: 112 findings, none dropped
 
 Every finding in all 16 reports is filed as a work order (Hard Rule 0 — ranking by severity and
@@ -150,7 +191,7 @@ The four BLOCKING findings were each **verified against source** before filing �
 real. Audits are wrong in both directions, and the ones I checked happened to be right; the
 remaining 108 are filed as *reported*, not as *confirmed*.
 
-**Queue at close: 116 open — 65 LOCAL, 6 BOTS, 45 RUN.** The LOCAL block is the point: 65 of
+**Queue at close: 118 open — 64 LOCAL, 6 BOTS, 48 RUN.** The LOCAL block is the point: 65 of
 these are mechanical (a comment that lies, a flag nobody reads, a bare `os.replace` where the
 project's own retry helper belongs) and the free local model can carry them without spending a
 metered token.

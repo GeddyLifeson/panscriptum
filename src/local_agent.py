@@ -604,6 +604,27 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
             out["ALARM"] = ("REVERT FAILED -- %s may be half-written on disk and the backup "
                             "is only in memory. Restore it by hand before anything imports "
                             "it." % rel)
+            # AND IT NOW REACHES SOMETHING THAT OUTLIVES THE PROCESS. Until run #33 this ALARM
+            # went nowhere a person would find: the console print in `run()` truncates the
+            # result at `json.dumps(res)[:110]`, and the four keys ahead of it -- `applied`,
+            # `reverted`, `error` (120 chars of it) -- push `ALARM` past the cut every time.
+            # The `patches` audit trail records patch INTENT, never outcome, and neither
+            # `run()`'s `ok` flag nor the exit code reflect a failed revert. So the one lane in
+            # this project that lets a model write to `src/` could leave a half-written module
+            # on disk while the run reported success. Found by the run #33 sweep (batch 16).
+            #
+            # SAFETY, deliberately -- rung 3 of the chain: "fail the BATTERY. No run may claim
+            # success while this stands." That is the precise remedy for a source file left in
+            # an unknown state, and it is one rung below OWNER because a person does not need
+            # waking for a file that can be restored by hand; the library simply must not go on
+            # pretending it is fine.
+            try:
+                import escalation as _ESC
+                _ESC.escalate(_ESC.SAFETY, "LOCAL_AGENT_REVERT_FAILED", out["ALARM"],
+                              source=rel, who="local_agent.propose_patch")
+            except Exception:
+                silence.note("local_agent.py:revert-escalate")
+            silence.note("local_agent.py:REVERT-FAILED:" + str(rel))
         return out
 
 

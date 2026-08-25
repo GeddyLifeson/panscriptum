@@ -234,9 +234,58 @@ CANNED = {
 }
 
 
+def datasette_metadata(path=None):
+    """Write Datasette's config from CANNED, so there is ONE list of canned queries. -> path.
+
+    THE APP THE OWNER ASKED FOR, AND WHY IT IS THIS ONE. `--sql` above is a query tool for
+    someone who already knows SQL and already knows the schema. Datasette is the browsable
+    front end: every table faceted and filterable, every query also available as JSON at the
+    same URL with `.json` appended, and the canned queries below as named links a person can
+    click without writing anything. It is free, MIT, pure Python, installs from PyPI, and --
+    the thing that actually settled it on this machine -- it RUNS here, which DuckDB does not.
+
+    GENERATED, NEVER HAND-EDITED. The queries live in `CANNED` and this function renders them.
+    A second hand-maintained copy of the same list is how the web UI and the CLI start
+    answering the same question differently, which is the failure this whole module exists to
+    end. If you add a query, add it to `CANNED`.
+
+    Served read-only and bound to localhost. This is a derived index of a public-facing corpus,
+    but the halt file, the ledgers and the owner's rulings are not in it and must not become
+    reachable by pointing a web server at `state/`.
+    """
+    path = path or os.path.join(HERE, "state", "datasette.json")
+    doc = {
+        "title": "The Panscriptum — corpus index",
+        "description": ("A DERIVED index, rebuilt from data/records/*.json by "
+                        "src/corpus_db.py. The JSON records remain canonical; anything here "
+                        "that disagrees with them is this database being stale."),
+        "databases": {
+            "corpus": {
+                "queries": {
+                    k: {"sql": v, "title": k.replace("_", " ")}
+                    for k, v in sorted(CANNED.items())
+                }
+            }
+        },
+    }
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(doc, f, indent=2)
+    return path
+
+
+def serve_command():
+    """-> the exact command line that serves the index, with the config this module wrote."""
+    return ('datasette "%s" --metadata "%s" --setting sql_time_limit_ms 8000 '
+            '--host 127.0.0.1 --port 8801'
+            % (DB, os.path.join(HERE, "state", "datasette.json")))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--rebuild", action="store_true")
+    ap.add_argument("--serve", action="store_true",
+                    help="write Datasette's config and print the command that serves it")
     ap.add_argument("--no-evidence", action="store_true",
                     help="skip the 109k evidence files (much faster)")
     ap.add_argument("--sql", help="a read-only query")
@@ -248,6 +297,13 @@ def main():
         print("rebuilt: %(sources)d sources, %(entries)d entries, %(evidence)d evidence rows "
               "in %(seconds)ss" % got)
         print("  -> %s (%.1f MB)" % (DB, os.path.getsize(DB) / 1e6))
+        return 0
+
+    if a.serve:
+        p = datasette_metadata()
+        print("wrote %s (%d canned queries, generated from CANNED)" % (p, len(CANNED)))
+        print("\n  " + serve_command())
+        print("\n  then open http://127.0.0.1:8801/ — every page is also JSON with .json")
         return 0
 
     sql = a.sql or CANNED.get(a.canned or "")

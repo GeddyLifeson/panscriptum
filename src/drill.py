@@ -632,6 +632,28 @@ def _halt_fails_closed():
 
 # ============================================================== THE NIGHT STAFF (local_agent)
 
+def _failed_revert_is_escalated():
+    """A revert that FAILS must reach something outliving the process.
+
+    The ALARM existed; nothing carried it. `run()` prints `json.dumps(res)[:110]`, and the keys
+    ahead of `ALARM` -- `applied`, `reverted`, and 120 characters of `error` -- push it past the
+    cut every time, while the `patches` trail records only patch intent. So the one lane that
+    lets a model write to `src/` could leave a half-written module on disk and report success.
+    Asserted over the source between the ALARM assignment and the branch's `return`, so moving
+    the escalation out of that branch is what breaks this net. (run #33)
+    """
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "local_agent.py"),
+               encoding="utf-8").read()
+    i = src.find('out["ALARM"]')
+    if i == -1:
+        return False
+    j = src.find("return out", i)
+    if j == -1:
+        return False
+    branch = src[i:j]
+    return "_ESC.escalate(" in branch and "_ESC.SAFETY" in branch
+
+
 def drill_local_agent():
     """The autonomous local writer is staff too, and staff get supervised.
 
@@ -642,6 +664,11 @@ def drill_local_agent():
     """
     a = "THE NIGHT STAFF — can the local model edit what it must not?"
     import local_agent as LA
+
+    net(a, "a FAILED auto-revert fails the battery instead of printing into the void",
+        _failed_revert_is_escalated,
+        "a half-written module on disk while the run reports success is the worst outcome this "
+        "lane has, and the ALARM was being truncated out of the only place it was sent")
 
     def denied(path):
         """Was the path refused BY A GATE, as opposed to failing for an unrelated reason?
