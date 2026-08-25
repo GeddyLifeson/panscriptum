@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 01:09:38",
+ "at": "2026-08-25 01:19:45",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -114,9 +114,9 @@
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 20,
      "cap": 20,
-     "frac": 0.95
+     "frac": 1.0
     }
    ],
    "worst": 0.524
@@ -134,8 +134,8 @@
     },
     {
      "name": "rpm",
-     "left": 2,
-     "cap": 2,
+     "left": 10,
+     "cap": 10,
      "frac": 1.0
     }
    ],
@@ -228,18 +228,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 234,
+     "left": 233,
      "cap": 1000,
-     "frac": 0.234
+     "frac": 0.233
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
-   "worst": 0.234
+   "worst": 0.233
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -308,15 +308,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 8,
+     "left": 7,
      "cap": 412,
-     "frac": 0.0194
-    },
-    {
-     "name": "rpm",
-     "left": 29,
-     "cap": 30,
-     "frac": 0.9667
+     "frac": 0.017
     },
     {
      "name": "tpd",
@@ -325,13 +319,19 @@
      "frac": 0.998
     },
     {
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
+    },
+    {
      "name": "tpm",
      "left": 6000,
      "cap": 6000,
      "frac": 1.0
     }
    ],
-   "worst": 0.0194
+   "worst": 0.017
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -346,21 +346,21 @@
     },
     {
      "name": "tpd",
-     "left": 95741,
+     "left": 96724,
      "cap": 200000,
-     "frac": 0.4787
-    },
-    {
-     "name": "tpm",
-     "left": 5506,
-     "cap": 8000,
-     "frac": 0.6883
+     "frac": 0.4836
     },
     {
      "name": "rpm",
-     "left": 27,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -372,9 +372,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 8,
-     "cap": 943,
-     "frac": 0.0085
+     "left": 5,
+     "cap": 936,
+     "frac": 0.0053
     },
     {
      "name": "tpd",
@@ -384,9 +384,9 @@
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -395,7 +395,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0085
+   "worst": 0.0053
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -410,9 +410,9 @@
     },
     {
      "name": "tpd",
-     "left": 60948,
+     "left": 63028,
      "cap": 200000,
-     "frac": 0.3047
+     "frac": 0.3151
     },
     {
      "name": "rpm",
@@ -462,9 +462,9 @@
     },
     {
      "name": "rpm",
-     "left": 9,
+     "left": 10,
      "cap": 10,
-     "frac": 0.9
+     "frac": 1.0
     }
    ],
    "worst": 0.03
@@ -495,19 +495,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 1999,
-     "cap": 2000,
-     "frac": 0.9995
-    },
-    {
      "name": "rpm",
      "left": 30,
      "cap": 30,
      "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 2000,
+     "cap": 2000,
+     "frac": 1.0
     }
    ],
-   "worst": 0.9995
+   "worst": 1.0
   },
   {
    "bucket": "moonshot:free",
@@ -582,9 +582,9 @@
     },
     {
      "name": "rpm",
-     "left": 39,
+     "left": 40,
      "cap": 40,
-     "frac": 0.975
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -636,18 +636,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 139,
+     "left": 138,
      "cap": 300,
-     "frac": 0.4633
+     "frac": 0.46
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
-   "worst": 0.4633
+   "worst": 0.46
   },
   {
    "bucket": "together:free",
@@ -676,24 +676,24 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 176,
+     "left": 175,
      "cap": 500,
-     "frac": 0.352
+     "frac": 0.35
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
-   "worst": 0.352
+   "worst": 0.35
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 11,
-  "per_hour": 44,
+  "calls": 16,
+  "per_hour": 64,
   "buckets": [
    {
     "bucket": "groq:openai/gpt-oss-120b",
@@ -701,22 +701,32 @@
     "ok": 1
    },
    {
-    "bucket": "cloudflare:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 1,
+    "calls": 2,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 1,
+    "calls": 2,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "cloudflare:free",
     "calls": 1,
     "ok": 0
    },
@@ -729,16 +739,6 @@
     "bucket": "nvidia:free",
     "calls": 1,
     "ok": 1
-   },
-   {
-    "bucket": "sambanova:free",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 1,
-    "ok": 0
    }
   ]
  },
@@ -755,9 +755,9 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 68400,
+   "done": 69000,
    "total": 83562,
-   "detail": "74,679 pages  \u00b7  1110M characters  \u00b7  3.1/s",
+   "detail": "75,327 pages  \u00b7  1113M characters  \u00b7  3.1/s",
    "warn": "",
    "eta_h": 1.3
   }
@@ -776,7 +776,7 @@
    "read": 43014,
    "settled": 51962,
    "feats": 58020,
-   "age_h": 0.7
+   "age_h": 0.8
   },
   "phases": [
    {
@@ -895,7 +895,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 44,
+   "observed": 64,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -931,7 +931,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "UNMEASURED -- 11 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "observed": "UNMEASURED -- 16 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
    "floor": "50%",
    "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
    "severity": "medium"
@@ -976,7 +976,7 @@
    "standard": "page roll complete",
    "group": "read",
    "holds": false,
-   "observed": "82%",
+   "observed": "83%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -985,7 +985,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.7h",
+   "observed": "0.8h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1102,7 +1102,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "4/4 moved in 44m",
+   "observed": "1/4 moved in 43m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1129,7 +1129,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.8h",
+   "observed": "0.9h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1156,7 +1156,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "calibrate (40 min, 7198 bytes), pipeline_auto (101 min, 3417 bytes)",
+   "observed": "calibrate (50 min, 7198 bytes), pipeline_auto (111 min, 3417 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1165,7 +1165,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 162.159.142.170",
+   "observed": "reachable over IPv4 at 172.66.2.166",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1192,7 +1192,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in 0.6s",
+   "observed": "probe completed in 0.8s",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. If this fires, restart ollama.exe (the tray app respawns it) and re-probe. Nothing drains a wedged queue on its own.",
    "severity": "high"
@@ -1282,10 +1282,10 @@
   {
    "metric": "standards met",
    "now": 30,
-   "delta": -2,
+   "delta": -1,
    "minutes": 30,
    "stalled": false
   }
  ],
- "generated": "2026-08-25T01:09:42"
+ "generated": "2026-08-25T01:19:50"
 }
