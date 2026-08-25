@@ -118,6 +118,46 @@ WRITABLE_PREFIXES = (
 )
 WRITABLE_FILES = ("README.md", "STATUS.md", "BUGS.md", "NEXT_STEPS.md")
 
+# BLAST-RADIUS CAP, independent of every allow/deny decision above.
+#
+# This gate has been defeated FIVE times -- by letter case (m113), by a name prefix (m114), by an
+# NTFS alternate data stream (m121), by a case-sensitive extension test (run #25), and by a whole
+# directory nobody had listed (M24). Every one was a variation of "the string being compared did
+# not have the shape the comparison assumed", and every one was found only after it had been
+# open for a while.
+#
+# The honest conclusion is not that the sixth hole has been found. It is that there will be a
+# sixth. So the damage of ANY undiscovered hole is bounded by something that does not depend on
+# the hole being enumerated: a hard limit on how much one invocation may change, borrowed from
+# Strix's per-turn tool-call limiter. Past it, the run aborts and asks for a person.
+#
+# Generous on purpose -- a real repair touches a handful of files -- so it never bites honest
+# work, only a runaway.
+MAX_FILES_PER_RUN = 8
+MAX_PATCHES_PER_RUN = 24
+_BLAST = {"files": set(), "patches": 0}
+
+
+def _blast_ok(full):
+    """-> (ok, reason). Count this write against the run's budget."""
+    _BLAST["patches"] += 1
+    _BLAST["files"].add(os.path.normcase(full))
+    if _BLAST["patches"] > MAX_PATCHES_PER_RUN:
+        return False, ("blast-radius cap: %d patches in one run (limit %d). A repair does not "
+                       "look like this; stopping and asking for a person."
+                       % (_BLAST["patches"], MAX_PATCHES_PER_RUN))
+    if len(_BLAST["files"]) > MAX_FILES_PER_RUN:
+        return False, ("blast-radius cap: %d distinct files touched in one run (limit %d). "
+                       "This bound does not depend on knowing which gate was bypassed, which "
+                       "is the entire reason it exists."
+                       % (len(_BLAST["files"]), MAX_FILES_PER_RUN))
+    return True, ""
+
+
+def blast_reset():
+    _BLAST["files"] = set()
+    _BLAST["patches"] = 0
+
 # Models known tool-trained and fitting a 10GB card, for the capability report when the
 # configured model turns out not to emit tool calls at all.
 # GPU-resident on a 10GB card AND tool-trained -- the ruling of 2026-08-24 excludes anything
@@ -512,6 +552,16 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
                              "or by a model: records go through pipeline.write_record, the "
                              "charter is the owner's, and shared state is landed via "
                              "silence.replace_retry." % (rel, _pfx)}
+    # The cap is charged AFTER the allow/deny checks and BEFORE anything is read or written, so
+    # a refused path costs no budget and an accepted one cannot exceed it.
+    _ok, _why = _blast_ok(full)
+    if not _ok:
+        try:
+            import escalation as _ESC
+            _ESC.escalate(_ESC.MANAGER, "LOCAL_AGENT_BLAST_CAP", _why, who="local_agent")
+        except Exception:
+            pass
+        return {"applied": False, "error": _why}
     original = open(full, encoding="utf-8").read()
     if original.count(find) != 1:
         return {"applied": False,
@@ -593,6 +643,9 @@ def _chat(model, messages, host, timeout=420):
 
 
 def run(task, model=None, apply=True, quiet=False):
+    # Each invocation gets a fresh blast budget; the cap bounds ONE run, not the life of
+    # the process.
+    blast_reset()
     import yaml
     cfg = yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
     model = model or cfg.get("model")

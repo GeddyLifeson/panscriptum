@@ -535,7 +535,18 @@ def drill_park():
         before = ESC.status()[0]
         ESC.escalate(ESC.SUPERVISOR, "DRILL_AREA", "drill: one area closing",
                      source="__drill__")
-        return ESC.status()[0] == before
+        same = ESC.status()[0] == before
+        # CLEAN UP AFTER THE TEST. Escalating now files a real work order, so a drill that left
+        # its own probe behind would put one piece of litter in the queue on every cycle -- and
+        # a queue with permanent decoration in it is a queue people stop reading. The order is
+        # resolved by identity, so this closes exactly the one this probe just filed.
+        try:
+            import workorders as WO
+            WO.resolve_code("DRILL_AREA", "drill self-test; not a real fault",
+                            where="__drill__", by="drill.py")
+        except Exception:
+            pass
+        return same
     net(a, "a SOURCE-level fault does NOT change the park's halt state",
         area_fault_does_not_close_the_park,
         "escalating everything is the same failure as escalating nothing")
@@ -651,6 +662,25 @@ def drill_local_agent():
         "least of all the halt file")
     net(a, "it CAN still be given ordinary work", lambda: not denied("src/scope.py"),
         "a writer that can write nothing is not a writer")
+
+    def blast_cap_bites():
+        """The bound that does not depend on knowing which gate was bypassed."""
+        LA.blast_reset()
+        try:
+            for i in range(LA.MAX_PATCHES_PER_RUN + 3):
+                r = LA.t_propose_patch("src/scope.py", "zzz-no-such-%d" % i, "y",
+                                       why="drill", apply=False)
+                if "blast-radius cap" in str((r or {}).get("error", "")):
+                    return True
+            return False
+        finally:
+            LA.blast_reset()
+    net(a, "a runaway is stopped by the blast-radius cap", blast_cap_bites,
+        "five gate bypasses were found after the fact; this bounds the sixth without "
+        "needing to know what it is")
+    net(a, "the cap resets per run, not per process",
+        lambda: (LA.blast_reset() or True) and LA._BLAST["patches"] == 0,
+        "a cap that never resets turns into an outage on a long-lived process")
     # The ALLOWLIST — the half that fails CLOSED. These paths are on no denylist at all; they are
     # refused because they are outside the agent's working surface, which is the property M24
     # showed a denylist cannot provide.
