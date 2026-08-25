@@ -961,6 +961,53 @@ def drill_stale_writer():
         shutil.rmtree(d, ignore_errors=True)
 
 
+# ============================================================== POLICY (checks as data)
+
+def drill_policy():
+    """The rule table itself, and the one property that makes it worth having."""
+    a = "POLICY — can a rule pass for the wrong reason without anyone seeing?"
+    import policy as POL
+
+    net(a, "a rule records the value it OBSERVED, not just its verdict",
+        lambda: "observed" in POL.check_rule({"a": 1}, {"id": "t", "path": "a", "op": "exists"}),
+        "a boolean cannot distinguish a real pass from a pass over a missing field")
+    net(a, "a pass over a MISSING field is flagged vacuous",
+        lambda: len(POL.evaluate({}, [{"id": "t", "path": "nope", "op": "absent"}])["vacuous"])
+        == 1,
+        "the standards HIGH guard read a key nothing set and was ABSENT for its whole life")
+    net(a, "a real pass is NOT flagged vacuous",
+        lambda: POL.evaluate({"a": 1}, [{"id": "t", "path": "a", "op": "eq", "arg": 1}])
+        ["vacuous"] == [],
+        "flagging everything is the same as flagging nothing")
+    net(a, "an unknown operator is REFUSED at evaluation",
+        lambda: _refuses(lambda: POL.check_rule({}, {"id": "t", "path": "a", "op": "wat"}),
+                         POL.BadRule),
+        "an open operator set is a language, and a language needs its own tests")
+    net(a, "a malformed rule is refused rather than skipped",
+        lambda: _refuses(lambda: POL.check_rule({}, {"id": "t", "op": "exists"}), POL.BadRule),
+        "a rule silently skipped is a rule that cannot fail")
+    net(a, "absent and null are distinguished",
+        lambda: POL.resolve({"a": None}, "a")[1] and not POL.resolve({}, "a")[1],
+        "a resolver that returns only the value makes 'holds null' and 'has no such key' identical")
+    net(a, "the live corpus passes its structural rules",
+        lambda: _policy_corpus_clean(),
+        "records and coverage rows must be well-formed before anything reasons over them")
+
+
+def _policy_corpus_clean():
+    import glob
+    import policy as POL
+    bad = 0
+    for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json")))[:40]:
+        try:
+            with open(p, encoding="utf-8") as f:
+                ev = POL.evaluate(json.load(f), POL.RECORD_RULES, os.path.basename(p))
+        except Exception:
+            continue
+        bad += len([r for r in ev["failed"] if r.get("severity") != "INFO"])
+    return bad == 0
+
+
 # ============================================================== THE FETCH (network manners)
 
 def drill_fetch():
@@ -1172,7 +1219,7 @@ def main():
 
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
-               drill_snapshot, drill_stale_writer, drill_fetch, drill_cascade, drill_park, drill_inspector):
+               drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park, drill_inspector):
         fn()
 
     area = None

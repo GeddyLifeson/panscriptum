@@ -116,6 +116,50 @@ def load(base, host, name, on_corrupt=None):
     return None, None
 
 
+def materials_digest(paths):
+    """A digest over the exact inputs a step consumed. -> {relpath: sha1} plus a roll-up.
+
+    THE in-toto IDEA, WITHOUT THE ECOSYSTEM. in-toto's link metadata records the MATERIALS a
+    step read and the PRODUCTS it wrote, each by digest, so a later reader can prove an output
+    came from the inputs it claims. That property is exactly what this project needs and the
+    tooling around it is exactly what it does not: in-toto needs its own library and a key
+    management story, and sigstore needs a network call to a transparency-log service. Neither
+    is worth a dependency to answer "did this chapter come from that evidence".
+
+    The property survives the simplification. A dict of input digests recorded beside the output
+    answers the same question in ten lines of stdlib, and it composes with the writer stamps
+    already on records: the stamp says WHO wrote a file, this says WHAT it was written FROM.
+    """
+    import hashlib
+    out = {}
+    for p in paths or ():
+        try:
+            with open(p, "rb") as f:
+                out[os.path.relpath(p, HERE).replace(os.sep, "/")] = \
+                    hashlib.sha1(f.read()).hexdigest()[:16]
+        except OSError:
+            continue
+    roll = hashlib.sha1(
+        "\n".join("%s=%s" % (k, v) for k, v in sorted(out.items())).encode("utf-8")
+    ).hexdigest()[:16]
+    return {"materials": out, "roll": roll, "n": len(out)}
+
+
+def provenance_ok(recorded, paths):
+    """-> (ok, changed). Do the inputs still hash to what the output recorded?
+
+    Answers the drift question the study named: a citation that was true when mined, against a
+    source page that has since been edited or deleted. The output is not wrong retroactively --
+    but it is no longer PROVEN, and those are different states that must not share a cell.
+    """
+    now = materials_digest(paths)
+    if not isinstance(recorded, dict) or not recorded.get("materials"):
+        return None, []          # nothing recorded: unverifiable, NOT verified
+    changed = [k for k, v in (recorded.get("materials") or {}).items()
+               if now["materials"].get(k) != v]
+    return (not changed), changed
+
+
 def write_path(base, host, name):
     """Where this entity's evidence should be written.
 
