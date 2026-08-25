@@ -507,13 +507,36 @@ def unrecognised_open(max_age_h=24):
     Aged deliberately: a fault that was investigated and resolved should stop appearing on the
     page on its own, and a fossil from two days ago is not evidence about now -- the same
     lesson the four 36-hour-old `Could not resolve host` rows taught on 2026-08-25.
+
+    RE-TRIAGED ON READ, and this is the half that ageing cannot cover. "Unrecognised" is a
+    statement about the CURRENT classifier, not a permanent property of a row. Every time
+    `named_transient` or `pool_exhausted` learns a new phrase, every row already on disk that
+    the new predicate would have absorbed keeps sitting in the ledger -- still inside the 24h
+    window, still red, still unactionable -- because nothing re-asks the question. Found run
+    #24: the file held 48 rows of which 36 were ordinary throttles the classifier repaired an
+    hour earlier already understood, burying the one genuine unknown (`empty response`) 36 rows
+    deep and holding a HIGH standard red on debris.
+
+    Filtering here rather than pruning the file is deliberate. The row is evidence and stays on
+    disk; what changes is only whether it is still an open QUESTION. And doing it on the read
+    side makes the answer independent of WHICH process wrote the row and which version of the
+    classifier that process had imported -- a long-lived job carries its launch-time import, so
+    a write-side-only fix leaves a stale worker quietly refilling the ledger for hours.
     """
     try:
         with open(UNRECOGNISED, encoding="utf-8") as f:
             rows = json.load(f)
         cut = time.time() - max_age_h * 3600
-        live = [r for r in rows.values()
-                if isinstance(r, dict) and float(r.get("last_seen", 0)) >= cut]
+        live = []
+        for r in rows.values():
+            if not isinstance(r, dict):
+                continue
+            if float(r.get("last_seen", 0)) < cut:
+                continue
+            err = r.get("error") or ""
+            if pool_exhausted(err) or named_transient(err):
+                continue
+            live.append(r)
         return sorted(live, key=lambda r: -float(r.get("last_seen", 0)))
     except Exception:
         silence.note("cascade_bridge.py:unrecognised-read")
