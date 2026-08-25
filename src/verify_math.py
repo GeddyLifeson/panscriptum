@@ -3429,6 +3429,7 @@ print("          was unreachable for exception-surfaced failures and blind to sp
 # Measured that morning: 187 rate_limited / 59 error / 82 ok over three hours, with the pool's
 # `model calls per hour` at 64 against a floor of 900.
 _cb22 = open(os.path.join(_here19, "cascade_bridge.py"), encoding="utf-8").read()
+import cascade_bridge as _CB22b                                          # noqa: E402
 check("pump() records the exception text, not just the failure flag",
       'box["error"] = str(exc)[:300]' in _cb22, True,
       note="THE BUG: without the text the classifier below matches '' and never benches")
@@ -3448,6 +3449,34 @@ check("the auth bench is still four hours",
 check("the metrics line reads _via only from a dict",
       'if isinstance(got, dict) else ""' in _cb22, True,
       note="_extract_json can return a list or bool; (got or {}).get crashed the call")
+
+# THE HALF THAT WAS STILL MISSING, found hours later by the standard added alongside it.
+# Cascade's engine does not hand this code a provider error -- it hands it an AGGREGATE:
+# "All 1 candidates failed: GLM 4.7 Flash (Z.AI)", or "Every model in this pool is rate limited
+# or unconfigured". Neither carries a status code or a word the classifier above can match, so
+# repairing the classifier's WORDING was necessary and useless on its own: `zai:free` went on
+# being re-claimed forever while `bucket_state.last_error`, stamped the same minute, read
+# "Insufficient balance or no resource package". The real reason must be UNWRAPPED from
+# Cascade's scratch DB before the classifier runs. Verified live 2026-08-25: unwrapping turns
+# zai/cloudflare/hyperbolic into 4-hour benches and leaves groq/sambanova/cohere transient.
+check("the engine's aggregate wrappers are recognised as carrying no reason",
+      _CB22b.__dict__.get("_WRAPPERS"), ("candidates failed", "every model in this pool"))
+check("the classifier unwraps before it judges",
+      "deeper = provider_error(pinned.bucket).lower()" in _cb22, True,
+      note="THE BUG: without this the classifier judges 'All 1 candidates failed: ...' forever")
+check("the unwrap is gated on the wrapper, not run on every error",
+      "any(w in err for w in _WRAPPERS)" in _cb22, True,
+      note="a real provider error must not be replaced by a stale DB row")
+check("provider_error ages its evidence",
+      "max_age_s" in _cb22 and "<= max_age_s" in _cb22, True,
+      note="a fossil row would bench a live provider for four hours")
+check("provider_error opens the scratch DB READ-ONLY",
+      'mode=ro' in _cb22, True)
+check("provider_error is total -- a diagnostic must not kill the call it explains",
+      _CB22b.provider_error("no:such:bucket:ever"), "")
+check("the unrecognised ledger records the UNWRAPPED text",
+      "record_unrecognised(pinned.bucket, err or box.get" in _cb22, True,
+      note="otherwise the page shows the engine's aggregate, which nobody can act on")
 
 print()
 print("26. §20g  A SHARED FILE IS LANDED, NEVER TRUNCATED-THEN-FILLED — the whole-tree sweep")

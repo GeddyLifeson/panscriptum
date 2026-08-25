@@ -330,6 +330,42 @@ def dead_forever():
 UNRECOGNISED = os.path.join(HERE, "state", "POOL_UNRECOGNISED.json")
 _UNREC_LOCK = threading.Lock()
 
+# Cascade's own aggregate wrappers. These are what the ENGINE says when a call fails; they name
+# the friendly model labels it tried and carry NO disposition -- no status code, no provider
+# wording, nothing a classifier can act on.
+_WRAPPERS = ("candidates failed", "every model in this pool")
+SCRATCH_DB = os.path.join(HERE, "state", "cascade_scratch.db")
+
+
+def provider_error(bucket, max_age_s=180):
+    """The PROVIDER's own last error for `bucket`, from Cascade's scratch DB. "" if unknown.
+
+    THE ENGINE HANDS US A WRAPPER, NOT A REASON, AND THIS IS WHY THE BENCH NEVER FIRED.
+    Found 2026-08-25 by the standard added the same hour: `zai:free` was being re-claimed
+    forever with `box["error"]` reading `All 1 candidates failed: GLM 4.7 Flash (Z.AI)` -- while
+    the row in `bucket_state.last_error`, stamped the same minute, read `Insufficient balance or
+    no resource package`. The permanent-refusal classifier was correct and simply never saw the
+    text it was written to match. Repairing the classifier's WORDING earlier that day was
+    necessary and not sufficient; this is the missing half.
+
+    Read-only, single row, and aged: a stale row is not evidence about this call, and claiming
+    it would bench a live provider for four hours on a fossil. Total -- a diagnostic lookup that
+    can raise would take down the call it is trying to explain.
+    """
+    try:
+        import sqlite3
+        con = sqlite3.connect("file:%s?mode=ro" % SCRATCH_DB, uri=True, timeout=1.0)
+        try:
+            for err, at in con.execute(
+                    "select last_error, updated_at from bucket_state where bucket=?", (bucket,)):
+                if err and at and (time.time() - float(at)) <= max_age_s:
+                    return " ".join(str(err).split())[:300]
+        finally:
+            con.close()
+    except Exception:
+        silence.note("cascade_bridge.py:provider-error")
+    return ""
+
 
 def record_unrecognised(bucket, err):
     """Write down a pool failure that matched no known disposition, so it can be investigated.
@@ -692,6 +728,15 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             # side. The prose markers stay plain substrings: they are distinctive enough that
             # an accidental hit is not a realistic failure, and providers word them freely.
             err = (box.get("error") or "").lower()
+            # UNWRAP FIRST. If the engine handed us one of its aggregate messages, the real
+            # reason is not in this string at all -- it is the provider's own last error, which
+            # Cascade recorded in its scratch DB at the same moment. Without this the classifier
+            # below is judging the words "All 1 candidates failed: GLM 4.7 Flash (Z.AI)", which
+            # will never match anything, forever.
+            if pinned and any(w in err for w in _WRAPPERS):
+                deeper = provider_error(pinned.bucket).lower()
+                if deeper:
+                    err = deeper
             permanent_words = ("authentication", "invalid_api_key", "credentials",
                                "insufficient balance", "no resource package",
                                "payment required", "needs billing", "depleted")
@@ -707,7 +752,10 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                 # failure was never nameless, it was just never written down.
                 # `silence.note` cannot serve here: it records the exception currently being
                 # handled, and by this point there is no live exception, only a string.
-                record_unrecognised(pinned.bucket, box.get("error") or "")
+                # `err`, not `box["error"]` -- this records the UNWRAPPED text where one was
+                # found, so what lands on the page is the provider's actual complaint rather
+                # than the engine's "All 1 candidates failed", which is unactionable by design.
+                record_unrecognised(pinned.bucket, err or box.get("error") or "")
             return None
         if pinned:
             _clear(pinned.bucket)
