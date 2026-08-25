@@ -376,6 +376,8 @@ def serve_command():
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--rebuild", action="store_true")
+    ap.add_argument("--drift", action="store_true",
+                    help="the exact entry-count gap between this index and the records")
     ap.add_argument("--serve", action="store_true",
                     help="write Datasette's config and print the command that serves it")
     ap.add_argument("--no-evidence", action="store_true",
@@ -384,10 +386,23 @@ def main():
     ap.add_argument("--canned", help="one of: " + ", ".join(sorted(CANNED)))
     a = ap.parse_args()
 
+    if a.drift:
+        indexed, real, gap = drift()
+        print("  indexed %s | records %s | gap %s" % (indexed, real, gap))
+        print(_freshness_banner())
+        return 0
+
     if a.rebuild:
+        # The gap BEFORE, so the rebuild says what it closed rather than only what it wrote.
+        # A rebuild that reports 117,908 entries tells you its own size; one that reports
+        # "closed a gap of 8,613" tells you how wrong the answers were until you ran it, which
+        # is the number that decides how often this needs running.
+        _, _, before = drift()
         got = rebuild(include_evidence=not a.no_evidence)
         print("rebuilt: %(sources)d sources, %(entries)d entries, %(evidence)d evidence rows "
               "in %(seconds)ss" % got)
+        if before:
+            print("  closed a gap of %d entries the index was missing" % before)
         print("  -> %s (%.1f MB)" % (DB, os.path.getsize(DB) / 1e6))
         return 0
 
