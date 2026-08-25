@@ -195,6 +195,17 @@ record shows agents are wrong in both directions, as are the supervisor's own hy
   `os.replace` with no retry, alone among this file's writes.
 - 9 stale `silence.note()` line labels (`overnight.py:318,360,385,503,521`, `chain.py:169,276,283,332`).
 
+**`binding_health.py` — the module nobody has reviewed and nothing calls (batch 17):**
+- `:146-151` — `_probe_absent` catches **any** exception and returns `(True, "correctly absent")`.
+  The one check whose job is catching a host that answers yes to everything turns an unrelated
+  failure into a pass. **Fail-open in a trust decision.**
+- `:117,136` — the `timeout=25` parameter on both probe functions is **dead**: `feats.fetch()`
+  accepts no timeout kwarg, so it is never applied.
+- `:72-76,90-114,223` — hand-rolled tmp write, `replace_retry`'s return discarded everywhere, and
+  unguarded read-modify-write on shared `HOST_QUARANTINE.json` / `BINDING_HEALTH.json`.
+- Its `HOST_QUARANTINE.json` output **affects nothing downstream**. Decide whether to wire it in
+  or remove it — see §1.A first, because the answer depends on who wrote it.
+
 **The systemic one, still mechanical, still worth one batch with one check:** ~15 modules write
 shared state with hand-rolled `path + ".tmp"` + bare `os.replace`. Confirmed this run:
 `identity.py:210`, `magnitude.py:848,1050`, `coverage.py:78`, `withdraw_chapters.py:95`,
