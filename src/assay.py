@@ -572,14 +572,15 @@ def _rho(a, b):
     doc = _RHO_CACHE[0]
     if not doc:
         return 0.0
-    lo, hi = sorted((a, b))
-    hit = (doc.get("pairs") or {}).get("%s|%s" % (lo, hi))
-    if hit:
-        return float(hit["r"])
-    # An unmeasured pair falls back to the MEASURED MEAN, never to zero. Zero is the single
-    # value this data rules out, and applying it to exactly the pairs with the least evidence
-    # would quietly restore independence where confidence is lowest.
-    return float(doc.get("mean_r") or 0.0)
+    # DELEGATED, not reimplemented. This function first carried its own copy of the lookup --
+    # sort the pair, read the table, fall back to the mean -- and the liveness ratchet caught
+    # the consequence within the hour: `axis_correlation.rho` had no callers, because its only
+    # caller had been rewritten from scratch here. Two implementations of one rule are two
+    # answers to it, which is the exact fault this session had just finished fixing in
+    # `corpus_db`'s spine column. The fallback to the measured mean rather than to zero lives
+    # in that function, where it is documented once.
+    import axis_correlation
+    return axis_correlation.rho(a, b, doc)
 
 
 def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=None,

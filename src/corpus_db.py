@@ -114,14 +114,27 @@ def rebuild(include_evidence=True, evidence_limit=None):
     except Exception:
         silence.note("corpus_db.py:coverage")
 
-    spine = {}
+    # THE RESOLVER, NOT THE RAW TABLE. This module first read CHARTER_SPINE_CODES.json into a
+    # dict and looked sources up in it directly, and the derived index promptly reported **36
+    # sources with no spine code, 13,417 entries** -- a figure alarming enough that it was taken
+    # for a curatorial backlog and nearly acted on as one.
+    #
+    # It was wrong. `address.spine_code_for()` is the real lookup and it does far more than a
+    # dict get: letter-level equality (the index writes "Soulcalibur", the roll writes "Soul
+    # Calibur"), whole-word containment, and an order-independent token fallback that resolves
+    # "all Black Ops" to "Black Ops (all)". Run through it, **35 of the 36 resolve** and the
+    # true number of unshelved sources is ONE -- `Bone (Jeff Smith)`, 86 entries.
+    #
+    # The lesson is the one this file's own header states and then failed to obey: a derived
+    # index must derive through the SAME code the library uses, never by reimplementing the
+    # lookup more simply. A second implementation of a rule is a second answer to it. A drill
+    # net now compares this column against the resolver on every run.
     try:
-        with open(os.path.join(HERE, "data", "CHARTER_SPINE_CODES.json"), encoding="utf-8") as f:
-            raw = json.load(f)
-        if isinstance(raw, dict):
-            spine = {k: str(v) for k, v in raw.items()}
+        import address as _address
+        _spine_for = _address.spine_code_for
     except Exception:
-        silence.note("corpus_db.py:spine")
+        silence.note("corpus_db.py:spine-resolver")
+        _spine_for = None
 
     n_src = n_entry = 0
     for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json"))):
@@ -132,9 +145,17 @@ def rebuild(include_evidence=True, evidence_limit=None):
             continue
         src = rec.get("source")
         c = cov.get(src) or {}
+        code = None
+        if _spine_for and src:
+            try:
+                code = _spine_for(src)
+            except Exception:
+                silence.note("corpus_db.py:spine-lookup")
+            if code == "UNASSIGNED":
+                code = None            # NULL means unshelved, and only the resolver may say so
         con.execute(
             "INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?)",
-            (src, hosts.get(src), spine.get(src), len(rec.get("entries") or []),
+            (src, hosts.get(src), code, len(rec.get("entries") or []),
              c.get("cited"), c.get("read"), c.get("no_page"),
              c.get("not_attempted"), c.get("no_host")))
         n_src += 1

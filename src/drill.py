@@ -1387,15 +1387,11 @@ def drill_correlation():
         """Positive rho must produce a WIDER interval than independence. Prove it arithmetically
         rather than trusting that a term which is present is a term which is doing work."""
         import assay as A
-        import itertools as _it
+        import axis_correlation as AC
         phys = list(A.CHARTER_PHYSICAL_WEIGHTS)
         sigma = A.SIGMA_BY_ATTESTATION["Witnessed"]
-        denom = sum(A.WEIGHTS[k] for k in phys)
-        w = {k: A.WEIGHTS[k] / denom for k in phys}
-        indep = sum((w[k] * sigma) ** 2 for k in phys)
-        cov = sum(2 * w[x] * w[y] * A._rho(x, y) * sigma * sigma
-                  for x, y in _it.combinations(phys, 2))
-        return cov > 0 and (indep + cov) > indep * 1.2
+        factor, indep, cov = AC.widening(A.WEIGHTS, sigma, phys)
+        return cov > 0 and factor > 1.2 and indep > 0
     net(a, "the covariance term measurably widens the interval", correlation_actually_widens_the_bar,
         "a correction that changes nothing is a comment, not a correction")
 
@@ -1503,6 +1499,34 @@ def drill_outside():
     net(a, "the staleness warning is printed above the results themselves",
         stale_index_says_so_where_the_numbers_are,
         "a caveat somewhere else is a caveat nobody reads next to the number it qualifies")
+
+    def index_spine_agrees_with_the_resolver():
+        """THE ONE THAT ALREADY COST A FALSE ALARM. The index's `spine` column must come from
+        `address.spine_code_for()`, not from a simpler reimplementation of it.
+
+        It did not, at first: `corpus_db` read the Acquisitions Index into a dict and did a
+        direct `get`, and reported 36 sources with no spine code covering 13,417 entries. The
+        real resolver does letter-level equality, whole-word containment and order-independent
+        token matching, and resolves 35 of those 36. The true count is ONE. A derived view that
+        reimplements a rule more simply than the rule is a second answer to the same question,
+        and this one was alarming enough to nearly be acted on as a curatorial backlog.
+        """
+        import corpus_db
+        import address
+        if not os.path.exists(corpus_db.DB):
+            return True
+        cols, rows = corpus_db.query("SELECT name, spine FROM source")
+        for name, stored in rows:
+            if not name:
+                continue
+            real = address.spine_code_for(name)
+            real = None if real == "UNASSIGNED" else real
+            if stored != real:
+                return False
+        return True
+    net(a, "the index's spine column agrees with address.spine_code_for()",
+        index_spine_agrees_with_the_resolver,
+        "a derived view must derive through the same code, never a simpler copy of it")
 
     def index_query_cannot_write():
         """`query()` is read-only BY CONTRACT. Prove the contract is enforced, not documented."""

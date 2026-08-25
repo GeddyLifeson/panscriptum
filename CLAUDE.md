@@ -90,6 +90,25 @@ furniture.
     A guard nobody has watched *refuse* is a guard nobody has evidence about. The supervisor runs
     this every cycle, before any stage starts, and a BREACHED net halts the library by itself.
 
+**WHO MAY LIFT A HALT — owner ruling 2026-08-25.** The rule above is now drawn where the
+actual risk is, because "nobody may ever lift one" was unworkable and an unworkable rule gets
+worked around:
+
+  * **A fault you CAUSED yourself, in this session:** fix the cause, prove the fix (the drill
+    green, the battery green), and you may clear it with a written ruling — provided you report
+    the raise and the lift to the owner in the same turn. A halt that fires against its author
+    minutes after they wrote the defect is the system working, and making that a full stop
+    would teach people to avoid tripping it.
+  * **A fault you merely FOUND:** fix the cause if you can, and **leave the halt standing.**
+    You did not create the condition, so you do not know what else it touched.
+  * **Never** clear a halt whose cause is unfixed, unreproduced, or not understood. "It seems
+    fine now" is not a ruling.
+
+The last incident that motivated all of this was an automated agent removing a safety it had
+concluded was unnecessary. Clearing a halt you raised, caused, fixed and reported is a
+different act from deleting a gate you found inconvenient, and the doctrine should be able to
+tell them apart.
+
 **You may RAISE a halt. You may not LIFT one.** `escalation.clear()` demands a written ruling and
 is asserted by `verify_math` to have no caller anywhere in `src/`. That asymmetry is the whole
 point: the last incident was an automated agent removing a safety it had concluded was
@@ -256,6 +275,28 @@ python3 src/corpus_db.py --serve          # writes Datasette's config, prints th
 the twenty-seven minutes after one rebuild, so any staleness tolerance expires in about seven.
 Every result is therefore printed under a banner saying how far behind the index is, and a
 drill net enforces that the banner cannot understate it. Treat stale counts as a FLOOR.
+
+**EVALUATED AND DECLINED, with the reason, so nobody re-runs this survey next quarter:**
+
+* **LiteLLM** genuinely bundles `cascade_bridge`'s router, fallbacks, budgets and RPM/TPM
+  limits, plus `pick_model` and `catalogue_models`. **Declined:** `cascade_bridge` is 1,270
+  lines of tuned, load-bearing code with per-provider failure attribution built against these
+  specific free tiers. Parity is the best case and the downside is the pipeline's most critical
+  subsystem. Revisit only if the provider count grows a lot.
+* **Scrapy / requests-cache / pyrate-limiter / mwclient** for the fetch layer. **Declined:**
+  the adaptive per-host token-bucket backoff in `feats.py` already does what AutoThrottle does,
+  and this is the subsystem that took longest to get right.
+* **`datasketch` MinHash/LSH** for cross-chapter near-duplicate detection in `style_audit`.
+  **Genuinely better than what exists — DEFERRED**, because it only matters once the prose gate
+  opens, and adopting it now would be maintaining a dependency nothing calls.
+* **Prefect / Dagster / Airflow.** **Declined:** cluster orchestration for one machine that has
+  no distribution problem.
+* **`uncertainties`.** Not adopted as a dependency, but **the evaluation paid for itself** — it
+  is what prompted asking whether the Measures are independent, and they are not. See
+  `axis_correlation.py`.
+* **`rapidfuzz`** — **ADOPTED.** Used by `source_alias`-style name resolution work and available
+  to `entity_match`. It is also what found that 35 of 36 "unaddressed" sources were a lookup
+  artefact.
 
 **`src/secondopinion.py`** — `ruff`, `vulture` and `detect-secrets` run beside `silence.py`,
 `liveness.py` and `publish.scan_for_secrets`. They replace nothing. The point is that they were

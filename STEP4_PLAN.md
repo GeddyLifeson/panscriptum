@@ -47,7 +47,7 @@ And the charter's own worked example:
 | Asset | State | Role in Step 4 |
 |---|---|---|
 | `thread_integrity.py` (184 ln) | **Written, and its design is right.** Classifies RECIPROCAL / ASYMMETRIC-LAWFUL / ASYMMETRIC-SUSPECT / DANGLING, and correctly treats one-way threads as *lawful* under the Aperture Doctrine or propagation delay | **The verifier.** m12 says its detection is "structurally unreachable" — it compares implied threads against a directed thread graph **it is never given**. Step 4 builds that graph. m12 closes as a side effect. |
-| `data/CHARTER_SPINE_CODES.json` | 219 codes; 35 catalogued sources still unaddressed | The target space for volume-level threads |
+| `data/CHARTER_SPINE_CODES.json` | 219 codes; **ONE** catalogued source still unaddressed | The target space for volume-level threads |
 | `VIII_MASTER_CHRONICLE.md` | Written (24 KB event spine) | The source of **event-codes** (`VIII.n`) |
 | `I9_THE_CONCORDANCE.md` | Written | Political geography — governs which threads are *lawful* |
 | `weave.py` (487), `chain.py` (497) | Written; `data/CHAIN.json` **has no reader** (m37) | Candidate thread *producers*; m37 resolves if Step 4 consumes CHAIN |
@@ -113,10 +113,28 @@ an instruction to a human. A decision must be relocated somewhere machine-checka
 removed — and "has the owner agreed to this plan?" is exactly the kind of decision that
 otherwise evaporates.
 
-**Phase 4.0 — Close the addressing gap first.** 35 catalogued sources have no spine code
-(~12,000 entries), including Lord of the Rings, Fallout, Elder Scrolls and all six Pantheons.
-**T1 is undefined for them**, so they cannot be threaded at all. This is Hard Rule 2 territory —
-owner work, not automatable. **It gates everything else.**
+**Phase 4.0 — Close the addressing gap first. IT IS ALREADY ALL BUT CLOSED.**
+
+**Corrected 2026-08-25, and the correction matters because this phase was named as the thing
+gating everything else.** This document said 35 catalogued sources had no spine code, covering
+~12,000 entries, and called it blocking owner work. **That figure was wrong.** It came from
+reading `CHARTER_SPINE_CODES.json` as a plain dictionary and looking each source up directly —
+the same mistake `corpus_db.py` made independently, which is how it was caught.
+
+`address.spine_code_for()` is the real lookup and it is far more than a dict get: letter-level
+equality (the index writes `Soulcalibur`, the roll writes `Soul Calibur`), whole-word
+containment with explicit boundaries, and an order-independent token fallback that resolves
+`all Black Ops` to `Black Ops (all)`. Run through it, **35 of the 36 resolve**. The six
+Pantheons were never homeless — Collection III already is the pantheon shelf, and the roll
+simply writes `Pantheon: Hindu` where the index writes `Hindu`. Every Tom Clancy franchise
+resolves to `II.I.5`, which names them all in its own title.
+
+    ACTUALLY UNADDRESSED:  Bone (Jeff Smith) — 86 entries — 1 source
+
+So Phase 4.0 is one curatorial decision about one comic, not a backlog of thirty-five, and it
+**does not gate Step 4 in any meaningful sense**. A drill net now compares the derived index's
+spine column against the resolver on every run, so this class of false alarm cannot recur
+silently.
 
 **Phase 4.1 — `threads.py`, T1 + T2 only.** Emit a directed graph
 `data/THREADS.json: {shelfmark: [{"to": address, "class": "T1|T2", "why": "...", "from": "..."}]}`.
@@ -168,10 +186,48 @@ run for that entry, and must be an OPERATOR-level refusal, not a blank.
 
 ---
 
-## 7. Owner rulings needed before Phase 4.1
+## 7. Owner rulings — ANSWERED 2026-08-25
 
-**A. The 35 unaddressed sources (Phase 4.0).** Blocking. Which Collection/Set does each belong
-to? The six Pantheons (~2,798 entries) look like one coherent Collection missing its shelf.
+The owner ruled on all four. Recorded here rather than in a chat log, because `step4_enabled`
+asserts "its §7 rulings are answered" and a gate that refers to a decision nobody can find has
+not been answered, only remembered.
+
+**A. RESOLVED, NOT RULED.** `Bone (Jeff Smith)` (86 entries) is the only genuinely unshelved
+source; the other 35 were a lookup artefact. See the corrected Phase 4.0.
+
+**B. Do the Great Identifications get thread codes? — YES, as T5, owner-authored only.**
+Never derived, never inferred, never emitted by `threads.py`. The machinery serves them
+unchanged; only the authorship rule differs. Part Four names them as the place "where the walls
+come down entirely", and a claim of that weight must have a person's name on it. `threads.py`
+must REFUSE to write a T5 edge, and a drill net must attack that refusal before Phase 4.3.
+
+**C. Reciprocity for T2 cohort threads — LAWFUL BY DEFAULT, FLAGGED, NEVER FAILED.**
+A one-way thread is ordinary: a smaller volume naming a larger one is the normal direction of
+citation, and the reverse often should not exist. `thread_integrity` reports ASYMMETRIC as a
+count and a list, not as a failure, through Phase 4.2. Revisit once there is real data — ruling
+on reciprocity before any threads exist would be deciding against an imagined graph.
+
+**D. The 145 withdrawn chapters — REGENERATE, do not rewrite their Threads.**
+They are content-hashed, so a regeneration is already what the recipe machinery would choose.
+Their sources were 0–9% cited, and **they must not return until those citations improve,
+regardless of threading**. Rewriting a Threads section into a chapter whose body rests on
+almost no evidence would improve the part that was never the problem.
+
+**E. Scope for this pass — PHASE 4.0 AND 4.1 ONLY, then stop and look.**
+T1+T2 need no model, no network and no new theory. They convert every "pending" in the library
+into a real, checkable cross-reference, which is most of what "the library feels like one place"
+means — and they surface the reciprocity question against real data, which is a far better
+basis for revisiting C than this document is. **4.2 through 4.5 are not authorised by this
+ruling** and need their own.
+
+---
+
+## 7b. The original questions, kept for the record
+
+### Owner rulings needed before Phase 4.1
+
+**A. `Bone (Jeff Smith)` — the one genuinely unshelved source (86 entries).** No longer
+blocking; see the corrected Phase 4.0 above. The other 35 were a lookup artefact.
 
 **B. Do the Great Identifications get thread codes?** Part Four names them as the place "where
 the walls come down entirely." They are the strongest cross-verse claims in the charter and they

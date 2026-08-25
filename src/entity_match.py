@@ -154,6 +154,24 @@ def similarity(a, b):
     The two measures disagree in useful ways (Dice is order-tolerant, SequenceMatcher is
     contiguity-sensitive), so the score is the higher of the two: a name should not be punished
     for the weakness of whichever single measure suits it least.
+
+    DO NOT SWAP `difflib` FOR `rapidfuzz` HERE. It looks like an obvious free win -- rapidfuzz
+    is installed, it is a compiled library, and it was measured at **6.3x faster** on 6,000 real
+    name pairs from CHARACTER_SWEEP. It is not a drop-in, and the measurement is the reason:
+
+        pairs compared            6,000
+        disagreements > 1e-9      1,618   (27% of all pairs)
+        worst delta               0.345
+
+    `rapidfuzz.distance.Indel.normalized_similarity` computes an OPTIMAL alignment.
+    `difflib.SequenceMatcher.ratio` does not -- it is a greedy longest-matching-block recursion,
+    which is a genuinely different (and weaker) measure, not an approximation of the same one.
+    Substituting it would silently re-tune STRONG (0.90) and WEAK (0.72) against a metric they
+    were never calibrated on, and it would do so on more than a quarter of all comparisons,
+    without a single test going red. Measured and rejected 2026-08-25.
+
+    If the speed is ever actually needed, the honest route is to adopt the new metric openly,
+    re-derive both thresholds against it, and diff every affected match before and after.
     """
     na, nb = feats_index._norm(a), feats_index._norm(b)
     if not na or not nb:
