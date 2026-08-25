@@ -53,6 +53,24 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
 
+### Minor-but-new (run #20)
+- **[m86] `overnight.foreman_report()` REPLAYS THE FOREMAN'S LAST ROUND UNDER THE SUPERVISOR'S
+  CLOCK, MISDATING EVERY REMEDY IT PRINTS.** Found run #20 while investigating what looked like a
+  kill against a recycled PID -- it was not; the timestamp was the lie. `foreman_report()` reads
+  `FOREMAN.json`'s `rounds[-1]` and logs it when the supervisor's lap comes round, but `log()`
+  prefixes each line with the supervisor's CURRENT time. A kill the foreman performed at
+  **22:00:55** appeared in `state/overnight.log` as
+  `[2026-08-24 22:39:04] ... kill_stalled_job: killed stalled read_auto:42972` -- **misdated by
+  38 minutes**, up to a full lap in the general case.
+  **Why it matters more than a cosmetic timestamp:** M15's entire evidence base is start/finish
+  and remedy timestamps read out of this one file. A run reconstructing what killed the reader
+  and when can attribute a kill to the wrong lap and therefore to the wrong cause. The header
+  line always carried the true time (`applied at {last['at']}`); the indented lines people
+  actually quote did not.
+  **FIXED, run #20** -- each replayed line now carries the foreman's own timestamp in brackets.
+  Same edit removed `did[:5]`, which truncated the list under a header announcing the true count
+  ("6 remedy(ies) applied" above five lines). Nothing downstream parses that log.
+
 ### Minor-but-new (run #19)
 - **[m84] A SINGLE FAILED PROCESS PROBE READS AS "EVERY MANAGED JOB IS DOWN", AND A DUPLICATE
   CAN BE SPAWNED ON THE STRENGTH OF IT.** Observed live, run #19. `state/foreman.log` recorded
@@ -678,6 +696,72 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #20 (2026-08-24 ~23:40 local) resolved seven items, one of them Major. Detail in HANDOFF.md.*
+
+- **[MAJOR -- RESOLVED, run #20] `phase_entrypass` RE-ASKED THE MODEL ABOUT 66 BATCHES ON EVERY
+  PASS, FOR EVER, BECAUSE THE SAME RULE WAS WRITTEN TWICE AND ONLY ONE COPY WAS FIXED.**
+  **What it was.** `cleanup.py` strikes an entry by setting `excluded` and leaving `catalogued`
+  false, and both loops in `phase_entrypass` that could set `catalogued` skip a struck entry --
+  so `catalogued` is never written for one. Two separate gates decided whether a batch was
+  finished: the **resume** gate (`batch_settled`) tested `catalogued OR excluded`, and the
+  **write-completion** gate tested `catalogued` alone. Any batch holding a struck entry could
+  therefore never satisfy the completion gate, so `done_keys.append(key)` never ran; the resume
+  gate then failed on membership and the batch was resubmitted to the model on every pass.
+  **Measured before the fix: 149 struck entries across 31 records, falling in 66 of 4,416
+  batches -- 66 wasted model calls per full entrypass pass, permanently**, against a pool
+  answering roughly a third of its calls. Worst record: `fire-emblem.json`, 57 struck entries.
+  **Root cause.** Not the missing clause -- the rule existing in two places. `batch_settled`'s
+  own docstring records this exact exclusion bug being found and fixed at length; that fix
+  reached the resume gate and never reached the completion gate twelve lines further down.
+  **The fix.** One predicate, `pipeline.entry_settled()`, called by both gates, so they cannot
+  drift again. Pinned by `verify_math` section 20d with six behavioural checks plus two that
+  assert the rule is spelled out exactly once and that the one copy is the definition.
+- **[RESOLVED, run #20] THREE `foreman.py` ATOMIC WRITES DISCARDED THE BOOLEAN THEIR OWN COMMENTS
+  WARNED ABOUT.** `_retire` (whose comment says "a torn or stale write here would silently
+  discard its newest finding"), `restart_ollama`'s rate-limit stamp, and `round_once`'s
+  operational log all called `silence.replace_retry` and threw the result away. Consequences,
+  each specific: a denied `_retire` leaves a finding un-retired and its standard red for
+  invisible reasons; a lost Ollama stamp makes the **30-minute restart guard fail open**, so the
+  daemon can be killed again next round; a lost round log makes `foreman_report()` replay the
+  previous round as if it were current. Same omission as `triage_swallowed`'s, fixed one run
+  later in the same file.
+- **[RESOLVED, run #20] `dashboard.jobs()` WAS THE ONE PANEL WITH NO FAULT ISOLATION.** Every
+  sibling builder wraps its body and calls `silence.note`; `jobs()` did not, and `state()` calls
+  it unguarded -- so one unexpected value in `read_auto.log` or `roll_auto.log` would raise
+  through `state()` and be caught only at the HTTP layer, replacing the **entire** `/api/state`
+  response with an error blob. The panel reporting on the project's bottleneck job should not be
+  the one that can black out the page. Now isolated **per log** (`_read_row` / `_roll_row`), so a
+  malformed reader line cannot also cost the roll its row.
+- **[RESOLVED, run #20] `dashboard.py:362` CARRIED A STALE LINE-NUMBER LABEL** reading
+  `dashboard.py:336` -- m81's drift, in a file not previously known to have it. Replaced with a
+  descriptive tag, which cannot rot as the file grows.
+- **[RESOLVED, run #20] `pipeline.py`'s ONE UNMARKED SILENT HANDLER.** `phase_shelve`'s absent
+  `SHELF_RANKS.json` called neither `silence.note` nor `log` nor carried the exemption idiom,
+  while its sibling three lines above notes the identical absent-file case. It **is** deliberate
+  -- on a first run nothing is ranked and an empty prior is the correct starting state, unlike a
+  corrupt one, which the very next handler refuses -- so it received the exemption string rather
+  than a note. That is the difference between a silence that was decided and one that was
+  forgotten.
+- **[RESOLVED, run #20] THE CADENCE CLAIM IN `MAINTENANCE.md` AND `NEXT_STEPS.md` WAS WRONG
+  AGAIN.** The owner moved the schedule to hourly; both files still said every 15 minutes.
+  Corrected against `list_scheduled_tasks` (`11 * * * *`, 523s jitter, fires ~:19-:20), with the
+  reasoning about overlap rewritten to match -- a fire now usually finds its predecessor
+  finished. **The 15-minute heartbeat-staleness threshold in the overlap guard is a different
+  number and was deliberately left alone**, now flagged in both files so it is not "fixed" to
+  match. This line has been wrong twice in opposite directions, always because nothing read the
+  cron back; both files now say to verify it with `list_scheduled_tasks`.
+- **[WITHDRAWN, run #20 -- NOT A BUG, AND CARRIED SINCE RUN #2] "`pipeline.py`'s 9 shared
+  cross-phase JSON writes use raw `open+json.dump`."** **They do not, and have not since run
+  #4.** Verified by direct grep of every write site in the file: all four `json.dump` calls write
+  to a `.tmp` and land through `_landed` / `land_json` / `silence.replace_retry`, and all eleven
+  phase artifacts go through `land_json`. `BUGS.md`'s own m6 entry records this being done in run
+  #4, to **eleven** artifacts rather than nine. The item survived seventeen runs of being copied
+  forward, and run #19 promoted it to "the highest-value item in its section" while doing so.
+  **A queue item never re-verified against source outlives the bug it describes and gains
+  authority with every run that repeats it.** One genuine remainder, correctly scoped now:
+  `update_handoff` writes `handoff/RUN_STATUS.md` via a bare `os.replace` rather than
+  `silence.replace_retry` -- single-writer, machine-only, low exposure.
 
 *Run #19 (2026-08-24 ~22:36 local) resolved eleven items. Full detail in HANDOFF.md.*
 

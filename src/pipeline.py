@@ -960,6 +960,25 @@ def scale_note_needs_rephrase(text):
     return bool(text) and bool(_SETTING_META.search(text))
 
 
+def entry_settled(e):
+    """One entry is finished with: judged, or deliberately struck.
+
+    ONE PREDICATE, TWO GATES (run #20). This existed twice, inline, and the two copies
+    disagreed — which cost 66 batches an unbounded retry loop. The resume gate below said
+    `catalogued or excluded`; the write-completion gate in `phase_entrypass` said `catalogued`
+    alone. Since a struck entry is skipped by both loops that could ever set `catalogued`
+    (the prompt build and the result walk), its `catalogued` key is never written, so any batch
+    holding one could never satisfy the second gate — `done_keys.append(key)` never ran, the
+    resume gate then always failed on membership, and the batch went back to the model on EVERY
+    pass, for ever. Measured before the fix: 66 of 4,416 batches, one model call each, per pass,
+    against a pool answering roughly a third of its calls.
+
+    The fix is not the missing clause — it is that there is now only one place to put it. Both
+    gates call this.
+    """
+    return bool(e.get("catalogued") or e.get("excluded"))
+
+
 def batch_settled(key, done_keys, batch):
     """True when an entrypass batch may be skipped on resume.
 
@@ -978,7 +997,7 @@ def batch_settled(key, done_keys, batch):
     back to catalogued. Cleanup's entire effect on the corpus had been undone.
 
     A struck entry is a decision, not unfinished work."""
-    return key in done_keys and all(e.get("catalogued") or e.get("excluded") for e in batch)
+    return key in done_keys and all(entry_settled(e) for e in batch)
 
 
 def phase_entrypass(c, st):
@@ -1143,13 +1162,13 @@ def phase_entrypass(c, st):
             # An unfinished batch is simply not recorded, so the next run picks it up again. The
             # cost of re-doing a mostly-complete batch is one call; the cost of the old behaviour
             # was silent, permanent data loss.
-            if landed and all(e.get("catalogued") for e in batch):
+            if landed and all(entry_settled(e) for e in batch):   # same predicate as the
                 if key not in done_keys:      # a reopened grown batch is already recorded --
                     done_keys.append(key)     # re-appending would grow the resume list forever
             elif not landed:
                 log(f"    batch {key} judged in full but its write was denied - left open")
             else:
-                log(f"    batch {key} returned {sum(1 for e in batch if e.get('catalogued'))}"
+                log(f"    batch {key} returned {sum(1 for e in batch if entry_settled(e))}"
                     f"/{len(batch)} - left open for retry")
             st.get("failed", {}).get("entrypass", {}).pop(key, None)   # see phase 1: a later
             # success retires the earlier failure, so the failed-set stays a list of things
@@ -1568,6 +1587,15 @@ def phase_shelve(c, st):
         with open(ranks_p, encoding="utf-8") as f:
             ranks = json.load(f)
     except FileNotFoundError:
+        # Deliberately silent, and now marked as such (run #20). This is the only bare handler
+        # in the file that called neither `silence.note` nor `log` nor carried the exemption
+        # string — three lines above, `_phase_input` notes the identical absent-file case, so
+        # the inconsistency read as an oversight rather than a decision. It IS a decision: on a
+        # first run nothing has been ranked yet, every source starts unranked, and `AD.promote`
+        # builds the ranking from scratch. An empty prior here is the correct starting state,
+        # unlike a CORRUPT one — which the handler below refuses, because re-ranking from an
+        # empty prior would read as a mass demotion.
+        _ = "silence-exempt: no ranking yet is the correct first-run state, not a failure"
         ranks = {}
     except Exception:
         silence.note("pipeline.py:phase_shelve-ranks-corrupt")

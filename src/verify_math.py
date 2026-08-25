@@ -3148,6 +3148,58 @@ check("dashboard.jobs() still returns a list of panels after the refactor",
       note="the split into _read_row/_roll_row must not change the panel contract")
 
 print()
+print("23. §20d  THE ENTRYPASS GATES MUST AGREE — 66 batches were retried for ever because")
+print("          the same rule was written twice and only one copy got fixed")
+# ---------------------------------------------------------------------------------------------
+# `cleanup.py` strikes an entry by setting `excluded` and leaving `catalogued` false. Both loops
+# in `phase_entrypass` that could set `catalogued` skip a struck entry, so `catalogued` is never
+# written for one. There were TWO gates deciding whether a batch is finished:
+#
+#   resume gate   (batch_settled)      -- "catalogued OR excluded"   <- fixed when the bug was found
+#   completion gate (phase_entrypass)  -- "catalogued"               <- missed
+#
+# So a batch holding a struck entry could never satisfy the completion gate, `done_keys` never
+# recorded it, the resume gate then failed on membership, and the batch went back to the model on
+# every pass for ever. MEASURED before the fix: 149 struck entries across 31 records, landing in
+# 66 of 4,416 batches -- 66 wasted model calls per full pass, permanently, against a pool
+# answering about a third of its calls.
+#
+# The repair was not the missing clause. It was collapsing the rule into ONE predicate,
+# `pipeline.entry_settled`, that both gates call, so they cannot drift again. These checks pin
+# the behaviour AND the single-source-of-truth. 2026-08-24, run #20.
+import pipeline as _pl20
+
+_struck20 = {"excluded": "wiki navigation cruft", "catalogued": False}
+_judged20 = {"catalogued": True}
+_unjudged20 = {}
+check("a struck entry counts as settled", _pl20.entry_settled(_struck20), True,
+      note="a struck entry is a DECISION, not unfinished work -- cleanup.py's whole effect")
+check("a judged entry counts as settled", _pl20.entry_settled(_judged20), True)
+check("an untouched entry does NOT count as settled", _pl20.entry_settled(_unjudged20), False,
+      note="the gate must still hold open a batch that genuinely has work left")
+check("a batch mixing judged and struck entries settles once its key is recorded",
+      _pl20.batch_settled("k", ["k"], [_judged20, _struck20, _judged20]), True,
+      note="this exact shape is what looped for ever: 66 batches, one model call each, per pass")
+check("a batch with a genuinely unjudged entry still does not settle",
+      _pl20.batch_settled("k", ["k"], [_judged20, _unjudged20]), False)
+check("membership alone does not settle a batch",
+      _pl20.batch_settled("k", [], [_judged20, _struck20]), False,
+      note="a record's entry list grows after entrypass runs; membership alone strands the tail")
+
+_pl20src = open(os.path.join(_here19, "pipeline.py"), encoding="utf-8").read()
+_pl20code = "\n".join(ln.split("#", 1)[0] for ln in _pl20src.splitlines())
+check("the settled rule is spelled out EXACTLY ONCE in the file",
+      _pl20code.count('e.get("catalogued") or e.get("excluded")'), 1,
+      note="that one occurrence is entry_settled's own body; a second is a gate drifting again")
+check("and that one occurrence is entry_settled's definition, not a gate",
+      _pl20code.split("def entry_settled")[1].split("def batch_settled")[0]
+      .count('e.get("catalogued") or e.get("excluded")'), 1,
+      note="pins WHERE the single copy lives, so the count check cannot pass on the wrong one")
+check("both gates call the shared predicate",
+      _pl20code.count("entry_settled(e) for e in batch"), 2,
+      note="the resume gate and the write-completion gate, and nothing else")
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)

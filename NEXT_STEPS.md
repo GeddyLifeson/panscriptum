@@ -220,6 +220,27 @@ Q. **[carried] Permanently hostless roll entries** — catalogued with no host *
    **91 DECIDED spine codes** are still not written to `CHARTER_SPINE_CODES.json`, which has no
    writer in `src/`. **34 catalogued sources have no charter spine code**; three charter errata
    open (Supercluster, Filament, Hyperverse are rungs with no Magnitude band).
+S. **[m79 — NOW DIAGNOSED, run #20. The ruling in §2 E has evidence attached; this is the one to
+   close next.]** The reader's rate is no longer absurd in the common case — since the 22:39
+   restart it reads a plausible **1.79 chunks/s** and real ETAs (8.5–18.2h), and the page's
+   `10525.08 chunks/s` is gone. But the log shows the bug firing in **both** directions, and the
+   pattern names the cause. Consecutive lines from `state/read_auto.log`:
+   ```
+   line 74:  5759.45 chunks/s  eta    0.0h   (0 to GPU)
+   line 85:     0.03 chunks/s  eta  977.5h   (1 to GPU)   <- first model call enters the window
+   line 86:     3.09 chunks/s  eta    9.5h   (1 to GPU)   <- self-heals within ONE sample
+   line 98:     3.43 chunks/s  eta    8.5h   (1 to GPU)
+   line 99:     0.02 chunks/s  eta 1320.0h   (4 to GPU)   <- again, exactly at the transition
+   ```
+   **Both absurd readings land precisely on a change in the `to GPU` count, and recover within a
+   single sample.** That is direct confirmation of §2 E's untested hypothesis: the rolling window
+   **mixes instant cache hits with real model calls**, so any sample straddling the transition
+   gets a garbage `dt` — near-zero elapsed for a cache burst (`eta 0.0h`), near-zero progress when
+   the first model call lands (`eta 1320h`). **`chunks_reused` is already computed for exactly
+   this distinction and then discarded.** So the fix direction is named: separate cached
+   completions from model-answered ones in the rate. **Still `read.py`'s rate contract and still
+   the owner's ruling** — but it is no longer a question about which of two branches is wrong, it
+   is a question about whether to spend the change.
 R. **[carried] The rest, unchanged and untouched this run.** m54's `_BEAT_SECONDS` 300→100s cost;
    M10's 8,194 orphaned cached answers; the `read.py` audit's five open questions (no chunk
    overlap, two disagreeing "own page" tests, `chunks_skipped` wrong for multi-page entities, an
@@ -232,41 +253,42 @@ R. **[carried] The rest, unchanged and untouched this run.** m54's `_BEAT_SECOND
 
 ## 3. Small implementable items (no decision needed)
 
-1. **`pipeline.py`'s 9 shared cross-phase JSON writes** still use raw `open+json.dump` rather than
-   `_landed`/`replace_retry`. Open since run #2, **and now genuinely the last member of its
-   family** — run #19 closed `gpu_lane`'s two. `health.reopen_stranded` was fixed to use
-   `replace_retry` and run #17 exercised it live against a running pipeline: a working model to
-   copy. **This is the highest-value item in this section.**
-2. **35 → 34 silent exception handlers** (`python src/silence.py`). Run #19 removed one (the
-   keep-warm handler now records). The audit reads the AST, so a `#` comment does NOT satisfy it;
+1. **[WITHDRAWN — DO NOT RE-QUEUE. It was fixed in run #4 and carried for seventeen runs.]** This
+   slot said *"`pipeline.py`'s 9 shared cross-phase JSON writes still use raw `open+json.dump`"*
+   since run #2, and **run #19 promoted it to "the highest-value item in this section" while
+   copying it forward.** It is not true. Every `json.dump` in that file writes to a `.tmp` and
+   lands through `_landed` / `land_json` / `silence.replace_retry`; all eleven phase artifacts go
+   through `land_json`; `BUGS.md`'s own m6 entry records this being done in run #4, to **eleven**
+   artifacts, not nine. **Verified by direct grep of every write site.**
+   **The one genuine remainder:** `pipeline.update_handoff` writes `handoff/RUN_STATUS.md` via a
+   bare `os.replace` rather than `silence.replace_retry`. Single-writer, machine-only, rewritten
+   every unit — **low exposure, one line, do it when convenient.** That is the whole of what was
+   left of this item.
+2. **34 silent exception handlers** (`python src/silence.py`), unchanged across run #20 (one
+   removed, one exemption added). The audit reads the AST, so a `#` comment does NOT satisfy it;
    the idiom is a string (`_ = "silence-exempt: ..."`). Concentration: **`gpu_lane.py` 13**,
    `silence.py` 5, **`context_budget.py` 4** (fallback-to-empty-string when a prompt file cannot
    be read — generating against an EMPTY system prompt rather than failing), `foreman.py` ×2,
    `health.py` ×2, `local_agent.py` ×2, `standards.py` ×2, plus `coverage.py`, `entity_match.py`,
-   `pipeline.py:1570`, `publish.py:227`. **`foreman.py` uses the exemption idiom nowhere at all** —
-   its two silent handlers (in `restart_ollama`) are plausibly benign first-state cases and are
-   the cheapest place to start.
-3. **Three `silence.replace_retry` call sites in `foreman.py` discard the return value they
-   themselves warn about**: `_retire` (whose comment says "a torn or stale write here would
-   silently discard its newest finding"), `restart_ollama`'s rate-limit stamp (a lost write
-   defeats the 30-minute loop guard the docstring relies on), and `round_once`'s FOREMAN.json
-   write. **Verified at source.** `reprove_pool` and `triage_swallowed` check theirs — copy those.
-4. **`jobs()` is the only panel in `dashboard.py` with no `try/except`.** Every sibling wraps its
-   body and calls `silence.note`, so one panel's failure degrades gracefully; `jobs()` would take
-   the entire `/api/state` response down with it. Low probability, trivial fix, verified at source.
-5. **`dashboard.py:362` carries the stale label `silence.note("dashboard.py:336")`** — the same
-   m81 drift, in a file not previously known to have it. One site; use a descriptive tag.
-6. **`_HAS_ACTION`'s verb list may have recall gaps** (still unverified): "vaporiz-", "annihilat-",
+   `publish.py:227`. **`foreman.py` uses the exemption idiom nowhere at all** — its two silent
+   handlers (in `restart_ollama`) are plausibly benign first-state cases and are the cheapest
+   place to start. **`context_budget.py`'s four are the ones with teeth** and nobody has read that
+   file since run #12: generating against an empty system prompt is a silent quality collapse.
+3. **`_HAS_ACTION`'s verb list may have recall gaps** (still unverified): "vaporiz-", "annihilat-",
    "incinerat-", "smash", "explod-", "shred", "stun", "wound" absent. Honestly accounted in
    `chunks_skipped`, so not hidden — but run #18 saw `dropped 5,304` against `chunks 4,537`, **more
    skipped than read**. That ratio still deserves an actual measurement.
-7. **`JOB_OVERHEAD_CHARS`'s comment cannot be re-measured** while the live manifest has no feats
+4. **`JOB_OVERHEAD_CHARS`'s comment cannot be re-measured** while the live manifest has no feats
    jobs (M12). Fix the comment only after M12 is resolved.
-8. **DONE, do not redo:** run #19's honest kill horizon, the reader match tightening,
+5. **DONE, do not redo.** *Run #20:* the entrypass two-gate collapse (`pipeline.entry_settled`),
+   the foreman replay timestamps and its `did[:5]`, three `foreman.py` unchecked
+   `replace_retry` returns, `dashboard.jobs()` fault isolation, `dashboard.py:362`'s stale label,
+   `pipeline.py`'s unmarked silent handler, the hourly-cadence correction, and §20c/§20d's 17
+   checks. *Run #19:* the honest kill horizon, the reader match tightening,
    `triage_swallowed`'s third exit, `FOR_OWNER.md`'s atomic write, the patch-gate docstring,
    `gpu_lane._alive` and its two writers, `feats.py`'s 404 bucket / `errored` counter / whole
    stored sentence / `_CAP_BOUND` measurement, `overnight.py`'s three honest failure reports, and
-   §20b's 16 new checks. Earlier: §20a and the standards order text (#18); M13, m78, §19aj (#17);
+   §20b's 16 checks. Earlier: §20a and the standards order text (#18); M13, m78, §19aj (#17);
    M11, m75-m77, §3.3 (#16); M9, M10, m54, m55, m62, m70-m74, the regime rate-gate (#15b);
    m66-m69 (#15); m63, m65 (#14); m64; M8's *standard*; m61; the M7 gate fix.
 
@@ -291,15 +313,22 @@ evening sweep (`handoff/AUDIT_*.md`); run #2's four surfaces; run #3's two; run 
 run #17's `read.py` progress/ETA reporting; run #18's `feats.py`, `overnight.py`, `standards.py`
 and the Cascade error path; **run #19's `foreman.py` and `dashboard.py`**.
 
-**Not yet audited line-by-line** — pick from here: **`pipeline.py`** is now the highest-yield item
-by some distance. It is the largest module in the tree, it owns `write_record` (half the
-two-writer contract the whole project is built on), it holds §3.1's nine non-atomic writes — the
-last unfixed member of that family — and no run has read it end to end. After that:
+**Run #20 audited `pipeline.py` end to end** — the largest module in the tree and the owner of
+`write_record`. It found the Major above, confirmed both halves of the two-writer contract are
+honoured with no bypass, and **refuted its own brief**: §3.1's "nine raw writes" do not exist.
+That refutation is the single most useful thing the run produced, and it argues for pointing the
+next agent at a *claim* as often as at a file.
+
+**Not yet audited line-by-line** — pick from here: **`context_budget.py`** is now the highest-yield
+item. It holds four of the 34 silent handlers and they are the worst four in the tree — a prompt
+file that cannot be read falls back to an **empty string**, so the library generates against an
+EMPTY system prompt rather than failing, which is a silent quality collapse with no marker
+anywhere. Nobody has read it since run #12 and it was not read for that. After it:
 `address_space.py`, `profile.py`, `burgs.py`, `tells.py`, `style_audit.py`, `audit.py`,
 `descending_ladder.py`, `cosmography.py`, `genre.py`, `reference.py`, `resync_roll.py`,
 `retry_synthesis.py`, `build_terminal.py`, `sweep.py`, `runguard.py`, `compress_store.py`.
-**`read.py` deserves a re-read** specifically for m79's rate fallback, which is still putting
-`10525.08 chunks/s` on the public page.
+**`read.py` deserves a targeted re-read** for m79's rate fallback — now with the measurement in
+§2 S attached, so the agent can be pointed at a diagnosed mechanism rather than a symptom.
 
 **Two overwatch HIGHs were refuted at source by run #14** — `cosmography._fmt` and
 `descending_ladder.compton_confinement_energy`. **Do not spend on them again.**
@@ -328,6 +357,21 @@ last unfixed member of that family — and no run has read it end to end. After 
 - **Prefer a measurement to a verdict, and prefer printing a measurement you already have to
   arguing about one you do not.** m82 became a counter, and `_RATE_LIMITED` — incremented for
   months and read by nothing — became a printed line in the same edit.
-- **A regression check that scans source can match its own explanation.** One written this run
+- **A regression check that scans source can match its own explanation.** One written in run #19
   failed on its first run because the comment beneath it quoted the pattern it had removed. It
   now strips comment tails, and the failure is kept in the file as the reason why.
+- **A QUEUE ITEM NEVER RE-VERIFIED AGAINST SOURCE OUTLIVES THE BUG IT DESCRIBES, AND GAINS
+  AUTHORITY WITH EVERY RUN THAT COPIES IT FORWARD.** §3.1's "nine raw writes" was fixed in run #4
+  and carried until run #20 — and run #19 promoted it to "the highest-value item in this section"
+  in the act of copying it. Nobody lied; nobody looked. **Before working a carried item, spend the
+  one grep that proves it is still true.** The same applies to anything this file asserts.
+- **Point an agent at a CLAIM, not only at a file.** Run #20's most valuable result was an audit
+  refuting its own brief, and run #19's was a verification pass that killed the consequence of
+  m83. Adjudicating old findings has now out-earned fresh hunting two runs running.
+- **When a rule is written twice, the bug is the duplication, not the clause.** The entrypass
+  gates disagreed because the same sentence lived in two places and one got fixed. The repair
+  that matters is collapsing it to one predicate — patching the second copy would have left the
+  next divergence free to happen.
+- **Read the timestamp's PROVENANCE, not just its value.** A replayed log line carries the
+  replayer's clock. 38 minutes of apparent evidence about what killed the reader was an artifact
+  of who printed the line, and it nearly became a bug report about PID reuse.

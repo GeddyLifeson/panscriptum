@@ -9,6 +9,130 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 23:40 (local) — Run #20: 66 batches had been asking the model the same question for ever, and the item I called this section's highest-value was already fixed
+
+*Two of this run's three biggest results are corrections to things the ledgers asserted. The
+`pipeline.py` audit opened by refuting its own brief — the "nine raw JSON writes" I had queued as
+the top no-decision item, and had just described in NEXT_STEPS as "the last member of its
+family", do not exist. They were fixed by m6 in run #4. I had been propagating a stale queue item
+and had raised its priority while doing so.*
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found. Nothing deleted. No money moved.** One process bounced by PID: `pipeline`
+   (PID 52460), which is STANDING and restored by the keeper within 300s. Bounced deliberately so
+   the entrypass fix below takes effect — a long-running job carries its launch-time imports.
+2. **[NEW — MAJOR, FIXED] `phase_entrypass` HAD TWO GATES FOR THE SAME RULE AND ONLY ONE WAS EVER
+   FIXED, SO 66 BATCHES WERE RE-ASKED OF THE MODEL ON EVERY PASS, FOR EVER.**
+   `cleanup.py` strikes an entry by setting `excluded` and leaving `catalogued` false. Both loops
+   in `phase_entrypass` that could set `catalogued` skip a struck entry, so `catalogued` is never
+   written for one. Two gates then decided whether a batch was finished:
+   - the **resume** gate (`batch_settled`) — `catalogued OR excluded` ✅ *fixed when the bug was
+     first found; its docstring records the fix at length*
+   - the **write-completion** gate in `phase_entrypass` — `catalogued` alone ❌ *missed*
+   A batch holding a struck entry therefore could never satisfy the completion gate,
+   `done_keys.append(key)` never ran, the resume gate then failed on membership, and the batch
+   went back to the model on every single pass. **Measured before fixing: 149 struck entries
+   across 31 records, landing in 66 of 4,416 batches — 66 wasted model calls per full entrypass
+   pass, permanently**, against a pool that currently answers about a third of its calls. The
+   worst single record is `fire-emblem.json` with 57 struck entries.
+   **The repair is not the missing clause.** I collapsed the rule into one predicate,
+   `pipeline.entry_settled()`, that both gates call, so they cannot drift again — the missing
+   clause was a symptom of the rule existing twice. Pinned by `verify_math` §20d, including a
+   check that the rule is spelled out exactly once and that the one copy is the definition.
+   **This is the project's signature failure class** (a fix landing in one of two places that
+   must agree), found live in the file the audit was pointed at.
+3. **[THE CADENCE CHANGED AND EVERY FILE THAT CLAIMED OTHERWISE IS UPDATED.]** Owner set the
+   schedule to **hourly**. Verified against `list_scheduled_tasks`, not copied: `11 * * * *` with
+   **523s of jitter**, so it fires at about **:19–:20 past the hour**. `MAINTENANCE.md`'s Cadence
+   section and `NEXT_STEPS.md` item 1 both rewritten. **Two things deliberately left alone:** the
+   **15-minute heartbeat-staleness threshold** in the overlap guard, which is a different number
+   answering a different question and must not be "fixed" to match the schedule (both files now
+   say so explicitly), and the task's own `SKILL.md`, which never stated a cadence.
+   **This line has now been wrong twice in opposite directions** — it once claimed hourly while
+   the task fired four times an hour, run #18 corrected it to 15 minutes, and the owner has now
+   made it genuinely hourly. Both files now instruct the reader to run `list_scheduled_tasks`
+   rather than trust the prose. **What actually changes for a run:** a fire now usually finds its
+   predecessor *finished*, there is a 25–40 minute idle gap only the bots cover, and a run can
+   afford to be more thorough than the 15-minute era allowed.
+4. **[A LOG THAT MISDATED ITS OWN EVIDENCE — and I nearly filed a bug against the wrong thing.]**
+   I saw `[22:39:04] ... kill_stalled_job: killed stalled read_auto:42972` and started writing it
+   up as a kill against a **recycled PID**, since that reader had exited at 22:01:42. It is not.
+   `overnight.foreman_report()` **replays** FOREMAN.json's last round when the supervisor's lap
+   comes round, and `log()` stamps every line with the supervisor's *current* time — so a kill
+   performed at **22:00:55** was written into the log under **22:39:04**, misdated by 38 minutes.
+   **M15's entire evidence base is timestamps out of that file.** A run reconstructing what killed
+   the reader could attribute a kill to the wrong lap and blame the wrong cause. Every replayed
+   line now carries the foreman's own timestamp. The same function also announced *"6 remedy(ies)
+   applied"* and then printed five (`did[:5]`); the list is now complete.
+
+**[m79 HAS LARGELY RESOLVED ITSELF, AND THE MECHANISM IS NOW MEASURED RATHER THAN THEORISED.]**
+Since the reader restarted at 22:39 the rate reads a plausible **1.79 chunks/s** and ETAs are
+real (8.5–18.2h) — the page's absurd **10525.08 chunks/s** is gone. But the log shows the bug
+firing in **both** directions at the same transitions, and the pattern names the cause:
+
+```
+line 74:  5759.45 chunks/s  eta 0.0h     (0 to GPU)
+line 85:     0.03 chunks/s  eta 977.5h   (1 to GPU)   <- first model call enters the window
+line 86:     3.09 chunks/s  eta 9.5h     (1 to GPU)   <- self-heals within one sample
+line 98:     3.43 chunks/s  eta 8.5h     (1 to GPU)
+line 99:     0.02 chunks/s  eta 1320.0h  (4 to GPU)   <- again, exactly at the transition
+```
+
+**Both absurd readings land precisely on a change in the `to GPU` count**, and the rate recovers
+within one sample afterwards. That is direct confirmation of the hypothesis NEXT_STEPS §2 E has
+carried untested: the rolling window **mixes instant cache hits with real model calls**, so any
+sample straddling the transition produces a garbage `dt` — near-zero elapsed for a cache burst
+(→ `eta 0.0h`), near-zero progress when the first model call lands (→ `eta 1320h`).
+**`chunks_reused` is already computed for exactly this distinction and then discarded.** The
+ruling in §2 E now has evidence attached and a named fix direction. **Not fixed here** — it is
+`read.py`'s rate contract and still the owner's call.
+
+**What was fixed (all verified at source before touching, battery green after):**
+
+- **`pipeline.py`** — the entrypass gate collapse (above), and the file's **only** bare handler
+  carrying neither `silence.note` nor a log nor the exemption idiom (`phase_shelve`'s absent
+  `SHELF_RANKS.json`). That one **is** deliberate — on a first run nothing is ranked yet and an
+  empty prior is correct — so it got the exemption string rather than a note, which is the
+  difference between a silence that is decided and one that is forgotten. Its sibling three lines
+  above notes the identical case, which is what made it read as an oversight.
+- **`overnight.py`** — the replayed-timestamp fix and the `did[:5]` truncation (above).
+- **`foreman.py`** — three `silence.replace_retry` call sites that **discarded the boolean whose
+  hazard the surrounding comment had already written down**: `_retire` ("a torn or stale write
+  here would silently discard its newest finding"), `restart_ollama`'s rate-limit stamp (a lost
+  write means the 30-minute guard **fails open** and the daemon can be killed again next round),
+  and `round_once`'s own operational log (a lost write makes `foreman_report()` replay the
+  previous round as if it were current). Same omission as `triage_swallowed`'s, one run later.
+- **`dashboard.py`** — `jobs()` was the only panel builder with no handler, and `state()` calls it
+  unguarded, so one unexpected value in a log would have raised out of `state()` and replaced the
+  **entire** `/api/state` response with an error blob. Now isolated **per log**, so a malformed
+  reader line cannot also cost the roll its row. Also the m81-style stale label at `:362` (it
+  said `dashboard.py:336`), replaced with a descriptive tag.
+
+**Battery:** `verify_math` **592 passed, 0 FAILED** (was 575; **+17 new checks** across §20c and
+§20d) · `allsweep` **0 subsystems bad** · `health --preflight` **1 FAIL, equal to baseline** (M1
+only) · `silence.py` **34** · `pyflakes` clean.
+
+**THE STALE QUEUE ITEM, recorded so it is not re-queued a fourth time.** NEXT_STEPS §3.1 has
+carried "`pipeline.py`'s 9 shared cross-phase JSON writes still use raw `open+json.dump`" since
+**run #2**, and run #19 — me, an hour ago — promoted it to "the highest-value item in this
+section" and called it "the last member of its family". **It is not there.** Every `json.dump` in
+the file writes to a `.tmp` and lands through `_landed` / `land_json` / `silence.replace_retry`;
+`BUGS.md:1671` records m6 doing this in run #4, to **eleven** artifacts, not nine. Verified by
+direct grep of every write site, not taken on the agent's word. **The lesson is about ledgers,
+not code:** a queue item that is never re-verified against source outlives the bug it describes,
+and gains authority with every run that copies it forward. **One genuine remainder:**
+`update_handoff` writes `handoff/RUN_STATUS.md` via a bare `os.replace` rather than
+`silence.replace_retry` — single-writer and low exposure, now correctly stated in §3.
+
+**One audit ran (`pipeline.py`, first ever end-to-end read of the largest module in the tree).**
+It refuted its own brief on the premise, found the Major above, and confirmed that
+`write_record`/`write_record_catalogue` honour the two-writer contract with no bypass — I
+verified all three claims at source myself before acting, and the premise refutation is exactly
+why that rule exists.
+
+---
+
 ## 2026-08-24 22:36 (local) — Run #19: the kill loop closed a second time exactly as predicted, and the dishonest note that hid its cost is now fixed
 
 *Run #18 ended with a written prediction: if `overnight.log` shows another `read: finished
