@@ -209,7 +209,14 @@ def mine_says(paths=None):
         out["silence"] = None
     try:
         import publish
-        out["secrets"] = len(publish.scan_for_secrets(HERE) or [])
+        # THE SAME GROUND, or the comparison is worthless. This read `scan_for_secrets(HERE)`
+        # -- the whole repository -- while detect-secrets was pointed at `src/` alone, so the
+        # two numbers printed side by side under the word "vs" were measuring different things,
+        # and the house scanner's 9 against the outsider's 0 looked like a disagreement when it
+        # was an artefact of scope. Comparing unlike measurements is this project's most
+        # expensive recurring reporting bug.
+        root = (paths or [SRC])[0]
+        out["secrets"] = len(publish.scan_for_secrets(root) or [])
     except Exception:
         silence.note("secondopinion.py:mine-secrets")
         out["secrets"] = None
@@ -289,6 +296,9 @@ def report(paths=None):
     if ds["status"] == "RAN" and not ds["findings"] and mine["secrets"] == 0:
         print("  AGREEMENT: two independently-written scanners both find no secret. That is"
               " worth more than either of them saying it alone.")
+    if ran_clean(got):
+        print("  ALL THREE RAN AND ALL THREE FOUND NOTHING. This is the only sentence on this"
+              " page that is an all-clear, and it requires every tool to have actually run.")
     absent = missing(got)
     if absent:
         print("  ABSENT: %s — install before treating this page as a second opinion."

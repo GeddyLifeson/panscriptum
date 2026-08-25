@@ -1360,6 +1360,128 @@ def drill_inspector():
         "the ceiling is a ratchet: lower it when you clean up, never raise it to go green")
 
 
+def drill_outside():
+    """The derived index and the outside opinion — two new ways to be confidently wrong.
+
+    Both of the things adopted on 2026-08-25 carry the same hazard in different clothes. A SQL
+    index of the corpus answers instantly and will keep answering instantly after it has drifted
+    from the records it was built from; a linter that is not installed produces no findings and
+    no findings reads as a clean bill of health. Neither failure announces itself, and both
+    produce output that looks exactly like the healthy case -- which is the shape this project
+    has paid for more times than any other.
+    """
+    a = "OUTSIDE — the derived index and the second opinion"
+
+    def index_admits_when_it_is_behind():
+        """NOT "is the index fresh" -- it cannot be. "Does it KNOW it isn't."
+
+        The first version of this net demanded agreement within 2% and breached immediately,
+        and the breach taught the right lesson rather than the one it was looking for: 8,613
+        entries were catalogued in the twenty-seven minutes after a rebuild, so this index is
+        stale within about seven minutes and no tolerance band survives contact with the crawl.
+        A net that goes red for a condition nobody can fix is furniture, and worse, it trains
+        people to read BREACHED as normal.
+
+        The property that IS enforceable, and is the one that matters, is honesty: when a record
+        has been written since the build, `freshness()` must say so. An index that reports itself
+        current while sitting on a five-figure gap is the failure; an index that says "I am forty
+        minutes behind" is doing its job.
+        """
+        import corpus_db
+        import glob as _g
+        if not os.path.exists(corpus_db.DB):
+            return corpus_db.freshness()["stale"] is True    # no index is maximally stale
+        f = corpus_db.freshness()
+        if f["built_at"] is None:
+            return f["stale"] is True
+        # Independently recompute the thing it claims, from mtimes it did not hand us.
+        newer = 0
+        for p in _g.glob(os.path.join(HERE, "data", "records", "*.json")):
+            try:
+                if os.path.getmtime(p) > f["built_at"]:
+                    newer += 1
+            except OSError:
+                newer += 1
+        # It may not UNDERSTATE. Claiming fresh while records have moved is the breach; a small
+        # overstatement from a file written between the two passes is not.
+        if newer > 0 and not f["stale"]:
+            return False
+        return f["stale"] == (newer > 0) or newer == 0
+    net(a, "the SQL index admits when it is behind the records",
+        index_admits_when_it_is_behind,
+        "it cannot be fresh; it can be honest, and a silent stale index is the real fault")
+
+    def stale_index_says_so_where_the_numbers_are():
+        """The warning must ride WITH the results, not live in a separate command."""
+        import corpus_db
+        line = corpus_db._freshness_banner()
+        f = corpus_db.freshness()
+        if f["age_seconds"] is None:
+            return "NO INDEX" in line
+        return ("STALE" in line) == bool(f["stale"])
+    net(a, "the staleness warning is printed above the results themselves",
+        stale_index_says_so_where_the_numbers_are,
+        "a caveat somewhere else is a caveat nobody reads next to the number it qualifies")
+
+    def index_query_cannot_write():
+        """`query()` is read-only BY CONTRACT. Prove the contract is enforced, not documented."""
+        import corpus_db
+        if not os.path.exists(corpus_db.DB):
+            return True
+        try:
+            corpus_db.query("CREATE TABLE _drill_should_not_exist (x INTEGER)")
+        except Exception:
+            return True                      # refused, which is the whole point
+        # It succeeded. Undo the damage before reporting the breach, so the drill does not
+        # leave the thing it was testing in a worse state than it found it.
+        try:
+            con = corpus_db.connect()
+            con.execute("DROP TABLE IF EXISTS _drill_should_not_exist")
+            con.commit()
+            con.close()
+        except Exception:
+            import silence
+            silence.note("drill.py:index-write-undo")
+        return False
+    net(a, "a read-only query really cannot write", index_query_cannot_write,
+        "read-only by convention is read-only until somebody is in a hurry")
+
+    def datasette_config_is_generated_not_copied():
+        """Two lists of canned queries drift. There must only ever be one."""
+        import corpus_db
+        p = corpus_db.datasette_metadata()
+        with open(p, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        served = set((doc.get("databases", {}).get("corpus", {}).get("queries") or {}))
+        return served == set(corpus_db.CANNED)
+    net(a, "the web UI's queries come from CANNED, not a second copy",
+        datasette_config_is_generated_not_copied,
+        "the CLI and the browser must not answer the same question differently")
+
+    def absent_tool_is_not_reported_as_clean():
+        """THE ONE THAT MATTERS. A linter that did not run must never look like a linter that
+        ran and found nothing. Simulated by handing `ran_clean`/`missing` the exact shape
+        `run()` produces for a tool that is not installed."""
+        import secondopinion as SO
+        absent = {"ruff": {"status": "NOT INSTALLED", "findings": []},
+                  "vulture": {"status": "RAN", "findings": []},
+                  "detect-secrets": {"status": "RAN", "findings": []}}
+        return (not SO.ran_clean(absent)) and SO.missing(absent) == ["ruff"]
+    net(a, "an uninstalled checker is not counted as an all-clear",
+        absent_tool_is_not_reported_as_clean,
+        "no findings and no checker look identical unless the code refuses to conflate them")
+
+    def outside_opinion_survives_a_broken_tool():
+        """A second opinion is optional. It must degrade, not take the library down with it."""
+        import secondopinion as SO
+        got = SO.run([os.path.join(HERE, "src", "silence.py")])
+        return isinstance(got, dict) and set(got) == {"ruff", "vulture", "detect-secrets"} \
+            and all("status" in v for v in got.values())
+    net(a, "the outside opinion always returns a status for every tool",
+        outside_opinion_survives_a_broken_tool,
+        "fail-open here, and say so -- an optional check must not be able to halt the park")
+
+
 # ============================================================== report
 
 def main():
@@ -1371,7 +1493,7 @@ def main():
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
-               drill_workorders, drill_inspector):
+               drill_workorders, drill_inspector, drill_outside):
         fn()
 
     area = None

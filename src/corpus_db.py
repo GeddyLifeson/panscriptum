@@ -200,6 +200,98 @@ def age_seconds():
         return None
 
 
+def freshness():
+    """Is this index still telling the truth about the records? -> dict, always.
+
+    MEASURED WHEN THE FIRST DRILL NET RAN, and it settled the design. The index was rebuilt at
+    109,295 entries; twenty-seven minutes later the records held 117,908. **8,613 entries in
+    under half an hour** -- the cataloguing crawl is genuinely that fast, and it means no
+    staleness TOLERANCE can work. A 2% band expires in seven minutes. A nightly rebuild would
+    be wrong by tens of thousands by morning.
+
+    So this index does not promise to be fresh. It promises to SAY how stale it is, every time
+    it is read, which is the only claim it can keep. That distinction is the whole lesson of
+    this project's inspector nets: a report that has drifted from the thing it describes is
+    worse than no report, and the difference between the two is entirely whether the report
+    admits its own age.
+
+    Staleness is decided by MTIME, not by counting: any record file written after the index was
+    built means the index is behind, and 216 stat calls cost microseconds where a recount costs
+    the better part of a second on every query. `drift()` does the expensive exact version for
+    when somebody actually needs the number.
+    """
+    out = {"built_at": None, "age_seconds": None, "stale": True,
+           "newer_records": 0, "reason": "no index"}
+    if not os.path.exists(DB):
+        return out
+    try:
+        cols, rows = query("SELECT value FROM meta WHERE key='built_at'")
+    except Exception:
+        out["reason"] = "index unreadable"
+        return out
+    if not rows:
+        out["reason"] = "index does not record when it was built"
+        return out
+    built = float(rows[0][0])
+    out["built_at"] = built
+    out["age_seconds"] = time.time() - built
+    newer = 0
+    for p in glob.glob(os.path.join(HERE, "data", "records", "*.json")):
+        try:
+            if os.path.getmtime(p) > built:
+                newer += 1
+        except OSError:
+            newer += 1                 # a record we cannot stat is a record we cannot vouch for
+    out["newer_records"] = newer
+    out["stale"] = newer > 0
+    out["reason"] = ("%d record file(s) written since the index was built" % newer
+                     if newer else "no record has changed since the index was built")
+    return out
+
+
+def drift():
+    """The exact entry-count gap between the index and the records. -> (indexed, real, gap).
+
+    The expensive, precise version of `freshness()`. Costs a full pass over the records, which
+    is why it is not on the query path -- but when the answer matters, an approximation of how
+    wrong the index is would just be a second thing to be wrong about.
+    """
+    indexed = None
+    try:
+        cols, rows = query("SELECT value FROM meta WHERE key='entries'")
+        if rows:
+            indexed = int(rows[0][0])
+    except Exception:
+        silence.note("corpus_db.py:drift-index")
+    real = 0
+    for p in glob.glob(os.path.join(HERE, "data", "records", "*.json")):
+        try:
+            with open(p, encoding="utf-8") as f:
+                real += len(json.load(f).get("entries") or [])
+        except Exception:
+            silence.note("corpus_db.py:drift-record")
+    gap = None if indexed is None else real - indexed
+    return indexed, real, gap
+
+
+def _freshness_banner():
+    """The line printed above every result. -> str.
+
+    ABOVE the numbers, not below them and not behind a flag. A staleness warning a reader has
+    to go looking for is a staleness warning that will be missed exactly when it matters, and
+    this index is stale within minutes of every rebuild.
+    """
+    f = freshness()
+    if f["age_seconds"] is None:
+        return "  [ NO INDEX — run --rebuild. These are not results. ]"
+    mins = f["age_seconds"] / 60
+    if not f["stale"]:
+        return "  [ index built %.0f min ago; no record has changed since ]" % mins
+    return ("  [ STALE: index built %.0f min ago, %d record(s) written since. "
+            "Counts below are a FLOOR, not a total. --rebuild for current. ]"
+            % (mins, f["newer_records"]))
+
+
 def query(sql, args=()):
     """Run a read-only query. -> (columns, rows)."""
     con = connect(readonly=True)
@@ -314,6 +406,7 @@ def main():
         print("\ncanned queries: " + ", ".join(sorted(CANNED)))
         return 0
     cols, rows = query(sql)
+    print(_freshness_banner())
     print("  " + " | ".join(str(c) for c in cols))
     print("  " + "-" * 74)
     for r in rows:
