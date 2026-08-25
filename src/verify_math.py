@@ -3097,6 +3097,57 @@ check("the discovery caps are measured rather than argued about",
       note="m82: MediaWiki's own continue token says when aplimit/srlimit withheld results")
 
 print()
+print("22. §20c  THE REPAIRS OF RUN #20 — a log that misdated its own evidence, and three")
+print("          atomic writes that discarded the answer they asked for")
+# ---------------------------------------------------------------------------------------------
+# The sharpest of these is the timestamp one, because it corrupts the FORENSICS rather than the
+# system. `overnight.foreman_report()` REPLAYS FOREMAN.json's last round when the supervisor's
+# lap comes round, but `log()` prefixes every line with the supervisor's CURRENT time. So a kill
+# the foreman performed at 22:00:55 was written into overnight.log as
+# "[22:39:04] ... kill_stalled_job: killed stalled read_auto:42972" -- misdated by 38 minutes.
+# M15's entire evidence base is timestamps out of that file, so a run reconstructing what killed
+# the reader and when could attribute a kill to the wrong lap and draw the wrong conclusion about
+# what caused it. The header always carried the true time; now every replayed line does.
+#
+# The same function also truncated its list to five while announcing the true count above it
+# ("6 remedy(ies) applied" over five lines). Nothing parses that log, so the cap bought nothing.
+#
+# The three replace_retry sites each discarded a boolean whose hazard the surrounding comment
+# had already written down -- the same omission fixed in triage_swallowed one run earlier.
+# 2026-08-24, run #20.
+_on20 = open(os.path.join(_here19, "overnight.py"), encoding="utf-8").read()
+_on20code = "\n".join(ln.split("#", 1)[0] for ln in _on20.splitlines())
+check("replayed foreman lines carry the foreman's own timestamp, not the supervisor's",
+      '[{when}]' in _on20code, True,
+      note="a kill at 22:00:55 was appearing in the log under 22:39:04; M15 is dated from this file")
+check("the foreman replay no longer truncates the remedy list it just counted",
+      "did[:5]" in _on20code, False,
+      note="the header announced 6 and the list showed 5; nothing downstream parses it")
+
+_fm20 = open(os.path.join(_here19, "foreman.py"), encoding="utf-8").read()
+_fm20code = "\n".join(ln.split("#", 1)[0] for ln in _fm20.splitlines())
+for _site, _tag in (("_retire", "foreman.py:_retire-denied"),
+                    ("restart_ollama", "foreman.py:ollama-stamp-denied"),
+                    ("round_once", "foreman.py:round-log-denied")):
+    check(f"{_site}'s atomic write checks the return value its own comment warns about",
+          _tag in _fm20code, True,
+          note="a denied rename here fails silently and open -- the hazard was already documented")
+
+_db20 = open(os.path.join(_here19, "dashboard.py"), encoding="utf-8").read()
+_db20code = "\n".join(ln.split("#", 1)[0] for ln in _db20.splitlines())
+check("dashboard.jobs() is fault-isolated like every sibling panel",
+      "dashboard.py:jobs-read" in _db20code and "dashboard.py:jobs-roll" in _db20code, True,
+      note="unguarded, one bad log line replaced the WHOLE /api/state response with an error")
+check("dashboard.py carries no stale line-number silence label",
+      '"dashboard.py:336"' in _db20code, False,
+      note="m81 drift: the label said 336 while sitting at 362")
+import dashboard as _D20
+_j20 = _D20.jobs()
+check("dashboard.jobs() still returns a list of panels after the refactor",
+      isinstance(_j20, list), True,
+      note="the split into _read_row/_roll_row must not change the panel contract")
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)

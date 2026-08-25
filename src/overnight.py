@@ -264,9 +264,24 @@ def foreman_report():
     last = rounds[-1]
     did = [a for a in (last.get("auto") or []) if a.get("did")]
     if did:
-        log(f"  foreman: {len(did)} remedy(ies) applied at {last.get('at', '?')}")
-        for a in did[:5]:
-            log(f"    {a['standard']} -> {a['remedy']}: {a.get('result', '')[:70]}")
+        # STAMP EACH LINE WITH THE FOREMAN'S OWN TIME, AND SHOW ALL OF THEM (run #19).
+        #
+        # This is a REPLAY of FOREMAN.json's last round, printed when the supervisor's lap comes
+        # round -- but `log()` prefixes every line with the SUPERVISOR'S current time. So a kill
+        # the foreman performed at 22:00:55 appeared in overnight.log as
+        # "[22:39:04]  ... kill_stalled_job: killed stalled read_auto:42972" -- misdated by 38
+        # minutes, in the one log used to reconstruct what killed the reader and when. M15's
+        # whole evidence base is timestamps out of this file, so a reader who trusts the line
+        # prefix will attribute a kill to the wrong lap. The header carried the true time all
+        # along; each line now carries it too, because that is the line people quote.
+        #
+        # `did[:5]` also had to go: the header announces a count and the list then delivered
+        # fewer -- "6 remedy(ies) applied" above five lines. Nothing downstream parses this, so
+        # the cap bought nothing and cost the sixth remedy its only mention.
+        when = last.get("at", "?")
+        log(f"  foreman: {len(did)} remedy(ies) applied at {when}")
+        for a in did:
+            log(f"    [{when}] {a['standard']} -> {a['remedy']}: {a.get('result', '')[:70]}")
     owner = last.get("owner") or []
     if owner:
         log(f"  foreman: {len(owner)} order(s) need the owner -- see FOR_OWNER.md")

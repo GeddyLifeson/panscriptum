@@ -115,17 +115,29 @@ than proof. The summary below is a sketch, not the source of truth.*
 
 ## Cadence
 
-**Every 15 minutes — cron `11,26,41,56 * * * *` (local), plus a few minutes of dispatch
-jitter.** (Corrected 2026-08-24: this section previously claimed "hourly at :20, the
-platform's floor", and that the scheduler rejects sub-hourly minute lists. Neither is true —
-the live task has been firing four times an hour. The claim went unchallenged because nothing
-ever read the cron back; if you change the cadence, change it HERE and in the task, and check
-`list_scheduled_tasks` rather than trusting this file.)
+**HOURLY — cron `11 * * * *` (local), plus 523 seconds of dispatch jitter, so a fire lands at
+about :19–:20 past the hour.** Owner ruling, 2026-08-24 evening: the cadence was changed from
+four-times-hourly to hourly. Read back from `list_scheduled_tasks` on 2026-08-24 23:19 local and
+confirmed against the live task, not copied from anywhere.
 
-A run takes roughly 20–35 minutes, so **fires routinely land on a live predecessor, and that
-is the designed steady state, not a fault** — the overlap guard exits in seconds and the
-repo's own continuous machinery covers the gaps. It also means the *effective* cadence is
-"a new run starts whenever the previous one has finished", which is the real intent.
+**This line has now been wrong twice, in opposite directions**, and the reason is always the
+same: nothing read the cron back. It once claimed "hourly at :20, the platform's floor" while
+the task fired four times an hour; run #18 corrected it to every 15 minutes; the owner then made
+it genuinely hourly. **Do not trust this paragraph. Run `list_scheduled_tasks` — it is one call
+and it is authoritative.** If you change the cadence, change it HERE *and* in the task.
+
+A run takes roughly 20–35 minutes against an hourly fire, so **a fire now usually finds the
+previous run finished** — the routine overlap of the 15-minute era is over. Landing on a live
+predecessor is still possible (a long run, a fire that queued while the app was closed) and is
+still not a fault: the guard exits in seconds. But an idle gap of 25–40 minutes between runs is
+now the normal shape, and the repo's own continuous machinery — standards→foreman, overwatch,
+allsweep, the keeper — is what covers it. **Two consequences worth planning around:** a run can
+afford to be more thorough than it could at 15 minutes, and anything genuinely time-critical
+must be left to the bots rather than to the next pass.
+
+**Note the two different fifteens.** The heartbeat-staleness threshold in the overlap guard is
+also 15 minutes and is UNRELATED to the cadence. It stays 15 minutes; do not "fix" it to match
+an hourly schedule. It answers "is a predecessor still alive?", not "how often do we run?"
 
 Every fire is a FRESH SESSION with no memory of the last one; continuity comes entirely from
 the ledgers (`NEXT_STEPS.md` → `HANDOFF.md` → `BUGS.md`). That is why the ledger-writing step

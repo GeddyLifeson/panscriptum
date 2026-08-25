@@ -4,10 +4,16 @@
 
 **Read this first.** Four things shape what is worth doing next run:
 
-1. **THE SCHEDULE IS EVERY 15 MINUTES (`11,26,41,56 * * * *`), so you will routinely land on a
-   live predecessor and that is the designed steady state.** The guard exits in seconds. It does
-   **NOT** see interactive sessions — before writing anything, check
+1. **THE SCHEDULE IS NOW HOURLY (`11 * * * *` + 523s jitter, so it fires ~:19–:20). Owner
+   changed it 2026-08-24 evening; it is NOT every 15 minutes any more.** Consequences: you will
+   usually find the previous run FINISHED rather than live, there is a 25–40 minute idle gap
+   between passes that only the bots cover, and **you can afford to be more thorough than the
+   15-minute era allowed.** The 15 minutes in the overlap guard is the heartbeat-staleness
+   threshold — a different number, unchanged, do not "fix" it to match.
+   The guard does **NOT** see interactive sessions — before writing anything, check
    `git -C C:\Users\imarl\panscriptum-export log --oneline -5` and `ls -lt src/*.py | head`.
+   **Verify the cadence with `list_scheduled_tasks`, never from a file.** This claim has been
+   wrong twice in opposite directions precisely because nobody read the cron back.
 2. **RUN #19 FIXED THE REPORTING HALF OF M15. THE DESIGN QUESTION IS STILL OPEN AND STILL THE
    OWNER'S.** Do not re-apply the note fix, and do not read the fix as the bug being closed. What
    changed: both killing remedies now state the TRUE restart horizon per job, derived from

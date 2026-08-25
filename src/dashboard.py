@@ -169,9 +169,31 @@ def throughput(minutes=15):
 
 
 def jobs():
-    """The long-running work, each as a fraction of its own honest denominator."""
+    """The long-running work, each as a fraction of its own honest denominator.
+
+    FAULT-ISOLATED like every sibling panel (run #19). This was the one builder in the file with
+    no handler of its own, and `state()` calls it unguarded -- so a single unexpected value in
+    read_auto.log or roll_auto.log would raise all the way out of `state()` and be caught only at
+    the HTTP layer, replacing the ENTIRE /api/state response with an error blob. Every other
+    panel degrades to an empty result and lets the rest of the page render; the panel that
+    reports on the project's bottleneck job should not be the one that can black out the page.
+    Note the two logs are isolated separately: a malformed reader line must not cost the roll's
+    row as well.
+    """
     out = []
     import lognames as LN
+    try:
+        _read_row(out, LN)
+    except Exception:
+        silence.note("dashboard.py:jobs-read")
+    try:
+        _roll_row(out, LN)
+    except Exception:
+        silence.note("dashboard.py:jobs-roll")
+    return out
+
+
+def _read_row(out, LN):
     r = _tail_match(os.path.join(STATE, LN.READ), RE_READ)
     if r:
         out.append({
@@ -181,6 +203,9 @@ def jobs():
                        f"{_num(r['feats']):,} feats  ·  {r['rate']} chunks/s"),
             "warn": (f"{_num(r['unans'])} unanswered" if _num(r["unans"]) else ""),
             "eta_h": float(r["eta"])})
+
+
+def _roll_row(out, LN):
     roll = _tail_match(os.path.join(STATE, LN.ROLL), RE_ROLL)
     if roll:
         out.append({
@@ -189,7 +214,6 @@ def jobs():
             "detail": (f"{_num(roll['pages']):,} pages  ·  {roll['chars']}M characters  ·  "
                        f"{roll['rate']}/s"),
             "warn": "", "eta_h": float(roll["eta"])})
-    return out
 
 
 _TTL_MEMO = {}
@@ -359,7 +383,12 @@ def metrics(tail_bytes=250_000):
                 if isinstance(r, dict) and r.get("tag"):
                     rows.append(r)
             except Exception:
-                silence.note("dashboard.py:336")
+                # Descriptive tag, not a line number (run #19). The old label said
+                # "dashboard.py:336" while sitting at 362 -- m81's drift, in a file not
+                # previously known to carry it. Line-number labels are baked once by
+                # `silence.py --instrument` and never move as the file grows, so every one of
+                # them rots; a stable tag cannot.
+                silence.note("dashboard.py:metrics-badline")
                 pass
     except Exception:
         silence.note("dashboard.py:metrics")

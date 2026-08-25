@@ -715,7 +715,12 @@ def restart_ollama():
         tmp = RESTART_STAMP + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(st, f)
-        silence.replace_retry(tmp, RESTART_STAMP)
+        # This stamp IS the 30-minute rate limit that keeps this remedy from restarting Ollama
+        # in a loop. A denied rename loses the stamp, so the next round reads no recent restart
+        # and is free to kill the daemon again -- the guard failing open, silently. Checked and
+        # recorded as of run #19.
+        if not silence.replace_retry(tmp, RESTART_STAMP):
+            silence.note("foreman.py:ollama-stamp-denied")
         if up:
             return True, ("ollama restarted (automated restart #%d); daemon answering, model "
                           "reloads on first call" % st["count"])
@@ -1024,7 +1029,13 @@ def _retire(finding):
         tmp = path + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(led, f, indent=1, sort_keys=True)
-        silence.replace_retry(tmp, path)
+        # CHECK THE RETURN THIS COMMENT ALREADY WARNS ABOUT (run #19). The paragraph above
+        # names the exact hazard -- a torn or stale write here silently discards overwatch's
+        # newest finding -- and then discarded the boolean that reports it. A denied rename
+        # meant the finding was never actually retired and the standard it blocks stayed red
+        # for reasons nobody could see. Same omission as triage_swallowed's, same file.
+        if not silence.replace_retry(tmp, path):
+            silence.note("foreman.py:_retire-denied")
     except Exception:
         silence.note("foreman.py:_retire")
 
@@ -1228,7 +1239,11 @@ def round_once(dry=True, patch=False):
     # long-running processes on one file. (BUGS m18, 2026-08-24.)
     with open(LOG + ".tmp", "w", encoding="utf-8") as f:
         json.dump(prev[-200:], f, indent=1)
-    silence.replace_retry(LOG + ".tmp", LOG)
+    # A denied rename here loses this whole round from the operational record, and
+    # overnight.foreman_report() would then replay the PREVIOUS round as if it were this one --
+    # i.e. report stale repairs as current. Checked and recorded as of run #19.
+    if not silence.replace_retry(LOG + ".tmp", LOG):
+        silence.note("foreman.py:round-log-denied")
     return log
 
 
