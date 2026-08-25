@@ -4421,6 +4421,73 @@ check("the import tier is not blind to a bare SystemExit",
            "_BAD_CHARS corruption guard -- which raises SystemExit -- was graded green")
 
 print()
+print("26. §20q  A WRITE VERDICT THAT NOBODY READS IS A WRITE NOBODY CHECKED — the fix that")
+print("          landed in the writer and never reached the twelve callers it described")
+# ---------------------------------------------------------------------------------------------
+# `pipeline._landed` returns True/False on purpose, and its docstring states the contract in as
+# many words: "the writers now return the verdict and the callers gate their done-keys on it."
+# They did not. Every one of the TWELVE `land_json` call sites discarded the verdict and then
+# appended its phase's done-key unconditionally, so a denied rename left the phase marked
+# complete over a PRE-WRITE artifact -- and because the done-key was already recorded, no later
+# run ever redid it. The precise silent permanent loss `_landed` was written to close, present
+# at every caller the docstring claimed was fixed. (m36, run #32, 2026-08-25.)
+#
+# AST, not a source-text match, per standing lesson 26: a literal check here would go red on an
+# honest reflow and green on a comment mentioning `land_json`. What this asserts is structural
+# and is the thing that actually bit -- a Call to land_json sitting as a bare Expr statement is
+# BY CONSTRUCTION a discarded return value.
+import ast as _ast20q
+
+_pipe20q = _ast20q.parse(_src20p("pipeline.py"))
+_discarded20q, _used20q = [], 0
+for _n20q in _ast20q.walk(_pipe20q):
+    if not isinstance(_n20q, _ast20q.Call):
+        continue
+    _f20q = _n20q.func
+    if not (isinstance(_f20q, _ast20q.Name) and _f20q.id == "land_json"):
+        continue
+    _used20q += 1
+for _n20q in _ast20q.walk(_pipe20q):
+    # A bare expression statement wrapping the call == the verdict goes nowhere.
+    if isinstance(_n20q, _ast20q.Expr) and isinstance(_n20q.value, _ast20q.Call):
+        _f20q = _n20q.value.func
+        if isinstance(_f20q, _ast20q.Name) and _f20q.id == "land_json":
+            _discarded20q.append("pipeline.py:%d" % _n20q.lineno)
+
+check("no land_json call in pipeline.py throws its write verdict away",
+      _discarded20q, [],
+      note="a bare-Expr land_json is a denied rename nobody hears; the phase then marks itself "
+           "done over the pre-write file and no run redoes it")
+check("the scan is actually finding the land_json calls (not silently matching nothing)",
+      _used20q >= 12, True,
+      note="a renamed writer would empty the list above and pass the check vacuously -- this is "
+           "the companion net standing lesson 30 asks for")
+
+# And the other half of the contract: a phase that LANDS artifacts must consult the gate.
+# Gating the writes but leaving a phase to append its own done-key would restore the whole
+# defect for that phase while the check above stayed green.
+#
+# The invariant is deliberately scoped to functions that actually write something. Four phases
+# also mark themselves done on EARLY-RETURN paths that land nothing at all -- phase_chain with
+# under ten contests on record, phase_history with no charted tiers, phase_write with nothing
+# settled enough to write. Those are correct outcomes, not skipped work, and they are reached
+# before any land_json runs; a check that forbade them outright would be demanding a verdict
+# about writes that never happened. (Reviewed at source, run #32 -- do not re-chase them.)
+_nogate20q = []
+for _fn20q in _ast20q.walk(_pipe20q):
+    if not isinstance(_fn20q, (_ast20q.FunctionDef, _ast20q.AsyncFunctionDef)):
+        continue
+    _calls20q = {_c20q.func.id for _c20q in _ast20q.walk(_fn20q)
+                 if isinstance(_c20q, _ast20q.Call) and isinstance(_c20q.func, _ast20q.Name)}
+    if "land_json" in _calls20q and "gate_done" not in _calls20q:
+        _nogate20q.append("pipeline.py:%s:%d" % (_fn20q.name, _fn20q.lineno))
+
+check("every pipeline phase that lands artifacts consults gate_done()",
+      _nogate20q, [],
+      note="gate_done is the only thing that reads the write verdicts; a phase that writes "
+           "artifacts and never calls it has opted out of the check without saying so")
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)

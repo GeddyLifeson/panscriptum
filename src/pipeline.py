@@ -483,6 +483,32 @@ def _landed(tmp, path):
     return False
 
 
+def gate_done(st, phase, landed):
+    """Mark a phase done ONLY if every artifact it wrote actually landed.
+
+    `_landed` returns its verdict precisely so callers can gate their done-keys on it, and says
+    so in its own docstring -- "the writers now return the verdict and the callers gate their
+    done-keys on it". They did not. All TWELVE `land_json` call sites discarded the verdict and
+    appended the done-key unconditionally, so a denied rename left the phase marked complete
+    sitting over a pre-write artifact, and because the done-key was already written no later run
+    ever redid it. That is exactly the silent permanent loss `_landed` was added to close,
+    reintroduced at every single call site -- the fix landed in the writer and never reached the
+    callers the docstring described.
+
+    Note the asymmetry that makes this worth gating rather than merely logging: a phase artifact
+    is read by a LATER PHASE IN THE SAME RUN (phase 6 reads phase 5's TIERS.json), so a stale
+    artifact is not one lost cycle, it is a wrong input that the next phase reports as its own
+    empty result. (m36, 2026-08-25.)
+    """
+    if all(landed):
+        st["done"].setdefault(phase, []).append("all")
+        return True
+    log(f"    phase {phase} NOT marked done: {landed.count(False)} of {len(landed)} artifact(s) "
+        f"did not land; leaving the unit open so the next run redoes it")
+    silence.note("pipeline.py:phase-not-marked-done")
+    return False
+
+
 def land_json(path, obj, indent=1, default=None):
     """Write a phase artifact atomically. Returns whether it landed.
 
@@ -1486,7 +1512,7 @@ def phase_cosmology(c, st):
     if isinstance(charted, tuple):
         charted = charted[0]
     log("phase 5 cosmology: %d sources charted across the tiers" % len(charted))
-    land_json(os.path.join(HERE, "data/TIERS.json"), charted)
+    landed = [land_json(os.path.join(HERE, "data/TIERS.json"), charted)]
 
     # classify_source takes the RECORD, not the source name -- it reads the catalogue's ORIGIN
     # entries to see what a cosmos says about its own beginning. Passing the name gave 209
@@ -1513,12 +1539,12 @@ def phase_cosmology(c, st):
         return str(v)
     kinds = collections.Counter(_kind(v) for v in grounds.values())
     log("  grounding: " + ", ".join("%s %d" % (k, n) for k, n in kinds.most_common(6)))
-    land_json(os.path.join(HERE, "data/GROUNDINGS.json"), grounds)
+    landed.append(land_json(os.path.join(HERE, "data/GROUNDINGS.json"), grounds))
 
     cen = CG.census("STANDARD")
     log("  census: %.3g worlds, %.3g in a habitable zone, %.3g civilisations extant"
         % (cen["exoplanets"], cen["habitable_zone_rocky"], cen["civilizations_extant"]))
-    land_json(os.path.join(HERE, "data/CENSUS.json"), cen)
+    landed.append(land_json(os.path.join(HERE, "data/CENSUS.json"), cen))
 
     try:
         seeds = json.load(open(os.path.join(HERE, "data/WORLDSEEDS.json"), encoding="utf-8"))
@@ -1533,9 +1559,9 @@ def phase_cosmology(c, st):
                         "map_seed": AS.map_seed(addr)}
     dupes = len(marks) - len({v["address"] for v in marks.values()})
     log("  addressed %d worlds, %d collision(s)" % (len(marks), dupes))
-    land_json(os.path.join(HERE, "data/SHELFMARKS.json"), marks)
+    landed.append(land_json(os.path.join(HERE, "data/SHELFMARKS.json"), marks))
 
-    st["done"].setdefault("cosmology", []).append("all")
+    gate_done(st, "cosmology", landed)
     st["units_done"] += 1
     save_state(st)
 
@@ -1644,11 +1670,11 @@ def phase_history(c, st):
         silence.note("pipeline.py:phase_history-loops")
         loops = None
 
-    land_json(os.path.join(HERE, "data/CHRONICLE.json"),
-              {"marks": marks, "loops": loops,
-               "contemporary": {str(k): v for k, v in sorted(groups.items())}},
-              default=str)
-    st["done"].setdefault("history", []).append("all")
+    landed = [land_json(os.path.join(HERE, "data/CHRONICLE.json"),
+                        {"marks": marks, "loops": loops,
+                         "contemporary": {str(k): v for k, v in sorted(groups.items())}},
+                        default=str)]
+    gate_done(st, "history", landed)
     st["units_done"] += 1
     save_state(st)
 
@@ -1756,7 +1782,7 @@ def phase_shelve(c, st):
                             "tier": tiersd.get(src), "rank": now,
                             "shelfmark": (marks.get(key) or {}).get("shelfmark")}
 
-    land_json(ranks_p, ranks)
+    landed = [land_json(ranks_p, ranks)]
     if promoted:
         log("phase 7 shelve: %d source(s) promoted -- %s"
             % (len(promoted), "; ".join(promoted)))
@@ -1766,9 +1792,9 @@ def phase_shelve(c, st):
             "Acquisitions Index amended by hand -- %s" % (len(pending), ", ".join(sorted(pending))))
     log("phase 7 shelve: %d entries placed, %d source(s) with no charter spine code"
         % (len(shelved), len(unspined)))
-    land_json(os.path.join(HERE, "data/SHELVES.json"),
-              {"entries": shelved, "unspined": sorted(unspined)})
-    st["done"].setdefault("shelve", []).append("all")
+    landed.append(land_json(os.path.join(HERE, "data/SHELVES.json"),
+                            {"entries": shelved, "unspined": sorted(unspined)}))
+    gate_done(st, "shelve", landed)
     st["units_done"] += 1
     save_state(st)
 
@@ -1834,12 +1860,13 @@ def phase_write(c, st):
         % (len(jobs), len(names), len(refused)))
     for r in refused[:5]:
         log("    refused: %s" % r)
+    landed = []
     if jobs:
         out = os.path.join(HERE, "output", "index", "manifest.json")
         os.makedirs(os.path.dirname(out), exist_ok=True)
-        land_json(out, jobs)
+        landed.append(land_json(out, jobs))
         log("  -> output/index/manifest.json   (run generate.py against it)")
-    st["done"].setdefault("write", []).append("all")
+    gate_done(st, "write", landed)
     st["units_done"] += 1
     save_state(st)
 
@@ -1875,26 +1902,26 @@ def phase_weave(c, st):
         f"{sum(1 for v in resolved.values() if v['n_attestations'] > 1):,} fused")
     log(f"  resonance diameter {res['diameter']} hops, six degrees: {res['six_degrees_holds']}")
 
-    land_json(os.path.join(HERE, "data/CONTINUITY_GROUPS.json"),
-              {"threshold": thr, "groups": groups}, indent=2)
-    land_json(os.path.join(HERE, "data/RESOLVED_ENTITIES.json"), resolved, indent=2)
-    land_json(os.path.join(HERE, "data/RESONANCE_GRAPH.json"),
+    landed = [land_json(os.path.join(HERE, "data/CONTINUITY_GROUPS.json"),
+                        {"threshold": thr, "groups": groups}, indent=2)]
+    landed.append(land_json(os.path.join(HERE, "data/RESOLVED_ENTITIES.json"), resolved, indent=2))
+    landed.append(land_json(os.path.join(HERE, "data/RESONANCE_GRAPH.json"),
               {"threshold": thr, "metric": "name-surprisal (bits)", "topology": res,
                "pairs": [{"a": a, "b": b, "weight": round(v, 2),
                           "shared_sample": shared[(a, b)]}   # WHOLE list -- Hard Rule 0, ruled 2026-08-24
                          for (a, b), v in sorted(w.items(), key=lambda kv: -kv[1])
-                         if v >= thr]}, indent=2)
+                         if v >= thr]}, indent=2))
 
     # The onomasticon belongs to this phase, not a later one: resolution is what reveals that
     # thirty distinct worlds are all called Earth, and a catalogue that knows this and still files
     # them under one name is worse off than before resolution ran.
     import onomast as O
     named = O.name_worlds(resolved)
-    land_json(os.path.join(HERE, "data/ONOMASTICON.json"), named, indent=2)
+    landed.append(land_json(os.path.join(HERE, "data/ONOMASTICON.json"), named, indent=2))
     endos = len({v["endonym"] for v in named.values()})
     log(f"  onomasticon: {len(named):,} worlds given designations across {endos} carried names")
 
-    st["done"].setdefault("weave", []).append("all")
+    gate_done(st, "weave", landed)
     st["units_done"] += 1
     save_state(st)
     update_handoff(st)
