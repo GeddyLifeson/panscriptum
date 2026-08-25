@@ -229,13 +229,41 @@ def sweep_detectors():
     # 4. secrets staged for the public repo
     try:
         import publish as P
-        hits = P.scan_for_secrets(P.SITE) if os.path.isdir(P.SITE) else []
+        raw = P.scan_for_secrets(P.SITE) if os.path.isdir(P.SITE) else []
+        # SUPPRESSED FINDINGS ARE REPORTED, NOT ACTIONED. `scan_for_secrets` deliberately still
+        # lists a waived finding so the waiver stays auditable -- so a caller that treats every
+        # returned row as a fault re-files a work order for something already ruled on, for ever.
+        # The push filter already made this distinction; this one did not, and the queue showed
+        # a BLOCKING order for six documented audit-report quotations.
+        hits = [h for h in raw if not str(h[2]).startswith("SUPPRESSED")]
         _fire(not hits, "SECRET_STAGED",
               "credential-shaped values staged for the PUBLIC repo: %s"
               % "; ".join("%s:%s" % (f, n) for f, n, _w in hits[:5]),
               "SESSION", "BLOCKING", found_by="publish.scan_for_secrets")
+        # The same fault filed by `publish.push` through the escalation chain, under its own code.
+        if not hits:
+            if resolve_code("SECRET_IN_EXPORT", "scanner is clean (suppressed findings excluded)",
+                            by="workorders.sweep"):
+                closed.append("SECRET_IN_EXPORT")
     except Exception:
         silence.note("workorders.py:secrets")
+
+    # 5. ORDERS FILED BY THE ESCALATION CHAIN, closed when their detector is clean again.
+    #
+    # Everything above files from a detector it can also re-run. `escalate()` files too, and
+    # those orders had NO path back to closed -- so a drill breach that was fixed minutes later
+    # left a BLOCKING order standing for ever, and a queue that only grows is one people stop
+    # reading. The drill is the authority on its own state, so ask it.
+    try:
+        drill_state = os.path.join(HERE, "state", "drill_last.json")
+        with open(drill_state, encoding="utf-8") as f:
+            last = json.load(f)
+        if not (last.get("breached") or []):
+            if resolve_code("DRILL_BREACH", "drill re-runs clean: %s/%s nets held"
+                            % (last.get("held"), last.get("nets")), by="workorders.sweep"):
+                closed.append("DRILL_BREACH")
+    except Exception:
+        silence.note("workorders.py:drill-close")
 
     return filed, closed
 
