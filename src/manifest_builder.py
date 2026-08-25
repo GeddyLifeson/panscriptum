@@ -373,6 +373,19 @@ def main():
     cfg = load_config()
     roll = load_roll(cfg)
 
+    # OWNER EXCLUSIONS ARE HONOURED HERE, which until 2026-08-25 they were not: the roll had
+    # carried `status: "out-of-scope"` since 2026-08-20 and not one module in `src/` read it, so
+    # an excluded source was still queued for generation exactly like any other. Reported by
+    # name rather than silently filtered -- a source vanishing from the manifest with no line
+    # explaining it is indistinguishable from a source the builder lost.
+    import roll as _roll
+    _excluded = _roll.out_of_scope(roll)
+    if _excluded:
+        print("excluded by owner ruling (records kept, work stopped):")
+        for _n, _why in sorted(_excluded.items()):
+            print("   %-44s %s" % ((_n or "?")[:43], _why[:90]))
+    roll = [r for r in roll if r.get("name") not in _excluded]
+
     populated = [r for r in roll if r.get("entry_count", 0) > 0]
     skipped_empty = [r["name"] for r in roll if r.get("entry_count", 0) == 0]
 

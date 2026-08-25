@@ -1360,6 +1360,80 @@ def drill_inspector():
         "the ceiling is a ratchet: lower it when you clean up, never raise it to go green")
 
 
+def drill_scope():
+    """An owner exclusion must actually exclude — the status that did nothing for five days.
+
+    `SWEEP_ROLL.json` carried `status: "out-of-scope"` on four sources from 2026-08-20, and not
+    one module in `src/` read it. The generator queued them, the cataloguer crawled them, the
+    coverage meter counted them against the library. A decision recorded where nobody reads it
+    is worse than one never taken, because the record stops anyone asking again.
+    """
+    a = "SCOPE — an owner exclusion must remove a source from WORK, not just from a list"
+
+    def exclusion_is_readable_and_reasoned():
+        """Every excluded source names why, and `roll.py` is the one place that answers."""
+        import roll
+        ex = roll.out_of_scope()
+        if not ex:
+            return True                       # nothing excluded is a lawful state
+        return all(w and "no reason recorded" not in w for w in ex.values())
+    net(a, "every excluded source carries a written reason", exclusion_is_readable_and_reasoned,
+        "an exclusion nobody can explain is a source quietly dropped")
+
+    def generator_actually_skips_an_excluded_source():
+        """The manifest builder must consult `roll`, not just read the file."""
+        src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "manifest_builder.py")
+        with open(src, encoding="utf-8") as fh:
+            text = fh.read()
+        return "out_of_scope" in text and "import roll" in text
+    net(a, "the generator consults the exclusion list before building jobs",
+        generator_actually_skips_an_excluded_source,
+        "a status string no consumer reads is a decision that did not happen")
+
+    def resync_cannot_revert_an_exclusion():
+        """THE TRAP THIS ALMOST FELL INTO. `resync_roll` rebuilds status from records on disk
+        with the rule `catalogued if n else keep` -- so an excluded source that still HAS records
+        would be silently promoted back. All four of the 2026-08-25 exclusions have records."""
+        src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resync_roll.py")
+        with open(src, encoding="utf-8") as fh:
+            text = fh.read()
+        return "OUT_OF_SCOPE" in text
+    net(a, "a routine resync cannot silently un-exclude a source",
+        resync_cannot_revert_an_exclusion,
+        "an exclusion a maintenance script can undo unnoticed is not an exclusion")
+
+    def excluded_sources_keep_their_records():
+        """Removed from work, NOT from disk. Reversing the ruling must cost one field."""
+        import roll
+        import glob as _g
+        ex = roll.out_of_scope()
+        if not ex:
+            return True
+        names = set()
+        for p in _g.glob(os.path.join(HERE, "data", "records", "*.json")):
+            try:
+                with open(p, encoding="utf-8") as fh:
+                    names.add(json.load(fh).get("source"))
+            except Exception:
+                continue
+        # At least one excluded source that HAD records must still have them. If every excluded
+        # source lost its records, "exclusion" has quietly become deletion.
+        had = [n for n in ex if n in names]
+        return bool(had) or not names
+    net(a, "an excluded source keeps its records on disk", excluded_sources_keep_their_records,
+        "withdraw MOVES, it does not unlink -- reversing a ruling must not need a re-crawl")
+
+    def unreadable_roll_does_not_exclude_the_library():
+        """`in_scope` fails OPEN, against house habit, and the reason is stated in roll.py: an
+        unreadable roll silently excluding all 215 sources would be a fault that looks exactly
+        like a completed run."""
+        import roll
+        return roll.in_scope("a source that is not in any roll", rows=[])
+    net(a, "an unreadable roll does not silently exclude everything",
+        unreadable_roll_does_not_exclude_the_library,
+        "fail-closed here would turn one bad file into a mass deletion that reports success")
+
+
 def drill_correlation():
     """The covariance term — a correction that could silently become a decoration.
 
@@ -1598,7 +1672,8 @@ def main():
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
-               drill_workorders, drill_inspector, drill_correlation, drill_outside):
+               drill_workorders, drill_inspector, drill_scope, drill_correlation,
+               drill_outside):
         fn()
 
     area = None

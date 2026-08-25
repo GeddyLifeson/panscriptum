@@ -60,7 +60,18 @@ def main():
             changed.append((r["name"], r.get("entry_count", 0), n, fn))
             if not dry:
                 r["entry_count"] = n
-                r["status"] = "catalogued" if n else r.get("status", "catalogued")
+                # AN OWNER EXCLUSION IS NOT A STALE STATUS, and this line would have reverted
+                # one. The rule below is `"catalogued" if n else keep`, so any out-of-scope
+                # source that still has records on disk -- and the four excluded on 2026-08-25
+                # have 933 entries between them -- would be quietly promoted back to
+                # `catalogued` on the next routine resync, with nothing red anywhere. An
+                # exclusion a maintenance script can undo without anyone noticing is not an
+                # exclusion. `roll.py` is the single authority on what is in scope.
+                import roll as _roll
+                if r.get("status") == _roll.OUT_OF_SCOPE:
+                    pass
+                else:
+                    r["status"] = "catalogued" if n else r.get("status", "catalogued")
 
     if changed and not dry:
         # ATOMIC: this file's own docstring warned about the roll-clobber hazard while the

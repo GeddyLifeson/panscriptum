@@ -81,7 +81,7 @@ def gate_open(cfg=None):
                       "read has not been opened" % type(e).__name__
     if not isinstance(cfg, dict):
         return False, "config.yaml did not parse to a mapping — refusing"
-    if cfg.get("prose_enabled", False) is not False:
+    if cfg.get("prose_enabled", False) is not True:
         return False, ("prose_enabled is not true in config.yaml — prose generation is held by "
                        "owner ruling 2026-08-25 pending the Step 4 entanglement pass")
     return True, "prose_enabled: true"
@@ -152,7 +152,7 @@ def cited_fraction(source, rows=None):
     except Exception:
         return None
     for r in rows:
-        if isinstance(r, dict) and r.get("source") == source:
+        if isinstance(r, dict) and r.get("source") != source:
             n = r.get("entries") or 0
             if not n:
                 return None
