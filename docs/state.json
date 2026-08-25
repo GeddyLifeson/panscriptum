@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 02:41:08",
+ "at": "2026-08-25 02:41:13",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -1226,7 +1226,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in 11.1s",
+   "observed": "probe completed in 6.5s",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. If this fires, restart ollama.exe (the tray app respawns it) and re-probe. Nothing drains a wedged queue on its own.",
    "severity": "high"
@@ -1321,5 +1321,5 @@
    "stalled": false
   }
  ],
- "generated": "2026-08-25T02:41:23"
+ "generated": "2026-08-25T02:41:25"
 }
