@@ -29,13 +29,13 @@ has the largest CLAIM. Khorne has the broadest passive pervasion. Tzeentch has t
 transgression and the worst discipline.
 """
 import argparse
-import json
 import os
 import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import assay as A                                                       # noqa: E402
+import silence                                                          # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
@@ -227,8 +227,14 @@ def main():
             for ax in A.WEIGHTS:
                 d = rec["axes"][ax]
                 print("   %-15s%5.1f  %s" % (ax, d["score"], d["cited"][:56]))
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
+    # ATOMIC, for the same reason and by the same hand as `zfighters.py:478`. That file is this
+    # one's twin -- same shape, same job, same `main()` ending in a hand-built assay dump -- and
+    # it was made atomic as "the m100 tail" on 2026-08-25 while this line was left standing. The
+    # sibling one module over is the shape lesson 14 exists for: the ruling was made, applied
+    # where someone was already looking, and the identical construction next door was never
+    # opened. `data/WH40K_ASSAYS.json` is consumed like its twin, so a crash mid-write hands a
+    # reader a truncated file. (run #27)
+    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
     print("")
     print("-> " + OUT)
     return 0

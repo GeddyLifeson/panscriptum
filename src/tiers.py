@@ -269,8 +269,21 @@ def chart(srcs=None, w=None, shared=None):
 
 
 def deliberate_joins(w, shared):
-    """The links no statistical process explains -- the evidence a xenoverse is artificial."""
-    return sorted(((v, a, b, shared.get((a, b), [])[:3])
+    """The links no statistical process explains -- the evidence a xenoverse is artificial.
+
+    THE WHOLE SHARED LIST. This returned `shared.get((a, b), [])[:3]`, which is the fourth
+    member of a family the owner ruled on 2026-08-24: `weave.py:478` and `pipeline.py:1795`
+    both carry `# WHOLE list -- Hard Rule 0, ruled 2026-08-24` on this same shared-evidence key,
+    and `cosmology_graph.py:86` was brought in line in run #26 (m144) after keeping an `< 8`
+    cap on it. This one was never visited.
+
+    It matters more here than the key name suggests. The function's own docstring calls this
+    list THE EVIDENCE that a xenoverse is artificial, and its only caller prints it as the
+    justification for that claim -- so three was the number of reasons a person could ever see
+    for a join built on nine. A cap on the evidence for a claim is not a display convenience.
+    (run #27)
+    """
+    return sorted(((v, a, b, shared.get((a, b), []))
                    for (a, b), v in w.items() if v >= DELIBERATE_JOIN), reverse=True)
 
 

@@ -354,7 +354,26 @@ def verify(entity, got, ev):
             continue
 
         # 1 VERBATIM -- the citation has to be one of the sentences we handed over.
+        #
+        # AN EMPTY CITATION USED TO PASS THIS GUARD, ALWAYS, AND TAKE THE FIRST MINED FEAT WITH
+        # IT. `_norm("")` is `""` and `"" in t` is True for every non-empty `t`, so the
+        # generator below matched on its FIRST iteration: a model that returned a number with no
+        # citation at all -- the exact thing this guard exists to refuse -- got `hit` = whichever
+        # feat happened to be first in `mined_norm`, and `text` on the next line became that
+        # unrelated sentence. Guards 2 and 3 then judged the wrong evidence, and if that
+        # arbitrary feat happened to mention the axis and name the subject, an uncited score was
+        # written into the library wearing a citation the model never made.
+        #
+        # This is the "a check that cannot fail looks exactly like a check that passed" shape,
+        # in the one place where passing means fabricated provenance. The emptiness test has to
+        # come FIRST and be its own rejection, not a special case folded into the match: a blank
+        # citation is not a citation that failed to match, it is the absence of the evidence the
+        # whole assay is built on, and it deserves to say so in `rejects`. (run #27)
         cn = _norm(cited)
+        if not cn:
+            rejects.append((ax, "no citation given"))
+            scores[ax] = A.UNESTIMABLE
+            continue
         hit = next((i for i, t in mined_norm.items()
                     if t and (t in cn or cn in t or _overlap(t, cn) > 0.6)), None)
         if hit is None:

@@ -262,16 +262,41 @@ def check_state():
                             encoding="utf-8"))
     except Exception as e:
         return [("state unreadable", str(e)[:60])]
+    # NAME THE SOURCES, NOT JUST THE COUNT. A bare `227` says a number is wrong and nothing
+    # about where to look, so the next run re-derives the breakdown by hand before it can even
+    # start diagnosing -- run #27 did exactly that, and the answer took one query: all 227 sat
+    # in ONE source. A count that is spread over forty sources and a count that is one source
+    # growing are different faults with different remedies, and this line could not tell them
+    # apart.
+    #
+    # WHY ENTRIES STRAND, since the breakdown makes it visible: the done-marker is
+    # `source#startIndex` -- a POSITIONAL key over a list that the cast-growing side mutates.
+    # Close `Gundam#0` over entries 0-19, let a cataloguer insert or re-sort entries, and that
+    # same key now claims a different twenty. The entries that slid into a closed range are
+    # never entrypassed again, because nothing re-opens a batch. Appending alone is harmless
+    # (new entries land in new, unclosed ranges); insertion and re-ordering are not.
+    #
+    # Deliberately still just a REPORT. Re-keying the marker by content would invalidate every
+    # done-marker on disk and re-run entrypass across the corpus -- real model spend on a pool
+    # that is currently the binding constraint -- so it is an owner ruling, in NEXT_STEPS.
+    # (run #27)
     done = set(st.get("done", {}).get("entrypass", []))
     B = P.ENTRY_BATCH
     orphan = 0
+    per_source = {}
     for _, r in P.records():
         E = r["entries"]
         for start in range(0, len(E), B):
             if f"{r['source']}#{start}" in done:
-                orphan += sum(1 for e in E[start:start + B] if not e.get("catalogued"))
+                n = sum(1 for e in E[start:start + B] if not e.get("catalogued"))
+                if n:
+                    orphan += n
+                    per_source[r["source"]] = per_source.get(r["source"], 0) + n
     if orphan:
-        out.append(("entries stranded in closed batches", str(orphan)))
+        # EVERY source, worst first -- not a sample. The whole point is to see the shape.
+        where = ", ".join("%s %d" % (s, n) for s, n in
+                          sorted(per_source.items(), key=lambda kv: -kv[1]))
+        out.append(("entries stranded in closed batches", "%d (%s)" % (orphan, where)))
     stale = 0
     for src in st.get("failed", {}).get("synthesis", {}):
         rec = next((r for _, r in P.records() if r["source"] == src), None)

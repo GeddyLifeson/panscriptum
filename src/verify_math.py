@@ -3537,9 +3537,33 @@ check("provider_error opens the scratch DB READ-ONLY",
       'mode=ro' in _cb22, True)
 check("provider_error is total -- a diagnostic must not kill the call it explains",
       _CB22b.provider_error("no:such:bucket:ever"), "")
+# THIS CHECK FAILED THE MOMENT THE CODE IT GUARDS WAS IMPROVED, AND NOBODY SAW IT FOR AN HOUR.
+#
+# It used to grep for the literal `record_unrecognised(pinned.bucket, raw or box.get`. Run #26
+# then added the wider enrichment lookup, which renamed that argument to `_text` -- a strictly
+# better version of the exact behaviour this check exists to protect -- and the check went red
+# on a correct fix. Worse, run #26 ran its battery BEFORE that final edit (verify_math.py mtime
+# 06:31, cascade_bridge.py 06:38) and recorded "719 passed, 0 FAILED" in the handoff, so the
+# regression shipped under a green claim and run #27 inherited it.
+#
+# Two lessons, both worth more than the check: a source-grep check FALSE-FAILS on any equivalent
+# rephrasing, and a battery result is only evidence about the tree as it stood when the battery
+# ran. Re-run it after the LAST edit, not the last interesting one.
+#
+# So this now pins the two things that actually matter and would survive a rename of either:
+# the recorded argument is NOT the engine's raw box error, and the wider explain-only lookup is
+# still wired in. (run #27)
+check("the unrecognised ledger does not record the engine's raw aggregate",
+      'record_unrecognised(pinned.bucket, box["error"])' in _cb22
+      or "record_unrecognised(pinned.bucket, box.get" in _cb22, False,
+      note="the wrapper text names no provider and affords no action -- record the unwrapped reason")
 check("the unrecognised ledger records the UNWRAPPED text",
-      "record_unrecognised(pinned.bucket, raw or box.get" in _cb22, True,
+      "record_unrecognised(pinned.bucket, _text)" in _cb22, True,
       note="otherwise the page shows the engine's aggregate, which nobody can act on")
+check("and the wider explain-only lookup that fills it is still wired in",
+      "_older = provider_error(pinned.bucket, max_age_s=" in _cb22 and "_text = _older" in _cb22,
+      True,
+      note="the 180s bench window is too narrow to EXPLAIN a burst; this is the second, wider read")
 
 print()
 print("26. §20g  A SHARED FILE IS LANDED, NEVER TRUNCATED-THEN-FILLED — the whole-tree sweep")

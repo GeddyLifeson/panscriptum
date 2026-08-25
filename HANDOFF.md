@@ -9,6 +9,98 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 07:20–08:2x (local) — Run #27 (scheduled): the throttle was never on the page, and a green battery that had already gone red
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found.** Nothing this run touched credential-bearing paths. But batch 03 read
+   `publish.py:145-164` and reports that `_scrub()`'s docstring claims it "refuses anything
+   credential-shaped" while the regex matches **8 hardcoded vendor prefixes** — AWS keys, Slack
+   tokens, generic bearer tokens and PEM blocks pass through unredacted into the published
+   repo. That is standing decision **C**, now with a measured blast radius. **It wants a ruling.**
+2. **THE POOL QUESTION IS ANSWERED, AND IT WAS NOT IN THE POOL.** Runs #16, #18 and #26 each
+   worked `model calls per hour` from the pool side and left it open. The binding constraint is
+   a semaphore in the reader: `tuning.regime()` read `local` (cloud success **33.3%** over 24
+   calls against a **35%** floor — it lost by 1.7 points), which makes `read._gate()` hand out
+   `_GATE_LOCAL` with **2 permits instead of 16**, and `read._ask` runs the *whole* transport
+   ladder inside it — including the cloud attempt, which never touches the card the gate exists
+   to protect. 900 × 2/16 = **112.5 against an observed 112**. Twelve minutes later the regime
+   crossed back, and throughput went **112 → 280** with nothing restarted. **It binds and
+   releases on its own.** Whether a starved machine should squeeze cloud calls through the
+   card's semaphore is a routing-policy question with real blast radius — **NEXT_STEPS §1.**
+3. **RUN #26's BATTERY RESULT WAS STALE, AND A REGRESSION SHIPPED UNDER IT.** `verify_math`
+   failed on arrival this run. Not from my edits: `verify_math.py` was last written 06:31 and
+   `cascade_bridge.py` 06:38, so run #26 ran its battery, then made one more edit, then recorded
+   "719 passed, 0 FAILED". The check was a **source-grep** for a literal that run #26's own
+   (correct) improvement had renamed. **A battery result is only evidence about the tree as it
+   stood when the battery ran.** Re-run after the LAST edit, not the last interesting one.
+
+**The run's shape: a cap that hid a pattern, not just data.** Run #26's lesson was a ruling
+applied to one file and not its sibling. This run's is one turn further: `standards.py:952`
+carried **three caps in one expression** on the field its own order text says to READ — `[:3]`
+rows, `[:60]` characters each, and no age at all. Fourteen unrecognised rows were open; the page
+showed three. **All fourteen were the same shape** (`All 1 candidates failed: <label>`) — one
+unnamed engine wrapper wearing fourteen bucket names — and that was invisible from three
+samples. Run #26 read the top row, chased it alone, and wrote that the rest were "genuinely
+unexplained". The cap did not merely hide eleven rows; it hid the fact that there was only ever
+one fault. Uncapped, the shape is unmistakable on sight.
+
+**And the age mattered as much as the count.** The order text ended "anything here is happening
+NOW" — false, and reassuring in the expensive direction. Rows live 24h. Every one of the
+fourteen predated the fix that resolved them, and **none had recurred since the 06:51 bounce**;
+the standing jobs restarted after run #26's commit, so the page was not a stale-import
+photograph this time. A HIGH standard reading red on a fossil field looks exactly like a fire.
+
+### Fixed this run (all verified at source before the edit; `verify_math` 721 passed, 0 FAILED)
+
+| # | What | Where |
+|---|---|---|
+| m160 | Three caps at once on the unrecognised ledger's page field, plus the false "happening NOW" order; now every row, whole text, with its age | `standards.py:952` |
+| m161 | **NEW STANDARD `the reader's gate is open`** — the throttle that decides throughput had no instrument at all; reports regime, permits and `regime.why` | `standards.py` |
+| m162 | `model calls per hour`'s order named two candidate causes and this was neither; now sends the next run to the gate first, with the arithmetic | `standards.py` |
+| m163 | An **empty citation passed the VERBATIM guard always** (`_norm("")` is `""`, `"" in t` is True) and bound the score to whichever mined feat came first — uncited scores wearing fabricated provenance | `magnitude.py:356` |
+| m164 | `verify_math`'s source-grep check false-failed on run #26's correct rename; re-pinned to the contract that matters, and widened to 3 checks | `verify_math.py:3541` |
+| m165 | Raw `open(...,'w')`+`json.dump` to `WH40K_ASSAYS.json` — twin file `zfighters.py:478` was made atomic and this one never visited | `wh40k.py:230` |
+| m166 | `deliberate_joins` capped shared evidence `[:3]` — the fourth member of the `shared_sample` family the owner ruled on 2026-08-24 | `tiers.py:271` |
+| m167 | `entries stranded in closed batches` reported a bare count; now names every source, worst first, and records why entries strand | `health.py:267` |
+
+### The comprehensive sweep — 95 modules, 40,728 lines, 16 agents, 0 uncovered
+
+`sweep_plan.missing("run27")` returns **0 uncovered**; all sixteen reports are on disk in
+`handoff/sweep27/` (12.9–29.0 KB, 336 KB total). This was a loud sweep, not a quiet one — well
+over a hundred findings, of which the verified-but-unrepaired tail is in `NEXT_STEPS.md` §3 with
+file and line. **Three independent agents converged on the pool answer from different files**
+(batch 05 derived the 112.5 arithmetic from `read.py`; batch 06 traced the router to
+`quality_first` ranking with `nvidia:free` at rank 89, explaining the near-monopoly; batch 15
+found that `foreman` kills `magnitude.py --calibrate` mid-run every hour, which is why
+`the automation reproduces the charter` sits 33h stale). That last one closes a red standard's
+cause without a guess: the producer never stopped, it is being killed before it can write.
+
+### Battery
+
+`verify_math` **721 passed, 0 FAILED** (up from 719: the repaired check plus two new ones
+pinning the enrichment lookup). `allsweep` **0 bad, exit 0**. `pyflakes` clean over `src/`.
+`silence.py` clean. `health --preflight`: **2 problems** — the pre-existing
+`feats/www_dandwiki_com: all 200 sampled entries empty` (batch 07 re-confirms the cause:
+`completeness.host_reachable()` gates on API-mode-only `endpoint.api_url()`, so RAW-mode wikis
+always read unreachable), and **a new one: 227 entries stranded in closed batches, all in one
+source (Gundam)**. Investigated on sight rather than filed: the entrypass done-marker is
+`source#startIndex`, a **positional key over a list the cast-growing side mutates**. Appending is
+harmless; insertion and re-ordering slide entries into a range already marked done, and nothing
+re-opens a batch. Re-keying by content invalidates every marker on disk and re-runs entrypass
+across the corpus — real model spend on the constrained pool — so it is a ruling, not a repair.
+
+### Bounced
+
+**Nothing needed bouncing.** The five STANDING jobs restarted at 06:51 (after run #26's 06:42
+commit) and this run changed `standards.py`, `magnitude.py`, `verify_math.py`, `wh40k.py`,
+`tiers.py` and `health.py` — none of which is a launch-time import of a live long-running job in
+a way that affects its current work, and `cascade_bridge.py` was deliberately **not** touched.
+`read.py` was left alone (outside `STANDING`, open bug M15). Process matching used
+`Get-CimInstance` on start time, never a literal my own command line contains.
+
+---
+
 ## 2026-08-25 06:20–07:0x (local) — Run #26 (scheduled): the caps that outlived their own owner ruling, and a de-duplication key that could not tell case from meaning
 
 **FOR THE OWNER, AT THE TOP:**

@@ -7,6 +7,41 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M19] THE READER THROTTLES THE WHOLE POOL THROUGH THE GPU CARD'S SEMAPHORE, AND NOTHING ON
+  THE PAGE SAID SO.** Found run #27, measured end to end, and it is the answer runs #16, #18 and
+  #26 all went looking for in the pool. `read._ask` (`read.py:327-337`) selects a gate with
+  `read._gate()` and runs the **entire** transport ladder inside it — including the Cascade cloud
+  attempt. When `tuning.regime()` returns anything but `"cloud"`, that gate is `_GATE_LOCAL`,
+  whose width is `GATE_LOCAL_N` = the **card's** parallelism (`OLLAMA_NUM_PARALLEL`, 2 here), not
+  `GATE_CLOUD_N` (16). So at most two model calls of any kind are in flight, and
+  `tuning.profile()` drops the worker count to match.
+  **Measured 2026-08-25 07:35:** `regime` = `local` because cloud success was **33.3% over 24
+  calls** against `CLOUD_MIN_SUCCESS` = **0.35** — a 1.7-point loss. Ceiling = 900 × 2/16 =
+  **112.5/h**; observed **112/h**, with all four pool sub-standards green and 29 buckets holding
+  headroom. **At 07:47 the regime crossed back to `cloud` and throughput went 112 → 280** with
+  nothing restarted: it binds and releases on its own.
+  **Self-feeding:** a narrow gate makes few calls, few calls make a small noisy sample, and a bad
+  sample keeps the gate narrow. Batch 06 adds that the sample is dominated by the one or two
+  buckets `quality_first` ranking sends nearly all traffic to, so it is not really "the pool's"
+  health being measured.
+  **Now visible:** the new `the reader's gate is open` standard (m161) reports regime, permits and
+  `regime.why`, and `model calls per hour`'s order text sends the reader there first (m162).
+  **Why NOT patched:** acquiring the local gate only around the local call changes concurrency
+  against a shared GPU *and* a free-tier pool at once. **Owner ruling needed — NEXT_STEPS §1.**
+
+- **[M20] THE ENTRYPASS DONE-MARKER IS A POSITIONAL KEY OVER A LIST THAT ANOTHER WRITER
+  MUTATES.** Found run #27 by `health --preflight`, which went from 1 problem to 2. `check_state`
+  (`health.py:256`) counts entries with no `catalogued` flag sitting inside a batch already
+  recorded done. **227 stranded, every one in a single source (`Gundam (all centuries, incl. G
+  Gundam)`).** The marker is `f"{source}#{start}"` — an INDEX. Close `Gundam#0` over entries
+  0-19, then let the cast-growing side insert or re-sort, and that key now claims a different
+  twenty; whatever slid into a closed range is never entrypassed, because nothing re-opens a
+  batch. Appending alone is harmless — new entries land in new, unclosed ranges — so this only
+  bites on insertion or re-ordering, which is why it appeared in one source and not the corpus.
+  Same class as the truncated/positional dict keys already fixed at m37 and still open at
+  `chain.py:354`. **Why NOT patched:** re-keying by content invalidates every done-marker on disk
+  and re-runs entrypass across the corpus — real model spend on a pool that is currently the
+  binding constraint. **Owner ruling needed — NEXT_STEPS §1.**
 - **[M18] `axis_score()` RETURNS A FLAT 9.9 FOR EVERY INPUT AT M10, AND `ledger.py` RESOLVES THE
   SAME EDGE CASE A DIFFERENT, INCOMPATIBLE WAY.** Found by the run #21 `assay.py` audit (first
   end-to-end read of the file), **verified numerically before filing**: `A.axis_score(x, "M10",

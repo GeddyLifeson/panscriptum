@@ -351,6 +351,12 @@ def check(state=None):
     per_hour = tp.get("per_hour", 0)
     out.append(_s(
         "model calls per hour", per_hour >= MIN_CALLS_PER_HOUR, per_hour, MIN_CALLS_PER_HOUR,
+        "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks "
+        "them. If it is red the reader is throttling itself and the pool is not the cause at "
+        "all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is "
+        "900 * 2/16 = 112 an hour, and every standard below can read green while it binds. "
+        "That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this "
+        "number from the pool side. Only once the gate is open do the four below apply. "
         "Work the four standards below in order -- they split this one number into its causes. "
         "If all four hold and throughput is still low there are TWO candidates, and the four "
         "standards can only see one of them. Either the reader is not asking (check that "
@@ -427,6 +433,67 @@ def check(state=None):
             "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds "
             "that provider's token cap, a 401 means a dead key, a 429 means real contention.",
             "medium", "pool"))
+
+    # THE THROTTLE THAT DECIDES THROUGHPUT IS NOT ON THIS PAGE, AND IT IS THE ANSWER TODAY.
+    #
+    # Measured run #27, and it closes the pool question runs #16, #18 and #26 all worked with
+    # the wrong instrument. `model calls per hour` read 112 against a floor of 900 while all
+    # four sub-standards above read GREEN and 29 buckets held headroom. None of them can see
+    # why, because the binding constraint is not in the pool at all -- it is a semaphore in the
+    # reader:
+    #
+    #   tuning.regime()  -> "local"   (cloud success 33.3% over 24 calls, floor 35% -- it lost
+    #                                  by 1.7 points)
+    #   read._gate()     -> _GATE_LOCAL, which holds GATE_LOCAL_N = 2 permits, not 16
+    #   tuning.profile() -> workers 2, not 16
+    #
+    # and `read._ask` runs the WHOLE transport ladder inside that gate -- including the cloud
+    # attempt, which never touches the card the gate exists to protect. Two calls in flight
+    # instead of sixteen is 1/8th the rate, and 900/8 = 112.5 against an observed 112.
+    #
+    # That last arithmetic is why this standard exists rather than a comment. The number was
+    # derivable from two other numbers all along and nothing on the page multiplied them, so
+    # three runs read four green sub-standards under a red headline and went looking in the
+    # pool. THE ORDER TEXT ON `model calls per hour` NAMED TWO CANDIDATE CAUSES AND THIS WAS
+    # NEITHER; it has been amended to send the next run here first.
+    #
+    # IT OSCILLATES, AND THAT IS THE STRONGEST EVIDENCE THERE IS. Twelve minutes after the
+    # measurement above, the same three calls read `cloud`, 16 of 16 permits, 53% ok over 70
+    # calls -- and `model calls per hour` had gone 112 -> 280 with nothing changed and nothing
+    # restarted. The regime had crossed back over a 35% threshold it lost by 1.7 points, and
+    # throughput moved with it. So this is not a stuck switch to be flipped once; it is a
+    # constraint that binds and releases on its own, which is precisely why a snapshot standard
+    # is the right instrument and why reading `model calls per hour` alone can never explain it.
+    #
+    # DELIBERATELY A REPORT, NOT A REMEDY. Whether a starved machine SHOULD squeeze cloud calls
+    # through the card's semaphore is a routing-policy question with real blast radius (it sets
+    # concurrency against a shared GPU and a free-tier pool at once), and it is in NEXT_STEPS
+    # for the owner. This standard only makes the state legible; it changes no routing. It reads
+    # green whenever the gate is wide, so on a healthy cloud regime it costs nothing.
+    try:
+        import tuning as _T
+        import read as _R
+        _regime = _T.regime()
+        _gate_n = _R.GATE_CLOUD_N if _regime == "cloud" else _R.GATE_LOCAL_N
+        out.append(_s(
+            "the reader's gate is open", _regime == "cloud",
+            "%s, %d of %d permits (%s)" % (_regime, _gate_n, _R.GATE_CLOUD_N, _T.profile()["why"]),
+            "cloud regime, full width",
+            "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN "
+            "IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- "
+            "inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N "
+            "wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the "
+            "CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls "
+            "of ANY kind are in flight -- and `tuning.profile()` drops the worker count to "
+            "match. Multiply it out before blaming the pool: ceiling = floor * "
+            "GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names "
+            "the exact measurement that chose the regime -- read it, because the usual cause is "
+            "the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is "
+            "a self-feeding loop: a narrow gate makes few calls, few calls make a small and "
+            "noisy sample, and a bad sample keeps the gate narrow.",
+            "high", "pool"))
+    except Exception:
+        silence.note("standards.py:reader-gate")
 
     # ------------------------------------------------------------------ the corpus read
     read = jobs.get("corpus read")
