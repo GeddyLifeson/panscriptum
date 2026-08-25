@@ -1574,7 +1574,7 @@ def main():
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
-               drill_workorders, drill_inspector, drill_outside):
+               drill_workorders, drill_inspector, drill_correlation, drill_outside):
         fn()
 
     area = None
