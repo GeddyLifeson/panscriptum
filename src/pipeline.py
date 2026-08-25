@@ -458,6 +458,7 @@ def write_record_catalogue(path, rec):
         log(f"    write_record_catalogue: {os.path.basename(path)} could not be read for "
             f"merge; REFUSING to write an unmerged cast over it -- this unit stays open")
         return False
+    stamp_record(rec, "pipeline.write_record_catalogue")
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(rec, f, indent=2, ensure_ascii=False)
@@ -559,10 +560,69 @@ def write_record(path, rec):
         log(f"    write_record: {os.path.basename(path)} could not be read for merge; "
             f"REFUSING to write the in-memory copy over it -- this unit stays open")
         return False
+    stamp_record(merged, "pipeline.write_record")
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(merged, f, indent=2, ensure_ascii=False)
     return _landed(tmp, path)
+
+
+# ------------------------------------------------- the two-writer contract, made checkable
+#
+# The contract is old and sound: records are written by `write_record` (pipeline side) or
+# `write_record_catalogue` (cast-growing side), and by nothing else. What it never had was a way
+# to NOTICE a violation. Eight-plus modules touch `data/records`, and a third writer leaves no
+# trace at all -- the file simply differs from what the sanctioned writers would have produced,
+# which is indistinguishable from ordinary progress.
+#
+# M24 made that concrete: `local_agent.propose_patch` could edit a record directly, and every
+# gate it passed (parse, lint, import, verify_math) was green, because those gates check that a
+# patch is well-formed rather than that it came through the right door.
+#
+# So each sanctioned write now leaves a stamp naming its writer and a digest of the entry names
+# it wrote. A later reader can ask whether the file still matches its own stamp. This is a
+# DETECTOR, deliberately, not a lock -- a lock on a JSON file on the owner's own disk would be
+# theatre, and the failure worth catching is the silent one, not the determined one.
+def _entry_digest(rec):
+    import hashlib
+    names = [str((e or {}).get("name", "")) for e in (rec.get("entries") or [])
+             if isinstance(e, dict)]
+    h = hashlib.sha1()
+    h.update(("\n".join(names)).encode("utf-8"))
+    return h.hexdigest()[:16]
+
+
+def stamp_record(rec, writer):
+    """Record who wrote this and what it contained. Called by the sanctioned writers only."""
+    if not isinstance(rec, dict):
+        return rec
+    rec["_writer"] = {"by": writer, "entries": len(rec.get("entries") or []),
+                      "digest": _entry_digest(rec)}
+    return rec
+
+
+def verify_record_provenance(rec):
+    """-> (state, detail). Does this record still match the stamp its writer left?
+
+    Three outcomes, and the middle one matters most:
+      OK        stamped, and the stamp still describes the file
+      UNSTAMPED written before stamping existed, or by something that does not stamp. NOT an
+                accusation -- most of the corpus predates this -- but it is not evidence of
+                good provenance either, and it must never be reported as OK.
+      DRIFTED   stamped, and the content no longer matches. Something wrote this file that was
+                not the writer that stamped it.
+    """
+    if not isinstance(rec, dict):
+        return "UNSTAMPED", "not a record"
+    st = rec.get("_writer")
+    if not isinstance(st, dict):
+        return "UNSTAMPED", "no writer stamp"
+    n = len(rec.get("entries") or [])
+    if st.get("entries") != n:
+        return "DRIFTED", ("stamp says %s entries, file has %d" % (st.get("entries"), n))
+    if st.get("digest") != _entry_digest(rec):
+        return "DRIFTED", "entry names changed since the stamp was written"
+    return "OK", "written by %s" % st.get("by")
 
 
 # ------------------------------------------------------------------------------- phase 1

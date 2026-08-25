@@ -303,6 +303,32 @@ def refresh_coverage():
     return r.returncode == 0, "coverage recomputed" if r.returncode == 0 else "coverage failed"
 
 
+def _restartable(frag):
+    """Will something bring this job back PROMPTLY if it is killed? (owner finding 2026-08-25)
+
+    Derived from the keeper's STANDING set -- the same single roster m49 established as the one
+    authority on which jobs are re-asserted, so this cannot drift into a second hand-kept list.
+    A job in it returns within 300s. A job outside it waits for the supervisor's main lap, which
+    has been measured at 42-44 minutes typically and four hours at worst.
+
+    Used to REFUSE a kill rather than to caption one. `_restart_horizon` below already knew this
+    distinction and only ever printed it; knowing a kill will cost four hours and doing it anyway
+    is not a remedy, it is the breach of a different standard.
+    """
+    try:
+        import overnight as _ON
+        for _n, args, _l in _ON.STANDING:
+            base = os.path.basename(args[0]) if args else ""
+            if base and (base in frag or frag in " ".join(args)):
+                return True
+    except Exception:
+        silence.note("foreman.py:restartable")
+        # FAIL CLOSED: if the roster cannot be read we cannot show the job comes back, and the
+        # safe answer to "may I kill this?" when the answer is unknown is no.
+        return False
+    return False
+
+
 def _restart_horizon(frag):
     """How long "the supervisor restarts it" actually means for THIS job. Say the true number.
 
@@ -424,6 +450,7 @@ def kill_stalled_job():
     owners = {fn[:-4]: frag for fn, frag in _LN.OWNER.items()}
 
     killed = []
+    unrestartable = []        # stalled, but nothing would bring it back -- reported, not killed
     hit_frags = []            # the OWNER fragment of each job actually killed, for the horizon
     for job in names:
         frag = owners.get(job)
@@ -445,18 +472,54 @@ def kill_stalled_job():
                 pid = int(m.group(1))
                 if pid == os.getpid():
                     continue
+                # NEVER KILL WHAT YOU CANNOT RESTART (owner finding, 2026-08-25).
+                #
+                # This remedy exists to satisfy "every running job is advancing". For a STANDING
+                # job that is a clean trade: the keeper has it back in 300s and a wedged unit is
+                # lost. For a job OUTSIDE the standing set it is not a trade at all -- nothing
+                # restarts it until the supervisor's next main lap, "42-44 min typically and 4h
+                # at worst", and this function's own log line SAID SO while killing it anyway.
+                #
+                # Measured cost the day it was found: `read.py` was killed at 10:59 and stayed
+                # dead. Every library counter -- cited, settled, feats, entries read -- was flat
+                # for the whole window. So the remedy for one standard directly BREACHED another
+                # ("the library's counters are moving"), which is standing lesson 10 exactly: a
+                # guard failing by doing the thing it guards against.
+                #
+                # A stalled job that cannot be restarted is REPORTED, not killed. A stall costs
+                # one wedged unit; an unrestartable kill costs hours of throughput, and the
+                # second is strictly worse than the thing being remedied.
+                if not _restartable(frag):
+                    unrestartable.append("%s:%d" % (job, pid))
+                    continue
                 try:
                     os.kill(pid, signal.SIGTERM)
                     killed.append(job + ":" + str(pid))
                     hit_frags.append(frag)
                 except Exception:
                     silence.note("foreman.py:kill_stalled-kill")
+    spared = ""
+    if unrestartable:
+        # A stalled job nothing would restart is escalated, not silently left. SUPERVISOR rung:
+        # it is one job's problem, not the library's, and it must not halt the park.
+        spared = ("; SPARED (stalled but nothing restarts them, so killing costs more than the "
+                  "stall): " + ", ".join(unrestartable))
+        try:
+            import escalation as _ESC
+            _ESC.escalate(_ESC.SUPERVISOR, "STALLED_UNRESTARTABLE",
+                          "stalled and deliberately NOT killed, because nothing would bring them "
+                          "back promptly: " + ", ".join(unrestartable),
+                          evidence={"jobs": unrestartable}, who="foreman.kill_stalled_job")
+        except Exception:
+            silence.note("foreman.py:kill_stalled-escalate")
     if killed:
         # Name the horizon PER JOB: this remedy can kill a STANDING job (pipeline, back in 300s)
         # and a main-lap job (read, roll) in the same breath, and one blanket clause cannot be
         # true of both. See _restart_horizon.
         horizons = "; ".join(sorted({_restart_horizon(f) for f in hit_frags}))
-        return True, "killed stalled " + ", ".join(killed) + "; " + horizons
+        return True, "killed stalled " + ", ".join(killed) + "; " + horizons + spared
+    if unrestartable:
+        return False, "no job killed" + spared
     return False, "stalled jobs found but no process matched: " + ", ".join(names)
 
 

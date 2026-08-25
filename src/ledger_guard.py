@@ -1,0 +1,143 @@
+"""LEDGER GUARD — the relay's own integrity, checked rather than trusted.
+
+WHY THE LEDGERS NEEDED NETS AND HAD NONE.
+
+Every maintenance run is a fresh session with no memory of the last one. What survives is four
+files -- `HANDOFF.md`, `BUGS.md`, `NEXT_STEPS.md`, `MAINTENANCE.md` -- and they are the ONLY
+thing carrying continuity. That makes them the highest-leverage target in the project and, until
+2026-08-25, the least defended: `HANDOFF.md` was append-only *by convention*, `NEXT_STEPS.md` is
+overwritten wholesale every run, and nothing anywhere parsed `BUGS.md` for structure.
+
+The failure mode is specific and nasty. A run that truncates `HANDOFF.md`, or writes a
+`NEXT_STEPS.md` that is empty or garbled, does not crash anything. It poisons **every future
+run**, silently, because the next run reads it as fact and has nothing to compare it against.
+That is the exact profile the owner's rule selects for: a failure that is silent AND outlives the
+run that caused it.
+
+THREE INDEPENDENT SYSTEMS, per the standing doctrine:
+
+  1. APPEND-ONLY, ENFORCED. `HANDOFF.md` is history. New content must CONTAIN the old, verbatim.
+     Not "be longer than" -- longer is what a truncation plus a large new entry looks like.
+  2. STRUCTURE, PARSED. `BUGS.md` must have its three sections, and no bug id may appear in both
+     Open and Resolved. That second check has been run BY HAND at the end of every session in
+     this project's history, which is a good sign it should not have been a manual step.
+  3. SUBSTANCE, MEASURED. A ledger that exists but says nothing is indistinguishable from a
+     healthy one to any check that only asks "does the file parse". Each has a floor.
+
+These are deliberately cheap -- string containment and a section split, no model, no network --
+because a guard that costs anything gets skipped on the run that most needed it.
+"""
+import os
+import re
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+APPEND_ONLY = ("HANDOFF.md",)
+# Floors, set well below the current sizes so ordinary editing never trips them. They exist to
+# catch a TRUNCATION -- a file that lost its history -- not to police how much a run writes.
+MIN_BYTES = {"HANDOFF.md": 20000, "BUGS.md": 8000, "NEXT_STEPS.md": 3000,
+             "MAINTENANCE.md": 5000}
+REQUIRED_SECTIONS = {"BUGS.md": ("## Open", "## Resolved")}
+
+
+class LedgerViolation(RuntimeError):
+    """A ledger was about to lose something. Raised before the write, never after."""
+
+
+def _read(name):
+    p = os.path.join(HERE, name)
+    try:
+        with open(p, encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        return None
+
+
+def check_append_only(name, new_text):
+    """-> (ok, reason). Would this write LOSE history?
+
+    Containment, not length. A run that truncated the file and then appended a long entry
+    produces a LONGER file, so a size comparison would wave it through -- and that is precisely
+    the shape a botched overwrite takes.
+    """
+    if name not in APPEND_ONLY:
+        return True, "%s is not append-only" % name
+    old = _read(name)
+    if old is None:
+        return True, "%s does not exist yet" % name
+    if old.strip() and old not in (new_text or ""):
+        return False, ("%s is append-only and this write does not contain the existing file. "
+                       "History is the whole value of a relay ledger; a run that cannot see the "
+                       "last run's entry is a run starting from nothing." % name)
+    return True, "history preserved"
+
+
+def check_structure(name, text=None):
+    """-> (ok, [problems]). Sections present, floors met, and no bug filed in two places."""
+    text = text if text is not None else _read(name)
+    problems = []
+    if text is None:
+        return False, ["%s is missing entirely" % name]
+    floor = MIN_BYTES.get(name)
+    if floor and len(text.encode("utf-8")) < floor:
+        problems.append("%s is %d bytes, below the %d-byte floor — a ledger this short has lost "
+                        "something" % (name, len(text.encode("utf-8")), floor))
+    for sec in REQUIRED_SECTIONS.get(name, ()):
+        if sec not in text:
+            problems.append("%s has no '%s' section" % (name, sec))
+    if name == "BUGS.md" and "## Open" in text and "## Resolved" in text:
+        i, j = text.find("## Open"), text.find("## Resolved")
+        watch = text.find("## Watching")
+        op = text[i:(watch if 0 < watch < j else j)]
+        res = text[j:]
+        both = sorted(set(re.findall(r"\[([Mm]\d+)\]", op))
+                      & set(re.findall(r"\[([Mm]\d+)\]", res)))
+        if both:
+            problems.append("these bug ids are in BOTH Open and Resolved: %s — a resolved bug "
+                            "left in Open is how the Open section rots" % ", ".join(both))
+    return (not problems), problems
+
+
+def check_all():
+    """-> {name: [problems]} across every ledger. Empty dict is the good state."""
+    out = {}
+    for name in list(MIN_BYTES):
+        ok, problems = check_structure(name)
+        if not ok:
+            out[name] = problems
+    return out
+
+
+def assert_intact():
+    """Raise unless every ledger is whole. Called by `publish` before anything is pushed.
+
+    The ledgers travel to the PUBLIC repo with everything else, so a truncated HANDOFF or a
+    BUGS.md with a resolved bug still sitting in Open does not just mislead the next run -- it
+    is published. This is the enforcing wrapper; `check_all` is the reporting one, and both
+    exist because a checker with no caller is a checker that never runs.
+    """
+    bad = check_all()
+    if bad:
+        raise LedgerViolation(
+            "the relay's ledgers are not intact:\n"
+            + "\n".join("  %s: %s" % (n, "; ".join(p)) for n, p in sorted(bad.items())))
+    return True
+
+
+def main():
+    import argparse
+    ap = argparse.ArgumentParser(description="check the relay's ledgers")
+    ap.parse_args()
+    bad = check_all()
+    if not bad:
+        print("ledgers: all intact")
+        return 0
+    for name, problems in sorted(bad.items()):
+        print("%s:" % name)
+        for p in problems:
+            print("   " + p)
+    return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

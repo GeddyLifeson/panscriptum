@@ -146,10 +146,59 @@ COPY_FILES = ("CLAUDE.md", "README.md", "config.yaml", "requirements.txt",
 SKIP_SUFFIX = (".pyc", ".presilence", ".prebandfix", ".precapfix", ".prefix", ".prepool",
                ".preprobe", ".prewiden", ".prewindow", ".bak", ".tmp", ".orig")
 
+# THE VENDOR LIST — first of three independent locks. Widened 2026-08-25 after an audit
+# enumerated what walked past the original eight prefixes into the PUBLIC repo unredacted: AWS
+# access and secret keys, Slack tokens, generic Bearer tokens, PEM private-key blocks, JWTs,
+# Stripe live and test keys, database URLs with inline credentials, and Discord/npm/Twilio/
+# SendGrid tokens. The docstring already promised to refuse "anything credential-shaped", which
+# is the dangerous half: a claim that reads as a guarantee while covering eight vendors.
 _SECRET = re.compile(
     r"(sk-[A-Za-z0-9_\-]{16,}|gsk_[A-Za-z0-9]{20,}|AIza[A-Za-z0-9_\-]{20,}|"
-    r"github_pat_[A-Za-z0-9_]{20,}|ghp_[A-Za-z0-9]{20,}|hf_[A-Za-z0-9]{20,}|"
-    r"xai-[A-Za-z0-9]{20,}|csk-[A-Za-z0-9]{20,})")
+    r"github_pat_[A-Za-z0-9_]{20,}|ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|"
+    r"ghs_[A-Za-z0-9]{20,}|hf_[A-Za-z0-9]{20,}|"
+    r"xai-[A-Za-z0-9]{20,}|csk-[A-Za-z0-9]{20,}|"
+    # AWS: AKIA/ASIA access-key ids, and secret keys named in an assignment
+    r"A(?:KIA|SIA)[0-9A-Z]{16}|"
+    r"(?i:aws_secret_access_key)[\"' :=]+[A-Za-z0-9/+=]{40}|"
+    # Slack, Stripe, Discord, npm, Twilio, SendGrid
+    r"xox[abposr]-[A-Za-z0-9\-]{10,}|"
+    r"sk_(?:live|test)_[A-Za-z0-9]{16,}|rk_(?:live|test)_[A-Za-z0-9]{16,}|"
+    r"dop_v1_[A-Za-z0-9]{32,}|npm_[A-Za-z0-9]{32,}|"
+    r"SG\.[A-Za-z0-9_\-]{16,}\.[A-Za-z0-9_\-]{16,}|"
+    r"SK[0-9a-fA-F]{32}|"
+    # PEM private key blocks, JWTs, and Bearer tokens
+    r"-----BEGIN [A-Z ]*PRIVATE KEY-----|"
+    r"eyJ[A-Za-z0-9_\-]{10,}\.eyJ[A-Za-z0-9_\-]{10,}\.[A-Za-z0-9_\-]{10,}|"
+    r"(?i:bearer)\s+[A-Za-z0-9_\-\.=]{24,}|"
+    # a connection string carrying inline credentials
+    r"(?i:postgres|postgresql|mysql|mongodb(?:\+srv)?|redis|amqp)://[^\s:@/]+:[^\s:@/]+@)")
+
+# LOCK TWO — SHAPE-BLIND. Every pattern above shares one weakness: it only knows the secrets
+# somebody thought of, and the audit's whole finding was a list that had not kept up. This
+# catches a long, high-entropy token by its STATISTICS instead of its prefix, so a vendor nobody
+# has heard of is still caught the first time. Deliberately conservative -- the corpus is full of
+# legitimate long strings (hashes, addresses, base64 page text), so this only fires on a value
+# sitting in an assignment next to a credential-ish NAME, which is where a real key leaks from.
+_SECRET_ASSIGN = re.compile(
+    r"(?i)\b([a-z0-9_\-]*(?:secret|passwd|password|token|api[_\-]?key|access[_\-]?key|"
+    r"private[_\-]?key|credential|auth)[a-z0-9_\-]*)\s*[:=]\s*[\"']?([^\s\"',}]{16,})")
+
+
+def _entropy(s):
+    """Shannon entropy per character. A real key is near-random; a sentence is not."""
+    if not s:
+        return 0.0
+    import math as _m
+    n = float(len(s))
+    counts = {}
+    for ch in s:
+        counts[ch] = counts.get(ch, 0) + 1
+    return -sum((c / n) * _m.log((c / n), 2) for c in counts.values())
+
+
+# Above this, a 16+ character value in a credential-named field is treated as a live secret.
+# English prose runs ~3.5-4.0 bits/char; base64 and hex keys run 4.5-6.0.
+SECRET_ENTROPY_BITS = 4.0
 
 
 def _scrub(obj):
@@ -164,8 +213,98 @@ def _scrub(obj):
     if isinstance(obj, list):
         return [_scrub(v) for v in obj]
     if isinstance(obj, str):
-        return _SECRET.sub("[redacted]", obj)
+        return scrub_text(obj)
     return obj
+
+
+# A line carrying this marker is a DELIBERATE example -- a drill fixture, an audit report
+# quoting a pattern, documentation of what a leak looks like. Without it the scanner blocks
+# every publish on its own test data, which is the fastest way to get a security check disabled
+# by the people it protects. The marker must be on the same line, so it cannot silence a region.
+FIXTURE_MARKER = "SECRET-FIXTURE"
+
+
+# PATTERNS THAT ARE AMBIGUOUS BY SHAPE, and must therefore also look random. Only two, and both
+# earned their place by producing a false positive on the real corpus the first time the scanner
+# ran: mined He-Man wiki text contains `sk-age-of-apocalypse` (a slug), and an audit report
+# contains `postgres://user:pass@` (documentation of what a leak looks like). Everything else in
+# `_SECRET` is unambiguous by STRUCTURE -- an AWS key id, a PEM header, a JWT, a Slack token --
+# and must never be entropy-gated, because a structural match is already proof.
+#
+# Getting this wrong in the other direction is worse and I did it first: gating every pattern on
+# entropy cleared an AWS access-key id, a PEM private-key header and a live database
+# URL, because none of them are random-looking. The drill caught all three immediately.
+_AMBIGUOUS = re.compile(r"^(sk-|[a-z+]+://)")
+# Credential pairs that are obviously placeholders in documentation.
+_PLACEHOLDER_CREDS = re.compile(
+    r"(?i)://(user|username|admin|root|me|you|someone|example|test|foo)"
+    r":(pass|passwd|password|secret|hunter2|changeme|example|test|bar)@")   # SECRET-FIXTURE
+
+
+def _is_real_secret(text):
+    """Does this matched value look like a KEY rather than like prose or documentation?"""
+    if not _AMBIGUOUS.match(text):
+        return True                       # structural match -- shape alone is proof
+    if _PLACEHOLDER_CREDS.search(text):
+        return False                      # `postgres://user:pass@` is documentation
+    core = re.sub(r"^(sk-)", "", text)
+    core = re.sub(r"^[a-z+]+://", "", core)
+    return _entropy(core) >= SECRET_ENTROPY_BITS
+
+
+def scrub_text(s):
+    """Both locks, applied to one string. Named and public so the DRILL can attack it."""
+    if FIXTURE_MARKER in s:
+        return s
+
+    def _vendor(m):
+        return "[redacted]" if _is_real_secret(m.group(0)) else m.group(0)
+    out = _SECRET.sub(_vendor, s)
+
+    def _maybe(m):
+        name, val = m.group(1), m.group(2)
+        if _entropy(val) >= SECRET_ENTROPY_BITS:
+            return "%s=[redacted]" % name
+        return m.group(0)
+    return _SECRET_ASSIGN.sub(_maybe, out)
+
+
+def scan_for_secrets(root, max_bytes=2_000_000):
+    """LOCK THREE — read what is about to be PUBLISHED, not what we meant to publish.
+
+    The two locks above run on the snapshot dict. This one walks the files actually staged in
+    the export copy, which is the only thing that is true about what reaches the public repo: a
+    file copied wholesale (`COPY_FILES`, `COPY_DIRS`) never passes through `_scrub` at all, so
+    the first two locks have nothing to say about it. A log excerpt pasted into HANDOFF.md, a
+    provider error quoted in BUGS.md, a config committed by hand -- all arrive this way.
+
+    Returns a list of (relative path, line number, what matched). Empty is the good state.
+    """
+    hits = []
+    for base, _dirs, files in os.walk(root):
+        if ".git" in base.replace("/", os.sep).split(os.sep):
+            continue
+        for f in sorted(files):
+            p = os.path.join(base, f)
+            try:
+                if os.path.getsize(p) > max_bytes:
+                    continue
+                with open(p, encoding="utf-8", errors="replace") as fh:
+                    text = fh.read()
+            except OSError:
+                continue
+            for i, line in enumerate(text.splitlines(), 1):
+                if FIXTURE_MARKER in line:
+                    continue
+                mv = _SECRET.search(line)
+                if mv and _is_real_secret(mv.group(0)):
+                    hits.append((os.path.relpath(p, root), i, "vendor pattern"))
+                    continue
+                m = _SECRET_ASSIGN.search(line)
+                if m and _entropy(m.group(2)) >= SECRET_ENTROPY_BITS:
+                    hits.append((os.path.relpath(p, root), i,
+                                 "high-entropy value in '%s'" % m.group(1)))
+    return hits
 
 
 def snapshot():
@@ -304,6 +443,36 @@ def push(message=None):
     and reported, never forced -- the next loop retries on a fresh read of the tree."""
     if not os.path.isdir(os.path.join(SITE, ".git")):
         raise RuntimeError("export is not a repo yet -- run --init --remote first")
+
+    # LOCK THREE, AT THE LAST POSSIBLE MOMENT. This is the only step in the whole project whose
+    # failure is IRREVERSIBLE and OUTWARD-FACING: a key pushed to a public repo is public even
+    # if the next commit removes it. So the staged tree is read as it actually stands, after
+    # every copy and every snapshot write, and a hit REFUSES THE PUSH rather than redacting --
+    # a secret in a source file is not something to quietly rewrite behind the author's back.
+    # The ledgers travel with everything else, so a truncated HANDOFF is not merely a lost relay
+    # -- it is a published one. Checked here, at the same last moment as the secret scan.
+    try:
+        import ledger_guard as _LG
+        _LG.assert_intact()
+    except ImportError:
+        pass
+
+    leaks = scan_for_secrets(SITE)
+    if leaks:
+        import escalation as _ESC
+        _ESC.escalate(_ESC.OWNER, "SECRET_IN_EXPORT",
+                      "publish refused: %d credential-shaped value(s) staged for the PUBLIC "
+                      "repo. First: %s:%s (%s)"
+                      % (len(leaks), leaks[0][0], leaks[0][1], leaks[0][2]),
+                      evidence=[{"file": f, "line": n, "why": w} for f, n, w in leaks[:20]],
+                      who="publish.py")
+        raise RuntimeError(
+            "PUBLISH REFUSED — %d credential-shaped value(s) are staged for the public repo:\n"
+            % len(leaks)
+            + "\n".join("    %s:%s  %s" % (f, n, w) for f, n, w in leaks[:10])
+            + "\nNothing was pushed, and the library has been halted. Remove the value, then "
+              "clear the halt with a ruling. If it is a false positive, say so in the ruling.")
+
     git("add", "-A")
     porcelain = git("status", "--porcelain")
     if not porcelain:

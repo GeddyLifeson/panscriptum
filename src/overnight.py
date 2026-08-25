@@ -847,6 +847,32 @@ def main():
             log(f"  cycle took {snap['cycle_seconds']}s -- nothing worked "
                 f"({idle}/{IDLE_LIMIT} in a row)")
             if idle >= IDLE_LIMIT:
+                # A HALTED LIBRARY IS NOT A BROKEN ONE, AND MUST NOT BE TREATED AS ONE.
+                #
+                # Found the hard way, 2026-08-25, and it was self-inflicted. The escalation
+                # halt makes every job's `main()` exit immediately -- which is exactly what it
+                # is for. But from HERE that is indistinguishable from every job crashing on
+                # startup, so the supervisor concluded the library was broken, logged
+                # "supervisor finished", and EXITED. Nothing then restarted anything, so
+                # clearing the halt did not bring the library back: read.py, pipeline.py and
+                # feats.py --roll all stayed down, and every library counter went flat.
+                #
+                # The safety mechanism caused the outage it exists to prevent -- standing
+                # lesson 10, committed by the newest guard in the tree. So the halt is checked
+                # FIRST, and a halted supervisor WAITS instead of giving up: the whole promise
+                # of the halt is that work resumes when a person clears it.
+                try:
+                    import escalation as _ESC
+                    _halted, _rec = _ESC.status()
+                except Exception:
+                    _halted, _rec = False, None
+                if _halted:
+                    log("  the library is HALTED (%s) -- every job is exiting on purpose, which "
+                        "is not the same as failing. Waiting for a person to clear it."
+                        % (_rec or {}).get("code"))
+                    idle = 0
+                    time.sleep(WAIT_SECONDS)
+                    continue
                 log("  HALT: every job has returned instantly for "
                     f"{IDLE_LIMIT} cycles. That is not an idle library, it is a broken one.")
                 log("  Read the job logs named above; the failure is in the first lines of one.")

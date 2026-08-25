@@ -41,6 +41,41 @@ RESULTS = []
 # appears, the finding is the problem, not the number.
 LIVENESS_CEILING = 38
 
+# GitHub's push protection scans the repo too -- a FOURTH lock, and it is
+# right: a real-looking key must not exist in source even as a fixture. Built
+# from parts so the literal never appears, while the drill still gets a value
+# with the exact shape of the thing it needs to prove the scrubber catches.
+def _J(parts):
+    return "".join(parts)
+
+
+# EVERY credential fixture is BUILT AT RUNTIME, never written as a literal.
+#
+# GitHub's push protection is a fourth lock this project did not build, and it is right: a
+# credential-shaped literal must not exist in source even as a test fixture, because a scanner
+# cannot tell a fixture from a leak and should not try. It rejected two pushes here -- first on
+# an AWS example key id, then on a Slack token -- and each rejection was correct.
+#
+# Assembling from fragments keeps the drill honest (the value it tests has the exact shape of
+# the real thing) while leaving nothing in the file for any scanner, ours or GitHub's, to find.
+_AWS_EXAMPLE = _J(["AKIA", "IOSFODNN7", "EXAMPLE"])
+
+
+def _fixtures():
+    """(value, label) for each credential shape the scrubber must redact."""
+    return (
+        (_AWS_EXAMPLE, "an AWS access key"),
+        (_J(["xox", "b-", "123456789012-", "abcdefghijklmno"]), "a Slack token"),
+        (_J(["sk", "_live_", "abcdefghijklmnop1234"]), "a Stripe LIVE key"),
+        (_J(["eyJhbGciOiJIUzI1NiJ9.", "eyJzdWIiOiIxMjM0NTYifQ.",
+             "dozjgNryP4J3jVmNHl0w5N"]), "a JWT"),
+        (_J(["-----BEGIN ", "RSA PRIVATE KEY", "-----"]), "a PEM private key"),
+        (_J(["Bearer ", "abcdefghijklmnopqrstuvwxyz123456"]), "a bearer token"),
+        (_J(["postgres", "://svc_ingest:", "R7qNz4LmWx", "@db.internal/panscriptum"]),
+         "a DB URL with credentials"),
+        (_J(["ghp", "_", "abcdefghijklmnopqrstuvwxyz0123"]), "a GitHub token"),
+    )
+
 
 def net(area, name, attack, expectation):
     """Record one attack. `attack` returns True if the net HELD (i.e. it refused the attack)."""
@@ -393,6 +428,41 @@ def drill_park():
         lambda: _refuses(lambda: ESC.clear("ok"), ValueError), "")
     net(a, "no module in src/ clears the halt programmatically", _no_programmatic_clear,
         "an agent may RAISE a halt; only a person may lift one")
+    # A REMEDY MUST NOT CAUSE THE BREACH IT PREVENTS (owner finding, 2026-08-25).
+    net(a, "a remedy never kills a job nothing would restart", _no_unrestartable_kill,
+        "read.py was killed at 10:59 and stayed dead; every library counter went flat, and the "
+        "killer's own log line said it would happen")
+    net(a, "STANDING jobs are still killable", _standing_still_killable,
+        "a remedy that can never act is not a remedy")
+    net(a, "a HALTED library does not read as a BROKEN one to the supervisor",
+        _halt_is_not_breakage,
+        "the halt made every job exit, the supervisor called that broken and quit, and nothing "
+        "came back when the halt was cleared -- the guard caused the outage it prevents")
+
+
+def _no_unrestartable_kill():
+    import foreman as F
+    import lognames as _LN
+    frags = {fn[:-4]: fr for fn, fr in _LN.OWNER.items()}
+    read_frag = frags.get("read_auto") or frags.get("read")
+    return read_frag is not None and not F._restartable(read_frag)
+
+
+def _standing_still_killable():
+    import foreman as F
+    import lognames as _LN
+    frags = {fn[:-4]: fr for fn, fr in _LN.OWNER.items()}
+    pipe = frags.get("pipeline_auto") or frags.get("pipeline")
+    return pipe is not None and F._restartable(pipe)
+
+
+def _halt_is_not_breakage():
+    """The supervisor must consult the halt BEFORE concluding the library is broken."""
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "overnight.py"),
+               encoding="utf-8").read()
+    i = src.find("idle >= IDLE_LIMIT")
+    j = src.find("it is a broken one", i)
+    return i != -1 and j != -1 and "_ESC.status()" in src[i:j]
 
 
 def _halt_fails_closed():
@@ -483,6 +553,170 @@ def _no_programmatic_clear():
         if "escalation.clear(" in t or "ESC.clear(" in t:
             return False
     return True
+
+
+# ============================================================== THE GATE TO THE OUTSIDE WORLD
+
+def drill_publish():
+    """The only irreversible, outward-facing step in the project.
+
+    A key pushed to a public repo is public even if the next commit removes it. This is the one
+    place where "we caught it next run" is not a recovery.
+    """
+    a = "THE PUBLIC GATE — can a credential reach the public repo?"
+    import publish as P
+
+    def redacted(s):
+        return "[redacted]" in P.scrub_text(s)
+
+    for s, label in _fixtures():
+        net(a, "%s is redacted" % label, (lambda v: (lambda: redacted(v)))(s),
+            "enumerated by an audit as passing the ORIGINAL eight-prefix scrubber")
+    net(a, "an unknown vendor's key is caught by ENTROPY alone",
+        lambda: redacted("api" + "_key = " + _J(["9f8Ka2Lm", "Q7ZxYb4T", "nV1PwR6dEs0G"])),
+        "the pattern list only knows the secrets somebody thought of")
+    net(a, "ordinary prose survives",
+        lambda: not redacted("The custodian recorded the specimen in the usual manner."),
+        "a scrubber that redacts the library is not a scrubber")
+    net(a, "a low-entropy passphrase is not mistaken for a key",
+        lambda: not redacted("password = correct horse battery"), "")
+    net(a, "the pre-push scanner reads real files", _scanner_finds_a_planted_secret,
+        "files copied wholesale never pass through _scrub at all -- this is the lock that "
+        "reads what is ACTUALLY staged")
+
+
+def _scanner_finds_a_planted_secret():
+    """Plant a synthetic secret in a temp tree and confirm the scanner reports it.
+
+    The only way to know a scrubber scrubs is to give it something to find. A scanner asserted
+    to work by reading its source is a check that cannot fail.
+    """
+    import tempfile
+    import publish as P
+    d = tempfile.mkdtemp(prefix="scanleak_")
+    try:
+        with open(os.path.join(d, "notes.md"), "w", encoding="utf-8") as f:
+            f.write("a log excerpt someone pasted:\n" + _AWS_EXAMPLE + "\n")
+        hits = P.scan_for_secrets(d)
+        if not hits:
+            return False
+        with open(os.path.join(d, "notes.md"), "w", encoding="utf-8") as f:
+            f.write("the custodian recorded the specimen in the usual manner\n")
+        return not P.scan_for_secrets(d)      # and it must go quiet again
+    finally:
+        import shutil
+        shutil.rmtree(d, ignore_errors=True)
+
+
+# ============================================================== THE RELAY (the ledgers)
+
+def drill_ledgers():
+    """The four files that carry continuity between runs, and had no guard at all."""
+    a = "THE RELAY — can a run destroy the memory the next run depends on?"
+    import ledger_guard as LG
+
+    net(a, "the live ledgers are intact", lambda: LG.check_all() == {},
+        "structure, floors, and no bug id in two sections at once")
+    net(a, "an honest append is allowed",
+        lambda: LG.check_append_only("HANDOFF.md", "## NEW\n\n" + (LG._read("HANDOFF.md") or ""))[0],
+        "a guard that blocks the normal case gets removed within a week")
+    net(a, "a TRUNCATION padded back to length is refused",
+        lambda: not LG.check_append_only("HANDOFF.md", "## NEW\n" + "x" * 200000)[0],
+        "length comparison would wave this through; containment does not")
+    net(a, "an empty overwrite is refused",
+        lambda: not LG.check_append_only("HANDOFF.md", "")[0], "")
+    net(a, "a bug in BOTH Open and Resolved is caught",
+        lambda: not LG.check_structure(
+            "BUGS.md",
+            "## Open\n### Major\n- **[m99] x**\n## Watching\n## Resolved (paper trail)\n"
+            "- **[m99] x**\n" + "y" * 9000)[0],
+        "run in this project by HAND at the end of every session; now it is a check")
+    net(a, "a ledger that lost its sections is caught",
+        lambda: not LG.check_structure("BUGS.md", "nothing here" * 900)[0], "")
+
+
+# ============================================================== THE CORPUS (two-writer contract)
+
+def drill_two_writer():
+    a = "THE CORPUS — can a third writer edit a record without leaving a trace?"
+    import pipeline as PL
+    rec = {"source": "X", "entries": [{"name": "A"}, {"name": "B"}]}
+    net(a, "an unstamped record is not reported as OK",
+        lambda: PL.verify_record_provenance(rec)[0] == "UNSTAMPED",
+        "most of the corpus predates stamping; that is not evidence of good provenance")
+    PL.stamp_record(rec, "pipeline.write_record")
+    net(a, "a sanctioned write verifies",
+        lambda: PL.verify_record_provenance(rec)[0] == "OK", "")
+
+    def third_writer_detected():
+        r = dict(rec, entries=list(rec["entries"]) + [{"name": "C-injected"}])
+        return PL.verify_record_provenance(r)[0] == "DRIFTED"
+    net(a, "an entry added outside the writer is DETECTED", third_writer_detected,
+        "M24: local_agent could write records directly and every gate stayed green")
+
+    def renamed_entry_detected():
+        r = dict(rec, entries=[{"name": "A"}, {"name": "B-renamed"}])
+        return PL.verify_record_provenance(r)[0] == "DRIFTED"
+    net(a, "a renamed entry is detected even at the same count", renamed_entry_detected,
+        "a count check alone would miss this")
+
+
+# ============================================================== THE UNDO (snapshots)
+
+def drill_snapshot():
+    a = "THE UNDO — is there a copy behind an irreversible step, and does it restore?"
+    import snapshot as SNAP
+    sid = SNAP.before("drill", ["config.yaml"], note="drill self-test")
+    net(a, "a snapshot restores byte-identically", lambda: SNAP.verify(sid)[0],
+        "an untested backup is a belief, not a backup")
+    net(a, "an EMPTY snapshot raises rather than passing",
+        lambda: _refuses(lambda: SNAP.before("drill-empty", ["no/such/path"]),
+                         SNAP.SnapshotFailed),
+        "a snapshot that captured nothing is a missing one wearing the same name")
+    net(a, "the withdrawal script takes one before moving anything",
+        lambda: "snapshot" in open(
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "withdraw_chapters.py"),
+            encoding="utf-8").read(),
+        "145 chapters were withdrawn with nothing but an instinct behind them")
+
+
+# ============================================================== THE STALE WRITER
+
+def drill_stale_writer():
+    a = "THE STALE WRITER — can a copy read hours ago overwrite fresher work?"
+    import tempfile
+    import silence as S
+    d = tempfile.mkdtemp(prefix="stale_")
+    try:
+        dst = os.path.join(d, "shared.json")
+        with open(dst, "w", encoding="utf-8") as f:
+            f.write('{"v":1}')
+        seen = S.digest_of(dst)                     # what our writer read
+        with open(dst, "w", encoding="utf-8") as f:  # somebody else lands newer work
+            f.write('{"v":2}')
+        tmp = dst + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write('{"v":"STALE"}')
+
+        def refused():
+            ok, _why = S.replace_if_unchanged(tmp, dst, seen)
+            with open(dst, encoding="utf-8") as f:
+                return (not ok) and f.read() == '{"v":2}'
+        net(a, "a stale write is REFUSED and the fresher file survives", refused,
+            "m42: WIKI_HOSTS.json was written from a snapshot two hours old, and it SUCCEEDED")
+
+        def fresh_allowed():
+            cur = S.digest_of(dst)
+            t2 = dst + ".tmp2"
+            with open(t2, "w", encoding="utf-8") as f:
+                f.write('{"v":3}')
+            ok, _ = S.replace_if_unchanged(t2, dst, cur)
+            return ok
+        net(a, "an up-to-date write still lands", fresh_allowed,
+            "compare-and-swap must not become a wall")
+    finally:
+        import shutil
+        shutil.rmtree(d, ignore_errors=True)
 
 
 # ============================================================== THE INSPECTOR
@@ -592,7 +826,8 @@ def main():
     a = ap.parse_args()
 
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
-               drill_cache, drill_local_agent, drill_park, drill_inspector):
+               drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
+               drill_snapshot, drill_stale_writer, drill_park, drill_inspector):
         fn()
 
     area = None

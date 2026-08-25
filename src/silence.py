@@ -220,6 +220,46 @@ def append_line(path, text):
         return False
 
 
+def digest_of(path):
+    """A cheap content digest for compare-and-swap. None when the file is absent."""
+    import hashlib
+    try:
+        with open(path, "rb") as f:
+            return hashlib.sha1(f.read()).hexdigest()[:16]
+    except FileNotFoundError:
+        return None
+    except Exception:
+        note("silence.py:digest_of")
+        return None
+
+
+def replace_if_unchanged(tmp, dst, expected_digest, attempts=5):
+    """Land `tmp` over `dst` ONLY if `dst` still holds what the writer read. -> (ok, reason).
+
+    THE HAZARD THIS CLOSES (m42, and it has cost this project real data twice). `replace_retry`
+    below solves a DIFFERENT problem -- a Windows rename denied while a reader holds the target
+    -- and solves it well. What neither it nor the callers had was any notion of STALENESS: a
+    writer that read a file at 11:15, was orphaned, and landed its copy at 13:40 wins, and the
+    two and a half hours of other writers' work in between vanish. The write SUCCEEDS, which is
+    why nothing ever reported it. `WIKI_HOSTS.json` was written from a stale snapshot exactly
+    this way, and `overwatch`'s ledger nearly lost 68 rounds to the same shape (m40).
+
+    The caller reads the digest when it reads the file, and passes it back here. A mismatch is
+    NOT an error to swallow -- it means the caller's copy is out of date and it should re-read
+    and re-merge, which is what `write_record` already does properly for records.
+
+    `expected_digest=None` asserts the file did not exist when it was read, which is how a
+    first-write is distinguished from an overwrite.
+    """
+    actual = digest_of(dst)
+    if actual != expected_digest:
+        note("silence.py:stale-write-refused")
+        return False, ("%s changed under this writer (expected %s, found %s) -- refusing to "
+                       "land a stale copy. Re-read and merge."
+                       % (os.path.basename(dst), expected_digest, actual))
+    return (replace_retry(tmp, dst, attempts=attempts) is not False), "landed"
+
+
 def replace_retry(tmp, dst, attempts=5):
     """os.replace with a short retry, because on Windows the rename is DENIED while any
     reader holds the target open -- and this project's state files all have readers on their

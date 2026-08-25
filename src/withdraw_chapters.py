@@ -45,6 +45,19 @@ def main():
     print("catalog entries: %d" % len(cat))
 
     if a.go:
+        # A COPY BEFORE THE IRREVERSIBLE STEP. This script moves rather than unlinks, which was
+        # the right instinct when it was written -- but the instinct was the ONLY thing standing
+        # behind 145 chapters. A snapshot that fails RAISES, so the withdrawal cannot proceed
+        # believing it has a copy behind it when it does not.
+        import snapshot as SNAP
+        sid = SNAP.before("withdraw-chapters", ["output/index/catalog.json"],
+                          note="catalog before withdrawing %d chapters" % len(cat))
+        ok, why = SNAP.verify(sid)
+        if not ok:
+            raise SNAP.SnapshotFailed(
+                "the snapshot taken before this withdrawal does not restore (%s). Refusing to "
+                "continue: an untested backup is a belief, not a backup." % why)
+        print("snapshot %s taken and verified (%s)" % (sid, why))
         os.makedirs(os.path.join(arch, "raw"), exist_ok=True)
         os.makedirs(os.path.join(arch, "compressed"), exist_ok=True)
 
