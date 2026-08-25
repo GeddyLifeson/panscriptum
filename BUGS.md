@@ -850,7 +850,7 @@ Export commit: the `run #21` sync of 2026-08-25 (see `git -C %PANSCRIPTUM_EXPORT
   gemini ×3, sambanova, nvidia, openrouter, cohere) in rotation — it does not over-bench.
   Pinned by 16 new checks in `verify_math` **§20f**. Also repaired in the same pass: `ask()`'s
   metrics line did `(got or {}).get("_via")`, an `AttributeError` whenever `_extract_json`
-  returned a list or bool from a fenced reply. Export commit: the `run #22` sync of 2026-08-25.
+  returned a list or bool from a fenced reply. Export commit: `a911805` (code) and `5e90f42` (ledgers), 2026-08-25.
 - **[m99 — MAJOR, RESOLVED, run #22] THE GPU FALLBACK WAS WEDGED WHILE EVERY PROXY FOR IT READ
   GREEN.** `the local model produces tokens` reported *"probe completed in 0.8s"* on the 01:19
   page; six minutes later four consecutive trivial generates timed out (60s, 45s, 45s, 40s) with
@@ -860,7 +860,7 @@ Export commit: the `run #21` sync of 2026-08-25 (see `git -C %PANSCRIPTUM_EXPORT
   not the runner.** Restarting `ollama.exe` (45636 → respawned by the tray app as 41592) restored
   it — http=200, 8 tokens, 150ms of real generation. **Root cause of the wedge itself is not
   established** and this will recur; the standard already fires correctly, and the remedy is
-  documented. Kept in `Watching`, not closed as understood. Export commit: the `run #22` sync.
+  documented. Kept in `Watching`, not closed as understood. Export commit: `5e90f42`, 2026-08-25 (no code change — remedy was a daemon restart).
 - **[M17 — MAJOR, RESOLVED, run #21] EVERY RENDERER REPORTED ITSELF AS A DOWN JOB, AND THE FALSE
   NAME HID THE JOB THAT WAS GENUINELY DOWN.**
   **What it was.** `overnight.running()` excludes the caller's own PID — right for *"is anyone

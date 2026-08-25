@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 01:42:29",
+ "at": "2026-08-25 01:42:56",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,9 +108,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 263,
+     "left": 264,
      "cap": 500,
-     "frac": 0.526
+     "frac": 0.528
     },
     {
      "name": "rpm",
@@ -119,7 +119,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.526
+   "worst": 0.528
   },
   {
    "bucket": "cohere:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 234,
+     "left": 235,
      "cap": 1000,
-     "frac": 0.234
+     "frac": 0.235
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.234
+   "worst": 0.235
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -346,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 98713,
+     "left": 98763,
      "cap": 200000,
-     "frac": 0.4936
+     "frac": 0.4938
     },
     {
      "name": "rpm",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 59479,
+     "left": 59566,
      "cap": 100000,
-     "frac": 0.5948
+     "frac": 0.5957
     },
     {
      "name": "rpm",
@@ -410,9 +410,9 @@
     },
     {
      "name": "tpd",
-     "left": 63035,
+     "left": 63266,
      "cap": 200000,
-     "frac": 0.3152
+     "frac": 0.3163
     },
     {
      "name": "rpm",
@@ -456,9 +456,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 6,
+     "left": 7,
      "cap": 200,
-     "frac": 0.03
+     "frac": 0.035
     },
     {
      "name": "rpm",
@@ -467,7 +467,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.03
+   "worst": 0.035
   },
   {
    "bucket": "kluster:free",
@@ -692,77 +692,77 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 78,
-  "per_hour": 312,
+  "calls": 63,
+  "per_hour": 252,
   "buckets": [
    {
-    "bucket": "zai:free",
-    "calls": 9,
-    "ok": 0
-   },
-   {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 8,
+    "calls": 7,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 8,
-    "ok": 4
+    "calls": 7,
+    "ok": 3
    },
    {
     "bucket": "sambanova:free",
-    "calls": 8,
+    "calls": 7,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 7,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 7,
-    "ok": 5
+    "calls": 6,
+    "ok": 4
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 6,
+    "calls": 5,
     "ok": 0
    },
    {
     "bucket": "cloudflare:free",
-    "calls": 4,
+    "calls": 3,
     "ok": 0
    },
    {
     "bucket": "cohere:free",
-    "calls": 4,
+    "calls": 3,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 4,
-    "ok": 1
+    "calls": 3,
+    "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 4,
-    "ok": 1
+    "calls": 3,
+    "ok": 0
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 4,
-    "ok": 4
+    "calls": 3,
+    "ok": 3
    },
    {
     "bucket": "hyperbolic:free",
-    "calls": 4,
+    "calls": 3,
     "ok": 0
    },
    {
     "bucket": "nvidia:free",
-    "calls": 4,
-    "ok": 4
+    "calls": 3,
+    "ok": 3
    },
    {
     "bucket": "openrouter:free",
-    "calls": 4,
+    "calls": 3,
     "ok": 0
    }
   ]
@@ -871,7 +871,7 @@
     11
    ]
   ],
-  "swallowed_total": 867
+  "swallowed_total": 868
  },
  "metrics": [
   {
@@ -920,7 +920,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 312,
+   "observed": 252,
    "floor": 900,
    "order": "Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -956,7 +956,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "24% ok of 78",
+   "observed": "21% ok of 63",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1064,7 +1064,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "70",
+   "observed": "71",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1181,7 +1181,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "recatalogue (15 min, 1912 bytes)",
+   "observed": "recatalogue (16 min, 1912 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1312,5 +1312,5 @@
    "stalled": false
   }
  ],
- "generated": "2026-08-25T01:42:33"
+ "generated": "2026-08-25T01:43:00"
 }
