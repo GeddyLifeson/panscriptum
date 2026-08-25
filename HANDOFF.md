@@ -9,6 +9,86 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 (later) — the Measures are not independent; and "35 unshelved sources" was a bug
+
+**THE BIG ONE: every published ± in the library was 1.78x too narrow, and it is now fixed.**
+
+`assay._interval` propagated variance as if the eight Measures were independent. They are not.
+`axis_correlation.py` measured it over the 45 entities holding two or more numeric axis scores
+-- 55 pairs at n = 42–45:
+
+    reach x ruin          r = +0.816      continuity x sustain   r = +0.773
+    continuity x reach    r = +0.756      acumen x discernment   r = +0.653
+    mean over 55 pairs    r = +0.319      every sizeable pair POSITIVE
+
+`_interval` now carries the full covariance matrix, `Var = SUM_i SUM_j w_i w_j rho_ij s_i s_j`.
+**The charter's published +/-0.12 on Kenshiro is preserved** by re-solving `_ANCHOR_SIGMA`
+3.2003 -> 1.7973 (owner ruling: the charter is ground truth, the constant moves).
+
+And the correction made the instrument coherent for the first time. The file records that the
+old uniform-prior ceiling had to be abandoned because raw Witnessed fitted to 4.08 on a scale
+whose maximum-entropy dispersion is 2.86 -- the charter's best testimony coming out *more*
+uncertain than total ignorance. That was never a defect in the charter. It was the missing
+covariance being absorbed into the per-axis sigma, the only place the old formula could put it.
+Witnessed now sits at 1.80, inside the bound, and a drill net enforces it.
+
+The first implementation applied rho only among SCORED axes and the battery refused it within
+the minute: it diluted their weights without replacing the cross terms, so three UNESTIMABLE
+faculties produced a *narrower* bar than three INAPPLICABLE ones -- this project's oldest
+arithmetic bug, reintroduced by the fix for a different one. Correlated Measures mean correlated
+ignorance. There is now a net for it.
+
+**"35 UNSHELVED SOURCES, 13,417 ENTRIES" WAS MY OWN BUG, and it was about to be acted on.**
+
+`corpus_db.rebuild()` read `CHARTER_SPINE_CODES.json` into a dict and looked sources up
+directly. `address.spine_code_for()` is the real lookup: letter-level equality (index writes
+`Soulcalibur`, roll writes `Soul Calibur`), whole-word containment, order-independent tokens
+(`all Black Ops` -> `Black Ops (all)`). **35 of the 36 resolve.**
+
+    ACTUALLY UNSHELVED:  Bone (Jeff Smith) — 86 entries — one source
+
+Collection III already *is* the pantheon shelf; the roll writes `Pantheon: Hindu` where the
+index writes `Hindu`. Every Tom Clancy franchise resolves to II.I.5, which names them all in its
+own title. Both astrologies are already at VII.6, the Solomonic tradition at III.11. There is no
+separate `Dragon Ball` source, so nothing to merge with `Dragon Ball Z` (now 6,923 entries).
+
+**`STEP4_PLAN.md` named that same wrong figure as the thing gating all of Step 4.** Corrected:
+Phase 4.0 is one decision about one comic, not a backlog of thirty-five. A drill net now
+compares the index's spine column against the resolver every run.
+
+**OWNER RULINGS RECORDED** (STEP4_PLAN §7, now answered rather than asked): **B** Great
+Identifications get **T5, owner-authored only**, and `threads.py` must refuse to emit one;
+**C** T2 reciprocity is **lawful by default, flagged, never failed**; **D** the 145 withdrawn
+chapters are **regenerated, not rethreaded**; **E** scope is **Phase 4.0 and 4.1 only**.
+
+**NEW: `src/mutate.py`** — mutation testing, the standing lesson mechanised. It breaks the code
+on purpose and reports which safeties failed to notice. 146 mutants across `assay.py` (58),
+`prose_gate.py` (49), `escalation.py` (39). Refuses to run under a halt; verifies its own
+restore is byte-exact before touching anything; a survivor is filed as a work order with its
+exact diff. At ~6 min per mutant this is a background job, which is what the daily cadence
+bought.
+
+**MEASURED AND REJECTED: rapidfuzz as a drop-in for `difflib` in `entity_match`.** 6.3x faster
+and NOT equivalent -- 1,618 of 6,000 real name pairs disagree, worst delta 0.345. `difflib` is
+a greedy matching-block recursion; rapidfuzz computes optimal alignment. Swapping it would
+silently re-tune STRONG (0.90) and WEAK (0.72) against a metric they were never calibrated on,
+on 27% of comparisons, with nothing going red. Recorded in the docstring so nobody retries it.
+
+**A SECOND HALT, RAISED AND LIFTED.** `axis_correlation.widening()` had no caller because
+`assay._rho` and the drill net had each *reimplemented* the lookup -- two copies of one rule,
+the same fault I had just finished fixing in `corpus_db`. Both now delegate. Lifted under the
+new ruling below.
+
+**DOCTRINE (CLAUDE.md, Hard Rule -1): who may lift a halt.** A fault you CAUSED yourself: fix
+it, prove it, report the raise and the lift in the same turn, and you may clear it. A fault you
+merely FOUND: fix the cause, leave the halt standing. Never clear one that is unfixed or not
+understood.
+
+**BATTERY:** verify_math 795/1 · drill **175 nets, 0 BREACHED** · liveness 38 (at ceiling) ·
+allsweep 0 bad subsystems. The single verify_math red is `sweep_plan` correctly reporting that
+this session's new modules have not been read by a sweep yet; it clears on the next one and
+must not be papered over.
+
 ## 2026-08-25 — outside tools evaluated by running them; SQL index + second opinion adopted
 
 **FOR THE OWNER, AT THE TOP:**
