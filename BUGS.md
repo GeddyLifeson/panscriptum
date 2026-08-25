@@ -7,6 +7,61 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M34 — OPEN, OWNER RULING NEEDED] THE ASSAY DISAGREES WITH ITS OWN CALIBRATION LADDER, AND
+  THE SWEEP HAS BEEN GRADING THAT GREEN.** Surfaced run #31 the moment M32's import-tier fix
+  landed, converging with batch 09's independent reading of the same lines. `anchors.py` scores a
+  fixed ladder of reference entities and asserts it ascends floor → ceiling. It does not:
+  ```
+    The Skate Guy              0.22
+    A Sword                    0.10      <- below the floor anchor
+    Yggdrasil                  6.18
+    Goku                       5.42      <- below the anchor above it
+    The Seat of the Creator   10.99
+  ```
+  The script exits non-zero and says so in plain words — *"the instrument disagrees with the
+  ordering it was calibrated against. This is a reading about the ASSAY, not about this
+  script."* — and **`allsweep` reported it as importing cleanly on every run**, because it exits
+  via `SystemExit` and prints no traceback (M32). A live disagreement in the instrument every
+  printed Magnitude depends on has been visible and unread.
+  **Why NOT fixed here:** there are two different repairs and they mean opposite things. Either
+  the declared `order` is wrong (Goku should sit above Yggdrasil, and the assay is right), or the
+  assay is mis-scoring one of them against the charter's intent. **Which of a world-tree holding
+  nine realms and a martial artist who moves planets ranks higher is a curatorial judgment the
+  charter makes, not a bug a maintenance run may decide.** Two anchors are involved: `A Sword`
+  (0.10) also sits below the floor anchor `The Skate Guy` (0.22). **NEXT_STEPS §1.**
+
+- **[M35 — OPEN, OWNER ACTION NEEDED] FOUR PROVIDERS THAT CANNOT ANSWER ARE STILL BEING CALLED,
+  ~40 TIMES AN HOUR, AND THE FAILURES COUNT AGAINST THE READER'S OWN THROTTLE.** Measured run
+  #31 from `state/cascade_scratch.db` rather than inferred. Each bucket's `last_error` is a
+  **permanent** refusal, and each is being re-claimed continuously:
+  | bucket | provider's own words | calls/h | ok |
+  |---|---|---|---|
+  | `zai:free` | `Insufficient balance or no resource package. Please recharge.` | 14 | 0 |
+  | `cohere:free` | `You are using a Trial key, which is limited to 1000 API calls` | 12 | 0 |
+  | `cloudflare:free` | `HTTP 401 … Authentication error` | 7 | 0 |
+  | `hyperbolic:free` | `HTTP 401 … Could not validate credentials` | 7 | 0 |
+  **The classifier is not the fault, and this is worth stating because the ledger has blamed it
+  before.** Tested against the live error text, `cascade_bridge`'s `permanent_words` correctly
+  returns BENCH-4h for all three of zai/cloudflare/hyperbolic. Two things defeat it in practice:
+  1. **`zai:free`'s refusal arrives as HTTP 429.** Z.AI answers an empty account with a
+     rate-limit status, so `cascade/router.py:537` (the ENGINE, in `C:\Users\imarl\cascade` —
+     **a different repository**) calls `record_rate_limit`, writes `usage.outcome='rate_limited'`
+     and sets a **60-second** cooldown. The engine has a text heuristic for *daily* limits and
+     none for *permanent* ones. Every one of zai's 14 calls/h is logged as a throttle.
+  2. **The bench is per-process.** `_DEAD` is a module-level dict in memory, so a 4-hour bench
+     binds only the process that set it; the ~15 processes in the stack each re-discover the
+     same dead provider independently, and every new process starts clean.
+  **Why this is not merely untidy:** `tuning.cloud_success_rate()` counts **every** usage row in
+  the last 15 minutes, including calls to buckets that cannot succeed. Excluding these four moves
+  the measured rate from **37% to 45%** against a `CLOUD_MIN_SUCCESS` floor of **0.35** — i.e.
+  from oscillating across the threshold to clear of it. That threshold is what pins
+  `tuning.regime()` to `local`, which is M19's 1-of-16-permit throttle on the whole reader.
+  **Why NOT fixed here:** three of the four need an **account action only the owner can take**
+  (recharge Z.AI, replace the Cloudflare and Hyperbolic keys, or retire the buckets), and the
+  two code-side options — teaching the engine a permanent class in a *different repository*, or
+  excluding dead buckets from the success sample — are both routing-policy changes with the same
+  blast radius that keeps M19 unruled. **NEXT_STEPS §1.**
+
 - **[M27 — RESOLVED, run #31] NINE PLANT-WIDE HALT INTERLOCKS FAILED **OPEN** ON A MISSING
   `escalation.py`, AND NOTHING WOULD HAVE SAID SO.** Found run #31 by batch 12, verified by
   measurement across all eight jobs. Every entry point carried

@@ -9,6 +9,94 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 12:15–13:0x (local) — RUN #31: nine interlocks that failed open, a drill that could open the prose gate, and a completeness proof frozen on a run that ended yesterday
+
+**FOR THE OWNER, AT THE TOP — TWO THINGS NEED YOU, AND THE FIRST ONE IS BLOCKING EVERYTHING:**
+
+1. **THE LIBRARY IS HALTED AND I CANNOT LIFT IT. The breach was a FALSE ALARM, and the net that
+   raised it is now fixed.** At 12:33 the supervisor's own drill raised `DRILL_BREACH` on the net
+   *"the live colliding pairs get separate verdicts"*. **It was not a real collision.** That net
+   compared `coverage.state_of()` for two names and failed when the two answers were **equal** —
+   inferring "these share one document" from "these report the same numbers", over a 3-tuple of
+   small integers where equality is ordinary coincidence. Measured: `Ten Towns` and `Ten-Towns`
+   both read `('READ', 0, 1)` while loading **two different files**, each correctly carrying its
+   own `entity`. That is the M23 disambiguation working exactly as designed.
+   The net now asks for **file identity and ownership** instead, and a companion net proves the
+   loosening did not make it unfailable. **Drill re-run: 113 nets, 113 held, 0 breached.**
+   Everything else in the battery is green. To restore service:
+   ```
+   python src/escalation.py --clear --ruling "Drill breach was a faulty probe: the colliding-pairs net compared coverage state TUPLES and read a coincidence of counts as a shared file. Ten Towns / Ten-Towns load two separate, correctly-owned documents. Net rewritten to test file identity and ownership; re-drilled 113/113. No defect in the library."
+   ```
+2. **M34 AND M35 NEED A JUDGMENT, NOT A FIX.** `anchors.py` reports **INVARIANT VIOLATED** — the
+   assay ranks Yggdrasil (6.18) above Goku (5.42) while the calibration ladder declares the
+   reverse, and `A Sword` (0.10) sits below the floor anchor. Which way that resolves is a
+   charter question. And four providers that **cannot** answer are still called ~40×/hour; three
+   need an account action only you can take. Both are in `BUGS.md` with the measurements.
+
+**THE RUN'S THEME, AND ALL SIX FINDINGS ARE THE SAME SENTENCE: a safety did its job and nobody
+downstream could tell.** Not one of these was a safety that failed. Every one was a safety that
+worked and then reported nothing, or reported the wrong thing, to whoever needed to act.
+
+* **Nine plant-wide halt interlocks failed OPEN** (M27). Every job read
+  `except ImportError: pass` around the halt check, so deleting `escalation.py` would have
+  switched the whole chain of command off in silence — Hard Rule -1's own incident, which began
+  with an autonomous run deleting a safety. **Measured before and after, not argued: 8 of 8 jobs
+  started anyway with the import blocked; 8 of 8 now refuse.**
+* **The drill that proves the prose gate could open the prose gate** (M28). `_gates_agree` wrote
+  five trial values of `prose_enabled` into the **live** `config.yaml` every supervisor cycle and
+  restored it in a `finally` — which a kill does not run, and the foreman SIGTERMs stalled jobs
+  as routine. Of the five values, four are refused by the strict gate; **`yes` parses to boolean
+  `True`**, so one window in five leaves the gate genuinely OPEN. It never needed the disk.
+* **`publish.py` returned exit code 0 when the credential scanner refused the push** (M29). It
+  refused a real push today at 12:04 and the exit code said success — to a caller that is every
+  maintenance run's own final step.
+* **The sweep's completeness proof was frozen on `"run29"`, a hardcoded literal** (M31) — the
+  **third** spelling of this same defect in three consecutive runs. It sat red naming eight
+  modules as unaudited while the agents that read them filed their reports.
+* **The import tier called eight jobs broken for obeying the halt, and was blind to its own
+  corruption guard** (M32). "8 subsystem(s) in a bad state" was eight subsystems doing exactly
+  what they are built to do — the owner's own 2026-08-25 lesson, applied to `overnight.py` as M26
+  and never carried one file over. In the other direction, `if "Traceback" not in stderr` graded
+  every `raise SystemExit` as a clean import, so **every module's `_BAD_CHARS` guard was
+  invisible to the sweep**. Fixing it immediately surfaced M34, which had been reporting itself
+  in plain English on every run.
+* **`retry_synthesis` re-scored failed sources by a weaker method than their neighbours** (M33),
+  under a docstring promising *"byte-identical prompt construction"*. Fixed at the root —
+  `pipeline.synthesis_blocks` / `synthesis_prompt` — because copying a fix across is how m138 and
+  m139 happened.
+
+**TWO MISTAKES OF MINE, BOTH CAUGHT, BOTH WORTH RECORDING:**
+* I ran `cd …/panscriptum-export` for one git log and the shell stayed there. The next
+  `ls state/` returned the **publish copy's** five-file stub, which would have read as a
+  catastrophic loss of every state file. Caught by noticing `HALT.json` was missing from a
+  directory I had read minutes earlier. **Standing lesson 23 in a new spelling: a path is a
+  hypothesis too.** Everything after that used absolute paths.
+* My first draft of the check pinning M28 matched the source text for `open(real, "w")` — and
+  went red against **my own docstring quoting the removed code**. That is the same "a literal
+  cannot tell code from prose about code" trap I had fixed forty minutes earlier in the `_via`
+  check. Both are AST checks now, and both were proven to go red on a reintroduction and stay
+  green on a mention.
+
+**THE SWEEP: 103 modules, 45,053 lines, 16 parallel agents, `sweep_plan.missing("run31")` returns
+NONE.** Reports in `handoff/sweep31/` (11–32 KB each, 313 KB total). Coverage was recorded from
+the batch plan only after verifying each batch's report was on disk and substantive — the agents
+were not asked to call `record()` themselves, which was my omission in the prompts and is fixed
+in NEXT_STEPS for the next run. The agents found far more than is repaired here; the verified
+tail is in NEXT_STEPS §3.
+
+**BATTERY:** `verify_math` **792 passed / 0 FAILED** (was 773/2 at the start; +19 checks, §20p
+added) · `drill` **113 nets / 113 held / 0 BREACHED** (was 105 nets; +8) · `allsweep`
+**2 subsystems bad, down from 8** — and both survivors are genuine, newly-visible faults rather
+than the halt · `health --preflight` **2 problems, both known open bugs** · `liveness` **38, at
+the ratcheted ceiling, no new dead code** · `pyflakes` **0**.
+
+**ONE NUMBER THAT MOVED THE WRONG WAY AND DESERVES ATTENTION:** M20's stranded entries are
+**874 across four sources** (Mario 253, Gundam 227, Thomas the Tank Engine 209, SpongeBob 185).
+Run #29 recorded 412 across two. It has doubled in a day, and the cost of deferring the re-key
+grows with it.
+
+---
+
 ## 2026-08-25 10:00–12:xx (local) — OWNER-DIRECTED SESSION: the prose gate restored, M23 closed, and a chain of command built from the janitor to the halt
 
 **FOR THE OWNER, AT THE TOP:**
