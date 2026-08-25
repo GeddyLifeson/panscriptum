@@ -2869,6 +2869,87 @@ check("the threshold itself is the one tuning.py already settled on",
       note="tuning.MIN_CALLS_TO_JUDGE=20 answers this same question for regime()")
 
 
+# ---- Section 19aj: the export repo is never resolved into a temp directory -----------------
+#
+# Run #17's headline. `publish.SITE` fell back to `os.environ["TEMP"]` when
+# PANSCRIPTUM_EXPORT was unset, and the standing `publish.py --push --loop 10` inherits its
+# environment from whatever launched the supervisor -- here, a Claude Code session whose TEMP
+# is a per-session scratchpad. So the loop git-init'd a SECOND clone of the same remote inside
+# a dead session's temp directory and published into it four times an hour. Measured live:
+# 160 commits ahead of origin/main and 63 behind, a parallel history whose rebase can never
+# land, with a state.json 44 minutes FRESHER than the public page's. The loop's own log said
+# "synced 14 files, wrote docs/state.json" every cycle and was telling the truth about
+# everything except where.
+#
+# Two properties are pinned here. First, no environment may steer the export into a temp
+# directory. Second, the explicit variable still wins -- maintenance runs set it, and that
+# path is how the page has been moving at all.
+import publish as _PBx                                                  # noqa: E402
+
+_home19aj = os.environ.get("USERPROFILE") or os.path.expanduser("~")
+_tmp19aj = os.path.join("C:" + os.sep, "Users", "someone", "AppData", "Local", "Temp",
+                        "claude", "C--", "dead-session", "scratchpad")
+
+# The exact shape that produced the fault: TEMP set to a session scratchpad, no explicit var.
+_env19aj = {"TEMP": _tmp19aj, "TMP": _tmp19aj, "USERPROFILE": _home19aj}
+check("an unset PANSCRIPTUM_EXPORT does not send the export into TEMP",
+      _PBx.export_root(_env19aj), os.path.join(_home19aj, "panscriptum-export"),
+      note="pre-fix this returned the scratchpad path and published a whole parallel repo there")
+check("no resolved export path contains a temp segment",
+      any(seg.lower() in ("temp", "tmp") for seg in _PBx.export_root(_env19aj).split(os.sep)),
+      False, note="a repo with a remote must not live anywhere a cleaner may reap")
+check("the live SITE this process resolved is itself temp-free",
+      any(seg.lower() in ("temp", "tmp") for seg in _PBx.SITE.split(os.sep)), False,
+      note="guards the running publisher, not just the pure function")
+
+# The explicit variable is the channel the maintenance runs use; it must keep winning, and it
+# must win even when TEMP is set to something plausible.
+check("an explicit PANSCRIPTUM_EXPORT still wins over every fallback",
+      _PBx.export_root({"PANSCRIPTUM_EXPORT": os.path.join(_home19aj, "panscriptum-export"),
+                        "TEMP": _tmp19aj, "USERPROFILE": _tmp19aj}),
+      os.path.join(_home19aj, "panscriptum-export"))
+
+# The second face of the same fault. Correcting the FALLBACK alone changed nothing, because
+# PANSCRIPTUM_EXPORT is itself set to the scratchpad in the supervisor's inherited
+# environment -- the next publish cycle went to exactly the same wrong tree. The guard has to
+# sit on the RESOLVED path, so an explicit variable cannot name a throwaway directory either.
+check("an explicit PANSCRIPTUM_EXPORT pointing into a scratchpad is REFUSED",
+      _PBx.export_root({"PANSCRIPTUM_EXPORT": os.path.join(_tmp19aj, "panscriptum-export"),
+                        "USERPROFILE": _home19aj}, warn=False),
+      os.path.join(_home19aj, "panscriptum-export"),
+      note="the live supervisor environment; publishing obeyed it into a dead session's temp")
+check("a temp segment anywhere in the named path is refused, not just a scratchpad",
+      _PBx.export_root({"PANSCRIPTUM_EXPORT": os.path.join("C:" + os.sep, "Windows", "Temp",
+                                                           "panscriptum-export"),
+                        "USERPROFILE": _home19aj}, warn=False),
+      os.path.join(_home19aj, "panscriptum-export"))
+check("_is_throwaway names the real offender", _PBx._is_throwaway(_tmp19aj), True)
+check("_is_throwaway does not cry wolf on the real export",
+      _PBx._is_throwaway(os.path.join(_home19aj, "panscriptum-export")), False,
+      note="a guard that refuses the correct path would stop publishing altogether")
+check("USERPROFILE is preferred to a bash-style HOME for the fallback",
+      _PBx.export_root({"USERPROFILE": _home19aj, "HOME": _tmp19aj}),
+      os.path.join(_home19aj, "panscriptum-export"),
+      note="a child launched from git-bash carries HOME, which expanduser would have preferred")
+
+# The other half of the fix: the cycle log must name the destination, or this class of fault
+# is invisible again the moment the path changes.
+_src19aj = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "publish.py"),
+                encoding="utf-8").read()
+check("the publish cycle log names the destination it wrote to",
+      "wrote docs/state.json  ->  {SITE}" in _src19aj, True,
+      note="'synced 14 files' without a path is what four times an hour of nothing looked like")
+# Comment lines are stripped first, because the comment ABOVE the fix quotes the old
+# expression on purpose -- the record of what went wrong must not trip the guard against it.
+_code19aj = [ln for ln in _src19aj.splitlines() if not ln.lstrip().startswith("#")]
+check("the TEMP fallback is not reintroduced in code",
+      any('get("TEMP")' in ln or "get('TEMP')" in ln for ln in _code19aj), False,
+      note="the one expression that caused it; a later edit must not quietly restore it")
+check("the comment recording the fault is still present",
+      'get("TEMP")' in _src19aj, True,
+      note="the guard above strips comments, so this asserts the paper trail survives it")
+
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

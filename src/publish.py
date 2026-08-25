@@ -56,8 +56,74 @@ _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
     raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
 
-SITE = os.environ.get("PANSCRIPTUM_EXPORT") or os.path.join(
-    os.environ.get("TEMP") or os.path.expanduser("~"), "panscriptum-export")
+# NEVER fall back to TEMP. This default used to read `os.environ.get("TEMP") or
+# expanduser("~")`, and the standing publish loop inherits its environment from whatever
+# started the supervisor -- which, on this machine, was a Claude Code session whose TEMP
+# points at a per-session scratchpad. So `--loop 10` git-init'd a SECOND export repo inside
+# a dead session's temp directory, pointed it at the same remote, and published into it four
+# times an hour: run #17 found it **160 commits ahead and 63 behind origin/main**, with a
+# state.json 40 minutes fresher than the live page's. Every cycle printed "synced 14 files,
+# wrote docs/state.json" and then "push held: rebase onto origin/main failed", which is
+# honest about the push and silent about the far worse fact that it was the WRONG TREE --
+# the rebase could never succeed, because those 160 commits are a parallel history. The
+# public page only ever moved because maintenance runs publish separately with
+# PANSCRIPTUM_EXPORT set. A temp directory is never the right home for a repo that has a
+# remote and is expected to persist; the home directory is, and is where the real export
+# lives. USERPROFILE first because a bash-launched child can carry a HOME that expanduser
+# would prefer.
+def _is_throwaway(path):
+    """True for a path under a temp or per-session scratch directory.
+
+    Deliberately structural, not a match against one machine's paths: any segment named
+    temp/tmp, or a `scratchpad` segment, is somewhere a cleaner may reap. A repo that has a
+    remote and is expected to accumulate history must never live in one.
+    """
+    segs = [s.lower() for s in os.path.normpath(path).split(os.sep) if s]
+    return any(s in ("temp", "tmp", "scratchpad") for s in segs)
+
+
+def home_export():
+    return os.path.join(os.environ.get("USERPROFILE") or os.path.expanduser("~"),
+                        "panscriptum-export")
+
+
+def export_root(env=None, warn=True):
+    """Resolve where the export repo lives, refusing any throwaway directory.
+
+    A function, not an inline expression, so the fallback chain can be tested against a
+    synthetic environment instead of only against whatever this process happens to have
+    inherited -- which is precisely the thing that hid the fault for as long as it hid.
+
+    The guard is on the RESOLVED path, not on one variable, because run #17 found the fault
+    twice in one hour wearing two different faces. First the fallback: `TEMP or expanduser`
+    put the export in a dead Claude session's scratchpad. That was corrected -- and the very
+    next publish cycle, now printing its destination, went to the SAME scratchpad anyway,
+    because `PANSCRIPTUM_EXPORT` is *itself* set to that path in the long-lived supervisor's
+    inherited environment (nothing in src/ sets it; the process tree has carried it since
+    2026-08-23). Fixing the fallback alone would have been a fix that changed nothing while
+    reading as a repair.
+
+    So the explicit variable is honoured, as it must be -- but not into a directory the
+    system may delete. Measured when found: 160 commits ahead of origin/main, 63 behind, a
+    parallel history whose rebase could never land, publishing four times an hour into a
+    place nobody would look.
+    """
+    e = os.environ if env is None else env
+    named = e.get("PANSCRIPTUM_EXPORT")
+    if named and not _is_throwaway(named):
+        return named
+    fallback = os.path.join(e.get("USERPROFILE") or os.path.expanduser("~"),
+                            "panscriptum-export")
+    if named and warn:
+        # Loud, every cycle, and never silent: this is the exact class of default whose
+        # firing must be reported rather than absorbed.
+        print("publish: REFUSING PANSCRIPTUM_EXPORT=" + named
+              + " -- it is under a temp/scratchpad directory; publishing to " + fallback,
+              file=sys.stderr)
+    return fallback
+
+
+SITE = export_root()
 DOCS = os.path.join(SITE, "docs")
 STATE_JSON = os.path.join(DOCS, "state.json")
 PAGE = os.path.join(DOCS, "index.html")
@@ -294,7 +360,11 @@ def main():
             n = sync_tree()
             render_page()
             write()
-            print(f"synced {n} files, wrote docs/state.json")
+            # Name the destination every cycle. The loop reported "synced 14 files, wrote
+            # docs/state.json" four times an hour for an unknown number of days while writing
+            # into a temp-directory clone nobody knew existed (see SITE above). A line that
+            # says what it did and not WHERE it did it cannot expose that class of fault.
+            print(f"synced {n} files, wrote docs/state.json  ->  {SITE}")
             if a.push:
                 print("pushed" if push() else "no change to push")
         except Exception as e:
