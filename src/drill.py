@@ -740,6 +740,35 @@ def drill_two_writer():
     net(a, "a renamed entry is detected even at the same count", renamed_entry_detected,
         "a count check alone would miss this")
 
+    # m36: `_landed` returned its verdict so callers could gate their done-keys on it, and said
+    # so in its docstring -- and all twelve `land_json` callers threw the verdict away and marked
+    # the phase done anyway. A denied rename then left the phase complete over a pre-write file
+    # forever. These attack the gate BEHAVIOURALLY rather than reading pipeline.py's text, per
+    # standing lesson 26: a source-literal net here would pass on a comment mentioning gate_done.
+    def denied_write_leaves_phase_open():
+        st = {"done": {}}
+        PL.gate_done(st, "cosmology", [True, True, False, True])
+        return "cosmology" not in st["done"]
+    net(a, "a phase whose write did NOT land is left open",
+        denied_write_leaves_phase_open,
+        "a done-key over a pre-write artifact is permanent loss -- no run ever redoes it")
+
+    def landed_writes_still_close_the_phase():
+        st = {"done": {}}
+        PL.gate_done(st, "cosmology", [True, True, True])
+        return st["done"].get("cosmology") == ["all"]
+    net(a, "a phase whose writes all landed is still marked done",
+        landed_writes_still_close_the_phase,
+        "a gate that refuses everything is a wall, not a gate -- the pipeline would never finish")
+
+    def nothing_to_write_is_not_a_failure():
+        st = {"done": {}}
+        PL.gate_done(st, "write", [])
+        return st["done"].get("write") == ["all"]
+    net(a, "a phase that correctly wrote nothing is not held open",
+        nothing_to_write_is_not_a_failure,
+        "phase 8 with nothing settled enough to write is a correct outcome, not a denied write")
+
 
 # ============================================================== THE UNDO (snapshots)
 
@@ -852,6 +881,26 @@ def drill_cascade():
     net(a, "the local prefix is excluded from cloud claims",
         lambda: "LOCAL_PREFIX" in src and "cand.bucket.startswith(LOCAL_PREFIX)" in src,
         "the router handing out ollama buckets flooded a 10GB card with its own queue")
+
+    # THE OWNER'S STRIKE-OFF (ruling 2026-08-25). Four providers measured at ~40 claims/hour and
+    # zero successes; excluding them moves cloud_success_rate 37% -> 45%, which is the floor
+    # holding the reader's throttle on.
+    for _b in ("zai:free", "cohere:free", "cloudflare:free", "hyperbolic:free"):
+        net(a, "%s is struck off and cannot be claimed" % _b,
+            (lambda v: (lambda: not CB._alive(v)))(_b),
+            "a dead credential claimed 40x/hour costs a deadline every time")
+    net(a, "the strike-off matches a bare provider name too",
+        lambda: not CB._alive("zai"),
+        "a ruling that only bites on one spelling of a bucket does not bite")
+    net(a, "working buckets are NOT struck off",
+        lambda: CB._alive("groq:free") and CB._alive("gemini:free"),
+        "an exclusion list that grows over the whole pool is an outage, not a fix")
+    net(a, "every exclusion carries a REASON",
+        lambda: all(isinstance(v, str) and len(v) > 8 for v in CB.OWNER_EXCLUDED.values()),
+        "a struck-off provider with no stated reason cannot be reviewed or restored")
+    net(a, "the strike-off list has not been emptied by a run",
+        lambda: len(CB.OWNER_EXCLUDED) >= 4,
+        "only the owner removes an entry -- restoring one is an account action, not a code fix")
 
     def empty_pool_is_not_silence():
         """An exhausted pool must be reportable, not an empty answer that reads as 'no data'."""

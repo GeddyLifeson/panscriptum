@@ -212,7 +212,23 @@ def run():
     print(f"\n{'=' * 100}")
     print("INVARIANTS")
     print("=" * 100)
-    order = ["The Skate Guy", "A Sword", "Yggdrasil", "Goku", "The Seat of the Creator"]
+    # THE DECLARED LADDER, floor to ceiling. OWNER RULING 2026-08-25 on the Goku/Yggdrasil pair:
+    # *"obviously the tree holds higher."*
+    #
+    # This resolves M34 in the direction that costs nothing to trust: the INSTRUMENT was right and
+    # the DECLARATION was wrong. The assay scored Yggdrasil 6.18 and Goku 5.42 while this list
+    # asserted the reverse, and the invariant dutifully reported a violation on every run for
+    # weeks. Reading the two entries against the charter's own axes, the assay's answer is the
+    # defensible one -- Yggdrasil is a REACH and CONTINUITY object, a structure holding nine
+    # realms whose removal is a cosmological event, while Goku's case is built on RUIN and
+    # CELERITY. The ladder's rungs are rung-threat scales, not combat records, and a being who
+    # can destroy a planet is not thereby above the thing nine worlds hang from.
+    #
+    # The Sword/Skate Guy pair below it is a SEPARATE violation and is NOT settled by this ruling
+    # -- see the note under the invariant print. Fixing one and leaving the other is deliberate:
+    # the owner ruled on one pair, and inventing a ruling for the second because it happened to
+    # be adjacent is exactly how a curatorial judgment gets made by a run instead of by a person.
+    order = ["The Skate Guy", "A Sword", "Goku", "Yggdrasil", "The Seat of the Creator"]
     vals = {}
     for name, a, res, inst, col in rows:
         vals[name] = A.LADDER.index(a["anchor"]) + (res.get("decimal") or 0.0)

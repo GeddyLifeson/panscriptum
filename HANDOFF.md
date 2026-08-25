@@ -9,6 +9,158 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 13:20–13:5x (local) — RUN #32: the write-verdict fix that never reached its twelve callers, and a full 17-batch sweep
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **Your HALT_CLEARED ruling at 13:15 was read and honoured.** Run #31's `DRILL_BREACH` is gone;
+   `escalation.py --status` returned *clear* and the drill re-ran green. No halt was raised this
+   run. Nothing here lifted anything.
+2. **ANOTHER WRITER WAS EDITING `src/` DURING THIS RUN, and it is not the local agent's usual
+   lane.** `binding_health.py` (256 lines, brand new) appeared at **13:35**, and
+   `cascade_bridge.py` was rewritten at **13:37** — both *after* my own edits at 13:30–13:33, and
+   after the sweep partition was computed at 13:22. Nothing in `src/` imports `binding_health`
+   at all. If that was you, fine and good; **if it was not, something is authoring modules into
+   `src/` unattended and the sweep partition cannot see them.** Either way it is the reason the
+   completeness proof briefly showed one uncovered module — see §3.
+3. **The pool is much worse than M35 recorded, and the cause is one thing, not four.** Live:
+   **38 calls in 15 minutes, 8 successes, 21% ok.** Every bucket except `nvidia:free` returned
+   **zero** — including `groq` (0 of 8) and `gemini` (0 of 9), which are NOT on M35's dead-four
+   list. Meanwhile the local lane's `ask` metric shows **p50 = 835 s** (fourteen minutes) and
+   p95 = 1356 s. That is the whole shape: one 12288-context model on a 10 GB card, ~14 min
+   median under contention, and callers whose deadlines are far shorter retrying into the same
+   queue forever. `calibrate` has been failing "after 3 tries" for **3.6 h** and is stuck at
+   2 of 6 benchmarks; `pipeline_auto` is the "silent job" the standards panel flags. **This is
+   M19 measured, not a new fault** — and M35's four dead providers are a contributing cause, not
+   the cause.
+4. **There are two `llama-server.exe` processes serving the SAME model blob**, on ports 65098
+   (pid 30004, started 01:34:17) and 51195 (pid 30988, started 01:37:09) — three minutes apart,
+   twelve hours ago. **Both answer `/health` with `{"status":"ok"}`**, and the 65098 one still
+   reports a loaded model via `/props`, but `ollama /api/ps` knows about only ONE resident model
+   (qwen3:8b, 7.95 GB VRAM). The card is at **9528 / 10240 MiB, 98% utilisation**.
+   **I did not kill it.** Arithmetic says the orphan is probably holding little or no VRAM
+   (9528 − 7954 ≈ 1.5 GB, and the desktop alone plausibly accounts for that), so killing it is
+   not obviously the fix for §3, and killing a live model server unattended is not a call a
+   maintenance run should make. **It is an owner action; it is in NEXT_STEPS §1.**
+
+---
+
+### What this run did
+
+**THE PAGE FIRST.** Fetched `state.json` — `generated` 13:12, **9 minutes old, publisher healthy**.
+10 of 42 standards red. The page's `safety.halted: true` was a 3-minute-stale artifact of a
+snapshot taken just before your 13:15 clear, not a live halt; confirmed against
+`escalation.py --status` directly rather than believed from the page.
+
+**M36 — THE FIX THAT LANDED IN THE WRITER AND NEVER REACHED THE CALLERS IT DESCRIBED. Verified,
+repaired, regression-checked, and watched refusing.** This is the run's real finding, and batch
+02 and I converged on it from opposite ends.
+
+`pipeline._landed()` returns True/False *on purpose*. Its docstring states the contract in as
+many words: *"the writers now return the verdict and the callers gate their done-keys on it."*
+**They did not.** All **twelve** `land_json` call sites discarded the verdict, and then appended
+their phase's done-key unconditionally:
+
+```
+    land_json(os.path.join(HERE, "data/TIERS.json"), charted)     # verdict -> nowhere
+    ...
+    st["done"].setdefault("cosmology", []).append("all")          # done regardless
+```
+
+So a denied rename left the phase marked **complete over a pre-write artifact**, and because the
+done-key was already recorded, **no later run ever redid it.** That is precisely the silent
+permanent loss `_landed` was written to close — reintroduced at every single caller the docstring
+claimed was fixed. The fix landed in one file and the sentence describing it was never carried
+across, which is standing lesson 28 in a new costume.
+
+It is not hypothetical: `runguard._land:PermissionError` has fired **99 times** and is on the
+page's own swallowed list right now, so denied renames are a live event on this machine, not a
+theoretical one. And the blast radius is worse than one lost cycle — phase artifacts are read by
+**a later phase in the same run** (phase 6 reads phase 5's `TIERS.json`), so a stale artifact is
+a wrong input that the next phase reports as its own empty result.
+
+*Repair:* added `pipeline.gate_done(st, phase, landed)`; all 12 sites now collect their verdicts
+and gate the done-key. A phase whose write did not land stays **open** and logs why.
+
+*Regression check (verify_math §20q, AST — per standing lesson 26, never a source-text match):*
+- no `land_json` call sits as a bare `Expr` (a discarded return value, structurally)
+- **the companion anti-vacuity net** standing lesson 30 demands: the scan must still be finding
+  ≥ 12 `land_json` calls, so a rename cannot empty the list and pass the check vacuously
+- every function that calls `land_json` also calls `gate_done`
+
+*Drill nets (3 new, behavioural — they exercise `gate_done`, they do not read pipeline.py's text):*
+a phase with a False verdict is left open; a phase with all-True is still closed (**a gate that
+refuses everything is a wall, not a gate**); a phase that correctly wrote nothing is not held open.
+
+*WATCHED IT GO RED.* Ran both the AST nets and the drill predicate against the **actual pre-fix
+`pipeline.py`** from the export repo's HEAD: **12 discarded verdicts, 5 ungated phases, and the
+drill net BREACHED** — while its all-landed companion still HELD, proving the net discriminates
+rather than refusing everything. A safety nobody has watched refuse is not evidence of anything.
+
+*Reviewed and deliberately NOT changed:* four phases also mark themselves done on **early-return**
+paths that land nothing — `phase_chain` under ten contests, `phase_history` with no charted tiers,
+`phase_write` with nothing settled enough. Those are correct outcomes reached before any
+`land_json` runs. The check is scoped so it does not demand a verdict about writes that never
+happened, and the reasoning is recorded in the check itself. **Do not re-chase them.**
+
+**THE FULL COMPREHENSIVE SWEEP — 17 batches, 104 modules, 0 uncovered.** `sweep_plan --batches 16`
+partitioned 103 modules / 45,734 lines; 16 sonnet agents launched together, each reading every
+line of its batch, each writing a full report to `handoff/sweep32/` (17 reports, ~300 KB) and
+**calling `record()` itself** — run #31's omission, not repeated. Every batch confirmed its own
+record landed.
+
+**The sweep audited the sweep and caught the instrument again — five runs running.** `missing()`
+reported one uncovered module: `binding_health.py`, which **did not exist when the partition was
+computed** (created 13:35, partition 13:22). The partitioner is a snapshot and the completeness
+proof is live, so a module born mid-run is invisible to one and counted by the other. A 17th agent
+was dispatched to close it. **This is not a bug in `missing()` — it is the right answer to the
+right question, and it is exactly how a silently-added module should surface.**
+
+### Battery
+
+| check | result |
+|---|---|
+| `verify_math.py` | **794 passed, 0 FAILED** (up from 792; +3 new §20q checks, ratified after the 17th batch recorded) |
+| `drill.py` | **116 nets, 116 held, 0 BREACHED** (113 → 116; +3 new) |
+| `liveness.py` | **38 findings — at the ceiling, unchanged** (0 tautology, 0 phantom, 38 dead) |
+| `pyflakes src/` | **clean, 0 output** |
+| `allsweep.py` | 2 import-tier failures, **neither mine** — `anchors` is the standing M34 invariant (owner ruling pending); `verify_math` was caught mid-sweep before the last batches recorded, and is green now |
+| `health.py --preflight` | 2 problems, both standing: dandwiki all-empty (M21), **874 stranded entries (M20)** |
+| `silence.py` | reported; `runguard._land:PermissionError` ×99 is the live evidence behind M36 |
+
+**M20 has NOT improved: still 874 stranded across four sources** (Mario 253, Gundam 227, Thomas
+209, SpongeBob 185) — unchanged from run #31's reading, so the doubling has at least stopped.
+
+### The sweep's harvest
+
+16 batches returned findings; the tail that is verified-but-unrepaired is in `NEXT_STEPS.md §2`,
+which is **work, not a backlog**. Highlights the agents confirmed at source this run:
+`withdraw_chapters.py` has **no chapter-selection logic at all** and wipes `catalog.json`
+unconditionally; `silence.py:133`'s silent-handler detector is a **tautology** (`node.name in
+ast.dump(node)` is always true) — the canonical detector every other module trusts;
+`escalation.py` can **lose a fault** when two first-time halts race, and if the halt-file write
+itself fails, every process reads "not halted" and proceeds — **a fail-open in the fail-closed
+layer**; `catalogue_web.py` never calls `assert_clear()` and **writes records straight through a
+standing halt**; `overwatch.py` marks budget-starved modules "seen" with a fresh digest, making
+partial coverage indistinguishable from a full review; `local_agent.py` writes an unvetted
+model-authored patch to the **live** `src/` file for up to ~900 s before reverting.
+
+Several reported leads were **REFUTED** at source, which is the record working in both directions:
+`scout.py:55` does call `replace_retry`; `retry_synthesis.py`'s cap was already fixed in #31;
+`navtree.py:256` is display-only; `phase_chain`'s rows are not actually lost; `sweep_plan.py`'s
+three historical self-audit defects are genuinely fixed.
+
+### Rule Zero compliance
+
+Halt checked with the overlap guard, before anything. **No halt raised, none lifted, `clear()`
+not called.** `prose_enabled` and `step4_enabled` **untouched and still false** — verified closed
+by two independent batches (06 and 11) which were told, in as many words, that finding the gate
+unnecessary is what the gate looks like when it is working. Every new guard shipped with the
+attack that defeats it, and every one was watched going red before being trusted. No caps
+introduced. No deletions. No new dependencies. No secrets found.
+
+---
+
 ## 2026-08-25 12:15–13:0x (local) — RUN #31: nine interlocks that failed open, a drill that could open the prose gate, and a completeness proof frozen on a run that ended yesterday
 
 **FOR THE OWNER, AT THE TOP — TWO THINGS NEED YOU, AND THE FIRST ONE IS BLOCKING EVERYTHING:**

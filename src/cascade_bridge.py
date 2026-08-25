@@ -673,7 +673,51 @@ def widen_candidates(models):
     return [m for m in models if not m.bucket.startswith(LOCAL_PREFIX)]
 
 
+# BUCKETS THE OWNER HAS STRUCK OFF (ruling 2026-08-25: "exnay them from the program").
+#
+# These four were measured being claimed ~40 times an hour with ZERO successes between them, and
+# the cost was not merely wasted calls: `cloud_success_rate` sat at 37% against a 0.35 floor, and
+# that floor is what holds the reader's throttle at 1-of-16 permits (M19/M35). Excluding them
+# moves the measured rate to 45%.
+#
+# WHY THIS LIST EXISTS RATHER THAN THE EXISTING BENCH. `_DEAD` is a per-PROCESS dict with a
+# 4-hour timeout, so roughly fifteen live processes each re-discover the same dead provider,
+# each paying a deadline to learn it, over and over, for ever. And `dead_forever()` cannot help
+# either: it keys off a proof file whose codes are provider-reported, and Z.AI answers an empty
+# account with **HTTP 429** -- a throttle, by the letter -- so the router files it as busy rather
+# than broken and comes straight back. A standing owner ruling is not a measurement and must not
+# be re-derived from one; it lives in the source where a run can read it and cannot overturn it.
+#
+# TO RESTORE ONE: the owner rotates or refills the credential and deletes its line here. Nothing
+# in the automation may remove an entry -- verify_math asserts the set is non-empty until then.
+OWNER_EXCLUDED = {
+    "zai:free":        "account empty; answers HTTP 429 so the router reads it as a throttle",
+    "cohere:free":     "trial credits spent",
+    "cloudflare:free": "HTTP 401 -- credential dead, needs rotation",
+    "hyperbolic:free": "HTTP 401 -- credential dead, needs rotation",
+}
+
+
+def owner_excluded(bucket):
+    """Is this bucket struck off by owner ruling? Matches on the bucket's provider prefix too.
+
+    Prefix-tolerant because a bucket may be named `zai:free` in one view and `zai` in another,
+    and a ruling that only bites on one spelling is a ruling that does not bite.
+    """
+    b = str(bucket or "").strip().lower()
+    if b in OWNER_EXCLUDED:
+        return OWNER_EXCLUDED[b]
+    head = b.split(":", 1)[0]
+    for k, why in OWNER_EXCLUDED.items():
+        if head and head == k.split(":", 1)[0]:
+            return why
+    return None
+
+
 def _alive(bucket):
+    why = owner_excluded(bucket)
+    if why:
+        return False
     if bucket in dead_forever():
         return False
     if bucket.startswith(LOCAL_PREFIX):
