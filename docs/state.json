@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 16:25:29",
+ "at": "2026-08-25 16:25:35",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -781,9 +781,9 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 67600,
+   "done": 67800,
    "total": 116402,
-   "detail": "82,487 pages  \u00b7  1095M characters  \u00b7  21.9/s",
+   "detail": "82,669 pages  \u00b7  1096M characters  \u00b7  21.8/s",
    "warn": "",
    "eta_h": 0.6
   }
@@ -919,7 +919,7 @@
    "breached": [],
    "liveness": 38,
    "liveness_ceiling": 38,
-   "age_min": 4.3
+   "age_min": 4.4
   },
   "escalation_recent": {
    "SUPERVISOR": 109,
@@ -1380,5 +1380,5 @@
    "stalled": false
   }
  ],
- "generated": "2026-08-25T16:25:32"
+ "generated": "2026-08-25T16:25:38"
 }
