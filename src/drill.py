@@ -1456,8 +1456,17 @@ def drill_mutation():
         src = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(src, "drill.py"), encoding="utf-8") as fh:
             text = fh.read()
-        i = text.find("if breached:")
-        j = text.find("DRILL_BREACH")
+        # Search for the escalation FROM the branch, not from the top of the file: the string
+        # "DRILL_BREACH" also appears in this module's own prose long before the code that
+        # raises it, so a bare `find` compared two unrelated offsets and this net breached
+        # against correct code. A net that fails for its own reasons teaches people to ignore it.
+        # `rfind`, and the reason is worth the line: this net reads the file it LIVES IN, so a
+        # forward `find` for "if breached:" matched the string literal inside this very
+        # function -- 78,000 characters before the branch it meant to inspect -- and the net
+        # breached against perfectly correct code, twice. A detector that searches its own
+        # source has to reckon with finding itself. The real branch is in `main()`, last.
+        i = text.rfind("    if breached:")
+        j = text.rfind('"DRILL_BREACH"')
         return -1 < i < j and "MUTATION RUN IS ACTIVE" in text[i:j]
     net(a, "a breach during a mutation run is reported but does not halt the library",
         drill_does_not_halt_during_a_mutation_run,
