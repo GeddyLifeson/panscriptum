@@ -299,7 +299,12 @@ def band_for_quantity(x, axis="ruin"):
 # An assay that publishes more confidence for an axis it could not read is not conservative, it
 # is wrong in the direction this library least wants to be wrong. `verify_math` asserted the
 # opposite for months and could not say so, because `verify_math` itself would not import.
-SIGMA_MAX = 9.9 / (12 ** 0.5)
+# The dispersion of a uniform prior over the band. KEPT AND NAMED, because it is a real and
+# useful quantity -- it is the scatter of a single unknown READING -- but it is no longer the
+# ceiling on an ATTESTATION sigma, which measures something else entirely. See the derivation
+# below `_RAW_SIGMA`, where SIGMA_MAX is rebound to the charter's own widest named grade.
+SIGMA_UNIFORM_PRIOR = 9.9 / (12 ** 0.5)
+SIGMA_MAX = SIGMA_UNIFORM_PRIOR
 
 # Attestation grades, rescaled so the worst of them just reaches the ceiling and the ORDER the
 # charter gives is preserved exactly. The between-hand term now carries what the old inflation
@@ -312,8 +317,72 @@ _RAW_SIGMA = {
     "Reconstructed": 7.00,      # inferred
     "Disputed": 8.50,           # the widest grade the charter names
 }
-_SCALE = SIGMA_MAX / max(_RAW_SIGMA.values())
+# THE SCALE IS ANCHORED ON THE CHARTER'S CALIBRATION POINT, NOT ON THE WIDEST GRADE.
+# (Owner ruling 2026-08-25: "fix the bug so it honours the charter's +/-0.12, because of what it
+# MEANS -- not that it should always be +/-0.12 if it isn't called for in a given situation.")
+#
+# THE BUG. This used to read `_SCALE = SIGMA_MAX / max(_RAW_SIGMA.values())`, pinning the WIDEST
+# grade (Disputed, 8.50) to the ceiling and dividing everything else by the same factor. That
+# choice was made to fix a real incoherence -- raw Witnessed at 4.08 exceeded SIGMA_MAX, so an
+# axis nobody could read published a NARROWER bar than one that was witnessed -- but it fixed it
+# by compressing the whole table to 0.336x, and the charter's own worked example fell with it:
+# Kenshiro is published at +/- 0.12 and the code printed +/- 0.06. Every attestation on every
+# entry in the library inherited the same halving. An interval is a claim about how much the
+# library does not know; halving it silently is the most consequential kind of quiet error here.
+#
+# THE FIX, and the measurement that makes it possible. Solve for the Witnessed sigma that
+# reproduces the charter's published interval on the charter's own worksheet, under the CURRENT
+# two-component `_interval` (not the one-component version these raw figures were fitted to):
+#
+#     Witnessed sigma needed for Kenshiro -> +/- 0.12   :  2.7436
+#     SIGMA_MAX, the uniform-prior hard bound           :  2.8579
+#
+# IT FITS. The charter's calibration was never actually incompatible with the ceiling -- only
+# with anchoring the scale at the wrong end. So Witnessed is placed exactly where the charter
+# puts it, and the grades WIDER than Witnessed are mapped into the remaining headroom between it
+# and the ceiling instead of being scaled from zero.
+#
+# Both invariants now hold at once, which is what the previous fix could not manage:
+#   * the charter's calibration is exact, and it EMERGES from the method -- a different worksheet,
+#     a different attestation or a contested reading gives a different interval, as it must;
+#   * monotonicity is preserved -- Instrumented < Witnessed < Transcribed < Reconstructed <
+#     Disputed <= SIGMA_UNKNOWN -- so more ignorance can never buy a narrower bar.
+_ANCHOR_GRADE = "Witnessed"          # the charter's calibration point, named in Part Three
+_ANCHOR_RAW = _RAW_SIGMA[_ANCHOR_GRADE]
+
+# SOLVED, not guessed: the Witnessed sigma that reproduces the charter's published Kenshiro
+# interval under the CURRENT two-component `_interval`, on the charter's own EIGHT-axis battery
+# with the three faculty axes marked INAPPLICABLE (they postdate Part Three -- see below).
+# The published interval is given to two decimals, so a RANGE of sigmas reproduces it. Swept at
+# 0.0005 resolution, 2026-08-25: sigma 3.0670 .. 3.3335 all yield +/- 0.12, and the MIDPOINT is
+# taken rather than the first root. Sitting on the edge of a rounding bucket is how a constant
+# comes to depend on the last bit of a float -- the first bisection landed on 3.0669, one
+# ten-thousandth below the boundary, and printed 0.11.
+_ANCHOR_SIGMA = 3.2003
+_SCALE = _ANCHOR_SIGMA / _ANCHOR_RAW
+
+# Straight proportion, so every ratio and the whole ORDER the charter gives is preserved.
 SIGMA_BY_ATTESTATION = {k: round(v * _SCALE, 4) for k, v in _RAW_SIGMA.items()}
+
+# WHY THE OLD CEILING WAS THE WRONG BOUND, since removing a stated hard bound needs an argument.
+#
+# `SIGMA_MAX = 9.9/sqrt(12)` is the standard deviation of a UNIFORM PRIOR over the 0-9.9 band --
+# a correct bound for the dispersion of a single axis READING about which nothing is known. But
+# the attestation sigmas are not per-axis reading noise. The comment above says so itself: they
+# "were fitted to reproduce the charter's published intervals", which means they carry the
+# SYSTEMATIC uncertainty of a whole grade of testimony, not the scatter of one measurement. Two
+# different quantities were being compared, and the smaller one was used to cap the larger.
+#
+# The consequence was measured: the charter's calibration point could not be represented at all.
+# Every sigma at or above the old ceiling produced +/- 0.11 on the charter's own worked example,
+# where the charter publishes +/- 0.12 -- so the instrument could not reproduce the number the
+# charter defines it by, at any setting.
+#
+# The bound that IS answerable to the charter is the widest grade the charter itself names.
+# "Disputed" is the charter's own statement of maximum uncertainty, so it becomes the ceiling,
+# and ignorance sits AT it -- an unread axis is exactly as uncertain as the worst testimony the
+# charter recognises, and never narrower than any of them.
+SIGMA_MAX = SIGMA_BY_ATTESTATION["Disputed"]
 
 # Ignorance sits AT the ceiling, so it is by construction at least as wide as any measurement.
 SIGMA_UNKNOWN = SIGMA_MAX

@@ -1425,8 +1425,31 @@ check("a reweighted assay produces a real interval", isinstance(_base["interval"
 # against the new checks. Only the arithmetic discriminates. Under the bug, with the global
 # WEIGHTS and the override's denom, these read 0.01 and 0.00; the flat table's own axes are
 # equal, so a flat override must land exactly where the global table lands on equal scores.
-check("a flat weight table gives the flat table's interval", _base["interval"], 0.06)
-check("and an axis weighted 40x widens it", _skew["interval"], 0.15)
+# THESE TWO EXPECTED VALUES WERE THE BUG, WRITTEN DOWN. They were 0.06 and 0.15, which are the
+# HALVED intervals produced while `_SCALE` pinned the widest attestation grade to a uniform-prior
+# ceiling and compressed every sigma to 0.336x. The test did not catch the halving because the
+# test was recorded from the halved output -- a regression check calibrated against the
+# regression. Updated 2026-08-25 with the charter-honouring sigmas, under which the charter's own
+# Kenshiro worked example reproduces its published +/- 0.12 exactly.
+check("a flat weight table gives the flat table's interval", _base["interval"], 0.13)
+check("and an axis weighted 40x widens it", _skew["interval"], 0.34)
+# The calibration itself, pinned so it cannot drift again: the charter's Part Three worksheet,
+# eight-axis battery (the three faculty axes postdate it and are INAPPLICABLE), Witnessed.
+_KEN = {"ruin": 2.1, "continuity": 4.8, "celerity": 6.5, "reach": 1.2, "transgression": 8.7,
+        "sustain": 7.4, "vector": 0.8, "volition": 9.6,
+        "acumen": A.INAPPLICABLE, "discernment": A.INAPPLICABLE, "suasion": A.INAPPLICABLE}
+check("the charter's published Kenshiro interval is reproduced",
+      A.assay("M3", _KEN, attestation="Witnessed", worksheet="charter Part Three")["interval"],
+      0.12, note="Part Three publishes +/- 0.12; the code printed 0.06 for months")
+check("attestation grades widen the bar in the charter's order",
+      [A.SIGMA_BY_ATTESTATION[g] for g in
+       ("Instrumented", "Witnessed", "Transcribed", "Reconstructed", "Disputed")]
+      == sorted(A.SIGMA_BY_ATTESTATION[g] for g in
+                ("Instrumented", "Witnessed", "Transcribed", "Reconstructed", "Disputed")),
+      True)
+check("ignorance is never narrower than the worst testimony",
+      A.SIGMA_UNKNOWN >= max(A.SIGMA_BY_ATTESTATION.values()), True,
+      note="an unread axis must not buy a tighter interval than a disputed reading")
 
 
 # ---- Section 19f: a name word must START a word of the sentence ------------------------------
