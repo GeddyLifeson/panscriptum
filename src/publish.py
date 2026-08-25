@@ -135,7 +135,11 @@ COPY_FILES = ("CLAUDE.md", "README.md", "config.yaml", "requirements.txt",
               "WATCH.md", "STATUS.md",
               # the maintenance-pass ledgers: run journal, bug paper-trail, priority
               # queue, and the framework the scheduled super-supervisor reads first
-              "HANDOFF.md", "BUGS.md", "NEXT_STEPS.md", "MAINTENANCE.md")
+              "HANDOFF.md", "BUGS.md", "NEXT_STEPS.md", "MAINTENANCE.md",
+              # The Step 4 entanglement plan. Published because it is the document the owner
+              # rules on and the next run plans from, and a plan that lives only on one machine
+              # is a plan the relay cannot carry.
+              "STEP4_PLAN.md")
 # Backups and scratch copies never travel. The .pre* family is session backups of live modules
 # -- seven of them were sitting in src/ and being published to the PUBLIC repo because this
 # tuple only knew about two suffixes.
