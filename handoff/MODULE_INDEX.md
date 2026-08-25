@@ -117,6 +117,7 @@
 - **rosetta** — ROSETTA — each fiction's own power scale, mined and used as ground truth
 - **runguard** — RUNGUARD — the overlap guard for the maintenance pass, as code instead of as a convention
 - **scale_theories** — THE SCALE-CHANGE THEORIES — what would have to be true, and what it would cost
+- **secondopinion** — SECOND OPINION — the same three questions, asked again by code this project did not write
 - **sevenfold** — THE SEVENFOLD ORDER — seven hyperverses, and a span of one to seven at every tier beneath
 - **snapshot** — SNAPSHOT — take a copy before doing something that cannot be undone, and prove it restores
 - **suppressions** — SUPPRESSIONS — the exceptions a detector is allowed, each with a reason and an expiry

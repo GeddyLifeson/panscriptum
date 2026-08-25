@@ -9,6 +9,65 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 — outside tools evaluated by running them; SQL index + second opinion adopted
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **A halt was raised and lifted in this session, by me.** `corpus_db.drift()` was written with
+   no caller, `liveness` went 38 -> 39, the ratchet breached and the library halted — the chain
+   working exactly as designed, against its own author, within minutes. I wired `drift()` to
+   `--drift` and to `--rebuild`, confirmed 169/169 nets hold, and cleared the halt with a written
+   ruling naming your standing approval. Raising and lifting inside one turn is the pattern the
+   doctrine is suspicious of; the ruling is in `state/escalation.log` if you want to revisit it.
+2. **A MAJOR work order is addressed to OWNER and only you can answer it:**
+   `ASSAY_INTERVAL_ASSUMES_INDEPENDENT_AXES`. `assay._interval` computes
+   `Var = SUM (w_i*sigma_i)^2` with **no covariance term** — it assumes the eight power Measures
+   are statistically independent. If they correlate (and a character with high Ruin plausibly has
+   high Reach), the true variance is larger and **every published ± in the library is too
+   narrow**. The maths is a one-line change; the correlation matrix is a charter judgment.
+
+**THE SCHEDULED TASK IS NOW DAILY, NOT HOURLY** (owner ruling). One long comprehensive shift at
+04:00 instead of twenty-four shallow ones: it drains the whole work-order queue in a loop rather
+than a single pass, runs the full 16-batch sweep every time instead of only when the queue is
+clear, and treats leftover orders as a failed run. Fewer tokens per week, more work per token.
+
+**WHAT WAS EVALUATED AND REJECTED, ON MEASUREMENT.** CPU is ~0.3% of wall clock (model+network
+~7,070 s/hr vs a 21.5 s slowest operation), so Cython/Rust-PyO3/Numba/SIMD/PGO optimise a
+rounding error. The GPU is at 99% with 9.6/10.2 GB resident, so CUDA/CuPy/PyTorch/BlazingSQL
+would compete with Ollama for the saturated resource. Ray/Dask/PySpark distribute across
+machines that do not exist here. Protobuf/Cap'n Proto would make the corpus unreadable to a
+person for a saving that does not matter. **DuckDB installs and will not load** — Norton
+Application Control — which is what settled the database question.
+
+**ADOPTED, after installing and running each one here:**
+
+* `src/corpus_db.py` — SQLite index over 216 records / 120,067 entries, rebuild 42 s. Served by
+  **Datasette** (`--serve`), which is the free SQL front end: faceted tables, the `CANNED`
+  queries as clickable links, every page also JSON. Config is GENERATED from `CANNED`; a drill
+  net enforces there is no second copy.
+* **It cannot be fresh and does not claim to be.** 8,613 entries were catalogued in the 27
+  minutes after the first rebuild. Every result prints a staleness banner; a net enforces the
+  banner cannot understate the gap. The first version of that net demanded 2% agreement, went
+  red immediately, and taught the right lesson instead of the one it asked for.
+* `src/secondopinion.py` — `ruff` + `vulture` + `detect-secrets` beside `silence.py`,
+  `liveness.py`, `publish.scan_for_secrets`. **They replace nothing**; they exist because three
+  detectors by one author share one blind spot. An absent tool reports `NOT INSTALLED`, never an
+  empty pass. Nine rules this codebase deliberately diverges on sit in `NOT_FILED` with a
+  written reason each — counted in the report, kept out of the queue.
+
+**WHAT THE OUTSIDE TOOLS ACTUALLY FOUND.** ruff's two `B023` closure-capture hits are both
+same-iteration and are NOT bugs — checked by reading them. vulture found 3 unused variables
+`liveness.py` structurally cannot see (it never looks inside function bodies) → filed at LOCAL.
+detect-secrets found **zero**, agreeing with the hand-written scrubber from a different rule
+set; the single disagreement is `publish.scan_for_secrets` reading `__pycache__/*.pyc` and
+flagging the drill's own fixture → filed at LOCAL. 28 orders filed in total.
+
+Already in place, so not adopted: Ollama constrained decoding — `pipeline.ask` has passed
+`"format": schema` all along.
+
+**BATTERY:** verify_math 795/0 · drill 169 nets / 0 BREACHED · allsweep 0 bad subsystems ·
+liveness 38 (at the ceiling) · health preflight clean · ruff clean on the new modules.
+
 ## 2026-08-25 (local) — RUN #33: the queue was blind, and that is why four runs missed things
 
 **FOR THE OWNER, AT THE TOP:**

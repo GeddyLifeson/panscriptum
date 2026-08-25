@@ -227,6 +227,48 @@ terminal's existing card format can be extended to link to or embed them, rather
 a second, disconnected viewer. This wasn't wired up as part of this kit — it's flagged here as
 the natural next integration step, not done for you.
 
+## Querying the corpus, and the outside opinion (added 2026-08-25)
+
+Two things were adopted after the owner asked, in effect, whether established tools do these
+jobs better than the hand-written ones. The evaluation was done by RUNNING them here, not by
+reading their claims, and most of the candidates lost on measurement:
+
+* CPU work is about **0.3% of this pipeline's wall clock** (model + network ~7,070 s/hour
+  against a slowest CPU operation of 21.5 s), so Cython, Rust/PyO3, Numba, SIMD and PGO would
+  optimise a rounding error. The GPU is already at 99% utilisation with 9.6 of 10.2 GB
+  resident, so CUDA/CuPy/PyTorch would COMPETE with Ollama for the one saturated resource.
+  Ray, Dask and PySpark distribute across machines this project does not have.
+* **DuckDB is blocked on this machine** — `An Application Control policy has blocked this
+  file`, Norton, the same interference that breaks Python's HTTPS here. Every other tool
+  below was verified to install AND run.
+
+**`src/corpus_db.py`** — a SQLite index of the corpus, so a question costs a line instead of a
+throwaway script. It is a DERIVED index; `data/records/*.json` stay canonical.
+
+```bash
+python3 src/corpus_db.py --rebuild        # ~42s, whole rebuild, never incremental
+python3 src/corpus_db.py --canned coverage
+python3 src/corpus_db.py --drift          # exact gap between the index and the records
+python3 src/corpus_db.py --serve          # writes Datasette's config, prints the serve command
+```
+
+**It cannot be kept fresh, and does not pretend to be.** The crawl catalogued 8,613 entries in
+the twenty-seven minutes after one rebuild, so any staleness tolerance expires in about seven.
+Every result is therefore printed under a banner saying how far behind the index is, and a
+drill net enforces that the banner cannot understate it. Treat stale counts as a FLOOR.
+
+**`src/secondopinion.py`** — `ruff`, `vulture` and `detect-secrets` run beside `silence.py`,
+`liveness.py` and `publish.scan_for_secrets`. They replace nothing. The point is that they were
+written by other people from a different theory, so they cannot share a blind spot with the
+house detectors, and **the finding is where the two answers differ**. An absent tool reports
+`NOT INSTALLED`, never an empty pass — and rules this codebase deliberately diverges on live in
+`NOT_FILED` with a written reason each, counted in the report but kept out of the queue.
+
+```bash
+python3 src/secondopinion.py                 # the comparison
+python3 src/secondopinion.py --file-orders    # queue what the outside tools saw
+```
+
 ## Querying what's generated
 
 ```bash

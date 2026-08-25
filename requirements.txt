@@ -8,3 +8,19 @@ zstandard>=0.24
 tqdm>=4.67
 pyflakes>=3.4
 PyMuPDF>=1.28        # ingest_doc.py: owner-supplied PDFs -> library corpus
+
+# ---------------------------------------------------------------- the outside opinion
+# OPTIONAL, and deliberately so. `src/secondopinion.py` runs these and treats DISAGREEMENT with
+# the house detectors as the finding; a missing one is reported as NOT INSTALLED, never as a
+# pass. Verified installed AND running on the owner's machine 2026-08-25 -- Norton's Application
+# Control blocks DuckDB here but permitted every one of these, including ruff's Rust binary.
+ruff>=0.16              # second opinion on silence.py and liveness.py; also B023/B008/B904
+vulture>=2.16           # dead code by a different method: unused VARIABLES, which liveness misses
+detect-secrets>=1.5     # independent scanner beside publish.scan_for_secrets; agreed at 0
+
+# ---------------------------------------------------------------- the query front end
+# corpus_db.py builds a SQLite index of the corpus (stdlib sqlite3, no dependency). Datasette is
+# the browsable face of it: faceted tables, the CANNED queries as clickable links, and the same
+# URL as JSON with `.json` appended. `python src/corpus_db.py --serve` writes its config and
+# prints the command. DuckDB was the better analytical engine and does not run on this machine.
+datasette>=0.65         # optional: the web UI for state/corpus.db

@@ -66,6 +66,13 @@ import silence  # noqa: E402
 # whole module would report NOT INSTALLED for three tools that are sitting on disk.
 _SCRIPTS = os.path.join(os.path.dirname(sys.executable), "Scripts")
 
+# Every child spawned here runs windowless. This module ran four subprocesses without it
+# and `verify_math` failed the run within the minute: on Windows a bare `subprocess.run`
+# flashes a console window, and a maintenance pass that pops four black boxes onto the
+# owner's desktop is a maintenance pass they will turn off. Held as a module constant so
+# a new spawn cannot quietly omit it.
+_NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
 
 def _exe(name):
     """-> a runnable path for a console script, or None. Checks the interpreter's own Scripts
@@ -74,7 +81,7 @@ def _exe(name):
                  os.path.join(_SCRIPTS, name),
                  name):
         try:
-            r = subprocess.run([cand, "--version"], capture_output=True, timeout=30)
+            r = subprocess.run([cand, "--version"], capture_output=True, creationflags=_NO_WIN, timeout=30)
             if r.returncode == 0:
                 return cand
         except Exception:
@@ -93,6 +100,32 @@ COUNTERPART = {
     "vulture": "liveness.py", "detect-secrets": "publish.scan_for_secrets",
 }
 
+# HOUSE STYLE THIS CODEBASE DELIBERATELY DIVERGES ON, each with the reason written down.
+#
+# These are still COUNTED and still PRINTED -- they are simply not filed as work orders. The
+# distinction matters: a rule dropped from the report is a rule nobody can re-argue, whereas a
+# rule that appears in the count with a stated reason stays answerable. This is `suppressions.py`
+# doctrine applied to somebody else's detector: an exemption with no reason attached is how a
+# real finding gets waved through the second time.
+#
+# The test for belonging here is "would fixing every instance make this codebase WORSE or merely
+# different". Anything where the answer is "better" does not belong here, however many sites it
+# has -- 456 blind-excepts is a big number and it is still a real finding, which is why BLE001
+# is NOT in this list.
+NOT_FILED = {
+    "E402": "src/ modules do sys.path.insert before importing siblings; the import cannot precede it",
+    "SIM115": "explicit open/close is used where a handle outlives one block; context managers "
+              "are used everywhere they fit",
+    "UP031": "percent formatting is the house style throughout, and it is not a defect",
+    "ISC004": "the charter's long prose strings are concatenated deliberately for readability",
+    "C408": "dict() over {} is a readability choice, consistently applied",
+    "RUF100": "noqa comments kept where a rule was once enabled; harmless and self-documenting",
+    "PLW1510": "subprocess return codes are checked explicitly by the caller, not by check=True, "
+               "because a non-zero exit is often the expected answer here",
+    "B007": "unused loop variables are frequently the readable name for a discarded half of a pair",
+    "DTZ005": "local wall-clock time is what the owner's scheduled task and logs are read in",
+}
+
 
 def _ruff(paths):
     exe = _exe("ruff")
@@ -100,7 +133,7 @@ def _ruff(paths):
         return "NOT INSTALLED", []
     r = subprocess.run([exe, "check", "--output-format", "json",
                         "--select", RUFF_RULES, "--ignore", RUFF_IGNORE] + list(paths),
-                       capture_output=True, text=True, timeout=300)
+                       capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
     try:
         rows = json.loads(r.stdout or "[]")
     except Exception:
@@ -126,7 +159,7 @@ def _vulture(paths, min_confidence=90):
     if not exe:
         return "NOT INSTALLED", []
     r = subprocess.run([exe] + list(paths) + ["--min-confidence", str(min_confidence)],
-                       capture_output=True, text=True, timeout=300)
+                       capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
     out = []
     for line in (r.stdout or "").splitlines():
         parts = line.split(":", 2)
@@ -147,7 +180,7 @@ def _detect_secrets(paths):
     if not exe:
         return "NOT INSTALLED", []
     r = subprocess.run([exe, "scan"] + list(paths),
-                       capture_output=True, text=True, timeout=600)
+                       capture_output=True, creationflags=_NO_WIN, text=True, timeout=600)
     try:
         doc = json.loads(r.stdout or "{}")
     except Exception:
@@ -239,6 +272,8 @@ def file_orders(got, found_by="secondopinion"):
             by_code.setdefault(f["code"], []).append(f)
 
     for code, hits in sorted(by_code.items()):
+        if code in NOT_FILED:
+            continue          # counted and printed, not queued. See NOT_FILED for the reason.
         sites = ", ".join("%s:%d" % (h["file"], h["line"]) for h in hits[:4])
         if len(hits) > 4:
             sites += " (+%d more)" % (len(hits) - 4)
@@ -286,9 +321,13 @@ def report(paths=None):
             codes[f["code"]] = codes.get(f["code"], 0) + 1
         top = ", ".join("%s x%d" % (k, n) for k, n in
                         sorted(codes.items(), key=lambda kv: -kv[1])[:6])
+        waived = sum(n for k, n in codes.items() if k in NOT_FILED)
         print("  %-15s RAN   %4d finding(s)   vs %s" % (name, len(v["findings"]), cp))
         if top:
             print("  %-15s       %s" % ("", top))
+        if waived:
+            print("  %-15s       of which %d are house-style divergences with a written reason "
+                  "(NOT_FILED) — counted, not queued" % ("", waived))
     print("-" * 78)
     print("  house detectors: liveness=%s  silence=%s  secrets=%s"
           % (mine["liveness"], mine["silence"], mine["secrets"]))
