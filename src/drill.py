@@ -321,8 +321,20 @@ def drill_local_agent():
     import local_agent as LA
 
     def denied(path):
+        """Was the path refused BY A GATE, as opposed to failing for an unrelated reason?
+
+        The first version asked only "did it decline", which conflated a gate refusal with
+        `find string occurs 0 times` -- so a file the agent is perfectly entitled to write read
+        as denied, and the net that proves the agent can still do its job reported a false
+        breach. A probe that cannot tell refusal from ordinary failure is measuring the wrong
+        thing, which is the same defect as a check that cannot fail.
+        """
         r = LA.t_propose_patch(path, "x", "y", why="drill", apply=False)
-        return isinstance(r, dict) and not r.get("applied") and bool(r.get("error"))
+        if not isinstance(r, dict) or r.get("applied"):
+            return False
+        err = str(r.get("error") or "")
+        return ("denylist" in err or "protected region" in err
+                or "writable surface" in err or "no such file" in err)
 
     net(a, "it cannot patch the checking machinery", lambda: denied("src/verify_math.py"),
         "the gate must not be able to edit its own judge")
@@ -339,9 +351,18 @@ def drill_local_agent():
     net(a, "it cannot edit the catalog", lambda: denied("output/index/catalog.json"), "")
     net(a, "it cannot edit shared run state", lambda: denied("state/HALT.json"),
         "least of all the halt file")
-    net(a, "it CAN still be given ordinary work",
-        lambda: not denied("README.md") or True,
+    net(a, "it CAN still be given ordinary work", lambda: not denied("src/scope.py"),
         "a writer that can write nothing is not a writer")
+    # The ALLOWLIST — the half that fails CLOSED. These paths are on no denylist at all; they are
+    # refused because they are outside the agent's working surface, which is the property M24
+    # showed a denylist cannot provide.
+    net(a, "a path on NO denylist is still refused if it is outside the surface",
+        lambda: denied("data/COVERAGE.json"),
+        "a denylist fails open on anything nobody thought of; this is the closed half")
+    net(a, "it cannot write into data/ at all", lambda: denied("data/WIKI_HOSTS.json"), "")
+    net(a, "it cannot write a brand-new top-level file",
+        lambda: denied("something_nobody_listed.txt"),
+        "the test that matters: a path invented AFTER the lists were written")
 
 
 def _no_programmatic_clear():

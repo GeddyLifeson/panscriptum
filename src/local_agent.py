@@ -91,6 +91,33 @@ DENYLIST_PREFIXES = (
     ".git/",
 )
 
+# THE ALLOWLIST, AND WHY IT EXISTS ALONGSIDE THE DENYLIST RATHER THAN INSTEAD OF IT.
+#
+# Borrowed from the Eli Felse Base project's `trusted_modules.json`, whose organising idea is
+# that an autonomous model should choose from a FIXED MENU rather than compose arbitrary
+# instructions. The distinction is not stylistic:
+#
+#     a DENYLIST fails OPEN  -- anything nobody thought of is permitted
+#     an ALLOWLIST fails CLOSED -- anything nobody thought of is refused
+#
+# M24 is precisely that failure: `propose_patch` could write `data/records/*.json`, bypassing
+# `pipeline.write_record` and becoming a third writer against a two-writer contract, purely
+# because that prefix was not on a list. Four earlier bypasses of this same gate (case, name
+# prefix, NTFS alternate data stream, case-sensitive extension) are all the same shape -- a
+# denylist being asked a question it cannot answer.
+#
+# BOTH ARE KEPT. Not belt-and-braces for its own sake: they fail differently, which is the whole
+# requirement (CLAUDE.md, Hard Rule -1). The allowlist bounds the surface to what the agent's job
+# actually needs; the denylist keeps the specific, well-argued refusals inside that surface --
+# `src/` is writable, but `src/verify_math.py` is not, because the checking machinery may not
+# edit itself. Neither alone expresses that.
+WRITABLE_PREFIXES = (
+    "src/",        # the agent's job is code repair -- still subject to the module denylist
+    "prompts/",    # prompt text, versioned by config's prompt_version
+    "handoff/",    # audit reports
+)
+WRITABLE_FILES = ("README.md", "STATUS.md", "BUGS.md", "NEXT_STEPS.md")
+
 # Models known tool-trained and fitting a 10GB card, for the capability report when the
 # configured model turns out not to emit tool calls at all.
 # GPU-resident on a 10GB card AND tool-trained -- the ruling of 2026-08-24 excludes anything
@@ -468,6 +495,16 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     # the name denylist and before anything is read, so a protected path never even reaches the
     # find/replace. Erring toward refusal is the harmless direction.
     _rel_l = rel.lower()
+    # THE ALLOWLIST RUNS FIRST, because it is the one that fails closed. A path outside the
+    # agent's working surface is refused without any further question -- no denylist entry
+    # required, and none needed for whatever gets added to this repo next.
+    if not (any(_rel_l.startswith(p) for p in WRITABLE_PREFIXES)
+            or _rel_l in {f.lower() for f in WRITABLE_FILES}):
+        return {"applied": False,
+                "error": "%s is outside the writable surface. The local model may write %s and "
+                         "%s -- everything else is refused by default, including anything added "
+                         "to this repo after this list was written."
+                         % (rel, ", ".join(WRITABLE_PREFIXES), ", ".join(WRITABLE_FILES))}
     for _pfx in DENYLIST_PREFIXES:
         if _rel_l.startswith(_pfx):
             return {"applied": False,
