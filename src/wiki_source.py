@@ -349,7 +349,7 @@ _ALLCATS = {}
 _ALLCATS_LOCK = threading.Lock()
 
 
-def all_categories(subdomain, min_pages=40, hard_stop=6000):
+def all_categories(subdomain, min_pages=40, hard_stop=None):
     """[(size, name)] for every category on a wiki holding at least `min_pages` pages.
 
     CACHED PER (SUBDOMAIN, MIN_PAGES), and it has to be. `find_categories` calls this once for
@@ -358,16 +358,31 @@ def all_categories(subdomain, min_pages=40, hard_stop=6000):
     entity is fetched, and the catalogue run appears to hang. The listing does not change
     between those seven calls.
 
-    `hard_stop` bounds the API walk, not the answer: it exists so a wiki with a hundred thousand
-    year-buckets cannot spin here forever.
+    `hard_stop` DEFAULTED TO 6000 AND THE DOCSTRING SAID IT "BOUNDS THE API WALK, NOT THE
+    ANSWER". That was simply untrue: `out` IS the answer, and `while len(out) < hard_stop` cut
+    it. Run #26 measured DC past 10,000 categories at `min_pages=40` with more still to come, so
+    every catalogue run on DC saw an ALPHABETICAL first 6,000 -- `allcategories` returns in
+    alphabetical order, which makes this the Hard Rule 0 truncation the charter names by example,
+    not a bound. DC sits at 0.5% catalogued and is one of the three worst sources on the page.
+    A comment that contradicts its code is how it survived twenty-five runs.
+
+    The bound is gone by default. The kwarg stays so no caller's signature breaks, and honouring
+    an explicitly-passed one is left available for a human debugging a pathological wiki -- but
+    nothing in the tree passes it, and nothing should.
+
+    A FAILED WALK IS NEVER MEMOISED. The `except` below breaks out with a partial list; caching
+    that under `(subdomain, min_pages)` made one transient API error decide, for the rest of the
+    process, that a wiki had fewer categories than it has -- and every one of the seven canonical
+    classes then read the same truncated answer without re-asking. The partial list is still
+    returned so the run makes what progress it can; it is simply not remembered as the truth.
     """
     key = (subdomain, min_pages)
     with _ALLCATS_LOCK:
         if key in _ALLCATS:
             return _ALLCATS[key]
 
-    out, cont = [], None
-    while len(out) < hard_stop:
+    out, cont, complete = [], None, True
+    while hard_stop is None or len(out) < hard_stop:
         p = {"action": "query", "list": "allcategories", "aclimit": 500,
              "acmin": min_pages, "acprop": "size"}
         if cont:
@@ -376,6 +391,7 @@ def all_categories(subdomain, min_pages=40, hard_stop=6000):
             d = _api(subdomain, p)
         except Exception:
             silence.note("wiki_source.py:all_categories")
+            complete = False
             break
         for c in d.get("query", {}).get("allcategories", []):
             name = c.get("*") or ""
@@ -384,8 +400,9 @@ def all_categories(subdomain, min_pages=40, hard_stop=6000):
         cont = d.get("continue", {}).get("accontinue")
         if not cont:
             break
-    with _ALLCATS_LOCK:
-        _ALLCATS[key] = out
+    if complete and hard_stop is None:
+        with _ALLCATS_LOCK:
+            _ALLCATS[key] = out
     return out
 
 

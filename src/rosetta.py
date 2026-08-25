@@ -361,9 +361,14 @@ def main():
         # The raw mine is written alongside the working file. `--refine` is destructive and was
         # run against a stale raw copy once, which silently discarded a good 3,514-row mine and
         # replaced it with the output of the parser that had already been fixed.
+        # Landed, not truncated-then-filled. The 2026-08-25 whole-tree sweep fixed this exact
+        # pattern in scout.py, grounding.py and coverage.py -- all three carry a comment naming
+        # that date -- and missed rosetta.py, which already imported `silence` without using it.
         for path in (OUT, OUT.replace(".json", ".raw.json")):
-            with open(path, "w", encoding="utf-8") as f:
-                json.dump(out, f, indent=1, ensure_ascii=False)
+            if not silence.write_json(path, out, indent=1, ensure_ascii=False):
+                print("rosetta: %s could not be replaced; the mine above is NOT on disk."
+                      % os.path.basename(path), file=sys.stderr)
+                return 1
         rows = sum(v["n"] for s in out.values() for v in s.values())
         print(f"\n{len(out)} wikis publish a native scale; {rows:,} graded entities  -> {OUT}")
         return 0
@@ -374,8 +379,11 @@ def main():
         recs = P.records()
         before = sum(v["n"] for sc in rosetta.values() for v in sc.values())
         out, kept, dropped = refine(rosetta, recs, hosts)
-        with open(OUT, "w", encoding="utf-8") as f:
-            json.dump(out, f, indent=1, ensure_ascii=False)
+        # `--refine` is the destructive mode: a torn write here loses the mine AND the refinement.
+        if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
+            print("rosetta: %s could not be replaced; it still holds the PRE-refine rows."
+                  % os.path.basename(OUT), file=sys.stderr)
+            return 1
         print(f"rows before refine : {before:,}")
         print(f"rows kept          : {kept:,}   dropped: {dropped:,}")
         print(f"scales surviving   : {sum(len(v) for v in out.values())} "

@@ -84,10 +84,16 @@ def add(source, host, evidence=None, score=None):
     if any((r.get("host") if isinstance(r, dict) else r) == host for r in rows):
         return False
     rows.append({"host": host, "evidence": evidence, "score": score})
-    tmp = EXTRA + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=1, ensure_ascii=False)
-    os.replace(tmp, EXTRA)
+    # `silence.write_json`, not a fixed temp name plus a bare `os.replace`. SOURCE_HOSTS extras
+    # are read live while `discover()` walks, the temp path was shared by every concurrent
+    # writer, and an uncaught PermissionError from Norton's object lock took `discover()` down
+    # mid-walk instead of reporting a denied write. The retrying, pid-unique writer is what the
+    # rest of the tree uses and what `silence.write_json`'s own docstring says replaced this
+    # exact pattern. The verdict is returned, so a caller can tell a denied write from a
+    # duplicate host -- both used to be `False`, which is how a lost host looks like a known one.
+    if not silence.write_json(EXTRA, data, indent=1, ensure_ascii=False):
+        silence.note("hosts.py:add-denied")
+        return False
     return True
 
 
@@ -140,7 +146,11 @@ def discover(only=None, workers=6, per_source=24):
     added, rows = 0, []
 
     def work(source):
-        names = list(by.get(source) or [])[:40]
+        # NO `[:40]`. This roster is the evidence a candidate host is SCORED against, so capping
+        # it scored every wiki on the same alphabetical first forty names -- the CLAUDE.md
+        # canonical violation, applied to the decision of where a source lives. A host that holds
+        # the back half of a cast could not be told from one that holds none of it. (run #26)
+        names = list(by.get(source) or [])
         if len(names) < 4:
             return None
         cur = primary_host(source)

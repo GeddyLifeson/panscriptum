@@ -106,10 +106,22 @@ def do_merge():
             skipped += 1
             continue
         rec["synthesis"] = side[src]
-        tmp = path + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(rec, f, indent=2, ensure_ascii=False)
-        os.replace(tmp, path)
+        # THROUGH THE SANCTIONED WRITER. This wrote `data/records/*.json` itself -- a bare
+        # truncating temp plus `os.replace`, bypassing `pipeline.write_record` and therefore the
+        # entire two-writer contract that verify_math §18c exists to enforce.
+        #
+        # The bypass was not merely procedural. `write_record` re-reads the file and MERGES,
+        # precisely so a stale in-memory copy cannot be published over a fresher disk one; this
+        # loop holds a `rec` from `PL.records()` taken before an unbounded number of model calls,
+        # so on a source re-catalogued in the meantime it wrote the OLD entry list back whole --
+        # the 30,207-entries-to-1,051 revert `write_record`'s docstring names, performed by the
+        # one caller that had opted out of the guard. The "run ONLY when the pipeline is stopped"
+        # note in the docstring above is a convention, and nothing enforced it. (run #26)
+        if not PL.write_record(path, rec):
+            print("  MERGE DENIED  %s -- record left as it was on disk; rerun the merge"
+                  % src, flush=True)
+            skipped += 1
+            continue
         merged += 1
     print(f"merged {merged}, skipped {skipped} (already had synthesis)")
     return 0

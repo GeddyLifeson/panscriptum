@@ -98,17 +98,24 @@ def roster(host, limit=None):
             seen.add(t)
             out.append(t)
     # One level down, for wikis that keep the roster in subcategories rather than the top.
-    if len(out) < 40:
-        # Every subcategory. Twelve was a cap on an alphabetical listing, so a wiki that
-        # files its roster under "Villains", "Heroes", "Kryptonians"... lost everything
-        # after the twelfth letter of the alphabet.
-        for sub in members("Category:Characters", "subcat"):
-            for t in members(sub):
-                if t not in seen and not _NOT_A_CHARACTER.match(t):
-                    seen.add(t)
-                    out.append(t)
-            if limit and len(out) >= limit:
-                break
+    #
+    # ALWAYS, NOT ONLY WHEN THE TOP LEVEL LOOKED THIN. Until run #26 this walk was gated on
+    # `if len(out) < 40`, which is a Hard Rule 0 cap wearing a threshold's clothing: a wiki with
+    # 40 characters filed at the top and 6,000 filed under "Villains", "Heroes", "Kryptonians"
+    # returned the 40 and reported a complete roster. Nothing failed, and the shortfall looked
+    # exactly like a small wiki. That is the same defect the `< 12` subcategory cap had -- fixed
+    # once at the inner loop and left standing one line up, at the decision to loop at all.
+    #
+    # `seen` already de-duplicates, so walking the subcategories of a wiki that also lists its
+    # cast at the top costs API calls and changes no result. Per Hard Rule 0 the answer to slow
+    # is more time, never a smaller universe.
+    for sub in members("Category:Characters", "subcat"):
+        for t in members(sub):
+            if t not in seen and not _NOT_A_CHARACTER.match(t):
+                seen.add(t)
+                out.append(t)
+        if limit and len(out) >= limit:
+            break
     # NO CAP. DC's Category:Characters runs past 6,000 and a cap took an alphabetical sliver --
     # Abin Sur, Ace, Adolf Hitler -- while Superman, Wally West and Wonder Woman sat outside the
     # window entirely. A cap on an alphabetically-ordered listing is not a sample, it is a

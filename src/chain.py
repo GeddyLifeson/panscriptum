@@ -112,10 +112,12 @@ def write_result(edges, res, unmatched=None):
     # bare open() leaves a TORN CHAIN.json if the process dies mid-dump or a reader holds it --
     # the half-written state being indistinguishable, to anything that later reads it, from a
     # fit that genuinely found fewer edges. Every other phase artifact in the kit lands this way.
-    tmp = OUT + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
-    if not silence.replace_retry(tmp, OUT):
+    # `silence.write_json`, not a hand-rolled `OUT + ".tmp"`. The rename was already atomic; the
+    # TEMP NAME was not unique. `write_result` has two documented concurrent callers -- chain.main
+    # and pipeline.phase_chain -- and both would build the same fixed temp path, so one could
+    # rename the other's half-written file into place. That is the collision m100 closed at
+    # twelve sites on 2026-08-25; chain.py's two were missed. (run #26)
+    if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
         silence.note("chain.py:write_result-denied")
         print("chain: CHAIN.json could not be replaced; it still holds the PREVIOUS cycle's fit.",
               file=sys.stderr)
@@ -188,15 +190,14 @@ def harvest():
         changed += 1
     if changed:
         try:
-            tmp = HARVEST_IDX + ".tmp"
-            with open(tmp, "w", encoding="utf-8") as f:
-                json.dump(idx, f, ensure_ascii=False)
+            # Unique temp name via silence.write_json -- see write_result above; same two
+            # concurrent callers reach this index. (run #26)
             # The VERDICT, not just the attempt. A denied rename here is not harmless: the index
             # is the incremental cache, so a silent failure means every following cycle re-parses
             # ~900MB of feats to rediscover the same rows -- minutes of I/O per cycle presenting
             # as "the pipeline is just slow". Deleting the index is documented safe; NOT KNOWING
             # whether it was written is what costs. (Same family as m33-m35.)
-            if not silence.replace_retry(tmp, HARVEST_IDX):
+            if not silence.write_json(HARVEST_IDX, idx, ensure_ascii=False):
                 silence.note("chain.py:harvest-idx-denied")
                 print("chain: harvest index could not be replaced (reader holding it?); this "
                       "cycle's incremental gains are lost and the next pass re-parses whole.",

@@ -230,8 +230,17 @@ def main():
     a = ap.parse_args()
     rows = sweep()
     report(rows, top=a.top)
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(rows, f, ensure_ascii=False)
+    # LANDED, NOT TRUNCATED-THEN-FILLED. CHARACTER_SWEEP.json is read LIVE and unguarded by
+    # `hostcheck.py`, `magnitude.py` and `standards.py` while this runs, and a bare truncating
+    # open hands all three a half-written file that parses as a shorter cast list rather than
+    # failing -- the exact indistinguishable-from-legitimate shape m100 retired across the tree.
+    # This site was missed by that sweep. The VERDICT is reported: a denied replace leaves the
+    # PREVIOUS sweep on disk, and the standard `the character sweep is newer than the catalogue`
+    # is what will notice, but only if nobody claimed success here first.
+    if not silence.write_json(OUT, rows, ensure_ascii=False):
+        print(f"\nsweep: {os.path.basename(OUT)} could not be replaced; it still holds the "
+              f"PREVIOUS sweep. Nothing downstream has this run's cast list.", file=sys.stderr)
+        return 1
     print(f"\nfull table -> {OUT}  ({os.path.getsize(OUT)//1024:,} KB)")
     return 0
 

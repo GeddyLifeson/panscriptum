@@ -1002,11 +1002,23 @@ def attempt_patch(finding, dry=True):
         return {"ok": True, "why": "patched and verified", "delta": changed, "backup": backup}
     except Exception as e:
         silence.note("foreman.py:attempt_patch-apply")
+        # "REVERTED" IS A CLAIM ABOUT THE FILE ON DISK, NOT ABOUT HAVING TRIED.
+        #
+        # Until run #26 this swallowed a failed restore and returned "reverted after X" anyway.
+        # That is the worst place in the tree for an optimistic report: the file it could not
+        # restore is LIVE SOURCE CODE with a model's unverified patch still in it, the round
+        # prints a line saying the patch was rolled back, and the next thing to import that
+        # module gets the patch. A gate that says it undid something it did not undo is worse
+        # than no gate, because it stops anyone looking.
         try:
             shutil.copy2(backup, path)
         except Exception:
             silence.note("foreman.py:attempt_patch-revert")
-        return {"ok": False, "why": f"reverted after {type(e).__name__}"}
+            return {"ok": False, "reverted": False, "backup": backup,
+                    "why": f"FAILED AFTER {type(e).__name__} AND THE REVERT ALSO FAILED -- "
+                           f"{os.path.basename(path)} still holds the patch; restore it from "
+                           f"{backup} by hand"}
+        return {"ok": False, "reverted": True, "why": f"reverted after {type(e).__name__}"}
 
 
 # =========================================================================== the round
@@ -1202,7 +1214,18 @@ def round_once(dry=True, patch=False):
         except Exception:
             silence.note("foreman.py:round-findings")
             open_f = []
-        for f in sorted(open_f, key=lambda x: -(x.get("severity") == "high"))[:3]:
+        # RANKED, NOT TRUNCATED. `[:3]` here meant the fourth-ranked open finding was never
+        # attempted -- not this round, not any round, because nothing rotated and the same three
+        # stayed at the head while they stayed open. That is Hard Rule 0's shape exactly, and the
+        # same shape the owner abolished in the sweep rotation on 2026-08-25: a cap that never
+        # fails and always reads like a completed pass. Ranking survives (high severity first, so
+        # the worst is attempted first if the round is cut short); the truncation does not.
+        # Each attempt prints its own line below, so a long round announces itself rather than
+        # going silent and looking wedged to `kill_stalled_job`. (run #26)
+        _ranked = sorted(open_f, key=lambda x: -(x.get("severity") == "high"))
+        for _i, f in enumerate(_ranked, 1):
+            print(f"   MODEL  ({_i}/{len(_ranked)}) {f.get('module')}.{f.get('symbol')}",
+                  flush=True)
             res = attempt_patch(f, dry=dry)
             print(f"   MODEL  {f.get('module')}.{f.get('symbol')}: {res.get('why')}")
             log["model"].append({"module": f.get("module"), "symbol": f.get("symbol"), **res})

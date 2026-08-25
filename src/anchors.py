@@ -225,8 +225,26 @@ def run():
     print(f"  monotone floor -> ceiling : {ok}")
     for n in order:
         print(f"     {n:<28} {vals[n]:6.2f}")
-    return rows
+    if not ok:
+        print("\n  INVARIANT VIOLATED. The anchors do not ascend from floor to ceiling, which "
+              "means the instrument disagrees with the ordering it was calibrated against. "
+              "This is a reading about the ASSAY, not about this script.")
+    return rows, ok
 
 
 if __name__ == "__main__":
-    run()
+    # A CHECK WHOSE RESULT IS PRINTED AND DISCARDED CANNOT FAIL, AND `allsweep` RUNS THIS FILE.
+    #
+    # Until run #26 `run()` computed `ok`, printed it, threw it away and returned `rows`, so the
+    # process exited 0 whether the instrument's floor-to-ceiling ordering held or not. `allsweep`
+    # lists this module under "the instrument" and judges it by exit code, so a violated invariant
+    # read to every automated caller as a clean instrument -- the project's lesson 9 exactly, in
+    # the one script whose entire job is to fail when the assay drifts. `audit.py` gets this right
+    # one file over and is the pattern copied here.
+    #
+    # It exits 1 TODAY: measured run #26, `A Sword` (0.10) sits below `The Skate Guy` (0.22) and
+    # `Goku` (5.42) below `Yggdrasil` (6.18). Whether that ordering or the scores are wrong is an
+    # instrument question for the owner (NEXT_STEPS), not something this script may paper over --
+    # but it must now say so out loud instead of exiting 0.
+    _rows, _ok = run()
+    sys.exit(0 if _ok else 1)

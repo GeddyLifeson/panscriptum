@@ -434,12 +434,34 @@ def main():
     # open, which is exactly this file's situation -- the dashboard and the next ESTATE tier
     # read it. `silence.write_json` retries the rename instead of dying. 2026-08-25.
     silence.write_json(OUT, {"imports": imports, "verifiers": verifiers,
+                             "lint": lint_bad,
                              "reconcile": findings, "estate": est,
                              "seconds": round(time.time() - t0, 1)}, indent=1)
+    # THE LINT TIER NOW COUNTS. Run #26: this sweep ran four tiers and graded two. `lint_bad` was
+    # computed, printed to the console and dropped, so a real pyflakes undefined-name anywhere in
+    # `src/` left this process exiting 0 and left no trace in ALLSWEEP.json, which had no `lint`
+    # key at all. Everything that gates on the integrity suite was reading a pass from a tier
+    # that was never allowed to fail. That includes the line `lint_bad` appends when pyflakes
+    # itself will not run: the tier announces it is BLIND, and being blind scored as clean.
+    #
+    # RECONCILE DELIBERATELY DOES NOT COUNT, and that is a gap rather than a decision. Its rows
+    # are not all faults: `note()` carries no severity, and the same undifferentiated list holds
+    # `catalogued sources with no host` (a real disagreement) beside `phases implemented 8` and
+    # `running 1 dashboard.py` (plain healthy facts). Summing it made a green machine report 16
+    # bad subsystems -- tried and reverted here in run #26, deliberately recorded rather than
+    # quietly dropped. Giving `note()` a severity so this tier CAN gate is real work and is in
+    # NEXT_STEPS; until then the count is printed below and judged by a person, and the tier is
+    # honestly ungraded rather than dishonestly summed.
     bad = (len(broken)
            + sum(1 for r in verifiers if r["crashed"] or r.get("timeout"))
+           + len(lint_bad)
            + len((est.get("artifacts") or {}).get("bad", [])))
     print(f"\n{bad} subsystem(s) in a bad state.  {time.time() - t0:.0f}s.  -> {OUT}")
+    print(f"   graded:   imports {len(broken)}   verifiers "
+          f"{sum(1 for r in verifiers if r['crashed'] or r.get('timeout'))}   "
+          f"lint {len(lint_bad)}   "
+          f"estate {len((est.get('artifacts') or {}).get('bad', []))}")
+    print(f"   ungraded: reconcile {len(findings)} row(s) -- read them, they are not all faults")
     return 1 if bad else 0
 
 

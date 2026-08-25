@@ -536,7 +536,10 @@ def record_unrecognised(bucket, err):
             # file itself. The pid+thread-unique name makes that unavailable to get wrong.
             silence.write_json(UNRECOGNISED, rows, indent=1, sort_keys=True)
     except Exception:
-        pass
+        # Total, but NOT untraceable. `pass` alone meant the recorder built to make failures
+        # visible was the one place in the tree whose own failure left no mark anywhere -- the
+        # ledger could quietly stop recording and the page would simply read "none". (run #26)
+        silence.note("cascade_bridge.py:record-unrecognised")
 
 
 def unrecognised_open(max_age_h=24):
@@ -949,7 +952,29 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                 # `err`, not `box["error"]` -- this records the UNWRAPPED text where one was
                 # found, so what lands on the page is the provider's actual complaint rather
                 # than the engine's "All 1 candidates failed", which is unactionable by design.
-                record_unrecognised(pinned.bucket, raw or box.get("error") or "")
+                # ONE WINDOW WAS SERVING TWO QUESTIONS WITH DIFFERENT ANSWERS.
+                #
+                # `provider_error`'s 180s gate is exactly right for BENCHING: claiming a stale row
+                # would bench a live provider for four hours on a fossil, which is m103's harm.
+                # It is far too narrow for EXPLAINING. Run #26 measured the biggest open row --
+                # `groq:openai/gpt-oss-120b: All 1 candidates failed: GPT-OSS 120B (Groq)`, thirty
+                # occurrences holding a HIGH standard red -- and the cause was sitting in
+                # `bucket_state` the whole time: a Groq tokens-per-day rate limit. During a burst
+                # the aggregate arrives more than 180s after the provider row that explains it, so
+                # the unwrap above found nothing and the ledger recorded the engine's wrapper,
+                # which is unactionable by design and can never be classified by anyone.
+                #
+                # So: a SECOND, WIDER lookup, for the recorded text only. It reaches no bench, no
+                # cooldown and no routing decision -- `_bury` is above and already decided -- and
+                # it is used only when the narrow one found nothing, so it can never override a
+                # fresh reason with an older one. The worst it can do is attach an hour-old
+                # explanation to a row that would otherwise have had none at all.
+                _text = raw or box.get("error") or ""
+                if pinned and any(w in _text.lower() for w in _WRAPPERS):
+                    _older = provider_error(pinned.bucket, max_age_s=6 * 3600)
+                    if _older and not any(w in _older.lower() for w in _WRAPPERS):
+                        _text = _older
+                record_unrecognised(pinned.bucket, _text)
             return None
         if pinned:
             _clear(pinned.bucket)

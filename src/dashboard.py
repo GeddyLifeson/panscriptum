@@ -332,11 +332,31 @@ def movement(now_state):
         "standards met": sum(1 for x in (now_state.get("standards") or []) if x.get("holds")),
     }
     row = {"at": time.time(), **{k: v for k, v in keys.items() if v is not None}}
-    try:
-        hist = []
-        if os.path.exists(HISTORY):
+    # A CORRUPT HISTORY FILE MUST HEAL, NOT WEDGE.
+    #
+    # Run #26 found `silent:dashboard.py:movement:JSONDecodeError` at 82 and climbing. The read
+    # and the write shared ONE try/except, so a torn HISTORY file threw on `json.load`, skipped
+    # the write that would have replaced it, and returned `[]` -- which the panel renders as the
+    # cheerful "No history yet". Every five-second poll then re-threw on the same bytes: the file
+    # could never be repaired by the only code that writes it, and the movement panel -- the one
+    # instrument that can see "every counter flat while every job is up" -- was dark for as long
+    # as the corruption lasted, saying only that it was new.
+    #
+    # Isolating the load fixes both halves. A decode failure is now a fact about the OLD file,
+    # not a reason to abandon the new sample: `hist` starts empty, this poll's row is appended,
+    # and the write lands a valid file that every later poll can read. Losing the history is the
+    # cost of the corruption, not of the repair; staying blind was the cost of the old shape.
+    hist = []
+    if os.path.exists(HISTORY):
+        try:
             with open(HISTORY, encoding="utf-8") as f:
                 hist = json.load(f)
+            if not isinstance(hist, list):
+                raise ValueError("history is not a list")
+        except Exception:
+            silence.note("dashboard.py:movement-corrupt-reset")
+            hist = []
+    try:
         hist.append(row)
         cutoff = time.time() - 24 * 3600
         hist = [h for h in hist if h.get("at", 0) > cutoff][-2000:]
@@ -358,8 +378,23 @@ def movement(now_state):
             continue
         was = base.get(k)
         delta = None if was is None else v - was
+        # A COUNTER THAT FELL IS NOT A COUNTER THAT MOVED.
+        #
+        # `stalled` tests `delta == 0`, so a NEGATIVE delta was reported as ordinary progress.
+        # Run #26 caught the page showing `chunks` at delta -3689 with `stalled: false`, and the
+        # cause is benign but the reporting was not: `read.py`'s `done["chunks"]` is an
+        # in-process counter reset to zero on every launch and never persisted, so a reader
+        # restart between two samples makes the total fall. The panel was comparing across a
+        # discontinuity it had no way to see -- and worse, a restart therefore READS AS MOVEMENT,
+        # which is precisely the "every counter flat while every job is up" condition the
+        # `the library's counters are moving` standard exists to catch. A restart could mask one.
+        #
+        # Named rather than smoothed: `reset` says what happened, the delta stays honest, and
+        # nothing downstream has to guess whether -3689 was progress.
         out.append({"metric": k, "now": v, "delta": delta,
-                    "minutes": round(span), "stalled": delta == 0 and span >= 10})
+                    "minutes": round(span),
+                    "reset": delta is not None and delta < 0,
+                    "stalled": delta == 0 and span >= 10})
     return out
 
 
