@@ -61,11 +61,33 @@ def cache_path(host, name):
 
 
 def load(path):
+    """Read one evidence cache file, or None if there isn't one yet.
+
+    THE ABSENT FILE IS THE NORMAL PATH, NOT A FAILURE. The only call site (`:129`) asks for the
+    evidence of every Person-category entry in the library and does no existence check first, so
+    every character the reader has not reached yet raises FileNotFoundError here. That is the
+    expected majority: ~45,000 entries against ~1,200 readfeats records on 2026-08-25.
+
+    Recording those as swallowed failures made the ledger useless as an alarm. Measured that day:
+    18,418 of 21,764 entries in the whole project's swallowed-failure ledger -- 85% -- came from
+    this one handler, and the "unexpected swallowed failures" standard sat red at 19,043 against
+    a floor of 2,000 purely because of them. A standard that is always red reports nothing.
+
+    Worse than the noise: a CORRUPT cache file (a truncated write, a JSONDecodeError) is a real
+    fault and was landing in the same bucket as those 18,418 non-events, where nobody would ever
+    pick it out. Splitting the two does not hide a failure -- it is the only way the real one
+    becomes visible. The genuine path is still noted, now under a semantic label rather than a
+    line number that goes stale the moment anything above it moves. 2026-08-25, run #21.
+    """
     try:
         with open(path, encoding="utf-8") as f:
             return json.load(f)
+    except FileNotFoundError:
+        # Expected by construction -- see the docstring. Deliberately unrecorded.
+        _ = "silence-exempt: an unbuilt evidence cache is the normal case at this call site"
+        return None
     except Exception:
-        silence.note("sweep.py:66")
+        silence.note("sweep.py:load-unreadable")
         return None
 
 

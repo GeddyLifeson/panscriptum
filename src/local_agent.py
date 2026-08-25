@@ -214,7 +214,8 @@ def t_run_check(check="", path=None, **_):
     try:
         env = dict(os.environ, PYTHONIOENCODING="utf-8")
         r = subprocess.run(argv, cwd=HERE, capture_output=True, text=True, timeout=900,
-                           encoding="utf-8", errors="replace", env=env)
+                           encoding="utf-8", errors="replace", env=env,
+                           creationflags=_NO_WIN)   # never pop a console -- owner directive
     except Exception as e:
         return {"error": f"{type(e).__name__}: {str(e)[:160]}"}
     out = ((r.stdout or "") + (r.stderr or "")).strip()

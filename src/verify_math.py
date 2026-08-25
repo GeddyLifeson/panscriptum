@@ -3200,6 +3200,74 @@ check("both gates call the shared predicate",
       note="the resume gate and the write-completion gate, and nothing else")
 
 print()
+print("24. §20e  A LIVENESS REPORT MUST NOT DELETE THE REPORTER — each renderer was")
+print("          reporting ITSELF down, and the noise hid the job that really was")
+# ---------------------------------------------------------------------------------------------
+# `overnight.running()` excludes the CALLER'S OWN PID, which is right for "is anyone ELSE running
+# this?" (a stage about to launch, a job refusing a second copy of itself) and wrong for "is job
+# X up?". The "every managed job is running" standard asked the second question with the first
+# question's function, from inside whichever process was rendering the panel.
+#
+# Found 2026-08-25 (run #21) by reading one standard off two renderers at one moment:
+#
+#   public page   (computed by publish.py:168-172, in publish.py's process)  -> "publish.py,read.py"
+#   local page    (computed by dashboard.py, in dashboard.py's process)      -> "dashboard.py,read.py"
+#   allsweep.py   (a third, neutral process)                                 -> both up, read.py down
+#
+# The standard has NO entry in `foreman.REMEDIES`, so it went to the owner's decision file every
+# round carrying a name that was always false -- and `read.py`, genuinely killed by an M15
+# `kill_stalled_job`, was buried beside it. That is the finding-as-decoration failure that
+# `standards.MAX_JOB_SILENCE_MIN`'s comment exists to refuse, committed by the roster check
+# itself. Repair: additive `include_self` keyword, default unchanged, passed by the one caller
+# that is asking about liveness rather than about duplication.
+import overnight as _on21
+
+_probe21 = _on21._proc_lines()
+check("the process probe returned a listing at all", bool(_probe21), True,
+      note="every check below is vacuous without one -- an empty probe makes running() say False")
+# This very process's command line contains verify_math.py, so it is its own test fixture.
+check("running() still hides the caller from itself by default",
+      _on21.running("verify_math.py"), False,
+      note="the default answers 'is anyone ELSE running this?' -- unchanged, and load-bearing "
+           "for overnight.start and for any job refusing to start a second copy of itself")
+check("running(include_self=True) can see the caller",
+      _on21.running("verify_math.py", include_self=True), True,
+      note="THE BUG: without this a renderer deletes itself from the roster it is publishing")
+check("include_self defaults to False so no existing caller changed behaviour",
+      __import__("inspect").signature(_on21.running).parameters["include_self"].default, False)
+
+_st21 = open(os.path.join(_here19, "standards.py"), encoding="utf-8").read()
+check("the managed-job roster passes include_self=True",
+      "ON.running(j, include_self=True)" in _st21, True,
+      note="pins the fix at the call site; dropping the argument silently restores the bug")
+
+# The same failure class one layer down: an EXPECTED absence recorded as an unexpected failure,
+# until the expected case was 85% of the ledger and the real one could not be seen in it.
+# sweep.load's only call site (sweep.py:129) does no existence check, so a missing evidence cache
+# is the normal majority path -- 18,418 of 21,764 swallowed entries on 2026-08-25.
+import sweep as _sw21
+import silence as _si21
+
+_noted21 = []
+_realnote21 = _si21.note
+try:
+    _si21.note = lambda label, *a, **k: _noted21.append(label)
+    check("a missing evidence cache returns None",
+          _sw21.load(os.path.join(_here19, "no-such-evidence-cache-21.json")), None)
+    check("and is NOT recorded as a swallowed failure", _noted21, [],
+          note="this is the 85%; recording it made the standard permanently red and useless")
+    _bad21 = os.path.join(_tf.gettempdir(), "panscriptum_corrupt_cache_21.json")
+    with open(_bad21, "w", encoding="utf-8") as _f21:
+        _f21.write('{"pages_read": [1, 2')
+    check("a CORRUPT cache still returns None", _sw21.load(_bad21), None)
+    check("but IS recorded, so the real fault is now visible on its own",
+          _noted21, ["sweep.py:load-unreadable"],
+          note="the whole point of the split: a truncated write used to hide among cache misses")
+    os.remove(_bad21)
+finally:
+    _si21.note = _realnote21
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)
