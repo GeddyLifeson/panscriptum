@@ -1150,6 +1150,74 @@ def drill_cascade():
 
 # ============================================================== THE INSPECTOR
 
+def drill_workorders():
+    """THE QUEUE — does a RED battery actually reach the work order file?
+
+    Added run #33, for a fault the queue could not see. `drill.py` escalated; `verify_math`,
+    `health`, `allsweep` and `liveness` did not, and none of them were in `sweep_detectors`. So
+    on 2026-08-25 `workorders --sweep` printed "no open work orders -- the nets found nothing
+    outstanding" while verify_math was FAILING and the preflight was FAILING. The queue was not
+    wrong about its own contents; it was blind, and a blind queue reports the same sentence as a
+    clear one. These nets attack that blindness directly: each one hands `battery_faults` a
+    battery in a known state and demands the verdict.
+    """
+    a = "THE QUEUE — does a red battery reach the work order file?"
+    import workorders as W
+    NOW = 1000000.0
+    fresh = {"at": NOW - 60}
+    green_sweep = {"at": NOW - 60, "imports": [{"module": "m", "ok": True}],
+                   "verifiers": [{"check": "v", "crashed": False, "timeout": False}],
+                   "lint": [], "estate": {"artifacts": {"bad": []}}}
+
+    def fired(preflight, allsweep):
+        return {k for k, v in W.battery_faults(preflight=preflight, allsweep=allsweep,
+                                               now=NOW).items() if v}
+
+    net(a, "a GREEN battery files nothing (no alarm that always sounds)",
+        lambda: fired(dict(fresh, problems=0, rows=[]), green_sweep) == set(),
+        "an alarm that sounds on a healthy library is furniture within a week")
+    net(a, "a preflight WITH problems files an order",
+        lambda: "PREFLIGHT_PROBLEM" in fired(
+            dict(fresh, rows=[{"check": "caches", "what": "feats/x", "detail": "all empty"}]),
+            green_sweep),
+        "805 empty dandwiki entries sat unreported for four runs because the only thing that "
+        "knew was a console")
+    net(a, "a FAILED import in allsweep files an order",
+        lambda: "BATTERY_GRADED" in fired(
+            dict(fresh, rows=[]),
+            {"at": NOW - 60, "imports": [{"module": "verify_math", "ok": False,
+                                          "detail": "FAILED"}]}),
+        "verify_math failing its own completeness proof must not be a terminal-only event")
+    net(a, "a dirty LINT tier files an order",
+        lambda: "BATTERY_GRADED" in fired(dict(fresh, rows=[]),
+                                          {"at": NOW - 60, "lint": ["src/x.py:1 undefined"]}),
+        "run #26: the lint tier was computed, printed, and dropped")
+    net(a, "a CRASHED verifier files an order",
+        lambda: "BATTERY_GRADED" in fired(
+            dict(fresh, rows=[]),
+            {"at": NOW - 60, "verifiers": [{"check": "drill", "crashed": True}]}),
+        "a verifier that died is not a verifier that passed")
+    net(a, "a MISSING battery artifact does not read as green",
+        lambda: fired(None, None) == {"PREFLIGHT_STALE", "BATTERY_STALE"},
+        "absence of evidence read as evidence of health is how this library goes quiet")
+    net(a, "a STALE battery artifact does not read as green",
+        lambda: fired({"at": NOW - 99 * 3600, "rows": []},
+                      {"at": NOW - 99 * 3600}) == {"PREFLIGHT_STALE", "BATTERY_STALE"},
+        "'nobody has run the battery since Tuesday' and 'the battery is green' are different "
+        "sentences")
+    net(a, "every code this tier files can also be CLOSED",
+        lambda: set(W.BATTERY_WHERE) == set(W.BATTERY_CODES) and all(
+            W.BATTERY_WHERE.get(c) for c in W.BATTERY_CODES),
+        "resolve_code closes order_id(code, where) -- a detector filing under one `where` and "
+        "clearing under another files orders nobody can ever close")
+    net(a, "no code in this tier is UNREACHABLE",
+        lambda: set(W.BATTERY_CODES) <= (
+            fired(None, None)
+            | fired(dict(fresh, rows=[{"check": "c", "what": "w", "detail": "d"}]),
+                    {"at": NOW - 60, "lint": ["x"]})),
+        "a code nothing can ever raise is a check that cannot fail, wearing a name")
+
+
 def drill_inspector():
     """Does the state of the building match what the building SAYS about itself?
 
@@ -1256,7 +1324,8 @@ def main():
 
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
-               drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park, drill_inspector):
+               drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
+               drill_workorders, drill_inspector):
         fn()
 
     area = None
