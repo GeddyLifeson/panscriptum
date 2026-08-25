@@ -336,6 +336,59 @@ _UNREC_LOCK = threading.Lock()
 _WRAPPERS = ("candidates failed", "every model in this pool")
 SCRATCH_DB = os.path.join(HERE, "state", "cascade_scratch.db")
 
+# A FAILURE THE CODE CAN NAME IS NOT AN UNRECOGNISED FAILURE.
+#
+# Found 2026-08-25 (run #23) by reading the ledger the `every pool failure is recognised`
+# standard had filled: 44 open rows, 122 occurrences, and exactly ONE of them was a fault
+# nobody could name (`groq:groq/compound-mini: empty response`). Everything else was an
+# ordinary throttle -- `Rate limit exceeded`, `429`, `tokens per day (tpd): limit 200000`,
+# `Every model in this pool is rate limited or unconfigured`. The classifier's vocabulary was
+# BINARY: permanent, or unrecognised. It had no word for "busy", which is the single most
+# common thing a free-tier pool says, so the standard built to surface the unknown was burying
+# it under the known at 122 to 1.
+#
+# That is worth naming precisely, because it is the same failure shape the project keeps
+# meeting from the other side: m108 was a classifier that could never match, and this is a
+# classifier that matches everything. Both end with a page that cannot be read.
+#
+# NOTHING IS HIDDEN BY THIS. A throttle is already counted twice over -- in the throughput
+# panel's refusal count, and as `outcome='rate_limited'` in Cascade's own `usage` table, which
+# is where `model calls per hour` and its four sub-standards read from. What changes is only
+# that a NAMED refusal stops being filed as a NAMELESS one.
+#
+# `Every model in this pool is rate limited or unconfigured` is on this list deliberately.
+# It is an engine wrapper (it is in `_WRAPPERS` too) and it is reached only when the unwrap
+# found no fresh provider row -- but unlike `All N candidates failed: <label>`, which carries
+# no disposition whatsoever, this one STATES its disposition in its own words. Recognising it
+# costs nothing and removes 7 buckets of noise.
+#
+# Word boundaries on the numeric codes, for m103's reason: a bare `"429" in err` also matches
+# the 429 inside a request id, and a classifier that cries wolf on a trace hash is worse than
+# one that stays quiet.
+_TRANSIENT_WORDS = (
+    "rate limit", "rate-limit", "rate_limit", "ratelimit", "too many requests",
+    "quota", "throttl", "overloaded", "capacity", "high demand", "try again",
+    "temporarily", "timed out", "timeout", "could not resolve host",
+    "connection", "unconfigured", "service unavailable", "bad gateway",
+)
+_TRANSIENT_CODES = re.compile(r"\b(408|409|425|429|500|502|503|504)\b")
+
+
+def named_transient(err):
+    """True if `err` names a busy/unreachable condition the router already handles.
+
+    Used only to keep a NAMED refusal out of the unrecognised ledger. It deliberately does not
+    bench, cool down, or otherwise change routing -- whether a refusal should cost a bucket
+    anything is an open owner question (NEXT_STEPS routing decision B), and answering it
+    quietly inside a diagnostic would be exactly the kind of silent policy change this file's
+    history argues against. Checked AFTER the permanent classifier, so a billing complaint that
+    also says "try again" is still correctly benched.
+    """
+    e = (err or "").lower()
+    if not e:
+        return False
+    return bool(_TRANSIENT_CODES.search(e)) or any(w in e for w in _TRANSIENT_WORDS)
+
 
 def provider_error(bucket, max_age_s=180):
     """The PROVIDER's own last error for `bucket`, from Cascade's scratch DB. "" if unknown.
@@ -401,10 +454,14 @@ def record_unrecognised(bucket, err):
             r["last_seen"] = now
             r["count"] = int(r.get("count", 0)) + 1
             rows[key] = r
-            tmp = UNRECOGNISED + ".tmp"
-            with open(tmp, "w", encoding="utf-8") as f:
-                json.dump(rows, f, indent=1, sort_keys=True)
-            silence.replace_retry(tmp, UNRECOGNISED)
+            # `silence.write_json`, NOT a hand-rolled `path + ".tmp"`. This function was written
+            # in the same session as m100 -- the sweep that found eighteen truncate-then-fill
+            # writes and closed the fixed-temp-name collision race behind them -- and then used
+            # the exact pattern m100 retired. `_UNREC_LOCK` is a threading lock, so it orders
+            # writers inside ONE process; this file is written from every process that imports
+            # `cascade_bridge` (read, pipeline, feats, overwatch), and those collide on the temp
+            # file itself. The pid+thread-unique name makes that unavailable to get wrong.
+            silence.write_json(UNRECOGNISED, rows, indent=1, sort_keys=True)
     except Exception:
         pass
 
@@ -743,6 +800,14 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             if pinned and (re.search(r"\b(401|402|403)\b", err)
                            or any(w in err for w in permanent_words)):
                 _bury(pinned.bucket, AUTH_BENCH)
+            elif pinned and named_transient(err):
+                # RECOGNISED, AND ALREADY COUNTED ELSEWHERE. A throttle is not a mystery: it is
+                # the most ordinary thing a free-tier pool says, it is tallied in the throughput
+                # panel and in `usage.outcome='rate_limited'`, and writing it into the
+                # unrecognised ledger buried the one genuine unknown under 121 known ones on the
+                # day the ledger was created. Named here, deliberately not benched -- see
+                # `named_transient`.
+                pass
             elif pinned:
                 # AN UNRECOGNISED FAILURE IS A THING TO INVESTIGATE, NOT A THING TO ABSORB.
                 # Owner ruling 2026-08-25. Until now this branch simply fell through to
