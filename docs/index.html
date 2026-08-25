@@ -281,6 +281,17 @@ function panelSafety(d){const s=el('section','wide');
       s.appendChild(lv);
     }
   }
+  // Fetch manners: who we are slowing down for, and who has stopped answering.
+  const ft=sf.fetch||{};
+  const bo=ft.backoff||{}, qn=ft.quarantined||{};
+  const nbo=Object.keys(bo).length, nqn=Object.keys(qn).length;
+  if(nbo||nqn){
+    const fr=el('div','row');fr.appendChild(el('span','label','fetch'));
+    fr.appendChild(el('span','value '+(nqn?'warn':''),
+      nbo+' host(s) backed off'+(nqn?(', '+nqn+' quarantined'):'')));
+    s.appendChild(fr);
+    Object.keys(qn).slice(0,4).forEach(h=>s.appendChild(el('div','empty',h+': '+qn[h])));
+  }
   const esc=sf.escalation_recent||{};
   const keys=Object.keys(esc);
   if(keys.length){

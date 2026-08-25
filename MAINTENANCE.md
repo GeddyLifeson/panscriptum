@@ -38,6 +38,35 @@ INDEPENDENT (no shared failure mode), FAIL CLOSED (unknown ⇒ stop), PROVEN (wa
 Each source is its own area — a fault in one source closes that source, never the library.
 Escalating everything is the same failure as escalating nothing.
 
+### 5. A NEW GUARD GETS AN ADVERSARY BEFORE IT IS TRUSTED
+
+`nuclei`'s template library keeps its false-positive rate down with a community PR process — an
+independent party who did not write the rule trying to break it. This project has no contributor
+base, but it has the same function available: **spawn a subagent whose brief is to DEFEAT the
+guard, not to review it.** That is not optional politeness. On 2026-08-25 two adversarial audits
+defeated **seven** guards that all looked correct and all had passing tests:
+
+* a regex beaten by ordinary `**bold**` markdown, on a template that asks for bold headers;
+* a cited-set built from a dict key that **no record in the corpus carries**, so it was always
+  empty and the guard could never distinguish earned from invented;
+* a block validator satisfied by four labels and no prose at all;
+* an evidence floor of `0` that admitted a 0%-cited source, because `frac < 0` is never true.
+
+Every one had a test. Every test passed. **The author of a guard is the worst person to judge
+whether it can be got past**, and this is the cheapest correction available for that.
+
+Two rules follow, and both are load-bearing:
+
+**Expected values are authored, never captured.** Trivy requires every check to ship a fixture
+with hand-written expected results; Prowler requires a PASS and a FAIL scenario each. The reason
+is on display in this repo: `verify_math` asserted the assay interval was `0.06` and `0.15` —
+those were *the bug written down*, recorded from the halved output, and they passed happily
+throughout the months the instrument was wrong. **A regression check calibrated against the
+regression cannot see the regression.**
+
+**Watch the new net go red once.** A guard nobody has seen refuse is a guard nobody has evidence
+about. Break it deliberately, confirm `drill.py` reports BREACHED, then fix it.
+
 ## The delegation ladder (top first — never skip a rung downward)
 
 1. **The repo's own machinery already runs steps 1–5 of any maintenance protocol,
