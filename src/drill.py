@@ -675,6 +675,16 @@ def drill_local_agent():
             return False
         finally:
             LA.blast_reset()
+            # The cap escalates when it bites, and an escalation files a work order -- so this
+            # probe would leave one behind on every cycle. Same discipline as the DRILL_AREA
+            # probe: a test that litters the real queue is a test with a side effect, and a
+            # queue carrying permanent decoration is one people stop reading.
+            try:
+                import workorders as WO
+                WO.resolve_code("LOCAL_AGENT_BLAST_CAP", "drill self-test; not a real runaway",
+                                by="drill.py")
+            except Exception:
+                pass
     net(a, "a runaway is stopped by the blast-radius cap", blast_cap_bites,
         "five gate bypasses were found after the fact; this bounds the sixth without "
         "needing to know what it is")
