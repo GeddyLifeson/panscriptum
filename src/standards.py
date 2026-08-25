@@ -949,11 +949,32 @@ def check(state=None):
     try:
         import cascade_bridge as _CB
         _unrec = _CB.unrecognised_open()
-        _worst = sorted(_unrec, key=lambda r: -int(r.get("count", 0)))[:3]
+        # EVERY ROW, ITS WHOLE TEXT, AND ITS AGE. This expression used to carry THREE caps at
+        # once on the one field the order below tells a person to read: `[:3]` kept only the
+        # three highest-count rows, `[:60]` cut each error mid-sentence, and neither said how
+        # old the row was. Measured run #27: fourteen rows were open and the page showed three.
+        # All fourteen were the SAME shape (`All 1 candidates failed: <label>`) -- one fault
+        # wearing fourteen bucket names -- and the cap is why nobody could see that. Run #26
+        # read the top row, chased it alone, and recorded the other thirteen as "the third row
+        # was genuinely unexplained"; the shape was invisible from three samples. This is m145's
+        # sentence exactly (`available_sample: models[:8]`, a cap on the field a person reads to
+        # act) in a second file, which is lesson 14: fix a shape, then grep the tree for it.
+        #
+        # THE AGE IS NOT DECORATION. The order below used to end "anything here is happening
+        # NOW", which is false and falsely reassuring in the expensive direction: rows live for
+        # 24h, so a fault fixed at 06:40 keeps this HIGH standard red until the next morning and
+        # reads exactly like a live fire. All fourteen open rows this run predated the fix that
+        # resolved them. Printing the age lets the next run tell a fossil field from a fire
+        # without opening the ledger, and costs nothing when the rows really are fresh.
+        _now = time.time()
+        _rows = sorted(_unrec, key=lambda r: -float(r.get("last_seen", 0)))
         out.append(_s(
             "every pool failure is recognised", not _unrec,
-            ", ".join("%s: %s (x%d)" % (r.get("bucket"), str(r.get("error"))[:60],
-                                        int(r.get("count", 0))) for r in _worst) or "none",
+            "; ".join("%s: %s (x%d, %.1fh old)"
+                      % (r.get("bucket"), str(r.get("error")),
+                         int(r.get("count", 0)),
+                         (_now - float(r.get("last_seen", 0))) / 3600.0)
+                      for r in _rows) or "none",
             "no unrecognised refusal",
             "Each row is a provider failing for a reason this code cannot name, so it is "
             "neither benched as permanent nor backed off as contention -- it just burns a "
@@ -961,8 +982,13 @@ def check(state=None):
             "permanent refusal (a dead key, a spent account, a retired model), add its wording "
             "to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for "
             "four hours from then on. If it is a transport or parse fault, it is a bug and "
-            "belongs in BUGS.md. Rows older than 24h disappear on their own, so anything here "
-            "is happening NOW.",
+            "belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows "
+            "live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and "
+            "looks identical to one happening right now. If every row is hours old and none has "
+            "recurred since the last bounce, the fault is already fixed and this is a fossil "
+            "field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen "
+            "buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not "
+            "fourteen provider faults.",
             "high", "pool"))
     except Exception:
         silence.note("standards.py:unrecognised-pool")
