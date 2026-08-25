@@ -304,6 +304,7 @@ def job_stamp(prev_entry, size, now):
 # and the absence of a floor kept them removed.
 MIN_CATALOGUE_COVERAGE = 1.0
 MAX_STALE_MODEL_IDS = 0         # a retired model name makes a live provider read as dead
+MAX_PROVIDER_MODELS_AGE_H = 12  # an empty `stale` list from three days ago measured nothing
 
 
 _UNANS_CACHE = {"at": 0.0, "n": 0}
@@ -1146,12 +1147,43 @@ def check(state=None):
         with open(os.path.join(HERE, "data", "PROVIDER_MODELS.json"), encoding="utf-8") as f:
             pm = json.load(f)
         stale = len(pm.get("stale") or [])
+        # AGE THE EVIDENCE BEFORE BELIEVING THE ALL-CLEAR.
+        #
+        # Found 2026-08-25 (run #23). This standard is HIGH severity and it read GREEN off a
+        # snapshot that was FIFTY-EIGHT HOURS OLD -- `data/PROVIDER_MODELS.json` stamped
+        # `2026-08-22 17:42`, `stale: []` -- while `state/read_auto.log` showed the live pool
+        # removing five model IDs with HTTP 404 (no such model) on EVERY reader start
+        # (`local-qwen3-30b`, `local-qwen3-30b-q3`, `local-llama31`, `local-gemma3-12b`,
+        # `local-qwen25-14b`) and two providers 402-ing on depleted credit.
+        #
+        # The project already knows to age `data/COVERAGE.json` before believing a coverage
+        # STALL. This is the same lesson from the other side and it is the more dangerous
+        # side: a stale file that produces a FALSE ALARM gets investigated and dismissed,
+        # while a stale file that produces a FALSE ALL-CLEAR is never looked at again. An
+        # empty `stale` list from three days ago is not a measurement of now -- it is the
+        # absence of one, and the two were rendering identically on the page.
+        #
+        # Deliberately NOT re-measuring here: `catalogue_models.py` owns that probe and it
+        # costs a request per provider. A standard's job is to say whether the floor holds
+        # and, when it cannot tell, to SAY SO rather than pass. `MAX_PROVIDER_MODELS_AGE_H`
+        # is generous because a provider's catalogue changes over days, not minutes.
+        age_h = (time.time() - os.path.getmtime(
+            os.path.join(HERE, "data", "PROVIDER_MODELS.json"))) / 3600.0
+        fresh = age_h <= MAX_PROVIDER_MODELS_AGE_H
         out.append(_s(
-            "model IDs their providers still serve", stale <= MAX_STALE_MODEL_IDS, stale,
-            MAX_STALE_MODEL_IDS,
+            "model IDs their providers still serve",
+            fresh and stale <= MAX_STALE_MODEL_IDS,
+            ("%d stale" % stale) if fresh else
+            ("UNMEASURED -- the provider catalogue is %.0fh old (floor %dh), so this is the "
+             "ABSENCE of a measurement, not a clean one. Do not read it as green."
+             % (age_h, MAX_PROVIDER_MODELS_AGE_H)),
+            "0 stale, catalogue under %dh old" % MAX_PROVIDER_MODELS_AGE_H,
             "The config names a model the provider has retired. The KEY works; the string does "
             "not -- and the whole provider reads as dead. Six stale names once hid five live "
-            "providers. `catalogue_models.py` lists what each one actually serves today.",
+            "providers. `catalogue_models.py` lists what each one actually serves today; run "
+            "`python src/catalogue_models.py` to refresh the snapshot this standard reads. "
+            "If the snapshot is merely OLD, that is the finding -- refresh it before drawing "
+            "any conclusion about the pool, in either direction.",
             "high", "pool"))
     except Exception:
         silence.note("standards.py:provider-models")

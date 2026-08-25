@@ -373,6 +373,33 @@ _TRANSIENT_WORDS = (
 )
 _TRANSIENT_CODES = re.compile(r"\b(408|409|425|429|500|502|503|504)\b")
 
+# `All 7 candidates failed: <label>, <label>, ...` -- the engine having walked a whole candidate
+# list and found none of it available. Measured 2026-08-25: 15 of the 23 aggregate rows in the
+# ledger named MORE THAN ONE candidate, and for those the unwrap cannot work by construction --
+# `provider_error()` reads the PINNED bucket's row, but a multi-candidate call is not
+# necessarily an attempt on the pinned bucket at all. The ledger showed pin
+# `groq:openai/gpt-oss-20b` against candidate label `Llama 3.3 70B (Groq)`: different model,
+# so `bucket_state` for the pin was never touched by that call and aged past the 180s window.
+#
+# A multi-candidate aggregate is NOT AN UNNAMEABLE PROVIDER FAULT -- it names no provider and
+# affords no per-provider action. It is a statement about POOL CAPACITY in that instant, which
+# is precisely what `model calls per hour`, `buckets with headroom` and `buckets not exhausted`
+# already measure and act on. Filing it as an unrecognised provider refusal is a category
+# error, and 15 of them drowned the one row that was a real unknown.
+#
+# `All 1 candidates failed: <label>` DELIBERATELY STAYS UNRECOGNISED. There the pin and the
+# attempt do agree, so a failed unwrap means something genuinely went unexplained -- and that
+# is the exact row shape that exposed m108 (`zai:free` re-claimed forever while its real error
+# read "Insufficient balance"). Keeping the single-candidate case loud is what preserves the
+# discovery path; recognising the multi-candidate case is what makes it visible again.
+_MULTI_CANDIDATE = re.compile(r"\ball (\d+) candidates failed\b")
+
+
+def pool_exhausted(err):
+    """True if `err` is the engine reporting a whole candidate list unavailable at once."""
+    m = _MULTI_CANDIDATE.search((err or "").lower())
+    return bool(m) and int(m.group(1)) > 1
+
 
 def named_transient(err):
     """True if `err` names a busy/unreachable condition the router already handles.
@@ -800,7 +827,7 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             if pinned and (re.search(r"\b(401|402|403)\b", err)
                            or any(w in err for w in permanent_words)):
                 _bury(pinned.bucket, AUTH_BENCH)
-            elif pinned and named_transient(err):
+            elif pinned and (named_transient(err) or pool_exhausted(err)):
                 # RECOGNISED, AND ALREADY COUNTED ELSEWHERE. A throttle is not a mystery: it is
                 # the most ordinary thing a free-tier pool says, it is tallied in the throughput
                 # panel and in `usage.outcome='rate_limited'`, and writing it into the
