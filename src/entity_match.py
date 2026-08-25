@@ -22,7 +22,14 @@ anyone loosens `_norm` to do it, and this module must not become a way around th
 
 So the rule here is absolute and is enforced by `qualifier_compatible()`:
 
-    A parenthetical qualifier must match EXACTLY, or be absent from BOTH names.
+    A parenthetical qualifier must match, or be absent from BOTH names. "Match" means
+    identical after `feats_index._norm` -- case, spacing and punctuation are folded, so
+    "(Earth-2)" and "(Earth 2)" ARE the same continuity, while "(New Earth)" and
+    "(Prime Earth)" are not. This paragraph said "EXACTLY" until 2026-08-24 and the code
+    never did that: it has always compared normalised forms, exactly as verify_math §19r
+    describes it ("identical qualifiers DO match, modulo case and spacing"). The gate is
+    absolute in the sense that matters -- a qualifier conflict is never overruled by a
+    similarity score -- but it is not literal string equality.
     A name with a qualifier never matches a name with a different one.
     A name with a qualifier never matches a bare name.
 
@@ -98,7 +105,12 @@ def split_qualifier(name):
 
 
 def qualifier_compatible(a, b):
-    """THE GATE. Two names may only be compared if their qualifiers agree exactly.
+    """THE GATE. Two names may only be compared if their qualifiers agree.
+
+    Agreement is equality of `feats_index._norm(qualifier)`, NOT literal string equality:
+    "(Earth-2)" and "(Earth 2)" agree; "(New Earth)" and "(Prime Earth)" do not. See the
+    module header -- the word "exactly" used to appear here and described behaviour this
+    function has never had.
 
     Returns (ok, reason). See the module header for why this is absolute rather than scored:
     the three Wally West continuities are why §19o exists, and a similarity score cannot be
@@ -175,12 +187,17 @@ def candidates(name, pool, limit=None):
         if n:
             names.append(n)
 
+    # ONE RETURN SHAPE, ALWAYS. These two early exits omitted `blocked_by_qualifier` while the
+    # normal path below always carries it, so a caller reading that key unconditionally would
+    # KeyError on an empty name or an empty pool -- the two inputs most likely to arrive from
+    # real data. Latent today only because nothing calls this module yet (see the header), and
+    # the cheapest possible moment to fix a contract is before it has callers.
     if not (name or "").strip():
         return {"query": name, "reason": MatchReason.EMPTY_NAME, "matches": [],
-                "truncated": False, "considered": len(names)}
+                "truncated": False, "considered": len(names), "blocked_by_qualifier": []}
     if not names:
         return {"query": name, "reason": MatchReason.NO_POOL, "matches": [],
-                "truncated": False, "considered": 0}
+                "truncated": False, "considered": 0, "blocked_by_qualifier": []}
 
     rejected = Counter()
     scored = []

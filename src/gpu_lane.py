@@ -296,14 +296,21 @@ def _touch(path):
         os.replace(tmp, path)
 
 
-# How often a held slot refreshes its lease. A third of the lease means two consecutive missed
-# beats before anyone judges the holder gone -- tolerant of a stalled thread, still far short of
-# the lease itself.
-_BEAT_SECONDS = max(5.0, SLOT_LEASE_SECONDS / 3.0)
+# How often a held lease is refreshed. A third of the lease means two consecutive missed beats
+# before anyone judges the holder gone -- tolerant of a stalled thread, still far short of the
+# lease itself.
+#
+# DERIVED FROM THE SHORTEST LEASE THIS THREAD KEEPS, not from the slot lease alone (2026-08-24).
+# It was `SLOT_LEASE_SECONDS / 3` = 300s, which is a third of the slot lease and EXACTLY the
+# whole of `CLAIM_LEASE_SECONDS`. The moment the same thread also began keeping the foreground
+# claim alive, a 300s beat would have been refreshing a 300s lease at the instant it expired --
+# a heartbeat that is always exactly too late. Taking the min means adding any shorter lease
+# later tightens the beat automatically instead of silently outrunning it.
+_BEAT_SECONDS = max(5.0, min(SLOT_LEASE_SECONDS, CLAIM_LEASE_SECONDS) / 3.0)
 
 
-def _heartbeat(path, stop):
-    """Keep one held slot's lease fresh until the call finishes.
+def _heartbeat(paths, stop):
+    """Keep every lease this call holds fresh until the call finishes.
 
     THE DEFECT THIS CLOSES (m54, measured 2026-08-24). `_touch` existed and was called from
     NOWHERE IN THE TREE -- verified by grep across `src/`. So a slot's heartbeat was written
@@ -314,12 +321,28 @@ def _heartbeat(path, stop):
     calls that take longest, which is to say the card is over-subscribed precisely when it is
     busiest -- the M7 pile-up, arriving through the module built to prevent it.
 
+    THE HALF THE m54 FIX MISSED (found 2026-08-24, the audit after the one that fixed slots).
+    m54 gave the SLOT a heartbeat and stopped there, but `lane(priority=True)` also writes a
+    FOREGROUND CLAIM, and that claim was written once at entry and never refreshed -- the
+    identical defect, in the identical function, one variable over. Its exposure was worse, not
+    better: `CLAIM_LEASE_SECONDS` is 300 against the slot's 900, so a foreground claim went
+    stale three times sooner. `generate.py` is the only `priority=True` caller in the tree and
+    it runs with `request_timeout: 1800`; 14 recorded calls have already exceeded 300s, the
+    longest at 917s. Past that point `foreground_active()` judged a live prose call abandoned
+    and swept its claim, and rule 2 of this module's header -- background yields to foreground
+    -- quietly stopped applying to the one call it exists for.
+
+    Accepts one path or several. Every lease the call holds is refreshed on the same beat, so
+    there is one thread per call rather than one per lease.
+
     Daemon thread, bounded waits, every failure swallowed: this must never be able to stop a
     model call. `stop.wait()` returns True the moment the call ends, so release is immediate
     rather than waiting out a sleep.
     """
+    many = paths if isinstance(paths, (list, tuple)) else (paths,)
     while not stop.wait(_BEAT_SECONDS):
-        _touch(path)
+        for p in many:
+            _touch(p)
 
 
 def _remove_retry(path, attempts=4):
@@ -386,12 +409,16 @@ def lane(label="background", priority=False):
             if slot:
                 break
             time.sleep(_POLL)
-        # HOLD THE LEASE FOR AS LONG AS THE CALL ACTUALLY RUNS (m54). Without this the slot
-        # ages out mid-call and a competitor reclaims it while the holder is still working.
-        if slot:
+        # HOLD EVERY LEASE FOR AS LONG AS THE CALL ACTUALLY RUNS (m54, completed 2026-08-24).
+        # Without this a lease ages out mid-call and a competitor reclaims it while the holder
+        # is still working. BOTH leases are kept: the slot, and -- for a foreground call -- the
+        # claim that tells background work to stand aside. Keeping only the slot left the
+        # foreground claim expiring at 300s inside calls permitted to run for 1800.
+        _keep = [p for p in (slot, _claim_path() if fg is not None else None) if p]
+        if _keep:
             with contextlib.suppress(Exception):
                 stop = threading.Event()
-                beat = threading.Thread(target=_heartbeat, args=(slot, stop),
+                beat = threading.Thread(target=_heartbeat, args=(_keep, stop),
                                         name="gpu-lane-beat", daemon=True)
                 beat.start()
         yield

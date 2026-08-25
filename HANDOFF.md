@@ -9,6 +9,127 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 19:20 (local) — Run #16: the m54 fix stopped one variable short, and a standard was reporting health off an empty window
+
+*A quiet-looking run that found two defects of the same shape the project keeps naming: a
+measurement that cannot see, reporting as though it could. Battery green throughout. No owner
+decision is blocking anything new — the one open block is still M8.*
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found. Nothing destructive done. No deletions.**
+2. **The live `output/index/manifest.json` contains ZERO feats chapters** (9,153 chapter jobs +
+   209 frontmatter, 0 of type `feats`), while the feats join is healthy *right now*: **100 of
+   210 sources yield 1,215 entity feat-blocks**. The manifest was built 10:41, before the
+   reader had produced joinable feats. **55,372 mined feats currently reach no volume.** The
+   remedy is a manifest rebuild, which is not a thing to do underneath a running `generate.py`
+   without your say-so — see NEXT_STEPS §2 A. This is the largest *unrealised* item in the tree.
+3. **The public page's two "machine" breaches were already self-healed by the time this run
+   read them** (doubled `publish.py`, silent `pipeline_auto`). The page was 11.5 minutes stale
+   at read time; the supervisor had restarted both. Worth knowing that the page's machine group
+   can report a fault that no longer exists — check the process list before acting on it.
+
+**WHAT WAS FIXED**
+
+- **[M11 — MAJOR] `gpu_lane`: a foreground claim was written once and never refreshed — the
+  exact defect m54 closed for slots, one variable over, and worse exposed.** m54 gave the
+  *slot* a heartbeat thread and stopped there. `lane(priority=True)` also writes a *foreground
+  claim*, the thing that tells every background caller to stand aside, and `lane()` started
+  `_heartbeat` only `if slot:` and only ever passed it the slot path. `CLAIM_LEASE_SECONDS` is
+  **300** against the slot's 900, inside calls `config.yaml` permits **1800** seconds.
+  **Measured against the real call history: 14 recorded calls have already run past 300s, the
+  longest at 917.3s.** Past its lease a live prose call was judged abandoned, its claim swept
+  by `foreground_active()`, and rule 2 of the module's own header — background yields to
+  foreground — silently stopped applying to the one call in the tree it exists for
+  (`generate.py:155` is the only `priority=True` caller).
+  **Also corrected, and this was the subtler half:** `_BEAT_SECONDS` was `SLOT_LEASE_SECONDS/3`
+  = **300s — exactly `CLAIM_LEASE_SECONDS`**. Simply adding the claim to the existing beat would
+  have refreshed a 300s lease at the instant it expired. It is now derived from the *shortest*
+  lease the thread keeps, `min(SLOT, CLAIM)/3` = 100s, so adding any shorter lease later
+  tightens the beat automatically instead of silently outrunning it.
+  **Verified live before and after:** with the fix reverted in-memory the claim heartbeat does
+  not move across a call (`...938.1906 -> ...938.1906`); with it, it does (`...938.5439 ->
+  ...938.8487`), and `depth` and `label` survive the refresh so `foreground()`'s re-entrancy
+  refcount is intact. Regression: verify_math §19ad, five new checks, all confirmed FAILING
+  against the pre-fix behaviour first.
+
+- **[m75] `standards.check()` reported "100% ok" — and HELD — off a pool that had not answered
+  once.** `calls that succeed` computed `errs / max(calls, 1)`, where `max(..., 1)` existed only
+  to avoid dividing by zero. On an empty window that is 0 errors over a denominator of 1: a
+  clean green light, rendered off nothing. **It is the fabricated `0.0% (0 of 0)` of the
+  completeness catastrophe wearing the other face** — that one invented a red from an empty
+  file; this invented health. The live window that exposed it held **five calls, four failed**,
+  and the page printed "20% ok" as though five samples were a rate.
+  Fixed with the idiom `completeness.py` already settled on for this exact shape: below
+  `MIN_CALLS_TO_JUDGE_RATE` the standard says **UNMEASURED with its sample size** and declines
+  to render a rate, and reports it as a breach rather than a quiet hold — *a standard that
+  cannot see is not a standard that is satisfied*. The threshold is not a new opinion: it
+  mirrors **`tuning.MIN_CALLS_TO_JUDGE = 20`**, which already answers this same question for
+  `regime()`. A measured rate now carries its denominator (`"20% ok of 5"` → `"90% ok of 100"`).
+  This costs no alarm accuracy: a window too thin to judge is one `model calls per hour` has
+  already failed on volume, so the two lines now name one cause together instead of one of them
+  printing reassurance over the other. Regression: §19ai, 8 checks, confirmed failing pre-fix.
+
+- **[m76] `entity_match.candidates()` returned two different dict shapes.** The `EMPTY_NAME` and
+  `NO_POOL` early exits omitted `blocked_by_qualifier`, which the normal path always carries, so
+  any caller reading that key unconditionally would `KeyError` on precisely the two degenerate
+  inputs real data produces most often. Latent only because the module has no callers yet — and
+  the cheapest moment to fix a contract is before it has any. Verified by execution.
+
+- **[m77] `entity_match`'s module header and `qualifier_compatible`'s docstring both said a
+  qualifier must match "EXACTLY"; the code has never done that.** It compares
+  `feats_index._norm(qa) == feats_index._norm(qb)`, so `(Earth-2)` and `(Earth 2)` ARE the same
+  continuity. `verify_math` §19r already described the real behaviour correctly, so the
+  docstrings were the wrong half. Corrected, and pinned with a check so the next reader fixes
+  the comment rather than "fixing" the code to match a sentence that was never true. Practical
+  risk was low (real continuity markers differ by whole words) but this sat directly on the one
+  safety invariant the whole module exists to enforce.
+
+- **[§3.3 — queue item, closed] `pack_feats`'s `budget` is now required.** It defaulted to
+  `FEATS_BLOCK_CHARS = 20000`, and a default is exactly how a caller forgets the budget is
+  supposed to be *derived* from the live context window — a mistake both an audit subagent and
+  run #12 made. Every caller in the repo was enumerated first (none outside `src/`); the one
+  test that omitted it now passes one, and a check asserts the signature so a default cannot be
+  reintroduced quietly. **This is a public-signature change, flagged here as the rules require.**
+  The constant is retained, not deleted — the measurement in the paragraph above it is worth
+  keeping — and whether it should now go is a question in NEXT_STEPS, not a silent removal.
+
+**WHAT WAS VERIFIED AND NEEDS NO FURTHER WORK**
+
+- **M9 is closed and holding**: `40,884 rows → 40,884 queued`, EQUAL. The 668 are back.
+- **M4**: prints exactly `598 False False True`.
+- **§2 H / m56 is ANSWERED — the lane is arbitrating.** `gpu_lane.status()` now shows real
+  leases with live holders (`generate` and `pipeline:ask`, both `alive: true`), not `slots: []`.
+  Stop re-investigating this one.
+- **§1.7's over-correction did not happen**: `regime()` reads `cloud`, "4 answering; 35% ok over
+  40 calls". **But note it is sitting exactly ON `CLOUD_MIN_SUCCESS = 0.35`**, not above it —
+  that is a flap risk, not a healthy margin.
+- **M8 is still a genuine block, and still slow**: `(False, '162.159.142.170 TimeoutError')` in
+  **16.0s**. A slow False is a block; the edge IP has rotated (was 172.66.2.166) but the
+  behaviour has not.
+- **The `every source is fully catalogued` HIGH is 100% downstream of M8 and is NOT a separate
+  bug.** All **164** rows in `COMPLETENESS.json` are `*.fandom.com`; every one short-circuits at
+  `host_reachable()` with `probes_run: 0`, deliberately, exactly as that module's comments say.
+  The standard is correctly refusing to invent a denominator. **It will read UNMEASURED until
+  fandom answers, and that is right.** Do not spend another run on it.
+- **m65 unchanged: the foreman still holds an `--adopt` child** (now pid 48832 under 5420), so
+  it was **not** bounced, per the standing rule.
+
+**BATTERY** — `verify_math` **542 passed, 0 FAILED** (533 before this run's checks);
+`allsweep` **0 subsystems bad**, 220s, and it independently confirms **one instance of each
+job**; `health --preflight` **exactly the 2 known FAILs** (M8's API paths, M1's dandwiki cache)
+and no third; `silence.py` **35 SILENT — net zero introduced** (one was added by this run's own
+work at `verify_math.py:1968`, caught by the audit and converted to the `_ = "silence-exempt:"`
+idiom before landing, which is the third run running that this mechanism has paid for itself);
+`pyflakes` clean.
+
+**LESSON WORTH KEEPING** — *fix the class at the site where it was first named, and then check
+the site next door.* m54's docstring reasoned correctly that "every prose call outlives its own
+lease", fixed the slot, and left an identical lease three times shorter unrefreshed twelve lines
+away. The second defect was not hidden; it was **described, in the fix for the first one**.
+
+---
+
 ## 2026-08-24 19:05 (local) — Run #15b: "just fix it all" — the queue was not the full list, and the cache was answering the wrong entity
 
 *Continuation of run #15 under an explicit owner instruction to stop deferring and implement the

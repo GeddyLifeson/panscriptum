@@ -55,6 +55,9 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 # Each is set where a breach means something is genuinely wrong rather than merely unlucky.
 
 MIN_CALLS_PER_HOUR = 900        # measured healthy 3,400/h; a third of that is a real fault
+MIN_CALLS_TO_JUDGE_RATE = 20    # below this a success PERCENTAGE is noise, not a measurement.
+                                # Mirrors tuning.MIN_CALLS_TO_JUDGE (20), which already answers
+                                # this exact question for regime(). See `calls that succeed`.
 MIN_LIVE_BUCKETS = 6            # below this the pool cannot absorb even modest concurrency
 MAX_DRY_FRACTION = 0.60         # more than this exhausted means the day's allowance is spent
 MAX_PINNED_AT_ONE = 0           # a bucket reading rpm 0/1 is a mis-learned cap, never a real one
@@ -366,13 +369,41 @@ def check(state=None):
         "a fresh occurrence means something is generating 429 storms again -- check worker "
         "count against bucket count.", "high", "pool"))
 
+    # A RATE NEEDS A DENOMINATOR BIG ENOUGH TO CARRY IT. `tot = max(sum(...), 1)` was a
+    # div-by-zero guard, and on a window with NO calls at all it made the arithmetic read
+    # errs=0 over tot=1 -- a clean "100% ok" that HELD, reported off a pool that had not
+    # answered once. That is the fabricated `0.0% (0 of 0)` of 2026-08-24 wearing the other
+    # face: the completeness audit invented a red off an empty file, this invented a GREEN.
+    # A single failed call was equally loud in the other direction, rendering "0% ok" as
+    # though one sample were a rate.
+    #
+    # The remedy is the one completeness.py already settled on for the same shape -- when the
+    # sample cannot support a judgment, say so and decline to render one, rather than
+    # computing a percentage nobody should act on. UNMEASURED is reported as a breach (not a
+    # quiet hold) for the same reason the `every source is fully catalogued` standard is: a
+    # standard that cannot see is not a standard that is satisfied. This costs no alarm
+    # accuracy, because a window too thin to judge is a window `model calls per hour` above
+    # has ALREADY failed on volume -- the two lines then name one cause together instead of
+    # one of them printing reassurance over it.
+    calls = sum(b["calls"] for b in tp.get("buckets", []))
     errs = sum(b["calls"] - b["ok"] for b in tp.get("buckets", []))
-    tot = max(sum(b["calls"] for b in tp.get("buckets", [])), 1)
-    out.append(_s(
-        "calls that succeed", (errs / tot) <= 0.5, f"{1 - errs / tot:.0%} ok", "50%",
-        "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that "
-        "provider's token cap, a 401 means a dead key, a 429 means real contention.",
-        "medium", "pool"))
+    if calls < MIN_CALLS_TO_JUDGE_RATE:
+        out.append(_s(
+            "calls that succeed", False,
+            "UNMEASURED -- %d call(s) in the %d-min window, below the %d needed to judge a "
+            "rate. This is too thin a sample to measure, NOT a pool measuring healthy."
+            % (calls, tp.get("window_min", 15), MIN_CALLS_TO_JUDGE_RATE), "50%",
+            "The pool is not being ASKED enough to tell whether it answers. Read `model calls "
+            "per hour` above -- it is the same fault seen from the volume side, and it is the "
+            "one to work. Do not read this line as a failure rate either way.",
+            "medium", "pool"))
+    else:
+        out.append(_s(
+            "calls that succeed", (errs / calls) <= 0.5,
+            f"{1 - errs / calls:.0%} ok of {calls}", "50%",
+            "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds "
+            "that provider's token cap, a 401 means a dead key, a 429 means real contention.",
+            "medium", "pool"))
 
     # ------------------------------------------------------------------ the corpus read
     read = jobs.get("corpus read")

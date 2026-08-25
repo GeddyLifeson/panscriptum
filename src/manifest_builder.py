@@ -132,10 +132,18 @@ def chunk(lst, size):
 # per entity. Measured on Warhammer 40,000 (the richest source, 91 rows, 7,354 deeds): 106
 # blocks, median 20,464 chars, max 21,993 -- 58 blocks over the nominal 20,000, none within
 # 8,000 of the 30,000 line. The margin is real but ~10% narrower than the number suggests.
+# RETAINED AS THE MEASUREMENT OF RECORD, NOT AS A DEFAULT (2026-08-24). This was `pack_feats`'s
+# default third argument, and a default is exactly how a caller forgets that the budget is
+# supposed to be DERIVED from the live context window -- both an audit subagent and run #12
+# called `pack_feats` without a budget and silently got this 20,000 instead of the manifest
+# path's computed one. `budget` is now required, so that mistake is a TypeError at the call
+# site rather than a quietly wrong block size. The number itself stays because the paragraph
+# above it is a real measurement worth keeping; whether the constant should now be deleted
+# outright is a question for NEXT_STEPS, not a silent removal here.
 FEATS_BLOCK_CHARS = 20000
 
 
-def pack_feats(rows, source_name, budget=FEATS_BLOCK_CHARS):
+def pack_feats(rows, source_name, budget):
     """Pack ranked feat rows into blocks under a character budget.
 
     Two rules, and the second is the one that matters:

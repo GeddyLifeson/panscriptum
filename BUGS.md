@@ -7,6 +7,21 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M12] THE LIVE MANIFEST CONTAINS NO FEATS CHAPTERS, SO 55,372 MINED FEATS REACH NO VOLUME.**
+  Found run #16. `output/index/manifest.json` (built 2026-08-24 10:41, 88 MB) holds **9,153
+  `chapter` jobs and 209 `frontmatter` jobs — and 0 of type `feats`**. The join itself is
+  **healthy right now**: measured across all 210 catalogue records, `feats_index.feats_for_source`
+  returns rows for **100 sources, 1,215 entity blocks**. So this is staleness, not a code defect
+  — the manifest predates the reader's feats, and `manifest_builder` only emits a feats chapter
+  `if feat_rows:`, which was empty for every source at build time.
+  **Why it is Major rather than a chore:** it is invisible to every liveness check in the tree.
+  `generate.py` is running, resumable, and correct; it is simply writing books from a manifest
+  in which the feats chapter does not exist. Nothing reports a fault.
+  **Remedy:** rebuild the manifest. **NOT done in run #16** — it is an 88 MB artifact feeding a
+  live `generate.py`, and rebuilding underneath it is a decision, not a repair. See NEXT_STEPS
+  §2 A. **Verified, not hypothesised**: both the job-type census and the 100/210 join were
+  measured directly this run.
+
 - **[M7] THE READER HAS BEEN DISCARDING ~95% OF ITS GPU WORK FOR 7.5 HOURS BEHIND A GREEN
   LIVENESS CHECK — 1,168 of 1,235 chunks handed to the card came back UNANSWERED and uncached.**
   Found run #13 by reading `state/read_auto.log` rather than a status summary; `allsweep`
@@ -505,6 +520,77 @@ remaining item is either an outage, a decision, or a watched state.***
 ## Resolved (paper trail)
 
 *Run #12 (2026-08-24 ~15:10 local) moved three items out of Open. Full detail in HANDOFF.md.*
+
+- **[M11 — RESOLVED, run #16] `gpu_lane`: THE FOREGROUND CLAIM WAS NEVER HEARTBEATED — m54's
+  fix stopped one variable short.**
+  **What it was.** m54 (run #15b) gave a held *slot* a heartbeat thread, because
+  `SLOT_LEASE_SECONDS`=900 sat inside calls `config.yaml` permits 1800s. But `lane(priority=True)`
+  also writes a **foreground claim** — the record that makes every background caller stand aside
+  — and `lane()` started `_heartbeat` only `if slot:`, passing it only the slot path. The claim
+  was written once at entry and never refreshed. Its lease, `CLAIM_LEASE_SECONDS`, is **300**,
+  a third of the slot lease it had just been fixed alongside.
+  **The measurement.** Across the recorded call history (28,979 timed calls), **14 ran longer
+  than 300s, the longest 917.3s** — 0.05%, and every one of them a call that had already been
+  granted priority precisely because it was expensive. Past 300s `foreground_active()` judged a
+  live holder abandoned and swept its claim; `generate.py:155` is the only `priority=True`
+  caller in the tree, so the module's rule 2 stopped applying to the exact call it was built for.
+  **The subtler half.** `_BEAT_SECONDS` was `SLOT_LEASE_SECONDS / 3` = **300s, identical to
+  `CLAIM_LEASE_SECONDS`**. Adding the claim to that beat would have refreshed a 300s lease at the
+  moment it expired. It is now `max(5, min(SLOT_LEASE_SECONDS, CLAIM_LEASE_SECONDS) / 3)` = 100s
+  — derived from the shortest lease kept, so a shorter lease added later tightens it automatically.
+  **The fix.** `_heartbeat` accepts one path or several and refreshes each on the same beat (one
+  thread per call, not per lease); `lane()` passes the slot and, for a foreground call, the claim.
+  `_touch` needed no change — it rewrites the record it read, so `depth` and `label` survive and
+  `foreground()`'s re-entrancy refcount is preserved; its never-resurrect guard already covers
+  a claim removed by `fg.__exit__` before a straggling beat lands.
+  **Verified.** Live, both directions: pre-fix the claim heartbeat does not move across a call,
+  post-fix it does, with `depth`/`label` intact and clean release. **Regression:** verify_math
+  §19ad, five checks, each confirmed FAILING against the pre-fix behaviour before landing.
+  Export commit: see the run #16 sync.
+
+- **[m75 — RESOLVED, run #16] A DEAD POOL REPORTED "100% ok" AND THE STANDARD HELD.**
+  **What it was.** `standards.check()`'s `calls that succeed` computed `errs / max(calls, 1)`.
+  The `max(..., 1)` was a div-by-zero guard; on a window with no calls at all it made the
+  arithmetic 0 errors over a denominator of 1 — **a green light rendered off a pool that had
+  not answered once.** The inverse of the `0.0% (0 of 0)` completeness catastrophe of the same
+  day: that one invented a red from an empty file, this invented health. Symmetrically, a single
+  failed call rendered "0% ok", and the live window that exposed this held **five calls** and
+  printed "20% ok" as a rate.
+  **The fix.** Below `MIN_CALLS_TO_JUDGE_RATE` the standard reports **UNMEASURED with its sample
+  size** and declines to compute a rate — the idiom `completeness.py` already settled on for
+  this exact shape. Reported as a breach, not a quiet hold, on the same principle as the `every
+  source is fully catalogued` standard: a standard that cannot see is not one that is satisfied.
+  The threshold mirrors **`tuning.MIN_CALLS_TO_JUDGE = 20`** rather than inventing a number. A
+  measured rate now carries its denominator. No alarm is doubled: a window too thin to judge has
+  already failed `model calls per hour` on volume.
+  **Verified.** Reproduced in isolation before fixing (dead pool → `(True, '100% ok')`).
+  **Regression:** verify_math §19ai, 8 checks, confirmed failing pre-fix — including the
+  positive half, that a genuinely bad rate over a real sample still breaches, so the guard
+  cannot silence the standard it protects.
+
+- **[m76 — RESOLVED, run #16] `entity_match.candidates()` returned two different dict shapes.**
+  The `EMPTY_NAME` and `NO_POOL` early exits omitted `blocked_by_qualifier`, which the normal
+  return path always includes — a `KeyError` waiting for the first caller, on exactly the two
+  degenerate inputs real data produces most. Both exits now carry it. Latent only because the
+  module still has no production caller; fixed before it acquires one. Verified by execution;
+  regression in §19r.
+
+- **[m77 — RESOLVED, run #16] `entity_match`'s docstrings claimed a qualifier must match
+  "EXACTLY" and the code never did.** Both the module header and `qualifier_compatible`'s own
+  docstring said exact match; the implementation compares `feats_index._norm` forms, so
+  `(Earth-2)` and `(Earth 2)` are the same continuity. `verify_math` §19r had the real behaviour
+  documented correctly all along, which is what settled which half was wrong. Docstrings
+  corrected and the normalising behaviour pinned by a check, so the next reader corrects the
+  comment instead of "fixing" the code to match a sentence that was never true. Found by the
+  run #16 audit of `entity_match.py`, verified at source.
+
+- **[§3.3 — CLOSED, run #16] `pack_feats`'s `budget` argument is now required.** It defaulted to
+  `FEATS_BLOCK_CHARS = 20000`, which is how two separate callers (an audit subagent, and run
+  #12) silently got a constant where the derived context-window budget was intended. All callers
+  were enumerated repo-wide first — none outside `src/` — the one test that omitted it now passes
+  one, and a check asserts the signature so the default cannot return quietly. **Public-signature
+  change, flagged.** The constant itself is retained, not deleted; the measurement documented
+  above it is worth keeping, and its removal is a question in NEXT_STEPS.
 
 - **[M9 — RESOLVED, run #15b] HARD RULE 0 WAS BEING BROKEN BY `read.priority()`: 668 ENTITIES
   WITH REAL EVIDENCE NEVER ENTERED THE QUEUE.**

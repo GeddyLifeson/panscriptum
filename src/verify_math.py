@@ -1958,7 +1958,21 @@ check("the spans are contiguous and cover the whole record",
 _mixed = [_row("Giant", 400), _row("A", 3), _row("B", 3)]
 check("a giant beside small entities loses nothing",
       _emitted(_MB.pack_feats(_mixed, "S", budget=20000)), 406)
-check("an empty row list packs to no blocks", _MB.pack_feats([], "S"), [])
+check("an empty row list packs to no blocks", _MB.pack_feats([], "S", budget=20000), [])
+# `budget` is required as of 2026-08-24 -- this call used to omit it and take the module
+# default, which is the exact habit that made the default dangerous. Asserting the signature
+# keeps a future default from being reintroduced quietly.
+try:
+    _MB.pack_feats([], "S")
+    _packreq = "accepted"
+except TypeError:
+    # The TypeError IS the assertion here -- catching it is how the check reads the signature,
+    # not a failure being hidden. The audit reads the AST and cannot tell those apart, so it is
+    # declared rather than commented.
+    _ = "silence-exempt: the raised TypeError is the measurement this check makes"
+    _packreq = "required"
+check("pack_feats refuses to guess a budget", _packreq, "required",
+      note="a caller that forgets the budget must fail loudly, not silently get 20,000")
 
 # --- the join itself ---------------------------------------------------------------------------
 check("host_to_sources drops the `pages:` sentinels rather than colliding them",
@@ -2051,6 +2065,24 @@ check("a missing qualifier has its own distinct reason",
       _EM.qualifier_compatible("A (x)", "A")[1], _EM.MatchReason.QUALIFIER_MISSING)
 check("identical qualifiers DO match, modulo case and spacing",
       _EM.qualifier_compatible("Wally West (New Earth)", "wally  west (NEW EARTH)")[0], True)
+# The docstrings above this function claimed the qualifier had to match "EXACTLY" until
+# 2026-08-24, while the code has always compared normalised forms. The check below pins the
+# behaviour the code actually has, so the next reader corrects the comment rather than
+# "fixing" the code to match a sentence that was never true.
+check("a punctuation-only qualifier difference is the SAME continuity",
+      _EM.qualifier_compatible("X (Earth-2)", "X (Earth 2)")[0], True,
+      note="normalised comparison, not literal equality -- the header said otherwise for a day")
+# ONE RETURN SHAPE. The two early exits used to omit `blocked_by_qualifier`, so a caller
+# reading it unconditionally would KeyError on exactly the two degenerate inputs real data
+# produces most often. Fixed before the module has any caller at all.
+_shape19r = [sorted(_EM.candidates("", [{"name": "A"}]).keys()),
+             sorted(_EM.candidates("A", []).keys()),
+             sorted(_EM.candidates("A", [{"name": "A"}]).keys())]
+check("candidates() returns the same keys on every path",
+      _shape19r[0] == _shape19r[1] == _shape19r[2], True,
+      note="empty-name and empty-pool exits dropped a key the normal path always carries")
+check("blocked_by_qualifier is present even when nothing was blocked",
+      all("blocked_by_qualifier" in s for s in _shape19r), True)
 check("similarity still folds case and punctuation on the base name",
       _EM.similarity("Son Goku", "son-goku"), 1.0)
 check("a weak match is never returned as best",
@@ -2565,6 +2597,34 @@ try:
           [n for n in os.listdir(_GLx.LANE)
            if n.startswith("slot.") and n != "slot.foreign.json"], [])
 
+    # THE FOREGROUND CLAIM GETS THE SAME BEAT (the half m54 missed, closed 2026-08-24).
+    # `lane(priority=True)` writes a claim that told background work to stand aside, and that
+    # claim was written once and never refreshed -- the identical defect one variable over, and
+    # worse exposed: CLAIM_LEASE_SECONDS is 300 against the slot's 900, inside calls allowed
+    # 1800s by `request_timeout`. 14 recorded calls had already run past 300s, the longest 917s.
+    _clp19ad = _GLx._claim_path()
+    with _GLx.lane("verify:fg-beat", priority=True):
+        _fg1 = json.load(open(_clp19ad, encoding="utf-8"))
+        time.sleep(0.35)
+        _fg2 = json.load(open(_clp19ad, encoding="utf-8"))
+    check("a foreground claim's lease is refreshed while the call runs",
+          _fg2["heartbeat"] > _fg1["heartbeat"], True,
+          note=f"heartbeat {_fg1['heartbeat']} -> {_fg2['heartbeat']}; unrefreshed, a prose "
+               "call over 300s was judged abandoned and swept while still running")
+    check("refreshing the claim preserves its re-entrancy depth", _fg2.get("depth"), 1,
+          note="_touch rewrites the record it read, so the refcount foreground() relies on "
+               "must survive a beat -- losing it would break nested foreground calls")
+    check("refreshing the claim preserves its label", _fg2.get("label"), "verify:fg-beat")
+    check("the foreground claim is released when the call ends",
+          os.path.exists(_clp19ad), False)
+    # The beat must outpace the SHORTEST lease it keeps, not merely the slot's. At the old
+    # `SLOT_LEASE_SECONDS / 3` the interval was 300s -- exactly CLAIM_LEASE_SECONDS, a
+    # heartbeat arriving precisely when the thing it refreshes has already expired.
+    check("the beat interval outpaces every lease it keeps",
+          _real_beat19ad * 3 <= min(_GLx.SLOT_LEASE_SECONDS, _GLx.CLAIM_LEASE_SECONDS), True,
+          note=f"beat {_real_beat19ad}s against leases {_GLx.SLOT_LEASE_SECONDS}s / "
+               f"{_GLx.CLAIM_LEASE_SECONDS}s")
+
     # AND THE COUNT STILL BINDS. MAX_SLOTS concurrent holders, the next one waits.
     _GLx._remove_retry(_foreign19ad)
     _peak19ad = {"n": 0, "cur": 0}
@@ -2749,6 +2809,64 @@ check("a different passage still keys differently",
 check("a different host still keys differently",
       _ck19ah("a.example", "same text", "Goku") != _ck19ah("b.example", "same text", "Goku"),
       True)
+
+
+# ---- Section 19ai: a success RATE is not reported off a sample too thin to carry one --------
+#
+# Found 2026-08-24 reading the published page's pool group. `calls that succeed` computed
+# `errs / max(calls, 1)`, where the `max(..., 1)` existed only to avoid dividing by zero. On a
+# window in which the pool answered NOTHING, that arithmetic is 0 errors over a denominator of
+# 1, which renders "100% ok" and HOLDS -- a green light reported off a pool that had not been
+# reached once. It is the fabricated `0.0% (0 of 0)` of the completeness audit inverted: that
+# one invented a catastrophe from an empty file, this one invented health.
+#
+# The live window that exposed it held FIVE calls, four of them failed, and the panel printed
+# "20% ok" as though five samples were a measurement. Both directions are the same defect --
+# a percentage rendered over a denominator that cannot support it -- and the fix is the one
+# completeness.py already reached for the same shape: decline to judge, and say why.
+#
+# The dead-pool case is the one that must never quietly hold, so it is asserted first.
+import standards as _STx     # noqa: E402
+
+
+def _pool19ai(buckets):
+    """Run the real standards.check() over a synthetic throughput window."""
+    st = {"throughput": {"window_min": 15, "buckets": buckets,
+                         "calls": sum(b["calls"] for b in buckets),
+                         "per_hour": sum(b["calls"] for b in buckets) * 4},
+          "quotas": [], "jobs": [], "library": {}, "watch": {}}
+    for row in _STx.check(st):
+        if row["standard"] == "calls that succeed":
+            return row
+    return None
+
+
+_dead19ai = _pool19ai([])
+check("a pool that answered NOTHING does not report a passing success rate",
+      _dead19ai["holds"], False,
+      note="errs=0 over a max(calls,1) denominator rendered '100% ok' and HELD, off zero calls")
+check("the dead-pool window says UNMEASURED rather than a percentage",
+      "UNMEASURED" in str(_dead19ai["observed"]), True,
+      note="the panel must not print a rate it did not measure, in either direction")
+check("a single failed call is not rendered as a 0% failure RATE",
+      "UNMEASURED" in str(_pool19ai([{"calls": 1, "ok": 0}])["observed"]), True)
+check("the five-call window that exposed this is refused as too thin",
+      "UNMEASURED" in str(_pool19ai([{"calls": 2, "ok": 0}, {"calls": 1, "ok": 0},
+                                     {"calls": 1, "ok": 0}, {"calls": 1, "ok": 1}])["observed"]),
+      True, note="the live 2026-08-24 19:08 window, which the page printed as '20% ok'")
+
+# The other half: once the sample IS big enough, the standard must still measure, and must
+# still fail on a genuinely bad rate. A guard that silenced the standard entirely would be a
+# worse defect than the one it replaced.
+_ok19ai = _pool19ai([{"calls": 100, "ok": 90}])
+check("a healthy rate over a real sample still measures and holds", _ok19ai["holds"], True)
+check("the measured rate carries its denominator", "of 100" in str(_ok19ai["observed"]), True,
+      note="a reader who cannot see the sample size cannot judge the rate")
+_bad19ai = _pool19ai([{"calls": 100, "ok": 10}])
+check("a genuinely bad rate over a real sample still BREACHES", _bad19ai["holds"], False)
+check("the threshold itself is the one tuning.py already settled on",
+      _STx.MIN_CALLS_TO_JUDGE_RATE, 20,
+      note="tuning.MIN_CALLS_TO_JUDGE=20 answers this same question for regime()")
 
 
 print()
