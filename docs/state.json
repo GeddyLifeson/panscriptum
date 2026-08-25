@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 14:27:55",
+ "at": "2026-08-25 14:28:26",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,18 +228,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 289,
+     "left": 288,
      "cap": 1000,
-     "frac": 0.289
+     "frac": 0.288
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.289
+   "worst": 0.288
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -372,9 +372,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 1,
+     "left": 2,
      "cap": 445,
-     "frac": 0.0022
+     "frac": 0.0045
     },
     {
      "name": "tpd",
@@ -395,7 +395,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0022
+   "worst": 0.0045
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -576,9 +576,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 351,
+     "left": 352,
      "cap": 1000,
-     "frac": 0.351
+     "frac": 0.352
     },
     {
      "name": "rpm",
@@ -587,7 +587,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.351
+   "worst": 0.352
   },
   {
    "bucket": "openrouter:free",
@@ -692,8 +692,8 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 29,
-  "per_hour": 116,
+  "calls": 30,
+  "per_hour": 120,
   "buckets": [
    {
     "bucket": "nvidia:free",
@@ -706,17 +706,17 @@
     "ok": 0
    },
    {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 3,
+    "ok": 0
+   },
+   {
     "bucket": "cloudflare:free",
     "calls": 2,
     "ok": 0
    },
    {
     "bucket": "cohere:free",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
     "calls": 2,
     "ok": 0
    },
@@ -771,9 +771,9 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 72400,
+   "done": 72600,
    "total": 107778,
-   "detail": "85,979 pages  \u00b7  1122M characters  \u00b7  17.4/s",
+   "detail": "86,163 pages  \u00b7  1123M characters  \u00b7  17.3/s",
    "warn": "",
    "eta_h": 0.6
   }
@@ -880,7 +880,7 @@
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1846,
+   "n": 1845,
    "p50": 1.6,
    "p95": 75.1,
    "ok_pct": 58,
@@ -888,8 +888,8 @@
   },
   {
    "tag": "ask",
-   "n": 62,
-   "p50": 460.6,
+   "n": 63,
+   "p50": 412.0,
    "p95": 1285.4,
    "ok_pct": null,
    "tps": 17.9
@@ -922,13 +922,13 @@
    "breached": [],
    "liveness": 38,
    "liveness_ceiling": 38,
-   "age_min": 1.5
+   "age_min": 2.0
   },
   "escalation_recent": {
    "SUPERVISOR": 62,
    "OWNER": 25,
    "OPERATOR": 2,
-   "MANAGER": 8,
+   "MANAGER": 9,
    "SAFETY": 1
   },
   "step4_gate": {
@@ -958,7 +958,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 116,
+   "observed": 120,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -994,7 +994,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "21% ok of 29",
+   "observed": "20% ok of 30",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1003,7 +1003,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": false,
-   "observed": "local, 2 of 16 permits (4 answering; 21% ok over 29 calls; ollama up)",
+   "observed": "local, 1 of 16 permits (4 answering; 20% ok over 30 calls; ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1183,7 +1183,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "1/4 moved in 44m",
+   "observed": "1/4 moved in 45m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1237,7 +1237,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "calibrate (37 min, 32657 bytes), pipeline_auto (37 min, 48899 bytes)",
+   "observed": "calibrate (38 min, 32657 bytes), pipeline_auto (38 min, 48899 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1309,7 +1309,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.1h",
+   "observed": "0.0h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1338,7 +1338,7 @@
    "metric": "cited",
    "now": 12906,
    "delta": 0,
-   "minutes": 34,
+   "minutes": 35,
    "reset": false,
    "stalled": true
   },
@@ -1346,7 +1346,7 @@
    "metric": "settled",
    "now": 86209,
    "delta": 0,
-   "minutes": 34,
+   "minutes": 35,
    "reset": false,
    "stalled": true
   },
@@ -1354,7 +1354,7 @@
    "metric": "feats",
    "now": 69435,
    "delta": 0,
-   "minutes": 34,
+   "minutes": 35,
    "reset": false,
    "stalled": true
   },
@@ -1362,7 +1362,7 @@
    "metric": "entities read",
    "now": 1362,
    "delta": 3,
-   "minutes": 34,
+   "minutes": 35,
    "reset": false,
    "stalled": false
   },
@@ -1370,7 +1370,7 @@
    "metric": "chunks",
    "now": 3095,
    "delta": 748,
-   "minutes": 34,
+   "minutes": 35,
    "reset": false,
    "stalled": false
   },
@@ -1378,10 +1378,10 @@
    "metric": "standards met",
    "now": 30,
    "delta": -2,
-   "minutes": 34,
+   "minutes": 35,
    "reset": true,
    "stalled": false
   }
  ],
- "generated": "2026-08-25T14:27:59"
+ "generated": "2026-08-25T14:28:29"
 }
