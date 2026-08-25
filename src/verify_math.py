@@ -2951,6 +2951,57 @@ check("the comment recording the fault is still present",
 
 
 print()
+print("20. §20a  rc=15 IS A KILL, NOT AN EXIT — what the supervisor log is actually saying")
+# ---------------------------------------------------------------------------------------------
+# BUGS.md M14 and three NEXT_STEPS queues in a row told the next run "do not chase rc=15: every
+# recorded reader exit carries it across 6m/13m/41m/57m/61m/490m, so it is this reader's ORDINARY
+# exit, not a crash signature." That inference was backwards. The durations differ precisely
+# BECAUSE the code is not an exit code at all: on Windows `os.kill(pid, signal.SIGTERM)` calls
+# TerminateProcess(handle, 15), so the victim's returncode is the signal number regardless of
+# what it was doing or how long it had been running. rc=15 does not vary with runtime because it
+# does not come from the reader.
+#
+# Two foreman remedies send exactly that signal to read.py -- restart_reader (foreman.py:315,
+# wired to "the library's counters are moving" and "corpus read is progressing") and
+# kill_stalled_job (foreman.py:385, wired to "every running job is advancing"). Both end their
+# note with "supervisor restarts next cycle", and for read.py "next cycle" is the supervisor's
+# hours-long main lap, because read is deliberately outside the keeper's STANDING set. Measured
+# live in run #18: killed 20:35:04, supervisor noticed 20:35:58 ("read: finished rc=15 in 41m"),
+# restarted 21:17:58 -- 42.0 minutes down, and the whole library's counters flat for all of it.
+#
+# These checks pin the MECHANISM, not the policy. The floor, the remedies and the STANDING set
+# are all the owner's to change; what must never again be re-derived from scratch is what the
+# number 15 in overnight.log means. 2026-08-24, run #18.
+import signal as _sig20a
+import subprocess as _sp20a
+
+_p20a = _sp20a.Popen([sys.executable, "-c", "import time;time.sleep(30)"])
+try:
+    os.kill(_p20a.pid, _sig20a.SIGTERM)
+    _rc20a = _p20a.wait(timeout=30)
+except Exception:                                  # never let a probe wedge the whole suite
+    _p20a.kill()
+    _rc20a = None
+check("a SIGTERMed child reports returncode 15 on this platform", _rc20a, 15,
+      note="so 'read: finished rc=15' in overnight.log names a KILL, not the reader's own exit")
+check("the signal number and the observed exit code are the same number",
+      _rc20a == int(_sig20a.SIGTERM), True,
+      note="the identity that makes rc=15 attributable; if these ever diverge, re-derive M14")
+
+_fm20a = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "foreman.py"),
+              encoding="utf-8").read()
+check("restart_reader still sends SIGTERM to the reader",
+      "def restart_reader" in _fm20a and "signal.SIGTERM" in _fm20a, True,
+      note="one of the two remedies that produce rc=15 against read.py")
+check("kill_stalled_job still sends SIGTERM",
+      "def kill_stalled_job" in _fm20a and _fm20a.count("os.kill(") >= 3, True,
+      note="the other; three kill sites -- restart_reader, kill_stalled_job, kill_duplicate_jobs")
+check("the reader-killing remedies are still wired to progress standards",
+      '"corpus read is progressing": [restart_reader]' in _fm20a
+      and '"every running job is advancing": [kill_stalled_job]' in _fm20a, True,
+      note="a stalled POOL makes the reader look stalled; these are what then kill it")
+
+print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
 print("=" * 96)

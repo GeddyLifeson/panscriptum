@@ -7,6 +7,80 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M15] THE FOREMAN KILLS THE READER FOR LOOKING STALLED WHEN THE POOL IS WHAT STALLED, AND
+  THE READER THEN WAITS UP TO A FULL SUPERVISOR LAP TO COME BACK.** Found run #18. This is
+  M14's downtime with its cause attached, and it is a loop that feeds itself:
+  the pool refuses most calls → the reader completes few entities → it prints no progress line
+  → it *looks* wedged → a foreman remedy SIGTERMs it (`rc=15`) → and because `read.py` is
+  deliberately outside the keeper's `STANDING` set (`overnight.py:344-347`) nothing restarts it
+  until the supervisor's hours-long main lap comes round → with the reader down, zero calls are
+  made, so `model calls per hour` reads 0 and every counter is flat → which is precisely the
+  condition that fires `restart_reader` again.
+  **Measured live, matched timestamps, not inferred:** foreman remedy applied **20:35:04** →
+  supervisor logged `read: finished rc=15 in 41m` at **20:35:58** → `read: starting` at
+  **21:17:58**. **42.0 minutes down.** The lap that gated the restart was itself 42 minutes
+  (`pipeline: finished rc=15 in 41m` at 21:17:22 closed cycle 9; cycle 10 opened at 21:17:32).
+  **Two remedies produce this**, both ending their note with the words "supervisor restarts next
+  cycle" — which is true for a STANDING job (keeper, 300s) and badly false for the reader:
+  - `restart_reader` — `foreman.py:290-321`, wired at `foreman.py:679,685` to *"the library's
+    counters are moving"* and *"corpus read is progressing"*
+  - `kill_stalled_job` — `foreman.py:324-391`, wired at `foreman.py:662` to *"every running job
+    is advancing"*
+  **The remedy cannot fix the fault it fires on.** Killing a reader does nothing about a pool
+  returning 429/401, and `kill_stalled_job`'s docstring premise — *"killing a wedged one loses at
+  most the unit it was stuck on"* — is true about DATA and false about TIME: it costs a lap.
+  **Why Major, and why it is NOT patched here:** the remedies are deliberate machinery with
+  careful docstrings, and the fix is a design choice among at least three (teach the stall
+  remedies to check pool refusal first and decline; put `read.py` in `STANDING`; or make the
+  kill notes tell the truth about how long "next cycle" is for a non-STANDING job). **Owner
+  ruling needed — NEXT_STEPS §2 B.** Mechanism pinned by `verify_math` §20a so it cannot be
+  re-derived wrongly again.
+
+- **[M16] `feats.py` CACHES A NETWORK TIMEOUT AS A VERIFIED "NOTHING HERE", PERMANENTLY.**
+  Found by audit run #18, verified against source. `api()`'s bare `except Exception`
+  (`feats.py:148-152`) returns `None` after retries — **the same value it returns for a clean
+  HTTP 200 saying the page does not exist.** The 476 swallowed `URLError`s in the ledger are
+  real transport failures (`state/failure_samples.json`: `TimeoutError(10060, ...)`), not
+  probes. Two consequences, both permanent:
+  - `evidence_for()` still writes a cache file on the empty path (`feats.py:772-774`) with **no
+    fetch-failed flag**. A timeout produces a byte-identical evidence record to a genuine
+    absence, and `evidence_for(cache=True)` — the default `roll()` uses — reads it back forever.
+  - worse, `alive()` (`feats.py:155-156`, `retries=0`) feeds `resolve_hosts()`'s slug loop
+    (`feats.py:260-266`); **one transient timeout writes `known[src] = None`** into
+    `data/WIKI_HOSTS.json`, and the cache check is `if src in known: continue` — a *membership*
+    test, so a `None` is never reconsidered. `roll()` then skips the whole source
+    (`feats.py:807-809`). **An entire source is lost to one network blip, silently, forever.**
+  **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
+  public-signature change needing a review cycle. NEXT_STEPS §2.
+
+### Minor-but-new (run #18)
+- **[m80] `feats.py:358-398` `resolve_title()` — the documented fix for a 17,148-entry loss has
+  ZERO callers.** Verified by grep across all of `src/`: the only occurrence is its own `def`.
+  Its docstring says it exists because *"the entity's catalogue name is not the wiki's page
+  title"* cost 17,148 entries; `discover()`/`evidence_for()` use the raw catalogue name
+  (`feats.py:313`) and never call it. **So that loss is, per the call graph, still unmitigated.**
+  Same census found `_page_exists()` (350), `remine()` (778) and `axis_evidence()` (659) also at
+  zero callers. Wiring or retiring is a decision — NEXT_STEPS §2.
+- **[m81] EVERY line-number `silence.note()` label in `feats.py` is stale, by 8 to 140 lines.**
+  Verified: label `"feats.py:125"` sits at line 137 (its `except` is 133); `"feats.py:139"` at
+  149 (except 148); `"feats.py:374"` at 425 (except 424); `"feats.py:695"` at **836** (except
+  835). The labels are baked once by `silence.py --instrument` and never move as the file grows.
+  **This bug bit this run's own task prompt**, which cited "feats.py:139" — 9 lines off. The
+  same drift exists in `overnight.py` (5 labels, 60–260 lines off). Renaming splits the ledger's
+  cumulative counts off their history, so it is a decision, not a chore — NEXT_STEPS §2.
+- **[m82] `feats.py:327,334` — `aplimit=500` and `srlimit=50` with NO continuation handling.**
+  Verified: no `apcontinue`/`sroffset`/`continue` token anywhere in the file. Both feed
+  `discover()`'s title list, which `fetch()` then reads — **acted on, not display-only**, and
+  unlogged when the cap binds. Hard Rule 0 question: an entity with more than 500 subpages or
+  50 search hits is silently read in part. Nothing measures how often it binds.
+- **[m83] `overnight.py:579` vs `605-608` — the post-reader pipeline pass can silently no-op.**
+  Reported by audit, quoted from source: `start("pipeline")` fires background at 579, then
+  `run("pipeline", timeout_h=2)` at 607 whose comment promises it *"runs after the reader so it
+  sees the evidence the reader just produced"* — but `run()` opens `if running(...): return
+  "already-running"` (`overnight.py:144-146`). If the 579 instance is still alive, the promised
+  pass does not happen that cycle. `pipeline` is also in `STANDING`, so a third actor can start
+  it. **Not verified by me at source beyond the quoted lines** — treat as high-confidence audit
+  finding pending a read.
 - **[M14] THE PUBLIC PAGE REPORTS A DEAD READER'S NUMBERS AS LIVE, AND THE READER KEEPS DYING.**
   Found run #17. Two halves, and each is harmless-looking without the other.
   *The reader stops, and nothing brings it back.* `state/overnight.log` records the corpus read
@@ -16,6 +90,18 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   recorded exits is `rc=15`, across durations of 6m, 57m, 61m, 13m, **490m** and 41m, so it is
   this reader's ordinary exit, not a crash signature. (`rc=1` ×10 and two hard Windows aborts
   sit further back in the same log.)
+
+  > **CORRECTED, run #18 (2026-08-24). The paragraph above is wrong and this correction is the
+  > reason it is kept rather than edited away.** The inference ran backwards: the durations
+  > differ *because* `rc=15` is not an exit code at all. On Windows `os.kill(pid,
+  > signal.SIGTERM)` is `TerminateProcess(handle, 15)`, so a killed process's returncode is the
+  > signal number regardless of what it was doing or how long it had run — which is exactly why
+  > it is invariant across 6m/13m/41m/57m/61m/490m. **Proven by experiment**: a child spawned and
+  > SIGTERMed from Python on this machine returned exactly 15 (pinned now by `verify_math` §20a,
+  > five checks). **The reader is being killed by the foreman**, via `restart_reader`
+  > (foreman.py:315) or `kill_stalled_job` (foreman.py:385). The root cause and the loop it sits
+  > in are **M15** below; M14 remains open as the *reporting* half (the page still cannot say a
+  > reader is dead), which is unaffected by this correction.
   **The finding is the downtime.** `read.py` is deliberately **outside the keeper's `STANDING`
   set** — `overnight.py:344-347` says so explicitly: *"the keeper's STANDING set is the subset
   it can restart on its own; `read.py` and `feats.py --roll` hang off this supervisor's

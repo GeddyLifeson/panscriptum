@@ -9,6 +9,103 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 21:20 (local) — Run #18: the reader is not dying, it is being killed — and a third of the pool's refusals come from four accounts that can never answer again
+
+*Two standing instructions were wrong, and this run refuted both with measurement rather than
+argument. `rc=15` is not the reader's ordinary exit; it is the number Windows writes when
+something SIGTERMs it, and the foreman is the something. And the pool is not merely "refusing"
+— 38% of its refusals come from buckets that are out of credit or holding dead keys, which no
+amount of waiting will fix.*
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found. Nothing deleted. No money moved.** One process bounced (the dashboard,
+   PID 42380, so the page would pick up corrected guidance text; it is STANDING and the keeper
+   restores it within 300s). The foreman was **not** bounced — it had a live `hostcheck
+   --adopt` child (PID 47096), which NEXT_STEPS §1.7 correctly says means leave it alone.
+2. **[NEW — THE HIGHEST-LEVERAGE THING ON THIS MACHINE] Four provider buckets are permanently
+   dead and the router retries them forever.** Read from `bucket_state.last_error`, ages from
+   `updated_at`, all current within 12 minutes:
+   - `zai:free` — `{"code":"1113","message":"Insufficient balance or no resource package.
+     Please recharge."}` — **46 refusals in 3h, the single largest source**
+   - `cohere:free` — trial key, 1000-call ceiling reached — 9 refusals
+   - `cloudflare:free` — `HTTP 401 {"code":10000,"message":"Authentication error"}` — 18 errors
+   - `hyperbolic:free` — `HTTP 401 {"detail":"Could not validate credentials"}` — 10 errors
+   Together **83 of 218 refusals in three hours (38%)** are calls to accounts that cannot
+   succeed. Nothing benches them: `engine.is_dead()` fires only on 404/410/402/400/422, and a
+   401 and a 429-carrying-a-balance-message are in neither set. **Fixing or removing these four
+   keys raises effective throughput without adding a single provider.** The config lives in
+   the *other* project (`C:\Users\imarl\cascade\config.json`), so this run did not touch it.
+3. **[M14 — ROOT CAUSE FOUND, AND IT REVERSES A STANDING RULING] `rc=15` is a kill, not an
+   exit.** BUGS.md M14 and three NEXT_STEPS queues in a row told the next run *"do not chase
+   rc=15 — every recorded exit carries it across 6m/13m/41m/57m/61m/490m, so it is the
+   reader's ordinary exit."* The durations differ **because the number does not come from the
+   reader at all**: on Windows `os.kill(pid, signal.SIGTERM)` is `TerminateProcess(handle, 15)`,
+   so the victim's returncode is the signal number whatever it was doing. **Proven by
+   experiment, not inference** — a spawned child SIGTERMed from Python returned exactly 15.
+   Two foreman remedies send that signal to `read.py`: `restart_reader` (foreman.py:315, wired
+   to *"the library's counters are moving"* and *"corpus read is progressing"*) and
+   `kill_stalled_job` (foreman.py:385, wired to *"every running job is advancing"*).
+4. **The loop that follows is self-reinforcing, and it is the whole of M14's downtime.** The
+   pool refuses most calls → the reader completes few entities → it prints no progress lines →
+   it *looks* stalled → the foreman SIGTERMs it → and because `read.py` sits outside the
+   keeper's STANDING set it waits for the supervisor's main lap. **Measured live today, with
+   matched timestamps: killed 20:35:04, supervisor noticed at 20:35:58 (`read: finished rc=15
+   in 41m`), restarted 21:17:58 — 42.0 minutes down**, every library counter flat throughout.
+   The remedy for a stalled reader cannot fix a refusing pool, and costs a lap each time it
+   fires. **This is a design question, not a patch** — see NEXT_STEPS §2 B.
+5. **A subagent traced the code ceiling on that gap at ~7h10m** (join(roll) 4h + pipeline 2h +
+   coverage 0.5h + sleep + next preflight 0.5h), which is **wider than the 4h worst case ever
+   observed**. Unverified by me beyond reading the quoted timeouts; recorded as a question.
+
+**What was fixed (both verified, battery green after):**
+
+- **`standards.py` — the `model calls per hour` order text was factually false** and had already
+  misdirected run #16 into checking a transport that was fine. It ended *"the reader is not
+  asking"*. It now names both candidates, says plainly that the four sub-standards below it
+  **cannot** see refusal (they read `worst` quota headroom and `cap` shape, never call
+  disposition), and gives the SQL that measures it. **The floor (900) was not touched — a floor
+  is an opinion; the guidance was a factual claim.** A 15-line comment above records why.
+- **`verify_math.py` §20a — five new checks pinning the rc=15 mechanism** so it is never
+  re-derived or re-mislabelled: that a SIGTERMed child returns 15 here, that the number and the
+  signal are the same number, and that both foreman remedies and their standard wiring still
+  exist. **559 passed, 0 FAILED.**
+
+**Battery:** `verify_math` 559/0 · `allsweep` **0 subsystems bad**, all 9 jobs running ·
+`health --preflight` **1 FAIL, which is one FEWER than the pre-registered baseline of 2** —
+`API paths per host family` (M8) now passes because fandom answered IPv4 this run (`True` at
+172.66.2.166, 8.0s — slow, but reachable); only M1 (`feats/www_dandwiki_com` empty) remains ·
+`silence.py` 35 handlers, net zero added · `pyflakes` clean.
+
+**Measured, so nobody re-derives it:**
+
+- **The 700-byte hazard in `standards.py:550` is latent, not live.** A subagent flagged that
+  `head = f.read(700)` plus `elif "chunks_unanswered" not in head` would misclassify a
+  fully-read record as unanswered — feeding a high-severity standard whose order says *delete
+  those files*. I checked all **1,275** readfeats records: the key lands inside the first 700
+  bytes in **every one**, so **0 misclassifications today**. Real hazard, zero current effect.
+- **The "DNS outage" is 32 hours stale.** `deepinfra/chutes/cerebras/huggingface` all carry
+  `curl (6) Could not resolve host`, which reads alarming until you age the row — `updated_at`
+  puts all four at 31.9h. Not current. `ollama:local`'s connect-refused is 9.5h old and the
+  local model probes fine now. **`bucket_state` keeps only the last error, with no history, so
+  every row there must be aged before it is believed.**
+- **`eta 0.0h` persists** (m79): 119 of 121 lines, with 2 at `0.1h` — the first non-zero ETAs
+  the log has ever carried, which is weak evidence for the eviction-guard mechanism in §2 D.
+
+**Four audits ran (feats.py, overnight.py, standards.py, the pool error path); every finding
+below was re-verified against source by me before being recorded.** The subagents were right
+about far more than they were wrong about, and one was usefully wrong: it reported three
+buckets at "100% error", but `groq:groq/compound-mini` had in fact answered `ok` 279 seconds
+before I checked — intermittent, not dead. Its own diagnosis of the other two (401s) held up.
+
+**New bugs recorded this run:** M15 (the kill loop), M16 (feats.py caches transport failures as
+verified absences), m80 (`resolve_title` — the documented fix for a 17,148-entry loss has zero
+callers), m81 (every `silence.note` line-number label in feats.py is stale by 8–140 lines),
+m82 (`aplimit`/`srlimit` with no continuation), m83 (overnight.py's post-reader pipeline pass
+can silently no-op). See BUGS.md.
+
+---
+
 ## 2026-08-24 20:20 (local) — Run #17: the publisher was publishing into a dead session's temp directory, and had been for a day
 
 *The page was the opening diagnostic and it paid immediately: a `generated` stamp 37 minutes

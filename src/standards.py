@@ -332,13 +332,34 @@ def check(state=None):
     w = state.get("watch") or {}
 
     # ------------------------------------------------------------------ the provider pool
+    #
+    # THE ORDER TEXT BELOW USED TO END "the reader is not asking", FULL STOP. It was wrong, and
+    # wrong in the most expensive way an order can be: it named one cause and sounded certain.
+    # Run #16 followed it and spent its queue checking the reader's transport, which was fine
+    # (Cascade, 8 workers, printed in read_auto.log line 1). Measured in run #18: over three
+    # hours the pool took 543 calls and REFUSED 364 of them, and no standard in this tree
+    # reported it -- the three sub-standards below read `worst` (quota headroom) and `cap`
+    # (shape), so a bucket that 429s every call while holding a full daily allowance reads
+    # green in all three. Worse, 38% of those refusals came from four buckets that can never
+    # succeed again without the owner: zai and cohere are out of credit (their 429 bodies say
+    # so), cloudflare and hyperbolic answer 401. Nothing benches them, because engine.is_dead()
+    # fires only on 404/410/402/400/422 -- a dead key and a spent account are not in that set.
+    # The floor (900) is deliberately untouched; a floor is an opinion. The GUIDANCE was a
+    # factual claim, and a false one. 2026-08-24, run #18.
     per_hour = tp.get("per_hour", 0)
     out.append(_s(
         "model calls per hour", per_hour >= MIN_CALLS_PER_HOUR, per_hour, MIN_CALLS_PER_HOUR,
         "Work the four standards below in order -- they split this one number into its causes. "
-        "If all four hold and throughput is still low, the reader is not asking: check that "
+        "If all four hold and throughput is still low there are TWO candidates, and the four "
+        "standards can only see one of them. Either the reader is not asking (check that "
         "read.py resolved its transport to Cascade and that its worker count matches the "
-        "bucket count.", "high", "pool"))
+        "bucket count), OR it is asking and being REFUSED -- which none of the four below "
+        "can detect, because they read quota headroom and cap shape, never call disposition. "
+        "Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s',"
+        "'now','-3 hours') group by outcome` in state/cascade_scratch.db, and read "
+        "bucket_state.last_error for any bucket that is failing -- a bucket out of credit or "
+        "holding a dead key refuses every call forever while still reporting full headroom.",
+        "high", "pool"))
 
     metered = [q for q in quotas if not q.get("unlimited")]
     live = [q for q in quotas if q.get("unlimited") or q.get("worst", 0) > 0.05]
