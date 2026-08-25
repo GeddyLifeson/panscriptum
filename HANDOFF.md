@@ -9,6 +9,267 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 05:20–06:0x (local) — Run #25 (scheduled): a guard that only recognises the unobfuscated spelling, and the catalogue that was never allowed to finish
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found.** A sweep agent independently re-grepped every path `publish.py` syncs to
+   the public repo (`src/`, `prompts/`, `reference/`, `registry_terminal/`, `handoff/`,
+   `config.yaml` + all `COPY_FILES`) against key/token/password/bearer patterns, AWS keys, PEM
+   headers and embedded URL credentials. Zero hits, matching run #24's result by a separate
+   route. The decision **C** scrub gap itself is unchanged and still wants a ruling.
+2. **THE LOCAL MODEL'S WRITE GATE WAS BYPASSABLE A FOURTH WAY, AND IS NOW FIXED.** After m113
+   (case), m114 (name prefix) and m121 (NTFS alternate data stream), run #25 found the same
+   shape one letter further along. m113 case-folded the *denylist* — but `modname` was still
+   derived through a case-SENSITIVE `full.endswith(".py")`. `src/foreman.PY` resolves to the
+   real `foreman.py` on NTFS and passes `os.path.isfile`, but fails that test, so `modname`
+   came out `None`, the folded denylist was never consulted, and `_gates()` skipped the parse,
+   lint and import checks for the same reason. **8 of 28 adversarial candidates were ADMITTED,
+   reproduced on this machine before fixing**, covering `foreman`, `silence`, `standards`,
+   `verify_math`, `local_agent` and more. All 8 now denied; `src/tells.py` still patchable, so
+   the fix does not over-block. (m128)
+3. **THREE BUCKETS STILL HOLD DEAD CREDENTIALS, AND 8 OLLAMA MODEL NAMES ARE STILL STALE.**
+   Unchanged from run #24 and **not in this repo** — the config is
+   `C:\Users\imarl\cascade\config.json`. `cloudflare:free` → `HTTP 401 Authentication error`;
+   `hyperbolic:free` → `HTTP 401 Could not validate credentials`; `zai:free` → `Insufficient
+   balance or no resource package`. **Owner action: re-key or remove.**
+4. **A new external finding: Cascade misattributes which bucket failed.** The ledger holds
+   `gemini:models/gemini-2.5-flash | all 1 candidates failed: llama 3.3 70b (groq)` — a Gemini
+   bucket naming a Groq model. Traced to Cascade's own `router.py:327-338`: `candidates()`
+   appends the whole pool as fallback even for a pinned model and drops the pin if it is not
+   `provider_ready()` at that instant, so the engine silently substitutes another provider and
+   `cascade_bridge` records the failure under the bucket it *reserved*, not the one that
+   actually failed. **Also not in this repo.**
+5. **Nothing deleted.** No public signatures broken, no dependencies added. Two additive
+   default-kwargs (`wiki_source.page_texts(progress=)`, `rank_by_size(progress=)`), noted below.
+6. **I made the loose-process-match mistake myself, live.** Bouncing two jobs, I matched process
+   command lines against a list containing the literal strings `"dashboard.py"` and
+   `"foreman.py"` — which my own `python -c` command line also contained, so the script
+   SIGTERMed itself (exit 15). No project job was lost (the two intended targets went down and
+   the keeper restored them; `recatalogue` and `roll`, started moments earlier, survived), but
+   it is worth recording that **this is the exact bug `foreman.kill_stalled_job` documents
+   having fixed in its own matching** — and the documented remedy, `lognames.OWNER`, was sitting
+   right there. Assemble the needle at runtime, or use the declared fragment.
+
+---
+
+### The run's spine: a guard that only recognises the unobfuscated spelling of what it forbids
+
+Run #24's shape was a guard that inverts on its error path. Run #25's is one step worse, and
+**three of this run's seven fixes are it**: a guard that matches only the PLAIN spelling of the
+thing it forbids. That guard is green on purpose, for ever, and every alternative spelling is a
+fresh hole. All three had already been "fixed" once.
+
+**[m126 / m127 — MAJOR, RESOLVED] THE ONLY UNGUARDED SPAWN IN THE TREE WAS INSIDE THE CHECK THAT
+FORBIDS UNGUARDED SPAWNS.** §20e of `verify_math.py` exists to enforce the owner's absolute rule
+that nothing may ever pop a console window. Its docstring is emphatic — *"a count is not a
+guarantee, so this check does not count — it PARSES"* — and it walks the AST rather than
+grepping, precisely to be rigorous. It then matched the module name with
+`_f20e.value.id == "subprocess"`, a literal string comparison. **`verify_math.py` itself does
+`import subprocess as _sp20a` and spawns through that alias three hundred lines above the
+check**, with no `creationflags`. The check could not see it and had reported green ever since.
+
+Widening the scan to resolve import aliases and `from subprocess import ...` names immediately
+surfaced **two more real violations**, both in `standards.py` (`:130` a `tasklist` call, `:1109`
+a **PowerShell** call), both via the same `import subprocess as _sp` idiom. `standards.check()`
+is what the dashboard polls every five seconds and what the foreman runs every round — so these
+two were popping console windows on the owner's desktop continuously, which is exactly the harm
+the rule exists to prevent, under a check reporting that it could not happen. All three fixed.
+
+**[m128 — MAJOR / SECURITY, RESOLVED] THE FOURTH BYPASS.** Item 2 above. Same shape: the
+denylist was folded, the *extension test that decides whether the denylist runs at all* was not.
+
+**[m132 — RESOLVED] THE POOL HAD NO NAME FOR "THE PROVIDER ANSWERED WITH NOTHING".** Ruling 3
+makes the unrecognised ledger the run's first job, so it was read first: **13 rows, where the
+baseline handed over was 12** — and the extra one was a genuinely new shape,
+`groq:groq/compound-mini: no answer text produced`, which appears nowhere in `src/`. Traced to
+Cascade's `engine.py:343`. Its sibling row, `empty response`, comes from `engine.py:277`. **One
+fault, two wordings, and because `record_unrecognised` de-duplicates on exact text, two
+permanent rows.** No predicate could name either.
+
+Named as `cascade_bridge.empty_content`, matched **exactly** — `err.strip().lower() in
+(...)`, never a substring, because a loose `"empty" in err` would turn naming a fault into a way
+of not seeing faults, which is the one thing this ledger exists to prevent. Verified narrow:
+`"empty response but the router also lost the pin"` is still an unknown. Naming does **not**
+bench, exactly as `named_transient` does not — whether an empty completion should cost a bucket
+a cooldown is the owner's open routing question. **13 rows → 12**, all now the single
+deliberately-loud `All 1 candidates failed` shape.
+
+---
+
+### The finding that explains a HIGH standard nobody could move: the catalogue was never allowed to finish
+
+**[m129 — MAJOR, RESOLVED] `every source is fully catalogued` sits at 17.2% because its biggest
+sources are killed mid-pass, every pass, by another standard's remedy.**
+
+The page opens with `every source is fully catalogued — 17.2% (29,422 of 170,869) — worst: DC
+0.5%; Thomas the Tank En 1.2%; SpongeBob SquarePa 1.7%`. The worst-catalogued sources are the
+*biggest* ones, which is the shape of starvation, not slowness. Chased end to end:
+
+- `catalogue_web.py --recatalogue --shortfall` orders its work **largest gap first** and runs
+  **three sources concurrently**, so every pass begins with the three biggest wikis in the
+  library. The code's own comment says so: *"Three at once puts DC, Gundam and SpongeBob in
+  flight together."*
+- `catalogue()` then printed **nothing at all** between `wiki: dc.fandom.com` and the completion
+  of an entire canonical class. Category discovery, member listing, size ranking and page
+  fetching are all silent.
+- **MEASURED live this run, not inferred:** DC's `Persons` class alone resolves to **360
+  categories**; the first of them lists **33,614 titles in 23.1s** and takes **~3.8 minutes just
+  to rank**. That is one category of 360, in one class of 7.
+- `standards.MAX_JOB_SILENCE_MIN` is **15**. So `every running job is advancing` fires,
+  `foreman.kill_stalled_job` kills the pass as wedged — and `catalogue_web.py --recatalogue` is
+  **not** in the keeper's `STANDING` set, so nothing restarts it until the supervisor's main lap.
+- **Killed three times in the visible foreman log alone** (`recatalogue:43704`, `:51956`,
+  `:44752`), plus `calibrate` three times. A separate sweep agent independently found DC's
+  on-disk record still holds exactly **377 entries — the old `MAX_PER_SOURCE=320`-era number**,
+  and concluded "DC simply hasn't been re-catalogued since." This is *why*: every attempt is
+  killed before it can finish a single class.
+
+**The irony is worth recording.** The caps were removed correctly — `limit=None`, `top=None`,
+*"rank, never truncate"*, and `MAX_PER_SOURCE` now raises rather than truncates. Obeying Hard
+Rule 0 is what made the job slow enough to look dead, and the stall detector was never told.
+
+**The fix says what is happening; it does not weaken the detector.** `catalogue()` now emits a
+progress line on every **completed unit of work** — categories listed, ranking batches returned,
+pages fetched — rate-limited to one line per 20s (`PROGRESS_EVERY_S`, pinned by verify_math to
+stay well inside the 15-minute threshold). `wiki_source.page_texts` and `rank_by_size` take an
+additive `progress=` callback for the two longest silent stretches. **A genuinely wedged fetch
+completes nothing, so it still goes silent and is still killed** — which is what the stall
+standard is for. Verified live against DC, then in the real job:
+
+```
+      DC                     Persons cats             1/360 … 352/360
+      DC                     Persons ranking          1/854 … 591/854
+      Gundam (all centurie   Vessels & Things cats    4/23
+```
+
+Where it printed nothing for hours, it now reports every few seconds.
+
+---
+
+### Four writers that marked work done without checking whether it landed
+
+Run #24 fixed both record writers to **refuse** and return `False` rather than overwrite what
+they could not read. This run found the other half of that contract: **the callers that throw
+the verdict away.**
+
+**[m130 — MAJOR, RESOLVED] `backfill.py` used the wrong side of the two-writer contract, and so
+discarded every character it added, on every run that added any.** It appends the missing
+characters to `r["entries"]` — its copy is the fresh authority — then called
+`pipeline.write_record`, which is documented to keep the **DISK** entry list on drift because
+the *pipeline's* copy is the stale one. The append itself guarantees a differing entry count,
+i.e. drift is detected on exactly the runs that did work, the merge takes disk as the base, and
+the additions vanish. A run that found nothing missing wrote correctly, so it never looked
+broken. **This defeated the module's entire purpose.** Now `write_record_catalogue`, gated.
+
+**[m131 — RESOLVED] Four more callers reported success for writes that never landed.**
+`catalogue_aurora.py` and `catalogue_codex.py` both called `write_record_catalogue` and then set
+`status = "catalogued"` with a real `entry_count` regardless of the return — and because work
+selection is `entry_count == 0`, a source so marked is **never revisited**, so a denied write
+left the roll confidently claiming a record that is not on disk, permanently.
+`recover_folder_records.py` did the same through `silence.write_json`. `repass_bands.py` ignored
+`write_record`'s verdict and printed "APPLIED. N rewritten" for files it never touched.
+`catalogue_web.py` already gated this exact call, with a comment explaining exactly why; its
+siblings did not. All four now gated and loud.
+
+---
+
+### The comprehensive sweep — 95 modules, 40,135 lines, 16 agents, 0 uncovered
+
+Ruling 2's full sweep, second run under the abolished rotation. `sweep_plan.py --batches 16`,
+one sonnet-tier agent per batch, all 16 launched together while the immediate work proceeded.
+Coverage recorded from **one** process gated on the report files themselves (13.9–23.4 KB each,
+all 16 present), because batch 08 **empirically reproduced** `sweep_plan.record()`'s
+cross-process lost-update this run with two real processes on a signal-file handshake:
+`missing()` can never fabricate coverage but can silently under-report, so a "nothing missing"
+result is trustworthy and a non-empty one is not, on its own. `missing("run25")` → **0**.
+
+**The answers to the run's four live questions, all from the sweep:**
+
+- **`read.py`'s `rc=4294967295` — PROVEN NEGATIVE, and this closes run #24's top item as far as
+  this repo can.** Nothing in `src/` can produce it. Verified by direct experiment on this
+  machine: `Popen.kill()` → 1, `taskkill /F` → 1, `psutil.Process.kill()` → 15,
+  `os.kill(SIGTERM)` → 15. **Only a raw `ctypes.TerminateProcess(h, 0xFFFFFFFF)` reproduces it,
+  and no such call exists anywhere in the tree.** `read.py` spawns no children at all and its
+  `main()` returns only 0; there is no Job Object code. The search moves **outside** the repo:
+  AV/EDR (Norton has a TLS-interception history here) or a console-control-event propagating to
+  children spawned with `CREATE_NO_WINDOW` but no `DETACHED_PROCESS`/new process group
+  (`overnight.py:187,238`) — that second candidate is unverified and is the one to test next.
+  Separately, run #24's `name_rc()` was checked against live exit codes and **is correct**.
+- **`the automation reproduces the charter` (RED) — a stalled job, not an `assay.py` defect.**
+  `data/CHARTER_REGRESSION.json` read directly: Jotaro `NO_SCORE`, Kenshiro/Luffy/Naruto/Goku
+  `DEFERRED` — *"no transport answered"*, i.e. pool + local + split all failed — Jace scored and
+  consistent. Exactly the reported "1/1 consistent, 5 unscored". Age computed live at **31.06h**
+  against a 26h window, so it is red on staleness too. None of the five ever reached `assay()`.
+  Fix is to re-run `calibrate()` once transport is healthy, not to touch the instrument.
+- **`sources with a reachable wiki` (RED, 93%) — genuinely hostless, and the remedy has no
+  memory.** Verified live with a read-only `hostcheck.adopt(dry=True)`: **0 adopted, 15
+  genuinely without a wiki**, 1,479 entries affected — all one-author homebrew or non-wiki media
+  (a Rush album, a screenplay, Kobold Press books). `probe()`/`score()`/`candidates()` are
+  correct. **The real defect:** `hostcheck.py:846-910`'s `adopt()` docstring promises that a
+  "genuinely hostless" verdict is recorded as a finding, and **the code never writes one
+  anywhere** — `data/HOST_UNFIT.json` is empty after three days of the supervisor logging the
+  identical result every ~10 minutes. So the standard's own remedy re-runs the full search from
+  scratch for ever against sources that will never resolve. Not fixed here: it is new machinery
+  plus a floor question. **NEXT_STEPS §2.**
+- **The three "stalled" movement metrics were an artefact, not a stall.** `cited`, `settled` and
+  `feats` all read from `data/COVERAGE.json`, written once per full supervisor cycle; measured
+  **52.46 min old** at the time. `entities read` and `chunks` read a live glob and a live log
+  tail, so they move every poll. `dashboard.movement()`'s stall flag applies one rule to all six
+  regardless of their source file's cadence — that is the bug, and it is on the page that opens
+  every run.
+
+**The sweep's own worst finding is about the auditor.** `overwatch.py` reports **0
+high-severity findings open** over 75 rounds, and that zero is an undercount baked into the
+instrument, proved four ways by execution: a closed or retired finding can **never reopen** even
+if the identical defect returns (`:650-656`); `last_verified` is bumped even when the verifying
+`_ask()` returned `None`, so the queue advances on checks that never ran (`:486-487`); the
+reconcile filter **drops 10 of 17 finding classes** before they reach WATCH.md, including all
+seven of `allsweep.reconcile()`'s own exception handlers (`:326-329`); and WATCH.md's header
+count diverges from its `[:40]` printed list (`:570-573`). **All four gaps bias toward
+undercounting, never over.** Not fixed here — repairing the auditor changes what the whole
+project believes about itself and wants a deliberate pass. **NEXT_STEPS §2.**
+
+**Verified-but-unrepaired, ranked, with the full tail in `NEXT_STEPS.md` §3** and the quoted code
+in `handoff/sweep25/AUDIT_batch01..16.md`. The ones I would take first next run: the
+`dashboard.py:335-349` history race (**reproduced live** — 8 concurrent `/api/state` pollers
+corrupt `dashboard_history.json` and the Movement panel then goes **silently and permanently
+blank**, with no self-heal); `gpu_lane`'s heartbeat proving thread-liveness rather than
+call-progress, now with a **measured** demonstration that a 1-byte/sec trickle defeats a
+`timeout=2` urllib call entirely, because Python socket timeouts are per-`recv()` inactivity and
+not a total deadline; `wiki_source.py:352`'s `hard_stop=6000` measured against the live API at
+**10,460 qualifying categories on DC, 4,460 past the cap, cutting alphabetically**; and the
+**32 `write_json` call sites tree-wide that ignore the return value**, of which this run fixed
+the four that then marked work as done.
+
+---
+
+### Battery
+
+`verify_math.py` **713 passed, 0 FAILED** (baseline 697; **+16 new checks** in a new §20j).
+`allsweep.py` **0 subsystems in a bad state**. `health.py --preflight` **1 problem — the known
+M1 baseline** (`feats/www_dandwiki_com`), unchanged, not a second. `silence.py` ran clean.
+`pyflakes src/` clean. No regression introduced.
+
+**One existing check had to be corrected rather than merely re-run**, and the reason matters:
+§20i's ledger fixture used `"empty response"` as *the genuine unknown that must survive*.
+Naming that class this run made the check fail — correctly. Rather than relax the expectation,
+the fixture now carries a real unknown (`upstream connector returned 0x8007 mid-stream`) **and**
+two rows for the newly-named class, so the check still asserts both halves: named faults are
+filtered, and unnamed ones still reach the page. **Naming a fault must never quietly delete the
+assertion that unnamed faults are still visible.**
+
+**Jobs.** `recatalogue` and `feats.py --roll` were both down at the end of the run's diagnosis
+(`recatalogue` killed by the stall remedy at 05:27, and not `STANDING`); both restarted through
+`overnight.start`, and `recatalogue` is now running **with the progress fix live** — see the log
+excerpt above. `dashboard.py` and `foreman.py` were bounced deliberately, because they carry
+launch-time imports of the `standards.py` I changed and were the two processes spawning the
+console windows; the keeper restores them within 300s. `read.py` was deliberately **not**
+bounced: it is outside `STANDING`, a bounce costs up to 6h, and the `cascade_bridge` change is
+read-side by design (m118's rationale) so a job carrying the old import is unaffected.
+
+---
+
 ## 2026-08-25 04:20–05:1x (local) — Run #24 (scheduled): four guards that fell through into the harm they guarded against
 
 **FOR THE OWNER, AT THE TOP:**

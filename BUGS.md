@@ -81,6 +81,161 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
 
+### Minor-but-new (run #25 — the fourth whole-tree sweep)
+
+*95 modules, 40,135 lines, 16 parallel agents; `sweep_plan.missing("run25")` returned **0
+uncovered** and all 16 reports are on disk (13.9–23.4 KB each), recorded from ONE process gated
+on the report files themselves — necessary, because batch 08 **empirically reproduced**
+`sweep_plan.record()`'s cross-process lost-update with two real processes this run. Full detail
+in `handoff/sweep25/AUDIT_batch01..16.md`. As before: **only findings I VERIFIED AT SOURCE
+MYSELF get bug numbers**; the agents' other findings are credible, cited, and queued in
+NEXT_STEPS §3.*
+
+*The run's shape: **a guard that only recognises the unobfuscated spelling of what it forbids.**
+Run #24's guards inverted on their error path; these never fire at all, are green on purpose,
+and every alternative spelling is a fresh hole. Three of the seven had already been "fixed"
+once, and the fix stopped one letter short.*
+
+- **[m126 — MAJOR, RESOLVED IN THIS RUN] THE ONLY UNGUARDED SUBPROCESS SPAWN IN THE TREE WAS
+  INSIDE `verify_math.py` ITSELF.** `verify_math.py:3034` spawned a real child on every run of
+  the suite with no `creationflags`, popping a console window on the owner's desktop — a direct
+  violation of the absolute no-console-windows rule. The suite runs from the foreman's patch
+  lane, from allsweep and from every maintenance pass, so this fired several times an hour.
+  Fixed with `CREATE_NO_WINDOW`, the same idiom the other 25 spawn sites use.
+
+- **[m127 — MAJOR, RESOLVED IN THIS RUN] AND THE CHECK THAT FORBIDS EXACTLY THAT COULD NOT SEE
+  IT.** §20e walks the AST rather than grepping, on purpose, and its comment argues the point
+  well: *"a count is not a guarantee, so this check does not count — it PARSES."* It then
+  identified the module with a literal string comparison, `_f20e.value.id == "subprocess"`.
+  `verify_math.py` does `import subprocess as _sp20a` and spawns through that alias, so the
+  check was structurally blind to the one violation in the tree — **and to the file it was
+  written in.** Widened to resolve import aliases and `from subprocess import ...` names, which
+  immediately surfaced **two further real violations**, both in `standards.py` via the same
+  `import subprocess as _sp` idiom:
+  - `standards.py:130` — a `tasklist` call.
+  - `standards.py:1109` — a **PowerShell** call.
+  `standards.check()` is what the dashboard polls every five seconds and what the foreman runs
+  every round, so these two were popping windows continuously under a green check. Both fixed.
+  Pinned by `verify_math` §20j, which now asserts the scan resolves aliases *and* from-imports.
+
+- **[m128 — MAJOR / SECURITY-ADJACENT, RESOLVED IN THIS RUN] THE FOURTH BYPASS OF THE LOCAL
+  MODEL'S WRITE GATE.** m113 case-folded the denylist. But `t_propose_patch` still derived
+  `modname` through a **case-sensitive** `full.endswith(".py")`, so `src/foreman.PY` — the same
+  file on NTFS, passing `os.path.isfile` — yielded `modname = None`, the folded denylist was
+  never consulted, `DENYLIST_PATHS` holds only `config.yaml` so nothing caught it on the path
+  side, and `_gates()` skipped the parse, lint and import checks for the same reason, leaving
+  only the whole-suite `verify_math` run. **8 of 28 adversarial candidates ADMITTED**,
+  reproduced before fixing, covering `foreman`, `silence`, `standards`, `verify_math` and
+  `local_agent`. The extension test is now folded at all three sites. Verified: all 8 denied,
+  the three earlier bypasses still denied, and `src/tells.py` still patchable. §20j pins all of
+  it. *(8.3 short names are disabled on this volume, confirmed with `dir /x`; symlink variants
+  were reasoned but not testable — none exist.)*
+
+- **[m129 — MAJOR, RESOLVED IN THIS RUN] THE CATALOGUE WAS NEVER ALLOWED TO FINISH, WHICH IS WHY
+  `every source is fully catalogued` SAT AT 17.2% WITH ITS BIGGEST SOURCES WORST.** DC 0.5%,
+  Thomas 1.2%, SpongeBob 1.7% — starvation's shape, not slowness'. The loop:
+  `--recatalogue --shortfall` orders work **largest gap first** and runs **three at once** (its
+  own comment: *"puts DC, Gundam and SpongeBob in flight together"*), so every pass opens with
+  the three biggest wikis → `catalogue()` printed **nothing** between the `wiki:` line and the
+  completion of a whole canonical class → **MEASURED live: DC's `Persons` class is 360
+  categories, the first listing 33,614 titles in 23.1s and taking ~3.8 min just to rank**, one
+  of 360, in one class of 7 → `MAX_JOB_SILENCE_MIN` is 15 → `kill_stalled_job` kills it as
+  wedged → `catalogue_web.py --recatalogue` is **not** in `STANDING`, so nothing restarts it
+  until the supervisor's main lap. **Killed three times in the visible foreman log alone.** A
+  sweep agent independently found DC's record still at exactly **377 entries, the old
+  `MAX_PER_SOURCE=320`-era number**; this is why.
+  **Note the irony:** removing the caps to obey Hard Rule 0 (`limit=None`, `top=None`, *"rank,
+  never truncate"*) is what made the job slow enough to look dead. The detector was never told.
+  **Fixed by saying what is happening, not by weakening the detector:** progress is emitted on
+  every **completed unit of work** (categories listed, ranking batches returned, pages fetched),
+  rate-limited to one line per 20s via `PROGRESS_EVERY_S`. `wiki_source.page_texts` and
+  `rank_by_size` gained an additive `progress=` callback for the two longest silent stretches.
+  **A wedged fetch completes nothing, so it still goes silent and is still killed.** Verified
+  live against DC and then in the real job. §20j pins the cadence against the stall threshold.
+
+- **[m130 — MAJOR, RESOLVED IN THIS RUN] `backfill.py` USED THE WRONG SIDE OF THE TWO-WRITER
+  CONTRACT AND SO DISCARDED EVERY CHARACTER IT ADDED.** It appends missing characters to
+  `r["entries"]` — its copy is the fresh authority — then called `pipeline.write_record`, which
+  is documented to keep the **DISK** entry list on drift because the *pipeline's* copy is the
+  stale side. The append itself guarantees a differing entry count, so drift was detected on
+  exactly the runs that had done work, the merge took disk as the base, and the additions were
+  dropped. A run that found nothing missing wrote correctly, so it never looked broken — **the
+  module's entire purpose was defeated on every run that had something to do.** Reproduced by
+  the sweep. Now `write_record_catalogue`, gated on the return; a denied write reports
+  `added: 0` rather than a phantom count.
+
+- **[m131 — RESOLVED IN THIS RUN] FOUR MORE CALLERS MARKED WORK DONE WITHOUT CHECKING WHETHER
+  THE WRITE LANDED.** Run #24 made both record writers refuse and return `False`; this is the
+  other half of that contract.
+  - `catalogue_aurora.py:143-146` and `catalogue_codex.py:194-197` — called
+    `write_record_catalogue`, discarded the verdict, then set `status = "catalogued"` with a
+    real `entry_count`. Work selection is `entry_count == 0`, so a source so marked is **never
+    revisited**: a denied write left the roll confidently claiming a record that is not on disk,
+    permanently. `catalogue_web.py` already gates this identical call with a comment explaining
+    exactly why; its siblings did not.
+  - `recover_folder_records.py:149-151` — same shape through `silence.write_json`.
+  - `repass_bands.py:78-80` — ignored `write_record`'s verdict and printed "APPLIED. N
+    rewritten" for files it never touched. Reproduced against a torn file.
+  All four now gated and loud. **This is four of the 32 `write_json` call sites that ignore the
+  return tree-wide — the four that then marked work as done. The rest are in NEXT_STEPS §3.**
+
+- **[m132 — RESOLVED IN THIS RUN] THE POOL HAD NO NAME FOR "THE PROVIDER ANSWERED WITH
+  NOTHING", AND SAID IT TWO WAYS.** Ruling 3 puts the unrecognised ledger first, so it was read
+  first: **13 rows against a handed-over baseline of 12**, and the extra was a genuinely new
+  shape — `groq:groq/compound-mini: no answer text produced`, a string that appears nowhere in
+  `src/`. Traced to Cascade's `engine.py:343`; its sibling `empty response` comes from
+  `engine.py:277`. **One fault, two wordings, and `record_unrecognised` de-duplicates on exact
+  text — so two permanent rows.** No predicate could name either.
+  Named as `cascade_bridge.empty_content`, matched **exactly** (`err.strip().lower() in (...)`),
+  never as a substring: a loose `"empty" in err` would turn naming a fault into a way of not
+  seeing faults, which is the one thing this ledger exists to prevent. Verified narrow —
+  `"empty response but the router also lost the pin"` is still an unknown. **Naming does not
+  bench**, exactly as `named_transient` does not; whether an empty completion should cost a
+  cooldown is the owner's open routing question. **13 rows → 12**, all now the single
+  deliberately-loud `All 1 candidates failed` shape.
+  *Also fixed while in there:* §20i's ledger fixture used `"empty response"` as *the genuine
+  unknown that must survive*, so naming the class made that check fail — correctly. The fixture
+  now carries a real unknown **and** two rows of the newly-named class, so it still asserts both
+  halves. Naming a fault must never quietly delete the assertion that unnamed faults stay visible.
+
+**Open, verified this run, NOT fixed — each needs more than a repair (full list in NEXT_STEPS §3):**
+
+- **[m133 — MAJOR, OPEN] `overwatch.py`'s "0 high-severity findings open" IS AN UNDERCOUNT BAKED
+  INTO THE INSTRUMENT.** Proved four ways by execution: a closed or retired finding can **never
+  reopen** even if the identical defect returns (`:650-656`, fid-skip fires first);
+  `last_verified` is bumped even when the verifying `_ask()` returned `None`, so the auto-triage
+  queue advances on checks that never ran (`:486-487`); the reconcile filter **drops 10 of 17
+  finding classes** before they can reach WATCH.md, including all seven of
+  `allsweep.reconcile()`'s own exception handlers (`:326-329`); and WATCH.md's header count is
+  uncapped while its printed list caps at 40 (`:570-573`). **All four bias toward undercounting,
+  never over.** A zero from a broken auditor is indistinguishable from a clean tree, and this
+  zero is on the page that opens every run. Not fixed here because repairing the auditor changes
+  what the project believes about itself and deserves a deliberate pass, not a patch at the end
+  of a run. **NEXT_STEPS §2.**
+
+- **[m134 — MAJOR, OPEN] `dashboard.py:335-349` — CONCURRENT POLLERS CORRUPT THE HISTORY FILE
+  AND THE MOVEMENT PANEL THEN GOES SILENTLY AND PERMANENTLY BLANK.** `ThreadingTCPServer` with
+  `daemon_threads=True` and a 5s client poll race on a fixed `dashboard_history.json.tmp` name
+  with no lock. **Reproduced live:** 8 threads hammering `movement()` corrupted the file
+  (`JSONDecodeError: Extra data`), and once corrupted there is **no self-heal** — unlike
+  `health.py`'s LEDGER. Related and also open: `:341-342`'s `HISTORY[-2000:]` retention drops
+  below the 30-minute stall window at roughly 6 concurrent pollers (measured).
+
+- **[m135 — OPEN] `hostcheck.adopt()` NEVER RECORDS THE "GENUINELY HOSTLESS" VERDICT ITS OWN
+  DOCSTRING PROMISES**, so `sources with a reachable wiki` is permanently red and its remedy
+  re-runs the full search from scratch for ever. Verified live: **0 adopted, 15 genuinely
+  without a wiki** (1,479 entries) — all one-author homebrew or non-wiki media — with
+  `data/HOST_UNFIT.json` empty after three days of the supervisor logging the identical result
+  every ~10 minutes. `probe()`/`score()`/`candidates()` are correct; the gap is the memory.
+  Needs new machinery **and** a floor question. **NEXT_STEPS §2.**
+
+- **[m136 — OPEN] `wiki_source.py:352`'s `hard_stop=6000` CUTS ALPHABETICALLY AND IS LIVE.**
+  Measured against the live MediaWiki API this run: **DC has 10,460 qualifying categories,
+  4,460 past the cap**, cutting at "Joseph Sulman/Penciler" and starving `discover_categories()`
+  for every non-Persons class on the largest wikis. Hard Rule 0. The fix is continuation to
+  exhaustion — the pattern `category_members()` already uses — not a larger number. *(Note: this
+  is a real cap but it is NOT the cause of m129; the two compound.)*
+
 ### Minor-but-new (run #24 — the third whole-tree sweep)
 
 *95 modules, 39,865 lines, 16 parallel agents; `sweep_plan.missing("run24")` returned 0 uncovered

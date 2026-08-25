@@ -3691,9 +3691,17 @@ with open(_led20i, "w", encoding="utf-8") as _f:
         "b|x": {"bucket": "b", "error": "Every model in this pool is rate limited or unconfigured.",
                 "last_seen": _now20i, "count": 4},
         "c|x": {"bucket": "c", "error": "All 11 candidates failed: A, B", "last_seen": _now20i},
-        "d|x": {"bucket": "d", "error": "empty response", "last_seen": _now20i, "count": 5},
+        # Row `d` used to be "empty response", which run #24 filed as THE genuine unknown. Run
+        # #25 named that class (`cascade_bridge.empty_content`), so it belongs with a and b now
+        # and the fixture needs a real unknown to keep asserting that unknowns survive -- the
+        # important half of this check. Naming a fault must never quietly delete the assertion
+        # that unnamed faults still reach the page.
+        "d|x": {"bucket": "d", "error": "upstream connector returned 0x8007 mid-stream",
+                "last_seen": _now20i, "count": 5},
         "e|x": {"bucket": "e", "error": "All 1 candidates failed: GLM 4.7 Flash (Z.AI)",
                 "last_seen": _now20i},
+        "f|x": {"bucket": "f", "error": "empty response", "last_seen": _now20i, "count": 5},
+        "g|x": {"bucket": "g", "error": "no answer text produced", "last_seen": _now20i},
     }, _f)
 _savedU = _cb20i.UNRECOGNISED
 try:
@@ -3703,7 +3711,8 @@ finally:
     _cb20i.UNRECOGNISED = _savedU
 check("a throttle already named by the classifier is not still an open unknown",
       sorted(r["bucket"] for r in _open20i), ["d", "e"],
-      note="a and b are named transients, c is a multi-candidate aggregate; only the genuine "
+      note="a and b are named transients, c is a multi-candidate aggregate, f and g are the "
+           "two wordings of the empty-completion class named in run #25; only the genuine "
            "unknown and the deliberately-loud single-candidate shape survive")
 
 # --- both record writers refuse rather than overwrite what they could not read ------------------
@@ -3784,6 +3793,76 @@ check("no check in this file is disarmed with a trailing always-true disjunct",
       note="§20i's third case: the STANDING-horizon check asserted against a docstring that "
            "never contained the string, so an always-true disjunct had been added to keep it "
            "quiet -- a check that cannot fail, in the file that exists to fail")
+
+print()
+print("29. §20j  RUN #25 — A GUARD THAT ONLY RECOGNISES THE UNOBFUSCATED SPELLING")
+# ---------------------------------------------------------------------------------------------
+# Run #25's shape is one step past run #24's. A guard that inverts on its error path is
+# invisible; a guard that matches only the PLAIN spelling of the thing it forbids is worse,
+# because it is green on purpose, forever, and every new spelling is a fresh hole. Three of this
+# run's fixes are that shape and all three had already been "fixed" once:
+#
+#   * §20e forbade unguarded subprocess spawns by matching the literal module name
+#     `subprocess`. `import subprocess as _sp20a` was invisible to it -- and the one unguarded
+#     spawn in the entire tree was in THIS file, through exactly that alias, plus two more in
+#     `standards.py`, which the dashboard re-runs every few seconds.
+#   * `local_agent`'s denylist was case-folded by m113 -- but `modname` was still derived
+#     through a case-SENSITIVE `.endswith(".py")`, so `src/foreman.PY` skipped the folded
+#     denylist entirely. Bypass four, after case, name prefix and the NTFS stream.
+#   * The pool's unrecognised ledger had no name for "the provider answered with nothing",
+#     and Cascade says that in two different wordings, so one fault held two permanent rows.
+_here20j = _here19
+_src20j = open(os.path.join(_here20j, "verify_math.py"), encoding="utf-8").read()
+check("the spawn scan resolves import ALIASES, not just the literal module name",
+      ("_alias20e" in _src20j) and ("asname" in _src20j), True,
+      note="`import subprocess as X` hid the only unguarded spawn in the tree from the check "
+           "whose entire job was to find it; matching the plain spelling is not a guard")
+check("the spawn scan also resolves `from subprocess import ...` call names",
+      "_direct20e" in _src20j, True,
+      note="the other spelling an attribute-only walk cannot see")
+
+_la20j = __import__("local_agent")
+for _case20j in ("src/foreman.PY", "src/foreman.Py", "SRC/FOREMAN.PY", "src/silence.PY",
+                 "src/verify_math.PY", "src/local_agent.PY", "src/standards.PY"):
+    _r20j = _la20j.t_propose_patch(_case20j, find="\x00nope", replace="x", apply=False)
+    check("the write gate denies " + _case20j,
+          "denylist" in str(_r20j.get("error") or ""), True,
+          note="NTFS is case-insensitive, so this IS the protected module; the extension test "
+               "that derives modname must be folded too, not just the denylist")
+check("and an ordinary editable module is still admitted after the fold",
+      "denylist" not in str(_la20j.t_propose_patch(
+          "src/tells.py", find="\x00nope", replace="x", apply=False).get("error") or ""), True,
+      note="the fix must not over-block")
+
+_cw20j = __import__("catalogue_web")
+_st20j = __import__("standards")
+check("the catalogue's progress cadence stays well inside the stall threshold",
+      _cw20j.PROGRESS_EVERY_S < _st20j.MAX_JOB_SILENCE_MIN * 60 / 3, True,
+      note="MEASURED run #25: catalogue() printed nothing for hours on DC (360 categories in "
+           "the Persons class alone, 33,614 titles in the first), so kill_stalled_job killed "
+           "every pass that reached a big source -- and --shortfall orders LARGEST GAP FIRST, "
+           "so every pass reached one immediately. That is why DC sat at 0.5% catalogued")
+check("page_texts can report real progress to its caller",
+      "progress" in __import__("inspect").signature(
+          __import__("wiki_source").page_texts).parameters, True,
+      note="the longest silent stretch in the pass; the callback fires on COMPLETED pages, "
+           "never on a timer, so a genuinely wedged fetch still goes silent and is still killed")
+
+_bf20j = open(os.path.join(_here20j, "backfill.py"), encoding="utf-8").read()
+check("backfill writes through the CATALOGUE side of the two-writer contract",
+      ("write_record_catalogue" in _bf20j) and ("P.write_record(path" not in _bf20j), True,
+      note="it APPENDS the missing characters, so its copy is the fresh authority; "
+           "write_record keeps the DISK list on drift and the append itself guarantees drift, "
+           "so every character it added was dropped on every run that added any")
+
+_cb20j = __import__("cascade_bridge")
+check("the empty-completion class is named", _cb20j.empty_content("no answer text produced"),
+      True, note="Cascade engine.py:277 and :343, two wordings for one fault")
+check("and its other wording too", _cb20j.empty_content("Empty response"), True)
+check("but the name is EXACT, so it cannot swallow a genuine unknown",
+      _cb20j.empty_content("empty response but the router also lost the pin"), False,
+      note="a loose substring test would turn naming a fault into a way of not seeing faults, "
+           "which is the one thing the unrecognised ledger exists to prevent")
 
 print()
 print("=" * 96)
