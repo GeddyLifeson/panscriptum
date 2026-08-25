@@ -9,6 +9,97 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 10:00–12:xx (local) — OWNER-DIRECTED SESSION: the prose gate restored, M23 closed, and a chain of command built from the janitor to the halt
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **145 CHAPTERS WERE WITHDRAWN, on your ruling.** They are MOVED, not deleted, to
+   `output/withdrawn_2026-08-25/` (148 raw + 145 compressed + 27 orphaned older ones + the
+   withdrawn catalog as its own record). `catalog.json` is empty and `output/raw` is empty.
+   Regenerating costs model time only; generation is resumable and content-hashed.
+2. **THE PROSE GATE IS BACK AND IT IS YOURS.** `config.yaml: prose_enabled: false`. Nothing in
+   the automation may flip it. `overnight.py` consults it, and `generate.py` refuses on its own
+   authority as well — proven, not assumed: running `generate.py` by hand prints
+   `PROSE GATE CLOSED` and exits without touching a model.
+3. **WHY IT HAD TO BE RESTORED, precisely.** `overnight.py:691` started `generate.py` every
+   supervisor cycle. The 2026-08-23 sweep had found `phase_write` ending in a log line telling a
+   PERSON to run it, called that "an instruction to a human inside an automation", and removed
+   the human. The reading was fair; the remedy **deleted a decision instead of relocating it**,
+   and the decision was load-bearing — prose was on hold pending Step 4, and 145 chapters were
+   written straight through that hold. No ruling was ever taken.
+4. **THE THREE QUALITY FAULTS ARE FIXED, and all three were invisible to `_covered()`:**
+   sources at **0.0–9.0% cited** were being written (now an evidence floor, `0.35`);
+   **902 of 1,268 entries (71%) had silently lost their Threads section** (now a block validator
+   that refuses a half-written block); and entities with **no cited feat carried precise axis
+   scores** (now refused under Hard Rule 3).
+5. **M23 IS CLOSED, AND IT COST NO RE-MINE.** The ledger assumed re-keying would invalidate all
+   86,288 cache files. It did not have to: every file already records its own `entity`, so
+   **reads now verify ownership** and the key is untouched. Cost: ~24 entities re-mine naturally.
+6. **THE LIBRARY CAN NOW STOP ITSELF AND WAIT FOR YOU.** New `src/escalation.py` — a six-rung
+   chain from JANITOR to OWNER. The top rung writes `state/HALT.json`, every job's `main()`
+   refuses to start while it stands, and **only a person may lift it**, with a written ruling.
+   `verify_math` asserts no module in `src/` calls `clear()`.
+7. **`python src/drill.py` — 57 nets attacked, 57 held.** The supervisor runs it every cycle
+   before any stage starts. A breached net halts the library by itself.
+
+**THE RUN'S THEME: two adversarial audits found more than I did, and one of them found that my
+own guard could not work at all.**
+
+**What the audits caught, all verified against source before anything was written:**
+* **M23 was applied to four modules and there were SIX.** `read.py` and `sweep.py` built the same
+  lossy key untouched — and `read.py` is the module my own fix's comments *reasoned about* while
+  not touching it. Standing lesson 14, committed by the fix meant to honour it. Live proof:
+  **`Tag Der Toten`** (all Black Ops) and **`Tag der Toten`** (Call of Duty Zombies) are distinct
+  catalogued entities on one host, folded together by NTFS.
+* **My collision count was wrong.** I compared sanitised keys case-SENSITIVELY and reported
+  5 slots / 10 entities. The filesystem folds case: it is **12 slots / 24 entities**, 7 of them
+  case-only. The check that let me miss this had a **hardcoded four-module roster** — the exact
+  defect m49 found in `allsweep` two days ago. It now derives the roster by scanning every `.py`.
+* **`unearned_instrument` could never have worked.** It compared against a cited set built as
+  `{e["name"] for e in g if e.get("feats") or e.get("cited")}` — and **no entry in any of the 216
+  record files carries either key** (98,169 measured). The set was always empty. Feats live in a
+  separate subsystem. It now *looks the evidence up*, through `cachekey` so ownership applies.
+* **And its regex was defeated by bold.** `**Wisdom:** 28` slipped through where `Wisdom: 28` was
+  caught — and the template asks the model for bold headers. Standing lesson 12, exactly.
+* **The block validator accepted a four-label stub with no prose**, and **never penalised a model
+  returning MORE entries than asked for** — padding with invented entities was free.
+* **`evidence_ok(floor=0)` admitted a 0%-cited source**, because `frac < 0` is never true. A
+  future `prose_min_cited_fraction: 0` would have deleted the layer silently. Now refused as
+  misconfigured.
+* **`overnight._prose_enabled` used `bool()`**, so `prose_enabled: "false"` — a plausible typo
+  when DISABLING it — read as TRUE. It delegates to the strict gate now.
+
+**Every one of those defeats is now a net in `drill.py`, by name, so it cannot come back.**
+
+**New machinery:** `cachekey.py` (one spelling of the entity key, ownership-verified reads),
+`prose_gate.py` (the four interlocks), `escalation.py` (the chain and the halt), `drill.py`
+(57 attacks), `liveness.py` (dead code / tautologies / phantom guards),
+`withdraw_chapters.py`. **`local_agent`'s own gate was widened** (M24): it may no longer write
+`data/records/`, `reference/keystone_volumes/` (the CHARTER), `output/index/` or `state/` —
+an autonomous model must not be able to edit the document defining what it may do.
+
+**Two mistakes of mine worth recording, both caught by the machinery rather than by me:**
+I put a backslash through a shell heredoc and got the eaten-escape corruption this project calls
+its oldest enemy — the fix was to use the Write tool, as the hard rule says. And while removing
+dead code I created a dead function, minutes after the owner asked for a detector for exactly
+that; `liveness.py` now finds that shape mechanically.
+
+**Battery:** verify_math **771 passed / 1 FAILED** · drill **57/57 held** · pyflakes **0** ·
+liveness **38 findings, all pre-existing dead functions, ratcheted**.
+**The one red is honest and expected:** `the live sweep proves its own completeness` lists the six
+NEW modules, which run #28's sweep predates. Two of them (`cachekey`, `prose_gate`) have had a
+full adversarial audit; the rest need the next sweep. **Do not make this green by hand.**
+
+**LEFT FOR THE OWNER — not started, deliberately:** the **Step 4 entanglement plan** (requested,
+and it should be designed before any of it is written) and the **Instrument sigma** ruling, where
+I owe a caveat before touching it: `±` is a measure of uncertainty, not a dial. Making it print
+±0 would claim precision the evidence does not support, which is Hard Rule 3's exact concern.
+Tighter intervals come from more cited feats per entity — the honest route — or from a charter
+decision about what the interval means. **The bug is real and separate:** `assay._SCALE` discards
+the charter-calibrated sigma and prints **±0.06** where the charter publishes **±0.12**.
+
+---
+
 ## 2026-08-25 09:20–10:1x (local) — Run #29 (scheduled): the regression that never got to finish, and a proof that answered the wrong question
 
 **FOR THE OWNER, AT THE TOP:**
