@@ -4195,19 +4195,33 @@ check("the writer disambiguates rather than overwriting a neighbour",
       _CK.disambiguated_path("b", "h", "Magic 8 Ball")
       != _CK.natural_path("b", "h", "Magic 8 Ball"), True,
       note="without this a colliding pair re-mines each other for ever")
-for _m in ("coverage", "feats", "hostcheck", "pipeline"):
-    _msrc = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), _m + ".py"),
-                 encoding="utf-8").read()
-    check("%s reads entity caches through cachekey" % _m, "cachekey" in _msrc, True,
-          note="four independent spellings of one key is four chances to drift (lesson 14)")
+# THE ROSTER IS DERIVED, NOT LISTED. The first version of this check named four modules --
+# coverage, feats, hostcheck, pipeline -- because those were the four the fix migrated. An
+# adversarial audit then found `read.py` and `sweep.py` building the SAME lossy key, untouched
+# and live, corrupting `Tag Der Toten` / `Tag der Toten` on the real corpus. A hardcoded roster
+# in a check is the identical defect m49 found in `allsweep` two days ago: it cannot report what
+# it was never told to look at. So this scans EVERY module in src/ instead.
+_SRCDIR = os.path.dirname(os.path.abspath(__file__))
+_ALL_SRC = sorted(f for f in os.listdir(_SRCDIR) if f.endswith(".py"))
+_KEY_SPELLING = '"_", name)[:80]'
+_offenders, _users = [], []
+for _f in _ALL_SRC:
+    if _f in ("cachekey.py", "verify_math.py", "drill.py"):
+        continue                      # the helper itself, and the files that assert about it
+    with open(os.path.join(_SRCDIR, _f), encoding="utf-8") as _fh:
+        _t = _fh.read()
+    if _KEY_SPELLING in _t:
+        _offenders.append(_f)
+    if "cachekey" in _t:
+        _users.append(_f)
 
-# --- LAYER 6: THE OPERATORS. These go red if a future run removes a safety.
-check("no module rebuilds the entity cache path by hand",
-      sorted(m for m in ("coverage", "feats", "hostcheck", "pipeline")
-             if '"_", name)[:80]' in open(
-                 os.path.join(os.path.dirname(os.path.abspath(__file__)), m + ".py"),
-                 encoding="utf-8").read()), [],
-      note="an inline re-spelling of the lossy key is the regression this whole fix prevents")
+check("NO module anywhere in src/ rebuilds the entity cache path by hand",
+      _offenders, [],
+      note="derived by scanning every .py; a hardcoded roster here is how read.py and sweep.py "
+           "were missed by the first pass")
+for _m in ("coverage", "feats", "hostcheck", "pipeline", "read", "sweep"):
+    check("%s reads entity caches through cachekey" % _m, (_m + ".py") in _users, True,
+          note="one spelling of the key, in one place (lesson 14)")
 check("the prose gate module still declares every layer",
       all(hasattr(_PGate, f) for f in ("gate_open", "assert_gate_open", "evidence_ok",
                                        "section_shortfall", "assert_block_complete",

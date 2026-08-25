@@ -33,6 +33,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pipeline as P                                                    # noqa: E402
 import feats as F                                                       # noqa: E402
 import magnitude as M                                                   # noqa: E402
+import cachekey
 import silence
 
 # A regex escape arriving as a literal control character matches nothing and fails SILENTLY.
@@ -56,8 +57,12 @@ def _norm(s):
 
 
 def cache_path(host, name):
-    return os.path.join(F.CACHE, re.sub(r"[^A-Za-z0-9]+", "_", host)[:40],
-                        re.sub(r"[^A-Za-z0-9]+", "_", name)[:80] + ".json")
+    """The entity's NATURAL cache path. Delegates -- one spelling of this key (M23).
+
+    Callerless since the sweep's own read moved to `cachekey.load`. Kept and delegating rather
+    than deleted, so it cannot drift back out of step with the real formula.
+    """
+    return cachekey.natural_path(F.CACHE, host, name)
 
 
 def load(path):
@@ -148,7 +153,11 @@ def sweep():
                    "pages": 0, "chars": 0, "axes": 0, "quantities": 0,
                    "axis_list": [], "native": None}
             if host:
-                ev = load(cache_path(host, e["name"]))
+                # M23: verified read. `cache_path` below still exists for callers that want the
+                # natural path, but a SWEEP that credits one entity with a neighbour's pages
+                # feeds CHARACTER_SWEEP.json, which magnitude, standards, foreman and hostcheck
+                # all read as fact.
+                ev, _ = cachekey.load(F.CACHE, host, e["name"])
                 if ev:
                     row["pages"] = len(ev.get("pages_read") or [])
                     row["chars"] = ev.get("chars_read", 0)

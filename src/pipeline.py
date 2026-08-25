@@ -1825,6 +1825,14 @@ IMPLEMENTED = {i: globals()["phase_" + name]
 
 
 def main():
+    # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
+    # library-wide invariant has been violated, nothing starts until a person rules on it.
+    # Placed first in main() so there is no path into this job that skips it.
+    try:
+        import escalation as _ESC
+        _ESC.assert_clear(os.path.basename(__file__))
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", type=int, default=None)
     ap.add_argument("--status", action="store_true")

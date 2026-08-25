@@ -761,6 +761,14 @@ class Server(socketserver.ThreadingTCPServer):
 
 
 def main():
+    # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
+    # library-wide invariant has been violated, nothing starts until a person rules on it.
+    # Placed first in main() so there is no path into this job that skips it.
+    try:
+        import escalation as _ESC
+        _ESC.assert_clear(os.path.basename(__file__))
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser(description="every meter in this project, on one page")
     ap.add_argument("--port", type=int, default=8777)
     ap.add_argument("--once", action="store_true", help="print the state as JSON and exit")

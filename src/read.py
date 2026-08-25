@@ -46,6 +46,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pipeline as P                                                    # noqa: E402
 import feats as F                                                       # noqa: E402
 import assay as A                                                       # noqa: E402
+import cachekey
 import silence
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
@@ -532,8 +533,17 @@ def config():
 
 
 def cache_path(host, name):
-    return os.path.join(CACHE, re.sub(r"[^A-Za-z0-9]+", "_", host)[:40],
-                        re.sub(r"[^A-Za-z0-9]+", "_", name)[:80] + ".json")
+    """The entity's NATURAL cache path. Delegates -- there is one spelling of this key.
+
+    M23: this used to build the path inline, which made it a fifth independent copy of a lossy
+    formula. It has no callers left (`read_entity` goes through `cachekey` so the read is
+    verified), and it is kept rather than deleted because deleting a public helper is a
+    signature change. Delegating is the safer half of that trade: anything that finds it later
+    gets the same answer as everything else, and it cannot drift.
+    NOTE it returns the natural path only. If you are READING, use `cachekey.load`, which proves
+    the file belongs to the entity you asked for.
+    """
+    return cachekey.natural_path(CACHE, host, name)
 
 
 CHUNK_CACHE = os.path.join(HERE, "data", "chunkfeats")
@@ -604,21 +614,32 @@ def _chunk_put(host, ch, entity, feats):
 
 def read_entity(c, host, name, cap_chunks=None):
     """Read one entity's cached pages with the model. Returns verified feats by axis."""
-    path = cache_path(host, name)
-    if os.path.exists(path):
+    # M23, SECOND PASS. This module was MISSED by the first fix, which migrated four call sites
+    # and reasoned about this one in its own comments without touching it -- the exact shape of
+    # standing lesson 14 (a ruling is not applied until every file of that shape is visited).
+    # An adversarial audit found it live: `Tag Der Toten` (all Black Ops) and `Tag der Toten`
+    # (Call of Duty Zombies) are two distinct catalogued entities on one host, and NTFS folds
+    # their sanitised filenames together, so this function returned one's mined feats as the
+    # other's and returned BEFORE mining, permanently starving the real entity.
+    # Case matters here in a way the first measurement missed: comparing sanitised keys
+    # case-SENSITIVELY found 5 colliding slots; comparing them the way the filesystem actually
+    # behaves finds 12, of which 7 are case-only.
+    path = cachekey.write_path(CACHE, host, name)
+
+    def _corrupt(fp):
         # SELF-HEALING: a kill mid-write once left truncated JSON here, and the raise was
         # swallowed upstream -- the entity silently vanished from every future pass while the
         # cache said it existed. A cache that will not parse is deleted and re-earned.
+        silence.note("read.py:corrupt-cache")
         try:
-            with open(path, encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            silence.note("read.py:corrupt-cache")
-            try:
-                os.remove(path)
-            except OSError:
-                _ = "silence-exempt: removing an already-gone corrupt cache needs no record"
-                pass
+            os.remove(fp)
+        except OSError:
+            _ = "silence-exempt: removing an already-gone corrupt cache needs no record"
+            pass
+
+    _doc, _fp = cachekey.load(CACHE, host, name, on_corrupt=_corrupt)
+    if _doc is not None:
+        return _doc
 
     ev = F.evidence_for(host, name)
     text = ev.get("text") or {}
@@ -1099,6 +1120,14 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
 
 
 def main():
+    # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
+    # library-wide invariant has been violated, nothing starts until a person rules on it.
+    # Placed first in main() so there is no path into this job that skips it.
+    try:
+        import escalation as _ESC
+        _ESC.assert_clear(os.path.basename(__file__))
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", action="store_true")
     ap.add_argument("--limit", type=int)

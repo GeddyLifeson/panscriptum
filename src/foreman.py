@@ -1255,6 +1255,14 @@ def round_once(dry=True, patch=False):
 
 
 def main():
+    # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
+    # library-wide invariant has been violated, nothing starts until a person rules on it.
+    # Placed first in main() so there is no path into this job that skips it.
+    try:
+        import escalation as _ESC
+        _ESC.assert_clear(os.path.basename(__file__))
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser(description="read the work orders and act on them")
     ap.add_argument("--go", action="store_true", help="actually run the remedies")
     ap.add_argument("--patch", action="store_true",

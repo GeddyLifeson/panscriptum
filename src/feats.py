@@ -946,6 +946,14 @@ def _show(ev):
 
 
 def main():
+    # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
+    # library-wide invariant has been violated, nothing starts until a person rules on it.
+    # Placed first in main() so there is no path into this job that skips it.
+    try:
+        import escalation as _ESC
+        _ESC.assert_clear(os.path.basename(__file__))
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--probe", nargs=2, metavar=("HOST", "ENTITY"),
                     help="mine one entity from one wiki host")

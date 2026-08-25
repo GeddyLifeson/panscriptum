@@ -674,6 +674,14 @@ def round_once(limit=6, local=True, skip_model=False):
 
 
 def main():
+    # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
+    # library-wide invariant has been violated, nothing starts until a person rules on it.
+    # Placed first in main() so there is no path into this job that skips it.
+    try:
+        import escalation as _ESC
+        _ESC.assert_clear(os.path.basename(__file__))
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser(description="a standing debug sweep over every module")
     ap.add_argument("--modules", type=int, default=6,
                     help="how many modules the model reads this round")

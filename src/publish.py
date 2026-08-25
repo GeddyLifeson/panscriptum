@@ -344,6 +344,14 @@ def push(message=None):
 
 
 def main():
+    # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
+    # library-wide invariant has been violated, nothing starts until a person rules on it.
+    # Placed first in main() so there is no path into this job that skips it.
+    try:
+        import escalation as _ESC
+        _ESC.assert_clear(os.path.basename(__file__))
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser(description="publish the project and its instruments")
     ap.add_argument("--init", action="store_true", help="create the export repo")
     ap.add_argument("--remote", help="git remote URL")

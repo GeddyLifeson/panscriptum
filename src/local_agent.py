@@ -70,6 +70,27 @@ DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards",
 # unlike a broken .py it fails silently rather than at import.
 DENYLIST_PATHS = {"config.yaml"}
 
+# WHOLE REGIONS THE LOCAL MODEL MAY NEVER WRITE, matched by repo-relative prefix (M24, owner
+# ruling 2026-08-25). The denylists above name individual files, which cannot express "every
+# record", and M24 is exactly that shape: `propose_patch` could write `data/records/*.json`
+# DIRECTLY, bypassing `pipeline.write_record` and becoming a third writer against a two-writer
+# contract -- with every gate still green, because the gates check that a patch parses, lints,
+# imports and leaves verify_math passing, not that it went through the right door.
+#
+# The prose gate taught the same lesson one layer up: the dangerous edit is not the one that
+# breaks a test, it is the one that quietly removes a decision. So this list is not only about
+# corruption. `config.yaml` holds the prose gate; `reference/keystone_volumes/` holds the
+# CHARTER, where the addressing, the Ladder of Being and the Assay method live and where Hard
+# Rules 2, 3 and 4 reserve judgment to the owner. An autonomous model must not be able to edit
+# the document that defines what it is allowed to do.
+DENYLIST_PREFIXES = (
+    "data/records/",              # two-writer contract: pipeline.write_record only
+    "reference/keystone_volumes/",  # the charter and the keystone volumes -- owner territory
+    "output/index/",              # the catalog and manifest, written by their own tools
+    "state/",                     # shared run state, landed via silence.replace_retry
+    ".git/",
+)
+
 # Models known tool-trained and fitting a 10GB card, for the capability report when the
 # configured model turns out not to emit tool calls at all.
 # GPU-resident on a 10GB card AND tool-trained -- the ruling of 2026-08-24 excludes anything
@@ -443,6 +464,17 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     if denied:
         return {"applied": False, "error": str(denied) + " is on the denylist -- the checking "
                                                          "machinery may not edit itself"}
+    # M24: whole protected REGIONS, folded the same way and for the same reason. Checked after
+    # the name denylist and before anything is read, so a protected path never even reaches the
+    # find/replace. Erring toward refusal is the harmless direction.
+    _rel_l = rel.lower()
+    for _pfx in DENYLIST_PREFIXES:
+        if _rel_l.startswith(_pfx):
+            return {"applied": False,
+                    "error": "%s is inside the protected region '%s'. It is not edited by hand "
+                             "or by a model: records go through pipeline.write_record, the "
+                             "charter is the owner's, and shared state is landed via "
+                             "silence.replace_retry." % (rel, _pfx)}
     original = open(full, encoding="utf-8").read()
     if original.count(find) != 1:
         return {"applied": False,

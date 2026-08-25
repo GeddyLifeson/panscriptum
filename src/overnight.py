@@ -519,6 +519,40 @@ def preflight():
     return n, blocking
 
 
+def safety_drill():
+    """Walk every safety net and confirm it still REFUSES. The scheduled park inspection.
+
+    `preflight()` above asks whether the library is healthy. This asks a different and harder
+    question: are the things that are supposed to STOP us still capable of stopping us? A guard
+    nobody has watched refuse is a guard nobody has evidence about (standing lesson 9), and the
+    incident this whole layer exists for was not a guard failing -- it was a guard being deleted,
+    which no health check anywhere would have noticed.
+
+    `drill.py` raises an OWNER-level halt by itself if any net is breached, so this does not need
+    to decide anything; it runs the inspection and reports what the inspector found. Exit 1 means
+    a net did not hold and the library has already stopped itself.
+    """
+    try:
+        r = subprocess.run([PY, os.path.join(SRC, "drill.py")], cwd=HERE,
+                           capture_output=True, text=True, timeout=900,
+                           env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
+    except Exception as e:
+        # Same discipline as preflight: a drill that could not run must not pass for a pass.
+        silence.note("overnight.py:drill")
+        log(f"  safety drill: DID NOT RUN ({type(e).__name__}: {str(e)[:120]}) "
+            f"-- the nets were NOT inspected this cycle")
+        return None
+    line = [x for x in (r.stdout or "").splitlines() if x.startswith("DRILL:")]
+    log("  safety drill: " + (line[-1] if line else "produced no summary line"))
+    if r.returncode == 1:
+        for x in (r.stdout or "").splitlines():
+            if x.strip().startswith("BREACHED"):
+                log("    " + x.strip())
+        log("  A SAFETY NET DID NOT HOLD — the library has halted itself. "
+            "Clear it with: python src/escalation.py --clear --ruling \"...\"")
+    return r.returncode
+
+
 def write_status(cycle, history):
     p = os.path.join(HERE, "STATUS.md")
     cur = history[-1] if history else {}
@@ -544,6 +578,14 @@ def write_status(cycle, history):
 
 
 def main():
+    # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
+    # library-wide invariant has been violated, nothing starts until a person rules on it.
+    # Placed first in main() so there is no path into this job that skips it.
+    try:
+        import escalation as _ESC
+        _ESC.assert_clear(os.path.basename(__file__))
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--cycles", type=int, default=99)
     ap.add_argument("--read-hours", type=float, default=3.0)
@@ -650,6 +692,25 @@ def main():
     for cycle in range(1, a.cycles + 1):
         log(f"--- cycle {cycle} ---")
         cycle_t0 = time.time()
+
+        # THE PLANT-WIDE INTERLOCK, RE-ASKED EVERY CYCLE. A halt raised while the supervisor was
+        # mid-cycle must stop the NEXT one; checking only at startup would let a halted library
+        # keep running for hours because the process that needed to notice had already started.
+        try:
+            import escalation as _ESC
+            _ESC.assert_clear("overnight.py cycle %d" % cycle)
+        except ImportError:
+            pass
+        except Exception as e:
+            log("  " + str(e).splitlines()[0])
+            log("  The library is halted. Nothing further will start until a person rules on it.")
+            break
+
+        # THE PARK INSPECTION. Every cycle, before any stage is started: are the things that are
+        # supposed to stop us still able to? Cheap (no model calls, no network) and it is the
+        # only check that would notice a safety having been REMOVED rather than having failed.
+        safety_drill()
+
         n, blocking = preflight()
         if blocking:
             log("  HALT: a source file carries a control character where an escape should be.")
