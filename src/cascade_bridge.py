@@ -308,11 +308,29 @@ def dead_forever():
     fail over on their own, which is what the router is for -- and if they are genuinely down,
     the deadline costs one call and the next claim goes elsewhere.
     """
-    if _PROVEN[0] is not None:
-        return _PROVEN[0]
+    # THE ANSWER IS CACHED AGAINST THE PROOF FILE, NOT FOR THE LIFE OF THE PROCESS.
+    #
+    # `if _PROVEN[0] is not None: return _PROVEN[0]` memoised the FIRST call and never looked
+    # again -- in jobs that run for hours or days. That breaks the function in both directions.
+    # A bucket whose key dies at noon is proven dead by the next `prove()` and written into
+    # POOL_PROOF.json, but a reader that first asked at 09:00 keeps claiming it, burning a
+    # deadline per call until the process restarts; that is the shape of `hyperbolic:free` and
+    # `cloudflare:free` sitting at 0 successful calls while still being claimed. And the
+    # reverse: a key the owner ROTATES stays excluded until restart, so the fix does not take.
+    # PROOF_TTL already says a proof older than an hour is not evidence about now -- the
+    # process-lifetime memo quietly overrode it with "forever".
+    #
+    # Keyed on the file's mtime, so a re-proof invalidates it and an unchanged file costs one
+    # stat. (run #29, batch 05, reproduced.)
+    try:
+        stamp = os.path.getmtime(PROOF)
+    except Exception:
+        stamp = None
+    if _PROVEN[0] is not None and _PROVEN[0][0] == stamp:
+        return _PROVEN[0][1]
     out = set()
     try:
-        if time.time() - os.path.getmtime(PROOF) <= PROOF_TTL:
+        if stamp is not None and time.time() - stamp <= PROOF_TTL:
             with open(PROOF, encoding="utf-8") as f:
                 rows = json.load(f)
             for r in rows:
@@ -323,7 +341,7 @@ def dead_forever():
                     out.add(r["bucket"])
     except Exception:
         silence.note("cascade_bridge.py:dead_forever")
-    _PROVEN[0] = out
+    _PROVEN[0] = (stamp, out)
     return out
 
 

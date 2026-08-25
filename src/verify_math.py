@@ -3990,6 +3990,103 @@ check("no unrecognised row wears a wrapper its own bucket can already explain",
       note="the unwrap is read-side now, for the same reason the re-triage is: the answer must "
            "not depend on which process wrote the row or what it had imported")
 
+# ------------------------------------------------- §20m a half-finished pass is not a green one
+# `the automation reproduces the charter` sat 35h stale while `--calibrate` ran constantly.
+# The cause was not drift in the instrument: `magnitude.calibrate()` wrote CHARTER_REGRESSION
+# .json ONCE, after all six benchmarks, while the foreman kills it roughly hourly (M15). Every
+# killed attempt threw away every benchmark it had completed, so the file could only be written
+# by a pass that happened to survive a whole lap -- and none had, for a day and a half.
+#
+# The repair is its sibling's: `run_batch()` is written to be killed and checkpoints after each
+# completion. But checkpointing a HIGH standard's input introduces a worse failure than the one
+# it fixes, unless the partial state is explicitly not-green: the first consistent row would
+# otherwise satisfy `bool(scored) and not bad` and turn the standard green with five charter
+# references unrun. That is green-by-absence (§20k) aimed at the instrument itself.
+#
+# So `calibrate()` withholds `at` until the pass is complete, and the verdict is a PURE
+# FUNCTION of the parsed dict so this can be asserted on synthetic passes instead of waiting
+# for a real half-finished one to exist on disk.
+_S20m = __import__("standards")
+_now20m = 1_000_000.0
+_mid20m = {"started": _now20m - 3600, "complete": False, "model": "m",
+           "results": [{"entity": "Jace Beleren", "status": "SCORED", "consistent": True}],
+           "pending": ["Goku", "Kenshiro", "Naruto Uzumaki", "Monkey D. Luffy", "Jotaro Kujo"]}
+check("a pass in progress never reproduces the charter, even with a consistent row",
+      _S20m.charter_regression_verdict(_mid20m, _now20m)[0], False,
+      note="one early consistent benchmark must not stand in for six")
+check("and it says it is mid-pass rather than reporting an age",
+      "IN PROGRESS" in _S20m.charter_regression_verdict(_mid20m, _now20m)[1], True,
+      note="withholding `at` makes the age arithmetic read 1e9 hours; that is the right "
+           "verdict with the wrong sentence, so the mid-pass state names itself")
+_done20m = {"at": _now20m - 3600, "complete": True,
+            "results": [{"entity": "a", "status": "SCORED", "consistent": True}]}
+check("a complete, fresh, fully consistent pass does hold",
+      _S20m.charter_regression_verdict(_done20m, _now20m)[0], True)
+check("a complete pass older than the freshness floor does not",
+      _S20m.charter_regression_verdict(
+          dict(_done20m, at=_now20m - (_S20m.CHARTER_REGRESSION_MAX_AGE_H + 1) * 3600),
+          _now20m)[0], False)
+check("one inconsistent reference fails the whole standard",
+      _S20m.charter_regression_verdict(
+          {"at": _now20m - 3600, "complete": True,
+           "results": [{"entity": "a", "status": "SCORED", "consistent": True},
+                       {"entity": "b", "status": "SCORED", "consistent": False}]},
+          _now20m)[0], False)
+
+# --------------------------------------------- §20n the completeness proof answers ITS question
+# The sweep's whole claim to being uncapped rests on `missing(run)` returning []. Run #29 moved
+# coverage into per-batch shard files (a `threading.Lock` cannot serialise sixteen SUBPROCESSES)
+# and derived `missing()` from a newest-wins merge across every shard on disk -- which quietly
+# turns "did run N read module X?" into "was run N the LAST run to read module X?". Shards are
+# never pruned, so the two diverge for good the moment a later run records the same module, and
+# the failure is the worst available shape: a gap reported in a module the agent demonstrably
+# read, in the one instrument that exists to prove nothing was skipped.
+_SP20n = __import__("sweep_plan")
+_mods20n = {m["module"] for m in _SP20n.modules()}
+check("every module in src/ is in exactly one sweep batch, and none is dropped",
+      sum(len(b["modules"]) for b in _SP20n.batches(16)), len(_mods20n),
+      note="batches() splits the work; it must never sample it")
+check("a batch's modules are all real modules",
+      {m for b in _SP20n.batches(16) for m in b["modules"]} - _mods20n, set())
+
+# Membership, asserted on a synthetic corpus rather than on the live shard directory -- writing
+# a probe shard into state/sweep_shards/ to test the reader would make the test a writer of the
+# very state it audits. `_merge_runs` is the pure core both readers share.
+_shards20n = [{"run": "runA", "at": 100.0, "modules": ["alpha.py", "beta.py"]},
+              {"run": "runB", "at": 900.0, "modules": ["alpha.py"]}]
+
+
+def _covered20n(shards, run):
+    return {m for s in shards if str(s["run"]) == str(run) for m in s["modules"]}
+
+
+check("a later run's shard does not remove a module from an earlier run's covered set",
+      sorted(_covered20n(_shards20n, "runA")), ["alpha.py", "beta.py"],
+      note="newest-wins answered 'was runA the LAST to read alpha.py?' (no) instead of 'did "
+           "runA read alpha.py?' (yes), and reported a gap that never happened")
+check("and the later run still owns what it actually read",
+      sorted(_covered20n(_shards20n, "runB")), ["alpha.py"])
+check("the live sweep proves its own completeness",
+      _SP20n.missing("run29"), [],
+      note="95 modules, every one recorded by the batch that read it; a non-empty list here "
+           "is either a genuinely skipped module or a broken proof, and both need chasing")
+
+check("an UNMEASURED fabrication guard does not read as green",
+      [r["holds"] for r in _st20k
+       if r["standard"] == "sentences that survive the verbatim check"
+       and str(r["observed"]).startswith("UNMEASURED")], [],
+      note="run #29: `True if fab is None else ...` made the one state the row's own order "
+           "text names as THE FINDING the state that satisfied the standard, and work_orders() "
+           "reads the boolean -- so it could never be dispatched. The list is empty either "
+           "because the guard is measured (the healthy case) or because UNMEASURED is red.")
+check("a pre-checkpoint file, which has `at` and no `complete` key, still reads as a pass",
+      "IN PROGRESS" in _S20m.charter_regression_verdict(
+          {"at": _now20m - 3600,
+           "results": [{"entity": "a", "status": "SCORED", "consistent": True}]},
+          _now20m)[1], False,
+      note="every CHARTER_REGRESSION.json written before 2026-08-25 has this shape; reading "
+           "one as a stalled pass would report a fault that is only a file-format change")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

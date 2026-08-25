@@ -177,7 +177,12 @@ def record(run, covered, batch=None):
 
 
 def coverage_map():
-    """The authoritative view: shards first, the aggregate file only where a shard is absent."""
+    """The authoritative view: shards first, the aggregate file only where a shard is absent.
+
+    NEWEST-WINS, because this answers "when was module X last audited, and by which run?" --
+    a question with exactly one right answer. It is the wrong instrument for `missing()`; see
+    there.
+    """
     data = _read_shards()
     try:
         with open(COVERAGE, encoding="utf-8") as f:
@@ -191,12 +196,57 @@ def coverage_map():
     return data
 
 
+def covered_by(run):
+    """The set of modules ANY shard records `run` as having read.
+
+    Deliberately NOT derived from `coverage_map()`. That map is newest-wins across all runs, so
+    asking it "did run29 cover X?" really asks "was run29 the LAST run to cover X?" -- a
+    different question with a different answer the moment a second run records the same module
+    with a later stamp. Shards are never pruned, so those two questions diverge permanently,
+    and the divergence is invisible: `missing()` would name a module the agent demonstrably
+    read, and the sweep's completeness proof would report a gap that did not happen.
+
+    A membership question deserves a membership answer. (Found by the sweep auditing this very
+    file, in the same run that introduced the shards. 2026-08-25, run #29, batch 08.)
+    """
+    want = str(run)
+    out = set()
+    try:
+        paths = sorted(glob.glob(os.path.join(SHARDS, "*.json")))
+    except Exception:
+        paths = []
+    for p in paths:
+        try:
+            with open(p, encoding="utf-8") as f:
+                rec = json.load(f)
+        except Exception:
+            try:
+                import silence
+                silence.note("sweep_plan.py:shard-unreadable")
+            except Exception:
+                pass
+            continue
+        if str(rec.get("run")) == want:
+            for m in (rec.get("modules") or []):
+                out.add(m)
+    # The aggregate file is a fallback for a coverage record written before shards existed.
+    try:
+        with open(COVERAGE, encoding="utf-8") as f:
+            old = json.load(f)
+        if isinstance(old, dict):
+            for m, r in old.items():
+                if isinstance(r, dict) and str(r.get("run")) == want:
+                    out.add(m)
+    except Exception:
+        pass
+    return out
+
+
 def missing(run):
     """Modules NOT covered by `run` — the proof that a sweep was complete, or the list of what
     it silently skipped. A sweep that cannot answer this is a sweep nobody can trust."""
-    data = coverage_map()
-    return [m["module"] for m in modules()
-            if str((data.get(m["module"]) or {}).get("run")) != str(run)]
+    seen = covered_by(run)
+    return [m["module"] for m in modules() if m["module"] not in seen]
 
 
 def main():

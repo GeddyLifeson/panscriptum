@@ -50,7 +50,19 @@ SLICE = 12000                 # chars per read_file call -- a WINDOW, not a cap:
                               # pages through a big file with offset, and the tool says how
                               # much remains so nothing silently falls off the end
 DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards",
-            "verify_math", "local_agent"}
+            "verify_math", "local_agent",
+            # THE CONTRACT-ENFORCEMENT MODULES, added 2026-08-25 (run #29, batch 16).
+            # The list above is the machinery that JUDGES a patch -- the gate, the linter, the
+            # failure ledger, the standards. These four are the machinery that judges every
+            # WRITE, and leaving them out was the same hole one layer down: the two-writer
+            # contract lives in `pipeline.write_record` / `write_record_catalogue`, the claim
+            # discipline in `runguard`, the card's arbitration in `gpu_lane`, and the proof
+            # that a sweep covered everything in `sweep_plan`. A model permitted to patch
+            # `pipeline` could widen the very drift-merge allowlist that stops a concurrent
+            # writer's edits being dropped -- and every gate below would still pass, because
+            # they check that a patch parses, lints, imports and leaves verify_math green,
+            # not that it left the contract intact.
+            "pipeline", "runguard", "gpu_lane", "sweep_plan"}
 
 # The same bar, for files that are not python modules and therefore have no module name to
 # match on. Repo-relative, forward slashes. config.yaml is here because every module in the kit

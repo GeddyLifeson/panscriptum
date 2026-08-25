@@ -316,6 +316,45 @@ def _s(name, holds, observed, floor, order, severity="medium", group="general"):
             "floor": floor, "order": order, "severity": severity}
 
 
+CHARTER_REGRESSION_MAX_AGE_H = 26
+
+
+def charter_regression_verdict(reg, now=None):
+    """(holds, observed) for `the automation reproduces the charter`, from the parsed file.
+
+    PULLED OUT OF `check()` ON PURPOSE, 2026-08-25. This verdict has three distinguishable
+    states -- never run, mid-pass, and complete -- and until now `check()` could only test the
+    third by reading the one real file on disk, which is why nobody could ask "what does this
+    say about a HALF-FINISHED pass?" without waiting for one to exist. As a pure function of
+    the parsed dict it is testable with synthetic inputs, and `verify_math` does exactly that.
+    That is the point: a behavioural check beats a source-grep, which cannot tell a live branch
+    from a dead one.
+
+    THE INVARIANT IT EXISTS TO DEFEND: a pass in progress NEVER holds. `magnitude.calibrate()`
+    now checkpoints after every benchmark so a killed run keeps its work, and it deliberately
+    withholds `at` until the pass is complete. Without that, the first consistent row would turn
+    this standard green with five charter references still unrun -- the project's green-by-
+    absence failure mode, on a HIGH standard guarding the instrument itself.
+    """
+    now = time.time() if now is None else now
+    if not isinstance(reg, dict):
+        return False, "never run"
+    rows = [r for r in (reg.get("results") or []) if isinstance(r, dict)]
+    scored = [r for r in rows if r.get("status") == "SCORED"]
+    bad = [r for r in scored if not r.get("consistent")]
+    at = reg.get("at")
+    if not reg.get("complete") and at is None:
+        pend = [p for p in (reg.get("pending") or []) if isinstance(p, str)]
+        started_h = (now - float(reg.get("started") or 0)) / 3600
+        return False, ("pass IN PROGRESS: %d of %d benchmarks done, started %.1fh ago%s"
+                       % (len(rows), len(rows) + len(pend), started_h,
+                          (" -- pending: " + ", ".join(pend)) if pend else ""))
+    age_h = (now - float(at or 0)) / 3600
+    holds = bool(scored) and not bad and age_h <= CHARTER_REGRESSION_MAX_AGE_H
+    return holds, ("%d/%d consistent, %d unscored, %.0fh old"
+                   % (len(scored) - len(bad), len(scored), len(rows) - len(scored), age_h))
+
+
 def check(state=None):
     """Measure every declared standard against the dashboard's own numbers.
 
@@ -697,7 +736,15 @@ def check(state=None):
             why = "the reader's progress line did not parse"
     out.append(_s(
         "sentences that survive the verbatim check",
-        True if fab is None else fab <= MAX_FABRICATION,
+        # UNMEASURED IS NOT GREEN. This read `True if fab is None else ...`, so the one state
+        # the order text below calls out by name -- "IF THIS READS UNMEASURED, TREAT THAT AS
+        # THE FINDING" -- was the state that satisfied the standard. The row and its own
+        # boolean said opposite things, and `work_orders()` reads the boolean, so the finding
+        # could never be dispatched. Run #28 fixed the standard's ABSENCE and left its
+        # emptiness green, one line under its own comment about green-by-absence; this is the
+        # same defect one layer in. A guard that cannot measure has not passed.
+        # (run #29, batch 03, reproduced.)
+        fab is not None and fab <= MAX_FABRICATION,
         f"{fab:.0%} rejected" if fab is not None else "UNMEASURED -- %s" % why,
         f"{MAX_FABRICATION:.0%}",
         "The model is returning text that is not in the source. A rate this high means the "
@@ -786,6 +833,7 @@ def check(state=None):
     except Exception:
         silence.note("standards.py:reference-assays")
 
+    # (the charter-regression verdict is `charter_regression_verdict()`, below check())
     # The standard above proves the ARITHMETIC; this one proves the AUTOMATION. calibrate()
     # runs the charter's six published assays through the whole live chain -- evidence mine,
     # split, epoch mandate, ceiling clamp, cascade transport -- and persists the verdict.
@@ -797,19 +845,10 @@ def check(state=None):
         try:
             with open(reg_path, encoding="utf-8") as f:
                 reg = json.load(f)
-            age_h = (time.time() - float(reg.get("at") or 0)) / 3600
-            rows = [r for r in (reg.get("results") or []) if isinstance(r, dict)]
         except Exception:
             silence.note("standards.py:449")
-            reg, age_h, rows = None, 1e9, []
-        scored = [r for r in rows if r.get("status") == "SCORED"]
-        bad = [r for r in scored if not r.get("consistent")]
-        holds = bool(scored) and not bad and age_h <= 26
-        if reg is None:
-            obs = "never run"
-        else:
-            obs = "%d/%d consistent, %d unscored, %.0fh old" % (
-                len(scored) - len(bad), len(scored), len(rows) - len(scored), age_h)
+            reg = None
+        holds, obs = charter_regression_verdict(reg)
         out.append(_s(
             "the automation reproduces the charter", holds, obs,
             "every scored reference overlaps its published interval, within 26h",

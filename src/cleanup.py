@@ -175,6 +175,13 @@ def main():
                 thin.append((src, nm, cd))
                 if args.apply:
                     e["thin_description"] = True
+                    # `changed` was never set on this branch, so a record whose ONLY edit was
+                    # a thin-description mark was never handed to write_record -- the flag was
+                    # set on an in-memory dict and dropped when the loop moved on. The module's
+                    # docstring says thin entries are "marked, not deleted"; for every entry
+                    # that had no other defect, they were neither. Its two sibling branches
+                    # both set it; this one was simply missed. (run #29, batch 05, reproduced.)
+                    changed = True
 
         if changed:
             PL.write_record(path, rec)
