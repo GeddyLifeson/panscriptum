@@ -736,15 +736,28 @@ def check(state=None):
         window = [h for h in hist if now_t - h.get("at", 0) <= 45 * 60]
         span_min = (window[-1]["at"] - window[0]["at"]) / 60 if len(window) >= 2 else 0
         counters = ("cited", "settled", "feats", "entities read")
-        if span_min >= 40:
-            moved = sum(1 for k in counters
-                        if len({h.get(k) for h in window if h.get(k) is not None}) > 1)
-            out.append(_s(
-                "the library's counters are moving", moved > 0,
-                f"{moved}/{len(counters)} moved in {span_min:.0f}m", ">= 1 in 45m",
-                "Cited, settled, feats and entities-read are the library's output. All four "
-                "flat while jobs run means every model call is failing -- log growth cannot "
-                "see that, only the counters can.", "high", "throughput"))
+        # A STANDARD THAT DOES NOT EMIT IS WORSE THAN ONE THAT FAILS: it does not appear on the
+        # page at all, so nobody can even see that it went unmeasured. This block used to skip
+        # `out.append` entirely when the history was shorter than 40 minutes -- and the history
+        # is short after EVERY dashboard restart, which the keeper does routinely. Caught in run
+        # #25's closing diagnostic: bouncing the dashboard dropped a HIGH-severity throughput
+        # standard clean off the page for 40 minutes, and `every declared floor is measured`
+        # went on reporting "all measured" the whole time, because it can only inspect rows that
+        # exist. The check that exists to catch an unmeasured floor cannot see an absent one.
+        #
+        # It now always emits. Short history reports `holds=True` -- deliberately, so no remedy
+        # fires on absent evidence, which would be crying wolf -- but SAYS so in `observed`, so
+        # the page shows "not enough history yet" rather than showing nothing.
+        moved = sum(1 for k in counters
+                    if len({h.get(k) for h in window if h.get(k) is not None}) > 1)
+        _enough = span_min >= 40
+        out.append(_s(
+            "the library's counters are moving", (moved > 0) if _enough else True,
+            (f"{moved}/{len(counters)} moved in {span_min:.0f}m" if _enough
+             else f"not enough history yet ({span_min:.0f}m of 40)"), ">= 1 in 45m",
+            "Cited, settled, feats and entities-read are the library's output. All four "
+            "flat while jobs run means every model call is failing -- log growth cannot "
+            "see that, only the counters can.", "high", "throughput"))
     except Exception:
         silence.note("standards.py:counters-moving")
 

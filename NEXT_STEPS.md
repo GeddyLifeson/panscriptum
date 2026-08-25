@@ -96,8 +96,12 @@
    ```
    python -c "import sys;sys.path.insert(0,'src');import cascade_bridge as C;r=C.unrecognised_open();print(len(r),'rows');[print(' ',x['bucket'],'|',x['error'][:90]) for x in r]"
    ```
-3. **[BASELINES — a second failure is the finding.]** `verify_math` is now **713 passed, 0
-   FAILED** (was 697; §20j added 16). `health.py --preflight` baseline is **1 FAIL**, `caches
+3. **[BASELINES — a second failure is the finding.]** `verify_math` is now **716 passed, 0
+   FAILED** (was 697; §20j added 19). **And COUNT THE STANDARDS: 40 is the number.** Run #25
+   found 39 with `every declared floor is measured` still reading "all measured" (m137) — a
+   HIGH standard that did not emit is invisible to the meta-standard that audits floors.
+   **Diff the standard NAMES against the previous snapshot, not just the red list** — that
+   comparison is the only thing that caught it. `health.py --preflight` baseline is **1 FAIL**, `caches
    empty ... feats/www_dandwiki_com` (**M1**). `allsweep` baseline is **0 subsystems in a bad
    state**. pyflakes clean.
 4. **[DID THE CATALOGUE FIX HOLD?]** m129's whole point is that the pass now survives its biggest

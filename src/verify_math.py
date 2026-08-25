@@ -3855,6 +3855,25 @@ check("backfill writes through the CATALOGUE side of the two-writer contract",
            "write_record keeps the DISK list on drift and the append itself guarantees drift, "
            "so every character it added was dropped on every run that added any")
 
+# A STANDARD THAT DOES NOT EMIT CANNOT BE SEEN TO HAVE GONE UNMEASURED. Found in run #25's
+# CLOSING diagnostic, which is the only reason it was found at all: bouncing the dashboard left
+# `dashboard_history.json` with under 40 minutes of samples, and `the library's counters are
+# moving` -- HIGH severity -- vanished from the page entirely rather than reporting itself
+# unmeasured. `every declared floor is measured` said "all measured" throughout, because it can
+# only inspect rows that exist. The keeper restarts the dashboard routinely, so this was not a
+# rare state. It now always appends, holding True on short history but SAYING so.
+_st20j_src = open(os.path.join(_here20j, "standards.py"), encoding="utf-8").read()
+check("the counters-moving standard is not gated behind a history-length check",
+      "if span_min >= 40:" in _st20j_src, False,
+      note="gating the APPEND made a high-severity standard disappear instead of fail; a row "
+           "that is absent is invisible to the meta-standard that audits floors")
+check("and it reports short history honestly instead of vanishing",
+      "not enough history yet" in _st20j_src, True)
+check("every standard the checker declares actually emits a row",
+      len({r["standard"] for r in __import__("standards").check(
+          __import__("dashboard").state())}) >= 40, True,
+      note="run #25 observed 39 where 40 were declared, with the meta-standard still green")
+
 _cb20j = __import__("cascade_bridge")
 check("the empty-completion class is named", _cb20j.empty_content("no answer text produced"),
       True, note="Cascade engine.py:277 and :343, two wordings for one fault")

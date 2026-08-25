@@ -198,6 +198,24 @@ once, and the fix stopped one letter short.*
   now carries a real unknown **and** two rows of the newly-named class, so it still asserts both
   halves. Naming a fault must never quietly delete the assertion that unnamed faults stay visible.
 
+- **[m137 — RESOLVED IN THIS RUN] A HIGH-SEVERITY STANDARD DID NOT EMIT AT ALL, AND THE
+  META-STANDARD REPORTED "ALL MEASURED".** Found in the closing diagnostic by diffing live
+  standard *names* against the opening snapshot: the count was **40 → 39**, and the missing row
+  was `the library's counters are moving`. `standards.py:739` gated the `out.append` itself
+  behind `if span_min >= 40:`, so whenever `state/dashboard_history.json` holds under forty
+  minutes of samples the standard is **absent** — it does not fail, it does not report itself
+  unmeasured, it simply is not there. `every declared floor is measured` read **"all measured"**
+  throughout, because it can only inspect rows that exist: **the check that exists to catch an
+  unmeasured floor cannot see an absent one.** Not a rare state — the keeper restarts the
+  dashboard routinely, and any restart blinds this standard for forty minutes.
+  **Fixed:** it always appends now. Short history holds `True` (deliberately — firing a remedy on
+  absent evidence would be crying wolf) but reports `not enough history yet (35m of 40)`. Count
+  back to 40. Pinned in §20j three ways, including a behavioural check that `standards.check()`
+  emits at least as many distinct rows as it declares.
+  *This is the run's own lesson one level up: a guard that recognises only the plain spelling of
+  what it forbids. It was caught only because the closing diagnostic diffed NAMES rather than
+  reading the red list — a habit worth keeping.*
+
 **Open, verified this run, NOT fixed — each needs more than a repair (full list in NEXT_STEPS §3):**
 
 - **[m133 — MAJOR, OPEN] `overwatch.py`'s "0 high-severity findings open" IS AN UNDERCOUNT BAKED

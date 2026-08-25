@@ -244,9 +244,35 @@ the four that then marked work as done.
 
 ---
 
+### And the last one, found in the closing diagnostic
+
+**[m137 — RESOLVED] A HIGH-SEVERITY STANDARD DISAPPEARED FROM THE PAGE, AND THE STANDARD THAT
+AUDITS THE STANDARDS SAID "ALL MEASURED".** The closing check of this run compared the live
+standard *names* against the opening snapshot — not just the red ones — and the count had gone
+**40 → 39**. The missing row was `the library's counters are moving`, HIGH severity.
+
+`standards.py:739` gated the `out.append` itself behind `if span_min >= 40:`, so whenever
+`dashboard_history.json` holds under forty minutes of samples the standard **does not emit at
+all**. It does not fail, it does not report itself unmeasured — it is simply absent. And
+`every declared floor is measured` went on reporting **"all measured"** the entire time, because
+it can only inspect rows that exist: **the check whose whole job is to catch an unmeasured floor
+cannot see an absent one.** The trigger is not exotic either — I had bounced the dashboard twenty
+minutes earlier, and the keeper restarts it routinely, so any dashboard restart blinds this
+standard for forty minutes.
+
+It now always appends. Short history holds `True` — deliberately, so no remedy fires on absent
+evidence — but says so: `not enough history yet (35m of 40)`. Count back to 40. Pinned three ways
+in §20j, including a behavioural check that the checker emits at least as many rows as it
+declares.
+
+**This is the run's own lesson landing on the run itself.** Every other finding here was a guard
+that recognised only the plain spelling of what it forbids; this is the same shape one level up,
+in the meta-standard. It was found only because the closing diagnostic diffed the *names* rather
+than reading the red list — worth keeping as a habit.
+
 ### Battery
 
-`verify_math.py` **713 passed, 0 FAILED** (baseline 697; **+16 new checks** in a new §20j).
+`verify_math.py` **716 passed, 0 FAILED** (baseline 697; **+19 new checks** in a new §20j).
 `allsweep.py` **0 subsystems in a bad state**. `health.py --preflight` **1 problem — the known
 M1 baseline** (`feats/www_dandwiki_com`), unchanged, not a second. `silence.py` ran clean.
 `pyflakes src/` clean. No regression introduced.
