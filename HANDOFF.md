@@ -9,6 +9,167 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-24 22:36 (local) — Run #19: the kill loop closed a second time exactly as predicted, and the dishonest note that hid its cost is now fixed
+
+*Run #18 ended with a written prediction: if `overnight.log` shows another `read: finished
+rc=15` shortly after 21:40, the M15 loop is confirmed twice. It shows `read: finished rc=15 in
+44m` at **22:01:42**. The prediction landed. The reader stayed down until **22:39:20**, when the
+supervisor's next main lap restored it — **37.6 minutes**, measured start to finish inside this
+run, the third instance timed end to end.*
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found. Nothing deleted. No money moved.** One process bounced by PID: the
+   **foreman** (PID 5420), which had been running since **11:22 AM** and was the oldest carrier
+   of stale imports in the tree. It is STANDING, so the keeper restores it within 300s. It had
+   **no `--adopt` child** (only a conhost) and fandom was reachable, which are exactly the two
+   conditions NEXT_STEPS §1.5 sets for that bounce. The reader was **not** restarted by me —
+   `restart_reader`'s own docstring says the supervisor is the only party allowed to start jobs,
+   and starting it by hand would have been the same overreach the remedies are being blamed for.
+2. **[M15 CONFIRMED TWICE, AND ITS CHEAPEST HALF IS NOW FIXED]** The measured downtime series is
+   now **1, 8, 32, 37, 42, 44, 37.6 minutes, and once 4h** — this run's instance closed at
+   **22:39:20** and cost **37.6 min**, squarely inside the established band and nowhere near the
+   ~7h10m code ceiling a subagent traced in run #18. **The bounced foreman came back at 22:38:35
+   carrying run #19's code, and the reader restarted 45 seconds later**, so the honest note is
+   live and the next kill will describe its own cost correctly in `overnight.log`. The fix applied is candidate (i) from
+   NEXT_STEPS §2 B — *make the kill notes honest* — and nothing else, because (ii) and (iii)
+   remain the owner's ruling. Both killing remedies ended every note with *"supervisor restarts
+   next cycle"*, which is true for a STANDING job (keeper, 300s) and **badly false for `read.py`
+   and `feats.py --roll`**, which wait for the hours-long main lap. **That one clause is why the
+   cost went unnoticed for so long: every kill reported itself as a five-minute inconvenience in
+   the one log a human actually reads.** A new `_restart_horizon()` now *derives* the true answer
+   from `overnight.STANDING` rather than asserting one, so it cannot drift from the roster it
+   describes. Verified live for every managed job:
+   - `read.py --run` → *"NOT in the keeper's STANDING set — nothing restarts it until the
+     supervisor's next MAIN LAP, measured at 42-44 min typically and 4h at worst"*
+   - `pipeline.py` → *"is STANDING, so the keeper restarts it within 300s"*
+   **This changes no behaviour.** It only stops the remedy from understating its own price.
+3. **[NEW — A KILLER THAT COULD HAVE KILLED THE WRONG PROCESS]** `restart_reader` matched
+   `"read.py" in line AND "--run" in line` as **two independent substrings**, so *anything* whose
+   command line contained both was a valid SIGTERM target — including one of this run's own
+   shells running a grep that mentions them. `kill_stalled_job`'s docstring, twenty lines below,
+   documents having fixed exactly this loose-match class for its own matching and names the
+   remedy: `lognames.OWNER` publishes one contiguous fragment per job precisely so the killer and
+   the launcher cannot drift. **That site had been left behind.** It now matches
+   `lognames.OWNER[READ]` = `"read.py --run"`. This is run #18's *"kill by PID, not by pattern"*
+   lesson found sitting in the code that does the killing.
+4. **[§2 A — THE FOUR DEAD BUCKETS ARE STILL IN ROTATION AND HAVE GOT WORSE, NOT BETTER.]**
+   Re-measured over 3h: **302 calls, 203 non-ok (67%)**, of which the four dead accounts are
+   **92 — now 45% of all refusals, up from 38%.** All four `last_error` rows aged at **0.0h**, so
+   this is current, not a stale row. `zai:free` **52 calls, 0 ok**; `cloudflare:free` 20/0;
+   `hyperbolic:free` 11/0; `cohere:free` 9/0. **Still the biggest single lever on this machine and
+   still four lines of config in the other project.**
+   **One correction to make before anyone acts:** `sambanova:free` also shows **16 calls, 0 ok**
+   and looks like a fifth dead key. It is not — its current error is a genuine `"Rate limit
+   exceeded"`, not an auth or balance failure. **Four, not five.** (Run #18's aging lesson,
+   applied and earning its keep a second time.)
+
+**A LATENT TRAP IN THE OPENING DIAGNOSTIC ITSELF — worth more than any single fix here.** A
+dashboard audit found, and I verified at source, that `movement()`'s `stalled` flag is
+`delta == 0 and span >= 10` against a **30-minute** window (`dashboard.py:287,338`), while
+`cited`/`settled`/`feats` are read from `data/COVERAGE.json`, whose rewrite cadence `allsweep.py`
+itself treats as **normal up to 2 hours** (`allsweep.py:203-207`). **Whenever COVERAGE.json goes
+longer than 30 minutes without a rewrite, those three metrics report `stalled: true` for a
+perfectly healthy system**, because the value cannot change if the file has not been rewritten.
+**The agent called this routine; I measured it and it is not — today.** COVERAGE.json was
+**0.13h (8 min) old** when I checked, so it is being refreshed well inside the window, and this
+run's flat `cited`/`settled`/`feats` were a **real** stall, not an artifact. The finding is a
+*conditional* trap, not a live one, and it comes with a one-command test the next run should run
+before believing any coverage stall: compare COVERAGE.json's mtime age to the 30-minute window.
+**`chunks` and `entities read` do not share the hazard** — they come from `read_auto.log` and a
+readfeats glob — and both were independently corroborated by the process table and by allsweep
+reporting `NOT RUNNING read.py`, which is why this run's headline stands on its own evidence.
+
+**What was fixed (all verified at source before touching, battery green after):**
+
+- **`foreman.py`** — the honest kill horizon (above); the loose reader match (above);
+  **`triage_swallowed`'s THIRD false-success exit** — the comment above it records that neither
+  `replace_retry` return was checked and that both failures *"reported the same cheerful
+  'swallowed and archived'"*; those two were fixed and **the outer `except` was missed**, so a
+  corrupt `failures_archive.json` or any disk error still returned success while doing nothing;
+  **`FOR_OWNER.md` was the one shared write in the file skipping `silence.replace_retry`** —
+  publish.py copies it on its own 10-minute loop, so a bare truncating `open()` could be
+  published half-written; and the module docstring's **gate list was overstating what the code
+  checks** — there is no standalone parse gate, `MAX_PATCH_LINES` allows exactly 40 where the doc
+  said "fewer than", and `allsweep --quick` is checked with **no pre-patch baseline**, so it is
+  "no broken module at all", not "no *new* broken module". **The gate was left strict** —
+  loosening a safety check on model-authored writes to live source is not a change to make
+  unasked — but its refusal message no longer blames the patch for breakage that pre-dates it.
+- **`gpu_lane.py`** — `_alive()` returned **False** for an unparseable pid while its own docstring
+  three lines above says unknown answers are treated as **ALIVE, deliberately**, because guessing
+  dead lets two callers into one slot. Fixed, with the absence case (`pid` missing entirely) left
+  as False, which is a different fact. Also `_write_claim` and `_touch` now use
+  `silence.replace_retry` instead of a bare `os.replace`; `_remove_retry` in the same file cites
+  the m55 Windows rename-denied race as its own reason to exist, so the module already knew the
+  hazard and two of its three writers did not use the remedy.
+- **`feats.py`** — an expected **404 no longer lands in the same swallowed-error bucket as a
+  genuine transport failure** (the note was taken before the status code was known); the roll now
+  counts **entities that RAISED** separately from entities that were empty, where before an
+  exception incremented `n` and *nothing else*, so a systemic fault would depress the rate with
+  zero signal; and the mined quantity sentence is **stored whole** rather than cut at 220
+  characters — `magnitude.py:249` copies that field verbatim into the permanent instrument-tier
+  citation and `chain.py:217` uses it as a dedup **key**, where a shared prefix collides two
+  different sentences.
+- **`overnight.py`** — three reporting repairs, no behaviour change. `preflight()`'s handler
+  returns `(0, False)`, which takes neither of `main()`'s branches and so read exactly like
+  "checked, nothing wrong"; it now logs `preflight: DID NOT RUN` first. The keep-warm
+  `gpu_lane` import handler was **the only `except` in the file recording nothing at all**, in a
+  module whose whole point is that a swallowed failure must leave a mark — and it is sticky for
+  the process lifetime, so a failure there turns keep-warm into the competitor its docstring
+  forbids. And a crashed `coverage_snapshot()` returns a dict holding **only** an `error` key
+  that nothing read, so the cycle rendered as a clean row of zeroes in STATUS.md; it now says so.
+
+**m82 is now MEASURED instead of argued about.** `discover()`'s `aplimit=500` / `srlimit=50` had
+no continuation handling and **nothing counted how often the caps bind**, which made it impossible
+to rank against Hard Rule 0 — the rule forbids caps, but the remedy costs extra requests against
+every wiki, and that trade needs a number. MediaWiki answers it for free: a response carrying a
+top-level `continue` key means it withheld results. `_CAP_BOUND` now counts exactly that and the
+roll prints it. **The same line also surfaces `_RATE_LIMITED`, which has been incremented since
+the file was written and read by nothing** — a measurement nobody prints is not a measurement.
+The first roll to finish under this code answers m82.
+
+**Battery:** `verify_math` **575 passed, 0 FAILED** (was 559; **+16 new checks**, §20b) ·
+`allsweep` **0 subsystems bad** · `health --preflight` **1 FAIL, equal to the pre-registered
+baseline of 1** — only M1 (`feats/www_dandwiki_com`); `API paths per host family` passed again ·
+`silence.py` **34 handlers, down one** (the keep-warm handler now records) · `pyflakes` clean.
+
+**Four verdicts on previously-unverified audit claims, so nobody re-litigates them:**
+
+- **m83 — PARTIALLY CORRECT, and the consequence is refuted.** The mechanism is exactly as
+  reported (`start("pipeline")` at 579, `run()`'s `already-running` early return at 144-146, same
+  `args[0]`). But across **every one of ~25 recorded cycles** the log reads `pipeline: starting`
+  and **never** `already running` — the background instance has always exited by then, because
+  pipeline finishes in 0-41 min while read/roll take hours. **A real race with zero observed
+  hits.** Downgrade it; do not spend on it again.
+- **Claim that a failed `gpu_lane` import disables keep-warm — mechanism CONFIRMED, reachability
+  REFUTED.** `gpu_lane` is stdlib-only and sits in the same directory; there is no realistic
+  failure surface. It is a defensive path, not a live bug — which is why the fix applied was to
+  make it *record* rather than to restructure it.
+- **`preflight()` and `coverage_snapshot()` — both CONFIRMED**, both fixed above.
+- **`STATUS.md`'s `history[-12:]` and `FOREMAN.json`'s `prev[-200:]` — both answered against §2
+  R's own test.** Nothing downstream acts on either: no module parses STATUS.md (publish copies
+  it byte-for-byte, `estate.py` only hashes it), and `foreman_report()` reads **only
+  `rounds[-1]`**. **Two of §2 R's six sites are therefore diagnostic retention, not Hard Rule 0
+  breaches.** A third is already moot: **the dashboard `findings` cap of 12 no longer exists** —
+  the live file carries `# ALL open findings -- a monitoring cap ruled a truncation, 2026-08-24`
+  and no `[:12]` anywhere. **§2 R is down from six open sites to three.**
+
+**New this run, unresolved:** the foreman logged **`every managed job is running: foreman.py`** —
+reporting *itself* as down, in the very file it was writing — and **four minutes later a second
+foreman process existed** (PID 50896 alongside PID 5420). It was gone by the next check, so no
+duplicate survives, but a **false "down" reading that causes a duplicate spawn** is a mechanism
+worth naming: `running()` returns `False` whenever `_proc_lines()` comes back empty, so one failed
+probe reads as *every job is down*. The same flapping explains the page reporting `publish.py,
+read.py` down at 22:14 while publish was demonstrably alive. See BUGS m84 and NEXT_STEPS §1.
+
+**Two audits ran (foreman.py and dashboard.py, both first-ever end-to-end reads) plus one
+verification pass.** Every finding recorded above was re-checked against source by me before
+being acted on, and the checks earned it twice: a regression check I wrote failed on its first
+run because it matched **its own explanatory comment** quoting the pattern it had removed — the
+check now strips comment tails, and that failure is kept in the file as the reason why.
+
+---
+
 ## 2026-08-24 21:20 (local) — Run #18: the reader is not dying, it is being killed — and a third of the pool's refusals come from four accounts that can never answer again
 
 *Two standing instructions were wrong, and this run refuted both with measurement rather than

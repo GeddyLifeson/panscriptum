@@ -53,6 +53,36 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
 
+### Minor-but-new (run #19)
+- **[m84] A SINGLE FAILED PROCESS PROBE READS AS "EVERY MANAGED JOB IS DOWN", AND A DUPLICATE
+  CAN BE SPAWNED ON THE STRENGTH OF IT.** Observed live, run #19. `state/foreman.log` recorded
+  `OWNER  every managed job is running: foreman.py (floor all up)` -- the foreman naming
+  **itself** as down, in the file it was in the middle of writing -- and **four minutes later a
+  second foreman process existed** (PID 50896 alongside the long-running PID 5420). No duplicate
+  survived to the next check, so nothing was damaged this time.
+  **Mechanism, verified at source:** `overnight.running()` opens `out = _proc_lines()` and
+  `if not out: return False`. One failed or empty probe therefore answers "not running" for
+  **every job at once**, and both the liveness standard and the keeper act on that answer.
+  The page shows the same flapping from the other side: at 22:14 it reported `publish.py,read.py`
+  down while `publish.py` (PID 38312) was demonstrably alive.
+  **Why it is Minor and not Major:** the failure is transient and self-correcting, the keeper is
+  idempotent for STANDING jobs, and `kill_duplicate_jobs` exists precisely to reap the loser.
+  **Why it is worth recording anyway:** an empty probe result and a genuinely empty process table
+  are the same value here, which is the exact shape of M16 (`api()` returning `None` for both a
+  timeout and a real absence) and of the `preflight()` `(0, False)` fixed this run. A probe that
+  cannot distinguish "I could not look" from "I looked and saw nothing" will eventually be
+  believed. **No fix attempted** -- the repair is a return-contract change on a function the
+  supervisor, the keeper and the standards tree all call. NEXT_STEPS section 2.
+- **[m85] `kill_duplicate_jobs` KEEPS THE OLDEST INSTANCE, WHICH IS THE ONE CARRYING THE STALEST
+  CODE.** Verified at source (`foreman.py`, the `CreationDate` sort). Its reasoning is sound for
+  its own purpose -- the oldest process is the one holding the work in progress. But combined
+  with the fact that a long-lived job never re-reads its imports, the tie-break
+  **systematically preserves the stalest code in the tree and discards the freshest.** Run #19
+  hit this directly: the surviving foreman was 11 hours old and pre-dated run #15, while the
+  accidental duplicate had started two minutes after the file was edited and carried every
+  current fix. **Not a fix to make unasked** -- reversing the tie-break would kill running work
+  -- but the interaction is worth a ruling. NEXT_STEPS section 2.
+
 ### Minor-but-new (run #18)
 - **[m80] `feats.py:358-398` `resolve_title()` — the documented fix for a 17,148-entry loss has
   ZERO callers.** Verified by grep across all of `src/`: the only occurrence is its own `def`.
@@ -648,6 +678,96 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+*Run #19 (2026-08-24 ~22:36 local) resolved eleven items. Full detail in HANDOFF.md.*
+
+- **[M15's reporting half -- RESOLVED, run #19] BOTH KILLING REMEDIES UNDERSTATED THEIR OWN COST
+  IN THE ONE LOG A HUMAN READS.** This is candidate (i) of the three in NEXT_STEPS section 2 B,
+  and **only** (i); the design question (teach the remedies to check refusal, or put `read.py`
+  in STANDING) is untouched and still the owner's.
+  **What it was.** `restart_reader` and `kill_stalled_job` both ended their note with
+  `"; supervisor restarts next cycle"`. True for a STANDING job -- the keeper re-asserts it every
+  300 seconds. **False for `read.py` and `feats.py --roll`**, which hang off the supervisor's
+  hours-long main lap. Every kill of the project's bottleneck job therefore reported itself as a
+  five-minute inconvenience while costing 42-44 minutes, and once four hours.
+  **Root cause.** One clause written for the common case and never revisited for the two jobs it
+  was false about -- the same shape as every other comment-versus-code major here, except that
+  the reader of the false statement was a human rather than a caller.
+  **The fix.** A new `foreman._restart_horizon(frag)` **derives** the answer from
+  `overnight.STANDING` instead of asserting one, keyed on the `lognames.OWNER` fragment the
+  killer already matches processes with -- so it cannot drift from the roster it describes, which
+  is the failure mode `overnight.py`'s own STANDING comment records (three partial copies of that
+  roster once made a nine-job tree report as four). Pinned by `verify_math` section 20b,
+  including a check that the bare false clause has not returned.
+- **[RESOLVED, run #19] `restart_reader` COULD HAVE SIGTERMED A PROCESS THAT WAS NOT THE READER.**
+  It tested `"read.py" in line` and `"--run" in line` as two **independent** substrings, so any
+  command line containing both -- a shell running a grep that mentions them, a future
+  `build_read.py --run-tests` -- was a valid kill target. `kill_stalled_job`'s docstring twenty
+  lines below documents having fixed this exact loose-match class for its own matching and names
+  the remedy. **That site had simply been left behind.** It now matches the single contiguous
+  fragment `lognames.OWNER[READ]` (`"read.py --run"`). This is run #18's "kill by PID, not by
+  pattern" lesson found inside the code that does the killing.
+- **[RESOLVED, run #19] `triage_swallowed` HAD A THIRD FALSE-SUCCESS EXIT AND ONLY TWO WERE
+  FIXED.** The comment above it already records that neither `replace_retry` return value was
+  checked and that both failures *"reported the same cheerful 'swallowed and archived'"*. Those
+  two were given honest returns; **the outer `except Exception` was missed**, so a corrupt
+  `failures_archive.json` (JSONDecodeError on the read at the top) or any disk error still fell
+  through to the success line while the ledger sat untouched. It now returns `False` and names
+  the exception.
+- **[RESOLVED, run #19] `FOR_OWNER.md` WAS THE ONE SHARED WRITE IN `foreman.py` NOT GOING THROUGH
+  `silence.replace_retry`.** Every other write in the file uses tmp + atomic rename, citing m18.
+  This one used a bare truncating `open()`, and it is **not** private to the foreman:
+  `publish.py` copies it into the export tree on its own 10-minute loop, so a mid-write read
+  could be published as a half file.
+- **[RESOLVED, run #19] `foreman.py`'s DOCSTRING OVERSTATED THREE OF ITS SIX PATCH GATES.**
+  Verified individually against source: there is **no standalone parse gate** (an unparseable
+  patch is caught only by the later import check, after being written and reverted, and the
+  refusal message blames a regex literal instead); `MAX_PATCH_LINES` is tested as `> MAX`, so
+  exactly 40 is **allowed** where the doc said "fewer than"; and `allsweep --quick` is run **with
+  no pre-patch baseline**, making the real test "no broken module at all", not "no *new* broken
+  module" -- so one unrelated broken module silently refuses **every** patch from then on,
+  blaming each one. **The gate was deliberately left strict** (loosening a safety check on
+  model-authored writes to live source is not a change to make unasked); the docstring and the
+  refusal message now say what the code actually does.
+- **[RESOLVED, run #19] `gpu_lane._alive` CONTRADICTED ITS OWN DOCUMENTED POLICY.** The docstring
+  states that unknown answers are treated as **ALIVE, deliberately**, because guessing dead lets
+  two callers into one slot; an unparseable `pid` returned **False**. It now returns True, with
+  the genuinely-absent case (`not pid`) left as False, because "no holder recorded" is a
+  different fact from "a corrupt record". Only reachable via external corruption, but it is a
+  direct comment-versus-code mismatch of the class behind this project's last four majors.
+- **[RESOLVED, run #19] `gpu_lane._write_claim` AND `_touch` USED A BARE `os.replace`.**
+  `_remove_retry`, in the same file, cites the Windows rename-denied race (m55) as its own reason
+  to exist -- so the module already knew the hazard and two of its three writers did not use the
+  remedy. `_write_claim` is the sharper of the two: a **new** foreground claim's first write has
+  no beat margin to absorb a miss, and a dropped first write means the claim never appears and
+  every background call proceeds straight through the yield the module exists to enforce.
+- **[RESOLVED, run #19] `feats.py` FILED EXPECTED 404s IN THE SAME LEDGER BUCKET AS TRANSPORT
+  FAILURES.** `silence.note()` was called **before** `e.code` was examined, so a wiki correctly
+  answering "no such page" -- which the branch two lines below calls *"a real miss"* -- was
+  counted alongside genuine 500s and timeouts, making that site's swallowed-error count
+  unreadable. The 404 arm returns exactly what it returned before; only the counter changed.
+- **[RESOLVED, run #19] `feats.roll()` COUNTED AN ENTITY THAT RAISED AS NOTHING AT ALL.**
+  `done["n"]` incremented and every other counter was skipped -- not even `empty` -- so a
+  systemic fault (a bug in `evidence_for`, a host refusing everything) would depress the roll's
+  rate with **zero** visible signal and read as "these entities simply had nothing". `errored` is
+  now a distinct counter and is printed in the summary. "Nothing found" and "we never got to
+  look" are different facts.
+- **[RESOLVED, run #19] `feats.mine()` TRUNCATED THE STORED CITATION AT 220 CHARACTERS.** The
+  field is not a display string: `magnitude.py:249` copies it verbatim into the permanent
+  instrument-tier citation, and `chain.py:217` uses it as a provenance **dedup key**, where a
+  shared 220-character prefix collides two different sentences into one. `s` is already bounded
+  by the file's own `20 < len(s) < 400` gate, so storing it whole costs at most 400 characters;
+  `_show` already truncates separately for display, which is where truncation belongs.
+- **[RESOLVED, run #19] THREE `overnight.py` FAILURES THAT LOOKED LIKE CLEAN RESULTS.**
+  (i) `preflight()`'s handler returns `(0, False)`, which takes neither of `main()`'s branches --
+  a health check that crashed, timed out after its 30 minutes, or could not launch read exactly
+  like "checked, nothing wrong"; it now logs `preflight: DID NOT RUN` with the exception first.
+  (ii) The keep-warm `gpu_lane` import handler was **the only `except` in the file that recorded
+  nothing at all**, and its failure is **sticky for the process lifetime**, so it would silently
+  turn keep-warm into the competitor its own docstring forbids. (iii) A crashed
+  `coverage_snapshot()` returns a dict holding **only** an `error` key that nothing ever read, so
+  `write_status()`'s numeric defaults rendered the cycle as a clean row of zeroes in STATUS.md.
+  All three now say what happened. **No behaviour changed in any of the three.**
 
 *Run #12 (2026-08-24 ~15:10 local) moved three items out of Open. Full detail in HANDOFF.md.*
 
