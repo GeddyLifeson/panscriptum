@@ -1360,6 +1360,110 @@ def drill_inspector():
         "the ceiling is a ratchet: lower it when you clean up, never raise it to go green")
 
 
+def drill_mutation():
+    """The mutation lock — because breaking code on purpose is only safe if everyone knows.
+
+    THE INCIDENT, 2026-08-25, an hour after `mutate.py` was written. A mutation run had
+    `prose_gate.py` deliberately corrupted on disk. Two other things read it in that window: a
+    concurrent `drill.py` saw two nets fail and **halted the entire library**, and
+    `publish.py --push` **shipped the corrupted gate to GitHub**, where `cited_fraction()`
+    matched every source except the one it was asked about.
+
+    Nothing was positioned to catch it. The secret scanner does not read logic, `ledger_guard`
+    watches the ledgers, and the drill was confused by the same corruption it should have
+    reported. The only process that can know the tree is deliberately broken is the one breaking
+    it, so it now says so, and these nets attack every way that announcement could fail.
+    """
+    a = "MUTATION — deliberate corruption must be distinguishable from a real fault"
+
+    def lock_is_exclusive():
+        """Two mutation runs at once means two mutants on disk and no way to attribute either."""
+        import mutate as M
+        saved = M.LOCK
+        M.LOCK = os.path.join(tempfile.gettempdir(), "drill_mut_excl.json")
+        try:
+            if os.path.exists(M.LOCK):
+                os.remove(M.LOCK)
+            M._lock_acquire(["a.py"], "t1")
+            try:
+                M._lock_acquire(["b.py"], "t2")
+                return False                      # a second holder was allowed. Breach.
+            except RuntimeError:
+                return True
+            finally:
+                M._lock_release()
+        finally:
+            M.LOCK = saved
+    net(a, "a second mutation run cannot start while one is active", lock_is_exclusive,
+        "two mutants on disk at once is a corruption nobody can attribute")
+
+    def unreadable_lock_counts_as_HELD():
+        """FAIL CLOSED. If the file exists, something claimed the right to corrupt the tree;
+        'I could not read the claim' is not permission to publish over it."""
+        import mutate as M
+        saved = M.LOCK
+        M.LOCK = os.path.join(tempfile.gettempdir(), "drill_mut_bad.json")
+        try:
+            with open(M.LOCK, "w", encoding="utf-8") as fh:
+                fh.write("{ this is not json")
+            return M.active()[0] is True
+        finally:
+            try:
+                os.remove(M.LOCK)
+            except OSError:
+                pass
+            M.LOCK = saved
+    net(a, "an unreadable lock is treated as HELD, not as absent", unreadable_lock_counts_as_HELD,
+        "an unparseable claim is still a claim")
+
+    def dead_holder_does_not_block_forever():
+        """The other half. A lock outliving its process would block every future push, which is
+        an outage wearing a safety's clothes."""
+        import mutate as M
+        saved = M.LOCK
+        M.LOCK = os.path.join(tempfile.gettempdir(), "drill_mut_stale.json")
+        try:
+            with open(M.LOCK, "w", encoding="utf-8") as fh:
+                json.dump({"pid": 999999999, "started": 0, "targets": ["x.py"]}, fh)
+            held, rec = M.active()
+            return held is False and bool(rec and rec.get("stale"))
+        finally:
+            try:
+                os.remove(M.LOCK)
+            except OSError:
+                pass
+            M.LOCK = saved
+    net(a, "a lock whose process died is reported stale, not held forever",
+        dead_holder_does_not_block_forever,
+        "a safety that cannot be released is an outage, and it reports as protection")
+
+    def publish_asks_before_pushing():
+        """The step whose failure is IRREVERSIBLE and OUTWARD-FACING. Verified by reading the
+        push path, the same way `guards_are_wired_where_claimed` checks the other interlocks --
+        a net that actually pushed to prove a refusal would be worse than the bug."""
+        src = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(src, "publish.py"), encoding="utf-8") as fh:
+            text = fh.read()
+        head = text[:text.index("def push(")] if "def push(" in text else ""
+        body = text[len(head):]
+        return "import mutate" in body and "REFUSING TO PUSH" in body
+    net(a, "publish refuses to push while a mutation run is active", publish_asks_before_pushing,
+        "a mutated file pushed to a public repo is public even after the next commit")
+
+    def drill_does_not_halt_during_a_mutation_run():
+        """This file must PRINT a breach during a mutation run and must not HALT over it --
+        mutate reads the breach from stdout, which is how a mutant gets killed."""
+        src = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(src, "drill.py"), encoding="utf-8") as fh:
+            text = fh.read()
+        i = text.find("if breached:")
+        j = text.find("DRILL_BREACH")
+        return -1 < i < j and "MUTATION RUN IS ACTIVE" in text[i:j]
+    net(a, "a breach during a mutation run is reported but does not halt the library",
+        drill_does_not_halt_during_a_mutation_run,
+        "a safety that stops work must be distinguishable from a fault that stops work")
+
+
 def drill_scope():
     """An owner exclusion must actually exclude — the status that did nothing for five days.
 
@@ -1672,7 +1776,7 @@ def main():
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
-               drill_workorders, drill_inspector, drill_scope, drill_correlation,
+               drill_workorders, drill_inspector, drill_mutation, drill_scope, drill_correlation,
                drill_outside):
         fn()
 
