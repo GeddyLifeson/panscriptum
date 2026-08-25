@@ -40,6 +40,23 @@ import time
 import silence
 import lognames as LN
 
+
+def _prose_enabled():
+    """Is the owner's prose gate open? (M25 / owner ruling 2026-08-25.)
+
+    Read fresh from config.yaml on every cycle, deliberately: the owner turning prose on should
+    not require restarting the supervisor. FAILS CLOSED -- an unreadable or absent config keeps
+    prose off, because the failure this guards is "books written that nobody asked for", and a
+    missing flag must not be the thing that authorises them.
+    """
+    try:
+        import yaml
+        with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
+            return bool((yaml.safe_load(f) or {}).get("prose_enabled", False))
+    except Exception:
+        silence.note("overnight.py:prose-gate")
+        return False
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(HERE, "src")
 STATE = os.path.join(HERE, "state")
@@ -686,8 +703,15 @@ def main():
         # automation (found by the 2026-08-23 sweep). generate is resumable and exits in
         # seconds when nothing is pending, so starting it every cycle is idle-cheap; when
         # phase 8 has produced work, this is what writes the books.
+        # THE GATE IS BACK, AND IT IS THE OWNER'S (ruling 2026-08-25). The comment above is the
+        # reasoning that removed it: a log line telling a PERSON to run generate.py did read as
+        # an instruction to a human inside an automation. But the remedy deleted the decision
+        # rather than relocating it, and the decision was load-bearing -- prose was on hold until
+        # the Step 4 entanglement pass, and this wrote 145 chapters straight through that hold.
+        # `prose_enabled` in config.yaml is where the decision lives now: still out of the log,
+        # still not an instruction to a human, but no longer taken by the automation either.
         manifest = os.path.join(HERE, "output", "index", "manifest.json")
-        if os.path.exists(manifest):
+        if os.path.exists(manifest) and _prose_enabled():
             start("prose", [os.path.join(SRC, "generate.py"), "--manifest", manifest],
                   "prose_auto.log")
         roll = start("roll", [os.path.join(SRC, "feats.py"), "--roll", "--workers", "12"],

@@ -94,6 +94,28 @@ num_ctx: 12288
 # invalidates anything generated under the old prompt.
 prompt_version: "v5"   # v5 2026-08-23: scale-ladder altitude + full-length chunked volumes
 
+# ---------------------------------------------------------------- THE PROSE GATE (owner-held)
+# OWNER RULING 2026-08-25: prose generation is OFF until the owner turns it on.
+#
+# It had been running itself. `overnight.py` starts `generate.py` every supervisor cycle, wired
+# that way by the 2026-08-23 sweep, which found `phase_write` ending in a log line telling a
+# PERSON to run it and called that "an instruction to a human inside an automation". The reading
+# was fair; the remedy removed the gate where the owner decides when the books get written, and
+# it silently overrode a standing hold that prose waits on the Step 4 entanglement pass. No
+# ruling was ever taken. 145 chapters were written under that inversion and have been withdrawn.
+#
+# Set to true ONLY on an explicit owner decision. Nothing in the automation may flip it.
+prose_enabled: false
+
+# A source must have at least this fraction of its entries CITED before its chapters may be
+# written. Prose is dressing on the records (Hard Rule 1), so a source with no citations yields
+# entries the model must pad from a bare name and category -- which is how the withdrawn batch
+# came to carry invented Instrument scores. Measured at withdrawal time, the seven sources that
+# had been written ran 0.0%-9.0% cited; three were at exactly zero.
+# 0.35 is a starting floor, not a measured optimum: it is well above what produced bad prose and
+# well below the corpus's best sources. Re-tune once a source generated above it has been read.
+prose_min_cited_fraction: 0.35
+
 # how many source entries to fold into a single chapter-generation call. Big chapters (e.g.
 # Marvel Persons at 275 entries) get split into multiple calls of this size so they fit
 # num_ctx comfortably alongside the prompt scaffolding and don't get truncated.
