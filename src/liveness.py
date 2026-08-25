@@ -1,0 +1,188 @@
+"""LIVENESS — find the checks that cannot fail and the code that never runs.
+
+THE STANDING LESSON THIS AUTOMATES. "A check that cannot fail looks exactly like a check that
+passed" is the most-repeated finding in this project's ledger, and every instance has been found
+by a person reading the file. Instances already caught by hand:
+
+  * `profile.py:182-187` -- a round-trip self-test comparing a decoded field against the input it
+    was handed, so `d["profile"] != r["profile"]` is tautologically False. Green for ever.
+  * `cleanup.py:77-80` -- a guard whose condition names a regex that is never defined.
+  * `coverage._p()` -- a fully documented cache-path helper with no callers, free to drift out of
+    step with the real formula it duplicates.
+  * `overnight._prose_enabled` -- for one commit, a docstring-only "FAILS CLOSED" claim tested by
+    `"FAILS CLOSED" in __doc__`, which passes no matter what the function does.
+  * `standards.py`'s vanished HIGH guard -- a check that read a job-dict key nothing sets, so it
+    was never appended to the page at all. Not red, not green: ABSENT, for its whole life.
+
+Reading for these is not a strategy that scales to 95 modules and 40,000 lines. This finds the
+three mechanical shapes:
+
+  DEAD        a module-level function nobody calls, from anywhere in src/. It cannot fail because
+              it never runs, and it silently drifts from whatever it duplicates.
+  TAUTOLOGY   a comparison whose two sides are the same expression. Always True or always False,
+              regardless of the data it claims to be checking.
+  PHANTOM     a name used in a condition that is never defined, imported or assigned in its
+              module -- the `cleanup.py` shape, which raises only on the branch nobody takes.
+
+WHAT IT DELIBERATELY DOES NOT DO. It does not judge whether a live check is a GOOD check; that is
+what the drill and the adversarial audits are for. It answers the narrower, mechanical question
+this project keeps losing money on: is this code capable of running, and is this comparison
+capable of being false?
+
+AND ITS HONEST LIMIT, STATED BECAUSE THE ALTERNATIVE IS FALSE ASSURANCE. The TAUTOLOGY pass is
+SYNTACTIC: it finds comparisons whose two sides are the same expression. It does NOT find the
+`profile.py:182-187` instance that motivated it, because that one is SEMANTIC --
+`d = decode(r["profile"])` and then `d["profile"] != r["profile"]`, which is always False only
+if you know what `decode` returns. Two different expressions, one guaranteed answer. Catching
+that class needs dataflow this module does not do, so `profile.py` stays on the human list.
+Reporting zero tautologies must not be read as "there are none".
+
+FALSE POSITIVES ARE EXPECTED AND ARE NOT SUPPRESSED SILENTLY. Entry points, CLI handlers, tool
+callbacks and test scaffolding are legitimately "uncalled" within src/. They are listed in
+`EXEMPT` with a reason each, because an exemption with no reason attached is how a real finding
+gets waved through next time.
+"""
+import argparse
+import ast
+import os
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.dirname(os.path.abspath(__file__))
+
+# Names that are legitimately never called from inside src/, with the reason. A bare skip-list
+# rots into a place to hide findings; a reason makes each entry answerable.
+EXEMPT = {
+    "main": "CLI entry point, called by __main__",
+    "__init__": "constructor",
+    "__repr__": "protocol",
+    "__str__": "protocol",
+    "__enter__": "protocol",
+    "__exit__": "protocol",
+}
+# Prefixes for tool callbacks dispatched by name through a table rather than called directly.
+EXEMPT_PREFIXES = ("t_", "test_", "cmd_", "phase_", "check_", "drill_")
+
+
+def _modules():
+    for f in sorted(os.listdir(SRC)):
+        if f.endswith(".py") and not f.startswith("_"):
+            yield f, os.path.join(SRC, f)
+
+
+def _parse(path):
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return ast.parse(fh.read(), filename=path)
+    except Exception:
+        return None
+
+
+def scan():
+    """-> {'dead': [...], 'tautology': [...], 'phantom': [...]} over every module in src/."""
+    trees, used = {}, set()
+    for name, path in _modules():
+        t = _parse(path)
+        if t is None:
+            continue
+        trees[name] = t
+
+    # Every NAME referenced anywhere in the tree, in any module. A function called through
+    # getattr or a dispatch table still shows up as a string constant, so those count too --
+    # erring toward "it is used" keeps this list short enough to actually read.
+    for name, t in trees.items():
+        for node in ast.walk(t):
+            if isinstance(node, ast.Name):
+                used.add(node.id)
+            elif isinstance(node, ast.Attribute):
+                used.add(node.attr)
+            elif isinstance(node, ast.Constant) and isinstance(node.value, str):
+                used.add(node.value.strip())
+
+    dead, taut, phantom = [], [], []
+    for name, t in trees.items():
+        # --- DEAD: module-level defs nobody references
+        for node in t.body:
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            fn = node.name
+            if fn in EXEMPT or fn.startswith(EXEMPT_PREFIXES) or fn.startswith("__"):
+                continue
+            # Membership in the single pre-built `used` set. The first version re-walked every
+            # tree for every function -- 95 modules x ~40,000 lines, per def -- and did not
+            # finish inside two minutes. A check nobody can afford to run is a check that does
+            # not run, which is the very thing this module exists to find.
+            if fn not in used:
+                dead.append("%s:%d %s()" % (name, node.lineno, fn))
+
+        # --- TAUTOLOGY: a comparison whose sides are the same expression
+        for node in ast.walk(t):
+            if not isinstance(node, ast.Compare) or len(node.comparators) != 1:
+                continue
+            try:
+                left = ast.dump(node.left)
+                right = ast.dump(node.comparators[0])
+            except Exception:
+                continue
+            if left == right and not isinstance(node.left, ast.Constant):
+                op = type(node.ops[0]).__name__
+                taut.append("%s:%d both sides identical (%s)" % (name, node.lineno, op))
+
+        # --- PHANTOM: a name used in an `if` test that the module never defines
+        defined = set(dir(__builtins__)) | set(EXEMPT)
+        for n2 in ast.walk(t):
+            if isinstance(n2, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                defined.add(n2.name)
+            elif isinstance(n2, ast.Name) and isinstance(n2.ctx, ast.Store):
+                defined.add(n2.id)
+            elif isinstance(n2, ast.arg):
+                defined.add(n2.arg)
+            elif isinstance(n2, (ast.Import, ast.ImportFrom)):
+                for al in n2.names:
+                    defined.add((al.asname or al.name).split(".")[0])
+            elif isinstance(n2, ast.ExceptHandler) and n2.name:
+                defined.add(n2.name)
+            elif isinstance(n2, (ast.Global, ast.Nonlocal)):
+                defined.update(n2.names)
+        import builtins
+        defined |= set(dir(builtins))
+        # Module globals the interpreter supplies. Omitting these made every `_BAD_CHARS` source
+        # self-check in the kit -- 43 of them, one per module -- report as a guard on an
+        # undefined name. A detector whose output is 100% false positives gets ignored within a
+        # day, and an ignored detector is indistinguishable from an absent one.
+        defined |= {"__file__", "__name__", "__doc__", "__package__", "__spec__",
+                    "__loader__", "__builtins__", "__debug__"}
+        for n2 in ast.walk(t):
+            if not isinstance(n2, ast.If):
+                continue
+            for sub in ast.walk(n2.test):
+                if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Load) \
+                        and sub.id not in defined:
+                    phantom.append("%s:%d guard names '%s', never defined in this module"
+                                   % (name, n2.lineno, sub.id))
+    return {"dead": sorted(set(dead)), "tautology": sorted(set(taut)),
+            "phantom": sorted(set(phantom))}
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--quiet", action="store_true", help="counts only")
+    a = ap.parse_args()
+    r = scan()
+    total = sum(len(v) for v in r.values())
+    if not a.quiet:
+        for kind, label in (("tautology", "CANNOT FAIL — both sides of the comparison are equal"),
+                            ("phantom", "GUARDS AN UNDEFINED NAME — raises only on the branch "
+                                        "nobody takes"),
+                            ("dead", "NEVER RUNS — no caller anywhere in src/")):
+            rows = r[kind]
+            print("\n%s  (%d)" % (label, len(rows)))
+            print("-" * 78)
+            for x in rows:
+                print("   " + x)
+    print("\nliveness: %d finding(s) — %d tautology, %d phantom, %d dead"
+          % (total, len(r["tautology"]), len(r["phantom"]), len(r["dead"])))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -35,6 +35,12 @@ import prose_gate as PG        # noqa: E402
 
 RESULTS = []
 
+# The ratchet for `liveness.py`. Measured 2026-08-25: 38 dead module-level functions, 0
+# syntactic tautologies, 0 phantom guards. LOWER this when code is cleaned up. Raising it to
+# make the drill go green is the move this whole layer exists to prevent -- if a new finding
+# appears, the finding is the problem, not the number.
+LIVENESS_CEILING = 38
+
 
 def net(area, name, attack, expectation):
     """Record one attack. `attack` returns True if the net HELD (i.e. it refused the attack)."""
@@ -111,7 +117,12 @@ def drill_dispatch():
 
 def drill_train():
     a = "THE TRAIN — can a half-written chapter be filed as complete?"
+    # A REAL entry: the four fields AND a body. The first version of this fixture was four
+    # labels and nothing else, which is exactly the stub an audit used to defeat the validator --
+    # so the fixture that proved the guard worked was itself the thing the guard should refuse.
     good = ("◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
+            "The custodian records that the specimen was catalogued in the usual manner, its "
+            "provenance attested by two hands and its measure left open pending the assay.\n"
             "**Threads: pending the entanglement pass**\n")
     net(a, "a complete entry passes", lambda: PG.section_shortfall(good, 1)[2] == [],
         "the net must let a good block through")
@@ -133,6 +144,23 @@ def drill_train():
         lambda: _refuses(lambda: PG.assert_block_complete(
             "◈ **A**\nShelfmark: 1\n", 1, "drill"), PG.ProseRefused),
         "")
+    # --- the five defeats an adversarial audit actually achieved, 2026-08-25. Each of these
+    # PASSED the first version of the guard. They are kept as nets so they cannot come back.
+    stub = ("◈ Athuri\nShelfmark: UNCHARTED\nClass: Person\nMagnitude: unassayed\n"
+            "Threads: pending the entanglement pass\n")
+    net(a, "a four-label stub with no prose is refused",
+        lambda: PG.section_shortfall(stub, 1)[2] != [],
+        "AUDIT DEFEAT 1: this scored 4/4 at 100% -- 'padded from a bare name and category'")
+    net(a, "a run-on sentence merely naming the fields is refused",
+        lambda: PG.section_shortfall(
+            "◈ A\nHe had a Shelfmark: and a Class: and a Magnitude: and Threads: too, "
+            "all in one breath, which is not a template at all but a sentence about one.\n",
+            1)[2] != [],
+        "AUDIT DEFEAT 2: a substring search is not a structure check")
+    net(a, "entries the manifest never asked for are refused",
+        lambda: any("never asked for" in m
+                    for m in PG.section_shortfall(good + good + good, 2)[2]),
+        "AUDIT DEFEAT 3: max(0, ...) floored the ghost term, so padding was free")
     net(a, "prose that merely MENTIONS Threads does not count as the section",
         lambda: any("Threads" in m for m in PG.section_shortfall(
             "◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
@@ -155,6 +183,46 @@ def drill_assay():
         lambda: PG.unearned_instrument(
             "◈ **Wally West (New Earth)**\nStrength: 20\n", {"Wally West"}) == [],
         "the base name is accepted so a parenthetical does not read as fabrication")
+    net(a, "BOLD markdown does not hide an axis score",
+        lambda: PG.unearned_instrument(
+            "◈ Athuri\nMagnitude: unassayed\n**Wisdom:** 28 (Transcendent, Grade III)\n",
+            set()) != [],
+        "AUDIT DEFEAT 4: the model emits bold constantly; this slipped through silently")
+    net(a, "bold-outside-colon does not hide one either",
+        lambda: PG.unearned_instrument("◈ A\n**Strength**: 30\n", set()) != [], "")
+    net(a, "the cited set is looked up, not read off a key that does not exist",
+        lambda: PG.cited_names_for("Marvel", ["Bruce Banner (Earth-616)"]) is not None
+        and isinstance(PG.cited_names_for("Marvel", ["Bruce Banner (Earth-616)"]), set),
+        "AUDIT DEFEAT 5: no entry in any of the 216 record files carries a feats/cited key, so "
+        "the old set was ALWAYS empty and this guard could not tell earned from invented")
+    net(a, "a floor of zero is treated as misconfigured, not as permission",
+        lambda: not PG.evidence_ok("S", 0.0, [{"source": "S", "entries": 5000, "cited": 0}])[0],
+        "AUDIT DEFEAT 6: frac < 0 is never true, so floor=0 deleted this layer silently")
+    net(a, "a floor above 1 is refused too",
+        lambda: not PG.evidence_ok("S", 2.0, [{"source": "S", "entries": 10, "cited": 10}])[0],
+        "")
+    net(a, "the supervisor gate agrees with the real gate on a stringy 'false'", _gates_agree,
+        "AUDIT DEFEAT 7: overnight used bool(), so prose_enabled: \"false\" read as TRUE")
+
+
+def _gates_agree():
+    """Both gate implementations must answer identically for the values that defeated one."""
+    import overnight as ON
+    import yaml
+    real = os.path.join(HERE, "config.yaml")
+    saved = open(real, encoding="utf-8").read()
+    try:
+        for val in ('"false"', '"true"', '1', '"no"', 'yes'):
+            cfg = yaml.safe_load(saved) or {}
+            cfg["prose_enabled"] = yaml.safe_load(val)
+            with open(real, "w", encoding="utf-8") as f:
+                yaml.safe_dump(cfg, f)
+            if ON._prose_enabled() != PG.gate_open()[0]:
+                return False
+        return True
+    finally:
+        with open(real, "w", encoding="utf-8") as f:
+            f.write(saved)
 
 
 # ============================================================== THE RIDE RECORD (M23)
@@ -193,10 +261,20 @@ def drill_cache():
 
 def drill_park():
     a = "THE PARK — does a fault close one area, and can the whole park stop?"
-    net(a, "a SOURCE-level fault does NOT halt the park",
-        lambda: (ESC.escalate(ESC.SUPERVISOR, "DRILL_AREA",
-                              "drill: one area closing", source="__drill__")
-                 is not None) and not ESC.status()[0],
+    def area_fault_does_not_close_the_park():
+        """A source-level fault must not CHANGE the halt state, whatever it already is.
+
+        The first version asserted `not status()[0]` outright, which quietly assumed the park
+        was running -- so the moment a real halt stood (which is exactly when a drill matters
+        most) this net reported itself breached and the drill blamed the wrong thing. A net
+        whose result depends on unrelated state is not measuring what it claims to.
+        """
+        before = ESC.status()[0]
+        ESC.escalate(ESC.SUPERVISOR, "DRILL_AREA", "drill: one area closing",
+                     source="__drill__")
+        return ESC.status()[0] == before
+    net(a, "a SOURCE-level fault does NOT change the park's halt state",
+        area_fault_does_not_close_the_park,
         "escalating everything is the same failure as escalating nothing")
     net(a, "the halt file FAILS CLOSED when unreadable", _halt_fails_closed,
         "a halt a corrupted file can lift is not a halt")
@@ -361,6 +439,19 @@ def drill_inspector():
         return True
     net(a, "every guard is present in the file that claims it", guards_are_wired_where_claimed,
         "the last incident was a guard DELETED, not a guard that failed")
+
+    def liveness_does_not_worsen():
+        """A RATCHET, not a floor. The 38 dead functions here predate this work and deleting
+        them is a separate, reviewable act. What must not happen is the number GROWING -- a new
+        check that never runs is exactly how "a check that cannot fail" gets into the tree, and
+        it is invisible to every other instrument because nothing red ever appears.
+        """
+        import liveness
+        r = liveness.scan()
+        n = sum(len(v) for v in r.values())
+        return n <= LIVENESS_CEILING
+    net(a, "no NEW dead code or unfailable check has appeared", liveness_does_not_worsen,
+        "the ceiling is a ratchet: lower it when you clean up, never raise it to go green")
 
 
 # ============================================================== report

@@ -307,7 +307,11 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         # decimals require a real worksheet against cited feats. An entity with no cited feat
         # that comes back carrying numeric axis scores has been given a number with nothing
         # under it, printed in the same shape as one that was earned.
-        _cited = {e.get("name") for e in g if (e.get("feats") or e.get("cited"))}
+        # The cited set is LOOKED UP, not read off the entry dict. It used to be
+        # `{e["name"] for e in g if e.get("feats") or e.get("cited")}`, and an audit measured
+        # that no entry in any of the 216 record files carries either key -- so the set was
+        # always empty and this guard could not tell an earned number from an invented one.
+        _cited = _PG.cited_names_for(job.get("source_name"), [e.get("name") for e in g])
         _unearned = _PG.unearned_instrument(text, _cited)
         if _unearned:
             raise RuntimeError(

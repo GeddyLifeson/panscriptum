@@ -48,14 +48,25 @@ def _prose_enabled():
     not require restarting the supervisor. FAILS CLOSED -- an unreadable or absent config keeps
     prose off, because the failure this guards is "books written that nobody asked for", and a
     missing flag must not be the thing that authorises them.
+
+    ADVERSARIAL AUDIT, 2026-08-25: this used to reimplement the check as
+    `bool(cfg.get("prose_enabled", False))`, which is LOOSER than the real gate. Measured, every
+    one of these opened this gate while `prose_gate.gate_open()` correctly refused them:
+    `1`, `"1"`, `"true"`, `"no"`, and -- the dangerous one -- **`"false"`**, a completely
+    plausible thing to type when DISABLING the flag. A quoted "false" is a truthy string.
+
+    It was backstopped (generate.py re-checks strictly, so no prose was ever written), but two
+    layers enforcing DIFFERENT invariants is not defence in depth, it is one layer and a decoy.
+    Now delegates. The layers stay independent where independence matters -- a separate process,
+    a separate decision point, a separate failure mode -- while agreeing on what "open" means.
     """
     try:
-        import yaml
-        with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
-            return bool((yaml.safe_load(f) or {}).get("prose_enabled", False))
+        import prose_gate
+        return prose_gate.gate_open()[0]
     except Exception:
         silence.note("overnight.py:prose-gate")
         return False
+
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(HERE, "src")

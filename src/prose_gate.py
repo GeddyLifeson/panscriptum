@@ -53,6 +53,11 @@ REQUIRED_PER_ENTRY = ("Shelfmark:", "Class:", "Magnitude:", "Threads:")
 # complete, so there is no evidence that ANY loss is benign. Raise it only with a measurement.
 SECTION_LOSS_FLOOR = 0.0
 
+# The least prose an entry can carry and still be an entry rather than a filled-in form. Set from
+# the withdrawn batch: its genuine entries ran hundreds of characters of Record and marginalia,
+# while the stub an audit used to defeat the first version of this check carried zero.
+MIN_ENTRY_BODY_CHARS = 120
+
 
 class ProseRefused(RuntimeError):
     """A gate said no. Carries the reason a person needs, never a bare False."""
@@ -125,6 +130,22 @@ def evidence_ok(source, floor, rows=None):
     to have evidence, and 'not measured' is exactly how the withdrawn batch's zero-cited sources
     would present.
     """
+    # THE FLOOR HAS A FLOOR. `evidence_ok(..., floor=0)` admitted a source with literally zero
+    # cited entries -- the exact incident scenario -- because `frac < 0` is never true. Nothing
+    # in code prevented a future `prose_min_cited_fraction: 0` in config.yaml from silently
+    # deleting this entire layer, and a disabled interlock that still appears in the stack is
+    # worse than an absent one. A floor at or below zero is treated as MISCONFIGURED, and a
+    # misconfigured safety refuses rather than waves through.
+    try:
+        floor = float(floor)
+    except (TypeError, ValueError):
+        return False, ("the evidence floor is not a number (%r) — refusing everything until it "
+                       "is fixed, because a floor nobody can evaluate is not a floor" % (floor,))
+    if not (0.0 < floor <= 1.0):
+        return False, ("the evidence floor is %r, outside (0, 1] — refusing. A floor of 0 admits "
+                       "a source with no citations at all, which is the failure this layer "
+                       "exists for; a floor above 1 admits nothing and is equally broken."
+                       % (floor,))
     frac = cited_fraction(source, rows)
     if frac is None:
         return False, ("%s is not measured in COVERAGE.json — refusing, because an unmeasured "
@@ -158,16 +179,41 @@ def section_shortfall(text, expected_entries):
     for i, b in enumerate(blocks):
         for sec in REQUIRED_PER_ENTRY:
             required += 1
-            if sec in b:
+            # THE LABEL MUST BE A FIELD, NOT A WORD IN A SENTENCE. An audit passed a single
+            # run-on sentence that merely MENTIONED "Shelfmark:", "Class:", "Magnitude:" and
+            # "Threads:" and scored 4/4 at 100%. A substring search is not a structure check.
+            if re.search(r"(?im)^[\s*_#>-]*" + re.escape(sec), b):
                 present += 1
             else:
                 missing.append("entry %d: %s" % (i + 1, sec.rstrip(":")))
+        # AND THE ENTRY MUST HAVE A BODY. The same audit passed a four-line stub -- four labels,
+        # no Record, no prose, nothing -- at 100%. That is precisely "the model padded from a
+        # bare name and category", the original incident's own description, arriving through a
+        # gate built to stop it. Prose is what a chapter IS.
+        required += 1
+        body = re.sub(r"(?im)^[\s*_#>-]*(%s).*$" % "|".join(
+            re.escape(s.rstrip(":")) for s in REQUIRED_PER_ENTRY), "", b)
+        body = re.sub(r"[\s*_#>-]+", " ", body).strip()
+        if len(body) >= MIN_ENTRY_BODY_CHARS:
+            present += 1
+        else:
+            missing.append("entry %d: only %d characters of prose (needs %d)"
+                           % (i + 1, len(body), MIN_ENTRY_BODY_CHARS))
+
     # An entry that never produced a block at all is the worst case and must not read as 100%.
     ghosts = max(0, expected_entries - len(blocks))
-    required += ghosts * len(REQUIRED_PER_ENTRY)
+    required += ghosts * (len(REQUIRED_PER_ENTRY) + 1)
     if ghosts:
         missing.append("%d entr%s produced no ◈ block at all"
                        % (ghosts, "y" if ghosts == 1 else "ies"))
+    # AND SO MUST AN ENTRY NOBODY ASKED FOR. `max(0, ...)` floored the ghost term at zero, so a
+    # model returning MORE entries than the manifest requested paid nothing -- padding with
+    # invented or duplicated entities was free, and Hard Rule 1 forbids exactly that.
+    extra = max(0, len(blocks) - expected_entries)
+    if extra:
+        missing.append("%d entr%s the manifest never asked for -- an invented entry is a "
+                       "fabricated record, not a bonus"
+                       % (extra, "y" if extra == 1 else "ies"))
     return present, required, missing
 
 
@@ -188,8 +234,60 @@ def assert_block_complete(text, expected_entries, label=""):
 
 # ------------------------------------------------------------- layer 4b: assay honesty
 
+# ADVERSARIAL AUDIT, 2026-08-25. The first version required the axis name to be the first
+# non-whitespace token on its line, so ORDINARY MARKDOWN defeated it:
+#
+#     "Wisdom: 28 (Transcendent, Grade III)"      -> caught
+#     "**Wisdom:** 28 (Transcendent, Grade III)"  -> SLIPPED THROUGH
+#     "**Wisdom**: 28"                            -> SLIPPED THROUGH
+#
+# and the model emits bold headers constantly, because the template asks for them. A guard that
+# only recognises the unobfuscated spelling is green on purpose, for ever (standing lesson 12).
+# Leading decoration is now skipped explicitly rather than assumed absent.
 _AXIS_RE = re.compile(
-    r"(?im)^\s*(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s*:\s*(\d+)")
+    r"(?im)^[\s*_#>-]*(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)"
+    r"[\s*_]*:[\s*_]*(\d+)")
+
+
+def cited_names_for(source, names):
+    """-> the subset of `names` that actually carry mined, cited evidence.
+
+    THIS FUNCTION EXISTS BECAUSE THE SIGNAL IT REPLACES WAS NEVER THERE. `generate.py` used to
+    build its cited set as `{e["name"] for e in g if e.get("feats") or e.get("cited")}` -- and an
+    adversarial audit measured every one of the 98,169 entries across all 216 record files:
+    **not one carries a `feats` or a `cited` key.** Feats live in a separate subsystem, joined by
+    name, and never reach a chapter job's entry dicts. So the set was unconditionally empty and
+    `unearned_instrument` could not distinguish an earned number from an invented one; it was
+    really just asking "does this line match a regex".
+
+    The evidence is looked up where it actually lives, through `cachekey` so the M23 ownership
+    check applies -- an entity must not be credited with a neighbour's citations here of all
+    places. FAILS CLOSED: if the host map or the cache cannot be read, the answer is "nothing is
+    cited", which makes every axis score unearned and refuses the block. That is the safe
+    direction, because the failure being guarded is a fabricated measurement.
+    """
+    try:
+        import cachekey
+        with open(os.path.join(HERE, "data", "WIKI_HOSTS.json"), encoding="utf-8") as f:
+            host = (json.load(f) or {}).get(source)
+    except Exception:
+        return set()
+    if not host:
+        return set()
+    out = set()
+    for n in names or ():
+        if not n:
+            continue
+        for base in (os.path.join(HERE, "data", "readfeats"),
+                     os.path.join(HERE, "data", "feats")):
+            try:
+                doc, _fp = cachekey.load(base, host, n)
+            except Exception:
+                doc = None
+            if doc and (doc.get("feats") or []):
+                out.add(n)
+                break
+    return out
 
 
 def unearned_instrument(text, cited_names):

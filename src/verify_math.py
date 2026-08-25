@@ -4156,9 +4156,14 @@ check("the prose flag is a BOOLEAN in config, not a string",
       note="'false' the string is truthy -- a typo must not be able to open the gate")
 
 # --- LAYER 4: the train. What came back must be what was asked for.
-_good = ("◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
+# The fixture carries a BODY as well as its four fields. The first version was four labels and
+# nothing else -- which an adversarial audit then used to defeat the validator, meaning the
+# fixture proving the guard worked was itself the thing the guard should have refused.
+_BODY = ("The custodian records that the specimen was catalogued in the usual manner, its "
+         "provenance attested by two hands and its measure left open pending the assay.\n")
+_good = ("◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n" + _BODY +
          "**Threads: pending the entanglement pass**\n")
-_half = "◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"      # Threads dropped
+_half = "◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n" + _BODY   # Threads dropped
 check("a complete entry passes the block validator",
       _PGate.section_shortfall(_good, 1)[2], [])
 check("an entry that lost Threads is caught",

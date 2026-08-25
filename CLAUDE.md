@@ -53,6 +53,53 @@ named Person, Faction, Place, Vessel/Thing, Event, Media item, and Power/System 
 charter's real spine codes, using your local Ollama model so the cloud session's token budget
 never touches prose generation.
 
+## HARD RULE -1 — THE CHAIN OF COMMAND, AND THE HALT AT THE TOP (owner directive, 2026-08-25)
+
+**Read this before Hard Rule 0, because it is the rule about what happens when a rule is
+broken.** On 2026-08-25 the library wrote 145 chapters it should not have. The uncomfortable
+finding was that **nothing failed**. Every component did what it was told. What was missing was
+a chain: nobody whose job it was to notice had the authority to stop anything, and nobody with
+authority to stop things was told. The gate that should have prevented it had been DELETED
+months-of-work earlier by an autonomous run acting on a fair reading of a code smell.
+
+So the library now has an escalation chain, in `src/escalation.py`, and it binds every actor
+here — human, scheduled run, or local model:
+
+    0  JANITOR      record it. No authority to stop anything. On duty at all hours.
+    1  OPERATOR     refuse THIS unit of work — one block, one entity, one call.
+    2  SUPERVISOR   refuse THIS SOURCE. Its area closes; the rest of the library keeps running.
+    3  SAFETY       fail the BATTERY. No run may claim success while this stands.
+    4  MANAGER      stop the SUBSYSTEM.
+    5  OWNER        HALT EVERYTHING. Nothing starts until a person rules on it.
+
+**Every source is its own area of the park.** A fault in one source must never close the whole
+library — `Song of Syx` having nothing cited is a SUPERVISOR event, not an OWNER one. Escalating
+everything is the same failure as escalating nothing, because an alarm that always sounds is
+furniture.
+
+**The three properties every safety here must have**, and they are not negotiable:
+
+  * **INDEPENDENT** — no two layers may share a failure mode. When `overnight.py` reimplemented
+    the prose gate with `bool()` instead of the strict check, `prose_enabled: "false"` opened it,
+    and two layers enforcing *different* invariants is not defence in depth, it is one layer and
+    a decoy.
+  * **FAIL CLOSED** — every layer answers "I don't know" with STOP. An unreadable config, a
+    missing COVERAGE.json, an unparseable block, a corrupt halt file: all refuse. Silence must
+    never authorise anything.
+  * **PROVEN** — `python src/drill.py` attacks all 57 nets and reports HELD or BREACHED for each.
+    A guard nobody has watched *refuse* is a guard nobody has evidence about. The supervisor runs
+    this every cycle, before any stage starts, and a BREACHED net halts the library by itself.
+
+**You may RAISE a halt. You may not LIFT one.** `escalation.clear()` demands a written ruling and
+is asserted by `verify_math` to have no caller anywhere in `src/`. That asymmetry is the whole
+point: the last incident was an automated agent removing a safety it had concluded was
+unnecessary.
+
+**And the standing lesson this all serves: a check that cannot fail looks exactly like a check
+that passed.** `python src/liveness.py` finds the mechanical shapes of that — dead functions,
+tautological comparisons, guards on undefined names. `drill.py` ratchets its count so a new one
+cannot appear silently.
+
 ## HARD RULE 0 — NO CAPS. EVER. (owner directive, 2026-08-22)
 
 **Every IP and every reference is MANDATORILY UNCAPPED.** No limit, no cap, no sample, no
