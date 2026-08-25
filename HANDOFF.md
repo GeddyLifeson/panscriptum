@@ -90,6 +90,27 @@ harmless; insertion and re-ordering slide entries into a range already marked do
 re-opens a batch. Re-keying by content invalidates every marker on disk and re-runs entrypass
 across the corpus — real model spend on the constrained pool — so it is a ruling, not a repair.
 
+### Three standards went red DURING the run, all checked, none a fault
+
+Checked on sight rather than left for the next run to chase:
+- **`one instance of each job`: `publish.py x2` — that was ME.** The one-shot
+  `publish.py --push` that commits the run overlapped the standing `publish.py --push --loop 10`
+  at the instant the snapshot rendered. The live process table a minute later shows exactly one.
+  **The commit step of a maintenance run makes this standard red for a few seconds every run**,
+  so a successor seeing `publish.py x2` immediately after its own push should confirm against the
+  process table before chasing a doubled publisher.
+- **`corpus read finishes inside a day`: 27.9h.** An ETA, and it moves with throughput — which
+  moved a lot this run. Expected to fall back as the gate stays open.
+- **`the character sweep is newer than the catalogue`: 1.1h behind.** `catalogue_web.py
+  --recatalogue` has been adding records since 05:46, so the sweep lags a live cataloguer by
+  construction. Transient, not a defect.
+
+And one went **green**: `every running job is advancing` now reads `4 running, all advancing` —
+`pipeline_auto` resumed on its own, so the 20-minute silence on the opening page was a slow unit
+of work, not a wedged job. `magnitude.py --calibrate` was also observed running (started 07:32),
+which matches batch 15's finding exactly: the charter producer is alive and being killed, not
+stopped. **Throughput ended the run at 404 calls/hour against the 112 it opened with.**
+
 ### Bounced
 
 **Nothing needed bouncing.** The five STANDING jobs restarted at 06:51 (after run #26's 06:42

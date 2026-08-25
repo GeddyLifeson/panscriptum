@@ -62,6 +62,10 @@
     Run #26 ran `verify_math`, made one more edit, and recorded "719 passed, 0 FAILED"; the run
     ended red and nobody knew for an hour. **Re-run after the LAST edit, not the last interesting
     one**, and treat a predecessor's green as a claim to re-test, not a fact to inherit.
+18a. **[NEW, RUN #27] `one instance of each job` READING `publish.py x2` RIGHT AFTER YOUR OWN
+    PUSH IS YOU.** The run's commit step (`publish.py --push`) overlaps the standing
+    `publish.py --push --loop 10` for a few seconds, and if the snapshot renders in that window
+    the standard goes red. **Confirm against the live process table before chasing it.**
 18. **[NEW, RUN #27] WHEN A NUMBER WON'T EXPLAIN ITSELF, THE CAUSE MAY NOT BE IN THAT SUBSYSTEM
     AT ALL.** Three runs worked `model calls per hour` from the pool while the constraint was a
     semaphore in the reader — and the ceiling was derivable all along by multiplying two numbers

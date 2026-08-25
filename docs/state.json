@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 07:44:06",
+ "at": "2026-08-25 07:45:14",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -576,9 +576,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 371,
+     "left": 375,
      "cap": 1000,
-     "frac": 0.371
+     "frac": 0.375
     },
     {
      "name": "rpm",
@@ -587,7 +587,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.371
+   "worst": 0.375
   },
   {
    "bucket": "openrouter:free",
@@ -871,7 +871,7 @@
     58
    ]
   ],
-  "swallowed_total": 5035
+  "swallowed_total": 5036
  },
  "metrics": [
   {
@@ -1057,7 +1057,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "548",
+   "observed": "549",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1120,7 +1120,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "2/4 moved in 42m",
+   "observed": "2/4 moved in 44m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1183,7 +1183,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "github:free: All 1 candidates failed: Qwen3 Coder 480B (NVIDIA) (x1, 1.2h old); mistral:free: all 1 candidates failed: llama 3.3 70b (groq) (x1, 1.9h old); gemini:models/gemini-2.5-flash: all 1 candidates failed: llama 3.1 8b (groq) (x1, 2.3h old); gemini:models/gemini-2.5-flash: all 1 candidates failed: llama 3.3 70b (groq) (x1, 4.2h old); zai:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) (x4, 5.0h old); sambanova:free: All 1 candidates failed: DeepSeek V3 (SambaNova) (x4, 5.0h old); openrouter:free: All 1 candidates failed: Nemotron 3 Ultra 550B (x4, 5.0h old); hyperbolic:free: All 1 candidates failed: Qwen2.5 72B (Hyperbolic) (x4, 5.0h old); groq:qwen/qwen3.6-27b: All 1 candidates failed: Qwen 3.6 27B (Groq) (x1, 5.0h old); groq:groq/compound-mini: All 1 candidates failed: Llama 3.1 8B (Groq) (x4, 5.0h old); cohere:free: All 1 candidates failed: Command R+ (Cohere) (x4, 5.0h old); cloudflare:free: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) (x4, 5.0h old); groq:openai/gpt-oss-120b: All 1 candidates failed: GPT-OSS 120B (Groq) (x30, 5.0h old); groq:openai/gpt-oss-20b: All 1 candidates failed: Llama 3.3 70B (Groq) (x1, 5.2h old)",
+   "observed": "github:free: All 1 candidates failed: Qwen3 Coder 480B (NVIDIA) (x1, 1.2h old); mistral:free: all 1 candidates failed: llama 3.3 70b (groq) (x1, 1.9h old); gemini:models/gemini-2.5-flash: all 1 candidates failed: llama 3.1 8b (groq) (x1, 2.3h old); gemini:models/gemini-2.5-flash: all 1 candidates failed: llama 3.3 70b (groq) (x1, 4.3h old); zai:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) (x4, 5.0h old); sambanova:free: All 1 candidates failed: DeepSeek V3 (SambaNova) (x4, 5.0h old); openrouter:free: All 1 candidates failed: Nemotron 3 Ultra 550B (x4, 5.0h old); hyperbolic:free: All 1 candidates failed: Qwen2.5 72B (Hyperbolic) (x4, 5.0h old); groq:qwen/qwen3.6-27b: All 1 candidates failed: Qwen 3.6 27B (Groq) (x1, 5.0h old); groq:groq/compound-mini: All 1 candidates failed: Llama 3.1 8B (Groq) (x4, 5.0h old); cohere:free: All 1 candidates failed: Command R+ (Cohere) (x4, 5.0h old); cloudflare:free: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) (x4, 5.0h old); groq:openai/gpt-oss-120b: All 1 candidates failed: GPT-OSS 120B (Groq) (x30, 5.0h old); groq:openai/gpt-oss-20b: All 1 candidates failed: Llama 3.3 70B (Groq) (x1, 5.2h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1192,7 +1192,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 172.66.2.166",
+   "observed": "reachable over IPv4 at 162.159.142.170",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1246,7 +1246,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.1h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1275,7 +1275,7 @@
    "metric": "cited",
    "now": 12080,
    "delta": 0,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": true
   },
@@ -1283,7 +1283,7 @@
    "metric": "settled",
    "now": 69267,
    "delta": 0,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": true
   },
@@ -1291,7 +1291,7 @@
    "metric": "feats",
    "now": 66740,
    "delta": 55,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": false
   },
@@ -1299,7 +1299,7 @@
    "metric": "entities read",
    "now": 1312,
    "delta": 6,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": false
   },
@@ -1307,7 +1307,7 @@
    "metric": "chunks",
    "now": 1376,
    "delta": 212,
-   "minutes": 32,
+   "minutes": 33,
    "reset": false,
    "stalled": false
   },
@@ -1315,10 +1315,10 @@
    "metric": "standards met",
    "now": 32,
    "delta": -1,
-   "minutes": 32,
+   "minutes": 33,
    "reset": true,
    "stalled": false
   }
  ],
- "generated": "2026-08-25T07:44:10"
+ "generated": "2026-08-25T07:45:18"
 }
