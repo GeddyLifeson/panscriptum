@@ -653,27 +653,62 @@ def check(state=None):
         "files so the entities are read again; the guard in read.py stops new ones appearing.",
         "high", "evidence"))
 
+    # THIS STANDARD HAD NEVER RUN. NOT ONCE. Repaired run #28.
+    #
+    # It read `read.get("raw")` -- a job-dict key NOTHING in the tree has ever written. The
+    # search was therefore always against `""`, `drop` was always None, `fab` stayed None, and
+    # the `if fab is not None` below meant the standard was never even APPENDED. It did not
+    # read green; it was ABSENT, which on a page of green is indistinguishable from green.
+    # The number it wanted was in the read log all along and `dashboard.RE_READ` had been
+    # capturing it as `dropped` the whole time -- `_read_row` parsed it and dropped it on the
+    # floor one line later. Both halves are fixed; this reads the job dict's `dropped`.
+    #
+    # AND THE SELF-CHECK THAT EXISTS TO CATCH EXACTLY THIS DID NOT CATCH IT. `every declared
+    # floor is measured` greps `check()`'s source for each floor's NAME, and MAX_FABRICATION
+    # *is* named here -- on a line that could never execute. A source-grep cannot tell a used
+    # constant from an unreachable one, which is NEXT_STEPS §2's "behavioural checks to replace
+    # verify_math's source-greps" arriving in a second file, on the guard against the model
+    # inventing evidence. Worth stating plainly: for its entire life this project had no live
+    # measurement of its own fabrication rate.
+    #
+    # IT IS APPENDED UNCONDITIONALLY NOW, INCLUDING WHEN IT CANNOT BE MEASURED. A standard that
+    # vanishes on a missing input is green by absence -- the exact defect batch 03 catalogued
+    # across the data-file-backed standards in this file, and the one that hid this bug for its
+    # whole life. UNMEASURED is a reading; silence is not.
     fab = None
+    why = ""
     read = jobs.get("corpus read")
-    if read:
+    if not read:
+        why = "the reader has logged no progress line yet"
+    else:
         det = read.get("detail") or ""
         try:
             import re as _re
             kept = int((_re.search(r"([\d,]+) feats", det).group(1)).replace(",", ""))
-            m = _re.search(r"dropped\s+([\d,]+)", read.get("raw") or "")
-            drop = int(m.group(1).replace(",", "")) if m else None
-            if drop is not None and (kept + drop):
-                fab = drop / (kept + drop)
+            drop = read.get("dropped")
+            if drop is None:
+                why = "the reader's progress line carried no `dropped` count"
+            elif (kept + int(drop)) == 0:
+                why = "no sentences have been judged yet (kept + dropped is 0)"
+            else:
+                fab = int(drop) / (kept + int(drop))
         except Exception:
             silence.note("standards.py:fabrication")
-    if fab is not None:
-        out.append(_s(
-            "sentences that survive the verbatim check", fab <= MAX_FABRICATION,
-            f"{fab:.0%} rejected", f"{MAX_FABRICATION:.0%}",
-            "The model is returning text that is not in the source. A rate this high means the "
-            "passage is being truncated before it arrives -- check the chunk size against the "
-            "model's context -- or that a weak fallback model is carrying the run.",
-            "high", "evidence"))
+            why = "the reader's progress line did not parse"
+    out.append(_s(
+        "sentences that survive the verbatim check",
+        True if fab is None else fab <= MAX_FABRICATION,
+        f"{fab:.0%} rejected" if fab is not None else "UNMEASURED -- %s" % why,
+        f"{MAX_FABRICATION:.0%}",
+        "The model is returning text that is not in the source. A rate this high means the "
+        "passage is being truncated before it arrives -- check the chunk size against the "
+        "model's context -- or that a weak fallback model is carrying the run. "
+        "IF THIS READS UNMEASURED, TREAT THAT AS THE FINDING: this standard silently did not "
+        "exist from the day it was written until run #28, because it read a job-dict key that "
+        "nothing sets, so an absent reading here is exactly the failure mode that hid it. "
+        "The input is `dropped` in `state/read_auto.log`, captured by `dashboard.RE_READ` and "
+        "carried into the job dict by `dashboard._read_row`.",
+        "high", "evidence"))
 
     try:
         with open(os.path.join(HERE, "data", "ROSTER_AUDIT.json"), encoding="utf-8") as f:
@@ -1254,7 +1289,28 @@ def check(state=None):
     try:
         with open(os.path.join(HERE, "data", "PROVIDER_MODELS.json"), encoding="utf-8") as f:
             pm = json.load(f)
-        stale = len(pm.get("stale") or [])
+        # A HIGH STANDARD HELD RED BY AN OWNER DECISION IT CANNOT SEE. Split run #28.
+        #
+        # All 8 rows in `stale` this run were `ollama` -- local models named in Cascade's config
+        # that are not pulled on this machine. That is not a provider retiring a model id; it is
+        # the owner's GPU-only residency ruling of 2026-08-24, which made `qwen3:8b` the single
+        # standing local model. The rows are the ruling working, and this standard was counting
+        # them as HIGH-severity faults, so it could never go green while the ruling stands.
+        #
+        # That is worse than a wrong number. A HIGH standard that is red by construction trains
+        # the reader to skip it, and the next genuine stale CLOUD id -- the failure this was
+        # written for, where "the KEY works, the string does not, and the whole provider reads
+        # as dead" -- arrives on a line everyone has learned to ignore. Batch 10 adds the other
+        # half: the standard's only automated remedy, `foreman.recatalogue_models()`, re-probes
+        # the same external config forever, so nothing in this repo could ever close it either.
+        #
+        # NOTHING IS HIDDEN AND NOTHING IS CAPPED. Both lists are reported in full, every name
+        # spelled out; only the GATE changes, and the local rows are labelled with the ruling
+        # that explains them. If the owner reverses that ruling, this reverts in one line.
+        _stale_rows = pm.get("stale") or []
+        _local = [r for r in _stale_rows if (r.get("provider") or "") == "ollama"]
+        _cloud = [r for r in _stale_rows if (r.get("provider") or "") != "ollama"]
+        stale = len(_cloud)
         # AGE THE EVIDENCE BEFORE BELIEVING THE ALL-CLEAR.
         #
         # Found 2026-08-25 (run #23). This standard is HIGH severity and it read GREEN off a
@@ -1281,17 +1337,32 @@ def check(state=None):
         out.append(_s(
             "model IDs their providers still serve",
             fresh and stale <= MAX_STALE_MODEL_IDS,
-            ("%d stale" % stale) if fresh else
+            (("%d stale in the cloud pool%s" % (
+                stale,
+                "".join(" [%s wants %s]" % (r.get("provider"), r.get("wants"))
+                        for r in _cloud)))
+             + (("; and %d local model(s) named in config but not resident -- %s -- which is "
+                 "the owner's GPU-only residency ruling of 2026-08-24 (qwen3:8b is the standing "
+                 "local model), NOT a fault, and deliberately does not gate this standard"
+                 % (len(_local),
+                    ", ".join(str(r.get("wants")) for r in _local))) if _local else "")
+             ) if fresh else
             ("UNMEASURED -- the provider catalogue is %.0fh old (floor %dh), so this is the "
              "ABSENCE of a measurement, not a clean one. Do not read it as green."
              % (age_h, MAX_PROVIDER_MODELS_AGE_H)),
-            "0 stale, catalogue under %dh old" % MAX_PROVIDER_MODELS_AGE_H,
+            "0 stale in the cloud pool, catalogue under %dh old" % MAX_PROVIDER_MODELS_AGE_H,
             "The config names a model the provider has retired. The KEY works; the string does "
             "not -- and the whole provider reads as dead. Six stale names once hid five live "
             "providers. `catalogue_models.py` lists what each one actually serves today; run "
             "`python src/catalogue_models.py` to refresh the snapshot this standard reads. "
             "If the snapshot is merely OLD, that is the finding -- refresh it before drawing "
-            "any conclusion about the pool, in either direction.",
+            "any conclusion about the pool, in either direction. "
+            "LOCAL (`ollama`) ROWS ARE REPORTED IN FULL BUT DO NOT GATE THIS STANDARD: an "
+            "unpulled local model is the owner's residency ruling, not a retired model id, and "
+            "counting it here held a HIGH standard red by construction for as long as the "
+            "ruling stands -- which teaches the reader to ignore the line where a real stale "
+            "cloud id will one day appear. If that ruling is reversed, delete the `_local` "
+            "split and this counts them again.",
             "high", "pool"))
     except Exception:
         silence.note("standards.py:provider-models")

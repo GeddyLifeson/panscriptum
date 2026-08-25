@@ -202,6 +202,21 @@ def _read_row(out, LN):
             "detail": (f"{_num(r['done']):,}/{_num(r['total']):,} entities  ·  "
                        f"{_num(r['feats']):,} feats  ·  {r['rate']} chunks/s"),
             "warn": (f"{_num(r['unans'])} unanswered" if _num(r["unans"]) else ""),
+            # THE FABRICATION GUARD HAD NO INPUT, SO IT NEVER RAN ONCE. Run #28.
+            # `RE_READ` has captured `dropped` -- the count of model sentences the verbatim
+            # check REJECTED as not present in the source -- since the regex was written, and
+            # this dict threw it away one line after parsing it. `standards.py:663` then read
+            # `read.get("raw")`, a key NOTHING in the tree has ever set, so `drop` was always
+            # None, `fab` stayed None, and the HIGH standard `sentences that survive the
+            # verbatim check` was never even APPENDED to the standards list. It did not read
+            # green: it did not exist. A guard against the model inventing text, silently
+            # absent for its whole life -- lesson 9's shape ("a check that cannot fail looks
+            # exactly like a check that passed") in its most expensive location.
+            #
+            # Worse, `every declared floor is measured` is supposed to catch precisely this and
+            # did not: MAX_FABRICATION *is* named inside `check()`, on a line that can never
+            # execute. A source-grep cannot tell a used constant from an unreachable one.
+            "dropped": _num(r["dropped"]),
             "eta_h": float(r["eta"])})
 
 

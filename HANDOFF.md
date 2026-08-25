@@ -9,6 +9,141 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 08:20–09:0x (local) — Run #28 (scheduled): the guard that had never once run, and a page that was ninety minutes behind its own source
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **No secrets found.** Nothing this run touched credential-bearing paths. Standing decision
+   **C** (`publish._scrub()` claims to refuse "anything credential-shaped", matches 8 vendor
+   prefixes) is unchanged; batch 10 enumerated exactly what passes through into the **published**
+   repo: AWS access/secret keys, Slack `xox*`, generic Bearer tokens, PEM private-key blocks,
+   JWTs, Stripe `sk_live_`/`sk_test_`, DB connection strings with embedded credentials, and
+   Discord/npm/Twilio/SendGrid tokens. **Still wants a ruling.**
+2. **TWO OF YOUR API KEYS ARE DEAD AND THE POOL HAS BEEN BURNING CLAIMS ON THEM.** Surfaced the
+   moment the unrecognised ledger was made to re-ask its question (m173): `hyperbolic:free` is
+   returning `HTTP 401: Could not validate credentials` and `cloudflare:free` is returning
+   `HTTP 401: Authentication error`. Both show **0 successful calls** in the live throughput
+   panel. `zai:free` reports `Insufficient balance or no resource package`. These are not
+   mysteries and never were — the text was sitting in `bucket_state` the whole time. **Rotating
+   or removing those keys is yours to do; I do not touch credentials.**
+3. **THIS PROJECT HAD NO LIVE MEASUREMENT OF ITS OWN FABRICATION RATE, EVER.** The HIGH standard
+   `sentences that survive the verbatim check` — the guard against the model returning text that
+   is not in the source — read a job-dict key (`"raw"`) that **nothing in the tree has ever
+   set**. So `fab` was always `None` and the standard was never even appended to the page. It did
+   not read green; it was **absent**, which on a page of green is indistinguishable. Wired to
+   real data this run: **15% rejected against a 45% floor** — comfortably inside, but that is the
+   first time anyone has known it.
+
+**The run's shape: the page and its own source had drifted ninety minutes apart.** The opening
+diagnostic is the published `state.json`, and it was rendered by processes that started at
+**06:51** — before run #27's own 07:32 and 07:42 commits to `standards.py`. Proof took one
+command: the live tree computes **42** standards including `the reader's gate is open`; the
+published page had **40** and no gate standard at all, its unrecognised rows carried no age, and
+its order text still ended with the "anything here is happening NOW" sentence run #27 had
+already deleted. **Run #27 wrote "nothing needed bouncing" and was wrong** — `dashboard.py` and
+`publish.py` import `standards` at launch, so a change to `standards.py` is invisible until they
+are bounced, no matter that no long-running *work* depends on it. **The page is a job too.**
+
+The consequence was not cosmetic. I opened on a fossil: the published page showed three
+unrecognised pool rows in the old capped format, and the live ledger held fourteen in a shape
+that pointed straight at the fix. Everything below came from computing `dashboard.state()`
+locally instead of trusting the artifact.
+
+### Fixed this run (each verified at source before the edit; `verify_math` 725 passed, 0 FAILED)
+
+| # | What | Where |
+|---|---|---|
+| m168 | **The fabrication guard had never run.** It read `read.get("raw")`, a key nothing sets, so the HIGH standard was never appended — absent, not green. Now reads the `dropped` count that `RE_READ` has always captured, and is appended **unconditionally**, reporting `UNMEASURED` with a reason rather than vanishing | `standards.py`, `dashboard.py:_read_row` |
+| m169 | `dashboard._read_row` parsed `dropped` out of the read log and threw it away one line later — the guard's input existed the whole time | `dashboard.py:205` |
+| m170 | **`model IDs their providers still serve` was red by construction and could never go green.** All 8 "stale" ids were `ollama` — local models absent because of your GPU-only residency ruling of 2026-08-24. Now split: cloud staleness gates the standard, local rows are printed **in full, every name** and labelled with the ruling | `standards.py:1292` |
+| m171 | **The unrecognised ledger re-ran its classifier on read but never re-ran its unwrap.** A row that lost the 180s race at write time wore the engine's `All 1 candidates failed` for its whole 24h life while the provider's real complaint sat in `bucket_state`, refreshed every few minutes. Unwrap moved to the read side, for the same reason the re-triage already lived there. **14 open rows → 7**, and three of the survivors now name two dead keys and a spent account | `cascade_bridge.py:unrecognised_open` |
+| m172 | **The doctrine's premise that "at n=1 the pin and the attempt agree" is false.** Measured live: `github:free` recorded against `Qwen3 Coder 480B (NVIDIA)`, `mistral:free` against `llama 3.3 70b (groq)`, `gemini:models/gemini-2.5-flash` twice against groq llamas — 6 of 14 rows. Those can never be unwrapped, because the bucket named never made the call. The row now says so instead of blaming an innocent bucket | `cascade_bridge.py:unrecognised_open` |
+| m173 | **A RAW-mode wiki is not an unreachable wiki.** `host_reachable()` asked `api_url()` and treated `None` as unreachable — but `api_url` returns `None` for `MODE_RAW` exactly as for `MODE_DEAD`. Every RAW host on the corpus has read unreachable since the function was written. Verified live: dandwiki `False` → `True` | `completeness.py:193` |
+| — | Four **behavioural** regression checks (§20k, §20l) — not source-greps: the fabrication row is emitted, it is measured not merely present, the job dict carries `dropped`, and no unrecognised row wears a wrapper its own bucket can already explain | `verify_math.py` |
+
+### A false causal claim in the ledger, corrected
+
+`NEXT_STEPS.md` §3 has asserted for two runs that `completeness.host_reachable()` **is** the
+standing `health --preflight` dandwiki failure. **It is not.** I fixed the reachability bug (it
+is real, and m173 above verifies the behaviour change) and the preflight failure did not move.
+`health.check_caches()` never consults reachability at all — it is a pure on-disk size check.
+The two are unrelated code paths, and the claim was inherited and re-copied without being tested.
+
+**And the real cause, found by opening the cache instead of reasoning about it:** dandwiki's 805
+cached entries each hold ~40 characters reading `redirect SRD:<title>`. **`action=raw` returns
+the literal redirect wikitext and nothing follows it to the target.** The MediaWiki API follows
+redirects with `&redirects=1`; the RAW path has no equivalent and must re-request. So an entire
+D&D homebrew source has contributed **zero** evidence to the corpus while reporting 805 cached
+entries. Named with evidence, not repaired — following redirects touches the fetch path of every
+RAW host and needs loop protection. **NEXT_STEPS §2, with the mechanism.**
+
+### The comprehensive sweep — 95 modules, 40,908 lines, 16 agents, 0 uncovered
+
+`sweep_plan.missing("run28")` returns **0 uncovered**; all sixteen reports are on disk in
+`handoff/sweep28/` (12.7–29.2 KB, 344 KB total). A loud sweep. Highlights the supervisor verified
+or is carrying forward:
+
+- **batch 06 out-reasoned my own hypothesis.** I had the pin/attempt mismatch; it found the
+  deeper and more general fault — the read-side unwrap that never re-ran — and proved it live
+  against `bucket_state`. Both went into m171/m172 together.
+- **batch 07:** `magnitude.calibrate()` writes `CHARTER_REGRESSION.json` **exactly once**, after
+  all six benchmarks, while its sibling `run_batch()` writes after every completion "because it
+  is written to be killed". The foreman kills `--calibrate` roughly hourly (M15), so **every**
+  attempt loses the whole pass — which is why `the automation reproduces the charter` sits 34h
+  stale. The fix is to mirror the sibling's checkpoint. Also `cosmology_graph.py:151` drops
+  **71% of computed edges** (2666/3753) behind an undisclosed `w >= 1.0` filter, taking 25 of 197
+  sources to full disconnection in `SHARED_STAGE_GRAPH.json`.
+- **batch 14** gave the most specific account yet of `every source is fully catalogued` at 18.5%:
+  `wiki_source.category_members` breaks out of its `cmcontinue` walk on **any** exception and
+  returns a partial roster **with no completeness flag**. DC's Characters category alone needs
+  ~68 chained calls, and this module's own comments record a prior full IP-block of fandom under
+  load. A sustained failure truncates silently and the source is then "fully catalogued" at 0.5%.
+- **batch 16:** `local_agent.py` — the local model's hands — can write **any non-`.py` file** with
+  zero content validation (prompt templates, the keystone charter `.md`, registry HTML/JS), and
+  can write `data/records/*.json` directly, **bypassing `pipeline.write_record` entirely**. That
+  is a third writer against the two-writer contract, inside the autonomous writer's own gate.
+- **batch 02** verified a live cache-path collision in **two** files: `pipeline.py:636` and
+  `coverage.py:44-46` sanitise entity names to a shared path, so `Magic 8 Ball` and
+  `Magic 8-Ball` share one cache file and one entity's mined feats are read as another's.
+  **Not repaired: re-keying invalidates every cache on disk and re-mines the corpus.** Ruling.
+- **batch 08** independently re-derived that `sweep_plan.missing()` can only ever *over-report*
+  gaps, never fabricate a false "0 uncovered" — so this run's coverage proof stands despite
+  `record()`'s known cross-process race. It also proposed the right fix: per-batch shard files
+  instead of a shared one.
+- **batch 15** put numbers on two standing owner questions: `assay._SCALE` discards the
+  charter-calibrated sigma (Kenshiro reproduces at **0.06**, published **0.12**), and
+  `genre.py`'s `most_common(top=3)` truncates the confidence **denominator**, inflating
+  confidence by a measured **59%**.
+- **batch 03** found the run's second never-fires check: the fabrication standard above. It also
+  notes `every declared floor is measured` could not catch it, because it greps `check()` for the
+  constant's **name** — which was present, on a line that could never execute.
+
+### Battery
+
+`verify_math` **725 passed, 0 FAILED** (up from 721: four new behavioural checks). `allsweep`
+**0 subsystems bad, exit 0** (16 ungraded `reconcile` rows, still honestly labelled). `pyflakes`
+clean over `src/`, exit 0. `silence.py` clean. `health --preflight`: **2 problems, both known** —
+dandwiki (real cause now named above, and it was never what the ledger said) and the 227 Gundam
+entries stranded by M20's positional done-marker. Re-run **after the last edit**, per run #27's
+lesson 17.
+
+### Bounced
+
+`dashboard.py`, `publish.py`, `foreman.py`, `overwatch.py` — all four import `standards`,
+`cascade_bridge` or `completeness` at launch, and this run changed all three. The keeper restores
+them within 300s. `pipeline.py` (started 08:16) postdates the last code commit and was left
+alone; `read.py` is outside STANDING and was not touched. Process identity was taken from
+`Get-CimInstance` start times, never from a literal my own command line contains.
+
+**The lesson this run adds, and it is the one that cost the most: a module only the PAGE imports
+still needs a bounce.** Run #27's bounce test was "does a long-running job's current *work*
+depend on this import" — and the page is not work, so `standards.py` was left. But the page is
+the next run's opening diagnostic, and an un-bounced page is a photograph of the tree as it stood
+before the last run's fixes. Two runs in a row have now opened on evidence their predecessor had
+already invalidated.
+
+---
+
 ## 2026-08-25 07:20–08:2x (local) — Run #27 (scheduled): the throttle was never on the page, and a green battery that had already gone red
 
 **FOR THE OWNER, AT THE TOP:**

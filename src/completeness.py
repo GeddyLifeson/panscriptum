@@ -192,16 +192,43 @@ def host_reachable(host, timeout=8):
     # 42-second failures. The farm being up says nothing about the tenant.
     try:
         import endpoint as EP
-        base = EP.api_url(host)
-        if not base:
+        # A RAW-MODE WIKI IS NOT AN UNREACHABLE WIKI. Fixed run #28.
+        #
+        # This asked `api_url(host)` and treated None as "unreachable". But `api_url` returns
+        # None for MODE_RAW exactly as it does for MODE_DEAD -- `endpoint.py:176-179` -- and
+        # MODE_RAW means the opposite of dead: the wiki closed its API and serves
+        # `index.php?action=raw` instead, which `endpoint` knows how to read and which the rest
+        # of this project reads from happily. So every RAW host on the corpus has been scored
+        # unreachable since this function was written, permanently and by construction.
+        #
+        # This is the standing `health --preflight` failure, and it has been on the page for
+        # many runs as `feats/www_dandwiki_com: all 200 sampled entries empty`: dandwiki is
+        # MODE_RAW (verified live this run -- `{'mode': 'raw', 'path': '/w/index.php'}`), so the
+        # completeness audit concluded the host was down and stopped believing its own caches.
+        # The wiki was up the entire time.
+        #
+        # THE THREE MODES NOW GET THREE ANSWERS, not two. DEAD is still unreachable, and that
+        # is the only mode that should be.
+        mode = (EP.detect(host) or {}).get("mode")
+        if mode == EP.MODE_DEAD:
             _REACH[host] = False
             return False
         # Through endpoint._get, which carries the project's User-Agent. A bare
         # urllib.urlopen sends Python's default UA and BOTH Wikipedia and Fandom answer it
         # 403 -- so a hand-rolled probe reports every host on earth unreachable and marks the
         # whole corpus unreliable. Use the transport the rest of the module already uses.
-        _REACH[host] = bool(EP._get(base + "?action=query&meta=siteinfo&format=json",
-                                    timeout=timeout))
+        if mode == EP.MODE_RAW:
+            # The same probe `detect()` itself uses to certify a RAW host, so a host that
+            # detection just accepted cannot immediately read as unreachable here.
+            probe = EP.raw_url(host, "Main Page")
+            _REACH[host] = bool(probe and EP._get(probe, timeout=timeout))
+        else:
+            base = EP.api_url(host)
+            if not base:
+                _REACH[host] = False
+                return False
+            _REACH[host] = bool(EP._get(base + "?action=query&meta=siteinfo&format=json",
+                                        timeout=timeout))
     except Exception:
         silence.note("completeness.py:host-unreachable")
         _REACH[host] = False

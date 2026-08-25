@@ -3937,6 +3937,59 @@ check("but the name is EXACT, so it cannot swallow a genuine unknown",
       note="a loose substring test would turn naming a fault into a way of not seeing faults, "
            "which is the one thing the unrecognised ledger exists to prevent")
 
+# ---------------------------------------------------------------- §20k the guard that never ran
+# BEHAVIOURAL, NOT A SOURCE-GREP, DELIBERATELY. Run #28 found that
+# `sentences that survive the verbatim check` -- a HIGH standard guarding against the model
+# returning text that is not in the source -- had never once been evaluated in its whole life.
+# It read `read.get("raw")`, a job-dict key nothing has ever set, so `fab` stayed None and the
+# standard was never appended. It did not read green; it was ABSENT, which on a page of green
+# looks identical.
+#
+# Two existing checks should have caught it and could not. `every declared floor is measured`
+# greps `check()`'s source for MAX_FABRICATION's NAME, and the name was there -- on a line that
+# could never execute; a source-grep cannot tell a used constant from an unreachable one, which
+# is NEXT_STEPS §2's whole argument arriving on the fabrication guard. And `every standard the
+# checker declares actually emits a row` compares the emitted count against a HARDCODED 40
+# rather than against the declared set, so a standard that never emits just lowers a number
+# nobody reconciles.
+#
+# So these assert BEHAVIOUR: the value is actually produced, and the row is actually emitted.
+_st20k = __import__("standards").check(__import__("dashboard").state())
+_names20k = {r["standard"] for r in _st20k}
+check("the fabrication guard emits a row at all",
+      "sentences that survive the verbatim check" in _names20k, True,
+      note="run #28: absent for its entire life because it read a job key nothing sets")
+_fab20k = [r for r in _st20k if r["standard"] == "sentences that survive the verbatim check"]
+check("and it is MEASURED, not merely present",
+      bool(_fab20k) and not str(_fab20k[0]["observed"]).startswith("UNMEASURED"), True,
+      note="UNMEASURED is an honest reading and a legitimate state, but if it persists the "
+           "input wiring has broken again -- dashboard.RE_READ's `dropped` group through "
+           "dashboard._read_row into the job dict")
+check("the reader's job dict carries the count the guard needs",
+      isinstance(([j for j in __import__("dashboard").state()["jobs"]
+                   if j["name"] == "corpus read"] or [{}])[0].get("dropped"), int), True,
+      note="RE_READ has captured `dropped` since it was written; _read_row parsed it and threw "
+           "it away one line later")
+
+# ---------------------------------------------------------------- §20l the ledger re-asks
+# The unrecognised ledger re-ran its CLASSIFIER on read but never re-ran its UNWRAP, so a row
+# that lost the 180-second race at write time carried the engine's `All 1 candidates failed`
+# for its full 24h life while the provider's real complaint sat in `bucket_state`, refreshed
+# every few minutes. Measured run #28: ten of fourteen rows were in exactly that state.
+#
+# The invariant, stated behaviourally: no row may be handed to the page still wearing an engine
+# wrapper when its own bucket has a fresh, non-wrapper provider row available to explain it.
+_cb20l = __import__("cascade_bridge")
+_stuck20l = [r.get("bucket") for r in _cb20l.unrecognised_open()
+             if any(w in str(r.get("error", "")).lower() for w in _cb20l._WRAPPERS)
+             and _cb20l.provider_error(r.get("bucket"), max_age_s=24 * 3600)
+             and not any(w in _cb20l.provider_error(
+                 r.get("bucket"), max_age_s=24 * 3600).lower() for w in _cb20l._WRAPPERS)]
+check("no unrecognised row wears a wrapper its own bucket can already explain",
+      _stuck20l, [],
+      note="the unwrap is read-side now, for the same reason the re-triage is: the answer must "
+           "not depend on which process wrote the row or what it had imported")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

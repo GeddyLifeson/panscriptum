@@ -7,6 +7,28 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 ## Open
 
 ### Major
+- **[M21] `action=raw` DOES NOT FOLLOW REDIRECTS, AND AN ENTIRE SOURCE HAS MINED NOTHING.**
+  Found run #28 by opening the cache instead of reasoning about it. Every one of dandwiki's 805
+  cached entries holds ~40 characters reading `redirect SRD:<title>`: the RAW transport returns
+  the literal redirect wikitext and nothing re-requests the target. The MediaWiki API follows
+  redirects with `&redirects=1`; the RAW path has no equivalent. So `www.dandwiki.com` reports
+  805 cached entries and has contributed **zero** evidence to the corpus, and this is the true
+  cause of the standing `health --preflight` failure `feats/www_dandwiki_com: all 200 sampled
+  entries empty`. **NOT the cause the ledger claimed** — see the correction under M22.
+  Fix is in `endpoint.fetch_raw`: detect a redirect body and re-request the target, with loop
+  protection and a hop bound. Touches the fetch path of every RAW host, so it wants care and a
+  verification pass, not a quick patch.
+
+- **[M22] A FALSE CAUSAL CLAIM SURVIVED TWO RUNS IN THE LEDGER BECAUSE NOBODY TESTED IT.**
+  `NEXT_STEPS.md` §3 asserted, in bold, that `completeness.host_reachable()` **is** the standing
+  `health --preflight` dandwiki failure. Run #28 fixed the reachability bug (real — see m173,
+  dandwiki went `False` → `True`) and the preflight failure **did not move**, because
+  `health.check_caches()` never consults reachability at all: it is a pure on-disk file-size
+  check. Two unrelated code paths, joined only by both mentioning dandwiki. Recorded as a bug in
+  the LEDGER, not the code: an inherited claim that is re-copied each run accumulates authority
+  it never earned. **Rule for successors: a causal claim you did not test is a hypothesis, and
+  the handoff should say which it is.**
+
 - **[M19] THE READER THROTTLES THE WHOLE POOL THROUGH THE GPU CARD'S SEMAPHORE, AND NOTHING ON
   THE PAGE SAID SO.** Found run #27, measured end to end, and it is the answer runs #16, #18 and
   #26 all went looking for in the pool. `read._ask` (`read.py:327-337`) selects a gate with

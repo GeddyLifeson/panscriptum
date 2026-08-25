@@ -575,6 +575,66 @@ def unrecognised_open(max_age_h=24):
             if float(r.get("last_seen", 0)) < cut:
                 continue
             err = r.get("error") or ""
+            # RE-TRIAGE RE-ASKED THE CLASSIFIER BUT NEVER RE-ASKED THE PROVIDER. Run #28.
+            #
+            # The paragraph above is right that "unrecognised" is a statement about the current
+            # classifier and not a property of the row -- and then re-ran only the PREDICATES
+            # over the frozen write-time text. The unwrap (`provider_error`) was write-side
+            # only, so a row that lost the unwrap race at the instant it was recorded keeps the
+            # engine's `All 1 candidates failed: <label>` for its whole 24h life, even when the
+            # provider's actual complaint is sitting in `bucket_state` and has been refreshed
+            # every few minutes since. Measured this run: ten rows on the page carried the bare
+            # wrapper at 5.6-5.9h old while the SAME buckets held fresh (2-12 minute old) real
+            # causes -- Groq tokens-per-day at 199999/200000, SambaNova `rate_limit_exceeded`,
+            # Z.AI `Insufficient balance or no resource package`. Every one of those is a phrase
+            # the classifier below already understands. The ledger was not holding mysteries; it
+            # was holding answered questions it never re-asked.
+            #
+            # So the unwrap moves to the read side too, for exactly the reason the docstring
+            # gives for the predicates: the answer stops depending on which process wrote the
+            # row, what it had imported, and whether it happened to lose a 180-second race.
+            #
+            # READ-ONLY AND WIDE, DELIBERATELY. This reaches no bench, no cooldown and no
+            # routing decision -- `_bury` is decided at call time and is not involved here --
+            # so the narrow 180s window that protects BENCHING from acting on a fossil is the
+            # wrong window for EXPLAINING, which is lesson 15. The worst this can do is attach
+            # an older true explanation to a row that would otherwise carry a wrapper that is
+            # unactionable by design.
+            if any(w in err.lower() for w in _WRAPPERS):
+                _deep = provider_error(r.get("bucket"), max_age_s=max_age_h * 3600)
+                if _deep and not any(w in _deep.lower() for w in _WRAPPERS):
+                    r = dict(r)
+                    r["error"] = _deep
+                    r["unwrapped_on_read"] = True
+                    err = _deep
+                else:
+                    # THE PIN AND THE ATTEMPT DO NOT ALWAYS AGREE AT n=1, AND THE DOCTRINE SAYS
+                    # THEY DO. `_MULTI_CANDIDATE`'s comment exempts multi-candidate aggregates
+                    # because "a multi-candidate call is not necessarily an attempt on the
+                    # pinned bucket at all", and keeps `All 1 candidates failed` loud on the
+                    # stated grounds that "there the pin and the attempt do agree". Measured
+                    # against the live ledger this run, that premise is false: `github:free`
+                    # was recorded against `Qwen3 Coder 480B (NVIDIA)`, `mistral:free` against
+                    # `llama 3.3 70b (groq)`, and `gemini:models/gemini-2.5-flash` twice against
+                    # groq llamas -- six of fourteen rows, all n=1.
+                    #
+                    # Those rows can NEVER be unwrapped, above or here, because the bucket named
+                    # in them never made the call and so has no `bucket_state` row to consult.
+                    # Worse, the row asserts a falsehood: a maintainer reads "github:free
+                    # failed", goes and finds github healthy, and writes down "genuinely
+                    # unexplained" -- which is what happened in run #26. Naming the mismatch is
+                    # not a routing change; it is the row telling the truth about what it knows.
+                    # Note `gemini:models/gemini-2.5-flash` is not in the live model set at all,
+                    # which ties this straight to `model IDs their providers still serve`.
+                    if not provider_error(r.get("bucket"), max_age_s=7 * 24 * 3600):
+                        r = dict(r)
+                        r["error"] = (
+                            "%s -- NOTE: the pinned bucket `%s` has no provider row at all, so "
+                            "the engine did not reach it; the label in this message is the "
+                            "candidate that actually failed and it belongs to another bucket. "
+                            "This row cannot be unwrapped by bucket, and it does NOT mean `%s` "
+                            "is at fault." % (err, r.get("bucket"), r.get("bucket")))
+                        r["pin_not_attempted"] = True
             if pool_exhausted(err) or named_transient(err) or empty_content(err):
                 continue
             live.append(r)
