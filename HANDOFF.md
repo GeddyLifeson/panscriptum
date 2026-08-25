@@ -105,6 +105,15 @@ nothing. **This is not hiding a failure — it is the only way the real one beco
 where nobody could ever pick it out. Split, with the genuine path still recorded under a semantic
 label instead of a line number that goes stale the moment anything above it moves.
 
+**[NOT MY HAND — the export diff for this run contains a change I did not make.]** `fdcaf0f`
+lists `code: local_agent`, and `src/local_agent.py` was written at **00:27:28**, mid-run. It is
+the **foreman's own `--patch` model lane** doing its job: it added `creationflags=_NO_WIN` to
+`t_run_check`'s `subprocess.run` (`local_agent.py:218`), matching the standing owner directive
+against popping consoles and the identical call at `:312`. Checked before accepting it — `_NO_WIN`
+is defined at `local_agent.py:45`, pyflakes is clean, and it passed the lane's six gates. Recorded
+because a future run reading this diff should not mistake it for run #21's edit; the rung-(b)
+machinery writes to `src/` while a maintenance pass is working, and that is by design.
+
 **Battery.** `verify_math` **613 passed, 0 FAILED** (592 before; +21 across §20e and §20f).
 `allsweep` **0 subsystems bad**. `health --preflight` **exactly 1 FAIL** — the known M1 baseline
 (`feats/www_dandwiki_com`); **M8 passed again**. `silence` 33 silent handlers. `pyflakes` clean
