@@ -309,6 +309,25 @@ def api(host, params, retries=2):
             if attempt == retries:          # 404 already returned above
                 return None
             time.sleep(2 + attempt * 4)
+        except json.JSONDecodeError:
+            # A NON-JSON 200 IS NOT A NETWORK FAULT, and it used to be filed as one. The body
+            # arrived, the status said success, and `json.loads` choked -- which is what happens
+            # when a WAF or a login wall answers an `/api.php` call with an HTML challenge page.
+            # That landed on "feats.py:139", the same ledger key as a plain connection timeout,
+            # so a host that was quietly refusing every API call all run read afterwards as a
+            # host with a flaky network. This is the identical separation the 404 arm above was
+            # given in run #19, for the identical reason: the ledger's count for a site is only
+            # readable if "the network is failing", "the page does not exist" and "we are being
+            # refused" land in different buckets. It is also the transport-layer twin of what
+            # `page_looks_real` catches at the content layer, and the two should be legible as
+            # the same story when a host is read afterwards.
+            #
+            # RETRY BEHAVIOUR IS UNCHANGED: same sleep, same give-up on the last attempt. Only
+            # which counter it lands in changed.
+            silence.note("feats.py:api-nonjson")
+            if attempt == retries:
+                return None
+            time.sleep(2 + attempt * 4)
         except Exception:
             silence.note("feats.py:139")
             if attempt == retries:
@@ -413,10 +432,15 @@ def resolve_hosts(records, verify=True):
         if seen:
             known[src] = seen.most_common(1)[0][0]
             continue
-        ov = _override(src)
-        if ov:
-            known[src] = ov
-            continue
+        # A SECOND `ov = _override(src)` USED TO SIT HERE, as a fallback below the corpus
+        # evidence -- the original design, from before the override was promoted to the top of
+        # this loop to unfreeze the wrong cached guesses described above. It could not run.
+        # `_override` is a pure function of `src` (a regex walk over the module-level
+        # `_HOST_OVERRIDES`), so the only way to arrive here is for the call at the top of the
+        # loop to have returned falsy, and a deterministic function asked the same question
+        # twice answers it the same way. Removed rather than left standing, because an
+        # unreachable safety reads as a safety, and this file's whole subject is the difference
+        # between a check that passes and a check that never ran.
         if not verify:
             continue
         # Otherwise guess the slug and CHECK it. An unverified guess would silently mine the
@@ -750,7 +774,25 @@ def mine(text, page):
             # `s` is already bounded above by the 20 < len(s) < 400 gate, so this stores at most
             # 400 characters. Callers that need a short form truncate at the point of display,
             # which `_show` already does.
-            quants.append({"value": m.group(1), "unit": m.group(3), "sentence": s,
+            # THE EXPONENT WAS CAPTURED AND THROWN AWAY. `_QUANTITY`'s second group holds the
+            # N of an `x 10^N`, and for as long as it existed only groups 1 and 3 were read --
+            # so "5 x 10^44 joules", an entirely ordinary way to write a large energy in this
+            # material, was recorded as `value: "5"`. That is not a display defect: it is read
+            # back by `magnitude.quantity_scores`, which does `float(str(q["value"]).replace
+            # (",", ""))` and hands the result to `assay.axis_score` as an instrument-tier
+            # reading. A citation could therefore move an axis by forty-four orders of magnitude
+            # in the wrong direction while every other check -- verbatim provenance, the page
+            # gate, the unit table -- reported success, because all of them were looking at a
+            # sentence that really did say what it said.
+            #
+            # The mantissa's own commas are stripped only when an exponent is folded in, because
+            # `"1,200e9"` does not survive `float()` and `"1,200"` alone still does via that
+            # consumer's own `.replace(",", "")`. `exponent` is kept alongside so the reading
+            # stays auditable against the sentence it came from.
+            val, exp = m.group(1), m.group(2)
+            if exp:
+                val = "%se%s" % (val.replace(",", ""), exp)
+            quants.append({"value": val, "unit": m.group(3), "exponent": exp, "sentence": s,
                            "page": page})
     return kept, rejected, quants
 
@@ -1038,7 +1080,15 @@ def roll(records, hosts, workers=8, limit=None, only=None):
     # depress the roll's feats-per-entity rate with no visible signal anywhere in the summary,
     # and read as "these entities simply had nothing". "Nothing found" and "we never got to look"
     # are different facts and now have different counters.
-    done = {"n": 0, "feats": 0, "quant": 0, "pages": 0, "chars": 0, "empty": 0, "errored": 0}
+    # `refused` is the third fact in the same family. `empty` says we found no page and
+    # `errored` says we never got to look; neither can say WE WERE SERVED A BLOCK PAGE, which is
+    # the exact distinction `page_looks_real` was added to draw and which then went no further
+    # than each entity's own cache file. A run spent on WAF interstitials totalled identically to
+    # a run that honestly found nothing -- the confusion that filed 1,364 throttled fetches as
+    # absences, restored one layer up. Counted here and printed below, on the file's own rule
+    # that a measurement nobody prints is not a measurement.
+    done = {"n": 0, "feats": 0, "quant": 0, "pages": 0, "chars": 0, "empty": 0, "errored": 0,
+            "refused": 0, "refused_entities": 0}
     lock = threading.Lock()
     t0 = time.time()
 
@@ -1060,6 +1110,13 @@ def roll(records, hosts, workers=8, limit=None, only=None):
                 done["quant"] += len(ev["quantities"])
                 done["pages"] += len(ev["pages_read"])
                 done["chars"] += ev["chars_read"]
+                # `.get`, not `[]`: cache files written before `pages_refused` existed are still
+                # on disk and are legitimate hits, so a missing key here means "not recorded",
+                # never an error.
+                nref = len(ev.get("pages_refused") or {})
+                if nref:
+                    done["refused"] += nref
+                    done["refused_entities"] += 1
                 if not ev["pages_read"]:
                     done["empty"] += 1
             n = done["n"]
@@ -1080,8 +1137,16 @@ def roll(records, hosts, workers=8, limit=None, only=None):
           f"{done['feats']:,} feats, {done['quant']:,} quantities, "
           f"{done['empty']:,} entities with no page, "
           f"{done['errored']:,} entities that raised")
-    # Both of these were being counted and thrown away -- _RATE_LIMITED since the file was
-    # written, _CAP_BOUND as of run #19. A measurement nobody prints is not a measurement.
+    # All three of these were being counted and thrown away -- _RATE_LIMITED since the file was
+    # written, _CAP_BOUND as of run #19, the refusal tally since `page_looks_real` was added.
+    # A measurement nobody prints is not a measurement.
+    if done["refused"]:
+        print(f"  pages REFUSED (block page, soft-404, interstitial): {done['refused']:,} "
+              f"across {done['refused_entities']:,} entit"
+              f"{'y' if done['refused_entities'] == 1 else 'ies'} "
+              f"-- these arrived and were NOT the article; they are not evidence of absence")
+    else:
+        print("  pages refused: none (every page that arrived looked like the article)")
     if _CAP_BOUND:
         print("  discovery caps BOUND: "
               + ", ".join(f"{k} x{v:,}" for k, v in sorted(_CAP_BOUND.items()))
@@ -1104,7 +1169,14 @@ def _show(ev):
     for t in ev["pages_read"]:
         print(f"              {t}")
     print(f"    feats   : {len(ev['feats'])}   quantities: {len(ev['quantities'])}"
-          f"   held-back: {len(ev['gate_rejected'])}")
+          f"   held-back: {len(ev['gate_rejected'])}"
+          f"   refused: {len(ev.get('pages_refused') or {})}")
+    # The reason each refusal carries is the whole value of recording it: "no page" and "a block
+    # page" are the two readings this display exists to keep apart. Listed in full and not
+    # truncated like the feats and quantities above it -- a cap on a diagnostic hides exactly
+    # the tail you opened it to read.
+    for t, why in sorted((ev.get("pages_refused") or {}).items()):
+        print(f"       ! {t[:60]} -- {why[:80]}")
     for f in ev["feats"][:6]:
         print(f"       * {f['feat'][:120]}")
     for q in ev["quantities"][:4]:
@@ -1125,9 +1197,15 @@ def main():
         # removing a safety it had concluded was unnecessary, and nothing downstream could
         # tell. A job that cannot ask whether the library is halted has no business
         # starting. Pinned by verify_math so the swallow cannot come back. (run #31)
+        # `from _esc_gone` keeps the ORIGINAL ImportError attached as the cause. Without it the
+        # traceback reads "During handling of the above exception, another exception occurred",
+        # which invites whoever reads it to suspect this handler rather than the missing module
+        # -- and the message already interpolates the error, so the two would disagree about
+        # which failure is the real one. (B904, filed against eleven sites; this is feats.py's.)
         raise SystemExit(
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
-            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone
+        ) from _esc_gone
     _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--probe", nargs=2, metavar=("HOST", "ENTITY"),

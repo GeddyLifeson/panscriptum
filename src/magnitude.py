@@ -918,7 +918,12 @@ def queue(host=None, limit=None):
             continue
         if not (r.get("chars") or 0):
             continue                       # nothing mined; the assay would have nothing to read
-        if NOT_AN_ENTITY.match(r["name"]):
+        # SEARCH, NOT MATCH. The pattern has two arms and each carries its own anchor: the
+        # index-page arm is `^`-anchored, the disambiguation arm is `$`-anchored. `match()`
+        # pins the whole pattern to position 0, so the second arm could only ever fire on a
+        # title that was LITERALLY "(disambiguation)" -- "Kirby (disambiguation)" sailed
+        # through. `search()` lets each arm mean what it says; the `^` arm is unaffected.
+        if NOT_AN_ENTITY.search(r["name"]):
             continue
         k = r["host"] + "|" + r["name"]
         if k in seen:                      # the sweep carries duplicate rows for shared pages

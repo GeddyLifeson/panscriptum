@@ -212,7 +212,10 @@ def audit(data):
     nodes, problems = data["nodes"], []
     for k, v in nodes.items():
         if v["k"]:
-            s = sum(nodes[c]["n"] for c in v["k"])
+            # Skips a child that has no node instead of raising KeyError on it. The loop below
+            # is written to REPORT that exact condition, and dereferencing every child key
+            # first meant audit() would crash rather than name the fault it exists to catch.
+            s = sum(nodes[c]["n"] for c in v["k"] if c in nodes)
             if s != v["n"]:
                 problems.append(f"{k}: claims {v['n']} worlds, children sum to {s}")
         elif v["n"] != len(v.get("w", [])):

@@ -83,11 +83,26 @@ def rung_table():
 
 
 def rung_for_length(metres):
-    """Which descending rung does a given size belong to? Returns (rung, name)."""
+    """Which descending rung does a given size belong to? Returns (rung, name).
+
+    THE DOMAIN IS BOUNDED AT BOTH ENDS, and out-of-domain is answered `(None, None)` at both.
+    Below the Planck length there is no rung but there is an answer -- the Fold -- and that is
+    returned. ABOVE `DESCENDING[0]`'s edge (1e6 m, continental crust) there is no answer here at
+    all: that is the ASCENDING Ladder's territory, whose first rung is Planet at ~1e7 m.
+
+    This used to leave `best` at its initialiser and report "Continental" for anything larger, so
+    5e6 m, a gas giant and a galaxy all came back labelled rung 0 -- a silent mislabel of the one
+    kind this project keeps paying for, since a caller cannot tell a real continental-scale
+    answer from a value that fell off the top of the table. The function already answered `metres
+    <= 0` with `(None, None)`; the top of the range now uses the same convention, so a number
+    outside this ladder is refused rather than rounded into it.
+    """
     if metres <= 0:
         return None, None
     if metres < PLANCK_LENGTH:
         return FOLD_RUNG, "Below the Fold"
+    if metres > DESCENDING[0][3]:
+        return None, None
     best = DESCENDING[0]
     for r in DESCENDING:
         if metres <= r[3]:
@@ -127,7 +142,20 @@ def schwarzschild_radius(mass_kg):
 
 
 def shrink_report(mass_kg, from_m, to_m):
-    """Full accounting of a mass-conserving descent. Returns the physics, and the verdict."""
+    """Full accounting of a mass-conserving descent. Returns the physics, and the verdict.
+
+    THE REPORT NAMES ITS OWN DESCENT. `from_m` was accepted and then never mentioned again, and
+    the returned dict echoed neither end of the trajectory, so a caller holding the report could
+    not say what it was a report OF without keeping its own copy of the arguments -- and a
+    physics verdict separated from the trajectory it judges is one filing mistake away from being
+    read against the wrong one. `from_m`, `to_m` and whether this is actually a descent are
+    reported as data.
+
+    `is_descent` is reported, NOT enforced. An attested trajectory that goes the other way is not
+    a violation of physics, it is a caller asking the wrong function, and the objections list is
+    reserved for laws that had to be patched -- putting a caller's mistake in it would corrupt
+    `mass_conserved_is_lawful`, which downstream reads as a statement about the fiction.
+    """
     rho = density_at_scale(mass_kg, to_m)
     conf = compton_confinement_energy(to_m, mass_kg)
     r_s = schwarzschild_radius(mass_kg)
@@ -141,6 +169,8 @@ def shrink_report(mass_kg, from_m, to_m):
     if conf and conf > PLANCK_ENERGY:
         verdict.append(f"confinement energy {conf:.2e} J exceeds the Planck energy")
     return {
+        "from_m": from_m, "to_m": to_m,
+        "is_descent": bool(from_m is not None and to_m < from_m),
         "target_rung": rung, "target_rung_name": name,
         "density_kg_m3": rho, "confinement_energy_J": conf,
         "schwarzschild_radius_m": r_s,

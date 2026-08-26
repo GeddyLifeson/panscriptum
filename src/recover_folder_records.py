@@ -93,7 +93,7 @@ def main():
     roll_by_name = {r["name"]: r for r in roll}
     empty = [r["name"] for r in roll if r.get("entry_count", 0) == 0]
 
-    written, skipped_no_map, skipped_no_items = [], [], []
+    written, skipped_no_map, skipped_no_items, skipped_populated = [], [], [], []
 
     for name in empty:
         mapped = source_map.get(name)
@@ -124,6 +124,27 @@ def main():
             skipped_no_items.append(name)
             continue
 
+        path = os.path.join(RECORDS, slug(name) + ".json")
+
+        # THE ROLL IS A SNAPSHOT; THE RECORD FOLDER IS THE TRUTH. `empty` was selected from
+        # SWEEP_ROLL.json as it stood when this process started, and the roll is written by
+        # four different scripts (see `silence.write_json`'s own account of it). If another
+        # writer -- the cloud session, `ingest.py`, `resync_roll.py`, or a concurrent run of
+        # this very tool -- landed real researched entries in that record since the snapshot,
+        # writing here would replace research with a truncated folder-mechanical transcription
+        # and mark the roll `catalogued` over it, with nothing in the output saying so.
+        # An unreadable file counts as populated: not knowing what is there is not evidence
+        # that nothing is, and this direction is the recoverable one.
+        already = False
+        if os.path.exists(path):
+            try:
+                already = bool(load(path).get("entries"))
+            except Exception:
+                already = True
+        if already:
+            skipped_populated.append(name)
+            continue
+
         roll_entry = roll_by_name[name]
         record = {
             "source": name,
@@ -140,7 +161,6 @@ def main():
                            "descriptions are truncated at source."),
         }
 
-        path = os.path.join(RECORDS, slug(name) + ".json")
         if not args.dry_run:
             # ATOMIC. NOTE FOR REVIEW: the two-writer contract says a RECORD should be written
             # through `pipeline.write_record_catalogue`, not straight to disk at all. Making the
@@ -161,7 +181,13 @@ def main():
 
     if not args.dry_run and written:
         # ATOMIC: `resync_roll.py`'s docstring names THIS script as a roll-clobber source.
-        silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
+        # GATE ON THIS WRITE TOO, for the same reason the per-record writes above are gated:
+        # a denied replace here leaves every recovered source still reading `entry_count: 0`
+        # while its record sits on disk, and work selection is `entry_count == 0` -- so the
+        # next run would transcribe them all again over records that are now good.
+        if not silence.write_json(ROLL, roll, indent=2, ensure_ascii=False):
+            print("  ROLL WRITE DENIED; the records landed but SWEEP_ROLL.json still reads "
+                  "entry_count: 0 for them -- re-run to update the roll", flush=True)
 
     verb = "Would write" if args.dry_run else "Wrote"
     print(f"{verb} {len(written)} records, {sum(n for _, n, _ in written):,} entries:\n")
@@ -172,6 +198,12 @@ def main():
     print(f"  {len(skipped_no_map):3d} not in FOLDER_SOURCE_MAP (web-mode sources -- need real "
           f"research, no local data exists)")
     print(f"  {len(skipped_no_items):3d} mapped, but the register holds no items for them")
+
+    if skipped_populated:
+        print(f"\nLeft alone: {len(skipped_populated)} record(s) already hold entries on disk. "
+              f"The roll's entry_count is what is stale, not the record:")
+        for name in sorted(skipped_populated):
+            print(f"  {name}")
     if args.dry_run:
         print("\n(dry run -- nothing written)")
 

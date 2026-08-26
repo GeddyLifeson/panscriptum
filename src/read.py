@@ -209,6 +209,11 @@ _TRANSPORT = "auto"
 _CASCADE_OK = None
 _TRANSPORT_LOCK = threading.Lock()
 _FELL_BACK = [0]
+# `+= 1` on a shared slot is a read-modify-write, not an atomic step, and both increments below
+# run inside `_ask_ungated` under the whole worker pool. Lost updates understate the "N to GPU"
+# figure -- and that figure is the only thing that distinguishes a run quietly served entirely
+# from the slow path from a run that is merely slow, which is the reason the counter exists.
+_FELL_BACK_LOCK = threading.Lock()
 # Attempts through the pool before a chunk is handed to the local GPU. Each attempt claims a
 # different bucket, so three is three providers, not one provider three times.
 CASCADE_TRIES = 5
@@ -383,7 +388,8 @@ def _ask_ungated(c, system, prompt, schema):
             if _TRANSPORT != "cascade" and _GPU_DOWN_UNTIL[0] <= time.time():
                 got = _local(c, system, prompt, schema)
                 if got is not None:
-                    _FELL_BACK[0] += 1
+                    with _FELL_BACK_LOCK:
+                        _FELL_BACK[0] += 1
                     return got
             delay = 0.0
             for attempt in range(CASCADE_TRIES):
@@ -400,7 +406,8 @@ def _ask_ungated(c, system, prompt, schema):
             # Every bucket tried and none answered. Falling through to the GPU is right, but the
             # count has to be visible: a run quietly serving every call from the slow path looks
             # identical to a run that is merely slow.
-            _FELL_BACK[0] += 1
+            with _FELL_BACK_LOCK:
+                _FELL_BACK[0] += 1
             if _TRANSPORT == "cascade":
                 return None
     # THE GPU GETS THE SAME TEXT, IN PIECES IT CAN HOLD.
@@ -872,10 +879,12 @@ def priority(rows):
     woven, di, li = [], 0, 0
     while di < len(deep) or li < len(light):
         if di < len(deep):
-            woven.append(deep[di]); di += 1
+            woven.append(deep[di])
+            di += 1
         for _ in range(WEAVE):
             if li < len(light):
-                woven.append(light[li]); li += 1
+                woven.append(light[li])
+                li += 1
     return woven + no_page + thin
 
 
@@ -1090,7 +1099,8 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
             # says how many actually answer right now (14 this evening). Auto ran the reader
             # at a third of the pool's real width for a day.
             try:
-                import json as _j, os as _o
+                import json as _j
+                import os as _o
                 _pp = _o.path.join(HERE, "data", "POOL_PROOF.json")
                 _n = sum(1 for x in _j.load(open(_pp, encoding="utf-8"))
                          if isinstance(x, dict) and x.get("verdict") == "answers")

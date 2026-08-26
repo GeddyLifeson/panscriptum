@@ -440,12 +440,34 @@ def ensure_site(remote=None):
 
 
 def write(state=None):
+    """Land the page's data file. -> its path.
+
+    THROUGH THE RETRY, LIKE EVERY OTHER SHARED FILE HERE. The rename was a bare `os.replace`,
+    and on Windows that is DENIED outright while any reader holds the target open -- Norton
+    scanning the just-copied export tree is the documented one on this machine (see the module
+    docstring), and a person with `docs/state.json` open does it too. `silence.replace_retry`
+    exists for exactly this and every sibling ledger writer uses it (`overwatch.save`,
+    `overwatch.write_report`, `foreman`'s FOR_OWNER). Without it a transient lock raised
+    `PermissionError` out of here into `main()`'s catch-all, which abandoned the WHOLE cycle --
+    sync, render, write and push -- and returned rc=1 from a one-shot run for a lock that
+    outwaits itself in under a second. Run33 order d875404d0bda.
+
+    A DENIAL THAT SURVIVES THE RETRY IS STILL REPORTED. `replace_retry` answers False rather
+    than raising, and swallowing that answer here would let the cycle print "wrote
+    docs/state.json" over a file that did not move -- a published page frozen at yesterday's
+    numbers while the log says it was written, which is the shape of the temp-tree publish this
+    file's own SITE comment was written about.
+    """
     os.makedirs(DOCS, exist_ok=True)
     data = state if state is not None else snapshot()
     tmp = STATE_JSON + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=1)
-    os.replace(tmp, STATE_JSON)
+    if not silence.replace_retry(tmp, STATE_JSON):
+        silence.note("publish.py:state-json-denied")
+        raise RuntimeError(
+            "docs/state.json could not be replaced after five attempts -- a reader is holding "
+            "it open. Nothing was written; the page keeps the numbers it already had.")
     return STATE_JSON
 
 
@@ -467,11 +489,23 @@ def push(message=None):
     # a secret in a source file is not something to quietly rewrite behind the author's back.
     # The ledgers travel with everything else, so a truncated HANDOFF is not merely a lost relay
     # -- it is a published one. Checked here, at the same last moment as the secret scan.
+    # FAIL CLOSED, exactly as `main()` does for `escalation.py` below. This read
+    # `except ImportError: pass`, which meant a deleted, renamed or unparseable
+    # `ledger_guard.py` switched the last ledger-integrity check off silently -- no print, no
+    # `silence.note`, no escalation -- while the comment above went on promising that a
+    # truncated HANDOFF could not be published. That is Hard Rule -1's own incident wearing
+    # different clothes for the second time in one file: the run #31 fix was applied to the
+    # halt import twenty lines down and not to this one. A push that cannot ask whether the
+    # ledgers are intact has no business pushing, and the ledgers travel to the PUBLIC repo.
+    # Run33 order 6c1bb80ecc57.
     try:
         import ledger_guard as _LG
-        _LG.assert_intact()
-    except ImportError:
-        pass
+    except ImportError as _lg_gone:
+        raise RuntimeError(
+            "REFUSING TO PUSH: the ledger guard (src/ledger_guard.py) could not be imported "
+            "(%s), so the ledgers cannot be checked before they are published. Restore the "
+            "module, or push by hand once a person has read the ledgers." % _lg_gone)
+    _LG.assert_intact()
 
     # NEVER PUBLISH DELIBERATELY BROKEN CODE. `mutate.py` corrupts real source files on disk --
     # that is its entire method -- and on 2026-08-25 a push landed in the middle of a mutation

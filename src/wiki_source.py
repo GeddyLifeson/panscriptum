@@ -274,8 +274,18 @@ def resolve_wiki(source_name):
                                "data", "WIKI_HOSTS.json")
     try:
         with open(_hosts_path, encoding="utf-8") as f:
-            known = json.load(f).get(source_name)
-    except OSError:
+            _doc = json.load(f)
+        # PARSING IS A FILE OPERATION TOO. `except OSError` covered the file being absent and
+        # nothing else, so a torn or half-written WIKI_HOSTS.json -- a shared file with writers
+        # on their own clocks, which is the tearing this project has already paid for elsewhere
+        # -- raised JSONDecodeError (a ValueError, not an OSError) straight out of this
+        # resolver, past two callers in catalogue_web.py that wrap it in nothing. A hosts map
+        # that cannot be read is the same fact as a hosts map that is not there: fall through to
+        # the overrides and the guesses, which is what this block was already written to do.
+        # The isinstance guard is the second half: a JSON list parses fine and has no `.get`.
+        # Run33 order 2845d02ecad3.
+        known = _doc.get(source_name) if isinstance(_doc, dict) else None
+    except (OSError, ValueError):
         # Content labels, not line numbers: this label was shared with the live category probe
         # at `category_probes` below, so the ledger reported one class where two unrelated
         # things were failing -- a missing local hosts file and a wiki refusing a query. That

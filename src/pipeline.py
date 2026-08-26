@@ -49,6 +49,7 @@ import os
 import re
 import subprocess
 import sys
+import threading
 import time
 import traceback
 import urllib.request
@@ -1338,14 +1339,35 @@ def phase_entrypass(c, st):
             if landed and all(entry_settled(e) for e in batch):   # same predicate as the
                 if key not in done_keys:      # a reopened grown batch is already recorded --
                     done_keys.append(key)     # re-appending would grow the resume list forever
+                st.get("failed", {}).get("entrypass", {}).pop(key, None)   # see phase 1: a
+                # later success retires the earlier failure, so the failed-set stays a list of
+                # things actually still broken rather than a scar log.
+                #
+                # ONLY ON THIS BRANCH, since the run #33 sweep. The pop used to sit outside the
+                # if/elif/else and fired on all three paths -- including "the write was denied"
+                # and "judged 6 of 20" -- so any non-None answer from the model retired a
+                # recorded failure whether or not anything landed. Its correctly-gated twin in
+                # `phase_synthesis` about four hundred lines above only reaches its pop after
+                # `if not write_record(...): ...; continue`. The damage is to the health signal
+                # rather than to the corpus, and that is worse than it sounds: a batch under
+                # sustained write contention could sit at ZERO entries in `st["failed"]`, which
+                # is precisely the number `update_handoff` publishes to the owner as "Failures
+                # logged" in `handoff/RUN_STATUS.md`. This library runs unattended for days on
+                # that one line. It went quiet exactly when it should have been loudest.
             elif not landed:
                 log(f"    batch {key} judged in full but its write was denied - left open")
+                # RECORDED, NOT ONLY LOGGED, for the same reason and in the same words as
+                # `phase_synthesis`: a denied write is the failure most likely to repeat (the
+                # Windows lock this project hits routinely), and a failure whose only trace is
+                # a line in `state/pipeline.log` is not one the handoff can count.
+                st["failed"].setdefault("entrypass", {})[key] = "write denied"
             else:
                 log(f"    batch {key} returned {sum(1 for e in batch if entry_settled(e))}"
                     f"/{len(batch)} - left open for retry")
-            st.get("failed", {}).get("entrypass", {}).pop(key, None)   # see phase 1: a later
-            # success retires the earlier failure, so the failed-set stays a list of things
-            # actually still broken rather than a scar log.
+                # NOT recorded as a failure. A short answer is ordinary model behaviour and the
+                # batch is simply left open for the next run to redo; filing it would fill the
+                # failed-set with routine retries, which is the same way an alarm that always
+                # sounds becomes furniture.
             st["units_done"] += 1
             save_state(st)
         log(f"  {src[:50]:52s} done")
@@ -1460,12 +1482,54 @@ powershell -Command "Get-CimInstance Win32_Process -Filter \"Name='python.exe' o
 ```
 """
         os.makedirs(os.path.dirname(HANDOFF), exist_ok=True)
-        tmp = HANDOFF + ".tmp"
+        # THE LAST UNRETRIED WRITE IN THIS FILE. Every other artifact here -- `save_state`,
+        # `write_record`, `write_record_catalogue`, `land_json` -- lands through
+        # `silence.replace_retry`, which outwaits the Windows reader-holds-the-target denial
+        # this project hits routinely; this one called `os.replace` directly and simply lost
+        # the round to the `except` below. And the temp NAME carried neither pid nor thread, so
+        # two writers of this file collide on the temp itself and the loser can rename its own
+        # half-written copy over the winner's -- the collision `silence.write_json` was built
+        # to make unavailable at twelve sites on 2026-08-25, still open at this one. Both halves
+        # matter here specifically because `RUN_STATUS.md` is the file the owner reads to decide
+        # whether an unattended multi-day run is healthy. (run #33)
+        tmp = "%s.%d.%d.tmp" % (HANDOFF, os.getpid(), threading.get_ident())
         with open(tmp, "w", encoding="utf-8") as f:
             f.write(md)
-        os.replace(tmp, HANDOFF)
+        silence.replace_retry(tmp, HANDOFF)
     except Exception:
         log("  (handoff update failed: " + traceback.format_exc(limit=1).strip() + ")")
+
+
+def _chain_landed(CH, out):
+    """Did phase 4's artifact actually reach the disk? -> True/False.
+
+    THE ONE PHASE THAT COULD NOT USE `gate_done`, and therefore the one that reintroduced the
+    bug `gate_done` exists to close. Every other phase in this file writes through `land_json`,
+    which returns a landed/not-landed verdict; phase 4 writes through `chain.write_result`,
+    which is the right thing to do (one schema, one writer, see that function's own docstring)
+    but which returns the DATA it tried to write, unconditionally, whatever the disk said. A
+    denied rename there is only ever printed to stderr. So the call site had no verdict to gate
+    on and appended its done-key regardless -- and because the done-key is permanent, no later
+    run would ever redo it. `CHAIN.json` would keep the PREVIOUS cycle's fit forever while
+    `PIPELINE_STATE.json` recorded phase 4 as complete: the exact silent, permanent loss m36
+    closed at the twelve `land_json` sites, surviving at the thirteenth. Found by the run #33
+    sweep.
+
+    ASKED OF THE DISK, NOT OF THE WRITER, because the writer is not the one that can be wrong
+    here -- the rename is. `write_result` hands back the document it built, so reading the file
+    and comparing it to that document answers the only question that matters: is what is on
+    disk this cycle's fit or last cycle's? Compared through a json round-trip because the
+    document holds tuples (`unmatched` comes from `Counter.most_common`) that come back from
+    the file as lists, and a tuple/list mismatch would report a landed write as denied. The
+    file is a few kilobytes; this costs nothing once per run.
+    """
+    try:
+        with open(CH.OUT, encoding="utf-8") as f:
+            on_disk = json.load(f)
+    except Exception:
+        silence.note("pipeline.py:chain-artifact-unreadable")
+        return False
+    return on_disk == json.loads(json.dumps(out))
 
 
 def phase_chain(c, st):
@@ -1507,8 +1571,8 @@ def phase_chain(c, st):
         log(f"  identified: {res.get('identified')}  components: {len(res.get('components', []))}"
             f"  deviance/df: {res.get('deviance_per_df')}")
 
-    CH.write_result(edges, res, unmatched)   # one schema, one writer -- see chain.write_result
-    st["done"].setdefault("chain", []).append("all")
+    out = CH.write_result(edges, res, unmatched)   # one schema, one writer -- see write_result
+    gate_done(st, "chain", [_chain_landed(CH, out)])   # ... and the thirteenth landing gated
     st["units_done"] += 1
     save_state(st)
 
@@ -1882,7 +1946,14 @@ def phase_write(c, st):
             refused.append("%s (%s)" % (src, type(e).__name__))
     log("  manifest: %d job(s) across %d source(s), %d source(s) would not build"
         % (len(jobs), len(names), len(refused)))
-    for r in refused[:5]:
+    # UNCAPPED, per Hard Rule 0. This read `refused[:5]`, and a refusal roster is a roster: the
+    # five that print are the alphabetical head of the list, and every source past the cutoff
+    # is decided, on its own behalf, not to have happened. The count above stayed right the
+    # whole time, which is what made it comfortable -- "117 sources would not build" with five
+    # names under it looks like a summary rather than a truncation. The list is bounded by the
+    # roll, it only prints when something is already wrong, and the whole point of the line is
+    # to name which sources. (run #33)
+    for r in refused:
         log("    refused: %s" % r)
     landed = []
     if jobs:
@@ -1890,6 +1961,19 @@ def phase_write(c, st):
         os.makedirs(os.path.dirname(out), exist_ok=True)
         landed.append(land_json(out, jobs))
         log("  -> output/index/manifest.json   (run generate.py against it)")
+    elif refused:
+        # VACUOUS TRUTH, AND THE TWO HISTORIES IT CONFLATES. `gate_done` marks the phase done on
+        # `all(landed)`, and `all([])` is True -- deliberately, because a phase that correctly
+        # wrote nothing must not be held open forever (there is a drill net on exactly that).
+        # But `landed` is also empty when EVERY ready source raised inside
+        # `build_jobs_for_source` and landed in `refused` instead, and those two states are not
+        # the same state: one is "nothing needed building", the other is "everything refused to
+        # build". Marked done, the second is permanent -- no later run redoes phase 8, no
+        # manifest exists, and nothing anywhere records that a total build failure happened.
+        # A single False is enough to keep the unit open for the next run. (run #33)
+        log("  every ready source refused to build; phase 8 stays open rather than "
+            "recording an empty manifest as a finished one")
+        landed.append(False)
     gate_done(st, "write", landed)
     st["units_done"] += 1
     save_state(st)

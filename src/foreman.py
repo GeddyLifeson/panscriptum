@@ -861,7 +861,34 @@ def _function_source(path, symbol):
     with open(path, encoding="utf-8") as f:
         src = f.read()
     tree = _ast.parse(src)
-    want = symbol.split("(")[0].split(".")[-1].strip()
+    dotted = symbol.split("(")[0].strip()
+    want = dotted.split(".")[-1]
+    # HONOUR THE QUALIFIER WHEN THE FILE ACTUALLY HAS ONE. `symbol` may arrive qualified
+    # (`ClassB.__init__`), and the bare `split(".")[-1]` threw the qualifier away, so two
+    # same-named methods were indistinguishable and the MODEL lane -- which writes live source
+    # unsupervised -- could land ClassB's patch on ClassA's body. `verify_math.py` alone holds
+    # five `__init__`s. Resolved against the enclosing scope, so a match is exact; a qualifier
+    # that names no scope in this file (`module.func`, the older convention) falls through to
+    # the original bare-name search unchanged.
+    if "." in dotted:
+        qualified = {}
+
+        def _scopes(node, prefix):
+            for child in _ast.iter_child_nodes(node):
+                if isinstance(child, (_ast.FunctionDef, _ast.AsyncFunctionDef, _ast.ClassDef)):
+                    path = prefix + [child.name]
+                    qualified.setdefault(".".join(path), child)
+                    _scopes(child, path)
+                else:
+                    _scopes(child, prefix)
+
+        _scopes(tree, [])
+        node = qualified.get(dotted)
+        if isinstance(node, (_ast.FunctionDef, _ast.AsyncFunctionDef)):
+            lines = src.splitlines(keepends=True)
+            start = node.lineno - 1
+            end = getattr(node, "end_lineno", node.lineno)
+            return "".join(lines[start:end]), start, end
     for node in _ast.walk(tree):
         if isinstance(node, (_ast.FunctionDef, _ast.AsyncFunctionDef)) and node.name == want:
             lines = src.splitlines(keepends=True)

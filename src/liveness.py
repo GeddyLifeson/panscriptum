@@ -137,7 +137,15 @@ def scan():
                 taut.append("%s:%d both sides identical (%s)" % (name, node.lineno, op))
 
         # --- PHANTOM: a name used in an `if` test that the module never defines
-        defined = set(dir(__builtins__)) | set(EXEMPT)
+        # Seeded from `EXEMPT` and, below, from the `builtins` MODULE. It used to seed from
+        # `dir(__builtins__)` as well, which is only the builtins module when a file runs as
+        # `__main__`: on import CPython binds `__builtins__` to the builtins DICT, so `dir()`
+        # returned dict methods -- `get`, `items`, `keys`, `update`, `pop`, `copy` and 37 more
+        # -- and every one of them became a spurious exemption. A guard naming an undefined
+        # `get` would have been waved through, in the module whose whole job is finding guards
+        # that cannot fire. Nothing was lost by dropping it: `import builtins` below supplies
+        # the real names, which is why this never showed as a false negative on the real ones.
+        defined = set(EXEMPT)
         for n2 in ast.walk(t):
             if isinstance(n2, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
                 defined.add(n2.name)

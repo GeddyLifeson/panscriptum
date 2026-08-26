@@ -240,12 +240,22 @@ def resolve(oid, how, by=""):
     Deletion is the ruling, and it is enforced here rather than trusted to a person remembering
     to prune. An order that is 'resolved' but still listed is indistinguishable from an open one
     to the next reader, which is exactly how BUGS.md's Open section rotted.
+
+    AND THE RESOLUTION IS DEMANDED HERE, not only at the CLI. `main()` already refused an empty
+    `--how` with the right sentence, while the function that actually does the deleting accepted
+    `""` and `None` and wrote the string "None" into the paper trail. An invariant enforced in
+    one caller is not an invariant; it is a habit that caller happens to have.
     """
+    how = str(how or "").strip()
+    if not how:
+        raise BadOrder("a resolution is required to close %s. A closed order with no resolution "
+                       "recorded is indistinguishable from one deleted to tidy the queue, and "
+                       "the paper trail is the whole reason deleting it is safe." % oid)
     d = _load()
     rec = d.pop(oid, None)
     if rec is None:
         return None
-    rec.update({"resolved_at": time.time(), "resolution": str(how)[:400], "resolved_by": by})
+    rec.update({"resolved_at": time.time(), "resolution": how[:400], "resolved_by": by})
     _land(d)
     try:
         os.makedirs(os.path.dirname(CLOSED_LOG), exist_ok=True)
@@ -301,6 +311,34 @@ def sweep_detectors():
             filed.append(file_order(code, what, handler, severity, where=where,
                                     evidence=evidence, found_by=found_by))
 
+    # A DETECTOR THAT THROWS MUST FILE, NOT WHISPER (run #33). Every section below is wrapped so
+    # that one broken detector cannot take the whole sweep down with it -- but the wrapper's
+    # entire answer used to be `silence.note(...)`, which bumps a class-name counter in
+    # state/failures.json that nobody on the handler ladder is described as reading. A
+    # `LG.check_all()` that RAISES on a ledger too corrupt to parse is a worse condition than one
+    # that returns problems, and it filed nothing at all: `_fire` was never reached, so that
+    # detector's area of the queue read exactly like an area with nothing wrong in it. The note
+    # still happens; the failure now also files under its own code, keyed by `where` so each
+    # section owns one order, and closes itself the moment the detector completes again -- this
+    # queue is not allowed to become one that only grows.
+    def _detector(tag, ok):
+        if ok:
+            if resolve_code("DETECTOR_FAILED", "the %s detector ran to completion again" % tag,
+                            where=tag, by="workorders.sweep"):
+                closed.append("DETECTOR_FAILED:" + tag)
+            return
+        silence.note("workorders.py:" + tag)
+        try:
+            exc = sys.exc_info()[1]
+            filed.append(file_order(
+                "DETECTOR_FAILED",
+                "the %s detector raised instead of reporting: %s: %s. Nothing it watches filed "
+                "an order this cycle, so that area of the queue is UNKNOWN, not clean."
+                % (tag, type(exc).__name__, str(exc)[:160]),
+                "RUN", "MAJOR", where=tag, found_by="workorders.sweep"))
+        except Exception:
+            silence.note("workorders.py:detector-file")
+
     # 1. the ledgers
     try:
         import ledger_guard as LG
@@ -312,8 +350,9 @@ def sweep_detectors():
         _fire(chain_ok, "LEDGER_CHAIN",
               "the ledger hash chain does not verify: %s" % "; ".join(chain_problems[:3]),
               "SESSION", "BLOCKING", found_by="ledger_guard")
+        _detector("ledgers", True)
     except Exception:
-        silence.note("workorders.py:ledgers")
+        _detector("ledgers", False)
 
     # 2. dead code / checks that cannot fail
     try:
@@ -323,8 +362,9 @@ def sweep_detectors():
         _fire(n <= _D.LIVENESS_CEILING, "LIVENESS_RATCHET",
               "dead code / unfailable checks rose to %d against a ceiling of %d"
               % (n, _D.LIVENESS_CEILING), "LOCAL", "MAJOR", found_by="liveness")
+        _detector("liveness", True)
     except Exception:
-        silence.note("workorders.py:liveness")
+        _detector("liveness", False)
 
     # 3. quarantined wiki hosts -- one order per host, so each closes on its own recovery
     try:
@@ -344,8 +384,9 @@ def sweep_detectors():
             if o.get("code") == "HOST_QUARANTINED" and o.get("where") not in q:
                 if resolve(oid, "host is no longer quarantined", by="workorders.sweep"):
                     closed.append("HOST_QUARANTINED:" + str(o.get("where")))
+        _detector("bindings", True)
     except Exception:
-        silence.note("workorders.py:bindings")
+        _detector("bindings", False)
 
     # 3b. HOSTS THAT ARE UP BUT WHOSE TITLES DO NOT RESOLVE. Not a quarantine -- the host is
     #     serving -- so nothing above would ever file it, and until run #33 nothing did: the
@@ -380,8 +421,9 @@ def sweep_detectors():
                 if resolve_code("BINDING_SUSPECT", "titles resolve again", where=host,
                                 by="workorders.sweep"):
                     closed.append("BINDING_SUSPECT:" + host)
+        _detector("binding-suspect", True)
     except Exception:
-        silence.note("workorders.py:binding-suspect")
+        _detector("binding-suspect", False)
 
     # 4. secrets staged for the public repo
     try:
@@ -402,8 +444,9 @@ def sweep_detectors():
             if resolve_code("SECRET_IN_EXPORT", "scanner is clean (suppressed findings excluded)",
                             by="workorders.sweep"):
                 closed.append("SECRET_IN_EXPORT")
+        _detector("secrets", True)
     except Exception:
-        silence.note("workorders.py:secrets")
+        _detector("secrets", False)
 
     # 5. THE BATTERY. Cheap because it reads the artifacts the battery already leaves behind
     #    rather than re-running it -- two small JSON files, not the 100-second sweep. See
@@ -428,8 +471,9 @@ def sweep_detectors():
                   (f or {}).get("what", ""), (f or {}).get("handler", "RUN"),
                   (f or {}).get("severity", "MAJOR"), where=BATTERY_WHERE[code],
                   evidence=(f or {}).get("evidence"), found_by="battery")
+        _detector("battery", True)
     except Exception:
-        silence.note("workorders.py:battery")
+        _detector("battery", False)
 
     # 6. ORDERS FILED BY THE ESCALATION CHAIN, closed when their detector is clean again.
     #
@@ -439,14 +483,21 @@ def sweep_detectors():
     # reading. The drill is the authority on its own state, so ask it.
     try:
         drill_state = os.path.join(HERE, "state", "drill_last.json")
-        with open(drill_state, encoding="utf-8") as f:
-            last = json.load(f)
-        if not (last.get("breached") or []):
+        try:
+            with open(drill_state, encoding="utf-8") as f:
+                last = json.load(f)
+        except FileNotFoundError:
+            # The drill has simply never run in this tree. Nothing to close and nothing broken,
+            # and it is kept distinct from a detector fault on purpose: a fresh clone must not
+            # file a MAJOR order against an absence that is only the starting state.
+            last = None
+        if last is not None and not (last.get("breached") or []):
             if resolve_code("DRILL_BREACH", "drill re-runs clean: %s/%s nets held"
                             % (last.get("held"), last.get("nets")), by="workorders.sweep"):
                 closed.append("DRILL_BREACH")
+        _detector("drill-close", True)
     except Exception:
-        silence.note("workorders.py:drill-close")
+        _detector("drill-close", False)
 
     return filed, closed
 

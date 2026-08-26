@@ -35,8 +35,14 @@ def main():
 
     # index every record file by its declared `source`, which is more reliable than the
     # filename slug (slugging rules differ between the cataloguers)
+    # SORTED, because two record files can declare the SAME source -- that is exactly why this
+    # matches on the declared `source` field rather than the filename slug, and the comment
+    # above says so. `os.listdir` promises no order, so whichever of the two happened to be
+    # visited last silently won the dict slot and its entry count became the roll's new truth;
+    # which one won could differ between machines or between runs. Sorted, the winner is at
+    # least the same one every time and the fix is reproducible.
     by_source = {}
-    for fn in os.listdir(RECORDS):
+    for fn in sorted(os.listdir(RECORDS)):
         if not fn.endswith(".json"):
             continue
         try:

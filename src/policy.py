@@ -53,10 +53,22 @@ OPS = {
     "matches":   lambda v, a: v is not None and re.search(a, str(v)) is not None,
     "not_matches": lambda v, a: v is None or re.search(a, str(v)) is None,
     "glob":      lambda v, a: v is not None and fnmatch.fnmatch(str(v), a),
-    "is_type":   lambda v, a: isinstance(v, {"str": str, "int": int, "float": float,
-                                             "bool": bool, "list": list,
-                                             "dict": dict}.get(a, object)),
+    "is_type":   lambda v, a: isinstance(v, TYPES[a]),
 }
+
+# The type names `is_type` accepts, and a CLOSED SET for the same reason `OPS` is one.
+#
+# This lived inline as `{...}.get(a, object)`, and the default was the whole defect: a rule
+# written without `arg`, or with `arg` misspelled, folded to `isinstance(v, object)` -- true of
+# every value including `None`, an unconditional pass that would never fail again. Worse, it was
+# invisible to this module's own vacuous-pass detector, because `found` is True whenever the path
+# resolves and `evaluate()` only flags a pass that looked at an ABSENT field. So the one shape
+# this evaluator exists to refuse -- "a check that cannot fail looks exactly like a check that
+# passed" -- was reachable through the evaluator itself. Every rule table in this file happens to
+# pass a correct `arg`, so nothing was silently passing in production; it was a landmine for the
+# next table. Refused at load now, exactly as an unknown `op` already was. Found by the run #33
+# sweep (batch 15).
+TYPES = {"str": str, "int": int, "float": float, "bool": bool, "list": list, "dict": dict}
 
 
 class BadRule(ValueError):
@@ -96,6 +108,14 @@ def check_rule(doc, rule):
     if op not in OPS:
         raise BadRule("rule %s uses unknown op %r (known: %s)"
                       % (rule["id"], op, ", ".join(sorted(OPS))))
+    # Checked HERE rather than inside the lambda, because the `except Exception` below would
+    # otherwise catch the KeyError and record it as an ordinary rule FAILURE -- a malformed rule
+    # reported as a failing document, which sends the reader to the wrong place entirely. An
+    # unevaluable rule is refused at load, like an unknown op; a false verdict is never issued
+    # for one.
+    if op == "is_type" and rule.get("arg") not in TYPES:
+        raise BadRule("rule %s uses unknown is_type arg %r (known: %s)"
+                      % (rule["id"], rule.get("arg"), ", ".join(sorted(TYPES))))
     value, found = resolve(doc, rule["path"])
     try:
         ok = bool(OPS[op](value, rule.get("arg")))
@@ -186,11 +206,21 @@ def main():
         return 0
 
     evals = []
+    # A RECORD THAT COULD NOT BE READ IS A FINDING, NOT A GAP IN THE SAMPLE. This loop used a
+    # bare `except Exception: continue`, so a corrupt or truncated record was dropped from the
+    # evaluated set with no note, no counter and no line in the summary below -- and the run then
+    # reported a clean structural pass over whatever remained. That is this module's own reason
+    # for existing turned on itself: "a check that cannot fail looks exactly like a check that
+    # passed", and a check that was never attempted looks exactly like one that passed too.
+    # Counted and printed by name now. Found by the run #33 sweep (batch 15).
+    unreadable = []
     for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json")))[:a.limit]:
         try:
             with open(p, encoding="utf-8") as f:
                 evals.append(evaluate(json.load(f), RECORD_RULES, os.path.basename(p)))
-        except Exception:
+        except Exception as e:
+            silence.note("policy.py:record-unreadable")
+            unreadable.append((os.path.basename(p), "%s: %s" % (type(e).__name__, str(e)[:70])))
             continue
     cov = os.path.join(HERE, "data", "COVERAGE.json")
     if os.path.exists(cov):
@@ -207,6 +237,11 @@ def main():
             if r.get("severity") == "INFO"]
     vacuous = [(e["subject"], r) for e in evals for r in e["vacuous"]]
     print("%d document(s) evaluated" % len(evals))
+    if unreadable:
+        print("%d record(s) COULD NOT BE READ and were never evaluated -- not a pass"
+              % len(unreadable))
+        for fname, why in unreadable[:12]:
+            print("  UNREAD %-26s %s" % (fname[:26], why))
     if info:
         by_rule = {}
         for _s, r in info:

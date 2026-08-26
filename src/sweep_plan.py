@@ -148,7 +148,14 @@ def record(run, covered, batch=None):
         tmp = "%s.tmp" % p
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump({"run": run, "batch": batch, "at": now, "modules": covered}, f, indent=1)
-        os.replace(tmp, p)
+        # replace_retry, not a bare os.replace -- the other two landings in this file already go
+        # through it. `_read_shards()` in a sibling process globs and opens this very directory
+        # on its own clock, and on Windows the rename is DENIED while any reader holds the
+        # target. Today `_shard_path` embeds run+batch+pid so the name is usually brand new; it
+        # stops being new the moment a caller retries `record()` for the same run/batch in the
+        # same process, which is exactly when losing the write costs a batch its coverage.
+        import silence
+        silence.replace_retry(tmp, p)
     except Exception:
         try:
             import silence

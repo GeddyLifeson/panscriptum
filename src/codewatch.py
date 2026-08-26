@@ -141,8 +141,37 @@ def twins(module, exclude_pid=None):
                     break
                 if not a.startswith("-"):
                     break            # a non-flag, non-.py argument: this is not `python x.py`
-            if script and os.path.basename(script) == needle:
-                found.append(proc.info["pid"])
+            if not script or os.path.basename(script) != needle:
+                continue
+            # AND IT MUST BE THIS TREE'S COPY OF IT. The basename test alone matches a process
+            # running a DIFFERENT checkout's file of the same name, and on 2026-08-25 that
+            # raised a real halt: `mutate.py` runs the whole battery inside a throwaway sandbox
+            # (a temp copy of `src/`, precisely so the live tree is never corrupted), so a
+            # sandboxed `python src/verify_math.py` was reported as a twin of the live tree's
+            # verify_math. `drill.py`'s control net asserts `twins("verify_math") == []` -- a
+            # module no daemon runs -- so the drill breached against correct code and HALTED the
+            # library over a process that was doing exactly what it was designed to do.
+            #
+            # The same confusion has a worse form than a false halt. `claim_singleton` exits a
+            # daemon when it finds a twin, so a sandboxed mutation run -- or the export copy, or
+            # any second checkout on this machine -- could have made a live daemon stand down
+            # for a namesake in a directory it has nothing to do with. That is this function's
+            # own docstring's warning ("an outage that reports itself as caution") arriving by a
+            # second route, the first having been the linter-matched-as-a-daemon bug above.
+            resolved = script
+            if not os.path.isabs(resolved):
+                # A relative `src/x.py` is only meaningful against the process's own cwd.
+                try:
+                    resolved = os.path.join(proc.cwd(), resolved)
+                except Exception:
+                    resolved = None
+            if resolved is None:
+                continue                 # cannot tell whose copy it is -- FAIL OPEN, as above
+            try:
+                if os.path.samefile(resolved, os.path.join(SRC, needle)):
+                    found.append(proc.info["pid"])
+            except OSError:
+                continue                 # vanished mid-walk, or unreadable: FAIL OPEN
         except Exception:
             continue
     return found

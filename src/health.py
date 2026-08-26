@@ -129,8 +129,34 @@ def flush():
         try:
             old = {}
             if os.path.exists(SAMPLES_PATH):
-                with open(SAMPLES_PATH, encoding="utf-8") as f:
-                    old = json.load(f)
+                try:
+                    with open(SAMPLES_PATH, encoding="utf-8") as f:
+                        old = json.load(f)
+                except Exception as e:
+                    # THE SELF-HEALING PATH THE COMMENT BELOW HAS BEEN ASKING FOR SINCE IT WAS
+                    # WRITTEN. It described this exact hole -- a torn SAMPLES_PATH sends every
+                    # future flush into the blanket `except` at THIS read, so the evidence bag
+                    # goes quietly empty and stays that way for ever, with nothing recorded
+                    # anywhere -- and then did not close it. A described, never-implemented fix
+                    # is indistinguishable at runtime from no fix at all, and this is the
+                    # recorder: it is the one component whose silent failure hides every other
+                    # component's failure. So the ledger's own treatment, applied here: keep the
+                    # wreck as SAMPLES.json.corrupt, say so on stderr, and carry on with a fresh
+                    # bag rather than reading a corpse on every flush from now on.
+                    #
+                    # PRESERVATION IS THE PRECONDITION, NOT A COURTESY. If the rename does not
+                    # land -- Windows, a reader holding the file, the WinError 5 class
+                    # `replace_retry` exists for -- the original exception is re-raised into the
+                    # blanket `except` below and this flush drops its samples exactly as it did
+                    # before. That is the old behaviour and it is the safe one: overwriting an
+                    # unreadable evidence file we could not first set aside would destroy the
+                    # only copy of whatever tore it. (run33)
+                    if not silence.replace_retry(SAMPLES_PATH, SAMPLES_PATH + ".corrupt"):
+                        raise
+                    old = {}
+                    print(f"health: failure samples unreadable ({type(e).__name__}); "
+                          f"kept as {os.path.basename(SAMPLES_PATH)}.corrupt, starting fresh",
+                          file=sys.stderr)
             for k, ring in _SAMPLES.items():
                 merged = (old.get(k) or []) + ring
                 old[k] = merged[-SAMPLES_KEEP:]
@@ -342,8 +368,15 @@ def check_state():
             if key not in done:
                 continue
             batch = E[start:start + B]
-            n = sum(1 for e in batch
-                    if not e.get("catalogued") and not e.get("excluded"))
+            # THROUGH THE SHARED PREDICATE, never re-spelled. This used to read
+            # `not e.get("catalogued") and not e.get("excluded")` -- correct, and correct by
+            # coincidence: it was a second hand-written copy of the rule that
+            # `pipeline.entry_settled` exists to be the only copy of. Run #20's ruling on the
+            # struck-entry incident was explicit that the repair "was not the missing clause,
+            # it was collapsing the rule into ONE predicate ... so they cannot drift again",
+            # and a copy that happens to agree today is exactly what drift looks like the day
+            # before it stops agreeing. (run33)
+            n = sum(1 for e in batch if not P.entry_settled(e))
             if not n:
                 continue
             if P.batch_settled(key, done, batch):
@@ -412,7 +445,22 @@ def reopen_stranded(dry=True):
             key = f"{r['source']}#{start}"
             if key not in doneset:
                 continue
-            missing = sum(1 for e in E[start:start + B] if not e.get("catalogued"))
+            # A STRUCK ENTRY IS NOT STRANDED WORK, AND THIS COUNT USED TO SAY IT WAS. The test
+            # here was `not e.get("catalogued")`, which is the pre-2026-08-24 gate verbatim --
+            # the one whose removal `pipeline.batch_settled` documents at length. `cleanup.py`
+            # strikes wiki-navigation cruft and description-less rules constructs by setting
+            # `catalogued = False` and writing an `excluded` reason, so a struck entry NEVER
+            # becomes catalogued no matter how often its batch is reprocessed. Under the old
+            # test every batch holding one was permanently "stranded": `--reopen --go` would
+            # reopen it, `phase_entrypass` would set `catalogued = True` unconditionally, and
+            # the exclusion would be reverted. That is not a hypothetical -- measured
+            # 2026-08-24, 149 entries carried `excluded` and all 149 had already been flipped
+            # back, which is cleanup's entire effect on the corpus undone. This repair tool was
+            # still holding the loop open by itself while `check_state()` twenty lines above
+            # correctly called the same batches settled. Both now ask `pipeline.entry_settled`,
+            # which is the single copy of the rule and the reason the two cannot disagree
+            # again. (run33)
+            missing = sum(1 for e in E[start:start + B] if not P.entry_settled(e))
             if missing:
                 reopen.append(key)
                 entries += missing

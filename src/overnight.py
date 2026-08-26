@@ -315,7 +315,14 @@ def foreman_report():
         with open(path, encoding="utf-8") as f:
             rounds = json.load(f)
     except Exception:
-        silence.note("overnight.py:203")
+        # CONTENT LABELS, NOT LINE NUMBERS, here and at the four sites below. These five keys
+        # read "overnight.py:203", ":229", ":253", ":124" and ":141" -- line numbers from a
+        # version of this file that has not existed for two refactors, pointing at code that
+        # has nothing to do with the swallow they name. The label IS the key `state/failures.json`
+        # aggregates on and the one `ledger_report()` prints every cycle, so a reader chasing a
+        # specific swallowed failure was sent to the wrong lines; the same drift BUGS m5 fixed in
+        # wiki_source and m81 in dashboard. Descriptive keys survive the next refactor.
+        silence.note("overnight.py:foreman-report-read")
         return
     if not rounds:
         return
@@ -357,7 +364,7 @@ def watch_report(top=6):
         with open(path, encoding="utf-8") as f:
             d = json.load(f)
     except Exception:
-        silence.note("overnight.py:229")
+        silence.note("overnight.py:watch-report-read")
         return
     open_f = [v for v in (d.get("findings") or {}).values() if v.get("state") == "open"]
     if not open_f:
@@ -382,7 +389,7 @@ def ledger_report(top=8):
         with open(path, encoding="utf-8") as f:
             d = json.load(f)
     except Exception:
-        silence.note("overnight.py:253")
+        silence.note("overnight.py:ledger-report-read")
         return
     if not d:
         return
@@ -507,7 +514,7 @@ def coverage_snapshot():
                        env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
         rows = json.load(open(os.path.join(HERE, "data", "COVERAGE.json"), encoding="utf-8"))
     except Exception as e:
-        silence.note("overnight.py:124")
+        silence.note("overnight.py:coverage-snapshot")
         return {"error": f"{type(e).__name__} {str(e)[:60]}"}
     n = sum(r["entries"] for r in rows)
     cited = sum(r["cited"] for r in rows)
@@ -525,7 +532,7 @@ def preflight():
                            env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
         out = r.stdout
     except Exception as e:
-        silence.note("overnight.py:141")
+        silence.note("overnight.py:preflight")
         # SAY SO (run #19). The return value below is indistinguishable from a clean preflight --
         # `(0, False)` takes neither of main()'s branches, so a health.py that crashed, timed out
         # after its 30 minutes, or could not be launched at all read exactly like "checked,

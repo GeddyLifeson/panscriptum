@@ -51,6 +51,19 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import assay as A          # noqa: E402
 
+# A regex escape arriving as a literal control character matches nothing and fails SILENTLY.
+# A word-boundary escape written through a shell heredoc has arrived here as a 0x08 backspace
+# five separate times in this project. Each time it read as a tuning problem -- a gate that
+# passed nothing, a parser that found zero rows -- rather than as corruption, which is what
+# makes it expensive. The check is built from chr() codes because the first version was
+# written with escapes and they were eaten too, so it flagged its own source and refused.
+# This module carries sixteen word-boundary escapes across `_ORIGIN` and the `GROUNDINGS`
+# cues, and until run #33 was the one file of its shape in the kit without the guard.
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding='utf-8').read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ': a regex escape was eaten in transit - a literal control '
+                     'character is present in the source. Repair before running.')
+
 # What counts as an entry that speaks to origins at all. Everything else is a fact about the
 # world, not about how it came to be one.
 _ORIGIN = re.compile(

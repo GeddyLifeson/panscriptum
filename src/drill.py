@@ -946,12 +946,77 @@ def drill_two_writer():
 
 # ============================================================== THE UNDO (snapshots)
 
+def _snapshot_proves_a_directory():
+    """A snapshotted DIRECTORY must be proved file by file, not by the folder still existing.
+
+    THE GAP THIS COVERS, found by the run #33 sweep. Every net in `drill_snapshot` exercised a
+    single FILE -- `config.yaml` -- and `snapshot.verify()` only ran its byte comparison under
+    `os.path.isfile(a)`. So for a directory, the sole surviving check was `os.path.exists(b)`,
+    which is true of a folder whatever is or is not inside it, and a restore that dropped or
+    truncated every file beneath it still reported "N path(s) restored and byte-identical".
+    The battery had no way to notice, because the battery never snapshotted a directory. A
+    directory is not the exotic case here: it is what `before()` takes through `shutil.copytree`
+    and what a caller about to withdraw a folder of chapters actually hands it.
+
+    THE END-TO-END HALF CANNOT FAIL BY ITSELF and is not asked to. Taking a snapshot of a real
+    directory and verifying it proves that the directory path is walked at all, but it would
+    keep passing if the byte comparison were deleted again -- that is the whole shape of the
+    original defect. The teeth are the two REFUSALS below, put directly to the comparator:
+    a file missing on the restored side, and a file present with different bytes AT THE SAME
+    LENGTH, which is the answer a stat-only or shallow compare would wave through. Remove the
+    comparator and this net raises rather than passes.
+
+    In `state/` rather than the system temp dir because `snapshot._rel` takes paths relative to
+    the repo root, and an absolute path from outside it produces a `../..` relative path that
+    would escape the snapshot directory. Both the scratch tree and the snapshot it produces are
+    removed in the `finally`; the drill leaves nothing behind.
+    """
+    import shutil
+    import tempfile
+    import snapshot as SNAP
+    d = tempfile.mkdtemp(prefix="drilldir_", dir=os.path.join(HERE, "state"))
+    sid = None
+    try:
+        os.makedirs(os.path.join(d, "nested"))
+        for name, body in (("top.txt", "the bytes that must come back\n"),
+                           (os.path.join("nested", "chapter.txt"), "a chapter, nested\n")):
+            with open(os.path.join(d, name), "w", encoding="utf-8") as f:
+                f.write(body)
+        sid = SNAP.before("drill-dir", [d], note="drill self-test (directory)")
+        if not SNAP.verify(sid)[0]:
+            return False
+
+        # ... and the comparator must be able to say no, in both shapes.
+        other = tempfile.mkdtemp(prefix="drilldir2_", dir=os.path.join(HERE, "state"))
+        try:
+            shutil.copytree(d, other, dirs_exist_ok=True)
+            os.remove(os.path.join(other, "nested", "chapter.txt"))
+            if SNAP._dir_matches(d, other)[0]:
+                return False                      # a dropped file read as byte-identical
+            with open(os.path.join(other, "nested", "chapter.txt"), "w",
+                      encoding="utf-8") as f:
+                f.write("a chapter, mangled\n")   # same length, different bytes
+            if SNAP._dir_matches(d, other)[0]:
+                return False
+            return True
+        finally:
+            shutil.rmtree(other, ignore_errors=True)
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+        if sid:
+            shutil.rmtree(os.path.join(SNAP.ROOT, sid), ignore_errors=True)
+
+
 def drill_snapshot():
     a = "THE UNDO — is there a copy behind an irreversible step, and does it restore?"
     import snapshot as SNAP
     sid = SNAP.before("drill", ["config.yaml"], note="drill self-test")
     net(a, "a snapshot restores byte-identically", lambda: SNAP.verify(sid)[0],
         "an untested backup is a belief, not a backup")
+    net(a, "a snapshotted DIRECTORY is proved file by file, not by its own existence",
+        _snapshot_proves_a_directory,
+        "every net here exercised one file, and a folder of chapters is what really gets "
+        "snapshotted")
     net(a, "an EMPTY snapshot raises rather than passing",
         lambda: _refuses(lambda: SNAP.before("drill-empty", ["no/such/path"]),
                          SNAP.SnapshotFailed),
@@ -1031,7 +1096,9 @@ def drill_policy():
         lambda: POL.resolve({"a": None}, "a")[1] and not POL.resolve({}, "a")[1],
         "a resolver that returns only the value makes 'holds null' and 'has no such key' identical")
     net(a, "the live corpus passes its structural rules",
-        lambda: _policy_corpus_clean(),
+        _policy_corpus_clean,      # the function, not a lambda wrapping it: every other net in
+        # this battery passes the callable itself, and the wrapper is a layer that can only
+        # ever forward. `secondopinion` flagged it (PLW0108) and it is the right call. (run #33)
         "records and coverage rows must be well-formed before anything reasons over them")
 
 
@@ -1074,6 +1141,60 @@ def _refusal_is_recorded():
     return '"pages_refused": unreal' in src and "unreal[t] = why" in src
 
 
+def _throttle_hands_off():
+    """A host throttled to the strike limit must be HANDED to binding_health, not hit again.
+
+    THE OLD NET ASSERTED A CONSTANT AND A NAME:
+
+        lambda: F.THROTTLE_STRIKES >= 1 and hasattr(F, "note_throttled")
+
+    Neither half ever drives a call. `THROTTLE_STRIKES` is a module constant nobody was going
+    to set to zero, `hasattr` asks whether a name exists, and the entire hand-off -- the
+    `if strikes >= THROTTLE_STRIKES` test and the `BH.quarantine(...)` inside it -- could be
+    deleted outright with both halves still true. Its sibling two lines up, `_backoff_adapts`,
+    already showed the right shape: call the real function against a throwaway host and read
+    the real state back. Found by the run #33 sweep, alongside the `or True` in
+    `_refusal_is_recorded` immediately above it.
+
+    THE HAND-OFF IS TAKEN BY A STAND-IN, swapped into `sys.modules` and restored in a
+    `finally`. `note_throttled` does its `import binding_health as BH` inside its own body, so
+    the stand-in is what it reaches -- and it must be, because the real `quarantine()` writes
+    to `data/HOST_QUARANTINE.json` and the drill is not allowed to leave a quarantine behind
+    for a host that does not exist. A battery with side effects is a battery nobody dares run
+    on a live library, which is the one place it is worth running.
+
+    BOTH DIRECTIONS ARE ASSERTED. Handing off too early is its own defect -- three strikes is
+    the point at which "busy right now" stops being the likelier reading than "we are being
+    blocked", and a hand-off on the first 429 would quarantine every healthy host under load.
+    So the net requires silence below the threshold and exactly one hand-off at it.
+    """
+    import types
+    import feats as F
+    h = "__drill_quarantine__.invalid"
+    handed = []
+    stub = types.ModuleType("binding_health")
+    stub.is_quarantined = lambda host: False
+    stub.quarantine = lambda host, why: handed.append((host, why))
+    had = "binding_health" in sys.modules
+    prev = sys.modules.get("binding_health")
+    F._BACKOFF.pop(h, None)
+    F._STRIKE.pop(h, None)
+    try:
+        sys.modules["binding_health"] = stub
+        for _ in range(F.THROTTLE_STRIKES - 1):
+            F.note_throttled(h)
+        early = list(handed)
+        F.note_throttled(h)
+    finally:
+        if had:
+            sys.modules["binding_health"] = prev
+        else:
+            sys.modules.pop("binding_health", None)
+        F._BACKOFF.pop(h, None)
+        F._STRIKE.pop(h, None)
+    return early == [] and len(handed) == 1 and handed[0][0] == h
+
+
 def drill_fetch():
     """Between the wiki and the model: the two ways a network failure becomes a false absence."""
     a = "THE FETCH — can a blocked or throttled page read as an empty subject?"
@@ -1087,7 +1208,7 @@ def drill_fetch():
         _refusal_is_recorded,
         "the distinction between 'no evidence' and 'we were blocked' must survive to the cache")
     net(a, "persistent throttling hands off to quarantine rather than hammering",
-        lambda: F.THROTTLE_STRIKES >= 1 and hasattr(F, "note_throttled"),
+        _throttle_hands_off,
         "past a few strikes, 'busy' is a less likely reading than 'blocked'")
     net(a, "the backoff has a ceiling -- slowed, never stopped",
         lambda: 1.0 < F.BACKOFF_MAX <= 128.0,

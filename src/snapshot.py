@@ -91,6 +91,36 @@ def manifest(sid):
         return json.load(f)
 
 
+def _dir_matches(a, b):
+    """-> (ok, why) for a snapshotted DIRECTORY, compared file by file, bytes and all.
+
+    THE HOLE THIS FILLS, found by the run33 sweep (order e5116f51c82a). `verify()` compared
+    bytes only under `os.path.isfile(a)`, so when the snapshotted path was a DIRECTORY -- which
+    is what `before()` takes through `shutil.copytree`, and what a caller about to withdraw a
+    folder of chapters actually snapshots -- the only check left standing was `os.path.exists(b)`,
+    which is true of any directory whatever is or is not inside it. A restore that dropped,
+    truncated or corrupted every file beneath it still reported "N path(s) restored and
+    byte-identical". That is this module's own stated failure: an untested backup is a belief,
+    and a verify that cannot fail is how the belief gets held.
+
+    Walks the SNAPSHOT side, because the snapshot is the thing being proved restorable: every
+    file it holds must be present and identical on the restored side. Deliberately dumb like the
+    rest of this module -- no `dircmp` heuristics and no shallow compare, since a stat-only
+    match is exactly the answer a truncated restore would give.
+    """
+    import filecmp
+    for root, _dirs, files in os.walk(a):
+        for name in files:
+            fa = os.path.join(root, name)
+            sub = os.path.relpath(fa, a).replace(os.sep, "/")
+            fb = os.path.join(b, os.path.relpath(fa, a))
+            if not os.path.isfile(fb):
+                return False, "restore omitted %s" % sub
+            if not filecmp.cmp(fa, fb, shallow=False):
+                return False, "restored bytes differ for %s" % sub
+    return True, ""
+
+
 def verify(sid):
     """-> (ok, detail). Restore into a TEMP directory and compare bytes against the snapshot.
 
@@ -113,6 +143,11 @@ def verify(sid):
                 return False, "restore omitted %s" % rel
             if os.path.isfile(a) and not filecmp.cmp(a, b, shallow=False):
                 return False, "restored bytes differ for %s" % rel
+            # A directory's existence says nothing about its contents; `_dir_matches` reads them.
+            if os.path.isdir(a):
+                dir_ok, why = _dir_matches(a, b)
+                if not dir_ok:
+                    return False, "inside %s: %s" % (rel, why)
         return True, "%d path(s) restored and byte-identical" % n
     except Exception as e:
         return False, "restore raised %s: %s" % (type(e).__name__, e)

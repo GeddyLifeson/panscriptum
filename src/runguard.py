@@ -85,6 +85,50 @@ def _land(rec, path):
     return silence.write_json(path, rec, indent=2)
 
 
+def _land_claim(rec, path, expected_digest):
+    """Land a CLAIM, and only onto the file the claimant actually read. -> (ok, reason).
+
+    THE RACE THIS CLOSES. `claim()` read the guard, decided it was free, and wrote -- with
+    nothing between the read and the write. Two processes firing on the same cadence can both
+    read a free (or stale) guard inside that window and both come away believing `ok=True`, which
+    defeats the single invariant this module exists to hold: only one run at a time. `_land`
+    below is atomic in the sense `silence.write_json` means it -- the file is never half-written
+    -- but atomicity of one write says nothing about STALENESS, and staleness is the whole
+    hazard here. `silence.replace_if_unchanged` is the compare-and-swap this codebase already
+    grew for exactly this shape (m42) and it was simply not used on the one file that decides
+    whether two maintenance runs may overlap. Found by the run #33 sweep (batch 04).
+
+    IT FAILS CLOSED, and that is the correct direction: a refused claim means the run stands
+    down and the next cadence tries again, which is the NORMAL outcome this guard is built
+    around. A false claim means two runs writing the library at once, which is not recoverable
+    by waiting.
+
+    `beat()` and `release()` do not need this. Their protection is the ownership check -- they
+    refuse outright to touch a record carrying another agent's name -- and a heartbeat that
+    loses a CAS race with itself has nothing useful to do about it.
+    """
+    import threading as _th
+    directory = os.path.dirname(path)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+    # PID AND THREAD IN THE TEMP NAME, matching `silence.write_json`: a fixed `path + ".tmp"`
+    # is itself a collision between two claimants, which is what run #33 found in `_land`.
+    tmp = "%s.%d.%d.tmp" % (path, os.getpid(), _th.get_ident())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(rec, f, indent=2)
+    except Exception:
+        silence.note("runguard._land_claim")
+        return False, "could not stage the guard record"
+    ok, why = silence.replace_if_unchanged(tmp, path, expected_digest)
+    if not ok:
+        try:
+            os.remove(tmp)
+        except OSError:
+            _ = "silence-exempt: a leftover temp carries our own pid and collides with nobody"
+    return ok, why
+
+
 def holder_is_live(rec, now=None):
     """Is this record a predecessor that is still working?
 
@@ -107,6 +151,13 @@ def claim(agent, path=GUARD, note=None):
     predecessor is the NORMAL outcome of a cadence that fires more often than a run takes, and
     exiting immediately is the correct result rather than a failure.
     """
+    # THE DIGEST IS TAKEN BEFORE THE READ, NOT AFTER, and the order is the entire safety
+    # property. Digest-then-read means a competitor landing in the gap leaves us holding an
+    # older digest than the bytes we went on to reason about, so the compare-and-swap below
+    # refuses and we stand down -- the safe direction. Read-then-digest inverts it: we would
+    # hold the NEWER digest while reasoning about the older content, and the swap would happily
+    # let us overwrite a claim we never saw.
+    expected = silence.digest_of(path)
     prior = read(path)
     if holder_is_live(prior):
         age = time.time() - prior.get("heartbeat", 0)
@@ -121,8 +172,9 @@ def claim(agent, path=GUARD, note=None):
         # the takeover is legible in the file itself rather than only in a handoff entry.
         rec["superseded"] = {"agent": prior.get("agent"), "started": prior.get("started"),
                              "heartbeat": prior.get("heartbeat")}
-    if not _land(rec, path):
-        return False, "could not write the guard record"
+    ok, why = _land_claim(rec, path, expected)
+    if not ok:
+        return False, "could not write the guard record: %s" % why
     return True, "claimed"
 
 

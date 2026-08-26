@@ -87,10 +87,18 @@ def check_structure(name, text=None):
         if sec not in text:
             problems.append("%s has no '%s' section" % (name, sec))
     if name == "BUGS.md" and "## Open" in text and "## Resolved" in text:
-        i, j = text.find("## Open"), text.find("## Resolved")
-        watch = text.find("## Watching")
-        op = text[i:(watch if 0 < watch < j else j)]
-        res = text[j:]
+        # SECTIONS BOUNDED BY THE ORDER THEY ARE FOUND IN, not by an assumed Open-then-Resolved
+        # layout. The earlier version sliced `text[i:j]` on that assumption; reorder the file --
+        # a human edit, a template change -- and `i > j` makes Python answer the slice with `""`,
+        # so `op` is empty, the intersection is empty, and the one check that exists to catch a
+        # bug filed in two places passes even when every Resolved bug is still sitting in Open.
+        # A check that cannot fail reads exactly like a check that passed.
+        marks = sorted((text.find(s), s) for s in ("## Open", "## Resolved", "## Watching")
+                       if text.find(s) >= 0)
+        span = {}
+        for n, (at, sec) in enumerate(marks):
+            span[sec] = text[at:(marks[n + 1][0] if n + 1 < len(marks) else len(text))]
+        op, res = span["## Open"], span["## Resolved"]
         both = sorted(set(re.findall(r"\[([Mm]\d+)\]", op))
                       & set(re.findall(r"\[([Mm]\d+)\]", res)))
         if both:
@@ -197,7 +205,13 @@ def verify_chain():
             for name, cur in (rec.get("ledgers") or {}).items():
                 was = ((links[i - 1].get("ledgers") or {}).get(name) or {}).get("bytes")
                 now = (cur or {}).get("bytes")
-                if was and now and name in APPEND_ONLY and now < was:
+                # `is not None`, not truthiness: a ledger wiped to a genuinely EMPTY file records
+                # `now == 0`, which is falsy, and the old `was and now and ...` short-circuited
+                # to False on exactly the total truncation this check exists to catch. That it
+                # never bit is owed to `assert_intact()` running `check_all()`'s byte floor
+                # first -- redundancy in the caller, not a property of this function, and any
+                # standalone caller (a drill, a health check) got a clean pass on a wiped ledger.
+                if was is not None and now is not None and name in APPEND_ONLY and now < was:
                     problems.append("%s SHRANK between link %d and %d (%d -> %d bytes)"
                                     % (name, i - 1, i, was, now))
         prev = rec.get("self")

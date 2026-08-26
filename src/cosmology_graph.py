@@ -150,6 +150,12 @@ def main():
                       for (a, b), w in sorted(pair_w.items(), key=lambda kv: -kv[1])
                       if w >= 1.0],
             "clusters": comps,
+            # `src_entities` was built, returned and unpacked, then read by nothing -- it
+            # reached no print and no file, so the per-source count of co-attested entities
+            # existed only for the length of one call. Written here, WHOLE and uncapped, so
+            # the work the function already does is actually available. Additive: propagation
+            # and resonance read `pairs`/`clusters` and are untouched by a new key.
+            "source_entities": dict(sorted(src_entities.items())),
             "threshold": args.threshold,
         }, indent=2, ensure_ascii=False)
         print(f"\nwrote {OUT}")

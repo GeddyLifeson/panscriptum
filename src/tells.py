@@ -67,6 +67,16 @@ LEXICAL_FICTION = [
 
 # ------------------------------------------------------------------ structural
 STRUCTURAL = {
+    # The three alternatives are deliberately NOT symmetrical, and run33 filed the asymmetry as a
+    # bug before checking what symmetry would cost. "not merely" and "not simply" are marked
+    # enough that they are the reveal on their own -- "It was not merely a fortress, it is a
+    # testament to craft" and "This is not simply a map; it is a claim" are the shape, and neither
+    # contains a "but". "not just" is ordinary English ("he did not just leave", "not just yet"),
+    # so it alone carries the `.{0,40}\bbut\b` completion that keeps it from firing on innocent
+    # prose. Grouping all three under the shared completion, to make the pattern read like its
+    # own label, silently drops the first two examples above -- including the one this module's
+    # own `__main__` self-check passage is built from. The label names the construction; the
+    # pattern is tiered by how common each phrase is in honest writing. Leave it uneven.
     "not merely X but Y": r"\bnot merely\b|\bnot simply\b|\bnot just\b.{0,40}\bbut\b",
     "it's not X, it's Y": r"\b(?:is|was|are|were)n['’]?t (?:a |an |the )?\w+[,;] (?:it|they|which) (?:is|was|are|were)\b",
     "X is not Y; it is Z": r"\bis not (?:a |an |the )?\w+[;,] (?:it|which) is\b",

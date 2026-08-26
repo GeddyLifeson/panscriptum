@@ -313,10 +313,23 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
     #
     # Ranked richest-first by feat count, and PAGINATED, never truncated: every entity with
     # feats gets a block, and a large cast simply produces more blocks.
+    #
+    # AND A FAILED LOOKUP SAYS SO, OUT LOUD. `except Exception: silence.note(...)` alone made a
+    # BUG in `feats_index` -- a KeyError on a malformed record, an AttributeError, anything --
+    # produce the identical observable result to "this source genuinely has no attested feats":
+    # `feat_rows = []`, no Feats chapter emitted, and a build report (the prints in `main()`)
+    # that reads exactly the same as a clean run. That is Hard Rule 0's central failure, a
+    # smaller-than-real output that nothing distinguishes from a legitimately small one, sitting
+    # directly under the comment explaining that 39,862 mined feats once existed with no volume
+    # able to print one. The note is kept for the ledger; the print is what reaches the operator
+    # watching the build. Found by the run #33 sweep (batch 15).
     try:
         feat_rows = feats_index.feats_for_source(source_name, record)
-    except Exception:
+    except Exception as e:
         silence.note("manifest_builder.py:feats")
+        print("WARNING: feats lookup FAILED for %s (%s: %s) -- this volume will carry no Feats "
+              "chapter, which is NOT the same finding as a source with no attested feats"
+              % (source_name, type(e).__name__, str(e)[:110]))
         feat_rows = []
     if feat_rows:
         # DERIVED, NOT DECLARED (m46). `FEATS_BLOCK_CHARS` had no arithmetic relationship to

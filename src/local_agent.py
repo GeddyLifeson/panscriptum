@@ -458,12 +458,22 @@ def _gates(full, modname):
                     (r.returncode, (_err.splitlines() or ["no stderr"])[-1][:100]))
         if "undefined name" in (r.stdout or ""):
             return "pyflakes: " + r.stdout.strip().splitlines()[0][:120]
-    elif full.endswith(".json"):
+    # FOLDED HERE TOO. The `.py` branch above was case-folded after run #25 found that
+    # `src/foreman.PY` lands on the real `foreman.py` (NTFS is case-insensitive) while failing a
+    # case-sensitive `endswith(".py")`, so it skipped every gate. These two branches were left
+    # case-sensitive in that same fix, which reopened the identical bypass one branch over:
+    # `config.JSON` or a `.YAML` prompt file resolves to the same bytes on disk and skips its
+    # parse check, leaving only verify_math -- and verify_math does not load arbitrary JSON or
+    # YAML, so for those files the parse gate simply would not happen. Not reachable against any
+    # file on the writable surface today (`prompts/` and `handoff/` hold no JSON or YAML), which
+    # is exactly the condition under which the previous four bypasses were also "not currently
+    # exploitable". This is bypass class five; fold the extension test every time one is written.
+    elif full.lower().endswith(".json"):
         try:
             json.load(open(full, encoding="utf-8"))
         except Exception as e:
             return "not valid JSON: " + str(e)[:100]
-    elif full.endswith((".yaml", ".yml")):
+    elif full.lower().endswith((".yaml", ".yml")):
         try:
             import yaml
             yaml.safe_load(open(full, encoding="utf-8"))
@@ -531,13 +541,20 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     if denied:
         return {"applied": False, "error": str(denied) + " is on the denylist -- the checking "
                                                          "machinery may not edit itself"}
-    # M24: whole protected REGIONS, folded the same way and for the same reason. Checked after
-    # the name denylist and before anything is read, so a protected path never even reaches the
-    # find/replace. Erring toward refusal is the harmless direction.
     _rel_l = rel.lower()
-    # THE ALLOWLIST RUNS FIRST, because it is the one that fails closed. A path outside the
+    # THE ALLOWLIST FAILS CLOSED, which is why it is here rather than last. A path outside the
     # agent's working surface is refused without any further question -- no denylist entry
     # required, and none needed for whatever gets added to this repo next.
+    #
+    # It is NOT, however, the first check in this function, and this comment used to say it was.
+    # The real order is: name/path denylist, then this allowlist, then the protected-region
+    # prefixes below. Nothing hangs on the order -- every one of the three refuses, none of them
+    # writes, and a path that trips two is refused twice over -- but a comment that misdescribes
+    # the sequence of a safety gate is how a later reader talks themselves into "re-ordering it
+    # to match the comment", which is an edit to the gate made on a false premise. The order is
+    # deliberate: the name denylist runs first because it is the narrowest and gives the most
+    # specific refusal message ("the checking machinery may not edit itself"), which is the one
+    # worth surfacing when both would fire.
     if not (any(_rel_l.startswith(p) for p in WRITABLE_PREFIXES)
             or _rel_l in {f.lower() for f in WRITABLE_FILES}):
         return {"applied": False,
@@ -545,6 +562,9 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
                          "%s -- everything else is refused by default, including anything added "
                          "to this repo after this list was written."
                          % (rel, ", ".join(WRITABLE_PREFIXES), ", ".join(WRITABLE_FILES))}
+    # M24: whole protected REGIONS, folded the same way and for the same reason. Checked before
+    # anything is read, so a protected path never even reaches the find/replace. Erring toward
+    # refusal is the harmless direction.
     for _pfx in DENYLIST_PREFIXES:
         if _rel_l.startswith(_pfx):
             return {"applied": False,
@@ -567,12 +587,31 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
         return {"applied": False,
                 "error": "find string occurs %d times; it must occur exactly once -- copy "
                          "it verbatim from read_file" % original.count(find)}
+    # THE AUDIT TRAIL RECORDS OUTCOME, NOT ONLY INTENT. This entry used to be appended here and
+    # never touched again, so `patches` said what the model ASKED for and never what happened to
+    # it: a patch that was gated and reverted, and a patch that was applied, and a patch whose
+    # revert FAILED and left a half-written file on disk, all looked identical in the trail. A
+    # record of intentions is not an audit trail -- reading it back, there was no way to tell
+    # which of these edits are on disk right now. `_settle` writes the verdict into the same
+    # dict on the way out of every path below, so the entry and its outcome cannot drift apart.
+    # (Found by the run #33 sweep, batch 16; the durable ALARM signal was fixed that run, this
+    # half was not.)
+    entry = None
     if log is not None:
-        log.append({"path": path, "why": why[:200], "find": find[:200],
-                    "replace": replace[:200], "at": time.strftime("%H:%M:%S")})
+        entry = {"path": path, "why": why[:200], "find": find[:200],
+                 "replace": replace[:200], "at": time.strftime("%H:%M:%S")}
+        log.append(entry)
+
+    def _settle(result):
+        if entry is not None:
+            entry["outcome"] = {k: result[k] for k in
+                                ("applied", "staged", "reverted", "gate", "error", "ALARM")
+                                if k in result}
+        return result
+
     if not apply:
-        return {"applied": False, "staged": True,
-                "note": "run started with --no-apply; patch recorded for the audit trail"}
+        return _settle({"applied": False, "staged": True,
+                        "note": "run started with --no-apply; patch recorded for the audit trail"})
     backup = original
     try:
         with open(full, "w", encoding="utf-8") as f:
@@ -581,8 +620,8 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
         if fail:
             with open(full, "w", encoding="utf-8") as f:
                 f.write(backup)
-            return {"applied": False, "reverted": True, "gate": fail}
-        return {"applied": True, "why": why[:200]}
+            return _settle({"applied": False, "reverted": True, "gate": fail})
+        return _settle({"applied": True, "why": why[:200]})
     except Exception as e:
         silence.note("local_agent.py:apply")
         # A REVERT THAT FAILED MUST NOT REPORT ITSELF AS A REVERT. Found 2026-08-25 (run #23).
@@ -625,7 +664,7 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
             except Exception:
                 silence.note("local_agent.py:revert-escalate")
             silence.note("local_agent.py:REVERT-FAILED:" + str(rel))
-        return out
+        return _settle(out)
 
 
 def _chat(model, messages, host, timeout=420):
@@ -674,6 +713,16 @@ def run(task, model=None, apply=True, quiet=False):
     messages = [{"role": "system", "content": SYSTEM},
                 {"role": "user", "content": task}]
     patches, tool_calls_seen = [], 0
+    # A FAILED REVERT MUST REACH THE EXIT CODE. `t_propose_patch` raises the durable alarms for
+    # this case -- a SAFETY escalation and a `silence.note` -- but this function's verdict never
+    # heard about it: `ok` was True whenever the model produced an answer, and `main()` returns
+    # `0 if out.get("ok")`, so a run that left a half-written module in `src/` exited zero and
+    # any caller gating on the exit code read it as success. Every alarm in the world is worth
+    # less than the one number the scheduler actually looks at. Collected here rather than
+    # returned early on purpose: the run is already compromised, the model's remaining turns are
+    # gated exactly as before, and stopping mid-conversation would lose the transcript that says
+    # how the file got into this state.
+    unreverted = []
     impl = {"read_file": t_read_file, "list_dir": t_list_dir, "grep": t_grep,
             "find_symbol": t_find_symbol, "run_check": t_run_check}
     for turn in range(MAX_TURNS):
@@ -692,8 +741,14 @@ def run(task, model=None, apply=True, quiet=False):
                         "answer -- likely not tool-trained. Tool-capable models that fit "
                         "this card: %s" % (model, "; ".join(TOOL_CAPABLE)),
                         "patches": patches}
-            return {"ok": True, "answer": answer, "turns": turn + 1,
-                    "tool_calls": tool_calls_seen, "patches": patches}
+            out = {"ok": not unreverted, "answer": answer, "turns": turn + 1,
+                   "tool_calls": tool_calls_seen, "patches": patches}
+            if unreverted:
+                out["ALARM"] = unreverted
+                out["error"] = ("revert failed on %d patch(es) -- a source file may be "
+                                "half-written on disk. This run does not claim success."
+                                % len(unreverted))
+            return out
         messages.append(msg)
         for c in calls:
             tool_calls_seen += 1
@@ -706,6 +761,8 @@ def run(task, model=None, apply=True, quiet=False):
                     args = {}
             if fn == "propose_patch":
                 res = t_propose_patch(apply=apply, log=patches, **args)
+                if res.get("ALARM"):
+                    unreverted.append(res["ALARM"])
             elif fn in impl:
                 res = impl[fn](**args)
             else:

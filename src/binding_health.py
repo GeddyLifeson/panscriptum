@@ -120,7 +120,24 @@ def release(host, why="canary passed"):
 
 
 def _fetch_chars(host, title):
-    """-> (chars, error-or-None) for one title. Never raises."""
+    """-> (chars, problem-or-None) for one title. Never raises.
+
+    `problem` is any reason this fetch is not usable evidence that the host is answering: a
+    transport error, or a document that came back but is not an article.
+
+    THE PAGE IS JUDGED BY `feats.page_looks_real`, NOT BY ITS LENGTH. This counted characters and
+    the caller compared them against a hardcoded 200 -- the first and weakest of the three layers
+    `page_looks_real` already applies for exactly this question (length, then an explicit refusal
+    phrase, then positive evidence of wiki markup). A Cloudflare interstitial, a login wall, a
+    JS challenge or a rate-limit notice is a real document and is comfortably over 200
+    characters, so every one of them read here as "the host is serving pages" -- the same
+    confusion that filed 1,364 throttled fetches as honest absences (feats.py:204), arriving in
+    the one module whose entire job is to notice that a host has stopped answering honestly. For
+    a RAW-mode host (every API-closed wiki, D&D Wiki among them) nothing else in the chain
+    catches it either: `endpoint.fetch_raw` only rejects bodies literally starting `<!doctype` or
+    `<html>`. Judged on the RAW wikitext, before any stripping, because the refusal and markup
+    markers live in the page as served.
+    """
     try:
         import feats as F
         got = F.fetch(host, [title])
@@ -129,6 +146,9 @@ def _fetch_chars(host, title):
     if not got:
         return 0, None
     text = " ".join(str(v) for v in got.values()) if isinstance(got, dict) else str(got)
+    real, why = F.page_looks_real(text, title)
+    if not real:
+        return len(text.strip()), "not an article: %s" % why
     return len(text.strip()), None
 
 
@@ -168,7 +188,11 @@ def _probe_present(host, title, timeout=25):
     if not tried:
         return False, "no catalogued title to probe with"
     if errors and len(errors) == len(tried):
-        return False, "every probe errored: %s" % errors[0]
+        # "errored" covers both shapes `_fetch_chars` reports: the request never completed, and
+        # the request completed with something that is not an article (a block page or an
+        # interstitial). Both mean the same thing here -- nothing came back that proves this host
+        # is still answering -- and the detail says which one it was.
+        return False, "every probe failed: %s" % errors[0]
     return False, ("%d known-present title(s) all returned nothing or too little to be a page "
                    "(tried: %s)" % (len(tried), ", ".join(repr(t) for t in tried[:4])))
 
@@ -294,6 +318,11 @@ def known_present_titles(host, hosts_map=None, records_dir=None, want=None):
             with open(p, encoding="utf-8") as f:
                 rec = json.load(f)
         except Exception:
+            # RECORDED, NOT MERELY SKIPPED. A record this cannot read is one fewer candidate
+            # title, and a host with no candidates left is called dead for a fault that is
+            # entirely on this side of the network -- the false-quarantine failure `_probe_present`
+            # documents, arriving through the file reader instead of the probe.
+            silence.note("binding_health.py:candidate-record")
             continue
         if rec.get("source") not in want_src:
             continue
@@ -327,6 +356,7 @@ def known_present_title(host, hosts_map=None, records_dir=None):
             with open(p, encoding="utf-8") as f:
                 rec = json.load(f)
         except Exception:
+            silence.note("binding_health.py:primary-record")
             continue
         if rec.get("source") in want:
             for e in (rec.get("entries") or []):

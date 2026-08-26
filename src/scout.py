@@ -50,6 +50,10 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 
 LOG = os.path.join(HERE, "data", "SCOUT.json")
 BLOCKED = os.path.join(HERE, "data", "SCOUT_BLOCKED.json")
+# WHEN EACH SOURCE WAS LAST ATTEMPTED, which is what makes `sweep`'s window a ROTATION rather
+# than a cap. Kept beside the other scout artifacts, and absent-means-never-attempted, so a
+# source added tomorrow sorts to the front on its own without anything having to seed it.
+ATTEMPTS = os.path.join(HERE, "data", "SCOUT_ATTEMPTS.json")
 
 
 def _land(path, obj, sort_keys=True):
@@ -147,6 +151,24 @@ def verify(url, names):
 
     Distinguishing them is what turns "the scout found nothing" into "these four are paid
     products behind a storefront and these three do not exist".
+
+    THE BAR CANNOT BE HIGHER THAN THE EVIDENCE AVAILABLE. `MIN_NAME_HITS` is 2, and `scout()`
+    probes only names longer than three characters, so a source catalogued with a single usable
+    name hands this function a one-name list -- and no page in existence, including the right one,
+    can score two hits against a list of one. Those sources failed on every run for ever while
+    reporting the ordinary "0 catalogued name(s) present", which reads as "the model guessed
+    wrong" rather than "this check was unsatisfiable before it was called". Measured when this was
+    fixed: 2 of the 15 hostless sources were in that state ('aurora_mods (Way of the Inkmaster)'
+    and 'the Sex Worker background', one name each). This is the mirror of a net that cannot fail
+    -- a check that cannot pass -- and it is the same class of fault run #27 fixed in
+    magnitude.py.
+
+    So the requirement is `min(MIN_NAME_HITS, len(usable names))`, never below one. This does not
+    lower the bar for a normal source: with two or more probeable names the threshold is still 2.
+    It lowers it only where 2 was unreachable, and the intent stated at MIN_NAME_HITS survives
+    intact there -- the floor that matters is "more than a page about something else", and a page
+    about something else still scores zero. `needed` is returned alongside `hits` so a reader of
+    the result can see which bar was applied rather than having to infer it.
     """
     import urllib.error
     import urllib.request
@@ -167,8 +189,11 @@ def verify(url, names):
     if len(text) < 400:
         return {"url": url, "ok": False, "why": "page has almost no text (script-rendered?)"}
     hits = _names_in(text, names)
-    return {"url": url, "ok": hits >= MIN_NAME_HITS, "hits": hits, "chars": len(text),
-            "why": f"{hits} catalogued name(s) present"}
+    probeable = sum(1 for n in names if (n or "").strip() and len((n or "").strip()) > 3)
+    needed = max(1, min(MIN_NAME_HITS, probeable))
+    return {"url": url, "ok": hits >= needed, "hits": hits, "needed": needed,
+            "chars": len(text),
+            "why": f"{hits} catalogued name(s) present, {needed} needed"}
 
 
 def scout(source, names, register=True):
@@ -235,11 +260,51 @@ def hostless():
 
 
 def sweep(limit=None, register=True):
+    """Scout the hostless sources, oldest attempt first. -> [result].
+
+    HARD RULE 0, AND THE SHAPE THAT LOOKED LIKE COMPLIANCE. This ordered its work-list by entry
+    count and then took `order[:limit]`, with `foreman.scout_hostless()` calling it as
+    `sweep(limit=4)` on a 30-second loop. Ranking is allowed and truncating is not, and the
+    reason is visible here rather than theoretical: a source LEAVES `hostless()` only when a
+    scout SUCCEEDS. A source that keeps failing therefore stays hostless, stays among the four
+    largest, and is re-scouted every thirty seconds for ever -- while everything ranked fifth
+    and below is never attempted once. The window could not rotate, because the only thing that
+    moved a source out of it was the very success that was not happening. Measured at the time
+    this was fixed: 15 hostless sources, of which 4 could ever be reached.
+
+    So the ordering is now LAST-ATTEMPTED FIRST, entry count only breaking ties among equally
+    stale sources. `limit` survives and still means "how much work this cycle" -- it is a rate,
+    which is a cost decision the caller is entitled to make -- but it no longer decides which
+    sources exist. Every source reaches the front of the queue by waiting, so the universe is
+    whole and merely spread over cycles. What is deferred is PRINTED, because a window nobody
+    can see the far side of reads exactly like a complete list.
+    """
     todo = hostless()
-    order = sorted(todo, key=lambda s: -len(todo[s]))
+    try:
+        seen = json.load(open(ATTEMPTS, encoding="utf-8")) if os.path.exists(ATTEMPTS) else {}
+    except Exception:
+        silence.note("scout.py:attempts-unreadable")
+        seen = {}                     # unreadable ledger -> everything reads as never attempted
+    # Never-attempted sorts first (0.0), then longest-waiting, then largest -- the old
+    # preference, kept as the TIE-BREAK it should always have been.
+    order = sorted(todo, key=lambda s: (float(seen.get(s) or 0.0), -len(todo[s])))
+    deferred = []
     if limit:
+        deferred = order[limit:]
         order = order[:limit]
     print(f"{len(todo)} source(s) have nowhere to read from; scouting {len(order)}")
+    if deferred:
+        # NOT a truncation of the universe: these are ahead of nobody and behind everybody,
+        # and each moves to the front by waiting. Named so the deferral is legible.
+        print(f"   {len(deferred)} waiting for a later cycle (longest-waiting first): "
+              + ", ".join(s[:30] for s in deferred))
+    # STAMPED BEFORE THE WORK, NOT AFTER. A source that crashes the scout must still count as
+    # attempted, or it sorts to the front again next cycle and pins the window exactly the way
+    # the entry-count ordering did -- the same bug wearing the fix's clothes.
+    now = time.time()
+    for src in order:
+        seen[src] = now
+    _land(ATTEMPTS, seen)
     results, found = [], 0
     for src in order:
         r = scout(src, todo[src], register=register)
@@ -265,7 +330,9 @@ def sweep(limit=None, register=True):
 
 def main():
     ap = argparse.ArgumentParser(description="find where a source's material lives")
-    ap.add_argument("--limit", type=int, default=None, help="scout only the N largest")
+    ap.add_argument("--limit", type=int, default=None,
+                    help="how many to scout this cycle, longest-waiting first; the rest are "
+                         "named and reached on a later cycle, never dropped")
     ap.add_argument("--dry", action="store_true", help="verify but do not register")
     ap.add_argument("--source", help="one source by exact name")
     a = ap.parse_args()

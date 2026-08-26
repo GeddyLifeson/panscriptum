@@ -42,10 +42,34 @@ def load_side():
 
 
 def save_side(d):
-    # `silence.write_json`, not a hand-rolled `path + ".tmp"`: the fixed tmp name collides when
-    # two processes write at once, and the bare `os.replace` raises on the Windows lock this
-    # project hits routinely -- here that would abort the whole retry run mid-pass. Run #31.
-    silence.write_json(SIDE, d, indent=2, ensure_ascii=False)
+    """Land the side file, MERGING with what is already on disk. -> the merged mapping.
+
+    `silence.write_json`, not a hand-rolled `path + ".tmp"`: the fixed tmp name collides when
+    two processes write at once, and the bare `os.replace` raises on the Windows lock this
+    project hits routinely -- here that would abort the whole retry run mid-pass. Run #31.
+
+    AND THE CONTENT RACE THE TMP-NAME FIX DID NOT COVER, found by the run #33 sweep. Run #31
+    was already reasoning about two `retry_synthesis.py` processes writing at once, and closed
+    the collision on the temp FILENAME. The collision on the FILE'S CONTENTS stayed open:
+    `main()` reads `side` once at startup and then whole-file overwrites it after every
+    rescued source, so two concurrent invocations each publish their own separately-growing
+    copy and each save silently drops every entry the other had already persisted. Nothing in
+    this file prevents or detects a second invocation, and the loss is invisible -- the file
+    stays well-formed and the run prints a confident "wrote N results" for its own N. These
+    are the twelve sources the pipeline will never revisit on its own; a dropped entry here is
+    a source that reaches the write phase with no ceiling and no band, which is the exact
+    outcome this script exists to prevent.
+
+    Re-reading at save time narrows the window from the whole run to the microseconds between
+    this read and the replace. That residual is deliberately NOT papered over with a lock: a
+    lock file is another thing to leave behind on a killed run, and the honest statement is
+    that this script is still meant to be run once at a time. What it now guarantees is that a
+    second runner costs at most one overlapping entry rather than every entry it ever wrote.
+    """
+    merged = load_side()
+    merged.update(d)
+    silence.write_json(SIDE, merged, indent=2, ensure_ascii=False)
+    return merged
 
 
 def failed_sources():
@@ -170,7 +194,9 @@ def main():
             print("STILL FAILING")
             continue
         side[src] = got
-        save_side(side)
+        # Take the MERGED mapping back, so this run's own tally counts what is actually on
+        # disk rather than only what this process rescued -- see `save_side`.
+        side = save_side(side)
         print(f"{got['provisional_magnitude']:<10} {got['ceiling_entity']}")
 
     print(f"\nwrote {len(side)} results to data/SYNTHESIS_RETRY.json")

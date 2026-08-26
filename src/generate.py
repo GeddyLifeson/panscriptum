@@ -444,7 +444,13 @@ def main():
         try:
             text = generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl)
         except Exception as e:
-            silence.note("generate.py:166")
+            # NAMED, NOT NUMBERED. This site was tagged "generate.py:166" -- a line inside
+            # `_covered`'s docstring, 281 lines from the handler that actually files the note, so
+            # anyone tracing a swallowed generation failure through the silence ledger was sent
+            # to an unrelated function. A line number in a string is a comment that cannot be
+            # kept honest by anything; the symbolic form other modules use (`workorders.py:load`,
+            # `sweep_plan.py:shard-unreadable`) survives every edit above it.
+            silence.note("generate.py:job-failed")
             fail_count += 1
             failures[job["address"]] = {
                 "error": str(e),

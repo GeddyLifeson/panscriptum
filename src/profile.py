@@ -49,7 +49,21 @@ import address_space as AS      # noqa: E402
 import worldseed as WS          # noqa: E402
 import silence
 
-B32 = "0123456789abcdefghjkmnpqrstuvwxyz"      # Crockford-style: no i, l, o, u
+# Crockford Base32: no i, l, o, u. THIRTY-TWO SYMBOLS, and the count is the whole point.
+# This string carried THIRTY-THREE until run #33 -- `u` was still in it, at index 27, while the
+# comment beside it claimed `u` was excluded. Two things went wrong at once. `_b32` masks with
+# `n & 31`, so it can only ever emit indices 0-31 and the 33rd symbol `z` was unreachable from
+# the encoder; `_unb32`, which has no such mask, would happily accept a `z` and return 32 for
+# it, so a profile string that picked up a stray character decoded to a SILENTLY WRONG address
+# rather than refusing -- an alphabet that can read what it cannot write is a decoder that
+# cannot say "this is not one of mine". And `u` sitting in the address alphabet collided in
+# spirit with `encode`'s use of `u` as the band's "unassayed" sentinel: the one character the
+# format reserves to mean "no band was ever assayed" was also a legal address digit. Removing
+# it makes `u` unambiguous across the whole profile and brings the alphabet to the 32 symbols
+# the mask and the comment both already assumed. No profile string is persisted anywhere (the
+# set is rebuilt from `worldseed` + `address_space` on every call to `build_all`), so this
+# re-lettering of digits 27-31 rewrites nothing on disk. Found by the run #33 sweep.
+B32 = "0123456789abcdefghjkmnpqrstvwxyz"
 
 GENRE_CODE = {
     "mythology": "my", "high_fantasy": "hf", "grimdark": "gd", "cosmic_horror": "ch",

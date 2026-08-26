@@ -54,7 +54,13 @@ MEDIA = "Media (in-fiction media: books, songs, broadcasts, works that exist wit
 TYPE_CATEGORY = {
     "magic item": THINGS, "item": THINGS, "weapon": THINGS, "armor": THINGS,
     "equipment": THINGS, "vehicle": THINGS, "gadget": THINGS,
+    # `race variant` and `background variant` are real element types in the codex's Full
+    # Contents manifests (28 and 7 occurrences). Unmapped, they fell through to the THINGS
+    # default and a lineage was filed beside the magic items. Each takes its sibling's
+    # category: a variant of a people is still a people, a variant of a background is still
+    # the thing a background grants.
     "race": FACTIONS, "sub race": FACTIONS, "subrace": FACTIONS, "faction": FACTIONS,
+    "race variant": FACTIONS, "background variant": POWERS,
     "deity": PERSONS, "companion": PERSONS, "character": PERSONS, "npc": PERSONS,
     "location": PLACES, "place": PLACES, "plane": PLACES,
     "class": POWERS, "archetype": POWERS, "feat": POWERS, "spell": POWERS,
@@ -129,10 +135,18 @@ def main():
             continue
         n = norm(r["name"])
         title = None
-        for k, t in sec_by_norm.items():
-            if n and (n in k or k in n):
-                title = t
-                break
+        # AN EXACT MATCH WINS OUTRIGHT. The substring scan below is bidirectional and breaks on
+        # the first hit in codex-file order, so a short source name can bind to whichever
+        # unrelated section happens to contain it before its own section is reached. That is
+        # the "Curse of Strahd pointed at the Roblox CURSE Wiki" shape this module's header
+        # already names. No live collision was found, which is the moment to add the guard.
+        if n and n in sec_by_norm:
+            title = sec_by_norm[n]
+        if not title:
+            for k, t in sec_by_norm.items():
+                if n and (n in k or k in n):
+                    title = t
+                    break
         if not title:
             continue
 

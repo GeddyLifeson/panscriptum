@@ -474,8 +474,8 @@ def verify_open(led, local=True, budget=6):
         span = f.get("lines") or [1, 1]
         a = max(0, int(span[0]) - 40)
         b = min(len(lines), int(span[-1]) + 40)
-        region = chr(10).join("%d: %s" % (i, l)
-                              for i, l in enumerate(lines[a:b], a + 1))
+        region = chr(10).join("%d: %s" % (i, ln)
+                              for i, ln in enumerate(lines[a:b], a + 1))
         prompt = ("FINDING under re-check, filed against %s.%s:%s" % (
                       f.get("module"), f.get("symbol"), chr(10))
                   + "CLAIM: " + str(f.get("claim"))[:400] + chr(10)
@@ -608,10 +608,27 @@ def round_once(limit=6, local=True, skip_model=False):
     if not deep:
         # Carry the last deep result forward rather than reporting zero, which would read as
         # "no corrupt files" when the truth is "not looked at this round".
+        #
+        # AND WITH NOTHING CACHED, SAY SO. An absent `last_deep` used to fill in `[]` and `0`,
+        # which is the "0 of 0 inspected" clean bill of health that `write_report` below spends
+        # a dozen lines explaining -- printed here instead of there.
         prev = led.get("last_deep") or {}
-        struct.setdefault("corrupt_files", prev.get("corrupt_files", []))
-        struct.setdefault("files", prev.get("files", 0))
-    else:
+        if prev:
+            struct.setdefault("corrupt_files", prev.get("corrupt_files", []))
+            struct.setdefault("files", prev.get("files", 0))
+        else:
+            struct.setdefault("estate_error", "no deep artifact scan has completed yet -- "
+                                              "there is no earlier result to carry forward")
+    elif not struct.get("estate_error"):
+        # ONLY A SCAN THAT RAN GETS CACHED. `structure(deep=True)` leaves `corrupt_files` and
+        # `files` UNSET when the estate scan raises and records `estate_error` instead, so this
+        # cached `{[], 0}` on a failed scan and overwrote the last real reading. THIS round still
+        # reported honestly (write_report reads `estate_error`), but the next several shallow
+        # rounds copied the poisoned zeros in above and carried no error key, so WATCH.md printed
+        # "files that will not parse: 0 of 0 inspected" -- the exact false clean the 2026-08-25
+        # fix was for, reappearing through the cache that fix did not cover, and surfacing rounds
+        # after the failure where nobody would connect the two. A crashed scan now leaves the
+        # last good reading in place instead of replacing it with a reassuring zero.
         led["last_deep"] = {"corrupt_files": struct.get("corrupt_files", []),
                             "files": struct.get("files", 0)}
     print(f"   {len(struct.get('broken_modules') or [])} module(s) will not import, "

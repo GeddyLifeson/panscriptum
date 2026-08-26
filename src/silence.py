@@ -124,13 +124,28 @@ def _handlers(path):
     for node in ast.walk(tree):
         if not isinstance(node, ast.ExceptHandler):
             continue
-        body = ast.dump(node)
+        # ASK THE BODY, NOT THE HANDLER. This read `ast.dump(node)`, which serialises the
+        # handler's EXCEPTION TYPE as well as its statements -- so `except LogError:` or any
+        # type whose name contains log/record/raise marked itself observed with an empty body.
+        # Exactly the tautology fixed one line below, one node up: the test must look at what
+        # the handler DOES, never at how it is spelled.
+        body = "".join(ast.dump(stmt) for stmt in node.body)
         records = any(t in body for t in ("health", "record", "log", "print", "raise",
                                           "swallow", "silence", "LEDGER"))
         # A handler that re-raises, logs, or carries the exception into its own return value
         # is observed. One that only returns or continues is not -- that is the shape that
         # turned a 404 into "these entities have no page".
-        uses_exc = bool(node.name) and node.name in body
+        #
+        # THIS TEST WAS A TAUTOLOGY UNTIL RUN #33, in the detector built to find tautologies.
+        # It read `node.name in body`, and `body` is `ast.dump(node)` -- the dump of the
+        # handler itself, which always serialises `name='e'`. So `'e' in body` was True for
+        # EVERY `except ... as e:`, whether or not `e` was ever touched, and
+        # `except Exception as e: return None` -- the canonical fault this module exists to
+        # catch -- classified itself as observed. Ask the body instead: is the bound name
+        # actually loaded anywhere inside it.
+        uses_exc = bool(node.name) and any(
+            isinstance(n, ast.Name) and n.id == node.name
+            for stmt in node.body for n in ast.walk(stmt))
         silent = not (records or uses_exc)
         out.append({"file": os.path.basename(path), "line": node.lineno,
                     "type": getattr(node.type, "id", None) if node.type else "bare",
@@ -220,8 +235,22 @@ def append_line(path, text):
         return False
 
 
-def digest_of(path):
-    """A cheap content digest for compare-and-swap. None when the file is absent."""
+# The third answer `digest_of` cannot give, because its contract is two-valued. Kept private
+# and compared by identity, never by value, so it can never collide with a real 16-hex digest.
+UNREADABLE = "<unreadable>"
+
+
+def _digest_or_unreadable(path):
+    """`digest_of`, but with ABSENT (None) and COULD-NOT-BE-READ (UNREADABLE) kept apart.
+
+    `digest_of` must go on returning None for both -- `replace_if_unchanged`'s documented
+    contract is that `expected_digest=None` ASSERTS the file did not exist, and every caller
+    that has read a digest and passed it back depends on that. But the compare-and-swap itself
+    cannot treat the two alike: a transient read failure on a file that DOES now exist -- a
+    concurrent writer mid-replace, which is precisely the race this layer exists to catch --
+    returned None, matched an honest first-writer's None, and landed the stale copy over the
+    other writer's work. Same sentinel, opposite meanings, and the write reported success.
+    """
     import hashlib
     try:
         with open(path, "rb") as f:
@@ -230,7 +259,17 @@ def digest_of(path):
         return None
     except Exception:
         note("silence.py:digest_of")
-        return None
+        return UNREADABLE
+
+
+def digest_of(path):
+    """A cheap content digest for compare-and-swap. None when the file is absent.
+
+    None is also returned when the file exists but could not be read; callers that must tell
+    those two apart use `_digest_or_unreadable`, which is what `replace_if_unchanged` does.
+    """
+    d = _digest_or_unreadable(path)
+    return None if d is UNREADABLE else d
 
 
 def replace_if_unchanged(tmp, dst, expected_digest, attempts=5):
@@ -251,13 +290,30 @@ def replace_if_unchanged(tmp, dst, expected_digest, attempts=5):
     `expected_digest=None` asserts the file did not exist when it was read, which is how a
     first-write is distinguished from an overwrite.
     """
-    actual = digest_of(dst)
+    actual = _digest_or_unreadable(dst)
+    if actual is UNREADABLE:
+        # NOT the same as absent, and the difference is the whole point. An unreadable target
+        # cannot be shown to still hold what the writer read, so it is not eligible for a
+        # compare-and-swap. Refusing costs a round; landing costs whatever the other writer put
+        # there, silently, which is the m42 loss this function was written after.
+        note("silence.py:stale-write-refused")
+        return False, ("%s could not be read, so it cannot be shown to be unchanged -- "
+                       "refusing to land over it. Retry next round."
+                       % os.path.basename(dst))
     if actual != expected_digest:
         note("silence.py:stale-write-refused")
         return False, ("%s changed under this writer (expected %s, found %s) -- refusing to "
                        "land a stale copy. Re-read and merge."
                        % (os.path.basename(dst), expected_digest, actual))
-    return (replace_retry(tmp, dst, attempts=attempts) is not False), "landed"
+    # THE REASON MUST MATCH THE VERDICT. This returned `..., "landed"` unconditionally, so a
+    # DENIED rename came back as `(False, "landed")` and every caller that logs the reason --
+    # `runguard.claim()` among them since it was routed here today -- printed "landed" for a
+    # write that did not land. The two halves of the return now agree.
+    if replace_retry(tmp, dst, attempts=attempts) is False:
+        return False, ("%s could not be renamed into place (denied after %d attempts, most "
+                       "likely a reader holding it open) -- nothing landed. Retry next round."
+                       % (os.path.basename(dst), attempts))
+    return True, "landed"
 
 
 def replace_retry(tmp, dst, attempts=5):

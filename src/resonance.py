@@ -56,8 +56,19 @@ def hodge_decompose(edges):
     the ladder cannot explain is the curl, and its share is what Theorem 2 bounds every scalar
     assay's error by.
 
-    Implemented as plain Gauss-Seidel on the graph Laplacian: no dependencies, and the whole point
-    is that a Hand must be able to recompute it.
+    Implemented as plain JACOBI iteration on the graph Laplacian: no dependencies, and the whole
+    point is that a Hand must be able to recompute it.
+
+    THE METHOD IS NAMED CORRECTLY HERE BECAUSE THE ITERATION BUDGET DEPENDS ON IT. This said
+    "Gauss-Seidel" until the run #33 sweep (batch 8) read the loop against the claim. It is not:
+    every neighbour term in a sweep is read out of `theta`, the PREVIOUS sweep's fully-settled
+    state, and none of a sweep's own updates are visible until the next one -- which is Jacobi by
+    definition. Gauss-Seidel updates each node in place and uses already-refreshed neighbours
+    within the same sweep, and converges markedly faster on a system like this. Both reach the
+    same fixed point in the limit, so no answer here was ever wrong; what was wrong was a reader
+    sizing the fixed 600-sweep budget against the faster method. If `eta` ever looks
+    under-converged on a well-connected graph, that budget -- not the arithmetic -- is the thing
+    to revisit, and switching methods is a deliberate numerical change, not a typo fix.
     """
     nodes = sorted({n for e in edges for n in e})
     theta = {n: 0.0 for n in nodes}

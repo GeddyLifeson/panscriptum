@@ -40,8 +40,20 @@ def store(text: str, compressed_dir: str) -> dict:
         blob = gzip.compress(raw_bytes, compresslevel=9)
         path = os.path.join(compressed_dir, f"{h}.gz")
 
-    with open(path, "wb") as f:
+    # LANDED, not written in place. A bare `open(path, "wb")` at the FINAL content-addressed
+    # path leaves a torn blob sitting there permanently if the process dies mid-write -- and
+    # because the store is keyed by content, nothing ever comes back to overwrite it unless the
+    # identical text happens to be stored again. Temp-then-replace_retry is what every other
+    # shared-state writer in this project already does (m55, run #19).
+    #
+    # THE TEMP NAME CARRIES PID AND THREAD, as `silence.write_json`'s does: two processes
+    # storing the same text compute the same `h`, so a plain `path + ".tmp"` would put them on
+    # the same temp file and let the loser replace the winner's target with a partial one.
+    import threading
+    tmp = "%s.%d.%d.tmp" % (path, os.getpid(), threading.get_ident())
+    with open(tmp, "wb") as f:
         f.write(blob)
+    silence.replace_retry(tmp, path)
 
     return {
         "hash": h,

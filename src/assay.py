@@ -525,17 +525,20 @@ def calibration_report():
                 worksheet="charter Part Three")
     lo = hi = None
     saved = SIGMA_BY_ATTESTATION["Witnessed"]
-    try:
-        s = max(AXIS_MIN + 0.5, saved - 2.0)
-        while s <= min(SIGMA_MAX, saved + 2.0):
-            SIGMA_BY_ATTESTATION["Witnessed"] = s
-            if assay("M3", dict(CHARTER_KENSHIRO), attestation="Witnessed",
-                     worksheet="w")["interval"] == CHARTER_KENSHIRO_INTERVAL:
-                lo = s if lo is None else lo
-                hi = s
-            s += 0.005
-    finally:
-        SIGMA_BY_ATTESTATION["Witnessed"] = saved
+    # THE SWEEP TOUCHES NOTHING SHARED. This loop used to assign each trial sigma into
+    # SIGMA_BY_ATTESTATION and put it back in a `finally` -- ~800 iterations during which every
+    # other reader of that table (any concurrent `assay()`, and this runs from dashboard.py's
+    # render and from drill.py's battery) computed its interval against a scratch value and
+    # published it. It is the same fault the `weights=` override was introduced to end one
+    # screen below, and it survived on the sigma side because a try/finally looks like the
+    # cure. `sigma=` passes the trial value down the call it belongs to and nowhere else.
+    s = max(AXIS_MIN + 0.5, saved - 2.0)
+    while s <= min(SIGMA_MAX, saved + 2.0):
+        if assay("M3", dict(CHARTER_KENSHIRO), attestation="Witnessed",
+                 worksheet="w", sigma=s)["interval"] == CHARTER_KENSHIRO_INTERVAL:
+            lo = s if lo is None else lo
+            hi = s
+        s += 0.005
     margin = None
     if lo is not None and hi is not None and hi > lo:
         margin = round(min(saved - lo, hi - saved) / ((hi - lo) / 2.0), 3)
@@ -584,7 +587,7 @@ def _rho(a, b):
 
 
 def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=None,
-              weights=None):
+              weights=None, sigma=None):
     """Half-width of the honest error bar, in BAND units, by variance propagation.
 
     TWO components, because one cannot reproduce the charter's own numbers. Goku is published at
@@ -600,8 +603,11 @@ def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=N
     genuinely does not know which reading is right rather than because any hand was sloppy.
     """
     # min() rather than a bare lookup: an unknown attestation grade must not be able to claim
-    # more certainty than the ceiling, and a future edit to the table must not either.
-    sigma = min(SIGMA_MAX, SIGMA_BY_ATTESTATION.get(attestation, SIGMA_MAX))
+    # more certainty than the ceiling, and a future edit to the table must not either. The
+    # clamp applies to a per-call `sigma=` override too, which is the whole point of having it:
+    # a caller sweeping sigmas must not be able to buy certainty the table cannot.
+    sigma = min(SIGMA_MAX,
+                sigma if sigma is not None else SIGMA_BY_ATTESTATION.get(attestation, SIGMA_MAX))
     # THE SAME WEIGHT TABLE THE COMPOSITE WAS BUILT FROM. `assay()` takes a `weights=` override
     # and deliberately keeps it local (`W`) so a per-call reweighting stays invisible to every
     # other caller -- but this function read the module-global WEIGHTS while being handed the
@@ -685,12 +691,23 @@ def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=N
 
 
 def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
-          hand_readings=None, weights=None):
+          hand_readings=None, weights=None, sigma=None):
     """Compute a Moth Number: 𝔄 = M_a + (sum w_i * s_i) / 10   (Charter Part Three, step 3).
 
     Returns a dict, never a bare float -- a value without its interval, epoch and worksheet
     pointer is formally a rumour (Absolute 1 of the Five Absolutes), so the number is not
     handed out unaccompanied.
+
+    `sigma=` is the same device as `weights=` and exists for the same reason. A caller that
+    needs to see what the interval would be under a DIFFERENT attestation dispersion --
+    `calibration_report` sweeps ~800 of them to find the band of sigmas reproducing the
+    charter's published +/- 0.12 -- used to assign into the module-global SIGMA_BY_ATTESTATION
+    under a try/finally. That is correct alone and silently wrong the moment anything else
+    reads the table mid-sweep: it is the identical pattern this file already removed from
+    custodes' axis-emphasis path (see the note above `W` below), left standing on the sigma
+    side. A per-call value is invisible to every other caller by construction, and no window
+    exists in which a published interval is computed against a sweep's scratch value.
+    Run33 order 6797f36117ce.
     """
     if anchor not in LADDER:
         raise ValueError(f"anchor must be one of {LADDER}")
@@ -736,7 +753,7 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     denom = sum(W[k] for k in applicable) or 1.0
     coverage = wsum / denom
     interval, var_parts = _interval(scores, used, nil, applicable, attestation, denom,
-                                    hand_readings=hand_readings, weights=W)
+                                    hand_readings=hand_readings, weights=W, sigma=sigma)
 
     # CEILING BEHAVIOUR. composite is in [0,10], so decimal reaches 1.00 when every scored axis
     # maxes -- and 1.00 is not a decimal within the band, it is the FLOOR OF THE NEXT ONE. Left
@@ -812,6 +829,11 @@ def instrument(anchor, axis_scores, worksheet=None):
     lo, hi = INSTRUMENT_WINDOWS[anchor]
     span = hi - lo
     grade_n = max(0, LADDER.index(anchor) - 5)
+    # `grade_n <= 5` cannot be false while the Ladder has eleven rungs, and the run33 sweep
+    # filed it as a tautology (order e496aef86818). It is a BOUNDS GUARD, not a test: the
+    # literal below has six slots, so the day a rung is added above M10 the alternative to this
+    # branch is an IndexError raised from inside the Instrument. Definition 5 caps the printed
+    # Grade at V regardless, so saturating is the right answer and not a guess. Left standing.
     grade = ["", "I", "II", "III", "IV", "V"][grade_n] if grade_n <= 5 else "V"
 
     out = {}

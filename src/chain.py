@@ -311,6 +311,19 @@ def extract(rows, batch=8, limit=None, workers=8):
                  for i, r in enumerate(chunk, 1)]
         got = _ask(SYSTEM, "SENTENCES:\n" + "\n".join(lines), SCHEMA)
         local = []
+        # TALLIED LOCALLY, MERGED UNDER THE LOCK, for the same reason `local` exists.
+        #
+        # This was `unmatched[side[:40]] += 1` written straight into the shared Counter from
+        # inside the worker, while every other shared structure here (`edges`, `prov`, `done`)
+        # was correctly deferred to the `with lock:` block below. `counter[k] += 1` is a
+        # read-modify-write -- __getitem__, add, __setitem__, with bytecode boundaries between
+        # them -- so with `workers` commonly at 8 two threads can read the same count and both
+        # write back the same successor, losing increments. Nothing in the graph was at risk;
+        # what was at risk is the "most common names that match nothing" diagnostic printed by
+        # `main()` and stored in CHAIN.json's `unmatched` field, which would UNDERCOUNT exactly
+        # the names most worth chasing (the commonest ones collide most). Found by the run #33
+        # sweep (batch 12).
+        local_unmatched = collections.Counter()
         for o in (got or {}).get("outcomes", []):
             # THE SENTENCE IS NAMED BY THE MODEL, NOT GUESSED FROM POSITION.
             #
@@ -351,8 +364,9 @@ def extract(rows, batch=8, limit=None, workers=8):
             else:
                 for side, k in ((w, wk), (l, lk)):
                     if k not in idx:
-                        unmatched[side[:40]] += 1
+                        local_unmatched[side[:40]] += 1
         with lock:
+            unmatched.update(local_unmatched)
             done["n"] += len(chunk)
             done["pairs"] += len((got or {}).get("outcomes", []))
             for e, src in local:

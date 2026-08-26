@@ -141,6 +141,30 @@ def ollama_runner_up(ttl=120.0):
 _TOKENFLOW = {"at": 0.0, "ok": None, "s": None}
 
 
+def _flow_failure(exc, secs):
+    """-> a short phrase naming what actually stopped the token-flow probe.
+
+    A FAULT IS NOT A DIAGNOSIS. The standard built from this reported "daemon up, generation
+    TIMED OUT -- queue is wedged" for every failure the probe could have, so a daemon that was
+    not listening at all read as a wedged queue and the remedy on the page ("restart ollama.exe")
+    was the wrong one -- the same misdiagnosis-costs-hours lesson this file records for the
+    model-calls order text, in a smaller box. Each branch below is a DIFFERENT machine state
+    with a different first move: nothing listening (start it), the daemon answering an error
+    (read its log), a generation that never returned (the wedge the standard was written for).
+    """
+    reason = getattr(exc, "reason", None)
+    status = getattr(exc, "code", None)
+    if isinstance(exc, TimeoutError) or isinstance(reason, TimeoutError):
+        return "generation TIMED OUT after %ss -- queue is wedged" % secs
+    if isinstance(reason, ConnectionRefusedError):
+        return "nothing listening on the ollama port -- the daemon is DOWN, not wedged"
+    if status is not None:
+        return "the daemon answered HTTP %s -- it is up and refusing, not wedged" % status
+    if reason is not None:
+        return "the probe never reached the daemon (%s: %s)" % (type(reason).__name__, reason)
+    return "the probe failed before any tokens (%s: %s)" % (type(exc).__name__, str(exc)[:80])
+
+
 def ollama_token_flow(ttl=300.0, timeout=300):
     """Does a generation actually COMPLETE? The third liveness lesson in two days.
 
@@ -195,6 +219,14 @@ def ollama_token_flow(ttl=300.0, timeout=300):
     except Exception:
         _ = "silence-exempt: no metrics ledger yet just means the probe decides"
     ok, secs = None, None
+    # BUILDING THE PROBE IS NOT PROBING. This stage reads config.yaml and composes the request;
+    # every failure in it (a missing or malformed config, a `yaml` that will not import) is a
+    # fact about THIS REPO and no fact at all about the daemon. It used to share the handler
+    # below, so a config that failed to parse published "daemon up, generation TIMED OUT --
+    # queue is wedged" as a HIGH standard and sent the reader to restart ollama.exe for a local
+    # parse bug -- this file's own recorded lesson (a misdiagnosis costs more hours than the
+    # fault) reappearing one screen below where it is written down. Run33 order 2eaae3c5f50f.
+    # `None` is the documented value for "could not tell", and an unsent probe told nothing.
     try:
         import urllib.request as _ur
         import yaml as _yaml
@@ -208,6 +240,10 @@ def ollama_token_flow(ttl=300.0, timeout=300):
         req = _ur.Request(str(cfg.get("ollama_host", "http://localhost:11434")).rstrip("/")
                           + "/api/generate", data=body,
                           headers={"Content-Type": "application/json"})
+    except Exception:
+        silence.note("standards.py:token-flow-unsent")
+        return None, None
+    try:
         t0 = time.time()
         with _ur.urlopen(req, timeout=timeout) as r:
             _raw = json.loads(r.read())
@@ -223,9 +259,15 @@ def ollama_token_flow(ttl=300.0, timeout=300):
         secs = round(time.time() - t0, 1)
     except Exception as e:
         # A timeout or 5xx here IS the finding: the daemon exists and tokens do not flow.
-        ok, secs = False, None
+        #
+        # WHICH failure it was decides the remedy, so the cause travels with the verdict. The
+        # standard that reads this asserted ONE diagnosis -- "daemon up, generation TIMED OUT --
+        # queue is wedged" -- for every exception this handler catches, including a refused
+        # connection, which says the daemon is not up at all and needs starting rather than
+        # restarting. The second slot already carries a string on the ledger path ("ledger"), so
+        # naming the cause here costs nothing and the caller prints it verbatim.
+        ok, secs = False, _flow_failure(e, round(time.time() - t0, 1))
         silence.note("standards.py:token-flow")
-        _ = e
     _TOKENFLOW.update({"at": now, "ok": ok, "s": secs})
     return ok, secs
 
@@ -1238,13 +1280,19 @@ def check(state=None):
         if flow is not None:
             out.append(_s(
                 "the local model produces tokens", flow,
+                # THE PROBE NAMES ITS OWN FAILURE. This slot used to assert "daemon up,
+                # generation TIMED OUT -- queue is wedged" whatever had actually gone wrong,
+                # so a refused connection or an HTTP error published a wedge diagnosis and the
+                # remedy below sent the reader to restart a daemon that was not running.
+                # `_flow_failure` distinguishes them; this prints what it found.
                 ("probe completed in %ss" % secs) if flow
-                else "daemon up, generation TIMED OUT -- queue is wedged",
+                else str(secs or "the generation probe did not complete"),
                 "one tiny generation completes",
                 "Process presence and API reachability are proxies; on 2026-08-24 both read "
-                "healthy through a two-hour wedge in which zero tokens flowed. If this fires, "
-                "restart ollama.exe (the tray app respawns it) and re-probe. Nothing drains "
-                "a wedged queue on its own.",
+                "healthy through a two-hour wedge in which zero tokens flowed. Read the detail "
+                "before acting: a WEDGE is cured by restarting ollama.exe (the tray app "
+                "respawns it) and nothing drains that queue on its own, but a daemon that is "
+                "DOWN or answering an HTTP error needs starting or reading, not restarting.",
                 "high", "machine"))
     except Exception:
         silence.note("standards.py:token-flow-standard")

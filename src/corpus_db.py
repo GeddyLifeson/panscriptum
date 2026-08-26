@@ -206,9 +206,15 @@ def rebuild(include_evidence=True, evidence_limit=None):
     con.execute("INSERT OR REPLACE INTO meta VALUES ('evidence', ?)", (str(n_ev),))
     con.commit()
     con.close()
-    silence.replace_retry(tmp, DB)
+    # THE VERDICT OF THE FINAL WRITE HAS TO REACH THE CALLER. `replace_retry` returns False
+    # rather than raising when a reader holds `corpus.db` open, which is this module's NORMAL
+    # situation -- the whole point of the file is that other processes read it. Dropped, the
+    # rebuild printed full counts and exited 0 over an unchanged database, `age_seconds()` went
+    # on reporting the OLD `built_at`, and every later query answered from stale data. Same
+    # shape as BUGS M36.
+    landed = silence.replace_retry(tmp, DB)
     return {"sources": n_src, "entries": n_entry, "evidence": n_ev,
-            "seconds": round(time.time() - t0, 2)}
+            "seconds": round(time.time() - t0, 2), "landed": landed}
 
 
 def age_seconds():
@@ -420,6 +426,12 @@ def main():
         # is the number that decides how often this needs running.
         _, _, before = drift()
         got = rebuild(include_evidence=not a.no_evidence)
+        if not got["landed"]:
+            # A rebuild that could not land is not a rebuild. Say so and fail, rather than
+            # print counts that describe a database still sitting in a temp file.
+            print("REBUILD DID NOT LAND: a reader holds %s open; the old index is unchanged "
+                  "and every query still answers from it. Close the readers and re-run." % DB)
+            return 1
         print("rebuilt: %(sources)d sources, %(entries)d entries, %(evidence)d evidence rows "
               "in %(seconds)ss" % got)
         if before:

@@ -1521,7 +1521,12 @@ check("feats.discover refuses a numeric cap", _capped, True)
 # like any other free one, because nothing in the file knows the name means money.
 import cascade_bridge as _CB                                            # noqa: E402
 
-_here19h = os.path.dirname(os.path.abspath(__file__))   # _here19h is defined ~1600 lines later
+# This IS the definition, here, and it is never rebound. The comment that used to sit on this
+# line read "_here19h is defined ~1600 lines later", which was true of a DIFFERENT variable:
+# `_here19`, one character shorter, defined at §20 about 1600 lines below and used pervasively
+# from there. Two names a character apart doing the same job is how the stray got here in the
+# first place; run33 spent an audit re-deriving that before concluding the code was fine.
+_here19h = os.path.dirname(os.path.abspath(__file__))
 
 
 class _M:                                          # the one attribute widen_candidates reads
@@ -3375,7 +3380,16 @@ finally:
     _si21.note = _realnote21
 
 print()
-print("24. §20e  NO CONSOLE WINDOWS, EVER — every child spawn must suppress its window")
+# The leading ordinals from here to the end of the file were renumbered in run33. They had
+# drifted into three collisions and a hole: 24, 25 and 26 were each printed twice for different
+# sections, and 30 and 31 never appeared at all, so a reader grepping the console for a section
+# number could not land on one. Renumbering the §20 block sequentially in line order lands §20p
+# on exactly the 32 it was already carrying, which is why this is a repair and not a new scheme:
+# the two skipped numbers are the two duplicated ones, and the sequence closes. The §-tags are
+# NOT touched -- BUGS.md, rigor.py:123 and this file's own comments cite them by name, and they
+# are the stable identifier. (The separate fault that §20e and §20f are each shared by two
+# sections is filed on its own; renaming a tag is not a print-only change.)
+print("25. §20e  NO CONSOLE WINDOWS, EVER — every child spawn must suppress its window")
 # ---------------------------------------------------------------------------------------------
 # OWNER DIRECTIVE, 2026-08-25, stated in the strongest terms: no command windows may EVER open.
 #
@@ -3401,11 +3415,30 @@ _SPAWNERS20e = {"run", "Popen", "call", "check_output", "check_call"}
 _unguarded20e = []
 _guarded20e = 0
 _osspawn20e = []
+_unparsed20e = []
 for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
     try:
         _t20e = _ast20e.parse(open(_p20e, encoding="utf-8").read())
-    except SyntaxError:
-        continue                      # allsweep's LINT tier owns syntax; not this check's job
+    except Exception:
+        # NOT a silent skip. This read `except SyntaxError: continue`, with the comment
+        # "allsweep's LINT tier owns syntax; not this check's job" -- and that deferral is the
+        # one thing this check is not allowed to do. A module this scan cannot parse is a module
+        # it cannot clear, so a broken file was dropped from the sweep with no record and no
+        # assertion, and an unguarded `subprocess.Popen(...)` sitting inside it would leave all
+        # three checks below printing green. The check would go green BECAUSE something was
+        # wrong, which is the failure class §19ab's identical AST scan already hit and repaired
+        # with exactly the list-and-assert below; this loop was written later and did not carry
+        # it across. It is also a Hard Rule -1 violation on its face: leaning on allsweep's LINT
+        # tier to have caught the corruption first makes two layers share one failure mode, and
+        # local_agent.py patches files in this tree under model control while §20g records this
+        # codebase's repeated history of mid-write truncation -- a broken src/*.py is not
+        # hypothetical here. Caught broadly rather than on SyntaxError alone, matching §19ab: a
+        # null byte or a bad encoding raises ValueError or UnicodeDecodeError, neither of which
+        # is a SyntaxError, and both of which would previously have taken the whole suite down
+        # instead of being reported as the unreadable file they are.
+        silence.note("verify_math.py:S20e-parse")
+        _unparsed20e.append(os.path.basename(_p20e))
+        continue
     # RESOLVE THE IMPORT ALIASES FIRST, because matching the literal name `subprocess` is a
     # check that cannot fail on the one file that matters. This scan used to compare
     # `_f20e.value.id == "subprocess"`, so `import subprocess as _sp20a` made it blind -- and
@@ -3459,9 +3492,14 @@ check("no os.system / os.popen / os.startfile anywhere in src/",
 check("the guard is actually finding the spawn sites (it has not silently matched nothing)",
       _guarded20e >= 20, True,
       note="a parser bug that found zero calls would pass the two checks above vacuously")
+check("every module was readable by the console-window scan", _unparsed20e, [],
+      note="a module this scan cannot parse is one it cannot clear; a spawn that forgot the flag "
+           "could hide inside a broken file and all three checks above would read green because "
+           "of it. The >=20 floor does not cover this: 112 healthy modules clear it while the "
+           "113th is unparsed. Unparsed: " + ("; ".join(_unparsed20e) or "none"))
 
 print()
-print("25. §20f  RIGOR'S PROSE MUST NOT OUTLIVE RIGOR'S DATA — a section that printed the")
+print("26. §20f  RIGOR'S PROSE MUST NOT OUTLIVE RIGOR'S DATA — a section that printed the")
 print("          true weights and then announced they were zero")
 # ---------------------------------------------------------------------------------------------
 # `rigor.py` is a diagnostic report, so its FINDINGS ARE ITS OUTPUT -- stale narrative there is
@@ -3513,7 +3551,7 @@ check("the ratio-matrix label counts the weights instead of hardcoding 8",
 check("assay.WEIGHTS is the 11 the label now reports", len(_as21.WEIGHTS), 11)
 
 print()
-print("25. §20f  A PERMANENT REFUSAL MUST NOT BE FILED AS CONTENTION — the auth bench")
+print("27. §20f  A PERMANENT REFUSAL MUST NOT BE FILED AS CONTENTION — the auth bench")
 print("          was unreachable for exception-surfaced failures and blind to spent accounts")
 # Found 2026-08-25 (run #22). `cascade_bridge._ask_call` benches a bucket for AUTH_BENCH when a
 # provider refuses permanently, and the file's own comment promises this stops `cloudflare` and
@@ -3649,7 +3687,7 @@ check("and the wider explain-only lookup that fills it is still wired in",
       note="the 180s bench window is too narrow to EXPLAIN a burst; this is the second, wider read")
 
 print()
-print("26. §20g  A SHARED FILE IS LANDED, NEVER TRUNCATED-THEN-FILLED — the whole-tree sweep")
+print("28. §20g  A SHARED FILE IS LANDED, NEVER TRUNCATED-THEN-FILLED — the whole-tree sweep")
 print("          of 2026-08-25 found SIXTEEN non-atomic writes across FOURTEEN modules")
 # The comprehensive sweep ordered by the owner on 2026-08-25 turned up one systemic fault rather
 # than sixteen unrelated ones: `open(path, "w")` followed by `json.dump` is not a write, it is a
@@ -3721,7 +3759,7 @@ check("overwatch.py lands WATCH.md through replace_retry",
       note="not JSON, so it uses replace_retry directly rather than write_json")
 
 print()
-print("27. §20h  A NAMED FAILURE IS NOT AN UNKNOWN ONE, AND A STALE FILE IS NOT AN ALL-CLEAR")
+print("29. §20h  A NAMED FAILURE IS NOT AN UNKNOWN ONE, AND A STALE FILE IS NOT AN ALL-CLEAR")
 print("-" * 96)
 # Run #23. Three faults, one shape: a check that could not fail, so it never did.
 #
@@ -3781,7 +3819,7 @@ check("a failed revert cannot report itself as reverted",
       note="'reverted': True was a literal, emitted even when the restoring write had raised")
 
 print()
-print("28. §20i  A GUARD MUST NOT FALL THROUGH INTO THE HARM IT GUARDS AGAINST")
+print("30. §20i  A GUARD MUST NOT FALL THROUGH INTO THE HARM IT GUARDS AGAINST")
 print("-" * 96)
 # Run #24. Three defects of one shape: the failure path of a protective mechanism did the exact
 # thing the mechanism existed to prevent, and in all three cases the docstring above it promised
@@ -3932,7 +3970,7 @@ check("and it does not cry wolf on an ordinary wrapped check",
       note="over-matching here would flag most of this file and the guard would be turned off")
 
 print()
-print("29. §20j  RUN #25 — A GUARD THAT ONLY RECOGNISES THE UNOBFUSCATED SPELLING")
+print("31. §20j  RUN #25 — A GUARD THAT ONLY RECOGNISES THE UNOBFUSCATED SPELLING")
 # ---------------------------------------------------------------------------------------------
 # Run #25's shape is one step past run #24's. A guard that inverts on its error path is
 # invisible; a guard that matches only the PLAIN spelling of the thing it forbids is worse,
@@ -4437,7 +4475,7 @@ check("the import tier is not blind to a bare SystemExit",
            "_BAD_CHARS corruption guard -- which raises SystemExit -- was graded green")
 
 print()
-print("26. §20q  A WRITE VERDICT THAT NOBODY READS IS A WRITE NOBODY CHECKED — the fix that")
+print("33. §20q  A WRITE VERDICT THAT NOBODY READS IS A WRITE NOBODY CHECKED — the fix that")
 print("          landed in the writer and never reached the twelve callers it described")
 # ---------------------------------------------------------------------------------------------
 # `pipeline._landed` returns True/False on purpose, and its docstring states the contract in as

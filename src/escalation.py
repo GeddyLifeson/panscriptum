@@ -30,10 +30,15 @@ nothing, because an alarm that always sounds is furniture.
 
 THE HALT IS DELIBERATELY HARD TO CLEAR. It fails closed: an unreadable or malformed HALT file is
 treated as halted, because a halt that a corrupted file can lift is not a halt. It cannot be
-cleared programmatically -- `clear()` demands a written ruling and records who gave it, and
-`verify_math` asserts that no module in `src/` calls it. An autonomous run may RAISE a halt; only
-a person may lift one. That asymmetry is the entire point: the last incident was caused by an
-automated agent removing a safety it had concluded was unnecessary.
+cleared programmatically, and as of run #33 that is a RUNTIME guarantee rather than a reading of
+the source: `clear()` demands a written ruling, records who gave it, and REFUSES outright unless
+this file is the program being run and its own `main()` is the caller -- see
+`_by_a_person_at_the_cli`. `drill.py:_no_programmatic_clear` still scans `src/` for a call; that
+is the review-time half, and it was the ONLY half until run #33, when an audit pointed out that
+an import alias, a `from ... import`, or a `getattr` walks straight past a substring scan. An
+autonomous run may RAISE a halt; only a person may lift one. That asymmetry is the entire point:
+the last incident was caused by an automated agent removing a safety it had concluded was
+unnecessary.
 """
 import json
 import os
@@ -244,15 +249,58 @@ def assert_clear(who="?"):
         % (who, rec.get("code"), rec.get("what"), rec.get("by"), rec.get("source")))
 
 
+def _by_a_person_at_the_cli():
+    """True only for `python src/escalation.py --clear`. False for every programmatic call.
+
+    THE GUARANTEE WAS A GREP UNTIL RUN #33. "It cannot be cleared programmatically" was enforced
+    entirely by `drill.py:_no_programmatic_clear`, which reads every other `src/*.py` looking for
+    the literal strings `escalation.clear(` and `ESC.clear(`. `import escalation as X; X.clear()`,
+    `from escalation import clear`, `getattr(escalation, "clear")()` and any dynamically built
+    call contain neither string, so the asymmetry the whole chain rests on held against two
+    spellings rather than against the capability itself. That is a guarantee written in a comment.
+
+    This makes it true in the code. Two conditions, both required:
+      1. the program being run IS this file -- `__main__.__file__` resolves to escalation.py, so
+         `python -c "import escalation; escalation.clear(...)"` and any importing job are out;
+      2. the immediate caller is this file's own `main()`, so a module that reaches in and calls
+         `escalation.main()` under a borrowed argv is out too.
+
+    The grep stays. It catches the attempt when a person reads the diff; this catches it when the
+    process runs, and a safety with one enforcement point is a safety that is one edit from none.
+    """
+    here = os.path.abspath(__file__)
+    main_mod = sys.modules.get("__main__")
+    if os.path.abspath(getattr(main_mod, "__file__", "") or "") != here:
+        return False
+    try:
+        f = sys._getframe(2)          # 0 = this function, 1 = clear(), 2 = clear()'s caller
+    except ValueError:
+        return False
+    return (f is not None and f.f_code.co_name == "main"
+            and os.path.abspath(f.f_code.co_filename) == here)
+
+
 def clear(ruling, by="owner"):
-    """Lift the halt. A PERSON ONLY -- `verify_math` asserts no module in src/ calls this.
+    """Lift the halt. A PERSON ONLY, and refused at run time if the caller is not one.
 
     Demands a written ruling because the halt exists to buy a decision, and a halt lifted with
     no decision recorded has bought nothing. The ruling is kept with the original fault.
+
+    The ruling is validated FIRST and the caller second, deliberately: `drill.py` proves the
+    written-ruling rule by calling `clear("")` and `clear("ok")` and requiring a `ValueError`,
+    and a caller check that ran ahead of it would answer those probes with the wrong refusal and
+    leave the ruling rule untested. Order of refusals is part of what is tested here.
     """
     if not ruling or not str(ruling).strip() or len(str(ruling).strip()) < 12:
         raise ValueError("a ruling is required, in words -- what did you decide, and why? "
                          "(at least a short sentence)")
+    if not _by_a_person_at_the_cli():
+        raise PermissionError(
+            "the halt may not be lifted programmatically. An autonomous run may RAISE a halt; "
+            "only a person may lift one, and that asymmetry is the point -- the incident this "
+            "chain exists for was an automated agent removing a safety it had concluded was "
+            "unnecessary. Lift it by hand:\n"
+            "    python src/escalation.py --clear --ruling \"<what you decided and why>\"")
     halted, rec = status()
     if not halted:
         return False

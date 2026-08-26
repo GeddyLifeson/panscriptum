@@ -84,7 +84,12 @@ WIKI_HOSTS = os.path.join(HERE, "data", "WIKI_HOSTS.json")
 # on a single pseudo-host.
 _PAGES_SENTINEL = "pages:"
 
-_CACHE = {"hosts": None, "index": None}
+# KEYED BY THE PATH THAT WAS ASKED FOR, not by the function that was called. Both readers below
+# take a path override and used to cache under one global slot each, so a second call with a
+# different path silently returned the FIRST path's answer -- a join quietly computed against a
+# store nobody asked for. No caller passes a non-default argument today; the signature invites
+# exactly that, and a cache that ignores its own key is a wrong answer waiting for a caller.
+_CACHE = {"hosts": {}, "index": {}}
 
 
 def _norm(s):
@@ -113,8 +118,8 @@ def _norm(s):
 
 def host_to_sources(path=WIKI_HOSTS):
     """{host: [source, ...]} inverted from WIKI_HOSTS.json, minus the `pages:` sentinels."""
-    if _CACHE["hosts"] is not None:
-        return _CACHE["hosts"]
+    if path in _CACHE["hosts"]:
+        return _CACHE["hosts"][path]
     out = collections.defaultdict(list)
     try:
         with open(path, encoding="utf-8") as f:
@@ -125,8 +130,8 @@ def host_to_sources(path=WIKI_HOSTS):
     for src, host in (wh or {}).items():
         if isinstance(host, str) and host and not host.startswith(_PAGES_SENTINEL):
             out[host.lower()].append(src)
-    _CACHE["hosts"] = dict(out)
-    return _CACHE["hosts"]
+    _CACHE["hosts"][path] = dict(out)
+    return _CACHE["hosts"][path]
 
 
 def load_index(root=READFEATS):
@@ -135,11 +140,11 @@ def load_index(root=READFEATS):
     Read once and cached: the store is ~1,240 small files and the manifest builder would
     otherwise re-walk it per source.
     """
-    if _CACHE["index"] is not None:
-        return _CACHE["index"]
+    if root in _CACHE["index"]:
+        return _CACHE["index"][root]
     idx = {}
     if not os.path.isdir(root):
-        _CACHE["index"] = idx
+        _CACHE["index"][root] = idx
         return idx
     for host_dir in sorted(os.listdir(root)):
         p = os.path.join(root, host_dir)
@@ -159,7 +164,7 @@ def load_index(root=READFEATS):
             rec.setdefault("entity", entity)
             rec.setdefault("host", host)
             idx[(host, _norm(entity))] = rec
-    _CACHE["index"] = idx
+    _CACHE["index"][root] = idx
     return idx
 
 

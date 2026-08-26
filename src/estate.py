@@ -185,18 +185,28 @@ def charter():
 
     spine = os.path.join(HERE, "data", "CHARTER_SPINE_CODES.json")
     if os.path.exists(spine):
+        codes = None
         try:
             with open(spine, encoding="utf-8") as f:
                 codes = json.load(f)
             note("spine codes parsed from the Acquisitions Index", f"{len(codes)} sources")
-            import weave_index as WI
-            recs = {r["source"] for r in WI.load_records()}
-            un = sorted(recs - set(codes))
-            if un:
-                note("catalogued sources with NO charter spine code",
-                     f"{len(un)} — e.g. " + ", ".join(un[:4]))
         except Exception as e:
             note("spine codes unreadable", str(e)[:80])
+        # A SECOND HANDLER, because these are two subsystems. Reading the records is
+        # `weave_index`'s work, not the spine file's, and one handler over both reported a
+        # malformed record or a bug in `weave_index` as "spine codes unreadable" -- which sends
+        # whoever reads the estate report to open the wrong file.
+        if codes is not None:
+            try:
+                import weave_index as WI
+                recs = {r["source"] for r in WI.load_records()}
+                un = sorted(recs - set(codes))
+                if un:
+                    note("catalogued sources with NO charter spine code",
+                         f"{len(un)} — e.g. " + ", ".join(un[:4]))
+            except Exception as e:
+                note("records unreadable — could not compare them against the spine codes",
+                     str(e)[:80])
     else:
         note("CHARTER_SPINE_CODES.json MISSING", spine)
 

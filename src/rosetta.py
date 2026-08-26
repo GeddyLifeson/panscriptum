@@ -399,7 +399,16 @@ def main():
         if not os.path.exists(path):
             print("no ASSAYS.json yet — mine the scales first, assay second, check third")
             return 0
-        assays = {k: v["result"]["decimal"] + P.__dict__.get("_x", 0)
+        # The decimal is taken AS FILED. This read used to be
+        # `v["result"]["decimal"] + P.__dict__.get("_x", 0)`, an undocumented offset pulled off
+        # the `pipeline` module by name at runtime. `pipeline` defines no `_x` anywhere, so the
+        # term was always 0 and the line was inert -- but it was inert by accident, not by
+        # design: a `pipeline._x = 0.3` set from a debugging shell, or a future module-level
+        # name collision, would have shifted EVERY assay decimal feeding the correlation check
+        # by that amount with no error, no log line and nothing in the printed rho report to
+        # say the numbers had moved. A calibration check that can be silently detuned by an
+        # attribute nobody declared is not a check. Removed; the arithmetic is unchanged. (run33)
+        assays = {k: v["result"]["decimal"]
                   for k, v in json.load(open(path, encoding="utf-8")).items()
                   if v.get("result") and v["result"].get("decimal") is not None}
         for r in check(rosetta, assays):
