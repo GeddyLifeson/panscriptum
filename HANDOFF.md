@@ -9,6 +9,51 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-26 — the first complete mutation result: 60 mutants, 25 survived
+
+`mutate.py` corrupted `assay.py` one token at a time and ran the whole battery against each
+version. **60 mutants, 35 killed, 25 SURVIVED** — 5.7 hours, and this time every survivor was
+journalled to `state/MUTANTS_SURVIVED.jsonl` as it was found, so the crash that lost the previous
+run's twenty could not repeat.
+
+**THE TRIAGE MATTERS MORE THAN THE COUNT.** Each survivor was mapped to its enclosing function
+and that function checked for callers anywhere in `src/`:
+
+    18  REACHABLE — a real hole in the checks
+     7  in code NOTHING CALLS — survives because it never runs
+
+The seven sit in `band_for_quantity`, `null_instrument` and `interval_from_hands` — **exactly
+the three functions `vulture` independently reports as uncalled.** Two detectors built on
+completely different theories, arriving at the same three functions from opposite directions.
+That sharpens the liveness ratchet's finding considerably: dead code here is not untidy, it is
+**UNVERIFIABLE**. Nothing can be proven about it because nothing exercises it. Left for the
+owner's ruling on deletion rather than propped up with tests written to keep a corpse warm.
+
+**THE EIGHTEEN REAL ONES, and what the worst of them would have done:**
+
+* `_rho_doc():641` — inverting one `not` flips the PROVENANCE STAMP on every published number.
+  The intervals stay correct; each one gets labelled *"FALLBACK rho=0, independence ASSERTED not
+  measured"* while the correlations were in fact measured — and labelled *"measured"* on the day
+  the matrix goes missing. A reader could not tell which kind of bar they were holding, in either
+  direction. `_rho_source` exists precisely to prevent that, and nothing noticed its inversion.
+* `assay():861` — `_ceiling = _promote = False` set to True makes **every entry in the library**
+  claim to sit at the ladder ceiling and be due promotion.
+* `assay():918` — `promotion_watch` inverted: flags every LOW entry as near promotion, no high one.
+* `_interval():776` — the between-hands term backwards, so a SINGLE reading carries contested
+  variance and a genuinely contested one does not. That term is the whole reason the charter can
+  publish Goku at ±0.41 under the same grade that gives Kenshiro ±0.12.
+* `axis_score():221,228` — both refusals that stop a nonsensical quantity becoming a score. They
+  survived, which means neither had ever been asked to refuse anything: present, live, unexercised.
+
+**TWELVE NEW CHECKS WRITTEN AGAINST THEM**, in `verify_math` (the fast gate, so mutants die
+sooner). **817 passed, 0 FAILED.** They are being confirmed to actually go red against the exact
+mutations that motivated them — the house rule is *watch it refuse once*, and a check written for
+a mutant that does not kill it is worse than no check at all.
+
+One of those checks crashed on first run: I had `axis_score`'s arguments in the wrong order. It
+raised a TypeError rather than quietly asserting nothing, which is the behaviour a check should
+have when its author is confused.
+
 ## 2026-08-26 — the alarm crashed instead of sounding, and it cost a 3.7-hour run
 
 **FOR THE OWNER: the first real mutation result is `assay.py` — 58 mutants, 38 killed,
