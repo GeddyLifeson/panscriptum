@@ -2678,6 +2678,96 @@ def _twins_ignores_a_foreign_tree():
         shutil.rmtree(d, ignore_errors=True)
 
 
+def drill_rung_four():
+    """MANAGER stops must actually stop things — for four days they did not.
+
+    On 2026-08-26 the nightly run stopped `catalogue_web --recatalogue` at rung 4 because it was
+    NULLING SYNTHESIS BLOCKS: 26 sources in twenty-four hours, DC among them at 44,958 entries.
+    Twenty-five minutes later the keeper started it again. Nothing had failed — the chain
+    recorded that rung 4 fired, and the supervisor whose entire job is keeping jobs up had never
+    been given anything to read.
+
+    So of five rungs, exactly ONE could stop anything: the OWNER halt. Escalating to a rung that
+    cannot enforce itself is the same as escalating to nobody, and worse, because it reads as
+    action taken and stops anyone looking further.
+    """
+    a = "RUNG FOUR — a stopped subsystem stays stopped"
+
+    def a_stop_is_written_down_and_readable():
+        import escalation as E
+        name = "__drill_rung4__"
+        try:
+            E.stop_subsystem(name, "drill probe: rung 4 must outlive the process that set it",
+                             who="drill.py")
+            held, why = E.subsystem_stopped(name)
+            return held is True and "drill probe" in why
+        finally:
+            try:
+                E.resume_subsystem(name, "drill probe complete; releasing the synthetic stop")
+            except Exception:
+                import silence as _s
+                _s.note("drill.py:rung4-cleanup")
+    net(a, "a MANAGER stop is recorded where another process can read it",
+        a_stop_is_written_down_and_readable,
+        "a stop only the stopping process knows about lasted 25 minutes and lost 26 records")
+
+    def resuming_demands_a_written_ruling():
+        import escalation as E
+        name = "__drill_rung4b__"
+        try:
+            E.stop_subsystem(name, "drill probe: resuming must not be casual", who="drill.py")
+            try:
+                E.resume_subsystem(name, "ok")
+                return False                      # a shrug re-opened it. Breach.
+            except ValueError:
+                return True
+        finally:
+            try:
+                E.resume_subsystem(name, "drill probe complete; releasing the synthetic stop")
+            except Exception:
+                import silence as _s
+                _s.note("drill.py:rung4b-cleanup")
+    net(a, "re-opening a stopped subsystem demands a written ruling",
+        resuming_demands_a_written_ruling,
+        "the thing that undid the last stop was an automated actor with a restart timer")
+
+    def the_keeper_asks_before_restarting():
+        """The half that matters. `overnight`'s keeper must CONSULT the ledger, not just have
+        one available to consult."""
+        src = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(src, "overnight.py"), encoding="utf-8") as fh:
+            text = fh.read()
+        i = text.rfind("was down mid-cycle")
+        if i == -1:
+            return False
+        window = text[max(0, i - 1200):i]
+        return "_manager_stopped" in window
+    net(a, "the keeper checks for a MANAGER stop before re-asserting a job",
+        the_keeper_asks_before_restarting,
+        "the ledger existed for 25 minutes and the one process that needed it never opened it")
+
+    def an_unreadable_stop_ledger_stops_everything():
+        """FAIL CLOSED. The file's only content is what must not run, so failing to read it
+        cannot be permission to run things."""
+        import escalation as E
+        saved = E.STOPPED
+        E.STOPPED = os.path.join(tempfile.gettempdir(), "drill_stopped_bad.json")
+        try:
+            with open(E.STOPPED, "w", encoding="utf-8") as fh:
+                fh.write("{ not json at all")
+            held, why = E.subsystem_stopped("anything at all")
+            return held is True
+        finally:
+            try:
+                os.remove(E.STOPPED)
+            except OSError:
+                pass
+            E.STOPPED = saved
+    net(a, "an unreadable stop ledger reports everything stopped",
+        an_unreadable_stop_ledger_stops_everything,
+        "'I cannot tell whether a person closed this' is not permission to re-open it")
+
+
 def drill_codewatch():
     """Stale daemons — the failure that made every other safety here conditional.
 
@@ -3561,7 +3651,7 @@ def main():
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_done_keys, drill_profile,
                drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
-               drill_workorders, drill_inspector, drill_codewatch, drill_scout,
+               drill_workorders, drill_inspector, drill_rung_four, drill_codewatch, drill_scout,
                drill_defect_classes, drill_mutation,
                drill_scope, drill_correlation,
                drill_outside):

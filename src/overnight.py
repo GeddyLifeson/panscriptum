@@ -732,6 +732,20 @@ def main():
     # length of a 4-hour roll join. This thread re-asserts the standing set every five
     # minutes from wherever the cycle happens to be blocked. start() keeps the singleton
     # guard, so the keeper can never double anything.
+    def _manager_stopped(job):
+        """Is this subsystem closed at rung 4? -> (bool, why). FAILS CLOSED.
+
+        Asked BEFORE every restart. If escalation cannot answer -- module missing, ledger
+        unreadable -- the keeper does NOT start the job: "I cannot tell whether a person closed
+        this" has never been permission to re-open it, and the failure this guards against was
+        twenty-six records losing their synthesis block while a stop went unread.
+        """
+        try:
+            import escalation as _esc
+            return _esc.subsystem_stopped(job)
+        except Exception:
+            return True, "escalation unreadable; refusing to restart on an unknown answer"
+
     import threading as _th
 
     def _keep():
@@ -742,6 +756,25 @@ def main():
                     # Checked silently first: start() logs "left alone" for a healthy job,
                     # and five of those every five minutes is log spam wearing a uniform.
                     if not running(os.path.basename(args[0])):
+                        # A SUBSYSTEM STOPPED AT THE MANAGER RUNG STAYS STOPPED, and until
+                        # 2026-08-26 it did not. At 22:5x a maintenance run stopped
+                        # `catalogue_web --recatalogue` because it was NULLING SYNTHESIS BLOCKS
+                        # -- 26 sources in 24 hours, including DC at 44,958 entries. At 23:21
+                        # this keeper started it again. The stop lasted twenty-five minutes and
+                        # no person was ever told.
+                        #
+                        # The escalation chain records that rung 4 fired. Nothing read it. So
+                        # the chain had five rungs of which exactly ONE could actually stop
+                        # anything -- the OWNER halt -- and a MANAGER stop was a note in a file
+                        # that the supervisor whose whole job is keeping jobs up never opened.
+                        # That is the "a decision recorded where nobody reads it" failure the
+                        # roll's out-of-scope status had, arriving in the escalation chain
+                        # itself.
+                        held, why = _manager_stopped(name)
+                        if held:
+                            log(f"  keeper: {name} is STOPPED at MANAGER rung — "
+                                f"NOT restarting ({why})")
+                            continue
                         log(f"  keeper: {name} was down mid-cycle")
                         start(name, args, lf)
                 except Exception:

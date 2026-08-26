@@ -106,7 +106,14 @@ def twins(module, exclude_pid=None):
     and after a worse incident (three watchdogs, each restarting the others' supervisors, in a
     respawn loop). It was never generalised to the daemons the watchdog supervises.
     """
-    me = os.getpid() if exclude_pid is None else exclude_pid
+    # SELF-EXCLUSION IS NOT OPTIONAL, and `exclude_pid` used to REPLACE it rather than add to
+    # it -- so `twins(m, exclude_pid=X)` stopped excluding this process and reported ITSELF as
+    # its own twin. `claim_singleton` would then have stood a healthy daemon down because it
+    # found itself. Found by the run #34 sweep reading the line, not by anything failing: no
+    # caller passes `exclude_pid` today, so the bug was live, unreachable, and waiting.
+    skip = {os.getpid()}
+    if exclude_pid is not None:
+        skip.add(exclude_pid)
     found = []
     try:
         import psutil
@@ -120,7 +127,7 @@ def twins(module, exclude_pid=None):
     # depends on what is running at the moment it looks is not testing the code.
     for proc in psutil.process_iter(["pid", "cmdline"]):
         try:
-            if proc.info["pid"] == me:
+            if proc.info["pid"] in skip:
                 continue
             argv = proc.info.get("cmdline") or []
             if len(argv) < 2:

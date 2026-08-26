@@ -287,6 +287,98 @@ def status():
     return (not rec.get("cleared", False)), rec
 
 
+STOPPED = os.path.join(HERE, "state", "STOPPED.json")
+
+
+def stop_subsystem(name, reason, who="?", evidence=None):
+    """Rung 4, made DURABLE. Stop one subsystem until a person resumes it. -> the record.
+
+    THE GAP THIS CLOSES, found 2026-08-26 by the nightly run and proved on the worst available
+    example. A maintenance run stopped `catalogue_web --recatalogue` at 22:5x because it was
+    NULLING SYNTHESIS BLOCKS -- 26 sources in twenty-four hours, DC among them at 44,958
+    entries. At 23:21 the keeper started it again. **The stop lasted twenty-five minutes and
+    no person was ever told.**
+
+    The chain had recorded that rung 4 fired. Nothing read it. So of five rungs exactly ONE --
+    the OWNER halt -- could actually stop anything, and a MANAGER stop was a note in a file that
+    the supervisor whose entire job is keeping jobs up never opened. Escalating to a rung that
+    cannot enforce itself is the same as escalating to nobody, and it is worse than nobody
+    because it reads as action taken.
+
+    A stop here is deliberately NARROW: one subsystem closes, the rest of the library keeps
+    running, which is the whole point of having a rung below the halt. It is also deliberately
+    STICKY: `resume_subsystem` demands a written ruling, exactly as `clear` does, because the
+    thing that undid the last one was an automated actor with good intentions and a restart
+    timer.
+    """
+    rec = escalate(MANAGER, "SUBSYSTEM_STOPPED",
+                   "%s stopped: %s" % (name, reason), evidence=evidence,
+                   source=name, who=who)
+    try:
+        doc = _read_stopped()
+        doc[str(name)] = {"at": time.time(), "reason": str(reason), "by": str(who),
+                          "evidence": evidence if isinstance(evidence, (dict, list)) else None}
+        _write_stopped(doc)
+    except Exception:
+        # A stop that cannot be written down is a stop nothing else can honour, and the caller
+        # must not be left believing the subsystem is closed. Raised to OWNER: this is the one
+        # failure of the MANAGER rung that genuinely does need everything to halt.
+        escalate(OWNER, "SUBSYSTEM_STOP_UNRECORDABLE",
+                 "could not record a MANAGER stop for %s; the keeper will restart it" % name,
+                 source=name, who=who)
+    return rec
+
+
+def _read_stopped():
+    try:
+        with open(STOPPED, encoding="utf-8") as f:
+            d = json.load(f)
+        return d if isinstance(d, dict) else {}
+    except FileNotFoundError:
+        return {}
+    except Exception:
+        # UNREADABLE MEANS STOPPED, for everything. The file only exists to say what must not
+        # run, so failing to read it cannot be permission to run things.
+        return {"__unreadable__": {"reason": "STOPPED.json could not be read", "at": time.time()}}
+
+
+def _write_stopped(doc):
+    tmp = STOPPED + ".%d.tmp" % os.getpid()
+    os.makedirs(os.path.dirname(STOPPED), exist_ok=True)
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(doc, f, indent=2)
+    os.replace(tmp, STOPPED)
+
+
+def subsystem_stopped(name):
+    """-> (bool, reason). Has a person-or-rung-4 closed this subsystem?
+
+    Fails CLOSED: an unreadable ledger reports every subsystem stopped, because the only thing
+    this file says is what must not run.
+    """
+    doc = _read_stopped()
+    if "__unreadable__" in doc:
+        return True, doc["__unreadable__"]["reason"]
+    hit = doc.get(str(name))
+    if not hit:
+        return False, ""
+    return True, "%s (by %s)" % (hit.get("reason", "no reason recorded"), hit.get("by", "?"))
+
+
+def resume_subsystem(name, ruling, by="?"):
+    """Re-open one subsystem. Demands a written ruling, exactly as `clear` does. -> bool."""
+    if not (ruling or "").strip() or len(str(ruling).strip()) < 20:
+        raise ValueError("resuming a stopped subsystem needs a written ruling, not a shrug")
+    doc = _read_stopped()
+    if str(name) not in doc:
+        return False
+    doc.pop(str(name), None)
+    _write_stopped(doc)
+    escalate(JANITOR, "SUBSYSTEM_RESUMED", "%s resumed: %s" % (name, ruling),
+             source=name, who=by)
+    return True
+
+
 def assert_clear(who="?"):
     """EVERY entry point calls this before doing anything. The plant-wide interlock.
 
