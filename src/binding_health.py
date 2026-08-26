@@ -241,8 +241,20 @@ def _probe_absent(host, timeout=25):
     try:
         import feats as F
         got = F.fetch(host, [ABSENT_PROBE])
-    except Exception:
-        return True, "no answer, which is the correct answer"
+    except Exception as exc:
+        # NOT ASKED IS NOT ANSWERED, and this returned `True, "no answer, which is the correct
+        # answer"` for EVERY exception -- a timeout, a 500, a DNS failure, an ImportError, a
+        # bug in `feats.fetch`. So the one probe written to catch a host that says yes to
+        # everything certified that host as sound whenever the probe itself could not run.
+        # The canary's whole value is telling "this host refused a fake title" apart from
+        # "something came back", and it could not tell either from "I never got to look".
+        #
+        # UNKNOWN, not False: returning False would quarantine a perfectly good wiki on a
+        # transient network blip, which is the false-quarantine failure `_probe_present`'s own
+        # comment warns about at length. `verdict()` decides what to do with a probe that did
+        # not run; what this function must not do is invent a pass. Found by the run #34 sweep
+        # (orders 9b0e5cf4dfe2 / 2cfc022d8e04, filed twice independently).
+        return None, "could not ask (%s) -- NOT a verdict about this host" % type(exc).__name__
     if got:
         return False, ("resolved a title that cannot exist -- this host answers yes to "
                        "everything, so its hits prove nothing")
@@ -284,6 +296,24 @@ def verdict(ok_present, ok_absent, ok_reachable, det_p="", det_a="", det_r=""):
     wrong, so it is asserted directly rather than inferred from a live probe that can only ever
     exercise whichever branch today's internet happens to produce.
     """
+    # THE ABSENT PROBE HAS THREE ANSWERS, NOT TWO. `_probe_absent` returns None when it could
+    # not ask at all -- a timeout, a 500, a DNS failure -- and both branches below read a bare
+    # falsy value as "the host resolved a title nobody holds", which is a HOST FAULT and
+    # quarantines it. So a network blip on our side would have stopped mining a perfectly good
+    # wiki, which is precisely the false-quarantine failure this module's own comments warn
+    # about. Handled FIRST, before either test can see it.
+    #
+    # It also must not be able to reach `return True`: a probe that did not run cannot be half
+    # of a clean bill of health. Unknown falls through to the reachability question, which is
+    # the honest thing left to ask.
+    if ok_absent is None:
+        if ok_present:
+            return None, ("host serves a known title, but the absent-probe could not run (%s) "
+                          "-- not proven sound, not proven at fault" % det_a)
+        if ok_reachable:
+            return None, ("host is UP, no catalogued title resolved (%s), and the absent-probe "
+                          "could not run (%s)" % (det_p, det_a))
+        return False, "host unreachable: %s (present probe: %s)" % (det_r, det_p)
     if ok_present and ok_absent:
         return True, None
     if not ok_absent:

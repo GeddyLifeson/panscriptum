@@ -2678,6 +2678,50 @@ def _twins_ignores_a_foreign_tree():
         shutil.rmtree(d, ignore_errors=True)
 
 
+def drill_probe_honesty():
+    """A probe that could not run must not be counted as a probe that passed.
+
+    `binding_health._probe_absent` is the check that catches a host answering yes to everything
+    -- a soft-404, a search page, a login wall wearing an article's clothes. It caught ANY
+    exception and returned `True, "no answer, which is the correct answer"`, so a timeout, a
+    500, a DNS failure or a bug in `feats.fetch` all certified the host as sound. The one probe
+    written to tell "it refused" from "something came back" could not tell either from "I never
+    got to look."
+    """
+    a = "PROBE HONESTY — not asked is not answered"
+
+    def unknown_never_reads_as_healthy():
+        import binding_health as B
+        for present in (True, False):
+            for reach in (True, False):
+                ok, _why = B.verdict(present, None, reach, det_p="d", det_a="d", det_r="d")
+                if ok is True:
+                    return False          # a probe that did not run bought a clean bill
+        return True
+    net(a, "an unrunnable absent-probe can never produce a healthy verdict",
+        unknown_never_reads_as_healthy,
+        "the probe returned True on every exception, certifying hosts it never tested")
+
+    def unknown_does_not_quarantine_a_live_host():
+        """The other side. Refusing on unknown would stop mining a good wiki on a network blip,
+        which is the false-quarantine this module warns about at length."""
+        import binding_health as B
+        ok, _ = B.verdict(True, None, True, det_a="timeout")
+        return ok is None
+    net(a, "an unrunnable probe does not quarantine a reachable host on its own",
+        unknown_does_not_quarantine_a_live_host,
+        "unknown is a third answer, not a vote either way")
+
+    def a_lying_host_is_still_caught():
+        """The original purpose must survive the fix."""
+        import binding_health as B
+        ok, why = B.verdict(True, False, True, det_a="resolved a title that cannot exist")
+        return ok is False and "absent probe resolved" in (why or "")
+    net(a, "a host that resolves an impossible title is still refused",
+        a_lying_host_is_still_caught,
+        "the tri-state must not soften the verdict it was built to deliver")
+
+
 def drill_rung_four():
     """MANAGER stops must actually stop things — for four days they did not.
 
@@ -3669,7 +3713,7 @@ def main():
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_done_keys, drill_profile,
                drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
-               drill_workorders, drill_inspector, drill_rung_four, drill_codewatch, drill_scout,
+               drill_workorders, drill_inspector, drill_probe_honesty, drill_rung_four, drill_codewatch, drill_scout,
                drill_defect_classes, drill_mutation,
                drill_scope, drill_correlation,
                drill_outside):
