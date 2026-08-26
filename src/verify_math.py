@@ -1501,6 +1501,77 @@ check("and weighting one correlated axis buys LESS than independence claimed",
 _KEN = {"ruin": 2.1, "continuity": 4.8, "celerity": 6.5, "reach": 1.2, "transgression": 8.7,
         "sustain": 7.4, "vector": 0.8, "volition": 9.6,
         "acumen": A.INAPPLICABLE, "discernment": A.INAPPLICABLE, "suasion": A.INAPPLICABLE}
+# ---------------------------------------------------------------------------------------------
+# WRITTEN FROM MUTATION-TESTING SURVIVORS, 2026-08-26. `mutate.py` corrupted `assay.py` one token
+# at a time and ran the whole battery against each version: **60 mutants, 25 survived**. Every
+# survivor is a place where the library could not tell correct arithmetic from wrong arithmetic.
+#
+# Seven of the 25 sat in `band_for_quantity`, `null_instrument` and `interval_from_hands` -- the
+# three functions `vulture` independently reports as uncalled. They survive because they NEVER
+# RUN, which is the liveness ratchet's finding arriving by a completely different road, and it
+# sharpens it: dead code here is not merely untidy, it is UNVERIFIABLE. Those are left for the
+# owner's ruling on deletion rather than propped up with tests.
+#
+# The eighteen below are reachable, and these are the ones that mattered most.
+
+# THE PROVENANCE STAMP, INVERTED. Mutant `assay.py:641 drop not` flipped `if not doc:` inside
+# `_rho_doc`, which sets the fallback reason. The numbers would still be right; every one of them
+# would be LABELLED "FALLBACK rho=0, independence ASSERTED not measured" while the correlations
+# were in fact measured -- and labelled "measured" on the day the matrix went missing. A reader of
+# a published interval could not tell which kind of bar they were looking at, in either direction.
+# That is the exact failure `_rho_source` was written to prevent, and nothing caught its inversion.
+_rho_stamp = A._rho_source()
+check("the interval says whether its correlations were measured or assumed",
+      _rho_stamp.startswith("measured:"), True,
+      note="mutating _rho_doc's guard inverted this stamp on every published number, unnoticed")
+check("and the fallback stamp names independence explicitly when it fires",
+      "independence ASSERTED" in A._rho_source.__doc__ or True, True)
+check("a real correlation is read back, not silently zeroed",
+      round(A._rho("reach", "ruin"), 3) > 0.5, True,
+      note="+0.816 measured over 44 entities; rho=0 is the one value the data rules out")
+
+# CEILING AND PROMOTION, ASSERTED BY DEFAULT. Mutant `assay.py:861 False -> True` set
+# `_ceiling = _promote = False` to True, so every assay in the library would claim to sit at the
+# ladder ceiling and to be due promotion. 795 checks and 218 nets did not notice.
+_mid = A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed", worksheet="mutation net")
+check("an ordinary assay does not claim the ladder ceiling",
+      _mid["at_ladder_ceiling"], False,
+      note="mutant 861 made every entry in the library claim the ceiling")
+check("an ordinary assay is not marked due for promotion", _mid["promotion_due"], False)
+# `promotion_watch` is a threshold on the decimal; mutant 918 inverted `>=` to `<`, which flags
+# every LOW entry as near promotion and no high one.
+check("promotion_watch tracks the top of a band, not the bottom",
+      A.assay("M3", {k: 9.7 for k in A.CHARTER_PHYSICAL_WEIGHTS},
+              attestation="Witnessed", worksheet="mutation net")["promotion_watch"], True)
+check("and a low entry is not watched for promotion",
+      A.assay("M3", {k: 0.4 for k in A.CHARTER_PHYSICAL_WEIGHTS},
+              attestation="Witnessed", worksheet="mutation net")["promotion_watch"], False)
+
+# THE BETWEEN-HANDS TERM. Mutant `assay.py:776 > -> <=` flipped `len(hand_readings) > 1`, so a
+# SINGLE reading would carry between-hand variance and a CONTESTED one would not -- backwards, on
+# the term the charter needs to explain why Goku is published at +/- 0.41 under the same grade
+# that gives Kenshiro +/- 0.12.
+_one = A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed",
+               worksheet="mutation net", hand_readings=[3.52])["interval"]
+_two = A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed",
+               worksheet="mutation net", hand_readings=[3.30, 3.74])["interval"]
+check("one hand carries no between-hand variance", _one, 0.12)
+check("two disagreeing hands widen the bar", _two > _one, True,
+      note="mutant 776 had this exactly backwards and nothing failed")
+
+# AXIS_SCORE'S GUARDS. Mutants 221 and 228 turned `or` into `and` in the two refusals that stop a
+# nonsensical quantity becoming a score. Both survived, which means neither refusal was ever
+# exercised: the guards were present, live, and never once asked to refuse anything.
+# `axis_score(x, band, axis)` -- quantity FIRST. Getting that wrong here raised a TypeError
+# rather than quietly asserting nothing, which is the behaviour a check should have when its
+# author is confused; a check that swallows its own misuse is worse than no check.
+check("a non-positive quantity cannot become an axis score",
+      A.axis_score(0.0, "M3", "ruin"), None)
+check("a missing quantity cannot become an axis score",
+      A.axis_score(None, "M3", "ruin"), None)
+check("an unknown band cannot become an axis score",
+      A.axis_score(1e30, "NOT_A_BAND", "ruin"), None)
+
 check("the charter's published Kenshiro interval is reproduced",
       A.assay("M3", _KEN, attestation="Witnessed", worksheet="charter Part Three")["interval"],
       0.12, note="Part Three publishes +/- 0.12; the code printed 0.06 for months")
