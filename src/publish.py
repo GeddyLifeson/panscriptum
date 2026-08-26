@@ -269,6 +269,61 @@ def scrub_text(s):
     return _SECRET_ASSIGN.sub(_maybe, out)
 
 
+# How much of one file is held in memory at a time while scanning, and how much of the previous
+# segment is carried into the next one. The overlap only has to be longer than the longest
+# pattern `_SECRET` can match (a PEM header plus a key line, comfortably under 4 KB) so that a
+# credential lying across a segment boundary is still seen whole by the regex.
+_SCAN_OVERLAP = 4_096
+_SCAN_BLOCK = 262_144
+
+
+def _scan_units(path, line_cap):
+    """Yield (line number, text) for every scannable piece of a file, at any size.
+
+    STREAMS. Nothing here reads a whole file, so SIZE IS NEVER A REASON TO SKIP -- which is the
+    entire point of this helper. `scan_for_secrets` used to `continue` past any staged file over
+    two megabytes, with no count and no note, and four published files were over it: a 3.36 MB
+    register, a 2.97 MB citations file, a 2.68 MB terminal page and a 2.47 MB data script. That
+    is 11.5 MB reaching the PUBLIC repo examined by nothing, reported as clean. (Audited and
+    hand-scanned 2026-08-25 -- clean, this time.)
+
+    Line numbering and the per-line `FIXTURE_MARKER` rule are preserved exactly for any file with
+    ordinary lines. A single logical line longer than `line_cap` -- a minified script, a
+    one-line JSON register -- is emitted as OVERLAPPING SEGMENTS under its own line number.
+    Splitting can only ever ADD findings: a fixture marker in one segment no longer silences the
+    rest of a multi-megabyte line, and an extra false positive is a refusal, which is the safe
+    direction for the last gate before a public push.
+    """
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        lineno = 1
+        buf = ""            # the current logical line, so far
+        carry = ""          # tail of the last segment emitted for THIS line
+        while True:
+            block = fh.read(_SCAN_BLOCK)
+            if not block:
+                break
+            parts = block.split("\n")
+            buf += parts[0]
+            if len(parts) == 1:
+                # No line break in this block: the line is longer than a block. Emit it in
+                # bounded, overlapping segments rather than growing a string without limit.
+                while len(buf) > line_cap:
+                    seg = carry + buf[:line_cap]
+                    yield lineno, seg
+                    carry = seg[-_SCAN_OVERLAP:]
+                    buf = buf[line_cap:]
+                continue
+            yield lineno, carry + buf
+            carry = ""
+            lineno += 1
+            for mid in parts[1:-1]:
+                yield lineno, mid
+                lineno += 1
+            buf = parts[-1]
+        if buf:
+            yield lineno, carry + buf
+
+
 def scan_for_secrets(root, max_bytes=2_000_000):
     """LOCK THREE — read what is about to be PUBLISHED, not what we meant to publish.
 
@@ -278,48 +333,80 @@ def scan_for_secrets(root, max_bytes=2_000_000):
     the first two locks have nothing to say about it. A log excerpt pasted into HANDOFF.md, a
     provider error quoted in BUGS.md, a config committed by hand -- all arrive this way.
 
+    SIZE IS NOT A REASON TO SKIP, AND UNREADABLE IS NOT CLEAN. Both used to be a bare
+    `continue`: a file over `max_bytes` was passed over silently, and so was any file that
+    raised on open. "Too big to check" reported as clean is the exact failure shape this project
+    is built against, and this is the one gate where "we caught it next run" is not a recovery,
+    because the bytes are already public. Every file is now STREAMED (`_scan_units`), and a file
+    that genuinely cannot be read is REFUSED BY NAME as an `UNSCANNABLE` finding rather than
+    skipped -- a hit, so the caller blocks the push and a person looks at it.
+
+    `max_bytes` is kept (callers pass it) but no longer decides what gets scanned. It is now the
+    most of one file held in memory at a time: the segment size for a single very long line.
+
     Returns a list of (relative path, line number, what matched). Empty is the good state.
     """
     hits = []
+    seen = set()
     for base, _dirs, files in os.walk(root):
         if ".git" in base.replace("/", os.sep).split(os.sep):
             continue
         for f in sorted(files):
             p = os.path.join(base, f)
-            try:
-                if os.path.getsize(p) > max_bytes:
-                    continue
-                with open(p, encoding="utf-8", errors="replace") as fh:
-                    text = fh.read()
-            except OSError:
-                continue
             rel_for_supp = os.path.relpath(p, root).replace(os.sep, "/")
+            rel = os.path.relpath(p, root)
             supp = None
             try:
                 import suppressions as _SUP
                 supp = _SUP.suppressed("secret_scan", rel_for_supp)
             except Exception:
                 supp = None
-            for i, line in enumerate(text.splitlines(), 1):
-                if FIXTURE_MARKER in line:
-                    continue
-                if supp:
-                    # SUPPRESSED, NOT DROPPED. Trivy's `--show-suppressed` discipline: a finding
-                    # that is being waived still appears, tagged with the reason it was waived,
-                    # so the waiver can be audited. A suppression that hides a finding entirely
-                    # is indistinguishable from a detector that stopped working.
-                    if _SECRET.search(line) or _SECRET_ASSIGN.search(line):
-                        hits.append((rel_for_supp, i,
-                                     "SUPPRESSED (%s)" % supp.get("reason", "")[:60]))
-                    continue
-                mv = _SECRET.search(line)
-                if mv and _is_real_secret(mv.group(0)):
-                    hits.append((os.path.relpath(p, root), i, "vendor pattern"))
-                    continue
-                m = _SECRET_ASSIGN.search(line)
-                if m and _entropy(m.group(2)) >= SECRET_ENTROPY_BITS:
-                    hits.append((os.path.relpath(p, root), i,
-                                 "high-entropy value in '%s'" % m.group(1)))
+
+            def _add(key, hit):
+                # A long line is scanned in overlapping segments, so the same value can be seen
+                # twice. Report it once; a duplicate refusal reads as two leaks.
+                if key not in seen:
+                    seen.add(key)
+                    hits.append(hit)
+
+            try:
+                for i, line in _scan_units(p, max(1, int(max_bytes))):
+                    if FIXTURE_MARKER in line:
+                        continue
+                    if supp:
+                        # SUPPRESSED, NOT DROPPED. Trivy's `--show-suppressed` discipline: a
+                        # finding that is being waived still appears, tagged with the reason it
+                        # was waived, so the waiver can be audited. A suppression that hides a
+                        # finding entirely is indistinguishable from a detector that stopped
+                        # working.
+                        if _SECRET.search(line) or _SECRET_ASSIGN.search(line):
+                            _add((rel_for_supp, i, "supp"),
+                                 (rel_for_supp, i,
+                                  "SUPPRESSED (%s)" % supp.get("reason", "")[:60]))
+                        continue
+                    # EVERY vendor match on the line, not just the first. `search` stopped at
+                    # match one, so a real key sitting behind a slug that `_is_real_secret`
+                    # cleared was never looked at -- survivable on a 90-character source line,
+                    # not on a one-line 3 MB register where the whole file is one "line".
+                    vendor = False
+                    for mv in _SECRET.finditer(line):
+                        if _is_real_secret(mv.group(0)):
+                            _add((rel, i, "vendor"), (rel, i, "vendor pattern"))
+                            vendor = True
+                            break
+                    if vendor:
+                        continue
+                    for m in _SECRET_ASSIGN.finditer(line):
+                        if _entropy(m.group(2)) >= SECRET_ENTROPY_BITS:
+                            _add((rel, i, "assign", m.group(1)),
+                                 (rel, i, "high-entropy value in '%s'" % m.group(1)))
+                            break
+            except Exception as e:
+                # NAMED AND REFUSED, NEVER SKIPPED. Line 0 marks a whole-file finding.
+                _add((rel, 0, "unscannable"),
+                     (rel, 0, "UNSCANNABLE — could not be read for scanning (%s: %s); "
+                              "refusing rather than passing it unexamined"
+                              % (type(e).__name__, str(e)[:80])))
     return hits
 
 
@@ -515,16 +602,26 @@ def push(message=None):
     # Nothing caught it: the secret scan does not read logic, `ledger_guard` checks the ledgers,
     # and the drill was itself confused by the same corruption. The only thing that can know is
     # the process doing the corrupting, so it now says so in a lock file and this refuses.
+    #
+    # FAIL CLOSED, like the two arms above it. This was the third `except ImportError: pass`
+    # in this file, and the last one left: a deleted, renamed or unparseable `mutate.py`
+    # silently switched off the guard that exists BECAUSE a push once shipped a deliberately
+    # corrupted `prose_gate.py` to GitHub. The swallow made the interlock's own absence the
+    # condition under which it stops working, which is the one condition it has to survive.
+    # (run #33, order 92893f250570.)
     try:
         import mutate as _MUT
-        _busy, _rec = _MUT.active()
-        if _busy:
-            raise RuntimeError(
-                "REFUSING TO PUSH: a mutation run is active, so files in src/ may be "
-                "deliberately corrupt right now (%s). Wait for it to finish; it restores every "
-                "file it touches." % json.dumps(_rec)[:200])
-    except ImportError:
-        pass
+    except ImportError as _mut_gone:
+        raise RuntimeError(
+            "REFUSING TO PUSH: the mutation interlock (src/mutate.py) could not be imported "
+            "(%s), so nothing can say whether files in src/ are deliberately corrupt right "
+            "now. Restore the module, or push by hand once a person has read src/." % _mut_gone)
+    _busy, _rec = _MUT.active()
+    if _busy:
+        raise RuntimeError(
+            "REFUSING TO PUSH: a mutation run is active, so files in src/ may be "
+            "deliberately corrupt right now (%s). Wait for it to finish; it restores every "
+            "file it touches." % json.dumps(_rec)[:200])
 
     leaks = [h for h in scan_for_secrets(SITE) if not str(h[2]).startswith('SUPPRESSED')]
     # Suppressed findings are REPORTED by the scanner and excluded from the refusal --

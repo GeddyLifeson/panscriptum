@@ -69,14 +69,27 @@ def _base_of(prov):
     return None
 
 
+# The four things a probe can conclude. Every provider gets exactly one, and every one of them
+# is reported: "we could not ask" is a finding about the pool, not an absence from it.
+LISTED = "listed"              # answered with at least one model id
+EMPTY_LIST = "empty_list"      # answered 200 with a WELL-FORMED, EMPTY list -- serves nothing
+UNREACHABLE = "unreachable"    # the request itself failed: HTTP error, timeout, bad JSON
+UNCONFIGURED = "unconfigured"  # never asked: no base url, or no key
+
+
 def ask_provider(name, prov, timeout=30):
-    """What this provider says it serves today."""
+    """What this provider says it serves today, and -- if it did not say -- why not.
+
+    Always returns an `outcome` from the four above. A caller must not infer freshness from the
+    absence of a `stale` entry: `unreachable` and `unconfigured` providers have no verified
+    model list at all, and a provider nobody could ask is not a provider with nothing wrong.
+    """
     base = _base_of(prov)
     key = _key_of(prov)
     if not base:
-        return {"provider": name, "error": "no base url in config"}
+        return {"provider": name, "outcome": UNCONFIGURED, "error": "no base url in config"}
     if not key and not prov.get("local"):
-        return {"provider": name, "error": "no key"}
+        return {"provider": name, "outcome": UNCONFIGURED, "error": "no key"}
 
     # A base of ".../v1" already carries the version; appending "/v1/models" would ask for
     # /v1/v1/models, which 404s and reads as a dead provider. Try the shorter form first.
@@ -85,6 +98,15 @@ def ask_provider(name, prov, timeout=30):
         if base.endswith("/v1") and path.startswith("/v1"):
             continue
         tries.append(base + path)
+    # A 200 CARRYING AN EMPTY LIST IS AN ANSWER, and a different one from a dead endpoint. This
+    # loop used `if ids: return ...` with no other branch, so a provider that answered correctly
+    # and served nothing fell out of the bottom described as "no model list endpoint" -- i.e. as
+    # a provider whose API does not exist, when in fact its API exists and its catalogue is
+    # empty. Those two want opposite responses: one is a wrong URL, the other is an account with
+    # no entitlements. Recorded distinctly now, and still tried against the remaining paths
+    # first, because an empty /models does not mean /v1/models is empty too. Order e307e2c38267.
+    empty_at = None
+    last = None
     for url in tries:
         try:
             req = urllib.request.Request(url, headers={
@@ -99,11 +121,19 @@ def ask_provider(name, prov, timeout=30):
                 if mid:
                     ids.append(mid)
             if ids:
-                return {"provider": name, "url": url, "models": sorted(ids)}
+                return {"provider": name, "outcome": LISTED, "url": url,
+                        "models": sorted(ids)}
+            if empty_at is None:
+                empty_at = url
         except Exception as e:
             silence.note("catalogue_models.py:ask_provider")
             last = f"{type(e).__name__}: {str(e)[:70]}"
-    return {"provider": name, "error": locals().get("last", "no model list endpoint")}
+    if empty_at is not None:
+        return {"provider": name, "outcome": EMPTY_LIST, "url": empty_at, "models": [],
+                "error": "endpoint answered with an EMPTY model list -- the API is alive and "
+                         "serves nothing (not a missing endpoint)"}
+    return {"provider": name, "outcome": UNREACHABLE,
+            "error": last or "no model list endpoint (no path answered)"}
 
 
 def wanted(cfg):
@@ -128,14 +158,33 @@ def sweep(config_path=None, workers=6):
         rows = list(ex.map(lambda kv: ask_provider(kv[0], kv[1]), sorted(provs.items())))
 
     live = {r["provider"]: r for r in rows if r.get("models")}
+    by_name = {r["provider"]: r for r in rows}
     print(f"{len(live)} of {len(rows)} providers answered with a model list\n")
     stale = []
+    # A PROVIDER NOBODY COULD ASK IS NOT A PROVIDER WITH NOTHING WRONG. The loop below used to
+    # `continue` past every provider that produced no list, so those providers contributed
+    # nothing to `stale` and nothing to any count -- they simply were not in the arithmetic.
+    # `standards.py:1400` then reported "0 stale in the cloud pool" over a pool that, in the
+    # 2026-08-25 20:21 snapshot, had 14 of its 26 providers never produce a list at all: 10 with
+    # no key configured and 4 that failed the request outright. Zero stale out of twelve verified
+    # is a fact; zero stale out of twenty-six is what that line was read as.
+    #
+    # `stale` deliberately does NOT absorb them -- a stale row asserts "the config asks for a
+    # model this provider no longer serves", and for an unasked provider that is unknown, not
+    # true. They get their own list, `unverified`, carrying the model ids whose status could not
+    # be established, so the gap is countable and nameable instead of invisible. Order
+    # cd64337d3349.
+    unverified = []
     for name in sorted(provs):
         r = live.get(name)
         asks = [a for a in (want.get(name) or []) if a]
         if not r:
-            why = next((x.get("error") for x in rows if x["provider"] == name), "?")
-            print(f"  {name:<16}-- {why}")
+            row = by_name.get(name) or {}
+            why = row.get("error", "?")
+            outcome = row.get("outcome", UNREACHABLE)
+            print(f"  {name:<16}-- {outcome.upper()}: {why}")
+            unverified.append({"provider": name, "outcome": outcome, "why": why,
+                               "config_asks_for": asks, "unchecked": len(asks)})
             continue
         have = set(r["models"])
         missing = [a for a in asks if a not in have]
@@ -164,7 +213,37 @@ def sweep(config_path=None, workers=6):
                 # a truncated listing does not announce itself as truncated. (run33)
                 print(f"  {name}: " + ", ".join(r["models"]))
 
-    payload = {"at": time.strftime("%Y-%m-%d %H:%M"), "providers": rows, "stale": stale}
+    # THE DENOMINATOR, PRINTED. Every unverified provider by name, with the outcome that made it
+    # unverifiable and how many configured model ids went unchecked because of it -- so nobody
+    # reads "N stale" without also reading how much of the pool that N was measured over.
+    verified = [r for r in rows if r.get("outcome") == LISTED]
+    if unverified:
+        n_unchecked = sum(u["unchecked"] for u in unverified)
+        print(f"\n{len(unverified)} of {len(rows)} provider(s) produced NO model list, so their "
+              f"{n_unchecked} configured model id(s) are UNVERIFIED -- neither fresh nor stale, "
+              f"unasked. An unreachable provider is not a fresh provider.")
+        for u in sorted(unverified, key=lambda u: (u["outcome"], u["provider"])):
+            asks = ", ".join(u["config_asks_for"]) or "(config asks for nothing here)"
+            print(f"  {u['outcome'].upper():<13}{u['provider']:<16}{u['why'][:52]}")
+            print(f"                {' ' * 16}unchecked: {asks}")
+    print(f"\nstale count is measured over {len(verified)} verified provider(s) of {len(rows)}.")
+
+    payload = {
+        "at": time.strftime("%Y-%m-%d %H:%M"),
+        "providers": rows,
+        "stale": stale,
+        # Read `stale` next to these or not at all: `stale: []` over 12 of 26 providers is not
+        # the same claim as `stale: []` over 26 of 26, and the file used to record only the
+        # former while looking like the latter.
+        "unverified": unverified,
+        "counts": {"providers": len(rows), "verified": len(verified),
+                   "unverified": len(unverified),
+                   "empty_list": len([r for r in rows if r.get("outcome") == EMPTY_LIST]),
+                   "unreachable": len([r for r in rows if r.get("outcome") == UNREACHABLE]),
+                   "unconfigured": len([r for r in rows if r.get("outcome") == UNCONFIGURED]),
+                   "stale_ids": len(stale),
+                   "unchecked_ids": sum(u["unchecked"] for u in unverified)},
+    }
     # ATOMIC: standards.py polls PROVIDER_MODELS.json on its own cycle. 2026-08-25.
     silence.write_json(OUT, payload, indent=1, sort_keys=True)
     print(f"\n-> {OUT}")

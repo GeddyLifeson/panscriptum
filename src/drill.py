@@ -1210,6 +1210,192 @@ def _a_denied_batch_write_stays_on_the_failed_list():
          PL.update_handoff, PL.silence) = keep
 
 
+def _run_the_runner(verdicts):
+    """Drive `pipeline.main()`'s phase loop over stubbed phases. -> (st, [phases that ran]).
+
+    `verdicts` maps a phase number to what its stand-in returns. Phases past the stubs are
+    absent from `IMPLEMENTED`, so the loop hits its "not implemented yet" branch and stops --
+    which is the loop's own clean exit, not a special case built for this.
+
+    THE HALT INTERLOCK IS STOOD IN FOR, NOT LIFTED. `main()` calls `escalation.assert_clear`
+    first thing, deliberately, so there is no path into the job that skips it -- and the library
+    is halted while this is being written. The drill may not clear a halt (that is the point of
+    the four nets in THE PARK), so a stand-in `escalation` answers that one question for the
+    duration and is restored in the `finally`. Nothing else here reaches the disk either:
+    `load_state`, `save_state`, `log` and `update_handoff` are all stand-ins, so the real
+    `state/PIPELINE_STATE.json` -- the file that actually carries this bug -- is never read or
+    written by the net that tests for it.
+    """
+    import types
+    import silence as _S
+    import pipeline as PL
+    ran = []
+    st = {"phase": 1, "done": {}, "failed": {}, "units_done": 0, "started": "drill"}
+    esc = types.ModuleType("escalation")
+    esc.assert_clear = lambda who="?": True
+    had, prev = "escalation" in sys.modules, sys.modules.get("escalation")
+    keep = (PL.log, PL.load_state, PL.save_state, PL.update_handoff, PL.IMPLEMENTED, PL.silence)
+
+    def phase(n):
+        def fn(c, s):
+            ran.append(n)
+            return verdicts[n]
+        return fn
+    try:
+        sys.modules["escalation"] = esc
+        PL.log = lambda *a, **k: None
+        PL.load_state = lambda: st
+        PL.save_state = lambda s: None
+        PL.update_handoff = lambda s: None
+        PL.silence = _quiet(_S)
+        PL.IMPLEMENTED = {n: phase(n) for n in verdicts}
+        PL.main()
+        return st, ran
+    finally:
+        (PL.log, PL.load_state, PL.save_state, PL.update_handoff, PL.IMPLEMENTED,
+         PL.silence) = keep
+        if had:
+            sys.modules["escalation"] = prev
+        else:
+            sys.modules.pop("escalation", None)
+
+
+def _the_pointer_stops_at_the_open_phase():
+    """The resume pointer must not walk past a phase that did not report completion.
+
+    THE RUNNER WAS PERMANENTLY NO-OPPING (m37). `st["phase"] = ph + 1` ran unconditionally at
+    the bottom of the loop -- including for the phases that deliberately return early to stay
+    open, and for every `gate_done` that refused to mark its phase done. Nothing read
+    `st["done"]` for phases 3-8. So the pointer walked to the end over work that had never
+    completed, `range(9, 9)` was empty, and `main()` exited **0** for as long as it sat there:
+    twice a cycle, cleanly, doing nothing at all. Stopping and finishing produced the same
+    signal, which is this project's standing lesson with the runner's name on it. The live state
+    shows it happened and was hand-reset five times.
+
+    THREE VERDICTS, because the shape that hid it was the third. `False` is a phase saying it
+    stayed open. `None` is a phase saying nothing -- and phases 4 through 8 returned `None` on
+    every path, which is exactly why an unconditional advance looked fine for so long. Only an
+    explicit `True` may move the pointer; anything else is incomplete, and the stall is RECORDED
+    in `st["failed"]["runner"]` rather than merely logged, because a fault whose only trace is a
+    line in a log file is not one the handoff can count.
+
+    The later phases still run -- they may make progress from artifacts already on disk -- but
+    the resume point stays behind the open work, which is the only thing a pointer is for.
+    """
+    for verdict in (False, None):
+        st, ran = _run_the_runner({1: True, 2: verdict, 3: True})
+        if st.get("phase") != 2 or ran != [1, 2, 3]:
+            return False
+        if "entrypass" not in (st.get("failed", {}).get("runner") or {}):
+            return False
+        if "weave" in (st.get("failed", {}).get("runner") or {}):
+            return False                     # phase 3 reported completion; it is not the stall
+    # ... and a run where every phase reports True must still advance, or the pointer never moves.
+    st, ran = _run_the_runner({1: True, 2: True, 3: True})
+    return st.get("phase") == 4 and ran == [1, 2, 3] and not st.get("failed", {}).get("runner")
+
+
+def _a_done_marker_cannot_accumulate():
+    """"all" twice cannot mean more than "all" once, and the live state says it did.
+
+    Every phase-level marker in `pipeline.py` is the literal string "all" -- "this phase, whole,
+    is finished" -- and both `gate_done` and the phases that mark themselves appended it
+    unguarded on every run. The state on disk grew `write: ["all"] * 5` and
+    `weave: ["all"] * 4`: a count of how many times the phase was re-run, kept in the field that
+    answers whether it is done. Nothing reads the length, so nothing objected, and the field that
+    should have exposed the runner's no-op was itself unreadable as evidence.
+
+    Both doors, because there are two: the marker itself, and the gate that calls it.
+    """
+    import silence as _S
+    import pipeline as PL
+    keep = (PL.log, PL.silence)
+    try:
+        PL.log = lambda *a, **k: None
+        PL.silence = _quiet(_S)
+        st = {"done": {}}
+        first = PL.mark_done(st, "weave")
+        again = [PL.mark_done(st, "weave") for _ in range(4)]
+        if st["done"]["weave"] != ["all"] or first is not True or any(again):
+            return False
+        st = {"done": {}}
+        for _ in range(5):
+            PL.gate_done(st, "write", [True, True])
+        if st["done"]["write"] != ["all"]:
+            return False
+        # The per-unit lists are genuinely accumulative and must NOT be flattened with them.
+        st = {"done": {}}
+        PL.mark_done(st, "synthesis", "marvel")
+        PL.mark_done(st, "synthesis", "dc")
+        PL.mark_done(st, "synthesis", "marvel")
+        return st["done"]["synthesis"] == ["marvel", "dc"]
+    finally:
+        PL.log, PL.silence = keep
+
+
+def _the_catalogue_cannot_erase_what_it_did_not_author():
+    """A key the caller did not write must not overwrite one the disk holds.
+
+    THE DATA LOSS THIS STOPPED, and it was running. `write_record_catalogue` merged only
+    `rec["entries"]` and then dumped `rec` WHOLE, so every top-level key the caller had not
+    authored was destroyed by the write that followed the merge. `catalogue_web.catalogue()`
+    returns `"synthesis": None` -- correctly, because a wiki lead paragraph is not an Assay --
+    and that None landed on the pipeline's `ceiling_entity` and `provisional_magnitude` and
+    erased them. 31 of 216 records carry a null synthesis, 26 of them nulled in 24 hours, DC
+    among them at 44,958 entries. It does not self-heal: `phase_synthesis` skips a source already
+    in its done-keys, so the block stays null for ever. Two records lost `purged_roster` to
+    simple absence.
+
+    THREE STATES, because the fix rests on telling them apart: `None` and absent both mean "did
+    not author this" and preserve the disk value, while an explicit `{}`/`[]`/`""` is a
+    deliberate statement and still clears. "Did not compute this field" and "means to clear this
+    field" are different acts, and a merge that cannot read minds must take the recoverable side.
+
+    AND THE ENTRY DIRECTION MUST BE UNCHANGED, which is the half a net pinning the new behaviour
+    could quietly undo. The catalogue's fresh cast IS the authority here -- that asymmetry is the
+    whole reason this writer exists beside `write_record` -- so a larger new cast still wins,
+    disk-only entries still survive (a merge never shrinks a cast), and the disk copy's per-entry
+    judgments still carry forward onto matching names.
+
+    A throwaway record in a temp directory. Nothing in `data/records/` is opened.
+    """
+    import shutil
+    import silence as _S
+    import pipeline as PL
+    d = tempfile.mkdtemp(prefix="drillcat_")
+    keep = (PL.log, PL.silence)
+    try:
+        PL.log = lambda *a, **k: None
+        PL.silence = _quiet(_S)
+        path = os.path.join(d, "drill_source.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"source": "drill", "mode": "web",
+                       "synthesis": {"provisional_magnitude": "M4", "ceiling_entity": "someone"},
+                       "purged_roster": ["a struck name"],
+                       "note_from_disk": "a value the caller means to clear",
+                       "entries": [{"name": "A", "magnitude": "M3", "topic": "Persons",
+                                    "catalogued": True},
+                                   {"name": "OnlyOnDisk", "magnitude": "M2"}]}, f)
+        rec = {"source": "drill", "mode": "web",
+               "synthesis": None,                    # "I did not author this"
+               "note_from_disk": "",                 # ... and this one I DID mean to clear
+               "entries": [{"name": "A"}, {"name": "B"}]}   # a fresher, larger cast
+        if PL.write_record_catalogue(path, rec) is not True:
+            return False
+        with open(path, encoding="utf-8") as f:
+            out = json.load(f)
+        names = {e.get("name") for e in out.get("entries") or []}
+        a = next(e for e in out["entries"] if e.get("name") == "A")
+        return ((out.get("synthesis") or {}).get("provisional_magnitude") == "M4"
+                and out.get("purged_roster") == ["a struck name"]
+                and out.get("note_from_disk") == ""
+                and names == {"A", "B", "OnlyOnDisk"}
+                and a.get("magnitude") == "M3" and a.get("topic") == "Persons")
+    finally:
+        PL.log, PL.silence = keep
+        shutil.rmtree(d, ignore_errors=True)
+
+
 def drill_done_keys():
     """A done-key is permanent, so writing one over a failed write is permanent loss."""
     a = "THE DONE-KEY — is a phase marked complete over an artifact that never landed?"
@@ -1225,6 +1411,18 @@ def drill_done_keys():
         _a_denied_batch_write_stays_on_the_failed_list,
         "the pop fired on all three branches, so a batch under write contention published ZERO "
         "failures to the owner's handoff while failing every round")
+    net(a, "the resume pointer stops at the first phase that did not report completion",
+        _the_pointer_stops_at_the_open_phase,
+        "m37: the pointer advanced unconditionally, walked past eight phases that never "
+        "finished, and main() then exited 0 twice a cycle having done nothing at all")
+    net(a, "a phase-level done marker cannot accumulate duplicates",
+        _a_done_marker_cannot_accumulate,
+        "the live state carries write:['all']*5 and weave:['all']*4 -- a re-run counter in the "
+        "field that answers whether the phase is finished, which is how the no-op stayed hidden")
+    net(a, "the catalogue writer cannot erase a key it did not author",
+        _the_catalogue_cannot_erase_what_it_did_not_author,
+        "catalogue_web's honest `synthesis: None` was dumped whole over the pipeline's Assay "
+        "block: 26 records nulled in 24 hours, DC among them, and it does not self-heal")
 
 
 # ============================================================== THE HANDLE (the world profile)

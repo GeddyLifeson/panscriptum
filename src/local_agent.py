@@ -495,8 +495,20 @@ def _gates(full, modname):
                        capture_output=True, text=True, timeout=600,
                        env=dict(os.environ, PYTHONIOENCODING="utf-8"),
                        creationflags=_NO_WIN, cwd=HERE)
-    if "0 FAILED" not in (r.stdout or ""):
-        return "verify_math regressed"
+    # READ THE NUMBER, DO NOT SUBSTRING IT. verify_math prints "RESULT: N passed, M FAILED", and
+    # `"0 FAILED" not in stdout` is FALSE for "10 FAILED", "20 FAILED" and "100 FAILED" -- the
+    # zero is just the last digit of M -- so the gate PASSED any patch that broke a round number
+    # of invariants. This is the last gate on the only lane in which a model may write into
+    # `src/`, so the false positive kept exactly the patches worth reverting. `foreman._checks_pass`
+    # carried the identical bug and was fixed with this same regex on 2026-08-23; the two are
+    # deliberately kept in the same shape so a future reader sees one pattern, not two.
+    # A missing or unreadable result line is a REFUSAL, not a pass: a verify_math that crashed
+    # before printing is the state in which we know least about the patch.
+    m = re.search(r"RESULT:\s*\d+\s+passed,\s*(\d+)\s+FAILED", r.stdout or "")
+    if not m:
+        return "verify_math produced no readable result line"
+    if m.group(1) != "0":
+        return "verify_math regressed (%s failing)" % m.group(1)
     return None
 
 

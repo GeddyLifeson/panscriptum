@@ -443,6 +443,32 @@ def write_record_catalogue(path, rec):
     writing raw, non-atomically, which was its own hazard). Here rec's entry LIST wins, the
     disk copy's per-entry judgments (bands, scale notes, topics) are preserved onto matching
     names, and disk-only entries are kept -- a merge never shrinks a cast.
+
+    AND THE KEYS THAT ARE NOT `entries`, which this merge did not look at ONCE. It reconciled
+    the cast and then wrote `rec` WHOLE, so every top-level key the caller did not author was
+    destroyed by the write that followed the merge. `catalogue_web.catalogue()` and
+    `catalogue_composite()` both return `"synthesis": None` -- correctly, because a wiki lead
+    paragraph is not an Assay and they say so in their own provenance -- and that None landed on
+    top of the pipeline's `ceiling_entity` and `provisional_magnitude` and erased them. It was
+    running: 31 of 216 records carry a null synthesis, all of them mode=web, 26 nulled in the
+    last 24 hours, the most recent at 22:47 today, and the casualties include DC (44,958
+    entries), Legend of Zelda, Dragon Ball Z and Transformers. It does not self-heal, because
+    `phase_synthesis` skips any source already in its done-keys -- the block stays null forever.
+    Two records' `purged_roster` went the same way, by simple absence.
+
+    So a key the caller did not author no longer overwrites one the disk holds:
+
+      * absent from `rec`           -> the disk value is carried over
+      * present as `None` in `rec`  -> the disk value is kept
+
+    "Did not compute this field" and "means to clear this field" are genuinely different acts
+    and this cannot read minds, so it takes the recoverable side of the ambiguity: `None` means
+    unauthored. A caller that really does mean to CLEAR a key still can, by writing an explicit
+    empty value (`{}`, `[]`, `""`) -- which is a deliberate statement rather than the default
+    shape of a dict that was never filled in. The entry-list direction above is UNCHANGED: the
+    fresh cast still wins, because that asymmetry is the whole reason this writer exists.
+    (Order 7292a1c3d84b / 3c7c8a6e9102, 2026-08-25. The 26 damaged records are NOT repaired
+    here -- re-deriving a ceiling is the owner's call, and it is filed as one.)
     """
     try:
         with open(path, encoding="utf-8") as f:
@@ -460,6 +486,19 @@ def write_record_catalogue(path, rec):
                 dv, sv = de.get(fld), se.get(fld)
                 if dv and (not sv or sv == "unassayed"):
                     se[fld] = dv
+        # THE NON-ENTRIES KEYS. See the docstring: absent or None from the caller is not an
+        # instruction to erase what is on disk.
+        kept = []
+        for k, dv in (disk.items() if isinstance(disk, dict) else ()):
+            if k == "entries" or dv is None:
+                continue
+            if k not in rec or rec[k] is None:
+                rec[k] = dv
+                kept.append(k)
+        if kept:
+            log(f"    write_record_catalogue: {os.path.basename(path)} keeping "
+                f"{len(kept)} disk-authored key(s) the caller did not write: "
+                f"{', '.join(sorted(kept))}")
     except FileNotFoundError:
         _ = "silence-exempt: no disk copy yet means nothing to merge; first write"
         pass

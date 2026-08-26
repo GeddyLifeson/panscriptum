@@ -142,14 +142,20 @@ def evaluate(doc, rules, subject=""):
             "failed": failed, "vacuous": vacuous, "results": results}
 
 
-def report(evaluations):
-    """Land a run's evaluations so a vacuous rule is discoverable later, not just now."""
+def report(evaluations, scope=None):
+    """Land a run's evaluations so a vacuous rule is discoverable later, not just now.
+
+    `scope` (optional, added 2026-08-25) records WHAT WAS LOOKED AT: how many records and
+    coverage rows existed, how many were evaluated, and whether a `--limit` was in force. A
+    stored report that says only "these N passed" cannot be told apart from a full-corpus run,
+    which is precisely how a default `--limit 40` sat unnoticed over 216 records.
+    """
     try:
         os.makedirs(os.path.dirname(REPORT), exist_ok=True)
         tmp = REPORT + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
-            json.dump({"at": time.time(), "evaluations": evaluations}, f, indent=1,
-                      ensure_ascii=False)
+            json.dump({"at": time.time(), "scope": scope, "evaluations": evaluations}, f,
+                      indent=1, ensure_ascii=False)
         silence.replace_retry(tmp, REPORT)
     except Exception:
         silence.note("policy.py:report")
@@ -199,7 +205,22 @@ def main():
     import glob
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--run", action="store_true")
-    ap.add_argument("--limit", type=int, default=40)
+    # [HARD RULE 0] This DEFAULTED TO 40 (corrected 2026-08-25, order c9150ac67099). A default
+    # cap is the worst kind, because nobody chose it and nothing said it was there: a plain
+    # `--run` read `sorted(glob(records/*.json))[:40]` -- 40 of 216 records -- and
+    # `COVERAGE.json[:40]` -- 40 of 210 rows -- then printed "N document(s) evaluated, 0 rule
+    # failure(s)" and exited 0. That is a clean structural pass over the alphabetical first
+    # fifth of the corpus, reported in language that describes the corpus. The remaining 176
+    # records were not passing; they were not looked at.
+    #
+    # Default is now the WHOLE corpus. `--limit` stays for a deliberate human spot check, and
+    # when it is set the run says so, in the summary and in the report file, by count and by
+    # what was skipped -- see the banner below.
+    ap.add_argument("--limit", type=int, default=None,
+                    help="evaluate only the first N of each set (alphabetical for records, "
+                         "stored order for coverage). Default: no limit, the whole corpus. "
+                         "A spot check, never a default -- the run is labelled PARTIAL when "
+                         "this is set.")
     a = ap.parse_args()
     if not a.run:
         ap.print_help()
@@ -214,7 +235,9 @@ def main():
     # passed", and a check that was never attempted looks exactly like one that passed too.
     # Counted and printed by name now. Found by the run #33 sweep (batch 15).
     unreadable = []
-    for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json")))[:a.limit]:
+    all_records = sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json")))
+    records = all_records if a.limit is None else all_records[:a.limit]
+    for p in records:
         try:
             with open(p, encoding="utf-8") as f:
                 evals.append(evaluate(json.load(f), RECORD_RULES, os.path.basename(p)))
@@ -223,11 +246,36 @@ def main():
             unreadable.append((os.path.basename(p), "%s: %s" % (type(e).__name__, str(e)[:70])))
             continue
     cov = os.path.join(HERE, "data", "COVERAGE.json")
+    cov_total = cov_read = 0
     if os.path.exists(cov):
         with open(cov, encoding="utf-8") as f:
-            for row in json.load(f)[:a.limit]:
-                evals.append(evaluate(row, COVERAGE_RULES, str(row.get("source"))[:40]))
-    report(evals)
+            rows = json.load(f)
+        cov_total = len(rows)
+        if a.limit is not None:
+            rows = rows[:a.limit]
+        cov_read = len(rows)
+        for row in rows:
+            evals.append(evaluate(row, COVERAGE_RULES, str(row.get("source"))[:40]))
+
+    # WHAT WAS AND WAS NOT LOOKED AT, first, before any verdict. A window nobody can see the far
+    # side of reads exactly like a complete list, so the scope is stated whether or not it is
+    # partial -- a run that says "216 of 216" cannot be mistaken for one that says "40 of 216".
+    partial = a.limit is not None
+    report(evals, scope={
+        "limit": a.limit, "partial": partial,
+        "records_total": len(all_records), "records_evaluated": len(records),
+        "coverage_total": cov_total, "coverage_evaluated": cov_read,
+        "records_skipped": [os.path.basename(p) for p in all_records[a.limit:]] if partial else [],
+    })
+    print("scope: records %d of %d, coverage rows %d of %d%s"
+          % (len(records), len(all_records), cov_read, cov_total,
+             "   *** PARTIAL RUN (--limit %d) ***" % a.limit if partial else ""))
+    if partial:
+        skipped_rec = all_records[a.limit:]
+        print("  PARTIAL: %d record(s) and %d coverage row(s) were NOT evaluated. They are not "
+              "passing -- they were not looked at." % (len(skipped_rec), cov_total - cov_read))
+        for fname in skipped_rec:
+            print("  SKIPPED %s" % os.path.basename(fname))
 
     # INFO-severity rules are reported separately and never gate. A migration counter reported
     # as a failure is how a real failure ends up buried among 60 expected ones.
@@ -240,7 +288,7 @@ def main():
     if unreadable:
         print("%d record(s) COULD NOT BE READ and were never evaluated -- not a pass"
               % len(unreadable))
-        for fname, why in unreadable[:12]:
+        for fname, why in unreadable:
             print("  UNREAD %-26s %s" % (fname[:26], why))
     if info:
         by_rule = {}
@@ -248,11 +296,14 @@ def main():
             by_rule[r["id"]] = by_rule.get(r["id"], 0) + 1
         for rid, n in sorted(by_rule.items()):
             print("  info  %-30s %d document(s)" % (rid, n))
+    # Every failure and every vacuous pass is named. These printed 12 and stopped, which on a
+    # 216-record corpus meant the 13th failure onward existed only in state/policy_report.json
+    # -- and the line above it announced a count that looked like the whole list.
     print("%d rule failure(s)" % len(failed))
-    for subj, r in failed[:12]:
+    for subj, r in failed:
         print("  FAIL  %-26s %-28s observed=%s" % (subj[:26], r["id"], r["observed"][:34]))
     print("%d VACUOUS pass(es) -- rule looked at a field that does not exist" % len(vacuous))
-    for subj, r in vacuous[:12]:
+    for subj, r in vacuous:
         print("  VOID  %-26s %-28s %s" % (subj[:26], r["id"], r["why"][:38]))
     return 1 if failed else 0
 

@@ -152,6 +152,17 @@ def classify_text(text, top=None):
     silently decided the other eight genres scored nothing. `top` survives so no caller breaks,
     but it now defaults to the whole list. Pass an integer only for a display, never for a
     denominator.
+
+    Whole-corpus measurement, 210 records, top-3 denominator vs full-field denominator:
+        193 of 210 sources report a different confidence (3 more score zero everywhere; the
+                    remaining 14 had nothing outside their top three to add to the denominator)
+          0 sources change GENRE -- register and priors are untouched, so nothing downstream
+                    of the classification moves. What moves is the honesty of the margin.
+         63 sources CROSS THE 0.45 MIXED-SOURCE FLAG, all of them downward, and none upward.
+                    The flag was catching 43 sources; it catches 106. Street Fighter read 0.479
+                    and is really 0.246; Rick and Morty read 0.706 and is really 0.393. Those
+                    63 were being reported as confidently classified when the classifier was
+                    in fact split across a field it had not been allowed to see.
     """
     scores = collections.Counter()
     for g, spec in GENRES.items():
@@ -198,21 +209,28 @@ def classify_source(rec, cap=None):
     for e in rec.get("entries", []):
         parts.append(e.get("name") or "")
         parts.append(e.get("description") or "")
+    # Uncapped and unranked-away: every genre in GENRES is scored and every score is kept, so
+    # the denominator below is the whole field and `runners_up` is the whole field minus the
+    # winner. See classify_text's note.
     ranked = classify_text(" ".join(parts))
     if not ranked or ranked[0][1] == 0:
         return {"genre": "unclassified", "score": 0, "confidence": 0.0,
-                "register": DEFAULT["register"], "priors": DEFAULT["priors"], "runners_up": []}
+                "register": DEFAULT["register"], "priors": DEFAULT["priors"],
+                "runners_up": ranked[1:], "genres_scored": len(ranked)}
     top, score = ranked[0]
     total = sum(s for _, s in ranked) or 1
     return {
         "genre": top,
         "score": score,
-        # Margin over the runners-up. A source that scores 40 for grimdark and 38 for horror is
-        # NOT confidently either, and the record should say so rather than pick.
+        # Share of the WHOLE field, not of the top three. A source that scores 40 for grimdark
+        # and 38 for cosmic_horror is NOT confidently either, and the record should say so
+        # rather than pick -- but that only works if the losers are in the denominator too.
         "confidence": round(score / total, 3),
         "register": GENRES[top]["register"],
         "priors": GENRES[top]["priors"],
         "runners_up": ranked[1:],
+        # Stated so a reader can tell at a glance that the margin was taken over the full field.
+        "genres_scored": len(ranked),
     }
 
 
@@ -234,11 +252,16 @@ def main():
     for g, n in dist.most_common():
         print(f"   {g:<20}{n:>4}")
 
+    # Every flagged source is named. This list used to print 5 and stop, which -- on a flag whose
+    # whole job is to say "do not trust this classification" -- meant the untrustworthy records
+    # past the fifth were invisible. Ranked worst-first; nothing dropped.
     low = [(s, v) for s, v in out.items() if v["confidence"] < 0.45 and v["genre"] != "unclassified"]
-    print(f"\nlow-confidence (genre is genuinely mixed, flagged not forced): {len(low)}")
-    for s, v in low[:5]:
-        ru = ", ".join(f"{g}:{n}" for g, n in v["runners_up"][:2])
-        print(f"   {s[:30]:<32}{v['genre']:<18}{v['confidence']:.2f}   vs {ru}")
+    low.sort(key=lambda sv: sv[1]["confidence"])
+    print(f"\nlow-confidence (genre is genuinely mixed, flagged not forced): "
+          f"{len(low)} of {len(out)}")
+    for s, v in low:
+        ru = ", ".join(f"{g}:{n}" for g, n in v["runners_up"] if n)
+        print(f"   {s[:30]:<32}{v['genre']:<18}{v['confidence']:.2f}   vs {ru or '(nothing else scored)'}")
 
     print("\n" + "-" * 100)
     print("THE CASES THE HASH GOT WRONG")
