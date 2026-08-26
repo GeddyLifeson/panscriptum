@@ -617,11 +617,20 @@ def push(message=None):
             "(%s), so nothing can say whether files in src/ are deliberately corrupt right "
             "now. Restore the module, or push by hand once a person has read src/." % _mut_gone)
     _busy, _rec = _MUT.active()
-    if _busy:
+    # ONLY WHEN THE LIVE TREE IS ACTUALLY AT RISK. `mutate.py` was rewritten to work in a
+    # sandbox and never opens a file under `src/` for writing, so a mutation run is no longer a
+    # reason to hold a push -- and treating it as one blocked a legitimate publish for the
+    # several HOURS a full run takes. A safety that stops correct work every night is a safety
+    # somebody deletes, and then it is not there for the case it was written for.
+    #
+    # FAILS CLOSED on anything it does not recognise. A lock with no `sandboxed` key -- an older
+    # run, or some future in-place mode -- still refuses, because "I cannot tell whether the
+    # tree is corrupt" has never been permission to publish it.
+    if _busy and not (isinstance(_rec, dict) and _rec.get("sandboxed") is True):
         raise RuntimeError(
-            "REFUSING TO PUSH: a mutation run is active, so files in src/ may be "
-            "deliberately corrupt right now (%s). Wait for it to finish; it restores every "
-            "file it touches." % json.dumps(_rec)[:200])
+            "REFUSING TO PUSH: a mutation run is active and has NOT declared itself sandboxed, "
+            "so files in src/ may be deliberately corrupt right now (%s)."
+            % json.dumps(_rec)[:200])
 
     leaks = [h for h in scan_for_secrets(SITE) if not str(h[2]).startswith('SUPPRESSED')]
     # Suppressed findings are REPORTED by the scanner and excluded from the refusal --

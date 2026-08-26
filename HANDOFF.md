@@ -9,6 +9,51 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-26 — the alarm crashed instead of sounding, and it cost a 3.7-hour run
+
+**FOR THE OWNER: the first real mutation result is `assay.py` — 58 mutants, 38 killed,
+20 SURVIVED.** Twenty single-token corruptions of the Custodial Assay engine passed the entire
+battery: `import`, all 795 checks of `verify_math`, and all 185 drill nets. Each one is a place
+where **the library cannot tell correct arithmetic from wrong arithmetic**, in the module that
+produces every published Moth Number and every error bar. Not all 20 are bugs — some mutations
+are genuinely equivalent — but which is which has to be decided by reading them.
+
+**AND THE RUN THEN LOST ALL TWENTY.** The summary line printed; the next statement raised
+`ValueError: invalid literal for int() with base 10: 'OWNER'` and took the details with it. 3.7
+hours of wall clock, and the only surviving artefact was a count.
+
+The cause is the worst shape a defect can have here. `escalation.escalate(level, ...)` takes the
+numeric rung; **five call sites written on 2026-08-25 in `mutate.py` and `codewatch.py` passed
+the NAME as a string**, and every one of those five is on an ERROR PATH. None could fire during
+normal operation, so all five sat green until the first genuine fault reached them — at which
+point the alarm crashed instead of sounding. Three fixes, not one:
+
+* the five call sites now pass the constants;
+* **`escalate()` accepts names as well as numbers**, because an API whose misuse is discoverable
+  only during an emergency will be misused again, by someone who is also busy;
+* an unrecognisable level lands at **MANAGER, not OWNER**. The first version of that fix
+  resolved it to OWNER on fail-closed grounds — which means `escalate("MANGER", ...)` **halts
+  the entire library over a misspelling**. A denial of service anyone can trigger by accident is
+  not a safety.
+
+**RESULTS ARE NOW JOURNALLED AS THEY ARE FOUND.** `state/MUTANTS_SURVIVED.jsonl`, append-only,
+written the instant a survivor is identified rather than collected in memory and reported at the
+end. A long run must not hold its findings until it finishes: anything that can crash, be
+killed, lose power or fill a disk in between will take them with it, and the longer the run the
+likelier that is. `mutate.py` now also prints what earlier runs already found, so the same
+twenty are not rediscovered from scratch.
+
+**MY OWN NET BREACHED AGAINST CORRECT CODE AND HALTED THE LIBRARY.** `twin detection matches the
+script being RUN` asserted `twins("verify_math") == []` — true only when no `verify_math.py`
+happens to be running, and `mutate.py` runs the whole battery inside a sandbox by design. A net
+whose answer depends on what is running at the moment it looks is not testing the code.
+`codewatch.twins` is now scoped to THIS tree, so a sandboxed or second-checkout namesake is not
+a twin. The same confusion had a worse form available: `claim_singleton` would have stood a live
+daemon down for a namesake in a directory it has nothing to do with.
+
+**BATTERY:** verify_math 795/1 · drill **218 nets, 0 BREACHED** · liveness 38 (at ceiling) ·
+library clear. `assay.py` mutation re-running with journalling.
+
 ## 2026-08-25 (late) — Run #34, the first daily shift: a 149-order queue worked down, the first complete sweep of all 113 modules, and live data loss stopped
 
 ### FOR A PERSON, AT THE TOP — THREE RULINGS ARE OWED, AND NOTHING ELSE IS BLOCKING

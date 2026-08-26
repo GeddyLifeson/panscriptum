@@ -193,6 +193,13 @@ def _lock_acquire(targets, token):
     with open(LOCK, "w", encoding="utf-8") as f:
         json.dump({"pid": os.getpid(), "started": time.time(),
                    "targets": list(targets), "token": token,
+                   # WHETHER THE LIVE TREE IS AT RISK, which is the only thing a reader of this
+                   # lock actually needs to decide anything. Since the sandbox rewrite the live
+                   # tree is never opened for writing, so a publisher may proceed -- and it
+                   # must be told so, because a guard that blocks correct work for hours every
+                   # night is a guard somebody deletes. Readers FAIL CLOSED on a missing or
+                   # false value: an older lock, or a future in-place mode, still refuses.
+                   "sandboxed": True,
                    "warning": "SOURCE FILES IN src/ MAY BE DELIBERATELY CORRUPT RIGHT NOW. "
                               "Do not publish, and do not read a failing check as a real fault."},
                   f, indent=2)
@@ -407,6 +414,50 @@ def _junction(link, target):
                                % (link, target, (r.stderr or r.stdout or "?").strip()[:120]))
         return
     os.symlink(target, link)
+
+
+JOURNAL = os.path.join(HERE, "state", "MUTANTS_SURVIVED.jsonl")
+
+
+def _journal(target, rec):
+    """Append one survivor to disk immediately. Never raises. -> None.
+
+    APPEND-ONLY AND FAILURE-PROOF BY DESIGN. This runs inside the mutation loop, so anything it
+    raises would abort a run that is otherwise working -- a recorder that can break the thing it
+    records is worse than no recorder. It is also append-only rather than rewrite-the-file,
+    because a rewrite has a window in which the previous findings are gone.
+    """
+    try:
+        os.makedirs(os.path.dirname(JOURNAL), exist_ok=True)
+        row = dict(rec)
+        row["target"] = target
+        row["at"] = time.time()
+        with open(JOURNAL, "a", encoding="utf-8") as f:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+    except Exception:
+        silence.note("mutate.py:journal")
+
+
+def survivors_on_record(target=None):
+    """-> the survivors written by every run so far, newest last."""
+    rows = []
+    try:
+        with open(JOURNAL, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                if target is None or r.get("target") == target:
+                    rows.append(r)
+    except FileNotFoundError:
+        return []
+    except Exception:
+        silence.note("mutate.py:journal-read")
+    return rows
 
 
 SANDBOX_PREFIX = "panscriptum_mutate_"
@@ -634,6 +685,21 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 if died_at:
                     killed += 1
                 else:
+                    # APPENDED TO DISK THE MOMENT IT IS FOUND, not collected and reported at
+                    # the end. A 3.7-hour run over `assay.py` found **20 survivors out of 58
+                    # mutants** and then lost every one of them: the summary line printed, and
+                    # the very next statement -- an `escalate()` call with a string level --
+                    # raised `ValueError` before the details were written anywhere. Hours of
+                    # GPU-adjacent wall clock, and the only artefact was a count.
+                    #
+                    # A long run must not hold its findings in memory until it is finished.
+                    # Anything that can crash, be killed, lose power or hit a full disk between
+                    # the finding and the report will take the finding with it, and the longer
+                    # the run the likelier that is.
+                    _journal(target, {"line": lineno, "mutation": desc,
+                                      "was": old_line.strip()[:120],
+                                      "became": new_line.strip()[:120],
+                                      "confirmed": bool(confirm)})
                     survivors.append({"line": lineno, "mutation": desc,
                                       "was": old_line.strip()[:120],
                                       "became": new_line.strip()[:120],
@@ -746,6 +812,17 @@ def _session(a, targets):
             print("by coin flip, and the report looks equally confident either way.")
             return 3
         print("all gates reproducible; mutants judged by DIFFERENCE from the above")
+
+        # WHAT PREVIOUS RUNS ALREADY FOUND. Printed before this run starts, because a survivor
+        # is a standing finding until somebody rules on it -- and a run that reports only its
+        # own 20 while 20 identical ones sit unread on disk is inviting the same work twice.
+        _prior = survivors_on_record()
+        if _prior:
+            _by = {}
+            for _r in _prior:
+                _by[_r.get("target")] = _by.get(_r.get("target"), 0) + 1
+            print("on record from earlier runs: "
+                  + ", ".join("%s x%d" % (k, v) for k, v in sorted(_by.items())))
 
         total_s = 0
         for t in targets:
