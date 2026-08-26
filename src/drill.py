@@ -2990,15 +2990,48 @@ def drill_codewatch():
         "an unbudgeted restarter is a respawn loop waiting for an edit storm")
 
     def twin_detection_does_not_match_bystanders():
-        """THE ONE THAT WOULD HAVE CAUSED THE OUTAGE IT PREVENTS. The first version asked
-        whether the module name appeared ANYWHERE in a command line, and immediately matched a
+        """THE ONE THAT WOULD HAVE CAUSED THE OUTAGE IT PREVENTS, and that then went on to cause
+        two outages of its own before it was written correctly.
+
+        The behaviour under test is real: the first `twins()` asked whether a module name
+        appeared ANYWHERE in a command line, and immediately matched a
         `pyflakes src/codewatch.py src/publish.py src/foreman.py src/overwatch.py` invocation --
-        one linter reported as a twin of three daemons at once. Every one of them would then
-        have refused to start because somebody was linting it."""
+        one linter reported as a twin of three daemons, every one of which would then have
+        refused to start because somebody was reading it.
+
+        THE NET ITSELF WAS WRONG TWICE, both times the same way: it asked the LIVE PROCESS
+        TABLE. `twins("verify_math") == []` is true only when no `verify_math.py` happens to be
+        running -- and the battery runs it, and `mutate.py` runs it inside a sandbox. It
+        breached against perfectly correct code and HALTED THE LIBRARY, once on the sandbox copy
+        and once on a plain concurrent battery run. Scoping `twins()` to this tree fixed the
+        first and not the second, because a live verify_math in this tree is a real match.
+
+        **A net whose answer depends on what happens to be running when it looks is not testing
+        the code.** So this one no longer looks. It puts SYNTHETIC command lines to the same
+        predicate `twins()` uses, which is deterministic, needs no processes, and actually
+        exercises the distinction that matters.
+        """
         import codewatch as CW
-        # A module no daemon runs must have no twins even while this very drill's command line
-        # is full of module names.
-        return CW.twins("anchors") == [] and CW.twins("verify_math") == []
+        here = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
+        cases = [
+            # (argv, module, should_match, what this argv IS)
+            ([r"C:/py/python.exe", here + "/publish.py", "--push"], "publish", True,
+             "the daemon itself"),
+            ([r"C:/py/python.exe", "-u", here + "/publish.py", "--loop", "10"], "publish", True,
+             "the daemon with interpreter flags"),
+            ([r"C:/py/python.exe", "-m", "pyflakes", here + "/publish.py"], "publish", False,
+             "a LINTER naming the file"),
+            ([r"C:/Windows/system32/grep.exe", here + "/publish.py"], "publish", False,
+             "grep -- not even python"),
+            ([r"C:/py/python.exe", "-c", "import publish"], "publish", False,
+             "python -c that merely imports it"),
+            ([r"C:/py/python.exe", "/tmp/sandbox/src/publish.py"], "publish", False,
+             "ANOTHER TREE's copy of the same file"),
+        ]
+        for argv, module, want, _what in cases:
+            if CW.runs_script(argv, module, root=here) is not want:
+                return False
+        return True
     net(a, "twin detection matches the script being RUN, not any mention of it",
         twin_detection_does_not_match_bystanders,
         "a linter is not a daemon; refusing to start because someone read the file is an outage")

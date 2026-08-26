@@ -93,6 +93,59 @@ def fingerprint(root=None):
     return h.hexdigest()[:16]
 
 
+def runs_script(argv, module, root=None, cwd=None):
+    """PURE. Is this command line running `<root>/<module>.py` as its SCRIPT? -> bool.
+
+    EXTRACTED SO IT CAN BE TESTED WITHOUT A PROCESS TABLE, which is the whole point. The drill
+    net for this behaviour asked the LIVE process table twice -- `twins("verify_math") == []` --
+    and twice halted the library against perfectly correct code, because the battery runs
+    `verify_math.py` and `mutate.py` runs it again inside a sandbox. A net whose answer depends
+    on what happens to be running when it looks is not testing anything; it is sampling the
+    weather. Synthetic argv in, deterministic answer out.
+
+    Three ways a command line can NAME this module without RUNNING it, all of them seen:
+
+      * a linter -- `python -m pyflakes src/publish.py` -- which matched three daemons at once
+        under the first implementation, and would have made each refuse to start;
+      * an import -- `python -c "import publish"` -- which is not a second daemon;
+      * ANOTHER TREE's copy -- `python /tmp/sandbox/src/publish.py` -- a real occurrence, since
+        `mutate.py` deliberately runs the whole battery from a throwaway copy of `src/`.
+
+    So: argv[0] must be python; the SCRIPT is the first argument that is a `.py` path (skipping
+    interpreter flags, stopping at the first non-flag that is not one); and it must resolve to
+    the same file as `<root>/<module>.py`. `-m` is not a script path, so `-m pyflakes x.py`
+    stops at `pyflakes` and never reaches the filename.
+    """
+    root = root or SRC
+    needle = module if module.endswith(".py") else module + ".py"
+    if not argv or len(argv) < 2:
+        return False
+    if "python" not in os.path.basename(str(argv[0])).lower():
+        return False
+    script = None
+    for arg in argv[1:]:
+        a = str(arg).replace("\\", "/")
+        if a.endswith(".py"):
+            script = a
+            break
+        if not a.startswith("-"):
+            break            # a non-flag, non-.py argument: this is not `python x.py`
+    if not script or os.path.basename(script) != needle:
+        return False
+    resolved = script
+    if not os.path.isabs(resolved):
+        if not cwd:
+            return False     # cannot tell whose copy it is -- FAIL OPEN
+        resolved = os.path.join(cwd, resolved)
+    target = os.path.join(root, needle)
+    try:
+        return os.path.samefile(resolved, target)
+    except OSError:
+        # One of them does not exist (a sandbox already reaped, a path from another machine).
+        # Fall back to comparing normalised absolute paths rather than guessing.
+        return os.path.normcase(os.path.abspath(resolved)) ==                os.path.normcase(os.path.abspath(target))
+
+
 def twins(module, exclude_pid=None):
     """-> [pid] of other live processes running `src/<module>.py`.
 
@@ -130,60 +183,17 @@ def twins(module, exclude_pid=None):
             if proc.info["pid"] in skip:
                 continue
             argv = proc.info.get("cmdline") or []
-            if len(argv) < 2:
-                continue
-            # THE SCRIPT BEING RUN, NOT ANY MENTION OF IT. The first version asked whether
-            # "publish.py" appeared ANYWHERE in the command line, and the first thing it matched
-            # was a `pyflakes src/codewatch.py src/publish.py src/foreman.py src/overwatch.py`
-            # invocation -- one linter reported as a twin of three different daemons at once.
-            # A daemon would then have refused to start because someone was linting it, which is
-            # the "outage that reports itself as caution" this function's own docstring warns
-            # about, produced by the function itself within a minute of being written.
-            #
-            # So: the interpreter must be python, and the SCRIPT -- the first argument that
-            # looks like a path to a .py file -- must be this module. An editor, a linter, a
-            # grep, or a shell that merely names the file no longer counts.
-            if "python" not in os.path.basename(argv[0]).lower():
-                continue
-            script = None
-            for arg in argv[1:]:
-                a = arg.replace("\\", "/")
-                if a.endswith(".py"):
-                    script = a
-                    break
-                if not a.startswith("-"):
-                    break            # a non-flag, non-.py argument: this is not `python x.py`
-            if not script or os.path.basename(script) != needle:
-                continue
-            # AND IT MUST BE THIS TREE'S COPY OF IT. The basename test alone matches a process
-            # running a DIFFERENT checkout's file of the same name, and on 2026-08-25 that
-            # raised a real halt: `mutate.py` runs the whole battery inside a throwaway sandbox
-            # (a temp copy of `src/`, precisely so the live tree is never corrupted), so a
-            # sandboxed `python src/verify_math.py` was reported as a twin of the live tree's
-            # verify_math. `drill.py`'s control net asserts `twins("verify_math") == []` -- a
-            # module no daemon runs -- so the drill breached against correct code and HALTED the
-            # library over a process that was doing exactly what it was designed to do.
-            #
-            # The same confusion has a worse form than a false halt. `claim_singleton` exits a
-            # daemon when it finds a twin, so a sandboxed mutation run -- or the export copy, or
-            # any second checkout on this machine -- could have made a live daemon stand down
-            # for a namesake in a directory it has nothing to do with. That is this function's
-            # own docstring's warning ("an outage that reports itself as caution") arriving by a
-            # second route, the first having been the linter-matched-as-a-daemon bug above.
-            resolved = script
-            if not os.path.isabs(resolved):
-                # A relative `src/x.py` is only meaningful against the process's own cwd.
-                try:
-                    resolved = os.path.join(proc.cwd(), resolved)
-                except Exception:
-                    resolved = None
-            if resolved is None:
-                continue                 # cannot tell whose copy it is -- FAIL OPEN, as above
+            # ONE PREDICATE, TESTED SEPARATELY. The matching used to be inline here, which meant
+            # the only way to test it was to ask the live process table -- and the drill net that
+            # did so halted the library twice against correct code. `runs_script` is pure and the
+            # net puts synthetic command lines to it; this loop now just supplies the arguments.
+            cwd = None
             try:
-                if os.path.samefile(resolved, os.path.join(SRC, needle)):
-                    found.append(proc.info["pid"])
-            except OSError:
-                continue                 # vanished mid-walk, or unreadable: FAIL OPEN
+                cwd = proc.cwd()
+            except Exception:
+                cwd = None       # unreadable cwd: runs_script FAILS OPEN on a relative path
+            if runs_script(argv, needle, root=SRC, cwd=cwd):
+                found.append(proc.info["pid"])
         except Exception:
             continue
     return found
