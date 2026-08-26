@@ -77,7 +77,7 @@ def gate_open(cfg=None):
             with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
                 cfg = yaml.safe_load(f) or {}
     except Exception as e:
-        return True, "config.yaml unreadable (%s) — refusing, because a gate that cannot be " \
+        return False, "config.yaml unreadable (%s) — refusing, because a gate that cannot be " \
                       "read has not been opened" % type(e).__name__
     if not isinstance(cfg, dict):
         return False, "config.yaml did not parse to a mapping — refusing"

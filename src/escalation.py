@@ -292,7 +292,7 @@ def main():
         print("halt cleared." if did else "nothing was halted.")
         return 0
     halted, rec = status()
-    if not halted:
+    if halted:
         print("clear — the library is running.")
         return 0
     print("HALTED")
