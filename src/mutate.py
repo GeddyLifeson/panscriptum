@@ -331,8 +331,35 @@ def sandbox():
         src_dir = os.path.join(HERE, shared)
         if os.path.isdir(src_dir):
             _junction(os.path.join(root, shared), src_dir)
-    for fresh in ("state", "output"):
-        os.makedirs(os.path.join(root, fresh), exist_ok=True)
+    # STATE IS COPIED, NOT CREATED EMPTY, and the first attempt got this wrong in a way that
+    # was quietly fatal: an empty `state/` made a sandboxed `drill.py` fail on missing files, so
+    # the BASELINE was dirty for purely structural reasons and every mutant would have died at
+    # that gate -- the exact worthless-perfect-score failure the baseline check exists to catch,
+    # reintroduced by the fix for it. The gates need the state they read.
+    #
+    # JSON only, and no logs. `state/` is 109 MB, almost all of it log files no check reads,
+    # and copying those per run would cost more than the mutation testing itself.
+    os.makedirs(os.path.join(root, "state"), exist_ok=True)
+    for f in os.listdir(os.path.join(HERE, "state")):
+        if f.endswith(".json"):
+            try:
+                shutil.copy2(os.path.join(HERE, "state", f), os.path.join(root, "state", f))
+            except OSError:
+                pass
+    # HALT AND LOCK DO NOT TRAVEL. A halt copied into the sandbox would make every gate refuse
+    # on purpose, and a copied mutation lock would make the sandbox refuse to mutate. Both are
+    # facts about the LIVE library, not about this throwaway copy of it.
+    for gone in ("HALT.json", "MUTATION_ACTIVE.json"):
+        try:
+            os.remove(os.path.join(root, "state", gone))
+        except OSError:
+            pass
+    # output/index carries the manifest several checks read. Junctioned rather than copied: it
+    # is 85 MB and nothing in the gate path writes to it.
+    os.makedirs(os.path.join(root, "output"), exist_ok=True)
+    idx = os.path.join(HERE, "output", "index")
+    if os.path.isdir(idx):
+        _junction(os.path.join(root, "output", "index"), idx)
     for f in ("config.yaml", "requirements.txt"):
         p_ = os.path.join(HERE, f)
         if os.path.exists(p_):
@@ -377,7 +404,7 @@ def run(target, limit=None, gates=GATES, root=None, keep=False):
         try:
             tree = ast.parse(text)
         except SyntaxError as e:
-            raise RuntimeError("%s will not parse: %s" % (target, e))
+            raise RuntimeError("%s will not parse: %s" % (target, e)) from e
 
         muts = _mutations(tree, text)
         if limit:
