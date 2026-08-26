@@ -954,7 +954,7 @@ def interval_from_hands(readings, attestation="Transcribed"):
         "signatures": {h: round(v, 2) for h, v in readings.items() if v is not None},
         "spread": round(max(vals) - min(vals), 2),
         "prior_divergence_share": round((half_spread ** 2) / (half_spread ** 2 + floor ** 2), 2),
-        "covers_all_signatures": all(abs(v - centre) > interval for v in vals),
+        "covers_all_signatures": all(abs(v - centre) <= interval for v in vals),
         "note": ("the interval is prior divergence, not ignorance: commissioning more feats "
                  "will NOT narrow the share attributable to the Hands' differing priors "
                  "(Vol. 0.5, Erratum 10)"),
