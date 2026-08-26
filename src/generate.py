@@ -461,6 +461,38 @@ def main():
             save_json(cfg["paths"]["failures"], failures)
             continue
 
+        # THE P8 META-LANGUAGE BAN, ENFORCED FOR THE FIRST TIME. `pipeline.assert_in_universe`
+        # was written to reject prose that breaks the in-fiction frame -- "as a DM you might",
+        # "in this sourcebook" -- and `pipeline.py:2122` states the ban "is enforced in code
+        # like scale_note and the Marginalia cap before it". It was not. The function had **zero
+        # callers anywhere in src/**, and this module, which is the only thing that turns a
+        # manifest into prose, does not import `pipeline` at all. The only reader of
+        # `meta_violations` was `audit.py` -- an after-the-fact report on already-written text.
+        # A ban nothing checks is a style note.
+        #
+        # REFUSES THE CHAPTER, DOES NOT ABORT THE RUN. `assert_in_universe` raises, which is
+        # right for a caller that can regenerate; here a raise would end a multi-hour pass over
+        # one bad paragraph. So the violation is caught, the chapter is NOT written, and it
+        # lands in `failures` beside every other refusal -- visible, re-runnable, and never
+        # silently published. A single meta leak in a finished volume breaks the frame for every
+        # entry around it, which is why it must not reach disk at all.
+        try:
+            import pipeline as _PL
+            _PL.assert_in_universe(text, where=job["address"])
+        except ImportError:
+            silence.note("generate.py:meta-ban-unavailable")
+        except ValueError as _meta:
+            fail_count += 1
+            failures[job["address"]] = {
+                "error": str(_meta),
+                "job_type": job["type"],
+                "source_name": job["source_name"],
+                "refused": "meta-language (Charter P8) — chapter NOT written",
+                "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            }
+            save_json(cfg["paths"]["failures"], failures)
+            continue
+
         raw_path = os.path.join(raw_dir, safe_filename(job["address"], "md"))
         with open(raw_path, "w", encoding="utf-8") as f:
             f.write(f"<!-- {job['address']} -->\n\n{text}")

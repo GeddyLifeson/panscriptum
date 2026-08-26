@@ -2615,6 +2615,34 @@ def drill_inspector():
         "the last incident was a guard DELETED, not a guard that failed -- and the comment "
         "explaining it stayed behind")
 
+    def the_meta_language_ban_is_actually_enforced():
+        """A BAN NOTHING CHECKS IS A STYLE NOTE. `pipeline.assert_in_universe` rejects prose that
+        breaks the in-fiction frame, and `pipeline.py:2122` states the ban "is enforced in code
+        like scale_note and the Marginalia cap before it". It was not: the function had ZERO
+        callers anywhere in `src/`, and `generate.py` -- the only thing that turns a manifest
+        into prose -- did not import `pipeline` at all. The sole reader of `meta_violations` was
+        an after-the-fact audit report on text already written.
+
+        Attacked from both ends: the refusal must fire on meta-language and must NOT fire on
+        ordinary in-universe prose, and the writer must be the thing that calls it.
+        """
+        import pipeline as PL
+        if not PL.assert_in_universe(
+                "The Custodes record that Kenshiro struck the gate at the ninth hour.",
+                where="__drill__"):
+            return False
+        if not _refuses(lambda: PL.assert_in_universe(
+                "As a DM you might rule that this sourcebook lets the player reroll.",
+                where="__drill__"), ValueError):
+            return False
+        src = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(src, "generate.py"), encoding="utf-8") as fh:
+            gen = fh.read()
+        return "assert_in_universe" in gen
+    net(a, "meta-language is refused by the writer, not just noticed by an audit",
+        the_meta_language_ban_is_actually_enforced,
+        "one 'as a DM you might' in a finished volume breaks the frame for every entry near it")
+
     def liveness_sees_its_own_founding_example():
         """THE DETECTOR MUST CATCH THE CASE IT WAS WRITTEN FOR. `liveness.py:10` names
         `coverage._p()` -- "a fully documented cache-path helper with no callers" -- as one of
