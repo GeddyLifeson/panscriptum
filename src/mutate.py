@@ -44,8 +44,10 @@ import ast
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -236,9 +238,9 @@ def _mutations(tree, text):
 
 # --------------------------------------------------------------------------- running them
 
-def _gate_passes(name, cmd, timeout=1200, env=None):
+def _gate_passes(name, cmd, timeout=1200, env=None, cwd=None):
     try:
-        r = subprocess.run(cmd, cwd=HERE, capture_output=True, text=True,
+        r = subprocess.run(cmd, cwd=(cwd or HERE), capture_output=True, text=True,
                            creationflags=_NO_WIN, timeout=timeout, env=env)
     except subprocess.TimeoutExpired:
         return False, "timeout"
@@ -275,58 +277,149 @@ def verify_restore(path):
     return _read(path) == original
 
 
-def run(target, limit=None, gates=GATES):
-    """Mutate one module and report which mutants survived. -> dict."""
-    path = os.path.join(SRC, target)
-    original = _read(path)
-    started = _digest(original)
+def _junction(link, target):
+    """Windows directory junction, so the sandbox shares `data/` instead of copying a gigabyte.
 
-    if not verify_restore(path):
-        raise RuntimeError("restore is not byte-exact for %s; refusing to mutate it" % target)
+    Junctions need no administrator rights, unlike symlinks. Falls back to a plain copy nowhere:
+    if this fails the sandbox is unusable and `sandbox()` says so rather than silently building
+    a half-tree whose gates would then fail for reasons that have nothing to do with a mutation.
+    """
+    if os.name == "nt":
+        r = subprocess.run(["cmd", "/c", "mklink", "/J", link, target],
+                           capture_output=True, text=True, creationflags=_NO_WIN, timeout=60)
+        if not os.path.isdir(link):
+            raise RuntimeError("could not junction %s -> %s: %s"
+                               % (link, target, (r.stderr or r.stdout or "?").strip()[:120]))
+        return
+    os.symlink(target, link)
 
-    text = original.decode("utf-8")
+
+def sandbox():
+    """Build a throwaway copy of the tree to mutate. -> path.
+
+    THE ARCHITECTURE THAT SHOULD HAVE BEEN HERE FROM THE START, and the reason is a list of
+    things that actually happened on 2026-08-25 within two hours of the in-place version being
+    written:
+
+      * a `publish.py --push --loop 1` DAEMON, running since 14:28 with the pre-guard code
+        loaded in memory, pushed a mutated `prose_gate.py` and a mutated `escalation.py` to a
+        public GitHub repo. The lock added to stop it was invisible to it: **a guard added to
+        source does nothing to a process already running that source.**
+      * a concurrent `drill.py` read a mutated gate and HALTED the library over code that was
+        restored seconds later.
+      * two hard kills stranded a live mutation on disk, because `finally` does not run when a
+        process is killed.
+      * `local_agent.py --patch` is also writing into `src/` on its own schedule, so a mutation
+        and a repair could interleave on the same file.
+
+    Every one of those is the same root cause: **the live tree was being corrupted, and fifteen
+    other processes read the live tree.** No amount of locking fixes that, because the other
+    processes have to agree to look, and the ones already running never will.
+
+    So mutation now happens somewhere else entirely. `src/` is COPIED (it is small); `data/`,
+    `prompts/` and `reference/` are junctioned (they are large and read-only in this context);
+    `state/` and `output/` are created EMPTY, which is what stops a sandboxed `drill.py` from
+    raising a real halt or a sandboxed run from writing real ledgers. The live tree is never
+    opened for writing at any point.
+    """
+    root = tempfile.mkdtemp(prefix="panscriptum_mutate_")
+    os.makedirs(os.path.join(root, "src"))
+    for f in os.listdir(SRC):
+        if f.endswith(".py"):
+            shutil.copy2(os.path.join(SRC, f), os.path.join(root, "src", f))
+    for shared in ("data", "prompts", "reference"):
+        src_dir = os.path.join(HERE, shared)
+        if os.path.isdir(src_dir):
+            _junction(os.path.join(root, shared), src_dir)
+    for fresh in ("state", "output"):
+        os.makedirs(os.path.join(root, fresh), exist_ok=True)
+    for f in ("config.yaml", "requirements.txt"):
+        p_ = os.path.join(HERE, f)
+        if os.path.exists(p_):
+            shutil.copy2(p_, os.path.join(root, f))
+    return root
+
+
+def baseline(root, gates=GATES):
+    """Do the gates pass on UNMUTATED code? -> (bool, [(gate, why)]).
+
+    THE CHECK THAT MAKES EVERY OTHER RESULT MEAN ANYTHING, and its absence produced a run that
+    looked perfect and was worthless. `verify_math` was reporting `795 passed, 1 FAILED` --
+    an honest red about sweep coverage, nothing to do with any mutation -- so **every mutant
+    died at the same gate for the same unrelated reason.** 146 mutants, 146 kills, zero
+    survivors: the best possible score, meaning nothing at all.
+
+    A mutant killed by a pre-existing failure is not a mutant killed. If the baseline is not
+    clean, the honest output is a refusal, not a number.
+    """
+    bad = []
+    for name, cmd in gates:
+        ok, why = _gate_passes(name, cmd, cwd=root)
+        if not ok:
+            bad.append((name, why))
+    return (not bad), bad
+
+
+def run(target, limit=None, gates=GATES, root=None, keep=False):
+    """Mutate one module IN A SANDBOX and report which mutants survived. -> dict."""
+    own_sandbox = root is None
+    root = root or sandbox()
+    path = os.path.join(root, "src", target)
+    live = os.path.join(SRC, target)
+    live_before = _digest(_read(live))
+
     try:
-        tree = ast.parse(text)
-    except SyntaxError as e:
-        raise RuntimeError("%s will not parse: %s" % (target, e))
+        original = _read(path)
+        if not verify_restore(path):
+            raise RuntimeError("restore is not byte-exact for %s; refusing to mutate it" % target)
 
-    muts = _mutations(tree, text)
-    if limit:
-        # Explicitly reported, never silent. Hard Rule 0 forbids a cap that hides a smaller
-        # universe; this one is an interactive convenience and it must say so in the result.
-        muts = muts[:limit]
+        text = original.decode("utf-8")
+        try:
+            tree = ast.parse(text)
+        except SyntaxError as e:
+            raise RuntimeError("%s will not parse: %s" % (target, e))
 
-    lines = text.splitlines(keepends=True)
-    survivors, killed = [], 0
-    token = hashlib.sha256(("%s|%d" % (target, os.getpid())).encode()).hexdigest()[:16]
-    _lock_acquire([target], token)
-    env = dict(os.environ, **{_TOKEN_ENV: token})
-    try:
-        for lineno, desc, old_line, new_line in muts:
-            mutated = list(lines)
-            mutated[lineno - 1] = new_line
-            _write(path, "".join(mutated).encode("utf-8"))
-            died_at = None
-            for gname, cmd in gates:
-                ok, why = _gate_passes(gname, cmd, env=env)
-                if not ok:
-                    died_at = "%s (%s)" % (gname, why)
-                    break
-            if died_at:
-                killed += 1
-            else:
-                survivors.append({"line": lineno, "mutation": desc,
-                                  "was": old_line.strip()[:120],
-                                  "became": new_line.strip()[:120]})
+        muts = _mutations(tree, text)
+        if limit:
+            # Explicitly reported, never silent. Hard Rule 0 forbids a cap that hides a smaller
+            # universe; this one is an interactive convenience and it must say so in the result.
+            muts = muts[:limit]
+
+        lines = text.splitlines(keepends=True)
+        survivors, killed = [], 0
+        try:
+            for lineno, desc, old_line, new_line in muts:
+                mutated = list(lines)
+                mutated[lineno - 1] = new_line
+                _write(path, "".join(mutated).encode("utf-8"))
+                died_at = None
+                for gname, cmd in gates:
+                    ok, why = _gate_passes(gname, cmd, cwd=root)
+                    if not ok:
+                        died_at = "%s (%s)" % (gname, why)
+                        break
+                if died_at:
+                    killed += 1
+                else:
+                    survivors.append({"line": lineno, "mutation": desc,
+                                      "was": old_line.strip()[:120],
+                                      "became": new_line.strip()[:120]})
+        finally:
+            _write(path, original)
+
+        # THE LIVE FILE MUST BE BYTE-IDENTICAL TO HOW WE FOUND IT. Not "should be" -- checked,
+        # every run, because the whole class of incident this rewrite exists to end began with
+        # a corrupted live file that nobody noticed until it was on GitHub.
+        live_after = _digest(_read(live))
+        return {"target": target, "mutants": len(muts), "killed": killed,
+                "survived": len(survivors), "survivors": survivors,
+                "capped": bool(limit) and len(muts) == limit,
+                "sandbox": root,
+                "live_file_untouched": live_after == live_before,
+                "restored_exactly": _digest(_read(path)) == _digest(original)}
     finally:
-        _write(path, original)
-        _lock_release()
-
-    restored = _digest(_read(path))
-    return {"target": target, "mutants": len(muts), "killed": killed,
-            "survived": len(survivors), "survivors": survivors,
-            "capped": bool(limit) and len(muts) == limit,
-            "restored_exactly": restored == started}
+        if own_sandbox and not keep:
+            shutil.rmtree(root, ignore_errors=True)
 
 
 def file_orders(result, found_by="mutate"):
@@ -356,6 +449,8 @@ def main():
     ap.add_argument("--limit", type=int, help="stop after N mutants (interactive only)")
     ap.add_argument("--list", action="store_true", help="count the mutants, run none of them")
     ap.add_argument("--file-orders", action="store_true")
+    ap.add_argument("--keep-sandbox", action="store_true",
+                    help="leave the sandbox on disk for inspection")
     a = ap.parse_args()
 
     # A halt means the library is not in a state anyone should be deliberately breaking.
@@ -373,26 +468,60 @@ def main():
             print("  %-18s %4d mutant(s)" % (t, n))
         return 0
 
-    total_s = 0
-    for t in targets:
-        t0 = time.time()
-        r = run(t, limit=a.limit)
-        total_s += time.time() - t0
-        print("\n%s — %d mutants, %d killed, %d SURVIVED   (%.0fs)"
-              % (t, r["mutants"], r["killed"], r["survived"], time.time() - t0))
-        if not r["restored_exactly"]:
-            print("  *** THE FILE WAS NOT RESTORED EXACTLY. Check it before anything else. ***")
-            escalation.escalate("OWNER", "MUTATE_RESTORE_FAILED",
-                                "mutate.py did not restore %s byte-for-byte" % t,
-                                evidence=r, source=t, who="mutate.py")
-        if r["capped"]:
-            print("  (capped at --limit %d; this is NOT the whole set)" % a.limit)
-        for s in r["survivors"]:
-            print("  SURVIVED  %s:%-5d %-16s  %s" % (t, s["line"], s["mutation"], s["was"][:70]))
-        if a.file_orders and r["survivors"]:
-            print("  filed %d work order(s)" % len(file_orders(r)))
-    print("\ntotal %.0fs" % total_s)
-    return 0
+    root = sandbox()
+    print("sandbox: %s" % root)
+    try:
+        # THE BASELINE, FIRST, AND IT IS A HARD REFUSAL. Without this the first real run was
+        # worthless in a way that looked perfect: `verify_math` was reporting one honest
+        # pre-existing red about sweep coverage, so all 146 mutants died at that same gate for
+        # a reason unrelated to any mutation, and the report would have read
+        # "146 killed, 0 survived" -- a flawless score from a test that never tested anything.
+        #
+        # A mutant killed by a pre-existing failure is not a mutant killed, and a number
+        # produced that way is worse than no number, because it is believable.
+        ok, bad = baseline(root)
+        if not ok:
+            print("\nBASELINE IS NOT CLEAN — REFUSING TO MUTATE.")
+            for gname, why in bad:
+                print("   %-14s %s" % (gname, why))
+            print("\nEvery mutant would die at these gates for reasons that have nothing to do")
+            print("with the mutation, and the run would report a perfect score. Fix the")
+            print("baseline first, or pass --gates to narrow it.")
+            return 3
+        print("baseline clean: %s" % ", ".join(g for g, _ in GATES))
+
+        total_s = 0
+        for t in targets:
+            t0 = time.time()
+            r = run(t, limit=a.limit, root=root)
+            total_s += time.time() - t0
+            print("\n%s — %d mutants, %d killed, %d SURVIVED   (%.0fs)"
+                  % (t, r["mutants"], r["killed"], r["survived"], time.time() - t0))
+            if not r["restored_exactly"]:
+                print("  *** THE SANDBOX FILE WAS NOT RESTORED. Later targets are unreliable. ***")
+                escalation.escalate("MANAGER", "MUTATE_RESTORE_FAILED",
+                                    "mutate.py did not restore %s in the sandbox" % t,
+                                    evidence=r, source=t, who="mutate.py")
+            if not r["live_file_untouched"]:
+                # This must be impossible by construction -- the live path is never opened for
+                # writing. Checked anyway, and at OWNER level, because the incident that caused
+                # this rewrite was a corrupted live file reaching a public repo.
+                print("  *** THE LIVE FILE CHANGED DURING A SANDBOXED RUN. STOP. ***")
+                escalation.escalate("OWNER", "MUTATE_TOUCHED_LIVE_TREE",
+                                    "src/%s changed during a sandboxed mutation run" % t,
+                                    evidence=r, source=t, who="mutate.py")
+            if r["capped"]:
+                print("  (capped at --limit %d; this is NOT the whole set)" % a.limit)
+            for s in r["survivors"]:
+                print("  SURVIVED  %s:%-5d %-16s  %s"
+                      % (t, s["line"], s["mutation"], s["was"][:70]))
+            if a.file_orders and r["survivors"]:
+                print("  filed %d work order(s)" % len(file_orders(r)))
+        print("\ntotal %.0fs" % total_s)
+        return 0
+    finally:
+        if not a.keep_sandbox:
+            shutil.rmtree(root, ignore_errors=True)
 
 
 if __name__ == "__main__":
