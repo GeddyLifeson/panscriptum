@@ -41,7 +41,26 @@ RESULTS = []
 # syntactic tautologies, 0 phantom guards. LOWER this when code is cleaned up. Raising it to
 # make the drill go green is the move this whole layer exists to prevent -- if a new finding
 # appears, the finding is the problem, not the number.
-LIVENESS_CEILING = 38
+# RAISED 38 -> 41 on 2026-08-26, and the direction needs its justification because the rule
+# attached to this number is "lower it when you clean up, NEVER raise it to go green".
+#
+# This is the one lawful reason to raise it: the DETECTOR got sharper, not the code worse. Not
+# one line of dead code was added. `liveness`'s `used` set was a single flat, scope-blind,
+# module-blind bag of every identifier in `src/`, so a LOCAL LOOP VARIABLE named `_p` in
+# cleanup.py and tells.py marked every module-level `_p()` in the project as called -- and
+# `coverage._p()`, which has zero callers and is named at liveness.py:10 as the founding example
+# of why that module exists, was missing from its own report. The detector could not see its own
+# worked example.
+#
+# Usage now resolves the way Python resolves it: a bare name only reaches functions in its OWN
+# module, and a cross-module call must arrive as `mod.name`, `from mod import name`, or a string
+# handed to getattr. Three functions that were always dead became visible; 38 was a floor being
+# ratcheted as though it were a total.
+#
+# The rule is unchanged and still binds: raising this to make a red drill go green is forbidden.
+# Raising it because the instrument now measures something it previously could not is the
+# opposite act, and it must be written down like this or the two become indistinguishable.
+LIVENESS_CEILING = 41
 
 # GitHub's push protection scans the repo too -- a FOURTH lock, and it is
 # right: a real-looking key must not exist in source even as a fixture. Built
@@ -2595,6 +2614,24 @@ def drill_inspector():
     net(a, "every guard is CALLED in the file that claims it", guards_are_wired_where_claimed,
         "the last incident was a guard DELETED, not a guard that failed -- and the comment "
         "explaining it stayed behind")
+
+    def liveness_sees_its_own_founding_example():
+        """THE DETECTOR MUST CATCH THE CASE IT WAS WRITTEN FOR. `liveness.py:10` names
+        `coverage._p()` -- "a fully documented cache-path helper with no callers" -- as one of
+        the instances that motivated the module. For an unknown length of time it was NOT in
+        `scan()['dead']`, because the `used` set was scope-blind and a LOCAL LOOP VARIABLE named
+        `_p` in cleanup.py and tells.py marked every `_p()` in the project as called.
+
+        A detector blind to its own worked example reports a floor and calls it a total, and
+        `LIVENESS_CEILING` was ratcheting that floor as though it were the truth. Pinned by name
+        rather than by count so that fixing the count cannot quietly re-lose the case.
+        """
+        import liveness
+        dead = liveness.scan()["dead"]
+        return any(d.startswith("coverage.py:") and "_p()" in d for d in dead)
+    net(a, "the dead-code detector catches the example in its own docstring",
+        liveness_sees_its_own_founding_example,
+        "a scope-blind used set hid coverage._p(), the case the module was written for")
 
     def liveness_does_not_worsen():
         """A RATCHET, not a floor. The 38 dead functions here predate this work and deleting

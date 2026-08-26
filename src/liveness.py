@@ -95,17 +95,41 @@ def scan():
             continue
         trees[name] = t
 
-    # Every NAME referenced anywhere in the tree, in any module. A function called through
-    # getattr or a dispatch table still shows up as a string constant, so those count too --
-    # erring toward "it is used" keeps this list short enough to actually read.
+    # USAGE IS RESOLVED THE WAY PYTHON RESOLVES IT: a bare name only reaches a function in the
+    # SAME module; a cross-module call has to arrive as `mod.name`, `from mod import name`, or a
+    # string handed to getattr/a dispatch table.
+    #
+    # THE BUG THIS REPLACES, and it hid the founding example in this file's own docstring. The
+    # `used` set was one flat, scope-blind, module-blind bag of every identifier anywhere in
+    # `src/`. So a LOCAL LOOP VARIABLE named `_p` -- `for _p in ...` in cleanup.py and tells.py
+    # -- marked every module-level `_p()` in the project as called, and `coverage._p()`, which
+    # has zero callers and is named at liveness.py:10 as the reason this module exists, was
+    # absent from its own report. A detector that cannot see its own worked example is reporting
+    # a floor and calling it a total, and `drill.LIVENESS_CEILING` was ratcheting that floor.
+    #
+    # Bare names are collected PER MODULE and only count for that module's own functions.
+    # Attributes, `from X import name`, and string constants are global, because all three are
+    # how a name legitimately crosses a module boundary. Erring toward "it is used" is still the
+    # rule -- a false DEAD is expensive to chase -- but the erring is now scoped.
+    used_local = {}
     for name, t in trees.items():
+        local = set()
         for node in ast.walk(t):
             if isinstance(node, ast.Name):
-                used.add(node.id)
+                # LOAD only. A `for _p in ...` or `_p = 1` BINDS the name, it does not call
+                # anything, and counting bindings as calls is precisely what went wrong.
+                if isinstance(node.ctx, ast.Load):
+                    local.add(node.id)
             elif isinstance(node, ast.Attribute):
-                used.add(node.attr)
+                used.add(node.attr)                       # `mod.thing()` -- crosses modules
+            elif isinstance(node, ast.ImportFrom):
+                for al in node.names:
+                    used.add(al.name)                     # `from mod import thing`
+                    if al.asname:
+                        used.add(al.asname)
             elif isinstance(node, ast.Constant) and isinstance(node.value, str):
-                used.add(node.value.strip())
+                used.add(node.value.strip())              # getattr / dispatch table
+        used_local[name] = local
 
     dead, taut, phantom = [], [], []
     for name, t in trees.items():
@@ -116,11 +140,15 @@ def scan():
             fn = node.name
             if fn in EXEMPT or fn.startswith(EXEMPT_PREFIXES) or fn.startswith("__"):
                 continue
-            # Membership in the single pre-built `used` set. The first version re-walked every
-            # tree for every function -- 95 modules x ~40,000 lines, per def -- and did not
-            # finish inside two minutes. A check nobody can afford to run is a check that does
-            # not run, which is the very thing this module exists to find.
-            if fn not in used:
+            # Membership in the pre-built sets. The first version re-walked every tree for every
+            # function -- 95 modules x ~40,000 lines, per def -- and did not finish inside two
+            # minutes. A check nobody can afford to run is a check that does not run, which is
+            # the very thing this module exists to find.
+            #
+            # TWO SETS, not one: `used` is the cross-module surface (attributes, from-imports,
+            # dispatch strings) and `used_local[name]` is what this module itself loads. A bare
+            # name in ANOTHER module cannot reach this function, which is the whole correction.
+            if fn not in used and fn not in used_local.get(name, ()):
                 dead.append("%s:%d %s()" % (name, node.lineno, fn))
 
         # --- TAUTOLOGY: a comparison whose sides are the same expression
