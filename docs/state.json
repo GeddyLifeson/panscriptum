@@ -1,5 +1,5 @@
 {
- "at": "2026-08-26 05:47:35",
+ "at": "2026-08-26 05:57:55",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -108,18 +108,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 263,
+     "left": 260,
      "cap": 500,
-     "frac": 0.526
+     "frac": 0.52
     },
     {
      "name": "rpm",
-     "left": 18,
+     "left": 19,
      "cap": 20,
-     "frac": 0.9
+     "frac": 0.95
     }
    ],
-   "worst": 0.526
+   "worst": 0.52
   },
   {
    "bucket": "cohere:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 17,
+     "left": 33,
      "cap": 1000,
-     "frac": 0.017
+     "frac": 0.033
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 0.8667
     }
    ],
-   "worst": 0.017
+   "worst": 0.033
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -308,15 +308,15 @@
    "windows": [
     {
      "name": "rpm",
-     "left": 28,
+     "left": 29,
      "cap": 30,
-     "frac": 0.9333
+     "frac": 0.9667
     },
     {
      "name": "rpd",
-     "left": 14136,
+     "left": 14133,
      "cap": 14400,
-     "frac": 0.9817
+     "frac": 0.9815
     },
     {
      "name": "tpd",
@@ -331,7 +331,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.9333
+   "worst": 0.9667
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -346,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 121488,
+     "left": 121588,
      "cap": 200000,
-     "frac": 0.6074
+     "frac": 0.6079
     },
     {
      "name": "rpm",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 66328,
+     "left": 67316,
      "cap": 100000,
-     "frac": 0.6633
+     "frac": 0.6732
     },
     {
      "name": "rpm",
@@ -410,9 +410,9 @@
     },
     {
      "name": "tpd",
-     "left": 81590,
+     "left": 82033,
      "cap": 200000,
-     "frac": 0.4079
+     "frac": 0.4102
     },
     {
      "name": "rpm",
@@ -576,9 +576,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 75,
+     "left": 91,
      "cap": 1000,
-     "frac": 0.075
+     "frac": 0.091
     },
     {
      "name": "rpm",
@@ -587,7 +587,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.075
+   "worst": 0.091
   },
   {
    "bucket": "openrouter:free",
@@ -682,8 +682,8 @@
     },
     {
      "name": "rpm",
-     "left": 2,
-     "cap": 2,
+     "left": 20,
+     "cap": 20,
      "frac": 1.0
     }
    ],
@@ -692,72 +692,77 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 105,
-  "per_hour": 420,
+  "calls": 54,
+  "per_hour": 216,
   "buckets": [
    {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 24,
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 15,
     "ok": 0
    },
    {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 21,
+    "bucket": "groq:groq/compound-mini",
+    "calls": 13,
     "ok": 0
    },
    {
     "bucket": "cloudflare:free",
-    "calls": 18,
+    "calls": 11,
     "ok": 0
    },
    {
-    "bucket": "sambanova:free",
-    "calls": 10,
-    "ok": 0
-   },
-   {
-    "bucket": "cohere:free",
-    "calls": 4,
+    "bucket": "hyperbolic:free",
+    "calls": 3,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 4,
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 1,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 4,
+    "calls": 1,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 4,
+    "calls": 1,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 4,
+    "calls": 1,
     "ok": 0
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 4,
+    "calls": 1,
     "ok": 0
    },
    {
     "bucket": "nvidia:free",
-    "calls": 2,
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "openrouter:free",
+    "calls": 1,
     "ok": 0
    },
    {
     "bucket": "zai:free",
-    "calls": 2,
+    "calls": 1,
     "ok": 0
    }
   ]
@@ -776,9 +781,9 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 170800,
+   "done": 171200,
    "total": 207487,
-   "detail": "197,957 pages  \u00b7  1839M characters  \u00b7  107.6/s",
+   "detail": "198,181 pages  \u00b7  1840M characters  \u00b7  69.2/s",
    "warn": "",
    "eta_h": 0.1
   }
@@ -797,7 +802,7 @@
    "read": 145765,
    "settled": 165471,
    "feats": 91400,
-   "age_h": 0.7
+   "age_h": 0.9
   },
   "phases": [
    {
@@ -844,39 +849,39 @@
   "swallowed": [
    [
     "silent:wiki_source.py:160:URLError",
-    1828
+    2461
    ],
    [
     "silent:wiki_source-page_text-section:URLError",
-    615
+    811
    ],
    [
     "silent:feats.py:139:URLError",
-    541
+    693
    ],
    [
     "ledger:unreadable",
     1
    ]
   ],
-  "swallowed_total": 2985
+  "swallowed_total": 3966
  },
  "metrics": [
   {
    "tag": "cascade:coding",
    "n": 1862,
    "p50": 0.5,
-   "p95": 13.3,
+   "p95": 13.8,
    "ok_pct": 15,
    "tps": null
   },
   {
    "tag": "ask",
-   "n": 106,
-   "p50": 139.1,
+   "n": 107,
+   "p50": 131.1,
    "p95": 903.0,
    "ok_pct": null,
-   "tps": 16.6
+   "tps": 16.1
   },
   {
    "tag": "ingest",
@@ -906,7 +911,7 @@
    "breached": [],
    "liveness": 38,
    "liveness_ceiling": 38,
-   "age_min": 32.8
+   "age_min": 43.1
   },
   "escalation_recent": {
    "SUPERVISOR": 149,
@@ -943,7 +948,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 420,
+   "observed": 216,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -979,7 +984,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "0% ok of 105",
+   "observed": "0% ok of 54",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -988,7 +993,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": false,
-   "observed": "local, 1 of 16 permits (0 answering (proof is 1.2h old); 0% ok over 105 calls; ollama up)",
+   "observed": "local, 1 of 16 permits (0 answering (proof is 1.4h old); 0% ok over 54 calls; ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1033,7 +1038,7 @@
    "standard": "page roll complete",
    "group": "read",
    "holds": false,
-   "observed": "82%",
+   "observed": "83%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -1042,7 +1047,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.7h",
+   "observed": "0.9h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1096,7 +1101,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": false,
-   "observed": "3,010",
+   "observed": "3,991",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1159,7 +1164,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 2 of 6 benchmarks done, started 2.8h ago -- pending: Monkey D. Luffy, Naruto Uzumaki, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 2 of 6 benchmarks done, started 2.9h ago -- pending: Monkey D. Luffy, Naruto Uzumaki, Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1195,7 +1200,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "5.7h",
+   "observed": "5.8h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1221,8 +1226,8 @@
   {
    "standard": "every running job is advancing",
    "group": "machine",
-   "holds": true,
-   "observed": "5 running, all advancing",
+   "holds": false,
+   "observed": "pipeline_auto (21 min, 87163 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1231,7 +1236,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "github:free: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x3, 0.0h old); cerebras:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) (x1, 0.1h old); ai21:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `ai21:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ai21:free` is at fault. (x1, 0.2h old); nebius:free: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `nebius:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `nebius:free` is at fault. (x2, 0.2h old); anthropic:paid: All 1 candidates failed: Llama 3.1 8B (Groq) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x1, 0.2h old); github:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x1, 0.2h old); gemini:models/gemini-2.5-flash-lite: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash-lite` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash-lite` is at fault. (x1, 0.6h old); gemini:models/gemini-2.5-flash: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash` is at fault. (x1, 0.6h old); anthropic:paid: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x2, 0.7h old); github:free: All 1 candidates failed: Qwen2.5 72B (Hyperbolic) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x1, 1.0h old); mistral:free: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) (x1, 1.0h old); chutes:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) (x1, 2.1h old); github:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x2, 2.5h old); cerebras:free: All 1 candidates failed: Gemini 3.1 Flash-Lite (x2, 9.4h old); mistral:free: All 1 candidates failed: Qwen3 Coder 480B (NVIDIA) (x1, 21.0h old); github:free: All 1 candidates failed: Qwen3 Coder 480B (NVIDIA) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x1, 23.3h old); mistral:free: all 1 candidates failed: llama 3.3 70b (groq) (x1, 23.9h old)",
+   "observed": "github:free: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x3, 0.2h old); cerebras:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) (x1, 0.3h old); ai21:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `ai21:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ai21:free` is at fault. (x1, 0.3h old); nebius:free: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `nebius:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `nebius:free` is at fault. (x2, 0.3h old); anthropic:paid: All 1 candidates failed: Llama 3.1 8B (Groq) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x1, 0.4h old); github:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x1, 0.4h old); gemini:models/gemini-2.5-flash-lite: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash-lite` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash-lite` is at fault. (x1, 0.7h old); gemini:models/gemini-2.5-flash: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash` is at fault. (x1, 0.8h old); anthropic:paid: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x2, 0.9h old); github:free: All 1 candidates failed: Qwen2.5 72B (Hyperbolic) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x1, 1.2h old); mistral:free: All 1 candidates failed: Qwen2.5 Coder 32B (Cloudflare) (x1, 1.2h old); chutes:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) (x1, 2.3h old); github:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x2, 2.6h old); cerebras:free: All 1 candidates failed: Gemini 3.1 Flash-Lite (x2, 9.6h old); mistral:free: All 1 candidates failed: Qwen3 Coder 480B (NVIDIA) (x1, 21.2h old); github:free: All 1 candidates failed: Qwen3 Coder 480B (NVIDIA) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x1, 23.5h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1361,12 +1366,12 @@
   },
   {
    "metric": "standards met",
-   "now": 30,
-   "delta": 0,
+   "now": 29,
+   "delta": -1,
    "minutes": 31,
-   "reset": false,
-   "stalled": true
+   "reset": true,
+   "stalled": false
   }
  ],
- "generated": "2026-08-26T05:47:38"
+ "generated": "2026-08-26T05:58:01"
 }
