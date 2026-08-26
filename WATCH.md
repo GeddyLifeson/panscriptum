@@ -1,22 +1,22 @@
 # OVERWATCH
 
-round 80  ·  last run 2026-08-26 10:00
+round 81  ·  last run 2026-08-26 10:48
 
 ## Structure
 
-- modules that will not import: **0**
+- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
 - files that will not parse: **0** of 198,069 inspected
 - catalogued sources with no host: **15** Clockwork Angels (Rush), Curious DM Investigations (the Sharkin), Genuine Fantas
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**2 open** (2 high). Newest first.
+**2 open** (1 high). Newest first.
 
-- **cascade_bridge.py** `got` — [HIGH] the code uses `if got` to check for truthiness, but the comment says it should guard against the reply shape that would raise an AttributeError
-  - says: if got is TRUTHINESS, not type. `_extract_json` can return a list, and a non-empty list is truthy
-- **binding_health.py** `quarantine` — [HIGH] Attempts to record a host as failing but may not persist the record to disk if the write fails, leading to potential silent skips and incomplete records.
+- **binding_health.py** `quarantine` — [HIGH] If the write to disk fails, it still records the host as quarantined in memory but does not escalate the failure to write, leading to potential inconsistencies.
   - says: Record a host as failing, WITH ITS REASON. Never a silent skip, never a deletion.
+- **catalogue_models.py** `stale` — [MEDIUM] the code appends entries to stale with the available models, which are the names, not the keys
+  - says: the keys work; the names do not.
 
 ---
 
