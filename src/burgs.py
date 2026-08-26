@@ -50,12 +50,13 @@ and check the exponent against q = 1. Until that is done these are modelled, not
 """
 import argparse
 import hashlib
-import json
 import os
 import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import silence          # noqa: E402  -- after the sys.path line above, as every module here does
 
 # Zipf exponent. q = 1 is the classical rank-size rule and the neutral choice; real regions
 # scatter around it, and exposing it means a Custos can argue with it rather than discover it
@@ -241,12 +242,26 @@ def main():
         # taken from the dict that was actually written, so the message cannot drift again.
         # The FILENAME still says SAMPLE and is left alone on purpose: renaming an on-disk
         # artifact is a curatorial call, not a maintenance one.
+        #
+        # THE WRITE ITSELF WAS A TRUNCATE-THEN-FILL. A bare `open(p, "w")` empties the artifact
+        # before a single world is serialised, so a reader arriving in that gap sees a partial
+        # or zero-byte file and a crash in the gap leaves it that way permanently. This is the
+        # twelve-call-site defect `silence.write_json` was written for; route through it and the
+        # file is built under a pid+thread-stamped temp name and renamed into place.
+        #
+        # AND THE MESSAGE IS GATED ON THE VERDICT. `write_json` returns False on a denied
+        # rename (Windows, a reader holding the target) rather than raising, so printing
+        # "wrote {p}" unconditionally would report an artifact that is not there -- the same
+        # shape as the drifted count this branch already carries a comment about.
         p = os.path.join(HERE, "data", "BURGS_SAMPLE.json")
-        with open(p, "w", encoding="utf-8") as f:
-            json.dump(per_world, f, indent=2,          # every world; Hard Rule 0
-                      ensure_ascii=False)
-        print(f"\nwrote {p} ({len(per_world):,} worlds — every one, Hard Rule 0; "
-              f"the SAMPLE in the filename is historical)")
+        if silence.write_json(p, per_world, indent=2,   # every world; Hard Rule 0
+                              ensure_ascii=False):
+            print(f"\nwrote {p} ({len(per_world):,} worlds — every one, Hard Rule 0; "
+                  f"the SAMPLE in the filename is historical)")
+        else:
+            print(f"\nDID NOT WRITE {p}: the rename was refused (most likely a reader holding "
+                  f"it open). Nothing was changed on disk — re-run to write it.", file=sys.stderr)
+            return 1
     return 0
 
 

@@ -75,10 +75,24 @@ def _load(path, default):
 
 
 def _land(path, obj):
+    """Write the JSON. -> True if it LANDED on disk, False if the rename was refused.
+
+    GATE ON THE WRITE. `silence.replace_retry` returns whether the rename succeeded and, by its
+    own docstring, deliberately never raises on persistent denial ("the caller's write lands next
+    round") -- which is right for a metrics file and wrong for this one. This function discarded
+    that verdict, so under the WinError 5 collision that helper exists for (a reader holding the
+    target open; it took an assay worker down once already, 2026-08-23) `quarantine()` returned a
+    record that looked committed, and ESCALATED it, while `HOST_QUARANTINE.json` was untouched.
+    `quarantined()` re-reads from disk on every call and has no cache, so the very next check
+    would not see it -- and here that failure mode points the wrong way twice: the operator is
+    told a rotten host has been closed off when it has not, so mining keeps hitting it and its
+    empty results keep being filed as honest absences, which is this module's whole subject.
+    `suppressions._land` gates on the identical verdict for the identical reason.
+    """
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(obj, f, indent=1, sort_keys=True, ensure_ascii=False)
-    silence.replace_retry(tmp, path)
+    return silence.replace_retry(tmp, path)
 
 
 def quarantined():
@@ -100,22 +114,42 @@ def quarantine(host, reason, last_good=None):
                "retry_after": time.time() + RETRY_AFTER_S,
                "last_good": last_good if last_good is not None else prev.get("last_good"),
                "times": int(prev.get("times", 0)) + 1}
-    _land(QUARANTINE, q)
+    # THE ESCALATION MUST DESCRIBE WHAT IS ON DISK. A refused rename leaves the host UNQUARANTINED
+    # -- `quarantined()` reads the file every call -- so raising HOST_QUARANTINED for it would put
+    # a lie in the escalation ledger and close a case that was never opened. Raise the failure to
+    # write instead, which is the actionable finding, and carry the verdict out in the record so
+    # a caller cannot mistake an attempted quarantine for a recorded one.
+    landed = _land(QUARANTINE, q)
+    q[host]["landed"] = landed
     try:
         import escalation as ESC
         # SUPERVISOR, not OWNER: one host failing closes that area of the park, never the park.
-        ESC.escalate(ESC.SUPERVISOR, "HOST_QUARANTINED",
-                     "%s quarantined: %s" % (host, reason), source=host, who="binding_health")
+        if landed:
+            ESC.escalate(ESC.SUPERVISOR, "HOST_QUARANTINED",
+                         "%s quarantined: %s" % (host, reason), source=host, who="binding_health")
+        else:
+            ESC.escalate(ESC.SUPERVISOR, "HOST_QUARANTINE_NOT_RECORDED",
+                         "%s should be quarantined (%s) but HOST_QUARANTINE.json could not be "
+                         "written (rename refused) -- the host is NOT quarantined and will keep "
+                         "being mined" % (host, reason), source=host, who="binding_health")
     except Exception:
         silence.note("binding_health.py:escalate")
     return q[host]
 
 
 def release(host, why="canary passed"):
+    """Lift a quarantine. -> the reason it was lifted, or a reason saying it was NOT.
+
+    A release that does not reach disk leaves the host quarantined while the caller is told it
+    is free, which is the mirror of the `quarantine()` lie and just as expensive: coverage stays
+    switched off and the log says it was switched back on.
+    """
     q = _load(QUARANTINE, {}) or {}
     if host in q:
         q.pop(host, None)
-        _land(QUARANTINE, q)
+        if not _land(QUARANTINE, q):
+            return ("NOT RELEASED: HOST_QUARANTINE.json could not be written (rename refused); "
+                    "%s is still quarantined despite: %s" % (host, why))
     return why
 
 
@@ -400,7 +434,12 @@ def run(limit=None, only=None):
             # quarantine that outlives the reasoning behind it is just an outage nobody
             # remembers starting. The binding is still suspect and is still reported.
             release(h, "host is reachable; the failure was in the titles, not the host")
-    _land(OUT, {"at": time.time(), "checked": len(out), "failed": failed, "hosts": out})
+    if not _land(OUT, {"at": time.time(), "checked": len(out), "failed": failed, "hosts": out}):
+        # The canary results are still returned -- the run happened -- but anything reading
+        # BINDING_HEALTH.json will be looking at the PREVIOUS round's verdicts, so say so here
+        # rather than let a stale report pass for a fresh one.
+        print("binding_health: %s could not be written (rename refused); the file on disk is "
+              "from an earlier run, not this one" % os.path.basename(OUT), file=sys.stderr)
     return out, failed
 
 

@@ -4541,6 +4541,85 @@ check("every pipeline phase that lands artifacts consults gate_done()",
       note="gate_done is the only thing that reads the write verdicts; a phase that writes "
            "artifacts and never calls it has opted out of the check without saying so")
 
+# ---------------------------------------------------------------------------------------- 20t
+# THE SENTENCE IN THE CHARTER, MADE TRUE.
+#
+# CLAUDE.md's Hard Rule -1 says, of the halt: "`escalation.clear()` demands a written ruling and
+# is asserted by `verify_math` to have no caller anywhere in `src/`." Run #33 grepped for that
+# assertion and it was not here. The only enforcement anywhere was `drill.py:_no_programmatic_
+# clear`, a LITERAL SUBSTRING SCAN for two exact spellings -- "escalation.clear(" and
+# "ESC.clear(" -- which `import escalation as X; X.clear()`, `getattr(esc, "clear")()` and
+# `from escalation import clear` all walk straight past. The guarantee was weaker than the
+# charter described it, in both its mechanism AND its location, which is the worse half: anyone
+# checking the claim looked in the wrong file and found nothing, and a check that cannot be
+# found looks exactly like a check that passed.
+#
+# So it is asserted here, where the charter says it is, and by parsing rather than by grepping.
+# The module-alias set is resolved per file, so a rename cannot hide a call, and the three
+# dynamic spellings the substring scan missed are each named below.
+#
+# TWO FILES ARE EXEMPT, both deliberately. `escalation.py` defines `clear` and calls it from its
+# own CLI, which is the one sanctioned caller. `drill.py`'s job is to ATTACK the guard: it calls
+# `clear` in several spellings precisely to assert that each one is refused, so an AST check
+# that flagged the drill would be forbidding the test that proves the rule.
+#
+# This is the static half. The RUNTIME half landed the same day inside `clear()` itself, which
+# now refuses any call that did not come from a person at this module's own CLI -- so the
+# guarantee no longer rests on any scan, and this check exists to catch a caller being ADDED.
+import ast as _ast20t
+_src20t = os.path.dirname(os.path.abspath(__file__))
+_callers20t = []
+for _f20t in sorted(os.listdir(_src20t)):
+    if not _f20t.endswith(".py") or _f20t in ("escalation.py", "drill.py"):
+        continue
+    _p20t = os.path.join(_src20t, _f20t)
+    try:
+        with open(_p20t, encoding="utf-8") as _fh20t:
+            _tree20t = _ast20t.parse(_fh20t.read(), filename=_f20t)
+    except (OSError, SyntaxError) as _e20t:
+        # An unparseable module is NOT a pass. It is a file this check could not read, which is
+        # exactly the shape ("absence read as clean") the whole project is built against.
+        _callers20t.append("%s: UNPARSEABLE (%s)" % (_f20t, type(_e20t).__name__))
+        continue
+    # Every name this file binds the escalation MODULE to, and every name it binds `clear` to.
+    _mods20t, _direct20t = set(), set()
+    for _n20t in _ast20t.walk(_tree20t):
+        if isinstance(_n20t, _ast20t.Import):
+            for _a20t in _n20t.names:
+                if _a20t.name == "escalation":
+                    _mods20t.add(_a20t.asname or "escalation")
+        elif isinstance(_n20t, _ast20t.ImportFrom) and _n20t.module == "escalation":
+            for _a20t in _n20t.names:
+                if _a20t.name == "clear":
+                    _direct20t.add(_a20t.asname or "clear")
+    for _n20t in _ast20t.walk(_tree20t):
+        if not isinstance(_n20t, _ast20t.Call):
+            continue
+        _fn20t = _n20t.func
+        # 1. the aliased attribute call the substring scan could not see: X.clear(...)
+        if (isinstance(_fn20t, _ast20t.Attribute) and _fn20t.attr == "clear"
+                and isinstance(_fn20t.value, _ast20t.Name) and _fn20t.value.id in _mods20t):
+            _callers20t.append("%s:%d %s.clear()" % (_f20t, _n20t.lineno, _fn20t.value.id))
+        # 2. the from-import, which has no module name in the call at all
+        elif isinstance(_fn20t, _ast20t.Name) and _fn20t.id in _direct20t:
+            _callers20t.append("%s:%d %s()  [from escalation import clear]"
+                               % (_f20t, _n20t.lineno, _fn20t.id))
+        # 3. dynamic dispatch: getattr(<escalation>, "clear")(...)
+        elif (isinstance(_fn20t, _ast20t.Call) and isinstance(_fn20t.func, _ast20t.Name)
+                and _fn20t.func.id == "getattr" and len(_fn20t.args) >= 2
+                and isinstance(_fn20t.args[0], _ast20t.Name)
+                and _fn20t.args[0].id in _mods20t
+                and isinstance(_fn20t.args[1], _ast20t.Constant)
+                and _fn20t.args[1].value == "clear"):
+            _callers20t.append("%s:%d getattr(%s, 'clear')()"
+                               % (_f20t, _n20t.lineno, _fn20t.args[0].id))
+
+check("escalation.clear() has no caller anywhere in src/ -- by AST, not by grep",
+      _callers20t, [],
+      note="CLAUDE.md Hard Rule -1 states this is asserted HERE; until run #34 it was not "
+           "asserted anywhere but a literal substring scan in drill.py that an import alias, a "
+           "from-import or a getattr walked straight past")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

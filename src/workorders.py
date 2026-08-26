@@ -174,24 +174,69 @@ def battery_faults(preflight=None, allsweep=None, now=None):
     return out
 
 
-def _load():
+def _load(with_digest=False):
+    """The open queue. -> {id: order}, or ({id: order}, digest) when the caller intends to write.
+
+    The digest is read BEFORE the file, never after, so it describes the copy the caller is
+    about to modify. Reading it afterwards would be a race with no CAS at all: another writer
+    landing in between would leave a digest that matches the file we did not read.
+    """
+    digest = silence.digest_of(OPEN_FILE) if with_digest else None
     try:
         with open(OPEN_FILE, encoding="utf-8") as f:
             d = json.load(f)
-        return d if isinstance(d, dict) else {}
+        d = d if isinstance(d, dict) else {}
     except FileNotFoundError:
-        return {}
+        d = {}
     except Exception:
         silence.note("workorders.py:load")
-        return {}
+        d = {}
+    return (d, digest) if with_digest else d
 
 
-def _land(d):
+def _mutate(change, attempts=8):
+    """Read-modify-write the queue under COMPARE-AND-SWAP. -> (landed, value from `change`).
+
+    WHY THIS IS NOT A PLAIN WRITE, and it was one until run #34 watched it fail. `file_order`
+    and `resolve` were unlocked read-modify-writes over the whole queue landing through a single
+    FIXED temp name (`workorders.json.tmp`) -- both halves of the hazard `silence.write_json`'s
+    own docstring documents. Under twelve agents working the queue concurrently, a `--resolve`
+    reported "no such open order" for an id demonstrably in the file and succeeded on retry: a
+    sibling had landed a snapshot taken before that order existed.
+
+    The retry is not the interesting part. The SILENCE is. A lost close silently REOPENS work
+    that was actually done -- the order reappears and the next run redoes it -- and a lost file
+    silently DROPS a finding a detector paid to make. Neither shows up anywhere: the write
+    succeeds, it just writes the wrong thing. That is this project's signature failure, and the
+    queue that tracks it was the last place still exposed to it.
+
+    So the whole read-modify-write retries against a digest taken at read time, exactly as
+    `runguard.claim()` was given the same treatment on the same day. A caller whose change is
+    refused for staleness re-reads and re-applies it against the fresh copy, which is why
+    `change` must be a pure function of the dict it is handed and must not have side effects of
+    its own -- `resolve` appends to the paper trail only AFTER this returns landed.
+    """
+    import time as _t
     os.makedirs(os.path.dirname(OPEN_FILE), exist_ok=True)
-    tmp = OPEN_FILE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(d, f, indent=1, sort_keys=True, ensure_ascii=False)
-    silence.replace_retry(tmp, OPEN_FILE)
+    for a in range(attempts):
+        d, digest = _load(with_digest=True)
+        value = change(d)
+        tmp = "%s.%d.%d.tmp" % (OPEN_FILE, os.getpid(), a)
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(d, f, indent=1, sort_keys=True, ensure_ascii=False)
+        landed, why = silence.replace_if_unchanged(tmp, OPEN_FILE, digest)
+        if landed:
+            return True, value
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        _t.sleep(0.05 * (a + 1))
+    # Never raises: a queue write that cannot land is recorded and reported to the caller, which
+    # is the established behaviour for every shared write here. What must NOT happen is a caller
+    # believing it landed.
+    silence.note("workorders.py:queue-write-lost")
+    return False, None
 
 
 def order_id(code, where=""):
@@ -219,19 +264,32 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
                        "order nobody works" % (handler, LADDER))
     if severity not in SEVERITY:
         raise BadOrder("severity %r is not one of %s" % (severity, SEVERITY))
-    d = _load()
     oid = order_id(code, where)
     now = time.time()
-    prev = d.get(oid) or {}
-    d[oid] = {"id": oid, "code": str(code), "what": str(what)[:600], "handler": handler,
-              "severity": severity, "where": str(where)[:200],
-              "evidence": evidence if isinstance(evidence, (dict, list)) else
-              (None if evidence is None else str(evidence)[:400]),
-              "found_by": str(found_by or "")[:80],
-              "first_seen": prev.get("first_seen", now), "last_seen": now,
-              "seen": int(prev.get("seen", 0)) + 1}
-    _land(d)
-    return d[oid]
+
+    def _change(d):
+        # Pure in `d`: `_mutate` may hand this a FRESH copy and re-apply it after a stale-write
+        # refusal, so `seen` and `first_seen` must be re-derived from whatever copy arrives --
+        # not captured once from the first read. That is the whole point of re-applying rather
+        # than retrying the write: a concurrent refresh of the same fault is not lost.
+        prev = d.get(oid) or {}
+        d[oid] = {"id": oid, "code": str(code), "what": str(what)[:600], "handler": handler,
+                  "severity": severity, "where": str(where)[:200],
+                  "evidence": evidence if isinstance(evidence, (dict, list)) else
+                  (None if evidence is None else str(evidence)[:400]),
+                  "found_by": str(found_by or "")[:80],
+                  "first_seen": prev.get("first_seen", now), "last_seen": now,
+                  "seen": int(prev.get("seen", 0)) + 1}
+        return d[oid]
+
+    landed, rec = _mutate(_change)
+    if not landed:
+        # A finding that did not reach the queue must not be reported as filed. The caller
+        # decides what to do about it; what it may not do is believe the order exists.
+        sys.stderr.write("workorders: ORDER NOT FILED (%s) -- the queue write did not land after "
+                         "retries; this finding is NOT in state/workorders.json\n" % code)
+        return None
+    return rec
 
 
 def resolve(oid, how, by=""):
@@ -251,12 +309,25 @@ def resolve(oid, how, by=""):
         raise BadOrder("a resolution is required to close %s. A closed order with no resolution "
                        "recorded is indistinguishable from one deleted to tidy the queue, and "
                        "the paper trail is the whole reason deleting it is safe." % oid)
-    d = _load()
-    rec = d.pop(oid, None)
+    popped = {}
+
+    def _change(d):
+        rec = d.pop(oid, None)
+        if rec is not None:
+            rec.update({"resolved_at": time.time(), "resolution": how[:400], "resolved_by": by})
+        popped["rec"] = rec
+        return rec
+
+    landed, rec = _mutate(_change)
     if rec is None:
         return None
-    rec.update({"resolved_at": time.time(), "resolution": how[:400], "resolved_by": by})
-    _land(d)
+    if not landed:
+        # THE PAPER TRAIL IS APPENDED ONLY AFTER THE DELETION LANDS. Appending first would write
+        # a closed-log entry for an order still sitting open -- the two files would disagree, and
+        # the closed log is what the next run trusts when it reconciles them.
+        sys.stderr.write("workorders: ORDER NOT CLOSED (%s) -- the queue write did not land after "
+                         "retries; it is still open and NOT in the paper trail\n" % oid)
+        return None
     try:
         os.makedirs(os.path.dirname(CLOSED_LOG), exist_ok=True)
         with open(CLOSED_LOG, "a", encoding="utf-8") as f:
@@ -499,7 +570,10 @@ def sweep_detectors():
     except Exception:
         _detector("drill-close", False)
 
-    return filed, closed
+    # `file_order` returns None for a finding whose queue write did not land (it says so on
+    # stderr). Those must not be counted as filed -- "swept: N filed" over an order that is not
+    # in the file is the same lie as a green check that never ran.
+    return [f for f in filed if f], closed
 
 
 def main():

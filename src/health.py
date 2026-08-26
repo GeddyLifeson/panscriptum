@@ -99,7 +99,24 @@ def flush():
             # An unreadable ledger must not be quietly replaced by an empty one -- that would
             # make the failure-recorder itself the sixteenth instance of the defect it exists
             # to expose. Keep the corrupt file and say so.
-            os.replace(LEDGER_PATH, LEDGER_PATH + ".corrupt")
+            #
+            # THE PRESERVATION WAS A BARE `os.replace` WITH NOTHING AROUND IT. On Windows the
+            # rename is DENIED while any reader holds failures.json open -- the WinError 5 class
+            # `silence.replace_retry` exists for, and this is the highest-traffic shared file in
+            # the project, polled by the dashboard and read by standards. `flush()` is armed via
+            # `atexit` by `silence.note`, so a PermissionError here escapes an atexit handler:
+            # the recorder's own self-heal becomes the crash. Same treatment the samples ledger
+            # beside it already has.
+            #
+            # PRESERVATION IS THE PRECONDITION, NOT A COURTESY. If the wreck cannot be set
+            # aside, this flush writes NOTHING: overwriting an unreadable ledger we could not
+            # first preserve would destroy the only copy of whatever tore it. LEDGER is left
+            # intact so the counts are still in memory for the next flush attempt.
+            if not silence.replace_retry(LEDGER_PATH, LEDGER_PATH + ".corrupt"):
+                print(f"health: ledger unreadable ({type(e).__name__}) AND could not be set "
+                      f"aside as failures.json.corrupt (rename refused) -- refusing to write "
+                      f"over it; counts kept in memory for the next flush", file=sys.stderr)
+                return
             prev = {"ledger:unreadable": 1}
             print(f"health: ledger unreadable ({type(e).__name__}); "
                   f"kept as failures.json.corrupt", file=sys.stderr)
