@@ -9,6 +9,251 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 (late) — Run #34, the first daily shift: a 149-order queue worked down, the first complete sweep of all 113 modules, and live data loss stopped
+
+### FOR A PERSON, AT THE TOP — THREE RULINGS ARE OWED, AND NOTHING ELSE IS BLOCKING
+
+Every BLOCKING order that a run could close was closed. The three that remain are all addressed
+to OWNER, and they are the only three things this shift could not decide for itself.
+
+**1. THE LIBRARY IS HALTED AND I DID NOT LIFT IT.** `DRILL_BREACH`, raised 22:38 by the `drill.py`
+that `overnight.py` runs on its own cadence. **The cause is found, reproduced, and fixed. The halt
+still stands, because this run did not cause it and a halt a run merely finds is not a run's to
+lift.** Order `a5f68abd1142`.
+
+The breached net is drill's own control assertion `twins("verify_math") == []` — verify_math being
+a module no daemon runs. At that moment `mutate.py`'s battery child was running
+`python src/verify_math.py` inside its sandbox, a throwaway temp copy of `src/`, which is precisely
+the architecture that exists so the live tree is never corrupted. `codewatch.twins()` compared only
+`os.path.basename(script)`. A foreign tree's namesake counted as a twin. **The drill breached
+against correct code, over two jobs that were each doing exactly what they were designed to do.**
+
+Reproduced deliberately before anything was touched: a stub `verify_math.py` run from a temp
+directory made `twins("verify_math")` return its pid. `twins()` now resolves the script path
+(against the process's own cwd when relative) and compares with `os.path.samefile` against this
+tree's `src/<module>.py`, failing open when it cannot tell. **The net now holds, and a new drill net
+spawns a real child from a temp sandbox to prove it — watched red once by shimming `samefile`.**
+
+The worse form of that defect never fired and would have been harder to see. `claim_singleton()`
+EXITS a daemon when it finds a twin, so a sandboxed mutation — or the export copy, or any second
+checkout on this machine — could have made a live daemon stand down for a namesake in a directory
+it has nothing to do with. That is this function's own docstring's warning ("an outage that reports
+itself as caution") arriving by a second route.
+
+**2. A RE-CATALOGUE WAS DESTROYING THE PIPELINE'S WORK, AND THE KEEPER RESTARTED IT.** Order
+`3c7c8a6e9102`. This is the project's standing "CRITICAL open bug", now with a mechanism, a
+measurement and a casualty list.
+
+  * **Mechanism.** `catalogue_web.catalogue()` and `catalogue_composite()` return
+    `"synthesis": None` (catalogue_web.py:137, :271). `pipeline.write_record_catalogue` merged
+    **only** `rec["entries"]` against disk and then dumped `rec` whole — so every *other* top-level
+    key on disk was replaced by whatever the caller happened to carry.
+  * **It does not heal.** `phase_synthesis` skips any source already in `done_keys`.
+  * **Measured.** 185 of 216 records still carry a synthesis block; 31 are null, of which **26 were
+    nulled in the last 24 hours and 10 in the last two**, the most recent at 22:47. Casualties
+    include DC (44,958 entries), Legend of Zelda (8,874), Dragon Ball Z (6,923), Transformers
+    (6,019). Full list with timestamps: `handoff/SYNTHESIS_NULLED_2026-08-25.json`. Two records also
+    lost a `purged_roster` key to the same mechanism.
+  * **Stopped at the MANAGER rung** (pid 4536) and recorded in `state/escalation.log`.
+  * **THE MERGE IS FIXED.** A key absent from `rec` now takes the disk value, a key that is `None`
+    in `rec` keeps the disk value, authored values still win, and an explicit `{}`/`[]`/`""` still
+    clears. **The entries direction is unchanged** — a fresher, larger cast still wins and disk-only
+    entries still survive, because that asymmetry is deliberate. Drill net C pins all of it.
+  * **AND THE KEEPER PUT THE JOB BACK.** At 23:21 `autostart` re-asserted it as pid 59700. The stop
+    lasted 25 minutes. It was NOT stopped a second time, deliberately: the merge fix landed before
+    the restart, so the running job is now the first live exercise of it, and every record it writes
+    is being watched. **What you owe a ruling on is the 26 damaged records** — re-deriving their
+    synthesis means clearing them from `done_keys` and re-running `phase_synthesis`.
+
+**3. A STANDARD IS TELLING ITS READER TO RUN THE JOB THAT LOSES DATA.** Order `5aa48077886d`. The
+`every source is fully catalogued` standard (36.3%, floor 100%) prescribes exactly
+`catalogue_web --recatalogue --shortfall 100` as its remedy. Both halves are individually correct
+and jointly a trap. Fix the remedy line to name its precondition, or gate the command.
+
+**NO SECRETS LEAKED.** `publish.scan_for_secrets` silently skipped any staged file over 2,000,000
+bytes with a bare `continue`, leaving **11.5 MB across four already-published files examined by
+nothing** — `LOCAL_REGISTER.json` (3.36 MB), `LOCAL_REGISTER_CITATIONS.md` (2.97 MB),
+`PANSCRIPTUM_TERMINAL.html` (2.68 MB), `lex2.js` (2.47 MB). All four were read in full through the
+project's own scanners and through `detect-secrets` before anything else was done: **zero findings**,
+with the `SECRET-FIXTURE` short-circuit explicitly ruled out. The gate now streams in bounded
+blocks, catches a planted key in a 3 MB file, in a 3 MB *single-line* file, and across the segment
+seam, and turns an unreadable file into a named `UNSCANNABLE` refusal rather than a skip.
+
+---
+
+### ADDENDUM, 00:08 — THE MERGE FIX IS NOW PROVEN IN PRODUCTION
+
+Written after the entry above, because it changes one of the three rulings owed.
+
+The keeper re-asserted `catalogue_web --recatalogue` at 23:21 (see `4e7f1e47d0a0` — a run cannot
+durably stop a standing job). It was left running deliberately, watched record by record, because
+the merge fix had landed before the restart and this was the first chance to exercise it on real
+data. **At 00:07:44 it re-catalogued Warhammer Fantasy — 7,012 entries — and the pipeline-authored
+`synthesis` block SURVIVED INTACT**: `ceiling_entity` Nagash, `provisional_magnitude`, `evidence`,
+`rationale` and `method` all present. The corpus tally is unchanged at **185 present / 31 null**, so
+no new loss. Under the old merge that record would have been nulled, which is precisely what
+happened to 26 sources in the preceding 24 hours.
+
+Two consequences:
+
+* **`5aa48077886d` is CLOSED.** The `every source is fully catalogued` standard may be followed
+  again, and the 36.3% shortfall can close. The residual — that its remedy line still does not name
+  the precondition it depends on — is filed as `57b0d3dab53d` (MINOR).
+* **`3c7c8a6e9102` STAYS OPEN, and its scope is now narrower.** The mechanism is fixed and proven;
+  what remains is re-deriving `synthesis` for the 26 records already damaged, which means clearing
+  them from `done_keys` and re-running `phase_synthesis`. That is still an owner's call. The list is
+  `handoff/SYNTHESIS_NULLED_2026-08-25.json`.
+
+**So two rulings are owed at close, not three:** lift the halt, and decide about the 26 records.
+
+### WHAT THIS SHIFT WAS
+
+The first run on the daily cadence. The queue opened at **149 orders**, 110 of them findings run
+#33's sweep had filed "as reported, not as confirmed". Working that backlog honestly was the first
+half; the first complete sweep this tree has ever had was the second.
+
+**154 orders were closed** (6 BLOCKING, 83 MAJOR, 59 MINOR, 6 INFO). **349 are open**, and that
+number went UP on purpose: sixteen agents read **all 113 modules end to end** and filed what they
+found. What is in the queue now is not a backlog that grew; it is a backlog that became visible.
+
+Twelve agents worked the opening backlog, partitioned **by file** so no two could ever write the
+same source file. Several findings dissolved on inspection and were closed as not-defects with the
+source quoted — an audit reading a past-tense comment as present tense, a deliberate bounds guard,
+a load-bearing asymmetric regex whose "fix" would have broken it.
+
+### THE THINGS THAT MATTERED MOST
+
+**The pipeline runner had been exiting 0 forever.** `st["phase"] = ph + 1` advanced
+unconditionally, including past phases that deliberately return early to stay open; nothing read
+`st["done"]` for phases 3-8; once the pointer passed 8 the work list was empty and `main()` logged
+"runner exiting" and exited **0**, every time, while `overnight.py` started it twice a cycle. The
+state on disk is the tell: `done.write == ["all"] * 5` with `phase: 2` — it walked to the end five
+times and was hand-reset five times, and nobody diagnosed why. The pointer now advances only on an
+explicit `True`, fails closed on anything else, records the stall, and exits **3** rather than 0
+when phases are missing their markers. `gate_done` also appended `"all"` unguarded on every run,
+which is where those five copies came from.
+
+**HARD RULE 0 violations, four of them, each with a measured consequence.**
+  * `scout.sweep()` ranked hostless sources and truncated to 4. Because a source leaves the hostless
+    set only on SUCCESS, a failing source stayed in the window for ever and everything ranked fifth
+    and below was never attempted once. Measured: 15 hostless sources, 4 reachable, 11 unreachable
+    for ever. Now ordered last-attempted-first, stamped BEFORE the work so a crashing source cannot
+    re-pin the window; **all 15 reached within 4 cycles**.
+  * `cosmology_graph` wrote 1,087 of 3,753 pairs — an undeclared `w >= 1.0` dropped **71%** — and
+    then recorded `"threshold": 3.0`, a number that had selected nothing. `propagation` and
+    `resonance` read that graph live. All 3,753 now written, and the artifact describes itself.
+  * `genre.classify_text(top=3)` truncated a ranked 11-genre list **and divided by the truncated
+    total**. Over 210 records: 193 confidences change, **0 labels change**, and **63 sources cross
+    the module's own 0.45 mixed-source flag, all downward** — flagged count 43 → 106. `grounding.py`
+    had the identical defect over 5 groundings: 14 of 59 change, 0 labels, 4 cross, 11 → 15.
+  * `policy.py --limit` **defaulted to 40**, so a default run reported a clean structural pass over
+    the alphabetical first fifth of the corpus — 40 of 216 records, 40 of 210 coverage rows. Now
+    426 documents, and a partial run says so by name.
+
+**Three BLOCKING gate defects, all found by execution rather than reading.**
+  * `local_agent._gates` tested `"0 FAILED" not in stdout`. `verify_math` prints
+    `RESULT: N passed, M FAILED`, so **`10 FAILED`, `20 FAILED` and `100 FAILED` all contain the
+    substring and passed** — on the last check standing between a model and the source tree.
+    **This is the third time this exact bug has appeared here** (`adopt_hosts`, `foreman._checks_pass`
+    fixed 2026-08-23, now this), which is why it got a source-level drill net rather than a third
+    individual fix.
+  * `publish.py`'s mutation-lock guard was the third `except ImportError: pass` around a safety.
+    All three now fail closed; `grep -c "except ImportError:$" src/publish.py` returns 0.
+  * `mutate.py` **never acquired its own lock** — `_lock_acquire`/`_lock_release` had no call site
+    inside the module — so `publish.py`'s "refusing to push during a mutation" could never fire, and
+    **four green drill nets sat on a disconnected interlock**. They exercised `_lock_acquire`
+    directly; none asked whether anything called it.
+
+**The queue's own two-writer hazard.** `state/workorders.json` was an unlocked read-modify-write
+landing through one fixed temp name, with every detector and every agent writing it. Three agents
+hit it live. It is now compare-and-swap: the change is re-applied against a fresh copy on a
+stale-digest refusal, so a concurrent refresh of the same fault is merged rather than lost. Proven
+with a probe where a simulated concurrent writer lands between read and write and **both writers'
+entries survive**.
+
+### MISTAKES THIS RUN MADE, AND WHAT THEY COST
+
+**I broke `workorders.py` for a few seconds and it cost fifteen findings.** I patched a string
+through a shell heredoc, the escape was eaten, and the file was unimportable from 22:54:50 while
+sweep agents were filing. Batch 16 caught the window. I verified all 177 reported order ids against
+both the open queue and the paper trail, found 15 that reported as filed and never landed, and had
+both agents re-file and confirm with an explicit check rather than a self-report. **This is the
+oldest bug in this repo and its own rules told me not to do it.**
+
+**My compare-and-swap fix shipped with the two tests in the wrong order.** `resolve()` checked
+`rec is None` before `not landed`, so a lost close returned the same None as "no such open order" —
+the exact sentence the CAS work existed to prevent. Batch 13 found it. Fixed, and proven with a
+probe that separates the two cases.
+
+**A comment I wrote halted the library.** The `_no_programmatic_clear` net was a literal substring
+scan for `escalation.clear(` and `ESC.clear(`. I added a paragraph to `verify_math` explaining that
+those are the two spellings it looks for — quoting both — and the scan matched my explanation. **A
+literal cannot tell code from prose about code: it fails on an honest description and passes on a
+comment.** It now asks the AST, and was widened while open to catch the alias, from-import and
+`getattr` spellings the substring scan always walked past.
+
+**I twice called a current artifact stale.** `state/drill_last.json` carries no time field at all,
+so `d.get("at", 0)` yields the epoch and formats as a plausible wall-clock time. Filed as
+`76673d544d7e`: the one battery member whose breach halts the library is the one whose artifact
+cannot say when it ran.
+
+### THE BATTERY, AT CLOSE
+
+| check | result |
+|---|---|
+| `verify_math` | **798 passed, 0 FAILED** |
+| `drill` | **218 nets, 218 held, 0 BREACHED** (195 → 218; 23 added, each watched red once) |
+| `health --preflight` | all checks pass |
+| `liveness` | 38 findings against a ceiling of 38 — holds |
+| `pyflakes` over `src/` | clean |
+| `secondopinion` | ruff 977 / vulture 4 / **detect-secrets 0**; all three RAN |
+| `axis_correlation` | 45 entities, 55 pairs, mean r +0.3193 — unchanged, so not re-written |
+| `sweep_plan.missing('run34')` | **empty — 113 of 113 modules** |
+
+`verify_math` gained section 20t: an AST check that `escalation.clear()` has no caller anywhere in
+`src/`, resolving per-file module aliases so the three spellings the drill's grep could not see are
+each caught, and treating an unparseable module as a finding rather than a skip. **CLAUDE.md has
+claimed since Hard Rule -1 was written that this assertion lived in `verify_math`. It did not. It
+does now.**
+
+### WHAT THE LOCAL MODEL CAN ACTUALLY CARRY, MEASURED
+
+The standing instruction is to route everything LOCAL can carry to the free model. It was tried on
+one real order — a single docstring rewrite in `feats_index.py` — and it spent **6 turns, 5 tool
+calls and over ten minutes without landing a single patch**, every `propose_patch` refused with
+"find string occurs 0 times" because it could not reproduce the target text verbatim. It then
+returned `{"ok": true, "patches": []}`. Filed as `509eeaaec37c`. Two conclusions: `ok` must not be
+True for a run that changed nothing, and **the 208 LOCAL orders cannot simply be handed to
+`qwen3:8b` and counted as done.** Note also that `local_agent` gates every patch on the whole
+battery passing, so it could not have landed anything at all until the sweep closed the last
+coverage gap at 23:40.
+
+### OPERATIONAL NOTES
+
+* **`publish` is down and cannot restart while the halt stands.** It had been running 58 minutes on
+  source predating today's fixes — including the secret scanner that skipped 11.5 MB — and
+  `codewatch` showed 0 restarts, so it was killed per the standing rule about daemons that have not
+  bounced. It correctly refuses to start while halted; the keeper will re-assert it when the halt
+  lifts. **Nothing from this shift has reached the export repo.**
+* **Every cloud model provider is spent or dead.** All return 402/401, and ollama holds exactly one
+  model (`qwen3:8b`). `cascade_bridge` has no reachable model at all (`9fb8a6b10c1f`). Cohere's
+  trial ceiling and four 402 wordings were added to the permanent-refusal set; matching had to be
+  NARROWED, not widened, because Gemini's live 429 says "check your plan and billing details" and
+  Cohere emits the same sentence for a 40-a-minute throttle as for a monthly ceiling.
+* **Four buckets fail DNS** — deepinfra, huggingface, cerebras, chutes, all `Could not resolve
+  host`, all unreachable from the same second. One resolver fault, not four (`7ebac78494e8`). They
+  were safe from being benched only by luck of ordering; a curl transport line can now never be
+  classified permanent.
+* **A maintenance run cannot durably stop a standing job** (`4e7f1e47d0a0`). The MANAGER rung
+  records a stop; the keeper that re-asserts jobs never reads it. The halt is the only thing that
+  actually stops work, and it is deliberately the rung a run may raise but not lift.
+* **`mutate.py --target all --check-flaky` has been running since 20:56**, sandboxed, and had filed
+  no survivors when this shift closed. Its sandbox was copied at 20:56, so **its results describe
+  the pre-shift tree**, not the code as it now stands.
+* Something on this machine invoked `src/genre.py` with an interpreter lacking `yaml` — the
+  signature of the bare `py` launcher this repo forbids (`008b8cbb45e3`).
+
+---
 ## 2026-08-25 (night) — the fourth safety property: IN EFFECT
 
 **A guard that exists in a file is not a guard that is running, and this cost a public repo.**

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-FEATS_INDEX — the join that makes 39,862 mined feats reachable as a chapter.
+FEATS_INDEX — the join that makes 47,017 mined feats reachable as a chapter.
 
 WHAT WAS MISSING
 ----------------
 `feats.py` mines attested deeds out of wiki prose and lands them under `data/readfeats/<host>/
 <Entity>.json`: each feat a QUOTED sentence, tagged with one of the eleven Assay axes and
 carrying the page it came from. That is the Charter's Part Three worksheet material, already
-gathered -- 39,862 of them across 1,166 entities, averaging 34 per entity.
+gathered -- 47,017 of them across 1,412 records, averaging 33 per entity (re-measured
+2026-08-25; the store grows, so treat every count in this note as a reading, not a constant).
 
 And nothing could reach it. `assay.py` and `magnitude.py` consume feats per-entity when scoring,
 but the generation path had no idea the store existed: `manifest_builder` groups a source's
@@ -17,7 +18,7 @@ the best-evidenced material in the library was structurally unable to become pro
 WHY THE OBVIOUS JOIN DOES NOT WORK
 ----------------------------------
 The tempting key is the entry's own `wiki_page` URL: parse out host and title, look up
-`readfeats/<host>/<title>.json`. Measured, that reaches **676 of 1,241** records. The reason it
+`readfeats/<host>/<title>.json`. Measured, that reaches **849 of 1,412** records. The reason it
 fails is instructive and is the sort of thing this project keeps paying for: **a catalogue entry
 does not necessarily have a URL.** All 341 `all Bloons TD` entries carry `wiki_page: None`, so
 its feats -- Geraldo, Gravelord Lych, Magus Perfectus, all present in the catalogue BY NAME and
@@ -28,23 +29,32 @@ THE JOIN THAT WORKS
 -------------------
 `data/WIKI_HOSTS.json` is the authoritative source -> host binding (202 sources). Invert it,
 then match the feats record's `entity` against the source's entry NAMES, normalised. Measured
-over the whole store: **1,224 of 1,241 records and 39,400 of 39,862 feats -- 98.6%**.
+over the whole store: **1,410 of 1,412 records and 46,868 of 47,017 feats -- 99.9%**.
 
-The seventeen that miss are TWO different problems, and an earlier version of this note called
-them all one. Measured 2026-08-24:
+WHERE THE HOST COMES FROM, AND THE FOURTEEN RECORDS THAT PROVES
+---------------------------------------------------------------
+A record's directory name is `cachekey.host_dir(host)` -- the shared sanitiser, which folds every
+run of non-alphanumerics to a single `_`. `load_index` used to recover the host by substituting
+`"_"` -> `"."` back, and that is not an inverse: it cannot know which underscores were dots and
+which were hyphens. Every hyphenated host therefore produced a host string that exists nowhere,
+and its records could match no source. Measured 2026-08-25, before the fix: **14 records / 222
+feats** across `date-a-live`, `sakamoto-days`, `the-amazing-digital-circus` and `uncle-grandpa`
+(all four `*.fandom.com`).
 
-  * **14 records / 222 feats** are hosts with no `WIKI_HOSTS` entry at all (the amazing digital
-    circus, date a live, sakamoto days, uncle grandpa) -- sources whose host was never recorded.
-    A gap in that file rather than in this join, and binding those four hosts fixes them.
-  * **3 records / 240 feats -- the MAJORITY of the stranded deeds -- are on hosts that ARE bound**
-    (`dc.fandom.com` -> DC, `marvel.fandom.com` -> Marvel): `Wally West (New Earth)`, `Wally West
-    (Prime Earth)` and `Brood`. The host is known; the catalogue simply holds no entry under a
-    matching name. Binding hosts will never recover these, and neither will loosening `_norm`
-    (see its docstring, which measures why). They are catalogue gaps.
+An earlier version of this note read that as a gap in `WIKI_HOSTS` -- four sources "whose host was
+never recorded" -- and `main()` agreed with it, printing NOT IN WIKI_HOSTS beside each. Both were
+looking at the same invented string. **All four hosts are bound in `WIKI_HOSTS` and always were**;
+the join was asking for a host nobody had ever written down. The record itself stores the exact
+host it was mined from, one field away from where the derivation was happening, so `load_index`
+now asks the record. Binding hosts would have fixed nothing.
 
-The distinction matters because it changes who fixes it, and 52% of the stranded evidence sits on
-the side the original note did not describe. `audit()` and `main()` already report a known host
-separately from an unrecorded one -- the code was right and only this note was wrong.
+What remains stranded after that is a different problem, and a real one:
+
+  * **2 records / 149 feats are on hosts that ARE bound** (`dc.fandom.com` -> DC,
+    `marvel.fandom.com` -> Marvel): `Wally West (Prime Earth)` and `Brood`. The host is known;
+    the catalogue simply holds no entry under a matching name. Neither will loosening `_norm`
+    recover them (see its docstring, which measures why). They are catalogue gaps, and the only
+    ones left.
 
 They are REPORTED rather than dropped quietly, because an unjoined feats record is a mined deed
 that no volume will ever print.
@@ -70,6 +80,7 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import cachekey  # noqa: E402
 import silence  # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
@@ -105,12 +116,11 @@ def _norm(s):
     lacks is how the next reader mis-diagnoses a stranded record.
 
     The STRICT form is nonetheless the right one, and that part of the original claim held up.
-    79 of 1,241 feats records carry a parenthetical and 76 of them join anyway, because the
+    174 of 1,412 feats records carry a parenthetical and 173 of them join anyway, because the
     catalogue overwhelmingly records the SAME disambiguated form. Loosening it would recover
-    none of the three that miss (`Wally West (New Earth)` and `Wally West (Prime Earth)` would
-    fold onto the catalogue's `Wally West (Earth-16)`, silently merging three DC continuities;
-    Marvel has no plain `Brood` entry under any spelling) while risking exactly that class of
-    conflation across the whole store. Those three are catalogue gaps, not folding failures --
+    the one that misses (`Wally West (Prime Earth)` would fold onto the catalogue's `Wally West
+    (Earth-16)`, silently merging two DC continuities) while risking exactly that class of
+    conflation across the whole store. It is a catalogue gap, not a folding failure --
     see `audit()`, which reports a known host separately from an unrecorded one.
     """
     return "".join(c for c in (s or "").lower() if c.isalnum())
@@ -146,11 +156,20 @@ def load_index(root=READFEATS):
     if not os.path.isdir(root):
         _CACHE["index"][root] = idx
         return idx
-    for host_dir in sorted(os.listdir(root)):
-        p = os.path.join(root, host_dir)
+    # A directory name is `cachekey.host_dir(host)`, and that is NOT invertible by spelling:
+    # it folds every run of punctuation to `_`, so `date-a-live.fandom.com` and a hypothetical
+    # `date.a.live.fandom.com` land in the same directory. The record itself stores the exact
+    # host it was mined from, so ASK IT. The map below is only for a record that somehow lacks
+    # one: it re-derives each KNOWN host's directory through the one helper (never re-spelling
+    # the sanitiser here) and looks the directory up, which is the only sound direction.
+    by_dir = {}
+    for known in host_to_sources():
+        by_dir.setdefault(cachekey.host_dir(known), known)
+    for hdir in sorted(os.listdir(root)):
+        p = os.path.join(root, hdir)
         if not os.path.isdir(p):
             continue
-        host = host_dir.replace("_", ".").lower()
+        fallback = (by_dir.get(hdir) or hdir.replace("_", ".")).lower()
         for fn in sorted(os.listdir(p)):
             if not fn.endswith(".json"):
                 continue
@@ -161,8 +180,9 @@ def load_index(root=READFEATS):
                 silence.note("feats_index.load_index")
                 continue
             entity = rec.get("entity") or fn[:-5]
+            host = (rec.get("host") or fallback).lower()
             rec.setdefault("entity", entity)
-            rec.setdefault("host", host)
+            rec["host"] = host
             idx[(host, _norm(entity))] = rec
     _CACHE["index"][root] = idx
     return idx
@@ -256,8 +276,9 @@ def main():
     print(f"  join rate           : {rate:.1f}% of records")
     print(f"  entities catalogued in more than one source on the same host: {a['shared']:,}")
     if a["stranded_hosts"]:
-        print("\nSTRANDED BY HOST — a mined deed no volume will print. Usually a host with no")
-        print("WIKI_HOSTS entry, which is a gap in that file rather than in the join:")
+        print("\nSTRANDED BY HOST — a mined deed no volume will print. The host below is the one")
+        print("the RECORD states, not one derived from its directory name, so `NOT IN WIKI_HOSTS`")
+        print("here really is an unbound host; `known host` is a catalogue with no matching entry:")
         for h, n in a["stranded_hosts"].most_common():
             known = "known host" if h in host_to_sources() else "NOT IN WIKI_HOSTS"
             print(f"   {h:<42}{n:>4} record(s)   {known}")

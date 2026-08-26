@@ -113,6 +113,11 @@ def twins(module, exclude_pid=None):
     except ImportError:
         return found                 # cannot tell; say so by finding nothing, and FAIL OPEN
     needle = module if module.endswith(".py") else module + ".py"
+    # The matching itself lives in `runs_script` so it can be tested against SYNTHETIC command
+    # lines. The drill net for this originally asserted `twins("verify_math") == []`, which was
+    # true only when no `verify_math.py` happened to be running -- and the battery runs it as a
+    # subprocess, so the net breached at random and halted the library. A net whose answer
+    # depends on what is running at the moment it looks is not testing the code.
     for proc in psutil.process_iter(["pid", "cmdline"]):
         try:
             if proc.info["pid"] == me:
@@ -198,7 +203,7 @@ def claim_singleton(who, module=None, exit_code=0):
           flush=True)
     try:
         import escalation
-        escalation.escalate("JANITOR", "DAEMON_TWIN",
+        escalation.escalate(escalation.JANITOR, "DAEMON_TWIN",
                             "%s found %d twin(s) at startup and exited" % (who, len(others)),
                             evidence={"job": who, "twins": others}, source=who, who="codewatch")
     except Exception:
@@ -298,7 +303,7 @@ def exit_if_stale(who="?", rc=RC_STALE):
           "with the current code. This is NOT a crash." % (who, why, rc), flush=True)
     try:
         import escalation
-        escalation.escalate("JANITOR", "CODEWATCH_RESTART",
+        escalation.escalate(escalation.JANITOR, "CODEWATCH_RESTART",
                             "%s exited to pick up changed source (%s)" % (who, why),
                             evidence={"job": who, "restarts_this_hour": used + 1},
                             source=who, who="codewatch")

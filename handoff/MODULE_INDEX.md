@@ -92,7 +92,7 @@
 - **drill** — DRILL — attack every safety net in the library and report which ones actually held
 - **entity_match** — ENTITY MATCH — near-miss name resolution that cannot merge two continuities
 - **escalation** — ESCALATION — the chain of command, from the janitor to the owner, and the halt at the top
-- **feats_index** — FEATS_INDEX — the join that makes 39,862 mined feats reachable as a chapter
+- **feats_index** — FEATS_INDEX — the join that makes 47,017 mined feats reachable as a chapter
 - **genre** — GENRE — classify a source once, and let everything downstream follow from it
 - **gpu_lane** — GPU LANE — one card, nine processes, and an order of precedence
 - **grounding** — THE HYPERVERSE — grounding type, or: which answer to the First Argument does this cosmos live under

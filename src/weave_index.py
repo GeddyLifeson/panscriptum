@@ -26,9 +26,9 @@ Usage:
 import argparse
 import collections
 import json
-import glob
 import os
 import re
+import time
 import unicodedata
 import silence
 
@@ -133,9 +133,15 @@ def designations(records=None):
     return out
 
 
-def continuity_of(name):
-    """The designation a name declares, or None. Part of identity, never stripped from it."""
-    known = designations()
+def continuity_of(name, known=None):
+    """The designation a name declares, or None. Part of identity, never stripped from it.
+
+    `known` is an optional precomputed designation set (i.e. the return of `designations()`).
+    A caller folding many names in a row should hoist it out of the loop: the set is one
+    corpus-wide answer, so re-asking for it per name buys no freshness a loop could use.
+    """
+    if known is None:
+        known = designations()
     for inner in re.findall(r"\(([^)]*)\)", name or ""):
         head = inner.split("/")[0].strip().lower()
         if head in known:
@@ -143,12 +149,15 @@ def continuity_of(name):
     return None
 
 
-def norm(name):
+def norm(name, known=None):
     """Fold to a comparison key: strip accents, parentheticals, titles, punctuation.
 
     A declared continuity survives the fold as a suffix, so two Thors stay two Thors.
+
+    `known` is an optional precomputed designation set, passed straight to `continuity_of`.
+    Hot loops should hoist it (see `build`); omitting it is unchanged behaviour.
     """
-    keep = continuity_of(name)
+    keep = continuity_of(name, known)
     s = unicodedata.normalize("NFKD", name or "")
     s = "".join(c for c in s if not unicodedata.combining(c))
     s = re.sub(r"\([^)]*\)", " ", s)          # drop parenthetical aliases
@@ -164,18 +173,72 @@ def norm(name):
 
 _REC_CACHE = {"sig": None, "out": None}
 
+# How long a computed signature may be reused before the directory is re-read. See the note in
+# `_records_sig` for why this number is what it is.
+SIG_MEMO_SECONDS = 1.0
+_SIG_MEMO = {"at": None, "val": None}
 
-def _records_sig():
+
+def _records_sig(fresh=False):
     """(file count, newest mtime) over the records directory, or None if it cannot be stat'd.
 
     Shared by both caches below so they invalidate on exactly the same event. Pulled out
-    2026-08-23 (BUGS m17) when `designations()` turned out to have no invalidation at all."""
-    files = sorted(glob.glob(os.path.join(RECORDS, "*.json")))
+    2026-08-23 (BUGS m17) when `designations()` turned out to have no invalidation at all.
+
+    2026-08-26 (BUGS 31715d/98a80b). This ran `glob` + 216 separate `getmtime` calls on EVERY
+    call, including the cache-HIT fast path -- so `norm()`, whose only job is a regex fold,
+    cost 13.0 ms and a single `build()` over 197,334 entries spent ~43 minutes inside
+    `getmtime`. Two things fix it, and they fix different callers:
+
+    1. `os.scandir` instead of `glob` + per-file `getmtime`. On Windows the directory
+       enumeration already carries each entry's mtime, so the 216 stat syscalls collapse into
+       the one enumeration that was happening anyway. Measured 14.3 ms -> 0.70 ms, and the
+       signature is byte-identical -- this half trades away NOTHING.
+
+    2. A short memo, because 0.70 ms x 197,334 is still 2.3 minutes. `fresh=True` bypasses it.
+
+    On the window: it is deliberately shorter than the 2.34 s that `load_records()` needs to
+    re-parse the corpus once something DOES change, so the memo can never be the dominant
+    term in how fast a change is noticed. It is also, more to the point, shorter than the
+    freshness the hot callers ever actually had: `build()` and `chain.entity_index()` re-stat
+    the corpus per entry while iterating a record list they captured ONCE at the top, so their
+    per-entry freshness was already fictional -- the memo makes an existing snapshot honest
+    rather than introducing a new one. Records have exactly one sanctioned writer
+    (`pipeline.write_record`), and no stage writes a record and re-reads it inside a second.
+    """
+    now = time.monotonic()
+    if not fresh and _SIG_MEMO["at"] is not None and now - _SIG_MEMO["at"] < SIG_MEMO_SECONDS:
+        return _SIG_MEMO["val"]
+    files, newest = [], 0
     try:
-        return files, (len(files), max((os.path.getmtime(p) for p in files), default=0))
+        with os.scandir(RECORDS) as it:
+            for de in it:
+                if not de.name.endswith(".json"):
+                    continue
+                try:
+                    if not de.is_file():
+                        continue
+                    m = de.stat().st_mtime
+                except OSError:
+                    # A file that vanished mid-enumeration. Same meaning the old getmtime
+                    # failure had: refuse to hand out a signature this pass.
+                    _ = "silence-exempt: an unstattable dir just skips the cache fast-path"
+                    files.sort()
+                    val = (files, None)
+                    _SIG_MEMO.update({"at": now, "val": val})
+                    return val
+                files.append(de.path)
+                if m > newest:
+                    newest = m
     except OSError:
-        _ = "silence-exempt: an unstattable dir just skips the cache fast-path"
-        return files, None
+        # A missing or unreadable directory. `glob` returned [] here rather than raising, and
+        # the old `max(..., default=0)` then made that a real, cacheable (0, 0) signature.
+        # Preserved exactly: callers depend on an empty corpus being a stable answer.
+        _ = "silence-exempt: an unreadable records dir reads as an empty corpus, as it always did"
+    files.sort()
+    val = (files, (len(files), newest))
+    _SIG_MEMO.update({"at": now, "val": val})
+    return val
 
 
 def load_records():
@@ -204,6 +267,10 @@ def load_records():
 
 def build():
     recs = load_records()
+    # Hoisted: one corpus-wide answer for the whole pass, over the same record list this loop
+    # already froze on the line above. Asking per entry was 197,334 directory reads for an
+    # answer that cannot change while `recs` is held.
+    known = designations()
     index = collections.defaultdict(list)     # norm-key -> [attestation dicts]
     total = 0
     for r in recs:
@@ -211,7 +278,7 @@ def build():
         att = r.get("attestation", "Transcribed")
         for e in r["entries"]:
             total += 1
-            key = norm(e.get("name"))
+            key = norm(e.get("name"), known)
             if not key or len(key) < 3 or key in _STOPNAMES:
                 continue
             index[key].append({

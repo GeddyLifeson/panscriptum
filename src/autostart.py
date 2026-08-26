@@ -56,6 +56,32 @@ LOGDIR = os.path.join(HERE, "state")
 # that died at 3am is back before the night is wasted.
 CHECK_SECONDS = 180
 
+# A BUDGET ON STARTING. A watchdog with no budget is one bad answer away from being a respawn
+# loop, and this module's own docstring is the incident report for that shape. A supervisor that
+# genuinely died comes back on the FIRST start, so a second and third in the same hour are
+# already evidence that starting is not the cure; a fourth is the loop. See watch().
+MAX_STARTS_PER_HOUR = 3
+START_WINDOW_SECONDS = 3600
+
+# How many times _twin_watchdog asks the process table before conceding it cannot tell. See its
+# docstring: neither of the two obvious answers to a transient failure is safe here, so the
+# answer is to ask again rather than to guess.
+TWIN_TRIES = 4
+TWIN_RETRY_SECONDS = 5
+
+
+def _log(msg):
+    """One line into state/autostart.log, and never raise doing it.
+
+    This is the watchdog's only voice. A watchdog that dies trying to complain is strictly worse
+    than a quiet one, so every failure here is swallowed into the ledger instead.
+    """
+    try:
+        with open(os.path.join(LOGDIR, "autostart.log"), "a", encoding="utf-8") as f:
+            f.write("[" + time.strftime("%Y-%m-%d %H:%M:%S") + "] " + msg + chr(10))
+    except Exception:
+        silence.note("autostart.py:log")
+
 
 def _vbs_body():
     """A hidden launcher. WScript.Shell with window style 0 leaves no console behind.
@@ -96,12 +122,26 @@ def uninstall():
 
 
 def supervisor_alive():
+    """Is the supervisor up? -> True, False, or None meaning COULD NOT TELL.
+
+    THREE ANSWERS, NOT TWO. This returned a bool, so every failure on the way to the answer --
+    a WMI hiccup, psutil losing a race with a process that was exiting anyway, `overnight`
+    momentarily unimportable while its file is being written -- was converted into "dead". And
+    "dead" is the word `watch()` acts on: it starts a supervisor, then asks again 180 seconds
+    later, and if the instrument is still broken it starts another one. The module docstring at
+    the top of this file is the incident report for exactly that shape (three watchdogs, each
+    restarting the others' supervisors, respawning in a loop) -- so this defect was the one thing
+    this module exists to prevent, sitting in the sensor the prevention depends on.
+
+    An inability to observe is not an observation. `None` says so, and the callers below decline
+    to act on it. That refusal is the whole difference between a watchdog and a fork bomb.
+    """
     try:
         import overnight as ON
-        return ON.running("overnight.py")
+        return bool(ON.running("overnight.py"))
     except Exception:
         silence.note("autostart.py:alive")
-        return False
+        return None
 
 
 def start_supervisor(read_hours=10):
@@ -123,29 +163,65 @@ def start_supervisor(read_hours=10):
 
 
 def _twin_watchdog():
-    """Is another autostart --watch already running (any interpreter, excluding self)?"""
-    import subprocess
+    """Is another `autostart.py --watch` FROM THIS TREE already running (excluding self)?
+
+    THIS TREE'S COPY, NOT ANY FILE OF THAT NAME. The test used to be `"autostart.py" in cmd`, a
+    raw substring of a command line, and that is the same defect fixed in `codewatch.twins()` on
+    2026-08-25 -- where matching a bare filename meant a process running a DIFFERENT checkout's
+    namesake counted as a twin, and a sandboxed temp copy of `verify_math.py` raised a real halt.
+    Here the consequence is worse in kind, because the answer is acted on by standing DOWN: a
+    `--watch` started inside `mutate.py`'s throwaway sandbox, or in the export tree, or in any
+    second checkout on this machine, would make the LIVE watchdog exit and leave the supervisor
+    unwatched until the next logon. A guard that can be switched off by a copy of itself is a
+    guard that reports its own outage as caution.
+
+    So the resolution work is delegated to `codewatch.twins()` rather than re-spelled here: it
+    already requires the interpreter to be python, already picks out the SCRIPT rather than any
+    mention of the name, already resolves a relative path against the process's own cwd, and
+    already fails open when it cannot tell whose copy it is. Two implementations of one rule is
+    how the two sites drifted apart in the first place. `--watch` is then checked on the survivors,
+    because a one-shot `--status` in this tree is not a twin of anything.
+
+    AND THE FAIL-OPEN IS RETRIED, AND SAID ALOUD. This conceded on the first exception and said
+    nothing. Neither obvious repair is right: failing CLOSED means one transient hiccup at boot
+    leaves the supervisor unwatched until next logon, since nothing restarts the `.vbs`; and
+    moving the check inside `watch()`'s loop creates a mutual-suicide race where two watchdogs
+    each see the other and both exit -- the startup-only check avoids that BY DESIGN, because
+    only the newcomer ever runs it. The middle is to ask again a few times before conceding, and
+    to write the concession into `autostart.log` so that "there may now be two watchdogs" stops
+    being a silent event nobody can find afterwards.
+    """
     try:
-        out = subprocess.run(
-            ["powershell", "-NoProfile", "-Command",
-             "Get-CimInstance Win32_Process -Filter \"Name='python.exe' or Name='pythonw.exe'\" | "
-             "ForEach-Object { $_.ProcessId.ToString() + '|' + $_.CommandLine }"],
-            capture_output=True, text=True, timeout=60,
-            creationflags=_NO_WIN).stdout
+        import psutil
+        import codewatch
     except Exception:
-        silence.note("autostart.py:131")
+        silence.note("autostart.py:twin-import")
+        _log("FAILED OPEN: cannot tell whether another watchdog is running (psutil or "
+             "codewatch unavailable); starting anyway -- if one was already up, there are "
+             "now two, and two is the respawn incident in this module's docstring")
         return False
-    me = os.getpid()
-    for ln in out.splitlines():
-        pid, _, cmd = ln.partition("|")
+    why = "no reason recorded"
+    for attempt in range(TWIN_TRIES):
         try:
-            if int(pid.strip()) == me:
-                continue
-        except ValueError:
-            silence.note("autostart.py:139")
+            pids = codewatch.twins("autostart")
+        except Exception as e:
+            why = type(e).__name__
+            silence.note("autostart.py:twin-query")
+            time.sleep(TWIN_RETRY_SECONDS)
             continue
-        if "autostart.py" in cmd and "--watch" in cmd:
-            return True
+        for pid in pids:
+            try:
+                argv = psutil.Process(pid).cmdline()
+            except Exception:
+                # This one process vanished or is unreadable. It is not the whole answer, so
+                # skip it rather than conceding the query -- the remaining pids still count.
+                silence.note("autostart.py:twin-cmdline")
+                continue
+            if "--watch" in argv:
+                return True
+        return False
+    _log("FAILED OPEN: could not read the process table after %d tries (%s); starting a "
+         "watchdog anyway -- if one was already up, there are now two" % (TWIN_TRIES, why))
     return False
 
 
@@ -157,29 +233,51 @@ def watch(read_hours=10):
     supervisors' foremen then treated each other's stacks as duplicates and shot them, and the
     whole arrangement respawned itself in a loop. A watchdog that finds a twin at startup
     exits; the twin is already doing the job.
+
+    TWO THINGS NOW STAND BETWEEN THAT INCIDENT AND THIS LOOP, because the twin check alone only
+    ever covered ONE of the two ways to stack supervisors:
+
+      * `supervisor_alive()` may answer "I could not tell", and a blind spot is not a death.
+        Starting on it made a broken instrument into a supervisor factory at twenty starts an
+        hour.
+      * even a genuine "dead" is BUDGETED. A supervisor that really died is back on the first
+        start; a second and a third in the same hour are evidence that starting is not the cure,
+        and a fourth is the loop itself. Past the budget this stops starting and says so, which
+        leaves a person a line to read instead of a process table to untangle.
     """
     if _twin_watchdog():
-        with open(os.path.join(LOGDIR, "autostart.log"), "a", encoding="utf-8") as f:
-            f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] another watchdog is already "
-                    f"running; this one exits" + chr(10))
+        _log("another watchdog is already running; this one exits")
         return
-    log = os.path.join(LOGDIR, "autostart.log")
+    starts = []                 # when this watchdog started a supervisor, for the hourly budget
+    said_unknown_at = 0.0       # both of these are rate-limited: at CHECK_SECONDS a persistent
+    said_budget_at = 0.0        # condition would otherwise write twenty identical lines an hour
     while True:
         try:
-            if not supervisor_alive():
-                start_supervisor(read_hours)
-                with open(log, "a", encoding="utf-8") as f:
-                    f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] supervisor was not "
-                            f"running; started it{chr(10)}")
+            alive = supervisor_alive()
+            now = time.time()
+            if alive is None:
+                # DO NOT ACT ON A BLIND SPOT. See supervisor_alive().
+                if now - said_unknown_at >= START_WINDOW_SECONDS:
+                    said_unknown_at = now
+                    _log("cannot tell whether the supervisor is running, so NOT starting one "
+                         "-- an inability to observe is not a death. Will keep looking.")
+            elif not alive:
+                starts = [t for t in starts if now - t < START_WINDOW_SECONDS]
+                if len(starts) >= MAX_STARTS_PER_HOUR:
+                    if now - said_budget_at >= START_WINDOW_SECONDS:
+                        said_budget_at = now
+                        _log("supervisor is down and %d start(s) in the last hour did not fix "
+                             "it; NOT starting another. This is deeper than a crash and needs "
+                             "a person -- respawning past this point is the loop, not the cure."
+                             % len(starts))
+                else:
+                    start_supervisor(read_hours)
+                    starts.append(now)
+                    _log("supervisor was not running; started it (%d of %d allowed this hour)"
+                         % (len(starts), MAX_STARTS_PER_HOUR))
         except Exception as e:
             silence.note("autostart.py:watch")
-            try:
-                with open(log, "a", encoding="utf-8") as f:
-                    f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] watchdog error: "
-                            f"{type(e).__name__}{chr(10)}")
-            except Exception:
-                silence.note("autostart.py:174")
-                pass
+            _log("watchdog error: " + type(e).__name__)
         time.sleep(CHECK_SECONDS)
 
 
@@ -198,16 +296,25 @@ def main():
     if a.install:
         path, why = install()
         print(f"{why}: {path}" if path else why)
-        if not supervisor_alive():
+        # `is False`, not `not`. With a tri-state sensor a bare truth test starts a supervisor on
+        # "could not tell" -- and doing that during an install, when a supervisor is very likely
+        # already up, is how the second one gets born. Only a definite NO starts anything.
+        alive = supervisor_alive()
+        if alive is False:
             start_supervisor(a.read_hours)
             print("supervisor started")
+        elif alive is None:
+            print("could not tell whether the supervisor is running; started nothing")
         return 0
     if a.watch:
         watch(a.read_hours)
         return 0
 
     print("Startup launcher : " + ("installed" if os.path.exists(VBS) else "NOT installed"))
-    print("supervisor       : " + ("running" if supervisor_alive() else "NOT running"))
+    _alive = supervisor_alive()
+    print("supervisor       : " + ("running" if _alive else
+                                   "UNKNOWN (could not read the process table)"
+                                   if _alive is None else "NOT running"))
     try:
         import overnight as ON
         for job in ("dashboard.py", "publish.py", "foreman.py", "overwatch.py",

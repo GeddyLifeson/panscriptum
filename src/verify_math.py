@@ -757,8 +757,41 @@ check("and it is answered per XENOVERSE, so containment holds",
                                   "data", "TIERS.json"), encoding="utf-8")
                 )["Alien"].get("hyperverse_type") is not None, True,
       note="per-source assignment split three xenoverses across two hyperverses each")
-check("the map seed is derived from the address, not stored",
-      AS.map_seed(_a), AS.map_seed(_a))
+# Order 3f86c571da58: this compared `AS.map_seed(_a)` to `AS.map_seed(_a)`. map_seed is a pure
+# sha256 of its argument, so that comparison cannot fail -- and neither half of the label was
+# under test. Not DERIVED: a value read out of a store satisfies f(x) == f(x) exactly as well as
+# a computed one. Not NOT-STORED: nothing in the check looked at any stored artifact. A claim
+# with two halves now has an assertion per half, each able to go red on its own.
+import importlib.util as _ilu   # noqa: E402
+
+_SRC_AS = os.path.dirname(os.path.abspath(__file__))
+_spec_as = _ilu.spec_from_file_location("address_space__fresh",
+                                        os.path.join(_SRC_AS, "address_space.py"))
+_asfresh = _ilu.module_from_spec(_spec_as)
+_spec_as.loader.exec_module(_asfresh)
+
+check("the map seed is DERIVED — an independently loaded copy of the module recomputes it",
+      _asfresh.map_seed(_a), AS.map_seed(_a),
+      note="not f(a) == f(a): this is a different function object from a second execution of "
+           "address_space.py, so an import-time random seed, or a value cached into module "
+           "state by an earlier call, diverges here instead of comparing equal to itself")
+check("and it is reproducible across RUNS, not merely within one",
+      AS.map_seed(1234567890123), 3164779546,
+      note="frozen against an input no data file can move. Give a Custos the address and the "
+           "map regenerates identically -- that promise spans processes, so the pin must too")
+check("the seed FOLLOWS the address — a neighbouring address seeds a different map",
+      AS.map_seed(_a) != AS.map_seed(_a + 1), True,
+      note="a constant, or anything not actually reading the address, passes both checks above "
+           "and dies on this one")
+check("and it is NOT STORED — the decoded address carries no seed field",
+      [k for k, v in AS.unpack(_a).items() if k == "map_seed" or v == AS.map_seed(_a)], [],
+      note="the address is what gets persisted and published; the seed is recomputed from it "
+           "on every read, which is the whole reason a 74-bit integer can stand in for a world")
+check("nor does any charted source row carry one",
+      [s for s, v in json.load(open(os.path.join(os.path.dirname(_SRC_AS), "data", "TIERS.json"),
+                                    encoding="utf-8")).items() if "map_seed" in v], [],
+      note="if a seed were ever written into TIERS.json it would start drifting from the "
+           "address it claims to come from, and the two would disagree silently")
 check("neighbouring planet fields are genuine neighbours",
       AS.unpack(AS.pack(0, 1, 2, 3, 4, 5, 9, 0))["star"] ==
       AS.unpack(AS.pack(0, 1, 2, 3, 4, 5, 9, 1))["star"], True,
@@ -783,8 +816,22 @@ check("Alien and Predator share a multiverse",
 check("the deliberate joins are an order of magnitude above the rest",
       TI.DELIBERATE_JOIN > 365 * 4, True,
       note="the cliff that makes a xenoverse 'artificial' rather than merely resonant")
-check("assignment is deterministic",
-      AS.assign("X::a", _T["Alien"]), AS.assign("X::a", _T["Alien"]))
+# Order fbdb7fe3bd4c: `AS.assign(...)` was compared to itself -- the same defect as the map_seed
+# tautology above, and the same repair. "Deterministic" is a claim about repeating across loads
+# and about being insensitive to what must not matter; f(x) == f(x) tests neither.
+check("assignment is deterministic across an independent load of the module",
+      _asfresh.assign("X::a", _T["Alien"]), AS.assign("X::a", _T["Alien"]),
+      note="a second execution of address_space.py from source, so import-time randomness or "
+           "state accumulated by earlier assign() calls shows up here as a mismatch")
+check("and does not depend on the KEY ORDER of the tier row it is handed",
+      AS.assign("X::a", dict(reversed(list(_T["Alien"].items())))),
+      AS.assign("X::a", _T["Alien"]),
+      note="the row arrives from json.load; a dict-iteration dependence would re-address the "
+           "same world differently between runs and orphan the shelfmark already published")
+check("while a different designation still lands somewhere else",
+      AS.assign("X::a", _T["Alien"]) != AS.assign("X::b", _T["Alien"]), True,
+      note="pins that 'deterministic' has not been satisfied by returning a constant, which is "
+           "the cheapest way to pass every check above")
 check("worlds of one source share their upper tiers",
       AS.unpack(AS.assign("X::a", _T["Alien"]))["multiverse"] ==
       AS.unpack(AS.assign("X::b", _T["Alien"]))["multiverse"], True)
@@ -2594,10 +2641,67 @@ check("the token-flow probe counts tokens, not prose", "eval_count" in _probe_sr
       note="a reasoning model's first tokens land in `thinking`; judging flow by `response` "
            "alone reports a healthy truncated generation as a dead daemon")
 
-_flow19ab = {"eval_count": 8, "response": "", "thinking": "Okay, the user just said"}
+# Order 3eefd519c570: this check RE-IMPLEMENTED its subject instead of calling it. It evaluated
+# `bool(_flow19ab.get("eval_count")) or bool(_flow19ab.get("response", "").strip())` against a
+# literal it had written itself -- i.e. `bool(8) or bool("")` -- and `standards.ollama_token_flow`
+# was never called anywhere in the section. So the check passed whatever that function actually
+# did, INCLUDING the response-only predicate it exists to refuse: revert standards.py to the old
+# predicate and this check stayed green, which is the precise failure it was written to prevent.
+#
+# The repair drives the real function over the exact payload measured on 2026-08-24, with two
+# things held down so the answer can only come from the predicate under test:
+#   - urlopen is stubbed, so no daemon is contacted and the check does not depend on the GPU
+#     lane being up (a network-dependent check here would be flaky, not rigorous);
+#   - standards.HERE points at a scratch root holding only a copy of config.yaml, so the LEDGER
+#     FAST PATH -- which returns True without probing whenever a recent metrics row has a tps --
+#     cannot answer on the predicate's behalf and hand back a green it never earned.
+_flow19ab = {"eval_count": 8, "response": "", "thinking": "Okay, the user just said",
+             "done_reason": "length"}
+
+
+class _FlowResp19ab:
+    def __init__(self, payload):
+        self._body = json.dumps(payload).encode()
+
+    def read(self):
+        return self._body
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_exc):
+        return False
+
+
+import shutil as _sh19ab           # noqa: E402
+import urllib.request as _ur19ab   # noqa: E402
+
+_flowroot19ab = _tf.mkdtemp(prefix="panscriptum_tokenflow_19ab_")
+_sh19ab.copy(os.path.join(_ROOT19ab, "config.yaml"), _flowroot19ab)
+_realopen19ab, _realhere19ab = _ur19ab.urlopen, _STx.HERE
+_realflow19ab = dict(_STx._TOKENFLOW)
+try:
+    _ur19ab.urlopen = lambda req, timeout=None: _FlowResp19ab(_flow19ab)
+    _STx.HERE = _flowroot19ab
+    _flowok19ab, _flowsecs19ab = _STx.ollama_token_flow(ttl=0)
+finally:
+    _ur19ab.urlopen = _realopen19ab
+    _STx.HERE = _realhere19ab
+    _STx._TOKENFLOW.clear()
+    _STx._TOKENFLOW.update(_realflow19ab)
+    _sh19ab.rmtree(_flowroot19ab, ignore_errors=True)
+
 check("a reasoning model's truncated generation reads as FLOW, not a wedge",
-      bool(_flow19ab.get("eval_count")) or bool(_flow19ab.get("response", "").strip()), True,
-      note="the exact payload measured on 2026-08-24 that the old predicate called wedged")
+      _flowok19ab, True,
+      note="the exact payload measured on 2026-08-24 -- eval_count 8, thinking non-empty, "
+           "response empty -- put through standards.ollama_token_flow itself rather than "
+           "through a copy of its predicate written here. The old predicate returns False on "
+           "this payload and reports a healthy truncated generation as a dead daemon")
+check("and the verdict came from the PROBE, not from the ledger shortcut",
+      _flowsecs19ab != "ledger", True,
+      note="the fast path returns True on a warm metrics row without ever evaluating the "
+           "predicate; without this pin the check above could read green off a stale tps and "
+           "would survive the predicate being deleted outright")
 
 
 # ---- Section 19ac: a worker request is a ceiling at every value, including zero -------------
@@ -2899,10 +3003,16 @@ check("two entities reading the SAME passage get different cache keys",
       != _ck19ah("h.example", "shared passage text", "Vegeta"), True,
       note="entity-blind keys served one entity's feats to another, and the chunk counted as "
            "answered -- the only path in read.py that loses work permanently")
-check("the same entity and passage still hit the same key",
-      _ck19ah("h.example", "shared passage text", "Goku"),
-      _ck19ah("h.example", "shared passage text", "Goku"),
-      note="the legitimate half of the cache -- a retry re-asks only what is still missing")
+# Order cc500a6cbf4b: this compared `_ck19ah(...)` to itself, which cannot fail. Worse, it could
+# not fail for the case that matters: the chunk cache lives on DISK and is read by a later
+# process, so the claim being made is that the key is stable across runs -- and `f(x) == f(x)`
+# inside one run is true even of a key built from `hash()`, which Python randomises per process
+# and which would therefore miss every cached chunk on every retry. The key is frozen instead.
+check("the same entity and passage still hit the same key IN A LATER PROCESS",
+      _ck19ah("h.example", "shared passage text", "Goku"), ("cf", "1d0609b53066469f"),
+      note="the legitimate half of the cache -- a retry re-asks only what is still missing. "
+           "The cache outlives the process that wrote it, so any change to this derivation "
+           "orphans every chunk already paid for rather than reusing it")
 check("a different passage still keys differently",
       _ck19ah("h.example", "passage A", "Goku") != _ck19ah("h.example", "passage B", "Goku"),
       True)
@@ -3355,8 +3465,28 @@ check("the managed-job roster passes include_self=True",
 
 # The same failure class one layer down: an EXPECTED absence recorded as an unexpected failure,
 # until the expected case was 85% of the ledger and the real one could not be seen in it.
-# sweep.load's only call site (sweep.py:129) does no existence check, so a missing evidence cache
-# is the normal majority path -- 18,418 of 21,764 swallowed entries on 2026-08-25.
+#
+# Order d49b40d51523: THIS COMMENT USED TO JUSTIFY THE SECTION BY A CALL SITE THAT DOES NOT
+# EXIST. It read "sweep.load's only call site (sweep.py:129) does no existence check". There is
+# no such call. `sweep.py:129` is `def sweep():`, and the evidence-cache read that actually runs
+# inside that function is `cachekey.load(F.CACHE, host, e["name"])` at `sweep.py:160` -- a
+# different function in a different module. As of this run `sweep.load` has NO caller anywhere
+# in `src/` except this section. That is filed on its own as 2b695c192470 and is the owner's to
+# rule on; nothing in `sweep.py` is touched from here. (`sweep.load`'s own docstring repeats the
+# same ":129" claim, which is that file's to correct, not this one's.)
+#
+# THE SECTION STAYS, and the reason is not politeness about deleting checks. What it pins is the
+# miss/corrupt SPLIT -- an absent cache returns None silently, an unreadable one returns None
+# AND is recorded -- and that split is the whole repair: it is what took the swallowed-failure
+# ledger from 18,418 of 21,764 entries being one expected absence (2026-08-25, the figure
+# recorded in sweep.load's docstring) back to meaning something. `load` is live, exported code;
+# the contract below is what any caller it regains must be able to rely on, and it is the same
+# contract the live `cachekey.load` path has to keep for the caller that exists today.
+#
+# What this section does NOT establish, and no longer implies it does: that the ledger figure
+# above was produced by THIS function rather than by the `cachekey.load` path. With no caller in
+# the tree, nothing here settles that, and the comment should not borrow the authority of a
+# measurement it cannot attribute.
 import sweep as _sw21
 import silence as _si21
 

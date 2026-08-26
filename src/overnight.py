@@ -176,10 +176,91 @@ def running(fragment, include_self=False):
             continue
         if is_mine and not include_self:
             continue
-        # Normalise separators so a relative and an absolute invocation compare equal.
-        if fragment in cmd.replace("\\", "/").split("/")[-1] or fragment in cmd:
-            return True
+        if not _cmd_is_running(fragment, cmd):
+            continue
+        # AND IT MUST BE THIS TREE'S COPY. `mutate.py` runs the whole battery inside a SANDBOX --
+        # a throwaway temp copy of `src/` -- so a sandboxed `python src/verify_math.py` has a
+        # command line indistinguishable from the live one and differs only in its cwd. Matching
+        # on the name alone made the battery's own answer depend on whether a mutation run
+        # happened to have a child alive, which is a check whose result is not a fact about the
+        # library. `codewatch.twins()` was fixed for exactly this earlier in run #34, after the
+        # same confusion HALTED the library; this is the same rule, asked of the same fields.
+        if not _in_this_tree(int(pid.strip()), cmd):
+            continue
+        return True
     return False
+
+
+def _in_this_tree(pid, cmd):
+    """Is the script on this command line THIS checkout's copy? -> bool.
+
+    FAILS OPEN BY SAYING NO, matching `codewatch.twins()`: a process we cannot resolve is not
+    counted as running the job. That direction is deliberate and it is the cheaper error here --
+    the cost is starting a second copy of something, which the stage guards catch, whereas the
+    other direction is a job that refuses to run for ever because of a process in a directory it
+    has nothing to do with. That failure has already cost this project one outage.
+    """
+    toks = cmd.replace("\\", "/").split()
+    script = next((t for t in toks if t.endswith(".py")), None)
+    if not script:
+        return False
+    if not os.path.isabs(script):
+        try:
+            import psutil
+            script = os.path.join(psutil.Process(pid).cwd(), script)
+        except Exception:
+            return False              # cannot tell whose copy it is -- see the docstring
+    try:
+        return os.path.samefile(script, os.path.join(HERE, "src", os.path.basename(script)))
+    except OSError:
+        return False                  # vanished mid-walk, or unreadable
+
+
+def _cmd_is_running(fragment, cmd):
+    """PURE. Does this command line show `fragment` BEING RUN, rather than merely mentioned?
+
+    THE SECOND ARM USED TO BE `fragment in cmd`, AND THAT IS A MENTION TEST, NOT A RUN TEST.
+    `allsweep` lints the tree with `pyflakes src/codewatch.py src/publish.py src/foreman.py
+    src/overwatch.py`, which names four daemons in one command line, so for the ~120 seconds that
+    linter runs every one of them reads as UP. `autostart.supervisor_alive()` asks this question,
+    so a dead supervisor was reported alive for two minutes out of every sweep -- and the reverse
+    error, a job refusing to start because somebody was reading its file, is the same coin.
+
+    This is the identical defect `codewatch.twins()` carried until run #34, where matching on a
+    bare basename let a SANDBOXED `verify_math.py` -- a temp copy, run by `mutate.py` exactly as
+    designed -- count as a twin of the live one and HALT THE LIBRARY. Fixed there by asking which
+    file is being RUN; fixed here the same way, because two spellings of one rule is how those two
+    sites drifted apart in the first place.
+
+    A fragment may carry arguments (`feats.py --roll` is a real one, from `lognames.OWNER`), so
+    the script half must be the script ARGUMENT and every remaining word must appear among the
+    args -- never anywhere in the string.
+    """
+    parts = fragment.split()
+    want, want_args = parts[0], parts[1:]
+    toks = cmd.replace("\\", "/").split()
+    if not toks:
+        return False
+    # THE INTERPRETER MUST BE PYTHON, which is what separates running a script from reading one.
+    # Without this, `grep -rn read.py src/` matches `read.py` -- a linter, a grep, an editor or a
+    # shell that merely NAMES the file would each count as the job running it. `codewatch.twins()`
+    # carries the same test for the same reason, and its docstring records finding it within a
+    # minute of the first version being written.
+    if "python" not in os.path.basename(toks[0]).lower():
+        return False
+    script = None
+    for i, tok in enumerate(toks):
+        if tok.endswith(".py"):
+            script = tok
+            rest = toks[i + 1:]
+            break
+    else:
+        return False                      # no script argument at all: nothing is being RUN here
+    if os.path.basename(script) != os.path.basename(want):
+        return False
+    # Every argument named in the fragment must be present, so `feats.py --roll` does not match a
+    # `feats.py --mine`. Absent from the fragment means "any invocation of this script".
+    return all(a in rest for a in want_args)
 
 
 # Windows opens a console for every child process unless told not to. `autostart.py` already

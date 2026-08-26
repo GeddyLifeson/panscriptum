@@ -85,6 +85,11 @@ LOG = os.path.join(HERE, "data", "FOREMAN.json")
 FOR_OWNER = os.path.join(HERE, "FOR_OWNER.md")
 BACKUPS = os.path.join(HERE, "state", "foreman_backups")
 
+# The catalogue dispatch's rotation ledger, and the number that used to be a filter and is now
+# only a RATE. See _catalogue_batch().
+CATALOGUE_ATTEMPTS = os.path.join(HERE, "state", "CATALOGUE_ATTEMPTS.json")
+CATALOGUE_SHORTFALL = 100
+
 # Files a model may never edit. Each is either the thing that would have to be working to detect
 # a bad patch, or the thing doing the patching.
 DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards", "verify_math"}
@@ -638,6 +643,111 @@ def _fandom_reachable(timeout=8, _opener=None):
         return False
 
 
+def _catalogue_batch():
+    """Which short sources this dispatch names, and which are waiting their turn.
+
+    -> (batch, deferred, off_roll, unnameable, universe_size, fragments), where `batch` and
+    `deferred` are lists of (source name, gap), `batch` is what goes on the command line this
+    round, and `fragments` maps a source name to the comma-free `--only` needle for it.
+
+    HARD RULE 0, IN THE SHAPE THAT LOOKED LIKE A RATE. `run_catalogue_gap` dispatched
+    `--shortfall 100`, and in `catalogue_web` that argument is a HARD FILTER, not a rate: it
+    keeps every source short by 100 or more and DISCARDS the rest outright, with no cap and
+    nothing rotating. Measured on the live audit the day this was fixed: 54 sources are
+    reliably short and 19 of them clear 100, so **35 sources could never be dispatched at all**
+    -- Fortnite short by 94, Tekken by 80, Naruto by 44, and on down. Not deferred, not queued,
+    not slow: absent. And absent in the way Hard Rule 0 warns about, because the pass reported
+    itself as a completed catalogue run every single time.
+
+    It is the same non-rotating window the owner abolished in `scout.sweep(limit=4)` on
+    2026-08-25, and it had the same self-sealing property: a source LEAVES the short list only
+    when it is catalogued, so the sources at the head stayed at the head, were re-dispatched
+    every round for ever, and nothing below the line ever moved up. The window could not
+    rotate, because the only thing that would have moved a source out of it was the very work
+    that was not being given to anything else.
+
+    So the treatment is scout's, exactly: the universe is WHOLE (every source the audit says is
+    short by one or more), the ordering is LAST-DISPATCHED FIRST with the gap as the tie-break
+    among equally stale sources, and what is deferred is PRINTED BY NAME, because a window
+    nobody can see the far side of reads exactly like a complete list.
+
+    AND THE VOLUME IS LEFT WHERE IT IS, deliberately. `catalogue_web --recatalogue` is under an
+    open BLOCKING order (3c7c8a6e9102) for nulling records' synthesis blocks, and this run is
+    not the one to widen its dispatch. `CATALOGUE_SHORTFALL` therefore survives, but it now
+    means "as many sources per dispatch as the old filter would have taken" -- a RATE, which is
+    a cost decision -- instead of "which sources exist", which was never anybody's to decide.
+    The count is derived from the same audit each round, so the rate tracks whatever the old
+    behaviour would have done while the MEMBERSHIP rotates underneath it.
+
+    STAMPED BEFORE THE WORK, not after, for scout's reason: a source whose dispatch dies must
+    still count as attempted, or it sorts to the front again next round and pins the window the
+    way the gap ordering did -- the same bug wearing the fix's clothes.
+    """
+    with open(os.path.join(HERE, "data", "COMPLETENESS.json"), encoding="utf-8") as f:
+        comp = json.load(f)
+    gap = {}
+    for c in comp:
+        if c.get("unreliable"):
+            continue
+        missing = (c.get("wiki_persons") or 0) - (c.get("catalogued_persons") or 0)
+        if missing > 0:
+            gap[str(c.get("source"))] = missing
+
+    # A SOURCE THE AUDIT NAMES BUT THE ROLL DOES NOT can never be dispatched by any argument, so
+    # it is separated out and reported rather than left to look like a source waiting its turn.
+    import catalogue_web as CW
+    roll = {str(r.get("name") or "").lower() for r in CW.load_roll()}
+    off_roll = sorted(n for n in gap if n.lower() not in roll)
+    for n in off_roll:
+        gap.pop(n, None)
+
+    # `catalogue_web --only` SPLITS ON COMMAS, so a source whose own name contains one cannot be
+    # passed whole -- and two of them do ("Warhammer 40,000", "Gundam (all centuries, incl. G
+    # Gundam)"). The longest comma-free prefix is used instead, and only if it identifies this
+    # source and no other in the universe; `--only` is a substring match, so a fragment that hits
+    # two sources would quietly WIDEN the dispatch, which is the one thing this change must not
+    # do. A fragment that cannot be made unambiguous is reported by name every round rather than
+    # silently dropped, because a source that can never be named is exactly the thing Hard Rule 0
+    # is about.
+    frags, unnameable = {}, []
+    for n in gap:
+        f = n.split(",")[0].strip().lower()
+        if not f or sum(1 for m in gap if f in m.lower()) != 1:
+            unnameable.append(n)
+        else:
+            frags[n] = f
+    for n in unnameable:
+        gap.pop(n, None)
+
+    try:
+        with open(CATALOGUE_ATTEMPTS, encoding="utf-8") as f:
+            seen = json.load(f)
+    except Exception:
+        # An unreadable or absent ledger reads as "nothing has ever been attempted", which sends
+        # everything to the front of one queue in a defined order. That costs a round of
+        # re-ordering; it never costs a source its place.
+        silence.note("foreman.py:catalogue-attempts")
+        seen = {}
+    order = sorted(gap, key=lambda s: (float(seen.get(s) or 0.0), -gap[s]))
+
+    rate = sum(1 for s in gap if gap[s] >= CATALOGUE_SHORTFALL)
+    rate = max(1, min(rate, len(order)))          # never zero, or a thin audit stalls for ever
+    batch, rest = order[:rate], order[rate:]
+
+    now = time.time()
+    for s in batch:
+        seen[s] = now
+    seen = {k: v for k, v in seen.items() if k in gap}      # forget sources no longer short
+    if not silence.write_json(CATALOGUE_ATTEMPTS, seen):
+        # A LOST LEDGER IS A LOST ROTATION. Nothing is dispatched twice by it, but the same
+        # batch sorts to the front again next round and the window stops turning -- silently,
+        # which is the failure mode this whole function exists to end.
+        silence.note("foreman.py:catalogue-attempts-denied")
+
+    return ([(s, gap[s]) for s in batch], [(s, gap[s]) for s in rest],
+            off_roll, unnameable, len(gap), frags)
+
+
 def run_catalogue_gap():
     """Catalogue coverage is short. Start the pass that closes it, now.
 
@@ -645,6 +755,10 @@ def run_catalogue_gap():
     something UNFINISHED, which the standards system previously had no way to express: the
     library knew it held 4.9% of its own sources' characters and that fact sat in a JSON file
     waiting for a person to notice. Work that is known to be outstanding should dispatch itself.
+
+    WHICH sources it dispatches now rotates. See `_catalogue_batch()` -- the `--shortfall 100`
+    this used to pass was a filter that permanently excluded 35 of the 54 short sources, and the
+    volume is deliberately unchanged by the repair.
     """
     try:
         import overnight as ON
@@ -653,9 +767,44 @@ def run_catalogue_gap():
         if not _fandom_reachable():
             return False, ("fandom.com is dropping connections (IP block or outage); "
                            "catalogue deferred rather than dispatched into it")
-        ON.start("catalogue gap", ["src/catalogue_web.py", "--recatalogue", "--shortfall", "100"],
+        try:
+            batch, deferred, off_roll, unnameable, whole, frags = _catalogue_batch()
+        except Exception as e:
+            # FAIL CLOSED. Without a batch the only dispatch available is the old whole-universe
+            # one, and widening this job's volume on a round where the audit could not be read
+            # is precisely the thing the blocking order on `--recatalogue` forbids.
+            silence.note("foreman.py:catalogue-batch")
+            return False, ("could not choose a catalogue batch (%s: %s); nothing dispatched"
+                           % (type(e).__name__, str(e)[:70]))
+        if not batch:
+            return False, "the completeness audit says no source is short; nothing to dispatch"
+
+        # PRINTED BY NAME, all of it. These lines go to the foreman's operational log, which is
+        # the log a person actually reads, and they are the difference between a rotation and a
+        # truncation that happens to move.
+        print("   AUTO   catalogue: %d of %d short source(s) this round, longest-waiting first: "
+              % (len(batch), whole) + ", ".join("%s (short %d)" % (n, g) for n, g in batch))
+        if deferred:
+            print("   AUTO   catalogue: %d waiting for a later round, each moving to the front "
+                  "by waiting: " % len(deferred)
+                  + ", ".join("%s (short %d)" % (n, g) for n, g in deferred))
+        if off_roll:
+            print("   AUTO   catalogue: named by the audit but ABSENT FROM THE ROLL, so no "
+                  "dispatch can reach them: " + ", ".join(off_roll))
+        if unnameable:
+            print("   AUTO   catalogue: cannot be named unambiguously on the command line, so "
+                  "NOT dispatched this round: " + ", ".join(unnameable))
+
+        # `--shortfall 1` keeps the universe whole on catalogue_web's side (every source short by
+        # one or more) and leaves its largest-gap-first ranking intact; `--only` is what selects
+        # this round's rotated membership. The two together also mean a fragment that somehow
+        # matched a source with no gap still cannot be dispatched.
+        ON.start("catalogue gap",
+                 ["src/catalogue_web.py", "--recatalogue", "--shortfall", "1",
+                  "--only", ",".join(frags[n] for n, _g in batch)],
                  "recatalogue.log")
-        return True, "started catalogue_web --recatalogue --shortfall 100"
+        return True, ("started catalogue_web on %d of %d short source(s); %d deferred to a "
+                      "later round (named above)" % (len(batch), whole, len(deferred)))
     except Exception as e:
         silence.note("foreman.py:run_catalogue_gap")
         return False, "could not start the catalogue pass: " + str(e)[:90]
@@ -989,16 +1138,37 @@ def _checks_pass(module):
     if m.group(1) != "0":
         return False, "verify_math no longer passes (%s failing)" % m.group(1)
     r = _run([os.path.join(SRC, "allsweep.py"), "--quick"], timeout=900)
-    if "BROKEN" in (r.stdout or ""):
-        # SAY WHAT THIS ACTUALLY CHECKS (run #19). The gate list in the module docstring called
-        # this "no NEW broken module", which would need a pre-patch baseline; none is taken, so
-        # the real test is "no broken module at all". The difference has teeth: one unrelated
-        # module already broken before any patch is attempted refuses EVERY patch from then on,
-        # silently, and the old message blamed the patch for it. The gate is deliberately left
-        # strict -- loosening a safety check that guards model-authored writes to live source is
-        # not a change to make unasked -- but it no longer misreports why it fired.
-        return False, ("allsweep reports a broken module -- NOTE: no pre-patch baseline is "
-                       "taken, so this may pre-date the patch rather than be caused by it")
+    # READ THE EXIT CODE, NOT A TOKEN OUT OF THE CONSOLE.
+    #
+    # This tested `"BROKEN" in stdout`, and only ONE of allsweep's tiers prints that word. The
+    # IMPORT tier prints `BROKEN <module>`; the LINT tier prints `UNDEFINED  <pyflakes line>`
+    # and was invisible to this gate entirely. So the exact fault class LINT exists to catch --
+    # an undefined name, which `import <module>` cannot see because the module imports fine and
+    # only explodes when the function is called -- was ACCEPTED by the last gate standing
+    # between a model-authored patch and live source. `wiki_source.py` is the recorded instance
+    # of that fault reaching production: it imported clean, swept clean twice, and then failed
+    # the moment the re-catalogue asked it to resolve DC.
+    #
+    # allsweep already publishes the right contract: `main()` returns `1 if bad else 0` where
+    # `bad` sums every GRADED tier (imports, crashed/timed-out verifiers, lint, estate), and
+    # deliberately leaves the ungraded reconcile rows out of it. Gating on that number is the
+    # whole of the fix, and it also fails closed on the case the substring could never see at
+    # all -- allsweep itself crashing, which produced no "BROKEN" and therefore read as a pass.
+    #
+    # Same family as the `local_agent` gate that tested `"0 FAILED" not in stdout` and duly
+    # passed `10 FAILED`, and as `adopt_hosts` counting "0 adopted" as an adoption. A substring
+    # standing in for a count is not a check; it is a check-shaped thing that cannot fail.
+    if r.returncode != 0:
+        graded = [ln.strip() for ln in (r.stdout or "").splitlines() if "graded:" in ln]
+        # NOTE ON STRICTNESS, unchanged from run #19: no pre-patch baseline is taken, so this
+        # is "no bad subsystem at all" rather than "no NEW bad subsystem". One module already
+        # broken for unrelated reasons therefore refuses every patch until it is fixed. That is
+        # deliberate -- loosening a safety that guards model-authored writes to live source is
+        # not a change to make unasked -- but the message must not blame the patch for it.
+        return False, ("allsweep --quick exits %s (a graded tier is bad: imports, lint, "
+                       "verifiers or estate)%s -- NOTE: no pre-patch baseline is taken, so "
+                       "this may pre-date the patch rather than be caused by it"
+                       % (r.returncode, (" [" + graded[-1] + "]") if graded else ""))
     return True, "checks pass"
 
 

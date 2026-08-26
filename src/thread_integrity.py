@@ -36,27 +36,39 @@ import collections
 import json
 import os
 import sys
-import silence
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 
 def load_entities():
-    """Every catalogued entity, by source, with its normalised key."""
-    import glob
-    import re
+    """Every catalogued entity, by source, with its normalised key.
+
+    THE KEY SPACE IS THE WHOLE POINT (BUGS d8719255faab, 2026-08-26). These keys are compared
+    against `WEAVE_CANDIDATES.json`, whose keys are produced by `weave_index.norm`. This
+    function used to fold by hand -- lowercase, drop parentheticals, strip non-alphanumerics --
+    which is NOT that fold, and so the comparison was between two different key spaces. Every
+    name the two folds disagreed on read as an entity that had vanished from its source, and
+    got reported as a broken obligation when nothing was broken:
+
+      * no accent folding      "Amelie" vs "amlie" -- `norm` does NFKD first
+      * no title stripping     "The Ordning", "St Patrick's Day" keep their article/honorific
+      * no @continuity suffix  0 such keys today, but 100% wrong the first time one appears
+
+    Measured against live data before the fix: 24 of 2,775 candidate keys could not be produced
+    by the hand fold at all, and 418 of 592 DANGLING pairs were pure artifacts of it.
+
+    The correct fix was rejected once on cost -- `norm` was 13.0 ms/call, so ~43 min over this
+    corpus. That was the `_records_sig` defect (BUGS 31715d371415), now fixed; `norm` is
+    0.012 ms/call and the designation set is hoisted here exactly once for the whole pass.
+    """
+    import weave_index as WI
     ents = collections.defaultdict(set)
     names = {}
-    for p in glob.glob(os.path.join(HERE, "data/records/*.json")):
-        try:
-            with open(p, encoding="utf-8") as f:
-                rec = json.load(f)
-        except Exception:
-            silence.note("thread_integrity.py:54")
-            continue
+    known = WI.designations()
+    for rec in WI.load_records():
         for e in rec.get("entries", []):
-            k = re.sub(r"[^a-z0-9]", "", re.sub(r"\([^)]*\)", "", (e.get("name") or "").lower()))
+            k = WI.norm(e.get("name"), known)
             if k:
                 ents[rec["source"]].add(k)
                 names.setdefault(k, e.get("name"))
@@ -92,9 +104,11 @@ def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents
 
       recorded=None (today)   implied pairs classify as IMPLIED-UNRECORDED -- obligations
                               awaiting the entanglement pass, counted and listed, never
-                              dressed as reciprocity nobody verified. DANGLING is computed
-                              for real, against the live records: a candidate key whose
-                              source no longer holds that entity (weave drift).
+                              dressed as reciprocity nobody verified. DANGLING and
+                              PARTIALLY-DANGLING are computed for real, against the live
+                              records: a candidate key whose source no longer holds that
+                              entity (weave drift), for all of a pair's shared keys or
+                              only some of them.
       recorded={(a,b),...}    the future directed graph. The original four-way
                               classification runs, asymmetry classes and all.
     """
@@ -109,7 +123,18 @@ def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents
             gone = [k for k in shared if k not in ents.get(a, ()) or k not in ents.get(b, ())]
             if gone and len(gone) == len(shared):
                 out["DANGLING"] += 1
-                detail["DANGLING"].append((a, b, len(gone)))
+                detail["DANGLING"].append((a, b, len(gone), len(shared)))
+                continue
+            if gone:
+                # BUGS 2b4e0f497aac. Drift was only reported when EVERY shared key had gone,
+                # so a pair sharing 100 entities of which 99 had drifted printed as a clean
+                # obligation -- 99 broken threads invisible behind one survivor. Partial drift
+                # gets its own class rather than being folded into DANGLING: the pair DOES
+                # still hold live shared entities, so it is a real obligation, and calling it
+                # wholly dangling would be the opposite error. Exclusive, like DANGLING, so
+                # the classes still partition the pairs and the percentages still sum.
+                out["PARTIALLY-DANGLING"] += 1
+                detail["PARTIALLY-DANGLING"].append((a, b, len(gone), len(shared)))
                 continue
         if recorded is None:
             out["IMPLIED-UNRECORDED"] += 1
@@ -165,10 +190,15 @@ def main():
     print("(no directed thread graph exists yet -- Hard Rule 5; asymmetry classes activate "
           "with the Step 4 entanglement pass)")
     for k in ("IMPLIED-UNRECORDED", "RECIPROCAL", "ASYMMETRIC-LAWFUL", "ASYMMETRIC-SUSPECT",
-              "DANGLING"):
+              "PARTIALLY-DANGLING", "DANGLING"):
         if counts.get(k):
             print(f"  {k:20s} {counts[k]:6,}  ({counts[k]/total:5.1%})")
     print()
+    if detail["PARTIALLY-DANGLING"]:
+        print("  partial weave drift (obligation still real, some shared entities gone):")
+        for a, b, n, tot in sorted(detail["PARTIALLY-DANGLING"], key=lambda x: -x[2])[:8]:
+            print(f"     {n:4d}/{tot:<5d} drifted  {a[:24]:26s} <-> {b[:24]}")
+        print()
     if detail["RECIPROCAL"]:
         print("  strongest reciprocal bonds (the omniverse joined):")
         for a, b, n in sorted(detail["RECIPROCAL"], key=lambda x: -x[2])[:8]:

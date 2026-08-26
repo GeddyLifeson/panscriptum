@@ -46,6 +46,7 @@ import json
 import os
 import sqlite3
 import sys
+import threading
 import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -77,7 +78,16 @@ CREATE INDEX IF NOT EXISTS evidence_host   ON evidence(host);
 """
 
 
-def connect(path=DB, readonly=False):
+def connect(path=None, readonly=False):
+    """Open the index. `path=None` means the CURRENT value of DB, read at call time.
+
+    The default used to be `path=DB`, which Python binds ONCE at import: repointing
+    `corpus_db.DB` at a temp database then left `query`, `age_seconds` and `freshness` all
+    silently answering from the live one. Nothing in production repoints DB, so this was never
+    a wrong answer in a run -- but it is exactly wrong when somebody proves a change against a
+    throwaway index and gets the real one's numbers back, believing they proved something.
+    """
+    path = DB if path is None else path
     if readonly:
         return sqlite3.connect("file:%s?mode=ro" % path.replace("\\", "/"), uri=True)
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -91,9 +101,24 @@ def rebuild(include_evidence=True, evidence_limit=None):
     changed, and being wrong about that produces a derived view that quietly disagrees with the
     records -- exactly the class of silent, outliving failure this project keeps paying for. The
     whole rebuild takes seconds; correctness is cheaper than cleverness at this size.
+
+    WHAT WOULD NOT PARSE IS COUNTED AND NAMED, in `unreadable_records` / `unreadable_evidence`,
+    and the counts are written into `meta` so a reader of the index can see the caveat without
+    having the rebuild's stdout. This used to be `except Exception: continue` -- the record was
+    dropped in silence and `n_src`/`n_entry` were then reported as the corpus TOTALS. A partial
+    count read as a total is precisely how a run here talks itself into work that is already
+    done, or out of work that is not; `drift()` a few functions down already records the same
+    failure with `silence.note`, so the module was inconsistent with itself about it.
     """
     t0 = time.time()
-    tmp = DB + ".tmp"
+    # THE TMP NAME CARRIES PID AND THREAD. A fixed `DB + ".tmp"` plus the unconditional delete
+    # below meant two concurrent rebuilds destroyed each other's in-progress database: the
+    # second one's first act was to unlink the file the first was still writing into, and
+    # whichever finished last landed a half-built index over a whole one. The project states
+    # this rule in `silence.write_json`'s docstring (silence.py:358-361) and restates it in
+    # `module_index.py:88-90`; this was the site that did not obey it. With a unique name the
+    # pre-delete can only ever remove THIS process's own leftovers.
+    tmp = "%s.%d.%d.tmp" % (DB, os.getpid(), threading.get_ident())
     for p in (tmp, tmp + "-journal"):
         if os.path.exists(p):
             os.remove(p)
@@ -137,11 +162,18 @@ def rebuild(include_evidence=True, evidence_limit=None):
         _spine_for = None
 
     n_src = n_entry = 0
+    unreadable_records = []
+    unreadable_evidence = []
     for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json"))):
         try:
             with open(p, encoding="utf-8") as f:
                 rec = json.load(f)
-        except Exception:
+        except Exception as e:
+            # NAMED, NOT SKIPPED. The file is still excluded -- there is nothing to insert --
+            # but a source silently missing from the index reads downstream as a source with
+            # no entries, which is the opposite of "its record could not be read".
+            silence.note("corpus_db.py:record")
+            unreadable_records.append("%s (%s)" % (os.path.basename(p), type(e).__name__))
             continue
         src = rec.get("source")
         c = cov.get(src) or {}
@@ -182,9 +214,15 @@ def rebuild(include_evidence=True, evidence_limit=None):
             try:
                 with open(p, encoding="utf-8") as f:
                     d = json.load(f)
-            except Exception:
+            except Exception as e:
+                silence.note("corpus_db.py:evidence")
+                unreadable_evidence.append("%s (%s)"
+                                           % (os.path.basename(p), type(e).__name__))
                 continue
             if not isinstance(d, dict):
+                # Parsed, but not an evidence document. Also counted: a JSON list or string
+                # where a feats file should be is a corrupt file that happens to parse.
+                unreadable_evidence.append("%s (not a dict)" % os.path.basename(p))
                 continue
             batch.append((d.get("entity"), d.get("host"),
                           len(d.get("feats") or []),
@@ -204,6 +242,13 @@ def rebuild(include_evidence=True, evidence_limit=None):
     con.execute("INSERT OR REPLACE INTO meta VALUES ('sources', ?)", (str(n_src),))
     con.execute("INSERT OR REPLACE INTO meta VALUES ('entries', ?)", (str(n_entry),))
     con.execute("INSERT OR REPLACE INTO meta VALUES ('evidence', ?)", (str(n_ev),))
+    # The caveat travels WITH the index, not only in the rebuild's stdout. A query answered
+    # from this database months from now should be able to find out that its totals were taken
+    # over a corpus two files of which could not be read.
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('unreadable_records', ?)",
+                (str(len(unreadable_records)),))
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('unreadable_evidence', ?)",
+                (str(len(unreadable_evidence)),))
     con.commit()
     con.close()
     # THE VERDICT OF THE FINAL WRITE HAS TO REACH THE CALLER. `replace_retry` returns False
@@ -213,18 +258,51 @@ def rebuild(include_evidence=True, evidence_limit=None):
     # on reporting the OLD `built_at`, and every later query answered from stale data. Same
     # shape as BUGS M36.
     landed = silence.replace_retry(tmp, DB)
+    if not landed:
+        # `replace_retry` records a denial and returns False; it does not unlink the temp file.
+        # With the pid/thread name above, every denied rebuild would otherwise leave its own
+        # multi-megabyte orphan behind forever. Losing it costs nothing -- a rebuild is a pure
+        # function of the records and takes under a minute -- while a directory filling with
+        # near-identical temp databases is a real hazard next to the live one.
+        try:
+            os.remove(tmp)
+        except OSError:
+            silence.note("corpus_db.py:tmp-orphan")
     return {"sources": n_src, "entries": n_entry, "evidence": n_ev,
-            "seconds": round(time.time() - t0, 2), "landed": landed}
+            "seconds": round(time.time() - t0, 2), "landed": landed,
+            "unreadable_records": unreadable_records,
+            "unreadable_evidence": unreadable_evidence}
 
 
 def age_seconds():
+    """How old the index is in seconds, or None. -> float|None.
+
+    None IS AMBIGUOUS AND CALLERS MUST NOT RESOLVE IT THEMSELVES. It means any of: no database
+    file, a database that cannot be opened (locked by a writer, or corrupt), or one that does
+    not record when it was built. `freshness()` distinguishes all three and supplies the reason
+    in words; every reader in this module now asks it instead, because `main()` used to print
+    None as "absent -- run --rebuild" and a present-but-locked database is not an absent one --
+    --rebuild cannot fix the first and is the whole remedy for the second.
+    """
+    con = None
     try:
         con = connect(readonly=True)
         v = con.execute("SELECT value FROM meta WHERE key='built_at'").fetchone()
-        con.close()
         return time.time() - float(v[0]) if v else None
     except Exception:
+        silence.note("corpus_db.py:age")
         return None
+    finally:
+        # THE HANDLE IS CLOSED ON THE FAILING PATH TOO. `con.close()` sat after the query, so a
+        # corrupt or locked database raised past it and left the connection open for the life
+        # of the process -- and on Windows a held handle is a DENIED RENAME, which is the exact
+        # way `rebuild()` fails to land. The unreadable-index reader was quietly making the
+        # unreadable index harder to replace.
+        if con is not None:
+            try:
+                con.close()
+            except Exception:
+                silence.note("corpus_db.py:age-close")
 
 
 def freshness():
@@ -310,7 +388,18 @@ def _freshness_banner():
     """
     f = freshness()
     if f["age_seconds"] is None:
-        return "  [ NO INDEX — run --rebuild. These are not results. ]"
+        # THE REASON `freshness()` COMPUTED, not a guess. This line said "NO INDEX -- run
+        # --rebuild" for all three of its causes, so an index that was present but LOCKED or
+        # CORRUPT was reported as one that had never been built, and the suggested remedy was
+        # the one that cannot work.
+        #
+        # The words NO INDEX stay in the line: `drill.py`'s
+        # `stale_index_says_so_where_the_numbers_are` net asserts them for exactly this state,
+        # and a net is not a formality to route around.
+        if not os.path.exists(DB):
+            return "  [ NO INDEX — none on disk. Run --rebuild. These are not results. ]"
+        return ("  [ NO INDEX — the file IS on disk and unusable: %s. These are not results, "
+                "and --rebuild may not be the remedy. ]" % f["reason"])
     mins = f["age_seconds"] / 60
     if not f["stale"]:
         return "  [ index built %.0f min ago; no record has changed since ]" % mins
@@ -333,23 +422,39 @@ def query(sql, args=()):
 # Questions this session answered with throwaway scripts. Kept so the next reader gets the
 # answer rather than the archaeology -- and so two people asking the same question get the
 # same number.
+#
+# NO `LIMIT`. SIX OF THESE NINE CARRIED ONE (LIMIT 15, and types LIMIT 25) while `unaddressed`,
+# `hostless` and `categories` deliberately carried none, which is the same file understanding
+# the rule in one paragraph and breaking it in the next. Hard Rule 0: ranking is encouraged,
+# ranking THEN TRUNCATING is forbidden, because a cap on an ordered listing does not fail -- it
+# returns a smaller universe wearing the same shape as the real one. `unjudged` and
+# `worst_cited` are WORK LISTS: source #16 in either is a source nobody will ever be told about,
+# and the comment above promising "the same number" was promising the same TRUNCATED number.
+#
+# The other four are distributions over bounded domains -- 216 sources, ~130 evidence hosts, a
+# few dozen types -- so the cut was buying nothing even as a display. `datasette_metadata()`
+# renders this dict verbatim, so every cap was inherited by the browsable front end too, where
+# a truncated table looks exactly like a complete one.
+#
+# If a listing is genuinely long, the answer is `--sql` with the reader's own LIMIT, chosen by a
+# person who can see what they are cutting off. It is never a smaller universe by default.
 CANNED = {
     "coverage": "SELECT name, entries, cited, read, no_page, not_attempted "
-                "FROM source ORDER BY entries DESC LIMIT 15",
+                "FROM source ORDER BY entries DESC",
     "unaddressed": "SELECT name, entries FROM source WHERE spine IS NULL "
                    "ORDER BY entries DESC",
     "hostless": "SELECT name, entries FROM source WHERE host IS NULL ORDER BY entries DESC",
     "categories": "SELECT category, COUNT(*) n FROM entry GROUP BY category ORDER BY n DESC",
     "types": "SELECT type, COUNT(*) n FROM entry WHERE type IS NOT NULL "
-             "GROUP BY type ORDER BY n DESC LIMIT 25",
+             "GROUP BY type ORDER BY n DESC",
     "unjudged": "SELECT source, COUNT(*) n FROM entry WHERE catalogued=0 AND excluded=0 "
-                "GROUP BY source ORDER BY n DESC LIMIT 15",
+                "GROUP BY source ORDER BY n DESC",
     "evidence": "SELECT host, COUNT(*) files, SUM(feats) feats, SUM(pages) pages "
-                "FROM evidence GROUP BY host ORDER BY feats DESC LIMIT 15",
+                "FROM evidence GROUP BY host ORDER BY feats DESC",
     "refused": "SELECT host, COUNT(*) n FROM evidence WHERE refused>0 GROUP BY host "
-               "ORDER BY n DESC LIMIT 15",
+               "ORDER BY n DESC",
     "worst_cited": "SELECT name, entries, cited, ROUND(100.0*cited/entries,1) pct "
-                   "FROM source WHERE entries>=40 ORDER BY pct ASC LIMIT 15",
+                   "FROM source WHERE entries>=40 ORDER BY pct ASC",
 }
 
 
@@ -434,6 +539,15 @@ def main():
             return 1
         print("rebuilt: %(sources)d sources, %(entries)d entries, %(evidence)d evidence rows "
               "in %(seconds)ss" % got)
+        # WHAT DID NOT PARSE, BEFORE THE TOTALS ARE BELIEVED. Named in full, never counted and
+        # cut: the file that would not read is the one somebody has to go look at.
+        for label, bad in (("record", got["unreadable_records"]),
+                           ("evidence", got["unreadable_evidence"])):
+            if bad:
+                print("  WARNING: %d %s file(s) COULD NOT BE PARSED and are missing from the "
+                      "counts above -- those counts are a FLOOR, not a total:" % (len(bad), label))
+                for name in bad:
+                    print("      " + name)
         if before:
             print("  closed a gap of %d entries the index was missing" % before)
         print("  -> %s (%.1f MB)" % (DB, os.path.getsize(DB) / 1e6))
@@ -448,9 +562,18 @@ def main():
 
     sql = a.sql or CANNED.get(a.canned or "")
     if not sql:
-        age = age_seconds()
-        print("corpus.db %s" % ("absent -- run --rebuild"
-                                if age is None else "built %.1f min ago" % (age / 60)))
+        # ABSENT AND UNREADABLE ARE DIFFERENT DATABASES. `age_seconds()` answers None for three
+        # unrelated reasons and this line rendered all of them as "absent -- run --rebuild",
+        # which is the wrong instruction for two of the three: a locked database wants the
+        # readers closed and a corrupt one wants deleting first. `freshness()` already knew
+        # which; the reader was throwing that away.
+        f = freshness()
+        if f["age_seconds"] is None:
+            print("corpus.db NOT USABLE -- %s (%s)"
+                  % (f["reason"], "the file is not on disk" if not os.path.exists(DB)
+                     else "the file IS on disk at " + DB))
+        else:
+            print("corpus.db built %.1f min ago" % (f["age_seconds"] / 60))
         print("\ncanned queries: " + ", ".join(sorted(CANNED)))
         return 0
     cols, rows = query(sql)

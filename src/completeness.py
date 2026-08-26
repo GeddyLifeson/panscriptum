@@ -33,6 +33,7 @@ import os
 import time
 import sys
 import collections
+import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -61,6 +62,31 @@ def subdomain(host):
     if not isinstance(host, str) or not host.endswith(".fandom.com"):
         return None
     return host[: -len(".fandom.com")]
+
+
+# `pages:<source>` and `doc:<slug>` are PROVENANCE SENTINELS, not hosts: an owner-supplied
+# document or a hand-registered page list, recorded in the same column because that column is
+# "where this source's material comes from". The project's own idiom for telling them apart is
+# `str(h).startswith(("pages:", "doc:"))` -- binding_health.py:406 and health.py:255-257 both
+# do exactly this, and health.py's comment says why: probing one as a host is meaningless.
+SENTINELS = ("pages:", "doc:")
+
+
+def wiki_host(host):
+    """Is this a hostname that can be ASKED something? -> bool.
+
+    Added with the 196-source admission below. The audit now sees values that were previously
+    filtered out one line earlier, and two of them must never reach the network: a sentinel
+    (`pages:all Creeper World`) and a missing host (None). Resolving either through
+    `endpoint.detect` would spend a DNS lookup on a phrase and then cache a DEAD verdict for a
+    host that does not exist, which is a fabricated fact about a source that never had a wiki.
+    """
+    if not isinstance(host, str):
+        return False
+    h = host.strip()
+    if not h or h.startswith(SENTINELS):
+        return False
+    return "." in h and ":" not in h and "/" not in h and not any(c.isspace() for c in h)
 
 
 _CS_CACHE_P = os.path.join(HERE, "state", "category_sizes.json")
@@ -127,6 +153,71 @@ def category_size(sub, category):
     days clock; the standard's job is to keep the shortfall visible, not to re-ask fandom
     the same question 48 times a day."""
     return category_size_probe(sub, category)[0]
+
+
+def api_base(host):
+    """The MediaWiki API base for a non-fandom host, or None. -> str|None.
+
+    Through `endpoint.api_url`, never hardcoded, for the reason `host_reachable` states below:
+    `/api.php` is a Fandom assumption and Wikipedia serves `/w/api.php`. A host whose mode is
+    RAW or DEAD has no API and answers None here -- which is a different fact from "the probe
+    failed", and the caller reports it as a different fact.
+    """
+    try:
+        import endpoint as EP
+        return EP.api_url(host)
+    except Exception:
+        silence.note("completeness.py:api-base")
+        return None
+
+
+def category_size_probe_host(host, category):
+    """`category_size_probe` for a wiki that is not on fandom. -> (n, error).
+
+    `wiki_source._api` hardcodes `https://{subdomain}.fandom.com/api.php` -- correctly, it is
+    the fandom transport -- so it cannot ask en.wikipedia.org or rimworldwiki.com the same
+    question. This asks it over `endpoint`, which already resolves each host's own API path and
+    carries the project's User-Agent (a bare urllib request is answered 403 by both Wikipedia
+    and Fandom, which would report every host on earth as unmeasurable).
+
+    Cached in the SAME 12h file as the fandom probe, keyed by full host rather than subdomain --
+    which matters more here than there: 22 sources share en.wikipedia.org, so a per-source cache
+    would ask Wikipedia the identical eight questions 22 times per audit, and this audit runs
+    every foreman round.
+    """
+    d = _cs_load()
+    k = host + "|" + category
+    hit = d.get(k)
+    if hit and time.time() - hit.get("at", 0) < _CS_TTL:
+        return hit.get("n"), None
+    base = api_base(host)
+    if not base:
+        return None, "NoAPI"
+    try:
+        import endpoint as EP
+        q = urllib.parse.urlencode({"action": "query", "format": "json",
+                                    "prop": "categoryinfo",
+                                    "titles": "Category:" + category})
+        j = json.loads(EP._get(base + "?" + q))
+    except Exception as e:
+        silence.note("completeness.py:category_size_host")
+        return None, type(e).__name__
+    got = None
+    for p in ((j.get("query", {}) or {}).get("pages", {}) or {}).values():
+        ci = p.get("categoryinfo") if isinstance(p, dict) else None
+        if ci:
+            got = ci.get("pages", 0)
+            break
+    cache = _cs_load()
+    cache[k] = {"at": time.time(), "n": got}
+    try:
+        tmp = _CS_CACHE_P + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(cache, f)
+        silence.replace_retry(tmp, _CS_CACHE_P)
+    except Exception:
+        silence.note("completeness.py:cs-cache")
+    return got, None
 
 
 def catalogued_counts():
@@ -245,7 +336,27 @@ def audit(only=None, workers=6):
         byslug[str(src).lower()] = v
         byslug[v["file"][:-5].replace("-", " ")] = v
 
-    todo = [(src, h) for src, h in hosts.items() if subdomain(h)]
+    # EVERY SOURCE THE LIBRARY KNOWS OF, not every source that happens to be on fandom.
+    #
+    # This line read `if subdomain(h)`, which admitted only `*.fandom.com`. 164 of the 203
+    # sources on WIKI_HOSTS.json are fandom, so THIRTY-TWO hosted sources -- 22 on
+    # en.wikipedia.org, 4 on www.dandwiki.com, rimworldwiki.com, and 5 `pages:`/`doc:`
+    # sentinels -- got no row of any kind, plus 7 with no host recorded and 13 sources that
+    # have records but no WIKI_HOSTS entry at all. A source absent from COMPLETENESS.json is
+    # indistinguishable from a source with nothing missing, which is the exact danger `work()`
+    # names below for an unreachable host; the filter was doing it to a fifth of the roll and
+    # doing it permanently rather than during an outage.
+    #
+    # It also made two branches of `host_reachable` dead code in production. Its MODE_RAW branch
+    # was written for www.dandwiki.com and its `api_url` resolution for "all 21 Wikipedia-hosted
+    # sources", and `work()` is the only production caller -- so neither host was ever passed to
+    # the code repairing their treatment.
+    #
+    # The union with the records is deliberate: a source can have a catalogue on disk and no
+    # entry in WIKI_HOSTS (13 do today), and that combination is exactly the one where "no row"
+    # would read as "nothing catalogued and nothing to catalogue".
+    todo = sorted(set(hosts) | set(have))
+    todo = [(src, hosts.get(src)) for src in todo]
     if only:
         todo = [t for t in todo if only.lower() in t[0].lower()]
 
@@ -254,7 +365,7 @@ def audit(only=None, workers=6):
     # says it draws "the deity/pantheon categories of multiple franchise wikis" -- but its
     # target is Marvel's GODS, not Marvel's 103,554 characters. Reporting 0.3% coverage there
     # would be an accusation against a source that did its job.
-    shared = collections.Counter(h for _, h in todo)
+    shared = collections.Counter(h for _, h in todo if wiki_host(h))
 
     # Sharing a host does not disqualify BOTH sources -- it disqualifies the borrower. When two
     # sources point at marvel.fandom.com, one of them is Marvel and the other is drawing a
@@ -272,10 +383,45 @@ def audit(only=None, workers=6):
 
     rows = []
 
+    def _rec(src):
+        return byslug.get(str(src).lower()) or byslug.get(str(src).lower().replace("-", " "))
+
+    def _unmeasured(src, host, why, probe_failures=0, probes_run=0):
+        """The row shape for a source no denominator could be obtained for. -> dict.
+
+        Every field a measured row carries, so a reader never has to branch on which kind of
+        row it is holding, and `unreliable` says which question went unanswered. What is on
+        disk IS reported: the numerator is known even when the denominator is not.
+        """
+        rec0 = _rec(src)
+        return {"source": src, "host": host, "wiki_persons": None,
+                "wiki_categories": {}, "catalogued_total": (rec0 or {}).get("total"),
+                "catalogued_persons": (sum(v for k, v in rec0["by_category"].items()
+                                           if k.startswith("Persons")) if rec0 else None),
+                "coverage": 0.0, "probe_failures": probe_failures, "probes_run": probes_run,
+                "unreliable": why}
+
     def work(item):
         src, host = item
         sub = subdomain(host)
         probes = ws.CATEGORY_PROBES[PERSONS]
+
+        # NOT A HOST AT ALL, and that is a fact about the source rather than a failure. `pages:`
+        # and `doc:` are provenance sentinels (an owner-supplied book, a hand-registered page
+        # list) and None is a source with no provenance recorded. None of the three can be
+        # asked for a category count, so none of them gets a coverage number -- but all of them
+        # get a ROW, because the alternative is what this filter did for a fifth of the roll:
+        # leave them out and let their absence read as "complete".
+        if not wiki_host(host):
+            if host:
+                return _unmeasured(src, host, (
+                    "no denominator possible: %r is a provenance sentinel, not a wiki host -- "
+                    "this source's material is an owner-supplied document or a registered page "
+                    "list, so there is no category API to ask how large its cast is" % host))
+            return _unmeasured(src, host, (
+                "no denominator possible: no host is recorded for this source in "
+                "WIKI_HOSTS.json, so there is nothing to ask. Its catalogued counts are "
+                "reported here; whether it should have a host is `hostcheck`'s question"))
 
         # A HOST THAT IS DOWN STILL GETS A ROW. Asking the domain once and emitting an honest
         # `unreliable` row costs one socket call; probing it 8 times per source costs ~17 minutes
@@ -284,24 +430,40 @@ def audit(only=None, workers=6):
         # is the opposite of "we could not ask", and a file that loses every fandom source during
         # an outage is the empty-file catastrophe of 2026-08-24 wearing a smaller hat.
         if not host_reachable(host):
-            rec0 = byslug.get(str(src).lower()) or byslug.get(str(src).lower().replace("-", " "))
-            return {"source": src, "host": host, "wiki_persons": None,
-                    "wiki_categories": {}, "catalogued_total": (rec0 or {}).get("total"),
-                    "catalogued_persons": (sum(v for k, v in rec0["by_category"].items()
-                                               if k.startswith("Persons")) if rec0 else None),
-                    "coverage": 0.0, "probe_failures": len(probes), "probes_run": 0,
-                    "unreliable": ("host unreachable: %s did not answer its API at audit time, "
-                                   "so no denominator could be requested. Not probed further, "
-                                   "deliberately -- see completeness.host_reachable." % host)}
+            return _unmeasured(src, host,
+                               ("host unreachable: %s did not answer its API at audit time, "
+                                "so no denominator could be requested. Not probed further, "
+                                "deliberately -- see completeness.host_reachable." % host),
+                               probe_failures=len(probes))
 
         sizes = {}
         failed = 0
-        for cand in probes:
-            n, err = category_size_probe(sub, cand)
-            if err:
-                failed += 1
-            if n:
-                sizes[cand] = n
+        # THE TRANSPORT FOLLOWS THE HOST. `wiki_source._api` builds
+        # `https://{sub}.fandom.com/api.php` and is the right answer for the 164 fandom sources;
+        # the other 27 hosted ones are real MediaWikis on their own domains and are asked the
+        # identical `prop=categoryinfo` question through `endpoint`, which resolves each host's
+        # own API path. A RAW-mode wiki (www.dandwiki.com serves `index.php?action=raw` and no
+        # API at all) can be READ but cannot be COUNTED, and that is stated rather than scored.
+        no_denominator = None
+        if sub:
+            for cand in probes:
+                n, err = category_size_probe(sub, cand)
+                if err:
+                    failed += 1
+                if n:
+                    sizes[cand] = n
+        elif api_base(host):
+            for cand in probes:
+                n, err = category_size_probe_host(host, cand)
+                if err:
+                    failed += 1
+                if n:
+                    sizes[cand] = n
+        else:
+            no_denominator = ("no denominator possible: %s answers no MediaWiki API (it serves "
+                              "raw wikitext, which this project reads happily but cannot ask "
+                              "for a category size), so the size of its cast is unknown rather "
+                              "than zero" % host)
         # A ROW THAT COULD NOT BE MEASURED IS NOT A ROW WITH NOTHING IN IT. Returning None here
         # for an all-errors source deleted it from COMPLETENESS.json, and an absent row is read
         # downstream as "this source has no wiki presence" -- the opposite of "the wiki did not
@@ -319,6 +481,14 @@ def audit(only=None, workers=6):
         # file for two hours. ANY transport failure means the denominator was not established,
         # so the row is unreliable, not absent. Genuine absence is now the one case it always
         # was in plain English: every probe answered, and none of the categories exist.
+        #
+        # `no_denominator` is a THIRD answer beside those two: the question could not be put at
+        # all. It is not genuine absence (nobody answered "no such category") and not a
+        # transport failure (nothing was attempted), so it returns its own row rather than
+        # borrowing either story -- and it returns before the coverage arithmetic, because
+        # `persons / None` has no meaning to compute.
+        if no_denominator:
+            return _unmeasured(src, host, no_denominator)
         if not sizes and failed == 0:
             return None
         best = max(sizes.values()) if sizes else None

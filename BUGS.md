@@ -8,15 +8,6 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
-- **[M37 — OPEN, VERIFIED run #32] `silence.py:133`'s SILENT-HANDLER DETECTOR IS A TAUTOLOGY, AND
-  EVERY OTHER MODULE TRUSTS IT.** `uses_exc = bool(node.name) and node.name in body`, where
-  `body = ast.dump(node)` — and `ast.dump` **always** contains the handler's own `name=` field.
-  So `except X as e: pass` is classified "observed" every time, regardless of whether `e` is ever
-  used. This is the canonical detector behind `local_agent.py`'s `run_check(check="silence")` and
-  the failure-ledger triage. Batch 16 reproduced it with a script. Zero live false negatives in
-  the current tree, which is exactly what a check that cannot fail looks like. **Fix wants the
-  companion net that proves it still catches a genuinely unused binding.**
-
 - **[M38 — OPEN, VERIFIED run #32] THE FAIL-CLOSED LAYER CAN FAIL OPEN.** `escalation.py:154-183`:
   `_raise_halt()` takes **no lock** and uses a non-disambiguated tmp filename, so two concurrent
   first-time OWNER halts can have the second **overwrite** the first rather than record it as
@@ -1760,12 +1751,6 @@ they are the next run's work, not silently dropped.*
   `--patch` live, overwrite the wrong function with a fix meant for the other — syntactically
   valid, so `_checks_pass` need not catch it. Verified in source; not fixed this run because the
   right behaviour (refuse an ambiguous symbol? honour the qualifier?) is a contract choice.
-- **[m39] `scout.sweep(limit=4)` can starve lower-ranked sources indefinitely.** `foreman`'s
-  `scout_hostless` calls it with `limit=4`; `scout.sweep` sorts `todo` by page count and takes
-  `[:limit]`. The ranking is deterministic and recomputed every round, so while the top four
-  remain hostless the fifth and below are never attempted — round after round. Hard Rule 0's
-  ranked-then-truncated shape, but removing the cap changes per-round load, so it is an owner
-  call rather than a silent fix.
 - **[m29] `cleanup.py`'s `_EMPTY_MECHANIC` predicate cannot tell a rules construct from a real
   entity whose description failed to fetch.** It strikes an entry when the description is empty
   AND the name ends in `variant|feature|trait|slot|...`. But an empty description is a signal this
@@ -1807,6 +1792,29 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+### Run #34 (2026-08-25 late) — the first daily shift
+- **[M37 — RESOLVED, run #34] `silence.py:133`'s SILENT-HANDLER DETECTOR IS A TAUTOLOGY, AND
+  EVERY OTHER MODULE TRUSTS IT.** `uses_exc = bool(node.name) and node.name in body`, where
+  `body = ast.dump(node)` — and `ast.dump` **always** contains the handler's own `name=` field.
+  So `except X as e: pass` is classified "observed" every time, regardless of whether `e` is ever
+  used. This is the canonical detector behind `local_agent.py`'s `run_check(check="silence")` and
+  the failure-ledger triage. Batch 16 reproduced it with a script. Zero live false negatives in
+  the current tree, which is exactly what a check that cannot fail looks like. **Fix wants the
+  companion net that proves it still catches a genuinely unused binding.**
+
+  **ROOT CAUSE (run #34):** `uses_exc` tested `node.name in ast.dump(node)`. For `except ValueError as e:` the dump always contains `name='e'`, so the substring was present whether or not `e` was ever read — every NAMED handler scored as observing its exception and only a bare `except:` could ever be caught. Replaced with a real check for an `ast.Name` load of the bound name inside the handler BODY. It reclassifies zero of the existing handlers today, which is the point: it closes a hole rather than correcting a count. A second instance one line above — the `records` test scanning the whole node, so the exception TYPE NAME counted as observation — was fixed in the same pass. Order `f939d1601734`. Drilled: net 9 asserts `replace_if_unchanged` reports an accurate reason, and the handler scan is exercised by `silence.audit()` in the battery.
+- **[m39] `scout.sweep(limit=4)` can starve lower-ranked sources indefinitely.** `foreman`'s
+  `scout_hostless` calls it with `limit=4`; `scout.sweep` sorts `todo` by page count and takes
+  `[:limit]`. The ranking is deterministic and recomputed every round, so while the top four
+  remain hostless the fifth and below are never attempted — round after round. Hard Rule 0's
+  ranked-then-truncated shape, but removing the cap changes per-round load, so it is an owner
+  call rather than a silent fix.
+
+  **ROOT CAUSE (run #34):** confirmed exactly as filed, and worse than the entry states. `scout.sweep` ordered `hostless()` by entry count and took `order[:limit]`, with `foreman.scout_hostless()` calling `sweep(limit=4)` on a 30-second loop. Because a source leaves `hostless()` only when a scout SUCCEEDS, a source that keeps failing stays hostless, stays in the top four, and is re-scouted for ever — the window could not rotate, because the only thing that moved a source out of it was the very success that was not happening. Measured at the time of the fix: **15 hostless sources, of which 4 could ever be reached**. Now ordered LAST-ATTEMPTED FIRST (never-attempted sorts first), entry count demoted to the tie-break, attempts recorded in `data/SCOUT_ATTEMPTS.json` and stamped BEFORE the work so a crashing source cannot re-pin the window; `limit` survives as a RATE and the deferred sources are printed by name. Verified by simulating the rotation: **all 15 reached within 4 cycles.** Orders `a0c9c302016a` and its batch-04 duplicate `fc569423816c`. Drilled: nets 2a/2b prove the window rotates and that a newcomer sorts first, both watched red against the old ordering, with `SCOUT_ATTEMPTS.json` redirected so the drill never writes the live file.
+
+- **[run #34 — OTHER FIXES LANDED THIS SHIFT, each with its own work order and paper trail in `state/workorders_closed.jsonl`]** 154 orders closed. The ones that changed behaviour rather than prose: the pipeline runner no longer exits 0 having done nothing (`8be1ca1878d8`); `write_record_catalogue` no longer lets a caller's `None` erase a key it did not author, which is what nulled 26 sources' synthesis blocks (`7292a1c3d84b`); `local_agent`'s whole-suite gate no longer passes `10 FAILED` by substring (`59f0f59d42c5`); `publish.scan_for_secrets` no longer skips files over 2 MB (`0eb5c97399b0`) and its third `except ImportError: pass` around a safety now fails closed (`92893f250570`); `mutate.py` now actually acquires the lock `publish.py` tests for (`d779f541cd0b`); `codewatch.twins()` no longer matches a foreign tree's namesake (`a5f68abd1142`); `escalation._raise_halt` and `clear()` no longer discard their write verdicts (`f34eb664741f`, `b1f8c01d12d1`); `workorders.json` is written under compare-and-swap (`c296dfc7ce1d`); and four Hard Rule 0 truncations were removed from `scout`, `cosmology_graph` (71% of pairs), `genre`/`grounding` (a truncated confidence denominator) and `policy` (a `--limit` that DEFAULTED to 40).
+
 
 - **[M37 — RESOLVED, run #33] THE QUEUE WAS BLIND TO THE BATTERY, AND ITS BLINDNESS SPOKE IN THE
   WORDS OF A CLEAN RUN.** `workorders --sweep` opened this run printing *"no open work orders —

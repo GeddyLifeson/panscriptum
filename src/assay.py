@@ -36,8 +36,10 @@ decimal. Theorem 1 also guarantees no scalar represents the capability preorder 
 the Assay is explicitly a projection, and Theorem 2 bounds its error below by the curl fraction
 of the contest flow. This module reports that loss rather than hiding it.
 """
+import difflib
 import math
 import os
+import sys
 
 # A regex escape arriving as a literal control character matches nothing and fails SILENTLY.
 # A word-boundary escape written through a shell heredoc has arrived here as a 0x08 backspace
@@ -443,8 +445,24 @@ class AssayIntegrityError(ValueError):
     """The instrument is not fit to publish a number. Never caught and continued past."""
 
 
-def _check_scores(scores):
-    """Every score must be a sentinel or a real number ON the axis scale.
+def _check_scores(scores, weights=None):
+    """Every score must be a sentinel or a real number ON the axis scale, on an axis that EXISTS.
+
+    THE SECOND GAP, closed 2026-08-26 (order b8a17bd503d3). A score whose key was not in the
+    weight table passed this check and was then dropped by `assay()` without a trace: `used`
+    filters on `k in W`, and `nil`, `applicable`, `unestimable` and `unscored` all iterate over
+    W rather than over the caller's dict, so the key appeared in NO list, changed no
+    denominator, and produced no diagnostic. Measured: `{ruin, ruinn, stamina}` and `{ruin}`
+    returned the identical Moth Number, so a typo'd axis name was indistinguishable from never
+    having supplied the axis at all -- the assay reported full confidence in a reading it had
+    thrown away.
+
+    This is the same shape as the X.11 erratum recorded above, where `k in WEIGHTS` zeroed three
+    whole faculties library-wide. That fixed the weights. The FILTER was left silent, so the next
+    misspelt or newly-invented axis would vanish exactly as the faculties had. It refuses now.
+
+    The check is against the table actually in force -- a `weights=` override is a smaller
+    universe of axes, and a key outside IT is dropped just as silently.
 
     THE GAP THIS CLOSES, measured 2026-08-25: `ruin = 99.0` on a 0-9.9 axis returned a decimal
     and an interval with no complaint, and so did `ruin = -5.0`. A transcription slip, a
@@ -454,8 +472,15 @@ def _check_scores(scores):
     Raising is correct rather than clamping. A clamp would turn a data error into a plausible
     reading, which is the exact failure this project keeps arriving at from new directions.
     """
+    W = weights if weights is not None else WEIGHTS
     bad = []
+    unknown = []
     for k, v in (scores or {}).items():
+        if k not in W:
+            # Refused whatever the VALUE is: `{"ruinn": "n/a"}` is a typo carrying a sentinel,
+            # not a finding about a Measure called ruinn.
+            unknown.append(k)
+            continue
         if v is NONE or v in (INAPPLICABLE, UNESTIMABLE) or v is None:
             continue
         if isinstance(v, bool) or not isinstance(v, (int, float)):
@@ -468,6 +493,17 @@ def _check_scores(scores):
             + ". The axis scale is %.1f-%.1f (Charter Part Three). A score outside it is a data "
               "error, not a very strong reading, and it is refused rather than clamped so it "
               "cannot become a plausible number." % (AXIS_MIN, AXIS_MAX))
+    if unknown:
+        hints = []
+        for k in sorted(unknown)[:6]:
+            near = difflib.get_close_matches(str(k), sorted(W), n=1, cutoff=0.6)
+            hints.append("%r%s" % (k, (" (did you mean %r?)" % near[0]) if near else ""))
+        raise AssayIntegrityError(
+            "axis scores on axes that do not exist: " + "; ".join(hints)
+            + ". The Measures in force are: " + ", ".join(sorted(W))
+            + ". A score on an unrecognised axis is refused rather than dropped, because a "
+              "dropped one is invisible: it appears in no scored list, no unscored list and no "
+              "coverage figure, so a misspelt axis reads as an axis nobody supplied.")
 
 
 def _check_constants():
@@ -551,28 +587,84 @@ def calibration_report():
 
 _RHO_CACHE = [None]
 
+# Set the moment the correlation matrix turns out to be unavailable, and never cleared: a run
+# that once computed a bar under the independence assumption computed it under the independence
+# assumption, whatever the file does later.
+RHO_FALLBACK_REASON = None
 
-def _rho(a, b):
-    """Measured correlation between two Measures. -> float in [-1, 1].
+# The measured mean over 55 pairs, quoted in the message below so the loss has a SIZE attached.
+# Naming the number is the difference between "a file is missing" and "every interval this
+# process prints is roughly a factor narrower than the evidence supports".
+_RHO_FALLBACK_NOTE = ("data/AXIS_CORRELATION.json unavailable, so `_rho` returned 0.0 and every "
+                      "interval computed in this process ASSERTS THE MEASURES ARE INDEPENDENT. "
+                      "They are not: the matrix measures a mean r of about +0.32 and every "
+                      "sizeable pair positive, which makes these bars TOO NARROW. Rebuild with "
+                      "`python src/axis_correlation.py --write` before publishing anything.")
+
+
+def _rho_doc():
+    """The measured matrix, loaded once per process. -> dict, EMPTY when it is unavailable.
 
     Cached because `_interval` runs per entity and the matrix is a small static file; read once
     per process, and a matrix edited mid-run does not take effect until the next one, which is
     the behaviour a calibration constant should have.
 
-    ON THE FALLBACK. If the matrix is missing entirely this returns 0.0 -- the independence
-    assumption -- and that is the WRONG answer, deliberately chosen: it is the only value that
-    reproduces the library's historical numbers exactly, so a missing file degrades to "as it
-    was before" rather than to some third behaviour nobody has seen. It must not stay silent
-    about it, and it does not: `_check_constants` refuses at import time if the matrix is absent
-    when it should be present, and a drill net attacks it.
+    ON THE FALLBACK, AND WHAT ACTUALLY GUARDS IT (corrected 2026-08-26, order c00cab9d0412).
+    If the matrix is missing this degrades to rho = 0 -- the independence assumption -- which is
+    the WRONG answer, deliberately chosen: it is the only value that reproduces the library's
+    historical numbers exactly, so a missing file degrades to "as it was before" rather than to
+    some third behaviour nobody has seen.
+
+    The docstring here used to justify that by saying `_check_constants` "refuses at import time
+    if the matrix is absent when it should be present". IT DOES NOT AND NEVER DID: that function
+    checks the sigma table's monotonicity and ceiling and does not mention the matrix, and no
+    import-time guard over it exists anywhere in this file. The fallback was covered by ONE
+    thing, `drill.py:drill_correlation`, which fails a drill round when the matrix is missing --
+    real cover, but it runs when somebody runs the drill, not when an assay is computed, so a
+    batch could publish a full run of too-narrow bars between two green rounds.
+    // A guard cited in a comment and absent from the code is worse than no guard, because the
+    // next reader stops looking. That is the specific failure being repaired here.
+
+    THE ADDED GUARD IS NOT AN IMPORT-TIME REFUSAL, and deliberately not. Refusing to import
+    would take down every consumer of this file -- the whole library's ability to print any
+    number -- over a derived cache that `axis_correlation.py --write` regenerates from data
+    already on disk, and it would do it on a fresh clone before that file has ever been built.
+    So the fallback ANNOUNCES instead: once to stderr, permanently on `RHO_FALLBACK_REASON`, and
+    on the face of every assay it touches via `correlation_source`. It cannot fire unnoticed.
     """
+    global RHO_FALLBACK_REASON
     if _RHO_CACHE[0] is None:
+        doc, why = None, None
         try:
             import axis_correlation
-            _RHO_CACHE[0] = axis_correlation.load() or {}
-        except Exception:
-            _RHO_CACHE[0] = {}
-    doc = _RHO_CACHE[0]
+            doc = axis_correlation.load()
+            if not doc:
+                why = "load() returned nothing (file missing, unreadable, or carrying no `pairs`)"
+        except Exception as exc:
+            why = "axis_correlation would not import: %r" % (exc,)
+        _RHO_CACHE[0] = doc or {}
+        if why:
+            RHO_FALLBACK_REASON = why
+            print("assay.py: " + _RHO_FALLBACK_NOTE + " Cause: " + why, file=sys.stderr)
+    return _RHO_CACHE[0]
+
+
+def _rho_source():
+    """-> a one-line provenance stamp for the correlations behind an interval.
+
+    Carried on every assay because stderr is not a record: a batch redirects it, a dashboard
+    never sees it, and the entry outlives the run. A reader of one published number can tell
+    from the number itself whether its bar was computed against measured correlations or
+    against the independence assumption.
+    """
+    if _rho_doc():
+        return "measured: data/AXIS_CORRELATION.json"
+    return "FALLBACK rho=0, independence ASSERTED not measured -- " + (RHO_FALLBACK_REASON or "")
+
+
+def _rho(a, b):
+    """Measured correlation between two Measures. -> float in [-1, 1]."""
+    doc = _rho_doc()
     if not doc:
         return 0.0
     # DELEGATED, not reimplemented. This function first carried its own copy of the lookup --
@@ -711,8 +803,10 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     """
     if anchor not in LADDER:
         raise ValueError(f"anchor must be one of {LADDER}")
-    # LAYER 1: the reading must be ON the scale before any arithmetic touches it.
-    _check_scores(scores)
+    # LAYER 1: the reading must be ON the scale, and ON an axis that exists, before any
+    # arithmetic touches it. `weights=` is passed through because the override IS the table the
+    # composite will filter on, so it is the table an unknown key must be judged against.
+    _check_scores(scores, weights=weights)
     if not worksheet:
         # H5 of X.6: no worksheet, no number. Thin attestation yields a band window.
         return {"magnitude": anchor, "decimal": None, "interval": None,
@@ -781,6 +875,27 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
                        + (" [promotion due]" if _promote else ""),
         "interval": interval,
         "axes_scored": sorted(used),
+        # THE PRIMARY MEASUREMENT, PERSISTED (added 2026-08-26, order b03f2ab9951a).
+        #
+        # This dict is what a caller stores, and until today it recorded WHICH axes were scored
+        # and the weighted VARIANCE each contributed, but never the score itself. The numbers
+        # the whole assay is about were computed, folded into one composite, and dropped.
+        #
+        # The cost was measured rather than supposed. `data/ASSAYS.json` holds 507 automated
+        # assays; 217 scored at least one axis and 153 scored two or more -- and every one of
+        # those readings is unrecoverable, so `axis_correlation.py` still builds the rho matrix
+        # that widens EVERY published interval in the library from 45 hand-built entities. The
+        # crawl could run for another month and that 45 would not move.
+        #
+        # ADDITIVE, never a replacement: `axes_scored` keeps its exact meaning and its readers
+        # (`axis_correlation.py`, `reference.py`) keep parsing. The keys of this dict are
+        # `axes_scored` by construction -- the same `used` -- so the two can never disagree.
+        #
+        # A ROW WITHOUT THIS KEY IS "NOT RECORDED", NEVER ZERO. The 507 rows already on disk
+        # predate it and are not rewritten here. Reading a missing `scores` as an absence of
+        # capability would invent a library-wide finding out of a schema change, which is the
+        # single most damaging way to consume this field.
+        "scores": {k: used[k] for k in sorted(used)},
         "axes_nil": sorted(nil),
         # NONE licenses a claim a clamped 0.0 cannot: that the axis is absent, not merely
         # unresolved below the floor.
@@ -793,6 +908,10 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
         "interval_method": "variance propagation over weighted axes; "
                            "unscored axes carry the uniform dispersion of ignorance",
         "variance_by_axis": var_parts,
+        # Provenance for the covariance half of that variance. `_interval` is the larger half of
+        # this number's honesty and it depends on a file that can be missing; the stamp says
+        # which of the two arithmetics produced the bar printed above.
+        "correlation_source": _rho_source(),
         "attestation": attestation,
         "epoch": epoch or "unstamped",
         "worksheet": worksheet,

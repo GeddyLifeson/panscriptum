@@ -340,17 +340,56 @@ def main():
             print("\nno ASSAYS.json yet - run the automated pass, then compare")
             return 0
         auto = json.load(open(path, encoding="utf-8"))
-        print(f"\n{'entity':<20}{'reference':>12}{'automated':>12}{'delta':>8}  axes differing")
-        for name in REFERENCE:
-            got = auto.get(name, {}).get("result")
+        # ASSAYS.json is keyed `host|entity` -- 'dragonball.fandom.com|Goku', never a bare
+        # 'Goku'. This looked entities up by bare name, so every row fell into the fallback
+        # branch and this report has printed nothing but 'band only' for as long as the key has
+        # had that shape. Each row also STATES its own host and entity, so index on those rather
+        # than re-spelling the separator here; the key split is only a fallback for a row that
+        # somehow carries neither field.
+        by_pair = {}
+        for k, row in (auto or {}).items():
+            if not isinstance(row, dict):
+                continue
+            host, _, ent = str(k).partition("|")
+            by_pair[(row.get("host") or host, row.get("entity") or ent or k)] = row
+
+        print(f"\n{'entity':<20}{'reference':>12}{'automated':>12}{'delta':>8}"
+              "  axes scored by the automated pass")
+        for name, rec in REFERENCE.items():
+            row = by_pair.get((rec["host"], name))
+            if row is None:
+                print(f"{name:<20}{'--':>12}{'no row':>12}"
+                      f"{'':>8}  not in ASSAYS.json under {rec['host']}")
+                continue
+            got = row.get("result")
             if not got or got.get("decimal") is None:
-                print(f"{name:<20}{'--':>12}{'band only':>12}")
+                status = row.get("status") or "no result"
+                print(f"{name:<20}{'--':>12}{status.lower():>12}"
+                      f"{'':>8}  {str(row.get('reason') or '')[:44]}")
                 continue
             r = out[name]["reference"]
             rv = r["decimal"] + A.LADDER.index(r["magnitude"])
             gv = got["decimal"] + A.LADDER.index(got["magnitude"])
-            print(f"{name:<20}{r['moth_number'][2:10]:>12}{got['moth_number'][2:10]:>12}"
-                  f"{abs(rv - gv):>8.2f}")
+            scored = got.get("axes_scored") or []
+            # band.decimal, as `card()` prints the charter's -- slicing `moth_number` cut it
+            # mid-figure and printed 'M7.44 ±'.
+            fmt = "%s.%02d"
+            print(f"{name:<20}{fmt % (r['magnitude'], round(r['decimal'] * 100)):>12}"
+                  f"{fmt % (got['magnitude'], round(got['decimal'] * 100)):>12}"
+                  f"{abs(rv - gv):>8.2f}  {len(scored)}/11: "
+                  f"{', '.join(scored) if scored else 'none'}")
+
+        # THE COLUMN THIS USED TO ADVERTISE CANNOT BE COMPUTED, and saying so is the honest
+        # report. `ASSAYS.json` stores which axes were scored (`axes_scored`), which were nil,
+        # which were unestimable, and each axis's VARIANCE -- but nowhere the SCORE of an
+        # individual axis. So there is no per-axis number on the automated side to difference
+        # against this file's worksheet, and inventing one from variance would be a fabricated
+        # column. Filed separately as b03f2ab9951a (make the assay pass persist per-axis
+        # scores); until it does, the column above names the axes the pass scored at all, which
+        # is what genuinely exists. The reference scores all eleven.
+        print("\naxes: per-axis SCORES are not persisted by the assay pass, so a per-axis diff "
+              "cannot be\ncomputed -- the column names which axes were scored, not by how much "
+              "they differ (b03f2ab9951a).")
     return 0
 
 

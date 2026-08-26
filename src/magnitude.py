@@ -29,9 +29,14 @@ and `assay()`, and an axis that fails any of them does not get a number:
                    easiest failure to catch and the most damaging to miss.
   2. RELEVANCE     the feat must bear on the axis it was filed under. An earthquake sentence
                    cited for Celerity fails, and Celerity drops to `unestimable`.
-  3. SUBJECT       the entity must be the DOER. Reuses the patient-check that pipeline.py
-                   already applies to scale notes, plus a check that another named actor is not
-                   standing between the entity and the verb.
+  3. SUBJECT       the entity must be the DOER, and the check is made AGAINST THE ENTITY'S
+                   NAME. Where the sentence names an agent -- after "by", after a handoff verb,
+                   or leading the clause the axis evidence sits in -- that agent is compared to
+                   the entity and the score stands or falls on the answer. Where the sentence
+                   names no agent at all ("He destroyed the moon"), the guard cannot decide and
+                   says so; those pass on provenance alone. Until 2026-08-26 this guard read
+                   only the SENTENCE and never the entity, so it could not tell a doer from a
+                   bystander in either direction -- see the note above `subject_refusal`.
   4. SATURATION    a sheet whose scored axes all sit at the top is a sheet from a model that
                    would not refuse. It is rejected whole, not averaged down.
   5. QUANTITY      "40 tons", "3,000 kili" never reach the model's judgement at all. A measured
@@ -198,6 +203,198 @@ _HANDOFF = re.compile(
     r"command(?:ed|s)?|had|let|allow(?:ed|s)?|ask(?:ed|s)?)\b.{0,60}?"
     r"\b[A-Z][a-z]+\b.{0,20}?\b(?:who|which|then)\b", re.S)
 
+# THE GUARD USED TO BE THE TWO PATTERNS ABOVE AND NOTHING ELSE, AND THAT IS THE WHOLE DEFECT
+# (order 1dbec361641b). `verify(entity, got, ev)` never read `entity` -- AST-verified, zero
+# occurrences in the body -- so a check whose stated claim is "the entity must be the DOER"
+# was deciding on the SENTENCE alone. Both operands are entity-agnostic: `pipeline._PATIENT`
+# is a generic passive-voice pattern and `_HANDOFF` needs only *some* capitalised word before
+# a relative clause. The consequences run in both directions and neither is small:
+#
+#   MISSED  "Beerus erased the universe with a flick" is a clean pass for a sheet filed under
+#           GOKU. No passive, no handoff -- a bystander's deed, credited, which is the exact
+#           failure the module docstring opens with.
+#   FALSE   "the planets destroyed by Goku" is refused ON GOKU'S OWN SHEET, because
+#           `<past act> by <agent>` matches `_PATIENT` no matter who the agent is. The doer
+#           named in the sentence was thrown away for being named.
+#
+# What follows tests the claim the guard makes, using the two things the function is actually
+# handed: the entity's name and the sentence. It resolves the cases where the sentence NAMES
+# an agent, and it says so when it cannot resolve one.
+#
+# WHAT IT STILL CANNOT DECIDE, stated here rather than papered over: a sentence whose subject
+# is a bare pronoun ("He destroyed the moon") or elided entirely ("Destroyed a planet in one
+# blow") carries no agent to test. Pronoun resolution needs the paragraph, and `verify` is
+# given one sentence. Those pass this guard on the strength of provenance alone -- the feat was
+# mined from the entity's own page -- and that is a weaker warrant than the docstring's wording
+# suggests. It is left OPEN and named rather than closed with a test that would only look like
+# one. Guards 1 and 2 still apply to them.
+
+# Capitalised words that are not somebody's name. A sentence's first word is capitalised for
+# grammar, and the mined corpus is full of "The", "During", "After" -- treating those as rival
+# actors would refuse honest evidence wholesale.
+_NAME_STOP = {
+    "the", "a", "an", "this", "that", "these", "those", "his", "her", "its", "their", "our",
+    "and", "but", "for", "nor", "yet", "so", "as", "at", "by", "in", "on", "of", "to", "from",
+    "with", "without", "into", "onto", "upon", "over", "under", "after", "before", "during",
+    "while", "when", "where", "which", "who", "whom", "whose", "what", "why", "how", "if",
+    "he", "she", "it", "they", "him", "them", "one", "two", "three", "both", "all", "each",
+    "every", "any", "some", "no", "not", "however", "although", "though", "because", "since",
+    "unlike", "like", "despite", "due", "later", "then", "once", "twice", "afterwards",
+    "eventually", "finally", "originally", "initially", "meanwhile", "instead", "thus",
+    "therefore", "moreover", "furthermore", "additionally", "unfortunately", "fortunately",
+    "according", "following", "prior", "shortly", "soon", "even", "only", "just", "also",
+    "despite", "throughout", "within", "against", "among", "between", "beyond", "behind",
+    "hers", "theirs", "himself", "herself", "itself", "themselves",
+    # Modals and bare auxiliaries open a great many mined lines ("Can identify, engage, and
+    # neutralise enemies") and are not anybody's name.
+    "can", "could", "will", "would", "may", "might", "must", "shall", "should", "cannot",
+    "sometime", "sometimes", "eventually", "presumably", "such", "subsequently",
+    "similarly", "consequently", "nevertheless", "nonetheless", "regardless", "notably",
+    "afterward", "formerly", "previously", "currently", "occasionally", "generally",
+    # Chapter/section furniture and units that capitalise mid-sentence in wiki prose.
+    "chapter", "episode", "volume", "arc", "season", "part", "book", "issue", "act",
+    "file", "image", "gallery", "main", "see", "note", "list", "category", "template",
+    "north", "south", "east", "west",
+}
+# Words that can follow a name without making it the actor: a preposition, a conjunction, a
+# determiner or a relative. "News of the ... spread" and "Street Fighter: Resurrection" are
+# not somebody doing something; "The Time Breakers empower ..." is.
+_NOT_A_VERB = {
+    "of", "the", "a", "an", "and", "or", "but", "nor", "in", "on", "at", "to", "for", "with",
+    "from", "by", "as", "into", "onto", "upon", "over", "under", "near", "about", "per",
+    "via", "than", "then", "also", "not", "only", "just", "however", "though", "although",
+    "because", "since", "while", "during", "after", "before", "until", "against", "between",
+    "among", "beyond", "behind", "within", "without", "throughout", "despite", "toward",
+    "towards", "who", "whom", "whose", "which", "that", "when", "where", "why", "how",
+    "his", "her", "its", "their", "our", "your", "my", "this", "these", "those", "there",
+    "here", "such", "both", "each", "every", "all", "any", "some", "no", "more", "most",
+    "less", "least", "very", "much", "many", "again", "still", "even", "so", "too",
+}
+_PAREN_TAIL = re.compile(r"\s*\([^()]*\)\s*$")
+_PROPER = re.compile(r"\b[A-Z][a-z]{2,}(?:[ -][A-Z][a-z]{2,})*\b")
+_PRONOUN = re.compile(r"\b(?:he|she|it|they|him|her|his|hers|its|their|them|himself|herself|"
+                      r"itself|themselves|who|which|that)\b", re.I)
+_BY_AGENT = re.compile(r"\bby\s+(?:the\s+|a\s+|an\s+)?((?:[A-Z][a-z]{2,})(?:[ -][A-Z][a-z]{2,})*)")
+
+
+def entity_forms(entity):
+    """Surface forms a mined sentence could use for this entity.
+
+    The catalogue title carries a disambiguating parenthetical the prose never does -- pages
+    say "the Future Warrior", never "Future Warrior (Xenoverse 2)" -- so the tail comes off,
+    and every substantial word of what remains stands on its own because wikis shorten to a
+    surname or a given name after first mention.
+    """
+    whole = (entity or "").strip()
+    base = _PAREN_TAIL.sub("", whole)
+    forms = set()
+    if base:
+        forms.add(base.lower())
+    # THE PARENTHETICAL IS OFTEN WHERE THE REAL NAME IS. "Iron Man (Tony Stark)" is called Tony
+    # on nine pages in ten, and dropping the bracket entirely made every one of those sentences
+    # read as somebody else's deed. Both halves count as this entity.
+    for tok in re.findall(r"[A-Za-z][A-Za-z'\-]{2,}", whole):
+        if tok.lower() not in _NAME_STOP:
+            forms.add(tok.lower())
+    return forms
+
+
+def _leads_a_verb(text, end):
+    """True when the word right after a name is the name DOING something.
+
+    Not a parser -- a filter against the commonest false actor in mined wiki prose. "Super Ki
+    Explosion - A more powerful version", "News of the survival", "Street Fighter: Resurrection"
+    all put a capitalised span in front of the evidence without anybody acting; a name followed
+    by an ordinary lowercase word that is not a preposition, determiner or relative is the shape
+    that does.
+    """
+    rest = text[end:]
+    rest = re.sub(r"^['’]s\b", "", rest)
+    m = re.match(r"[\s,]*([a-z][a-z'\-]+)\b", rest)
+    return bool(m) and m.group(1) not in _NOT_A_VERB
+
+
+def _is_entity(name, forms):
+    """True when this capitalised span names the entity rather than somebody else."""
+    n = (name or "").strip().lower()
+    if not n:
+        return False
+    if n in forms:
+        return True
+    return any(t in forms for t in re.findall(r"[a-z][a-z'\-]{2,}", n))
+
+
+def _proper_spans(text, forms):
+    """(mine, others) -- capitalised spans that name the entity, and those that name a rival."""
+    mine, others = [], []
+    for m in _PROPER.finditer(text):
+        span = m.group(0)
+        if all(w.lower() in _NAME_STOP for w in re.findall(r"[A-Za-z'\-]+", span)):
+            continue
+        (mine if _is_entity(span, forms) else others).append(m)
+    return mine, others
+
+
+def subject_refusal(entity, text, ax=None):
+    """Guard 3. Why this sentence cannot be credited to `entity`, or None if it can.
+
+    Four questions, each one asked of the entity by name:
+
+      a. `<act> by <agent>` -- a passive that NAMES its doer. The deed belongs to whoever is
+         after "by", and the only question worth asking is whether that is the entity.
+      b. a passive with no agent named -- the sentence's subject is what was acted upon, and
+         nobody in the sentence is offered as the doer. Refused, as before.
+      c. a handoff ("summoned X, who erased ...") -- the deed lands on the actor the relative
+         clause attaches to. Refused unless that actor IS the entity, which is the Zeno case
+         read from the other side: on ZENO's sheet that erasure is his own.
+      d. a rival agent leading the act -- another name stands before the axis evidence and the
+         entity is nowhere ahead of it, by name or pronoun. This is the bystander credit the
+         guard exists to stop and the one it could never see.
+    """
+    text = text or ""
+    forms = entity_forms(entity)
+    if not forms:
+        return None                      # nothing to test the sentence against
+    mine, others = _proper_spans(text, forms)
+
+    passive = P._PATIENT.search(text)
+    if passive:
+        # a. the passive names its agent
+        agent = _BY_AGENT.search(text, passive.start())
+        if agent:
+            if _is_entity(agent.group(1), forms):
+                return None              # "planets destroyed by Goku", on Goku's own sheet
+            return "the deed is credited to " + agent.group(1)
+        # b. no agent offered
+        return "the sentence puts its subject on the receiving end of the act"
+
+    # c. the deed changes hands mid-sentence
+    hand = _HANDOFF.search(text)
+    if hand:
+        recip = _PROPER.findall(hand.group(0))
+        recip = [r for r in recip if not all(w.lower() in _NAME_STOP
+                                             for w in re.findall(r"[A-Za-z'\-]+", r))]
+        if recip and _is_entity(recip[-1], forms):
+            return None                  # the entity is who the deed was handed TO
+        return "the deed passes to " + (recip[-1] if recip else "another actor")
+
+    # d. somebody else is standing in front of the verb.
+    #
+    # Three conditions together, because any one alone over-refuses on real wiki prose: the
+    # rival must END before the axis evidence begins (otherwise the "name" contains it -- "Odd
+    # Speed Wave" IS the celerity match), it must lead a verb rather than sit in a heading or a
+    # possessive, and the entity must be absent from the whole run-up, by name AND by pronoun.
+    m_ax = AXIS_RE[ax].search(text) if ax in AXIS_RE else None
+    if m_ax:
+        cut = m_ax.start()
+        head = text[:cut]
+        if not any(m.start() < cut for m in mine) and not _PRONOUN.search(head):
+            lead = next((m for m in others
+                         if m.end() <= cut and _leads_a_verb(text, m.end())), None)
+            if lead is not None:
+                return lead.group(0) + " leads the act and " + str(entity) + " is not named"
+    return None
+
 # --------------------------------------------------------------------------- guard 5: quantities
 #
 # Conversions to the SI quantity each BAND_EDGES axis is expressed in. Only units with an
@@ -232,7 +429,7 @@ def quantity_scores(ev, anchor):
         try:
             val = float(str(q["value"]).replace(",", ""))
         except (ValueError, KeyError):
-            silence.note("magnitude.py:151")
+            silence.note("magnitude.py:quantity-value")
             continue
         unit = (q.get("unit") or "").lower().rstrip(".")
         if unit in _TO_JOULES:
@@ -333,7 +530,11 @@ def _norm(t):
 
 
 def verify(entity, got, ev):
-    """Apply guards 1-4. Returns (scores, worksheet, rejections)."""
+    """Apply guards 1-3. Returns (scores, worksheet, rejections).
+
+    Guard 4 (saturation) judges the finished sheet and guard 5 (quantity) overwrites axes from
+    instruments; both run in `assay_entity`, after this.
+    """
     mined = {i: f["feat"] for i, f in enumerate(ev["feats"], 1)}
     mined_norm = {i: _norm(t) for i, t in mined.items()}
     scores, sheet, rejects = {}, {}, []
@@ -388,9 +589,10 @@ def verify(entity, got, ev):
             scores[ax] = A.UNESTIMABLE
             continue
 
-        # 3 SUBJECT -- the entity has to be the doer.
-        if P._PATIENT.search(text) or _HANDOFF.search(text):
-            rejects.append((ax, f"entity is not the actor: {text[:60]}"))
+        # 3 SUBJECT -- the entity has to be the doer, and the check now reads the entity.
+        why = subject_refusal(entity, text, ax)
+        if why:
+            rejects.append((ax, f"entity is not the actor ({why}): {text[:60]}"))
             scores[ax] = A.UNESTIMABLE
             continue
 
@@ -470,9 +672,26 @@ def _split_assay(c, entity, cand, epoch, head_note=None):
     def _one_axis(ax):
         rows = cand.get(ax) or []
         if not rows:
-            return ax, {"score": A.UNESTIMABLE, "feat": ""}
+            return ax, {"score": A.UNESTIMABLE, "feat": "",
+                        "slices": {"attempted": 0, "answered": 0, "refused": 0,
+                                   "sentences": 0, "sentences_unread": 0, "chars_unread": 0}}
         best = None
         i = 0
+        # A SLICE THAT NOBODY ANSWERED USED TO LEAVE NO TRACE (order cb9c6ca51d90).
+        #
+        # The line below this loop was `if not got: continue`, and that `continue` was the whole
+        # defect: the slice's sentences had already been consumed by `i`, the transport had said
+        # nothing, and the axis went on to score from whatever else came back. An axis answered
+        # on one slice of ten and an axis answered on ten of ten produced the SAME shape --
+        # a score, a citation, no remainder -- while the docstring three lines up promises
+        # "Every candidate sentence is still read". On a rate-limited pool that gap is not rare;
+        # it is the common case, and it is invisible precisely when it is worst.
+        #
+        # So the loop counts. Nothing about how the score is CHOSEN changes -- still the best
+        # answered slice, same number for the same answers -- but the axis now carries how much
+        # of its own evidence was actually read, and `_split_assay` totals it onto the sheet.
+        att = ans = 0
+        unread_rows = unread_chars = 0
         while i < len(rows):
             block, size = [], 0
             while i < len(rows) and (size == 0 or size + len(rows[i]["feat"]) < SPLIT_SLICE):
@@ -488,17 +707,26 @@ def _split_assay(c, entity, cand, epoch, head_note=None):
                       + " axis, return score \"unestimable\" and an empty feat."
                       + chr(10) + chr(10)
                       + chr(10).join("- " + b for b in block))
+            att += 1
             got = _ask(c, SYSTEM, prompt, AXIS_SCHEMA)
             if not got:
+                unread_rows += len(block)
+                unread_chars += size
                 continue
+            ans += 1
             sc = got.get("score")
             if isinstance(sc, (int, float)):
                 if best is None or not isinstance(best[0], (int, float)) or sc > best[0]:
                     best = (sc, (got.get("feat") or "").strip())
             elif best is None:
                 best = (A.UNESTIMABLE, "")
-        return ax, ({"score": best[0], "feat": best[1]} if best
-                    else {"score": A.UNESTIMABLE, "feat": ""})
+        census = {"attempted": att, "answered": ans, "refused": att - ans,
+                  "sentences": len(rows), "sentences_unread": unread_rows,
+                  "chars_unread": unread_chars}
+        out = ({"score": best[0], "feat": best[1]} if best
+               else {"score": A.UNESTIMABLE, "feat": ""})
+        out["slices"] = census
+        return ax, out
 
     with _TPE(max_workers=6) as _ex:
         axes_out = dict(_ex.map(_one_axis, AXES))
@@ -518,7 +746,35 @@ def _split_assay(c, entity, cand, epoch, head_note=None):
     return {"anchor": got["anchor"],
             "presence_evidence": (got.get("presence_evidence") or "").strip(),
             "epoch": got.get("epoch") or epoch or "unstamped",
-            "axes": axes_out}
+            "axes": axes_out,
+            "slice_census": slice_census(axes_out)}
+
+
+def slice_census(axes_out):
+    """How much of the evidence a split sheet was actually read from.
+
+    `evidence_dropped_to_fit` already exists on the record for the budgeted case, on the
+    argument that "a sheet scored on a trimmed body of evidence must say so". A slice the
+    transport never answered trims the same body just as effectively, and this is the same
+    declaration for that case: totals, plus the per-axis rows so a reader can see WHICH axis
+    is thin rather than only that something was.
+    """
+    per, att = {}, 0
+    ans = unread = chars = 0
+    for ax, v in (axes_out or {}).items():
+        s = (v or {}).get("slices") or {}
+        if not s.get("attempted"):
+            continue
+        per[ax] = {"answered": s.get("answered", 0), "attempted": s.get("attempted", 0),
+                   "sentences_unread": s.get("sentences_unread", 0)}
+        att += s.get("attempted", 0)
+        ans += s.get("answered", 0)
+        unread += s.get("sentences_unread", 0)
+        chars += s.get("chars_unread", 0)
+    thin = sorted(a for a, r in per.items() if r["answered"] < r["attempted"])
+    return {"slices_attempted": att, "slices_answered": ans, "slices_refused": att - ans,
+            "sentences_unread": unread, "chars_unread": chars,
+            "complete": att > 0 and ans == att, "axes_thinned": thin, "by_axis": per}
 
 
 def compose(entity, cand, epoch, budget, head_note=None):
@@ -747,6 +1003,10 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             # assay is indistinguishable from a complete one, and the number carries a
             # confidence it has not earned.
             "evidence_dropped_to_fit": dropped,   # always 0 now; kept so a future budget cannot be silent
+            # The split path's equivalent of the line above: how many evidence slices were put
+            # to a transport and how many came back. None on the one-shot and local paths,
+            # which read their whole prompt in one call or not at all.
+            "evidence_slices": (got.get("slice_census") if isinstance(got, dict) else None),
             "transport": used,
             "pages": ev["pages_read"]}
 
@@ -845,14 +1105,31 @@ def calibrate():
         # A standard reads this file (`standards.py`, `automation reproduces the charter`), so a
         # truncating write can leave that check reading an unparseable artifact -- which it would
         # report as a failure to reproduce the charter rather than as a failure to write a file.
-        with open(_cr + ".tmp", "w", encoding="utf-8") as f:
-            json.dump(out, f, indent=1, ensure_ascii=False)
-        silence.replace_retry(_cr + ".tmp", _cr)
+        #
+        # THROUGH `write_json`, AND THE VERDICT IS READ (order 2a2ca57b2d56). The hand-rolled
+        # version here used a PID-less `_cr + ".tmp"`, which two concurrent calibrations collide
+        # on directly, and it threw away `replace_retry`'s return -- so a checkpoint that never
+        # landed printed exactly like one that did, on a file whose whole job is surviving the
+        # foreman's next kill.
+        if not silence.write_json(_cr, out, ensure_ascii=False):
+            print("   checkpoint did NOT land on " + os.path.basename(_cr)
+                  + " (target held open); this pass's progress is not on disk yet")
 
     print(f"model: {c['model']}\n")
     if prior:
         print(f"resuming pass started {(now - started) / 3600:.1f}h ago: "
               f"{len(prior)} of {len(BENCHMARKS)} benchmarks already done\n")
+    def _published(band, val):
+        """The charter's own decimal, printed as it was written (order 392372951714).
+
+        This column was `int(val % 1 * 100)`, which floors the binary remainder: Naruto's
+        published 4.31 printed as .30 and Jace's 2.88 as .87. Display only -- `row['published']`
+        always carried the true value -- but this is the exact column a person reads beside the
+        assayed figure to decide whether the instrument reproduced the charter, so a digit lost
+        here manufactures a disagreement that the data does not contain.
+        """
+        return band + ("%.2f" % val)[-3:]
+
     print(f"{'entity':<20}{'charter':>10}{'assayed':>12}{'band':>7}{'axes':>6}"
           f"{'rej':>5}  worksheet")
     print("-" * 96)
@@ -863,7 +1140,7 @@ def calibrate():
             row = prior[name]
             rows.append(row)
             band_hits += bool(row.get("band_match"))
-            print(f"{name:<20}{band}.{int(val % 1 * 100):02d}{'':>4}"
+            print(f"{name:<20}{_published(band, val):>10}"
                   f"{'(resumed)':>12}{'--':>7}{'--':>6}{'--':>5}  "
                   f"kept from this pass")
             continue
@@ -878,7 +1155,7 @@ def calibrate():
                         "reason": (r.get("reason") or "band only")[:120], "consistent": None})
             rows.append(row)
             _land(rows, False)
-            print(f"{name:<20}{band + '.' + str(int(val % 1 * 100)):>10}{'--':>12}{'--':>7}"
+            print(f"{name:<20}{_published(band, val):>10}{'--':>12}{'--':>7}"
                   f"{'--':>6}{len(r.get('rejections', [])):>5}  {r.get('reason', 'band only')[:40]}")
             continue
         got_band = res["magnitude"]
@@ -891,7 +1168,7 @@ def calibrate():
         rows.append(row)
         _land(rows, False)
         mark = "OK" if got_band == band else "MISS"
-        print(f"{name:<20}{band}.{int(val % 1 * 100):02d}{'':>4}"
+        print(f"{name:<20}{_published(band, val):>10}"
               f"{res['moth_number'][2:14]:>12}{mark:>7}"
               f"{len(res['axes_scored']):>6}{len(r.get('rejections', [])):>5}  "
               f"{time.time() - t:.0f}s")
@@ -1035,7 +1312,7 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
     print("queue: %d entities, %d already assayed, %d to do"
           % (len(all_q), len(done), len(todo)))
     lock = threading.Lock()
-    tally = {"n": 0, "scored": 0, "band_only": 0}
+    tally = {"n": 0, "scored": 0, "band_only": 0, "unlanded": 0}
 
     def work(item):
         h, n, _ch = item
@@ -1052,23 +1329,22 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
                 tally["scored"] += 1
             else:
                 tally["band_only"] += 1
-            tmp = OUT + ".tmp"
-            with open(tmp, "w", encoding="utf-8") as f:
-                json.dump(done, f, ensure_ascii=False)
             # On Windows os.replace is DENIED while any reader holds the target open --
             # the dashboard and settled() both read ASSAYS.json on their own clocks, and
             # one collision took a worker down mid-batch (2026-08-23, WinError 5). A short
             # retry outwaits any honest reader; a result that still cannot land is requeued
             # by settled() next run rather than lost.
-            for attempt in range(5):
-                try:
-                    os.replace(tmp, OUT)
-                    break
-                except PermissionError:
-                    if attempt == 4:
-                        silence.note("magnitude.py:assays-replace")
-                    else:
-                        time.sleep(0.3 * (attempt + 1))
+            #
+            # That retry loop used to be spelled out here, over a PID-less `OUT + ".tmp"`, and
+            # eight batch workers plus a second `--batch` process all wrote that one temp name
+            # (order 2a2ca57b2d56). `silence.write_json` is the same backoff with a tmp name
+            # carrying pid and thread, so two writers can no longer land on each other's file.
+            # `indent=None` keeps ASSAYS.json in the compact shape it already has on disk.
+            # `replace_retry` already records a persistent denial in the failure ledger; the
+            # tally counts it too so the batch's own last line cannot claim a clean pass over
+            # results that never reached disk.
+            if not silence.write_json(OUT, done, ensure_ascii=False, indent=None):
+                tally["unlanded"] += 1
             if tally["n"] % 10 == 0 or tally["n"] == len(todo):
                 print("   %5d/%d   scored %d   no-number %d"
                       % (tally["n"], len(todo), tally["scored"], tally["band_only"]),
@@ -1080,6 +1356,9 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
     print("")
     print("assayed with a decimal: %d" % tally["scored"])
     print("band-only or refused  : %d" % tally["band_only"])
+    if tally["unlanded"]:
+        print("checkpoints that did NOT land: %d  (a reader held %s open; those results are "
+              "requeued by settled() next run)" % (tally["unlanded"], os.path.basename(OUT)))
     print("-> " + OUT)
     return tally["scored"]
 

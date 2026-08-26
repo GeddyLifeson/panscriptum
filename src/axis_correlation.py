@@ -64,9 +64,46 @@ OUT = os.path.join(HERE, "data", "AXIS_CORRELATION.json")
 # the wrong shape would produce a correlation matrix nobody could trace to a source.
 SOURCES = ("data/HANDBUILT_ASSAYS.json", "data/HERO_ASSAYS.json", "data/PANTHEON.json",
            "data/HALO_ASSAYS.json", "data/WH40K_ASSAYS.json", "data/Z_FIGHTERS.json",
-           "data/REFERENCE_ASSAYS_PRESENCE.json")
+           "data/REFERENCE_ASSAYS_PRESENCE.json",
+           # THE AUTOMATED PASS, ADDED RUN #34 — and it is the reason this matrix could not grow.
+           # `ASSAYS.json` holds 507 automated assays, 217 of which scored at least one axis and
+           # 153 two or more, and NONE of them reached this function: the assay persisted WHICH
+           # axes it scored and their weighted variance, but never the numeric score of each axis,
+           # so the matrix every published interval leans on was built from 45 hand-made entities
+           # while the crawl ran for weeks. `assay.py` now writes `result["scores"]`, and this is
+           # the other half of that repair — without it the new key is written and never read.
+           #
+           # IT CHANGES NOTHING TODAY, deliberately: no existing row carries `scores`, so the
+           # population is still 45 until fresh assays land, and the stored matrix only moves when
+           # somebody runs `--write`. Backfilling the 507 means re-assaying them, which is an
+           # owner's call and is filed, not taken here.
+           "data/ASSAYS.json")
 
 MIN_N = 4          # below this a Pearson r is noise wearing a decimal point
+
+
+def _scores_of(v):
+    """PURE. One stored entity -> {axis: numeric score}. Handles both shapes on disk.
+
+    THE HAND-BUILT SHAPE nests a dict per axis carrying a `score` among other fields; THE
+    AUTOMATED SHAPE (`ASSAYS.json`, written by `assay.py`) nests the assay under `result` and
+    carries a flat `{axis: number}` in `scores`. Separated out and made pure so the drill can put
+    both shapes to it without a data file, and so that adding a third shape later is a change in
+    one place rather than a second `for` loop that drifts from this one — which is precisely how
+    the automated pass came to be invisible here for weeks.
+
+    A row with no scores yields {} and is dropped by the caller's `>= 2` test, so a pre-#34 assay
+    written before `scores` existed is skipped rather than counted as zeros. Absent is not zero.
+    """
+    ax = v.get("axes")
+    if isinstance(ax, dict):
+        return {k: x["score"] for k, x in ax.items()
+                if isinstance(x, dict) and isinstance(x.get("score"), (int, float))}
+    res = v.get("result")
+    sc = res.get("scores") if isinstance(res, dict) else None
+    if isinstance(sc, dict):
+        return {k: x for k, x in sc.items() if isinstance(x, (int, float))}
+    return {}
 
 
 def observations():
@@ -85,11 +122,7 @@ def observations():
         for v in (d.values() if isinstance(d, dict) else d):
             if not isinstance(v, dict):
                 continue
-            ax = v.get("axes")
-            if not isinstance(ax, dict):
-                continue
-            s = {k: x["score"] for k, x in ax.items()
-                 if isinstance(x, dict) and isinstance(x.get("score"), (int, float))}
+            s = _scores_of(v)
             if len(s) >= 2:
                 rows.append(s)
     return rows

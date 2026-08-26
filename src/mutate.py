@@ -206,7 +206,7 @@ def _lock_release():
     except Exception:
         # A lock we cannot remove will block every future push. Loud, not silent.
         import escalation as _esc
-        _esc.escalate("MANAGER", "MUTATION_LOCK_STUCK",
+        _esc.escalate(_esc.MANAGER, "MUTATION_LOCK_STUCK",
                       "could not remove %s; publishing stays blocked until it is gone" % LOCK,
                       who="mutate.py")
 
@@ -756,7 +756,7 @@ def _session(a, targets):
                   % (t, r["mutants"], r["killed"], r["survived"], time.time() - t0))
             if not r["restored_exactly"]:
                 print("  *** THE SANDBOX FILE WAS NOT RESTORED. Later targets are unreliable. ***")
-                escalation.escalate("MANAGER", "MUTATE_RESTORE_FAILED",
+                escalation.escalate(escalation.MANAGER, "MUTATE_RESTORE_FAILED",
                                     "mutate.py did not restore %s in the sandbox" % t,
                                     evidence=r, source=t, who="mutate.py")
             if not r["live_file_untouched"]:
@@ -764,7 +764,7 @@ def _session(a, targets):
                 # writing. Checked anyway, and at OWNER level, because the incident that caused
                 # this rewrite was a corrupted live file reaching a public repo.
                 print("  *** THE LIVE FILE CHANGED DURING A SANDBOXED RUN. STOP. ***")
-                escalation.escalate("OWNER", "MUTATE_TOUCHED_LIVE_TREE",
+                escalation.escalate(escalation.OWNER, "MUTATE_TOUCHED_LIVE_TREE",
                                     "src/%s changed during a sandboxed mutation run" % t,
                                     evidence=r, source=t, who="mutate.py")
             if r["capped"]:

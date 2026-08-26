@@ -55,6 +55,10 @@ LOG = os.path.join(HERE, "state", "escalation.log")
 JANITOR, OPERATOR, SUPERVISOR, SAFETY, MANAGER, OWNER = range(6)
 NAMES = {JANITOR: "JANITOR", OPERATOR: "OPERATOR", SUPERVISOR: "SUPERVISOR",
          SAFETY: "SAFETY", MANAGER: "MANAGER", OWNER: "OWNER"}
+# The reverse map, so `escalate("OWNER", ...)` works as well as `escalate(OWNER, ...)`. Derived
+# from NAMES rather than written out again: two hand-kept copies of one mapping is how they come
+# to disagree, and this one decides which rung an alarm sounds at.
+BY_NAME = {v: k for k, v in NAMES.items()}
 
 
 class Refused(RuntimeError):
@@ -137,6 +141,45 @@ def escalate(level, code, what, evidence=None, source=None, who=None):
     Rung 5 is the exception: OWNER writes the halt file, because a halt nobody wrote down is a
     halt that ends when the process does.
     """
+    # ACCEPT THE NAME AS WELL AS THE NUMBER, and the reason is the worst kind of bug report.
+    # `escalate("OWNER", ...)` raised `ValueError: invalid literal for int() with base 10:
+    # 'OWNER'` -- and every call site that made this mistake was on an ERROR PATH. Five of them
+    # were written on 2026-08-25 in `mutate.py` and `codewatch.py`, and not one could fire
+    # during normal operation, so all five sat green until the first genuine fault reached them.
+    # A mutation run then found a real problem, tried to report it, and **the alarm crashed
+    # instead of sounding**, taking the whole run's results with it.
+    #
+    # The call sites were fixed. This is the other half, and it is the half that matters: an API
+    # whose misuse is only ever discovered during an emergency is an API that will be misused
+    # again, by someone who is also busy. `escalate(OWNER, ...)` and `escalate("OWNER", ...)`
+    # now mean the same thing.
+    #
+    # AN UNRECOGNISABLE LEVEL LANDS AT **MANAGER**, NOT OWNER, and the first version of this
+    # fix got that wrong. Fail-closed says an unknown answer must stop something -- but
+    # resolving a typo to OWNER means `escalate("Owner ", ...)` or `escalate("MANGER", ...)`
+    # **halts the entire library over a misspelling**, which is a denial of service anyone can
+    # trigger by accident and is exactly the shape of over-eager safety this project keeps
+    # having to walk back. MANAGER stops the subsystem, which is a real refusal and a loud one,
+    # without handing a slip of the keyboard the power to close the park. The bad value travels
+    # in the evidence so it is fixable rather than merely survived.
+    _bad_level = None
+    if isinstance(level, str):
+        _named = BY_NAME.get(level.strip().upper())
+        if _named is None:
+            _bad_level, level = level, MANAGER
+        else:
+            level = _named
+    try:
+        level = int(level)
+    except (TypeError, ValueError):
+        _bad_level, level = repr(level), MANAGER
+    if not (JANITOR <= level <= OWNER):
+        _bad_level, level = level, MANAGER
+    if _bad_level is not None:
+        evidence = dict(evidence or {}) if isinstance(evidence, dict) else {"was": evidence}
+        evidence["unrecognised_level"] = str(_bad_level)
+        evidence["note"] = ("the caller named a rung that does not exist; recorded at MANAGER "
+                            "so a typo cannot halt the library")
     rec = {"at": time.time(), "level": int(level), "level_name": NAMES.get(level, str(level)),
            "code": str(code), "what": str(what), "source": source,
            "who": who or os.path.basename(sys.argv[0] or "?"),
