@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 86  ·  last run 2026-08-26 15:18
+round 87  ·  last run 2026-08-26 17:14
 
 ## Structure
 
@@ -11,22 +11,26 @@ round 86  ·  last run 2026-08-26 15:18
 
 ## What the model found in the code
 
-**8 open** (1 high). Newest first.
+**10 open** (3 high). Newest first.
 
+- **generate.py** `generate_job` — [HIGH] generate_job is not defined in this slice and is used without being imported or defined here
+  - says: generate_job is supposed to generate text for a job
+- **foreman.py** `silence.replace_retry` — [HIGH] discards the boolean that reports the denied rename
+  - says: CHECK THE RETURN THIS COMMENT ALREADY WARNS ABOUT (run #19). The paragraph above names the exact hazard -- a torn or stale write here silently discards overwatc
 - **endpoint.py** `detect` — [HIGH] detect is not defined in this slice, but is called in api_url and raw_url
   - says: detect(host) returns the mode and path for a host
+- **foreman.py** `codewatch.exit_if_stale` — [MEDIUM] Exits if the process is stale
+  - says: Exits with rc=17 on purpose
+- **foreman.py** `kill_stalled_job` — [MEDIUM] The function attempts to kill stalled jobs but has a flawed logic in determining which jobs can be restarted, potentially leading to incorrect kills or failures to kill jobs that s
+  - says: A job that is UP and writing nothing is worse than a job that is down.
+- **feats.py** `alive` — [MEDIUM] Queries the API with a specific request but does not actually check if the host is alive; returns a boolean based on the API response which may not reflect actual host availability
+  - says: Check if a host is alive by querying its API
 - **estate.py** `shutil.disk_usage` — [MEDIUM] disk free
   - says: disk free
 - **estate.py** `shutil.disk_usage` — [MEDIUM] disk check failed
   - says: disk check failed
 - **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] the code did an overflow check while the docstring promised a completeness check
   - says: No source's states may sum PAST its own entry count. One direction, and only one.
-- **drill.py** `catalog_matches_disk` — [MEDIUM] only checks that the catalog entries exist on disk (one direction)
-  - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
-- **descending_ladder.py** `shrink_report` — [MEDIUM] the `is_descent` flag is computed based on `from_m` and `to_m` but the function does not prevent a non-descent from being reported
-  - says: `is_descent` is reported, NOT enforced.
-- **descending_ladder.py** `shrink_report` — [MEDIUM] reports `from_m` as part of the trajectory but does not enforce `is_descent`
-  - says: Full accounting of a mass-conserving descent. Returns the physics, and the verdict.
 - **corpus_db.py** `con.execute` — [MEDIUM] inserts into source table with values including code, which is set to None if spine_code_for returns 'UNASSIGNED'
   - says: INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?)
 
