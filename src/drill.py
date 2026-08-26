@@ -98,6 +98,22 @@ def _refuses(fn, exc):
         return True
 
 
+def _quiet(mod):
+    """A stand-in for `silence` whose `note()` goes nowhere, for nets that drive real phases.
+
+    `silence.note` arms an atexit flush into `state/failures.json`, so a net that walks a phase's
+    failure branch on purpose would file its own synthetic fault in the health ledger on every
+    cycle. That is the same litter discipline the DRILL_AREA and blast-cap probes already keep by
+    resolving the work orders they file: a battery with side effects is a battery nobody dares
+    run on a live library, which is the one place it is worth running.
+    """
+    import types
+    out = types.SimpleNamespace(**{k: getattr(mod, k) for k in dir(mod)
+                                   if not k.startswith("__")})
+    out.note = lambda *a, **k: None
+    return out
+
+
 # ============================================================== THE QUEUE LINE (before boarding)
 
 def drill_queue():
@@ -571,6 +587,10 @@ def drill_park():
         "the halt exists to buy a decision; lifting it with none buys nothing")
     net(a, "a lazy ruling is refused too",
         lambda: _refuses(lambda: ESC.clear("ok"), ValueError), "")
+    net(a, "the halt refuses a programmatic lift AT RUN TIME, in every spelling",
+        _no_runtime_clear,
+        "the rule was enforced only by a substring scan for two spellings, which an import "
+        "alias, a from-import and a getattr each walk straight past")
     net(a, "no module in src/ clears the halt programmatically", _no_programmatic_clear,
         "an agent may RAISE a halt; only a person may lift one")
     # A REMEDY MUST NOT CAUSE THE BREACH IT PREVENTS (owner finding, 2026-08-25).
@@ -742,6 +762,39 @@ def drill_local_agent():
     net(a, "it cannot write a brand-new top-level file",
         lambda: denied("something_nobody_listed.txt"),
         "the test that matters: a path invented AFTER the lists were written")
+
+
+def _no_runtime_clear():
+    """The four spellings of a programmatic lift, each put to the real `clear()`.
+
+    THE OTHER HALF, AND THE ONE THAT RUNS. `_no_programmatic_clear` below is a literal substring
+    scan of `src/` for `escalation.clear(` and `ESC.clear(`. It is worth keeping -- it catches
+    the attempt while a person reads the diff -- but as the ONLY enforcement it made the
+    asymmetry the whole chain rests on hold against two spellings rather than against the
+    capability. `import escalation as X; X.clear(...)`, `from escalation import clear`, and
+    `getattr(escalation, "clear")(...)` contain neither string. Run #33's `_by_a_person_at_the_cli`
+    makes the refusal true in the code instead: `clear()` demands that `__main__.__file__` BE
+    escalation.py and that its immediate caller be escalation's own `main()`, so every spelling
+    below is refused for the same reason, from anywhere that is not a person at that CLI.
+
+    SAFE WITH A HALT STANDING, AND CHECKED AGAINST THE SOURCE BEFORE IT WAS RUN. `clear()`
+    validates the ruling, then calls `_by_a_person_at_the_cli()`, and only then consults
+    `status()` -- so this drill (whose `__main__` is drill.py) is turned away at the second step,
+    before the halt file is read and long before anything is written. The ruling passed in is a
+    real sentence on purpose: a short one would be refused by the FIRST check and this net would
+    silently be re-testing the two `ValueError` nets above instead of the guard it names. Those
+    two stay exactly where they are -- they pin the ORDER of the refusals, which `clear()`
+    deliberately preserves and documents.
+
+    This is the one place in drill.py that calls `clear`, which is why `verify_math`'s AST check
+    exempts this file by name.
+    """
+    import escalation as _alias
+    from escalation import clear as _fromimport
+    r = "a ruling long enough to pass the written-ruling check"
+    return all(_refuses(c, PermissionError) for c in (
+        lambda: ESC.clear(r), lambda: _alias.clear(r),
+        lambda: getattr(ESC, "clear")(r), lambda: _fromimport(r)))
 
 
 def _no_programmatic_clear():
@@ -944,6 +997,210 @@ def drill_two_writer():
         "phase 8 with nothing settled enough to write is a correct outcome, not a denied write")
 
 
+# ============================================================== THE DONE-KEY (permanent loss)
+
+def _chain_done_key_follows_the_disk():
+    """Phase 4's done-key must be gated on the artifact, not on the writer's say-so.
+
+    THE THIRTEENTH LANDING, found by the run #33 sweep. `gate_done` closed the twelve `land_json`
+    call sites, where the writer returns a landed/not-landed verdict. Phase 4 writes through
+    `chain.write_result` instead -- one schema, one writer, which is right -- and that function
+    returns the DOCUMENT IT BUILT, unconditionally, whatever the disk said. A denied rename was
+    printed to stderr and nowhere else, so the call site appended its done-key regardless. Because
+    a done-key is permanent, no later run would ever redo phase 4: `CHAIN.json` would hold the
+    PREVIOUS cycle's fit for ever while `PIPELINE_STATE.json` recorded the phase complete. That
+    is not one lost cycle -- phase artifacts are read by later phases in the SAME run.
+
+    BOTH HALVES, because either alone can be removed without the other looking wrong: the
+    comparator must say no to a document that differs from the file, and the PHASE must then
+    leave "chain" out of `st["done"]`. And both directions of each, since a comparator that
+    always says no would close the phase for ever in the other direction.
+
+    The phase is driven against a stand-in `chain` module in `sys.modules` -- `phase_chain` does
+    its `import chain as CH` inside its own body -- with `log` and `save_state` silenced, so no
+    real harvest runs and `state/PIPELINE_STATE.json` is never touched.
+    """
+    import shutil
+    import types
+    import silence as _S
+    import pipeline as PL
+    d = tempfile.mkdtemp(prefix="drillchain_")
+    doc = {"schema": 1, "edges": {"a>b": 3}, "fit": {"identified": True}}
+    stub = types.ModuleType("chain")
+    stub.OUT = os.path.join(d, "CHAIN.json")
+    stub.built = doc
+    stub.harvest = lambda: [{"row": i} for i in range(20)]
+    stub.extract = lambda rows, workers=8: ({("a", "b"): 1}, [], {})
+    stub.adjudicate_mutuals = lambda edges, prov: edges
+    stub.fit = lambda edges, prior=0.5: {"identified": True, "components": [],
+                                         "deviance_per_df": 1.0}
+    stub.write_result = lambda edges, res, unmatched: stub.built
+    had, prev = "chain" in sys.modules, sys.modules.get("chain")
+    keep = (PL.log, PL.save_state, PL.silence)
+    try:
+        with open(stub.OUT, "w", encoding="utf-8") as f:
+            json.dump(doc, f)
+        PL.log = lambda *a, **k: None
+        PL.save_state = lambda st: None
+        PL.silence = _quiet(_S)
+        sys.modules["chain"] = stub
+        if PL._chain_landed(stub, doc) is not True:
+            return False                                  # what IS on disk must read as landed
+        if PL._chain_landed(stub, dict(doc, edges={"a>b": 4})) is not False:
+            return False                                  # ... and what is not, must not
+        stub.built = dict(doc, edges={"a>b": 99})         # the write that did NOT land
+        st = {"done": {}, "units_done": 0}
+        PL.phase_chain({}, st)
+        if "chain" in st["done"]:
+            return False
+        stub.built = doc                                  # ... and the one that did
+        st = {"done": {}, "units_done": 0}
+        PL.phase_chain({}, st)
+        return st["done"].get("chain") == ["all"]
+    finally:
+        PL.log, PL.save_state, PL.silence = keep
+        if had:
+            sys.modules["chain"] = prev
+        else:
+            sys.modules.pop("chain", None)
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _write_phase_stays_open_when_everything_refuses():
+    """`all([])` is True, and two very different histories arrive at an empty list.
+
+    Phase 8 marks itself done on `all(landed)`, and an empty `landed` is deliberately a pass: a
+    phase that correctly wrote nothing must not be held open for ever, and there is a drill net
+    on exactly that. But `landed` is ALSO empty when every ready source raised inside
+    `build_jobs_for_source` and fell into `refused` instead -- "nothing needed building" and
+    "everything refused to build" reaching the same verdict by the same arithmetic. Marked done,
+    the second is permanent: no later run redoes phase 8, no manifest exists, and nothing
+    anywhere records that a total build failure happened. (run #33)
+
+    Both histories are put to the phase here, since the whole defect was that they were
+    indistinguishable. `WRITE_SETTLED_MIN` is dropped to zero so the real `COVERAGE.json` yields
+    a non-empty ready set whatever the corpus looks like today -- a net whose result depends on
+    how well-read the library happens to be is not measuring what it claims to. Every manifest
+    call is a stand-in, so no manifest is built and nothing is written.
+    """
+    import silence as _S
+    import manifest_builder as MB
+    import pipeline as PL
+    keep_pl = (PL.log, PL.save_state, PL.silence, PL.WRITE_SETTLED_MIN)
+    keep_mb = (MB.load_config, MB.load_roll, MB.load_record, MB.spine_code_for,
+               MB.build_jobs_for_source)
+
+    def refuses(*a, **k):
+        raise RuntimeError("drill: this source will not build")
+    try:
+        PL.log = lambda *a, **k: None
+        PL.save_state = lambda st: None
+        PL.silence = _quiet(_S)
+        PL.WRITE_SETTLED_MIN = 0.0
+        MB.load_config = lambda: {}
+        MB.load_roll = lambda cfg: []
+        MB.load_record = lambda cfg, source_name: {"source": source_name, "entries": []}
+        MB.spine_code_for = lambda source: "XX"
+        MB.build_jobs_for_source = refuses
+        st = {"done": {}, "units_done": 0}
+        PL.phase_write({}, st)
+        if "write" in st["done"]:
+            return False
+        # ... and the vacuous case is still allowed to close, or the phase never finishes.
+        MB.build_jobs_for_source = lambda cfg, roll_entry, record, spine: []
+        st = {"done": {}, "units_done": 0}
+        PL.phase_write({}, st)
+        return st["done"].get("write") == ["all"]
+    finally:
+        PL.log, PL.save_state, PL.silence, PL.WRITE_SETTLED_MIN = keep_pl
+        (MB.load_config, MB.load_roll, MB.load_record, MB.spine_code_for,
+         MB.build_jobs_for_source) = keep_mb
+
+
+def _a_denied_batch_write_stays_on_the_failed_list():
+    """A success retires an earlier failure. A DENIED WRITE is not a success.
+
+    The pop that clears `st["failed"]["entrypass"][key]` used to sit outside the if/elif/else and
+    fired on all three paths -- including "the write was denied" and "judged 6 of 20" -- so any
+    non-None answer from the model retired a recorded failure whether or not anything landed. Its
+    correctly-gated twin in `phase_synthesis` only reaches its pop after the write succeeds. The
+    damage is to the health signal rather than to the corpus, and that is worse than it sounds: a
+    batch under sustained write contention could sit at ZERO entries in `st["failed"]`, which is
+    the number `update_handoff` publishes to the owner as "Failures logged". This library runs
+    unattended for days on that one line, and it went quiet exactly when it should have been
+    loudest. (run #33)
+
+    Driven with `records`, `ask_pool_first` and `write_record` all replaced: one synthetic record
+    that exists only in memory, a model answer that judges its single entry in full, and a write
+    that is denied. No model is called, no record is read, and `save_state` and `update_handoff`
+    are silenced so nothing in `state/` or `handoff/` moves.
+    """
+    import silence as _S
+    import pipeline as PL
+    key = "__drill__#0"
+    rec = {"source": "__drill__", "synthesis": {},
+           "entries": [{"name": "Drill Entity", "type": "person",
+                        "description": "a synthetic entry that exists only in this test"}]}
+    keep = (PL.log, PL.save_state, PL.records, PL.write_record, PL.ask_pool_first,
+            PL.update_handoff, PL.silence)
+    try:
+        PL.log = lambda *a, **k: None
+        PL.save_state = lambda st: None
+        PL.update_handoff = lambda st: None
+        PL.silence = _quiet(_S)
+        PL.records = lambda: [(os.path.join(HERE, "data", "records", "__drill__.json"), rec)]
+        PL.ask_pool_first = lambda *a, **k: {"results": [
+            {"index": 0, "category": 1, "topic": "Persons", "magnitude": "M1",
+             "scale_note": "lifted a gate weighing some ten tonnes off its hinges"}]}
+        PL.write_record = lambda path, r: False
+        st = {"done": {}, "failed": {"entrypass": {key: "ollama failure"}}, "units_done": 0}
+        PL.phase_entrypass({}, st)
+        return (st["failed"]["entrypass"].get(key) == "write denied"
+                and key not in st["done"].get("entrypass", []))
+    finally:
+        (PL.log, PL.save_state, PL.records, PL.write_record, PL.ask_pool_first,
+         PL.update_handoff, PL.silence) = keep
+
+
+def drill_done_keys():
+    """A done-key is permanent, so writing one over a failed write is permanent loss."""
+    a = "THE DONE-KEY — is a phase marked complete over an artifact that never landed?"
+    net(a, "phase 4's done-key is gated on what is ON DISK, not on what the writer returned",
+        _chain_done_key_follows_the_disk,
+        "the thirteenth landing: chain.write_result hands back the document whatever the disk "
+        "said, so a denied rename left phase 4 complete over the previous cycle's fit for ever")
+    net(a, "phase 8 stays OPEN when every ready source refuses to build",
+        _write_phase_stays_open_when_everything_refuses,
+        "all([]) is True, and 'nothing needed building' and 'everything refused' arrived at the "
+        "same empty list -- one of them permanently")
+    net(a, "a denied batch write is RECORDED and does not retire the earlier failure",
+        _a_denied_batch_write_stays_on_the_failed_list,
+        "the pop fired on all three branches, so a batch under write contention published ZERO "
+        "failures to the owner's handoff while failing every round")
+
+
+# ============================================================== THE HANDLE (the world profile)
+
+def drill_profile():
+    """One string that says everything — including, if the alphabet is wrong, something else."""
+    a = "THE PROFILE — can a world profile decode to a world that was never encoded?"
+    import profile as PR
+    net(a, "the address alphabet holds exactly 32 distinct symbols",
+        lambda: len(PR.B32) == 32 and len(set(PR.B32)) == 32,
+        "it carried 33 until run #33: `_b32` masks with `n & 31` so the 33rd symbol was "
+        "unwritable, while `_unb32` had no mask and would happily read it")
+    net(a, "a profile carrying a character outside the alphabet REFUSES",
+        lambda: _refuses(lambda: PR.decode("PS-1u-hfc-0000-u0"), ValueError),
+        "an alphabet that can read what it cannot write is a decoder that cannot say 'this is "
+        "not one of mine' -- it returned a silently wrong ADDRESS instead")
+    net(a, "and in the feature digits too, not only the address",
+        lambda: _refuses(lambda: PR.decode("PS-1a-hfc-000i-u0"), ValueError),
+        "the regex admits every letter a-z; only the alphabet knows which are digits")
+    net(a, "a well-formed profile still decodes",
+        lambda: PR.decode("PS-1a-hfc-0000-u0")["address"] == 42,
+        "a decoder that refuses everything is a wall, not a format")
+
+
 # ============================================================== THE UNDO (snapshots)
 
 def _snapshot_proves_a_directory():
@@ -1007,6 +1264,52 @@ def _snapshot_proves_a_directory():
             shutil.rmtree(os.path.join(SNAP.ROOT, sid), ignore_errors=True)
 
 
+def _verify_reads_the_bytes_under_a_restored_directory():
+    """`verify()` end to end, against a restore that returns the right SIZE and the wrong bytes.
+
+    The net above puts the two refusals directly to `_dir_matches`, which proves the comparator
+    can say no. It cannot prove that `verify()` ASKS it -- `verify` restores a snapshot it just
+    took, so the two sides are identical by construction and the directory branch is never given
+    anything to reject. That is the same shape as the original defect: a check whose only inputs
+    are ones it must accept.
+
+    So `restore` is replaced with one that restores faithfully and then mangles a nested file AT
+    THE SAME LENGTH, which is precisely the answer a stat-only or shallow compare would wave
+    through, and `verify` must return False with a reason that says the bytes differ. Under
+    `state/` because `snapshot._rel` takes paths relative to the repo root; the scratch tree AND
+    the snapshot it produces are both removed in the `finally`, so this leaves no `drill-*`
+    directory behind.
+    """
+    import shutil
+    import snapshot as SNAP
+    d = tempfile.mkdtemp(prefix="drillvfy_", dir=os.path.join(HERE, "state"))
+    sid = None
+    real_restore = SNAP.restore
+    try:
+        os.makedirs(os.path.join(d, "nested"))
+        with open(os.path.join(d, "nested", "chapter.txt"), "w", encoding="utf-8") as f:
+            f.write("a chapter, nested\n")
+        sid = SNAP.before("drill-verify", [d], note="drill self-test (verify)")
+        if not SNAP.verify(sid)[0]:
+            return False
+        rel = SNAP._rel(d).replace("/", os.sep)
+
+        def restore_then_mangle(s, into=None):
+            n = real_restore(s, into=into)
+            with open(os.path.join(into, rel, "nested", "chapter.txt"), "w",
+                      encoding="utf-8") as fh:
+                fh.write("a chapter, tested\n")     # same length, one byte different
+            return n
+        SNAP.restore = restore_then_mangle
+        ok, why = SNAP.verify(sid)
+        return (not ok) and "differ" in why
+    finally:
+        SNAP.restore = real_restore
+        shutil.rmtree(d, ignore_errors=True)
+        if sid:
+            shutil.rmtree(os.path.join(SNAP.ROOT, sid), ignore_errors=True)
+
+
 def drill_snapshot():
     a = "THE UNDO — is there a copy behind an irreversible step, and does it restore?"
     import snapshot as SNAP
@@ -1017,6 +1320,10 @@ def drill_snapshot():
         _snapshot_proves_a_directory,
         "every net here exercised one file, and a folder of chapters is what really gets "
         "snapshotted")
+    net(a, "verify() itself reads the bytes under a restored DIRECTORY",
+        _verify_reads_the_bytes_under_a_restored_directory,
+        "the comparator being able to say no proves nothing if verify never hands it anything "
+        "to reject; a same-length corruption is what a shallow compare waves through")
     net(a, "an EMPTY snapshot raises rather than passing",
         lambda: _refuses(lambda: SNAP.before("drill-empty", ["no/such/path"]),
                          SNAP.SnapshotFailed),
@@ -1062,6 +1369,37 @@ def drill_stale_writer():
             return ok
         net(a, "an up-to-date write still lands", fresh_allowed,
             "compare-and-swap must not become a wall")
+
+        def reason_matches_verdict():
+            """A denied rename must not come back describing itself as a landing.
+
+            `replace_if_unchanged` returned `..., "landed"` unconditionally on its last line, so
+            a DENIED rename came back as `(False, "landed")` -- and every caller that logs the
+            reason, `runguard.claim()` among them since it was routed here, printed "landed" for
+            a write that did not land. The two halves of the return disagreed, and the half that
+            reaches a human was the wrong one.
+
+            The denial is taken by a stand-in for `replace_retry`, because the real one only
+            fails when Windows actually refuses a rename -- a condition no test can schedule, and
+            waiting for it is how this went unnoticed. The file must also be untouched afterwards:
+            a reason is not evidence if the write happened anyway.
+            """
+            t3 = dst + ".tmp3"
+            with open(t3, "w", encoding="utf-8") as f:
+                f.write('{"v":"DENIED"}')
+            before = open(dst, encoding="utf-8").read()
+            real = S.replace_retry
+            try:
+                S.replace_retry = lambda tmp_, dst_, attempts=5: False
+                ok, why = S.replace_if_unchanged(t3, dst, S.digest_of(dst))
+            finally:
+                S.replace_retry = real
+            return (ok is False and why != "landed" and "could not be renamed" in why
+                    and open(dst, encoding="utf-8").read() == before)
+        net(a, "a DENIED rename gives back the reason it was denied, not 'landed'",
+            reason_matches_verdict,
+            "runguard.claim() printed 'landed' for a write that did not land, because the "
+            "reason string was returned unconditionally beside a False verdict")
     finally:
         import shutil
         shutil.rmtree(d, ignore_errors=True)
@@ -1195,6 +1533,53 @@ def _throttle_hands_off():
     return early == [] and len(handed) == 1 and handed[0][0] == h
 
 
+def _quarantine_reports_the_disk_not_the_intention():
+    """The escalation must describe what is ON DISK, not what the caller meant to write.
+
+    A refused rename leaves the host UNQUARANTINED -- `quarantined()` re-reads the file on every
+    call -- so raising HOST_QUARANTINED for it puts a lie in the escalation ledger and closes a
+    case that was never opened. The host keeps being mined while the record says it was stopped,
+    which is the same shape as `release()` telling a caller a host is free while it is still
+    quarantined. The actionable finding is the failure to WRITE, and the verdict rides out in the
+    returned record so a caller cannot mistake an attempted quarantine for a recorded one.
+
+    BOTH VERDICTS, since a `quarantine()` that always reported failure would be just as wrong and
+    would look identical from the passing half alone. `QUARANTINE` points at a temp path and
+    `_land` is a stand-in, so nothing is written; the escalation chain is a stand-in too, because
+    the real one files a work order and the drill is not allowed to leave one in the queue for a
+    host that does not exist.
+    """
+    import shutil
+    import types
+    import binding_health as BH
+    d = tempfile.mkdtemp(prefix="drillquar_")
+    raised = []
+    stub = types.ModuleType("escalation")
+    stub.SUPERVISOR = ESC.SUPERVISOR
+    stub.escalate = lambda level, code, what, **k: raised.append(code)
+    had, prev = "escalation" in sys.modules, sys.modules.get("escalation")
+    keep = (BH.QUARANTINE, BH._land)
+    try:
+        BH.QUARANTINE = os.path.join(d, "HOST_QUARANTINE.json")
+        sys.modules["escalation"] = stub
+        BH._land = lambda path, obj: False
+        rec = BH.quarantine("__drill__.invalid", "drill self-test; no such host")
+        if rec.get("landed") is not False or raised != ["HOST_QUARANTINE_NOT_RECORDED"]:
+            return False
+        del raised[:]
+        BH._land = lambda path, obj: True
+        rec = BH.quarantine("__drill__.invalid", "drill self-test; no such host")
+        return (rec.get("landed") is True and raised == ["HOST_QUARANTINED"]
+                and not os.path.exists(BH.QUARANTINE))
+    finally:
+        BH.QUARANTINE, BH._land = keep
+        if had:
+            sys.modules["escalation"] = prev
+        else:
+            sys.modules.pop("escalation", None)
+        shutil.rmtree(d, ignore_errors=True)
+
+
 def drill_fetch():
     """Between the wiki and the model: the two ways a network failure becomes a false absence."""
     a = "THE FETCH — can a blocked or throttled page read as an empty subject?"
@@ -1210,6 +1595,10 @@ def drill_fetch():
     net(a, "persistent throttling hands off to quarantine rather than hammering",
         _throttle_hands_off,
         "past a few strikes, 'busy' is a less likely reading than 'blocked'")
+    net(a, "a quarantine that could not be written says so, instead of claiming the host is out",
+        _quarantine_reports_the_disk_not_the_intention,
+        "a refused rename leaves the host being mined; HOST_QUARANTINED for it would close a "
+        "case in the ledger that was never opened on disk")
     net(a, "the backoff has a ceiling -- slowed, never stopped",
         lambda: 1.0 < F.BACKOFF_MAX <= 128.0,
         "an unbounded backoff is an outage that reports itself as politeness")
@@ -1481,6 +1870,74 @@ def drill_inspector():
         "the ceiling is a ratchet: lower it when you clean up, never raise it to go green")
 
 
+def _twins_ignores_a_foreign_tree():
+    """A namesake in ANOTHER checkout is not a twin of this tree's module.
+
+    THE INCIDENT THIS NET EXISTS FOR, 2026-08-25 22:38, and it is the halt standing over this
+    file as it is written. `twins()` compared `os.path.basename(script)` and nothing else, so any
+    process running a file merely CALLED `verify_math.py` counted as a twin of this tree's
+    `src/verify_math.py`. `mutate.py` runs the whole battery inside a throwaway sandbox -- a temp
+    copy of `src/`, precisely so the live tree is never corrupted -- and its sandboxed
+    `python src/verify_math.py` was reported as a twin. The control net two above this one
+    asserts `twins("verify_math") == []` for exactly that reason (no daemon runs it), so the
+    drill BREACHED against correct code and raised a real DRILL_BREACH halt over a process doing
+    the job it was designed to do.
+
+    THE FALSE HALT IS THE MILD FORM. `claim_singleton` EXITS a daemon when it finds a twin, so
+    the same confusion could have stood a live publisher down for a namesake in the export copy,
+    in a second checkout, or in a mutation sandbox -- "an outage that reports itself as caution",
+    which is the failure `twins`' own docstring warns about, arriving by a third route after the
+    linter-matched-as-a-daemon bug and this one.
+
+    BOTH DIRECTIONS, because a `twins()` that found nothing at all would sail through the first
+    half while protecting nobody. ONE live child process is asked about twice: with `SRC` pointing
+    at this tree, where it must NOT count, and with `SRC` pointing at the sandbox it really lives
+    in, where it MUST. The command line is deliberately the relative `python src/verify_math.py`
+    the sandbox actually runs, since resolving a relative script against the CHILD's cwd rather
+    than ours is the half that has to be right. The child is killed in the `finally` and nothing
+    is written outside the temp directory.
+    """
+    import shutil
+    import subprocess
+    import time as _t
+    import codewatch as CW
+    needle = "verify_math"
+    d = tempfile.mkdtemp(prefix="drilltwin_")
+    child = None
+    real_src = CW.SRC
+    try:
+        sandbox = os.path.join(d, "src")
+        os.makedirs(sandbox)
+        with open(os.path.join(sandbox, needle + ".py"), "w", encoding="utf-8") as f:
+            f.write("import time\ntime.sleep(45)\n")
+        child = subprocess.Popen(
+            [sys.executable, os.path.join("src", needle + ".py")], cwd=d,
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        # Wait for the child to be visible AS A TWIN OF ITS OWN TREE. Polling on the positive
+        # case rather than on a fixed sleep means the negative case below cannot pass merely
+        # because the process table had not caught up yet -- which would be a net that holds by
+        # being early rather than by being right.
+        CW.SRC = sandbox
+        seen, deadline = False, _t.time() + 20
+        while _t.time() < deadline:
+            if child.pid in CW.twins(needle):
+                seen = True
+                break
+            _t.sleep(0.2)
+        CW.SRC = real_src
+        return seen and child.pid not in CW.twins(needle)
+    finally:
+        CW.SRC = real_src
+        if child is not None:
+            try:
+                child.kill()
+                child.wait(timeout=5)
+            except Exception:
+                pass
+        shutil.rmtree(d, ignore_errors=True)
+
+
 def drill_codewatch():
     """Stale daemons — the failure that made every other safety here conditional.
 
@@ -1564,6 +2021,12 @@ def drill_codewatch():
         twin_detection_does_not_match_bystanders,
         "a linter is not a daemon; refusing to start because someone read the file is an outage")
 
+    net(a, "a namesake in ANOTHER tree is not a twin of this tree's module",
+        _twins_ignores_a_foreign_tree,
+        "22:38 today: a mutation sandbox's own `python src/verify_math.py` was read as a twin of "
+        "this tree's, the control net above breached against correct code and HALTED the "
+        "library -- and claim_singleton would have stood a live daemon down for the same reason")
+
     def singleton_guard_is_wired_into_the_daemons():
         src = os.path.dirname(os.path.abspath(__file__))
         for f in ("publish.py", "foreman.py", "overwatch.py"):
@@ -1583,6 +2046,115 @@ def drill_codewatch():
     net(a, "the supervisor reads rc=17 as deliberate, not as a crash",
         the_supervisor_can_name_the_deliberate_exit,
         "a safety that stops work must be distinguishable from a fault that stops work")
+
+
+# ============================================================== THE WORK-LIST (Hard Rule 0)
+
+def _synthetic_hostless():
+    """Fifteen sources of increasing size — the measured shape of the fault, in miniature."""
+    return {"drill-source-%02d" % i: ["name %d-%d" % (i, j) for j in range(i + 1)]
+            for i in range(15)}
+
+
+def _the_work_list_rotates():
+    """Every hostless source is reached within a bounded number of cycles.
+
+    THE SHAPE THAT LOOKED LIKE COMPLIANCE, fixed today. `sweep` ranked the hostless sources by
+    entry count and then took `order[:limit]`, and `foreman.scout_hostless()` calls it as
+    `sweep(limit=4)` on a thirty-second loop. Ranking is allowed; truncating is not, and the
+    reason is not theoretical here: a source LEAVES `hostless()` only when a scout SUCCEEDS, so a
+    source that keeps failing stays hostless, stays among the four largest, and is re-scouted
+    twice a minute for ever -- while everything ranked fifth and below is never attempted once.
+    The window could not rotate, because the only thing that could move a source out of it was
+    the very success that was not happening. Measured when it was fixed: 15 hostless sources, of
+    which 4 could ever be reached. A count that stayed right the whole time is what made it
+    comfortable.
+
+    ROTATION IS THE PROPERTY, so rotation is what is asserted -- not the size of the window, and
+    not anything about `scout()`. Fifteen synthetic sources, a limit of four, four cycles: the
+    windows must differ, each must be full, the deferred remainder must be NAMED on the way past
+    (a window nobody can see the far side of reads exactly like a complete list), and the union
+    must be the whole universe. Under the old entry-count ordering the same run returns the same
+    four sources four times and the union is four of fifteen.
+    """
+    import contextlib
+    import io
+    import shutil
+    import scout as SC
+    d = tempfile.mkdtemp(prefix="drillscout_")
+    # NOTHING REAL IS TOUCHED. `ATTEMPTS` is the ledger the rotation runs on, so a drill that
+    # stamped it would move every live source's place in the queue as the price of testing that
+    # the queue rotates; `LOG` and `scout` are redirected for the same reason -- and `scout()`
+    # is a network call, which is not what is under test. The ORDER the work-list is walked in
+    # is decided before any source is touched. All four are restored in the `finally`.
+    keep = (SC.hostless, SC.ATTEMPTS, SC.LOG, SC.scout)
+    try:
+        table = _synthetic_hostless()
+        SC.hostless = lambda: dict(table)
+        SC.ATTEMPTS = os.path.join(d, "SCOUT_ATTEMPTS.json")
+        SC.LOG = os.path.join(d, "SCOUT.json")
+        SC.scout = lambda source, names, register=True: {
+            "source": source, "proposed": 0, "kept": [], "checked": [], "note": "drill stub"}
+        windows, said = [], []
+        for _ in range(4):
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                windows.append([r["source"] for r in SC.sweep(limit=4, register=False)])
+            said.append(buf.getvalue())
+        return (all(len(w) == 4 for w in windows)
+                and windows[0] != windows[1]
+                and all("waiting for a later cycle" in s for s in said)
+                and set().union(*windows) == set(table)
+                and os.path.exists(SC.ATTEMPTS))
+    finally:
+        SC.hostless, SC.ATTEMPTS, SC.LOG, SC.scout = keep
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _a_new_source_does_not_queue_behind_the_old_ones():
+    """Absent-means-never-attempted, so a source added today goes to the FRONT.
+
+    The tie-break is entry count, and the newcomer here is deliberately the SMALLEST source in
+    the set -- dead last under the ordering that caused the fault, first under the one that
+    replaced it. Nothing has to seed the ledger for a new source to be reachable, which is the
+    half of the fix that keeps `SCOUT_ATTEMPTS.json` from becoming a registry somebody has to
+    maintain.
+    """
+    import contextlib
+    import io
+    import shutil
+    import scout as SC
+    d = tempfile.mkdtemp(prefix="drillscout2_")
+    keep = (SC.hostless, SC.ATTEMPTS, SC.LOG, SC.scout)
+    try:
+        table = _synthetic_hostless()
+        SC.hostless = lambda: dict(table)
+        SC.ATTEMPTS = os.path.join(d, "SCOUT_ATTEMPTS.json")
+        SC.LOG = os.path.join(d, "SCOUT.json")
+        SC.scout = lambda source, names, register=True: {
+            "source": source, "proposed": 0, "kept": [], "checked": [], "note": "drill stub"}
+        with contextlib.redirect_stdout(io.StringIO()):
+            for _ in range(4):
+                SC.sweep(limit=4, register=False)
+            table["drill-newcomer"] = ["its one and only name"]
+            window = [r["source"] for r in SC.sweep(limit=4, register=False)]
+        return window and window[0] == "drill-newcomer"
+    finally:
+        SC.hostless, SC.ATTEMPTS, SC.LOG, SC.scout = keep
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def drill_scout():
+    """The hostless work-list — a rate is a cost decision; a cap is a smaller universe."""
+    a = "THE WORK-LIST — does the scouting window rotate, or is it the universe wearing a limit?"
+    net(a, "every hostless source is reached within a bounded number of cycles",
+        _the_work_list_rotates,
+        "Hard Rule 0: `order[:limit]` over an entry-count ranking pinned the same 4 of 15 "
+        "sources for ever, because a source only leaves hostless() when a scout SUCCEEDS")
+    net(a, "a source added today is scouted next cycle, not after every older one",
+        _a_new_source_does_not_queue_behind_the_old_ones,
+        "absent-means-never-attempted is what keeps the attempts ledger from becoming a "
+        "registry somebody has to seed by hand")
 
 
 def drill_mutation():
@@ -2036,8 +2608,9 @@ def main():
 
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
+               drill_done_keys, drill_profile,
                drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
-               drill_workorders, drill_inspector, drill_codewatch, drill_mutation,
+               drill_workorders, drill_inspector, drill_codewatch, drill_scout, drill_mutation,
                drill_scope, drill_correlation,
                drill_outside):
         fn()
