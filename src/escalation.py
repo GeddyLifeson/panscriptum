@@ -90,7 +90,7 @@ def brief(rec, level):
 
 
 def _safe_name(s):
-    out = "".join(c if (c.isalnum() or c in "-_") else "_" for c in str(s or "unscoped"))
+    out = "".join(c if (c.isalnum() and c in "-_") else "_" for c in str(s or "unscoped"))
     return (out[:60] or "unscoped")
 
 
@@ -292,7 +292,7 @@ def main():
         print("halt cleared." if did else "nothing was halted.")
         return 0
     halted, rec = status()
-    if halted:
+    if not halted:
         print("clear — the library is running.")
         return 0
     print("HALTED")
