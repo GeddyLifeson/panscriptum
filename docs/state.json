@@ -1,5 +1,5 @@
 {
- "at": "2026-08-25 22:00:19",
+ "at": "2026-08-25 22:00:22",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -892,7 +892,7 @@
    "breached": [],
    "liveness": 38,
    "liveness_ceiling": 38,
-   "age_min": 0.0
+   "age_min": 0.1
   },
   "escalation_recent": {
    "SUPERVISOR": 126,
@@ -973,7 +973,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": false,
-   "observed": "local, 1 of 16 permits (5 answering; 7% ok over 27 calls; ollama up)",
+   "observed": "local, 2 of 16 permits (5 answering; 7% ok over 27 calls; ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1153,7 +1153,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "1/4 moved in 44m",
+   "observed": "1/4 moved in 45m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1207,7 +1207,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "calibrate (22 min, 37158 bytes), pipeline_auto (44 min, 75386 bytes)",
+   "observed": "calibrate (22 min, 37158 bytes), pipeline_auto (45 min, 75386 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong.",
    "severity": "high"
@@ -1225,7 +1225,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 172.66.2.166",
+   "observed": "reachable over IPv4 at 162.159.142.170",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1279,7 +1279,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.2h",
+   "observed": "0.0h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1308,7 +1308,7 @@
    "metric": "cited",
    "now": 14036,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 30,
    "reset": false,
    "stalled": true
   },
@@ -1316,7 +1316,7 @@
    "metric": "settled",
    "now": 100731,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 30,
    "reset": false,
    "stalled": true
   },
@@ -1324,34 +1324,34 @@
    "metric": "feats",
    "now": 73590,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 30,
    "reset": false,
    "stalled": true
   },
   {
    "metric": "entities read",
    "now": 1410,
-   "delta": 2,
-   "minutes": 31,
+   "delta": 1,
+   "minutes": 30,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "chunks",
    "now": 5146,
-   "delta": 103,
-   "minutes": 31,
+   "delta": 69,
+   "minutes": 30,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "standards met",
    "now": 29,
-   "delta": -2,
-   "minutes": 31,
+   "delta": -3,
+   "minutes": 30,
    "reset": true,
    "stalled": false
   }
  ],
- "generated": "2026-08-25T22:00:23"
+ "generated": "2026-08-25T22:00:26"
 }
