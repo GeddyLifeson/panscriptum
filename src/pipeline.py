@@ -38,7 +38,15 @@ STATE
 Usage:
     python3 src/pipeline.py --status
     python3 src/pipeline.py --phase 1
-    python3 src/pipeline.py            # run all implemented phases in order, forever
+    python3 src/pipeline.py            # run from the resume pointer to phase 8, then stop
+
+THE RUNNER DOES NOT GO "FOREVER", and this line used to say it did. One pass runs
+`state["phase"]` through the last phase and exits; the loop that makes it continuous is
+`overnight.py`, which starts this process again every cycle. The distinction is not pedantry --
+believing the runner looped is exactly what made a pointer parked past the last phase look like
+a long-running job rather than a process exiting 0 having done nothing. It ran that way twice a
+cycle for five passes. A pass that finds nothing to run now says which kind of nothing it found
+(see `main`). (m37, 2026-08-25.)
 """
 import argparse
 import datetime
@@ -175,6 +183,20 @@ def log(msg):
         f.write(line + "\n")
 
 
+def _tmp_for(path):
+    """The scratch name to write before renaming onto `path`. CARRIES PID AND THREAD.
+
+    Four writers here used a fixed `path + ".tmp"`, which is not a private scratch file: two
+    writers of the same target collide ON THE TEMP ITSELF, and the loser can rename its own
+    half-written copy over the winner's finished one. `silence.write_json` was built on
+    2026-08-25 to make that unavailable at twelve sites across the project and its docstring
+    says why; these four -- `save_state`, `land_json` and both record writers, i.e. every shared
+    file this module owns -- were still doing it by hand. Same formula, so the two agree.
+    (order e080a5f83b3c.)
+    """
+    return "%s.%d.%d.tmp" % (path, os.getpid(), threading.get_ident())
+
+
 def load_state():
     if os.path.exists(STATE):
         with open(STATE, encoding="utf-8") as f:
@@ -184,7 +206,7 @@ def load_state():
 
 def save_state(st):
     os.makedirs(STATE_DIR, exist_ok=True)
-    tmp = STATE + ".tmp"
+    tmp = _tmp_for(STATE)
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(st, f, indent=2, ensure_ascii=False)
     silence.replace_retry(tmp, STATE)  # atomic; retried, readers poll this file
@@ -460,7 +482,7 @@ def write_record_catalogue(path, rec):
             f"merge; REFUSING to write an unmerged cast over it -- this unit stays open")
         return False
     stamp_record(rec, "pipeline.write_record_catalogue")
-    tmp = path + ".tmp"
+    tmp = _tmp_for(path)
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(rec, f, indent=2, ensure_ascii=False)
     return _landed(tmp, path)
@@ -484,6 +506,42 @@ def _landed(tmp, path):
     return False
 
 
+def mark_done(st, phase, unit="all"):
+    """Record a completion marker for `phase` WITHOUT letting it accumulate duplicates.
+
+    THE DONE-LIST IS A SET WEARING A LIST'S CLOTHES. Every phase-level marker in this file is
+    the literal string "all" -- "this phase, whole, is finished" -- and both `gate_done` and the
+    three phases that mark themselves done directly appended it unguarded on every run. So the
+    live state grew `weave: ["all", "all", "all", "all"]` and `write: ["all"] * 5`: a count of
+    how many times the phase was re-run, recorded in the field that answers whether it is done.
+    Nothing reads the length, so nothing objected -- but it made the state unreadable as
+    evidence, which is how the runner's own no-op stayed invisible for five passes (m37).
+
+    Idempotent by construction: appending "all" twice cannot mean more than appending it once.
+    The per-unit phases (1 and 2) keep their own done-key lists, which are genuinely
+    accumulative and unique per unit, so they go on appending directly.
+
+    Returns True if this call is what closed the phase, False if it was already closed. The
+    return is information, not a gate -- either way the phase is done when this returns.
+    """
+    keys = st.setdefault("done", {}).setdefault(phase, [])
+    if unit in keys:
+        return False
+    keys.append(unit)
+    return True
+
+
+def phases_never_closed(st):
+    """The phases carrying NO completion marker at all. The runner's honesty check.
+
+    A phase pointer past the end of PHASES means one of two things, and they are opposites: the
+    run finished, or the pointer walked past work that never completed. `done` is what tells
+    them apart, so it is read here rather than assumed. (m37.)
+    """
+    d = st.get("done") or {}
+    return [n for n in PHASES if not d.get(n)]
+
+
 def gate_done(st, phase, landed):
     """Mark a phase done ONLY if every artifact it wrote actually landed.
 
@@ -502,7 +560,7 @@ def gate_done(st, phase, landed):
     empty result. (m36, 2026-08-25.)
     """
     if all(landed):
-        st["done"].setdefault(phase, []).append("all")
+        mark_done(st, phase)
         return True
     log(f"    phase {phase} NOT marked done: {landed.count(False)} of {len(landed)} artifact(s) "
         f"did not land; leaving the unit open so the next run redoes it")
@@ -523,7 +581,7 @@ def land_json(path, obj, indent=1, default=None):
 
     Same discipline as the record writers; `_landed` already explains why the verdict is
     returned rather than swallowed. (BUGS m6, 2026-08-24.)"""
-    tmp = path + ".tmp"
+    tmp = _tmp_for(path)
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(obj, f, indent=indent, ensure_ascii=False, default=default)
     return _landed(tmp, path)
@@ -588,7 +646,7 @@ def write_record(path, rec):
             f"REFUSING to write the in-memory copy over it -- this unit stays open")
         return False
     stamp_record(merged, "pipeline.write_record")
-    tmp = path + ".tmp"
+    tmp = _tmp_for(path)
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(merged, f, indent=2, ensure_ascii=False)
     return _landed(tmp, path)
@@ -1552,10 +1610,10 @@ def phase_chain(c, st):
     log(f"phase 4 chain: {len(rows):,} sentences read like a contest outcome")
     if len(rows) < 10:
         log("  too few contests on record to fit anything; leaving the graph empty")
-        st["done"].setdefault("chain", []).append("all")
+        mark_done(st, "chain")
         st["units_done"] += 1
         save_state(st)
-        return
+        return True     # an empty graph IS this phase's finished result, not an unfinished one
 
     edges, unmatched, prov = CH.extract(rows, workers=c.get("workers", 8))
     edges = CH.adjudicate_mutuals(edges, prov)
@@ -1572,9 +1630,10 @@ def phase_chain(c, st):
             f"  deviance/df: {res.get('deviance_per_df')}")
 
     out = CH.write_result(edges, res, unmatched)   # one schema, one writer -- see write_result
-    gate_done(st, "chain", [_chain_landed(CH, out)])   # ... and the thirteenth landing gated
+    ok = gate_done(st, "chain", [_chain_landed(CH, out)])   # ... and the thirteenth landing gated
     st["units_done"] += 1
     save_state(st)
+    return ok
 
 
 def phase_cosmology(c, st):
@@ -1649,9 +1708,10 @@ def phase_cosmology(c, st):
     log("  addressed %d worlds, %d collision(s)" % (len(marks), dupes))
     landed.append(land_json(os.path.join(HERE, "data/SHELFMARKS.json"), marks))
 
-    gate_done(st, "cosmology", landed)
+    ok = gate_done(st, "cosmology", landed)
     st["units_done"] += 1
     save_state(st)
+    return ok
 
 
 def phase_history(c, st):
@@ -1694,12 +1754,12 @@ def phase_history(c, st):
         log("phase 6 history: TIERS.json EXISTS BUT WILL NOT PARSE (%s) -- phase 5's write was "
             "damaged. Leaving phase 6 open rather than recording an empty result; the next run "
             "retries after phase 5 rewrites it." % type(e).__name__)
-        return
+        return False
     if not tiersd:
-        st["done"].setdefault("history", []).append("all")
+        mark_done(st, "history")
         st["units_done"] += 1
         save_state(st)
-        return
+        return True     # nothing charted to write a chronicle from; a correct empty result
 
     # The registry sits at the apex. A shelf's distance from it is how deep its tier stack goes
     # before a tier is unknown -- an unnested shelf is close to the Communion, a shelf inside a
@@ -1762,9 +1822,10 @@ def phase_history(c, st):
                         {"marks": marks, "loops": loops,
                          "contemporary": {str(k): v for k, v in sorted(groups.items())}},
                         default=str)]
-    gate_done(st, "history", landed)
+    ok = gate_done(st, "history", landed)
     st["units_done"] += 1
     save_state(st)
+    return ok
 
 
 def phase_shelve(c, st):
@@ -1802,7 +1863,7 @@ def phase_shelve(c, st):
         log("phase 7 shelve: a phase input EXISTS BUT WILL NOT PARSE (%s) -- refusing to shelve "
             "the library with empty tiers/shelfmarks and mark itself done. Leaving phase 7 open."
             % (m_bad or t_bad))
-        return
+        return False
 
     def spine_of(src):
         try:
@@ -1838,7 +1899,7 @@ def phase_shelve(c, st):
         silence.note("pipeline.py:phase_shelve-ranks-corrupt")
         log("phase 7 shelve: SHELF_RANKS.json will not parse -- leaving phase open rather than "
             "re-ranking the library from an empty prior (that would read as a mass demotion)")
-        return
+        return False
 
     promoted = []
     shelved, unspined = {}, set()
@@ -1882,9 +1943,10 @@ def phase_shelve(c, st):
         % (len(shelved), len(unspined)))
     landed.append(land_json(os.path.join(HERE, "data/SHELVES.json"),
                             {"entries": shelved, "unspined": sorted(unspined)}))
-    gate_done(st, "shelve", landed)
+    ok = gate_done(st, "shelve", landed)
     st["units_done"] += 1
     save_state(st)
+    return ok
 
 
 # A source is written when this fraction of its entries is SETTLED -- cited, or read with nothing
@@ -1923,10 +1985,10 @@ def phase_write(c, st):
     if not ready:
         log("  nothing is ready, and that is a correct outcome rather than a failure:")
         log("  the library does not write about entities nobody has read.")
-        st["done"].setdefault("write", []).append("all")
+        mark_done(st, "write")
         st["units_done"] += 1
         save_state(st)
-        return
+        return True     # refusing to write unread sources is this phase's finished answer
 
     names = sorted({s for _, s in ready if s})
     # The real signature is build_jobs_for_source(cfg, roll_entry, record, spine) -- four
@@ -1974,9 +2036,10 @@ def phase_write(c, st):
         log("  every ready source refused to build; phase 8 stays open rather than "
             "recording an empty manifest as a finished one")
         landed.append(False)
-    gate_done(st, "write", landed)
+    ok = gate_done(st, "write", landed)
     st["units_done"] += 1
     save_state(st)
+    return ok
 
 
 def phase_weave(c, st):
@@ -2029,11 +2092,11 @@ def phase_weave(c, st):
     endos = len({v["endonym"] for v in named.values()})
     log(f"  onomasticon: {len(named):,} worlds given designations across {endos} carried names")
 
-    gate_done(st, "weave", landed)
+    ok = gate_done(st, "weave", landed)
     st["units_done"] += 1
     save_state(st)
     update_handoff(st)
-    return True
+    return ok
 
 
 # BUILT FROM PHASES, NOT HAND-MAINTAINED.
@@ -2085,17 +2148,57 @@ def main():
     log(f"pipeline start | model={c['model']} | phase={args.phase or st['phase']}")
 
     phases = [args.phase] if args.phase else list(range(st.get("phase", 1), len(PHASES) + 1))
+
+    # A RUNNER WITH AN EMPTY WORK LIST MUST SAY WHICH KIND OF EMPTY IT IS.
+    #
+    # `range(9, 9)` is empty, the loop below never turned over, and the old code fell straight
+    # through to "runner exiting" and exit 0. Every cycle, twice a cycle (overnight.py starts it
+    # backgrounded and again in-line), for as long as the pointer sat past the end -- a clean
+    # exit code from a process that did nothing at all, which is indistinguishable from a
+    # process that did everything. That is the whole defect: not that the runner stopped, but
+    # that stopping and finishing produced the same signal. (m37.)
+    if not phases:
+        never = phases_never_closed(st)
+        if never:
+            log("RUNNER HAS NOTHING TO RUN, AND THAT IS A FAULT, NOT A FINISH.")
+            log(f"  the phase pointer is {st.get('phase')}, past the last phase ({len(PHASES)}),"
+                f" but {len(never)} phase(s) carry NO completion marker: {', '.join(never)}")
+            log("  the pointer was advanced past work that never completed. NOT repaired here:")
+            log("  rewinding it by hand is what hid this for five passes. A person decides"
+                " which phase to resume from, then runs with --phase.")
+            silence.note("pipeline.py:pointer-past-end-with-open-phases")
+            update_handoff(st)
+            raise SystemExit(3)
+        log(f"nothing to do: the pointer is past phase {len(PHASES)} and every phase carries a "
+            f"completion marker. The run is FINISHED, not stalled.")
+        log("  to run the ladder again over newly catalogued sources, reset the pointer"
+            " deliberately (--phase N) rather than leaving this to look like work.")
+        update_handoff(st)
+        return
+
+    # THE POINTER FOLLOWS THE WORK, NOT THE LOOP COUNTER. `st["phase"] = ph + 1` used to run
+    # unconditionally at the bottom of this loop, including for the phases that deliberately
+    # return early to stay open (6 and 7 on a corrupt input) and for every gate_done that
+    # refused to mark its phase done -- phase 4 has refused four cycles running and the pointer
+    # sailed past it every time. `st["done"]` was never consulted for phases 3-8, so nothing
+    # anywhere noticed. Now a phase reports its own completion and the pointer stops at the
+    # first phase that did not report one; later phases still get their turn (they may be able
+    # to make progress from the artifacts already on disk), but the RESUME POINT stays behind
+    # the open work, which is the only thing the pointer was ever for.
+    stalled = None
     for ph in phases:
         fn = IMPLEMENTED.get(ph)
         if fn is None:
             log(f"phase {ph} ({PHASES[ph-1]}) is not implemented yet -- stopping cleanly.")
             log("Build it, then re-run; state is preserved.")
             break
-        st["phase"] = ph
-        save_state(st)
-        log(f"=== PHASE {ph}: {PHASES[ph-1]} ===")
+        name = PHASES[ph - 1]
+        if stalled is None:
+            st["phase"] = ph
+            save_state(st)
+        log(f"=== PHASE {ph}: {name} ===")
         try:
-            fn(c, st)
+            ok = fn(c, st)
         except KeyboardInterrupt:
             log("interrupted -- state saved, safe to resume")
             save_state(st)
@@ -2104,11 +2207,34 @@ def main():
             log("PHASE CRASHED:\n" + traceback.format_exc())
             save_state(st)
             return
-        log(f"=== PHASE {ph} COMPLETE ===")
-        st["phase"] = ph + 1
+        # FAIL CLOSED ON THE VERDICT. Anything that is not an explicit True counts as "did not
+        # finish": a phase that forgets to report leaves the pointer where it is and gets redone,
+        # which costs a cycle. The other direction cost eight phases' worth of silent no-ops.
+        if ok is True:
+            log(f"=== PHASE {ph} COMPLETE ===")
+            st.get("failed", {}).get("runner", {}).pop(name, None)
+            if stalled is None:
+                st["phase"] = ph + 1
+        else:
+            log(f"=== PHASE {ph} ({name}) LEFT OPEN -- it did not report completion "
+                f"(returned {ok!r}); the resume pointer stays at "
+                f"{stalled if stalled is not None else ph} ===")
+            silence.note("pipeline.py:phase-left-open")
+            st.setdefault("failed", {}).setdefault("runner", {})[name] = (
+                "left open at %s -- did not report completion"
+                % datetime.datetime.now().isoformat(timespec="seconds"))
+            if stalled is None:
+                stalled = ph
+                st["phase"] = ph
         save_state(st)
         update_handoff(st)
 
+    if stalled is not None:
+        open_now = sorted(st.get("failed", {}).get("runner", {}))
+        log(f"runner exiting with phase {stalled} ({PHASES[stalled-1]}) STILL OPEN "
+            f"-- the pointer stays at {st.get('phase')} so the next run redoes it "
+            f"(open: {', '.join(open_now)})")
+        return
     log("runner exiting")
 
 

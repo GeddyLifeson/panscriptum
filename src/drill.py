@@ -798,14 +798,62 @@ def _no_runtime_clear():
 
 
 def _no_programmatic_clear():
+    """No module in src/ CALLS the halt's release — asked of the AST, not of the text.
+
+    THIS NET BREACHED AGAINST CORRECT CODE (run #34) and the way it did is its own subject. It
+    read every `src/*.py` looking for the literal strings `escalation.clear(` and `ESC.clear(`.
+    Today `verify_math.py` gained a paragraph EXPLAINING that those are the two spellings this
+    scan looks for -- quoting both, in a comment -- and the scan matched the explanation. A
+    literal cannot tell code from prose about code: it fails on an honest description and it
+    passes on a comment. `verify_math`'s own `_writes_the_config20p` says that in those words,
+    after the identical thing happened to it. A breach here HALTS the library, so a false
+    positive in this particular net is not a nuisance, it is the outage.
+
+    WIDENED WHILE IT WAS BEING REWRITTEN, because the two spellings were never the property. The
+    module-alias set is resolved per file, so `import escalation as X; X.clear()`,
+    `from escalation import clear; clear()` and `getattr(escalation, "clear")()` are all caught
+    now -- the three spellings the substring scan walked straight past, and the reason the
+    runtime guard that `_no_runtime_clear` attacks had to be built at all.
+
+    AN UNPARSEABLE MODULE IS NOT A PASS. It is a file this net could not read, which is the
+    "absence read as clean" shape the whole project is built against. `escalation.py` defines
+    `clear` and calls it from its own CLI, which is the one sanctioned caller; `drill.py` calls
+    it in four spellings on purpose, to prove each is refused.
+    """
+    import ast
     src = os.path.dirname(os.path.abspath(__file__))
     for f in sorted(os.listdir(src)):
         if not f.endswith(".py") or f in ("escalation.py", "drill.py"):
             continue
-        with open(os.path.join(src, f), encoding="utf-8") as fh:
-            t = fh.read()
-        if "escalation.clear(" in t or "ESC.clear(" in t:
+        try:
+            with open(os.path.join(src, f), encoding="utf-8") as fh:
+                tree = ast.parse(fh.read(), filename=f)
+        except (OSError, SyntaxError):
             return False
+        mods, direct = set(), set()
+        for n in ast.walk(tree):
+            if isinstance(n, ast.Import):
+                for al in n.names:
+                    if al.name == "escalation":
+                        mods.add(al.asname or "escalation")
+            elif isinstance(n, ast.ImportFrom) and n.module == "escalation":
+                for al in n.names:
+                    if al.name == "clear":
+                        direct.add(al.asname or "clear")
+        for n in ast.walk(tree):
+            if not isinstance(n, ast.Call):
+                continue
+            fn = n.func
+            if (isinstance(fn, ast.Attribute) and fn.attr == "clear"
+                    and isinstance(fn.value, ast.Name) and fn.value.id in mods):
+                return False                          # X.clear(), for any alias X
+            if isinstance(fn, ast.Name) and fn.id in direct:
+                return False                          # from escalation import clear
+            if (isinstance(fn, ast.Call) and isinstance(fn.func, ast.Name)
+                    and fn.func.id == "getattr" and len(fn.args) >= 2
+                    and isinstance(fn.args[0], ast.Name) and fn.args[0].id in mods
+                    and isinstance(fn.args[1], ast.Constant) and fn.args[1].value == "clear"):
+                return False                          # getattr(escalation, "clear")()
     return True
 
 
@@ -1437,21 +1485,48 @@ def drill_policy():
         _policy_corpus_clean,      # the function, not a lambda wrapping it: every other net in
         # this battery passes the callable itself, and the wrapper is a layer that can only
         # ever forward. `secondopinion` flagged it (PLW0108) and it is the right call. (run #33)
-        "records and coverage rows must be well-formed before anything reasons over them")
+        "records and coverage rows must be well-formed before anything reasons over them -- and "
+        "this read 40 of 216 records and scored an unparseable one as clean, so the claim was "
+        "about a fifth of the corpus and could not fail on the file most likely to be broken")
 
 
-def _policy_corpus_clean():
+def _policy_corpus_clean(root=None):
+    """Every record in the corpus passes its structural rules — every record, and read.
+
+    TWO DEFECTS, BOTH FOUND BY THE RUN #34 SWEEP, and both in the worst possible place: a net
+    whose whole claim is about "the live corpus".
+
+    THE CAP. This carried `[:40]` over a sorted glob, so the net asserted a property of the whole
+    corpus while opening its alphabetical first fifth -- 40 of 216 record files. It reported
+    green over 80% of a corpus it never looked at, and the claim it printed said nothing about
+    the sample. A Hard Rule 0 truncation inside a safety net is worse than one in a report: a
+    report that shows five of a hundred rows is merely incomplete, while a NET that reads five of
+    a hundred rows is evidence about the wrong thing wearing the name of evidence about the right
+    thing. Uncapped; the full pass costs about three seconds.
+
+    THE SWALLOWED RECORD. A bare `except Exception: continue` scored an unreadable or unparseable
+    record as clean. A record that cannot be parsed has not passed its structural rules -- it is
+    a file this net could not read, which is the "absence read as clean" shape the whole project
+    exists against, and it is the shape a corrupted record would arrive in. It now fails the net,
+    and it is the ONLY thing that can fail it that is not a rule verdict, so the two cannot be
+    confused by whoever reads the breach.
+
+    `root` exists so the drill can watch this net go red against a deliberately malformed record
+    in a temp directory, which is the only way to see it refuse without corrupting the corpus.
+    """
     import glob
     import policy as POL
-    bad = 0
-    for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json")))[:40]:
+    root = root or os.path.join(HERE, "data", "records")
+    bad, unreadable = 0, 0
+    for p in sorted(glob.glob(os.path.join(root, "*.json"))):
         try:
             with open(p, encoding="utf-8") as f:
                 ev = POL.evaluate(json.load(f), POL.RECORD_RULES, os.path.basename(p))
         except Exception:
+            unreadable += 1
             continue
         bad += len([r for r in ev["failed"] if r.get("severity") != "INFO"])
-    return bad == 0
+    return bad == 0 and unreadable == 0
 
 
 # ============================================================== THE FETCH (network manners)

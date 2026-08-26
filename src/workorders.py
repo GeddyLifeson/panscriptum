@@ -218,6 +218,7 @@ def _mutate(change, attempts=8):
     """
     import time as _t
     os.makedirs(os.path.dirname(OPEN_FILE), exist_ok=True)
+    last_why = "not attempted"
     for a in range(attempts):
         d, digest = _load(with_digest=True)
         value = change(d)
@@ -227,15 +228,18 @@ def _mutate(change, attempts=8):
         landed, why = silence.replace_if_unchanged(tmp, OPEN_FILE, digest)
         if landed:
             return True, value
-        try:
-            os.remove(tmp)
-        except OSError:
+        last_why = why          # KEPT, not discarded: it is the only account of why the write
+        try:                    # was refused, and "stale" and "denied" want different responses
+            os.remove(tmp)      # from whoever reads the failure. Binding it and dropping it was
+        except OSError:         # the swallowed-reason shape this module's own detectors look for.
             pass
         _t.sleep(0.05 * (a + 1))
     # Never raises: a queue write that cannot land is recorded and reported to the caller, which
     # is the established behaviour for every shared write here. What must NOT happen is a caller
     # believing it landed.
     silence.note("workorders.py:queue-write-lost")
+    sys.stderr.write("workorders: queue write lost after %d attempt(s); last refusal was: %s\n"
+                     % (attempts, last_why))
     return False, None
 
 
@@ -309,25 +313,29 @@ def resolve(oid, how, by=""):
         raise BadOrder("a resolution is required to close %s. A closed order with no resolution "
                        "recorded is indistinguishable from one deleted to tidy the queue, and "
                        "the paper trail is the whole reason deleting it is safe." % oid)
-    popped = {}
-
     def _change(d):
         rec = d.pop(oid, None)
         if rec is not None:
             rec.update({"resolved_at": time.time(), "resolution": how[:400], "resolved_by": by})
-        popped["rec"] = rec
         return rec
 
+    # THE ORDER OF THESE TWO TESTS IS THE WHOLE POINT, and getting it backwards undid the fix it
+    # was part of. `_mutate` returns `(False, None)` when the write could not land, so testing
+    # `rec is None` FIRST swallows that case and returns the same None as "no such open order" --
+    # and `main()` then prints exactly the "no such open order" sentence that today's CAS work
+    # was done to stop a lost write from producing. A caller cannot tell "already closed" from
+    # "your close was lost" if both come back the same way. So: DID IT LAND, then DID IT EXIST.
     landed, rec = _mutate(_change)
-    if rec is None:
-        return None
     if not landed:
-        # THE PAPER TRAIL IS APPENDED ONLY AFTER THE DELETION LANDS. Appending first would write
-        # a closed-log entry for an order still sitting open -- the two files would disagree, and
-        # the closed log is what the next run trusts when it reconciles them.
         sys.stderr.write("workorders: ORDER NOT CLOSED (%s) -- the queue write did not land after "
-                         "retries; it is still open and NOT in the paper trail\n" % oid)
+                         "retries. The order is STILL OPEN and NOT in the paper trail. This is "
+                         "not 'no such order'; it is a close that was lost.\n" % oid)
         return None
+    if rec is None:
+        return None                          # genuinely not open: nothing to close, nothing lost
+    # THE PAPER TRAIL IS APPENDED ONLY AFTER THE DELETION LANDS. Appending first would write a
+    # closed-log entry for an order still sitting open -- the two files would disagree, and the
+    # closed log is what the next run trusts when it reconciles them.
     try:
         os.makedirs(os.path.dirname(CLOSED_LOG), exist_ok=True)
         with open(CLOSED_LOG, "a", encoding="utf-8") as f:

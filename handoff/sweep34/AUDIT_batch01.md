@@ -423,7 +423,16 @@ predicate is the shape §20d was written to collapse (`pipeline.entry_settled`).
 take an expected-exception argument instead? I did not file this because it is a design call and
 because the three copies each carry a correct silence-exempt declaration.
 
-**Q6 — the FAILING check.** `verify_math.py:4193-4197` (`"the live sweep proves its own
+**Q6 — test fixtures left in the live coverage ledger.** Recording this batch's coverage returned
+the whole ledger, and it carries thirteen rows for modules that do not exist in `src/`:
+`modA1.py`, `modA2.py`, `modB1.py`, `modB2.py`, `modC1.py`, `modC2.py`, `modD1.py`, `modD2.py`,
+`modE1.py`, `modE2.py`, `modF1.py`, `modF2.py` (all `run: TESTRUN_A`) and `sharedmod.py`
+(`run: run_old`, `at: 2000.0`). Harmless if `missing()` derives its universe from `modules()`
+rather than from the ledger's keys — but this is the file that IS the proof of coverage, and it
+is the same "a test that writes into the state it audits" shape as Q3. Outside my module; raised
+rather than filed.
+
+**Q7 — the FAILING check.** `verify_math.py:4193-4197` (`"the live sweep proves its own
 completeness"`, `_SP20n.missing(_run20n) == []`) is this sweep's own completeness proof and is
 the one FAIL in the current run. Not chased, per the brief; my `sweep_plan.record` call for
 `verify_math.py` is filed.

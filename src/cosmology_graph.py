@@ -37,8 +37,34 @@ bottom-up from evidence, never top-down from a vision, per the owner's ruling.
 Weighting matters and is the whole craft here. A shared "Earth" is weak evidence (34 sources
 attest it, so it separates nothing); a shared "Zhentarim" is strong (11 sources, all D&D, and it
 correctly binds exactly the Forgotten Realms corpus). So each shared entity contributes
-1/log(sources attesting it) -- rare shared entities bind, ubiquitous ones barely count. This is
-inverse document frequency, and it is the standard fix for exactly this failure.
+
+    w = 1 / log(n + 1.5)          where n = number of sources attesting it
+    w = w * 0.15                  additionally, if n > UBIQUITOUS_CUTOFF (12)
+
+-- rare shared entities bind, ubiquitous ones barely count. This is inverse document frequency,
+and it is the standard fix for exactly this failure. Two details of the formula, spelled out
+because the docstring used to say plain `1/log(n)` and the code has never done that (corrected
+2026-08-25, order 353e7210c11c -- the CODE is right, the prose was wrong):
+
+  * the `+1.5` smoothing. n is >= 2 by construction, so plain log(n) never divides by zero, but
+    it does hand n=2 a weight of 1.44 -- nearly double n=3's 0.91. That cliff at the smallest,
+    noisiest end is exactly where a single spurious co-attestation would do the most damage.
+    log(n+1.5) flattens it: 0.80 at n=2, 0.68 at n=3.
+  * the x0.15 ubiquity penalty. Smoothing alone still leaves a 34-source "Earth" contributing a
+    third of what a 2-source name does, and Earth is attested by nearly everything. Past the
+    cutoff the term is knocked down by a further 85% rather than to zero, so ubiquitous shared
+    furniture still registers as evidence -- faintly, which is what it is -- instead of being
+    deleted from the record.
+
+NOTHING IS FILTERED OUT OF THE WRITTEN GRAPH
+--------------------------------------------
+Every pair that shares at least one entity is written to data/SHARED_STAGE_GRAPH.json, with its
+weight. A consumer that wants only strong pairs applies its own threshold to the `weight` field
+it is handed; the stored artifact stays complete and describes itself honestly. (Until
+2026-08-25 an undeclared `if w >= 1.0` at the write dropped 2,666 of 3,753 pairs -- 71% -- while
+the file recorded `"threshold": 3.0`, a number that had selected nothing. `resonance.py:157`
+reads this file to answer "are these two shelves in relation at all", so for 71% of genuinely
+co-attesting pairs it returned "no shared furniture". Order 9861c18b8485.)
 
 Usage:
     python3 src/cosmology_graph.py            # report
@@ -54,9 +80,10 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CAND = os.path.join(HERE, "data/WEAVE_CANDIDATES.json")
 OUT = os.path.join(HERE, "data/SHARED_STAGE_GRAPH.json")
 
-# Entities so widely attested they carry no grouping information. Kept explicit rather than
+# Entities so widely attested they carry little grouping information. Kept explicit rather than
 # purely threshold-based so the reasoning is auditable.
-UBIQUITOUS_CUTOFF = 12   # attested in more sources than this -> contributes ~nothing
+UBIQUITOUS_CUTOFF = 12      # attested in more sources than this -> penalised, not deleted
+UBIQUITOUS_PENALTY = 0.15   # ...by this factor. Never 0: faint evidence is still evidence.
 
 
 def build_graph():
@@ -74,10 +101,11 @@ def build_graph():
             continue
         for s in sources:
             src_entities[s] += 1
-        # inverse-frequency weight: rare co-attestations bind, ubiquitous ones do not
+        # inverse-frequency weight: rare co-attestations bind, ubiquitous ones barely do.
+        # Formula and the reasons for both terms are in the module docstring.
         w = 1.0 / math.log(n + 1.5)
         if n > UBIQUITOUS_CUTOFF:
-            w *= 0.15
+            w *= UBIQUITOUS_PENALTY
         name = hits[0]["name"]
         for i in range(n):
             for j in range(i + 1, n):
@@ -121,44 +149,77 @@ def components(pair_w, threshold):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
-    ap.add_argument("--threshold", type=float, default=3.0)
+    ap.add_argument("--threshold", type=float, default=3.0,
+                    help="weight floor for CLUSTERING only. It has never filtered the pair "
+                         "list and now says so in the artifact it writes.")
+    ap.add_argument("--show", type=int, default=16,
+                    help="how many ranked rows to print on screen (0 = all). Console framing "
+                         "only -- --write always emits every pair.")
     args = ap.parse_args()
 
     pair_w, pair_shared, src_entities = build_graph()
-    print(f"source pairs sharing >=1 entity : {len(pair_w):,}")
+    ranked = sorted(pair_w.items(), key=lambda kv: -kv[1])
+    print(f"source pairs sharing >=1 entity : {len(pair_w):,}   (ALL of them are written)")
     print()
 
-    top = sorted(pair_w.items(), key=lambda kv: -kv[1])[:16]
+    shown = len(ranked) if args.show <= 0 else min(args.show, len(ranked))
     print("STRONGEST SHARED STAGES (inverse-frequency weighted):")
-    for (a, b), w in top:
-        shared = ", ".join(pair_shared[(a, b)][:4])
-        print(f"  {w:6.1f}  {a[:24]:26s} <-> {b[:24]:26s}  {shared[:52]}")
+    for (a, b), w in ranked[:shown]:
+        names = pair_shared[(a, b)]
+        shared = ", ".join(names[:4])
+        more = f" (+{len(names) - 4:,} more shared)" if len(names) > 4 else ""
+        print(f"  {w:6.1f}  {a[:24]:26s} <-> {b[:24]:26s}  {shared[:52]}{more}")
+    if shown < len(ranked):
+        print(f"  ... {len(ranked) - shown:,} further pairs not printed here (of "
+              f"{len(ranked):,}). Screen framing, not a filter: --show 0 prints them all, "
+              f"and --write emits every one.")
     print()
 
     comps = components(pair_w, args.threshold)
     print(f"CANDIDATE CLUSTERS at weight >= {args.threshold} : {len(comps)}")
-    for c in comps[:8]:
-        print(f"  [{len(c):3d}] {', '.join(s[:20] for s in c[:6])}{' …' if len(c) > 6 else ''}")
+    for c in comps[:shown]:
+        head = ", ".join(s[:20] for s in c[:6])
+        tail = f" (+{len(c) - 6} more)" if len(c) > 6 else ""
+        print(f"  [{len(c):3d}] {head}{tail}")
+    if shown < len(comps):
+        print(f"  ... {len(comps) - shown} further clusters not printed here; all "
+              f"{len(comps)} are written to the artifact.")
 
     if args.write:
         # ATOMIC: propagation.py and resonance.py both read SHARED_STAGE_GRAPH.json live, so a
         # truncate-then-fill here hands them an empty graph they would silently trust.
+        #
+        # COMPLETE: every pair that shares at least one entity, ranked by weight, none dropped.
+        # An undeclared `if w >= 1.0` here used to discard 2,666 of 3,753 pairs (71%) while the
+        # file below still announced `"threshold": 3.0` -- so the artifact misdescribed itself
+        # AND the number it named had selected nothing. A weight floor is a CONSUMER's decision:
+        # every pair carries its `weight`, so anything that wants only strong links filters on
+        # that field. Ranking, yes; truncation, never (Hard Rule 0, order 9861c18b8485).
         import silence
         silence.write_json(OUT, {
             "pairs": [{"a": a, "b": b, "weight": round(w, 3),
                        "shared_sample": pair_shared[(a, b)]}
-                      for (a, b), w in sorted(pair_w.items(), key=lambda kv: -kv[1])
-                      if w >= 1.0],
+                      for (a, b), w in ranked],
+            "pair_count": len(ranked),
+            "pairs_filtered": False,
             "clusters": comps,
+            "cluster_count": len(comps),
             # `src_entities` was built, returned and unpacked, then read by nothing -- it
             # reached no print and no file, so the per-source count of co-attested entities
             # existed only for the length of one call. Written here, WHOLE and uncapped, so
             # the work the function already does is actually available. Additive: propagation
             # and resonance read `pairs`/`clusters` and are untouched by a new key.
             "source_entities": dict(sorted(src_entities.items())),
+            # `threshold` selects CLUSTERS and nothing else. Named twice, unambiguously,
+            # because for two days it read as though it had selected the pair list.
             "threshold": args.threshold,
+            "threshold_applies_to": "clusters",
+            "weight_formula": "1/log(n+1.5), x0.15 when n > 12",
         }, indent=2, ensure_ascii=False)
         print(f"\nwrote {OUT}")
+        print(f"  pairs written : {len(ranked):,} of {len(pair_w):,} (all of them, unfiltered)")
+        print(f"  clusters      : {len(comps)} at weight >= {args.threshold}")
+        print(f"  sources       : {len(src_entities):,}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,219 @@
+[
+ {
+  "file": "chowder.json",
+  "source": "Chowder",
+  "mtime": 1787716028.9450088,
+  "when": "2026-08-25 22:47",
+  "entries": 239
+ },
+ {
+  "file": "invincible.json",
+  "source": "Invincible",
+  "mtime": 1787715406.7953057,
+  "when": "2026-08-25 22:36",
+  "entries": 568
+ },
+ {
+  "file": "terminator.json",
+  "source": "Terminator",
+  "mtime": 1787714727.3631592,
+  "when": "2026-08-25 22:25",
+  "entries": 493
+ },
+ {
+  "file": "the-grim-adventures-of-billy-mandy.json",
+  "source": "The Grim Adventures of Billy & Mandy",
+  "mtime": 1787714052.2584505,
+  "when": "2026-08-25 22:14",
+  "entries": 368
+ },
+ {
+  "file": "ghost-recon.json",
+  "source": "Ghost Recon",
+  "mtime": 1787713387.2590258,
+  "when": "2026-08-25 22:03",
+  "entries": 808
+ },
+ {
+  "file": "regular-show.json",
+  "source": "Regular Show",
+  "mtime": 1787712560.139149,
+  "when": "2026-08-25 21:49",
+  "entries": 468
+ },
+ {
+  "file": "henry-stickmin.json",
+  "source": "Henry Stickmin",
+  "mtime": 1787711940.5410793,
+  "when": "2026-08-25 21:39",
+  "entries": 616
+ },
+ {
+  "file": "street-fighter.json",
+  "source": "Street Fighter",
+  "mtime": 1787711180.4371076,
+  "when": "2026-08-25 21:26",
+  "entries": 1121
+ },
+ {
+  "file": "adventure-time.json",
+  "source": "Adventure Time",
+  "mtime": 1787710476.7559164,
+  "when": "2026-08-25 21:14",
+  "entries": 3128
+ },
+ {
+  "file": "soul-calibur.json",
+  "source": "Soul Calibur",
+  "mtime": 1787710173.752689,
+  "when": "2026-08-25 21:09",
+  "entries": 3333
+ },
+ {
+  "file": "baki.json",
+  "source": "Baki",
+  "mtime": 1787707694.4882567,
+  "when": "2026-08-25 20:28",
+  "entries": 683
+ },
+ {
+  "file": "diablo.json",
+  "source": "Diablo",
+  "mtime": 1787707151.7149415,
+  "when": "2026-08-25 20:19",
+  "entries": 5480
+ },
+ {
+  "file": "yakuza.json",
+  "source": "Yakuza",
+  "mtime": 1787705123.3366249,
+  "when": "2026-08-25 19:45",
+  "entries": 1499
+ },
+ {
+  "file": "digimon.json",
+  "source": "Digimon",
+  "mtime": 1787703814.5968945,
+  "when": "2026-08-25 19:23",
+  "entries": 2577
+ },
+ {
+  "file": "naruto.json",
+  "source": "Naruto",
+  "mtime": 1787703500.102305,
+  "when": "2026-08-25 19:18",
+  "entries": 2969
+ },
+ {
+  "file": "gears-of-war.json",
+  "source": "Gears of War",
+  "mtime": 1787701664.2823281,
+  "when": "2026-08-25 18:47",
+  "entries": 2310
+ },
+ {
+  "file": "transformers.json",
+  "source": "Transformers",
+  "mtime": 1787699694.7459335,
+  "when": "2026-08-25 18:14",
+  "entries": 6019
+ },
+ {
+  "file": "rick-and-morty.json",
+  "source": "Rick and Morty",
+  "mtime": 1787698383.9275825,
+  "when": "2026-08-25 17:53",
+  "entries": 1471
+ },
+ {
+  "file": "dragon-ball-z.json",
+  "source": "Dragon Ball Z",
+  "mtime": 1787696178.8504877,
+  "when": "2026-08-25 17:16",
+  "entries": 6923
+ },
+ {
+  "file": "dc.json",
+  "source": "DC",
+  "mtime": 1787693568.635497,
+  "when": "2026-08-25 16:32",
+  "entries": 44958
+ },
+ {
+  "file": "he-man-masters-of-the-universe.json",
+  "source": "He-Man / Masters of the Universe",
+  "mtime": 1787691867.993322,
+  "when": "2026-08-25 16:04",
+  "entries": 2398
+ },
+ {
+  "file": "legend-of-zelda.json",
+  "source": "Legend of Zelda",
+  "mtime": 1787689919.5994892,
+  "when": "2026-08-25 15:31",
+  "entries": 8874
+ },
+ {
+  "file": "mario-and-his-expanded-universe.json",
+  "source": "Mario and his expanded universe",
+  "mtime": 1787679662.699566,
+  "when": "2026-08-25 12:41",
+  "entries": 7191
+ },
+ {
+  "file": "thomas-the-tank-engine.json",
+  "source": "Thomas the Tank Engine",
+  "mtime": 1787673579.511533,
+  "when": "2026-08-25 10:59",
+  "entries": 4428
+ },
+ {
+  "file": "spongebob-squarepants.json",
+  "source": "SpongeBob SquarePants",
+  "mtime": 1787667742.9506154,
+  "when": "2026-08-25 09:22",
+  "entries": 6145
+ },
+ {
+  "file": "gundam-all-centuries-incl-g-gundam.json",
+  "source": "Gundam (all centuries, incl. G Gundam)",
+  "mtime": 1787661448.480786,
+  "when": "2026-08-25 07:37",
+  "entries": 6181
+ },
+ {
+  "file": "marvel.json",
+  "source": "Marvel",
+  "mtime": 1787612680.2494876,
+  "when": "2026-08-24 18:04",
+  "entries": 30207
+ },
+ {
+  "file": "twilight-imperium.json",
+  "source": "Twilight Imperium",
+  "mtime": 1787243246.6790664,
+  "when": "2026-08-20 11:27",
+  "entries": 0
+ },
+ {
+  "file": "major-live-action-disney-films.json",
+  "source": "major live-action Disney films",
+  "mtime": 1787243246.4308794,
+  "when": "2026-08-20 11:27",
+  "entries": 0
+ },
+ {
+  "file": "heaven-s-lost-property.json",
+  "source": "Heaven's Lost Property",
+  "mtime": 1787243246.3797772,
+  "when": "2026-08-20 11:27",
+  "entries": 0
+ },
+ {
+  "file": "hawx.json",
+  "source": "HAWX",
+  "mtime": 1787243246.3791144,
+  "when": "2026-08-20 11:27",
+  "entries": 0
+ }
+]

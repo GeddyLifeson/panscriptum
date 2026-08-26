@@ -132,8 +132,27 @@ DEFAULT = dict(register="classical",
                            condition="settled", tech="medieval"))
 
 
-def classify_text(text, top=3):
-    """Score every genre against a body of text. Returns ranked (genre, score)."""
+def classify_text(text, top=None):
+    """Score every genre against a body of text. Returns ALL of them, ranked (genre, score).
+
+    [HARD RULE 0] `top` defaulted to 3 and that default did two separate kinds of damage
+    (corrected 2026-08-25, order bc0b85ea353b):
+
+      1. It truncated a ranked list. Eight of the eleven genres a source scored against were
+         thrown away before anyone saw them, and `classify_source` stored the survivors as
+         `runners_up` -- so 207 of the 210 records in data/GENRES.json carry exactly 2 of their
+         10 runners-up, which reads as a complete margin and is not one.
+      2. Worse, `classify_source` computed `confidence = score / sum(ranked)`, and `ranked` was
+         the TRUNCATED list -- so the denominator was the top three scores instead of all
+         eleven. Every confidence figure in the corpus was inflated. Adventure Time read 0.616
+         against a true 0.509. That number then feeds the `< 0.45` mixed-source flag, so
+         sources that should have been flagged as genuinely mixed were reported confident.
+
+    Ranking is the point and stays. Cutting the tail off the ranking is what was wrong: it
+    silently decided the other eight genres scored nothing. `top` survives so no caller breaks,
+    but it now defaults to the whole list. Pass an integer only for a display, never for a
+    denominator.
+    """
     scores = collections.Counter()
     for g, spec in GENRES.items():
         for pat, w in spec["cues"].items():
