@@ -66,12 +66,24 @@ TARGETS = ("assay.py", "prose_gate.py", "escalation.py")
 #
 # `verify_math` before `drill` deliberately: it is the faster of the two and it is where the
 # assay arithmetic actually lives, so an assay mutation dies in its first gate.
-GATES = (
+# TIERED, because the arithmetic is unforgiving. `drill.py` takes about five minutes; there are
+# 146 mutants; running the full battery per mutant is twelve hours before the baseline even
+# starts, and a check nobody can afford to run is a check that does not run -- which is exactly
+# the defect this module was written to find, so it must not be the shape of the module itself.
+#
+# FAST gates run on every mutant. The expensive CONFIRM gate runs only on the ones that SURVIVE
+# them, which is the small set where five more minutes can still change the answer. A mutant
+# killed by `import` in one second and a mutant killed by `drill` in five minutes are the same
+# fact; only survivors are worth paying full price for.
+FAST_GATES = (
     ("import", [sys.executable, "-c", "import sys; sys.path.insert(0,'src'); import assay,"
                 " prose_gate, escalation"]),
     ("verify_math", [sys.executable, "src/verify_math.py"]),
+)
+CONFIRM_GATES = (
     ("drill", [sys.executable, "src/drill.py"]),
 )
+GATES = FAST_GATES + CONFIRM_GATES
 
 
 # --------------------------------------------------------------------------- the lock
@@ -103,14 +115,31 @@ def _pid_alive(pid):
     Fails toward "the lock is real". A false 'stale' releases the lock while a mutation run is
     genuinely mid-flight, which puts corrupted source back in reach of the publisher -- the
     exact failure this whole mechanism exists to prevent. A false 'alive' merely delays a push.
+
+    USES `psutil`, AND THE FALLBACK IS THE REASON THIS COMMENT EXISTS. The first version
+    shelled out to `tasklist /FI "PID eq N"` and substring-matched the output, which is wrong
+    in two ways a maintained library is not: `tasklist` prints "INFO: No tasks are running
+    which match the specified criteria" on a MISS, and that string contains no PID -- fine --
+    but the PID being searched for can also appear in an unrelated column of a HIT for a
+    different process, so a recycled or coincidental number reads as alive. It also spawns a
+    process per check, on a path called once per gate. `psutil.pid_exists` is a syscall.
     """
     try:
-        if os.name == "nt":
-            r = subprocess.run(["tasklist", "/FI", "PID eq %d" % pid], capture_output=True,
-                               text=True, creationflags=_NO_WIN, timeout=30)
-            return str(pid) in (r.stdout or "")
-        os.kill(pid, 0)
-        return True
+        import psutil
+        return psutil.pid_exists(pid)
+    except ImportError:
+        # Stdlib fallback, kept because this module must not become unusable on a machine where
+        # an optional dependency is missing. On POSIX `kill(pid, 0)` is exact; on Windows there
+        # is no cheap stdlib equivalent, so it errs toward ALIVE, which is the safe direction.
+        try:
+            if os.name == "nt":
+                return True
+            os.kill(pid, 0)
+            return True
+        except ProcessLookupError:
+            return False
+        except Exception:
+            return True
     except Exception:
         return True
 
