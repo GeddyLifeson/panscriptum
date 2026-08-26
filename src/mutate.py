@@ -533,21 +533,24 @@ def main():
         #
         # A mutant killed by a pre-existing failure is not a mutant killed, and a number
         # produced that way is worse than no number, because it is believable.
-        ok, bad = baseline(root)
-        if not ok:
-            print("\nBASELINE IS NOT CLEAN — REFUSING TO MUTATE.")
-            for gname, why in bad:
-                print("   %-14s %s" % (gname, why))
-            print("\nEvery mutant would die at these gates for reasons that have nothing to do")
-            print("with the mutation, and the run would report a perfect score. Fix the")
-            print("baseline first, or pass --gates to narrow it.")
+        base = baseline(root)
+        print("baseline signatures:")
+        for gname, sig in base.items():
+            print("   %-14s %s" % (gname, sig[:90]))
+        flaky = flaky_gates(root, base)
+        if flaky:
+            print("\nFLAKY GATES — REFUSING TO MUTATE.")
+            for gname, a_, b_ in flaky:
+                print("   %-14s run1=%s   run2=%s" % (gname, str(a_)[:40], str(b_)[:40]))
+            print("\nA gate that disagrees with itself on unmutated code judges every mutant")
+            print("by coin flip, and the report looks equally confident either way.")
             return 3
-        print("baseline clean: %s" % ", ".join(g for g, _ in GATES))
+        print("all gates reproducible; mutants judged by DIFFERENCE from the above")
 
         total_s = 0
         for t in targets:
             t0 = time.time()
-            r = run(t, limit=a.limit, root=root)
+            r = run(t, limit=a.limit, root=root, base=base)
             total_s += time.time() - t0
             print("\n%s — %d mutants, %d killed, %d SURVIVED   (%.0fs)"
                   % (t, r["mutants"], r["killed"], r["survived"], time.time() - t0))
