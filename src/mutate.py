@@ -441,8 +441,10 @@ def flaky_gates(root, base, gates=GATES):
     return bad
 
 
-def run(target, limit=None, gates=GATES, root=None, keep=False, base=None):
+def run(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
+        confirm=CONFIRM_GATES):
     """Mutate one module IN A SANDBOX and report which mutants survived. -> dict."""
+    base = {} if base is None else base
     own_sandbox = root is None
     root = root or sandbox()
     path = os.path.join(root, "src", target)
@@ -481,12 +483,23 @@ def run(target, limit=None, gates=GATES, root=None, keep=False, base=None):
                     if sig != base.get(gname):
                         died_at = "%s (%s)" % (gname, why)
                         break
+                # A SURVIVOR OF THE FAST GATES IS ONLY A CANDIDATE. The expensive gate runs
+                # here and nowhere else, so its five minutes is spent exactly on the mutants
+                # where it can still change the answer -- which is what makes running this over
+                # 146 mutants affordable at all.
+                if not died_at:
+                    for gname, cmd in confirm:
+                        sig, why = _gate_result(gname, cmd, cwd=root)
+                        if sig != base.get(gname):
+                            died_at = "%s (%s)" % (gname, why)
+                            break
                 if died_at:
                     killed += 1
                 else:
                     survivors.append({"line": lineno, "mutation": desc,
                                       "was": old_line.strip()[:120],
-                                      "became": new_line.strip()[:120]})
+                                      "became": new_line.strip()[:120],
+                                      "confirmed": bool(confirm)})
         finally:
             _write(path, original)
 
@@ -534,6 +547,10 @@ def main():
     ap.add_argument("--file-orders", action="store_true")
     ap.add_argument("--keep-sandbox", action="store_true",
                     help="leave the sandbox on disk for inspection")
+    ap.add_argument("--check-flaky", action="store_true",
+                    help="run the gates twice on clean code first; doubles startup cost")
+    ap.add_argument("--no-confirm", action="store_true",
+                    help="skip the slow confirm gate; SURVIVORS BECOME UNCONFIRMED")
     a = ap.parse_args()
 
     # A halt means the library is not in a state anyone should be deliberately breaking.
@@ -562,11 +579,17 @@ def main():
         #
         # A mutant killed by a pre-existing failure is not a mutant killed, and a number
         # produced that way is worse than no number, because it is believable.
-        base = baseline(root)
+        gates = FAST_GATES
+        confirm = () if a.no_confirm else CONFIRM_GATES
+        base = baseline(root, gates=gates + confirm)
         print("baseline signatures:")
         for gname, sig in base.items():
             print("   %-14s %s" % (gname, sig[:90]))
-        flaky = flaky_gates(root, base)
+        # OPT-IN, because it runs every gate a second time and the slow one is five minutes.
+        # Worth paying before trusting a survivor list; not worth paying on every smoke run.
+        flaky = flaky_gates(root, base) if a.check_flaky else []
+        if not a.check_flaky:
+            print("   (flakiness not checked — pass --check-flaky before trusting survivors)")
         if flaky:
             print("\nFLAKY GATES — REFUSING TO MUTATE.")
             for gname, a_, b_ in flaky:
@@ -579,7 +602,7 @@ def main():
         total_s = 0
         for t in targets:
             t0 = time.time()
-            r = run(t, limit=a.limit, root=root, base=base)
+            r = run(t, limit=a.limit, root=root, base=base, gates=gates, confirm=confirm)
             total_s += time.time() - t0
             print("\n%s — %d mutants, %d killed, %d SURVIVED   (%.0fs)"
                   % (t, r["mutants"], r["killed"], r["survived"], time.time() - t0))
@@ -599,9 +622,13 @@ def main():
             if r["capped"]:
                 print("  (capped at --limit %d; this is NOT the whole set)" % a.limit)
             for s in r["survivors"]:
-                print("  SURVIVED  %s:%-5d %-16s  %s"
-                      % (t, s["line"], s["mutation"], s["was"][:70]))
-            if a.file_orders and r["survivors"]:
+                tag = "SURVIVED " if confirm else "UNCONFIRMED"
+                print("  %s %s:%-5d %-16s  %s"
+                      % (tag, t, s["line"], s["mutation"], s["was"][:70]))
+            if r["survivors"] and not confirm:
+                print("  --no-confirm was used: these passed the FAST gates only. They are"
+                      " candidates, not findings, and must not be filed as findings.")
+            if a.file_orders and r["survivors"] and confirm:
                 print("  filed %d work order(s)" % len(file_orders(r)))
         print("\ntotal %.0fs" % total_s)
         return 0
