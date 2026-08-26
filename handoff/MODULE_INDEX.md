@@ -73,6 +73,7 @@
 
 - **address_space** — THE ADDRESS SPACE — a 74-bit name for every planet in the omniverse
 - **audit** — BACKSCAN — an audit of everything catalogued so far
+- **axis_correlation** — AXIS CORRELATION — the Measures are not independent, and here is by how much
 - **backfill** — BACKFILL — recover the main casts the original cataloguing crawl missed
 - **binding_health** — BINDING HEALTH — prove each wiki host still answers the way it did, before trusting it again
 - **burgs** — BURGS — the settlement tier, and the bottom of the seed hierarchy
@@ -80,6 +81,7 @@
 - **catalogue_models** — CATALOGUE MODELS — ask each provider what it actually serves, instead of trusting the config
 - **chord_field** — THE CHORD AS A FIELD — the adjudication that lets ki and shrinking share one physics
 - **cleanup** — CLEANUP — the presentation defects the backscan turned up
+- **codewatch** — CODEWATCH — a running process is a photograph of the code as it was when it started
 - **context_budget** — CONTEXT BUDGET — the cap the code did not choose, and the refusal that replaces it
 - **corpus_db** — CORPUS DB — the library as a queryable table, so a question costs a line instead of a script
 - **cosmography** — THE PLANETARY CENSUS — a calculable template from universe-size down to a single world
@@ -101,6 +103,7 @@
 - **liveness** — LIVENESS — find the checks that cannot fail and the code that never runs
 - **local_agent** — LOCAL_AGENT — the GPU model with hands: read, search, and gated writes on this repo
 - **module_index** — MODULE_INDEX — the map of the 87 modules, generated from their own first lines
+- **mutate** — MUTATE — break the library on purpose, and find out which safeties failed to notice
 - **navtree** — NAVTREE — the terminal's navigation data, with every branch reachable
 - **onomast** — THE ONOMASTICON — distinct designations for the worlds that all call themselves Earth
 - **pantheon** — PANTHEON -- the divine tier of Universes 6 and 7, hand-built under the presence thesis
@@ -114,6 +117,7 @@
 - **repass_bands** — RE-PASS — re-apply the corrected evidence gate to everything already catalogued
 - **resonance** — RESONANCE — the relational ontology, made computable
 - **resync_roll** — Rebuilds SWEEP_ROLL.json's entry_count/status from the record files on disk
+- **roll** — ROLL — the Acquisitions Roll, and the one place that answers "is this source in scope"
 - **rosetta** — ROSETTA — each fiction's own power scale, mined and used as ground truth
 - **runguard** — RUNGUARD — the overlap guard for the maintenance pass, as code instead of as a convention
 - **scale_theories** — THE SCALE-CHANGE THEORIES — what would have to be true, and what it would cost

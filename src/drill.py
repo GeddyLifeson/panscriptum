@@ -1429,6 +1429,31 @@ def drill_codewatch():
     net(a, "source-change restarts are budgeted per job per hour", restarts_are_budgeted,
         "an unbudgeted restarter is a respawn loop waiting for an edit storm")
 
+    def twin_detection_does_not_match_bystanders():
+        """THE ONE THAT WOULD HAVE CAUSED THE OUTAGE IT PREVENTS. The first version asked
+        whether the module name appeared ANYWHERE in a command line, and immediately matched a
+        `pyflakes src/codewatch.py src/publish.py src/foreman.py src/overwatch.py` invocation --
+        one linter reported as a twin of three daemons at once. Every one of them would then
+        have refused to start because somebody was linting it."""
+        import codewatch as CW
+        # A module no daemon runs must have no twins even while this very drill's command line
+        # is full of module names.
+        return CW.twins("anchors") == [] and CW.twins("verify_math") == []
+    net(a, "twin detection matches the script being RUN, not any mention of it",
+        twin_detection_does_not_match_bystanders,
+        "a linter is not a daemon; refusing to start because someone read the file is an outage")
+
+    def singleton_guard_is_wired_into_the_daemons():
+        src = os.path.dirname(os.path.abspath(__file__))
+        for f in ("publish.py", "foreman.py", "overwatch.py"):
+            with open(os.path.join(src, f), encoding="utf-8") as fh:
+                if "claim_singleton" not in fh.read():
+                    return False
+        return True
+    net(a, "every standing daemon refuses to run beside a twin",
+        singleton_guard_is_wired_into_the_daemons,
+        "two publishers into one export repo is the two-writer fault push() documents")
+
     def the_supervisor_can_name_the_deliberate_exit():
         """rc=17 must read as intent, never as breakage. The confusion between the two caused
         this project's longest outage."""

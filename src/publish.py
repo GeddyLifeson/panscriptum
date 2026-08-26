@@ -592,7 +592,19 @@ def main():
     # a daemon publisher should retry -- but it remembers, and the exit code tells the truth.
     rc = 0
     import codewatch
-    codewatch.stamp("publish")
+    # ONE OF ME. Two `publish.py` daemons were observed running seventeen seconds
+    # apart on 2026-08-25 after a restart race, and two writers into one export repo
+    # is the failure `push()` documents at length. Fails open: if the process table
+    # cannot be read this starts anyway, because not being able to look is not a
+    # reason to take the job down.
+    # ONLY IN LOOP MODE, and this needed correcting within the minute: the guard was
+    # unconditional at first and immediately refused a hand-run one-shot `--push`
+    # because the standing daemon was up. A one-shot is not a second daemon; it is a
+    # person doing one thing deliberately, and a safety that blocks the operator
+    # from acting is a safety that will be removed.
+    if a.loop:
+        codewatch.claim_singleton("publish")
+        codewatch.stamp("publish")
     while True:
         try:
             n = sync_tree()

@@ -9,6 +9,72 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 (night) — the fourth safety property: IN EFFECT
+
+**A guard that exists in a file is not a guard that is running, and this cost a public repo.**
+
+At 19:00 `publish.py` gained a refusal that stops it publishing while `mutate.py` has source
+files deliberately corrupted. It was correct and it was watched refusing. A mutated
+`prose_gate.py` and a mutated `escalation.py` were pushed to GitHub anyway — because
+`publish.py --push --loop 1` had been running **since 14:28** with the pre-guard code in memory.
+A Python process does not re-read its own source.
+
+Fifteen long-lived jobs were running. Every safety written today was inert in all of them.
+
+**`src/codewatch.py`** — every standing daemon fingerprints `src/` at startup and exits with
+**rc=17** when it changes and holds still; the keeper restarts it within five minutes on current
+code. Wired into `publish`, `foreman`, `overwatch`. Guarded three ways because a restarter is
+itself dangerous: restarts are **budgeted** per job per hour (past it the job runs stale and
+escalates — thrash is worse than lag, and `autostart` already carries the scar of one respawn
+loop); a change must **settle** for 180s (a digest taken mid-write is a digest of garbage, and
+`local_agent --patch` writes several files over several seconds); and `overnight.name_rc` now
+**names rc=17 as deliberate**, because this project's longest outage was a watcher reading
+jobs-exiting-on-purpose as jobs-crashing.
+
+**Then the restart produced two `publish.py` daemons seventeen seconds apart** — two writers into
+one export repo, the fault `push()` documents at length. `codewatch.claim_singleton()` now makes
+every standing daemon exit quietly (**code 0** — the twin is doing the job, nothing is wrong) if
+a twin is already up. `autostart._twin_watchdog` had this idea for the watchdog and it had never
+been given to the daemons the watchdog supervises.
+
+**And the twin detector nearly caused the outage it prevents.** Its first version matched the
+module name ANYWHERE in a command line and instantly matched a
+`pyflakes src/codewatch.py src/publish.py src/foreman.py src/overwatch.py` invocation — one
+linter reported as a twin of three daemons at once, every one of which would then have refused
+to start because somebody was reading it. It now identifies the SCRIPT BEING RUN. There is a net.
+
+**`mutate.py` REBUILT after it caused all of the above.** It no longer touches the live tree at
+all: it copies `src/`, junctions `data/`/`prompts/`/`reference/`, copies `state/*.json` minus
+`HALT.json`, and asserts the live file's digest is unchanged every run. Three further corrections
+came out of running it:
+
+* **Differential baseline.** The first run was worthless in a way that looked perfect:
+  `verify_math` had one honest pre-existing red, so all 146 mutants died at that gate for a
+  reason unrelated to any mutation — `146 killed, 0 survived`, a flawless score from a test that
+  tested nothing. A mutant is now killed only if it makes a gate say something DIFFERENT from
+  what it says about clean code. Requiring a green tree would have been the wrong fix: this
+  project has an honest red most days, so "green or refuse" means "never runs".
+* **Flakiness check** (`--check-flaky`) — a gate that disagrees with itself judges every mutant
+  by coin flip and looks equally confident either way.
+* **Tiered gates** — the 5-minute drill runs only on mutants that survive the fast gates.
+  Otherwise 146 mutants is twelve hours before the baseline starts, and a check nobody can
+  afford to run is the exact defect this module exists to find.
+
+**IT IS ALREADY FINDING THINGS.** First differential run on `escalation.py` flagged
+`:165 if level >= OWNER:` — flipping the comparison that decides **whether to raise a halt** —
+plus `:181` (the halt-standing check) and `:253` (ruling validation). Confirmation run in flight.
+
+**RESEARCHED, per owner instruction, and the honest verdicts.** `psutil` **ADOPTED**, replacing a
+`tasklist` string-match that spawned a process per check and could read a coincidental PID as
+alive. `cosmic-ray` 8.7.0 **measured and not adopted**: its `baseline` is exactly the right idea,
+but it assumes a pytest suite this project lacks and it returned exit 0 with no output against a
+test command that exits 1. `filelock`/`portalocker`, `watchdog`, `icontract`, `structlog`,
+`pandera`/`Great Expectations`/`Soda`, `chaostoolkit` — all evaluated, verdicts and reasons
+recorded in `requirements.txt` so the survey is not re-run next quarter.
+
+**BATTERY:** verify_math 795/1 · drill **192 nets, 0 BREACHED** · liveness 38 (at ceiling). The
+single red is `sweep_plan` correctly reporting four new modules a sweep has not read yet.
+
 ## 2026-08-25 (evening) — five owner rulings applied, and a published-corruption incident
 
 **FOR THE OWNER, AT THE TOP: a corrupted file reached GitHub and has been corrected.**

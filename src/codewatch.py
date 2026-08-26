@@ -93,6 +93,90 @@ def fingerprint(root=None):
     return h.hexdigest()[:16]
 
 
+def twins(module, exclude_pid=None):
+    """-> [pid] of other live processes running `src/<module>.py`.
+
+    FOUND BY WATCHING IT HAPPEN. Minutes after the keeper was asked to restart three daemons it
+    started **two `publish.py` processes seventeen seconds apart** -- one from the keeper's
+    STANDING re-assertion, one from something else that noticed the same gap. Two publishers
+    means two writers pushing into one export repo, which `publish.push` has a whole paragraph
+    about: run #5 counted five silent-ish rejected pushes in a morning from exactly that.
+
+    `autostart._twin_watchdog` already applies this idea to the watchdog, for the same reason
+    and after a worse incident (three watchdogs, each restarting the others' supervisors, in a
+    respawn loop). It was never generalised to the daemons the watchdog supervises.
+    """
+    me = os.getpid() if exclude_pid is None else exclude_pid
+    found = []
+    try:
+        import psutil
+    except ImportError:
+        return found                 # cannot tell; say so by finding nothing, and FAIL OPEN
+    needle = module if module.endswith(".py") else module + ".py"
+    for proc in psutil.process_iter(["pid", "cmdline"]):
+        try:
+            if proc.info["pid"] == me:
+                continue
+            argv = proc.info.get("cmdline") or []
+            if len(argv) < 2:
+                continue
+            # THE SCRIPT BEING RUN, NOT ANY MENTION OF IT. The first version asked whether
+            # "publish.py" appeared ANYWHERE in the command line, and the first thing it matched
+            # was a `pyflakes src/codewatch.py src/publish.py src/foreman.py src/overwatch.py`
+            # invocation -- one linter reported as a twin of three different daemons at once.
+            # A daemon would then have refused to start because someone was linting it, which is
+            # the "outage that reports itself as caution" this function's own docstring warns
+            # about, produced by the function itself within a minute of being written.
+            #
+            # So: the interpreter must be python, and the SCRIPT -- the first argument that
+            # looks like a path to a .py file -- must be this module. An editor, a linter, a
+            # grep, or a shell that merely names the file no longer counts.
+            if "python" not in os.path.basename(argv[0]).lower():
+                continue
+            script = None
+            for arg in argv[1:]:
+                a = arg.replace("\\", "/")
+                if a.endswith(".py"):
+                    script = a
+                    break
+                if not a.startswith("-"):
+                    break            # a non-flag, non-.py argument: this is not `python x.py`
+            if script and os.path.basename(script) == needle:
+                found.append(proc.info["pid"])
+        except Exception:
+            continue
+    return found
+
+
+def claim_singleton(who, module=None, exit_code=0):
+    """Exit quietly if a twin of this daemon is already running. -> [pid] of twins found.
+
+    EXITS 0, NOT AN ERROR CODE. The twin is already doing the job, so nothing is wrong and
+    nothing should be reported as wrong -- a non-zero exit here would have the keeper log a
+    failure every time it lost a race with itself, and a log full of harmless failures is how
+    a real one goes unread.
+
+    FAILS OPEN. If `psutil` is missing or the process table cannot be walked, this finds no
+    twins and the daemon starts. Refusing to start because we could not tell would convert an
+    inability to observe into an outage, and an outage that reports itself as caution is the
+    worst shape a safety can take.
+    """
+    others = twins(module or who)
+    if not others:
+        return []
+    print("[codewatch] %s: another instance is already running (pid %s). This one exits; the "
+          "twin is doing the job. Not an error." % (who, ", ".join(str(p) for p in others)),
+          flush=True)
+    try:
+        import escalation
+        escalation.escalate("JANITOR", "DAEMON_TWIN",
+                            "%s found %d twin(s) at startup and exited" % (who, len(others)),
+                            evidence={"job": who, "twins": others}, source=who, who="codewatch")
+    except Exception:
+        silence.note("codewatch.py:twin-escalate")
+    raise SystemExit(exit_code)
+
+
 def stamp(who="?"):
     """Record the code this process actually started with. Call once, at startup."""
     _START["digest"] = fingerprint()

@@ -1342,7 +1342,19 @@ def main():
     ap.add_argument("--loop", type=float, default=0, help="keep going, minutes apart")
     a = ap.parse_args()
     import codewatch
-    codewatch.stamp("foreman")
+    # ONE OF ME. Two `publish.py` daemons were observed running seventeen seconds
+    # apart on 2026-08-25 after a restart race, and two writers into one export repo
+    # is the failure `push()` documents at length. Fails open: if the process table
+    # cannot be read this starts anyway, because not being able to look is not a
+    # reason to take the job down.
+    # ONLY IN LOOP MODE, and this needed correcting within the minute: the guard was
+    # unconditional at first and immediately refused a hand-run one-shot `--push`
+    # because the standing daemon was up. A one-shot is not a second daemon; it is a
+    # person doing one thing deliberately, and a safety that blocks the operator
+    # from acting is a safety that will be removed.
+    if a.loop:
+        codewatch.claim_singleton("foreman")
+        codewatch.stamp("foreman")
     while True:
         print("=" * 88)
         print(f"FOREMAN  {time.strftime('%H:%M:%S')}" + ("" if a.go else "   (dry run)"))
