@@ -1235,6 +1235,11 @@ def _run_the_runner(verdicts):
     esc.assert_clear = lambda who="?": True
     had, prev = "escalation" in sys.modules, sys.modules.get("escalation")
     keep = (PL.log, PL.load_state, PL.save_state, PL.update_handoff, PL.IMPLEMENTED, PL.silence)
+    # `main()` parses sys.argv, and the drill's own argv is not the runner's. `drill.py
+    # --to-halt` would otherwise reach pipeline's parser as an unrecognised argument and kill
+    # this net with a SystemExit -- a net that only holds when the drill is invoked one
+    # particular way is a net that holds by luck.
+    argv = sys.argv
 
     def phase(n):
         def fn(c, s):
@@ -1242,6 +1247,7 @@ def _run_the_runner(verdicts):
             return verdicts[n]
         return fn
     try:
+        sys.argv = ["pipeline.py"]
         sys.modules["escalation"] = esc
         PL.log = lambda *a, **k: None
         PL.load_state = lambda: st
@@ -1252,6 +1258,7 @@ def _run_the_runner(verdicts):
         PL.main()
         return st, ran
     finally:
+        sys.argv = argv
         (PL.log, PL.load_state, PL.save_state, PL.update_handoff, PL.IMPLEMENTED,
          PL.silence) = keep
         if had:

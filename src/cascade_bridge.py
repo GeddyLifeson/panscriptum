@@ -471,6 +471,100 @@ def empty_content(err):
     return (err or "").strip().lower() in _EMPTY_CONTENT
 
 
+# A FAULT ON THIS MACHINE IS NOT A REFUSAL BY A PROVIDER, AND MUST NEVER COST A BENCH.
+#
+# Measured 2026-08-25: `deepinfra`, `huggingface`, `cerebras` and `chutes` all sat on
+# `transport: curl: (6) Could not resolve host: <host>` -- one resolver fault, four providers,
+# and not one of them had said anything at all. Benching that would convert a local network
+# problem into four permanently disabled providers AND hide the cause, because a benched
+# bucket stops being asked and therefore stops reporting. Filed separately as a DNS order.
+#
+# `could not resolve host` is already in `_TRANSIENT_WORDS`, so today these classify correctly
+# by luck of ordering: the permanent test runs FIRST, and merely fails to match. That is the
+# whole safety margin, and it lasts exactly until someone adds a marker broad enough to catch
+# a curl line -- at which point four providers vanish and the ledger goes quiet about why.
+# This makes the guarantee structural instead: if the text is one of curl's own transport
+# complaints, no permanent marker can reach it, whatever anyone adds below.
+_LOCAL_TRANSPORT = ("could not resolve host", "failed to connect", "could not connect",
+                    "connection reset", "connection timed out", "curl exited")
+
+
+def local_transport(err):
+    """True if `err` is this machine failing to reach the provider, not the provider refusing."""
+    return any(w in (err or "").lower() for w in _LOCAL_TRANSPORT)
+
+
+# A SPENT ACCOUNT IS PERMANENT AND POLITE; A THROTTLE IS TEMPORARY AND SOUNDS IDENTICAL.
+#
+# Measured over three hours on 2026-08-25 (m108's descendant, run #27). The two halves cost
+# very differently, and only the second half was still costing anything:
+#
+#   dead keys, already caught here -- `cloudflare:free` HTTP 401 `Authentication error` (24
+#   errors/3h), `hyperbolic:free` HTTP 401 `Could not validate credentials` (25/3h);
+#   spent accounts -- `zai:free` `Insufficient balance or no resource package. Please
+#   recharge.` counted `rate_limited` NINETY times in three hours, and `cohere:free`, a Trial
+#   key whose 1000-calls-a-month allowance is gone, counted `rate_limited` sixteen more.
+#
+# The second shape is the worse one and the reason this list keeps growing. A dead key at
+# least reads as an error; a spent account read as CONTENTION backs off politely, waits, and
+# returns for ever, holding a claim and a deadline every time round. It never escalates,
+# because nothing it does looks like a failure worth escalating.
+#
+# EVERY MARKER HERE MUST BE A THING A PROVIDER SAYS ONLY WHEN THE ACCOUNT IS FINISHED.
+# The penalty for over-matching is four hours of bench on a bucket that was merely busy, which
+# is m103's harm and worse than the bug being fixed -- the pool is already the binding
+# constraint. Measured this shift, and every one of these was checked against the live text of
+# the buckets that MUST KEEP ROTATING:
+#
+#   `nvidia:free`   118 ok / 5 rate_limited -- `{"status":429,"title":"Too Many Requests"}`
+#   `groq:*`        25 ok  -- `Rate limit reached for model ... Please try again in 6m51.264s.
+#                              Need more tokens? Upgrade to Dev Tier`
+#   `gemini:*`      `You exceeded your current quota, please check your plan and billing
+#                    details` -- says BILLING, and resets daily. This is why the marker is
+#                    `needs billing` and not `billing`, and why Mistral's is the whole phrase
+#                    `check your subscription` and not `subscription`.
+#   `openrouter:free` `Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000
+#                    free model requests per day` -- says CREDITS, and resets at midnight UTC.
+#                    This is why HuggingFace's marker is `monthly included credits` entire.
+#
+# Cohere is the sharpest of these. A Trial key emits the SAME SENTENCE for its per-minute
+# throttle and for its monthly cap, differing only in the tail: `limited to 40 API calls /
+# minute` versus `limited to 1000 API calls / month`. So the marker is the unit, not the key
+# type -- matching `trial key` would bench a live bucket for four hours over a 40-a-minute
+# throttle. Both spacings, because providers do not agree about the slash.
+#
+# `payment_required` is separate from `payment required` for the same reason: the type field
+# arrives as `payment_required_error`, which the spaced form cannot see.
+#
+# `depleted` already catches HuggingFace's `You have depleted your monthly included credits`.
+# `monthly included credits` is listed anyway and the redundancy is deliberate: bare `depleted`
+# is the loosest marker on this list and a future audit may well narrow it, and when that
+# happens HuggingFace should not silently regress to being retried for ever.
+_PERMANENT_WORDS = (
+    "authentication", "invalid_api_key", "credentials",
+    "insufficient balance", "no resource package",
+    "payment required", "payment_required", "needs billing", "depleted",
+    "check your subscription", "positive balance", "monthly included credits",
+    "api calls / month", "api calls/month",
+)
+# Word boundaries, for m103's reason: a bare `"403" in err` also matches the 403 inside a
+# request id like `req_4403abc`, and the penalty for a false positive is four hours of bench.
+_PERMANENT_CODES = re.compile(r"\b(401|402|403)\b")
+
+
+def permanent_refusal(err):
+    """True if `err` is an account fault a human must fix -- a dead key or a spent balance.
+
+    Checked BEFORE `named_transient`, so a billing complaint that also says "try again" is
+    still benched. `local_transport` wins over everything: a curl failure on this machine is
+    not evidence about the provider's account, whatever words happen to be in the buffer.
+    """
+    e = (err or "").lower()
+    if not e or local_transport(e):
+        return False
+    return bool(_PERMANENT_CODES.search(e)) or any(w in e for w in _PERMANENT_WORDS)
+
+
 def provider_error(bucket, max_age_s=180):
     """The PROVIDER's own last error for `bucket`, from Cascade's scratch DB. "" if unknown.
 
@@ -1088,11 +1182,14 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                 deeper = provider_error(pinned.bucket)
                 if deeper:
                     raw, err = deeper, deeper.lower()
-            permanent_words = ("authentication", "invalid_api_key", "credentials",
-                               "insufficient balance", "no resource package",
-                               "payment required", "needs billing", "depleted")
-            if pinned and not exhausted and (re.search(r"\b(401|402|403)\b", err)
-                                             or any(w in err for w in permanent_words)):
+            # HOISTED TO `permanent_refusal`, which is the point of the change and not a tidy-up.
+            # This test lived as a tuple and a regex inline in a 300-line branch, so the only way
+            # to check a wording was to make a live cloud call and lose a claim finding out --
+            # which is why the list stayed wrong for a shift while `zai:free` was re-claimed
+            # ninety times. `pool_exhausted`, `named_transient` and `empty_content` are all
+            # module-level predicates for exactly this reason; this one was the odd one out.
+            # Now both directions can be asserted offline against the measured strings.
+            if pinned and not exhausted and permanent_refusal(err):
                 _bury(pinned.bucket, AUTH_BENCH)
             elif pinned and (exhausted or named_transient(err)):
                 # RECOGNISED, AND ALREADY COUNTED ELSEWHERE. A throttle is not a mystery: it is

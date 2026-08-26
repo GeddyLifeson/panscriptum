@@ -397,6 +397,72 @@ def charter_regression_verdict(reg, now=None):
                    % (len(scored) - len(bad), len(scored), len(rows) - len(scored), age_h))
 
 
+def provider_pool_denominator(pm):
+    """How much of the provider pool a `stale` count was actually measured over.
+
+    Returns (n_providers, n_verified, n_unverified, unverified_names, sentence) from a
+    `data/PROVIDER_MODELS.json` payload.
+
+    A NUMERATOR WITH NO DENOMINATOR. Found 2026-08-25, the other half of order cd64337d3349.
+    `check()` read `pm["stale"]` and nothing else and printed "0 stale in the cloud pool" -- a
+    claim about THE POOL. In the 2026-08-25 20:21 snapshot the pool held 26 providers and only
+    12 ever produced a model list: 10 had no key configured and 4 failed the request outright
+    (402/410/405/401). The other 14 contributed nothing to `stale` and nothing to any count; they
+    were not in the arithmetic, and the line reporting the result did not know they existed.
+    Zero stale out of twelve verified is a fact. Zero stale out of twenty-six is what the line
+    was read as -- a HIGH standard giving an all-clear over half a pool it never asked.
+
+    `catalogue_models.py` now always returns an `outcome` per provider (listed / empty_list /
+    unreachable / unconfigured) and ships an `unverified` list plus a `counts` block. `stale`
+    deliberately does NOT absorb the unverified ones: a stale row asserts "the config asks for a
+    model this provider no longer serves", and for a provider nobody could ask that is UNKNOWN,
+    not false. So both numbers travel together here or neither is worth reading.
+
+    NOTHING IS CAPPED -- every unverified provider is named. Pulled out of `check()` on purpose,
+    as `charter_regression_verdict` was: the three shapes this must handle (a current snapshot, a
+    pre-fix snapshot with no `counts`, and a fresh snapshot where NOTHING verified) cannot all be
+    put on disk at once, so as a pure function of the payload they are all testable.
+    """
+    pm = pm or {}
+    counts = pm.get("counts") or {}
+    unver = pm.get("unverified") or []
+    rows = pm.get("providers") or []
+    n_prov = counts.get("providers") or len(rows)
+    derived = ""
+    if counts:
+        n_ver = counts.get("verified", 0)
+        n_unver = counts.get("unverified", len(unver))
+        unchecked = counts.get("unchecked_ids")
+        names = ["%s:%s" % (u.get("outcome") or "?", u.get("provider") or "?")
+                 for u in sorted(unver, key=lambda u: (u.get("outcome") or "",
+                                                       u.get("provider") or ""))]
+    else:
+        # A snapshot written before catalogue_models gained `counts` -- the shape this standard
+        # used to be handed. Derive what can be derived (a row that produced no model list
+        # produced no evidence) and SAY it was derived, because the derived figure cannot tell
+        # `no key` from `the provider refused`: only the fixed sweep records that, and recording
+        # it is what the fix was for.
+        n_ver = len([r for r in rows if r.get("models")])
+        n_unver = n_prov - n_ver
+        unchecked = None
+        names = sorted("%s (%s)" % (r.get("provider") or "?",
+                                    str(r.get("error") or "no model list")[:40])
+                       for r in rows if not r.get("models"))
+        derived = (" [denominator DERIVED from the provider rows: this snapshot predates the "
+                   "`counts`/`unverified` block, so the reason each provider went unverified "
+                   "survives only as its error string -- re-run `catalogue_models.py` for the "
+                   "outcome breakdown]")
+    sentence = "over %d VERIFIED provider(s) of %d in the pool" % (n_ver, n_prov)
+    if n_unver:
+        sentence += ("; %d produced no model list and are UNVERIFIED -- neither fresh nor "
+                     "stale, unasked%s -- %s"
+                     % (n_unver,
+                        ("" if unchecked is None
+                         else ", leaving %d configured model id(s) unchecked" % unchecked),
+                        ", ".join(names)))
+    return n_prov, n_ver, n_unver, names, sentence + derived
+
+
 def check(state=None):
     """Measure every declared standard against the dashboard's own numbers.
 
@@ -1398,6 +1464,11 @@ def check(state=None):
         _local = [r for r in _stale_rows if (r.get("provider") or "") == "ollama"]
         _cloud = [r for r in _stale_rows if (r.get("provider") or "") != "ollama"]
         stale = len(_cloud)
+        # The count is meaningless without what it was counted over: see
+        # `provider_pool_denominator` for what was wrong and why `stale` must not absorb
+        # the providers nobody could ask. Both numbers are reported, nothing is capped.
+        _n_prov, _n_ver, _n_unver, _unver_names, _over = provider_pool_denominator(pm)
+        _denom = "%d stale, %s" % (stale, _over)
         # AGE THE EVIDENCE BEFORE BELIEVING THE ALL-CLEAR.
         #
         # Found 2026-08-25 (run #23). This standard is HIGH severity and it read GREEN off a
@@ -1423,21 +1494,26 @@ def check(state=None):
         fresh = age_h <= MAX_PROVIDER_MODELS_AGE_H
         out.append(_s(
             "model IDs their providers still serve",
-            fresh and stale <= MAX_STALE_MODEL_IDS,
-            (("%d stale in the cloud pool%s" % (
-                stale,
-                "".join(" [%s wants %s]" % (r.get("provider"), r.get("wants"))
-                        for r in _cloud)))
+            fresh and _n_ver > 0 and stale <= MAX_STALE_MODEL_IDS,
+            ((_denom + "".join(" [%s wants %s]" % (r.get("provider"), r.get("wants"))
+                               for r in _cloud))
              + (("; and %d local model(s) named in config but not resident -- %s -- which is "
                  "the owner's GPU-only residency ruling of 2026-08-24 (qwen3:8b is the standing "
                  "local model), NOT a fault, and deliberately does not gate this standard"
                  % (len(_local),
                     ", ".join(str(r.get("wants")) for r in _local))) if _local else "")
-             ) if fresh else
+             ) if (fresh and _n_ver > 0) else
             ("UNMEASURED -- the provider catalogue is %.0fh old (floor %dh), so this is the "
              "ABSENCE of a measurement, not a clean one. Do not read it as green."
-             % (age_h, MAX_PROVIDER_MODELS_AGE_H)),
-            "0 stale in the cloud pool, catalogue under %dh old" % MAX_PROVIDER_MODELS_AGE_H,
+             % (age_h, MAX_PROVIDER_MODELS_AGE_H) if not fresh else
+             # Fresh file, empty measurement. `stale: []` over ZERO verified providers is the
+             # purest form of the bug this branch exists to name: nothing was asked, so nothing
+             # came back stale, and the old line would have called that a clean pool.
+             "UNMEASURED -- the snapshot is %.0fh old and fresh, but NONE of its %d provider(s) "
+             "produced a model list, so `stale: []` is the absence of a measurement rather than "
+             "a clean pool: %s" % (age_h, _n_prov, ", ".join(_unver_names) or "no rows at all")),
+            "0 stale, and the verified-provider denominator stated beside it, "
+            "catalogue under %dh old" % MAX_PROVIDER_MODELS_AGE_H,
             "The config names a model the provider has retired. The KEY works; the string does "
             "not -- and the whole provider reads as dead. Six stale names once hid five live "
             "providers. `catalogue_models.py` lists what each one actually serves today; run "
@@ -1449,7 +1525,12 @@ def check(state=None):
             "counting it here held a HIGH standard red by construction for as long as the "
             "ruling stands -- which teaches the reader to ignore the line where a real stale "
             "cloud id will one day appear. If that ruling is reversed, delete the `_local` "
-            "split and this counts them again.",
+            "split and this counts them again. "
+            "READ THE COUNT WITH ITS DENOMINATOR OR NOT AT ALL: the observed line now states "
+            "how many providers were actually verified out of how many exist, and names every "
+            "provider that produced no list. An unverified provider is not a clean one -- its "
+            "configured model ids are unchecked, and a `no key` or a 402 is a finding of its "
+            "own, to be fixed in the Cascade config rather than counted as fresh here.",
             "high", "pool"))
     except Exception:
         silence.note("standards.py:provider-models")

@@ -194,17 +194,31 @@ def _raise_halt(rec):
         payload = {"raised_at": top.get("at"), "code": top.get("code"), "what": top.get("what"),
                    "evidence": top.get("evidence"), "source": top.get("source"),
                    "by": top.get("who"), "cleared": False, "ruling": None, "also": []}
+    # A DENIED RENAME IS A HALT THAT WAS NEVER RAISED, and until run #34 it was silent. The
+    # verdict from `replace_retry` was discarded here, so on Windows -- where the rename is
+    # DENIED while any reader holds the target, and this file has readers on their own clocks
+    # (every `assert_clear` opens it, the dashboard polls it) -- the halt file simply did not
+    # appear. No exception, no stderr, and `escalate()` returned normally. The library would
+    # have carried on with its own alarm unrecorded, which is the precise failure the whole
+    # escalation chain exists to make impossible.
+    #
+    # The `except` arm below was already loud, correctly, for the case where the WRITE throws.
+    # It just never covered the case where the write succeeds and the LANDING is refused.
+    landed = False
     try:
         os.makedirs(os.path.dirname(HALT_FILE), exist_ok=True)
-        tmp = HALT_FILE + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(payload, f, indent=1, ensure_ascii=False)
-        silence.replace_retry(tmp, HALT_FILE)
+        landed = silence.write_json(HALT_FILE, payload, indent=1, ensure_ascii=False)
     except Exception:
         # A halt that cannot be written is the worst case, so it is the ONE thing that is
         # allowed to be loud on stderr as well as recorded.
         silence.note("escalation.py:halt-write")
         sys.stderr.write("CANNOT WRITE HALT FILE — %s: %s\n" % (rec["code"], rec["what"]))
+        return False
+    if not landed:
+        silence.note("escalation.py:halt-write-denied")
+        sys.stderr.write("CANNOT WRITE HALT FILE (the rename was refused, a reader is holding "
+                         "it) — %s: %s\n" % (rec["code"], rec["what"]))
+    return landed
 
 
 def _read_halt_raw():
@@ -307,10 +321,19 @@ def clear(ruling, by="owner"):
     rec = dict(rec or {})
     rec.update({"cleared": True, "ruling": str(ruling).strip(), "cleared_by": by,
                 "cleared_at": time.time()})
-    tmp = HALT_FILE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(rec, f, indent=1, ensure_ascii=False)
-    silence.replace_retry(tmp, HALT_FILE)
+    # THE SAME DISCARDED VERDICT AS `_raise_halt`, and the mirror-image consequence: the write
+    # was never checked, so a refused rename left `cleared: false` on disk while this returned
+    # True and the CLI printed "halt cleared." A person would walk away believing the library was
+    # running, and every job would go on refusing. Reported as not-cleared instead, and the
+    # HALT_CLEARED line is only appended once the lift has actually landed -- a ledger entry for
+    # a lift that did not happen is worse than no entry, because it is what the next reader
+    # trusts when the file and the log disagree.
+    landed = silence.write_json(HALT_FILE, rec, indent=1, ensure_ascii=False)
+    if not landed:
+        silence.note("escalation.py:halt-clear-denied")
+        sys.stderr.write("THE HALT WAS NOT LIFTED: the write to state/HALT.json was refused (a "
+                         "reader is holding it). The library is STILL HALTED. Try again.\n")
+        return False
     _append_log({"at": time.time(), "level": OWNER, "level_name": "OWNER", "code": "HALT_CLEARED",
                  "what": str(ruling).strip(), "who": by})
     return True

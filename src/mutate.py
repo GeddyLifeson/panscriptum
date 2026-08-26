@@ -61,6 +61,7 @@ failure was killing every mutant at the same gate for a reason unrelated to any 
 """
 import argparse
 import ast
+import contextlib
 import hashlib
 import json
 import os
@@ -208,6 +209,53 @@ def _lock_release():
         _esc.escalate("MANAGER", "MUTATION_LOCK_STUCK",
                       "could not remove %s; publishing stays blocked until it is gone" % LOCK,
                       who="mutate.py")
+
+
+# THE LOCK HAD NO CALLER, AND THAT IS THE WHOLE DEFECT. Everything above was written, commented
+# at length, and exercised by a drill net that calls `_lock_acquire` DIRECTLY -- but neither
+# `_lock_acquire` nor `_lock_release` had a single call site inside this module. The only other
+# readers were `publish.py` and the nets. So `publish.py`'s "REFUSING TO PUSH while a mutation
+# run is active" could not fire for any run of this code, at all, and four green drill nets sat
+# on top of an interlock wired to nothing. That is this project's own recurring shape -- a check
+# that cannot fail looks exactly like a check that passed -- arriving in the mechanism built to
+# stop the incident where a deliberately-corrupted `prose_gate.py` was pushed to GitHub.
+# (Ops audit 2026-08-25, order d779f541cd0b.)
+#
+# RE-ENTRANT ON PURPOSE. `main()` holds it for the whole session and `run()` asks again per
+# target, so the lock is held whichever entry point a caller uses -- and the inner ask is a
+# no-op rather than tripping `_lock_acquire`'s "already active" refusal against its own holder.
+_HELD = None
+
+
+@contextlib.contextmanager
+def _hold_lock(targets):
+    """Hold the mutation lock across the block, and release it on EVERY exit path.
+
+    Yields True if this frame took the lock, False if an outer frame already holds it. The
+    release is in a `finally`, because the failure path is the one that matters: a run that
+    dies mid-mutation is exactly when the tree is most likely to be sitting corrupt, and a lock
+    left behind blocks every future push until someone deletes a file by hand. `active()`
+    already treats a lock whose PID is gone as absent, so a hard kill degrades to stale rather
+    than to stuck.
+    """
+    global _HELD
+    if _HELD is not None:
+        yield False
+        return
+    token = "%d-%s" % (os.getpid(), hashlib.sha256(
+        ("%s|%s" % (time.time(), tuple(targets))).encode("utf-8")).hexdigest()[:12])
+    _lock_acquire(list(targets), token)
+    _HELD = token
+    # Into the environment so the gate subprocesses spawned inside the sandbox inherit it and
+    # can tell "this tree is broken because WE are breaking it" from "this tree is broken and
+    # nobody is admitting to it" -- which is the distinction the drill got wrong the first time.
+    os.environ[_TOKEN_ENV] = token
+    try:
+        yield True
+    finally:
+        _HELD = None
+        os.environ.pop(_TOKEN_ENV, None)
+        _lock_release()
 
 
 def _read(path):
@@ -517,7 +565,23 @@ def flaky_gates(root, base, gates=GATES):
 
 def run(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
         confirm=CONFIRM_GATES):
-    """Mutate one module IN A SANDBOX and report which mutants survived. -> dict."""
+    """Mutate one module IN A SANDBOX and report which mutants survived. -> dict.
+
+    THE LOCK IS TAKEN HERE, around the whole of it, and here rather than only in `main()`
+    because `run()` is the public entry point: anything that imports this module and calls it
+    directly -- the drill, a work-order reproduction, a future scheduler -- must announce itself
+    to `publish.py` just as the CLI does. Held before the first mutant is written and released
+    on the failure path too. The body is `_run_mutation`; the split exists so the lock cannot be
+    skipped by an edit to the body.
+    """
+    with _hold_lock([target]):
+        return _run_mutation(target, limit=limit, gates=gates, root=root, keep=keep,
+                             base=base, confirm=confirm)
+
+
+def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
+                  confirm=CONFIRM_GATES):
+    """The body of `run`, with the mutation lock already held. Do not call this directly."""
     base = {} if base is None else base
     own_sandbox = root is None
     root = root or sandbox()
@@ -642,6 +706,16 @@ def main():
             print("  %-18s %4d mutant(s)" % (t, n))
         return 0
 
+    # SESSION-LEVEL HOLD, above the per-target one. `--target all` is ONE continuous window in
+    # which this machine is deliberately breaking code, and a publisher that slipped through the
+    # gap between two targets would be pushing during a mutation run by any honest reading of
+    # the phrase. Held from before the sandbox is built until after it is torn down.
+    with _hold_lock(targets):
+        return _session(a, targets)
+
+
+def _session(a, targets):
+    """One mutation session, with the lock held. -> exit code."""
     root = sandbox()
     print("sandbox: %s" % root)
     try:

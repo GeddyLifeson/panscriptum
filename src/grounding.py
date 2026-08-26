@@ -122,7 +122,51 @@ UNGROUNDED = "ungrounded"
 UNGROUNDED_GLOSS = "no origin account is attested; the regress runs on without halting"
 
 
-def classify_text(text, top=3):
+def classify_text(text, top=None):
+    """Score every grounding against a body of text. Returns ALL of them, ranked (name, score).
+
+    [HARD RULE 0] `top` defaulted to 3, and that default did two separate kinds of damage
+    (corrected 2026-08-25, order e2b3af23cb8a) -- the same defect, in the same shape, as the one
+    just fixed in `genre.classify_text` (order bc0b85ea353b):
+
+      1. It truncated a ranked list. Two of the five groundings a source scored against were
+         thrown away before anyone saw them, and `classify_source` stored the survivors as
+         `runners_up` -- so the classified rows in data/GROUNDINGS.json carry 2 of their 4
+         runners-up and the UNGROUNDED rows carry 3 of 5, each of which reads as a complete
+         margin and is not one.
+      2. Worse, `classify_source` computed `confidence = score / sum(ranked)` with `ranked` the
+         TRUNCATED list, so the denominator was the top three scores instead of all five. Every
+         published confidence was INFLATED, and that number feeds the contested-cosmogony line
+         in `main()` (`confidence < 0.5`), which is what decides whether a cosmos is reported as
+         settled or as two accounts running close.
+
+    Ranking is the point and stays; cutting the tail off the ranking is what was wrong, because
+    it silently asserted that the other groundings scored nothing. `top` survives so no caller
+    breaks, but it now defaults to the whole field. Pass an integer only for a display, never
+    for a denominator.
+
+    Whole-corpus measurement, 210 records (59 classified, 151 ungrounded at floor 6),
+    top-3 denominator vs full-field denominator:
+         14 of the 59 classified sources report a different confidence. The other 45 had
+                    nothing outside their top three to add to the denominator -- with only five
+                    groundings in the field, most sources score zero on two of them, which is
+                    exactly why this stayed invisible for so long.
+          0 sources change GROUNDING. The winner is the winner under either denominator, so no
+                    published classification, verdict or gloss moves. What moves is the margin.
+          4 sources CROSS THE 0.50 CONTESTED-COSMOGONY LINE in `main()`, all of them downward
+                    and none upward: the flag was catching 11 sources and catches 15.
+                        major fantasy pantheons   ex_nihilo   0.558 -> 0.473
+                        Pantheon: Mesoamerican    demiurgic   0.529 -> 0.450
+                        Marvel                    emanation   0.553 -> 0.493
+                        Bleach                    emanation   0.536 -> 0.484
+                    Each was being reported as a settled cosmogony while its own classifier was
+                    in fact split across a field it had not been allowed to see.
+    The stored margins roughly double: 118 runners-up across the classified rows become 236.
+
+    Note the contrast with `genre`, where 193 of 210 confidences moved and 63 crossed the flag.
+    The field there is eleven wide, here it is five; the defect is identical and the blast
+    radius is not. A small field hides this bug rather than excusing it.
+    """
     scores = collections.Counter()
     for name, spec in GROUNDINGS.items():
         for pat, wt in spec["cues"].items():
@@ -172,12 +216,17 @@ def classify_source(rec, cap=None, floor=6):
         parts.append(blob)
     syn = rec.get("synthesis") or {}
     parts.append((syn.get("rationale") or "") + " " + (syn.get("evidence") or ""))
+    # Unranked-away: every grounding in GROUNDINGS is scored and every score is kept, so the
+    # denominator below is the whole field and `runners_up` is the whole field minus the winner.
+    # See classify_text's note.
     ranked = classify_text(" ".join(parts))
     if not ranked or ranked[0][1] < floor:
         return {"grounding": UNGROUNDED, "score": ranked[0][1] if ranked else 0,
                 "confidence": 0.0, "gloss": UNGROUNDED_GLOSS,
                 "verdict": "NO CLAIM", "origin_entries": origin_entries,
-                "runners_up": ranked}
+                # No winner here, so the whole field is the runners-up -- all of it, not the
+                # first three of it.
+                "runners_up": ranked, "groundings_scored": len(ranked)}
 
     top, score = ranked[0]
     total = sum(s for _, s in ranked) or 1
@@ -189,6 +238,9 @@ def classify_source(rec, cap=None, floor=6):
     return {
         "grounding": top,
         "score": score,
+        # Share of the WHOLE field, not of the top three. A cosmos that scores 40 emanation and
+        # 38 demiurgic is not confidently either, and the record should say so rather than pick
+        # -- but that only works when the losers are in the denominator too.
         "confidence": round(score / total, 3),
         "gloss": spec["gloss"],
         "verdict": verdict["verdict"],
@@ -196,6 +248,8 @@ def classify_source(rec, cap=None, floor=6):
         "reasoning": verdict["reasoning"],
         "origin_entries": origin_entries,
         "runners_up": ranked[1:],
+        # Stated so a reader can tell at a glance that the margin was taken over the full field.
+        "groundings_scored": len(ranked),
     }
 
 
@@ -240,9 +294,17 @@ def main():
 
     low = [(s, v) for s, v in out.items()
            if v["grounding"] != UNGROUNDED and v["confidence"] < 0.5]
+    # NOTHING IS CAPPED HERE. This is a diagnostic: the whole point of the contested list is that
+    # a person reads it and rules on each entry, and `low[:5]` printed the first five in dict
+    # order -- not the five most contested, just the five that happened to be catalogued first --
+    # while the count beside it said 15. `feats._show` already refuses to cap a diagnostic for
+    # exactly this reason; one ruling, two habits, and this was the second one. The runners-up on
+    # each line are uncapped too: the margin is the evidence for the flag, and printing 2 of 4 of
+    # it is the same truncation this module was just corrected for. Sorted most-contested first
+    # so the ordering carries meaning rather than scrape order. Order e2b3af23cb8a, 2026-08-25.
     print(f"\ncontested cosmogonies (two accounts run close; flagged, not forced): {len(low)}")
-    for s, v in low[:5]:
-        ru = ", ".join(f"{g}:{n}" for g, n in v["runners_up"][:2])
+    for s, v in sorted(low, key=lambda x: x[1]["confidence"]):
+        ru = ", ".join(f"{g}:{n}" for g, n in v["runners_up"])
         print(f"   {s[:28]:<30}{v['grounding']:<15}{v['confidence']:.2f}  vs {ru}")
 
     if args.write:
