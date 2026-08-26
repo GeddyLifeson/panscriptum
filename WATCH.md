@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 81  ·  last run 2026-08-26 10:48
+round 82  ·  last run 2026-08-26 11:14
 
 ## Structure
 
@@ -11,10 +11,14 @@ round 81  ·  last run 2026-08-26 10:48
 
 ## What the model found in the code
 
-**2 open** (1 high). Newest first.
+**4 open** (2 high). Newest first.
 
+- **chain.py** `work` — [HIGH] increments `unmatched` directly without proper locking
+  - says: TALLIED LOCALLY, MERGED UNDER THE LOCK, for the same reason `local` exists.
 - **binding_health.py** `quarantine` — [HIGH] If the write to disk fails, it still records the host as quarantined in memory but does not escalate the failure to write, leading to potential inconsistencies.
   - says: Record a host as failing, WITH ITS REASON. Never a silent skip, never a deletion.
+- **cleanup.py** `changed` — [MEDIUM] sometimes not set when a thin description is marked
+  - says: tracking whether any changes were made to a record
 - **catalogue_models.py** `stale` — [MEDIUM] the code appends entries to stale with the available models, which are the names, not the keys
   - says: the keys work; the names do not.
 
