@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 82  ·  last run 2026-08-26 11:14
+round 83  ·  last run 2026-08-26 11:23
 
 ## Structure
 
@@ -11,16 +11,18 @@ round 82  ·  last run 2026-08-26 11:14
 
 ## What the model found in the code
 
-**4 open** (2 high). Newest first.
+**5 open** (2 high). Newest first.
 
+- **completeness.py** `api_base` — [HIGH] Hardcodes `/api.php` and returns None for RAW/DEAD hosts, which is a different fact from "the probe failed".
+  - says: Through `endpoint.api_url`, never hardcoded, for the reason `host_reachable` states below: `/api.php` is a Fandom assumption and Wikipedia serves `/w/api.php`. 
 - **chain.py** `work` — [HIGH] increments `unmatched` directly without proper locking
   - says: TALLIED LOCALLY, MERGED UNDER THE LOCK, for the same reason `local` exists.
-- **binding_health.py** `quarantine` — [HIGH] If the write to disk fails, it still records the host as quarantined in memory but does not escalate the failure to write, leading to potential inconsistencies.
-  - says: Record a host as failing, WITH ITS REASON. Never a silent skip, never a deletion.
+- **corpus_db.py** `con.execute` — [MEDIUM] inserts into source table with values including code, which is set to None if spine_code_for returns 'UNASSIGNED'
+  - says: INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?)
+- **compress_store.py** `store` — [MEDIUM] returns raw_bytes length and compressed_bytes length as integers, not the actual byte values
+  - says: Compress `text`, write it to compressed_dir keyed by content hash, and return {"hash":..., "path":..., "codec":..., "raw_bytes":..., "compressed_bytes":...}
 - **cleanup.py** `changed` — [MEDIUM] sometimes not set when a thin description is marked
   - says: tracking whether any changes were made to a record
-- **catalogue_models.py** `stale` — [MEDIUM] the code appends entries to stale with the available models, which are the names, not the keys
-  - says: the keys work; the names do not.
 
 ---
 
