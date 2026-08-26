@@ -1360,6 +1360,85 @@ def drill_inspector():
         "the ceiling is a ratchet: lower it when you clean up, never raise it to go green")
 
 
+def drill_codewatch():
+    """Stale daemons — the failure that made every other safety here conditional.
+
+    On 2026-08-25 a guard was added to `publish.py` to stop it pushing during a mutation run.
+    It was correct, it was tested by hand, and a mutated file went to a public GitHub repo
+    anyway — because `publish.py --push --loop 1` had been running since 14:28 with the
+    pre-guard code in memory. A Python process does not re-read its own source.
+
+    That is not a fact about publishing. It is a fact about **every safety in this project**:
+    each one is inert in every job already running until that job restarts. Fifteen were.
+    """
+    a = "CODEWATCH — a running job is a photograph of the code it started with"
+
+    def daemons_actually_check_their_own_source():
+        """The three standing loops must call it. Checked by reading them, because a daemon
+        that merely COULD check is a daemon that does not."""
+        src = os.path.dirname(os.path.abspath(__file__))
+        for f in ("publish.py", "foreman.py", "overwatch.py"):
+            with open(os.path.join(src, f), encoding="utf-8") as fh:
+                text = fh.read()
+            if "codewatch.exit_if_stale" not in text or "codewatch.stamp" not in text:
+                return False
+        return True
+    net(a, "every standing daemon checks whether its own source has changed",
+        daemons_actually_check_their_own_source,
+        "a guard added at 19:00 is not in effect at 03:00 unless the job restarted")
+
+    def a_change_must_settle_before_it_restarts_anything():
+        """A digest taken mid-write is a digest of garbage. `local_agent --patch` writes several
+        files over several seconds, and a naive watcher would bounce every daemon per file."""
+        import codewatch as CW
+        CW.stamp("__drill__")
+        saved = CW._START["digest"]
+        try:
+            CW._START["digest"] = "0000000000000000"      # pretend the source moved
+            first = CW.stale("__drill__")
+            second = CW.stale("__drill__")
+            return first[0] is False and second[0] is False and "settling" in second[1]
+        finally:
+            CW._START["digest"] = saved
+            CW._PENDING["digest"] = None
+            CW._PENDING["first_seen"] = None
+    net(a, "a source change must hold still before it triggers a restart",
+        a_change_must_settle_before_it_restarts_anything,
+        "restarting into a half-written file is worse than running the old one")
+
+    def unreadable_source_is_not_reported_as_unchanged():
+        """FAIL LOUD, NOT QUIET. If the tree cannot be read, `fingerprint` returns None, and
+        None must never be compared equal to a stored digest -- that would silently stop the
+        watching without stopping the reporting."""
+        import codewatch as CW
+        empty = os.path.join(tempfile.gettempdir(), "drill_codewatch_none")
+        os.makedirs(empty, exist_ok=True)
+        fp = CW.fingerprint(empty)
+        # An empty directory legitimately fingerprints; the None path is the unreadable one.
+        return fp is not None and CW.fingerprint(os.path.join(empty, "does_not_exist")) is None
+    net(a, "an unreadable source tree is not mistaken for an unchanged one",
+        unreadable_source_is_not_reported_as_unchanged,
+        "None must never compare equal to a digest")
+
+    def restarts_are_budgeted():
+        """A daemon that bounces every cycle does no work while looking busy. Past the budget
+        it must keep running stale and ESCALATE instead -- lag beats thrash, and this project
+        has already paid for one respawn loop."""
+        import codewatch as CW
+        return isinstance(CW.BUDGET_PER_HOUR, int) and 0 < CW.BUDGET_PER_HOUR <= 12
+    net(a, "source-change restarts are budgeted per job per hour", restarts_are_budgeted,
+        "an unbudgeted restarter is a respawn loop waiting for an edit storm")
+
+    def the_supervisor_can_name_the_deliberate_exit():
+        """rc=17 must read as intent, never as breakage. The confusion between the two caused
+        this project's longest outage."""
+        import overnight as ON
+        return "PURPOSE" in ON.name_rc(17).upper()
+    net(a, "the supervisor reads rc=17 as deliberate, not as a crash",
+        the_supervisor_can_name_the_deliberate_exit,
+        "a safety that stops work must be distinguishable from a fault that stops work")
+
+
 def drill_mutation():
     """The mutation lock — because breaking code on purpose is only safe if everyone knows.
 
@@ -1785,7 +1864,8 @@ def main():
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
-               drill_workorders, drill_inspector, drill_mutation, drill_scope, drill_correlation,
+               drill_workorders, drill_inspector, drill_codewatch, drill_mutation,
+               drill_scope, drill_correlation,
                drill_outside):
         fn()
 

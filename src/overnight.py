@@ -453,6 +453,13 @@ def name_rc(rc):
         return "rc=%r" % (rc,)
     if rc == 0:
         return "rc=0 (clean)"
+    # A DELIBERATE EXIT, AND THE ONE THE SUPERVISOR MOST NEEDS TO READ CORRECTLY. `codewatch`
+    # exits a long-lived job when `src/` has changed under it, because a Python process is a
+    # photograph of the code it started with and there is no other way to pick up an edit. This
+    # project's longest outage came from a watcher reading jobs-exiting-on-purpose as
+    # jobs-crashing, so it is named here, next to the codes it must never be confused with.
+    if rc == 17:
+        return "rc=17 (ON PURPOSE — source changed, restarting to run the current code)"
     signed = rc - (1 << 32) if rc >= (1 << 31) else rc
     known = {
         1: "a python error exit, or subprocess kill()",

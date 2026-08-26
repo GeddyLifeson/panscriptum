@@ -710,6 +710,8 @@ def main():
             print(f"  {f['module']}.py  {f.get('symbol','')}\n     {f.get('actual','')[:150]}")
         return 0
 
+    import codewatch
+    codewatch.stamp("overwatch")
     while True:
         print("=" * 88)
         print(f"OVERWATCH  {time.strftime('%H:%M:%S')}")
@@ -717,6 +719,13 @@ def main():
         round_once(limit=a.modules, local=not a.cloud, skip_model=a.structure_only)
         if not a.loop:
             return 0
+        # PICK UP CODE CHANGES. A running process is a photograph of the source as it was
+        # when it started, and on 2026-08-25 a `publish.py --loop` daemon from 14:28 pushed
+        # deliberately-corrupted files to a public repo because the guard written to stop it
+        # at 19:00 was never in its memory. Exits with rc=17 on purpose; the keeper's STANDING
+        # set restarts it within five minutes running the current code. Budgeted and settled,
+        # so an edit storm cannot turn this into a respawn loop -- see codewatch.py.
+        codewatch.exit_if_stale("overwatch")
         time.sleep(a.loop * 60)
 
 

@@ -1341,6 +1341,8 @@ def main():
                     help="also let the model attempt code repairs (guarded, auto-reverting)")
     ap.add_argument("--loop", type=float, default=0, help="keep going, minutes apart")
     a = ap.parse_args()
+    import codewatch
+    codewatch.stamp("foreman")
     while True:
         print("=" * 88)
         print(f"FOREMAN  {time.strftime('%H:%M:%S')}" + ("" if a.go else "   (dry run)"))
@@ -1360,6 +1362,13 @@ def main():
             print("   the loop continues; the next round re-reads the standards from scratch")
         if not a.loop:
             return 0
+        # PICK UP CODE CHANGES. A running process is a photograph of the source as it was
+        # when it started, and on 2026-08-25 a `publish.py --loop` daemon from 14:28 pushed
+        # deliberately-corrupted files to a public repo because the guard written to stop it
+        # at 19:00 was never in its memory. Exits with rc=17 on purpose; the keeper's STANDING
+        # set restarts it within five minutes running the current code. Budgeted and settled,
+        # so an edit storm cannot turn this into a respawn loop -- see codewatch.py.
+        codewatch.exit_if_stale("foreman")
         time.sleep(a.loop * 60)
 
 

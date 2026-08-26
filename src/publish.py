@@ -591,6 +591,8 @@ def main():
     # caller here is every maintenance run's final step. The loop keeps looping on purpose --
     # a daemon publisher should retry -- but it remembers, and the exit code tells the truth.
     rc = 0
+    import codewatch
+    codewatch.stamp("publish")
     while True:
         try:
             n = sync_tree()
@@ -609,6 +611,13 @@ def main():
             rc = 1
         if not a.loop:
             return rc
+        # PICK UP CODE CHANGES. A running process is a photograph of the source as it was
+        # when it started, and on 2026-08-25 a `publish.py --loop` daemon from 14:28 pushed
+        # deliberately-corrupted files to a public repo because the guard written to stop it
+        # at 19:00 was never in its memory. Exits with rc=17 on purpose; the keeper's STANDING
+        # set restarts it within five minutes running the current code. Budgeted and settled,
+        # so an edit storm cannot turn this into a respawn loop -- see codewatch.py.
+        codewatch.exit_if_stale("publish")
         time.sleep(a.loop * 60)
 
 
