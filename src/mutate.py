@@ -595,7 +595,25 @@ def baseline(root, gates=GATES):
     is a gate that cannot judge anything, and `flaky_gates()` finds those before they produce
     imaginary survivors.
     """
-    return {name: _gate_result(name, cmd, cwd=root)[0] for name, cmd in gates}
+    out = {}
+    for name, cmd in gates:
+        out[name] = _gate_result(name, cmd, cwd=root)[0]
+    return out
+
+
+def unusable_gates(base):
+    """-> [(gate, signature)] for gates that could not complete on CLEAN code.
+
+    A GATE THAT TIMES OUT ON UNMUTATED CODE CANNOT JUDGE ANYTHING, and letting it try produces
+    confident nonsense rather than an error. Measured 2026-08-26: `verify_math` reaches the
+    NETWORK -- section 19aa makes a live API call to fandom and Wikipedia -- so in a sandbox
+    under load it stalled past five minutes. The differential comparison then read
+    `TIMEOUT == TIMEOUT` and reported every mutant as SURVIVING, which is the same worthless
+    answer as the pre-baseline version's "everything killed", just pointing the other way.
+    Both directions of that failure look exactly like a finished run.
+    """
+    return [(n, s_) for n, s_ in base.items()
+            if s_ == "TIMEOUT" or s_.startswith("ERROR:")]
 
 
 def flaky_gates(root, base, gates=GATES):
@@ -801,6 +819,16 @@ def _session(a, targets):
             print("   %-14s %s" % (gname, sig[:90]))
         # OPT-IN, because it runs every gate a second time and the slow one is five minutes.
         # Worth paying before trusting a survivor list; not worth paying on every smoke run.
+        dead = unusable_gates(base)
+        if dead:
+            print("\nGATES THAT COULD NOT COMPLETE ON CLEAN CODE — REFUSING TO MUTATE.")
+            for gname, sig_ in dead:
+                print("   %-14s %s" % (gname, sig_))
+            print("\nA gate that cannot finish on unmutated code cannot judge a mutant. Every")
+            print("comparison against it would read TIMEOUT == TIMEOUT and report the whole")
+            print("set as surviving, which looks exactly like a finished run.")
+            return 4
+
         flaky = flaky_gates(root, base) if a.check_flaky else []
         if not a.check_flaky:
             print("   (flakiness not checked — pass --check-flaky before trusting survivors)")

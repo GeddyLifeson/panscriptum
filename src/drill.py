@@ -3302,6 +3302,24 @@ def drill_mutation():
         abandoned_sandboxes_are_reaped,
         "a leak of 50 MB per interrupted run fills a disk without ever reporting anything")
 
+    def a_gate_that_cannot_finish_is_refused():
+        """BOTH DIRECTIONS OF THE SAME WORTHLESS ANSWER. Before the baseline existed, a
+        pre-existing failure killed every mutant and the run reported a perfect score. After it
+        existed, a gate that TIMED OUT on clean code made every mutant compare
+        `TIMEOUT == TIMEOUT` and the run reported the whole set as surviving. Both look exactly
+        like a finished run; only the sign of the lie changes.
+
+        Measured 2026-08-26: `verify_math` finishes in 44s on the live tree and stalled past
+        330s in a sandbox, because section 19aa makes a live API call to fandom and Wikipedia.
+        """
+        import mutate as M
+        bad = M.unusable_gates({"ok": "rc=0|RESULT: 10 passed, 0 FAILED",
+                                "hung": "TIMEOUT", "broke": "ERROR:OSError"})
+        return sorted(n for n, _ in bad) == ["broke", "hung"]
+    net(a, "a gate that cannot complete on clean code is refused, not averaged in",
+        a_gate_that_cannot_finish_is_refused,
+        "TIMEOUT == TIMEOUT reports every mutant as surviving and looks like a finished run")
+
     def publish_asks_before_pushing():
         """The step whose failure is IRREVERSIBLE and OUTWARD-FACING. Verified by reading the
         push path, the same way `guards_are_wired_where_claimed` checks the other interlocks --

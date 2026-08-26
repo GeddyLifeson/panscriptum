@@ -1524,8 +1524,6 @@ _rho_stamp = A._rho_source()
 check("the interval says whether its correlations were measured or assumed",
       _rho_stamp.startswith("measured:"), True,
       note="mutating _rho_doc's guard inverted this stamp on every published number, unnoticed")
-check("and the fallback stamp names independence explicitly when it fires",
-      "independence ASSERTED" in A._rho_source.__doc__ or True, True)
 check("a real correlation is read back, not silently zeroed",
       round(A._rho("reach", "ruin"), 3) > 0.5, True,
       note="+0.816 measured over 44 entities; rho=0 is the one value the data rules out")
