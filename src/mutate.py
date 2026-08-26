@@ -32,12 +32,32 @@ tell the difference** between the real code and a corrupted version of it. That 
 knowing even when the answer turns out to be "and that is fine", and the reason each one is
 filed with its exact diff rather than a count.
 
-HOW IT IS SAFE TO RUN. Every mutation is written to a real file, because a check that reads
-from disk cannot be fooled by an in-memory patch -- and this project's checks read from disk
-constantly. So the original bytes are captured first, restored in a `finally`, and verified
-byte-for-byte afterwards. `--verify-restore` proves the restore works before any mutation is
-applied, and refuses to start if it does not. **It will not run while a halt is standing**, and
-it refuses to touch a file with uncommitted changes it did not make itself.
+HOW IT IS SAFE TO RUN, AND THE VERSION OF THIS PARAGRAPH THAT WAS WRONG. This first said that
+every mutation is written to a real file and restored in a `finally`. That was true, and it was
+the design, and within two hours it had:
+
+  * halted the library, when a concurrent `drill.py` read a mutated `prose_gate.py`;
+  * **pushed deliberately-corrupted source to a public GitHub repo, twice**, because a
+    `publish.py --loop` daemon from 14:28 was running the code as it stood before the guard
+    against exactly that was written -- a Python process does not re-read its own source;
+  * left a live mutation stranded on disk when the run was killed, because `finally` does not
+    run when a process is killed;
+  * and leaked 154 MB of abandoned working directories doing it.
+
+The root cause was one decision: **the live tree was being corrupted, and fifteen other
+processes read the live tree.** No lock fixes that, because a lock only works on processes that
+agree to look, and the ones already running never will.
+
+So mutation now happens in a SANDBOX (`sandbox()`): `src/` is copied, `data/` `prompts/`
+`reference/` are junctioned, `state/` is copied minus `HALT.json`, and the gates run with their
+working directory inside it. **The live tree is never opened for writing**, and every run
+asserts the live file's digest is unchanged anyway, because that assertion is cheap and the
+thing it is checking for reached GitHub once already. Orphaned sandboxes older than six hours
+are reaped at startup. It still refuses to run while a halt is standing.
+
+AND A MUTANT IS JUDGED DIFFERENTIALLY, not against green. See `_gate_result`: the first real
+run reported `146 killed, 0 survived` -- a perfect score -- because one honest pre-existing
+failure was killing every mutant at the same gate for a reason unrelated to any mutation.
 """
 import argparse
 import ast
@@ -54,6 +74,7 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SRC)
 import escalation  # noqa: E402
+import silence  # noqa: E402
 
 _NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
@@ -340,6 +361,58 @@ def _junction(link, target):
     os.symlink(target, link)
 
 
+SANDBOX_PREFIX = "panscriptum_mutate_"
+ORPHAN_AGE_SECONDS = 6 * 3600
+
+
+def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
+    """Delete sandboxes abandoned by runs that were killed. -> [paths removed].
+
+    `run()` removes its sandbox in a `finally`, and a `finally` does not execute when a process
+    is killed. Two hard kills on 2026-08-25 left **154 MB across three orphaned sandboxes** in
+    TEMP within two hours, and a nightly job that leaks 50 MB per interrupted run fills a disk
+    quietly -- which on this machine would take down the crawl, the model and the publisher at
+    once, for a reason nobody would look for.
+
+    AGE-GATED, NOT INDISCRIMINATE. A running mutation pass owns a fresh sandbox and deleting it
+    would corrupt the pass that is deleting it. Six hours is comfortably longer than the longest
+    plausible run and comfortably shorter than "forever".
+    """
+    removed = []
+    root = tempfile.gettempdir()
+    cutoff = time.time() - older_than
+    try:
+        names = os.listdir(root)
+    except OSError:
+        return removed
+    for name in names:
+        if not name.startswith(SANDBOX_PREFIX):
+            continue
+        p = os.path.join(root, name)
+        try:
+            if not os.path.isdir(p) or os.path.getmtime(p) > cutoff:
+                continue
+        except OSError:
+            continue
+        # The junctions inside must be unlinked, NOT followed. `shutil.rmtree` on Windows does
+        # not traverse a directory junction, but this is the one place in the project where
+        # getting that wrong would delete `data/` -- 1.1 GB of mined corpus -- so the junctions
+        # are removed explicitly first and the tree only then.
+        for shared in ("data", "prompts", "reference", os.path.join("output", "index")):
+            link = os.path.join(p, shared)
+            try:
+                if os.path.isdir(link):
+                    os.rmdir(link)          # unlinks a junction; fails on a real directory
+            except OSError:
+                pass
+        try:
+            shutil.rmtree(p, ignore_errors=True)
+            removed.append(p)
+        except Exception:
+            silence.note("mutate.py:reap")
+    return removed
+
+
 def sandbox():
     """Build a throwaway copy of the tree to mutate. -> path.
 
@@ -368,6 +441,7 @@ def sandbox():
     raising a real halt or a sandboxed run from writing real ledgers. The live tree is never
     opened for writing at any point.
     """
+    reap_orphans()
     root = tempfile.mkdtemp(prefix="panscriptum_mutate_")
     os.makedirs(os.path.join(root, "src"))
     for f in os.listdir(SRC):

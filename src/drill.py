@@ -1541,6 +1541,33 @@ def drill_mutation():
         dead_holder_does_not_block_forever,
         "a safety that cannot be released is an outage, and it reports as protection")
 
+    def mutation_never_touches_the_live_tree():
+        """The architectural fix, asserted rather than assumed. `run()` must open the SANDBOX
+        path for writing and must verify the live file is byte-identical afterwards."""
+        src = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(src, "mutate.py"), encoding="utf-8") as fh:
+            text = fh.read()
+        return ("live_file_untouched" in text and "def sandbox(" in text
+                and "MUTATE_TOUCHED_LIVE_TREE" in text)
+    net(a, "mutation writes into a sandbox and proves the live file is untouched",
+        mutation_never_touches_the_live_tree,
+        "fifteen processes read the live tree; corrupting it is not something a lock can fix")
+
+    def abandoned_sandboxes_are_reaped():
+        """A killed run cannot clean up after itself -- `finally` does not run on a kill -- and
+        two kills leaked 154 MB in two hours. A nightly job that leaks 50 MB per interruption
+        fills a disk quietly, and a full disk takes down the crawl, the model and the publisher
+        at once for a reason nobody would look for."""
+        import mutate as M
+        if not hasattr(M, "reap_orphans"):
+            return False
+        # Must be age-gated: reaping indiscriminately would delete the sandbox of the run doing
+        # the reaping.
+        return M.ORPHAN_AGE_SECONDS >= 3600 and M.reap_orphans(older_than=10 ** 9) == []
+    net(a, "abandoned sandboxes are reaped, but only once they are old",
+        abandoned_sandboxes_are_reaped,
+        "a leak of 50 MB per interrupted run fills a disk without ever reporting anything")
+
     def publish_asks_before_pushing():
         """The step whose failure is IRREVERSIBLE and OUTWARD-FACING. Verified by reading the
         push path, the same way `guards_are_wired_where_claimed` checks the other interlocks --
