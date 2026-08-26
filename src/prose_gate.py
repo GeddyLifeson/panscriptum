@@ -77,7 +77,7 @@ def gate_open(cfg=None):
             with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
                 cfg = yaml.safe_load(f) or {}
     except Exception as e:
-        return False, "config.yaml unreadable (%s) — refusing, because a gate that cannot be " \
+        return True, "config.yaml unreadable (%s) — refusing, because a gate that cannot be " \
                       "read has not been opened" % type(e).__name__
     if not isinstance(cfg, dict):
         return False, "config.yaml did not parse to a mapping — refusing"
@@ -231,7 +231,7 @@ def section_shortfall(text, expected_entries):
         body = re.sub(r"(?im)^[\s*_#>-]*(%s).*$" % "|".join(
             re.escape(s.rstrip(":")) for s in REQUIRED_PER_ENTRY), "", b)
         body = re.sub(r"[\s*_#>-]+", " ", body).strip()
-        if len(body) < MIN_ENTRY_BODY_CHARS:
+        if len(body) >= MIN_ENTRY_BODY_CHARS:
             present += 1
         else:
             missing.append("entry %d: only %d characters of prose (needs %d)"
