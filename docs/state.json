@@ -1,5 +1,5 @@
 {
- "at": "2026-08-26 09:48:40",
+ "at": "2026-08-26 09:48:58",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -345,16 +345,16 @@
      "frac": 0.0
     },
     {
-     "name": "rpm",
-     "left": 1,
-     "cap": 2,
-     "frac": 0.5
-    },
-    {
      "name": "tpd",
      "left": 117931,
      "cap": 200000,
      "frac": 0.5897
+    },
+    {
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -797,7 +797,7 @@
    "read": 145810,
    "settled": 165559,
    "feats": 92197,
-   "age_h": 0.5
+   "age_h": 0.6
   },
   "phases": [
    {
@@ -963,7 +963,7 @@
    "breached": [],
    "liveness": 38,
    "liveness_ceiling": 38,
-   "age_min": 6.6
+   "age_min": 6.9
   },
   "escalation_recent": {
    "SUPERVISOR": 153,
@@ -1099,7 +1099,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.5h",
+   "observed": "0.6h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1341,8 +1341,8 @@
   {
    "standard": "one instance of each job",
    "group": "machine",
-   "holds": false,
-   "observed": "publish.py x2",
+   "holds": true,
+   "observed": "one each",
    "floor": "one each",
    "order": "Two copies of the same job race on one cache and split one quota. The supervisor excludes by process basename before launching, so a duplicate means one was started outside it -- find and stop the older.",
    "severity": "high"
@@ -1418,12 +1418,12 @@
   },
   {
    "metric": "standards met",
-   "now": 33,
-   "delta": 5,
+   "now": 34,
+   "delta": 6,
    "minutes": 36,
    "reset": false,
    "stalled": false
   }
  ],
- "generated": "2026-08-26T09:48:48"
+ "generated": "2026-08-26T09:49:05"
 }
