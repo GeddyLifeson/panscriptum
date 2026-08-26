@@ -24,3 +24,26 @@ detect-secrets>=1.5     # independent scanner beside publish.scan_for_secrets; a
 # URL as JSON with `.json` appended. `python src/corpus_db.py --serve` writes its config and
 # prints the command. DuckDB was the better analytical engine and does not run on this machine.
 datasette>=0.65         # optional: the web UI for state/corpus.db
+
+# ---------------------------------------------------------------- process and liveness
+# psutil replaced a `tasklist /FI "PID eq N"` shell-out that substring-matched the output --
+# one process spawned per check, and a PID that appears in an unrelated column of a HIT for a
+# different process reads as alive. `psutil.pid_exists` is a syscall. Used by mutate.py's lock.
+psutil>=7.2
+
+# EVALUATED, NOT ADOPTED, so nobody re-runs the survey:
+#   cosmic-ray / mutmut  -- the right idea (their `baseline` command is exactly the check this
+#                          project was missing) but they assume a pytest suite this project does
+#                          not have, and cosmic-ray 8.7.0's `baseline` returned exit 0 with no
+#                          output against a test command that exits 1. See src/mutate.py.
+#   filelock / portalocker -- proper cross-platform locking. mutate.py's lock is exclusive,
+#                          stale-aware, fail-closed and covered by 5 drill nets, so the swap is
+#                          low value today. Reach for these before writing a SECOND lock.
+#   watchdog / watchmedo -- restart-on-source-change. src/codewatch.py does this in-process
+#                          instead, because the keeper already restarts the STANDING set and an
+#                          external watcher would be a second supervisor (see autostart.py's
+#                          respawn-loop scar).
+#   pandera / Great Expectations / Soda -- DataFrame and warehouse shaped. This corpus is JSON
+#                          documents; policy.py already does the checks-as-data job.
+#   chaostoolkit         -- infrastructure chaos (k8s, cloud). drill.py is the application-level
+#                          equivalent and is 190 nets deep.

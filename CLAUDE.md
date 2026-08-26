@@ -77,6 +77,22 @@ library — `Song of Syx` having nothing cited is a SUPERVISOR event, not an OWN
 everything is the same failure as escalating nothing, because an alarm that always sounds is
 furniture.
 
+**AND THE FOURTH PROPERTY, learned the hard way on 2026-08-25: IN EFFECT.** A safety that
+exists in a file is not a safety that is running. A guard was added to `publish.py` at 19:00 to
+stop it publishing deliberately-corrupted source; a `publish.py --loop` daemon started at 14:28
+pushed that corrupted source to a public repo anyway, twice, because **a Python process does not
+re-read its own source**. Fifteen long-lived jobs were running that day. Every one of them was
+running the code as it stood whenever it happened to start.
+
+So `src/codewatch.py` gives every standing daemon a fingerprint of `src/` at startup and exits
+it with **rc=17** when that fingerprint changes and holds still; the keeper's STANDING set
+restarts it within five minutes on the current code. Restarts are budgeted per job per hour
+(bouncing is worse than lag), a change must settle before it counts (a digest taken mid-write is
+a digest of garbage), and `overnight.name_rc` names rc=17 as deliberate — because this project's
+longest outage came from a watcher reading jobs-exiting-on-purpose as jobs-crashing.
+
+**When you fix a safety, ask which running processes still have the old one.**
+
 **The three properties every safety here must have**, and they are not negotiable:
 
   * **INDEPENDENT** — no two layers may share a failure mode. When `overnight.py` reimplemented
