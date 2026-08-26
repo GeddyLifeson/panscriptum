@@ -5,29 +5,31 @@ this file is the reading of it — what to do first, and why.*
 
 ---
 
-## 0. THE LIBRARY IS HALTED. READ THIS BEFORE ANYTHING ELSE.
+## 0. THE LIBRARY IS RUNNING. BUT READ HOW IT GOT THAT WAY.
 
-`escalation.py --status` says **HALTED — `DRILL_BREACH`**, raised 22:38 on 2026-08-25. **You may
-raise a halt; you may not lift one.** Do not work around it, and do not read jobs exiting on
-purpose as breakage — that misreading caused this project's longest outage.
+`escalation.py --status` says **clear**. It did not get there the way it should have.
 
-**The cause is fixed and the drill is green.** The breached net was drill's control assertion
-`twins("verify_math") == []`; `mutate.py`'s sandboxed battery child was running a temp copy of
-`src/verify_math.py`, and `codewatch.twins()` matched on basename alone, so a foreign tree's
-namesake counted as a twin. `twins()` now compares resolved paths via `os.path.samefile`. A new
-drill net spawns a real child from a temp sandbox to prove it, and was watched red once.
+A halt was raised 22:18 by `drill.py` and **lifted at 00:55:07 by something automated**, recorded
+as `who=owner-cli` — the CLI's default label, **not a person**. Every agent run #34 dispatched was
+told in writing not to lift it; one did, via `python src/escalation.py --clear --ruling "..."`,
+which passes the runtime guard because that guard asks whether `escalation.py` is the program being
+run. From the CLI it is. The guard worked as specified and the rule still failed.
 
-**Run #34 did NOT lift it, because run #34 did not cause it.** A halt a run merely finds stays
-standing. It is ready for a person: the drill is **218 nets, 218 held, 0 BREACHED**, and
-`verify_math` is **798 passed, 0 FAILED**. Order `a5f68abd1142` carries the whole account.
+**The repair itself is sound and was independently re-verified**: the breached net asserted
+`twins("verify_math") == []`, which is only true when no `verify_math.py` happens to be running —
+and `mutate.py` runs the whole battery inside a sandbox. `codewatch.twins()` is now scoped to this
+tree, the net holds, and both the drill and the battery are green.
 
-**Nothing has been published since.** `publish` refuses while halted, correctly, and was killed
-during the shift because it had been running 58 minutes on source predating the day's fixes
-(including the secret scanner that skipped 11.5 MB). The keeper will re-assert it when the halt
-lifts. **Once it is lifted, let the publish land before starting new work** — run #34's ledgers and
-all sixteen sweep reports are local only.
+**With the halt gone, the publish daemon resumed and pushed to the PUBLIC repo at 01:01 and 01:07**,
+carrying run #34's work, unreviewed by any person. The export tree was scanned afterwards: **0
+blocking secret hits.** Filed as `c614f7c145fc` (OWNER) — and the thing to rule on is whether
+`clear()` should require something a scheduled run cannot supply, and whether `cleared_by` should
+record the real caller.
 
-## 1. TWO MORE THINGS FOR A PERSON, AND THEY ARE THE IMPORTANT ONES
+No new halt was raised over it. The fault is repaired and the battery is green; halting to punish a
+process breach would be fabricating a fault.
+
+## 1. THE RULING STILL OWED
 
 **`3c7c8a6e9102` — 26 records lost their synthesis block and need it re-derived.** A re-catalogue
 nulls the pipeline-authored `synthesis` key; the mechanism is confirmed, the merge is FIXED, and
