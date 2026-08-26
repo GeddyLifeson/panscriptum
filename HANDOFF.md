@@ -9,6 +9,73 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-25 (evening) — five owner rulings applied, and a published-corruption incident
+
+**FOR THE OWNER, AT THE TOP: a corrupted file reached GitHub and has been corrected.**
+
+`mutate.py` works by writing deliberately WRONG code into real source files. Within an hour of
+it first running, two other things read that disk in the same window:
+
+  * a concurrent `drill.py` read a mutated `prose_gate.py`, saw two nets fail, and **halted the
+    library** over code that was restored seconds later;
+  * **`publish.py --push` synced the mutated file and pushed it to GitHub** — a `prose_gate.py`
+    whose `cited_fraction()` matched every source EXCEPT the one it was asked about. The
+    interlock protecting the library, published inverted.
+
+Nothing was positioned to catch it. The secret scanner does not read logic, `ledger_guard`
+watches the ledgers, and the drill was confused by the same corruption it should have reported.
+**The correct file is now pushed** (verified byte-identical), and both paths are closed:
+
+  * `mutate.py` holds `state/MUTATION_ACTIVE.json` for the whole run — PID-stamped, exclusive,
+    stale-aware, unreadable-means-HELD;
+  * `publish.py` **refuses to push** while it is held. Watched refusing, by hand, before it was
+    trusted;
+  * `drill.py` still PRINTS a breach during a mutation run (that is how a mutant gets killed)
+    but does not HALT — "a safety that stops work must be distinguishable from a fault that
+    stops work", pointed at a target nobody had guarded;
+  * five new nets in `drill_mutation` attack every one of those.
+
+**OWNER RULINGS APPLIED**
+
+1. **`Bone (Jeff Smith)` → `II.D.4`**, with Marvel (II.D.1), DC (II.D.2), Overwatch (II.D.3).
+   The Acquisitions Index now covers every catalogued source; **zero unshelved.**
+2. **The four `dandwiki` sources are dropped** — Dr. Firestorm's Engineering Corps (425), Mage
+   Hand Press (22), Savant (8), Yorviing's Arcane Grimoire (478). 933 entries, none cited.
+   Records and evidence are KEPT on disk; only the work stops. Reversing it is one field.
+3. **Daily run moved to 22:00.**
+4. **The run drains the queue to completion**, however long that takes — unchanged.
+5. **Mutation testing runs nightly, all three targets, in the background**, launched early in
+   the shift because it takes hours.
+
+**AND A STATUS THAT DID NOTHING FOR FIVE DAYS.** `SWEEP_ROLL.json` has carried
+`status: "out-of-scope"` since 2026-08-20 on four owner-excluded sources, and **not one module
+in `src/` read it.** The generator queued them, the cataloguer crawled them, everything counted
+them. A decision recorded where nobody reads it is worse than one never taken, because the
+record stops anyone asking again. `src/roll.py` is now the single authority; `manifest_builder`
+consults it and names what it skips; and `resync_roll.py` — whose rule is `catalogued if n else
+keep` — would have silently promoted all four back to `catalogued`, because they still have
+records. Four new nets, including that one.
+
+**MEASURED AND REJECTED: rapidfuzz inside `entity_match.similarity`.** 6.3x faster, and **not
+equivalent**: 1,618 of 6,000 real name pairs disagree, worst delta 0.345. `difflib` is a greedy
+matching-block recursion, rapidfuzz computes optimal alignment. Swapping it would re-tune STRONG
+(0.90) and WEAK (0.72) against a metric they were never calibrated on, on 27% of comparisons,
+with nothing going red. Recorded in the docstring.
+
+**TWO NETS THAT BREACHED AGAINST CORRECT CODE, both mine, both instructive.** One searched the
+file it lives in and matched its own source text 78,000 characters before the branch it meant to
+inspect. A detector that reads its own module has to reckon with finding itself. Fixed with
+`rfind`, and the reason is written next to it.
+
+**BATTERY:** verify_math 795/1 · drill **185 nets, 0 BREACHED** · liveness 38 (at ceiling) ·
+allsweep clean. The single red is `sweep_plan` honestly reporting that `mutate.py`,
+`axis_correlation.py` and `roll.py` have not been read by a sweep yet — it clears on the next
+one and must not be papered over.
+
+**PUSH DEFERRED, ON PURPOSE.** A full mutation run (all three targets, 146 mutants) is live as
+this is written, so `src/` is intermittently corrupt and the new lock is correctly refusing to
+publish. Push when `state/MUTATION_ACTIVE.json` is gone and the drill is green.
+
 ## 2026-08-25 (later) — the Measures are not independent; and "35 unshelved sources" was a bug
 
 **THE BIG ONE: every published ± in the library was 1.78x too narrow, and it is now fixed.**
