@@ -1586,6 +1586,16 @@ def drill_snapshot():
             os.path.join(os.path.dirname(os.path.abspath(__file__)), "withdraw_chapters.py"),
             encoding="utf-8").read(),
         "145 chapters were withdrawn with nothing but an instinct behind them")
+    # THE DRILL'S OWN LITTER, and it had been accumulating since this area was written: the
+    # `before()` above takes a real snapshot on every run and nothing removed it, so
+    # `state/snapshots/` held 151 orphaned `drill-*` directories by run #34 -- one per drill,
+    # for months. Removed only now that every net that needed it has run. Same discipline as the
+    # DRILL_AREA and blast-cap probes resolving the work orders they file, and the same reason:
+    # a shared area carrying permanent decoration is one people stop reading. The 151 already
+    # there are left alone -- deleting a backup somebody may be keeping is the owner's call, not
+    # a side effect of a test tidying up after itself.
+    import shutil as _sh
+    _sh.rmtree(os.path.join(SNAP.ROOT, sid), ignore_errors=True)
 
 
 # ============================================================== THE STALE WRITER
