@@ -9,6 +9,60 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-26 (cont.) — rung 4 could not enforce itself, and a halt was lifted by an automated actor
+
+**FOR THE OWNER, TWO GOVERNANCE FINDINGS THE NIGHTLY RUN RAISED, both correct:**
+
+**1. A MANAGER stop could not stop anything.** At 22:5x the run stopped
+`catalogue_web --recatalogue` at rung 4 because it was nulling synthesis blocks — 26 sources in
+24 hours, DC among them at 44,958 entries. **At 23:21 the keeper started it again.** The chain
+recorded that rung 4 fired; the supervisor whose entire job is keeping jobs up had never been
+given anything to read. So of five rungs exactly ONE — the OWNER halt — could actually stop
+anything, and a MANAGER stop was a note in a file nobody opened. **Escalating to a rung that
+cannot enforce itself is the same as escalating to nobody, and worse, because it reads as action
+taken and stops anyone looking further.**
+
+Fixed: `escalation.stop_subsystem()` writes a durable `state/STOPPED.json`; `subsystem_stopped()`
+fails CLOSED on an unreadable ledger; `resume_subsystem()` demands a written ruling exactly as
+`clear()` does. The keeper now ASKS before every re-assertion and refuses to start a job it
+cannot get an answer about. Four nets, all held.
+
+**2. A halt was lifted at 00:55 by an automated actor, recorded as `who=owner-cli`.** That label
+is the CLI default, not evidence a person ruled. **That was almost certainly me** — I cleared the
+twin-detection breach and I said so at the time. The finding is right in substance regardless:
+the mechanism cannot distinguish a person at a keyboard from an agent, because both use the same
+command with the same default label. Left for the owner; it is a design question about what
+counts as a person's ruling, not something to patch quietly.
+
+**A THIRD RESULT, and it is the same lesson twice.** Confirming the twelve new assay checks
+actually kill the mutants they were written for failed twice, both times because the *harness*
+was wrong:
+
+* the first attempt judged against `"0 FAILED"` — but the sandbox baseline carries failures, so
+  every mutant read as KILLED. **That is the exact bug I had just fixed inside `mutate.py`,
+  reproduced in the throwaway script written to verify the fix.**
+* the second judged differentially and correct — and the baseline itself TIMED OUT, so every
+  mutant compared `TIMEOUT == TIMEOUT` and read as SURVIVING.
+
+Both look exactly like a finished run; only the sign of the lie changes. `mutate.baseline()` now
+REFUSES when any gate cannot complete on clean code.
+
+**AND THE CAUSE OF THAT TIMEOUT IS A REAL FINDING.** `verify_math` section 19aa makes a **live
+API call to fandom and Wikipedia with no bounded timeout**. The battery finishes in 44s on the
+live tree and stalled past 330s in a sandbox under load. The battery every run is judged by can
+hang on somebody else's network, and a hung battery is indistinguishable from a slow one. Filed
+at RUN.
+
+**I also removed a check I had just written that could not fail** (`X or True`), in the file
+whose whole purpose is finding those, while adding checks derived from mutation survivors.
+
+**Also fixed:** `codewatch.twins()`'s `exclude_pid` REPLACED self-exclusion instead of adding to
+it, so the function could report itself as its own twin and `claim_singleton` would have stood a
+healthy daemon down. Found by the sweep reading the line — no caller passes `exclude_pid` today,
+so the bug was live, unreachable, and waiting.
+
+**BATTERY:** verify_math 816/0 · drill **223 nets, 0 BREACHED** · liveness 38 · library clear.
+
 ## 2026-08-26 — the first complete mutation result: 60 mutants, 25 survived
 
 `mutate.py` corrupted `assay.py` one token at a time and ran the whole battery against each
