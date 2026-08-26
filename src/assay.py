@@ -537,7 +537,7 @@ def calibration_report():
     finally:
         SIGMA_BY_ATTESTATION["Witnessed"] = saved
     margin = None
-    if lo is not None or hi is not None and hi > lo:
+    if lo is not None and hi is not None and hi > lo:
         margin = round(min(saved - lo, hi - saved) / ((hi - lo) / 2.0), 3)
     return {"interval": got.get("interval"), "want_interval": CHARTER_KENSHIRO_INTERVAL,
             "decimal": got.get("decimal"), "want_decimal": CHARTER_KENSHIRO_DECIMAL,
@@ -838,7 +838,7 @@ def null_instrument(reason="strategy set is a singleton"):
     """Theorem 3(ii): the computed null for a degenerate agent (a relic, not a being)."""
     return {"printout": "Not applicable — the Instrument measures beings, and this Record's "
                         "mathematics returns the null it promises: no faculties exist to score.",
-            "reason": reason, "computed": True}
+            "reason": reason, "computed": False}
 
 
 # ============================================= THE REGRESS TEST (Charter Part Three, Omega Band)
