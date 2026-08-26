@@ -189,7 +189,7 @@ _REFUSAL_MARKERS = ("enable javascript", "checking your browser", "cloudflare",
 MIN_REAL_PAGE_CHARS = 200
 
 
-def page_looks_real(text, title=""):
+def page_looks_real(text, title="", wiki=True):
     """-> (ok, why). Is this the article, or something wearing its URL?
 
     THE GAP THIS CLOSES. Every extracted sentence is already verified VERBATIM against the page
@@ -206,6 +206,17 @@ def page_looks_real(text, title=""):
     CHEAP BY CONSTRUCTION: string tests over bytes already in memory, no extra request, so it can
     sit in front of the expensive model call without costing anything (nuclei's fingerprint-gate
     idea -- a cheap check gates an expensive one).
+
+    `wiki=False` DROPS THE THIRD LAYER ONLY, and it exists because the third layer turned this
+    guard against the two corpora that are not wikis. Measured on the one owner-ingested book on
+    disk (`data/docs/arcanum-worlds-odyssey-of-the-dragonlords`): 443 pages in, 3 through the
+    gate, 401 refused for "no wiki markup found at all". Real prose has no `[[`, no `{{` and no
+    `==` in it, so a positive test for wiki markup is a positive test for BEING A WIKI, which
+    `doc:` and `pages:` sources never are. The failure it produced is the same one this function
+    was written to end, moved down a floor: a book that was read fine mines to zero feats and
+    reads afterwards as an entity with no evidence. Length and the refusal markers still apply --
+    those two catch a block page whatever it is dressed as -- and callers holding actual wikitext
+    keep the default, so nothing that was gated before is ungated now.
     """
     t = (text or "")
     if len(t.strip()) < MIN_REAL_PAGE_CHARS:
@@ -216,9 +227,11 @@ def page_looks_real(text, title=""):
         if m in low:
             return False, ("carries a refusal marker (%r) -- this is a block page, not the "
                            "article, whatever status it arrived with" % m)
-    if not any(m in low for m in _WIKI_MARKERS):
+    if wiki and not any(m in low for m in _WIKI_MARKERS):
         return False, ("no wiki markup found at all -- not an article page")
-    return True, "%d chars, wiki markup present" % len(t.strip())
+    return True, "%d chars, %s" % (len(t.strip()),
+                                   "wiki markup present" if wiki
+                                   else "prose corpus, wiki markup not required")
 
 
 
@@ -896,7 +909,13 @@ def evidence_for(host, name, cache=True):
     # the same way it does for a shared wiki index page. The text is already plain -- running
     # the wikitext stripper over real prose eats legitimate brackets.
     plain = bool(host) and host.startswith("doc:")
+    # WHICH CORPUS THIS ACTUALLY IS, decided by the branch that reads it rather than by the host
+    # string alone -- a `pages:` host with no registered URLs falls through to wiki discovery
+    # below, and would then be holding wikitext after all. `page_looks_real`'s markup layer is
+    # a positive test for being a wiki, so it must only be asked of one.
+    wiki_source = True
     if plain:
+        wiki_source = False
         dp = os.path.join(HERE, "data", "docs", host[4:], "pages.json")
         with open(dp, encoding="utf-8") as f:
             all_pages = json.load(f)
@@ -913,6 +932,7 @@ def evidence_for(host, name, cache=True):
         import endpoint as EP
         urls = EP.source_pages(host[6:]) if host and host.startswith("pages:") else []
         if urls:
+            wiki_source = False
             pages = EP.fetch_html(urls)
             titles = sorted(pages)
         else:
@@ -926,7 +946,7 @@ def evidence_for(host, name, cache=True):
         # interstitial is a real document that mines to zero feats, and "zero feats" is
         # indistinguishable from an honest absence once it is written to the cache. Recorded
         # rather than dropped: the whole point is that the reason is visible afterwards.
-        ok, why = page_looks_real(wt, t)
+        ok, why = page_looks_real(wt, t, wiki=wiki_source)
         if not ok:
             unreal[t] = why
             continue

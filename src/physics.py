@@ -109,7 +109,21 @@ def joules_for(volume_m3, material="rock", mode="pulv"):
 
 
 def sphere_volume(radius_m):
-    return 4.0 / 3.0 * math.pi * float(radius_m) ** 3
+    """Volume of a sphere of radius `radius_m`, in cubic metres.
+
+    Rejects a non-positive radius rather than computing one, for the same reason `joules_for()`
+    two functions above refuses to default to rock: a wrong number wearing the shape of a right
+    one is the hardest kind to catch. The cube preserves sign, so a negative radius returns a
+    NEGATIVE volume without raising anything, and that volume goes on to `joules_for()`, to a
+    band edge, to a shelfmark, and eventually into prose, with nothing anywhere in that chain
+    ever having reason to look at it twice. A radius of zero is not a smaller body, it is the
+    absence of one, and the Assay has nothing to say about it.
+    """
+    r = float(radius_m)
+    if not r > 0.0:
+        raise ValueError(f"sphere_volume(): radius must be positive, got {radius_m!r}; "
+                         f"a non-positive radius is an unestimable body, not a small one")
+    return 4.0 / 3.0 * math.pi * r ** 3
 
 
 def binding_energy(mass_kg, radius_m):
@@ -120,9 +134,19 @@ def binding_energy(mass_kg, radius_m):
     LITERATURE value for the Sun (6.9e41 J) rather than what this function gives, and
     `verify_math` asserts that the two differ in the expected direction. Use this for rocky
     bodies and for order-of-magnitude work, never to set a band.
+
+    A non-positive radius is refused for the same reason `sphere_volume()` refuses it, and with
+    one extra edge of its own: R sits in the DENOMINATOR here, so R = 0 used to leave the module
+    by way of a bare `ZeroDivisionError` — a traceback that names arithmetic rather than the
+    domain error that caused it, and that a caller two modules away would read as a bug in the
+    physics instead of as a body it had no business asking about.
     """
     G = 6.67430e-11
-    return 3.0 * G * float(mass_kg) ** 2 / (5.0 * float(radius_m))
+    r = float(radius_m)
+    if not r > 0.0:
+        raise ValueError(f"binding_energy(): radius must be positive, got {radius_m!r}; "
+                         f"U = 3GM^2/5R has no value for a body of no extent")
+    return 3.0 * G * float(mass_kg) ** 2 / (5.0 * r)
 
 
 def main():

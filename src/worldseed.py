@@ -315,11 +315,23 @@ def main():
     print("     " + to_fmg_query(worlds[0])[:150])
 
     if args.write:
+        # ATOMIC. This was a bare `open(path, "w")` + `json.dump`, which is not a write but a
+        # TRUNCATE-THEN-FILL: a reader arriving in the gap sees an empty or half-written file,
+        # and a kill in the gap leaves it that way permanently. The 2026-08-25 sweep found
+        # twelve such sites across ten modules and moved them onto `silence.write_json`, whose
+        # temp name carries pid and thread so two writers of one path cannot collide on the
+        # temp file itself; every sibling cross-cycle artifact (data/CHAIN.json,
+        # data/DESIGNATORS.json, data/SWEEP_ROLL.json, data/records/*.json) already goes that
+        # way and WORLDSEEDS.json was simply missed. The verdict is REPORTED rather than
+        # discarded: `write_json` returns False on a denied replace instead of raising, so a
+        # caller that ignores it prints "wrote" for a file that never landed -- which is the
+        # same class of silent failure one level up.
         path = os.path.join(HERE, "data", "WORLDSEEDS.json")
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump({w["designation"]: {"address": address(w), **w} for w in worlds},
-                      f, indent=2, ensure_ascii=False)
-        print(f"\nwrote {path}")
+        payload = {w["designation"]: {"address": address(w), **w} for w in worlds}
+        if silence.write_json(path, payload, indent=2, ensure_ascii=False):
+            print(f"\nwrote {path}")
+        else:
+            print(f"\nWRITE DENIED {path} — replace refused; it lands on the next run")
     return 0
 
 

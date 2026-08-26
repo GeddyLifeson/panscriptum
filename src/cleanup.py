@@ -44,6 +44,18 @@ _NAV = re.compile(
     r"see also$|external links$|sitemap$|all pages$|recent changes$"
     # 'Character' matched and 'Character condition' did not, because the anchor demanded the word
     # end the name. Site furniture takes qualifiers like anything else does.
+    #
+    # READ THAT SENTENCE AS PAST TENSE -- it describes the state BEFORE this half of the
+    # alternation was switched from `$` to `\b`, and the `\b` is the fix, not the fault. Sweep 33
+    # read it as a claim about current behaviour, concluded the pattern was over-broad, and filed
+    # it as a MAJOR. Measured against the live corpus at the time: of 69,652 catalogued entries,
+    # this half matches 16, ten of them the bare word and six of them qualified --
+    # 'Character condition', 'Character Profiles', 'Character guide', and three
+    # 'Characters/Mass Effect ...' index pages. Every one is the wiki furniture the `\b` was added
+    # to reach; not one is an entity of any fiction. The first half of the alternation keeps `$`
+    # on purpose, because 'Gallery', 'Trivia' and 'Contents' are common enough words that a
+    # qualified form is more likely a real name than a nav page. The two halves differ because the
+    # words differ.
     r"|characters?\b|gameplay\b|mechanics\b|controls\b|achievements?\b|trophies\b"
     r"|downloadable content\b|patch notes?\b|version history\b|soundtrack\b)", re.I)
 

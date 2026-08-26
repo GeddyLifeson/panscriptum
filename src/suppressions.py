@@ -55,11 +55,24 @@ def _load():
 
 
 def _land(rows):
+    """Write the list. -> True if it LANDED on disk, False if the rename was refused.
+
+    GATE ON THE WRITE. `silence.replace_retry` returns whether the rename succeeded and, by its
+    own docstring, deliberately never raises on persistent denial ("the caller's write lands next
+    round") -- which is right for a metrics file and wrong for this one. This function discarded
+    that verdict, so under the WinError 5 collision that helper exists for (a reader holding the
+    target open; taken an assay worker down once already, 2026-08-23) `add()` returned a row that
+    looked committed while `SUPPRESSIONS.json` was untouched. `active()` re-reads from disk every
+    call and has no cache, so the very next read would not see it -- and in this module that
+    failure mode points the wrong way twice: the operator believes an exemption is recorded and
+    reviewable when nothing is, and the reason they wrote is lost with it. `repass_bands.py`
+    gates on the identical verdict for the identical reason (run #25).
+    """
     os.makedirs(os.path.dirname(FILE), exist_ok=True)
     tmp = FILE + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(rows, f, indent=1, ensure_ascii=False)
-    silence.replace_retry(tmp, FILE)
+    return silence.replace_retry(tmp, FILE)
 
 
 def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS):
@@ -73,7 +86,12 @@ def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS
                  "reason": str(reason).strip()[:300], "added_by": str(added_by),
                  "added_at": time.time(),
                  "expires_at": time.time() + float(ttl_days) * 86400})
-    _land(rows)
+    if not _land(rows):
+        # REFUSED IS NOT ADDED. Returning the row here would tell the caller a detector has been
+        # narrowed when it has not been -- the one lie this module must never tell, since the
+        # next scan will report the finding the operator believes they waived.
+        raise IOError("SUPPRESSIONS.json could not be written (rename refused); the suppression "
+                      "for %s on %s was NOT recorded -- try again" % (detector, path_glob))
     return rows[-1]
 
 
@@ -87,11 +105,22 @@ def active(detector=None):
 
 
 def suppressed(detector, path):
-    """-> the suppression covering this finding, or None. Fnmatch on the repo-relative path."""
+    """-> the suppression covering this finding, or None. Fnmatch on the repo-relative path.
+
+    CASE-SENSITIVE ON PURPOSE (`fnmatchcase`, never `fnmatch`). `fnmatch.fnmatch` runs both
+    operands through `os.path.normcase` first, which on Windows -- the platform this ships on --
+    lowercases them, so `data/fixtures/*` would also swallow findings under `DATA/Fixtures/`.
+    That is the silent widening this module's header forbids in capitals: a suppression narrows a
+    detector for a NAMED case, and a case nobody wrote down is not a named case. The stricter
+    match can only ever fail SHUT -- a pattern whose casing does not match the tree stops
+    matching and the finding is reported, which is the direction an exemption should fail in.
+    `problems()` uses `fnmatchcase` for the same reason, so a mis-cased pattern surfaces there as
+    DANGLING rather than quietly covering files it was never reviewed against.
+    """
     import fnmatch
     rel = str(path).replace(os.sep, "/")
     for r in active(detector):
-        if fnmatch.fnmatch(rel, r.get("path", "")):
+        if fnmatch.fnmatchcase(rel, r.get("path", "")):
             return r
     return None
 
@@ -115,7 +144,7 @@ def problems():
         pat = r.get("path", "")
         if any(ch in pat for ch in "*?["):
             hits = [p for p in glob.glob(os.path.join(HERE, "**", "*"), recursive=True)
-                    if fnmatch.fnmatch(os.path.relpath(p, HERE).replace(os.sep, "/"), pat)]
+                    if fnmatch.fnmatchcase(os.path.relpath(p, HERE).replace(os.sep, "/"), pat)]
             if not hits:
                 out.append("DANGLING: %s on %s matches nothing on disk"
                            % (r.get("detector"), pat))
@@ -127,9 +156,16 @@ def problems():
 def main():
     import argparse
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--list", action="store_true")
+    ap.add_argument("--list", action="store_true",
+                    help="the active suppressions (the default when no flag is given)")
     ap.add_argument("--check", action="store_true", help="expired or dangling entries")
     a = ap.parse_args()
+    # `--list` used to be parsed and never read, so `--check --list` silently answered only the
+    # first question and dropped the second. Refuse the pair rather than pick one: "what is
+    # waived" and "what is rotten" are different questions, and an operator who asked both and
+    # got one answer has no way to tell which.
+    if a.check and a.list:
+        ap.error("--check and --list are separate questions; ask one at a time")
     if a.check:
         probs = problems()
         for p in probs:

@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
-"""MODULE_INDEX — the map of the 87 modules, generated from their own first lines.
+"""MODULE_INDEX — the map of every module in src/, generated from their own first lines.
 
 A successor's first question is "what does each of these do", and the honest answer already
 exists: every module's docstring opens with its own one-line claim. This collects them into
 `handoff/MODULE_INDEX.md`, grouped by the stage of the machine they serve, so onboarding is a
-read of one page instead of eighty-seven headers. Generated, never hand-edited -- a hand-kept
-copy of information the code already carries is a second writer with no merge strategy.
+read of one page instead of a walk through every header in `src/`. Generated, never hand-edited
+-- a hand-kept copy of information the code already carries is a second writer with no merge
+strategy.
+
+NO COUNT IS WRITTEN DOWN HERE, deliberately. These two paragraphs used to say "the 87 modules"
+and "eighty-seven headers"; `src/` holds 113 today, and the docstring of the module whose entire
+argument is that hand-kept copies drift had drifted by twenty-six. The count the page reports is
+computed live from `glob.glob` at every run, so the only honest thing to put in prose is that
+there is one.
 
     python src/module_index.py            # regenerate the page
 """
@@ -13,6 +20,7 @@ import ast
 import glob
 import os
 import sys
+import threading
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -72,8 +80,27 @@ def main():
         for n in rest:
             lines.append(f"- **{n}** — {first_line(mods[n])}")
         lines.append("")
-    with open(OUT, "w", encoding="utf-8") as f:
+    # tmp + `replace_retry`, not a bare open("w"). A bare open is not a write but a
+    # TRUNCATE-THEN-FILL: the target is emptied first and only then refilled, so a crash or a
+    # kill in the gap leaves the map permanently truncated, and this page is the one document a
+    # successor is told to read first. That is the m6 shape -- this project's oldest species of
+    # bug, named in `silence.write_json`'s own docstring, where a single sweep found twelve such
+    # sites across ten modules. The tmp name carries pid and thread for the same reason
+    # `write_json` does: two writers otherwise collide on the temp file itself and the loser can
+    # land a half-built page over the winner's.
+    tmp = "%s.%d.%d.tmp" % (OUT, os.getpid(), threading.get_ident())
+    with open(tmp, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
+    # And the verdict is CHECKED. `replace_retry` returns False rather than raising when the
+    # rename is denied for all its attempts -- on Windows an open handle IS a denied rename --
+    # and a generator that reports "113 modules -> handoff/MODULE_INDEX.md" and exits 0 while
+    # the file on disk is still last month's map is worse than one that fails loudly.
+    if not silence.replace_retry(tmp, OUT):
+        sys.stderr.write("module_index: built %d module(s) but the write to %s was DENIED (a "
+                         "reader is holding it). The page on disk is the PREVIOUS one -- "
+                         "re-run when the readers are quiet.%s"
+                         % (len(mods), os.path.relpath(OUT, HERE), chr(10)))
+        return 1
     print(f"{len(mods)} modules -> {os.path.relpath(OUT, HERE)} "
           f"({len(rest)} outside the named groups)")
     return 0

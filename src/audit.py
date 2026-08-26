@@ -27,9 +27,20 @@ import pipeline as PL          # noqa: E402
 
 # Wiki navigation artefacts. These are not entities in any fiction; they are the scaffolding of
 # the site the catalogue was drawn from, and they should never have been captured.
-_JUNK = re.compile(r"^(characters?|category:|list of |index of |gallery|navigation|"
-                   r"main page|contents?|glossary|timeline|episodes?|seasons?|"
-                   r"appearances?|references?|trivia|see also|external links)\b", re.I)
+#
+# The anchors are per-alternative and deliberately uneven, and carry the shape cleanup.py's `_NAV`
+# was already corrected to. One trailing `\b` shared by the whole group silently made this a
+# PREFIX test rather than a name test: 'Timeline of the Fallen Empire', 'Seasons of War',
+# 'Gallery of Rogues', 'References Codex' and 'Navigation Beacon' all matched, because each merely
+# OPENS with a furniture word. BACKSCAN is trusted precisely because it checks from outside, so a
+# bucket that over-fires on real entities is worse than one that misses -- it buries the genuine
+# scaffolding hits it exists to surface, under a flood of unrelated entities. So the words that
+# are furniture only when they ARE the whole name end at `$`, while the ones that are furniture
+# as an opening -- 'Category:', 'List of ...', 'Index of ...', and 'Characters', which takes
+# qualifiers the way any other piece of site furniture does -- keep the `\b` and stay prefixes.
+_JUNK = re.compile(r"^(?:characters?\b|category:|list of |index of |gallery$|navigation$|"
+                   r"main page$|contents?$|glossary$|timeline$|episodes?$|seasons?$|"
+                   r"appearances?$|references?$|trivia$|see also$|external links$)", re.I)
 
 VALID_BANDS = set(PL.BANDS)
 

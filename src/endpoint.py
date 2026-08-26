@@ -81,15 +81,27 @@ def _load():
 
 
 def _save():
+    """Land the probe cache ATOMICALLY, through the one correct writer in this project.
+
+    This used to be a hand-rolled `open(CACHE + ".tmp")` + bare `os.replace()`. Both halves of
+    that were the shapes `silence.write_json` exists to make unavailable. `ENDPOINTS.json` is
+    written by every process that probes a host -- `detect()` is reached from `feats.py`,
+    `hostcheck.py` and `completeness.py`, several of them threaded -- so the fixed `.tmp`
+    suffix let two writers collide on the temp file itself and let the loser replace the
+    winner's cache with a partial one; and the bare `os.replace` raises `PermissionError` on
+    Windows for as long as any reader holds the target open, which is the collision that took
+    an assay worker down mid-batch on 2026-08-23 (WinError 5) and is exactly why
+    `silence.replace_retry` was written. Here the denial was swallowed by the `except` below
+    and merely noted, so a freshly-earned MODE_API/MODE_RAW/MODE_DEAD verdict was dropped and
+    the host re-probed next run -- wasted network against a pipeline that paces itself per
+    host on purpose. `write_json` carries pid and thread in the temp name and retries the
+    rename, so the write lands instead of vanishing. (run33)
+    """
     with _LOCK:
         if _MEM is None:
             return
         try:
-            os.makedirs(os.path.dirname(CACHE), exist_ok=True)
-            tmp = CACHE + ".tmp"
-            with open(tmp, "w", encoding="utf-8") as f:
-                json.dump(_MEM, f, indent=1, sort_keys=True)
-            os.replace(tmp, CACHE)
+            silence.write_json(CACHE, _MEM, indent=1, sort_keys=True)
         except Exception:
             silence.note("endpoint.py:save")
 

@@ -155,7 +155,14 @@ def sweep(config_path=None, workers=6):
         for name in sorted({s["provider"] for s in stale}):
             r = live.get(name)
             if r:
-                print(f"  {name}: " + ", ".join(r["models"][:10]))
+                # THE WHOLE LIST HERE TOO. `[:10]` was the same Hard Rule 0 cap as the one
+                # fixed at line 151 in run #26, surviving on the console line rather than in
+                # the record -- and this line is the one a person actually reads while
+                # choosing the replacement for a retired model name. The persisted copy being
+                # complete does not help someone looking at the terminal: an eleventh-ranked
+                # model that was the right substitute simply was not there to be picked, and
+                # a truncated listing does not announce itself as truncated. (run33)
+                print(f"  {name}: " + ", ".join(r["models"]))
 
     payload = {"at": time.strftime("%Y-%m-%d %H:%M"), "providers": rows, "stale": stale}
     # ATOMIC: standards.py polls PROVIDER_MODELS.json on its own cycle. 2026-08-25.

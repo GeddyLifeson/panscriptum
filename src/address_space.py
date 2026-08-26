@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-THE ADDRESS SPACE — a 74-bit name for every planet in the omniverse.
+THE ADDRESS SPACE — an 89-bit name for every planet in the omniverse.
 
 WHAT THIS IS
 ------------
@@ -23,22 +23,35 @@ an index into chaos, it is a POSITION IN A STRUCTURE. Every field names a real l
 cosmological hierarchy the library already derived, so the bits do mean things, and neighbouring
 addresses ARE neighbours -- two worlds one bit apart in the planet field orbit the same star.
 
-    [ hyperverse | universe | galaxy | star | planet ]
-         3 bits     5 bits    38 bits  27 bits  1 bit     = 74 bits, 10 bytes
+    [ hyperverse | xenoverse | metaverse | multiverse | universe | galaxy | star | planet ]
+        3 bits     3 bits      3 bits      8 bits       6 bits     38 bits  27 bits  1 bit
+
+                                                                  = 89 bits, 12 bytes
+
+THIS TABLE WENT STALE ONCE AND MUST NOT AGAIN. It described the five-field, 74-bit/10-byte
+address for three passes after `tiers.py` charted xenoverse, metaverse and multiverse and FIELDS
+grew to eight, so the module's own advertised justification named a design the module no longer
+had. The authority is `FIELDS`/`WIDTHS` below and nothing else; the numbers printed here are a
+transcription of what they compute against today's census, and `main()` now prints the widths
+from `WIDTHS` and `TOTAL_BITS` rather than from a literal, so the console report cannot drift
+away from the arithmetic the way this paragraph did.
 
 THE WIDTHS ARE DERIVED, NOT CHOSEN
 ----------------------------------
-Each field is exactly wide enough for the census in cosmography.py:
+Each field is exactly wide enough for the census the weave and cosmography.py resolved:
 
-    hyperverse  7        the bound proved in the weave: at 8 divisions the resonance graph's
-                         diameter exceeds six, so seven is the ceiling
-    universe    24       continuities per hyperverse, from the 168 the catalogue resolved
+    hyperverse  6        highest hyperverse index in TIERS.json, plus one
+    xenoverse   6        the cut above the metaverses
+    metaverse   8        resonance clusters -- multiverses joined by theme, law or recognition
+    multiverse  168      continuity groups the catalogue resolved
+    universe    64       continuities per multiverse
     galaxy      2.0e11   Lauer et al. 2021
     star        1.0e8    dwarf-dominated mean per galaxy
     planet      1.6      Cassan et al. 2012
 
-Change the census and the widths change with it. Nothing here is a round number picked because it
-looked tidy.
+The four upper tiers read their populations out of TIERS.json at import, so a re-charting moves
+them; the floor of two in FIELDS keeps every field at least one bit wide. Change the census and
+the widths change with it. Nothing here is a round number picked because it looked tidy.
 
 FOR SCALE
 ---------
@@ -169,11 +182,22 @@ def unpack(addr):
 
 
 def shelfmark(addr):
-    """The charter's own notation. H and X print as '?' because they are uncharted.
+    """The charter's own notation, with H and X printed as the charted integers they now are.
+
+    THIS DOCSTRING SAID THE OPPOSITE FOR THREE SWEEPS. It claimed H and X print as '?' -- true of
+    Part Two, and true of this function until tiers.py charted the upper tiers -- while the return
+    statement below emitted real integers for both. Anyone who read the docstring and not the
+    format string came away believing the module still emits the honest `Ω › ? › ?` placeholder,
+    which is precisely the belief Hard Rule 4 exists to protect. The behaviour is deliberate and
+    stays; only the description was wrong.
 
     Part Two is explicit that the Custodes "considered guessing a form of lying", and the charter's
-    worked citation for Son Goku prints H? and X? for exactly that reason. This renders them the
-    same way rather than inventing positions nobody has surveyed.
+    worked citation for Son Goku prints H? and X? for exactly that reason. Nothing here guesses:
+    the two tiers stopped being uncharted when the resonance dendrogram was cut at its plateaus
+    (168 multiverses -> 8 metaverses -> 6 xenoverses -> 1 hyperverse, strictly nested), so what
+    prints is a measurement, not a filled-in blank. If TIERS.json is ever absent, `assign()` falls
+    back to tier zero, and the note in `main()` says so out loud rather than letting a zero read
+    as a survey.
     """
     f = unpack(addr)
     # H is the GROUNDING TYPE -- which answer this cosmos gives to the First Argument. It printed
@@ -263,17 +287,30 @@ def assign(designation, tiers):
 
 def main():
     print("=" * 96)
-    print("THE ADDRESS SPACE — every planet in the omniverse, named in 74 bits")
+    print(f"THE ADDRESS SPACE — every planet in the omniverse, named in {TOTAL_BITS} bits")
     print("=" * 96)
     print(f"\n{'field':<14}{'population':>14}{'bits':>7}   derived from")
     print("-" * 96)
-    srcs = ["weave.py: 8 divisions breaks the six-degree diameter",
-            "168 continuities resolved by the weave",
-            "Lauer et al. 2021 (New Horizons LORRI)",
-            "dwarf-dominated mean stars per galaxy",
-            "Cassan et al. 2012, Nature"]
-    for (name, n), s in zip(FIELDS, srcs):
-        print(f"{name:<14}{n:>14.3e}{WIDTHS[name]:>7}   {s}")
+    # BY FIELD NAME, ALWAYS -- the same lesson as the keyword-only pack() call further down, and
+    # learned the same way. This table was a positional `zip(FIELDS, srcs)` over a five-entry
+    # `srcs` list left behind by the five-field address. zip stops at the shorter side without
+    # complaining, so galaxy, star and planet vanished from the printed report entirely and the
+    # four tiers that tiers.py added took the citations written for the fields below them -- the
+    # row labelled `xenoverse` printed "168 continuities resolved by the weave", which is the
+    # multiverse's provenance, not the xenoverse's. A dict keyed by field name cannot mispair, and
+    # the `?` default makes a field added without a citation visible instead of silently absent.
+    srcs = {
+        "hyperverse": "tiers.py: the dendrogram closes at a single root",
+        "xenoverse":  "tiers.py: the plateau above the metaverses",
+        "metaverse":  "weave.py: resonance clusters at the natural threshold",
+        "multiverse": "168 continuities resolved by the weave",
+        "universe":   "continuities per multiverse",
+        "galaxy":     "Lauer et al. 2021 (New Horizons LORRI)",
+        "star":       "dwarf-dominated mean stars per galaxy",
+        "planet":     "Cassan et al. 2012, Nature",
+    }
+    for name, n in FIELDS:
+        print(f"{name:<14}{n:>14.3e}{WIDTHS[name]:>7}   {srcs.get(name, '?')}")
     print(f"{'TOTAL':<14}{'':>14}{TOTAL_BITS:>7}   = {math.ceil(TOTAL_BITS/8)} bytes per world")
     print(f"\naddressable: {CAPACITY:.3e}   census says {C.census('STANDARD')['exoplanets']*_continuities():.3e} exist")
     print(f"headroom   : {CAPACITY/(C.census('STANDARD')['exoplanets']*_continuities()):.1f}x")

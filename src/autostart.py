@@ -28,6 +28,10 @@ watching it and one that runs.
 import argparse
 import os
 import subprocess
+# Every subprocess this module starts carries this flag -- owner directive, no console window may
+# ever appear. Named once here and used at both call sites, the way allsweep.py, foreman.py,
+# local_agent.py and mutate.py all do it: two independent re-spellings of the same expression are
+# two places for the flag to be forgotten, and this module's whole job is running unattended.
 _NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 import sys
@@ -112,7 +116,7 @@ def start_supervisor(read_hours=10):
     err = open(os.path.join(LOGDIR, "overnight_stderr.log"), "a", encoding="utf-8")
     flags = 0
     if os.name == "nt":
-        flags = subprocess.CREATE_NO_WINDOW | subprocess.DETACHED_PROCESS
+        flags = _NO_WIN | subprocess.DETACHED_PROCESS
     return subprocess.Popen(
         [PY, "-u", os.path.join(SRC, "overnight.py"), "--read-hours", str(read_hours)],
         cwd=HERE, env=env, stdout=out, stderr=err, creationflags=flags)
@@ -127,7 +131,7 @@ def _twin_watchdog():
              "Get-CimInstance Win32_Process -Filter \"Name='python.exe' or Name='pythonw.exe'\" | "
              "ForEach-Object { $_.ProcessId.ToString() + '|' + $_.CommandLine }"],
             capture_output=True, text=True, timeout=60,
-            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)).stdout
+            creationflags=_NO_WIN).stdout
     except Exception:
         silence.note("autostart.py:131")
         return False

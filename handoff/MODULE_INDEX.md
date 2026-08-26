@@ -71,7 +71,7 @@
 
 ## Everything else
 
-- **address_space** — THE ADDRESS SPACE — a 74-bit name for every planet in the omniverse
+- **address_space** — THE ADDRESS SPACE — an 89-bit name for every planet in the omniverse
 - **audit** — BACKSCAN — an audit of everything catalogued so far
 - **axis_correlation** — AXIS CORRELATION — the Measures are not independent, and here is by how much
 - **backfill** — BACKFILL — recover the main casts the original cataloguing crawl missed
@@ -102,7 +102,7 @@
 - **ledger_guard** — LEDGER GUARD — the relay's own integrity, checked rather than trusted
 - **liveness** — LIVENESS — find the checks that cannot fail and the code that never runs
 - **local_agent** — LOCAL_AGENT — the GPU model with hands: read, search, and gated writes on this repo
-- **module_index** — MODULE_INDEX — the map of the 87 modules, generated from their own first lines
+- **module_index** — MODULE_INDEX — the map of every module in src/, generated from their own first lines
 - **mutate** — MUTATE — break the library on purpose, and find out which safeties failed to notice
 - **navtree** — NAVTREE — the terminal's navigation data, with every branch reachable
 - **onomast** — THE ONOMASTICON — distinct designations for the worlds that all call themselves Earth

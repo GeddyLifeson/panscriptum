@@ -149,7 +149,12 @@ def reserve_for(job_type):
 
 
 def window(cfg):
-    return int((cfg or {}).get("num_ctx", 8192))
+    # The fallback is the SMALL window, not a generous one. `read.py`'s `config()` and
+    # `health.check_context_budget` both fall back to 6144, and this file's header is written
+    # against that same measured window; 8192 here was a third window nobody measured, and a
+    # cfg missing `num_ctx` would have been told it had 2,048 tokens of room that do not exist
+    # -- the overflow-and-silent-truncation direction this module refuses.
+    return int((cfg or {}).get("num_ctx", 6144))
 
 
 def content_budget_chars(cfg, scaffold_chars, job_type="feats"):
@@ -252,8 +257,13 @@ def feats_block_budget(cfg, system_text=None, template_text=None):
         except Exception:
             template_text = ""
     sys_used = system_for("feats", system_text)
+    # The job overhead is CONTENT, not scaffolding -- the source name, the chapter label, the
+    # page span, the ceiling entity -- so it is subtracted from the content budget, where it is
+    # charged at CHARS_PER_TOKEN. Folded into `scaffold_chars` it was converted at the measured
+    # PROSE ratio instead, booking 2,000 chars of proper nouns as 500 tokens when they cost
+    # ~667: a third of its true price, missing from the budget in the widening direction.
     room = content_budget_chars(
-        cfg, scaffold_chars(sys_used, template_text) + JOB_OVERHEAD_CHARS, "feats")
+        cfg, scaffold_chars(sys_used, template_text), "feats") - JOB_OVERHEAD_CHARS
     return int(room / METADATA_INFLATION)
 
 

@@ -71,8 +71,15 @@ CLASSES = [
     ("city",    10000, 10 ** 9, "city"),
 ]
 
-# Which of Watabou's two generators a settlement belongs in. Recorded for reference only --
-# Azgaar performs the hand-off itself and is the authority on which one opens.
+# Which of Watabou's two generators a settlement belongs in, spelled out for a human reader.
+# The burg RECORD carries the terse key ("city"/"village") and not these strings, deliberately:
+# that key is CLASSES' own fourth column and verify_math §17 pins it --
+#     check("small settlements route to the village generator", BG.classify(60)[1], "village")
+# -- so widening what `classify()` returns would break a published check for a cosmetic gain.
+# This dict is therefore the DISPLAY spelling, used where a person reads the output rather than
+# a program; six audit sweeps in a row read it as dead code because nothing consumed it, so it
+# is now wired into the sample table below, which is the only place the long form belongs.
+# Azgaar performs the hand-off itself and remains the authority on which generator opens.
 GENERATORS = {"city": "Watabou city generator", "village": "Watabou village generator"}
 
 
@@ -217,17 +224,29 @@ def main():
     print(f"{'rank':>5}{'population':>12}{'class':>10}   {'flags':<22}generator")
     for b in per_world[w0["designation"]][:args.limit]:
         flags = ",".join(f for f in ("coast", "port", "river") if b[f]) or "inland"
-        print(f"{b['rank']:>5}{b['population']:>12,}{b['class']:>10}   {flags:<22}{b['generator']}")
+        gen = GENERATORS.get(b["generator"], b["generator"])   # long form for the reader only
+        print(f"{b['rank']:>5}{b['population']:>12,}{b['class']:>10}   {flags:<22}{gen}")
     print()
     print("   largest, via Azgaar's own burg link (it makes the Watabou hand-off itself):")
     print(f"   {burg_link(AS.map_seed(w0['seed']), 1)}")
 
     if args.write:
+        # THE MESSAGE USED TO CONTRADICT THE WRITE ABOVE IT. An earlier design truncated this
+        # artifact at fifty worlds; the Hard Rule 0 fix removed the truncation from the code
+        # (`worlds = WS.build_all()`, and no slicing anywhere between there and the dump) but
+        # left the console line saying "sample of 50 worlds; the rest regenerate on demand".
+        # Six audit sweeps running (22, 23, 26, 27, 28, 33) re-filed that line as a defect,
+        # because an operator reading only the printed output would believe the file was a
+        # fifty-world excerpt and might re-run for coverage it already has. The count is now
+        # taken from the dict that was actually written, so the message cannot drift again.
+        # The FILENAME still says SAMPLE and is left alone on purpose: renaming an on-disk
+        # artifact is a curatorial call, not a maintenance one.
         p = os.path.join(HERE, "data", "BURGS_SAMPLE.json")
         with open(p, "w", encoding="utf-8") as f:
             json.dump(per_world, f, indent=2,          # every world; Hard Rule 0
                       ensure_ascii=False)
-        print(f"\nwrote {p} (sample of 50 worlds; the rest regenerate on demand)")
+        print(f"\nwrote {p} ({len(per_world):,} worlds — every one, Hard Rule 0; "
+              f"the SAMPLE in the filename is historical)")
     return 0
 
 

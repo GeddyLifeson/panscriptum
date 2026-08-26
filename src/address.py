@@ -91,12 +91,38 @@ def spine_code_for(source_name: str) -> str:
     def _worded(n):
         return " " + " ".join(re.findall(r"[a-z0-9]+", n.lower())) + " "
 
+    # MOST SPECIFIC WINS, NOT FIRST-IN-FILE. This loop used to `return code` on the first index
+    # entry whose worded form contained the target or was contained by it, so the winner was
+    # decided by the order the Acquisitions Index happens to be written in rather than by the
+    # weight of the evidence. The word-boundary fix above stopped "dc" matching inside
+    # "swor-d-c-oast", but it did not stop the two-letter index entry "DC" (-> II.D.2) from
+    # matching a genuine standalone word "DC" anywhere in a much longer title and returning
+    # before the loop ever reached the correct, more specific entry sitting later in the same
+    # dict:
+    #     Sword Coast Adventurer's Guide DC Edition Reprint -> II.D.2   (DC Comics)
+    # while "Sword Coast Adventurer's Guide" is itself an index entry mapped to II.L.7. A D&D
+    # sourcebook shelved inside DC Comics' spine is the invented address Hard Rule 2 forbids,
+    # and it does the same second harm the note above describes: a source that matches WRONG
+    # never reaches `unassigned_sources.md`, so the owner sign-off that would have caught it is
+    # never asked for.
+    #
+    # Since one side of a containment match IS the other's substring, the shorter of the two
+    # worded strings is exactly the matched text, and its length is exactly how much evidence
+    # the match rests on. Scoring every candidate by that and keeping the largest picks the
+    # most specific entry; `>` rather than `>=` leaves ties resolving in index order, so a tie
+    # behaves as it always did. (Verified against all 215 roll entries and all 220 index names
+    # before and after: no assignment changed.)
     w_target = _worded(source_name)
     if w_target.strip():
+        best_code, best_evidence = None, 0
         for name, code in codes.items():
             w_name = _worded(name)
             if w_target in w_name or w_name in w_target:
-                return code
+                evidence = min(len(w_target), len(w_name))
+                if evidence > best_evidence:
+                    best_code, best_evidence = code, evidence
+        if best_code is not None:
+            return best_code
 
     # word-order-independent fallback (handles "all Black Ops" vs "Black Ops (all)")
     target_tokens = _token_set(source_name)
@@ -150,7 +176,7 @@ FEATS_LABEL = "Feats & Attested Deeds (quoted feats mined from the source's own 
 MECHANICAL_MODES = {"folder-mechanical"}
 
 
-def chapter_label_for(category_label: str, mode: str = None) -> str:
+def chapter_label_for(category_label: str, mode: str | None = None) -> str:
     """Which chapter an entry's category belongs to, given the SOURCE it came from.
 
     THE PROBLEM THIS SOLVES. The entrypass classifier can emit seven categories, and
@@ -179,10 +205,16 @@ def chapter_slug(category_label: str) -> str:
     return CHAPTER_SLUGS.get(category_label, slugify(category_label))
 
 
-def build_address(source_name: str, chapter_label: str, page_range: str = None) -> str:
+def build_address(source_name: str, chapter_label: str, page_range: str | None = None) -> str:
     """
     The address used for generated chapter files: <SpineCode>/<Chapter>[#PageRange]
     e.g. II.A.3/Persons#1-30  (One Piece, Persons chapter, entries 1-30)
+
+    `page_range` and `chapter_label_for`'s `mode` are spelled `str | None` rather than the bare
+    `str` they carried before: both default to None and both are called with None in the tree, so
+    the bare annotation stated a contract the callers do not keep. PEP 484 removed the implicit
+    Optional, and an annotation that lies is worse than none at all. Defaults and behaviour are
+    untouched -- this is the type talking, not the code.
     """
     spine = spine_code_for(source_name)
     volume = chapter_slug(chapter_label)
