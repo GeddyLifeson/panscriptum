@@ -546,10 +546,32 @@ _PERMANENT_WORDS = (
     "payment required", "payment_required", "needs billing", "depleted",
     "check your subscription", "positive balance", "monthly included credits",
     "api calls / month", "api calls/month",
+    # ADDED 2026-08-26 after probing every provider for a real completion. Each of these is a
+    # verbatim fragment of a refusal this pool actually received, and each slipped through:
+    #   chutes  "Quota exceeded and account balance is $0.0, please pay with fiat or send tao"
+    #   deepinfra "You need positive balance... Please add balance manually or setup top-up"
+    # `quota exceeded` ALONE is deliberately NOT here -- on most providers that is a daily
+    # cooldown, which the owner's ruling says to keep. It is the BALANCE half that makes it
+    # permanent, so the balance half is what gets matched.
+    "account balance is $0", "balance is $0", "add balance", "setup top-up", "set up top-up",
+    "subscription has ended", "subscription expired", "billing tab", "purchase pre-paid",
 )
 # Word boundaries, for m103's reason: a bare `"403" in err` also matches the 403 inside a
 # request id like `req_4403abc`, and the penalty for a false positive is four hours of bench.
-_PERMANENT_CODES = re.compile(r"\b(401|402|403)\b")
+# 403 IS NOT AN ACCOUNT FAULT BY ITSELF, and treating it as one benched a working provider.
+# Measured 2026-08-26: `groq` and `cerebras` both answered `HTTP 403 error code: 1010` to a
+# completion request. That is CLOUDFLARE rejecting the CLIENT, not the provider rejecting the
+# account -- 1010 is its browser-integrity code. Sending a real User-Agent turned groq's 403
+# straight into a 200 and cerebras's into a truthful 402. This project already carries the same
+# scar from the other side of the fence: `verify_math` section 19aa records MediaWiki answering
+# 403 to `Python-urllib/3.13` and 200 to the project's own UA.
+#
+# So a BARE 403 is no longer permanent; it needs corroborating words. The thing a 403 most often
+# means here is fixable on this side, and benching hides that for four hours.
+_PERMANENT_CODES = re.compile(r"\b(401|402)\b")
+# A WAF turning the client away. Never an account fault, whatever status code it wears.
+_CLIENT_REJECTION = re.compile(r"error code:\s*10\d\d|cloudflare|browser integrity|"
+                               r"just a moment|attention required")
 
 
 def permanent_refusal(err):
@@ -558,9 +580,19 @@ def permanent_refusal(err):
     Checked BEFORE `named_transient`, so a billing complaint that also says "try again" is
     still benched. `local_transport` wins over everything: a curl failure on this machine is
     not evidence about the provider's account, whatever words happen to be in the buffer.
+
+    OWNER RULING 2026-08-26: "if something runs out and is on cooldown, fine; if something runs
+    out and requires payment after running out, axe it." That is exactly the line this function
+    draws. A 429 is a cooldown and stays in the pool. A 402 -- payment required, insufficient
+    balance, depleted credits -- is PERMANENT, because the remedy is money and the answer to
+    money is no. Nothing here may treat a 402 as something to retry into.
     """
     e = (err or "").lower()
     if not e or local_transport(e):
+        return False
+    # A WAF turning us away is evidence about the REQUEST, not the provider -- the same reason
+    # `local_transport` wins above.
+    if _CLIENT_REJECTION.search(e):
         return False
     return bool(_PERMANENT_CODES.search(e)) or any(w in e for w in _PERMANENT_WORDS)
 

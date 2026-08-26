@@ -2678,6 +2678,68 @@ def _twins_ignores_a_foreign_tree():
         shutil.rmtree(d, ignore_errors=True)
 
 
+def drill_no_top_ups():
+    """OWNER RULING 2026-08-26: cooldown is fine; pay-to-continue is axed.
+
+    "if something runs out and is on cooldown, fine, if something runs out and requires payment
+    after running out, axe it." The whole ruling turns on one distinction, so the distinction is
+    what gets attacked here rather than the list of providers it happened to produce today.
+
+    Both directions cost something real. Reading a 429 as permanent benches a provider that
+    would have come back in an hour; reading a 402 as transient spends the pool's permits
+    forever on a door that money is the only key to, and the answer to money is no.
+    """
+    a = "NO TOP-UPS — a cooldown is not a bill"
+
+    def payment_refusals_are_permanent():
+        import cascade_bridge as CB
+        for e in ("HTTP 402 payment required",
+                  "quota exceeded and account balance is $0.0, please pay with fiat",
+                  "you have depleted your monthly included credits. purchase pre-paid credits",
+                  "you need positive balance to do inference. please add balance or setup top-up",
+                  "payment required to access this resource. visit your billing tab"):
+            if not CB.permanent_refusal(e):
+                return False
+        return True
+    net(a, "a provider that wants money is axed, not retried", payment_refusals_are_permanent,
+        "the remedy is money and the owner's answer to money is no")
+
+    def cooldowns_stay_in_the_pool():
+        import cascade_bridge as CB
+        for e in ("HTTP 429 rate limit reached",
+                  "429 free-models-per-day rate limit exceeded",
+                  "rate limit exceeded, retry after 60s",
+                  "quota exceeded, resets at midnight UTC"):
+            if CB.permanent_refusal(e):
+                return False
+        return True
+    net(a, "a provider on cooldown is kept, not axed", cooldowns_stay_in_the_pool,
+        "benching a 429 throws away a provider that returns within the hour")
+
+    def a_waf_rejection_is_not_an_account_fault():
+        """MEASURED, not assumed. groq and cerebras both answered `403 error code: 1010` -- a
+        Cloudflare browser-integrity refusal. A real User-Agent turned groq's into a 200. Had
+        that been read as permanent, the fastest working provider in the pool would have been
+        benched for a fault that was on this side of the wire."""
+        import cascade_bridge as CB
+        return (not CB.permanent_refusal("HTTP 403 error code: 1010")
+                and not CB.permanent_refusal("403 Just a Moment... cloudflare"))
+    net(a, "a Cloudflare rejection is read as our problem, not the provider's",
+        a_waf_rejection_is_not_an_account_fault,
+        "1010 is a client-fingerprint refusal; a real UA fixed it outright")
+
+    def paid_access_stays_switched_off():
+        import json as _j
+        try:
+            with open(r"C:\\Users\\imarl\\cascade\\config.json", encoding="utf-8") as fh:
+                cfg = _j.load(fh)
+        except Exception:
+            return True          # not this machine; the ruling is still recorded in the config
+        return cfg.get("allow_paid") is False
+    net(a, "the cascade never switches paid access on", paid_access_stays_switched_off,
+        "allow_paid is owner-held; anything that flips it is a bug")
+
+
 def drill_probe_honesty():
     """A probe that could not run must not be counted as a probe that passed.
 
@@ -3713,7 +3775,7 @@ def main():
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_done_keys, drill_profile,
                drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
-               drill_workorders, drill_inspector, drill_probe_honesty, drill_rung_four, drill_codewatch, drill_scout,
+               drill_workorders, drill_inspector, drill_no_top_ups, drill_probe_honesty, drill_rung_four, drill_codewatch, drill_scout,
                drill_defect_classes, drill_mutation,
                drill_scope, drill_correlation,
                drill_outside):
