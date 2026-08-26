@@ -238,25 +238,42 @@ def _mutations(tree, text):
 
 # --------------------------------------------------------------------------- running them
 
-def _gate_passes(name, cmd, timeout=1200, env=None, cwd=None):
+def _gate_result(name, cmd, timeout=1200, env=None, cwd=None):
+    """Run one gate and return a SIGNATURE of what it said. -> (signature, detail).
+
+    A SIGNATURE, NOT A BOOLEAN, and this is the correction for the failure that made the first
+    real mutation run worthless. The original returned pass/fail, and a mutant was "killed" by
+    any failure at all -- so when `verify_math` was reporting one honest pre-existing red about
+    sweep coverage, all 146 mutants died at that gate for a reason unrelated to any mutation,
+    and the report would have read `146 killed, 0 survived`. A flawless score from a test that
+    never tested anything.
+
+    Requiring a green tree first was the obvious fix and it is the wrong one: this project has a
+    standing honest red almost every day (a new module the sweep has not read yet), so "green or
+    refuse" means "never runs", and a check that never runs is the thing this module exists to
+    find.
+
+    So a mutant is judged DIFFERENTIALLY -- killed if it makes a gate say something DIFFERENT
+    from what that gate says about unmutated code. A pre-existing failure is present in the
+    baseline signature too, so it cancels out and stops mattering.
+    """
     try:
         r = subprocess.run(cmd, cwd=(cwd or HERE), capture_output=True, text=True,
                            creationflags=_NO_WIN, timeout=timeout, env=env)
     except subprocess.TimeoutExpired:
-        return False, "timeout"
+        return "TIMEOUT", "timeout"
     except Exception as e:
-        return False, type(e).__name__
+        return "ERROR:" + type(e).__name__, type(e).__name__
     out = (r.stdout or "") + (r.stderr or "")
-    if r.returncode != 0:
-        return False, "exit %d" % r.returncode
-    # A zero exit is not the same as a clean run for these two: both report their failures on
-    # stdout and still exit 0 in some paths. Reading the words the report uses is what a person
-    # would do, and it is what the maintenance prompt tells a person to do.
-    if name == "verify_math" and "0 FAILED" not in out:
-        return False, "verify_math reported failures"
-    if name == "drill" and "0 BREACHED" not in out:
-        return False, "drill reported a breach"
-    return True, "clean"
+    # The signature is the exit code plus the COUNT LINE each tool prints -- not the whole
+    # output, which carries timings and paths that differ run to run and would make every
+    # mutant look different from the baseline.
+    marks = []
+    for line in out.splitlines():
+        t = line.strip()
+        if t.startswith("RESULT:") or t.startswith("DRILL:"):
+            marks.append(t)
+    return "rc=%d|%s" % (r.returncode, " ".join(marks)), (marks[0] if marks else "rc=%d" % r.returncode)
 
 
 def verify_restore(path):
@@ -368,26 +385,34 @@ def sandbox():
 
 
 def baseline(root, gates=GATES):
-    """Do the gates pass on UNMUTATED code? -> (bool, [(gate, why)]).
+    """What does each gate say about UNMUTATED code? -> {gate: signature}.
 
-    THE CHECK THAT MAKES EVERY OTHER RESULT MEAN ANYTHING, and its absence produced a run that
-    looked perfect and was worthless. `verify_math` was reporting `795 passed, 1 FAILED` --
-    an honest red about sweep coverage, nothing to do with any mutation -- so **every mutant
-    died at the same gate for the same unrelated reason.** 146 mutants, 146 kills, zero
-    survivors: the best possible score, meaning nothing at all.
+    This is the reference every mutant is compared against. It does NOT require the tree to be
+    green -- see `_gate_result` for why demanding green would mean never running at all. It only
+    requires the gates to be REPRODUCIBLE: a gate whose signature changes between two clean runs
+    is a gate that cannot judge anything, and `flaky_gates()` finds those before they produce
+    imaginary survivors.
+    """
+    return {name: _gate_result(name, cmd, cwd=root)[0] for name, cmd in gates}
 
-    A mutant killed by a pre-existing failure is not a mutant killed. If the baseline is not
-    clean, the honest output is a refusal, not a number.
+
+def flaky_gates(root, base, gates=GATES):
+    """Run the gates a second time on clean code and report any that disagree with themselves.
+
+    A FLAKY GATE INVENTS RESULTS IN BOTH DIRECTIONS. If it differs from its own baseline at
+    random, every mutant it judges is a coin flip: some survive that should have died, some die
+    that should have survived, and the report looks exactly as confident either way. Cheap to
+    check once, and impossible to reason about afterwards if you do not.
     """
     bad = []
     for name, cmd in gates:
-        ok, why = _gate_passes(name, cmd, cwd=root)
-        if not ok:
-            bad.append((name, why))
-    return (not bad), bad
+        sig = _gate_result(name, cmd, cwd=root)[0]
+        if sig != base.get(name):
+            bad.append((name, base.get(name), sig))
+    return bad
 
 
-def run(target, limit=None, gates=GATES, root=None, keep=False):
+def run(target, limit=None, gates=GATES, root=None, keep=False, base=None):
     """Mutate one module IN A SANDBOX and report which mutants survived. -> dict."""
     own_sandbox = root is None
     root = root or sandbox()
@@ -421,8 +446,10 @@ def run(target, limit=None, gates=GATES, root=None, keep=False):
                 _write(path, "".join(mutated).encode("utf-8"))
                 died_at = None
                 for gname, cmd in gates:
-                    ok, why = _gate_passes(gname, cmd, cwd=root)
-                    if not ok:
+                    sig, why = _gate_result(gname, cmd, cwd=root)
+                    # DIFFERENT from clean, not merely failing. A gate that was already red on
+                    # unmutated code stays red here and correctly kills nothing.
+                    if sig != base.get(gname):
                         died_at = "%s (%s)" % (gname, why)
                         break
                 if died_at:
