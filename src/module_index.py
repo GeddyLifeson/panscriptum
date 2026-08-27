@@ -9,10 +9,11 @@ read of one page instead of a walk through every header in `src/`. Generated, ne
 strategy.
 
 NO COUNT IS WRITTEN DOWN HERE, deliberately. These two paragraphs used to say "the 87 modules"
-and "eighty-seven headers"; `src/` holds 113 today, and the docstring of the module whose entire
-argument is that hand-kept copies drift had drifted by twenty-six. The count the page reports is
-computed live from `glob.glob` at every run, so the only honest thing to put in prose is that
-there is one.
+and "eighty-seven headers"; by the time anyone noticed, the docstring of the module whose entire
+argument is that hand-kept copies drift had drifted by twenty-six from whatever `src/` held that
+day. The count the page reports is computed live from `glob.glob` at every run, so the only
+honest thing to put in prose is that there is one -- never the number itself, which would just
+be this paragraph's mistake again with a fresher label.
 
     python src/module_index.py            # regenerate the page
 """
@@ -93,7 +94,7 @@ def main():
         f.write("\n".join(lines))
     # And the verdict is CHECKED. `replace_retry` returns False rather than raising when the
     # rename is denied for all its attempts -- on Windows an open handle IS a denied rename --
-    # and a generator that reports "113 modules -> handoff/MODULE_INDEX.md" and exits 0 while
+    # and a generator that reports "N modules -> handoff/MODULE_INDEX.md" and exits 0 while
     # the file on disk is still last month's map is worse than one that fails loudly.
     if not silence.replace_retry(tmp, OUT):
         sys.stderr.write("module_index: built %d module(s) but the write to %s was DENIED (a "

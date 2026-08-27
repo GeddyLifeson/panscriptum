@@ -294,6 +294,19 @@ def resolve_wiki(source_name):
         known = None
     if isinstance(known, str) and known.endswith(".fandom.com"):
         cands.append(known[: -len(".fandom.com")])
+    elif isinstance(known, str) and source_name not in WIKI_OVERRIDES:
+        # Order e86eec8ac173: `known` here is a STRING the library already resolved -- just not
+        # a fandom one (en.wikipedia.org, www.dandwiki.com, rimworldwiki.com, or one of
+        # scout.py's "pages:"/"doc:" markers; 39 of 203 recorded hosts on a 2026-08 count). This
+        # function can only ever confirm a FANDOM wiki -- `_api` above hardcodes the fandom.com
+        # host -- so falling through past a known non-fandom host used to spend
+        # `subdomain_candidates()` guesses and a verification fetch per guess against
+        # fandom.com FOR A SOURCE THE LIBRARY ALREADY KNOWS IS NOT THERE. Worse than wasted:
+        # this machine is IP-banned from fandom.com, so those were requests spent against the
+        # one host that cannot afford them. A source with a hardcoded WIKI_OVERRIDES entry
+        # still gets to use it below -- that is deliberate curation, not a guess.
+        silence.note("wiki_source.py:non-fandom-known-host")
+        return None, None
     if source_name in WIKI_OVERRIDES:
         cands.append(WIKI_OVERRIDES[source_name])
     cands += [c for c in subdomain_candidates(source_name) if c not in cands]

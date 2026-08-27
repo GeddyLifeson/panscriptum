@@ -122,18 +122,29 @@ def clear_learned_caps():
     something is generating 429 storms; this clears the damage either way.
     """
     n = 0
+    unreadable = []
     for db in (os.path.join(HERE, "state", "cascade_scratch.db"),
                os.path.join(os.path.expanduser("~"), "cascade", "data.db")):
         if not os.path.exists(db):
             continue
         try:
             c = sqlite3.connect(db)
-            n += c.execute("update bucket_state set learned=NULL "
-                           "where learned like '%\"rpm\": 1%' or learned like '%\"rpm\":1%'"
-                           ).rowcount
-            c.commit()
+            try:
+                n += c.execute("update bucket_state set learned=NULL "
+                               "where learned like '%\"rpm\": 1%' or learned like '%\"rpm\":1%'"
+                               ).rowcount
+                c.commit()
+            finally:
+                c.close()
         except Exception:
             silence.note("foreman.py:clear_learned_caps")
+            unreadable.append(os.path.basename(db))
+    if unreadable:
+        # NOT the same sentence as the healthy zero. A db that could not even be opened is
+        # not evidence there was nothing pinned -- it is evidence nobody looked.
+        return False, (f"cleared {n} bucket(s) pinned at one request per minute; "
+                        f"{len(unreadable)} database(s) could not be read ({', '.join(unreadable)}) "
+                        "-- unknown whether they still hold stale caps")
     return bool(n), f"cleared {n} bucket(s) pinned at one request per minute"
 
 

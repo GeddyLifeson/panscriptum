@@ -288,14 +288,13 @@ function draw(){
     const fs = 72;
     const room = (p.a1-p.a0)*p.r >= fs*1.15;
     if(p.depth===2 && room){
-      const rim=false, nm=(p.node.name||k).slice(0,22);
+      const nm=(p.node.name||k).slice(0,22);
       const lr = p.r+dotR(p.depth)+16;
       const lx=CX+lr*Math.cos(p.ang), ly=CY+lr*Math.sin(p.ang);
       const deg=p.ang*180/Math.PI, flip=(deg>90||deg<-90);
       s+=`<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${flip?'end':'start'}" `
        + `transform="rotate(${flip?deg+180:deg} ${lx.toFixed(1)} ${ly.toFixed(1)})" `
-       + `fill="${col}" font-family="${css('--serif')}" font-size="${fs}" `
-       + `letter-spacing="${rim?4:0}">${esc(nm)}</text>`;
+       + `fill="${col}" font-family="${css('--serif')}" font-size="${fs}">${esc(nm)}</text>`;
     }
   });
 

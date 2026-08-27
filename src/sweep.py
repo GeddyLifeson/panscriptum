@@ -193,12 +193,12 @@ def report(rows, top=18):
     for k in ("catalogued", "addressed", "reachable", "read", "evidenced", "assayable"):
         drop = prev - f[k]
         bar = "#" * int(38 * f[k] / max(n, 1))
-        print(f"  {k:<12}{f[k]:>9,}{f[k]/n:>8.1%}  {bar}"
+        print(f"  {k:<12}{f[k]:>9,}{f[k]/max(n, 1):>8.1%}  {bar}"
               + (f"   -{drop:,}" if drop else ""))
         prev = f[k]
-    print(f"\n  {'ranked':<12}{f['ranked']:>9,}{f['ranked']/n:>8.1%}   "
+    print(f"\n  {'ranked':<12}{f['ranked']:>9,}{f['ranked']/max(n, 1):>8.1%}   "
           f"(own fiction publishes a scale position)")
-    print(f"  {'banded':<12}{f['banded']:>9,}{f['banded']/n:>8.1%}   "
+    print(f"  {'banded':<12}{f['banded']:>9,}{f['banded']/max(n, 1):>8.1%}   "
           f"(carries a Magnitude today)")
 
     print("\nAXES EVIDENCED PER CHARACTER")

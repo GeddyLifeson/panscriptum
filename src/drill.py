@@ -120,6 +120,34 @@ def _refuses(fn, exc):
         return True
 
 
+def _sweep_probe_litter(subsystem, site):
+    """Close the work orders a synthetic subsystem probe just filed. -> None.
+
+    `stop_subsystem` and `resume_subsystem` each `escalate()`, and an escalation FILES A REAL
+    WORK ORDER. The rung-4 probes released the synthetic subsystem they created but never the
+    orders, so every battery run left two more behind: at the time this was written the queue
+    held SUBSYSTEM_STOPPED for `__drill_rung4__` and `__drill_rung4b__` at MAJOR, addressed to
+    RUN, `seen 15x`, beside their matching SUBSYSTEM_RESUMED pair -- six pieces of permanent
+    decoration describing subsystems that have never existed. A queue with permanent decoration
+    in it is a queue people stop reading, which is the failure mode this whole ladder exists to
+    avoid.
+
+    The DRILL_AREA and blast-cap probes have kept this discipline for some time; the rung-4
+    pair simply never had it. Resolved by identity (code + subject), so this closes exactly the
+    orders this probe filed and nothing else. A cleanup that fails is RECORDED rather than
+    swallowed, for the same reason it is next door: a silently failed cleanup produces exactly
+    the litter the cleanup exists to prevent, and leaves nobody a way to find out why.
+    """
+    try:
+        import workorders as WO
+        for code in ("SUBSYSTEM_STOPPED", "SUBSYSTEM_RESUMED"):
+            WO.resolve_code(code, "drill self-test on a synthetic subsystem; not a real fault",
+                            where=subsystem, by="drill.py")
+    except Exception:
+        import silence as _s
+        _s.note("drill.py:%s-order-cleanup" % site)
+
+
 def _quiet(mod):
     """A stand-in for `silence` whose `note()` goes nowhere, for nets that drive real phases.
 
@@ -3016,6 +3044,7 @@ def drill_rung_four():
             except Exception:
                 import silence as _s
                 _s.note("drill.py:rung4-cleanup")
+            _sweep_probe_litter(name, "rung4")
     net(a, "a MANAGER stop is recorded where another process can read it",
         a_stop_is_written_down_and_readable,
         "a stop only the stopping process knows about lasted 25 minutes and lost 26 records")
@@ -3036,6 +3065,7 @@ def drill_rung_four():
             except Exception:
                 import silence as _s
                 _s.note("drill.py:rung4b-cleanup")
+            _sweep_probe_litter(name, "rung4b")
     net(a, "re-opening a stopped subsystem demands a written ruling",
         resuming_demands_a_written_ruling,
         "the thing that undid the last stop was an automated actor with a restart timer")

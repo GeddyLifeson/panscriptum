@@ -371,7 +371,7 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
                 "page_range": f"block {bi} of {len(blocks)}" if multi else None,
                 "entities": slim,
                 "source_context": ctx,
-                "content_hash": content_hash({"entities": slim}),
+                "content_hash": content_hash({"entities": slim, "context": ctx}),
             })
     return jobs
 
@@ -459,8 +459,7 @@ def main():
     out_key = "pilot_manifest" if args.pilot else "manifest"
     out_path = os.path.join(HERE, cfg["paths"][out_key])
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump({"jobs": all_jobs}, f, indent=2)
+    silence.write_json(out_path, {"jobs": all_jobs}, indent=2)
 
     print(f"Wrote {len(all_jobs)} jobs from {len(build_pool)} sources -> {out_path}")
     if missing_records:

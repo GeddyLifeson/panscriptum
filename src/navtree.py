@@ -27,10 +27,10 @@ import argparse
 import json
 import os
 import sys
-import silence
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silence
 
 TIERS = ("hyperverse", "xenoverse", "metaverse", "multiverse", "universe")
 OUT = os.path.join(HERE, "data", "NAVTREE.json")
@@ -256,8 +256,17 @@ def main():
 
     problems = audit(data)
     print(f"\nAUDIT: {len(problems)} problems")
-    for p in problems[:6]:
+    for p in problems:
         print("   " + p)
+
+    # HARD RULE 0: rank, don't truncate. The console list above is now complete, and this is
+    # the ONE other place a problem can be found -- printed output that scrolls off is a
+    # finding that exists nowhere, so every run overwrites the record with the current truth
+    # (including clearing it to an empty list once the tree is clean again).
+    audit_out = os.path.join(HERE, "state", "NAVTREE_AUDIT.json")
+    silence.write_json(audit_out, {"count": len(problems), "problems": problems}, indent=2, ensure_ascii=False)
+    if problems:
+        print(f"\n{len(problems)} problem(s) recorded to {audit_out}")
 
     if args.write and not problems:
         # ATOMIC. This site had no temp-file staging at all -- not even the bare

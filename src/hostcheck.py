@@ -707,8 +707,13 @@ def purge(dry=True, only=None):
                 # file unparseable, which would lose the entries AND the purge note together.
                 _land(fp, r, sort_keys=False, ensure_ascii=False)
         # the caches those entries wrote
+        # Order 5159320dd758: this hand-spelled cachekey.host_dir()'s own formula instead of
+        # calling it -- the exact "four independent copies of one convention" cachekey.py's own
+        # docstring says drift, in a module that already imports cachekey for `load()` above. If
+        # HOST_CAP or the sanitiser regex ever moves, a hand-spelled copy here keeps the OLD
+        # answer and this purge silently deletes nothing from the actual cache directories.
         for base in ("feats", "readfeats"):
-            d = os.path.join(HERE, "data", base, re.sub(r"[^A-Za-z0-9]+", "_", mined)[:40])
+            d = os.path.join(HERE, "data", base, cachekey.host_dir(mined))
             if not os.path.isdir(d):
                 continue
             for fp in glob.glob(os.path.join(d, "*.json")):

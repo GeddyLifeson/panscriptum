@@ -97,10 +97,10 @@ import collections
 import json
 import os
 import sys
-import silence
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silence
 
 # Cuts, taken at the plateaus measured on the resonance graph. Each is the WEAKEST connective
 # evidence that still counts as a join at that tier.
@@ -308,7 +308,7 @@ def main():
     unaddressed = [s for s in srcs if s not in linked]
     print(f"\nhyperverse: DECLINED for all {len(srcs)} shelves — uncharted by cause, not omission")
     print(f"unaddressed (share no entity with anything at all): {len(unaddressed)}")
-    for s in unaddressed[:6]:
+    for s in unaddressed:
         print(f"   {s}")
 
     print("\n" + "-" * 96)

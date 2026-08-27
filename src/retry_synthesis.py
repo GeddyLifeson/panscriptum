@@ -139,7 +139,7 @@ def do_merge():
     if not side:
         print("nothing to merge")
         return 0
-    merged = skipped = 0
+    merged = skipped = denied = 0
     for path, rec in PL.records():
         src = rec["source"]
         if src not in side:
@@ -162,10 +162,11 @@ def do_merge():
         if not PL.write_record(path, rec):
             print("  MERGE DENIED  %s -- record left as it was on disk; rerun the merge"
                   % src, flush=True)
-            skipped += 1
+            denied += 1
             continue
         merged += 1
-    print(f"merged {merged}, skipped {skipped} (already had synthesis)")
+    print(f"merged {merged}, skipped {skipped} (already had synthesis), "
+          f"{denied} denied (write refused -- rerun the merge)")
     return 0
 
 

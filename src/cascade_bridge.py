@@ -16,8 +16,18 @@ TWO THINGS THIS HAS TO GET RIGHT
 --------------------------------
 STRUCTURED OUTPUT. The local path uses Ollama's `format` parameter, which constrains generation
 to a JSON schema. Cloud endpoints do not all offer that, so the schema is carried in the prompt
-and the reply is parsed and VALIDATED here. A reply that does not validate is a failure, not a
-result -- which is the rule this project keeps having to relearn.
+as a REQUEST, and `_extract_json` PARSES what comes back -- it confirms the reply is JSON, not
+that it matches the schema it was asked for. A cloud model can return perfectly well-formed JSON
+of entirely the wrong shape and this layer has no way to tell, because it does not know what any
+particular caller's schema means: whether a given key is required, what a valid value for it
+looks like, or which shapes are unusable are all questions specific to the call, not to the
+transport. That judgment is therefore made one level up, per call site, by whoever holds the
+schema's actual meaning -- `pipeline._pool_answer_usable` and the `accept` predicate passed to
+`ask_pool_first` are where a cloud answer that parsed but does not deserve to be used gets
+rejected and the call retried against the local arm. (Fixed run35, batch 6 -- this docstring
+used to claim the validating happened here; it does not, and the module stays a generic
+multi-provider transport rather than one that would need every caller's schema semantics baked
+into it to keep the old claim true.)
 
 PROVENANCE. Every feat is verified verbatim against the page it came from, and that check does
 not care which model produced the sentence. So a cloud model cannot introduce a class of error

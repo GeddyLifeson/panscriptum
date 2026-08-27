@@ -230,7 +230,13 @@ def release(agent, path=GUARD, note=None):
     Returns True if the closure landed. A run that has lost the guard must NOT stamp
     `done: true` on the record of whoever holds it now -- that would hand a live run's guard
     away to the next comer, which is the m27 failure pointed the other way.
+
+    DIGEST BEFORE READ, same as `beat()` and for the identical reason: without the
+    compare-and-swap, a successor's claim landing between our read and our write would be
+    overwritten by us re-stamping OUR OWN stale copy of the record `done: true` on top of it,
+    closing a run we no longer hold ownership of the file for (found run35, batch 6).
     """
+    expected = silence.digest_of(path)
     rec = read(path)
     if rec is None:
         print("runguard: guard record is gone; nothing to release", file=sys.stderr)
@@ -245,7 +251,11 @@ def release(agent, path=GUARD, note=None):
     rec["finished"] = time.time()
     if note:
         rec["note"] = note
-    return _land(rec, path)
+    ok, why = _land_claim(rec, path, expected)
+    if not ok:
+        print("runguard: release CAS refused for %r -- the guard changed underneath us (%s). "
+              "A successor may have claimed it; not overwriting." % (agent, why), file=sys.stderr)
+    return ok
 
 
 def main():

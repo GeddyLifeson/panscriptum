@@ -17,7 +17,7 @@ THE PANSCRIPTUM PROFILE
 
     PS-<address>-<gr><rg>-<lcce>-<band><att>
 
-    address   the 74-bit shelfmark in base32: where the world IS
+    address   the 89-bit shelfmark in base32: where the world IS
     gr rg     genre and naming register: what KIND of story it belongs to
     lcce      landform, climate, condition, era: what the world IS LIKE
     band      Magnitude, 0-A, or 'u' for unassayed
@@ -196,7 +196,14 @@ def main():
     bad = 0
     for r in rows:
         d = decode(r["profile"])
-        if d["address"] != r["address"] or d["profile"] != r["profile"]:
+        # `d["profile"]` is decode()'s own argument echoed back (line 125 above) -- comparing it
+        # to `r["profile"]` compares that string with itself and can never fail. The real
+        # round trip is to RE-ENCODE what decode() extracted and check it reproduces the exact
+        # string, which is the only way genre, register, features, band and attested_axes -- the
+        # five fields decode() touches that nothing was ever checking -- get exercised at all.
+        re_encoded = encode(d["address"], d["genre"], d["register"], d["features"],
+                             d["band"], d["attested_axes"])
+        if d["address"] != r["address"] or re_encoded != r["profile"]:
             bad += 1
     print(f"   {len(rows)-bad:,} of {len(rows):,} round-trip exactly   failures: {bad}")
 

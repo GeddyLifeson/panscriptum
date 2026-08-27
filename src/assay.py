@@ -481,7 +481,7 @@ def _check_scores(scores, weights=None):
             # not a finding about a Measure called ruinn.
             unknown.append(k)
             continue
-        if v is NONE or v in (INAPPLICABLE, UNESTIMABLE) or v is None:
+        if v in (NONE, INAPPLICABLE, UNESTIMABLE) or v is None:
             continue
         if isinstance(v, bool) or not isinstance(v, (int, float)):
             bad.append("%s=%r (not a number)" % (k, v))
@@ -489,13 +489,13 @@ def _check_scores(scores, weights=None):
             bad.append("%s=%r (outside %.1f-%.1f)" % (k, v, AXIS_MIN, AXIS_MAX))
     if bad:
         raise AssayIntegrityError(
-            "axis scores off the scale: " + "; ".join(sorted(bad)[:6])
+            "axis scores off the scale: " + "; ".join(sorted(bad))
             + ". The axis scale is %.1f-%.1f (Charter Part Three). A score outside it is a data "
               "error, not a very strong reading, and it is refused rather than clamped so it "
               "cannot become a plausible number." % (AXIS_MIN, AXIS_MAX))
     if unknown:
         hints = []
-        for k in sorted(unknown)[:6]:
+        for k in sorted(unknown):
             near = difflib.get_close_matches(str(k), sorted(W), n=1, cutoff=0.6)
             hints.append("%r%s" % (k, (" (did you mean %r?)" % near[0]) if near else ""))
         raise AssayIntegrityError(
