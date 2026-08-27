@@ -588,9 +588,37 @@ def sandbox():
     reap_orphans()
     root = tempfile.mkdtemp(prefix="panscriptum_mutate_")
     os.makedirs(os.path.join(root, "src"))
+    # THE COPY IS NOT ATOMIC AGAINST A TREE SOMEBODY IS EDITING. `os.listdir` names the modules
+    # once and each is copied after that, so a file that is renamed, replaced or briefly removed
+    # in between -- which is what a maintenance run repairing `src/` looks like from here -- can
+    # be listed and then not copied. On 2026-08-27 a `--target all` session died four minutes in
+    # with a bare FileNotFoundError on `<sandbox>/src/assay.py`, AFTER the baseline gates had
+    # already run and passed, while several repair agents were editing that very file.
+    #
+    # The crash was not the fault. The fault was that a sandbox missing the module about to be
+    # mutated read as a working sandbox right up until something tried to open the file, so the
+    # failure surfaced far from its cause and looked like a bug in the mutation engine. The
+    # targets are the one thing this sandbox exists to hold, so they are CHECKED here, at the
+    # point where the answer is still cheap and the reason is still legible.
+    missed = []
     for f in os.listdir(SRC):
-        if f.endswith(".py"):
+        if not f.endswith(".py"):
+            continue
+        try:
             shutil.copy2(os.path.join(SRC, f), os.path.join(root, "src", f))
+        except OSError:
+            # A module that vanished mid-copy is recorded, not raised: only the TARGETS are
+            # load-bearing, and a run that can still do its job should not be stopped by an
+            # unrelated file being rewritten a directory away.
+            silence.note("mutate.py:sandbox-copy:" + f)
+            missed.append(f)
+    absent = [t for t in TARGETS if not os.path.isfile(os.path.join(root, "src", t))]
+    if absent:
+        shutil.rmtree(root, ignore_errors=True)
+        raise RuntimeError(
+            "the sandbox is missing %s -- the live tree was being written while it was copied "
+            "(%d module(s) could not be read). Nothing was mutated. Re-run when src/ is not "
+            "being edited." % (", ".join(absent), len(missed) or 1))
     for shared in ("data", "prompts", "reference"):
         src_dir = os.path.join(HERE, shared)
         if os.path.isdir(src_dir):

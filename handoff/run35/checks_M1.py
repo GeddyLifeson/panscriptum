@@ -19,8 +19,12 @@ def check_overnight_watch_report_counts_and_prints_all():
     import inspect
     import overnight as ON
     src = inspect.getsource(ON.watch_report)
-    assert "[:top]" not in src and "[:6]" not in src, \
-        "overnight.watch_report() re-added a cap on the open-findings list"
+    # The fix's own explanatory comment mentions the retired `` `[:top]` `` slice by name, so
+    # the code line is what must be checked, not a bare substring search over the whole source.
+    for_line = [ln for ln in src.splitlines() if ln.strip().startswith("for f in sorted(open_f")]
+    assert for_line, "overnight.watch_report()'s findings loop was not found where expected"
+    assert "[:" not in for_line[0], \
+        "overnight.watch_report() re-added a cap on the open-findings list: %r" % for_line[0]
     assert '"severity") or "").lower() == "high"' in src, \
         "overnight.watch_report()'s sort key must lower() severity, matching the count's compare"
     # simulate the sort the function performs and check a mixed-case "High" survives to the top
@@ -80,13 +84,24 @@ def check_dashboard_tail_match_flags_format_mismatch():
     r_good = D._tail_match(p_good, D.RE_READ, hint="chunks/s")
     assert r_good is not None, "a genuinely well-formed progress line must still match"
     import health
-    tag = "silent:dashboard.py:tail-format-mismatch:%s" % os.path.basename(p_bad)
+    # `silence.note` files under "silent:<site>:<exc-class-or-None>" -- called outside an
+    # except block (as this call site does; see chain.py:write_result-denied and others for the
+    # same established pattern) the class is literally "None". Checked, then IMMEDIATELY
+    # popped back out of the real in-memory health.LEDGER so this check does not leave a test
+    # artifact in the live, shared state/failures.json the moment atexit flushes it.
+    tag = "silent:dashboard.py:tail-format-mismatch:%s:None" % os.path.basename(p_bad)
     before = health.LEDGER.get(tag, 0)
-    r_bad = D._tail_match(p_bad, D.RE_READ, hint="chunks/s")
-    assert r_bad is None, "a line that no longer matches the regex must not fabricate a result"
-    after = health.LEDGER.get(tag, 0)
-    assert after == before + 1, \
-        "a hint-present/regex-absent tail must land one health.LEDGER entry under %r" % tag
+    try:
+        r_bad = D._tail_match(p_bad, D.RE_READ, hint="chunks/s")
+        assert r_bad is None, "a line that no longer matches the regex must not fabricate a result"
+        after = health.LEDGER.get(tag, 0)
+        assert after == before + 1, \
+            "a hint-present/regex-absent tail must land one health.LEDGER entry under %r" % tag
+    finally:
+        if before:
+            health.LEDGER[tag] = before
+        else:
+            health.LEDGER.pop(tag, None)
 
 
 # order d0ff339b7138 -- src/allsweep.py module docstring

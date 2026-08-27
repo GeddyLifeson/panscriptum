@@ -292,17 +292,25 @@ GATE_RECHECK_S = 120
 _GATE_CLOUD = threading.BoundedSemaphore(GATE_CLOUD_N)
 _GATE_LOCAL = threading.BoundedSemaphore(GATE_LOCAL_N)
 _GATE_STATE = {"at": 0.0, "regime": "cloud"}
+# Guards the check-and-set below, same shape as `_TRANSPORT_LOCK` above and for the identical
+# reason `ensure_transport`'s docstring names: the test and the write are not atomic together,
+# so every in-flight worker (up to GATE_CLOUD_N=16) can pass a stale "it's been over 120s" test
+# at once and all call `tuning.regime()` -- reading data/POOL_PROOF.json and querying
+# state/cascade_scratch.db -- simultaneously, on every recheck, for the life of a long run.
+_GATE_LOCK = threading.Lock()
 
 
 def _gate():
     now = time.time()
     if now - _GATE_STATE["at"] > GATE_RECHECK_S:
-        try:
-            import tuning as T
-            _GATE_STATE["regime"] = T.regime()
-        except Exception:
-            silence.note("read.py:gate-regime")
-        _GATE_STATE["at"] = now
+        with _GATE_LOCK:
+            if now - _GATE_STATE["at"] > GATE_RECHECK_S:   # re-check: someone may have won already
+                try:
+                    import tuning as T
+                    _GATE_STATE["regime"] = T.regime()
+                except Exception:
+                    silence.note("read.py:gate-regime")
+                _GATE_STATE["at"] = now
     return _GATE_CLOUD if _GATE_STATE["regime"] == "cloud" else _GATE_LOCAL
 
 
@@ -384,7 +392,7 @@ def _ask_ungated(c, system, prompt, schema):
                     if got is not None:
                         return got
                 except Exception:
-                    silence.note("read.py:188")
+                    silence.note("read.py:ask-quick-pool")
             if _TRANSPORT != "cascade" and _GPU_DOWN_UNTIL[0] <= time.time():
                 got = _local(c, system, prompt, schema)
                 if got is not None:
@@ -401,7 +409,7 @@ def _ask_ungated(c, system, prompt, schema):
                     if got is not None:
                         return got
                 except Exception:
-                    silence.note("read.py:188")
+                    silence.note("read.py:ask-backoff-ladder")
                 delay = BACKOFF[min(attempt, len(BACKOFF) - 1)]
             # Every bucket tried and none answered. Falling through to the GPU is right for
             # auto -- but cascade mode is a promise never to touch the GPU (the check just
@@ -699,16 +707,13 @@ def read_entity(c, host, name, cap_chunks=None):
                 density = sum(ch.lower().count(k) for k in keys)
                 chunks.append((0 if own else 1, -density, title, ch))
 
-    # RANKED AND CAPPED. Filtering by mention took a shared franchise page from 44 chunks to 24,
+    # RANKED, NOT CAPPED. Filtering by mention took a shared franchise page from 44 chunks to 24,
     # which is better and still ruinous: a 430,000-character page names "Metal Gear" on nearly
     # every chunk, so a mention test barely narrows it. What actually separates signal from bulk
     # is DENSITY -- how often this entity is named in this passage -- and the entity's own page,
-    # which is about it by definition.
-    #
-    # The cap is depth, not a compromise on it: an entity's own pages run three to twenty chunks
-    # at 10,000 characters, so twelve covers the whole of most subjects and the densest part of
-    # every shared page. Uncapped, one entity could eat an hour of GPU on a page that names it
-    # twice, and at 35,000 entities that is the difference between a night and a year.
+    # which is about it by definition. Sorting by that puts the richest passages first so an
+    # interrupted run has already read the part of the page that mattered most; see the comment
+    # below for why nothing here truncates the tail (Hard Rule 0).
     chunks.sort()
     # Ranked by how densely the entity is named, so the richest passages are read first if this
     # is interrupted. Not truncated: a cap here decides on the entity's behalf that the rest of
@@ -803,11 +808,14 @@ def read_entity(c, host, name, cap_chunks=None):
     # raised, nothing logged, and the progress line said 9.8 chunks a second.
     if unanswered:
         return out
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
-    silence.replace_retry(tmp, path)
+    # THROUGH `silence.write_json`, not a hand-rolled `path + ".tmp"`: the fixed name is the
+    # exact race `_chunk_put` above was fixed for individually (a pid+thread temp name), left
+    # unfixed here in the migration -- two pool workers landing the same entity's evidence at
+    # once could have the loser's partial file replace the winner's target. The landed verdict
+    # is also no longer discarded: a denied write must not make this cache look complete when
+    # it is not, so a later pass can tell the entity still needs re-caching.
+    if not silence.write_json(path, out, indent=1, ensure_ascii=False):
+        silence.note("read.py:read-entity-write-denied")
     return out
 
 
@@ -924,12 +932,11 @@ def _load_qcache():
 
 
 def _save_qcache(d):
+    # THROUGH `silence.write_json`: the fixed `QCACHE + ".tmp"` this used to build is the same
+    # single-shared-name hazard `_chunk_put` and `read_entity`'s cache write were fixed for --
+    # a second writer of this file collides on the temp file itself, not just the target.
     try:
-        os.makedirs(os.path.dirname(QCACHE), exist_ok=True)
-        tmp = QCACHE + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(d, f)
-        silence.replace_retry(tmp, QCACHE)
+        silence.write_json(QCACHE, d)
     except Exception:
         silence.note("read.py:qcache-save")
 
@@ -995,7 +1002,7 @@ def queue(all_entries=True):
                 with open(path, encoding="utf-8") as fh:
                     ev = json.load(fh)
             except Exception:
-                silence.note("read.py:354")
+                silence.note("read.py:queue-evidence-read")
                 continue
             if not ev.get("text"):
                 qcache[key] = {"mtime": st.st_mtime, "size": st.st_size, "skip": True}
@@ -1032,7 +1039,7 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
         try:
             out = read_entity(c, r["host"], r["name"], cap_chunks=cap_chunks)
         except Exception:
-            silence.note("read.py:379")
+            silence.note("read.py:work-read-entity")
             out = None
         with lock:
             done["n"] += 1

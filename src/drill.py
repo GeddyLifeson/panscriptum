@@ -2205,6 +2205,56 @@ def drill_binding_identity():
             R.ROLL = saved
             shutil.rmtree(tmpdir, ignore_errors=True)
         return untouched and persisted
+    def _sandbox_without_its_target_refuses():
+        """A sandbox missing the module about to be mutated must say so, not crash later.
+
+        On 2026-08-27 a `--target all` session died four minutes in with a bare
+        FileNotFoundError on `<sandbox>/src/assay.py`, AFTER its baseline gates had run and
+        passed, because repair agents were rewriting that file while the sandbox was being
+        copied. The copy is a listdir followed by per-file copies, so a module renamed in
+        between is named and then not copied. The crash was not the fault; the fault was that
+        the sandbox read as sound until something opened the file, so the failure surfaced far
+        from its cause and looked like a bug in the mutation engine.
+
+        Attacked by making the copy itself lose exactly one target -- the real `sandbox()`, with
+        `shutil.copy2` swapped for one that drops `assay.py` -- so the net proves the refusal
+        rather than the message.
+        """
+        import mutate as M
+        real_copy, roots = shutil.copy2, []
+
+        def dropping_copy(src_path, dst_path, *a_, **k_):
+            if os.path.basename(src_path) == "assay.py":
+                return dst_path                      # listed, then quietly not copied
+            return real_copy(src_path, dst_path, *a_, **k_)
+
+        real_mkdtemp = tempfile.mkdtemp
+
+        def remember(*a_, **k_):
+            r = real_mkdtemp(*a_, **k_)
+            roots.append(r)
+            return r
+
+        try:
+            shutil.copy2, tempfile.mkdtemp = dropping_copy, remember
+            try:
+                M.sandbox()
+                refused = False
+            except RuntimeError as e:
+                refused = "assay.py" in str(e) and "Nothing was mutated" in str(e)
+            except Exception:
+                refused = False
+        finally:
+            shutil.copy2, tempfile.mkdtemp = real_copy, real_mkdtemp
+            for r in roots:
+                shutil.rmtree(r, ignore_errors=True)
+        # And it must not leave the half-built sandbox behind while refusing.
+        return refused and not any(os.path.isdir(r) for r in roots)
+    net(a, "a sandbox missing its own mutation target REFUSES to be used",
+        _sandbox_without_its_target_refuses,
+        "the run crashed on a bare FileNotFoundError four minutes after a baseline that had "
+        "already passed, which reads as an engine bug rather than as a tree being edited")
+
     net(a, "a caller's own rows never land on the canonical Acquisitions Roll",
         _rows_kwarg_does_not_write_the_real_roll,
         "this ate the live 216-source roll twice in one afternoon, while someone was being "
