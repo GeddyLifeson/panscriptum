@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 99  ·  last run 2026-08-27 05:41
+round 100  ·  last run 2026-08-27 07:29
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 99  ·  last run 2026-08-27 05:41
 
 ## What the model found in the code
 
-**12 open** (4 high). Newest first.
+**16 open** (4 high). Newest first.
 
 - **completeness.py** `no_denominator` — [HIGH] A ROW THAT COULD NOT BE MEASURED IS A ROW WITH NOTHING IN IT. The code returns a row with the no_denominator message instead of None, which is read downstream as "this source has n
   - says: A ROW THAT COULD NOT BE MEASURED IS NOT A ROW WITH NOTHING IN IT. Returning None here for an all-errors source deleted it from COMPLETENESS.json, and an absent 
@@ -22,6 +22,14 @@ round 99  ·  last run 2026-08-27 05:41
   - says: The three probe outcomes -> (healthy, reason).
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, changing the answer for 7 of 210 sources
   - says: Classify one source from its own catalogued entries.
+- **descending_ladder.py** `shrink_report` — [MEDIUM] The function does not enforce that `to_m` is less than `from_m` (i.e., it does not ensure it's a descent), but instead reports `is_descent` as a boolean based on the input values.
+  - says: Full accounting of a mass-conserving descent. Returns the physics, and the verdict.
+- **dashboard.py** `movement` — [MEDIUM] Computes deltas between the current sample and the oldest sample within the MOVED_WINDOW_MIN window, but the comment and docstring suggest it should compute changes relative to the
+  - says: What has CHANGED, not what the level is.
+- **dashboard.py** `quotas` — [MEDIUM] Returns only the status of models in the 'cascade' system, ignoring other potential sources of quota information.
+  - says: Every window on every bucket, and which one is actually binding.
+- **catalogue_web.py** `catalogue` — [MEDIUM] catalogue a source's pages but the function is named 'catalogue' and the code is correct
+  - says: catalogue a source's pages
 - **corpus_db.py** `con.execute` — [MEDIUM] INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?)
   - says: INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?)
 - **corpus_db.py** `age_seconds` — [MEDIUM] Returns the time since the index was built, but does not handle cases where the index is locked or corrupt, which can result in None being returned incorrectly
