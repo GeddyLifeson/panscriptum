@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 105  ·  last run 2026-08-27 14:37
+round 106  ·  last run 2026-08-27 16:27
 
 ## Structure
 
@@ -12,8 +12,10 @@ round 105  ·  last run 2026-08-27 14:37
 
 ## What the model found in the code
 
-**38 open** (14 high). Newest first.
+**36 open** (13 high). Newest first.
 
+- **mutate.py** `_lock_acquire` — [HIGH] Never called within the module, rendering the lock mechanism ineffective
+  - says: Acquire a lock to prevent concurrent mutation runs
 - **local_agent.py** `DENYLIST_PREFIXES` — [HIGH] the code checks the denylist prefixes after the allowlist
   - says: M24: whole protected REGIONS, folded the same way and for the same reason. Checked before anything is read, so a protected path never even reaches the find/repl
 - **local_agent.py** `WRITABLE_PREFIXES` — [HIGH] the code checks the allowlist before the denylist
@@ -32,14 +34,10 @@ round 105  ·  last run 2026-08-27 14:37
   - says: movement(s)
 - **generate.py** `generate_job` — [HIGH] generate_job is not defined in the provided code slice and is used without being imported or defined
   - says: generate_job is supposed to generate text based on the job, templates, and configuration
-- **foreman.py** `kill_stalled_job` — [HIGH] kills stalled jobs that cannot be restarted
-  - says: A job that is UP and writing nothing is worse than a job that is down.
 - **completeness.py** `no_denominator` — [HIGH] A ROW THAT COULD NOT BE MEASURED IS A ROW WITH NOTHING IN IT. The code returns a row with the no_denominator message instead of None, which is read downstream as "this source has n
   - says: A ROW THAT COULD NOT BE MEASURED IS NOT A ROW WITH NOTHING IN IT. Returning None here for an all-errors source deleted it from COMPLETENESS.json, and an absent 
 - **chain.py** `work` — [HIGH] increments `unmatched` directly without locking, risking race conditions
   - says: TALLIED LOCALLY, MERGED UNDER THE LOCK, for the same reason `local` exists.
-- **binding_health.py** `verdict` — [HIGH] The verdict function is not properly handling the absent probe's three possible outcomes (None, False, True), leading to incorrect classification of host faults.
-  - says: The three probe outcomes -> (healthy, reason).
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, changing the answer for 7 of 210 sources
   - says: Classify one source from its own catalogued entries.
 - **local_agent.py** `full.lower().endswith(('.yaml', '.yml'))` — [MEDIUM] checks for .yaml and .yml files with case-insensitive comparison
@@ -68,8 +66,6 @@ round 105  ·  last run 2026-08-27 14:37
   - says: Was the path refused BY A GATE, as opposed to failing for an unrelated reason?
 - **dashboard.py** `movement` — [MEDIUM] Computes deltas between the current reading and the oldest sample within the MOVED_WINDOW_MIN window, but the code actually uses the oldest sample within the window as the base for
   - says: What has CHANGED, not what the level is.
-- **foreman.py** `codewatch.exit_if_stale` — [MEDIUM] Exits with rc=17 on purpose if the code is stale
-  - says: Fails open: if the process table cannot be read this starts anyway
 - **endpoint.py** `found` — [MEDIUM] the mode and path for the host, but initialized to an empty dictionary before the loop
   - says: the mode and path for the host
 - **feats.py** `mine` — [MEDIUM] Only sentences that clear the evidence gate are kept; physical quantities are not tagged with the page they came from.
