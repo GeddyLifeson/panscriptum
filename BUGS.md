@@ -12,9 +12,12 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   IS NOT FOUND.** Twice on 2026-08-27, once with repair agents editing `src/` and once on a
   completely stable tree, a full mutation session crashed ~4 minutes in with a bare
   `FileNotFoundError` on `<sandbox>/src/assay.py` — **after** its baseline gates had already run
-  and passed in that same sandbox. Measured since: `sandbox()` copies all 113 modules correctly
-  (assay.py present, 67,842 bytes), and the file survives the `import` and `verify_math` gates;
-  the `drill` gate was still under test when this was written and is the remaining suspect.
+  and passed in that same sandbox. **The obvious suspects are ruled out.** Measured since:
+  `sandbox()` copies all 113 modules correctly (assay.py present, 67,842 bytes), and the file is
+  **still present after every one of the three baseline gates** — `import`, `verify_math` and
+  `drill` were each run against a live sandbox with `cwd=root` and the file stat-ed afterwards,
+  and it survived all three. So nothing in the baseline removes it, and the loop that runs next
+  finds it gone. Concurrent edits are also ruled out (the second crash was on a stable tree).
   Mitigated but NOT fixed: `sandbox()` now verifies every `TARGETS` entry landed and refuses with
   a legible message rather than crashing later, and a drill net stages the failure with a copy
   that drops one target. **Consequence: no mutation results at all from run #35.** The 24 assay
@@ -31,8 +34,11 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   2.5 hours on pre-shift code, while `src/` changed under it in ~80 commits' worth of edits.
   Nothing was broken by it this time. This is the 2026-08-25 incident's shape — a safety that
   exists in a file and is not in effect — reached not by a missing guard but by a guard whose
-  precondition the work itself prevents. Related: M39 (`catalogue_web` writes through a standing
-  halt), and the run #35 fix that gave `local_agent.run` the `assert_clear()` call it never had.
+  precondition the work itself prevents. **The mechanism is sound and was watched working:**
+  within twelve minutes of the last `src/` edit the fingerprint settled, `publish` exited rc=17
+  unaided and returned as pid 29148 at 01:25 on current code. So the defect is DURATION, not
+  correctness. Related: M39 (`catalogue_web` writes through a standing halt), and the run #35 fix
+  that gave `local_agent.run` the `assert_clear()` call it never had.
 
 - **[M38 — OPEN, VERIFIED run #32] THE FAIL-CLOSED LAYER CAN FAIL OPEN.** `escalation.py:154-183`:
   `_raise_halt()` takes **no lock** and uses a non-disambiguated tmp filename, so two concurrent
@@ -1934,6 +1940,16 @@ remaining item is either an outage, a decision, or a watched state.***
   `pid|cmdline` listing exercising all three states (another process / only this one / nobody).
   The listing is deliberately UNQUOTED, matching a real row: a quoted path yields a token ending
   `.py"`, the resolver fails open on every row, and all six checks would have agreed vacuously.
+
+- **[R35.15 — RESOLVED, A REGRESSION THIS RUN CAUSED] A BETTER BATTERY BROKE THE TIER THAT
+  CHECKS MODULES LOAD.** Root cause: `verify_math.py` is a flat script, so `--help` ran the
+  entire suite — survivable at ~44s, not at the 1,052 checks and ~87s run #35 grew it to.
+  `allsweep`'s IMPORT tier probes every module with `--help` under a 120s timeout, so it began
+  timing out and grading `verify_math` **BROKEN**. A tier that exists to answer "does this module
+  load" was answering "did the whole battery finish in two minutes", and that answer was drifting
+  toward no as the battery got better — the wrong direction for a check to move. Fixed with a
+  `--help` short-circuit placed before the sibling imports, so it answers without loading
+  anything: 120s timeout → 0.9s, full run unchanged at 1,052/0, allsweep imports clean again.
 
 - **[R35.14 — RESOLVED] THE SWEEP'S OWN COUNT UNDER-REPORTED.** `workorders.sweep_detectors`
   discarded the result of three `file_order` calls in the binding block, so `swept: N filed`

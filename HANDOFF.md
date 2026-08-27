@@ -120,16 +120,23 @@ other nets in `drill.py` (`b1e0…`, batch 2) — those are open.
   battery finishes in 87s. But `--target all` then died four minutes in with a bare
   `FileNotFoundError` on `<sandbox>/src/assay.py`, twice, on a stable tree. `sandbox()` now
   refuses when a target did not land (with a net), which converts the crash into a legible
-  refusal — **but the underlying cause is not yet found.** Measured so far: the file IS present
-  after `sandbox()`, and survives the `import` and `verify_math` gates; the `drill` gate was
-  still under test when this entry was written. **No mutation results this shift.** Left open.
+  refusal — **but the underlying cause is not found.** Measured, and this rules out the obvious
+  suspects: the file is present after `sandbox()` (all 113 modules copied, 67,842 bytes), and it
+  is **still present after each of the three baseline gates** — `import`, `verify_math` and
+  `drill` were each run against a live sandbox and the file stat-ed afterwards. So nothing in the
+  baseline removes it, and the loop that follows finds it gone. **No mutation results this
+  shift.** Left open as M46 with the ruled-out ground recorded so the next run starts further on.
 * **A daemon has been running stale code for the whole shift, by design, and it is the
   publisher.** `codewatch.stale()` requires the `src/` fingerprint to hold still for 180s before
   a job exits rc=17 — correctly, since a digest taken mid-write is garbage. But a maintenance run
   edits `src/` continuously for hours, so the timer never expires and **`publish.py --push
   --loop 10`, running since 22:47, pushed throughout on pre-shift code.** That is the exact shape
   of the 2026-08-25 incident arriving through the front door: not a missing safety, a safety
-  whose precondition a long shift structurally prevents. Nothing was broken by it this time.
+  whose precondition a long shift structurally prevents. **The mechanism itself is sound and was
+  watched working: within twelve minutes of the last `src/` edit the fingerprint settled and
+  `publish` exited rc=17 and came back as pid 29148 at 01:25 on current code**, with no help from
+  this run. So the finding is about DURATION, not correctness — for 2.5 hours the publisher was
+  pushing on pre-shift code and nothing could have told it otherwise. Nothing was broken by it.
   Flagged rather than fixed — the settle rule is right and the fix is a design question.
 * **Five BINDING_SUSPECT orders had been re-filing at a bot every sweep, `seen 14x`, for a fault
   no bot can repair.** `binding_health` now MEASURES which case each host is: it reads the wiki's
@@ -154,8 +161,9 @@ other nets in `drill.py` (`b1e0…`, batch 2) — those are open.
   It now computes an achievement verdict from the audit trail it was already writing.
 
 **Repo health at close:** `verify_math` 1,052/1,052 · `drill` 247 nets, 0 breached · pyflakes
-clean · `allsweep` 1 bad (`verify_math`, which is the sweep-coverage check reading a sweep that
-was in progress — re-check after this entry) · `health --preflight` 0 problems · `liveness` 33
+clean · `allsweep` 1 bad — `cascade_bridge`, "live call -> FAILED", which is the standing OWNER
+order `9fb8a6b10c1f` (all four free cloud buckets unreachable), not a regression · `health
+--preflight` 0 problems · `liveness` 33
 dead (was 40) · `secondopinion` ruff 1,002 / vulture 4 / detect-secrets 0 · `axis_correlation`
 45 entities, 55 pairs, mean r = +0.3193, unchanged so not rewritten · corpus index rebuilt
 (216 sources, 239,293 entries; the rebuild closed a gap of 41,959).
