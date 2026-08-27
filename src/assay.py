@@ -1086,7 +1086,7 @@ def interval_from_hands(readings, attestation="Transcribed"):
     interval = round(math.sqrt(half_spread ** 2 + floor ** 2), 2)
 
     # Constraint 1, enforced rather than hoped for.
-    while any(abs(v - centre) > interval for v in vals):
+    while any(abs(v - centre) <= interval for v in vals):
         interval = round(interval + 0.01, 2)
 
     return {
