@@ -13,6 +13,23 @@ import math
 import os
 import sys
 
+# `--help` DESCRIBES THIS MODULE; IT DOES NOT RUN 1,052 CHECKS.
+#
+# This file is a flat script: every check executes at import, so `verify_math.py --help` used to
+# run the ENTIRE battery and then print nothing in particular. That was survivable while the
+# suite took ~44s. Run #35 took it to 1,052 checks and ~87s, and `allsweep`'s IMPORT tier -- which
+# probes every module with `--help` under a 120s timeout to prove it is loadable -- began timing
+# out and grading `verify_math` BROKEN. A tier that exists to answer "does this module load"
+# was answering "did the whole battery finish in two minutes", and the answer was drifting
+# toward no as the battery got better, which is the wrong direction for a check to move.
+#
+# Placed before the sibling imports on purpose: the point is to answer without loading anything.
+if "--help" in sys.argv[1:] or "-h" in sys.argv[1:]:
+    print(__doc__.strip())
+    print("\nNo arguments: runs every check and exits 1 if any FAILED. This flag does not run "
+          "them -- the suite is a flat script, so running it IS importing it.")
+    raise SystemExit(0)
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import silence             # noqa: E402
 import physics as PH       # noqa: E402
