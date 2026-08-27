@@ -43,15 +43,24 @@ DEFAULT_TTL_DAYS = 180
 
 
 def _load():
+    """-> (rows, ok). `ok` is False only when the file EXISTS and could not be read -- a missing
+    file is an honest zero suppressions and `ok` stays True for it.
+
+    UNREADABLE MUST NOT LOOK LIKE EMPTY (order 9a18068421c3). This used to return a bare `[]`
+    for both a file that has never been created and one that is corrupt, and every caller --
+    `problems()` among them -- iterated the result with no way to tell the two apart. A corrupt
+    `SUPPRESSIONS.json` therefore reported ZERO suppression problems, the exact opposite of an
+    expired-or-dangling suppression, which this module's whole job is to surface as a fault.
+    """
     try:
         with open(FILE, encoding="utf-8") as f:
             d = json.load(f)
-        return d if isinstance(d, list) else []
+        return (d if isinstance(d, list) else []), True
     except FileNotFoundError:
-        return []
+        return [], True
     except Exception:
         silence.note("suppressions.py:load")
-        return []
+        return [], False
 
 
 def _land(rows):
@@ -80,7 +89,14 @@ def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS
     if not reason or len(str(reason).strip()) < 12:
         raise ValueError("a suppression needs a reason in words -- what is this, and why is it "
                          "not what the detector thinks it is?")
-    rows = [r for r in _load()
+    rows, ok = _load()
+    if not ok:
+        # Landing on top of an unreadable file would rewrite it from an empty list and silently
+        # drop every row the corrupt file still held on disk. Refuse, same doctrine as a denied
+        # write below: REFUSED IS NOT ADDED.
+        raise IOError("SUPPRESSIONS.json exists but could not be read; refusing to add a "
+                      "suppression on top of it -- fix or restore the file first")
+    rows = [r for r in rows
             if not (r.get("detector") == detector and r.get("path") == path_glob)]
     rows.append({"detector": str(detector), "path": str(path_glob),
                  "reason": str(reason).strip()[:300], "added_by": str(added_by),
@@ -96,9 +112,15 @@ def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS
 
 
 def active(detector=None):
-    """-> [suppressions] that have not expired."""
+    """-> [suppressions] that have not expired.
+
+    An unreadable file returns no active suppressions -- FAILS CLOSED, deliberately: a detector
+    that cannot confirm an exception is narrowed still applies in full, which is the safe
+    direction to be wrong in. `problems()` is where the unreadability itself gets reported.
+    """
     now = time.time()
-    rows = [r for r in _load() if (r.get("expires_at") or 0) > now]
+    rows, _ok = _load()
+    rows = [r for r in rows if (r.get("expires_at") or 0) > now]
     if detector:
         rows = [r for r in rows if r.get("detector") == detector]
     return rows
@@ -136,7 +158,12 @@ def problems():
     import glob
     now = time.time()
     out = []
-    for r in _load():
+    rows, ok = _load()
+    if not ok:
+        out.append("UNREADABLE: SUPPRESSIONS.json exists but could not be read -- every "
+                    "detector is running unsuppressed until this is fixed, and that is a fault "
+                    "in its own right, not zero suppression problems")
+    for r in rows:
         if (r.get("expires_at") or 0) <= now:
             out.append("EXPIRED: %s on %s (%s) -- re-justify it or delete it"
                        % (r.get("detector"), r.get("path"), r.get("reason", "")[:60]))

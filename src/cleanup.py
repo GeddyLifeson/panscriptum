@@ -86,9 +86,16 @@ _EMPTY_MECHANIC = re.compile(
 # transit -- a word boundary arriving as a literal backspace (0x08), which matches nothing and
 # fails silently. A pattern that cannot match is worse than a wrong pattern: it reports zero
 # violations and looks like success. This refuses to load rather than pass quietly.
+#
+# THE ROSTER USED TO CARRY `("_SETTING_META", None)`, which `_p is not None` always skipped --
+# `_SETTING_META` is not a name in this file at all, it lives at `pipeline.py:1204` (imported
+# above as `PL`) and is exactly the `\b`-fenced shape this guard exists to catch. And `_MARKUP`
+# (above) was not on the roster at all, though its own first pattern opens with the identical
+# `\bWP\b` escape -- if either arrived mangled, `clean_description` would silently strip nothing.
 for _n, _p in (("_NAV", _NAV), ("_EMPTY_MECHANIC", _EMPTY_MECHANIC),
-               ("_SETTING_META", None)):
-    if _p is not None and any(ord(c) < 32 for c in _p.pattern):
+               ("_SETTING_META", PL._SETTING_META),
+               *[(f"_MARKUP[{_i}]", _pat) for _i, (_pat, _rep) in enumerate(_MARKUP)]):
+    if any(ord(c) < 32 for c in _p.pattern):
         raise SystemExit(f"{_n} contains a control character; the escape was mangled in transit")
 
 

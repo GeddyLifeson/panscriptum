@@ -151,12 +151,12 @@ def report(evaluations, scope=None):
     which is precisely how a default `--limit 40` sat unnoticed over 216 records.
     """
     try:
-        os.makedirs(os.path.dirname(REPORT), exist_ok=True)
-        tmp = REPORT + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump({"at": time.time(), "scope": scope, "evaluations": evaluations}, f,
-                      indent=1, ensure_ascii=False)
-        silence.replace_retry(tmp, REPORT)
+        # silence.write_json, not a fixed `REPORT + ".tmp"` name (order 53dcfb2bd48b):
+        # write_json builds its temp name from pid and thread precisely so two writers of the
+        # same report cannot collide on the temp file itself -- the m100 shape retired
+        # repo-wide, per silence.py's own docstring.
+        silence.write_json(REPORT, {"at": time.time(), "scope": scope, "evaluations": evaluations},
+                            indent=1, ensure_ascii=False)
     except Exception:
         silence.note("policy.py:report")
 

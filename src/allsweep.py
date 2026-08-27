@@ -20,22 +20,38 @@ sentence as the one at the top of `silence.py`, arriving one level up.
 
 WHAT IT DOES
 ------------
-Three tiers, all fanned across the machine's cores because they share nothing:
+Five tiers now, not the three this paragraph used to list -- LINT was added in run #26 to catch
+the fault class IMPORT cannot (see the tier's own comment below) and this description was never
+revisited, so it undersold what `foreman._checks_pass` was already written against. All of it is
+fanned across the machine's cores because the tiers share nothing:
 
-  IMPORT   every module in src/ imports cleanly and its CLI parses. Catches the breakage that a
-           targeted run never touches -- a module nobody has invoked since it was edited is a
-           module nobody knows is broken.
+  IMPORT     every module in src/ imports cleanly and its CLI parses. Catches the breakage that
+             a targeted run never touches -- a module nobody has invoked since it was edited is
+             a module nobody knows is broken.
 
-  VERIFY   every read-only verifier runs for real and its verdict is captured.
+  LINT       every line of every module, statically, via pyflakes. IMPORT proves a module
+             LOADS; it does not prove a function inside it RUNS -- an undefined name reachable
+             only from a branch nothing here calls passed IMPORT clean and then failed for real
+             the day something finally called it. Gates the exit status alongside VERIFY.
+
+  VERIFY     every read-only verifier runs for real and its verdict is captured.
+
+  ESTATE     every file this project owns, opened -- catalogue, charter, terminal, external --
+             so a corrupt or unreadable file is a finding rather than a silent skip the next
+             time something tries to read it.
 
   RECONCILE  the answers are cross-checked AGAINST EACH OTHER. This is the part no single
-           verifier can do: coverage says an entity is CITED, the feats cache says it has no
-           pages, and only a comparison notices. Each subsystem is internally consistent and
-           can still disagree with its neighbour, and that disagreement is where the next
-           eighteen faults live.
+             verifier can do: coverage says an entity is CITED, the feats cache says it has no
+             pages, and only a comparison notices. Each subsystem is internally consistent and
+             can still disagree with its neighbour, and that disagreement is where the next
+             eighteen faults live.
 
-Nothing here writes. It is safe to run at any time, including against live jobs, and the
-supervisor calls it so the answer is never more than one cycle old.
+READ-ONLY AGAINST THE LIBRARY, but not writeless: the combined verdict is landed at
+`data/ALLSWEEP.json` (via `silence.write_json`) so the dashboard and the next run's ESTATE tier
+have something to read without re-running the whole sweep. It changes nothing in `data/records`
+or the corpus itself, which is the property "safe to run at any time, including against live
+jobs" actually depends on -- and the supervisor calls it every cycle so the answer is never more
+than one cycle old.
 """
 import argparse
 import glob

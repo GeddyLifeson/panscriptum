@@ -57,22 +57,22 @@ ATTEMPTS = os.path.join(HERE, "data", "SCOUT_ATTEMPTS.json")
 
 
 def _land(path, obj, sort_keys=True):
-    """Write a shared artifact whole or not at all -- tmp + `silence.replace_retry`.
+    """Write a shared artifact whole or not at all -- through `silence.write_json`.
 
-    WIKI_HOSTS.json in particular is written from here AND from two call sites in
-    `hostcheck.py`, and read by several long-running jobs. A bare `open(path, "w")` truncates
-    before json.dump starts, so a losing writer leaves the host map empty or unparseable for
-    every reader -- and an empty host map reads downstream as "no source has a wiki". 2026-08-24.
+    Order d3313adbf641 (see `_mutate`'s docstring below) moved this module's WIKI_HOSTS.json,
+    SCOUT_ATTEMPTS.json and SCOUT_BLOCKED.json writes off `_land` and onto `_mutate`'s
+    read-modify-write CAS; `_land`'s sole remaining caller is `sweep`'s own SCOUT.json log,
+    which nothing but this process appends to. It went through `silence.write_json` anyway
+    (run #33's fix to the identical `runguard._land`) rather than the hand-rolled fixed
+    `path + ".tmp"` this used to build: that name is shared by every process that ever lands
+    through a bare `_land`-shaped writer, and `hostcheck.py`'s own `_land` still builds the
+    same fixed name for the files it writes -- there is no reason for this one to keep the
+    hazard `silence.write_json` exists to end just because nothing currently collides with it.
 
     This is the WHOLE-FILE half of a write -- atomic against a torn read, but blind to another
     writer's read-modify-write racing this one. Use `_mutate` below for anything that reads a
-    shared file, changes a piece of it, and writes it back; `_land` alone is only safe when the
-    caller already holds the entire intended contents (e.g. `sweep`'s own SCOUT.json log, which
-    nothing but this process appends to)."""
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(obj, f, indent=1, sort_keys=sort_keys)
-    silence.replace_retry(tmp, path)
+    shared file, changes a piece of it, and writes it back."""
+    return silence.write_json(path, obj, indent=1, sort_keys=sort_keys)
 
 
 def _mutate(path, change, attempts=8):

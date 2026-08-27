@@ -919,7 +919,8 @@ def main():
     ap.add_argument("--repair", action="store_true",
                     help="search for a better host for every failing source and rewrite the map")
     ap.add_argument("--purge", action="store_true",
-                    help="remove rosters the audit rejected AND whose host was independently rejected")
+                    help="remove the roster for each source named with --source, after a human "
+                         "has read the audit shortlist; no automated host check gates this")
     ap.add_argument("--go", action="store_true", help="with --purge, actually delete")
     ap.add_argument("--source", action="append",
                     help="with --purge: exact source name to purge (repeatable). Required")

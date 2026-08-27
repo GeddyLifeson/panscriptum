@@ -275,10 +275,17 @@ def api(host, params, retries=2):
             req = urllib.request.Request(url, headers={"User-Agent": UA})
             with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
                 _body = r.read().decode("utf-8", "replace")
+                parsed = json.loads(_body)
                 # A CLEAN RESPONSE EARNS SPEED BACK. Without this the backoff only ever
-                # grows, so one bad minute would slow a host for the rest of the run.
+                # grows, so one bad minute would slow a host for the rest of the run. Taken
+                # only AFTER the parse succeeds (run35 batch7): a 200 carrying a WAF/login-wall
+                # HTML challenge -- the case `except json.JSONDecodeError` below exists for --
+                # used to decay backoff and zero the strike counter before the parse ever ran,
+                # so a host refusing every call with an interstitial could never accumulate
+                # enough strikes to reach THROTTLE_STRIKES and be handed to binding_health's
+                # quarantine.
                 note_ok(host)
-                return json.loads(_body)
+                return parsed
         except urllib.error.HTTPError as e:
             # 429 is a request to slow down, not a failure to retry at the same speed. Backing
             # off exponentially and honouring Retry-After is the difference between recovering
@@ -731,7 +738,19 @@ def strip_wikitext(c):
     # table scaffolding only: the {| |} fences, the |- row breaks, and any style attributes
     # ahead of a cell's `|`. The cell text itself survives.
     c = re.sub(r"^\s*\{\|.*$|^\s*\|\}\s*$|^\s*\|-.*$", " ", c, flags=re.M)
-    c = re.sub(r"^\s*[!|]\s*(?:[a-z\-]+=\"[^\"]*\"\s*)*\|?", " ", c, flags=re.M)
+    # ATTRIBUTE VALUES ARE NOT ALWAYS QUOTED AND NAMES ARE NOT ALWAYS LOWERCASE. This used to
+    # require both (`[a-z\-]+="..."`), so `colspan=2 |` and `Style="color:red" |` both survived
+    # into the mined prose intact -- measured on a real power-level table. Any attribute name
+    # (any case) now pairs with either a quoted value or a bare unquoted token.
+    c = re.sub(r'^\s*[!|]\s*(?:[A-Za-z\-]+=(?:"[^"]*"|\'[^\']*\'|[^\s|]+)\s*)*\|?',
+              " ", c, flags=re.M)
+    # INLINE "||" / "!!" ARE THE SAME CELL BOUNDARY AS A LEADING "|" OR "!", just repeated
+    # mid-line for wikitext's one-line-per-row style: "| Goku || 9,000" left the "||" between
+    # cells untouched, so "9,000" arrived glued to "Goku" by two raw pipe characters. Given the
+    # same attribute treatment as the row-start marker above and turned into a line break, so
+    # each cell becomes its own unit exactly as a cell already on its own physical line does.
+    c = re.sub(r'\s*(?:\|\||!!)\s*(?:[A-Za-z\-]+=(?:"[^"]*"|\'[^\']*\'|[^\s|]+)\s*)*\|?',
+              "\n", c)
     c = re.sub(r"'''?|<[^>]+>", "", c)
     c = re.sub(r"^\s*[=*#:;]+\s*", " ", c, flags=re.M)
     return re.sub(r"[ \t]+", " ", c).strip()

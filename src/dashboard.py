@@ -53,8 +53,11 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 STATE = os.path.join(HERE, "state")
 DATA = os.path.join(HERE, "data")
 
-# The reader's progress line. Built from the same format string read.py prints, so if that line
-# changes this stops matching rather than silently reporting stale numbers.
+# The reader's progress line. Built by hand-transcribing the format string read.py prints, so
+# if that line changes this stops matching -- not "safely": `_read_row` then appends nothing,
+# and the corpus-read row (and movement()'s chunks metric) vanish from the page, rendered as
+# "No job is writing a progress line right now", indistinguishable from the reader being down.
+# `_tail_match`'s `hint` argument gives that case its own ledger entry instead.
 RE_READ = re.compile(
     r"(?P<done>[\d,]+)/(?P<total>[\d,]+)\s+(?P<rate>[\d.]+)\s+chunks/s\s+"
     r"feats\s+(?P<feats>[\d,]+)\s+dropped\s+(?P<dropped>[\d,]+)\s+"
@@ -75,11 +78,22 @@ def _num(s):
         return 0
 
 
-def _tail_match(path, rx, keep=400):
+def _tail_match(path, rx, keep=400, hint=None):
     """The most recent line in a log that matches. Reads the tail, not the file.
 
     These logs reach tens of megabytes over a long run and the dashboard polls every few
     seconds; reading them whole would make the instrument the heaviest thing on the machine.
+
+    `hint`, if given, is a short substring that only appears on a line the progress format was
+    MEANT to produce (e.g. "chunks/s" for the reader, "M chars" for the roll). `RE_READ` and
+    `RE_ROLL` are both built by hand-transcribing read.py's/feats.py's own format string, and
+    neither of those files can see this one -- a field added or reworded there is a silent
+    non-match here, and the caller cannot tell that apart from the ordinary case of a job that
+    simply has not printed in the last `keep` lines. Both look identical: nothing returned. If
+    `hint` is on a recent line but no line the FULL regex matched, that is not idleness, it is
+    the format having moved out from under `rx`, and it gets its own ledger entry so it stops
+    being indistinguishable from "nothing to report" (the same unreadable-vs-empty rule Hard
+    Rule 0 applies to a read failure, applied here to a format failure instead).
     """
     try:
         size = os.path.getsize(path)
@@ -89,10 +103,13 @@ def _tail_match(path, rx, keep=400):
     except Exception:
         silence.note("dashboard.py:tail")
         return None
-    for line in reversed(body.splitlines()[-keep:]):
+    lines = body.splitlines()[-keep:]
+    for line in reversed(lines):
         m = rx.search(line)
         if m:
             return m.groupdict()
+    if hint and any(hint in ln for ln in lines):
+        silence.note(f"dashboard.py:tail-format-mismatch:{os.path.basename(path)}")
     return None
 
 
@@ -194,7 +211,7 @@ def jobs():
 
 
 def _read_row(out, LN):
-    r = _tail_match(os.path.join(STATE, LN.READ), RE_READ)
+    r = _tail_match(os.path.join(STATE, LN.READ), RE_READ, hint="chunks/s")
     if r:
         out.append({
             "name": "corpus read", "unit": "chunks",
@@ -221,7 +238,7 @@ def _read_row(out, LN):
 
 
 def _roll_row(out, LN):
-    roll = _tail_match(os.path.join(STATE, LN.ROLL), RE_ROLL)
+    roll = _tail_match(os.path.join(STATE, LN.ROLL), RE_ROLL, hint="M chars")
     if roll:
         out.append({
             "name": "page roll", "unit": "entities",
@@ -313,7 +330,12 @@ def _watch():
         silence.note("dashboard.py:watch")
     try:
         f = json.load(open(os.path.join(STATE, "failures.json"), encoding="utf-8"))
-        out["swallowed"] = sorted(f.items(), key=lambda kv: -kv[1])[:6]
+        # ALL of them, ranked -- the identical cap on `findings` five lines above this was ruled
+        # a truncation on 2026-08-24 and this one was not visited then. `swallowed_total` already
+        # published the magnitude, but a tag past rank 6 had no identity on the page at all:
+        # `state/failures.json` held 25 distinct tags the day this was found and six were
+        # displayable. Ranking (worst first) is still useful and stays; the cutoff does not.
+        out["swallowed"] = sorted(f.items(), key=lambda kv: -kv[1])
         out["swallowed_total"] = sum(f.values())
     except Exception:
         silence.note("dashboard.py:failures")

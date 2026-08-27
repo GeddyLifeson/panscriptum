@@ -86,12 +86,20 @@ def apparent_lag_years(shelf_a, shelf_b):
     No new quantity. This is arrival_years() under a different name, and the name matters: a
     distant shelf is not merely uninformed, it is being observed as it WAS. The Concordance Now
     is a lightcone, not a moment.
+
+    ONE RETURN SHAPE, ALWAYS (order e3a52d3f20b5). The no-path branch used to return only
+    {'lag_years', 'note'}, while the success branch carried {'distance', 'lag_years', 'path',
+    'note'} -- a caller reading r['path'] or r['distance'] unconditionally would KeyError on
+    exactly the branch most likely to arrive from real data. Same shape as the fix already made
+    in entity_match.candidates; both keys are now always present, filled with None/[] when
+    there is no path to report.
     """
     import propagation as P
     adj = P.load_graph()
     d, path = P.shortest(adj, shelf_a, shelf_b)
     if not path:
-        return {"lag_years": None, "note": "no shared furniture; relation is mediated or absent"}
+        return {"distance": None, "lag_years": None, "path": [],
+                "note": "no shared furniture; relation is mediated or absent"}
     return {"distance": round(d, 4), "lag_years": P.arrival_years(d), "path": path,
             "note": "A sees B as B stood this many years ago"}
 

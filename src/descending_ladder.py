@@ -43,6 +43,10 @@ PLANCK_MASS = 2.176434e-8      # kg
 PLANCK_ENERGY = 1.956e9        # J   (= Planck mass x c^2)
 C_LIGHT = 2.99792458e8         # m/s
 HBAR = 1.054571817e-34         # J*s
+G_NEWTON = 6.67430e-11         # m^3 kg^-1 s^-2  (CODATA). Named here, not inlined (order
+                               # 57acf43b339a) -- it was the one constant in this block missing,
+                               # spelled out instead 95 lines down in schwarzschild_radius().
+                               # scale_theories.py names the same value as G_NEWTON.
 BOLTZMANN = 1.380649e-23       # J/K
 
 # ------------------------------------------------------------------- THE DESCENDING RUNGS
@@ -138,7 +142,7 @@ def density_at_scale(mass_kg, size_m):
 
 def schwarzschild_radius(mass_kg):
     """r_s = 2GM/c^2. If a shrink takes an object below this, it is not small -- it is a hole."""
-    return (2.0 * 6.67430e-11 * mass_kg) / (C_LIGHT ** 2)
+    return (2.0 * G_NEWTON * mass_kg) / (C_LIGHT ** 2)
 
 
 def shrink_report(mass_kg, from_m, to_m):

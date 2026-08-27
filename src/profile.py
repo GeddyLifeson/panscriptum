@@ -143,12 +143,12 @@ def build_all(limit=None):
     try:
         genres = json.load(open(os.path.join(HERE, "data", "GENRES.json"), encoding="utf-8"))
     except Exception:
-        silence.note("profile.py:131")
+        silence.note("profile.py:genres-unreadable")
         genres = {}
     try:
         tiers = json.load(open(os.path.join(HERE, "data", "TIERS.json"), encoding="utf-8"))
     except Exception:
-        silence.note("profile.py:135")
+        silence.note("profile.py:tiers-unreadable")
         tiers = {}
 
     out = []

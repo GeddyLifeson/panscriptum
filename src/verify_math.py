@@ -2428,12 +2428,17 @@ check("a prompt that fits does not raise",
 
 # The packer, against the derived budget: nothing lost, and no slice over budget except the
 # single-deed case that cannot be helped (a lone deed larger than the whole window).
+# RENAMED, because these two names already belong to FUNCTIONS. Section 19o defines a helper
+# _row(name, n, chars) and a helper _emitted(blocks); this section rebound both to DATA -- a
+# dict and an int. It was correct only by the accident that nothing calls either helper after
+# this point, so any check added below that reached for one would raise TypeError and truncate
+# the suite at that line -- which in a battery reads as a crash, not as a failing check.
 _fb = _CB.feats_block_budget(_cbcfg)
-_row = {"entity": "E", "entry": {}, "pages": [], "feat_count": 40,
-        "axis_counts": {}, "feats": [{"feat": "d" * 400, "axis": "a", "page": "p"}] * 40}
-_blocks = _MBd.pack_feats([_row], "S", _fb)
-_emitted = sum(len(e["feats"]) for b in _blocks for e in b)
-check("slicing an oversized entity loses no deed", _emitted, 40)
+_row19v = {"entity": "E", "entry": {}, "pages": [], "feat_count": 40,
+           "axis_counts": {}, "feats": [{"feat": "d" * 400, "axis": "a", "page": "p"}] * 40}
+_blocks = _MBd.pack_feats([_row19v], "S", _fb)
+_emitted19v = sum(len(e["feats"]) for b in _blocks for e in b)
+check("slicing an oversized entity loses no deed", _emitted19v, 40)
 check("every slice carries its span so a partial block is legible",
       all(e.get("feat_span") for b in _blocks for e in b), True)
 check("no slice of a multi-deed entity exceeds the budget",
@@ -3645,7 +3650,18 @@ print()
 # sections, and 30 and 31 never appeared at all, so a reader grepping the console for a section
 # number could not land on one. Renumbering the §20 block sequentially in line order lands §20p
 # on exactly the 32 it was already carrying, which is why this is a repair and not a new scheme:
-# the two skipped numbers are the two duplicated ones, and the sequence closes. The §-tags are
+# the two skipped numbers are the two duplicated ones.
+#
+# WHAT THAT RENUMBERING DID NOT FIX, corrected here in run35 because the sentence that used to
+# end this paragraph -- "and the sequence closes" -- was not true and was the only thing anyone
+# would read before trusting it. The PRINTED ordinals still run 18 then 20: everything tagged
+# §19a through §19ab is introduced by a `# ---- Section 19x` source comment and prints no
+# ordinal at all, so a reader grepping the console for "19." finds nothing and cannot tell a
+# missing section from an unprinted one. Several §20 sections (20k, 20l, 20m, 20n) are in the
+# same position, arriving under the previous section's header. Adding the missing headers means
+# numbering the whole §19 run, which is exactly the renumbering that produced the collisions
+# this paragraph is about -- so it is left, deliberately, and the note now says so rather than
+# vouching for a sequence that has a hole in it. The §-tags are
 # NOT touched -- BUGS.md, rigor.py:123 and this file's own comments cite them by name, and they
 # are the stable identifier. (The separate fault that §20e and §20f are each shared by two
 # sections is filed on its own; renaming a tag is not a print-only change.)

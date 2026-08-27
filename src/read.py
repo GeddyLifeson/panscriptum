@@ -1077,9 +1077,9 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
                     crate = done["chunks"] / max(el, 1e-9)
                 left = max(0, CHUNK_BUDGET - done["chunks"])
                 print("  %6d/%d  %5.2f chunks/s  feats %7d  dropped %5d  chunks %7d/%d "
-                      "(%d to GPU, %d UNANSWERED, not cached)  eta %.1fh%s"
+                      "(%d to GPU, %d UNANSWERED, not cached, %d skipped)  eta %.1fh%s"
                       % (n, len(todo), crate, done["feats"], done["fab"], done["chunks"],
-                         CHUNK_BUDGET, _FELL_BACK[0], done["unanswered"],
+                         CHUNK_BUDGET, _FELL_BACK[0], done["unanswered"], done["skipped"],
                          left / max(crate, 1e-9) / 3600, dead), flush=True)
 
     from concurrent.futures import ThreadPoolExecutor
@@ -1148,8 +1148,8 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
           % (len(todo), workers, cap_chunks if cap_chunks else "uncapped"), flush=True)
     with ThreadPoolExecutor(max_workers=workers) as ex:
         list(ex.map(work, todo))
-    print("done in %.2fh  %d feats kept, %d fabrications dropped"
-          % ((time.time() - t0) / 3600, done["feats"], done["fab"]))
+    print("done in %.2fh  %d feats kept, %d fabrications dropped, %d chunks skipped"
+          % ((time.time() - t0) / 3600, done["feats"], done["fab"], done["skipped"]))
 
 
 def main():

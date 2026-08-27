@@ -53,8 +53,10 @@ RECORDS = os.path.join(HERE, "data/records")
 MAX_PER_SOURCE = None
 # Hard Rule 0: kept only as a name other code may import. Nothing truncates by it any more.
 MAX_PER_CATEGORY = None
-# How deep to read a category before ranking. Must be well above MAX_PER_CATEGORY or ranking
-# has nothing to choose from and the alphabetical bias returns.
+# DEAD: the ranking-before-truncating mechanism this described no longer exists -- categories
+# are pulled with limit=None (see category_members below) and ranked with top=None, so there is
+# no "how deep to scan before ranking" question left to answer. Kept only as a name other code
+# may import, like MAX_PER_CATEGORY above; nothing reads it.
 CATEGORY_SCAN_DEPTH = None
 # How often `catalogue()` may print a progress line. NOT a cap on anything -- it rate-limits
 # OUTPUT, never work, and each line still reports a real completed unit. It must stay well
@@ -100,7 +102,7 @@ def catalogue_composite(source_name, verbose=True):
             try:
                 titles = ws.clean_titles(ws.category_members(sub, c, limit=None))
             except Exception:
-                silence.note("catalogue_web.py:79")
+                silence.note("catalogue_web.py:composite-category-members")
                 failed_cats.append(f"{sub}:{c}")
                 continue
             if len(titles) > 40:
@@ -249,6 +251,11 @@ def catalogue(source_name, verbose=True):
 
     entries, seen = [], set()
     for canon, cats, titles in planned:
+        # Rebind for THIS fetch unit -- the discovery loop above left `_short` on the last
+        # canonical class that had categories, and the fetch progress heartbeat closed over
+        # that stale value, so every "<class> fetching d/t" line named whatever discovery
+        # finished on rather than the class actually in flight.
+        _short = canon.split(" (")[0][:16]
         # De-duplicate BEFORE fetching, so the pool never spends a request on a page we would
         # discard anyway.
         wanted = []
@@ -331,7 +338,7 @@ def main():
             with open(os.path.join(HERE, "data", "COMPLETENESS.json"), encoding="utf-8") as f:
                 comp = json.load(f)
         except Exception:
-            silence.note("catalogue_web.py:266")
+            silence.note("catalogue_web.py:shortfall-completeness-read")
             raise SystemExit("--shortfall needs data/COMPLETENESS.json; run completeness.py")
         gap = {}
         for c in comp:

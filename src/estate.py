@@ -63,7 +63,7 @@ def inspect(path):
     try:
         rec["bytes"] = os.path.getsize(path)
     except OSError:
-        silence.note("estate.py:65")
+        silence.note("estate.py:stat-failed")
         rec["error"] = "cannot stat"
         return rec
     if rec["bytes"] == 0:
@@ -82,24 +82,24 @@ def inspect(path):
             with open(path, encoding="utf-8") as f:
                 json.load(f)
         except UnicodeDecodeError as e:
-            silence.note("estate.py:83")
+            silence.note("estate.py:json-not-utf8")
             rec["error"] = "not utf-8: " + str(e)[:60]
         except json.JSONDecodeError as e:
-            silence.note("estate.py:85")
+            silence.note("estate.py:json-malformed")
             rec["error"] = "malformed JSON: " + str(e)[:60]
         except Exception as e:
-            silence.note("estate.py:87")
+            silence.note("estate.py:json-unreadable")
             rec["error"] = type(e).__name__ + ": " + str(e)[:60]
     elif ext in TEXT_EXT:
         try:
             with open(path, encoding="utf-8") as f:
                 text = f.read()
         except UnicodeDecodeError as e:
-            silence.note("estate.py:93")
+            silence.note("estate.py:text-not-utf8")
             rec["error"] = "not utf-8: " + str(e)[:60]
             return rec
         except Exception as e:
-            silence.note("estate.py:96")
+            silence.note("estate.py:text-unreadable")
             rec["error"] = type(e).__name__ + ": " + str(e)[:60]
             return rec
         hits = sum(text.count(c) for c in _BAD_CHARS)
@@ -111,7 +111,7 @@ def inspect(path):
             try:
                 ast.parse(text)
             except SyntaxError as e:
-                silence.note("estate.py:107")
+                silence.note("estate.py:py-will-not-parse")
                 rec["error"] = "will not parse: line " + str(e.lineno)
     return rec
 

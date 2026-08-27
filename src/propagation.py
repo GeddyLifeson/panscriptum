@@ -147,7 +147,10 @@ def observed_mark(distance, years_since):
     So a distant observer at time t sees the event as it stood at time (t - arrival). Before
     arrival it sees nothing, which is the honest [^0] and the whole point: Left 4 Dead has not
     heard of Dragon Ball Z's tournaments because the news is still in transit, not because
-    nobody countersigned it.
+    nobody countersigned it. THE HONEST [^0] COMES SOLELY FROM THE `lag < 0` GUARD BELOW --
+    once lag is non-negative, `ascension_years(1) == 0.0` (order ad730acf0b18), so the loop's
+    first iteration always matches and always returns; the trailing `return 0` after the loop
+    is unreached and is not a second [^0] path.
     """
     lag = years_since - arrival_years(distance)
     if lag < 0:
@@ -155,7 +158,7 @@ def observed_mark(distance, years_since):
     for rung in range(LADDER_HEIGHT, 0, -1):
         if lag >= ascension_years(rung):
             return rung
-    return 0
+    return 0  # unreachable: see the docstring note above
 
 
 def main():
