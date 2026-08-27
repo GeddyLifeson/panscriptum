@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 95  ·  last run 2026-08-27 02:07
+round 96  ·  last run 2026-08-27 02:30
 
 ## Structure
 
@@ -8,15 +8,18 @@ round 95  ·  last run 2026-08-27 02:07
 - files that will not parse: **0** of 230,350 inspected
 - catalogued sources with no host: **9** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
+- NOT RUNNING: **0** feats.py --roll
 
 ## What the model found in the code
 
-**8 open** (2 high). Newest first.
+**9 open** (2 high). Newest first.
 
 - **binding_health.py** `verdict` — [HIGH] The verdict function is not properly handling the absent probe's three possible outcomes (None, False, True), leading to incorrect classification of host faults.
   - says: The three probe outcomes -> (healthy, reason).
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, changing the answer for 7 of 210 sources
   - says: Classify one source from its own catalogued entries.
+- **build_terminal.py** `descend` — [MEDIUM] descend(key) is called with key as a parameter, but the function is designed to handle the key as a parameter, so there is no discrepancy
+  - says: descend(key) is called with key as a parameter
 - **backfill.py** `F.api` — [MEDIUM] returns None on timeout or nothing found
   - says: used to fold that into an empty page list here too
 - **backfill.py** `lead` — [MEDIUM] extract a lead sentence from a block of text
