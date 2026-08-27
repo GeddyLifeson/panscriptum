@@ -1,10 +1,10 @@
 # OVERWATCH
 
-round 104  ·  last run 2026-08-27 13:04
+round 105  ·  last run 2026-08-27 14:37
 
 ## Structure
 
-- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
+- modules that will not import: **0**
 - files that will not parse: **0** of 264,734 inspected
 - catalogued sources with no host: **9** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
@@ -12,8 +12,12 @@ round 104  ·  last run 2026-08-27 13:04
 
 ## What the model found in the code
 
-**32 open** (12 high). Newest first.
+**38 open** (14 high). Newest first.
 
+- **local_agent.py** `DENYLIST_PREFIXES` — [HIGH] the code checks the denylist prefixes after the allowlist
+  - says: M24: whole protected REGIONS, folded the same way and for the same reason. Checked before anything is read, so a protected path never even reaches the find/repl
+- **local_agent.py** `WRITABLE_PREFIXES` — [HIGH] the code checks the allowlist before the denylist
+  - says: the real order is: name/path denylist, then this allowlist, then the protected-region prefixes
 - **ledger_guard.py** `read_chain` — [HIGH] swallows all exceptions except FileNotFoundError and returns an empty list
   - says: Read the chain, or raise -- "no chain yet" and "could not be read" are not the same claim.
 - **dashboard.py** `quotas` — [HIGH] Appends a failure message to the output when quota read fails, but does not report actual usage data as claimed
@@ -38,6 +42,14 @@ round 104  ·  last run 2026-08-27 13:04
   - says: The three probe outcomes -> (healthy, reason).
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, changing the answer for 7 of 210 sources
   - says: Classify one source from its own catalogued entries.
+- **local_agent.py** `full.lower().endswith(('.yaml', '.yml'))` — [MEDIUM] checks for .yaml and .yml files with case-insensitive comparison
+  - says: fold the extension test every time one is written
+- **local_agent.py** `full.lower().endswith(".json")` — [MEDIUM] checks for .json files with case-insensitive comparison
+  - says: fold the extension test every time one is written
+- **dashboard.py** `movement` — [MEDIUM] The code reports a negative delta as a reset rather than a movement, but the comment suggests it should distinguish between a counter that fell (reset) and one that moved, which th
+  - says: A COUNTER THAT FELL IS NOT A COUNTER THAT MOVED.
+- **dashboard.py** `movement` — [MEDIUM] The code attempts to heal a corrupt history file by resetting it to an empty list, but the comment suggests it should start with an empty list and append the new row without skippi
+  - says: A CORRUPT HISTORY FILE MUST HEAL, NOT WEDGE.
 - **dashboard.py** `movement` — [MEDIUM] Calculates deltas between the current reading and the oldest sample within the MOVED_WINDOW_MIN window, but the code's comment and docstring suggest it should compare against the o
   - says: What has CHANGED, not what the level is.
 - **drill.py** `resuming_demands_a_written_ruling` — [MEDIUM] the resume call is not checked for success
