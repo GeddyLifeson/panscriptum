@@ -1,10 +1,10 @@
 # OVERWATCH
 
-round 91  ·  last run 2026-08-26 20:17
+round 92  ·  last run 2026-08-26 21:20
 
 ## Structure
 
-- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
+- modules that will not import: **0**
 - files that will not parse: **0** of 230,350 inspected
 - catalogued sources with no host: **10** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
@@ -12,8 +12,12 @@ round 91  ·  last run 2026-08-26 20:17
 
 ## What the model found in the code
 
-**13 open** (10 high). Newest first.
+**16 open** (12 high). Newest first.
 
+- **overnight.py** `start` — [HIGH] Calls a function that does not exist in the current scope
+  - says: Starts a background process with the given command and log file
+- **overnight.py** `_cmd_is_running` — [HIGH] Checks if the command line contains the fragment as a substring, not considering arguments or context
+  - says: PURE. Does this command line show `fragment` BEING RUN, rather than merely mentioned?
 - **mutate.py** `_lock_release` — [HIGH] Release the mutation lock but never used in this module
   - says: Release the mutation lock
 - **mutate.py** `_lock_acquire` — [HIGH] Acquire the mutation lock but never used in this module
@@ -34,6 +38,8 @@ round 91  ·  last run 2026-08-26 20:17
   - says: CHECK THE RETURN THIS COMMENT ALREADY WARNS ABOUT (run #19). The paragraph above names the exact hazard -- a torn or stale write here silently discards overwatc
 - **endpoint.py** `detect` — [HIGH] detect is not defined in this slice, but is called in api_url and raw_url
   - says: detect(host) returns the mode and path for a host
+- **onomast.py** `well_formed` — [MEDIUM] the code checks for repeated pairs of characters (n[i:i+2] == n[i+2:i+4]), which does not detect doubled syllables (e.g., 'gog' is not a doubled syllable, but 'gogog' would be caug
+  - says: no immediately doubled syllable (kills Goggoktok, Khakak)
 - **mutate.py** `run` — [MEDIUM] run is called with parameters that may not match the expected function signature
   - says: run(t, limit=a.limit, root=root, base=base, gates=gates, confirm=confirm)
 - **foreman.py** `kill_stalled_job` — [MEDIUM] The function attempts to kill stalled jobs but has a flawed logic in determining which jobs can be restarted, potentially leading to incorrect kills or failures to kill jobs that s
