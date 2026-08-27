@@ -908,6 +908,55 @@ def drill_local_agent():
     a = "THE NIGHT STAFF — can the local model edit what it must not?"
     import local_agent as LA
 
+    def _junction_out_of_the_writable_surface():
+        """The sixth bypass: a name inside the project that is not a PLACE inside the project.
+
+        Every earlier defeat of this gate was a string the filesystem resolved differently --
+        letter case, a name prefix, an NTFS alternate data stream, a case-sensitive extension,
+        an unlisted directory. A junction is the same trick at directory level: `_safe` ran on
+        `os.path.abspath`, which normalises a string and follows nothing, so a link under `src/`
+        pointing at `state/` or `data/records/` satisfied the allowlist, missed every denylist,
+        and `open(full, "w")` followed it to the real protected file.
+
+        Attacked with a REAL junction, created and removed here, because the whole point is that
+        the filesystem disagrees with the string and only the filesystem can demonstrate that.
+        Skips rather than fails if the junction cannot be created (no mklink, a filesystem that
+        does not support them) -- and says so through the return value rather than passing
+        quietly, since a net that cannot run is not a net that held.
+        """
+        import subprocess as _sp
+        import silence as _si
+        import local_agent as LA
+        link = os.path.join(LA.HERE, "src", "__drill_junction_probe__")
+        _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "state")],
+                capture_output=True, text=True,
+                creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+        if not os.path.isdir(link):
+            return False                      # could not stage the attack; not evidence of safety
+        try:
+            through_link = LA._safe("src/__drill_junction_probe__/failures.json")
+            ordinary = LA._safe("src/lognames.py")
+        finally:
+            try:
+                os.rmdir(link)
+            except OSError:
+                _si.note("drill.py:junction-probe-cleanup")
+        # Refused through the link, and the ordinary path still permitted -- a gate that refuses
+        # everything passes every refusal test ever written.
+        return through_link is None and bool(ordinary) and not os.path.exists(link)
+    net(a, "a JUNCTION out of the writable surface is refused",
+        _junction_out_of_the_writable_surface,
+        "the gate compared a string while the filesystem resolved a different one -- the same "
+        "shape as the five bypasses before it, and mutate.py junctions three directories as a "
+        "matter of course, so this is a technique the project already uses on itself")
+
+    net(a, "the model's write lane asks whether the library is HALTED",
+        lambda: "assert_clear" in __import__("inspect").getsource(
+            __import__("local_agent").run),
+        "twelve modules consult the halt before working; the ONE lane on which a model may "
+        "write to src/ was not among them, and an OWNER halt means nothing starts until a "
+        "person rules on it")
+
     net(a, "a run that proposed patches and landed NONE cannot report success",
         _landing_nothing_is_not_success,
         "ok meant 'the model stopped talking' -- so a run that was refused five times running "

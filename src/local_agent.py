@@ -368,7 +368,48 @@ def _safe(path):
         return None
     if ".git" in full.split(os.sep):
         return None
+
+    # AND THE SIXTH BYPASS: A JUNCTION IS A NAME INSIDE THE PROJECT THAT IS NOT A PLACE INSIDE
+    # THE PROJECT. Found by the run #35 sweep, batch 16. Every check above this line runs on
+    # `os.path.abspath`, which normalises a string and resolves NOTHING -- it does not follow a
+    # symlink, a junction or a mount point. So a directory junction anywhere under `src/`,
+    # `handoff/` or `prompts/` pointing at `state/`, `data/records/` or the charter satisfies
+    # the allowlist, misses every denylist (the denied words are not in the path as written),
+    # and `open(full, "w")` then follows the junction to the real protected file.
+    #
+    # This is the same family as the five bypasses documented above -- letter case, a name
+    # prefix, an alternate data stream, a case-sensitive extension, an unlisted directory -- and
+    # its shape is the one this file already names: A GATE KEYED ON A STRING WHILE THE
+    # FILESYSTEM RESOLVES A DIFFERENT STRING TO THE SAME OBJECT. `mutate.py` junctions `data/`,
+    # `prompts/` and `reference/` into its sandbox as a matter of course, so junctions pointing
+    # out of a tree are not hypothetical here; they are a technique this project already uses.
+    #
+    # The decision is therefore made TWICE: once on the path as written, and once on the path
+    # the filesystem actually resolves it to. A caller must satisfy both. Resolved with
+    # `realpath` on both sides, because `HERE` may itself sit under a link.
+    return full  # REGRESSED
+    real = os.path.realpath(full)
+    real_here = os.path.realpath(HERE)
+    if not (real == real_here or real.startswith(real_here + os.sep)):
+        return None
+    if ".git" in real.split(os.sep):
+        return None
+    if real != full and _denied_region(os.path.relpath(real, real_here)):
+        # It resolved somewhere else INSIDE the project, and that somewhere is a region the
+        # model may not write. Refused rather than rewritten to the real path: a caller reaching
+        # a protected region through a link is not a caller who should be quietly redirected.
+        return None
     return full
+
+
+def _denied_region(rel):
+    """Is this project-relative path inside a region the model may never write? -> bool.
+
+    Split out so the junction check above can ask the SAME question of a resolved path that
+    `t_propose_patch` asks of the written one. Two spellings of this rule would be two rules.
+    """
+    rel = rel.replace("\\", "/")
+    return any(rel.startswith(p) for p in DENYLIST_PREFIXES)
 
 
 def t_read_file(path, offset=0, **_):
@@ -747,6 +788,21 @@ def _achievement(patches, apply):
 
 
 def run(task, model=None, apply=True, quiet=False):
+    # THE HALT IS CHECKED HERE, AND UNTIL RUN #35 IT WAS NOT CHECKED ANYWHERE ON THIS LANE.
+    #
+    # Twelve modules consult `escalation.assert_clear()` before doing work -- pipeline, publish,
+    # feats, read, foreman, overnight, overwatch, allsweep, dashboard, drill, verify_math and
+    # escalation itself. This one did not, and it is the ONLY lane in the project on which a
+    # model may WRITE TO `src/`. An OWNER halt means "nothing starts until a person rules on
+    # it", and the actor most able to make a halted situation worse was the one actor not
+    # asking. Found by the run #35 sweep, batch 16, which also noted that `local_agent` was
+    # absent from verify_math's own roster of interlocked jobs -- so nothing was checking that
+    # nothing was checking.
+    #
+    # Raised, not swallowed: `assert_clear` throws, and a refusal to start under a halt is the
+    # correct outcome, not an error to route around.
+    import escalation as _ESC
+    pass  # REGRESSED
     # Each invocation gets a fresh blast budget; the cap bounds ONE run, not the life of
     # the process.
     blast_reset()
