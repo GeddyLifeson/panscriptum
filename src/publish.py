@@ -142,9 +142,21 @@ COPY_FILES = ("CLAUDE.md", "README.md", "config.yaml", "requirements.txt",
               "STEP4_PLAN.md")
 # Backups and scratch copies never travel. The .pre* family is session backups of live modules
 # -- seven of them were sitting in src/ and being published to the PUBLIC repo because this
-# tuple only knew about two suffixes.
-SKIP_SUFFIX = (".pyc", ".presilence", ".prebandfix", ".precapfix", ".prefix", ".prepool",
-               ".preprobe", ".prewiden", ".prewindow", ".bak", ".tmp", ".orig")
+# tuple only knew about two suffixes. The fix at the time was to enumerate the seven names, which
+# repeats the same mistake with a longer list: `.preNNN` is one FAMILY, not nine unrelated
+# strings, and the ninth name anyone writes still walks straight past a tuple of the first eight.
+# `local_agent.py`'s own header names this failure shape -- "a DENYLIST fails OPEN -- anything
+# nobody thought of is permitted" -- so the family is now matched by its SHAPE (`_is_skipped`
+# below), and SKIP_SUFFIX goes back to holding only the suffixes that are not part of that family.
+SKIP_SUFFIX = (".pyc", ".bak", ".tmp", ".orig")
+_PRE_BACKUP = re.compile(r"\.pre[a-z0-9]*$", re.I)
+
+
+def _is_skipped(name):
+    """True for a file `sync_tree` must never publish: a scratch suffix in `SKIP_SUFFIX`, or
+    anything in the `.pre*` session-backup family, matched by shape rather than by name so a
+    suffix nobody has written yet is still caught the first time."""
+    return name.endswith(SKIP_SUFFIX) or _PRE_BACKUP.search(name) is not None
 
 # THE VENDOR LIST — first of three independent locks. Widened 2026-08-25 after an audit
 # enumerated what walked past the original eight prefixes into the PUBLIC repo unredacted: AWS
@@ -457,7 +469,7 @@ def sync_tree():
         for base, dirs, files in os.walk(root):
             dirs[:] = [x for x in dirs if x != "__pycache__"]
             for f in files:
-                if f.endswith(SKIP_SUFFIX):
+                if _is_skipped(f):
                     continue
                 srcp = os.path.join(base, f)
                 dstp = os.path.join(SITE, os.path.relpath(srcp, HERE))

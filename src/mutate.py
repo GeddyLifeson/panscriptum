@@ -382,11 +382,20 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None):
 
 
 def verify_restore(path):
-    """Prove the save/restore cycle is byte-exact BEFORE mutating anything. -> bool.
+    """Prove the save/restore cycle is byte-exact on THIS path BEFORE mutating it. -> bool.
 
-    A restore that does not restore turns a diagnostic into a corruption, on the three files
-    this project can least afford to corrupt. This is the first thing `run()` does and it
-    refuses to continue if it fails.
+    `path` is always a sandbox copy under `sandbox()`'s throwaway root -- that stopped being a
+    live file when mutation moved into a sandbox, and this docstring used to still say it
+    protects "the three files this project can least afford to corrupt", which is no longer
+    what `path` ever is. The LIVE file's protection is separate and stronger: `_run_mutation`
+    digests it before and after and reports `live_file_untouched`, escalating at OWNER level if
+    it ever moves. What this function actually proves is narrower and still worth proving --
+    that `_write`/`_read` round-trip a byte string faithfully on this filesystem for this one
+    file before `run()` starts overwriting it with mutants -- because a save/restore that
+    silently drops a byte would make every mutant's "restored" claim for the rest of the run
+    worthless. A permission error, a locked file or a full disk RAISES out of `_write`/`_read`
+    rather than being caught into a `False` here; that is deliberate, not a gap -- `run()`'s own
+    try/finally still puts the original bytes back on the way out. Order adba96551729.
     """
     original = _read(path)
     probe = original + b"\n# mutate.py restore probe\n"
@@ -534,11 +543,15 @@ def sandbox():
     other processes read the live tree.** No amount of locking fixes that, because the other
     processes have to agree to look, and the ones already running never will.
 
-    So mutation now happens somewhere else entirely. `src/` is COPIED (it is small); `data/`,
-    `prompts/` and `reference/` are junctioned (they are large and read-only in this context);
-    `state/` and `output/` are created EMPTY, which is what stops a sandboxed `drill.py` from
-    raising a real halt or a sandboxed run from writing real ledgers. The live tree is never
-    opened for writing at any point.
+    So mutation now happens somewhere else entirely. `src/` and `state/` are COPIED -- the only
+    two subtrees a gate can write to and have the write land in this throwaway tree instead of
+    the live one. `data/`, `prompts/`, `reference/` and `output/index` are JUNCTIONED, not
+    copied, because copying them costs gigabytes this runs too often to afford; a junction is a
+    portal, not a wall, so a write through one of the four lands on the LIVE tree exactly as if
+    the sandbox did not exist. **This is not a written guarantee, because a junction cannot back
+    one.** It holds today only because the gate commands in `GATES`/`FAST_GATES` happen not to
+    write to those four paths -- verified by reading them, not assumed -- and a future gate that
+    does write there would corrupt the live tree with nothing here to say so. Order 6d7f88ffb76e.
     """
     reap_orphans()
     root = tempfile.mkdtemp(prefix="panscriptum_mutate_")

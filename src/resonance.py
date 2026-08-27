@@ -118,24 +118,39 @@ def dominates(v1, v2):
 
 
 def incomparability_rate(vectors):
-    """Fraction of pairs that are INCOMPARABLE -- neither dominates.
+    """Fraction of DECIDABLE pairs that are INCOMPARABLE -- neither dominates, on shared data.
 
     Proposition 1 says these exist. This says how common they are, which is the empirical content
     of "the omniverse is not a ladder". An incomparable pair is not an unresolved question; it is
-    a resolved finding that no ordering exists between two things.
+    a resolved finding that no ordering exists between two things -- which is exactly what a pair
+    with no shared scored axis is NOT (there is no data to find anything with) and what an
+    identical pair is NOT (the ordering is resolved as equal, not absent). `dominates()` answers
+    False for both of those for an unrelated reason -- no axis clears its `any(v1[k] > v2[k])`
+    strict-inequality test -- so counting "neither dominates" as incomparable folded both into
+    the numerator. They are now split out: UNMEASURED (no shared axis) is excluded from the rate
+    entirely, and TIED (dominates both ways on equality, i.e. identical on every shared axis) is
+    counted as a decided pair but not an incomparable one.
     """
     names = sorted(vectors)
-    total = inc = 0
+    total = unmeasured = tied = inc = 0
     examples = []
     for a, b in itertools.combinations(names, 2):
         total += 1
         va, vb = vectors[a], vectors[b]
+        shared = [k for k in va if k in vb and va[k] is not None and vb[k] is not None]
+        if not shared:
+            unmeasured += 1
+            continue
+        if all(va[k] == vb[k] for k in shared):
+            tied += 1
+            continue
         if not dominates(va, vb) and not dominates(vb, va):
             inc += 1
             if len(examples) < 5:
                 examples.append((a, b))
-    return {"pairs": total, "incomparable": inc,
-            "rate": round(inc / total, 4) if total else None,
+    decidable = total - unmeasured
+    return {"pairs": total, "unmeasured": unmeasured, "tied": tied, "incomparable": inc,
+            "rate": round(inc / decidable, 4) if decidable else None,
             "examples": examples}
 
 

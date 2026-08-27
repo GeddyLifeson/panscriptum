@@ -226,8 +226,13 @@ CUSTODES = {
 #     quality(g) = 1 - base(g) / max(base)
 #
 # Monotone by construction, and it moves automatically if the charter revises a grade.
-_ATT_BASE = {"Witnessed": 0.10, "Instrumented": 0.08, "Transcribed": 0.20,
-             "Reconstructed": 0.40, "Disputed": 0.55}
+#
+# THIS WAS THE FORBIDDEN SECOND COPY UNTIL order 6475cb78e185: the comment above already claimed
+# "derived", but the dict here was a hand-typed literal matching `interval_from_hands`'s floor by
+# coincidence of two people copying the same number, not by import -- it could not have been
+# imported before, because that floor lived only inside the function's body. It is now hoisted to
+# `assay.ATTESTATION_FLOOR`, and this reads it rather than restating it.
+_ATT_BASE = A.ATTESTATION_FLOOR
 _ATT_WORST = max(_ATT_BASE.values())
 CURL_VETO_THRESHOLD = 0.10   # = Saaty's CR bar, via Theorem 1
 

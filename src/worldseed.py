@@ -311,8 +311,9 @@ def main():
         print(f"\n  {w['designation'][:60]}")
         print(f"     features {w['features']}  band={w['band']}")
         print(f"     address  {address(w)}")
-    print("\n  example query:")
-    print("     " + to_fmg_query(worlds[0])[:150])
+    if worlds:
+        print("\n  example query:")
+        print("     " + to_fmg_query(worlds[0])[:150])
 
     if args.write:
         # ATOMIC. This was a bare `open(path, "w")` + `json.dump`, which is not a write but a

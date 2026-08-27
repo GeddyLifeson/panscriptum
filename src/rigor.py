@@ -609,36 +609,57 @@ def prob_at_least_one(log10_median, sigma_dex, n_samples=200000, seed=20260820):
 def ceiling_confidence(n_entries, n_scored):
     """How much of a source's true ceiling has been seen, after scoring n of N entries?
 
-    The synthesis phase nominates a ceiling from a SAMPLE. The ceiling is therefore a sample
-    maximum, and a sample maximum is a biased-low estimator of a population maximum -- the
-    Fisher-Tippett-Gnedenko setting, not ordinary estimation.
+    The synthesis phase nominates a ceiling from what it has read so far. Until that reading is
+    complete, the ceiling is a sample maximum, and a sample maximum is a biased-low estimator of
+    a population maximum -- the Fisher-Tippett-Gnedenko setting, not ordinary estimation.
 
     Under SIMPLE RANDOM SAMPLING, P(the population max is among n drawn from N) = n/N exactly,
-    distribution-free. 14 of 900 gives 1.6%.
+    distribution-free.
 
-    **BUT THE PIPELINE DOES NOT SAMPLE RANDOMLY**, and it would be dishonest to quote n/N as if it
-    did. `phase_synthesis` takes the 14 LONGEST descriptions. Description length correlates with
-    an entity's prominence, and prominence correlates with power, so this is informative sampling
-    deliberately biased TOWARD the ceiling. The true probability is therefore higher than n/N --
-    possibly much higher.
+    **BUT THE PIPELINE DOES NOT SAMPLE RANDOMLY, AND (AS OF THE 2026-08-25 RULING) IT DOES NOT
+    STOP AT A FIXED n EITHER.** Before that ruling, `phase_synthesis` took the 14 LONGEST
+    descriptions and stopped -- a genuine fixed-size sample, n/N a real floor. `synthesis_blocks`
+    (pipeline.py) now nominates from EVERY feat-bearing entry, or, absent feats, every entry
+    ranked longest-description-first, in blocks of 14 with every block read. n_scored therefore
+    reaches n_entries on a completed pass; n < N describes only a pass that stopped early
+    (an interrupted run, or a caller probing an intermediate n for illustration). Description
+    length and feat presence still correlate with prominence, so whatever HAS been read so far
+    in an incomplete pass is biased TOWARD the ceiling, same as before the ruling -- what changed
+    is that "so far" now converges on "everything" rather than stopping at 14.
 
-    How much higher is NOT quantified here, and I decline to invent a correction factor for it,
-    because doing so would require the joint distribution of description length and magnitude,
-    which nobody has measured. So this returns n/N explicitly labelled as the random-sampling
-    FLOOR, and the selection effect is named and left unquantified.
+    How much the bias raises an incomplete read is NOT quantified here, and I decline to invent a
+    correction factor for it, because doing so would require the joint distribution of
+    description length and magnitude, which nobody has measured. So this returns n/N explicitly
+    labelled as the random-sampling FLOOR for whatever n_scored the caller supplies, and the
+    selection effect is named and left unquantified.
 
     That is the honest report: a hard lower bound plus a named, unmeasured effect in a known
-    direction. It is also why phase 1 emits BAND ONLY and never a decimal -- a band is wide enough
-    to survive this ignorance, and a decimal is not.
+    direction, that closes to certainty once n_scored reaches n_entries. It is also why phase 1
+    emits BAND ONLY and never a decimal -- a band is wide enough to survive this ignorance, and a
+    decimal is not.
     """
     if n_entries <= 0:
         return None
     p = min(1.0, n_scored / n_entries)
+    complete = n_scored >= n_entries
+    # The string used to be a constant ("14 longest descriptions") no matter what n_scored was
+    # asked about -- accurate only while phase_synthesis truly stopped at 14, and silently wrong
+    # the moment it didn't. It now reflects the n/N actually passed in, not the pre-2026-08-25
+    # regime, and says so differently once n_scored has reached n_entries.
+    sampling = (
+        "NOT random, but COMPLETE: every feat-bearing entry (or, absent feats, every entry, "
+        "longest-description-first) has been nominated in blocks of 14 -- n/N is exact, not a "
+        "floor" if complete else
+        "NOT random: feat-bearing entries first, then longest descriptions, so what has been "
+        "read so far is biased toward prominence"
+    )
     return {
         "n_entries": n_entries, "n_scored": n_scored,
         "p_true_max_seen_if_random": round(p, 4),
-        "sampling": "NOT random: 14 longest descriptions, biased toward prominence",
-        "bound_direction": "n/N is a FLOOR; informative selection raises it by an unmeasured amount",
+        "sampling": sampling,
+        "bound_direction": ("n/N is exact once n_scored reaches n_entries" if complete else
+                             "n/N is a FLOOR; informative selection raises it by an unmeasured "
+                             "amount"),
         "supports_decimal": False,
         "why": ("a decimal would need the joint distribution of description length and magnitude, "
                 "which has not been measured; the band does not"),
@@ -837,17 +858,25 @@ def main():
     print(f"     P(WE ARE ALONE)           : {pr['p_none']:.4f}   <-- invisible to a point estimate")
     print("     Jensen's inequality on a concave function; Sandberg/Drexler/Ord 2018")
 
-    print("\n5. EXTREME VALUE — a ceiling drawn from 14 of N entries")
+    # Pre-2026-08-25 this table showed the fixed n=14 sample phase_synthesis actually stopped
+    # at, and n/N was a real floor. The owner's ruling that day (see synthesis_blocks in
+    # pipeline.py) removed the stop: every feat-bearing entry, or every entry in the no-feats
+    # fallback, is now nominated in blocks of 14. n=14 below is kept ONLY as the illustrative
+    # "what if a pass were interrupted after one block" case -- it is no longer what a completed
+    # pass does, so the header and the sampling line must not claim it is.
+    print("\n5. EXTREME VALUE — a ceiling, partway through reading N entries in blocks of 14")
     print("-" * 96)
     for N in (50, 200, 900):
         cc = ceiling_confidence(N, 14)
         g1 = gumbel_return_level(132.34, 14, N, tail_index=1.0)
         g2 = gumbel_return_level(132.34, 14, N, tail_index=1.5)
         print(f"   N={N:<5} P(max seen | RANDOM) >= {cc['p_true_max_seen_if_random']:6.2%}   "
+              f"(after 1 of {-(-N // 14)} blocks)   "
               f"correction +{g1['correction_bits']:5.2f} bits (a=1.0) "
               f"/ +{g2['correction_bits']:5.2f} (a=1.5)")
-    print("   sampling is NOT random (14 longest descriptions) — n/N is a floor, and the")
-    print("   selection effect is named but deliberately left unquantified")
+    print("   a COMPLETED pass reads every block, so n/N -> 1 and the floor above applies only")
+    print("   to a pass interrupted after the first block; what has been read so far is still")
+    print("   biased toward prominence, and that bias is named but deliberately left unquantified")
     print("   this is why phase 1 emits a BAND and refuses a decimal")
 
     print("\n6. THE MATHEMATICS AS A CHORD")

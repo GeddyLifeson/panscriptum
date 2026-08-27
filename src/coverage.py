@@ -188,7 +188,7 @@ def measure():
     return rows
 
 
-def report(rows, show=26):
+def report(rows, show=None):
     n = sum(r["entries"] for r in rows)
     cited = sum(r["cited"] for r in rows)
     read = sum(r["read"] for r in rows)
@@ -209,13 +209,20 @@ def report(rows, show=26):
           f"looked at and answered either way")
     print(f"\n  total feats on record: {feats:,}")
 
-    print("\nSOURCES WITH NO WIKI HOST — nothing can ever be cited here")
-    for r in sorted((x for x in rows if not x["host"]), key=lambda x: -x["entries"])[:12]:
+    hostless = sorted((x for x in rows if not x["host"]), key=lambda x: -x["entries"])
+    print(f"\nSOURCES WITH NO WIKI HOST — nothing can ever be cited here ({len(hostless)}, all shown)")
+    for r in hostless:
         print(f"   {r['entries']:>6,}  {r['source'][:58]}")
 
-    print("\nWORST COVERED WITH A HOST — where the work is")
     have = [r for r in rows if r["host"] and r["entries"] >= 40]
-    for r in sorted(have, key=lambda x: (x["coverage"], -x["entries"]))[:show]:
+    worst = sorted(have, key=lambda x: (x["coverage"], -x["entries"]))
+    limit = show if show is not None else len(worst)
+    if limit < len(worst):
+        print(f"\nWORST COVERED WITH A HOST — where the work is "
+              f"(showing {limit} of {len(worst)}; {len(worst) - limit} more not shown, --show to raise)")
+    else:
+        print(f"\nWORST COVERED WITH A HOST — where the work is ({len(worst)}, all shown)")
+    for r in worst[:limit]:
         print(f"   {r['coverage']:>6.1%} cited  {r['settled']:>6.1%} settled  "
               f"{r['entries']:>6,} entries   {r['source'][:44]}")
 
@@ -227,7 +234,9 @@ def report(rows, show=26):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--show", type=int, default=26)
+    ap.add_argument("--show", type=int, default=None,
+                     help="cap the WORST COVERED list to N rows (announced, not silent); "
+                          "omit to print all of them")
     a = ap.parse_args()
     rows = measure()
     report(rows, show=a.show)

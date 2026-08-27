@@ -4,16 +4,16 @@ THE ONOMASTICON — distinct designations for the worlds that all call themselve
 
 THE PROBLEM, AND WHY IT IS NOT A LABELLING PROBLEM
 --------------------------------------------------
-Resolution finds thirty distinct worlds named Earth, eighteen named Moon, sixteen named Mars.
+Resolution finds twenty-six distinct worlds named Earth, fifteen named Moon, fourteen named Mars.
 Keeping them all as "Earth" produces a catalogue in which the commonest entry is a name shared by
-thirty unrelated planets, and every cross-reference to it is ambiguous.
+twenty-six unrelated planets, and every cross-reference to it is ambiguous.
 
 The tempting fix is a serial number. It is the wrong fix, because it treats the repetition as an
 accident of bookkeeping when the repetition is a FACT ABOUT THE OMNIVERSE that wants explaining.
 
 THE DOCTRINE OF CARRIED NAMES
 -----------------------------
-Thirty peoples, with no contact between them, call their world by the same word. That is not
+Twenty-six peoples, with no contact between them, call their world by the same word. That is not
 coincidence and it is not identity. It is DESCENT.
 
 Each of these peoples holds a founding tradition that their line began on Earth. Carrying the
@@ -25,7 +25,7 @@ So the reading is:
 
     THE NAME "EARTH" IS AN ENDONYM OF DESCENT, NOT A DESIGNATION OF IDENTITY.
 
-There is one Earth. There are thirty worlds whose peoples remember it, live somewhere else, and
+There is one Earth. There are twenty-six worlds whose peoples remember it, live somewhere else, and
 call that somewhere else by the remembered name. The Library therefore assigns each world its own
 catalogue designation and RECORDS the endonym, because what a people calls its own world is a
 fact about the people and belongs in the record.
@@ -54,9 +54,9 @@ it into the correct structure, which is what it should have been anyway.
 This is the ordinary practice of every serious catalogue. A national library files a place under
 an authorised heading and the people who live there go on calling it what they call it; the
 exonym and the endonym are both correct and neither is the real one. The Doctrine of Carried
-Names above is the same distinction applied to a single word -- thirty peoples call their world
-Earth, and the Library files thirty designations -- so the layering was already here, and this
-only names it.
+Names above is the same distinction applied to a single word -- twenty-six peoples call their
+world Earth, and the Library files twenty-six designations -- so the layering was already here,
+and this only names it.
 
 What the record must never do is present one layer as the other. An entry gives the designation
 as its heading and the endonym in its body, because what a people calls its own world is a fact

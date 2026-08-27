@@ -194,6 +194,13 @@ def _is_continuity(desig, stat):
     even when the cache has not yet mined their counterparts elsewhere. `(Revelation)` shares no
     bearers yet and is still plainly a continuity, so branching cannot be required -- only
     sufficient.
+
+    BRANCHING AT n == 1. `(Fates)` has one bearer and is obviously a continuity because that
+    bearer exists in three other branches -- population alone would never admit it, so a bare
+    `n >= 2` guard here would make branching require what population is supposed to cover for
+    it. A single shared bearer is `shared >= 1` at n == 1, and is handled as its own case rather
+    than folded into the general majority test below, whose `n >= 2` shape does not extend to
+    n == 1 without dividing by a majority of one.
     """
     d = (desig or "").strip()
     if not d or d.lower() in NEVER:
@@ -204,6 +211,8 @@ def _is_continuity(desig, stat):
     shared = stat.get("shared", 0) if isinstance(stat, dict) else 0
     if n >= MIN_BEARERS:
         return True
+    if n == 1:
+        return shared >= 1
     return n >= 2 and shared >= max(2, 0.5 * n)
 
 

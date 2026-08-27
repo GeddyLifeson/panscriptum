@@ -372,6 +372,23 @@ def for_ladder():
     return out
 
 
+def _supersede_binding_suspect(host, call, closed):
+    """The old undecided order is CLOSED once its host's identity has been settled.
+
+    Without this the split below only ever adds: the host is still `healthy is None`, so it
+    still appears in `suspect` every sweep, and the vague BOTS order would sit open beside the
+    precise OWNER one describing the same host for ever. Superseding is a real resolution --
+    the question the old order asked has been answered -- so it is recorded as one rather than
+    deleted quietly.
+    """
+    if resolve_code("BINDING_SUSPECT",
+                    "superseded: the host's identity was measured and the verdict is %s, so "
+                    "this is filed under the code for that case instead of as an undecided "
+                    "suspicion" % call,
+                    where=host, by="workorders.sweep"):
+        closed.append("BINDING_SUSPECT:" + host)
+
+
 def sweep_detectors():
     """Run the cheap detectors and file what they find. -> (filed, resolved).
 
@@ -486,20 +503,65 @@ def sweep_detectors():
         for h in suspect:
             host = h.get("host") or "?"
             seen_hosts.add(host)
-            file_order("BINDING_SUSPECT",
-                       "%s answers its API but none of its catalogued titles resolve -- the "
-                       "source may be bound to the wrong wiki, or its entry names may not be "
-                       "article titles there. Mining continues; this is not a quarantine."
-                       % host,
-                       "BOTS", "MINOR", where=host, evidence=h.get("reason"),
-                       found_by="binding_health.canary")
+            # "MAY BE bound to the wrong wiki, OR its entry names may not be article titles"
+            # used to be the whole order, filed at BOTS, for both cases at once. Three of the
+            # five standing ones were the second case and are NOT REPAIRABLE BY ANYTHING --
+            # eberron.fandom.com really is the Eberron Wiki, and its bound source's catalogued
+            # entries are rules features no wiki has articles for -- so they re-filed at a bot
+            # every sweep for ever. An order permanently addressed to a handler that cannot act
+            # on it is how a real signal turns into furniture. `binding_health` now MEASURES
+            # which case it is by reading the wiki's own sitename, so the two go to the two
+            # different places they belong.
+            b = h.get("binding") or {}
+            call = b.get("verdict")
+            if call == "CONFIRMED":
+                file_order(
+                    "BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES",
+                    "%s IS the wiki it is bound to -- it names itself %r, matching the bound "
+                    "source %r -- but none of its catalogued titles resolve, so the entry "
+                    "names are not article titles there. NOTHING IS BROKEN AND NO BOT CAN FIX "
+                    "IT: the remedy is curatorial, either accept that this source is mined at "
+                    "feature level and carries no per-entry articles, or re-catalogue its "
+                    "entries under names that wiki actually uses. Mining continues either way."
+                    % (host, b.get("sitename"), b.get("matched")),
+                    "OWNER", "MINOR", where=host, evidence=b,
+                    found_by="binding_health.identity")
+                _supersede_binding_suspect(host, call, closed)
+            elif call == "MISBOUND":
+                file_order(
+                    "BINDING_HOST_SERVES_ANOTHER_WIKI",
+                    "%s is bound to %r but SERVES %r (name agreement %s%%). The catalogued "
+                    "entry names may be perfectly good; the host is wrong. Rebinding or "
+                    "unbinding a source is a curatorial call, so it is filed, not done."
+                    % (host, b.get("matched"), b.get("sitename"), b.get("score")),
+                    "OWNER", "MAJOR", where=host, evidence=b,
+                    found_by="binding_health.identity")
+                _supersede_binding_suspect(host, call, closed)
+            else:
+                # UNCLASSIFIED, UNKNOWN, or a canary record written before identity probing
+                # existed. Kept at the old code and the old rung, because "I could not tell"
+                # must not be filed as either answer.
+                file_order("BINDING_SUSPECT",
+                           "%s answers its API but none of its catalogued titles resolve, and "
+                           "its identity could not be settled (%s). The source may be bound to "
+                           "the wrong wiki, or its entry names may not be article titles there. "
+                           "Mining continues; this is not a quarantine."
+                           % (host, b.get("detail") or "no identity probe on this record"),
+                           "BOTS", "MINOR", where=host, evidence=h.get("reason"),
+                           found_by="binding_health.canary")
         # Close the ones that have recovered, so this cannot become a queue that only grows.
         for h in (rec.get("hosts") or []):
             host = h.get("host") or ""
             if host and host not in seen_hosts and h.get("healthy") is True:
-                if resolve_code("BINDING_SUSPECT", "titles resolve again", where=host,
-                                by="workorders.sweep"):
-                    closed.append("BINDING_SUSPECT:" + host)
+                # All three codes, not just the old one. A host that starts resolving its
+                # titles again has answered every version of this question, and closing only
+                # the code that happened to exist first would strand the other two open on a
+                # host that is now demonstrably fine.
+                for code in ("BINDING_SUSPECT", "BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES",
+                             "BINDING_HOST_SERVES_ANOTHER_WIKI"):
+                    if resolve_code(code, "titles resolve again", where=host,
+                                    by="workorders.sweep"):
+                        closed.append(code + ":" + host)
         _detector("binding-suspect", True)
     except Exception:
         _detector("binding-suspect", False)

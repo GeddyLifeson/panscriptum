@@ -1058,6 +1058,17 @@ HANDS = {
 }
 
 
+# The per-grade floor `interval_from_hands` adds in quadrature, hoisted to a module constant
+# (order 6475cb78e185) because `custodes._ATT_BASE` was a character-for-character HAND COPY of
+# this same dict, sitting under a comment that claimed it was "DERIVED from assay()'s own
+# attestation table rather than restated" -- it was not derived from anything, it was the exact
+# second hand-written table that comment warned would drift the moment either copy was edited.
+# It could not have been imported before this, because the values lived only as a literal inside
+# this function's body. Now there is one dict; `custodes.py` reads it as `A.ATTESTATION_FLOOR`.
+ATTESTATION_FLOOR = {"Witnessed": 0.10, "Instrumented": 0.08, "Transcribed": 0.20,
+                     "Reconstructed": 0.40, "Disputed": 0.55}
+
+
 def interval_from_hands(readings, attestation="Transcribed"):
     """Derive the published +/- from the Hands' divergence. Vol. 0.5 §2, Theorem 4.
 
@@ -1080,8 +1091,7 @@ def interval_from_hands(readings, attestation="Transcribed"):
     centre = sum(vals) / len(vals)
     half_spread = (max(vals) - min(vals)) / 2.0
 
-    floor = {"Witnessed": 0.10, "Instrumented": 0.08, "Transcribed": 0.20,
-             "Reconstructed": 0.40, "Disputed": 0.55}.get(attestation, 0.30)
+    floor = ATTESTATION_FLOOR.get(attestation, 0.30)
 
     interval = round(math.sqrt(half_spread ** 2 + floor ** 2), 2)
 

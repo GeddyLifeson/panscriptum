@@ -153,7 +153,7 @@ def burgs_for(world_seed, features, limit=None):
 
     out = []
     for k in range(1, (limit or n) + 1):
-        pop = max(30, int(p1 / (k ** ZIPF_Q)))
+        pop = max(HAMLET_FLOOR, int(p1 / (k ** ZIPF_Q)))
         name, gen = classify(pop)
         s = _stream(world_seed, f"burg{k}")
         coast = (s % 100) / 100.0 < coastal_bias
@@ -217,19 +217,22 @@ def main():
     for k, _, _, _ in CLASSES:
         print(f"   {k:<10}{cls.get(k, 0):>7,}  {cls.get(k,0)/max(1,total):6.1%}")
 
-    w0 = worlds[0]
-    print("\n" + "-" * 100)
-    print(f"SAMPLE — {w0['designation'][:60]}")
-    print(f"   {w0['features']}")
-    print("-" * 100)
-    print(f"{'rank':>5}{'population':>12}{'class':>10}   {'flags':<22}generator")
-    for b in per_world[w0["designation"]][:args.limit]:
-        flags = ",".join(f for f in ("coast", "port", "river") if b[f]) or "inland"
-        gen = GENERATORS.get(b["generator"], b["generator"])   # long form for the reader only
-        print(f"{b['rank']:>5}{b['population']:>12,}{b['class']:>10}   {flags:<22}{gen}")
-    print()
-    print("   largest, via Azgaar's own burg link (it makes the Watabou hand-off itself):")
-    print(f"   {burg_link(AS.map_seed(w0['seed']), 1)}")
+    if not worlds:
+        print("\n  no worlds encoded -- nothing to sample")
+    else:
+        w0 = worlds[0]
+        print("\n" + "-" * 100)
+        print(f"SAMPLE — {w0['designation'][:60]}")
+        print(f"   {w0['features']}")
+        print("-" * 100)
+        print(f"{'rank':>5}{'population':>12}{'class':>10}   {'flags':<22}generator")
+        for b in per_world[w0["designation"]][:args.limit]:
+            flags = ",".join(f for f in ("coast", "port", "river") if b[f]) or "inland"
+            gen = GENERATORS.get(b["generator"], b["generator"])   # long form for the reader only
+            print(f"{b['rank']:>5}{b['population']:>12,}{b['class']:>10}   {flags:<22}{gen}")
+        print()
+        print("   largest, via Azgaar's own burg link (it makes the Watabou hand-off itself):")
+        print(f"   {burg_link(AS.map_seed(w0['seed']), 1)}")
 
     if args.write:
         # THE MESSAGE USED TO CONTRADICT THE WRITE ABOVE IT. An earlier design truncated this

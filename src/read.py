@@ -403,19 +403,34 @@ def _ask_ungated(c, system, prompt, schema):
                 except Exception:
                     silence.note("read.py:188")
                 delay = BACKOFF[min(attempt, len(BACKOFF) - 1)]
-            # Every bucket tried and none answered. Falling through to the GPU is right, but the
-            # count has to be visible: a run quietly serving every call from the slow path looks
-            # identical to a run that is merely slow.
-            with _FELL_BACK_LOCK:
-                _FELL_BACK[0] += 1
+            # Every bucket tried and none answered. Falling through to the GPU is right for
+            # auto -- but cascade mode is a promise never to touch the GPU (the check just
+            # below), and the counter has to agree with what actually happened: a chunk that is
+            # NOT going to the GPU must not be counted as having gone there. Order 6b7f51f8ec2e:
+            # this increment used to fire before that check, so the progress line's "(%d to
+            # GPU)" included chunks the GPU never received.
             if _TRANSPORT == "cascade":
                 return None
+            with _FELL_BACK_LOCK:
+                _FELL_BACK[0] += 1
+        elif _TRANSPORT == "cascade":
+            # ensure_transport() came back False -- cascade_bridge would not import, or
+            # CB.engine() was falsy. Order 6b7f51f8ec2e: this branch used to be absent, so
+            # control fell out of the whole `if _TRANSPORT in ("auto", "cascade")` block
+            # to the unconditional `return _local(...)` at the end of this function -- sending
+            # a cascade-only call to the local GPU, exactly what the "if _TRANSPORT == 'cascade'"
+            # checks above exist to forbid. auto still falls through on purpose; only cascade
+            # is a hard no.
+            return None
     # THE GPU GETS THE SAME TEXT, IN PIECES IT CAN HOLD.
     #
-    # Chunks are built at cloud size, and Ollama does not refuse an overlong prompt -- it
+    # CLOUD_CHUNK == CHUNK now (:94-96) -- there is no longer a cloud/local size difference for
+    # this to compensate for. What is left is header overhead: read_entity's prompt is
+    # "ENTITY: <name>\nPAGE: <title>\n\n" plus a full-size chunk, so a prompt can run a little
+    # over CHUNK before it ever reaches here. Ollama does not refuse an overlong prompt -- it
     # truncates it silently, which is the exact fault that once looked like a 51% fabrication
-    # rate. So an oversized passage is re-split here and the results merged. The reader still
-    # sees every character; only the seams move.
+    # rate. So an oversized passage is re-split in _local_carded and the results merged. The
+    # reader still sees every character; only the seams move.
     #
     # The local timeout is deliberately not generous. A piece the GPU cannot finish in three
     # minutes is better retried through the pool next pass than sat on for ten.
@@ -522,12 +537,20 @@ def _local_carded(c, system, prompt, schema):
         if got is None:
             _GPU_DOWN_UNTIL[0] = time.time() + GPU_BENCH
         return got
+    # Order 5bf48fa9f70d: a None from any piece used to be swallowed by `(got or {})`, so a
+    # total transport failure on every piece came back as {"feats": []} -- ANSWERED, not
+    # unanswered, permanently caching an empty result over a passage nobody actually read. The
+    # ordinary chunk path (:521-524 above) treats a None as unanswered and benches the GPU; this
+    # path has to make the same promise, not a weaker one just because it is rarer.
     head, _, body = prompt.partition(chr(10) + chr(10))
     merged = {"feats": []}
     for i in range(0, len(body), CHUNK):
         got = P.ask(c, system, head + chr(10) + chr(10) + body[i:i + CHUNK],
                     schema, timeout=180)
-        merged["feats"].extend((got or {}).get("feats", []))
+        if got is None:
+            _GPU_DOWN_UNTIL[0] = time.time() + GPU_BENCH
+            return None
+        merged["feats"].extend(got.get("feats", []))
     return merged
 
 

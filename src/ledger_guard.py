@@ -166,6 +166,21 @@ def seal():
 
 
 def read_chain():
+    """Read the chain, or raise -- "no chain yet" and "could not be read" are not the same claim.
+
+    Only `FileNotFoundError` means "no chain yet": a fresh project, or the first run after this
+    file was introduced, where an empty list is simply true. The blanket `except Exception:
+    return []` that used to sit beside it collapsed every OTHER failure into that same empty
+    list -- permission denied, the file held open by another process, a directory sitting where
+    the file should be, an encoding that will not decode. Those are not "no chain"; they are
+    "cannot tell", and `verify_chain()` on an empty list reports the chain intact because it
+    never got the chance to find otherwise. `assert_intact()` trusts that report before `push()`
+    reaches the PUBLIC repo. So this now only swallows the one exception that is genuinely
+    silence-shaped, and lets everything else propagate: `verify_chain()` and `assert_intact()`
+    make no attempt to catch it either, which means an unreadable chain now STOPS the publish
+    (and, in `workorders.py`'s sweep, files a DETECTOR_FAILED order instead of a clean one) —
+    fail closed, per the project rule that a layer that does not know must never authorise.
+    """
     out = []
     try:
         with open(CHAIN, encoding="utf-8") as f:
@@ -177,8 +192,6 @@ def read_chain():
                     except Exception:
                         continue
     except FileNotFoundError:
-        return []
-    except Exception:
         return []
     return out
 

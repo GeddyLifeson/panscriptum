@@ -24,6 +24,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import sys
 import tempfile
 import time
@@ -2039,6 +2040,110 @@ def drill_stale_writer():
 
 # ============================================================== POLICY (checks as data)
 
+def _partial_canary_merges(tmp=None):
+    """A five-host `--host` run must not land a five-host estate over a two-hundred-host one.
+
+    Driven against the REAL `run()` with the network stubbed out, in a temporary OUT, because
+    the fault is in what gets WRITTEN and a source scan would pass against a merge that was
+    written but wrong. The standing report is seeded with two hosts, one host is re-probed, and
+    the file afterwards must still describe both.
+    """
+    import binding_health as BH
+    tmpdir = tmp or tempfile.mkdtemp(prefix="drill_binding_")
+    out_path = os.path.join(tmpdir, "BINDING_HEALTH.json")
+    saved_out, saved_canary, saved_titles, saved_load = (
+        BH.OUT, BH.canary, BH.known_present_titles, BH._load)
+    try:
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump({"at": 0, "checked": 2, "failed": 0,
+                       "hosts": [{"host": "kept.example.invalid", "healthy": True},
+                                 {"host": "probed.example.invalid", "healthy": True}]}, f)
+        BH.OUT = out_path
+        BH.known_present_titles = lambda h, m=None, **kw: "Any Title"
+        BH.canary = lambda h, t, sources=None: {"host": h, "healthy": None,
+                                                "reason": "stubbed"}
+        BH._load = lambda path, default: ({"A source": "probed.example.invalid",
+                                           "Another": "kept.example.invalid"}
+                                          if path.endswith("WIKI_HOSTS.json")
+                                          else saved_load(path, default))
+        BH.run(only=["probed.example.invalid"])
+        with open(out_path, encoding="utf-8") as f:
+            after = json.load(f)
+    finally:
+        BH.OUT, BH.canary, BH.known_present_titles, BH._load = (
+            saved_out, saved_canary, saved_titles, saved_load)
+        shutil.rmtree(tmpdir, ignore_errors=True)
+    hosts = {h.get("host") for h in (after.get("hosts") or [])}
+    return ("kept.example.invalid" in hosts and "probed.example.invalid" in hosts
+            and after.get("checked") == 2)
+
+
+def drill_binding_identity():
+    """Can an unfixable fault be filed, for ever, at a handler that cannot fix it?
+
+    Five BINDING_SUSPECT orders stood at the BOTS rung, re-filed every sweep, `seen 14x`. Three
+    of them were not repairable by anything: eberron.fandom.com IS the Eberron Wiki, and the
+    entries catalogued against its source are rules features (`Alchemical Savant`, `Arcane
+    Firearm`) that no wiki has articles for. The order asked a bot to re-probe a binding that
+    was already correct. An alarm that can never be cleared is furniture, and this project has
+    already learned once that an alarm which always sounds stops being read.
+
+    The discriminator is the wiki's own `sitename`, and it is MEASURED rather than kept in a
+    hand-maintained roster of known-fine hosts -- a list like that goes stale the day a source
+    is rebound, which is the smaller-universe failure Hard Rule 0 is about.
+
+    Attacked offline against the sitenames measured live on 2026-08-26, so the net proves the
+    DECISION rather than today's internet.
+    """
+    a = "BINDING IDENTITY — is this host the wiki it is bound to?"
+    import binding_health as BH
+
+    confirmed = [("Eberron Wiki", ["Eberron: Rising from the Last War"]),
+                 ("War Thunder Wiki", ["War Thunder + World of Tanks/Warplanes/Warships "
+                                       "(space-refit)"]),
+                 ("ANEURISM Wiki", ["ANEURISM IV"])]
+    misbound = [("Prime Hydration Wiki", ["Prime World Equipment"]),
+                ("The Brain World Wikia", ["Star Realms"])]
+
+    net(a, "a wiki that names itself after its bound source is CONFIRMED, not suspected",
+        lambda: all(BH.binding_verdict(s, n)["verdict"] == "CONFIRMED" for s, n in confirmed),
+        "these three re-filed at a bot every sweep for a fault no bot can repair")
+    net(a, "a wiki serving something else entirely is MISBOUND",
+        lambda: all(BH.binding_verdict(s, n)["verdict"] == "MISBOUND" for s, n in misbound),
+        "prime.fandom.com serves the Prime Hydration drink wiki; the two share only the word "
+        "'Prime', and a partial-string match would have called that a confirmed binding")
+    net(a, "the two verdicts are separated by a real margin, not by a hair",
+        lambda: (min(BH.binding_verdict(s, n)["score"] for s, n in confirmed)
+                 - max(BH.binding_verdict(s, n)["score"] for s, n in misbound)) >= 20,
+        "a threshold that only just separates today's cases is a threshold that will be wrong "
+        "about tomorrow's")
+    net(a, "a host whose identity cannot be read is UNKNOWN, not guessed either way",
+        lambda: (BH.binding_verdict(None, ["Star Realms"])["verdict"] == "UNKNOWN"
+                 and BH.binding_verdict("Some Wiki", [])["verdict"] == "UNKNOWN"),
+        "guessing is what put an unfixable order in a bot's queue in the first place")
+    net(a, "a name too close to call is UNCLASSIFIED rather than forced to a side",
+        lambda: BH.BINDING_MISBOUND_BELOW < BH.BINDING_CONFIRMED_AT,
+        "collapsing the undecided band into one of the answers would make every borderline "
+        "host either an unfixable bot order or an accusation of misbinding")
+    net(a, "the identity probe is only spent where it changes something",
+        lambda: "healthy is None and sources" in open(
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "binding_health.py"),
+            encoding="utf-8").read(),
+        "a host whose titles resolve is bound correctly by demonstration; asking its name "
+        "anyway costs a network round trip per host per sweep to confirm what was just proved")
+    net(a, "a PARTIAL canary run cannot shrink the whole-estate report",
+        _partial_canary_merges,
+        "probing five hosts by name wrote a report saying the library has five hosts, and the "
+        "binding detector reads that file AS the estate -- the same smaller-universe shape as "
+        "a cap, arrived at while INVESTIGATING a binding")
+    net(a, "settling a host's identity CLOSES the undecided order it replaces",
+        lambda: "_supersede_binding_suspect" in open(
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "workorders.py"),
+            encoding="utf-8").read(),
+        "splitting one code into two only ever ADDS unless the old order is resolved: the host "
+        "is still unhealthy, so the vague order would sit open beside the precise one for ever")
+
+
 def drill_policy():
     """The rule table itself, and the one property that makes it worth having."""
     a = "POLICY — can a rule pass for the wrong reason without anyone seeing?"
@@ -3905,7 +4010,8 @@ def main():
     for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_done_keys, drill_profile,
-               drill_snapshot, drill_stale_writer, drill_policy, drill_fetch, drill_cascade, drill_park,
+               drill_snapshot, drill_stale_writer, drill_policy, drill_binding_identity,
+               drill_fetch, drill_cascade, drill_park,
                drill_workorders, drill_inspector, drill_no_top_ups, drill_probe_honesty, drill_rung_four, drill_codewatch, drill_scout,
                drill_defect_classes, drill_mutation,
                drill_scope, drill_correlation,

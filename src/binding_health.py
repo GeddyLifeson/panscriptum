@@ -39,6 +39,7 @@ we are already rate-limited against is the entire expense.
 import argparse
 import json
 import os
+import re
 import sys
 import time
 
@@ -288,6 +289,85 @@ def _probe_reachable(host):
     return True, "siteinfo answered"
 
 
+# ------------------------------------------------- IS THIS HOST THE WIKI IT IS BOUND TO?
+#
+# The three probes above answer "is the host up" and "do its titles resolve". Neither can tell
+# apart the two entirely different faults that both come out as `healthy is None`:
+#
+#   * the SOURCE IS BOUND TO THE WRONG WIKI -- prime.fandom.com serves the Prime Hydration
+#     drink wiki, starrealms.fandom.com serves 'The Brain World Wikia'. Real, actionable, and a
+#     curatorial call: rebind or unbind.
+#   * the BINDING IS RIGHT AND THE ENTRY NAMES ARE NOT ARTICLE TITLES -- eberron.fandom.com IS
+#     the Eberron Wiki; its bound source's catalogued entries are rules features (`Alchemical
+#     Savant`, `Arcane Firearm`) which that wiki has no articles for. Nothing is broken and
+#     nothing can repair it.
+#
+# Until now both filed the same BOTS work order, so three permanently-unfixable ones re-filed
+# every sweep for ever -- a queue entry addressed to a bot for a job no bot can do, which is
+# how a real signal becomes furniture. The discriminator is MEASURED, not listed by hand: a
+# hand-maintained roster of "known-fine" hosts is the same smaller-universe failure this
+# project keeps finding, and it would go stale the day a source was rebound.
+_IDENTITY_STOPWORDS = {"wiki", "wikia", "fandom", "the", "a", "an", "of", "and",
+                       "encyclopedia", "database", "official"}
+
+# Calibrated 2026-08-26 against all five live suspects. The confirmed three scored 100, 100 and
+# 100; the two genuine misbindings scored 50 (Prime Hydration Wiki vs 'Prime World Equipment',
+# which share only the generic word 'Prime') and 36 (The Brain World Wikia vs 'Star Realms').
+# The band between the thresholds is deliberately left UNDECIDED rather than split down the
+# middle -- a host this cannot classify is reported as unclassified, because guessing is what
+# put an unfixable order in a bot's queue in the first place.
+BINDING_CONFIRMED_AT = 85
+BINDING_MISBOUND_BELOW = 65
+
+
+def _normalise_name(s):
+    """A wiki name and a source name, reduced to their content words."""
+    cleaned = re.sub(r"[^a-z0-9 ]", " ", (s or "").lower())
+    return " ".join(t for t in cleaned.split() if t not in _IDENTITY_STOPWORDS)
+
+
+def binding_verdict(sitename, source_names):
+    """PURE. Does the wiki's own name correspond to the source bound to it?
+
+    -> {"verdict": CONFIRMED | MISBOUND | UNCLASSIFIED | UNKNOWN, "score":.., "sitename":..}
+
+    Separated from the probe, like `verdict()` above and for the same reason: the decision is
+    easy to get subtly wrong and must be attackable by the drill without a network, rather than
+    inferred from whichever branch today's internet happens to produce.
+    """
+    if not sitename or not source_names:
+        return {"verdict": "UNKNOWN", "score": None, "sitename": sitename,
+                "sources": list(source_names or []),
+                "detail": "no sitename to compare" if not sitename
+                          else "no source name bound to this host"}
+    from rapidfuzz import fuzz
+    site = _normalise_name(sitename)
+    # A host can carry more than one source; the binding is right if it matches ANY of them.
+    scored = [(fuzz.token_set_ratio(site, _normalise_name(n)), n) for n in source_names]
+    score, best = max(scored)
+    if score >= BINDING_CONFIRMED_AT:
+        v, why = "CONFIRMED", "the wiki names itself after the source bound to it"
+    elif score < BINDING_MISBOUND_BELOW:
+        v, why = "MISBOUND", "the wiki serves something else entirely"
+    else:
+        v, why = "UNCLASSIFIED", "too close to call from the names alone -- a person should look"
+    return {"verdict": v, "score": score, "sitename": sitename, "matched": best,
+            "sources": list(source_names), "detail": why}
+
+
+def _probe_identity(host):
+    """What does this wiki call ITSELF? -> (sitename, detail)."""
+    try:
+        import feats as F
+        d = F.api(host, {"action": "query", "meta": "siteinfo", "siprop": "general"},
+                  retries=0)
+    except Exception as e:
+        return None, "%s: %s" % (type(e).__name__, str(e)[:120])
+    g = ((d or {}).get("query") or {}).get("general") or {}
+    name = g.get("sitename")
+    return name, ("sitename %r" % name if name else "siteinfo carried no sitename")
+
+
 def verdict(ok_present, ok_absent, ok_reachable, det_p="", det_a="", det_r=""):
     """PURE. The three probe outcomes -> (healthy, reason).
 
@@ -326,8 +406,8 @@ def verdict(ok_present, ok_absent, ok_reachable, det_p="", det_a="", det_r=""):
     return False, "host unreachable: %s (present probe: %s)" % (det_r, det_p)
 
 
-def canary(host, present_title):
-    """All three probes for one host. -> record.
+def canary(host, present_title, sources=None):
+    """All three probes for one host, plus its identity when the titles failed. -> record.
 
     The verdict is deliberately THREE-VALUED. `healthy` is True when the host serves what we
     know it holds and correctly refuses what nobody holds; False when the host itself is at
@@ -341,11 +421,20 @@ def canary(host, present_title):
     ok_r, det_r = (True, "not probed -- the known-present title resolved") if ok_p \
         else _probe_reachable(host)
     healthy, reason = verdict(ok_p, ok_a, ok_r, det_p, det_a, det_r)
-    return {"host": host, "at": time.time(), "healthy": healthy,
-            "present": {"title": present_title, "ok": ok_p, "detail": det_p},
-            "absent": {"title": ABSENT_PROBE, "ok": ok_a, "detail": det_a},
-            "reachable": {"ok": ok_r, "detail": det_r},
-            "reason": reason}
+    rec = {"host": host, "at": time.time(), "healthy": healthy,
+           "present": {"title": present_title, "ok": ok_p, "detail": det_p},
+           "absent": {"title": ABSENT_PROBE, "ok": ok_a, "detail": det_a},
+           "reachable": {"ok": ok_r, "detail": det_r},
+           "reason": reason}
+    # ASKED ONLY WHERE THE ANSWER CHANGES ANYTHING -- when the titles did not resolve. A host
+    # whose titles resolve is bound correctly by demonstration and does not need its name read;
+    # asking anyway would spend a network round trip per host per sweep to confirm what the
+    # present-probe just proved.
+    if healthy is None and sources:
+        sitename, det_i = _probe_identity(host)
+        rec["binding"] = binding_verdict(sitename, sources)
+        rec["binding"]["probe"] = det_i
+    return rec
 
 
 def _title_variants(name):
@@ -434,6 +523,12 @@ def run(limit=None, only=None):
     """Canary every bound host. Error-resilient: one bad host never aborts the sweep."""
     hosts_map = _load(os.path.join(HERE, "data", "WIKI_HOSTS.json"), {}) or {}
     hosts = sorted({h for h in hosts_map.values() if h and not str(h).startswith(("pages:", "doc:"))})
+    # host -> every source bound to it. A host can carry several, so the binding is right if
+    # its own name corresponds to ANY of them.
+    bound_to = {}
+    for source, h in hosts_map.items():
+        if h:
+            bound_to.setdefault(h, []).append(source)
     if only:
         hosts = [h for h in hosts if h in set(only)]
     if limit:
@@ -445,7 +540,7 @@ def run(limit=None, only=None):
             out.append({"host": h, "healthy": None, "reason": "no catalogued entry to probe with"})
             continue
         try:
-            rec = canary(h, title)
+            rec = canary(h, title, sources=bound_to.get(h))
         except Exception as e:
             # ERROR-RESILIENT BY CONSTRUCTION (maigret's self-check does the same): one host
             # raising must not cost the other 199 their check.
@@ -464,7 +559,43 @@ def run(limit=None, only=None):
             # quarantine that outlives the reasoning behind it is just an outage nobody
             # remembers starting. The binding is still suspect and is still reported.
             release(h, "host is reachable; the failure was in the titles, not the host")
-    if not _land(OUT, {"at": time.time(), "checked": len(out), "failed": failed, "hosts": out}):
+    # A PARTIAL RUN MUST NOT LAND OVER A WHOLE-ESTATE REPORT. Found 2026-08-26 by tripping it:
+    # `--host eberron.fandom.com ...` for five hosts wrote BINDING_HEALTH.json with
+    # `"checked": 5`, and the other ~200 hosts simply left the file. Everything downstream reads
+    # this report AS the estate -- `workorders.sweep`'s binding detector decides which hosts are
+    # suspect from it, and allsweep reconciles against it -- so a targeted re-probe, which is
+    # exactly what someone runs while INVESTIGATING a binding, silently shrank the estate to the
+    # handful of hosts they were looking at. The same smaller-universe shape as a cap: nothing
+    # fails, the file is well-formed, and it describes a library that is mostly not there.
+    #
+    # Merged rather than refused, because a targeted probe IS the useful thing and its results
+    # should be kept: each host's record is replaced by the fresh one, every host not probed
+    # keeps the verdict it had, and `checked` counts the whole file rather than this pass.
+    merged, prior = list(out), {}
+    if only or limit:
+        try:
+            with open(OUT, encoding="utf-8") as f:
+                prior = {h.get("host"): h for h in (json.load(f).get("hosts") or [])}
+        except FileNotFoundError:
+            prior = {}
+        except Exception:
+            # Unreadable is NOT empty. Landing a five-host file over a report that could not be
+            # read would destroy the very thing this guard exists to protect, so the partial
+            # results are returned to the caller and nothing is written.
+            silence.note("binding_health.py:merge-unreadable")
+            print("binding_health: %s could not be read, so this partial run has nothing to "
+                  "merge into and will NOT land over it. Run without --host/--limit to rebuild "
+                  "the whole report." % os.path.basename(OUT), file=sys.stderr)
+            return out, failed
+        for h in out:
+            prior[h.get("host")] = h
+        merged = [prior[k] for k in sorted(prior)]
+    doc = {"at": time.time(), "checked": len(merged), "failed": failed, "hosts": merged}
+    if only or limit:
+        doc["partial_pass"] = {"probed": sorted(h.get("host") for h in out),
+                               "note": "merged into the standing report; hosts not listed "
+                                       "here carry the verdict from an earlier pass"}
+    if not _land(OUT, doc):
         # The canary results are still returned -- the run happened -- but anything reading
         # BINDING_HEALTH.json will be looking at the PREVIOUS round's verdicts, so say so here
         # rather than let a stale report pass for a fresh one.

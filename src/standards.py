@@ -474,6 +474,16 @@ def check(state=None):
         import dashboard as D
         state = D.state()
     out = []
+    # GREEN BY ABSENCE. Roughly eighteen standards below live inside a `try: ... out.append(...)
+    # except Exception: silence.note(...)` block where the append is the only thing inside the
+    # try -- so a missing or unreadable input file (the exact FAIL-CLOSED case Hard Rule -1
+    # exists for) does not fail that standard, it DELETES it. `report()`'s "N/N standards met"
+    # line then divides by whatever's left, and a run losing three standards to a missing file
+    # reads as MORE consistent, not less. `_dropped` is filled by those same except blocks (see
+    # each `silence.note("standards.py:<name>")` call) and turned into one real standard below,
+    # so a vanished standard shows up as a miss instead of shrinking the denominator it would
+    # have counted against. 2026-08-26, batch 4.
+    _dropped = []
     tp = state.get("throughput") or {}
     quotas = state.get("quotas") or []
     jobs = {j["name"]: j for j in (state.get("jobs") or [])}
@@ -641,6 +651,7 @@ def check(state=None):
             "high", "pool"))
     except Exception:
         silence.note("standards.py:reader-gate")
+        _dropped.append("reader-gate")
 
     # ------------------------------------------------------------------ the corpus read
     read = jobs.get("corpus read")
@@ -890,6 +901,7 @@ def check(state=None):
             "medium", "evidence"))
     except Exception:
         silence.note("standards.py:roster-audit")
+        _dropped.append("roster-audit")
 
     try:
         with open(os.path.join(HERE, "data", "SHELFMARKS.json"), encoding="utf-8") as f:
@@ -905,6 +917,7 @@ def check(state=None):
             "high", "evidence"))
     except Exception:
         silence.note("standards.py:shelfmarks")
+        _dropped.append("shelfmarks")
 
     # ------------------------------------------------------------------ the instrument itself
     #
@@ -940,6 +953,7 @@ def check(state=None):
             "Magnitude.", "high", "instrument"))
     except Exception:
         silence.note("standards.py:reference-assays")
+        _dropped.append("reference-assays")
 
     # (the charter-regression verdict is `charter_regression_verdict()`, below check())
     # The standard above proves the ARITHMETIC; this one proves the AUTOMATION. calibrate()
@@ -967,6 +981,7 @@ def check(state=None):
             "high", "instrument"))
     except Exception:
         silence.note("standards.py:charter-regression")
+        _dropped.append("charter-regression")
 
     # THE COUNTERS MUST MOVE. The job-advancing standard watches LOG GROWTH, and a job whose
     # every model call fails grows its log beautifully -- 2026-08-23 evening: fourteen
@@ -1009,6 +1024,7 @@ def check(state=None):
             "see that, only the counters can.", "high", "throughput"))
     except Exception:
         silence.note("standards.py:counters-moving")
+        _dropped.append("counters-moving")
 
     try:
         with open(os.path.join(HERE, "data", "ALLSWEEP.json"), encoding="utf-8") as f:
@@ -1037,6 +1053,7 @@ def check(state=None):
             "medium", "instrument"))
     except Exception:
         silence.note("standards.py:allsweep")
+        _dropped.append("allsweep")
 
     # ------------------------------------------------------------------ is the cast all here?
     try:
@@ -1046,7 +1063,12 @@ def check(state=None):
         wiki = sum(c.get("wiki_persons") or 0 for c in good)
         have = sum(c.get("catalogued_persons") or 0 for c in good)
         cov = (have / wiki) if wiki else 0.0
-        worst = sorted(good, key=lambda c: c.get("coverage", 0))[:3]
+        # ALL OF THEM, WORST FIRST -- not `[:3]`. A cap here is the same shape as the
+        # `[:3]`/`[:60]` fix on the unrecognised-pool standard above (see that block's note,
+        # "which is lesson 14: fix a shape, then grep the tree for it"): it silently decided
+        # which sources "count" as the worst-covered, and every source past the cutoff read
+        # as fine on the page that exists to catch exactly this.
+        worst = sorted(good, key=lambda c: c.get("coverage", 0))
         detail = "; ".join("%s %.1f%%" % (str(c["source"])[:18], 100 * c.get("coverage", 0))
                            for c in worst)
         # NO DENOMINATOR IS NOT ZERO COVERAGE. With an empty or all-unreliable COMPLETENESS.json
@@ -1077,6 +1099,7 @@ def check(state=None):
             "high", "library"))
     except Exception:
         silence.note("standards.py:catalogue-coverage")
+        _dropped.append("catalogue-coverage")
 
     # ------------------------------------------------------------------ derived data is FRESH
     #
@@ -1105,6 +1128,7 @@ def check(state=None):
             "high", "library"))
     except Exception:
         silence.note("standards.py:sweep-freshness")
+        _dropped.append("sweep-freshness")
 
     # ------------------------------------------------------------------ jobs that are ADVANCING
     #
@@ -1182,6 +1206,7 @@ def check(state=None):
             "high", "machine"))
     except Exception:
         silence.note("standards.py:job-advance")
+        _dropped.append("job-advance")
 
     # A POOL FAILURE NOBODY CAN NAME IS THE ONE TO WORK FIRST.
     #
@@ -1241,6 +1266,7 @@ def check(state=None):
             "high", "pool"))
     except Exception:
         silence.note("standards.py:unrecognised-pool")
+        _dropped.append("unrecognised-pool")
 
     # ------------------------------------------------------------------ the machine
     # ------------------------------------------------------------------ the network
@@ -1270,6 +1296,7 @@ def check(state=None):
             "high", "machine"))
     except Exception:
         silence.note("standards.py:fandom-reachable")
+        _dropped.append("fandom-reachable")
 
     try:
         import shutil as _sh
@@ -1280,6 +1307,7 @@ def check(state=None):
             "once and most of them fail quietly.", "high", "machine"))
     except Exception:
         silence.note("standards.py:disk")
+        _dropped.append("disk")
 
     # ------------------------------------------- promotions whose spine code has not caught up
     #
@@ -1291,9 +1319,12 @@ def check(state=None):
         with open(os.path.join(HERE, "data", "SHELF_RANKS.json"), encoding="utf-8") as f:
             _ranks = json.load(f)
         _pending = sorted(s for s, v in _ranks.items() if v.get("code_amendment_pending"))
+        # ALL OF THEM, not `[:120]` characters -- that cut the joined name list mid-name, so
+        # whichever source happened to fall across the 120th character read as truncated or
+        # missing entirely to whoever read this row. Same shape as the two caps above.
         out.append(_s(
             "promotions have their spine codes amended", not _pending,
-            (", ".join(_pending)[:120] if _pending else "none outstanding"),
+            (", ".join(_pending) if _pending else "none outstanding"),
             "no source outgrowing its code",
             "A source whose cast crossed a promotion floor now outranks the spine code it was "
             "given. The code cannot be rewritten automatically -- where a source sits in the "
@@ -1306,6 +1337,7 @@ def check(state=None):
         _ = "silence-exempt: phase 7 has not run yet, so there is nothing to rank"
     except Exception:
         silence.note("standards.py:shelf-ranks")
+        _dropped.append("shelf-ranks")
 
     # ------------------------------------------------------ the local model is really serving
     try:
@@ -1337,6 +1369,7 @@ def check(state=None):
                 "high", "machine"))
     except Exception:
         silence.note("standards.py:ollama-runner-standard")
+        _dropped.append("ollama-runner-standard")
 
     # The runner check's inverse, found the same day it landed: runner ALIVE, model fully
     # GPU-resident, tags answering -- and a trivial generate timed out for two hours while
@@ -1362,6 +1395,7 @@ def check(state=None):
                 "high", "machine"))
     except Exception:
         silence.note("standards.py:token-flow-standard")
+        _dropped.append("token-flow-standard")
 
     try:
         import overnight as ON
@@ -1390,6 +1424,7 @@ def check(state=None):
             "medium", "machine"))
     except Exception:
         silence.note("standards.py:jobs-alive")
+        _dropped.append("jobs-alive")
 
     # ONE INSTANCE EACH. Three concurrent jobs once put the reader at two entities in twelve
     # minutes with nothing individually broken, which is why `overnight.start` checks by process
@@ -1437,6 +1472,7 @@ def check(state=None):
             "low", "machine"))
     except Exception:
         silence.note("standards.py:publish-age")
+        _dropped.append("publish-age")
 
     # ------------------------------------------------------------------ the provider config
     try:
@@ -1534,6 +1570,7 @@ def check(state=None):
             "high", "pool"))
     except Exception:
         silence.note("standards.py:provider-models")
+        _dropped.append("provider-models")
 
     # ------------------------------------------------------------------ the standards themselves
     #
@@ -1563,6 +1600,23 @@ def check(state=None):
             "high", "standards"))
     except Exception:
         silence.note("standards.py:self-check")
+        _dropped.append("self-check")
+
+    # THE STANDARD THAT CATCHES ITS OWN SIBLINGS VANISHING. Every `_dropped.append(...)` above
+    # sits beside a `silence.note(...)` in an except block whose try held the ONLY out.append
+    # for that standard -- so an exception there (missing file, bad JSON, whatever) used to
+    # just delete the standard, and `report()`'s "N/N standards met" divided by the smaller N
+    # and read as MORE consistent for having lost evidence. This one holds only when nothing
+    # upstream dropped, so a vanished standard now costs a MISS instead of shrinking the
+    # denominator it would have counted against.
+    out.append(_s(
+        "every standard could read its own input", not _dropped,
+        (", ".join(sorted(_dropped)) if _dropped else "none"), "none",
+        "One or more standards above could not be measured this run (missing, unreadable or "
+        "malformed input) and would otherwise have silently vanished from the count instead "
+        "of failing. Cross-reference the name(s) in `observed` against this file's own "
+        "`silence.note(\"standards.py:<name>\")` calls in check() to find which input broke, "
+        "then fix that input or the read.", "high", "instrument"))
 
     return out
 
