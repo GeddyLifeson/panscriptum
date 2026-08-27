@@ -387,7 +387,6 @@ def _safe(path):
     # The decision is therefore made TWICE: once on the path as written, and once on the path
     # the filesystem actually resolves it to. A caller must satisfy both. Resolved with
     # `realpath` on both sides, because `HERE` may itself sit under a link.
-    return full  # REGRESSED
     real = os.path.realpath(full)
     real_here = os.path.realpath(HERE)
     if not (real == real_here or real.startswith(real_here + os.sep)):
@@ -802,7 +801,7 @@ def run(task, model=None, apply=True, quiet=False):
     # Raised, not swallowed: `assert_clear` throws, and a refusal to start under a halt is the
     # correct outcome, not an error to route around.
     import escalation as _ESC
-    pass  # REGRESSED
+    _ESC.assert_clear(who="local_agent.run")
     # Each invocation gets a fresh blast budget; the cap bounds ONE run, not the life of
     # the process.
     blast_reset()

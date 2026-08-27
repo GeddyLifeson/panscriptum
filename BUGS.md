@@ -8,6 +8,32 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
+- **[M46 — OPEN, run #35] `mutate.py --target all` DIES ON A MISSING SANDBOX TARGET AND THE CAUSE
+  IS NOT FOUND.** Twice on 2026-08-27, once with repair agents editing `src/` and once on a
+  completely stable tree, a full mutation session crashed ~4 minutes in with a bare
+  `FileNotFoundError` on `<sandbox>/src/assay.py` — **after** its baseline gates had already run
+  and passed in that same sandbox. Measured since: `sandbox()` copies all 113 modules correctly
+  (assay.py present, 67,842 bytes), and the file survives the `import` and `verify_math` gates;
+  the `drill` gate was still under test when this was written and is the remaining suspect.
+  Mitigated but NOT fixed: `sandbox()` now verifies every `TARGETS` entry landed and refuses with
+  a legible message rather than crashing later, and a drill net stages the failure with a copy
+  that drops one target. **Consequence: no mutation results at all from run #35.** The 24 assay
+  survivors from the 2026-08-25 run were all killed by verify_math section 34 (verified
+  individually), but nothing has re-measured the tree since.
+
+- **[M47 — OPEN, run #35, DESIGN QUESTION] A LONG MAINTENANCE SHIFT STRUCTURALLY GUARANTEES STALE
+  DAEMONS, INCLUDING THE PUBLISHER.** `codewatch.stale()` requires the `src/` fingerprint to hold
+  still for `STABLE_SECONDS = 180` before a job exits rc=17 — correct in itself, since a digest
+  taken mid-write is a digest of garbage. But a maintenance run rewrites `src/` more or less
+  continuously for hours, so the settle timer never expires and no daemon ever bounces **for the
+  entire duration of the shift**. Measured on 2026-08-27: `publish.py --push --loop 10` last
+  restarted at 22:47 and pushed to the public export repo every ten minutes for the following
+  2.5 hours on pre-shift code, while `src/` changed under it in ~80 commits' worth of edits.
+  Nothing was broken by it this time. This is the 2026-08-25 incident's shape — a safety that
+  exists in a file and is not in effect — reached not by a missing guard but by a guard whose
+  precondition the work itself prevents. Related: M39 (`catalogue_web` writes through a standing
+  halt), and the run #35 fix that gave `local_agent.run` the `assert_clear()` call it never had.
+
 - **[M38 — OPEN, VERIFIED run #32] THE FAIL-CLOSED LAYER CAN FAIL OPEN.** `escalation.py:154-183`:
   `_raise_halt()` takes **no lock** and uses a non-disambiguated tmp filename, so two concurrent
   first-time OWNER halts can have the second **overwrite** the first rather than record it as
@@ -1792,6 +1818,128 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+### Run #35 (2026-08-27) — the first full daily shift
+
+- **[R35.1 — RESOLVED] THE ASSAY'S ARITHMETIC COULD BE CORRUPTED WITHOUT THE BATTERY NOTICING.**
+  Root cause: 24 places in `assay.py` where a single-token corruption survived the entire
+  battery, because the function containing them was never CALLED by any check — the guards were
+  read, not exercised. Fixed by `verify_math` section 34 (§20r, 69 checks) exercising
+  `axis_score`, `band_for_quantity`, `_check_constants`, `interval_from_hands`, `regress_test`,
+  `null_instrument`, `_rho_source`/`_rho_doc`, `_interval`, `instrument`, `calibration_report`
+  and the promotion/ceiling flags. **Verified by re-applying each of the 24 mutations
+  individually: 24/24 killed, `assay.py` byte-exact after every one.** Three needed sharper
+  checks than the obvious ones: the ladder walk needed STRICT ordering (a non-strict comparison
+  passes against a mutant where every quantity returns the top rung), the calibration margin
+  needed a passing band exactly one step wide, and the correlation-provenance guard needed a
+  forced reload rather than a forced fallback.
+
+- **[R35.2 — RESOLVED] `local_agent` COULD REPORT SUCCESS HAVING ACHIEVED NOTHING.** Root cause:
+  `ok` meant "the model stopped talking without breaking anything". Measured 2026-08-25: 6 turns,
+  5 tool calls, every `propose_patch` refused, `{"ok": true, "patches": []}`. Fixed by
+  `_achievement()`, which reads the outcomes `_settle` was already writing into the audit trail;
+  a run that attempted patches and landed none is no longer `ok`, while an answer-only run keeps
+  its verdict. Drill net put to all three shapes, watched red.
+
+- **[R35.3 — RESOLVED, BLOCKING] THE MODEL'S WRITE LANE NEVER ASKED WHETHER THE LIBRARY WAS
+  HALTED.** Root cause: `local_agent.run()` had no `escalation.assert_clear()` call while twelve
+  other modules did — the actor most able to worsen a halted situation was the only one not
+  asking, and `verify_math`'s own interlock roster did not list it either. Fixed. The drill net
+  for it was FIRST written as a substring scan and **passed against a build with the call
+  replaced by `pass`**, because the comment explaining the call still contained the word; it now
+  walks the parse tree for a real Call node.
+
+- **[R35.4 — RESOLVED, BLOCKING] SIXTH BYPASS OF THE `local_agent` WRITE GATE.** Root cause: every
+  check in `_safe()` ran on `os.path.abspath`, which normalises a string and resolves nothing, so
+  a directory junction under `src/` pointing at `state/`, `data/records/` or the charter
+  satisfied the allowlist, matched no denylist, and the write followed the junction to the real
+  file. Same family as the five earlier defeats (letter case, name prefix, NTFS alternate data
+  stream, case-sensitive extension, unlisted directory). Fixed: the decision is made twice, on
+  the path as written and on `os.path.realpath` of it, sharing one `_denied_region()` rule. Drill
+  net stages a real junction and removes it.
+
+- **[R35.5 — RESOLVED] THE BATTERY OPENED 19 LIVE TLS CONNECTIONS PER RUN, AND IT BLOCKED THE
+  MUTATION MANDATE.** Root cause: `standards.check()` probes fandom over IPv4 and `verify_math`
+  calls `check()` ~19 times; `getaddrinfo` takes no timeout, so nothing bounded the whole call.
+  `mutate.py` refused to run at all — "verify_math TIMEOUT ... a gate that cannot finish on
+  unmutated code cannot judge a mutant". Found with a socket tracer, not by reading. Fixed by
+  memoising `fandom_ipv4_reachable` per process (stubbed calls bypass the memo so §19z's three
+  synthetic networks still get three answers). 19 remote connections → 1; battery 87s.
+
+- **[R35.6 — RESOLVED] FIVE UNFIXABLE ORDERS WERE ADDRESSED TO A BOT, FOREVER.** Root cause:
+  `BINDING_SUSPECT` could not distinguish "the source is bound to the wrong wiki" from "the
+  binding is right and the catalogued entry names are not article titles" — the second is not
+  repairable by anything, and three of the five were that. Fixed by MEASURING it:
+  `binding_health` reads each suspect host's own `sitename` and compares it to every source bound
+  to that host (rapidfuzz, thresholds 85/65 with an UNCLASSIFIED band). Calibrated live —
+  eberron/warthunder/aneurism 100, prime 50, starrealms 36. The two cases route to two OWNER
+  codes and the old order is superseded. A hand-maintained roster of known-fine hosts was
+  deliberately not used.
+
+- **[R35.7 — RESOLVED] A PARTIAL CANARY RUN COULD SHRINK THE WHOLE-ESTATE REPORT.** Found by
+  tripping it: `binding_health --host a --host b ...` wrote a `BINDING_HEALTH.json` with
+  `"checked": 5`, and `workorders.sweep` reads that file AS the estate. Partial runs now merge
+  into the standing report and mark themselves; an unreadable report refuses the merge rather
+  than landing over it. Drill net drives the real `run()` with the network stubbed.
+
+- **[R35.8 — RESOLVED] SIX WORK ORDERS DESCRIBED THREE SUBSYSTEMS THAT NEVER EXISTED.** Root
+  cause: every escalation files a real order, and the rung-4 drill probes released their
+  synthetic subsystem but never the `SUBSYSTEM_STOPPED`/`SUBSYSTEM_RESUMED` orders it filed —
+  two more per battery run, `seen 15x`. Fixed by `_sweep_probe_litter()`, the discipline the
+  DRILL_AREA probe already kept. New net stops and resumes a fresh synthetic subsystem and
+  asserts the open-order ID SET is unchanged — by identity, not count, since an unrelated
+  detector filing one while a probe leaks one nets to zero.
+
+- **[R35.9 — RESOLVED] `roll.exclude(rows=...)` WROTE THE CALLER'S TEST ROWS ONTO THE LIVE
+  ACQUISITIONS ROLL.** Root cause: `rows=` affected the read and not the write, so passing test
+  data in order to avoid touching the real file was the way to overwrite it. It destroyed the
+  live 216-source roll twice on 2026-08-27, with no backup of that file anywhere. Recovered from
+  `data/records/*.json` plus two dated owner rulings, and **independently verified this run**:
+  216 roll names against 216 record files, exact set match both directions, entry counts
+  agreeing. Fixed — `rows=` now means "work on my copy" on the write too (no callers in `src/`
+  depended on the old behaviour) — with a drill net that points `ROLL` at a throwaway file and
+  proves both that a caller's rows do not land and that the ordinary path still persists. The
+  standing gap it revealed (no backup for canonical data files) is filed at OWNER, not fixed.
+
+- **[R35.10 — RESOLVED, A REGRESSION THIS RUN CAUSED] THE SECOND OPINION WAS TALKED OUT OF 96% OF
+  ITS FINDINGS.** Root cause: the run's own second-opinion batch added BLE001, S110 and S112 to
+  `NOT_FILED`, on the stated grounds that `silence.audit()` treats those handlers as "an accepted
+  category". It does not — it prints "each of these can turn a failure into a plausible negative
+  result", lists all 152, and exits 1. The BLE001 waiver additionally cited this module's own
+  docstring as authority, a docstring which names BLE001 as the example of what must NOT be
+  waived. 531 + 63 of 1,002 live findings would have stopped reaching the queue while the report
+  went on looking healthy. All three reverted the same shift, with the reasoning kept in place of
+  the waivers. Found independently by sweep35 batch 7, which is the sweep earning its cost.
+
+- **[R35.11 — RESOLVED, A REGRESSION THIS RUN CAUSED] A WORKING TOOL REPORTED AS ABSENT.** Root
+  cause: the returncode check added so a failed tool could not read as clean admitted only rc 0
+  and 1, and **vulture exits 3 when it FINDS dead code** — so every run in which it did its job
+  came back `TOOL ERROR (vulture rc=3)` and the report ended `ABSENT: vulture — install before
+  treating this page as a second opinion`, about a tool that was installed, had run, and had just
+  printed three findings. Exit codes measured on this machine rather than assumed; guard now
+  admits 0/1/3 and still refuses a nonzero exit that parsed nothing.
+
+- **[R35.12 — RESOLVED] A STANDARD THAT COULD NOT BE ASKED SIMPLY VANISHED.** Root cause:
+  `standards.check()` emitted the "local model has a live runner" row only when the Ollama daemon
+  answered, and fell through otherwise — so an 8s timeout against a busy daemon made the standard
+  disappear and `N/N standards met` counted a smaller denominator. Measured: 44 declared / 44
+  emitted, then 42 minutes later while an unrelated process held ~9,600 connections to Ollama.
+  Fixed by appending to `_dropped`, the mechanism this module already had. Found by a check
+  (declared-vs-emitted) that this same run had merged minutes earlier.
+
+- **[R35.13 — RESOLVED] THE BATTERY USED ITSELF AS A FIXTURE.** Root cause: two checks drove
+  `overnight.running()` off THIS PROCESS's command line, so one failed when the suite was run by
+  import and the other failed whenever anything else on the machine had `verify_math.py` on its
+  command line — a battery whose answer depended on who else was running. Fixed with a synthetic
+  `pid|cmdline` listing exercising all three states (another process / only this one / nobody).
+  The listing is deliberately UNQUOTED, matching a real row: a quoted path yields a token ending
+  `.py"`, the resolver fails open on every row, and all six checks would have agreed vacuously.
+
+- **[R35.14 — RESOLVED] THE SWEEP'S OWN COUNT UNDER-REPORTED.** `workorders.sweep_detectors`
+  discarded the result of three `file_order` calls in the binding block, so `swept: N filed`
+  under-counted by exactly the binding orders and the `None` a refused queue write returns went
+  the same way. Measured before/after on a real sweep: a run that filed five binding orders
+  reported 2, and now reports 7.
 
 ### Run #34 (2026-08-25 late) — the first daily shift
 - **[M37 — RESOLVED, run #34] `silence.py:133`'s SILENT-HANDLER DETECTOR IS A TAUTOLOGY, AND

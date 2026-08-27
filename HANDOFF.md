@@ -9,6 +9,211 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-27 — Run #35, the first full daily shift (282 orders closed, 113 modules swept)
+
+**FOR THE OWNER — READ THESE FIRST.**
+
+**1. THE STANDING BLOCKING BUG HAS NOT GROWN, AND IS STILL YOURS.** Order `3c7c8a6e9102` — a
+re-catalogue nulls the pipeline-authored synthesis block — remains open at OWNER. Re-measured
+this shift: **31 of 216 records carry a null synthesis, 185 carry one, and the count has not
+moved since the order was filed ~23h ago** (8 of the 31 were last written within 24h, so whatever
+was nulling them has stopped or has not revisited those sources). It is filed as BLOCKING and
+left standing, because deciding how to restore 31 synthesis blocks is a curatorial call.
+
+**2. A FOREIGN PROCESS IS THROTTLING THE FREE LABOUR RUNG, AND IT IS NOT OURS.** Order
+`505177847f43`. `pythonw.exe`
+pid 11468, command line `-m semsearch.cli watch`, started 09:33, holds **9,599 ESTABLISHED
+connections to localhost:11434** (down to ~4,500 later in the shift). Ollama itself is alive — a
+trivial chat returns in 2.6s — but a real `local_agent` order (retag three stale note tags in
+one file) ran **over 15 minutes and returned `{ok: false, transport: TimeoutError, patches: []}`**,
+landing nothing. **Nothing was done about pid 11468: it is your process and has nothing to do
+with this library; killing another application to free a shared daemon is a person's call.**
+The consequence for economics is real and is stated plainly below: the 200-order LOCAL rung was
+escalated to Claude subagents this shift because the cheaper handler was measured unable to do
+the job. That is the correct rung transition, but it is not the intended cost.
+
+**3. CANONICAL DATA FILES HAVE NO BACKUP, AND THAT WAS FOUND THE EXPENSIVE WAY.** While
+verifying a fix to `roll.exclude()`, an agent passed test rows via the `rows=` parameter
+specifically to AVOID touching the live roll — and `rows=` only affected the READ, so the write
+landed on `data/SWEEP_ROLL.json` anyway. **The live 216-source Acquisitions Roll was destroyed
+twice.** It was rebuilt both times from `data/records/*.json` plus two dated owner rulings, and
+**this run verified the recovery independently rather than taking it on report**: 216 roll names
+against 216 record files on disk, exact set match in BOTH directions, 243,257 entries, no
+duplicates, 208 catalogued + 8 out-of-scope, entry counts agreeing with the record files. The
+trap itself is fixed and has a drill net. **The gap it revealed is not:** `WIKI_HOSTS.json` and
+`CHARTER_SPINE_CODES.json` carry curatorial judgment that is NOT derivable from anything on
+disk, and neither has a rotating backup. Filed at OWNER as `ec67de571754`; how many generations
+to keep is yours.
+
+**4. TWO BLOCKING FINDINGS AGAINST THE MODEL'S WRITE LANE, both fixed this shift.**
+`local_agent.py` — the only lane on which a model may write to `src/` — **never asked whether the
+library was halted.** Twelve other modules consult `escalation.assert_clear()`; the actor most
+able to make a halted situation worse was the one not asking. And the write gate had a **sixth
+bypass**: every check ran on `os.path.abspath`, which resolves nothing, so a directory junction
+under `src/` pointing at `state/` or `data/records/` satisfied the allowlist, matched no
+denylist, and `open(full, "w")` followed it to the real file. Both fixed, both with drill nets
+put to a real junction and a real regressed build.
+
+**5. 47 ORDERS REMAIN AT OWNER and are listed at the end of this entry.** None were decided.
+
+---
+
+**WHAT THIS SHIFT DID.** This was the first run under the daily cadence, and the standard it was
+held to was "stop when the queue is empty and the battery is green", not "stop when the easy work
+runs out".
+
+* **Queue: 341 open at 00:00 → 158 at close. 282 orders closed** (LOCAL 164, RUN 106, BOTS 11,
+  SESSION 1), against **58 newly filed** — 51 of them from the comprehensive sweep, which is the
+  sweep working rather than the queue regressing.
+* **Battery: `verify_math` 816 → 1,052 checks, 0 FAILED. `drill` 232 → 247 nets, 0 BREACHED.**
+  pyflakes clean over all 113 modules.
+* **The comprehensive sweep covered EVERY module: `sweep_plan.missing('run35')` returns 0.**
+  113 modules, 61,569 lines, 16 batches, each recording its own coverage.
+
+**THE 24 ASSAY MUTANTS ARE DEAD.** The mutation run of 2026-08-25 had found 24 single-token
+corruptions of `assay.py` — the module that turns evidence into the published decimal and its
+error bar — that the **entire battery failed to notice**. The pattern in almost all of them was
+the same: the function was never CALLED by any check, so no assertion about it could fail. The
+guards were being read, not exercised. `verify_math` section 34 now carries 69 checks that
+exercise `axis_score`, `band_for_quantity`, `_check_constants`, `interval_from_hands`,
+`regress_test`, `null_instrument`, `_rho_source`, `instrument`, `calibration_report` and the
+promotion/ceiling flags. **Verified by re-applying all 24 mutations one at a time: 24/24 killed,
+`assay.py` restored byte-exact after every one.** Three needed sharper checks than the obvious
+ones — the ladder walk needed a STRICT ordering (a non-strict one passes against a mutant where
+every quantity returns the top rung), the calibration guard needed a band exactly one step wide,
+and the correlation-provenance guard needed a forced reload rather than a forced fallback.
+
+**A REGRESSION THIS RUN CAUSED, CAUGHT, AND REVERTED — the most useful thing that happened.**
+The second-opinion batch waived ruff's BLE001, S110 and S112 into `NOT_FILED`, on the stated
+grounds that `silence.audit()` already treats those handlers as "an accepted category". **It does
+not**: run it and it prints `each of these can turn a failure into a plausible negative result`,
+lists all 152, and exits 1. The BLE001 waiver went further and cited this module's own docstring
+as authority — a docstring which says, twenty lines above the map, that BLE001 "is still a real
+finding, which is why it is NOT in this list." It was the named example of what must not be
+waived, waived by citing the sentence that names it. **531 of 1,002 live findings, plus 63 more
+from S110/S112, would have stopped reaching the queue — 96% of what ruff selects — while the
+report went on looking healthy.** All three reverted, with the reasoning kept in place of the
+waivers so the mistake stays legible. The sweep's own batch 7 found this independently, which is
+the sweep earning its cost.
+
+A second regression from the same batch: the returncode check added so a failed tool could not
+report as clean turned **vulture** — which exits 3 when it FINDS dead code — into
+`TOOL ERROR ... ABSENT: install it`, about a tool that was installed, had run, and had just
+printed three findings. Exit codes measured on this machine, guard corrected, vulture RAN again.
+
+**AND ONE MORE OF THE SAME SHAPE, IN MY OWN WORK.** The drill net written for finding 4 above was
+first a substring scan over `local_agent.run`'s source — and it **passed against a build with the
+halt check replaced by `pass`**, because the paragraph explaining why the call is there still
+contained the word. A literal cannot tell code from prose about code. Rewritten to walk the parse
+tree for a real Call node, then watched go red. The sweep filed the same defect against nine
+other nets in `drill.py` (`b1e0…`, batch 2) — those are open.
+
+---
+
+**OTHER THINGS WORTH KNOWING**
+
+* **The mutation mandate was blocked and is now half-unblocked.** `mutate.py` refused to run at
+  all — `verify_math TIMEOUT` on unmutated code — because the battery opened **19 live TLS
+  connections to Cloudflare per run**: `standards.check()` probes fandom over IPv4 and
+  `verify_math` calls `check()` nineteen times. Traced with a socket tracer rather than by
+  reading. The probe is now memoised per process; **19 remote connections became 1**, and the
+  battery finishes in 87s. But `--target all` then died four minutes in with a bare
+  `FileNotFoundError` on `<sandbox>/src/assay.py`, twice, on a stable tree. `sandbox()` now
+  refuses when a target did not land (with a net), which converts the crash into a legible
+  refusal — **but the underlying cause is not yet found.** Measured so far: the file IS present
+  after `sandbox()`, and survives the `import` and `verify_math` gates; the `drill` gate was
+  still under test when this entry was written. **No mutation results this shift.** Left open.
+* **A daemon has been running stale code for the whole shift, by design, and it is the
+  publisher.** `codewatch.stale()` requires the `src/` fingerprint to hold still for 180s before
+  a job exits rc=17 — correctly, since a digest taken mid-write is garbage. But a maintenance run
+  edits `src/` continuously for hours, so the timer never expires and **`publish.py --push
+  --loop 10`, running since 22:47, pushed throughout on pre-shift code.** That is the exact shape
+  of the 2026-08-25 incident arriving through the front door: not a missing safety, a safety
+  whose precondition a long shift structurally prevents. Nothing was broken by it this time.
+  Flagged rather than fixed — the settle rule is right and the fix is a design question.
+* **Five BINDING_SUSPECT orders had been re-filing at a bot every sweep, `seen 14x`, for a fault
+  no bot can repair.** `binding_health` now MEASURES which case each host is: it reads the wiki's
+  own `sitename` and compares it to every source bound to that host. Calibrated live —
+  eberron/warthunder/aneurism score 100 (CONFIRMED: the binding is right, the entry names are
+  feature-level), prime scores 50 and starrealms 36 (MISBOUND: `prime.fandom.com` serves the
+  Prime Hydration drink wiki; `starrealms.fandom.com` serves "The Brain World Wikia"). The two
+  cases now go to two codes at OWNER, and the old undecided order is superseded rather than left
+  beside the new one. A hand-maintained list of known-fine hosts was deliberately NOT used.
+* **A partial canary run could shrink the whole-estate report,** found by tripping it: probing
+  five hosts by name wrote a `BINDING_HEALTH.json` saying the library has five hosts, and the
+  binding detector reads that file AS the estate. Partial runs now merge.
+* **Six work orders described three subsystems that have never existed** — `__drill_rung4__`,
+  `__drill_rung4b__` and a `probe_job` from a scratch test whose name appears in no module.
+  Every escalation files a real order, and the rung-4 probes released their synthetic subsystem
+  but never their orders. Fixed, with a net that stops and resumes a fresh synthetic subsystem
+  and asserts the open-order ID SET is identical afterwards — compared by identity, not count,
+  because an unrelated detector filing one while a probe leaks one would net to zero.
+* **`local_agent` could report success having achieved nothing.** `ok` meant "the model stopped
+  talking without breaking anything" — so a run refused five times running was indistinguishable
+  from work done, and a maintenance run bulk-routing the LOCAL rung would close every such order.
+  It now computes an achievement verdict from the audit trail it was already writing.
+
+**Repo health at close:** `verify_math` 1,052/1,052 · `drill` 247 nets, 0 breached · pyflakes
+clean · `allsweep` 1 bad (`verify_math`, which is the sweep-coverage check reading a sweep that
+was in progress — re-check after this entry) · `health --preflight` 0 problems · `liveness` 33
+dead (was 40) · `secondopinion` ruff 1,002 / vulture 4 / detect-secrets 0 · `axis_correlation`
+45 entities, 55 pairs, mean r = +0.3193, unchanged so not rewritten · corpus index rebuilt
+(216 sources, 239,293 entries; the rebuild closed a gap of 41,959).
+
+---
+
+**THE 47 ORDERS AT OWNER, none decided by this run.** Severity, id, and the first sentence of each; the full text and evidence are in `state/workorders.json`.
+
+*BLOCKING 1, MAJOR 23, MINOR 23*
+
+- `3c7c8a6e9102` **BLOCKING** RECATALOGUE_NULLS_PIPELINE_SYNTHESIS — THE PROJECT STANDING CRITICAL BUG, NOW CONFIRMED WITH A MECHANISM AND A CASUALTY LIST, AND IT WAS ACTIVE.
+- `c614f7c145fc` **MAJOR** A_HALT_WAS_LIFTED_BY_AN_AUTOMATED_ACTOR — THE HALT WAS LIFTED AT 00:55 BY SOMETHING AUTOMATED, NOT BY A PERSON, AND YOU SHOULD KNOW THAT BEFORE YOU READ ANYTHING ELSE THIS RUN DID.
+- `1b7f14efce8e` **MAJOR** BINDING_HOST_SERVES_ANOTHER_WIKI — prime.fandom.com is bound to 'Prime World Equipment' but SERVES 'Prime Hydration Wiki' (name agreement 50.0%).
+- `2d6bef2aef03` **MAJOR** BINDING_HOST_SERVES_ANOTHER_WIKI — starrealms.fandom.com is bound to 'Star Realms' but SERVES 'The Brain World Wikia' (name agreement 36.36363636363637%).
+- `ec67de571754` **MAJOR** CANONICAL_DATA_FILES_HAVE_NO_BACKUP — NO BACKUP EXISTS FOR THE CANONICAL DATA FILES, and that was found the expensive way.
+- `9fb8a6b10c1f` **MAJOR** CASCADE_BRIDGE_HAS_NO_REACHABLE_MODEL — cascade_bridge has NO reachable model left, so allsweep grades it a bad subsystem every run.
+- `7ebac78494e8` **MAJOR** CLOUD_BUCKETS_UNREACHABLE_DNS — Four cloud buckets -- deepinfra:free, huggingface:free, cerebras:free, chutes:free -- all fail with `transport: curl: (6) Could not resolve host: <host>` (api.deepinfra.com, router.huggingface.co, api.cerebras.ai, llm.chutes.ai).
+- `b317ba3a4f36` **MAJOR** GENRES_JSON_HOLDS_INFLATED_CONFIDENCES — genre.py's truncated-denominator bug was FIXED in code this shift, but the stored classifications were deliberately NOT re-derived, because doing so moves published numbers and that is a curatorial call.
+- `3eff62be6cc3` **MAJOR** GROUNDINGS_JSON_HOLDS_INFLATED_CONFIDENCES — grounding.py carries the IDENTICAL truncated-denominator defect as genre.py -- confirmed this shift: classify_text(top=3) over 5 GROUNDINGS, confidence = score / sum(truncated ranked), runners_up = ranked[1:].
+- `4e7f1e47d0a0` **MAJOR** KEEPER_REASSERTS_A_JOB_A_RUN_STOPPED — A MAINTENANCE RUN CANNOT DURABLY STOP A STANDING JOB, and this shift proved it on the worst possible example.
+- `505177847f43` **MAJOR** LOCAL_LANE_STARVED_BY_A_FOREIGN_PROCESS — THE LOCAL RUNG IS EFFECTIVELY CLOSED AND THE CAUSE IS NOT PANSCRIPTUM.
+- `f84cb75edcfe` **MAJOR** MISBOUND_HOST_PRIME — prime.fandom.com is bound to the source 'Prime World Equipment' but SERVES THE PRIME HYDRATION DRINK WIKI.
+- `f07b7d538ed1` **MAJOR** MISBOUND_HOST_STARREALMS — starrealms.fandom.com is bound to the source 'Star Realms' but SERVES 'The Brain World Wikia' -- measured this shift, siteinfo HTTP 200, sitename 'The Brain World Wikia', base https://starrealms.fandom.com/wiki/The_Brain_World_Wik
+- `e9ff72c7eb48` **MAJOR** PUBLISHED_DECIMALS_REST_ON_EVIDENCE_THE_FIXED_GUARD_REFUSES — magnitude.py:335 Guard 3 -- "the entity must be the DOER" -- NEVER READ THE ENTITY.
+- `9a44b1535851` **MAJOR** RECORDS_WRITTEN_OUTSIDE_THE_RECORD_WRITER — recover_folder_records writes data/records/<slug>.json through silence.write_json rather than pipeline.write_record_catalogue, which is the project's only sanctioned record writer and the one that merges rather than replaces.
+- `642a95fe9f3c` **MAJOR** SWEEP34_FINDING — address_space.assign()'s fit() maps a None or missing tier to 0 with no marker, so a source the weave never charted is published at H0/X0/Mt.0 -- indistinguishable from a source genuinely charted into hyperverse 0.
+- `66f96febdb3a` **MAJOR** SWEEP34_FINDING — descending_ladder.py has no functional consumers anywhere in src/.
+- `789f99f2a65f` **MAJOR** SWEEP34_FINDING — tiers.py:309 prints 'hyperverse: DECLINED for all 209 shelves' in the same main() that assigns a hyperverse index per source (chart(), 260-267), prints a hyperverse NUMBER per sample stack (348), and writes it to data/TIERS.json (
+- `aad11acb1183` **MAJOR** SWEEP34_FINDING — dashboard.py:968 calls escalation.assert_clear in main(), so the ONE instrument built to display a standing halt refuses to start while a halt stands.
+- `b1f561587b19` **MAJOR** SWEEP34_FINDING — prose_gate.py:246-253 + 259-269 REPORT ONLY, DO NOT ACT WITHOUT THE OWNER.
+- `3fb312a72435` **MAJOR** SWEEP35_FINDING — src/hosts.py is a finished, working, self-consistent module (docstring: sources should be read from MORE than one host) with NO caller anywhere in the pipeline.
+- `3fb9fc6b9999` **MAJOR** SWEEP35_FINDING — src/ledger.py (De Pretio, the omniversal currency standard) is fully built and internally tested (verify_math.py lines 266-284 exercise to_standards, from_standards, cross_rate, work_value, assay_to_standards) but has NO caller an
+- `ae25c89f0179` **MAJOR** SWEEP35_FINDING — onomast.register_for()'s documented genre+feature blend (FEATURE_SHIFT/GENRE_WEIGHT/FEATURE_WEIGHT, lines 278-334) is unreachable from the only production call site.
+- `60dc7c624c06` **MAJOR** TIERS_DATA_CONTRADICTS_ADDRESS_PROSE — address_space.py states the charting is '168 multiverses -> 8 metaverses -> 6 xenoverses -> 1 hyperverse, strictly nested, zero containment violations'.
+- `8c354f6c9780` **MINOR** AUTOSTART_TWIN_WATCHDOG_FAILS_OPEN_SILENTLY — _twin_watchdog() returns False ('no twin, proceed') on ANY exception, and runs once before the loop.
+- `0fbaba6e1070` **MINOR** BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES — aneurism.fandom.com IS the wiki it is bound to -- it names itself 'ANEURISM Wiki', matching the bound source 'ANEURISM IV' -- but none of its catalogued titles resolve, so the entry names are not article titles there.
+- `aecffd7eea57` **MINOR** BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES — eberron.fandom.com IS the wiki it is bound to -- it names itself 'Eberron Wiki', matching the bound source 'Eberron: Rising from the Last War' -- but none of its catalogued titles resolve, so the entry names are not article titles
+- `efd2b537f26d` **MINOR** BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES — warthunder.fandom.com IS the wiki it is bound to
+- `85cdecef25f8` **MINOR** CODEX_WEAPON_PROPERTY_UNMAPPED — 'weapon property' (35 occurrences in the codex) is the third unmapped element type and still defaults to THINGS.
+- `47c8def059e3` **MINOR** COSMOLOGY_GRAPH_CONSOLE_TRUNCATES_RANKED_LISTS — The console report truncates ranked lists: pair_w[:16], comps[:8], pair_shared[:4], c[:6].
+- `52cd63cee774` **MINOR** DANDWIKI_QUARANTINE_IS_PERMANENT_BY_DESIGN — www.dandwiki.com's quarantine will never lift on its own and the 24h retry will spend a request a day for ever.
+- `6c479972e838` **MINOR** LIVENESS_DEAD_NEEDS_RECEIVER_AWARENESS — liveness's DEAD detection has a real false-negative surface, but the only narrowing that bites is a receiver-aware 'used' set, and that needs a matching LIVENESS_CEILING revision in drill.py in the same commit.
+- `01695fe3ef26` **MINOR** SWEEP34_FINDING — scale_theories.py -- nothing in src/ imports this module; its only mention anywhere is its own name inside derivation.SCAN_MODULES.
+- `0291835411d9` **MINOR** SWEEP34_FINDING — tempus.DEGENERATE_TIME is dead: a four-entry table at line 67 naming the Basement Loop, the Rot City, the Betweens and the Pale with their charter cross-references, referenced nowhere in src/.
+- `1770c2b84786` **MINOR** SWEEP34_FINDING — wh40k.py:197 stamps EVERY axis worksheet line '[wiki]' unconditionally, including axes whose evidence contains no quoted material at all (e.g.
+- `1eb00a84225e` **MINOR** SWEEP34_FINDING — address_space.UNADDRESSED is dead: defined at line 133 with a comment describing the honest answer for a shelf that shares no entity with anything, and referenced nowhere in src/.
+- `2b695c192470` **MINOR** SWEEP34_FINDING — CROSS-MODULE (found while auditing verify_math.py).
+- `40e98eed6870` **MINOR** SWEEP34_FINDING — Unreachable era/condition vocabulary: worldseed.to_options's size table carries 'primitive' (worldseed.py:184) and burgs.largest_city carries 'primitive' (burgs.py:122), but worldseed.features() can only ever emit one of TECH's fo
+- `4e92365b54f6` **MINOR** SWEEP34_FINDING — address.py:208 build_address() has zero callers in src/ (only its own __main__ demo at line 322) AND is stale: it returns f'{spine_code_for(source_name)}/{chapter_slug(...)}', the pre-volume address form.
+- `570525d35825` **MINOR** SWEEP34_FINDING — endpoint.py:301 MODE_HTML is defined and referenced nowhere in the tree (grep MODE_HTML across all *.py: one hit, the definition).
+- `665e3609bc82` **MINOR** SWEEP34_FINDING — Four functions in feats.py have zero callers anywhere in src/ (verified by grep: the only occurrence of each name is its own def): resolve_title() at 550, _page_exists() at 542, axis_evidence() at 876, remine() at 1026.
+- `7e360eaec3a6` **MINOR** SWEEP34_FINDING — chord_field.py is never imported anywhere and none of its public functions has a caller.
+- `946153deafe9` **MINOR** SWEEP34_FINDING — completeness.py:122-129
+- `c0384991bfc5` **MINOR** SWEEP34_FINDING — worldseed.unreachable_by_url (worldseed.py:236) has no callers anywhere in src/ -- grep matches only its own definition.
+- `d411f780d347` **MINOR** SWEEP34_FINDING — coverage_map() has no callers anywhere in src/.
+- `de43fe54feb7` **MINOR** SWEEP34_FINDING — scope.py:123 ceiling_for() has no callers anywhere in the repository -- 'grep -rn ceiling_for src/ docs/ *.md' returns only its own def line (plus prior audit reports).
+- `f883d9bb534e` **MINOR** SWEEP34_FINDING — codewatch.py:109 twins(): the exclude_pid keyword REPLACES self-exclusion instead of adding to it
+
 ## 2026-08-26 (cont.) — rung 4 could not enforce itself, and a halt was lifted by an automated actor
 
 **FOR THE OWNER, TWO GOVERNANCE FINDINGS THE NIGHTLY RUN RAISED, both correct:**

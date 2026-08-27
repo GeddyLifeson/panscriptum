@@ -950,9 +950,31 @@ def drill_local_agent():
         "shape as the five bypasses before it, and mutate.py junctions three directories as a "
         "matter of course, so this is a technique the project already uses on itself")
 
+    def _write_lane_checks_the_halt():
+        """`local_agent.run` must CALL assert_clear, not merely mention it.
+
+        Written first as a substring scan over the function source, and it passed against a
+        regressed build in which the call had been replaced by `pass` -- because the paragraph
+        explaining WHY the call is there still contained the word. A literal cannot tell code
+        from prose about code, which is the defect the run #35 sweep filed against nine other
+        nets in this file. Asked of the parse tree instead: an actual Call node, by either
+        spelling, anywhere in the function.
+        """
+        import ast as _ast
+        import inspect as _insp
+        import local_agent as LA
+        tree = _ast.parse(_insp.getsource(LA.run))
+        for node in _ast.walk(tree):
+            if not isinstance(node, _ast.Call):
+                continue
+            fn = node.func
+            if isinstance(fn, _ast.Attribute) and fn.attr == "assert_clear":
+                return True
+            if isinstance(fn, _ast.Name) and fn.id == "assert_clear":
+                return True
+        return False
     net(a, "the model's write lane asks whether the library is HALTED",
-        lambda: "assert_clear" in __import__("inspect").getsource(
-            __import__("local_agent").run),
+        _write_lane_checks_the_halt,
         "twelve modules consult the halt before working; the ONE lane on which a model may "
         "write to src/ was not among them, and an OWNER halt means nothing starts until a "
         "person rules on it")

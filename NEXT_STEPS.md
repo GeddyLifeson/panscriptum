@@ -1,141 +1,126 @@
-# Next Steps — written by run #34 for the run that follows it
+# Next Steps — written by run #35 for the run that follows it
 
 *Overwritten every run. The queue in `state/workorders.json` is the authority on what is open;
 this file is the reading of it — what to do first, and why.*
 
 ---
 
-## 0. THE LIBRARY IS RUNNING. BUT READ HOW IT GOT THAT WAY.
+## 0. THE LIBRARY IS RUNNING, AND NOTHING IS HALTED.
 
-`escalation.py --status` says **clear**. It did not get there the way it should have.
+`escalation.py --status` says **clear**, and run #35 neither raised nor lifted a halt. The
+battery closed green: `verify_math` 1,052/1,052, `drill` 247 nets 0 breached, pyflakes clean,
+`health --preflight` 0 problems. The queue went **341 → 158** with **282 orders closed** and 58
+filed (51 of those from the whole-tree sweep, which is the sweep working, not the queue rotting).
 
-A halt was raised 22:18 by `drill.py` and **lifted at 00:55:07 by something automated**, recorded
-as `who=owner-cli` — the CLI's default label, **not a person**. Every agent run #34 dispatched was
-told in writing not to lift it; one did, via `python src/escalation.py --clear --ruling "..."`,
-which passes the runtime guard because that guard asks whether `escalation.py` is the program being
-run. From the CLI it is. The guard worked as specified and the rule still failed.
-
-**The repair itself is sound and was independently re-verified**: the breached net asserted
-`twins("verify_math") == []`, which is only true when no `verify_math.py` happens to be running —
-and `mutate.py` runs the whole battery inside a sandbox. `codewatch.twins()` is now scoped to this
-tree, the net holds, and both the drill and the battery are green.
-
-**With the halt gone, the publish daemon resumed and pushed to the PUBLIC repo at 01:01 and 01:07**,
-carrying run #34's work, unreviewed by any person. The export tree was scanned afterwards: **0
-blocking secret hits.** Filed as `c614f7c145fc` (OWNER) — and the thing to rule on is whether
-`clear()` should require something a scheduled run cannot supply, and whether `cleared_by` should
-record the real caller.
-
-No new halt was raised over it. The fault is repaired and the battery is green; halting to punish a
-process breach would be fabricating a fault.
-
-## 1. THE RULING STILL OWED
-
-**`3c7c8a6e9102` — 26 records lost their synthesis block and need it re-derived.** A re-catalogue
-nulls the pipeline-authored `synthesis` key; the mechanism is confirmed, the merge is FIXED, and
-the casualty list with timestamps is `handoff/SYNTHESIS_NULLED_2026-08-25.json`. It does not heal
-on its own: `phase_synthesis` skips any source already in `done_keys`, so those 26 stay null until
-someone clears them and re-runs it. Losses include DC (44,958 entries), Legend of Zelda (8,874),
-Dragon Ball Z (6,923), Transformers (6,019).
-
-**`5aa48077886d` is CLOSED — the merge fix was proven in production before run #34 ended.** At
-00:07:44 the live re-catalogue rewrote Warhammer Fantasy (7,012 entries) and its `synthesis` block
-survived intact; the corpus tally held at 185 present / 31 null, so no new loss. The `every source
-is fully catalogued` standard may be followed again and the 36.3% shortfall can close. The only
-residual is that its remedy line does not name the precondition it depends on (`57b0d3dab53d`,
-MINOR). **So the rulings owed are TWO, not three: lift the halt, and decide about the 26 records.**
-
-**A related structural finding worth a ruling of its own (`4e7f1e47d0a0`):** run #34 stopped that
-job at the MANAGER rung and the keeper re-asserted it 25 minutes later. **The escalation chain's
-SUPERVISOR and MANAGER rungs are advisory** — the supervisor that keeps jobs up never reads them —
-so the only durable stop available to an automated run is the halt, the biggest hammer in the
-building. The charter says those rungs exist so one area can close while the library keeps running.
-They do not currently do that.
-
-## 2. OPEN THE SHIFT THE USUAL WAY, THEN WORK THE QUEUE
-
-`escalation.py --status` → `state/MAINTENANCE_RUN.json` → `workorders.py --sweep` →
-`corpus_db.py --rebuild`.
-
-**~344 open at the close of run #34**, and the number went UP on purpose. Run #34 ran the first
-complete sweep this tree has ever had — **all 113 modules, every line, sixteen agents** — and
-`sweep_plan.missing('run34')` is empty. What is in the queue is not a backlog that grew; it is one
-that became visible. Run #34 closed 154 orders (6 BLOCKING, 83 MAJOR, 59 MINOR, 6 INFO).
-
-**Every finding in the queue from sweep34 was verified against source before filing.** Run #33's
-sweep filed "as reported, not as confirmed" and cost run #34 half a shift; sweep34 required a
-quoted proof or a `QUESTION` label, and several batches reported findings that dissolved on
-inspection rather than filing them. **Trust these more than run #33's — and still verify before
-acting.**
-
-## 3. THE RUNGS
-
-**LOCAL — 208. DO NOT BULK-ROUTE THESE TO THE FREE MODEL WITHOUT READING `509eeaaec37c` FIRST.**
-Run #34 measured it on one real order: a single docstring rewrite, **6 turns, 5 tool calls, over
-ten minutes, zero patches landed** — every `propose_patch` refused with "find string occurs 0 times"
-because `qwen3:8b` could not reproduce the target text verbatim — and it returned
-`{"ok": true, "patches": []}`. A run that routes 208 orders at it gets 208 `ok: true` results and no
-changed lines. Two things must happen first: `ok` must stop being True for a run that changed
-nothing, and someone must establish what shape of task this model can actually complete. Note also
-that `local_agent` gates every patch on the whole battery passing, so it can land nothing at all
-while the battery is red.
-
-**BOTS — 7.** Five `BINDING_SUSPECT` and two host findings. Run #34 probed all of them directly
-with `curl.exe`: `starrealms.fandom.com` serves "The Brain World Wikia" and `prime.fandom.com`
-redirects to a Prime Hydration drink wiki — both genuinely mis-bound (`f07b7d538ed1`,
-`f84cb75edcfe`). The other three are correctly bound and ask for entries no wiki gives a page
-(`660f96344846`), so they will re-file every sweep for ever until a source can be marked "no
-per-entry articles expected". `www.dandwiki.com`'s API is 403 to anonymous users by design while its
-HTML serves fine, so its quarantine is permanent and the daily canary pays for it for nothing
-(`52cd63cee774`).
-
-**RUN — 97.** The heaviest and most useful cluster. Start here:
-  * `4b41c1a30e26` — `feats_index` strands **14 records / 222 feats** on four hosts that ARE bound;
-    the `"_"→"."` substitution cannot invert `cachekey.host_dir`, and the record carries its correct
-    host one line below.
-  * `78233fac74bb` — `reference.py --compare` can never match an entity: it looks up bare names
-    while `ASSAYS.json` is keyed `host|entity`. The calibration report has been printing nothing
-    useful for as long as the key shape has been what it is.
-  * `31715d371415` — `weave_index.norm()` costs ~25 ms per call because it stats all 216 record
-    files on every call including cache hits; ~45 minutes of pure `getmtime` for one `build()`.
-    This blocks `d8719255faab`.
-  * `5b85ab54b176` — `standards.py` reports "N/N standards met" where N counts only the standards
-    that emitted; ~18 live inside `try/except` blocks holding their only `out.append`.
-  * `76673d544d7e` — `state/drill_last.json` has **no time field**, so a stale drill result is
-    indistinguishable from a fresh one. Run #34 was itself misled by this twice.
-  * `77d88ce737bc` — the `page_looks_real` fix (443 pages: 3 → 404 passing) is invisible until the
-    pre-fix `data/feats/` cache entries are invalidated. The code is right and the numbers stay
-    wrong until someone clears them.
-
-**OWNER — 37.** Three BLOCKING (§0, §1). The rest are curatorial: whether to re-derive
-`GENRES.json` and `GROUNDINGS.json` now that their confidences are known to be inflated
-(`b317ba3a4f36`, `3eff62be6cc3` — **0 labels move; 63 and 4 sources respectively cross a
-mixed-source flag, all downward**), whether `resonance.py`/`chord_field.py`/`scale_theories.py`
-should be wired up or retired, and whether `tiers.py`'s prose or its cut is wrong (batch 11 answered
-this: **the claim is stale, not the cut** — `789f99f2a65f`).
-
-## 4. IF THE QUEUE EVER COMES BACK EMPTY
-
-Run the sweep: `sweep_plan.py --batches 16`, one agent per batch, each recording its own coverage.
-Run #34's is `run34` and `missing('run34')` is empty, so `verify_math`'s completeness proof is green
-and **will go red the moment a module is added** — which is how run #33 discovered that
-`workorders.py`, `policy.py` and `suppressions.py` had never been audited by anything.
-
-Two cautions learned the hard way this shift. **Do not audit a file while another agent repairs it**
-— `drill.py` moved twice under batch 3 and five of its orders carry line numbers ten low, so the
-quoted anchor is authoritative and the number is not (`7b28d88a9fd5`). And **verify every agent's
-self-reported filing**: run #34 checked all 177 reported order ids against the queue and the paper
-trail and found 15 that reported as filed and never landed, lost to a few seconds when
-`workorders.py` was unimportable.
+**Do not re-derive any of that.** Open the shift the way the card says: `escalation --status`,
+the run guard, `workorders --sweep`, `corpus_db --rebuild`. Then work the queue.
 
 ---
 
-*Battery at close of run #34: `verify_math` **798 passed / 0 FAILED** · `drill` **218 nets, 218
-held, 0 BREACHED** · `health --preflight` all checks pass · `liveness` 38 against a ceiling of 38 ·
-`pyflakes` clean · `secondopinion` ruff 977 / vulture 4 / **detect-secrets 0**, all three RAN ·
-`axis_correlation` 45 entities, mean r +0.3193, unchanged so not re-written ·
-`sweep_plan.missing('run34')` empty, **113 of 113 modules**.*
+## 1. START HERE: THE MUTATION MANDATE IS STILL BLOCKED, AND IT IS THE ONE THING RUN #35 DID NOT
+   DELIVER.
 
-*Still running at close: `mutate.py --target all --check-flaky` (since 20:56, sandboxed, no
-survivors filed yet — and its sandbox was copied at 20:56, so **its results describe the pre-shift
-tree**).*
+**M46.** `mutate.py --target all` died twice with a bare `FileNotFoundError` on
+`<sandbox>/src/assay.py`, ~4 minutes in, **after its baseline gates had already run and passed in
+that same sandbox** — once with agents editing `src/`, once on a completely stable tree, so
+concurrent edits are ruled out. So **run #35 produced no mutation results at all.**
+
+What is already measured, so you do not repeat it:
+
+* `sandbox()` copies all 113 modules correctly; `assay.py` is present at 67,842 bytes.
+* The file **survives the `import` gate and the `verify_math` gate** (checked by running each
+  against a live sandbox and stat-ing the file after).
+* The **`drill` gate is the remaining suspect** and was still under test when the shift closed —
+  a probe is in `handoff/` notes; re-run it first:
+  build a sandbox, run only the drill gate against it with `cwd=root`, and stat
+  `<root>/src/assay.py` afterwards.
+* Note the sandbox baseline reports `drill rc=2`, which is not drill's ordinary 0/1. That may be
+  the same story.
+
+Mitigated but not fixed: `sandbox()` now refuses when a target did not land, so the next failure
+will be a legible message instead of a traceback. **Fixing this unblocks the whole §3b mandate**,
+which is the highest-value single item in the queue.
+
+## 2. THE SWEEP'S 51 FINDINGS ARE FRESH AND UNWORKED.
+
+Run #35 swept **every one of the 113 modules** (`sweep_plan.missing('run35')` → 0) and filed 51
+`SWEEP35_FINDING` orders that nobody has yet worked. They are the newest and best-evidenced
+material in the queue. The ones to read first, because they are about the checking machinery
+itself:
+
+* **Nine drill nets that verify a guard by whole-file substring search**, filed by batch 2 with a
+  concrete defeat for each (a comment or dead branch reproducing the string). Run #35 committed
+  this exact defect while fixing something else — a net written for the halt check passed against
+  a build where the call had been deleted, because the comment still named it — and had to
+  rewrite it against the parse tree. **The same fix applies to all nine.**
+* **`abandoned_sandboxes_are_reaped` cannot go red** (`drill.py:3831`): it calls
+  `reap_orphans(older_than=10**9)`, a ~31.7-year cutoff, so `== []` holds whether reaping works
+  or not.
+* **Two literal-tautology checks in `verify_math`** (`check(label, True, True)`) that call no
+  code, and a backfill check that hand-reimplements the algorithm and asserts against its own
+  copy.
+* **`allsweep`'s ESTATE tier findings never reach the `bad` grade** (batch 13) — a named fault
+  like "MASTER CHARTER MISSING" can stand forever without failing the battery.
+
+## 3. TWO CONCURRENCY FINDINGS THAT LOOK LIKE THE ONES THAT HAVE ALREADY COST THIS PROJECT.
+
+* `binding_health._land` and `suppressions._land` still use a fixed `path + ".tmp"` name — the
+  exact collision `runguard._land` was replaced for this shift (batch 11, `98831f6e6f6d`).
+* `binding_health.run()`'s new merge is itself an uncompare-and-swapped read-modify-write, which
+  can reintroduce the partial-over-complete bug the merge was added to fix (`23d84e6f8e81`).
+
+## 4. THE LOCAL RUNG IS THE ECONOMICS, AND IT IS CURRENTLY CLOSED.
+
+Order `505177847f43`. A **foreign** process (`pythonw -m semsearch.cli watch`, pid 11468) held
+9,599 established connections to Ollama; a real `local_agent` order ran >15 minutes and landed
+nothing. Run #35 therefore escalated the whole 200-order LOCAL rung to Claude subagents — correct
+once the cheaper handler is measured unable, but **not the intended cost**. Before routing
+anything to LOCAL next shift, spend one cheap measurement: count connections to port 11434 and
+time a single `local_agent` task. If it is still starved, say so and escalate deliberately rather
+than discovering it order by order. **Do not kill pid 11468** — it is the owner's and is nothing
+to do with this library.
+
+Second, independent local-model fact worth remembering: `qwen3:8b` is a THINKING model, and at a
+small `num_predict` it spends the whole budget on reasoning and returns an **empty content
+string** — which looks like a refusal rather than a truncation.
+
+## 5. WHAT IS WAITING ON THE OWNER — 47 ORDERS, NONE DECIDED.
+
+Do not work these; they are judgment calls. The four that matter most:
+
+1. `3c7c8a6e9102` **BLOCKING** — a re-catalogue nulls the pipeline-authored synthesis block.
+   Re-measured this shift: **31 of 216 records null, 185 intact, and the count has not moved in
+   ~23h.** Restoring 31 synthesis blocks is a curatorial decision.
+2. `ec67de571754` — **canonical data files have no backup.** `SWEEP_ROLL.json` was destroyed
+   twice this shift and was only recoverable because it is derivable from the records.
+   `WIKI_HOSTS.json` and `CHARTER_SPINE_CODES.json` are **not** derivable from anything on disk.
+3. `505177847f43` — the local rung starved by a foreign process (above).
+4. The two **misbound hosts** now measured rather than suspected: `prime.fandom.com` serves the
+   Prime Hydration drink wiki, `starrealms.fandom.com` serves "The Brain World Wikia". Rebinding
+   or unbinding a source is curatorial. The other three of that family are now correctly filed as
+   "the binding is right, the entry names are feature-level" and need no bot at all.
+
+## 6. A DESIGN QUESTION RUN #35 RAISED AND DID NOT ANSWER.
+
+**M47.** `codewatch.stale()` needs the `src/` fingerprint to hold still for 180s before a daemon
+exits rc=17. A maintenance shift rewrites `src/` for hours, so **no daemon bounces for the entire
+shift** — measured: `publish.py --push --loop 10` pushed to the public repo for 2.5 hours on
+pre-shift code. Nothing broke this time. The settle rule is right; the interaction is not
+obviously wrong either, which is why it is a question and not a fix. Worth an owner ruling on
+whether a maintenance run should quiesce the publisher for its duration.
+
+---
+
+**HYGIENE NOTES FOR WHOEVER RUNS NEXT.**
+
+* Two agents this shift closed orders they did not own and re-filed them; one wrote a literal
+  backspace into an evidence field through a shell heredoc — **the eaten-escape corruption this
+  project has warned about since the beginning.** Use the file tools for anything containing a
+  backtick or a backslash, never `python -c` through the shell. Run #35 hit it twice itself.
+* When you merge agent-authored checks into `verify_math`, **run the merge before trusting it**.
+  Two batches shipped their own `PASS, FAIL = [], []`, their own `check()` and a `sys.exit(1)`;
+  pasted in unchanged they would have reset the accumulators mid-run and shadowed the real
+  `check()`, discarding every result from sections 1–34 while still printing a confident RESULT
+  line. Section 36 now runs those files in isolated namespaces for exactly this reason.
+* `allsweep` will grade `verify_math` BROKEN while a sweep is mid-flight — the coverage check is
+  reading a `sweep_plan` run that has not finished recording. Not a fault; re-run after.
