@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 88  ·  last run 2026-08-26 17:54
+round 89  ·  last run 2026-08-26 19:00
 
 ## Structure
 
@@ -11,8 +11,10 @@ round 88  ·  last run 2026-08-26 17:54
 
 ## What the model found in the code
 
-**12 open** (5 high). Newest first.
+**14 open** (6 high). Newest first.
 
+- **ingest_doc.py** `P.write_record_catalogue` — [HIGH] write_record_catalogue returns whether the rename actually landed, but the code discards the result and assumes it's successful
+  - says: write_record_catalogue returns whether the rename actually landed
 - **gpu_lane.py** `foreground_active` — [HIGH] Returns True if any foreground claim exists, even if it's expired
   - says: Is any LIVE foreground claim outstanding?
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, changing the answer for 7 of 210 sources
@@ -23,6 +25,8 @@ round 88  ·  last run 2026-08-26 17:54
   - says: CHECK THE RETURN THIS COMMENT ALREADY WARNS ABOUT (run #19). The paragraph above names the exact hazard -- a torn or stale write here silently discards overwatc
 - **endpoint.py** `detect` — [HIGH] detect is not defined in this slice, but is called in api_url and raw_url
   - says: detect(host) returns the mode and path for a host
+- **hostcheck.py** `fixed` — [MEDIUM] fixed is being used to store rejected hosts, but the code is not correctly handling the case where a host is rejected and needs to be recorded as a finding.
+  - says: A rejected host is a FINDING and is written down.
 - **gpu_lane.py** `_alive` — [MEDIUM] Returns False for unparseable PIDs, which contradicts the docstring's claim that unparseable PIDs are an 'unknown answer' and should be treated as ALIVE.
   - says: Is this PID still running? A dead holder's lease is broken immediately.
 - **foreman.py** `codewatch.exit_if_stale` — [MEDIUM] Exits if the process is stale
