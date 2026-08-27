@@ -714,6 +714,38 @@ def _chat(model, messages, host, timeout=420):
             time.sleep(60 * (attempt + 1))
 
 
+def _achievement(patches, apply):
+    """-> {'attempted', 'landed', 'achievement'}: what this run actually DID to the repo.
+
+    OK USED TO MEAN "THE MODEL STOPPED TALKING WITHOUT BREAKING ANYTHING", which is the one
+    thing a caller never needs to know. Measured 2026-08-25 on a real order: the model spent 6
+    turns and 5 tool calls, every propose_patch refused with "find string occurs 0 times"
+    because it could not reproduce the target text verbatim, and the run returned
+    {"ok": true, "patches": []} -- indistinguishable, to a caller, from work done. A
+    maintenance run bulk-routing the LOCAL rung on that flag would close every such order
+    having changed nothing. The outcomes were already in the audit trail (`_settle` writes
+    one into every entry); nothing read them back.
+
+    A run that ATTEMPTED patches and landed NONE is a failure, and `run()` sets ok=False on
+    it. A run that attempted none is an answer-only task -- a question, a survey, a
+    --no-apply dry pass -- and its verdict is left alone, because "changed no files" is the
+    correct outcome there and failing it would make the flag lie in the other direction.
+    """
+    attempted = len(patches)
+    key = "staged" if not apply else "applied"
+    landed = sum(1 for p in patches if (p.get("outcome") or {}).get(key) is True)
+    if not attempted:
+        say = "no patch was attempted (answer-only run) -- nothing was written"
+    elif landed:
+        say = "%d of %d proposed patch(es) %s" % (landed, attempted,
+                                                  "staged" if not apply else "landed")
+    else:
+        say = ("%d patch(es) proposed and NONE %s -- every one was refused or reverted. "
+               "This run changed nothing; do not record it as work done."
+               % (attempted, "staged" if not apply else "landed"))
+    return {"attempted": attempted, "landed": landed, "achievement": say}
+
+
 def run(task, model=None, apply=True, quiet=False):
     # Each invocation gets a fresh blast budget; the cap bounds ONE run, not the life of
     # the process.
@@ -755,6 +787,12 @@ def run(task, model=None, apply=True, quiet=False):
                         "patches": patches}
             out = {"ok": not unreverted, "answer": answer, "turns": turn + 1,
                    "tool_calls": tool_calls_seen, "patches": patches}
+            got = _achievement(patches, apply)
+            out.update(got)
+            if got["attempted"] and not got["landed"]:
+                # TRIED AND LANDED NOTHING IS NOT SUCCESS. See the note on _achievement.
+                out["ok"] = False
+                out.setdefault("error", got["achievement"])
             if unreverted:
                 out["ALARM"] = unreverted
                 out["error"] = ("revert failed on %d patch(es) -- a source file may be "
@@ -783,8 +821,10 @@ def run(task, model=None, apply=True, quiet=False):
                 print("  [%s] %s -> %s" % (fn, json.dumps(args)[:90],
                                            json.dumps(res)[:110]), flush=True)
             messages.append({"role": "tool", "content": json.dumps(res)[:SLICE]})
-    return {"ok": False, "error": "turn budget (%d) exhausted" % MAX_TURNS,
-            "patches": patches, "tool_calls": tool_calls_seen}
+    out = {"ok": False, "error": "turn budget (%d) exhausted" % MAX_TURNS,
+           "patches": patches, "tool_calls": tool_calls_seen}
+    out.update(_achievement(patches, apply))
+    return out
 
 
 def main():
