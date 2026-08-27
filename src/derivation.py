@@ -43,6 +43,28 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 MEASURED, CHARTER, OWNER, DERIVED = "MEASURED", "CHARTER", "OWNER", "DERIVED"
 
 
+def _address_total_bits():
+    """-> address_space.TOTAL_BITS, or a sentence saying why it could not be read.
+
+    READ, NEVER RESTATED. The note below carried the shelfmark's width as a literal, and it
+    still read seventy-four long after the census was re-measured and the answer became
+    eighty-nine (8 fields, 12 bytes) -- so this ledger, whose whole subject is which numbers
+    are derived from which, was itself carrying a hand-copied one that had drifted. The two
+    figures are spelled out in words here on purpose: a scan looking for the stale literal in
+    this file must not be tripped by the comment explaining why it is gone.
+
+    Imported lazily and inside a guard, because `derivation` is imported by scanners that must
+    not fail over an unrelated module, and because a ledger that cannot load is worse than one
+    that admits a gap.
+    """
+    try:
+        import address_space
+        return address_space.TOTAL_BITS
+    except Exception:
+        silence.note("derivation.py:address-total-bits")
+        return "an unreadable number of"
+
+
 def Q(kind, source, parents=(), note=""):
     return {"kind": kind, "source": source, "parents": list(parents), "note": note}
 
@@ -330,8 +352,10 @@ LEDGER = {
     "address_widths":     Q(DERIVED, "bits per field, each sized to its own census population",
                             ["hyperverse_bound", "galaxy_count", "planets_per_star",
                              "continuity_group"],
-                            note="74 bits total. Change the census and the widths follow; nothing "
-                                 "here is a round number chosen because it looked tidy"),
+                            note="%s bits total, read from address_space.TOTAL_BITS and never "
+                                 "restated here. Change the census and the widths follow; "
+                                 "nothing here is a round number chosen because it looked tidy"
+                                 % _address_total_bits()),
     "shelfmark":          Q(DERIVED, "the charter's Omega-address, with the question marks filled",
                             ["address_widths"],
                             note="Part Two's Shelfmark has emitted a placeholder since the "

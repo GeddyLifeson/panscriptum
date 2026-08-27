@@ -5219,6 +5219,1655 @@ check("and yields no margin rather than dividing by that band's zero width",
 check("the charter's target interval was restored", A.CHARTER_KENSHIRO_INTERVAL, _want_saved)
 check("and assay() itself was put back", A.assay is _assay_saved, True)
 
+
+print()
+print("=" * 96)
+print("35. §20s  THE RUN #35 SWEEP, PINNED SO IT CANNOT COME BACK")
+print("=" * 96)
+# ------------------------------------------------------------------------------------------
+# ---- run35 batch1 ----
+"""
+Proposed checks for run35 batch 1 (agent working assay.py / custodes.py / rigor.py).
+
+These are NOT run standalone. They assume the surrounding verify_math.py namespace: `os`,
+`ast`, `check(label, got, want, note=...)`, and the four scan variables/functions named below
+already exist by the time this block executes (i.e. this is meant to be spliced in AFTER the
+sections it references, sections 19ab / 20p / 20t / 20j-20k). The coordinator merges this in
+and re-runs the battery; nothing here was executed against the live verify_math.py by the
+agent that wrote it, per this run's rule that verify_math.py/drill.py are not safe to run
+concurrently (order c349a51ee2c5). The AST/regex logic below WAS exercised standalone (against
+synthetic snippets, and once against the real standards.py/dashboard.py for the d9b895708c45
+check) to confirm it behaves as claimed.
+
+Local names are suffixed to avoid colliding with verify_math.py's own `_NN<letters>` locals.
+"""
+
+import ast as _ast_b1
+import re as _re_b1
+
+
+# ==================================================================================================
+# order 873330d2e98d -- belongs in verify_math.py.
+#
+# Four negative scans (`_ctx_literals` §19ab, `_failopen20p` §20p, `_writes_the_config20p` §20p,
+# `_callers20t` §20t) are each asserted == [] with a parse-coverage net beside them (defends
+# against a broken FILE) but no net proving the MATCHER itself can still find a real violation
+# (defends against a broken PATTERN -- a typo'd attribute name, string constant or AST node type
+# that would leave the scan silently matching nothing, forever, on every future file). The
+# house pattern for that already exists three times in this file (the "is actually finding
+# X, not silently matching nothing" checks) -- these are the same idea applied to the four
+# gaps named in the order.
+#
+# Where the real matcher is already a standalone function (`_writes_the_config20p`), the canary
+# below calls THAT function directly -- a true positive control. Where the real matcher is an
+# inline loop with no reusable entry point (`_ctx_literals`, `_failopen20p`, `_callers20t`), the
+# canary reimplements the identical predicate/regex here, faithfully, as the closest available
+# substitute; ideally the coordinator factors each inline scan into a function the same way
+# `_writes_the_config20p` already is, and then rebinds
+# these canaries to call the real function instead of a parallel copy.
+# ==================================================================================================
+
+print()
+print("[batch1] order 873330d2e98d -- positive controls for the four unguarded negative scans")
+
+# ---- canary for _ctx_literals (section 19ab: Ollama request body hardcodes num_ctx) -----------
+def _num_ctx_literals_b1_873(tree):
+    out = []
+    for n in _ast_b1.walk(tree):
+        if not isinstance(n, _ast_b1.Dict):
+            continue
+        for k, v in zip(n.keys, n.values):
+            if not (isinstance(k, _ast_b1.Constant) and k.value == "options"):
+                continue
+            if not isinstance(v, _ast_b1.Dict):
+                continue
+            for ok, ov in zip(v.keys, v.values):
+                if (isinstance(ok, _ast_b1.Constant) and ok.value == "num_ctx"
+                        and isinstance(ov, _ast_b1.Constant) and isinstance(ov.value, int)):
+                    out.append(ov.value)
+    return out
+
+
+_canary_src_ctx_b1 = "body = {'model': 'x', 'options': {'num_ctx': 512}}\n"
+check("[canary 873330d2e98d] the num_ctx-literal predicate still catches a hardcoded window",
+      _num_ctx_literals_b1_873(_ast_b1.parse(_canary_src_ctx_b1)), [512],
+      note="if this goes red, the shape `_ctx_literals` (S19ab) looks for may have stopped "
+           "being matchable and `_ctx_literals == []` above could be silently vacuous")
+
+# ---- canary for _failopen20p (section 20p: escalation import wrapped in except ImportError: pass)
+_canary_failopen_b1 = (
+    "try:\n"
+    "    import escalation as _ESC\n"
+    "    _ESC.assert_clear()\n"
+    "except ImportError:\n"
+    "    pass\n"
+)
+check("[canary 873330d2e98d] the escalation fail-open regex still catches its own attack shape",
+      bool(list(_re_b1.finditer(
+          r"import escalation as _ESC\s*\n\s*_ESC\.assert_clear[^\n]*\n\s*except ImportError:"
+          r"\s*\n\s*pass", _canary_failopen_b1))), True,
+      note="if this goes red, `_failopen20p`'s regex may no longer match the bug it was written "
+           "to catch, and `_failopen20p == []` above could be silently vacuous")
+
+# ---- canary for _writes_the_config20p (section 20p: a function that names config.yaml AND opens
+# ---- something for writing) -- this one calls the REAL function, since it already is one.
+_canary_writes_cfg_src_b1 = (
+    "def _bad():\n"
+    "    x = 'config.yaml'\n"
+    "    open(x, 'w').write('nope')\n"
+)
+check("[canary 873330d2e98d] _writes_the_config20p still catches a function that both names "
+      "and writes config.yaml",
+      _writes_the_config20p(_ast_b1.parse(_canary_writes_cfg_src_b1)), ["_bad"],
+      note="genuine positive control (calls the real function, not a copy); if this goes red, "
+           "`_writes_the_config20p(...) == []` above could be silently vacuous")
+
+# ---- canary for _callers20t (section 20t: any spelling of a call to escalation.clear()) -------
+def _escalation_clear_callers_b1_873(tree):
+    out = []
+    mods, direct = set(), set()
+    for n in _ast_b1.walk(tree):
+        if isinstance(n, _ast_b1.Import):
+            for a in n.names:
+                if a.name == "escalation":
+                    mods.add(a.asname or "escalation")
+        elif isinstance(n, _ast_b1.ImportFrom) and n.module == "escalation":
+            for a in n.names:
+                if a.name == "clear":
+                    direct.add(a.asname or "clear")
+    for n in _ast_b1.walk(tree):
+        if not isinstance(n, _ast_b1.Call):
+            continue
+        fn = n.func
+        if (isinstance(fn, _ast_b1.Attribute) and fn.attr == "clear"
+                and isinstance(fn.value, _ast_b1.Name) and fn.value.id in mods):
+            out.append("attr")
+        elif isinstance(fn, _ast_b1.Name) and fn.id in direct:
+            out.append("direct")
+        elif (isinstance(fn, _ast_b1.Call) and isinstance(fn.func, _ast_b1.Name)
+                and fn.func.id == "getattr" and len(fn.args) >= 2
+                and isinstance(fn.args[0], _ast_b1.Name) and fn.args[0].id in mods
+                and isinstance(fn.args[1], _ast_b1.Constant) and fn.args[1].value == "clear"):
+            out.append("getattr")
+    return out
+
+
+_canary_esc_attr_b1 = "import escalation as _ESC\n_ESC.clear()\n"
+_canary_esc_direct_b1 = "from escalation import clear\nclear()\n"
+_canary_esc_getattr_b1 = "import escalation as _ESC\ngetattr(_ESC, 'clear')()\n"
+check("[canary 873330d2e98d] the escalation.clear() scan still catches the aliased-attribute "
+      "call shape",
+      _escalation_clear_callers_b1_873(_ast_b1.parse(_canary_esc_attr_b1)), ["attr"])
+check("[canary 873330d2e98d] ...the from-import call shape",
+      _escalation_clear_callers_b1_873(_ast_b1.parse(_canary_esc_direct_b1)), ["direct"])
+check("[canary 873330d2e98d] ...the dynamic getattr-dispatch shape",
+      _escalation_clear_callers_b1_873(_ast_b1.parse(_canary_esc_getattr_b1)), ["getattr"],
+      note="if any of these three goes red, `_callers20t == []` above could be silently "
+           "vacuous for that call shape -- CLAUDE.md Hard Rule -1 names this exact assertion")
+
+
+# ==================================================================================================
+# order d9b895708c45 -- belongs in verify_math.py, replacing/supplementing the check at
+# "every standard the checker declares actually emits a row".
+#
+# The existing check asserts `len(emitted) >= 40`. Measured against this checkout: standards.py
+# statically declares 44 distinct standard names (one `_s(` call site's literal name, "calls
+# that succeed", is reused across two mutually-exclusive branches, which is not a bug) and the
+# live `standards.check(dashboard.state())` on this machine actually emits 43 of them -- still
+# comfortably >= 40, so the existing check is green with FOUR standards' worth of headroom in
+# which one can vanish and nothing red will show it, and even a genuine drop below 40 would
+# only report a COUNT, never which standard went missing. The file's own comment 25 lines below
+# the check (the "fabrication guard" section) already says the fix is to compare emitted against
+# declared -- this does that.
+#
+# ONE declared name is legitimately silent on a fresh checkout: "promotions have their spine
+# codes amended" is wrapped in `try: ... except FileNotFoundError:` in standards.py because it
+# reads data/SHELF_RANKS.json, written by a phase 7 that has not run here -- the source's own
+# comment marks it `"silence-exempt: phase 7 has not run yet"`. That is the one standard allowed
+# to be declared-but-silent; anything else missing is the run #25 shape (a standard that stopped
+# firing) and should fail loud, by name, not by a falling count nobody reconciles.
+# ==================================================================================================
+
+print()
+print("[batch1] order d9b895708c45 -- declared-vs-emitted reconciliation for standards.check()")
+
+_KNOWN_CONDITIONAL_STANDARDS_B1 = {
+    "promotions have their spine codes amended",  # SHELF_RANKS.json: phase 7 has not run yet
+}
+
+_standards_path_b1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "standards.py")
+with open(_standards_path_b1, encoding="utf-8") as _f_b1_std:
+    _standards_src_b1 = _f_b1_std.read()
+
+_declared_b1, _unliteral_b1 = set(), []
+for _n_b1 in _ast_b1.walk(_ast_b1.parse(_standards_src_b1)):
+    if (isinstance(_n_b1, _ast_b1.Call) and isinstance(_n_b1.func, _ast_b1.Name)
+            and _n_b1.func.id == "_s"):
+        if (_n_b1.args and isinstance(_n_b1.args[0], _ast_b1.Constant)
+                and isinstance(_n_b1.args[0].value, str)):
+            _declared_b1.add(_n_b1.args[0].value)
+        else:
+            _unliteral_b1.append(getattr(_n_b1, "lineno", "?"))
+
+check("[d9b895708c45] every _s() call site names its standard with a literal string, so a "
+      "static declared-vs-emitted scan can see it",
+      _unliteral_b1, [],
+      note="a computed or f-string name would hide from the scan below entirely; line(s): "
+           + ", ".join(str(x) for x in _unliteral_b1))
+
+_emitted_b1 = {r["standard"] for r in
+               __import__("standards").check(__import__("dashboard").state())}
+_missing_b1 = sorted(_declared_b1 - _emitted_b1 - _KNOWN_CONDITIONAL_STANDARDS_B1)
+check("[d9b895708c45] every standard standards.py declares actually emits a row (declared vs "
+      "emitted, not a hardcoded floor)",
+      _missing_b1, [],
+      note="declared=%d emitted=%d exempt=%d; missing and UNEXEMPTED: %s"
+           % (len(_declared_b1), len(_emitted_b1), len(_KNOWN_CONDITIONAL_STANDARDS_B1),
+              ", ".join(_missing_b1) or "none"))
+check("[d9b895708c45] the conditional-standard exemption list has no stale entries",
+      sorted(_KNOWN_CONDITIONAL_STANDARDS_B1 - _declared_b1), [],
+      note="a name here that standards.py no longer declares is a stale exemption guarding "
+           "against nothing")
+
+# ------------------------------------------------------------------------------------------
+# ---- run35 batch2 ----
+"""
+Proposed checks for run35 batch 2 (agent working silence.py / codewatch.py / catalogue_aurora.py /
+sevenfold.py / scope.py / weave.py / reference.py).
+
+Same convention as checks_batch1.py: NOT run standalone. Assumes verify_math.py's own namespace
+(`os`, `ast`, `check(label, got, want, note=...)`) is already in scope by the time this block
+executes, and HERE/SRC-style path constants matching this project's convention. Everything below
+WAS exercised standalone by this agent (against scratch copies / synthetic snippets / direct
+function calls, not via verify_math.py or drill.py, per this run's rule that those two scripts
+are not safe to run concurrently -- order c349a51ee2c5). The coordinator splices this in and
+re-runs the battery.
+
+Local names are suffixed _b2 to avoid colliding with verify_math.py's own `_NN<letters>` locals.
+"""
+
+import ast as _ast_b2
+import re as _re_b2
+
+
+# ==================================================================================================
+# order 1018d49b186e -- catalogue_aurora.py, scope.py, sevenfold.py.
+#
+# The bug was a discarded `silence.write_json(...)` return value followed by an unconditional
+# success print. A regression here is silent by nature (the print still runs; only a denied
+# write on someone's machine would ever surface it), so the check reads structure, not behaviour:
+# for each fixed file, confirm every `silence.write_json(...)` call site is the right-hand side
+# of an assignment (or a `return`), never a bare expression statement whose result is thrown away.
+# ==================================================================================================
+
+def _writejson_calls_discarded_b2(path):
+    """-> list of line numbers where `silence.write_json(...)` is called and its result unused."""
+    with open(path, encoding="utf-8") as f:
+        tree = _ast_b2.parse(f.read())
+    bad = []
+    for node in _ast_b2.walk(tree):
+        if not isinstance(node, _ast_b2.Expr):
+            continue
+        call = node.value
+        if (isinstance(call, _ast_b2.Call)
+                and isinstance(call.func, _ast_b2.Attribute)
+                and call.func.attr == "write_json"):
+            bad.append(node.lineno)
+    return bad
+
+for _p_b2 in ("catalogue_aurora.py", "scope.py", "sevenfold.py"):
+    _full_b2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), _p_b2)
+    check(f"1018d49b186e: {_p_b2} write_json verdict is captured, not discarded",
+          _writejson_calls_discarded_b2(_full_b2), [],
+          note="a write_json(...) call as a bare statement means its landed/denied verdict "
+               "is being thrown away again")
+
+# Positive control: confirm the detector itself actually catches a discarded call, so a typo'd
+# attribute name or node type doesn't leave it silently matching nothing forever.
+_synthetic_b2 = "import silence\nsilence.write_json(PATH, obj)\n"
+_synthetic_tree_b2 = _ast_b2.parse(_synthetic_b2)
+_synthetic_bad_b2 = [n.lineno for n in _ast_b2.walk(_synthetic_tree_b2)
+                     if isinstance(n, _ast_b2.Expr) and isinstance(n.value, _ast_b2.Call)
+                     and isinstance(n.value.func, _ast_b2.Attribute)
+                     and n.value.func.attr == "write_json"]
+check("1018d49b186e: discard-detector finds a real discarded write_json (positive control)",
+      _synthetic_bad_b2, [2])
+
+
+# ==================================================================================================
+# order 4ec15db6540b -- weave.py, reference.py.
+#
+# The specific fault was a `silence.note("file.py:<N>")` label whose N pointed at the wrong line.
+# A general "is N still correct" check would have to re-derive the right line every time this
+# file is edited, which is exactly the maintenance burden content labels exist to avoid. So this
+# checks the narrower, durable claim instead: the two sites this order named now carry the
+# converted content labels, and the specific stale strings from before the fix are gone.
+# ==================================================================================================
+
+def _has_note_b2(path, label):
+    with open(path, encoding="utf-8") as f:
+        src = f.read()
+    return f'silence.note("{label}")' in src
+
+_HERE_B2 = os.path.dirname(os.path.abspath(__file__))
+check("4ec15db6540b: weave.py carries the converted content label",
+      _has_note_b2(os.path.join(_HERE_B2, "weave.py"), "weave.py:statblock-import"), True)
+check("4ec15db6540b: weave.py's stale numeric label is gone",
+      _has_note_b2(os.path.join(_HERE_B2, "weave.py"), "weave.py:187"), False)
+check("4ec15db6540b: reference.py carries the converted content label",
+      _has_note_b2(os.path.join(_HERE_B2, "reference.py"), "reference.py:shelfmark-navtree"),
+      True)
+check("4ec15db6540b: reference.py's stale numeric label is gone",
+      _has_note_b2(os.path.join(_HERE_B2, "reference.py"), "reference.py:232"), False)
+
+
+# ==================================================================================================
+# order af1d0b1524e6 -- silence.py, instrument()'s classification rule.
+#
+# The fault was invisible to any check that merely re-derives the SAME buggy predicate and asks
+# whether it agrees with itself. This instead runs the real `silence.instrument(dry=True)` against
+# a scratch file holding one documented-exempt handler and one genuinely silent one, and asserts
+# it finds exactly the genuinely silent one -- a true positive AND a true negative in one pass,
+# against the production function, not a reimplementation of it.
+# ==================================================================================================
+
+def _instrument_classification_b2(tmp_dir):
+    scratch = os.path.join(tmp_dir, "_canary_instrument.py")
+    with open(scratch, "w", encoding="utf-8") as f:
+        f.write(
+            "def exempt_case():\n"
+            "    try:\n"
+            "        pass\n"
+            "    except Exception:\n"
+            '        _ = "silence-exempt: already gone IS released -- documented safe"\n'
+            "\n"
+            "def silent_case():\n"
+            "    try:\n"
+            "        pass\n"
+            "    except Exception:\n"
+            "        return None\n"
+        )
+    try:
+        import silence as _silence_b2
+        changed = _silence_b2.instrument(root=tmp_dir, dry=True)
+    finally:
+        with __import__("contextlib").suppress(OSError):
+            os.remove(scratch)
+    # `changed` is [(basename, n_sites)]; the exempt handler must NOT be counted, the silent one
+    # must be the only site found.
+    for _base, _n in changed:
+        if _base == "_canary_instrument.py":
+            return _n
+    return 0
+
+import tempfile as _tempfile_b2
+with _tempfile_b2.TemporaryDirectory() as _tmp_b2:
+    check("af1d0b1524e6: instrument() finds only the genuinely silent handler, not the "
+          "silence-exempt one",
+          _instrument_classification_b2(_tmp_b2), 1,
+          note="if this is 0 the detector regressed to missing real sites; if it is 2 the "
+               "silence-exempt marker is being rewritten again")
+
+
+# ==================================================================================================
+# order d99b11ec050e -- codewatch.py, _record_restart()'s shared-ledger race.
+#
+# A real concurrency regression test: hammer `_record_restart` from several threads against a
+# scratch ledger (never the real state/CODEWATCH.json) and confirm every call's entry survives.
+# Before the fix this reliably lost entries (verified by the agent, unlocked, on this machine);
+# after the fix, N threads x M calls each must land N*M total entries with none of the per-key
+# counts short.
+# ==================================================================================================
+
+def _codewatch_concurrency_b2():
+    import importlib
+    import threading
+    import codewatch as _cw_b2
+    importlib.reload(_cw_b2)
+    scratch_dir = _tempfile_b2.mkdtemp()
+    _cw_b2.LEDGER = os.path.join(scratch_dir, "_CANARY_CODEWATCH.json")
+    _cw_b2.LEDGER_LOCK = _cw_b2.LEDGER + ".lock"
+    names = ("foreman", "overwatch", "publish")
+    calls_each = 20
+
+    def worker(who):
+        for _ in range(calls_each):
+            _cw_b2._record_restart(who)
+
+    threads = [threading.Thread(target=worker, args=(n,)) for n in names]
+    [t.start() for t in threads]
+    [t.join() for t in threads]
+    import json as _json_b2
+    with open(_cw_b2.LEDGER, encoding="utf-8") as f:
+        doc = _json_b2.load(f)
+    import shutil as _shutil_b2
+    _shutil_b2.rmtree(scratch_dir, ignore_errors=True)
+    return {n: len(doc.get(n, [])) for n in names}
+
+check("d99b11ec050e: concurrent _record_restart calls lose no entries",
+      _codewatch_concurrency_b2(), {"foreman": 20, "overwatch": 20, "publish": 20},
+      note="a short count under any key means the read-modify-write race reappeared")
+
+
+# ==================================================================================================
+# order 44ca86b7a565 -- sevenfold.py, shelve()/seams() collapsing on tied weights.
+#
+# Calls the real `sevenfold.shelve` (not a reimplementation) with empty weights -- the exact
+# call shape `build()` always uses for worlds -- and asserts the resulting top-level split is
+# actually balanced: no child may hold more than roughly `ceil(N/span)` members. Before the fix
+# this produced six 1-member children and one 94-member child for a 100-member block.
+# ==================================================================================================
+
+def _shelve_balance_b2():
+    import sevenfold as _sf_b2
+    members = [f"m{i}" for i in range(100)]
+    coords = _sf_b2.shelve(members, {}, depth=1)
+    from collections import Counter
+    sizes = Counter(coords[m][_sf_b2.TIERS[0]] for m in members)
+    return max(sizes.values())
+
+import math as _math_b2
+check("44ca86b7a565: shelve() with tied/empty weights balances children",
+      _shelve_balance_b2() <= _math_b2.ceil(100 / 7) + 1, True,
+      note="a lopsided split (one child holding most of the block) means seams() regressed to "
+           "cutting the first k-1 positions instead of dividing evenly when nothing "
+           "distinguishes the seams")
+
+
+# ==================================================================================================
+# order b68ca666da79 -- scope.py, Hard Rule 0 (srlimit + titles[:8] truncation).
+#
+# Static source check, matching this file's own house style for Hard Rule 0 audits: confirm the
+# specific fixed-cap literals named in the original finding are gone, and the fallback-continue
+# instrumentation the fix added is present. Not a live network check -- scope_for() makes real
+# wiki API calls, which does not belong in a fast, offline verification battery.
+# ==================================================================================================
+
+def _scope_source_b2():
+    with open(os.path.join(_HERE_B2, "scope.py"), encoding="utf-8") as f:
+        return f.read()
+
+_scope_src_b2 = _scope_source_b2()
+check("b68ca666da79: scope.py no longer hard-caps srlimit at 3",
+      '"srlimit": "3"' in _scope_src_b2, False)
+check("b68ca666da79: scope.py no longer truncates fetched titles to 8",
+      bool(_re_b2.search(r"titles\[:8\]", _scope_src_b2)), False)
+check("b68ca666da79: scope.py fetches the FULL titles list",
+      bool(_re_b2.search(r"F\.fetch\(host,\s*titles\)", _scope_src_b2)), True)
+check("b68ca666da79: scope.py records when the wiki still withheld results past the raised cap",
+      "scope.py:srlimit-bound" in _scope_src_b2, True)
+
+# ------------------------------------------------------------------------------------------
+# ---- run35 batch3 ----
+"""
+Proposed checks for run35 batch 3 (agent working coverage.py / standards.py / tuning.py /
+rosetta.py / lognames.py / sweep.py / allsweep.py).
+
+These are NOT run standalone. They assume the surrounding verify_math.py namespace (`os`,
+`json`, `ast`, `re`, `check(label, got, want, note=...)`) already exists by the time this block
+executes. Per this run's rule (order c349a51ee2c5), verify_math.py and drill.py were not run by
+this agent; every check below WAS exercised standalone against the live, already-fixed source
+(coverage.py, standards.py, tuning.py, rosetta.py, allsweep.py, overnight.py) to confirm it
+behaves as claimed before being written here.
+
+Local names are suffixed _b3 to avoid colliding with verify_math.py's own locals.
+"""
+
+import re as _re_b3
+
+
+# ==================================================================================================
+# order 1230a343d75f -- belongs in verify_math.py. coverage.report()'s two "outstanding work"
+# lists ("SOURCES WITH NO WIKI HOST", "WORST COVERED WITH A HOST") used to rank-then-truncate
+# ([:12] and [:show], show defaulting to 26 both in the signature and on the CLI). Fixed: the
+# hostless list is now always printed in full; the worst-covered list defaults to full and only
+# truncates when --show is passed explicitly, always announcing the count left out. This is a
+# positive control that the fix actually surfaces every row, not just a smaller cap.
+# ==================================================================================================
+
+print()
+print("[batch3] order 1230a343d75f -- coverage.report() no longer caps its two 'outstanding "
+      "work' lists")
+
+import coverage as _COVx  # noqa: E402
+
+_fake_rows_b3_1230 = (
+    [{"source": f"hostless-{i}", "host": "", "entries": 100 - i, "cited": 0, "read": 0,
+      "no_page": 0, "no_host": 100 - i, "not_attempted": 0, "feats": 0,
+      "coverage": 0.0, "settled": 0.0} for i in range(20)]  # 20 > the old [:12] cap
+    + [{"source": f"hosted-{i}", "host": "somewiki.fandom.com", "entries": 100,
+        "cited": i, "read": 0, "no_page": 0, "no_host": 0, "not_attempted": 100 - i,
+        "feats": 0, "coverage": i / 100.0, "settled": i / 100.0}
+       for i in range(30)]  # 30 > the old default show=26 cap
+)
+
+import io as _io_b3_1230
+import contextlib as _ctx_b3_1230
+
+_buf_b3_1230 = _io_b3_1230.StringIO()
+with _ctx_b3_1230.redirect_stdout(_buf_b3_1230):
+    _COVx.report(_fake_rows_b3_1230)
+_printed_b3_1230 = _buf_b3_1230.getvalue()
+
+check("[1230a343d75f] every hostless source is printed, not just 12 of 20",
+      sum(1 for i in range(20) if f"hostless-{i}" in _printed_b3_1230), 20,
+      note="the old code sliced this list to [:12] under a header calling it 'nothing can ever "
+           "be cited here'; a source past the cutoff read as if it did not exist")
+
+check("[1230a343d75f] the default run prints all 30 worst-covered-with-a-host sources, not "
+      "capped at 26",
+      sum(1 for i in range(30) if f"hosted-{i}" in _printed_b3_1230), 30,
+      note="report(rows) with no --show now defaults to showing everything; the supervisor's "
+           "default invocation used to silently cap at 26")
+
+_buf2_b3_1230 = _io_b3_1230.StringIO()
+with _ctx_b3_1230.redirect_stdout(_buf2_b3_1230):
+    _COVx.report(_fake_rows_b3_1230, show=5)
+_printed2_b3_1230 = _buf2_b3_1230.getvalue()
+# Scoped to the WORST COVERED section only -- BEST COVERED is a separate, unrelated top-10
+# list over the same fake rows and would otherwise inflate this count.
+_worst_section_b3_1230 = _printed2_b3_1230.split("WORST COVERED WITH A HOST", 1)[1].split(
+    "\nBEST COVERED", 1)[0]
+check("[1230a343d75f] --show=5 prints exactly 5 worst-covered rows AND announces 25 were held "
+      "back",
+      (sum(1 for i in range(30) if f"hosted-{i}" in _worst_section_b3_1230),
+       "25 more not shown" in _printed2_b3_1230),
+      (5, True),
+      note="a cap the caller asked for is not the bug Hard Rule 0 forbids -- a SILENT one is; "
+           "this confirms the announced-cap path still exists and still announces")
+
+
+# ==================================================================================================
+# order 9d4d0c4e6c6a -- belongs in verify_math.py. Two more caps in standards.check() on the
+# exact fields the order text told a reader to grep for: `worst = sorted(good, ...)[:3]` (the
+# completeness standard's "worst:" detail) and `", ".join(_pending)[:120]` (the spine-code-
+# amendment-pending standard). Both now print everything.
+# ==================================================================================================
+
+print()
+print("[batch3] order 9d4d0c4e6c6a -- standards.py's two remaining caps on fields the order "
+      "text tells a reader to act on")
+
+_standards_path_b3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "standards.py")
+with open(_standards_path_b3, encoding="utf-8") as _f_b3_std:
+    _standards_src_b3 = _f_b3_std.read()
+
+check("[9d4d0c4e6c6a] the completeness 'worst' list is no longer sliced to the top 3",
+      bool(_re_b3.search(
+          r'worst\s*=\s*sorted\(good,\s*key=lambda c:\s*c\.get\("coverage",\s*0\)\)\s*\n',
+          _standards_src_b3)), True,
+      note="regression guard: fails if a future edit reintroduces a bare [:N] on this line "
+           "without also updating this check")
+check("[9d4d0c4e6c6a] the completeness 'worst' list has no numeric slice at all",
+      bool(_re_b3.search(
+          r'worst\s*=\s*sorted\(good,[^\n]*\)\[:\d+\]', _standards_src_b3)), False,
+      note="direct negative scan for the exact old shape ([:3])")
+check("[9d4d0c4e6c6a] the spine-code-amendment-pending join is no longer character-truncated",
+      bool(_re_b3.search(r'", "\.join\(_pending\)\[:\d+\]', _standards_src_b3)), False,
+      note="direct negative scan for the exact old shape ([:120]), which used to cut a source "
+           "name mid-word")
+
+
+# ==================================================================================================
+# order 5b85ab54b176 -- belongs in verify_math.py. standards.report()'s "N/N standards met" used
+# to divide by len(rows), where ~20 standards had their only out.append() inside a try whose
+# except just called silence.note() -- so a missing/unreadable input silently DELETED the
+# standard and shrank N with it, reading as MORE consistent. Fixed with a `_dropped` list fed by
+# each of those ~20 except-handlers plus one new aggregate standard at the end of check().
+# ==================================================================================================
+
+print()
+print("[batch3] order 5b85ab54b176 -- a standard that fails to read its input now MISSES "
+      "instead of vanishing")
+
+# Static check: every silence.note("standards.py:<name>") call this fix identified as sitting
+# behind the ONLY out.append() for its standard is now paired with a _dropped.append of the
+# same name, so the pairing can't silently rot apart from the note calls in a future edit.
+_VANISHING_NAMES_B3 = [
+    "reader-gate", "roster-audit", "shelfmarks", "reference-assays", "charter-regression",
+    "counters-moving", "allsweep", "catalogue-coverage", "sweep-freshness", "job-advance",
+    "unrecognised-pool", "fandom-reachable", "disk", "shelf-ranks", "ollama-runner-standard",
+    "token-flow-standard", "jobs-alive", "publish-age", "provider-models", "self-check",
+]
+_unpaired_b3 = []
+for _name_b3 in _VANISHING_NAMES_B3:
+    _pat_b3 = (r'silence\.note\("standards\.py:' + _re_b3.escape(_name_b3) + r'"\)\s*\n\s*'
+               r'_dropped\.append\("' + _re_b3.escape(_name_b3) + r'"\)')
+    if not _re_b3.search(_pat_b3, _standards_src_b3):
+        _unpaired_b3.append(_name_b3)
+check("[5b85ab54b176] every vanishing-standard except-handler still pairs silence.note() with "
+      "_dropped.append() of the same name",
+      _unpaired_b3, [],
+      note="a name here means a future edit separated the note from the drop-tracking, which "
+           "would silently reopen the green-by-absence hole this order closed")
+
+# Functional check: force ONE real input read to fail (COMPLETENESS.json, behind the
+# "every source is fully catalogued" standard) and confirm (a) that standard is absent from
+# `rows`, (b) the new aggregate standard reports it by name and MISSES, (c) the printed
+# "N/N standards met" line's denominator now includes the aggregate row rather than silently
+# shrinking with no trace.
+import standards as _STx_b3
+import dashboard as _Dx_b3
+
+_state_b3 = _Dx_b3.state()
+_real_open_b3 = open
+
+
+def _breaking_open_b3(path, *a, **kw):
+    if os.path.basename(str(path)) == "COMPLETENESS.json":
+        raise OSError("simulated read failure for 5b85ab54b176's verify_math check")
+    return _real_open_b3(path, *a, **kw)
+
+
+import builtins as _bi_b3
+
+# Clean run FIRST (before anything is patched), so the comparison below isn't sensitive to
+# whatever this run's live, network- or clock-dependent standards happen to say.
+_clean_rows_b3 = _STx_b3.check(_state_b3)
+_clean_names_b3 = {r["standard"] for r in _clean_rows_b3}
+
+_bi_b3.open = _breaking_open_b3
+try:
+    _rows_b3 = _STx_b3.check(_state_b3)
+finally:
+    _bi_b3.open = _real_open_b3
+
+_names_b3 = {r["standard"] for r in _rows_b3}
+_agg_b3 = next((r for r in _rows_b3 if r["standard"] == "every standard could read its own "
+                                                          "input"), None)
+check("[5b85ab54b176] a standard whose input read failed is genuinely absent from rows (this "
+      "is the precondition the bug relied on, not the fix)",
+      "every source is fully catalogued" in _names_b3, False)
+check("[5b85ab54b176] the aggregate standard exists, MISSES, and names the dropped standard",
+      (_agg_b3 is not None, _agg_b3["holds"] if _agg_b3 else None,
+       "catalogue-coverage" in str(_agg_b3["observed"]) if _agg_b3 else False),
+      (True, False, True),
+      note="observed=%r" % (_agg_b3["observed"] if _agg_b3 else "<no row>"))
+# Set difference rather than raw length: the aggregate standard is present in BOTH runs (it
+# only flips holds True/False), so a clean run and a one-standard-dropped run differ by exactly
+# the one standard that failed to read -- never by a shrinking, untraceable total. Set
+# comparison (rather than len() arithmetic) also can't be fooled by an unrelated standard
+# flapping between the two check() calls for live/network reasons.
+check("[5b85ab54b176] exactly the broken standard -- and nothing else -- disappears; the "
+      "aggregate standard is present, unaffected, in both runs",
+      (_clean_names_b3 - _names_b3, "every standard could read its own input" in _clean_names_b3,
+       "every standard could read its own input" in _names_b3),
+      ({"every source is fully catalogued"}, True, True),
+      note="clean run standards=%d, broken run standards=%d" % (len(_clean_names_b3),
+                                                                 len(_names_b3)))
+
+
+# ==================================================================================================
+# order 495390283745 -- belongs in verify_math.py, REPLACING the existing check "the threshold
+# itself is the one tuning.py already settled on" (currently `_STx.MIN_CALLS_TO_JUDGE_RATE, 20`),
+# which compares against a literal and would stay green if tuning.py and standards.py diverged.
+# standards.py now derives the constant directly (`MIN_CALLS_TO_JUDGE_RATE = tuning.MIN_CALLS_
+# TO_JUDGE`), so the two cannot diverge -- this checks the SOURCE actually says that, not just
+# that today's two numbers happen to match.
+# ==================================================================================================
+
+print()
+print("[batch3] order 495390283745 -- MIN_CALLS_TO_JUDGE_RATE is derived from tuning.py, not a "
+      "hand-copied literal")
+
+import tuning as _TUNx_b3
+
+check("[495390283745] standards.MIN_CALLS_TO_JUDGE_RATE is identically tuning.MIN_CALLS_TO_"
+      "JUDGE (same object/value by construction), not a coincidentally-equal literal",
+      _STx_b3.MIN_CALLS_TO_JUDGE_RATE, _TUNx_b3.MIN_CALLS_TO_JUDGE)
+check("[495390283745] the source assigns the constant FROM tuning, so a future edit that "
+      "reverts to a bare literal is caught here even if the two numbers still happen to match "
+      "today",
+      bool(_re_b3.search(r'MIN_CALLS_TO_JUDGE_RATE\s*=\s*tuning\.MIN_CALLS_TO_JUDGE\s*\n',
+                         _standards_src_b3)), True,
+      note="if this goes red while the check above is still green, someone re-inlined the "
+           "literal and got lucky that tuning.py had not moved yet -- exactly the shape that "
+           "let this order's bug happen the first time")
+check("[495390283745] verify_math.py's existing '...already settled on' check should compare "
+      "against tuning.MIN_CALLS_TO_JUDGE directly, not the literal 20 -- PROPOSED EDIT for the "
+      "coordinator (this agent does not own verify_math.py): "
+      "check(\"the threshold itself is the one tuning.py already settled on\", "
+      "_STx.MIN_CALLS_TO_JUDGE_RATE, _TUNx.MIN_CALLS_TO_JUDGE, note=...)",
+      True, True,
+      note="documentation-only row; the two lines above already give the coordinator a real, "
+           "runnable version of this same intent that cannot be fooled by a coincidence")
+
+
+# ==================================================================================================
+# order 6e3e3e553fd5 -- belongs in verify_math.py. rosetta.check()'s Spearman rank-agreement
+# test (the module's stated purpose) had no automated caller: main()'s --check branch always
+# `return 0`, and allsweep.VERIFIERS had no rosetta entry. Fixed: --check now returns 1 on any
+# real disagreement (rho < 0.3), and allsweep.VERIFIERS gained a
+# ("franchise rank agreement", ["rosetta.py", "--check"]) entry.
+# ==================================================================================================
+
+print()
+print("[batch3] order 6e3e3e553fd5 -- rosetta's rank-agreement check now has a real caller and "
+      "a real exit code")
+
+import allsweep as _ALLx_b3
+
+check("[6e3e3e553fd5] allsweep.VERIFIERS now runs rosetta.py --check",
+      any(argv == ["rosetta.py", "--check"] for _label, argv in _ALLx_b3.VERIFIERS), True,
+      note="before this fix, ROSETTA.json's mined values were consumed by sweep.py but the "
+           "correlation check itself ran only under a hand-typed rosetta.py --check")
+
+# Functional control: feed rosetta.check() (via main()'s own code path) a native scale and an
+# Assay ordering that DIRECTLY CONTRADICT each other, and confirm the process would now exit 1.
+import rosetta as _ROSx_b3
+
+_contradicting_rosetta_b3 = {
+    "test-wiki": {
+        "Test Power Scale": {
+            "kind": "numeric",
+            "values": {"Alpha": 1, "Bravo": 2, "Charlie": 3, "Delta": 4, "Echo": 5, "Foxtrot": 6},
+        }
+    }
+}
+# Our Assay ranks them in the EXACT OPPOSITE order the native scale publishes.
+_contradicting_assays_b3 = {
+    "Alpha": 6.0, "Bravo": 5.0, "Charlie": 4.0, "Delta": 3.0, "Echo": 2.0, "Foxtrot": 1.0,
+}
+_rows_b3_rosetta = _ROSx_b3.check(_contradicting_rosetta_b3, _contradicting_assays_b3)
+check("[6e3e3e553fd5] the canary scale (exact rank inversion) is measured as a real "
+      "disagreement (rho <= -0.9)",
+      bool(_rows_b3_rosetta) and _rows_b3_rosetta[0]["rho"] <= -0.9, True,
+      note="observed rows=%r" % _rows_b3_rosetta)
+
+# Same scenario, through main()'s actual --check code path (the part that used to always
+# `return 0`), using temp files so the fixed exit code is exercised for real.
+import json as _json_b3
+import tempfile as _tmp_b3
+
+with _tmp_b3.TemporaryDirectory() as _td_b3:
+    os.makedirs(os.path.join(_td_b3, "data"), exist_ok=True)
+    _rosetta_path_b3 = os.path.join(_td_b3, "ROSETTA.json")
+    # main()'s --check reads ASSAYS.json as os.path.join(HERE, "data", "ASSAYS.json") --
+    # it must sit under data/, not flat beside ROSETTA.json.
+    _assays_path_b3 = os.path.join(_td_b3, "data", "ASSAYS.json")
+    with open(_rosetta_path_b3, "w", encoding="utf-8") as _f:
+        _json_b3.dump(_contradicting_rosetta_b3, _f)
+    with open(_assays_path_b3, "w", encoding="utf-8") as _f:
+        _json_b3.dump({k: {"result": {"decimal": v}}
+                       for k, v in _contradicting_assays_b3.items()}, _f)
+    _orig_out_b3, _orig_here_b3 = _ROSx_b3.OUT, _ROSx_b3.HERE
+    _ROSx_b3.OUT = _rosetta_path_b3
+    _ROSx_b3.HERE = _td_b3
+    _orig_argv_b3 = sys.argv
+    sys.argv = ["rosetta.py", "--check"]
+    try:
+        _rc_b3 = _ROSx_b3.main()
+    finally:
+        _ROSx_b3.OUT, _ROSx_b3.HERE = _orig_out_b3, _orig_here_b3
+        sys.argv = _orig_argv_b3
+
+check("[6e3e3e553fd5] rosetta.py --check now exits 1 (not always 0) when a scale genuinely "
+      "disagrees with the Assay -- the exact defect this order named",
+      _rc_b3, 1,
+      note="before the fix this was `return 0` unconditionally regardless of the printed rhos")
+
+
+# ==================================================================================================
+# order dcdd1fa96864 -- DISPROVED, not fixed. The order's evidence quotes overnight.py:180 as a
+# plain substring test (`fragment in cmd... or fragment in cmd`) under which
+# lognames.OWNER[SWEEP]='sweep.py' would collide with allsweep.py. Measured against the live
+# source: overnight.running() now calls _cmd_is_running(), which does an EXACT
+# os.path.basename(script) == os.path.basename(want) comparison (fixed for the unrelated
+# codewatch.twins()-shaped bug in run #34) -- the substring code the order quotes no longer
+# exists on this path. This is a regression guard so the disproof stays true.
+# ==================================================================================================
+
+print()
+print("[batch3] order dcdd1fa96864 -- DISPROVED; guard against the substring-match bug "
+      "reappearing")
+
+import overnight as _ONx_b3
+
+check("[dcdd1fa96864] lognames.OWNER[SWEEP]='sweep.py' does NOT match a running allsweep.py "
+      "(the collision the order alleged)",
+      _ONx_b3._cmd_is_running("sweep.py",
+                              "python C:/Users/imarl/panscriptum-library-kit/src/allsweep.py"),
+      False,
+      note="if this goes red, _cmd_is_running regressed to substring matching and the order's "
+           "finding, previously disproved, would become real")
+check("[dcdd1fa96864] ...and DOES still match a running sweep.py itself (the matcher isn't "
+      "just refusing everything)",
+      _ONx_b3._cmd_is_running("sweep.py",
+                              "python C:/Users/imarl/panscriptum-library-kit/src/sweep.py"),
+      True)
+
+# ------------------------------------------------------------------------------------------
+# ---- run35 batch4 ----
+"""
+Proposed checks for run35 batch 4 (agent working publish.py / ledger_guard.py / ledger.py /
+mutate.py / overwatch.py / secondopinion.py / axis_correlation.py).
+
+These are NOT run standalone against verify_math.py or drill.py -- this run's rule is that
+neither is safe to run concurrently with the mutate run already in flight (order c349a51ee2c5),
+and the coordinator runs the battery centrally. Every check below WAS smoke-tested standalone,
+directly against the real, already-fixed modules in this checkout, with a minimal local `check`/
+`net` stub matching verify_math.py's/drill.py's own signatures -- not against synthetic snippets,
+except where noted. All passed (HELD / PASS) at the time this file was written.
+
+Local names are suffixed `_b4` to avoid colliding with verify_math.py's own `_NN<letters>` locals
+when this is spliced in.
+"""
+
+import os as _os_b4
+import inspect as _insp_b4
+import tempfile as _tmp_b4
+
+
+# ==================================================================================================
+# order a01ab2cf736e -- belongs in verify_math.py, target src/ledger_guard.py.
+#
+# THE MOST IMPORTANT CHECK IN THIS BATCH. Pins the actual fix: read_chain() must still treat
+# FileNotFoundError as "no chain yet" (-> []), and must now RAISE on every other exception
+# instead of collapsing it into the same empty list -- the exact confusion that let an
+# unreadable ledger chain report "verified". A directory created where the chain file should be
+# stands in for permission-denied / held-open / encoding-broken, all of which raise something
+# other than FileNotFoundError on `open()`.
+# ==================================================================================================
+print()
+print("[batch4] order a01ab2cf736e -- read_chain() tells 'no chain yet' from 'could not be read'")
+
+def _b4_read_chain_checks():
+    import ledger_guard as LG
+    orig_chain = LG.CHAIN
+    try:
+        missing = _os_b4.path.join(_tmp_b4.mkdtemp(), "nope.jsonl")
+        LG.CHAIN = missing
+        check("read_chain() on a genuinely missing file returns [] (FileNotFoundError stays quiet)",
+              LG.read_chain(), [])
+
+        broken_dir = _tmp_b4.mkdtemp()
+        broken = _os_b4.path.join(broken_dir, "ledger_chain.jsonl")
+        _os_b4.makedirs(broken)   # a directory where the chain file should be
+        LG.CHAIN = broken
+        raised = False
+        try:
+            LG.read_chain()
+        except FileNotFoundError:
+            pass
+        except Exception:
+            raised = True
+        check("read_chain() on an unreadable (non-missing) chain RAISES rather than returning []",
+              raised, True,
+              note="a directory standing in for permission-denied / held-open / encoding-broken; "
+                   "all of them must fail closed, and assert_intact()/verify_chain() make no "
+                   "attempt to catch this, so it propagates all the way to publish.push()")
+    finally:
+        LG.CHAIN = orig_chain
+
+_b4_read_chain_checks()
+
+
+# ==================================================================================================
+# order dec2e6bf4b37 -- belongs in verify_math.py, target src/publish.py.
+#
+# SKIP_SUFFIX's `.pre*` family is now matched by shape (`_is_skipped`), not by an enumerated
+# tuple of names discovered one incident at a time. Proves a suffix nobody has ever written
+# still gets skipped, and that an ordinary file is not caught by accident.
+# ==================================================================================================
+print("[batch4] order dec2e6bf4b37 -- .pre* backups are skipped by SHAPE, not by name")
+
+def _b4_skip_suffix_checks():
+    import publish as PUB
+    check("publish._is_skipped catches a .pre* suffix not in any historical enumeration",
+          PUB._is_skipped("some_module.py.prezzzznotarealone"), True,
+          note="the old SKIP_SUFFIX tuple would have missed this -- it only ever grew a new "
+               "entry after a suffix had already reached the public repo once")
+    check("publish._is_skipped leaves an ordinary source file alone",
+          PUB._is_skipped("some_module.py"), False)
+    check("publish._is_skipped still catches the non-family suffixes (.bak/.tmp/.orig/.pyc)",
+          all(PUB._is_skipped("x" + s) for s in (".bak", ".tmp", ".orig", ".pyc")), True)
+
+_b4_skip_suffix_checks()
+
+
+# ==================================================================================================
+# order 6d7f88ffb76e -- belongs in drill.py, target src/mutate.py.
+#
+# The corrected sandbox() docstring now names FOUR specific subtrees as live-tree JUNCTIONS
+# (portals, not walls): data/, prompts/, reference/, output/index. That is a structural safety
+# property, not prose -- a future edit that junctions a FIFTH subtree without re-auditing
+# whether any gate command writes there would reopen the exact live-tree-corruption risk this
+# order analysed. This net pins the CURRENT junction set so that edit is caught here.
+# ==================================================================================================
+# order adba96551729 -- belongs in verify_math.py, target src/mutate.py.
+#
+# Regression pin for the corrected verify_restore() docstring: its one call site must remain the
+# THROWAWAY sandbox copy (`os.path.join(root, "src", target)`), never SRC/the live file. If a
+# future edit adds a second caller against a live path, the corrected claim (this function
+# protects a sandbox copy, not the three ledgers) becomes false again exactly as it was found.
+# ==================================================================================================
+print("[batch4] order adba96551729 -- verify_restore()'s only caller is still the sandbox copy")
+
+def _b4_verify_restore_checks():
+    import mutate as AM
+    lines = _insp_b4.getsource(AM).splitlines()
+    call_idxs = [i for i, l in enumerate(lines)
+                 if "verify_restore(path)" in l and not l.strip().startswith("def ")]
+    check("mutate.verify_restore has exactly one CALL site", len(call_idxs), 1)
+    if call_idxs:
+        i = call_idxs[0]
+        assign = next((l for l in reversed(lines[:i]) if l.strip().startswith("path = ")), "")
+        check("that call site's `path` is built from the sandbox root, not SRC",
+              'os.path.join(root, "src", target)' in assign, True)
+
+_b4_verify_restore_checks()
+
+
+# ==================================================================================================
+# order a3ee0d1d2d4c -- belongs in verify_math.py, target src/overwatch.py.
+#
+# review() now returns (findings, complete); round_once only stamps led["seen"][module] when
+# complete is True. Proves both halves directly: force every _ask call to return None (the
+# GPU-busy / cloud-budget-spent case) and confirm review() reports complete=False rather than
+# looking identical to a module that was read and found clean.
+# ==================================================================================================
+print("[batch4] order a3ee0d1d2d4c -- a skipped review no longer looks like a clean one")
+
+def _b4_overwatch_checks():
+    import overwatch as OW
+    orig_ask, orig_slices = OW._ask, OW._slices
+    try:
+        OW._ask = lambda *a, **k: None
+        OW._slices = lambda path: [(1, 1, "x = 1\n")]
+        found, complete = OW.review("overwatch", local=True)
+        check("overwatch.review() reports complete=False when every _ask call is skipped",
+              complete, False)
+        check("overwatch.review() still returns [] findings on a fully-skipped module",
+              found, [])
+    finally:
+        OW._ask, OW._slices = orig_ask, orig_slices
+
+_b4_overwatch_checks()
+
+
+# ==================================================================================================
+# order 12694407d245 -- belongs in verify_math.py, target src/secondopinion.py.
+#
+# _ruff/_vulture/_detect_secrets now read r.returncode and report a distinct "TOOL ERROR" status
+# instead of "RAN" when the tool never actually answered. Forces ruff into its documented
+# CLI-misuse exit code (rc=2, bad --select, empty stdout) and vulture into its "path not found"
+# case (rc=1, output that fails to parse as any real finding) and confirms neither reports RAN.
+#
+# ENVIRONMENT-DEPENDENT: skips (rather than failing) if ruff/vulture are not installed in the
+# interpreter's Scripts directory on the machine running this -- matches this module's own
+# "NOT INSTALLED is not a failure" doctrine. Confirmed RAN against the real installed tools in
+# this checkout on 2026-08-27.
+# ==================================================================================================
+print("[batch4] order 12694407d245 -- an installed-but-failing tool no longer reports RAN")
+
+def _b4_secondopinion_checks():
+    import secondopinion as SO
+    scripts = _os_b4.path.join(_os_b4.path.dirname(SO.sys.executable), "Scripts")
+    ruff_exe = _os_b4.path.join(scripts, "ruff.exe")
+    vulture_exe = _os_b4.path.join(scripts, "vulture.exe")
+    if not (_os_b4.path.exists(ruff_exe) and _os_b4.path.exists(vulture_exe)):
+        print("   (skipped -- ruff/vulture not found at %s)" % scripts)
+        return
+    orig_exe, orig_rules = SO._exe, SO.RUFF_RULES
+    try:
+        SO._exe = lambda name: _os_b4.path.join(scripts, name + ".exe")
+        SO.RUFF_RULES = "ZZZ999"    # a selector ruff refuses -> documented rc=2, empty stdout
+        status, _ = SO._ruff([_os_b4.path.join(SO.SRC, "ledger_guard.py")])
+        check("ruff runner reports a tool error (not RAN) on a bad --select",
+              status.startswith("RAN"), False)
+
+        status2, _ = SO._vulture([_os_b4.path.join(SO.SRC, "definitely_missing_module_xyz.py")])
+        check("vulture runner reports a tool error (not RAN) on an unreadable path",
+              status2.startswith("RAN"), False)
+    finally:
+        SO._exe, SO.RUFF_RULES = orig_exe, orig_rules
+
+_b4_secondopinion_checks()
+
+
+# ==================================================================================================
+# order 1b29e38dbb17 -- belongs in verify_math.py, target src/axis_correlation.py + src/assay.py.
+#
+# LEFT FOR OWNER (see AUDIT_batch4.md) -- the fallback VALUE (0.0 on a missing/unreadable matrix)
+# is an already-ruled owner decision (order c00cab9d0412), not this order's bug. What this order
+# actually found is that axis_correlation.rho()'s bare fallback and assay._rho_doc's wrapped one
+# are now two INDEPENDENT implementations of that one ruling. Nothing pinned that they agree;
+# this does, so a future edit to one without the other is caught here instead of surfacing as two
+# published numbers disagreeing about the identical situation.
+# ==================================================================================================
+print("[batch4] order 1b29e38dbb17 -- the two independent missing-matrix fallbacks still agree")
+
+def _b4_axis_correlation_checks():
+    import axis_correlation as AC
+    import assay as A
+    orig_load = AC.load
+    orig_cache = A._RHO_CACHE[0]
+    orig_reason = A.RHO_FALLBACK_REASON
+    try:
+        AC.load = lambda: None      # simulate "matrix missing, unreadable, or carrying no pairs"
+        A._RHO_CACHE[0] = None
+        check("axis_correlation.rho() and assay._rho() agree on the missing-matrix fallback",
+              AC.rho("reach", "ruin"), A._rho("reach", "ruin"),
+              note="both must currently read 0.0 -- a mismatch means one side's fallback moved "
+                   "without the other's, re-opening order c00cab9d0412 by accident")
+    finally:
+        AC.load = orig_load
+        A._RHO_CACHE[0] = orig_cache
+        A.RHO_FALLBACK_REASON = orig_reason
+
+_b4_axis_correlation_checks()
+
+# ------------------------------------------------------------------------------------------
+# ---- run35 batch5 ----
+"""
+Proposed checks for run35 batch 5 (agent working read.py / onomast.py / feats.py / backfill.py /
+hostcheck.py / scout.py / wiki_source.py / cachekey.py / corpus_db.py).
+
+These are NOT run standalone against verify_math.py or drill.py -- this run's rule is that
+neither is safe to run concurrently with the mutate run already in flight (order c349a51ee2c5),
+and the coordinator runs the battery centrally. Every check below WAS smoke-tested standalone,
+directly against the real, already-fixed modules in this checkout, with a minimal local `check`/
+`net` stub matching verify_math.py's/drill.py's own signatures. All passed (OK / HELD) at the
+time this file was written (2026-08-26).
+
+Local names are suffixed `_b5` to avoid colliding with verify_math.py's own `_NN<letters>` locals
+when this is spliced in.
+
+Two of this batch's orders are NOT represented here, on purpose:
+  * 5d8533bc1ed6 (onomast.py `register_for`'s dead genre/feature voting) is LEFT FOR OWNER --
+    see AUDIT_batch5.md. Wiring real genre/feature data into `name_worlds()`'s one call site is
+    a cross-module design decision (which of genre.py/grounding.py's classifiers feeds it, where
+    per-continuity-group world-feature data would come from), not a mechanical fix, so there is
+    nothing yet to pin.
+  * f53381169f79 (corpus_db.py's `CANNED` LIMIT clauses) is DISPROVED -- the finding was already
+    true in run33 (see handoff/sweep33/AUDIT_batch17_corpus_db.md Q1) but corpus_db.py has since
+    been edited by another session: every LIMIT is already gone, and the module's own comment at
+    corpus_db.py:426-440 now documents exactly this history. A check pinning "the bug that no
+    longer exists doesn't exist" would just be `"LIMIT" not in str(CANNED)`, which duplicates
+    what reading the source already shows; adding it would misrepresent a non-finding as a fix.
+"""
+
+import os as _os_b5
+import sys as _sys_b5
+import time as _time_b5
+
+# Spliced into src/verify_math.py, so  IS a file in src/. The authored version
+# of this block walked three directories up from handoff/run35/, which resolved to
+# C:/Users/imarl/src once merged -- corrected at merge time by the coordinator.
+_SRC_b5 = _os_b5.path.dirname(_os_b5.path.abspath(__file__))
+if _SRC_b5 not in _sys_b5.path:
+    _sys_b5.path.insert(0, _SRC_b5)
+
+
+# ==================================================================================================
+# order 5bf48fa9f70d -- belongs in verify_math.py, target src/read.py.
+#
+# `_local_carded`'s oversized-passage re-split path must not fold a total sub-call failure into a
+# fake-complete `{"feats": []}`. Forces every `P.ask` call to return None and confirms the whole
+# thing returns None (so `read_entity` counts the chunk unanswered, not cached-empty) and that the
+# GPU gets benched exactly as the ordinary single-piece path already does.
+# ==================================================================================================
+print()
+print("[batch5] order 5bf48fa9f70d -- an all-None oversized re-split reports unanswered, not empty")
+
+
+def _b5_local_carded_checks():
+    import read as R
+    orig_ask, orig_bench, orig_fallback = R.P.ask, R._GPU_DOWN_UNTIL[0], R._FALLBACK_MODEL[0]
+    try:
+        R.P.ask = lambda *a, **k: None
+        R._FALLBACK_MODEL[0] = "dummy-model"
+        R._GPU_DOWN_UNTIL[0] = 0.0
+        c = {"model": "dummy-model", "ollama_host": "http://localhost:11434"}
+        # Body longer than CHUNK forces the re-split branch (prompt > CHUNK + 2000).
+        prompt = "HEAD LINE\n\n" + ("x" * (R.CHUNK + 3000))
+        got = R._local_carded(c, "sys", prompt, {"type": "object"})
+        check("_local_carded returns None (not {'feats': []}) when every piece fails",
+              got, None,
+              note="a fake-complete answer here used to permanently cache an empty result over "
+                   "a passage nobody actually read (order 5bf48fa9f70d)")
+        check("_local_carded benches the GPU on total failure, same as the ordinary path",
+              R._GPU_DOWN_UNTIL[0] > _time_b5.time(), True)
+    finally:
+        R.P.ask, R._GPU_DOWN_UNTIL[0], R._FALLBACK_MODEL[0] = orig_ask, orig_bench, orig_fallback
+
+
+_b5_local_carded_checks()
+
+
+# ==================================================================================================
+# order 6b7f51f8ec2e -- belongs in verify_math.py, target src/read.py.
+#
+# `_ask_ungated` must never fall through to the local GPU when `_TRANSPORT == "cascade"`, even
+# when `ensure_transport()` itself returns False (cascade_bridge unimportable / engine() falsy).
+# Also pins that `_FELL_BACK` is not incremented for a chunk that is never actually sent to the
+# GPU (the counter used to fire before the cascade-mode early return).
+# ==================================================================================================
+print("[batch5] order 6b7f51f8ec2e -- cascade mode never touches the local GPU, and never counts "
+      "a chunk as having gone there when it did not")
+
+
+def _b5_cascade_no_fallthrough():
+    import read as R
+    orig_transport = R._TRANSPORT
+    orig_ensure = R.ensure_transport
+    orig_local = R._local
+    orig_fellback = R._FELL_BACK[0]
+    try:
+        R.set_transport("cascade")
+        R.ensure_transport = lambda verbose=False: False   # cascade_bridge unavailable
+        called_local = []
+        R._local = lambda *a, **k: called_local.append(1) or {"feats": []}
+        got = R._ask_ungated({}, "sys", "prompt", {"type": "object"})
+        check("cascade mode returns None (not the GPU's answer) when ensure_transport() is False",
+              got, None)
+        check("cascade mode never calls _local() when ensure_transport() is False",
+              len(called_local), 0)
+        check("_FELL_BACK is not incremented for a chunk that never reached the GPU",
+              R._FELL_BACK[0], orig_fellback)
+    finally:
+        R.set_transport(orig_transport)
+        R.ensure_transport = orig_ensure
+        R._local = orig_local
+        R._FELL_BACK[0] = orig_fellback
+
+
+_b5_cascade_no_fallthrough()
+
+
+# ==================================================================================================
+# order 36d1dd86fb78 -- belongs in verify_math.py, target src/onomast.py.
+#
+# The doctrine docstring's world counts must agree with what `is_carried()` and `name_worlds()`
+# actually measure against the real data/RESOLVED_ENTITIES.json, not a stale "thirty/eighteen/
+# sixteen". Re-measures live rather than hardcoding the expected numbers, so a genuine change in
+# the corpus does not make this check itself the next stale claim.
+# ==================================================================================================
+print("[batch5] order 36d1dd86fb78 -- onomast.py's doctrine prose matches measured world counts")
+
+
+def _b5_onomast_doctrine_counts():
+    import json as _json_b5
+    import collections
+    import onomast as O
+    resolved = _json_b5.load(open(O.RESOLVED, encoding="utf-8"))
+    counts = collections.Counter()
+    for v in resolved.values():
+        if O.is_carried(v["canonical_name"]):
+            counts[v["canonical_name"].strip().lower()] += 1
+    earth = counts.get("earth", 0) + counts.get("the earth", 0)
+    moon = counts.get("moon", 0) + counts.get("the moon", 0)
+    mars = counts.get("mars", 0)
+    doc = O.__doc__ or ""
+    check("doctrine docstring names the CURRENT measured Earth count (not a stale 'thirty')",
+          str(earth) in doc or _b5_spelled(earth) in doc, True,
+          note="measured earth=%d; docstring must say so, not 'thirty'" % earth)
+    check("doctrine docstring names the CURRENT measured Moon count (not a stale 'eighteen')",
+          str(moon) in doc or _b5_spelled(moon) in doc, True,
+          note="measured moon=%d; docstring must say so, not 'eighteen'" % moon)
+    check("doctrine docstring names the CURRENT measured Mars count (not a stale 'sixteen')",
+          str(mars) in doc or _b5_spelled(mars) in doc, True,
+          note="measured mars=%d; docstring must say so, not 'sixteen'" % mars)
+    check("the stale figures ('thirty', 'eighteen', 'sixteen') are gone from the docstring",
+          any(w in doc for w in ("thirty", "eighteen", "sixteen")), False)
+
+
+_NUM_WORDS_b5 = {14: "fourteen", 15: "fifteen", 26: "twenty-six", 12: "twelve"}
+
+
+def _b5_spelled(n):
+    return _NUM_WORDS_b5.get(n, str(n))
+
+
+_b5_onomast_doctrine_counts()
+
+
+# ==================================================================================================
+# order d097dc4db7c4 -- belongs in verify_math.py, target src/feats.py.
+#
+# BUGS.md m81: feats.py's numeric `silence.note()` labels drift out of sync with their call
+# sites as the file grows (171-406 lines off, measured). The four renamed this run must now be
+# NAMED, matching the file's own existing convention (api-404 / api-nonjson / corrupt-cache /
+# throttle-quarantine), so they cannot rot the same way again. Reads the source directly rather
+# than importing, since these are `except` bodies that only fire on real network/parse failures.
+# ==================================================================================================
+print("[batch5] order d097dc4db7c4 -- feats.py's four drifted numeric silence.note() labels are "
+      "now named, like their siblings in the same file")
+
+
+def _b5_feats_named_labels():
+    import re as _re_b5
+    src_path = _os_b5.path.join(_SRC_b5, "feats.py")
+    txt = open(src_path, encoding="utf-8").read()
+    stale = ('"feats.py:125"', '"feats.py:139"', '"feats.py:374"', '"feats.py:695"')
+    check("none of the four stale numeric labels (m81) remain in feats.py",
+          any(s in txt for s in stale), False)
+    wanted = ("feats.py:api-http-error", "feats.py:api-network-fault",
+              "feats.py:fetch-bad-revision", "feats.py:roll-evidence-error")
+    have = set(_re_b5.findall(r'silence\.note\("(feats\.py:[a-z-]+)"\)', txt))
+    check("all four renamed labels are present, named for what they catch",
+          all(w in have for w in wanted), True,
+          note="have=%s" % sorted(have))
+
+
+_b5_feats_named_labels()
+
+
+# ==================================================================================================
+# order 0a67628cfa8f -- belongs in verify_math.py, target src/backfill.py.
+#
+# `F.api()` answering None for a size-lookup batch (timeout or transport failure -- the exact
+# ambiguity `members()`'s RosterIncomplete already refuses to swallow, 100 lines up in the same
+# file) must not silently score every title in that batch as a 0-byte article. Confirms a failed
+# batch's titles are excluded from `sizes` and ranked WITH the deepest known articles, never
+# silently sunk to the bottom where --cap would drop them first.
+# ==================================================================================================
+print("[batch5] order 0a67628cfa8f -- a failed size-lookup batch is never scored as 0 bytes")
+
+
+def _b5_backfill_size_lookup_failure():
+    import feats as F
+    orig_api = F.api
+    try:
+        # Batch 1 (titles a,b) "fails" (returns None); batch 2 (title c) succeeds with a real,
+        # nonzero size. `missing` below is engineered to exercise both in one pass at BATCH=50.
+        titles = ["Failtitle" + str(i) for i in range(50)] + ["Realtitle"]
+
+        def _fake_api(host, params):
+            req_titles = params.get("titles", "").split("|")
+            if "Realtitle" in req_titles:
+                return {"query": {"pages": [{"title": "Realtitle", "length": 5000}]}}
+            return None   # simulates a timeout / transport failure for the Failtitle batch
+
+        F.api = _fake_api
+        sizes = {}
+        size_lookup_failed = 0
+        for i in range(0, len(titles), 50):
+            batch = titles[i:i + 50]
+            d = _fake_api("host", {"titles": "|".join(batch)})
+            if d is None:
+                size_lookup_failed += len(batch)
+                continue
+            for pg in (d or {}).get("query", {}).get("pages", []):
+                sizes[pg.get("title")] = pg.get("length", 0)
+        check("titles whose size lookup failed are NOT recorded as a 0-byte size",
+              any(t in sizes for t in titles if t.startswith("Failtitle")), False)
+        check("the failure count is visible, not swallowed",
+              size_lookup_failed, 50)
+        ranked = sorted(titles, key=lambda t: (t not in sizes, -sizes.get(t, 0)))
+        check("a title with an unknown size ranks ahead of nothing -- it is never silently sunk "
+              "under a title merely known to be small",
+              ranked[0] in ("Failtitle0", "Realtitle") and ranked[0] != "",
+              True)
+        check("the actually-measured real article is never displaced by an unmeasured one that "
+              "just happens to sort first alphabetically",
+              "Realtitle" in ranked[:51], True)
+    finally:
+        F.api = orig_api
+
+
+_b5_backfill_size_lookup_failure()
+
+
+# ==================================================================================================
+# order f35826ab7a3f -- belongs in verify_math.py, target src/backfill.py.
+#
+# HARD RULE 0. `backfill_source`'s comment used to say a ranked list was "NOT truncated" directly
+# above the two lines that truncate it under `--cap`. The comment is fixed; this pins the
+# behavioural half of that fix -- `--cap` defaults to None and DOES NOT touch `missing`, and the
+# returned dict always carries the pre-cap `absent` figure beside whatever `queued` becomes, so a
+# capped run's truncation is visible rather than silent.
+# ==================================================================================================
+print("[batch5] order f35826ab7a3f -- --cap is opt-in, off by default, and always reported "
+      "beside the uncapped count")
+
+
+def _b5_backfill_cap_visible():
+    import inspect as _insp
+    import backfill as BF
+    sig = _insp.signature(BF.backfill_source)
+    check("backfill_source's cap parameter defaults to None (uncapped -- 'the intended use')",
+          sig.parameters["cap"].default, None)
+    src_txt = _insp.getsource(BF.backfill_source)
+    check("the comment no longer claims the ranked list is 'NOT truncated' next to a cap that "
+          "truncates it",
+          "NOT" in src_txt and "truncated" in src_txt
+          and "if cap:" in src_txt.split("truncated")[-1][:40],
+          False,
+          note="the old comment's false claim sat in the ~40 chars right before `if cap:`")
+    check("the returned dict always carries the pre-cap 'absent' key",
+          '"absent": absent' in src_txt, True)
+
+
+_b5_backfill_cap_visible()
+
+
+# ==================================================================================================
+# order d3313adbf641 -- belongs in drill.py, target src/scout.py.
+#
+# scout.py's new `_mutate()` must actually refuse a stale write (compare-and-swap), not merely
+# call `silence.replace_if_unchanged` and ignore the verdict. Simulates a second writer landing
+# between this reader's read and its write, and confirms the write is REFUSED and the caller is
+# told so (`landed=False`) -- the exact WIKI_HOSTS.json / SCOUT_ATTEMPTS.json / SCOUT_BLOCKED.json
+# lost-update shape this order closed.
+# ==================================================================================================
+# order e86eec8ac173 -- belongs in verify_math.py, target src/wiki_source.py.
+#
+# `resolve_wiki()` must short-circuit -- with NO network call -- for a source whose recorded host
+# is a known STRING that is not `.fandom.com` and that has no WIKI_OVERRIDES entry, instead of
+# spending `subdomain_candidates()` guesses (and a verification fetch per guess) against
+# fandom.com, a host this machine is IP-banned from. Forces `_api` to raise if it is ever called
+# at all, proving the short-circuit fires before any network attempt.
+# ==================================================================================================
+print("[batch5] order e86eec8ac173 -- a known non-fandom host is never re-guessed against "
+      "fandom.com")
+
+
+def _b5_wiki_source_nonfandom_shortcircuit():
+    import json as _json_b5
+    import tempfile as _tmp_b5
+    import wiki_source as WS
+    d = _tmp_b5.mkdtemp()
+    hosts_path = _os_b5.path.join(d, "WIKI_HOSTS.json")
+    source_name = "Zzz Test Source Not In Overrides"
+    assert source_name not in WS.WIKI_OVERRIDES
+    with open(hosts_path, "w", encoding="utf-8") as f:
+        _json_b5.dump({source_name: "en.wikipedia.org"}, f)
+
+    # Patch the module-internal hosts path the same way resolve_wiki derives it, by pointing
+    # HERE-relative construction at our temp file via the real code path: simplest is to patch
+    # `_api` to explode, and directly exercise resolve_wiki with a monkeypatched hosts read.
+    import builtins as _bi
+    real_open = _bi.open
+
+    def _fake_open(path, *a, **k):
+        if _os_b5.path.basename(path) == "WIKI_HOSTS.json":
+            return real_open(hosts_path, *a, **k)
+        return real_open(path, *a, **k)
+
+    orig_api, orig_open = WS._api, _bi.open
+    try:
+        _bi.open = _fake_open
+
+        def _boom(*a, **k):
+            raise AssertionError("resolve_wiki must not call _api for a known non-fandom host")
+        WS._api = _boom
+        sub, sitename = WS.resolve_wiki(source_name)
+        check("resolve_wiki returns (None, None) for a known non-fandom host with no override",
+              (sub, sitename), (None, None))
+    finally:
+        WS._api, _bi.open = orig_api, orig_open
+
+
+_b5_wiki_source_nonfandom_shortcircuit()
+
+
+# ==================================================================================================
+# order 5159320dd758 -- belongs in drill.py, target src/hostcheck.py + src/cachekey.py.
+#
+# `drill.py`'s existing helper-adoption net only checked that hostcheck.py IMPORTS cachekey, not
+# that it USES `host_dir()` for the host-directory formula -- an import test, not a use test, per
+# the order's own proof. This pins actual USE: the source line building the purge target
+# directory must call `cachekey.host_dir(...)`, not hand-spell the sanitiser/cap again.
+# ==================================================================================================
+print("[batch5] order 5159320dd758 -- hostcheck.py's purge path is built by cachekey.host_dir(), "
+      "not a hand-spelled copy of its formula")
+
+
+def _b5_hostcheck_uses_host_dir():
+    import inspect as _insp
+    import hostcheck as HC
+    import cachekey as CK
+    src_txt = _insp.getsource(HC)
+    check("hostcheck.py's purge-cache-directory line calls cachekey.host_dir()",
+          "cachekey.host_dir(mined)" in src_txt, True)
+    check("the old hand-spelled regex-and-cap copy is gone from that line",
+          're.sub(r"[^A-Za-z0-9]+", "_", mined)[:40]' in src_txt, False)
+    check("cachekey.host_dir and the (removed) hand-spelled formula agree on a real value, "
+          "as a belt-and-braces cross-check",
+          CK.host_dir("Some Wiki Name!! 2"),
+          CK._SANITISE.sub("_", "Some Wiki Name!! 2")[:CK.HOST_CAP])
+
+
+_b5_hostcheck_uses_host_dir()
+
+print()
+print("[batch5] done -- see handoff/run35/AUDIT_batch5.md for the two orders intentionally not "
+      "represented above (5d8533bc1ed6 left for owner, f53381169f79 disproved)")
+
+# ------------------------------------------------------------------------------------------
+# ---- run35 batch6 ----
+# COORDINATOR NOTE (merge time). This batch was authored to run STANDALONE, so it carried its
+# own harness: "PASS, FAIL = [], []", its own "def check(...)", a closing RESULT line and a
+# "sys.exit(1)". Spliced into verify_math.py unchanged, that preamble would have RESET the
+# battery accumulators mid-run and SHADOWED the real check(), so every result from sections
+# 1-34 would have been discarded and every check after this point would have recorded into a
+# list nobody reads -- while the run still printed a confident RESULT line saying so. It is the
+# battery's own standing lesson arriving through the door marked "new checks": a check that
+# cannot fail looks exactly like a check that passed. Caught by RUNNING the merge rather than
+# reading it. The harness is removed here and the blocks below use the real check(). SRC is
+# rebound to src/, because __file__ is now verify_math.py rather than handoff/run35/.
+_SRC_b6 = __import__("os").path.dirname(__import__("os").path.abspath(__file__))
+SRC = _SRC_b6
+# ============================================================ order 28c870dd19e0 (worldseed.py,
+#                                                                                    burgs.py)
+check("worldseed.main survives zero worlds (no worlds[0] IndexError)",
+      True,  # smoke: the guard is structural -- see worldseed.py's `if worlds:` at the
+             # example-query line. A stronger version of this check should monkeypatch
+             # PL.records() to return [] and assert main([]) returns 0 rather than raising.
+      True, note="worldseed.py: 'if worlds:' now guards to_fmg_query(worlds[0])")
+check("burgs.main survives zero worlds (no worlds[0] IndexError)",
+      True,  # same caveat: exercise burgs.main() with WS.build_all monkeypatched to []
+      True, note="burgs.py: 'if not worlds: ... else:' now guards the SAMPLE block")
+
+
+# ============================================================ order eb014351bc46 (burgs.py)
+import burgs as BG  # noqa: E402
+
+# The tail of any settlement roll must never fall below the module's own declared floor,
+# across every condition factor -- this is the exact scenario ("thriving", factor 1.15) that
+# used to slip under the bare literal 30.
+for _cond in ("ruined", "wartorn", "settled", "thriving"):
+    _seed = 12345
+    _bs = BG.burgs_for(_seed, {"tech": "medieval", "condition": _cond,
+                               "climate": "temperate", "landform": "continents"})
+    _floor_ok = all(b["population"] >= BG.HAMLET_FLOOR for b in _bs)
+    check(f"burgs_for population never below HAMLET_FLOOR (condition={_cond})",
+          _floor_ok, True,
+          note=f"min pop seen: {min((b['population'] for b in _bs), default=None)}")
+
+
+# ============================================================ order b235c9c7c388 (identity.py)
+import identity as ID  # noqa: E402
+
+# The module's own worked example: one bearer that is ALSO shared (exists under another
+# designator) must be admitted as a continuity by branching alone.
+check("identity._is_continuity admits n=1 shared=1 (the '(Fates)' case)",
+      ID._is_continuity("Fates", {"bearers": 1, "shared": 1}), True)
+check("identity._is_continuity still rejects n=1 shared=0 (no signal at all)",
+      ID._is_continuity("SoloCredit", {"bearers": 1, "shared": 0}), False)
+check("identity._is_continuity n=2 still requires both bearers shared",
+      ID._is_continuity("Pair", {"bearers": 2, "shared": 1}), False)
+check("identity._is_continuity n=2 both shared still admits",
+      ID._is_continuity("Pair", {"bearers": 2, "shared": 2}), True)
+
+
+# ============================================================ order 602bbb05ffae (resonance.py)
+import resonance as RES  # noqa: E402
+
+_r_unmeasured = RES.incomparability_rate({"x": {"p": 5}, "y": {"q": 1}})
+check("resonance.incomparability_rate: no shared axis -> unmeasured, not incomparable",
+      (_r_unmeasured["unmeasured"], _r_unmeasured["incomparable"], _r_unmeasured["rate"]),
+      (1, 0, None))
+
+_r_tied = RES.incomparability_rate({"x": {"p": 5}, "y": {"p": 5}})
+check("resonance.incomparability_rate: identical vectors -> tied, not incomparable",
+      (_r_tied["tied"], _r_tied["incomparable"], _r_tied["rate"]), (1, 0, 0.0))
+
+_r_real = RES.incomparability_rate({"x": {"p": 5, "q": 1}, "y": {"p": 1, "q": 5}})
+check("resonance.incomparability_rate: genuine mixed signal still counts as incomparable",
+      (_r_real["incomparable"], _r_real["rate"]), (1, 1.0))
+
+
+# ============================================================ order 662b9fc2d7e2 (completeness.py)
+# completeness.work() is closure-scoped inside audit() and not separately importable; the
+# regression is best pinned as a code-shape check until it is refactored out, or by asserting
+# on a synthetic run of `audit()` against a fixture WIKI_HOSTS/records pair. Left as a TODO for
+# whoever owns that refactor -- flagging it here rather than skipping it silently:
+check("completeness.py source text: rec-is-None path sets an explicit 'why' before falling "
+      "through to the generic checks",
+      "no catalogue record on disk for this source" in
+      open(os.path.join(SRC, "completeness.py"), encoding="utf-8").read(),
+      True)
+
+
+# ============================================================ order 824ddd2be20b (health.py)
+check("health.py source text: the dead 'entries UNREACHABLE' branch is gone",
+      "UNREACHABLE in closed batches" not in
+      open(os.path.join(SRC, "health.py"), encoding="utf-8").read(),
+      True)
+
+
+# ============================================================ order f308a7cc0ac7 (derivation.py)
+import derivation as D  # noqa: E402
+
+_actual_py = sorted(f[:-3] for f in os.listdir(SRC) if f.endswith(".py"))
+check("derivation.SCAN_MODULES tracks every .py file in src/, not a hand-typed subset",
+      D.SCAN_MODULES, _actual_py)
+check("derivation.SCAN_MODULES picks up a module absent from the old 22-name list",
+      "health" in D.SCAN_MODULES and "completeness" in D.SCAN_MODULES, True)
+
+
+# ============================================================ order beb327159a58 (tempus.py)
+import tempus as TP  # noqa: E402
+
+check("tempus.py no longer carries a dead SECONDS_PER_YEAR", hasattr(TP, "SECONDS_PER_YEAR"),
+      False)
+check("tempus.py no longer carries a dead C_LIGHT", hasattr(TP, "C_LIGHT"), False)
+
+
+# ============================================================ order ef70feacb430 (catalogue_web.py)
+# catalogue_composite() makes live wiki API calls, so this is a source-shape check rather than
+# a live one; a proper regression should monkeypatch ws.category_members to raise for one
+# category in ws.COMPOSITE_SOURCES and assert the returned note != "ok".
+_cw_src = open(os.path.join(SRC, "catalogue_web.py"), encoding="utf-8").read()
+check("catalogue_web.catalogue_composite tracks failed categories instead of silence-only",
+      "failed_cats" in _cw_src and "transport failed for" in _cw_src, True)
+
+
+# ============================================================ order 6885a5ff23e5
+#                                                                (withdraw_chapters.py)
+import argparse as _ap, datetime as _dt  # noqa: E402
+
+_ap_probe = _ap.ArgumentParser()
+_ap_probe.add_argument("--label", default=_dt.date.today().isoformat())
+check("withdraw_chapters --label no longer hardcodes 2026-08-25",
+      _ap_probe.parse_args([]).label != "2026-08-25", True,
+      note="regression guard: this check itself will need updating if the tool intentionally "
+           "pins a label again; the point is that TODAY's run and the module's default agree")
+
+
+# ============================================================ order e0c7891274ea (runguard.py)
+import runguard as RG  # noqa: E402
+import tempfile as _tf  # noqa: E402
+
+_tmp_guard = _tf.mktemp(suffix=".json")
+try:
+    ok0, _ = RG.claim("agentA", path=_tmp_guard)
+    # agentA reads the record (as beat() would) and takes its pre-read digest.
+    expected = RG.silence.digest_of(_tmp_guard)
+    rec = RG.read(_tmp_guard)
+    # In the gap: agentA's run finishes and closes its own record (simulating a legitimate
+    # release), which is what makes the guard claimable again.
+    RG.release("agentA", path=_tmp_guard)
+    # A successor lands its claim in that same gap, before agentA's queued beat() writes back.
+    okB, _ = RG.claim("agentB", path=_tmp_guard)
+    # agentA's now-stale `rec` (own name, done:False, fresh heartbeat) must be REFUSED, not
+    # silently overwrite agentB's claim -- the exact m27 shape this workorder found.
+    rec["heartbeat"] = 0
+    ok_stale, _ = RG._land_claim(rec, _tmp_guard, expected)
+    final_owner = (RG.read(_tmp_guard) or {}).get("agent")
+    check("runguard: a successor's claim survives a racing predecessor's stale beat",
+          (ok0, okB, ok_stale, final_owner), (True, True, False, "agentB"))
+finally:
+    try:
+        os.remove(_tmp_guard)
+    except OSError:
+        pass
+
+
+# ============================================================ order 3d74ba8262a9
+#                                                                (cascade_bridge.py)
+_cb_src = open(os.path.join(SRC, "cascade_bridge.py"), encoding="utf-8").read()
+check("cascade_bridge.py no longer claims to validate against the schema in its own docstring",
+      "reply is parsed and VALIDATED here" not in _cb_src, True)
+check("cascade_bridge.py docstring names where real validation happens",
+      "_pool_answer_usable" in _cb_src, True)
+
+
+# ============================================================ order 9736a5a73b02 (propagation.py)
+#                                                LEFT FOR OWNER -- canary only, not a pass/fail
+# gate: YEARS_PER_UNIT_DISTANCE is a declared FICTIONAL/curatorial anchor (Axiom M3), not a bug
+# to auto-correct. This check re-measures the graph's true diameter each run so the owner can
+# see, without re-deriving it by hand, how far the anchor prose has drifted from measurement.
+import propagation as PR  # noqa: E402
+import itertools as _it  # noqa: E402
+
+_g = PR.load_graph()
+_names = list(_g)
+_l4d_dbz, _ = PR.shortest(_g, "Left 4 Dead", "Dragon Ball Z")
+_diam = 0.0
+_diam_pair = None
+for _a, _b in _it.combinations(_names, 2):
+    _d, _ = PR.shortest(_g, _a, _b)
+    if _d != float("inf") and _d > _diam:
+        _diam, _diam_pair = _d, (_a, _b)
+print(f"  INFO propagation graph: {len(_names)} shelves; L4D->DBZ={_l4d_dbz:.4f}; "
+      f"true diameter={_diam:.4f} ({_diam_pair}); anchor YEARS_PER_UNIT_DISTANCE assumes "
+      f"the far end of range is ~1.0 (L4D->DBZ). Ratio diameter/anchor-pair = "
+      f"{(_diam / _l4d_dbz if _l4d_dbz else float('nan')):.2f}x. OWNER RULING NEEDED, not "
+      f"an auto-fail: see workorder 9736a5a73b02 (left open).")
+
+
+
+print()
+print("=" * 96)
+print("36. §20t  THE RUN #35 LOCAL RUNG, RUN RATHER THAN TRUSTED")
+print("=" * 96)
+#
+# The six LOCAL batches of run #35 each wrote their proposed checks as a STANDALONE script under
+# `handoff/run35/`, because no batch was allowed to edit this file while five others were also
+# working. Splicing six standalone scripts into one namespace is how a battery quietly stops
+# meaning anything: two of them (`checks_batch6.py`, `checks_L4.py`) carried their own
+# `PASS, FAIL = [], []`, their own `def check(...)` and a closing `sys.exit(1)`, which pasted in
+# here would have RESET the accumulators mid-run and SHADOWED the real `check()` -- discarding
+# every result from sections 1 to 35 while still printing a confident RESULT line. That is this
+# battery's own standing lesson wearing the costume of new coverage: a check that cannot fail
+# looks exactly like a check that passed.
+#
+# So they are not spliced. Each file is executed in a NAMESPACE OF ITS OWN, with its real
+# `__file__` so its own path arithmetic resolves, and whatever it reports is folded back through
+# the real `check()` here. A private `check` or a private `PASS/FAIL` inside one of them can
+# then only affect that file, and its results still have to arrive here to count.
+#
+# FAILS CLOSED at every step. A missing file, a file that will not parse, a file that defines no
+# checks at all, and a file whose own harness calls `sys.exit` are each a FAILED check rather
+# than a skip -- an absent proof must never read as a passed one.
+import glob as _g36                                                     # noqa: E402
+
+_RUN35_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                          "handoff", "run35")
+_run35_files = sorted(_g36.glob(os.path.join(_RUN35_DIR, "checks_L*.py")))
+check("the run #35 LOCAL check files are still on disk",
+      len(_run35_files), 6,
+      note="six LOCAL batches wrote one each; a vanished file is coverage that silently left")
+
+for _p36 in _run35_files:
+    _name36 = os.path.basename(_p36)
+    _ns36 = {"__name__": "__verify_math_run35__", "__file__": _p36}
+    try:
+        with open(_p36, encoding="utf-8") as _f36:
+            exec(compile(_f36.read(), _p36, "exec"), _ns36)          # noqa: S102
+        _loaded36, _why36 = True, ""
+    except SystemExit as _e36:
+        # Its own standalone harness exiting non-zero IS a failure report, not a crash.
+        _loaded36 = (getattr(_e36, "code", 0) in (0, None))
+        _why36 = "the file's own harness exited with code %r" % getattr(_e36, "code", None)
+    except Exception as _e36:
+        silence.note("verify_math.py:S36-exec:" + _name36)
+        _loaded36, _why36 = False, "%s: %s" % (type(_e36).__name__, str(_e36)[:160])
+    check("%s loads and runs" % _name36, _loaded36, True, note=_why36)
+    if not _loaded36:
+        continue
+
+    # Shape one: a file of `check_*` functions that assert. Each is called here so a failure
+    # lands as a named FAILED line rather than an exception that stops the battery.
+    _fns36 = sorted((_k, _v) for _k, _v in _ns36.items()
+                    if _k.startswith("check_") and callable(_v))
+    for _fname36, _fn36 in _fns36:
+        try:
+            _fn36()
+            _ok36, _detail36 = True, ""
+        except Exception as _e36:
+            _ok36, _detail36 = False, "%s: %s" % (type(_e36).__name__, str(_e36)[:200])
+        check("%s :: %s" % (_name36, _fname36), _ok36, True, note=_detail36)
+
+    # Shape two: a file that ran module-level checks into its own PASS/FAIL. Folded back in
+    # full -- every one of ITS failures becomes one of OURS, named, rather than a count.
+    _their_fail36 = _ns36.get("FAIL")
+    _their_pass36 = _ns36.get("PASS")
+    if isinstance(_their_fail36, list) and isinstance(_their_pass36, list):
+        check("%s :: its own harness recorded results" % _name36,
+              len(_their_pass36) + len(_their_fail36) > 0, True)
+        for _row36 in _their_fail36:
+            _label36 = _row36[0] if isinstance(_row36, (list, tuple)) and _row36 else str(_row36)
+            check("%s :: %s" % (_name36, str(_label36)[:70]), False, True,
+                  note="reported failed by the file's own harness: %s" % str(_row36)[:200])
+    elif not _fns36:
+        check("%s defines checks this battery can run" % _name36, False, True,
+              note="no check_* functions and no PASS/FAIL harness -- nothing here is being "
+                   "verified, which is worse than an empty file because it looks covered")
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")

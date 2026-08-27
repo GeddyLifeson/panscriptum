@@ -87,10 +87,26 @@ def exclude(name, note, rows=None):
     matches `name` -- a typo or a renamed source must not come back as the same silent False a
     no-op reason-correction used to return, because the one field this module exists to protect
     cannot be discarded without anyone noticing.
+
+    SUPPLYING `rows` MEANS "WORK ON MY COPY", AND NOW MEANS IT ON THE WRITE TOO. It used to
+    mean it only on the READ: the caller's rows were edited in memory and then landed on the
+    module-level `ROLL` path regardless, so passing test data in order to AVOID touching the
+    real roll was precisely the way to overwrite it. On 2026-08-26 a maintenance agent doing
+    exactly that destroyed the live 216-source roll twice while verifying a fix to this
+    function, and no backup of that file existed anywhere. It was rebuilt from
+    `data/records/*.json` and two dated owner rulings; a backup now sits in `state/backups/`.
+
+    A parameter whose obvious reading is the opposite of its behaviour is not a sharp edge, it
+    is a trap, and this one was baited with the word every caller reaches for when being
+    careful. `exclude()` has no callers anywhere in `src/` -- it is a hand-run curatorial tool
+    -- so nothing depended on the old behaviour. With `rows` supplied the change is made in
+    memory and the caller persists it; without it, the roll is loaded and landed exactly as
+    before.
     """
     if not (note or "").strip():
         raise ValueError("an exclusion without a recorded reason is not an exclusion")
-    rows = rows if rows is not None else load()
+    caller_supplied = rows is not None
+    rows = rows if caller_supplied else load()
     row = next((r for r in rows if isinstance(r, dict) and r.get("name") == name), None)
     if row is None:
         raise ValueError(f"no source named {name!r} on the roll -- exclude() cannot silently "
@@ -98,7 +114,7 @@ def exclude(name, note, rows=None):
     changed = row.get("status") != OUT_OF_SCOPE or row.get("note") != note
     row["status"] = OUT_OF_SCOPE
     row["note"] = note
-    if changed:
+    if changed and not caller_supplied:
         silence.write_json(ROLL, rows, indent=2, ensure_ascii=False)
     return changed
 

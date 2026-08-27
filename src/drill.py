@@ -2106,6 +2106,45 @@ def _partial_canary_merges(tmp=None):
             and after.get("checked") == 2)
 
 
+def _battery_asks_the_network_once():
+    """The battery must not open one live socket per check that happens to ask.
+
+    `standards.check()` probes fandom over IPv4, and `verify_math` calls `check()` about
+    nineteen times in a run -- so the battery opened nineteen live TLS connections to
+    Cloudflare to answer a question that cannot change between them. On 2026-08-26 that stopped
+    being waste and became a blocker: `mutate.py` runs the battery in a sandbox as its
+    differential gate and REFUSED TO RUN, reporting `verify_math TIMEOUT` on unmutated code,
+    because those probes stall under load while the same battery finishes in 32s live. A gate
+    that cannot finish on clean code cannot judge a mutant, and the whole mutation mandate sat
+    behind it.
+
+    Driven against the real memo with the PROBE counted, not the socket, so the net needs no
+    network of its own and cannot pass merely because the machine happens to be offline.
+    """
+    import standards as ST
+    calls = []
+    saved_probe, saved_cache = ST._fandom_probe, dict(ST._FANDOM_V4_CACHE)
+    try:
+        ST._FANDOM_V4_CACHE.clear()
+        ST._fandom_probe = lambda host, timeout, sk: (calls.append(host), (True, "1.2.3.4"))[1]
+        first = ST.fandom_ipv4_reachable()
+        for _ in range(18):                       # the battery's real call count
+            ST.fandom_ipv4_reachable()
+        memoised = len(calls) == 1 and first == (True, "1.2.3.4")
+        # And a STUBBED call must still bypass the memo, or verify_math §19z's three synthetic
+        # networks would all get the first one's answer and two of its checks would be vacuous.
+        ST._FANDOM_V4_CACHE.clear()
+        calls.clear()
+        ST.fandom_ipv4_reachable(_sk=object())
+        ST.fandom_ipv4_reachable(_sk=object())
+        stub_bypasses = len(calls) == 2 and not ST._FANDOM_V4_CACHE
+    finally:
+        ST._fandom_probe = saved_probe
+        ST._FANDOM_V4_CACHE.clear()
+        ST._FANDOM_V4_CACHE.update(saved_cache)
+    return memoised and stub_bypasses
+
+
 def drill_binding_identity():
     """Can an unfixable fault be filed, for ever, at a handler that cannot fix it?
 
@@ -2132,6 +2171,50 @@ def drill_binding_identity():
                  ("ANEURISM Wiki", ["ANEURISM IV"])]
     misbound = [("Prime Hydration Wiki", ["Prime World Equipment"]),
                 ("The Brain World Wikia", ["Star Realms"])]
+
+    def _rows_kwarg_does_not_write_the_real_roll():
+        """The exact call that destroyed the live roll twice on 2026-08-26.
+
+        `roll.exclude(name, note, rows=...)` edited the caller's list and then landed it on the
+        module-level ROLL path anyway, so passing test rows IN ORDER TO AVOID touching the real
+        file was the way to overwrite it -- 216 sources, no backup anywhere. A parameter whose
+        obvious reading is the opposite of its behaviour is a trap, not a sharp edge, and this
+        one was baited with the word a careful caller reaches for.
+
+        Attacked against the real function with the real ROLL path pointed at a throwaway file,
+        so the net proves the WRITE and cannot itself put the live roll at risk.
+        """
+        import roll as R
+        tmpdir = tempfile.mkdtemp(prefix="drill_roll_")
+        saved = R.ROLL
+        try:
+            R.ROLL = os.path.join(tmpdir, "SWEEP_ROLL.json")
+            canon = [{"name": "Real Source", "status": "catalogued", "entry_count": 900}]
+            with open(R.ROLL, "w", encoding="utf-8") as f:
+                json.dump(canon, f)
+            R.exclude("Scratch", "a probe's own rows must never land on the canonical roll",
+                      rows=[{"name": "Scratch", "status": "catalogued", "entry_count": 1}])
+            with open(R.ROLL, encoding="utf-8") as f:
+                after = json.load(f)
+            untouched = after == canon
+            # And without `rows` it must STILL write, or the fix has simply broken the tool.
+            R.exclude("Real Source", "the ordinary path still persists")
+            with open(R.ROLL, encoding="utf-8") as f:
+                persisted = json.load(f)[0]["status"] == R.OUT_OF_SCOPE
+        finally:
+            R.ROLL = saved
+            shutil.rmtree(tmpdir, ignore_errors=True)
+        return untouched and persisted
+    net(a, "a caller's own rows never land on the canonical Acquisitions Roll",
+        _rows_kwarg_does_not_write_the_real_roll,
+        "this ate the live 216-source roll twice in one afternoon, while someone was being "
+        "careful, and no backup of that file existed")
+
+    net(a, "the battery asks the live network ONCE, not once per check",
+        _battery_asks_the_network_once,
+        "nineteen live TLS connections per run made verify_math time out in mutate's sandbox, "
+        "and a gate that cannot finish on clean code cannot judge a mutant -- the whole "
+        "mutation mandate sat behind this")
 
     net(a, "a wiki that names itself after its bound source is CONFIRMED, not suspected",
         lambda: all(BH.binding_verdict(s, n)["verdict"] == "CONFIRMED" for s, n in confirmed),
