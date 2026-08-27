@@ -278,7 +278,7 @@ ROSTER = {
  "The Sentry": dict(
   anchor="M4", host="marvel.fandom.com", epoch="Post-reveal, New Avengers through Siege",
   why_missed="NOTHING missed it -- catalogued, mined, 94,809 chars, 10 clean feats. The only "
-             "one of these four the machine could have assayed on its own, and it never got a "
+             "one of these nine the machine could have assayed on its own, and it never got a "
              "turn because 21,614 entities are queued ahead of nothing.",
   presence="A planet and its moon. The reputation says otherwise -- 'the hero with the power of "
            "a million exploding suns' -- but reputation is not extent, and his cited acts stop "
@@ -477,8 +477,16 @@ def main():
             print("")
             for ax in A.WEIGHTS:
                 d = rec["axes"][ax]
-                print("   %-15s%5.1f  [%s] %s"
-                      % (ax, d["score"], d["provenance"], d["cited"][:58]))
+                score = d["score"]
+                # A SCORE CAN BE A SENTINEL, NOT A NUMBER. Zalama's ruin, continuity, celerity,
+                # vector, volition and discernment are all the string "unestimable" (:182-201),
+                # and `%5.1f` on a string raises TypeError -- which killed `--full` on the one
+                # sheet the module documents as its most instructive, because the JSON write
+                # above already landed and nothing downstream of it was checked again.
+                score_str = ("%5.1f" % score if isinstance(score, (int, float))
+                             and not isinstance(score, bool) else "%5s" % score)
+                print("   %-15s%s  [%s] %s"
+                      % (ax, score_str, d["provenance"], d["cited"][:58]))
         print("")
     return 0
 

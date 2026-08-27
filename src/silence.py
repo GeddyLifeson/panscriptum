@@ -21,8 +21,11 @@ an honest finding that those characters had no feats -- when in fact a 190,687-c
 been reduced to thirty characters. The library did not merely lose data. It filed the loss as a
 result and moved on.
 
-Every one of those went through a bare `except Exception: return None` or an equivalent. There
-are 45 such handlers in this tree, and that number is the real bug; the fifteen were its output.
+Every one of those went through a bare `except Exception: return None` or an equivalent. How many
+such handlers this tree currently holds is not a number worth freezing into prose -- the count
+moves every time a module is added, split, or instrumented, so a hardcoded figure here would be
+stale before the next sweep finished reading it. Run `python src/silence.py` for the live count;
+the fifteen above were its output, not a snapshot of the total.
 
 WHY IT IS SO EXPENSIVE
 ----------------------

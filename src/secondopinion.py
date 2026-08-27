@@ -14,10 +14,11 @@ codebase, and to treat DISAGREEMENT as the finding.
 WHAT WAS ADOPTED, AND WHAT IT REPLACED — WHICH IS NOTHING. Three tools, chosen after actually
 running them against `src/` on 2026-08-25 rather than from their README claims:
 
-    ruff             449 blind-except + 19 try/except/pass + 12 try/except/continue, plus the
-                     bug classes no detector here has: B023 loop-variable capture in a closure,
-                     B008 call-in-default-argument, B904 raise-without-from. It is a compiled
-                     Rust binary and it RUNS on this machine, which DuckDB does not.
+    ruff             hundreds of blind-except sites plus a smaller pile of try/except/pass and
+                     try/except/continue (run `ruff check --statistics` for today's exact count),
+                     plus the bug classes no detector here has: B023 loop-variable capture in a
+                     closure, B008 call-in-default-argument, B904 raise-without-from. It is a
+                     compiled Rust binary and it RUNS on this machine, which DuckDB does not.
     vulture          dead code by a different method — it counts unused VARIABLES and ATTRIBUTES,
                      which `liveness.py` does not look at at all (it stops at module-level defs).
                      Found `descending_ladder.py:129 from_m` and two others at 100% confidence.
@@ -110,20 +111,22 @@ COUNTERPART = {
 #
 # The test for belonging here is "would fixing every instance make this codebase WORSE or merely
 # different". Anything where the answer is "better" does not belong here, however many sites it
-# has -- 456 blind-excepts is a big number and it is still a real finding, which is why BLE001
-# is NOT in this list.
+# has -- BLE001 alone runs into the hundreds (see `ruff check --statistics` for today's count)
+# and it is still a real finding, which is why it is NOT in this list.
+#
+# Kept to rules RUFF_RULES actually selects. UP031, ISC004, C408 and DTZ005 (pyupgrade,
+# implicit-str-concat, comprehensions, flake8-datetimez) named as waivers here previously, but
+# RUFF_RULES selects only E,F,B,BLE,S110,S112,PLE,PLW,RUF,SIM -- none of those four categories --
+# so those entries could never match a finding. A waiver nothing can ever trigger is not a
+# recorded divergence, it is a false reading of how many rules this codebase argues with.
 NOT_FILED = {
     "E402": "src/ modules do sys.path.insert before importing siblings; the import cannot precede it",
     "SIM115": "explicit open/close is used where a handle outlives one block; context managers "
               "are used everywhere they fit",
-    "UP031": "percent formatting is the house style throughout, and it is not a defect",
-    "ISC004": "the charter's long prose strings are concatenated deliberately for readability",
-    "C408": "dict() over {} is a readability choice, consistently applied",
     "RUF100": "noqa comments kept where a rule was once enabled; harmless and self-documenting",
     "PLW1510": "subprocess return codes are checked explicitly by the caller, not by check=True, "
                "because a non-zero exit is often the expected answer here",
     "B007": "unused loop variables are frequently the readable name for a discarded half of a pair",
-    "DTZ005": "local wall-clock time is what the owner's scheduled task and logs are read in",
 }
 
 
@@ -292,8 +295,8 @@ def mine_says(paths=None):
 def file_orders(got, found_by="secondopinion"):
     """File what the outside tools saw, grouped by rule so the queue stays readable. -> ids.
 
-    ONE ORDER PER RULE, not per finding. 449 separate blind-except orders would bury every other
-    order in the queue, and a queue nobody can read is a queue nobody works -- the drill probes
+    ONE ORDER PER RULE, not per finding. Hundreds of separate blind-except orders would bury
+    every other order in the queue, and a queue nobody can read is a queue nobody works -- the drill probes
     already taught this project that lesson once. The order names the rule, the count, and the
     first few sites; the full list is a `ruff check` away and the order says so.
     """
@@ -352,8 +355,10 @@ def report(paths=None):
         codes = {}
         for f in v["findings"]:
             codes[f["code"]] = codes.get(f["code"], 0) + 1
-        top = ", ".join("%s x%d" % (k, n) for k, n in
-                        sorted(codes.items(), key=lambda kv: -kv[1])[:6])
+        ranked = sorted(codes.items(), key=lambda kv: -kv[1])
+        top = ", ".join("%s x%d" % (k, n) for k, n in ranked[:6])
+        if len(ranked) > 6:
+            top += " (+%d more code(s))" % (len(ranked) - 6)
         waived = sum(n for k, n in codes.items() if k in NOT_FILED)
         print("  %-15s RAN   %4d finding(s)   vs %s" % (name, len(v["findings"]), cp))
         if top:

@@ -80,22 +80,26 @@ def in_scope(name, rows=None):
 
 
 def exclude(name, note, rows=None):
-    """Mark a source out of scope. -> True if it changed.
+    """Mark a source out of scope, or correct the note on one already excluded. -> True if the
+    roll was written.
 
-    Takes a REQUIRED note. There is no way to call this without recording why.
+    Takes a REQUIRED note. There is no way to call this without recording why. Raises if no row
+    matches `name` -- a typo or a renamed source must not come back as the same silent False a
+    no-op reason-correction used to return, because the one field this module exists to protect
+    cannot be discarded without anyone noticing.
     """
     if not (note or "").strip():
         raise ValueError("an exclusion without a recorded reason is not an exclusion")
     rows = rows if rows is not None else load()
-    changed = False
-    for r in rows:
-        if isinstance(r, dict) and r.get("name") == name:
-            if r.get("status") != OUT_OF_SCOPE:
-                r["status"] = OUT_OF_SCOPE
-                changed = True
-            r["note"] = note
+    row = next((r for r in rows if isinstance(r, dict) and r.get("name") == name), None)
+    if row is None:
+        raise ValueError(f"no source named {name!r} on the roll -- exclude() cannot silently "
+                          f"no-op on a typo or a renamed source")
+    changed = row.get("status") != OUT_OF_SCOPE or row.get("note") != note
+    row["status"] = OUT_OF_SCOPE
+    row["note"] = note
     if changed:
-        silence.write_json(ROLL, rows, indent=2)
+        silence.write_json(ROLL, rows, indent=2, ensure_ascii=False)
     return changed
 
 

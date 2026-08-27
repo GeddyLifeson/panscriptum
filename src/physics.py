@@ -82,6 +82,12 @@ def kinetic(mass_kg, speed_ms):
     """
     v = abs(float(speed_ms))
     m = float(mass_kg)
+    if not m > 0.0:
+        # The same defect `sphere_volume()` and `binding_energy()` below already refuse: a
+        # negative mass squares (or here, multiplies through) into a negative energy that wears
+        # the shape of a real one, and nothing downstream has reason to look at it twice.
+        raise ValueError(f"kinetic(): mass must be positive, got {mass_kg!r}; "
+                         f"a non-positive mass is an unestimable body, not a small one")
     if v >= C:
         # Nothing with mass reaches c. A source that says otherwise is describing something the
         # Assay must handle as UNESTIMABLE on this axis, not as a very large number.
@@ -105,7 +111,14 @@ def joules_for(volume_m3, material="rock", mode="pulv"):
                        f"known: {', '.join(sorted(MATERIAL))}")
     if mode not in MODES:
         raise KeyError(f"joules_for(): unknown mode {mode!r}; known: {', '.join(MODES)}")
-    return float(volume_m3) * MATERIAL[material][mode]
+    v = float(volume_m3)
+    if not v > 0.0:
+        # Same defect as `kinetic()`'s mass and `sphere_volume()`'s radius: a negative volume
+        # returns a negative joule figure without raising anything, and it is indistinguishable
+        # downstream from a small positive one until it lands in a band and a shelfmark.
+        raise ValueError(f"joules_for(): volume must be positive, got {volume_m3!r}; "
+                         f"a non-positive volume is an unestimable body, not a small one")
+    return v * MATERIAL[material][mode]
 
 
 def sphere_volume(radius_m):
@@ -151,7 +164,9 @@ def binding_energy(mass_kg, radius_m):
 
 def main():
     ap = argparse.ArgumentParser(description="the real-world quantities the Assay converts into")
-    ap.add_argument("--table", action="store_true", help="print the specific energies")
+    ap.add_argument("--table", action="store_true",
+                     help="print only the specific-energy table (suppress the worked examples "
+                          "printed after it by default)")
     a = ap.parse_args()
     print("PHYSICS — specific energies in J/m^3\n")
     print(f"  {'material':<12}" + "".join(f"{m:>14}" for m in MODES))

@@ -1588,17 +1588,28 @@ def check(state=None):
     try:
         import re as _re
         src = open(os.path.abspath(__file__), encoding="utf-8").read()
-        declared = set(_re.findall(r"^(M(?:IN|AX)_[A-Z_]+)\s*=", src, _re.M))
-        body = src[src.index("def check("):]
+        # Names that START with MIN_/MAX_ *and* names that carry it after a prefix, like
+        # CHARTER_REGRESSION_MAX_AGE_H -- a real floor this same self-check could not see until
+        # 2026-08-26 because the old pattern anchored M(IN|AX)_ to the start of the name.
+        declared = set(_re.findall(r"^((?:[A-Z][A-Z0-9]*_)*M(?:IN|AX)_[A-Z_]+)\s*=", src, _re.M))
         # Comment-stripped and word-bounded: MAX_UNANSWERED read as "measured" for two
         # independent bad reasons -- it was quoted inside a comment, and it was a prefix of
         # the genuinely-used MAX_UNANSWERED_RECORDS. Found by the 2026-08-23 audit; either
         # alone defeated a plain substring test.
-        body_code = chr(10).join(ln.split("#")[0] for ln in body.splitlines())
+        #
+        # Search the WHOLE file, not just from `def check(` onward. That cut assumed every
+        # floor's only real use was inside check() itself -- true until CHARTER_REGRESSION_MAX_AGE_H,
+        # which is used inside `charter_regression_verdict()`, PULLED OUT ABOVE check() on
+        # 2026-08-25 for its own testability; check() calls that function by name and never
+        # repeats the constant, so the old `def check(`-anchored body could never find it even
+        # once the name above was fixed. A constant is credited as measured only on a SECOND
+        # appearance -- the first is always its own declaration line, which every dead constant
+        # has too and must not count towards its own defence.
+        code_all = chr(10).join(ln.split("#")[0] for ln in src.splitlines())
         wordb = chr(92) + "b"      # regex word boundary built from codes -- the
         # escaped form of this exact line was eaten by a heredoc once already
         dead = sorted(d for d in declared
-                      if not _re.search(wordb + _re.escape(d) + wordb, body_code))
+                      if len(_re.findall(wordb + _re.escape(d) + wordb, code_all)) < 2)
         out.append(_s(
             "every declared floor is measured", not dead, ", ".join(dead) or "all measured",
             "all measured",

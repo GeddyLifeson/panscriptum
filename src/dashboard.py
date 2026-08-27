@@ -375,10 +375,11 @@ def movement(now_state):
         hist.append(row)
         cutoff = time.time() - 24 * 3600
         hist = [h for h in hist if h.get("at", 0) > cutoff][-2000:]
-        tmp = HISTORY + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(hist, f)
-        silence.replace_retry(tmp, HISTORY)
+        # silence.write_json, not a hand-rolled path + ".tmp": this server is threaded
+        # (daemon_threads=True) and every /api/state poll runs this function, so two
+        # concurrent pollers on a fixed temp name collide on the temp file itself. The
+        # PID+thread-qualified tmp name write_json uses closes that race.
+        silence.write_json(HISTORY, hist)
     except Exception:
         silence.note("dashboard.py:movement")
         return []

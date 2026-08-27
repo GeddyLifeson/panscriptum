@@ -244,9 +244,19 @@ def shelfmark(rec):
         # converted sites for the same fix).
         silence.note("reference.py:shelfmark-navtree")
         upper = ["?", "?", "?"]
-    lower = rec.get("lower_rungs", ["?", "?", "?", "?"])
+    lower = list(rec.get("lower_rungs", ["?", "?", "?", "?"]))
+    # RUNGS names exactly 7 cosmological rungs (H, X, Mt, Mv, U-, G, P). This assumed upper is
+    # always 3 long and lower always 4 -- true for the three hardcoded entries below, but a
+    # future entry whose tier_key or lower_rungs comes out a different length would either
+    # mislabel a rung (the hardcoded "3" here) or raise an uncaught IndexError past the end of
+    # RUNGS. Clamp to what RUNGS can actually hold and say so, rather than crash a citation
+    # render on unfamiliar data.
+    if len(upper) + len(lower) > len(RUNGS):
+        silence.note("reference.py:shelfmark-shape")
+        lower = lower[:max(0, len(RUNGS) - len(upper))]
+        upper = upper[:len(RUNGS)]
     marks = [f"{RUNGS[i]}{v}" for i, v in enumerate(upper)]
-    marks += [f"{RUNGS[3 + i]}{v}" for i, v in enumerate(lower)]
+    marks += [f"{RUNGS[len(upper) + i]}{v}" for i, v in enumerate(lower)]
     return "Ω › " + " › ".join(marks)
 
 

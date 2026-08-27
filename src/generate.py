@@ -353,6 +353,20 @@ def main():
         return 0
     print("prose gate: OPEN (%s)" % why)
 
+    # A MISSING OR MISTYPED --manifest MUST REFUSE, NOT READ AS AN EMPTY WORK-LIST.
+    # `load_json`'s default-on-not-found is right for `catalog.json`/`failures.json` (optional,
+    # created on first write) and wrong here: --manifest is required=True above, so its absence
+    # is an error in the invocation, not a legitimate empty state. Before this check,
+    # `load_json("output/index/manifest.NOPE.json", {"jobs": []})` silently returned
+    # `{"jobs": []}`, main() printed "0 total jobs, 0 pending" / "Done. 0 generated this run, 0
+    # failed" and returned 0 -- a job that did nothing, reporting exactly like a job that did
+    # everything. This is that failure shape by name; refuse loudly and exit nonzero instead.
+    manifest_full = os.path.join(HERE, args.manifest)
+    if not os.path.exists(manifest_full):
+        print(f"REFUSING: --manifest {args.manifest!r} does not exist (resolved to "
+              f"{manifest_full}). A missing manifest is not an empty one -- check the path.")
+        return 1
+
     manifest = load_json(args.manifest, {"jobs": []})
     # Both manifest shapes are in the wild: manifest_builder writes {"jobs": [...]} and at
     # least one phase-8 path wrote a bare list -- the mismatch crash-looped the supervisor's
@@ -532,4 +546,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # THE EXIT CODE IS THE NUMBER THE SCHEDULER ACTUALLY LOOKS AT. `main()` returning 1 on a
+    # refused manifest did nothing for a supervisor watching the process exit status unless
+    # that return value actually becomes the process's exit code -- and a bare `main()` call
+    # discards it, so every early `return` in this function (0 or 1 alike) was invisible
+    # outside the process. `main()` falling off the end (the normal-completion path) returns
+    # `None`, and `sys.exit(None)` is exit code 0, so this changes nothing for a clean run.
+    sys.exit(main())

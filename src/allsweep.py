@@ -70,7 +70,10 @@ _HALT_REFUSAL = "THE LIBRARY IS HALTED"
 OUT = os.path.join(HERE, "data", "ALLSWEEP.json")
 
 # Modules whose no-argument run does real, expensive or mutating work. They are still IMPORT
-# checked; they are simply never invoked. Naming them here beats guessing from a flag.
+# checked; they are simply never invoked -- but the safety here is structural (check_import only
+# ever passes `--help`, and run_verifier only ever invokes the explicit VERIFIERS list below), not
+# this set. NOTHING READS NEVER_RUN; it is a roster for a human to check against, not a gate.
+# Naming them here beats guessing from a flag.
 NEVER_RUN = {
     "feats", "read", "pipeline", "overnight", "generate", "backfill", "sweep",
     "catalogue_web", "catalogue_aurora", "catalogue_codex", "repass_bands", "retry_synthesis",
@@ -170,7 +173,7 @@ def run_verifier(item):
                 "seconds": round(time.time() - t, 1),
                 "tail": [ln for ln in out.strip().splitlines() if ln.strip()][-14:]}
     except subprocess.TimeoutExpired:
-        silence.note("allsweep.py:140")
+        silence.note("allsweep.py:run_verifier-timeout")
         return {"check": label, "rc": None, "crashed": False, "timeout": True,
                 "seconds": round(time.time() - t, 1), "tail": ["timed out after 30 minutes"]}
     except Exception as e:

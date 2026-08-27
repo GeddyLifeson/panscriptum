@@ -309,7 +309,13 @@ def recatalogue_models():
     """
     r = _run([os.path.join(SRC, "catalogue_models.py")], timeout=900)
     tail = [ln for ln in (r.stdout or "").splitlines() if "stale model reference" in ln]
-    return r.returncode == 0, (tail[-1] if tail else "provider lists refreshed")
+    if r.returncode != 0:
+        # SAME SHAPE AS `adopt_hosts`'s "0 adopted" bug above: a nonzero exit is not "provider
+        # lists refreshed" just because the stale-reference substring happened not to appear.
+        # did=False, and the sentence says the run failed rather than echoing the success text.
+        detail = tail[-1] if tail else (r.stderr or r.stdout or "").strip()[:150] or "no output"
+        return False, f"catalogue_models.py exited {r.returncode}: {detail}"
+    return True, (tail[-1] if tail else "provider lists refreshed")
 
 
 def refresh_coverage():
@@ -881,7 +887,7 @@ def run_charter_regression():
                 answering = sum(1 for r in json.load(f)
                                 if isinstance(r, dict) and r.get("verdict") == "answers")
         except Exception:
-            silence.note("foreman.py:497")
+            silence.note("foreman.py:run_charter_regression-pool_proof")
             answering = 0
         if answering < 3:
             return False, f"pool too thin for the regression ({answering} answering); waiting"
@@ -1074,7 +1080,7 @@ def _literals(src):
         # swallowed it, and the gate reported "no literals changed" for every patch ever
         # examined. A safety check that fails open is worse than no safety check, and this one
         # failed open silently, inside the file written to stop exactly that.
-        silence.note("foreman.py:595")
+        silence.note("foreman.py:_literals")
         return out
     for node in ast.walk(tree):
         if isinstance(node, ast.Constant) and isinstance(node.value, str):
@@ -1367,7 +1373,7 @@ def owner_queue(items):
         with open(os.path.join(HERE, "data", "SCOUT_BLOCKED.json"), encoding="utf-8") as f:
             blocked = json.load(f)
     except Exception:
-        silence.note("foreman.py:824")
+        silence.note("foreman.py:scout-blocked-read")
         blocked = {}
     if blocked:
         lines.append("### Material that exists but declines automated readers")
@@ -1510,7 +1516,7 @@ def round_once(dry=True, patch=False):
     try:
         prev = json.load(open(LOG, encoding="utf-8")) if os.path.exists(LOG) else []
     except Exception:
-        silence.note("foreman.py:942")
+        silence.note("foreman.py:round-log-read")
         prev = []
     prev.append(log)
     # Atomic: overnight.foreman_report() reads this every supervisor cycle, so this is two
@@ -1574,7 +1580,7 @@ def main():
         try:
             round_once(dry=not a.go, patch=a.patch)
         except KeyboardInterrupt:
-            silence.note("foreman.py:967")
+            silence.note("foreman.py:round-interrupted")
             raise
         except Exception as e:
             silence.note("foreman.py:round-raised")

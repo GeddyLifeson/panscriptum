@@ -182,6 +182,7 @@ def shelfmark(coord, galaxy=None, planet=None):
 
 SOURCE_TIERS = ("hyperverse", "xenoverse", "metaverse")     # 7^3 = 343 slots for 209 sources
 WORLD_TIERS = ("multiverse", "universe")                    # filled from within each source
+SOURCE_CAPACITY = SPAN ** len(SOURCE_TIERS)                 # 343 -- what sources actually occupy
 
 
 def build():
@@ -232,8 +233,11 @@ def main():
     print("THE SEVENFOLD ORDER — seven at every tier, declared")
     print("=" * 96)
     print(f"\nsources shelved : {len(coords)}")
-    print(f"capacity        : {CAPACITY:,} universe slots ({SPAN}^{len(TIERS)})")
-    print(f"occupancy       : {len(coords)/CAPACITY:.2%}  — sparse by design")
+    print(f"capacity        : {CAPACITY:,} universe slots ({SPAN}^{len(TIERS)}) — the full tree, "
+          f"reached only through a source's own worlds")
+    print(f"source capacity : {SOURCE_CAPACITY:,} slots ({SPAN}^{len(SOURCE_TIERS)}) — sources "
+          f"occupy only the top {len(SOURCE_TIERS)} tiers, per SOURCE_TIERS above")
+    print(f"occupancy       : {len(coords)/SOURCE_CAPACITY:.2%}  — sparse by design")
 
     print("\nbalance at each tier (the property every discovered scheme failed):")
     print(f"worlds shelved  : {len(worlds):,}")

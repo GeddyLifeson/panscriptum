@@ -218,14 +218,15 @@ def main():
         for kind, label in (("tautology", "CANNOT FAIL — both sides of the comparison are equal"),
                             ("phantom", "GUARDS AN UNDEFINED NAME — raises only on the branch "
                                         "nobody takes"),
-                            ("dead", "NEVER RUNS — no caller anywhere in src/")):
+                            ("dead", "NEVER RUNS — no caller anywhere in src/"),
+                            ("unparsed", "WILL NOT PARSE — excluded from every check above")):
             rows = r[kind]
             print("\n%s  (%d)" % (label, len(rows)))
             print("-" * 78)
             for x in rows:
                 print("   " + x)
-    print("\nliveness: %d finding(s) — %d tautology, %d phantom, %d dead"
-          % (total, len(r["tautology"]), len(r["phantom"]), len(r["dead"])))
+    print("\nliveness: %d finding(s) — %d tautology, %d phantom, %d dead, %d unparsed"
+          % (total, len(r["tautology"]), len(r["phantom"]), len(r["dead"]), len(r["unparsed"])))
     return 0
 
 

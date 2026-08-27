@@ -145,17 +145,21 @@ def _pid_alive(pid):
     but the PID being searched for can also appear in an unrelated column of a HIT for a
     different process, so a recycled or coincidental number reads as alive. It also spawns a
     process per check, on a path called once per gate. `psutil.pid_exists` is a syscall.
+
+    ON A CHECKOUT WITHOUT `psutil`, the fallback must still be able to say "dead" -- a Windows
+    stdlib fallback that always answers ALIVE means a genuinely orphaned lock (owner process
+    hard-killed) can never be marked stale and blocks every push forever, which is worse than
+    the "false alive delays a push" this function otherwise trades toward on purpose.
     """
     try:
         import psutil
         return psutil.pid_exists(pid)
     except ImportError:
         # Stdlib fallback, kept because this module must not become unusable on a machine where
-        # an optional dependency is missing. On POSIX `kill(pid, 0)` is exact; on Windows there
-        # is no cheap stdlib equivalent, so it errs toward ALIVE, which is the safe direction.
+        # an optional dependency is missing. On POSIX `kill(pid, 0)` is exact.
         try:
             if os.name == "nt":
-                return True
+                return _pid_alive_windows(pid)
             os.kill(pid, 0)
             return True
         except ProcessLookupError:
@@ -164,6 +168,30 @@ def _pid_alive(pid):
             return True
     except Exception:
         return True
+
+
+def _pid_alive_windows(pid):
+    """-> True if `pid` is a live Windows process, via ctypes (no psutil, no subprocess).
+
+    OpenProcess failing with ERROR_INVALID_PARAMETER (87) means Windows has no such PID at all
+    -- dead. Any other OpenProcess failure (access denied on someone else's process, for
+    instance) and any GetExitCodeProcess failure err toward ALIVE, the same direction `_pid_alive`
+    already commits to for everything it cannot resolve cleanly.
+    """
+    import ctypes
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+    STILL_ACTIVE = 259
+    handle = kernel32.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, pid)
+    if not handle:
+        return ctypes.get_last_error() != 87
+    try:
+        code = ctypes.c_ulong()
+        if not kernel32.GetExitCodeProcess(handle, ctypes.byref(code)):
+            return True
+        return code.value == STILL_ACTIVE
+    finally:
+        kernel32.CloseHandle(handle)
 
 
 def active():
@@ -513,11 +541,15 @@ def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
                     os.rmdir(link)          # unlinks a junction; fails on a real directory
             except OSError:
                 pass
-        try:
-            shutil.rmtree(p, ignore_errors=True)
+        shutil.rmtree(p, ignore_errors=True)
+        # ignore_errors=True means rmtree itself never raises -- the junction case at :506-511
+        # (an unlinked-but-undeletable mount, permissions, a file still open in the pass that
+        # crashed) leaves `p` standing with no exception to catch. Check what is actually on
+        # disk rather than trusting the call to have worked.
+        if os.path.isdir(p):
+            silence.note("mutate.py:reap-incomplete")
+        else:
             removed.append(p)
-        except Exception:
-            silence.note("mutate.py:reap")
     return removed
 
 
@@ -842,7 +874,12 @@ def _session(a, targets):
             print("set as surviving, which looks exactly like a finished run.")
             return 4
 
-        flaky = flaky_gates(root, base) if a.check_flaky else []
+        # gates=gates + confirm, matching the call that built `base` two lines up. The default
+        # (gates=GATES) always includes CONFIRM_GATES, so under --no-confirm this would score a
+        # gate (e.g. drill) that `base` never ran against base.get(name) == None -- an eternal
+        # mismatch that pays drill's five minutes and then refuses to mutate regardless of the
+        # code, no matter how many times it is run.
+        flaky = flaky_gates(root, base, gates=gates + confirm) if a.check_flaky else []
         if not a.check_flaky:
             print("   (flakiness not checked — pass --check-flaky before trusting survivors)")
         if flaky:

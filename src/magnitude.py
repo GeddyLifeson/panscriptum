@@ -1377,7 +1377,12 @@ def main():
     a = ap.parse_args()
 
     if a.calibrate:
-        return 0 if calibrate() else 1
+        # `calibrate()` returns band_hits, 0-len(BENCHMARKS), not a pass/fail flag -- `if
+        # calibrate()` was truthy on ANY nonzero count, so one benchmark out of six reproducing
+        # its band exited 0. `standards.py`'s own `charter_regression_verdict` (the check behind
+        # "the automation reproduces the charter") requires EVERY scored row consistent, zero
+        # `bad`; the exit code here must mean the same thing the standard it feeds does.
+        return 0 if calibrate() == len(BENCHMARKS) else 1
     if a.one:
         r = assay_entity(config(), a.one[1], a.one[0])
         print(json.dumps(r, indent=1, ensure_ascii=False)[:4000])

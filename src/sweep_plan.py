@@ -99,6 +99,11 @@ def _read_shards():
     try:
         paths = sorted(glob.glob(os.path.join(SHARDS, "*.json")))
     except Exception:
+        try:
+            import silence
+            silence.note("sweep_plan.py:shards-dir-unreadable")
+        except Exception:
+            pass
         return out
     for p in paths:
         try:
@@ -171,11 +176,19 @@ def record(run, covered, batch=None):
                 for m, r in old.items():
                     data.setdefault(m, r)
         except Exception:
-            pass
+            try:
+                import silence
+                silence.note("sweep_plan.py:record-aggregate-merge-failed")
+            except Exception:
+                pass
         try:
             import silence
             silence.write_json(COVERAGE, data, indent=1, sort_keys=True)
         except Exception:
+            try:
+                silence.note("sweep_plan.py:record-write-json-fallback")
+            except Exception:
+                pass
             tmp = "%s.%d.tmp" % (COVERAGE, os.getpid())
             with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=1, sort_keys=True)
@@ -199,7 +212,11 @@ def coverage_map():
                 if isinstance(r, dict):
                     data.setdefault(m, r)
     except Exception:
-        pass
+        try:
+            import silence
+            silence.note("sweep_plan.py:coverage-map-aggregate-unreadable")
+        except Exception:
+            pass
     return data
 
 
@@ -221,6 +238,15 @@ def covered_by(run):
     try:
         paths = sorted(glob.glob(os.path.join(SHARDS, "*.json")))
     except Exception:
+        # THE SHARPEST OF THIS FILE'S SILENT HANDLERS. A swallowed glob error here used to
+        # return an empty set with no record, which reads to `missing()` exactly like "this
+        # run covered nothing" -- so a completeness proof was silently indistinguishable from
+        # a directory the OS could not list. Order 97880e5e40e1.
+        try:
+            import silence
+            silence.note("sweep_plan.py:covered-by-glob-failed")
+        except Exception:
+            pass
         paths = []
     for p in paths:
         try:
@@ -245,7 +271,11 @@ def covered_by(run):
                 if isinstance(r, dict) and str(r.get("run")) == want:
                     out.add(m)
     except Exception:
-        pass
+        try:
+            import silence
+            silence.note("sweep_plan.py:covered-by-aggregate-unreadable")
+        except Exception:
+            pass
     return out
 
 
@@ -268,6 +298,11 @@ def latest_run():
     try:
         paths = glob.glob(os.path.join(SHARDS, "*.json"))
     except Exception:
+        try:
+            import silence
+            silence.note("sweep_plan.py:latest-run-glob-failed")
+        except Exception:
+            pass
         paths = []
     for p in paths:
         try:
@@ -316,6 +351,11 @@ def main():
             with open(COVERAGE, encoding="utf-8") as f:
                 data = json.load(f)
         except Exception:
+            try:
+                import silence
+                silence.note("sweep_plan.py:coverage-cli-read-failed")
+            except Exception:
+                pass
             data = {}
         runs = {}
         for m, r in data.items():

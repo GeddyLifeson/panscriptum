@@ -191,7 +191,11 @@ def scales_for(host, verbose=False):
     """Every native scale this wiki publishes, as {scale_name: {entity: value}}."""
     seen, found = set(), {}
     for q in SCALE_QUERIES:
-        d = F.api(host, {"action": "query", "list": "search", "srlimit": "5", "srsearch": q})
+        # srlimit=50, matching feats.py's discover() -- audited (m82) not to truncate. 5 was
+        # below the API's OWN default of 10, and this call is the acquisition step for the
+        # library's only large-N external ground truth (see the One Piece Bounty/List loss noted
+        # above): a relevance-ranked page beyond the cutoff is a page this pass never sees.
+        d = F.api(host, {"action": "query", "list": "search", "srlimit": "50", "srsearch": q})
         for row in (d or {}).get("query", {}).get("search", []):
             t = row["title"]
             if t in seen or not _SCALE_TITLE.search(t) or row.get("size", 0) < 1500:

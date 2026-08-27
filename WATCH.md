@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 92  ·  last run 2026-08-26 21:20
+round 93  ·  last run 2026-08-26 22:25
 
 ## Structure
 
@@ -8,12 +8,17 @@ round 92  ·  last run 2026-08-26 21:20
 - files that will not parse: **0** of 230,350 inspected
 - catalogued sources with no host: **10** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
-- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**16 open** (12 high). Newest first.
+**27 open** (15 high). Newest first.
 
+- **local_agent.py** `run` — [HIGH] returns a verdict that is not reliable when a model fails to produce a tool call or answer, and does not account for safety alarms properly
+  - says: returns a verdict indicating whether the run was successful
+- **drill.py** `_policy_corpus_clean` — [HIGH] catches exceptions and counts them as unreadable, but does not fail the net if any are found
+  - says: Every record in the corpus passes its structural rules — every record, and read.
+- **drill.py** `_policy_corpus_clean` — [HIGH] reads only the first 40 records of a sorted glob
+  - says: Every record in the corpus passes its structural rules — every record, and read.
 - **overnight.py** `start` — [HIGH] Calls a function that does not exist in the current scope
   - says: Starts a background process with the given command and log file
 - **overnight.py** `_cmd_is_running` — [HIGH] Checks if the command line contains the fragment as a substring, not considering arguments or context
@@ -38,6 +43,22 @@ round 92  ·  last run 2026-08-26 21:20
   - says: CHECK THE RETURN THIS COMMENT ALREADY WARNS ABOUT (run #19). The paragraph above names the exact hazard -- a torn or stale write here silently discards overwatc
 - **endpoint.py** `detect` — [HIGH] detect is not defined in this slice, but is called in api_url and raw_url
   - says: detect(host) returns the mode and path for a host
+- **local_agent.py** `t_propose_patch` — [MEDIUM] The denylist is case-insensitive and the filesystem is not, but the code does not handle non-python files correctly.
+  - says: The denylist has to be answerable for NON-python files too.
+- **local_agent.py** `t_grep` — [MEDIUM] does not handle non-ASCII filenames
+  - says: searches for pattern in specified files
+- **local_agent.py** `t_grep` — [MEDIUM] ignores files that are not in the subtree and does not handle non-ASCII filenames
+  - says: searches for pattern in specified files
+- **drill.py** `net` — [MEDIUM] runs a test case with a specific assertion
+  - says: runs a test case with a specific assertion
+- **drill.py** `fired` — [MEDIUM] returns the set of battery faults that are active, but the test cases may have issues with the logic or expected outcomes
+  - says: returns the set of battery faults that are active
+- **drill.py** `drill_publish` — [MEDIUM] The function does not perform any irreversible actions that cannot be recovered from, but rather runs tests.
+  - says: This is the one place where 'we caught it next run' is not a recovery.
+- **drill.py** `drill_publish` — [MEDIUM] The function does not actually push keys to a public repo, but rather tests if keys are redacted.
+  - says: A key pushed to a public repo is public even if the next commit removes it.
+- **drill.py** `drill_publish` — [MEDIUM] A function that runs a series of tests and checks, but does not perform any irreversible actions.
+  - says: The only irreversible, outward-facing step in the project.
 - **onomast.py** `well_formed` — [MEDIUM] the code checks for repeated pairs of characters (n[i:i+2] == n[i+2:i+4]), which does not detect doubled syllables (e.g., 'gog' is not a doubled syllable, but 'gogog' would be caug
   - says: no immediately doubled syllable (kills Goggoktok, Khakak)
 - **mutate.py** `run` — [MEDIUM] run is called with parameters that may not match the expected function signature

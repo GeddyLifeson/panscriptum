@@ -30,8 +30,10 @@ import os as _os_b5
 import sys as _sys_b5
 import time as _time_b5
 
-_SRC_b5 = _os_b5.path.join(_os_b5.path.dirname(_os_b5.path.dirname(_os_b5.path.dirname(
-    _os_b5.path.abspath(__file__)))), "src")
+# Spliced into src/verify_math.py, so  IS a file in src/. The authored version
+# of this block walked three directories up from handoff/run35/, which resolved to
+# C:/Users/imarl/src once merged -- corrected at merge time by the coordinator.
+_SRC_b5 = _os_b5.path.dirname(_os_b5.path.abspath(__file__))
 if _SRC_b5 not in _sys_b5.path:
     _sys_b5.path.insert(0, _SRC_b5)
 

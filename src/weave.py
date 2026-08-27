@@ -153,6 +153,11 @@ def name_surprisal(index):
     return sur, names
 
 
+# SUPERSEDED, NOT CALLED ANYWHERE -- `main()` here, `pipeline.py` and `tiers.py` all call
+# `surprisal_pair_weights()` instead. Source-level idf over-weights a name that is rare AS AN
+# ENTITY but common AS A WORD ("Gordon" -- see the module docstring above), which is exactly
+# what surprisal was introduced to fix. Reported, not deleted, per house doctrine that dead code
+# is not automatically deletable: order 25ec11447b4c / sweep33 batch08 finding 8.
 def pair_weights(occ, idf, min_sources=2):
     """Summed idf of everything each source-pair shares."""
     w = collections.defaultdict(float)
@@ -429,6 +434,9 @@ def main():
     index, dropped = filtered_index(raw)
     print(f"entity keys {len(raw):,}  ({dropped} mechanics dropped -> {len(index):,})")
 
+    # `idf` and `N` are unpacked and never read again here -- `occ` and `sources` are the parts
+    # of `idf_table()`'s output this run still needs (surprisal replaced idf for weighting, see
+    # `pair_weights()` below). Reported dead, not deleted: order 25ec11447b4c / sweep33 batch08.
     occ, idf, sources, N = idf_table(index)
     sur, names = name_surprisal(index)
 

@@ -193,7 +193,13 @@ EVIDENCE_RULES = [
 COVERAGE_RULES = [
     {"id": "coverage.entries", "path": "entries", "op": "gte", "arg": 0,
      "severity": "MAJOR", "why": "a negative entry count is a counting bug"},
-    {"id": "coverage.cited_le_entries", "path": "cited", "op": "gte", "arg": 0,
+    # NAMED "cited_le_entries" until this fix, which promised cited <= entries. `OPS` has no
+    # operator that compares two fields of the same document, so the rule could never have
+    # checked that -- it only ever checked cited >= 0, which is what its "why" honestly says.
+    # The id is what the report prints on a FAIL line, so a green run under the old name read
+    # as evidence for an invariant nothing here evaluates. Renamed to match what actually runs;
+    # cited<=entries stays unchecked. Order 4f68f9f9f591.
+    {"id": "coverage.cited_nonneg", "path": "cited", "op": "gte", "arg": 0,
      "severity": "MAJOR", "why": "cited cannot be negative"},
     {"id": "coverage.source", "path": "source", "op": "nonempty", "severity": "MAJOR",
      "why": "a coverage row with no source cannot be acted on"},

@@ -38,7 +38,6 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import feats as F                                                       # noqa: E402
-import pipeline as P                                                    # noqa: E402
 import silence
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
@@ -114,7 +113,7 @@ def scope_for(host, verbose=False):
             "pages": sorted(pages)}
 
 
-def build(records, hosts):
+def build(hosts):
     out = {}
     if os.path.exists(OUT):
         out = json.load(open(OUT, encoding="utf-8"))
@@ -159,7 +158,7 @@ def main():
         return 0
     if a.build:
         hosts = json.load(open(F.HOSTS, encoding="utf-8"))
-        out, ok = build(P.records(), hosts)
+        out, ok = build(hosts)
         got = sum(1 for v in out.values() if v)
         if ok:
             print(f"\n{got}/{len(out)} wikis scoped  ->  {OUT}")

@@ -245,11 +245,6 @@ def fetch_raw(host, titles, workers=2):
     return out
 
 
-def exists_raw(host, titles, workers=2):
-    """Which of these titles the host actually serves. The raw-mode answer to a titles probe."""
-    return sorted(fetch_raw(host, titles, workers=workers))
-
-
 def main():
     ap = argparse.ArgumentParser(description="how to read a wiki that is not Fandom")
     ap.add_argument("hosts", nargs="*", help="hosts to probe")

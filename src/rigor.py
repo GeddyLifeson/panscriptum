@@ -805,6 +805,7 @@ def main():
     print(f"   law catalogue: {len(LAW_CATALOGUE)} enumerated principles "
           f"(Noether conservations + structural)")
     ratios = []
+    _underpriced = []
     for nm, laws, regimes, params, declared in [
             ("coherence", 1, 2, 0, 8), ("thermodynamics", 1, 4, 1, 32),
             ("energy", 2, 4, 1, 64), ("momentum", 2, 8, 2, 96),
@@ -814,14 +815,25 @@ def main():
         ratio = declared / floor if floor > 0 else float("inf")
         ratios.append(ratio)
         ok = "above floor" if declared >= floor else "BELOW FLOOR — underpriced"
+        if declared < floor:
+            _underpriced.append(nm)
         print(f"   {nm:<16} floor {floor:7.2f}   declared {declared:4d}   "
               f"x{ratio:5.2f}   {ok}")
     import statistics as _st
     print(f"   declared/floor ratio: mean {_st.mean(ratios):.2f}, "
           f"stdev {_st.pstdev(ratios):.2f}")
-    print("   FINDING: every declared cost sits above its MDL floor, and the ratios cluster —")
-    print("            the charter's constants encode a roughly constant safety factor rather")
-    print("            than arbitrary numbers. That is auditable; it was not before.")
+    # GUARDED ON THE LOOP'S OWN RESULT -- the twin of the faculty-weight fix above (2026-08-25,
+    # run #21). This printed the clean verdict unconditionally, outside the loop, so a
+    # BELOW FLOOR row a few lines up would be announced and then denied here.
+    if _underpriced:
+        print(f"   FINDING: {', '.join(_underpriced)} sits below its MDL floor -- the charter's "
+              "declared cost")
+        print("            there is cheaper than the evidence justifies. That is auditable; it "
+              "was not before.")
+    else:
+        print("   FINDING: every declared cost sits above its MDL floor, and the ratios cluster —")
+        print("            the charter's constants encode a roughly constant safety factor rather")
+        print("            than arbitrary numbers. That is auditable; it was not before.")
 
     print("\n4. UNCERTAINTY — the census as a product of uncertain factors")
     print("-" * 96)

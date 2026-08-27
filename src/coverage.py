@@ -148,7 +148,7 @@ def _state_of_file(fp, name, cache):
         with open(fp, encoding="utf-8") as f:
             d = json.load(f)
     except Exception:
-        silence.note("coverage.py:60")
+        silence.note("coverage.py:state_of_file-read")
         return None
     if not cachekey.owns(d, name):
         # Someone else's evidence sitting at our path. NOT this entity's citation.

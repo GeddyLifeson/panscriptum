@@ -269,9 +269,12 @@ if __name__ == "__main__":
     # the one script whose entire job is to fail when the assay drifts. `audit.py` gets this right
     # one file over and is the pattern copied here.
     #
-    # It exits 1 TODAY: measured run #26, `A Sword` (0.10) sits below `The Skate Guy` (0.22) and
-    # `Goku` (5.42) below `Yggdrasil` (6.18). Whether that ordering or the scores are wrong is an
-    # instrument question for the owner (NEXT_STEPS), not something this script may paper over --
-    # but it must now say so out loud instead of exiting 0.
+    # It exited 1 at run #26: `A Sword` (0.10) sat below `The Skate Guy` (0.22) and `Goku` (5.42)
+    # below `Yggdrasil` (6.18). The owner ruling of 2026-08-25 (above, at the `order` list) found
+    # the DECLARED LADDER wrong rather than the instrument and reordered it to match the scores,
+    # so the invariant now holds and this exits 0. That is a reading about the ladder that was
+    # fixed, not a claim that this check can no longer fail -- it still exits 1 the moment the
+    # assay and the declared order disagree again, which is the entire reason it says so out loud
+    # instead of throwing `ok` away.
     _rows, _ok = run()
     sys.exit(0 if _ok else 1)

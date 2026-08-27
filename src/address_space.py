@@ -81,7 +81,7 @@ def _continuities():
         with open(os.path.join(HERE, "data", "CONTINUITY_GROUPS.json"), encoding="utf-8") as f:
             return len(json.load(f)["groups"])
     except Exception:
-        silence.note("address_space.py:69")
+        silence.note("address_space.py:continuity-groups")
         return 168
 
 
@@ -125,7 +125,7 @@ def _tier_counts():
             out[k] = max((v[k] for v in t.values() if v.get(k) is not None), default=0) + 1
         return out
     except Exception:
-        silence.note("address_space.py:112")
+        silence.note("address_space.py:tier-counts")
         return dict(hyperverse=1, xenoverse=6, metaverse=8, multiverse=168)
 
 
@@ -339,7 +339,7 @@ def main():
         with open(os.path.join(HERE, "data", "WORLDSEEDS.json"), encoding="utf-8") as f:
             ws = json.load(f)
     except Exception:
-        silence.note("address_space.py:293")
+        silence.note("address_space.py:worldseeds")
         ws = {}
     if ws:
         print("\n" + "-" * 96)

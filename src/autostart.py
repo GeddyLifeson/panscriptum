@@ -157,9 +157,17 @@ def start_supervisor(read_hours=10):
     flags = 0
     if os.name == "nt":
         flags = _NO_WIN | subprocess.DETACHED_PROCESS
-    return subprocess.Popen(
-        [PY, "-u", os.path.join(SRC, "overnight.py"), "--read-hours", str(read_hours)],
-        cwd=HERE, env=env, stdout=out, stderr=err, creationflags=flags)
+    try:
+        return subprocess.Popen(
+            [PY, "-u", os.path.join(SRC, "overnight.py"), "--read-hours", str(read_hours)],
+            cwd=HERE, env=env, stdout=out, stderr=err, creationflags=flags)
+    finally:
+        # The child inherits its own duplicate of each handle when Popen creates it, so the
+        # parent's copies do nothing after Popen returns -- except sit open. `watch()` calls
+        # this once per supervisor restart from an infinite loop, so a long-lived watchdog that
+        # has restarted the supervisor N times was holding 2N handles open for no reason.
+        out.close()
+        err.close()
 
 
 def _twin_watchdog():

@@ -7,8 +7,9 @@ homebrew ones that have no wiki because the owner wrote them -- but this reads t
 files rather than a summary of them, and that matters twice over:
 
   1. Richer. The codex's "Full Contents" manifest lists element NAMES only; the XML carries a
-     full <description> for each. Dr. Firestorm's + The Elements Beyond alone yield 1,159
-     elements from the XML against 123 names from the codex.
+     full <description> for each. Dr. Firestorm's + The Elements Beyond alone yield 1,106
+     elements from the XML (425 + 681, measured by running this module's own `parse_folder`
+     against both folders -- re-run it for today's count) against 123 names from the codex.
 
   2. Clean. THE_PRIME_OMNIVERSE_CODEX.md is a leftover artifact of an earlier, abandoned
      version of this project, and its section blurbs carry that version's setting assumptions

@@ -1154,7 +1154,13 @@ _REPUTATION = re.compile(
     r"|stated to be|claimed to|purported|allegedly|apparently|seemingly"
     r")\w*", re.I)
 
-_SCALE_PATTERNS = [_MAGNITUDE.pattern, _ACT.pattern, _OBJECT.pattern]   # kept for reference
+# UNUSED. Nothing in src/ reads either name below -- grep confirms only their own definitions.
+# valid_scale_note() below does NOT use this OR-of-three-patterns gate; it requires an act UPON
+# an object (see _act_upon_object), which is exactly the conjunction the comment above this block
+# explains replaced a disjunction like this one. Left here as the shape of the REJECTED approach,
+# not as an alternative implementation someone could wire back in -- doing so would reopen the
+# defect that comment describes.
+_SCALE_PATTERNS = [_MAGNITUDE.pattern, _ACT.pattern, _OBJECT.pattern]
 _SCALE_EVIDENCE = re.compile("|".join(_SCALE_PATTERNS), re.I)
 
 # How close an act must sit to its object to count as acting upon it.

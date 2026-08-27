@@ -3070,6 +3070,42 @@ def drill_rung_four():
         resuming_demands_a_written_ruling,
         "the thing that undid the last stop was an automated actor with a restart timer")
 
+    def a_probe_leaves_no_order_behind():
+        """The battery must be able to run on a live library without decorating its queue.
+
+        Every escalation FILES A REAL WORK ORDER, so a probe that stops and resumes a synthetic
+        subsystem files two, and the rung-4 pair above did that on every cycle without ever
+        clearing them: SUBSYSTEM_STOPPED for `__drill_rung4__` at MAJOR, addressed to RUN, was
+        `seen 15x` when this net was written, next to its RESUMED twin and a `probe_job` pair
+        left by a scratch test that no longer exists anywhere in `src/`. None of the four
+        describe a subsystem that has ever existed.
+
+        Asserted by DOING IT: a fresh synthetic subsystem is stopped and resumed here, and the
+        open-order set afterwards must equal the set before. Counting is not enough -- an
+        unrelated detector filing one order while this probe leaks one would net to zero -- so
+        the identities are compared.
+        """
+        import escalation as E
+        import workorders as WO
+        name = "__drill_litter_probe__"
+        before = set(WO._load())
+        try:
+            E.stop_subsystem(name, "drill probe: a probe must not litter the queue",
+                             who="drill.py")
+        finally:
+            try:
+                E.resume_subsystem(name, "drill probe complete; releasing the synthetic stop")
+            except Exception:
+                import silence as _s
+                _s.note("drill.py:litter-probe-cleanup")
+            _sweep_probe_litter(name, "litter-probe")
+        return set(WO._load()) == before
+    net(a, "a probe leaves NO work order behind in the live queue",
+        a_probe_leaves_no_order_behind,
+        "six permanent orders described three subsystems that never existed; a queue with "
+        "decoration in it is a queue people stop reading, and that is the failure this whole "
+        "ladder exists to prevent")
+
     def the_keeper_asks_before_restarting():
         """The half that matters. `overnight`'s keeper must CONSULT the ledger, not just have
         one available to consult."""
