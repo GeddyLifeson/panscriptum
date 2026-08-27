@@ -410,16 +410,30 @@ def _anchored(module, finding, src):
 
 
 def review(module, local=True, ledger=None):
-    """Read one module and return the findings that survive all three filters."""
+    """Read one module and return (findings, complete).
+
+    `complete` is False the moment any slice's `_ask` comes back `None` -- the GPU was busy and
+    this round's cloud budget was already spent (see `_ask`'s "THE WATCHER YIELDS" comment). A
+    skipped slice and a slice the model actually read and found nothing in look identical from
+    here: both hand `kept` nothing. `round_once` used to stamp the module `seen` regardless, which
+    made an unreviewed module indistinguishable from a freshly-clean one to `rotation()` -- it was
+    sorted to the BACK of the stale queue exactly as if it had been read, the worst place for a
+    module nobody actually looked at. The caller now only stamps `seen` when `complete` is True,
+    so a yielded review leaves the module's old timestamp in place and it comes back up soon.
+    Order a3ee0d1d2d4c.
+    """
     path = os.path.join(SRC, module + ".py")
     if not os.path.exists(path):
-        return []
+        return [], True
     with open(path, encoding="utf-8") as f:
         src = f.read()
     kept = []
+    complete = True
     for start, end, chunk in _slices(path):
         got = _ask(SYSTEM, f"MODULE: {module}.py   LINES {start}-{end}\n\n{chunk}",
                    SCHEMA, local=local)
+        if got is None:
+            complete = False
         for f_ in (got or {}).get("findings", []):
             if (f_.get("severity") or "medium").lower() not in ("high", "medium"):
                 continue
@@ -428,7 +442,7 @@ def review(module, local=True, ledger=None):
             f_["module"] = module
             f_["lines"] = [start, end]
             kept.append(f_)
-    return kept
+    return kept, complete
 
 
 # --------------------------------------------------------------------------- the round
@@ -656,13 +670,21 @@ def round_once(limit=6, local=True, skip_model=False):
         for m in todo:
             t = time.time()
             try:
-                found = review(m, local=local, ledger=led)
+                found, complete = review(m, local=local, ledger=led)
             except Exception as e:
                 silence.note("overwatch.py:review")
                 print(f"   {m}: review failed ({type(e).__name__})", flush=True)
                 continue
             d = _digest(os.path.join(SRC, m + ".py"))
-            led["seen"][m] = {"digest": d, "at": time.time()}
+            # ONLY A COMPLETE READ COUNTS AS SEEN. A slice skipped because the GPU was busy and
+            # the round's cloud budget was spent (see `review`'s docstring) looks exactly like a
+            # slice read and found clean -- both contribute zero findings -- so stamping `seen`
+            # here regardless used to let an UNREVIEWED module get sorted to the back of
+            # `rotation()`'s stale queue as if it had just been read. Leaving the old timestamp in
+            # place on an incomplete read means the module stays near the front and comes back up
+            # next round instead of waiting a full cycle. Order a3ee0d1d2d4c.
+            if complete:
+                led["seen"][m] = {"digest": d, "at": time.time()}
             fresh = 0
             for f in found:
                 fid = _fingerprint(m, f)
@@ -680,6 +702,8 @@ def round_once(limit=6, local=True, skip_model=False):
             if _LOCAL_BUSY[0]:
                 note = f"   (GPU busy; {min(_LOCAL_BUSY[0], CLOUD_BUDGET)} calls to the cloud"
                 note += ", budget spent)" if _LOCAL_BUSY[0] > CLOUD_BUDGET else ")"
+            if not complete:
+                note += "   NOT MARKED SEEN -- a slice was skipped, retried next round"
             print(f"   {m:<24}{len(found):>3} raw  {fresh:>3} new   {time.time()-t:>5.0f}s"
                   + note, flush=True)
 

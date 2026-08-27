@@ -93,6 +93,7 @@ def catalogue_composite(source_name, verbose=True):
     """
     spec = ws.COMPOSITE_SOURCES[source_name]
     entries, seen = [], set()
+    failed_cats = []
     for sub, cats in spec:
         got = 0
         for c in cats:
@@ -100,6 +101,7 @@ def catalogue_composite(source_name, verbose=True):
                 titles = ws.clean_titles(ws.category_members(sub, c, limit=None))
             except Exception:
                 silence.note("catalogue_web.py:79")
+                failed_cats.append(f"{sub}:{c}")
                 continue
             if len(titles) > 40:
                 titles = ws.rank_by_size(sub, titles, top=None)   # rank, never truncate
@@ -130,6 +132,30 @@ def catalogue_composite(source_name, verbose=True):
     if not entries:
         return None, "composite produced no entries"
     wikis = ", ".join(s for s, _ in spec)
+    # A FAILED SUB-CATEGORY IS NOT AN ABSENT ONE, and this path used to say nothing about the
+    # difference. `catalogue()`'s single-wiki path lets `find_categories`/`category_members`
+    # raise, so ANY transport failure fails the whole attempt honestly and the source stays
+    # retryable (`entry_count` stays 0). This path instead keeps going after each category, on
+    # purpose -- one dead sub-wiki should not cost the others their data -- but that meant a
+    # source could come back "catalogued"/"Transcribed"/"ok" while some of its categories were
+    # never actually read, indistinguishable from one where they came back genuinely empty. The
+    # failures are now named in the provenance and the note, so a reader (and `_one`'s log line)
+    # can tell "transcribed in full" from "transcribed except for these".
+    note = "ok" if not failed_cats else f"ok (transport failed for {len(failed_cats)} categories)"
+    provenance = (
+        f"Transcribed from the deity/pantheon categories of multiple franchise wikis "
+        f"({wikis}) via the MediaWiki API by src/catalogue_web.py. This source is the "
+        f"INVENTED pantheons of fiction across anime, film, television and games -- the "
+        f"roll's thirteen 'Pantheon: <culture>' sources already cover real-world "
+        f"mythology separately. Each entry records its origin_work. No model generated "
+        f"any of this content."
+    )
+    if failed_cats:
+        provenance += (
+            f" INCOMPLETE: the transport failed for {len(failed_cats)} categor"
+            f"{'y' if len(failed_cats) == 1 else 'ies'} that were never read and are not "
+            f"reflected in the entries below -- " + ", ".join(failed_cats) + "."
+        )
     return {
         "source": source_name,
         "mode": "web",
@@ -137,15 +163,8 @@ def catalogue_composite(source_name, verbose=True):
         "synthesis": None,
         "status": "catalogued",
         "attestation": "Transcribed",
-        "provenance": (
-            f"Transcribed from the deity/pantheon categories of multiple franchise wikis "
-            f"({wikis}) via the MediaWiki API by src/catalogue_web.py. This source is the "
-            f"INVENTED pantheons of fiction across anime, film, television and games -- the "
-            f"roll's thirteen 'Pantheon: <culture>' sources already cover real-world "
-            f"mythology separately. Each entry records its origin_work. No model generated "
-            f"any of this content."
-        ),
-    }, "ok"
+        "provenance": provenance,
+    }, note
 
 
 def catalogue(source_name, verbose=True):
@@ -390,8 +409,13 @@ def main():
             roll_by_name[name]["status"] = "catalogued"
             save_roll(roll)
             tally["done"] += 1
+            # `note` can say more than "ok" now -- catalogue_composite reports a transport
+            # failure on some categories even when it still returns a usable record. Print it
+            # here so that case is visible in the run log, not only in the record's own
+            # provenance field.
+            flag = "" if note == "ok" else f"  [{note}]"
             print(f"      -> {name}: {len(record['entries'])} entries in "
-                  f"{time.time()-t0:.0f}s", flush=True)
+                  f"{time.time()-t0:.0f}s{flag}", flush=True)
 
     with ThreadPoolExecutor(max_workers=3) as ex:
         list(ex.map(_one, todo))

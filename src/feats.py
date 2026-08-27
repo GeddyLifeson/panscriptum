@@ -293,7 +293,7 @@ def api(host, params, retries=2):
             if e.code == 404:
                 silence.note("feats.py:api-404")
                 return None
-            silence.note("feats.py:125")
+            silence.note("feats.py:api-http-error")
             if e.code in (429, 503):
                 wait = int(e.headers.get("Retry-After") or 0) or (5 * (attempt + 1) ** 2)
                 _RATE_LIMITED[host] = _RATE_LIMITED.get(host, 0) + 1
@@ -313,12 +313,13 @@ def api(host, params, retries=2):
             # A NON-JSON 200 IS NOT A NETWORK FAULT, and it used to be filed as one. The body
             # arrived, the status said success, and `json.loads` choked -- which is what happens
             # when a WAF or a login wall answers an `/api.php` call with an HTML challenge page.
-            # That landed on "feats.py:139", the same ledger key as a plain connection timeout,
-            # so a host that was quietly refusing every API call all run read afterwards as a
-            # host with a flaky network. This is the identical separation the 404 arm above was
-            # given in run #19, for the identical reason: the ledger's count for a site is only
-            # readable if "the network is failing", "the page does not exist" and "we are being
-            # refused" land in different buckets. It is also the transport-layer twin of what
+            # That landed on "feats.py:api-network-fault", the same ledger key as a plain
+            # connection timeout, so a host that was quietly refusing every API call all run
+            # read afterwards as a host with a flaky network. This is the identical separation
+            # the 404 arm above was given in run #19, for the identical reason: the ledger's
+            # count for a site is only readable if "the network is failing", "the page does
+            # not exist" and "we are being refused" land in different buckets. It is also the
+            # transport-layer twin of what
             # `page_looks_real` catches at the content layer, and the two should be legible as
             # the same story when a host is read afterwards.
             #
@@ -329,7 +330,7 @@ def api(host, params, retries=2):
                 return None
             time.sleep(2 + attempt * 4)
         except Exception:
-            silence.note("feats.py:139")
+            silence.note("feats.py:api-network-fault")
             if attempt == retries:
                 return None
             time.sleep(2 + attempt * 4)
@@ -614,7 +615,7 @@ def fetch(host, titles):
             try:
                 out[p["title"]] = p["revisions"][0]["slots"]["main"]["content"]
             except (KeyError, IndexError):
-                silence.note("feats.py:374")
+                silence.note("feats.py:fetch-bad-revision")
                 continue
     return out
 
@@ -1098,7 +1099,7 @@ def roll(records, hosts, workers=8, limit=None, only=None):
         try:
             ev = evidence_for(h, name)
         except Exception:
-            silence.note("feats.py:695")
+            silence.note("feats.py:roll-evidence-error")
             ev = None
             errored = True
         with lock:

@@ -40,8 +40,12 @@ Three consequences fall out, and each explains something the charter states with
 """
 import math
 
-SECONDS_PER_YEAR = 3.15576e7
-C_LIGHT = 2.99792458e8
+# NO LOCAL COPY (found run35, batch 6). This module used to declare its own SECONDS_PER_YEAR
+# and C_LIGHT, unused anywhere below and unread by anything that imports tempus -- a fifth and
+# a fourth hand-copied instance of quantities already declared in cosmography.py, chord_field.py,
+# descending_ladder.py and scale_theories.py. ledger.py's own rule against a silently-drifting
+# second source of truth applies to this module as much as any other; the dead pair is removed
+# rather than re-declared, since nothing here has ever needed them.
 
 
 # =========================================================== 1. LOCAL TEMPO AND ITS CONVERSION

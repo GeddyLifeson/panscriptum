@@ -473,8 +473,16 @@ def provenance(name):
 
 
 # ============================================== MODULE-LEVEL CONSTANT SCAN (where numbers live)
-SCAN_MODULES = ["assay", "feats", "cosmography", "propagation", "descending_ladder",
-                "scale_theories", "chord_field", "resonance", "tempus", "ledger", "rigor", "custodes", "weave", "onomast", "worldseed", "address_space", "genre", "profile", "tiers", "grounding", "sevenfold", "burgs"]
+# MEASURED, NOT MAINTAINED (found run35, batch 6). This was a hand-typed list of 22 names
+# against the 113 .py files actually in src/ -- so 91 modules were never scanned for undeclared
+# constants, and a module written tomorrow would sit unscanned until somebody remembered to add
+# its name here. That is the exact "smaller universe wearing the same shape as the real one"
+# failure the module-level docstring itself warns against, applied to the docstring's own
+# checker. `scan_constants` only parses source text with `ast` -- it never imports or executes
+# a module -- so listing every `.py` file in this directory costs nothing extra and cannot pick
+# up a side effect. `main()`'s VERDICT line still comes from `check_graph()` alone, unaffected;
+# this only widens what the "where constants live" map beneath it can see.
+SCAN_MODULES = sorted(f[:-3] for f in os.listdir(HERE) if f.endswith(".py"))
 
 
 def scan_constants(mod):

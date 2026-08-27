@@ -167,9 +167,18 @@ def main():
         r["entry_count"] = len(entries)
         r["status"] = "catalogued"
 
+    roll_landed = True
     if not args.dry_run and written:
         # ATOMIC: four scripts write this same roll (see silence.write_json). 2026-08-25.
-        silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
+        # GATED, same discipline as `write_record_catalogue` above and for the identical reason:
+        # this whole function exists to argue that a write verdict must never be discarded, and
+        # this was the one call in it that still did. `write_json` returns whether the rename
+        # LANDED and this threw the verdict away, so a denied replace of SWEEP_ROLL.json printed
+        # "Wrote N records from Aurora XML" underneath it -- the per-record entries really did
+        # land, but the roll saying so did not, and the next run's `entry_count == 0` selection
+        # would silently re-parse sources it had already, correctly, catalogued. Found by the
+        # run #33 sweep, same batch as the record-level fix above.
+        roll_landed = silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
 
     verb = "Would write" if args.dry_run else "Wrote"
     print(f"{verb} {len(written)} records from Aurora XML:\n")
@@ -178,6 +187,9 @@ def main():
         print(f"  {len(rec['entries']):5d} entries ({withtext} with description)  {r['name']}")
     if args.dry_run:
         print("\n(dry run -- nothing written)")
+    elif not roll_landed:
+        print("\n(WRITE DENIED: SWEEP_ROLL.json did not land; the records above were written "
+              "to disk but the roll does not yet say so -- rerun to retry)")
 
 
 if __name__ == "__main__":

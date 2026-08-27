@@ -71,14 +71,29 @@ QUERIES = ["cosmology universe world setting", "multiverse", "universe", "world"
 def scope_for(host, verbose=False):
     titles, seen = [], set()
     for q in QUERIES:
-        d = F.api(host, {"action": "query", "list": "search", "srlimit": "3", "srsearch": q})
+        # HARD RULE 0. This asked for the top 3 hits of each of four fixed queries and then,
+        # below, kept only the first 8 titles that survived -- two stacked truncations feeding
+        # the term-frequency count that `ceiling_for()` turns into the Magnitude ceiling for
+        # every entity in the source. `srlimit` is raised to the API's own per-call maximum for
+        # an ordinary (non-bot) key, same fix `feats.discover()` applied to this identical
+        # `list=search` action; a `continue` key in the response means MediaWiki still withheld
+        # results beyond that, which is worth knowing rather than pretending away, so it goes
+        # into the ledger instead of the API's default of 10. Previously reported at
+        # handoff/sweep24/AUDIT_batch06.md:320 and left unfixed since.
+        d = F.api(host, {"action": "query", "list": "search", "srlimit": "500", "srsearch": q})
+        if (d or {}).get("continue"):
+            silence.note("scope.py:srlimit-bound")
         for row in (d or {}).get("query", {}).get("search", []):
             if row["title"] not in seen and row.get("size", 0) > 1200:
                 seen.add(row["title"])
                 titles.append(row["title"])
     if not titles:
         return None
-    pages = F.fetch(host, titles[:8])
+    # No truncation here either -- `F.fetch` is written to take "up to any number of titles,
+    # batched where batching is possible" (feats.py's own docstring); the `[:8]` this used to
+    # pass it dropped everything past the eighth relevance-ranked title before a single mention
+    # was counted.
+    pages = F.fetch(host, titles)
     text = " ".join(F.strip_wikitext(v) for v in pages.values())
     counts = {lab: len(rx.findall(text)) for lab, rx, _ in _RE}
 
@@ -116,8 +131,12 @@ def build(records, hosts):
             print(f"  {i:>3}/{len(todo)}  {h:<34}{sc['scope']:<12}ceiling {sc['ceiling']}",
                   flush=True)
     # ATOMIC: SCOPE.json is read by magnitude.py and pipeline.py. 2026-08-25.
-    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
-    return out
+    # GATED, alongside `out`: `write_json` returns whether the rename LANDED and this dropped
+    # the verdict, so a denied replace still let `main()` print "N/M wikis scoped -> SCOPE.json"
+    # -- the honest report of a file that, this round, did not change at all. `build()` returns
+    # the verdict now so its one caller can tell the difference.
+    ok = silence.write_json(OUT, out, indent=1, ensure_ascii=False)
+    return out, ok
 
 
 def ceiling_for(source, hosts=None, cache=None):
@@ -140,9 +159,13 @@ def main():
         return 0
     if a.build:
         hosts = json.load(open(F.HOSTS, encoding="utf-8"))
-        out = build(P.records(), hosts)
+        out, ok = build(P.records(), hosts)
         got = sum(1 for v in out.values() if v)
-        print(f"\n{got}/{len(out)} wikis scoped  ->  {OUT}")
+        if ok:
+            print(f"\n{got}/{len(out)} wikis scoped  ->  {OUT}")
+        else:
+            print(f"\nWRITE DENIED: {got}/{len(out)} wikis scoped this round did not land in "
+                  f"{OUT}; rerun to retry")
         return 0
     ap.print_help()
     return 0

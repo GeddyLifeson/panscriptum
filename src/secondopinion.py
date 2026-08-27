@@ -127,6 +127,15 @@ NOT_FILED = {
 }
 
 
+# RETURNCODE, NOT JUST STDOUT. `ran_clean()` treats status == "RAN" and an empty finding list as
+# "this tool looked and saw nothing" -- the exact clean bill of health `run()`'s own docstring
+# says an absent tool must never produce. But ruff exits 2 (a bad --select selector, a path that
+# does not exist) and detect-secrets exits 2 (a bad flag, a bad subcommand) writing NOTHING to
+# stdout and the reason to stderr instead -- verified by running both here on 2026-08-27.
+# `json.loads(r.stdout or "[]")` then parses the placeholder, not the tool's answer, and the
+# three runners below returned "RAN", [] for a tool that never actually ran. None of them read
+# `r.returncode` at all. Each now does, and treats anything outside the codes that mean "the tool
+# ran and told me its verdict" as a failure to report, not a clean pass. Order 12694407d245.
 def _ruff(paths):
     exe = _exe("ruff")
     if not exe:
@@ -134,6 +143,12 @@ def _ruff(paths):
     r = subprocess.run([exe, "check", "--output-format", "json",
                         "--select", RUFF_RULES, "--ignore", RUFF_IGNORE] + list(paths),
                        capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
+    # ruff's own contract: 0 = no violations, 1 = violations found (real answer, keep going).
+    # Anything else is ruff refusing to run at all -- the CLI itself was misused -- and its
+    # explanation went to stderr while stdout stayed empty.
+    if r.returncode not in (0, 1):
+        return ("TOOL ERROR (ruff rc=%d): %s"
+                % (r.returncode, (r.stderr or r.stdout or "?").strip()[:200])), []
     try:
         rows = json.loads(r.stdout or "[]")
     except Exception:
@@ -172,6 +187,17 @@ def _vulture(paths, min_confidence=90):
         out.append({"tool": "vulture", "code": "vulture",
                     "file": os.path.basename(parts[0]),
                     "line": lineno, "message": parts[2].strip()[:160]})
+    # vulture has no documented "tool error" exit code separate from "found something" (its
+    # argparse layer uses 2 for a bad flag; a bad PATH comes back as `rc=1` with an "Error: ...
+    # could not be found" line that LOOKS like `path:line:message`, fails `int(parts[1])`, and
+    # is silently dropped above) -- exactly the shape the audit measured: not a returncode this
+    # module can trust in isolation, but a returncode combined with what actually got parsed.
+    # vulture's real contract is `rc == 0` only when it found and printed nothing; a nonzero
+    # exit that still produced zero USABLE lines is not that -- it is every line it printed
+    # failing to parse, which is what happened here, not a clean run.
+    if r.returncode not in (0, 1) or (r.returncode == 1 and not out):
+        return ("TOOL ERROR (vulture rc=%d): %s"
+                % (r.returncode, (r.stderr or r.stdout or "?").strip()[:200])), []
     return "RAN", out
 
 
@@ -181,6 +207,13 @@ def _detect_secrets(paths):
         return "NOT INSTALLED", []
     r = subprocess.run([exe, "scan"] + list(paths),
                        capture_output=True, creationflags=_NO_WIN, text=True, timeout=600)
+    # `scan` prints its JSON report on success and nothing at all on a CLI-usage error (a bad
+    # flag, a bad subcommand), with the reason on stderr and rc=2 -- the same shape ruff's own
+    # error path has, and `json.loads(r.stdout or "{}")` would parse the placeholder as "zero
+    # results" instead of reporting that the scan never happened.
+    if r.returncode != 0:
+        return ("TOOL ERROR (detect-secrets rc=%d): %s"
+                % (r.returncode, (r.stderr or r.stdout or "?").strip()[:200])), []
     try:
         doc = json.loads(r.stdout or "{}")
     except Exception:

@@ -62,11 +62,68 @@ def _land(path, obj, sort_keys=True):
     WIKI_HOSTS.json in particular is written from here AND from two call sites in
     `hostcheck.py`, and read by several long-running jobs. A bare `open(path, "w")` truncates
     before json.dump starts, so a losing writer leaves the host map empty or unparseable for
-    every reader -- and an empty host map reads downstream as "no source has a wiki". 2026-08-24."""
+    every reader -- and an empty host map reads downstream as "no source has a wiki". 2026-08-24.
+
+    This is the WHOLE-FILE half of a write -- atomic against a torn read, but blind to another
+    writer's read-modify-write racing this one. Use `_mutate` below for anything that reads a
+    shared file, changes a piece of it, and writes it back; `_land` alone is only safe when the
+    caller already holds the entire intended contents (e.g. `sweep`'s own SCOUT.json log, which
+    nothing but this process appends to)."""
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(obj, f, indent=1, sort_keys=sort_keys)
     silence.replace_retry(tmp, path)
+
+
+def _mutate(path, change, attempts=8):
+    """Read-modify-write a shared JSON object under compare-and-swap. -> (landed, value).
+
+    Order d3313adbf641: SCOUT_ATTEMPTS.json, WIKI_HOSTS.json and SCOUT_BLOCKED.json were each
+    read, mutated and written back here with no lock and no staleness check -- three whole-file
+    read-modify-writes on artifacts at least one OTHER process also writes. `hostcheck.adopt()`
+    writes WIKI_HOSTS.json from a separate process; a lost update there silently un-adopts a
+    host. A lost update to SCOUT_ATTEMPTS.json puts a source back at the front of `sweep`'s
+    rotation, which is the exact failure `sweep`'s own docstring measured and fixed for the
+    ranking side of this same file. `workorders._mutate` and `runguard._land_claim` were both
+    given this same treatment the same day, over the same primitive: a digest taken at read
+    time, and a write that lands only if the file still holds what was read.
+
+    `change(d)` must be a pure function of the dict it is handed and return whatever the caller
+    wants back (or None) -- on a refused write this re-reads the fresh copy and calls `change`
+    again, so a side effect inside `change` would run twice.
+    """
+    import time as _t
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    last_why = "not attempted"
+    for a in range(attempts):
+        digest = silence.digest_of(path)
+        try:
+            with open(path, encoding="utf-8") as f:
+                d = json.load(f)
+            d = d if isinstance(d, dict) else {}
+        except FileNotFoundError:
+            d = {}
+        except Exception:
+            silence.note("scout.py:mutate-unreadable")
+            d = {}
+        value = change(d)
+        tmp = "%s.%d.%d.tmp" % (path, os.getpid(), a)
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(d, f, indent=1, sort_keys=True)
+        landed, why = silence.replace_if_unchanged(tmp, path, digest)
+        if landed:
+            return True, value
+        last_why = why
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        _t.sleep(0.05 * (a + 1))
+    # Never raises, matching every other shared write in this file: a caller that cannot land
+    # gets told so and decides what "attempted but not recorded" means for it, rather than
+    # believing a mutation happened that did not.
+    silence.note("scout.py:mutate-failed")
+    return False, last_why
 
 # The project's honest crawler identity. A site that declines THIS is declining consent, and the
 # correct response is to record that and stop asking -- not to put on a browser costume. The
@@ -224,21 +281,27 @@ def scout(source, names, register=True):
         EP.register(source, kept)
         try:
             import feats as F
-            hosts = json.load(open(F.HOSTS, encoding="utf-8"))
-            hosts[source] = "pages:" + source
-            _land(F.HOSTS, hosts)
+
+            def _adopt(hosts):
+                hosts[source] = "pages:" + source
+
+            landed, _ = _mutate(F.HOSTS, _adopt)
+            if not landed:
+                silence.note("scout.py:register-host")
         except Exception:
             silence.note("scout.py:register-host")
     # Pages that exist and decline us are a finding for the owner, not a retry target.
     blocked = [c for c in checked if c.get("code") in (401, 403, 429)]
     if blocked:
         try:
-            prev = {}
-            if os.path.exists(BLOCKED):
-                with open(BLOCKED, encoding="utf-8") as f:
-                    prev = json.load(f)
-            prev[source] = sorted({c["url"] for c in blocked} | set(prev.get(source) or []))
-            _land(BLOCKED, prev)
+            urls_blocked = {c["url"] for c in blocked}
+
+            def _add_blocked(prev):
+                prev[source] = sorted(urls_blocked | set(prev.get(source) or []))
+
+            landed, _ = _mutate(BLOCKED, _add_blocked)
+            if not landed:
+                silence.note("scout.py:blocked")
         except Exception:
             silence.note("scout.py:blocked")
     return {"source": source, "proposed": len(urls), "kept": kept, "checked": checked,
@@ -301,10 +364,23 @@ def sweep(limit=None, register=True):
     # STAMPED BEFORE THE WORK, NOT AFTER. A source that crashes the scout must still count as
     # attempted, or it sorts to the front again next cycle and pins the window exactly the way
     # the entry-count ordering did -- the same bug wearing the fix's clothes.
+    #
+    # Order d3313adbf641: this used to mutate the `seen` snapshot read above (for RANKING) and
+    # write that same copy back -- a plain read-modify-write with no staleness check, over a
+    # file nothing stops a second `sweep()` from touching at the same moment. A lost stamp here
+    # puts a source back at the front of the rotation, which is the exact failure this
+    # function's own docstring measured and fixed on the ranking side. `_mutate` re-reads the
+    # CURRENT file at write time, so a concurrent stamp from another process is merged rather
+    # than overwritten.
     now = time.time()
-    for src in order:
-        seen[src] = now
-    _land(ATTEMPTS, seen)
+
+    def _stamp(seen_now):
+        for src in order:
+            seen_now[src] = now
+
+    landed, _ = _mutate(ATTEMPTS, _stamp)
+    if not landed:
+        silence.note("scout.py:attempts-unwritable")
     results, found = [], 0
     for src in order:
         r = scout(src, todo[src], register=register)

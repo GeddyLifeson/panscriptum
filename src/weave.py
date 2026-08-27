@@ -187,7 +187,11 @@ def filtered_index(index):
     try:
         from pipeline import _STATBLOCK
     except Exception:
-        silence.note("weave.py:187")
+        # Content label, not a line number: this was tagged "weave.py:187", which is the `try:`
+        # three lines above the call it was meant to mark, not the import that actually failed.
+        # A stale number costs a grep every time someone diagnoses it (see wiki_source.py's own
+        # converted sites for the same fix).
+        silence.note("weave.py:statblock-import")
         _STATBLOCK = None
     out, dropped = {}, 0
     for k, hits in index.items():

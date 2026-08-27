@@ -90,6 +90,12 @@ VERIFIERS = [
     ("catalogue backscan", ["audit.py"]),
     ("continuity inventory", ["identity.py"]),
     ("calibration assays", ["reference.py"]),
+    # Spearman rank-agreement between each franchise's OWN published scale (bounties, power
+    # levels, curse grades...) and our Assay -- the module's stated purpose, and until now it
+    # had no automated caller anywhere: only a hand-typed `rosetta.py --check`, which nobody
+    # was typing, and `main()` returned 0 whatever the rhos said. `--check` now exits 1 on a
+    # real disagreement (rho < 0.3), so this row can actually fail. 2026-08-26, batch 3.
+    ("franchise rank agreement", ["rosetta.py", "--check"]),
 ]
 
 

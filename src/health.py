@@ -372,12 +372,26 @@ def check_state():
     # as loss sent four consecutive runs chasing data that was never lost, and put it in the
     # owner's ruling queue as "ACCELERATING". It is accelerating because the catalogue is growing
     # faster than the judge can keep up, which is a throughput finding (M19/M35), not a defect.
-    # A count and a REACHABILITY test are different questions; this now asks both and says which.
+    #
+    # THERE IS NO SEPARATE REACHABILITY QUESTION LEFT TO ASK HERE (found run35, batch 6). An
+    # earlier version of this function believed there was one: for a key already in `done`, it
+    # called `P.batch_settled(key, done, batch)` a second time to ask whether the resume gate
+    # would (wrongly) skip the batch and strand its unsettled entries forever. But by the time
+    # this loop reaches that call it already knows `key in done` (the `continue` two lines above
+    # requires it) AND that the batch is NOT fully settled (the `continue` right above requires
+    # `n >= 1`) -- and `batch_settled` is exactly `key in done and all(entry_settled(e) for e in
+    # batch)`. Both of its inputs are therefore already pinned to the one combination where it
+    # answers False, so the "unreachable" branch could never fire: `lost` stayed 0 and
+    # `lost_where` stayed empty on every run, which happens to be the true answer (874 reopen, 0
+    # ever unreachable) but was never actually being tested for. The real reachability guarantee
+    # lives one level up, in `phase_entrypass`'s own resume gate sharing this identical
+    # predicate: a batch that acquires an unjudged entry after closing fails that gate too and
+    # gets reprocessed, so nothing entrypass marks `done` can go permanently unjudged under the
+    # current design. What is left to report here is only ever the backlog.
     done = set(st.get("done", {}).get("entrypass", []))
     B = P.ENTRY_BATCH
-    queued = lost = 0
+    queued = 0
     per_source = {}
-    lost_where = {}
     for _, r in P.records():
         E = r["entries"]
         for start in range(0, len(E), B):
@@ -396,17 +410,8 @@ def check_state():
             n = sum(1 for e in batch if not P.entry_settled(e))
             if not n:
                 continue
-            if P.batch_settled(key, done, batch):
-                # The gate would SKIP this span: these entries are genuinely unreachable.
-                lost += n
-                lost_where[r["source"]] = lost_where.get(r["source"], 0) + n
-            else:
-                queued += n
-                per_source[r["source"]] = per_source.get(r["source"], 0) + n
-    if lost:
-        where = ", ".join("%s %d" % (s, n) for s, n in
-                          sorted(lost_where.items(), key=lambda kv: -kv[1]))
-        out.append(("entries UNREACHABLE in closed batches", "%d (%s)" % (lost, where)))
+            queued += n
+            per_source[r["source"]] = per_source.get(r["source"], 0) + n
     if queued:
         # EVERY source, worst first -- not a sample. The whole point is to see the shape.
         # Reported, but NOT as a problem: this is the judge's queue depth, and it is the honest

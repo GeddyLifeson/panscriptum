@@ -35,6 +35,7 @@ AND THE THREE WAYS THIS COULD ITSELF BE THE PROBLEM, each handled:
     what happened in words, and `name_rc` in `overnight.py` is taught to read it.
 """
 import argparse
+import contextlib
 import hashlib
 import json
 import os
@@ -61,6 +62,12 @@ STABLE_SECONDS = 180
 BUDGET_PER_HOUR = 4
 
 LEDGER = os.path.join(HERE, "state", "CODEWATCH.json")
+LEDGER_LOCK = LEDGER + ".lock"
+
+# A read-modify-write of this small a doc never legitimately takes this long. A lock file
+# older than this belongs to a process that died holding it, not one still working, so it is
+# stolen rather than waited on forever.
+LOCK_STALE_SECONDS = 30
 
 _START = {"digest": None, "at": None}
 _PENDING = {"digest": None, "first_seen": None}
@@ -249,19 +256,63 @@ def _budget_left(who):
     return BUDGET_PER_HOUR - len(recent), len(recent)
 
 
+@contextlib.contextmanager
+def _ledger_lock(attempts=50, wait=0.05):
+    """Serialise read-modify-write access to LEDGER across processes.
+
+    `_record_restart` reads the whole ledger, adds ONLY ITS OWN key, and writes the whole
+    ledger back -- and `silence.write_json` makes that final write atomic without making the
+    READ-then-write atomic. foreman, overwatch and publish each call `exit_if_stale()`
+    independently, and the normal case is one `src/` edit going stale for all three at once, so
+    two or three daemons land in `_record_restart` within the same second. Each reads the
+    pre-edit doc, mutates only its own key, and whichever writes last silently erases the
+    others' entire restart history -- undercounting BUDGET_PER_HOUR exactly when multiple
+    daemons are restarting together, which is the scenario the budget exists to catch.
+
+    Same primitive `gpu_lane._take_slot` already uses for its lease files: `O_CREAT|O_EXCL` is
+    atomic on Windows and POSIX alike, so creating the lock file IS the mutual exclusion, with
+    no separate check-then-act window for two processes to both win.
+    """
+    for _ in range(attempts):
+        try:
+            os.close(os.open(LEDGER_LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY))
+            break
+        except FileExistsError:
+            try:
+                if time.time() - os.path.getmtime(LEDGER_LOCK) > LOCK_STALE_SECONDS:
+                    os.remove(LEDGER_LOCK)
+                    continue
+            except OSError:
+                pass
+            time.sleep(wait)
+    else:
+        # Could not get the lock inside the budget above. Proceed unlocked rather than lose this
+        # restart record entirely -- matching gpu_lane's own "cannot arbitrate -- caller
+        # proceeds unmetered": an occasional missed count is far cheaper than a daemon that
+        # never restarts because a stuck lock file made it give up.
+        yield
+        return
+    try:
+        yield
+    finally:
+        with contextlib.suppress(OSError):
+            os.remove(LEDGER_LOCK)
+
+
 def _record_restart(who):
-    try:
-        with open(LEDGER, encoding="utf-8") as f:
-            doc = json.load(f)
-    except Exception:
-        doc = {}
-    cutoff = time.time() - 3600
-    doc[who] = [t for t in (doc.get(who) or []) if isinstance(t, (int, float)) and t > cutoff]
-    doc[who].append(time.time())
-    try:
-        silence.write_json(LEDGER, doc, indent=2)
-    except Exception:
-        silence.note("codewatch.py:record")
+    with _ledger_lock():
+        try:
+            with open(LEDGER, encoding="utf-8") as f:
+                doc = json.load(f)
+        except Exception:
+            doc = {}
+        cutoff = time.time() - 3600
+        doc[who] = [t for t in (doc.get(who) or []) if isinstance(t, (int, float)) and t > cutoff]
+        doc[who].append(time.time())
+        try:
+            silence.write_json(LEDGER, doc, indent=2)
+        except Exception:
+            silence.note("codewatch.py:record")
 
 
 def stale(who="?"):

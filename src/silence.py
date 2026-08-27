@@ -479,8 +479,23 @@ def instrument(root=None, dry=False):
         for node in ast.walk(tree):
             if not isinstance(node, ast.ExceptHandler):
                 continue
-            if any(t in ast.dump(node) for t in ("health", "record", "log", "print",
-                                                 "raise", "swallow", "note", "LEDGER")):
+            # ASK THE BODY, NOT THE HANDLER -- same fix as `_handlers` above, applied here too.
+            # This checked `ast.dump(node)`, which serialises the exception type and the bound
+            # name along with the body, and its token list omitted "silence" -- so it read
+            # `_ = "silence-exempt: ..."` (this project's documented exemption marker,
+            # chain.py:141/159 and 48 others) as UNOBSERVED, because the one token that marker
+            # is built from was never in the list it was checked against. `audit()` -- which
+            # DOES include "silence" and DOES look at the body only -- correctly calls those 50
+            # handlers observed; `instrument()` disagreed with its own sibling and would have
+            # rewritten every one of them. The `uses_exc` check is copied down for the same
+            # reason: a handler that only inspects its bound exception is observed too.
+            body = "".join(ast.dump(stmt) for stmt in node.body)
+            records = any(t in body for t in ("health", "record", "log", "print", "raise",
+                                              "swallow", "silence", "note", "LEDGER"))
+            uses_exc = bool(node.name) and any(
+                isinstance(n, ast.Name) and n.id == node.name
+                for stmt in node.body for n in ast.walk(stmt))
+            if records or uses_exc:
                 continue
             sites.append(node)
         if not sites:

@@ -13,6 +13,7 @@ disk. Purging it is a separate, deliberate act.
 Usage:  python src/withdraw_chapters.py --go [--label 2026-08-25]
 """
 import argparse
+import datetime
 import json
 import os
 import shutil
@@ -36,7 +37,14 @@ def _abs(p):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--go", action="store_true", help="actually move; otherwise dry-run")
-    ap.add_argument("--label", default="2026-08-25")
+    # NOT A FIXED DATE (found run35, batch 6). This defaulted to "2026-08-25" -- the day of the
+    # withdrawal that motivated writing this script -- so a second, unrelated `--go` with no
+    # `--label` would move its files into that SAME `output/withdrawn_2026-08-25/` archive,
+    # which already held 148 files and, because this script MOVES rather than copies, is the
+    # only copy of them. Two withdrawals sharing one archive directory is exactly the collision
+    # the unguarded `shutil.move` sweep further down has no guard against. The default is now
+    # today's date, computed when the tool runs rather than baked in when it was written.
+    ap.add_argument("--label", default=datetime.date.today().isoformat())
     a = ap.parse_args()
 
     arch = os.path.join(HERE, "output", "withdrawn_" + a.label)

@@ -181,11 +181,25 @@ def load():
 def rho(a, b, doc=None, default=None):
     """Correlation between two axes. -> float.
 
-    THE DEFAULT IS THE MEASURED MEAN, NOT ZERO, and that is the entire point of this function.
-    An unmeasured pair is a pair we know nothing about -- and "know nothing" must not resolve to
-    the single value the data has ruled out. Falling back to 0.0 would silently restore the
-    independence assumption for exactly the pairs with the least evidence behind them, which is
-    the failure mode this module was written to end.
+    THE DEFAULT IS THE MEASURED MEAN, NOT ZERO, and that is the entire point of this function --
+    for an UNMEASURED PAIR inside an otherwise-present matrix. That is the case below where
+    `doc["pairs"]` has no entry for `(a, b)`: we have 55 other measurements and no reason to
+    think this pair is the one exception, so it inherits the mean rather than the independence
+    assumption the data as a whole rules out.
+
+    A WHOLLY MISSING OR UNREADABLE MATRIX (the `if not doc` branch immediately below) is a
+    different claim -- we do not have "weaker evidence for this one pair", we have NO matrix at
+    all, corrupt or not yet built -- and `load()` does not distinguish those two causes from each
+    other, so this function cannot either. Order c00cab9d0412 already ruled on what a caller
+    should do about that: `assay._rho_doc` returns 0.0 for exactly this case ON PURPOSE, because
+    0.0 reproduces the library's pre-correlation numbers exactly rather than some third,
+    never-seen behaviour, and it is never silent about it -- stamped into `RHO_FALLBACK_REASON`,
+    printed to stderr, and carried on every affected assay's `correlation_source`. This function's
+    own bare `default`-or-`0.0` below is what a direct caller with no wrapper (`drill.py`'s
+    `drill_correlation` net) gets instead, and that net is what actually stands guard here: it
+    fails BREACHED the moment `widening()` stops measurably widening a bar, missing matrix or
+    corrupt one alike. See order 1b29e38dbb17 for the analysis; changing the fallback VALUE would
+    be re-opening c00cab9d0412's ruling, not fixing a bug, so it stays as `assay.py` chose it.
     """
     doc = doc or load()
     if not doc:

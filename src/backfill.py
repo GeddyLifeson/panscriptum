@@ -178,18 +178,33 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     missing = [t for t in names if re.sub(r"[^a-z0-9]+", "", t.lower()) not in have]
     # Ranked by article size, never alphabetically. A category listing comes back A-first, so a # cap applied to it takes Abo, Abura and Ackman and leaves Goku out — which is precisely the # failure this file exists to repair. Article length is the wiki's own vote on who matters: # Goku's page runs six figures, Agarizame's runs three.
     sizes = {}
+    size_lookup_failed = 0
     for i in range(0, len(missing), 50):
-        d = F.api(host, {"action": "query", "prop": "info", "titles": "|".join(missing[i:i + 50])})
+        batch = missing[i:i + 50]
+        d = F.api(host, {"action": "query", "prop": "info", "titles": "|".join(batch)})
+        # Order 0a67628cfa8f: `d` is None both for a timeout and for nothing found, the exact
+        # ambiguity `members()` raises RosterIncomplete over 100 lines up. `(d or {}).get(...)`
+        # used to fold that into an empty page list here too, so a batch's network failure gave
+        # every title in it a size of 0 -- indistinguishable from a genuinely tiny article, and
+        # under --cap the titles a request happened to fail on were exactly the ones dropped.
+        # These titles are left OUT of `sizes` instead, so the sort below can tell "measured
+        # zero" from "never measured" apart.
+        if d is None:
+            size_lookup_failed += len(batch)
+            continue
         for pg in (d or {}).get("query", {}).get("pages", []):
             sizes[pg.get("title")] = pg.get("length", 0)
     # Reported BEFORE the cap. Computing it after made "already held" the complement of the cap # rather than of the match, and printed 1,459 held for a source that holds 300 entries total.
     absent = len(missing)
-    # Ranked by article size so the deepest arrive first if this is ever interrupted, but NOT # truncated: every character the wiki lists is a character the library should hold.
-    missing = sorted(missing, key=lambda t: -sizes.get(t, 0))
+    # Ranked by article size so the deepest arrive first if this is ever interrupted. Order # f35826ab7a3f: this used to say "NOT truncated" directly above the cap two lines down, which # was false whenever a caller actually passed one. What is true, and is the reason a cap here # is not the Hard Rule 0 shape it looks like: --cap is opt-in and off by default ("omit for # everything, which is the intended use" -- main()'s own --cap help), it limits what is QUEUED # this pass and not the roster itself, `missing` is recomputed fresh from `have` on every call # so anything left off this run is ranked the same way and still there on the next one, and # `absent` above is the uncapped count -- so nothing here decides, silently or permanently, # that a character does not count.
+    # `t not in sizes` sorts False (known) before True (unknown) -- a title whose size lookup
+    # failed is ranked WITH the deepest articles, not against them, so a transient network
+    # failure cannot be the reason a --cap run drops it.
+    missing = sorted(missing, key=lambda t: (t not in sizes, -sizes.get(t, 0)))
     if cap:
         missing = missing[:cap]
     if dry or not missing:
-        return {"source": source, "host": host, "roster": len(names), "already_held": len(names) - absent, "absent": absent, "queued": len(missing), "sample": missing[:12], "added": 0}
+        return {"source": source, "host": host, "roster": len(names), "already_held": len(names) - absent, "absent": absent, "queued": len(missing), "sample": missing[:12], "added": 0, "size_lookup_failed": size_lookup_failed}
     added = 0
     for i in range(0, len(missing), 40):
         pages = F.fetch(host, missing[i:i + 40])
@@ -230,7 +245,8 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
                 "already_held": len(names) - absent, "absent": absent,
                 "queued": len(missing), "missing": len(missing),
                 "added": 0, "write_denied": True,
-                "entries_now": len(r["entries"]) - added}
+                "entries_now": len(r["entries"]) - added,
+                "size_lookup_failed": size_lookup_failed}
     # `absent` is the PRE-cap truth and the dry path has always returned it; the real path
     # returned only a post-cap `missing`, so main()'s `res.get("absent", 0)` found no key and
     # printed **absent 0 for every source on every non-dry run** -- a completeness report that
@@ -239,7 +255,8 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     return {"source": source, "host": host, "roster": len(names),
             "already_held": len(names) - absent, "absent": absent,
             "queued": len(missing), "missing": len(missing),
-            "added": added, "entries_now": len(r["entries"])}
+            "added": added, "entries_now": len(r["entries"]),
+            "size_lookup_failed": size_lookup_failed}
 
 
 def main():

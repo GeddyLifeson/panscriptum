@@ -503,7 +503,17 @@ def audit(only=None, workers=6):
         # that CATEGORY_PROBES missed the category this wiki actually uses -- The Division
         # catalogued 448 people against a probed "People" category holding 314.
         why = None
-        if not sizes:
+        # UNCATALOGUED IS NOT THE SAME FINDING AS ZERO. `rec is None` means this source has no
+        # catalogue record on disk at all -- `have`/`byslug` never saw it -- so `persons` stayed
+        # None and `cov` fell to the `else 0.0` above for lack of a numerator, not because
+        # anything was measured and found empty. Left unstated, that reads exactly like a
+        # source that WAS catalogued and genuinely has no Persons, which is the same "row that
+        # looks reliable but answers nothing" failure `_unmeasured` exists to name elsewhere in
+        # this function.
+        if rec is None:
+            why = ("no catalogue record on disk for this source -- coverage is unmeasured, not "
+                   "measured-and-zero, until it is catalogued")
+        elif not sizes:
             why = ("no category probe returned a size and %d/%d failed at the transport -- no "
                    "denominator was obtained, so this row carries no coverage judgment either "
                    "way" % (failed, len(probes)))

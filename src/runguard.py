@@ -103,9 +103,18 @@ def _land_claim(rec, path, expected_digest):
     around. A false claim means two runs writing the library at once, which is not recoverable
     by waiting.
 
-    `beat()` and `release()` do not need this. Their protection is the ownership check -- they
-    refuse outright to touch a record carrying another agent's name -- and a heartbeat that
-    loses a CAS race with itself has nothing useful to do about it.
+    `beat()` AND `release()` USE THIS TOO (found run35, batch 6; they did not before). This
+    docstring used to say they did not need it, on the reasoning that their protection is the
+    ownership check and "a heartbeat that loses a CAS race with itself has nothing useful to do
+    about it" -- but the race those two functions face is not with themselves, it is with a
+    SUCCESSOR. `beat()`'s and `release()`'s own bodies both do `rec = read(path)`, check
+    `rec["agent"] == agent`, mutate `rec`, and write it back -- a check-then-write with the read
+    and the write as far apart as an ownership check and a full write. If a new claimant's
+    `claim()` lands in that gap, the record `rec` was read from is now stale: it still carries
+    OUR name, `done: False` and an old heartbeat, and writing it back through plain `_land`
+    restores exactly that stale record over the successor's fresh claim, silently erasing it
+    with no trace -- m27 again, just entered through the heartbeat instead of through the
+    original inline read-modify-write this module was written to replace.
     """
     import threading as _th
     directory = os.path.dirname(path)
@@ -185,7 +194,13 @@ def beat(agent, path=GUARD):
     landed. Returns False, loudly, if the record now belongs to someone else, has gone missing,
     or has already been closed: in each of those cases stamping it would be a lie about who is
     working, and the last one would silently reopen a finished run.
+
+    DIGEST BEFORE READ, same order and the same reason as `claim()`: a successor's `claim()`
+    landing in the gap between our read and our write must make OUR write lose, never theirs.
+    Landed through `_land_claim`'s compare-and-swap rather than plain `_land` -- see
+    `_land_claim`'s docstring for the race this closes (found run35, batch 6).
     """
+    expected = silence.digest_of(path)
     rec = read(path)
     if rec is None:
         print("runguard: guard record is gone; not recreating it mid-run "
@@ -202,7 +217,11 @@ def beat(agent, path=GUARD):
               file=sys.stderr)
         return False
     rec["heartbeat"] = time.time()
-    return _land(rec, path)
+    ok, why = _land_claim(rec, path, expected)
+    if not ok:
+        print("runguard: heartbeat CAS refused for %r -- the guard changed underneath us (%s). "
+              "A successor may have claimed it; not overwriting." % (agent, why), file=sys.stderr)
+    return ok
 
 
 def release(agent, path=GUARD, note=None):

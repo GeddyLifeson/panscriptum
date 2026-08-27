@@ -411,10 +411,24 @@ def main():
         assays = {k: v["result"]["decimal"]
                   for k, v in json.load(open(path, encoding="utf-8")).items()
                   if v.get("result") and v["result"].get("decimal") is not None}
-        for r in check(rosetta, assays):
-            flag = "  DISAGREES" if r["rho"] < 0.3 else ""
+        rows = check(rosetta, assays)
+        bad = []
+        for r in rows:
+            disagrees = r["rho"] < 0.3
+            if disagrees:
+                bad.append(r)
             print(f"  rho {r['rho']:>6}  n={r['overlap']:>4}  {r['scale'][:38]:<40}"
-                  f"{r['kind']}{flag}")
+                  f"{r['kind']}{'  DISAGREES' if disagrees else ''}")
+        # THE EXIT CODE HAS TO CARRY THE VERDICT, not just the printout. This used to
+        # `return 0` unconditionally, so nothing that gates on rc (a shell, allsweep's
+        # VERIFIERS, a scheduler) could ever learn a franchise's own published ordering
+        # disagreed with our Assay -- the one check this module exists for. Same contract
+        # `silence.py` and `audit.py` already use: 0 clean, 1 findings, so a caller can gate on
+        # it. 2026-08-26, batch 3.
+        if bad:
+            print(f"\n{len(bad)} of {len(rows)} scale(s) DISAGREE (rho < 0.3) -- our Assay "
+                  f"orders these characters against what the fiction itself publishes.")
+            return 1
         return 0
 
     ap.print_help()

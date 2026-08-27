@@ -238,7 +238,11 @@ def shelfmark(rec):
             k = ".".join(parts[:i + 1])
             upper.append(nav["nodes"].get(k, {}).get("name", k))
     except Exception:
-        silence.note("reference.py:232")
+        # Content label, not a line number: this was tagged "reference.py:232", which is
+        # `def shelfmark(rec):` itself, not the NAVTREE lookup that actually failed. A stale
+        # number costs a grep every time someone diagnoses it (see wiki_source.py's own
+        # converted sites for the same fix).
+        silence.note("reference.py:shelfmark-navtree")
         upper = ["?", "?", "?"]
     lower = rec.get("lower_rungs", ["?", "?", "?", "?"])
     marks = [f"{RUNGS[i]}{v}" for i, v in enumerate(upper)]

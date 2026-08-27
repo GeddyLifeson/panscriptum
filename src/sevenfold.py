@@ -123,9 +123,22 @@ def shelve(members, weights, span=SPAN, depth=len(TIERS)):
         for i in range(len(block) - 1):
             a, b = block[i], block[i + 1]
             gaps.append((weights.get((a, b), weights.get((b, a), 0.0)), i))
-        gaps.sort()
         # As many children as the block can support, never more than the declared span.
         k = max(1, min(span, len(block)))
+        # NO SIGNAL TO READ. Every `build()` call for a source's WORLDS passes `weights={}`
+        # (worldseed computes no pairwise affinity within a source), so every gap above defaults
+        # to the same 0.0 and `gaps.sort()` -- stable -- leaves them in original-index order.
+        # Slicing the first k-1 of THAT is not "the weakest seams", it is "the first six
+        # positions", and it produced exactly the giant component this function's own docstring
+        # says can't happen: shelve([100 members], {}, depth=2) gave one child everything past
+        # the sixth member. When nothing distinguishes the seams there is nothing to prefer, so
+        # divide the block into `k` evenly sized pieces instead of clustering every cut at one
+        # end of it.
+        if len({g for g, _ in gaps}) <= 1:
+            step = len(block) / k
+            cuts = {min(max(round(step * j), 1), len(block) - 1) - 1 for j in range(1, k)}
+            return sorted(cuts)
+        gaps.sort()
         return sorted(i for _, i in gaps[:k - 1])
 
     def split(block, level):
@@ -264,9 +277,13 @@ def main():
     if args.write:
         p = os.path.join(HERE, "data", "SEVENFOLD.json")
         # ATOMIC -- the m100 tail, 2026-08-25.
-        silence.write_json(p, {"span": SPAN, "sources": coords, "worlds": worlds},
-                           indent=2, ensure_ascii=False)
-        print(f"\nwrote {p}")
+        # GATED: `write_json` returns whether the rename LANDED, and this discarded the verdict
+        # and printed "wrote {p}" regardless -- the one line in this module that argues writes
+        # must be gated (see catalogue_aurora.py, scope.py, same run #33 sweep) and then did not
+        # gate its own.
+        landed = silence.write_json(p, {"span": SPAN, "sources": coords, "worlds": worlds},
+                                    indent=2, ensure_ascii=False)
+        print(f"\nwrote {p}" if landed else f"\nWRITE DENIED: {p} did not land; rerun to retry")
     return 0
 
 

@@ -45,6 +45,7 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(HERE, "src")
 sys.path.insert(0, SRC)
 import silence                                                          # noqa: E402
+import tuning                                                           # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
@@ -55,9 +56,15 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 # Each is set where a breach means something is genuinely wrong rather than merely unlucky.
 
 MIN_CALLS_PER_HOUR = 900        # measured healthy 3,400/h; a third of that is a real fault
-MIN_CALLS_TO_JUDGE_RATE = 20    # below this a success PERCENTAGE is noise, not a measurement.
-                                # Mirrors tuning.MIN_CALLS_TO_JUDGE (20), which already answers
-                                # this exact question for regime(). See `calls that succeed`.
+# Below this many calls a success PERCENTAGE is noise, not a measurement. NOT a second literal
+# `20` -- that used to be a hand-copied spelling of tuning.MIN_CALLS_TO_JUDGE, and the check
+# written to hold the two together (verify_math.py's "the threshold itself is the one tuning.py
+# already settled on") compared this constant against the literal 20, not against tuning's
+# constant, so raising tuning.MIN_CALLS_TO_JUDGE would have left that check green while the two
+# policies silently diverged -- the exact failure the check exists to catch. Deriving the value
+# here means there is nothing left to diverge: this name and tuning's are the same number by
+# construction, not by two people remembering to update both. See `calls that succeed`.
+MIN_CALLS_TO_JUDGE_RATE = tuning.MIN_CALLS_TO_JUDGE
 MIN_LIVE_BUCKETS = 6            # below this the pool cannot absorb even modest concurrency
 MAX_DRY_FRACTION = 0.60         # more than this exhausted means the day's allowance is spent
 MAX_PINNED_AT_ONE = 0           # a bucket reading rpm 0/1 is a mis-learned cap, never a real one
