@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 103  ·  last run 2026-08-27 11:18
+round 104  ·  last run 2026-08-27 13:04
 
 ## Structure
 
@@ -8,11 +8,16 @@ round 103  ·  last run 2026-08-27 11:18
 - files that will not parse: **0** of 264,734 inspected
 - catalogued sources with no host: **9** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
+- NOT RUNNING: **0** feats.py --roll
 
 ## What the model found in the code
 
-**29 open** (10 high). Newest first.
+**32 open** (12 high). Newest first.
 
+- **ledger_guard.py** `read_chain` — [HIGH] swallows all exceptions except FileNotFoundError and returns an empty list
+  - says: Read the chain, or raise -- "no chain yet" and "could not be read" are not the same claim.
+- **dashboard.py** `quotas` — [HIGH] Appends a failure message to the output when quota read fails, but does not report actual usage data as claimed
+  - says: Calls actually made in the recent past, per bucket. The quota panel says what is LEFT; this says what is being SPENT, and the two together are the whole picture
 - **hostcheck.py** `cachekey.host_dir` — [HIGH] a hand-spelled copy here keeps the OLD answer and this purge silently deletes nothing from the actual cache directories
   - says: the exact "four independent copies of one convention" cachekey.py's own docstring says drift
 - **drill.py** `silence.write_json` — [HIGH] writes to a file that may be read by multiple processes simultaneously without proper synchronization
@@ -33,6 +38,8 @@ round 103  ·  last run 2026-08-27 11:18
   - says: The three probe outcomes -> (healthy, reason).
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, changing the answer for 7 of 210 sources
   - says: Classify one source from its own catalogued entries.
+- **dashboard.py** `movement` — [MEDIUM] Calculates deltas between the current reading and the oldest sample within the MOVED_WINDOW_MIN window, but the code's comment and docstring suggest it should compare against the o
+  - says: What has CHANGED, not what the level is.
 - **drill.py** `resuming_demands_a_written_ruling` — [MEDIUM] the resume call is not checked for success
   - says: a shrug re-opened it. Breach.
 - **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] the code checks that the sum of states does not exceed the entry count
