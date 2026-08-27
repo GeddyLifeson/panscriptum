@@ -135,17 +135,6 @@ NOT_FILED = {
                "independently in address.py, cascade_bridge.py, endpoint.py, read.py, silence.py, "
                "weave_index.py and others -- a deliberate, thread-guarded pattern for a "
                "build-once module resource, not drift toward global mutable state",
-    "S110": "second opinion on silence.py, and it agrees rather than disagrees: every sampled "
-            "site (gpu_lane.py:477, health.py:190, silence.py itself, sweep_plan.py's dozen "
-            "silence.note()-guarding handlers) is already counted by silence.audit()'s own "
-            "'SILENT' tally (151 of 672 handlers). Most are the 'silence the silencer' idiom -- "
-            "the note-taking/health-recording apparatus must not itself be able to crash a run "
-            "by raising while reporting a failure -- which cannot route through silence.note() "
-            "without becoming circular. Ruff sees no house detector on this shape; the house "
-            "detector was pointed at first, saw the same 151, and already treats them as an "
-            "accepted category rather than a queue of individual fixes",
-    "S112": "same finding and same reasoning as S110, one statement lower (try/except/continue "
-            "instead of pass) -- silence.py's own audit already flags every sampled site",
     "PLW2901": "every site sampled (backfill.py, cascade_bridge.py, catalogue_codex.py, feats.py, "
                "ledger_guard.py, manifest_builder.py, rosetta.py, scout.py) reassigns the loop "
                "variable to its own normalized or copied form (`block = block.strip()`, "
@@ -158,15 +147,34 @@ NOT_FILED = {
             "exact B023 closure bug this codebase has already been bitten by once; sevenfold.py's "
             "`depth=len(TIERS)` reads a fixed module-level tuple literal evaluated once at import, "
             "never mutated, so there is no call-time staleness for B008 to protect against",
-    "BLE001": "second opinion on silence.py, and it is the rule this module's own docstring "
-              "names as the reference case for a house-style divergence: `silence.audit()` "
-              "independently walks the same `except Exception:` shape across src/ and finds "
-              "521 of 672 handlers already observed (recorded, logged, or re-raised) by the "
-              "SAME hand-written convention, with the 151 silent ones a tracked, accepted "
-              "category (see S110/S112 above), not a miss. Narrowing 531 sites to specific "
-              "exception types would be a second full pass over a codebase that already has a "
-              "working, independently-audited policy for this exact shape",
 }
+
+# BLE001, S110 AND S112 WERE WAIVED HERE ON 2026-08-27 AND THE WAIVERS WERE REVERTED THE SAME
+# DAY. They are recorded rather than deleted, because the way they were wrong is the thing worth
+# keeping.
+#
+# Both rested on the same premise: that `silence.audit()` already treats its SILENT handlers as
+# "an accepted category rather than a queue of individual fixes". It does not. Run it: it prints
+# `each of these can turn a failure into a plausible negative result`, lists all 152 by file and
+# line, and EXITS 1. The house detector does not accept them; it complains about them. A waiver
+# whose stated reason is that another tool has already blessed these sites is void when that tool
+# has done the opposite.
+#
+# The BLE001 entry went further and cited this module's own docstring as authority for waiving
+# it. The docstring says the reverse, twenty-odd lines above the map: "BLE001 alone runs into the
+# hundreds ... and it is still a real finding, which is why it is NOT in this list." It was the
+# named example of what must NOT be waived, and it was waived by citing the sentence that names
+# it.
+#
+# The cost was measurable: 531 BLE001 + 63 S110/S112 sites out of 1,002 live findings, so the
+# outside opinion would have gone on reporting while 96% of what it selects never reached the
+# queue. That is precisely the failure this whole module exists to prevent -- an independent
+# checker that has been quietly talked out of its independence -- and it is a worse one than any
+# of the individual findings, because the report would have kept looking healthy.
+#
+# The test at the top of NOT_FILED stands and is the only test: would fixing every instance make
+# this codebase WORSE or merely DIFFERENT? "There are a lot of them" is not that test, and
+# neither is "another detector also sees them".
 
 
 # RETURNCODE, NOT JUST STDOUT. `ran_clean()` treats status == "RAN" and an empty finding list as
@@ -229,15 +237,25 @@ def _vulture(paths, min_confidence=90):
         out.append({"tool": "vulture", "code": "vulture",
                     "file": os.path.basename(parts[0]),
                     "line": lineno, "message": parts[2].strip()[:160]})
-    # vulture has no documented "tool error" exit code separate from "found something" (its
-    # argparse layer uses 2 for a bad flag; a bad PATH comes back as `rc=1` with an "Error: ...
-    # could not be found" line that LOOKS like `path:line:message`, fails `int(parts[1])`, and
-    # is silently dropped above) -- exactly the shape the audit measured: not a returncode this
-    # module can trust in isolation, but a returncode combined with what actually got parsed.
-    # vulture's real contract is `rc == 0` only when it found and printed nothing; a nonzero
-    # exit that still produced zero USABLE lines is not that -- it is every line it printed
-    # failing to parse, which is what happened here, not a clean run.
-    if r.returncode not in (0, 1) or (r.returncode == 1 and not out):
+    # VULTURE'S CONTRACT, MEASURED ON THIS MACHINE 2026-08-27 RATHER THAN ASSUMED:
+    #   rc=0  it looked and found nothing
+    #   rc=3  it looked and FOUND DEAD CODE -- the normal, useful outcome
+    #   rc=1  a bad PATH: an "Error: ... could not be found" line that LOOKS like
+    #         `path:line:message`, fails `int(parts[1])` above, and is silently dropped
+    #   rc=2  argparse rejected a flag
+    #
+    # An earlier version of this guard admitted only 0 and 1, so every run in which vulture
+    # actually did its job came back as `TOOL ERROR (vulture rc=3)` and the report ended
+    # `ABSENT: vulture -- install before treating this page as a second opinion`, about a tool
+    # that was installed, had run, and had just printed three findings. That is the failure this
+    # module was written to prevent, committed by the fix for it: the returncode check was added
+    # so a tool that never ran could not read as clean, and it turned a tool that ran and found
+    # something into a tool reported as missing. A guard on an exit code has to know what the
+    # exit codes MEAN, and the only way to know is to run the thing.
+    #
+    # The nonzero-but-nothing-parsed case is kept, because it is the real one: a nonzero exit
+    # that produced zero USABLE lines is every line failing to parse, not a clean run.
+    if r.returncode not in (0, 1, 3) or (r.returncode in (1, 3) and not out):
         return ("TOOL ERROR (vulture rc=%d): %s"
                 % (r.returncode, (r.stderr or r.stdout or "?").strip()[:200])), []
     return "RAN", out
