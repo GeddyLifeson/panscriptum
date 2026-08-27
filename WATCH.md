@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 97  ·  last run 2026-08-27 03:48
+round 98  ·  last run 2026-08-27 04:31
 
 ## Structure
 
@@ -12,14 +12,20 @@ round 97  ·  last run 2026-08-27 03:48
 
 ## What the model found in the code
 
-**11 open** (3 high). Newest first.
+**13 open** (5 high). Newest first.
 
+- **completeness.py** `no_denominator` — [HIGH] A ROW THAT COULD NOT BE MEASURED IS A ROW WITH NOTHING IN IT. The code returns a row with the no_denominator message instead of None, which is read downstream as "this source has n
+  - says: A ROW THAT COULD NOT BE MEASURED IS NOT A ROW WITH NOTHING IN IT. Returning None here for an all-errors source deleted it from COMPLETENESS.json, and an absent 
+- **catalogue_web.py** `roll` — [HIGH] the variable 'roll' is never defined in this file, causing a NameError when called
+  - says: save_roll(roll) saves the updated roll after setting its status
 - **chain.py** `work` — [HIGH] increments `unmatched` directly without locking, risking race conditions
   - says: TALLIED LOCALLY, MERGED UNDER THE LOCK, for the same reason `local` exists.
 - **binding_health.py** `verdict` — [HIGH] The verdict function is not properly handling the absent probe's three possible outcomes (None, False, True), leading to incorrect classification of host faults.
   - says: The three probe outcomes -> (healthy, reason).
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, changing the answer for 7 of 210 sources
   - says: Classify one source from its own catalogued entries.
+- **corpus_db.py** `age_seconds` — [MEDIUM] Returns the time since the index was built, but does not handle cases where the index is locked or corrupt, which can result in None being returned incorrectly
+  - says: How old the index is in seconds, or None. -> float|None.
 - **cleanup.py** `changed` — [MEDIUM] set in three branches but not used in the fourth, leading to potential missed updates
   - says: tracking whether any changes were made to a record
 - **chain.py** `work` — [MEDIUM] uses `chunk[min(i, len(chunk) - 1)]` to attribute outcomes to sentences, which may still be incorrect
@@ -34,8 +40,6 @@ round 97  ·  last run 2026-08-27 03:48
   - says: launches a subprocess
 - **assay.py** `sigma` — [MEDIUM] clamp the sigma value to SIGMA_MAX but the code does not handle the case where sigma is None
   - says: clamp the sigma value to SIGMA_MAX
-- **address_space.py** `C.GALAXIES_DEFAULT` — [MEDIUM] the default number of galaxies per universe as defined in the cosmography module
-  - says: the number of galaxies per universe
 
 ---
 
