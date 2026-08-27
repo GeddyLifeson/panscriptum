@@ -130,8 +130,6 @@ def quotas():
         router = CB._ROUTER
         seen = {}
         for m in router.models:
-            if m.bucket.startswith("ollama:"):
-                continue
             if m.bucket in seen:
                 continue
             seen[m.bucket] = m

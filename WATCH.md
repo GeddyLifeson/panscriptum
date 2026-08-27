@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 101  ·  last run 2026-08-27 08:19
+round 102  ·  last run 2026-08-27 10:12
 
 ## Structure
 
@@ -11,8 +11,12 @@ round 101  ·  last run 2026-08-27 08:19
 
 ## What the model found in the code
 
-**23 open** (9 high). Newest first.
+**27 open** (11 high). Newest first.
 
+- **generate.py** `generate_job` — [HIGH] generate_job is not defined in the provided code slice and is used without being imported or defined
+  - says: generate_job is supposed to generate text based on the job, templates, and configuration
+- **foreman.py** `kill_stalled_job` — [HIGH] kills stalled jobs that cannot be restarted
+  - says: A job that is UP and writing nothing is worse than a job that is down.
 - **drill.py** `coverage_totals_never_exceed_their_entry_count` — [HIGH] The function's code does not perform the check described in the docstring, instead only checking one direction and not ensuring the sum does not exceed the entry count.
   - says: No source's states may sum PAST its own entry count. One direction, and only one.
 - **drill.py** `except Exception: continue` — [HIGH] discard failures and count as clean
@@ -31,6 +35,10 @@ round 101  ·  last run 2026-08-27 08:19
   - says: The three probe outcomes -> (healthy, reason).
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, changing the answer for 7 of 210 sources
   - says: Classify one source from its own catalogued entries.
+- **foreman.py** `codewatch.exit_if_stale` — [MEDIUM] Exits with rc=17 on purpose if the code is stale
+  - says: Fails open: if the process table cannot be read this starts anyway
+- **endpoint.py** `found` — [MEDIUM] the mode and path for the host, but initialized to an empty dictionary before the loop
+  - says: the mode and path for the host
 - **feats.py** `mine` — [MEDIUM] Only sentences that clear the evidence gate are kept; physical quantities are not tagged with the page they came from.
   - says: Sentences that clear the evidence gate, plus any physical quantities, each tagged with the page it came from. Rejections are kept — see the module docstring.
 - **drill.py** `bad, unreadable = 0, 0` — [MEDIUM] count bad records but unreadable is incremented but not used
