@@ -97,7 +97,7 @@ sys.path.insert(0, HERE)
 # 1. COMMENSURATION — what a point of any Measure is worth, in bits
 # ==================================================================================================
 
-def measure_bit_value(band, module=None):
+def measure_bit_value(band):
     """The bit-worth of ONE point on any decimal axis at a given band.
 
     Each Measure is scored 0-10 across its band window. The window spans L_r bits (X.10 §6), so
@@ -117,10 +117,12 @@ def measure_bit_value(band, module=None):
     This example read `7.0 * 13.23 = 92.6`. 13.234 is `tempus.rung_description_length("M5")/10`
     -- the CUMULATIVE quantity this function deliberately stopped using, because cumulative
     content makes every M0 axis point worth zero bits (the note below, and `tempus.py:182-186`,
-    which split `band_resolution` out for exactly this reason). The code was corrected then and
-    pinned by `verify_math.py:382-384`; this worked example was not, so the file's own docstring
-    went on quoting the pre-fix figure. Same failure class as everything else in this project:
-    one fact, two copies, one of them fixed. Pinned now by §20f.
+    which split `band_resolution` out for exactly this reason). The code was corrected then;
+    this worked example was not, so the file's own docstring went on quoting the pre-fix figure.
+    Same failure class as everything else in this project: one fact, two copies, one of them
+    fixed. Both are pinned now by §20f -- a section tag rather than a line number, because a
+    line drifts and a tag does not (the previous citation here named `verify_math.py:382-384`,
+    which is the unrelated Jensen-gap check three sections earlier, not the pin).
     """
     import tempus as T
     # band_resolution, NOT rung_description_length: see the note there. Using cumulative content

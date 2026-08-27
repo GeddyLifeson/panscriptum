@@ -157,7 +157,10 @@ def sweep():
                 # natural path, but a SWEEP that credits one entity with a neighbour's pages
                 # feeds CHARACTER_SWEEP.json, which magnitude, standards, foreman and hostcheck
                 # all read as fact.
-                ev, _ = cachekey.load(F.CACHE, host, e["name"])
+                # on_corrupt: an unreadable cache file must not read the same as "nothing was
+                # ever mined" (sweep.load's docstring above is the whole argument for this).
+                ev, _ = cachekey.load(F.CACHE, host, e["name"],
+                                       on_corrupt=lambda fp: silence.note("sweep.py:evidence-unreadable"))
                 if ev:
                     row["pages"] = len(ev.get("pages_read") or [])
                     row["chars"] = ev.get("chars_read", 0)

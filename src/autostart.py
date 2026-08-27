@@ -325,8 +325,18 @@ def main():
                                    if _alive is None else "NOT running"))
     try:
         import overnight as ON
-        for job in ("dashboard.py", "publish.py", "foreman.py", "overwatch.py",
-                    "feats.py", "read.py"):
+        # THE SINGLE ROSTER, NOT A HAND-KEPT SUBSET OF IT. This used to be a six-item tuple
+        # typed out here, and it had already drifted from `ON.STANDING`: it named "feats.py"
+        # where the roster's own entry is "feats.py --roll" (a real fragment-with-argument,
+        # per `_cmd_is_running`'s own docstring, not a mention), and it had no entry at all for
+        # `pipeline`, which joined STANDING after this tuple was written -- so `--status` could
+        # print every job on ITS list green while pipeline.py was down. `ON.ALL_JOBS` is the
+        # roster its own comment in overnight.py says exists so nothing keeps a partial copy;
+        # `autostart.py`/`overnight.py` are skipped here because this report already named them
+        # above, as the launcher and supervisor lines.
+        for job in ON.ALL_JOBS:
+            if job in ("autostart.py", "overnight.py"):
+                continue
             print(f"  {job:<16}" + ("running" if ON.running(job) else "not running"))
     except Exception:
         silence.note("autostart.py:status")

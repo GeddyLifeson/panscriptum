@@ -82,8 +82,13 @@ def _so_save():
         tmp = _SO_CACHE_P + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(_SO["d"], f)
-        _sil.replace_retry(tmp, _SO_CACHE_P)
-        _SO["dirty"] = 0
+        # ADVANCE ON THE WRITE, NOT ON THE INTENT: replace_retry returns False (never raises) on
+        # persistent denial, so `dirty` must only clear when the rename actually landed. Clearing
+        # it unconditionally told the process its mtime cache was on disk when it was not, and
+        # the next run re-parsed the whole evidence corpus to rebuild what this cache exists to
+        # avoid (see the comment above _SO_CACHE_P).
+        if _sil.replace_retry(tmp, _SO_CACHE_P):
+            _SO["dirty"] = 0
     except Exception:
         silence.note("coverage.py:so-save")
 

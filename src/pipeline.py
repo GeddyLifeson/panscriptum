@@ -263,14 +263,21 @@ _PHASE_POOL = {"at": 0.0, "n": 0}
 
 
 def _pool_answering(ttl=120):
-    """How many cloud buckets actually answer, from the proof -- never from headroom."""
+    """How many cloud buckets actually answer, from the proof -- never from headroom.
+
+    DELEGATED to `tuning._answering_buckets`, not reimplemented (order 54cd47a337dc). This used
+    to re-open POOL_PROOF.json and count `verdict == "answers"` on its own, with no notion of
+    the proof's age -- so an arbitrarily old proof was trusted as current, while tuning's copy of
+    the identical count already compared the file's mtime against `PROOF_STALE_SECONDS`. Two
+    spellings of one fact is exactly the shape `ask_pool_first` was already fixed for on the
+    THRESHOLD thirty lines below; this closes it for the COUNT too. Falls back to 0 if tuning
+    cannot be imported, same failure mode as before.
+    """
     now = time.time()
     if now - _PHASE_POOL["at"] > ttl:
         try:
-            with open(os.path.join(HERE, "data", "POOL_PROOF.json"), encoding="utf-8") as f:
-                rows = json.load(f)
-            _PHASE_POOL["n"] = sum(1 for r in rows
-                                   if isinstance(r, dict) and r.get("verdict") == "answers")
+            import tuning as _T
+            _PHASE_POOL["n"], _ = _T._answering_buckets()
         except Exception:
             silence.note("pipeline.py:pool-proof")
             _PHASE_POOL["n"] = 0

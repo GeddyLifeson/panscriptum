@@ -114,9 +114,17 @@ def exclude(name, note, rows=None):
     changed = row.get("status") != OUT_OF_SCOPE or row.get("note") != note
     row["status"] = OUT_OF_SCOPE
     row["note"] = note
-    if changed and not caller_supplied:
-        silence.write_json(ROLL, rows, indent=2, ensure_ascii=False)
-    return changed
+    if not changed:
+        return False
+    if caller_supplied:
+        # The caller's copy now holds the change; persisting it is the caller's job (see
+        # SUPPLYING `rows` above), so True here means "your copy changed", not "it landed".
+        return True
+    # write_json's verdict was discarded here and `changed` returned regardless (order
+    # 26be3dba65cf) -- a DENIED write reported a successful exclusion while the source stayed
+    # in scope on disk, exactly the trap this module's own header exists to close. Return what
+    # actually happened.
+    return silence.write_json(ROLL, rows, indent=2, ensure_ascii=False)
 
 
 def main():

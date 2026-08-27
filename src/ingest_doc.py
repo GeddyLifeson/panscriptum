@@ -293,7 +293,13 @@ def main():
             if "ingest_doc" not in (rec.get("provenance") or ""):
                 rec["provenance"] = (rec.get("provenance") or "") + note
                 import pipeline as P
-                P.write_record(rp, rec)
+                # ADVANCE ON THE WRITE, NOT ON THE INTENT (same discipline this file argues for
+                # at 233-245 re: write_record_catalogue): write_record returns whether the
+                # rename actually landed and never raises, so a denied write must not be read as
+                # a success. The "ingest_doc" guard above makes a re-run retry this note anyway,
+                # but the operator should see the denial rather than a false "extracted" line.
+                if not P.write_record(rp, rec):
+                    print("  provenance note not landed (write denied; will retry next run)")
         except Exception:
             silence.note("ingest_doc.py:provenance")
     if a.mine:

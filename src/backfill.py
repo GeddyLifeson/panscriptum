@@ -280,6 +280,8 @@ def main():
         print(f"{'share':>7}{'persons':>9}{'entries':>9}   source")
         for x in rows[:26]:
             print(f"{x['share']:>7.1%}{x['persons']:>9,}{x['entries']:>9,}   {x['source'][:52]}")
+        if len(rows) > 26:
+            print(f"  ... and {len(rows) - 26} more")
         return 0
 
     if a.all:

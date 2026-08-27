@@ -224,11 +224,11 @@ def load(refresh=False):
         except Exception:
             silence.note("identity.py:load")
     inv = mine()
-    os.makedirs(os.path.dirname(CACHE), exist_ok=True)
-    tmp = CACHE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(inv, f, indent=1, sort_keys=True)
-    silence.replace_retry(tmp, CACHE)
+    # silence.write_json, not a hand-rolled tmp + json.dump + replace_retry (order 92a07b4ba203):
+    # the old tmp name carried no pid/thread, so two concurrent --refresh runs shared one temp
+    # path, and the write's verdict was discarded -- `load()` returned the fresh inventory
+    # whether or not it actually reached disk. write_json fixes both.
+    silence.write_json(CACHE, inv, indent=1, sort_keys=True)
     return inv
 
 
@@ -337,6 +337,60 @@ def epoch_of(sentence):
 # stays.
 
 
+# ---------------------------------------------------------------- epoch-mandatory sources
+#
+# OWNER RULING, 2026-08-23: "mtg and dnd need epoch markings like come on." Correct, and for a
+# reason the fictions themselves state: these franchises draw their POWER BOUNDARIES in time
+# rather than in branches. Marvel splits into Earths; Magic splits at the MENDING -- an
+# oldwalker (Urza, pre-Mending) and a neowalker (Jace) are different power classes wearing one
+# card type, and a sheet that does not say which it measured is a measurement of an unspecified
+# subject. The Forgotten Realms redraw everyone's capabilities at each era boundary: the Time
+# of Troubles, the Spellplague, the Second Sundering.
+#
+# For these hosts an assay WITHOUT an epoch is refused, not published unstamped. The eras below
+# are the recognised coarse markers; a finer state ("Living Guildpact of Ravnica", "compleated
+# by Phyrexia") is better still and always accepted.
+#
+# MOVED ABOVE `if __name__ == "__main__"` (order 3c86a8d541b2): this block used to sit after
+# that guard, so `EPOCH_REQUIRED`, `epoch_directive()` and `epoch_acceptable()` did not exist
+# yet in a process that runs this module directly (`python src/identity.py`) -- only in one
+# that imports it. Latent because `main()` never calls them and every real caller imports the
+# module, but the owner-ruled epoch mandate should not depend on how the module was invoked.
+EPOCH_REQUIRED = {
+    "mtg.fandom.com": {
+        "eras": ["pre-Mending", "post-Mending"],
+        "note": ("Magic's power history splits at THE MENDING. Say which side this state is "
+                 "on, and name the storyline state when the page centres one -- 'Living "
+                 "Guildpact of Ravnica', 'Gatewatch era', 'compleated by Phyrexia'."),
+    },
+    "forgottenrealms.fandom.com": {
+        "eras": ["pre-Time of Troubles", "post-Time of Troubles", "Spellplague era",
+                 "post-Second Sundering"],
+        "note": ("The Realms redraw capability at era boundaries. Fix the era the cited feats "
+                 "belong to; an edition marker (1e-5e) also serves."),
+    },
+}
+
+
+def epoch_directive(host):
+    """The prompt block that makes an epoch mandatory for this host, or None."""
+    spec = EPOCH_REQUIRED.get(host)
+    if not spec:
+        return None
+    return ("EPOCH IS MANDATORY FOR THIS SOURCE. " + spec["note"]
+            + " Recognised coarse eras: " + ", ".join(spec["eras"])
+            + ". Score ONLY feats belonging to the one epoch you name; an answer with no "
+              "epoch, or 'unstamped', is refused.")
+
+
+def epoch_acceptable(host, epoch):
+    """Is this epoch tag good enough to publish for this host?"""
+    if host not in EPOCH_REQUIRED:
+        return True
+    e = (epoch or "").strip().lower()
+    return bool(e) and e not in ("unstamped", "unknown", "n/a", "none", "current", "modern")
+
+
 # --------------------------------------------------------------------------- CLI
 
 def main():
@@ -382,51 +436,3 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-
-
-# ---------------------------------------------------------------- epoch-mandatory sources
-#
-# OWNER RULING, 2026-08-23: "mtg and dnd need epoch markings like come on." Correct, and for a
-# reason the fictions themselves state: these franchises draw their POWER BOUNDARIES in time
-# rather than in branches. Marvel splits into Earths; Magic splits at the MENDING -- an
-# oldwalker (Urza, pre-Mending) and a neowalker (Jace) are different power classes wearing one
-# card type, and a sheet that does not say which it measured is a measurement of an unspecified
-# subject. The Forgotten Realms redraw everyone's capabilities at each era boundary: the Time
-# of Troubles, the Spellplague, the Second Sundering.
-#
-# For these hosts an assay WITHOUT an epoch is refused, not published unstamped. The eras below
-# are the recognised coarse markers; a finer state ("Living Guildpact of Ravnica", "compleated
-# by Phyrexia") is better still and always accepted.
-EPOCH_REQUIRED = {
-    "mtg.fandom.com": {
-        "eras": ["pre-Mending", "post-Mending"],
-        "note": ("Magic's power history splits at THE MENDING. Say which side this state is "
-                 "on, and name the storyline state when the page centres one -- 'Living "
-                 "Guildpact of Ravnica', 'Gatewatch era', 'compleated by Phyrexia'."),
-    },
-    "forgottenrealms.fandom.com": {
-        "eras": ["pre-Time of Troubles", "post-Time of Troubles", "Spellplague era",
-                 "post-Second Sundering"],
-        "note": ("The Realms redraw capability at era boundaries. Fix the era the cited feats "
-                 "belong to; an edition marker (1e-5e) also serves."),
-    },
-}
-
-
-def epoch_directive(host):
-    """The prompt block that makes an epoch mandatory for this host, or None."""
-    spec = EPOCH_REQUIRED.get(host)
-    if not spec:
-        return None
-    return ("EPOCH IS MANDATORY FOR THIS SOURCE. " + spec["note"]
-            + " Recognised coarse eras: " + ", ".join(spec["eras"])
-            + ". Score ONLY feats belonging to the one epoch you name; an answer with no "
-              "epoch, or 'unstamped', is refused.")
-
-
-def epoch_acceptable(host, epoch):
-    """Is this epoch tag good enough to publish for this host?"""
-    if host not in EPOCH_REQUIRED:
-        return True
-    e = (epoch or "").strip().lower()
-    return bool(e) and e not in ("unstamped", "unknown", "n/a", "none", "current", "modern")

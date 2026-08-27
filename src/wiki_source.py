@@ -187,13 +187,13 @@ def _get(url, timeout=25, retries=2):
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read().decode("utf-8", "replace")
         except urllib.error.HTTPError as e:
-            silence.note("wiki_source.py:155")
+            silence.note("wiki_source.py:get-httperror")
             if e.code in (429, 503) and attempt < retries:
                 time.sleep(2 + attempt * 3)
                 continue
             raise
         except Exception:
-            silence.note("wiki_source.py:160")
+            silence.note("wiki_source.py:get-connect-error")
             if attempt < retries:
                 time.sleep(1.5)
                 continue
@@ -238,7 +238,7 @@ def verify_wiki_matches(subdomain, source_name):
         d = _api(subdomain, {"action": "query", "list": "search", "srsearch": query,
                              "srlimit": 8})
     except Exception:
-        silence.note("wiki_source.py:204")
+        silence.note("wiki_source.py:verify-search-api")
         return False, 0
     hits = d.get("query", {}).get("search", [])
     if not hits:
@@ -315,7 +315,7 @@ def resolve_wiki(source_name):
         try:
             d = _api(c, {"action": "query", "meta": "siteinfo"}, timeout=20)
         except Exception:
-            silence.note("wiki_source.py:229")
+            silence.note("wiki_source.py:resolve-candidate-api")
             continue
         sitename = d.get("query", {}).get("general", {}).get("sitename")
         if not sitename:
@@ -587,7 +587,7 @@ def category_members(subdomain, category, limit=None):
         try:
             d = _api(subdomain, p)
         except Exception:
-            silence.note("wiki_source.py:376")
+            silence.note("wiki_source.py:category-members-api")
             break
         out += [m["title"] for m in d.get("query", {}).get("categorymembers", [])]
         cont = d.get("continue", {}).get("cmcontinue")
@@ -606,7 +606,7 @@ def extracts(subdomain, titles, chars=700):
                                  "explaintext": 1, "exchars": chars,
                                  "titles": "|".join(batch), "redirects": 1}, timeout=40)
         except Exception:
-            silence.note("wiki_source.py:394")
+            silence.note("wiki_source.py:extracts-api")
             continue
         for page in d.get("query", {}).get("pages", {}).values():
             if "extract" in page and page.get("title"):
@@ -633,7 +633,7 @@ def rank_by_size(subdomain, titles, top=None, progress=None):
             return _api(subdomain, {"action": "query", "prop": "info",
                                     "titles": "|".join(batch), "redirects": 1}, timeout=40)
         except Exception:
-            silence.note("wiki_source.py:420")
+            silence.note("wiki_source.py:rank-by-size-api")
             return {}
 
     sizes = {}

@@ -190,9 +190,19 @@ print("=" * 96)
 
 check("ascension to rung 17 (yr) = 17^1.35 - 1",
       P.ascension_years(17), round(17 ** 1.35 - 1, 1), tol=1e-9)
-check("ascension is distance-independent (no arg)", P.ascension_years(17) > 0, True)
+# DISTANCE-INDEPENDENT MEANS THERE IS NO DISTANCE TO DEPEND ON, and this asserted only that
+# the answer was positive -- true of almost any arithmetic, and true of a version that took a
+# distance and used it. The claim is about the SIGNATURE, so the signature is what is read:
+# `ascension_years` accepts the rung and nothing else, which is why the two clocks in this
+# section are two clocks and not one.
+_asc_params = list(__import__("inspect").signature(P.ascension_years).parameters)
+check("ascension is distance-independent: its signature takes the rung and nothing else",
+      _asc_params, ["to_rung"],
+      note="a distance parameter here would silently make the ascension clock a function of "
+           "where the shelf is, which is the one thing this section exists to keep apart")
+check("and it still returns a real elapsed time", P.ascension_years(17) > 0, True)
 check("arrival(d=1.0) == YEARS_PER_UNIT_DISTANCE",
-      P.arrival_years(1.0), C_ := P.YEARS_PER_UNIT_DISTANCE, tol=1e-9)
+      P.arrival_years(1.0), P.YEARS_PER_UNIT_DISTANCE, tol=1e-9)
 check("before arrival, observed mark is 0", P.observed_mark(1.0, 500), 0)
 check("well after arrival, mark reaches 17", P.observed_mark(1.0, 5000), 17)
 check("a nearer shelf sees it sooner",
@@ -282,8 +292,13 @@ print("=" * 96)
 import derivation as D      # noqa: E402
 
 _problems = D.check_graph()
+# ALL OF THEM. This note was `"; ".join(_problems[:3])`, so the ONE diagnostic this check emits
+# showed three problems and silently dropped the rest -- and it is the only place they are
+# printed, which makes a fourth dangling quantity a quantity nobody has been told about. Hard
+# Rule 0 in the place it does the most damage: inside the failure message of the check whose
+# whole job is to enumerate what is broken.
 check("the derivation graph closes (no dangling, rootless, or cyclic quantities)",
-      len(_problems), 0, note="; ".join(_problems[:3]))
+      len(_problems), 0, note="; ".join(_problems))
 check("every DERIVED quantity names at least one parent",
       all(q["parents"] for q in D.LEDGER.values() if q["kind"] == D.DERIVED), True)
 check("every OWNER declaration carries a citation",
@@ -644,8 +659,12 @@ print("=" * 96)
 
 import anchors as AN        # noqa: E402
 
-_MAXED = {k: 10.0 for k in ("ruin", "celerity", "reach", "sustain", "continuity",
-                            "transgression", "vector", "acumen", "discernment", "suasion")}
+# EVERY Measure, read from the weights rather than hand-listed. The hand-written tuple here
+# named ten axes and `assay.WEIGHTS` holds eleven -- `volition` was missing -- so the fixture
+# called MAXED was not maxed, and every ceiling assertion below it was made against an agent
+# with one Measure unscored. A fixture that quietly disagrees with the module it is testing is
+# the same fault as a stale constant, and this one sat inside the anchor validation.
+_MAXED = {k: 10.0 for k in A.WEIGHTS}
 _top = A.assay("M10", _MAXED, attestation="Witnessed", worksheet="x")
 _mid = A.assay("M4", _MAXED, attestation="Witnessed", worksheet="x")
 check("the ceiling SATURATES instead of overflowing its notation",
@@ -1445,6 +1464,15 @@ _CP.host_reachable = _cp_reach
 _CP.HOSTS, _CP.RECORDS, _CP.category_size_probe = _cp_hosts, _cp_recs, _cp_probe
 
 # The write contract: an empty measurement must not be able to erase a real one.
+#
+# SAVED LIKE EVERY SIBLING OVERRIDE, which this one alone was not. HOSTS, RECORDS,
+# category_size_probe and host_reachable are all stashed above and put back; `OUT` was
+# reassigned to a tempdir with nothing kept, so the module's idea of where COMPLETENESS.json
+# lives never came back. Section 19m then saved that ALREADY-CLOBBERED value as its own
+# original and restored the tempdir path in its `finally`, so from here to the end of the suite
+# `completeness.OUT` pointed at a directory that gets deleted -- and any later check reading it
+# was reading a fixture, not the library.
+_cp_out = _CP.OUT
 _CP.OUT = os.path.join(_cd, "COMPLETENESS.json")
 check("a real result lands", _CP.land([{"source": "A", "unreliable": None}]), True)
 check("and no .tmp is left behind", os.path.exists(_CP.OUT + ".tmp"), False)
@@ -1464,6 +1492,11 @@ check("and the fuller measurement survives it",
       len(json.load(open(_CP.OUT, encoding="utf-8"))), 20)
 check("while an ordinary fluctuation still lands",
       _CP.land([{"source": "S%d" % i, "unreliable": None} for i in range(18)]), True)
+_CP.OUT = _cp_out
+check("and completeness.OUT is back to the real artifact, not this section's tempdir",
+      os.path.basename(_CP.OUT) == "COMPLETENESS.json" and _cd not in _CP.OUT, True,
+      note="every later section that reads it -- 19m among them -- was reading a fixture path "
+           "that gets deleted, because this override was the one nobody put back")
 
 
 # ---- Section 19e: the error bar is built from the weights the composite was built from -------
@@ -1740,7 +1773,11 @@ finally:
         if os.path.exists(_CB.UNRECOGNISED):
             os.remove(_CB.UNRECOGNISED)
     except Exception:
-        pass
+        # NOT A BARE PASS. This removes a probe file the suite wrote into the LIVE state/
+        # directory, which the dashboard and standards both read; a swallowed failure leaves a
+        # synthetic record sitting where real ones are looked for, and says nothing to anyone.
+        # Every other deliberate swallow in this tree records its site, and so does this one.
+        silence.note("verify_math.py:unrecognised-probe-cleanup")
     _CB.UNRECOGNISED = _unrec_tmp
 
 
@@ -3954,7 +3991,10 @@ finally:
         if os.path.exists(_probe20g):
             os.remove(_probe20g)
     except Exception:
-        pass
+        # Same reasoning as the cleanup in section 19h: this is a probe file written into the
+        # live state/ directory, and a removal that fails silently leaves it there for the
+        # dashboard and standards to read as real. Recorded rather than swallowed.
+        silence.note("verify_math.py:atomic-probe-cleanup")
 
 # The tree scan. Each entry is (module, the shared artefact it writes) that the sweep repaired;
 # if any of them reverts to a bare truncating write, this names the file and the module.
@@ -6792,7 +6832,7 @@ print(f"  INFO propagation graph: {len(_names)} shelves; L4D->DBZ={_l4d_dbz:.4f}
 
 print()
 print("=" * 96)
-print("36. §20t  THE RUN #35 LOCAL RUNG, RUN RATHER THAN TRUSTED")
+print("36. §20u  THE RUN #35 LOCAL RUNG, RUN RATHER THAN TRUSTED")
 print("=" * 96)
 #
 # The six LOCAL batches of run #35 each wrote their proposed checks as a STANDALONE script under

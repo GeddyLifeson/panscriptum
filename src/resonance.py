@@ -71,6 +71,16 @@ def hodge_decompose(edges):
     to revisit, and switching methods is a deliberate numerical change, not a typo fix.
     """
     nodes = sorted({n for e in edges for n in e})
+    if not nodes:
+        # NO EVIDENCE, NOT A CONSISTENT LADDER (order 40b61d3a8c68). An empty edge set used to
+        # divide by zero (`len(new)` below is 0) rather than report anything -- and the fallback
+        # for the OTHER zero-signal case (an all-zero flow, `total == 0` below) returned
+        # `eta = 1.0`, the same number a genuinely perfectly-consistent ladder produces. "No
+        # contest data" and "perfect consistency" must not share an answer: that is this
+        # module's own signature failure, applied to itself. `eta` and everything derived from
+        # it come back None here, with `no_evidence: True` so a caller can tell the two apart.
+        return {"theta": {}, "eta": None, "curl_fraction": None, "ladder_representable": None,
+                "irreducibly_chord": None, "theorem_2_error_floor": None, "no_evidence": True}
     theta = {n: 0.0 for n in nodes}
 
     nbrs = collections.defaultdict(list)
@@ -96,7 +106,14 @@ def hodge_decompose(edges):
         res_sq += (f - g) ** 2
 
     total = grad_sq + res_sq
-    eta = (grad_sq / total) if total > 0 else 1.0
+    # `total == 0` means every edge carried zero flow -- no signal to decompose, not a decomposed
+    # signal that happens to be perfectly consistent. Same "no evidence != eta 1.0" distinction
+    # as the empty-`nodes` case above; see that comment.
+    eta = (grad_sq / total) if total > 0 else None
+    if eta is None:
+        return {"theta": {n: round(v, 4) for n, v in theta.items()}, "eta": None,
+                "curl_fraction": None, "ladder_representable": None,
+                "irreducibly_chord": None, "theorem_2_error_floor": None, "no_evidence": True}
     return {
         "theta": {n: round(v, 4) for n, v in theta.items()},
         "eta": round(eta, 4),
@@ -104,6 +121,7 @@ def hodge_decompose(edges):
         "ladder_representable": round(eta * 100, 1),
         "irreducibly_chord": round((1.0 - eta) * 100, 1),
         "theorem_2_error_floor": round(1.0 - eta, 4),
+        "no_evidence": False,
     }
 
 

@@ -512,10 +512,16 @@ def sweep_detectors():
             # on it is how a real signal turns into furniture. `binding_health` now MEASURES
             # which case it is by reading the wiki's own sitename, so the two go to the two
             # different places they belong.
+            # COUNTED, like every sibling section. This block's `file_order` results used to be
+            # discarded, so `swept: N filed/refreshed` under-reported by exactly the number of
+            # binding orders -- and the None a REFUSED queue write returns went the same way, so
+            # a finding that never reached the file could not be told from one that did. Both
+            # directions are the same fault: a sweep reporting on work it did not verify. The
+            # `[f for f in filed if f]` at the end of this function drops the Nones.
             b = h.get("binding") or {}
             call = b.get("verdict")
             if call == "CONFIRMED":
-                file_order(
+                filed.append(file_order(
                     "BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES",
                     "%s IS the wiki it is bound to -- it names itself %r, matching the bound "
                     "source %r -- but none of its catalogued titles resolve, so the entry "
@@ -525,30 +531,31 @@ def sweep_detectors():
                     "entries under names that wiki actually uses. Mining continues either way."
                     % (host, b.get("sitename"), b.get("matched")),
                     "OWNER", "MINOR", where=host, evidence=b,
-                    found_by="binding_health.identity")
+                    found_by="binding_health.identity"))
                 _supersede_binding_suspect(host, call, closed)
             elif call == "MISBOUND":
-                file_order(
+                filed.append(file_order(
                     "BINDING_HOST_SERVES_ANOTHER_WIKI",
                     "%s is bound to %r but SERVES %r (name agreement %s%%). The catalogued "
                     "entry names may be perfectly good; the host is wrong. Rebinding or "
                     "unbinding a source is a curatorial call, so it is filed, not done."
                     % (host, b.get("matched"), b.get("sitename"), b.get("score")),
                     "OWNER", "MAJOR", where=host, evidence=b,
-                    found_by="binding_health.identity")
+                    found_by="binding_health.identity"))
                 _supersede_binding_suspect(host, call, closed)
             else:
                 # UNCLASSIFIED, UNKNOWN, or a canary record written before identity probing
                 # existed. Kept at the old code and the old rung, because "I could not tell"
                 # must not be filed as either answer.
-                file_order("BINDING_SUSPECT",
-                           "%s answers its API but none of its catalogued titles resolve, and "
-                           "its identity could not be settled (%s). The source may be bound to "
-                           "the wrong wiki, or its entry names may not be article titles there. "
-                           "Mining continues; this is not a quarantine."
-                           % (host, b.get("detail") or "no identity probe on this record"),
-                           "BOTS", "MINOR", where=host, evidence=h.get("reason"),
-                           found_by="binding_health.canary")
+                filed.append(file_order(
+                    "BINDING_SUSPECT",
+                    "%s answers its API but none of its catalogued titles resolve, and "
+                    "its identity could not be settled (%s). The source may be bound to "
+                    "the wrong wiki, or its entry names may not be article titles there. "
+                    "Mining continues; this is not a quarantine."
+                    % (host, b.get("detail") or "no identity probe on this record"),
+                    "BOTS", "MINOR", where=host, evidence=h.get("reason"),
+                    found_by="binding_health.canary"))
         # Close the ones that have recovered, so this cannot become a queue that only grows.
         for h in (rec.get("hosts") or []):
             host = h.get("host") or ""

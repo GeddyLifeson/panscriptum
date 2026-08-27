@@ -14,9 +14,13 @@ So the rules here are about ORDER and EXCLUSION, not about doing anything new:
   single most expensive mistake available overnight, because duplicates do not fail, they
   degrade everything quietly and look like slowness.
 
-  GPU IS SERIAL. `read.py` and `pipeline.py` both drive Ollama, and Ollama on this machine runs
-  a 19GB model at a 56/44 CPU/GPU split. Two clients do not go twice as fast, they thrash. Only
-  one GPU stage runs at a time. The roll is network-bound and may overlap with either.
+  GPU-SERIAL IS OBSOLETE, AND THIS PARAGRAPH USED TO SAY THE OPPOSITE. It read "only one GPU
+  stage runs at a time" while the body below started `pipeline` backgrounded alongside the
+  reader -- true when `read.py` and `pipeline.py` both drove local Ollama at a 19GB model's
+  56/44 CPU/GPU split, where two clients thrashed instead of doubling throughput. The reader
+  has been cascade-first since 2026-08-25 -- its local-Ollama fallback is rare and benched --
+  so the card sitting idle for a whole stage was wasted capacity, not caution. The roll is
+  network-bound and has always been free to overlap with either.
 
   PREFLIGHT BEFORE COMMITTING HOURS. `health.py` checks the failure classes already seen -- a
   chunk that overflows the context, an API path that 404s, a control character where an escape
@@ -433,7 +437,7 @@ def foreman_report():
         log(f"  foreman: {len(owner)} order(s) need the owner -- see FOR_OWNER.md")
 
 
-def watch_report(top=6):
+def watch_report():
     """What the standing debug sweep has open, surfaced where the night's log will show it.
 
     `overwatch` writes WATCH.md for a person to read. This puts the headline in the supervisor
@@ -454,7 +458,15 @@ def watch_report(top=6):
     hi = [f for f in open_f if (f.get("severity") or "").lower() == "high"]
     log(f"  overwatch: {len(open_f)} finding(s) open ({len(hi)} high) after "
         f"{d.get('rounds', 0)} round(s):")
-    for f in sorted(open_f, key=lambda x: -(x.get("severity") == "high"))[:top]:
+    # ALL of them, high severity first -- the `[:top]` slice this used to end on was the
+    # identical defect `did[:5]` was removed for above: the header announces a count and the
+    # list then delivers fewer. The sort key here also used to compare severity
+    # case-SENSITIVELY three lines under a count that lowers it first, so a finding the model
+    # stored as "High" (overwatch.py does not normalise what it writes) was counted into the
+    # "(N high)" headline and simultaneously sorted as not-high -- reachable by construction,
+    # never triggered yet because every stored severity today happens to already be lowercase.
+    # One fix for both: stop capping, and sort on the same lowered value the count uses.
+    for f in sorted(open_f, key=lambda x: -((x.get("severity") or "").lower() == "high")):
         log(f"    {f.get('module','?')}.py {f.get('symbol','')}: {f.get('actual','')[:96]}")
 
 
