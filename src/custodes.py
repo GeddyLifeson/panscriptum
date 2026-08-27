@@ -322,7 +322,7 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
 
     # The interval must COVER every signed reading -- a college that publishes a band excluding one
     # of its own members has not measured its disagreement, it has hidden it.
-    half = max(1.96 * total_sd, max(abs(v - consensus) for v in vals))
+    half = max(1.96 * total_sd, *(abs(v - consensus) for v in vals))
     # Lumen's contribution: dispersive, not directional.
     stale = staleness_widening(distance, years_since)
     half += stale
@@ -394,7 +394,7 @@ def main():
     r = convene("M3", ks, attestation="Witnessed", worksheet="Charter Part Three")
     for k, v in sorted(r["reading_spread"].items(), key=lambda kv: kv[1]):
         print(f"   {k:<11} {v:.3f}")
-    print(f"\n   consensus  A M3.{int(round(r['decimal'] * 100)):02d} ± {r['interval']:.2f}"
+    print(f"\n   consensus  A M3.{round(r['decimal'] * 100):02d} ± {r['interval']:.2f}"
           f"   (charter: M3.52 ± 0.12, three Hands)")
     print(f"   prior divergence {r['prior_divergence_share']:.0%} / "
           f"attestation floor {r['attestation_floor_share']:.0%}")

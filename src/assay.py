@@ -520,8 +520,8 @@ def _check_constants():
     if vals != sorted(vals) or len(set(vals)) != len(vals):
         raise AssayIntegrityError(
             "attestation sigmas are not strictly increasing: %s. Better testimony must never be "
-            "assigned MORE uncertainty than worse testimony." % dict(zip(order, vals)))
-    if SIGMA_UNKNOWN < max(vals):
+            "assigned MORE uncertainty than worse testimony." % dict(zip(order, vals, strict=True)))
+    if max(vals) > SIGMA_UNKNOWN:
         raise AssayIntegrityError(
             "SIGMA_UNKNOWN (%.4f) is below the widest attestation grade (%.4f) -- an axis nobody "
             "could read would publish a TIGHTER bar than the worst testimony on file."
@@ -870,7 +870,7 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
         "decimal": round(_dec, 2),
         "at_ladder_ceiling": _ceiling,
         "promotion_due": _promote,
-        "moth_number": f"𝔄 {anchor}.{int(round(_dec * 100)):02d} ± {interval:.2f}"
+        "moth_number": f"𝔄 {anchor}.{round(_dec * 100):02d} ± {interval:.2f}"
                        + (" [ceiling]" if _ceiling else "")
                        + (" [promotion due]" if _promote else ""),
         "interval": interval,

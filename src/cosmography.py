@@ -166,7 +166,7 @@ def kardashev_to_magnitude(watts, band_edges=None, ladder=None):
     return reached, annual_joules
 
 
-def census(size_class="STANDARD", galaxies=None, verbose=False):
+def census(size_class=DEFAULT_SIZE_CLASS, galaxies=None, verbose=False):
     """Derive a universe's full planetary census from its size class.
 
     Returns every intermediate so the chain is auditable end to end -- the Moth test applied to

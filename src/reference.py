@@ -317,7 +317,7 @@ def card(name, rec, res):
     L.append("")
     L.append(f"  coverage {res['axis_coverage']}   axes scored {len(res['axes_scored'])}/11"
              f"   promotion watch: {res['promotion_watch']}")
-    L.append(f"  CHARTER  {band}.{int(round((val % 1) * 100)):02d} ± {ci:.2f}"
+    L.append(f"  CHARTER  {band}.{round((val % 1) * 100):02d} ± {ci:.2f}"
              f"   delta {delta:.2f}   "
              f"{'INSIDE the published interval' if inside else 'OUTSIDE - investigate'}")
     return chr(10).join(L)

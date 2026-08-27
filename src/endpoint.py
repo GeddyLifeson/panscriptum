@@ -351,7 +351,7 @@ PAGES_FILE = os.path.join(HERE, "data", "SOURCE_PAGES.json")
 
 
 def source_pages(source):
-    """The URLs registered for a source that has no wiki. {} when it has none."""
+    """The URLs registered for a source that has no wiki. [] when it has none."""
     try:
         with open(PAGES_FILE, encoding="utf-8") as f:
             return (json.load(f) or {}).get(source) or []

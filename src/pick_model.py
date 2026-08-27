@@ -208,7 +208,7 @@ def free_vram_gb():
             return None
         return int(out.stdout.strip().splitlines()[0]) / 1024.0
     except Exception:
-        silence.note("pick_model.py:150")
+        silence.note("pick_model.py:free_vram")
         return None
 
 

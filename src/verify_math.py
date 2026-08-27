@@ -3582,14 +3582,72 @@ import overnight as _on21
 _probe21 = _on21._proc_lines()
 check("the process probe returned a listing at all", bool(_probe21), True,
       note="every check below is vacuous without one -- an empty probe makes running() say False")
-# This very process's command line contains verify_math.py, so it is its own test fixture.
-check("running() still hides the caller from itself by default",
-      _on21.running("verify_math.py"), False,
-      note="the default answers 'is anyone ELSE running this?' -- unchanged, and load-bearing "
-           "for overnight.start and for any job refusing to start a second copy of itself")
-check("running(include_self=True) can see the caller",
-      _on21.running("verify_math.py", include_self=True), True,
-      note="THE BUG: without this a renderer deletes itself from the roster it is publishing")
+# THE SUITE USED TO BE ITS OWN FIXTURE, and that made the battery's answer depend on things
+# that are not facts about the library. These two checks read THIS PROCESS's command line: one
+# asserted `running("verify_math.py")` is False (nobody ELSE is running it) and one asserted it
+# is True with include_self. Both are reasonable alone and neither survives contact with the
+# real world. Measured during run #35: run the suite by IMPORT rather than as a script and the
+# include_self check fails, because an importing command line does not name the file (order
+# 6bde0230270a); run it while ANY other process has the name on its command line -- a second
+# maintenance run, a mutation sandbox, an editor -- and the default check fails instead (order
+# c349a51ee2c5). Between them they cost one run several minutes chasing a regression that did
+# not exist, which is the real damage: a battery that cries wolf gets read less carefully.
+#
+# The listing is now SYNTHETIC, so both branches are exercised deterministically and the
+# question being asked is the one the keyword exists for rather than an accident of who else is
+# on the machine. `_proc_lines` returns "pid|command line" rows, and `_in_this_tree` resolves
+# the named script against this checkout, so the fixture names a real path under HERE.
+# A REAL file in this checkout, because `_in_this_tree` resolves the named script against it and
+# fails open (says "not running") on anything it cannot place -- correctly, and that is what a
+# made-up filename gets. `overnight.py` is only ever a NAME here: every row the checks below see
+# is synthetic, so the live daemon of that name is invisible to them and cannot make the answer
+# depend on whether it happens to be up.
+_fix_script21 = os.path.join(_here19, "overnight.py")
+_fix_name21 = "overnight.py"
+_other_pid21 = 999999 if os.getpid() != 999999 else 999998
+
+
+def _listing21(pids):
+    """Synthetic "pid|command line" rows, in the UNQUOTED shape a real listing uses.
+
+    The path is deliberately not quoted: `_in_this_tree` finds the script by taking the first
+    whitespace token ending in `.py`, so a quoted path yields a token ending in `.py"` and the
+    resolver fails open on every row -- which reads as "nothing is running" and would have made
+    all six checks below vacuously agree. Copied from a real `_proc_lines()` row rather than
+    guessed.
+    """
+    return "\n".join("%d|%s -u %s --fixture" % (p, sys.executable, _fix_script21)
+                     for p in pids)
+
+
+_real_proc21 = _on21._proc_lines
+try:
+    # Somebody ELSE is running it: both questions answer True.
+    _on21._proc_lines = lambda ttl=3.0: _listing21([_other_pid21])
+    check("running() sees another process running the script",
+          _on21.running(_fix_name21), True)
+    check("and include_self does not change that answer",
+          _on21.running(_fix_name21, include_self=True), True)
+    # ONLY this process is running it: the two questions must now disagree, which is the whole
+    # reason the keyword exists.
+    _on21._proc_lines = lambda ttl=3.0: _listing21([os.getpid()])
+    check("running() still hides the caller from itself by default",
+          _on21.running(_fix_name21), False,
+          note="the default answers 'is anyone ELSE running this?' -- unchanged, and "
+               "load-bearing for overnight.start and for any job refusing to start a second "
+               "copy of itself")
+    check("running(include_self=True) can see the caller",
+          _on21.running(_fix_name21, include_self=True), True,
+          note="THE BUG: without this a renderer deletes itself from the roster it is "
+               "publishing")
+    # And nobody at all: both False, so neither answer is stuck on.
+    _on21._proc_lines = lambda ttl=3.0: ""
+    check("an empty listing means not running, by either question",
+          (_on21.running(_fix_name21),
+           _on21.running(_fix_name21, include_self=True)), (False, False))
+finally:
+    _on21._proc_lines = _real_proc21
+check("and the real process probe was put back", _on21._proc_lines is _real_proc21, True)
 check("include_self defaults to False so no existing caller changed behaviour",
       __import__("inspect").signature(_on21.running).parameters["include_self"].default, False)
 

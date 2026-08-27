@@ -144,7 +144,7 @@ def _extract_json(text):
         try:
             return json.loads(m.group(1))
         except Exception:
-            silence.note("cascade_bridge.py:100")
+            silence.note("cascade_bridge.py:extract_json-fence")
             pass
     start = text.find("{")
     while start != -1:
@@ -158,7 +158,7 @@ def _extract_json(text):
                     try:
                         return json.loads(text[start:i + 1])
                     except Exception:
-                        silence.note("cascade_bridge.py:113")
+                        silence.note("cascade_bridge.py:extract_json-brace")
                         break
             i += 1
         start = text.find("{", start + 1)
@@ -1120,7 +1120,7 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                     box["error"] = str(ev.get("error") or ev.get("text") or "")[:300]
                     return
         except Exception as exc:
-            silence.note("cascade_bridge.py:151")
+            silence.note("cascade_bridge.py:stream-pump")
             box["failed"] = True
             # THE TEXT IS THE DIAGNOSIS, AND IT USED TO BE THROWN AWAY HERE.
             # A provider whose failure ARRIVES AS AN EXCEPTION rather than as a `type:"error"`

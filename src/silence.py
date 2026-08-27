@@ -90,7 +90,7 @@ class swallow:
     single unparseable page must not stop a roll of 54,000.
     """
 
-    __slots__ = ("kind", "detail", "reraise", "failed", "error")
+    __slots__ = ("detail", "error", "failed", "kind", "reraise")
 
     def __init__(self, kind, detail="", reraise=False):
         self.kind = kind

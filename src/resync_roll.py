@@ -41,7 +41,16 @@ def main():
     # visited last silently won the dict slot and its entry count became the roll's new truth;
     # which one won could differ between machines or between runs. Sorted, the winner is at
     # least the same one every time and the fix is reproducible.
+    #
+    # Reproducible is not the same as visible: sorting only fixes WHICH file wins, it does
+    # nothing about the LOSER's entries vanishing from this resync with no trace anywhere. A
+    # dict slot has no memory of what it overwrote, so a genuine split-file source (the same
+    # thing catalogued twice under different filenames) used to lose one file's entries off
+    # the roll silently. Flagged here with a silence.note and folded into the printed diff
+    # below instead, so the loss is at least on the record even though picking a winner stays
+    # a data-authority call this script does not make.
     by_source = {}
+    dupes = {}
     for fn in sorted(os.listdir(RECORDS)):
         if not fn.endswith(".json"):
             continue
@@ -53,7 +62,11 @@ def main():
             continue
         src = rec.get("source")
         if src:
-            by_source[norm(src)] = (rec, fn)
+            key = norm(src)
+            if key in by_source:
+                silence.note("resync_roll.py:duplicate-source")
+                dupes.setdefault(key, [by_source[key][1]]).append(fn)
+            by_source[key] = (rec, fn)
 
     changed = []
     for r in roll:
@@ -89,15 +102,35 @@ def main():
                     # must agree with the count rather than repeat the count's own history.
                     r["status"] = "uncatalogued"
 
+    landed = True
     if changed and not dry:
         # ATOMIC: this file's own docstring warned about the roll-clobber hazard while the
         # code went on truncate-then-filling it. Fixed 2026-08-25.
-        silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
+        #
+        # THE VERDICT IS NOT OPTIONAL. write_json returns False rather than raising on a
+        # denied replace (silence.py:366-367), and this call used to discard that return --
+        # so on the exact Windows reader-holds-target case this module's own docstring
+        # describes, data/SWEEP_ROLL.json stayed unchanged while the summary below still
+        # printed "Fixed". Reported instead, same idiom as worldseed.py's write.
+        landed = silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
 
     verb = "Would fix" if dry else "Fixed"
     print(f"{verb} {len(changed)} roll entries out of sync with their record files:\n")
     for name, was, now, fn in sorted(changed, key=lambda x: -(x[2] - x[1])):
         print(f"  {name[:44]:46s} {was:6d} -> {now:6d}   {fn}")
+
+    if dupes:
+        print(f"\n{len(dupes)} source(s) declared by more than one record file "
+              f"(winner is the last name alphabetically; the rest are NOT reflected above):")
+        for key, files in sorted(dupes.items()):
+            print(f"  {' == '.join(files)}")
+
+    if not dry and not landed:
+        print(f"\nWRITE DENIED {ROLL} -- replace refused; roll is UNCHANGED on disk, "
+              f"the fixes above did not land and will retry next run")
+        have = sum(1 for r in roll if r.get("entry_count", 0) > 0)
+        print(f"\nroll unchanged: {have}/{len(roll)} sources catalogued (pre-fix figures)")
+        return
 
     have = sum(1 for r in roll if r.get("entry_count", 0) > 0)
     total = sum(r.get("entry_count", 0) for r in roll)

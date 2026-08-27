@@ -227,7 +227,7 @@ def citation_card(name, addr, band="unassayed", decimal=None, interval=None,
         },
         "measurement": {
             "assay": ("𝔄: DECLINED" if band == "declined" else
-                      f"𝔄 {band}" + (f".{int(round(decimal*100)):02d}" if decimal is not None else "")
+                      f"𝔄 {band}" + (f".{round(decimal*100):02d}" if decimal is not None else "")
                       + (f" ± {interval:.2f}" if interval is not None else "")),
             "epoch": epoch or "unstamped",
             "attestation": attestation,

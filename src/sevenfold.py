@@ -61,6 +61,7 @@ citation graph. Vol. X.7's propagation still runs on the resonance graph, untouc
 """
 import argparse
 import collections
+import itertools
 import os
 import sys
 
@@ -147,7 +148,7 @@ def shelve(members, weights, span=SPAN, depth=len(TIERS)):
         cuts = seams(block)
         bounds = [0] + [c + 1 for c in cuts] + [len(block)]
         child = 0
-        for lo, hi in zip(bounds, bounds[1:]):
+        for lo, hi in itertools.pairwise(bounds):
             chunk = block[lo:hi]
             if not chunk:
                 continue
@@ -160,6 +161,10 @@ def shelve(members, weights, span=SPAN, depth=len(TIERS)):
     for m in coords:                          # pad shallow branches with slot 0
         while len(coords[m]) < depth:
             coords[m].append(0)
+    # zip(TIERS, c) is deliberately unequal-length whenever depth < len(TIERS) (SOURCE_TIERS and
+    # WORLD_TIERS are prefixes/suffixes of TIERS by construction) -- it labels the first `depth`
+    # coordinates with the first `depth` tier names, so strict=True would raise on every call
+    # that does not use the full 5-tier default.
     return {m: dict(zip(TIERS, c)) for m, c in coords.items()}
 
 

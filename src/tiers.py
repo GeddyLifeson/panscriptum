@@ -94,6 +94,7 @@ a fragment of another hyperverse would look like from here, and also what a self
 looks like. Nothing in the data separates those two readings.
 """
 import collections
+import itertools
 import json
 import os
 import sys
@@ -116,8 +117,8 @@ CUTS = [
     # xenoverses, the links are coincidental common nouns, and a hyperverse sharing no entities
     # with ours is undetectable in principle. Declining to chart it is the finding.
 ]
-assert all(a[1] > b[1] for a, b in zip(CUTS, CUTS[1:])), "cuts must loosen downward"
-assert MULTIVERSE_THRESHOLD >= CUTS[0][1], "multiverse must be tighter than metaverse"
+assert all(a[1] > b[1] for a, b in itertools.pairwise(CUTS)), "cuts must loosen downward"
+assert CUTS[0][1] <= MULTIVERSE_THRESHOLD, "multiverse must be tighter than metaverse"
 DELIBERATE_JOIN = 2000.0    # above the cliff: no statistical process makes a link this strong
 
 
@@ -316,7 +317,7 @@ def main():
     print("-" * 96)
     order = ["multiverse", "metaverse", "xenoverse"]
     counts = [len(multi)] + [len(tiers[n + "_groups"]) for n, _, _ in CUTS]
-    print(f"   {' -> '.join(f'{n} {c}' for n, c in zip(order, counts))}")
+    print(f"   {' -> '.join(f'{n} {c}' for n, c in zip(order, counts, strict=True))}")
     ok = all(counts[i] >= counts[i + 1] for i in range(len(counts) - 1))
     print(f"   monotone: {ok}")
     bad = 0

@@ -376,10 +376,10 @@ def audit(only=None, workers=6):
     for src, h in todo:
         sub = subdomain(h) or ""
         key = "".join(ch for ch in str(src).lower() if ch.isalnum())
-        if key and key in sub.replace("-", ""):
-            # Longest match wins, so 'Marvel' beats a hypothetical 'Mar'.
-            if h not in primary or len(key) > len(primary[h][1]):
-                primary[h] = (src, key)
+        # Longest match wins, so 'Marvel' beats a hypothetical 'Mar'.
+        if (key and key in sub.replace("-", "")
+                and (h not in primary or len(key) > len(primary[h][1]))):
+            primary[h] = (src, key)
 
     rows = []
 

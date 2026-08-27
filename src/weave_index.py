@@ -257,7 +257,7 @@ def load_records():
             with open(p, encoding="utf-8") as f:
                 r = json.load(f)
         except Exception:
-            silence.note("weave_index.py:155")
+            silence.note("weave_index.py:load_records-unreadable")
             continue
         if r.get("entries"):
             out.append(r)

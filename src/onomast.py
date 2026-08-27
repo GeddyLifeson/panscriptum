@@ -347,7 +347,24 @@ def name_worlds(resolved):
         if is_carried(v["canonical_name"]):
             by_key[v["key"]].append((cid, v))
 
+    # `taken` must start seeded with designations ALREADY standing in the catalogue namespace,
+    # not just the ones this call coins -- otherwise two runs (or one run against a `resolved`
+    # that has grown since ONOMASTICON.json was last written) can independently produce the
+    # same catalogue_name for two different worlds, and nothing here would notice. Reading the
+    # existing file is best-effort: a missing or unreadable ONOMASTICON.json means there is
+    # nothing standing yet, not that naming should refuse to proceed.
     taken = set()
+    try:
+        with open(OUT, encoding="utf-8") as f:
+            for rec in (json.load(f) or {}).values():
+                nm = rec.get("catalogue_name")
+                if nm:
+                    taken.add(nm.lower())
+    except FileNotFoundError:
+        pass
+    except Exception:
+        silence.note("onomast.py:name_worlds-onomasticon-unreadable")
+
     out = {}
     for key, items in sorted(by_key.items()):
         if len(items) < 2:

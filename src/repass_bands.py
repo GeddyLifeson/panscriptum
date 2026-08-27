@@ -46,14 +46,14 @@ def main():
 
         syn = rec.get("synthesis") or {}
         band = syn.get("provisional_magnitude")
-        if band and band != "unassayed":
-            if not PL.valid_scale_note(syn.get("evidence") or ""):
-                demoted_sources.append((src, band, (syn.get("evidence") or "")[:70]))
-                if args.apply:
-                    syn["provisional_magnitude"] = "unassayed"
-                    syn["demoted_by"] = ("evidence gate corrected 2026-08-20; the recorded "
-                                         "evidence is not a feat")
-                    changed = True
+        if (band and band != "unassayed"
+                and not PL.valid_scale_note(syn.get("evidence") or "")):
+            demoted_sources.append((src, band, (syn.get("evidence") or "")[:70]))
+            if args.apply:
+                syn["provisional_magnitude"] = "unassayed"
+                syn["demoted_by"] = ("evidence gate corrected 2026-08-20; the recorded "
+                                     "evidence is not a feat")
+                changed = True
 
         for e in rec["entries"]:
             if not e.get("catalogued"):
@@ -95,7 +95,7 @@ def main():
     print(f"  survive the gate   : {len(kept_entries):,}  ({len(kept_entries)/max(1,total_banded):.1%})")
     print(f"  demoted to unassayed: {len(demoted_entries):,}")
     print("\nSOURCE CEILINGS")
-    print(f"  demoted to unassayed: {len(demoted_sources):,} of 211")
+    print(f"  demoted to unassayed: {len(demoted_sources):,} of {len(recs):,}")
     print(f"\nscale notes cleared (no longer evidence): {cleared_notes:,}")
 
     print("\n  SURVIVORS — every one of these is an act upon an object, or a measured quantity:")

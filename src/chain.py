@@ -347,10 +347,10 @@ def extract(rows, batch=8, limit=None, workers=8):
             if not (0 <= pos < len(chunk)):
                 continue
             src = chunk[pos]
-            w, l = (o.get("winner") or "").strip(), (o.get("loser") or "").strip()
-            if not w or not l or w.lower() == l.lower():
+            w, loser = (o.get("winner") or "").strip(), (o.get("loser") or "").strip()
+            if not w or not loser or w.lower() == loser.lower():
                 continue
-            wk, lk = WI.norm(w), WI.norm(l)
+            wk, lk = WI.norm(w), WI.norm(loser)
             # BOTH sides must be things the library catalogues. An edge to a name that exists
             # only in this sentence cannot be ranked against anything and would inflate the
             # graph with singletons that break Ford's condition for everyone attached to them.
@@ -362,7 +362,7 @@ def extract(rows, batch=8, limit=None, workers=8):
                 c = src.get("continuity")
                 local.append(((ID.node(idx[wk], c), ID.node(idx[lk], c)), src))
             else:
-                for side, k in ((w, wk), (l, lk)):
+                for side, k in ((w, wk), (loser, lk)):
                     if k not in idx:
                         local_unmatched[side[:40]] += 1
         with lock:
@@ -406,7 +406,7 @@ def adjudicate_mutuals(edges, prov):
     Only mutual pairs are dated. A sentence that contradicts nothing gains nothing from a
     timestamp, and there are eleven thousand of those.
     """
-    mutual = [(w, l) for (w, l) in edges if (l, w) in edges and (w, l) < (l, w)]
+    mutual = [(w, loser) for (w, loser) in edges if (loser, w) in edges and (w, loser) < (loser, w)]
     if not mutual:
         print("\nmutual pairs: none -- no contest is recorded in both directions")
         return edges
@@ -416,26 +416,26 @@ def adjudicate_mutuals(edges, prov):
     print(f"\nmutual pairs: {len(mutual)} -- dating each side before it reaches the fit")
     out = collections.Counter(edges)
     split = kept = 0
-    for (w, l) in mutual:
-        sa = (prov.get((w, l)) or [{}])[0].get("sentence", "")
-        sb = (prov.get((l, w)) or [{}])[0].get("sentence", "")
+    for (w, loser) in mutual:
+        sa = (prov.get((w, loser)) or [{}])[0].get("sentence", "")
+        sb = (prov.get((loser, w)) or [{}])[0].get("sentence", "")
         ea, eb = ID.epoch_of(sa), ID.epoch_of(sb)
         if ea != eb:
             # The two records place themselves at different points in the subject's history, so
             # they are longitudinal rather than contradictory. Re-key each dated side onto its
             # own node. Equal epochs are NOT split: two accounts of the same moment disagreeing
             # is a real disagreement, and re-keying it would only hide it behind a label.
-            for (x, y), ep in (((w, l), ea), ((l, w), eb)):
+            for (x, y), ep in (((w, loser), ea), ((loser, w), eb)):
                 if not ep:
                     continue
                 n = out.pop((x, y))
                 out[(ID.node(x, epoch=ep), y)] += n
             split += 1
-            print(f"   split: {w} vs {l}   [{ea or '-'}] / [{eb or '-'}]")
+            print(f"   split: {w} vs {loser}   [{ea or '-'}] / [{eb or '-'}]")
         else:
             kept += 1
             why = f"both dated [{ea}]" if ea else "neither sentence dates itself"
-            print(f"   left standing: {w} vs {l} -- {why}")
+            print(f"   left standing: {w} vs {loser} -- {why}")
     print(f"   {split} split by epoch, {kept} recorded as genuine disagreement")
     return out
 
@@ -496,7 +496,7 @@ def main():
         write_result(edges, res, unmatched)
         print(f"-> {OUT}   (edges kept; the graph is the result)")
         return 0
-    order = sorted(zip(res["names"], res["strengths"]), key=lambda kv: -kv[1])
+    order = sorted(zip(res["names"], res["strengths"], strict=True), key=lambda kv: -kv[1])
     big = max(comps, key=len) if comps else set()
     print("\nstrongest inside the largest component:")
     for n, s in [x for x in order if x[0] in big][:14]:

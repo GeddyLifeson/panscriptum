@@ -103,7 +103,7 @@ def scope_for(host, verbose=False):
             best = (lab, band)
     if best is None:                       # nothing clears it: fall back to the commonest tier
         lab = max(counts, key=counts.get)
-        band = dict((l, b) for l, _, b in _RE)[lab]
+        band = dict((nm, b) for nm, _, b in _RE)[lab]
         best = (lab, band) if counts[lab] else None
     if verbose:
         print(f"   {host:<32}{counts}")

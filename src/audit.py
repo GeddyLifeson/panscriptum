@@ -167,7 +167,7 @@ def main():
     print("=" * 96)
     for src, e in rng.sample(pool, min(args.sample, len(pool))):
         d = re.sub(r"\s+", " ", (e.get("description") or ""))[:150]
-        print(f"\n  [{str(e.get('magnitude')):<9}] {(e.get('name') or '?')[:44]:<46}{src[:26]}")
+        print(f"\n  [{e.get('magnitude')!s:<9}] {(e.get('name') or '?')[:44]:<46}{src[:26]}")
         print(f"     topic={e.get('topic')}  category={(e.get('category') or '?')[:34]}")
         if e.get("scale_note"):
             print(f"     FEAT: {e['scale_note'][:110]}")

@@ -432,7 +432,7 @@ def records():
             with open(p, encoding="utf-8") as f:
                 r = json.load(f)
         except Exception:
-            silence.note("pipeline.py:191")
+            silence.note("pipeline.py:records-unreadable")
             continue
         if r.get("entries"):
             out.append((p, r))
@@ -669,7 +669,7 @@ def write_record(path, rec):
             log(f"    write_record: {os.path.basename(path)} drifted on disk "
                 f"({len(rec.get('entries') or [])} -> {len(disk['entries'])} entries); merged")
     except FileNotFoundError:
-        silence.note("pipeline.py:301")
+        silence.note("pipeline.py:write_record-notfound")
         pass
     except Exception:
         # A FAILED MERGE MUST NOT FALL THROUGH INTO THE OVERWRITE IT EXISTS TO PREVENT.
@@ -818,7 +818,7 @@ def _mined_feats(rec):
     try:
         hosts = json.load(open(_F.HOSTS, encoding="utf-8"))
     except Exception:
-        silence.note("pipeline.py:261")
+        silence.note("pipeline.py:mined_feats-hosts")
         return out
     host = hosts.get(rec["source"])
     if not host:
@@ -831,7 +831,7 @@ def _mined_feats(rec):
         for base in (os.path.join(HERE, "data", "readfeats"),
                      os.path.join(HERE, "data", "feats")):
             d, _fp = cachekey.load(base, host, e["name"],
-                                   on_corrupt=lambda _p: silence.note("pipeline.py:277"))
+                                   on_corrupt=lambda _p: silence.note("pipeline.py:mined_feats-corrupt"))
             if d is None:
                 continue
             fl = [x.get("feat") for x in (d.get("feats") or []) if x.get("feat")]

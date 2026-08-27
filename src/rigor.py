@@ -237,13 +237,13 @@ def theorem_1_check(A):
     is Moth's chord, Proposition 1's incomparability, and Saaty's CR > 0.10, in three vocabularies.
     """
     p = perron_weights(A)
-    l = logrank_weights(A)
-    agree = float(np.max(np.abs(p["weights"] - l["weights"])))
+    lr = logrank_weights(A)
+    agree = float(np.max(np.abs(p["weights"] - lr["weights"])))
     return {
-        "perron_weights": p["weights"], "logrank_weights": l["weights"],
+        "perron_weights": p["weights"], "logrank_weights": lr["weights"],
         "max_weight_disagreement": agree,
-        "CR": p["CR"], "eta": l["eta"], "curl_fraction": l["curl_fraction"],
-        "both_say_consistent": bool(p["CR"] < 1e-9 and l["curl_fraction"] < 1e-9),
+        "CR": p["CR"], "eta": lr["eta"], "curl_fraction": lr["curl_fraction"],
+        "both_say_consistent": bool(p["CR"] < 1e-9 and lr["curl_fraction"] < 1e-9),
         "reading": ("CR and the curl fraction rise and fall together: both are the share of the "
                     "relation that no single ladder can carry"),
     }

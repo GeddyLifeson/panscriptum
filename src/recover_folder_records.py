@@ -181,15 +181,15 @@ def main():
             roll_entry["status"] = "catalogued"
         written.append((name, len(entries), os.path.basename(path)))
 
-    if not args.dry_run and written:
-        # ATOMIC: `resync_roll.py`'s docstring names THIS script as a roll-clobber source.
-        # GATE ON THIS WRITE TOO, for the same reason the per-record writes above are gated:
-        # a denied replace here leaves every recovered source still reading `entry_count: 0`
-        # while its record sits on disk, and work selection is `entry_count == 0` -- so the
-        # next run would transcribe them all again over records that are now good.
-        if not silence.write_json(ROLL, roll, indent=2, ensure_ascii=False):
-            print("  ROLL WRITE DENIED; the records landed but SWEEP_ROLL.json still reads "
-                  "entry_count: 0 for them -- re-run to update the roll", flush=True)
+    # ATOMIC: `resync_roll.py`'s docstring names THIS script as a roll-clobber source.
+    # GATE ON THIS WRITE TOO, for the same reason the per-record writes above are gated:
+    # a denied replace here leaves every recovered source still reading `entry_count: 0`
+    # while its record sits on disk, and work selection is `entry_count == 0` -- so the
+    # next run would transcribe them all again over records that are now good.
+    if (not args.dry_run and written
+            and not silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)):
+        print("  ROLL WRITE DENIED; the records landed but SWEEP_ROLL.json still reads "
+              "entry_count: 0 for them -- re-run to update the roll", flush=True)
 
     verb = "Would write" if args.dry_run else "Wrote"
     print(f"{verb} {len(written)} records, {sum(n for _, n, _ in written):,} entries:\n")

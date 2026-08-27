@@ -43,6 +43,7 @@ to the roll. A measurement runs on every host every time and needs nobody to rem
 import argparse
 import collections
 import glob
+import itertools
 import json
 import os
 import re
@@ -321,7 +322,7 @@ def candidates(source, current, by=None, hosts=None):
               if len(w) > 2 and any(ch.isalpha() for ch in w)
               and w.lower() not in _STOP and w[:1].isupper()]
     clean = ["".join(ch for ch in w.lower() if ch.isalnum()) for w in proper]
-    for a, b in zip(clean, clean[1:]):
+    for a, b in itertools.pairwise(clean):
         add(f"{a}{b}.fandom.com")
     for w in clean:
         if len(w) > 3:
