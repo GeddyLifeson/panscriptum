@@ -176,7 +176,7 @@ def run_verifier(item):
     label, argv = item
     t = time.time()
     try:
-        r = subprocess.run([PY] + [os.path.join(SRC, argv[0])] + argv[1:],
+        r = subprocess.run([PY, os.path.join(SRC, argv[0]), *argv[1:]],
                            # utf-8 explicitly: Windows decodes a child's output as cp1252 by
                            # default, and this project's output is full of the charter's own
                            # typography. A verifier whose report contains an em-dash would have
@@ -410,7 +410,7 @@ def main():
                             capture_output=True, text=True, timeout=120,
                             encoding="utf-8", errors="replace", creationflags=_NO_WIN)
         for ln in (lr.stdout or "").splitlines():
-            if "undefined name" in ln or "local variable" in ln and "referenced before" in ln:
+            if "undefined name" in ln or ("local variable" in ln and "referenced before" in ln):
                 lint_bad.append(ln.strip())
     except Exception:
         silence.note("allsweep.py:lint")

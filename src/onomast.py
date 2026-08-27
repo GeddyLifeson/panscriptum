@@ -348,15 +348,27 @@ def name_worlds(resolved):
             by_key[v["key"]].append((cid, v))
 
     # `taken` must start seeded with designations ALREADY standing in the catalogue namespace,
-    # not just the ones this call coins -- otherwise two runs (or one run against a `resolved`
-    # that has grown since ONOMASTICON.json was last written) can independently produce the
-    # same catalogue_name for two different worlds, and nothing here would notice. Reading the
-    # existing file is best-effort: a missing or unreadable ONOMASTICON.json means there is
-    # nothing standing yet, not that naming should refuse to proceed.
+    # not just the ones this call coins -- otherwise two runs (one now, one after `resolved`
+    # has grown or shrunk between pipeline passes) can independently hand the same
+    # catalogue_name to two different worlds, and nothing here would notice: this call fully
+    # overwrites ONOMASTICON.json with only what it names THIS time, so a world dropped from
+    # `resolved` this run keeps its old designation alive in already-published prose while its
+    # name silently becomes free for a new, unrelated world to be coined into.
+    #
+    # ONOMASTICON.json's own top-level keys are cids, exactly like `resolved`'s -- so seeding is
+    # restricted to cids NOT in `resolved` this call. Every cid IN `resolved` gets its
+    # designation freshly recomputed below (kept if still in a >=2 group, dropped otherwise),
+    # so seeding those too would make coin_well_formed see its own prior answer as taken and
+    # bump every unchanged world to a different name on every rerun -- breaking the exact
+    # reproducibility this module's docstring promises. Reading the existing file is
+    # best-effort: a missing or unreadable ONOMASTICON.json means there is nothing standing
+    # yet, not that naming should refuse to proceed.
     taken = set()
     try:
         with open(OUT, encoding="utf-8") as f:
-            for rec in (json.load(f) or {}).values():
+            for cid, rec in (json.load(f) or {}).items():
+                if cid in resolved:
+                    continue
                 nm = rec.get("catalogue_name")
                 if nm:
                     taken.add(nm.lower())

@@ -78,7 +78,7 @@ def before(label, paths, note=""):
         raise SnapshotFailed(
             "could not snapshot %r before a destructive step (%s: %s). The step must not "
             "proceed: an irreversible act with no copy behind it is the one thing this module "
-            "exists to prevent." % (label, type(e).__name__, e))
+            "exists to prevent." % (label, type(e).__name__, e)) from e
     if not took:
         raise SnapshotFailed(
             "snapshot %r captured NOTHING -- none of the given paths exist. An empty snapshot "

@@ -1175,7 +1175,7 @@ def main():
         # starting. Pinned by verify_math so the swallow cannot come back. (run #31)
         raise SystemExit(
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
-            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
     _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", action="store_true")

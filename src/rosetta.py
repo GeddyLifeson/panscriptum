@@ -156,7 +156,7 @@ def numeric_rows(wikitext):
         if len(links) == 1 and nums:
             offer(links[0], nums[0])
         elif links and nums and len(links) == len(nums):
-            for n, v in zip(links, nums):    # one-to-one row, safe to zip
+            for n, v in zip(links, nums, strict=True):    # one-to-one row, safe to zip
                 offer(n, v)
 
     if not out and not tabular:              # prose list: fall back to proximity
@@ -251,7 +251,7 @@ def spearman(pairs):
     rx, ry = rank(xs), rank(ys)
     n = len(rx)
     mx, my = sum(rx) / n, sum(ry) / n
-    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
+    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry, strict=True))
     dx = sum((a - mx) ** 2 for a in rx) ** 0.5
     dy = sum((b - my) ** 2 for b in ry) ** 0.5
     return round(num / (dx * dy), 3) if dx and dy else None

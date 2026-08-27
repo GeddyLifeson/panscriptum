@@ -244,7 +244,7 @@ def _records_sig(fresh=False):
 def load_records():
     """All records with entries -- cached against the directory's own signature.
 
-    63MB across 217 files (marvel.json alone is 27MB), and this was re-parsed on EVERY
+    63MB across 216 files (marvel.json alone is 27MB), and this was re-parsed on EVERY
     dashboard poll and three separate times per allsweep run (2026-08-23 optimization sweep).
     The signature is (count, max mtime), so any write anywhere in the directory invalidates.
     Callers get the shared list: read it, never mutate it."""

@@ -1387,7 +1387,18 @@ def check(state=None):
                 resident = [m.get("name") for m in (json.load(r).get("models") or [])]
         except Exception:
             resident = None          # a daemon that will not answer at all is another question
-        if resident:
+        if not resident:
+            # A STANDARD THAT COULD NOT BE ASKED MUST NOT SIMPLY VANISH. This used to fall
+            # straight through: an 8s timeout against a busy daemon, or no model resident, and
+            # the row was never appended -- so `N/N standards met` quietly counted a smaller
+            # denominator and the standard read as fine by being absent. Measured on 2026-08-27:
+            # the same battery passed with 44 standards declared and 44 emitted, then minutes
+            # later emitted 42 while Ollama was saturated by an unrelated process holding ~9,600
+            # connections to it, and the only reason anyone noticed was a check comparing
+            # declared against emitted. `_dropped` is the mechanism this file already has for
+            # exactly this, and the aggregate standard it feeds names what went missing.
+            _dropped.append("ollama-runner-standard")
+        else:
             runner = ollama_runner_up()
             # The contradiction IS the fault: the daemon cannot have a model resident with no
             # runner process holding it. When that happened the queue filled behind the missing

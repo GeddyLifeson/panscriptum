@@ -302,7 +302,7 @@ def run(name, args, logfile, timeout_h=6):
                     + "=" * 28 + chr(10))
                 fh.flush()
             env = dict(os.environ, PYTHONIOENCODING="utf-8")
-            p = subprocess.Popen([PY, "-u"] + args, cwd=HERE, stdout=fh,
+            p = subprocess.Popen([PY, "-u", *args], cwd=HERE, stdout=fh,
                                  stderr=subprocess.STDOUT, env=env,
                                  creationflags=NO_WINDOW)
             _PROCS["at"] = 0.0    # the table just changed; the shared cache must not deny it
@@ -353,7 +353,7 @@ def start(name, args, logfile):
         fh.write(f"\n{'=' * 78}\n=== {name} started {stamp} (pid pending)\n{'=' * 78}\n")
         fh.flush()
     env = dict(os.environ, PYTHONIOENCODING="utf-8")
-    p = subprocess.Popen([PY, "-u"] + args, cwd=HERE, stdout=fh,
+    p = subprocess.Popen([PY, "-u", *args], cwd=HERE, stdout=fh,
                          stderr=subprocess.STDOUT, env=env,
                          creationflags=NO_WINDOW)
     _PROCS["at"] = 0.0    # the table just changed; the shared cache must not deny it
@@ -718,7 +718,7 @@ def main():
         # starting. Pinned by verify_math so the swallow cannot come back. (run #31)
         raise SystemExit(
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
-            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
     _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--cycles", type=int, default=99)
@@ -870,7 +870,7 @@ def main():
             # cannot read the halt must stop the cycle loop, not keep dispatching stages.
             raise SystemExit(
                 "REFUSING TO CONTINUE: the escalation chain (src/escalation.py) could not "
-                "be imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+                "be imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
         try:
             _ESC.assert_clear("overnight.py cycle %d" % cycle)
         except Exception as e:

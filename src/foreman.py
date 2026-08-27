@@ -102,7 +102,7 @@ MAX_PATCH_LINES = 40
 # already stale when it returns. Long work belongs in a job the supervisor starts,
 # not in a repair the foreman waits on.
 def _run(args, timeout=900):
-    return subprocess.run([PY] + args, capture_output=True, text=True, timeout=timeout,
+    return subprocess.run([PY, *args], capture_output=True, text=True, timeout=timeout,
                           env=ENV, cwd=HERE, encoding="utf-8", errors="replace", creationflags=_NO_WIN)
 
 
@@ -377,7 +377,7 @@ def _restart_horizon(frag):
     """
     try:
         import overnight as _ON
-        cmds = [" ".join([os.path.basename(a[0])] + list(a[1:])) for _n, a, _l in _ON.STANDING]
+        cmds = [" ".join([os.path.basename(a[0]), *list(a[1:])]) for _n, a, _l in _ON.STANDING]
     except Exception:
         silence.note("foreman.py:restart-horizon")
         return f"{frag}: restart horizon UNKNOWN -- could not read overnight.STANDING"
@@ -1042,7 +1042,7 @@ def _function_source(path, symbol):
         def _scopes(node, prefix):
             for child in _ast.iter_child_nodes(node):
                 if isinstance(child, (_ast.FunctionDef, _ast.AsyncFunctionDef, _ast.ClassDef)):
-                    path = prefix + [child.name]
+                    path = [*prefix, child.name]
                     qualified.setdefault(".".join(path), child)
                     _scopes(child, path)
                 else:
@@ -1421,7 +1421,7 @@ def round_once(dry=True, patch=False):
 
     for o in orders:
         if o["standard"] in MODEL_LANE:
-            log["model_pending"] = log.get("model_pending", []) + [o["standard"]]
+            log["model_pending"] = [*log.get("model_pending", []), o["standard"]]
             print(f"   MODEL  {o['standard']}: {o['observed']} open "
                   f"-> run with --patch to attempt repairs")
             continue
@@ -1547,7 +1547,7 @@ def main():
         # starting. Pinned by verify_math so the swallow cannot come back. (run #31)
         raise SystemExit(
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
-            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
     _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser(description="read the work orders and act on them")
     ap.add_argument("--go", action="store_true", help="actually run the remedies")

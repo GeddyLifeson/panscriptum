@@ -528,7 +528,7 @@ def page_texts(subdomain, titles, max_chars=900, workers=None, progress=None):
     done, total = 0, len(titles)
     with ThreadPoolExecutor(max_workers=workers or WORKERS) as pool:
         for title, text in zip(titles, pool.map(
-                lambda t: page_text(subdomain, t, max_chars), titles)):
+                lambda t: page_text(subdomain, t, max_chars), titles), strict=True):
             if text:
                 out[title] = text
             done += 1

@@ -204,11 +204,19 @@ def rebuild(include_evidence=True, evidence_limit=None):
         n_entry += len(rows)
 
     n_ev = 0
+    evidence_truncated = False
     if include_evidence:
         files = (glob.glob(os.path.join(HERE, "data", "readfeats", "*", "*.json"))
                  + glob.glob(os.path.join(HERE, "data", "feats", "*", "*.json")))
-        if evidence_limit:
+        if evidence_limit and evidence_limit < len(files):
+            # TRUNCATED IS NOT THE SAME SHAPE AS COMPLETE. `files[:evidence_limit]` used to
+            # slice silently, and the row this writes to `meta` ('evidence') recorded the
+            # SLICED count with nothing anywhere marking the table as partial -- so a later
+            # reader of this index (or of `meta` directly) could not tell a partial evidence
+            # scan from a whole one. This project's standing lesson is that a partial count
+            # read as a total is how a run talks itself into work already done.
             files = files[:evidence_limit]
+            evidence_truncated = True
         batch = []
         for p in files:
             try:
@@ -249,6 +257,8 @@ def rebuild(include_evidence=True, evidence_limit=None):
                 (str(len(unreadable_records)),))
     con.execute("INSERT OR REPLACE INTO meta VALUES ('unreadable_evidence', ?)",
                 (str(len(unreadable_evidence)),))
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('evidence_truncated', ?)",
+                ("1" if evidence_truncated else "0",))
     con.commit()
     con.close()
     # THE VERDICT OF THE FINAL WRITE HAS TO REACH THE CALLER. `replace_retry` returns False
@@ -271,7 +281,8 @@ def rebuild(include_evidence=True, evidence_limit=None):
     return {"sources": n_src, "entries": n_entry, "evidence": n_ev,
             "seconds": round(time.time() - t0, 2), "landed": landed,
             "unreadable_records": unreadable_records,
-            "unreadable_evidence": unreadable_evidence}
+            "unreadable_evidence": unreadable_evidence,
+            "evidence_truncated": evidence_truncated}
 
 
 def age_seconds():
@@ -539,6 +550,12 @@ def main():
             return 1
         print("rebuilt: %(sources)d sources, %(entries)d entries, %(evidence)d evidence rows "
               "in %(seconds)ss" % got)
+        if got["evidence_truncated"]:
+            print("  WARNING: evidence table was built from a TRUNCATED file list "
+                  "(evidence_limit was passed to rebuild()) -- the evidence count above and "
+                  "the 'evidence' meta row are a PARTIAL scan, not a total. This is also "
+                  "recorded as meta.evidence_truncated='1' for any later reader of the "
+                  "database itself.")
         # WHAT DID NOT PARSE, BEFORE THE TOTALS ARE BELIEVED. Named in full, never counted and
         # cut: the file that would not read is the one somebody has to go look at.
         for label, bad in (("record", got["unreadable_records"]),

@@ -400,9 +400,9 @@ def ask(c, system, prompt, schema, retries=2, timeout=None, num_ctx=None, tag=""
             # to an owner's interactive run, then queues for one of the card's slots. Nine
             # standing jobs used to arrive here at once and the card served none of them well.
             # gpu_lane fails open, so a fault in it costs nothing but the arbitration.
-            with gpu_lane.lane(f"pipeline:{tag or 'ask'}"):
-                with urllib.request.urlopen(req, timeout=timeout or 420) as r:
-                    raw = json.loads(r.read().decode())
+            with (gpu_lane.lane(f"pipeline:{tag or 'ask'}"),
+                  urllib.request.urlopen(req, timeout=timeout or 420) as r):
+                raw = json.loads(r.read().decode())
             # "at" IS NOT OPTIONAL: it is what makes a row findable in time.
             #
             # This row carried no timestamp for the whole life of the ledger while
@@ -2181,7 +2181,7 @@ def main():
         # starting. Pinned by verify_math so the swallow cannot come back. (run #31)
         raise SystemExit(
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
-            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
     _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", type=int, default=None)

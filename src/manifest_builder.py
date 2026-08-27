@@ -199,7 +199,7 @@ def pack_feats(rows, source_name, budget):
         # the one case that cannot be helped, below.
         slice_, start = [], 0
         for f in feats:
-            if slice_ and cost(slice_ + [f]) > budget:
+            if slice_ and cost([*slice_, f]) > budget:
                 span = f"{start + 1}-{start + len(slice_)} of {len(feats)}"
                 blocks.append([shell(r, list(slice_), span)])
                 start += len(slice_)

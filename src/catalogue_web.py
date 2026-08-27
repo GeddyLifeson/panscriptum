@@ -231,8 +231,13 @@ def catalogue(source_name, verbose=True):
         # behind when the cap was removed: the constant was neutralised, the comparison
         # against it was not. Ranking is unconditional now, which is what it should always
         # have been, because ranking without truncating costs nothing and buys ordering.
-        titles = ws.rank_by_size(sub, titles, top=None,       # rank, never truncate
-                                 progress=lambda d, t: _beat(_short + " ranking", d, t))
+        titles = ws.rank_by_size(
+            sub, titles, top=None,       # rank, never truncate
+            # Default-arg bind: freezes THIS iteration's `_short` at lambda-creation time, so a
+            # future caller that defers the callback cannot see it silently drift to whatever
+            # class discovery landed on last (see the rebind note below for the bug this class
+            # of mistake already caused once).
+            progress=lambda d, t, _short=_short: _beat(_short + " ranking", d, t))
         if titles:
             planned.append((canon, cats, titles))
 
@@ -267,7 +272,8 @@ def catalogue(source_name, verbose=True):
             wanted.append(title)
 
         texts = ws.page_texts(sub, wanted,
-                              progress=lambda d, t: _beat(_short + " fetching", d, t))
+                              # Same default-arg freeze as the ranking callback above.
+                              progress=lambda d, t, _short=_short: _beat(_short + " fetching", d, t))
         got = 0
         for title in wanted:
             text = texts.get(title)
@@ -337,9 +343,10 @@ def main():
         try:
             with open(os.path.join(HERE, "data", "COMPLETENESS.json"), encoding="utf-8") as f:
                 comp = json.load(f)
-        except Exception:
+        except Exception as _comp_err:
             silence.note("catalogue_web.py:shortfall-completeness-read")
-            raise SystemExit("--shortfall needs data/COMPLETENESS.json; run completeness.py")
+            raise SystemExit(
+                "--shortfall needs data/COMPLETENESS.json; run completeness.py") from _comp_err
         gap = {}
         for c in comp:
             if c.get("unreliable"):

@@ -465,7 +465,7 @@ def git(*args, check=True):
     gh_dir = os.path.join(os.environ.get("LOCALAPPDATA", ""), "gh-cli", "bin")
     if os.path.isdir(gh_dir) and gh_dir not in env.get("PATH", ""):
         env["PATH"] = env.get("PATH", "") + os.pathsep + gh_dir
-    r = subprocess.run(["git"] + list(args), cwd=SITE, capture_output=True,
+    r = subprocess.run(["git", *list(args)], cwd=SITE, capture_output=True,
                        text=True, encoding="utf-8", errors="replace", env=env, creationflags=_NO_WIN)
     if check and r.returncode != 0:
         raise RuntimeError("git " + " ".join(args) + ": "
@@ -618,7 +618,7 @@ def push(message=None):
         raise RuntimeError(
             "REFUSING TO PUSH: the ledger guard (src/ledger_guard.py) could not be imported "
             "(%s), so the ledgers cannot be checked before they are published. Restore the "
-            "module, or push by hand once a person has read the ledgers." % _lg_gone)
+            "module, or push by hand once a person has read the ledgers." % _lg_gone) from _lg_gone
     _LG.assert_intact()
 
     # NEVER PUBLISH DELIBERATELY BROKEN CODE. `mutate.py` corrupts real source files on disk --
@@ -642,7 +642,7 @@ def push(message=None):
         raise RuntimeError(
             "REFUSING TO PUSH: the mutation interlock (src/mutate.py) could not be imported "
             "(%s), so nothing can say whether files in src/ are deliberately corrupt right "
-            "now. Restore the module, or push by hand once a person has read src/." % _mut_gone)
+            "now. Restore the module, or push by hand once a person has read src/." % _mut_gone) from _mut_gone
     _busy, _rec = _MUT.active()
     # ONLY WHEN THE LIVE TREE IS ACTUALLY AT RISK. `mutate.py` was rewritten to work in a
     # sandbox and never opens a file under `src/` for writing, so a mutation run is no longer a
@@ -736,7 +736,7 @@ def main():
         # starting. Pinned by verify_math so the swallow cannot come back. (run #31)
         raise SystemExit(
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
-            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone)
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
     _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser(description="publish the project and its instruments")
     ap.add_argument("--init", action="store_true", help="create the export repo")

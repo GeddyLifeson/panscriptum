@@ -72,6 +72,17 @@ BATCH = 40                      # MediaWiki accepts 50 titles per query; 40 leav
 _HOST_LOCKS = collections.defaultdict(threading.Lock)
 _HOST_LAST = {}
 _RATE_LIMITED = {}
+# GUARDS THE READ-MODIFY-WRITE ON `_RATE_LIMITED` AND `_CAP_BOUND` BELOW, NOT PACING.
+#
+# `_HOST_LOCKS[host]` is taken and released inside `_throttle`/`note_throttled` for spacing
+# requests to one host; it was never held around the `dict[key] = dict.get(key, 0) + 1` updates
+# to these two dicts, and `roll()` runs 8 workers by default (`overnight.py` launches it with
+# `--workers 12`), so concurrent increments lost updates the same way an unlocked counter always
+# does. `_CAP_BOUND` in particular is keyed by "aplimit"/"srlimit", not by host, so a per-host
+# lock could never have serialised it even if it had been used here. Both dicts are printed as
+# measurements in roll()'s own summary, under this file's rule that a measurement nobody prints
+# is not a measurement -- an uncounted count is worse than an absent one because it looks real.
+_COUNTS_LOCK = threading.Lock()
 
 # HOW OFTEN THE DISCOVERY CAPS ACTUALLY BIND (m82, measured from run #19 onward).
 #
@@ -303,7 +314,8 @@ def api(host, params, retries=2):
             silence.note("feats.py:api-http-error")
             if e.code in (429, 503):
                 wait = int(e.headers.get("Retry-After") or 0) or (5 * (attempt + 1) ** 2)
-                _RATE_LIMITED[host] = _RATE_LIMITED.get(host, 0) + 1
+                with _COUNTS_LOCK:
+                    _RATE_LIMITED[host] = _RATE_LIMITED.get(host, 0) + 1
                 # WIDEN THE PACE, not just this one sleep. The retry below waits and then
                 # carries on at the SAME rate, which is what let a throttling host be hit
                 # at full speed for a whole run. 503 is folded in with 429 deliberately:
@@ -522,7 +534,8 @@ def discover(host, name, extra=None):
     ap = api(host, {"action": "query", "list": "allpages",
                     "apprefix": f"{name}/", "aplimit": "500"})
     if (ap or {}).get("continue"):
-        _CAP_BOUND["aplimit"] = _CAP_BOUND.get("aplimit", 0) + 1
+        with _COUNTS_LOCK:
+            _CAP_BOUND["aplimit"] = _CAP_BOUND.get("aplimit", 0) + 1
     for row in (ap or {}).get("query", {}).get("allpages", []):
         if _EVIDENCE_TITLE.search(row["title"]):
             add(row["title"])
@@ -532,7 +545,8 @@ def discover(host, name, extra=None):
     sr = api(host, {"action": "query", "list": "search", "srlimit": "50",
                     "srsearch": f"{name} power abilities strength feats"})
     if (sr or {}).get("continue"):
-        _CAP_BOUND["srlimit"] = _CAP_BOUND.get("srlimit", 0) + 1
+        with _COUNTS_LOCK:
+            _CAP_BOUND["srlimit"] = _CAP_BOUND.get("srlimit", 0) + 1
     key = name.lower().split()[0] if name.split() else name.lower()
     hits = [(row.get("size", 0), row["title"])
             for row in (sr or {}).get("query", {}).get("search", [])
@@ -766,8 +780,21 @@ _SENT = re.compile(r"(?<=[.!?])\s+(?=[A-Z\"“])|\n+")
 # Physical quantities that mean the same thing in every fiction, which is why they are worth
 # extracting separately: assay.band_for_quantity() can place them on the ladder without anyone's
 # opinion in the loop.
+#
+# THE CARET DOES NOT HAVE TO TOUCH THE 10. `10\^?(\d+)` required the exponent digits to sit
+# directly against an (optional) caret with no whitespace anywhere in between, so "3 x 10 ^ 9
+# megatons" -- an entirely ordinary way to write that -- failed the exponent clause outright
+# and the regex backtracked onto matching "9 megatons" alone, recording value "9": nine orders
+# of magnitude short, silently, because `magnitude.py` floats `q["value"]` straight into
+# `assay.axis_score` with no parse-failure signal anywhere in between. `\s*` now sits on both
+# sides of the caret. Negative exponents ("10^-9") and the real multiplication sign ("×", not
+# just the letter x) are both accepted, and a bare superscript exponent with no caret at all
+# ("10⁹", "10⁻⁹") is matched by the second alternative, since `\d` does not match the
+# superscript-digit Unicode category.
+_SUPERSCRIPT_EXP = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹⁻", "0123456789-")
 _QUANTITY = re.compile(
-    r"\b(\d[\d,\.]*)\s*(?:x\s*10\^?(\d+)\s*)?"
+    r"\b(\d[\d,\.]*)\s*"
+    r"(?:[x×]\s*10\s*(?:\^?\s*(-?\d+)|([⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+))\s*)?"
     r"(tons?|tonnes?|kilotons?|megatons?|gigatons?|joules?|watts?|newtons?|"
     r"kilomet(?:er|re)s?|met(?:er|re)s?|miles?|light[- ]?years?|parsecs?|"
     r"kili|power\s*level|degrees?|kelvin|celsius|mach|times\s+the\s+speed\s+of\s+light)\b",
@@ -809,10 +836,15 @@ def mine(text, page):
             # `"1,200e9"` does not survive `float()` and `"1,200"` alone still does via that
             # consumer's own `.replace(",", "")`. `exponent` is kept alongside so the reading
             # stays auditable against the sentence it came from.
-            val, exp = m.group(1), m.group(2)
+            #
+            # THREE EXPONENT SHAPES, ONE FIELD. Group 2 is a signed decimal exponent ("^9",
+            # "^-9", or bare "9" with no caret at all); group 3 is a run of superscript
+            # characters ("⁹", "⁻⁹") that `\d` cannot see, translated back to plain digits here
+            # so both shapes land in the same `exponent` string.
+            val, exp = m.group(1), m.group(2) or (m.group(3) or "").translate(_SUPERSCRIPT_EXP)
             if exp:
                 val = "%se%s" % (val.replace(",", ""), exp)
-            quants.append({"value": val, "unit": m.group(3), "exponent": exp, "sentence": s,
+            quants.append({"value": val, "unit": m.group(4), "exponent": exp, "sentence": s,
                            "page": page})
     return kept, rejected, quants
 

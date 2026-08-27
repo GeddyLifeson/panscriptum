@@ -137,7 +137,7 @@ def _pearson(xs, ys):
     sy = math.sqrt(sum((y - my) ** 2 for y in ys))
     if sx == 0 or sy == 0:
         return None            # a constant column has no correlation, it has no variance
-    return sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / (sx * sy)
+    return sum((x - mx) * (y - my) for x, y in zip(xs, ys, strict=True)) / (sx * sy)
 
 
 def measure(rows=None):

@@ -97,18 +97,26 @@ def main():
                 shutil.move(src, os.path.join(arch, "raw", f))
             extra += 1
 
+    catalog_landed = True
     if a.go:
         # The withdrawn catalog is the record of WHAT was withdrawn; keep it beside the files.
         shutil.copy(CATALOG, os.path.join(arch, "catalog.withdrawn.json"))
-        tmp = CATALOG + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump({}, f, indent=2)
-        silence.replace_retry(tmp, CATALOG)
+        # ATOMIC, AND THE VERDICT KEPT. This ran AFTER every chapter file above has already
+        # been moved, on the one file generate.py and publish.py both read -- same collision
+        # hazard as scout._land, on a shared file. The hand-rolled `CATALOG + ".tmp"` plus a
+        # dropped `silence.replace_retry` return meant a denied replace (a reader holding
+        # catalog.json open, this module's normal situation) left the catalog claiming every
+        # withdrawn chapter still lives where the files just moved away from, with nothing
+        # raising to say so.
+        catalog_landed = silence.write_json(CATALOG, {}, indent=2)
 
     print("raw moved         : %d  (+%d unclaimed by the catalog)" % (moved["raw"], extra))
     print("compressed moved  : %d" % moved["compressed"])
     print("paths already gone: %d" % missing)
     if a.go:
+        if not catalog_landed:
+            print("CATALOG WRITE DENIED: %s still lists the paths just moved away -- "
+                  "replace refused, retry this run" % CATALOG)
         with open(CATALOG, encoding="utf-8") as f:
             print("catalog now       : %d entries" % len(json.load(f)))
         print("archive           : %s" % arch)

@@ -111,7 +111,7 @@ def decode(profile):
         raise ValueError(f"not a world profile: {profile!r}")
     addr, gr, rg, feats, band, att = m.groups()
     address = _unb32(addr)
-    features = {axis: tbl[B32.index(ch)][0] for (axis, tbl), ch in zip(AXES, feats)}
+    features = {axis: tbl[B32.index(ch)][0] for (axis, tbl), ch in zip(AXES, feats, strict=True)}
     return {
         "address": address,
         "shelfmark": AS.shelfmark(address),

@@ -165,9 +165,7 @@ def is_instruct_tuned(model_entry):
     name = model_entry.get("name", "").lower()
     # most Ollama chat models are instruct-tuned by default even without the word in the tag,
     # but explicit instruct/chat tags and a non-"base"/"text" tag are good positive signals
-    if any(bad in name for bad in ["-base", "-text", "-pt"]):
-        return False
-    return True
+    return not any(bad in name for bad in ["-base", "-text", "-pt"])
 
 
 def total_vram_gb():

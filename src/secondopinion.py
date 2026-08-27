@@ -127,6 +127,45 @@ NOT_FILED = {
     "PLW1510": "subprocess return codes are checked explicitly by the caller, not by check=True, "
                "because a non-zero exit is often the expected answer here",
     "B007": "unused loop variables are frequently the readable name for a discarded half of a pair",
+    "RUF059": "the same shape as B007 one level up: `a, b = f()` keeps a readable name for the "
+              "half of a tuple-return a caller does not need (verified across corpus_db.py, "
+              "pipeline.py, tiers.py, sevenfold.py, feats.py, hostcheck.py, pick_model.py -- "
+              "every sampled site was a discarded return-value member, not a forgotten one)",
+    "PLW0603": "the lazy-singleton module cache (`global _X; if _X is None: _X = ...`) appears "
+               "independently in address.py, cascade_bridge.py, endpoint.py, read.py, silence.py, "
+               "weave_index.py and others -- a deliberate, thread-guarded pattern for a "
+               "build-once module resource, not drift toward global mutable state",
+    "S110": "second opinion on silence.py, and it agrees rather than disagrees: every sampled "
+            "site (gpu_lane.py:477, health.py:190, silence.py itself, sweep_plan.py's dozen "
+            "silence.note()-guarding handlers) is already counted by silence.audit()'s own "
+            "'SILENT' tally (151 of 672 handlers). Most are the 'silence the silencer' idiom -- "
+            "the note-taking/health-recording apparatus must not itself be able to crash a run "
+            "by raising while reporting a failure -- which cannot route through silence.note() "
+            "without becoming circular. Ruff sees no house detector on this shape; the house "
+            "detector was pointed at first, saw the same 151, and already treats them as an "
+            "accepted category rather than a queue of individual fixes",
+    "S112": "same finding and same reasoning as S110, one statement lower (try/except/continue "
+            "instead of pass) -- silence.py's own audit already flags every sampled site",
+    "PLW2901": "every site sampled (backfill.py, cascade_bridge.py, catalogue_codex.py, feats.py, "
+               "ledger_guard.py, manifest_builder.py, rosetta.py, scout.py) reassigns the loop "
+               "variable to its own normalized or copied form (`block = block.strip()`, "
+               "`r = dict(r)`) and only the normalized form is read afterward in that same "
+               "iteration -- the safe, common idiom this rule also flags, not the closure-capture "
+               "bug B023 exists to catch (checked separately, and fixed where found)",
+    "B008": "both current sites are benign: pipeline.py's `_n=len(batch)` default deliberately "
+            "freezes the loop-current value at function-definition time so a deferred callback "
+            "cannot see `batch` drift in a later iteration -- removing it would REINTRODUCE the "
+            "exact B023 closure bug this codebase has already been bitten by once; sevenfold.py's "
+            "`depth=len(TIERS)` reads a fixed module-level tuple literal evaluated once at import, "
+            "never mutated, so there is no call-time staleness for B008 to protect against",
+    "BLE001": "second opinion on silence.py, and it is the rule this module's own docstring "
+              "names as the reference case for a house-style divergence: `silence.audit()` "
+              "independently walks the same `except Exception:` shape across src/ and finds "
+              "521 of 672 handlers already observed (recorded, logged, or re-raised) by the "
+              "SAME hand-written convention, with the 151 silent ones a tracked, accepted "
+              "category (see S110/S112 above), not a miss. Narrowing 531 sites to specific "
+              "exception types would be a second full pass over a codebase that already has a "
+              "working, independently-audited policy for this exact shape",
 }
 
 
@@ -144,7 +183,7 @@ def _ruff(paths):
     if not exe:
         return "NOT INSTALLED", []
     r = subprocess.run([exe, "check", "--output-format", "json",
-                        "--select", RUFF_RULES, "--ignore", RUFF_IGNORE] + list(paths),
+                        "--select", RUFF_RULES, "--ignore", RUFF_IGNORE, *list(paths)],
                        capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
     # ruff's own contract: 0 = no violations, 1 = violations found (real answer, keep going).
     # Anything else is ruff refusing to run at all -- the CLI itself was misused -- and its
@@ -176,7 +215,7 @@ def _vulture(paths, min_confidence=90):
     exe = _exe("vulture")
     if not exe:
         return "NOT INSTALLED", []
-    r = subprocess.run([exe] + list(paths) + ["--min-confidence", str(min_confidence)],
+    r = subprocess.run([exe, *list(paths), "--min-confidence", str(min_confidence)],
                        capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
     out = []
     for line in (r.stdout or "").splitlines():
@@ -208,7 +247,7 @@ def _detect_secrets(paths):
     exe = _exe("detect-secrets")
     if not exe:
         return "NOT INSTALLED", []
-    r = subprocess.run([exe, "scan"] + list(paths),
+    r = subprocess.run([exe, "scan", *list(paths)],
                        capture_output=True, creationflags=_NO_WIN, text=True, timeout=600)
     # `scan` prints its JSON report on success and nothing at all on a CLI-usage error (a bad
     # flag, a bad subcommand), with the reason on stderr and rc=2 -- the same shape ruff's own

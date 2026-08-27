@@ -470,8 +470,16 @@ def main():
             print("")
             for ax in A.WEIGHTS:
                 d = rec["axes"][ax]
+                # NOT EVERY SHEET CARRIES `provenance`. The local roster's axes always get it
+                # synthesised above (rec["axes"] -> {"score", "cited", "provenance"}), but the
+                # Son Goku sheet is carried in whole from data/REFERENCE_ASSAYS_PRESENCE.json,
+                # where every axis has only ["cited", "score"] -- verified against the file on
+                # disk. `d["provenance"]` crashed `--full` outright on that sheet, which also
+                # meant Z_FIGHTERS.json (below, read by pantheon.py) never got refreshed,
+                # because the crash lands before that write. A missing label prints as an
+                # honest blank rather than fabricating a "canon"/"wiki" this sheet never claimed.
                 print("   %-15s%5.1f  [%s] %s"
-                      % (ax, d["score"], d["provenance"], d["cited"][:60]))
+                      % (ax, d["score"], d.get("provenance", ""), d["cited"][:60]))
 
     # ATOMIC. `data/Z_FIGHTERS.json` is read by `pantheon.py`, so a crash mid-write corrupts a
     # file another module consumes. The m100 tail, 2026-08-25.
