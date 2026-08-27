@@ -168,6 +168,43 @@ dead (was 40) · `secondopinion` ruff 1,002 / vulture 4 / detect-secrets 0 · `a
 45 entities, 55 pairs, mean r = +0.3193, unchanged so not rewritten · corpus index rebuilt
 (216 sources, 239,293 entries; the rebuild closed a gap of 41,959).
 
+
+**ADDENDUM (01:5x, after the shift had closed) — THE READ PASS IS AT AN ETA OF 1.7 YEARS, AND
+THERE WAS NO NET FOR THE CONTEXT WINDOW.** The owner reported `read.py --run` sitting at 1,659 of
+326,617 chunks, 175 of 200,169 entities, **0.01 chunks/s**. Measured from here: read.py (pid
+31528, started 08:05) had consumed **239 seconds of CPU** in that time — it is waiting, not
+computing. Two compounding causes, both outside this code:
+
+* The resident runner serves qwen3:8b at **`context_length=4096` while `config.yaml` asks for
+  `num_ctx: 12288`**. Ollama holds a model at ONE context size, so every request naming another
+  rebuilds the runner — which `gpu_lane`'s own measured table already calls "240 s+, never
+  completed" on a card with no headroom (9.3 of 10.2 GB resident, 98% util).
+* The foreign `semsearch.cli watch` process (pid 11468) still holds **1,843 connections** to the
+  daemon, down from 9,599 earlier in the day.
+
+Probe evidence: two identical chat calls timed out at 240s and a third returned in 18.7s — a
+queue that drains occasionally, not a dead daemon.
+
+**The owner asked why there was no net for this, and they were right.** Sixteen modules read
+`num_ctx`; `verify_math` section 19ab already forbids HARDCODING it; and **nothing compared the
+number this project asks for against the number actually being served.** A mismatch never raised
+— it stalled — so it presented as slowness, and slowness is not something anyone opens an
+investigation about. Added: a pure `standards.context_verdict(served, want)`, a HIGH standard in
+the `machine` group that reports it (currently MISS — "runner serves num_ctx=4096, config.yaml
+asks for 12288"), and a drill net driving that verdict directly.
+
+**The net went red on its first version, for the right reason.** It scraped the two numbers back
+out of the printed sentence and tripped over a comma — a check on the formatting rather than on
+the finding. That is why the decision was pulled into a pure function, the same move `verdict()`
+and `charter_regression_verdict()` already made in that file. Watched red with the
+unreadable-context branch disabled, then green.
+
+Filed as an OWNER order: the remedy is a person's — stop or limit pid 11468, re-pin the model at
+12288, or lower `num_ctx` to what is served — and the third is **not free**, because
+`context_budget` derives the feats and prose block sizes from `num_ctx` and a measured feats
+prompt ran to 41,469 characters. Nothing was done to pid 11468; it is the owner's process and
+has nothing to do with this library.
+
 ---
 
 **THE 47 ORDERS AT OWNER, none decided by this run.** Severity, id, and the first sentence of each; the full text and evidence are in `state/workorders.json`.

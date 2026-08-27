@@ -2331,6 +2331,35 @@ def drill_binding_identity():
         "this ate the live 216-source roll twice in one afternoon, while someone was being "
         "careful, and no backup of that file existed")
 
+    def _context_mismatch_is_a_finding():
+        """A served context that disagrees with the configured one must be a FINDING, not a lag.
+
+        Ollama holds a resident model at ONE context size; a request naming a different
+        `num_ctx` rebuilds the runner, which on a full card is "240 s+, never completed". So a
+        mismatch does not raise -- it makes every call pay a rebuild, and presents as slowness.
+        Measured 2026-08-27: `read.py --run` had done 1,659 of 326,617 chunks at 0.01 chunks/s,
+        an ETA of ~1.7 years, while the runner served 4096 and config asked for 12288. Sixteen
+        modules read `num_ctx` and nothing compared it to what was being served.
+
+        Driven against the real `standards` verdict logic with the daemon and the config
+        stubbed, so the net proves the DECISION and needs neither a GPU nor a network. Both
+        directions: a mismatch must not hold, agreement must hold, and an unreadable context
+        must be neither -- it goes to `_dropped`, because "I could not tell" read as agreement
+        is the green-by-absence bug this standard sits next to.
+        """
+        import standards as ST
+        mismatch, _ = ST.context_verdict(4096, 12288)      # the live 2026-08-27 shape
+        agree, _ = ST.context_verdict(12288, 12288)
+        same_str, _ = ST.context_verdict("8192", 8192)     # the API returns ints, config may not
+        unknown_a, _ = ST.context_verdict(None, 12288)     # daemon would not say
+        unknown_b, _ = ST.context_verdict(4096, None)      # config unreadable
+        return (mismatch is False and agree is True and same_str is True
+                and unknown_a is None and unknown_b is None)
+    net(a, "a served context that disagrees with the configured one is a FINDING, not a lag",
+        _context_mismatch_is_a_finding,
+        "a num_ctx mismatch does not fail, it stalls -- every call rebuilds the runner -- so it "
+        "presents as slowness and nobody looks for a fault; measured at an ETA of 1.7 years")
+
     net(a, "the battery asks the live network ONCE, not once per check",
         _battery_asks_the_network_once,
         "nineteen live TLS connections per run made verify_math time out in mutate's sandbox, "

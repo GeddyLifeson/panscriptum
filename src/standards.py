@@ -392,6 +392,42 @@ MAX_PROVIDER_MODELS_AGE_H = 12  # an empty `stale` list from three days ago meas
 _UNANS_CACHE = {"at": 0.0, "n": 0}
 
 
+def context_verdict(served, want):
+    """PURE. Does the resident runner serve the context this project asks for? -> (holds, observed).
+
+    Pulled out of `check()` for the same reason `verdict()` and `charter_regression_verdict()`
+    are: a decision the drill must be able to attack without a GPU, a daemon or a network. It
+    also stops the net from having to scrape numbers back out of the printed sentence, which is
+    a check on the formatting rather than on the finding -- the first version of that net went
+    red on its own comma.
+
+    `None` on either side means the question could not be put, and is NOT agreement: the caller
+    routes that to `_dropped` rather than emitting a row that reads as a pass.
+    """
+    if served is None or want is None:
+        return None, ("resident context %r, configured %r -- one of them could not be read"
+                      % (served, want))
+    return int(served) == int(want), (
+        "runner serves num_ctx=%s, config.yaml asks for %s" % (int(served), int(want)))
+
+
+def cfg_num_ctx():
+    """-> the context window config.yaml asks for, or None if it cannot be read.
+
+    READ, NEVER RESTATED, and never defaulted to a plausible number: a default here would make
+    the context standard compare the runner against a literal this file invented, which is the
+    one thing it exists to catch. None means "could not tell", and the caller reports that as
+    unmeasurable rather than as agreement.
+    """
+    try:
+        import yaml as _y
+        with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
+            return int(_y.safe_load(f).get("num_ctx"))
+    except Exception:
+        silence.note("standards.py:cfg-num-ctx")
+        return None
+
+
 def _s(name, holds, observed, floor, order, severity="medium", group="general"):
     return {"standard": name, "group": group, "holds": bool(holds), "observed": observed,
             "floor": floor, "order": order, "severity": severity}
@@ -1381,10 +1417,11 @@ def check(state=None):
     # ------------------------------------------------------ the local model is really serving
     try:
         import urllib.request as _ur
-        resident = None
+        resident, resident_raw = None, []
         try:
             with _ur.urlopen("http://localhost:11434/api/ps", timeout=8) as r:
-                resident = [m.get("name") for m in (json.load(r).get("models") or [])]
+                resident_raw = json.load(r).get("models") or []
+                resident = [m.get("name") for m in resident_raw]
         except Exception:
             resident = None          # a daemon that will not answer at all is another question
         if not resident:
@@ -1417,6 +1454,50 @@ def check(state=None):
                 "fires, restart ollama.exe -- the tray app respawns it -- then confirm a real "
                 "call completes. Nothing drains that queue on its own.",
                 "high", "machine"))
+
+            # AND THE CONTEXT THE RUNNER IS ACTUALLY SERVING, WHICH NOTHING CHECKED.
+            #
+            # Ollama holds a resident model at ONE context size. A request naming a different
+            # `num_ctx` needs the runner torn down and rebuilt, which `gpu_lane.py`'s measured
+            # table records as "240 s+, never completed" on a card with no headroom. So a
+            # `num_ctx` in config.yaml that disagrees with the resident runner does not raise
+            # anything -- it makes EVERY call pay a rebuild, and the symptom is not an error but
+            # a stall. That is this project's signature failure in its most expensive costume:
+            # a fault that presents as slowness, so nobody looks for a fault.
+            #
+            # Measured 2026-08-27, which is why this exists: `read.py --run` had managed 1,659
+            # of 326,617 chunks at 0.01 chunks/s -- an ETA of about 1.7 YEARS -- while the
+            # resident runner served ctx=4096 and this project's config asked for 12288. Two
+            # identical probe calls timed out at 240s and a third returned in 18.7s. Sixteen
+            # modules read `num_ctx`, `verify_math` section 19ab already forbids hardcoding it,
+            # and NOTHING compared the number we ask for against the number being served.
+            #
+            # Reported as a standard rather than raised: the remedy is a person's (re-pin the
+            # runner, change the config, or evict whatever else is holding it), and a library
+            # that refused to run whenever a context mismatched would stop for a condition it
+            # can neither cause nor cure.
+            served = next((m.get("context_length") for m in resident_raw
+                           if m.get("context_length")), None)
+            want_ctx = cfg_num_ctx()
+            ctx_holds, ctx_observed = context_verdict(served, want_ctx)
+            if ctx_holds is None:
+                # NOT a pass. An unmeasurable context is exactly the state this whole block is
+                # about, and letting it read as agreement would be the green-by-absence bug one
+                # standard to the left.
+                _dropped.append("ollama-context-matches-config")
+            else:
+                out.append(_s(
+                    "the resident runner serves the context this project asks for",
+                    ctx_holds, ctx_observed,
+                    "the served context equals the configured one",
+                    "A mismatch does not fail, it STALLS: every request rebuilds the runner, "
+                    "which on a full card is minutes per call and can never drain. Either "
+                    "re-pin the model at the configured size, or change config.yaml to what is "
+                    "actually being served, or find what else pinned it -- on 2026-08-27 an "
+                    "unrelated process had pinned qwen3:8b at 4096 with an infinite keep_alive "
+                    "while this project asked for 12288, and the read pass was running at an "
+                    "ETA of 1.7 years.",
+                    "high", "machine"))
     except Exception:
         silence.note("standards.py:ollama-runner-standard")
         _dropped.append("ollama-runner-standard")
