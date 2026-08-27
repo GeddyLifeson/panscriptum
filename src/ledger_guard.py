@@ -248,7 +248,16 @@ def assert_intact():
     if not ok:
         raise LedgerViolation(
             "the ledger hash chain does not verify:\n  " + "\n  ".join(problems[:6]))
-    seal()
+    # `seal()` returns None on any write failure (disk full, permissions, the state/ directory
+    # gone) with no exception raised. A bare call here used to discard that -- `verify_chain`
+    # would keep passing on every later run, because the existing links still verify against
+    # each other; there would simply be no new one. The mechanism whose whole job is answering
+    # "did anything change these files since the last run" would have silently stopped
+    # answering, and nothing downstream would know to stop trusting it.
+    if seal() is None:
+        raise LedgerViolation(
+            "the ledger hash chain could not be sealed this run -- the new link was not "
+            "written, so a future run cannot tell whether these files changed underneath it")
     return True
 
 

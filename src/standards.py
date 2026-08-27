@@ -307,9 +307,41 @@ def fandom_ipv4_reachable(host=FANDOM_PROBE_HOST, timeout=8, _sk=None):
     AF_INET is not a sample of one host standing in for the others -- it is the identical
     socket every content wiki has to open, asked once.
 
-    `_sk` exists so the regression checks can drive this with a stub instead of the network."""
-    if _sk is None:
-        import socket as _sk
+    ASKED ONCE PER PROCESS. `check()` calls this on every invocation, and `verify_math` calls
+    `check()` about nineteen times in one run -- so the battery was opening nineteen live TLS
+    connections to Cloudflare to answer a question whose answer cannot change between them.
+    That was not merely waste. `mutate.py` runs the battery in a sandbox as its differential
+    gate, and on 2026-08-26 it REFUSED TO RUN AT ALL -- "verify_math TIMEOUT ... a gate that
+    cannot finish on unmutated code cannot judge a mutant" -- because those probes stall under
+    load while the same battery finishes in 32s on the live tree. `getaddrinfo` in particular
+    takes no timeout argument and can hang for as long as the resolver wants, so the `timeout`
+    below never bounded the whole call. One answer per process bounds the exposure to a single
+    DNS lookup and a single connect, and makes the battery give the same answer to every check
+    that asks -- which is what a check comparing two runs needs it to do.
+
+    Deliberately NOT cached across processes: a network fact goes stale in minutes and the
+    whole point of this standard is to notice an outage while it is happening.
+
+    `_sk` exists so the regression checks can drive this with a stub instead of the network --
+    and a stubbed call bypasses the memo entirely, in both directions, because three checks in
+    verify_math §19z drive this with three DIFFERENT synthetic networks and a memo shared with
+    them would answer the second and third with the first one's result."""
+    if _sk is not None:
+        return _fandom_probe(host, timeout, _sk)
+    key = (host, timeout)
+    if key not in _FANDOM_V4_CACHE:
+        import socket as _real_sk
+        _FANDOM_V4_CACHE[key] = _fandom_probe(host, timeout, _real_sk)
+    return _FANDOM_V4_CACHE[key]
+
+
+# Keyed by (host, timeout) rather than a bare flag, so a caller asking about a different host or
+# with a different patience gets its own answer instead of inheriting one.
+_FANDOM_V4_CACHE = {}
+
+
+def _fandom_probe(host, timeout, _sk):
+    """The live probe itself, with no memo in front of it. -> (ok, detail)."""
     try:
         infos = _sk.getaddrinfo(host, 443, _sk.AF_INET, _sk.SOCK_STREAM)
     except OSError:

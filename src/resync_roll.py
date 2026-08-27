@@ -76,8 +76,18 @@ def main():
                 import roll as _roll
                 if r.get("status") == _roll.OUT_OF_SCOPE:
                     pass
+                elif n:
+                    r["status"] = "catalogued"
                 else:
-                    r["status"] = "catalogued" if n else r.get("status", "catalogued")
+                    # A ZERO IS NOT A STALE READING OF A NONZERO STATUS. `hostcheck.py`'s
+                    # `purge()` empties a record's `entries` list without touching this roll, so
+                    # a source resynced down to zero used to keep whatever status it already
+                    # had -- "catalogued" for anything that had been catalogued before the purge
+                    # -- letting `entry_count: 0` and `status: catalogued` coexist on the same
+                    # row. `entry_count == 0` is what every real consumer (`manifest_builder`,
+                    # `catalog.py`, `pipeline.py`) actually gates work-selection on, so the label
+                    # must agree with the count rather than repeat the count's own history.
+                    r["status"] = "uncatalogued"
 
     if changed and not dry:
         # ATOMIC: this file's own docstring warned about the roll-clobber hazard while the

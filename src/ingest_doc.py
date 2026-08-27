@@ -95,8 +95,11 @@ def extract(pdf_path, source):
             out["p. %04d" % (i + 1)] = t
     d = os.path.join(DOCS, slug(source))
     os.makedirs(d, exist_ok=True)
-    with open(os.path.join(d, "pages.json"), "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=0, ensure_ascii=False)
+    # ATOMIC: pages.json is the only machine copy of a book the library cannot re-fetch, read
+    # by mine() and by the evidence pipeline through the doc: host. A bare open()+json.dump here
+    # was a truncate-then-fill; a re-extract that died mid-dump would have destroyed the corpus
+    # it was re-extracting, with nothing left to recover from.
+    silence.write_json(os.path.join(d, "pages.json"), out, indent=0, ensure_ascii=False)
     return out
 
 
@@ -157,7 +160,7 @@ def mine(source):
         with open(state_p, encoding="utf-8") as f:
             state = json.load(f)
     except Exception:
-        silence.note("ingest_doc.py:159")
+        silence.note("ingest_doc.py:ingest-state")
         state = {"next": 0, "found": 0}
 
     # Chunk on page boundaries so a citation's page label survives.

@@ -265,7 +265,22 @@ def _is_real_secret(text):
 
 
 def scrub_text(s):
-    """Both locks, applied to one string. Named and public so the DRILL can attack it."""
+    """Both locks, applied to one string. Named and public so the DRILL can attack it.
+
+    PER LINE, not the whole string at once. FIXTURE_MARKER's own comment above promises the
+    marker "must be on the same line, so it cannot silence a region" -- true of `scan_for_secrets`
+    (which checks per line) but was false here: checking `FIXTURE_MARKER in s` against a whole
+    multi-line value let one marker anywhere blank the scrub for every line that value carried,
+    including a line with a live credential and no marker of its own. A multi-line snapshot
+    value survives `json.dump` as ONE escaped line in docs/state.json, so LOCK THREE's own
+    per-line marker check would then also wave the same secret through.
+    """
+    return "\n".join(_scrub_line(line) for line in s.split("\n"))
+
+
+def _scrub_line(s):
+    """`scrub_text`'s per-line body. Not named `scrub_text` itself so the drill keeps attacking
+    the public per-string entry point rather than a helper nothing else calls."""
     if FIXTURE_MARKER in s:
         return s
 

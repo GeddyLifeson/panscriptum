@@ -395,7 +395,7 @@ def _slices(path):
     return out
 
 
-def _anchored(module, finding, src):
+def _anchored(finding, src):
     """Does the finding point at something that exists?
 
     A model will happily report a defect in "the retry logic". That is unactionable and
@@ -409,8 +409,10 @@ def _anchored(module, finding, src):
     return bool(bare) and bare in src
 
 
-def review(module, local=True, ledger=None):
-    """Read one module and return (findings, complete).
+def review(module, local=True):
+    """Read one module and return (findings, complete). NOVEL filtering (has this finding
+    already been logged) is the caller's job against its own ledger -- `review` used to take a
+    `ledger` parameter it never read, which claimed a filter this function does not apply.
 
     `complete` is False the moment any slice's `_ask` comes back `None` -- the GPU was busy and
     this round's cloud budget was already spent (see `_ask`'s "THE WATCHER YIELDS" comment). A
@@ -437,7 +439,7 @@ def review(module, local=True, ledger=None):
         for f_ in (got or {}).get("findings", []):
             if (f_.get("severity") or "medium").lower() not in ("high", "medium"):
                 continue
-            if not _anchored(module, f_, src):
+            if not _anchored(f_, src):
                 continue
             f_["module"] = module
             f_["lines"] = [start, end]
@@ -670,7 +672,7 @@ def round_once(limit=6, local=True, skip_model=False):
         for m in todo:
             t = time.time()
             try:
-                found, complete = review(m, local=local, ledger=led)
+                found, complete = review(m, local=local)
             except Exception as e:
                 silence.note("overwatch.py:review")
                 print(f"   {m}: review failed ({type(e).__name__})", flush=True)

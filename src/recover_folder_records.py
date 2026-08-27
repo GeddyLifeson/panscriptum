@@ -4,10 +4,12 @@ Rebuilds the missing folder-mode records from data the cloud session already gat
 
 Why this exists
 ---------------
-100 of the 215 sources on the Acquisitions Roll show `entry_count: 0` -- a cloud session hit
-a limit mid-sweep and those records were never written (77 have no record file at all; 23 have
-a file containing an empty `entries` list). Every one of them is nonetheless flagged
-`status: "catalogued"` on the roll, which is why the gap is easy to miss.
+6 of the 215 sources on the Acquisitions Roll show `entry_count: 0` -- a cloud session hit
+a limit mid-sweep and those records were never written (0 have no record file at all; all 6
+have a file containing an empty `entries` list). Every one of them is nonetheless flagged
+`status: "catalogued"` on the roll, which is why the gap is easy to miss. (Measured directly
+against data/SWEEP_ROLL.json and data/records/ on 2026-08-26; re-run the same check before
+trusting these counts on a later date, since the roll is live and this section is not.)
 
 For a subset of them the research is NOT actually missing. It is sitting in the kit in a
 different shape:

@@ -1396,10 +1396,34 @@ _CP.category_size_probe = _stub([_N] * _nprobes)
 check("genuine absence (every probe answered, no categories) -> row dropped",
       len(_CP.audit(workers=1)), 0)
 
+# THE NUMERATOR HAS TO EXIST BEFORE THIS CAN ASK ABOUT THE DENOMINATOR, and until run #35 the
+# fixture never gave it one: `records/` was created EMPTY, so `Testsource` had no catalogue
+# record and the row was unmeasurable for a reason that had nothing to do with the probes this
+# check is about. It passed anyway, because at the time nothing distinguished "no numerator" from
+# "measured and zero" -- when run #35 taught `audit()` to say so (order 662b9fc2d7e2), this check
+# went red and correctly refused to keep vouching for a fixture that was never testing what its
+# own label claims. The record below makes the transport failures the only variable.
+with open(os.path.join(_crecs, "Testsource.json"), "w", encoding="utf-8") as _f:
+    json.dump({"source": "Testsource",
+               "entries": [{"category": "Persons"} for _ in range(40)]}, _f)
 _CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_V])
 _r = _CP.audit(workers=1)
 check("a real denominator among failures is still measurable",
       bool(_r) and not _r[0]["unreliable"], True)
+check("and the coverage it reports is the real ratio, not a stand-in zero",
+      round(_r[0]["coverage"], 4) if _r else None, round(40 / 1000, 4),
+      note="40 catalogued Persons against a probed denominator of 1000")
+check("while the failed probes ride along on the row rather than being discarded",
+      _r[0]["probe_failures"] if _r else None, _nprobes - 1)
+# And the other half of the distinction run #35 drew: WITHOUT a catalogue record the same probe
+# pattern must NOT report a measured zero, because nobody measured anything.
+os.remove(os.path.join(_crecs, "Testsource.json"))
+_CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_V])
+_r_norec = _CP.audit(workers=1)
+check("an UNCATALOGUED source with a good denominator is unmeasured, not measured-and-zero",
+      bool(_r_norec) and bool(_r_norec[0]["unreliable"]), True,
+      note="coverage 0.0 with no numerator on disk reads exactly like a source that was "
+           "catalogued and genuinely has nobody in it")
 
 # ---- the reachability gate itself -------------------------------------------------------------
 # An unreachable host must still produce a ROW -- a source missing from COMPLETENESS.json reads
