@@ -4819,6 +4819,382 @@ check("escalation.clear() has no caller anywhere in src/ -- by AST, not by grep"
            "asserted anywhere but a literal substring scan in drill.py that an import alias, a "
            "from-import or a getattr walked straight past")
 
+
+print()
+print("=" * 96)
+print("34. §20r  THE ASSAY'S OWN ARITHMETIC WAS UNGUARDED — 24 single-token corruptions of")
+print("          assay.py that the ENTIRE battery failed to notice (mutation run, 2026-08-25)")
+print("=" * 96)
+#
+# Every check below was written against a SURVIVING MUTANT: `mutate.py` changed one token in
+# `assay.py` to something wrong, ran the whole battery, and the battery passed. A survivor is
+# not a bug in itself -- it is a place where this library cannot tell correct code from
+# corrupted code, which is worse, because it is the property every other check here depends on.
+#
+# assay.py is the module that turns evidence into the published decimal and its +/-. It had
+# 24 such places. The pattern in almost all of them: the function was never CALLED by the
+# battery at all, so no assertion about it could fail. Guards were being read, not exercised.
+
+# ---- axis_score: the two refusals that keep a bad quantity out of the arithmetic -----------
+# L221 (`or` -> `and`) and L228 (`or` -> `and`). Both mutations turn a refusal into a TypeError
+# or a silent computation on garbage; neither was reachable from any existing check.
+check("axis_score refuses a missing quantity", A.axis_score(None, "M3", "ruin"), None)
+check("axis_score refuses a non-positive quantity (log of it does not exist)",
+      A.axis_score(-5.0, "M3", "ruin"), None)
+check("axis_score refuses zero", A.axis_score(0.0, "M3", "ruin"), None)
+check("axis_score refuses a band that is not on the Ladder",
+      A.axis_score(1e9, "M-not-a-band", "ruin"), None)
+check("axis_score refuses an axis the band edges do not carry",
+      A.axis_score(1e9, "M3", "no_such_axis_exists"), None)
+_ax_valid = A.axis_score(1e9, "M3", "ruin")
+check("and it still SCORES a well-formed quantity (the refusals are not blanket)",
+      _ax_valid is None or (0.0 <= _ax_valid <= 10.0), True,
+      note="a guard that refuses everything passes every refusal test ever written")
+
+# ---- band_for_quantity: L244 (`<=` -> `>`) and L248 (`>=` -> `<`) --------------------------
+check("band_for_quantity refuses a missing quantity", A.band_for_quantity(None, "ruin"), None)
+check("band_for_quantity refuses a non-positive quantity",
+      A.band_for_quantity(-1.0, "ruin"), None)
+check("band_for_quantity answers for a real quantity",
+      A.band_for_quantity(1e9, "ruin") in A.LADDER, True)
+_b_small = A.band_for_quantity(1e3, "ruin")
+_b_large = A.band_for_quantity(1e60, "ruin")
+check("and the answer is STRICTLY ordered: a far larger quantity clears a higher rung",
+      A.LADDER.index(_b_large) > A.LADDER.index(_b_small), True,
+      note="L248 flipped `>=` to `<`, which inverts the ladder walk so that EVERY quantity "
+           "returns the top rung -- a non-strict comparison here passes against that, because "
+           "M10 >= M10 holds and says nothing")
+check("a quantity beneath the ladder's own floor sits at M0",
+      A.band_for_quantity(1.0, "ruin"), "M0")
+check("and the highest quantity does not sit at M0", _b_large != "M0", True)
+
+# ---- the attestation-sigma table: L520 (`or` -> `and`) -------------------------------------
+# The table must be STRICTLY increasing. The mutation makes the integrity check demand BOTH
+# faults at once, so a table that is merely out-of-order, or merely has a duplicate, sails
+# through. Put the real checker to a table with exactly one fault each way.
+_sig_order = ["Instrumented", "Witnessed", "Transcribed", "Reconstructed", "Disputed"]
+_sig_saved = dict(A.SIGMA_BY_ATTESTATION)
+
+
+def _sigma_table_refuses(table):
+    """Does the module's own integrity check reject this table? -> bool."""
+    A.SIGMA_BY_ATTESTATION.clear()
+    A.SIGMA_BY_ATTESTATION.update(table)
+    try:
+        A._check_constants()
+        return False
+    except A.AssayIntegrityError:
+        return True
+    except Exception:
+        return False
+    finally:
+        A.SIGMA_BY_ATTESTATION.clear()
+        A.SIGMA_BY_ATTESTATION.update(_sig_saved)
+
+
+_out_of_order = dict(_sig_saved)
+_out_of_order["Instrumented"], _out_of_order["Disputed"] = (
+    _sig_saved["Disputed"], _sig_saved["Instrumented"])
+check("an OUT-OF-ORDER attestation table is refused (better testimony, more uncertainty)",
+      _sigma_table_refuses(_out_of_order), True)
+_duplicated = dict(_sig_saved)
+_duplicated["Witnessed"] = _sig_saved["Transcribed"]
+check("a DUPLICATED attestation sigma is refused (two grades that cannot be told apart)",
+      _sigma_table_refuses(_duplicated), True)
+check("and the real table passes its own check", _sigma_table_refuses(_sig_saved), False)
+
+# ---- the Hands' interval: L1078, L1089, L1098 ----------------------------------------------
+# interval_from_hands is where the published +/- comes from, and NOTHING in the battery called
+# it. L1078 dropped the `not` from the empty-readings guard; L1089 inverted the widening loop
+# that enforces the Vade Mecum's countersign check; L1098 inverted the covering assertion the
+# result publishes about itself.
+check("no readings yields no interval", A.interval_from_hands({}), None)
+check("readings that are all None yield no interval",
+      A.interval_from_hands({"AVAR": None, "QUILL": None}), None)
+_iv = A.interval_from_hands({"AVAR": 7.41, "QUILL": 7.90}, attestation="Transcribed")
+check("two signed readings DO yield an interval", _iv is not None, True)
+check("the interval covers every signed reading (Vade Mecum III.4, the countersign check)",
+      _iv["covers_all_signatures"], True)
+check("and covers_all_signatures is measured, not asserted",
+      all(abs(v - _iv["centre"]) <= _iv["interval"] + 1e-9
+          for v in _iv["signatures"].values()), True)
+# The widening loop only does work when the quadrature interval starts too small for the
+# spread, so the case is constructed to need it: a wide disagreement under the tightest floor.
+_wide = A.interval_from_hands({"AVAR": 2.00, "QUILL": 9.00, "MOTH": 5.50},
+                              attestation="Instrumented")
+check("a WIDE disagreement is widened until it covers -- the loop that enforces constraint 1",
+      _wide["covers_all_signatures"], True)
+check("and widening never narrows: the bar is at least the half-spread",
+      _wide["interval"] >= (max(_wide["signatures"].values())
+                            - min(_wide["signatures"].values())) / 2.0 - 1e-9, True)
+check("the spread is published alongside the centre (Absolute 3: never silently average)",
+      _wide["spread"], 7.0, tol=1e-9)
+
+# ---- the regress test: L1015, L1018, L1025, L1029, L1034, L1035 ----------------------------
+# Six mutations, all in the three verdict dicts, all flipping `assayable` or `omega_eligible`.
+# These two booleans ARE charter law (Part Three, H4): a demiurge is in the domain and is
+# assayed normally; a ground-of-being claimant is NOT an element of any state space, so the
+# Assay declines it and only its ARGUMENT may be scored -- "Seat, never Name". Every one of the
+# six survived, because nothing in the battery ran regress_test at all.
+_demiurge = A.regress_test("a claimant with a before", has_a_before="hatched from an egg")
+check("a claimant with a BEFORE is a DEMIURGE", _demiurge["verdict"], "DEMIURGE")
+check("a demiurge IS assayable (it is in the domain, whatever its power)",
+      _demiurge["assayable"], True)
+check("a demiurge is NOT omega-eligible", _demiurge["omega_eligible"], False)
+_stage = A.regress_test("a claimant given a stage", has_a_stage="the primordial sea")
+check("a claimant given a STAGE is also a demiurge", _stage["verdict"], "DEMIURGE")
+check("...and is assayable", _stage["assayable"], True)
+_embedded = A.regress_test("a claimant in a state space",
+                           embedded_in_a_state_space="the Sea of Souls")
+check("a claimant EMBEDDED in a state space is also a demiurge",
+      _embedded["verdict"], "DEMIURGE")
+_ground = A.regress_test("a claimant that halts the regress", claims_to_be_the_ground=True)
+check("a ground-of-being claimant is an ONTOLOGICAL CLAIMANT",
+      _ground["verdict"], "ONTOLOGICAL CLAIMANT")
+check("an ontological claimant is NOT assayable (H4: not an element of any state space)",
+      _ground["assayable"], False)
+check("an ontological claimant IS omega-eligible -- the ARGUMENT may be scored, never the Name",
+      _ground["omega_eligible"], True)
+_ordinary = A.regress_test("a claimant with no markers at all")
+check("a claimant with no markers is an ORDINARY AGENT", _ordinary["verdict"], "ORDINARY AGENT")
+check("an ordinary agent is assayable", _ordinary["assayable"], True)
+check("an ordinary agent is not omega-eligible", _ordinary["omega_eligible"], False)
+check("a DEMIURGE marker beats the ground claim: the regress passes THROUGH the claimant",
+      A.regress_test("both", has_a_before="an egg",
+                     claims_to_be_the_ground=True)["verdict"], "DEMIURGE",
+      note="the ordering of the two branches is the whole test -- a claimant that has a before "
+           "does not get to declare itself the ground")
+
+# ---- the null Instrument: L982 (`computed` True -> False) ----------------------------------
+check("the null Instrument reports itself COMPUTED, not merely absent",
+      A.null_instrument()["computed"], True,
+      note="Theorem 3(ii) is that the mathematics RETURNS a null for a degenerate agent; a null "
+           "that does not claim to be computed is indistinguishable from a missing reading")
+check("and it carries the reason it is null", bool(A.null_instrument()["reason"]), True)
+
+# ---- the correlation provenance stamp: L641, L662 ------------------------------------------
+# Every published +/- carries a stamp saying whether it was computed against MEASURED
+# correlations or against the independence assumption. L641 dropped the `not` from the
+# empty-document guard; L662 turned the fallback's reason into an empty string. Both make the
+# stamp lie about which arithmetic produced the bar.
+_stamp = A._rho_source()
+check("the correlation stamp names its provenance", isinstance(_stamp, str) and bool(_stamp),
+      True)
+check("the stamp is one of the two arithmetics and says WHICH",
+      _stamp.startswith("measured:") or _stamp.startswith("FALLBACK rho=0"), True)
+if _stamp.startswith("FALLBACK"):
+    check("a FALLBACK stamp states the cause rather than trailing off",
+          len(_stamp) > len("FALLBACK rho=0, independence ASSERTED not measured -- "), True,
+          note="L662 made the reason an empty string, so the stamp said the bar was a fallback "
+               "and refused to say why")
+else:
+    check("a MEASURED stamp means the matrix actually loaded", bool(A._rho_doc()), True)
+
+# ---- promotion_watch and the ceiling: L918 (`>=` -> `<`), L861 (False -> True) -------------
+# `promotion_watch` is the flag that tells a curator an entry may belong one rung up. It is a
+# curatorial trigger, so it must fire on the boundary and not below it.
+# Asserted through the REAL assay, never by recomputing the expression here: a check that
+# reimplements the line it is guarding cannot fail when that line is corrupted -- it would have
+# passed against the mutant just as happily, which is how this survived in the first place.
+_maxed = A.assay("M3", {k: 9.9 for k in A.WEIGHTS}, attestation="Witnessed", worksheet="w")
+_lowly = A.assay("M3", {k: 1.0 for k in A.WEIGHTS}, attestation="Witnessed", worksheet="w")
+check("an assay with every Measure maxed raises promotion_watch",
+      _maxed["promotion_watch"], True)
+check("an assay with every Measure low does NOT raise it", _lowly["promotion_watch"], False)
+check("and the two are told apart by the decimal, which is what the flag reads",
+      _maxed["decimal"] > _lowly["decimal"], True,
+      note="L918 flipped `>=` to `<`, which fires the curatorial promotion flag on exactly the "
+           "entries that least deserve it and silences it on the ones that do")
+
+# ---- the between-hands variance: L776 (`>` -> `<=`) ----------------------------------------
+# Between-hand dispersion is only defined for MORE THAN ONE reading -- the sample sd divides by
+# (n-1), so a single reading would divide by zero. The mutation inverts the guard, which turns
+# the one safe case into the crash case and vice versa.
+_one = A._interval(dict(A.CHARTER_KENSHIRO), set(A.CHARTER_KENSHIRO), set(),
+                   list(A.WEIGHTS), "Witnessed", 1.0, hand_readings=[7.4],
+                   weights=A.WEIGHTS)
+check("one hand reading contributes no between-hand variance (n-1 would be zero)",
+      "_between_hands" not in _one[1], True)
+_two = A._interval(dict(A.CHARTER_KENSHIRO), set(A.CHARTER_KENSHIRO), set(),
+                   list(A.WEIGHTS), "Witnessed", 1.0, hand_readings=[7.4, 7.9],
+                   weights=A.WEIGHTS)
+check("two hand readings DO contribute between-hand variance",
+      "_between_hands" in _two[1], True)
+check("and disagreement widens the bar rather than narrowing it", _two[0] >= _one[0], True)
+
+# ---- the Constitution faculty: L962 (`or` -> `and`) ----------------------------------------
+# Constitution is the mean of two axes and prints NOTHING when either is unattested --
+# "transcendence is not evidence" (Definition 5). The mutation prints a faculty value derived
+# from a single axis while claiming to have read two.
+_inst_half = A.instrument("M6", {"continuity": 8.0}, worksheet="w")
+check("Constitution prints nothing when only one of its two axes is attested",
+      _inst_half["faculties"].get("Constitution"), None)
+_inst_both = A.instrument("M6", {"continuity": 8.0, "sustain": 6.0}, worksheet="w")
+check("Constitution prints when BOTH of its axes are attested",
+      _inst_both["faculties"].get("Constitution") is not None, True)
+
+# ---- the unscored roster: L845 (`and` -> `or`) ---------------------------------------------
+# `unscored` is the list of Measures nobody read. INAPPLICABLE is information (a landslide has
+# no Suasion) and must not be counted as ignorance; UNESTIMABLE is ignorance and must be. The
+# mutation collapses the distinction the comment above it exists to preserve.
+_sc = {k: 5.0 for k in A.WEIGHTS}
+_sc["suasion"] = A.INAPPLICABLE
+_sc["volition"] = A.UNESTIMABLE
+_as = A.assay("M3", _sc, attestation="Witnessed", worksheet="w")
+check("an INAPPLICABLE Measure is not filed as unscored (it is information, not ignorance)",
+      "suasion" in (_as.get("axes_unscored") or []), False)
+check("an UNESTIMABLE Measure is not filed as unscored either -- it has its own roster",
+      "volition" in (_as.get("axes_unscored") or []), False)
+check("and UNESTIMABLE is named on that roster, so ignorance stays visible",
+      "volition" in (_as.get("axes_unestimable") or []), True)
+check("while INAPPLICABLE is not ignorance and is not on it",
+      "suasion" in (_as.get("axes_unestimable") or []), False)
+
+# ---- the sigma calibration margin: L579 (`and` -> `or`) ------------------------------------
+# The margin is only meaningful when BOTH ends of the passing band were found and they bracket
+# a real interval. The mutation computes a margin from a half-open or empty band, which is a
+# division by a zero-or-negative width dressed up as a calibration figure.
+_cal = A.calibration_report()
+if isinstance(_cal, dict):
+    check("the calibration margin is None unless a real passing band was bracketed",
+          _cal.get("margin") is None
+          or (_cal.get("band_lo") is not None and _cal.get("band_hi") is not None
+              and _cal["band_hi"] > _cal["band_lo"]), True)
+
+# ---- axis_score's ONE-SIDED band edge: L228 (`or` -> `and`) --------------------------------
+# The refusal above only reaches the mutation when exactly ONE of the two edges is missing.
+# When BOTH are missing the mutant short-circuits to the same answer, which is why the obvious
+# "unknown axis" case above passes against it and this one does not. Built by putting a real
+# axis on the lower band and not the upper -- the shape a half-extended BAND_EDGES table has.
+_edges_saved = {b: dict(v) for b, v in A.BAND_EDGES.items()}
+try:
+    A.BAND_EDGES["M3"]["only_on_the_lower_rung"] = 1e6
+    _one_sided = A.axis_score(1e9, "M3", "only_on_the_lower_rung")
+except Exception as _e_one_sided:
+    _one_sided = "RAISED " + type(_e_one_sided).__name__
+finally:
+    for _b, _v in _edges_saved.items():
+        A.BAND_EDGES[_b].clear()
+        A.BAND_EDGES[_b].update(_v)
+check("axis_score refuses a HALF-DEFINED band edge (floor present, ceiling missing)",
+      _one_sided, None,
+      note="an axis on one rung and not the next has no interval to scale into; scoring it "
+           "anyway publishes a decimal derived from a log of None")
+check("and the edge table was put back exactly", A.BAND_EDGES, _edges_saved)
+
+# ---- the fallback stamp's REASON: L662 (`or` -> `and`) -------------------------------------
+# Only reachable on the fallback path, which the real run never takes because the matrix loads.
+# Forced here, because the whole value of the stamp is that a reader of one published number can
+# tell WHY its bar rests on the independence assumption.
+# And L641, the guard that DECIDES whether this run is on the fallback at all. Inverting it
+# does not change which matrix is used -- the document is cached either way -- it changes only
+# whether the library believes it is running on measured correlations. A run reading a perfectly
+# good matrix would file a fallback reason and print a warning about a file it had just read.
+_c0_saved, _r0_saved = A._RHO_CACHE[0], A.RHO_FALLBACK_REASON
+try:
+    A._RHO_CACHE[0] = None                    # force a real reload of the real file
+    A.RHO_FALLBACK_REASON = None
+    _reloaded = A._rho_doc()
+    _reason_after_good_load = A.RHO_FALLBACK_REASON
+finally:
+    A._RHO_CACHE[0], A.RHO_FALLBACK_REASON = _c0_saved, _r0_saved
+check("a matrix that loads cleanly files NO fallback reason",
+      (bool(_reloaded), _reason_after_good_load), (True, None),
+      note="L641 dropped the `not`, so a successful load recorded 'load() returned nothing' "
+           "and every interval computed afterwards carried a provenance stamp that was false")
+
+_cache_saved, _reason_saved = A._RHO_CACHE[0], A.RHO_FALLBACK_REASON
+try:
+    A._RHO_CACHE[0] = {}
+    A.RHO_FALLBACK_REASON = "the matrix was unreadable on this run"
+    _fallback_stamp = A._rho_source()
+finally:
+    A._RHO_CACHE[0], A.RHO_FALLBACK_REASON = _cache_saved, _reason_saved
+check("a FALLBACK correlation stamp names its cause instead of trailing off",
+      "the matrix was unreadable on this run" in _fallback_stamp, True,
+      note="L662 turned `REASON or ''` into `REASON and ''`, so the stamp announced that the "
+           "bar was computed on an assumption and refused to say why")
+check("and the real stamp was restored", A.RHO_FALLBACK_REASON, _reason_saved)
+
+# ---- the ceiling and promotion flags: L861 (initialised False -> True) ---------------------
+# Both flags are only ASSIGNED inside the `_dec >= 1.0` branch. Initialise them True and every
+# ordinary entry in the library silently claims to be saturating the Ladder and due promotion.
+_mid = A.assay("M3", {k: 5.0 for k in A.WEIGHTS}, attestation="Witnessed", worksheet="w")
+check("an ordinary assay is NOT at the Ladder's ceiling", _mid["at_ladder_ceiling"], False)
+check("an ordinary assay is NOT due promotion", _mid["promotion_due"], False)
+# And the other direction, because a flag that is stuck OFF passes every off-test ever
+# written. Promotion needs a full rung (`_dec >= 1.0`), which takes every Measure at AXIS_MAX
+# exactly -- 9.9 across the board only reaches 0.99 and is correctly not promoted.
+_saturated = A.assay("M3", {k: A.AXIS_MAX for k in A.WEIGHTS},
+                     attestation="Witnessed", worksheet="w")
+check("every Measure at the axis maximum IS due promotion, one rung below the top",
+      _saturated["promotion_due"], True)
+check("and it is not called a ceiling, because there is a rung above M3",
+      _saturated["at_ladder_ceiling"], False)
+_topped = A.assay(A.LADDER[-1], {k: A.AXIS_MAX for k in A.WEIGHTS},
+                  attestation="Witnessed", worksheet="w")
+check("the same scores on the LAST rung are a ceiling, not a promotion",
+      (_topped["at_ladder_ceiling"], _topped["promotion_due"]), (True, False),
+      note="the Ladder has no rung above its last, so saturation is the answer and promoting "
+           "would print a band that does not exist")
+
+# ---- the calibration margin's guard: L579 (`and` -> `or`) ----------------------------------
+# The margin divides by the width of the passing sigma band, so it is only defined when BOTH
+# ends were found AND they bracket a real width. Forced to the degenerate case -- no sigma
+# reproduces the target -- because the real constants always find one, which is exactly why
+# the mutation was invisible.
+# Two degenerate shapes, because they fail the guard differently and only the second
+# distinguishes the mutation. `lo` and `hi` are assigned together in the sweep, so "no band
+# found" leaves BOTH None and an `or` short-circuits to the same answer; the case that tells
+# them apart is a band ONE STEP WIDE, where lo == hi and the width the margin divides by is
+# zero. The scan is stubbed rather than tuned, because making the real constants produce a
+# single-match band means picking a sigma to the last bit -- exactly the fragility the
+# `margin` figure exists to measure.
+_want_saved = A.CHARTER_KENSHIRO_INTERVAL
+_assay_saved = A.assay
+try:
+    A.CHARTER_KENSHIRO_INTERVAL = -1.0        # nothing can match; the band stays unfound
+    _unfound = A.calibration_report()
+    _unfound_margin = _unfound.get("margin")
+except Exception as _e_unfound:
+    _unfound_margin = "RAISED " + type(_e_unfound).__name__
+finally:
+    A.CHARTER_KENSHIRO_INTERVAL = _want_saved
+check("an UNFOUND calibration band yields no margin rather than a width of None",
+      _unfound_margin, None)
+
+_TARGET = 0.11
+_seen = {"n": 0}
+
+
+def _one_match_assay(anchor, scores, **kw):
+    """Reproduce the target interval for EXACTLY ONE trial sigma, so lo == hi."""
+    if kw.get("sigma") is None:
+        return _assay_saved(anchor, scores, **kw)   # the `got` call, untouched
+    _seen["n"] += 1
+    return {"interval": _TARGET if _seen["n"] == 7 else _TARGET + 1.0, "decimal": 0.0}
+
+
+try:
+    A.CHARTER_KENSHIRO_INTERVAL = _TARGET
+    A.assay = _one_match_assay
+    _pinpoint = A.calibration_report()
+    _pin_margin = _pinpoint.get("margin")
+    _pin_band = (_pinpoint.get("band_lo"), _pinpoint.get("band_hi"))
+except Exception as _e_pin:
+    _pin_margin, _pin_band = "RAISED " + type(_e_pin).__name__, None
+finally:
+    A.CHARTER_KENSHIRO_INTERVAL = _want_saved
+    A.assay = _assay_saved
+check("a calibration band ONE STEP wide is bracketed at a single point",
+      _pin_band is not None and _pin_band[0] is not None and _pin_band[0] == _pin_band[1], True)
+check("and yields no margin rather than dividing by that band's zero width",
+      _pin_margin, None,
+      note="L579 turned the three-part guard's first `and` into an `or`, so `lo is not None` "
+           "alone let a zero-width band through -- a calibration figure divided by nothing")
+check("the charter's target interval was restored", A.CHARTER_KENSHIRO_INTERVAL, _want_saved)
+check("and assay() itself was put back", A.assay is _assay_saved, True)
+
 print()
 print("=" * 96)
 print(f"RESULT: {len(PASS)} passed, {len(FAIL)} FAILED")
