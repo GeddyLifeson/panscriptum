@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 113  ·  last run 2026-08-28 12:45
+round 114  ·  last run 2026-08-28 13:06
 
 ## Structure
 
@@ -11,10 +11,20 @@ round 113  ·  last run 2026-08-28 12:45
 
 ## What the model found in the code
 
-**4 open** (1 high). Newest first.
+**9 open** (4 high). Newest first.
 
+- **descending_ladder.py** `rung_for_length` — [HIGH] Returns (rung, name) for sizes within the descending ladder, but returns (FOLD_RUNG, "Below the Fold") for sizes below the Planck length and (None, None) for sizes above the descen
+  - says: Which descending rung does a given size belong to? Returns (rung, name).
+- **dashboard.py** `movement` — [HIGH] calls a function named movement that may not exist
+  - says: returns a section element with movement data
+- **cosmology_graph.py** `components` — [HIGH] clusters at weight >= threshold, but the threshold is applied to pairs, not clusters
+  - says: CANDIDATE CLUSTERS at weight >= {args.threshold} : {len(comps)}
 - **completeness.py** `audit` — [HIGH] audit every source that happens to be on fandom
   - says: audit every source the library knows of
+- **dashboard.py** `movement` — [MEDIUM] The code calculates deltas without considering that some counters may reset to zero, leading to negative deltas that are incorrectly reported as movement rather than resets.
+  - says: A COUNTER THAT FELL IS NOT A COUNTER THAT MOVED.
+- **dashboard.py** `movement` — [MEDIUM] Returns a list of metrics with their current values and deltas, but the delta calculation does not account for potential resets due to counter discontinuities, which can incorrectl
+  - says: What has CHANGED, not what the level is.
 - **corpus_db.py** `serve_command` — [MEDIUM] returns a string that includes the path to a datasette.json file, but does not ensure that the file actually exists or is correctly formatted
   - says: -> the exact command line that serves the index, with the config this module wrote.
 - **corpus_db.py** `evidence_limit` — [MEDIUM] now inert, does not truncate
