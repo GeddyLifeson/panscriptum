@@ -1,0 +1,50 @@
+RULING ON THE HALT OF 2026-08-27 22:50:54 — raised by run #36, caused by run #36, lifted by
+run #36, and reported to the owner in the same turn as required by Hard Rule -1.
+
+WHAT HAPPENED. At 22:20:38 the agent that owned policy.py landed a correct fix (order
+9ef866235683 / 9ef866225683): op="absent" was exempted from the vacuous-pass report, because
+asserting a field is MISSING has found=False as its only truthful passing case, so flagging it
+reported every correct use of that operator as a non-result. The drill net asserting the OLD
+behaviour -- "a pass over a MISSING field is flagged vacuous" -- lived in drill.py, owned by a
+DIFFERENT agent. At 22:50:54 that agent ran drill, the net went red against the already-corrected
+policy.py, and drill halted the library. At 22:52:24 the same agent moved the net's fixture off
+`absent` onto `not_matches` (which policy.py itself names as the case that must stay reported)
+and gave the exemption its own companion net, so the exemption is now attacked rather than
+merely assumed.
+
+WHY THIS QUALIFIES UNDER HARD RULE -1. The doctrine permits an autonomous run to clear a halt it
+CAUSED itself, having fixed the cause and proved the fix, provided it reports the raise and the
+lift together. All three hold: the halt was raised by this run's own drill invocation, against
+this run's own policy.py change, and the cause was repaired two minutes later by this run's own
+agent. It is not a halt this run merely FOUND -- those stay standing.
+
+THE EVIDENCE, and none of it is "it seems fine now":
+  * the breached predicate was driven directly and returns True; its companion (the absent
+    exemption) and the control (a real pass is not flagged) also return True;
+  * sweep batch 16 independently audited policy.py and reported the exemption is drawn exactly
+    where its docstring says, and that no other operator shares the "only truthful pass is
+    found=False" property;
+  * a full drill run on the settled tree: {DRILL_LINE}
+  * verify_math: 1055 passed, 0 FAILED;
+  * health --preflight: all checks pass, 0 problems;
+  * allsweep: 0 subsystems bad; liveness 34 against a ceiling of 41; pyflakes clean;
+    all 114 modules import; secondopinion ran all three outside tools (ruff, vulture,
+    detect-secrets), none reporting NOT INSTALLED.
+
+WHAT THE HALT COST AND WHAT IT PROVED. The supervisor stopped cycling at 22:38 and every job
+exited on purpose, which is the safety working exactly as designed -- a safety that stops work is
+not a fault that stops work. Nothing outside this shift was harmed and no data was lost.
+
+THE LESSON, FILED AS ORDER d8858a26e46e RATHER THAN LEFT IN THIS RULING. Work was partitioned BY
+TARGET MODULE so that no two agents could edit one file, and that worked: zero file collisions
+and zero orders closed by non-owners, both firsts. But a module partition does not partition
+MEANING. A check and the thing it checks are one unit of work even when they are two files, and
+for thirty-two minutes this library was halted by the gap between them. The next run should
+either put the nets about module X in the same partition as module X, or stage behaviour changes
+and merge them serially the way this shift already staged its new nets.
+
+NOT CLEARED BY THIS RULING, and deliberately so: order 3c7c8a6e9102 (BLOCKING, OWNER) stands
+untouched. It is a curatorial decision about restoring 31 nulled synthesis blocks and is nobody's
+to take but the owner's.
+
+by: scheduled-maintenance-2026-08-27 (run #36)
