@@ -321,6 +321,56 @@ def _guarded_popen(name, args, fh):
         return p
 
 
+CANON_BACKUP_EVERY_HOURS = 12
+
+
+def canon_backup_cycle():
+    """Take a verified snapshot of the canonical corpus, at most twice a day. Never raises.
+
+    WHY THIS IS IN THE SUPERVISOR AND NOT ONLY IN THE MAINTENANCE RUN. `canon_backup.py` was
+    written on 2026-08-27 after order ec67de571754 established that `data/` is gitignored, that
+    `git ls-files data/` returns zero, and that 219 canonical files -- 214.7 MB, the 217-source
+    corpus every other file in `data/` is derived FROM -- existed in exactly one place on one
+    disk. The immediate exposure was closed by taking a snapshot by hand.
+
+    A backup that happens only when somebody remembers to take one is not a backup policy, it is
+    a backup anecdote. The incident that prompted the order took two overwrites of a canonical
+    file inside a single shift; the gap between two maintenance runs is a day. So the supervisor
+    takes it, on the same cycle it does everything else.
+
+    RATE-LIMITED BY THE NEWEST SNAPSHOT'S OWN TIMESTAMP, not by a counter in memory: the
+    supervisor restarts (rc=17 on a source change, among others) and a counter would reset with
+    it, so a restarting supervisor would snapshot every cycle and churn 50 MB a time.
+
+    NEVER RAISES. A failed backup must not take down the night's work -- it is recorded, loudly,
+    and the cycle goes on. The one thing it may not do is fail silently, because a backup nobody
+    knows has stopped is worse than no backup at all: it is a backup that will be trusted.
+    """
+    try:
+        import canon_backup as CB
+    except ImportError as e:
+        log(f"  canon backup: MODULE MISSING ({e}) -- the canonical corpus is unbacked")
+        return
+    try:
+        newest = CB.newest()
+        if newest:
+            age_h = (time.time() - os.path.getmtime(newest)) / 3600.0
+            if age_h < CANON_BACKUP_EVERY_HOURS:
+                return
+        t0 = time.time()
+        path, man = CB.snapshot()
+        pruned = CB.prune()
+        log(f"  canon backup: {man['files']} files, {man['bytes'] / 1e6:.1f} MB, verified, "
+            f"in {time.time() - t0:.0f}s"
+            + (f" (pruned {len(pruned)})" if pruned else ""))
+    except Exception as e:
+        # LOUD. `snapshot()` refuses and deletes its own archive when it cannot verify what it
+        # wrote, and that refusal arrives here as an exception -- which is exactly the event
+        # that must not be swallowed.
+        log(f"  canon backup: FAILED -- {e}")
+        silence.note("overnight.py:canon-backup-failed")
+
+
 def run(name, args, logfile, timeout_h=6):
     """Run one stage to completion, refusing to start a duplicate."""
     # Matched on BASENAME. The stage is invoked with an absolute path while an already-running
@@ -1023,6 +1073,8 @@ def main():
         # serial one out without answering that also re-arms the idle halt.
         statuses.append(run("pipeline", [os.path.join(SRC, "pipeline.py")],
                             "pipeline_auto.log", timeout_h=2))
+
+        canon_backup_cycle()
 
         foreman_report()
         watch_report()

@@ -1,0 +1,212 @@
+[
+ {
+  "batch": 1,
+  "lines": 7144,
+  "modules": [
+   "verify_math.py"
+  ]
+ },
+ {
+  "batch": 2,
+  "lines": 4826,
+  "modules": [
+   "drill.py"
+  ]
+ },
+ {
+  "batch": 3,
+  "lines": 3711,
+  "modules": [
+   "pipeline.py",
+   "sweep_plan.py",
+   "runguard.py",
+   "coverage.py",
+   "thread_integrity.py",
+   "resonance.py"
+  ]
+ },
+ {
+  "batch": 4,
+  "lines": 3720,
+  "modules": [
+   "standards.py",
+   "catalogue_web.py",
+   "tiers.py",
+   "pantheon.py",
+   "tuning.py",
+   "propagation.py",
+   "scope.py"
+  ]
+ },
+ {
+  "batch": 5,
+  "lines": 3708,
+  "modules": [
+   "foreman.py",
+   "build_terminal.py",
+   "rosetta.py",
+   "weave_index.py",
+   "feats_index.py",
+   "wh40k.py",
+   "retry_synthesis.py"
+  ]
+ },
+ {
+  "batch": 6,
+  "lines": 3719,
+  "modules": [
+   "feats.py",
+   "generate.py",
+   "codewatch.py",
+   "autostart.py",
+   "liveness.py",
+   "sweep.py",
+   "style_audit.py",
+   "resync_roll.py"
+  ]
+ },
+ {
+  "batch": 7,
+  "lines": 3741,
+  "modules": [
+   "cascade_bridge.py",
+   "derivation.py",
+   "identity.py",
+   "prose_gate.py",
+   "context_budget.py",
+   "hosts.py",
+   "suppressions.py",
+   "catalog.py",
+   "lognames.py"
+  ]
+ },
+ {
+  "batch": 8,
+  "lines": 3721,
+  "modules": [
+   "magnitude.py",
+   "allsweep.py",
+   "secondopinion.py",
+   "pick_model.py",
+   "entity_match.py",
+   "render.py",
+   "snapshot.py",
+   "roll.py"
+  ]
+ },
+ {
+  "batch": 9,
+  "lines": 3793,
+  "modules": [
+   "read.py",
+   "corpus_db.py",
+   "gpu_lane.py",
+   "address_space.py",
+   "ingest_doc.py",
+   "canon_backup.py",
+   "catalogue_aurora.py",
+   "cachekey.py",
+   "compress_store.py"
+  ]
+ },
+ {
+  "batch": 10,
+  "lines": 3804,
+  "modules": [
+   "assay.py",
+   "health.py",
+   "handbuilt.py",
+   "reference.py",
+   "sevenfold.py",
+   "anchors.py",
+   "cosmology_graph.py",
+   "ledger.py",
+   "module_index.py"
+  ]
+ },
+ {
+  "batch": 11,
+  "lines": 3719,
+  "modules": [
+   "overnight.py",
+   "completeness.py",
+   "weave.py",
+   "ledger_guard.py",
+   "address.py",
+   "burgs.py",
+   "catalogue_codex.py",
+   "chord_field.py"
+  ]
+ },
+ {
+  "batch": 12,
+  "lines": 3710,
+  "modules": [
+   "mutate.py",
+   "wiki_source.py",
+   "manifest_builder.py",
+   "scout.py",
+   "genre.py",
+   "tempus.py",
+   "cleanup.py",
+   "physics.py"
+  ]
+ },
+ {
+  "batch": 13,
+  "lines": 3707,
+  "modules": [
+   "dashboard.py",
+   "binding_health.py",
+   "escalation.py",
+   "onomast.py",
+   "backfill.py",
+   "navtree.py",
+   "profile.py",
+   "audit.py"
+  ]
+ },
+ {
+  "batch": 14,
+  "lines": 3717,
+  "modules": [
+   "hostcheck.py",
+   "workorders.py",
+   "chain.py",
+   "endpoint.py",
+   "worldseed.py",
+   "catalogue_models.py",
+   "tells.py",
+   "halo.py"
+  ]
+ },
+ {
+  "batch": 15,
+  "lines": 3789,
+  "modules": [
+   "local_agent.py",
+   "overwatch.py",
+   "silence.py",
+   "custodes.py",
+   "grounding.py",
+   "cosmography.py",
+   "descending_ladder.py",
+   "scale_theories.py",
+   "repass_bands.py"
+  ]
+ },
+ {
+  "batch": 16,
+  "lines": 3719,
+  "modules": [
+   "rigor.py",
+   "publish.py",
+   "zfighters.py",
+   "estate.py",
+   "policy.py",
+   "axis_correlation.py",
+   "recover_folder_records.py",
+   "withdraw_chapters.py"
+  ]
+ }
+]

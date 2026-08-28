@@ -313,24 +313,6 @@ def _says(node, fragment):
     return any(fragment in s for s in _code_strings(node))
 
 
-def _enclosing(tree, target):
-    """The innermost `def` containing node `target`, by line span. None if it is at module level.
-
-    Line numbers off the parse tree are not the file-text search these nets are being moved
-    away from: they come from the same structure being asserted, and they are how "this call
-    happens inside that function" gets asked without threading parent pointers everywhere.
-    """
-    import ast
-    best = None
-    for n in ast.walk(tree):
-        if not isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            continue
-        if n.lineno <= target.lineno and target.lineno <= (n.end_lineno or n.lineno):
-            if best is None or n.lineno > best.lineno:
-                best = n
-    return best
-
-
 def _subscript_assigns(node, obj, key):
     """Every `ast.Assign` in `node` of the shape `obj[key] = ...`. -> list of Assign nodes."""
     import ast
@@ -2624,10 +2606,24 @@ def drill_policy():
     net(a, "a rule records the value it OBSERVED, not just its verdict",
         lambda: "observed" in POL.check_rule({"a": 1}, {"id": "t", "path": "a", "op": "exists"}),
         "a boolean cannot distinguish a real pass from a pass over a missing field")
+    # THE FIXTURE MOVED OFF `absent`, run #36. This net drove `op: "absent"`, and `absent`
+    # became the one exempt operator this run (policy.py, order 9ef866225683): asserting a field
+    # is MISSING has `found=False` as its only truthful passing case, so flagging it would report
+    # every correct pass of that operator as a non-result. The exemption is right and the net's
+    # SUBJECT is unchanged -- a pass over a field that does not exist is not evidence of anything
+    # -- so the net now drives `not_matches`, whose `v is None` clause passes on an absent field
+    # as a SIDE EFFECT rather than as its subject, which policy.py names in those words as the
+    # case that must stay reported. The exemption gets its own net below rather than being
+    # smuggled in as the absence of this one.
     net(a, "a pass over a MISSING field is flagged vacuous",
-        lambda: len(POL.evaluate({}, [{"id": "t", "path": "nope", "op": "absent"}])["vacuous"])
-        == 1,
+        lambda: len(POL.evaluate({}, [{"id": "t", "path": "nope", "op": "not_matches",
+                                       "arg": "zzz"}])["vacuous"]) == 1,
         "the standards HIGH guard read a key nothing set and was ABSENT for its whole life")
+    net(a, "the `absent` operator's own correct pass is NOT called vacuous",
+        lambda: POL.evaluate({}, [{"id": "t", "path": "nope", "op": "absent"}])["vacuous"] == []
+        and POL.evaluate({}, [{"id": "t", "path": "nope", "op": "absent"}])["failed"] == [],
+        "a signal that fires on every correct use of an operator is furniture, and the "
+        "exemption that stops it must be netted or the next edit will widen it to everything")
     net(a, "a real pass is NOT flagged vacuous",
         lambda: POL.evaluate({"a": 1}, [{"id": "t", "path": "a", "op": "eq", "arg": 1}])
         ["vacuous"] == [],

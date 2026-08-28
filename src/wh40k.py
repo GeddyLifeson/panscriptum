@@ -191,16 +191,50 @@ ROSTER = {
 
 
 def compute():
+    """PROVENANCE IS PER AXIS, AND WHERE IT IS UNKNOWN THIS SAYS SO RATHER THAN GUESSING.
+
+    This stamped `"[wiki] " + v[1]` onto every worksheet line unconditionally (order
+    1770c2b84786, the sibling of the defect fixed in `halo.py`). Several of these citations
+    quote no page at all -- they are the assayer's reading, soundly argued and not transcribed --
+    and labelling those wiki-verbatim beside the ones that really do quote the cache makes the
+    tag decoration instead of evidence. A provenance mark applied to everything distinguishes
+    nothing, and the reader who most needs it is the one asking whether a high score rests on a
+    citation or on judgment.
+
+    WHY THIS IS NOT THE WHOLE `halo.py` FIX. `halo.py` carries a per-axis `wiki`/`canon` tag in
+    the ROSTER itself, and reaching that state here means deciding, for each axis of each entry,
+    whether the sentence is quotation or paraphrase. That is a curatorial reading of the sources,
+    not a mechanical edit, and inventing the answer would replace one false provenance claim with
+    another -- a worse outcome, because the second would look deliberate.
+
+    So both shapes are accepted. A 3-tuple carries its own mark, exactly as `halo.py` and
+    `zfighters.py` do. A 2-tuple -- every entry here, today -- is marked `unattributed`, which is
+    the true statement: nobody has recorded where this line came from. That removes the false
+    claim now and leaves the gap VISIBLE for the curatorial pass, instead of hiding it behind a
+    tag that reads as if the work had been done.
+    """
     out = {}
     for name, rec in ROSTER.items():
         scores = {ax: v[0] for ax, v in rec["axes"].items()}
-        sheet = {ax: "[wiki] " + v[1] for ax, v in rec["axes"].items()}
+        sheet = {ax: "[" + _provenance(v) + "] " + v[1] for ax, v in rec["axes"].items()}
         res = A.assay(rec["anchor"], scores, attestation="Transcribed",
                       epoch=rec["epoch"], worksheet=sheet)
         out[name] = {"assay": res, "anchor": rec["anchor"], "host": HOST,
                      "epoch": rec["epoch"], "presence": rec["presence"],
-                     "axes": {k: {"score": v[0], "cited": v[1]} for k, v in rec["axes"].items()}}
+                     "axes": {k: {"score": v[0], "cited": v[1], "provenance": _provenance(v)}
+                              for k, v in rec["axes"].items()}}
     return out
+
+
+def _provenance(axis_value):
+    """The provenance tag for one axis entry. -> 'wiki' | 'canon' | 'unattributed'.
+
+    Defaults to `unattributed` rather than to `wiki`, which is the whole point: the old default
+    asserted something nobody had checked, and this one asserts only what is on record.
+    """
+    if len(axis_value) >= 3 and axis_value[2]:
+        return str(axis_value[2])
+    return "unattributed"
 
 
 def main():
