@@ -216,13 +216,25 @@ def main():
             r["entry_count"] = len(rec["entries"])
             r["status"] = "catalogued"
 
+    roll_landed = True
     if not args.dry_run and written:
         # ATOMIC: `catalogue_web.save_roll()` already wrote this file atomically with a comment
         # warning an interrupted write here "kills the next run of either script outright";
         # this sibling did not. Four scripts write this roll. Fixed 2026-08-25.
-        silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
+        #
+        # GATED, exactly as `catalogue_aurora.py` was: the per-record write eleven lines above
+        # already honours its verdict and skips the roll row on denial, and then this -- the
+        # write that PERSISTS those roll rows -- threw its own verdict away. So the records
+        # really did land, the roll saying so did not, and the next run's `entry_count == 0`
+        # selection would re-parse sources already correctly catalogued. Run #36 sweep.
+        roll_landed = silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
+        if not roll_landed:
+            silence.note("catalogue_codex.py:roll-write-denied")
     if args.dry_run:
         print("\n(dry run -- nothing written)")
+    elif not roll_landed:
+        print("\n(WRITE DENIED: SWEEP_ROLL.json did not land; the records above were written "
+              "to disk but the roll does not yet say so -- rerun to retry)")
 
 
 if __name__ == "__main__":

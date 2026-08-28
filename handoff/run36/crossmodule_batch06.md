@@ -35,7 +35,40 @@ and "never read", and the second one can be made retryable.
 Nothing in `catalogue_web.py` needs to change first; the counting is already in place and will
 simply become more precise.
 
-## 2. Nothing else
+## 2. OWNER QUESTION — order `026a498d47d2`, `render.py` has no callers
+
+Left OPEN on purpose. The finding is TRUE as stated: nothing in `src/` imports `render` or calls
+`render.view` / `containment_svg` / `children_of`, and the single grep hit in `build_terminal.py`
+is a comment. But "no callers" is not by itself a defect here, and the repair is a product
+decision this batch is not entitled to take.
+
+Measured rather than assumed, run #36: `python src/render.py` runs clean and answers for all
+nine tiers against a real coordinate --
+
+    hyperverse svg 7 children 3,939 bytes | xenoverse svg 7 children | metaverse svg 7 children
+    multiverse svg 1 child | universe svg 0 children | galaxy/system/planet/burg url
+
+-- and `--write` lands the five drawn tiers into `output/views/`. So this is a working
+operator-facing CLI with a documented `--write` mode, not dead code: the module reads as
+something meant to be RUN, and it does run.
+
+**The question for the owner:** should the cosmology views be WIRED IN -- published by
+`publish.py` and linked from the registry terminal so the top five tiers are viewable from the
+site -- or is `render.py` deliberately a hand-run tool? Wiring it in means choosing what gets
+published, where the SVGs live in the export copy, and what links to them; none of that is
+recoverable from the source, and guessing it would put nine new files into a PUBLIC repo on a
+maintenance agent's judgement. `publish.py` is in this batch and could carry the change in one
+edit the moment the answer is yes.
+
+## 3. Nothing else
+
+One thing to be aware of rather than to act on: the drill breach this batch found and fixed was
+in ITS OWN fixture, not in another module. `policy.py` gained a deliberate `absent`-operator
+exemption from the vacuous-pass report this run (its comment cites order `9ef866225683`), and
+the drill net "a pass over a MISSING field is flagged vacuous" happened to drive `op: "absent"`
+-- the one operator that is now exempt. The exemption is right; the fixture moved to
+`not_matches` (which `policy.py` names as the case that must STAY reported) and the exemption
+itself got a net of its own. `policy.py` was not edited.
 
 No other batch-06 fix required a module outside the batch. In particular the sixteen drill nets
 converted from whole-file substring search to AST checks only READ the modules they assert

@@ -316,7 +316,19 @@ def main():
         # leaves it empty for the length of the write, and `profile.py:129-138` turns a failed
         # load into a silent `{}` fallback that produces a fully-populated, blanket-default
         # catalogue indistinguishable downstream from real data. The m100 tail, 2026-08-25.
-        silence.write_json(p, out, indent=2, ensure_ascii=False)
+        #
+        # GATED: `write_json` returns whether the rename LANDED and this discarded the verdict,
+        # then printed "wrote {p}" unconditionally. On Windows the replace is DENIED while any
+        # reader holds the target open, and this file's readers -- navtree and profile -- poll on
+        # their own clocks, so the denial is routine rather than exotic. The combination was the
+        # worst of both: the run reported a write that never happened, the previous GENRES.json
+        # stayed on disk, and `profile.py`'s silent `{}` fallback meant even a MISSING file would
+        # not have surfaced. Run #36 discarded-verdict sweep.
+        if not silence.write_json(p, out, indent=2, ensure_ascii=False):
+            silence.note("genre.py:main-write-denied")
+            print(f"\nWRITE DENIED {p} -- replace refused; the file on disk is UNCHANGED "
+                  f"and still holds the previous run's genres. Rerun to retry.")
+            return 1
         print(f"\nwrote {p}")
     return 0
 

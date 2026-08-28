@@ -75,6 +75,7 @@ import collections
 import json
 import math
 import os
+import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CAND = os.path.join(HERE, "data/WEAVE_CANDIDATES.json")
@@ -195,8 +196,15 @@ def main():
         # AND the number it named had selected nothing. A weight floor is a CONSUMER's decision:
         # every pair carries its `weight`, so anything that wants only strong links filters on
         # that field. Ranking, yes; truncation, never (Hard Rule 0, order 9861c18b8485).
+        #
+        # GATED: `write_json` returns whether the rename LANDED and this discarded the verdict,
+        # then printed "wrote {OUT}" plus the pair/cluster/source counts underneath it. Every one
+        # of those counts described the in-memory graph, not the file -- so a denied replace
+        # (routine on Windows while propagation.py or resonance.py holds the target open, which
+        # is exactly the concurrency the ATOMIC note above is about) reported a precise, itemised
+        # write of a file that had not changed. Run #36 discarded-verdict sweep.
         import silence
-        silence.write_json(OUT, {
+        landed = silence.write_json(OUT, {
             "pairs": [{"a": a, "b": b, "weight": round(w, 3),
                        "shared_sample": pair_shared[(a, b)]}
                       for (a, b), w in ranked],
@@ -216,11 +224,21 @@ def main():
             "threshold_applies_to": "clusters",
             "weight_formula": "1/log(n+1.5), x0.15 when n > 12",
         }, indent=2, ensure_ascii=False)
-        print(f"\nwrote {OUT}")
-        print(f"  pairs written : {len(ranked):,} of {len(pair_w):,} (all of them, unfiltered)")
+        if not landed:
+            silence.note("cosmology_graph.py:main-write-denied")
+            print(f"\nWRITE DENIED {OUT} -- replace refused; NOTHING was written this round and "
+                  f"the graph on disk is the previous run's. The counts below describe what was "
+                  f"BUILT IN MEMORY, not what landed. Rerun to retry.")
+        else:
+            print(f"\nwrote {OUT}")
+        print(f"  pairs {'written' if landed else 'built  '} : {len(ranked):,} of "
+              f"{len(pair_w):,} (all of them, unfiltered)")
         print(f"  clusters      : {len(comps)} at weight >= {args.threshold}")
         print(f"  sources       : {len(src_entities):,}")
+        if not landed:
+            return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

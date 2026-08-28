@@ -400,7 +400,17 @@ def sweep(limit=None, register=True):
         silence.note("scout.py:log-unreadable")
         prev = []
     prev.append({"at": time.strftime("%Y-%m-%d %H:%M"), "results": results})
-    _land(LOG, prev[-40:], sort_keys=False)
+    # GATED, exactly as the `_mutate` call twenty lines above already is. `_land` returns
+    # `silence.write_json`'s verdict -- whether the rename LANDED -- and this discarded it, so a
+    # denied replace dropped this cycle's scouting record with nothing said anywhere. Milder than
+    # the sibling defects in this sweep because nothing here prints a false success and the log
+    # is advisory rather than load-bearing; recorded all the same, because "the log has no entry
+    # for that cycle" and "that cycle never ran" are the two readings this note tells apart.
+    # Run #36 discarded-verdict sweep.
+    if not _land(LOG, prev[-40:], sort_keys=False):
+        silence.note("scout.py:log-unwritable")
+        sys.stderr.write("scout: SCOUT.json write denied -- this cycle's %d results are not in "
+                         "the log; the run itself was fine.\n" % len(results))
     return results
 
 

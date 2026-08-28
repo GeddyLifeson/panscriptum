@@ -504,19 +504,51 @@ ORPHAN_AGE_SECONDS = 6 * 3600
 OWNER_FILE = "_owner.json"
 
 
-def _owner_pid(sandbox_root):
-    """The pid that built this sandbox. -> int, or None when it cannot be established.
+    # HOW LONG A LIVE OWNER MAY PROTECT A SANDBOX. Beyond this, age wins regardless of what the
+    # owner file says. See `_owner_pid` for why this ceiling has to exist at all.
+OWNERSHIP_CEILING_SECONDS = 24 * 3600
 
-    None means "no claim on record", which is deliberately different from "the owner is dead":
-    the caller treats an unknown owner as reapable-by-age, because a sandbox nobody can ever
-    delete is the disk leak this reaper exists to prevent.
+
+def _owner_pid(sandbox_root):
+    """The pid that built this sandbox, if the claim is still credible. -> int or None.
+
+    None means "no credible claim on record", which is deliberately different from "the owner is
+    dead": the caller treats an unknown owner as reapable-by-age, because a sandbox nobody can
+    ever delete is the disk leak this reaper exists to prevent.
+
+    AND THAT IS WHY THIS EXPIRES. The first version of the M46 fix read only `pid` and trusted
+    `_pid_alive` -- which the run #36 whole-tree sweep audited on the same day it was written and
+    correctly refused: **pids are recycled.** Once the owning run has died, its number is handed
+    out again, and the moment any unrelated long-lived process on this machine inherits it the
+    sandbox becomes permanently undeletable -- reintroducing the 154 MB leak the reaper exists
+    for, by way of the guard added to protect it. A fix whose failure mode is the bug it
+    replaced is not a fix.
+
+    So the claim carries the time it was made, and it stops being believed after
+    `OWNERSHIP_CEILING_SECONDS`. That is comfortably longer than the longest plausible mutation
+    run (hours) and comfortably shorter than forever, so a live owner is protected for as long
+    as it could possibly still be working, and a recycled pid can strand a directory for at most
+    one day instead of for good.
+
+    A claim with no `started` -- one written by the first version of this code -- is treated as
+    expired rather than as eternal, for the same reason: unknown provenance must not buy more
+    protection than a known one.
     """
     try:
         with open(os.path.join(sandbox_root, OWNER_FILE), encoding="utf-8") as fh:
-            pid = json.load(fh).get("pid")
+            rec = json.load(fh)
+        pid, started = rec.get("pid"), rec.get("started")
     except (OSError, ValueError, AttributeError):
         return None
-    return pid if isinstance(pid, int) else None
+    if not isinstance(pid, int):
+        return None
+    if not isinstance(started, (int, float)):
+        silence.note("mutate.py:owner-claim-undated")
+        return None
+    if time.time() - started > OWNERSHIP_CEILING_SECONDS:
+        silence.note("mutate.py:owner-claim-expired")
+        return None
+    return pid
 
 
 def _claim_sandbox(sandbox_root):

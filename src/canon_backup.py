@@ -36,6 +36,7 @@ import hashlib
 import json
 import os
 import sys
+import threading
 import time
 import zipfile
 
@@ -76,25 +77,53 @@ def digest(path):
     return h.hexdigest()
 
 
-def members():
+def members(strict=True):
     """Every canonical file, as (repo-relative path, absolute path). -> [(rel, abs)].
 
     NO CAP AND NO SAMPLE. The whole point is that the set is complete; a backup that quietly
     covered the first N records would restore a smaller library than the one that was lost, and
     would look exactly like a backup that worked.
+
+    AND IT REFUSES RATHER THAN SHRINKS, which the first version of this got wrong on the day it
+    was written. It skipped a missing `CANON_FILES` entry and skipped a missing `CANON_DIRS`
+    directory, guarding only the all-empty case -- so if `data/records/` were absent or briefly
+    unreadable, this returned the two or three small side files, and `snapshot()` would archive
+    them, verify every one of their digests perfectly, and record a SUCCESSFUL BACKUP of almost
+    nothing. Found by the run #36 whole-tree sweep hours after the module landed.
+
+    That is the module's own stated hazard arriving through its front door: a snapshot of a
+    subset verifies flawlessly, because verification only ever compares what was collected
+    against where it came from, and never asks whether the collection was complete. The empty
+    case was guarded precisely because it was easy to imagine; the 3-of-219 case is the same
+    failure and was not.
+
+    So a declared canonical path that is missing is an ERROR, named. `strict=False` exists for
+    callers that want the inventory without the refusal (`main()`'s bare status line), and it is
+    never used by `snapshot()`.
     """
-    out = []
+    out, absent = [], []
     for rel in CANON_FILES:
         p = os.path.join(HERE, rel.replace("/", os.sep))
         if os.path.isfile(p):
             out.append((rel, p))
+        else:
+            absent.append(rel)
     for rel in CANON_DIRS:
         d = os.path.join(HERE, rel.replace("/", os.sep))
         if not os.path.isdir(d):
+            absent.append(rel + "/ (the whole directory)")
             continue
-        for name in sorted(os.listdir(d)):
-            if name.endswith(".json"):
-                out.append((rel + "/" + name, os.path.join(d, name)))
+        names = [n for n in sorted(os.listdir(d)) if n.endswith(".json")]
+        if not names:
+            absent.append(rel + "/ (present but holds no .json)")
+        for name in names:
+            out.append((rel + "/" + name, os.path.join(d, name)))
+    if absent and strict:
+        raise RuntimeError(
+            "refusing to build a snapshot: %d declared canonical path(s) are missing -- %s. A "
+            "backup of what happens to be present would verify perfectly and restore a smaller "
+            "library than the one that was lost."
+            % (len(absent), ", ".join(absent)))
     return out
 
 
@@ -116,7 +145,12 @@ def snapshot(stamp=None):
         raise RuntimeError("%d canonical file(s) could not be read: %s"
                            % (len(missing), ", ".join(missing[:5])))
 
-    tmp = os.path.join(ROOT, "_writing-%s.zip" % stamp)
+    # PID AND THREAD IN THE TEMP NAME, the convention `silence.write_json` set after two
+    # writers sharing one fixed temp filename cost this project real data. A second-resolution
+    # stamp is not a disambiguator: two snapshots starting in the same second would write the
+    # same scratch file, and the loser would be verified against the winner's bytes.
+    tmp = os.path.join(ROOT, "_writing-%s-%d-%d.zip"
+                       % (stamp, os.getpid(), threading.get_ident()))
     with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
         for rel, p in items:
             z.write(p, arcname=rel)
@@ -146,7 +180,15 @@ def snapshot(stamp=None):
 
     manifest = {"stamp": stamp, "files": len(items), "bytes": os.path.getsize(final),
                 "verified": True, "digests": sources}
-    silence.replace_retry(*_write_manifest(final, manifest))
+    # THE MANIFEST WRITE IS CHECKED TOO. This discarded the verdict while the archive write three
+    # lines above correctly raised on a refusal -- the same discarded-write-verdict defect the
+    # run #36 sweep found in ten other modules, committed here in the module whose entire job is
+    # not to trust a write it has not confirmed. Without the manifest `verify()` has no recorded
+    # digests to compare against, so it silently degrades to "the zip still opens".
+    if silence.replace_retry(*_write_manifest(final, manifest)) is False:
+        raise RuntimeError(
+            "the snapshot landed at %s but its manifest could not be written, so nothing records "
+            "what it contains and verify() cannot check it. Re-run the snapshot." % final)
     return final, manifest
 
 
@@ -215,7 +257,7 @@ def verify(path=None):
         return False, ["archive unreadable: %s" % e]
     if broken:
         return False, ["archive corrupt at member %s" % broken]
-    live = {rel: digest(p) for rel, p in members()}
+    live = {rel: digest(p) for rel, p in members(strict=False)}
     changed = [r for r, d in live.items() if recorded.get(r) and d != recorded[r]]
     added = [r for r in live if r not in recorded]
     gone = [r for r in recorded if r not in live]
@@ -276,7 +318,7 @@ def main():
             print("  pruned %d old snapshot(s): %s" % (len(removed), ", ".join(removed)))
         return 0
 
-    items = members()
+    items = members(strict=False)
     print("%d canonical files, %.1f MB live"
           % (len(items), sum(os.path.getsize(p) for _r, p in items) / 1e6))
     n = newest()

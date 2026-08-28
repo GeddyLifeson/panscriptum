@@ -268,7 +268,18 @@ def main():
     # where someone was already looking, and the identical construction next door was never
     # opened. `data/WH40K_ASSAYS.json` is consumed like its twin, so a crash mid-write hands a
     # reader a truncated file. (run #27)
-    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
+    #
+    # GATED, and note that the twin cited above had the IDENTICAL defect on its own write: both
+    # discarded `write_json`'s verdict and printed "-> {OUT}" plus a clean 0 whether or not the
+    # rename landed. The atomicity note above protects a reader from seeing a HALF-written file;
+    # it says nothing about the run that wrote NOTHING and reported success. Fixed across all
+    # three sibling assay modules together this time. Run #36 discarded-verdict sweep.
+    if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
+        silence.note("wh40k.py:main-write-denied")
+        print("")
+        print("WRITE DENIED -> %s: replace refused; the assays above did NOT land and the file "
+              "on disk is the previous run's. Rerun to retry." % OUT)
+        return 1
     print("")
     print("-> " + OUT)
     return 0

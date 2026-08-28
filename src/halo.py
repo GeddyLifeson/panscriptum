@@ -191,7 +191,18 @@ def main():
                 d = rec["axes"][ax]
                 print("   %-15s%5.1f  %s" % (ax, d["score"], d["cited"][:54]))
     # ATOMIC -- the m100 tail, 2026-08-25.
-    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
+    #
+    # GATED: `write_json` returns whether the rename LANDED and this dropped the verdict, then
+    # printed "-> {OUT}" and returned 0 regardless. On Windows the replace is DENIED while any
+    # reader holds the target open, so the run announced a refreshed assay file, exited clean,
+    # and left the previous one on disk for its readers. Same shape and same fix as `wh40k.py`
+    # and `zfighters.py`, which are this file's twins. Run #36 discarded-verdict sweep.
+    if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
+        silence.note("halo.py:main-write-denied")
+        print("")
+        print("WRITE DENIED -> %s: replace refused; the assays above did NOT land and the file "
+              "on disk is the previous run's. Rerun to retry." % OUT)
+        return 1
     print("")
     print("-> " + OUT)
     return 0

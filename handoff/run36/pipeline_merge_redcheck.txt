@@ -1,0 +1,19 @@
+WITH THE FIX
+[2026-08-27 23:01:30]     write_record: source.json keeping 1 disk-authored key(s) the caller left unauthored: synthesis
+  1  no drift: disk synthesis survives a None from the caller PASS
+[2026-08-27 23:01:30]     write_record: source.json keeping 1 disk-authored key(s) the caller left unauthored: synthesis
+[2026-08-27 23:01:30]     write_record: source.json drifted on disk by count (2 -> 3 entries); merged
+  2  drift: disk synthesis survives a None from the caller   PASS
+  3  an explicit empty value still clears the disk value     PASS
+  4  a caller's real value still overwrites the disk value   PASS
+
+CONTROL -- the old unguarded merge restored (arms 1 and 2 must go RED)
+  1  no drift: disk synthesis survives a None from the caller FAIL
+[2026-08-27 23:01:30]     write_record: source.json drifted on disk by count (2 -> 3 entries); merged
+  2  drift: disk synthesis survives a None from the caller   FAIL
+  3  an explicit empty value still clears the disk value     PASS
+  4  a caller's real value still overwrites the disk value   PASS
+
+  control arms 1-2 went red: True
+
+VERDICT: the top-key guard holds and is load-bearing

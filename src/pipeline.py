@@ -633,6 +633,50 @@ def land_json(path, obj, indent=1, default=None):
     return _landed(tmp, path)
 
 
+def _merge_top_keys(disk, rec, label):
+    """Fold `rec`'s non-`entries` top-level keys onto `disk`. -> [keys kept from disk].
+
+    THE SAME RULING AS `write_record_catalogue`, APPLIED TO THE OTHER WRITER, which never got it.
+    On 2026-08-25 the catalogue side was found writing `rec` whole after its merge, so every
+    top-level key the caller had not authored was destroyed: `catalogue_web` returns
+    `"synthesis": None` -- correctly, since a wiki lead paragraph is not an Assay -- and that
+    `None` landed on the pipeline's `ceiling_entity` and `provisional_magnitude` and erased them.
+    31 of 216 records still carry a null synthesis from it, and it does not self-heal because
+    `phase_synthesis` skips any source already in its done-keys. That is order 3c7c8a6e9102, and
+    it is still open at OWNER because re-deriving a ceiling is a curatorial act.
+
+    `write_record` was left with the unguarded version of the identical shape -- found by the
+    run #36 whole-tree sweep, batch 3 -- in BOTH of its paths:
+
+      * the drift branch did `disk[key] = val` for every non-`entries` key, unconditionally, so
+        a `None` in the pipeline's hours-old in-memory copy overwrote a live disk value;
+      * the no-drift fast path never merged at all: `merged = rec` wrote the stale in-memory
+        copy WHOLE, which silently drops any top-level key another writer added since the
+        pipeline loaded its records. Equal entry lists do not mean equal records.
+
+    So the ambiguity is resolved here exactly as it was resolved there, and deliberately in the
+    same words: "did not compute this field" and "means to clear this field" are different acts,
+    this cannot read minds, and it takes the recoverable side -- `None` means unauthored. A
+    caller that really does mean to clear a key still can, with an explicit empty value (`{}`,
+    `[]`, `""`), which is a statement rather than the default shape of a dict never filled in.
+
+    The entry-list asymmetry is UNTOUCHED: `write_record` still keeps the DISK cast, because the
+    pipeline's copy is the stale side, and that asymmetry is the whole reason it exists.
+    """
+    kept = []
+    for key, val in rec.items():
+        if key == "entries":
+            continue
+        if val is None and disk.get(key) is not None:
+            kept.append(key)          # unauthored by this caller; the disk value stands
+            continue
+        disk[key] = val
+    if kept:
+        log(f"    write_record: {label} keeping {len(kept)} disk-authored key(s) the caller "
+            f"left unauthored: {', '.join(sorted(kept))}")
+    return kept
+
+
 def write_record(path, rec):
     """Write a record back WITHOUT clobbering a concurrent writer's work.
 
@@ -676,12 +720,20 @@ def write_record(path, rec):
                             "magnitude", "topic", "catalogued"):
                     if fld in se:
                         de[fld] = se[fld]
-            for key, val in rec.items():
-                if key != "entries":
-                    disk[key] = val
+            _merge_top_keys(disk, rec, os.path.basename(path))
             merged = disk
             log(f"    write_record: {os.path.basename(path)} drifted on disk by {drift} "
                 f"({n_mem} -> {n_disk} entries); merged")
+        else:
+            # NO DRIFT IS NOT NO CHANGE. This path used to leave `merged = rec` and write the
+            # pipeline's hours-old in-memory copy WHOLE -- which is the same silent revert the
+            # drift branch exists to prevent, just for the top-level keys instead of the cast.
+            # The entry lists being identical says nothing about whether another writer added or
+            # refreshed a `synthesis`, `purged_roster` or `ceiling_entity` since this record was
+            # loaded. The cast is equal by construction here, so folding onto `disk` keeps every
+            # disk-authored key and costs nothing.
+            _merge_top_keys(disk, rec, os.path.basename(path))
+            merged = disk
     except FileNotFoundError:
         silence.note("pipeline.py:write_record-notfound")
         pass

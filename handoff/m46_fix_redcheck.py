@@ -64,6 +64,37 @@ def main():
         child.wait(timeout=10)
     print("arm 1b another live process's sandbox survives ->", "PASS" if arm1b else "FAIL")
 
+    # ARM 1c -- THE HOLE THE SWEEP FOUND IN THE FIRST VERSION OF THIS FIX, the same day it was
+    # written. `_owner_pid` read only `pid` and trusted `_pid_alive`, and pids are RECYCLED: once
+    # the owning run dies its number is reissued, and any unrelated long-lived process inheriting
+    # it made the sandbox permanently undeletable -- the 154 MB leak the reaper exists for,
+    # recreated by the guard protecting it. An ownership claim now expires. Here the claim names
+    # a genuinely LIVE pid (this process) but is dated beyond the ceiling, so it must be ignored.
+    stale = make("recycledpid", pid=live, age=10 * 3600)
+    with open(os.path.join(stale, M.OWNER_FILE), "w", encoding="utf-8") as fh:
+        json.dump({"pid": live, "started": time.time() - (M.OWNERSHIP_CEILING_SECONDS + 3600)},
+                  fh)
+    M.reap_orphans()
+    arm1c = not os.path.isdir(stale)
+    print("arm 1c an EXPIRED claim on a live pid is ignored  ->", "PASS" if arm1c else "FAIL")
+
+    # ARM 1d -- and an undated claim (written by the first version of the code) must not buy
+    # more protection than a dated one.
+    # The backdating happens AFTER the owner file is written, not before: CREATING an entry in a
+    # directory updates that directory's mtime, so writing the claim first and ageing second was
+    # ageing a directory the write then made fresh again. The first version of this arm failed for
+    # exactly that reason and the failure was in the test, not in the code -- worth the comment,
+    # because "the guard did not reap it" and "the age gate correctly skipped a fresh directory"
+    # look identical from the outside.
+    undated = make("undated", pid=None)
+    with open(os.path.join(undated, M.OWNER_FILE), "w", encoding="utf-8") as fh:
+        json.dump({"pid": live}, fh)
+    _old = time.time() - 10 * 3600
+    os.utime(undated, (_old, _old))
+    M.reap_orphans()
+    arm1d = not os.path.isdir(undated)
+    print("arm 1d an UNDATED claim is not trusted forever    ->", "PASS" if arm1d else "FAIL")
+
     # ARM 2 -- dead owner must still be collected.
     b = make("deadowner", pid=dead_pid(), age=10 * 3600)
     M.reap_orphans()
@@ -86,14 +117,14 @@ def main():
     print("arm 4  CONTROL: without the check it dies     ->",
           "RED as required" if arm4 else "STILL GREEN -- the guard is not load-bearing")
 
-    for p in (a, b, c, d, e):
+    for p in (a, b, c, d, e, stale, undated):
         if os.path.isdir(p):
             M.reap_orphans(older_than=0) if False else None
     M._owner_pid = lambda _p: None
     M.reap_orphans(older_than=0)
     M._owner_pid = real_owner
 
-    ok = arm1 and arm1b and arm2 and arm3 and arm4
+    ok = arm1 and arm1b and arm1c and arm1d and arm2 and arm3 and arm4
     print("\nVERDICT:", "the ownership guard holds and is load-bearing" if ok else
           "NOT PROVEN -- do not rely on this fix")
     return 0 if ok else 1

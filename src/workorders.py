@@ -132,8 +132,24 @@ def battery_faults(preflight=None, allsweep=None, now=None):
 
     # ---- allsweep's GRADED tiers
     #
-    # Mirrors allsweep's own `bad` formula exactly -- imports, crashed/timed-out verifiers, lint,
-    # bad estate artifacts -- so the two cannot drift into disagreeing about what "bad" means.
+    # Tracks allsweep's own `bad` formula term for term -- imports, crashed/timed-out verifiers,
+    # lint, bad estate artifacts, and the graded ESTATE findings -- because a queue that grades
+    # differently from the sweep files orders for faults the sweep forgives and stays silent on
+    # faults that fail it.
+    #
+    # THE TWO DID DRIFT, and saying they could not was the reason nobody looked (run #36).
+    # allsweep gained an `estate_faults` term and this list did not, so `MASTER CHARTER MISSING`
+    # FAILED THE BATTERY while filing NO WORK ORDER: the sweep graded it red and the queue
+    # printed nothing outstanding. Mirroring is a thing that has to be re-established every time
+    # either side changes, not a property a comment can assert.
+    #
+    # What protects it now is not this comment but the shape below: the estate term READS
+    # allsweep's published `estate_faults` list rather than re-deriving which rows are faults.
+    # The ONE severity judgement is made at the `note()` call in `estate.py`, published by
+    # `allsweep.estate_faults`, and consumed here -- so a new ESTATE tier arrives here already
+    # graded, and there is no second rule to keep in step. The remaining terms are still
+    # hand-mirrored and are still a place drift can happen.
+    #
     # `reconcile` is excluded here for the reason allsweep excludes it: its rows carry no
     # severity and are not all faults. Summing them made a green machine report sixteen broken
     # subsystems in run #26.
@@ -166,6 +182,24 @@ def battery_faults(preflight=None, allsweep=None, now=None):
             bad.append("lint %s" % str(ln)[:160])
         for art in (((allsweep.get("estate") or {}).get("artifacts") or {}).get("bad") or []):
             bad.append("estate artifact %s" % str(art)[:160])
+        # The four named ESTATE tiers, already graded by `allsweep.estate_faults`. Read, never
+        # re-graded: `_row_is_fault` lives in allsweep and a copy of it here would be the second
+        # rule this section exists to avoid.
+        est = allsweep.get("estate")
+        faults = allsweep.get("estate_faults")
+        if faults is None and isinstance(est, dict) and any(
+                k in est for k in ("charter", "written", "terminal", "external")):
+            # FAIL-CLOSED on a report that ran the ESTATE tiers and published no grading: it
+            # predates `estate_faults`, so an unknown number of its findings are unreadable
+            # here. Scoring that silence as zero faults is the exact hole this term closes.
+            bad.append("estate findings ungraded: this ALLSWEEP.json ran the ESTATE tiers but "
+                       "carries no `estate_faults` key, so its findings cannot be counted")
+        for f in (faults or []):
+            if isinstance(f, dict):
+                bad.append("estate %s: %s -- %s" % (f.get("tier"), f.get("finding"),
+                                                    str(f.get("detail"))[:120]))
+            else:
+                bad.append("estate finding %s" % str(f)[:160])
         if bad:
             out["BATTERY_GRADED"] = {
                 "what": "allsweep grades %d subsystem(s) bad: %s"

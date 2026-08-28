@@ -483,7 +483,18 @@ def main():
 
     # ATOMIC. `data/Z_FIGHTERS.json` is read by `pantheon.py`, so a crash mid-write corrupts a
     # file another module consumes. The m100 tail, 2026-08-25.
-    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
+    #
+    # GATED: the comment above is about a CRASH mid-write; this is the quieter half of the same
+    # risk. `write_json` returns whether the rename LANDED, this discarded it, and the run then
+    # printed "-> {OUT}" and returned 0 -- so `pantheon.py` reading a stale Z_FIGHTERS.json looked
+    # exactly like `pantheon.py` reading a fresh one. Note the paragraph above already records a
+    # day when this file "never got refreshed" and nothing said so. Run #36 sweep.
+    if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
+        silence.note("zfighters.py:main-write-denied")
+        print("")
+        print("WRITE DENIED -> %s: replace refused; the assays above did NOT land and the file "
+              "pantheon.py reads is the previous run's. Rerun to retry." % OUT)
+        return 1
     print("")
     print("-> " + OUT)
     return 0

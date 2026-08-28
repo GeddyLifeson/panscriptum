@@ -94,3 +94,58 @@ one place where believing it costs the whole corpus.
 
 Run #36 confirmed both arms go red against the unguarded shape before merging (see
 `handoff/run36/canon_net_redcheck.txt`).
+
+---
+
+## ADDENDUM — a third arm, added hours later, because the sweep found the hole this net missed
+
+The net above guards the EMPTY canonical set, on the reasoning that a zero-member archive
+verifies trivially. Within hours the run #36 whole-tree sweep (batch 9) found that the same
+failure had a middle case the net did not cover, and that the code did not guard either:
+
+> `members()` silently drops a `CANON_FILES` entry if it is missing, and silently skips all of
+> `CANON_DIRS` if the directory does not exist; only an all-empty result is guarded, so a
+> missing `data/records/` produces a "verified" snapshot of 2-3 small files and zero corpus
+> records.
+
+That is the module's own stated hazard coming in through its front door. **Verification only
+ever compares what was collected against where it came from; it never asks whether the
+collection was complete.** A 3-of-219 snapshot passes every digest check perfectly. The empty
+case was guarded because it was easy to imagine; the partial case is the same failure and is far
+likelier — a briefly-unreadable directory is an ordinary event.
+
+`members(strict=True)` now RAISES, naming each missing path, and `snapshot()` uses the strict
+form. `main()`'s status line and `verify()` pass `strict=False`, since reporting an inventory is
+not the same act as trusting one.
+
+Add this arm to the net, between the empty and corrupt arms:
+
+```python
+            # ARM 1b -- a PARTIAL canonical set must refuse. A snapshot of 3 files out of 219
+            # verifies flawlessly, which is precisely why nothing catches it downstream.
+            src2 = os.path.join(d, "data")
+            os.makedirs(src2, exist_ok=True)
+            with open(os.path.join(src2, "SIDE.json"), "w", encoding="utf-8") as fh:
+                fh.write("{}")
+            CB.HERE = d
+            CB.CANON_FILES = ("data/SIDE.json",)
+            CB.CANON_DIRS = ("data/records",)          # deliberately absent
+            try:
+                CB.snapshot()
+                partial_refused = False
+            except RuntimeError as e:
+                partial_refused = "refusing to build a snapshot" in str(e) and "records" in str(e)
+            if not partial_refused:
+                return False
+```
+
+Proven 2026-08-27 against the patched module: a real 219-file snapshot still succeeds, a missing
+`data/records/` refuses naming `records`, and a missing single canonical file refuses naming
+`WIKI_HOSTS`.
+
+**Also fixed in the same pass, and worth the note because of where it happened:** the manifest
+write discarded `silence.replace_retry`'s verdict while the archive write three lines above
+correctly raised on refusal. That is the same discarded-write-verdict defect the sweep found in
+ten other modules — committed inside the one module whose entire purpose is not to trust a write
+it has not confirmed. Without the manifest, `verify()` has no recorded digests and silently
+degrades to "the zip still opens".

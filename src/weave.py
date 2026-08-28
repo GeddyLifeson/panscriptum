@@ -481,17 +481,47 @@ def main():
         # ATOMIC, and the file handles now actually close. These three were
         # `json.dump(obj, open(path, "w"))` -- truncate-then-fill AND a leaked handle, on files
         # weave_index.py, resonance.py and cosmology_graph.py read live. 2026-08-25.
-        silence.write_json(OUT_GROUPS, {"threshold": thr, "groups": groups},
-                           indent=2, ensure_ascii=False)
-        silence.write_json(OUT_RESOLVED, resolved, indent=2, ensure_ascii=False)
-        silence.write_json(OUT_GRAPH,
-                           {"threshold": thr, "metric": "name-surprisal, bits",
-                            "pairs": [{"a": a, "b": b, "weight": round(v, 2),
-                                       "shared_sample": shared[(a, b)]}   # WHOLE list (key name kept: resonance.py reads it) -- Hard Rule 0, ruled 2026-08-24
-                                      for (a, b), v in sorted(kept.items(),
-                                                              key=lambda kv: -kv[1])]},
-                           indent=2, ensure_ascii=False)
-        print("\nwrote CONTINUITY_GROUPS / RESOLVED_ENTITIES / SHARED_STAGE_GRAPH_IDF")
+        #
+        # GATED: all THREE verdicts were discarded and one unconditional line claimed all three
+        # files. `write_json` returns whether the rename LANDED, and on Windows it is DENIED
+        # while any reader holds the target open -- which is precisely the live-reader situation
+        # the note above describes. Worse than a plain false success: these three land
+        # INDEPENDENTLY, so a partial round leaves RESOLVED_ENTITIES from this run beside a
+        # CONTINUITY_GROUPS from the last one, and weave_index/resonance/cosmology_graph then
+        # join two different generations of the same weave. Named per file for that reason.
+        # Run #36 discarded-verdict sweep.
+        wrote = {
+            OUT_GROUPS: silence.write_json(OUT_GROUPS, {"threshold": thr, "groups": groups},
+                                           indent=2, ensure_ascii=False),
+            OUT_RESOLVED: silence.write_json(OUT_RESOLVED, resolved,
+                                             indent=2, ensure_ascii=False),
+            OUT_GRAPH: silence.write_json(
+                OUT_GRAPH,
+                {"threshold": thr, "metric": "name-surprisal, bits",
+                 "pairs": [{"a": a, "b": b, "weight": round(v, 2),
+                            "shared_sample": shared[(a, b)]}   # WHOLE list (key name kept: resonance.py reads it) -- Hard Rule 0, ruled 2026-08-24
+                           for (a, b), v in sorted(kept.items(),
+                                                   key=lambda kv: -kv[1])]},
+                indent=2, ensure_ascii=False),
+        }
+        denied = [p for p, ok in wrote.items() if not ok]
+        if not denied:
+            print("\nwrote CONTINUITY_GROUPS / RESOLVED_ENTITIES / SHARED_STAGE_GRAPH_IDF")
+        else:
+            silence.note("weave.py:main-write-denied")
+            print(f"\nWRITE DENIED for {len(denied)} of {len(wrote)} weave artifacts -- replace "
+                  f"refused; those files are UNCHANGED on disk and still hold the previous "
+                  f"run's weave:")
+            for p in denied:
+                print(f"     DENIED  {p}")
+            for p, ok in wrote.items():
+                if ok:
+                    print(f"     landed  {p}")
+            if len(denied) != len(wrote):
+                print("  THESE THREE ARE NOW OUT OF STEP WITH EACH OTHER. weave_index.py, "
+                      "resonance.py and cosmology_graph.py read them together; rerun with "
+                      "--write before trusting any join across them.")
+            return 1
     return 0
 
 

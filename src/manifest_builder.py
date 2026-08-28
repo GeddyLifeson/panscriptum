@@ -459,9 +459,22 @@ def main():
     out_key = "pilot_manifest" if args.pilot else "manifest"
     out_path = os.path.join(HERE, cfg["paths"][out_key])
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    silence.write_json(out_path, {"jobs": all_jobs}, indent=2)
+    # GATED: `write_json` returns whether the rename LANDED, and this discarded the verdict and
+    # printed "Wrote N jobs" regardless. THIS FILE IS generate.py's ENTIRE RUN. A denied replace
+    # -- routine on Windows while any reader holds the target open, and `generate.py` is exactly
+    # such a reader -- left the PREVIOUS manifest on disk while the build reported success, so
+    # the next generation pass would run the old job list against the new records and every
+    # freshly-catalogued source would silently not be written. Run #36 discarded-verdict sweep.
+    manifest_landed = silence.write_json(out_path, {"jobs": all_jobs}, indent=2)
 
-    print(f"Wrote {len(all_jobs)} jobs from {len(build_pool)} sources -> {out_path}")
+    if manifest_landed:
+        print(f"Wrote {len(all_jobs)} jobs from {len(build_pool)} sources -> {out_path}")
+    else:
+        silence.note("manifest_builder.py:main-manifest-write-denied")
+        print(f"MANIFEST WRITE DENIED -> {out_path}: replace refused, so the {len(all_jobs)} "
+              f"jobs built from {len(build_pool)} sources did NOT land. The file on disk is the "
+              f"PREVIOUS manifest -- do not run generate.py against it expecting this build. "
+              f"Rerun to retry.")
     if missing_records:
         print(f"WARNING: {len(missing_records)} sources had no matching record file: "
               f"{missing_records}")
@@ -498,6 +511,11 @@ def main():
         print(f"\n{len(unassigned)} populated sources have NO spine code in the charter yet -- "
               f"skipped. See {report_path}")
 
+    # The unassigned-sources report above is refreshed either way -- it describes the ROLL, not
+    # the manifest, and letting a denied manifest write leave it stale would be the same defect
+    # this block's own comment was written about. The exit status carries the manifest verdict.
+    return 0 if manifest_landed else 1
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

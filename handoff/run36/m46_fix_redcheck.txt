@@ -1,5 +1,7 @@
 arm 1  live-owned sandbox survives older_than=0 -> PASS
 arm 1b another live process's sandbox survives -> PASS
+arm 1c an EXPIRED claim on a live pid is ignored  -> PASS
+arm 1d an UNDATED claim is not trusted forever    -> PASS
 arm 2  dead-owner sandbox is still reaped     -> PASS
 arm 3  unowned old sandbox is still reaped    -> PASS
 arm 4  CONTROL: without the check it dies     -> RED as required

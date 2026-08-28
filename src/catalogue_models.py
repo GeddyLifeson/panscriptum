@@ -146,8 +146,16 @@ def wanted(cfg):
     return out
 
 
+# Whether the last `sweep()` actually LANDED PROVIDER_MODELS.json on disk. Carried out of band
+# rather than in `sweep`'s return value because that return value is the payload -- the shape
+# `standards.py` reads -- and because a flag inside the payload would read as though it were a
+# field of the FILE, which it deliberately is not. One writer, one reader (`main`), one call.
+LAST_WRITE_LANDED = True
+
+
 def sweep(config_path=None, workers=6):
     from concurrent.futures import ThreadPoolExecutor
+    global LAST_WRITE_LANDED
     config_path = config_path or os.path.join(os.path.expanduser("~"), "cascade", "config.json")
     with open(config_path, encoding="utf-8") as f:
         cfg = json.load(f)
@@ -245,8 +253,21 @@ def sweep(config_path=None, workers=6):
                    "unchecked_ids": sum(u["unchecked"] for u in unverified)},
     }
     # ATOMIC: standards.py polls PROVIDER_MODELS.json on its own cycle. 2026-08-25.
-    silence.write_json(OUT, payload, indent=1, sort_keys=True)
-    print(f"\n-> {OUT}")
+    #
+    # GATED: `write_json` returns whether the rename LANDED and this discarded the verdict, then
+    # printed "-> {OUT}" unconditionally -- and `main()` returned 0 on top of that. `foreman.py`
+    # runs this module as a subprocess and reads its RETURN CODE (recatalogue_models), so a
+    # denied replace reported a successful refresh of the model IDs to the one caller whose whole
+    # job is deciding whether the remedy worked, while `standards.py` went on polling the stale
+    # snapshot. Run #36 discarded-verdict sweep.
+    LAST_WRITE_LANDED = silence.write_json(OUT, payload, indent=1, sort_keys=True)
+    if LAST_WRITE_LANDED:
+        print(f"\n-> {OUT}")
+    else:
+        silence.note("catalogue_models.py:sweep-write-denied")
+        print(f"\nWRITE DENIED -> {OUT}: replace refused, so this sweep's results did NOT land. "
+              f"The snapshot on disk is the PREVIOUS one and standards.py is still reading it. "
+              f"Rerun to retry.")
     return payload
 
 
@@ -255,7 +276,9 @@ def main():
     ap.add_argument("--config", help="path to cascade config.json")
     a = ap.parse_args()
     sweep(config_path=a.config)
-    return 0
+    # A sweep whose snapshot did not reach disk is not a refresh, and `foreman.recatalogue_models`
+    # distinguishes the two only by this status.
+    return 0 if LAST_WRITE_LANDED else 1
 
 
 if __name__ == "__main__":
