@@ -354,9 +354,26 @@ def _ask(system, prompt, schema, local=True):
     import read as R
     if local:
         import pipeline as P
-        nc = 4096 if len(prompt) + len(system) < 11000 else 8192
-        got = P.ask(R.config(), system, prompt, schema, timeout=300, num_ctx=nc,
-                    tag="overwatch")
+        # ONE RUNNER, ONE CONTEXT -- and getting this wrong cost the library its local rung for
+        # thirty-one hours. This sized the window to the prompt (4096 under ~11k chars, else
+        # 8192), which reads as thrift and is the opposite. Ollama holds a model at ONE context
+        # size: a request naming a different num_ctx does not get a cheaper window, it forces
+        # the runner to be REBUILT. This daemon loops continuously, so every cycle it dragged
+        # the resident model back down to 4096 while `pipeline.ask` asked for config's 12288 --
+        # and both of them send `keep_alive: -1`, so whichever won was pinned indefinitely.
+        #
+        # Measured 2026-08-28: `llama-server` had been resident for 31 hours at 4096 having
+        # burned 95,241 seconds of CPU, answering nothing -- every request either timing out at
+        # 90s or rejected with "maximum pending requests exceeded". Killing the runner did not
+        # help: a fresh one loaded and was re-pinned at 4096 within seconds, by this call site.
+        # The reload war, not the mismatch itself, is what saturated the queue -- a 6 GB model
+        # being rebuilt on a loop cannot also serve.
+        #
+        # Two earlier diagnoses were wrong about this and both were recorded as fact: run #35
+        # blamed a foreign `semsearch` client, and run #36 blamed the runner's infinite
+        # keep_alive alone. The foreign client had already exited and the stall continued; the
+        # keep_alive is ours. So is this. (order cf54b3ed349d)
+        got = P.ask(R.config(), system, prompt, schema, timeout=300, tag="overwatch")
         if got is not None:
             return got
         # LOCAL FIRST, BUT NEVER LOCAL-ONLY.
