@@ -58,6 +58,7 @@ is still a guess: that measurement timed out under contention and is the honest 
 Both constants stay below their measured values, so the refusal keeps its safety direction.
 """
 import os
+import silence
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROMPTS = os.path.join(HERE, "prompts")
@@ -249,12 +250,17 @@ def feats_block_budget(cfg, system_text=None, template_text=None):
             with open(os.path.join(PROMPTS, "system_style.txt"), encoding="utf-8") as f:
                 system_text = f.read()
         except Exception:
+            # SWEEP34 96ebf36510b8: an unreadable prompt file was silently making
+            # scaffold_chars 0 and content_budget_chars LARGER -- the truncating direction
+            # this module's own header says it exists to refuse. Recorded, not just swallowed.
+            silence.note("context_budget.py:feats_block_budget-system_text")
             system_text = ""
     if template_text is None:
         try:
             with open(os.path.join(PROMPTS, "feats_prompt.txt"), encoding="utf-8") as f:
                 template_text = f.read()
         except Exception:
+            silence.note("context_budget.py:feats_block_budget-template_text")
             template_text = ""
     sys_used = system_for("feats", system_text)
     # The job overhead is CONTENT, not scaffolding -- the source name, the chapter label, the
@@ -273,11 +279,13 @@ def report(cfg):
         with open(os.path.join(PROMPTS, "system_style.txt"), encoding="utf-8") as f:
             sysd = f.read()
     except Exception:
+        silence.note("context_budget.py:report-system_text")
         sysd = ""
     try:
         with open(os.path.join(PROMPTS, "feats_prompt.txt"), encoding="utf-8") as f:
             ftpl = f.read()
     except Exception:
+        silence.note("context_budget.py:report-template_text")
         ftpl = ""
     voice, full = split_system_prompt(sysd)
     return {"num_ctx": window(cfg),

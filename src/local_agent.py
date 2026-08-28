@@ -553,9 +553,31 @@ def _gates(full, modname):
 
 
 def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
+    # THE AUDIT TRAIL NOW RECORDS REFUSALS TOO, not only accepted patches. The entry used to be
+    # created after every gate below had already passed, so a model repeatedly trying to patch a
+    # denylisted path, a path outside the writable surface, a protected region, or a find string
+    # that does not occur exactly once produced an empty `patches` list -- indistinguishable from
+    # a run that never tried anything. `_settle` (below) already writes the outcome into this same
+    # dict on every path out of the function; moving entry creation to the top and settling the
+    # early refusals too means the log has an entry for every attempt, not only the ones that
+    # cleared every gate. (Complement to the run #33 fix, which made outcome tracking honest for
+    # ACCEPTED patches; this closes the identical gap for REFUSED ones. Found sweep34 batch 15.)
+    entry = None
+    if log is not None:
+        entry = {"path": path, "why": (why or "")[:200], "find": (find or "")[:200],
+                 "replace": (replace or "")[:200], "at": time.strftime("%H:%M:%S")}
+        log.append(entry)
+
+    def _settle(result):
+        if entry is not None:
+            entry["outcome"] = {k: result[k] for k in
+                                ("applied", "staged", "reverted", "gate", "error", "ALARM")
+                                if k in result}
+        return result
+
     full = _safe(path)
     if not full or not os.path.isfile(full):
-        return {"applied": False, "error": "no such file: " + str(path)}
+        return _settle({"applied": False, "error": "no such file: " + str(path)})
     # ...AND THE EXTENSION TEST HAS TO BE FOLDED TOO, which the run #23 fix below did not do.
     # Folding the denylist while deriving `modname` through a CASE-SENSITIVE `.endswith(".py")`
     # left the same door open one letter further along: `src/foreman.PY` resolves to the real
@@ -591,8 +613,9 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     denied = (modname if _mod_l in _deny
               else (rel if rel.lower() in _deny_paths else None))
     if denied:
-        return {"applied": False, "error": str(denied) + " is on the denylist -- the checking "
-                                                         "machinery may not edit itself"}
+        return _settle({"applied": False, "error": str(denied) + " is on the denylist -- the "
+                                                                 "checking machinery may not "
+                                                                 "edit itself"})
     _rel_l = rel.lower()
     # THE ALLOWLIST FAILS CLOSED, which is why it is here rather than last. A path outside the
     # agent's working surface is refused without any further question -- no denylist entry
@@ -609,21 +632,21 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     # worth surfacing when both would fire.
     if not (any(_rel_l.startswith(p) for p in WRITABLE_PREFIXES)
             or _rel_l in {f.lower() for f in WRITABLE_FILES}):
-        return {"applied": False,
+        return _settle({"applied": False,
                 "error": "%s is outside the writable surface. The local model may write %s and "
                          "%s -- everything else is refused by default, including anything added "
                          "to this repo after this list was written."
-                         % (rel, ", ".join(WRITABLE_PREFIXES), ", ".join(WRITABLE_FILES))}
+                         % (rel, ", ".join(WRITABLE_PREFIXES), ", ".join(WRITABLE_FILES))})
     # M24: whole protected REGIONS, folded the same way and for the same reason. Checked before
     # anything is read, so a protected path never even reaches the find/replace. Erring toward
     # refusal is the harmless direction.
     for _pfx in DENYLIST_PREFIXES:
         if _rel_l.startswith(_pfx):
-            return {"applied": False,
+            return _settle({"applied": False,
                     "error": "%s is inside the protected region '%s'. It is not edited by hand "
                              "or by a model: records go through pipeline.write_record, the "
                              "charter is the owner's, and shared state is landed via "
-                             "silence.replace_retry." % (rel, _pfx)}
+                             "silence.replace_retry." % (rel, _pfx)})
     # The cap is charged AFTER the allow/deny checks and BEFORE anything is read or written, so
     # a refused path costs no budget and an accepted one cannot exceed it.
     _ok, _why = _blast_ok(full)
@@ -632,35 +655,18 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
             import escalation as _ESC
             _ESC.escalate(_ESC.MANAGER, "LOCAL_AGENT_BLAST_CAP", _why, who="local_agent")
         except Exception:
-            pass
-        return {"applied": False, "error": _why}
+            # EVERY OTHER ESCALATION SITE IN THIS FILE RECORDS THE SWALLOW (see
+            # local_agent.py:revert-escalate below); this one did not, so a broken or missing
+            # escalation.py made the runaway signal vanish with no trace in the failure ledger.
+            # The refusal itself still happens either way -- this is not a gate hole -- but the
+            # blast cap's alarm should not be the quiet one. Found sweep34 batch 15.
+            silence.note("local_agent.py:blast-cap-escalate")
+        return _settle({"applied": False, "error": _why})
     original = open(full, encoding="utf-8").read()
     if original.count(find) != 1:
-        return {"applied": False,
+        return _settle({"applied": False,
                 "error": "find string occurs %d times; it must occur exactly once -- copy "
-                         "it verbatim from read_file" % original.count(find)}
-    # THE AUDIT TRAIL RECORDS OUTCOME, NOT ONLY INTENT. This entry used to be appended here and
-    # never touched again, so `patches` said what the model ASKED for and never what happened to
-    # it: a patch that was gated and reverted, and a patch that was applied, and a patch whose
-    # revert FAILED and left a half-written file on disk, all looked identical in the trail. A
-    # record of intentions is not an audit trail -- reading it back, there was no way to tell
-    # which of these edits are on disk right now. `_settle` writes the verdict into the same
-    # dict on the way out of every path below, so the entry and its outcome cannot drift apart.
-    # (Found by the run #33 sweep, batch 16; the durable ALARM signal was fixed that run, this
-    # half was not.)
-    entry = None
-    if log is not None:
-        entry = {"path": path, "why": why[:200], "find": find[:200],
-                 "replace": replace[:200], "at": time.strftime("%H:%M:%S")}
-        log.append(entry)
-
-    def _settle(result):
-        if entry is not None:
-            entry["outcome"] = {k: result[k] for k in
-                                ("applied", "staged", "reverted", "gate", "error", "ALARM")
-                                if k in result}
-        return result
-
+                         "it verbatim from read_file" % original.count(find)})
     if not apply:
         return _settle({"applied": False, "staged": True,
                         "note": "run started with --no-apply; patch recorded for the audit trail"})
@@ -864,14 +870,25 @@ def run(task, model=None, apply=True, quiet=False):
                     args = json.loads(args)
                 except Exception:
                     args = {}
-            if fn == "propose_patch":
-                res = t_propose_patch(apply=apply, log=patches, **args)
-                if res.get("ALARM"):
-                    unreverted.append(res["ALARM"])
-            elif fn in impl:
-                res = impl[fn](**args)
-            else:
-                res = {"error": "no such tool: " + str(fn)}
+            # A MALFORMED TOOL CALL MUST NOT END THE RUN. `args` comes straight from the model
+            # (a dict decoded from its own JSON), so a bad shape -- an `apply` key colliding
+            # with the keyword this function already passes, a missing required `path` -- used
+            # to raise an uncaught TypeError here and kill the whole turn loop with a traceback
+            # instead of handing the model an error dict it could read and correct. Every other
+            # bad input in this file is answered with {'error': ...}; this makes tool dispatch
+            # consistent with that instead of being the one place that loses the transcript.
+            # Found sweep34 batch 15.
+            try:
+                if fn == "propose_patch":
+                    res = t_propose_patch(apply=apply, log=patches, **args)
+                    if res.get("ALARM"):
+                        unreverted.append(res["ALARM"])
+                elif fn in impl:
+                    res = impl[fn](**args)
+                else:
+                    res = {"error": "no such tool: " + str(fn)}
+            except TypeError as e:
+                res = {"error": "bad arguments for %s: %s" % (fn, str(e)[:160])}
             if not quiet:
                 print("  [%s] %s -> %s" % (fn, json.dumps(args)[:90],
                                            json.dumps(res)[:110]), flush=True)

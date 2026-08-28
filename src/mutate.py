@@ -550,7 +550,49 @@ def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
             silence.note("mutate.py:reap-incomplete")
         else:
             removed.append(p)
+    if removed:
+        _record_reap(removed, older_than)
     return removed
+
+
+# --------------------------------------------------------------------------- the reap ledger
+#
+# A DESTRUCTIVE SWEEP THAT LEAVES NO RECORD COST THREE RUNS TO DIAGNOSE. M46 -- a `--target all`
+# session dying on a bare FileNotFoundError for `<sandbox>/src/assay.py` about four minutes in,
+# after its own baseline gates had passed -- was blamed on concurrent edits by run #34, on the
+# `drill` gate by run #35, and on `drill.py` again by run #36's first two probes. All three were
+# wrong. A control that built TWO sandboxes and ran drill in only ONE killed BOTH, which cleared
+# drill; a bare sandbox with nothing whatsoever running against it died as well; and decoy
+# directories under other prefixes survived the same window untouched. So the reaper is code in
+# this project matching SANDBOX_PREFIX, and the reason nobody could name it is that reaping was
+# the one destructive operation here that reported nothing at all -- `removed` was returned to a
+# caller that mostly discarded it, and the only trace was a `note()` for the FAILURE case.
+#
+# The asymmetry is the bug: an incomplete reap was recorded and a successful one was not, so the
+# louder event was invisible and the quieter one was logged. This records what was deleted, on
+# whose behalf, and from which stack, to a file OUTSIDE the temp tree being deleted -- the first
+# tracer this run wrote put its log inside the sandbox and the reap destroyed its own evidence.
+REAP_LEDGER = os.path.join(HERE, "state", "reap_ledger.jsonl")
+
+
+def _record_reap(removed, older_than):
+    """Append one line naming what was reaped and who asked. Never raises.
+
+    Never raises because a reaper that cannot write its ledger must still be a working reaper --
+    this is accounting, not a gate. It is deliberately append-only JSONL rather than a rewritten
+    document: the writers here are concurrent daemons, and a read-modify-write shared between
+    them is the exact defect three other modules were repaired for this shift.
+    """
+    import traceback
+    try:
+        stack = [ln.strip() for ln in traceback.format_stack()[:-2]][-6:]
+        row = {"at": time.time(), "pid": os.getpid(), "older_than": older_than,
+               "argv": sys.argv[:4], "removed": removed, "stack": stack}
+        os.makedirs(os.path.dirname(REAP_LEDGER), exist_ok=True)
+        with open(REAP_LEDGER, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(row) + "\n")
+    except Exception:
+        silence.note("mutate.py:reap-ledger-unwritable")
 
 
 def sandbox():

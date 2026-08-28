@@ -82,11 +82,20 @@ def _modules():
 
 
 def _parse(path):
+    """-> (tree, None) on success, or (None, reason) on failure.
+
+    THE REASON RIDES ALONG, not just the fact of failure. The three causes this pass exists to
+    catch -- a real SyntaxError, control-character corruption, and a mid-write truncation from a
+    killed gated write -- each produce a different exception (SyntaxError, UnicodeDecodeError,
+    and usually SyntaxError with an "unexpected EOF" message respectively), and a bare `None`
+    collapsed all three into the same "will not parse" row with nothing left to tell them apart
+    by. See the docstring above and `scan()`'s use of this.
+    """
     try:
         with open(path, encoding="utf-8") as fh:
-            return ast.parse(fh.read(), filename=path)
-    except Exception:
-        return None
+            return ast.parse(fh.read(), filename=path), None
+    except Exception as e:
+        return None, "%s: %s" % (type(e).__name__, e)
 
 
 def _defs(tree, prefix=""):
@@ -120,7 +129,7 @@ def scan():
     """-> {'dead': [...], 'tautology': [...], 'phantom': [...]} over every module in src/."""
     trees, used, unparsed = {}, set(), []
     for name, path in _modules():
-        t = _parse(path)
+        t, reason = _parse(path)
         if t is None:
             # A MODULE THAT WILL NOT PARSE IS NOT A CLEAN MODULE. Until run #33 this `continue`
             # was silent, so a source file that failed to parse -- including from the literal
@@ -130,7 +139,12 @@ def scan():
             # whose whole purpose is finding checks that cannot fail had one at its own
             # foundation. Reported as a finding of its own, so the count rises and the ratchet
             # in `drill.py` sees it. Found by the run #33 sweep (batch 08).
-            unparsed.append("%s: will not parse -- excluded from every liveness check" % name)
+            #
+            # THE REASON IS CARRIED, not just the fact -- `_parse` now returns why (SyntaxError,
+            # UnicodeDecodeError, ...) so the row can distinguish the three causes named above
+            # instead of collapsing them all into the same "will not parse".
+            unparsed.append("%s: will not parse (%s) -- excluded from every liveness check"
+                            % (name, reason))
             continue
         trees[name] = t
 

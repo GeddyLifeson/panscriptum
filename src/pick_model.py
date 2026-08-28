@@ -25,6 +25,7 @@ _NO_WIN = getattr(__import__("subprocess"), "CREATE_NO_WINDOW", 0)
 import os
 import re
 import sys
+import threading
 
 import requests
 import yaml
@@ -122,12 +123,14 @@ def save_config(cfg):
               "nothing was written.", file=sys.stderr)
         return False
     # Atomic: config.yaml is re-read by nine running modules; a truncated mid-write copy
-    # hands one of them a YAML parse error at whatever instant it reloads.
-    import silence as _sil
-    with open(p + ".tmp", "w", encoding="utf-8") as f:
+    # hands one of them a YAML parse error at whatever instant it reloads. The tmp name
+    # carries PID and thread (silence.write_json's convention, silence.py:370-373) so two
+    # writers of config.yaml can't collide on the temp file itself.
+    tmp = "%s.%d.%d.tmp" % (p, os.getpid(), threading.get_ident())
+    with open(tmp, "w", encoding="utf-8") as f:
         f.write(new_raw)
-    if not _sil.replace_retry(p + ".tmp", p):
-        _sil.note("pick_model.py:save_config-denied")
+    if not silence.replace_retry(tmp, p):
+        silence.note("pick_model.py:save_config-denied")
         print("pick_model: config.yaml is held open and could not be replaced; it still names "
               "the PREVIOUS model.", file=sys.stderr)
         return False
@@ -237,20 +240,21 @@ def weight_gb(model_entry):
     return parse_param_size(model_entry) * 0.6  # ~Q4 bytes per param
 
 
-def fit_note(model_entry, vram_gb, num_ctx_gb=1.2):
+def fit_note(model_entry, vram_gb, num_ctx_gb=KV_GB):
     """Plain-language warning about whether this model will actually stay on the GPU.
 
-    The whole point: a dense model that spills is catastrophically slow (measured 4.7 tok/s
-    for a 28%-offloaded 14B on this box), while an MoE that spills is merely slower.
+    OWNER RULING 2026-08-24 retired the MoE tolerance this used to carve out here: the 30B MoE
+    ran at 19.0GB resident with 8.4GB on the card, over half offloaded, and a single phase call
+    sat for 40 minutes. "MoE spills cheaply" was true only relative to a dense spill and still
+    catastrophic in absolute terms, so a model that would offload gets the same warning
+    regardless of family -- see MOE_MARKERS above, which is now STILL DISQUALIFYING.
     """
     need = weight_gb(model_entry) + num_ctx_gb
     if need <= vram_gb:
         return "fits in VRAM"
-    if is_moe(model_entry.get("name", "")):
-        return (f"needs ~{need:.1f}GB vs {vram_gb:.1f}GB free -- will offload, but it's MoE "
-                f"so the cost is modest")
-    return (f"WILL OFFLOAD: needs ~{need:.1f}GB vs {vram_gb:.1f}GB free, and it's dense -- "
-            f"expect a large speed penalty")
+    kind = "MoE" if is_moe(model_entry.get("name", "")) else "dense"
+    return (f"WILL OFFLOAD: needs ~{need:.1f}GB vs {vram_gb:.1f}GB free, and it's {kind} -- "
+            f"expect a large speed penalty either way")
 
 
 def score_model(model_entry):

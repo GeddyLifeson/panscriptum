@@ -1,0 +1,804 @@
+[
+  {
+    "batch": 1,
+    "ids": [
+      "be2b133b6e95",
+      "e3a69ceb5857",
+      "6cf2a6486075",
+      "96ebf36510b8",
+      "faee3befb768",
+      "5a9a75916f94",
+      "c3b5aba07f4a",
+      "d7ed21164177"
+    ],
+    "modules": [
+      "context_budget.py",
+      "coverage.py",
+      "derivation.py",
+      "tells.py"
+    ],
+    "orders": [
+      {
+        "code": "SWEEP35_FINDING",
+        "evidence": {
+          "proof": "coverage.py:251: silence.write_json(OUT, rows, indent=1, ensure_ascii=False)  /  252: print(f\"\nper-source table -> {OUT}\")  /  253: return 0"
+        },
+        "first_seen": 1787810088.2979345,
+        "found_by": "sweep35-batch05",
+        "handler": "LOCAL",
+        "id": "be2b133b6e95",
+        "last_seen": 1787810088.2979345,
+        "seen": 1,
+        "severity": "MAJOR",
+        "what": "coverage.main() discards the verdict of silence.write_json(). Line 251: silence.write_json(OUT, rows, indent=1, ensure_ascii=False) -- return value never checked. Line 252 unconditionally prints \"per-source table -> {OUT}\", and main() returns 0 at line 253 regardless. COVERAGE.json is read by the dashboard, standards and the published page per the comment two lines above the call (line 248-250), so a denied replace (a reader mid-poll) is reported as a landed write and the CLI exits success while the file on disk is stale. Same class as onomast.py:428 and the pattern silence.write_json document",
+        "where": "coverage.py:251-253"
+      },
+      {
+        "code": "ADDRESS_BIT_WIDTH_DRIFT",
+        "evidence": null,
+        "first_seen": 1787714831.3331065,
+        "found_by": "maintenance-2026-08-25b queue agents",
+        "handler": "LOCAL",
+        "id": "e3a69ceb5857",
+        "last_seen": 1787714831.3331065,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "Both still describe the address as 74 bits. It is 89 (8 fields, 12 bytes) -- corrected in address_space.py this shift, where main() now prints TOTAL_BITS instead of a literal so it cannot drift again. These two siblings kept the old number.",
+        "where": "src/derivation.py:333, src/profile.py:20"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 4,
+          "proof": "n = sum(r[\"entries\"] for r in rows)\n...\nprint(f\"  CITED       {cited:>8,}  {cited/n:>6.1%}   carries a verbatim feat\")\n--- measure(): \"coverage\": c[\"CITED\"] / max(n, 1)"
+        },
+        "first_seen": 1787716324.7290123,
+        "found_by": "sweep34-batch04",
+        "handler": "LOCAL",
+        "id": "6cf2a6486075",
+        "last_seen": 1787716324.7290123,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "coverage.report() divides by an unguarded denominator seven times while measure() guards every one of its own divisions with max(n, 1) (lines 185-186). n = sum(r[\"entries\"] for r in rows) at line 192, then cited/n, read/n, nopage/n, untried/n, nohost/n and (cited+read)/n at lines 202-208. An empty or entry-less rows raises ZeroDivisionError from inside the reporting function, after measure() has already done the full corpus pass.",
+        "where": "src/coverage.py:192-208"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 11,
+          "proof": "247-252: if system_text is None: / try: / with open(os.path.join(PROMPTS, 'system_style.txt'), encoding='utf-8') as f: / system_text = f.read() / except Exception: / system_text = ''  ||  same shape at 253-258, 272-276, 277-281  ||  line 60 is the only import in the file: 'import os' - silence appears nowhere  ||  header 41-43: 'characters and deliberately PESSIMISTIC: being wrong in that direction costs smaller blocks and more calls, and being wrong in the other costs silently truncated evidence, which is the thing the whole project exists to refuse.'"
+        },
+        "first_seen": 1787716671.0021155,
+        "found_by": "sweep34-batch11",
+        "handler": "LOCAL",
+        "id": "96ebf36510b8",
+        "last_seen": 1787716671.0021155,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "context_budget.py has FOUR bare 'except Exception:' handlers that discard the reason (251, 257 in feats_block_budget; 275, 280 in report()), and never imports silence, so none of them records anything. An unreadable prompt file sets the text to '', making scaffold_chars zero, making content_budget_chars LARGER - the truncating direction the header says this module exists to refuse. report() then publishes system_full_chars: 0 as an ordinary reading. MINOR only because generate.py:133 assert_fits still refuses loudly at send time, so the loss is the instrument, not the evidence.",
+        "where": "src/context_budget.py:251"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 8,
+          "proof": "tells.py:18 'It's not that X, it's Y' | 81 pattern requires (?:is|was|are|were)n['\u2019]?t ... (?:it|they|which) (?:is|was|are|were) | 82 requires literal 'is not' + 'it is'/'which is' | measured: scan(\"It's not a fortress, it's a prison.\") == {}"
+        },
+        "first_seen": 1787716700.2619786,
+        "found_by": "sweep34-batch08",
+        "handler": "LOCAL",
+        "id": "faee3befb768",
+        "last_seen": 1787716700.2619786,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "tells.py's STRUCTURAL entry keyed \"it's not X, it's Y\" (tells.py:81) cannot match the contracted form it is named for, and neither can its neighbour at 82. Measured with tells.scan: \"It isn't a fortress, it is a prison.\" -> hit; \"It is not a fortress, it is a prison.\" -> hit; \"It's not a fortress, it's a prison.\" -> {}; \"It's not that it failed, it's that nobody looked.\" -> {}. Both halves escape: \"'s not\" is neither \"is not\" nor \"isn't\", and the completion side accepts only it is / which is, never it's. The undetected form is the one this module's own docstring names at line 18 as the shape t",
+        "where": "src/tells.py:81"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 4,
+          "proof": "tmp = _SO_CACHE_P + \".tmp\"\nwith open(tmp, \"w\", encoding=\"utf-8\") as f:\n    json.dump(_SO[\"d\"], f)"
+        },
+        "first_seen": 1787805458.3212385,
+        "found_by": "sweep34-batch04",
+        "handler": "LOCAL",
+        "id": "5a9a75916f94",
+        "last_seen": 1787805458.3212385,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "coverage._so_save() writes state/coverage_cache.json through a FIXED tmp name (_SO_CACHE_P + \".tmp\"), the hand-rolled shape silence.write_json exists to replace: \"THE TMP NAME CARRIES PID AND THREAD, which the older hand-rolled path + .tmp sites did not. Two writers of the same path otherwise collide on the temp file itself, and the loser can replace the winner target with a partial file\" (silence.py:358-361). coverage.measure() is reached by the dashboard, standards, allsweep and the publisher. silence is imported at line 37.",
+        "where": "src/coverage.py:82"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 4,
+          "proof": "def _p(base, host, name):  ...  return cachekey.natural_path(base, host, name)   [docstring: \"This function used to be the whole answer, and it is lossy ... state_of() now verifies via cachekey.owns() before believing a file.\"]"
+        },
+        "first_seen": 1787805458.3510342,
+        "found_by": "sweep34-batch04",
+        "handler": "LOCAL",
+        "id": "c3b5aba07f4a",
+        "last_seen": 1787805458.3510342,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "coverage._p() is dead code: defined at coverage.py:47 with a full docstring, zero callers anywhere in src/ (grep -n \"_p(\" src/coverage.py returns only the def line; the only other mention in the tree is liveness.py:10 citing it AS the example of dead code). Its own docstring says it \"used to be the whole answer\" and that state_of() now verifies via cachekey.owns() instead -- which lines 105-106 do via cachekey.candidate_paths. It duplicates cachekey.natural_path and is free to drift from it. See the companion order on liveness.py: the dead-code detector cannot see this function.",
+        "where": "src/coverage.py:47-55"
+      },
+      {
+        "code": "SWEEP35_FINDING",
+        "evidence": {
+          "proof": "coverage.py:234: print(\"\nBEST COVERED\")  /  235: for r in sorted(have, key=lambda x: -x[\"coverage\"])[:10]:  -- contrast 224-229 which computes limit and prints \"showing N of M; K more not shown, --show to raise\""
+        },
+        "first_seen": 1787810096.7957008,
+        "found_by": "sweep35-batch05",
+        "handler": "LOCAL",
+        "id": "d7ed21164177",
+        "last_seen": 1787810096.7957008,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "coverage.report()'s BEST COVERED section silently caps a ranked list, unlike its own WORST COVERED section eleven lines above it. Lines 217-229 (hostless, worst) explicitly disclose truncation (\"showing {limit} of {len(worst)}; N more not shown, --show to raise\") and expose --show to lift the cap. Lines 234-237 have no such disclosure: print(\"BEST COVERED\") then for r in sorted(have, key=lambda x: -x[coverage])[:10] -- a bare [:10] with no count header, no \"N more not shown\", and no CLI flag. A reader who trusts the WORST section pattern has no way to tell BEST COVERED is truncated at all.",
+        "where": "coverage.py:234-237"
+      }
+    ]
+  },
+  {
+    "batch": 2,
+    "ids": [
+      "671d32878fa6",
+      "e40b786256e1",
+      "1090feb5f6f1",
+      "9beb0391c8ab",
+      "4be547515bd9",
+      "a75cd9ac1273",
+      "8d0ec897cb0b"
+    ],
+    "modules": [
+      "descending_ladder.py",
+      "feats.py",
+      "local_agent.py",
+      "overwatch.py",
+      "recover_folder_records.py"
+    ],
+    "orders": [
+      {
+        "code": "LIVENESS_BLIND_TO_UNUSED_VARIABLES",
+        "evidence": {
+          "gap": "liveness inspects module-level defs only, never function bodies",
+          "house_detector": "liveness.py",
+          "tool": "vulture --min-confidence 90"
+        },
+        "first_seen": 1787692815.215747,
+        "found_by": "secondopinion: vulture 2.16",
+        "handler": "LOCAL",
+        "id": "671d32878fa6",
+        "last_seen": 1787692815.215747,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "vulture at 90%% confidence found 3 unused local variables that liveness.py cannot see at all -- it stops at module-level function definitions and never looks inside them. descending_ladder.py:129 'from_m', verify_math.py:2310 'kw', verify_math.py:2399 'socktype'. Not dead code in the liveness sense; a computed value nobody uses, which in this codebase has twice meant a check that was written and then not wired up.",
+        "where": "descending_ladder.py:129, verify_math.py:2310,2399"
+      },
+      {
+        "code": "OVERWATCH_DEEP_COUNT_HAS_NO_AGE",
+        "evidence": null,
+        "first_seen": 1787714831.3542485,
+        "found_by": "maintenance-2026-08-25b queue agents",
+        "handler": "LOCAL",
+        "id": "e40b786256e1",
+        "last_seen": 1787714831.3542485,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "The carried-forward deep-scan count is printed with no indication of its age. With the poisoning fixed this shift (17b1ddd12fc2) the number is now real, but it can still be several rounds stale and reads as current. An 'as of round N' costs one field in last_deep.",
+        "where": "src/overwatch.py write_report"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 5,
+          "proof": "recover_folder_records.py:54-59: '# Matches ingest.py's slug(), so recovered files land where the cloud session would have put them.' / def slug(s): s = re.sub(...); return s.strip('-')[:60]   |||   ingest_doc.py:76-77: def slug(source): return re.sub(...).strip('-')  (NO [:60])   |||   catalogue_web.py:66-67: def slug(s): return re.sub(...).strip('-')[:60]   |||   ls src/ingest*.py -> src/ingest_doc.py only"
+        },
+        "first_seen": 1787716221.5263,
+        "found_by": "sweep34-batch05",
+        "handler": "LOCAL",
+        "id": "1090feb5f6f1",
+        "last_seen": 1787716221.5263,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "The slug comment names a module that does not exist and the wrong sibling. It says 'Matches ingest.py's slug()' -- there is no src/ingest.py (only src/ingest_doc.py; src/deprecated/ holds only catalogue_local.py). And ingest_doc.slug is not what it matches: ingest_doc's lacks the [:60] truncation this one has. The function it matches character for character is catalogue_web.slug (catalogue_web.py:66-67), which is the right one to name, since that is the writer whose filenames these must land beside.",
+        "where": "src/recover_folder_records.py:54"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 7,
+          "proof": "def page_looks_real(text, title=\"\", wiki=True): -- runtime inspection of the function source shows no use of `title` outside the docstring; binding_health.py:183 = 'real, why = F.page_looks_real(text, title)'"
+        },
+        "first_seen": 1787716539.5376942,
+        "found_by": "sweep34-batch07",
+        "handler": "LOCAL",
+        "id": "9beb0391c8ab",
+        "last_seen": 1787716539.5376942,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "feats.py:186 page_looks_real(text, title='', wiki=True) never reads `title` anywhere in its body -- the word appears only in the docstring. binding_health.py:183 passes one: `real, why = F.page_looks_real(text, title)`. A caller supplying a title has reason to believe it is used (e.g. to catch a soft-404 that returns a different article) and it is not. Either use it or drop the parameter and fix the caller.",
+        "where": "src/feats.py:186"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "_ok, _why = _blast_ok(full)\nif not _ok:\n    try:\n        import escalation as _ESC\n        _ESC.escalate(_ESC.MANAGER, 'LOCAL_AGENT_BLAST_CAP', _why, who='local_agent')\n    except Exception:\n        pass\n    return {'applied': False, 'error': _why}\n-- contrast local_agent.py:663-665 which notes the same class of failure"
+        },
+        "first_seen": 1787716543.7117808,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "4be547515bd9",
+        "last_seen": 1787716543.7117808,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "local_agent.t_propose_patch swallows the blast-cap escalation with a bare 'except Exception: pass' and no silence.note. The refusal itself still happens, so this is not a gate hole -- but every other escalation site in this file records the swallow (line 665, silence.note('local_agent.py:revert-escalate')), and this one does not, so a broken or missing escalation.py makes the runaway signal vanish with no trace in the failure ledger. The blast cap exists precisely because the enumerated gates will be bypassed a sixth time; its alarm should not be the quiet one.",
+        "where": "src/local_agent.py:578-584"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "if fn == 'propose_patch':\n    res = t_propose_patch(apply=apply, log=patches, **args)\nelif fn in impl:\n    res = impl[fn](**args)\nelse:\n    res = {'error': 'no such tool: ' + str(fn)}\n-- args comes straight from the model: args = (c.get('function') or {}).get('arguments')"
+        },
+        "first_seen": 1787716543.7272685,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "a75cd9ac1273",
+        "last_seen": 1787716543.7272685,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "local_agent.run() dispatches model-controlled **args with no exception handling, so a malformed tool call kills the whole run with a traceback instead of handing the model an error dict. A model emitting {'apply': false} for propose_patch raises TypeError (multiple values for keyword argument 'apply'); one omitting a required 'path' raises TypeError (missing required positional argument). Only _chat is wrapped in a try. Every other bad input in this file is answered with {'error': ...} so the model can correct itself; this one ends the conversation and loses the transcript.",
+        "where": "src/local_agent.py:761-767"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "entry = None\nif log is not None:\n    entry = {'path': path, 'why': why[:200], ...}\n    log.append(entry)\n-- appears at line 616-620, below every refusal return: line 554 'is on the denylist', line 560-564 'is outside the writable surface', line 569-574 'is inside the protected region', line 584 blast cap, line 588 'find string occurs %d times'"
+        },
+        "first_seen": 1787716543.7438009,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "8d0ec897cb0b",
+        "last_seen": 1787716543.7438009,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "local_agent's patch audit trail records nothing at all about REFUSED writes. The log entry is created and appended at line 617, after six early returns: no-such-file (528), the module/path denylist (554), the writable-surface allowlist (560), the protected-region prefixes (569), the blast cap (584) and the find-count check (588). A model that repeatedly tries to patch foreman.py or data/records/*.json produces an empty 'patches' list. The comment at 607-616 argues that a record of intentions is not an audit trail; the complementary gap is that a record of only the ACCEPTED intentions is not on",
+        "where": "src/local_agent.py:528-617"
+      }
+    ]
+  },
+  {
+    "batch": 3,
+    "ids": [
+      "6a83762ab9bb",
+      "adffa670486c",
+      "a9259945a65b",
+      "5925b90cb6d0",
+      "cb07046fd241",
+      "7ed8fb99bb4c",
+      "e45618de083f"
+    ],
+    "modules": [
+      "cosmography.py",
+      "hosts.py",
+      "physics.py",
+      "pick_model.py"
+    ],
+    "orders": [
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 11,
+          "detail": "MEASURED by diffing candidates(s, prim.get(s), by=by, hosts=prim) against candidates(s, prim.get(s), by=by) over all 203 sources in data/WIKI_HOSTS.json: 5 sources lose 5 hosts. Alien -> predator.fandom.com; Explorer's Guide to Wildemount -> criticalrole.fandom.com; Player's Handbook -> criticalrole.fandom.com; Predator -> alien.fandom.com; Who Framed Roger Rabbit -> kingdomhearts.fandom.com.",
+          "proof": "hosts.py:142: prim = _load(PRIMARY, {})  ||  hosts.py:157-160: try: / cands = HC.candidates(source, cur, by=by) / except Exception: / silence.note('hosts.py:candidates')  ||  hostcheck.py:335-336: if by and hosts: / mine = set(by.get(source) or ())  ||  hostcheck.py:536: for h in candidates(src, r['host'], by=by, hosts=hosts):  ||  hostcheck.py:878: for h in candidates(src, None, by=by, hosts=hosts):  ||  hostcheck.py:285-288: 'NEIGHBOURS. ... This is what found Explorer's Guide to Wildemount -> criticalrole.fandom.com at 90%: Wildemount IS Critical Role's setting, and no string manipulation on the title would ever have reached it.'"
+        },
+        "first_seen": 1787716671.0220456,
+        "found_by": "sweep34-batch11",
+        "handler": "LOCAL",
+        "id": "6a83762ab9bb",
+        "last_seen": 1787716671.0220456,
+        "seen": 1,
+        "severity": "MAJOR",
+        "what": "hosts.py:158 calls HC.candidates(source, cur, by=by) and OMITS hosts=, which silently disables one of candidates()'s three generators outright: hostcheck.py:335 gates the NEIGHBOURS block on 'if by and hosts:'. This is the only caller in the tree that omits it - hostcheck.py:536 and :878 both pass 'by=by, hosts=hosts'. MEASURED over all 203 sources: 5 lose their neighbour candidate, including the docstring's own worked example (Wildemount -> criticalrole.fandom.com) and Alien/Predator. Fix: pass hosts=prim, loaded at line 142.",
+        "where": "src/hosts.py:158"
+      },
+      {
+        "code": "PHYSICS_NEGATIVE_MASS_UNCHECKED",
+        "evidence": null,
+        "first_seen": 1787714831.3386803,
+        "found_by": "maintenance-2026-08-25b queue agents",
+        "handler": "LOCAL",
+        "id": "adffa670486c",
+        "last_seen": 1787714831.3386803,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "float(mass_kg) ** 2 squares the sign away, so a negative mass returns a POSITIVE binding energy silently. Same class as the non-positive-radius guard added to sphere_volume and binding_energy this shift, and left outside that order's scope.",
+        "where": "src/physics.py binding_energy"
+      },
+      {
+        "code": "PICK_MODEL_TWO_CONTEXT_ALLOWANCES",
+        "evidence": null,
+        "first_seen": 1787714831.386864,
+        "found_by": "maintenance-2026-08-25b queue agents",
+        "handler": "LOCAL",
+        "id": "a9259945a65b",
+        "last_seen": 1787714831.386864,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "resident() allows KV_GB for context while fit_note() defaults to num_ctx_gb=1.2. Two different context allowances for the same question; they should be one constant.",
+        "where": "src/pick_model.py:190 vs :242"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 14,
+          "proof": "cosmography.py:133  DEFAULT_SIZE_CLASS = \"STANDARD\"  (grep -rn over src/: defined once, no other reference) | cosmography.py:169  def census(size_class=\"STANDARD\", galaxies=None, verbose=False): | cosmography.py:18-20  \"REVERSIBLE -- every convention is a named module-level constant with an erratum note. Change one, re-run, and every downstream figure moves with it.\" | cosmography.py:66  KARDASHEV_TYPE_I = 1.0e16  vs verify_math.py:176  check(\"Kardashev K(Type I = 1e16 W) == 1.0\", C.kardashev_K(1e16), 1.0, tol=1e-9) | cosmography.py:69  EARTH_POWER_2020 = 2.0e13  vs verify_math.py:177  C.kardashev_K(2e13)"
+        },
+        "first_seen": 1787716180.998383,
+        "found_by": "sweep34-batch14",
+        "handler": "LOCAL",
+        "id": "5925b90cb6d0",
+        "last_seen": 1787716180.998383,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "cosmography declares constants that nothing reads, in the module whose admissibility rests on reversibility. Its docstring (cosmography.py:18-20) claims 'every convention is a named module-level constant ... Change one, re-run, and every downstream figure moves with it'. DEFAULT_SIZE_CLASS = 'STANDARD' (cosmography.py:133) has no reader anywhere in src/; census() re-types the same string in its own signature at cosmography.py:169, so editing the constant moves nothing. Same shape, milder: KARDASHEV_TYPE_I (line 66) and EARTH_POWER_2020 (line 69) have no reader in src/ while verify_math.py:176-",
+        "where": "src/cosmography.py:133"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 4,
+          "proof": "if is_moe(model_entry.get(\"name\", \"\")):\n    return (f\"needs ~{need:.1f}GB vs {vram_gb:.1f}GB free -- will offload, but it is MoE \"\n            f\"so the cost is modest\")"
+        },
+        "first_seen": 1787716324.7536497,
+        "found_by": "sweep34-batch04",
+        "handler": "LOCAL",
+        "id": "cb07046fd241",
+        "last_seen": 1787716324.7536497,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "pick_model.fit_note() still prints the MoE tolerance the owner ruling retired: \"needs ~{need}GB vs {vram_gb}GB free -- will offload, but it is MoE so the cost is modest\". The constant comment sixty lines above says the opposite -- MOE_MARKERS is \"STILL DISQUALIFYING under the residency mandate below -- the tolerance this marker used to buy is what produced 40-minute single calls\" (lines 81-83) and \"OWNER RULING 2026-08-24: GPU-ONLY, AND STICK TO IT ... MoE spills cheaply was true relative to a dense spill and still catastrophic in absolute terms\" (lines 85-88). The branch is reachable: fit_not",
+        "where": "src/pick_model.py:251-253"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 4,
+          "proof": "import silence as _sil\nwith open(p + \".tmp\", \"w\", encoding=\"utf-8\") as f:\n    f.write(new_raw)\nif not _sil.replace_retry(p + \".tmp\", p):"
+        },
+        "first_seen": 1787805458.3305993,
+        "found_by": "sweep34-batch04",
+        "handler": "LOCAL",
+        "id": "7ed8fb99bb4c",
+        "last_seen": 1787805458.3305993,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "pick_model.save_config() writes config.yaml through a FIXED temp name (p + \".tmp\") -- the hand-rolled shape silence.write_json exists to replace (silence.py:358-361), in a function whose own docstring one line above says \"config.yaml is re-read by nine running modules\". The replace_retry VERDICT is correctly checked here, so only the temp name is at fault. silence is already imported at module level (line 31), so the local \"import silence as _sil\" at line 126 is also redundant.",
+        "where": "src/pick_model.py:126-129"
+      },
+      {
+        "code": "CODEWATCH_RESTART",
+        "evidence": {
+          "job": "foreman",
+          "restarts_this_hour": 1
+        },
+        "first_seen": 1787764284.0585504,
+        "found_by": "codewatch",
+        "handler": "LOCAL",
+        "id": "e45618de083f",
+        "last_seen": 1787850569.2261846,
+        "seen": 5,
+        "severity": "INFO",
+        "what": "foreman exited to pick up changed source (src/ changed 412b9ab4691cde90 -> eb7a3d0c2fefaf0c and held for 3941s)",
+        "where": "foreman"
+      }
+    ]
+  },
+  {
+    "batch": 4,
+    "ids": [
+      "b635a4818c81",
+      "596493b0b139",
+      "79a7d0f284a5",
+      "e45d838478c1",
+      "f80a67b48caf",
+      "8f54fab65c69",
+      "fa4e143ebd02"
+    ],
+    "modules": [
+      "address_space.py",
+      "axis_correlation.py",
+      "compress_store.py",
+      "liveness.py",
+      "modA1.py"
+    ],
+    "orders": [
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 3,
+          "proof": "    tmp = '%s.%d.%d.tmp' % (path, os.getpid(), threading.get_ident())\n    with open(tmp, 'wb') as f:\n        f.write(blob)\n    silence.replace_retry(tmp, path)\n    return {'hash': h, 'path': path, 'codec': codec, ...}\nsilence.py:319-336 replace_retry(...): for a in range(attempts): try os.replace -> return True; except PermissionError ... ; return False\ngenerate.py:468 store_info = compress_store.store(text, compressed_dir); catalog[...]['compressed_path'] = os.path.relpath(store_info['path'], HERE)"
+        },
+        "first_seen": 1787717527.7504342,
+        "found_by": "sweep34-batch03",
+        "handler": "LOCAL",
+        "id": "b635a4818c81",
+        "last_seen": 1787717527.7504342,
+        "seen": 1,
+        "severity": "MAJOR",
+        "what": "compress_store.py:56 throws away the write verdict. silence.replace_retry() RETURNS False when the rename is denied on every attempt (it notes 'replace-denied:<file>' and returns False rather than raising, by explicit design). store() ignores the return and unconditionally returns {'hash','path','codec','raw_bytes','compressed_bytes'} -- so a blob that never landed is reported as stored. generate.py:468-476 writes that path straight into the catalogue as 'compressed_path' plus compressed_bytes, giving a catalogue entry pointing at a file that does not exist, and catalog.py:97 opens exactly tha",
+        "where": "src/compress_store.py:56"
+      },
+      {
+        "code": "SWEEP33_FINDING",
+        "evidence": {
+          "batch": 5,
+          "report": "handoff/sweep33/AUDIT_batch05.md"
+        },
+        "first_seen": 1787689517.5807133,
+        "found_by": "sweep33-batch05",
+        "handler": "LOCAL",
+        "id": "596493b0b139",
+        "last_seen": 1787689517.5807133,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "address_space.py:186, 216 \u2014 `citation_card()` and `seed_from_card()` are dead code",
+        "where": "b05 address_space.py:186, 216"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 4,
+          "proof": "def _parse(path):\n    try:\n        with open(path, encoding=\"utf-8\") as fh:\n            return ast.parse(fh.read(), filename=path)\n    except Exception:\n        return None"
+        },
+        "first_seen": 1787716179.1873682,
+        "found_by": "sweep34-batch04",
+        "handler": "LOCAL",
+        "id": "79a7d0f284a5",
+        "last_seen": 1787716179.1873682,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "liveness._parse discards the exception reason, so the unparsed row can only ever say \"will not parse\" and never whether it was a SyntaxError, a control character, or a mid-write truncation - the three causes the comment at lines 86-93 says it exists to catch.",
+        "where": "src/liveness.py:72-77"
+      },
+      {
+        "code": "SWEEP_COVERAGE_VIEW_HOLDS_TEST_DEBRIS",
+        "evidence": {
+          "aggregate_role": "convenience view for --coverage only",
+          "ghost_rows": 13,
+          "proof_path": "missing() -> covered_by() -> state/sweep_shards/*.json",
+          "runs": [
+            "TESTRUN_A (12)",
+            "run_old (1)"
+          ]
+        },
+        "first_seen": 1787716184.1194565,
+        "found_by": "sweep34-batch01 + maintenance-2026-08-25b verification",
+        "handler": "LOCAL",
+        "id": "e45d838478c1",
+        "last_seen": 1787716184.1194565,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "The aggregate coverage view holds 13 rows for modules that do not exist in src/: modA1.py through modF2.py under run TESTRUN_A, and sharedmod.py under run_old. Nothing in src/ writes those names -- grep finds no TESTRUN_A anywhere -- so they are one-off debris left by an interactive test that wrote into the LIVE artifact instead of a temp file, and they will not regenerate. HARMLESS TO THE PROOF, and that was worth checking rather than assuming: missing() answers from covered_by(), which merges the per-batch SHARDS under state/sweep_shards/, not from this aggregate -- the aggregate is explicit",
+        "where": "state/SWEEP_COVERAGE.json"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "header lists: reach x ruin +0.816 n=44 / continuity x sustain +0.773 n=42 / continuity x reach +0.756 n=44 / reach x sustain +0.694 n=43 / acumen x discernment +0.653 n=44 / ...\nlive measure() ranked by abs(r): 1 reach|ruin 0.8161 n=44, 2 continuity|sustain 0.7731 n=42, 3 continuity|reach 0.7562 n=44, 4 reach|sustain 0.6942 n=43, 5 continuity|suasion 0.6887 n=44, 6 reach|transgression 0.6679 n=45, 7 acumen|discernment 0.6534 n=44"
+        },
+        "first_seen": 1787716543.829579,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "f80a67b48caf",
+        "last_seen": 1787716543.829579,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "axis_correlation's module header prints what reads as an unbroken descending top five, and two ranks are missing from it. Re-derived against the live tree, the true order is 1 reach|ruin 0.8161, 2 continuity|sustain 0.7731, 3 continuity|reach 0.7562, 4 reach|sustain 0.6942, 5 continuity|suasion 0.6887, 6 reach|transgression 0.6679, 7 acumen|discernment 0.6534. The header's fifth line is acumen x discernment r = +0.653 n = 44, followed by an ellipsis that asserts the five above it are the top five. Every quoted VALUE is exact; the ORDER is not, so a reader reconstructing the ranking from the he",
+        "where": "src/axis_correlation.py:19-28"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "measure() line 128: 'mean_r': round(sum(vals) / len(vals), 4) if vals else None\nmain()  line 202: print('   %d pair(s) measured, mean r = %+.4f' % (doc['measured_pairs'], doc['mean_r']))\nmain()  line 203: if doc['mean_r'] and doc['mean_r'] > 0.1:   <- the correct guard, one line later"
+        },
+        "first_seen": 1787716543.8433359,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "8f54fab65c69",
+        "last_seen": 1787716543.8433359,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "axis_correlation.main() raises TypeError in exactly the state where a reader most needs it to speak: measure() sets mean_r to None when no pair clears MIN_N, and line 202 formats it with %+.4f unconditionally. The two lines below it guard correctly (if doc['mean_r'] and ...), so this is an oversight rather than a decision -- the report crashes instead of saying 'nothing measurable yet'.",
+        "where": "src/axis_correlation.py:202"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "for rel in SOURCES:\n    p = os.path.join(HERE, rel)\n    if not os.path.exists(p):\n        continue\n-- measure() returns {'pairs', 'axes', 'n_entities', 'mean_r', 'measured_pairs'} and write() adds only a 'note'; nothing names the seven SOURCES or which of them were read"
+        },
+        "first_seen": 1787716543.8560143,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "fa4e143ebd02",
+        "last_seen": 1787716543.8560143,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "axis_correlation.observations() skips a missing SOURCES file with a bare 'continue', and neither measure()'s return nor data/AXIS_CORRELATION.json records how many of the seven were actually read. All seven exist today. If one is renamed the matrix silently shrinks -- fewer entities, different correlations, a different mean_r -- and the file on disk looks exactly as authoritative as before. For the covariance term the header calls the thing inside 'every published interval in the library', the provenance of the sample should travel with the number: record the sources read, the sources missing,",
+        "where": "src/axis_correlation.py:76-78"
+      }
+    ]
+  },
+  {
+    "batch": 5,
+    "ids": [
+      "c16499b0a50b",
+      "6673ec6bfb0b",
+      "918da0e4b88b",
+      "fdf1814552fb",
+      "97b39265457f",
+      "ed7df12bf429",
+      "cfb92f76ffb1"
+    ],
+    "modules": [
+      "corpus_db.py",
+      "onomast.py",
+      "resonance.py",
+      "style_audit.py"
+    ],
+    "orders": [
+      {
+        "code": "SWEEP33_FINDING",
+        "evidence": {
+          "batch": 8,
+          "report": "handoff/sweep33/AUDIT_batch08.md"
+        },
+        "first_seen": 1787689517.6334467,
+        "found_by": "sweep33-batch08",
+        "handler": "LOCAL",
+        "id": "c16499b0a50b",
+        "last_seen": 1787689517.6334467,
+        "seen": 1,
+        "severity": "MAJOR",
+        "what": "resonance.py \u2014 the whole module is unimported anywhere in src/, contradicting its own docstring",
+        "where": "b08 resonance.py"
+      },
+      {
+        "code": "SWEEP35_FINDING",
+        "evidence": {
+          "proof": "onomast.py:428: silence.write_json(OUT, named, indent=2, ensure_ascii=False)  /  429: print(f\"\nwrote {OUT}\")"
+        },
+        "first_seen": 1787810079.872124,
+        "found_by": "sweep35-batch05",
+        "handler": "LOCAL",
+        "id": "6673ec6bfb0b",
+        "last_seen": 1787810079.872124,
+        "seen": 1,
+        "severity": "MAJOR",
+        "what": "onomast.main() discards the verdict of silence.write_json(). Line 428: silence.write_json(OUT, named, indent=2, ensure_ascii=False) -- the boolean return (True=landed, False=denied replace) is never read. Line 429 then unconditionally prints \"wrote {OUT}\", so a denied replace (a reader holding ONOMASTICON.json open, per silence.replace_retry docstring) is reported to the operator as a successful write. Compare worldseed.py:332-335, which checks the same call (if silence.write_json(...): print(wrote) else: print(WRITE DENIED)) -- onomast.py is the sibling that was missed.",
+        "where": "onomast.py:428-429"
+      },
+      {
+        "code": "SWEEP33_FINDING",
+        "evidence": {
+          "batch": 9,
+          "report": "handoff/sweep33/AUDIT_batch09.md"
+        },
+        "first_seen": 1787689517.6776083,
+        "found_by": "sweep33-batch09",
+        "handler": "LOCAL",
+        "id": "918da0e4b88b",
+        "last_seen": 1787689517.6776083,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "Five `silence.note()` calls carry stale line-number tags instead of the project's own descriptive convention",
+        "where": "b09 Five `silence.note()` calls carry stale line-number tags ins"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 4,
+          "proof": "Every question anyone asks about this corpus currently costs a throwaway Python script that walks 216 JSON files and 109,295 entries.  [disk: 197,334 entries, 144,107 evidence files]"
+        },
+        "first_seen": 1787716208.486763,
+        "found_by": "sweep34-batch04",
+        "handler": "LOCAL",
+        "id": "fdf1814552fb",
+        "last_seen": 1787716208.486763,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "corpus_db prose numbers disagree with disk, in the present tense, in the module whose header says \"anything that disagrees with the records is this file being stale\". Line 6: \"walks 216 JSON files and 109,295 entries\"; line 36: \"against a corpus of 109,295 entries\"; line 411 --no-evidence help: \"skip the 109k evidence files\". Measured 2026-08-25: 216 record files (correct), state/corpus.db meta.entries = 197,334, and 144,107 evidence files on disk. The 109,295 figures inside freshness() docstring lines 234-236 are timestamped historical measurements and are fine; these three are not.",
+        "where": "src/corpus_db.py:6"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 4,
+          "proof": "def rebuild(include_evidence=True, evidence_limit=None):  ...  if evidence_limit:\n    files = files[:evidence_limit]"
+        },
+        "first_seen": 1787716208.494894,
+        "found_by": "sweep34-batch04",
+        "handler": "LOCAL",
+        "id": "97b39265457f",
+        "last_seen": 1787716208.494894,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "corpus_db.rebuild() carries a cap parameter evidence_limit that no caller ever sets and no CLI flag exposes - grep -rn evidence_limit src/ finds only the def and its two use lines. main() calls rebuild(include_evidence=not a.no_evidence). The slice it guards is applied to an UNORDERED concatenation of two globs, so if it were ever set the sample would be arbitrary rather than ranked. Dead parameter plus a latent cap.",
+        "where": "src/corpus_db.py:87"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 16,
+          "proof": "34 BANNED = TELLS.ALL_PATTERNS -- only other BANNED hit in src/*.py is this line; audit() at 119 calls TELLS.scan(r)"
+        },
+        "first_seen": 1787716545.6163347,
+        "found_by": "sweep34-batch16",
+        "handler": "LOCAL",
+        "id": "ed7df12bf429",
+        "last_seen": 1787716545.6163347,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "style_audit.BANNED is dead. src/style_audit.py:34 assigns BANNED = TELLS.ALL_PATTERNS and nothing reads it: audit() scans through TELLS.scan(r) at :119, and grep over src/*.py finds no other reader in the tree. The comment above it (:28-30) explains why the banned set is imported rather than restated, which remains true of _WATCHED and of TELLS.scan -- the name itself is left over.",
+        "where": "src/style_audit.py:34"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 4,
+          "proof": "os.makedirs(os.path.dirname(path), exist_ok=True)\nwith open(path, \"w\", encoding=\"utf-8\") as f:\n    json.dump(doc, f, indent=2)\nreturn path"
+        },
+        "first_seen": 1787805458.3639965,
+        "found_by": "sweep34-batch04",
+        "handler": "LOCAL",
+        "id": "cfb92f76ffb1",
+        "last_seen": 1787805458.3639965,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "corpus_db.datasette_metadata() writes state/datasette.json with a bare open(path,\"w\") + json.dump - a truncate-then-fill on a file a running Datasette server reads. silence is imported at line 53, silence.write_json is the named remedy (silence.py:346-364), and the same module already uses silence.replace_retry at line 215.",
+        "where": "src/corpus_db.py:390-393"
+      }
+    ]
+  },
+  {
+    "batch": 6,
+    "ids": [
+      "d7a7bbb70bf1",
+      "f282ba72f742",
+      "0f8be4893543",
+      "5082a529e937",
+      "e9167885aef6",
+      "91bb70c85e31",
+      "ee382241ff8c"
+    ],
+    "modules": [
+      "binding_health.py",
+      "health.py",
+      "ledger.py"
+    ],
+    "orders": [
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 12,
+          "proof": "quarantined = {h.replace('.', '_').replace('-', '_') for h in _BH.quarantined()}  vs cachekey.host_dir: return _SANITISE.sub('_', host or '')[:HOST_CAP]"
+        },
+        "first_seen": 1787716212.083254,
+        "found_by": "sweep34-batch12",
+        "handler": "LOCAL",
+        "id": "d7a7bbb70bf1",
+        "last_seen": 1787716212.083254,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "health.py:288 -- the quarantine exemption spells the cache-directory key a third way (`h.replace('.','_').replace('-','_')`) instead of calling cachekey.host_dir (cachekey.py:56-58, `_SANITISE.sub('_', host)[:40]`), in the very comment that warns a wrong spelling makes the exemption a no-op that still looks implemented. The two diverge for punctuation outside ./- and for hosts over 40 chars: measured, 5 of 196 live hosts differ, and `doc:arcanum-worlds-odyssey-of-the-dragonlords` already has a directory on disk in the cachekey spelling (data/feats/doc_arcanum_worlds_odyssey_of_the_dragon, exac",
+        "where": "src/health.py:288"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "return True, \"%d chars from %r (candidate %d of %d tried)\" % (\n    n, t, len(tried), len(tried))"
+        },
+        "first_seen": 1787716390.7965636,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "f282ba72f742",
+        "last_seen": 1787716390.7965636,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "binding_health._probe_present success detail formats the SAME value twice, so it always reads \"candidate N of N tried\" and conveys nothing. The docstring claims the bound \"is reported in the detail rather than left implicit ... and the reader can see how many were asked\"; the reader can only see that the last candidate tried was the last candidate tried. The second operand should be PRESENT_CANDIDATES or the candidate-list length.",
+        "where": "src/binding_health.py:220-221"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "def _probe_present(host, title, timeout=25):  ... body calls _fetch_chars(host, t) with no timeout\ndef _probe_absent(host, timeout=25):  ... body calls F.fetch(host, [ABSENT_PROBE]) with no timeout"
+        },
+        "first_seen": 1787716390.8079236,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "0f8be4893543",
+        "last_seen": 1787716390.8079236,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "binding_health._probe_present and _probe_absent both declare a timeout=25 parameter that is never used -- neither passes it to feats.fetch or to anything else. A parameter that reads as a control and controls nothing; a caller setting it believes it has bounded the probe.",
+        "where": "src/binding_health.py:189,234"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "i = LADDER.index(magnitude_band)\nlo = BAND_EDGES[magnitude_band]['ruin']\nhi = BAND_EDGES[LADDER[min(i + 1, len(LADDER) - 1)]]['ruin']\njoules = math.exp(math.log(lo) + (ruin_score / 10.0) * (math.log(hi) - math.log(lo)))\n-- reproduced: assay_to_standards('M10', 0.0)['standards'] == assay_to_standards('M10', 5.0)['standards'] == assay_to_standards('M10', 10.0)['standards'] == 4.672897196261646e+90; assay_to_standards('M9', 0.0) 4.67289719626174e+76 vs assay_to_standards('M9', 10.0) 4.672897196261646e+90"
+        },
+        "first_seen": 1787716543.8684852,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "5082a529e937",
+        "last_seen": 1787716543.8684852,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "ledger.assay_to_standards silently ignores ruin_score at the top band. LADDER[min(i+1, len(LADDER)-1)] clamps to the band itself for M10, so hi == lo, the log range is zero and the interpolation collapses to a point. Reproduced: M10 at ruin 0.0, 5.0 and 10.0 all return standards 4.672897196261646e+90, while M9 spans 4.67e+76 to 4.67e+90 over the same argument. A parameter that moves the answer fourteen orders of magnitude at every other band is inert at one of them, and the returned dict says nothing about it. tempus.band_resolution faces the same 'M10 has no band above it' problem and handles",
+        "where": "src/ledger.py:130-134"
+      },
+      {
+        "code": "SWEEP34_FINDING",
+        "evidence": {
+          "batch": 15,
+          "proof": "def to_standards(amount, currency):\n    rate = CURRENCIES.get(currency, (None, 'unlisted'))[0]\n    if rate is None:\n        return None\n-- reproduced: to_standards(100, 'quatloos') -> None; to_standards(100, 'poneglyph-grade favour') -> None"
+        },
+        "first_seen": 1787716543.8817792,
+        "found_by": "sweep34-batch15",
+        "handler": "LOCAL",
+        "id": "e9167885aef6",
+        "last_seen": 1787716543.8817792,
+        "seen": 1,
+        "severity": "MINOR",
+        "what": "ledger.to_standards and ledger.from_standards cannot distinguish an UNLISTED currency from the deliberately non-convertible one. Both return bare None: to_standards(100, 'quatloos') and to_standards(100, 'poneglyph-grade favour') are identical answers, though the second is a considered doctrinal statement ('A market cannot price what one party has criminalised knowing') and the first is a typo. A caller writing an Aperture Doctrine Position Paragraph would print 'not convertible' for a misspelling. The 'unlisted' reason string is built on the same line and thrown away by the [0] subscript. ent",
+        "where": "src/ledger.py:87-98"
+      },
+      {
+        "code": "CODEWATCH_RESTART",
+        "evidence": {
+          "job": "publish",
+          "restarts_this_hour": 1
+        },
+        "first_seen": 1787725272.437039,
+        "found_by": "codewatch",
+        "handler": "LOCAL",
+        "id": "91bb70c85e31",
+        "last_seen": 1787847249.3251226,
+        "seen": 9,
+        "severity": "INFO",
+        "what": "publish exited to pick up changed source (src/ changed 412b9ab4691cde90 -> eb7a3d0c2fefaf0c and held for 615s)",
+        "where": "publish"
+      },
+      {
+        "code": "CODEWATCH_RESTART",
+        "evidence": {
+          "job": "overwatch",
+          "restarts_this_hour": 1
+        },
+        "first_seen": 1787761354.2774262,
+        "found_by": "codewatch",
+        "handler": "LOCAL",
+        "id": "ee382241ff8c",
+        "last_seen": 1787859307.3526442,
+        "seen": 5,
+        "severity": "INFO",
+        "what": "overwatch exited to pick up changed source (src/ changed 412b9ab4691cde90 -> eb7a3d0c2fefaf0c and held for 6664s)",
+        "where": "overwatch"
+      }
+    ]
+  }
+]

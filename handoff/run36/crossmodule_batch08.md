@@ -109,3 +109,33 @@ catching a mid-write state or a transient decode failure rather than a tear. Wor
 whoever owns `health.py`, but it is weaker evidence than the failures.json one.
 
 **Neither wreck should be deleted.** They are the only physical evidence of this hazard.
+
+---
+
+## 4. OWNER QUESTION (not a cross-module change) — `entity_match.embed_available()`
+
+Order `c421410c2194` is **left OPEN deliberately**. The audit's fact is correct:
+`embed_available()` has no caller anywhere in `src/` — it is the only `entity_match` row under
+`liveness.scan()["dead"]`, and grep finds only the `def` line and the module header's mention.
+
+But it is not an oversight, it is **documented deliberate design**, in two places:
+
+* the module header, *"WHY NO EMBEDDINGS BY DEFAULT"* — this machine has one Ollama model and no
+  embedding model, and embedding 85,968 catalogue names would spend the single saturated GPU to
+  improve a join already at 98.6%;
+* the function's own docstring — *"Nothing in this module calls it yet -- it is the seam for an
+  embedding pass, and it stays shut until an embedding model exists AND the exact join has been
+  exhausted."*
+
+A deliberate seam is a question, not a defect, so it was not silently deleted and not silently
+kept. **The owner's ruling is needed on one of two:**
+
+1. **KEEP the seam** — then it should stop reading as dead code, which means either a verify_math
+   §19r block exercising it (staged, complete and passing, in `handoff/nets/batch08.md` NET 3) or
+   an entry in `liveness.EXEMPT` with its reason. Batch 08 owns neither file.
+2. **REMOVE it** — then `embed_available` goes, along with the two docstring passages that
+   promise the seam, and `LIVENESS_CEILING` falls by one more.
+
+Doing nothing is also a choice, and it has a cost worth naming: every future sweep re-files this
+same order, and a finding that is re-filed and never resolved is how the queue learns to be
+ignored.

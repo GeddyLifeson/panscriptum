@@ -125,6 +125,8 @@ net(a, "the fandom reachability memo expires instead of freezing a daemon",
 grep. Its siblings `candidates`, `best`, `qualifier_compatible` and `similarity` are all
 exercised by verify_math §19r; this one is skipped by the harness too.
 
+**Verified verdict when run against the current tree: all four checks pass.**
+
 **This net is staged but NOT recommended for adoption until the owner rules**, because the
 function is documented deliberate design in two places (the module header's "WHY NO EMBEDDINGS
 BY DEFAULT" and the function's own docstring: *"Nothing in this module calls it yet -- it is the

@@ -78,7 +78,15 @@ STRUCTURAL = {
     # own `__main__` self-check passage is built from. The label names the construction; the
     # pattern is tiered by how common each phrase is in honest writing. Leave it uneven.
     "not merely X but Y": r"\bnot merely\b|\bnot simply\b|\bnot just\b.{0,40}\bbut\b",
-    "it's not X, it's Y": r"\b(?:is|was|are|were)n['’]?t (?:a |an |the )?\w+[,;] (?:it|they|which) (?:is|was|are|were)\b",
+    # SWEEP34 faee3befb768: the earlier pattern required a spelled-out "isn't"/"wasn't" on the
+    # left and "it is"/"which is" on the right, so the CONTRACTED form this very label names --
+    # "It's not X, it's Y" -- matched neither half. "'s not"/"'re not" cover the left contraction;
+    # "it's"/"they're" join "it is"/"which is" on the right. The middle clause is now a bounded
+    # span (as "not merely X but Y" above already does with `.{0,40}`), not a single \w+, because
+    # "It's not THAT IT FAILED, it's that nobody looked" -- this label's own second example --
+    # has three words between "not" and the comma, not one.
+    "it's not X, it's Y": r"\b(?:(?:is|was|are|were)n['’]?t|['’]s not|['’]re not) "
+                           r".{0,40}?[,;] (?:it|they|which)(?:['’]s|['’]re| is| was| are| were)\b",
     "X is not Y; it is Z": r"\bis not (?:a |an |the )?\w+[;,] (?:it|which) is\b",
     "not only ... but also": r"\bnot only\b.{0,60}\bbut also\b",
     "more than just": r"\bmore than (?:just|merely|simply)\b",

@@ -155,7 +155,7 @@ def discover(only=None, workers=6, per_source=24):
             return None
         cur = primary_host(source)
         try:
-            cands = HC.candidates(source, cur, by=by)
+            cands = HC.candidates(source, cur, by=by, hosts=prim)
         except Exception:
             silence.note("hosts.py:candidates")
             return None

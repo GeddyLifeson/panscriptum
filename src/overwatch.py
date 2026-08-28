@@ -572,8 +572,15 @@ def write_report(led, struct):
         lines.append("- files that will not parse: **UNKNOWN — the artifact scan itself "
                      f"failed**  — {struct['estate_error']}")
     else:
+        # THE CARRIED-FORWARD COUNT NOW SAYS HOW OLD IT IS. A shallow round copies the last deep
+        # scan forward (see round_once) rather than reporting zero -- correct, but printed with
+        # no indication of its age it can be several rounds stale and read as current. One field,
+        # only shown when the reading did not come from this round. Found e40b786256e1.
+        _dor = struct.get("deep_as_of_round")
+        _age = f" (deep scan as of round {_dor})" if (_dor is not None
+                                                       and _dor != led["rounds"]) else ""
         lines.append(f"- files that will not parse: **{len(corrupt)}** of "
-                     f"{struct.get('files', 0):,} inspected"
+                     f"{struct.get('files', 0):,} inspected{_age}"
                      + ("" if not corrupt else "  — " + "; ".join(corrupt[:3])))
     for r in (struct.get("reconcile") or []):
         n = r.get("count")
@@ -632,6 +639,9 @@ def round_once(limit=6, local=True, skip_model=False):
         if prev:
             struct.setdefault("corrupt_files", prev.get("corrupt_files", []))
             struct.setdefault("files", prev.get("files", 0))
+            # AGE, NOT JUST THE CARRIED NUMBER. `prev`'s round is stamped when it was cached
+            # (below) so write_report can say how stale it is instead of it reading as current.
+            struct.setdefault("deep_as_of_round", prev.get("round"))
         else:
             struct.setdefault("estate_error", "no deep artifact scan has completed yet -- "
                                               "there is no earlier result to carry forward")
@@ -646,7 +656,8 @@ def round_once(limit=6, local=True, skip_model=False):
         # after the failure where nobody would connect the two. A crashed scan now leaves the
         # last good reading in place instead of replacing it with a reassuring zero.
         led["last_deep"] = {"corrupt_files": struct.get("corrupt_files", []),
-                            "files": struct.get("files", 0)}
+                            "files": struct.get("files", 0),
+                            "round": led["rounds"]}
     print(f"   {len(struct.get('broken_modules') or [])} module(s) will not import, "
           f"{len(struct.get('corrupt_files') or [])} file(s) will not parse", flush=True)
 

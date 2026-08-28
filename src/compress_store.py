@@ -53,7 +53,20 @@ def store(text: str, compressed_dir: str) -> dict:
     tmp = "%s.%d.%d.tmp" % (path, os.getpid(), threading.get_ident())
     with open(tmp, "wb") as f:
         f.write(blob)
-    silence.replace_retry(tmp, path)
+    landed = silence.replace_retry(tmp, path)
+    if not landed:
+        # replace_retry() FAILS CLOSED by design (see silence.py) -- it records
+        # "replace-denied:<file>" and returns False rather than raising, so the temp copy is
+        # still sitting on disk and `path` does not exist yet. The old code returned the same
+        # success dict either way, so a blob that never landed was reported as stored, and
+        # generate.py wrote that path straight into the catalogue as `compressed_path`
+        # (generate.py:468) for catalog.py:97 to open later and fail on. Raising here instead
+        # of returning gives the caller (generate.py) something to catch and retry, rather than
+        # a poisoned catalogue entry.
+        raise RuntimeError(
+            "compress_store.store(): %s could not be renamed into place after retries -- "
+            "nothing landed at the content-addressed path; the temp file %s is still on disk"
+            % (path, tmp))
 
     return {
         "hash": h,

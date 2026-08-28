@@ -180,7 +180,10 @@ def seal():
     THE THIRD MECHANISM, and it answers what the other two cannot.
 
     `check_append_only` proves a PROPOSED write keeps history -- but only if it is called, and
-    only by a writer that chose to call it. `check_structure` proves the file parses. Neither
+    only by a writer that chose to call it. (Run #36 gave it the one caller this project can
+    actually give it: `check_since_snapshot()` below asks the same question AFTER the write, from
+    `assert_intact()`, because nothing in `src/` writes HANDOFF.md and a Python function cannot
+    gate a person's editor.) `check_structure` proves the file parses. Neither
     can answer the question a relay actually needs: *did anything change these files between the
     last run and this one, and if so what?* A run that edits HANDOFF.md directly, or a crash
     mid-write, or an edit made by hand between runs, leaves both of them satisfied.

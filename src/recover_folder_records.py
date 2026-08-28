@@ -53,9 +53,11 @@ SOURCE_MAP = os.path.join(HERE, "reference/pipeline_tooling/FOLDER_SOURCE_MAP.js
 ROLL = os.path.join(HERE, "data/SWEEP_ROLL.json")
 RECORDS = os.path.join(HERE, "data/records")
 
-# Matches ingest.py's slug(), so recovered files land where the cloud session would have put
-# them. load_record() in manifest_builder.py matches on alphanumerics-only containment, so the
-# exact punctuation does not matter -- but consistency does, for anyone reading the folder.
+# Matches catalogue_web.py's slug() (the writer whose filenames these must land beside), so
+# recovered files land where that pass would have put them. load_record() in manifest_builder.py
+# matches on alphanumerics-only containment, so the exact punctuation does not matter -- but
+# consistency does, for anyone reading the folder. (NOT ingest_doc.py's slug(), which lacks the
+# [:60] truncation this one has; there is no src/ingest.py. Corrected 2026-08-27, sweep34 batch 5.)
 def slug(s):
     s = re.sub(r"[^a-z0-9]+", "-", s.lower())
     return s.strip("-")[:60]

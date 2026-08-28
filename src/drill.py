@@ -202,6 +202,9 @@ def _ast_of(path):
         return ast.parse(fh.read(), filename=os.path.basename(path))
 
 
+_SRC_OVERRIDE = None
+
+
 def _srcdir(src=None):
     """The `src/` directory the source-shape nets read. Defaults to the real one.
 
@@ -210,9 +213,11 @@ def _srcdir(src=None):
     defeat it exists to catch -- a copy of `src/` with the real call deleted and a comment
     reproducing its name -- and watch it refuse. A net nobody has ever seen refuse is not
     evidence of anything; it is a green light of unknown provenance. Every `net()` call site
-    passes nothing, so a real run always reads the real tree.
+    passes nothing and `_SRC_OVERRIDE` is None in every real run, so the battery always reads
+    the real tree; the module-level form exists because several of these nets are closures
+    inside their area and cannot be handed an argument.
     """
-    return src or os.path.dirname(os.path.abspath(__file__))
+    return src or _SRC_OVERRIDE or os.path.dirname(os.path.abspath(__file__))
 
 
 def _defn(tree, name):
@@ -2385,6 +2390,47 @@ def _battery_asks_the_network_once():
     return memoised and stub_bypasses
 
 
+def _identity_probe_is_gated(src=None):
+    """`binding_health` asks a host its name ONLY where the answer changes something. -> bool.
+
+    ASKED OF THE PARSE TREE (run #36). This was `"healthy is None and sources" in <whole file>`,
+    and the four-line comment immediately above that branch explains the gate in almost those
+    words -- so removing the `if` and probing every host on every sweep, which is precisely the
+    round-trip-per-host-per-sweep this net exists to prevent, would have left the net green on
+    its own explanation. The gate is now found as a BRANCH and the probe has to be CALLED inside
+    it: a condition that no longer guards the call cannot be mistaken for one that does.
+    """
+    import ast
+    tree = _ast_of(os.path.join(_srcdir(src), "binding_health.py"))
+    for n in ast.walk(tree):
+        if not isinstance(n, ast.If):
+            continue
+        t = n.test
+        if not (isinstance(t, ast.BoolOp) and isinstance(t.op, ast.And)):
+            continue
+        gated = any(isinstance(v, ast.Compare) and isinstance(v.left, ast.Name)
+                    and v.left.id == "healthy" and any(isinstance(o, ast.Is) for o in v.ops)
+                    and any(isinstance(c, ast.Constant) and c.value is None
+                            for c in v.comparators)
+                    for v in t.values)
+        sourced = any(isinstance(v, ast.Name) and v.id == "sources" for v in t.values)
+        if gated and sourced and _calls_within(tree, n, "_probe_identity"):
+            return True
+    return False
+
+
+def _supersession_is_called(src=None):
+    """`workorders` CALLS `_supersede_binding_suspect`, rather than merely containing the name.
+
+    ASKED OF THE PARSE TREE (run #36). The old form searched the file text, and the file text
+    carries the name in a comment (`-- see _supersede_binding_suspect`) and in the `def` line
+    itself. So every call site could be deleted -- leaving the settled host's vague order open
+    beside its precise replacement for ever, the exact fault this net was written for -- and the
+    net would have gone on holding on the definition of the function nobody calls.
+    """
+    return _calls(os.path.join(_srcdir(src), "workorders.py"), "_supersede_binding_suspect")
+
+
 def drill_binding_identity():
     """Can an unfixable fault be filed, for ever, at a handler that cannot fix it?
 
@@ -2646,7 +2692,7 @@ def _policy_corpus_clean(root=None):
 
 # ============================================================== THE FETCH (network manners)
 
-def _refusal_is_recorded():
+def _refusal_is_recorded(src=None):
     """A page that was REFUSED must reach the cached record as a refusal, not as an absence.
 
     THIS NET COULD NOT FAIL UNTIL RUN #33. It read:
@@ -2663,10 +2709,55 @@ def _refusal_is_recorded():
     What actually carries the guarantee is `feats.evidence_for`: the refusal branch records the
     reason under the title, and the written record carries that map. Both halves are asserted,
     because either one alone can be removed without the other looking wrong.
+
+    AND BOTH ARE NOW ASKED OF THE PARSE TREE (run #36). They were two substring searches of the
+    whole file, `'"pages_refused": unreal'` and `"unreal[t] = why"`, and `feats.py` mentions
+    `pages_refused` in five other places including a comment about cache files written before it
+    existed. A net whose subject is "a check defanged so a wrong assertion could not embarrass
+    anyone" has no business being satisfiable by a comment. The recording is now an ASSIGNMENT
+    into `unreal`, and the carrying is a dict entry keyed `"pages_refused"` whose value is that
+    same name -- neither of which prose can produce.
     """
-    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "feats.py"),
-               encoding="utf-8").read()
-    return '"pages_refused": unreal' in src and "unreal[t] = why" in src
+    import ast
+    tree = _ast_of(os.path.join(_srcdir(src), "feats.py"))
+    records = any(isinstance(t, ast.Subscript) and isinstance(t.value, ast.Name)
+                  and t.value.id == "unreal"
+                  for n in ast.walk(tree) if isinstance(n, ast.Assign) for t in n.targets)
+    carried = False
+    for n in ast.walk(tree):
+        if not isinstance(n, ast.Dict):
+            continue
+        for k, v in zip(n.keys, n.values):
+            if (isinstance(k, ast.Constant) and k.value == "pages_refused"
+                    and isinstance(v, ast.Name) and v.id == "unreal"):
+                carried = True
+    return records and carried
+
+
+def _local_buckets_excluded_from_cloud_claims(src=None):
+    """A cloud claim must SKIP an `ollama:` bucket, not merely have a constant naming one.
+
+    ASKED OF THE PARSE TREE (run #36). The old form searched `cascade_bridge.py` for the text
+    `cand.bucket.startswith(LOCAL_PREFIX)`, and line 1060 of that file is a COMMENT that names
+    `LOCAL_PREFIX` while explaining the branch -- so the guard could be deleted and the
+    explanation would keep answering for it, while the router handed out ollama buckets and
+    flooded a 10 GB card with its own queue again. The test is now a real `.startswith` call
+    against the real constant, guarding a real branch.
+    """
+    import ast
+    tree = _ast_of(os.path.join(_srcdir(src), "cascade_bridge.py"))
+    for n in ast.walk(tree):
+        if not isinstance(n, ast.If):
+            continue
+        for c in ast.walk(n.test):
+            if not (isinstance(c, ast.Call) and isinstance(c.func, ast.Attribute)
+                    and c.func.attr == "startswith"):
+                continue
+            if not (isinstance(c.func.value, ast.Attribute) and c.func.value.attr == "bucket"):
+                continue
+            if any(isinstance(x, ast.Name) and x.id == "LOCAL_PREFIX" for x in c.args):
+                return True
+    return False
 
 
 def _throttle_hands_off():
@@ -2893,7 +2984,7 @@ def drill_cascade():
         lambda: "THERE IS NO PAID LANE" in src,
         "the lane overspent its own cap 598/500 because the cap gated promotion, not selection")
     net(a, "the local prefix is excluded from cloud claims",
-        lambda: "LOCAL_PREFIX" in src and "cand.bucket.startswith(LOCAL_PREFIX)" in src,
+        _local_buckets_excluded_from_cloud_claims,
         "the router handing out ollama buckets flooded a 10GB card with its own queue")
 
     # THE OWNER'S STRIKE-OFF (ruling 2026-08-25). Four providers measured at ~40 claims/hour and
@@ -3199,10 +3290,12 @@ def drill_inspector():
                 "As a DM you might rule that this sourcebook lets the player reroll.",
                 where="__drill__"), ValueError):
             return False
-        src = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(src, "generate.py"), encoding="utf-8") as fh:
-            gen = fh.read()
-        return "assert_in_universe" in gen
+        # ASKED OF THE PARSE TREE (run #36). This was `"assert_in_universe" in generate.py`, and
+        # `generate.py` names the check twice in the comment block directly above the call --
+        # once as "THE P8 META-LANGUAGE BAN, ENFORCED FOR THE FIRST TIME. `pipeline.
+        # assert_in_universe`" -- so deleting the call would have left the net green on the
+        # paragraph announcing it. The writer must CALL it; noticing it is what the audit does.
+        return _calls(os.path.join(_srcdir(), "generate.py"), "assert_in_universe")
     net(a, "meta-language is refused by the writer, not just noticed by an audit",
         the_meta_language_ban_is_actually_enforced,
         "one 'as a DM you might' in a finished volume breaks the frame for every entry near it")
@@ -3506,15 +3599,28 @@ def drill_rung_four():
 
     def the_keeper_asks_before_restarting():
         """The half that matters. `overnight`'s keeper must CONSULT the ledger, not just have
-        one available to consult."""
-        src = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(src, "overnight.py"), encoding="utf-8") as fh:
-            text = fh.read()
-        i = text.rfind("was down mid-cycle")
-        if i == -1:
+        one available to consult.
+
+        ASKED OF THE PARSE TREE (run #36). The old form took a 1,200-character text window above
+        the log line "was down mid-cycle" and looked for the name `_manager_stopped` in it. That
+        window is almost entirely the fourteen-line comment recounting the 22:5x incident, which
+        names the manager rung repeatedly -- so the consultation could be deleted, the keeper
+        would restart a subsystem a person had stopped, and this net would have gone on holding
+        on the story of the last time that happened. Now: the call has to be a call, inside the
+        keeper, and it has to come BEFORE the restart it is supposed to gate.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "overnight.py"))
+        keep = _defn(tree, "_keep")
+        if keep is None:
             return False
-        window = text[max(0, i - 1200):i]
-        return "_manager_stopped" in window
+        asked = [n.lineno for n in ast.walk(keep)
+                 if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+                 and n.func.id == "_manager_stopped"]
+        started = [n.lineno for n in ast.walk(keep)
+                   if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+                   and n.func.id == "start"]
+        return bool(asked) and bool(started) and min(asked) < min(started)
     net(a, "the keeper checks for a MANAGER stop before re-asserting a job",
         the_keeper_asks_before_restarting,
         "the ledger existed for 25 minutes and the one process that needed it never opened it")
@@ -3556,12 +3662,17 @@ def drill_codewatch():
 
     def daemons_actually_check_their_own_source():
         """The three standing loops must call it. Checked by reading them, because a daemon
-        that merely COULD check is a daemon that does not."""
-        src = os.path.dirname(os.path.abspath(__file__))
+        that merely COULD check is a daemon that does not.
+
+        AND READ AS A PARSE TREE, NOT AS TEXT (run #36). Both names were substring-searched over
+        the whole file, and all three daemons carry long comments about staleness that name
+        `codewatch.exit_if_stale` -- `publish.py`'s runs to eight lines and quotes it. A daemon
+        that merely MENTIONS the check is exactly the daemon this net exists to catch, and until
+        now it could not tell that daemon from one that runs it.
+        """
         for f in ("publish.py", "foreman.py", "overwatch.py"):
-            with open(os.path.join(src, f), encoding="utf-8") as fh:
-                text = fh.read()
-            if "codewatch.exit_if_stale" not in text or "codewatch.stamp" not in text:
+            p = os.path.join(_srcdir(), f)
+            if not (_calls(p, "codewatch.exit_if_stale") and _calls(p, "codewatch.stamp")):
                 return False
         return True
     net(a, "every standing daemon checks whether its own source has changed",
@@ -3710,11 +3821,14 @@ def drill_codewatch():
         "library -- and claim_singleton would have stood a live daemon down for the same reason")
 
     def singleton_guard_is_wired_into_the_daemons():
-        src = os.path.dirname(os.path.abspath(__file__))
+        """ASKED OF THE PARSE TREE (run #36). `"claim_singleton" not in fh.read()` was satisfied
+        by any mention at all, and `publish.py`'s own comment above the call explains at length
+        why the guard is there and only fires in loop mode -- so the call could go and the
+        explanation would answer for it, which is how two publishers end up in one export repo.
+        """
         for f in ("publish.py", "foreman.py", "overwatch.py"):
-            with open(os.path.join(src, f), encoding="utf-8") as fh:
-                if "claim_singleton" not in fh.read():
-                    return False
+            if not _calls(os.path.join(_srcdir(), f), "codewatch.claim_singleton"):
+                return False
         return True
     net(a, "every standing daemon refuses to run beside a twin",
         singleton_guard_is_wired_into_the_daemons,
@@ -4083,12 +4197,20 @@ def drill_mutation():
 
     def mutation_never_touches_the_live_tree():
         """The architectural fix, asserted rather than assumed. `run()` must open the SANDBOX
-        path for writing and must verify the live file is byte-identical afterwards."""
-        src = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(src, "mutate.py"), encoding="utf-8") as fh:
-            text = fh.read()
-        return ("live_file_untouched" in text and "def sandbox(" in text
-                and "MUTATE_TOUCHED_LIVE_TREE" in text)
+        path for writing and must verify the live file is byte-identical afterwards.
+
+        ASKED OF THE PARSE TREE (run #36). Three substrings over the whole file, and `mutate.py`
+        names `live_file_untouched` in its module docstring before it ever computes it -- so
+        two of the three could be satisfied by prose alone. Now: `sandbox` must be a DEF, the
+        untouched verdict must be RECORDED as a dict entry, and the OWNER-level code must be a
+        code string rather than a word in a paragraph about what would happen if it fired.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "mutate.py"))
+        recorded = any(isinstance(k, ast.Constant) and k.value == "live_file_untouched"
+                       for n in ast.walk(tree) if isinstance(n, ast.Dict) for k in n.keys)
+        return (recorded and _defn(tree, "sandbox") is not None
+                and _says(tree, "MUTATE_TOUCHED_LIVE_TREE"))
     net(a, "mutation writes into a sandbox and proves the live file is untouched",
         mutation_never_touches_the_live_tree,
         "fifteen processes read the live tree; corrupting it is not something a lock can fix")
@@ -4097,13 +4219,48 @@ def drill_mutation():
         """A killed run cannot clean up after itself -- `finally` does not run on a kill -- and
         two kills leaked 154 MB in two hours. A nightly job that leaks 50 MB per interruption
         fills a disk quietly, and a full disk takes down the crawl, the model and the publisher
-        at once for a reason nobody would look for."""
+        at once for a reason nobody would look for.
+
+        THIS NET COULD NOT GO RED (found by the run #35 sweep, fixed run #36). It called
+        `M.reap_orphans(older_than=10 ** 9)` and asserted the answer was `[]`. Inside,
+        `cutoff = time.time() - older_than`, so a threshold of ~31.7 years puts the cutoff
+        before the epoch and nothing on any disk can be old enough to reap: the call returns
+        `[]` whether reaping works, is broken, or has been replaced by `return []` -- which is
+        the exact 154 MB regression the net exists to catch. It asserted the arithmetic of its
+        own argument. A net that cannot refuse is not a safety, it is a green light.
+
+        It now builds a REAL orphan -- a directory carrying the real `SANDBOX_PREFIX`,
+        back-dated past the real `ORPHAN_AGE_SECONDS` -- and a second one left FRESH, and
+        requires the aged one gone and the fresh one standing. Both halves: a reaper that
+        deletes indiscriminately would delete the sandbox of the run doing the reaping, and
+        that is an outage rather than a leak.
+
+        AT THE MODULE'S OWN DEFAULT AGE, deliberately, so a genuine orphan older than six hours
+        is reaped as it passes. That is what the function is for, this battery is the only thing
+        that calls it, and reaping is safe by construction -- a live run's sandbox is minutes
+        old, not hours.
+        """
         import mutate as M
-        if not hasattr(M, "reap_orphans"):
+        if not hasattr(M, "reap_orphans") or M.ORPHAN_AGE_SECONDS < 3600:
             return False
-        # Must be age-gated: reaping indiscriminately would delete the sandbox of the run doing
-        # the reaping.
-        return M.ORPHAN_AGE_SECONDS >= 3600 and M.reap_orphans(older_than=10 ** 9) == []
+        root = tempfile.gettempdir()
+        aged = os.path.join(root, M.SANDBOX_PREFIX + "drillprobe_aged_%d" % os.getpid())
+        fresh = os.path.join(root, M.SANDBOX_PREFIX + "drillprobe_fresh_%d" % os.getpid())
+        try:
+            for p in (aged, fresh):
+                os.makedirs(p, exist_ok=True)
+                with open(os.path.join(p, "marker.txt"), "w", encoding="utf-8") as fh:
+                    fh.write("drill orphan probe -- safe to delete")
+            back = time.time() - (M.ORPHAN_AGE_SECONDS + 3600)
+            os.utime(aged, (back, back))
+            removed = M.reap_orphans()
+            return (aged in removed and not os.path.isdir(aged)
+                    and fresh not in removed and os.path.isdir(fresh))
+        finally:
+            # The probe cleans up after itself whichever way the answer came out; a net that
+            # leaves litter in TEMP is a net that reproduces the fault it is testing for.
+            shutil.rmtree(aged, ignore_errors=True)
+            shutil.rmtree(fresh, ignore_errors=True)
     net(a, "abandoned sandboxes are reaped, but only once they are old",
         abandoned_sandboxes_are_reaped,
         "a leak of 50 MB per interrupted run fills a disk without ever reporting anything")
@@ -4129,34 +4286,54 @@ def drill_mutation():
     def publish_asks_before_pushing():
         """The step whose failure is IRREVERSIBLE and OUTWARD-FACING. Verified by reading the
         push path, the same way `guards_are_wired_where_claimed` checks the other interlocks --
-        a net that actually pushed to prove a refusal would be worse than the bug."""
-        src = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(src, "publish.py"), encoding="utf-8") as fh:
-            text = fh.read()
-        head = text[:text.index("def push(")] if "def push(" in text else ""
-        body = text[len(head):]
-        return "import mutate" in body and "REFUSING TO PUSH" in body
+        a net that actually pushed to prove a refusal would be worse than the bug.
+
+        ASKED OF THE PARSE TREE (run #36). The old form sliced the file text at "def push(" and
+        looked for "import mutate" and "REFUSING TO PUSH" in the remainder -- both of which the
+        long comment inside `push()` about the two-writer fault could carry on its own, and one
+        of which (`import mutate`) is a phrase this net's own sibling docstrings use. `push` is
+        now located as a DEF, the interlock has to be a real import inside it, and the refusal
+        has to be a string the code actually carries rather than a phrase about refusing.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "publish.py"))
+        push = _defn(tree, "push")
+        if push is None:
+            return False
+        imports_mutate = any(al.name == "mutate"
+                             for n in ast.walk(push) if isinstance(n, ast.Import)
+                             for al in n.names)
+        return imports_mutate and _says(push, "REFUSING TO PUSH")
     net(a, "publish refuses to push while a mutation run is active", publish_asks_before_pushing,
         "a mutated file pushed to a public repo is public even after the next commit")
 
     def drill_does_not_halt_during_a_mutation_run():
         """This file must PRINT a breach during a mutation run and must not HALT over it --
         mutate reads the breach from stdout, which is how a mutant gets killed."""
-        src = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(src, "drill.py"), encoding="utf-8") as fh:
-            text = fh.read()
-        # Search for the escalation FROM the branch, not from the top of the file: the string
-        # "DRILL_BREACH" also appears in this module's own prose long before the code that
-        # raises it, so a bare `find` compared two unrelated offsets and this net breached
-        # against correct code. A net that fails for its own reasons teaches people to ignore it.
-        # `rfind`, and the reason is worth the line: this net reads the file it LIVES IN, so a
-        # forward `find` for "if breached:" matched the string literal inside this very
-        # function -- 78,000 characters before the branch it meant to inspect -- and the net
-        # breached against perfectly correct code, twice. A detector that searches its own
-        # source has to reckon with finding itself. The real branch is in `main()`, last.
-        i = text.rfind("    if breached:")
-        j = text.rfind('"DRILL_BREACH"')
-        return -1 < i < j and "MUTATION RUN IS ACTIVE" in text[i:j]
+        # ASKED OF THE PARSE TREE (run #36), which retires the whole `rfind` apparatus below and
+        # the two false breaches that produced it. The old form searched this file's own TEXT
+        # for "    if breached:" and '"DRILL_BREACH"' and had to use `rfind` for both, because a
+        # forward search matched the string literals inside THIS VERY FUNCTION, 78,000
+        # characters before the branch it meant to inspect -- it breached against perfectly
+        # correct code twice, and a net that fails for its own reasons teaches people to ignore
+        # it. Offsets in a file are also the wrong instrument for "the interlock is inside the
+        # branch": a comment carrying either phrase moves them. The branch is now found as the
+        # `if breached:` inside `main()`, and the mutation interlock has to be a real call to
+        # `mutate.active` within it, with the not-halting message a code string of that branch.
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "drill.py"))
+        main_fn = _defn(tree, "main")
+        if main_fn is None:
+            return False
+        for n in ast.walk(main_fn):
+            if not (isinstance(n, ast.If) and isinstance(n.test, ast.Name)
+                    and n.test.id == "breached"):
+                continue
+            if (_calls_within(tree, n, "_MUT.active")
+                    and _says(n, "MUTATION RUN IS ACTIVE")
+                    and _says(n, "DRILL_BREACH")):
+                return True
+        return False
     net(a, "a breach during a mutation run is reported but does not halt the library",
         drill_does_not_halt_during_a_mutation_run,
         "a safety that stops work must be distinguishable from a fault that stops work")
@@ -4183,11 +4360,15 @@ def drill_scope():
         "an exclusion nobody can explain is a source quietly dropped")
 
     def generator_actually_skips_an_excluded_source():
-        """The manifest builder must consult `roll`, not just read the file."""
-        src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "manifest_builder.py")
-        with open(src, encoding="utf-8") as fh:
-            text = fh.read()
-        return "out_of_scope" in text and "import roll" in text
+        """The manifest builder must consult `roll`, not just read the file.
+
+        ASKED OF THE PARSE TREE (run #36). `"out_of_scope" in text and "import roll" in text`
+        is answered by any comment naming either -- and this net's whole subject is a status
+        string that sat in a file for five days with no consumer, so "the name appears
+        somewhere" is the precise evidence it must not accept. `roll.out_of_scope` now has to
+        be CALLED.
+        """
+        return _calls(os.path.join(_srcdir(), "manifest_builder.py"), "roll.out_of_scope")
     net(a, "the generator consults the exclusion list before building jobs",
         generator_actually_skips_an_excluded_source,
         "a status string no consumer reads is a decision that did not happen")
@@ -4195,11 +4376,27 @@ def drill_scope():
     def resync_cannot_revert_an_exclusion():
         """THE TRAP THIS ALMOST FELL INTO. `resync_roll` rebuilds status from records on disk
         with the rule `catalogued if n else keep` -- so an excluded source that still HAS records
-        would be silently promoted back. All four of the 2026-08-25 exclusions have records."""
-        src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resync_roll.py")
-        with open(src, encoding="utf-8") as fh:
-            text = fh.read()
-        return "OUT_OF_SCOPE" in text
+        would be silently promoted back. All four of the 2026-08-25 exclusions have records.
+
+        ASKED OF THE PARSE TREE (run #36). `"OUT_OF_SCOPE" in text` was the weakest check of the
+        nine: the eight-line comment above that branch spells the constant out in full while
+        explaining why it is there, so the guard could be deleted, the promotion would resume,
+        and the net would have kept holding on the paragraph describing the trap it had fallen
+        back into. The status test now has to be a real comparison against `roll.OUT_OF_SCOPE`,
+        guarding a branch that does NOT reassign the status.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "resync_roll.py"))
+        for n in ast.walk(tree):
+            if not (isinstance(n, ast.If) and isinstance(n.test, ast.Compare)):
+                continue
+            if not any(isinstance(c, ast.Attribute) and c.attr == "OUT_OF_SCOPE"
+                       for c in n.test.comparators):
+                continue
+            # The branch must LEAVE the status alone; a guard that then rewrites it is not one.
+            if not _subscript_assigns(ast.Module(body=n.body, type_ignores=[]), "r", "status"):
+                return True
+        return False
     net(a, "a routine resync cannot silently un-exclude a source",
         resync_cannot_revert_an_exclusion,
         "an exclusion a maintenance script can undo unnoticed is not an exclusion")
@@ -4405,25 +4602,42 @@ def drill_outside():
         "a derived view must derive through the same code, never a simpler copy of it")
 
     def index_query_cannot_write():
-        """`query()` is read-only BY CONTRACT. Prove the contract is enforced, not documented."""
+        """`query()` is read-only BY CONTRACT. Prove the contract is enforced, not documented.
+
+        AGAINST A SCRATCH INDEX, NEVER THE LIVE ONE (order 38ce9cb3b499, run #36). This aimed
+        `CREATE TABLE _drill_should_not_exist` straight at `corpus_db.DB`. In the single case
+        the net exists to catch -- the read-only guard genuinely broken -- that statement LANDS,
+        in the live SQL index; the undo was a best-effort DROP whose own failure was recorded
+        with `silence.note` and nothing else. So the check's failure mode was "leave a stray
+        table in the corpus index and mention it in a ledger", inside a file whose framing is
+        that it never writes to the corpus. `connect()` reads `DB` at call time on purpose --
+        its docstring says why -- so pointing it at a throwaway database is the whole fix.
+
+        AND THE REFUSAL HAS TO BE SPECIFIC. A `query()` that raised on everything would have
+        satisfied the old net for entirely the wrong reason, so a SELECT goes through first:
+        this only means something while reads still work.
+        """
+        import sqlite3
         import corpus_db
-        if not os.path.exists(corpus_db.DB):
-            return True
+        real = corpus_db.DB
+        d = tempfile.mkdtemp(prefix="drill_index_")
+        corpus_db.DB = os.path.join(d, "corpus.db")
         try:
-            corpus_db.query("CREATE TABLE _drill_should_not_exist (x INTEGER)")
-        except Exception:
-            return True                      # refused, which is the whole point
-        # It succeeded. Undo the damage before reporting the breach, so the drill does not
-        # leave the thing it was testing in a worse state than it found it.
-        try:
-            con = corpus_db.connect()
-            con.execute("DROP TABLE IF EXISTS _drill_should_not_exist")
+            con = sqlite3.connect(corpus_db.DB)
+            con.execute("CREATE TABLE probe (x INTEGER)")
+            con.execute("INSERT INTO probe VALUES (1)")
             con.commit()
             con.close()
-        except Exception:
-            import silence
-            silence.note("drill.py:index-write-undo")
-        return False
+            if corpus_db.query("SELECT x FROM probe")[1] != [(1,)]:
+                return False                 # a reader that cannot read proves nothing
+            try:
+                corpus_db.query("CREATE TABLE _drill_should_not_exist (x INTEGER)")
+            except Exception:
+                return True                  # refused, which is the whole point
+            return False
+        finally:
+            corpus_db.DB = real
+            shutil.rmtree(d, ignore_errors=True)
     net(a, "a read-only query really cannot write", index_query_cannot_write,
         "read-only by convention is read-only until somebody is in a hurry")
 

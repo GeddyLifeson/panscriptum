@@ -78,16 +78,16 @@ def _so_save():
     if not _SO["dirty"]:
         return
     try:
-        import silence as _sil
-        tmp = _SO_CACHE_P + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(_SO["d"], f)
-        # ADVANCE ON THE WRITE, NOT ON THE INTENT: replace_retry returns False (never raises) on
+        # SWEEP34 5a9a75916f94: `silence.write_json`, not a hand-rolled fixed `path + ".tmp"`.
+        # The fixed name is shared by every concurrent writer of this cache; write_json's tmp
+        # name carries PID and thread, so two writers no longer collide on the temp file itself.
+        #
+        # ADVANCE ON THE WRITE, NOT ON THE INTENT: write_json returns False (never raises) on
         # persistent denial, so `dirty` must only clear when the rename actually landed. Clearing
         # it unconditionally told the process its mtime cache was on disk when it was not, and
         # the next run re-parsed the whole evidence corpus to rebuild what this cache exists to
         # avoid (see the comment above _SO_CACHE_P).
-        if _sil.replace_retry(tmp, _SO_CACHE_P):
+        if silence.write_json(_SO_CACHE_P, _SO["d"]):
             _SO["dirty"] = 0
     except Exception:
         silence.note("coverage.py:so-save")
@@ -193,7 +193,7 @@ def measure():
     return rows
 
 
-def report(rows, show=None):
+def report(rows, show=None, show_best=10):
     n = sum(r["entries"] for r in rows)
     cited = sum(r["cited"] for r in rows)
     read = sum(r["read"] for r in rows)
@@ -201,16 +201,18 @@ def report(rows, show=None):
     untried = sum(r.get("not_attempted", 0) for r in rows)
     nohost = sum(r["no_host"] for r in rows)
     feats = sum(r["feats"] for r in rows)
+    d = max(n, 1)  # SWEEP34 6cf2a6486075: measure() guards every division with max(n, 1)
+    # (lines 185-186 below); report() must not be the one place a division here is unguarded.
     print("=" * 84)
     print(f"CITATION COVERAGE — {n:,} entries across {len(rows)} sources")
     print("=" * 84)
-    print(f"\n  CITED       {cited:>8,}  {cited/n:>6.1%}   carries a verbatim feat")
-    print(f"  READ        {read:>8,}  {read/n:>6.1%}   pages read, honestly no feat")
-    print(f"  NO PAGE     {nopage:>8,}  {nopage/n:>6.1%}   asked; the wiki has no such article")
-    print(f"  NOT TRIED   {untried:>8,}  {untried/n:>6.1%}   nothing has ever fetched this")
-    print(f"  NO HOST     {nohost:>8,}  {nohost/n:>6.1%}   source has no wiki")
+    print(f"\n  CITED       {cited:>8,}  {cited/d:>6.1%}   carries a verbatim feat")
+    print(f"  READ        {read:>8,}  {read/d:>6.1%}   pages read, honestly no feat")
+    print(f"  NO PAGE     {nopage:>8,}  {nopage/d:>6.1%}   asked; the wiki has no such article")
+    print(f"  NOT TRIED   {untried:>8,}  {untried/d:>6.1%}   nothing has ever fetched this")
+    print(f"  NO HOST     {nohost:>8,}  {nohost/d:>6.1%}   source has no wiki")
     print(f"  {'-'*46}")
-    print(f"  SETTLED     {cited+read:>8,}  {(cited+read)/n:>6.1%}   "
+    print(f"  SETTLED     {cited+read:>8,}  {(cited+read)/d:>6.1%}   "
           f"looked at and answered either way")
     print(f"\n  total feats on record: {feats:,}")
 
@@ -231,8 +233,14 @@ def report(rows, show=None):
         print(f"   {r['coverage']:>6.1%} cited  {r['settled']:>6.1%} settled  "
               f"{r['entries']:>6,} entries   {r['source'][:44]}")
 
-    print("\nBEST COVERED")
-    for r in sorted(have, key=lambda x: -x["coverage"])[:10]:
+    best_all = sorted(have, key=lambda x: -x["coverage"])
+    blimit = show_best if show_best is not None else len(best_all)
+    if blimit < len(best_all):
+        print(f"\nBEST COVERED (showing {blimit} of {len(best_all)}; "
+              f"{len(best_all) - blimit} more not shown, --show-best to raise)")
+    else:
+        print(f"\nBEST COVERED ({len(best_all)}, all shown)")
+    for r in best_all[:blimit]:
         print(f"   {r['coverage']:>6.1%} cited  {r['feats']:>6,} feats  "
               f"{r['entries']:>6,} entries   {r['source'][:44]}")
 
@@ -242,13 +250,20 @@ def main():
     ap.add_argument("--show", type=int, default=None,
                      help="cap the WORST COVERED list to N rows (announced, not silent); "
                           "omit to print all of them")
+    ap.add_argument("--show-best", type=int, default=10,
+                     help="cap the BEST COVERED list to N rows (announced, not silent); "
+                          "default 10, pass a larger N or omit via a very large number to raise it")
     a = ap.parse_args()
     rows = measure()
-    report(rows, show=a.show)
+    report(rows, show=a.show, show_best=a.show_best)
     # ATOMIC: COVERAGE.json holds the library's headline figures and is read by the dashboard,
     # standards, allsweep and the published page. This file's own cache-save two functions
     # above already lands atomically; the headline write did not. 2026-08-25.
-    silence.write_json(OUT, rows, indent=1, ensure_ascii=False)
+    landed = silence.write_json(OUT, rows, indent=1, ensure_ascii=False)
+    if not landed:
+        silence.note("coverage.py:main-write-denied")
+        print(f"\nper-source table NOT written (denied replace) -> {OUT}")
+        return 1
     print(f"\nper-source table -> {OUT}")
     return 0
 

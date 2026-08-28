@@ -425,8 +425,10 @@ def main():
             print(f"     ... and {len(rows)-9} more")
 
     # ATOMIC: ONOMASTICON.json is shared. 2026-08-25 whole-tree sweep.
-    silence.write_json(OUT, named, indent=2, ensure_ascii=False)
-    print(f"\nwrote {OUT}")
+    if silence.write_json(OUT, named, indent=2, ensure_ascii=False):
+        print(f"\nwrote {OUT}")
+    else:
+        print(f"\nWRITE DENIED {OUT} — replace refused; it lands on the next run")
     print("\nEvery designation is reproducible: reseeded from the world's own catalogue")
     print("position, so a Custos who reruns this gets these names and not others.")
     return 0

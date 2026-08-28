@@ -159,7 +159,12 @@ def binding_energy(mass_kg, radius_m):
     if not r > 0.0:
         raise ValueError(f"binding_energy(): radius must be positive, got {radius_m!r}; "
                          f"U = 3GM^2/5R has no value for a body of no extent")
-    return 3.0 * G * float(mass_kg) ** 2 / (5.0 * r)
+    m = float(mass_kg)
+    if not m >= 0.0:
+        raise ValueError(f"binding_energy(): mass must be non-negative, got {mass_kg!r}; "
+                         f"M^2 silently discards the sign of a negative mass, which is not a "
+                         f"physical body")
+    return 3.0 * G * m ** 2 / (5.0 * r)
 
 
 def main():

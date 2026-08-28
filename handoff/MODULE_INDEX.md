@@ -71,13 +71,14 @@
 
 ## Everything else
 
-- **address_space** — THE ADDRESS SPACE — an 89-bit name for every planet in the omniverse
+- **address_space** — THE ADDRESS SPACE — one fixed-width name for every planet in the omniverse
 - **audit** — BACKSCAN — an audit of everything catalogued so far
 - **axis_correlation** — AXIS CORRELATION — the Measures are not independent, and here is by how much
 - **backfill** — BACKFILL — recover the main casts the original cataloguing crawl missed
 - **binding_health** — BINDING HEALTH — prove each wiki host still answers the way it did, before trusting it again
 - **burgs** — BURGS — the settlement tier, and the bottom of the seed hierarchy
 - **cachekey** — CACHE KEY — one entity, one file, and a read that proves it before believing it
+- **canon_backup** — CANON BACKUP -- a second copy of the files that cannot be rebuilt from anything else
 - **catalogue_models** — CATALOGUE MODELS — ask each provider what it actually serves, instead of trusting the config
 - **chord_field** — THE CHORD AS A FIELD — the adjudication that lets ki and shrinking share one physics
 - **cleanup** — CLEANUP — the presentation defects the backscan turned up

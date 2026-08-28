@@ -298,12 +298,17 @@ def check_caches():
     out = []
     try:
         import binding_health as _BH
-        # THE CACHE DIRECTORY IS NOT THE HOST NAME. `identity.py` keys a host's directory as
-        # host.replace(".","_").replace("-","_"), so `www.dandwiki.com` lives in
-        # `data/feats/www_dandwiki_com`. Comparing the two spellings directly matches nothing,
-        # which would have made this whole exemption a no-op that still LOOKED implemented --
-        # the failure mode this project calls a check that cannot fail.
-        quarantined = {h.replace(".", "_").replace("-", "_") for h in _BH.quarantined()}
+        import cachekey as _CK
+        # THE CACHE DIRECTORY IS NOT THE HOST NAME. `cachekey.host_dir()` is the ONE formula
+        # that actually builds a host's directory under data/feats -- `_SANITISE.sub("_", host)
+        # [:HOST_CAP]`, folding every RUN of punctuation to a single underscore and capping at
+        # 40 chars. A hand-spelled `.replace(".","_").replace("-","_")` here diverges from that
+        # for punctuation outside ./- and for hosts over 40 chars, which would have made this
+        # whole exemption a no-op that still LOOKS implemented -- the failure mode this project
+        # calls a check that cannot fail. Same fix as hostcheck.py's purge path (order
+        # 5159320dd758): call the shared helper instead of re-spelling it a third way.
+        # (order d7a7bbb70bf1)
+        quarantined = {_CK.host_dir(h) for h in _BH.quarantined()}
     except Exception:
         # FAIL LOUD, NOT QUIET. If the quarantine record cannot be read we do not know that a
         # host is excused, so nothing is excused and every empty cache reports as before.

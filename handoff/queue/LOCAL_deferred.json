@@ -1,0 +1,148 @@
+[
+  {
+    "code": "SWEEP34_FINDING",
+    "evidence": {
+      "batch": 15,
+      "proof": "porcelain = git(\"status\",\"--porcelain\")\nif not porcelain:\n    return False        # line 550\n...\nprint(\"push held: rebase onto origin/main failed (\"...); return False   # line 585\n...\nprint(\"pushed\" if push() else \"no change to push\")   # line 653"
+    },
+    "first_seen": 1787716370.5200145,
+    "found_by": "sweep34-batch15",
+    "handler": "LOCAL",
+    "id": "26c8ed2c095b",
+    "last_seen": 1787716370.5200145,
+    "seen": 1,
+    "severity": "MAJOR",
+    "what": "publish.push() returns bare False from two unrelated states -- \"nothing to commit\" (line 550) and \"committed but the rebase onto origin/main failed, push HELD\" (line 585) -- and main() line 653 prints \"no change to push\" for both, leaving rc=0. A one-shot --push by a person therefore exits 0 having committed work that never reached the public repo, and stdout says there was nothing to send. Only the stderr line tells the truth. Same shape as the defect main()'s own comment at 638-646 (\"A REFUSED PUBLISH MUST NOT REPORT SUCCESS\") was written to fix.",
+    "where": "src/publish.py:550,585,653"
+  },
+  {
+    "code": "SWEEP34_FINDING",
+    "evidence": {
+      "batch": 15,
+      "proof": "try:\n    if os.path.getsize(p) > max_bytes:\n        continue\n    with open(p, encoding='utf-8', errors='replace') as fh:\n        text = fh.read()\nexcept OSError:\n    continue"
+    },
+    "first_seen": 1787716543.7578788,
+    "found_by": "sweep34-batch15",
+    "handler": "LOCAL",
+    "id": "687dbda9881d",
+    "last_seen": 1787716543.7578788,
+    "seen": 1,
+    "severity": "MINOR",
+    "what": "publish.scan_for_secrets treats a file it cannot open as clean: 'except OSError: continue', with no hit, no count and no silence.note. For the scanner whose whole premise is that it reads what actually reaches the PUBLIC repo, 'could not read' and 'read it and found nothing' must not be the same answer. Same class as the 2MB size skip on the line above.",
+    "where": "src/publish.py:288-295"
+  },
+  {
+    "code": "SECRET_SCANNER_READS_BYTECODE",
+    "evidence": {
+      "detect_secrets": 0,
+      "house_scanner": 1,
+      "site": "__pycache__/drill.cpython-313.pyc:1109",
+      "why_not_real": "drill.py builds the fixture from fragments at runtime by design"
+    },
+    "first_seen": 1787692980.6792133,
+    "found_by": "secondopinion: disagreement with detect-secrets 1.5.0",
+    "handler": "LOCAL",
+    "id": "7cf0bdf44232",
+    "last_seen": 1787692980.6792133,
+    "seen": 1,
+    "severity": "MINOR",
+    "what": "publish.scan_for_secrets flags __pycache__/drill.cpython-313.pyc line 1109 as a high-entropy 'api_key'. It is the drill's own assembled credential FIXTURE, frozen into compiled bytecode -- not a real secret, and not a file that is ever published. detect-secrets, scanning the same tree, reports zero because it does not read .pyc. This is the only disagreement between the two scanners and the outsider is right: a gate that reads compiled bytecode will produce this false positive on every run forever, and a push gate that cries wolf is a push gate that gets bypassed. Exclude __pycache__ and *.pyc",
+    "where": "src/publish.py:scan_for_secrets"
+  },
+  {
+    "code": "SWEEP34_FINDING",
+    "evidence": {
+      "batch": 1,
+      "proof": "verify_math.py:3057-3059 comment cites foreman.py:315 / foreman.py:385\ngrep -n 'def restart_reader|def kill_stalled_job' src/foreman.py -> 368:def restart_reader():  and  413:def kill_stalled_job():"
+    },
+    "first_seen": 1787716048.5993567,
+    "found_by": "sweep34-batch01",
+    "handler": "LOCAL",
+    "id": "873900f156d1",
+    "last_seen": 1787716048.5993567,
+    "seen": 1,
+    "severity": "MINOR",
+    "what": "verify_math.py:3057-3059 cites stale foreman.py line numbers: 'restart_reader (foreman.py:315 ...) and kill_stalled_job (foreman.py:385 ...)'. The real definitions are foreman.py:368 and foreman.py:413. foreman.py:315 is docstring prose about refusing a kill; foreman.py:385 is the process-enumeration except handler inside restart_reader. Cite by symbol name, not by line, as this file's own sweep.py:load-unreadable note idiom already recommends.",
+    "where": "verify_math.py:3057"
+  },
+  {
+    "code": "SWEEP34_FINDING",
+    "evidence": {
+      "batch": 4,
+      "proof": "tmp = JOB_WATCH + \".tmp\"\nwith open(tmp, \"w\", encoding=\"utf-8\") as f:\n    json.dump(cur, f)\nsilence.replace_retry(tmp, JOB_WATCH)"
+    },
+    "first_seen": 1787716238.7858677,
+    "found_by": "sweep34-batch04",
+    "handler": "LOCAL",
+    "id": "ae05af0b5492",
+    "last_seen": 1787716238.7858677,
+    "seen": 1,
+    "severity": "MAJOR",
+    "what": "standards check() writes state/job_progress.json with a FIXED tmp name and DISCARDS the replace_retry verdict. If the replace is denied - and this file is read by every check() run, the modules own stated normal case for replace_retry - the size stamps never persist, prev stays stale, job_stamp() returns held=False every pass, and quiet_min can never reach MAX_JOB_SILENCE_MIN. That is exactly the failure the comment eleven lines above (1072-1079) says was already found and fixed once: \"The standard this file own docstring calls the failure this whole library is built to refuse was therefore st",
+    "where": "src/standards.py:1101-1104"
+  },
+  {
+    "code": "SWEEP34_FINDING",
+    "evidence": {
+      "batch": 4,
+      "proof": "812:            silence.note(\"standards.py:370\")\n891:            silence.note(\"standards.py:449\")"
+    },
+    "first_seen": 1787716238.795756,
+    "found_by": "sweep34-batch04",
+    "handler": "LOCAL",
+    "id": "bd33dbbb362a",
+    "last_seen": 1787716238.795756,
+    "seen": 1,
+    "severity": "MINOR",
+    "what": "Two stale silence.note line tags in standards.py: line 812 emits silence.note(\"standards.py:370\") and line 891 emits silence.note(\"standards.py:449\"). Neither number points at its own call site. Both sit on the failure path of a data-file read (data/ROSTER_PURGES.json and data/CHARTER_REGRESSION.json), so triage reading health.py --failures is sent roughly 440 lines away from the code that failed. Every other note in the file uses a symbolic tag (standards.py:ledger, standards.py:shelfmarks, standards.py:allsweep).",
+    "where": "src/standards.py:812"
+  },
+  {
+    "code": "SWEEP34_FINDING",
+    "evidence": {
+      "batch": 4,
+      "proof": "print(report())\nreturn 1 if work_orders() else 0"
+    },
+    "first_seen": 1787716238.8160002,
+    "found_by": "sweep34-batch04",
+    "handler": "LOCAL",
+    "id": "ca654b1add66",
+    "last_seen": 1787716238.8160002,
+    "seen": 1,
+    "severity": "MINOR",
+    "what": "standards.main() runs check() TWICE per invocation - once via report() at line 1510 and once via work_orders() at line 1492 - both with state=None, so each builds its own dashboard.state(). The second pass repeats every live probe: a DNS lookup plus TCP connect per address at 8s timeout (fandom_ipv4_reachable, line 1191), a powershell Get-CimInstance at 60s timeout (line 1338), a tasklist spawn, and a full data/readfeats/** walk whenever the 120s _UNANS_CACHE has expired. The two passes are also free to disagree: the printed report can show a standard as met while the exit code is 1 for that s",
+    "where": "src/standards.py:1553-1554"
+  },
+  {
+    "code": "SWEEP34_FINDING",
+    "evidence": {
+      "batch": 1,
+      "proof": "verify_math.py:3322: #   public page   (computed by publish.py:168-172, in publish.py's process)\npublish.py:330-331: import standards as ST / s[\"standards\"] = ST.check(s)\npublish.py:168-172 is inside the SECRET regex (r\"SK[0-9a-fA-F]{32}|\" etc.)"
+    },
+    "first_seen": 1787716048.6110098,
+    "found_by": "sweep34-batch01",
+    "handler": "LOCAL",
+    "id": "d5ab260d8f71",
+    "last_seen": 1787716048.6110098,
+    "seen": 1,
+    "severity": "MINOR",
+    "what": "verify_math.py:3322 cites 'public page (computed by publish.py:168-172, in publish.py's process)'. publish.py:166-174 is the credential-scanner regex (dop_v1_, SG., PEM key blocks, JWTs). The standards computation meant is publish.py:330-331 (import standards as ST / s['standards'] = ST.check(s)). Correct or de-line the citation.",
+    "where": "verify_math.py:3322"
+  },
+  {
+    "code": "SWEEP34_FINDING",
+    "evidence": {
+      "batch": 1,
+      "proof": "2295: # ---- Section 19s: both writers of the metrics ledger stamp a timestamp\n4222: # ---- Section 19s: THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS\n3390: # are the stable identifier. (The separate fault that 20e and 20f are each shared by two"
+    },
+    "first_seen": 1787716048.5702684,
+    "found_by": "sweep34-batch01",
+    "handler": "LOCAL",
+    "id": "dc14fdc767ce",
+    "last_seen": 1787716048.5702684,
+    "seen": 1,
+    "severity": "MINOR",
+    "what": "verify_math.py has a THIRD duplicated section tag: 'Section 19s' labels both the metrics-ledger-timestamp block at 2295 and the prose-interlocks block at 4222. The file's own audit of this fault at line 3390 names only 20e and 20f as shared tags, so 19s is outside whatever order that sentence refers to. Retag the later block (the tags are cited by BUGS.md and rigor.py, so this is not a print-only change).",
+    "where": "verify_math.py:4222"
+  }
+]

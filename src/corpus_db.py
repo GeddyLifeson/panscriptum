@@ -3,7 +3,9 @@
 WHY THIS EXISTS, AND WHY IT IS SQLITE.
 
 Every question anyone asks about this corpus currently costs a throwaway Python script that walks
-216 JSON files and 109,295 entries. This session alone wrote a dozen of them -- how many entries
+216 JSON files holding however many entries they carry today -- a count that moves by the
+thousands per hour (see freshness() below) and is not worth fixing in prose. This session alone
+wrote a dozen of these scripts -- how many entries
 are excluded, which sources have no host, which entries are unjudged in closed batches, how many
 cache files lack an entity field. Each one was correct and each one was thrown away, so the next
 question started from nothing and the answers were never comparable.
@@ -32,9 +34,11 @@ same Norton interference that breaks Python's HTTPS here. So it is not available
 and pretending otherwise would be recommending a tool that cannot run.
 
 SQLite is what remains and it is genuinely the right size. It is in the standard library, needs
-nothing installed or allow-listed, and 200,000 rows insert in 0.22s and aggregate in 0.015s --
-against a corpus of 109,295 entries. Columnar analytics would be the correct answer at a hundred
-times this scale; here it would be equipment for a problem that does not exist.
+nothing installed or allow-listed, and MEASURED AT THE TIME OF THIS EVALUATION, 200,000 rows
+inserted in 0.22s and aggregated in 0.015s against a corpus that then held 109,295 entries --
+a point-in-time benchmark, not a current count (the corpus has since grown well past it; see
+freshness() below). Columnar analytics would be the correct answer at a hundred times this
+scale; here it would be equipment for a problem that does not exist.
 
 WHAT THIS IS NOT. Not a second source of truth. The JSON records remain canonical and are the
 only thing written by `pipeline.write_record`; this is a DERIVED INDEX, rebuilt from them, and
@@ -208,15 +212,15 @@ def rebuild(include_evidence=True, evidence_limit=None):
     if include_evidence:
         files = (glob.glob(os.path.join(HERE, "data", "readfeats", "*", "*.json"))
                  + glob.glob(os.path.join(HERE, "data", "feats", "*", "*.json")))
-        if evidence_limit and evidence_limit < len(files):
-            # TRUNCATED IS NOT THE SAME SHAPE AS COMPLETE. `files[:evidence_limit]` used to
-            # slice silently, and the row this writes to `meta` ('evidence') recorded the
-            # SLICED count with nothing anywhere marking the table as partial -- so a later
-            # reader of this index (or of `meta` directly) could not tell a partial evidence
-            # scan from a whole one. This project's standing lesson is that a partial count
-            # read as a total is how a run talks itself into work already done.
-            files = files[:evidence_limit]
-            evidence_truncated = True
+        # `evidence_limit` NO LONGER TRUNCATES. It used to slice `files[:evidence_limit]` --
+        # an unordered concatenation of two globs, so the slice was an arbitrary sample, not a
+        # ranked one -- and no caller anywhere in src/ ever sets it; no CLI flag exposes it
+        # either (order 97b39265457f, run36 batch05). Hard Rule 0 (CLAUDE.md) forbids caps on
+        # a listing absolutely, ranked or not, so the parameter is kept for signature
+        # compatibility but is now inert: a caller that still passes it gets a full scan and a
+        # note, never a silently smaller universe.
+        if evidence_limit:
+            silence.note("corpus_db.py:evidence-limit-ignored")
         batch = []
         for p in files:
             try:
@@ -503,9 +507,10 @@ def datasette_metadata(path=None):
             }
         },
     }
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(doc, f, indent=2)
+    # ATOMIC: a running `datasette` process reads this file live; a bare open("w") is a
+    # truncate-then-fill a mid-read server can see half-written (silence.write_json,
+    # silence.py:358-364; same class as the other write sites in this module).
+    silence.write_json(path, doc, indent=2)
     return path
 
 
@@ -524,7 +529,7 @@ def main():
     ap.add_argument("--serve", action="store_true",
                     help="write Datasette's config and print the command that serves it")
     ap.add_argument("--no-evidence", action="store_true",
-                    help="skip the 109k evidence files (much faster)")
+                    help="skip the evidence files, now well past 109k (much faster)")
     ap.add_argument("--sql", help="a read-only query")
     ap.add_argument("--canned", help="one of: " + ", ".join(sorted(CANNED)))
     a = ap.parse_args()

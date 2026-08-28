@@ -31,7 +31,6 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import tells as TELLS          # noqa: E402
 
-BANNED = TELLS.ALL_PATTERNS
 _WATCHED = (len(TELLS.ALL_PATTERNS) + len(TELLS.LEXICAL)
             + len(TELLS.LEXICAL_FICTION))
 

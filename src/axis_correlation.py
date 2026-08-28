@@ -23,6 +23,8 @@ measurable pairs at n = 42 to 45 each:
     continuity x sustain      r = +0.773   n = 42
     continuity x reach        r = +0.756   n = 44
     reach x sustain           r = +0.694   n = 43
+    continuity x suasion      r = +0.689   n = 44
+    reach x transgression     r = +0.668   n = 45
     acumen x discernment      r = +0.653   n = 44
     ...
     mean r = +0.319           EVERY sizeable pair positive, none meaningfully negative
@@ -107,25 +109,37 @@ def _scores_of(v):
 
 
 def observations():
-    """-> [{axis: score}], one dict per entity carrying two or more numeric axis scores."""
-    rows = []
+    """-> ([{axis: score}], {'read': [...], 'missing': [...]}) -- entities with >=2 numeric
+    axis scores, plus which of `SOURCES` were actually read this call.
+
+    THE MISSING LIST IS THE POINT. Before this, a source that vanished or got renamed was
+    skipped with a bare `continue` and left no trace: `measure()`'s return and the file
+    `write()` produces named only the resulting entity/pair counts, so the matrix could
+    silently shrink -- fewer entities, different correlations, a different mean_r -- while
+    looking exactly as authoritative as before. All seven SOURCES exist today; this is what
+    would catch it the day one of them does not.
+    """
+    rows, read, absent = [], [], []
     for rel in SOURCES:
         p = os.path.join(HERE, rel)
         if not os.path.exists(p):
+            absent.append(rel)
             continue
         try:
             with open(p, encoding="utf-8") as f:
                 d = json.load(f)
         except Exception:
             silence.note("axis_correlation.py:load")
+            absent.append(rel)
             continue
+        read.append(rel)
         for v in (d.values() if isinstance(d, dict) else d):
             if not isinstance(v, dict):
                 continue
             s = _scores_of(v)
             if len(s) >= 2:
                 rows.append(s)
-    return rows
+    return rows, {"read": read, "missing": absent}
 
 
 def _pearson(xs, ys):
@@ -141,8 +155,16 @@ def _pearson(xs, ys):
 
 
 def measure(rows=None):
-    """-> {'pairs': {'a|b': {'r':..,'n':..}}, 'mean_r':.., 'n_entities':.., 'axes':[..]}."""
-    rows = observations() if rows is None else rows
+    """-> {'pairs': {'a|b': {'r':..,'n':..}}, 'mean_r':.., 'n_entities':.., 'axes':[..],
+    'sources_read':[..] or None, 'sources_missing':[..] or None}.
+
+    `sources_read`/`sources_missing` name which of `SOURCES` observations() actually found this
+    call -- None for both when `rows` is supplied directly (drill/test callers bypassing
+    observations() entirely have no source list to report)."""
+    if rows is None:
+        rows, src_status = observations()
+    else:
+        src_status = {"read": None, "missing": None}
     axes = sorted({k for r in rows for k in r})
     pairs, vals = {}, []
     for a, b in itertools.combinations(axes, 2):
@@ -155,7 +177,8 @@ def measure(rows=None):
         vals.append(r_)
     return {"pairs": pairs, "axes": axes, "n_entities": len(rows),
             "mean_r": round(sum(vals) / len(vals), 4) if vals else None,
-            "measured_pairs": len(pairs)}
+            "measured_pairs": len(pairs),
+            "sources_read": src_status["read"], "sources_missing": src_status["missing"]}
 
 
 def write(doc=None):
@@ -246,7 +269,12 @@ def main():
         x, y = key.split("|")
         print("   r=%+.3f  n=%2d   %s x %s" % (v["r"], v["n"], x, y))
     print("-" * 78)
-    print("   %d pair(s) measured, mean r = %+.4f" % (doc["measured_pairs"], doc["mean_r"]))
+    # `mean_r` is None when no pair cleared MIN_N (measure(), line ~157) -- `%+.4f` on None
+    # raises TypeError unconditionally, in exactly the state where the reader most needs the
+    # report to speak: "nothing measurable yet" rather than a crash. The guard two lines below
+    # already handles None correctly (`if doc["mean_r"] and ...`); this print did not.
+    mean_str = "%+.4f" % doc["mean_r"] if doc["mean_r"] is not None else "n/a (no pair reached MIN_N)"
+    print("   %d pair(s) measured, mean r = %s" % (doc["measured_pairs"], mean_str))
     if doc["mean_r"] and doc["mean_r"] > 0.1:
         print("   The Measures are NOT independent. rho = 0 is ruled out by this data.")
     if a.write:

@@ -3466,9 +3466,58 @@ check("the mined quantity sentence is stored whole, not truncated to 220 charact
 check("the roll counts entities that RAISED separately from entities that were empty",
       '"errored": 0' in _ft19 and 'done["errored"] += 1' in _ft19, True,
       note="an exception used to increment n and nothing else -- a systemic fault with no signal")
+# PINNED TO THE PARSE TREE, NOT TO A SUBSTRING. This read
+#     '_CAP_BOUND' in _ft19 and '(ap or {}).get("continue")' in _ft19
+# and it went red on 2026-08-27 for the best possible reason: the continuation handling had been
+# REWRITTEN AND IMPROVED. `discover()` used to read the continue token only to increment a
+# counter and then truncate at aplimit=500/srlimit=50 anyway; `_api_list_all` now follows the
+# token to the end (551 titles became 1,331 on the same stub). A check that goes red when the
+# code gets better is measuring the spelling, not the invariant -- and this exact shape, a guard
+# verified by whole-file substring search, is what nine drill nets were rewritten away from this
+# same shift, because a comment reproducing the string makes such a check pass against a build
+# where the real call has been deleted.
+#
+# So the invariant is stated directly: SOMETHING in feats.py must read MediaWiki's `continue`
+# object and FEED IT BACK into a request, inside a loop. That is what "the caps are measured
+# rather than argued about" means. It cannot be satisfied by a comment, and it survives the
+# function being renamed again.
+import ast as _ast19
+
+
+def _follows_continuation(src):
+    """Does any loop in this module read a `continue` token and re-submit it? -> bool.
+
+    Structural on purpose: it asks for a loop that both READS `...continue...` and later writes
+    that value into something it sends. Reading the token without resubmitting is precisely the
+    defect this replaced -- counting the evidence of truncation while still truncating.
+    """
+    try:
+        tree = _ast19.parse(src)
+    except SyntaxError:
+        return False
+    for node in _ast19.walk(tree):
+        if not isinstance(node, (_ast19.While, _ast19.For)):
+            continue
+        body = _ast19.dump(node)
+        reads = "'continue'" in body or '"continue"' in body or "continue_" in body
+        # A resubmission looks like updating the outgoing params/dict with the token, which in
+        # ast terms is a subscript assignment or an .update() call inside the same loop.
+        resubmits = any(isinstance(n, (_ast19.Subscript,)) for n in _ast19.walk(node)) and \
+            any(isinstance(n, _ast19.Call) and getattr(n.func, "attr", "") == "update"
+                for n in _ast19.walk(node)) or \
+            any(isinstance(n, _ast19.Assign) and any(isinstance(t, _ast19.Subscript)
+                                                     for t in n.targets)
+                for n in _ast19.walk(node))
+        if reads and resubmits:
+            return True
+    return False
+
+
 check("the discovery caps are measured rather than argued about",
-      '_CAP_BOUND' in _ft19 and '(ap or {}).get("continue")' in _ft19, True,
-      note="m82: MediaWiki's own continue token says when aplimit/srlimit withheld results")
+      '_CAP_BOUND' in _ft19 and _follows_continuation(_ft19), True,
+      note="m82: MediaWiki's own continue token says when aplimit/srlimit withheld results. "
+           "Checked structurally -- a loop that reads the token AND resubmits it -- so that "
+           "renaming the helper does not turn this red and a comment cannot turn it green")
 
 print()
 print("22. §20c  THE REPAIRS OF RUN #20 — a log that misdated its own evidence, and three")
