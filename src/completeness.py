@@ -30,6 +30,7 @@ It never truncates anything, and it writes no catalogue. It is a measurement.
 import argparse
 import json
 import os
+import threading
 import time
 import sys
 import collections
@@ -94,15 +95,55 @@ _CS_CACHE = {"loaded": False, "d": {}}
 _CS_TTL = 12 * 3600
 
 
+_CS_LOCK = threading.Lock()
+
+
 def _cs_load():
-    if not _CS_CACHE["loaded"]:
-        try:
-            with open(_CS_CACHE_P, encoding="utf-8") as f:
-                _CS_CACHE["d"] = json.load(f)
-        except Exception:
-            _ = "silence-exempt: no cache yet is the normal first state"
-        _CS_CACHE["loaded"] = True
-    return _CS_CACHE["d"]
+    with _CS_LOCK:
+        if not _CS_CACHE["loaded"]:
+            try:
+                with open(_CS_CACHE_P, encoding="utf-8") as f:
+                    _CS_CACHE["d"] = json.load(f)
+            except Exception:
+                _ = "silence-exempt: no cache yet is the normal first state"
+            _CS_CACHE["loaded"] = True
+        return _CS_CACHE["d"]
+
+
+def _cs_put(k, n):
+    """Record one probe result in the 12h category-size cache, from any of the audit's threads.
+
+    TWO WRITERS, ONE SCRATCH FILE (order 771fc3b0f517, run #36). Both probe functions below wrote
+    this through a fixed `_CS_CACHE_P + '.tmp'`, from up to six `ThreadPoolExecutor` workers at
+    once: every one of them opened the SAME temp file for writing, so the second truncated the
+    first and whichever renamed second could land a half-written cache over the target. That is
+    the two-writers-one-temp-filename shape that has cost this project real data twice.
+    `silence.write_json` carries pid and thread in the temp name, which makes it unavailable to
+    get wrong, and it is what the rest of the tree already uses.
+
+    AND THE DICT WAS BEING SERIALISED WHILE THE OTHER WORKERS INSERTED INTO IT. `_CS_CACHE['d']`
+    is one dict shared by every worker; `json.dump` iterates it, and an insertion during that
+    iteration raises `RuntimeError: dictionary changed size during iteration` straight into the
+    blanket `except` below -- the probe result silently uncached, the wiki asked again next round.
+    Same shape as `health.flush()` (order f46fbdf61e31) and the same remedy: mutate and SNAPSHOT
+    under a lock, then serialise the snapshot, which nothing else can touch.
+
+    Still MINOR, and the reason stands: a lost or torn cache re-reads as empty and costs one live
+    category call to re-earn. That is why this is a temp-name fix and not a compare-and-swap --
+    across processes the loser's entries are simply re-probed, and a retry loop here would pace
+    against the domain that has IP-banned this machine once already for no data that is at risk.
+
+    `indent=None` keeps the file compact: this holds one row per (host, category) pair across the
+    whole roll, and it is a cache nobody reads by eye.
+    """
+    cache = _cs_load()
+    with _CS_LOCK:
+        cache[k] = {"at": time.time(), "n": n}
+        snap = dict(cache)
+    try:
+        silence.write_json(_CS_CACHE_P, snap, indent=None)
+    except Exception:
+        silence.note("completeness.py:cs-cache")
 
 
 def category_size_probe(sub, category):
@@ -133,15 +174,7 @@ def category_size_probe(sub, category):
         if ci:
             got = ci.get("pages", 0)
             break
-    cache = _cs_load()
-    cache[k] = {"at": time.time(), "n": got}
-    try:
-        tmp = _CS_CACHE_P + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(cache, f)
-        silence.replace_retry(tmp, _CS_CACHE_P)
-    except Exception:
-        silence.note("completeness.py:cs-cache")
+    _cs_put(k, got)
     return got, None
 
 
@@ -208,15 +241,7 @@ def category_size_probe_host(host, category):
         if ci:
             got = ci.get("pages", 0)
             break
-    cache = _cs_load()
-    cache[k] = {"at": time.time(), "n": got}
-    try:
-        tmp = _CS_CACHE_P + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(cache, f)
-        silence.replace_retry(tmp, _CS_CACHE_P)
-    except Exception:
-        silence.note("completeness.py:cs-cache")
+    _cs_put(k, got)
     return got, None
 
 
@@ -593,9 +618,6 @@ def land(rows, only=None):
                          "`health.py --failures`, then re-run.\n"
                          % (len(rows), len(prior), 100 * SHRINK_FLOOR))
         return False
-    tmp = OUT + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(rows, f, indent=1, ensure_ascii=False)
     # THE THIRD WAY TO LOSE THE MEASUREMENT, and the one the two guards above do not cover.
     # Both of them protect the CONTENT; neither checks that the content reached the disk.
     # `replace_retry` returns False -- it does not raise -- when the rename is denied for all
@@ -605,7 +627,16 @@ def land(rows, only=None):
     # returning True made this function's own contract line -- "Returns True if the file now
     # holds `rows`" -- false in exactly the case the caller most needs to hear about: the run
     # measured correctly, reported success, exited 0, and left the stale file in place.
-    if not silence.replace_retry(tmp, OUT):
+    #
+    # THE FOURTH WAY WAS THE SCRATCH FILE'S OWN NAME. This was a hand-rolled `OUT + '.tmp'`, the
+    # same fixed name order 771fc3b0f517 retired from the category cache above, on a file the
+    # foreman writes EVERY round: two audits overlapping by a second both open
+    # `COMPLETENESS.json.tmp`, the second truncates the first, and the loser's rename lands a
+    # half-written measurement over a whole one -- past all three guards, because every one of
+    # them inspects `rows` and none of them inspects the file. `silence.write_json` puts pid and
+    # thread in the temp name and returns the same `replace_retry` verdict this already gates on.
+    # (found and fixed run36 beside its filed sibling, not itself a filed order)
+    if not silence.write_json(OUT, rows, indent=1, ensure_ascii=False):
         sys.stderr.write("completeness: measured %d row(s) but the write to COMPLETENESS.json "
                          "was DENIED (a reader is holding it). The file still holds the "
                          "PREVIOUS measurement -- this run's numbers are not on disk. Re-run "

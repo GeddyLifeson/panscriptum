@@ -66,6 +66,13 @@ RAW_PATHS = ("/w/index.php", "/index.php", "/wiki/index.php")
 
 _LOCK = threading.Lock()
 _MEM = None
+# The hosts THIS process has probed since its last landed save. The save merges only these into
+# whatever is on disk, never the whole of `_MEM` -- see `_save()`.
+_DIRTY = set()
+# Serialises this process's own savers so two threads do not spend their attempts losing to each
+# other. Always taken BEFORE `_LOCK`, never the other way round.
+_SAVE_LOCK = threading.Lock()
+SAVE_ATTEMPTS = 8
 
 
 def _load():
@@ -82,7 +89,7 @@ def _load():
 
 
 def _save():
-    """Land the probe cache ATOMICALLY, through the one correct writer in this project.
+    """Land the probe cache through a COMPARE-AND-SWAP. -> True if this process's probes landed.
 
     This used to be a hand-rolled `open(CACHE + ".tmp")` + bare `os.replace()`. Both halves of
     that were the shapes `silence.write_json` exists to make unavailable. `ENDPOINTS.json` is
@@ -97,14 +104,86 @@ def _save():
     the host re-probed next run -- wasted network against a pipeline that paces itself per
     host on purpose. `write_json` carries pid and thread in the temp name and retries the
     rename, so the write lands instead of vanishing. (run33)
+
+    ATOMIC WAS NOT ENOUGH, AND THIS MODULE-LEVEL CACHE IS THE SAME LOST UPDATE THROUGH A SECOND
+    DOOR (order 232b4f3ffc79, run #36). `register()` below was given a compare-and-swap earlier
+    this shift for exactly this shape; `_MEM` was not, and `_MEM` is worse, because it is a
+    read-ONCE cache. A long-running miner loads `ENDPOINTS.json` at its first `detect()` and then
+    writes that whole snapshot back after every probe, for hours. Two such processes -- the
+    scheduled pass and a targeted `--force` probe, which is the normal situation here -- each land
+    a complete, consistent, atomic file that predates every host the OTHER one probed. Nothing
+    fails and nothing is torn; verdicts simply disappear, and a disappeared verdict costs a live
+    re-probe against hosts this project has already been IP-banned by once.
+
+    So the write is a merge, not an overwrite: re-read the file, overlay ONLY the hosts this
+    process actually probed (`_DIRTY`), and swap only if the file still holds what was read. That
+    is the pure key-wise union `register()` performs, and re-applying it to the winner's copy is
+    exactly right -- the other writer's hosts survive and ours are added beside them.
+
+    A refusal is NOT raised. `detect()` has a verdict to return and its caller has network work to
+    do; the hosts stay in `_DIRTY` and the next probe's save carries them, which is this project's
+    established "the caller's write lands next round".
     """
-    with _LOCK:
-        if _MEM is None:
-            return
-        try:
-            silence.write_json(CACHE, _MEM, indent=1, sort_keys=True)
-        except Exception:
-            silence.note("endpoint.py:save")
+    with _SAVE_LOCK:
+        with _LOCK:
+            if _MEM is None or not _DIRTY:
+                return True
+            mine = {h: _MEM[h] for h in _DIRTY if h in _MEM}
+        if not mine:
+            return True
+        last_why = "not attempted"
+        for attempt in range(SAVE_ATTEMPTS):
+            # The digest is taken BEFORE the read, so anything that lands between the two makes
+            # the swap fail closed rather than pass on a copy that is already behind.
+            digest = silence.digest_of(CACHE)
+            disk = {}
+            if os.path.exists(CACHE):
+                try:
+                    with open(CACHE, encoding="utf-8") as f:
+                        disk = json.load(f)
+                except Exception:
+                    # A probe cache is REGENERABLE -- every entry can be re-earned by asking the
+                    # host again -- so an unreadable one is healed rather than preserved, which
+                    # is what `_load()` above already does with the same file. This is the one
+                    # place that reasoning applies; it would be wrong for WIKI_HOSTS.json.
+                    silence.note("endpoint.py:save-reread")
+                    disk = {}
+            if not isinstance(disk, dict):
+                silence.note("endpoint.py:save-nondict")
+                disk = {}
+            disk.update(mine)
+            tmp = "%s.%d.%d.tmp" % (CACHE, os.getpid(), attempt)
+            try:
+                os.makedirs(os.path.dirname(CACHE), exist_ok=True)
+                with open(tmp, "w", encoding="utf-8") as f:
+                    json.dump(disk, f, indent=1, sort_keys=True)
+            except Exception:
+                silence.note("endpoint.py:save")
+                return False
+            landed, why = silence.replace_if_unchanged(tmp, CACHE, digest)
+            if landed:
+                with _LOCK:
+                    _DIRTY.difference_update(mine)
+                    # The merged file is now the truth, and it holds the OTHER writers' hosts
+                    # too. Folding it back into `_MEM` is what stops this cache being a
+                    # read-once snapshot that grows staler for the life of the process --
+                    # except for hosts probed while this save was in flight, which are still
+                    # dirty and whose in-memory verdict is the fresher one.
+                    for h, v in disk.items():
+                        if h not in _DIRTY:
+                            _MEM[h] = v
+                return True
+            last_why = why
+            try:
+                os.remove(tmp)
+            except OSError:
+                silence.note("endpoint.py:save-tmp-cleanup")
+            time.sleep(0.05 * (attempt + 1))
+        silence.note("endpoint.py:save-contended")
+        print("endpoint: ENDPOINTS.json changed under this writer on all %d attempts; %d probe "
+              "verdict(s) kept in memory for the next save: %s"
+              % (SAVE_ATTEMPTS, len(mine), last_why), file=sys.stderr)
+        return False
 
 
 # Hosts whose edge refuses every non-browser client outright (dandwiki: HTTP 403 to any
@@ -180,8 +259,11 @@ def detect(host, force=False):
         import time as _t
         found["at"] = _t.time()
     # Under the cache's own lock: the write was accidentally-safe GIL behaviour, not design.
+    # `_DIRTY` is what makes `_save()` a merge rather than an overwrite -- it is the record of
+    # what THIS process actually earned, as opposed to what it happened to read at startup.
     with _LOCK:
         mem[host] = found
+        _DIRTY.add(host)
     _save()
     return found
 
@@ -433,6 +515,8 @@ def register(source, urls):
             silence.note("endpoint.py:register-tmp-cleanup")
         time.sleep(0.05 * (attempt + 1))
     silence.note("endpoint.py:register-contended")
+    # No `return d[source]` below this: it was unreachable behind an unconditional raise (order
+    # 300c8d62a250), and a dead line that LOOKS like a success path is how a reader concludes
+    # this function returns the registered pages. It returns None on success, and raises here.
     raise RuntimeError("SOURCE_PAGES.json changed under this writer on every one of 8 attempts, "
                        "so %r's pages were NOT recorded: %s" % (source, last_why))
-    return d[source]

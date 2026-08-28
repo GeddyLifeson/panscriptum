@@ -82,6 +82,11 @@ MAX_YIELD_SECONDS = 240
 
 _POLL = 0.4
 
+# Serialises this process's own read-modify-write of its foreground refcount. Cross-PROCESS
+# safety comes from the claim file being named for the PID; this is the in-process half that
+# was missing. See `foreground()`.
+_DEPTH_LOCK = threading.Lock()
+
 
 def _now():
     return time.time()
@@ -223,20 +228,32 @@ def foreground(label="foreground"):
     Re-entrant by refcount, because a foreground call may nest inside another. motoko learned
     this the hard way with a plain boolean: the inner call's exit cleared the outer call's flag
     and the two deadlocked around each other.
+
+    THE REFCOUNT IS READ-MODIFY-WRITTEN UNDER `_DEPTH_LOCK` (run #36, latent when found). The
+    claim file is named for this PID, so no other PROCESS can race it -- but the increment and
+    the decrement are each a read, an arithmetic step and a write, and two THREADS of this
+    process entering `foreground()` together both read depth 0, both write 1, and the first
+    exit deletes the claim while the second is still inside it. Every background call in the
+    library then proceeds straight through the yield this module exists to enforce. Only
+    single-threaded callers reach it today; the lock costs nothing and removes the question.
+    It is held across the file write and released before the `yield`, never over it -- holding
+    it over the body would serialise exactly the nesting the refcount exists to allow.
     """
     path = _claim_path()
-    rec = _read(path) or {}
-    depth = int(rec.get("depth") or 0) + 1
-    _write_claim(path, depth, label)
+    with _DEPTH_LOCK:
+        rec = _read(path) or {}
+        depth = int(rec.get("depth") or 0) + 1
+        _write_claim(path, depth, label)
     try:
         yield
     finally:
-        cur = _read(path) or {}
-        d = int(cur.get("depth") or 1) - 1
-        if d <= 0:
-            _remove_retry(path)          # m55
-        else:
-            _write_claim(path, d, label)
+        with _DEPTH_LOCK:
+            cur = _read(path) or {}
+            d = int(cur.get("depth") or 1) - 1
+            if d <= 0:
+                _remove_retry(path)      # m55
+            else:
+                _write_claim(path, d, label)
 
 
 def _write_claim(path, depth, label):

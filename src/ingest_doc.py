@@ -164,12 +164,37 @@ def mine(source):
         state = {"next": 0, "found": 0}
 
     # Chunk on page boundaries so a citation's page label survives.
+    #
+    # A SINGLE PAGE LARGER THAN `CHUNK` IS RE-SPLIT, NOT EMITTED WHOLE (run #36). The
+    # accumulator only ever flushed BEFORE appending, so a page bigger than CHUNK met an empty
+    # `cur`, went in entire, and left as one oversize chunk -- 12,608 characters against a 9,000
+    # budget in the one document ingested so far, and print sourcebooks are full of full-bleed
+    # text pages. The transport does not refuse an overlong prompt; it silently reads the head
+    # of it against a fixed num_ctx, so the tail of that page is catalogued as containing no
+    # named things. `read.py:_local_carded` already faced exactly this and answers it exactly
+    # this way -- `for i in range(0, len(body), CHUNK)` over the oversized body -- so this
+    # mirrors it rather than inventing a second rule.
+    #
+    # SPLITTING ONLY ADDS BOUNDARIES, so chunk `k` under this scheme begins at or before where
+    # chunk `k` began under the old one, and a resume cursor written by an earlier run can only
+    # RE-read text, never skip past it -- checked against the one live corpus rather than
+    # asserted: 252 chunks became 262, no chunk's start moved forward, and the Arcanum Worlds
+    # ingest's cursor of 81 lands on the identical document offset (the first oversize page in
+    # that book is p. 0471, well past it).
     chunks, cur, cur_pages = [], "", []
     for label in sorted(pages):
-        if cur and len(cur) + len(pages[label]) > CHUNK:
+        body = pages[label]
+        if len(body) > CHUNK:
+            if cur:
+                chunks.append((cur, list(cur_pages)))
+                cur, cur_pages = "", []
+            for i in range(0, len(body), CHUNK):
+                chunks.append(("[" + label + "]\n" + body[i:i + CHUNK] + "\n\n", [label]))
+            continue
+        if cur and len(cur) + len(body) > CHUNK:
             chunks.append((cur, list(cur_pages)))
             cur, cur_pages = "", []
-        cur += "[" + label + "]\n" + pages[label] + "\n\n"
+        cur += "[" + label + "]\n" + body + "\n\n"
         cur_pages.append(label)
     if cur:
         chunks.append((cur, cur_pages))

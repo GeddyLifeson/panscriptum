@@ -86,9 +86,68 @@ def record(kind, detail="", sample=None):
             del ring[:-SAMPLES_KEEP]
 
 
+# Serialises whole flushes against each other, and against nothing else. `_LOCK` above guards the
+# two in-memory ledgers for the microseconds it takes to SNAPSHOT or SETTLE them; this one is held
+# across the file IO, because two threads that both snapshot the same counts both carry them to
+# disk and the ledger doubles.
+#
+# RE-ENTRY IS REAL HERE, AND A PLAIN LOCK ALONE WOULD DEADLOCK ON IT. `silence.replace_retry`
+# calls `silence.note` when a rename is denied; `note()` calls `health.flush()` every
+# `FLUSH_EVERY` notes; and both of those sit INSIDE this function's own write. So a thread that is
+# already flushing returns immediately rather than re-entering -- the outer call is already
+# carrying these counts, and an RLock would merely let the inner call write them a second time.
+_FLUSH_LOCK = threading.Lock()
+_FLUSHING = threading.local()
+
+
 def flush():
-    if not LEDGER:
+    """Write the in-memory ledgers to disk. Safe to call from any thread, at any time.
+
+    THE LEDGERS ARE SNAPSHOTTED UNDER `_LOCK`, NEVER ITERATED IN PLACE (order
+    f46fbdf61e31, run36). `record()` mutates `LEDGER` and `_SAMPLES` under `_LOCK` from every
+    worker thread in the kit; this function iterated both of them, and cleared both of them,
+    holding NOTHING -- so a flush landing while any thread recorded raised
+    `RuntimeError: dictionary changed size during iteration` out of `LEDGER.items()`.
+
+    Reproduced before the fix at six writer threads against one flusher: 33 of 35 flushes died.
+    And they died INVISIBLY, which is the part that matters: `flush()` is called from
+    `silence.note`, whose blanket `except Exception: pass` is deliberate and correct for a
+    recorder -- so the crash was swallowed, `state/failures.json` simply did not update for that
+    cycle, and the failure ledger lost failures with nothing anywhere saying so. The module whose
+    entire subject is failures converted into plausible negative results was doing it to itself.
+
+    THE COUNTS ARE SUBTRACTED, NOT CLEARED. `LEDGER.clear()` after a landed write discards
+    everything recorded DURING the write -- and the write is the slow part, a read, a merge and a
+    rename against the highest-traffic shared file in the project. Subtracting exactly the
+    snapshot that reached disk leaves those records in memory for the next flush, which is the
+    difference between a ledger that is behind and a ledger that is wrong.
+    """
+    if getattr(_FLUSHING, "on", False):
         return
+    with _FLUSH_LOCK:
+        _FLUSHING.on = True
+        try:
+            _flush()
+        finally:
+            _FLUSHING.on = False
+
+
+def _flush():
+    with _LOCK:
+        if not LEDGER and not _SAMPLES:
+            return
+        # `_SAMPLES` alone is enough to justify a flush: a previous round can land the ledger and
+        # then fail on the samples file, which under the old `if not LEDGER: return` guard left
+        # the evidence bag stranded in memory until the process exited.
+        taken = dict(LEDGER)
+        taken_s = {k: list(ring) for k, ring in _SAMPLES.items()}
+    if taken:
+        _flush_ledger(taken)
+    if taken_s:
+        _flush_samples(taken_s)
+
+
+def _flush_ledger(taken):
     os.makedirs(os.path.dirname(LEDGER_PATH), exist_ok=True)
     prev = {}
     if os.path.exists(LEDGER_PATH):
@@ -120,7 +179,7 @@ def flush():
             prev = {"ledger:unreadable": 1}
             print(f"health: ledger unreadable ({type(e).__name__}); "
                   f"kept as failures.json.corrupt", file=sys.stderr)
-    for k, v in LEDGER.items():
+    for k, v in taken.items():
         prev[k] = prev.get(k, 0) + v
     # ATOMIC, and this is the write that most needed to be. foreman.py:237 already says it:
     # "state/failures.json is the highest-traffic shared file in the project -- the dashboard
@@ -135,7 +194,7 @@ def flush():
     # the file exists to hold. The recorder must not become the sixteenth instance of the
     # defect it exists to expose, and that principle has to cover the WRITE as well as the read.
     #
-    # LEDGER is cleared only if the write LANDED. A denied replace (Windows, reader holding
+    # LEDGER is settled only if the write LANDED. A denied replace (Windows, reader holding
     # the file) otherwise silently discarded the counts it failed to persist.
     #
     # THE FIXED `.tmp` NAME WAS ITSELF A HAZARD, on the single highest-traffic shared file in
@@ -149,55 +208,77 @@ def flush():
     # meet there, and returns the same landed/not-landed verdict this already gated on. (found
     # and fixed run36, not itself a filed order -- see handoff/run36/crossmodule_local06.md)
     if silence.write_json(LEDGER_PATH, prev, indent=1, sort_keys=True):
-        LEDGER.clear()
-    if _SAMPLES:
-        try:
-            old = {}
-            if os.path.exists(SAMPLES_PATH):
-                try:
-                    with open(SAMPLES_PATH, encoding="utf-8") as f:
-                        old = json.load(f)
-                except Exception as e:
-                    # THE SELF-HEALING PATH THE COMMENT BELOW HAS BEEN ASKING FOR SINCE IT WAS
-                    # WRITTEN. It described this exact hole -- a torn SAMPLES_PATH sends every
-                    # future flush into the blanket `except` at THIS read, so the evidence bag
-                    # goes quietly empty and stays that way for ever, with nothing recorded
-                    # anywhere -- and then did not close it. A described, never-implemented fix
-                    # is indistinguishable at runtime from no fix at all, and this is the
-                    # recorder: it is the one component whose silent failure hides every other
-                    # component's failure. So the ledger's own treatment, applied here: keep the
-                    # wreck as SAMPLES.json.corrupt, say so on stderr, and carry on with a fresh
-                    # bag rather than reading a corpse on every flush from now on.
-                    #
-                    # PRESERVATION IS THE PRECONDITION, NOT A COURTESY. If the rename does not
-                    # land -- Windows, a reader holding the file, the WinError 5 class
-                    # `replace_retry` exists for -- the original exception is re-raised into the
-                    # blanket `except` below and this flush drops its samples exactly as it did
-                    # before. That is the old behaviour and it is the safe one: overwriting an
-                    # unreadable evidence file we could not first set aside would destroy the
-                    # only copy of whatever tore it. (run33)
-                    if not silence.replace_retry(SAMPLES_PATH, SAMPLES_PATH + ".corrupt"):
-                        raise
-                    old = {}
-                    print(f"health: failure samples unreadable ({type(e).__name__}); "
-                          f"kept as {os.path.basename(SAMPLES_PATH)}.corrupt, starting fresh",
-                          file=sys.stderr)
-            for k, ring in _SAMPLES.items():
-                merged = (old.get(k) or []) + ring
-                old[k] = merged[-SAMPLES_KEEP:]
-            # Same treatment, and this file needs it MORE than the ledger does, not less: it
-            # has no .corrupt self-healing path. Once torn, every future flush hits the blanket
-            # `except` below at the read step and drops its samples silently and permanently --
-            # the evidence bag going quietly empty and staying that way, with nothing recorded
-            # anywhere, because the recorder cannot safely record against itself.
-            #
-            # SAME FIXED-`.tmp`-NAME HAZARD AS THE LEDGER WRITE ABOVE, same fix: `write_json`'s
-            # pid+thread temp name is unavailable for two concurrent flushes to collide on, where
-            # a shared `path + ".tmp"` was not. (found and fixed run36)
-            if silence.write_json(SAMPLES_PATH, old, indent=1, sort_keys=True, ensure_ascii=False):
-                _SAMPLES.clear()
-        except Exception:
-            pass          # the evidence bag must never break the ledger write
+        with _LOCK:
+            for k, v in taken.items():
+                LEDGER[k] -= v
+                if LEDGER[k] <= 0:
+                    del LEDGER[k]
+
+
+def _flush_samples(taken_s):
+    try:
+        old = {}
+        if os.path.exists(SAMPLES_PATH):
+            try:
+                with open(SAMPLES_PATH, encoding="utf-8") as f:
+                    old = json.load(f)
+            except Exception as e:
+                # THE SELF-HEALING PATH THE COMMENT BELOW HAS BEEN ASKING FOR SINCE IT WAS
+                # WRITTEN. It described this exact hole -- a torn SAMPLES_PATH sends every
+                # future flush into the blanket `except` at THIS read, so the evidence bag
+                # goes quietly empty and stays that way for ever, with nothing recorded
+                # anywhere -- and then did not close it. A described, never-implemented fix
+                # is indistinguishable at runtime from no fix at all, and this is the
+                # recorder: it is the one component whose silent failure hides every other
+                # component's failure. So the ledger's own treatment, applied here: keep the
+                # wreck as SAMPLES.json.corrupt, say so on stderr, and carry on with a fresh
+                # bag rather than reading a corpse on every flush from now on.
+                #
+                # PRESERVATION IS THE PRECONDITION, NOT A COURTESY. If the rename does not
+                # land -- Windows, a reader holding the file, the WinError 5 class
+                # `replace_retry` exists for -- the original exception is re-raised into the
+                # blanket `except` below and this flush drops its samples exactly as it did
+                # before. That is the old behaviour and it is the safe one: overwriting an
+                # unreadable evidence file we could not first set aside would destroy the
+                # only copy of whatever tore it. (run33)
+                if not silence.replace_retry(SAMPLES_PATH, SAMPLES_PATH + ".corrupt"):
+                    raise
+                old = {}
+                print(f"health: failure samples unreadable ({type(e).__name__}); "
+                      f"kept as {os.path.basename(SAMPLES_PATH)}.corrupt, starting fresh",
+                      file=sys.stderr)
+        # THE SNAPSHOT, never the live rings -- `record()` appends to those from every worker
+        # thread, and iterating one mid-append is the same RuntimeError the ledger raised.
+        for k, ring in taken_s.items():
+            merged = (old.get(k) or []) + ring
+            old[k] = merged[-SAMPLES_KEEP:]
+        # Same treatment, and this file needs it MORE than the ledger does, not less: it
+        # has no .corrupt self-healing path. Once torn, every future flush hits the blanket
+        # `except` below at the read step and drops its samples silently and permanently --
+        # the evidence bag going quietly empty and staying that way, with nothing recorded
+        # anywhere, because the recorder cannot safely record against itself.
+        #
+        # SAME FIXED-`.tmp`-NAME HAZARD AS THE LEDGER WRITE ABOVE, same fix: `write_json`'s
+        # pid+thread temp name is unavailable for two concurrent flushes to collide on, where
+        # a shared `path + ".tmp"` was not. (found and fixed run36)
+        if silence.write_json(SAMPLES_PATH, old, indent=1, sort_keys=True, ensure_ascii=False):
+            # ONLY WHAT REACHED DISK IS DROPPED, matched by identity rather than cleared
+            # wholesale: `_SAMPLES.clear()` also threw away every sample recorded while the
+            # write was in flight, so under load the evidence bag lost exactly the evidence
+            # that arrived when the recorder was busiest.
+            with _LOCK:
+                for k, written in taken_s.items():
+                    live = _SAMPLES.get(k)
+                    if live is None:
+                        continue
+                    done = {id(x) for x in written}
+                    kept = [x for x in live if id(x) not in done]
+                    if kept:
+                        _SAMPLES[k] = kept
+                    else:
+                        _SAMPLES.pop(k, None)
+    except Exception:
+        pass          # the evidence bag must never break the ledger write
 
 
 def summary():

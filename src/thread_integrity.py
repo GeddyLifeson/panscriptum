@@ -204,6 +204,20 @@ def main():
     # exist, wearing the same shape as the complete one. Ranking is kept -- richest first, so an
     # interrupted read still sees the worst -- and the count is now in the header, so the reader
     # can tell what they are looking at.
+    # DANGLING FIRST, because it is the worst class and it was the one class NEVER PRINTED.
+    # `classify()` computed it with the same per-pair detail as its three siblings and `main()`
+    # itemised only the siblings, so the most severe finding this module makes -- a pair whose
+    # EVERY shared entity has gone from the live records -- existed as a single number in the
+    # count block above and nowhere else. Same defect as the truncation the paragraph above
+    # describes, taken to its limit: not a shortened list but an absent one, under a report that
+    # reads as complete. Ranked and uncapped like the rest (Hard Rule 0).
+    if detail["DANGLING"]:
+        rows = sorted(detail["DANGLING"], key=lambda x: -x[2])
+        print(f"  DANGLING (every shared entity gone from the live records -- the thread points "
+              f"at nothing) -- all {len(rows):,}, largest first:")
+        for a, b, n, tot in rows:
+            print(f"     {n:4d}/{tot:<5d} gone     {a[:24]:26s} <-> {b[:24]}")
+        print()
     if detail["PARTIALLY-DANGLING"]:
         rows = sorted(detail["PARTIALLY-DANGLING"], key=lambda x: -x[2])
         print(f"  partial weave drift (obligation still real, some shared entities gone) "

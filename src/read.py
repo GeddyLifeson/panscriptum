@@ -662,7 +662,15 @@ def read_entity(c, host, name, cap_chunks=None):
     # Case matters here in a way the first measurement missed: comparing sanitised keys
     # case-SENSITIVELY found 5 colliding slots; comparing them the way the filesystem actually
     # behaves finds 12, of which 7 are case-only.
-    path = cachekey.write_path(CACHE, host, name)
+    #
+    # THE WRITE PATH IS DERIVED AT WRITE TIME, NOT HERE (run #36). It used to be computed on
+    # this line and used unconditionally at the bottom of the function, minutes of mining later,
+    # under a ThreadPoolExecutor -- so for the whole of that window the answer to "does a
+    # DIFFERENT entity already hold my natural path" was a stale one. Two pool workers holding
+    # `Tag Der Toten` and `Tag der Toten` both saw the slot free, both mined, and both wrote the
+    # natural path: the loser's evidence replaced the winner's, and `cachekey.load` then read
+    # the survivor as a MISS for the other entity forever -- correct, but re-mined every pass.
+    # See the derivation immediately above the write below.
 
     def _corrupt(fp):
         # SELF-HEALING: a kill mid-write once left truncated JSON here, and the raise was
@@ -814,6 +822,12 @@ def read_entity(c, host, name, cap_chunks=None):
     # once could have the loser's partial file replace the winner's target. The landed verdict
     # is also no longer discarded: a denied write must not make this cache look complete when
     # it is not, so a later pass can tell the entity still needs re-caching.
+    #
+    # DERIVED HERE, not on entry: `write_path` asks the filesystem whether the natural slot is
+    # already held by a different entity, and that answer is only usable for as long as it takes
+    # to act on it. Asked on entry it was minutes stale by the time it was used (see the note at
+    # the top of this function); asked here the gap is the length of one `write_json`.
+    path = cachekey.write_path(CACHE, host, name)
     if not silence.write_json(path, out, indent=1, ensure_ascii=False):
         silence.note("read.py:read-entity-write-denied")
     return out
@@ -958,12 +972,36 @@ def queue(all_entries=True):
     # host map has three writers; an unguarded load meant a single racing write could end the
     # whole run with a JSONDecodeError and no note. An unreadable host map is a real fault, so
     # it is recorded rather than shrugged off -- but it must not be able to discard the pass.
-    try:
-        with open(FF.HOSTS, encoding="utf-8") as _hf:
-            hosts = json.load(_hf)
-    except Exception:
-        silence.note("read.py:hosts-unreadable")
-        hosts = {}
+    #
+    # FAIL CLOSED, AND LOUD (run #36). `except: hosts = {}` did the exact thing the sentence
+    # above forbids. With an empty map every record fails the `if not h` below, the queue comes
+    # back EMPTY, and `run()` prints "0 entries with pages", finishes in a second and exits 0 --
+    # a total loss of the library's main throughput wearing the face of "there was nothing left
+    # to read". The retry is what the original guard was actually reaching for: all three
+    # writers of this file land it through `silence.replace_retry`, so a racing write is
+    # unreadable for milliseconds, not seconds. Anything that outlasts four attempts is a real
+    # fault, and a reader that cannot tell which entities have hosts has no business reporting a
+    # completed pass over none of them.
+    hosts = None
+    for _attempt in range(4):
+        try:
+            with open(FF.HOSTS, encoding="utf-8") as _hf:
+                hosts = json.load(_hf)
+            break
+        except Exception:
+            silence.note("read.py:hosts-unreadable")
+            hosts = None
+            if _attempt < 3:
+                time.sleep(0.3 * (_attempt + 1))
+    if not isinstance(hosts, dict) or not hosts:
+        # An EMPTY map is refused for the same reason an unreadable one is: it produces an empty
+        # queue, and an empty queue is reported as a finished pass. If this is a fresh tree, the
+        # remedy is `python src/feats.py --hosts` (resolve_hosts), not a run over nothing.
+        raise SystemExit(
+            "REFUSING TO READ: the host map (%s) did not load as a non-empty object after 4 "
+            "attempts. Every record's host is looked up in it, so an empty map empties the "
+            "whole read queue and this pass would report itself finished having read nothing. "
+            "Restore or rebuild the file (src/feats.py --hosts) and re-run." % FF.HOSTS)
     qcache = _load_qcache()
     rows = []
     for _, r in recs:

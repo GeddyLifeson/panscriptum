@@ -4261,6 +4261,151 @@ def drill_mutation():
         abandoned_sandboxes_are_reaped,
         "a leak of 50 MB per interrupted run fills a disk without ever reporting anything")
 
+    def _a_reap_never_takes_a_live_runs_sandbox():
+        """M46, and the net the age-gate one above could never have been.
+
+        Reaping matched a PREFIX AND AN AGE and nothing else, so it deleted sandboxes belonging
+        to other LIVE processes. The age gate was the only thing between a reap and somebody
+        else's in-flight run -- and an age gate is exactly what a caller lowers when it wants to
+        watch reaping actually happen, so the net directly above this one, IN THE ACT OF BEING
+        MADE ABLE TO GO RED, destroyed every concurrent sandbox on the machine. That is what
+        killed `mutate.py --target all` about four minutes in, after its own baseline gates had
+        passed, for three consecutive runs, while three different diagnoses blamed concurrent
+        edits, the drill gate, and drill.py generally.
+
+        Attacked from the direction that actually happened -- a sandbox owned by a DIFFERENT
+        live process, against the most aggressive reap there is. All four arms are pinned,
+        because a guard that simply stopped deleting anything would pass the first arm and
+        quietly restore the 154 MB leak the reaper exists for, and because an ownership claim
+        that never expired would do the same thing more slowly: pids are recycled, so a dead
+        run's number handed to some unrelated long-lived process would protect its sandbox for
+        ever. A fix whose failure mode is the bug it replaced is not a fix.
+        """
+        import json as _json
+        import subprocess as _sp
+        import mutate as M
+
+        def _mk(tag, pid, age=0.0, started=None):
+            d = tempfile.mkdtemp(prefix=M.SANDBOX_PREFIX + tag + "_")
+            os.makedirs(os.path.join(d, "src"), exist_ok=True)
+            if pid is not None:
+                rec = {"pid": pid}
+                if started is not None:
+                    rec["started"] = started
+                with open(os.path.join(d, M.OWNER_FILE), "w", encoding="utf-8") as fh:
+                    _json.dump(rec, fh)
+            if age:
+                # AFTER the owner file is written: creating an entry in a directory updates that
+                # directory's mtime, so ageing first and claiming second ages nothing.
+                os.utime(d, (time.time() - age, time.time() - age))
+            return d
+
+        made = []
+        child = _sp.Popen([sys.executable, "-c", "import time; time.sleep(90)"],
+                          creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+        try:
+            live = _mk("netlive", child.pid, started=time.time())
+            expired = _mk("netexpired", child.pid, age=10 * 3600,
+                          started=time.time() - (M.OWNERSHIP_CEILING_SECONDS + 3600))
+            dead = _mk("netdead", 999999999, age=10 * 3600, started=time.time())
+            unowned = _mk("netnone", None, age=10 * 3600)
+            made = [live, expired, dead, unowned]
+            M.reap_orphans(older_than=0)
+            return (os.path.isdir(live)              # the M46 failure itself
+                    and not os.path.isdir(expired)   # a recycled pid cannot protect for ever
+                    and not os.path.isdir(dead)      # no new disk leak
+                    and not os.path.isdir(unowned))  # unclaimed still reaps by age
+        finally:
+            child.kill()
+            child.wait(timeout=10)
+            for d in made:
+                shutil.rmtree(d, ignore_errors=True)
+
+    net(a, "a reap never deletes a sandbox whose owner is still running",
+        _a_reap_never_takes_a_live_runs_sandbox,
+        "M46: reaping matched only a prefix and an age, so the net above -- lowering the age to "
+        "prove reaping works -- deleted a live mutation run's sandbox and blocked the whole "
+        "mutation mandate for three runs")
+
+    def _a_canonical_snapshot_refuses_when_it_cannot_verify_itself():
+        """The backup of the only copy of a 217-source corpus must be able to say no.
+
+        `data/` is gitignored and `git ls-files data/` returns zero, so until 2026-08-27 the 219
+        canonical files were in exactly one place on one disk. `canon_backup.snapshot()` reopens
+        the archive it wrote and re-hashes every member before recording success -- and that
+        read-back is the only thing separating a backup from an assertion that a backup
+        happened, so it is what this attacks.
+
+        THREE REFUSALS, and the middle one is the reason this net was rewritten hours after it
+        was first staged. An EMPTY canonical set verifies trivially; a PARTIAL one verifies
+        PERFECTLY -- every digest of the three files it did collect matches -- and the original
+        code guarded only the empty case, so a missing `data/records/` would have produced a
+        "verified" snapshot of three small side files. Verification compares what was collected
+        against where it came from; it never asks whether the collection was complete.
+        """
+        import json as _json
+        import zipfile as _zip
+        import canon_backup as CB
+        saved = (CB.ROOT, CB.CANON_FILES, CB.CANON_DIRS, CB.HERE)
+        d = tempfile.mkdtemp(prefix="drill_canon_")
+        try:
+            CB.ROOT, CB.HERE = os.path.join(d, "snaps"), d
+
+            # 1 -- an EMPTY canonical set must refuse, and must write nothing.
+            CB.CANON_FILES, CB.CANON_DIRS = (), ()
+            try:
+                CB.snapshot()
+                empty_refused = False
+            except RuntimeError:
+                empty_refused = True
+            if not empty_refused or (os.path.isdir(CB.ROOT) and any(
+                    f.startswith("canon-") for f in os.listdir(CB.ROOT))):
+                return False
+
+            # 2 -- a PARTIAL set must refuse and must NAME what is missing.
+            os.makedirs(os.path.join(d, "data"), exist_ok=True)
+            with open(os.path.join(d, "data", "SIDE.json"), "w", encoding="utf-8") as fh:
+                fh.write("{}")
+            CB.CANON_FILES, CB.CANON_DIRS = ("data/SIDE.json",), ("data/records",)
+            try:
+                CB.snapshot()
+                partial_refused = False
+            except RuntimeError as e:
+                partial_refused = "records" in str(e)
+            if not partial_refused:
+                return False
+
+            # 3 -- an archive whose bytes do not match its source must refuse AND self-delete.
+            os.makedirs(os.path.join(d, "data", "records"), exist_ok=True)
+            with open(os.path.join(d, "data", "records", "a.json"), "w", encoding="utf-8") as fh:
+                _json.dump({"real": 1}, fh)
+            real_zip = _zip.ZipFile
+
+            class _LyingZip(_zip.ZipFile):
+                def write(self, filename, arcname=None, *a_, **k_):
+                    return self.writestr(arcname or filename, "{}")
+
+            try:
+                _zip.ZipFile = _LyingZip
+                try:
+                    CB.snapshot()
+                    corrupt_refused = False
+                except RuntimeError as e:
+                    corrupt_refused = "verification" in str(e)
+            finally:
+                _zip.ZipFile = real_zip
+            left = ([f for f in os.listdir(CB.ROOT) if f.startswith("canon-")]
+                    if os.path.isdir(CB.ROOT) else [])
+            return corrupt_refused and not left
+        finally:
+            CB.ROOT, CB.CANON_FILES, CB.CANON_DIRS, CB.HERE = saved
+            shutil.rmtree(d, ignore_errors=True)
+
+    net(a, "a canonical-corpus snapshot refuses when it cannot verify itself",
+        _a_canonical_snapshot_refuses_when_it_cannot_verify_itself,
+        "an unverified backup of the only copy of a 217-source corpus is a belief, and both the "
+        "empty and the partial case verify perfectly while restoring almost nothing")
+
     def a_gate_that_cannot_finish_is_refused():
         """BOTH DIRECTIONS OF THE SAME WORTHLESS ANSWER. Before the baseline existed, a
         pre-existing failure killed every mutant and the run reported a perfect score. After it

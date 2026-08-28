@@ -8,24 +8,14 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
-- **[M46 — OPEN, run #35] `mutate.py --target all` DIES ON A MISSING SANDBOX TARGET AND THE CAUSE
-  IS NOT FOUND.** Twice on 2026-08-27, once with repair agents editing `src/` and once on a
-  completely stable tree, a full mutation session crashed ~4 minutes in with a bare
-  `FileNotFoundError` on `<sandbox>/src/assay.py` — **after** its baseline gates had already run
-  and passed in that same sandbox. **The obvious suspects are ruled out.** Measured since:
-  `sandbox()` copies all 113 modules correctly (assay.py present, 67,842 bytes), and the file is
-  **still present after every one of the three baseline gates** — `import`, `verify_math` and
-  `drill` were each run against a live sandbox with `cwd=root` and the file stat-ed afterwards,
-  and it survived all three. So nothing in the baseline removes it, and the loop that runs next
-  finds it gone. Concurrent edits are also ruled out (the second crash was on a stable tree).
-  Mitigated but NOT fixed: `sandbox()` now verifies every `TARGETS` entry landed and refuses with
-  a legible message rather than crashing later, and a drill net stages the failure with a copy
-  that drops one target. **Consequence: no mutation results at all from run #35.** The 24 assay
-  survivors from the 2026-08-25 run were all killed by verify_math section 34 (verified
-  individually), but nothing has re-measured the tree since.
-
-- **[M47 — OPEN, run #35, DESIGN QUESTION] A LONG MAINTENANCE SHIFT STRUCTURALLY GUARANTEES STALE
-  DAEMONS, INCLUDING THE PUBLISHER.** `codewatch.stale()` requires the `src/` fingerprint to hold
+- **[M47 — OPEN, run #35, DESIGN QUESTION — now also work order `ff3c67a67b92` at OWNER]
+  A LONG MAINTENANCE SHIFT STRUCTURALLY GUARANTEES STALE
+  DAEMONS, INCLUDING THE PUBLISHER.** *Re-measured by run #36 after a shift that changed roughly
+  forty modules: `codewatch` reports foreman 0 restarts in the last hour, overwatch 0, publish 0
+  — every standing daemon still executing the code as it stood when the shift began. Filed as a
+  work order because it had lived only in `NEXT_STEPS.md`, which is overwritten every run, so an
+  unfiled question was disappearing on schedule.*
+  `codewatch.stale()` requires the `src/` fingerprint to hold
   still for `STABLE_SECONDS = 180` before a job exits rc=17 — correct in itself, since a digest
   taken mid-write is a digest of garbage. But a maintenance run rewrites `src/` more or less
   continuously for hours, so the settle timer never expires and no daemon ever bounces **for the
@@ -1824,6 +1814,75 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+### Run #36 (2026-08-27) — the daily shift that found M46
+
+- **[M46 — RESOLVED] `mutate.py --target all` DIED ON A MISSING SANDBOX TARGET, AND THE CAUSE WAS
+  A REAPER WITH NO NOTION OF OWNERSHIP.** Three runs blamed three different things and all three
+  were wrong: run #34 said concurrent edits during the copy (ruled out — it reproduced on a
+  stable tree), run #35 said the `drill` gate, and run #36's own first two probes said `drill.py`
+  generally.
+
+  **Root cause:** `mutate.reap_orphans` deleted mutation sandboxes by **prefix and age only**. It
+  had no idea who owned one, so it deleted sandboxes belonging to **other live processes**. The
+  six-hour age gate was the *only* thing standing between a reap and somebody else's in-flight
+  run — and an age gate is exactly what a caller lowers when it wants to watch reaping actually
+  happen. So the drill net `abandoned_sandboxes_are_reaped`, **in the act of being made able to
+  go red**, destroyed every concurrent sandbox on the machine. The sharpest form yet of this
+  project's standing lesson: *the net that could not fail was harmless, and fixing it so that it
+  could fail is what made it dangerous.*
+
+  **How it was found, after three failures to find it:** the control nobody had run — build TWO
+  sandboxes, run `drill.py` in only ONE, watch both. **Both died together at six seconds.** A
+  bare sandbox with nothing running against it died too; decoy directories under other prefixes
+  survived the same window untouched. That cleared `drill.py` and narrowed it to code matching
+  `SANDBOX_PREFIX`. It had stayed invisible for three runs because **reaping was the one
+  destructive operation here that reported nothing** — `removed` went to callers that discarded
+  it, and the only `note()` covered the *failure* case, so an incomplete reap was recorded and a
+  successful one was not. A reap ledger added this shift (`state/reap_ledger.jsonl`: pid, argv,
+  paths, stack) named the call site on the first attempt.
+
+  **Fix:** a sandbox records its owner pid in `_owner.json`, written *before* any module is
+  copied. `reap_orphans` skips any sandbox whose owner is alive, at any age; the age gate becomes
+  the fallback it should always have been. An ownership claim **expires** after 24h — the first
+  cut did not, and the run #36 whole-tree sweep caught that within the hour: pids are recycled,
+  so an unrelated long-lived process inheriting the number would have made the directory
+  permanently undeletable, recreating the 154 MB leak the reaper exists to prevent. A fix whose
+  failure mode is the bug it replaced is not a fix. Unknown or undated claims fall back to
+  age-only.
+
+  **Proven:** `handoff/run36/m46_fix_redcheck.txt`, seven arms — a live-owned sandbox survives
+  `older_than=0`; *another live process's* sandbox survives it; an expired claim on a live pid is
+  ignored; an undated claim is not trusted forever; a dead-owner sandbox is still reaped; an
+  unowned old one is still reaped; and with the ownership check disabled arm 1 goes **RED as
+  required**. Arm 1 failed on the first attempt (the rule exempted only *other* processes, so a
+  self-owned sandbox was still deleted) and the rule is now "any live owner, including self".
+
+  **Consequence:** the §3b mutation mandate is unblocked for the first time in three runs.
+
+- **[R36.1 — RESOLVED] THE CANONICAL CORPUS HAD NO BACKUP, AND `.gitignore` SAID WHY.** `data/`
+  is gitignored and `git ls-files data/` returns **zero**, so 219 canonical files — 214.7 MB,
+  including the 217-source corpus every other file in `data/` is derived FROM — existed in
+  exactly one place on one disk. The `.gitignore` comment justifying the exclusion called it
+  "derived data", which is **false** for `data/records/`, `WIKI_HOSTS.json` and
+  `CHARTER_SPINE_CODES.json`; that false half-sentence is the whole reason nobody ever asked what
+  the rule was excluding. Root cause therefore recorded as a *documentation* defect with a data
+  consequence. Fixed by `src/canon_backup.py` (verified by reading every archive member back
+  before recording success; 214.7 MB → 50.9 MB in 6.6 s; restore proven byte-identical), wired
+  into the supervisor twice a day, and the `.gitignore` comment rewritten to say what is
+  genuinely derived and what is not. **Still the owner's:** this is a second copy on the same
+  disk.
+
+- **[R36.2 — RESOLVED] `pipeline.write_record` CARRIED THE UNGUARDED FORM OF THE BUG BEHIND THE
+  STANDING BLOCKING ORDER.** Its sibling `write_record_catalogue` was fixed on 2026-08-25 after
+  31 of 216 records lost their synthesis block; `write_record` was not. Both its paths were
+  wrong: the drift branch overwrote every non-`entries` key from the pipeline's hours-old
+  in-memory copy unconditionally, and the no-drift fast path never merged at all (`merged = rec`
+  wrote that stale copy whole — equal entry lists do not mean equal records). Found by the run
+  #36 whole-tree sweep, batch 3. Fixed by applying the same ruling to both writers: absent or
+  `None` means unauthored and the disk value stands, an explicit empty value still clears.
+  Proven in `handoff/run36/pipeline_merge_redcheck.txt` with the old merge restored as a control
+  — arms 1 and 2 both go red.
 
 ### Run #35 (2026-08-27) — the first full daily shift
 

@@ -105,8 +105,20 @@ def write_result(edges, res, unmatched=None):
         "strengths": (list(res["strengths"]) if res.get("strengths") is not None else None),
         "deviance_per_df": res.get("deviance_per_df"),
         "fit_error": res.get("error") or res.get("refusal"),
-        "unmatched": (unmatched.most_common(40) if hasattr(unmatched, "most_common")
+        # UNCAPPED, ranked, per Hard Rule 0. This was `most_common(40)`: a RANKED-THEN-TRUNCATED
+        # roster in a PERSISTED artifact, which the rule forbids outright and for the reason it
+        # gives -- 40 rows and 40-of-900 rows are the same shape on disk, so every later reader
+        # of CHAIN.json would have been reading a smaller universe with no way to tell. Nothing
+        # here is a console preview: `main()` prints its own short list to the terminal and this
+        # file is the only place the whole roster is ever written down. `most_common()` with no
+        # argument keeps the ordering (commonest first, so an interrupted read still sees the
+        # worst offenders) and drops only the cutoff. The totals ride along beside it so a
+        # reader never has to trust that the list is whole -- they can check.
+        "unmatched": (unmatched.most_common() if hasattr(unmatched, "most_common")
                       else (unmatched or [])),
+        "unmatched_distinct": (len(unmatched) if unmatched is not None else 0),
+        "unmatched_mentions": (sum(unmatched.values()) if hasattr(unmatched, "values")
+                               else None),
     }
     # Write-then-rename, not a bare truncating open. This is a published phase artifact, and a
     # bare open() leaves a TORN CHAIN.json if the process dies mid-dump or a reader holds it --
@@ -166,7 +178,12 @@ def harvest():
                 with open(fp, encoding="utf-8") as f:
                     d = json.load(f)
             except Exception:
-                silence.note("chain.py:91")
+                # Named for WHAT FAILED, not for where it sat. This was `chain.py:91` and the
+                # line moved to 169 -- a tag that points at an unrelated line is worse than an
+                # opaque one, because it sends the next reader somewhere confidently wrong.
+                # Same repair as ingest_doc.py's, which run #35 pinned with a check that no
+                # `silence.note` tag in that file is a bare number.
+                silence.note("chain.py:harvest-feats-unreadable")
                 continue
             ent = d.get("entity")
             host = d.get("host") or os.path.basename(os.path.dirname(fp)).replace("_", ".")
@@ -273,14 +290,14 @@ def _ask(system, prompt, schema):
             if got is not None:
                 return got
     except Exception:
-        silence.note("chain.py:155")
+        silence.note("chain.py:ask-cloud")   # was `chain.py:155`; the line is now 276
         pass
     try:
         import pipeline as P
         import read as R
         return P.ask(R.config(), system, prompt, schema, timeout=300)
     except Exception:
-        silence.note("chain.py:161")
+        silence.note("chain.py:ask-local")   # was `chain.py:161`; the line is now 283
         return None
 
 
@@ -342,7 +359,8 @@ def extract(rows, batch=8, limit=None, workers=8):
             try:
                 pos = int(o.get("index", 0)) - 1
             except (TypeError, ValueError):
-                silence.note("chain.py:252")
+                # was `chain.py:252`; the line is now 345
+                silence.note("chain.py:extract-bad-index")
                 continue
             if not (0 <= pos < len(chunk)):
                 continue
@@ -482,7 +500,13 @@ def main():
     edges = adjudicate_mutuals(edges, prov)
     print(f"\ndistinct edges: {len(edges):,}   total recorded wins: {sum(edges.values()):,}")
     if unmatched:
-        print("most common names that match nothing the library catalogues:")
+        # A console PREVIEW, and now labelled as one: the whole roster is written to CHAIN.json
+        # uncapped (see write_result), so this short list is a glance rather than the record.
+        # It said "most common names that match nothing" over eight rows with no total, which
+        # reads as the complete list of them.
+        print(f"names that match nothing the library catalogues: {len(unmatched):,} distinct, "
+              f"{sum(unmatched.values()):,} mentions. Commonest 8 (all of them are in "
+              f"{os.path.basename(OUT)}):")
         for n, c in unmatched.most_common(8):
             print(f"   {c:>4}  {n}")
 

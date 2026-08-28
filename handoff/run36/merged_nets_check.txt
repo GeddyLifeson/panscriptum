@@ -1,0 +1,6 @@
+a reap never deletes a sandbox whose owner is still running    HELD
+a canonical-corpus snapshot refuses when it cannot verify itse HELD
+CONTROL: ownership check removed                               RED as required
+CONTROL: partial-set refusal removed                           RED as required
+
+VERDICT: both merged nets hold and both are load-bearing

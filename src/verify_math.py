@@ -2492,6 +2492,10 @@ check("the same block does NOT fit the window M6 was filed against",
       False, note="guards the check above from passing for the wrong reason")
 
 # ---- Section 19s: both writers of the metrics ledger stamp a timestamp -----------------------
+# KEEPS THE TAG. Run #36 (order c30618e03a36) found §19s naming this section AND the prose
+# interlocks at ~line 4642. This one has the older claim -- run #14's tie-break awarded it §19s
+# by name, and BUGS.md m61/m63 and HANDOFF.md all cite it as §19s -- so the interlocks moved to
+# §20x and every existing citation of §19s still resolves here, unchanged.
 # Added 2026-08-24 (run #13). `state/model_metrics.jsonl` has TWO writers -- cascade_bridge._metric
 # (cloud) and pipeline._metric (local) -- and only the cloud one wrote an "at" field. Every
 # time-windowed query over the shared ledger therefore filtered on `at` and silently returned
@@ -3227,8 +3231,16 @@ check("the measured rate carries its denominator", "of 100" in str(_ok19ai["obse
 _bad19ai = _pool19ai([{"calls": 100, "ok": 10}])
 check("a genuinely bad rate over a real sample still BREACHES", _bad19ai["holds"], False)
 check("the threshold itself is the one tuning.py already settled on",
-      _STx.MIN_CALLS_TO_JUDGE_RATE, 20,
-      note="tuning.MIN_CALLS_TO_JUDGE=20 answers this same question for regime()")
+      _STx.MIN_CALLS_TO_JUDGE_RATE, _TUNx.MIN_CALLS_TO_JUDGE,
+      note="tuning.MIN_CALLS_TO_JUDGE answers this same question for regime(); read from "
+           "tuning, never re-spelled here")
+# THE LABEL NOW MATCHES THE CHECK (run #36, order 8a6d86040d10). This compared against a
+# HARDCODED LITERAL 20 while claiming to test agreement with tuning.py, so raising
+# tuning.MIN_CALLS_TO_JUDGE would have left the row green -- a check that cannot fail wearing
+# the label of the one thing it was supposed to catch. The file already diagnosed exactly this
+# defect further down (order 495390283745, which fixed standards.py to derive the constant and
+# left a PROPOSED EDIT for this site that was never applied); applying a fix everywhere except
+# the site the order names is how a repaired defect survives its own repair.
 
 
 # ---- Section 19aj: the export repo is never resolved into a temp directory -----------------
@@ -3804,6 +3816,14 @@ print()
 # corresponding BUGS.md edits are staged in handoff/run36/crossmodule_batch03.md -- BUGS.md is
 # not this shift's to edit. §20o is skipped as a tag on purpose (it reads as a zero); the
 # renames take the next free letters after §20u.
+#
+# AND A THIRD PAIR, later the same run, order c30618e03a36: §19s named both the metrics-ledger
+# timestamp section (~line 2494) and the prose-interlock battery (~line 4642).
+#   §19s  kept by the metrics timestamp -- cited by BUGS.md m61 and m63 and by HANDOFF.md
+#         the prose interlocks are now §20x -- cited by src/prose_gate.py:34, staged in the
+#         same handoff file
+# Two collisions found in one file in one shift is a pattern, not an accident, so §20y below now
+# ASSERTS that no two section headers share a tag: the next one cannot arrive silently.
 print("25. §20e  NO CONSOLE WINDOWS, EVER — every child spawn must suppress its window")
 # ---------------------------------------------------------------------------------------------
 # OWNER DIRECTIVE, 2026-08-25, stated in the strongest terms: no command windows may EVER open.
@@ -4639,7 +4659,30 @@ check("a pre-checkpoint file, which has `at` and no `complete` key, still reads 
       note="every CHARTER_REGRESSION.json written before 2026-08-25 has this shape; reading "
            "one as a stalled pass would report a fault that is only a file-format change")
 
-# ---- Section 19s: THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS -------------
+print("    §20x  THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS")
+print("          [tagged §19s until run #36, when §19s was found to name TWO sections;")
+print("           prose_gate.py:34 cites this one as §19s. §19s now names the")
+print("           metrics-ledger-timestamp section only]")
+# ---- Section 20x: THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS -------------
+# RETAGGED run #36, order c30618e03a36, from §19s -- the THIRD tag collision found in this file
+# and the third fixed the same way §20e and §20f were fixed above. `§19s` named this section AND
+# the metrics-ledger-timestamp section at line ~2494, so a citation to it resolved to a coin
+# flip. Which section each citer meant was read, not assumed:
+#   §19s  kept by the metrics-timestamp section -- BUGS.md's m61 entry cites it as "§19s (2
+#         checks -- both writers must stamp)", HANDOFF.md records "+6: §19s x2", and run #14's
+#         own tie-break (BUGS.md m63) already awarded §19s to that section by name. It has the
+#         older claim and the most citers, so it keeps the tag and needs no edit anywhere.
+#         THIS section is now §20x -- cited by `src/prose_gate.py:34` ("a check in verify_math
+#         §19s that goes red if the layer is removed"), which is staged in
+#         handoff/run36/crossmodule_batch03.md because prose_gate.py is not this shift's to
+#         edit. Nothing dangles meanwhile: the old tag is printed above and written here, so a
+#         grep for §19s over this file OR its console output still lands on both sections.
+# §20x is the next free letter after §20w (§20o is skipped on purpose -- it reads as a zero),
+# and the §20 run is the right series because this section sits inside it, between §20j and §20p.
+# ALSO NOTED WHILE READING THE CITERS, and not fixed here because it is BUGS.md's: the "Pinned by
+# §19s" at BUGS.md:3019 is about the GPU lane's dead-holder fix, which run #14 moved to §19u. It
+# was already dangling before this rename. Staged in the same handoff file.
+#
 # Added 2026-08-25 (owner ruling). 145 chapters were written that should not have been, and the
 # reason is worth stating exactly: NOTHING FAILED. Five reasonable things were each missing a
 # guard, and no test would have gone red for any of them.
@@ -6056,8 +6099,11 @@ check("[5b85ab54b176] exactly the broken standard -- and nothing else -- disappe
 
 # ==================================================================================================
 # order 495390283745 -- belongs in verify_math.py, REPLACING the existing check "the threshold
-# itself is the one tuning.py already settled on" (currently `_STx.MIN_CALLS_TO_JUDGE_RATE, 20`),
-# which compares against a literal and would stay green if tuning.py and standards.py diverged.
+# itself is the one tuning.py already settled on", which compared standards.py's constant against
+# a hand-copied literal and would have stayed green if tuning.py and standards.py diverged.
+# THAT REPLACEMENT IS NOW MADE, at the check's own site, in run #36 (order 8a6d86040d10); the
+# literal it used to carry is deliberately not re-spelled anywhere in this file, because the
+# last check below greps this source for it.
 # standards.py now derives the constant directly (`MIN_CALLS_TO_JUDGE_RATE = tuning.MIN_CALLS_
 # TO_JUDGE`), so the two cannot diverge -- this checks the SOURCE actually says that, not just
 # that today's two numbers happen to match.
@@ -6080,14 +6126,23 @@ check("[495390283745] the source assigns the constant FROM tuning, so a future e
       note="if this goes red while the check above is still green, someone re-inlined the "
            "literal and got lucky that tuning.py had not moved yet -- exactly the shape that "
            "let this order's bug happen the first time")
-check("[495390283745] verify_math.py's existing '...already settled on' check should compare "
-      "against tuning.MIN_CALLS_TO_JUDGE directly, not the literal 20 -- PROPOSED EDIT for the "
-      "coordinator (this agent does not own verify_math.py): "
-      "check(\"the threshold itself is the one tuning.py already settled on\", "
-      "_STx.MIN_CALLS_TO_JUDGE_RATE, _TUNx.MIN_CALLS_TO_JUDGE, note=...)",
-      True, True,
-      note="documentation-only row; the two lines above already give the coordinator a real, "
-           "runnable version of this same intent that cannot be fooled by a coincidence")
+# THE PROPOSED EDIT HAS BEEN APPLIED (run #36, order 8a6d86040d10), so the row that described it
+# is now a row that ENFORCES it. It was a literal `check(label, True, True)` calling no code: a
+# check that cannot fail, sitting in the battery whose whole purpose is finding checks that
+# cannot fail, and it stayed green for the entire time the defect it described went unfixed.
+# That is the exact failure this file exists against, which is why the row is not simply deleted
+# -- the intent was right, it just had no teeth.
+#
+# The needle is ASSEMBLED AT RUNTIME rather than spelled out, because a source-text check that
+# contains its own forbidden string always finds itself and can never go green.
+_selfsrc_b3 = open(os.path.abspath(__file__), encoding="utf-8").read()
+_want_b3 = "_STx.MIN_CALLS_TO_JUDGE_RATE, _TUNx.MIN_CALLS_TO_JUDGE"
+_banned_b3 = "_STx.MIN_CALLS_TO_JUDGE_RATE, %d" % _TUNx_b3.MIN_CALLS_TO_JUDGE
+check("[495390283745] the '...already settled on' check compares against tuning, not a literal",
+      (_want_b3 in _selfsrc_b3, _banned_b3 in _selfsrc_b3), (True, False),
+      note="this row was `check(label, True, True)` -- a PROPOSED EDIT nobody applied, stated "
+           "as a passing check. It now reads this file's own source and goes red if the site "
+           "reverts to the hand-copied number")
 
 
 # ==================================================================================================
@@ -7133,6 +7188,37 @@ for _p36 in _run35_files:
         check("%s defines checks this battery can run" % _name36, False, True,
               note="no check_* functions and no PASS/FAIL harness -- nothing here is being "
                    "verified, which is worse than an empty file because it looks covered")
+
+print()
+print("    §20y  NO SECTION TAG MAY NAME TWO SECTIONS — the identifier citers rely on")
+# ---- Section 20y: the section tags are unique, and a fourth collision cannot arrive quietly --
+# Added run #36 alongside order c30618e03a36. THREE collisions were found in this one file in
+# one shift -- §20e, §20f and §19s -- each by a human or an audit reading the source, and each
+# after outside files had already cited the ambiguous tag. The tags are the STABLE IDENTIFIER
+# this file is cited by (BUGS.md, HANDOFF.md, rigor.py:123, prose_gate.py:34), so a duplicate is
+# not cosmetic: it makes every existing citation resolve to a coin flip, and it does it
+# silently, which is this project's signature failure. Nothing asserted uniqueness, so the only
+# detector was somebody's eye.
+#
+# Reads its own source line by line rather than the section list in memory, because a section
+# header is a comment: it exists only in the text and cannot be introspected any other way.
+_tags20y = {}
+_selfpath20y = os.path.join(os.path.dirname(os.path.abspath(__file__)), "verify_math.py")
+with open(_selfpath20y, encoding="utf-8") as _f20y:
+    for _no20y, _ln20y in enumerate(_f20y, 1):
+        _s20y = _ln20y.strip()
+        if _s20y.startswith("# ---- Section ") and ":" in _s20y:
+            _t20y = _s20y[len("# ---- Section "):].split(":", 1)[0].strip()
+            _tags20y.setdefault(_t20y, []).append(_no20y)
+_dup20y = sorted("%s (lines %s)" % (t, ", ".join(str(n) for n in ns))
+                 for t, ns in _tags20y.items() if len(ns) > 1)
+check("no section tag names two sections", _dup20y, [],
+      note="a duplicated tag makes every outside citation of it ambiguous; rename the section "
+           "with the weaker claim to the next free letter and print its old tag, as §20v, §20w "
+           "and §20x each do")
+check("the section headers were actually found and read", len(_tags20y) > 40, True,
+      note="a parser that matches nothing reports zero duplicates and looks exactly like a "
+           "clean file -- so the count is asserted, not assumed")
 
 print()
 print("=" * 96)

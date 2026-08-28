@@ -49,6 +49,7 @@ import os
 import re
 import sys
 import threading
+import time
 import urllib.parse
 import urllib.request
 
@@ -66,7 +67,7 @@ UNFIT = os.path.join(HERE, "data", "HOST_UNFIT.json")
 
 
 def _land(path, obj, sort_keys=True, ensure_ascii=True):
-    """Write a shared artifact whole or not at all.
+    """Write a shared artifact whole or not at all. -> True if it LANDED, False if refused.
 
     Every write in this module was a bare `open(path, "w")` + `json.dump`, which truncates the
     target BEFORE serialising and takes no account of the readers holding it open on their own
@@ -74,11 +75,109 @@ def _land(path, obj, sort_keys=True, ensure_ascii=True):
     and from `scout.py`, and read by feats, read, completeness, ingest_doc and wiki_source --
     but the same reasoning covers the fitness, unfit, purge and roster artifacts.
     `silence.replace_retry` carries the Windows backoff: os.replace is DENIED while any reader
-    holds the destination open, and a brief retry outwaits an honest reader."""
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(obj, f, indent=1, sort_keys=sort_keys, ensure_ascii=ensure_ascii)
-    silence.replace_retry(tmp, path)
+    holds the destination open, and a brief retry outwaits an honest reader.
+
+    THE TEMP NAME MUST NOT BE SHARED (order 1f79b49a4df7, run #36). The hand-rolled
+    `path + ".tmp"` is what `silence.write_json` exists to make unavailable to get wrong, and it
+    is the shape `binding_health._land` and `suppressions._land` were both moved off earlier
+    today. Two writers of the same target -- a targeted `--only` investigation racing the
+    scheduled sweep, or `--adopt` racing `--repair`, which is the normal situation here and not
+    an exotic one -- collide on the SCRATCH FILE ITSELF: both open `WIKI_HOSTS.json.tmp` for
+    writing, the second truncates the first, and whichever renames second can land a half-written
+    file over the target. `write_json` carries pid and thread in the temp name, so two writers
+    cannot meet there.
+
+    AND WIKI_HOSTS.json IS ONE OF THE TWO FILES CONFIRMED NOT RECONSTRUCTIBLE from anything else
+    on disk, which is why this write and not another one was the filed order.
+
+    THE VERDICT IS NOW RETURNED, because it was being discarded. `replace_retry` deliberately
+    never raises on persistent denial ("the caller's write lands next round"), so a refused
+    rename left `sweep(--repair)` and `adopt()` printing "WIKI_HOSTS.json updated" over a file
+    that had not changed. `binding_health._land` and `suppressions._land` gate on this identical
+    verdict for the identical reason."""
+    return silence.write_json(path, obj, indent=1, sort_keys=sort_keys,
+                              ensure_ascii=ensure_ascii)
+
+
+HOST_MERGE_ATTEMPTS = 8
+
+
+def _land_hosts(merge, label):
+    """Fold `merge` into WIKI_HOSTS.json under a COMPARE-AND-SWAP. -> (landed, reason).
+
+    `_land` above closes the TORN-FILE and shared-scratch-file hazards. It has nothing to say
+    about STALENESS, which is a different fault with the same victim and the one that actually
+    threatens this file. Both writers here are read-modify-writes across a long window: `adopt()`
+    reads the whole host map, then probes every hostless source over eight threads -- minutes,
+    often much longer -- and only then writes the map back. `scout.py` and `sweep(--repair)`
+    write the same file on their own clocks. The loser lands a complete, consistent, atomic host
+    map that predates every host the winner adopted, and nothing anywhere reports it. That is
+    the m42 lost-update shape `silence.replace_if_unchanged` was written for, and on the one file
+    this project cannot rebuild it is unrecoverable rather than merely expensive.
+
+    `merge` is applied key-wise to a FRESH read on every attempt, so a refusal costs a re-read
+    and not the pass's work: the other writer's hosts survive and ours are set beside them. A
+    value of None means "remove this source's host", which is how `sweep(--repair)` records a
+    host it has judged unfit.
+
+    -> (False, why) after HOST_MERGE_ATTEMPTS refusals. The caller must report that; this is the
+    file where a write that quietly did not happen is the whole hazard.
+    """
+    import feats as F
+    last_why = "not attempted"
+    for attempt in range(HOST_MERGE_ATTEMPTS):
+        # Digest BEFORE the read: anything landing between the two then fails the swap rather
+        # than passing on a copy that is already behind.
+        digest = silence.digest_of(F.HOSTS)
+        hosts = {}
+        if os.path.exists(F.HOSTS):
+            try:
+                with open(F.HOSTS, encoding="utf-8") as f:
+                    hosts = json.load(f)
+            except Exception:
+                # NEVER heal this one by starting empty. An empty host map reads downstream as
+                # "no source has a wiki", which is how COMPLETENESS.json came to hold zero rows
+                # on 2026-08-24, and the file cannot be rebuilt from anything else on disk.
+                silence.note("hostcheck.py:hosts-unreadable")
+                return False, ("WIKI_HOSTS.json could not be read, so it cannot be merged into "
+                               "-- refusing to write. It is not reconstructible; fix the file.")
+        if not isinstance(hosts, dict):
+            silence.note("hostcheck.py:hosts-nondict")
+            return False, "WIKI_HOSTS.json is not an object; refusing to overwrite it"
+        for k, v in merge.items():
+            if v is None:
+                hosts.pop(k, None)
+            else:
+                hosts[k] = v
+        tmp = "%s.%d.%d.tmp" % (F.HOSTS, os.getpid(), threading.get_ident())
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(hosts, f, indent=1, sort_keys=True)
+        except Exception:
+            _unlink(tmp)
+            raise
+        landed, why = silence.replace_if_unchanged(tmp, F.HOSTS, digest)
+        if landed:
+            return True, "landed"
+        last_why = why
+        # `replace_if_unchanged` leaves the temp file where it is on a refusal, and litter beside
+        # a shared state file is its own small fault.
+        _unlink(tmp)
+        time.sleep(0.05 * (attempt + 1))
+    silence.note("hostcheck.py:hosts-contended")
+    print("hostcheck: WIKI_HOSTS.json changed under %s on all %d attempts; %d change(s) were NOT "
+          "recorded: %s" % (label, HOST_MERGE_ATTEMPTS, len(merge), last_why), file=sys.stderr)
+    return False, last_why
+
+
+def _unlink(path):
+    try:
+        os.remove(path)
+    except FileNotFoundError:
+        pass
+    except Exception:
+        silence.note("hostcheck.py:tmp-cleanup")
+
 
 GOOD = 0.35        # at or above: the host holds the fiction
 DEAD = 0.05        # at or below: the host is about something else entirely
@@ -607,13 +706,15 @@ def sweep(only=None, repair=False, workers=8):
                         unfit = json.load(f)
                 except Exception:
                     silence.note("hostcheck.py:unfit")
-            hosts.update({k: v for k, v in fixed.items() if v})
             for k, v in fixed.items():
                 if v is None:
                     unfit[k] = {"rejected": hosts.get(k),
                                 "verdict": results[k]["verdict"],
                                 "held": results[k]["rate"],
                                 "about": results[k].get("about")}
+            hosts.update({k: v for k, v in fixed.items() if v})
+            for k, v in fixed.items():
+                if v is None:
                     hosts.pop(k, None)
             # WIKI_HOSTS.json is written from THREE call sites in two modules (this function,
             # `adopt()` below, and `scout.py`'s host registration) and read by feats, read,
@@ -623,10 +724,23 @@ def sweep(only=None, repair=False, workers=8):
             # map -- and an empty host map reads downstream as "no source has a wiki", which is
             # how COMPLETENESS.json came to hold zero rows on 2026-08-24. tmp + replace_retry,
             # the pattern the rest of the tree already uses. 2026-08-24.
-            _land(F.HOSTS, hosts)
+            #
+            # THROUGH THE MERGE, NOT THE WHOLE MAP (order 1f79b49a4df7, run #36). `hosts` was read
+            # at the top of this function and this pass then probed every failing source over
+            # eight threads, so writing it back whole reverts anything `adopt()` or `scout.py`
+            # landed in between. `fixed` is exactly the set of changes this pass earned -- a host
+            # for a repointed source, None for one judged unfit -- and that is what gets applied,
+            # to a fresh read, under a compare-and-swap. The local `hosts` above stays updated
+            # only so the report below and any later reader in this call see the same picture.
+            landed, why = _land_hosts(fixed, "the host-fitness repair pass")
             _land(UNFIT, unfit)
-            print(f"\nWIKI_HOSTS.json updated: {sum(1 for v in fixed.values() if v)} "
-                  f"repointed, {sum(1 for v in fixed.values() if not v)} recorded unfit")
+            if landed:
+                print(f"\nWIKI_HOSTS.json updated: {sum(1 for v in fixed.values() if v)} "
+                      f"repointed, {sum(1 for v in fixed.values() if not v)} recorded unfit")
+            else:
+                # A repair that did not land must not be reported as one. This is the file the
+                # rest of the pipeline reads to know where anything lives.
+                print("\nWIKI_HOSTS.json NOT updated: " + why, file=sys.stderr)
             print(f"-> {UNFIT}   (every rejection kept, so a gap reads as a gap)")
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
@@ -942,9 +1056,20 @@ def adopt(dry=True, workers=4):
     print("{} adopted, {} genuinely without a wiki".format(
         len(found), len(hostless) - len(found)))
     if found and not dry:
+        # THE MERGE, NOT THE MAP. `hosts` was read before the threaded probe above, which runs for
+        # as long as the hostless list takes -- the widest read-to-write window in this module.
+        # Writing that snapshot back whole reverts every host `sweep(--repair)` or `scout.py`
+        # registered while this pass was probing, on the one file this project cannot rebuild.
+        # (order 1f79b49a4df7, run #36)
         hosts.update(found)
-        _land(F.HOSTS, hosts)
-        print("-> " + F.HOSTS)
+        landed, why = _land_hosts(found, "the adopt pass")
+        if landed:
+            print("-> " + F.HOSTS)
+        else:
+            # `found` is returned either way -- the caller asked what this pass adopted and that
+            # is a true answer -- but it must not read as "and it is on disk".
+            print("adopt: " + str(len(found)) + " adopted host(s) were NOT written: " + why,
+                  file=sys.stderr)
     return found
 
 
