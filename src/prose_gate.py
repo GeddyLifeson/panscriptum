@@ -31,7 +31,7 @@ sensor, not an assumption. Three properties, and this module is built to all thr
   FAIL CLOSED   Every layer answers "I don't know" with STOP. An unreadable config, a missing
                 COVERAGE.json, an unparseable block -- all refuse. The failure being guarded is
                 "books nobody asked for", so silence must never authorise one.
-  PROVEN        Each layer has a check in verify_math §19s that goes red if the layer is removed
+  PROVEN        Each layer has a check in verify_math §20x that goes red if the layer is removed
                 or inverted, including a companion asserting the gate still REFUSES the thing it
                 is supposed to refuse. A guard nobody has watched refuse is a guard that has
                 never run (standing lesson 9).

@@ -147,6 +147,69 @@ so renaming the helper cannot turn it red and a comment cannot turn it green.
 
 ---
 
+### THE COMPREHENSIVE SWEEP — 114 OF 114 MODULES, AND IT AUDITED THIS RUN'S OWN WORK
+
+`sweep_plan.missing('run36')` returns **0**. Every module in `src/` was read by exactly one
+agent, and each agent recorded its own coverage, because the agent is the only thing that knows
+it actually read the file.
+
+**The sweep's single most valuable result is that it caught this shift's own repairs.** Three
+separate findings were against code written hours earlier by other agents on this run:
+
+1. **Three of the sixteen freshly-converted drill nets STILL CANNOT FAIL**, each proven with a
+   crafted fixture. Earlier in the shift, sixteen nets that verified a guard by whole-file
+   substring search were converted to ask the parse tree instead — a real improvement, and each
+   conversion was watched refuse a defeat. The audit found the conversion **fixed the medium and
+   left the defect: presence is not reachability.**
+   * `publish_asks_before_pushing` checks that `import mutate` appears and that "REFUSING TO
+     PUSH" appears somewhere in `push()` — and never that `_MUT.active()` is *called*. `push()`
+     already contains **three unrelated "REFUSING TO PUSH" strings**, so **deleting the real
+     mutation interlock today would leave this net green.** That interlock is what stands between
+     a mutation run and a push of corrupted source to a public repo, which happened twice on
+     2026-08-25.
+   * `_halt_is_not_breakage` walks the whole `If` node including dead code. A fixture that always
+     declares the library "broken" and never checks halt status **passed**, because a dead
+     `if False:` block carried the required tokens — reproducing the exact outage the net exists
+     to prevent.
+   * `mutation_never_touches_the_live_tree` passed against a crafted `run()` writing straight to
+     the live tree unsandboxed.
+   Six more converted nets share the weakness and are unexploitable only because each guard has
+   exactly one occurrence in today's source — a property of today's tree, not of the nets.
+2. **My own `canon_backup.py` had the hazard I wrote its net about.** `members()` silently
+   skipped a missing canonical path, so an absent `data/records/` would have produced a
+   "verified" snapshot of three small side files. **A partial backup verifies perfectly** —
+   verification compares what was collected against where it came from and never asks whether
+   the collection was complete. I guarded the empty case because it was easy to imagine and
+   missed the likelier one. Fixed to refuse and name what is missing; its manifest write was
+   also discarding its verdict, inside the one module whose whole job is not trusting an
+   unconfirmed write.
+3. **My own M46 fix had a recycled-PID hole** — see above.
+
+**53 + 31 findings filed** across the two tranches. Recurring shapes worth naming:
+* **The discarded write verdict.** Ten modules repaired (13 sites); an AST walk found **46 more
+  across 30 files**. It is still being *introduced*: `hostcheck.py` went from 1 site to 5 *during
+  this shift* when an agent refactored its writes behind a local helper. A general net is staged
+  and **starts red at 46**, deliberately.
+* **Fixed `.tmp` names and read-modify-writes.** Repaired in `binding_health`, `suppressions`,
+  `health`, `runguard`, `endpoint`; still open in `publish.write()`, `standards`, `hostcheck`,
+  `completeness`.
+* **A repaired parser beside unrepaired output.** `scope.py` stopped inventing ceilings, but **28
+  of 155 hosts still hold invented ones on disk that `build()` can never re-probe** — and
+  `magnitude.host_ceiling()` reads them as authoritative clamps on published Magnitudes. Same
+  shape as the Aurora records.
+* **A cap that broke an identity, not a list.** `who-framed-roger-rabbit-…` (304 entries) has a
+  roll row; the record filename is that row's 79-character slug **cut to exactly 60**, so the two
+  cannot find each other. Hard Rule 0 arriving through a filename. Separately,
+  `bone-jeff-smith` (86 entries) genuinely has no roll row at all.
+* **A fail-open in `escalation.py` itself** — `_read_stopped()` returned `{}` for a valid-but-
+  non-dict `STOPPED.json`, so every subsystem read as NOT STOPPED, while the handler directly
+  above it promises in capitals that unreadable means stopped. Fixed and proven this shift.
+
+Also closed on measurement: the machine's **TCP ephemeral port exhaustion** (BLOCKING, filed
+14:51) is gone — 240 of 16,384 in use, because the foreign client that held thousands of
+connections has exited. Nothing was fixed and recurrence is not harder; it is closed because the
+fault stopped firing, not because it was addressed.
+
 ### A HAZARD IN THE HARNESS, NOT IN THE LIBRARY
 
 Three separate agents independently reported that a mid-session system-reminder instructed them

@@ -185,8 +185,11 @@ Not proposed: **run and watched refusing**, with the code above copied out verba
 |---|---|
 | Arm 1 — allowlist entry with reason `"todo"` | BREACHED (the placeholder does not silence the site) |
 | Arm 2 — allowlist entry matching no live site | BREACHED (stale permission refused) |
-| Arm 3 — allowlist entry with a real reason | clears exactly its own site, 47 → 46 |
-| regression probe — `genre.py`'s repaired gate reverted to a bare call in a temp copy of `src/` | CAUGHT, named `genre.py`, 47 → 48 |
+| Arm 3 — allowlist entry with a real reason | clears exactly its own site, and only that one |
+| regression probe — `genre.py`'s repaired gate reverted to a bare call in a temp copy of `src/` | CAUGHT, named `genre.py`, count +1 |
+
+(The probe run's baseline was 47; the tree had moved to 46 by the time the site table below was
+regenerated minutes later. The deltas are what the arms prove, not the absolute figures.)
 
 The regression probe is the one that matters: it shows the net catching the exact defect this run
 removed, in a module that is currently clean, so the net is known to refuse and not merely known

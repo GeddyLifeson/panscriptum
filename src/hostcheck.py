@@ -124,6 +124,13 @@ def _land_hosts(merge, label):
     file where a write that quietly did not happen is the whole hazard.
     """
     import feats as F
+    if not merge:
+        # A NO-OP MERGE MUST NOT WRITE. Re-landing an unchanged map is not free on this file: it
+        # invalidates every other writer's in-flight digest, so a pass that earned real hosts is
+        # made to retry against a write that changed nothing -- and on the one file this project
+        # cannot rebuild, a write with no content behind it is pure exposure. Both callers guard
+        # this already; the guard belongs here, where it cannot be forgotten by the third one.
+        return True, "nothing to merge"
     last_why = "not attempted"
     for attempt in range(HOST_MERGE_ATTEMPTS):
         # Digest BEFORE the read: anything landing between the two then fails the swap rather

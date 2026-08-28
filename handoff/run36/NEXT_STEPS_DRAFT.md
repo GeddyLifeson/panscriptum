@@ -57,9 +57,51 @@ Do not work these. They are judgment calls.
 
 ---
 
-## 3. WHAT RUN #36 LEFT OPEN, AND WHY
+## 3. START THE QUEUE HERE: THREE DRILL NETS THAT CANNOT FAIL, ONE OF THEM GUARDING THE PUBLIC REPO.
 
-*(filled in at close — see the closing section of the run #36 handoff entry for the exact ids)*
+The run #36 sweep audited run #36's own repairs and found that three of the sixteen nets
+converted from substring-search to AST **still cannot fail**, each proven with a fixture. The
+conversion fixed the medium and left the defect: **presence is not reachability.**
+
+* `5737db3ce725` — **`publish_asks_before_pushing`**. Checks that `import mutate` appears and
+  that "REFUSING TO PUSH" appears somewhere in `push()`. Never checks `_MUT.active()` is
+  *called*. `push()` already holds **three unrelated "REFUSING TO PUSH" strings**, so deleting
+  the real mutation interlock today would leave this net green. This is the guard against
+  pushing deliberately-corrupted source to a **public** repo — which happened twice on
+  2026-08-25. **Work this first.**
+* `adc3dc9c3fc6` — **`_halt_is_not_breakage`**. Walks the whole `If` node including dead code; a
+  fixture that always reports the library "broken" passed because a dead `if False:` block
+  carried the tokens. It reproduces the outage the net exists to prevent.
+* `18612d60c3f2` — **`mutation_never_touches_the_live_tree`**. Passed against a crafted `run()`
+  writing straight to the live tree.
+* `07c7379597ba` — the **pattern**: six more converted nets share it and are safe only because
+  each guard has exactly one occurrence in today's source. Fix them with one shared
+  reachable-call-from-function helper, and add a meta-net asserting no converted net passes
+  against a fixture with its guard removed.
+
+## 3b. ~25 STAGED NETS ARE WAITING, AND ONE STARTS RED ON PURPOSE.
+
+`handoff/nets/` holds nets written by this shift's agents for fixes they made. They were staged
+rather than merged **deliberately**: `drill.py` was a moving target all shift, and a bulk merge
+of unverified nets into the file that halts the library is exactly how this run lost its library
+for half an hour. Only the two guarding run #36's own fixes were merged (both watched go red —
+`handoff/run36/merged_nets_check.txt`).
+
+Merge the rest **one at a time, running each and watching it refuse** before keeping it.
+`run36_discarded_verdicts.md` is the big one: it **starts RED at 46 sites** by design, the count
+moved five times during the shift from concurrent edits, and the document names three merge
+options and the ratchet's weakness. **Re-measure before merging.**
+
+## 3c. THE HALF-FIXED ONES — code repaired, output not.
+
+* `481ef92af785` — `scope.py` stopped inventing ceilings, but **28 of 155 hosts still hold
+  invented ones on disk**, `build()`'s skip can never re-probe them, and
+  `magnitude.host_ceiling()` reads them as authoritative clamps on published Magnitudes.
+* `683c59f43829` — a 60-character slug cap cut a record's filename off its own roll row, making
+  a **304-entry source unfindable**. Fixing the cap does not rename the file already on disk.
+* `e22f29b8e4df` — `magnitude.py`'s DOER guard works when driven directly and **is never called
+  from `_split_gate()`**, the default grading path. A bystander sentence enters the wrong
+  entity's candidate list. The fix is wiring, not logic.
 
 ---
 

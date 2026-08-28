@@ -3075,7 +3075,9 @@ entity matching, then feats.*
   nonexistent PID raises **errno 22 / winerror 87**, so every dead process read as ALIVE and no
   lease was ever reclaimed — a ghost slot stranded the card for its full 900-second lease
   (measured 338.5 s in a test that should take under a second). Caught only because the
-  concurrency test hung. Now uses `OpenProcess` + `GetExitCodeProcess`. Pinned by §19s.
+  concurrency test hung. Now uses `OpenProcess` + `GetExitCodeProcess`. Pinned by §19u.
+  *(Citation corrected run #36: this had read §19s and had been dangling since run #14 — the
+  GPU-lane check lives in §19u. Pre-existing, not caused by the run #36 §19s/§20x split.)*
 - **[NEW] `entity_match`: near-miss name resolution that cannot merge two continuities.** Ranks
   catalogue entries for a name the exact fold missed, and is built around one absolute refusal —
   a parenthetical qualifier must match exactly or be absent from both sides. **Measured against

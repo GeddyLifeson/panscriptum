@@ -333,13 +333,28 @@ def _read_stopped():
     try:
         with open(STOPPED, encoding="utf-8") as f:
             d = json.load(f)
-        return d if isinstance(d, dict) else {}
     except FileNotFoundError:
         return {}
     except Exception:
         # UNREADABLE MEANS STOPPED, for everything. The file only exists to say what must not
         # run, so failing to read it cannot be permission to run things.
         return {"__unreadable__": {"reason": "STOPPED.json could not be read", "at": time.time()}}
+    if not isinstance(d, dict):
+        # THE ONE PATH THAT FAILED OPEN, in the module whose three required properties are
+        # INDEPENDENT, FAIL CLOSED and PROVEN. This read `return d if isinstance(d, dict) else {}`
+        # -- so a STOPPED.json that is valid JSON but not an object (a list, a string, a number)
+        # became an EMPTY MAPPING, and `subsystem_stopped()` then reported NOT STOPPED for every
+        # subsystem in the library. The handler directly above promises the opposite in capitals,
+        # and the two disagreed: a file that could not be PARSED stopped everything, while a file
+        # that parsed to the wrong shape stopped nothing.
+        #
+        # Wrong-shape is not better evidence than unparseable. It is the same fact -- this file
+        # does not say what it is supposed to say -- so it gets the same answer. Found by the
+        # run #36 whole-tree sweep (batch 13) and reproduced live before the change.
+        return {"__unreadable__": {"reason": "STOPPED.json is %s, not an object -- a MANAGER "
+                                             "stop cannot be read from it" % type(d).__name__,
+                                   "at": time.time()}}
+    return d
 
 
 def _write_stopped(doc):
