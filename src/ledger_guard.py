@@ -54,19 +54,56 @@ def _read(name):
         return None
 
 
-def check_append_only(name, new_text):
+def _one_insertion(old, new):
+    """Is `new` exactly `old` with ONE contiguous block inserted at one point? -> bool.
+
+    NEWEST ON TOP IS THIS FILE'S DOCUMENTED CONVENTION, and the substring test alone could not
+    express it. `HANDOFF.md` says so in its own header and `MAINTENANCE.md:143` repeats it:
+    "dated run journal, newest on top". A legitimate run therefore writes
+    `header + new entry + everything that was under the header before` -- which loses NOTHING,
+    and which `old in new` REJECTS, because the old text is no longer contiguous once an entry
+    is spliced in behind the header. Measured 2026-08-27 (run #36) against the live 473,848-byte
+    file: the real append pattern was rejected, a bottom-append accepted. A guard that refuses
+    the only writing pattern its file actually uses cannot be wired to a writer, which is a large
+    part of why it never was.
+
+    So: longest common prefix plus longest common suffix must cover the whole of `old`. That is
+    precisely "nothing removed, one block inserted at a single point" -- true for a bottom
+    append (insert at the end), a top append (insert at the start), and the newest-on-top
+    append-after-header this project uses. It is NOT true of a truncation, a reordering, or an
+    edit that removes a line from the middle, all of which still fail.
+    """
+    if new is None or len(new) < len(old):
+        return False
+    n = len(old)
+    p = 0
+    while p < n and old[p] == new[p]:
+        p += 1
+    if p >= n:
+        return True
+    s = 0
+    while s < n - p and old[n - 1 - s] == new[len(new) - 1 - s]:
+        s += 1
+    return p + s >= n
+
+
+def check_append_only(name, new_text, old=None):
     """-> (ok, reason). Would this write LOSE history?
 
     Containment, not length. A run that truncated the file and then appended a long entry
     produces a LONGER file, so a size comparison would wave it through -- and that is precisely
     the shape a botched overwrite takes.
+
+    `old` is an ADDITIVE keyword with the previous behaviour as its default (read the live file):
+    `check_since_snapshot()` compares a live ledger against the last SEALED copy of itself rather
+    than against itself, and that is the same question asked from the other side of the write.
     """
     if name not in APPEND_ONLY:
         return True, "%s is not append-only" % name
-    old = _read(name)
+    old = _read(name) if old is None else old
     if old is None:
         return True, "%s does not exist yet" % name
-    if old.strip() and old not in (new_text or ""):
+    if old.strip() and not (old in (new_text or "") or _one_insertion(old, new_text)):
         return False, ("%s is append-only and this write does not contain the existing file. "
                        "History is the whole value of a relay ledger; a run that cannot see the "
                        "last run's entry is a run starting from nothing." % name)
@@ -118,6 +155,18 @@ def check_all():
 
 
 CHAIN = os.path.join(HERE, "state", "ledger_chain.jsonl")
+# The last SEALED copy of every append-only ledger. The chain records digests, and a digest can
+# only ever answer "did this change" -- never "did the change keep the history", which is the
+# one question `check_append_only` was written to answer and the one thing a hash cannot be
+# asked. One file per append-only ledger, overwritten each seal.
+SNAPSHOT_DIR = os.path.join(HERE, "state", "ledger_snapshot")
+
+# How much of an append-only ledger may disappear between two seals before it is a TRUNCATION
+# rather than an edit. A person fixing a typo in an old entry, or re-wrapping a paragraph,
+# removes a handful of lines out of thousands; a run that lost its history removes most of them.
+# Set high enough that ordinary hand-editing cannot reach it, because this refuses a PUSH and a
+# safety that stops the operator doing ordinary work is a safety that gets deleted.
+MAX_LOST_FRACTION = 0.05
 
 
 def _digest(text):
@@ -162,7 +211,94 @@ def seal():
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
     except Exception:
         return None
+    # AND KEEP THE TEXT, not only its digest, for the append-only ones. A stale or missing
+    # snapshot makes the next `check_since_snapshot()` compare against an OLDER state, which is
+    # strictly a subset of the history the live file should still contain -- so a failure here
+    # cannot wave a truncation through, only report one late. That is why it does not fail the
+    # seal it rides along with.
+    for n in APPEND_ONLY:
+        text = _read(n)
+        if text is None:
+            continue
+        try:
+            os.makedirs(SNAPSHOT_DIR, exist_ok=True)
+            tmp = os.path.join(SNAPSHOT_DIR, n + ".tmp")
+            with open(tmp, "w", encoding="utf-8") as f:
+                f.write(text)
+            os.replace(tmp, os.path.join(SNAPSHOT_DIR, n))
+        except Exception:
+            pass
     return rec
+
+
+def _read_snapshot(name):
+    try:
+        with open(os.path.join(SNAPSHOT_DIR, name), encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        return None
+
+
+def _lost_fraction(old, new):
+    """How much of `old`'s substance is missing from `new`. -> float in [0, 1].
+
+    Lines rather than bytes, and set membership rather than position, so a reordering or a
+    reflowed paragraph is not read as a loss. Blank and rule-only lines are dropped because a
+    markdown ledger is full of them and they carry no history.
+    """
+    def body(t):
+        return {ln.strip() for ln in (t or "").splitlines()
+                if ln.strip() and set(ln.strip()) - set("-=*_# ")}
+    was = body(old)
+    if not was:
+        return 0.0
+    return len(was - body(new)) / len(was)
+
+
+def check_since_snapshot(name):
+    """-> (ok, reason). Has this ledger LOST history since it was last sealed?
+
+    THE ONLY PLACE `check_append_only` CAN ACTUALLY STAND IN THIS PROJECT. It was written as a
+    PRE-write guard, and it had no production caller for a structural reason rather than an
+    oversight: nothing in `src/` writes `HANDOFF.md` at all (`pipeline.py:36` says so outright),
+    because the file is written by hand -- by a person, or by an agent's editor -- and a Python
+    function cannot gate an editor. Left there, it was a safety in a file rather than a safety in
+    effect, which is the exact fourth property Hard Rule -1 was written about.
+
+    Asked from the other side of the write it becomes answerable. `seal()` keeps the last
+    published copy; this compares the live file against it and hands the verdict to
+    `assert_intact()`, which `publish.py:622` already calls before every push. Measured on
+    2026-08-27 (run #36): a HANDOFF.md truncated to its header and regrown LONGER than it began
+    -- 473,848 -> 476,271 bytes -- passed `check_all()`, passed `verify_chain()` (no SHRANK: it
+    grew) and passed `assert_intact()`. The whole relay history would have been published as
+    fact. The byte floor and the SHRANK test are both size tests, and size is precisely what a
+    truncate-then-append preserves.
+
+    The tolerance is deliberate and it is not a weakening. `check_append_only` alone would refuse
+    a person fixing a typo in a two-month-old entry, and that refusal blocks the PUSH -- a
+    safety that stops ordinary work gets removed, and this project has already lost one gate
+    that way. So an exact append passes outright, and anything else is measured: losing more
+    than MAX_LOST_FRACTION of the ledger's lines is a truncation whoever caused it.
+    """
+    old = _read_snapshot(name)
+    if old is None:
+        return True, "no sealed snapshot of %s yet -- this run makes the first one" % name
+    new = _read(name)
+    if new is None:
+        return False, ("%s existed at the last seal and is GONE now -- the relay's history was "
+                       "deleted, not edited" % name)
+    ok, why = check_append_only(name, new, old=old)
+    if ok:
+        return True, why
+    lost = _lost_fraction(old, new)
+    if lost <= MAX_LOST_FRACTION:
+        return True, ("%s was edited rather than appended to (%.1f%% of its lines are gone, "
+                      "under the %.0f%% truncation floor)" % (name, lost * 100,
+                                                              MAX_LOST_FRACTION * 100))
+    return False, ("%s has LOST %.0f%% of its lines since the last seal -- that is a truncation, "
+                   "not an edit. The sealed copy is %s; compare it before writing anything else, "
+                   "because the live file is no longer the history."
+                   % (name, lost * 100, os.path.join(SNAPSHOT_DIR, name)))
 
 
 def read_chain():
@@ -248,6 +384,14 @@ def assert_intact():
     if not ok:
         raise LedgerViolation(
             "the ledger hash chain does not verify:\n  " + "\n  ".join(problems[:6]))
+    # THE APPEND-ONLY RULE, ENFORCED RATHER THAN DECLARED. Before this, `APPEND_ONLY` was a
+    # tuple nothing consulted on any production path: `check_append_only` had no caller outside
+    # `drill.py`, and the two checks that DO run here are both size tests that a
+    # truncate-then-append passes by growing. Run #36 order db2728e0f4bb.
+    for name in APPEND_ONLY:
+        ok, why = check_since_snapshot(name)
+        if not ok:
+            raise LedgerViolation(why)
     # `seal()` returns None on any write failure (disk full, permissions, the state/ directory
     # gone) with no exception raised. A bare call here used to discard that -- `verify_chain`
     # would keep passing on every later run, because the existing links still verify against

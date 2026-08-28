@@ -51,31 +51,34 @@ ROSTER = {
            "form, millions of years ago.'",
   axes=dict(
    ruin=(7.5, "Their revenge, not their war: the thing they became forced the extinction of all "
-              "sentient life in the galaxy as the ONLY available counter"),
+              "sentient life in the galaxy as the ONLY available counter", "canon"),
    continuity=(9.9, "CEILING, AND THE CLEANEST CASE IN THE LIBRARY. The Forerunners 'rose to "
                     "seize the Mantle BY KILLING ALMOST EVERY PRECURSOR' -- and the survivors "
                     "came back as the Flood. Their extinction was a metamorphosis. There is no "
-                    "state you can put them in that counts as dead"),
-   celerity=(4.0, "They move on evolutionary timescales and never on a battlefield's"),
+                    "state you can put them in that counts as dead", "wiki"),
+   celerity=(4.0, "They move on evolutionary timescales and never on a battlefield's", "canon"),
    reach=(9.0, "'Extragalactic'. Their footprint is measured in galaxies and their seeding "
-               "reaches every intelligent species in this one"),
+               "reaches every intelligent species in this one", "wiki"),
    transgression=(9.5, "'Able to change physical forms at will', Tier-0 Transsentience, and the "
                        "power to 'accelerate the evolution of intelligent life' -- they edit "
-                       "what a species IS, over millions of years, as a matter of policy"),
-   sustain=(9.5, "Millions of years, an extermination, and a second existence afterwards"),
+                       "what a species IS, over millions of years, as a matter of policy",
+                  "wiki"),
+   sustain=(9.5, "Millions of years, an extermination, and a second existence afterwards",
+            "canon"),
    vector=(9.5, "Intergalactic passage as their defining attribute, plus the Star Roads their "
-                "successor form still uses"),
+                "successor form still uses", "canon"),
    volition=(9.0, "They planned the Mantle's inheritance across millions of years, were "
-                  "massacred for it, and executed the answer anyway. 'And our answer is at hand'"),
+                  "massacred for it, and executed the answer anyway. 'And our answer is at hand'",
+             "wiki"),
    acumen=(8.5, "'The Precursors had intended that the humans take on the role of inheriting the "
                 "Mantle instead of the Forerunners' -- a succession plan the Forerunners only "
-                "discovered by accident"),
-   discernment=(8.0, "They judged the Forerunners unworthy and were correct"),
+                "discovered by accident", "wiki"),
+   discernment=(8.0, "They judged the Forerunners unworthy and were correct", "canon"),
    suasion=(9.0, "THE MANTLE. A philosophy they handed down that governed an entire galactic "
                  "civilisation's law, religion and military doctrine for millions of years after "
                  "they were dead -- 'the Mantle and religious beliefs of individual Forerunners "
                  "ENTIRELY DICTATED THE GOVERNANCE OF THE FORERUNNER ECUMENE'. Persuasion that "
-                 "outlives the persuader by an age"))),
+                 "outlives the persuader by an age", "wiki"))),
 
  "The Gravemind": dict(
   anchor="M6", epoch="the Forerunner-Flood war, and again in M3 (Halo 2-3)",
@@ -87,23 +90,24 @@ ROSTER = {
   axes=dict(
    ruin=(9.5, "'The Forerunners developed the Halo Array as a desperate countermeasure... which "
               "would destroy all sentient life in the Galaxy, thus denying the Flood food for "
-              "growth.' Its ruin figure IS the galaxy, delivered by its victims"),
+              "growth.' Its ruin figure IS the galaxy, delivered by its victims", "wiki"),
    continuity=(9.5, "Distributed across every organism it holds. Killing its bodies is feeding "
-                    "it, and it survived the Array"),
-   celerity=(3.5, "Immobile, patient, and always already there"),
+                    "it, and it survived the Array", "canon"),
+   celerity=(3.5, "Immobile, patient, and always already there", "canon"),
    reach=(9.0, "'The Gravemind used the STAR ROADS of the Precursors to attack the Forerunners, "
                "hampering their Slipspace capacity' -- it took the galaxy's transit network away "
-               "from the people who owned it"),
+               "from the people who owned it", "wiki"),
    transgression=(9.0, "It converts biomass into itself and keeps the minds. Death stops being "
-                       "an exit"),
-   sustain=(9.0, "Fed by everything alive; starved only by there being nothing alive"),
-   vector=(8.0, "Star Roads and infested fleets; it travels by owning what travels"),
-   volition=(9.0, "Three hundred years of war without once considering terms"),
+                       "an exit", "canon"),
+   sustain=(9.0, "Fed by everything alive; starved only by there being nothing alive", "canon"),
+   vector=(8.0, "Star Roads and infested fleets; it travels by owning what travels", "canon"),
+   volition=(9.0, "Three hundred years of war without once considering terms", "canon"),
    acumen=(9.0, "Negotiates, deceives and waits. It talks its enemies into positions rather than "
-                "overrunning them"),
-   discernment=(9.5, "It knows everything its victims knew, which is most of what anyone knew"),
+                "overrunning them", "canon"),
+   discernment=(9.5, "It knows everything its victims knew, which is most of what anyone knew",
+                "canon"),
    suasion=(6.5, "It persuades no one. It absorbs, which is the opposite -- and the axis is "
-                 "scored on choices set by voice, so this is genuinely low"))),
+                 "scored on choices set by voice, so this is genuinely low", "canon"))),
 
  "The Ur-Didact": dict(
   anchor="M4", epoch="post-Composer, Requiem",
@@ -113,33 +117,52 @@ ROSTER = {
            "things' and lost it to something it had already exterminated once.",
   axes=dict(
    ruin=(7.0, "The Composer converts populations into data wholesale -- a planet's worth at a "
-              "time"),
+              "time", "canon"),
    continuity=(8.0, "Interred for millennia in a Cryptum and woke unchanged; survived his own "
-                    "civilisation's end"),
-   celerity=(6.0, "Slipspace-capable command, not personal speed"),
-   reach=(6.5, "Fleet-scale, bounded by the Ecumene's own territory"),
+                    "civilisation's end", "canon"),
+   celerity=(6.0, "Slipspace-capable command, not personal speed", "canon"),
+   reach=(6.5, "Fleet-scale, bounded by the Ecumene's own territory", "canon"),
    transgression=(8.0, "Composition: he ends people as bodies and continues them as data, which "
-                       "is a rewrite of what a person is"),
-   sustain=(7.0, "Millennia of dormancy at no cost"),
-   vector=(6.5, "Slipspace, and the Domain"),
+                       "is a rewrite of what a person is", "canon"),
+   sustain=(7.0, "Millennia of dormancy at no cost", "canon"),
+   vector=(6.5, "Slipspace, and the Domain", "canon"),
    volition=(9.0, "'The Mantle of Responsibility, for all things, belongs to Forerunners alone!' "
-                  "-- he never once yields the claim, including after losing it"),
-   acumen=(8.0, "The Ecumene's foremost strategist across a three-hundred-year war"),
-   discernment=(7.0, "Understood the Flood's nature earlier than the Council would accept"),
-   suasion=(7.5, "Commands absolute loyalty from Prometheans and is defied by his own wife"))),
+                  "-- he never once yields the claim, including after losing it", "wiki"),
+   acumen=(8.0, "The Ecumene's foremost strategist across a three-hundred-year war", "canon"),
+   discernment=(7.0, "Understood the Flood's nature earlier than the Council would accept",
+                "canon"),
+   suasion=(7.5, "Commands absolute loyalty from Prometheans and is defied by his own wife",
+            "canon"))),
 }
 
 
 def compute():
+    """PROVENANCE IS PER AXIS, because it was never true of every axis.
+
+    This stamped `"[wiki] " + v[1]` onto all thirty-three worksheet lines unconditionally, which
+    made the tag decoration rather than evidence: several axes cite no quoted material at all --
+    the Precursors' celerity ("They move on evolutionary timescales..."), the Gravemind's
+    ("Immobile, patient, and always already there"), the Ur-Didact's ("Slipspace-capable command,
+    not personal speed") -- and each was labelled wiki-verbatim beside axes that really do quote
+    the page. A provenance mark that is applied to everything distinguishes nothing, and the
+    reader who most needs it is the one checking whether a high score rests on a citation or on
+    the assayer's judgment.
+
+    So each axis carries its own mark, exactly as `zfighters.py` already does: `wiki` where the
+    sentence is in the mined cache verbatim, `canon` where the reading is sound but is paraphrase
+    rather than quotation. The same defect stands filed against `wh40k.py` (order 1770c2b84786),
+    which is a different module and is not touched here.
+    """
     out = {}
     for name, rec in ROSTER.items():
         scores = {ax: v[0] for ax, v in rec["axes"].items()}
-        sheet = {ax: "[wiki] " + v[1] for ax, v in rec["axes"].items()}
+        sheet = {ax: "[" + v[2] + "] " + v[1] for ax, v in rec["axes"].items()}
         res = A.assay(rec["anchor"], scores, attestation="Transcribed",
                       epoch=rec["epoch"], worksheet=sheet)
         out[name] = {"assay": res, "anchor": rec["anchor"], "host": HOST,
                      "epoch": rec["epoch"], "presence": rec["presence"],
-                     "axes": {k: {"score": v[0], "cited": v[1]} for k, v in rec["axes"].items()}}
+                     "axes": {k: {"score": v[0], "cited": v[1], "provenance": v[2]}
+                              for k, v in rec["axes"].items()}}
     return out
 
 

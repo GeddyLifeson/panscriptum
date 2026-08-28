@@ -3574,8 +3574,10 @@ check("both gates call the shared predicate",
       note="the resume gate and the write-completion gate, and nothing else")
 
 print()
-print("24. §20e  A LIVENESS REPORT MUST NOT DELETE THE REPORTER — each renderer was")
+print("24. §20v  A LIVENESS REPORT MUST NOT DELETE THE REPORTER — each renderer was")
 print("          reporting ITSELF down, and the noise hid the job that really was")
+print("          [tagged §20e until run #36, when §20e was found to name TWO sections; BUGS.md")
+print("           M17 and m87 cite this one as §20e. §20e now names §25 (console windows) only]")
 # ---------------------------------------------------------------------------------------------
 # `overnight.running()` excludes the CALLER'S OWN PID, which is right for "is anyone ELSE running
 # this?" (a stage about to launch, a job refusing a second copy of itself) and wrong for "is job
@@ -3738,8 +3740,21 @@ print()
 # this paragraph is about -- so it is left, deliberately, and the note now says so rather than
 # vouching for a sequence that has a hole in it. The §-tags are
 # NOT touched -- BUGS.md, rigor.py:123 and this file's own comments cite them by name, and they
-# are the stable identifier. (The separate fault that §20e and §20f are each shared by two
-# sections is filed on its own; renaming a tag is not a print-only change.)
+# are the stable identifier.
+#
+# THE COLLISION HALF IS DONE, run #36, order a5018a0c8ee2. §20e and §20f each named TWO sections
+# (24 and 25; 26 and 27), so a citation to either resolved to a coin flip. Renaming is an
+# IDENTIFIER change rather than a print change, which is why it was held back from the ordinal
+# renumbering, and it was resolved by asking which section each existing citer meant:
+#   §20e  kept by §25 (no console windows)  -- cited by BUGS.md m127
+#         §24 (liveness/the reporter) is now §20v -- cited by BUGS.md M17 and m87
+#   §20f  kept by §26 (rigor's prose)       -- cited by rigor.py:123 and BUGS.md m88, m89
+#         §27 (the auth bench) is now §20w  -- cited by BUGS.md m108 and m98
+# The two renamed sections PRINT their old tag and who cites it, so no existing citation dangles
+# in the meantime: grepping this file or its console output for §20e still lands on both. The
+# corresponding BUGS.md edits are staged in handoff/run36/crossmodule_batch03.md -- BUGS.md is
+# not this shift's to edit. §20o is skipped as a tag on purpose (it reads as a zero); the
+# renames take the next free letters after §20u.
 print("25. §20e  NO CONSOLE WINDOWS, EVER — every child spawn must suppress its window")
 # ---------------------------------------------------------------------------------------------
 # OWNER DIRECTIVE, 2026-08-25, stated in the strongest terms: no command windows may EVER open.
@@ -3902,8 +3917,10 @@ check("the ratio-matrix label counts the weights instead of hardcoding 8",
 check("assay.WEIGHTS is the 11 the label now reports", len(_as21.WEIGHTS), 11)
 
 print()
-print("27. §20f  A PERMANENT REFUSAL MUST NOT BE FILED AS CONTENTION — the auth bench")
+print("27. §20w  A PERMANENT REFUSAL MUST NOT BE FILED AS CONTENTION — the auth bench")
 print("          was unreachable for exception-surfaced failures and blind to spent accounts")
+print("          [tagged §20f until run #36, when §20f was found to name TWO sections; BUGS.md")
+print("           m108 and m98 cite this one as §20f. §20f now names §26 (rigor's prose) only]")
 # Found 2026-08-25 (run #22). `cascade_bridge._ask_call` benches a bucket for AUTH_BENCH when a
 # provider refuses permanently, and the file's own comment promises this stops `cloudflare` and
 # `hyperbolic` cycling. It was not happening, for two independent reasons, both pinned here:
@@ -6557,42 +6574,80 @@ print("[batch5] order 0a67628cfa8f -- a failed size-lookup batch is never scored
 
 
 def _b5_backfill_size_lookup_failure():
+    """Order ff470a877ac5 (run #36): this used to test a COPY OF THE ALGORITHM, not the module.
+
+    It patched `F.api = _fake_api` and then called `_fake_api(...)` directly, hand-reimplementing
+    backfill_source's batching/sizes/ranking loop inline and asserting against its own
+    reimplementation. `backfill.backfill_source` -- the function the order names, the function
+    the section header claims to pin -- was never imported and never called. So the only thing it
+    could establish was that the test author had copied the loop correctly on the day they wrote
+    it; the real loop could be deleted outright and every check here still passed. That is the
+    same shape as a literal tautology wearing more code.
+
+    `backfill_source` is now CALLED, with `feats.api` faked at the one seam the module actually
+    goes through, and with `dry=True` so nothing is fetched or written. The fake answers both
+    kinds of question the module asks of `api()` -- the category walk `roster()` makes, and the
+    `prop=info` size lookup -- so the roster, the batching, the failure accounting and the
+    ranking are all the module's own.
+    """
+    import backfill as BF
     import feats as F
     orig_api = F.api
-    try:
-        # Batch 1 (titles a,b) "fails" (returns None); batch 2 (title c) succeeds with a real,
-        # nonzero size. `missing` below is engineered to exercise both in one pass at BATCH=50.
-        titles = ["Failtitle" + str(i) for i in range(50)] + ["Realtitle"]
+    HOST, SOURCE = "example.invalid", "ZZ Backfill Fixture Source"
 
+    def _run(titles, lengths, cap=None):
+        """-> backfill_source's own verdict for a roster of `titles` with these known `lengths`.
+
+        A title absent from `lengths` makes its whole 50-title batch answer None, which is the
+        timeout/transport failure the order is about.
+        """
         def _fake_api(host, params):
-            req_titles = params.get("titles", "").split("|")
-            if "Realtitle" in req_titles:
-                return {"query": {"pages": [{"title": "Realtitle", "length": 5000}]}}
-            return None   # simulates a timeout / transport failure for the Failtitle batch
-
+            if params.get("list") == "categorymembers":
+                # `roster()` walks pages then subcategories; the subcat pass must come back empty
+                # or the page pass repeats for ever.
+                rows = [] if params.get("cmtype") == "subcat" else [{"title": t} for t in titles]
+                return {"query": {"categorymembers": rows}}
+            asked = params.get("titles", "").split("|")
+            pages = [{"title": t, "length": lengths[t]} for t in asked if t in lengths]
+            # A batch containing anything unmeasured fails WHOLE, exactly as a timeout does.
+            return None if len(pages) != len(asked) else {"query": {"pages": pages}}
         F.api = _fake_api
-        sizes = {}
-        size_lookup_failed = 0
-        for i in range(0, len(titles), 50):
-            batch = titles[i:i + 50]
-            d = _fake_api("host", {"titles": "|".join(batch)})
-            if d is None:
-                size_lookup_failed += len(batch)
-                continue
-            for pg in (d or {}).get("query", {}).get("pages", []):
-                sizes[pg.get("title")] = pg.get("length", 0)
-        check("titles whose size lookup failed are NOT recorded as a 0-byte size",
-              any(t in sizes for t in titles if t.startswith("Failtitle")), False)
-        check("the failure count is visible, not swallowed",
-              size_lookup_failed, 50)
-        ranked = sorted(titles, key=lambda t: (t not in sizes, -sizes.get(t, 0)))
-        check("a title with an unknown size ranks ahead of nothing -- it is never silently sunk "
-              "under a title merely known to be small",
-              ranked[0] in ("Failtitle0", "Realtitle") and ranked[0] != "",
-              True)
-        check("the actually-measured real article is never displaced by an unmeasured one that "
-              "just happens to sort first alphabetically",
-              "Realtitle" in ranked[:51], True)
+        rec = {"source": SOURCE, "entries": []}
+        return BF.backfill_source(SOURCE, [("(not written: dry)", rec)], {SOURCE: HOST},
+                                  cap=cap, dry=True)
+
+    try:
+        # Batch 1 is 50 titles whose lookup FAILS; batch 2 is one title measured at 5,000 bytes.
+        # Engineered to exercise both in a single pass at the module's own batch size of 50.
+        titles = ["Failtitle%02d" % i for i in range(50)] + ["Realtitle"]
+        res = _run(titles, {"Realtitle": 5000})
+        check("backfill_source reports the failed size lookups rather than swallowing them",
+              res.get("size_lookup_failed"), 50)
+        check("a failed size lookup does not shrink the universe: every roster title is still "
+              "queued, and `absent` still counts them all",
+              (res.get("queued"), res.get("absent"), res.get("roster")), (51, 51, 51))
+        # The ranking, read off the module's own output. If the failed batch had been scored as
+        # 0 bytes (the defect order 0a67628cfa8f closed) or sunk below the known titles (the
+        # inverted sort key order d673aa4d609a closed), the 5,000-byte article would head this
+        # list instead. `sample` is backfill_source's own post-ranking head.
+        check("titles whose size lookup FAILED rank with the deepest articles, never under a "
+              "title merely known to be small",
+              all(t.startswith("Failtitle") for t in res.get("sample") or []), True,
+              note="sample=%s" % (res.get("sample") or [])[:3])
+        # And a --cap run therefore cannot drop a title for the reason the order names: the
+        # network, rather than the article's depth.
+        capped = _run(titles, {"Realtitle": 5000}, cap=10)
+        check("under --cap, a transient network failure is never the reason a title is dropped",
+              (capped.get("queued"), capped.get("absent"),
+               all(t.startswith("Failtitle") for t in capped.get("sample") or [])),
+              (10, 51, True),
+              note="`absent` stays the UNCAPPED figure, so the truncation is visible")
+        # The other half of the same invariant: when every lookup SUCCEEDS, ranking is by
+        # descending measured size and nothing is special-cased.
+        ok = _run(["Smalltitle", "Bigtitle"], {"Smalltitle": 5, "Bigtitle": 5000})
+        check("with every size known, backfill_source ranks strictly by descending article size",
+              (ok.get("size_lookup_failed"), ok.get("sample")),
+              (0, ["Bigtitle", "Smalltitle"]))
     finally:
         F.api = orig_api
 
@@ -6742,14 +6797,45 @@ _SRC_b6 = __import__("os").path.dirname(__import__("os").path.abspath(__file__))
 SRC = _SRC_b6
 # ============================================================ order 28c870dd19e0 (worldseed.py,
 #                                                                                    burgs.py)
-check("worldseed.main survives zero worlds (no worlds[0] IndexError)",
-      True,  # smoke: the guard is structural -- see worldseed.py's `if worlds:` at the
-             # example-query line. A stronger version of this check should monkeypatch
-             # PL.records() to return [] and assert main([]) returns 0 rather than raising.
-      True, note="worldseed.py: 'if worlds:' now guards to_fmg_query(worlds[0])")
-check("burgs.main survives zero worlds (no worlds[0] IndexError)",
-      True,  # same caveat: exercise burgs.main() with WS.build_all monkeypatched to []
-      True, note="burgs.py: 'if not worlds: ... else:' now guards the SAMPLE block")
+# THESE TWO WERE LITERAL TAUTOLOGIES UNTIL RUN #36 (order 96c4be60fb92). Both read
+# `check("worldseed.main survives zero worlds", True, True, note=...)`: the `got` argument was
+# the hardcoded literal `True`, not a computed result, so neither check called worldseed.main or
+# burgs.main and neither could fail no matter what those functions did. Delete the `if worlds:`
+# guard they claim to pin and both still passed. Each carried a comment naming its own stronger
+# version -- "monkeypatch PL.records() to return []", "exercise burgs.main() with WS.build_all
+# monkeypatched to []" -- and that stronger version is what runs below: `build_all` is forced to
+# return the empty roster and each `main()` is CALLED, so an IndexError at `worlds[0]` fails the
+# battery instead of being argued about in a note. This is the file's own standing lesson landing
+# on the file: a check that cannot fail looks exactly like a check that passed.
+#
+# `main()` reads sys.argv through argparse and prints a report, so argv is neutralised and stdout
+# is captured -- the battery asserts on the RETURN CODE and on the absence of an exception, not
+# on the report. Neither call passes --write, so nothing touches data/.
+def _b6_zero_worlds_survivable():
+    import contextlib as _ctx
+    import io as _io
+    import burgs as _bg
+    import worldseed as _ws
+    orig_build, orig_argv = _ws.build_all, sys.argv
+    for _mod, _label, _guard in ((_ws, "worldseed", "'if worlds:' guards to_fmg_query(worlds[0])"),
+                                 (_bg, "burgs", "'if not worlds: ... else:' guards the SAMPLE block")):
+        try:
+            _ws.build_all = lambda *a, **k: []      # burgs.main() reaches it as WS.build_all too
+            sys.argv = [_label + ".py"]
+            try:
+                with _ctx.redirect_stdout(_io.StringIO()):
+                    rc = _mod.main()
+                got = ("returned", rc)
+            except Exception as e:                  # the IndexError this pins, or anything else
+                got = ("raised", "%s: %s" % (type(e).__name__, e))
+        finally:
+            _ws.build_all, sys.argv = orig_build, orig_argv
+        check("%s.main survives zero worlds (no worlds[0] IndexError) -- main() actually called "
+              "with build_all forced to []" % _label,
+              got, ("returned", 0), note="%s.py: %s" % (_label, _guard))
+
+
+_b6_zero_worlds_survivable()
 
 
 # ============================================================ order eb014351bc46 (burgs.py)

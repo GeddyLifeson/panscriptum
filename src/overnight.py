@@ -277,6 +277,49 @@ def _cmd_is_running(fragment, cmd):
 # and their return codes are read, and a detached child cannot be waited on.
 NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
+_SPAWN_LOCK = None
+
+
+def _spawn_lock():
+    global _SPAWN_LOCK
+    if _SPAWN_LOCK is None:
+        import threading
+        _SPAWN_LOCK = threading.Lock()
+    return _SPAWN_LOCK
+
+
+def _guarded_popen(name, args, fh):
+    """Check-then-spawn, SERIALISED against every other thread in this process. -> Popen | None.
+
+    THE SINGLETON GUARD WAS A CHECK AND A SPAWN WITH NOTHING HOLDING THEM TOGETHER, and this
+    process runs two threads that both make that pair of calls for the SAME job names: the keeper
+    (every 300s) and the cycle's own standing starts at the top of each lap. `_PROCS_LOCK`
+    protects the process-table CACHE, not the decision -- so both threads could read
+    `running() == False` from the same 3-second-old listing, and both call `Popen`. The keeper's
+    own comment says "start() keeps the singleton guard, so the keeper can never double
+    anything"; that was true of one thread and this file has had two since the keeper was added.
+    ONE OF EACH is the invariant the whole supervisor is built on, and a doubled `pipeline` or
+    `publish` is exactly the failure `run()`'s docstring records having already cost this project
+    once.
+
+    Double-checked deliberately: `run()` and `start()` still make their own cheap unlocked call
+    first, so the ordinary "already running, left alone" log line is unchanged and no caller
+    waits on a lock to be told nothing needs doing. This second check is the authoritative one,
+    and it is the one that is atomic with the spawn. A caller that loses the race here has
+    already written its session separator into the log; a stray separator is the whole cost, and
+    it is the cheaper half of the trade against a second copy of a stage.
+    """
+    with _spawn_lock():
+        if running(os.path.basename(args[0])):
+            log(f"  {name}: already running, left alone (found on the second check)")
+            return None
+        env = dict(os.environ, PYTHONIOENCODING="utf-8")
+        p = subprocess.Popen([PY, "-u", *args], cwd=HERE, stdout=fh,
+                             stderr=subprocess.STDOUT, env=env,
+                             creationflags=NO_WINDOW)
+        _PROCS["at"] = 0.0    # the table just changed; the shared cache must not deny it
+        return p
+
 
 def run(name, args, logfile, timeout_h=6):
     """Run one stage to completion, refusing to start a duplicate."""
@@ -301,11 +344,9 @@ def run(name, args, logfile, timeout_h=6):
                     name, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                     + "=" * 28 + chr(10))
                 fh.flush()
-            env = dict(os.environ, PYTHONIOENCODING="utf-8")
-            p = subprocess.Popen([PY, "-u", *args], cwd=HERE, stdout=fh,
-                                 stderr=subprocess.STDOUT, env=env,
-                                 creationflags=NO_WINDOW)
-            _PROCS["at"] = 0.0    # the table just changed; the shared cache must not deny it
+            p = _guarded_popen(name, args, fh)
+            if p is None:
+                return "already-running"
             p.wait(timeout=timeout_h * 3600)
         el = time.time() - t0
         log(f"  {name}: finished {name_rc(p.returncode)} in {el/60:.0f}m")
@@ -352,11 +393,11 @@ def start(name, args, logfile):
         stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         fh.write(f"\n{'=' * 78}\n=== {name} started {stamp} (pid pending)\n{'=' * 78}\n")
         fh.flush()
-    env = dict(os.environ, PYTHONIOENCODING="utf-8")
-    p = subprocess.Popen([PY, "-u", *args], cwd=HERE, stdout=fh,
-                         stderr=subprocess.STDOUT, env=env,
-                         creationflags=NO_WINDOW)
-    _PROCS["at"] = 0.0    # the table just changed; the shared cache must not deny it
+    p = _guarded_popen(name, args, fh)
+    if p is None:
+        with contextlib.suppress(Exception):
+            fh.close()
+        return None
     return {"name": name, "proc": p, "fh": fh, "t0": time.time()}
 
 
@@ -963,8 +1004,23 @@ def main():
                             LN.READ, timeout_h=a.read_hours))
         statuses.append(join(roll, timeout_h=4))
 
-        # 3. GPU: absorb the new feats into ceilings and per-entry judgements. Runs after the
-        #    reader so it sees the evidence the reader just produced.
+        # 3. GPU: absorb the new feats into ceilings and per-entry judgements.
+        #
+        # THIS DOES NOT ORDER ANYTHING, AND THE COMMENT HERE USED TO SAY IT DID -- "Runs after
+        # the reader so it sees the evidence the reader just produced". It cannot. `pipeline` is
+        # a member of STANDING, it is started BACKGROUNDED at the top of this same cycle
+        # (0c above), and the keeper re-asserts the whole standing set every 300s from wherever
+        # this cycle happens to be blocked. So by the time the reader returns, hours later, a
+        # copy has been running since before the reader began, and `run()`'s basename guard
+        # returns "already-running" without doing any work. The only window in which this line
+        # actually runs the stage is the <=300s gap between a standing copy exiting and the
+        # keeper noticing.
+        #
+        # LEFT IN PLACE PENDING AN OWNER RULING (run #36, order 5d14e90b5043), because deleting
+        # it is not neutral: its reliable "already-running" is what puts a job in `busy` below,
+        # and `busy` is what stops a fast cycle being counted toward IDLE_LIMIT and halting the
+        # supervisor. The choice is between the standing copy and the serial one; taking the
+        # serial one out without answering that also re-arms the idle halt.
         statuses.append(run("pipeline", [os.path.join(SRC, "pipeline.py")],
                             "pipeline_auto.log", timeout_h=2))
 

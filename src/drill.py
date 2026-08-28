@@ -188,9 +188,53 @@ def _called_names(path):
     the "absence read as clean" shape the whole layer exists against; `net()` records a raised
     attack as a BREACH, which is the correct verdict.
     """
+    return _call_spellings(_ast_of(path))
+
+
+def _ast_of(path):
+    """The parse tree of one file. Raises on unreadable or unparseable, deliberately.
+
+    A file this cannot read is a file nothing has checked -- the "absence read as clean" shape
+    -- and `net()` records a raised attack as a breach, which is the right verdict.
+    """
     import ast
     with open(path, encoding="utf-8") as fh:
-        tree = ast.parse(fh.read(), filename=os.path.basename(path))
+        return ast.parse(fh.read(), filename=os.path.basename(path))
+
+
+def _srcdir(src=None):
+    """The `src/` directory the source-shape nets read. Defaults to the real one.
+
+    OVERRIDABLE ONLY SO THOSE NETS CAN BE SHOWN GOING RED. Each of them asserts a fact about
+    another module's code, and the one way to prove such a net still works is to build the
+    defeat it exists to catch -- a copy of `src/` with the real call deleted and a comment
+    reproducing its name -- and watch it refuse. A net nobody has ever seen refuse is not
+    evidence of anything; it is a green light of unknown provenance. Every `net()` call site
+    passes nothing, so a real run always reads the real tree.
+    """
+    return src or os.path.dirname(os.path.abspath(__file__))
+
+
+def _defn(tree, name):
+    """The `def` or `class` named `name`, at any nesting depth. None if there is not one."""
+    import ast
+    for n in ast.walk(tree):
+        if (isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+                and n.name == name):
+            return n
+    return None
+
+
+def _call_spellings(tree, node=None):
+    """Every call spelling inside `node` (default: the whole module), resolved through the
+    module's imports.
+
+    Split out of `_called_names` so a net can ask the question of ONE FUNCTION rather than of a
+    whole file: "the escalation happens in the failure branch" and "the file mentions escalate
+    somewhere" are different claims, and the nets that used a text window around an anchor
+    string were reaching for the first while only ever testing the second.
+    """
+    import ast
     alias, frm = {}, {}
     for n in ast.walk(tree):
         if isinstance(n, ast.Import):
@@ -200,7 +244,7 @@ def _called_names(path):
             for al in n.names:
                 frm[al.asname or al.name] = "%s.%s" % (n.module, al.name)
     out = set()
-    for n in ast.walk(tree):
+    for n in ast.walk(node if node is not None else tree):
         if not isinstance(n, ast.Call):
             continue
         fn = n.func
@@ -224,10 +268,77 @@ def _calls(path, want):
     honest form of the claim "cachekey is wired in here" — the specific function matters less
     than the module being reached at a call site at all.
     """
-    got = _called_names(path)
+    return _spelled(_called_names(path), want)
+
+
+def _spelled(got, want):
+    """Is `want` among these call spellings? A trailing dot asks for any call on that module."""
     if want.endswith("."):
         return any(c.startswith(want) for c in got)
     return want in got
+
+
+def _calls_within(tree, node, want):
+    """Does the subtree `node` CALL `want`? The scoped form of `_calls`."""
+    return _spelled(_call_spellings(tree, node), want)
+
+
+def _code_strings(node):
+    """Every string literal in `node` that is CODE, not PROSE ABOUT CODE.
+
+    Docstrings and floating string blocks are dropped; comments are not in a parse tree at all,
+    which is the entire reason these checks moved off the file text. A marker a module raises,
+    prints or stores is a fact about what it does. The same words in the paragraph above it are
+    a fact about what somebody meant, and prose about a guard reliably OUTLIVES the guard --
+    whoever deletes the call rarely deletes the explanation. The two must stop counting as the
+    same evidence.
+    """
+    import ast
+    prose = set()
+    for n in ast.walk(node):
+        if (isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant)
+                and isinstance(n.value.value, str)):
+            prose.add(id(n.value))
+    return {n.value for n in ast.walk(node)
+            if isinstance(n, ast.Constant) and isinstance(n.value, str) and id(n) not in prose}
+
+
+def _says(node, fragment):
+    """Does any CODE string in `node` contain `fragment`? Docstrings and comments do not count."""
+    return any(fragment in s for s in _code_strings(node))
+
+
+def _enclosing(tree, target):
+    """The innermost `def` containing node `target`, by line span. None if it is at module level.
+
+    Line numbers off the parse tree are not the file-text search these nets are being moved
+    away from: they come from the same structure being asserted, and they are how "this call
+    happens inside that function" gets asked without threading parent pointers everywhere.
+    """
+    import ast
+    best = None
+    for n in ast.walk(tree):
+        if not isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        if n.lineno <= target.lineno and target.lineno <= (n.end_lineno or n.lineno):
+            if best is None or n.lineno > best.lineno:
+                best = n
+    return best
+
+
+def _subscript_assigns(node, obj, key):
+    """Every `ast.Assign` in `node` of the shape `obj[key] = ...`. -> list of Assign nodes."""
+    import ast
+    out = []
+    for n in ast.walk(node):
+        if not isinstance(n, ast.Assign):
+            continue
+        for t in n.targets:
+            if (isinstance(t, ast.Subscript) and isinstance(t.value, ast.Name)
+                    and t.value.id == obj and isinstance(t.slice, ast.Constant)
+                    and t.slice.value == key):
+                out.append(n)
+    return out
 
 
 # ============================================================== THE QUEUE LINE (before boarding)
@@ -816,13 +927,37 @@ def _standing_still_killable():
     return pipe is not None and F._restartable(pipe)
 
 
-def _halt_is_not_breakage():
-    """The supervisor must consult the halt BEFORE concluding the library is broken."""
-    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "overnight.py"),
-               encoding="utf-8").read()
-    i = src.find("idle >= IDLE_LIMIT")
-    j = src.find("it is a broken one", i)
-    return i != -1 and j != -1 and "_ESC.status()" in src[i:j]
+def _halt_is_not_breakage(src=None):
+    """The supervisor must consult the halt BEFORE concluding the library is broken.
+
+    ASKED OF THE PARSE TREE, NOT OF THE FILE TEXT. This used to read `overnight.py` as a string,
+    take the offsets of "idle >= IDLE_LIMIT" and "it is a broken one", and ask whether
+    "_ESC.status()" appeared between them. All three are phrases a COMMENT can carry, and the
+    branch in question is nine lines of prose explaining that the halt is checked first -- so
+    deleting the check and leaving its explanation, the ordinary shape of a careless edit, left
+    this net green over a supervisor that would again mistake a halted library for a broken one
+    and exit. That mistake caused this project's longest outage and the net written for it could
+    not have seen it happen twice.
+
+    Now the `if idle >= IDLE_LIMIT` branch is found AS a branch, `_ESC.status` has to be CALLED
+    inside it, and the halted arm has to `continue` -- wait for a person -- rather than fall
+    through to the give-up. No comment produces a Call node or a Continue node.
+    """
+    import ast
+    tree = _ast_of(os.path.join(_srcdir(src), "overnight.py"))
+    for n in ast.walk(tree):
+        if not isinstance(n, ast.If):
+            continue
+        t = n.test
+        if not (isinstance(t, ast.Compare) and isinstance(t.left, ast.Name)
+                and t.left.id == "idle" and len(t.comparators) == 1
+                and isinstance(t.comparators[0], ast.Name)
+                and t.comparators[0].id == "IDLE_LIMIT"):
+            continue
+        return (_calls_within(tree, n, "_ESC.status")
+                and any(isinstance(x, ast.Continue) for x in ast.walk(n))
+                and _says(n, "it is a broken one"))
+    return False
 
 
 def _halt_fails_closed():
@@ -847,29 +982,60 @@ def _halt_fails_closed():
 
 # ============================================================== THE NIGHT STAFF (local_agent)
 
-def _failed_revert_is_escalated():
+def _failed_revert_is_escalated(src=None):
     """A revert that FAILS must reach something outliving the process.
 
     The ALARM existed; nothing carried it. `run()` prints `json.dumps(res)[:110]`, and the keys
     ahead of `ALARM` -- `applied`, `reverted`, and 120 characters of `error` -- push it past the
     cut every time, while the `patches` trail records only patch intent. So the one lane that
     lets a model write to `src/` could leave a half-written module on disk and report success.
-    Asserted over the source between the ALARM assignment and the branch's `return`, so moving
-    the escalation out of that branch is what breaks this net. (run #33)
+    ASKED OF THE PARSE TREE (run #36). The check was a text window: find `out["ALARM"]`, find
+    the next `return out`, and look for `_ESC.escalate(` and `_ESC.SAFETY` between them. The
+    thirteen lines between those two anchors are a comment block that NAMES the escalation and
+    NAMES the rung -- so the `try: import escalation as _ESC; _ESC.escalate(...)` could be
+    deleted whole and the net would have gone on holding on the strength of the paragraph
+    explaining why it was there. The branch is now located as a branch and the escalation has to
+    be a real call inside it, at the SAFETY rung.
     """
-    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "local_agent.py"),
-               encoding="utf-8").read()
-    i = src.find('out["ALARM"]')
-    if i == -1:
-        return False
-    j = src.find("return out", i)
-    if j == -1:
-        return False
-    branch = src[i:j]
-    return "_ESC.escalate(" in branch and "_ESC.SAFETY" in branch
+    import ast
+    tree = _ast_of(os.path.join(_srcdir(src), "local_agent.py"))
+    for n in ast.walk(tree):
+        if not isinstance(n, ast.If):
+            continue
+        if not _subscript_assigns(n, "out", "ALARM"):
+            continue
+        if not _calls_within(tree, n, "_ESC.escalate"):
+            continue
+        # The RUNG matters as much as the call: escalating this at a lower one would leave a
+        # half-written module on disk while the battery went on reporting success.
+        for c in ast.walk(n):
+            if not (isinstance(c, ast.Call) and isinstance(c.func, ast.Attribute)
+                    and c.func.attr == "escalate"):
+                continue
+            for arg in c.args:
+                if isinstance(arg, ast.Attribute) and arg.attr == "SAFETY":
+                    return True
+    return False
 
 
-def _landing_nothing_is_not_success():
+def _run_marks_a_landless_run_failed(src=None):
+    """`local_agent.run()` contains a real `out["ok"] = False`. -> bool.
+
+    The half of `_landing_nothing_is_not_success` that has to be read off another module rather
+    than driven: `_achievement` can compute the right verdict all day and it changes nothing
+    unless `run()` acts on it. Scoped to `run` and asked as an assignment, so neither a comment
+    nor a docstring nor the same words in a different function can answer for it.
+    """
+    import ast
+    tree = _ast_of(os.path.join(_srcdir(src), "local_agent.py"))
+    run = _defn(tree, "run")
+    if run is None:
+        return False
+    return any(isinstance(n.value, ast.Constant) and n.value.value is False
+               for n in _subscript_assigns(run, "out", "ok"))
+
+
+def _landing_nothing_is_not_success(src=None):
     """The attack: propose patches, land none, and try to be recorded as work done.
 
     Measured 2026-08-25 on a real order -- 6 turns, 5 tool calls, every propose_patch refused
@@ -891,10 +1057,13 @@ def _landing_nothing_is_not_success():
     answered = LA._achievement([], True)
     return (all_refused["landed"] == 0 and all_refused["attempted"] == 2
             and landed["landed"] == 1 and answered["attempted"] == 0
-            # and the verdict has to REACH `run()`'s ok, not merely be computable beside it
-            and "out[\"ok\"] = False" in open(
-                os.path.join(os.path.dirname(os.path.abspath(__file__)), "local_agent.py"),
-                encoding="utf-8").read())
+            # and the verdict has to REACH `run()`'s ok, not merely be computable beside it.
+            # ASKED OF THE PARSE TREE (run #36): the arm was a whole-file search for the text
+            # `out["ok"] = False`, which the comment sitting directly above that line -- "TRIED
+            # AND LANDED NOTHING IS NOT SUCCESS" -- is one edit away from carrying itself, and
+            # which any of this module's other prose about the flag could reproduce. An
+            # assignment is now required to EXIST as an assignment, inside `run`, of False.
+            and _run_marks_a_landless_run_failed(src))
 
 
 def drill_local_agent():
@@ -2387,9 +2556,7 @@ def drill_binding_identity():
         "collapsing the undecided band into one of the answers would make every borderline "
         "host either an unfixable bot order or an accusation of misbinding")
     net(a, "the identity probe is only spent where it changes something",
-        lambda: "healthy is None and sources" in open(
-            os.path.join(os.path.dirname(os.path.abspath(__file__)), "binding_health.py"),
-            encoding="utf-8").read(),
+        _identity_probe_is_gated,
         "a host whose titles resolve is bound correctly by demonstration; asking its name "
         "anyway costs a network round trip per host per sweep to confirm what was just proved")
     net(a, "a PARTIAL canary run cannot shrink the whole-estate report",
@@ -2398,9 +2565,7 @@ def drill_binding_identity():
         "binding detector reads that file AS the estate -- the same smaller-universe shape as "
         "a cap, arrived at while INVESTIGATING a binding")
     net(a, "settling a host's identity CLOSES the undecided order it replaces",
-        lambda: "_supersede_binding_suspect" in open(
-            os.path.join(os.path.dirname(os.path.abspath(__file__)), "workorders.py"),
-            encoding="utf-8").read(),
+        _supersession_is_called,
         "splitting one code into two only ever ADDS unless the old order is resolved: the host "
         "is still unhealthy, so the vague order would sit open beside the precise one for ever")
 

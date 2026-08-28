@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """
-THE ADDRESS SPACE — an 89-bit name for every planet in the omniverse.
+THE ADDRESS SPACE — one fixed-width name for every planet in the omniverse.
+
+(The width is DERIVED from the census, not chosen: `TOTAL_BITS` below is the number, and the
+title used to state it as a literal for the same reason the table further down did. It was 74,
+then 89; it moves whenever TIERS.json is re-charted.)
 
 WHAT THIS IS
 ------------
@@ -24,17 +28,21 @@ cosmological hierarchy the library already derived, so the bits do mean things, 
 addresses ARE neighbours -- two worlds one bit apart in the planet field orbit the same star.
 
     [ hyperverse | xenoverse | metaverse | multiverse | universe | galaxy | star | planet ]
-        3 bits     3 bits      3 bits      8 bits       6 bits     38 bits  27 bits  1 bit
 
-                                                                  = 89 bits, 12 bytes
+THE FIELD ORDER IS THE ONLY THING THIS DIAGRAM CLAIMS. It carries no bit counts and no total,
+because it cannot compute them: a module docstring is a literal evaluated before `FIELDS` and
+`WIDTHS` exist, so any number written here is a hand-copied transcription that goes stale
+silently the moment the census moves. `python3 src/address_space.py` prints the live per-field
+widths and the total, derived from `WIDTHS`/`TOTAL_BITS`; that is the only place to read them.
 
 THIS TABLE WENT STALE ONCE AND MUST NOT AGAIN. It described the five-field, 74-bit/10-byte
 address for three passes after `tiers.py` charted xenoverse, metaverse and multiverse and FIELDS
 grew to eight, so the module's own advertised justification named a design the module no longer
-had. The authority is `FIELDS`/`WIDTHS` below and nothing else; the numbers printed here are a
-transcription of what they compute against today's census, and `main()` now prints the widths
-from `WIDTHS` and `TOTAL_BITS` rather than from a literal, so the console report cannot drift
-away from the arithmetic the way this paragraph did.
+had. It then said 89 bits / 12 bytes, correct on the day it was typed and equally unenforced --
+and the upper-tier widths are read out of TIERS.json AT IMPORT, so a re-charting moves them
+without touching this file. The authority is `FIELDS`/`WIDTHS` below and nothing else, and the
+numbers have now been removed from here rather than re-transcribed, which is the only fix that
+cannot drift a third time.
 
 THE WIDTHS ARE DERIVED, NOT CHOSEN
 ----------------------------------

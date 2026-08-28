@@ -234,11 +234,47 @@ def classify_source(rec, cap=None):
     }
 
 
+def _project_pipeline():
+    """`import pipeline`, or an error that names the ACTUAL cause. -> the module.
+
+    On 2026-08-25 something invoked this module with an interpreter that has no `yaml`, and it
+    died here with a bare `ModuleNotFoundError: No module named 'yaml'` raised from inside
+    `pipeline`'s own import. That traceback names a missing package, which invites the wrong
+    repair -- installing yaml into whichever interpreter happened to be running -- when the real
+    finding is that the WRONG INTERPRETER RAN AT ALL. On this machine `py` resolves to
+    C:\\Windows\\py.exe, which is not the miniconda python this project's dependencies live in,
+    and every instruction in this repo says never to use it.
+
+    The failure was already fail-closed: it raises before `--write` is reached, and the write
+    itself goes through `silence.write_json`, which is atomic -- so `GENRES.json` could not have
+    been half-written even so. What was missing was not a guard but a DIAGNOSIS. An error that
+    misidentifies its own cause is how a machine-configuration fault gets repaired as a
+    packaging one, and then recurs.
+
+    Nothing is verified about WHICH interpreter this is: a hardcoded path check would be a
+    second, machine-specific copy of a fact that `requirements.txt` already states, and it would
+    fail on any other checkout. The test is the honest one -- can this interpreter import the
+    project? -- and only the explanation is specific.
+    """
+    try:
+        import pipeline as PL
+    except ModuleNotFoundError as e:
+        raise SystemExit(
+            "genre.py: this interpreter cannot import the project (%s: %s).\n"
+            "  running under: %s\n"
+            "  this project requires the interpreter holding requirements.txt; on this machine\n"
+            "  that is C:/Users/imarl/miniconda3/python.exe. The bare `py` launcher resolves to\n"
+            "  a DIFFERENT interpreter without these dependencies and must never be used here.\n"
+            "  Nothing was written: this refusal precedes --write, and the write is atomic."
+            % (type(e).__name__, e, sys.executable)) from e
+    return PL
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args()
-    import pipeline as PL
+    PL = _project_pipeline()
 
     out = {}
     for _, rec in PL.records():

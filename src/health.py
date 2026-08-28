@@ -192,9 +192,27 @@ def flush():
 
 
 def summary():
+    """The failure ledger as it stands. -> {class: count}.
+
+    THE ONE READER OF failures.json IN THIS FILE THAT COULD NOT SURVIVE READING IT. `flush()`
+    twenty lines up treats a torn ledger as a preserve-and-report case, and both external readers
+    (dashboard.py:331-339, standards.py:797-800) wrap the read; this one had nothing around it,
+    so a `--failures` run against the exact fault the file exists to record -- an interrupted
+    write leaving 0 bytes -- died with a JSONDecodeError instead of reporting anything.
+    Deliberately NOT returning `{}`: main() prints "no failures recorded" for an empty summary,
+    and answering "could not read the ledger" with "there are no failures" is the reporting
+    failure this module was written to expose. The unreadable state is itself a recorded class,
+    spelled the same way `flush()` spells it, so it shows up in the count table as a row.
+    """
     if os.path.exists(LEDGER_PATH):
-        with open(LEDGER_PATH, encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(LEDGER_PATH, encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            silence.note("health.py:summary")
+            print(f"health: failure ledger unreadable ({type(e).__name__}) -- "
+                  f"the counts below are not the ledger", file=sys.stderr)
+            return {"ledger:unreadable": 1}
     return {}
 
 

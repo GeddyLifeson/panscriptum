@@ -194,19 +194,34 @@ def main():
         if counts.get(k):
             print(f"  {k:20s} {counts[k]:6,}  ({counts[k]/total:5.1%})")
     print()
+    # UNCAPPED, per Hard Rule 0, and this is the reason the rule is written the way it is.
+    # These three lists used to print [:8], [:8] and [:6] under headers that read as complete
+    # -- "one-way with no excuse (real holes, review these)" invites the reader to review the
+    # holes, and showed six of them. main() is the ONLY reporting surface this module has: it
+    # writes no JSON, and allsweep.py runs it as a bare subprocess health check without parsing
+    # its output, so anything not printed here is not recorded anywhere by anybody. A truncated
+    # ranked list is not a sample, it is a decision that everything past the cutoff does not
+    # exist, wearing the same shape as the complete one. Ranking is kept -- richest first, so an
+    # interrupted read still sees the worst -- and the count is now in the header, so the reader
+    # can tell what they are looking at.
     if detail["PARTIALLY-DANGLING"]:
-        print("  partial weave drift (obligation still real, some shared entities gone):")
-        for a, b, n, tot in sorted(detail["PARTIALLY-DANGLING"], key=lambda x: -x[2])[:8]:
+        rows = sorted(detail["PARTIALLY-DANGLING"], key=lambda x: -x[2])
+        print(f"  partial weave drift (obligation still real, some shared entities gone) "
+              f"-- all {len(rows):,}, most-drifted first:")
+        for a, b, n, tot in rows:
             print(f"     {n:4d}/{tot:<5d} drifted  {a[:24]:26s} <-> {b[:24]}")
         print()
     if detail["RECIPROCAL"]:
-        print("  strongest reciprocal bonds (the omniverse joined):")
-        for a, b, n in sorted(detail["RECIPROCAL"], key=lambda x: -x[2])[:8]:
+        rows = sorted(detail["RECIPROCAL"], key=lambda x: -x[2])
+        print(f"  reciprocal bonds (the omniverse joined) -- all {len(rows):,}, strongest first:")
+        for a, b, n in rows:
             print(f"     {n:4d} shared  {a[:26]:28s} <-> {b[:26]}")
     if detail["ASYMMETRIC-SUSPECT"]:
+        rows = sorted(detail["ASYMMETRIC-SUSPECT"], key=lambda x: -x[2])
         print()
-        print("  one-way with no excuse (real holes, review these):")
-        for a, b, n in sorted(detail["ASYMMETRIC-SUSPECT"], key=lambda x: -x[2])[:6]:
+        print(f"  one-way with no excuse (real holes, review these) -- all {len(rows):,}, "
+              f"most shared entities first:")
+        for a, b, n in rows:
             print(f"     {n:4d} shared  {a[:26]:28s}  -> {b[:26]}")
 
 

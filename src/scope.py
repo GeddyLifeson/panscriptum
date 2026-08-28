@@ -101,14 +101,30 @@ def scope_for(host, verbose=False):
     for lab, _, band in _RE:
         if counts[lab] >= MIN_MENTIONS:
             best = (lab, band)
-    if best is None:                       # nothing clears it: fall back to the commonest tier
-        lab = max(counts, key=counts.get)
-        band = dict((nm, b) for nm, _, b in _RE)[lab]
-        best = (lab, band) if counts[lab] else None
+    # NOTHING CLEARS THE FLOOR MEANS NOTHING WAS ESTABLISHED, and that is a real answer.
+    #
+    # This branch used to fall back to `max(counts, key=counts.get)` -- the COMMONEST tier -- which
+    # is the one method the module header exists to refuse ("Not by frequency ... never the most
+    # frequent one"), applied at exactly the moment the evidence is too thin to support any method
+    # at all. It was not a harmless default. Measured over the 155 hosts in data/SCOPE.json on
+    # 2026-08-27: 28 of them (18%) hold a ceiling this branch invented, and among them
+    # `root.fandom.com` and `rosariovampire.fandom.com` carry M7 -- UNIVERSE scale, the ceiling
+    # that bounds nothing -- on TWO mentions of the word, and `cosmoteer` and `ghosts` carry a hard
+    # M3 planet ceiling on two. MIN_MENTIONS is the whole statement that a stray line about
+    # another universe does not make a fiction universal; taking the argmax below the floor
+    # rewrites that stray line as the verdict, and does it silently.
+    #
+    # A source with no scope keeps `ceiling_for() -> None`, which is what the rest of Part Three
+    # already handles for the 203-of-211 sources that are honestly unassayed. An unearned ceiling
+    # is not a conservative choice: it is a number describing a fiction no source ever recorded,
+    # which is the same fabrication the module was written to stop.
+    if best is None:
+        if verbose:
+            print(f"   {host:<32}{counts}  -- nothing reaches {MIN_MENTIONS}: "
+                  f"no scope established")
+        return None
     if verbose:
         print(f"   {host:<32}{counts}")
-    if not best:
-        return None
     return {"scope": best[0], "ceiling": best[1], "counts": counts,
             "pages": sorted(pages)}
 
@@ -123,8 +139,22 @@ def build(hosts):
         try:
             sc = scope_for(h)
         except Exception:
-            silence.note("scope.py:110")
-            sc = None
+            # A FAILURE IS NOT A VERDICT, AND IT MUST NOT BE CACHED AS ONE. `out[h] = None` used
+            # to be written here as well, and `todo` above excludes every host that is already a
+            # KEY in `out` regardless of its value -- so one network blip, one 500 from a wiki,
+            # one unparseable response permanently retired that host from scoping. It would never
+            # be probed again by any future run, and the file would report it as "attempted,
+            # nothing to score", which is the one thing that had NOT happened. Left out of `out`
+            # entirely, it simply reappears in the next build's `todo`.
+            #
+            # The genuine empty answer below (`sc is None` from a host that WAS read and had no
+            # titles, or nothing clearing MIN_MENTIONS) is still cached, and should be: that is a
+            # real result and re-probing it every build would cost four API calls a host to learn
+            # the same thing.
+            silence.note("scope.py:build-probe-failed")
+            print(f"  {i:>3}/{len(todo)}  {h:<34}probe FAILED -- left unscored, "
+                  f"the next build retries it", flush=True)
+            continue
         out[h] = sc
         if sc:
             print(f"  {i:>3}/{len(todo)}  {h:<34}{sc['scope']:<12}ceiling {sc['ceiling']}",

@@ -59,9 +59,27 @@ LADDER_HEIGHT = 17
 # Distance is now the summed inverse of shared evidence, so a tenuous link is long even when it
 # is a single hop.
 #
-# Anchored so that distance 1.0 -- the far end of the measured range, Left 4 Dead to Dragon Ball
-# Z -- is a millennium of lateral travel. Same-universe pairs (Alien/Predator at 0.006) then
-# come out at ~6 years, which is the right order for "news travels within a universe".
+# Anchored so that distance 1.0 is a millennium of lateral travel. Same-universe pairs
+# (Alien/Predator, 0.0057 when this was last measured) then come out at ~6 years, which is the
+# right order for "news travels within a universe".
+#
+# 1.0 IS A ROUND NUMBER, NOT THE END OF THE RANGE, and the comment here said otherwise until
+# order 9736a5a73b02. It read "distance 1.0 -- the far end of the measured range, Left 4 Dead to
+# Dragon Ball Z", which was a measurement of the graph as it stood the day this was written and
+# has not been true since. The graph is LIVE DATA -- `data/SHARED_STAGE_GRAPH.json` grows every
+# time a source is added -- so no figure derived from it can be frozen into a comment and stay
+# correct. Measured 2026-08-27 over 197 shelves / 3,753 edges: Left 4 Dead -> Dragon Ball Z is
+# 1.126, not 1.0, and the true diameter is 4.99 (Xanathar's Guide to Everything -> DMs Guild:
+# Heroes of Hell), so the module's longest lateral delay is ~4,993 years rather than the ~1,000
+# the old prose implied. Nothing downstream was wrong -- `arrival_years` multiplies whatever
+# distance it is handed -- but the ANCHOR'S JUSTIFICATION was, which is the part a reader checks
+# a convention against.
+#
+# The constant is unchanged and deliberately so: it is a declared convention under Axiom M3,
+# fictional and reversible, and re-scaling it would move every published propagation number. What
+# it now claims is only what it can keep claiming -- that one unit of graph distance is called a
+# millennium. Re-measure with `python src/propagation.py --from X --to Y` rather than trusting
+# any number written here.
 YEARS_PER_UNIT_DISTANCE = 1000.0
 # Ascension is slower the higher it climbs: a town scribe countersigns in a season, a cluster
 # archive in a generation. Cost grows with rung.

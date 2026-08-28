@@ -189,6 +189,10 @@ SOURCE_TIERS = ("hyperverse", "xenoverse", "metaverse")     # 7^3 = 343 slots fo
 WORLD_TIERS = ("multiverse", "universe")                    # filled from within each source
 SOURCE_CAPACITY = SPAN ** len(SOURCE_TIERS)                 # 343 -- what sources actually occupy
 
+# {source -> number of its worlds that the last build() could not shelve}. Populated by build();
+# empty when every world-bearing source reached the tree. See the note inside build().
+UNSHELVED = {}
+
 
 def build():
     """Two-stage shelving, because a population must be able to FILL the tree it is put in.
@@ -214,10 +218,22 @@ def build():
     for world in WS.build_all():
         by_source.setdefault(world["designation"].split("::")[0], []).append(world)
 
+    # TWO POPULATIONS, COUNTED SEPARATELY, AND THE DIFFERENCE SAID OUT LOUD. `coords` covers
+    # only the sources that survive weave's resonance graph, while `by_source` is built from
+    # worldseed over EVERY record in `pipeline.records()`. The two disagree today: the graph
+    # holds 209 sources and `records()` holds 210 -- 'Bone (Jeff Smith)', 'aurora_mods (Way of
+    # the Inkmaster)' and 'the Sex Worker background' are in the corpus and not in the graph
+    # (measured this run). None of the three currently yields a world past worldseed's filter,
+    # so nothing is being lost right now, and `continue` said nothing either way: the next
+    # rules-heavy source that filters out of the graph AND has eligible worlds would have its
+    # entire world set vanish from every tier count and every shelfmark with no line printed
+    # anywhere. A drop with no count is indistinguishable from a source that had nothing.
+    UNSHELVED.clear()
     worlds = {}
     for src, ws in by_source.items():
         base = coords.get(src)
         if base is None:
+            UNSHELVED[src] = len(ws)
             continue
         names = [x["designation"] for x in ws]
         inner = shelve(names, {}, depth=len(WORLD_TIERS))
@@ -225,6 +241,12 @@ def build():
             worlds[d] = dict(base)
             worlds[d]["multiverse"] = inner[d]["hyperverse"]
             worlds[d]["universe"] = inner[d]["xenoverse"]
+    if UNSHELVED:
+        print("[sevenfold] UNSHELVED: %d source(s) produced worlds but are absent from the "
+              "resonance graph, so %d world(s) appear in no tier count and have no shelfmark: %s"
+              % (len(UNSHELVED), sum(UNSHELVED.values()),
+                 ", ".join("%s (%d)" % (s, n) for s, n in sorted(UNSHELVED.items()))),
+              file=sys.stderr, flush=True)
     return srcs, coords, w, worlds
 
 
@@ -246,6 +268,11 @@ def main():
 
     print("\nbalance at each tier (the property every discovered scheme failed):")
     print(f"worlds shelved  : {len(worlds):,}")
+    # The count that used to be missing. A zero here is a statement; nothing at all was not.
+    print(f"worlds UNSHELVED: {sum(UNSHELVED.values()):,}"
+          + (f"  ({len(UNSHELVED)} source(s) absent from the resonance graph: "
+             + ", ".join(sorted(UNSHELVED)) + ")" if UNSHELVED else "  (every world-bearing "
+             "source reached the tree)"))
     print()
     print(f"{'tier':<12}{'children per parent':<24}{'occupancy'}")
     for i, t in enumerate(TIERS):

@@ -245,6 +245,63 @@ def page_looks_real(text, title="", wiki=True):
                                    else "prose corpus, wiki markup not required")
 
 
+# The exact wording `page_looks_real`'s third layer refuses with. Matched as a substring rather
+# than reconstructed, so the two cannot drift apart silently.
+_SUPERSEDED_GATE_MARK = "no wiki markup"
+
+# How many cache entries were dropped for having been mined under the superseded gate. Counted
+# and PRINTED, like _CAP_BOUND and the refusal tally beside it: a re-mine nobody can see is
+# indistinguishable from a cache that was always right.
+_STALE_GATE = {}
+
+
+def reads_as_wiki(host):
+    """-> is this host's material wikitext? THE ONE PLACE that question is answered.
+
+    `page_looks_real`'s third layer is a positive test for wiki markup, so it may only be asked
+    of a wiki. This predicate decides that, and both the mining path and the cache-staleness
+    check below read it, because the same question answered in two places is the drift this
+    codebase keeps paying for.
+
+    `doc:` is an owner-ingested book -- never a wiki. `pages:` is a source whose material lives
+    on ordinary web pages, but ONLY when URLs are actually registered for it: a `pages:` host
+    with an empty registry falls through to wiki discovery and genuinely does hold wikitext.
+    """
+    if host and host.startswith("doc:"):
+        return False
+    if host and host.startswith("pages:"):
+        import endpoint as EP
+        return not EP.source_pages(host[6:])
+    return True
+
+
+def mined_under_superseded_gate(doc, host):
+    """-> was this cached record produced by the wiki-markup gate that no longer applies here?
+
+    A FIX WHOSE EFFECT IS CACHED AWAY IS NOT IN EFFECT. `page_looks_real` gained `wiki=False`
+    because its markup layer was refusing the two corpora that are not wikis: measured on the one
+    ingested book on disk, 443 pages in, 3 through the old gate, 401 refused for "no wiki markup",
+    against 404 through the corrected one. The code was right the same hour it was written -- and
+    the numbers did not move, because `cachekey.load` kept handing back records mined under the
+    old gate, each holding a pile of wrongly-refused pages and near-zero feats. Measured across
+    `data/feats/` for `doc:`/`pages:` hosts: 2,898 cached entities, 96 of them carrying that
+    refusal, all 96 with ZERO feats, covering 1,399 individually refused pages.
+
+    Those 96 are not merely stale, they are WRONG IN A DIRECTION THAT LOOKS LIKE AN ANSWER: an
+    entity with no evidence and a recorded reason reads downstream as honestly empty. So a hit
+    of this shape is treated as a MISS and the entity is re-mined -- which for a `doc:` host
+    costs no network at all, because that corpus is `data/docs/<slug>/pages.json` on disk.
+
+    Scoped by `reads_as_wiki` on purpose. On a genuine wiki "no wiki markup" is a CORRECT
+    refusal, and invalidating those would re-mine the same pages to the same refusal on every
+    single pass, for ever.
+    """
+    if reads_as_wiki(host):
+        return False
+    refused = (doc or {}).get("pages_refused") or {}
+    return any(_SUPERSEDED_GATE_MARK in str(v) for v in refused.values())
+
+
 
 # A regex escape arriving as a literal control character matches nothing and fails SILENTLY.
 # A word-boundary escape written through a shell heredoc has arrived here as a 0x08 backspace
@@ -1036,6 +1093,13 @@ def evidence_for(host, name, cache=True):
 
     if cache:
         doc, _fp = cachekey.load(CACHE, host, name, on_corrupt=_corrupt)
+        if doc is not None and mined_under_superseded_gate(doc, host):
+            # Mined by a gate that has since been corrected for this corpus. Returning it would
+            # make the correction invisible -- see `mined_under_superseded_gate`. Fall through
+            # and re-mine; for a `doc:` host that reads the book off disk and costs no request.
+            with _COUNTS_LOCK:
+                _STALE_GATE[host] = _STALE_GATE.get(host, 0) + 1
+            doc = None
         if doc is not None:
             return doc
 
@@ -1053,13 +1117,13 @@ def evidence_for(host, name, cache=True):
     # the same way it does for a shared wiki index page. The text is already plain -- running
     # the wikitext stripper over real prose eats legitimate brackets.
     plain = bool(host) and host.startswith("doc:")
-    # WHICH CORPUS THIS ACTUALLY IS, decided by the branch that reads it rather than by the host
-    # string alone -- a `pages:` host with no registered URLs falls through to wiki discovery
-    # below, and would then be holding wikitext after all. `page_looks_real`'s markup layer is
-    # a positive test for being a wiki, so it must only be asked of one.
-    wiki_source = True
+    # WHICH CORPUS THIS ACTUALLY IS -- a `pages:` host with no registered URLs falls through to
+    # wiki discovery below, and would then be holding wikitext after all. `page_looks_real`'s
+    # markup layer is a positive test for being a wiki, so it must only be asked of one.
+    # Answered by `reads_as_wiki` rather than recomputed here, so the cache-staleness check above
+    # and this mining path can never disagree about what kind of corpus a host is.
+    wiki_source = reads_as_wiki(host)
     if plain:
-        wiki_source = False
         dp = os.path.join(HERE, "data", "docs", host[4:], "pages.json")
         with open(dp, encoding="utf-8") as f:
             all_pages = json.load(f)
@@ -1076,7 +1140,7 @@ def evidence_for(host, name, cache=True):
         import endpoint as EP
         urls = EP.source_pages(host[6:]) if host and host.startswith("pages:") else []
         if urls:
-            wiki_source = False
+            # `wiki_source` is already False here -- `reads_as_wiki` asked this same registry.
             pages = EP.fetch_html(urls)
             titles = sorted(pages)
         else:
@@ -1249,12 +1313,21 @@ def roll(records, hosts, workers=8, limit=None, only=None):
               f"-- these arrived and were NOT the article; they are not evidence of absence")
     else:
         print("  pages refused: none (every page that arrived looked like the article)")
+    if _STALE_GATE:
+        print("  cache entries RE-MINED for having been gated by the superseded wiki-markup "
+              "check: "
+              + ", ".join(f"{k} x{v:,}" for k, v in sorted(_STALE_GATE.items()))
+              + "  (their recorded refusals were an artefact of the old gate, not evidence of"
+                " absence)")
     if _CAP_BOUND:
-        print("  discovery caps BOUND: "
+        print("  discovery lists INCOMPLETE: "
               + ", ".join(f"{k} x{v:,}" for k, v in sorted(_CAP_BOUND.items()))
-              + "  (m82: these entities were discovered in PART -- no continuation is handled)")
+              + "  (the continuation walk could not finish -- the wiki repeated a continuation"
+                " token, or the API stopped answering mid-walk. These entities were discovered"
+                " in PART and must not read as fully discovered)")
     else:
-        print("  discovery caps bound: never (m82: aplimit=500 / srlimit=50 did not truncate)")
+        print("  discovery lists: complete (every allpages/search walk followed `continue` to"
+              " the end; aplimit=500 / srlimit=50 are per-request maxima, not caps)")
     if _RATE_LIMITED:
         tot = sum(_RATE_LIMITED.values())
         ranked = sorted(_RATE_LIMITED.items(), key=lambda kv: -kv[1])   # ranked, never truncated

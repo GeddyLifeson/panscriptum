@@ -197,10 +197,20 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     # Reported BEFORE the cap. Computing it after made "already held" the complement of the cap # rather than of the match, and printed 1,459 held for a source that holds 300 entries total.
     absent = len(missing)
     # Ranked by article size so the deepest arrive first if this is ever interrupted. Order # f35826ab7a3f: this used to say "NOT truncated" directly above the cap two lines down, which # was false whenever a caller actually passed one. What is true, and is the reason a cap here # is not the Hard Rule 0 shape it looks like: --cap is opt-in and off by default ("omit for # everything, which is the intended use" -- main()'s own --cap help), it limits what is QUEUED # this pass and not the roster itself, `missing` is recomputed fresh from `have` on every call # so anything left off this run is ranked the same way and still there on the next one, and # `absent` above is the uncapped count -- so nothing here decides, silently or permanently, # that a character does not count.
-    # `t not in sizes` sorts False (known) before True (unknown) -- a title whose size lookup
-    # failed is ranked WITH the deepest articles, not against them, so a transient network
-    # failure cannot be the reason a --cap run drops it.
-    missing = sorted(missing, key=lambda t: (t not in sizes, -sizes.get(t, 0)))
+    # `t in sizes` sorts False (UNKNOWN) before True (known) -- a title whose size lookup failed
+    # is ranked WITH the deepest articles, not against them, so a transient network failure
+    # cannot be the reason a --cap run drops it.
+    #
+    # THIS KEY WAS `t not in sizes` UNTIL RUN #36 (order d673aa4d609a) AND IT DID THE EXACT
+    # OPPOSITE OF THE SENTENCE ABOVE IT. `not in` is True for an unmeasured title, and True sorts
+    # LAST in ascending order, so every failed-lookup title landed below even a known 5-byte
+    # stub. That did not merely fail to help: it made order 0a67628cfa8f's fix -- leaving a
+    # failed batch OUT of `sizes` so "measured zero" and "never measured" stay distinguishable --
+    # actively worse than the defect it replaced. A title scored 0 by the old bug at least TIED
+    # with the other zeroes; excluded from `sizes` under the inverted key it was guaranteed to be
+    # last, which under --cap is guaranteed to be dropped. Measured: with sizes={A:100, C:5} and
+    # B unmeasured, the old key ranked [A, C, B]; this one ranks [B, A, C].
+    missing = sorted(missing, key=lambda t: (t in sizes, -sizes.get(t, 0)))
     if cap:
         missing = missing[:cap]
     if dry or not missing:

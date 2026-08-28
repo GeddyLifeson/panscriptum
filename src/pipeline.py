@@ -642,17 +642,31 @@ def write_record(path, rec):
     one such pass. Writing the pipeline's stale in-memory copy over that would silently revert
     twenty-nine thousand entries, and the loss would read as "the re-catalogue never ran".
 
-    So: if the file on disk has drifted (different entry count), this MERGES instead of
-    overwriting. The pipeline only ever changes per-entry judgment fields and the source-level
-    synthesis block, so those move onto the disk copy by entry name; every entry the disk
-    version has that this in-memory copy lacks is kept. The fast path -- no drift -- writes
-    directly, which is the common case.
+    So: if the file on disk has drifted, this MERGES instead of overwriting. The pipeline only
+    ever changes per-entry judgment fields and the source-level synthesis block, so those move
+    onto the disk copy by entry name; every entry the disk version has that this in-memory copy
+    lacks is kept. The fast path -- no drift -- writes directly, which is the common case.
+
+    DRIFT IS A DIGEST OF THE ENTRY NAMES, NOT A COUNT OF THEM (order 1c2ea97cdc36, run #36).
+    The sole drift test used to be `len(disk["entries"]) != len(rec["entries"])`, which is blind
+    to every same-size edit: a rename, a dedup-then-add, any cast correction that swaps one entry
+    for another. `write_record_catalogue`, `ingest_doc` and `catalogue_web` all write these files
+    and all can produce that shape. Seeing no drift, this function took the fast path and wrote
+    the pipeline's hours-old in-memory copy WHOLE over the disk file -- the same silent revert
+    the paragraph above says it exists to stop, just at a granularity the count could not see.
+    `_entry_digest` was already in this module (it is what `stamp_record` records and
+    `verify_record_provenance` checks) and was simply not consulted here; it is now. The count
+    test is KEPT rather than replaced -- it is cheap, it names the common case in the log line,
+    and two independent drift signals cannot share a hash collision.
     """
     merged = rec
     try:
         with open(path, encoding="utf-8") as f:
             disk = json.load(f)
-        if len(disk.get("entries") or []) != len(rec.get("entries") or []):
+        n_disk, n_mem = len(disk.get("entries") or []), len(rec.get("entries") or [])
+        drift = ("count" if n_disk != n_mem else
+                 "content" if _entry_digest(disk) != _entry_digest(rec) else None)
+        if drift:
             by_name = {e.get("name"): e for e in rec.get("entries") or []}
             for de in disk.get("entries") or []:
                 se = by_name.get(de.get("name"))
@@ -666,8 +680,8 @@ def write_record(path, rec):
                 if key != "entries":
                     disk[key] = val
             merged = disk
-            log(f"    write_record: {os.path.basename(path)} drifted on disk "
-                f"({len(rec.get('entries') or [])} -> {len(disk['entries'])} entries); merged")
+            log(f"    write_record: {os.path.basename(path)} drifted on disk by {drift} "
+                f"({n_mem} -> {n_disk} entries); merged")
     except FileNotFoundError:
         silence.note("pipeline.py:write_record-notfound")
         pass

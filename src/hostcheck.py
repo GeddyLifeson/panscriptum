@@ -396,6 +396,10 @@ _NULL_LOCK = threading.Lock()
 def null_rate(host, by=None, exclude=None, sample=40):
     """How often this host answers for names it has no reason to hold. The control.
 
+    RETURNS None WHEN THE CONTROL COULD NOT BE MEASURED -- a failed or throttled probe, a host
+    with no usable endpoint, or no foreign names to draw a sample from. None is not zero, and
+    callers must not default it to zero; see the comment at the bottom of this function.
+
     A hit rate means nothing without one. `Song of Syx` -- a colony sim -- scored 8% on D&D Wiki
     and was adopted, because eight percent looked like thin coverage. It is not coverage at all:
     its roster contains words like `Druidic` and `Scavenger`, and a D&D wiki has articles for
@@ -419,7 +423,24 @@ def null_rate(host, by=None, exclude=None, sample=40):
     foreign = sorted(set(foreign))[::max(1, len(foreign) // sample)][:sample]
     r = probe(host, foreign) or {}
     rate = r.get("rate")
-    rate = 0.0 if rate is None else rate
+    # A CONTROL THAT DID NOT MEASURE IS `None`, NOT ZERO -- and this line is why the order that
+    # fixed `probe()` was only half a fix. `probe()` deliberately returns rate=None with an
+    # error field when the request throws or the host has no usable endpoint, with a comment
+    # saying a failed request is not a wiki that holds nothing. This function then wrote
+    # `rate = 0.0 if rate is None else rate` and committed the identical conflation one call
+    # deeper: a throttled or network-failed probe of the FOREIGN control sample became "this
+    # host answers 0% of names it has no reason to hold", the most generous baseline available,
+    # which flatters every lift computed against it. Seventy-four throttled probes reading as 0%
+    # is what unassigned warhammer40k.fandom.com from Warhammer 40,000; the same failure on the
+    # control side would silently ADOPT hosts instead, which is the worse direction.
+    #
+    # `probe()` also returns None outright for an empty name list, so a host with no foreign
+    # sample to draw on (every other source excluded, or an empty corpus) lands here too. That
+    # is equally an unmeasured control and is answered the same way.
+    if rate is None:
+        # NOT CACHED. A failure is a fact about this moment, not about this host, and caching it
+        # would make one throttled probe stand as the host's baseline for the rest of the run.
+        return None
     with _NULL_LOCK:
         _NULL_CACHE[host] = rate
     return rate
@@ -459,18 +480,31 @@ def score(host, names, source, by=None):
     r.setdefault("probed", 0)
     r["source"] = source
 
+    # `null_rate` now answers an UNMEASURED control with None rather than with the flattering
+    # 0.0 it used to. There is no lift without a baseline, so None propagates all the way to the
+    # verdict instead of being defaulted here -- defaulting it is the whole defect.
     base = null_rate(host, by=by, exclude=source) if by else 0.0
-    r["baseline"] = round(base, 3)
+    r["baseline"] = None if base is None else round(base, 3)
     rate = r.get("rate")
-    r["lift"] = None if rate is None else round(rate - base, 3)
+    r["lift"] = None if (rate is None or base is None) else round(rate - base, 3)
 
+    # The aboutness veto only applies to GENEROUS hosts, and generosity is what the baseline
+    # measures. With no baseline there is no such thing as "generous enough to need a veto",
+    # and `base >= ABOUT_VETO_ABOVE` on None raises TypeError besides.
     r["about"] = (relevance(host, r.get("titles") or [], source)
-                  if r["hits"] and base >= ABOUT_VETO_ABOVE else None)
+                  if r["hits"] and base is not None and base >= ABOUT_VETO_ABOVE else None)
     r.pop("titles", None)
 
     if rate is None:
         r["verdict"] = "UNREACHABLE — no judgement"
         r["rate"] = 0.0
+    elif base is None:
+        # THE ROSTER PROBE ANSWERED AND THE CONTROL DID NOT. Every verdict below this line is a
+        # statement about LIFT, and lift is undefined here. Judging on the raw rate instead is
+        # the reading that adopted a homebrew shelf onto Wikipedia and rejected one from the
+        # wiki that hosts it. Bucketed as UNREACHABLE so `sweep()` retries it another day rather
+        # than sending it for repair on a measurement that was never made.
+        r["verdict"] = "UNREACHABLE — the control probe failed, so this host has no baseline"
     elif r["probed"] < MIN_PROBE:
         r["verdict"] = "too few names to judge"
     elif r["hits"] < 2 or r["lift"] <= LIFT_MIN:

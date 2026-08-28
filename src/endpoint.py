@@ -43,6 +43,7 @@ import os
 import re
 import sys
 import threading
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -380,22 +381,58 @@ def register(source, urls):
     Raising rather than returning quietly is deliberate: the caller asked to record something,
     and reporting success while dropping it is how a registry rots without anyone noticing.
 
-    The write itself goes through `silence.write_json`, not a hand-rolled fixed-name temp: this
-    file is written from every process that probes an endpoint, and a shared `PAGES_FILE + ".tmp"`
-    is the collision m100 retired repo-wide.
+    The write itself goes through a COMPARE-AND-SWAP, not a bare atomic write: this file is
+    written from every process that probes an endpoint, and a shared `PAGES_FILE + ".tmp"` is
+    the collision m100 retired repo-wide.
+
+    ATOMIC WAS NOT ENOUGH, AND THAT IS THE HALF THIS FUNCTION WAS STILL MISSING (order
+    6dc3b3682fc8, run #36). `silence.write_json` closed the TORN-FILE hazard -- nobody ever sees
+    a half-written registry. It has nothing to say about STALENESS, which is a different fault
+    with the same victim: two processes registering pages for two DIFFERENT sources both read
+    the file, both mutate their own key in their own in-memory copy, and both land the WHOLE
+    dict. The second writer's copy predates the first writer's key, so it lands complete,
+    consistent, atomic, and one source short. Nothing failed. That is the m42 lost-update shape
+    `silence.replace_if_unchanged` exists for and that `scout._mutate`, `workorders._mutate` and
+    `runguard._land_claim` were all moved onto the same day; this call site was simply missed.
+
+    ON A REFUSAL WE RE-READ AND RE-MERGE RATHER THAN GIVING UP, because the merge is a pure
+    union and re-applying it to the winner's copy is exactly right -- the other writer's key
+    survives and ours is added beside it. Only a run of consecutive refusals raises, and raising
+    is deliberate for the same reason the unreadable branch above raises: the caller asked to
+    record something, and reporting success while dropping it is how a registry rots without
+    anyone noticing.
     """
-    d = {}
-    if os.path.exists(PAGES_FILE):
-        try:
-            with open(PAGES_FILE, encoding="utf-8") as f:
-                d = json.load(f)
-        except Exception:
-            silence.note("endpoint.py:register-unreadable")
-            raise
-        if not isinstance(d, dict):
-            silence.note("endpoint.py:register-nondict")
-            raise ValueError("SOURCE_PAGES.json is not an object; refusing to overwrite it")
-    d[source] = sorted(set((d.get(source) or []) + list(urls)))
     os.makedirs(os.path.dirname(PAGES_FILE), exist_ok=True)
-    silence.write_json(PAGES_FILE, d, indent=1, sort_keys=True)
+    last_why = "not attempted"
+    for attempt in range(8):
+        # The digest is taken BEFORE the read, so anything that lands between the two makes the
+        # swap fail closed rather than pass on a copy that is already behind.
+        digest = silence.digest_of(PAGES_FILE)
+        d = {}
+        if os.path.exists(PAGES_FILE):
+            try:
+                with open(PAGES_FILE, encoding="utf-8") as f:
+                    d = json.load(f)
+            except Exception:
+                silence.note("endpoint.py:register-unreadable")
+                raise
+            if not isinstance(d, dict):
+                silence.note("endpoint.py:register-nondict")
+                raise ValueError("SOURCE_PAGES.json is not an object; refusing to overwrite it")
+        d[source] = sorted(set((d.get(source) or []) + list(urls)))
+        tmp = "%s.%d.%d.tmp" % (PAGES_FILE, os.getpid(), attempt)
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(d, f, indent=1, sort_keys=True, ensure_ascii=False)
+        landed, why = silence.replace_if_unchanged(tmp, PAGES_FILE, digest)
+        if landed:
+            return
+        last_why = why
+        try:
+            os.remove(tmp)
+        except OSError:
+            silence.note("endpoint.py:register-tmp-cleanup")
+        time.sleep(0.05 * (attempt + 1))
+    silence.note("endpoint.py:register-contended")
+    raise RuntimeError("SOURCE_PAGES.json changed under this writer on every one of 8 attempts, "
+                       "so %r's pages were NOT recorded: %s" % (source, last_why))
     return d[source]

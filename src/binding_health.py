@@ -89,11 +89,63 @@ def _land(path, obj):
     told a rotten host has been closed off when it has not, so mining keeps hitting it and its
     empty results keep being filed as honest absences, which is this module's whole subject.
     `suppressions._land` gates on the identical verdict for the identical reason.
+
+    THE TEMP NAME MUST NOT BE SHARED. This hand-rolled `path + ".tmp"`, which is what
+    `silence.write_json` exists to make unavailable to get wrong (and what `runguard._land_claim`
+    was rewritten for). Two writers of the same path -- a targeted `--host` investigation racing
+    the scheduled whole-estate `--run`, which is the normal situation here, not an exotic one --
+    collide on the TEMP FILE ITSELF: both open `BINDING_HEALTH.json.tmp` for writing, the second
+    truncates the first, and whichever renames second can land a half-written file over the
+    target. `write_json` puts pid and thread in the temp name, so the two writers cannot meet,
+    and returns the same `replace_retry` verdict this function has always gated on. It also
+    writes UTF-8 explicitly, which this did not: `ensure_ascii=False` plus the platform default
+    encoding was one non-ASCII sitename away from a record `_load` (which reads utf-8) could not
+    read back -- a silent quarantine loss in the module whose subject is silent losses.
     """
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(obj, f, indent=1, sort_keys=True, ensure_ascii=False)
-    return silence.replace_retry(tmp, path)
+    return silence.write_json(path, obj, indent=1, sort_keys=True, ensure_ascii=False)
+
+
+def _land_cas(path, obj, expected_digest):
+    """`_land`, but ONLY if `path` still holds what this writer read. -> (landed, reason).
+
+    For the one write here that is a READ-MODIFY-WRITE rather than a fresh report: `run()`'s
+    partial-pass merge. `_land` is a blind overwrite, which is correct for a whole-estate pass --
+    it computed every host and owes nothing to what was there. It is NOT correct for a merge: the
+    merge reads the standing report, folds a handful of freshly probed hosts into it, and writes
+    the result back, so anything that landed in between is overwritten by a snapshot taken before
+    it existed. A whole-estate `--run` finishing inside that window is replaced by ~200 stale
+    verdicts plus five fresh ones -- the exact partial-over-complete shape the merge was written
+    to prevent, reintroduced through the merge itself.
+
+    `expected_digest` is taken BEFORE the file is read, deliberately: if the file changes between
+    the digest and the read, the digest no longer matches at write time and this refuses. The
+    other order (read, then digest) would produce a digest that matches disk while the merged
+    content is already stale, which is a compare-and-swap that certifies the loss instead of
+    catching it. `None` asserts the report did not exist when this pass read for it.
+    """
+    import threading as _th
+    tmp = "%s.%d.%d.tmp" % (path, os.getpid(), _th.get_ident())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(obj, f, indent=1, sort_keys=True, ensure_ascii=False)
+    except Exception:
+        _unlink(tmp)
+        raise
+    ok, why = silence.replace_if_unchanged(tmp, path, expected_digest)
+    if not ok:
+        # `replace_if_unchanged` leaves the temp file where it is on a refusal; a refusal that
+        # accumulates litter beside a shared state file is its own small fault.
+        _unlink(tmp)
+    return ok, why
+
+
+def _unlink(path):
+    try:
+        os.remove(path)
+    except FileNotFoundError:
+        pass
+    except Exception:
+        silence.note("binding_health.py:tmp-cleanup")
 
 
 def quarantined():
@@ -572,6 +624,9 @@ def run(limit=None, only=None):
     # should be kept: each host's record is replaced by the fresh one, every host not probed
     # keeps the verdict it had, and `checked` counts the whole file rather than this pass.
     merged, prior = list(out), {}
+    # READ THE DIGEST BEFORE THE CONTENT, so a file that moves between the two cannot be merged
+    # into silently -- see `_land_cas`. Meaningless on the whole-estate path, which reads nothing.
+    prior_digest = silence.digest_of(OUT) if (only or limit) else None
     if only or limit:
         try:
             with open(OUT, encoding="utf-8") as f:
@@ -595,7 +650,16 @@ def run(limit=None, only=None):
         doc["partial_pass"] = {"probed": sorted(h.get("host") for h in out),
                                "note": "merged into the standing report; hosts not listed "
                                        "here carry the verdict from an earlier pass"}
-    if not _land(OUT, doc):
+        # COMPARE-AND-SWAP, because everything above this line is a read-modify-write. A refusal
+        # here is the guard working: another writer landed a report after this pass read one, and
+        # the merged copy in hand no longer describes what is on disk. Nothing is written and the
+        # probe results are still returned, exactly as on the unreadable-report branch above.
+        landed, why = _land_cas(OUT, doc, prior_digest)
+        if not landed:
+            print("binding_health: this partial pass did NOT land -- %s The %d host(s) it probed "
+                  "were not merged; re-run to fold them into the current report."
+                  % (why, len(out)), file=sys.stderr)
+    elif not _land(OUT, doc):
         # The canary results are still returned -- the run happened -- but anything reading
         # BINDING_HEALTH.json will be looking at the PREVIOUS round's verdicts, so say so here
         # rather than let a stale report pass for a fresh one.

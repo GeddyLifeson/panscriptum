@@ -69,34 +69,32 @@ def read(path=GUARD):
         return None
 
 
-def _land(rec, path):
-    """Land the run guard atomically.
-
-    THROUGH `silence.write_json`, WHICH PUTS PID AND THREAD IN THE TEMP NAME. This wrote to a
-    fixed `path + ".tmp"` until run #33 -- one temp filename shared by every process that ever
-    claims a guard. That is the precise collision `sweep_plan`'s shard docstring warns about and
-    `silence.write_json` was written to end: two claimants racing can have the loser's partial
-    file replace the winner's target, and the file at stake here is the one that decides whether
-    two maintenance runs may run at once. `HANDOFF.md` already records
-    `runguard._land:PermissionError` firing 99 times in production, which is direct evidence
-    that multiple writers do contend on this path in the live system rather than in theory.
-    Found by the run #33 sweep (batch 04).
-    """
-    return silence.write_json(path, rec, indent=2)
-
-
 def _land_claim(rec, path, expected_digest):
     """Land a CLAIM, and only onto the file the claimant actually read. -> (ok, reason).
 
     THE RACE THIS CLOSES. `claim()` read the guard, decided it was free, and wrote -- with
     nothing between the read and the write. Two processes firing on the same cadence can both
     read a free (or stale) guard inside that window and both come away believing `ok=True`, which
-    defeats the single invariant this module exists to hold: only one run at a time. `_land`
-    below is atomic in the sense `silence.write_json` means it -- the file is never half-written
-    -- but atomicity of one write says nothing about STALENESS, and staleness is the whole
-    hazard here. `silence.replace_if_unchanged` is the compare-and-swap this codebase already
-    grew for exactly this shape (m42) and it was simply not used on the one file that decides
-    whether two maintenance runs may overlap. Found by the run #33 sweep (batch 04).
+    defeats the single invariant this module exists to hold: only one run at a time. The plain
+    writer this replaced (`_land`, deleted run #36) was atomic in the sense `silence.write_json`
+    means it -- the file is never half-written -- but atomicity of one write says nothing about
+    STALENESS, and staleness is the whole hazard here. `silence.replace_if_unchanged` is the
+    compare-and-swap this codebase already grew for exactly this shape (m42) and it was simply
+    not used on the one file that decides whether two maintenance runs may overlap. Found by the
+    run #33 sweep (batch 04).
+
+    THE OLD WRITER IS GONE, NOT KEPT BESIDE THIS ONE (run #36, batch 08). `claim()`, `beat()`
+    and `release()` were all moved onto this function during run #35, which left `_land` with
+    no caller anywhere in `src/` -- a superseded writer for the guard file, sitting in the one
+    module whose stated purpose is that the guard protocol has EXACTLY ONE implementation. A
+    second writer nothing calls is not inert: it is a correct-looking landing spot a future edit
+    can be pointed back at, and it would silently drop the compare-and-swap that is the entire
+    reason this function exists. Its history is worth keeping, so it is recorded here rather
+    than in a body: it wrote to a FIXED `path + ".tmp"` until run #33 -- one temp filename
+    shared by every process that ever claims a guard -- and `HANDOFF.md` records
+    `runguard._land:PermissionError` firing 99 times in production, which is direct evidence
+    that multiple writers really do contend on this path in the live system. That is why the
+    temp name below carries pid and thread.
 
     IT FAILS CLOSED, and that is the correct direction: a refused claim means the run stands
     down and the next cadence tries again, which is the NORMAL outcome this guard is built
@@ -111,7 +109,7 @@ def _land_claim(rec, path, expected_digest):
     `rec["agent"] == agent`, mutate `rec`, and write it back -- a check-then-write with the read
     and the write as far apart as an ownership check and a full write. If a new claimant's
     `claim()` lands in that gap, the record `rec` was read from is now stale: it still carries
-    OUR name, `done: False` and an old heartbeat, and writing it back through plain `_land`
+    OUR name, `done: False` and an old heartbeat, and writing it back through a plain write
     restores exactly that stale record over the successor's fresh claim, silently erasing it
     with no trace -- m27 again, just entered through the heartbeat instead of through the
     original inline read-modify-write this module was written to replace.
@@ -197,7 +195,7 @@ def beat(agent, path=GUARD):
 
     DIGEST BEFORE READ, same order and the same reason as `claim()`: a successor's `claim()`
     landing in the gap between our read and our write must make OUR write lose, never theirs.
-    Landed through `_land_claim`'s compare-and-swap rather than plain `_land` -- see
+    Landed through `_land_claim`'s compare-and-swap rather than a plain write -- see
     `_land_claim`'s docstring for the race this closes (found run35, batch 6).
     """
     expected = silence.digest_of(path)

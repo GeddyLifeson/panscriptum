@@ -137,7 +137,17 @@ def evaluate(doc, rules, subject=""):
     failed = [r for r in results if not r["ok"]]
     # A rule that PASSED while looking at a field that does not exist. Not a failure -- but not
     # evidence of anything either, and the only place it is ever visible.
-    vacuous = [r for r in results if r["ok"] and not r["found"]]
+    #
+    # `absent` IS EXEMPT, and it is the one honest exemption. `OPS["absent"]` asserts a field is
+    # MISSING, so its only truthful passing case is `found=False` -- flagging it would report
+    # every correct pass of that operator as a non-result, which is the same failure as flagging
+    # none of them: a signal that always fires is furniture. No rule table in this file uses
+    # "absent" today, so nothing was misfiring in production; this closes the trap before the
+    # first table walks into it. The exemption is narrow ON PURPOSE and does NOT extend to
+    # `not_matches`, whose `v is None` clause passes on an absent field as a side effect rather
+    # than as its subject -- that is a genuine vacuous pass and stays reported.
+    # Order 9ef866225683 (run #36).
+    vacuous = [r for r in results if r["ok"] and not r["found"] and r["op"] != "absent"]
     return {"subject": subject, "at": time.time(), "n": len(results),
             "failed": failed, "vacuous": vacuous, "results": results}
 

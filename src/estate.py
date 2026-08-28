@@ -27,6 +27,29 @@ WHAT ELSE IS AUDITED HERE
     TERMINAL   the reference viewer's data files load and are not husks.
     EXTERNAL   Ollama, Cascade, and the disk — the dependencies that live outside the tree and
                can fail without anything in it changing.
+
+EVERY ROW CARRIES ITS OWN SEVERITY, AND THAT IS NEW (run #36, batch 08)
+----------------------------------------------------------------------
+Until now every row here was an undifferentiated `{finding, detail}` pair, which meant the four
+tiers below could be READ but could not be GRADED: `allsweep.main()` summed only
+`artifacts["bad"]`, so `MASTER CHARTER MISSING`, `OLLAMA UNREACHABLE` and
+`TERMINAL HAS NO HTML ENTRY POINT` could all stand at once and the sweep still exited 0. Proven
+by execution before it was changed: charter() driven against an empty tree returned
+`MASTER CHARTER MISSING` and allsweep's own formula still graded `bad = 0`.
+
+That is the project's signature defect wearing an auditor's uniform — a check that cannot fail
+looks exactly like a check that passed. `allsweep.py`'s own comment names the same gap for the
+RECONCILE tier and says the fix is "giving note() a severity so this tier CAN gate". This is
+that, for ESTATE: `note(..., bad=True)` marks a row as a FAULT and `allsweep.estate_faults()`
+counts exactly those.
+
+`bad=False` is not a synonym for "unimportant". Three kinds of row are deliberately NOT faults:
+a plain measurement (`chapters written`, `disk free`), a KNOWN AND ACCEPTED standing condition
+(`catalogued sources with NO charter spine code` — Hard Rule 2 makes extending the Acquisitions
+Index owner work, and 33 sources sit outside it today by decision, not by breakage), and an
+erratum already recorded as open against the document (`charter erratum (open)`). Grading those
+red would turn the battery into an alarm that always sounds, which this file's own `inspect()`
+docstring says is worse than no auditor at all.
 """
 import ast
 import collections
@@ -162,12 +185,12 @@ def charter():
     """
     out = []
 
-    def note(finding, detail=""):
-        out.append({"finding": finding, "detail": str(detail)})
+    def note(finding, detail="", bad=False):
+        out.append({"finding": finding, "detail": str(detail), "bad": bool(bad)})
 
     path = os.path.join(HERE, "reference", "keystone_volumes", "00_MASTER_CHARTER.md")
     if not os.path.exists(path):
-        note("MASTER CHARTER MISSING", path)
+        note("MASTER CHARTER MISSING", path, bad=True)
         return out
     with open(path, encoding="utf-8") as f:
         text = f.read()
@@ -179,9 +202,12 @@ def charter():
         import assay as A
         gap = [b for b in A.LADDER if int(b[1:]) not in named]
         if gap:
-            note("bands the code uses that the charter never names", ", ".join(gap))
+            # A band the code SCORES WITH that the specification never names is the code and the
+            # charter disagreeing about the instrument. That is a fault, not an observation.
+            note("bands the code uses that the charter never names", ", ".join(gap), bad=True)
     except Exception as e:
-        note("could not compare bands", type(e).__name__)
+        # A comparison that could not be made is not a comparison that passed.
+        note("could not compare bands", type(e).__name__, bad=True)
 
     spine = os.path.join(HERE, "data", "CHARTER_SPINE_CODES.json")
     if os.path.exists(spine):
@@ -191,7 +217,7 @@ def charter():
                 codes = json.load(f)
             note("spine codes parsed from the Acquisitions Index", f"{len(codes)} sources")
         except Exception as e:
-            note("spine codes unreadable", str(e)[:80])
+            note("spine codes unreadable", str(e)[:80], bad=True)
         # A SECOND HANDLER, because these are two subsystems. Reading the records is
         # `weave_index`'s work, not the spine file's, and one handler over both reported a
         # malformed record or a bug in `weave_index` as "spine codes unreadable" -- which sends
@@ -202,20 +228,27 @@ def charter():
                 recs = {r["source"] for r in WI.load_records()}
                 un = sorted(recs - set(codes))
                 if un:
+                    # NOT GRADED A FAULT, deliberately. Hard Rule 2 makes extending the
+                    # Acquisitions Index owner work, and the sources outside it are outside it
+                    # by that decision. Reported every run so the number stays visible; red
+                    # would make the battery sound an alarm at a condition nobody may clear
+                    # without the owner.
                     note("catalogued sources with NO charter spine code",
                          f"{len(un)} — e.g. " + ", ".join(un[:4]))
             except Exception as e:
                 note("records unreadable — could not compare them against the spine codes",
-                     str(e)[:80])
+                     str(e)[:80], bad=True)
     else:
-        note("CHARTER_SPINE_CODES.json MISSING", spine)
+        note("CHARTER_SPINE_CODES.json MISSING", spine, bad=True)
 
     for name in ("0-1_CUSTODIANS_VADE_MECUM.md", "X2_MENSURA_FUNDAMENTA.md",
                  "I9_THE_CONCORDANCE.md", "VIII_MASTER_CHRONICLE.md"):
         if not os.path.exists(os.path.join(HERE, "reference", "keystone_volumes", name)):
-            note("KEYSTONE VOLUME MISSING", name)
+            note("KEYSTONE VOLUME MISSING", name, bad=True)
 
-    # The errata, restated every run so they cannot quietly become accepted.
+    # The errata, restated every run so they cannot quietly become accepted. NOT graded faults:
+    # they are defects in the DOCUMENT, already raised and recorded as open, and a standing
+    # erratum that reddens every battery is how a real red gets scrolled past.
     for rung in ("Supercluster", "Filament", "Hyperverse"):
         if rung.lower() in text.lower():
             note("charter erratum (open)", rung + " is a rung with no Magnitude band")
@@ -233,11 +266,13 @@ def written():
     """
     out = []
 
-    def note(finding, detail=""):
-        out.append({"finding": finding, "detail": str(detail)})
+    def note(finding, detail="", bad=False):
+        out.append({"finding": finding, "detail": str(detail), "bad": bool(bad)})
 
     root = os.path.join(HERE, "output")
     if not os.path.isdir(root):
+        # Not a fault: Phases 5-8 are unbuilt and the prose gate is shut, so an absent
+        # `output/` is the same news as `chapters written 0`, which is also not red.
         note("no output directory", "nothing has been written")
         return out
     raw = [p for p in glob.glob(os.path.join(root, "raw", "**", "*"), recursive=True)
@@ -246,8 +281,18 @@ def written():
     try:
         import weave_index as WI
         note("sources on the roll", f"{len({r['source'] for r in WI.load_records()})}")
-    except Exception:
+    except Exception as e:
+        # THE LINE USED TO VANISH HERE. This handler filed the exception in `silence` and
+        # appended NOTHING to the report, so a `weave_index` that would not load took the whole
+        # "sources on the roll" row off the page -- and a missing row reads exactly like a row
+        # that was never supposed to be there. Every sibling handler in this file (charter()'s
+        # "spine codes unreadable", terminal()'s "X UNREADABLE", the catalog.json handler ten
+        # lines below) leaves a visible line; this one did not. The denominator disappearing is
+        # the worse half: `chapters written 0` next to nothing at all is unreadable, and the
+        # docstring above says the number is the entire point of the tier. Run #36, batch 08.
         silence.note("estate.py:written-sources")
+        note("SOURCES ON THE ROLL UNREADABLE — the denominator is missing from this report",
+             type(e).__name__ + ": " + str(e)[:70], bad=True)
     for fn, label in (("catalog.json", "generation catalog"),
                       ("failures.json", "generation failures on record"),
                       ("unassigned_sources.md", "sources with no spine code")):
@@ -261,7 +306,7 @@ def written():
                 if d:
                     note(label, f"{len(d)} records")
             except Exception as e:
-                note(label + " UNREADABLE", str(e)[:70])
+                note(label + " UNREADABLE", str(e)[:70], bad=True)
         else:
             note(label, f"{os.path.getsize(p):,} bytes")
     return out
@@ -273,29 +318,33 @@ def terminal():
     """The Registry Terminal: does its data load, and is any of it a husk?"""
     out = []
 
-    def note(finding, detail=""):
-        out.append({"finding": finding, "detail": str(detail)})
+    def note(finding, detail="", bad=False):
+        out.append({"finding": finding, "detail": str(detail), "bad": bool(bad)})
 
     root = os.path.join(HERE, "registry_terminal")
     if not os.path.isdir(root):
-        note("no registry_terminal", "the reference viewer is absent")
+        # The charter's Part Nine calls this the reference implementation and it is tracked in
+        # the tree. Its absence is a lost asset, not a phase that has not started yet.
+        note("no registry_terminal", "the reference viewer is absent", bad=True)
         return out
     files = sorted(os.listdir(root))
     js = [f for f in files if f.endswith(".js")]
     html = [f for f in files if f.endswith(".html")]
     note("terminal", f"{len(html)} page(s), {len(js)} data file(s)")
     if not html:
-        note("TERMINAL HAS NO HTML ENTRY POINT", "")
+        note("TERMINAL HAS NO HTML ENTRY POINT", "", bad=True)
     for f in js:
         p = os.path.join(root, f)
         try:
             with open(p, encoding="utf-8") as fh:
                 body = fh.read()
         except Exception as e:
-            note(f + " UNREADABLE", str(e)[:70])
+            note(f + " UNREADABLE", str(e)[:70], bad=True)
             continue
         if len(body) < 64:
-            note(f + " is effectively empty", f"{len(body)} bytes")
+            # A husk is the exact fault this tier was written to find: a data file that loads
+            # and says nothing, which every consumer reads as "no data" rather than "no file".
+            note(f + " is effectively empty", f"{len(body)} bytes", bad=True)
     return out
 
 
@@ -305,8 +354,8 @@ def external():
     """The dependencies that live outside this project and can fail without it changing."""
     out = []
 
-    def note(finding, detail=""):
-        out.append({"finding": finding, "detail": str(detail)})
+    def note(finding, detail="", bad=False):
+        out.append({"finding": finding, "detail": str(detail), "bad": bool(bad)})
 
     try:
         import urllib.request
@@ -319,11 +368,14 @@ def external():
             cfg = yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
             want = cfg.get("model")
             if want and want not in names:
-                note("config.yaml NAMES A MODEL OLLAMA DOES NOT HAVE", want)
+                note("config.yaml NAMES A MODEL OLLAMA DOES NOT HAVE", want, bad=True)
         except Exception as e:
-            note("config.yaml unreadable", str(e)[:70])
+            note("config.yaml unreadable", str(e)[:70], bad=True)
     except Exception as e:
-        note("OLLAMA UNREACHABLE", type(e).__name__)
+        # GRADED RED, and it will redden the sweep whenever the daemon is down. That is the
+        # intended reading: this project's model calls all land here, and an unreachable Ollama
+        # is a subsystem in a bad state, which is the exact sentence the sweep prints.
+        note("OLLAMA UNREACHABLE", type(e).__name__, bad=True)
 
     try:
         import cascade_bridge as CB
@@ -331,18 +383,21 @@ def external():
             note("Cascade", f"{len(CB.cloud_buckets())} usable remote bucket(s)")
             dead = CB.dead_buckets()
             if dead:
+                # Benching is the router WORKING -- a bucket over its quota is meant to be
+                # benched -- so this is reported, not graded.
                 note("buckets currently benched", ", ".join(sorted(dead)))
         else:
-            note("CASCADE NOT AVAILABLE", "every model call would fall to the local GPU")
+            note("CASCADE NOT AVAILABLE", "every model call would fall to the local GPU",
+                 bad=True)
     except Exception as e:
-        note("Cascade check failed", type(e).__name__)
+        note("Cascade check failed", type(e).__name__, bad=True)
 
     try:
         import shutil
         free = shutil.disk_usage(HERE).free / 1e9
         note("disk free", f"{free:.0f} GB")
         if free < 10:
-            note("DISK NEARLY FULL", "the roll writes hundreds of MB an hour")
+            note("DISK NEARLY FULL", "the roll writes hundreds of MB an hour", bad=True)
     except Exception as e:
-        note("disk check failed", str(e)[:60])
+        note("disk check failed", str(e)[:60], bad=True)
     return out

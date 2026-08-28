@@ -96,6 +96,14 @@ def catalogue_composite(source_name, verbose=True):
     spec = ws.COMPOSITE_SOURCES[source_name]
     entries, seen = [], set()
     failed_cats = []
+    # A TITLE THAT CAME BACK WITHOUT TEXT IS NOT AN ENTITY WITH NO EVIDENCE. `page_texts` drops
+    # every falsy result, and `page_text` returns the same "" whether all three of its section
+    # fetches raised (timeout, 429) or the page genuinely has no prose -- so a dropped title used
+    # to leave no trace at all, and a source could report "Transcribed" over a fetch that lost
+    # half its pages to the network. Counted here and named in the provenance, the same way
+    # `failed_cats` is: this module cannot tell the two apart from the outside, but it can refuse
+    # to pretend the drops did not happen.
+    no_text = 0
     for sub, cats in spec:
         got = 0
         for c in cats:
@@ -118,6 +126,7 @@ def catalogue_composite(source_name, verbose=True):
             for title in wanted:
                 text = texts.get(title)
                 if not text:
+                    no_text += 1
                     continue
                 entries.append({
                     "name": title,
@@ -143,7 +152,12 @@ def catalogue_composite(source_name, verbose=True):
     # never actually read, indistinguishable from one where they came back genuinely empty. The
     # failures are now named in the provenance and the note, so a reader (and `_one`'s log line)
     # can tell "transcribed in full" from "transcribed except for these".
-    note = "ok" if not failed_cats else f"ok (transport failed for {len(failed_cats)} categories)"
+    bits = []
+    if failed_cats:
+        bits.append(f"transport failed for {len(failed_cats)} categories")
+    if no_text:
+        bits.append(f"{no_text} titles returned no text")
+    note = "ok" if not bits else "ok (" + "; ".join(bits) + ")"
     provenance = (
         f"Transcribed from the deity/pantheon categories of multiple franchise wikis "
         f"({wikis}) via the MediaWiki API by src/catalogue_web.py. This source is the "
@@ -157,6 +171,14 @@ def catalogue_composite(source_name, verbose=True):
             f" INCOMPLETE: the transport failed for {len(failed_cats)} categor"
             f"{'y' if len(failed_cats) == 1 else 'ies'} that were never read and are not "
             f"reflected in the entries below -- " + ", ".join(failed_cats) + "."
+        )
+    if no_text:
+        provenance += (
+            f" {no_text} title{'' if no_text == 1 else 's'} named by these categories are not "
+            f"below because no page text came back for them. The API answers the same empty "
+            f"string for a failed fetch and for a page with no prose, so this count is the "
+            f"UPPER bound on genuine absence and the upper bound on lost fetches alike -- it "
+            f"is not a claim that those entities have no evidence."
         )
     return {
         "source": source_name,
@@ -255,6 +277,11 @@ def catalogue(source_name, verbose=True):
                          "than silently publishing a smaller universe.")
 
     entries, seen = [], set()
+    # See `catalogue_composite`: `page_texts` drops falsy results and `page_text` answers ""
+    # for a page with no prose and for one whose three section fetches all raised. Dropping
+    # those titles is right -- an entry with no description is not evidence -- but dropping
+    # them SILENTLY made a partial fetch indistinguishable from a complete one.
+    no_text = 0
     for canon, cats, titles in planned:
         # Rebind for THIS fetch unit -- the discovery loop above left `_short` on the last
         # canonical class that had categories, and the fetch progress heartbeat closed over
@@ -278,6 +305,7 @@ def catalogue(source_name, verbose=True):
         for title in wanted:
             text = texts.get(title)
             if not text:
+                no_text += 1
                 continue
             entries.append({
                 "name": title,
@@ -294,8 +322,23 @@ def catalogue(source_name, verbose=True):
             _beat_at[0] = time.time()
 
     if not entries:
-        return None, "categories found but no page text retrievable"
+        return None, ("categories found but no page text retrievable "
+                      f"({no_text} titles asked, none answered)")
 
+    provenance = (
+        f"Transcribed from {sitename} ({sub}.fandom.com) via the MediaWiki API by "
+        f"src/catalogue_web.py. Entity names, categories and descriptions are the wiki's "
+        f"own text; no model generated any of this content. scale_note and synthesis are "
+        f"deliberately empty -- Assay values require Part Three's worksheet method against "
+        f"cited feats and are not inferable from a wiki lead paragraph."
+    )
+    if no_text:
+        provenance += (
+            f" {no_text} title{'' if no_text == 1 else 's'} found in these categories are not "
+            f"below because no page text came back for them. The API answers the same empty "
+            f"string for a failed fetch and for a page with no prose, so this is not a claim "
+            f"that those entities have no evidence -- only that this pass did not obtain any."
+        )
     return {
         "source": source_name,
         "mode": "web",
@@ -303,14 +346,8 @@ def catalogue(source_name, verbose=True):
         "synthesis": None,
         "status": "catalogued",
         "attestation": "Transcribed",
-        "provenance": (
-            f"Transcribed from {sitename} ({sub}.fandom.com) via the MediaWiki API by "
-            f"src/catalogue_web.py. Entity names, categories and descriptions are the wiki's "
-            f"own text; no model generated any of this content. scale_note and synthesis are "
-            f"deliberately empty -- Assay values require Part Three's worksheet method against "
-            f"cited feats and are not inferable from a wiki lead paragraph."
-        ),
-    }, "ok"
+        "provenance": provenance,
+    }, ("ok" if not no_text else f"ok ({no_text} titles returned no text)")
 
 
 def main():

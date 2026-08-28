@@ -288,7 +288,7 @@ def ollama_token_flow(ttl=300.0, timeout=300):
 FANDOM_PROBE_HOST = "marvel.fandom.com"
 
 
-def fandom_ipv4_reachable(host=FANDOM_PROBE_HOST, timeout=8, _sk=None):
+def fandom_ipv4_reachable(host=FANDOM_PROBE_HOST, timeout=8, _sk=None, ttl=300.0):
     """Can this machine open a TCP connection to fandom's edge OVER IPv4? `(ok, detail)`.
 
     THE FAMILY IS THE WHOLE POINT, and it is why this standard read green through a total
@@ -322,6 +322,26 @@ def fandom_ipv4_reachable(host=FANDOM_PROBE_HOST, timeout=8, _sk=None):
     Deliberately NOT cached across processes: a network fact goes stale in minutes and the
     whole point of this standard is to notice an outage while it is happening.
 
+    AND THEREFORE THE MEMO CARRIES A TTL (run #36, batch 08). The sentence above was true and
+    the code under it contradicted it: the memo had no expiry at all, so "one answer per
+    process" is only equivalent to "one answer per battery run" when the process is a battery
+    run. The two REAL production callers are not. `dashboard.py`'s `state()` does
+    `import standards as ST; s["standards"] = ST.check(s)` on every HTTP poll of a single
+    `serve_forever()` process, and `publish.py --loop` calls `check()` inside a `while True`
+    that sleeps between laps -- both are long-lived, and in both the very first probe's answer
+    would have been served unchanged for the life of the daemon. A fandom outage that began
+    after a dashboard started would have read green on that board until somebody restarted it,
+    and the outage that motivated this whole function is the one it would have missed: the
+    2026-08-24 IPv4 blackout ran for hours. A standard whose stated purpose is "notice an
+    outage while it is happening" must be able to change its mind.
+
+    300 s matches `ollama_token_flow`'s TTL and is the same trade its docstring makes: long
+    enough that a battery -- which finishes in about 32 s and asks nineteen times -- still gets
+    ONE answer for every check in the run, which is what `mutate.py`'s differential gate needs
+    and what the memo was added for; short enough that a daemon re-probes twelve times an hour
+    instead of never. `ttl=0` forces a fresh probe, which is what a caller that must know NOW
+    should pass.
+
     `_sk` exists so the regression checks can drive this with a stub instead of the network --
     and a stubbed call bypasses the memo entirely, in both directions, because three checks in
     verify_math §19z drive this with three DIFFERENT synthetic networks and a memo shared with
@@ -329,14 +349,21 @@ def fandom_ipv4_reachable(host=FANDOM_PROBE_HOST, timeout=8, _sk=None):
     if _sk is not None:
         return _fandom_probe(host, timeout, _sk)
     key = (host, timeout)
-    if key not in _FANDOM_V4_CACHE:
-        import socket as _real_sk
-        _FANDOM_V4_CACHE[key] = _fandom_probe(host, timeout, _real_sk)
-    return _FANDOM_V4_CACHE[key]
+    hit = _FANDOM_V4_CACHE.get(key)
+    if hit is not None and (time.time() - hit[0]) < ttl:
+        return hit[1]
+    import socket as _real_sk
+    answer = _fandom_probe(host, timeout, _real_sk)
+    # STAMPED WITH THE TIME THE PROBE FINISHED, not the time it started: an 8 s connect timeout
+    # that expires would otherwise have its result counted as 8 s old the moment it is stored.
+    _FANDOM_V4_CACHE[key] = (time.time(), answer)
+    return answer
 
 
 # Keyed by (host, timeout) rather than a bare flag, so a caller asking about a different host or
-# with a different patience gets its own answer instead of inheriting one.
+# with a different patience gets its own answer instead of inheriting one. The VALUE is
+# `(taken_at, (ok, detail))` -- a cached network fact that cannot say how old it is cannot be
+# expired, and an unexpirable answer is what froze this probe inside every long-lived daemon.
 _FANDOM_V4_CACHE = {}
 
 
@@ -1170,7 +1197,16 @@ def check(state=None):
             "reads, from inside the library, as NOT IN THAT FICTION rather than not reached "
             "yet. Molecule Man, Mister Mxyzptlk and the Black Winter were all in that gap. The "
             "remedy starts `catalogue_web --recatalogue --shortfall 100`, largest gap first, "
-            "and re-measures afterwards.",
+            "and re-measures afterwards. THAT REMEDY HAS A PRECONDITION, and it is named here "
+            "because a conditionally-safe instruction that does not say what it depends on "
+            "goes on being given after the condition lapses: a re-catalogue is only "
+            "non-destructive while `pipeline.write_record_catalogue` refuses to let a caller's "
+            "`None` erase a top-level key it did not author. Before that merge existed this "
+            "same advice cost 26 sources their `synthesis` block, because "
+            "`catalogue_web.catalogue()` correctly returns `synthesis: None` and the write that "
+            "followed the merge landed it whole. Verified in production 2026-08-26 00:07: a "
+            "live re-catalogue of Warhammer Fantasy (7,012 entries) kept its synthesis. If that "
+            "merge is ever changed, re-verify on ONE source before running this at the roll.",
             "high", "library"))
     except Exception:
         silence.note("standards.py:catalogue-coverage")

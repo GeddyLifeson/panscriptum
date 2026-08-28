@@ -122,6 +122,15 @@ def _handlers(path):
             src = f.read()
         tree = ast.parse(src)
     except Exception:
+        # A FILE THIS AUDIT CANNOT READ IS NOT A FILE WITH NO HANDLERS, and returning `[]` here
+        # silently was this module's own defect turned on itself: an unreadable or unparseable
+        # module contributes zero rows and reads downstream -- in `main()`'s counts, in
+        # `secondopinion`'s tally -- exactly like a clean one. The one audit whose whole subject
+        # is failures filed as honest absences must not file its own that way. Recorded, and said
+        # out loud on stderr, because the printed count is otherwise quietly short.
+        note("silence.py:_handlers:" + os.path.basename(path))
+        print("silence.py: %s could not be read or parsed -- its handlers are NOT counted in "
+              "this audit" % os.path.basename(path), file=sys.stderr)
         return []
     out = []
     for node in ast.walk(tree):
@@ -476,7 +485,16 @@ def instrument(root=None, dry=False):
         lines = original.splitlines(keepends=True)
         try:
             tree = ast.parse(original)
-        except Exception:
+        except Exception as exc:
+            # SAME RULE AS `_handlers` ABOVE. A file that will not parse is skipped -- correctly,
+            # there is nothing safe to rewrite -- but it is also absent from `changed`, so the
+            # summary `main()` prints reads identically to "that module had nothing to
+            # instrument". Said out loud, in the same shape as the rewrite-would-not-parse
+            # report twenty lines below, so an operator running --instrument knows which modules
+            # the pass could not reach.
+            note("silence.py:instrument-unparseable:" + base)
+            print("  !! %s: could not be parsed (%s: %s); left uninstrumented"
+                  % (base, type(exc).__name__, str(exc)[:120]))
             continue
         sites = []
         for node in ast.walk(tree):

@@ -1,0 +1,6 @@
+arm 1  real code                 -> GREEN
+arm 2  verification removed      -> RED
+arm 3  empty-set refusal removed -> RED
+arm 4  restored real code        -> GREEN
+
+A merge is justified only if this reads GREEN, RED, RED, GREEN.

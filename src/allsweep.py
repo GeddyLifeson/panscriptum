@@ -371,6 +371,59 @@ def reconcile():
     return out
 
 
+# --------------------------------------------------------------------- grading the ESTATE tier
+
+# The four named ESTATE tiers. `artifacts` is not here because it is graded by its own `bad`
+# LIST (a row per unreadable file) and always has been; these four return REPORT ROWS.
+ESTATE_TIERS = ("charter", "written", "terminal", "external")
+
+
+def _row_is_fault(row):
+    """Is one ESTATE report row a fault? FAIL-CLOSED on a row that will not say.
+
+    A row that carries no `bad` key is counted as a fault ON PURPOSE. Every row `estate.py`
+    produces now sets one explicitly, so a keyless row means somebody added a finding without
+    deciding what it means -- and the failure mode this whole file exists against is the
+    undecided thing scoring green. Defaulting the other way would restore exactly the hole this
+    fixes: a new `note()` call would be born ungradeable and nothing would ever say so.
+    """
+    return bool(row.get("bad", True)) if isinstance(row, dict) else True
+
+
+def estate_faults(est):
+    """-> the list of graded FAULT rows across CHARTER/WRITTEN/TERMINAL/EXTERNAL.
+
+    WHY THIS EXISTS. Until run #36 these four tiers were printed, written into ALLSWEEP.json,
+    and summed by NOTHING: `main()` counted only `estate["artifacts"]["bad"]`, so
+    `MASTER CHARTER MISSING`, `CHARTER_SPINE_CODES.json MISSING`,
+    `TERMINAL HAS NO HTML ENTRY POINT` and `OLLAMA UNREACHABLE` could all be true at once and
+    this sweep still printed "0 subsystem(s) in a bad state" and exited 0. Proven by execution
+    before the change: `estate.charter()` driven against an empty tree returned
+    `MASTER CHARTER MISSING`, and the old formula graded it 0.
+
+    That is the ESTATE tier of the same defect run #26 fixed in the LINT tier -- a tier that
+    was computed, printed, and dropped. A check that cannot fail looks exactly like a check
+    that passed, and these four were the ones that could not.
+
+    NOT EVERY ROW IS A FAULT and the severity is set at the `note()` call in `estate.py`, not
+    guessed from the text here. An earlier draft of this reached for `finding.isupper()` (the
+    heuristic `overwatch.py` uses on reconcile rows) and it is wrong in both directions:
+    `config.yaml NAMES A MODEL OLLAMA DOES NOT HAVE` and `conc.js UNREADABLE` are faults that
+    are not all-caps, and grading on the shape of a sentence is a check about typography.
+
+    RECONCILE still does not count, and that remains recorded below as a gap rather than a
+    decision -- its rows have no severity to read.
+    """
+    out = []
+    for tier in ESTATE_TIERS:
+        for row in (est.get(tier) or []):
+            if _row_is_fault(row):
+                out.append({"tier": tier, "finding": (row.get("finding") if isinstance(row, dict)
+                                                      else str(row)),
+                            "detail": (row.get("detail") if isinstance(row, dict) else "")})
+    return out
+
+
 # --------------------------------------------------------------------------- the report
 
 def main():
@@ -467,10 +520,15 @@ def main():
             except Exception as ex:
                 print("   check itself failed: {}: {}".format(
                     type(ex).__name__, str(ex)[:90]))
-                rows = [{"finding": "check failed", "detail": type(ex).__name__}]
+                # `bad: True`, because a tier that CRASHED is the loudest possible finding and
+                # it used to be the quietest: this row was written into ALLSWEEP.json with no
+                # severity and summed by nothing, so `estate.charter()` raising on every run
+                # scored identically to `estate.charter()` returning a clean report.
+                rows = [{"finding": "check failed", "detail": type(ex).__name__, "bad": True}]
             est[label.lower()] = rows
             for r in rows:
-                print("   {:<50}{}".format(r["finding"][:50], str(r["detail"])[:58]))
+                mark = "  FAULT" if _row_is_fault(r) else ""
+                print("   {:<50}{}{}".format(r["finding"][:50], str(r["detail"])[:58], mark))
 
     print("\nRECONCILE — where the subsystems disagree")
     findings = reconcile()
@@ -488,10 +546,18 @@ def main():
     # without an `at` inside the file the only answer available is the file's mtime -- which a
     # copy, a restore or a publish step rewrites, so a stale battery could present as fresh.
     # An artifact that cannot say when it was made is one a detector has to guess about. (run #33)
+    # `estate_faults` IS LANDED AS ITS OWN TOP-LEVEL KEY, not left for a reader to re-derive.
+    # `workorders.battery_faults` reads this file to decide what the battery says, and it reads
+    # `estate.artifacts.bad` only -- so the four ESTATE tiers were invisible to the queue as
+    # well as to the grade. Publishing the graded list here means the ONE severity judgement
+    # (made at the `note()` call in `estate.py`) travels with the report, instead of every
+    # consumer inventing its own rule about which findings are red. (run #36, batch 08)
+    est_faults = estate_faults(est)
     silence.write_json(OUT, {"at": time.time(),
                              "imports": imports, "verifiers": verifiers,
                              "lint": lint_bad,
                              "reconcile": findings, "estate": est,
+                             "estate_faults": est_faults,
                              "seconds": round(time.time() - t0, 1)}, indent=1)
     # THE LINT TIER NOW COUNTS. Run #26: this sweep ran four tiers and graded two. `lint_bad` was
     # computed, printed to the console and dropped, so a real pyflakes undefined-name anywhere in
@@ -508,15 +574,30 @@ def main():
     # quietly dropped. Giving `note()` a severity so this tier CAN gate is real work and is in
     # NEXT_STEPS; until then the count is printed below and judged by a person, and the tier is
     # honestly ungraded rather than dishonestly summed.
+    #
+    # AND THE ESTATE TIER'S OWN FINDINGS NOW COUNT TOO (run #36). The paragraph above was
+    # written about LINT and the identical hole was sitting one line below it: `est["charter"]`,
+    # `est["written"]`, `est["terminal"]` and `est["external"]` were computed, printed, landed
+    # in ALLSWEEP.json -- and excluded from this sum, which read only the `artifacts` file list.
+    # `MASTER CHARTER MISSING` was therefore a finding that could never fail the battery.
+    # Unlike RECONCILE, these rows now carry an explicit severity set at the `note()` call
+    # (`estate.py`), so the tier can gate without guessing.
     bad = (len(broken)
            + sum(1 for r in verifiers if r["crashed"] or r.get("timeout"))
            + len(lint_bad)
-           + len((est.get("artifacts") or {}).get("bad", [])))
+           + len((est.get("artifacts") or {}).get("bad", []))
+           + len(est_faults))
+    if est_faults:
+        print("\nESTATE FAULTS — graded, and each one fails this sweep")
+        for f in est_faults:
+            print("   {:<10}{:<52}{}".format(
+                f["tier"].upper(), str(f["finding"])[:50], str(f["detail"])[:44]))
     print(f"\n{bad} subsystem(s) in a bad state.  {time.time() - t0:.0f}s.  -> {OUT}")
     print(f"   graded:   imports {len(broken)}   verifiers "
           f"{sum(1 for r in verifiers if r['crashed'] or r.get('timeout'))}   "
           f"lint {len(lint_bad)}   "
-          f"estate {len((est.get('artifacts') or {}).get('bad', []))}")
+          f"estate files {len((est.get('artifacts') or {}).get('bad', []))}"
+          f"   estate findings {len(est_faults)}")
     print(f"   ungraded: reconcile {len(findings)} row(s) -- read them, they are not all faults")
     return 1 if bad else 0
 

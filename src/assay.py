@@ -514,6 +514,15 @@ def _check_constants():
         a witnessed one, which is the wrong direction for a library to be confident in;
       * the ceiling -- an attestation sigma above SIGMA_MAX is silently clamped by `_interval`,
         so a table can look calibrated in the source and behave differently in the arithmetic.
+
+    WHAT THE LAST TWO BRANCHES ACTUALLY POLICE, since they have now been read twice as dead
+    (run #34 order 02277646a783, on the grounds that SIGMA_MAX and SIGMA_UNKNOWN are DERIVED
+    from this very table so `max(vals)` can never exceed either). True for edits to
+    `_RAW_SIGMA` -- and those two constants are the edit they are watching, not the table.
+    Measured live: rebind `SIGMA_UNKNOWN = 0.5` (the "ignorance surely is not that wide" edit)
+    and the first raises; rebind `SIGMA_MAX = SIGMA_UNIFORM_PRIOR` (restoring the ceiling this
+    file abandoned, which the table at 3.7444 now sits above) and the second raises. Both are
+    edits this file has actually made in its history. Do not delete them as unreachable.
     """
     order = ["Instrumented", "Witnessed", "Transcribed", "Reconstructed", "Disputed"]
     vals = [SIGMA_BY_ATTESTATION[g] for g in order]
@@ -844,6 +853,14 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     unestimable = sorted(k for k in W if scores.get(k) == UNESTIMABLE)
     unscored = sorted(k for k in W if k not in used and k not in nil
                       and scores.get(k) not in (INAPPLICABLE, UNESTIMABLE))
+    # `or 1.0` READS AS DEAD AND IS NOT (run #34 order 0d5ab3aab8ff, disproved this run). The
+    # reasoning that retires it is: `used` is a subset of `applicable` (a numeric score is never
+    # the INAPPLICABLE sentinel) and `assay()` has already returned when `used` is empty, so
+    # `applicable` is non-empty here. True -- and `denom` sums WEIGHTS over those axes, not axes.
+    # `weights=` is a public per-call override whose VALUES are unconstrained, and measured live:
+    # `assay("M3", {"ruin": 5.0}, worksheet="w", weights={"ruin": 1.0, "celerity": -1.0})` sums
+    # `applicable` to exactly 0.0 and returns 𝔄 M3.50 ± 0.45 through this guard, where without
+    # it the call is a ZeroDivisionError. Reachable, therefore kept.
     denom = sum(W[k] for k in applicable) or 1.0
     coverage = wsum / denom
     interval, var_parts = _interval(scores, used, nil, applicable, attestation, denom,
@@ -1046,6 +1063,17 @@ def regress_test(name, has_a_before=None, has_a_stage=None, embedded_in_a_state_
 # the charter files Avar's and Quill's competing Goku readings "both signed", why the Five
 # Absolutes forbid silent averaging, and why the Emperor -- read across a sparse graph where the
 # Hands' priors barely overlap -- is "the most argued name in the Registry" at +/- 0.85.
+#
+# WHICH EMPEROR, AND WHOSE +/-. Read twice as a data error (run #35 audit, run #36 order
+# 7400ed41c771) on the grounds that `data/WH40K_ASSAYS.json` prints the Emperor at +/- 0.06, so
+# the pointer is written down here once. The +/- 0.85 is the CHARTER's own published figure for
+# "The Emperor, Throne-bound" -- 0-5_DE_CONSONANTIA.md §5, the Hand-readings table (AVAR 5.62,
+# QUILL 6.88, MOTH 5.95 -> M6.15 +/- 0.75 derived against M6.15 +/- 0.85 as printed, 71% prior
+# share) and X.2 §5. The WH40K assay is a DIFFERENT reading of a different subject line: "The
+# Emperor of Mankind", M6.76 +/- 0.06, Transcribed, all eleven axes scored from wiki feats and
+# NO hand readings on file at all. One number is the spread between Custodes who disagree; the
+# other is measurement dispersion where only one reader has filed. They are not comparable and
+# neither contradicts the other.
 HANDS = {
     "AVAR": "institutional prior: the Order's accumulated base rates; conservative, "
             "corrective, weights the ratified record heavily",

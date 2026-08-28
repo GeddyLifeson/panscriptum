@@ -321,9 +321,44 @@ def _json(raw):
         return {}
 
 
-def epoch_of(sentence):
-    """The epoch a single sentence places itself in, or "" when it names none."""
-    d = _json(_ask(sentence.strip()[:1200]))
+class ProbeUnavailable(RuntimeError):
+    """The epoch probe never ran. This is not the same claim as "the sentence names no epoch"."""
+
+
+def epoch_of(sentence, strict=False):
+    """The epoch a single sentence places itself in, or "" when it names none.
+
+    TWO DIFFERENT ANSWERS USED TO ARRIVE AS THE SAME EMPTY STRING, and the system prompt above
+    is emphatic about which one it means: "If the sentence carries no marker at all, return
+    {"epoch": "", "explicit": false}. An absent marker is a real answer. Do not guess one."
+    `chain.adjudicate_mutuals()` reads it the same way and prints "neither sentence dates itself"
+    on the strength of it -- then records the pair as a genuine disagreement in the record and
+    hands it to Bradley-Terry.
+
+    But `_ask()` swallows every exception and returns None -- the transport down,
+    `read.ensure_transport` failing, a response that will not parse -- and `_json(None)` is `{}`,
+    whose `explicit` is falsy, which is the same `""`. So "the model read this sentence and found
+    no epoch marker in it" and "nothing ever asked" were indistinguishable to every caller, and
+    the second one was being reported as the first. A run with no transport at all would report
+    every mutual pair as a settled genuine disagreement, unanimously, and look like a clean run.
+
+    `strict=True` refuses to answer instead of guessing, per the fail-closed rule: a layer that
+    does not know must not authorise. It is an ADDITIVE keyword with the old behaviour as the
+    default so no existing caller changes; `chain.py:422` is the caller that should pass it, and
+    that is filed as a cross-module change in handoff/run36/crossmodule_batch04.md rather than
+    edited here, because chain.py belongs to another agent this shift.
+    """
+    raw = _ask(sentence.strip()[:1200])
+    d = _json(raw) if raw is not None else None
+    if not d:
+        # UNPROBED, not unmarked. Both arms land here: no transport (raw is None) and a reply
+        # that would not parse (`_json` -> {}). Neither is evidence about the sentence.
+        silence.note("identity.py:epoch-unprobed")
+        if strict:
+            raise ProbeUnavailable(
+                "the epoch probe did not run for this sentence, so its epoch is UNKNOWN rather "
+                "than absent; treating it as absent would date a record from a failed call")
+        return ""
     if not d.get("explicit"):
         return ""
     return str(d.get("epoch") or "").strip()[:60]

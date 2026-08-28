@@ -372,21 +372,48 @@ def for_ladder():
     return out
 
 
+# The two codes a settled identity verdict can be filed under. A host has ONE identity, so at
+# most one of these may stand open against it at a time -- see `_supersede_binding_suspect`.
+BINDING_DECIDED_CODE = {"CONFIRMED": "BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES",
+                        "MISBOUND": "BINDING_HOST_SERVES_ANOTHER_WIKI"}
+
+
 def _supersede_binding_suspect(host, call, closed):
-    """The old undecided order is CLOSED once its host's identity has been settled.
+    """The orders this verdict REPLACES are closed: the undecided one, and the sibling verdict.
 
     Without this the split below only ever adds: the host is still `healthy is None`, so it
     still appears in `suspect` every sweep, and the vague BOTS order would sit open beside the
     precise OWNER one describing the same host for ever. Superseding is a real resolution --
     the question the old order asked has been answered -- so it is recorded as one rather than
     deleted quietly.
+
+    AND THE SIBLING VERDICT IS SUPERSEDED TOO (order ebecc3cc19a7). This used to close only
+    BINDING_SUSPECT, which is right exactly once: the first time a host's identity settles.
+    When `binding_health` re-probes a host and the verdict FLIPS -- CONFIRMED to MISBOUND, or
+    back -- the new code is filed at the same `where=host` and the OLD decided code is left
+    standing, with no path anywhere that closes it: `_supersede` never named it, and the
+    recovery sweep below only closes hosts that have recovered. The queue would then assert
+    both "this IS the wiki it is bound to" and "this host serves another wiki" about one host,
+    for ever, and the stale half is the one nobody can tell is stale. A host has one identity;
+    the verdict that is no longer current is closed by the one that replaced it.
     """
-    if resolve_code("BINDING_SUSPECT",
-                    "superseded: the host's identity was measured and the verdict is %s, so "
-                    "this is filed under the code for that case instead of as an undecided "
-                    "suspicion" % call,
-                    where=host, by="workorders.sweep"):
-        closed.append("BINDING_SUSPECT:" + host)
+    superseded = [("BINDING_SUSPECT",
+                   "superseded: the host's identity was measured and the verdict is %s, so "
+                   "this is filed under the code for that case instead of as an undecided "
+                   "suspicion" % call)]
+    # Only a DECIDED verdict may supersede the other decided one. An undecided call ("I could
+    # not tell") answers nothing and must not close either finding -- that would be the same
+    # silence-as-answer this whole split was built to stop.
+    for verdict, code in (BINDING_DECIDED_CODE.items() if call in BINDING_DECIDED_CODE else ()):
+        if verdict != call:
+            superseded.append((code,
+                               "superseded: this host's identity verdict has since changed to "
+                               "%s, which is filed under its own code. A host has one identity, "
+                               "so the earlier %s finding no longer describes it."
+                               % (call, verdict)))
+    for code, how in superseded:
+        if resolve_code(code, how, where=host, by="workorders.sweep"):
+            closed.append(code + ":" + host)
 
 
 def sweep_detectors():

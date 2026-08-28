@@ -17,8 +17,10 @@ by a person reading the file. Instances already caught by hand:
 Reading for these is not a strategy that scales to 95 modules and 40,000 lines. This finds the
 three mechanical shapes:
 
-  DEAD        a module-level function nobody calls, from anywhere in src/. It cannot fail because
-              it never runs, and it silently drifts from whatever it duplicates.
+  DEAD        a module-level function OR A METHOD nobody calls, from anywhere in src/. It cannot
+              fail because it never runs, and it silently drifts from whatever it duplicates.
+              (Methods were invisible to this pass until run #36 -- it walked `Module.body` and
+              stepped over every `ClassDef` whole. See `_defs`.)
   TAUTOLOGY   a comparison whose two sides are the same expression. Always True or always False,
               regardless of the data it claims to be checking.
   PHANTOM     a name used in a condition that is never defined, imported or assigned in its
@@ -58,6 +60,16 @@ EXEMPT = {
     "__str__": "protocol",
     "__enter__": "protocol",
     "__exit__": "protocol",
+    # Added run #36 with the widening of DEAD to methods (see `_defs`). Both are framework
+    # hooks on an http.server handler, dispatched BY THE SERVER and correctly never called from
+    # src/ -- `handle_one_request` does `getattr(self, 'do_' + command)`. They are the only two
+    # false positives the widening produced across the whole tree, and they are named here with
+    # their reason rather than waved through by a broad `do_*` prefix, which would also exempt
+    # any ordinary method somebody happened to call `do_thing`.
+    "do_GET": "http.server dispatches request handlers by verb name via getattr",
+    "do_POST": "http.server dispatches request handlers by verb name via getattr",
+    "do_HEAD": "http.server dispatches request handlers by verb name via getattr",
+    "log_message": "BaseHTTPRequestHandler hook called by the server; overridden to silence it",
 }
 # Prefixes for tool callbacks dispatched by name through a table rather than called directly.
 EXEMPT_PREFIXES = ("t_", "test_", "cmd_", "phase_", "check_", "drill_")
@@ -75,6 +87,33 @@ def _parse(path):
             return ast.parse(fh.read(), filename=path)
     except Exception:
         return None
+
+
+def _defs(tree, prefix=""):
+    """Every function the DEAD pass considers, as (name, label, node).
+
+    MODULE-LEVEL FUNCTIONS **AND METHODS**. Until run #36 this pass iterated `Module.body` and
+    skipped anything that was not a FunctionDef there, so a `ClassDef` was stepped over whole
+    and every method inside it was never a DEAD candidate -- not exempted, not judged, absent.
+    Twelve modules in this tree define classes; `entity_match.py` and `verify_math.py` among
+    them. A detector that never looks at a construct reports zero findings in it, and zero
+    findings is exactly what a clean module also reports. This is the same shape as the flat
+    `used` set that hid `coverage._p()`: a floor being read as a total.
+
+    A method is not harder to judge than a function, because Python resolves it the same way
+    the `used` set already models: `self.foo()` and `obj.foo()` are ATTRIBUTES, which are
+    collected globally, so any method reached through an instance anywhere in src/ counts as
+    used. What surfaces is the method nothing ever names.
+
+    Nested classes recurse, and the label carries the dotted path so a report line names the
+    class -- `entity_match.py:88 Resolver.rebuild()` is answerable, `rebuild()` is not.
+    """
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            yield node.name, prefix + node.name, node
+        elif isinstance(node, ast.ClassDef):
+            for got in _defs(node, prefix + node.name + "."):
+                yield got
 
 
 def scan():
@@ -133,11 +172,8 @@ def scan():
 
     dead, taut, phantom = [], [], []
     for name, t in trees.items():
-        # --- DEAD: module-level defs nobody references
-        for node in t.body:
-            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                continue
-            fn = node.name
+        # --- DEAD: module-level defs and METHODS nobody references (see `_defs`)
+        for fn, label, node in _defs(t):
             if fn in EXEMPT or fn.startswith(EXEMPT_PREFIXES) or fn.startswith("__"):
                 continue
             # Membership in the pre-built sets. The first version re-walked every tree for every
@@ -149,7 +185,7 @@ def scan():
             # dispatch strings) and `used_local[name]` is what this module itself loads. A bare
             # name in ANOTHER module cannot reach this function, which is the whole correction.
             if fn not in used and fn not in used_local.get(name, ()):
-                dead.append("%s:%d %s()" % (name, node.lineno, fn))
+                dead.append("%s:%d %s()" % (name, node.lineno, label))
 
         # --- TAUTOLOGY: a comparison whose sides are the same expression
         for node in ast.walk(t):
@@ -196,14 +232,29 @@ def scan():
         # day, and an ignored detector is indistinguishable from an absent one.
         defined |= {"__file__", "__name__", "__doc__", "__package__", "__spec__",
                     "__loader__", "__builtins__", "__debug__"}
+        # EVERY CONDITION, NOT ONLY `if`. Until run #36 this walked `n2.test` only when `n2` was
+        # an `ast.If`, so the identical shape -- a branch or filter that raises NameError only
+        # when taken, and which nothing takes today -- was structurally invisible in a `while`
+        # condition, an `assert`, a ternary, and a comprehension's `if` filter. cleanup.py:77-80,
+        # the founding example in this file's own docstring, is an `if`; nothing made it an `if`
+        # except where the author happened to write it. A detector that only inspects the syntax
+        # its worked example used is measuring the example, not the fault.
         for n2 in ast.walk(t):
-            if not isinstance(n2, ast.If):
-                continue
-            for sub in ast.walk(n2.test):
-                if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Load) \
-                        and sub.id not in defined:
-                    phantom.append("%s:%d guard names '%s', never defined in this module"
-                                   % (name, n2.lineno, sub.id))
+            tests = []
+            if isinstance(n2, (ast.If, ast.While, ast.IfExp)):
+                tests.append(("guard", n2.test))
+            elif isinstance(n2, ast.Assert):
+                tests.append(("assertion", n2.test))
+            elif isinstance(n2, (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)):
+                for gen in n2.generators:
+                    for cond in gen.ifs:
+                        tests.append(("comprehension filter", cond))
+            for kind, test in tests:
+                for sub in ast.walk(test):
+                    if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Load) \
+                            and sub.id not in defined:
+                        phantom.append("%s:%d %s names '%s', never defined in this module"
+                                       % (name, n2.lineno, kind, sub.id))
     return {"dead": sorted(set(dead)), "tautology": sorted(set(taut)),
             "phantom": sorted(set(phantom)), "unparsed": sorted(set(unparsed))}
 
