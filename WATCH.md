@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 119  ·  last run 2026-08-28 16:22
+round 120  ·  last run 2026-08-28 17:15
 
 ## Structure
 
@@ -8,7 +8,6 @@ round 119  ·  last run 2026-08-28 16:22
 - files that will not parse: **1** of 268,382 inspected (deep scan as of round 115)  — handoff\run36\sweep_plan.json — malformed JSON: Extra data: line 213 column 1 (char 3102)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
-- NOT RUNNING: **0** pipeline.py
 
 ## What the model found in the code
 
@@ -22,14 +21,14 @@ round 119  ·  last run 2026-08-28 16:22
   - says: Classifies a source based on its entries, using all scored genres for confidence calculation
 - **generate.py** `compress_store.store` — [HIGH] is called but exceptions are caught and handled without raising
   - says: now RAISES when `silence.replace_retry` cannot land the blob
+- **magnitude.py** `slice_census` — [MEDIUM] Calculates totals but does not account for unread characters or sentences per axis, which are critical for understanding which axes had incomplete evidence processing.
+  - says: How much of the evidence a split sheet was actually read from.
+- **local_agent.py** `modname` — [MEDIUM] derive module name from file path but case-insensitively
+  - says: derive module name from file path
+- **liveness.py** `used_local` — [MEDIUM] used_local is a dictionary mapping module names to sets of names used in that module
+  - says: used_local is a set of names used in the current module
 - **ingest_doc.py** `state` — [MEDIUM] reset to 0, found to 0 on exception
   - says: tracking progress
-- **hostcheck.py** `add` — [MEDIUM] Adds a host to the speculative list if not in grounded, but the code uses 'spec' and 'grounded' in a way that may not align with the function's name
-  - says: Adds a host to either the speculative or grounded list
-- **dashboard.py** `state` — [MEDIUM] Imports standards and applies check, but may return empty list on error
-  - says: Collects state data including standards
-- **dashboard.py** `movement` — [MEDIUM] Calculates deltas based on the oldest sample within a moving window, but the comment and docstring suggest it should compute changes against the most recent sample in the window.
-  - says: What has CHANGED, not what the level is.
 
 ---
 
