@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 106  ·  last run 2026-08-27 16:27
+round 107  ·  last run 2026-08-27 19:00
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 106  ·  last run 2026-08-27 16:27
 
 ## What the model found in the code
 
-**36 open** (13 high). Newest first.
+**36 open** (11 high). Newest first.
 
 - **mutate.py** `_lock_acquire` — [HIGH] Never called within the module, rendering the lock mechanism ineffective
   - says: Acquire a lock to prevent concurrent mutation runs
@@ -32,14 +32,16 @@ round 106  ·  last run 2026-08-27 16:27
   - says: two nets up counts the same directory but only demands it be EMPTY while the gate is shut; this one holds once the gate is open again, which is when it starts t
 - **dashboard.py** `movement` — [HIGH] movement(d)
   - says: movement(s)
-- **generate.py** `generate_job` — [HIGH] generate_job is not defined in the provided code slice and is used without being imported or defined
-  - says: generate_job is supposed to generate text based on the job, templates, and configuration
 - **completeness.py** `no_denominator` — [HIGH] A ROW THAT COULD NOT BE MEASURED IS A ROW WITH NOTHING IN IT. The code returns a row with the no_denominator message instead of None, which is read downstream as "this source has n
   - says: A ROW THAT COULD NOT BE MEASURED IS NOT A ROW WITH NOTHING IN IT. Returning None here for an all-errors source deleted it from COMPLETENESS.json, and an absent 
-- **chain.py** `work` — [HIGH] increments `unmatched` directly without locking, risking race conditions
-  - says: TALLIED LOCALLY, MERGED UNDER THE LOCK, for the same reason `local` exists.
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, changing the answer for 7 of 210 sources
   - says: Classify one source from its own catalogued entries.
+- **overnight.py** `main` — [MEDIUM] exits with 0
+  - says: supervisor finished
+- **overnight.py** `_cmd_is_running` — [MEDIUM] Checks if the command line contains the fragment as a script name, but not its arguments, and if the interpreter is Python
+  - says: PURE. Does this command line show `fragment` BEING RUN, rather than merely mentioned?
+- **onomast.py** `well_formed` — [MEDIUM] Enforces constraints that may not align with the intended purpose of checking pronounceability and uniqueness
+  - says: Is this a name a Custos could say aloud and write down twice the same way?
 - **local_agent.py** `full.lower().endswith(('.yaml', '.yml'))` — [MEDIUM] checks for .yaml and .yml files with case-insensitive comparison
   - says: fold the extension test every time one is written
 - **local_agent.py** `full.lower().endswith(".json")` — [MEDIUM] checks for .json files with case-insensitive comparison
@@ -76,8 +78,6 @@ round 106  ·  last run 2026-08-27 16:27
   - says: catalogue a source's pages
 - **corpus_db.py** `age_seconds` — [MEDIUM] Returns the time since the index was built, but does not handle cases where the index is locked or corrupt, which can result in None being returned incorrectly
   - says: How old the index is in seconds, or None. -> float|None.
-- **chain.py** `work` — [MEDIUM] uses `chunk[min(i, len(chunk) - 1)]` to attribute outcomes to sentences, which may still be incorrect
-  - says: Every outcome after the first skipped sentence was therefore attributed to the wrong sentence, and inherited the wrong page and the wrong CONTINUITY.
 - **backfill.py** `F.api` — [MEDIUM] returns None on timeout or nothing found
   - says: used to fold that into an empty page list here too
 - **backfill.py** `lead` — [MEDIUM] extract a lead sentence from a block of text
