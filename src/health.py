@@ -403,6 +403,51 @@ def check_caches():
         # FAIL LOUD, NOT QUIET. If the quarantine record cannot be read we do not know that a
         # host is excused, so nothing is excused and every empty cache reports as before.
         quarantined = set()
+    # AND A HOST WHOSE SOURCES HAVE ALL BEEN EXCLUDED, which the quarantine exemption above
+    # could not cover because it is TTL-gated. A quarantine lapses -- `RETRY_AFTER_S` is 24h --
+    # and for the window between the lapse and the next probe an excluded host's cache reported
+    # as a fresh fault again, every single day, for a condition nobody was ever going to act on.
+    # Measured on 2026-08-27: the www.dandwiki.com quarantine expired 167 seconds before that
+    # shift's sweep filed its orders, and the preflight went red on a host the owner removed
+    # from the library the next morning.
+    #
+    # An EXCLUSION does not lapse. It is a dated curatorial decision that the source is out of
+    # scope, so its cache being empty is not a defect at all -- it is the expected state of a
+    # source nobody is mining any more, and reporting it asks somebody to fix a thing that is
+    # already settled. Widening the QUARANTINE exemption to cover lapsed quarantines would have
+    # been the wrong fix: that weakens a live safety to quiet a symptom, and a quarantine that
+    # has lapsed genuinely is unproven again. This keys off the roll instead, which is where the
+    # decision actually lives. (owner decision 2026-08-28, dandwiki)
+    excluded_dirs = set()
+    try:
+        import cachekey as _CK2
+        import roll as _R
+        import json as _json
+        _hosts = _json.load(open(os.path.join(HERE, "data", "WIKI_HOSTS.json"),
+                                 encoding="utf-8"))
+        # `roll.OUT_OF_SCOPE`, not a hand-spelled "out-of-scope". Re-typing the sentinel here
+        # would make this exemption silently stop working the day the constant changed, and it
+        # would still LOOK implemented -- the shape this project calls a check that cannot fail,
+        # and the exact mistake the quarantine exemption directly above made with host_dir().
+        _rows = [r for r in _R.load() if isinstance(r, dict)]
+        for _row in _rows:
+            if _row.get("status") != _R.OUT_OF_SCOPE:
+                continue
+            _h = _hosts.get(_row.get("name"))
+            if _h:
+                excluded_dirs.add(_CK2.host_dir(_h))
+        # A host is only excused when EVERY source on it is excluded. One live source still
+        # bound to it means the cache is still load-bearing and an empty one is still a fault.
+        for _row in _rows:
+            if _row.get("status") == _R.OUT_OF_SCOPE:
+                continue
+            _h = _hosts.get(_row.get("name"))
+            if _h:
+                excluded_dirs.discard(_CK2.host_dir(_h))
+    except Exception:
+        # Same discipline as above: if the roll cannot be read, nothing is excused.
+        silence.note("health.py:excluded-hosts-unreadable")
+        excluded_dirs = set()
     excused = []
     for base in ("feats", "readfeats"):
         root = os.path.join(HERE, "data", base)
@@ -430,7 +475,9 @@ def check_caches():
                             f"{unreadable} files cannot be stat'd"))
             n = min(len(files), 200)
             if empty == n:
-                if host in quarantined:
+                if host in excluded_dirs:
+                    excused.append(f"{base}/{host} ({n}, source excluded from the roll)")
+                elif host in quarantined:
                     excused.append(f"{base}/{host} ({n})")
                 else:
                     out.append((f"{base}/{host}", f"all {n} sampled entries empty"))

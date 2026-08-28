@@ -78,6 +78,36 @@ def failed_sources():
     return sorted(st.get("failed", {}).get("synthesis", {}))
 
 
+def stranded_sources():
+    """Sources with NO synthesis that the pipeline will never revisit. -> sorted [names].
+
+    THE FAILED-SET IS NOT THE POPULATION THAT NEEDS RESCUING, and measuring it is what showed
+    that. On 2026-08-28 thirty-one records carried a null synthesis -- 191,029 entries, Marvel
+    (59,170) and DC (55,560) among them -- and the pipeline's failed set held exactly TWO names.
+    The other twenty-nine never failed anything. Their blocks were written correctly and then
+    CLOBBERED by the catalogue-side writer, which returned "synthesis": None for a wiki lead
+    paragraph and landed that None on top of the pipeline's work (order 3c7c8a6e9102, and the
+    same defect was still live on the pipeline's own writer until it was fixed on 2026-08-27).
+
+    So this tool, whose entire job is "sources the pipeline will never revisit on its own", could
+    see two of the thirty-one that qualified. A rescue tool that selects on the CAUSE rather than
+    on the CONDITION misses every casualty whose cause it did not anticipate -- and the whole
+    reason these are stranded is that `phase_synthesis` skips any source already in its done-keys,
+    which is true of a clobbered source exactly as it is true of a failed one.
+
+    Selecting on the condition instead: no synthesis block, and entries to reason over. A source
+    with no entries has nothing to synthesise FROM and is not stranded, it is empty.
+    """
+    out = []
+    for _p, rec in PL.records():
+        if rec.get("synthesis"):
+            continue
+        if not (rec.get("entries") or []):
+            continue
+        out.append(rec["source"])
+    return sorted(out)
+
+
 def synthesise(c, rec):
     """Same nomination method as `phase_synthesis`, because it now literally shares the code.
 
@@ -100,7 +130,20 @@ def synthesise(c, rec):
     for ci, sample in enumerate(chunks):
         prompt = PL.synthesis_prompt(src, sample, feats_for, ci, len(chunks),
                                      len(rec["entries"]))
-        got = PL.ask(c, PL.SYNTH_SYSTEM, prompt, PL.SYNTH_SCHEMA, timeout=420)
+        # POOL FIRST, LOCAL SECOND -- the same transport `phase_synthesis` uses, which this
+        # function is otherwise at pains to match. It called `PL.ask` (Ollama only) while the
+        # phase it exists to stand in for calls `PL.ask_pool_first`, and that divergence is the
+        # same class of drift this docstring already records being burned by once: the prompt
+        # construction was made to share code precisely so the two could not answer differently,
+        # and then the two asked DIFFERENT MODELS anyway.
+        #
+        # It stopped being cosmetic on 2026-08-28. The Ollama runner had been pinned and
+        # saturated for 31 hours -- every request timing out or rejected with "maximum pending
+        # requests exceeded" -- while two groq buckets in the cloud pool were answering in under
+        # a second. So the main phase would have succeeded on exactly the sources this rescue
+        # tool could not touch, which is the precise inversion of what a rescue tool is for.
+        got = PL.ask_pool_first(c, PL.SYNTH_SYSTEM, prompt, PL.SYNTH_SCHEMA, timeout=420,
+                                tag="retry_synthesis")
         if got is None:
             continue
 
@@ -174,17 +217,32 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--merge", action="store_true",
                     help="fold results into records; run only with the pipeline stopped")
+    ap.add_argument("--only", nargs="*", metavar="SOURCE",
+                    help="retry only these named sources")
+    ap.add_argument("--smallest", type=int, metavar="N",
+                    help="pilot: do the N smallest pending sources first, to prove the "
+                         "transport before committing to the largest")
     args = ap.parse_args()
     if args.merge:
         return do_merge()
 
     c = PL.cfg()
-    want = set(failed_sources())
+    failed = set(failed_sources())
+    stranded = set(stranded_sources())
+    want = failed | stranded
     side = load_side()
-    print(f"{len(want)} sources failed synthesis; {len(side)} already retried")
+    print(f"{len(failed)} failed synthesis, {len(stranded)} stranded without one "
+          f"({len(want)} together); {len(side)} already retried")
 
     todo = [(p, r) for p, r in PL.records()
             if r["source"] in want and r["source"] not in side and not r.get("synthesis")]
+    if args.only:
+        todo = [(p, r) for p, r in todo if r["source"] in set(args.only)]
+    if args.smallest:
+        # A PILOT ORDER, not a cap: `--smallest N` is for proving the transport end to end on
+        # cheap sources before committing to Marvel's 59,170 entries. The full run is the
+        # default and takes no argument, so nobody reaches for a truncation by accident.
+        todo = sorted(todo, key=lambda pr: len(pr[1].get("entries") or []))[:args.smallest]
     print(f"{len(todo)} to do now\n")
 
     for path, rec in todo:
