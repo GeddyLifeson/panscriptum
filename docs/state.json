@@ -1,5 +1,5 @@
 {
- "at": "2026-08-28 14:29:42",
+ "at": "2026-08-28 14:30:00",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -416,9 +416,9 @@
     },
     {
      "name": "rpm",
-     "left": 28,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9333
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -875,8 +875,12 @@
     62
    ],
    [
+    "silent:publish.py:main:RuntimeError",
+    18
+   ],
+   [
     "silent:tuning.py:ollama_up:URLError",
-    6
+    8
    ],
    [
     "silent:cascade_bridge.py:extract_json-fence:JSONDecodeError",
@@ -893,6 +897,10 @@
    [
     "silent:scout.py:verify-http:HTTPError",
     2
+   ],
+   [
+    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed da63c0b2ce88c94c -> d69e633ff5648b04 and held for 615s)",
+    1
    ],
    [
     "escalation:SUPERVISOR:STALLED_UNRESTARTABLE:stalled and deliberately NOT killed, because nothing would bring them back promptly: roll_auto:16752",
@@ -947,16 +955,20 @@
     1
    ],
    [
+    "silent:standards.py:token-flow:URLError",
+    1
+   ],
+   [
     "silent:wiki_source.py:non-fandom-known-host:None",
     1
    ]
   ],
-  "swallowed_total": 2263
+  "swallowed_total": 2285
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1185,
+   "n": 1184,
    "p50": 0.5,
    "p95": 75.4,
    "ok_pct": 8,
@@ -964,9 +976,9 @@
   },
   {
    "tag": "retry_synthesis",
-   "n": 387,
+   "n": 388,
    "p50": 7.6,
-   "p95": 33.8,
+   "p95": 37.7,
    "ok_pct": null,
    "tps": 15.0
   },
@@ -1022,10 +1034,10 @@
    "breached": [],
    "liveness": 34,
    "liveness_ceiling": 41,
-   "age_min": 594.1
+   "age_min": 594.5
   },
   "escalation_recent": {
-   "JANITOR": 19,
+   "JANITOR": 20,
    "MANAGER": 22,
    "SUPERVISOR": 10,
    "OWNER": 2
@@ -1210,7 +1222,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": false,
-   "observed": "2,036",
+   "observed": "2,058",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1417,7 +1429,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.2h",
+   "observed": "0.0h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1493,12 +1505,12 @@
   },
   {
    "metric": "standards met",
-   "now": 30,
-   "delta": -1,
+   "now": 29,
+   "delta": null,
    "minutes": 31,
    "reset": true,
    "stalled": false
   }
  ],
- "generated": "2026-08-28T14:29:52"
+ "generated": "2026-08-28T14:30:11"
 }
