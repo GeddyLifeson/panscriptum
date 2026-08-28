@@ -350,8 +350,7 @@ def movement(now_state):
     """What has CHANGED, not what the level is.
 
     The panel showed bars and the bars did not move, so it read as a system doing nothing --
-    which was half right and impossible to tell from the levels alone. A progress bar at 12.8%
-    looks identical whether it reached 12.8% a minute ago or three hours ago.
+    which was half right and impossible to tell from the levels alone. A progress bar at 12.8%\n    looks identical whether it reached 12.8% a minute ago or three hours ago.
 
     So every reading is appended to a small history and the deltas are computed against the
     oldest sample inside the window. A number that has not moved now SAYS it has not moved,
@@ -427,9 +426,12 @@ def movement(now_state):
         #
         # Named rather than smoothed: `reset` says what happened, the delta stays honest, and
         # nothing downstream has to guess whether -3689 was progress.
+        reset = delta is not None and delta < 0
+        if reset:
+            delta = None
         out.append({"metric": k, "now": v, "delta": delta,
                     "minutes": round(span),
-                    "reset": delta is not None and delta < 0,
+                    "reset": reset,
                     "stalled": delta == 0 and span >= 10})
     return out
 
