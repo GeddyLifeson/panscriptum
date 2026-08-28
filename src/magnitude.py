@@ -900,8 +900,13 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
                 # LOCAL_FITS is 20,000 chars ~ 5,400 tokens of prompt: over the config default
                 # of 6,144 once the system prompt and reply are counted, and Ollama truncates
                 # the overflow without a word. 8,192 holds the whole one-shot.
-                got = P.ask(c, SYSTEM, prompt, SCHEMA, timeout=420, num_ctx=8192,
-                            tag="assay-local")
+                # ONE RUNNER, ONE CONTEXT. This asked for 8,192 to hold a ~5,400-token one-shot
+                # that would overflow the OLD 6,144 default -- sound reasoning against a default
+                # that no longer applies: config now declares 12,288, which holds the same
+                # one-shot with room to spare. Asking for 8,192 anyway bought a runner REBUILD,
+                # not a bigger window, because Ollama holds a model at one size. Order
+                # 706215aabc5f.
+                got = P.ask(c, SYSTEM, prompt, SCHEMA, timeout=420, tag="assay-local")
             except Exception:
                 silence.note("magnitude.py:local-call")
                 got = None

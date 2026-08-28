@@ -1029,8 +1029,11 @@ def phase_synthesis(c, st):
         for ci, sample in enumerate(chunks):
             prompt = synthesis_prompt(src, sample, feats_for, ci, len(chunks),
                                       len(rec["entries"]))
+            # ONE RUNNER, ONE CONTEXT. See `ask()` -- this asked for 4096 while config declares
+            # 12288, and Ollama holds a model at ONE size, so the difference bought a REBUILD
+            # rather than a smaller window. Order 706215aabc5f.
             g = ask_pool_first(c, SYNTH_SYSTEM, prompt, SYNTH_SCHEMA, timeout=420,
-                               num_ctx=4096, tag="synthesis")
+                               tag="synthesis")
             if g is None:
                 continue
             b = clean_band(g.get("magnitude"))
@@ -1420,8 +1423,9 @@ def phase_entrypass(c, st):
                 return any(isinstance(r.get("index"), int) and 0 <= r["index"] < _n
                            for r in (g.get("results") or []))
 
+            # ONE RUNNER, ONE CONTEXT -- order 706215aabc5f, same as synthesis above.
             got = ask_pool_first(c, ENTRY_SYSTEM, prompt, ENTRY_SCHEMA, timeout=600,
-                                 num_ctx=4096, tag="entrypass", accept=_judged_something)
+                                 tag="entrypass", accept=_judged_something)
             if got is None:
                 st["failed"].setdefault("entrypass", {})[key] = "ollama failure"
                 save_state(st)
