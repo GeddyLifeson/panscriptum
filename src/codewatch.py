@@ -299,20 +299,56 @@ def _ledger_lock(attempts=50, wait=0.05):
             os.remove(LEDGER_LOCK)
 
 
-def _record_restart(who):
+def _take_locked(who, enforce):
+    """Read-check-append-write the ledger. THE CALLER MUST ALREADY HOLD `_ledger_lock`.
+
+    -> (granted, used_before). With `enforce`, refuses once the rolling hour already holds
+    BUDGET_PER_HOUR restarts; without it, records unconditionally and always grants.
+    """
+    try:
+        with open(LEDGER, encoding="utf-8") as f:
+            doc = json.load(f)
+    except Exception:
+        doc = {}
+    cutoff = time.time() - 3600
+    recent = [t for t in (doc.get(who) or []) if isinstance(t, (int, float)) and t > cutoff]
+    if enforce and len(recent) >= BUDGET_PER_HOUR:
+        return False, len(recent)
+    used_before = len(recent)
+    recent.append(time.time())
+    doc[who] = recent
+    try:
+        silence.write_json(LEDGER, doc, indent=2)
+    except Exception:
+        silence.note("codewatch.py:record")
+    return True, used_before
+
+
+def _claim_restart_slot(who):
+    """-> (granted, used_before). ONE locked check-and-take, not a check and a separate take.
+
+    THE HOLE THIS CLOSES (run #36 sweep). `exit_if_stale` used to call `_budget_left(who)`
+    UNLOCKED, test `left <= 0`, and only then call `_record_restart(who)`, which took the
+    lock for the WRITE alone. The lock therefore serialised the write and left the decision
+    racing: two processes sharing a job key -- and `twins()` above records a real incident of
+    exactly that, two `publish.py` processes seventeen seconds apart -- can each read the
+    last free slot, both pass the gate, and both record. BUDGET_PER_HOUR=4 becomes 5, 6, N,
+    in precisely the restart-storm the budget exists to cap, and nothing in the ledger says
+    it happened. Check and take are one operation under one lock here.
+
+    Note the failure mode when the lock cannot be had at all: `_ledger_lock` deliberately
+    proceeds unlocked rather than lose the record (a stuck lock file must not freeze a daemon
+    on old code for ever). That is unchanged -- this narrows the window from
+    "always" to "only while the lock is unobtainable".
+    """
     with _ledger_lock():
-        try:
-            with open(LEDGER, encoding="utf-8") as f:
-                doc = json.load(f)
-        except Exception:
-            doc = {}
-        cutoff = time.time() - 3600
-        doc[who] = [t for t in (doc.get(who) or []) if isinstance(t, (int, float)) and t > cutoff]
-        doc[who].append(time.time())
-        try:
-            silence.write_json(LEDGER, doc, indent=2)
-        except Exception:
-            silence.note("codewatch.py:record")
+        return _take_locked(who, enforce=True)
+
+
+def _record_restart(who):
+    """Record a restart unconditionally, for a caller that has already decided to spend one."""
+    with _ledger_lock():
+        _take_locked(who, enforce=False)
 
 
 def stale(who="?"):
@@ -353,8 +389,10 @@ def exit_if_stale(who="?", rc=RC_STALE):
     is_stale, why = stale(who)
     if not is_stale:
         return False
-    left, used = _budget_left(who)
-    if left <= 0:
+    # CHECK AND TAKE TOGETHER. Reading the budget here and recording the restart further down
+    # was two operations with a gap in the middle that two twins could both walk through.
+    granted, used = _claim_restart_slot(who)
+    if not granted:
         try:
             import escalation
             escalation.escalate(
@@ -366,7 +404,6 @@ def exit_if_stale(who="?", rc=RC_STALE):
         except Exception:
             silence.note("codewatch.py:budget-escalate")
         return False
-    _record_restart(who)
     print("[codewatch] %s: %s — exiting with rc=%d ON PURPOSE so the keeper restarts this job "
           "with the current code. This is NOT a crash." % (who, why, rc), flush=True)
     try:

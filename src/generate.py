@@ -395,10 +395,16 @@ def main():
     try:
         cov_rows = PG._coverage_rows()
     except Exception as e:
+        # NONZERO, for the same reason the missing manifest above exits 1. Refusing every job
+        # because the safety data is broken is not a successful run of zero work -- and exit 0
+        # is the only thing a scheduler or the keeper reads. This printed the refusal and then
+        # told the watcher the run had succeeded, so a corrupt COVERAGE.json could hold prose
+        # generation at a standstill indefinitely without a single failing exit code.
+        # Found by the run #36 sweep, sibling of the manifest fix above.
         print("REFUSING EVERYTHING: data/COVERAGE.json unreadable (%s). The evidence floor "
               "cannot be applied, so no source can be shown to be worth writing."
               % type(e).__name__)
-        return 0
+        return 1
     _ev_cache, refused_src = {}, {}
 
     pending = []

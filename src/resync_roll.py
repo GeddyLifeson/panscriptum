@@ -58,7 +58,7 @@ def main():
             with open(os.path.join(RECORDS, fn), encoding="utf-8") as f:
                 rec = json.load(f)
         except Exception:
-            silence.note("resync_roll.py:45")
+            silence.note("resync_roll.py:record-unreadable")
             continue
         src = rec.get("source")
         if src:

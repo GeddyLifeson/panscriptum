@@ -1,0 +1,796 @@
+# RUN rung -- 56 open orders
+
+## 77d88ce737bc  [MAJOR]  FEATS_EVIDENCE_CACHE_STALE_AFTER_PAGE_GATE_FIX
+
+- **where**: data/feats/ cache entries for doc:/pages: hosts
+- **found_by**: maintenance-2026-08-25b queue agents
+- **seen**: 1
+
+The page_looks_real fix landed this shift (order 608cb398f007) does nothing for material already mined. Measured against a real ingested book: 443 pages in, 3 passed the old gate, 401 refused for 'no wiki markup'; after the fix 404/443 pass. But data/feats/ entries for doc:/pages: hosts written BEFORE the fix still hold the wrong pages_refused and near-zero feats, and cachekey.load keeps returning them. The corrected gate is invisible until those entries are invalidated or re-mined. A fix whose effect is cached away is the shape this project keeps re-learning: the code is right and the numbers
+
+```
+{
+  "blocker": "cachekey.load returns pre-fix entries",
+  "measured": "443 pages, 3 -> 404 passing"
+}
+```
+
+## 456f43361597  [MAJOR]  SWEEP34_FINDING
+
+- **where**: src/publish.py:358-407
+- **found_by**: sweep34-batch15
+- **seen**: 1
+
+publish.sync_tree never deletes. Files removed from the live project stay in the export copy forever, are re-staged by git add -A on every cycle and keep being published to the PUBLIC repo -- including a file deleted BECAUSE of what it contained. The docstring calls it "Refresh the export copy from the live project", which is only half of a refresh. No prune exists anywhere in the module.
+
+```
+{
+  "batch": 15,
+  "proof": "sync_tree() walks COPY_DIRS and copies forward, then copies COPY_FILES, then writes .is-export-copy, then returns n. There is no os.remove, no shutil.rmtree, and no comparison of the destination tree against the source tree anywhere in the function or the module."
+}
+```
+
+## 1b29e38dbb17  [MAJOR]  SWEEP34_FINDING
+
+- **where**: src/axis_correlation.py:148-159
+- **found_by**: sweep34-batch15
+- **seen**: 1
+
+axis_correlation.rho() returns 0.0 when the matrix is unreadable, immediately beneath a docstring stating that doing so is the failure mode the module was written to end. load() returns None on any exception (noted only via silence.note), so a missing or corrupt data/AXIS_CORRELATION.json silently restores rho = 0 for EVERY pair -- not the low-evidence ones, all of them -- and widening() then returns factor 1.0 with cov 0.0, putting the library back to publishing the intervals this module's own header calls 1.78x too narrow on the charter Kenshiro worksheet. The fail-open may be the right call
+
+```
+{
+  "batch": 15,
+  "proof": "docstring: \"THE DEFAULT IS THE MEASURED MEAN, NOT ZERO, and that is the entire point of this function. ... Falling back to 0.0 would silently restore the independence assumption ... which is the failure mode this module was written to end.\"\n    doc = doc or load()\n    if not doc:\n        return 0.0 if default is None else default   <- line 159"
+}
+```
+
+## 65bd015ec5d6  [MAJOR]  SWEEP35_FINDING
+
+- **where**: standards.py
+- **found_by**: sweep35-batch04
+- **seen**: 3
+
+standards.py:291-364 fandom_ipv4_reachable()'s new per-process memoisation (_FANDOM_V4_CACHE, added today) has NO time-to-live, and the standard's two real production callers are exactly the long-running daemons for which that makes the check permanently frozen. `dashboard.py:585-586` does `import standards as ST; s['standards'] = ST.check(s)` inside `state()`, which is called on every HTTP poll of a `dashboard.py` process that runs `srv.serve_forever()` (dashboard.py:999-1002) -- a single persistent process, polled every 5 seconds per this same file's own comment at standards.py:825-826 ('a c
+
+```
+{
+  "proof": "standards.py:291-292 doctring: 'Deliberately NOT cached across processes: a network fact goes stale in minutes and the whole point of this standard is to notice an outage while it is happening.'\nstandards.py:340: `_FANDOM_V4_CACHE = {}` -- no ttl field, no timestamp stored, unlike:\nstandards.py:117 `_RUNNER = {\"at\": 0.0, \"up\": None}` + line 132 `if now - _RUNNER[\"at\"] < ttl:`\nstandards.py:148 `_TOKENFLOW = {\"at\": 0.0, ...}` + line 209 `if now - _TOKENFLOW[\"at\"] < ttl:`\nstandards.py:329-335 (fandom_ipv4_reachable): `key = (host, timeout); if key not in _FANDOM_V4_CACHE: ... _FANDOM_V4_CACHE[key] = _fandom_probe(...); return _FANDOM_V4_CACHE[key]` -- unconditional once populated, for the process lifetime.\ndashboard.py:580-589 `state()` calls `ST.check(s)` on every call, and the HTTP server (dashboard.py:999 `Server(...)`, 1002 `srv.serve_forever()`) is one persistent process polled every 5s per standards.py's own comment at line 825-826.\npublish.py:444 same `import standards as ST` call pattern, inside the `--loop` daemon at publish.py:775-800 (`while True: ... time.sleep(a.loop * 60)`)."
+}
+```
+
+## 96c4be60fb92  [MAJOR]  SWEEP35_FINDING
+
+- **where**: verify_math.py:6728-6735
+- **found_by**: sweep35-batch01
+- **seen**: 1
+
+verify_math.py:6728-6735 (run35 batch6, spliced section before Sec 36) -- two checks are literal tautologies exercising NO code: check("worldseed.main survives zero worlds (no worlds[0] IndexError)", True, True, note=...) and the identical shape for burgs.main. The got value is the hardcoded literal True, not a computed result from calling worldseed.main or burgs.main, so these two checks can never fail regardless of what the code under test does. The comment beside each admits the gap: "smoke: the guard is structural" and "A stronger version of this check should monkeypatch PL.records() to re
+
+```
+{
+  "proof": "check(\"worldseed.main survives zero worlds (no worlds[0] IndexError)\",\n      True,  # smoke: the guard is structural...\n      True, note=\"worldseed.py: ...\")  [6728-6732]; identical shape for burgs.main [6733-6735]"
+}
+```
+
+## ff470a877ac5  [MAJOR]  SWEEP35_FINDING
+
+- **where**: verify_math.py:6542-6583
+- **found_by**: sweep35-batch01
+- **seen**: 1
+
+verify_math.py:6542-6583 (order 0a67628cfa8f, run35 batch5) -- the check labelled a-failed-size-lookup-batch-is-never-scored-as-0-bytes never calls src/backfill.py at all. It patches F.api = _fake_api but then invokes _fake_api(...) directly (not F.api) and hand-reimplements the batching/sizes/ranking loop from backfill.backfill_source (backfill.py:180-203) inline inside the test itself, then asserts against its own reimplementation. The real backfill_source is never imported or called anywhere in this function. So the check can only ever verify that the test author copied the algorithm correc
+
+```
+{
+  "proof": "F.api = _fake_api; ... for i in range(0, len(titles), 50): batch = titles[i:i+50]; d = _fake_api(\"host\", {...}); if d is None: size_lookup_failed += len(batch); continue ... [6556-6566] -- backfill.backfill_source (the module the order names) is never referenced in this function"
+}
+```
+
+## a32028fe76b7  [MAJOR]  SWEEP35_FINDING
+
+- **where**: src/secondopinion.py:112-115,138-168,350
+- **found_by**: sweep35-batch07
+- **seen**: 2
+
+secondopinion.py NOT_FILED swallows 531 BLE001 findings (measured live: ruff --statistics on src/ with the module's own RUFF_RULES/RUFF_IGNORE gives BLE001=531 of 1002 total, the largest category) while the docstring at lines 112-115 says the opposite: 'BLE001 alone runs into the hundreds ... it is still a real finding, which is why it is NOT in this list.' It IS in NOT_FILED (lines 161-168), so line 350's skip drops all 531 sites before any order files. Reason given is also false: it says silence.audit() already treats the 151 SILENT handlers as 'an accepted category, not a miss' (same claim 
+
+```
+{
+  "proof": "docstring 112-115: BLE001 'is still a real finding, which is why it is NOT in this list' -- but the NOT_FILED dict at line 161 has key BLE001. silence.py:190 prints 'each of these can turn a failure into a plausible negative result'; silence.py:200 is 'return 1 if silent else 0'. Live ruff --statistics on src/ (same --select/--ignore as _ruff()): BLE001=531 SIM115=188 E402=82 PLW1510=29 B007=26 RUF059=21 RUF100=21 S110=21 PLW0603=19 PLW2901=11 S112=9, total selected findings=1002 -- every one of those codes is in NOT_FILED and none reach file_orders()'s queue."
+}
+```
+
+## 6c1fc8ac52f8  [MAJOR]  SWEEP35_FINDING
+
+- **where**: silence.py:120-125,477-480
+- **found_by**: sweep35-batch05
+- **seen**: 1
+
+silence.py itself swallows the exact failure class it exists to expose. _handlers() (silence.py:120-125) wraps open()+ast.parse() in try/except Exception: return [] -- a file that cannot be read or does not parse contributes ZERO handler rows to audit(), indistinguishable from a file that genuinely has none. instrument() has the identical shape at silence.py:477-480 (try: ast.parse(original) except Exception: continue), silently skipping that file from --instrument with no note(), no print, nothing in the changed list. Both are unrecorded handlers inside the one module whose whole job is makin
+
+```
+{
+  "proof": "silence.py:123-125: tree = ast.parse(src) / except Exception: / return []  --  silence.py:478-480: tree = ast.parse(original) / except Exception: / continue"
+}
+```
+
+## 1c2ea97cdc36  [MAJOR]  SWEEP35_FINDING
+
+- **where**: pipeline.py
+- **found_by**: sweep35-batch03
+- **seen**: 1
+
+pipeline.write_record (src/pipeline.py:655) decides whether to merge against the disk copy or overwrite it using ONLY len(disk["entries"]) != len(rec["entries"]) as the drift signal. If a concurrent writer (write_record_catalogue, ingest_doc, catalogue_web etc.) changes the entry NAMES/content while holding the same entry COUNT -- a rename, a dedup-then-add, any same-size cast edit -- write_record sees no drift, skips the merge branch entirely, and writes the pipeline's stale in-memory rec whole over the disk file, silently discarding the other writer's change. The module already has a stronge
+
+```
+{
+  "proof": "if len(disk.get(\"entries\") or []) != len(rec.get(\"entries\") or []):  (pipeline.py:655) is the sole drift test in write_record; _entry_digest exists in the same file (line 717) and is not consulted here"
+}
+```
+
+## 6816c9ad12f6  [MAJOR]  SWEEP35_FINDING
+
+- **where**: catalogue_aurora.py
+- **found_by**: sweep35-batch04
+- **seen**: 1
+
+catalogue_aurora.py:70-97 parse_folder() -- SILENT CAP via a dedup key too coarse to tell distinct content apart, no count or note anywhere. The dedup key is `(etype.lower(), re.sub(r'[^a-z0-9]', '', name.lower()))` -- type plus normalized NAME ONLY, no description, no file. Generic archetype-feature names ('Bonus Proficiencies', 'Expanded Spell List', 'Domain Spells', 'Divine Strike') repeat across dozens of unrelated subclasses in different source XML files within the same folder, and the second, third, ... Nth occurrence of the same (type, name) pair is dropped by `if key in seen: continue`
+
+```
+{
+  "proof": "catalogue_aurora.py:84-87:\n    key = (etype.lower(), re.sub(r\"[^a-z0-9]\", \"\", name.lower()))\n    if key in seen:\n        continue\n    seen.add(key)\nMeasured live against the real Aurora XML folders under C:\\Users\\imarl\\Documents\\5e Character Builder\\custom, per folder (dropped / real-content-loss where the dropped item's description differs from the kept one): drfirestorm 4/4, the-elements-beyond 48/28, JMBrew 0/0, kibblestasty 99/24, FFXIV 42/31, a-plethora-of-paladins 26/26, yorviings-arcane-grimoire 1/0, unearthed-arcana 167/134, swecky 55/46, swordmeow-atavist 0/0. TOTAL dropped 442, TOTAL genuinely-distinct-content dropped 293. Example real collision in unearthed-arcana: name='Bonus Proficiencies' type='Archetype Feature' kept from 20150803.xml ('...proficiency with sidearms and proficiency w...') silently discards the same-named feature from 20160104.xml ('When you join the College of Satire at 3rd level, you gain proficiency with thie...') and from 20160404.xml and 20170206.xml, each a completely different subclass feature."
+}
+```
+
+## 5863bd9f566a  [MAJOR]  SWEEP35_FINDING
+
+- **where**: src/allsweep.py:444-521, src/workorders.py:130-172
+- **found_by**: sweep35-batch13
+- **seen**: 2
+
+allsweep.py ESTATE tier findings from charter()/written()/terminal()/external() (allsweep.py:461-473, calling estate.py) never enter the graded verdict. main() computes bad = len(broken) + crashed/timeout verifiers + len(lint_bad) + len(estate[artifacts][bad]) only (allsweep.py:511-514); the four est[label.lower()] rows from CHARTER/WRITTEN/TERMINAL/EXTERNAL are printed and written into ALLSWEEP.json but excluded from that sum. Downstream, workorders.battery_faults (workorders.py:130-172) mirrors the same formula and likewise reads only allsweep[estate][artifacts][bad], never allsweep[estate][
+
+```
+{
+  "proof": "allsweep.py:511-514 sums broken+crashed/timeout+lint_bad+estate.artifacts.bad only; workorders.py:167-168 reads only allsweep[estate][artifacts][bad]"
+}
+```
+
+## 134188eb2296  [MAJOR]  SWEEP35_FINDING
+
+- **where**: src/generate.py:396-401
+- **found_by**: sweep35-batch06
+- **seen**: 2
+
+generate.py:396-401 -- when data/COVERAGE.json is unreadable, main() prints 'REFUSING EVERYTHING' (correctly refuses every job, the evidence floor cannot be applied) but then does return 0. sys.exit(main()) at the bottom therefore exits 0 -- SUCCESS -- on a run that generated nothing because its safety data was broken. This is the exact sibling of the missing-manifest bug fixed this shift (generate.py:365-368, which now returns 1): a job that does zero work reporting exactly like a job that did everything. A scheduler/keeper watching this process's exit code (the doctrine stated in CLAUDE.md H
+
+```
+{
+  "proof": "try: cov_rows = PG._coverage_rows() except Exception as e: print(REFUSING EVERYTHING...); return 0"
+}
+```
+
+## 70563ce550eb  [MAJOR]  SWEEP35_FINDING
+
+- **where**: src/identity.py:300-329
+- **found_by**: sweep35-batch06
+- **seen**: 1
+
+identity.py:300-329 -- epoch_of()'s own docstring and its caller chain.adjudicate_mutuals both state that an absent epoch marker is a REAL, meaningful answer ('An absent marker is a real answer. Do not guess one.'). But _ask() swallows every exception (transport down, read.ensure_transport failing, a bad response) and returns None; _json(None) then returns {}; epoch_of() reads d.get('explicit') as falsy and returns the same empty string '' it would return for a sentence the model genuinely read and found no marker in. The two cases -- 'the probe never ran' and 'the probe ran and found nothing'
+
+```
+{
+  "proof": "def _ask(...): try: ... return R._ask(...) except Exception: silence.note(...); return None  |  def epoch_of(sentence): d = _json(_ask(...)); if not d.get(explicit): return \"\"  |  chain.py:433: why = f\"both dated\" if ea else \"neither sentence dates itself\""
+}
+```
+
+## c81c6ea16d10  [MAJOR]  SWEEP35_FINDING
+
+- **where**: codewatch.py:247-256,356
+- **found_by**: sweep35-batch12
+- **seen**: 1
+
+codewatch.py:356 exit_if_stale() calls _budget_left(who) UNLOCKED before the locked _record_restart(who) write -- the lock added today (_ledger_lock, line 259) serialises the WRITE but not the check-then-act decision. Two processes sharing the same job key (a twin -- this file own docstring at twins() records a REAL prior incident of two publish.py processes 17s apart) can each read left=1 (last budget slot) before either writes, both pass the left<=0 gate, and both call _record_restart -- so BUDGET_PER_HOUR=4 can be exceeded by the exact restart-storm scenario the budget exists to cap, withou
+
+```
+{
+  "proof": "247: def _budget_left(who):  (no lock)  ||  259: @contextlib.contextmanager def _ledger_lock(...)  ||  302-303: def _record_restart(who):  with _ledger_lock():  ||  356: left, used = _budget_left(who)   [outside any lock]  ||  369: _record_restart(who)  ||  twins() docstring, lines 159-164: \"minutes after the keeper was asked to restart three daemons it started two publish.py processes seventeen seconds apart\""
+}
+```
+
+## 0e81459ad875  [MAJOR]  SWEEP35_FINDING
+
+- **where**: descending_ladder.py:171,186,213
+- **found_by**: sweep35-batch15
+- **seen**: 1
+
+descending_ladder.shrink_report() hardcodes the nuclear-density verdict threshold as a bare 1e17 (line 171: "if rho and rho > 1e17"), while the module's own NUCLEAR_DENSITY constant defined 15 lines later (line 186) is 2.3e17 and IS what transgression_bits() actually prices against (line 213: "if rho > NUCLEAR_DENSITY"). Same physical quantity -- saturation density of nuclear matter -- two different values in one file. For any density between 1e17 and 2.3e17 kg/m^3, shrink_report() flags the trajectory "BLACK HOLE"/unlawful territory via the nuclear-density verdict and sets mass_conserved_is_l
+
+```
+{
+  "proof": "line 171: \"if rho and rho > 1e17:\" vs line 186: \"NUCLEAR_DENSITY = 2.3e17          # kg/m^3, saturation density of nuclear matter\" vs line 213: \"if rho > NUCLEAR_DENSITY:\""
+}
+```
+
+## dc27521160c1  [MAJOR]  SWEEP35_FINDING
+
+- **where**: feats.py:534-556
+- **found_by**: sweep35-batch08
+- **seen**: 1
+
+feats.discover() (feats.py:534-556) still truncates the page-discovery lists it feeds into evidence mining, despite the docstring claiming Hard Rule 0 compliance. The allpages call is capped at aplimit=500 (line 535) and the search call at srlimit=50 (line 546); when MediaWiki answers with a top-level continue key (meaning more results exist), the code only increments _CAP_BOUND["aplimit"]/["srlimit"] as a MEASUREMENT (lines 536-538, 547-549) and then proceeds to iterate only the first page/50 hits it already has -- no continuation loop ever fetches the rest. So an entity with more than 500 su
+
+```
+{
+  "proof": "ap = api(host, {...,\"aplimit\": \"500\"}); if (ap or {}).get(\"continue\"): _CAP_BOUND[\"aplimit\"] += 1 -- no continuation param sent on retry. Same shape for srlimit=50 at lines 545-549."
+}
+```
+
+## 7bf743b4acb4  [MAJOR]  SWEEP35_FINDING
+
+- **where**: dashboard.py (panelSafety, JS)
+- **found_by**: sweep35-batch12
+- **seen**: 1
+
+dashboard.py panelSafety renders two more silent caps of the exact shape fixed elsewhere in this same file today (open findings and swallowed-failures both went from a cap to ALL, per the comments at lines 328 and 333-337). br.slice(0,6) at line ~867 prints only the first 6 breached-net names while the adjacent label correctly states the full breached count ("N BREACHED") -- so after a bad drill with more than 6 breaches the page would say e.g. "10 BREACHED" and list only 6, hiding the rest with no more-count note. Object.keys(qn).slice(0,4) at line ~888 does the identical thing to the quarant
+
+```
+{
+  "proof": "br.slice(0,6).forEach(x=>s.appendChild(el(\"div\",\"empty\",\"BREACHED: \"+x)))  -- while the row above reads: held+\" of \"+n+\" nets held\"+(br.length?(\" \u00e2\u0080\u0094 \"+br.length+\" BREACHED\"):\"\")  ||  Object.keys(qn).slice(0,4).forEach(h=>s.appendChild(el(\"div\",\"empty\",h+\": \"+qn[h])))  -- while the row above reads: nbo+\" host(s) backed off\"+(nqn?(\", \"+nqn+\" quarantined\"):\"\")  ||  contrast: two siblings in the SAME function (findings list, swallowed-failures list) carry comments dated 2026-08-24 explicitly removing this exact cap shape"
+}
+```
+
+## d673aa4d609a  [MAJOR]  SWEEP35_FINDING
+
+- **where**: backfill.py:200-203
+- **found_by**: sweep35-batch12
+- **seen**: 2
+
+backfill.py:203 sort key (t not in sizes, -sizes.get(t, 0)) does the OPPOSITE of what the comment immediately above it (lines 200-202) claims. The comment says a title whose size lookup failed is "ranked WITH the deepest articles, not against them, so a transient network failure cannot be the reason a --cap run drops it." Verified by running the actual key: sorted(['A','B','C'], key=...) with sizes={A:100,C:5} (B unknown/failed) returns [A, C, B] -- B lands LAST, after even the tiny 5-byte C, not 'with the deepest'. Because False (known) sorts before True (unknown) in ascending order, every ti
+
+```
+{
+  "proof": "200-202 comment: 'a title whose size lookup failed is ranked WITH the deepest articles, not against them, so a transient network failure cannot be the reason a --cap run drops it.'  ||  203: missing = sorted(missing, key=lambda t: (t not in sizes, -sizes.get(t, 0)))  ||  measured: sorted(['A','B','C'], key=lambda t: (t not in {'A':100,'C':5}, -{'A':100,'C':5}.get(t,0))) == ['A','C','B'] -- B (unknown) sorts after C (known, size 5)"
+}
+```
+
+## ea2f5e924fb2  [MAJOR]  SWEEP35_FINDING
+
+- **where**: catalogue_web.py:117-121,278-282
+- **found_by**: sweep35-batch08
+- **seen**: 1
+
+catalogue_web.py drops entries whose page text failed to fetch as if they were entities with no evidence, with zero counting or reporting -- the exact class of bug the module elsewhere takes pains to avoid. Both catalogue() (lines 278-282) and catalogue_composite() (lines 117-121) do texts = ws.page_texts(...); for title in wanted: text = texts.get(title); if not text: continue -- silently skipping the title. wiki_source.page_text() (wiki_source.py:479-507) collapses every failure mode into the SAME falsy "": if all three of its section=0/1/2 API calls raise (network timeout, 429, whatever), t
+
+```
+{
+  "proof": "wiki_source.py:507 return \"\" is reached whether all 3 section fetches raised or all 3 legitimately had no text; catalogue_web.py:279-281 \"text = texts.get(title); if not text: continue\" has no counter for this, unlike failed_cats at catalogue_web.py:98-159"
+}
+```
+
+## 09d47bc950d9  [MAJOR]  SWEEP35_FINDING
+
+- **where**: scope.py:100-107
+- **found_by**: sweep35-batch15
+- **seen**: 1
+
+scope.scope_for()'s fallback branch (lines 104-107) contradicts the module's own stated method the moment evidence is sparse. The module header exists specifically to reject frequency-based scoping ("Not by frequency ... The signal is the HIGHEST tier that appears with real usage, not the commonest, because a story that discusses universes at all is a story where universes are in play" -- e.g. Marvel's 112 "planet" mentions vs 61 "universe" would wrongly rank it planet-scale by raw count). The primary path correctly picks the highest tier clearing MIN_MENTIONS=10. But when NO tier clears that 
+
+```
+{
+  "proof": "lines 100-107: \"best = None\n    for lab, _, band in _RE:\n        if counts[lab] >= MIN_MENTIONS:\n            best = (lab, band)\n    if best is None:                       # nothing clears it: fall back to the commonest tier\n        lab = max(counts, key=counts.get)\n        band = dict((nm, b) for nm, _, b in _RE)[lab]\n        best = (lab, band) if counts[lab] else None\" -- contradicts module docstring lines 25-30 (\"Not by frequency ... never the most frequent one\")"
+}
+```
+
+## cda7b9e2b4e1  [MAJOR]  SWEEP35_FINDING
+
+- **where**: withdraw_chapters.py:74-86,111
+- **found_by**: sweep35-batch08
+- **seen**: 1
+
+withdraw_chapters.py has no way to withdraw a SUBSET of chapters -- it unconditionally processes every entry currently in output/index/catalog.json (lines 74-86: for _addr, rec in cat.items(): ... shutil.move(...) with no filter on source, citation rate, or any other criterion) and then, when --go is passed, overwrites catalog.json wholesale with an empty dict (line 111: catalog_landed = silence.write_json(CATALOG, {}, indent=2)). The 2026-08-25 run this was written for happened to be safe because the ENTIRE catalog at that moment was the 145 bad chapters being withdrawn, but the tools own com
+
+```
+{
+  "proof": "argparse only defines --go and --label (lines 38-47); the move loop at 74-86 iterates cat.items() with no filter; line 111 replaces the whole catalog with {}"
+}
+```
+
+## 5569dc0d2c3e  [MAJOR]  SWEEP35_FINDING
+
+- **where**: liveness.py:137
+- **found_by**: sweep35-batch09
+- **seen**: 1
+
+liveness.py DEAD detector never looks inside a class -- liveness.py:137-138 iterates t.body (module top-level statements only) and skips any node that is not a module-level FunctionDef/AsyncFunctionDef, so a ClassDef is passed over and every method in its body is never even a DEAD candidate, called or not. Distinct from order 6c479972e838 (receiver-aware used-set, a false-negative among functions ALREADY scanned): this is functions never entering the scan at all. Confirmed real: src/entity_match.py, verify_math.py and 10 other modules define classes with methods, none of which liveness ever ev
+
+```
+{
+  "proof": "liveness.py:137-138  for node in t.body: / if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)): continue -- t.body is Module.body, ClassDef nodes fail this isinstance check and their methods (in ClassDef.body, never visited) are never considered."
+}
+```
+
+## 0f43af7e5e1c  [MAJOR]  SWEEP35_FINDING
+
+- **where**: scope.py:116-138
+- **found_by**: sweep35-batch15
+- **seen**: 1
+
+scope.build() caches a failed or empty scope_for() result (None) into out[h] identically to a genuine "attempted, nothing to score" outcome, and both permanently remove that host from future work: "todo = sorted({h for s, h in hosts.items() if h and h not in out ...})" excludes ANY host already present as a key in out, regardless of whether its value is a real scope dict or None. scope_for() returns None both for a transient/exception path (build()'s own except-clause sets sc=None after silence.note) and for the substantive "if not titles: return None" case. Once written, out[h]=None satisfies
+
+```
+{
+  "proof": "lines 120-128: \"todo = sorted({h for s, h in hosts.items() if h and h not in out and not F.is_wikipedia(h)})\n    for i, h in enumerate(todo, 1):\n        try:\n            sc = scope_for(h)\n        except Exception:\n            silence.note(\"scope.py:110\")\n            sc = None\n        out[h] = sc\" -- a caught exception and a genuine empty-scope both land as out[h]=None, and both then satisfy \"h not in out\"==False forever after."
+}
+```
+
+## 026a498d47d2  [MAJOR]  SWEEP35_FINDING
+
+- **where**: render.py (entire module)
+- **found_by**: sweep35-batch08
+- **seen**: 1
+
+render.py -- the dispatcher for all nine cosmology view tiers (view(), galaxy_view/system_view/planet_view/burg_view, containment_svg, children_of) -- is never imported or called by any other module in src/. grep for "import render" or "render." across src/*.py returns only build_terminal.py, and that single hit is a COMMENT ("render.py's containment_svg() already does exactly this with html.escape()"), not a call. Its own docstring frames the module as closing a real gap ("The top five [tiers] had addresses and no way to look at them"), but nothing downstream -- catalog.py, publish.py, the re
+
+```
+{
+  "proof": "grep -rn 'render\\.|import render' src/*.py -> only build_terminal.py:83, a comment; grep -rn 'output/views|views/' src/*.py registry_terminal/* -> only render.py itself"
+}
+```
+
+## 98831f6e6f6d  [MAJOR]  SWEEP35_FINDING
+
+- **where**: binding_health.py:93; suppressions.py:81
+- **found_by**: sweep35-batch11
+- **seen**: 1
+
+binding_health.py:93 (_land, used by quarantine/release/run) and suppressions.py:81 (_land) both still write through a FIXED path+".tmp" name, the identical collision runguard._land was replaced for today (_land_claim, pid+thread in tmp name) and that silence.write_json exists to close. Two concurrent writers -- e.g. a targeted --host investigation racing the scheduled whole-estate --run that this same shift added a merge for -- can collide on HOST_QUARANTINE.json.tmp / BINDING_HEALTH.json.tmp / SUPPRESSIONS.json.tmp, with the loser able to truncate or replace the winners target. Fix: route th
+
+```
+{
+  "proof": "binding_health.py:93  tmp = path + \".tmp\"  ...  return silence.replace_retry(tmp, path)  ||  suppressions.py:81-84  tmp = FILE + \".tmp\" ... return silence.replace_retry(tmp, FILE)  ||  runguard.py:125 tmp = \"%s.%d.%d.tmp\" % (path, os.getpid(), _th.get_ident())  -- the sibling fix this shift, not applied here"
+}
+```
+
+## 23d84e6f8e81  [MAJOR]  SWEEP35_FINDING
+
+- **where**: binding_health.py:574-598
+- **found_by**: sweep35-batch11
+- **seen**: 1
+
+binding_health.run()s new merge (574-598, landed today to stop a partial --host run shrinking the whole-estate report) is a read-modify-write of BINDING_HEALTH.json with NO compare-and-swap: it opens OUT directly (577), merges in-memory, then writes via _land with no digest check against what it read. A concurrent whole-estate --run finishing between this reads and this writes clobbers the fresh full report with a stale snapshot plus only the few hosts this pass probed -- the exact partial-over-complete shape the merge was written to prevent, reintroduced through the very fix. drill._partial_c
+
+```
+{
+  "proof": "574-580: with open(OUT) as f: prior = {...}  ||  590-592: for h in out: prior[h[\"host\"]]=h; merged=[prior[k] for k in sorted(prior)]  ||  598: if not _land(OUT, doc):  -- no digest_of(OUT) taken before the open, no replace_if_unchanged on write"
+}
+```
+
+## 30854f11f322  [MAJOR]  SWEEP35_FINDING
+
+- **where**: binding_health.py:310-355
+- **found_by**: sweep35-batch11
+- **seen**: 1
+
+binding_health.binding_verdict (329-355) can return a false CONFIRMED at score 100 whenever the normalised sitename is a WORD-SUBSET of the normalised source name (or vice versa) -- rapidfuzz token_set_ratio scores a subset relationship 100 regardless of how much unrelated content the longer side carries. Verified: fuzz.token_set_ratio("prime","prime world equipment")==100.0 and fuzz.token_set_ratio("legends","league legends")==100.0, even though the real calibrated Prime case (fuller sitename "Prime Hydration Wiki") correctly scores 50/MISBOUND. A host whose siteinfo sitename happens to be sh
+
+```
+{
+  "proof": "binding_verdict: score=max(fuzz.token_set_ratio(site,src) for src in sources); score>=85 -> CONFIRMED. Computed: fuzz.token_set_ratio(\"prime\",\"prime world equipment\")=100.0 (token_set_ratio always maxes when one token set is a subset of the other). Real case for comparison: fuzz.token_set_ratio(_normalise_name(\"Prime Hydration Wiki\"), _normalise_name(\"Prime World Equipment\"))=50.0"
+}
+```
+
+## 7400ed41c771  [MAJOR]  SWEEP35_FINDING
+
+- **where**: assay.py:1038-1114
+- **found_by**: sweep35-batch10
+- **seen**: 1
+
+assay.py:1038-1114 (HANDS, interval_from_hands) is dead in production and its own docstring makes a factual claim the data contradicts. HANDS and interval_from_hands have ZERO production callers anywhere in src/ -- grep finds only assay.py (definition), verify_math.py (tests) and one comment mention in custodes.py that does not call it. Yet the module docstring at 1038-1047 cites this exact mechanism as the reason "the Emperor -- read across a sparse graph where the Hands priors barely overlap -- is the most argued name in the Registry at +/- 0.85." Measured against the actual published record
+
+```
+{
+  "proof": "assay.py:1046 \"the Emperor -- read across a sparse graph where the Hands priors barely overlap -- is the most argued name in the Registry at +/- 0.85\"; data/WH40K_ASSAYS.json Emperor of Mankind actual interval=0.06; grep -rn interval_from_hands src/*.py -> only assay.py def, verify_math.py tests, custodes.py comment (no call)"
+}
+```
+
+## 596551e4e37c  [MAJOR]  SWEEP35_FINDING
+
+- **where**: overnight.py:763-795,900-933
+- **found_by**: sweep35-batch11
+- **seen**: 1
+
+overnight.pys keeper thread (763-795) and the main cycles per-cycle STANDING starts (900-933) both call running()-then-start() for the same job names with NO lock serialising the check-then-spawn sequence between them -- only _PROCS_LOCK, which protects the process-table CACHE (3s TTL), not the decision. If a STANDING job is genuinely down at the moment a keeper tick (every 300s) coincides with the top of a new cycle, both threads can read running()==False from the same or a freshly-refreshed table before either Popen becomes visible, and both spawn a duplicate -- the exact ONE OF EACH invaria
+
+```
+{
+  "proof": "_keep() at 763: if not running(...): start(name,args,lf)  ||  cycle top at 901-933: start(\"dashboard\",...); start(\"publish\",...); start(\"foreman\",...); start(\"overwatch\",...); start(\"pipeline\",...)  ||  _PROCS_LOCK (100-127) only guards _proc_lines() cache population, not the running()+Popen sequence in start()/run()"
+}
+```
+
+## f467f662be4b  [MAJOR]  SWEEP35_FINDING
+
+- **where**: src/custodes.py:295-359 (convene, eta param + veto branch) and src/resonance.py (hodge_decompose, resonance_strength: no production caller)
+- **found_by**: sweep35-batch16
+- **seen**: 1
+
+resonance.hodge_decompose and Threnody curl-veto are SAFETY IN A FILE, NOT IN EFFECT. resonance.py has no production caller at all -- verify_math.py:6770-6782 imports it only for unit tests of incomparability_rate; hodge_decompose and resonance_strength have zero callers anywhere in src/ (grep confirms). custodes.convene(eta=None, ...) docstring at custodes.py:302 claims "eta (from resonance.hodge_decompose) lets Threnody exercise her veto", and the veto code is real (custodes.py: if eta is not None and (1.0 - eta) >= CURL_VETO_THRESHOLD: threnody_veto=True, decimal=None). But the ONLY product
+
+```
+{
+  "proof": "grep hodge_decompose|incomparability_rate|resonance_strength src/*.py -> only definitions in resonance.py and three verify_math.py test calls to incomparability_rate; hodge_decompose/resonance_strength: zero callers anywhere. grep eta= src/*.py (excl verify_math.py) -> custodes.py:295 (def), :415 (own main() demo, literal 0.70). anchors.py:190 calls CU.convene(a[anchor], a[scores], attestation=a[attestation], worksheet=anchors.py) with no eta kwarg -- the sole real caller."
+}
+```
+
+## db2728e0f4bb  [MAJOR]  SWEEP35_FINDING
+
+- **where**: ledger_guard.py:57-144
+- **found_by**: sweep35-batch10
+- **seen**: 1
+
+ledger_guard.check_append_only() -- the pre-write truncation guard for HANDOFF.md, whose own LedgerViolation docstring says "Raised before the write, never after" -- has ZERO production callers anywhere in src/. grep -rn check_append_only src/*.py finds only the def (ledger_guard.py:57), one docstring mention (line 133, itself noting "but only if it is called, and only by a writer that chose to call it"), and three test lambdas in drill.py (1344-1350) that call it directly against the module, never through a real writer. HANDOFF.md itself is never written from src/ (pipeline.py:36 says explici
+
+```
+{
+  "proof": "ledger_guard.py:133 \"check_append_only proves a PROPOSED write keeps history -- but only if it is called, and only by a writer that chose to call it\"; grep -rn check_append_only src/*.py -> def + docstring + drill.py:1344,1347,1350 only; pipeline.py:36 \"handoff/HANDOFF.md -- hand-written ... NEVER written here\""
+}
+```
+
+## bdc23fd24dc8  [MAJOR]  SWEEP35_FINDING
+
+- **where**: thread_integrity.py:199,204,209
+- **found_by**: sweep35-batch10
+- **seen**: 1
+
+thread_integrity.py:199,204,209 -- main() is the ONLY reporting surface this module has (no JSON or other output write exists anywhere in the file; allsweep.py:107 just runs it as a subprocess health check and does not parse its stdout for content), and it silently truncates three ranked-obligation lists to a fixed top N: PARTIALLY-DANGLING to [:8], RECIPROCAL to [:8], ASYMMETRIC-SUSPECT to [:6], all sorted by shared-entity count descending. The section headers read as complete/actionable rather than as a sample -- "partial weave drift (obligation still real, some shared entities gone):" and "
+
+```
+{
+  "proof": "thread_integrity.py:199 sorted(detail[\"PARTIALLY-DANGLING\"], key=lambda x: -x[2])[:8]; :204 sorted(detail[\"RECIPROCAL\"], key=lambda x: -x[2])[:8]; :209 sorted(detail[\"ASYMMETRIC-SUSPECT\"], key=lambda x: -x[2])[:6]; no json.dump/write_json call anywhere in thread_integrity.py; allsweep.py:107 (\"thread integrity\", [\"thread_integrity.py\"]) runs it as a bare subprocess"
+}
+```
+
+## ebecc3cc19a7  [MAJOR]  SWEEP35_FINDING
+
+- **where**: workorders.py
+- **found_by**: sweep35-batch14
+- **seen**: 1
+
+workorders.py:523-545 -- _supersede_binding_suspect() only closes the old BINDING_SUSPECT code when a host's identity verdict is first settled; it never closes the SIBLING decided code when the verdict later FLIPS between CONFIRMED and MISBOUND for the same host. If binding_health re-probes a host and its verdict changes from CONFIRMED to MISBOUND (or back), sweep_detectors() files the new code (BINDING_HOST_SERVES_ANOTHER_WIKI or BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES) at where=host, but the previously-filed order under the OTHER decided code stays open forever: the only close paths are _su
+
+```
+{
+  "proof": "lines 523-535: if call==\"CONFIRMED\": file_order(\"BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES\",...,where=host); _supersede_binding_suspect(host,call,closed)  /  lines 536-545: elif call==\"MISBOUND\": file_order(\"BINDING_HOST_SERVES_ANOTHER_WIKI\",...,where=host); _supersede_binding_suspect(host,call,closed)  /  _supersede_binding_suspect (375-389) always calls resolve_code(\"BINDING_SUSPECT\", ..., where=host) -- never resolve_code of the sibling decided code -- so CONFIRMED->MISBOUND or MISBOUND->CONFIRMED leaves the stale decided-code order open with no closing path"
+}
+```
+
+## 53a0111dccac  [MAJOR]  SWEEP35_FINDING
+
+- **where**: hostcheck.py
+- **found_by**: sweep35-batch14
+- **seen**: 1
+
+hostcheck.py:396-425 null_rate() collapses a genuine measurement FAILURE into baseline=0.0, the exact conflation probe() itself was fixed to stop making. probe() (lines 148-157) deliberately returns rate=None with an error field on an exception, with a comment saying a failed request must not read as a wiki that holds nothing. null_rate() then does exactly that: rate = r.get("rate"); rate = 0.0 if rate is None else rate -- so a throttled or network-failed probe of the FOREIGN-name control sample silently becomes "this host answers 0% of names it has no reason to hold", i.e. independence/zero-g
+
+```
+{
+  "proof": "hostcheck.py:150-157 probe() on exception: return {..., \"rate\": None, \"error\": ...} with comment \"NOT a rate of zero... committed here, by the tool built to catch it\"  /  hostcheck.py:420-422 null_rate(): r = probe(host, foreign) or {}; rate = r.get(\"rate\"); rate = 0.0 if rate is None else rate  /  hostcheck.py:462-465 score(): base = null_rate(...); r[\"lift\"] = None if rate is None else round(rate - base, 3)  /  also reachable via foreign=[] (empty control sample) at line 419, which likewise returns rate=None from probe() and hits the same 0.0 fallback"
+}
+```
+
+## 2af7ca515157  [MAJOR]  SWEEP35_FINDING
+
+- **where**: custodes.py
+- **found_by**: sweep35-batch14
+- **seen**: 1
+
+custodes.py Lumen (dof=currency) can never contribute the one thing she exists to measure. staleness_widening(distance, years_since) (lines 276-292) returns 0.0 whenever either argument is None, and convene() (line 295-296) defaults both to None with no caller anywhere in the tree ever supplying a real value -- grep of every convene( call site (anchors.py:190, verify_math.py x6) confirms none pass distance= or years_since=. So half += stale (line 328) always adds exactly 0.0 in production, silently asserting "every reading is perfectly current" for a Custos whose entire dasein ("the world show
+
+```
+{
+  "proof": "staleness_widening() lines 288-289: if distance is None or years_since is None: return 0.0  /  convene() signature line 295-296: distance=None, years_since=None  /  grep \"convene(\" across src/: anchors.py:190 and verify_math.py:469,477,490,493,501,574,576 -- none pass distance= or years_since=  /  CUSTODES[\"Lumen\"] line 204: dispersive=True -- grep dispersive src/custodes.py: only line 204 (def) and line 326 (comment), never read as c.get(\"dispersive\")"
+}
+```
+
+## a5018a0c8ee2  [MINOR]  VERIFY_MATH_DUPLICATE_SECTION_TAGS
+
+- **where**: src/verify_math.py section tags 20e, 20f
+- **found_by**: maintenance-2026-08-25b queue agents
+- **seen**: 1
+
+Two section tags are each shared by two different sections. The ordinal renumbering done this shift cannot touch it: the section tags are the STABLE IDENTIFIERS cited by name from BUGS.md and rigor.py:123, so changing them is an identifier change rather than a print change. External references currently resolve to the console-window 20e and the rigor-prose 20f; the two interlopers need fresh tags. Renaming a cited identifier wants a deliberate pass over the citers, which is why it was not done alongside the renumbering.
+
+```
+{
+  "cited_by": [
+    "BUGS.md",
+    "src/rigor.py:123"
+  ]
+}
+```
+
+## f979491d26a9  [MINOR]  FAILURES_LEDGER_CORRUPT_FILE_NEVER_TRIAGED
+
+- **where**: state/failures.json.corrupt
+- **found_by**: maintenance-2026-08-25b queue agents
+- **seen**: 1
+
+state/failures.json.corrupt has been sitting there since 2026-08-23 -- evidence that the ledger's corrupt branch fired once and nothing ever looked at what tore it. A preserved wreck nobody reads is the same as no preservation at all.
+
+## 5d14e90b5043  [MINOR]  SWEEP34_FINDING
+
+- **where**: src/overnight.py:842
+- **found_by**: sweep34-batch13
+- **seen**: 1
+
+overnight.py:842 run("pipeline", ...) is effectively unreachable work. pipeline is a member of STANDING (line 421), is started backgrounded at line 807 at the top of the same cycle, and the keeper thread re-asserts the whole standing set every 300s from wherever the cycle is blocked (656-665). run()'s basename guard at 202-204 therefore returns 'already-running'. The comment at 840-841 promises 'Runs after the reader so it sees the evidence the reader just produced' -- an ordering the code cannot deliver, since the copy that does the work started BEFORE read in the same cycle. Decide which of 
+
+```
+{
+  "batch": 13,
+  "proof": "421: (\"pipeline\", [os.path.join(SRC, \"pipeline.py\")], \"pipeline_auto.log\"),  ||  663-665: if not running(os.path.basename(args[0])): log(...); start(name, args, lf)  ||  807: start(\"pipeline\", [os.path.join(SRC, \"pipeline.py\")], \"pipeline_auto.log\")  ||  840-843: '# 3. GPU: ... Runs after the reader so it sees the evidence the reader just produced.' statuses.append(run(\"pipeline\", ..., timeout_h=2))  ||  202-204: if running(os.path.basename(args[0])): log(...); return \"already-running\""
+}
+```
+
+## 02277646a783  [MINOR]  SWEEP34_FINDING
+
+- **where**: src/assay.py:488
+- **found_by**: sweep34-batch10
+- **seen**: 1
+
+assay.py:488 and 493 -- two of _check_constants four branches cannot fail. SIGMA_MAX is DEFINED as SIGMA_BY_ATTESTATION[Disputed] (line 414) and SIGMA_UNKNOWN = SIGMA_MAX (line 417), while vals is exactly the five SIGMA_BY_ATTESTATION values and the monotonicity branch two lines above guarantees Disputed is the largest. Measured: max(vals) > SIGMA_MAX -> False and SIGMA_UNKNOWN < max(vals) -> False, and no edit to _RAW_SIGMA can change that because the ceiling is derived from the table it polices. The docstring presents both as catching the exact failures this file has already had -- and the c
+
+```
+{
+  "batch": 10,
+  "proof": "488: if SIGMA_UNKNOWN < max(vals):  |  493: if max(vals) > SIGMA_MAX:  |  414: SIGMA_MAX = SIGMA_BY_ATTESTATION[\"Disputed\"]  |  417: SIGMA_UNKNOWN = SIGMA_MAX"
+}
+```
+
+## 9736a5a73b02  [MINOR]  SWEEP34_FINDING
+
+- **where**: src/propagation.py:62
+- **found_by**: sweep34-batch07
+- **seen**: 1
+
+propagation.py:62-64 anchors YEARS_PER_UNIT_DISTANCE on the claim 'distance 1.0 -- the far end of the measured range, Left 4 Dead to Dragon Ball Z -- is a millennium of lateral travel'. MEASURED today against data/SHARED_STAGE_GRAPH.json with the module's own load_graph()/shortest() (172 shelves, 1,087 edges, zero disconnected pairs): Left 4 Dead -> Dragon Ball Z is 1.1258, and the true diameter is 4.0707 (Pantheon: Chinese -> DMs Guild: Xanathar's Lost Notes to Everything Else). The far end of the range is 4.07, not 1.0, so the module's maximum lateral delay is ~4,071 years where the prose sa
+
+```
+{
+  "batch": 7,
+  "proof": "load_graph() -> 172 shelves / 1087 edges; shortest('Left 4 Dead','Dragon Ball Z') = 1.1258; all-pairs max finite shortest path = 4.0707 ('Pantheon: Chinese' -> 'DMs Guild: Xanathar's Lost Notes to Everything Else'); shortest('Alien','Predator') = 0.0057"
+}
+```
+
+## 008b8cbb45e3  [MINOR]  SOMETHING_RUNS_THE_BARE_PY_LAUNCHER
+
+- **where**: src/genre.py invocation, unknown caller
+- **found_by**: maintenance-2026-08-25b (observed by the Hard Rule 0 fixer)
+- **seen**: 1
+
+Something on this machine invoked src/genre.py mid-session with an interpreter that lacks `yaml`, and it died at `import pipeline`. That is the signature of the BARE `py` LAUNCHER, which resolves to a different interpreter than the miniconda python this project requires and which every instruction in this repo says never to use. It died before any write, so data/GENRES.json is untouched (36h old) and nothing was corrupted THIS time -- but a job that half-runs under the wrong interpreter is a job that can half-write under it. Find the caller: candidates are a scheduled task, a .bat or .vbs unde
+
+```
+{
+  "meaning": "an interpreter without the project's dependencies",
+  "required": "C:/Users/imarl/miniconda3/python.exe",
+  "symptom": "genre.py died at `import pipeline`, ModuleNotFoundError: yaml"
+}
+```
+
+## 7b28d88a9fd5  [MINOR]  SWEEP34_BATCH03_LINE_NUMBERS_SHIFTED
+
+- **where**: handoff/sweep34/AUDIT_batch03.md and five batch-03 orders
+- **found_by**: maintenance-2026-08-25b
+- **seen**: 1
+
+READ THE QUOTED ANCHOR, NOT THE LINE NUMBER, on five orders filed by sweep34-batch03 against drill.py. drill.py was being edited by another agent while batch 3 audited it: it went 2,774 lines (22:55) -> 2,979 (23:07) -> +10 more (23:17). Batch 3 read it whole at the 23:07 state and re-verified every anchor at 23:17, so all findings STAND -- but line numbers below roughly 1570 shifted +10 AFTER the orders were filed, so those where fields are ten low. Every one of those orders quotes its anchor text verbatim; the quote is authoritative and the number is not. This is the cost of auditing a file 
+
+```
+{
+  "anchors_reverified_at": "23:17",
+  "file": "src/drill.py",
+  "shift": "+10 for lines below ~1570",
+  "sizes": "2774 -> 2979 -> +10 lines"
+}
+```
+
+## 57b0d3dab53d  [MINOR]  STANDARD_REMEDY_DOES_NOT_NAME_ITS_PRECONDITION
+
+- **where**: standards.py: 'every source is fully catalogued' remedy line
+- **found_by**: maintenance-2026-08-25b
+- **seen**: 1
+
+The remedy line prescribes catalogue_web --recatalogue --shortfall 100 without naming what makes it safe. It is safe TODAY because pipeline.write_record_catalogue now refuses to let a caller None erase a key it did not author -- verified in production 2026-08-26 00:07 when a live re-catalogue of Warhammer Fantasy kept its synthesis block. It was NOT safe for the 24 hours before that, during which the same advice would have cost 26 sources their synthesis. A remedy that is conditionally safe should say what it is conditional on, so that if the merge ever regresses the standard does not go on ch
+
+```
+{
+  "corpus_tally": "185 present / 31 null, unchanged",
+  "proof": "warhammer-fantasy.json re-catalogued 00:07:44, synthesis preserved, 7012 entries",
+  "was_blocking_as": "5aa48077886d"
+}
+```
+
+## 8e79104f3112  [MINOR]  SWEEP35_FINDING
+
+- **where**: sevenfold.py
+- **found_by**: sweep35-batch04
+- **seen**: 1
+
+sevenfold.py:213-221 -- build() silently drops an ENTIRE source's worlds with no count, no note, no report. `top = shelve(srcs, w, depth=len(SOURCE_TIERS))` only covers sources that survive weave's resonance graph (weave.filtered_index can filter every entity out of a rules-heavy source, e.g. a D&D sourcebook with few proper-name entities). `by_source` is built independently from worldseed.build_all(), which iterates EVERY record in pipeline.records() regardless of whether it appears in the weave graph. The loop `for src, ws in by_source.items(): base = coords.get(src); if base is None: contin
+
+```
+{
+  "proof": "sevenfold.py:210-221:\n    top = shelve(srcs, w, depth=len(SOURCE_TIERS))\n    coords = {s: {t: top[s][t] for t in SOURCE_TIERS} for s in srcs}\n    ...\n    for src, ws in by_source.items():\n        base = coords.get(src)\n        if base is None:\n            continue\nverified live: TI._graph() returns 209 sources; pipeline.records() has 210; the 3 sources present in records() but absent from the weave graph are 'Bone (Jeff Smith)', 'aurora_mods (Way of the Inkmaster)', 'the Sex Worker background' -- currently 0 worlds for any of them survive worldseed's Places/WORLD-regex filter, so the continue currently fires 0 times, but the path is unguarded and unreported for the next source that does have eligible worlds and fails the graph."
+}
+```
+
+## 38ce9cb3b499  [MINOR]  SWEEP35_FINDING
+
+- **where**: drill.py
+- **found_by**: sweep35-batch02
+- **seen**: 4
+
+drill.py:4142-4163 index_query_cannot_write runs `corpus_db.query("CREATE TABLE _drill_should_not_exist (x INTEGER)")` directly against the LIVE corpus_db.DB -- no redirect to a scratch copy, unlike almost every other net in this file. If the read-only guard it exists to test is ever actually broken (the exact condition this net exists to catch), the CREATE succeeds and the net tries to clean up with `corpus_db.connect()` + DROP TABLE; if THAT also fails (e.g. the connection is locked, or whatever broke the read-only contract also affects connect()), the failure is only `silence.note`'d and a 
+
+```
+{
+  "proof": "def index_query_cannot_write():\n        import corpus_db\n        if not os.path.exists(corpus_db.DB):\n            return True\n        try:\n            corpus_db.query(\"CREATE TABLE _drill_should_not_exist (x INTEGER)\")\n        except Exception:\n            return True                      # refused, which is the whole point\n        try:\n            con = corpus_db.connect()\n            con.execute(\"DROP TABLE IF EXISTS _drill_should_not_exist\")\n            con.commit()\n            con.close()\n        except Exception:\n            import silence\n            silence.note(\"drill.py:index-write-undo\")\n        return False"
+}
+```
+
+## 0f9006b6e9a6  [MINOR]  SWEEP35_FINDING
+
+- **where**: estate.py
+- **found_by**: sweep35-batch03
+- **seen**: 1
+
+estate.written() (src/estate.py:227-250) drops a whole finding line silently on failure, unlike every sibling handler in the same file. The try block at line 245-250 calls weave_index.load_records() to report "sources on the roll"; on ANY exception it does "except Exception: silence.note(...)" with NO call to the local note() helper, so nothing is appended to the report list . Every other error path in estate.py (charter()'s "spine codes unreadable", "records unreadable", terminal()'s "X UNREADABLE", written()'s own catalog.json handler two lines below at 259-262) puts a visible line in the re
+
+```
+{
+  "proof": "try:\n    import weave_index as WI\n    note(\"sources on the roll\", f\"{len({{r[\"source\"] for r in WI.load_records()}})}\")\nexcept Exception:\n    silence.note(\"estate.py:written-sources\")  # (estate.py:245-250) -- no note() call on the except branch, unlike every sibling handler in this file"
+}
+```
+
+## 425aa23da643  [MINOR]  SWEEP35_FINDING
+
+- **where**: liveness.py
+- **found_by**: sweep35-batch09
+- **seen**: 2
+
+liveness.py PHANTOM only ever inspects ast.If test conditions -- liveness.py:200-202 walks n2.test only when n2 is an ast.If, so a guard on an undefined name inside a while-loop condition, an assert statement, a ternary (IfExp), or a comprehension if-filter is structurally invisible to this pass even though it is the identical shape PHANTOM exists to catch: a branch/filter that raises NameError only when taken, never exercised by anything today. Same class of bug as cleanup.py:77-80 (the founding example in this file own docstring) but in syntax PHANTOM never looks at.
+
+```
+{
+  "proof": "liveness.py:200-202  if not isinstance(n2, ast.If): continue / for sub in ast.walk(n2.test): -- no branch anywhere in scan() walks a While.test, Assert.test, IfExp.test, or comprehension .ifs list."
+}
+```
+
+## c421410c2194  [MINOR]  SWEEP35_FINDING
+
+- **where**: entity_match.py
+- **found_by**: sweep35-batch09
+- **seen**: 1
+
+entity_match.py:276 embed_available() has no caller anywhere in src/ -- confirmed via liveness.scan() (only hit under dead was entity_match.py:276 embed_available()) and by grep, whose only two matches are the def line itself and a docstring mention at line 44 (see embed_available). The whole module states nothing calls it yet by design (its sibling public functions candidates/best/qualifier_compatible/similarity are all exercised by verify_math section 19r via attribute access), but embed_available is the one function even that test harness skips.
+
+```
+{
+  "proof": "grep -n embed_available src/*.py -> entity_match.py:44 (docstring mention), entity_match.py:276 (def). liveness.scan()[\"dead\"] contains entity_match.py:276 embed_available()."
+}
+```
+
+## 80a54e548985  [MINOR]  SWEEP35_FINDING
+
+- **where**: address_space.py:26-29
+- **found_by**: sweep35-batch15
+- **seen**: 1
+
+address_space.py module docstring (lines 26-29) hardcodes the field-width table as prose -- "3 bits xenoverse ... 38 bits galaxy ... = 89 bits, 12 bytes" -- instead of deriving it from WIDTHS/TOTAL_BITS the way main() now does (per the fix note at lines 31-37). Verified currently correct (TOTAL_BITS==89, WIDTHS matches the table) but this is the exact failure mode that produced the prior 74-vs-89 drift the docstring itself warns about: FIELDS widths are computed from TIERS.json census at import, so a re-charting (already flagged live by order 60dc7c624c06, which shows TIERS.json currently disa
+
+```
+{
+  "proof": "lines 26-29: \"[ hyperverse | xenoverse | metaverse | multiverse | universe | galaxy | star | planet ]\n    3 bits     3 bits      3 bits      8 bits       6 bits     38 bits  27 bits  1 bit\n\n= 89 bits, 12 bytes\" -- a hand-written restatement, not an f-string over WIDTHS/TOTAL_BITS; verified currently matching (TOTAL_BITS=89) but not enforced to stay so."
+}
+```
+
+## aa6635963409  [MINOR]  SWEEP35_FINDING
+
+- **where**: resync_roll.py
+- **found_by**: sweep35-batch09
+- **seen**: 1
+
+resync_roll.py:61 silence.note tag is stale by 16 lines -- the call reads silence.note("resync_roll.py:45") but the actual except-block it sits inside is at line 61; line 45 now falls inside an unrelated prose comment about the sorted-dict-slot fix. Same defect class as orders 918da0e4b88b and bd33dbbb362a (hard-coded line-number tags going stale as edits land above them): whoever greps state/failures.json for silent:resync_roll.py:45 is pointed at the wrong code, in the one module whose own docstring is entirely about not letting drift like this go unnoticed.
+
+```
+{
+  "proof": "resync_roll.py:61  silence.note(\"resync_roll.py:45\") -- current line 45 text is \"the roll silently. Flagged here with a silence.note and folded into the printed diff\", part of the comment block, not the except body the tag is meant to identify."
+}
+```
+
+## a1ee7c35cf45  [MINOR]  SWEEP35_FINDING
+
+- **where**: health.py
+- **found_by**: sweep35-batch09
+- **seen**: 1
+
+health.summary() is the one reader of state/failures.json in this file with no exception handling -- health.py:194-198 does os.path.exists then open+json.load with nothing catching a parse failure, while every other reader of this exact file disagrees: health.flush() itself (same module) treats a corrupt ledger as a preserve-and-report case (renames to .corrupt, prints "ledger unreadable"), and the two external readers (dashboard.py:331-339, standards.py:797-800) both wrap the read in try/except and silence.note. summary() backs main()s --failures path, so a torn failures.json (the exact fault
+
+```
+{
+  "proof": "health.py:194-198  def summary(): / if os.path.exists(LEDGER_PATH): / with open(LEDGER_PATH, encoding=\"utf-8\") as f: / return json.load(f) / return {} -- no try/except anywhere in the function, called from main() at health.py:582 for --failures."
+}
+```
+
+## 2345e4b431fe  [MINOR]  SWEEP35_FINDING
+
+- **where**: halo.py:137
+- **found_by**: sweep35-batch12
+- **seen**: 1
+
+halo.py:137 stamps EVERY axis worksheet line '[wiki] ' unconditionally -- the identical defect already filed against wh40k.py:197 (order 1770c2b84786), now confirmed in a second file. Several axes' cited text carries no quoted material at all, e.g. The Precursors celerity 'They move on evolutionary timescales and never on a battlefield's', The Gravemind celerity 'Immobile, patient, and always already there', and The Ur-Didact celerity 'Slipspace-capable command, not personal speed' -- plain paraphrase, not wiki-verbatim, yet all three get the same '[wiki] ' provenance tag as axes that do quote
+
+```
+{
+  "proof": "halo.py:137: sheet = {ax: '[wiki] ' + v[1] for ax, v in rec['axes'].items()}  ||  halo.py:59: celerity=(4.0, 'They move on evolutionary timescales and never on a battlefield's') -- no quotation  ||  halo.py:93: celerity=(3.5, 'Immobile, patient, and always already there') -- no quotation  ||  halo.py:119: celerity=(6.0, 'Slipspace-capable command, not personal speed') -- no quotation  ||  precedent: order 1770c2b84786 (wh40k.py:197), same shape, and zfighters.py:14-16/412 shows the correct per-axis pattern this project already has"
+}
+```
+
+## 84b584da5935  [MINOR]  SWEEP35_FINDING
+
+- **where**: runguard.py:72-85
+- **found_by**: sweep35-batch11
+- **seen**: 1
+
+runguard._land (72-85) is dead code. claim()/beat()/release() were all moved onto _land_claim (the CAS write) this shift; grep for a bare _land( call anywhere in runguard.py or elsewhere in src/ finds none -- only docstring/comment mentions of its own name remain. Its own module docstring says the whole point of this file is having exactly one implementation of the guard protocol; a superseded writer left in place is a second one a future edit could be pointed back at by mistake.
+
+```
+{
+  "proof": "grep -n \"_land(rec\" src/runguard.py -> only the def at line 72; grep -rn runguard._land src/*.py -> zero call sites, only comments in scout.py/verify_math.py referencing it by name"
+}
+```
+
+## 6dc3b3682fc8  [MINOR]  SWEEP35_FINDING
+
+- **where**: endpoint.py:363-401
+- **found_by**: sweep35-batch11
+- **seen**: 1
+
+endpoint.register (363-401) is a read-modify-write of SOURCE_PAGES.json with no compare-and-swap: it reads the file, mutates one sources key in the in-memory dict, then lands the WHOLE dict via silence.write_json. Its own docstring says this file is written from every process that probes an endpoint. Two concurrent register() calls for two DIFFERENT sources race: whichever writes last wins outright and the other callers newly-registered URLs for its own source are silently dropped, even though the write itself now lands atomically (silence.write_json fixed the tmp-collision half of this, m100)
+
+```
+{
+  "proof": "387-394: d=json.load(f)  ||  398: d[source]=sorted(...)  ||  400: silence.write_json(PAGES_FILE, d, ...) -- no digest_of(PAGES_FILE) read before the load, no replace_if_unchanged on the write"
+}
+```
+
+## 0d5ab3aab8ff  [MINOR]  SWEEP35_FINDING
+
+- **where**: assay.py:847
+- **found_by**: sweep35-batch10
+- **seen**: 1
+
+assay.py:847 -- denom = sum(W[k] for k in applicable) or 1.0 is a divide-by-zero guard that current callers can never trigger, which is the opposite failure mode from the guards this file usually carries: applicable is built at line ~843 as [k for k in W if scores.get(k) != INAPPLICABLE], and used (line ~813) is a subset of W whose values are real numbers -- so for any k in used, scores.get(k) is a float and therefore != INAPPLICABLE, meaning used is always a subset of applicable. assay() already returns early at the not used check (return ...no axis scored...) before this line, so whenever ex
+
+```
+{
+  "proof": "assay.py:847 denom = sum(W[k] for k in applicable) or 1.0; used subset-of-applicable invariant: used only contains k where isinstance(scores.get(k),(int,float)), applicable excludes only scores.get(k)==INAPPLICABLE, and assay() returns early when not used (before line 847 is reached)"
+}
+```
+
+## 9ef866225683  [MINOR]  SWEEP35_FINDING
+
+- **where**: policy.py
+- **found_by**: sweep35-batch14
+- **seen**: 1
+
+policy.py evaluate() (line 140) flags every rule using op="absent" as VACUOUS the moment it correctly passes. vacuous = [r for r in results if r["ok"] and not r["found"]] treats "passed while looking at a field that does not exist" as always suspect, but "absent" (OPS["absent"] = lambda v,_a: v is None, line 44) is specifically the op for asserting a field is MISSING -- its only honest passing case IS found=False. No rule table in this file (RECORD_RULES/EVIDENCE_RULES/COVERAGE_RULES) currently uses "absent", so nothing misfires today, but the module's whole stated purpose (docstring lines 15-
+
+```
+{
+  "proof": "policy.py:43-44 OPS[\"absent\"] = lambda v, _a: v is None  /  policy.py:140 vacuous = [r for r in results if r[\"ok\"] and not r[\"found\"]] -- does not exempt op==\"absent\" /  grep of RECORD_RULES/EVIDENCE_RULES/COVERAGE_RULES (lines 170-206): no rule currently uses op \"absent\""
+}
+```
+

@@ -48,6 +48,14 @@ G_NEWTON = 6.67430e-11         # m^3 kg^-1 s^-2  (CODATA). Named here, not inlin
                                # spelled out instead 95 lines down in schwarzschild_radius().
                                # scale_theories.py names the same value as G_NEWTON.
 BOLTZMANN = 1.380649e-23       # J/K
+NUCLEAR_DENSITY = 2.3e17       # kg/m^3, saturation density of nuclear matter.
+                               # HOISTED HERE from below transgression_bits() (order
+                               # 0e81459ad875) because shrink_report() was carrying its OWN
+                               # copy of this threshold as a bare 1e17 literal, so the same
+                               # physical quantity had two values in one file and any density
+                               # between 1e17 and 2.3e17 was called unlawful by the report while
+                               # transgression_bits() priced the identical trajectory at beta=0.
+                               # One constant, named once, used by both.
 
 # ------------------------------------------------------------------- THE DESCENDING RUNGS
 #
@@ -168,8 +176,9 @@ def shrink_report(mass_kg, from_m, to_m):
     if to_m < r_s:
         verdict.append(f"BLACK HOLE: target size {to_m:.2e} m is inside the Schwarzschild "
                        f"radius {r_s:.2e} m for this mass")
-    if rho and rho > 1e17:
-        verdict.append(f"beyond nuclear density ({rho:.2e} kg/m^3 vs ~1e17 for a neutron star)")
+    if rho and rho > NUCLEAR_DENSITY:
+        verdict.append(f"beyond nuclear saturation density ({rho:.2e} kg/m^3 vs "
+                       f"{NUCLEAR_DENSITY:.2e} for nuclear matter)")
     if conf and conf > PLANCK_ENERGY:
         verdict.append(f"confinement energy {conf:.2e} J exceeds the Planck energy")
     return {
@@ -181,9 +190,6 @@ def shrink_report(mass_kg, from_m, to_m):
         "mass_conserved_is_lawful": not verdict,
         "objections": verdict,
     }
-
-
-NUCLEAR_DENSITY = 2.3e17          # kg/m^3, saturation density of nuclear matter
 
 
 def transgression_bits(mass_kg, to_m):

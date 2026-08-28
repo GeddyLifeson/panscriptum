@@ -67,7 +67,26 @@ def text_of(el):
     return re.sub(r"\s+", " ", "".join(d.itertext())).strip()
 
 
-def parse_folder(folder):
+def parse_folder(folder, dropped=None):
+    """Every element in the folder, minus EXACT re-statements of one already taken.
+
+    THE SILENT CAP THIS FIXES (run #36 sweep). The dedup key used to be
+    `(type, normalised name)` and nothing else, so the second and every later element
+    sharing a (type, name) pair was dropped unseen. Aurora homebrew reuses generic feature
+    names constantly -- 'Bonus Proficiencies', 'Expanded Spell List', 'Domain Spells' appear
+    once per subclass, in different XML files inside the same folder, with completely
+    different rules text. Measured across the ten catalogued folders: 442 elements dropped,
+    293 of them carrying a description DIFFERENT from the one kept. One example, in
+    unearthed-arcana: 'Bonus Proficiencies' (Archetype Feature) was kept from 20150803.xml
+    and the same-named College of Satire feature from 20160104.xml -- plus two more from
+    20160404.xml and 20170206.xml -- were discarded, each a different subclass's feature.
+    That is a cap that hides a smaller universe, and it left no count anywhere.
+
+    The description now rides in the key, so a genuine duplicate (the same element restated
+    verbatim in two files, which does happen) still collapses to one entry, and distinct
+    content is kept. `dropped` -- pass a list -- collects what collapsed, so the count is
+    reported rather than silent.
+    """
     entries, seen = [], set()
     for path in sorted(glob.glob(os.path.join(CUSTOM, folder, "**", "*.xml"),
                                  recursive=True)):
@@ -81,14 +100,20 @@ def parse_folder(folder):
             name = (el.get("name") or "").strip()
             if not name or etype.lower() in SKIP_TYPES:
                 continue
-            key = (etype.lower(), re.sub(r"[^a-z0-9]", "", name.lower()))
+            desc = text_of(el)
+            key = (etype.lower(), re.sub(r"[^a-z0-9]", "", name.lower()), desc)
             if key in seen:
+                if dropped is not None:
+                    dropped.append({
+                        "name": name, "type": etype,
+                        "aurora_file": os.path.relpath(path, CUSTOM).replace("\\", "/"),
+                    })
                 continue
             seen.add(key)
             entries.append({
                 "name": name,
                 "type": etype,
-                "description": text_of(el),
+                "description": desc,
                 "scale_note": "",
                 "category": TYPE_CATEGORY.get(etype.lower(), THINGS),
                 "aurora_file": os.path.relpath(path, CUSTOM).replace("\\", "/"),
@@ -117,7 +142,11 @@ def main():
             continue
         if r.get("entry_count", 0) > 0 and not args.force:
             continue
-        entries = parse_folder(folder)
+        dropped = []
+        entries = parse_folder(folder, dropped)
+        if dropped:
+            # Say so. A collapse that leaves no count is indistinguishable from a cap.
+            print(f"  . {folder}: {len(dropped)} verbatim-duplicate elements collapsed")
         if not entries:
             print(f"  ! {folder}: no elements parsed")
             continue

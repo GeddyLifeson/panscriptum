@@ -494,6 +494,53 @@ _EVIDENCE_TITLE = re.compile(
     r"skill|feat|strength|combat)", re.I)
 
 
+def _api_list_all(host, params, cap_key, extract):
+    """Every page of a MediaWiki list query, not just the first. -> list of rows.
+
+    HARD RULE 0, AT THE PLACE IT WAS ACTUALLY BEING BROKEN. `discover()` refused a caller's
+    `extra` truncation loudly and then truncated anyway, one level down: `aplimit=500` and
+    `srlimit=50` are the API's own per-request maxima, and a query with more results than that
+    answers with a top-level `continue` object meaning "ask again from here". The old code read
+    that object only to INCREMENT A COUNTER and then iterated the first page it already had. So
+    an entity with 900 evidence subpages was mined as an entity with 500 and looked complete --
+    the same shape as `roster(limit=600)` losing Goku, with the cutoff moved into the transport.
+    The tally is not the fix; measuring a truncation is not the same as not truncating.
+
+    `continue` is merged into the next request verbatim (formatversion=2 returns exactly the
+    parameters to resend: `apcontinue`, `sroffset`, and the `continue` sentinel itself), so this
+    follows whatever continuation the wiki uses without knowing which list it is reading.
+
+    THE ONE STOP CONDITION IS NOT A CAP. A wiki that returns the SAME continuation token twice
+    is not offering more results, it is looping, and following it forever would hang the run
+    rather than enlarge the universe. That case -- and a mid-continuation API failure, where
+    `api()` returns None with results still outstanding -- increments `_CAP_BOUND[cap_key]`,
+    because a partial list that nothing recorded is exactly the silent smaller universe the rule
+    exists to prevent. A complete walk increments nothing.
+    """
+    q = dict(params)
+    rows, seen_tokens = [], set()
+    while True:
+        d = api(host, q)
+        if not d:
+            # Ran out of answer with more to come: partial, and it must not read as complete.
+            if rows:
+                with _COUNTS_LOCK:
+                    _CAP_BOUND[cap_key] = _CAP_BOUND.get(cap_key, 0) + 1
+            return rows
+        rows.extend(extract(d))
+        cont = d.get("continue")
+        if not cont:
+            return rows                    # the wiki says that is all of them
+        token = tuple(sorted((k, str(v)) for k, v in cont.items()))
+        if token in seen_tokens:
+            with _COUNTS_LOCK:
+                _CAP_BOUND[cap_key] = _CAP_BOUND.get(cap_key, 0) + 1
+            return rows
+        seen_tokens.add(token)
+        q = dict(params)
+        q.update({k: str(v) for k, v in cont.items()})
+
+
 def discover(host, name, extra=None):
     """Titles worth reading for one entity: its own page, its evidence subpages, and any page
     whose title names both the entity and an evidence word.
@@ -531,25 +578,28 @@ def discover(host, name, extra=None):
     if EP.detect(host)["mode"] == EP.MODE_RAW:
         return titles
     # The subpage convention, asked for directly — cheaper and more precise than searching.
-    ap = api(host, {"action": "query", "list": "allpages",
-                    "apprefix": f"{name}/", "aplimit": "500"})
-    if (ap or {}).get("continue"):
-        with _COUNTS_LOCK:
-            _CAP_BOUND["aplimit"] = _CAP_BOUND.get("aplimit", 0) + 1
-    for row in (ap or {}).get("query", {}).get("allpages", []):
+    # 500 and 50 below are the API's per-REQUEST maxima, not a cap on the answer: `_api_list_all`
+    # follows `continue` until the wiki says there is no more, so asking for the largest legal
+    # page merely means fewer round trips for the same complete list.
+    ap_rows = _api_list_all(
+        host, {"action": "query", "list": "allpages",
+               "apprefix": f"{name}/", "aplimit": "500"},
+        "aplimit",
+        lambda d: d.get("query", {}).get("allpages", []) or [])
+    for row in ap_rows:
         if _EVIDENCE_TITLE.search(row["title"]):
             add(row["title"])
 
     # Then search, keeping only hits that name the entity — otherwise a search for a common
     # name drags in every unrelated power page on the wiki.
-    sr = api(host, {"action": "query", "list": "search", "srlimit": "50",
-                    "srsearch": f"{name} power abilities strength feats"})
-    if (sr or {}).get("continue"):
-        with _COUNTS_LOCK:
-            _CAP_BOUND["srlimit"] = _CAP_BOUND.get("srlimit", 0) + 1
+    sr_rows = _api_list_all(
+        host, {"action": "query", "list": "search", "srlimit": "50",
+               "srsearch": f"{name} power abilities strength feats"},
+        "srlimit",
+        lambda d: d.get("query", {}).get("search", []) or [])
     key = name.lower().split()[0] if name.split() else name.lower()
     hits = [(row.get("size", 0), row["title"])
-            for row in (sr or {}).get("query", {}).get("search", [])
+            for row in sr_rows
             if key in row["title"].lower() and _EVIDENCE_TITLE.search(row["title"])]
     for _, t in sorted(hits, reverse=True):
         add(t)
