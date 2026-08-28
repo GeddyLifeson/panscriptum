@@ -2,9 +2,44 @@
 
 **FOR THE OWNER — READ THESE FIRST.**
 
-**1. NOTHING IS HALTED, AND THIS RUN NEITHER RAISED NOR LIFTED A HALT.** `escalation.py
---status` read `clear` at the open and at the close. No halt was found, so none was cleared —
-the standing rule that a halt you merely FOUND stays standing was never tested this shift.
+**1. THIS RUN HALTED THE LIBRARY, AND THEN LIFTED THE HALT. Both facts, in the same breath, as
+Hard Rule -1 requires.**
+
+`escalation.py --status` read `clear` at the open. At **22:50:54** it read `HALTED`. At **23:44**
+it reads `clear` again, lifted by this run with a written ruling
+(`handoff/run36/HALT_RULING.txt`).
+
+**What happened.** At 22:20:38 the agent that owned `policy.py` landed a correct fix: `op:
+"absent"` was exempted from the vacuous-pass report, because asserting a field is MISSING has
+`found=False` as its only truthful passing case, so flagging it reported every correct use of
+that operator as a non-result. The drill net asserting the OLD behaviour lived in `drill.py`,
+owned by a **different** agent. At 22:50:54 that agent ran drill, the net went red against the
+already-corrected `policy.py`, and drill halted the library. At 22:52:24 the same agent moved the
+fixture onto `not_matches` — which `policy.py` itself names as the case that must stay reported —
+and gave the exemption **its own companion net**, so it is now attacked rather than assumed.
+
+**Why it was lifted rather than left.** Hard Rule -1 permits an autonomous run to clear a halt it
+CAUSED, having fixed the cause and proved the fix, reported in the same turn. This is that case
+and not the other one: a halt this run merely FOUND would still be standing. The proof is
+measurement, not impression — the breached predicate and both companions return True when driven
+directly; sweep batch 16 **independently** confirmed the exemption is drawn exactly where its
+docstring says and that no other operator shares the property; and a full drill on the settled
+tree returned **251 nets attacked, 251 held, 0 BREACHED**.
+
+**It was lifted by an autonomous run, not a person, and the record says so** — the mechanism
+cannot tell the difference and the record should.
+
+**The cost, and what it proved.** The supervisor stopped cycling at 22:38 and every job exited on
+purpose. That is the safety working exactly as designed. Nothing outside the shift was harmed and
+no data was lost.
+
+**The lesson, filed as order `d8858a26e46e`.** Agent work was partitioned **by target module** so
+no two agents could edit one file, and that worked — **zero file collisions and zero orders
+closed by non-owners, both firsts for this project.** But a module partition does not partition
+MEANING. A check and the thing it checks are one unit of work even when they are two files, and
+for thirty-two minutes this library was halted by the gap between them.
+
+**Order `3c7c8a6e9102` (BLOCKING, OWNER) was deliberately NOT touched.**
 
 **2. THE CANONICAL CORPUS HAD NO BACKUP AND NOW HAS ONE.** Order `ec67de571754`, closed. The
 exposure was worse than filed and is worth stating plainly: **`data/` is gitignored, `git
@@ -104,9 +139,14 @@ self."
 
 ### THE QUEUE
 
-**159 open at the sweep → see the closing count below.** RUN went 56 → 18 and LOCAL 52 → 16.
-**OWNER stayed at 49 and that is correct** — those are judgment calls a maintenance run may not
-make.
+**159 open at the sweep, 142 open at the close, and 149 orders closed in between.** The queue
+barely moved and that is the sweep working, not the queue rotting: RUN went 56 → 18 before the
+whole-tree audit refilled it, LOCAL 52 → 13, and the ~130 newly filed are almost entirely
+findings that did not exist as findings this morning.
+
+**OWNER moved 49 → 65 and that is correct** — those are judgment calls a maintenance run may not
+make, and the sweep found more of them. Two BLOCKING orders were closed and one remains:
+`3c7c8a6e9102`, still the owner's.
 
 Work was partitioned **by target module**, never by count, so that no two agents ever held the
 same file. Two agents in the previous shift closed orders they did not own; this shift none did,
@@ -209,6 +249,42 @@ Also closed on measurement: the machine's **TCP ephemeral port exhaustion** (BLO
 14:51) is gone — 240 of 16,384 in use, because the foreign client that held thousands of
 connections has exited. Nothing was fixed and recurrence is not harder; it is closed because the
 fault stopped firing, not because it was addressed.
+
+### THE BATTERY, AND THE MUTATION RUN
+
+| check | result |
+|---|---|
+| `drill.py` | **251 nets attacked, 251 held, 0 BREACHED** |
+| `verify_math.py` | **1055 passed, 0 FAILED** |
+| `health.py --preflight` | all checks pass, **0 problems** |
+| `allsweep.py` | **0 subsystems bad** (203 s) |
+| `liveness.py` | 34 findings, ceiling 41 |
+| pyflakes / imports | clean; **114 of 114 modules import** |
+| `secondopinion.py` | ruff 0.16.4, vulture 2.16, detect-secrets 1.5.0 — **all RAN**, none NOT INSTALLED |
+| `axis_correlation.py` | 55 pairs, mean r +0.3193, `n_entities` 45 — **unchanged, so not rewritten** |
+| `corpus_db.py` | rebuilt; closed a **43,529-entry** gap; drift now 0 |
+| sweep coverage | **114 of 114**, `missing('run36')` → 0 |
+
+**The preflight red was fixed at its cause, not excused.** `www.dandwiki.com`'s quarantine TTL
+lapsed 167 seconds before the sweep filed its orders, so its empty cache stopped being excused
+and `check_caches` failed. Widening the excusal to cover *lapsed* quarantines would have weakened
+a live safety on a maintenance run's own reading, so instead the binding probe was re-run: the
+host failed (the 403 login wall), the detector re-quarantined it through its own mechanism, and
+the preflight went green. **It will lapse again every 24 hours** until the account question is
+decided — an owner choice, recorded in `handoff/run36/crossmodule_wave2b.md`.
+
+**The mutation mandate is running for the first time in three runs**, launched as soon as the
+halt cleared (`state/mutate_20260827.log`). It takes hours; if this entry does not record a
+survivor count, it had not finished when the shift closed, and a pass killed halfway is not a
+pass with fewer survivors.
+
+**Nets: two merged, ~25 staged, deliberately.** Only the two guarding this run's own fixes went
+into `drill.py` — the M46 ownership guard and the canonical-snapshot refusal — and **both were
+watched go red** with their guard removed before being kept
+(`handoff/run36/merged_nets_check.txt`). The rest sit in `handoff/nets/` for serial merge, one at
+a time, each run and watched to refuse. That restraint is the direct lesson of the halt above:
+`drill.py` was a moving target all shift, and bulk-merging unverified nets into the file that
+halts the library is how a run loses its library.
 
 ### A HAZARD IN THE HARNESS, NOT IN THE LIBRARY
 

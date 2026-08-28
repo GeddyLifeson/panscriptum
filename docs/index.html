@@ -269,7 +269,11 @@ function panelSafety(d){const s=el('section','wide');
       held+' of '+n+' nets held'+(br.length?(' — '+br.length+' BREACHED'):'')));
     s.appendChild(r);
     s.appendChild(bar(n?held/n:0,br.length?'bad':'ok'));
-    br.slice(0,6).forEach(x=>s.appendChild(el('div','empty','BREACHED: '+x)));
+    // EVERY breached net, not the first six. The row above already states the true count, so a
+    // cap here made the page contradict itself: "10 BREACHED" over a list of six, with the four
+    // that were hidden having no identity anywhere on the page. Same ruling as the open-findings
+    // and swallowed-failures lists on 2026-08-24; this sibling was not visited then.
+    br.forEach(x=>s.appendChild(el('div','empty','BREACHED: '+x)));
     const a=el('div','row');a.appendChild(el('span','label','last drilled'));
     a.appendChild(el('span','value '+(dr.age_min>90?'warn':''),
       (dr.age_min==null?'?':dr.age_min+' min ago')));
@@ -290,7 +294,9 @@ function panelSafety(d){const s=el('section','wide');
     fr.appendChild(el('span','value '+(nqn?'warn':''),
       nbo+' host(s) backed off'+(nqn?(', '+nqn+' quarantined'):'')));
     s.appendChild(fr);
-    Object.keys(qn).slice(0,4).forEach(h=>s.appendChild(el('div','empty',h+': '+qn[h])));
+    // Every quarantined host, for the same reason: the label counts them all, and a host whose
+    // name never appears cannot be un-quarantined by anyone reading this page.
+    Object.keys(qn).forEach(h=>s.appendChild(el('div','empty',h+': '+qn[h])));
   }
   const esc=sf.escalation_recent||{};
   const keys=Object.keys(esc);

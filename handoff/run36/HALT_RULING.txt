@@ -24,7 +24,7 @@ THE EVIDENCE, and none of it is "it seems fine now":
   * sweep batch 16 independently audited policy.py and reported the exemption is drawn exactly
     where its docstring says, and that no other operator shares the "only truthful pass is
     found=False" property;
-  * a full drill run on the settled tree: {DRILL_LINE}
+  * a full drill run on the settled tree: 251 nets attacked, 251 held, 0 BREACHED (23:43:39, src fingerprint 71f398fa31a0f64e)
   * verify_math: 1055 passed, 0 FAILED;
   * health --preflight: all checks pass, 0 problems;
   * allsweep: 0 subsystems bad; liveness 34 against a ceiling of 41; pyflakes clean;
@@ -47,4 +47,7 @@ NOT CLEARED BY THIS RULING, and deliberately so: order 3c7c8a6e9102 (BLOCKING, O
 untouched. It is a curatorial decision about restoring 31 nulled synthesis blocks and is nobody's
 to take but the owner's.
 
-by: scheduled-maintenance-2026-08-27 (run #36)
+LIFTED BY: scheduled-maintenance-2026-08-27 (run #36) -- an AUTONOMOUS RUN, not a
+person. Recorded plainly because the mechanism cannot tell the difference and the
+record should. The owner ruling of 2026-08-25 permits exactly this case and no other:
+a halt the run itself raised, caused, fixed and proved, reported in the same turn.
