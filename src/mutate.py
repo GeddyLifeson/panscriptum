@@ -501,6 +501,37 @@ SANDBOX_PREFIX = "panscriptum_mutate_"
 ORPHAN_AGE_SECONDS = 6 * 3600
 
 
+OWNER_FILE = "_owner.json"
+
+
+def _owner_pid(sandbox_root):
+    """The pid that built this sandbox. -> int, or None when it cannot be established.
+
+    None means "no claim on record", which is deliberately different from "the owner is dead":
+    the caller treats an unknown owner as reapable-by-age, because a sandbox nobody can ever
+    delete is the disk leak this reaper exists to prevent.
+    """
+    try:
+        with open(os.path.join(sandbox_root, OWNER_FILE), encoding="utf-8") as fh:
+            pid = json.load(fh).get("pid")
+    except (OSError, ValueError, AttributeError):
+        return None
+    return pid if isinstance(pid, int) else None
+
+
+def _claim_sandbox(sandbox_root):
+    """Record this process as the sandbox's owner. Never raises.
+
+    Written FIRST, before any module is copied in, so that a sandbox is protected during the
+    window when it is most fragile -- the copy itself, which is where M46 surfaced.
+    """
+    try:
+        with open(os.path.join(sandbox_root, OWNER_FILE), "w", encoding="utf-8") as fh:
+            json.dump({"pid": os.getpid(), "started": time.time(), "argv": sys.argv[:4]}, fh)
+    except OSError:
+        silence.note("mutate.py:owner-file-unwritable")
+
+
 def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
     """Delete sandboxes abandoned by runs that were killed. -> [paths removed].
 
@@ -529,6 +560,41 @@ def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
             if not os.path.isdir(p) or os.path.getmtime(p) > cutoff:
                 continue
         except OSError:
+            continue
+        # OWNERSHIP BEATS AGE, and this is the fix for M46 -- the bug that blocked the whole
+        # mutation mandate for three runs and was misdiagnosed three times (concurrent edits,
+        # then the drill gate, then drill.py generally).
+        #
+        # The real defect: this reaper matches on a PREFIX and nothing else, so it deletes
+        # sandboxes belonging to OTHER LIVE PROCESSES. The age gate was the only thing standing
+        # between a reap and somebody else's in-flight run, and an age gate is exactly what a
+        # caller lowers when it wants to see reaping actually happen -- so the drill net
+        # `abandoned_sandboxes_are_reaped`, in the act of being made able to go red, deleted
+        # every concurrent sandbox on the machine. Measured on 2026-08-27: two sandboxes built,
+        # `drill.py` run in only ONE, and BOTH died together at six seconds; a bare sandbox with
+        # nothing running against it died too; decoy directories under other prefixes survived
+        # the same window untouched; and the reap ledger added this shift named the call site,
+        # `drill.py:4256 -> M.reap_orphans()`.
+        #
+        # So a sandbox now records the pid that built it, and a live owner makes it untouchable
+        # at ANY age. That turns the age gate into what it should always have been -- a fallback
+        # for sandboxes whose owner died without cleaning up -- and it lets a net reap
+        # aggressively to prove reaping works without stepping on a run in progress.
+        #
+        # FAILS SAFE ON DOUBT. An unreadable, malformed or absent owner file leaves the old
+        # age-only behaviour in force rather than making the directory permanently undeletable:
+        # a sandbox nothing can ever reap is how the 154 MB leak that motivated this reaper
+        # happened in the first place.
+        # ANY live owner, INCLUDING THIS PROCESS. The first cut of this exempted only OTHER
+        # processes, on the reasoning that a run should be able to tidy its own leftovers -- and
+        # the red-check caught it immediately: a sandbox owned by the reaping process itself was
+        # still deleted at `older_than=0`, which is one `reap_orphans()` call inside a live run
+        # away from being M46 again with a shorter stack. `run()` already removes its own root
+        # by path in a `finally`; this function is for ORPHANS, and a sandbox whose owner is
+        # still breathing is by definition not one.
+        owner = _owner_pid(p)
+        if owner is not None and _pid_alive(owner):
+            silence.note("mutate.py:reap-skipped-live-owner")
             continue
         # The junctions inside must be unlinked, NOT followed. `shutil.rmtree` on Windows does
         # not traverse a directory junction, but this is the one place in the project where
@@ -629,6 +695,10 @@ def sandbox():
     """
     reap_orphans()
     root = tempfile.mkdtemp(prefix="panscriptum_mutate_")
+    # CLAIMED BEFORE ANYTHING IS COPIED. The copy below is the longest and most fragile part of
+    # building a sandbox, and it is exactly the window in which M46 struck -- so the ownership
+    # record that makes this directory untouchable by another process's reap goes down first.
+    _claim_sandbox(root)
     os.makedirs(os.path.join(root, "src"))
     # THE COPY IS NOT ATOMIC AGAINST A TREE SOMEBODY IS EDITING. `os.listdir` names the modules
     # once and each is copied after that, so a file that is renamed, replaced or briefly removed

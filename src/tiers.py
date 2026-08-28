@@ -245,7 +245,7 @@ def chart(srcs=None, w=None, shared=None):
         with open(os.path.join(HERE, "data", "GROUNDINGS.json"), encoding="utf-8") as f:
             _groundings = json.load(f)
     except Exception:
-        silence.note("tiers.py:245")
+        silence.note("tiers.py:248")
         _groundings = {}
 
     out = {}

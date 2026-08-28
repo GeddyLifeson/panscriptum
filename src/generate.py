@@ -517,7 +517,26 @@ def main():
         with open(raw_path, "w", encoding="utf-8") as f:
             f.write(f"<!-- {job['address']} -->\n\n{text}")
 
-        store_info = compress_store.store(text, compressed_dir)
+        # ONE BLOB THAT WOULD NOT LAND MUST NOT END THE RUN. `compress_store.store()` now RAISES
+        # when `silence.replace_retry` cannot land the blob, rather than returning a success dict
+        # pointing at a file that was never written -- which is right, but this was the only
+        # failure mode in this loop with no handler, so a PermissionError streak on one chapter's
+        # rename (a reader holding the target open) would have taken a multi-hour pass down with
+        # it. Filed and skipped like every other refusal above: OPERATOR, not MANAGER.
+        try:
+            store_info = compress_store.store(text, compressed_dir)
+        except Exception as _store_err:
+            silence.note("generate.py:store-failed")
+            fail_count += 1
+            failures[job["address"]] = {
+                "error": str(_store_err),
+                "job_type": job["type"],
+                "source_name": job["source_name"],
+                "refused": "compressed blob did not land — chapter NOT catalogued",
+                "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            }
+            save_json(cfg["paths"]["failures"], failures)
+            continue
         babel_coord = babel_coordinate({"address": job["address"], "hash": store_info["hash"]})
 
         catalog[job["address"]] = {

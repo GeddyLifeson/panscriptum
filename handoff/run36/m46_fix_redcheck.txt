@@ -1,0 +1,7 @@
+arm 1  live-owned sandbox survives older_than=0 -> PASS
+arm 1b another live process's sandbox survives -> PASS
+arm 2  dead-owner sandbox is still reaped     -> PASS
+arm 3  unowned old sandbox is still reaped    -> PASS
+arm 4  CONTROL: without the check it dies     -> RED as required
+
+VERDICT: the ownership guard holds and is load-bearing

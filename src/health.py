@@ -135,12 +135,20 @@ def flush():
     # the file exists to hold. The recorder must not become the sixteenth instance of the
     # defect it exists to expose, and that principle has to cover the WRITE as well as the read.
     #
-    # LEDGER is cleared only if the rename LANDED. A denied replace (Windows, reader holding
+    # LEDGER is cleared only if the write LANDED. A denied replace (Windows, reader holding
     # the file) otherwise silently discarded the counts it failed to persist.
-    tmp = LEDGER_PATH + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(prev, f, indent=1, sort_keys=True)
-    if silence.replace_retry(tmp, LEDGER_PATH):
+    #
+    # THE FIXED `.tmp` NAME WAS ITSELF A HAZARD, on the single highest-traffic shared file in
+    # the project (foreman.py:237 above). Two writers flushing at the same moment -- a targeted
+    # investigation racing the scheduled cycle, which is the normal case here, not an exotic one
+    # -- both open `failures.json.tmp` for writing; the second truncates the first, and
+    # whichever renames second lands a half-written file over the target. That is the exact
+    # interleaved-writer shape found this run: `failures.json.corrupt` held a valid 102-byte
+    # document followed by 38 bytes of a longer, older one -- two writers, not one truncated
+    # write. `silence.write_json` puts pid and thread in the temp name so two writers cannot
+    # meet there, and returns the same landed/not-landed verdict this already gated on. (found
+    # and fixed run36, not itself a filed order -- see handoff/run36/crossmodule_local06.md)
+    if silence.write_json(LEDGER_PATH, prev, indent=1, sort_keys=True):
         LEDGER.clear()
     if _SAMPLES:
         try:
@@ -182,10 +190,11 @@ def flush():
             # `except` below at the read step and drops its samples silently and permanently --
             # the evidence bag going quietly empty and staying that way, with nothing recorded
             # anywhere, because the recorder cannot safely record against itself.
-            stmp = SAMPLES_PATH + ".tmp"
-            with open(stmp, "w", encoding="utf-8") as f:
-                json.dump(old, f, indent=1, sort_keys=True, ensure_ascii=False)
-            if silence.replace_retry(stmp, SAMPLES_PATH):
+            #
+            # SAME FIXED-`.tmp`-NAME HAZARD AS THE LEDGER WRITE ABOVE, same fix: `write_json`'s
+            # pid+thread temp name is unavailable for two concurrent flushes to collide on, where
+            # a shared `path + ".tmp"` was not. (found and fixed run36)
+            if silence.write_json(SAMPLES_PATH, old, indent=1, sort_keys=True, ensure_ascii=False):
                 _SAMPLES.clear()
         except Exception:
             pass          # the evidence bag must never break the ledger write
@@ -523,10 +532,15 @@ def reopen_stranded(dry=True):
         # was the one writer breaking that contract, with a truncating write, on the single most
         # important state file in the kit -- and it is invoked precisely when a pipeline may be
         # live, since that is when batches strand. Landing it the same way pipeline does.
-        tmp = path + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(st, f, indent=1)
-        if silence.replace_retry(tmp, path):
+        #
+        # `pipeline.py`'s OWN write to this file was itself hardened (order e080a5f83b3c) from a
+        # fixed `path + ".tmp"` to a pid+thread-carrying temp name, because two writers of the
+        # same target collide on a SHARED temp name, not just on the target -- the loser's
+        # rename can land its own half-written copy over the winner's finished one. This repair
+        # tool was left on the old, fixed-name formula, which is the one convention pipeline.py
+        # itself no longer uses. `silence.write_json` is that same pid+thread formula, so the two
+        # writers of PIPELINE_STATE.json agree again. (found and fixed run36)
+        if silence.write_json(path, st, indent=1):
             print("-> PIPELINE_STATE.json")
         else:
             # Do not report a repair that did not land. Returning the list unchanged would read

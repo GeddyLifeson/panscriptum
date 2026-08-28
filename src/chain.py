@@ -403,6 +403,11 @@ def adjudicate_mutuals(edges, prov):
     and dissolving it with an invented chronology would be the same fabrication this library
     exists to refuse.
 
+    A pair whose probe NEVER RAN is a third case and is reported as its own tally: it is left
+    standing too, but UNJUDGED, because "nobody asked" is not evidence that the record disagrees
+    with itself. With transport down, every mutual pair would otherwise be filed as a genuine
+    disagreement and the run would look clean -- a check that cannot fail.
+
     Only mutual pairs are dated. A sentence that contradicts nothing gains nothing from a
     timestamp, and there are eleven thousand of those.
     """
@@ -415,11 +420,20 @@ def adjudicate_mutuals(edges, prov):
     # there were none. The dating below has always executed; nothing said so.
     print(f"\nmutual pairs: {len(mutual)} -- dating each side before it reaches the fit")
     out = collections.Counter(edges)
-    split = kept = 0
+    split = kept = unprobed = 0
     for (w, loser) in mutual:
         sa = (prov.get((w, loser)) or [{}])[0].get("sentence", "")
         sb = (prov.get((loser, w)) or [{}])[0].get("sentence", "")
-        ea, eb = ID.epoch_of(sa), ID.epoch_of(sb)
+        try:
+            ea, eb = ID.epoch_of(sa, strict=True), ID.epoch_of(sb, strict=True)
+        except ID.ProbeUnavailable:
+            # UNPROBED IS NOT UNDATED. The pair is left standing either way, but it must not be
+            # counted as a genuine disagreement: nothing asked, so nothing was found out.
+            unprobed += 1
+            silence.note("chain.py:epoch-unprobed")
+            print(f"   NOT ADJUDICATED: {w} vs {loser} -- the epoch probe did not run, so this "
+                  f"pair is left standing UNJUDGED rather than recorded as a disagreement")
+            continue
         if ea != eb:
             # The two records place themselves at different points in the subject's history, so
             # they are longitudinal rather than contradictory. Re-key each dated side onto its
@@ -436,7 +450,8 @@ def adjudicate_mutuals(edges, prov):
             kept += 1
             why = f"both dated [{ea}]" if ea else "neither sentence dates itself"
             print(f"   left standing: {w} vs {loser} -- {why}")
-    print(f"   {split} split by epoch, {kept} recorded as genuine disagreement")
+    print(f"   {split} split by epoch, {kept} recorded as genuine disagreement"
+          + (f", {unprobed} NOT ADJUDICATED -- the probe did not run" if unprobed else ""))
     return out
 
 

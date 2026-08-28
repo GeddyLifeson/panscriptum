@@ -84,8 +84,28 @@ CONDENSATES = {
 }
 
 
+def currency_status(currency):
+    """-> (listed, reason). Is `currency` a code this table even knows, and why can't it price?
+
+    `to_standards`/`from_standards` both collapse two different situations to a bare `None`: a
+    currency this catalogue never heard of (almost always a typo -- "quatloos") and a currency it
+    lists BY NAME and marks deliberately non-convertible, with a reasoned doctrinal sentence
+    attached ("poneglyph-grade favour": "A market cannot price what one party has criminalised
+    knowing"). `CURRENCIES.get(currency, (None, "unlisted"))[0]` throws the reason away at the
+    `[0]` subscript before either caller can tell the two apart, so a caller printing an Aperture
+    Doctrine Position Paragraph would print "not convertible" for a misspelling the same as for a
+    considered doctrinal position. This is additive -- `to_standards`/`from_standards` keep
+    returning bare `None` either way, matching the existing "does not guess" contract -- and
+    exists for a caller that wants to say WHY. (order e9167885aef6)
+    """
+    if currency not in CURRENCIES:
+        return False, "unlisted"
+    return True, CURRENCIES[currency][1]
+
+
 def to_standards(amount, currency):
-    """Convert a local sum into Standards. None where the currency is not convertible."""
+    """Convert a local sum into Standards. None where the currency is not convertible -- for
+    UNLISTED vs. deliberately non-convertible, see `currency_status`."""
     rate = CURRENCIES.get(currency, (None, "unlisted"))[0]
     if rate is None:
         return None
@@ -93,6 +113,8 @@ def to_standards(amount, currency):
 
 
 def from_standards(standards, currency):
+    """The inverse of `to_standards`. None where the currency is not convertible -- for
+    UNLISTED vs. deliberately non-convertible, see `currency_status`."""
     rate = CURRENCIES.get(currency, (None, "unlisted"))[0]
     if rate is None:
         return None
@@ -129,7 +151,21 @@ def assay_to_standards(magnitude_band, ruin_score=5.0):
         return None
     i = LADDER.index(magnitude_band)
     lo = BAND_EDGES[magnitude_band]["ruin"]
-    hi = BAND_EDGES[LADDER[min(i + 1, len(LADDER) - 1)]]["ruin"]
+    # M10 HAS NO BAND ABOVE IT TO SUPPLY A CEILING. `LADDER[min(i+1, len(LADDER)-1)]` clamped
+    # the top rung back to ITSELF, so `hi == lo`, the log range collapsed to zero and
+    # `ruin_score` stopped moving the answer at exactly the one band where the most extreme
+    # entities sit: M10 at ruin_score 0, 5 and 10 all priced identically
+    # (4.672897196261646e+90 Standards), while M9 spans fourteen orders of magnitude over the
+    # same argument. `tempus.band_resolution` (tempus.py) faces the identical "no edge above the
+    # ceiling" problem and answers it by giving M10 the same log-width as the M9->M10 gap rather
+    # than a zero-width point -- borrowed here, but anchored at M10's OWN floor (as every other
+    # band already is at ruin_score=0) rather than shifted down to M9's floor, which is what
+    # copying tempus's exact interval would have done. (order 5082a529e937)
+    if i + 1 < len(LADDER):
+        hi = BAND_EDGES[LADDER[i + 1]]["ruin"]
+    else:
+        prev = BAND_EDGES[LADDER[i - 1]]["ruin"]
+        hi = lo * (lo / prev)
     joules = math.exp(math.log(lo) + (ruin_score / 10.0) * (math.log(hi) - math.log(lo)))
     return {"joules": joules, "standards": work_value(joules),
             "caveat": "prices deliverable work only; the Anchor is a scale of presence "

@@ -190,8 +190,8 @@ check("Type III <= galaxies", c["kardashev"]["Type III (galactic)"] <= c["galaxi
 check("Type II  <= stars", c["kardashev"]["Type II (stellar)"] <= c["stars"], True)
 
 # Sagan's continuous Kardashev: K = (log10 P - 6)/10
-check("Kardashev K(Type I = 1e16 W) == 1.0", C.kardashev_K(1e16), 1.0, tol=1e-9)
-check("Kardashev K(Earth 2e13 W)", C.kardashev_K(2e13), 0.730, tol=2e-3)
+check("Kardashev K(Type I = 1e16 W) == 1.0", C.kardashev_K(C.KARDASHEV_TYPE_I), 1.0, tol=1e-9)
+check("Kardashev K(Earth 2e13 W)", C.kardashev_K(C.EARTH_POWER_2020), 0.730, tol=2e-3)
 
 # Bridge: annual budget vs Ruin edges
 band, joules = C.kardashev_to_magnitude(C.KARDASHEV_TYPE_II)

@@ -262,16 +262,23 @@ def _probe_present(host, title, timeout=25):
     detail rather than left implicit: a host is called dead only after that many known titles
     all came back empty, and the reader can see how many were asked.
     """
+    candidates = ([title] if isinstance(title, str) else list(title or []))[:PRESENT_CANDIDATES]
     tried, errors = [], []
-    for t in ([title] if isinstance(title, str) else list(title or []))[:PRESENT_CANDIDATES]:
+    for t in candidates:
         n, err = _fetch_chars(host, t)
         tried.append(t)
         if err:
             errors.append(err)
             continue
         if n >= 200:
+            # THE SECOND OPERAND WAS `len(tried)` TOO, so this always read "candidate N of N
+            # tried" -- the reader could see only that the last candidate tried was the last
+            # candidate tried, never how many were AVAILABLE to try. `len(candidates)` is the
+            # total this call planned to attempt (bounded at PRESENT_CANDIDATES), which is the
+            # number the docstring above actually promises: "the reader can see how many were
+            # asked." (order f282ba72f742)
             return True, "%d chars from %r (candidate %d of %d tried)" % (
-                n, t, len(tried), len(tried))
+                n, t, len(tried), len(candidates))
     if not tried:
         return False, "no catalogued title to probe with"
     if errors and len(errors) == len(tried):

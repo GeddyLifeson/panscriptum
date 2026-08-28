@@ -77,11 +77,7 @@ def _land(rows):
     reviewable when nothing is, and the reason they wrote is lost with it. `repass_bands.py`
     gates on the identical verdict for the identical reason (run #25).
     """
-    os.makedirs(os.path.dirname(FILE), exist_ok=True)
-    tmp = FILE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(rows, f, indent=1, ensure_ascii=False)
-    return silence.replace_retry(tmp, FILE)
+    return silence.write_json(FILE, rows, indent=1, ensure_ascii=False)
 
 
 def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS):
