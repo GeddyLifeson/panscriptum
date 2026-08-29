@@ -1,10 +1,10 @@
 # OVERWATCH
 
-round 143  ·  last run 2026-08-29 03:41
+round 144  ·  last run 2026-08-29 04:10
 
 ## Structure
 
-- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
+- modules that will not import: **0**
 - files that will not parse: **0** of 271,124 inspected (deep scan as of round 139)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
@@ -13,12 +13,16 @@ round 143  ·  last run 2026-08-29 03:41
 
 **14 open** (3 high). Newest first.
 
+- **read.py** `read_entity` — [HIGH] Reads entity's pages but does not actually perform the reading or fetching of data; relies on cached data and does not execute the model processing as described
+  - says: Read one entity's cached pages with the model. Returns verified feats by axis.
+- **publish.py** `push` — [HIGH] Raises PushHeld if a commit could not be landed, but does not return True or False as described
+  - says: Commit and push. -> True if it landed, False if there was nothing to send.
 - **pipeline.py** `write_record` — [HIGH] Writes the pipeline's in-memory copy over the disk file when there's no drift, potentially overwriting concurrent changes.
   - says: Write a record back WITHOUT clobbering a concurrent writer's work.
-- **magnitude.py** `verify` — [HIGH] decides on the SENTENCE alone
-  - says: the entity must be the DOER
-- **local_agent.py** `t_propose_patch` — [HIGH] does not handle failed reverts, does not trigger exit code
-  - says: A FAILED REVERT MUST REACH THE EXIT CODE.
+- **publish.py** `codewatch.claim_singleton` — [MEDIUM] claims a singleton but does not prevent multiple instances from running
+  - says: prevent multiple instances of the same daemon from running
+- **publish.py** `git` — [MEDIUM] git is used to execute git commands, but the code does not handle the case where git commands may fail or return non-zero exit codes
+  - says: git is a function that executes git commands
 - **policy.py** `vacuous` — [MEDIUM] A rule that PASSED while looking at a field that does not exist and the operator is not 'absent'.
   - says: A rule that PASSED while looking at a field that does not exist. Not a failure -- but not evidence of anything either, and the only place it is ever visible.
 - **pipeline.py** `IMPLEMENTED` — [MEDIUM] built from PHASES but still requires manual updates when phases are added or removed
@@ -35,12 +39,8 @@ round 143  ·  last run 2026-08-29 03:41
   - says: returns a register for a node
 - **manifest_builder.py** `volume_code` — [MEDIUM] The code assigns volume numbers based on sorted source names, but the logic for generating the volume code may not correctly reflect the intended deterministic assignment based on 
   - says: Volume numbers are assigned deterministically by sorted source name so the address of a given book is stable across rebuilds.
-- **manifest_builder.py** `volume_code` — [MEDIUM] volume_code is assigned based on sorted source names, but the code does not ensure that the Volume numbers are assigned correctly according to the Series code and source name order
-  - says: Resolve each source to its Series code first, THEN hand out Volume numbers where a Series holds more than one source.
 - **magnitude.py** `main` — [MEDIUM] always returns 0, but the script may have failed
   - says: exits with 0 on success
-- **magnitude.py** `run_batch` — [MEDIUM] ASSAYS.json is not rewritten on each completion, but instead loaded once at the beginning and then overwritten at the end
-  - says: Written to be killed. The roll runs for hours against a rate-limited pool, and a crash at hour three must not cost hours one and two -- so ASSAYS.json is rewrit
 
 ---
 
