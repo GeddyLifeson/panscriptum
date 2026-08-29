@@ -1,18 +1,22 @@
 # OVERWATCH
 
-round 138  ·  last run 2026-08-29 01:25
+round 139  ·  last run 2026-08-29 01:49
 
 ## Structure
 
-- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
-- files that will not parse: **2** of 270,644 inspected (deep scan as of round 133)  — state\gpu_lane\slot.1.json — cannot stat; state\snapshots\AppData\Local\Temp\sweep37probe_a76ncjt1\real.txt — cannot stat
+- modules that will not import: **0**
+- files that will not parse: **0** of 271,124 inspected
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**6 open** (2 high). Newest first.
+**8 open** (4 high). Newest first.
 
+- **ingest_doc.py** `main` — [HIGH] returns 0 regardless of input
+  - says: entry point for the script
+- **ingest_doc.py** `write_record_catalogue` — [HIGH] the code calls write_record_catalogue but the comment says it should be write_record
+  - says: ADVANCE ON THE WRITE, NOT ON THE INTENT
 - **gpu_lane.py** `_heartbeat` — [HIGH] Does not actually keep leases fresh; it was supposed to call _touch to refresh leases but does not do so.
   - says: Keep every lease this call holds fresh until the call finishes.
 - **generate.py** `generate_job` — [HIGH] generate a job, but the function is not defined in this slice
