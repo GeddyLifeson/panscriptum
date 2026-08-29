@@ -592,9 +592,18 @@ def _api_list_all(host, params, cap_key, extract):
         d = api(host, q)
         if not d:
             # Ran out of answer with more to come: partial, and it must not read as complete.
-            if rows:
-                with _COUNTS_LOCK:
-                    _CAP_BOUND[cap_key] = _CAP_BOUND.get(cap_key, 0) + 1
+            #
+            # COUNTED EVEN WHEN `rows` IS EMPTY (order 051244c2628f). The guard here used to be
+            # `if rows:`, so a walk whose VERY FIRST request failed counted nothing and returned
+            # [] -- which is byte-for-byte what a genuine "this entity has no pages" looks like,
+            # while the caller's "discovery lists: complete" banner still printed. That is the
+            # same smaller-universe Hard Rule 0 forbids, arriving through the error path instead
+            # of through a cap, and it is the worse case rather than the lesser one: a partial
+            # walk at least returns what it read, while this one returns nothing and says so in
+            # the same words a real zero uses. A failed read and an empty result are not the
+            # same answer and must never be recorded as one.
+            with _COUNTS_LOCK:
+                _CAP_BOUND[cap_key] = _CAP_BOUND.get(cap_key, 0) + 1
             return rows
         rows.extend(extract(d))
         cont = d.get("continue")

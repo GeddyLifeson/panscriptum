@@ -516,9 +516,16 @@ def null_rate(host, by=None, exclude=None, sample=40):
     `weave.py` already uses for entity resolution: measure what chance alone produces, then
     require the observed value to beat it.
     """
+    # KEYED BY THE WHOLE QUESTION, NOT JUST THE HOST (order 6657938d1890). `exclude` decides
+    # which rosters the foreign sample is drawn FROM and `sample` decides how many names it
+    # holds, so two callers asking about the same host with different arguments are asking
+    # different questions -- and a host-only key answered the second one with the first one's
+    # number. The control is the whole point of this function: a baseline measured against the
+    # wrong foreign set is worse than no baseline, because it still looks like one.
+    key = (host, exclude, sample)
     with _NULL_LOCK:
-        if host in _NULL_CACHE:
-            return _NULL_CACHE[host]
+        if key in _NULL_CACHE:
+            return _NULL_CACHE[key]
     foreign = []
     for src, names in (by or {}).items():
         if src == exclude:
@@ -548,7 +555,7 @@ def null_rate(host, by=None, exclude=None, sample=40):
         # would make one throttled probe stand as the host's baseline for the rest of the run.
         return None
     with _NULL_LOCK:
-        _NULL_CACHE[host] = rate
+        _NULL_CACHE[key] = rate
     return rate
 
 

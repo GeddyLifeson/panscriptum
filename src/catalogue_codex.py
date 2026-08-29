@@ -77,8 +77,36 @@ def norm(s):
     return "".join(c for c in (s or "").lower() if c.isalnum())
 
 
+# DEFERRED IMPORT, NOT A FOURTH COPY. catalogue_aurora imports THIS module at its own top level
+# (`from catalogue_codex import TYPE_CATEGORY, THINGS`), so a module-level import of it here is a
+# genuine circular import: importing catalogue_codex first would re-enter this file's body before
+# TYPE_CATEGORY exists and raise ImportError. Importing inside the function is not a workaround
+# for that -- by call time both modules are fully initialised -- and it keeps the count of slug
+# implementations in this tree at ONE, which is the whole point. (The `import pipeline as _P`
+# inside main() below is the same idiom.)
+#
+# What was here: `re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")[:60]`. The trailing `[:60]`
+# breaks Hard Rule 0 on the record's IDENTITY -- 'Who Framed Roger Rabbit (incl. all content from
+# its associated crossover-toon IPs)' slugs to 79 characters, the file on disk is 60, and a
+# 304-entry record and its roll row are left with no path between them. Filed as order
+# 683c59f43829 against catalogue_aurora.py; that record's `mode` is "web", so catalogue_web.py is
+# the writer that produced it, and this module carried the identical cap.
 def slug(s):
-    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")[:60]
+    """The record's identity, derived from the source name. UNCAPPED -- see above."""
+    from catalogue_aurora import slug as _slug
+    return _slug(s)
+
+
+def record_path(source_name, records_dir=RECORDS):
+    """Where this source's record lives -- preferring the file that ALREADY EXISTS.
+
+    Exact slug first, then the legacy 60-character prefix of the same slug (prefix-anchored by
+    construction, so it cannot match an unrelated record the way free containment can), and only
+    then a new uncapped path. Without this, dropping the cap would not have reunited a truncated
+    record with its row -- it would have written a SECOND record beside it.
+    """
+    from catalogue_aurora import record_path as _record_path
+    return _record_path(source_name, records_dir)
 
 
 def parse_codex():
@@ -209,8 +237,10 @@ def main():
             # catalogue_web.py: a roll row marked `catalogued` for a write that never landed is
             # never revisited, because the default work selection is `entry_count == 0`.
             # (run #25)
-            if not _P.write_record_catalogue(
-                    os.path.join(RECORDS, slug(r["name"]) + ".json"), rec):
+            # `record_path`, not a raw join on slug(): with the cap gone, the join would miss a
+            # record written under it and write a second one beside the first -- the roll counting
+            # one source and the corpus holding two.
+            if not _P.write_record_catalogue(record_path(r["name"], RECORDS), rec):
                 print(f"      -> WRITE DENIED {r['name']}; roll left untouched", flush=True)
                 continue
             r["entry_count"] = len(rec["entries"])

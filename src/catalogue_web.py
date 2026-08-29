@@ -65,8 +65,40 @@ CATEGORY_SCAN_DEPTH = None
 PROGRESS_EVERY_S = 20
 
 
-def slug(s):
-    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")[:60]
+# HARD RULE 0 AGAIN, ON THE IDENTITY THIS TIME. `slug` was defined here as
+#
+#     re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")[:60]
+#
+# and that trailing `[:60]` is the same act as MAX_PER_SOURCE above, one level down: it does not
+# fail, it returns a shorter thing wearing the shape of the real one. What it cut was not a list
+# of entries but the NAME of the file holding them, and THIS MODULE is the writer that produced
+# the live symptom -- `data/records/who-framed-roger-rabbit-incl-all-content-from-its-associated
+# .json` carries `mode: "web"` and 304 entries:
+#
+#     roll row  'Who Framed Roger Rabbit (incl. all content from its associated
+#                crossover-toon IPs)'
+#     slugs to  who-framed-roger-rabbit-incl-all-content-from-its-associated-crossover-toon-ips
+#               (79 characters)
+#     on disk   who-framed-roger-rabbit-incl-all-content-from-its-associated.json
+#               (60 -- exactly the cap)
+#
+# A roll row that is not missing, a record that is not orphaned, and no path between them except
+# a reader willing to guess the name was cut. It was filed against catalogue_aurora.py (order
+# 683c59f43829) and fixed there; the writer that actually did it was this one, and a `--force`
+# run would have done it again.
+#
+# IMPORTED, NOT RE-WRITTEN. Four independent slug functions that must agree is precisely how the
+# disagreement arose, so this takes catalogue_aurora's -- one definition, and `record_path` with
+# it, which prefers the file that ALREADY EXISTS (exact slug first, then the legacy 60-character
+# prefix) so removing the cap cannot strand or duplicate a record written under it. No cycle:
+# catalogue_aurora imports catalogue_codex and silence, neither of which imports this module.
+from catalogue_aurora import record_path, slug as _slug  # noqa: E402
+
+# Re-bound, not redefined. `catalogue_web.slug` is this module's long-standing public name --
+# recover_folder_records.py's own comment cites it as the filename authority these records must
+# land beside -- so it stays available under that name, while being the SAME OBJECT as
+# catalogue_aurora.slug. Two names, one function; they cannot drift apart again.
+slug = _slug
 
 
 def load_roll():
@@ -459,7 +491,11 @@ def main():
             # record on disk beside a roll claiming N entries. The default work selection is
             # `entry_count == 0`, so that source would never be picked up again and the loss
             # was permanent and silent.
-            if not _P.write_record_catalogue(os.path.join(RECORDS, slug(name) + ".json"), record):
+            # `record_path`, not `os.path.join(RECORDS, slug(name) + ".json")`: with the cap gone
+            # the raw join would look for the un-truncated name, miss the record this module
+            # itself wrote under the cap, and write a SECOND one beside it -- the roll counting
+            # one source and the corpus holding two halves of it.
+            if not _P.write_record_catalogue(record_path(name, RECORDS), record):
                 print(f"      -> WRITE DENIED {name}; roll left untouched", flush=True)
                 tally["failed"] += 1
                 return

@@ -1202,11 +1202,20 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
     box = {"answered": None, "answered_id": None, "failed": False,
            "failovers": [], "reasons": []}
 
+    # THE NEW KEYWORD IS ONLY SENT WHEN IT IS ASKED FOR. `Engine.stream_chat` grew
+    # `max_attempts` some time ago and every call here goes through one function, so passing it
+    # unconditionally would make EVERY call in the library depend on the age of whatever
+    # `CASCADE_HOME` points at -- a `TypeError` on an older engine would be a total outage of the
+    # cloud lane, bought for a parameter only `prove()` uses. Absent, the engine applies its own
+    # default, which is what this call has always got.
+    _stream_kw = {"pool": pool, "temperature": temperature,
+                  "pinned": pinned.id if pinned else None}
+    if max_attempts is not None:
+        _stream_kw["max_attempts"] = max_attempts
+
     def pump():
         try:
-            for ev in e.stream_chat(messages, pool=pool, temperature=temperature,
-                                    pinned=pinned.id if pinned else None,
-                                    max_attempts=max_attempts):
+            for ev in e.stream_chat(messages, **_stream_kw):
                 t = ev.get("type")
                 if t == "delta":
                     out.append(ev.get("text") or ev.get("delta") or "")

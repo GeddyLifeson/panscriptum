@@ -76,7 +76,19 @@ def hosts_for(source, include_primary=True):
 
 
 def add(source, host, evidence=None, score=None):
-    """Record an additional host. Never touches WIKI_HOSTS."""
+    """Record an additional host. Never touches WIKI_HOSTS. -> True | False | None.
+
+    THREE STATES, BECAUSE TWO OF THEM MEAN OPPOSITE THINGS (order b840f43d4f8f):
+
+        True   the host is now recorded
+        False  there was nothing to record -- no host, the primary, or already present
+        None   there WAS something to record and the write was DENIED; the host is LOST
+
+    The comment below already claimed a caller could tell a denied write from a duplicate, and
+    it could not: both returned a bare `False`, which is precisely how a lost host comes to look
+    like a known one. `False` and `None` are both falsy, so callers counting successes are
+    unaffected; a caller that cares which kind of failure it got can now ask.
+    """
     if not host or host == primary_host(source):
         return False
     data = _load(EXTRA, {})
@@ -93,7 +105,7 @@ def add(source, host, evidence=None, score=None):
     # duplicate host -- both used to be `False`, which is how a lost host looks like a known one.
     if not silence.write_json(EXTRA, data, indent=1, ensure_ascii=False):
         silence.note("hosts.py:add-denied")
-        return False
+        return None
     return True
 
 
@@ -143,7 +155,7 @@ def discover(only=None, workers=6, per_source=24):
     wanted = [w.strip().lower() for w in only.split(",")] if only else None
     todo = [s for s in prim
             if (not wanted or any(w in s.lower() for w in wanted)) and by.get(s)]
-    added, rows = 0, []
+    added, rows, lost = 0, [], []
 
     def work(source):
         # NO `[:40]`. This roster is the evidence a candidate host is SCORED against, so capping
@@ -193,10 +205,27 @@ def discover(only=None, workers=6, per_source=24):
                 continue
             source, keep = res
             for lift, h, verdict, rate in keep:
-                if add(source, h, evidence=verdict + " lift=" + str(lift), score=rate):
+                landed = add(source, h, evidence=verdict + " lift=" + str(lift), score=rate)
+                if landed:
                     added += 1
+                elif landed is None:
+                    # A HOST THAT WAS FOUND AND THEN LOST TO A DENIED WRITE. This is the only
+                    # place that can say so: `add()` knows the write failed but not which host
+                    # discovery had just paid to find, and the summary below counts only what
+                    # landed -- so without this line a denied write reads as "we looked and
+                    # there was nothing there", which is the same shape as a smaller universe.
+                    lost.append((source, h))
             if keep:
                 rows.append((source, [k[1] for k in keep]))
+    if lost:
+        # SAID OUT LOUD, ON STDERR, AND ESCALATED -- not returned quietly for a caller to
+        # notice. A discovery walk is expensive and its whole product is these hosts; losing one
+        # to a denied write and printing only "hosts added: N" is the failure this library calls
+        # green-by-absence, since N is smaller and nothing says why.
+        sys.stderr.write("hosts: %d DISCOVERED HOST(S) WERE NOT RECORDED -- the write to "
+                         "SOURCE_HOSTS was denied and these are lost until the next walk: %s\n"
+                         % (len(lost), "; ".join("%s -> %s" % (s, h) for s, h in lost)))
+        silence.note("hosts.py:discover-lost")
     return added, rows
 
 

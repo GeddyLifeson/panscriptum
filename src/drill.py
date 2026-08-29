@@ -1473,17 +1473,71 @@ def drill_local_agent():
         "a writer that can write nothing is not a writer")
 
     def blast_cap_bites():
-        """The bound that does not depend on knowing which gate was bypassed."""
+        """The bound that does not depend on knowing which gate was bypassed.
+
+        THIS PROBE STOPPED EXERCISING THE CAP, AND HALTED THE LIBRARY SAYING SO (2026-08-28,
+        DRILL_BREACH at 22:44). It hammered `t_propose_patch` with `apply=False` and a find
+        string occurring ZERO times, and read a refusal out of the far end. Order 528e5b07fded
+        then moved `_blast_ok`'s charge to AFTER the uniqueness check and after the `--no-apply`
+        early return -- correct, and what the comment beside it had claimed all along: a refused
+        path costs no budget, and neither an ambiguous find string nor a dry run is an edit. So
+        the probe's calls stopped charging anything, the cap could never bite, and the net
+        breached against a library that was working.
+
+        The net was right to be unhappy and the local_agent change is right to stand. What was
+        wrong was the PROBE: it demonstrated the cap through a path that no longer reaches it,
+        which is the same defect as a check that cannot fail wearing the other sign. It now
+        drives the path the cap actually guards -- a REAL find string, `apply=True`, a patch
+        that would otherwise land -- and the bound is lowered to make it bite, exactly as the
+        orphan reaper's age gate is lowered next door to make reaping observable.
+
+        THE TARGET IS A SCRATCH FILE THIS PROBE CREATES AND DELETES, inside the writable surface
+        but under `handoff/` rather than `src/`: `codewatch` fingerprints `src/`, and a battery
+        that adds and removes a module there would bounce every standing daemon onto rc=17 every
+        cycle. Nothing tracked is written on either arm -- the staged arm does not write by
+        definition, and the capped arm is refused BEFORE the write, which is the property.
+        """
+        keep_caps = (LA.MAX_PATCHES_PER_RUN, LA.MAX_FILES_PER_RUN)
+        probe = os.path.join(HERE, "handoff", "__drill_blast_probe__.md")
+        body = "drill blast-radius probe -- created and deleted by drill.py\nMARKER-ONCE\n"
         LA.blast_reset()
         try:
-            for i in range(LA.MAX_PATCHES_PER_RUN + 3):
-                r = LA.t_propose_patch("src/scope.py", "zzz-no-such-%d" % i, "y",
-                                       why="drill", apply=False)
-                if "blast-radius cap" in str((r or {}).get("error", "")):
-                    return True
-            return False
+            os.makedirs(os.path.dirname(probe), exist_ok=True)
+            with open(probe, "w", encoding="utf-8") as fh:
+                fh.write(body)
+            rel = "handoff/__drill_blast_probe__.md"
+
+            # 1 -- THE PROBE REALLY WOULD HAVE PATCHED. Writable surface, off every denylist,
+            #      find string occurring exactly once. Without this arm a cap-shaped refusal
+            #      could be any of the four earlier gates wearing the wrong message, and a
+            #      probe that never gets as far as the charge is what caused this halt.
+            staged = LA.t_propose_patch(rel, "MARKER-ONCE", "MARKER-TWICE",
+                                        why="drill", apply=False)
+            if not (isinstance(staged, dict) and staged.get("staged") is True
+                    and staged.get("applied") is False):
+                return False
+            if LA._BLAST["patches"] != 0:
+                return False                  # a staged dry run must still cost no budget
+
+            # 2 -- AND THE CAP REFUSES IT ANYWAY once the budget is gone. Both bounds are
+            #      taken to zero, so the very first charge is over budget and the refusal
+            #      arrives before anything is written -- which is what "the cap bites" means.
+            LA.MAX_PATCHES_PER_RUN = LA.MAX_FILES_PER_RUN = 0
+            r = LA.t_propose_patch(rel, "MARKER-ONCE", "MARKER-TWICE",
+                                   why="drill", apply=True)
+            if "blast-radius cap" not in str((r or {}).get("error", "")):
+                return False
+            if (r or {}).get("applied") is not False or LA._BLAST["patches"] != 1:
+                return False                  # refused, and the charge was actually made
+            with open(probe, encoding="utf-8") as fh:
+                return fh.read() == body      # ... and the file it was refused on is untouched
         finally:
+            LA.MAX_PATCHES_PER_RUN, LA.MAX_FILES_PER_RUN = keep_caps
             LA.blast_reset()
+            try:
+                os.remove(probe)
+            except OSError:
+                pass
             # The cap escalates when it bites, and an escalation files a work order -- so this
             # probe would leave one behind on every cycle. Same discipline as the DRILL_AREA
             # probe: a test that litters the real queue is a test with a side effect, and a
@@ -3167,35 +3221,68 @@ def _quarantine_reports_the_disk_not_the_intention():
     returned record so a caller cannot mistake an attempted quarantine for a recorded one.
 
     BOTH VERDICTS, since a `quarantine()` that always reported failure would be just as wrong and
-    would look identical from the passing half alone. `QUARANTINE` points at a temp path and
-    `_land` is a stand-in, so nothing is written; the escalation chain is a stand-in too, because
-    the real one files a work order and the drill is not allowed to leave one in the queue for a
-    host that does not exist.
+    would look identical from the passing half alone. `QUARANTINE` points at a temp path, and the
+    escalation chain is a stand-in, because the real one files a work order and the drill is not
+    allowed to leave one in the queue for a host that does not exist.
+
+    AND THE FAILURE IS NOW REAL, NOT STUBBED (order 8ee268ce32cc, run #37). This used to replace
+    `BH._land` with `lambda path, obj: False`, which made the net an assertion about ONE named
+    helper rather than about the property. That pinned `quarantine()` to a blind overwrite:
+    order 8ee268ce32cc asks for the same compare-and-swap `release()` now uses -- two writers of
+    `HOST_QUARANTINE.json` is the normal situation here -- and the moment the write went through
+    `_land_cas` instead, the stub stopped being consulted, the real write landed, and every
+    expectation here inverted. A net that has to be edited before a correctness fix can be
+    applied is a net standing in the way of the thing it was written to protect.
+
+    So nothing about the write path is stubbed. THE TARGET IS A DIRECTORY, so the rename cannot
+    succeed however it is attempted -- `_land`'s `replace_retry` reports a denied rename, and a
+    compare-and-swap cannot even digest it -- and neither raises, which is the contract both
+    sides of `silence` already promise. The passing half writes for real and the file is then
+    READ BACK and required to name the host, which is a stronger claim than the old arm's "the
+    stub wrote nothing": the record and the disk have to agree in both directions.
+
+    `silence.note` is silenced for the duration. A genuinely denied rename records
+    `replace-denied:` in the health ledger, and a battery that files a synthetic fault every
+    cycle is the litter discipline the rung-4 probes next door already keep.
     """
+    import json as _json
     import shutil
     import types
     import binding_health as BH
+    import silence as _S
     d = tempfile.mkdtemp(prefix="drillquar_")
     raised = []
     stub = types.ModuleType("escalation")
     stub.SUPERVISOR = ESC.SUPERVISOR
     stub.escalate = lambda level, code, what, **k: raised.append(code)
     had, prev = "escalation" in sys.modules, sys.modules.get("escalation")
-    keep = (BH.QUARANTINE, BH._land)
+    keep, keep_note = BH.QUARANTINE, _S.note
     try:
-        BH.QUARANTINE = os.path.join(d, "HOST_QUARANTINE.json")
         sys.modules["escalation"] = stub
-        BH._land = lambda path, obj: False
+        _S.note = lambda *a, **k: None
+
+        # 1 -- A WRITE THAT CANNOT LAND. The target is a directory, so no write path lands on
+        #      it and none of them raises. The host is NOT quarantined, and the record and the
+        #      escalation both have to say so.
+        BH.QUARANTINE = os.path.join(d, "unwritable", "HOST_QUARANTINE.json")
+        os.makedirs(BH.QUARANTINE, exist_ok=True)
         rec = BH.quarantine("__drill__.invalid", "drill self-test; no such host")
         if rec.get("landed") is not False or raised != ["HOST_QUARANTINE_NOT_RECORDED"]:
             return False
+        if BH.is_quarantined("__drill__.invalid"):
+            return False                      # it reported not-landed and quarantined it anyway
+
+        # 2 -- AND A WRITE THAT DOES LAND, read back off the disk it claims to have reached.
         del raised[:]
-        BH._land = lambda path, obj: True
+        BH.QUARANTINE = os.path.join(d, "HOST_QUARANTINE.json")
         rec = BH.quarantine("__drill__.invalid", "drill self-test; no such host")
-        return (rec.get("landed") is True and raised == ["HOST_QUARANTINED"]
-                and not os.path.exists(BH.QUARANTINE))
+        if not (rec.get("landed") is True and raised == ["HOST_QUARANTINED"]):
+            return False
+        with open(BH.QUARANTINE, encoding="utf-8") as fh:
+            on_disk = _json.load(fh)
+        return "__drill__.invalid" in on_disk and BH.is_quarantined("__drill__.invalid")
     finally:
-        BH.QUARANTINE, BH._land = keep
+        BH.QUARANTINE, _S.note = keep, keep_note
         if had:
             sys.modules["escalation"] = prev
         else:

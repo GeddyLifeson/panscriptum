@@ -685,6 +685,16 @@ def sync_tree():
         srcp = os.path.join(HERE, f)
         dstp = os.path.join(SITE, f)
         if os.path.exists(srcp):
+            # The same rsync-style short-circuit the COPY_DIRS loop above was given, for the
+            # same reason. Without it these ~12 root files were re-copied unconditionally every
+            # cycle, so the "synced N files" total could never be read as "what actually
+            # changed" -- it reported a floor of 12 on a run that changed nothing.
+            try:
+                st_s, st_d = os.stat(srcp), os.stat(dstp)
+                if st_s.st_mtime == st_d.st_mtime and st_s.st_size == st_d.st_size:
+                    continue
+            except OSError:
+                pass
             shutil.copy2(srcp, dstp)
             n += 1
         elif os.path.exists(dstp) and not _same_dir(SITE, HERE):

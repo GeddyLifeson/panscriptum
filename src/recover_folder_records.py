@@ -39,7 +39,6 @@ Usage:
 import argparse
 import json
 import os
-import re
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -53,14 +52,26 @@ SOURCE_MAP = os.path.join(HERE, "reference/pipeline_tooling/FOLDER_SOURCE_MAP.js
 ROLL = os.path.join(HERE, "data/SWEEP_ROLL.json")
 RECORDS = os.path.join(HERE, "data/records")
 
-# Matches catalogue_web.py's slug() (the writer whose filenames these must land beside), so
-# recovered files land where that pass would have put them. load_record() in manifest_builder.py
-# matches on alphanumerics-only containment, so the exact punctuation does not matter -- but
-# consistency does, for anyone reading the folder. (NOT ingest_doc.py's slug(), which lacks the
-# [:60] truncation this one has; there is no src/ingest.py. Corrected 2026-08-27, sweep34 batch 5.)
-def slug(s):
-    s = re.sub(r"[^a-z0-9]+", "-", s.lower())
-    return s.strip("-")[:60]
+# Still matches catalogue_web.py's slug() -- because both are now literally the same function.
+#
+# The note that stood here said this copy deliberately carried the `[:60]` truncation that
+# ingest_doc.py's slug() lacks, and read that difference as the other file's omission. It was the
+# reverse: the cap is the defect (Hard Rule 0 -- ranking is encouraged, ranking then truncating is
+# forbidden), and it applies to a record's IDENTITY as much as to a roster. `Who Framed Roger
+# Rabbit (incl. all content from its associated crossover-toon IPs)` slugs to 79 characters and
+# was cut to 60 on disk, which is how a 304-entry record and its roll row lost the path between
+# them (order 683c59f43829, fixed in catalogue_aurora.py, symptom written by catalogue_web.py).
+#
+# IMPORTED rather than re-written, for the reason the bug itself demonstrates: four slug functions
+# that must agree is not a design, it is a pending disagreement. `record_path` comes with it and
+# prefers the file that ALREADY EXISTS -- exact slug first, then the legacy 60-character prefix --
+# so an un-truncated identity cannot strand or duplicate the records written under the cap. No
+# cycle: catalogue_aurora imports catalogue_codex and silence, neither of which imports this file.
+from catalogue_aurora import record_path, slug as _slug  # noqa: E402
+
+# Re-bound so `recover_folder_records.slug` still exists as a module attribute, and is the SAME
+# OBJECT as catalogue_aurora.slug and catalogue_web.slug rather than a third that must agree.
+slug = _slug
 
 
 # Register `source` strings that must never be transcribed, however the map points at them.
@@ -128,7 +139,11 @@ def main():
             skipped_no_items.append(name)
             continue
 
-        path = os.path.join(RECORDS, slug(name) + ".json")
+        # `record_path`, not a raw join on slug(): the existing file wins where there is one, so
+        # a record written under the old 60-character cap is FOUND (and therefore correctly seen
+        # as already populated by the guard below) instead of being shadowed by a second file
+        # under the un-truncated name.
+        path = record_path(name, RECORDS)
 
         # THE ROLL IS A SNAPSHOT; THE RECORD FOLDER IS THE TRUTH. `empty` was selected from
         # SWEEP_ROLL.json as it stood when this process started, and the roll is written by
