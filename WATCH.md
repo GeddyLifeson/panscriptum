@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 152  ·  last run 2026-08-29 09:42
+round 153  ·  last run 2026-08-29 10:11
 
 ## Structure
 
@@ -11,34 +11,20 @@ round 152  ·  last run 2026-08-29 09:42
 
 ## What the model found in the code
 
-**15 open** (4 high). Newest first.
+**8 open** (1 high). Newest first.
 
-- **anchors.py** `run` — [HIGH] The function is called and its result is used to determine exit code
-  - says: A CHECK WHOSE RESULT IS PRINTED AND DISCARDED CANNOT FAIL
-- **workorders.py** `file_order` — [HIGH] Creates a new order and writes it to the queue, but does not handle the case where the queue write fails, leading to potential data loss
-  - says: Open (or refresh) one work order. -> the order.
-- **verify_math.py** `check` — [HIGH] the check is using a variable that was not defined in the current scope
-  - says: a reasoning model's truncated generation reads as FLOW, not a wedge
 - **rosetta.py** `main` — [HIGH] The function returns 0 unconditionally, but the code comments indicate that it should return 1 if there are disagreements.
   - says: The exit code has to carry the verdict, not just the printout.
-- **feats_index.py** `_norm` — [MEDIUM] Folds alphanumeric-only, does not strip parentheticals
-  - says: Fold a name to its comparable core. THIS DOES NOT STRIP A PARENTHETICAL
-- **entity_match.py** `qualifier_compatible` — [MEDIUM] Compares the normalized qualifiers for equality, but the code's comment says that this is not literal string equality and that the gate is absolute. However, the code actually chec
-  - says: Two names may only be compared if their qualifiers agree.
-- **workorders.py** `resolve` — [MEDIUM] resolve
-  - says: resolve_code
+- **autostart.py** `start_supervisor` — [MEDIUM] starts the supervisor if it's not already running
+  - says: starts the supervisor
+- **autostart.py** `subprocess.Popen` — [MEDIUM] return a subprocess.Popen object immediately without waiting for it to complete
+  - says: start a new process
 - **verify_math.py** `_own_nodes20p` — [MEDIUM] Yields nodes of `fn` including nested functions, but skips the nested functions' nodes.
   - says: Every node belonging to `fn` ITSELF, not to a function nested inside it.
 - **verify_math.py** `_writes_the_config20p` — [MEDIUM] Checks if a function both names 'config.yaml' and opens something in write mode.
   - says: Every node belonging to `fn` ITSELF, not to a function nested inside it.
 - **verify_math.py** `check` — [MEDIUM] the check is for a literal string match, but the comment says it should check the AST for the correct behavior
   - says: check('the auth bench is still four hours', ...)
-- **verify_math.py** `measure_bit_value` — [MEDIUM] the docstring quotes the value the function returns, but the worked example still uses the old cumulative figure
-  - says: pins PROSE to DATA -- the only way this particular rot cannot recur silently
-- **tiers.py** `deliberate_joins` — [MEDIUM] returns deliberate joins, but the comment says it's for explaining why a xenoverse is 'artificial'
-  - says: why a xenoverse is 'artificial'
-- **sweep_plan.py** `covered_by` — [MEDIUM] returns a set of modules covered by a run, but the code for covered_by is not provided here and may not be implemented correctly
-  - says: A membership question deserves a membership answer.
 - **overnight.py** `run` — [MEDIUM] cannot run after the reader because pipeline is started in the background and the keeper re-asserts the standing set every 300s
   - says: Runs after the reader so it sees the evidence the reader just produced
 - **navtree.py** `register_for` — [MEDIUM] returns a register for a node, but the logic for tie-breaking is flawed and non-deterministic
