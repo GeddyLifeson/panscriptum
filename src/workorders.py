@@ -208,9 +208,11 @@ def battery_faults(preflight=None, allsweep=None, now=None):
                 bad.append("estate finding %s" % str(f)[:160])
         if bad:
             out["BATTERY_GRADED"] = {
-                "what": "allsweep grades %d subsystem(s) bad: %s"
+                # Same shape as PREFLIGHT_PROBLEM above: the count and the three are honest and
+                # labelled, the evidence is complete.
+                "what": "allsweep grades %d subsystem(s) bad, first three: %s"
                         % (len(bad), "; ".join(bad[:3])),
-                "handler": "RUN", "severity": "MAJOR", "evidence": bad[:20]}
+                "handler": "RUN", "severity": "MAJOR", "evidence": bad}
     return out
 
 
