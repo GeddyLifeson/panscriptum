@@ -1,22 +1,22 @@
 # OVERWATCH
 
-round 156  ·  last run 2026-08-29 11:23
+round 157  ·  last run 2026-08-29 12:17
 
 ## Structure
 
-- modules that will not import: **0**
-- files that will not parse: **0** of 273,179 inspected (deep scan as of round 151)
+- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
+- files that will not parse: **0** of 273,738 inspected
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**3 open** (1 high). Newest first.
+**3 open** (2 high). Newest first.
 
-- **chain.py** `adjudicate_mutuals` — [HIGH] Splits mutual pairs by epoch, but does not actually split them in time as described in the docstring. The function's logic is flawed in how it handles the dating and re-keying of n
-  - says: Split mutual pairs in time before fitting anything to them.
-- **chain.py** `write_result` — [MEDIUM] called twice with the same parameters
-  - says: write the result to the output file
+- **endpoint.py** `silence.replace_if_unchanged` — [HIGH] handles neither stale nor lost-update scenarios
+  - says: STALENESS
+- **cosmology_graph.py** `components` — [HIGH] clusters at weight >= threshold, but the function is named components and the code is not filtering by threshold
+  - says: CANDIDATE CLUSTERS at weight >= {args.threshold} : {len(comps)}
 - **assay.py** `used` — [MEDIUM] A subset of scored axes that are numeric
   - says: A subset of scored axes
 
