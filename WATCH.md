@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 123  ·  last run 2026-08-28 19:04
+round 124  ·  last run 2026-08-28 19:26
 
 ## Structure
 
@@ -11,8 +11,12 @@ round 123  ·  last run 2026-08-28 19:04
 
 ## What the model found in the code
 
-**19 open** (7 high). Newest first.
+**18 open** (8 high). Newest first.
 
+- **resync_roll.py** `roll` — [HIGH] Overwritten by the script's own modifications during the resync process
+  - says: Rebuilds SWEEP_ROLL.json's entry_count/status from the record files on disk.
+- **resonance.py** `dominates` — [HIGH] returns True when all values are equal
+  - says: answers False for both of those for an unrelated reason
 - **read.py** `_ask` — [HIGH] is the local GPU, unconditionally.
   - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline.
 - **pipeline.py** `phase_chain` — [HIGH] Phase 4 that never runs because no code dispatches to it
@@ -25,8 +29,6 @@ round 123  ·  last run 2026-08-28 19:04
   - says: Acquire a lock to prevent concurrent mutation runs
 - **genre.py** `classify_source` — [HIGH] Uses a truncated ranked list for confidence calculation, leading to inflated confidence scores
   - says: Classifies a source based on its entries, using all scored genres for confidence calculation
-- **generate.py** `compress_store.store` — [HIGH] is called but exceptions are caught and handled without raising
-  - says: now RAISES when `silence.replace_retry` cannot land the blob
 - **reference.py** `by_pair` — [MEDIUM] indexes on host and entity from the key split, but the key split is only a fallback
   - says: index on host and entity rather than re-spelling the separator
 - **reference.py** `shelfmark` — [MEDIUM] constructs a shelfmark with upper and lower rungs, but the code does not correctly handle cases where the tier_key or lower_rungs have different lengths than expected
@@ -41,10 +43,6 @@ round 123  ·  last run 2026-08-28 19:04
   - says: Write a phase artifact atomically. Returns whether it landed.
 - **overnight.py** `run` — [MEDIUM] Checks if the stage is already running by the basename of the argument, but the comment says it should match on the full path
   - says: Run one stage to completion, refusing to start a duplicate.
-- **overnight.py** `_cmd_is_running` — [MEDIUM] Checks if the command line contains the fragment as the script name, but not its arguments, and if the interpreter is Python
-  - says: PURE. Does this command line show `fragment` BEING RUN, rather than merely mentioned?
-- **onomast.py** `well_formed` — [MEDIUM] Enforces constraints that may not align with the intended pronounceability criteria
-  - says: Is this a name a Custos could say aloud and write down twice the same way?
 - **mutate.py** `escalation.OWNER` — [MEDIUM] The code is raising an escalation for a live file change during a sandboxed run, which the comment says is impossible by construction.
   - says: This must be impossible by construction -- the live path is never opened for writing.
 - **magnitude.py** `slice_census` — [MEDIUM] Calculates totals but does not account for unread characters or sentences per axis, which are critical for understanding which axes had incomplete evidence processing.
