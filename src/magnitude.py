@@ -25,8 +25,11 @@ of a bad worksheet can detect a bad worksheet.
 So the model is treated as a proposer and never as an authority. Five checks stand between it
 and `assay()`, and an axis that fails any of them does not get a number:
 
-  1. VERBATIM      the cited feat must appear in the mined list. Invented citations are the
-                   easiest failure to catch and the most damaging to miss.
+  1. VERBATIM      the cited feat must appear in the mined list, in the ONE citation form the
+                   prompt asks for -- the evidence line as it was handed over, sentence and
+                   leading [number] both. Invented citations are the easiest failure to catch
+                   and the most damaging to miss; a citation too short or too ambiguous to name
+                   one feat is refused rather than matched to whichever feat contains its words.
   2. RELEVANCE     the feat must bear on the axis it was filed under. An earthquake sentence
                    cited for Celerity fails, and Celerity drops to `unestimable`.
   3. SUBJECT       the entity must be the DOER, and the check is made AGAINST THE ENTITY'S
@@ -41,7 +44,9 @@ and `assay()`, and an axis that fails any of them does not get a number:
                    would not refuse. It is rejected whole, not averaged down.
   5. QUANTITY      "40 tons", "3,000 kili" never reach the model's judgement at all. A measured
                    quantity is converted and scored arithmetically by assay.axis_score against
-                   BAND_EDGES, which is the highest-grade evidence the library can hold.
+                   BAND_EDGES, which is the highest-grade evidence the library can hold -- and
+                   it is put to guard 3 like everything else, because a measured deed sitting on
+                   an entity's page can still be somebody else's.
 
 An axis that survives all five carries a number. Everything else carries a status, and the
 interval widens accordingly. That is the intended outcome, not a shortfall: Part Three refines
@@ -418,13 +423,33 @@ _TO_METRES = {
 }
 
 
-def quantity_scores(ev, anchor):
+def quantity_scores(ev, anchor, entity=None):
     """Axis scores computed arithmetically from measured quantities. No model opinion involved.
+    Returns `(readings, rejections)`.
 
     A tonne of TNT is a tonne of TNT in every fiction, which is the whole reason Part Three
     grounds the ladder in joules and metres rather than adjectives.
+
+    GUARD 3 IS ASKED HERE, AND IT USED NOT TO BE (order 41e8ffc2e490). A measured quantity is
+    mined from the entity's PAGE, not from the entity's deeds, and a page about Goku is full of
+    sentences about Beerus. This function never called `subject_refusal`, and `assay_entity`
+    then assigned whatever came back UNCONDITIONALLY, after every gate had run -- so
+    "Beerus destroyed the planet with a blast measured at 50000 megatons" produced a Ruin
+    reading on GOKU's sheet, and an axis guard 3 had just refused as somebody else's deed was
+    reinstated by the instrument path with no doer check at all. The module docstring calls this
+    guard "the highest-grade evidence the library can hold" and the Attestation ladder puts
+    Instrumented above Transcribed, which makes the omission worse rather than better: the
+    strongest evidence in the instrument was the only kind nobody asked who did it.
+
+    Same shape as the settled `_split_gate` fault (order e22f29b8e4df) and as order 66696f8ee28f
+    one function below: a guard that exists, can refuse, and is not asked on a path that reaches
+    publication. The refusals are RETURNED rather than swallowed, so a bystander's measurement
+    shows up in the record's `rejections` instead of vanishing.
+
+    `entity` defaults to None for callers with nothing to test against; `subject_refusal`
+    answers None on an empty name, which is its existing "cannot decide".
     """
-    out = {}
+    out, rejects = {}, []
     for q in ev.get("quantities", []):
         try:
             val = float(str(q["value"]).replace(",", ""))
@@ -438,14 +463,22 @@ def quantity_scores(ev, anchor):
             axis, x = "reach", val * _TO_METRES[unit]
         else:
             continue                      # franchise-internal scale: not convertible, not used
+        # 3 SUBJECT -- an instrument reading is still somebody's act, and it has to be this
+        # entity's. Read against the whole mined sentence, as `verify` and `_split_gate` do.
+        sentence = q.get("sentence") or ""
+        why = subject_refusal(entity, sentence, axis)
+        if why:
+            rejects.append((axis, "instrument reading is not this entity's act ("
+                            + why + "): " + sentence[:60]))
+            continue
         s = A.axis_score(x, anchor, axis)
         if s is None:
             continue
         # Keep the strongest measured reading per axis; a lesser feat does not unmake a greater.
         if axis not in out or s > out[axis]["score"]:
-            out[axis] = {"score": s, "feat": q["sentence"], "page": q.get("page", ""),
+            out[axis] = {"score": s, "feat": sentence, "page": q.get("page", ""),
                          "measured": f"{val:g} {unit}", "si": x, "by": "instrument"}
-    return out
+    return out, rejects
 
 
 # --------------------------------------------------------------------------- the call
@@ -494,8 +527,25 @@ scale of a universe, the other throughout existence, and both would be so with t
 Ask "how far does this thing extend, and through what", never "who would win".
 
 STEP 2 SCORE these axes 0.0-9.9 WITHIN that band: {', '.join(AXES)}.
-Cite, for each axis, the exact feat number that justifies it. The feat must be ABOUT that axis:
-a feat about destruction supports Ruin, not Celerity. The entity must be the one who ACTED.
+
+CITE, for each axis you score, THE EVIDENCE LINE EXACTLY AS IT WAS HANDED TO YOU: the sentence
+copied verbatim, keeping the leading [number] if the list you were given carries one. That is
+the only citation form accepted, and the gate reads it literally:
+
+  [7] Goku destroyed a mountain range with a Kamehameha.     <- cite it like this
+  7                                                          <- a number alone: accepted, but
+                                                                the sentence is what is wanted
+  destroyed                                                  <- REFUSED: a few words out of a
+  a Kamehameha blast                                            sentence name no feat, and the
+  he wrecked a mountain                                         axis is thrown away
+  Goku levelled a mountain with a blast                      <- REFUSED: a paraphrase is not a
+                                                                citation. Copy, do not rewrite.
+
+A citation that names no single line, or names a line number that was never in the list, is
+refused and the axis drops to `unestimable`. Copying costs you nothing; rewriting costs the axis.
+
+The feat must be ABOUT that axis: a feat about destruction supports Ruin, not Celerity. The
+entity must be the one who ACTED.
 
 If no feat in the list bears on an axis, do not score it. Return instead:
   "none"        the axis applies and the quantity is genuinely absent
@@ -529,6 +579,137 @@ def _norm(t):
     return re.sub(r"[^a-z0-9 ]", " ", (t or "").lower())
 
 
+# ------------------------------------------------------------------- guard 1: ONE citation form
+#
+# THE PROMPT AND THE GATE USED TO ASK FOR DIFFERENT THINGS (order 66696f8ee28f).
+#
+# `SYSTEM` said "Cite the exact feat number"; this guard demanded a SENTENCE. A model that obeyed
+# the instruction was refused for obeying it, and the refusal string -- "citation not in the mined
+# feats" -- blamed the model. Measured over the 462 rebuildable records in data/ASSAYS.json, a
+# citation of the form the prompt asked for went one of two ways and neither was the right one:
+#
+#     37,285 bare line-number citations, one per valid index, against the entity's own list
+#        32,342  (86.7%)  refused as "citation not in the mined feats"
+#         4,744  (12.7%)  SILENTLY MATCHED A DIFFERENT FEAT than the one cited
+#           199   (0.5%)  matched the cited feat, by coincidence
+#
+# The 12.7% is the worse half. The old test was `t in cn or cn in t`, plain substring containment
+# on the normalised strings, so `_norm("41")` is `"41"` and any mined sentence with those two
+# digits anywhere in it -- a date, a chapter, a power level -- became the citation. Guards 2 and 3
+# then judged a sentence the model never pointed at. The same hole swallowed any short citation:
+# a ONE-WORD citation drawn from the entity's own evidence was accepted for 462 of 462 records
+# (100%), each time selecting whichever feat happened to contain that word. That is the run-#27
+# empty-citation defect with one token in it instead of zero.
+#
+# So there is now ONE form, stated in SYSTEM and enforced here: THE EVIDENCE LINE AS IT WAS
+# HANDED OVER -- the sentence copied verbatim, keeping the leading `[number]` where the list
+# carried one. Both halves of that form resolve to the same feat, so the two paths cannot
+# disagree:
+#
+#   * a leading `[N]` / `(N)` / `#N` / `feat N` is one of OUR OWN line numbers and is exact. It
+#     selects feat N and nothing else. Out of range is a refusal, not a search.
+#   * a sentence resolves by exact normalised equality first, then by one containment step, then
+#     by token overlap -- and must land on exactly ONE mined feat. Two candidates is a refusal:
+#     a citation that identifies two feats has identified neither.
+#   * a citation too short to name a feat is refused OUTRIGHT rather than matched arbitrarily.
+#     A number alone is exact and so is exempt from this; loose words are not.
+#
+# The thresholds are set at the shortest honest trim this corpus contains, not lower: verify_math
+# scores "destroyed the entire mountain range" (5 tokens, 35 characters) and must keep doing so.
+MIN_CITE_TOKENS = 5
+MIN_CITE_CHARS = 24
+
+# A citation that is NOTHING BUT one of our line numbers: "41", "[41]", "#41", "feat 41".
+# Deliberately anchored at both ends, so a real sentence that opens with a figure -- "3,000 kili
+# - power to destroy several planets" -- is prose and is matched as prose.
+_CITE_NUMBER_ONLY = re.compile(r"^\s*(?:feat\s*)?[#\[(]?\s*(\d{1,4})\s*[\])]?\s*[.:,-]?\s*$", re.I)
+# The line number the prompt printed in front of the sentence, kept by a verbatim copy.
+_CITE_NUMBER_LED = re.compile(
+    r"^\s*(?:feat\s*)?(?:\[\s*(\d{1,4})\s*\]|\(\s*(\d{1,4})\s*\)|#\s*(\d{1,4}))\s*[.:,-]?\s*")
+
+
+def _cite_number(cited):
+    """(the line number written in front of the citation, the rest of it).
+
+    The number is returned whether or not it is in range -- `_resolve_citation` decides that,
+    because an out-of-range number is a citation that FAILED and must say so, not a citation to
+    go looking for by substring.
+    """
+    m = _CITE_NUMBER_ONLY.match(cited)
+    if m:
+        return int(m.group(1)), ""
+    m = _CITE_NUMBER_LED.match(cited)
+    if m:
+        return int(next(g for g in m.groups() if g)), cited[m.end():]
+    return None, cited
+
+
+def _substantial(norm_text):
+    """Is this enough citation to identify one feat, or just some words that occur in one?"""
+    return (len(norm_text.split()) >= MIN_CITE_TOKENS
+            and len(norm_text.strip()) >= MIN_CITE_CHARS)
+
+
+def _resolve_citation(cited, mined, numbered=True):
+    """Guard 1's single question: WHICH mined feat is this, or why is it none of them.
+
+    Returns `(index, None)` or `(None, reason)`. `mined` is {1-based line number: sentence}.
+
+    `numbered=False` is the split path, whose slice prompts print no line numbers: there a
+    figure is not a line number, and containment runs ONE WAY ONLY -- a trimmed copy of a real
+    candidate passes, a fabricated wrapper AROUND one does not, which is the direction that
+    path has always enforced and must keep enforcing.
+    """
+    raw = (cited or "").strip()
+    if not raw:
+        return None, "no citation given"
+    norm = {i: _norm(t) for i, t in mined.items()}
+    num, rest = _cite_number(raw) if numbered else (None, raw)
+    rn = _norm(rest).strip()
+
+    if num is not None:
+        if num not in mined:
+            return None, ("cited feat number " + str(num) + " is not one of the "
+                          + str(len(mined)) + " lines handed over")
+        t = norm.get(num) or ""
+        # A number AND a sentence that are different feats is a fabrication with a real
+        # line number stapled to it. The number does not launder the sentence.
+        if _substantial(rn) and not (t and (t in rn or rn in t or _overlap(t, rn) > 0.6)):
+            return None, ("the cited line number and the quoted sentence are different feats "
+                          "([" + str(num) + "] is not what was quoted)")
+        return num, None
+
+    # EXACT EQUALITY IS ASKED FIRST AND IS EXEMPT FROM THE LENGTH BAR, because a citation that
+    # IS a mined line, character for character, has identified it however short the line is --
+    # and this corpus does hold short lines (171 of 37,285 mined feats are under the bar, mostly
+    # wiki headings that survived the miner). Measured: putting the length test in front of this
+    # refused 271 of 37,285 honest verbatim citations, 171 for brevity and 100 because a short
+    # mined line is a substring of a longer one and so "matched" both. Exactness settles both.
+    exact = [i for i, t in norm.items() if t and t == rn]
+    if exact:
+        return exact[0], None
+
+    if not _substantial(rn):
+        return None, ("citation too short to identify one feat (" + repr(raw[:40])
+                      + "); quote the evidence line verbatim")
+
+    if numbered:
+        pools = [[i for i, t in norm.items() if t and (t in rn or rn in t)],
+                 [i for i, t in norm.items() if t and _overlap(t, rn) > 0.6]]
+    else:
+        # One way only: the citation must be a TRIM of a candidate, never a wrapper around one.
+        pools = [[i for i, t in norm.items() if t and rn in t]]
+    for pool in pools:
+        if not pool:
+            continue
+        distinct = {norm[i] for i in pool}
+        if len(distinct) > 1:
+            return None, ("citation matches " + str(len(distinct)) + " different mined feats "
+                          "and identifies none of them")
+        return pool[0], None
+    return None, "citation not in the mined feats"
+
+
 def verify(entity, got, ev):
     """Apply guards 1-3. Returns (scores, worksheet, rejections).
 
@@ -536,7 +717,6 @@ def verify(entity, got, ev):
     instruments; both run in `assay_entity`, after this.
     """
     mined = {i: f["feat"] for i, f in enumerate(ev["feats"], 1)}
-    mined_norm = {i: _norm(t) for i, t in mined.items()}
     scores, sheet, rejects = {}, {}, []
 
     for ax in AXES:
@@ -545,10 +725,26 @@ def verify(entity, got, ev):
         cited = (got_ax.get("feat") or "").strip()
 
         if isinstance(raw, str):
+            # A STATUS IS NOT PROVENANCE AND DOES NOT GO ON THE WORKSHEET (order dd76d4a930f7).
+            #
+            # This line used to be `sheet[ax] = cited or st`, and `sheet` is what reaches
+            # `A.assay(worksheet=...)` and gets published. So "n/a" was filed as though it were
+            # a cited feat -- 321 of 1,457 published worksheet lines (22.0%) were a bare status
+            # word, and 34 records carried a "worksheet" containing no sentence at all.
+            #
+            # It also disabled the one-shot quality retry below. That gate reads `if not sheet`,
+            # meaning "not one axis produced a verified citation", and SYSTEM actively asks for
+            # statuses ("Returning nine statuses and two scores is a correct answer") -- so one
+            # status anywhere made the dict non-empty and the gate could never fire. Measured:
+            # `split-retry` appears ZERO times across the 507 records on disk. A one-shot whose
+            # every citation was thrown away was filed as band-only, which is precisely the
+            # outcome the comment at that gate says must not happen.
+            #
+            # `scores[ax]` still carries the status, which is what `assay()` reads to widen the
+            # interval. Only the fabricated provenance is gone.
             st = raw.strip().lower()
             scores[ax] = {"none": A.NONE, "unestimable": A.UNESTIMABLE,
                           "n/a": A.INAPPLICABLE, "na": A.INAPPLICABLE}.get(st, A.UNESTIMABLE)
-            sheet[ax] = cited or st
             continue
         if not isinstance(raw, (int, float)):
             scores[ax] = A.UNESTIMABLE
@@ -570,15 +766,18 @@ def verify(entity, got, ev):
         # come FIRST and be its own rejection, not a special case folded into the match: a blank
         # citation is not a citation that failed to match, it is the absence of the evidence the
         # whole assay is built on, and it deserves to say so in `rejects`. (run #27)
-        cn = _norm(cited)
-        if not cn:
+        #
+        # `_resolve_citation` is that same guard grown up: it now knows the ONE citation form
+        # SYSTEM asks for, resolves our own line numbers exactly instead of hunting for their
+        # digits by substring, and refuses a citation too short or too ambiguous to name a
+        # single feat rather than picking one. See the block above it. (order 66696f8ee28f)
+        if not _norm(cited):
             rejects.append((ax, "no citation given"))
             scores[ax] = A.UNESTIMABLE
             continue
-        hit = next((i for i, t in mined_norm.items()
-                    if t and (t in cn or cn in t or _overlap(t, cn) > 0.6)), None)
+        hit, why_cite = _resolve_citation(cited, mined)
         if hit is None:
-            rejects.append((ax, "citation not in the mined feats"))
+            rejects.append((ax, why_cite))
             scores[ax] = A.UNESTIMABLE
             continue
         text = mined[hit]
@@ -850,10 +1049,21 @@ def _split_gate(got, cand, entity=None):
     scores, sheet, rejects = {}, {}, []
     for ax, v in (got.get("axes") or {}).items():
         sc, ft = v.get("score"), (v.get("feat") or "").strip()
+        # GUARD 1 STOPPED AT THE ONE-SHOT DOOR IN THE SAME WAY GUARD 3 ONCE DID.
+        #
+        # This was a bare `ft in r["feat"]` scan, so the arbitrary-substring hole order
+        # 66696f8ee28f found in `verify` was open here too, on the DEFAULT path: a one-word
+        # citation took whichever candidate happened to contain that word, and a bare figure
+        # took whichever sentence happened to contain those digits. `_resolve_citation` is the
+        # same guard both paths now use. `numbered=False` because a split slice prints no line
+        # numbers -- there a figure is prose, and containment stays ONE WAY ONLY, which is what
+        # the note below was already insisting on and what verify_math's wrapper case proves.
+        pool = {i: r["feat"] for i, r in enumerate(cand.get(ax) or [], 1)}
         # containment one way ONLY: a trimmed copy of a real candidate passes; a fabricated
         # wrapper AROUND a real candidate (o in ft) is the fabrication direction and fails
-        source = next((r["feat"] for r in (cand.get(ax) or [])
-                       if ft and ft in r["feat"]), None) if ft else None
+        hit, why_cite = (_resolve_citation(ft, pool, numbered=False) if ft
+                         else (None, "no citation given"))
+        source = pool[hit] if hit is not None else None
         if isinstance(sc, (int, float)) and source is not None:
             # 3 SUBJECT -- the entity has to be the doer, on this path too.
             why = subject_refusal(entity, source, ax)
@@ -864,7 +1074,8 @@ def _split_gate(got, cand, entity=None):
             scores[ax] = max(0.0, min(9.9, float(sc)))
             sheet[ax] = ft
         elif isinstance(sc, (int, float)):
-            rejects.append((ax, "split citation not verbatim in this axis's candidates"))
+            rejects.append((ax, "split citation not verbatim in this axis's candidates: "
+                            + str(why_cite)))
             scores[ax] = A.UNESTIMABLE
         else:
             scores[ax] = A.UNESTIMABLE
@@ -971,6 +1182,10 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
         scores, sheet, rejects = _split_gate(got, cand, entity)
     else:
         scores, sheet, rejects = verify(entity, got, ev_v)
+        # `sheet` now holds ONLY verified citations -- statuses stopped being written into it
+        # (order dd76d4a930f7), which is what this gate always meant by "not one axis produced
+        # evidence" and never actually tested. While statuses filled the dict the gate could not
+        # fire at all: `split-retry` appears zero times across the 507 records on disk.
         if not sheet and any(cand.values()):
             # A ONE-SHOT WHOSE EVERY CITATION FAILED VERBATIM IS A QUALITY FAILURE, NOT A
             # FINDING. Jace one-shot three times: two M2 anchors and an M0, every axis
@@ -1008,10 +1223,20 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             rejects.append((ax, "cited evidence offered under " + flat[int(m.group(1))][0]))
             scores[ax] = A.UNESTIMABLE
 
-    # 5 QUANTITY -- measured readings overwrite the model's judgement on their axis. An
-    # instrument outranks an opinion, which is the ordering the Attestation ladder already
-    # states (Instrumented above Transcribed).
-    for ax, q in quantity_scores(ev, anchor).items():
+    # 5 QUANTITY -- a measured reading outranks the model's judgement on its axis. An instrument
+    # outranks an opinion, which is the ordering the Attestation ladder already states
+    # (Instrumented above Transcribed).
+    #
+    # BUT IT OUTRANKS AN OPINION, NOT A GUARD (order 41e8ffc2e490). This loop used to assign
+    # every reading `quantity_scores` returned, unconditionally, after every gate above had
+    # already run -- so it could reinstate an axis guard 3 had just refused as another actor's
+    # deed, and it did so with no doer check of its own anywhere on the path. Nothing is
+    # overwritten now unless the sentence the reading came out of has passed guard 3 in
+    # `quantity_scores`; the ones that fail come back as rejections and are recorded here rather
+    # than silently dropped.
+    q_scores, q_rejects = quantity_scores(ev, anchor, entity)
+    rejects.extend(q_rejects)
+    for ax, q in q_scores.items():
         scores[ax] = q["score"]
         sheet[ax] = f"INSTRUMENT {q['measured']} = {q['si']:.3g} SI  <- {q['feat'][:120]}"
 

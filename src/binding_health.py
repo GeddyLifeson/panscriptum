@@ -71,15 +71,72 @@ PRESENT_CANDIDATES = 8
 CAS_ATTEMPTS = 5
 
 
-def _load(path, default):
+class QuarantineUnreadable(RuntimeError):
+    """HOST_QUARANTINE.json exists and could not be read as a map of quarantined hosts.
+
+    ITS OWN TYPE BECAUSE THE ANSWER IS NOT `{}`. `_load` spelled "the file is not there" and
+    "the file is torn, locked, or not UTF-8" with the same empty default, so a corrupt
+    quarantine file read as NOTHING IS QUARANTINED and three things followed, all of them
+    measured: `quarantined()` reported an empty map; `is_quarantined()` answered False for every
+    rotten host, so mining resumed against it and its empty results were filed as honest
+    absences, which is this module's whole subject; and `workorders.sweep` resolved every open
+    HOST_QUARANTINED order as "host is no longer quarantined". Two live quarantines were
+    destroyed in the demonstration by a single following `quarantine()` call.
+
+    Raised rather than returned for the reason `PushHeld` is: an empty map is a legitimate
+    value that every caller already handles, so a third state that arrives wearing it cannot be
+    noticed. Every external reader of `quarantined()` -- dashboard, health, feats,
+    `workorders.sweep` -- already catches around it, and `health.py` says in its own comment
+    what the catch is for: "if the quarantine record cannot be read we do not know that a host
+    is excused, so nothing is excused". That is the fail-closed answer; this makes it reachable.
+    (order dd3ff361db49)
+    """
+
+
+def _read_json(path):
+    """-> (object, 'ok' | 'absent' | 'unreadable'). The distinction `_load` cannot make.
+
+    ABSENT IS A VALUE AND UNREADABLE IS NOT. A file that is not there says, truthfully, that
+    nothing has been recorded yet; a file that will not open or will not parse says only that
+    this process cannot see what was recorded, which is the one thing a WRITER of that file must
+    never treat as an empty starting point.
+    """
     try:
         with open(path, encoding="utf-8") as f:
-            return json.load(f)
+            return json.load(f), "ok"
     except FileNotFoundError:
-        return default
+        return None, "absent"
     except Exception:
         silence.note("binding_health.py:load")
-        return default
+        return None, "unreadable"
+
+
+def _read_quarantine():
+    """The quarantine map, with the read verdict. -> (map, 'ok'|'absent'|'unreadable').
+
+    A well-formed JSON document that is not a host map is UNREADABLE here, not empty: a list or
+    a string in this file is a file that has been overwritten by something else, and the reader
+    that treats it as "no host is quarantined" is the reader that then overwrites it for good.
+    """
+    obj, state = _read_json(QUARANTINE)
+    if state != "ok":
+        return {}, state
+    if not isinstance(obj, dict):
+        silence.note("binding_health.py:load")
+        return {}, "unreadable"
+    return obj, "ok"
+
+
+def _load(path, default):
+    """Read a JSON file, or `default` if it is absent OR unreadable.
+
+    KEPT AS IT WAS, deliberately, for the READ-ONLY callers -- the candidate-title scans, the
+    hosts map -- where a default is the right answer and every one of them already treats an
+    empty result as "no candidates from here". The callers that WRITE go through `_read_json` /
+    `_read_quarantine` instead, because for them the two cases are opposites.
+    """
+    obj, state = _read_json(path)
+    return obj if state == "ok" else default
 
 
 def _land(path, obj):
@@ -183,32 +240,111 @@ def _report_not_written(code, what):
         silence.note("binding_health.py:escalate")
 
 
-def quarantined():
-    """-> {host: record}. Only those whose retry-after has not yet passed."""
+def quarantined(strict=True):
+    """-> {host: record}. Only those whose retry-after has not yet passed.
+
+    RAISES `QuarantineUnreadable` when the file exists and cannot be read. An empty map is the
+    answer to "nothing is quarantined", and returning it for "I cannot tell" is what let a torn
+    HOST_QUARANTINE.json report an empty quarantine to every reader at once -- the dashboard
+    panel, `health`'s excuse list, and worst of all `workorders.sweep`, which closes every open
+    HOST_QUARANTINED order whose host is absent from this map. All three already catch around
+    this call, and `health.py` states the intended reading in its own comment: "if the quarantine
+    record cannot be read we do not know that a host is excused, so nothing is excused."
+
+    `strict=False` is for the one caller that has no useful fail-closed answer -- see
+    `is_quarantined`.
+    """
+    q, state = _read_quarantine()
+    if state == "unreadable":
+        if strict:
+            raise QuarantineUnreadable(
+                "%s exists and could not be read as a map of quarantined hosts. This is NOT "
+                "'no host is quarantined': the standing quarantines cannot be seen from here, "
+                "so nothing may be treated as released and no order about one may be closed."
+                % os.path.basename(QUARANTINE))
+        silence.note("binding_health.py:quarantine-unreadable")
     now = time.time()
-    return {h: r for h, r in (_load(QUARANTINE, {}) or {}).items()
+    return {h: r for h, r in (q or {}).items()
             if (r or {}).get("retry_after", 0) > now}
 
 
 def is_quarantined(host):
-    return host in quarantined()
+    """Is this host already held? -> bool. Answers False when the file cannot be read.
+
+    THE ONE NON-STRICT READER, and the exception is argued rather than inherited. Both callers
+    ask this only to decide whether to WRITE -- `feats.note_throttled` skips the hand-off for a
+    host already held, and `run()` skips a release for a host that is not -- and both writes
+    fail closed on an unreadable file by themselves. Answering True here would SUPPRESS those
+    writes, and with them the `HOST_QUARANTINE_NOT_RECORDED` escalation that is the only loud
+    thing a broken quarantine file produces; answering False costs one refused write that says
+    so. The readers that must not guess -- `quarantined()` itself -- get the exception.
+    """
+    return host in quarantined(strict=False)
 
 
 def quarantine(host, reason, last_good=None):
-    """Record a host as failing, WITH ITS REASON. Never a silent skip, never a deletion."""
-    q = _load(QUARANTINE, {}) or {}
-    prev = q.get(host) or {}
-    q[host] = {"reason": str(reason)[:300], "at": time.time(),
+    """Record a host as failing, WITH ITS REASON. Never a silent skip, never a deletion.
+
+    FAILS CLOSED ON AN UNREADABLE FILE. This began `_load(QUARANTINE, {}) or {}` and then blindly
+    overwrote the file, so a torn, locked or non-UTF-8 HOST_QUARANTINE.json read as an empty map
+    and the next quarantine replaced every standing record with a ONE-KEY map. Demonstrated: a
+    file holding two live quarantines plus a torn tail came back as `{}`, and one call left only
+    the host just added. Nothing raised, nothing was noted, and the loss is invisible afterwards
+    because the file that would have shown it is the file that was overwritten. Reading a file
+    you are about to overwrite is the one place where "I could not read it" must never be
+    rounded to "there was nothing there". (order dd3ff361db49)
+
+    AND COMPARE-AND-SWAP, which `release()` has had and this has not. This is a READ-MODIFY-WRITE
+    and `_land` is a blind overwrite: two writers of HOST_QUARANTINE.json is the normal
+    situation here (a scheduled `--run` quarantining a dead host while a targeted `--host` pass
+    releases a recovered one), each reads the map, each edits its own key, and whichever renames
+    second lands a snapshot taken before the other's edit existed. The write SUCCEEDS, which is
+    why nothing ever reported it, and the lost quarantine looks exactly like a host that was
+    never quarantined. Re-read and retried rather than refused outright, exactly as `release()`
+    does: the other writer's copy is the newer truth, so this pass folds into it and swaps
+    again. (order 8ee268ce32cc)
+
+    THE TWO FIXES ARE NOT INTERCHANGEABLE and both are needed: a compare-and-swap over a `{}`
+    read still lands `{}`, because the digest of the unreadable file matches nothing and the
+    file it certifies is the one whose contents were never seen.
+    """
+    rec, landed, detail = None, False, "not attempted"
+    for _ in range(CAS_ATTEMPTS):
+        # THE DIGEST IS TAKEN BEFORE THE READ -- see `_land_cas`. Read first and the digest would
+        # match disk while the copy in hand is already stale, certifying the loss.
+        expected = silence.digest_of(QUARANTINE)
+        q, state = _read_quarantine()
+        if state == "unreadable":
+            rec = {"reason": str(reason)[:300], "at": time.time(),
+                   "retry_after": time.time() + RETRY_AFTER_S,
+                   "last_good": last_good, "times": None}
+            landed = False
+            detail = ("%s exists and could not be read, so this quarantine cannot be added to "
+                      "the records already in it without destroying them"
+                      % os.path.basename(QUARANTINE))
+            break
+        prev = q.get(host) or {}
+        rec = {"reason": str(reason)[:300], "at": time.time(),
                "retry_after": time.time() + RETRY_AFTER_S,
                "last_good": last_good if last_good is not None else prev.get("last_good"),
                "times": int(prev.get("times", 0)) + 1}
+        q[host] = rec
+        try:
+            landed, detail = _land_cas(QUARANTINE, q, expected)
+        except Exception:
+            # `_land_cas` re-raises whatever stopped the temp file being written. `quarantine()`
+            # is called from inside `run()`'s per-host loop and from `feats.note_throttled`, and
+            # neither may lose its sweep to one host's failed write.
+            silence.note("binding_health.py:quarantine-write")
+            landed, detail = False, "the temp copy could not be written"
+        if landed:
+            break
     # THE ESCALATION MUST DESCRIBE WHAT IS ON DISK. A refused rename leaves the host UNQUARANTINED
     # -- `quarantined()` reads the file every call -- so raising HOST_QUARANTINED for it would put
     # a lie in the escalation ledger and close a case that was never opened. Raise the failure to
     # write instead, which is the actionable finding, and carry the verdict out in the record so
     # a caller cannot mistake an attempted quarantine for a recorded one.
-    landed = _land(QUARANTINE, q)
-    q[host]["landed"] = landed
+    rec["landed"] = landed
     try:
         import escalation as ESC
         # SUPERVISOR, not OWNER: one host failing closes that area of the park, never the park.
@@ -218,11 +354,12 @@ def quarantine(host, reason, last_good=None):
         else:
             ESC.escalate(ESC.SUPERVISOR, "HOST_QUARANTINE_NOT_RECORDED",
                          "%s should be quarantined (%s) but HOST_QUARANTINE.json could not be "
-                         "written (rename refused) -- the host is NOT quarantined and will keep "
-                         "being mined" % (host, reason), source=host, who="binding_health")
+                         "written (%s) -- the host is NOT quarantined and will keep "
+                         "being mined" % (host, reason, detail), source=host,
+                         who="binding_health")
     except Exception:
         silence.note("binding_health.py:escalate")
-    return q[host]
+    return rec
 
 
 def release(host, why="canary passed"):
@@ -250,7 +387,17 @@ def release(host, why="canary passed"):
         # the digest would match disk while the copy in hand is already stale, which certifies
         # the loss instead of catching it.
         expected = silence.digest_of(QUARANTINE)
-        q = _load(QUARANTINE, {}) or {}
+        q, state = _read_quarantine()
+        if state == "unreadable":
+            # THE SAME FAIL-CLOSED READ `quarantine()` GOT, and it matters in the same way: an
+            # unreadable file used to come back `{}`, `host not in q` was then trivially true,
+            # and this reported the host RELEASED without writing anything -- while whatever the
+            # file actually holds may still be holding it. A release nobody can prove is a
+            # release that did not happen. (order dd3ff361db49)
+            return ("NOT RELEASED: %s exists and could not be read, so it cannot be said "
+                    "whether %s is quarantined, and nothing may be written over records that "
+                    "cannot be seen. Intended reason: %s"
+                    % (os.path.basename(QUARANTINE), host, why))
         if host not in q:
             return why
         q.pop(host, None)
@@ -694,8 +841,33 @@ def known_present_title(host, hosts_map=None, records_dir=None):
 
 
 def run(limit=None, only=None):
-    """Canary every bound host. Error-resilient: one bad host never aborts the sweep."""
+    """Canary every bound host. Error-resilient: one bad host never aborts the sweep.
+
+    A WHOLE-ESTATE REPORT IS NEVER BUILT FROM AN EMPTY HOSTS MAP. The partial-pass branch below
+    was armed against exactly this shape -- it compare-and-swaps, and it refuses outright when
+    the standing report cannot be read, on the reasoning that "Unreadable is NOT empty" -- and
+    the whole-estate branch, which is a blind `_land`, reached the same destination through the
+    INPUT file instead of the output one. `WIKI_HOSTS.json` unreadable -> `{}` -> no hosts -> no
+    records -> `_land(OUT, {"checked": 0, "failed": 0, "hosts": []})` over a 203-host estate
+    report, well-formed and describing a library that is mostly not there. `workorders.sweep`'s
+    binding detector then reads `hosts: []` and finds no suspect bindings at all.
+    (order 9979963c093a)
+    """
     hosts_map = _load(os.path.join(HERE, "data", "WIKI_HOSTS.json"), {}) or {}
+    if not hosts_map:
+        # REFUSED BEFORE ANYTHING IS PROBED. Absent, empty and unreadable are all refused
+        # together here, deliberately: the distinction changes what to say and not what to do,
+        # because a whole-estate pass with nothing to check has no report to write in any of the
+        # three cases, and the file it would land on is the one thing that still knows the
+        # estate. Nothing is written and the caller is told why.
+        _report_not_written(
+            "BINDING_ESTATE_EMPTY",
+            "REFUSING to build a whole-estate report: data/WIKI_HOSTS.json is empty or could "
+            "not be read, so this pass has no bound hosts to canary. Landing its result would "
+            "replace the standing report with a 0-host one and every downstream reader would "
+            "see an estate with no suspect bindings in it. %s keeps the verdicts it already "
+            "has." % os.path.basename(OUT))
+        return [], 0
     hosts = sorted({h for h in hosts_map.values() if h and not str(h).startswith(("pages:", "doc:"))})
     # host -> every source bound to it. A host can carry several, so the binding is right if
     # its own name corresponds to ANY of them.
@@ -745,6 +917,18 @@ def run(limit=None, only=None):
     # Merged rather than refused, because a targeted probe IS the useful thing and its results
     # should be kept: each host's record is replaced by the fresh one, every host not probed
     # keeps the verdict it had, and `checked` counts the whole file rather than this pass.
+    if not (only or limit) and not out:
+        # AND THE SAME REFUSAL ONE STEP LATER. The hosts map was readable and non-empty and this
+        # pass still produced no host record -- every binding is a `pages:`/`doc:` pseudo-host,
+        # or the map is not the shape this function reads. Whatever the cause, a 0-host
+        # whole-estate report is not a description of this estate, and landing one is the
+        # destructive act the guard above exists to prevent, reached by a different road.
+        _report_not_written(
+            "BINDING_ESTATE_EMPTY",
+            "REFUSING to land a whole-estate report with 0 hosts in it: %d source binding(s) "
+            "were read and none of them yielded a canaryable host. %s keeps the verdicts it "
+            "already has." % (len(hosts_map), os.path.basename(OUT)))
+        return out, failed
     merged, prior = list(out), {}
     # READ THE DIGEST BEFORE THE CONTENT, so a file that moves between the two cannot be merged
     # into silently -- see `_land_cas`. Meaningless on the whole-estate path, which reads nothing.
@@ -814,7 +998,14 @@ def main():
             print("  %2d. %r" % (i, t))
         return 0
     if a.quarantined:
-        q = quarantined()
+        try:
+            q = quarantined()
+        except QuarantineUnreadable as e:
+            # NOT "no hosts quarantined". The operator asked what is held and the honest answer
+            # is that the file will not open; printing the empty list would be the same lie the
+            # readers downstream were told.
+            print("binding_health: %s" % e, file=sys.stderr)
+            return 1
         if not q:
             print("no hosts quarantined")
             return 0

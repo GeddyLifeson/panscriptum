@@ -501,6 +501,49 @@ def git(*args, check=True):
     return (r.stdout or "").strip()
 
 
+def _unpushed():
+    """How many local commits are NOT on origin/main. -> (count, detail).
+
+    `count` is None only when the question genuinely cannot be answered.
+
+    THE QUESTION `push()` NEVER ASKED. Its no-op test was `git status --porcelain` alone -- a
+    clean WORKTREE -- and a clean worktree says nothing about whether the last cycle's commit
+    ever reached the remote. So a `git push` that failed (the 403 from a wrong credential that
+    `git()`'s own comment documents, a network failure, a remote rejection) left the commit
+    sitting on the local export branch, and the NEXT run found nothing to add, printed "no
+    change to push" and exited 0. That is the same defect `PushHeld` was created for standing on
+    the sibling branch, and this module's own SITE comment records what it costs: "the remote
+    fell 122 commits behind while synced N files kept printing above it."
+
+    LOCAL ONLY -- this reads the remote-TRACKING ref, so it opens no socket and cannot be made
+    to lie by a network that is down. A missing `origin/main` is not an error either: it means
+    nothing from this repo has ever landed, so every commit here is unpushed, which is exactly
+    what the caller needs to hear before it says "nothing to send". An unborn branch (a
+    freshly-`--init`ed export with no commit yet) is a true zero and must not read as held.
+    """
+    try:
+        n = git("rev-list", "--count", "origin/main..HEAD")
+    except RuntimeError as e:
+        detail = "no origin/main to compare against (%s)" % str(e)[:80]
+    else:
+        try:
+            return int(n.strip()), "origin/main..HEAD"
+        except ValueError:
+            return None, "git rev-list answered %r, which is not a count" % n[:40]
+    # No remote-tracking ref. Count what is here instead: on a repo that has never pushed, that
+    # IS the unpushed set. A repo with no commits at all answers zero, not unknown.
+    try:
+        local = git("rev-list", "--count", "HEAD")
+    except RuntimeError:
+        return 0, "no commits on this branch yet"
+    try:
+        c = int(local.strip())
+    except ValueError:
+        return None, "git rev-list answered %r, which is not a count" % local[:40]
+    return c, (detail + "; %d local commit(s) have therefore never landed" % c) if c else \
+        (detail + "; the branch has no commits, so nothing is held")
+
+
 def _same_dir(a, b):
     """Are these two paths the SAME directory on disk? Used to refuse a delete path.
 
@@ -550,6 +593,60 @@ def _live_root_state(d):
     return "unavailable" if present else "gone"
 
 
+def _may_delete_in_export():
+    """May anything be DELETED under `SITE` at all? -> bool.
+
+    ONE SPELLING OF THE ANSWER, because there are two delete paths in this module and only one
+    of them used to ask both halves of the question. `prune_export` refused unless the
+    destination is a different directory from the live project AND carries the `.is-export-copy`
+    marker; `sync_tree`'s COPY_FILES withdrawal checked only the first, so a `SITE` that
+    misresolved onto some other directory carrying the same file names could be deleted out of.
+    Deletion has no undo, and a misresolved SITE has happened here -- see `export_root`.
+    """
+    if _same_dir(SITE, HERE):
+        return False
+    # `os.path.exists` is the right call for a MARKER, unlike for a live file: it answers False
+    # for absent and for unreadable alike, and both of those mean "not proven to be the export
+    # copy", which is a refusal to delete. The failure direction is the safe one.
+    return os.path.exists(os.path.join(SITE, ".is-export-copy"))
+
+
+def _live_file_state(f):
+    """Classify a `COPY_FILES` name in the LIVE project: 'live', 'gone' or 'unavailable'.
+
+    `_live_root_state`'s question, asked about a FILE, because the withdrawal two lines below
+    the one that got the classification had none of it: it turned on a single `os.path.exists`,
+    and `genericpath.exists` catches `(OSError, ValueError)` and answers False -- so a permission
+    denial, a lock, an over-long path or a name the filesystem will not parse is spelled exactly
+    like "this file has been deleted from the project". Measured: `os.path.exists` returns False
+    with no exception for both an over-long path and a path with an illegal character.
+    This module's own docstring says Norton locks newly-written objects here, and the files this
+    loop carries are the ledgers that get written every cycle -- HANDOFF.md, STATUS.md, BUGS.md.
+    One lock, and the ledger is withdrawn from the PUBLIC repo and re-added by the next cycle's
+    commit, so the history reads as though somebody meant it. (order d2edc81326da)
+
+    So it asks twice, exactly as `_live_root_state` does. A file that stats is 'live'. A file
+    that does not stat AND whose name is ABSENT from a successfully enumerated project root is
+    'gone' -- positive evidence of removal, because the directory answered. Anything else is
+    'unavailable', and the caller withdraws nothing on it.
+    """
+    p = os.path.join(HERE, f)
+    try:
+        os.stat(p)
+        return "live"
+    except FileNotFoundError:
+        pass
+    except (OSError, ValueError):
+        # The two families `os.path.exists` swallows: a denial or a lock (OSError) and a name
+        # the platform will not accept at all (ValueError). Neither is evidence of deletion.
+        return "unavailable"
+    try:
+        present = f in os.listdir(HERE)
+    except OSError:
+        return "unavailable"
+    return "unavailable" if present else "gone"
+
+
 def prune_export(wanted, held=()):
     """Delete from the export copy everything `sync_tree` did not just put there. -> count.
 
@@ -579,9 +676,7 @@ def prune_export(wanted, held=()):
     the point of the prune and it is preserved; the change is only that "I could not read it"
     stops being spelled the same way as "it is not there".
     """
-    if _same_dir(SITE, HERE):
-        return 0
-    if not os.path.exists(os.path.join(SITE, ".is-export-copy")):
+    if not _may_delete_in_export():
         return 0
     held = set(held or ())
     removed = 0
@@ -681,10 +776,20 @@ def sync_tree():
         if walk_errors:
             _hold(d, "%d director(ies) under it could not be listed (%s)"
                      % (len(walk_errors), str(walk_errors[0])[:80]))
+    withdrawn = []
     for f in COPY_FILES:
         srcp = os.path.join(HERE, f)
         dstp = os.path.join(SITE, f)
-        if os.path.exists(srcp):
+        state = _live_file_state(f)
+        if state == "unavailable":
+            # HELD, exactly as a COPY_DIRS root is. The published copy keeps the version it
+            # already has for one more cycle; nothing is withdrawn on the word of a failed read.
+            silence.note("publish.py:file-unreadable")
+            print("publish: HOLDING the withdrawal of '%s' -- it is named in COPY_FILES but "
+                  "could not be read as a live file. The published copy keeps the version it "
+                  "already has; nothing is withdrawn on a failed read." % f, file=sys.stderr)
+            continue
+        if state == "live":
             # The same rsync-style short-circuit the COPY_DIRS loop above was given, for the
             # same reason. Without it these ~12 root files were re-copied unconditionally every
             # cycle, so the "synced N files" total could never be read as "what actually
@@ -697,14 +802,23 @@ def sync_tree():
                 pass
             shutil.copy2(srcp, dstp)
             n += 1
-        elif os.path.exists(dstp) and not _same_dir(SITE, HERE):
-            # Named here but gone from the live project: withdraw it rather than leave the
-            # last copy standing in public forever. Through `_same_dir`, not `abspath`: this is
-            # the other delete path in this module and it needs the same junction-proof test.
+        elif state == "gone" and _may_delete_in_export() and os.path.exists(dstp):
+            # PROVEN GONE from the live project -- the project root enumerated and this name was
+            # not in it -- so withdraw it rather than leave the last copy standing in public for
+            # ever. Guarded exactly as `prune_export` is, and it was not: through `_same_dir`
+            # rather than `abspath` because junctions are in use on this machine, AND behind the
+            # `.is-export-copy` marker, so a misresolved SITE reads as nothing to do instead of
+            # as permission to delete out of a live tree.
             try:
                 os.remove(dstp)
+                withdrawn.append(f)
             except OSError:
                 silence.note("publish.py:prune-remove")
+    if withdrawn:
+        # SAY IT, for the same reason `prune_export`'s count is said: a file leaving the PUBLIC
+        # repo is a bigger event than a file entering it, and this withdrawal was silent.
+        print("withdrew %d file(s) no longer in the live project: %s"
+              % (len(withdrawn), ", ".join(sorted(withdrawn))))
     pruned = prune_export(wanted, held=held)
     if pruned:
         # SAY IT. A file leaving the public repo is a bigger event than a file entering it,
@@ -915,32 +1029,59 @@ def push(message=None):
 
     git("add", "-A")
     porcelain = git("status", "--porcelain")
+    held_what = "the commit was made on the local export branch"
     if not porcelain:
-        return False            # NOTHING TO SEND. The only outcome that may read as a no-op.
-    # A history of identical "instruments <time>" messages answers no question anybody brings
-    # to a history. The message now names what actually moved: which code files, how much of
-    # everything else -- derived from the same status the commit is about to record.
-    if message:
-        stamp = message
+        # A CLEAN WORKTREE IS NOT AN EMPTY OUTBOX. `git status --porcelain` answers "is there
+        # anything new to COMMIT"; the question this branch is about is "is there anything to
+        # SEND", and the two part company the moment a previous cycle committed and could not
+        # push. Asked BEFORE the no-op return, so a commit stranded on the local branch can
+        # never again be reported as "nothing to push" with rc=0. (order 3778bc42499f)
+        ahead, why = _unpushed()
+        if not ahead:
+            if ahead is None:
+                # Not proven held, and not proven landed either. Said out loud rather than
+                # folded into the no-op, because "I could not tell" reported as "nothing to
+                # send" is the whole shape of this fault.
+                silence.note("publish.py:push-ahead-unknown")
+                print("publish: could not tell whether the local export branch is ahead of "
+                      "origin/main (%s); reporting no change to push on the worktree alone."
+                      % why, file=sys.stderr)
+            return False        # NOTHING TO SEND. The only outcome that may read as a no-op.
+        # STRANDED, NOT IDLE -- and the remedy is to SEND IT, not merely to complain about it.
+        # There is no new commit to make, so the commit step is skipped and everything below it
+        # runs exactly as it would have on the cycle that failed. If it fails again the reader
+        # is told so as a `PushHeld` with rc=1, which is the outcome this order exists about;
+        # if it succeeds, a backlog that used to sit there for ever clears itself.
+        print("publish: the export worktree is clean, but %d commit(s) never reached "
+              "origin/main (%s) -- retrying the push rather than reporting no change."
+              % (ahead, why))
+        held_what = ("%d commit(s) from an earlier cycle are still on the local export branch"
+                     % ahead)
     else:
-        code, other = [], 0
-        for ln in porcelain.splitlines():
-            p = ln[3:].strip().strip('"')
-            if p.startswith("src/") and p.endswith(".py"):
-                code.append(os.path.basename(p)[:-3])
-            else:
-                other += 1
-        parts = []
-        if code:
-            head = ", ".join(sorted(code)[:6])
-            more = f" +{len(code) - 6}" if len(code) > 6 else ""
-            parts.append(f"code: {head}{more}")
-        if other:
-            parts.append(f"{other} data/site file(s)")
-        stamp = ("sync " + time.strftime("%Y-%m-%d %H:%M") + " — "
-                 + ("; ".join(parts) or "no-op"))
-    git("-c", "user.name=panscriptum", "-c", "user.email=noreply@users.noreply.github.com",
-        "commit", "-q", "-m", stamp)
+        # A history of identical "instruments <time>" messages answers no question anybody brings
+        # to a history. The message now names what actually moved: which code files, how much of
+        # everything else -- derived from the same status the commit is about to record.
+        if message:
+            stamp = message
+        else:
+            code, other = [], 0
+            for ln in porcelain.splitlines():
+                p = ln[3:].strip().strip('"')
+                if p.startswith("src/") and p.endswith(".py"):
+                    code.append(os.path.basename(p)[:-3])
+                else:
+                    other += 1
+            parts = []
+            if code:
+                head = ", ".join(sorted(code)[:6])
+                more = f" +{len(code) - 6}" if len(code) > 6 else ""
+                parts.append(f"code: {head}{more}")
+            if other:
+                parts.append(f"{other} data/site file(s)")
+            stamp = ("sync " + time.strftime("%Y-%m-%d %H:%M") + " — "
+                     + ("; ".join(parts) or "no-op"))
+        git("-c", "user.name=panscriptum", "-c", "user.email=noreply@users.noreply.github.com",
+            "commit", "-q", "-m", stamp)
     try:
         git("fetch", "-q", "origin")
         git("rebase", "-q", "origin/main")
@@ -951,11 +1092,39 @@ def push(message=None):
             silence.note("publish.py:rebase-abort")
         silence.note("publish.py:push-held")
         raise PushHeld(
-            "PUSH HELD -- the commit was made on the local export branch and NOTHING reached "
+            "PUSH HELD -- " + held_what + " and NOTHING reached "
             "the public repo: the rebase onto origin/main failed (" + str(e)[:120]
             + "). The export is now ahead of origin; the next cycle retries on a fresh tree. "
               "This is not 'no change to push'.") from e
-    git("push", "-q", "-u", "origin", "main")
+    # THE PUSH ITSELF IS HELD, NOT RAISED GENERICALLY. This was a bare `git(...)`, so a refused
+    # push (403 on a wrong credential, a rejected update, a dead network) left the commit on the
+    # local branch and came out as a plain `RuntimeError` -- clipped to 180 characters by
+    # `main()`'s generic handler, never saying that a commit had been made and had not landed,
+    # and leaving the next cycle to find a clean worktree and print "no change to push".
+    try:
+        git("push", "-q", "-u", "origin", "main")
+    except RuntimeError as e:
+        silence.note("publish.py:push-held")
+        raise PushHeld(
+            "PUSH HELD -- " + held_what + " and the push to "
+            "origin/main was REFUSED (" + str(e)[:160] + "). Nothing reached the public repo; "
+            "the export is now ahead of origin. The next cycle retries. This is not 'no change "
+            "to push'.") from e
+    # AND THE PUSH IS CONFIRMED, not assumed from rc=0. `git push` is the one step here whose
+    # success this module cannot otherwise observe, and the whole family of faults this function
+    # documents is a publish that reported success while the public repo stood still.
+    ahead, why = _unpushed()
+    if ahead:
+        silence.note("publish.py:push-held")
+        raise PushHeld(
+            "PUSH HELD -- `git push` reported success, but %d commit(s) are STILL not on "
+            "origin/main (%s). The commit has not reached the public repo." % (ahead, why))
+    if ahead is None:
+        silence.note("publish.py:push-held")
+        raise PushHeld(
+            "PUSH HELD -- `git push` reported success, but whether the commit actually reached "
+            "origin/main could not be confirmed (%s). Unconfirmed is not landed; check the "
+            "export repo by hand." % why)
     return True
 
 

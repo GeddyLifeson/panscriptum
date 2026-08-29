@@ -147,6 +147,14 @@ SCHEMA = {
 
 # --------------------------------------------------------------------------- the ledger
 
+class _NotALedger(ValueError):
+    """Raised by `load()` for a file that PARSES but is not a ledger.
+
+    It exists only so the wrong-shape case can travel the same road as the unparseable one --
+    preserve the wreck, refuse the next save, hand back a fresh ledger -- while still printing a
+    sentence a person can act on instead of the bare exception name. See `load`'s docstring."""
+
+
 def load():
     """The ledger, or a fresh one -- but never a fresh one that silently REPLACED a damaged one.
 
@@ -158,6 +166,17 @@ def load():
     An ABSENT file and a DAMAGED one are not the same event and must not get the same response.
     Absent is the ordinary first run. Damaged means findings existed and are now unreadable --
     recoverable by hand from the preserved copy, but only if something preserves it.
+
+    DAMAGED INCLUDES WRONG-SHAPE, which is the half m28's fix did not cover. Only an UNPARSEABLE
+    ledger reached the handler below; a ledger that is valid JSON but is not a ledger -- `null`,
+    `[]`, `{}`, a bare string, an object with no `findings` -- parsed fine and was returned
+    untouched, so the `.corrupt` preservation, the `_UNPRESERVED` refusal and this fresh-ledger
+    fallback were ALL skipped and `round_once` died two statements later dereferencing it
+    (AttributeError / TypeError / KeyError, one per shape). Under the keeper's restart set the
+    standing `--loop` job then crashed EVERY round, forever, with the wreck never set aside --
+    the exact m28 loss, through the one door the m28 quarantine did not cover. A file that
+    parses but does not say what a ledger says is no better evidence than one that does not
+    parse; it is the same fact, so it takes the same road. Order 302c7da84032.
     """
     fresh = {"findings": {}, "seen": {}, "rounds": 0}
     _UNPRESERVED["on"] = False        # a fresh read clears any refusal the last one raised
@@ -167,6 +186,11 @@ def load():
     try:
         with open(LEDGER, encoding="utf-8") as f:
             d = json.load(f)
+        if not isinstance(d, dict):
+            raise _NotALedger("the file holds %s, not a ledger object" % type(d).__name__)
+        missing = [k for k in ("findings", "seen") if not isinstance(d.get(k), dict)]
+        if missing:
+            raise _NotALedger("no usable %s in it" % " or ".join(missing))
         _SNAPSHOT["digest"] = _digest(LEDGER)
         return d
     except Exception as e:
@@ -191,7 +215,8 @@ def load():
                     "this round's findings are not persisted. Move data/OVERWATCH.json aside "
                     "by hand, or close whatever is holding it open, and rerun.")
             _UNPRESERVED["on"] = True
-        print(f"overwatch: ledger unreadable ({type(e).__name__}); kept as {kept}. {tail}",
+        why = str(e) if isinstance(e, _NotALedger) else type(e).__name__
+        print(f"overwatch: ledger unreadable ({why}); kept as {kept}. {tail}",
               file=sys.stderr)
         return fresh
 
@@ -533,11 +558,25 @@ def verify_open(led, local=True, budget=6):
     only grew. This re-verifies open findings oldest-verification-first against the current
     source, on the resident local model: refuted closes with a recorded verdict, confirmed
     stays open and says so, unclear cycles back later. Budgeted per round like the review
-    rotation itself -- pacing, not truncation; every finding cycles through."""
+    rotation itself -- pacing, not truncation; every finding cycles through.
+
+    ONLY A FINDING THE MODEL ACTUALLY ANSWERED FOR IS STAMPED. `f['last_verified']` and the
+    `checked` count were written BEFORE `got` was tested, and `_ask` returns None ON PURPOSE
+    when the GPU is busy and the round's cloud budget is spent (see "THE WATCHER YIELDS"). So a
+    finding nobody looked at was recorded as JUST VERIFIED and sorted to the BACK of this
+    function's own oldest-verification-first queue -- the worst place for the finding least
+    recently checked -- and the round printed "N re-verified" for an N of zero. Across a busy
+    stretch the entire open set could be stamped and rotated without a single verification, so
+    the closer that exists to stop the open count growing quietly stopped closing while still
+    reporting that it had. This is the identical defect fixed one function over for the `seen`
+    stamp under order a3ee0d1d2d4c, where `review` grew a `complete` flag and `round_once` only
+    stamps `seen` when it is True; `last_verified` never got the same treatment. It has it now:
+    a yielded finding keeps its old timestamp, stays at the FRONT of the queue, and is counted
+    and printed as yielded rather than as checked. Order c6f64c1424fa."""
     opens = sorted(((fid, f) for fid, f in led["findings"].items()
                     if f.get("state") == "open"),
                    key=lambda kv: kv[1].get("last_verified", kv[1].get("first_seen", 0)))
-    checked = closed = 0
+    checked = closed = yielded = 0
     for fid, f in opens[:budget]:
         path = os.path.join(SRC, f.get("module", "") + ".py")
         try:
@@ -557,10 +596,16 @@ def verify_open(led, local=True, budget=6):
                   + "CURRENT CODE (lines %d-%d of %s.py):" % (a + 1, b, f.get("module"))
                   + chr(10) + region)
         got = _ask(VERIFY_SYSTEM, prompt, VERIFY_SCHEMA, local=local)
+        if got is None:
+            # THE WATCHER YIELDED on this one. Nothing looked at it, so nothing is recorded
+            # about it -- no stamp, not counted as checked. Its old `last_verified` stands and
+            # it stays where it belongs in the queue: at the front.
+            yielded += 1
+            continue
         f["last_verified"] = time.time()
         checked += 1
-        verdict = (got or {}).get("verdict")
-        why = str((got or {}).get("why") or "")[:300]
+        verdict = got.get("verdict")
+        why = str(got.get("why") or "")[:300]
         if verdict == "refuted":
             f["state"] = "closed"
             f["verdict"] = "auto-triage refuted: " + why
@@ -569,9 +614,13 @@ def verify_open(led, local=True, budget=6):
         elif verdict == "confirmed":
             f["confirmed_n"] = f.get("confirmed_n", 0) + 1
             f["last_confirm_why"] = why
-    if checked:
-        print("   auto-triage: %d open finding(s) re-verified, %d refuted and closed"
-              % (checked, closed), flush=True)
+    if checked or yielded:
+        line = ("   auto-triage: %d open finding(s) re-verified, %d refuted and closed"
+                % (checked, closed))
+        if yielded:
+            line += ("   (%d skipped -- the GPU was busy, not re-verified and not stamped)"
+                     % yielded)
+        print(line, flush=True)
     return checked, closed
 
 

@@ -1,28 +1,26 @@
 # OVERWATCH
 
-round 132  ·  last run 2026-08-28 23:12
+round 134  ·  last run 2026-08-28 23:52
 
 ## Structure
 
-- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
-- files that will not parse: **1** of 269,929 inspected (deep scan as of round 127)  — handoff\run36\sweep_plan.json — malformed JSON: Extra data: line 213 column 1 (char 3102)
+- modules that will not import: **0**
+- files that will not parse: **2** of 270,644 inspected (deep scan as of round 133)  — state\gpu_lane\slot.1.json — cannot stat; state\snapshots\AppData\Local\Temp\sweep37probe_a76ncjt1\real.txt — cannot stat
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
-- NOT RUNNING: **0** overnight.py
-- NOT RUNNING: **0** pipeline.py
 
 ## What the model found in the code
 
 **4 open** (0 high). Newest first.
 
-- **catalogue_aurora.py** `roll_landed` — [MEDIUM] is assigned the result of silence.write_json, which writes to disk
-  - says: would silently re-parse sources it had already, correctly, catalogued. Found by the run #33 sweep, same batch as the record-level fix above.
-- **catalogue_aurora.py** `parse_folder` — [MEDIUM] does not collect dropped entries as described
-  - says: collects what collapsed
-- **cascade_bridge.py** `prove` — [MEDIUM] Send one tiny call to EVERY bucket and record which actually answer, but the function's docstring mentions a specific issue with the 'max_attempts=1' parameter and the 'served' par
-  - says: Send one tiny call to EVERY bucket and record which actually answer.
-- **address_space.py** `HASH_BYTES` — [MEDIUM] Hardcoded to 16 bytes regardless of the calculated value
-  - says: Derived from the offsets, floored at the historical 16 bytes so today's addresses are unchanged.
+- **compress_store.py** `store` — [MEDIUM] returns a dictionary with 'raw_bytes' as the length of the raw bytes and 'compressed_bytes' as the length of the compressed blob, not the actual raw and compressed byte data
+  - says: Compress `text`, write it to compressed_dir keyed by content hash, and return
+- **codewatch.py** `exit_if_stale` — [MEDIUM] Exits the process if its code is out of date, but does not raise on the budget path.
+  - says: Exits the process if its code is out of date.
+- **cleanup.py** `changed` — [MEDIUM] set to True in multiple branches but not all, leading to some changes not being recorded
+  - says: tracking whether any changes were made to a record
+- **cleanup.py** `clean_ceiling` — [MEDIUM] Attempts to find a match in entry names but fails to handle cases where the ceiling is a name that is not in the entry names list, leaving it unchanged and reporting it as a proble
+  - says: Reduce a prose ceiling to the name it is about.
 
 ---
 

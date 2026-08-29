@@ -741,30 +741,46 @@ def write_record(path, rec):
         n_disk, n_mem = len(disk.get("entries") or []), len(rec.get("entries") or [])
         drift = ("count" if n_disk != n_mem else
                  "content" if _entry_digest(disk) != _entry_digest(rec) else None)
+        # THE PER-ENTRY FOLD RUNS ON BOTH PATHS, and it did not.
+        #
+        # This copy carries the caller's fresh per-entry JUDGMENTS -- category, scale_note,
+        # scale_note_rejected, magnitude, topic, catalogued -- onto the disk cast that is about
+        # to be written. It used to live inside `if drift:` only, while the `else` branch set
+        # `merged = disk` after folding the TOP-LEVEL keys and nothing else. So on the no-drift
+        # path every judgment the caller had just computed was silently dropped and the function
+        # still returned True.
+        #
+        # That is not a corner, it is phase 2's ORDINARY path: `drift` is decided by
+        # `_entry_digest`, which digests entry NAMES, and `phase_entrypass` never changes a
+        # name -- it fills in bands and notes on a cast whose names it leaves exactly as it
+        # found them. So entrypass took the `else` branch essentially every time.
+        #
+        # Measured by the run-37 sweep on a copy of a real record: 20 entries judged in memory,
+        # `write_record` returned True, 0 of 20 settled on disk. Corroborated live: 1,496 of the
+        # 4,559 recorded `done.entrypass` keys name spans that are unsettled on disk (677
+        # Marvel, 195 DC, 151 Final Fantasy). Every phase-2 model call spent while this stood
+        # bought a write that did not land, and RUN_STATUS.md reported the progress anyway.
+        #
+        # Introduced by the run-36 top-key repair, whose own red-check uses entries carrying no
+        # judgment fields -- so the check could not see the fields it was dropping. Hoisted here
+        # rather than duplicated into the `else`, so the two paths cannot drift apart again.
+        by_name = {e.get("name"): e for e in rec.get("entries") or []}
+        for de in disk.get("entries") or []:
+            se = by_name.get(de.get("name"))
+            if not se:
+                continue
+            for fld in ("category", "scale_note", "scale_note_rejected",
+                        "magnitude", "topic", "catalogued"):
+                if fld in se:
+                    de[fld] = se[fld]
+        # NO DRIFT IS NOT NO CHANGE. Folding onto `disk` keeps every disk-authored top-level key
+        # -- a `synthesis`, `purged_roster` or `ceiling_entity` another writer refreshed since
+        # this record was loaded -- instead of writing the pipeline's hours-old copy whole.
+        _merge_top_keys(disk, rec, os.path.basename(path))
+        merged = disk
         if drift:
-            by_name = {e.get("name"): e for e in rec.get("entries") or []}
-            for de in disk.get("entries") or []:
-                se = by_name.get(de.get("name"))
-                if not se:
-                    continue
-                for fld in ("category", "scale_note", "scale_note_rejected",
-                            "magnitude", "topic", "catalogued"):
-                    if fld in se:
-                        de[fld] = se[fld]
-            _merge_top_keys(disk, rec, os.path.basename(path))
-            merged = disk
             log(f"    write_record: {os.path.basename(path)} drifted on disk by {drift} "
                 f"({n_mem} -> {n_disk} entries); merged")
-        else:
-            # NO DRIFT IS NOT NO CHANGE. This path used to leave `merged = rec` and write the
-            # pipeline's hours-old in-memory copy WHOLE -- which is the same silent revert the
-            # drift branch exists to prevent, just for the top-level keys instead of the cast.
-            # The entry lists being identical says nothing about whether another writer added or
-            # refreshed a `synthesis`, `purged_roster` or `ceiling_entity` since this record was
-            # loaded. The cast is equal by construction here, so folding onto `disk` keeps every
-            # disk-authored key and costs nothing.
-            _merge_top_keys(disk, rec, os.path.basename(path))
-            merged = disk
     except FileNotFoundError:
         silence.note("pipeline.py:write_record-notfound")
         pass

@@ -246,7 +246,16 @@ def section_shortfall(text, expected_entries):
     # AND SO MUST AN ENTRY NOBODY ASKED FOR. `max(0, ...)` floored the ghost term at zero, so a
     # model returning MORE entries than the manifest requested paid nothing -- padding with
     # invented or duplicated entities was free, and Hard Rule 1 forbids exactly that.
+    #
+    # 2026-08-28: IT STILL PAID NOTHING, AND SAYING SO WAS THE WHOLE FIX. The note above named
+    # the fault and appended a sentence to `missing`; it never touched `required`. Each extra
+    # block brought its own 5 to BOTH sides, so `frac` stayed exactly 1.0 and
+    # `assert_block_complete` could not raise -- the sentence was only ever rendered inside a
+    # ProseRefused that was not constructed. A message is not a price. The extras are now
+    # charged into the denominator the same way ghosts are, so an over-length block cannot
+    # reach 1.0 no matter how well each invented entry is written.
     extra = max(0, len(blocks) - expected_entries)
+    required += extra * (len(REQUIRED_PER_ENTRY) + 1)
     if extra:
         missing.append("%d entr%s the manifest never asked for -- an invented entry is a "
                        "fabricated record, not a bonus"

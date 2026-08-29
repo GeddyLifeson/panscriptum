@@ -856,30 +856,46 @@ def check(state=None):
     #
     # So the classes whose failures are the method are counted separately and reported, not
     # judged. What is judged is everything else.
-    ledger = {}
+    #
+    # AND A FIGURE MEANING "I COULD NOT LOOK" IS NOT A MEASUREMENT (2026-08-28). This block
+    # opened with `ledger = {}` and put ONLY the read inside the try, so an unreadable or absent
+    # state/failures.json was noted to `silence` and then both standards were emitted anyway,
+    # MET, observed `0` -- a clean zero off a file nobody managed to read, on the very check
+    # whose subject is failures being tolerated in silence. That is this file's own documented
+    # defect class one layer in: the standard does not vanish, it reports a number it did not
+    # take. `_dropped` is the mechanism for "unmeasurable" and the other twenty-one handlers
+    # already use it, so the whole measurement now sits inside the try and a failure drops both
+    # rows. The ledger is never legitimately missing: foreman.triage_swallowed CLEARS it to
+    # `{}` rather than deleting it, and health.flush recreates it, so absence is a fault.
     try:
         with open(os.path.join(HERE, "state", "failures.json"), encoding="utf-8") as f:
-            ledger = json.load(f)
+            ledger = json.load(f) or {}
+        probe = sum(v for k, v in ledger.items()
+                    if any(t in k for t in ("endpoint.py:detect", "endpoint.py:fetch",
+                                            "hostcheck.py:probe", "hostcheck.py:candidates",
+                                            "hostcheck.py:relevance", "scout.py:verify")))
+        real = sum(ledger.values()) - probe
+        out.append(_s(
+            "unexpected swallowed failures", real <= MAX_SWALLOWED_NEW, f"{real:,}",
+            f"{MAX_SWALLOWED_NEW:,}",
+            "Excludes the probe classes, where a failed request is the measurement. What remains "
+            "is something upstream failing and being tolerated. The class names the module and "
+            "the line; `python src/health.py --failures` lists them. Note the ledger is "
+            "CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops "
+            "counting.",
+            "medium", "code"))
+        out.append(_s(
+            "probe failures (reported, not judged)", True, f"{probe:,}", "no floor",
+            "Requests that failed as part of finding something out: endpoint detection trying six "
+            "paths, the scout trying eight URLs. Volume here is work, not damage.",
+            "low", "code"))
     except Exception:
+        # ONE name, matching the silence.note tag beside it, because the aggregate standard's
+        # own order text tells its reader to cross-reference `observed` against these tags.
+        # Two rows are lost, but they are lost to ONE unreadable input, and it is the input a
+        # person has to go and fix.
         silence.note("standards.py:ledger")
-    probe = sum(v for k, v in ledger.items()
-                if any(t in k for t in ("endpoint.py:detect", "endpoint.py:fetch",
-                                        "hostcheck.py:probe", "hostcheck.py:candidates",
-                                        "hostcheck.py:relevance", "scout.py:verify")))
-    real = sum(ledger.values()) - probe
-    out.append(_s(
-        "unexpected swallowed failures", real <= MAX_SWALLOWED_NEW, f"{real:,}",
-        f"{MAX_SWALLOWED_NEW:,}",
-        "Excludes the probe classes, where a failed request is the measurement. What remains is "
-        "something upstream failing and being tolerated. The class names the module and the "
-        "line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- "
-        "the foreman archives it after triage so a fault that was fixed stops counting.",
-        "medium", "code"))
-    out.append(_s(
-        "probe failures (reported, not judged)", True, f"{probe:,}", "no floor",
-        "Requests that failed as part of finding something out: endpoint detection trying six "
-        "paths, the scout trying eight URLs. Volume here is work, not damage.",
-        "low", "code"))
+        _dropped.append("ledger")
     # ------------------------------------------------------------------ evidence integrity
     #
     # Everything above measures whether the machinery RUNS. These measure whether what it
@@ -887,15 +903,35 @@ def check(state=None):
 
     # Cached on a 2-minute clock: 531 file-opens per call, on a check the dashboard polls
     # every five seconds, for an answer that only changes when the reader finishes an entity.
-    unans_files = 0
+    #
+    # THIS ONE LEFT NO TRACE AT ALL (2026-08-28). `unans_files = 0` sat before the try and the
+    # only out.append sat after it, so a HIGH-severity evidence standard was emitted MET with an
+    # observed `0` in three separate unmeasurable cases:
+    #
+    #   * a raise inside the loop -- noted to `silence`, but the PARTIAL count reached the row;
+    #   * an unreadable file -- same;
+    #   * a MISSING OR RENAMED data/readfeats -- and this one is the worst, because glob returns
+    #     `[]` for a directory that is not there exactly as it does for an empty one. Nothing
+    #     raises, the except never fires, NO silence.note is written, and the fabricated zero is
+    #     then CACHED in _UNANS_CACHE for 120 seconds and served to the dashboard's five-second
+    #     poll. There was no trace of it anywhere.
+    #
+    # The order text this standard prints tells a reader to DELETE permanently-incomplete
+    # records; printing "0" at them when the store could not be opened is the one answer that
+    # guarantees nobody looks. The measurement and the emit are now one unit inside the try, an
+    # absent directory is raised rather than counted as clean, and the count is only cached once
+    # the whole walk has finished.
     try:
         import glob as _g
         now_m = time.time()
         if now_m - _UNANS_CACHE["at"] < 120:
             unans_files = _UNANS_CACHE["n"]
         else:
-            for fp in _g.glob(os.path.join(HERE, "data", "readfeats", "**", "*.json"),
-                              recursive=True):
+            _readfeats = os.path.join(HERE, "data", "readfeats")
+            if not os.path.isdir(_readfeats):
+                raise FileNotFoundError(_readfeats)
+            unans_files = 0
+            for fp in _g.glob(os.path.join(_readfeats, "**", "*.json"), recursive=True):
                 with open(fp, encoding="utf-8") as f:
                     head = f.read(700)
                 if '"chunks_unanswered": 0' not in head and "chunks_unanswered" in head:
@@ -903,15 +939,17 @@ def check(state=None):
                 elif "chunks_unanswered" not in head:
                     unans_files += 1          # written before the guard existed
             _UNANS_CACHE.update({"at": now_m, "n": unans_files})
+        out.append(_s(
+            "cached records that were fully read", unans_files <= MAX_UNANSWERED_RECORDS,
+            unans_files, MAX_UNANSWERED_RECORDS,
+            "A record written while some of its chunks went unanswered is PERMANENTLY incomplete "
+            "-- read_entity returns the cache forever after and queue never revisits it. Delete "
+            "those files so the entities are read again; the guard in read.py stops new ones "
+            "appearing.",
+            "high", "evidence"))
     except Exception:
         silence.note("standards.py:unanswered-records")
-    out.append(_s(
-        "cached records that were fully read", unans_files <= MAX_UNANSWERED_RECORDS,
-        unans_files, MAX_UNANSWERED_RECORDS,
-        "A record written while some of its chunks went unanswered is PERMANENTLY incomplete -- "
-        "read_entity returns the cache forever after and queue never revisits it. Delete those "
-        "files so the entities are read again; the guard in read.py stops new ones appearing.",
-        "high", "evidence"))
+        _dropped.append("unanswered-records")
 
     # THIS STANDARD HAD NEVER RUN. NOT ONCE. Repaired run #28.
     #
@@ -1629,7 +1667,17 @@ def check(state=None):
                   "means one was started outside it -- find and stop the older.",
                   "high", "machine")
     except Exception:
+        # AND IT WAS THE ONE HANDLER THAT RECORDED NOTHING (2026-08-28). Every other outer
+        # handler in check() either re-emits a row or appends to `_dropped`; this one set
+        # `_dup = None` and the guard below then dropped a HIGH machine standard out of `out`
+        # entirely, while "every standard could read its own input" -- the standard that exists
+        # precisely so a vanished sibling costs a MISS instead of shrinking the denominator --
+        # stayed GREEN. `report()`'s "N/N standards met" divided by the smaller len(rows) and
+        # the run read as MORE consistent for having lost the evidence. The probe is a
+        # `Get-CimInstance` with a 60s timeout on a machine that routinely runs fifteen jobs
+        # plus a crawl, so timing out here is an ORDINARY event, not an exotic one.
         silence.note("standards.py:duplicates")
+        _dropped.append("duplicates")
         _dup = None
     if _dup:
         out.append(_dup)

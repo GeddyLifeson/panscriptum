@@ -91,6 +91,24 @@ def _mutate(path, change, attempts=8):
     `change(d)` must be a pure function of the dict it is handed and return whatever the caller
     wants back (or None) -- on a refused write this re-reads the fresh copy and calls `change`
     again, so a side effect inside `change` would run twice.
+
+    FAILS CLOSED ON A DAMAGED FILE, which it did not used to. The digest is taken BEFORE the
+    read, so a file that is unparseable or the wrong shape became `d = {}`, `change` added its
+    one key, and `replace_if_unchanged` compared the digest of a file nothing had modified --
+    it matched, and an almost-empty dict landed over the whole artifact with `landed=True`
+    returned to a caller who now believes its record was appended to something. The non-dict
+    branch did not even leave a `silence.note` behind. `silence.replace_if_unchanged` cannot
+    catch this: it refuses only when the TARGET is unreadable AS BYTES at write time, and a
+    corrupt-but-readable file digests perfectly well.
+
+    The live targets make the cost concrete. `hostcheck.adopt()` writes WIKI_HOSTS.json from a
+    SEPARATE process, so one torn read here un-adopted every host in the library at once --
+    `scout.hostless()`, `feats_index.host_to_sources`, `hostcheck` and the MIN_HOST_COVERAGE=1.0
+    standard all read that file. `escalation._read_stopped` was given this identical treatment
+    for the identical shape in run #36, and its note is the whole argument: "Wrong-shape is not
+    better evidence than unparseable. It is the same fact." An unreadable or wrong-shape file is
+    NOT an empty one. Refuse the write and say why; a caller told "not landed" retries or
+    escalates, where a caller told "landed" over a wreck loses the file silently.
     """
     import time as _t
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -100,12 +118,21 @@ def _mutate(path, change, attempts=8):
         try:
             with open(path, encoding="utf-8") as f:
                 d = json.load(f)
-            d = d if isinstance(d, dict) else {}
         except FileNotFoundError:
+            # The ordinary first write. Absent is not damaged.
             d = {}
-        except Exception:
+        except Exception as e:
             silence.note("scout.py:mutate-unreadable")
-            d = {}
+            return False, ("%s is unreadable (%s) -- refusing to write over it, because an "
+                           "unreadable shared artifact is not an empty one"
+                           % (os.path.basename(path), type(e).__name__))
+        if not isinstance(d, dict):
+            # Previously the completely silent path: valid JSON of the wrong shape became {}
+            # with no note at all, so the loss left no trace anywhere to find it by.
+            silence.note("scout.py:mutate-wrong-shape")
+            return False, ("%s holds %s, not an object -- refusing to write over it, because "
+                           "wrong-shape is the same fact as unparseable"
+                           % (os.path.basename(path), type(d).__name__))
         value = change(d)
         tmp = "%s.%d.%d.tmp" % (path, os.getpid(), a)
         with open(tmp, "w", encoding="utf-8") as f:

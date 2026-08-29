@@ -393,22 +393,69 @@ def _safe(path):
         return None
     if ".git" in real.split(os.sep):
         return None
-    if real != full and _denied_region(os.path.relpath(real, real_here)):
-        # It resolved somewhere else INSIDE the project, and that somewhere is a region the
-        # model may not write. Refused rather than rewritten to the real path: a caller reaching
-        # a protected region through a link is not a caller who should be quietly redirected.
+
+    # ...AND THE JUNCTION FIX WAS INCOMPLETE AGAINST ITS OWN STATED THREAT MODEL (order
+    # 6e0127c4f3ed). The resolved path used to be put to `_denied_region`, which asks ONE of the
+    # three questions `t_propose_patch` asks -- the protected REGION prefixes -- and never the
+    # protected PATHS. `config.yaml` is on `DENYLIST_PATHS` and in no `DENYLIST_PREFIXES`
+    # region, so it was reachable through a junction from anywhere on the writable surface:
+    # `handoff/cfg` -> the repo root made `handoff/cfg/config.yaml` an in-surface, undenied
+    # string that `open(..., "w")` resolved onto the file holding `prose_enabled` and
+    # `step4_enabled`. Reproduced end to end on a copy: `applied: True`, and `prose_enabled`
+    # rewritten on disk. NOTHING DOWNSTREAM CATCHES IT -- `verify_math` asserts that
+    # `prose_enabled` is a bool, never which bool, and says nothing at all about
+    # `step4_enabled`, so the patch cleared the YAML parse gate and the whole-suite gate and
+    # landed. That is bypass class SIX and the comment above names the very file it let through.
+    #
+    # The resolved path is now put to `_denied_target`, which asks all three -- module denylist,
+    # DENYLIST_PATHS, DENYLIST_PREFIXES -- because "the same question" has to mean the same
+    # question. Two spellings of this rule were two rules, and the narrower spelling was the one
+    # standing behind the link.
+    #
+    # THE TRIGGER IS THE REDIRECTION, NOT `real != full`. `HERE` may itself sit under a link, in
+    # which case `real != full` for EVERY path in the project and this test would start refusing
+    # ordinary work. What matters is whether the path lands somewhere other than where it says:
+    # compare the two project-relative spellings, and only interrogate the resolved one when the
+    # filesystem disagrees with the string.
+    rel_written = os.path.relpath(full, HERE)
+    rel_real = os.path.relpath(real, real_here)
+    if os.path.normcase(rel_written) != os.path.normcase(rel_real) and _denied_target(rel_real):
+        # It resolved somewhere else INSIDE the project, and that somewhere is protected.
+        # Refused rather than rewritten to the real path: a caller reaching a protected file
+        # through a link is not a caller who should be quietly redirected.
         return None
     return full
 
 
 def _denied_region(rel):
-    """Is this project-relative path inside a region the model may never write? -> bool.
+    """Is this project-relative path inside a protected REGION? -> bool (prefix rule only)."""
+    rel = rel.replace("\\", "/").lower()
+    return any(rel.startswith(p.lower()) for p in DENYLIST_PREFIXES)
 
-    Split out so the junction check above can ask the SAME question of a resolved path that
-    `t_propose_patch` asks of the written one. Two spellings of this rule would be two rules.
+
+def _denied_target(rel):
+    """Is this project-relative path protected, by ANY of the three rules? -> bool.
+
+    The three refusals `t_propose_patch` runs, in one predicate, so the junction check above can
+    ask the SAME question of a resolved path that the patch gate asks of the written one:
+
+      * the MODULE denylist, keyed on the basename of a `.py` -- the checking machinery, the
+        contract-enforcement modules;
+      * DENYLIST_PATHS, the non-module files with the same standing (`config.yaml`);
+      * DENYLIST_PREFIXES, whole protected regions.
+
+    Case-folded on both sides throughout, for the reason run #23 established one layer down: on
+    this filesystem `Config.yaml` and `config.yaml` are the same bytes, and a denylist that errs
+    toward denying is safe while one that errs toward allowing is the entire failure.
     """
     rel = rel.replace("\\", "/")
-    return any(rel.startswith(p) for p in DENYLIST_PREFIXES)
+    rel_l = rel.lower()
+    base = rel_l.rsplit("/", 1)[-1]
+    if base.endswith(".py") and base[:-3] in {d.lower() for d in DENYLIST}:
+        return True
+    if rel_l in {p.lower() for p in DENYLIST_PATHS}:
+        return True
+    return _denied_region(rel)
 
 
 def t_read_file(path, offset=0, **_):

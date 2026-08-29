@@ -164,7 +164,7 @@ def _quiet(mod):
     return out
 
 
-def _called_names(path):
+def _called_names(path, reachable=False):
     """Every function a file actually CALLS, as a set of spellings, resolved through its imports.
 
     WHY THIS EXISTS. Three nets in this file asked whether a WORD appeared in a source file and
@@ -187,8 +187,11 @@ def _called_names(path):
     AN UNPARSEABLE FILE RAISES. A file this cannot read is a file nothing has checked, which is
     the "absence read as clean" shape the whole layer exists against; `net()` records a raised
     attack as a BREACH, which is the correct verdict.
+
+    `reachable=True` drops calls the running program cannot make -- see `_calls` for the four
+    nets that were defeated without it.
     """
-    return _call_spellings(_ast_of(path))
+    return _call_spellings(_ast_of(path), reachable=reachable)
 
 
 def _ast_of(path):
@@ -218,6 +221,31 @@ def _srcdir(src=None):
     inside their area and cannot be handed an argument.
     """
     return src or _SRC_OVERRIDE or os.path.dirname(os.path.abspath(__file__))
+
+
+def _src_py_files(src):
+    """Every `.py` file under `src/`, subdirectories included. -> [(label, full path)].
+
+    TWO NETS SAID "NO MODULE IN src/" AND MEANT "no module in the top level of src/" (order
+    cf9ee9000be8, run #37). Both took `sorted(os.listdir(src))` and kept what ended in `.py`,
+    and `src/deprecated/` exists and holds `catalogue_local.py`. The sweep proved the hole on
+    `_no_programmatic_clear`: a scratch tree with a clean top level and a real, reachable
+    `escalation.clear("<a ruling long enough to pass>")` in `src/deprecated/lifter.py` returned
+    True -- "no module in src/ calls the halt's release", while a module in src/ called it.
+    Latent rather than live (the real `catalogue_local.py` was read and calls nothing of the
+    kind), but a deprecated directory is exactly where a lift would be least looked at.
+
+    `__pycache__` is skipped because it holds no source. The label carries the relative path so
+    a finding names the file a person has to open.
+    """
+    out = []
+    for root, dirs, files in os.walk(src):
+        dirs[:] = [d for d in dirs if d != "__pycache__"]
+        for f in sorted(files):
+            if f.endswith(".py"):
+                full = os.path.join(root, f)
+                out.append((os.path.relpath(full, src).replace(os.sep, "/"), full))
+    return sorted(out)
 
 
 def _defn(tree, name):
@@ -264,6 +292,31 @@ def _spellings_of_call(tree, call, maps=None):
             out.add("%s.%s" % (fn.value.id, fn.attr))
             if fn.value.id in alias:
                 out.add("%s.%s" % (alias[fn.value.id], fn.attr))
+    return out
+
+
+def _name_spellings(tree, node, maps=None):
+    """The spellings of one NAME or ATTRIBUTE expression, resolved through this file's imports.
+
+    The value-side counterpart of `_spellings_of_call`, and it exists for the same reason order
+    7cc460706efe filed against two nets pinned to an import ALIAS: `_ESC.SAFETY`, `ESC.SAFETY`
+    and a bare `SAFETY` from `from escalation import SAFETY` are one constant under three
+    spellings, and a net that recognises one of them refuses correct code that uses another --
+    which, in this file, HALTS THE LIBRARY. Asking for `escalation.SAFETY` gets all three.
+    """
+    import ast
+    alias, frm = maps if maps is not None else _import_maps(tree)
+    out = set()
+    if isinstance(node, ast.Name):
+        out.add(node.id)
+        if node.id in frm:
+            out.add(frm[node.id])
+    elif isinstance(node, ast.Attribute):
+        out.add(node.attr)
+        if isinstance(node.value, ast.Name):
+            out.add("%s.%s" % (node.value.id, node.attr))
+            if node.value.id in alias:
+                out.add("%s.%s" % (alias[node.value.id], node.attr))
     return out
 
 
@@ -381,14 +434,77 @@ def _call_spellings(tree, node=None, reachable=False):
     return out
 
 
-def _calls(path, want):
+def _calls(path, want, reachable=False):
     """Does `path` CALL `want`? A trailing dot asks for any call on that module.
 
     `_calls(f, "cachekey.")` is "this file calls something on the cachekey module", which is the
     honest form of the claim "cachekey is wired in here" — the specific function matters less
     than the module being reached at a call site at all.
+
+    `reachable=False` WALKS DEAD CODE, and the run #37 sweep defeated four nets built on it
+    (order 78f04bec15ad): each fixture did the forbidden thing on the live path and parked the
+    required call after a `return` or inside an `if False:`, and all four reported HELD. Every
+    net in this file that says "the guard is wired" now passes `reachable=True`, and the three
+    with an identifiable entry point use `_reaches_call` below, which is stricter again.
     """
-    return _spelled(_called_names(path), want)
+    return _spelled(_called_names(path, reachable=reachable), want)
+
+
+def _entry_nodes(tree, names):
+    """The places the running program STARTS: module top level, plus the named defs. -> list.
+
+    The module entry deliberately excludes the `def`/`class` bodies at top level, because those
+    are what `names` is for; a bare `_live_walk(tree)` would walk into every function in the
+    file whether or not anything calls it, which is the hole `_reaches_call` exists to close.
+    """
+    import ast
+    top = [s for s in _live_stmts(tree.body)
+           if not isinstance(s, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))]
+    out = [ast.Module(body=top, type_ignores=[])]
+    for n in names:
+        d = _defn(tree, n)
+        if d is not None:
+            out.append(d)
+    return out
+
+
+def _live_calls_from(tree, entries=("main",)):
+    """Every call spelling the running program can REACH from `entries`. -> set.
+
+    THE THIRD DEGREE OF "IS THIS GUARD WIRED", and the one order 78f04bec15ad asked for.
+    `_calls` answers "the name appears at a call site somewhere in the file", which dead code
+    satisfies. `_calls(..., reachable=True)` answers "on a path that can be entered", which an
+    UNCALLED HELPER still satisfies -- `_live_walk` descends into every `def` in the file, so
+    parking the required call in a function nothing calls reads exactly like wiring it. This
+    follows the call graph instead: start at the module's top level and its named entry points,
+    take the reachable calls of each, and descend into any of them that names a function defined
+    in this same module. A helper nothing calls is never entered and so never answers.
+
+    Deliberately intraprocedural-only and deliberately name-based: it proves REACHED, and a
+    negative means "not reached from here", which is why every net using it names an entry point
+    the module genuinely has rather than guessing one.
+    """
+    import ast
+    defs = {n.name: n for n in ast.walk(tree)
+            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    out, todo, done = set(), list(_entry_nodes(tree, entries)), set()
+    while todo:
+        node = todo.pop()
+        if id(node) in done:
+            continue
+        done.add(id(node))
+        spellings = _call_spellings(tree, node, reachable=True)
+        out |= spellings
+        for s in spellings:
+            d = defs.get(s)
+            if d is not None and id(d) not in done:
+                todo.append(d)
+    return out
+
+
+def _reaches_call(tree, want, entries=("main",)):
+    """Can the running program reach a call to `want` from `entries`? -> bool."""
+    return _spelled(_live_calls_from(tree, entries), want)
 
 
 def _spelled(got, want):
@@ -480,11 +596,17 @@ def _says(node, fragment, reachable=False):
     return any(fragment in s for s in _code_strings(node, reachable=reachable))
 
 
-def _subscript_assigns(node, obj, key):
-    """Every `ast.Assign` in `node` of the shape `obj[key] = ...`. -> list of Assign nodes."""
+def _subscript_assigns(node, obj, key, reachable=False):
+    """Every `ast.Assign` in `node` of the shape `obj[key] = ...`. -> list of Assign nodes.
+
+    `reachable=True` drops the ones the running program cannot execute. Order c54a22a4e6fc beat
+    `_run_marks_a_landless_run_failed` with a `run()` that returns `{"ok": True, "patches": []}`
+    and carries `out["ok"] = False` on the line AFTER that return -- an assignment that exists
+    exactly as much as a comment does.
+    """
     import ast
     out = []
-    for n in ast.walk(node):
+    for n in (_live_walk(node) if reachable else ast.walk(node)):
         if not isinstance(n, ast.Assign):
             continue
         for t in n.targets:
@@ -528,6 +650,53 @@ def _write_targets(tree, node):
                 if isinstance(m, str) and any(c in m for c in "wax+"):
                     out.append((n, n.args[0]))
     return out
+
+
+def _filtered_names(node, seed):
+    """Names in REACHABLE code under `node` carrying a value derived from one of `seed`. -> set.
+
+    The general form of `_rooted_names` below, which tracks a filesystem path from one call;
+    this tracks a WORK LIST through the ordinary shapes a work list travels in -- an assignment
+    mentioning it, a comprehension over it, a `for` target, and `x.append(<derived>)`, which is
+    how a list gets built one row at a time and which no assignment-only walk sees.
+
+    WHY A NET NEEDS IT. `generator_actually_skips_an_excluded_source` had to answer "did the
+    thing that queues jobs get the FILTERED list, or a copy taken before the filter", and the
+    list is five derivations away from the comprehension that filters it -- roll -> populated ->
+    assigned/unassigned -> build_pool -> the loop variable. Asking only whether SOME
+    comprehension somewhere reads the exclusions is answered by a filter whose result is never
+    used, which is the five-day fault that net is named after, wearing one more layer.
+
+    Deliberately generous: anything MENTIONING a derived name is derived. A generous
+    over-approximation makes this net miss a contrived case; a tight one makes it BREACH over a
+    refactor, and a breach here halts the library.
+    """
+    import ast
+    clean, nodes, grew = set(seed), _live_walk(node), True
+
+    def _mentions(e):
+        return any(isinstance(x, ast.Name) and x.id in clean for x in ast.walk(e))
+
+    while grew:
+        grew = False
+        for n in nodes:
+            targets = ()
+            if isinstance(n, (ast.Assign, ast.AugAssign)) and _mentions(n.value):
+                targets = n.targets if isinstance(n, ast.Assign) else [n.target]
+            elif isinstance(n, (ast.For, ast.AsyncFor)) and _mentions(n.iter):
+                targets = [n.target]
+            elif isinstance(n, ast.comprehension) and _mentions(n.iter):
+                targets = [n.target]
+            elif (isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                  and n.func.attr in ("append", "extend", "add", "update")
+                  and any(_mentions(a) for a in n.args)):
+                targets = [n.func.value]
+            for t in targets:
+                for e in ast.walk(t):
+                    if isinstance(e, ast.Name) and e.id not in clean:
+                        clean.add(e.id)
+                        grew = True
+    return clean
 
 
 def _rooted_names(tree, node, seed):
@@ -1208,18 +1377,22 @@ def _halt_is_not_breakage(src=None):
 
     That last clause is the one this net exists for. `_ESC.status` resolves through the alias,
     the from-import and the plain spelling, so renaming the import does not blind it.
+
+    AND IT EXAMINED ONLY THE FIRST SUCH BRANCH (order e2f44baedfdc, run #37). The loop `return`ed
+    unconditionally after the first `if idle >= IDLE_LIMIT` it met, so a SECOND one was never
+    looked at. The sweep built an `overnight.py` with a correct first branch followed by a
+    second, wholly unguarded give-up that prints "it is a broken one" and exits, and this net --
+    whose subject is this project's longest outage, a halted library read as a broken one --
+    reported HELD. It was one added branch away from missing the same incident twice, which is
+    the one thing a net written from an incident must not be.
+
+    The property is stated for EVERY matching branch now, and the absence of any is a failure
+    rather than a pass: a supervisor with no idle give-up at all is not evidence that its idle
+    give-up consults the halt.
     """
     import ast
-    tree = _ast_of(os.path.join(_srcdir(src), "overnight.py"))
-    for n in ast.walk(tree):
-        if not isinstance(n, ast.If):
-            continue
-        t = n.test
-        if not (isinstance(t, ast.Compare) and isinstance(t.left, ast.Name)
-                and t.left.id == "idle" and len(t.comparators) == 1
-                and isinstance(t.comparators[0], ast.Name)
-                and t.comparators[0].id == "IDLE_LIMIT"):
-            continue
+
+    def _consults_the_halt(n):
         if not _calls_within(tree, n, "escalation.status", reachable=True):
             return False
         asked = _bound_from_call(tree, n, "escalation.status")
@@ -1237,7 +1410,19 @@ def _halt_is_not_breakage(src=None):
                 continue                       # the halted arm IS the give-up. Not a guard.
             return True
         return False
-    return False
+
+    tree = _ast_of(os.path.join(_srcdir(src), "overnight.py"))
+    branches = []
+    for n in _live_walk(tree):
+        if not isinstance(n, ast.If):
+            continue
+        t = n.test
+        if (isinstance(t, ast.Compare) and isinstance(t.left, ast.Name)
+                and t.left.id == "idle" and len(t.comparators) == 1
+                and isinstance(t.comparators[0], ast.Name)
+                and t.comparators[0].id == "IDLE_LIMIT"):
+            branches.append(n)
+    return bool(branches) and all(_consults_the_halt(n) for n in branches)
 
 
 def _halt_fails_closed():
@@ -1276,24 +1461,46 @@ def _failed_revert_is_escalated(src=None):
     deleted whole and the net would have gone on holding on the strength of the paragraph
     explaining why it was there. The branch is now located as a branch and the escalation has to
     be a real call inside it, at the SAFETY rung.
+
+    TWO FURTHER DEFECTS, BOTH OF THEM THE KIND THAT HALTS THE LIBRARY OVER NOTHING.
+
+    IT WAS PINNED TO AN IMPORT ALIAS (order 7cc460706efe, run #37). It asked for the literal
+    spelling `_ESC.escalate`, so a CORRECT `local_agent.py` -- a real, reachable
+    `ESC.escalate(ESC.SAFETY, ...)` in the ALARM branch, differing only in writing
+    `import escalation as ESC` -- returned False. A net that returns False is a BREACH, and a
+    breach raises an OWNER halt: renaming an import would have stopped the library until a
+    person ruled on it. `_spellings_of_call` has resolved aliases all along, so the question is
+    now `escalation.escalate`, which `_ESC.`, `ESC.`, a bare `escalate` from a from-import and
+    the plain module spelling all answer. The RUNG is asked the same way through
+    `_name_spellings`, which also stops an unrelated object's `.SAFETY` attribute answering for
+    escalation's. Same class as order 8ee268ce32cc, where a net pinned to `_land` blocked a
+    compare-and-swap fix.
+
+    AND IT ACCEPTED AN ESCALATION THE PROGRAM CANNOT REACH (order c54a22a4e6fc, run #37).
+    Neither the branch search nor the rung search was reachability-scoped, so a `run()` whose
+    ALARM branch does nothing, carrying `_ESC.escalate(_ESC.SAFETY, ...)` inside an `if False:`,
+    returned True -- a half-written module on disk with the battery reporting success, which is
+    verbatim the outcome this net's expectation names. Branch, call and rung are now all taken
+    from the reachable tree.
     """
     import ast
     tree = _ast_of(os.path.join(_srcdir(src), "local_agent.py"))
-    for n in ast.walk(tree):
+    maps = _import_maps(tree)
+    for n in _live_walk(tree):
         if not isinstance(n, ast.If):
             continue
-        if not _subscript_assigns(n, "out", "ALARM"):
+        if not _subscript_assigns(n, "out", "ALARM", reachable=True):
             continue
-        if not _calls_within(tree, n, "_ESC.escalate"):
+        if not _calls_within(tree, n, "escalation.escalate", reachable=True):
             continue
         # The RUNG matters as much as the call: escalating this at a lower one would leave a
         # half-written module on disk while the battery went on reporting success.
-        for c in ast.walk(n):
-            if not (isinstance(c, ast.Call) and isinstance(c.func, ast.Attribute)
-                    and c.func.attr == "escalate"):
+        for c in _live_walk(n):
+            if not (isinstance(c, ast.Call)
+                    and _spelled(_spellings_of_call(tree, c, maps), "escalation.escalate")):
                 continue
             for arg in c.args:
-                if isinstance(arg, ast.Attribute) and arg.attr == "SAFETY":
+                if _spelled(_name_spellings(tree, arg, maps), "escalation.SAFETY"):
                     return True
     return False
 
@@ -1305,6 +1512,11 @@ def _run_marks_a_landless_run_failed(src=None):
     than driven: `_achievement` can compute the right verdict all day and it changes nothing
     unless `run()` acts on it. Scoped to `run` and asked as an assignment, so neither a comment
     nor a docstring nor the same words in a different function can answer for it.
+
+    AND AN ASSIGNMENT AFTER THE RETURN IS A COMMENT (order c54a22a4e6fc, run #37). The walk was
+    `ast.walk(run)`, so a `run()` that returns `{"ok": True, "patches": []}` -- a landless run
+    reported as success, the fault itself -- with `out["ok"] = False` on the following line
+    satisfied it. The assignment must now be on a path the program can reach.
     """
     import ast
     tree = _ast_of(os.path.join(_srcdir(src), "local_agent.py"))
@@ -1312,7 +1524,7 @@ def _run_marks_a_landless_run_failed(src=None):
     if run is None:
         return False
     return any(isinstance(n.value, ast.Constant) and n.value.value is False
-               for n in _subscript_assigns(run, "out", "ok"))
+               for n in _subscript_assigns(run, "out", "ok", reachable=True))
 
 
 def _landing_nothing_is_not_success(src=None):
@@ -1399,7 +1611,7 @@ def drill_local_agent():
         "shape as the five bypasses before it, and mutate.py junctions three directories as a "
         "matter of course, so this is a technique the project already uses on itself")
 
-    def _write_lane_checks_the_halt():
+    def _write_lane_checks_the_halt(src=None):
         """`local_agent.run` must CALL assert_clear, not merely mention it.
 
         Written first as a substring scan over the function source, and it passed against a
@@ -1408,20 +1620,26 @@ def drill_local_agent():
         from prose about code, which is the defect the run #35 sweep filed against nine other
         nets in this file. Asked of the parse tree instead: an actual Call node, by either
         spelling, anywhere in the function.
+
+        AND "ANYWHERE IN THE FUNCTION" ACCEPTED TWO THINGS IT SHOULD NOT (order c54a22a4e6fc,
+        run #37). The walk was `ast.walk`, so a call parked after the `return` answered for one
+        on the live path; and the test was `fn.attr == "assert_clear"`, so
+        `logging.getLogger("x").assert_clear()` -- any attribute of that name, on any object --
+        answered too, which is the same "a word is not a call" defect one level in. The call
+        must now be REACHABLE inside `run` and must RESOLVE to `escalation.assert_clear`.
+
+        READ OFF THE FILE, NOT `inspect.getsource` (run #37). A function's own source carries no
+        import statements, so nothing could be resolved through the module's aliases at all --
+        which is why the check had been reduced to matching a bare attribute name in the first
+        place. Parsing `local_agent.py` whole makes `_ESC.assert_clear`, `ESC.assert_clear` and
+        a bare `assert_clear` from a from-import one question, and takes an unrelated object's
+        method of the same name out of the answer.
         """
-        import ast as _ast
-        import inspect as _insp
-        import local_agent as LA
-        tree = _ast.parse(_insp.getsource(LA.run))
-        for node in _ast.walk(tree):
-            if not isinstance(node, _ast.Call):
-                continue
-            fn = node.func
-            if isinstance(fn, _ast.Attribute) and fn.attr == "assert_clear":
-                return True
-            if isinstance(fn, _ast.Name) and fn.id == "assert_clear":
-                return True
-        return False
+        tree = _ast_of(os.path.join(_srcdir(src), "local_agent.py"))
+        run = _defn(tree, "run")
+        if run is None:
+            return False
+        return _calls_within(tree, run, "escalation.assert_clear", reachable=True)
     net(a, "the model's write lane asks whether the library is HALTED",
         _write_lane_checks_the_halt,
         "twelve modules consult the halt before working; the ONE lane on which a model may "
@@ -1557,8 +1775,36 @@ def drill_local_agent():
     net(a, "a runaway is stopped by the blast-radius cap", blast_cap_bites,
         "five gate bypasses were found after the fact; this bounds the sixth without "
         "needing to know what it is")
-    net(a, "the cap resets per run, not per process",
-        lambda: (LA.blast_reset() or True) and LA._BLAST["patches"] == 0,
+    def the_cap_resets_per_run():
+        """`blast_reset()` clears the WHOLE budget, both halves of it.
+
+        IT ONLY EVER CHECKED ONE COUNTER, AND ONLY AFTER SOMETHING ELSE HAD ALREADY RESET IT
+        (order 9ada7602a356, run #37). The net was `(LA.blast_reset() or True) and
+        LA._BLAST["patches"] == 0`. `_BLAST` is `{"files": set(), "patches": 0}` and
+        `blast_reset` clears both (local_agent.py:157-159), but `files` was never looked at: the
+        sweep charged the budget to `{"files": {"a.py", "b.py"}, "patches": 5}`, replaced
+        `blast_reset` with one that clears `patches` and forgets `files`, and this net returned
+        True -- leaving two of MAX_FILES_PER_RUN=8 permanently spent at the start of every
+        subsequent run, which is verbatim the outage its own expectation names.
+
+        And it was comparing 0 to 0 in any case: `blast_cap_bites` runs first and resets in its
+        `finally`, so at the moment this net ran the counter it inspected was already clear
+        whatever `blast_reset` did. A check whose subject is "the budget goes back to zero" must
+        SPEND the budget first, or it is asking a question with only one possible answer.
+
+        Charged directly rather than through `t_propose_patch`, deliberately: the charging path
+        is `blast_cap_bites`' subject next door, and this net's is the release. It restores
+        whatever it found, so a charge left over from anything else is not disturbed.
+        """
+        keep = (set(LA._BLAST["files"]), LA._BLAST["patches"])
+        try:
+            LA._BLAST["files"] = {"a.py", "b.py"}
+            LA._BLAST["patches"] = 5
+            LA.blast_reset()
+            return LA._BLAST["patches"] == 0 and not LA._BLAST["files"]
+        finally:
+            LA._BLAST["files"], LA._BLAST["patches"] = keep
+    net(a, "the cap resets per run, not per process", the_cap_resets_per_run,
         "a cap that never resets turns into an outage on a long-lived process")
     # The ALLOWLIST — the half that fails CLOSED. These paths are on no denylist at all; they are
     # refused because they are outside the agent's working surface, which is the property M24
@@ -1640,14 +1886,20 @@ def _no_programmatic_clear(src=None):
     scan is defence in depth, meant to catch the attempt while a person reads the diff. But a
     defence-in-depth layer everybody knows is porous is a layer nobody consults, and then it is
     not there for the case it was written for.
+
+    AND IT ONLY EVER READ THE TOP LEVEL OF src/ (order cf9ee9000be8, run #37). `os.listdir` is
+    not a walk, and `src/deprecated/` holds a module; a real programmatic lift placed there was
+    invisible to a net whose name is "no module in src/ calls the halt's release". Now
+    `_src_py_files` walks, so the sanctioned exemptions have to be matched on the FILE rather
+    than on a bare name -- a `deprecated/escalation.py` must not exempt itself by basename.
     """
     import ast
     src = src or os.path.dirname(os.path.abspath(__file__))
-    for f in sorted(os.listdir(src)):
-        if not f.endswith(".py") or f in ("escalation.py", "drill.py"):
+    for f, full in _src_py_files(src):
+        if f in ("escalation.py", "drill.py"):
             continue
         try:
-            with open(os.path.join(src, f), encoding="utf-8") as fh:
+            with open(full, encoding="utf-8") as fh:
                 tree = ast.parse(fh.read(), filename=f)
         except (OSError, SyntaxError):
             return False
@@ -2563,10 +2815,22 @@ def _withdrawal_takes_a_snapshot(path=None):
     "an untested backup is a belief, not a backup" is this area's own first line, and the script
     itself raises `SnapshotFailed` when `verify` says no. A withdrawal that takes a copy and
     never opens it has the same evidence behind it as one that took none.
+
+    AND `_calls` READ THE WHOLE FILE, DEAD CODE INCLUDED (order 78f04bec15ad, run #37). The
+    sweep handed this a `withdraw_chapters.py` that `shutil.move`s the chapters with no snapshot
+    at all and carries `SNAP.before(...)` / `SNAP.verify(...)` after the `return`, and the net
+    reported HELD -- the same defeat as the comment, one layer down: unreachable code makes
+    exactly the claim a paragraph makes. Both calls must now be REACHED from `main`, the entry
+    this script has, so neither dead code nor a helper nothing calls can answer for them. And
+    the moves have to be reached from there too: a script that no longer moves anything is not
+    evidence that a script which does takes a copy first.
     """
     p = path or os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              "withdraw_chapters.py")
-    return _calls(p, "snapshot.before") and _calls(p, "snapshot.verify")
+    tree = _ast_of(p)
+    return (_reaches_call(tree, "shutil.move")
+            and _reaches_call(tree, "snapshot.before")
+            and _reaches_call(tree, "snapshot.verify"))
 
 
 def drill_snapshot():
@@ -2777,9 +3041,23 @@ def _identity_probe_is_gated(src=None):
     answered for one inside the gate. It was unexploitable only because `binding_health.py`
     happens to contain exactly one call site today, which is a fact about this morning's source
     and not about this net. The gated arm is now the only place the call counts.
+
+    AND "THERE EXISTS A GATED SITE" IS THE WRONG QUANTIFIER (order 5ed81099fc49, run #37). Even
+    scoped to the arm, the net asked only whether ONE correctly-gated call could be found -- so
+    adding an UNGATED `_probe_identity(h)` beside it restored the whole fault with the net
+    green. The sweep proved it: a `sweep()` that probes every host unconditionally AND keeps the
+    gated call returns True, which is a network round trip per host per sweep, exactly the cost
+    this net exists to prevent. The property was never "a gate exists somewhere"; it is "no
+    probe happens outside the gate", and those differ by one added line.
+
+    Stated now the way `resync_cannot_revert_an_exclusion` (below) states its own: collect the
+    reachable gated arms, collect EVERY reachable call to `_probe_identity`, and require that
+    there is at least one and that all of them are inside a gate. One escaping call is one
+    sweep away from the round trips.
     """
     import ast
     tree = _ast_of(os.path.join(_srcdir(src), "binding_health.py"))
+    gates = []
     for n in _live_walk(tree):
         if not isinstance(n, ast.If):
             continue
@@ -2792,13 +3070,12 @@ def _identity_probe_is_gated(src=None):
                             for c in v.comparators)
                     for v in t.values)
         sourced = any(isinstance(v, ast.Name) and v.id == "sources" for v in t.values)
-        if not (gated and sourced):
-            continue
-        arm = _live_stmt_walk(_live_stmts(n.body))
-        if any(isinstance(x, ast.Call)
-               and _spelled(_spellings_of_call(tree, x), "_probe_identity") for x in arm):
-            return True
-    return False
+        if gated and sourced:
+            gates.append(n)
+    protected = {id(x) for g in gates for x in _live_stmt_walk(_live_stmts(g.body))}
+    probes = [x for x in _live_walk(tree) if isinstance(x, ast.Call)
+              and _spelled(_spellings_of_call(tree, x), "_probe_identity")]
+    return bool(probes) and all(id(x) in protected for x in probes)
 
 
 def _supersession_is_called(src=None):
@@ -2809,8 +3086,15 @@ def _supersession_is_called(src=None):
     itself. So every call site could be deleted -- leaving the settled host's vague order open
     beside its precise replacement for ever, the exact fault this net was written for -- and the
     net would have gone on holding on the definition of the function nobody calls.
+
+    AND A CALL IN DEAD CODE IS A DEFINITION NOBODY CALLS (order 78f04bec15ad, run #37). `_calls`
+    read the whole file, so the sweep's `workorders.py` -- which supersedes nothing, and carries
+    the call after a `return` -- left this net green. The call must now be REACHED, from the
+    sweep that files these orders or from the CLI: `_supersede_binding_suspect` is only worth
+    anything on the path that just filed the order it supersedes.
     """
-    return _calls(os.path.join(_srcdir(src), "workorders.py"), "_supersede_binding_suspect")
+    return _reaches_call(_ast_of(os.path.join(_srcdir(src), "workorders.py")),
+                         "_supersede_binding_suspect", ("main", "sweep_detectors"))
 
 
 def drill_binding_identity():
@@ -3113,12 +3397,42 @@ def _refusal_is_recorded(src=None):
     anyone" has no business being satisfiable by a comment. The recording is now an ASSIGNMENT
     into `unreal`, and the carrying is a dict entry keyed `"pages_refused"` whose value is that
     same name -- neither of which prose can produce.
+
+    AND THE RECORDING HALF WAS A WHOLE-FILE WALK WITH NO BRANCH SCOPING (order 18958aba2143,
+    run #37). It was satisfied by ANY assignment, in ANY function, whose target was a subscript
+    of a name `unreal` -- under any key at all. The sweep built a `feats.py` whose refusal
+    branch is `pass`, so the refusal is DROPPED ON THE FLOOR, which IS the fault; it carried
+    `unreal['unrelated'] = ...` elsewhere in the file and went on returning
+    `{'pages_refused': unreal}`, and this net returned True. Neither half tested the
+    distinction the net exists for -- "this entity has no evidence" against "we were served a
+    block page" -- and that distinction is the whole subject.
+
+    So the recording is asked where it has to happen: inside `evidence_for`, in the REACHABLE
+    branch guarded by the answer `page_looks_real` gave, and KEYED BY THE PAGE -- the subscript
+    has to be a loop variable of that function, not a literal. An empty refusal branch stops
+    answering, and so does a recording made anywhere else. The carrying half is unchanged; it
+    was never the defective one.
     """
     import ast
     tree = _ast_of(os.path.join(_srcdir(src), "feats.py"))
-    records = any(isinstance(t, ast.Subscript) and isinstance(t.value, ast.Name)
-                  and t.value.id == "unreal"
-                  for n in ast.walk(tree) if isinstance(n, ast.Assign) for t in n.targets)
+    ev = _defn(tree, "evidence_for")
+    records = False
+    if ev is not None:
+        asked = _bound_from_call(tree, ev, "page_looks_real")
+        loopvars = {e.id for n in _live_walk(ev)
+                    if isinstance(n, (ast.For, ast.AsyncFor))
+                    for e in ast.walk(n.target) if isinstance(e, ast.Name)}
+        for g in _live_walk(ev):
+            if not (asked and isinstance(g, ast.If) and _guarded_by(tree, g, asked)):
+                continue
+            for st in _live_stmt_walk(_live_stmts(g.body)):
+                if not isinstance(st, ast.Assign):
+                    continue
+                for t in st.targets:
+                    if (isinstance(t, ast.Subscript) and isinstance(t.value, ast.Name)
+                            and t.value.id == "unreal" and isinstance(t.slice, ast.Name)
+                            and t.slice.id in loopvars):
+                        records = True
     carried = False
     for n in ast.walk(tree):
         if not isinstance(n, ast.Dict):
@@ -3139,20 +3453,61 @@ def _local_buckets_excluded_from_cloud_claims(src=None):
     explanation would keep answering for it, while the router handed out ollama buckets and
     flooded a 10 GB card with its own queue again. The test is now a real `.startswith` call
     against the real constant, guarding a real branch.
+
+    AND THAT REWRITE WAS VACUOUS THREE WAYS (order 8f4bb64503c2, run #37). It asked only that
+    SOME `if` anywhere in the file mention `<x>.bucket.startswith(LOCAL_PREFIX)` in its test. It
+    never asked what the branch DID, whether anything could enter it, or whether it was the
+    router's branch at all, and the sweep beat it on each count in turn:
+
+      * a guard whose body is `pass`, with an ollama bucket served straight past it -> HELD;
+      * the same guard parked in dead code after a `return` -> HELD;
+      * and the finding that matters -- the REAL `cascade_bridge.py` with the router's actual
+        skip at lines 1118-1120 DELETED -> still HELD, answered instead by the catalogue
+        de-duplication `if` at `cascade_bridge.py:282`, which is in `cloud_buckets` and has
+        nothing to do with handing a worker a bucket to call.
+
+    A net satisfied by an unrelated line elsewhere in the file is not measuring the guard; it is
+    measuring whether anybody has ever written that expression. So the question is now stated
+    the way the property is, and modelled on `resync_cannot_revert_an_exclusion` below:
+
+      * SCOPED to a function that reachably CLAIMS a candidate -- the only path on which a local
+        bucket can be handed out, which is what makes `cloud_buckets`' de-duplication stop
+        answering for the router;
+      * REACHABLE, so a guard nothing can enter counts as the deletion it is;
+      * and the guarded arm must actually SKIP the candidate. `continue`, `break`, `return` or
+        `raise`: the arm has to end this candidate's turn. A `pass` that falls through to the
+        code serving the bucket is the fault wearing the guard's shape.
+
+    `claim` is asked for by method name rather than through `_ROUTER`, deliberately: pinning a
+    net to one spelling of the object it goes through is what order 7cc460706efe filed against
+    two nets in this file, and a net that breaches over a rename halts the library.
     """
     import ast
     tree = _ast_of(os.path.join(_srcdir(src), "cascade_bridge.py"))
-    for n in ast.walk(tree):
-        if not isinstance(n, ast.If):
+    for fn in ast.walk(tree):
+        if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
             continue
-        for c in ast.walk(n.test):
-            if not (isinstance(c, ast.Call) and isinstance(c.func, ast.Attribute)
-                    and c.func.attr == "startswith"):
+        if not _calls_within(tree, fn, "claim", reachable=True):
+            continue                     # not a path that hands a worker a bucket
+        for n in _live_walk(fn):
+            if not isinstance(n, ast.If):
                 continue
-            if not (isinstance(c.func.value, ast.Attribute) and c.func.value.attr == "bucket"):
+            guards = False
+            for c in ast.walk(n.test):
+                if not (isinstance(c, ast.Call) and isinstance(c.func, ast.Attribute)
+                        and c.func.attr == "startswith"):
+                    continue
+                if not (isinstance(c.func.value, ast.Attribute)
+                        and c.func.value.attr == "bucket"):
+                    continue
+                if any(isinstance(x, ast.Name) and x.id == "LOCAL_PREFIX" for x in c.args):
+                    guards = True
+            if not guards:
                 continue
-            if any(isinstance(x, ast.Name) and x.id == "LOCAL_PREFIX" for x in c.args):
-                return True
+            arm = _live_stmt_walk(_live_stmts(n.body))
+            if any(isinstance(x, (ast.Continue, ast.Break, ast.Return, ast.Raise))
+                   for x in arm):
+                return True              # the candidate's turn ENDS here, which is the property
     return False
 
 
@@ -3557,6 +3912,56 @@ def drill_workorders():
         "a code nothing can ever raise is a check that cannot fail, wearing a name")
 
 
+def _guards_are_wired_where_claimed(src=None):
+    """Each interlock must be CALLED in the file that claims it — asked of the AST.
+
+    SATISFIED BY PROSE IN HALF ITS FILES, until run #34. It was `token in <file text>`, and
+    for three of the six the token occurs only in explanation: `coverage.py:53` names
+    cachekey in a docstring ("verifies via `cachekey.owns()` before believing a file"),
+    `pipeline.py:822` in a comment, `feats.py:918-923` in a comment block. Those three files
+    could lose the import and every call and this net — named "every guard is present in the
+    file that claims it", expectation "the last incident was a guard DELETED, not a guard
+    that failed" — would have kept holding on the paragraphs describing the deleted guard.
+    A guard's explanation is the part MOST likely to survive its removal.
+
+    `_calls` resolves through each file's own imports, so `import cachekey as CK; CK.load()`
+    counts and a same-named local method does not. The four cache files are asked for a call
+    on the MODULE, which is the honest form of "cachekey is wired in here"; the two gate
+    files are asked for the specific function, because there the identity of the call is the
+    whole claim.
+
+    AND `_calls` WALKED DEAD CODE (order 78f04bec15ad, run #37). The sweep built all six
+    modules UNGATED, each carrying its required call inside an `if False:`, and this net --
+    the one whose expectation is "the last incident was a guard DELETED" -- reported HELD.
+    Relocating a guard into a branch nothing enters deletes it just as thoroughly as removing
+    it, and leaves a better-looking diff. So the question is now `_reaches_call`: starting from
+    the entry point each module actually has, can the running program get to that call. That
+    also closes the uncalled-helper form of the same trick, which plain `reachable=True` does
+    not -- `_live_walk` descends into every `def` in a file whether or not anything calls it.
+
+    THE ENTRY POINTS ARE NAMED PER FILE, and they are a claim in their own right. Five of these
+    are reached from `main`; `pipeline.py`'s cache check lives under `synthesis_blocks`, which
+    is the door other modules come in through rather than its CLI. Naming the wrong door would
+    make this net breach against correct code, so each was measured against the live tree before
+    it was written down.
+
+    MODULE LEVEL, LIKE THE OTHER SOURCE-SHAPE NETS, and for the reason `_srcdir` gives: it was a
+    closure carrying an unusable `src=` parameter, so the one way to prove it still refuses --
+    point it at a tree with the guards moved into dead code and watch it go red -- could not be
+    performed on the net itself, only on a copy of its body. A net nobody can drive against the
+    defeat it exists to catch is a green light of unknown provenance.
+    """
+    src = src or os.path.dirname(os.path.abspath(__file__))
+    want = {"generate.py": ("prose_gate.assert_gate_open", ("main",)),
+            "overnight.py": ("_prose_enabled", ("main",)),
+            "coverage.py": ("cachekey.", ("main",)),
+            "feats.py": ("cachekey.", ("main",)),
+            "pipeline.py": ("cachekey.", ("main", "synthesis_blocks")),
+            "hostcheck.py": ("cachekey.", ("main",))}
+    return all(_reaches_call(_ast_of(os.path.join(src, f)), token, entries)
+               for f, (token, entries) in want.items())
+
+
 def drill_inspector():
     """Does the state of the building match what the building SAYS about itself?
 
@@ -3671,31 +4076,7 @@ def drill_inspector():
     net(a, "a standing halt always carries a reason", halt_claim_is_honest,
         "a halt nobody can read is a halt nobody can lift")
 
-    def guards_are_wired_where_claimed(src=None):
-        """Each interlock must be CALLED in the file that claims it — asked of the AST.
-
-        SATISFIED BY PROSE IN HALF ITS FILES, until run #34. It was `token in <file text>`, and
-        for three of the six the token occurs only in explanation: `coverage.py:53` names
-        cachekey in a docstring ("verifies via `cachekey.owns()` before believing a file"),
-        `pipeline.py:822` in a comment, `feats.py:918-923` in a comment block. Those three files
-        could lose the import and every call and this net — named "every guard is present in the
-        file that claims it", expectation "the last incident was a guard DELETED, not a guard
-        that failed" — would have kept holding on the paragraphs describing the deleted guard.
-        A guard's explanation is the part MOST likely to survive its removal.
-
-        `_calls` resolves through each file's own imports, so `import cachekey as CK; CK.load()`
-        counts and a same-named local method does not. The four cache files are asked for a call
-        on the MODULE, which is the honest form of "cachekey is wired in here"; the two gate
-        files are asked for the specific function, because there the identity of the call is the
-        whole claim.
-        """
-        src = src or os.path.dirname(os.path.abspath(__file__))
-        want = {"generate.py": "prose_gate.assert_gate_open",
-                "overnight.py": "_prose_enabled",
-                "coverage.py": "cachekey.", "feats.py": "cachekey.",
-                "pipeline.py": "cachekey.", "hostcheck.py": "cachekey."}
-        return all(_calls(os.path.join(src, f), token) for f, token in want.items())
-    net(a, "every guard is CALLED in the file that claims it", guards_are_wired_where_claimed,
+    net(a, "every guard is CALLED in the file that claims it", _guards_are_wired_where_claimed,
         "the last incident was a guard DELETED, not a guard that failed -- and the comment "
         "explaining it stayed behind")
 
@@ -3724,7 +4105,13 @@ def drill_inspector():
         # once as "THE P8 META-LANGUAGE BAN, ENFORCED FOR THE FIRST TIME. `pipeline.
         # assert_in_universe`" -- so deleting the call would have left the net green on the
         # paragraph announcing it. The writer must CALL it; noticing it is what the audit does.
-        return _calls(os.path.join(_srcdir(), "generate.py"), "assert_in_universe")
+        #
+        # AND THE CALL HAD ONLY TO EXIST SOMEWHERE IN THE FILE (order 78f04bec15ad, run #37).
+        # The sweep's `generate.py` never checked a line of prose and parked the call after the
+        # return; this net held. It must now be REACHED from `main`, which is the function that
+        # turns a manifest into prose -- dead code and an uncalled helper both stop answering.
+        return _reaches_call(_ast_of(os.path.join(_srcdir(), "generate.py")),
+                             "assert_in_universe", ("main",))
     net(a, "meta-language is refused by the writer, not just noticed by an audit",
         the_meta_language_ban_is_actually_enforced,
         "one 'as a DM you might' in a finished volume breaks the frame for every entry near it")
@@ -4364,15 +4751,17 @@ def _counts_decided_by_substring(src=None):
     looks like what a subprocess printed. `"Traceback" in stderr` and `"undefined name" in
     r.stdout` are ordinary substring tests about TEXT and are deliberately not flagged; the
     defect is a substring standing in for a COMPARISON.
+
+    ASKED OF ALL OF src/, NOT ITS TOP LEVEL (order cf9ee9000be8, run #37). This claimed "NO gate
+    anywhere in src/" while reading `os.listdir`, which does not descend, and `src/deprecated/`
+    holds a module. Same one-line hole as `_no_programmatic_clear`, filed and fixed together.
     """
     import ast
     src = src or os.path.dirname(os.path.abspath(__file__))
     found = []
-    for f in sorted(os.listdir(src)):
-        if not f.endswith(".py"):
-            continue
+    for f, full in _src_py_files(src):
         try:
-            with open(os.path.join(src, f), encoding="utf-8") as fh:
+            with open(full, encoding="utf-8") as fh:
                 tree = ast.parse(fh.read(), filename=f)
         except (OSError, SyntaxError) as e:
             found.append("%s: UNPARSEABLE (%s)" % (f, type(e).__name__))
@@ -5074,18 +5463,30 @@ def drill_mutation():
         # branch": a comment carrying either phrase moves them. The branch is now found as the
         # `if breached:` inside `main()`, and the mutation interlock has to be a real call to
         # `mutate.active` within it, with the not-halting message a code string of that branch.
+        #
+        # AND IT ASKED FOR THE ALIAS, NOT THE MODULE (order 7cc460706efe, run #37). The spelling
+        # it wanted was the literal `_MUT.active`, so a CORRECT drill.py that happened to write
+        # `import mutate as MUT` returned False -- and this net returning False is a breach,
+        # which raises an OWNER halt. Renaming a local import would have stopped the library:
+        # the identical defect order 8ee268ce32cc filed when a net pinned to `_land` blocked a
+        # compare-and-swap fix, and the reason `_spellings_of_call` resolves aliases at all. The
+        # question is `mutate.active`, which every spelling of the import answers.
+        #
+        # Reachability-scoped with it, for the reason every other parse-tree net here now is: a
+        # dead `if breached:` carrying the interlock, parked after the live one, would otherwise
+        # have answered for a `main()` that halts the library through a mutation run regardless.
         import ast
         tree = _ast_of(os.path.join(_srcdir(), "drill.py"))
         main_fn = _defn(tree, "main")
         if main_fn is None:
             return False
-        for n in ast.walk(main_fn):
+        for n in _live_walk(main_fn):
             if not (isinstance(n, ast.If) and isinstance(n.test, ast.Name)
                     and n.test.id == "breached"):
                 continue
-            if (_calls_within(tree, n, "_MUT.active")
-                    and _says(n, "MUTATION RUN IS ACTIVE")
-                    and _says(n, "DRILL_BREACH")):
+            if (_calls_within(tree, n, "mutate.active", reachable=True)
+                    and _says(n, "MUTATION RUN IS ACTIVE", reachable=True)
+                    and _says(n, "DRILL_BREACH", reachable=True)):
                 return True
         return False
     net(a, "a breach during a mutation run is reported but does not halt the library",
@@ -5129,21 +5530,49 @@ def drill_scope():
         fault it was written for: a value produced where nobody acts on it. The ANSWER now has
         to be bound to a name and that name has to FILTER something: a comprehension whose
         condition reads it, which is how a work list actually loses a row.
+
+        AND "SOMETHING IS FILTERED SOMEWHERE" IS STILL THE WRONG QUANTIFIER (order 5ed81099fc49,
+        run #37). Both halves ran over the whole file, so the filter could live in a HELPER
+        NOTHING CALLS while `build_jobs_for_source` queued every source unconditionally, and
+        this net held -- which is, again literally, the five-day fault: a value produced where
+        nobody acts on it. The sweep built exactly that and it returned True.
+
+        Three things are asked now, and the third is the one that was missing:
+
+          * the exclusions are fetched on the path the program actually runs -- inside `main`,
+            reachably, not in a function nothing enters;
+          * they still have to FILTER: a comprehension whose condition reads them;
+          * and EVERY reachable call that builds jobs for a source has to be handed a value
+            DERIVED from that filtered list. `_filtered_names` follows the derivation through
+            the assignments, comprehensions, `for` targets and `append`s the list travels
+            through, so a copy of the roll taken BEFORE the filter -- the one shape that puts an
+            excluded source back in the manifest -- can no longer reach the builder unnoticed.
         """
         import ast
         tree = _ast_of(os.path.join(_srcdir(), "manifest_builder.py"))
-        excluded = _bound_from_call(tree, tree, "roll.out_of_scope")
+        main_fn = _defn(tree, "main")
+        if main_fn is None:
+            return False
+        excluded = _bound_from_call(tree, main_fn, "roll.out_of_scope", reachable=True)
         if not excluded:
             return False
-        for n in _live_walk(tree):
+        filters = False
+        for n in _live_walk(main_fn):
             if not isinstance(n, (ast.ListComp, ast.SetComp, ast.GeneratorExp, ast.DictComp)):
                 continue
             for gen in n.generators:
                 for cond in gen.ifs:
                     if any(isinstance(x, ast.Name) and x.id in excluded
                            for x in ast.walk(cond)):
-                        return True
-        return False
+                        filters = True
+        if not filters:
+            return False
+        clean = _filtered_names(main_fn, excluded)
+        built = [c for c in _live_walk(main_fn) if isinstance(c, ast.Call)
+                 and _spelled(_spellings_of_call(tree, c), "build_jobs_for_source")]
+        return bool(built) and all(
+            any(isinstance(x, ast.Name) and x.id in clean for a in c.args for x in ast.walk(a))
+            for c in built)
     net(a, "the generator consults the exclusion list before building jobs",
         generator_actually_skips_an_excluded_source,
         "a status string no consumer reads is a decision that did not happen")
@@ -5439,13 +5868,43 @@ def drill_outside():
         "read-only by convention is read-only until somebody is in a hurry")
 
     def datasette_config_is_generated_not_copied():
-        """Two lists of canned queries drift. There must only ever be one."""
+        """Two lists of canned queries drift. There must only ever be one.
+
+        AGAINST A SCRATCH PATH, NEVER `state/datasette.json` (order 5eea5c20db8a, run #37) --
+        the same correction order 38ce9cb3b499 made to `index_query_cannot_write` two nets
+        above, for the same reason. This called `datasette_metadata()` with no argument, so
+        every drill run REWROTE the live config, inside a module whose header says every attack
+        is built in memory or in a scratch directory. The function has taken a path all along.
+
+        AND AN ENVIRONMENTAL WRITE FAILURE IS NOT A BREACH. Since the run #36 fix,
+        `datasette_metadata` returns None when the atomic replace is denied -- which
+        `corpus_db.py:488-539` names as the EXPECTED case, because a running `datasette` holding
+        the file open is enough to cause it on Windows. This net then did `open(None)`, which
+        `net()` records as a breach and `main()` escalates to OWNER: an ordinary file lock would
+        have halted the library, and the sweep reproduced it end to end. A path that could not
+        be written is a measurement that did not happen, and a measurement that did not happen
+        must not be graded either way. Scoped to a scratch directory this cannot fail for the
+        live-file reason at all; if it fails anyway, that is the machine, not a drift between
+        the two lists, and it is recorded where a person will find it rather than sounded as an
+        alarm about something else.
+
+        The check itself is unchanged and one degree stricter than it was: the file this reads
+        is one this net just generated, so a stale config can no longer be graded as a pass.
+        """
         import corpus_db
-        p = corpus_db.datasette_metadata()
-        with open(p, encoding="utf-8") as fh:
-            doc = json.load(fh)
-        served = set((doc.get("databases", {}).get("corpus", {}).get("queries") or {}))
-        return served == set(corpus_db.CANNED)
+        d = tempfile.mkdtemp(prefix="drill_datasette_")
+        try:
+            p = corpus_db.datasette_metadata(os.path.join(d, "datasette.json"))
+            if p is None:
+                import silence
+                silence.note("drill.py:datasette-config-unwritable")
+                return True                  # could not measure; not a drift, and not a breach
+            with open(p, encoding="utf-8") as fh:
+                doc = json.load(fh)
+            served = set((doc.get("databases", {}).get("corpus", {}).get("queries") or {}))
+            return served == set(corpus_db.CANNED)
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
     net(a, "the web UI's queries come from CANNED, not a second copy",
         datasette_config_is_generated_not_copied,
         "the CLI and the browser must not answer the same question differently")

@@ -29,7 +29,11 @@ AND THE THREE WAYS THIS COULD ITSELF BE THE PROBLEM, each handled:
     thrashing is worse than lag and a person needs to know either way.
   * **Restarting mid-edit.** A digest taken while a file is half-written is a digest of garbage,
     and would trigger a restart into broken code. So a change must be STABLE for a settling
-    period before it counts -- the same digest observed twice, `STABLE_SECONDS` apart.
+    period before it counts -- `src/` untouched for `STABLE_SECONDS` of WALL TIME, read off the
+    filesystem's own write times rather than off the caller's polls. It used to mean "the same
+    digest observed at two consecutive polls", which sounds like the same rule and is not: its
+    real window was max(`STABLE_SECONDS`, the poll interval), so on foreman's 30-minute cadence
+    a tree that moved once an interval never settled at all (order 838be29f9e58).
   * **Looking like a crash.** This project's longest outage was a watcher reading
     jobs-exiting-on-purpose as jobs-crashing. So the exit code is distinctive, the log line says
     what happened in words, and `name_rc` in `overnight.py` is taught to read it.
@@ -98,6 +102,53 @@ def fingerprint(root=None):
     except OSError:
         return None
     return h.hexdigest()[:16]
+
+
+def quiet_seconds(root=None):
+    """-> wall-clock seconds since anything in src/ was last written, or None if unreadable.
+
+    THE SETTLE WINDOW HAS TO BE MEASURED IN WALL TIME, NOT IN POLLS (order 838be29f9e58).
+    `stale()` used to compare the current digest against the digest seen at the PREVIOUS POLL
+    and restart the settling clock whenever they differed, so the guard was not "the tree held
+    still for STABLE_SECONDS", it was "two CONSECUTIVE POLLS saw the same digest". The window
+    was therefore max(STABLE_SECONDS, the caller's poll interval), and STABLE_SECONDS=180 was
+    inert for every real caller: foreman polls every 30 minutes, overwatch every 20. A genuine
+    29-minute lull inside a 30-minute poll gap was invisible -- the next poll saw a different
+    digest, reset the clock, and returned "changed, settling", a reason string that reads as
+    transient while describing a permanent state. Nothing escalated, because `exit_if_stale`
+    only escalates once a restart has been CLAIMED and refused. Demonstrated at twelve
+    consecutive polls over six hours, all "settling", the whole shift on stale code.
+
+    The digest can only be sampled when the caller polls; MTIME CANNOT BE MISSED. The newest
+    write time under `src/` is the same fact -- when did this tree last move -- recorded by the
+    filesystem continuously, so it answers for the gaps between polls as well as for the polls,
+    which is exactly what a cadence-independent settle window needs.
+
+    Conservative in the safe direction on both edges: a touch that changes no bytes still bumps
+    the mtime and so postpones the restart, and a write in progress right now reads as zero
+    seconds quiet, which is the mid-write case the settling period exists for. The directory's
+    own mtime is included because a file CREATED or DELETED in `src/` changes the digest while
+    every surviving file's mtime stays old.
+    """
+    root = root or SRC
+    newest = None
+    try:
+        newest = os.path.getmtime(root)
+        for name in os.listdir(root):
+            if not name.endswith(".py"):
+                continue
+            try:
+                m = os.path.getmtime(os.path.join(root, name))
+            except OSError:
+                # Same rule as `fingerprint`: a file that cannot be read right now is very
+                # likely being written right now. Refuse to time the settle rather than time
+                # it from the files that happened to be readable.
+                return None
+            if m > newest:
+                newest = m
+    except OSError:
+        return None
+    return time.time() - newest
 
 
 def runs_script(argv, module, root=None, cwd=None):
@@ -385,12 +436,39 @@ def stale(who="?"):
     if _PENDING["digest"] != now:
         _PENDING["digest"] = now
         _PENDING["first_seen"] = time.time()
-        return False, "changed, settling"
-    held = time.time() - (_PENDING["first_seen"] or time.time())
+    # HOW LONG HAS THIS HELD? TWO ANSWERS, AND THE LONGER ONE IS THE TRUE ONE (order
+    # 838be29f9e58). `seen` is what this function used to use on its own: elapsed time since
+    # this digest was first observed AT A POLL. It cannot see anything that happened between
+    # polls, so on foreman's 30-minute cadence it charges a full extra poll interval for every
+    # change and never fires at all against a tree that moves once per interval -- twelve polls,
+    # six hours, "settling" every time, with the daemon on hours-old code the whole while.
+    #
+    # `quiet` is the wall-clock time since `src/` was last WRITTEN, taken from the filesystem
+    # rather than from the poll history, and it is therefore independent of when or how often
+    # the caller looks. It is never longer than the time the digest has actually held its
+    # current value (the digest reached that value at, or before, that last write), so using it
+    # can only settle later than the truth, never earlier.
+    #
+    # CORROBORATED AGAINST THE STAMP, and this is not bookkeeping. A digest that differs from
+    # the one recorded at startup while NO file is newer than that startup is a change this
+    # function cannot time -- a backdated mtime, a clock that moved, a fingerprint taken across
+    # a write. `quiet` would then be measuring some much older edit and could authorise a
+    # restart on evidence that has nothing to do with the change being reported. So in that
+    # case the mtime evidence is discarded and the old poll-based timing stands alone.
+    #
+    # `max` of the two, so the new rule is never MORE conservative than the one it replaces:
+    # whatever the old code would have restarted for, this still restarts for.
+    seen = time.time() - (_PENDING["first_seen"] or time.time())
+    quiet = quiet_seconds()
+    started = _START["at"] or 0
+    if quiet is None or (time.time() - quiet) <= started:
+        held, how = seen, "since this digest was first seen"
+    else:
+        held, how = max(seen, quiet), "since src/ was last written"
     if held < STABLE_SECONDS:
-        return False, "changed, settling (%.0fs of %ds)" % (held, STABLE_SECONDS)
-    return True, "src/ changed %s -> %s and held for %.0fs" % (
-        _START["digest"], now, held)
+        return False, "changed, settling (%.0fs of %ds %s)" % (held, STABLE_SECONDS, how)
+    return True, "src/ changed %s -> %s and held for %.0fs %s" % (
+        _START["digest"], now, held, how)
 
 
 def exit_if_stale(who="?", rc=RC_STALE):
