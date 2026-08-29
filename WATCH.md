@@ -1,17 +1,17 @@
 # OVERWATCH
 
-round 150  ·  last run 2026-08-29 08:14
+round 151  ·  last run 2026-08-29 09:20
 
 ## Structure
 
-- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
-- files that will not parse: **0** of 272,014 inspected (deep scan as of round 145)
+- modules that will not import: **0**
+- files that will not parse: **0** of 273,179 inspected
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**18 open** (8 high). Newest first.
+**15 open** (6 high). Newest first.
 
 - **workorders.py** `file_order` — [HIGH] Creates a new order and writes it to the queue, but does not handle the case where the queue write fails, leading to potential data loss
   - says: Open (or refresh) one work order. -> the order.
@@ -23,10 +23,6 @@ round 150  ·  last run 2026-08-29 08:14
   - says: sentences that survive the verbatim check
 - **standards.py** `ollama_token_flow` — [HIGH] Hardcodes `num_ctx: 512` instead of deriving it from `config.yaml`
   - says: Does a generation actually COMPLETE? The third liveness lesson in two days.
-- **standards.py** `unans_files` — [HIGH] unans_files is used but never defined in this file or its imports
-  - says: Everything above measures whether the machinery RUNS. These measure whether what it produced can be believed, which is a different question and the library is f
-- **standards.py** `fandom_ipv4_reachable` — [HIGH] The function does not enforce IPv4-only connections, and the docstring's claim about the family being the whole point is contradicted by the code's behavior.
-  - says: Can this machine open a TCP connection to fandom's edge OVER IPv4?
 - **rosetta.py** `main` — [HIGH] The function returns 0 unconditionally, but the code comments indicate that it should return 1 if there are disagreements.
   - says: The exit code has to carry the verdict, not just the printout.
 - **workorders.py** `resolve` — [MEDIUM] resolve
@@ -43,8 +39,6 @@ round 150  ·  last run 2026-08-29 08:14
   - says: why a xenoverse is 'artificial'
 - **sweep_plan.py** `covered_by` — [MEDIUM] returns a set of modules covered by a run, but the code for covered_by is not provided here and may not be implemented correctly
   - says: A membership question deserves a membership answer.
-- **standards.py** `fab` — [MEDIUM] fabrication rate calculation
-  - says: sentences that survive the verbatim check
 - **overnight.py** `run` — [MEDIUM] cannot run after the reader because pipeline is started in the background and the keeper re-asserts the standing set every 300s
   - says: Runs after the reader so it sees the evidence the reader just produced
 - **navtree.py** `register_for` — [MEDIUM] returns a register for a node, but the logic for tie-breaking is flawed and non-deterministic
