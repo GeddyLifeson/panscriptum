@@ -164,34 +164,22 @@ def _quiet(mod):
     return out
 
 
-def _called_names(path, reachable=False):
-    """Every function a file actually CALLS, as a set of spellings, resolved through its imports.
-
-    WHY THIS EXISTS. Three nets in this file asked whether a WORD appeared in a source file and
-    called that "the guard is wired". A word is not a call. The run #34 sweep defeated two of
-    them on the spot: `"snapshot" in withdraw_chapters.py` is satisfied by the COMMENT sitting
-    directly above the snapshot block, so the block could be deleted whole and the net would
-    stay green on its own explanation; and `guards_are_wired_where_claimed` was satisfied by a
-    `coverage.py` docstring, a `pipeline.py` comment and a `feats.py` comment block — three of
-    its six files could lose the import and every use and the net named "every guard is present
-    in the file that claims it" would go on holding. That is the failure `_no_programmatic_clear`
-    already had rewritten out of it for the same reason: a literal cannot tell code from prose
-    about code, and prose about a guard OUTLIVES the guard by design, because the person who
-    deletes the call rarely deletes the paragraph explaining why it was there.
-
-    WHAT COMES BACK. For `f()`, `"f"`. For `x.f()`, both `"f"` and `"x.f"`, plus `"m.f"` when
-    `x` is an alias this file bound to module `m`. For a bare `f()` where `f` arrived by
-    `from m import f`, also `"m.f"`. So a caller can ask for a fully-resolved
-    `"cachekey.load"` and not be answered by an unrelated local method of the same name.
-
-    AN UNPARSEABLE FILE RAISES. A file this cannot read is a file nothing has checked, which is
-    the "absence read as clean" shape the whole layer exists against; `net()` records a raised
-    attack as a BREACH, which is the correct verdict.
-
-    `reachable=True` drops calls the running program cannot make -- see `_calls` for the four
-    nets that were defeated without it.
-    """
-    return _call_spellings(_ast_of(path), reachable=reachable)
+# WHY THE NETS BELOW ASK THE PARSE TREE ANYTHING AT ALL. Three of them asked whether a WORD
+# appeared in a source file and called that "the guard is wired". A word is not a call. The run
+# #34 sweep defeated two on the spot: `"snapshot" in withdraw_chapters.py` is satisfied by the
+# COMMENT sitting directly above the snapshot block, so the block could be deleted whole and the
+# net would stay green on its own explanation; and `guards_are_wired_where_claimed` was
+# satisfied by a `coverage.py` docstring, a `pipeline.py` comment and a `feats.py` comment block
+# -- three of its six files could lose the import and every use while the net named "every guard
+# is present in the file that claims it" went on holding. A literal cannot tell code from prose
+# about code, and prose about a guard OUTLIVES the guard by design, because the person who
+# deletes the call rarely deletes the paragraph explaining why it was there.
+#
+# `_called_names(path)` was the first answer to that and it lived here. It has gone the same way
+# as `_calls` below and for the same reason (order 78f04bec15ad): file-wide is the wrong scope,
+# and a convenience answering a weaker question than anybody wants is how the weaker question
+# gets asked again. `_ast_of` + `_call_spellings` is the one line it was, and every caller now
+# says which scope and which reachability it means.
 
 
 def _ast_of(path):
@@ -434,20 +422,18 @@ def _call_spellings(tree, node=None, reachable=False):
     return out
 
 
-def _calls(path, want, reachable=False):
-    """Does `path` CALL `want`? A trailing dot asks for any call on that module.
-
-    `_calls(f, "cachekey.")` is "this file calls something on the cachekey module", which is the
-    honest form of the claim "cachekey is wired in here" — the specific function matters less
-    than the module being reached at a call site at all.
-
-    `reachable=False` WALKS DEAD CODE, and the run #37 sweep defeated four nets built on it
-    (order 78f04bec15ad): each fixture did the forbidden thing on the live path and parked the
-    required call after a `return` or inside an `if False:`, and all four reported HELD. Every
-    net in this file that says "the guard is wired" now passes `reachable=True`, and the three
-    with an identifiable entry point use `_reaches_call` below, which is stricter again.
-    """
-    return _spelled(_called_names(path, reachable=reachable), want)
+# `_calls(path, want)` USED TO LIVE HERE, and every net in this file that says "the guard is
+# wired" was built on it. It answered "the name appears at a call site somewhere in this file",
+# which walks dead code, untaken branches and functions nothing calls -- and the run #37 sweep
+# defeated FOUR nets on that in one pass (order 78f04bec15ad): each fixture did the forbidden
+# thing on the live path and parked the required call after a `return` or inside an `if False:`,
+# and all four reported HELD. Relocating a guard into a branch nothing enters deletes it as
+# thoroughly as removing it and leaves a better-looking diff.
+#
+# All four now ask `_reaches_call` instead, so there is no caller left and the helper is gone
+# rather than kept "in case": a convenience that answers a weaker question than the one anybody
+# wants is how the weaker question gets asked again next quarter. `_called_names(path,
+# reachable=True)` remains for the honest middle form, and `_spelled` is unchanged.
 
 
 def _entry_nodes(tree, names):
@@ -2850,17 +2836,38 @@ def drill_snapshot():
     # `before()` makes the destination directory BEFORE it discovers it captured nothing, so the
     # refusal below leaves an empty `drill-empty-*` behind on every run -- the other half of the
     # litter the cleanup at the end of this function closes. Noted rather than fixed in
-    # `snapshot.py`, which this file does not own; what is removed here is only what this net
-    # just made, found by difference so nothing older is touched.
+    # `snapshot.py`, which this file does not own.
+    #
+    # BY NAME AS WELL AS BY DIFFERENCE (order 64c8827cc72b, run #37). The cleanup was the set
+    # difference of two `os.listdir`s across the window in which the net below runs, and it
+    # rmtree'd EVERYTHING that appeared in it -- on the theory that a directory found by
+    # difference is one this drill just made. It is not: `snapshot.before()` is a shared entry
+    # point, and `withdraw_chapters.py` -- the caller this entire area exists for -- calls it.
+    # A withdrawal that took its backup one second into that window had it deleted by the
+    # drill. The comment three paragraphs down says the 151 pre-existing snapshots are left
+    # alone because "deleting a backup somebody may be keeping is the owner's call"; the
+    # difference-based sweep could do exactly that to a backup one second old.
+    #
+    # The refusal being tested uses a KNOWN LABEL, and `snapshot.before` builds its id as
+    # "<label>-<epoch>", so the litter this makes is identifiable by name. Both guards are kept:
+    # new in the window AND carrying the prefix. And the cleanup cannot take the run down --
+    # failing to tidy up is not a fault, and killing the battery over it would lose 251 verdicts
+    # to a permissions error on a scratch directory.
+    _EMPTY = "drill-empty"
     _empty_before = set(os.listdir(SNAP.ROOT)) if os.path.isdir(SNAP.ROOT) else set()
     net(a, "an EMPTY snapshot raises rather than passing",
-        lambda: _refuses(lambda: SNAP.before("drill-empty", ["no/such/path"]),
+        lambda: _refuses(lambda: SNAP.before(_EMPTY, ["no/such/path"]),
                          SNAP.SnapshotFailed),
         "a snapshot that captured nothing is a missing one wearing the same name")
-    import shutil as _sh0
-    for _new in (set(os.listdir(SNAP.ROOT)) - _empty_before
-                 if os.path.isdir(SNAP.ROOT) else ()):
-        _sh0.rmtree(os.path.join(SNAP.ROOT, _new), ignore_errors=True)
+    try:
+        import shutil as _sh0
+        for _new in (set(os.listdir(SNAP.ROOT)) - _empty_before
+                     if os.path.isdir(SNAP.ROOT) else ()):
+            if _new.startswith(_EMPTY + "-"):
+                _sh0.rmtree(os.path.join(SNAP.ROOT, _new), ignore_errors=True)
+    except OSError:
+        import silence as _si0
+        _si0.note("drill.py:empty-snapshot-cleanup")
     net(a, "the withdrawal script takes one before moving anything",
         _withdrawal_takes_a_snapshot,
         "145 chapters were withdrawn with nothing but an instinct behind them")
@@ -3759,13 +3766,97 @@ def drill_cascade():
     # dead_forever must bury ONLY conditions a human has to fix. A 429 or a timeout is the most
     # temporary thing a provider does, and burying those made the pool smaller, not more
     # accurate -- the module's own docstring records that mistake.
-    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "cascade_bridge.py"),
-               encoding="utf-8").read()
-    net(a, "burial is documented as permanent-codes-only",
-        lambda: all(c in src for c in ("401", "402", "404", "410")) and "429" in src,
+    def burial_is_permanent_codes_only():
+        """DRIVEN, not read (order 64dfe6bec15c, run #37). These were the last two raw
+        substring-over-file-text nets in the module, and they were both defeated by a COMMENT.
+
+        This one was `all(c in src for c in ("401","402","404","410")) and "429" in src` --
+        satisfied by any file that happens to contain those five numbers anywhere, in any
+        order, for any reason. The sweep passed it a `cascade_bridge.py` whose entire content
+        was a two-line comment naming the codes plus a `permanent_refusal()` returning True for
+        EVERY error string, so a 429 was buried permanently: precisely what this net's own
+        expectation forbids, held green on the strength of the sentence describing the rule.
+
+        So the classifier is now put to real inputs, on both sides of the line and in both
+        places the line is drawn. `dead_forever` is fed a synthetic proof file -- IN A SCRATCH
+        DIRECTORY, never `data/POOL_PROOF.json` -- and must bury exactly the four codes a human
+        has to fix and nothing else; `permanent_refusal` must bench a 401 and a 402 and must not
+        bench a 429. A timeout row is in there too: burying that is the mistake the module's own
+        docstring records making once, when eleven buckets were written off for being busy.
+        """
+        import cascade_bridge as CB
+        codes = ("401", "402", "404", "410")
+        d = tempfile.mkdtemp(prefix="drill_pool_")
+        keep_proof = CB.PROOF
+        try:
+            rows = [{"bucket": "b%s:free" % c, "verdict": "no answer",
+                     "reason": "provider said HTTP %s" % c} for c in codes + ("429",)]
+            rows.append({"bucket": "btimeout:free", "verdict": "no answer",
+                         "reason": "read timed out after 45s"})
+            p = os.path.join(d, "POOL_PROOF.json")
+            with open(p, "w", encoding="utf-8") as fh:
+                json.dump(rows, fh)
+            CB.PROOF, CB._PROVEN[0] = p, None
+            buried = CB.dead_forever()
+        finally:
+            # The memo is dropped rather than restored: it is keyed on the proof file's mtime,
+            # and leaving this probe's answer in it would hand the next caller a verdict about
+            # a scratch file. Dropping it costs one stat.
+            CB.PROOF, CB._PROVEN[0] = keep_proof, None
+            shutil.rmtree(d, ignore_errors=True)
+        return (buried == {"b%s:free" % c for c in codes}
+                and CB.permanent_refusal("HTTP 401 invalid api key")
+                and CB.permanent_refusal("HTTP 402 payment required")
+                and not CB.permanent_refusal("HTTP 429 rate limit reached"))
+    net(a, "burial buries the permanent codes and ONLY those", burial_is_permanent_codes_only,
         "a rate limit must never be written down as a permanent property")
-    net(a, "there is no paid lane to spend",
-        lambda: "THERE IS NO PAID LANE" in src,
+
+    def there_is_no_paid_lane():
+        """ASKED OF THE PARSE TREE (order 64dfe6bec15c, run #37). This was
+        `"THERE IS NO PAID LANE" in src` -- a check that a COMMENT exists. The sweep passed it a
+        `cascade_bridge.py` carrying that phrase in a two-line comment beside a live
+        `PAID = {"enabled": True, "cap": 500}`, and the net held. A net whose whole subject is
+        that a lane which merely LOOKS closed is not closed had been reduced to reading the sign
+        on the door.
+
+        The file states the property itself, and it is structural: "NOTHING IN THIS FILE KNOWS
+        WHAT A PAID BUCKET IS. There is no prefix constant to match, no cap to enforce, no
+        counter to maintain, and no branch that could reach one." A lane needs a NAME -- a
+        constant, an attribute, an argument, or a dict key -- so the parse tree is asked for one,
+        and comments and docstrings, which is where every legitimate mention of the retired lane
+        lives, are not in a parse tree at all.
+
+        STRING LITERALS ARE EXEMPT UNLESS THEY ARE KEYS, deliberately: `_PERMANENT_WORDS` holds
+        "purchase pre-paid", which is the classifier that AXES a provider asking for money --
+        the opposite of a paid lane, and flagging it would make this net breach against the code
+        it is protecting. A key is different: `cfg["paid"]["cap"]` is machinery.
+
+        The documentation half is KEPT rather than replaced. It was never wrong, only
+        insufficient, and the ruling it records is worth having in the file.
+        """
+        import ast
+        path = os.path.join(_srcdir(), "cascade_bridge.py")
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        tree = _ast_of(path)
+        named = []
+        for n in ast.walk(tree):
+            for f in ("id", "attr", "name", "arg", "asname"):
+                v = getattr(n, f, None)
+                if isinstance(v, str) and "paid" in v.lower():
+                    named.append(v)
+            if isinstance(n, (ast.Import, ast.ImportFrom)):
+                named += [al.name for al in n.names if "paid" in (al.name or "").lower()]
+            keys = []
+            if isinstance(n, ast.Dict):
+                keys = [k for k in n.keys if k is not None]
+            elif isinstance(n, ast.Subscript):
+                keys = [n.slice]
+            named += [k.value for k in keys
+                      if isinstance(k, ast.Constant) and isinstance(k.value, str)
+                      and "paid" in k.value.lower()]
+        return not named and "THERE IS NO PAID LANE" in text
+    net(a, "there is no paid lane to spend", there_is_no_paid_lane,
         "the lane overspent its own cap 598/500 because the cap gated promotion, not selection")
     net(a, "the local prefix is excluded from cloud claims",
         _local_buckets_excluded_from_cloud_claims,
@@ -5950,7 +6041,33 @@ def main():
                drill_defect_classes, drill_mutation,
                drill_scope, drill_correlation,
                drill_outside):
-        fn()
+        # AN AREA THAT DIES IS A BREACH OF THAT AREA, NOT THE END OF THE RUN (order
+        # 5c87268a388c, run #37).
+        #
+        # Several area functions execute statements at call time, OUTSIDE any `net()` wrapper --
+        # `SNAP.before('drill', ['config.yaml'])` takes a REAL snapshot and raises SnapshotFailed
+        # if `config.yaml` is locked or `state/snapshots` is unwritable; `PL.stamp_record(...)`,
+        # a `tempfile.mkdtemp`, an `os.listdir` and, until today, an `open().read()` of another
+        # module all sit there too. `net()` catches what happens INSIDE an attack and records it;
+        # nothing caught what happened between them. So a locked file anywhere in that set threw
+        # an uncaught traceback out of this loop, all 251 verdicts went unreported,
+        # `state/drill_last.json` was never written, and `workorders.py` then graded the PREVIOUS
+        # run's verdict as current -- which is exactly the failure the "this run's verdict did
+        # NOT land" paragraph below was written against, reached by a route that never gets as
+        # far as printing it.
+        #
+        # Recorded rather than swallowed: an area that could not run is an area whose nets
+        # nobody has watched, and "absence read as clean" is the shape this whole file exists
+        # against. It costs one row, the verdict still lands, and the other thirty areas still
+        # report.
+        try:
+            fn()
+        except Exception as e:
+            RESULTS.append({"area": "AREA DID NOT RUN — %s" % fn.__name__,
+                            "net": "%s completed" % fn.__name__, "held": False,
+                            "expected": "an area that cannot run has proved nothing, and its "
+                                        "nets must not be counted as held",
+                            "error": "%s: %s" % (type(e).__name__, e)})
 
     area = None
     for r in RESULTS:

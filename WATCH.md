@@ -1,26 +1,27 @@
 # OVERWATCH
 
-round 134  ·  last run 2026-08-28 23:52
+round 135  ·  last run 2026-08-29 00:14
 
 ## Structure
 
-- modules that will not import: **0**
+- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
 - files that will not parse: **2** of 270,644 inspected (deep scan as of round 133)  — state\gpu_lane\slot.1.json — cannot stat; state\snapshots\AppData\Local\Temp\sweep37probe_a76ncjt1\real.txt — cannot stat
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
+- NOT RUNNING: **0** overnight.py
 
 ## What the model found in the code
 
 **4 open** (0 high). Newest first.
 
-- **compress_store.py** `store` — [MEDIUM] returns a dictionary with 'raw_bytes' as the length of the raw bytes and 'compressed_bytes' as the length of the compressed blob, not the actual raw and compressed byte data
-  - says: Compress `text`, write it to compressed_dir keyed by content hash, and return
-- **codewatch.py** `exit_if_stale` — [MEDIUM] Exits the process if its code is out of date, but does not raise on the budget path.
-  - says: Exits the process if its code is out of date.
+- **custodes.py** `convene` — [MEDIUM] The function does not convene the full college but instead computes a consensus and interval based on available readings, with some parameters like `eta` and `distance` being unuse
+  - says: Convene the full college. The interval is the DISPERSION of their readings.
+- **corpus_db.py** `evidence_limit` — [MEDIUM] now inert
+  - says: used to slice `files[:evidence_limit]`
+- **codewatch.py** `_take_locked` — [MEDIUM] take a lock with enforce=False
+  - says: take a lock
 - **cleanup.py** `changed` — [MEDIUM] set to True in multiple branches but not all, leading to some changes not being recorded
   - says: tracking whether any changes were made to a record
-- **cleanup.py** `clean_ceiling` — [MEDIUM] Attempts to find a match in entry names but fails to handle cases where the ceiling is a name that is not in the entry names list, leaving it unchanged and reporting it as a proble
-  - says: Reduce a prose ceiling to the name it is about.
 
 ---
 

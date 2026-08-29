@@ -543,6 +543,8 @@ the only citation form accepted, and the gate reads it literally:
 
 A citation that names no single line, or names a line number that was never in the list, is
 refused and the axis drops to `unestimable`. Copying costs you nothing; rewriting costs the axis.
+Where the list you are given carries NO numbers, the sentence is the whole citation and a figure
+is only ever part of a sentence.
 
 The feat must be ABOUT that axis: a feat about destruction supports Ruin, not Celerity. The
 entity must be the one who ACTED.
@@ -644,6 +646,18 @@ def _cite_number(cited):
     return None, cited
 
 
+def _normc(t):
+    """`_norm` with its whitespace collapsed, so both sides of a comparison are the same shape.
+
+    `_norm` turns every non-alphanumeric into a space, so a sentence ending in a full stop
+    normalises with a TRAILING space and one containing "Munroe/Neumann" with a double one.
+    Comparing a stripped citation against an unstripped mined line made exact equality fail on
+    160 of 37,285 honest verbatim citations -- the citation was the line, and the guard said it
+    matched two other feats loosely instead. Compare like with like.
+    """
+    return " ".join(_norm(t).split())
+
+
 def _substantial(norm_text):
     """Is this enough citation to identify one feat, or just some words that occur in one?"""
     return (len(norm_text.split()) >= MIN_CITE_TOKENS
@@ -663,9 +677,9 @@ def _resolve_citation(cited, mined, numbered=True):
     raw = (cited or "").strip()
     if not raw:
         return None, "no citation given"
-    norm = {i: _norm(t) for i, t in mined.items()}
+    norm = {i: _normc(t) for i, t in mined.items()}
     num, rest = _cite_number(raw) if numbered else (None, raw)
-    rn = _norm(rest).strip()
+    rn = _normc(rest)
 
     if num is not None:
         if num not in mined:
