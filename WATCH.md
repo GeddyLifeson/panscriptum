@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 142  ·  last run 2026-08-29 03:17
+round 143  ·  last run 2026-08-29 03:41
 
 ## Structure
 
@@ -11,14 +11,18 @@ round 142  ·  last run 2026-08-29 03:17
 
 ## What the model found in the code
 
-**12 open** (3 high). Newest first.
+**14 open** (3 high). Newest first.
 
-- **navtree.py** `write_json` — [HIGH] writes to the file
-  - says: reads whatever file IS on disk
+- **pipeline.py** `write_record` — [HIGH] Writes the pipeline's in-memory copy over the disk file when there's no drift, potentially overwriting concurrent changes.
+  - says: Write a record back WITHOUT clobbering a concurrent writer's work.
 - **magnitude.py** `verify` — [HIGH] decides on the SENTENCE alone
   - says: the entity must be the DOER
 - **local_agent.py** `t_propose_patch` — [HIGH] does not handle failed reverts, does not trigger exit code
   - says: A FAILED REVERT MUST REACH THE EXIT CODE.
+- **policy.py** `vacuous` — [MEDIUM] A rule that PASSED while looking at a field that does not exist and the operator is not 'absent'.
+  - says: A rule that PASSED while looking at a field that does not exist. Not a failure -- but not evidence of anything either, and the only place it is ever visible.
+- **pipeline.py** `IMPLEMENTED` — [MEDIUM] built from PHASES but still requires manual updates when phases are added or removed
+  - says: BUILT FROM PHASES, NOT HAND-MAINTAINED.
 - **overnight.py** `run` — [MEDIUM] cannot run after the reader because pipeline is started in the background and the keeper re-asserts the standing set every 300s
   - says: Runs after the reader so it sees the evidence the reader just produced
 - **overnight.py** `_keep_warm` — [MEDIUM] Sends a request to the Ollama API to keep the model warm at the configured num_ctx, but does not actually maintain the model resident at that size.
