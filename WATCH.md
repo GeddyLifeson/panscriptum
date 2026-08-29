@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 160  ·  last run 2026-08-29 14:06
+round 161  ·  last run 2026-08-29 14:28
 
 ## Structure
 
@@ -11,10 +11,16 @@ round 160  ·  last run 2026-08-29 14:06
 
 ## What the model found in the code
 
-**1 open** (0 high). Newest first.
+**4 open** (1 high). Newest first.
 
-- **rigor.py** `lognormal_product` — [MEDIUM] the real Milky Way is not the same as the real Milky Way
-  - says: the real Milky Way
+- **sevenfold.py** `seams` — [HIGH] Slices the block into evenly sized pieces when no affinity data is provided, which does not correspond to the weakest seams
+  - says: Where the affinity ordering is weakest -- the natural places to cut.
+- **runguard.py** `release` — [MEDIUM] Close our own record. Same ownership rule: a run may only ever close its own.
+  - says: Close our own record. Same ownership rule: a run may only ever close its own.
+- **runguard.py** `beat` — [MEDIUM] Refresh the heartbeat -- but ONLY on a record that is ours.
+  - says: Refresh the heartbeat -- but ONLY on a record that is ours.
+- **runguard.py** `claim` — [MEDIUM] Take the guard for `agent`, or refuse.
+  - says: Take the guard for `agent`, or refuse.
 
 ---
 
