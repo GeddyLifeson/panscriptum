@@ -1,24 +1,24 @@
 # OVERWATCH
 
-round 144  ·  last run 2026-08-29 04:10
+round 145  ·  last run 2026-08-29 04:32
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 271,124 inspected (deep scan as of round 139)
+- files that will not parse: **0** of 272,014 inspected
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**14 open** (3 high). Newest first.
+**14 open** (2 high). Newest first.
 
-- **read.py** `read_entity` — [HIGH] Reads entity's pages but does not actually perform the reading or fetching of data; relies on cached data and does not execute the model processing as described
-  - says: Read one entity's cached pages with the model. Returns verified feats by axis.
+- **rosetta.py** `main` — [HIGH] The function returns 0 unconditionally, but the code comments indicate that it should return 1 if there are disagreements.
+  - says: The exit code has to carry the verdict, not just the printout.
 - **publish.py** `push` — [HIGH] Raises PushHeld if a commit could not be landed, but does not return True or False as described
   - says: Commit and push. -> True if it landed, False if there was nothing to send.
-- **pipeline.py** `write_record` — [HIGH] Writes the pipeline's in-memory copy over the disk file when there's no drift, potentially overwriting concurrent changes.
-  - says: Write a record back WITHOUT clobbering a concurrent writer's work.
+- **reference.py** `landed` — [MEDIUM] is assigned the result of write_json, which returns a boolean indicating success of the write operation
+  - says: indicates whether the reconstructions landed inside the interval
 - **publish.py** `codewatch.claim_singleton` — [MEDIUM] claims a singleton but does not prevent multiple instances from running
   - says: prevent multiple instances of the same daemon from running
 - **publish.py** `git` — [MEDIUM] git is used to execute git commands, but the code does not handle the case where git commands may fail or return non-zero exit codes
