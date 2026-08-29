@@ -988,7 +988,7 @@ def check(state=None):
             with open(os.path.join(HERE, "data", "ROSTER_PURGES.json"), encoding="utf-8") as f:
                 purged = set(json.load(f))
         except Exception:
-            silence.note("standards.py:370")
+            silence.note("standards.py:roster-purges")
             purged = set()
         foreign = [k for k, v in ra.items()
                    if isinstance(v, dict) and v.get("rate", 1) < 0.10
@@ -1070,7 +1070,7 @@ def check(state=None):
             with open(reg_path, encoding="utf-8") as f:
                 reg = json.load(f)
         except Exception:
-            silence.note("standards.py:449")
+            silence.note("standards.py:charter-regression-load")
             reg = None
         holds, obs = charter_regression_verdict(reg)
         out.append(_s(
@@ -1299,10 +1299,16 @@ def check(state=None):
             if quiet_min >= MAX_JOB_SILENCE_MIN:
                 stalled.append("%s (%d min, %d bytes)" % (job, round(quiet_min), size))
 
-        tmp = JOB_WATCH + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(cur, f)
-        silence.replace_retry(tmp, JOB_WATCH)
+        # THROUGH `silence.write_json`, not a hand-rolled fixed `JOB_WATCH + ".tmp"`: the fixed
+        # name collided across `dashboard.py`'s polling and `publish.py --loop`'s own writes of
+        # this same file (order 64c9785735d3), and discarding the replace verdict meant a denied
+        # write on Windows -- any reader holding JOB_WATCH open -- left `prev` stale forever, so
+        # `job_stamp()` could never see a held size and `quiet_min` could never reach
+        # MAX_JOB_SILENCE_MIN. GATE ON IT: a denied write is routed to the same except below as
+        # every other failure in this standard, which both notes it and drops the standard from
+        # `out` via `_dropped`, rather than silently reporting "all advancing" on stale data.
+        if not silence.write_json(JOB_WATCH, cur):
+            raise RuntimeError("job_progress.json replace denied; size stamps not persisted")
 
         out.append(_s(
             "every running job is advancing", not stalled,
@@ -1863,8 +1869,18 @@ def main():
             for chunk in _wrap(r["order"], 92):
                 print("   " + chunk)
         return 0
-    print(report())
-    return 1 if work_orders() else 0
+    # ONE STATE, NOT TWO. `report()` and `work_orders()` each call `check(state=None)`, and
+    # `check()` builds its own `dashboard.state()` whenever state is None -- so the plain-report
+    # path below ran every live probe TWICE per invocation (DNS+TCP per address at 8s timeout,
+    # a powershell Get-CimInstance at 60s, a tasklist spawn, and a full data/readfeats walk
+    # whenever the cache had expired), and the two passes were free to disagree with each other.
+    # Build the state once here and hand the SAME dict to both, matching what `check()`'s own
+    # docstring already promises: every standard reads "the same state dict the instrument
+    # panel reads" so nothing can disagree with it.
+    import dashboard as D
+    state = D.state()
+    print(report(state))
+    return 1 if work_orders(state) else 0
 
 
 if __name__ == "__main__":

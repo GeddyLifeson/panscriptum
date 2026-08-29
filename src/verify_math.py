@@ -3335,9 +3335,9 @@ print("20. §20a  rc=15 IS A KILL, NOT AN EXIT — what the supervisor log is ac
 # what it was doing or how long it had been running. rc=15 does not vary with runtime because it
 # does not come from the reader.
 #
-# Two foreman remedies send exactly that signal to read.py -- restart_reader (foreman.py:315,
-# wired to "the library's counters are moving" and "corpus read is progressing") and
-# kill_stalled_job (foreman.py:385, wired to "every running job is advancing"). Both end their
+# Two foreman remedies send exactly that signal to read.py -- foreman.py:restart_reader
+# (wired to "the library's counters are moving" and "corpus read is progressing") and
+# foreman.py:kill_stalled_job (wired to "every running job is advancing"). Both end their
 # note with "supervisor restarts next cycle", and for read.py "next cycle" is the supervisor's
 # hours-long main lap, because read is deliberately outside the keeper's STANDING set. Measured
 # live in run #18: killed 20:35:04, supervisor noticed 20:35:58 ("read: finished rc=15 in 41m"),
@@ -3647,7 +3647,7 @@ print("           M17 and m87 cite this one as §20e. §20e now names §25 (cons
 #
 # Found 2026-08-25 (run #21) by reading one standard off two renderers at one moment:
 #
-#   public page   (computed by publish.py:168-172, in publish.py's process)  -> "publish.py,read.py"
+#   public page   (computed by publish.py:snapshot, in publish.py's process)  -> "publish.py,read.py"
 #   local page    (computed by dashboard.py, in dashboard.py's process)      -> "dashboard.py,read.py"
 #   allsweep.py   (a third, neutral process)                                 -> both up, read.py down
 #
