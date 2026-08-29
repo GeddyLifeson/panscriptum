@@ -410,13 +410,37 @@ def write_json(path, obj, **dump_kw):
         with open(tmp, "w", encoding="utf-8") as f:
             _j.dump(obj, f, **dump_kw)
     except Exception:
-        try:
-            if os.path.exists(tmp):
-                os.remove(tmp)
-        except Exception:
-            pass
+        _discard_tmp(tmp)
         raise
-    return replace_retry(tmp, path)
+    landed = replace_retry(tmp, path)
+    if not landed:
+        # AND THE TEMP GOES WHEN THE REPLACE IS REFUSED, NOT ONLY WHEN THE DUMP THROWS.
+        # This branch used to return with the file still on disk, so EVERY denied write leaked
+        # one `<path>.<pid>.<tid>.tmp` beside its target, permanently, with no cleaner anywhere
+        # in the tree -- and the pid/thread qualifier that makes the name collision-proof also
+        # makes each leak uniquely named, so they accumulate rather than overwrite. A denied
+        # replace is the ORDINARY case here (it is the entire reason `replace_retry` exists), so
+        # the leak was proportional to how contended a file is: the hottest files littered most.
+        # `hostcheck.py:170` records the same litter one layer up for `replace_if_unchanged`.
+        # The temp holds nothing anyone can use -- the caller's write lands next round from the
+        # live object, never from this file -- so dropping it loses no data.
+        _discard_tmp(tmp)
+    return landed
+
+
+def _discard_tmp(tmp):
+    """Remove a scratch file, and never let the removal itself become the failure.
+
+    Total by design, exactly like `note()`: this runs on the error paths of the function every
+    writer in the project routes through, so a raise from the CLEANUP would replace a recorded,
+    survivable denied write with an unhandled exception in a caller that -- by `write_json`'s
+    own promise -- has no handler for it.
+    """
+    try:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+    except Exception:
+        note("silence.py:tmp-not-removed")
 
 
 def note(site):

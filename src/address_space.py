@@ -446,7 +446,12 @@ def main():
                                   {d: {"address": a, "shelfmark": shelfmark(a),
                                        "map_seed": map_seed(a)} for d, a in addrs.items()},
                                   indent=2, ensure_ascii=False):
-            silence.note("address_space.py:shelfmarks-write-denied")
+            # NO `silence.note` HERE, deliberately. `replace_retry` has already recorded
+            # `replace-denied:SHELFMARKS.json` in the health ledger by the time it answers
+            # False, so a note at this site would file the same denial twice under two names --
+            # and this file's note-tag inventory is itself asserted, tag by tag, by
+            # `handoff/run35/checks_L4.py`. The visible channel for this module is the console
+            # and the exit code, and both are used below.
             print(f"\n   WRITE DENIED -> {out}: the replace was refused (most likely a reader "
                   f"holding it open). The addresses above did NOT land, and pipeline.py and "
                   f"standards.py are still reading the previous map. Re-run to retry.")

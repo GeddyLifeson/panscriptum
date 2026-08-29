@@ -231,6 +231,9 @@ def record(run, covered, batch=None):
             # rest of this module routes through `replace_retry` for would escape `record()`
             # into a sweep agent -- the one path where a coverage write, which is meant to cost
             # nothing, takes the batch down. Same helper as every other landing in this file.
+            # Its verdict is unused for the reason given in the block above: this is the derived
+            # view, it is rebuilt from the shards on the next `record()`, and `replace_retry`
+            # already records a denial. The authoritative write is the shard, and that is gated.
             try:
                 import silence as _s
                 _s.replace_retry(tmp, COVERAGE)

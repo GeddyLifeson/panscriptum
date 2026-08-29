@@ -125,10 +125,16 @@ def battery_faults(preflight=None, allsweep=None, now=None):
         rows = preflight.get("rows") or []
         if rows:
             out["PREFLIGHT_PROBLEM"] = {
-                "what": "health.py --preflight reports %d problem(s): %s"
+                # The prose names the count and SAYS the three are the first three; the evidence
+                # carries all of them. `evidence: rows[:20]` silently dropped the tail of any
+                # larger run, so the order a person works from held a smaller universe than the
+                # one measured -- Hard Rule 0, in the record of the fault rather than in the
+                # fault. Nothing needs a cap here: this is a JSON field, and the console
+                # renderer already truncates for display at its own call site.
+                "what": "health.py --preflight reports %d problem(s), first three: %s"
                         % (len(rows), "; ".join("%s -> %s" % (r.get("what"), r.get("detail"))
                                                 for r in rows[:3])),
-                "handler": "RUN", "severity": "MAJOR", "evidence": rows[:20]}
+                "handler": "RUN", "severity": "MAJOR", "evidence": rows}
 
     # ---- allsweep's GRADED tiers
     #
@@ -362,7 +368,16 @@ def resolve(oid, how, by=""):
     def _change(d):
         rec = d.pop(oid, None)
         if rec is not None:
-            rec.update({"resolved_at": time.time(), "resolution": how[:400], "resolved_by": by})
+            # NO CAP ON THE RESOLUTION. It was `how[:400]`, silently, which destroyed the one
+            # thing the paper trail exists to keep: WHY an order was closed. Measured on
+            # 2026-08-28, the same shift that removed the matching caps from `file_order`: 66 of
+            # that shift's 173 closures were sitting at exactly 400 characters with their
+            # reasoning cut mid-sentence, including several that recorded a finding as NOT a bug
+            # and said why -- precisely the resolutions a later run must be able to read, since
+            # the alternative is re-opening work that was correctly declined. `--how` is
+            # mandatory here for exactly that reason, so truncating what it demands was the
+            # rule and its own defeat sitting one line apart.
+            rec.update({"resolved_at": time.time(), "resolution": how, "resolved_by": by})
         return rec
 
     # THE ORDER OF THESE TWO TESTS IS THE WHOLE POINT, and getting it backwards undid the fix it

@@ -4880,13 +4880,40 @@ _drill20p = _src20p("drill.py")
 # DOCSTRING quoting the removed code. A literal cannot tell code from prose about code: it fails
 # on an honest description and it passes on a comment. So: no function in drill.py may both name
 # config.yaml and open something in a write mode.
+def _own_nodes20p(fn):
+    """Every node belonging to `fn` ITSELF, not to a function nested inside it.
+
+    `ast.walk` descends through nested `def`s, so a long function that merely CONTAINS two
+    unrelated inner functions was credited with everything both of them do -- and this check
+    fires on a CO-OCCURRENCE, so conflating two innocent siblings manufactures a guilty parent.
+    Measured 2026-08-28: `drill.drill_local_agent` (1349-...) was reported as writing the
+    owner's config because a lambda at :1461 names "config.yaml" as the LABEL of a net asserting
+    the agent cannot patch it, while a DIFFERENT nested net, `blast_cap_bites` (1475-1556),
+    opens `handoff/__drill_blast_probe__.md` for writing at :1506. Neither does the forbidden
+    thing; the enclosing scope was the only thing they shared.
+
+    NOTHING IS LOST BY THIS NARROWING, which is why it is the right shape rather than a
+    weakening: the caller's outer loop visits every nested `def` in its own right, so a nested
+    function that really does both is still caught -- under its own name, which is also the more
+    useful report. Lambdas are deliberately KEPT attributed to their enclosing function, because
+    the outer loop does NOT visit them separately, so excluding them would open a real hole.
+    """
+    stack = list(_ast_mod.iter_child_nodes(fn))
+    while stack:
+        n = stack.pop()
+        yield n
+        if isinstance(n, (_ast_mod.FunctionDef, _ast_mod.AsyncFunctionDef)):
+            continue                      # its own def; the outer loop judges it separately
+        stack.extend(_ast_mod.iter_child_nodes(n))
+
+
 def _writes_the_config20p(tree):
     out = []
     for fn in _ast_mod.walk(tree):
         if not isinstance(fn, (_ast_mod.FunctionDef, _ast_mod.AsyncFunctionDef)):
             continue
         names, writes = False, False
-        for n in _ast_mod.walk(fn):
+        for n in _own_nodes20p(fn):
             if isinstance(n, _ast_mod.Constant) and n.value == "config.yaml":
                 names = True
             if (isinstance(n, _ast_mod.Call) and isinstance(n.func, _ast_mod.Name)

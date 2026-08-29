@@ -295,11 +295,9 @@ def _write_claim(path, depth, label):
         # sharper of the two: a NEW foreground claim's first write has no beat margin to absorb
         # a miss, and a dropped first write means the claim never appears, so every background
         # call proceeds straight through the yield this file exists to enforce.
-        # `bool(...)`, not `is not False`: `replace_retry` falls off the end of its retry loop
-        # and returns None when every attempt was DENIED (only the non-PermissionError path
-        # returns False explicitly), so an identity test against False reads the commonest
-        # failure on this machine as a success. Truthiness is the contract every other caller
-        # in this project already gates on.
+        # `bool(...)` rather than an identity test against False: truthiness is the contract
+        # every other caller in this project gates on (`if not silence.write_json(...)`), and
+        # it is the one that stays correct if `replace_retry` ever grows a third answer.
         return bool(silence.replace_retry(tmp, path))
     except Exception:
         silence.note("gpu_lane.py:_write_claim")
