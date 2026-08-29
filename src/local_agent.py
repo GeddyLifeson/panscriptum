@@ -647,8 +647,24 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
                              "or by a model: records go through pipeline.write_record, the "
                              "charter is the owner's, and shared state is landed via "
                              "silence.replace_retry." % (rel, _pfx)})
-    # The cap is charged AFTER the allow/deny checks and BEFORE anything is read or written, so
-    # a refused path costs no budget and an accepted one cannot exceed it.
+    original = open(full, encoding="utf-8").read()
+    if original.count(find) != 1:
+        return _settle({"applied": False,
+                "error": "find string occurs %d times; it must occur exactly once -- copy "
+                         "it verbatim from read_file" % original.count(find)})
+    if not apply:
+        return _settle({"applied": False, "staged": True,
+                        "note": "run started with --no-apply; patch recorded for the audit trail"})
+    # THE CAP IS CHARGED HERE, ONCE THE EDIT IS ACTUALLY ABOUT TO LAND, and not one line
+    # earlier. It used to run right after the allow/deny checks -- BEFORE the find string had
+    # even been checked for uniqueness and BEFORE `--no-apply` was consulted -- which billed the
+    # budget for two more kinds of refusal the comment three lines up never accounted for: a
+    # find string that does not occur exactly once, and a `--no-apply` dry run that stages but
+    # never writes. Neither of those is an edit; both were being charged as if they were, so a
+    # run that did nothing but propose ambiguous or staged patches could exhaust
+    # MAX_PATCHES_PER_RUN/MAX_FILES_PER_RUN and trip the blast-radius refusal having never
+    # written a byte. "A refused path costs no budget" now means what it says for every refusal
+    # above this line, not only the allow/deny ones. Order 528e5b07fded.
     _ok, _why = _blast_ok(full)
     if not _ok:
         try:
@@ -662,14 +678,6 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
             # blast cap's alarm should not be the quiet one. Found sweep34 batch 15.
             silence.note("local_agent.py:blast-cap-escalate")
         return _settle({"applied": False, "error": _why})
-    original = open(full, encoding="utf-8").read()
-    if original.count(find) != 1:
-        return _settle({"applied": False,
-                "error": "find string occurs %d times; it must occur exactly once -- copy "
-                         "it verbatim from read_file" % original.count(find)})
-    if not apply:
-        return _settle({"applied": False, "staged": True,
-                        "note": "run started with --no-apply; patch recorded for the audit trail"})
     backup = original
     try:
         with open(full, "w", encoding="utf-8") as f:
@@ -896,6 +904,17 @@ def run(task, model=None, apply=True, quiet=False):
     out = {"ok": False, "error": "turn budget (%d) exhausted" % MAX_TURNS,
            "patches": patches, "tool_calls": tool_calls_seen}
     out.update(_achievement(patches, apply))
+    if unreverted:
+        # THE SAME ALARM THE "NO TOOL CALLS" EXIT PATH ABOVE ALREADY SURFACES, and until now
+        # this path dropped it. The exit code here was already correct (`ok` is False either
+        # way), but the diagnostic saying a source file may be half-written on disk went
+        # missing on exactly the path a run going badly is most likely to take -- exhausting
+        # MAX_TURNS while still cleaning up after a failed patch is a worse-behaving run than
+        # one that simply finished talking, not a better-behaved one. Order d185007c4b8b.
+        out["ALARM"] = unreverted
+        out["error"] = ("turn budget (%d) exhausted, AND revert failed on %d patch(es) -- a "
+                        "source file may be half-written on disk. This run does not claim "
+                        "success." % (MAX_TURNS, len(unreverted)))
     return out
 
 

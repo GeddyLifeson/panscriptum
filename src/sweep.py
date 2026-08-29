@@ -7,7 +7,7 @@ address, a Magnitude band, a worksheet of cited feats, and a place in its own fi
 scale. Four separate machines produce those, they were built at different times, and nothing has
 ever joined them and asked what fraction of characters actually clears each stage.
 
-This does that join and prints the funnel:
+This does that join and prints what each machine has reached:
 
     catalogued   the entry exists and phase 2 judged it
     addressed    its source is shelved, so a Shelfmark can be issued
@@ -17,9 +17,22 @@ This does that join and prints the funnel:
     assayable    enough axes to produce a decimal rather than a band alone
     ranked       its own fiction publishes a scale position for it (Rosetta)
 
-Each stage is a strictly smaller set than the one above, and the size of each drop is the real
-statement of where the project stands. A number that only ever gets reported at the top of the
-funnel is a number that hides the four stages below it.
+NOT ALL OF THOSE ARE FUNNEL STAGES, AND THE FILE USED TO SAY THEY WERE (order 2420550a2b8e).
+The claim here was "each stage is a strictly smaller set than the one above". Against the live
+sweep it is false and not by a rounding: catalogued = 44,185 while addressed = 144,452 and
+reachable = 144,488. Those are not nested; `catalogued` is phase 2's judgement, a property of
+the ENTRY, while `addressed` and `reachable` are properties of the entry's SOURCE, and 100,343
+entries sit in the second and not the first. The drawing did not merely round the picture off:
+the drop line computed `prev - count` and printed `-{drop:,}`, so a negative drop rendered as
+the garbled `--100,267`, and the bar for `addressed` -- 99.9% of the corpus -- was drawn
+immediately below a 30% bar as though nothing had been lost at the widest gate in the report.
+The stage that lost the most looked like the stage that lost nothing.
+
+So the report no longer asserts nesting; it TESTS it, in `report()`, against the rows in hand,
+and draws a funnel over the longest genuinely nested run of stages it finds. Everything outside
+that run is printed as its own population with the crossover counts stated, because two
+overlapping populations reported as one chain is not an imprecise picture, it is an inverted
+one. Nothing is hidden by this: every count that was printed before is still printed.
 """
 import argparse
 import collections
@@ -176,29 +189,78 @@ def sweep():
     return rows
 
 
+# The stages in the order the project runs them. Membership is by MEMBER, not by count, so the
+# nesting question can actually be asked instead of guessed at from two totals.
+STAGE_TESTS = (
+    ("catalogued", lambda r: bool(r["catalogued"]), "phase 2 judged the entry"),
+    ("addressed", lambda r: bool(r["shelfmark"]), "its source is shelved, so a Shelfmark can issue"),
+    ("reachable", lambda r: bool(r["host"]), "its source resolves to a wiki host"),
+    ("read", lambda r: bool(r["pages"]), "pages were fetched and cached for it"),
+    ("evidenced", lambda r: bool(r["axes"]), "at least one axis gate found something"),
+    ("assayable", lambda r: r["axes"] >= 2, "enough axes for a decimal, not a band alone"),
+)
+
+
+def nested_run(sets, order):
+    """The longest run of consecutive stages that really is a chain of subsets.
+
+    Asked of the data every time rather than declared once: a stage's population can change
+    meaning under it (a source getting shelved, a host resolving) and a funnel drawn from a
+    stale assumption of nesting is the defect this replaced.
+    """
+    best = (0, 0)
+    for i in range(len(order)):
+        j = i + 1
+        while j < len(order) and sets[order[j]] <= sets[order[j - 1]]:
+            j += 1
+        if j - i > best[1] - best[0]:
+            best = (i, j)
+    return list(order[best[0]:best[1]])
+
+
 def report(rows, top=18):
     n = len(rows)
-    f = {
-        "catalogued": sum(1 for r in rows if r["catalogued"]),
-        "addressed": sum(1 for r in rows if r["shelfmark"]),
-        "reachable": sum(1 for r in rows if r["host"]),
-        "read": sum(1 for r in rows if r["pages"]),
-        "evidenced": sum(1 for r in rows if r["axes"]),
-        "assayable": sum(1 for r in rows if r["axes"] >= 2),
-        "ranked": sum(1 for r in rows if r["native"]),
-        "banded": sum(1 for r in rows if r["band"] not in ("unassayed", "", None)),
-    }
+    sets = {k: {i for i, r in enumerate(rows) if t(r)} for k, t, _ in STAGE_TESTS}
+    blurb = {k: b for k, _, b in STAGE_TESTS}
+    order = [k for k, _, _ in STAGE_TESTS]
+    f = {k: len(v) for k, v in sets.items()}
+    f["ranked"] = sum(1 for r in rows if r["native"])
+    f["banded"] = sum(1 for r in rows if r["band"] not in ("unassayed", "", None))
+
     print("=" * 88)
     print(f"CHARACTER SWEEP — {n:,} entries classed Persons across {len({r['source'] for r in rows})} sources")
     print("=" * 88)
-    print(f"\n{'stage':<14}{'count':>9}{'of all':>9}  {'':<24}")
-    prev = n
-    for k in ("catalogued", "addressed", "reachable", "read", "evidenced", "assayable"):
-        drop = prev - f[k]
-        bar = "#" * int(38 * f[k] / max(n, 1))
-        print(f"  {k:<12}{f[k]:>9,}{f[k]/max(n, 1):>8.1%}  {bar}"
+
+    chain = nested_run(sets, order)
+    base = chain[0]
+    nb = max(len(sets[base]), 1)
+    loose = [k for k in order if k not in chain]
+
+    print(f"\nFUNNEL — verified nested: each stage below is a subset of the one above it, "
+          f"tested on these {n:,} rows")
+    print(f"{'stage':<14}{'count':>9}{'of all':>9}{'of ' + base:>14}  {'':<20}")
+    prev = None
+    for k in chain:
+        bar = "#" * int(34 * len(sets[k]) / nb)
+        drop = (prev - f[k]) if prev is not None else 0
+        print(f"  {k:<12}{f[k]:>9,}{f[k]/max(n, 1):>8.1%}{f[k]/nb:>13.1%}  {bar}"
               + (f"   -{drop:,}" if drop else ""))
         prev = f[k]
+
+    if loose:
+        # NOT DRAWN AS STAGES, AND NOT DROPPED EITHER. These are real measurements of the same
+        # corpus that simply do not nest into the chain above; stacking their bars under it is
+        # what made a 30% gate and a 99.9% gate read as one descending sequence. Each one is
+        # printed against the funnel's base with the crossover in BOTH directions, which is the
+        # only honest way to say "overlapping, not nested".
+        print("\nSEPARATE POPULATIONS — measured on the same rows, NOT stages of that funnel")
+        for k in loose:
+            only_k = len(sets[k] - sets[base])
+            only_b = len(sets[base] - sets[k])
+            print(f"  {k:<12}{f[k]:>9,}{f[k]/max(n, 1):>8.1%}   {blurb[k]}")
+            print(f"  {'':<12}{'':>9}{'':>8}   {only_k:,} of these are not {base}; "
+                  f"{only_b:,} {base} entries are not {k}")
+
     print(f"\n  {'ranked':<12}{f['ranked']:>9,}{f['ranked']/max(n, 1):>8.1%}   "
           f"(own fiction publishes a scale position)")
     print(f"  {'banded':<12}{f['banded']:>9,}{f['banded']/max(n, 1):>8.1%}   "

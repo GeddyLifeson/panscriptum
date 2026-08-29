@@ -393,17 +393,37 @@ def main():
                   f"{abs(rv - gv):>8.2f}  {len(scored)}/11: "
                   f"{', '.join(scored) if scored else 'none'}")
 
-        # THE COLUMN THIS USED TO ADVERTISE CANNOT BE COMPUTED, and saying so is the honest
-        # report. `ASSAYS.json` stores which axes were scored (`axes_scored`), which were nil,
-        # which were unestimable, and each axis's VARIANCE -- but nowhere the SCORE of an
-        # individual axis. So there is no per-axis number on the automated side to difference
-        # against this file's worksheet, and inventing one from variance would be a fabricated
-        # column. Filed separately as b03f2ab9951a (make the assay pass persist per-axis
-        # scores); until it does, the column above names the axes the pass scored at all, which
-        # is what genuinely exists. The reference scores all eleven.
-        print("\naxes: per-axis SCORES are not persisted by the assay pass, so a per-axis diff "
-              "cannot be\ncomputed -- the column names which axes were scored, not by how much "
-              "they differ (b03f2ab9951a).")
+            # PER-AXIS SCORES, WHERE THE ROW ACTUALLY CARRIES THEM (order b03f2ab9951a,
+            # assay.py, added 2026-08-26). A row's `scores` key is ABSENT, not zero, for every
+            # automated assay computed before that change -- reading a missing key as "scored
+            # zero" would fabricate a finding out of a schema change, so a missing key prints
+            # as "not recorded" and nothing is differenced against it.
+            auto_scores = got.get("scores")
+            if auto_scores is None:
+                print(f"{'':<20}  axis scores: not recorded on this row (pre-dates "
+                      f"b03f2ab9951a)")
+            else:
+                ws = out[name]["worksheet"]
+                diffs = []
+                for ax in scored:
+                    if ax not in auto_scores or ax not in ws:
+                        continue
+                    ref_s = ws[ax]["score"]
+                    got_s = auto_scores[ax]
+                    if isinstance(ref_s, (int, float)) and isinstance(got_s, (int, float)):
+                        diffs.append(f"{ax} {got_s:.1f} vs {ref_s:.1f} "
+                                     f"(|{abs(got_s - ref_s):.1f}|)")
+                print(f"{'':<20}  axis scores: {'; '.join(diffs) if diffs else 'none comparable'}")
+
+        # `ASSAYS.json` rows now carry a `scores` field alongside `axes_scored` (added
+        # 2026-08-26, order b03f2ab9951a) -- the axis diff above uses it directly when it is
+        # present. Rows computed before that change simply lack the key and are reported as
+        # "not recorded", never as a zero score, so this column's absence on older rows is not
+        # this tool's limitation, it is that row's age.
+        print("\naxes: 'axis scores' above differences this file's worksheet against the "
+              "automated pass's\npersisted per-axis scores (b03f2ab9951a) where both sides "
+              "have a numeric reading for the\nsame axis; rows predating that field report "
+              "'not recorded' instead of a fabricated zero.")
     return 0
 
 

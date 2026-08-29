@@ -279,8 +279,12 @@ def main():
         b = rec["assay"]["magnitude"]
         if b != band:
             band = b
-            label = {"M8": "multiverses", "M7": "a universe", "M4": "a stellar system",
-                     "M3": "a planet", "M2": "a continent"}.get(b, "")
+            # Charter Part Two's magnitude table (00_MASTER_CHARTER.md), "Can threaten..." column.
+            # M2-M4 and M7 are the bands Z_FIGHTERS.json actually populates today, which is why
+            # M1/M5/M6 went unnoticed missing here -- add a band there and this must not go blank.
+            label = {"M1": "a city or nation", "M2": "a continent", "M3": "a planet",
+                     "M4": "a stellar system", "M5": "star clusters", "M6": "a galaxy",
+                     "M7": "a universe", "M8": "multiverses"}.get(b, "(no label on file for %s)" % b)
             print("  --- %s  %-16s %s" % (b, label, "-" * 44))
         epoch = rec.get("epoch") or rec["assay"].get("epoch", "")
         print("  %-17s %-16s %s" % (n, rec["assay"]["moth_number"], epoch[:40]))

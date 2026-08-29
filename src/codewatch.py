@@ -303,7 +303,18 @@ def _take_locked(who, enforce):
     """Read-check-append-write the ledger. THE CALLER MUST ALREADY HOLD `_ledger_lock`.
 
     -> (granted, used_before). With `enforce`, refuses once the rolling hour already holds
-    BUDGET_PER_HOUR restarts; without it, records unconditionally and always grants.
+    BUDGET_PER_HOUR restarts; without it, skips the budget test. EITHER WAY A SLOT IS ONLY
+    GRANTED IF THE LEDGER WRITE ACTUALLY LANDED.
+
+    FAIL CLOSED ON A DENIED WRITE (order f06ba4c82363). This used to call
+    `silence.write_json` for its side effect and `return True` regardless -- but that function
+    returns False rather than raising when the atomic replace is denied, which on Windows is
+    the ORDINARY case here (`codewatch.json` is read by the dashboard and by `main()` below,
+    and a reader holding it open is enough). A persistently denied write therefore granted
+    every claim while recording none, so `recent` never grew, BUDGET_PER_HOUR could never be
+    reached, and the one cap standing between a daemon that keeps exiting and an unbounded
+    restart storm was silently absent. A budget whose accounting can fail unnoticed is not a
+    budget. If the spend cannot be recorded, it is not authorised.
     """
     try:
         with open(LEDGER, encoding="utf-8") as f:
@@ -318,9 +329,13 @@ def _take_locked(who, enforce):
     recent.append(time.time())
     doc[who] = recent
     try:
-        silence.write_json(LEDGER, doc, indent=2)
+        landed = silence.write_json(LEDGER, doc, indent=2)
     except Exception:
         silence.note("codewatch.py:record")
+        landed = False
+    if not landed:
+        silence.note("codewatch.py:record-denied")
+        return False, used_before
     return True, used_before
 
 
@@ -393,14 +408,28 @@ def exit_if_stale(who="?", rc=RC_STALE):
     # was two operations with a gap in the middle that two twins could both walk through.
     granted, used = _claim_restart_slot(who)
     if not granted:
+        # TWO REASONS TO REFUSE, AND THEY ARE NOT THE SAME INCIDENT. Either the hour's budget
+        # is spent, or the ledger write was denied and the spend could not be recorded at all
+        # (order f06ba4c82363: a claim that cannot be recorded is refused rather than granted
+        # unmetered). Reporting the second as the first would tell a person to go looking for
+        # something rewriting src/ when what is actually wrong is a file they cannot write.
+        spent = used >= BUDGET_PER_HOUR
+        if spent:
+            why = ("%s has restarted %d times this hour for source changes and is now running "
+                   "STALE code on purpose, because bouncing is worse than lag. A person should "
+                   "look at what keeps rewriting src/." % (who, used))
+        else:
+            why = ("%s could not RECORD a restart in %s (the atomic replace was denied), so "
+                   "the restart was refused and it is running STALE code. The per-hour restart "
+                   "budget cannot be enforced while that file is unwritable, and an unenforced "
+                   "budget is how a restart storm starts." % (who, LEDGER))
         try:
             import escalation
             escalation.escalate(
-                "MANAGER", "CODEWATCH_BUDGET",
-                "%s has restarted %d times this hour for source changes and is now running "
-                "STALE code on purpose, because bouncing is worse than lag. A person should "
-                "look at what keeps rewriting src/." % (who, used),
-                evidence={"job": who, "restarts_this_hour": used}, source=who, who="codewatch")
+                "MANAGER", "CODEWATCH_BUDGET" if spent else "CODEWATCH_LEDGER_DENIED", why,
+                evidence={"job": who, "restarts_this_hour": used,
+                          "reason": "budget-spent" if spent else "ledger-write-denied"},
+                source=who, who="codewatch")
         except Exception:
             silence.note("codewatch.py:budget-escalate")
         return False

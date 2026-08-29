@@ -34,13 +34,34 @@ import tells as TELLS          # noqa: E402
 _WATCHED = (len(TELLS.ALL_PATTERNS) + len(TELLS.LEXICAL)
             + len(TELLS.LEXICAL_FICTION))
 
+# ENDING ON A TURN means the ENTRY's last sentence swings on a conjunction, and the anchor has
+# to be the end of the RECORD, not the end of a line.
+#
+# This was `...\.\s*$` compiled with `re.M`, and under `re.M` a `$` matches before EVERY newline.
+# Records here are multi-paragraph almost without exception (1,270 of 1,278 in the withdrawn
+# pilot), so the pattern was really asking "does any PARAGRAPH anywhere in this entry end on a
+# turn" -- a far easier question, matched on 55 records where only 3 actually closed that way.
+# The measured rate came out 4.3% against a true 0.2%.
+#
+# An inflated number here is not a harmless overcount. This is the prose-quality gate: a high
+# turn rate reads as evidence that the voice is being CONTROLLED and the corpus is converging on
+# one shape, so the inflation makes the checker look stricter than it is and would be cited as
+# proof of a discipline that was never measured. Under-reporting a tell is a missed defect;
+# over-reporting one is a fabricated pass mark.
+#
+# `\Z` anchors at the end of the string and nowhere else, so `re.M` is neither needed nor wanted
+# (nothing else in the pattern is line-oriented). `[^.\n]` keeps the turn clause on one line --
+# with `[^.]` the run could swallow paragraph breaks and reach a full stop several paragraphs
+# later, which is the same false positive arriving by another door.
 TURN_ENDING = re.compile(
-    r"(?:\.|\?)\s+(?:And|But|Yet|Still|Which|That)\b[^.]{0,80}\.\s*$", re.M)
+    r"(?:\.|\?)\s+(?:And|But|Yet|Still|Which|That)\b[^.\n]{0,80}\.\s*\Z")
 
 
 def entries(text):
     """Split a generated chapter into its entries."""
-    parts = re.split(r"^[◈◈]\s*", text, flags=re.M)
+    # One codepoint, written once. The class used to read `[◈◈]` -- the SAME U+25C8 listed
+    # twice, which a reader reasonably takes for two different entry markers being accepted.
+    parts = re.split(r"^◈\s*", text, flags=re.M)
     return [p for p in parts[1:] if p.strip()]
 
 

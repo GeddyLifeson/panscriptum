@@ -779,6 +779,7 @@ def run_catalogue_gap():
     """
     try:
         import overnight as ON
+        import lognames as LN
         if ON.running("catalogue_web.py"):
             return True, "catalogue pass already running"
         if not _fandom_reachable():
@@ -819,7 +820,7 @@ def run_catalogue_gap():
         ON.start("catalogue gap",
                  ["src/catalogue_web.py", "--recatalogue", "--shortfall", "1",
                   "--only", ",".join(frags[n] for n, _g in batch)],
-                 "recatalogue.log")
+                 LN.RECATALOGUE)
         return True, ("started catalogue_web on %d of %d short source(s); %d deferred to a "
                       "later round (named above)" % (len(batch), whole, len(deferred)))
     except Exception as e:

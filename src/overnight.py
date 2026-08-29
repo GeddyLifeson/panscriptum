@@ -288,7 +288,7 @@ def _spawn_lock():
     return _SPAWN_LOCK
 
 
-def _guarded_popen(name, args, fh):
+def _guarded_popen(name, args, fh, banner=None):
     """Check-then-spawn, SERIALISED against every other thread in this process. -> Popen | None.
 
     THE SINGLETON GUARD WAS A CHECK AND A SPAWN WITH NOTHING HOLDING THEM TOGETHER, and this
@@ -305,14 +305,26 @@ def _guarded_popen(name, args, fh):
     Double-checked deliberately: `run()` and `start()` still make their own cheap unlocked call
     first, so the ordinary "already running, left alone" log line is unchanged and no caller
     waits on a lock to be told nothing needs doing. This second check is the authoritative one,
-    and it is the one that is atomic with the spawn. A caller that loses the race here has
-    already written its session separator into the log; a stray separator is the whole cost, and
-    it is the cheaper half of the trade against a second copy of a stage.
+    and it is the one that is atomic with the spawn.
+
+    `banner` IS THE JOB LOG'S SESSION SEPARATOR, AND IT IS WRITTEN HERE (order e038910102b4).
+    Both callers used to write it before calling this, which meant a caller that lost the race
+    above had already stamped "session started" into that job's log for a process it did not
+    start. The docstring used to call the stray separator the cheaper half of a trade; it is
+    not a trade at all, it is just a shorter function. These logs are the forensic record an
+    incident gets reconstructed from, and a start banner with no start behind it is the one
+    kind of noise that costs an investigation rather than annoying it -- two banners, one real
+    process, and nothing in the file saying which was which. Written under the lock, after the
+    authoritative check and before the spawn, so it appears exactly when a spawn happens.
+    Suppressed like the writes it replaces: an unwritable log must not stop a job starting.
     """
     with _spawn_lock():
         if running(os.path.basename(args[0])):
             log(f"  {name}: already running, left alone (found on the second check)")
             return None
+        if banner is not None:
+            with contextlib.suppress(Exception):
+                banner()
         env = dict(os.environ, PYTHONIOENCODING="utf-8")
         p = subprocess.Popen([PY, "-u", *args], cwd=HERE, stdout=fh,
                              stderr=subprocess.STDOUT, env=env,
@@ -389,12 +401,16 @@ def run(name, args, logfile, timeout_h=6):
         # keeper's bounces did for standing jobs. Same separator idiom, same single-file
         # contract for the dashboard's _tail_match readers.
         with open(lf, "a", encoding="utf-8") as fh:
-            with contextlib.suppress(Exception):
+            # Written by `_guarded_popen` under the spawn lock, not here, for the reason given
+            # in start() below (order e038910102b4): a separator written before the
+            # authoritative check is a "session started" line for a session that may not start.
+            def _banner():
                 fh.write(chr(10) + "=" * 28 + " %s session %s " % (
                     name, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                     + "=" * 28 + chr(10))
                 fh.flush()
-            p = _guarded_popen(name, args, fh)
+
+            p = _guarded_popen(name, args, fh, banner=_banner)
             if p is None:
                 return "already-running"
             p.wait(timeout=timeout_h * 3600)
@@ -438,12 +454,22 @@ def start(name, args, logfile):
     # silently change what they read. This keeps the file they expect and stops throwing the
     # evidence away. Borrowed from `trading_bot/log.py` and `rent_engine/scripts/weekly.py`,
     # which both open long-lived logs in append mode for exactly this reason.
+    #
+    # AND WRITTEN ONLY IF A SPAWN ACTUALLY HAPPENS (order e038910102b4). The separator used to
+    # be written here, before `_guarded_popen`'s locked second check -- so the keeper thread and
+    # the cycle's own standing starts, which race for these same job names by design, could both
+    # stamp "started" into one job's log for a single real process start. The double spawn was
+    # already prevented; only the evidence was wrong, which is the part an incident is
+    # reconstructed from later. Handing the write to `_guarded_popen` as a callback puts it
+    # inside the same lock as the decision it is claiming to record.
     fh = open(lf, "a", encoding="utf-8")
-    with contextlib.suppress(Exception):
+
+    def _banner():
         stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         fh.write(f"\n{'=' * 78}\n=== {name} started {stamp} (pid pending)\n{'=' * 78}\n")
         fh.flush()
-    p = _guarded_popen(name, args, fh)
+
+    p = _guarded_popen(name, args, fh, banner=_banner)
     if p is None:
         with contextlib.suppress(Exception):
             fh.close()
@@ -602,7 +628,7 @@ STANDING = [
      "foreman.log"),
     ("overwatch", [os.path.join(SRC, "overwatch.py"), "--loop", "20", "--modules", "4"],
      "overwatch.log"),
-    ("pipeline", [os.path.join(SRC, "pipeline.py")], "pipeline_auto.log"),
+    ("pipeline", [os.path.join(SRC, "pipeline.py")], LN.PIPELINE),
 ]
 
 # Every long-lived job the kit runs, as the command-line fragment that identifies it. The
@@ -790,7 +816,10 @@ def write_status(cycle, history):
             f.write(f"| {h.get('cycle','')} | {h.get('at','')} | {h.get('cited',0):,} | "
                     f"{h.get('settled_pct',0)} | {h.get('feats',0):,} |\n")
         f.write("\n## Logs\n\n`state/overnight.log` is the supervisor. Per-stage logs are\n")
-        f.write("`state/roll_auto.log`, `state/read_auto.log`, `state/pipeline_auto.log`.\n")
+        # NAMED FROM `lognames`, not typed out. This line is the pointer a person follows when
+        # they want the evidence, and a renamed log would leave it pointing at nothing while
+        # still reading like an instruction (order bc98d8655e26).
+        f.write("`state/%s`, `state/%s`, `state/%s`.\n" % (LN.ROLL, LN.READ, LN.PIPELINE))
 
 
 def main():
@@ -1021,7 +1050,7 @@ def main():
         # cascade-first for a day -- its local fallback is rare and benched -- so the card sat
         # idle while 33,000 new Marvel entries waited for entrypass judgment. The phases ARE
         # the GPU's job now. running() guards the singleton as everywhere else.
-        start("pipeline", [os.path.join(SRC, "pipeline.py")], "pipeline_auto.log")
+        start("pipeline", [os.path.join(SRC, "pipeline.py")], LN.PIPELINE)
         # PROSE RUNS ITSELF. phase_write builds the manifest and used to end with a log line
         # telling a PERSON to run generate.py -- an instruction to a human inside an
         # automation (found by the 2026-08-23 sweep). generate is resumable and exits in
@@ -1072,7 +1101,7 @@ def main():
         # supervisor. The choice is between the standing copy and the serial one; taking the
         # serial one out without answering that also re-arms the idle halt.
         statuses.append(run("pipeline", [os.path.join(SRC, "pipeline.py")],
-                            "pipeline_auto.log", timeout_h=2))
+                            LN.PIPELINE, timeout_h=2))
 
         canon_backup_cycle()
 

@@ -81,8 +81,9 @@ def main():
     # `--label` would move its files into that SAME `output/withdrawn_2026-08-25/` archive,
     # which already held 148 files and, because this script MOVES rather than copies, is the
     # only copy of them. Two withdrawals sharing one archive directory is exactly the collision
-    # the unguarded `shutil.move` sweep further down has no guard against. The default is now
-    # today's date, computed when the tool runs rather than baked in when it was written.
+    # the `shutil.move` sweep further down still has no guard against -- it now records a move
+    # it could not make (order ead79ecf5278), but a name it CAN overwrite it will. The default
+    # is now today's date, computed when the tool runs rather than baked in when written.
     ap.add_argument("--label", default=datetime.date.today().isoformat())
     a = ap.parse_args()
 
@@ -148,7 +149,16 @@ def main():
     # ONLY ON A WHOLE-CATALOG WITHDRAWAL. An unclaimed file belongs to no source and no address,
     # so no `--source`/`--addr` selection can name it; sweeping it up anyway would make a
     # targeted withdrawal quietly take files it was never pointed at.
+    #
+    # GUARDED, LIKE THE CATALOGUED MOVES ABOVE (order ead79ecf5278). This called `shutil.move`
+    # bare, so one denied or colliding stray -- a reader holding a file open, a name already in
+    # the archive -- raised out of `main()` at the WORST possible moment: after every catalogued
+    # chapter above had already been moved and before the catalog write below. The filesystem
+    # had changed and the record of it had not, leaving the catalog pointing at paths nothing
+    # occupies and nothing on disk saying which of the two was right. A stray that will not move
+    # is a line in the report, not a reason to abandon the record of the ones that did.
     extra = 0
+    stray_stuck = []
     rawdir = os.path.join(HERE, "output", "raw")
     if not filtered and os.path.isdir(rawdir):
         for f in sorted(os.listdir(rawdir)):
@@ -156,18 +166,35 @@ def main():
             if not os.path.isfile(src):
                 continue
             if a.go:
-                shutil.move(src, os.path.join(arch, "raw", f))
+                try:
+                    shutil.move(src, os.path.join(arch, "raw", f))
+                except Exception as e:
+                    print("  stray move failed: %s (%s)" % (src, e))
+                    stray_stuck.append(f)
+                    continue
             extra += 1
 
     withdrawn = {k: v for k, v in sel.items() if k not in stuck}
     remaining = {k: v for k, v in cat.items() if k not in withdrawn}
 
     catalog_landed = True
+    record_landed = True
+    record_path = os.path.join(arch, "catalog.withdrawn.json")
     if a.go:
         # The withdrawn catalog is the record of WHAT was withdrawn; keep it beside the files.
         # It is the SELECTION, not the whole catalog: with a filter the two differ, and a record
         # that overstates what left the library is the wrong record to leave behind.
-        silence.write_json(os.path.join(arch, "catalog.withdrawn.json"), withdrawn, indent=2)
+        #
+        # AND ITS VERDICT IS KEPT, exactly like the operational write below (order 5d2d456145d0).
+        # These two calls sit together and only one used to be checked, which read as a decision
+        # that this one could not fail. `silence.write_json` returns False rather than raising on
+        # a denied replace, so a lost record here is silent -- and this is the file that says
+        # which chapters the archive directory holds. Losing it turns `output/withdrawn_<date>/`
+        # into a heap of files with no manifest, in the tool whose one job is preserving the
+        # record of what was withdrawn. It cannot be undone by retrying either: the files have
+        # already moved, so a second run finds nothing to withdraw and writes an EMPTY record
+        # over the gap. That is why it is reported rather than merely returned.
+        record_landed = silence.write_json(record_path, withdrawn, indent=2)
         # ATOMIC, AND THE VERDICT KEPT. This ran AFTER every chapter file above has already
         # been moved, on the one file generate.py and publish.py both read -- same collision
         # hazard as scout._land, on a shared file. The hand-rolled `CATALOG + ".tmp"` plus a
@@ -190,7 +217,21 @@ def main():
     if stuck:
         print("MOVE FAILED, RECORD KEPT: %d entr(ies) stay in the catalog because their files "
               "are still in the library -- %s" % (len(stuck), ", ".join(sorted(stuck)[:6])))
+    if stray_stuck:
+        # Unclaimed by the catalog, so no entry needs amending -- but a file the sweep meant to
+        # take and did not is still a difference between what this run reports and what is on
+        # disk, and it is only a difference anybody can see if it is printed.
+        print("STRAY MOVE FAILED: %d unclaimed file(s) are still in output/raw -- %s"
+              % (len(stray_stuck), ", ".join(stray_stuck[:6])))
     if a.go:
+        if not record_landed:
+            # The archive's own manifest. Named separately from the catalog line below because
+            # the remedy is different: retrying the run cannot rebuild this one (the files have
+            # already moved), so the %d addresses are printed here to be copied down by hand.
+            print("ARCHIVE RECORD NOT WRITTEN: %s -- replace refused, so %d withdrawn entr(ies) "
+                  "are in %s with NO manifest beside them. Write it by hand from this run's "
+                  "output; a re-run will not reproduce it. Addresses: %s"
+                  % (record_path, len(withdrawn), arch, ", ".join(sorted(withdrawn))))
         if not catalog_landed:
             print("CATALOG WRITE DENIED: %s still lists the paths just moved away -- "
                   "replace refused, retry this run" % CATALOG)

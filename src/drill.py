@@ -230,15 +230,8 @@ def _defn(tree, name):
     return None
 
 
-def _call_spellings(tree, node=None):
-    """Every call spelling inside `node` (default: the whole module), resolved through the
-    module's imports.
-
-    Split out of `_called_names` so a net can ask the question of ONE FUNCTION rather than of a
-    whole file: "the escalation happens in the failure branch" and "the file mentions escalate
-    somewhere" are different claims, and the nets that used a text window around an anchor
-    string were reaching for the first while only ever testing the second.
-    """
+def _import_maps(tree):
+    """(alias, from) for one module. `import x as y` -> alias[y]=x; `from m import f` -> frm[f]=m.f."""
     import ast
     alias, frm = {}, {}
     for n in ast.walk(tree):
@@ -248,21 +241,143 @@ def _call_spellings(tree, node=None):
         elif isinstance(n, ast.ImportFrom) and n.module:
             for al in n.names:
                 frm[al.asname or al.name] = "%s.%s" % (n.module, al.name)
+    return alias, frm
+
+
+def _spellings_of_call(tree, call, maps=None):
+    """The spellings of the CALLABLE in one call node -- not of the calls nested in its args.
+
+    `_call_spellings` answers "does this subtree call X anywhere in it", which is the wrong
+    question when the claim is "THIS assignment carries the result of X": `x = f(g())` calls
+    both and binds only one. Every dataflow check below needs the narrow answer.
+    """
+    import ast
+    alias, frm = maps if maps is not None else _import_maps(tree)
+    out, fn = set(), call.func
+    if isinstance(fn, ast.Name):
+        out.add(fn.id)
+        if fn.id in frm:
+            out.add(frm[fn.id])
+    elif isinstance(fn, ast.Attribute):
+        out.add(fn.attr)
+        if isinstance(fn.value, ast.Name):
+            out.add("%s.%s" % (fn.value.id, fn.attr))
+            if fn.value.id in alias:
+                out.add("%s.%s" % (alias[fn.value.id], fn.attr))
+    return out
+
+
+def _static_truth(test):
+    """True/False for a test the parser can already decide; None for a real condition.
+
+    `and False` / `or True` are handled as well as a bare constant, because "wrap the live
+    branch in something that reads as a condition" is the first thing anybody tries when a net
+    starts refusing `if False:`. `not <constant>` likewise.
+    """
+    import ast
+    if isinstance(test, ast.Constant):
+        return bool(test.value)
+    if isinstance(test, ast.UnaryOp) and isinstance(test.op, ast.Not):
+        inner = _static_truth(test.operand)
+        return None if inner is None else (not inner)
+    if isinstance(test, ast.BoolOp):
+        kinds = [_static_truth(v) for v in test.values]
+        if isinstance(test.op, ast.And) and False in kinds:
+            return False
+        if isinstance(test.op, ast.Or) and True in kinds:
+            return True
+    return None
+
+
+def _live_stmts(body):
+    """The statements of ONE block that execution can actually reach. -> list.
+
+    WHY THIS EXISTS, and it is the run #36 sweep's sharpest finding. Every parse-tree net in
+    this file walked whole `If` nodes with `ast.walk`, which visits the taken arm, the untaken
+    arm and **unreachable code** without distinguishing any of them. The sweep beat
+    `_halt_is_not_breakage` with a fixture whose real behaviour always declared the library
+    broken and never checked the halt at all, carrying the tokens the net wanted in a dead
+    `if False:` block placed AFTER a `break`. The net reported HELD. Dead code is prose that
+    happens to parse: it makes exactly the same claim a comment does and it is exactly as
+    binding on the running program, which is not at all.
+
+    So: statements after an unconditional `return`/`raise`/`break`/`continue` are dropped, an
+    `if False:` contributes only its `else`, and an `if True:` contributes only its body.
+    """
+    import ast
+    out = []
+    for s in body:
+        inner = None
+        if isinstance(s, (ast.If, ast.While)):
+            k = _static_truth(s.test)
+            if k is False:
+                inner = _live_stmts(s.orelse) if isinstance(s, ast.If) else []
+            elif k is True and isinstance(s, ast.If):
+                inner = _live_stmts(s.body)
+        if inner is None:
+            out.append(s)
+            if isinstance(s, (ast.Return, ast.Raise, ast.Break, ast.Continue)):
+                break
+        else:
+            out.extend(inner)
+            if any(isinstance(x, (ast.Return, ast.Raise, ast.Break, ast.Continue))
+                   for x in inner):
+                break
+    return out
+
+
+def _live_walk(node):
+    """`ast.walk` restricted to code that can actually be REACHED from `node`. -> list.
+
+    The reachable counterpart of `ast.walk`, and the instrument every net below that says "the
+    call is made" rather than "the name appears" is built on. Every statement list is filtered
+    through `_live_stmts` on the way down, so a dead branch never contributes a Call node, a
+    Continue node or a string literal to any answer.
+    """
+    import ast
+    out, stack = [], [node]
+    while stack:
+        n = stack.pop()
+        out.append(n)
+        for field, value in ast.iter_fields(n):
+            if isinstance(value, list):
+                items = value
+                if (field in ("body", "orelse", "finalbody") and value
+                        and all(isinstance(x, ast.stmt) for x in value)):
+                    items = _live_stmts(value)
+                for x in items:
+                    if isinstance(x, ast.AST):
+                        stack.append(x)
+            elif isinstance(value, ast.AST):
+                stack.append(value)
+    return out
+
+
+def _live_stmt_walk(stmts):
+    """`_live_walk` over a list of statements. -> list of nodes."""
+    return [x for s in stmts for x in _live_walk(s)]
+
+
+def _call_spellings(tree, node=None, reachable=False):
+    """Every call spelling inside `node` (default: the whole module), resolved through the
+    module's imports.
+
+    Split out of `_called_names` so a net can ask the question of ONE FUNCTION rather than of a
+    whole file: "the escalation happens in the failure branch" and "the file mentions escalate
+    somewhere" are different claims, and the nets that used a text window around an anchor
+    string were reaching for the first while only ever testing the second.
+
+    `reachable=True` narrows it one step further, to calls the running program can actually
+    make: see `_live_stmts` for the dead-code fixture that made that distinction necessary.
+    """
+    import ast
+    maps = _import_maps(tree)
+    root = node if node is not None else tree
+    nodes = _live_walk(root) if reachable else ast.walk(root)
     out = set()
-    for n in ast.walk(node if node is not None else tree):
-        if not isinstance(n, ast.Call):
-            continue
-        fn = n.func
-        if isinstance(fn, ast.Name):
-            out.add(fn.id)
-            if fn.id in frm:
-                out.add(frm[fn.id])
-        elif isinstance(fn, ast.Attribute):
-            out.add(fn.attr)
-            if isinstance(fn.value, ast.Name):
-                out.add("%s.%s" % (fn.value.id, fn.attr))
-                if fn.value.id in alias:
-                    out.add("%s.%s" % (alias[fn.value.id], fn.attr))
+    for n in nodes:
+        if isinstance(n, ast.Call):
+            out |= _spellings_of_call(tree, n, maps)
     return out
 
 
@@ -283,12 +398,59 @@ def _spelled(got, want):
     return want in got
 
 
-def _calls_within(tree, node, want):
-    """Does the subtree `node` CALL `want`? The scoped form of `_calls`."""
-    return _spelled(_call_spellings(tree, node), want)
+def _calls_within(tree, node, want, reachable=False):
+    """Does the subtree `node` CALL `want`? The scoped form of `_calls`.
+
+    `reachable=True` asks the stricter question -- can the running program make that call --
+    which is the difference between a wired guard and one sitting in a dead branch.
+    """
+    return _spelled(_call_spellings(tree, node, reachable=reachable), want)
 
 
-def _code_strings(node):
+def _bound_from_call(tree, node, want, reachable=True):
+    """Every name inside `node` that CARRIES THE RESULT of a call to `want`. -> set.
+
+    `_busy, _rec = _MUT.active()` -> `{"_busy", "_rec"}`, and `h = _ESC.status()[0]` -> `{"h"}`.
+
+    WHY A NET NEEDS THIS. `publish_asks_before_pushing` proved that "the module is imported"
+    and "the refusal string is present" can both be true of a `push()` with no interlock at
+    all -- the sweep passed a fixture carrying zero interlock logic. What makes an interlock an
+    interlock is that the ANSWER reaches the branch: the value the guard computed has to be the
+    value the refusal is conditioned on. Names are how that link is visible in a parse tree.
+    """
+    import ast
+    maps = _import_maps(tree)
+    out = set()
+    for n in (_live_walk(node) if reachable else ast.walk(node)):
+        if not isinstance(n, (ast.Assign, ast.AnnAssign)):
+            continue
+        v = n.value
+        while isinstance(v, (ast.Subscript, ast.Attribute)):   # f()[0], f().x
+            v = v.value
+        if not (isinstance(v, ast.Call) and _spelled(_spellings_of_call(tree, v, maps), want)):
+            continue
+        targets = n.targets if isinstance(n, ast.Assign) else [n.target]
+        for t in targets:
+            for e in ast.walk(t):
+                if isinstance(e, ast.Name):
+                    out.add(e.id)
+    return out
+
+
+def _guarded_by(tree, if_node, names, want=None):
+    """Is this `if` conditioned on one of `names` (or on a direct call to `want`)? -> bool."""
+    import ast
+    t = if_node.test
+    if any(isinstance(x, ast.Name) and x.id in names for x in ast.walk(t)):
+        return True
+    if want is None:
+        return False
+    maps = _import_maps(tree)
+    return any(isinstance(x, ast.Call) and _spelled(_spellings_of_call(tree, x, maps), want)
+               for x in ast.walk(t))
+
+
+def _code_strings(node, reachable=False):
     """Every string literal in `node` that is CODE, not PROSE ABOUT CODE.
 
     Docstrings and floating string blocks are dropped; comments are not in a parse tree at all,
@@ -299,18 +461,23 @@ def _code_strings(node):
     same evidence.
     """
     import ast
+    nodes = _live_walk(node) if reachable else list(ast.walk(node))
     prose = set()
-    for n in ast.walk(node):
+    for n in nodes:
         if (isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant)
                 and isinstance(n.value.value, str)):
             prose.add(id(n.value))
-    return {n.value for n in ast.walk(node)
+    return {n.value for n in nodes
             if isinstance(n, ast.Constant) and isinstance(n.value, str) and id(n) not in prose}
 
 
-def _says(node, fragment):
-    """Does any CODE string in `node` contain `fragment`? Docstrings and comments do not count."""
-    return any(fragment in s for s in _code_strings(node))
+def _says(node, fragment, reachable=False):
+    """Does any CODE string in `node` contain `fragment`? Docstrings and comments do not count.
+
+    `reachable=True` also refuses a string sitting in a branch nothing can enter -- dead code
+    that carries the right words is the same evidence a comment is, which is none.
+    """
+    return any(fragment in s for s in _code_strings(node, reachable=reachable))
 
 
 def _subscript_assigns(node, obj, key):
@@ -326,6 +493,98 @@ def _subscript_assigns(node, obj, key):
                     and t.slice.value == key):
                 out.append(n)
     return out
+
+
+_WRITE_CALLS = {"_write": 0, "write_bytes": 0, "write_text": 0, "os.remove": 0,
+                "os.unlink": 0, "shutil.rmtree": 0, "shutil.copy": 1, "shutil.copy2": 1,
+                "shutil.copyfile": 1, "shutil.move": 1, "os.replace": 1, "os.rename": 1}
+
+
+def _write_targets(tree, node):
+    """Every REACHABLE call in `node` that opens or replaces a file. -> [(call, path expr)].
+
+    `open(p, "w")` and friends, plus the small set of module helpers and shutil/os spellings
+    this project actually writes through. A mode with no `w`/`a`/`x`/`+` in it is a read and is
+    not collected -- `_read`'s `open(path, "rb")` must not count as touching anything.
+    """
+    import ast
+    maps = _import_maps(tree)
+    out = []
+    for n in _live_walk(node):
+        if not isinstance(n, ast.Call) or not n.args:
+            continue
+        spellings = _spellings_of_call(tree, n, maps)
+        for want, idx in _WRITE_CALLS.items():
+            if _spelled(spellings, want) and len(n.args) > idx:
+                out.append((n, n.args[idx]))
+                break
+        else:
+            if "open" in spellings:
+                mode = n.args[1] if len(n.args) > 1 else None
+                for kw in n.keywords:
+                    if kw.arg == "mode":
+                        mode = kw.value
+                m = mode.value if isinstance(mode, ast.Constant) else ""
+                if isinstance(m, str) and any(c in m for c in "wax+"):
+                    out.append((n, n.args[0]))
+    return out
+
+
+def _rooted_names(tree, node, seed):
+    """Names in `node` holding a path built from a call to `seed`. -> set.
+
+    `root = root or sandbox()` then `path = os.path.join(root, "src", target)` gives
+    `{"root", "path"}`. Propagation is deliberately narrow -- a bare alias, a `join`, or a
+    `or`/conditional around the seed call -- so that reading a FILE through a rooted path does
+    not make the file's CONTENTS count as rooted too.
+    """
+    import ast
+    maps = _import_maps(tree)
+    derived, changed = set(), True
+    while changed:
+        changed = False
+        for n in _live_walk(node):
+            if not isinstance(n, ast.Assign):
+                continue
+            names = {e.id for t in n.targets for e in ast.walk(t) if isinstance(e, ast.Name)}
+            if not names or names <= derived:
+                continue
+            v = n.value
+            hit = False
+            if isinstance(v, (ast.BoolOp, ast.IfExp)) or (
+                    isinstance(v, ast.Call)
+                    and _spelled(_spellings_of_call(tree, v, maps), seed)):
+                hit = any(isinstance(c, ast.Call)
+                          and _spelled(_spellings_of_call(tree, c, maps), seed)
+                          for c in ast.walk(v))
+            if not hit and _is_rooted(tree, v, derived, maps):
+                hit = True
+            if hit:
+                derived |= names
+                changed = True
+    return derived
+
+
+def _is_rooted(tree, expr, derived, maps=None):
+    """Is this expression a path anchored at one of `derived`? -> bool.
+
+    A bare `path`, an `os.path.join(root, ...)`, or either wrapped in `or`/a conditional. A
+    literal, an unrelated name, or a join off some other root is NOT rooted, which is the whole
+    question a net asks when it wants to know whether a write landed in the sandbox.
+    """
+    import ast
+    maps = maps if maps is not None else _import_maps(tree)
+    if isinstance(expr, ast.Name):
+        return expr.id in derived
+    if isinstance(expr, (ast.BoolOp, ast.IfExp)):
+        kids = expr.values if isinstance(expr, ast.BoolOp) else [expr.body, expr.orelse]
+        return any(_is_rooted(tree, k, derived, maps) for k in kids)
+    if isinstance(expr, ast.Call) and _spelled(_spellings_of_call(tree, expr, maps),
+                                               "os.path.join"):
+        return any(_is_rooted(tree, a, derived, maps) for a in expr.args)
+    if isinstance(expr, ast.Call) and _spelled(_spellings_of_call(tree, expr, maps), "join"):
+        return any(_is_rooted(tree, a, derived, maps) for a in expr.args)
+    return False
 
 
 # ============================================================== THE QUEUE LINE (before boarding)
@@ -4191,22 +4450,100 @@ def drill_mutation():
         dead_holder_does_not_block_forever,
         "a safety that cannot be released is an outage, and it reports as protection")
 
-    def mutation_never_touches_the_live_tree():
+    def mutation_never_touches_the_live_tree(src=None):
         """The architectural fix, asserted rather than assumed. `run()` must open the SANDBOX
         path for writing and must verify the live file is byte-identical afterwards.
 
         ASKED OF THE PARSE TREE (run #36). Three substrings over the whole file, and `mutate.py`
         names `live_file_untouched` in its module docstring before it ever computes it -- so
-        two of the three could be satisfied by prose alone. Now: `sandbox` must be a DEF, the
-        untouched verdict must be RECORDED as a dict entry, and the OWNER-level code must be a
-        code string rather than a word in a paragraph about what would happen if it fired.
+        two of the three could be satisfied by prose alone. `sandbox` had to be a DEF, the
+        untouched verdict had to be RECORDED as a dict entry, and the OWNER-level code had to
+        be a code string rather than a word in a paragraph.
+
+        AND ALL THREE WERE STILL SATISFIED BY A `run()` THAT WROTE TO THE LIVE TREE (order
+        18612d60c3f2, run #37). Not one of them was scoped to `run`, and not one asked whether
+        anything was REACHED: a `sandbox` def nobody calls, a dict key in a return value nobody
+        computes, and a marker string anywhere in the module together said nothing whatsoever
+        about where the mutants get written. The sweep confirmed it with a crafted `run()`
+        writing straight into `src/` unsandboxed. This net is the one that is supposed to
+        guarantee mutation testing cannot corrupt the real source -- which it did, twice, on
+        2026-08-25, and the second time the corruption reached a public repo.
+
+        SO THE QUESTION IS NOW THE ONE THAT MATTERS: WHAT DOES THE MUTATION BODY WRITE THROUGH?
+
+          1. the write sites are FOUND, in `run` and in whatever `run` delegates to, and there
+             has to BE at least one -- a body that writes nothing is not a mutation engine;
+          2. EVERY one of them has to be anchored at a path built from a `sandbox()` call. The
+             live path in that same function (`os.path.join(SRC, target)`) is not, so a single
+             `_write(live, ...)` fails this outright;
+          3. the untouched verdict has to be COMPUTED -- a real comparison, not a constant --
+             and recorded under its key in what the body returns;
+          4. the OWNER escalation has to sit in a REACHABLE branch conditioned on that key.
+
+        `_rooted_names` deliberately does not propagate through file CONTENTS, so reading the
+        sandbox file does not make the bytes read out of it count as sandboxed.
         """
         import ast
-        tree = _ast_of(os.path.join(_srcdir(), "mutate.py"))
+        tree = _ast_of(os.path.join(_srcdir(src), "mutate.py"))
         recorded = any(isinstance(k, ast.Constant) and k.value == "live_file_untouched"
                        for n in ast.walk(tree) if isinstance(n, ast.Dict) for k in n.keys)
-        return (recorded and _defn(tree, "sandbox") is not None
-                and _says(tree, "MUTATE_TOUCHED_LIVE_TREE"))
+        if not (recorded and _defn(tree, "sandbox") is not None
+                and _says(tree, "MUTATE_TOUCHED_LIVE_TREE")):
+            return False
+
+        run = _defn(tree, "run")
+        if run is None:
+            return False
+        bodies = [run]
+        for name in _call_spellings(tree, run, reachable=True):
+            d = _defn(tree, name)
+            if d is not None and d is not run and d not in bodies:
+                bodies.append(d)
+
+        # 1 + 2 -- the mutants are written, and every write is rooted at the sandbox.
+        wrote = False
+        for b in bodies:
+            targets = _write_targets(tree, b)
+            if not targets:
+                continue
+            rooted = _rooted_names(tree, b, "sandbox")
+            if not rooted:
+                return False
+            for _call, path in targets:
+                if not _is_rooted(tree, path, rooted):
+                    return False               # a write that does not go through the sandbox
+            wrote = True
+        if not wrote:
+            return False
+
+        # 3 -- the verdict is COMPUTED, not asserted. `"live_file_untouched": True` is a claim.
+        computed = False
+        for b in bodies:
+            for n in _live_walk(b):
+                if not isinstance(n, ast.Dict):
+                    continue
+                for k, v in zip(n.keys, n.values):
+                    if (isinstance(k, ast.Constant) and k.value == "live_file_untouched"
+                            and isinstance(v, ast.Compare)):
+                        computed = True
+        if not computed:
+            return False
+
+        # 4 -- and the alarm is reachable, in a branch that reads that verdict back.
+        for n in _live_walk(tree):
+            if not isinstance(n, ast.If):
+                continue
+            if not any(isinstance(s, ast.Subscript) and isinstance(s.slice, ast.Constant)
+                       and s.slice.value == "live_file_untouched"
+                       for s in ast.walk(n.test)):
+                continue
+            arm = _live_stmt_walk(_live_stmts(n.body))
+            if (any(x for x in arm if isinstance(x, ast.Call)
+                    and _spelled(_spellings_of_call(tree, x), "escalate"))
+                    and any(_says(s, "MUTATE_TOUCHED_LIVE_TREE", reachable=True)
+                            for s in _live_stmts(n.body))):
+                return True
+        return False
     net(a, "mutation writes into a sandbox and proves the live file is untouched",
         mutation_never_touches_the_live_tree,
         "fifteen processes read the live tree; corrupting it is not something a lock can fix")
@@ -4424,27 +4761,63 @@ def drill_mutation():
         a_gate_that_cannot_finish_is_refused,
         "TIMEOUT == TIMEOUT reports every mutant as surviving and looks like a finished run")
 
-    def publish_asks_before_pushing():
+    def publish_asks_before_pushing(src=None):
         """The step whose failure is IRREVERSIBLE and OUTWARD-FACING. Verified by reading the
         push path, the same way `guards_are_wired_where_claimed` checks the other interlocks --
         a net that actually pushed to prove a refusal would be worse than the bug.
 
         ASKED OF THE PARSE TREE (run #36). The old form sliced the file text at "def push(" and
         looked for "import mutate" and "REFUSING TO PUSH" in the remainder -- both of which the
-        long comment inside `push()` about the two-writer fault could carry on its own, and one
-        of which (`import mutate`) is a phrase this net's own sibling docstrings use. `push` is
-        now located as a DEF, the interlock has to be a real import inside it, and the refusal
-        has to be a string the code actually carries rather than a phrase about refusing.
+        long comment inside `push()` about the two-writer fault could carry on its own.
+
+        AND THAT REWRITE WAS STILL VACUOUS, WHICH IS THE POINT (order 5737db3ce725, run #37).
+        Moving the two checks onto the parse tree made them harder to satisfy by accident and
+        left them checking the same two facts: that `mutate` is imported, and that the words
+        "REFUSING TO PUSH" occur somewhere in `push()`. Neither is the interlock. **Nothing
+        asked whether `active()` was ever CALLED**, so a fixture carrying zero interlock logic
+        passed -- and worse, measured on the live file: `push()` already raises "REFUSING TO
+        PUSH" three separate times for three unrelated reasons, so deleting the genuine
+        mutation interlock today would have left this net green on the ledger guard's refusal
+        string. This is the guard between a mutation run and a push of deliberately corrupted
+        source to a PUBLIC repo, which is not a hypothetical: it happened on 2026-08-25.
+
+        THE INTERLOCK IS NOW REQUIRED AS AN INTERLOCK, in the four parts that make it one, and
+        each part is a thing the 2026-08-25 failure actually needed:
+
+          1. `mutate` is imported inside `push` -- REACHABLY, not in a dead branch;
+          2. `mutate.active` is CALLED, through any alias spelling, on a reachable path;
+          3. the ANSWER IS BOUND to a name, and a reachable `if` is conditioned on that name --
+             this is the link nothing checked, and the one a fixture with no logic cannot fake;
+          4. the refusal RAISED in that branch's reachable arm says both "REFUSING TO PUSH" and
+             "mutation", so the other two refusal strings in this function cannot answer for it.
+
+        A comment produces no Call node, no Name binding and no Raise; dead code produces none
+        of them that `_live_walk` will look at.
         """
         import ast
-        tree = _ast_of(os.path.join(_srcdir(), "publish.py"))
+        tree = _ast_of(os.path.join(_srcdir(src), "publish.py"))
         push = _defn(tree, "push")
         if push is None:
             return False
+        live = _live_walk(push)
         imports_mutate = any(al.name == "mutate"
-                             for n in ast.walk(push) if isinstance(n, ast.Import)
+                             for n in live if isinstance(n, ast.Import)
                              for al in n.names)
-        return imports_mutate and _says(push, "REFUSING TO PUSH")
+        if not imports_mutate:
+            return False
+        if not _calls_within(tree, push, "mutate.active", reachable=True):
+            return False
+        answered = _bound_from_call(tree, push, "mutate.active")
+        if not answered:
+            return False                      # active() called and its answer thrown away
+        for n in live:
+            if not isinstance(n, ast.If) or not _guarded_by(tree, n, answered, "mutate.active"):
+                continue
+            for r in _live_stmt_walk(_live_stmts(n.body)):
+                if (isinstance(r, ast.Raise) and _says(r, "REFUSING TO PUSH")
+                        and _says(r, "mutation")):
+                    return True
+        return False
     net(a, "publish refuses to push while a mutation run is active", publish_asks_before_pushing,
         "a mutated file pushed to a public repo is public even after the next commit")
 

@@ -13,7 +13,7 @@ try:
     import zstandard as zstd
     _HAVE_ZSTD = True
 except ImportError:
-    silence.note("compress_store.py:14")
+    silence.note("compress_store.py:zstd-unavailable")
     _HAVE_ZSTD = False
 
 

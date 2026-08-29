@@ -241,7 +241,15 @@ def prescience_horizon_bits(band, lead_time_years):
     L = rung_description_length(band)
     if L is None:
         return None
-    required = L * lead_time_years
+    years = float(lead_time_years)
+    if not years > 0.0:
+        # Same defect physics.kinetic() guards against for mass, and joules_for() for volume: a
+        # non-positive lead time multiplies straight through into a negative or zero bit cost that
+        # wears the shape of a real, small reading instead of raising -- and nothing downstream
+        # has reason to look at it twice before it reaches a band or a shelfmark.
+        raise ValueError(f"prescience_horizon_bits(): lead_time_years must be positive, got "
+                         f"{lead_time_years!r}; a non-positive lead time is not a foresight claim")
+    required = L * years
     return {
         "band": band,
         "rung_description_length_bits": L,

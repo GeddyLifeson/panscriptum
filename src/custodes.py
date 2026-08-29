@@ -283,6 +283,16 @@ def staleness_widening(distance, years_since):
     If NOTHING has arrived, the honest statement is that the being's decimal is unknown across its
     whole band -- half-width 0.5, because a band has width 1. That 0.5 is forced by the band's own
     definition and is not a tunable.
+
+    THE None BRANCH IS NOT A MEASUREMENT OF ZERO STALENESS (order 2af7ca515157). "No vantage was
+    supplied" and "the news has fully arrived" are different states of the world and must not
+    share an answer -- the same distinction `resonance.hodge_decompose` draws between an empty
+    edge set and a perfectly consistent ladder. This function has to return a float, so it
+    returns 0.0; what it CANNOT do from in here is tell its caller which of the two it meant. So
+    the caller is the one that must ask first, and `convene()` now does: it tests the arguments
+    itself, records `staleness_measured: False`, and never routes an unsupplied vantage through
+    here as though it were a reading. Keeping this branch means a direct caller still gets a
+    number rather than a traceback; it is not the place the distinction is made.
     """
     import propagation as P
     if distance is None or years_since is None:
@@ -292,6 +302,57 @@ def staleness_widening(distance, years_since):
     return max(0.0, min(1.0, unobserved)) * 0.5
 
 
+# Set the first time a Custos is convened with nothing to read in her own degree of freedom, and
+# never cleared. Same shape as `assay.RHO_FALLBACK_REASON` because it is the same class of event:
+# a standpoint that could not stand, in a college whose whole claim is that every direction is
+# manned. `dof_coverage()` answers "is there a Custos for this direction"; these answer the
+# harder question underneath it -- "did she have anything to look at".
+ABSTENTIONS = {}
+_ABSTAIN_ANNOUNCED = set()
+
+_ABSTAIN_NOTE = {
+    "currency": ("Lumen (dof=currency) ABSTAINED: convene() was called with no `distance` and/or "
+                 "no `years_since`, so propagation.observed_mark was never consulted and the "
+                 "interval carries NO widening for the reading being in transit. This is not a "
+                 "finding that the reading is current -- it is the absence of the measurement "
+                 "whose absence Lumen exists to report. Every published interval from such a "
+                 "call is narrower than the evidence supports by however stale the reading is."),
+    "comparability": ("Threnody (dof=comparability) ABSTAINED: convene() was called with no "
+                      "`eta`, so resonance.hodge_decompose was never run and the curl fraction "
+                      "of this being's contest structure is UNMEASURED. The veto below cannot "
+                      "fire. A scalar is being published without anyone having checked whether a "
+                      "scalar is faithful -- which is the one thing this standpoint is for."),
+}
+
+
+def _abstained(dof):
+    """Record, once per process per degree of freedom, that a Custos had nothing to read.
+
+    ORDER 2af7ca515157 AND f467f662be4b, AND THEY ARE ONE FAULT SEEN TWICE. Both Custodes were
+    given a real mechanism, a real threshold and a real place in `convene()`'s body, and both
+    were then wired to a keyword argument that no production caller supplies -- `anchors.py:190`,
+    the single real call site, passes neither `eta` nor `distance`/`years_since`. So `half +=
+    stale` added exactly 0.0 on every real reading and the curl veto could not fire on any of
+    them, and NOTHING SAID SO: the output dict reported `staleness_widening: 0.0`, which reads as
+    a measurement that came back zero, and omitted `threnody_veto` entirely, which reads as a
+    veto that was considered and declined.
+    // The code was never wrong. It was never reached. Those look identical from the output, and
+    // that is precisely what this records.
+
+    It does not substitute a value, because there is no honest value to substitute: the vantage
+    and the contest graph are inputs, not defaults, and inventing either would be manufacturing
+    the measurement rather than reporting its absence. What it does is make the absence
+    IMPOSSIBLE TO READ AS A ZERO -- in the returned dict (`*_measured: False` plus a named
+    reason), in the health ledger, on stderr, and on `ABSTENTIONS` afterwards.
+    """
+    ABSTENTIONS[dof] = _ABSTAIN_NOTE[dof]
+    if dof not in _ABSTAIN_ANNOUNCED:
+        _ABSTAIN_ANNOUNCED.add(dof)
+        import silence
+        silence.note("custodes.py:abstained-" + dof)
+        print("custodes.py: " + _ABSTAIN_NOTE[dof], file=sys.stderr)
+
+
 def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta=None,
             distance=None, years_since=None):
     """Convene the full college. The interval is the DISPERSION of their readings.
@@ -299,9 +360,30 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
     Returns the consensus decimal, the ± as measured spread, and -- the part that makes the number
     useful -- the split between what fieldwork could fix and what it could not.
 
-    `eta` (from resonance.hodge_decompose) lets Threnody exercise her veto: where the contest
-    structure is substantially curl, no scalar is faithful and the college says so rather than
-    averaging harder.
+    TWO OF THE TEN CUSTODES CANNOT WORK ON A DEFAULT CALL, AND THAT IS THE STATE OF THE TREE
+    TODAY (orders 2af7ca515157, f467f662be4b, both left OPEN for the wiring):
+
+      `eta`, from `resonance.hodge_decompose`, is what lets Threnody exercise her veto: where the
+      contest structure is substantially curl, no scalar is faithful and the college should say
+      so rather than average harder. NOTHING IN PRODUCTION COMPUTES IT. `resonance.py` has no
+      production caller at all, `hodge_decompose` has no caller anywhere, and the only calls that
+      pass `eta` are this module's own `main()` demo (a literal 0.70) and `verify_math`. The
+      veto's arithmetic is exercised; the veto itself has never fired on a real being.
+
+      `distance`/`years_since` are what Lumen reads, via `propagation.observed_mark`. No caller
+      supplies them either, so `staleness_widening` contributes exactly 0.0 to every real
+      interval.
+
+    Both are therefore reported as ABSTENTIONS rather than absorbed: `staleness_measured` and
+    `comparability_measured` ride on every result, false on a default call, with the reason
+    named in `currency_source` / `comparability_source`. A reader of one published +/- can tell
+    from the number itself that two of its ten standpoints did not get to speak.
+
+    WIRING THEM IS A CHANGE IN `anchors.py`, NOT HERE, and it is a curatorial one rather than a
+    mechanical one: `ANCHORS` carries no vantage for any of its five entries, so somebody has to
+    rule what distance and how many years each is being read across, and there is no contest
+    graph for the college to decompose. Defaulting either from in here would be inventing the
+    measurement, which is the failure this file exists to refuse.
     """
     readings = [r for r in (_custos_reading(n, anchor, scores, attestation, worksheet)
                             for n in CUSTODES) if r]
@@ -323,8 +405,21 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
     # The interval must COVER every signed reading -- a college that publishes a band excluding one
     # of its own members has not measured its disagreement, it has hidden it.
     half = max(1.96 * total_sd, *(abs(v - consensus) for v in vals))
-    # Lumen's contribution: dispersive, not directional.
-    stale = staleness_widening(distance, years_since)
+    # Lumen's contribution: dispersive, not directional -- and `dispersive=True` in her CUSTODES
+    # entry is now READ rather than merely declared. It was a flag nobody consulted (order
+    # 2af7ca515157), which is the same defect in miniature as the argument nobody passes: a
+    # property asserted in the table and enforced nowhere. Deriving the list from the table means
+    # a second dispersive Custos would be picked up here instead of silently ignored.
+    dispersive = sorted(n for n, c in CUSTODES.items() if c.get("dispersive"))
+    stale_measured = distance is not None and years_since is not None
+    if stale_measured:
+        stale = staleness_widening(distance, years_since)
+        currency_source = ("measured: propagation.observed_mark(distance=%r, years_since=%r)"
+                           % (distance, years_since))
+    else:
+        stale = 0.0
+        currency_source = _ABSTAIN_NOTE["currency"]
+        _abstained("currency")
     half += stale
 
     out = {
@@ -334,6 +429,12 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
         "decimal": round(consensus - A.LADDER.index(anchor), 2),
         "interval": round(half, 2),
         "staleness_widening": round(stale, 3),
+        # THE FLAG IS THE POINT, not the number beside it. `staleness_widening: 0.0` alone is
+        # ambiguous between "the news has fully arrived" and "nobody told us where this being
+        # is", and in production it has only ever meant the second.
+        "staleness_measured": stale_measured,
+        "currency_source": currency_source,
+        "dispersive_custodes": dispersive,
         "prior_divergence_share": round(prior_share, 3),
         "attestation_floor_share": round(1.0 - prior_share, 3),
         "reading_spread": {r["custos"]: round(r["reading"], 3) for r in readings},
@@ -354,6 +455,20 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
     # coherent enough to scalarize" is CR < 0.10; Theorem 1 puts CR and the curl fraction on the
     # same footing, so the analogous bar is curl < 0.10, i.e. eta > 0.90. Taking 0.85 would have
     # been a fresh parameter chosen to feel lenient.
+    #
+    # AND WHEN `eta` IS None THE VETO IS NOT DECLINED, IT IS UNMEASURED (order f467f662be4b).
+    # `threnody_veto` is deliberately NOT set to False on that path: a False would state that the
+    # curl was looked at and found small, which nothing in production has ever done. What is
+    # published instead is `comparability_measured: False` and the reason, so the absence reads
+    # as an absence.
+    out["comparability_measured"] = eta is not None
+    if eta is None:
+        out["comparability_source"] = _ABSTAIN_NOTE["comparability"]
+        _abstained("comparability")
+    else:
+        out["comparability_source"] = ("measured: eta=%.4f from resonance.hodge_decompose "
+                                       "(curl fraction %.4f, bar %.2f)"
+                                       % (eta, 1.0 - eta, CURL_VETO_THRESHOLD))
     if eta is not None and (1.0 - eta) >= CURL_VETO_THRESHOLD:
         out["threnody_veto"] = True
         out["decimal"] = None
@@ -399,6 +514,15 @@ def main():
     print(f"   prior divergence {r['prior_divergence_share']:.0%} / "
           f"attestation floor {r['attestation_floor_share']:.0%}")
     print(f"   interval covers every signed reading: {r['covers_every_reading']}")
+    # THE COLLEGE'S ATTENDANCE, printed where the reading is. `dof_coverage()` says every
+    # direction has a Custos assigned to it; this says which of them had anything to read. The
+    # charter's worked example is convened with no vantage and no contest graph, so two of the
+    # ten abstain — and the demo must not present a ten-standpoint number as though ten
+    # standpoints spoke.
+    print(f"   staleness measured (Lumen)       : {r['staleness_measured']}")
+    print(f"   comparability measured (Threnody): {r['comparability_measured']}")
+    for _dof in sorted(ABSTENTIONS):
+        print(f"   ABSTAINED [{_dof}] — {ABSTENTIONS[_dof][:76]}...")
 
     print("\n\nTHE SAME BEING, POORLY ATTESTED — what fieldwork can and cannot fix")
     print("-" * 96)

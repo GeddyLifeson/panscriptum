@@ -334,7 +334,24 @@ def replace_retry(tmp, dst, attempts=5):
     own clocks (the dashboard polls records and ASSAYS, standards scans readfeats). One such
     collision took an assay worker down mid-batch (2026-08-23, WinError 5). A brief backoff
     outwaits any honest reader; persistent denial is recorded, never raised -- the caller's
-    write lands next round."""
+    write lands next round.
+
+    NEVER RAISES, FOR **ANY** OSError, not only for the denied one. `write_json`'s docstring has
+    always promised "never raises on a denied replace" and every writer in this project routes
+    through here, but the handling was a single `except PermissionError` -- so any OTHER OSError
+    from `os.replace` went straight up through `write_json` into a caller that, by that
+    promise, has no handler for it. The realistic one is a CROSS-DEVICE rename (`EXDEV`,
+    WinError 17): the temp file and the target sit in the same directory, so that only happens
+    when the directory is a junction or a mapped drive whose two ends are different volumes --
+    rare, and exactly the kind of environment fault that would otherwise take down a batch
+    worker in a way nothing here was written to expect. `ENOSPC`, a vanished temp file, and a
+    target that has become a directory are the same shape.
+
+    Those are NOT retried, deliberately. The backoff exists for one specific condition -- a
+    reader holding the target open, which passes -- and a cross-device rename or a full disk
+    will not pass in 1.5 seconds. Retrying them would spend the worker's time to reach the same
+    answer. So the failure is recorded and reported as False, which is the verdict every caller
+    already gates on."""
     import time as _t
     for a in range(attempts):
         try:
@@ -345,6 +362,13 @@ def replace_retry(tmp, dst, attempts=5):
                 note("replace-denied:" + os.path.basename(dst))
             else:
                 _t.sleep(0.3 * (a + 1))
+        except OSError:
+            # A DIFFERENT FAULT WEARS A DIFFERENT NAME IN THE LEDGER. `replace-denied` means
+            # "a reader is holding it, try next round"; this one means "this rename cannot
+            # succeed", and collapsing the two would hide a permanent condition inside the
+            # count of a transient one -- the fault this whole module exists to stop.
+            note("replace-failed:" + os.path.basename(dst))
+            return False
     return False
 
 

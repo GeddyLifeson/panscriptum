@@ -134,7 +134,7 @@ def numeric_rows(wikitext):
         try:
             v = float(raw.replace(",", "").rstrip("."))
         except ValueError:
-            silence.note("rosetta.py:136")
+            silence.note("rosetta.py:offer-bad-number")
             return
         if v <= 0:
             return

@@ -121,8 +121,6 @@ COUNTERPART = {
 # recorded divergence, it is a false reading of how many rules this codebase argues with.
 NOT_FILED = {
     "E402": "src/ modules do sys.path.insert before importing siblings; the import cannot precede it",
-    "SIM115": "explicit open/close is used where a handle outlives one block; context managers "
-              "are used everywhere they fit",
     "RUF100": "noqa comments kept where a rule was once enabled; harmless and self-documenting",
     "PLW1510": "subprocess return codes are checked explicitly by the caller, not by check=True, "
                "because a non-zero exit is often the expected answer here",
@@ -166,15 +164,35 @@ NOT_FILED = {
 # named example of what must NOT be waived, and it was waived by citing the sentence that names
 # it.
 #
-# The cost was measurable: 531 BLE001 + 63 S110/S112 sites out of 1,002 live findings, so the
-# outside opinion would have gone on reporting while 96% of what it selects never reached the
-# queue. That is precisely the failure this whole module exists to prevent -- an independent
-# checker that has been quietly talked out of its independence -- and it is a worse one than any
-# of the individual findings, because the report would have kept looking healthy.
+# The cost was measurable: 531 BLE001 + 63 S110/S112 sites is 594 sites, and 594 of the 1,002
+# live findings that shift is about 59%, not the 96% this paragraph used to claim here -- an
+# arithmetic error in the very sentence defending the policy against arithmetic like this. Still
+# damning at the correct number: the outside opinion would have gone on reporting while a bit
+# under three in five of what it selects never reached the queue. That is precisely the failure
+# this whole module exists to prevent -- an independent checker that has been quietly talked out
+# of its independence -- and it is a worse one than any of the individual findings, because the
+# report would have kept looking healthy.
+#
+# Re-measured live, this shift, after the revert: 402 of 1,021 ruff findings are waived under
+# NOT_FILED (about 39%), and BLE001/S110/S112 are not among the waived codes -- they are filed
+# as findings, exactly as this policy requires. The policy is behaving correctly; only the
+# sentence above documenting the near-miss had its own arithmetic wrong.
 #
 # The test at the top of NOT_FILED stands and is the only test: would fixing every instance make
 # this codebase WORSE or merely DIFFERENT? "There are a lot of them" is not that test, and
 # neither is "another detector also sees them".
+
+# SIM115 WAS REMOVED FROM NOT_FILED HERE, for the same reason the BLE001/S110/S112 waivers above
+# were reverted: its written reason did not describe its own sites. The reason on record was "a
+# handle outlives one block", but a sample of the 185 sites (sample of 20, seeded, plus every
+# `_BAD_CHARS` self-check site, which alone accounts for dozens) is overwhelmingly the single-
+# expression idiom `open(path, encoding=...).read()` / `json.load(open(path, ...))` --  the
+# handle is created, consumed and dropped inside one expression, so it does not outlive one
+# block, it does not outlive one STATEMENT. Wrapping that in `with open(...) as f:` costs one
+# extra line and changes nothing about behaviour, so this fails the test above on its own terms:
+# fixing every instance would be merely DIFFERENT at worst and arguably BETTER (not dependent on
+# CPython's refcounting to close the handle promptly), never WORSE. A waiver that cannot pass its
+# own module's test is not a waiver, so SIM115 now files like any other real finding.
 
 
 # RETURNCODE, NOT JUST STDOUT. `ran_clean()` treats status == "RAN" and an empty finding list as

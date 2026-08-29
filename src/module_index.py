@@ -32,7 +32,7 @@ OUT = os.path.join(HERE, "handoff", "MODULE_INDEX.md")
 GROUPS = [
     ("The corpus", ["catalogue_web", "catalogue_aurora", "catalogue_codex", "wiki_source",
                     "feats", "sweep", "read", "completeness", "hostcheck", "hosts", "scout",
-                    "endpoint", "ingest_doc", "wikipedia_source"]),
+                    "endpoint", "ingest_doc"]),
     ("The instrument", ["assay", "magnitude", "anchors", "scope", "reference", "rigor",
                         "identity", "chain", "weave_index"]),
     ("The phases and prose", ["pipeline", "generate", "manifest_builder", "compress_store",
@@ -65,6 +65,11 @@ def main():
              "line. Regenerate after adding a module; never hand-edit.*", ""]
     placed = set()
     for title, names in GROUPS:
+        stale = [n for n in names if n not in mods]
+        if stale:
+            print(f"module_index: GROUPS[{title!r}] names a module not in src/: "
+                  f"{', '.join(stale)} -- fix the hand-kept list", file=sys.stderr)
+            silence.note("module_index.py:stale-group-name")
         rows = [(n, first_line(mods[n])) for n in names if n in mods]
         if not rows:
             continue

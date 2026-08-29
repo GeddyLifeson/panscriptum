@@ -288,6 +288,29 @@ def cloud_buckets(pool="coding"):
         return []
 
 
+def _bucket_of(name):
+    """The bucket a model id (or label) belongs to. "" when nothing matches.
+
+    The engine's `model` event names the model that ACTUALLY served a call; this is the only
+    honest way to turn that into the bucket the meter belongs to. Matching on the id first
+    because it is the router's own key -- labels are display strings and two providers may
+    reasonably print the same one. Total: a lookup that can raise would take down the call it
+    exists to describe.
+    """
+    if not name:
+        return ""
+    try:
+        for m in (_ROUTER.models if _ROUTER is not None else []):
+            if m.id == name:
+                return m.bucket
+        for m in (_ROUTER.models if _ROUTER is not None else []):
+            if getattr(m, "label", None) == name:
+                return m.bucket
+    except Exception:
+        silence.note("cascade_bridge.py:bucket-of")
+    return ""
+
+
 PROOF = os.path.join(HERE, "data", "POOL_PROOF.json")
 _PROVEN = [None]
 
@@ -938,13 +961,19 @@ def _metric(row):
     silence.append_line(_METRICS, json.dumps(row))
 
 
-def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75, pin=None):
+def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75, pin=None,
+        max_attempts=None, served=None):
     """Instrumented wrapper: wall time, outcome and answering model per call, so 'the pool got
-    slow' is a measurement rather than a feeling. The real work is _ask_call."""
+    slow' is a measurement rather than a feeling. The real work is _ask_call.
+
+    `max_attempts` and `served` are pass-throughs for `prove()`, which is asking a DIFFERENT
+    question from every other caller here: not "get me an answer from the pool" but "did THIS
+    bucket answer". Both default to the behaviour every existing caller already has -- no cap on
+    the engine's walk, and nothing recorded about who served. See `_ask_call`."""
     t0 = time.time()
     _tried_reset()
     got = _ask_call(system, prompt, schema=schema, pool=pool, temperature=temperature,
-                    timeout=timeout, pin=pin)
+                    timeout=timeout, pin=pin, max_attempts=max_attempts, served=served)
     _metric({"at": round(t0, 1), "tag": "cascade:" + pool, "s": round(time.time() - t0, 2),
              # `.get` ON WHATEVER PARSED, NOT ON WHATEVER IS TRUTHY. `_extract_json` will
              # happily return a list, bool or number from a fenced reply, `_ask_call` only
@@ -973,7 +1002,8 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
     return got
 
 
-def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75, pin=None):
+def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75, pin=None,
+              max_attempts=None, served=None):
     """One structured call through Cascade. Returns a parsed dict, or None.
 
     Mirrors pipeline.ask() so a caller can swap transports without changing anything else.
@@ -981,9 +1011,31 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
     The call CLAIMS a bucket before dispatching and releases it after. Without that, concurrent
     workers all read the same stale headroom -- usage is only recorded on completion -- and pile
     onto one meter, which costs a 429 and, worse, teaches the router a lower cap permanently.
+
+    `max_attempts` CAPS THE ENGINE'S WALK, AND A PIN IS NOT A CAP. This is the correction behind
+    order c810cf64d278. `Router.candidates(pool, pinned)` returns `[the pinned model] + THE
+    REST OF THE POOL` -- its own comment says "a pinned model still gets the rest of the pool as
+    backup" -- and `Engine.stream_chat` walks that whole list until something answers, because
+    its own default is `max_attempts or config or len(candidates)`. That is exactly right for
+    WORK, where any answer will do, and exactly wrong for a MEASUREMENT of one bucket: pin
+    `chutes:free`, have it 402, and `mistral:free` serves the call. Passing 1 here makes the
+    walk stop at the pinned model. `None` is the engine's own default, so every existing caller
+    is byte-for-byte unchanged.
+
+    `served`, when a caller passes a dict, is filled in with WHO ACTUALLY SERVED and WHY IT
+    FAILED -- `model_id`, `label`, `bucket`, `outcome`, `error`, `failovers`. The information
+    was already flowing through `pump` and was thrown away everywhere except `_via`: the
+    `failover` events, which carry the provider's own HTTP status and body, were not even read.
+    A measurement that cannot name its own subject is not a measurement.
     """
+    if served is not None:
+        served.clear()
+        served.update({"asked": pin, "outcome": "not started", "model_id": None,
+                       "label": None, "bucket": None, "error": "", "failovers": []})
     e = thread_engine()
     if not e:
+        if served is not None:
+            served["outcome"] = "no engine"
         return None
     # A BUCKET THAT MISSED ITS DEADLINE IS OUT FOR A WHILE.
     #
@@ -1095,7 +1147,12 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         #
         # Returning None hands the decision back to the caller, which knows the GPU is a real
         # resource rather than a hiding place.
+        if served is not None:
+            served["outcome"] = "no bucket free"
         return None
+    if served is not None:
+        served["dispatched_to"] = pinned.id
+        served["dispatched_bucket"] = pinned.bucket
     _pace(pinned.bucket)
     sys_msg = system
     if schema:
@@ -1104,17 +1161,32 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
     messages = [{"role": "system", "content": sys_msg},
                 {"role": "user", "content": prompt}]
     out, answered, done = [], None, threading.Event()
-    box = {"answered": None, "failed": False}
+    box = {"answered": None, "answered_id": None, "failed": False, "failovers": []}
 
     def pump():
         try:
             for ev in e.stream_chat(messages, pool=pool, temperature=temperature,
-                                    pinned=pinned.id if pinned else None):
+                                    pinned=pinned.id if pinned else None,
+                                    max_attempts=max_attempts):
                 t = ev.get("type")
                 if t == "delta":
                     out.append(ev.get("text") or ev.get("delta") or "")
                 elif t == "model":
                     box["answered"] = ev.get("label") or ev.get("model_id")
+                    # THE ID AS WELL AS THE LABEL. `_via` wants the friendly label; deciding
+                    # WHICH BUCKET served needs the model id, which is the only field that maps
+                    # back to `Model.bucket` without guessing at a display string.
+                    box["answered_id"] = ev.get("model_id")
+                elif t == "failover":
+                    # THE EVENT THIS LOOP USED TO STEP OVER IN SILENCE, and the reason
+                    # POOL_PROOF.json has never once held a bucket-specific reason. Each
+                    # failover carries the PROVIDER's own disposition -- `HTTP 401 ...`,
+                    # `removed from the pool - no such model (HTTP 404)`, `rate limited` --
+                    # while the aggregate that arrives at the end says only "All N candidates
+                    # failed". The classifier in `dead_forever` was written against words that
+                    # only ever existed in these events.
+                    box["failovers"].append("%s: %s" % (ev.get("from") or "?",
+                                                        str(ev.get("reason") or "")[:200]))
                 elif t == "error":
                     box["failed"] = True
                     box["error"] = str(ev.get("error") or ev.get("text") or "")[:300]
@@ -1157,6 +1229,10 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             silence.note("cascade_bridge.py:deadline")
             if pinned:
                 _bury(pinned.bucket)
+            if served is not None:
+                served["outcome"] = "deadline"
+                served["error"] = "no reply within %ss" % timeout
+                served["failovers"] = list(box["failovers"])
             return None
         if box["failed"]:
             # AN AUTH FAILURE IS NOT A BUSY SIGNAL.
@@ -1276,10 +1352,30 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                     if _older and not any(w in _older.lower() for w in _WRAPPERS):
                         _text = _older
                 record_unrecognised(pinned.bucket, _text)
+            if served is not None:
+                served["outcome"] = "failed"
+                served["failovers"] = list(box["failovers"])
+                # THE WRAPPER IS NOT A REASON, so do not report one as though it were. `All 1
+                # candidates failed: GPT-OSS 120B (Groq)` names the engine's walk and carries
+                # no disposition -- no status code, no provider wording. That aggregate is
+                # what has been reaching `POOL_PROOF.json` for its whole life (as the string
+                # `no answer`, once `prove` had thrown even this much away), which is why
+                # `dead_forever`'s 401/402/404/410 test has never had anything to match. The
+                # failover events hold the provider's own status line; prefer them.
+                _why = raw
+                if (not _why or any(w in _why.lower() for w in _WRAPPERS)) and box["failovers"]:
+                    _why = "; ".join(box["failovers"])
+                served["error"] = (_why or "")[:300]
             return None
         if pinned:
             _clear(pinned.bucket)
         answered = box["answered"]
+        if served is not None:
+            served["outcome"] = "answered"
+            served["label"] = box["answered"]
+            served["model_id"] = box["answered_id"]
+            served["bucket"] = _bucket_of(box["answered_id"] or box["answered"])
+            served["failovers"] = list(box["failovers"])
     finally:
         if pinned:
             _ROUTER.release(pinned)
@@ -1336,6 +1432,29 @@ def prove(pool="coding", timeout=45):
 
     One three-token call per bucket settles it. The result is fact rather than inference, and a
     bucket that fails here is benched long enough to stop costing every claim that follows.
+
+    THE CALL IS ISOLATED TO THE BUCKET UNDER TEST, WHICH IT WAS NOT (order c810cf64d278).
+    Pinning names a FIRST candidate, not an only one. `Router.candidates(pool, pinned)` returns
+    `[the pinned model] + the rest of the pool` -- "a pinned model still gets the rest of the
+    pool as backup", in its own words -- and `Engine.stream_chat` walks that list to the end
+    unless capped. So `prove` asked `chutes:free`, `mistral:free` answered, and the row said
+    `chutes:free -> answers`. A health check that any healthy neighbour can pass on your behalf
+    is not a health check; it is the "check that cannot fail" this project's whole ledger is
+    about, sitting in the module that decides where every call goes.
+
+    Two changes, and they are the same change from both ends: `max_attempts=1` stops the walk at
+    the bucket being asked, and the SERVED model is compared against the ASKED one, so if
+    anything ever routes past the cap the row says so instead of crediting the wrong bucket.
+
+    AND THE ROW NOW CARRIES A REASON. Every verdict this function has ever written came from a
+    four-word vocabulary -- `local`, `no API key` / `provider disabled`, `answers`, `no answer`,
+    or an exception's class name -- none of which contains a status code or a provider's
+    wording. `dead_forever` reads this file looking for exactly those, so its entire
+    permanent-failure test (401/402/404/410, "no such model", "needs billing", "bad key") was
+    unreachable by construction: a classifier that cannot see the thing it classifies. The
+    provider's own disposition arrives in the engine's `failover` events; `served["error"]`
+    carries it here and `reason` puts it in the file. `verdict` keeps its exact old vocabulary,
+    because `foreman`, `tuning`, `pipeline` and `read` all count `verdict == "answers"`.
     """
     e = engine()
     if not e:
@@ -1350,19 +1469,48 @@ def prove(pool="coding", timeout=45):
             continue
         ready, why = _ROUTER.provider_ready(m)
         if not ready:
-            out.append({"bucket": bucket, "model": m.id, "verdict": why, "seconds": 0})
+            out.append({"bucket": bucket, "model": m.id, "verdict": why, "seconds": 0,
+                        "reason": why, "served": ""})
+            continue
+        if not m.enabled:
+            # A DISABLED MODEL CANNOT BE THE FIRST CANDIDATE, so asking for it asks for
+            # somebody else. `Router.candidates` returns the pinned model only `if ready and
+            # model.enabled`, and drops straight through to the rest of the pool otherwise --
+            # so before the cap below, a disabled model's row was ALWAYS a report about a
+            # neighbour, and `answers` was the likeliest thing it said. Named for what it is;
+            # `try_disabled()` is the pass that exists to test these on purpose.
+            out.append({"bucket": bucket, "model": m.id, "verdict": "model disabled",
+                        "seconds": 0, "reason": "model disabled in config", "served": ""})
             continue
         t = time.time()
+        served, reason = {}, ""
         try:
             got = ask("Reply with JSON only.", 'Return {"ok": true}',
                       {"type": "object", "properties": {"ok": {"type": "boolean"}},
-                       "required": ["ok"]}, pool=pool, timeout=timeout, pin=m.id)
+                       "required": ["ok"]}, pool=pool, timeout=timeout, pin=m.id,
+                      # ONE CANDIDATE. See the docstring: without this the engine walks the
+                      # whole pool behind the pin and the neighbour's success is written down
+                      # under this bucket's name.
+                      max_attempts=1, served=served)
             verdict = "answers" if got else "no answer"
+            reason = str(served.get("error") or "")
+            by = str(served.get("bucket") or "")
+            if verdict == "answers" and by and by != bucket:
+                # BELT AND BRACES, and deliberately not silent. The cap above should make this
+                # impossible; if it ever fires, the engine's contract has changed underneath
+                # this function and the honest verdict is that THIS bucket did not answer.
+                verdict = "no answer"
+                reason = "the call was served by %s, not by this bucket" % by
         except Exception as ex:
             silence.note("cascade_bridge.py:prove")
             verdict = type(ex).__name__
+            reason = "%s: %s" % (type(ex).__name__, str(ex)[:200])
         out.append({"bucket": bucket, "model": m.id, "verdict": verdict,
-                    "seconds": round(time.time() - t, 1)})
+                    "seconds": round(time.time() - t, 1),
+                    # WHO ACTUALLY SERVED IT, recorded whether or not it matched. A proof that
+                    # cannot name its own subject cannot be audited by anyone later.
+                    "served": str(served.get("bucket") or ""),
+                    "reason": reason[:300]})
     return out
 
 

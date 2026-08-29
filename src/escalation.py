@@ -264,19 +264,46 @@ def _raise_halt(rec):
     return landed
 
 
+def _unreadable_halt(why):
+    """The fail-closed stand-in record. A halt file we cannot READ AS A RECORD is not an absent
+    halt; it is a halt whose reason we have lost, which is strictly more alarming, not less."""
+    return {"cleared": False, "code": "HALT_FILE_UNREADABLE",
+            "what": "state/HALT.json exists but %s. Treating the library as halted: a halt "
+                    "that a corrupted file can lift is not a halt." % why,
+            "by": "escalation", "unreadable": True}
+
+
 def _read_halt_raw():
+    """-> the halt record, None when there is no halt file, or the fail-closed stand-in.
+
+    IT ALWAYS RETURNS None OR A DICT, and until now it did not. `except Exception` wrapped the
+    `json.load` and nothing after it, so a HALT.json holding VALID JSON OF THE WRONG SHAPE --
+    `[]`, `null`, `"halted"`, a bare number, which is what a half-written or hand-edited file
+    most easily becomes -- parsed cleanly and was handed straight back. Every caller then did
+    `rec.get("cleared")` on a list or a string and got AttributeError instead of the documented
+    fail-closed `SystemHalted`.
+
+    That is the fail-closed promise breaking on its own edge case. `assert_clear` would raise
+    the wrong exception type, and `verify_math`'s halt probe catches `SystemHalted` NARROWLY --
+    so the one battery check whose job is to report on the halt would itself die uncaught, and
+    the report about the alarm would be replaced by a traceback. Shape is now part of "can we
+    read it", which is what the docstring below the `except` always claimed it was.
+    """
     try:
         with open(HALT_FILE, encoding="utf-8") as f:
-            return json.load(f)
+            rec = json.load(f)
     except FileNotFoundError:
         return None
     except Exception:
-        # FAIL CLOSED. A halt file we cannot read is not an absent halt; it is a halt whose
-        # reason we have lost, which is strictly more alarming, not less.
-        return {"cleared": False, "code": "HALT_FILE_UNREADABLE",
-                "what": "state/HALT.json exists but does not parse. Treating the library as "
-                        "halted: a halt that a corrupted file can lift is not a halt.",
-                "by": "escalation", "unreadable": True}
+        return _unreadable_halt("does not parse")
+    if rec is None:
+        # `null` is not "no halt". A file that exists holds a claim; an EMPTY claim is the
+        # unreadable case, not the absent one -- absence is the file not being there at all,
+        # which is the `FileNotFoundError` arm above and the only thing allowed to mean clear.
+        return _unreadable_halt("holds `null` rather than a halt record")
+    if not isinstance(rec, dict):
+        return _unreadable_halt("parses as %s rather than a halt record" % type(rec).__name__)
+    return rec
 
 
 def status():

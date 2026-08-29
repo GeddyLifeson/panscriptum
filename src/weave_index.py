@@ -288,7 +288,16 @@ def build():
                 "topic": e.get("topic"),
                 "magnitude": e.get("magnitude", "unassayed"),
                 "attestation": att,
-                "description": (e.get("description") or "")[:400],
+                # UNCAPPED. This was `[:400]`, and it is STORED DATA -- ENTITY_INDEX.json is
+                # read by weave, cosmology_graph and thread_integrity, and by whatever reads it
+                # next. A console preview may abbreviate; a file on disk that abbreviates is a
+                # smaller universe wearing the shape of the real one, which is Hard Rule 0's
+                # exact wording. 119,136 of 282,822 descriptions -- 42% -- were over 400
+                # characters, and 45.4 million characters were being dropped without a word
+                # anywhere in the file saying so. The one traced consumer (weave.py:204) slices
+                # to [:400] and [:300] ITSELF for its own matching, so it is unaffected either
+                # way; the cap was only ever costing every future reader. Order b974e9ed76de.
+                "description": (e.get("description") or ""),
             })
     return recs, index, total
 

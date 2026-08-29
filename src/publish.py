@@ -351,6 +351,24 @@ def _scan_units(path, line_cap):
             yield lineno, carry + buf
 
 
+# COMPILED BYTECODE IS NOT PUBLISHED, AND MUST NOT BE SCANNED. `sync_tree` prunes `__pycache__`
+# from its walk, `_is_skipped` refuses `.pyc`, and `ensure_site` writes both into `.gitignore` --
+# so no bytecode has ever reached the public repo. But `scan_for_secrets` walks the FILESYSTEM
+# rather than the index, and read a stale cache directory anyway: `src/__pycache__/
+# drill.cpython-313.pyc` was reported as a high-entropy `api_key` on every single run. It is the
+# DRILL'S OWN credential fixture, frozen into bytecode -- where the same-line `SECRET-FIXTURE`
+# marker that clears the source cannot survive the compile, so the marker rule can never reach it.
+# `detect-secrets`, pointed at the same tree, reports zero because it does not read `.pyc`; this
+# was the only disagreement between the two scanners and the outsider is right. A gate that cries
+# wolf on every run is a gate somebody switches off, and then it is not there for the real one.
+def _is_compiled(path):
+    """True for compiled bytecode: any `__pycache__` path component, or a `.pyc`/`.pyo` file."""
+    parts = [p for p in path.replace("/", os.sep).split(os.sep) if p]
+    if not parts:
+        return False
+    return "__pycache__" in parts or parts[-1].endswith((".pyc", ".pyo"))
+
+
 def scan_for_secrets(root, max_bytes=2_000_000):
     """LOCK THREE — read what is about to be PUBLISHED, not what we meant to publish.
 
@@ -371,14 +389,24 @@ def scan_for_secrets(root, max_bytes=2_000_000):
     `max_bytes` is kept (callers pass it) but no longer decides what gets scanned. It is now the
     most of one file held in memory at a time: the segment size for a single very long line.
 
+    COMPILED BYTECODE IS EXCLUDED (`_is_compiled`), and it is the one exclusion here: nothing
+    under `__pycache__` and no `.pyc`/`.pyo` is ever copied into the export or committed, so
+    reading it could only ever produce a finding about a file that is not published. It did,
+    forever, on the drill's own fixture. Source files are not excluded on any ground.
+
     Returns a list of (relative path, line number, what matched). Empty is the good state.
     """
     hits = []
     seen = set()
-    for base, _dirs, files in os.walk(root):
+    for base, dirs, files in os.walk(root):
+        # Bytecode caches are pruned from the WALK, not just filtered per file, so the scanner
+        # never pays to descend into them. See `_is_compiled` above for why they are excluded.
+        dirs[:] = [x for x in dirs if x != "__pycache__"]
         if ".git" in base.replace("/", os.sep).split(os.sep):
             continue
         for f in sorted(files):
+            if _is_compiled(f):
+                continue          # a stray `.pyc` sitting outside a `__pycache__` directory
             p = os.path.join(base, f)
             rel_for_supp = os.path.relpath(p, root).replace(os.sep, "/")
             rel = os.path.relpath(p, root)
@@ -473,7 +501,56 @@ def git(*args, check=True):
     return (r.stdout or "").strip()
 
 
-def prune_export(wanted):
+def _same_dir(a, b):
+    """Are these two paths the SAME directory on disk? Used to refuse a delete path.
+
+    `os.path.abspath` is not an answer to that question. It normalises TEXT and stops: it does
+    not resolve a symlink, a Windows junction or a case variant, so a `SITE` that reaches the
+    live project by any of those routes reads as a different directory and walks straight
+    through the guard written to refuse exactly that. This machine junctions directories
+    deliberately -- `mutate.py` builds its sandbox out of junctions into the live tree -- so the
+    naive comparison is not a theoretical hole here.
+
+    `realpath` resolves the link; the casefold compares the way this filesystem actually
+    compares. Casefolding is the safe direction if it is ever wrong: two genuinely distinct
+    case-sensitive directories would compare EQUAL, and equal means the delete path declines.
+    """
+    return os.path.realpath(a).casefold() == os.path.realpath(b).casefold()
+
+
+def _live_root_state(d):
+    """Classify a `COPY_DIRS` root in the LIVE project: 'live', 'gone' or 'unavailable'.
+
+    The distinction the prune turns on, and it did not exist before. `sync_tree` asked
+    `os.path.isdir` and treated the single answer False as "this directory is not in the project
+    any more" -- but `isdir` also answers False for a directory that is merely UNREADABLE right
+    now, and it swallows the error that would have said which. Absence of evidence was being
+    read as evidence of deletion, on the strength of one failed syscall, for a subtree of a
+    PUBLIC repo.
+
+    So this asks twice. A root that lists is 'live'. A root that does not list AND whose name is
+    ABSENT from a successfully enumerated parent is 'gone' -- positive evidence of removal, not a
+    failed read, because the parent answered. Anything else -- the parent unreadable, or the name
+    still sitting there while the directory itself will not open (a junction whose target is
+    offline, a locked mount, a permissions blip) -- is 'unavailable', and the caller holds the
+    prune for that subtree.
+    """
+    root = os.path.join(HERE, d)
+    try:
+        if os.path.isdir(root):
+            os.listdir(root)              # present is not the same as readable
+            return "live"
+    except OSError:
+        return "unavailable"
+    try:
+        present = d in os.listdir(HERE)
+    except OSError:
+        # We could not even read the live project's own root. Nothing may be withdrawn on that.
+        return "unavailable"
+    return "unavailable" if present else "gone"
+
+
+def prune_export(wanted, held=()):
     """Delete from the export copy everything `sync_tree` did not just put there. -> count.
 
     A COPY IS NOT A REFRESH. This loop copies forward and never looked back, so a file deleted
@@ -493,14 +570,24 @@ def prune_export(wanted):
     REFUSES TO RUN ANYWHERE BUT THE EXPORT COPY. Deletion has no undo, so this walks away
     unless the destination is a different directory from the live project AND carries the
     `.is-export-copy` marker. A misresolved `SITE` (it has happened -- see `export_root`) must
-    read as nothing to do, never as permission to delete a live tree.
+    read as nothing to do, never as permission to delete a live tree. The "different directory"
+    test goes through `_same_dir`, not `abspath`, because junctions are in use on this machine.
+
+    AND IT REFUSES A SUBTREE IT WAS NOT ABLE TO READ. `held` is the set of `COPY_DIRS` roots
+    `sync_tree` could not enumerate in the live project this cycle. Nothing under those roots is
+    touched. A root that is genuinely gone is NOT in `held` and still prunes in full -- that is
+    the point of the prune and it is preserved; the change is only that "I could not read it"
+    stops being spelled the same way as "it is not there".
     """
-    if os.path.abspath(SITE) == os.path.abspath(HERE):
+    if _same_dir(SITE, HERE):
         return 0
     if not os.path.exists(os.path.join(SITE, ".is-export-copy")):
         return 0
+    held = set(held or ())
     removed = 0
     for d in COPY_DIRS:
+        if d in held:
+            continue
         droot = os.path.join(SITE, d)
         if not os.path.isdir(droot):
             continue
@@ -535,15 +622,42 @@ def sync_tree():
 
     Copies forward, then PRUNES (`prune_export`): a refresh that only ever adds is half a
     refresh, and the missing half is the half that withdraws a file. -> files copied.
+
+    A ROOT IT COULD NOT READ IS HELD, NOT WITHDRAWN. `wanted` is built by walking the live
+    project, and `prune_export` deletes whatever is not in it -- so a `COPY_DIRS` root that
+    failed to enumerate contributed NOTHING to `wanted` and the prune then deleted that entire
+    subtree from the public copy. One failed syscall, and `src/` leaves the internet. The root
+    classification (`_live_root_state`) and the mid-walk error collector below separate "not
+    there any more", which still prunes, from "could not be read this cycle", which holds the
+    subtree and says so. Holding costs a stale file for one cycle; the other way costs a
+    withdrawal nobody asked for, in public, and the next cycle puts it back with a second commit
+    that makes the history read as though somebody meant it.
     """
     os.makedirs(DOCS, exist_ok=True)
     n = 0
     wanted = set()
+    held = set()
+
+    def _hold(d, why):
+        held.add(d)
+        silence.note("publish.py:root-unreadable")
+        print("publish: HOLDING the prune of '%s/' -- %s. The published copy keeps what it "
+              "already has for that subtree; nothing is withdrawn on the word of a failed read."
+              % (d, why), file=sys.stderr)
+
     for d in COPY_DIRS:
         root = os.path.join(HERE, d)
-        if not os.path.isdir(root):
+        state = _live_root_state(d)
+        if state == "unavailable":
+            _hold(d, "it is named in COPY_DIRS but could not be read as a live directory")
             continue
-        for base, dirs, files in os.walk(root):
+        if state == "gone":
+            continue          # genuinely absent from the live project -- the prune withdraws it
+        # A root can enumerate and a directory INSIDE it still fail. `os.walk` swallows that by
+        # default and simply yields nothing for the branch, which lands in the same hole one
+        # level down, so the errors are collected and the whole root is held if any arrive.
+        walk_errors = []
+        for base, dirs, files in os.walk(root, onerror=walk_errors.append):
             dirs[:] = [x for x in dirs if x != "__pycache__"]
             for f in files:
                 if _is_skipped(f):
@@ -564,20 +678,24 @@ def sync_tree():
                     pass
                 shutil.copy2(srcp, dstp)
                 n += 1
+        if walk_errors:
+            _hold(d, "%d director(ies) under it could not be listed (%s)"
+                     % (len(walk_errors), str(walk_errors[0])[:80]))
     for f in COPY_FILES:
         srcp = os.path.join(HERE, f)
         dstp = os.path.join(SITE, f)
         if os.path.exists(srcp):
             shutil.copy2(srcp, dstp)
             n += 1
-        elif os.path.exists(dstp) and os.path.abspath(SITE) != os.path.abspath(HERE):
+        elif os.path.exists(dstp) and not _same_dir(SITE, HERE):
             # Named here but gone from the live project: withdraw it rather than leave the
-            # last copy standing in public forever.
+            # last copy standing in public forever. Through `_same_dir`, not `abspath`: this is
+            # the other delete path in this module and it needs the same junction-proof test.
             try:
                 os.remove(dstp)
             except OSError:
                 silence.note("publish.py:prune-remove")
-    pruned = prune_export(wanted)
+    pruned = prune_export(wanted, held=held)
     if pruned:
         # SAY IT. A file leaving the public repo is a bigger event than a file entering it,
         # and the cycle line only ever reported arrivals.
@@ -647,13 +765,21 @@ def write(state=None):
     docs/state.json" over a file that did not move -- a published page frozen at yesterday's
     numbers while the log says it was written, which is the shape of the temp-tree publish this
     file's own SITE comment was written about.
+
+    AND THROUGH `silence.write_json`, WHICH NAMES THE TEMP FILE AFTER THE WRITER. The scratch
+    file was `docs/state.json.tmp` -- one fixed name, for a file this module itself permits two
+    processes to write at once: the `--push --loop` daemon on its timer, and a person running a
+    one-shot `--push` beside it (see `main()`, which deliberately exempts the one-shot from the
+    singleton claim). Two writers then share the scratch file, the second truncates the first
+    mid-`json.dump`, and whichever renames second can land a PARTIAL `state.json` on the public
+    page -- the exact race `runguard._land`, `binding_health._land`, `suppressions._land`,
+    `health.py` and `read.py:_chunk_put` were each repaired for. `write_json`'s temp name carries
+    pid and thread, so the two writers cannot collide on it, and it lands through the same
+    `replace_retry` this docstring is otherwise about.
     """
     os.makedirs(DOCS, exist_ok=True)
     data = state if state is not None else snapshot()
-    tmp = STATE_JSON + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=1)
-    if not silence.replace_retry(tmp, STATE_JSON):
+    if not silence.write_json(STATE_JSON, data, indent=1):
         silence.note("publish.py:state-json-denied")
         raise RuntimeError(
             "docs/state.json could not be replaced after five attempts -- a reader is holding "
@@ -661,8 +787,32 @@ def write(state=None):
     return STATE_JSON
 
 
+class PushHeld(RuntimeError):
+    """A commit was made and did NOT reach the public repo.
+
+    Its own type because `push()` used to answer this with a bare `False` -- the SAME answer it
+    gives for "nothing had changed and nothing needed to go" -- and `main()` printed "no change
+    to push" for both, with rc=0. So a one-shot `--push` by a person could commit work, fail to
+    land it, tell them on stdout that there had been nothing to send, and exit 0; only a line on
+    stderr disagreed, and stderr is what a wrapper throws away. That is the defect `main()`'s own
+    "A REFUSED PUBLISH MUST NOT REPORT SUCCESS" comment was written about, still standing in the
+    same function.
+
+    RAISED, NOT RETURNED, deliberately: a return value can be read as success by any caller that
+    does not know to look for a third state, and the whole fault here was a caller not knowing.
+    An exception cannot be mistaken for the quiet no-op by anybody. `main()`'s existing handler
+    prints it and sets rc=1; the loop still retries next cycle, which is the documented and
+    correct behaviour for a held push.
+    """
+
+
 def push(message=None):
-    """Commit and push, quietly doing nothing when nothing changed.
+    """Commit and push. -> True if it landed, False if there was nothing to send.
+
+    THREE OUTCOMES, NOT TWO. `True` means the commit reached origin/main. `False` means the tree
+    was clean and no commit was made -- a genuine no-op, and the only state that may read as
+    "nothing to push". A commit that was made but could not be landed raises `PushHeld`: see
+    that class for why it is not a third return value.
 
     FETCH-REBASE FIRST. Two writers publish into this tree (the standing loop and whatever
     session is working), and a bare push from the second one fails `! [rejected] main -> main
@@ -756,7 +906,7 @@ def push(message=None):
     git("add", "-A")
     porcelain = git("status", "--porcelain")
     if not porcelain:
-        return False
+        return False            # NOTHING TO SEND. The only outcome that may read as a no-op.
     # A history of identical "instruments <time>" messages answers no question anybody brings
     # to a history. The message now names what actually moved: which code files, how much of
     # everything else -- derived from the same status the commit is about to record.
@@ -789,9 +939,12 @@ def push(message=None):
             git("rebase", "--abort", check=False)
         except Exception:
             silence.note("publish.py:rebase-abort")
-        print("push held: rebase onto origin/main failed (" + str(e)[:120]
-              + "); retrying next loop on a fresh tree", file=sys.stderr)
-        return False
+        silence.note("publish.py:push-held")
+        raise PushHeld(
+            "PUSH HELD -- the commit was made on the local export branch and NOTHING reached "
+            "the public repo: the rebase onto origin/main failed (" + str(e)[:120]
+            + "). The export is now ahead of origin; the next cycle retries on a fresh tree. "
+              "This is not 'no change to push'.") from e
     git("push", "-q", "-u", "origin", "main")
     return True
 
@@ -859,7 +1012,18 @@ def main():
             # says what it did and not WHERE it did it cannot expose that class of fault.
             print(f"synced {n} files, wrote docs/state.json  ->  {SITE}")
             if a.push:
+                # `push()` now has only two RETURN values, and both are honest ones: it landed,
+                # or there was nothing to land. The third outcome -- committed but held -- comes
+                # out as `PushHeld` and is caught below, where it prints and sets rc=1, because
+                # a held push reported as "no change to push" with rc=0 is this comment block's
+                # own rule broken one line further down the function.
                 print("pushed" if push() else "no change to push")
+        except PushHeld as held:
+            # Printed WHOLE, not clipped to 180 characters like a generic failure, and on
+            # stdout: the previous version of this state said its only true word on stderr.
+            silence.note("publish.py:main-push-held")
+            print(str(held))
+            rc = 1
         except Exception as e:
             silence.note("publish.py:main")
             print(f"publish failed: {type(e).__name__}: {str(e)[:180]}")

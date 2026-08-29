@@ -180,6 +180,12 @@ def to_options(designation, name, description, band="unassayed", register="class
         "cultures": max(3, min(24, states // 2 + 3)),
         "culture_set": CULTURE_SET.get(register, "european"),
         "religions": max(2, states // 3),
+        # OWNER QUESTION 2026-08-28: "primitive": 35 is unreachable -- TECH (above) offers only
+        # spacefaring/industrial/magical/medieval, so f["tech"] can never be "primitive" and this
+        # entry never fires. Not deleted: it may be vocabulary for a tech tier the generator
+        # doesn't produce yet rather than a stray leftover, and that's the owner's call, not a
+        # cleanup. If a "primitive" tier is wanted, it needs a TECH regex of its own; if not,
+        # this entry is the one to remove.
         "size": {"spacefaring": 90, "industrial": 70, "magical": 55,
                  "medieval": 45, "primitive": 35}.get(f["tech"], 50),
         "era": f["tech"],

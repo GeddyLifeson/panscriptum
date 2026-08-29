@@ -270,7 +270,7 @@ def check_since_snapshot(name):
 
     Asked from the other side of the write it becomes answerable. `seal()` keeps the last
     published copy; this compares the live file against it and hands the verdict to
-    `assert_intact()`, which `publish.py:622` already calls before every push. Measured on
+    `assert_intact()`, which `publish.push()` already calls before every push. Measured on
     2026-08-27 (run #36): a HANDOFF.md truncated to its header and regrown LONGER than it began
     -- 473,848 -> 476,271 bytes -- passed `check_all()`, passed `verify_chain()` (no SHRANK: it
     grew) and passed `assert_intact()`. The whole relay history would have been published as

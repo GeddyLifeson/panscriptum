@@ -63,6 +63,13 @@ ABSENT_PROBE = "Panscriptum_Canary_NoSuchPage_9f3a2c_DoNotCreate"
 # quarantine is that a healthy host stops being mined. See `_probe_present`.
 PRESENT_CANDIDATES = 8
 
+# How many times a compare-and-swap on a read-modify-write may re-read and try again before it
+# reports the write as not landed. Bounded because a writer that loops until it wins is a writer
+# that never returns; more than one because a single refusal is the ordinary case (another pass
+# landed between this one's read and its write) and giving up on it would report a lost
+# quarantine that was only ever a lost race.
+CAS_ATTEMPTS = 5
+
 
 def _load(path, default):
     try:
@@ -148,6 +155,34 @@ def _unlink(path):
         silence.note("binding_health.py:tmp-cleanup")
 
 
+def _report_not_written(code, what):
+    """A write of BINDING_HEALTH.json that did not land, put where the tooling looks.
+
+    THE ASYMMETRY WITH `quarantine()` IS REAL AND IT IS DELIBERATE, and it is written down here
+    because an unexplained one is how the next editor copies the wrong half (order 98b6b7f7ad5f
+    asked exactly that question). A quarantine that does not land leaves a rotten host BEING
+    MINED while the ledger says it was stopped, so it is raised at SUPERVISOR: an action was
+    reported that did not happen. A health report that does not land changes nothing about what
+    the library does next -- the canary already ran, its results are returned to the caller, and
+    the file on disk still holds an earlier pass's verdicts. That is an OBSERVATION going stale,
+    not an action being faked, so it is recorded at JANITOR: on the record, in
+    `state/escalation.log` and `state/failures.json` where the existing tooling already reads,
+    with no authority to stop anything.
+
+    What it must not be is invisible. Until now this printed to stderr and nothing else, so a
+    scheduled `--run` whose report never landed left every downstream reader --
+    `workorders.sweep`'s binding detector, allsweep's reconcile, `health` -- treating an older
+    pass's verdicts as this one's, with the only trace in a log nobody keeps.
+    """
+    print("binding_health: " + what, file=sys.stderr)
+    try:
+        import escalation as ESC
+        ESC.escalate(ESC.JANITOR, code, what, who="binding_health",
+                     evidence={"path": os.path.basename(OUT)})
+    except Exception:
+        silence.note("binding_health.py:escalate")
+
+
 def quarantined():
     """-> {host: record}. Only those whose retry-after has not yet passed."""
     now = time.time()
@@ -196,14 +231,41 @@ def release(host, why="canary passed"):
     A release that does not reach disk leaves the host quarantined while the caller is told it
     is free, which is the mirror of the `quarantine()` lie and just as expensive: coverage stays
     switched off and the log says it was switched back on.
+
+    COMPARE-AND-SWAP, because this is a READ-MODIFY-WRITE and `_land` is a blind overwrite --
+    the same hazard `_land_cas` was written for one file up, arriving in the other state file
+    this module owns. Two writers of `HOST_QUARANTINE.json` is the normal situation here, not an
+    exotic one (a scheduled `--run` releasing recovered hosts while a targeted `--host` pass
+    quarantines a rotten one): each reads the map, each edits its own key, and whichever renames
+    second lands a snapshot taken before the other's edit existed. The write SUCCEEDS, which is
+    why nothing ever reported it, and the lost update looks exactly like a host that was never
+    quarantined -- or, in the other direction, like one nobody ever released. RE-READ AND
+    RETRIED rather than refused outright: the other writer's copy is the newer truth, so this
+    pass folds into it and swaps again. If the file will not hold still, the caller is told the
+    host is STILL QUARANTINED, which is what is on disk. (order 8ee268ce32cc)
     """
-    q = _load(QUARANTINE, {}) or {}
-    if host in q:
+    detail = "not attempted"
+    for _ in range(CAS_ATTEMPTS):
+        # THE DIGEST IS TAKEN BEFORE THE READ, deliberately -- see `_land_cas`. Read first and
+        # the digest would match disk while the copy in hand is already stale, which certifies
+        # the loss instead of catching it.
+        expected = silence.digest_of(QUARANTINE)
+        q = _load(QUARANTINE, {}) or {}
+        if host not in q:
+            return why
         q.pop(host, None)
-        if not _land(QUARANTINE, q):
-            return ("NOT RELEASED: HOST_QUARANTINE.json could not be written (rename refused); "
-                    "%s is still quarantined despite: %s" % (host, why))
-    return why
+        try:
+            landed, detail = _land_cas(QUARANTINE, q, expected)
+        except Exception:
+            # `_land_cas` re-raises whatever stopped the temp file being written; `release()`
+            # has never raised at its callers (`run()` calls it inside the per-host loop, which
+            # only guards `canary`), and a sweep must not abort over one release.
+            silence.note("binding_health.py:release-write")
+            landed, detail = False, "the temp copy could not be written"
+        if landed:
+            return why
+    return ("NOT RELEASED: HOST_QUARANTINE.json could not be written after %d attempts (%s); "
+            "%s is still quarantined despite: %s" % (CAS_ATTEMPTS, detail, host, why))
 
 
 def _fetch_chars(host, title):
@@ -233,14 +295,27 @@ def _fetch_chars(host, title):
     if not got:
         return 0, None
     text = " ".join(str(v) for v in got.values()) if isinstance(got, dict) else str(got)
-    real, why = F.page_looks_real(text, title)
+    # NO TITLE IS PASSED: `page_looks_real` never read the one this handed it, and the check a
+    # reader would infer from that argument -- the article must name the title asked for -- is
+    # the one thing that must NOT be applied here, because the titles this probe uses carry
+    # catalogue disambiguators no article contains. See `feats.page_looks_real`. (9beb0391c8ab)
+    real, why = F.page_looks_real(text)
     if not real:
         return len(text.strip()), "not an article: %s" % why
     return len(text.strip()), None
 
 
-def _probe_present(host, title, timeout=25):
+def _probe_present(host, title):
     """Does this host still resolve a title we know it holds? -> (ok, detail).
+
+    NO `timeout` PARAMETER. This declared `timeout=25`, passed it to nothing, and thereby
+    offered a bound it did not have: `_fetch_chars` calls `feats.fetch`, which takes no timeout
+    and applies `feats.TIMEOUT` inside `feats.api`. A knob that reads as a control and controls
+    nothing is worse than no knob, because the caller stops looking for the real one. Dropped
+    rather than threaded through, because the RAW path (`endpoint.fetch_raw`, every API-closed
+    wiki) does not take one either, so a threaded parameter would still be honoured for some
+    hosts and silently ignored for the rest -- the same lie with a smaller blast radius.
+    (order 0f8be4893543)
 
     TAKES A LIST, AND ONE HIT IS ENOUGH. This probed exactly one title until run #33, and that
     single title came from `known_present_title`, which returns a CATALOGUE ENTRY NAME. Entry
@@ -291,8 +366,11 @@ def _probe_present(host, title, timeout=25):
                    "(tried: %s)" % (len(tried), ", ".join(repr(t) for t in tried[:4])))
 
 
-def _probe_absent(host, timeout=25):
+def _probe_absent(host):
     """Does this host correctly say NO to a title nobody holds? -> (ok, detail).
+
+    No `timeout` parameter either, and for the reason given at `_probe_present`: this one
+    declared one and handed `feats.fetch` nothing but the host and the probe title.
 
     The check nobody thinks to write, and the one that catches a host answering yes to
     everything -- a soft-404, a search page, a login wall dressed as an article. Without it a
@@ -393,6 +471,30 @@ def binding_verdict(sitename, source_names):
     Separated from the probe, like `verdict()` above and for the same reason: the decision is
     easy to get subtly wrong and must be attackable by the drill without a network, rather than
     inferred from whichever branch today's internet happens to produce.
+
+    THE SCORE OF 100 CAN COME FROM CONTAINMENT ALONE, and the record now says when it did.
+    `token_set_ratio` returns 100 whenever one name's words are a subset of the other's, however
+    much unrelated material the longer side carries, so a bare containment reaches CONFIRMED on
+    its own (order 30854f11f322). `containment` in the returned record marks that case, because
+    all three of the live confirmations rest on exactly it -- `Eberron` inside `Eberron: Rising
+    from the Last War`, `War Thunder` inside `War Thunder + World of Tanks/...`, `ANEURISM`
+    inside `ANEURISM IV` -- and so does the false positive the order names, `Prime` inside
+    `Prime World Equipment`.
+
+    AND THAT IS WHY THE THRESHOLD IS NOT TIGHTENED HERE. The obvious remedy -- combine
+    `token_set_ratio` with a length- or coverage-aware ratio -- was measured against the
+    calibration set and it CANNOT separate the two, because they are the same shape. Take the
+    pair that has to be separated: `eberron` vs `eberron rising from last war` must CONFIRM,
+    `legends` vs `league legends` must not. Same token counts, same seven characters on the
+    short side, and every rapidfuzz metric ranks the false positive HIGHER, not lower
+    (`ratio` 40.0 vs 66.7; `token_sort_ratio` the same; `WRatio` 90 vs 90). Any floor that
+    refuses `legends` refuses `Eberron Wiki` first. Nor does "is the short name an ordinary
+    English word" work, which is the discriminator a person is actually using: `aneurism` is
+    one, and `ANEURISM Wiki` is a live confirmed binding. The separating evidence is not in
+    these two strings at all -- it is in whether the wiki's CONTENT answers for this source,
+    which `hostcheck` measures and this pure function is not given. Recorded, not guessed:
+    a caller that wants to distrust a containment-only CONFIRMED can now see which ones they
+    are, and the order stays open for the evidence that would actually settle it.
     """
     if not sitename or not source_names:
         return {"verdict": "UNKNOWN", "score": None, "sitename": sitename,
@@ -404,6 +506,14 @@ def binding_verdict(sitename, source_names):
     # A host can carry more than one source; the binding is right if it matches ANY of them.
     scored = [(fuzz.token_set_ratio(site, _normalise_name(n)), n) for n in source_names]
     score, best = max(scored)
+    # What the score rests on, measured beside it rather than inferred from it: `tight` is the
+    # whole-string ratio, which containment does NOT flatter, so a large gap between the two is
+    # the signature of a match carried entirely by one name's words sitting inside the other's.
+    matched = _normalise_name(best)
+    site_words, best_words = set(site.split()), set(matched.split())
+    contained = bool(site_words) and bool(best_words) and (
+        site_words <= best_words or best_words <= site_words)
+    tight = fuzz.ratio(site, matched)
     if score >= BINDING_CONFIRMED_AT:
         v, why = "CONFIRMED", "the wiki names itself after the source bound to it"
     elif score < BINDING_MISBOUND_BELOW:
@@ -411,7 +521,12 @@ def binding_verdict(sitename, source_names):
     else:
         v, why = "UNCLASSIFIED", "too close to call from the names alone -- a person should look"
     return {"verdict": v, "score": score, "sitename": sitename, "matched": best,
-            "sources": list(source_names), "detail": why}
+            "sources": list(source_names), "detail": why,
+            # The strength of the evidence, not a second verdict. `containment` says one name's
+            # words sit wholly inside the other's, which is what `token_set_ratio` scores 100
+            # whatever else the longer name carries; `tight` is the same pair judged as whole
+            # strings, and the distance between them is how one-sided the match is.
+            "containment": contained, "tight": tight}
 
 
 def _probe_identity(host):
@@ -663,15 +778,19 @@ def run(limit=None, only=None):
         # probe results are still returned, exactly as on the unreadable-report branch above.
         landed, why = _land_cas(OUT, doc, prior_digest)
         if not landed:
-            print("binding_health: this partial pass did NOT land -- %s The %d host(s) it probed "
-                  "were not merged; re-run to fold them into the current report."
-                  % (why, len(out)), file=sys.stderr)
+            _report_not_written(
+                "BINDING_HEALTH_PARTIAL_NOT_MERGED",
+                "this partial pass did NOT land -- %s The %d host(s) it probed were not merged; "
+                "re-run to fold them into the current report." % (why, len(out)))
     elif not _land(OUT, doc):
         # The canary results are still returned -- the run happened -- but anything reading
         # BINDING_HEALTH.json will be looking at the PREVIOUS round's verdicts, so say so here
         # rather than let a stale report pass for a fresh one.
-        print("binding_health: %s could not be written (rename refused); the file on disk is "
-              "from an earlier run, not this one" % os.path.basename(OUT), file=sys.stderr)
+        _report_not_written(
+            "BINDING_HEALTH_NOT_WRITTEN",
+            "%s could not be written (rename refused); the file on disk is from an earlier run, "
+            "not this one, and %d host(s) checked this pass are not in it"
+            % (os.path.basename(OUT), len(out)))
     return out, failed
 
 

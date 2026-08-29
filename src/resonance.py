@@ -36,6 +36,33 @@ reality a ranking can represent. 1 - η is the part that is irreducibly chord ra
 and Theorem 2 says no scalar assay can do better than that bound. It also provides the
 incomparability rate on axis vectors, and reads resonance strength off the shared-stage graph --
 so that "these two things are in relation" is a number everywhere it is claimed.
+
+WHAT IS ACTUALLY WIRED, AS OF 2026-08-28 — READ THIS BEFORE TRUSTING ANY OF THE ABOVE
+-------------------------------------------------------------------------------------
+This module has NO PRODUCTION CALLER. Not a reduced one; none. Order f467f662be4b established
+it and nothing here disputes it:
+
+    hodge_decompose      zero callers anywhere in `src/`.
+    resonance_strength   zero callers anywhere in `src/`.
+    incomparability_rate called only by `verify_math.py`, which unit-tests its unmeasured/tied/
+                         incomparable split. Exercised, never consulted.
+    dominates            called only by `incomparability_rate`, above.
+
+The consequence is specific and it is not academic. `custodes.convene()` gives Threnody -- the
+one standpoint that can REFUSE the output rather than shift it -- a veto that fires when the
+curl fraction clears Saaty's bar, and the eta that veto reads comes from `hodge_decompose`.
+Since nothing calls `hodge_decompose`, nothing computes that eta, and `anchors.py:190`, the sole
+real caller of `convene()`, passes none. So eta 1.0 is never asserted and the veto is never
+declined; it is simply never asked. Every scalar the library has published was published without
+anyone having measured whether a scalar was faithful to it.
+// This is the fourth property from HARD RULE -1: a safety that exists in a file is not a safety
+// that is running. The arithmetic below is correct and has been correct for weeks. It has also
+// been, for exactly that long, unreachable from anything the library actually prints.
+
+WIRING IT IS A CHANGE IN `anchors.py`, NOT HERE, and it needs a real input rather than a call:
+`hodge_decompose` consumes a pairwise contest flow, and the library does not currently build one
+per being. `convene()` reports the gap as an explicit Threnody abstention in the meantime, so no
+published interval can be mistaken for one that cleared the veto. Left as an OPEN order.
 """
 import collections
 import itertools

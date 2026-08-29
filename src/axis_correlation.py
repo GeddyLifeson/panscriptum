@@ -83,6 +83,56 @@ SOURCES = ("data/HANDBUILT_ASSAYS.json", "data/HERO_ASSAYS.json", "data/PANTHEON
 
 MIN_N = 4          # below this a Pearson r is noise wearing a decimal point
 
+# Set the first time this module has to answer WITHOUT a measured matrix, and never cleared: a
+# process that once computed a widening under the independence assumption computed it under the
+# independence assumption, whatever the file does afterwards. Deliberately the same shape as
+# `assay.RHO_FALLBACK_REASON`, because it is the same event seen from the other side -- but
+# `assay` only stamps the assays IT computes, and `rho()`/`widening()` have direct callers
+# (`drill.py`) that never pass through `assay` and, until order 1b29e38dbb17, left no trace at
+# all when the matrix was gone.
+MATRIX_FALLBACK_REASON = None
+_ANNOUNCED = [False]
+_NOTED = set()
+
+_FALLBACK_NOTE = ("data/AXIS_CORRELATION.json is unavailable (missing, unreadable, or carrying "
+                  "no `pairs`), so this module answered with rho = 0 -- THE INDEPENDENCE "
+                  "ASSUMPTION, WHICH THIS DATA RULES OUT. The matrix measures a mean r of about "
+                  "+0.32 with every sizeable pair positive; on the charter's own Kenshiro "
+                  "worksheet the honest interval is 1.78x wider than the independent one. Every "
+                  "bar computed in this process is therefore TOO NARROW. Rebuild with "
+                  "`python src/axis_correlation.py --write` before publishing anything.")
+
+
+def _no_matrix(site):
+    """Record, once per process, that this module answered with no matrix at all. -> None.
+
+    WHY THIS EXISTS AND WHAT IT IS NOT. It does NOT change the fallback value -- see `rho()`'s
+    docstring; that value is a standing owner ruling (order c00cab9d0412), pinned by
+    `verify_math._b4_axis_correlation_checks`, and moving it here would re-open that ruling and
+    desynchronise the two sides it pins. What order 1b29e38dbb17 found that WAS unguarded is
+    that the branch was silent: `load()` swallowed its exception into `silence.note` and handed
+    back a bare `None`, and `rho()`/`widening()` then produced rho = 0 / factor 1.0 / cov 0.0 --
+    numbers indistinguishable from a real measurement of an uncorrelated library. A wrong number
+    that announces itself is a different object from a wrong number that does not.
+
+    Three channels, because each fails differently: `silence.note` for the durable ledger (a run
+    redirects stderr, a dashboard never reads it), stderr once for the human at the terminal, and
+    `MATRIX_FALLBACK_REASON` for anything that wants to interrogate the module afterwards.
+
+    ONCE PER SITE, NOT ONCE PER LOOKUP, and the difference is not cosmetic: `widening()` performs
+    55 pair lookups, so an un-deduplicated note would enter the same fault 55 times per call and
+    make the health ledger's counts a measure of how many axis pairs exist rather than of how
+    often the matrix went missing. The fact is recorded either way; only the arithmetic changes.
+    """
+    global MATRIX_FALLBACK_REASON
+    MATRIX_FALLBACK_REASON = _FALLBACK_NOTE + " Site: " + site
+    if site not in _NOTED:
+        _NOTED.add(site)
+        silence.note("axis_correlation.py:" + site)
+    if not _ANNOUNCED[0]:
+        _ANNOUNCED[0] = True
+        print("axis_correlation.py: " + MATRIX_FALLBACK_REASON, file=sys.stderr)
+
 
 def _scores_of(v):
     """PURE. One stored entity -> {axis: numeric score}. Handles both shapes on disk.
@@ -182,11 +232,31 @@ def measure(rows=None):
 
 
 def write(doc=None):
+    """Rebuild `data/AXIS_CORRELATION.json`. -> the path when it LANDED, None when it did not.
+
+    GATED, order 2ffec635d51c. `silence.write_json` writes to a pid/thread-stamped temp file and
+    then renames; it returns whether that rename LANDED and never raises when it is refused,
+    because `replace_retry` records the denial and expects the caller's next round to carry the
+    write. This function discarded that verdict and returned `OUT` unconditionally, so `main()`
+    printed "wrote data/AXIS_CORRELATION.json" over a file that had not moved -- and a stale
+    matrix is not an absent one: nothing announces it, `load()` succeeds, `rho()` answers, and
+    every published +/- afterwards is computed from a covariance matrix nobody knows did not
+    update. On Windows a denied replace is routine, not exotic: any reader holding the target
+    open produces one.
+    // The same helper had the same fault in `zfighters.py` and was fixed there in the run #36
+    // sweep; this is that pattern copied, verdict for verdict.
+
+    RETURNING None RATHER THAN RAISING keeps the established contract of this helper -- a denial
+    is a retryable event, not an error -- and the only caller (`main()`, below) turns it into a
+    non-zero exit so a scheduled rebuild cannot report success.
+    """
     doc = doc or measure()
     doc["note"] = ("MEASURED, not decreed. Rebuild with `python src/axis_correlation.py "
                    "--write` whenever the number of entities with numeric axis scores grows. "
                    "rho = 0 is the one value this data rules out.")
-    silence.write_json(OUT, doc, indent=2, sort_keys=True)
+    if not silence.write_json(OUT, doc, indent=2, sort_keys=True):
+        silence.note("axis_correlation.py:write-denied")
+        return None
     return OUT
 
 
@@ -223,9 +293,19 @@ def rho(a, b, doc=None, default=None):
     fails BREACHED the moment `widening()` stops measurably widening a bar, missing matrix or
     corrupt one alike. See order 1b29e38dbb17 for the analysis; changing the fallback VALUE would
     be re-opening c00cab9d0412's ruling, not fixing a bug, so it stays as `assay.py` chose it.
+
+    WHAT ORDER 1b29e38dbb17 DID CHANGE (2026-08-28): the branch is no longer SILENT. It was
+    returning 0.0 with no note, no stamp and no stderr line, so a direct caller -- and
+    `widening()` below, which loads the matrix itself and then hands `None` down to every one of
+    its 55 pair lookups -- got factor 1.0 / cov 0.0, a result shaped exactly like a measurement
+    of a library whose Measures are independent. `_no_matrix()` now fires on this branch: a
+    `silence.note`, one stderr line per process, and `MATRIX_FALLBACK_REASON` left standing.
+    // Note the asymmetry that makes this the right half to fix: the VALUE is defensible and
+    // ruled on, the SILENCE never was, and only the silence let the two be confused.
     """
     doc = doc or load()
     if not doc:
+        _no_matrix("rho-no-matrix")
         return 0.0 if default is None else default
     lo, hi = sorted((a, b))
     hit = doc["pairs"].get("%s|%s" % (lo, hi))
@@ -241,8 +321,19 @@ def widening(weights, sigma, axes, doc=None):
 
     Returns a FACTOR rather than a corrected interval so callers cannot accidentally apply it
     twice, and so the two components stay separately inspectable in the report.
+
+    ON THE MISSING MATRIX (order 1b29e38dbb17). This is the loudest place the fault lands and was
+    the quietest: `load()` returning None here does not produce one suspicious number, it makes
+    EVERY pair below fall to rho = 0, so `cov` comes back exactly 0.0 and `factor` exactly 1.0 --
+    "measured: the covariance term is worth nothing" in the same shape as a real reading. The
+    announcement fires once here rather than 55 times inside `rho()`; `MATRIX_FALLBACK_REASON` is
+    the thing to read afterwards. The RETURN SHAPE is deliberately unchanged (three values, same
+    order): `drill.py:correlation_actually_widens_the_bar` unpacks it, and that net is what
+    actually stands guard -- it fails BREACHED on exactly this factor-1.0 result.
     """
     doc = doc or load()
+    if not doc:
+        _no_matrix("widening-no-matrix")
     denom = sum(weights[k] for k in axes)
     if not denom:
         return 1.0, 0.0, 0.0
@@ -278,7 +369,14 @@ def main():
     if doc["mean_r"] and doc["mean_r"] > 0.1:
         print("   The Measures are NOT independent. rho = 0 is ruled out by this data.")
     if a.write:
-        print("\nwrote " + write(doc))
+        landed = write(doc)
+        if not landed:
+            print("\nWRITE DENIED -> %s: the replace was refused, so the matrix on disk is still "
+                  "the PREVIOUS run's and the measurement printed above did NOT land. Every "
+                  "interval computed from that file until this succeeds is built on the older "
+                  "matrix. Rerun to retry." % OUT)
+            return 1
+        print("\nwrote " + landed)
     return 0
 
 

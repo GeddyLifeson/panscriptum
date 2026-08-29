@@ -708,6 +708,49 @@ def sweep_detectors():
     except Exception:
         _detector("drill-close", False)
 
+    # STRANDED SYNTHESIS -- a record with entries and no synthesis block.
+    #
+    # On 2026-08-28 thirty-one records carried a null synthesis (191,029 entries, Marvel and DC
+    # among them) because the catalogue-side writer returned "synthesis": None for a wiki lead
+    # paragraph and landed that None on top of the pipeline's finished work. Both writers were
+    # repaired and the thirty-one restored by hand (order 3c7c8a6e9102) -- but NOTHING WATCHES
+    # FOR IT HAPPENING AGAIN. `phase_synthesis` skips any source already in its done-keys, and a
+    # clobbered source is in those keys exactly as a completed one is, so the pipeline will never
+    # revisit it on its own and no existing check reports it. A loss that the pipeline cannot
+    # see and no detector names is a loss that is found by a person noticing, months later.
+    #
+    # SELECT ON THE CONDITION, NOT THE CAUSE. `retry_synthesis.stranded_sources()` already
+    # computes exactly this list, and it was written after measuring that the pipeline's FAILED
+    # set held two of the thirty-one that qualified: twenty-nine never failed anything. A
+    # detector keyed to the cause misses every casualty whose cause it did not anticipate.
+    #
+    # Filed at RUN rather than raised: `retry_synthesis.py` is the remedy and it is safe to run,
+    # but re-synthesising is expensive enough to be a run's decision rather than an automatic one.
+    try:
+        import retry_synthesis as _RS
+        stranded = _RS.stranded_sources()
+        _fire(
+            not stranded,
+            "STRANDED_SYNTHESIS",
+            ("%d source(s) hold entries but no synthesis block, and the pipeline will NEVER "
+             "revisit them: %s. `phase_synthesis` skips any source already in its done-keys, so "
+             "a block lost to a bad writer, a bad merge or a half-landed restore is not retried "
+             "and not reported -- which is how thirty-one records sat clobbered until a person "
+             "noticed on 2026-08-28. Remedy: `python src/retry_synthesis.py` re-synthesises them "
+             "by the same method `phase_synthesis` uses. If a source here has entries that are "
+             "genuinely unsynthesisable, that is a finding in its own right, not a reason to "
+             "silence this."
+             % (len(stranded), ", ".join(stranded[:12]) + (" (+%d more)" % (len(stranded) - 12)
+                                                           if len(stranded) > 12 else ""))),
+            "RUN", "MAJOR",
+            where="records with entries and synthesis=None",
+            evidence={"proof": "retry_synthesis.stranded_sources() -> %d source(s): %s"
+                               % (len(stranded), ", ".join(stranded))},
+            found_by="workorders.sweep stranded-synthesis")
+        _detector("stranded-synthesis", True)
+    except Exception:
+        _detector("stranded-synthesis", False)
+
     # `file_order` returns None for a finding whose queue write did not land (it says so on
     # stderr). Those must not be counted as filed -- "swept: N filed" over an order that is not
     # in the file is the same lie as a green check that never ran.

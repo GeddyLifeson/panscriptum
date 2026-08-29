@@ -316,6 +316,31 @@ def _mutations(tree, text):
     file, so every mutant would differ from the original in thousands of irrelevant ways and a
     survivor's diff would be unreadable. These are surgical single-token edits on the original
     text, which keeps the diff to exactly the thing that changed.
+
+    EACH OCCURRENCE ON A LINE IS ITS OWN MUTANT, not merely each AST node. The first version of
+    this used `line.replace(old, new, 1)`, which always rewrites the FIRST occurrence of the
+    target text on the line -- so `if a < b and c < d:` (two Compare nodes, one per `<`) asked
+    for the edit twice and got the identical answer both times: `a >= b and c < d`, never
+    `a < b and c >= d`. The dedup step below then collapsed the two identical-looking entries
+    into one, so the second `<` was a mutation NEVER ATTEMPTED, silently absent from both the
+    killed and the survived counts -- a coverage hole in the tool whose only job is measuring
+    coverage. The same shape hit `and`/`or` chains and repeated `not`/`True`/`False` on one line.
+
+    THE FIX LOCATES EACH OCCURRENCE BY ITS OWN NODE, not by counting through the line. Every
+    node in `ast.parse` output (3.8+) carries `end_lineno`/`end_col_offset` alongside
+    `lineno`/`col_offset`, so a Compare, UnaryOp or Constant node's own span brackets exactly the
+    text that one node produced -- searching for the operator WITHIN that span, instead of from
+    the start of the line, finds the right occurrence even when another identical one sits
+    earlier on the same line. `BoolOp.values` holds every operand of a same-precedence chain
+    (`a and b and c` is ONE node with three values, not two nested ones), so each ADJACENT PAIR
+    of values is walked separately and the connective between that specific pair is what gets
+    mutated -- which is what turns "one BoolOp node" into "as many mutants as connectives".
+
+    A node whose span crosses lines (a wrapped comparison, a multi-line boolean expression) is
+    not something this function's line-oriented editing was ever built to target precisely, so
+    those fall back to the previous whole-line `replace(..., 1)` behaviour rather than guessing
+    at a column that might land in the wrong place -- unchanged from before this fix, and no
+    worse than it was.
     """
     out = []
     lines = text.splitlines(keepends=True)
@@ -324,6 +349,25 @@ def _mutations(tree, text):
         i = node.lineno - 1
         return (i, lines[i]) if 0 <= i < len(lines) else (None, None)
 
+    def _spot(node, old):
+        """The exact column of `old` inside `node`'s own source span. -> (line, pos) or None.
+
+        None means the span cannot be trusted (crosses lines, too old a Python to carry
+        end_col_offset, or `old` simply is not in it) -- callers fall back to whole-line
+        matching in that case, exactly as this function did before occurrence-tracking existed.
+        """
+        end_lineno = getattr(node, "end_lineno", None)
+        end_col = getattr(node, "end_col_offset", None)
+        if end_lineno != node.lineno or end_col is None:
+            return None
+        _, line = line_of(node)
+        if line is None:
+            return None
+        pos = line.find(old, node.col_offset, end_col)
+        if pos == -1:
+            return None
+        return line, pos
+
     for node in ast.walk(tree):
         # --- comparison operators: the single richest source of real defects
         if isinstance(node, ast.Compare) and len(node.ops) == 1:
@@ -331,38 +375,84 @@ def _mutations(tree, text):
                     ast.GtE: (">=", "<"), ast.Eq: ("==", "!="), ast.NotEq: ("!=", "==")}
             got = swap.get(type(node.ops[0]))
             if got:
-                i, line = line_of(node)
-                if line and got[0] in line:
-                    out.append((node.lineno, "%s -> %s" % got, line,
-                                line.replace(got[0], got[1], 1)))
-        # --- boolean connectives
+                spot = _spot(node, got[0])
+                if spot:
+                    line, pos = spot
+                    new_line = line[:pos] + got[1] + line[pos + len(got[0]):]
+                    out.append((node.lineno, "%s -> %s" % got, line, new_line))
+                else:
+                    _, line = line_of(node)
+                    if line and got[0] in line:
+                        out.append((node.lineno, "%s -> %s" % got, line,
+                                    line.replace(got[0], got[1], 1)))
+        # --- boolean connectives: one mutant PER CONNECTIVE, not per BoolOp node, so a chain
+        # like `a and b and c` -- one node holding TWO `and`s -- gets each mutated independently.
         elif isinstance(node, ast.BoolOp):
             a, b = ("and", "or") if isinstance(node.op, ast.And) else ("or", "and")
-            i, line = line_of(node)
-            if line and (" %s " % a) in line:
-                out.append((node.lineno, "%s -> %s" % (a, b), line,
-                            line.replace(" %s " % a, " %s " % b, 1)))
+            found_any = False
+            for left, right in zip(node.values, node.values[1:]):
+                l_end_lineno = getattr(left, "end_lineno", None)
+                l_end_col = getattr(left, "end_col_offset", None)
+                if l_end_col is None or l_end_lineno != right.lineno:
+                    continue
+                _, line = line_of(right)
+                if line is None:
+                    continue
+                pattern = " %s " % a
+                pos = line.find(pattern, l_end_col, right.col_offset)
+                if pos == -1:
+                    continue
+                found_any = True
+                new_line = line[:pos] + (" %s " % b) + line[pos + len(pattern):]
+                out.append((right.lineno, "%s -> %s" % (a, b), line, new_line))
+            if not found_any:
+                _, line = line_of(node)
+                if line and (" %s " % a) in line:
+                    out.append((node.lineno, "%s -> %s" % (a, b), line,
+                                line.replace(" %s " % a, " %s " % b, 1)))
         # --- `not`, dropped. A guard that forgets its negation is a guard that inverts.
         elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
-            i, line = line_of(node)
-            if line and "not " in line:
-                out.append((node.lineno, "drop `not`", line, line.replace("not ", "", 1)))
+            spot = _spot(node, "not ")
+            if spot:
+                line, pos = spot
+                new_line = line[:pos] + line[pos + len("not "):]
+                out.append((node.lineno, "drop `not`", line, new_line))
+            else:
+                _, line = line_of(node)
+                if line and "not " in line:
+                    out.append((node.lineno, "drop `not`", line, line.replace("not ", "", 1)))
         # --- the two constants that decide everything
         elif isinstance(node, ast.Constant) and node.value is True:
-            i, line = line_of(node)
-            if line and "True" in line:
-                out.append((node.lineno, "True -> False", line,
-                            line.replace("True", "False", 1)))
+            spot = _spot(node, "True")
+            if spot:
+                line, pos = spot
+                new_line = line[:pos] + "False" + line[pos + len("True"):]
+                out.append((node.lineno, "True -> False", line, new_line))
+            else:
+                _, line = line_of(node)
+                if line and "True" in line:
+                    out.append((node.lineno, "True -> False", line,
+                                line.replace("True", "False", 1)))
         elif isinstance(node, ast.Constant) and node.value is False:
-            i, line = line_of(node)
-            if line and "False" in line:
-                out.append((node.lineno, "False -> True", line,
-                            line.replace("False", "True", 1)))
+            spot = _spot(node, "False")
+            if spot:
+                line, pos = spot
+                new_line = line[:pos] + "True" + line[pos + len("False"):]
+                out.append((node.lineno, "False -> True", line, new_line))
+            else:
+                _, line = line_of(node)
+                if line and "False" in line:
+                    out.append((node.lineno, "False -> True", line,
+                                line.replace("False", "True", 1)))
 
-    # Deduplicate: several AST nodes can sit on one line and produce the same edit.
+    # Deduplicate: several AST nodes can still legitimately produce the exact same edit (e.g. an
+    # equivalent node visited twice). Keyed on the RESULTING TEXT, not the description, because
+    # two independent mutations on one line (the first `<` flipped, the second `<` flipped) now
+    # produce two DIFFERENT `new_src` strings under the same description and must both survive
+    # this step -- keying on description alone is what collapsed them before this fix.
     seen, uniq = set(), []
     for m in out:
-        key = (m[0], m[1])
+        key = (m[0], m[3])
         if key not in seen and m[2] != m[3]:
             seen.add(key)
             uniq.append(m)
@@ -727,9 +817,21 @@ def sandbox():
     """
     reap_orphans()
     root = tempfile.mkdtemp(prefix="panscriptum_mutate_")
-    # CLAIMED BEFORE ANYTHING IS COPIED. The copy below is the longest and most fragile part of
-    # building a sandbox, and it is exactly the window in which M46 struck -- so the ownership
-    # record that makes this directory untouchable by another process's reap goes down first.
+    # ACCEPTED RISK, VERIFIED, NOT FIXED (order 404d0ccf9df5). There is a real, narrow window
+    # right here: `root` exists and matches SANDBOX_PREFIX before the next line writes its
+    # owner file, so a concurrent `reap_orphans(older_than=0)` landing in that exact gap would
+    # read `_owner_pid(root)` as None (no owner file yet) and delete it out from under this
+    # call. Re-audited rather than assumed: `reap_orphans()`'s own age gate is what closes this
+    # in every real run -- the default `ORPHAN_AGE_SECONDS` is six hours, so a directory whose
+    # mtime is microseconds old is always skipped by `getmtime(p) > cutoff` -- and an
+    # `older_than=0` call only exists in this codebase as a deliberately aggressive drill-net
+    # probe proving the reaper can reap at all (see the M46 comments on `reap_orphans` above),
+    # never in a nightly or scheduled path. Landing that probe inside this specific gap, on this
+    # specific machine's tempdir, is not something a lock is worth adding for: the fix that
+    # would close it cleanly -- publishing the directory under SANDBOX_PREFIX only after its
+    # owner file already exists inside it -- means restructuring `sandbox()`'s own claim
+    # sequence, which is exactly the sandbox/ownership machinery this project does not let an
+    # automated pass touch without a person reading the change. Left open on purpose.
     _claim_sandbox(root)
     os.makedirs(os.path.join(root, "src"))
     # THE COPY IS NOT ATOMIC AGAINST A TREE SOMEBODY IS EDITING. `os.listdir` names the modules

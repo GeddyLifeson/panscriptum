@@ -825,17 +825,42 @@ def compose(entity, cand, epoch, budget, head_note=None):
     return prompt, flat, dropped
 
 
-def _split_gate(got, cand):
-    """Verbatim + relevance gate for split-path sheets. Axis-relevance is by construction
-    (each axis was scored only from its own candidate list); verbatim is checked against that
-    same list."""
+def _split_gate(got, cand, entity=None):
+    """Verbatim + relevance + SUBJECT gate for split-path sheets. Axis-relevance is by
+    construction (each axis was scored only from its own candidate list); verbatim is checked
+    against that same list; guard 3 is applied here for the same reason `verify` applies it.
+
+    GUARD 3 USED TO STOP AT THE ONE-SHOT DOOR (order e22f29b8e4df). `verify()` called
+    `subject_refusal`; this function did not call it at all, and this is the DEFAULT path --
+    anything over ONE_SHOT_MAX comes here, which is precisely the heaviest and best-documented
+    entities in the library, the ones a bystander's deed is most likely to be sitting next to.
+    "Beerus erased the universe with a flick" scored 9.0 for Transgression on a sheet filed
+    under GOKU and the rejection list came back empty: the guard existed, could refuse, and was
+    never asked. A safety in a file is not a safety in effect.
+
+    The guard is run against the FULL CANDIDATE SENTENCE rather than the model's citation. The
+    citation may be a trim of it, and a trim is exactly what removes the agent -- "erased the
+    universe with a flick" carries no Beerus to refuse. `verify` reads `mined[hit]` for the same
+    reason; reading less would over-refuse honest evidence and under-refuse the bystander.
+
+    `entity` defaults to None so a caller with nothing to test against is unchanged rather than
+    silently refused: `subject_refusal` returns None on an empty name, which is the same "cannot
+    decide" it already returns for a bare pronoun.
+    """
     scores, sheet, rejects = {}, {}, []
     for ax, v in (got.get("axes") or {}).items():
         sc, ft = v.get("score"), (v.get("feat") or "").strip()
-        own = {r["feat"] for r in (cand.get(ax) or [])}
-        if isinstance(sc, (int, float)) and ft and any(ft in o for o in own):
-            # containment one way ONLY: a trimmed copy of a real candidate passes; a fabricated
-            # wrapper AROUND a real candidate (o in ft) is the fabrication direction and fails
+        # containment one way ONLY: a trimmed copy of a real candidate passes; a fabricated
+        # wrapper AROUND a real candidate (o in ft) is the fabrication direction and fails
+        source = next((r["feat"] for r in (cand.get(ax) or [])
+                       if ft and ft in r["feat"]), None) if ft else None
+        if isinstance(sc, (int, float)) and source is not None:
+            # 3 SUBJECT -- the entity has to be the doer, on this path too.
+            why = subject_refusal(entity, source, ax)
+            if why:
+                rejects.append((ax, f"entity is not the actor ({why}): {source[:60]}"))
+                scores[ax] = A.UNESTIMABLE
+                continue
             scores[ax] = max(0.0, min(9.9, float(sc)))
             sheet[ax] = ft
         elif isinstance(sc, (int, float)):
@@ -943,7 +968,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
     ev_v = dict(ev)
     ev_v["feats"] = [flat[k][1] for k in sorted(flat)]
     if used.startswith("split"):
-        scores, sheet, rejects = _split_gate(got, cand)
+        scores, sheet, rejects = _split_gate(got, cand, entity)
     else:
         scores, sheet, rejects = verify(entity, got, ev_v)
         if not sheet and any(cand.values()):
@@ -972,7 +997,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
                 anchor = got.get("anchor") if got.get("anchor") in A.LADDER else anchor
                 if ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
                     anchor = ceiling[1]
-                scores, sheet, rejects = _split_gate(got, cand)
+                scores, sheet, rejects = _split_gate(got, cand, entity)
 
     # Cross-axis citation is now checkable by INDEX rather than by lexicon: every candidate knows
     # which axis it was offered under, so a line filed elsewhere is caught exactly.

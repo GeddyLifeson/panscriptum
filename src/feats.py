@@ -200,8 +200,20 @@ _REFUSAL_MARKERS = ("enable javascript", "checking your browser", "cloudflare",
 MIN_REAL_PAGE_CHARS = 200
 
 
-def page_looks_real(text, title="", wiki=True):
+def page_looks_real(text, *, wiki=True):
     """-> (ok, why). Is this the article, or something wearing its URL?
+
+    NO `title` PARAMETER, AND DELIBERATELY NOT. This took `title=""` between `text` and `wiki`
+    for as long as it has existed and never read it once -- both callers passed one, so both
+    were entitled to believe the gate checked that the document it was handed is the document
+    that was asked for, and it never did (order 9beb0391c8ab). The parameter is gone rather than
+    wired up, because the check a caller would infer from it CANNOT be written here safely: the
+    obvious form is "the title must appear in the page", and `binding_health` probes with
+    catalogue entry names carrying the cataloguer's disambiguators -- `Scout (Jeremy Willis)`,
+    `Cetana (the Synthetic Queen)` -- which no article contains verbatim. That test would refuse
+    real pages and quarantine live hosts, which is the exact false-quarantine failure run #33
+    paid for across twenty hosts. `wiki` is keyword-only so an old positional `(text, title)`
+    call raises instead of quietly binding the title to `wiki` and loosening the gate.
 
     THE GAP THIS CLOSES. Every extracted sentence is already verified VERBATIM against the page
     it came from, and that check is sound -- it cannot be fooled by a paraphrase. What it cannot
@@ -1154,7 +1166,7 @@ def evidence_for(host, name, cache=True):
         # interstitial is a real document that mines to zero feats, and "zero feats" is
         # indistinguishable from an honest absence once it is written to the cache. Recorded
         # rather than dropped: the whole point is that the reason is visible afterwards.
-        ok, why = page_looks_real(wt, t, wiki=wiki_source)
+        ok, why = page_looks_real(wt, wiki=wiki_source)
         if not ok:
             unreal[t] = why
             continue
