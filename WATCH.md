@@ -1,20 +1,20 @@
 # OVERWATCH
 
-round 162  ·  last run 2026-08-29 14:50
+round 163  ·  last run 2026-08-29 15:11
 
 ## Structure
 
-- modules that will not import: **0**
-- files that will not parse: **0** of 273,738 inspected (deep scan as of round 157)
+- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
+- files that will not parse: **0** of 274,390 inspected
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**1 open** (0 high). Newest first.
+**1 open** (1 high). Newest first.
 
-- **snapshot.py** `restore` — [MEDIUM] Copies a snapshot into a directory, but the function's name and comment suggest it should be restoring from a snapshot, not copying into a directory
-  - says: Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it.
+- **axis_correlation.py** `rho` — [HIGH] Returns 0.0 when the matrix is missing, which contradicts the claim that it returns the measured mean for unmeasured pairs
+  - says: Correlation between two axes. -> float.
 
 ---
 
