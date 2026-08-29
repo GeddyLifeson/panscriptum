@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 141  ·  last run 2026-08-29 02:45
+round 142  ·  last run 2026-08-29 03:17
 
 ## Structure
 
@@ -11,20 +11,24 @@ round 141  ·  last run 2026-08-29 02:45
 
 ## What the model found in the code
 
-**10 open** (6 high). Newest first.
+**12 open** (3 high). Newest first.
 
+- **navtree.py** `write_json` — [HIGH] writes to the file
+  - says: reads whatever file IS on disk
 - **magnitude.py** `verify` — [HIGH] decides on the SENTENCE alone
   - says: the entity must be the DOER
 - **local_agent.py** `t_propose_patch` — [HIGH] does not handle failed reverts, does not trigger exit code
   - says: A FAILED REVERT MUST REACH THE EXIT CODE.
-- **liveness.py** `scoped` — [HIGH] a dictionary that is never populated because the loop that assigns it is never executed
-  - says: a dictionary mapping keys to sets of attributes
-- **ingest_doc.py** `main` — [HIGH] returns 0 regardless of input
-  - says: entry point for the script
-- **ingest_doc.py** `write_record_catalogue` — [HIGH] the code calls write_record_catalogue but the comment says it should be write_record
-  - says: ADVANCE ON THE WRITE, NOT ON THE INTENT
-- **gpu_lane.py** `_heartbeat` — [HIGH] Does not actually keep leases fresh; it was supposed to call _touch to refresh leases but does not do so.
-  - says: Keep every lease this call holds fresh until the call finishes.
+- **overnight.py** `run` — [MEDIUM] cannot run after the reader because pipeline is started in the background and the keeper re-asserts the standing set every 300s
+  - says: Runs after the reader so it sees the evidence the reader just produced
+- **overnight.py** `_keep_warm` — [MEDIUM] Sends a request to the Ollama API to keep the model warm at the configured num_ctx, but does not actually maintain the model resident at that size.
+  - says: Hold the model resident AT THE CONFIGURED num_ctx.
+- **overnight.py** `start` — [MEDIUM] Launches a job and returns a dictionary with the process and file handle, but the function is named 'start' which implies it should not wait, which it does not. However, the functi
+  - says: Launch a job without waiting for it.
+- **navtree.py** `max` — [MEDIUM] returns the maximum register with tie-breaking based on count and name, but the tie-breaking is non-deterministic due to the use of set
+  - says: returns the maximum register with tie-breaking based on count and name
+- **navtree.py** `register_for` — [MEDIUM] returns a register for a node, but the logic for tie-breaking is flawed and non-deterministic
+  - says: returns a register for a node
 - **manifest_builder.py** `volume_code` — [MEDIUM] The code assigns volume numbers based on sorted source names, but the logic for generating the volume code may not correctly reflect the intended deterministic assignment based on 
   - says: Volume numbers are assigned deterministically by sorted source name so the address of a given book is stable across rebuilds.
 - **manifest_builder.py** `volume_code` — [MEDIUM] volume_code is assigned based on sorted source names, but the code does not ensure that the Volume numbers are assigned correctly according to the Series code and source name order
