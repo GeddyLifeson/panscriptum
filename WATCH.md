@@ -1,18 +1,24 @@
 # OVERWATCH
 
-round 146  ·  last run 2026-08-29 05:05
+round 147  ·  last run 2026-08-29 06:02
 
 ## Structure
 
-- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
+- modules that will not import: **0**
 - files that will not parse: **0** of 272,014 inspected (deep scan as of round 145)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**21 open** (5 high). Newest first.
+**21 open** (8 high). Newest first.
 
+- **standards.py** `fab` — [HIGH] UNMEASURED is green by absence
+  - says: UNMEASURED IS NOT GREEN
+- **standards.py** `fab` — [HIGH] sentences that are fabricated
+  - says: sentences that survive the verbatim check
+- **standards.py** `ollama_token_flow` — [HIGH] Hardcodes `num_ctx: 512` instead of deriving it from `config.yaml`
+  - says: Does a generation actually COMPLETE? The third liveness lesson in two days.
 - **standards.py** `unans_files` — [HIGH] unans_files is used but never defined in this file or its imports
   - says: Everything above measures whether the machinery RUNS. These measure whether what it produced can be believed, which is a different question and the library is f
 - **standards.py** `fandom_ipv4_reachable` — [HIGH] The function does not enforce IPv4-only connections, and the docstring's claim about the family being the whole point is contradicted by the code's behavior.
@@ -45,16 +51,10 @@ round 146  ·  last run 2026-08-29 05:05
   - says: git is a function that executes git commands
 - **policy.py** `vacuous` — [MEDIUM] A rule that PASSED while looking at a field that does not exist and the operator is not 'absent'.
   - says: A rule that PASSED while looking at a field that does not exist. Not a failure -- but not evidence of anything either, and the only place it is ever visible.
-- **pipeline.py** `IMPLEMENTED` — [MEDIUM] built from PHASES but still requires manual updates when phases are added or removed
-  - says: BUILT FROM PHASES, NOT HAND-MAINTAINED.
 - **overnight.py** `run` — [MEDIUM] cannot run after the reader because pipeline is started in the background and the keeper re-asserts the standing set every 300s
   - says: Runs after the reader so it sees the evidence the reader just produced
-- **overnight.py** `_keep_warm` — [MEDIUM] Sends a request to the Ollama API to keep the model warm at the configured num_ctx, but does not actually maintain the model resident at that size.
-  - says: Hold the model resident AT THE CONFIGURED num_ctx.
 - **navtree.py** `register_for` — [MEDIUM] returns a register for a node, but the logic for tie-breaking is flawed and non-deterministic
   - says: returns a register for a node
-- **magnitude.py** `main` — [MEDIUM] always returns 0, but the script may have failed
-  - says: exits with 0 on success
 
 ---
 
