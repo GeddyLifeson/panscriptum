@@ -24,6 +24,7 @@ import argparse
 import glob
 import json
 import os
+import sys as _sys
 import threading
 import time
 
@@ -159,8 +160,25 @@ def record(run, covered, batch=None):
         # target. Today `_shard_path` embeds run+batch+pid so the name is usually brand new; it
         # stops being new the moment a caller retries `record()` for the same run/batch in the
         # same process, which is exactly when losing the write costs a batch its coverage.
+        #
+        # GATED, and this is the load-bearing write in this function -- not the aggregate fold
+        # below it. The SHARDS are what `covered_by()` and therefore `missing()` read, so this
+        # file IS this batch's evidence that it read what it read; `SWEEP_COVERAGE.json` is the
+        # convenience view the docstring above already calls best-effort. The comment directly
+        # above names the case (a retried `record()` for the same run/batch in one process
+        # reuses the name, "which is exactly when losing the write costs a batch its coverage")
+        # and the code then discarded the verdict that reports it. A lost shard does not make
+        # an incomplete sweep look complete -- `covered_by` unions, so the error is toward
+        # reporting a gap -- but it makes a batch that DID its work unprovable, and the sweep's
+        # completeness check then blames an agent that read every line. Said out loud so the
+        # caller can re-record instead of arguing with a phantom gap later.
         import silence
-        silence.replace_retry(tmp, p)
+        if not silence.replace_retry(tmp, p):
+            silence.note("sweep_plan.py:shard-write-denied")
+            print("sweep_plan: coverage shard for run=%s batch=%s did NOT land (replace "
+                  "refused). This batch's %d module(s) are unprovable and `--missing %s` will "
+                  "name them; call record() again."
+                  % (run, batch, len(covered), run), file=_sys.stderr)
     except Exception:
         try:
             import silence
@@ -181,6 +199,22 @@ def record(run, covered, batch=None):
                 silence.note("sweep_plan.py:record-aggregate-merge-failed")
             except Exception:
                 pass
+        # VERDICT DELIBERATELY UNUSED HERE, and this one was worth checking rather than gating
+        # on the strength of the filename. `SWEEP_COVERAGE.json` LOOKS like the proof that a
+        # comprehensive sweep covered every module, and it is not: `covered_by()` -- which
+        # `missing()` and therefore the completeness check are built on -- reads the SHARDS,
+        # and consults this file only as an additive fallback for coverage recorded before
+        # shards existed (`out.add(m)`, never a removal). So a refused write here cannot make
+        # an incomplete sweep look complete. It can only make a complete one look short, in
+        # `--coverage`'s human-facing count, which is the fail-safe direction.
+        #
+        # It is also SELF-HEALING, which is the other half of the argument. This file is folded
+        # fresh from `_read_shards()` plus whatever survives on disk on EVERY `record()` call,
+        # so a refused replace leaves the previous file intact and the next batch's record
+        # rebuilds the same content over it. Nothing is lost that anything can lose, and
+        # `write_json` -> `replace_retry` already puts the denial in state/failures.json. The
+        # shard write above is where this function's verdict actually matters; that one is
+        # gated. Do not "fix" this by aborting a sweep over a derived view.
         try:
             import silence
             silence.write_json(COVERAGE, data, indent=1, sort_keys=True)
@@ -192,7 +226,16 @@ def record(run, covered, batch=None):
             tmp = "%s.%d.tmp" % (COVERAGE, os.getpid())
             with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=1, sort_keys=True)
-            os.replace(tmp, COVERAGE)
+            # AND THE FALLBACK MUST NOT BE THE THING THAT RAISES. This was a bare `os.replace`
+            # sitting inside an `except` body with nothing around it, so the Windows denial the
+            # rest of this module routes through `replace_retry` for would escape `record()`
+            # into a sweep agent -- the one path where a coverage write, which is meant to cost
+            # nothing, takes the batch down. Same helper as every other landing in this file.
+            try:
+                import silence as _s
+                _s.replace_retry(tmp, COVERAGE)
+            except Exception:
+                pass
         return data
 
 

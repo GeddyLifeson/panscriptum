@@ -310,8 +310,22 @@ def main():
     if args.write:
         p = os.path.join(HERE, "data", "GROUNDINGS.json")
         # ATOMIC: GROUNDINGS.json is shared. 2026-08-25 whole-tree sweep.
+        #
+        # GATED (order e7b6dcc8d630). `write_json` returns whether the rename LANDED and never
+        # raises when it is denied -- which on Windows is the ordinary outcome while any reader
+        # holds the target -- so discarding it printed "wrote {p}" for a file that had not
+        # changed. Three modules read this file on their own clocks (`navtree`, `pipeline`,
+        # `tiers`), and every one of them would then be reading the PREVIOUS pass's groundings
+        # while the operator had been told the new ones were in place: a stale answer wearing
+        # the shape of a fresh one. Reported as a non-zero exit, which is what `main()` already
+        # uses to mean "this run did not do what it was asked".
         import silence
-        silence.write_json(p, out, indent=2, ensure_ascii=False)
+        if not silence.write_json(p, out, indent=2, ensure_ascii=False):
+            silence.note("grounding.py:write-denied")
+            print(f"\nWRITE DENIED -> {p}: the replace was refused, so the groundings above "
+                  f"did NOT land and navtree/pipeline/tiers still read the previous pass. "
+                  f"Rerun to retry.")
+            return 1
         print(f"\nwrote {p}")
     return 0
 

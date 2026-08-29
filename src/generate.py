@@ -51,11 +51,38 @@ def load_json(path, default):
 
 
 def save_json(path, obj):
-    # ATOMIC: catalog.json and failures.json are rewritten repeatedly across an hours-long
-    # generation run while estate.py and catalog.py read them; a truncate-then-fill here hands
-    # those readers an empty or half-written file. 2026-08-25.
+    """-> True if the file actually landed.
+
+    ATOMIC: catalog.json and failures.json are rewritten repeatedly across an hours-long
+    generation run while estate.py and catalog.py read them; a truncate-then-fill here hands
+    those readers an empty or half-written file. 2026-08-25.
+
+    GATED, run #37's discarded-write-verdict pass. `silence.write_json` returns False rather
+    than raising when the atomic replace is denied -- and a reader holding `output/index/
+    catalog.json` open is enough, which on this machine includes estate.py, catalog.py and
+    Norton's scan of the just-written tree. Every one of the six call sites below dropped that
+    answer, so the two files this program exists to maintain could both silently stop moving:
+
+      * catalog.json is the RESUME LEDGER and the index of what exists. A denied write leaves
+        finished chapters -- raw markdown and compressed blob both on disk -- unrecorded, so the
+        library reports fewer volumes than it holds and the next run regenerates them at model
+        cost, while this run prints "Done. N generated this run".
+      * failures.json is where every REFUSAL lands: a P8 meta-language violation, a blob that
+        would not store, a job that raised. The loop files each one and moves on precisely
+        because the file is the record. A denied write there deletes the only trace of a refusal
+        the console has already scrolled past, and the closing line still says "see failures".
+
+    Reported, never raised: this is called from inside a loop whose whole design is that one bad
+    chapter must not end a multi-hour pass. `main()` turns a failed FINAL write into a nonzero
+    exit, which is the number a scheduler reads.
+    """
     full = os.path.join(HERE, path)
-    silence.write_json(full, obj, indent=2)
+    landed = silence.write_json(full, obj, indent=2)
+    if not landed:
+        silence.note("generate.py:save-denied")
+        print(f"WRITE DENIED -> {path}: the replace was refused (a reader is holding it open). "
+              f"That file still holds its previous contents.", flush=True)
+    return landed
 
 
 def safe_filename(address, ext):
@@ -562,12 +589,24 @@ def main():
         if done_count % 5 == 0:
             save_json(cfg["paths"]["catalog"], catalog)
 
-    save_json(cfg["paths"]["catalog"], catalog)
+    # THE FINAL WRITES DECIDE THE EXIT CODE. The incremental saves above can be made good by the
+    # next one five chapters later; these two cannot, and they are the run's entire durable
+    # product. A pass that generated prose and could not record it must not exit 0 -- the
+    # scheduler, the keeper and `overnight.py` all read that number and nothing else.
+    catalog_landed = save_json(cfg["paths"]["catalog"], catalog)
+    failures_landed = True
     if failures:
-        save_json(cfg["paths"]["failures"], failures)
+        failures_landed = save_json(cfg["paths"]["failures"], failures)
 
     print(f"\nDone. {done_count} generated this run, {fail_count} failed "
           f"(see {cfg['paths']['failures']}).")
+    if not (catalog_landed and failures_landed):
+        print("BUT THE RUN'S RECORD DID NOT LAND: "
+              + ", ".join(n for n, ok in (("catalog", catalog_landed),
+                                          ("failures", failures_landed)) if not ok)
+              + " could not be written. The chapters this run wrote are on disk and are NOT "
+                "catalogued; re-run to redo the bookkeeping.")
+        return 1
 
 
 if __name__ == "__main__":

@@ -228,7 +228,23 @@ def load(refresh=False):
     # the old tmp name carried no pid/thread, so two concurrent --refresh runs shared one temp
     # path, and the write's verdict was discarded -- `load()` returned the fresh inventory
     # whether or not it actually reached disk. write_json fixes both.
-    silence.write_json(CACHE, inv, indent=1, sort_keys=True)
+    #
+    # IT FIXED ONE OF THE TWO. The comment above claimed the discarded verdict was closed and
+    # the very next line went on discarding it (order e7b6dcc8d630) -- `write_json` returns
+    # False on a denied replace rather than raising, so this still returned a fresh inventory
+    # with no idea whether the file had changed. THAT MATTERS BECAUSE THIS CACHE IS NOT
+    # SELF-HEALING: the failure mode is not "absent, so re-mine", it is `load()`'s own fast
+    # path above reading whatever OLD `DESIGNATORS.json` is still on disk and serving it as
+    # current, indefinitely, to `chain` and `magnitude`. `identity.py --refresh` exists for no
+    # other purpose than to move this file, so an operator running it and being told nothing is
+    # being told the wrong thing. Never raised and the return value is unchanged: the caller
+    # holding `inv` has the correct inventory in hand either way, and this is a report about
+    # the DISK copy the other processes will read.
+    if not silence.write_json(CACHE, inv, indent=1, sort_keys=True):
+        silence.note("identity.py:cache-write-denied")
+        print("identity: %s NOT updated (replace denied) -- this process has the fresh "
+              "inventory, but every other reader still sees the previous one. Rerun to retry."
+              % CACHE, file=sys.stderr)
     return inv
 
 

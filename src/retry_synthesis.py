@@ -42,7 +42,7 @@ def load_side():
 
 
 def save_side(d):
-    """Land the side file, MERGING with what is already on disk. -> the merged mapping.
+    """Land the side file, MERGING with what is already on disk. -> (merged mapping, landed?).
 
     `silence.write_json`, not a hand-rolled `path + ".tmp"`: the fixed tmp name collides when
     two processes write at once, and the bare `os.replace` raises on the Windows lock this
@@ -65,11 +65,23 @@ def save_side(d):
     lock file is another thing to leave behind on a killed run, and the honest statement is
     that this script is still meant to be run once at a time. What it now guarantees is that a
     second runner costs at most one overlapping entry rather than every entry it ever wrote.
+
+    AND THE VERDICT ITSELF, which the two paragraphs above both reasoned about losing entries
+    and then threw away. `write_json` answers whether the rename LANDED -- on Windows it is
+    denied whenever any reader holds SYNTHESIS_RETRY.json open, which is the ordinary case
+    here, not an exotic one -- and this returned the in-memory `merged` either way. The caller
+    then printed the rescued magnitude and moved to the next source, so a denied write read
+    exactly like a successful one while the model call that produced it was gone: nothing
+    re-runs it, `--merge` never sees it, and the source arrives at the write phase with no
+    ceiling and no band. That is the outcome named in this module's own opening paragraph as
+    the thing it exists to prevent. The verdict now rides back with the mapping.
     """
     merged = load_side()
     merged.update(d)
-    silence.write_json(SIDE, merged, indent=2, ensure_ascii=False)
-    return merged
+    ok = silence.write_json(SIDE, merged, indent=2, ensure_ascii=False)
+    if not ok:
+        silence.note("retry_synthesis.py:save_side-denied")
+    return merged, ok
 
 
 def failed_sources():
@@ -245,6 +257,8 @@ def main():
         todo = sorted(todo, key=lambda pr: len(pr[1].get("entries") or []))[:args.smallest]
     print(f"{len(todo)} to do now\n")
 
+    # True until a save is refused; a run that saves nothing has nothing outstanding.
+    landed = True
     for path, rec in todo:
         src = rec["source"]
         print(f"  {src:<44}", end="", flush=True)
@@ -254,13 +268,29 @@ def main():
             continue
         side[src] = got
         # Take the MERGED mapping back, so this run's own tally counts what is actually on
-        # disk rather than only what this process rescued -- see `save_side`.
-        side = save_side(side)
+        # disk rather than only what this process rescued -- see `save_side`. The second half
+        # of that return says whether it reached disk at all; a rescue that did not land must
+        # not print like one that did, because nothing re-runs the model call behind it.
+        side, landed = save_side(side)
+        if not landed:
+            # Not necessarily lost for good: every save re-writes the WHOLE accumulated map, so
+            # the next source's save carries this one too. It is lost if the run ends here.
+            print("SAVE DENIED -- %s is NOT on disk (replace refused); the next successful "
+                  "save this run carries it, but if the run ends now this synthesis is gone "
+                  "and the source must be rerun" % src)
+            continue
         print(f"{got['provisional_magnitude']:<10} {got['ceiling_entity']}")
 
-    print(f"\nwrote {len(side)} results to data/SYNTHESIS_RETRY.json")
+    # `len(side)` is this process's memory, not the file. Saying "wrote N" when the last save
+    # was refused is the same lie the per-source line above was fixed for, one level up.
+    if landed:
+        print(f"\nwrote {len(side)} results to data/SYNTHESIS_RETRY.json")
+    else:
+        print(f"\n{len(side)} results in memory, but the LAST save to "
+              f"data/SYNTHESIS_RETRY.json was REFUSED -- the file is behind by at least the "
+              f"final source. Rerun; anything missing is retried.", file=sys.stderr)
     print("merge with:  python src/retry_synthesis.py --merge   (pipeline must be stopped)")
-    return 0
+    return 0 if landed else 1
 
 
 if __name__ == "__main__":

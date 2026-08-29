@@ -141,6 +141,22 @@ def _cs_put(k, n):
         cache[k] = {"at": time.time(), "n": n}
         snap = dict(cache)
     try:
+        # THE VERDICT IS DELIBERATELY NOT GATED HERE, and this comment is the repair rather than
+        # a check (run #37's discarded-write-verdict pass; the same pass gated address_space,
+        # allsweep, cleanup, corpus_db, feats and generate, and stopped here).
+        #
+        # `write_json` returns False rather than raising when the atomic replace is denied, so
+        # the `except` below covers the SERIALISATION only -- reading it as "the write outcome is
+        # handled" would be the mistake. The outcome is genuinely ignorable: this file is a 12h
+        # scratch cache of category sizes and NOTHING reads it but `_cs_load` in this module. A
+        # denial costs one repeated `category_size` call and cannot make any answer wrong -- a
+        # miss re-probes, and the probe is the authority in either case. The reason not to make
+        # noise is in the docstring above: the retry pressure would land on a domain that has
+        # IP-banned this machine once already, for data that is not at risk.
+        #
+        # A PERSISTENT DENIAL IS STILL VISIBLE where it belongs: `silence.replace_retry` records
+        # `replace-denied:<file>` in the health ledger on its own, so a lock that never clears
+        # shows up without this caller inventing a second channel for it.
         silence.write_json(_CS_CACHE_P, snap, indent=None)
     except Exception:
         silence.note("completeness.py:cs-cache")

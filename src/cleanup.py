@@ -34,6 +34,7 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import pipeline as PL          # noqa: E402
+import silence                 # noqa: E402
 
 # Publication scaffolding and site furniture. Note "Season N" is included but a fiction's own
 # in-universe seasons are not: the pattern requires the publication sense (a numbered season with
@@ -145,6 +146,7 @@ def main():
     args = ap.parse_args()
 
     nav, ceil_fixed, ceil_unres, desc_fixed, thin = [], [], [], [], []
+    unwritten = []
 
     for path, rec in PL.records():
         changed = False
@@ -203,7 +205,18 @@ def main():
                     changed = True
 
         if changed:
-            PL.write_record(path, rec)
+            # GATED, like every other caller of the two-writer contract (`catalogue_web.py:498`
+            # gates `write_record_catalogue` the same way). `write_record` answers False for two
+            # separate refusals -- a denied atomic replace, and its own deliberate "could not
+            # read this record to merge, REFUSING to write the in-memory copy over it" -- and
+            # this discarded both. Every correction below is reported from the in-memory lists,
+            # which are appended to BEFORE the write, so a record that refused printed exactly
+            # like a record that was cleaned and the run still ended on "APPLIED." Re-running
+            # recovers the edit; a run that says it applied edits it did not is what stops
+            # anyone from re-running. (run #37 sweep.)
+            if not PL.write_record(path, rec):
+                silence.note("cleanup.py:record-write-refused")
+                unwritten.append(src)
 
     print("=" * 96)
     print("CLEANUP — presentation defects from the backscan")
@@ -226,8 +239,25 @@ def main():
     for s, n, d in thin[:5]:
         print(f"     {str(n)[:26]:<28}{d!r}")
 
-    print("\n" + ("APPLIED." if args.apply else "DRY RUN. Re-run with --apply to write."))
-    return 0
+    if unwritten:
+        # The counts above are what this pass FOUND. These are the records it could not land,
+        # and they are listed by name rather than summarised: "APPLIED." over a refused write is
+        # the exact reading that stops the re-run which would have fixed it.
+        print(f"\nNOT WRITTEN — {len(unwritten):,} record(s) refused the write (a denied "
+              f"atomic replace, or write_record declining to overwrite a record it could not "
+              f"read to merge). Their corrections above are NOT on disk; re-run to retry.")
+        for s in unwritten[:12]:
+            print(f"     {s}")
+        if len(unwritten) > 12:
+            print(f"     ... and {len(unwritten) - 12:,} more")
+
+    if not args.apply:
+        print("\nDRY RUN. Re-run with --apply to write.")
+    elif unwritten:
+        print(f"\nPARTIALLY APPLIED — {len(unwritten):,} record(s) above did not land.")
+    else:
+        print("\nAPPLIED.")
+    return 1 if unwritten else 0
 
 
 if __name__ == "__main__":

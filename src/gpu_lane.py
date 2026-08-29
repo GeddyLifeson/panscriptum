@@ -243,7 +243,16 @@ def foreground(label="foreground"):
     with _DEPTH_LOCK:
         rec = _read(path) or {}
         depth = int(rec.get("depth") or 0) + 1
-        _write_claim(path, depth, label)
+        # THE ENTRY CLAIM IS THE ONE THAT MATTERS, so its verdict is checked (order
+        # e7b6dcc8d630). If this write did not land there is no claim file, `foreground_active`
+        # answers False for this process, and every background caller in the other eight
+        # processes proceeds straight through the yield -- the exact pre-m54 state whose cost
+        # this module's header measures as "240 s+, never completed". Never raised: `lane()`
+        # enters this manager around the caller's model call and the work must happen either
+        # way. Recorded, so a round that ran unarbitrated is distinguishable afterwards from a
+        # round that was arbitrated and merely slow.
+        if not _write_claim(path, depth, label):
+            silence.note("gpu_lane.py:claim-write-denied")
     try:
         yield
     finally:
@@ -253,13 +262,29 @@ def foreground(label="foreground"):
             if d <= 0:
                 _remove_retry(path)      # m55
             else:
+                # THE DECREMENT IS THE SAFE DIRECTION and is deliberately not escalated: a
+                # depth left too HIGH keeps this process's own claim standing a little longer
+                # than the nesting warrants, which errs toward background work yielding to
+                # foreground work rather than away from it, and CLAIM_LEASE_SECONDS collects it
+                # regardless. The denial itself is already in the ledger from `_write_claim`.
                 _write_claim(path, d, label)
 
 
 def _write_claim(path, depth, label):
+    """Land this process's foreground claim. -> True if the claim file now says `depth`.
+
+    THE VERDICT IS RETURNED, not dropped (order e7b6dcc8d630). The paragraph below already
+    argued that a dropped first write leaves the claim invisible and lets every background
+    call walk through the yield this module exists to enforce -- and then discarded the one
+    value that says whether that happened. `contextlib.suppress` covered the same ground for
+    the dump, so BOTH halves of the failure were silent: from `foreground()` a claim that
+    never appeared was indistinguishable from one held. The arbiter still fails open, which is
+    correct -- the caller's work must proceed either way -- but failing open silently is what
+    turns a degraded round into a permanently unexplained one.
+    """
     if not _ensure_dir():
-        return
-    with contextlib.suppress(Exception):
+        return False
+    try:
         tmp = path + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump({"pid": os.getpid(), "depth": depth, "label": label,
@@ -270,7 +295,15 @@ def _write_claim(path, depth, label):
         # sharper of the two: a NEW foreground claim's first write has no beat margin to absorb
         # a miss, and a dropped first write means the claim never appears, so every background
         # call proceeds straight through the yield this file exists to enforce.
-        silence.replace_retry(tmp, path)
+        # `bool(...)`, not `is not False`: `replace_retry` falls off the end of its retry loop
+        # and returns None when every attempt was DENIED (only the non-PermissionError path
+        # returns False explicitly), so an identity test against False reads the commonest
+        # failure on this machine as a success. Truthiness is the contract every other caller
+        # in this project already gates on.
+        return bool(silence.replace_retry(tmp, path))
+    except Exception:
+        silence.note("gpu_lane.py:_write_claim")
+        return False
 
 
 # --------------------------------------------------------------------------- the slots
@@ -324,7 +357,18 @@ def _touch(path):
         tmp = path + "." + str(os.getpid()) + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(rec, f)
-        silence.replace_retry(tmp, path)      # m55, as in _write_claim above
+        # m55, as in _write_claim above. THE VERDICT IS DELIBERATELY NOT ACTED ON HERE, and
+        # this is the one writer in this module where that is right (order e7b6dcc8d630).
+        # A beat is not a fact anybody reads for an answer -- it is a periodic assertion that
+        # the holder is still alive, and `_BEAT_SECONDS` is a THIRD of the shortest lease
+        # precisely so that two consecutive beats may be lost without anyone judging the holder
+        # gone. The next beat, ~100s away, carries the same information and retries the rename;
+        # gating on this one would only skip that. Persistent denial for a whole lease does
+        # cost the holder its slot, but `replace_retry` has already written `replace-denied:`
+        # to the failure ledger by then -- so the condition is visible without this thread
+        # deciding anything about it, and a beat thread that escalated would file one row every
+        # 100s for a condition the lease expiry already handles.
+        silence.replace_retry(tmp, path)
 
 
 # How often a held lease is refreshed. A third of the lease means two consecutive missed beats

@@ -85,7 +85,18 @@ def _clean(t):
 
 
 def extract(pdf_path, source):
-    """PDF -> data/docs/<slug>/pages.json, page-keyed. The WHOLE document, every page."""
+    """PDF -> data/docs/<slug>/pages.json, page-keyed. The WHOLE document, every page.
+
+    RAISES IF THE CORPUS DID NOT LAND (order e7b6dcc8d630). Everything else in this module
+    reports a denied write and continues, because everything else has a next round; this one
+    does not have the same shape. `main()` calls this, then `register()`, and registering
+    points `WIKI_HOSTS` at `doc:<slug>` -- a host whose corpus is either absent or is the
+    PREVIOUS extraction of a different book. Returning `out` on a denied replace also made the
+    "extracted N pages" line true of memory and false of disk, and `mine()` reads the disk.
+    The one exception to the module's own report-and-continue house style is deliberate: there
+    is no useful "continue" from here, only a register-and-mine sequence built on a corpus that
+    is not there. `main()` catches it and reports it as a refusal rather than a traceback.
+    """
     import fitz
     doc = fitz.open(pdf_path)
     out = {}
@@ -99,12 +110,30 @@ def extract(pdf_path, source):
     # by mine() and by the evidence pipeline through the doc: host. A bare open()+json.dump here
     # was a truncate-then-fill; a re-extract that died mid-dump would have destroyed the corpus
     # it was re-extracting, with nothing left to recover from.
-    silence.write_json(os.path.join(d, "pages.json"), out, indent=0, ensure_ascii=False)
+    #
+    # GATED: the sentence above is about a crash; a DENIED replace is the quiet version of the
+    # same loss, and `write_json` reports it by returning False instead of raising.
+    # The call is written out inline rather than through a `pages_p` local because
+    # `handoff/run35/checks_L6.py::check_ingest_doc_extract_writes_pages_atomically` asserts on
+    # this exact source text; hoisting the path broke a check whose intent this change keeps.
+    if not silence.write_json(os.path.join(d, "pages.json"), out, indent=0, ensure_ascii=False):
+        silence.note("ingest_doc.py:pages-write-denied")
+        raise OSError("pages.json for %s could not be replaced (denied, most likely a reader "
+                      "holding %s open) -- the extracted corpus did NOT land, so nothing may "
+                      "be registered or mined against it."
+                      % (source, os.path.join(d, "pages.json")))
     return out
 
 
 def register(source):
-    """Point the source at its document corpus — but never over a real wiki."""
+    """Point the source at its document corpus — but never over a real wiki.
+
+    -> the host string now recorded on disk, or None if the binding could not be written.
+    The None is the point (order e7b6dcc8d630): this used to return `hosts[source]` -- the
+    value it had just put in a local dict -- whether or not that dict ever reached the file,
+    so `main()` printed `host=doc:<slug>` for a binding that existed only in this process. A
+    host binding nothing else can see is the same as no binding at all.
+    """
     with open(HOSTS, encoding="utf-8") as f:
         hosts = json.load(f)
     cur = hosts.get(source)
@@ -112,7 +141,13 @@ def register(source):
         return cur                       # a live wiki outranks a static text; keep it
     hosts[source] = "doc:" + slug(source)
     # ATOMIC: feats.resolve_hosts and standards both read WIKI_HOSTS on their own clocks.
-    silence.write_json(HOSTS, hosts, indent=1, ensure_ascii=False, sort_keys=True)
+    # And BECAUSE they do, the replace can be denied at any moment -- which is exactly why the
+    # verdict is returned rather than dropped. WIKI_HOSTS has lost a write silently once
+    # already (silence.replace_if_unchanged's docstring, m42); the corpus is useless to the
+    # evidence pipeline until this file names it.
+    if not silence.write_json(HOSTS, hosts, indent=1, ensure_ascii=False, sort_keys=True):
+        silence.note("ingest_doc.py:hosts-write-denied")
+        return None
     return hosts[source]
 
 
@@ -284,7 +319,23 @@ def mine(source):
         tmp_state = state_p + ".tmp"
         with open(tmp_state, "w", encoding="utf-8") as f:
             json.dump(state, f)
-        silence.replace_retry(tmp_state, state_p)
+        # THE CURSOR MAY LAG; IT MAY NEVER LEAD. That asymmetry is why this denial is reported
+        # rather than acted on (order e7b6dcc8d630). A denied cursor write leaves `state[next]`
+        # on disk BEHIND the work already merged into the record -- the safe direction, and the
+        # same direction the `write_record_catalogue` gate twenty lines up is protecting: next
+        # run rebuilds `known` from the record itself and skips every entity already there, so
+        # nothing is lost and nothing is duplicated. Stopping here would abandon chunks that
+        # are landing correctly, so the loop continues.
+        #
+        # What is NOT free is the silence. This module naps 300s per miss and runs for hours
+        # against a free-tier tide; a persistently denied cursor means the whole run's progress
+        # is unrecorded and the next run re-asks the model for every chunk of it. That is a
+        # bill the operator should see arriving, not discover.
+        if not silence.replace_retry(tmp_state, state_p):
+            silence.note("ingest_doc.py:cursor-write-denied")
+            print("  chunk %d/%d: resume cursor NOT advanced on disk (write denied); the "
+                  "entries above are saved, but a rerun will re-ask every chunk since the "
+                  "last cursor that landed" % (ci + 1, len(chunks)))
         if (ci + 1) % 10 == 0 or fresh:
             print("  chunk %d/%d  +%d new  (%d total this ingest)"
                   % (ci + 1, len(chunks), len(fresh), state["found"]))
@@ -303,8 +354,26 @@ def main():
     a = ap.parse_args()
 
     if a.pdf:
-        pages = extract(a.pdf, a.source)
+        try:
+            pages = extract(a.pdf, a.source)
+        except OSError as e:
+            # The one refusal in this module, and it stops the sequence rather than reporting
+            # and carrying on: registering a host or mining entities against a corpus that did
+            # not land would build on a book that is not there. Reported as a message and a
+            # non-zero exit, not a traceback. (order e7b6dcc8d630)
+            print("EXTRACT FAILED: %s" % e)
+            return 1
         host = register(a.source)
+        if host is None:
+            # The corpus landed; the pointer to it did not. Said plainly, because the corpus is
+            # invisible to `feats.resolve_hosts` until WIKI_HOSTS names it, and re-running with
+            # the same --pdf is the whole repair.
+            print("extracted %d pages (%d chars) -> data/docs/%s/  but the WIKI_HOSTS write "
+                  "was DENIED: the source is NOT yet bound to doc:%s and nothing will read the "
+                  "corpus until it is. Rerun to retry."
+                  % (len(pages), sum(len(v) for v in pages.values()), slug(a.source),
+                     slug(a.source)))
+            return 1
         print("extracted %d pages (%d chars) -> data/docs/%s/  host=%s"
               % (len(pages), sum(len(v) for v in pages.values()), slug(a.source), host))
         # Provenance is part of the record the moment the corpus exists.

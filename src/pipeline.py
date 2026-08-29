@@ -205,11 +205,30 @@ def load_state():
 
 
 def save_state(st):
+    """Land the resume point. -> True if it actually landed.
+
+    GATED. The one-line comment below already said "readers poll this file" and the code then
+    threw away the answer to whether they would see anything new. PIPELINE_STATE.json is not a
+    convenience here: it is the resume point (`load_state` rebuilds `done`/`failed` from it),
+    `health.py` reads it to report phase progress and `health.reopen_stranded` READ-MODIFY-WRITES
+    it. A denied rename -- the ordinary Windows case, any of those readers holding it open --
+    left the previous state on disk while this process carried on as though the unit were
+    recorded. Two wrong answers follow, not one slow one: a restart re-runs work already done
+    and re-writes its records, and a repair tool reading the stale copy calls settled batches
+    stranded. Reported through `log`, which is this module's own way of making a fault visible
+    (it prints AND lands in state/pipeline.log, so the trace survives the process).
+    """
     os.makedirs(STATE_DIR, exist_ok=True)
     tmp = _tmp_for(STATE)
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(st, f, indent=2, ensure_ascii=False)
-    silence.replace_retry(tmp, STATE)  # atomic; retried, readers poll this file
+    if not silence.replace_retry(tmp, STATE):  # atomic; retried, readers poll this file
+        silence.note("pipeline.py:save_state-denied")
+        log("STATE WRITE DENIED -- PIPELINE_STATE.json still holds the PREVIOUS resume point "
+            "(a reader is holding it open). Progress since the last successful save is not "
+            "recorded; a restart will redo it.")
+        return False
+    return True
 
 
 def cfg():
@@ -254,6 +273,18 @@ def _metric(row):
         if v is not None:
             row = dict(row, vram_mb=v)
         # ONE SYSCALL, NOT A BUFFERED WRITE (m62). See silence.append_line.
+        #
+        # VERDICT DELIBERATELY UNUSED, and this is the one write in this module where that is
+        # right. Two reasons, both checked rather than assumed. (1) It is not silent: on failure
+        # `append_line` calls `silence.note("silence.py:append_line")` itself, so the loss is
+        # already in state/failures.json and visible to `health.py --failures` -- the verdict
+        # would add a second report of a fault that is on file. (2) A lost row cannot produce a
+        # wrong answer downstream. `standards.ollama_token_flow` treats a metrics row inside the
+        # last 15 minutes as free proof of token flow and falls through to a LIVE generate probe
+        # when the ledger is silent, so a dropped row costs a probe, never a false green; and
+        # `standards`' ledger reader already `continue`s past rows it cannot use. The failure
+        # direction is toward more checking, not less. Do not "fix" this by gating it: a
+        # metrics failure must never cost a model call, which is what the docstring promises.
         silence.append_line(METRICS, json.dumps(row))
     except Exception:
         silence.note("pipeline.py:metric")
@@ -1672,10 +1703,21 @@ powershell -Command "Get-CimInstance Win32_Process -Filter \"Name='python.exe' o
         # to make unavailable at twelve sites on 2026-08-25, still open at this one. Both halves
         # matter here specifically because `RUN_STATUS.md` is the file the owner reads to decide
         # whether an unattended multi-day run is healthy. (run #33)
+        #
+        # GATED (run #38). The paragraph above names the stake and the call then discarded the
+        # answer. `replace_retry` does not raise on a denial -- that is its contract -- so the
+        # `except` below could never see one, and a refused rename left the PREVIOUS run's
+        # RUN_STATUS.md in place with its earlier counts and phase ladder. The owner reads that
+        # file to decide whether an unattended multi-day run is healthy; a stale copy under a
+        # silent success is the wrong answer, not a missing one. Reported through `log`, which
+        # both prints and lands in state/pipeline.log where an unattended run's trace lives.
         tmp = "%s.%d.%d.tmp" % (HANDOFF, os.getpid(), threading.get_ident())
         with open(tmp, "w", encoding="utf-8") as f:
             f.write(md)
-        silence.replace_retry(tmp, HANDOFF)
+        if not silence.replace_retry(tmp, HANDOFF):
+            silence.note("pipeline.py:handoff-denied")
+            log("  (handoff NOT updated: replace refused -- %s still shows the PREVIOUS run's "
+                "figures. Do not read it as current.)" % os.path.basename(HANDOFF))
     except Exception:
         log("  (handoff update failed: " + traceback.format_exc(limit=1).strip() + ")")
 

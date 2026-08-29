@@ -266,6 +266,14 @@ _SUPERSEDED_GATE_MARK = "no wiki markup"
 # indistinguishable from a cache that was always right.
 _STALE_GATE = {}
 
+# How many entities were mined and then FAILED TO CACHE -- the atomic replace of the per-entity
+# evidence file denied. Counted per host and printed in roll()'s summary for the same reason as
+# every counter above it: the feats are in the totals either way, so without this an entity
+# whose evidence never reached disk is indistinguishable from one whose did, and the only sign
+# is the same entity being fetched again on the next roll. Against a host that has IP-banned
+# this machine once, "fetched again" is not free. (run #37 sweep.)
+_UNCACHED = {}
+
 
 def reads_as_wiki(host):
     """-> is this host's material wikitext? THE ONE PLACE that question is answered.
@@ -490,8 +498,19 @@ def _slugs(source):
     return out
 
 
+# Did the last `resolve_hosts` land WIKI_HOSTS.json? A module-level fact reported by `main()`,
+# the same shape as `_CAP_BOUND`/`_RATE_LIMITED`/`_STALE_GATE` above, and for the same reason:
+# the function's return value is the map and cannot also be the verdict without changing an
+# arity that every caller and half the handoff notes name. (run #37 sweep.)
+_HOSTS_DENIED = False
+
+
 def resolve_hosts(records, verify=True):
-    """{source: host}. Derived from stored pages where possible, guessed and VERIFIED otherwise."""
+    """{source: host}. Derived from stored pages where possible, guessed and VERIFIED otherwise.
+
+    The returned map is the in-memory one and is correct whether or not the cache write landed;
+    `_HOSTS_DENIED` says which, and `main()` exits nonzero on it. See the write at the foot of
+    this function."""
     known = {}
     if os.path.exists(HOSTS):
         with open(HOSTS, encoding="utf-8") as f:
@@ -550,7 +569,29 @@ def resolve_hosts(records, verify=True):
     tmp = HOSTS + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(known, f, indent=1, ensure_ascii=False, sort_keys=True)
-    silence.replace_retry(tmp, HOSTS)
+    # GATED. `replace_retry` answers False rather than raising when the rename is denied, and
+    # this dropped that answer -- so `--hosts` printed "N/M sources resolved to a wiki host ->
+    # data/WIKI_HOSTS.json" and exited 0 over a file that had not changed. The paragraph above
+    # already names the readers (`read.py:queue()`, completeness, ingest_doc, wiki_source), and
+    # a denial is the ordinary Windows case precisely because they hold it open.
+    #
+    # WHAT GOES WRONG IS NOT "the map is missing", IT IS "the map is the old one". The override
+    # loop at the top of this function exists to unfreeze cached guesses that were wrong in the
+    # most expensive way available -- descent.fandom.com for Descent into Avernus, the board
+    # game -- and a silently denied write leaves exactly those wrong guesses in place while the
+    # console reports the correction. The next roll then mines thirteen wikis' worth of the
+    # wrong fiction, which is the failure this file's own comment was written about.
+    #
+    # Recorded rather than raised: the map returned here is correct in memory, so `--roll` may
+    # go on using it for this run, and `main()` turns the flag into a nonzero exit.
+    global _HOSTS_DENIED
+    _HOSTS_DENIED = not silence.replace_retry(tmp, HOSTS)
+    if _HOSTS_DENIED:
+        silence.note("feats.py:hosts-write-denied")
+        print("WRITE DENIED -> %s: the replace was refused (most likely a reader holding it "
+              "open). The map below is this run's, in memory; the file every other stage reads "
+              "still holds the PREVIOUS map, overrides and all. Re-run `--hosts`." % HOSTS,
+              flush=True)
     return known
 
 
@@ -1206,7 +1247,20 @@ def evidence_for(host, name, cache=True):
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1, ensure_ascii=False)
-    silence.replace_retry(tmp, path)
+    # GATED INTO A COUNTER, not into a refusal. `replace_retry` answers False on a denied
+    # rename and this dropped it, which is survivable in one specific way and misleading in
+    # another. Survivable: `out` is returned from memory, so this call's answer is right, and a
+    # cache that did not land re-earns itself as an ordinary miss on the next roll. Misleading:
+    # the roll counts this entity's feats, chars and pages into its summary regardless, so a
+    # host that denies every write produces a run that reports a full mining pass and leaves
+    # nothing behind -- "nothing found" and "found and lost it" telling the same story again,
+    # which is the confusion `errored`, `empty` and `refused` were each added to end.
+    # A denial ALSO leaves any older evidence file for this entity standing, and that copy is
+    # what every later reader sees; the superseded-gate check on load re-mines it, so the stale
+    # copy cannot become permanent, but it is served until then.
+    if not silence.replace_retry(tmp, path):
+        with _COUNTS_LOCK:
+            _UNCACHED[host] = _UNCACHED.get(host, 0) + 1
     return out
 
 
@@ -1226,7 +1280,22 @@ def remine(path):
     # ATOMIC: the per-entity evidence cache has live readers (the roll, the assay). This
     # function currently has no callers, which is exactly when a truncation race is easiest
     # to leave in place and hardest to notice later. 2026-08-25.
-    silence.write_json(path, ev, indent=1, ensure_ascii=False)
+    #
+    # AND IT RAISES RATHER THAN RETURNING A RE-MINE THAT DID NOT LAND (run #37 sweep).
+    # `write_json` answers False on a denied replace instead of raising, so dropping the verdict
+    # here returned the freshly re-mined `ev` while the file on disk still held the OLD feats --
+    # a success value pointing at a write that never happened, which is the same shape
+    # `compress_store.store()` was changed away from (see `generate.py`'s handler for it). It is
+    # the wrong direction for this function in particular: unlike `evidence_for` above, there is
+    # nothing to re-earn later. A re-mine is the whole product, its caller has no way to notice
+    # the file is unchanged, and the point of re-mining is that the gate has been corrected --
+    # a correction that silently does not land makes the old gate's verdict permanent.
+    # It has no callers yet, so nothing today has a handler to break; a future one is told.
+    if not silence.write_json(path, ev, indent=1, ensure_ascii=False):
+        silence.note("feats.py:remine-write-denied")
+        raise OSError("re-mined evidence could not be landed over %s (replace denied after "
+                      "five attempts -- a reader is holding it). The file still holds the "
+                      "PREVIOUS mining; nothing was written." % path)
     return ev
 
 
@@ -1334,6 +1403,15 @@ def roll(records, hosts, workers=8, limit=None, only=None):
               f"-- these arrived and were NOT the article; they are not evidence of absence")
     else:
         print("  pages refused: none (every page that arrived looked like the article)")
+    if _UNCACHED:
+        tot = sum(_UNCACHED.values())
+        print(f"  evidence that did NOT reach disk: {tot:,} entit"
+              f"{'y' if tot == 1 else 'ies'} across {len(_UNCACHED)} host(s) -- "
+              + ", ".join(f"{k} x{v:,}" for k, v in sorted(_UNCACHED.items(),
+                                                           key=lambda kv: -kv[1]))
+              + ". Their feats ARE in the totals above and their cache files are NOT written, "
+                "so the next roll re-fetches them. A denied replace means a reader is holding "
+                "the file; if this number is large the roll bought nothing.")
     if _STALE_GATE:
         print("  cache entries RE-MINED for having been gated by the superseded wiki-markup "
               "check: "
@@ -1418,11 +1496,14 @@ def main():
     if a.hosts:
         h = resolve_hosts(P.records())
         got = sum(1 for v in h.values() if v)
-        print(f"{got}/{len(h)} sources resolved to a wiki host  ->  {HOSTS}")
+        where = "NOT SAVED (write denied)" if _HOSTS_DENIED else HOSTS
+        print(f"{got}/{len(h)} sources resolved to a wiki host  ->  {where}")
         for s, v in sorted(h.items()):
             if not v:
                 print(f"   unresolved: {s}")
-        return 0
+        # The whole point of `--hosts` is the file; resolving the map and failing to save it is
+        # a failed run, not a successful one with a note attached.
+        return 1 if _HOSTS_DENIED else 0
 
     if a.roll:
         recs = P.records()

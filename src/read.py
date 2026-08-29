@@ -645,6 +645,14 @@ def _chunk_put(host, ch, entity, feats):
         tmp = "%s.%d.%d.tmp" % (p, os.getpid(), threading.get_ident())
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump({"feats": feats}, f, ensure_ascii=False)
+        # VERDICT DELIBERATELY UNUSED, and checked rather than assumed. This is a pure memo of
+        # one model answer, and a miss is a re-ask, not a wrong answer: `_chunk_get` returns
+        # None for "not cached", `read_entity` distinguishes that from an empty `feats` list
+        # (see its `got is None` branch, which counts `unanswered` rather than recording an
+        # honest absence), and the key already carries host+entity+chunk text, so a chunk that
+        # fails to land can only ever be re-mined -- never mis-read as a silent no-feat result.
+        # `replace_retry` records the denial itself, so the loss is already on file. The cost of
+        # a failure is one model call next run; gating it would abort a read for that.
         silence.replace_retry(tmp, p)
     except Exception:
         silence.note("read.py:chunk_put")
@@ -949,6 +957,13 @@ def _save_qcache(d):
     # THROUGH `silence.write_json`: the fixed `QCACHE + ".tmp"` this used to build is the same
     # single-shared-name hazard `_chunk_put` and `read_entity`'s cache write were fixed for --
     # a second writer of this file collides on the temp file itself, not just the target.
+    #
+    # VERDICT DELIBERATELY UNUSED. Every entry here is keyed on the evidence file's `mtime` AND
+    # `size` and `queue()` re-parses the file whenever either differs, so this cache cannot go
+    # stale in the read-as-fresh sense -- it can only be MISSING, and a miss costs one re-parse.
+    # A failed save therefore returns the run to the behaviour it had before this memo existed:
+    # slower, never wrong. `write_json` -> `replace_retry` records a denial on its own, so the
+    # loss is on file in state/failures.json without a second report from here.
     try:
         silence.write_json(QCACHE, d)
     except Exception:

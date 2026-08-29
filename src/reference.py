@@ -343,16 +343,33 @@ def main():
         print()
 
     # ATOMIC: standards.py and zfighters.py both read REFERENCE_ASSAYS.json. 2026-08-25.
+    #
+    # GATED, the same way `zfighters.main` is for the file it hands `pantheon.py`. This file is
+    # the hand-computed BENCHMARK the automated assay is judged against, so a stale copy is not
+    # a slower answer, it is a wrong ruler: `standards.py` and `zfighters.py` read it, and
+    # `--compare` below differences the automated pass against `out` in memory while those two
+    # go on reading whatever survived on disk. `write_json` returns whether the rename LANDED
+    # and this dropped it, so a denied replace still printed "-> OUT" under a file that had not
+    # changed. Reported, and the exit status carries it, because the one thing that must not
+    # happen is a benchmark refresh that reports success and did not occur.
     import silence
-    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
-    print(f"{inside}/{len(REFERENCE)} reconstructions land inside the charter's published "
-          f"interval  ->  {OUT}")
+    landed = silence.write_json(OUT, out, indent=1, ensure_ascii=False)
+    if landed:
+        print(f"{inside}/{len(REFERENCE)} reconstructions land inside the charter's published "
+              f"interval  ->  {OUT}")
+    else:
+        silence.note("reference.py:main-write-denied")
+        print(f"{inside}/{len(REFERENCE)} reconstructions land inside the charter's published "
+              f"interval")
+        print(f"WRITE DENIED -> {OUT}: replace refused; the reconstructions above did NOT land "
+              f"and the file standards.py and zfighters.py read is the previous run's. Rerun "
+              f"to retry.", file=sys.stderr)
 
     if a.compare:
         path = os.path.join(HERE, "data", "ASSAYS.json")
         if not os.path.exists(path):
             print("\nno ASSAYS.json yet - run the automated pass, then compare")
-            return 0
+            return 0 if landed else 1
         auto = json.load(open(path, encoding="utf-8"))
         # ASSAYS.json is keyed `host|entity` -- 'dragonball.fandom.com|Goku', never a bare
         # 'Goku'. This looked entities up by bare name, so every row fell into the fallback
@@ -424,7 +441,7 @@ def main():
               "automated pass's\npersisted per-axis scores (b03f2ab9951a) where both sides "
               "have a numeric reading for the\nsame axis; rows predating that field report "
               "'not recorded' instead of a fabricated zero.")
-    return 0
+    return 0 if landed else 1
 
 
 if __name__ == "__main__":

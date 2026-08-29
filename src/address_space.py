@@ -431,10 +431,26 @@ def main():
             print(f"     {d[:44]:<46}{shelfmark(a)}")
         out = os.path.join(HERE, "data", "SHELFMARKS.json")
         # ATOMIC: pipeline.py and standards.py both read SHELFMARKS.json.
-        silence.write_json(out,
-                           {d: {"address": a, "shelfmark": shelfmark(a),
-                                "map_seed": map_seed(a)} for d, a in addrs.items()},
-                           indent=2, ensure_ascii=False)
+        #
+        # GATED, like scope.py's build() and zfighters.py's main(). `write_json` returns whether
+        # the rename LANDED and this dropped the verdict, so a denied replace -- the ordinary
+        # Windows case here, since `pipeline.py:2024` reads this file as a phase input and
+        # `standards.py:1009` reads it on its own clock, and either holding it open is enough --
+        # still reached the unconditional `wrote {out}` below and exit 0. The addresses printed
+        # above would then be the ones this run computed while the file both readers consult
+        # held the PREVIOUS run's, which is the shape that makes a re-address look applied when
+        # nothing moved. Nothing here can retry the rename, so the honest act is to say so and
+        # exit nonzero: the map is regenerable by re-running, but a shelfmark read as fresh
+        # while it is stale is not recoverable by anything downstream. (run #37 sweep.)
+        if not silence.write_json(out,
+                                  {d: {"address": a, "shelfmark": shelfmark(a),
+                                       "map_seed": map_seed(a)} for d, a in addrs.items()},
+                                  indent=2, ensure_ascii=False):
+            silence.note("address_space.py:shelfmarks-write-denied")
+            print(f"\n   WRITE DENIED -> {out}: the replace was refused (most likely a reader "
+                  f"holding it open). The addresses above did NOT land, and pipeline.py and "
+                  f"standards.py are still reading the previous map. Re-run to retry.")
+            return 1
         print(f"\n   wrote {out}")
     return 0
 

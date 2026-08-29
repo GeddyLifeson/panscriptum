@@ -553,12 +553,25 @@ def main():
     # (made at the `note()` call in `estate.py`) travels with the report, instead of every
     # consumer inventing its own rule about which findings are red. (run #36, batch 08)
     est_faults = estate_faults(est)
-    silence.write_json(OUT, {"at": time.time(),
-                             "imports": imports, "verifiers": verifiers,
-                             "lint": lint_bad,
-                             "reconcile": findings, "estate": est,
-                             "estate_faults": est_faults,
-                             "seconds": round(time.time() - t0, 1)}, indent=1)
+    # GATED, like scope.py's build(). `write_json` returns whether the rename LANDED and this
+    # dropped the verdict, which is the quiet half of the atomicity note above: a denied replace
+    # (the dashboard and `workorders.battery_faults` both read this file, and either holding it
+    # open is enough on Windows) left the whole sweep printing its grade and exiting on a count
+    # nobody stored. What is on disk in that case is the PREVIOUS sweep's report, and every
+    # consumer treats this file as the battery's answer -- `workorders.py:158` calls a missing or
+    # unreadable one "allsweep has left no result", `standards.py:1132` reads it for a standard.
+    # So a red sweep whose write was denied leaves yesterday's green report standing, with a
+    # fresh-looking console beside it. Counted as a fault rather than raised, because the tiers
+    # above it really did run and their findings are still worth printing; the file just cannot
+    # be claimed. (run #37 sweep.)
+    landed = silence.write_json(OUT, {"at": time.time(),
+                                      "imports": imports, "verifiers": verifiers,
+                                      "lint": lint_bad,
+                                      "reconcile": findings, "estate": est,
+                                      "estate_faults": est_faults,
+                                      "seconds": round(time.time() - t0, 1)}, indent=1)
+    if not landed:
+        silence.note("allsweep.py:report-write-denied")
     # THE LINT TIER NOW COUNTS. Run #26: this sweep ran four tiers and graded two. `lint_bad` was
     # computed, printed to the console and dropped, so a real pyflakes undefined-name anywhere in
     # `src/` left this process exiting 0 and left no trace in ALLSWEEP.json, which had no `lint`
@@ -586,7 +599,18 @@ def main():
            + sum(1 for r in verifiers if r["crashed"] or r.get("timeout"))
            + len(lint_bad)
            + len((est.get("artifacts") or {}).get("bad", []))
-           + len(est_faults))
+           + len(est_faults)
+           # A SWEEP THAT COULD NOT FILE ITS REPORT IS ITSELF A BAD SUBSYSTEM. Without this the
+           # exit code answered only for the tiers, and the one thing every other consumer of
+           # this sweep depends on -- the report reaching disk -- was the single condition that
+           # could not fail it.
+           + (0 if landed else 1))
+    if not landed:
+        print("\nREPORT NOT WRITTEN — the atomic replace of {} was denied after five attempts "
+              "(most likely a reader holding it open). Everything above is this run's finding; "
+              "the file on disk is still the PREVIOUS sweep's, so the dashboard, "
+              "workorders.battery_faults and standards.py are all reading that one. Re-run."
+              .format(OUT))
     if est_faults:
         print("\nESTATE FAULTS — graded, and each one fails this sweep")
         for f in est_faults:

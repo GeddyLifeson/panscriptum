@@ -486,7 +486,19 @@ CANNED = {
 
 
 def datasette_metadata(path=None):
-    """Write Datasette's config from CANNED, so there is ONE list of canned queries. -> path.
+    """Write Datasette's config from CANNED, so there is ONE list of canned queries.
+
+    -> the path, or None if the write did not land. GATED, like `axis_correlation.write()`,
+    whose "-> path or None" this copies. `silence.write_json` returns False rather than raising
+    when the atomic replace is denied -- a running `datasette` reading this file live is enough
+    to deny it on Windows -- and returning the path anyway asserts a file that was never
+    written. Two callers acted on that assertion: `main()` printed "wrote <path> (N canned
+    queries, generated from CANNED)" and then handed over a serve command pointing at the STALE
+    config, and `drill.py:5441`'s net -- the one whose whole subject is that the CLI and the
+    browser must not answer the same question differently -- opened the returned path and
+    checked the OLD file's queries against CANNED, so a denied write could be graded as a pass
+    on a config nobody had just generated. A verification that reads a file it believes it wrote
+    is the failure this module's docstring is about, one level up.
 
     THE APP THE OWNER ASKED FOR, AND WHY IT IS THIS ONE. `--sql` above is a query tool for
     someone who already knows SQL and already knows the schema. Datasette is the browsable
@@ -522,7 +534,9 @@ def datasette_metadata(path=None):
     # ATOMIC: a running `datasette` process reads this file live; a bare open("w") is a
     # truncate-then-fill a mid-read server can see half-written (silence.write_json,
     # silence.py:358-364; same class as the other write sites in this module).
-    silence.write_json(path, doc, indent=2)
+    if not silence.write_json(path, doc, indent=2):
+        silence.note("corpus_db.py:datasette-metadata-denied")
+        return None
     return path
 
 
@@ -589,6 +603,16 @@ def main():
 
     if a.serve:
         p = datasette_metadata()
+        if p is None:
+            # Refusing the serve command outright, rather than printing one that would start a
+            # server on whatever config happens to be on disk. The queries it would offer are
+            # the ones from the last run that landed, which is precisely the second, drifting
+            # list this module exists to prevent.
+            print("WRITE DENIED -> %s: the replace was refused (most likely the running "
+                  "datasette holding it open). The config was NOT regenerated, so no serve "
+                  "command is printed -- stop any running datasette and re-run."
+                  % os.path.join(HERE, "state", "datasette.json"))
+            return 1
         print("wrote %s (%d canned queries, generated from CANNED)" % (p, len(CANNED)))
         print("\n  " + serve_command())
         print("\n  then open http://127.0.0.1:8801/ — every page is also JSON with .json")

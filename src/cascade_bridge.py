@@ -743,7 +743,14 @@ def record_unrecognised(bucket, err):
             # writers inside ONE process; this file is written from every process that imports
             # `cascade_bridge` (read, pipeline, feats, overwatch), and those collide on the temp
             # file itself. The pid+thread-unique name makes that unavailable to get wrong.
-            silence.write_json(UNRECOGNISED, rows, indent=1, sort_keys=True)
+            # AND THE VERDICT IS READ. `write_json` promises it NEVER RAISES -- a denied replace
+            # comes back as False -- so the `except` below could not see this failure and the
+            # note beneath it never fired for the one case it was written for. The recorder
+            # built to make failures visible was still, for a denied write, the one place whose
+            # own failure left no mark: exactly the run #26 fault the comment below describes,
+            # surviving underneath the fix for it.
+            if not silence.write_json(UNRECOGNISED, rows, indent=1, sort_keys=True):
+                silence.note("cascade_bridge.py:record-unrecognised-denied")
     except Exception:
         # Total, but NOT untraceable. `pass` alone meant the recorder built to make failures
         # visible was the one place in the tree whose own failure left no mark anywhere -- the
@@ -990,7 +997,15 @@ def _metric(row):
     which fields exist. Append-only, best-effort -- a metrics failure must never cost a call."""
     # ONE SYSCALL, NOT A BUFFERED WRITE (m62): five processes share this file and a buffered
     # append can be split mid-line, producing rows that parse as neither writer's.
-    silence.append_line(_METRICS, json.dumps(row))
+    # BEST-EFFORT, AND SAID SO RATHER THAN ASSUMED. The verdict is deliberately not allowed to
+    # affect the call -- the docstring's "a metrics failure must never cost a call" stands, and
+    # nothing here raises or returns early. `append_line` already notes its own failure under
+    # `silence.py:append_line`, so this is not a silent path today; what that generic tag cannot
+    # say is WHICH ledger stopped accepting rows, and there are several appenders. Naming this
+    # one costs nothing and is what makes a thin hour distinguishable from an unwritten one when
+    # somebody later asks why the pool looked fast.
+    if not silence.append_line(_METRICS, json.dumps(row)):
+        silence.note("cascade_bridge.py:metric-append-denied")
 
 
 def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75, pin=None,

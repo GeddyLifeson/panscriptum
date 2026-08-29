@@ -165,10 +165,27 @@ def report(evaluations, scope=None):
         # write_json builds its temp name from pid and thread precisely so two writers of the
         # same report cannot collide on the temp file itself -- the m100 shape retired
         # repo-wide, per silence.py's own docstring.
-        silence.write_json(REPORT, {"at": time.time(), "scope": scope, "evaluations": evaluations},
-                            indent=1, ensure_ascii=False)
+        #
+        # GATED. This function's entire purpose is the word "later" in its own first line: the
+        # console output is this run's, and `state/policy_report.json` is the only copy that
+        # outlives it. `write_json` returns whether the rename LANDED and this dropped it, so a
+        # denied replace (a reader holding the file -- the ordinary Windows case here) left the
+        # PREVIOUS run's evaluations, its `at` stamp and, worst of all, its `scope` block on
+        # disk. The scope block exists to keep a `--limit 40` run from reading like a
+        # full-corpus one; a stale one does exactly that, which is the failure it was added
+        # after. Said out loud, since this module reports through print.
+        ok = silence.write_json(REPORT, {"at": time.time(), "scope": scope,
+                                         "evaluations": evaluations},
+                                indent=1, ensure_ascii=False)
+        if not ok:
+            silence.note("policy.py:report-denied")
+            print("policy: %s was NOT rewritten (replace refused) -- it still holds an EARLIER "
+                  "run's evaluations and scope. This run exists only in the output above."
+                  % os.path.basename(REPORT), file=sys.stderr)
+        return ok
     except Exception:
         silence.note("policy.py:report")
+        return False
 
 
 # ---------------------------------------------------------------- the rule tables themselves

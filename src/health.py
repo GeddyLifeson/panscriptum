@@ -723,12 +723,34 @@ def preflight(verbose=True, stamp=True):
     if stamp:
         # NEVER FATAL. A preflight that dies because it could not write its own report is worse
         # than one that cannot report: this runs at the head of every supervisor cycle.
+        #
+        # BUT NEVER SILENT EITHER (order e7b6dcc8d630). The `try` caught the raising half and
+        # dropped the other one: `silence.write_json` RETURNS False rather than raising when
+        # the atomic replace is denied, and `state/preflight_last.json` is read by the
+        # dashboard and by `workorders.battery_faults` while this writes it -- a reader holding
+        # it open is all a denial takes here. The discarded verdict is worse than a missing
+        # stamp, because `battery_faults` does not merely notice absence: it reads the file
+        # that IS there and ages it against PREFLIGHT_STALE's ceiling. So a red preflight whose
+        # stamp was denied leaves yesterday's GREEN stamp in place, still inside the ceiling,
+        # and the sweep reports a clean battery for a run that found problems. This whole
+        # function exists because "the only thing that ever knew was a console nobody was
+        # reading"; a denial that says nothing puts it straight back there.
+        landed = False
         try:
-            silence.write_json(PREFLIGHT_STAMP,
-                               {"at": time.time(), "problems": problems,
-                                "checks": [c[0] for c in CHECKS], "rows": rows}, indent=1)
+            landed = bool(silence.write_json(
+                PREFLIGHT_STAMP,
+                {"at": time.time(), "problems": problems,
+                 "checks": [c[0] for c in CHECKS], "rows": rows}, indent=1))
         except Exception:
             silence.note("health.py:preflight-stamp")
+        if not landed:
+            silence.note("health.py:preflight-stamp-denied")
+            # stderr, matching `reopen_stranded`'s "do not report a repair that did not land"
+            # line above, and kept off stdout so it cannot be mistaken for a check result.
+            print("health: preflight stamp NOT written to %s -- %d problem(s) found this run "
+                  "are recorded nowhere, and workorders will grade the battery on whatever "
+                  "older stamp is still on disk." % (PREFLIGHT_STAMP, problems),
+                  file=sys.stderr)
     return problems
 
 

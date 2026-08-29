@@ -311,11 +311,23 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
         # not captured once from the first read. That is the whole point of re-applying rather
         # than retrying the write: a concurrent refresh of the same fault is not lost.
         prev = d.get(oid) or {}
-        d[oid] = {"id": oid, "code": str(code), "what": str(what)[:600], "handler": handler,
-                  "severity": severity, "where": str(where)[:200],
+        # NO CAPS, HARD RULE 0, IN THE QUEUE ITSELF. These fields were stored as `what[:600]`,
+        # `where[:200]`, evidence `[:400]` and `found_by[:80]`, with no marker and no warning --
+        # so an order longer than the cap was silently cut mid-sentence and read as complete.
+        # That is the rule's exact shape: a smaller universe returned in the same form as the
+        # real one. It is also the WORST place for it, because a work order's REMEDY is written
+        # at the END: measured when this was found, 51 of the open orders were sitting at
+        # exactly 600 characters with their instruction gone, and the agent that found it did so
+        # by watching its own newly-filed order lose the sentence saying what to do about the
+        # fault. Nothing here needs a cap: this is a JSON file on disk, the console renderers
+        # already truncate for display at their own call sites (which is where a cap belongs,
+        # because it is reversible there), and `order_id` hashes the RAW `where` argument rather
+        # than the stored copy, so removing these changes no order's identity.
+        d[oid] = {"id": oid, "code": str(code), "what": str(what), "handler": handler,
+                  "severity": severity, "where": str(where),
                   "evidence": evidence if isinstance(evidence, (dict, list)) else
-                  (None if evidence is None else str(evidence)[:400]),
-                  "found_by": str(found_by or "")[:80],
+                  (None if evidence is None else str(evidence)),
+                  "found_by": str(found_by or ""),
                   "first_seen": prev.get("first_seen", now), "last_seen": now,
                   "seen": int(prev.get("seen", 0)) + 1}
         return d[oid]

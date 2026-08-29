@@ -398,6 +398,29 @@ def movement(now_state):
         # (daemon_threads=True) and every /api/state poll runs this function, so two
         # concurrent pollers on a fixed temp name collide on the temp file itself. The
         # PID+thread-qualified tmp name write_json uses closes that race.
+        #
+        # THE VERDICT IS DELIBERATELY NOT GATED, and this comment is the repair (run #37's
+        # discarded-write-verdict pass, which gated address_space, allsweep, cleanup, corpus_db,
+        # feats and generate and stopped here). Three things have to be true for that to be safe
+        # and all three are:
+        #
+        #   1. The answer this function RETURNS does not depend on the write. `hist` already
+        #      holds this poll's row in memory and the movement rows below are computed from it,
+        #      so a denied replace costs the sample's persistence, never the current reading.
+        #   2. The next poll retries. This runs on every /api/state request -- seconds, not
+        #      hours -- so a lock that outwaits `replace_retry` is re-attempted immediately with
+        #      no operator action, which is exactly the "the caller's write lands next round"
+        #      case `write_json` documents.
+        #   3. The stall detector does not go blind if it never lands. With the file frozen,
+        #      `base` stays the last row that did land and `span` grows, so a genuinely flat
+        #      counter still satisfies `delta == 0 and span >= 10` -- the panel keeps reporting
+        #      stalled, and once the 24h cutoff empties the frozen rows it reports a zero-length
+        #      window rather than a false clean bill.
+        #
+        # Note the `except` below covers the append/serialise, NOT the replace: write_json
+        # answers False for a denied rename instead of raising. A persistent denial is still
+        # recorded -- `replace_retry` writes `replace-denied:dashboard_history.json` into the
+        # health ledger itself -- so nothing here needs a second channel for it.
         silence.write_json(HISTORY, hist)
     except Exception:
         silence.note("dashboard.py:movement")

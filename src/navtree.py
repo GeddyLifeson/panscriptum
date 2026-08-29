@@ -264,15 +264,42 @@ def main():
     # finding that exists nowhere, so every run overwrites the record with the current truth
     # (including clearing it to an empty list once the tree is clean again).
     audit_out = os.path.join(HERE, "state", "NAVTREE_AUDIT.json")
-    silence.write_json(audit_out, {"count": len(problems), "problems": problems}, indent=2, ensure_ascii=False)
-    if problems:
+    # GATED (order e7b6dcc8d630). The paragraph above is the argument: this file exists BECAUSE
+    # printed output scrolls off, so "recorded" has to mean recorded. `write_json` returns
+    # False rather than raising when the replace is denied, and the line below then announced a
+    # record that had not been made. Both directions are wrong answers, not slow ones -- a
+    # denied write of NEW problems leaves a finding nowhere at all, and a denied write of the
+    # cleared list leaves problems asserted against a tree that has since been fixed.
+    audit_landed = bool(silence.write_json(audit_out,
+                                           {"count": len(problems), "problems": problems},
+                                           indent=2, ensure_ascii=False))
+    if not audit_landed:
+        silence.note("navtree.py:audit-write-denied")
+        print(f"\nAUDIT RECORD NOT WRITTEN -> {audit_out} (replace denied). The {len(problems)} "
+              f"problem(s) above exist only in this console; whatever is in that file is an "
+              f"older run's.")
+    elif problems:
         print(f"\n{len(problems)} problem(s) recorded to {audit_out}")
 
     if args.write and not problems:
         # ATOMIC. This site had no temp-file staging at all -- not even the bare
         # `path + ".tmp"` + `os.replace` that other modules hand-rolled -- while `silence` was
         # already imported here for other purposes. The m100 tail, 2026-08-25.
-        silence.write_json(OUT, data, separators=(",", ":"), ensure_ascii=False)
+        #
+        # GATED, AND THIS IS AN IDENTITY FAULT, NOT A COSMETIC ONE (order e7b6dcc8d630).
+        # NAVTREE.json is what `build_terminal`, `reference` and `sweep` resolve addresses and
+        # shelfmarks THROUGH; a stale one does not fail to answer, it answers with the previous
+        # tree -- nodes at old tiers, branches that have since moved, an address that resolves
+        # to something no longer there. Nothing downstream can tell that apart from a correct
+        # answer. The reporting line made it worse than a plain silence: `os.path.getsize(OUT)`
+        # reads whatever file IS on disk, so a denied replace still printed "wrote ... N KB"
+        # with the OLD tree's size -- a receipt for a write that never happened.
+        if not silence.write_json(OUT, data, separators=(",", ":"), ensure_ascii=False):
+            silence.note("navtree.py:write-denied")
+            print(f"\nWRITE DENIED -> {OUT}: the replace was refused (most likely a reader "
+                  f"holding it open), so the {len(nodes):,} nodes built above did NOT land and "
+                  f"every address still resolves through the previous tree. Rerun to retry.")
+            return 1
         print(f"\nwrote {OUT}  ({os.path.getsize(OUT)//1024} KB)")
     elif args.write:
         print("\nNOT WRITTEN — audit must be clean first")

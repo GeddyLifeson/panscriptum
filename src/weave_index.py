@@ -28,6 +28,7 @@ import collections
 import json
 import os
 import re
+import sys
 import time
 import unicodedata
 import silence
@@ -341,12 +342,46 @@ def main():
 
     if args.write:
         # ATOMIC: cosmology_graph, thread_integrity and weave all read these concurrently.
-        silence.write_json(OUT_INDEX, {k: v for k, v in index.items()},
-                           indent=None, ensure_ascii=False)
-        silence.write_json(OUT_CAND, candidates, indent=2, ensure_ascii=False)
-        print(f"\nwrote {OUT_INDEX}")
-        print(f"wrote {OUT_CAND}  ({len(candidates):,} candidates for adjudication)")
+        #
+        # GATED, BOTH HALVES, AND THE PAIR AS A PAIR. These two files are one join:
+        # `candidates` is derived from `index` in this very function, `thread_integrity` matches
+        # WEAVE_CANDIDATES.json keys against `weave_index.norm` output, and `weave.py` reads
+        # ENTITY_INDEX.json. Discarding the verdicts left three failure modes all wearing the
+        # same "wrote ..." line. Either file alone going stale is a stale read as fresh; ONE of
+        # them landing is worse than neither, because the survivors then disagree about which
+        # entities exist -- a candidate set indexed against attestations that were never
+        # written, or an index whose cross-source candidates are a previous corpus's. The
+        # concurrent readers named on the line above are exactly what denies these renames on
+        # Windows, so this is the ordinary case here.
+        ok_index = silence.write_json(OUT_INDEX, {k: v for k, v in index.items()},
+                                      indent=None, ensure_ascii=False)
+        ok_cand = silence.write_json(OUT_CAND, candidates, indent=2, ensure_ascii=False)
+        print()
+        print(f"wrote {OUT_INDEX}" if ok_index else
+              f"NOT WRITTEN {OUT_INDEX}: replace refused; the file weave.py reads is the "
+              f"previous build's")
+        print(f"wrote {OUT_CAND}  ({len(candidates):,} candidates for adjudication)"
+              if ok_cand else
+              f"NOT WRITTEN {OUT_CAND}: replace refused; the file cosmology_graph.py and "
+              f"thread_integrity.py read is the previous build's")
+        if not (ok_index and ok_cand):
+            silence.note("weave_index.py:write-denied")
+            if ok_index != ok_cand:
+                # The half-landed case gets its own sentence. Two files that are meant to be
+                # one snapshot are now from two different builds, and nothing downstream can
+                # tell -- neither file carries a build stamp the other could be checked against.
+                print("SPLIT: one half of the pair landed and the other did not, so "
+                      "ENTITY_INDEX.json and WEAVE_CANDIDATES.json are now from DIFFERENT "
+                      "builds. Do not read either until this is rerun.", file=sys.stderr)
+            print("Rerun `weave_index.py --write` once whatever is holding these open has "
+                  "let go; the build itself is cheap and derived entirely from data/records.",
+                  file=sys.stderr)
+            return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    # `main()`'s verdict has to reach the shell. A `--write` whose files did not land must not
+    # exit 0 -- anything scripting this build (or a person reading `$?`) would take the refusal
+    # for a success, which is the same defect one layer out.
+    sys.exit(main())

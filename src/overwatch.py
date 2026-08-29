@@ -78,6 +78,13 @@ REPORT = os.path.join(HERE, "WATCH.md")
 # save is a whole-file replace, so a writer holding an old snapshot erases everything the other
 # recorded in between. None means "never read the file", where there is nothing to compare.
 _SNAPSHOT = {"digest": None}
+
+# m28 tail. Set by `load()` when it found the ledger DAMAGED and could not set the wreck aside
+# as `.corrupt`. `save()` refuses to write while it is on, because overwriting a file we could
+# not first preserve destroys the only copy of whatever tore it. `health._flush_ledger` takes
+# exactly this position on its own ledger ("PRESERVATION IS THE PRECONDITION, NOT A COURTESY");
+# the two copies of this code now agree.
+_UNPRESERVED = {"on": False}
 PY = sys.executable
 ENV = dict(os.environ, PYTHONIOENCODING="utf-8")
 
@@ -153,6 +160,7 @@ def load():
     recoverable by hand from the preserved copy, but only if something preserves it.
     """
     fresh = {"findings": {}, "seen": {}, "rounds": 0}
+    _UNPRESERVED["on"] = False        # a fresh read clears any refusal the last one raised
     if not os.path.exists(LEDGER):
         _SNAPSHOT["digest"] = ""
         return fresh
@@ -164,15 +172,27 @@ def load():
     except Exception as e:
         _SNAPSHOT["digest"] = ""
         silence.note("overwatch.py:load")
-        try:
-            silence.replace_retry(LEDGER, LEDGER + ".corrupt")
+        # GATED, and this is the half `health.py` already had right in its own copy of this
+        # code. `replace_retry` NEVER RAISES -- a denied or failed rename comes back as False --
+        # so the `except` this was wrapped in could not fire for the realistic failure (a reader
+        # holding OVERWATCH.json open denies the rename on Windows), and `kept` announced
+        # ".corrupt" for a wreck still sitting there under its own name. Worse than the wrong
+        # message: `round_once` then `save()`s a FRESH ledger straight over the only copy of the
+        # damaged one, so the findings the message promises are recoverable are gone. Ask the
+        # verdict; on a refusal say so and stop this process from saving.
+        if silence.replace_retry(LEDGER, LEDGER + ".corrupt"):
             kept = os.path.basename(LEDGER) + ".corrupt"
-        except Exception:
+            tail = ("Open findings and the round counter are NOT lost, but they are no longer "
+                    "live; recover them from that file if the next round matters.")
+        else:
             silence.note("overwatch.py:load-preserve")
-            kept = "NOT PRESERVED -- the wreck could not be renamed"
-        print(f"overwatch: ledger unreadable ({type(e).__name__}); kept as {kept}. "
-              f"Open findings and the round counter are NOT lost, but they are no longer live; "
-              f"recover them from that file if the next round matters.", file=sys.stderr)
+            kept = "NOT PRESERVED -- the rename was refused"
+            tail = ("This process will NOT save over it, so nothing further is destroyed and "
+                    "this round's findings are not persisted. Move data/OVERWATCH.json aside "
+                    "by hand, or close whatever is holding it open, and rerun.")
+            _UNPRESERVED["on"] = True
+        print(f"overwatch: ledger unreadable ({type(e).__name__}); kept as {kept}. {tail}",
+              file=sys.stderr)
         return fresh
 
 
@@ -190,6 +210,14 @@ def save(d):
     `seen` entry -- retirement is a state change, not a removal -- so the union of two ledgers
     loses nothing that either writer knew. See `_merge_ledgers` for the per-key rule.
     """
+    # PRESERVATION IS THE PRECONDITION. `load()` found the ledger damaged and could not set the
+    # wreck aside; writing here would replace the only copy of it with a fresh empty one.
+    if _UNPRESERVED["on"]:
+        silence.note("overwatch.py:save-refused-unpreserved")
+        print("overwatch: NOT saving -- the ledger on disk is damaged and could not be moved to "
+              ".corrupt. Writing over it would destroy the only copy. Findings from this round "
+              "are not persisted.", file=sys.stderr)
+        return False
     try:
         os.makedirs(os.path.dirname(LEDGER), exist_ok=True)
         d = _reconcile_with_disk(d)
@@ -199,10 +227,23 @@ def save(d):
         # replace_retry, not a bare os.replace: the dashboard and the standards board both read
         # this file on their own clocks, and on Windows a rename is DENIED while a reader holds
         # the target -- which here would throw away the whole round's findings.
-        silence.replace_retry(tmp, LEDGER)
+        #
+        # GATED: the comment above names the cost and the code then dropped the verdict that
+        # reports it. `round_once` saves after EVERY module precisely so a restart cannot lose
+        # the model's reads; a denied replace made each of those saves a no-op that looked
+        # identical to a successful one, and the round went on printing its per-module lines.
+        # Worse, `_SNAPSHOT["digest"]` was then re-stamped from the UNCHANGED file, so this
+        # process's staleness guard agreed with disk and the loss left no trace anywhere.
+        if not silence.replace_retry(tmp, LEDGER):
+            print("overwatch: ledger write DENIED (a reader is holding %s open) -- this round's "
+                  "findings did NOT land and will be re-derived next round."
+                  % os.path.basename(LEDGER), file=sys.stderr)
+            return False
         _SNAPSHOT["digest"] = _digest(LEDGER)
+        return True
     except Exception:
         silence.note("overwatch.py:save")
+        return False
 
 
 def _fingerprint(module, f):
@@ -622,10 +663,21 @@ def write_report(led, struct):
     # ATOMIC: WATCH.md is read by the maintenance pass and by anyone watching the loop; a
     # truncate-then-fill leaves it empty for the length of the write. Not JSON, so this uses
     # replace_retry directly rather than silence.write_json. 2026-08-25.
+    #
+    # GATED: WATCH.md is the only thing a person reads to learn what this job found, and
+    # `round_once` prints "N finding(s) open  ->  WATCH.md" immediately after this call. With
+    # the verdict discarded, a denied rename left the PREVIOUS round's report on disk under
+    # that announcement -- a stale round number and a stale finding list read as this round's,
+    # which is the wrong-answer half of this defect rather than the merely-absent half.
     _tmp = "%s.%d.tmp" % (REPORT, os.getpid())
     with open(_tmp, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
-    silence.replace_retry(_tmp, REPORT)
+    if not silence.replace_retry(_tmp, REPORT):
+        print("overwatch: %s was NOT rewritten (replace refused) -- the file on disk is the "
+              "PREVIOUS round's report, not this one's."
+              % os.path.basename(REPORT), file=sys.stderr)
+        return False
+    return True
 
 
 def round_once(limit=6, local=True, skip_model=False):
@@ -738,9 +790,10 @@ def round_once(limit=6, local=True, skip_model=False):
                   + note, flush=True)
 
     save(led)
-    write_report(led, struct)
+    wrote = write_report(led, struct)
     open_n = sum(1 for f in led["findings"].values() if f.get("state") == "open")
-    print(f"\n{open_n} finding(s) open  ->  {REPORT}")
+    print(f"\n{open_n} finding(s) open  ->  "
+          + (REPORT if wrote else REPORT + "  (NOT UPDATED -- see stderr)"))
     return open_n
 
 
