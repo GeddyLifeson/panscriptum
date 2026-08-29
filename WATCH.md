@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 161  ·  last run 2026-08-29 14:28
+round 162  ·  last run 2026-08-29 14:50
 
 ## Structure
 
@@ -11,16 +11,10 @@ round 161  ·  last run 2026-08-29 14:28
 
 ## What the model found in the code
 
-**4 open** (1 high). Newest first.
+**1 open** (0 high). Newest first.
 
-- **sevenfold.py** `seams` — [HIGH] Slices the block into evenly sized pieces when no affinity data is provided, which does not correspond to the weakest seams
-  - says: Where the affinity ordering is weakest -- the natural places to cut.
-- **runguard.py** `release` — [MEDIUM] Close our own record. Same ownership rule: a run may only ever close its own.
-  - says: Close our own record. Same ownership rule: a run may only ever close its own.
-- **runguard.py** `beat` — [MEDIUM] Refresh the heartbeat -- but ONLY on a record that is ours.
-  - says: Refresh the heartbeat -- but ONLY on a record that is ours.
-- **runguard.py** `claim` — [MEDIUM] Take the guard for `agent`, or refuse.
-  - says: Take the guard for `agent`, or refuse.
+- **snapshot.py** `restore` — [MEDIUM] Copies a snapshot into a directory, but the function's name and comment suggest it should be restoring from a snapshot, not copying into a directory
+  - says: Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it.
 
 ---
 
