@@ -1,36 +1,30 @@
 # OVERWATCH
 
-round 137  ·  last run 2026-08-29 00:53
+round 138  ·  last run 2026-08-29 01:25
 
 ## Structure
 
-- modules that will not import: **0**
+- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
 - files that will not parse: **2** of 270,644 inspected (deep scan as of round 133)  — state\gpu_lane\slot.1.json — cannot stat; state\snapshots\AppData\Local\Temp\sweep37probe_a76ncjt1\real.txt — cannot stat
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**9 open** (3 high). Newest first.
+**6 open** (2 high). Newest first.
 
-- **gpu_lane.py** `_heartbeat` — [HIGH] Does not actively refresh leases; relies on external mechanisms which may not keep leases fresh during long-running calls
-  - says: Keep every lease this call holds fresh until the call finishes
-- **gpu_lane.py** `_write_claim` — [HIGH] Attempts to replace the file but fails silently if the replacement is denied, potentially leaving the file in an inconsistent state
-  - says: Write a claim to a file, ensuring it replaces an existing one if needed
-- **feats.py** `_QUANTITY` — [HIGH] The regex captures the exponent group (group 2) and the superscript exponent group (group 3), but the code only reads groups 1 and 3, effectively discarding the exponent group (gro
-  - says: The EXPONENT WAS CAPTURED AND THROWN AWAY. `_QUANTITY`'s second group holds the N of an `x 10^N`, and for as long as it existed only groups 1 and 3 were read --
-- **gpu_lane.py** `_take_slot` — [MEDIUM] Attempts to claim a slot but may return None even if slots are available due to exceptions during file operations
-  - says: Claim one of MAX_SLOTS leases, or return None if they are all live
-- **escalation.py** `_read_halt_raw` — [MEDIUM] returns a dict or None, but the docstring says it returns a dict or None, and the code does that. The claim is correct, but the code does not break the promise. However, the docstr
-  - says: IT ALWAYS RETURNS None OR A DICT
-- **drill.py** `SC.hostless` — [MEDIUM] A function that is being mocked to return a synthetic dictionary of sources
-  - says: A function that returns hostless sources
-- **drill.py** `SC.LOG` — [MEDIUM] A path that is being set to a temporary directory for testing
-  - says: A path to the log file
-- **drill.py** `SC.ATTEMPTS` — [MEDIUM] A path that is being set to a temporary directory for testing
-  - says: A path to the attempts ledger file
-- **drill.py** `SC.scout` — [MEDIUM] A function that is being mocked to return a fixed dictionary structure
-  - says: A function that simulates scouting behavior for testing purposes
+- **gpu_lane.py** `_heartbeat` — [HIGH] Does not actually keep leases fresh; it was supposed to call _touch to refresh leases but does not do so.
+  - says: Keep every lease this call holds fresh until the call finishes.
+- **generate.py** `generate_job` — [HIGH] generate a job, but the function is not defined in this slice
+  - says: generate a job
+- **hostcheck.py** `add` — [MEDIUM] Adds to the grounded list if not speculative, but the function is called with speculative=True for some entries
+  - says: Adds a host to either the speculative or grounded list
+- **gpu_lane.py** `_take_slot` — [MEDIUM] Claims a lease by creating a file, but does not check if the lease is expired or not.
+  - says: Claim one of MAX_SLOTS leases, or return None if they are all live.
+- **gpu_lane.py** `_alive` — [MEDIUM] Treats unknown PIDs as alive, which contradicts the docstring's claim that dead PIDs should have their leases broken immediately.
+  - says: Is this PID still running? A dead holder's lease is broken immediately.
+- **generate.py** `save_json` — [MEDIUM] save_json is called with the failures dictionary, but the code does not handle the case where save_json might fail to write the file, leading to potential data loss without error h
+  - says: save_json(cfg["paths"]["failures"], failures)
 
 ---
 
