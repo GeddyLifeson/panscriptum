@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 147  ·  last run 2026-08-29 06:02
+round 148  ·  last run 2026-08-29 06:42
 
 ## Structure
 
@@ -11,8 +11,10 @@ round 147  ·  last run 2026-08-29 06:02
 
 ## What the model found in the code
 
-**21 open** (8 high). Newest first.
+**23 open** (8 high). Newest first.
 
+- **verify_math.py** `check` — [HIGH] the check is using a variable that was not defined in the current scope
+  - says: a reasoning model's truncated generation reads as FLOW, not a wedge
 - **standards.py** `fab` — [HIGH] UNMEASURED is green by absence
   - says: UNMEASURED IS NOT GREEN
 - **standards.py** `fab` — [HIGH] sentences that are fabricated
@@ -27,8 +29,18 @@ round 147  ·  last run 2026-08-29 06:02
   - says: CURRENT file at write time, so a concurrent stamp from another process is merged rather than overwritten.
 - **rosetta.py** `main` — [HIGH] The function returns 0 unconditionally, but the code comments indicate that it should return 1 if there are disagreements.
   - says: The exit code has to carry the verdict, not just the printout.
-- **publish.py** `push` — [HIGH] Raises PushHeld if a commit could not be landed, but does not return True or False as described
-  - says: Commit and push. -> True if it landed, False if there was nothing to send.
+- **verify_math.py** `_own_nodes20p` — [MEDIUM] Yields nodes of `fn` including nested functions, but skips the nested functions' nodes.
+  - says: Every node belonging to `fn` ITSELF, not to a function nested inside it.
+- **verify_math.py** `_writes_the_config20p` — [MEDIUM] Checks if a function both names 'config.yaml' and opens something in write mode.
+  - says: Every node belonging to `fn` ITSELF, not to a function nested inside it.
+- **verify_math.py** `check` — [MEDIUM] the check is for a literal string match, but the comment says it should check the AST for the correct behavior
+  - says: check('the auth bench is still four hours', ...)
+- **verify_math.py** `measure_bit_value` — [MEDIUM] the docstring quotes the value the function returns, but the worked example still uses the old cumulative figure
+  - says: pins PROSE to DATA -- the only way this particular rot cannot recur silently
+- **tiers.py** `deliberate_joins` — [MEDIUM] returns deliberate joins, but the comment says it's for explaining why a xenoverse is 'artificial'
+  - says: why a xenoverse is 'artificial'
+- **sweep_plan.py** `covered_by` — [MEDIUM] returns a set of modules covered by a run, but the code for covered_by is not provided here and may not be implemented correctly
+  - says: A membership question deserves a membership answer.
 - **standards.py** `fab` — [MEDIUM] fabrication rate calculation
   - says: sentences that survive the verbatim check
 - **standards.py** `ollama_token_flow` — [MEDIUM] Derives the context window from config.yaml and checks if any metrics row has a tps in the last 15 minutes
@@ -43,14 +55,6 @@ round 147  ·  last run 2026-08-29 06:02
   - says: Scout the hostless sources, oldest attempt first.
 - **scout.py** `verify` — [MEDIUM] Return a generic error message for any exception.
   - says: Prove each answer before believing it.
-- **reference.py** `landed` — [MEDIUM] is assigned the result of write_json, which returns a boolean indicating success of the write operation
-  - says: indicates whether the reconstructions landed inside the interval
-- **publish.py** `codewatch.claim_singleton` — [MEDIUM] claims a singleton but does not prevent multiple instances from running
-  - says: prevent multiple instances of the same daemon from running
-- **publish.py** `git` — [MEDIUM] git is used to execute git commands, but the code does not handle the case where git commands may fail or return non-zero exit codes
-  - says: git is a function that executes git commands
-- **policy.py** `vacuous` — [MEDIUM] A rule that PASSED while looking at a field that does not exist and the operator is not 'absent'.
-  - says: A rule that PASSED while looking at a field that does not exist. Not a failure -- but not evidence of anything either, and the only place it is ever visible.
 - **overnight.py** `run` — [MEDIUM] cannot run after the reader because pipeline is started in the background and the keeper re-asserts the standing set every 300s
   - says: Runs after the reader so it sees the evidence the reader just produced
 - **navtree.py** `register_for` — [MEDIUM] returns a register for a node, but the logic for tie-breaking is flawed and non-deterministic
