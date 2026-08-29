@@ -1,32 +1,26 @@
 # OVERWATCH
 
-round 154  ·  last run 2026-08-29 10:32
+round 155  ·  last run 2026-08-29 10:55
 
 ## Structure
 
-- modules that will not import: **0**
+- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
 - files that will not parse: **0** of 273,179 inspected (deep scan as of round 151)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**7 open** (3 high). Newest first.
+**4 open** (1 high). Newest first.
 
-- **profile.py** `encode` — [HIGH] encodes a world's profile from its attributes but uses the wrong address
-  - says: encodes a world's profile from its attributes
-- **derivation.py** `curl_veto_threshold` — [HIGH] the threshold is set to 0.85, not 0.10
-  - says: curl < 0.10, being Saaty's CR bar carried across by Theorem 1
-- **rosetta.py** `main` — [HIGH] The function returns 0 unconditionally, but the code comments indicate that it should return 1 if there are disagreements.
-  - says: The exit code has to carry the verdict, not just the printout.
-- **autostart.py** `start_supervisor` — [MEDIUM] starts the supervisor if it's not already running
-  - says: starts the supervisor
-- **autostart.py** `subprocess.Popen` — [MEDIUM] return a subprocess.Popen object immediately without waiting for it to complete
-  - says: start a new process
-- **overnight.py** `run` — [MEDIUM] cannot run after the reader because pipeline is started in the background and the keeper re-asserts the standing set every 300s
-  - says: Runs after the reader so it sees the evidence the reader just produced
-- **navtree.py** `register_for` — [MEDIUM] returns a register for a node, but the logic for tie-breaking is flawed and non-deterministic
-  - says: returns a register for a node
+- **catalogue_models.py** `sweep` — [HIGH] sweep() does not actually perform any sweeping or cleaning of data, but instead generates a payload and writes it to a JSON file
+  - says: sweep(config_path=None, workers=6)
+- **canon_backup.py** `snapshot` — [MEDIUM] return the path of the snapshot
+  - says: create a new snapshot
+- **backfill.py** `lead` — [MEDIUM] The function is used to extract a lead sentence, but the code inside the function is not provided, making it impossible to verify its actual behavior.
+  - says: A lead sentence has length and terminal punctuation. Template residue has neither.
+- **assay.py** `used` — [MEDIUM] Used to filter scores based on weights, but the variable is not properly initialized in all cases.
+  - says: Used to filter scores based on weights.
 
 ---
 
