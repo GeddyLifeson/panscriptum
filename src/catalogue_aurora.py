@@ -56,8 +56,63 @@ FOLDER_SOURCE = {
 SKIP_TYPES = {"source"}
 
 
+# The length a record slug used to be cut to. Kept as a NAMED constant, not as a live cap: the
+# records already on disk were written under it, and `record_path` below needs to know the shape
+# of that history in order to still find them. Nothing new is ever truncated to it.
+LEGACY_SLUG_CAP = 60
+
+
 def slug(s):
-    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")[:60]
+    """The record's identity, derived from the source name. UNCAPPED -- Hard Rule 0.
+
+    THIS LINE ENDED IN `[:60]`, AND A CAP ON A NAME IS THE SAME ACT AS A CAP ON A ROSTER. It does
+    not fail; it returns a shorter thing wearing the shape of the real one. What it truncates here
+    is not a list of entries but the IDENTITY of the file holding them, which is worse, because a
+    truncated identity is how a record and its roll row stop being able to find each other:
+
+        roll row  'Who Framed Roger Rabbit (incl. all content from its associated
+                   crossover-toon IPs)'
+        slugs to  who-framed-roger-rabbit-incl-all-content-from-its-associated-crossover-toon-ips
+                  (79 characters)
+        on disk   who-framed-roger-rabbit-incl-all-content-from-its-associated.json
+                  (60 characters -- exactly the cap)
+
+    304 catalogued entries, a roll row that is not missing and a record that is not orphaned, and
+    no path between them except a reader willing to guess that the name was cut. `ingest_doc.slug`
+    -- the other slug function in this tree, over the same records directory -- has never had the
+    cap, so the two disagreed about the identity of the same source. That disagreement is what
+    collides cache keys. (Orders 683c59f43829 and 5fcb628db94c.)
+
+    Removing the cap changes no EXISTING record's identity here: every one of the ten sources in
+    FOLDER_SOURCE slugs to 46 characters or fewer (the longest is
+    `unearthed-arcana-incl-the-planeshift-documents`), so nothing this module has ever written was
+    truncated. Records written by the OTHER capped writers are reached through `record_path`.
+    """
+    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
+
+
+def record_path(source_name, records_dir=RECORDS):
+    """Where this source's record lives -- preferring the file that ALREADY EXISTS.
+
+    An uncapped slug is the right identity going forward, and on its own it would have stranded
+    every record written under the old 60-character cap: the module would look for
+    `...-crossover-toon-ips.json`, not find it, and write a SECOND record beside the first, with
+    the roll counting one and the corpus holding two. A fix that splits a 304-entry source in half
+    is worse than the truncation it repairs.
+
+    So the existing file wins where there is one. Exact name first; failing that, the legacy
+    truncation of the same name, which is prefix-anchored by construction (slugs are cut from the
+    front) and therefore cannot match an unrelated record the way free containment can. Only when
+    neither exists is a new, uncapped path returned. `ingest_doc.record_path` and
+    `manifest_builder.load_record` already resolve both shapes for the same reason.
+    """
+    full = os.path.join(records_dir, slug(source_name) + ".json")
+    if os.path.exists(full):
+        return full
+    legacy = os.path.join(records_dir, slug(source_name)[:LEGACY_SLUG_CAP] + ".json")
+    if legacy != full and os.path.exists(legacy):
+        return legacy
+    return full
 
 
 def text_of(el):
@@ -93,7 +148,13 @@ def parse_folder(folder, dropped=None):
         try:
             root = ET.parse(path).getroot()
         except Exception:
-            silence.note("catalogue_aurora.py:74")
+            # A CONTENT LABEL, not a line number. This said "catalogue_aurora.py:74" and the call
+            # was at line 96 -- already stale before this pass, and staler after it, because a
+            # line number is a fact about a file that edits invalidate silently. Every other note
+            # in this tree was converted for exactly that reason (order 4ec15db6540b); this one
+            # was missed. The label has no entry in state/failures.json, so nothing is orphaned
+            # by renaming it.
+            silence.note("catalogue_aurora.py:folder-xml-unparseable")
             continue  # a malformed homebrew file should not abort the whole source
         for el in root.iter("element"):
             etype = (el.get("type") or "").strip()
@@ -182,8 +243,7 @@ def main():
         # a stale record on disk beside a roll confidently claiming N entries, permanently.
         # `catalogue_web.py` already gates this exact call for this exact reason; these
         # siblings did not. Found by the run #25 sweep. (run #25)
-        if not _P.write_record_catalogue(
-                os.path.join(RECORDS, slug(source_name) + ".json"), record):
+        if not _P.write_record_catalogue(record_path(source_name), record):
             print(f"      -> WRITE DENIED {source_name}; roll left untouched", flush=True)
             continue
         # AND GATE THE SUMMARY ON IT TOO. `written` was appended BEFORE the write was even

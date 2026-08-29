@@ -334,18 +334,63 @@ def register_for(group_id, genre_register=None, features=None):
     return genre_register if genre_register in tied else tied[0]
 
 
+def load_onomasticon():
+    """The onomasticon as it currently stands on disk. Best-effort: a missing or unreadable file
+    means nothing is standing yet, not that naming should refuse to proceed."""
+    try:
+        with open(OUT, encoding="utf-8") as f:
+            return json.load(f) or {}
+    except FileNotFoundError:
+        return {}
+    except Exception:
+        silence.note("onomast.py:name_worlds-onomasticon-unreadable")
+        return {}
+
+
+def is_retired(rec):
+    """A designation the Library has issued and withdrawn. It is never issued again."""
+    return bool(isinstance(rec, dict) and rec.get("retired"))
+
+
 def name_worlds(resolved):
     """Assign a distinct designation to every world bearing a carried name.
 
     A name is only replaced where the SAME name occurs in more than one continuity: a world called
     Earth in a shelf where nothing else is, needs no disambiguation and does not get renamed. The
     doctrine explains repetition; where there is no repetition there is nothing to explain.
+
+    THE RETURN IS THE WHOLE ONOMASTICON, NOT JUST THIS RUN'S NAMINGS -- APPEND-ONLY. The `taken`
+    seeding below exists to stop a withdrawn designation being handed to a different world while
+    older prose still cites it, and it used to survive exactly ONE cycle, because both writers of
+    ONOMASTICON.json (`main()` here and the weave phase in pipeline.py) write this function's
+    return value and nothing else. A cid that left `resolved` was therefore dropped from the file,
+    the NEXT run could not see it, and the name it was protecting became free again. Reproduced
+    with three runs over a two-world shelf: run 1 named a=Torutharkok, b=Torathak; run 2 (world a
+    gone) correctly held Torutharkok back; run 3 handed Torutharkok to b and Torathak to c. Every
+    designation on the shelf shifted by one, and every citation written against run 1 now pointed
+    at a different world. A safety that holds for one cycle and then forgets is worse than none,
+    because it reads as protection. (Order 9309a040f208.)
+
+    So retired records are carried forward here, flagged `retired`, and the memory becomes
+    permanent rather than one-cycle. Both writers get it without either having to know, which is
+    the point: the fix belongs where the invariant is, not in each caller. Retired records are
+    emitted FIRST so that a consumer building a lookup from `.values()` (navtree, worldseed) sees
+    the live record last and keeps it, and `is_retired()` is there for consumers that want to
+    filter instead.
     """
     import collections
     by_key = collections.defaultdict(list)
     for cid, v in resolved.items():
         if is_carried(v["canonical_name"]):
             by_key[v["key"]].append((cid, v))
+
+    # Which cids this call will actually issue a designation to. Computed BEFORE seeding, because
+    # the seeding rule depends on it: a cid that is still in `resolved` but has fallen out of a
+    # >=2 group is not renamed this run either, and its standing designation needs the same
+    # protection as a cid that vanished entirely. The old rule ("skip cids in `resolved`") left
+    # that second case unprotected, so a shelf shrinking from two worlds to one freed a name that
+    # published prose was still citing.
+    naming = {cid for items in by_key.values() if len(items) >= 2 for cid, _ in items}
 
     # `taken` must start seeded with designations ALREADY standing in the catalogue namespace,
     # not just the ones this call coins -- otherwise two runs (one now, one after `resolved`
@@ -356,26 +401,18 @@ def name_worlds(resolved):
     # name silently becomes free for a new, unrelated world to be coined into.
     #
     # ONOMASTICON.json's own top-level keys are cids, exactly like `resolved`'s -- so seeding is
-    # restricted to cids NOT in `resolved` this call. Every cid IN `resolved` gets its
-    # designation freshly recomputed below (kept if still in a >=2 group, dropped otherwise),
-    # so seeding those too would make coin_well_formed see its own prior answer as taken and
-    # bump every unchanged world to a different name on every rerun -- breaking the exact
-    # reproducibility this module's docstring promises. Reading the existing file is
-    # best-effort: a missing or unreadable ONOMASTICON.json means there is nothing standing
-    # yet, not that naming should refuse to proceed.
+    # restricted to cids this call is NOT about to name. Every cid in `naming` gets its
+    # designation freshly recomputed below, so seeding those too would make coin_well_formed see
+    # its own prior answer as taken and bump every unchanged world to a different name on every
+    # rerun -- breaking the exact reproducibility this module's docstring promises.
+    prior = load_onomasticon()
     taken = set()
-    try:
-        with open(OUT, encoding="utf-8") as f:
-            for cid, rec in (json.load(f) or {}).items():
-                if cid in resolved:
-                    continue
-                nm = rec.get("catalogue_name")
-                if nm:
-                    taken.add(nm.lower())
-    except FileNotFoundError:
-        pass
-    except Exception:
-        silence.note("onomast.py:name_worlds-onomasticon-unreadable")
+    for cid, rec in prior.items():
+        if cid in naming:
+            continue
+        nm = (rec or {}).get("catalogue_name") if isinstance(rec, dict) else None
+        if nm:
+            taken.add(nm.lower())
 
     out = {}
     for key, items in sorted(by_key.items()):
@@ -396,24 +433,39 @@ def name_worlds(resolved):
                          f"the world under its own designation, the name being carried rather "
                          f"than shared."),
             }
-    return out
+
+    # APPEND-ONLY. Retired first (so a live record wins any lookup a consumer builds by iterating
+    # values), then this run's namings, which overwrite their own retired copies if a world has
+    # come back -- and come back to the same designation, since the seed is the world's own
+    # catalogue position and its cid is excluded from `taken` above.
+    merged = {cid: {**rec, "retired": True}
+              for cid, rec in prior.items()
+              if isinstance(rec, dict) and rec.get("catalogue_name") and cid not in out}
+    merged.update(out)
+    return merged
 
 
 def main():
     with open(RESOLVED, encoding="utf-8") as f:
         resolved = json.load(f)
     named = name_worlds(resolved)
+    # `named` is the WHOLE onomasticon, retired records included -- that is what makes it
+    # append-only. The report counts the live ones, because a count that quietly included
+    # withdrawn designations would be the same class of untruth as the one this fixes.
+    live = {cid: v for cid, v in named.items() if not is_retired(v)}
+    retired = {cid: v for cid, v in named.items() if is_retired(v)}
 
     import collections
     by_endonym = collections.defaultdict(list)
-    for cid, v in named.items():
+    for cid, v in live.items():
         by_endonym[v["endonym"]].append(v)
 
     print("=" * 92)
     print("THE ONOMASTICON — worlds that carry a name rather than share one")
     print("=" * 92)
-    print(f"\nworlds given their own designation: {len(named):,}")
+    print(f"\nworlds given their own designation: {len(live):,}")
     print(f"carried names resolved            : {len(by_endonym)}")
+    print(f"designations retired, never reissued: {len(retired):,}")
 
     for endo in sorted(by_endonym, key=lambda k: -len(by_endonym[k]))[:4]:
         rows = by_endonym[endo]

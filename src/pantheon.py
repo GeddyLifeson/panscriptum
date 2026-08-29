@@ -258,7 +258,10 @@ def main():
 
     out = compute(GODS)
     # ATOMIC -- the m100 tail, 2026-08-25.
-    silence.write_json(OUT, out, indent=1, ensure_ascii=False)
+    # GATED, like scope.py's build(): write_json returns whether the rename LANDED, and the
+    # unconditional "-> OUT" line below used to discard that verdict -- a denied replace still
+    # pointed a reader at a file that, this round, did not actually receive this run's data.
+    write_ok = silence.write_json(OUT, out, indent=1, ensure_ascii=False)
 
     combined = dict(out)
     if not a.gods_only:
@@ -304,7 +307,10 @@ def main():
                 print("   %-15s%5.1f  [%s] %s"
                       % (ax, d["score"], d["provenance"], d["cited"][:58]))
     print("")
-    print("-> " + OUT)
+    if write_ok:
+        print("-> " + OUT)
+    else:
+        print("WRITE DENIED: %s did not land this round; rerun to retry" % OUT)
     return 0
 
 

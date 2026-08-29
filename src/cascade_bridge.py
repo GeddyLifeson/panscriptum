@@ -319,6 +319,17 @@ _PROVEN = [None]
 # and a bucket that was busy an hour ago is not a bucket that is broken.
 PROOF_TTL = 3600
 
+# ON WORD BOUNDARIES, for the same reason `_PERMANENT_CODES` is: a bare `"404" in v` also
+# matches the 404 inside a request id, a trace hash or a token count, and the penalty for a
+# false positive here is not a four-hour bench but PERMANENT exclusion from the pool until the
+# next proof. This test was the one place in the file still doing a raw substring check on a
+# status code, which is m103's fault surviving in the last room nobody had swept.
+_DEAD_CODES = re.compile(r"\b(401|402|404|410)\b")
+# The prose half. `no such model`, `needs billing on that provider` and `retired by the
+# provider` are the engine's OWN wordings from `is_dead()`, which is where these arrive from;
+# they are distinctive enough that an accidental hit is not a realistic failure.
+_DEAD_WORDS = ("no such model", "needs billing", "bad key", "retired by the provider")
+
 
 def dead_forever():
     """Buckets excluded by proof — and ONLY for reasons that cannot fix themselves.
@@ -340,6 +351,17 @@ def dead_forever():
     A timeout, a 429, or a silent minute excludes nothing. Those buckets stay in rotation and
     fail over on their own, which is what the router is for -- and if they are genuinely down,
     the deadline costs one call and the next claim goes elsewhere.
+
+    IT READ A FIELD THAT COULD NOT CONTAIN ANY OF THAT (order 2f18e95e4f17). The test ran on
+    `verdict` alone, and `prove()` has only ever written a five-word vocabulary into `verdict`:
+    `local`, `provider disabled`, `no API key`, `answers`, `no answer`, or an exception's class
+    name. Not one of those can hold a status code or a provider's wording, so every branch below
+    was structurally unreachable -- measured against the live `data/POOL_PROOF.json`, which held
+    three distinct verdict strings across 36 rows and no bucket-specific reason at all. The
+    permanent-failure classifier could not see a permanent failure. `prove()` now records the
+    provider's own disposition in `reason` (from the engine's `failover` events, which is the
+    only place that text ever existed), and this reads BOTH -- `verdict` first so an older proof
+    file written before that change still classifies exactly as it did.
     """
     # THE ANSWER IS CACHED AGAINST THE PROOF FILE, NOT FOR THE LIFE OF THE PROCESS.
     #
@@ -367,10 +389,20 @@ def dead_forever():
             with open(PROOF, encoding="utf-8") as f:
                 rows = json.load(f)
             for r in rows:
-                v = str(r.get("verdict") or "")
-                if any(code in v for code in ("401", "402", "404", "410")):
-                    out.add(r["bucket"])
-                if "no such model" in v or "needs billing" in v or "bad key" in v:
+                if not isinstance(r, dict) or not r.get("bucket"):
+                    continue
+                # BOTH FIELDS. `verdict` is the coarse token every other reader counts;
+                # `reason` is where a status code or a provider's own words can actually be.
+                v = (str(r.get("verdict") or "") + " " + str(r.get("reason") or "")).lower()
+                # A FAULT ON THIS MACHINE IS NOT EVIDENCE ABOUT A PROVIDER'S ACCOUNT, and now
+                # that the provider's raw text reaches this line, it can arrive carrying one.
+                # `local_transport` is the same guard `permanent_refusal` opens with, and it
+                # matters more here: that one costs a four-hour bench, this one excludes the
+                # bucket outright. A WAF turning the client away is evidence about the REQUEST,
+                # by the identical argument.
+                if local_transport(v) or _CLIENT_REJECTION.search(v):
+                    continue
+                if _DEAD_CODES.search(v) or any(w in v for w in _DEAD_WORDS):
                     out.add(r["bucket"])
     except Exception:
         silence.note("cascade_bridge.py:dead_forever")
@@ -1161,7 +1193,14 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
     messages = [{"role": "system", "content": sys_msg},
                 {"role": "user", "content": prompt}]
     out, answered, done = [], None, threading.Event()
-    box = {"answered": None, "answered_id": None, "failed": False, "failovers": []}
+    # `failovers` keeps the model LABEL for the record; `reasons` is the provider's disposition
+    # ALONE, and the split is not tidiness. The label is a display string that contains the
+    # provider's NAME, and every classifier downstream matches provider names as words --
+    # `_CLIENT_REJECTION` looks for "cloudflare", which appears in the label of every Cloudflare
+    # model whatever went wrong. Feeding a labelled string to a classifier makes the label
+    # decide the verdict.
+    box = {"answered": None, "answered_id": None, "failed": False,
+           "failovers": [], "reasons": []}
 
     def pump():
         try:
@@ -1185,8 +1224,10 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                     # while the aggregate that arrives at the end says only "All N candidates
                     # failed". The classifier in `dead_forever` was written against words that
                     # only ever existed in these events.
-                    box["failovers"].append("%s: %s" % (ev.get("from") or "?",
-                                                        str(ev.get("reason") or "")[:200]))
+                    _r = str(ev.get("reason") or "")[:200]
+                    box["failovers"].append("%s: %s" % (ev.get("from") or "?", _r))
+                    if _r:
+                        box["reasons"].append(_r)
                 elif t == "error":
                     box["failed"] = True
                     box["error"] = str(ev.get("error") or ev.get("text") or "")[:300]
@@ -1363,8 +1404,8 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                 # `dead_forever`'s 401/402/404/410 test has never had anything to match. The
                 # failover events hold the provider's own status line; prefer them.
                 _why = raw
-                if (not _why or any(w in _why.lower() for w in _WRAPPERS)) and box["failovers"]:
-                    _why = "; ".join(box["failovers"])
+                if (not _why or any(w in _why.lower() for w in _WRAPPERS)) and box["reasons"]:
+                    _why = "; ".join(box["reasons"])
                 served["error"] = (_why or "")[:300]
             return None
         if pinned:

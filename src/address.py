@@ -125,6 +125,37 @@ def spine_code_for(source_name: str) -> str:
             return best_code
 
     # word-order-independent fallback (handles "all Black Ops" vs "Black Ops (all)")
+    #
+    # NORMALISING BY min() MAKES A ONE-WORD INDEX ENTRY MATCH ANYTHING THAT SAYS THAT WORD. The
+    # denominator is the SHORTER side, so an index name of a single token needs exactly one shared
+    # token to score coverage 1.0 -- and 125 of the 220 Acquisitions-Index entries are two tokens
+    # or fewer, among them 'Alien', 'Doom', 'Dune', 'Halo', 'Diablo' and 'DC'. Any future source
+    # whose title happens to contain one of those words as a standalone word would be shelved
+    # inside it, at full confidence, without ever reaching UNASSIGNED:
+    #
+    #     'Sword Coast Adventurer's Guide DC Edition' vs 'DC'
+    #       overlap 1, min(5, 1) = 1, coverage 1.0  ->  II.D.2, DC Comics
+    #
+    # That is the invented address Hard Rule 2 forbids, arriving by the same route the two fixes
+    # above closed (raw-letter containment, then first-in-file order) and surviving both of them,
+    # because this branch never asks how much of the LONGER name agreed. It does the second harm
+    # too: a source that matches wrongly never reaches unassigned_sources.md, so the owner
+    # sign-off that would have caught it is never asked for. Latent, not live -- all 16 sources on
+    # today's roll that reach this branch were verified genuine before and after. (Order
+    # 7f9a58566f91.)
+    #
+    # THE FIX IS ON THE EVIDENCE, NOT THE THRESHOLD. One shared word is not evidence of identity;
+    # it is evidence of one shared word. So a single overlapping token only counts when the two
+    # token sets are the SAME set -- which is the one case where nothing was left over on either
+    # side to disagree about ('all Battlefield' vs 'Battlefield (all)', both {battlefield}, three
+    # of today's sixteen). Anything else needs at least two words in common before its coverage is
+    # worth reading. Raising the 0.8 threshold instead would not have helped: coverage was already
+    # 1.0, the maximum, on exactly the matches that are wrong.
+    #
+    # Rejected: normalising by max() instead. It breaks two genuine matches on today's roll --
+    # 'the Skate games' (2 of 6 tokens) and 'Western astrology' (2 of 7) -- because an index entry
+    # that spells out its contents in parentheses is legitimately much longer than the roll's name
+    # for the same thing. Verified against all 215 roll entries: no assignment changed.
     target_tokens = _token_set(source_name)
     if target_tokens:
         best, best_overlap = None, 0
@@ -133,6 +164,8 @@ def spine_code_for(source_name: str) -> str:
             if not name_tokens:
                 continue
             overlap = len(target_tokens & name_tokens)
+            if overlap < 2 and target_tokens != name_tokens:
+                continue
             coverage = overlap / min(len(target_tokens), len(name_tokens))
             if coverage >= 0.8 and overlap > best_overlap:
                 best, best_overlap = code, overlap

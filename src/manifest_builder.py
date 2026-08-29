@@ -87,6 +87,23 @@ def load_record(cfg, source_name):
     # instead sent source "DC" to sword-coast-adventurer-s-guide.json, because that filename
     # also contains the letters "dc" (swor-d-c-oast) and is far longer than dc.json. First-match
     # ordering had been hiding that by luck of `listdir`.
+    # AND THE CONTAINMENT ARMS NEED A LENGTH FLOOR, which they did not have. `norm_*` strips
+    # spaces and punctuation, so containment here is a raw-letter test, and the records directory
+    # holds slugs as short as `dc`, `dune`, `halo`, `doom`, `arms` and `xcom`. Two letters fall
+    # inside almost anything -- "dc" is in "swor-d-c-oast-adventurers-guide" -- so the shorter the
+    # name, the broader the net, which is the wrong way round: a short name carries LESS evidence,
+    # not more. Nothing misfires on today's data (215 of 215 sources resolve, and 214 of those by
+    # exact normalised equality), but the safety is the accident that `dc.json` happens to exist
+    # and score a perfect 0; delete that record and "DC" would resolve to the Sword Coast
+    # sourcebook. The same accident in address.py had to be fixed twice. (Order 174d34f39a6e.)
+    #
+    # EQUALITY IS EXEMPT AND ALWAYS WINS. A floor that refused short names outright would strand
+    # `dc.json`, `dune.json` and six others from their own roll rows -- the exact harm this
+    # function's first fix repaired. Equality cannot false-match at any length; only the two
+    # inexact arms are floored. The floor sits far below the one genuine inexact match on the roll
+    # (the Roger Rabbit truncation, 67 letters against 51) and far above the short slugs, so it
+    # separates the two cases with room on both sides rather than by a hair.
+    MIN_INEXACT_LETTERS = 12
     best_name, best_score = None, None
     for fname in os.listdir(records_dir):
         if not fname.endswith(".json"):
@@ -94,14 +111,22 @@ def load_record(cfg, source_name):
         norm_fname = "".join(ch for ch in fname[:-5].lower() if ch.isalnum())
         if not norm_fname:
             continue
+        if norm_fname == norm_target:
+            return _read_record(records_dir, fname)
+        if min(len(norm_fname), len(norm_target)) < MIN_INEXACT_LETTERS:
+            continue
         if norm_target in norm_fname or norm_target.startswith(norm_fname):
             score = abs(len(norm_fname) - len(norm_target))
             if best_score is None or score < best_score:
                 best_name, best_score = fname, score
     if best_name:
-        with open(os.path.join(records_dir, best_name), encoding="utf-8") as f:
-            return json.load(f)
+        return _read_record(records_dir, best_name)
     return None
+
+
+def _read_record(records_dir, fname):
+    with open(os.path.join(records_dir, fname), encoding="utf-8") as f:
+        return json.load(f)
 
 
 def chunk(lst, size):

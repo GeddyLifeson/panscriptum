@@ -2,8 +2,12 @@
 """Assemble the Registry Terminal: the omniverse as an atom, in one self-contained page."""
 import os
 import sys
+import threading
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silence                                                          # noqa: E402
+
 DATA = os.path.join(HERE, "data", "NAVTREE.json")
 OUT = os.path.join(HERE, "output", "registry_terminal.html")
 
@@ -568,9 +572,20 @@ def main():
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     html = TEMPLATE.replace("__DATA__", data)
-    with open(OUT, "w", encoding="utf-8") as f:
+    # LANDED, not written in place -- the same atomic idiom every other writer in this project
+    # uses (compress_store.store(), silence.write_json()). A bare open(OUT, "w") truncates the
+    # existing page before the new one is ready, so a crash or a kill mid-write leaves a reader
+    # (or `catalogue_web.py`'s own writers, if this ever runs alongside them) looking at a torn
+    # or empty terminal instead of the previous good one. No concurrent reader is known today,
+    # but this was the only writer left in the module still doing the truncate-then-fill.
+    tmp = "%s.%d.%d.tmp" % (OUT, os.getpid(), threading.get_ident())
+    with open(tmp, "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"wrote {OUT}  ({len(html)/1024:.0f} KB)")
+    landed = silence.replace_retry(tmp, OUT)
+    if landed:
+        print(f"wrote {OUT}  ({len(html)/1024:.0f} KB)")
+    else:
+        print(f"WRITE DENIED: {OUT} did not land this round; rerun to retry")
     return 0
 
 

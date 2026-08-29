@@ -269,6 +269,55 @@ def map_seed(addr):
     return int(hashlib.sha256(str(addr).encode()).hexdigest()[:8], 16)
 
 
+# WHERE THE HASHED FIELDS DRAW THEIR BITS FROM -- DERIVED, NOT TYPED IN.
+#
+# `assign()` shifted the digest by the literals 8, 48 and 78, which is the one thing this module
+# tells you never to do: every width above is computed from the census precisely so that a
+# re-charting moves it, and three hand-copied offsets sitting underneath them are the same
+# hand-copied transcription the module docstring says went stale twice already. They do not
+# overlap TODAY (universe ends at bit 6, galaxy spans 8..45, star 48..74, planet 78), and they
+# stop being safe the moment the census grows: one more bit of galaxy than 40 and the galaxy slice
+# reaches into the star's, so two fields would be drawn from correlated bits and nothing would
+# say so. (Order 528fc483c4f0.)
+#
+# THE LEGACY OFFSETS ARE KEPT AS A FLOOR, AND THAT IS DELIBERATE. The offsets are what decide
+# which bits a world's galaxy, star and planet come from, so changing them RE-ADDRESSES every
+# world -- 1,016 of them currently standing in data/SHELFMARKS.json with map seeds derived from
+# those addresses. Deriving them from a bare running total would have produced 0/6/44/71 and
+# silently moved all 1,016, which is the same act as re-slugging a record: the address is the
+# identity. So each offset is the running total of the widths below it, RAISED to the historical
+# literal where that is larger. Today that reproduces 8/48/78 exactly and nothing moves; as the
+# census grows the running total takes over and the fields still cannot overlap. Dropping the
+# floor is a deliberate re-addressing and needs an owner's ruling, not a tidy-up.
+_LEGACY_HASH_OFFSETS = {"galaxy": 8, "star": 48, "planet": 78}
+_HASHED_FIELDS = ("universe", "galaxy", "star", "planet")
+
+
+def _hash_offsets():
+    """Bit offset into the digest for each hashed field. Derived from WIDTHS."""
+    offsets, cursor = {}, 0
+    for name in _HASHED_FIELDS:
+        cursor = max(cursor, _LEGACY_HASH_OFFSETS.get(name, 0))
+        offsets[name] = cursor
+        cursor += WIDTHS[name]
+    return offsets
+
+
+HASH_OFFSETS = _hash_offsets()
+
+# How much of the sha256 digest `assign()` has to read to reach the top of the last slice. Was a
+# fixed `h[:16]`, which is 128 bits and was chosen when the top slice ended at bit 79. A layout
+# that outgrows it would not raise -- the high slices would simply come back zero or clipped, so
+# every world in the omniverse would share a planet index and nothing would report it. Derived
+# from the offsets, floored at the historical 16 bytes so today's addresses are unchanged.
+_HASH_SPAN = max(HASH_OFFSETS[n] + WIDTHS[n] for n in _HASHED_FIELDS)
+HASH_BYTES = max(16, -(-_HASH_SPAN // 8))
+if HASH_BYTES > 32:
+    raise ValueError(
+        f"address layout needs {HASH_BYTES} bytes of digest but sha256 gives 32; widen the "
+        f"digest in assign() rather than letting the top fields silently read zero")
+
+
 def assign(designation, tiers):
     """A deterministic address for a catalogued world, using its CHARTED tier stack.
 
@@ -278,19 +327,22 @@ def assign(designation, tiers):
     the designation -- drawn reproducibly rather than differently on each run.
     """
     h = hashlib.sha256(designation.encode("utf-8")).digest()
-    n = int.from_bytes(h[:16], "big")
+    n = int.from_bytes(h[:HASH_BYTES], "big")
 
     def fit(v, field):
         return (0 if v is None else int(v)) % (1 << WIDTHS[field])
+
+    def drawn(field):
+        return (n >> HASH_OFFSETS[field]) % (1 << WIDTHS[field])
 
     return pack(fit(tiers.get("hyperverse"), "hyperverse"),
                 fit(tiers.get("xenoverse"), "xenoverse"),
                 fit(tiers.get("metaverse"), "metaverse"),
                 fit(tiers.get("multiverse"), "multiverse"),
-                n % (1 << WIDTHS["universe"]),
-                (n >> 8) % (1 << WIDTHS["galaxy"]),
-                (n >> 48) % (1 << WIDTHS["star"]),
-                (n >> 78) % (1 << WIDTHS["planet"]))
+                drawn("universe"),
+                drawn("galaxy"),
+                drawn("star"),
+                drawn("planet"))
 
 
 def main():

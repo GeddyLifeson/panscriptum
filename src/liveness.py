@@ -98,6 +98,47 @@ def _parse(path):
         return None, "%s: %s" % (type(e).__name__, e)
 
 
+def _self_attrs(node):
+    """The names this class body reads off `self` or `cls`, EXCLUDING nested class bodies.
+
+    `self.foo()` is the ordinary way a method is reached, and it is the reason the DEAD pass can
+    judge methods at all. But it is a scoped reference: it can only reach a method of THIS class
+    or of something in its MRO, never a same-named method on an unrelated class in an unrelated
+    module. Collecting these globally, alongside `obj.foo`, is the attribute-shaped version of
+    the flat `used` bag that hid `coverage._p()` -- see `scan()`.
+
+    A nested class gets its own entry rather than donating to its parent, for the same reason.
+    """
+    out = set()
+    stack = list(node.body)
+    while stack:
+        n = stack.pop()
+        if isinstance(n, ast.ClassDef):
+            continue                    # its own entry; it does not donate to its parent
+        if isinstance(n, ast.Attribute) and isinstance(n.value, ast.Name) \
+                and n.value.id in ("self", "cls"):
+            out.add(n.attr)
+        stack.extend(ast.iter_child_nodes(n))
+    return out
+
+
+def _classes(tree, prefix=""):
+    """-> {dotted class name: (base names, self/cls attribute names)} for one module."""
+    found = {}
+    for node in tree.body:
+        if isinstance(node, ast.ClassDef):
+            label = prefix + node.name
+            bases = []
+            for b in node.bases:
+                if isinstance(b, ast.Name):
+                    bases.append(b.id)
+                elif isinstance(b, ast.Attribute):
+                    bases.append(b.attr)
+            found[label] = (bases, _self_attrs(node))
+            found.update(_classes(node, label + "."))
+    return found
+
+
 def _defs(tree, prefix=""):
     """Every function the DEAD pass considers, as (name, label, node).
 
@@ -164,7 +205,19 @@ def scan():
     # Attributes, `from X import name`, and string constants are global, because all three are
     # how a name legitimately crosses a module boundary. Erring toward "it is used" is still the
     # rule -- a false DEAD is expensive to chase -- but the erring is now scoped.
-    used_local = {}
+    #
+    # AND `self.foo` IS SCOPED TOO, which is the same correction one level in. When DEAD was
+    # widened to methods it leaned on "any method reached through an instance anywhere in src/
+    # counts as used" -- and implemented that by putting EVERY attribute name, `self.x` included,
+    # into the one global `used` bag. `self.foo()` cannot reach an unrelated class's `foo` any
+    # more than a bare `_p` can reach another module's `_p()`; it is the identical fault in
+    # attribute clothing, and it means a dead method can never be flagged so long as ANY class
+    # anywhere in the tree happens to use that name. Zero collisions today among the non-dunder
+    # methods in scope -- which is exactly why it is cheap to fix now rather than after one
+    # appears. `self`/`cls` reads are collected PER CLASS by `_self_attrs` and credited to that
+    # class, its ancestors and its descendants (a base's template method calls `self.step()` and
+    # a subclass implements it; both directions are real). Every other attribute stays global.
+    used_local, self_attr = {}, {}
     for name, t in trees.items():
         local = set()
         for node in ast.walk(t):
@@ -174,6 +227,8 @@ def scan():
                 if isinstance(node.ctx, ast.Load):
                     local.add(node.id)
             elif isinstance(node, ast.Attribute):
+                if isinstance(node.value, ast.Name) and node.value.id in ("self", "cls"):
+                    continue                              # scoped to its class, below
                 used.add(node.attr)                       # `mod.thing()` -- crosses modules
             elif isinstance(node, ast.ImportFrom):
                 for al in node.names:
@@ -183,6 +238,31 @@ def scan():
             elif isinstance(node, ast.Constant) and isinstance(node.value, str):
                 used.add(node.value.strip())              # getattr / dispatch table
         used_local[name] = local
+        for label, pair in _classes(t).items():
+            self_attr[(name, label)] = pair
+
+    # The MRO, approximated BY NAME because that is all a syntax pass has. Erring toward "it is
+    # used" remains the rule: a base named in another module still joins by its simple name, and
+    # so does anything that inherits from this class. What no longer joins is an unrelated class
+    # that merely shares a method name, which was the whole of the old behaviour.
+    by_simple = {}
+    for key in self_attr:
+        by_simple.setdefault(key[1].rsplit(".", 1)[-1], []).append(key)
+    scoped = {}
+    for key in self_attr:
+        seen, stack = set(), [key]
+        while stack:
+            k = stack.pop()
+            if k in seen:
+                continue
+            seen.add(k)
+            for b in self_attr[k][0]:                     # upward: this class's bases
+                stack.extend(by_simple.get(b.rsplit(".", 1)[-1], []))
+            simple = k[1].rsplit(".", 1)[-1]              # downward: anything inheriting it
+            for k2, (bases2, _a) in self_attr.items():
+                if k2 not in seen and any(x.rsplit(".", 1)[-1] == simple for x in bases2):
+                    stack.append(k2)
+        scoped[key] = set().union(*[self_attr[k][1] for k in seen]) if seen else set()
 
     dead, taut, phantom = [], [], []
     for name, t in trees.items():
@@ -195,10 +275,15 @@ def scan():
             # minutes. A check nobody can afford to run is a check that does not run, which is
             # the very thing this module exists to find.
             #
-            # TWO SETS, not one: `used` is the cross-module surface (attributes, from-imports,
-            # dispatch strings) and `used_local[name]` is what this module itself loads. A bare
-            # name in ANOTHER module cannot reach this function, which is the whole correction.
-            if fn not in used and fn not in used_local.get(name, ()):
+            # THREE SETS, not one: `used` is the cross-module surface (non-self attributes,
+            # from-imports, dispatch strings), `used_local[name]` is what this module itself
+            # loads by bare name, and `reachable` is what THIS CLASS AND ITS RELATIVES read off
+            # `self`/`cls`. A bare name in ANOTHER module cannot reach this function, and a
+            # `self.foo` in an UNRELATED class cannot reach this method.
+            reachable = ()
+            if "." in label:
+                reachable = scoped.get((name, label.rsplit(".", 1)[0]), ())
+            if fn not in used and fn not in used_local.get(name, ()) and fn not in reachable:
                 dead.append("%s:%d %s()" % (name, node.lineno, label))
 
         # --- TAUTOLOGY: a comparison whose sides are the same expression
@@ -238,6 +323,12 @@ def scan():
                 defined.add(n2.name)
             elif isinstance(n2, (ast.Global, ast.Nonlocal)):
                 defined.update(n2.names)
+            elif isinstance(n2, ast.MatchAs) and n2.name:
+                defined.add(n2.name)                      # `case X() as thing:` / `case other:`
+            elif isinstance(n2, ast.MatchStar) and n2.name:
+                defined.add(n2.name)                      # `case [a, *rest]:`
+            elif isinstance(n2, ast.MatchMapping) and n2.rest:
+                defined.add(n2.rest)                      # `case {"k": v, **rest}:`
         import builtins
         defined |= set(dir(builtins))
         # Module globals the interpreter supplies. Omitting these made every `_BAD_CHARS` source
@@ -253,22 +344,44 @@ def scan():
         # the founding example in this file's own docstring, is an `if`; nothing made it an `if`
         # except where the author happened to write it. A detector that only inspects the syntax
         # its worked example used is measuring the example, not the fault.
+        #
+        # THE TWO THE WIDENING STILL MISSED, closed here for the same reason and while the count
+        # is still zero. A `match`/`case` GUARD is a condition in every sense -- it is evaluated
+        # only when its pattern matches, so a name it gets wrong raises on exactly the branch
+        # nobody takes. And a bare `cond and action()` STATEMENT is an `if` written as an
+        # expression: the right-hand side runs only when the left is true, and Python does not
+        # care that the author chose an operator over a keyword. Both measure zero in this tree
+        # today (no `match` statements at all, no bare boolean statements), which is precisely
+        # when a detector is cheap to widen -- widening it after the first instance appears means
+        # the instance was missed. Case-pattern CAPTURES are added to `defined` above, or every
+        # guard naming its own capture would be a false positive.
         for n2 in ast.walk(t):
             tests = []
             if isinstance(n2, (ast.If, ast.While, ast.IfExp)):
                 tests.append(("guard", n2.test))
             elif isinstance(n2, ast.Assert):
                 tests.append(("assertion", n2.test))
+            elif isinstance(n2, ast.match_case) and n2.guard is not None:
+                tests.append(("match guard", n2.guard))
+            elif isinstance(n2, ast.Expr) and isinstance(n2.value, ast.BoolOp):
+                # `and` and `or` alike: both short-circuit, so in both the trailing operand is
+                # code that runs only on a branch. Reported as one test over the whole
+                # expression -- an undefined name anywhere in it raises only when reached.
+                tests.append(("short-circuit statement", n2.value))
             elif isinstance(n2, (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)):
                 for gen in n2.generators:
                     for cond in gen.ifs:
                         tests.append(("comprehension filter", cond))
             for kind, test in tests:
+                # `ast.match_case` is not a statement and carries NO `lineno` of its own, so the
+                # line is taken from the test instead -- a report row that cannot say where the
+                # finding is would be a finding nobody acts on.
+                line = getattr(n2, "lineno", None) or getattr(test, "lineno", 0)
                 for sub in ast.walk(test):
                     if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Load) \
                             and sub.id not in defined:
                         phantom.append("%s:%d %s names '%s', never defined in this module"
-                                       % (name, n2.lineno, kind, sub.id))
+                                       % (name, line, kind, sub.id))
     return {"dead": sorted(set(dead)), "tautology": sorted(set(taut)),
             "phantom": sorted(set(phantom)), "unparsed": sorted(set(unparsed))}
 

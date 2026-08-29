@@ -1188,6 +1188,26 @@ def _halt_is_not_breakage(src=None):
     Now the `if idle >= IDLE_LIMIT` branch is found AS a branch, `_ESC.status` has to be CALLED
     inside it, and the halted arm has to `continue` -- wait for a person -- rather than fall
     through to the give-up. No comment produces a Call node or a Continue node.
+
+    AND THAT REWRITE WAS DEFEATED THE SAME WAY THE TEXT WINDOW WAS (order adc3dc9c3fc6, run
+    #37). `_calls_within`, `_says` and the Continue search all ran over the WHOLE `If` node --
+    taken arm, untaken arm and **unreachable code** alike -- so the three findings never had to
+    be on the same path, or on any path at all. The sweep built a supervisor whose real
+    behaviour ALWAYS declares the library broken and never consults the halt, and parked the
+    call, the `continue` and the string in a dead `if False:` block after the `break`. The net
+    reported HELD. Dead code makes exactly the claim a comment makes, and binds the running
+    program exactly as much.
+
+    So the three findings are now tied together and to the reachable path:
+
+      * `escalation.status` must be called on a path the loop can reach, and its ANSWER must be
+        bound to a name -- calling it and discarding the result is not consulting it;
+      * the `continue` must be in the REACHABLE arm of an `if` conditioned on that name;
+      * "it is a broken one" must be reachable and must be OUTSIDE that arm, because the whole
+        finding is that a halted library must not reach the give-up.
+
+    That last clause is the one this net exists for. `_ESC.status` resolves through the alias,
+    the from-import and the plain spelling, so renaming the import does not blind it.
     """
     import ast
     tree = _ast_of(os.path.join(_srcdir(src), "overnight.py"))
@@ -1200,9 +1220,23 @@ def _halt_is_not_breakage(src=None):
                 and isinstance(t.comparators[0], ast.Name)
                 and t.comparators[0].id == "IDLE_LIMIT"):
             continue
-        return (_calls_within(tree, n, "_ESC.status")
-                and any(isinstance(x, ast.Continue) for x in ast.walk(n))
-                and _says(n, "it is a broken one"))
+        if not _calls_within(tree, n, "escalation.status", reachable=True):
+            return False
+        asked = _bound_from_call(tree, n, "escalation.status")
+        if not asked:
+            return False                       # status() called and the answer thrown away
+        if not _says(n, "it is a broken one", reachable=True):
+            return False                       # the give-up must still be reachable at all
+        for g in _live_walk(n):
+            if not isinstance(g, ast.If) or not _guarded_by(tree, g, asked):
+                continue
+            arm = _live_stmts(g.body)
+            if not any(isinstance(x, ast.Continue) for x in _live_stmt_walk(arm)):
+                continue
+            if any(_says(s, "it is a broken one", reachable=True) for s in arm):
+                continue                       # the halted arm IS the give-up. Not a guard.
+            return True
+        return False
     return False
 
 
@@ -1539,6 +1573,19 @@ def _no_programmatic_clear(src=None):
     "absence read as clean" shape the whole project is built against. `escalation.py` defines
     `clear` and calls it from its own CLI, which is the one sanctioned caller; `drill.py` calls
     it in four spellings on purpose, to prove each is refused.
+
+    AND THE FIFTH SPELLING IS A LOCAL VARIABLE (order f016ae5433b1, run #37). `f =
+    escalation.clear` followed by `f(ruling)` walked past all four checks, confirmed by test:
+    every one of them looks at the CALL, and in that shape the call names nothing this scan
+    recognises. Binding the function to a name is now tracked to a fixpoint, so a chain
+    (`f = escalation.clear; g = f; g(...)`) is caught too, along with a bound
+    `getattr(escalation, "clear")`.
+
+    FILED MINOR AND FIXED ANYWAY. The real guarantee is `clear()`'s own caller-identity check
+    at run time, which no alias defeats and which `_no_runtime_clear` attacks directly; this
+    scan is defence in depth, meant to catch the attempt while a person reads the diff. But a
+    defence-in-depth layer everybody knows is porous is a layer nobody consults, and then it is
+    not there for the case it was written for.
     """
     import ast
     src = src or os.path.dirname(os.path.abspath(__file__))
@@ -1560,6 +1607,35 @@ def _no_programmatic_clear(src=None):
                 for al in n.names:
                     if al.name == "clear":
                         direct.add(al.asname or "clear")
+
+        def _is_the_release(v, direct=direct, mods=mods):
+            """Is this expression the `clear` FUNCTION ITSELF, handed around as a value?"""
+            if isinstance(v, ast.Attribute) and v.attr == "clear":
+                return isinstance(v.value, ast.Name) and v.value.id in mods
+            if isinstance(v, ast.Name):
+                return v.id in direct
+            if (isinstance(v, ast.Call) and isinstance(v.func, ast.Name)
+                    and v.func.id == "getattr" and len(v.args) >= 2
+                    and isinstance(v.args[0], ast.Name) and v.args[0].id in mods
+                    and isinstance(v.args[1], ast.Constant) and v.args[1].value == "clear"):
+                return True
+            return False
+
+        # A NAME BOUND TO THE FUNCTION IS THE FUNCTION. To a fixpoint, so an alias of an alias
+        # is caught as well; `direct` is what every call check below already consults.
+        grew = True
+        while grew:
+            grew = False
+            for n in ast.walk(tree):
+                if not isinstance(n, ast.Assign) or not _is_the_release(n.value):
+                    continue
+                for t in n.targets:
+                    # PLAIN NAMES ONLY. `obj.clear = x` binds an attribute, not a local, and
+                    # walking into it would mark `obj` itself as the release function.
+                    if isinstance(t, ast.Name) and t.id not in direct:
+                        direct.add(t.id)
+                        grew = True
+
         for n in ast.walk(tree):
             if not isinstance(n, ast.Call):
                 continue
@@ -2640,10 +2716,17 @@ def _identity_probe_is_gated(src=None):
     round-trip-per-host-per-sweep this net exists to prevent, would have left the net green on
     its own explanation. The gate is now found as a BRANCH and the probe has to be CALLED inside
     it: a condition that no longer guards the call cannot be mistaken for one that does.
+
+    AND SCOPED TO THE ARM THE CONDITION ACTUALLY GUARDS (order 07c7379597ba, run #37). The
+    search still ran over the whole `If` node, so a `_probe_identity` call in the `else` -- the
+    UNGATED path, which is the fault itself -- or in a branch nothing can enter would have
+    answered for one inside the gate. It was unexploitable only because `binding_health.py`
+    happens to contain exactly one call site today, which is a fact about this morning's source
+    and not about this net. The gated arm is now the only place the call counts.
     """
     import ast
     tree = _ast_of(os.path.join(_srcdir(src), "binding_health.py"))
-    for n in ast.walk(tree):
+    for n in _live_walk(tree):
         if not isinstance(n, ast.If):
             continue
         t = n.test
@@ -2655,7 +2738,11 @@ def _identity_probe_is_gated(src=None):
                             for c in v.comparators)
                     for v in t.values)
         sourced = any(isinstance(v, ast.Name) and v.id == "sources" for v in t.values)
-        if gated and sourced and _calls_within(tree, n, "_probe_identity"):
+        if not (gated and sourced):
+            continue
+        arm = _live_stmt_walk(_live_stmts(n.body))
+        if any(isinstance(x, ast.Call)
+               and _spelled(_spellings_of_call(tree, x), "_probe_identity") for x in arm):
             return True
     return False
 
@@ -3863,19 +3950,43 @@ def drill_rung_four():
         would restart a subsystem a person had stopped, and this net would have gone on holding
         on the story of the last time that happened. Now: the call has to be a call, inside the
         keeper, and it has to come BEFORE the restart it is supposed to gate.
+
+        AND "BEFORE" WAS A LINE NUMBER, WHICH IS NOT A PATH (order 07c7379597ba, run #37).
+        `min(asked) < min(started)` is satisfied by a consultation sitting in dead code above
+        the restart, or in an unrelated arm, or with its answer thrown away -- none of which
+        stops the keeper restarting a subsystem a person stopped, which is the whole incident.
+        It survived only because `_keep` contains exactly one of each call today.
+
+        The claim is now the real one, in three parts: the answer is BOUND, a reachable `if`
+        conditioned on that answer `continue`s without starting anything, and every reachable
+        `start` is outside that arm and after it. A guard that does not skip the restart is not
+        a guard, and a restart the guard cannot precede is not gated by it.
         """
         import ast
         tree = _ast_of(os.path.join(_srcdir(), "overnight.py"))
         keep = _defn(tree, "_keep")
         if keep is None:
             return False
-        asked = [n.lineno for n in ast.walk(keep)
-                 if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
-                 and n.func.id == "_manager_stopped"]
-        started = [n.lineno for n in ast.walk(keep)
+        answered = _bound_from_call(tree, keep, "_manager_stopped")
+        if not answered:
+            return False                       # asked and the answer discarded, or not asked
+        started = [n for n in _live_walk(keep)
                    if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
                    and n.func.id == "start"]
-        return bool(asked) and bool(started) and min(asked) < min(started)
+        if not started:
+            return False                       # a keeper that restarts nothing proves nothing
+        for g in _live_walk(keep):
+            if not isinstance(g, ast.If) or not _guarded_by(tree, g, answered):
+                continue
+            arm = _live_stmt_walk(_live_stmts(g.body))
+            if not any(isinstance(x, ast.Continue) for x in arm):
+                continue                       # the stopped arm must SKIP, not fall through
+            if any(x is s for x in arm for s in started):
+                continue                       # ... and must not start the job it just skipped
+            inside = {id(x) for x in _live_walk(g)}
+            if all(id(s) not in inside and s.lineno > g.lineno for s in started):
+                return True
+        return False
     net(a, "the keeper checks for a MANAGER stop before re-asserting a job",
         the_keeper_asks_before_restarting,
         "the ledger existed for 25 minutes and the one process that needed it never opened it")
@@ -3924,10 +4035,28 @@ def drill_codewatch():
         `codewatch.exit_if_stale` -- `publish.py`'s runs to eight lines and quotes it. A daemon
         that merely MENTIONS the check is exactly the daemon this net exists to catch, and until
         now it could not tell that daemon from one that runs it.
+
+        AND A CALL IS NOT A CALL ON THE PATH THAT MATTERS (order 07c7379597ba, run #37). Both
+        spellings were asked of the WHOLE FILE, so a call in a helper nothing invokes, in a
+        dead branch, or in a `--once` path the daemon never takes would have answered for the
+        loop. The incident this exists for is specifically a LONG-RUNNING loop that never
+        re-read its own source: a staleness check that runs once at startup and never again is
+        the same daemon with an extra line in it. So `stamp` must be reachable in `main`, and
+        `exit_if_stale` must be reachable INSIDE A LOOP in `main`. Three files, and each has
+        exactly one call site today -- which is why this could not be exploited and not why it
+        was safe.
         """
+        import ast
         for f in ("publish.py", "foreman.py", "overwatch.py"):
-            p = os.path.join(_srcdir(), f)
-            if not (_calls(p, "codewatch.exit_if_stale") and _calls(p, "codewatch.stamp")):
+            tree = _ast_of(os.path.join(_srcdir(), f))
+            main_fn = _defn(tree, "main")
+            if main_fn is None:
+                return False
+            if not _calls_within(tree, main_fn, "codewatch.stamp", reachable=True):
+                return False
+            if not any(_calls_within(tree, loop, "codewatch.exit_if_stale", reachable=True)
+                       for loop in _live_walk(main_fn)
+                       if isinstance(loop, (ast.While, ast.For))):
                 return False
         return True
     net(a, "every standing daemon checks whether its own source has changed",
@@ -4080,9 +4209,19 @@ def drill_codewatch():
         by any mention at all, and `publish.py`'s own comment above the call explains at length
         why the guard is there and only fires in loop mode -- so the call could go and the
         explanation would answer for it, which is how two publishers end up in one export repo.
+
+        AND ASKED OF THE PATH, NOT OF THE FILE (order 07c7379597ba, run #37). `_calls` reads
+        the whole module, so the claim was answered by a call anywhere in it: in a helper with
+        no caller, in a dead branch, in a subcommand the daemon never reaches. That is the same
+        distance between "the guard exists" and "the guard is in effect" that this whole area
+        is about. It has to be reachable in `main`, which is the process the twin fights with.
         """
         for f in ("publish.py", "foreman.py", "overwatch.py"):
-            if not _calls(os.path.join(_srcdir(), f), "codewatch.claim_singleton"):
+            tree = _ast_of(os.path.join(_srcdir(), f))
+            main_fn = _defn(tree, "main")
+            if main_fn is None:
+                return False
+            if not _calls_within(tree, main_fn, "codewatch.claim_singleton", reachable=True):
                 return False
         return True
     net(a, "every standing daemon refuses to run beside a twin",
@@ -4572,6 +4711,16 @@ def drill_mutation():
         is reaped as it passes. That is what the function is for, this battery is the only thing
         that calls it, and reaping is safe by construction -- a live run's sandbox is minutes
         old, not hours.
+
+        AND BOTH PROBES NOW CARRY AN OWNER CLAIM (order 22e114422cba, run #37). Neither wrote
+        an `_owner.json`, so after the M46 rewrite this net exercised the age gate against two
+        directories the reaper considered UNOWNED -- the one case where ownership never gets
+        consulted at all. The staged note that came with the M46 fix said this in as many
+        words: "reaping a directory to demonstrate the net now requires that directory to have
+        a dead or absent owner", and a net whose probes are all absent-owner cannot see the
+        difference the fix made. The aged one is claimed by a pid that is definitely gone (so
+        it must still reap, by age, on a dead claim) and the fresh one by THIS process (so its
+        survival is the ownership rule and the age rule agreeing, not the age rule alone).
         """
         import mutate as M
         if not hasattr(M, "reap_orphans") or M.ORPHAN_AGE_SECONDS < 3600:
@@ -4580,10 +4729,14 @@ def drill_mutation():
         aged = os.path.join(root, M.SANDBOX_PREFIX + "drillprobe_aged_%d" % os.getpid())
         fresh = os.path.join(root, M.SANDBOX_PREFIX + "drillprobe_fresh_%d" % os.getpid())
         try:
-            for p in (aged, fresh):
+            for p, pid in ((aged, 999999999), (fresh, os.getpid())):
                 os.makedirs(p, exist_ok=True)
                 with open(os.path.join(p, "marker.txt"), "w", encoding="utf-8") as fh:
                     fh.write("drill orphan probe -- safe to delete")
+                with open(os.path.join(p, M.OWNER_FILE), "w", encoding="utf-8") as fh:
+                    json.dump({"pid": pid, "started": time.time()}, fh)
+            # AFTER the owner file is written: creating an entry in a directory updates that
+            # directory's mtime, so ageing first and claiming second ages nothing.
             back = time.time() - (M.ORPHAN_AGE_SECONDS + 3600)
             os.utime(aged, (back, back))
             removed = M.reap_orphans()
@@ -4881,8 +5034,29 @@ def drill_scope():
         string that sat in a file for five days with no consumer, so "the name appears
         somewhere" is the precise evidence it must not accept. `roll.out_of_scope` now has to
         be CALLED.
+
+        AND CALLING IT IS NOT CONSULTING IT (order 07c7379597ba, run #37). `_calls` reads the
+        whole file, so the exclusion list could be fetched and dropped on the floor, or fetched
+        in a branch nothing enters, and this net would hold over a builder that queued every
+        excluded source exactly as before -- which is, precisely and literally, the five-day
+        fault it was written for: a value produced where nobody acts on it. The ANSWER now has
+        to be bound to a name and that name has to FILTER something: a comprehension whose
+        condition reads it, which is how a work list actually loses a row.
         """
-        return _calls(os.path.join(_srcdir(), "manifest_builder.py"), "roll.out_of_scope")
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "manifest_builder.py"))
+        excluded = _bound_from_call(tree, tree, "roll.out_of_scope")
+        if not excluded:
+            return False
+        for n in _live_walk(tree):
+            if not isinstance(n, (ast.ListComp, ast.SetComp, ast.GeneratorExp, ast.DictComp)):
+                continue
+            for gen in n.generators:
+                for cond in gen.ifs:
+                    if any(isinstance(x, ast.Name) and x.id in excluded
+                           for x in ast.walk(cond)):
+                        return True
+        return False
     net(a, "the generator consults the exclusion list before building jobs",
         generator_actually_skips_an_excluded_source,
         "a status string no consumer reads is a decision that did not happen")
@@ -4898,19 +5072,41 @@ def drill_scope():
         and the net would have kept holding on the paragraph describing the trap it had fallen
         back into. The status test now has to be a real comparison against `roll.OUT_OF_SCOPE`,
         guarding a branch that does NOT reassign the status.
+
+        AND THE FIRST MATCH ANYWHERE WAS ACCEPTED (order 07c7379597ba, run #37). The walk
+        covered the whole tree including code nothing can reach, and it returned True on the
+        first qualifying `if` it happened to meet -- so a dead `if r["status"] == OUT_OF_SCOPE:
+        pass` parked after a `return` satisfied it while the live promotion carried straight
+        on underneath. The guard was one occurrence away from meaning nothing.
+
+        The property is now stated the way an exclusion actually has to hold: every REACHABLE
+        write to a record's status is inside the `else` of an out-of-scope guard. One escaping
+        write is one routine resync away from promoting an excluded source back, which is the
+        trap this net is named after.
         """
         import ast
         tree = _ast_of(os.path.join(_srcdir(), "resync_roll.py"))
-        for n in ast.walk(tree):
+        guards = []
+        for n in _live_walk(tree):
             if not (isinstance(n, ast.If) and isinstance(n.test, ast.Compare)):
                 continue
             if not any(isinstance(c, ast.Attribute) and c.attr == "OUT_OF_SCOPE"
                        for c in n.test.comparators):
                 continue
             # The branch must LEAVE the status alone; a guard that then rewrites it is not one.
-            if not _subscript_assigns(ast.Module(body=n.body, type_ignores=[]), "r", "status"):
-                return True
-        return False
+            body = ast.Module(body=_live_stmts(n.body), type_ignores=[])
+            if _subscript_assigns(body, "r", "status"):
+                continue
+            guards.append(n)
+        if not guards:
+            return False
+        protected = set()
+        for g in guards:
+            for w in _live_stmt_walk(_live_stmts(g.orelse)):
+                protected.add(id(w))
+        writes = [w for w in _live_walk(tree) if isinstance(w, ast.Assign)
+                  and _subscript_assigns(ast.Module(body=[w], type_ignores=[]), "r", "status")]
+        return bool(writes) and all(id(w) in protected for w in writes)
     net(a, "a routine resync cannot silently un-exclude a source",
         resync_cannot_revert_an_exclusion,
         "an exclusion a maintenance script can undo unnoticed is not an exclusion")

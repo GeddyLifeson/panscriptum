@@ -75,15 +75,22 @@ def load_roll():
 
 
 def save_roll(roll):
-    # Atomic for the same reason the record write beside it is: SWEEP_ROLL.json is written from
-    # three worker threads here and read elsewhere by `load_roll` and `resync_roll.py`, BOTH of
-    # which do an unguarded `json.load`. A truncating write interrupted mid-dump therefore does
-    # not degrade anything gracefully -- it kills the next run of either script outright.
+    """-> True if the write landed.
+
+    Atomic for the same reason the record write beside it is: SWEEP_ROLL.json is written from
+    three worker threads here and read elsewhere by `load_roll` and `resync_roll.py`, BOTH of
+    which do an unguarded `json.load`. A truncating write interrupted mid-dump therefore does
+    not degrade anything gracefully -- it kills the next run of either script outright.
+
+    GATE ON THE WRITE, like `write_record_catalogue` three lines above every call site: this
+    used to run `replace_retry` and drop the verdict, so a denied replace here was invisible to
+    every caller even though the record write right beside it in the same function IS checked.
+    """
     import silence as _sil
     tmp = ROLL + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(roll, f, indent=2, ensure_ascii=False)
-    _sil.replace_retry(tmp, ROLL)
+    return _sil.replace_retry(tmp, ROLL)
 
 
 def catalogue_composite(source_name, verbose=True):
@@ -458,7 +465,12 @@ def main():
                 return
             roll_by_name[name]["entry_count"] = len(record["entries"])
             roll_by_name[name]["status"] = "catalogued"
-            save_roll(roll)
+            if not save_roll(roll):
+                # The record already landed (checked above); only the roll's bookkeeping of it
+                # did not. Not a failed catalogue -- entry_count/status just don't reflect it in
+                # SWEEP_ROLL.json yet, so a later save_roll() (or a rebuild) is what recovers it.
+                print(f"      -> ROLL WRITE DENIED for {name}; record landed, roll unsynced "
+                      f"this round", flush=True)
             tally["done"] += 1
             # `note` can say more than "ok" now -- catalogue_composite reports a transport
             # failure on some categories even when it still returns a usable record. Print it

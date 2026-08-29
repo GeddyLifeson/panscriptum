@@ -352,8 +352,14 @@ def main():
     out = os.path.join(HERE, "data", "TIERS.json")
     # ATOMIC: the same pattern pipeline.py's `land_json` was already fixed for on this very
     # file (bug m6); this writer was missed at the time. 2026-08-25.
-    silence.write_json(out, charted, indent=2, ensure_ascii=False)
-    print(f"\nwrote {out}")
+    # GATED, like scope.py's build(): write_json returns whether the rename LANDED, and printing
+    # an unconditional "wrote" line discarded that verdict -- a denied replace still reported
+    # success about a file that, this round, did not change at all.
+    ok = silence.write_json(out, charted, indent=2, ensure_ascii=False)
+    if ok:
+        print(f"\nwrote {out}")
+    else:
+        print(f"\nWRITE DENIED: {out} did not land this round; rerun to retry")
     return 0
 
 
