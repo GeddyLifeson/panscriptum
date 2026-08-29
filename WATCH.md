@@ -1,22 +1,24 @@
 # OVERWATCH
 
-round 166  ·  last run 2026-08-29 16:20
+round 167  ·  last run 2026-08-29 16:51
 
 ## Structure
 
-- modules that will not import: **0**
+- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
 - files that will not parse: **0** of 274,390 inspected (deep scan as of round 163)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**2 open** (1 high). Newest first.
+**3 open** (1 high). Newest first.
 
-- **catalogue_web.py** `record_path` — [HIGH] the function is used but never defined in this file or its imports
-  - says: with the cap gone the raw join would look for the un-truncated name, miss the record this module itself wrote under the cap, and write a SECOND one beside it --
-- **cleanup.py** `changed` — [MEDIUM] set to True in multiple branches but not always initialized
-  - says: tracking whether any changes were made to a record
+- **dashboard.py** `movement` — [HIGH] What has NOT CHANGED, not what the level is.
+  - says: What has CHANGED, not what the level is.
+- **custodes.py** `convene` — [MEDIUM] The function does not actually convene the full college; it returns a dictionary with computed statistics and flags, but the actual 'convening' logic is not executed.
+  - says: Convene the full college. The interval is the DISPERSION of their readings.
+- **compress_store.py** `store` — [MEDIUM] writes to a temporary file and attempts to replace it, but the returned dict does not include the actual file path or content
+  - says: Compress `text`, write it to compressed_dir keyed by content hash, and return
 
 ---
 
