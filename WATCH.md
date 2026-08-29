@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 122  ·  last run 2026-08-28 18:10
+round 123  ·  last run 2026-08-28 19:04
 
 ## Structure
 
@@ -11,8 +11,10 @@ round 122  ·  last run 2026-08-28 18:10
 
 ## What the model found in the code
 
-**17 open** (8 high). Newest first.
+**19 open** (7 high). Newest first.
 
+- **read.py** `_ask` — [HIGH] is the local GPU, unconditionally.
+  - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline.
 - **pipeline.py** `phase_chain` — [HIGH] Phase 4 that never runs because no code dispatches to it
   - says: Phase 4 -- the Chain of Defeats. See chain.py for the reasoning.
 - **overnight.py** `run` — [HIGH] does not run the stage at all, as the pipeline is started in the background and the run() function checks for an existing instance
@@ -21,14 +23,18 @@ round 122  ·  last run 2026-08-28 18:10
   - says: Hold the model resident AT THE CONFIGURED num_ctx.
 - **mutate.py** `_lock_acquire` — [HIGH] Defined but never called within the module
   - says: Acquire a lock to prevent concurrent mutation runs
-- **identity.py** `epoch_of` — [HIGH] return an empty string when the probe is unavailable or the response is unparsable
-  - says: determine the epoch of a sentence
-- **identity.py** `_ask` — [HIGH] swallow all exceptions and return None
-  - says: ask a question and return the answer
 - **genre.py** `classify_source` — [HIGH] Uses a truncated ranked list for confidence calculation, leading to inflated confidence scores
   - says: Classifies a source based on its entries, using all scored genres for confidence calculation
 - **generate.py** `compress_store.store` — [HIGH] is called but exceptions are caught and handled without raising
   - says: now RAISES when `silence.replace_retry` cannot land the blob
+- **reference.py** `by_pair` — [MEDIUM] indexes on host and entity from the key split, but the key split is only a fallback
+  - says: index on host and entity rather than re-spelling the separator
+- **reference.py** `shelfmark` — [MEDIUM] constructs a shelfmark with upper and lower rungs, but the code does not correctly handle cases where the tier_key or lower_rungs have different lengths than expected
+  - says: The charter's canonical Shelfmark
+- **read.py** `ensure_transport` — [MEDIUM] Resolves the transport configuration in a thread-safe manner, but the function's description mentions a 'lazy if _CASCADE_OK is None' which was a race condition, but the current im
+  - says: Decide the transport ONCE, before any worker starts, and say which one won.
+- **publish.py** `git` — [MEDIUM] git is used to push to origin/main without checking if the rebase was successful
+  - says: git is a function that executes git commands
 - **prose_gate.py** `evidence_ok` — [MEDIUM] Returns False if the floor is not a number or outside (0, 1], but does not properly handle the case where the source is unmeasured (returns None) and does not correctly enforce the
   - says: Has this source been read enough to be worth writing about?
 - **pipeline.py** `land_json` — [MEDIUM] Writes the object to a temporary file and returns whether the rename succeeded, but does not ensure atomicity as described due to the lack of proper atomic write handling.
@@ -45,8 +51,6 @@ round 122  ·  last run 2026-08-28 18:10
   - says: How much of the evidence a split sheet was actually read from.
 - **liveness.py** `used_local` — [MEDIUM] used_local is a dictionary mapping module names to sets of names used in that module
   - says: used_local is a set of names used in the current module
-- **ingest_doc.py** `state` — [MEDIUM] reset to 0, found to 0 on exception
-  - says: tracking progress
 
 ---
 
