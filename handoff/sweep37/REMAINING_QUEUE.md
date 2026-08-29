@@ -2,7 +2,7 @@
 
 Generated from `state/workorders.json` at the close of the shift. The queue itself is the authority; this is a snapshot so the next run can start from a position rather than rediscover one. Ranked by rung (cheapest handler first) and then by severity, then oldest first.
 
-Total open: 286
+Total open: 256
 
 ### LOCAL — 22 open
 
@@ -34,22 +34,21 @@ Total open: 286
 
 **INFO (3)**
 
-- `91bb70c85e31` — publish — publish exited to pick up changed source (src/ changed d69e633ff5648b04 -> f5adba04087caa22 and held for 615s)
+- `91bb70c85e31` — publish — publish exited to pick up changed source (src/ changed 01ba62ce7b50e86c -> aa6fdb24c5066be5 and held for 618s)
 - `e45618de083f` — foreman — foreman exited to pick up changed source (src/ changed da63c0b2ce88c94c -> d69e633ff5648b04 and held for 2746s)
-- `ee382241ff8c` — overwatch — overwatch exited to pick up changed source (src/ changed d69e633ff5648b04 -> f5adba04087caa22 and held for 1402s)
+- `ee382241ff8c` — overwatch — overwatch exited to pick up changed source (src/ changed 01ba62ce7b50e86c -> aa6fdb24c5066be5 and held for 1701s)
 
-### BOTS — 2 open
+### BOTS — 1 open
 
 
-**MINOR (2)**
+**MINOR (1)**
 
-- `2da53c3e192f` — www.dandwiki.com — www.dandwiki.com: host unreachable: siteinfo returned nothing usable -- the API is not answering (present probe: 8 known-present title(s) all returned
 - `3dc2832846bc` — - — stalled and deliberately NOT killed, because nothing would bring them back promptly: roll_auto:16752
 
-### RUN — 192 open
+### RUN — 165 open
 
 
-**MAJOR (90)**
+**MAJOR (64)**
 
 - `30854f11f322` — binding_health.py:310-355 — binding_health.binding_verdict (329-355) can return a false CONFIRMED at score 100 whenever the normalised sitename is a WORD-SUBSET of the normalised
 - `f2271d9ee843` — src/publish.py prune_export / COPY_DIRS — prune_export only ever walks roots listed in COPY_DIRS, so REMOVING a root from that tuple leaves its entire export copy standing in the PUBLIC repo f
@@ -57,28 +56,12 @@ Total open: 286
 - `8d14f0adda1b` — src/withdraw_chapters.py archive move — Two withdrawals sharing one --label archive collide: shutil.move onto an existing name in output/withdrawn_<label>/ silently OVERWRITES on Windows via
 - `944274e8bfd8` — data/ENTITY_INDEX.json vs src/weave_index.py — THE CODE IS FIXED AND THE DATA IT PRODUCED IS STILL TRUNCATED. Order b974e9ed76de (closed this shift) removed weave_index's silent 400-character cap o
 - `a3fd659f4ff7` — src/foreman.py reprove_pool() — foreman.reprove_pool() hand-rolls open(_pp + '.tmp', 'w') followed by replace_retry instead of routing through silence.write_json -- so it uses a FIXE
-- `8f4bb64503c2` — src/drill.py:3133 — drill.py:3133 `_local_buckets_excluded_from_cloud_claims` is VACUOUS three ways. It requires only that SOME `if` in cascade_bridge.py has `<x>.bucket.
-- `78f04bec15ad` — src/drill.py:2569,2813,3697,3727 — Four nets use the whole-file `_calls()` helper, which walks dead code, `orelse` and uncalled helpers (`_called_names` -> `_call_spellings(tree)` with 
-- `7cc460706efe` — src/drill.py:1287,5086 — Two nets are pinned to the literal spelling of an import alias rather than to the module, so a rename of an import BREACHES the drill -- and a drill b
-- `c54a22a4e6fc` — src/drill.py:1287,1301,1402 — Three local_agent nets accept a call or an assignment that the running program cannot reach. drill.py:1287 `_failed_revert_is_escalated` calls `_calls
-- `18958aba2143` — src/drill.py:3091 — drill.py:3091 `_refusal_is_recorded` is two whole-file `ast.walk` searches with no branch scoping. Its `records` half is satisfied by ANY assignment w
-- `9ada7602a356` — src/drill.py:1560 — drill.py:1560 'the cap resets per run, not per process' reads only `LA._BLAST['patches']`. `local_agent._BLAST` is {'files': set(), 'patches': 0} and 
-- `64dfe6bec15c` — src/drill.py:3407 — drill.py:3407 reads cascade_bridge.py as TEXT and two nets test that text with `in`. 'burial is documented as permanent-codes-only' (drill.py:3409) is
-- `5ed81099fc49` — src/drill.py:2764,5116 — Two nets assert 'there EXISTS a correctly-guarded site' where the property is 'EVERY site is guarded', so adding an ungated one restores the fault wit
-- `e2f44baedfdc` — src/drill.py:1176 — drill.py:1176 `_halt_is_not_breakage` loops over ast.walk looking for `if idle >= IDLE_LIMIT`, runs its checks on the FIRST one it meets, and `return`
-- `cf9ee9000be8` — src/drill.py:1608,4349 — drill.py:1608 `_no_programmatic_clear` ('No module in src/ CALLS the halt's release') and drill.py:4349 `_counts_decided_by_substring` ('NO gate anywh
-- `5eea5c20db8a` — src/drill.py:5441 — drill.py:5441 `datasette_config_is_generated_not_copied` calls `corpus_db.datasette_metadata()` with no path, which WRITES state/datasette.json on eve
-- `5c87268a388c` — src/drill.py:1986,2575,2591,2621,3407 — Five statements execute at area-function call time OUTSIDE any net() wrapper, so an exception in them is an uncaught traceback out of main()'s `for fn
 - `6e1c72cddfeb` — src/resonance.py:119 — `resonance.hodge_decompose` reports eta = 0.0 -- '0% ladder-representable, 100% irreducibly chord, theorem_2_error_floor = 1.0' -- for contest flows t
 - `1e86b06e7463` — src/silence.py:145 — The `"raise"` token in `silence._handlers` (src/silence.py:145) and in `silence.instrument` (src/silence.py:562) CAN NEVER MATCH A RE-RAISE. Both test
 - `f194d8444d12` — src/foreman.py:924 — `foreman.restart_ollama`'s 30-minute rate limit FAILS OPEN, silently, on an unreadable stamp file. src/foreman.py:921-925 reads state/OLLAMA_RESTARTS.
 - `4866dfb2d9fc` — src/pipeline.py:write_record (drift-branch field tuple) and src/ — both record writers' per-entry merge allowlist is ('category','scale_note','scale_note_rejected','magnitude','topic','catalogued') and omits 'excluded
 - `99b1ae2c580c` — src/foreman.py:281 — `foreman.py` still hand-rolls SEVEN atomic writes with a FIXED `path + ".tmp"` name, in a process the code DELIBERATELY permits to run twice at once. 
 - `881ff7f49438` — src/foreman.py:95 — `foreman.DENYLIST` (src/foreman.py:95) omits every module that constitutes Hard Rule -1's PROVEN property, and `_checks_pass` (src/foreman.py:1135-119
-- `212e3096edfc` — src/prose_gate.py:section_shortfall (the `extra` branch) + asser — prose_gate.section_shortfall counts an INVENTED entry into `missing` but never into `required`, so assert_block_complete cannot refuse it. Each extra 
-- `17e6cba194ce` — src/scout.py:_mutate — scout._mutate replaces a corrupt or wrong-shape shared JSON artifact with an almost-empty dict and reports landed=True. It takes silence.digest_of(pat
-- `1ebd28c8cd85` — src/standards.py:check() -- the `ledger` block and the `unans_fi — Two standards in standards.check() report a clean ZERO off an input they could not read, because the out.append(_s(...)) sits OUTSIDE the try rather t
-- `b901c088890e` — src/standards.py:check() -- the duplicate-process block (`_dup = — The 'one instance of each job' standard (HIGH, group machine) is the only outer handler in standards.check() that neither re-emits a row nor records _
 - `d2085b1d8dd3` — src/escalation.py:escalate (the `level >= OWNER` arm) — escalation.escalate() throws away _raise_halt()'s return value: `if level >= OWNER: _raise_halt(rec)` then `return rec`. _raise_halt was fixed in run 
 - `4b308c6b750d` — src/escalation.py:clear + escalation.py:main (--clear) — `python src/escalation.py --clear --ruling "..."` prints 'nothing was halted.' when the lift was REFUSED. escalation.clear() returns False for two ent
 - `e16a93099bbe` — src/feats_index.py:host_to_sources, feats_index.py:load_index, f — feats_index swallows a failed host-map read, CACHES the emptiness, and thereby defeats the guard manifest_builder added for exactly this. host_to_sour
@@ -101,32 +84,21 @@ Total open: 286
 - `d2fb14ffa8c6` — src/mutate.py:_run_mutation (both gate loops) with _gate_result  — unusable_gates(base) refuses to mutate when a gate cannot complete on CLEAN code, and its docstring reasons carefully about TIMEOUT == TIMEOUT produci
 - `90eba4982972` — src/custodes.py:convene -- `dispersive = sorted(...)` and out['d — The comment above this line claims the dispersive flag 'is now READ rather than merely declared... Deriving the list from the table means a second dis
 - `a08557925d87` — src/tells.py:prompt_section (claims at tells.py docstring, style — tells.py's WHY ONE FILE section states 'the list lives here, the prompt section is GENERATED from it, and the audit imports it', style_audit.py:30 rep
-- `302c7da84032` — src/overwatch.py:167 — overwatch.load() only treats an UNPARSEABLE ledger as damaged. A ledger that is valid JSON but not a ledger -- null, [], {}, or a bare string -- retur
-- `c6f64c1424fa` — src/overwatch.py:559 — verify_open() writes f['last_verified'] = time.time() and increments `checked` BEFORE testing whether the model answered. _ask returns None on purpose
 - `d316c46b67bd` — src/gpu_lane.py:326 — _take_slot() returns None for two different situations and lane() cannot tell them apart: 'every slot is live' (wait) and 'os.open raised, cannot arbi
 - `9ef32bd37b95` — src/verify_math.py:7232 — verify_math.py:7232-7248 -- the section-tag uniqueness scan (20y) only reads '# ---- Section <tag>:' lines. 21 of the file's 62 section tags use a pri
 - `b18acbb35760` — src/verify_math.py:4637 — verify_math.py:4637-4644 -- 'the live sweep proves its own completeness' asks sweep_plan.latest_run() and demands missing()==[]. latest_run() returns 
 - `67c692701386` — src/verify_math.py:6166 — verify_math.py:6165-6172 -- the row enforcing order 495390283745 tests '_want_b3 in _selfsrc_b3' where _want_b3 is a plain literal that appears on its
 - `6a8444cad673` — src/verify_math.py:5021 — verify_math.py:5020-5032 -- _nogate20q collects a phase's calls with ast.walk(_fn20q), which descends into nested defs, so a phase that lands artifact
 - `469b4db261ef` — src/verify_math.py:2319 — verify_math.py -- seven rows assert a code string is PRESENT in a target module by searching the raw file text, and the target module carries that tok
-- `66696f8ee28f` — src/magnitude.py:497 — magnitude.SYSTEM tells the model 'Cite, for each axis, the exact feat number that justifies it', while verify()'s guard 1 demands the citation MATCH a
-- `41e8ffc2e490` — src/magnitude.py:1014 — Guard 5 (QUANTITY) never applies guard 3, and it OVERWRITES guard 3's refusals. quantity_scores() (magnitude.py:421) does not call subject_refusal at 
-- `dd76d4a930f7` — src/magnitude.py:974 — The one-shot quality-failure retry at magnitude.py:974 (`if not sheet and any(cand.values())`) can essentially never fire, so the Jace case it was wri
 - `14bd09740627` — src/allsweep.py:598 — The VERIFY tier's verdicts are computed, printed, landed in ALLSWEEP.json and graded by nothing. allsweep.main()'s `bad` sum counts only `crashed` or 
 - `2a48315d26e6` — src/sevenfold.py:138 — sevenfold.seams()'s even-split fallback -- added because clustering all six cuts at one end 'produced exactly the giant component this function's own 
 - `237356c82d06` — src/anchors.py:242 — anchors.run() computes an ASSAY, an INSTRUMENT reading, a COLLEGE interval and a bit-value for each of the five anchors, prints them all, and gates th
-- `3778bc42499f` — src/publish.py push() — publish.push() returns False ('nothing to send') when the export branch is AHEAD of origin/main. The no-op test is `if not porcelain: return False` on
-- `d2edc81326da` — src/publish.py sync_tree() COPY_FILES branch — sync_tree's COPY_FILES withdrawal deletes the export copy on the strength of ONE os.path.exists answer, and has none of prune_export's guards. (1) os.
-- `dd3ff361db49` — src/binding_health.py _load / quarantined / quarantine — _load returns the same default for FileNotFoundError and for every other exception, so a torn, locked or non-UTF-8 HOST_QUARANTINE.json reads as 'no h
-- `9979963c093a` — src/binding_health.py run() — run() lands an EMPTY whole-estate report when WIKI_HOSTS.json cannot be read. hosts_map = _load(WIKI_HOSTS.json, {}) -> {} -> hosts=[] -> out=[] -> me
 - `a29c38c9eff3` — src/binding_health.py run() -- release(h) call sites — release()'s NOT-RELEASED verdict is thrown away at both of its call sites. release() was rewritten today so a lost compare-and-swap returns 'NOT RELEA
 - `6d35eacf252d` — src/chain.py extract() / _ask() — extract() cannot tell 'the model answered with no contests' from 'no model answered'. _ask returns None when the cascade bridge AND the local model bo
 - `6447bcc2f18c` — src/rosetta.py main() --mine / scales_for() — --mine writes the SAME pass output to both ROSETTA.json and ROSETTA.raw.json, so the 'raw' copy is not a backup of the previous mine but a second copy
 - `22394233dbad` — src/withdraw_chapters.py main() -- the `missing` branch — An entry whose file could not be STATTED loses its catalog record. `if not src or not os.path.exists(src): missing += 1; continue` does NOT add the ad
 - `0b75182d495c` — data/records/*.json done.entrypass vs the entries on disk — THE CODE IS FIXED AND THE DATA IT LOST IS STILL LOST. Order 9ef51c36acea (closed this shift) repaired pipeline.write_record's no-drift branch, which d
 - `776507b529c5` — the run-36 red-check for pipeline.write_record's top-key merge — THE CHECK THAT GUARDED THE CHANGE COULD NOT SEE WHAT THE CHANGE BROKE, and that is the more important half of order 9ef51c36acea. The run-36 top-key r
-- `6e0127c4f3ed` — src/local_agent.py:_safe (junction block) and _denied_region — local_agent._safe re-checks a junction-resolved path against DENYLIST_PREFIXES ONLY (via _denied_region) and never against DENYLIST_PATHS, so config.y
-- `838be29f9e58` — src/codewatch.py:stale (the _PENDING comparison) and STABLE_SECO — REFINES ff3c67a67b92 rather than restating it, and the refinement changes the remedy. codewatch.stale() compares the current digest against _PENDING['
 - `1f172f5acc6f` — src/drill.py:drill_codewatch.daemons_actually_check_their_own_so — codewatch's docstring and CLAUDE.md both say it gives EVERY standing daemon a fingerprint of src/. Only three modules call it. Six long-lived jobs are
 - `4c1eaa9df7fa` — src/overnight.py:1021,1027,1040,1046,1053,1068,1070,1081,1103 (g — overnight.py honours a MANAGER (rung 4) subsystem stop in ONE of the ten places it launches jobs. `_manager_stopped()` (overnight.py:867) has exactly 
 - `a37032c3f36a` — src/overnight.py:720-734 — overnight.coverage_snapshot() (overnight.py:720-734) runs coverage.py with subprocess.run and DISCARDS the return code, then json.loads data/COVERAGE.
@@ -141,8 +113,9 @@ Total open: 286
 - `209391b4f990` — src/liveness.py:142 (_defs) and src/liveness.py:169 (scan) — liveness.scan()'s DEAD pass is per-symbol and can therefore never see (a) a whole module nothing imports, or (b) a class nothing instantiates -- and d
 - `0924f1b5af2f` — src/catalogue_web.py:122 (save_roll) — catalogue_web.save_roll (src/catalogue_web.py:122) writes through a FIXED `SWEEP_ROLL.json.tmp`, shared by every process that writes the roll. It is t
 - `bee9d16f4174` — src/autostart.py:236,262 (watch) — autostart.watch() (src/autostart.py:236) is a bare `while True:` at autostart.py:262 with a 180s sleep and NO codewatch staleness check -- and it is t
+- `f0fe623a67c0` — handoff/ as a COPY_DIRS root vs where agents write working files — THE PUBLISH GATE REFUSED A PUSH TONIGHT AND IT WAS RIGHT TO. At 23:33 the standing publish daemon raised an OWNER halt, SECRET_IN_EXPORT: two credenti
 
-**MINOR (102)**
+**MINOR (101)**
 
 - `5d14e90b5043` — src/overnight.py:842 — overnight.py:842 run("pipeline", ...) is effectively unreachable work. pipeline is a member of STANDING (line 421), is started backgrounded at line 80
 - `c421410c2194` — entity_match.py — entity_match.py:276 embed_available() has no caller anywhere in src/ -- confirmed via liveness.scan() (only hit under dead was entity_match.py:276 emb
@@ -155,7 +128,6 @@ Total open: 286
 - `ded8418c75a6` — src/custodes.py convene() early return on len(readings) < 2 — convene()'s early return for fewer than two readings yields only {decimal, reason}, so it carries none of the measured-flags added this shift (stalene
 - `77d59411ca75` — src/cascade_bridge.py try_disabled() — try_disabled() has the IDENTICAL isolation defect just repaired in prove() under order c810cf64d278: it flips m.enabled = True and pins the model, but
 - `b44cdf75a80e` — handoff/run35/checks_L4.py address_space.py silence.note asserti — checks_L4.py asserts that address_space.py contains EXACTLY 4 silence.note tags, so any legitimate NEW note tag in that file fails the battery. It fir
-- `64c8827cc72b` — src/drill.py:2591 — drill.py:2591 takes `_empty_before = set(os.listdir(SNAP.ROOT))`, runs one net(), then rmtree()s EVERY directory that appeared in the interval (drill.
 - `f3536eed6ce0` — handoff/pipeline_merge_redcheck.py:ENTRIES / run_all — handoff/pipeline_merge_redcheck.py certifies the run #36 write_record top-key fix using ENTRIES = [{'name': 'Alpha'}, {'name': 'Beta'}] -- entries tha
 - `c426af1de74f` — src/standards.py:check() -- the `hand-built assays match the cha — The HIGH standard 'hand-built assays match the charter' holds on an empty file. The predicate is `inside >= len(refs) if refs else True`, which parses
 - `b8686a5c9772` — src/standards.py:check() -- the `if read` / `if roll` / `if cov` — Eight standards in standards.check() are emitted under a plain conditional with no _dropped record, so they can disappear from the page while 'every s
@@ -247,21 +219,17 @@ Total open: 286
 - `5f99aa19c059` — src/assay.py:941 (instrument) — assay._check_scores -- the module's own 'LAYER 1' -- is called from assay() only. assay.instrument() (src/assay.py:941) is a public entry that takes a
 - `0a5019b2527e` — src/catalogue_web.py:351 — src/catalogue_web.py:351 derives every entry's stored `type` field with `cats[0].rstrip('s')`. str.rstrip(chars) removes a SET of characters, not a su
 
-### SESSION — 2 open
+### SESSION — 1 open
 
-
-**BLOCKING (1)**
-
-- `70dd3d8b9d99` — - — publish refused: 2 credential-shaped value(s) staged for the PUBLIC repo. First: handoff\sweep37\file_batch14_orders.py:222 (vendor pattern)
 
 **MINOR (1)**
 
 - `ddb5eadd8934` — src/escalation.py:resume_subsystem (vs escalation.py:clear / _by — escalation.resume_subsystem lifts a MANAGER (rung 4) stop with nothing but a 20-character string: `if not (ruling or '').strip() or len(str(ruling).st
 
-### OWNER — 68 open
+### OWNER — 67 open
 
 
-**MAJOR (36)**
+**MAJOR (35)**
 
 - `f84cb75edcfe` — data/WIKI_HOSTS.json: 'Prime World Equipment' — prime.fandom.com is bound to the source 'Prime World Equipment' but SERVES THE PRIME HYDRATION DRINK WIKI. Measured this shift: siteinfo on prime.fand
 - `f07b7d538ed1` — data/WIKI_HOSTS.json: 'Star Realms' — starrealms.fandom.com is bound to the source 'Star Realms' but SERVES 'The Brain World Wikia' -- measured this shift, siteinfo HTTP 200, sitename 'The
@@ -287,7 +255,6 @@ Total open: 286
 - `3fb9fc6b9999` — ledger.py — src/ledger.py (De Pretio, the omniversal currency standard) is fully built and internally tested (verify_math.py lines 266-284 exercise to_standards, 
 - `a8464e348c5e` — localhost:11434 — THE READ PASS IS RUNNING AT AN ETA OF ROUGHLY 1.7 YEARS AND THE CAUSE IS NOT IN THIS LIBRARY. Reported live 2026-08-27: read.py --run had done 1,659 o
 - `4e37d5e59b09` — localhost:11434 / llama-server pid 29452 — THE LOCAL RUNG IS STILL CLOSED, BUT THE RECORDED MECHANISM IS WRONG AND A FIX BUILT ON IT WOULD HAVE COST QUALITY FOR NOTHING. Orders a8464e348c5e and
-- `ff3c67a67b92` — src/codewatch.py stale() settle window vs standing daemons — M47 -- NO DAEMON PICKS UP NEW CODE FOR THE WHOLE OF A MAINTENANCE SHIFT, AND BOTH HALVES OF THAT ARE WORKING AS DESIGNED. codewatch.stale() needs the 
 - `8f50f37255b5` — src/weave_index.py _STOPNAMES filter — The _STOPNAMES filter drops entries such as 'father', 'god', 'king' ENTIRELY from ENTITY_INDEX.json, not merely from cross-source candidate matching a
 - `27f823fd6ed5` — src/ledger_guard.py check_since_snapshot MAX_LOST_FRACTION — The 5% loss tolerance cannot distinguish an accidental typo-fix in old ledger text from a deliberate small falsification of it. The number is explicit
 - `d8858a26e46e` — run36 agent partitioning vs drill nets — RUN 36 HALTED ITS OWN LIBRARY AND THE PARTITION SCHEME IS WHY. Agent work was split BY TARGET MODULE so no two agents could edit one file -- which wor

@@ -8,28 +8,6 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
-- **[M47 — OPEN, run #35, DESIGN QUESTION — now also work order `ff3c67a67b92` at OWNER]
-  A LONG MAINTENANCE SHIFT STRUCTURALLY GUARANTEES STALE
-  DAEMONS, INCLUDING THE PUBLISHER.** *Re-measured by run #36 after a shift that changed roughly
-  forty modules: `codewatch` reports foreman 0 restarts in the last hour, overwatch 0, publish 0
-  — every standing daemon still executing the code as it stood when the shift began. Filed as a
-  work order because it had lived only in `NEXT_STEPS.md`, which is overwritten every run, so an
-  unfiled question was disappearing on schedule.*
-  `codewatch.stale()` requires the `src/` fingerprint to hold
-  still for `STABLE_SECONDS = 180` before a job exits rc=17 — correct in itself, since a digest
-  taken mid-write is a digest of garbage. But a maintenance run rewrites `src/` more or less
-  continuously for hours, so the settle timer never expires and no daemon ever bounces **for the
-  entire duration of the shift**. Measured on 2026-08-27: `publish.py --push --loop 10` last
-  restarted at 22:47 and pushed to the public export repo every ten minutes for the following
-  2.5 hours on pre-shift code, while `src/` changed under it in ~80 commits' worth of edits.
-  Nothing was broken by it this time. This is the 2026-08-25 incident's shape — a safety that
-  exists in a file and is not in effect — reached not by a missing guard but by a guard whose
-  precondition the work itself prevents. **The mechanism is sound and was watched working:**
-  within twelve minutes of the last `src/` edit the fingerprint settled, `publish` exited rc=17
-  unaided and returned as pid 29148 at 01:25 on current code. So the defect is DURATION, not
-  correctness. Related: M39 (`catalogue_web` writes through a standing halt), and the run #35 fix
-  that gave `local_agent.run` the `assert_clear()` call it never had.
-
 - **[M38 — OPEN, VERIFIED run #32] THE FAIL-CLOSED LAYER CAN FAIL OPEN.** `escalation.py:154-183`:
   `_raise_halt()` takes **no lock** and uses a non-disambiguated tmp filename, so two concurrent
   first-time OWNER halts can have the second **overwrite** the first rather than record it as
@@ -1814,6 +1792,185 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+### Run #37 (2026-08-28/29) — the shift that found the pipeline was throwing away its own work
+
+- **[M48 — RESOLVED] `pipeline.write_record` DISCARDED EVERY PER-ENTRY JUDGMENT ON ITS ORDINARY
+  PATH AND RETURNED TRUE.** Work order `9ef51c36acea`, BLOCKING, found by the run-37 comprehensive
+  sweep.
+
+  **Root cause:** the per-entry field fold lived inside `if drift:` only. The `else` branch folded
+  the top-level keys, set `merged = disk`, and returned `True` — so `category`, `scale_note`,
+  `scale_note_rejected`, `magnitude`, `topic` and `catalogued`, every field the caller had just
+  computed, were silently dropped.
+
+  **Why it was the ordinary path, not a corner:** `drift` is decided by `_entry_digest`, which
+  digests entry **names**, and `phase_entrypass` never changes a name — it fills in bands and
+  notes on a cast whose names it leaves exactly as it found them. So phase 2 took the `else`
+  branch essentially every time. Measured on a copy of a real record: 20 entries judged in
+  memory, `write_record` returned True, **0 of 20 settled on disk**. After: 20 of 20, with
+  drift-by-count and drift-by-content verified byte-for-byte unchanged.
+
+  **Introduced by the run-36 top-key repair**, which shipped with a red-check that could not see
+  it: the check exercises `write_record` with entries carrying **no judgment fields**, so a branch
+  that drops judgment fields passes it. That half is filed separately as `776507b529c5` and is the
+  more important lesson — *a fixture simpler than the data is a check that cannot fail in the one
+  direction the code can break.*
+
+  **The data damage is NOT repaired and is filed as `0b75182d495c`:** 1,496 of 4,559 recorded
+  `done.entrypass` keys name spans that are unsettled on disk (677 Marvel, 195 DC, 151 Final
+  Fantasy). Those model calls were spent and the answers thrown away while RUN_STATUS.md reported
+  the progress as achieved, and because `phase_entrypass` skips anything already in its done-keys,
+  **no amount of running the pipeline repairs it.**
+
+  *Fix: hoisted the fold above the `if`/`else` so the two paths cannot drift apart again; only the
+  drift log line remains conditional.*
+
+- **[M49 — RESOLVED] HARD RULE 0 WAS BEING BROKEN INSIDE THE WORK-ORDER SYSTEM ITSELF.** Work
+  orders `64f73abd3540` and, for the residual damage, `fc8e20f90ee9`.
+
+  **Root cause:** `workorders.file_order` stored `what[:600]`, `where[:200]`, evidence `[:400]`
+  and `found_by[:80]`; `resolve()` stored `resolution[:400]`. Silently, with no marker. **An
+  order's remedy is written at the end**, so the cut fell precisely on the instruction, and a
+  resolution's reasoning — including several that ruled a finding NOT a bug and said why — was cut
+  from the paper trail a later run reads to avoid re-opening declined work.
+
+  **Measured before the fix:** 51 open orders sitting at exactly 600 characters, cut mid-word, and
+  66 of that shift's own closures truncated at 400.
+
+  *Fix: all five caps removed. Round-trip verified — a 1,541-character `what` and a 942-character
+  resolution store whole. Order identity is unaffected because `order_id` hashes the raw `where`
+  argument rather than the stored copy. Two evidence lists in `battery_faults` were uncapped in
+  the same pass and their prose now says the three shown are the first three. Display truncation
+  stays at the console render site, where it is reversible.*
+
+  **The already-destroyed text is unrecoverable** — it was cut at write time, not hidden. The
+  sweep found 45 open orders still holding a 600-character `what`: **28 tails are recoverable
+  verbatim from `handoff/`, 17 have lost their remedy permanently.**
+
+- **[M47 — RESOLVED] A LONG MAINTENANCE SHIFT STRUCTURALLY GUARANTEED STALE DAEMONS.** Standing
+  since run #35 as a design question, work order `ff3c67a67b92`; the mechanism was finally
+  measured by run #37 and filed sharply as `838be29f9e58`.
+
+  **Root cause, and it is not the one the open entry recorded.** The entry blamed the 180-second
+  settle window against a shift that rewrites `src/` for hours — true, but not the whole thing.
+  `codewatch.stale()` compared against the digest seen at the **previous poll**, so the effective
+  window was `max(STABLE_SECONDS, poll interval)`, and a genuine 180-second lull inside a long
+  poll gap was invisible. Demonstrated: twelve consecutive polls over six simulated hours all
+  returned "changed, settling" and the daemon never restarted.
+
+  *Fix: new `quiet_seconds()` measures wall time since the newest write under `src/` (every `.py`
+  plus the directory's own mtime, so a created or deleted file is timed too); `held = max(seen,
+  quiet)` so the new rule is never more conservative than the old, and `quiet` is trusted only
+  when corroborated by a file newer than the process start, so an untimeable change falls back to
+  the old behaviour. `quiet` can never exceed the true hold time, so it settles later than truth,
+  never earlier. `BUDGET_PER_HOUR`, `_claim_restart_slot` and `_take_locked` untouched — no
+  restart-storm surface. The drill net `a_change_must_settle_before_it_restarts_anything` still
+  holds.*
+
+  **Note for the next reader:** foreman (15:05) and overwatch (15:10) ran the whole of run #37 on
+  pre-shift code, because they were holding the *old* codewatch in memory. They need one restart;
+  after that they keep themselves current.
+
+- **[M50 — RESOLVED] `silence.write_json` LEAKED A TEMP FILE ON EVERY DENIED REPLACE.** Work order
+  `b464a0311775`.
+
+  **Root cause:** the temp was removed only when the **dump** failed. When the dump succeeded and
+  `replace_retry` was then denied — the ordinary Windows case, and the entire reason
+  `replace_retry` exists — the function returned with `<path>.<pid>.<tid>.tmp` still on disk, and
+  no cleaner anywhere in the tree. Because the name is pid- and thread-qualified, leaks
+  **accumulate rather than overwrite**, so the hottest, most contended files littered most.
+
+  *Fix: both cleanup paths route through a new `_discard_tmp()`, total by design like `note()` —
+  a raise from the cleanup would replace a recorded, survivable denied write with an unhandled
+  exception in a caller that, by `write_json`'s own promise, has no handler for it. Watched red
+  then green across four cases including one where the removal itself is denied and the
+  never-raises promise still holds. Four confirmed leftovers were found on disk and removed after
+  verifying every owning PID was dead.*
+
+- **[M51 — RESOLVED] A CRAWL FAILURE READ AS A GENUINE ZERO.** Work order `051244c2628f`.
+
+  **Root cause:** `feats._api_list_all`'s mid-walk failure branch was guarded by `if rows:`, so a
+  walk whose **first** request failed incremented nothing and returned `[]` — byte-for-byte what
+  "this entity has no pages" looks like — while the caller's "discovery lists: complete" banner
+  still printed. Hard Rule 0's smaller universe, arriving through the error path instead of
+  through a cap.
+
+  *Fix: any `api()` failure with the walk incomplete now counts. Five cases verified with `api()`
+  stubbed: a failed first request is flagged; a genuine empty result is not, so the two zeros are
+  now distinguishable; and the partial, complete and looping walks are unchanged.*
+
+- **[TWO HALTS — BOTH RAISED AND LIFTED BY THIS SHIFT.]** Recorded here because the doctrine says
+  a halt that fires against its author minutes after they wrote the defect is the system working.
+
+  **`DRILL_BREACH` (22:44, lifted 23:31)** — order `a74678936964`. `blast_cap_bites` breached
+  because order `528e5b07fded` correctly moved `local_agent`'s `_blast_ok` charge below the
+  find-string-uniqueness check and the `--no-apply` return, and the drill's probe had been
+  demonstrating the cap **through exactly that path** (`apply=False`, a find string occurring zero
+  times). **The cap itself was never broken** — three agents reached that independently, and a
+  fourth re-judged the charge point and found it correct. The probe was rewritten to drive the
+  real path: a genuine unique find string with `apply=True` against a scratch file under
+  `handoff/`, both bounds taken to zero so the refusal arrives before any write. Red with
+  `_blast_ok` neutered, green against the real module.
+
+  **`SECRET_IN_EXPORT` (23:53 and 00:03, lifted 00:2x)** — order `f0fe623a67c0`. `publish.py`
+  refused two credential-shaped values staged for the **public** repo, in a sweep agent's scratch
+  script under `handoff/` — which is a `COPY_DIRS` root, so everything written there is published.
+  They were **fabricated fixtures**, written by the batch-14 agent because its brief asked it to
+  prove the credential scanner actually catches credentials. Nothing leaked; nothing was pushed.
+  Scratch scripts moved out of the published tree, the audit line redacted to the *shape* of each
+  probe with a note saying so, and the process fault filed rather than just the symptom. Post-fix
+  scan: **0 hits across every published root.** *On 2026-08-25 a push of deliberately-corrupted
+  source reached a public repo and nothing refused it. This time something refused.*
+
+- **[FIVE VACUOUS DRILL NETS AND THIRTEEN MORE — RESOLVED]** Orders `5737db3ce725`,
+  `18612d60c3f2`, `adc3dc9c3fc6`, `07c7379597ba`, `f016ae5433b1`, then the run-37 sweep's
+  `5eea5c20db8a`, `7cc460706efe`, `c54a22a4e6fc`, `8f4bb64503c2`, `78f04bec15ad`, `5ed81099fc49`,
+  `18958aba2143`, `9ada7602a356`, `cf9ee9000be8`, `e2f44baedfdc`, `64dfe6bec15c`, `5c87268a388c`,
+  `64c8827cc72b`.
+
+  **The pattern, which is the finding:** nets asserted **presence** — a name, a string, an import
+  appears somewhere in the module — where they needed to assert **reachability**, that the call
+  actually runs on the path that matters. Fixtures doing the forbidden thing on the live path,
+  with the required token parked after a `return` or inside `if False:`, passed. One net stayed
+  green against the *real* `cascade_bridge.py` with its actual router guard deleted, answered
+  instead by an unrelated `if` elsewhere in the file.
+
+  **Two could false-halt the library rather than miss a fault:** `datasette_config_is_generated_not_copied`
+  wrote `state/datasette.json` on every run and, since the run-36 fix returned `None` on a denied
+  replace, did `open(None)` and escalated to OWNER; and two nets pinned to an **import alias**
+  would have breached — and halted the library — on a rename of a correct import.
+
+  *Every rewritten net was watched go RED against the fixture that defeated the old net and GREEN
+  against the real tree, with the closures reached through their code objects so the thing
+  watched refusing is the net itself. Final: 251 nets attacked, 251 held, 0 breached. Liveness
+  fell 35 → 34: `_calls` and `_called_names` had no callers left after the rewrite and were
+  removed, their lessons kept as comments where they stood.*
+
+- **[THE SYSTEMIC DISCARDED-WRITE-VERDICT PASS — RESOLVED]** Order `e7b6dcc8d630`, worked as three
+  parallel passes over **41 sites in 24 files** (the order said 46/30; the difference is sites
+  other orders closed earlier in the same shift).
+
+  **Outcome: 33 gated, 6 commented as genuinely best-effort with the reason recorded, 4 confirmed
+  not-a-bug.** Each site was judged rather than mechanically gated, against one question: *if this
+  write silently fails, does anything later give a wrong answer, or merely a slower one?*
+
+  The strongest cases: `pipeline.save_state` (a resume point that `health.py` both reads and
+  read-modify-writes, so silent staleness made a restart redo work **and** made a repair tool call
+  settled batches stranded); `overwatch`'s `LEDGER → .corrupt` quarantine (the move was announced
+  while the wreck sat under its own name, after which `save()` wrote over the only copy — `save()`
+  now refuses while preservation has failed); `navtree` (printed "wrote N KB" by `stat`-ing the
+  file already on disk — a receipt, at the old tree's size, for a write that never happened); and
+  `health`'s preflight stamp (`battery_faults` **ages** whatever stamp is present, so a denied red
+  stamp left yesterday's green one grading the battery).
+
+  **One premise was refuted in source and is recorded so nobody re-gates it:** `sweep_plan`'s
+  `SWEEP_COVERAGE.json` write cannot make an incomplete sweep look complete. `covered_by()` reads
+  the shards and consults that file only as an **additive** fallback that never removes, so a
+  refused write errs toward reporting a *gap*, and it self-heals by refolding from the shards on
+  every `record()`. The shard write beside it **is** the completeness evidence, and that one was
+  gated.
+
 
 ### Run #36 (2026-08-27) — the daily shift that found M46
 
