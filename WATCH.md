@@ -1,26 +1,24 @@
 # OVERWATCH
 
-round 211  ·  last run 2026-08-30 15:32
+round 212  ·  last run 2026-08-30 16:01
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **1** of 281,680 inspected  — state\gpu_lane\slot.0.json — cannot stat
+- files that will not parse: **1** of 281,680 inspected (deep scan as of round 211)  — state\gpu_lane\slot.0.json — cannot stat
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**18 open** (4 high). Newest first.
+**15 open** (3 high). Newest first.
 
+- **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, leading to incorrect classifications for some sources
+  - says: Classifies a source based on its entries and returns genre, score, confidence, etc.
 - **verify_math.py** `_chunk_key` — [HIGH] the key is not stable across runs
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
 - **verify_math.py** `priority` — [HIGH] excludes rows with own=0 and chars >= 2000
   - says: These are still read -- nothing here is dropped
-- **standards.py** `fab` — [HIGH] None if the reader's progress line could not be parsed
-  - says: fabrication rate
-- **standards.py** `unans_files` — [HIGH] count of records that do not have 'chunks_unanswered': 0 in their head
-  - says: count of unanswered records
 - **workorders.py** `_fire` — [MEDIUM] reports a problem with the ledger chain when the chain is ok
   - says: reports a problem with the ledger chain
 - **workorders.py** `_fire` — [MEDIUM] reports a problem with the ledger structure when there are no bad rows
@@ -37,10 +35,6 @@ round 211  ·  last run 2026-08-30 15:32
   - says: The worker count to actually use.
 - **tiers.py** `deliberate_joins` — [MEDIUM] returns a sorted list of tuples with shared data, but the actual implementation does not apply the `[:3]` slice
   - says: THE WHOLE SHARED LIST. This returned `shared.get((a, b), [])[:3]`
-- **sweep_plan.py** `check_briefs` — [MEDIUM] diff what was PLANNED against `batches(n)`
-  - says: diff what was DISPATCHED against `batches(n)`
-- **standards.py** `len(w.get("broken") or []) <= MAX_BROKEN_MODULES` — [MEDIUM] counts the number of broken modules and checks if it is less than or equal to MAX_BROKEN_MODULES
-  - says: every module imports
 - **retry_synthesis.py** `save_side` — [MEDIUM] The function save_side is called but its implementation is not provided in the given code slice, leading to a potential runtime error or undefined behavior.
   - says: Take the MERGED mapping back, so this run's own tally counts what is actually on disk rather than only what this process rescued -- see `save_side`. The second half of that return says whether it reached disk at all; a rescue that did not land must not print like one that did, because nothing re-runs the model call behind it.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
