@@ -45,11 +45,11 @@ RESULTS = []
 # out below, because a lawful raise and a rubber stamp are the same edit and only the reasoning
 # tells them apart.
 #
-# WHAT IT COUNTS TODAY (measured 2026-08-29): the SUM of every list `liveness.scan()` returns --
-# 37 dead module-level functions and methods, 1 dead class, 10 dead MODULES, 0 syntactic
-# tautologies, 0 phantom guards, 0 unparsed files. Total 48. It has never been a count of dead
-# functions alone, and the comment this replaces still said "38 dead module-level functions"
-# three limbs after that stopped being true.
+# WHAT IT COUNTS TODAY (measured 2026-08-29, late in the shift): the SUM of every list
+# `liveness.scan()` returns -- 35 dead module-level functions and methods, 1 dead class, 10 dead
+# MODULES, 0 syntactic tautologies, 0 phantom guards, 0 unparsed files. Total 46. It has never
+# been a count of dead functions alone, and the comment this replaces still said "38 dead
+# module-level functions" three limbs after that stopped being true.
 #
 # RAISE 1, 38 -> 41 on 2026-08-26. `liveness`'s `used` set was a single flat, scope-blind,
 # module-blind bag of every identifier in `src/`, so a LOCAL LOOP VARIABLE named `_p` in
@@ -71,18 +71,38 @@ RESULTS = []
 # findings (render 707fefc17465, scale_theories SWEEP34_FINDING) precisely because no instrument
 # could see them. Not one line of dead code was added to reach 48.
 #
-# THE HEADROOM IS FOUR, AND IT IS CHOSEN, not left over. 48 measured, 52 here.
+# THE HEADROOM IS CHOSEN, not left over. 46 measured, 52 here, so six.
 #   * Not zero. Order 6c479972e838 filed the previous state -- the ceiling standing exactly at
 #     the measurement -- as a fault in its own right, and it is: the count MOVES during ordinary
 #     work. It was watched go 34 -> 35 -> 37 across this single shift, none of it from new dead
 #     code, all of it pre-existing symbols becoming visible as other agents' edits changed who
 #     references what. A ratchet that breaches on the next honest addition gets raised in a
 #     hurry by whoever is unblocking themselves, which is the rubber stamp arriving by the back
-#     door.
-#   * Not large. Four is one more than the largest drift this instrument has been watched
-#     produce in a shift, so a normal night fits and nothing else does. It is deliberately far
-#     under the ten a single orphaned module contributes, so a whole unreachable file can never
-#     hide inside the slack -- which is the specific regression this limb was added to catch.
+#     door -- and here it does not merely annoy somebody, it HALTS THE LIBRARY, because a
+#     breached drill net escalates to OWNER.
+#   * Not large. Six is still deliberately far under the TEN a single orphaned module
+#     contributes, so a whole unreachable file can never hide inside the slack -- which is the
+#     specific regression the module limb was added to catch, and it is the property that
+#     actually has to hold. Anything from four to nine satisfies it.
+#
+# WHY IT IS SIX AND NOT FOUR TODAY, AND WHY THAT IS NOT A DRIFT UPWARD (order 859a95edf44f,
+# ruled 2026-08-29). The ceiling has not moved. The MEASUREMENT has: 48 when the paragraphs
+# above were written, 47 when that order was filed a few hours later, 46 when it was ruled on,
+# all inside one shift and none of it from anybody deleting dead code on purpose. That is the
+# third independent observation of the same phenomenon and it is the whole case for the
+# headroom existing. The order asked for the ceiling to be lowered to "the measured value",
+# which was 47 when it was written and is already wrong by one; a ceiling set to a number that
+# moves twice in an afternoon is a halt waiting for the next honest edit.
+#
+# The order is also right that headroom is slack, and the answer to that is the ten-module
+# floor, not zero: what the slack must never be able to hide is a whole unreachable FILE, and
+# six cannot. Six unfailable checks appearing one at a time is what `liveness.py`'s own report
+# is for; nobody reads the ceiling to find those, they read the rows.
+#
+# The lawful lowering is to measured + about four, and the time for it is AFTER a shift closes,
+# not during one -- which is what order 859a95edf44f's own remedy note says. Taken now, while
+# sixteen agents are still editing and a mutation run is live, it would pin the ratchet to a
+# number measured in the middle of the churn it exists to tolerate.
 # EXCEEDING IT MEANS: something in `src/` acquired more unreachable code than a shift's ordinary
 # churn accounts for. Read `python src/liveness.py`, find the new rows, and fix or delete them.
 # It does NOT mean "raise the number" -- unless you can write a paragraph like the two above,
@@ -631,6 +651,51 @@ def _guarded_by(tree, if_node, names, want=None):
     maps = _import_maps(tree)
     return any(isinstance(x, ast.Call) and _spelled(_spellings_of_call(tree, x, maps), want)
                for x in ast.walk(t))
+
+
+def _gate_precedes_spawn(tree, fn, gate, spawn, exits):
+    """Does `fn` ask `gate`, BIND the answer, and skip `spawn` on it? -> bool.
+
+    The three-part claim `the_keeper_asks_before_restarting` makes about `_keep`, lifted out so
+    the other launchers can be asked the same question in the same words (order e0948238ef36).
+    A guard is an interlock only when all three hold at once, and each of the three is a
+    separate way the same net has already been beaten:
+
+      * the answer is BOUND -- `_manager_stopped(name, args)` called and thrown away reads
+        identically to a consultation and stops nothing;
+      * a REACHABLE `if` conditioned on that bound answer leaves by one of `exits` without
+        reaching a spawn -- a guard that does not skip the launch is not a guard, and order
+        07c7379597ba beat the line-number form with a consultation in an unrelated arm;
+      * every reachable spawn sits OUTSIDE that arm and after it -- a launch the guard cannot
+        precede is not gated by it.
+
+    `exits` is a tuple of node types because the two shapes leave differently and both are
+    correct: the keeper `continue`s to the next standing job, `start`/`run` `return` a
+    did-not-start value to their caller.
+    """
+    import ast
+    if fn is None:
+        return False
+    answered = _bound_from_call(tree, fn, gate)
+    if not answered:
+        return False                            # not asked, or asked and the answer discarded
+    maps = _import_maps(tree)
+    spawns = [n for n in _live_walk(fn)
+              if isinstance(n, ast.Call) and _spelled(_spellings_of_call(tree, n, maps), spawn)]
+    if not spawns:
+        return False                            # a launcher that launches nothing proves nothing
+    for g in _live_walk(fn):
+        if not isinstance(g, ast.If) or not _guarded_by(tree, g, answered):
+            continue
+        arm = _live_stmt_walk(_live_stmts(g.body))
+        if not any(isinstance(x, exits) for x in arm):
+            continue                            # the stopped arm must LEAVE, not fall through
+        if any(x is s for x in arm for s in spawns):
+            continue                            # ... and must not launch what it just refused
+        inside = {id(x) for x in _live_walk(g)}
+        if all(id(s) not in inside and s.lineno > g.lineno for s in spawns):
+            return True
+    return False
 
 
 def _code_strings(node, reachable=False):
@@ -2099,6 +2164,16 @@ def drill_publish():
         _publish_never_swallows_a_missing_safety,
         "three `except ImportError: pass` arms wrapped the ledger guard, the halt and the "
         "mutation interlock -- deleting a module switched its own guard off, quietly")
+    net(a, "a live maintenance shift stops the cycle", _a_live_maintenance_shift_stops_publishing,
+        "at 22:16:29 five source files belonging to three agents two minutes into their work "
+        "went to a PUBLIC repo, and forty-one more at 22:26:58")
+    net(a, "an absent, broken or dead maintenance guard still PUBLISHES",
+        _a_broken_maintenance_guard_fails_open,
+        "failing closed here lets one malformed JSON file wedge the publisher silently and for "
+        "ever, which is worse than one cycle of half-finished source the next cycle overwrites")
+    net(a, "the publish loop actually ASKS the maintenance gate", _the_loop_asks_the_gate,
+        "a predicate nothing calls is a comment; the guard has to be upstream of sync_tree, "
+        "which is where the bytes are taken")
 
 
 def _the_scanner_reads_files_over_two_megabytes():
@@ -2221,6 +2296,134 @@ def _publish_never_swallows_a_missing_safety(path=None):
         if not any(isinstance(b, ast.Raise) for b in ast.walk(n)):
             return False
     return arms >= 3
+
+
+def _maintenance_guard_fixture(d, name, body):
+    """Write one guard-file fixture in a scratch dir and return its path.
+
+    NEVER the live `state/MAINTENANCE_RUN.json`. A maintenance shift is holding that file right
+    now; writing it -- even restoring it a millisecond later -- is a chance for the running
+    publisher to read a heartbeat this drill invented and conclude the shift had crashed. The
+    predicate takes `path` and `now` precisely so it can be asked about a fixture and a pinned
+    clock instead, which also makes the 14m59s / 15m01s pair testable at all.
+    """
+    p = os.path.join(d, name)
+    with open(p, "w", encoding="utf-8") as f:
+        f.write(body)
+    return p
+
+
+def _a_live_maintenance_shift_stops_publishing():
+    """THE FOURTH INTERLOCK. Nothing asked whether somebody was in the middle of EDITING src/.
+
+    Measured on 2026-08-29 from the export repo's own commit log, while it was happening. The
+    four cycles before the maintenance shift began moved no source at all -- 21:35, 21:45, 21:55
+    and 22:06 are each "N data/site file(s)". Sixteen agents started editing disjoint modules at
+    22:14. At 22:16:29, two minutes in, commit 5f0d5e1 pushed five source files -- compress_store,
+    coverage, escalation, retry_synthesis, tuning -- to a PUBLIC repository; they belonged to
+    three different agents and not one had finished, verified or self-checked. At 22:26:58,
+    forty-one more. Twice in eleven minutes a public repo received an arbitrary instant of a
+    sixteen-way concurrent edit.
+
+    `push()` was already well defended and every one of those locks answers a DIFFERENT
+    question: the scanner asks "is a secret staged", `mutate.active()` asks "is source being
+    corrupted on purpose", `claim_singleton` asks "is there a second publisher", `assert_clear`
+    asks "is the library halted" -- and that last is read once at startup, so a loop up for
+    hours has stopped asking it.
+
+    The REFUSAL half, on a fixture with `done:false` and a heartbeat one second old. Both live
+    shapes are asked: a guard with an agent name on it and a bare minimal one, because the
+    refusal must not depend on optional decoration.
+    """
+    import publish as P
+    d = tempfile.mkdtemp(prefix="drill_maint_")
+    try:
+        now = 1_700_000_000.0
+        named = _maintenance_guard_fixture(
+            d, "named.json",
+            json.dumps({"agent": "maintenance-shift", "done": False, "heartbeat": now - 1}))
+        bare = _maintenance_guard_fixture(
+            d, "bare.json", json.dumps({"done": False, "heartbeat": now - 60}))
+        for p in (named, bare):
+            busy, why = P.maintenance_shift_live(path=p, now=now)
+            if busy is not True or not why:
+                return False
+        # ... and one second inside the limit is still live. The boundary is where a guard that
+        # merely LOOKS at the heartbeat and a guard that compares it correctly come apart.
+        edge = _maintenance_guard_fixture(
+            d, "edge.json",
+            json.dumps({"done": False, "heartbeat": now - (P.MAINTENANCE_HEARTBEAT_SECONDS - 1)}))
+        return P.maintenance_shift_live(path=edge, now=now)[0] is True
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _a_broken_maintenance_guard_fails_open():
+    """FAILS OPEN, and this half is the one that is easy to forget.
+
+    The opposite rule from `subsystem_stopped`, deliberately, and the asymmetry is the argument:
+    a stop ledger's whole content is what must not run, so being unable to read it cannot be
+    permission to run things. A maintenance guard's content is what somebody is BUSY WITH, and
+    being unable to read it must not become a reason to stop publishing for ever. Failing closed
+    here would let one malformed JSON file wedge the publisher silently and indefinitely, which
+    is a worse outcome than one cycle of half-finished source that the next cycle overwrites.
+
+    A net that only checked the refusal would let exactly that regression in unnoticed -- the
+    wedge is silent, so nothing else in the tree would report it either.
+
+    Six ways of not being a live shift, every one of which must answer PUBLISH: the file is
+    absent, it is not JSON at all, it parses to something that is not an object, it says the run
+    finished, it carries no usable heartbeat, and its heartbeat is one second past the limit so
+    the run is treated as crashed rather than live.
+    """
+    import publish as P
+    d = tempfile.mkdtemp(prefix="drill_maintopen_")
+    try:
+        now = 1_700_000_000.0
+        limit = P.MAINTENANCE_HEARTBEAT_SECONDS
+        cases = [
+            ("absent", os.path.join(d, "there-is-no-such-file.json")),
+            ("not json", _maintenance_guard_fixture(d, "bad.json", "{ not json at all")),
+            ("not an object", _maintenance_guard_fixture(d, "list.json", "[1, 2, 3]")),
+            ("a string", _maintenance_guard_fixture(d, "str.json", '"done"')),
+            ("finished", _maintenance_guard_fixture(
+                d, "done.json", json.dumps({"done": True, "heartbeat": now - 1}))),
+            ("no heartbeat", _maintenance_guard_fixture(
+                d, "nobeat.json", json.dumps({"done": False}))),
+            ("heartbeat is not a number", _maintenance_guard_fixture(
+                d, "strbeat.json", json.dumps({"done": False, "heartbeat": "just now"}))),
+            ("crashed", _maintenance_guard_fixture(
+                d, "old.json", json.dumps({"agent": "a shift that died",
+                                           "done": False, "heartbeat": now - (limit + 1)}))),
+        ]
+        for _label, p in cases:
+            busy, why = P.maintenance_shift_live(path=p, now=now)
+            if busy is not False or not why:
+                return False
+        return True
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _the_loop_asks_the_gate(src=None):
+    """A PREDICATE NOTHING CALLS IS A COMMENT. The gate has to be upstream of the copy.
+
+    The two nets above prove `maintenance_shift_live` answers correctly. Neither of them would
+    notice if `main()` stopped asking it -- which is the whole distance between "the guard
+    exists" and "the guard is in effect", and the reason the manager-stop gate in `overnight.py`
+    needed a second net of its own this same shift.
+
+    ASKED OF THE PARSE TREE, in the same three parts as the launcher nets and through the same
+    helper: the answer is BOUND, a reachable `if` conditioned on it leaves the lap by `continue`
+    without copying anything, and every reachable `sync_tree()` sits outside that arm and after
+    it. `sync_tree` is the right thing to be upstream of because the fault is the COPY -- the
+    bytes are taken there and `push()` only ships what the copy already holds, so a gate read at
+    push time is a gate read after the half-finished tree has already been captured.
+    """
+    import ast
+    tree = _ast_of(os.path.join(_srcdir(src), "publish.py"))
+    return _gate_precedes_spawn(tree, _defn(tree, "main"), "maintenance_shift_live",
+                                "sync_tree", (ast.Continue,))
 
 
 def _suppressed_still_visible():
@@ -4787,6 +4990,45 @@ def drill_rung_four():
         the_keeper_asks_before_restarting,
         "the ledger existed for 25 minutes and the one process that needed it never opened it")
 
+    def both_launchers_ask_before_spawning():
+        """THE OTHER NINE LAUNCH SITES. The keeper was one of ten, and it was the only one gated.
+
+        Order 4c1eaa9df7fa moved `_manager_stopped` out of `main()` -- where it was a closure
+        with the keeper thread as its single caller -- to module level, and put the gate inside
+        `overnight.start()` and `overnight.run()` themselves. Everything this file launches goes
+        through one of those two: the standing set at the top of every cycle, prose, the roll,
+        read, the serial pipeline and the foreman's four repairs. Before that change the keeper
+        would decline to restart a subsystem a person had closed at rung 4 and the supervisor's
+        own next lap would start it anyway, so the 22:5x `catalogue_web` incident was fixed for
+        the one caller that had been caught doing it and for none of the others.
+
+        The net above proved the keeper arm and its own docstring calls that "the half that
+        matters"; order e0948238ef36 filed the arithmetic, which is that it was one of ten sites
+        and is now one of three. So the enforcement was real and two thirds of it unwatched --
+        the exact distance between "the guard exists" and "the guard is in effect" that this
+        file is about.
+
+        ASKED OF THE PARSE TREE, in the same three parts and through the same helper the keeper
+        arm uses (`_gate_precedes_spawn`): the answer is bound, a reachable `if` on it returns
+        without reaching the spawn, and every reachable `_guarded_popen` is outside that arm and
+        after it. `_guarded_popen` rather than `subprocess.Popen` because it is the one place in
+        the module where a process is actually born -- both launchers reach it and nothing else
+        does -- so a gate that precedes it precedes every launch these two functions perform.
+
+        BOTH FUNCTIONS IN ONE NET, deliberately: the claim order 4c1eaa9df7fa closed is that
+        neither launcher can spawn past a rung-4 stop, and half of that is the state this net
+        was written to end.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "overnight.py"))
+        return all(_gate_precedes_spawn(tree, _defn(tree, fname), "_manager_stopped",
+                                        "_guarded_popen", (ast.Return,))
+                   for fname in ("start", "run"))
+    net(a, "overnight.start() and overnight.run() ask before they spawn",
+        both_launchers_ask_before_spawning,
+        "the gate lived beside ONE of this module's ten launch sites, so the supervisor's own "
+        "next lap restarted whatever the keeper had just refused to restart")
+
     def an_unreadable_stop_ledger_stops_everything():
         """FAIL CLOSED. The file's only content is what must not run, so failing to read it
         cannot be permission to run things."""
@@ -6600,6 +6842,98 @@ def drill_outside():
         "fail-open here, and say so -- an optional check must not be able to halt the park")
 
 
+def drill_resonance():
+    """The curl measurement, which was confidently wrong on the commonest contest shape there is.
+
+    `resonance.hodge_decompose` splits a pairwise flow into the best-fitting ladder plus what no
+    ladder can explain, and `eta` is the ladder's share. `custodes.convene()`'s Threnody
+    curl-veto reads it, so a wrong eta is a veto that fires or abstains on arithmetic nobody
+    checked.
+
+    IT WAS PLAIN JACOBI UNDER A FIXED BUDGET (order 6e1c72cddfeb, closed 2026-08-29). Jacobi on
+    a graph Laplacian has iteration matrix D^-1 A, whose eigenvalue is -1 on any BIPARTITE
+    component: theta oscillates with period two for ever, the gauge-fix subtracts the constant
+    mode and not the alternating one, and the budget then sampled whichever phase parity it
+    landed on -- 599 sweeps gave eta 0.8, 600 gave 0.0, 601 gave 0.8. A STAR, one entity beating
+    three others, measured eta 0.0: "100% irreducibly chord", with `no_evidence` False, so it
+    was shaped exactly like a confident measurement and read like one.
+
+    NOTHING PROVED THE REPAIR. Order 3f1dd963252d filed the gap: no net here and no check in
+    `verify_math.py` touched this function at all -- its only resonance checks are on
+    `incomparability_rate` -- so the fix was a claim. These are the order's own three cases plus
+    the bipartite one it names as the case that would have caught the original defect, and every
+    one of them is arithmetic on a handful of edges: no corpus, no model, no disk.
+    """
+    a = "THE CURL — a decomposition that never settled, reported as a measurement"
+    import resonance as R
+
+    STAR = {("a", "b"): 1.0, ("a", "c"): 1.0, ("a", "d"): 1.0}
+    CYCLE3 = {("a", "b"): 1.0, ("b", "c"): 1.0, ("c", "a"): 1.0}
+    PATH4 = {("a", "b"): 1.0, ("b", "c"): 1.0, ("c", "d"): 1.0}
+    BIPARTITE = {(h, v): 1.0 for h in ("h1", "h2", "h3", "h4")
+                 for v in ("v1", "v2", "v3", "v4")}
+
+    def a_pure_ladder_is_all_ladder():
+        """A STAR is EXACTLY representable: theta_a = 0.75, the three losers -0.25 each,
+        reproducing every edge. eta must be 1.0 and the curl fraction 0.0. Under Jacobi this
+        was 0.0 -- the answer for a shape with NO ladder in it at all, returned for a shape that
+        is nothing but ladder."""
+        r = R.hodge_decompose(STAR)
+        return (r["converged"] is True and r["no_evidence"] is False and r["eta"] == 1.0
+                and r["curl_fraction"] == 0.0 and r["irreducibly_chord"] == 0.0)
+    net(a, "a pure ladder measures as 100% ladder", a_pure_ladder_is_all_ladder,
+        "the STAR -- one entity beating three others -- read eta 0.0 with no_evidence False, "
+        "which is a confident measurement of the opposite of the truth")
+
+    def a_bipartite_ladder_is_all_ladder():
+        """THE CASE THAT NAMES THE DEFECT. Four heroes each beating four villains by 1.0 is a
+        complete bipartite graph, exactly reproduced by theta_h = +0.5 / theta_v = -0.5 -- and
+        bipartite is precisely where Jacobi's iteration matrix has eigenvalue -1, so theta[h1]
+        went 1, 0, 1, 0, 1, 0, 1, 0 over the first eight sweeps and never approached anything.
+        Measured eta 0.0 before the fix, 1.0 after, in two sweeps."""
+        r = R.hodge_decompose(BIPARTITE)
+        return (r["converged"] is True and r["no_evidence"] is False and r["eta"] == 1.0
+                and r["curl_fraction"] == 0.0)
+    net(a, "a bipartite ladder measures as 100% ladder", a_bipartite_ladder_is_all_ladder,
+        "an oscillation of period two on a bipartite component is the exact fault, and this is "
+        "the shape that carries it")
+
+    def a_pure_cycle_is_all_curl():
+        """BOTH DIRECTIONS. A method that answered 1.0 to everything would sail past the two
+        nets above while measuring nothing. a>b>c>a by 1.0 each is pure curl -- no ladder
+        explains any of it -- so eta must be 0.0 and `irreducibly_chord` 100.0. This is the one
+        answer the broken version also got right, which is why it cannot be the whole net."""
+        r = R.hodge_decompose(CYCLE3)
+        return (r["converged"] is True and r["no_evidence"] is False and r["eta"] == 0.0
+                and r["curl_fraction"] == 1.0 and r["irreducibly_chord"] == 100.0)
+    net(a, "a pure cycle measures as 100% curl", a_pure_cycle_is_all_curl,
+        "a decomposition that says 'all ladder' to every input measures nothing; the odd cycle "
+        "is what stops the two nets above being satisfied by a constant")
+
+    def an_unfinished_iteration_reports_no_eta():
+        """THE FAIL-CLOSED HALF, and the reason the budget is no longer trusted in silence. The
+        4-node path needs 18 sweeps to settle; asked for 1, the function must say so -- eta and
+        everything derived from it None, `converged` False, `no_evidence` False, because there
+        IS evidence here and no measurement of it. An eta read off an unconverged iteration is
+        this module's signature failure applied to itself, and it erred toward "maximally
+        non-transitive" while `no_evidence` came back False."""
+        r = R.hodge_decompose(PATH4, sweeps=1)
+        if not (r["converged"] is False and r["sweeps"] == 1 and r["no_evidence"] is False):
+            return False
+        if any(r[k] is not None for k in ("eta", "curl_fraction", "ladder_representable",
+                                          "irreducibly_chord", "theorem_2_error_floor")):
+            return False
+        # ... and the SAME graph with the budget it needs must produce the number, or this net
+        # is satisfied by a function that has simply stopped answering.
+        full = R.hodge_decompose(PATH4)
+        return full["converged"] is True and full["eta"] == 1.0
+    net(a, "an iteration that did not settle returns NO eta at all",
+        an_unfinished_iteration_reports_no_eta,
+        "at 599 sweeps eta was 0.8, at 600 it was 0.0 and at 601 it was 0.8 again -- no budget "
+        "reaches the right answer when the sequence does not converge, and the caller was "
+        "handed the number anyway")
+
+
 # ============================================================== report
 
 def main():
@@ -6615,7 +6949,7 @@ def main():
                drill_fetch, drill_cascade, drill_park,
                drill_workorders, drill_inspector, drill_no_top_ups, drill_probe_honesty, drill_rung_four, drill_codewatch, drill_scout,
                drill_defect_classes, drill_recorders_and_lane, drill_mutation,
-               drill_scope, drill_correlation,
+               drill_scope, drill_correlation, drill_resonance,
                drill_outside):
         # AN AREA THAT DIES IS A BREACH OF THAT AREA, NOT THE END OF THE RUN (order
         # 5c87268a388c, run #37).

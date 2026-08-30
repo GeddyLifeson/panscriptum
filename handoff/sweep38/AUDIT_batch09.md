@@ -296,3 +296,29 @@ Recorded so the next sweep does not re-derive them.
    line in any of the three mutation targets is 101 characters.
 3. **`zfighters.py --full` crashes on the carried Goku sheet.** Already fixed; the sheet carries
    all eleven `A.WEIGHTS` axes and the `d.get("provenance", "")` guard is correct.
+
+---
+
+## ORDERS FILED (16 of 16 landed; every `file_order` return value checked)
+
+| id | severity | handler | code | where |
+|---|---|---|---|---|
+| `282ae72dfaec` | MAJOR | RUN | MUTATE_SESSION_CONTINUES_AFTER_HALT | src/mutate.py:1395-1441 |
+| `096f6efc33d2` | MAJOR | RUN | CATALOGUE_CODEX_REGISTER_COLLISION_SILENT | src/catalogue_codex.py:138-146 |
+| `35d7b314aae7` | MAJOR | RUN | SCOPE_CACHE_PRESERVES_REMOVED_CAP | src/scope.py:132-137,181-200 |
+| `ca499449f966` | MAJOR | LOCAL | BUILD_TERMINAL_WRITE_DENIED_EXITS_ZERO | src/build_terminal.py:595-603 |
+| `a693fe8a33cc` | MINOR | RUN | MUTATE_LOCK_NOT_ATOMIC_RELEASE_UNCHECKED | src/mutate.py:215-246 |
+| `b2a113a33d50` | MINOR | LOCAL | MUTATE_DRIFTED_LINE_CITATION | src/mutate.py:864 |
+| `7bd7f47b012d` | MINOR | LOCAL | MUTATE_GATE_RESULT_UNUSED_NAME | src/mutate.py:595 |
+| `0129ac1cee0a` | MINOR | LOCAL | MUTATE_OWNERSHIP_CEILING_INDENT | src/mutate.py:728-730 |
+| `4e437987e382` | MINOR | LOCAL | GENERATE_CAPPED_OPERATOR_LISTS | src/generate.py:405,410-411,514-517 |
+| `c000fbc3c378` | MINOR | LOCAL | BUILD_TERMINAL_UNESCAPED_WORLD_FACTS | src/build_terminal.py:542-545 |
+| `9b460e0f44e4` | MINOR | LOCAL | ZFIGHTERS_FULL_TRUNCATES_WORKSHEET | src/zfighters.py:459,481-482 |
+| `2d2666316dc7` | MINOR | LOCAL | ZFIGHTERS_GOKU_DROPS_SILENTLY | src/zfighters.py:434-440 |
+| `8b08d0ecec8d` | MINOR | LOCAL | THREAD_INTEGRITY_TRUNCATED_SOURCE_NAMES | src/thread_integrity.py:251,258,264,274 |
+| `92d6a53edbff` | MINOR | LOCAL | SCOPE_PROBE_TRUNCATES_ITS_ANSWER | src/scope.py:187 |
+| `60a9a23b8979` | MINOR | LOCAL | SCOPE_WRITE_DENIED_EXITS_ZERO | src/scope.py:189-198 |
+| `9ba94e964314` | INFO | LOCAL | THREAD_INTEGRITY_LAWFUL_DETAIL_NEVER_PRINTED | src/thread_integrity.py:186-192,224-274 |
+
+Coverage recorded: `sweep_plan.record('run38', [...8 modules...], batch=9)` returned without
+error and all eight are keyed to `run38`.

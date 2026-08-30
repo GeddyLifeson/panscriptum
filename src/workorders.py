@@ -242,23 +242,56 @@ def battery_faults(preflight=None, allsweep=None, now=None):
     return out
 
 
+class QueueUnreadable(Exception):
+    """state/workorders.json exists but could not be parsed. NEVER treated as an empty queue."""
+
+
 def _load(with_digest=False):
     """The open queue. -> {id: order}, or ({id: order}, digest) when the caller intends to write.
 
     The digest is read BEFORE the file, never after, so it describes the copy the caller is
     about to modify. Reading it afterwards would be a race with no CAS at all: another writer
     landing in between would leave a digest that matches the file we did not read.
+
+    THREE STATES, NOT TWO (order 5d3794de8b81). This answered a `json.JSONDecodeError` with a
+    `silence.note` and `d = {}`, and that one line could delete the entire queue: `_mutate`
+    applied the caller's change to the empty dict and landed it, and THE COMPARE-AND-SWAP
+    PASSED -- `silence` digests BYTES, a corrupt file reads perfectly well as bytes, and nothing
+    changed the file between the read and the write. The CAS was built to stop a STALE copy
+    landing; it cannot see this, because the file was already broken when it was read.
+    Reproduced: three filed orders on disk, one truncation, one `file_order` call, one order
+    left -- and `file_order` returned a record as though the finding were safely on file.
+
+    Not recoverable afterwards, either. Detector-owned codes re-file when their detector next
+    fires, but everything a sweep batch files is written once and is not re-derivable from
+    anything on disk, and the closed log holds only RESOLVED orders so it cannot rebuild the
+    open set. Tonight's sweep filed over a hundred such findings in a single pass.
+
+    So: FileNotFoundError alone means absent, and absent is honestly empty. Any other failure
+    means UNREADABLE and raises, because the alternative is a caller that cannot tell "the nets
+    found nothing" from "the queue is destroyed". `hostcheck._land_hosts` already draws exactly
+    this line one module over -- "NEVER heal this one by starting empty ... it is not
+    reconstructible; fix the file" -- and the queue deserves the same treatment.
     """
     digest = silence.digest_of(OPEN_FILE) if with_digest else None
     try:
         with open(OPEN_FILE, encoding="utf-8") as f:
             d = json.load(f)
-        d = d if isinstance(d, dict) else {}
     except FileNotFoundError:
         d = {}
-    except Exception:
+    except Exception as e:
         silence.note("workorders.py:load")
-        d = {}
+        raise QueueUnreadable(
+            "%s exists but could not be parsed (%s: %s). REFUSING to treat it as an empty "
+            "queue: every open order would be deleted by the next write, and agent-filed "
+            "findings are not re-derivable from anything on disk. Fix or restore the file."
+            % (OPEN_FILE, type(e).__name__, e)) from e
+    if not isinstance(d, dict):
+        silence.note("workorders.py:load")
+        raise QueueUnreadable(
+            "%s parsed as %s, not an object. REFUSING to treat it as an empty queue -- the same "
+            "reason as an unparseable file: the next write would land over it."
+            % (OPEN_FILE, type(d).__name__))
     return (d, digest) if with_digest else d
 
 
@@ -285,12 +318,28 @@ def _mutate(change, attempts=8):
     its own -- `resolve` appends to the paper trail only AFTER this returns landed.
     """
     import time as _t
+    import threading as _th
     os.makedirs(os.path.dirname(OPEN_FILE), exist_ok=True)
     last_why = "not attempted"
     for a in range(attempts):
-        d, digest = _load(with_digest=True)
+        try:
+            d, digest = _load(with_digest=True)
+        except QueueUnreadable as gone:
+            # REFUSE, DO NOT HEAL (order 5d3794de8b81). Retrying cannot help -- the file will
+            # not become parseable on its own -- and writing anyway is the deletion this whole
+            # guard exists to prevent. Reported exactly like a lost write, because to the caller
+            # it is one: the change did NOT land.
+            silence.note("workorders.py:queue-unreadable")
+            sys.stderr.write("workorders: QUEUE NOT MODIFIED -- %s\n" % gone)
+            return False, None
         value = change(d)
-        tmp = "%s.%d.%d.tmp" % (OPEN_FILE, os.getpid(), a)
+        # THE TEMP NAME CARRIES THE THREAD AS WELL AS THE PID (order c5431186cc05). It was pid +
+        # attempt number, so two THREADS of one process on the same attempt opened the same
+        # scratch file and interleaved their writes -- and `escalation.escalate` reaches
+        # `file_order` from threaded passes, which is the likeliest way the corrupt queue that
+        # the order above describes actually gets made. `silence.write_json` carries pid and
+        # thread for exactly this reason (silence.py:408); this is the same fix.
+        tmp = "%s.%d.%d.%d.tmp" % (OPEN_FILE, os.getpid(), _th.get_ident(), a)
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(d, f, indent=1, sort_keys=True, ensure_ascii=False)
         landed, why = silence.replace_if_unchanged(tmp, OPEN_FILE, digest)
@@ -919,7 +968,19 @@ def main():
         filed, closed = sweep_detectors()
         print("swept: %d filed/refreshed, %d closed" % (len(filed), len(closed)))
 
-    rungs = for_ladder()
+    # AN UNREADABLE QUEUE IS NOT AN EMPTY ONE, AND THE DIFFERENCE IS THE WHOLE POINT (order
+    # 5d3794de8b81). Before this, a corrupt state/workorders.json reached the reader as `{}` and
+    # printed the "nothing outstanding" line below -- which `battery_faults`' own docstring
+    # records as precisely the failure this module was built to end. `_load` now raises instead,
+    # and this is where a person sees it: a named file, a named cause, and a nonzero exit so no
+    # script reads the shift as clean.
+    try:
+        rungs = for_ladder()
+    except QueueUnreadable as gone:
+        sys.stderr.write("workorders: THE QUEUE COULD NOT BE READ -- %s\n" % gone)
+        print("REFUSING to report on the queue: it exists and could not be parsed. This is NOT "
+              "'no open work orders'. Nothing was written. Fix or restore the file, then re-run.")
+        return 2
     if not rungs:
         print("no open work orders -- the nets found nothing outstanding")
         return 0
