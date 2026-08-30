@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 177  ·  last run 2026-08-29 21:24
+round 178  ·  last run 2026-08-29 21:47
 
 ## Structure
 
@@ -11,12 +11,10 @@ round 177  ·  last run 2026-08-29 21:24
 
 ## What the model found in the code
 
-**3 open** (1 high). Newest first.
+**2 open** (1 high). Newest first.
 
-- **secondopinion.py** `mine_says` — [HIGH] is never called in the code slice
-  - says: returns the same questions, asked by code this project did not write
-- **reference.py** `shelfmark` — [MEDIUM] generates a shelfmark based on tier_key and lower_rungs, but the code does not correctly handle the mapping of the RUNGS tuple to the upper and lower parts
-  - says: The charter's canonical Shelfmark
+- **standards.py** `fab` — [HIGH] the fabrication rate or UNMEASURED state
+  - says: sentences that survive the verbatim check
 - **overnight.py** `main` — [MEDIUM] the code around it says it should be derived
   - says: the main function
 
