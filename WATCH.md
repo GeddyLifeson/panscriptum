@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 202  ·  last run 2026-08-30 10:39
+round 203  ·  last run 2026-08-30 11:02
 
 ## Structure
 
@@ -11,26 +11,30 @@ round 202  ·  last run 2026-08-30 10:39
 
 ## What the model found in the code
 
-**12 open** (1 high). Newest first.
+**14 open** (1 high). Newest first.
 
 - **resync_roll.py** `main` — [HIGH] the exit code is not used as the scheduler looks at the return value of main()
   - says: the exit code is the number the scheduler actually looks at
+- **rosetta.py** `silence.write_json` — [MEDIUM] may not write if the file is not found or permissions are denied
+  - says: writes JSON to a file
+- **roll.py** `apply` — [MEDIUM] apply is a nested function inside update_rows that modifies rows in-place and returns them, but the code uses apply(rows) and then assigns out = apply(rows), which is redundant since apply already returns rows
+  - says: apply(rows) is called to apply changes to rows
+- **rigor.py** `prob_at_least_one` — [MEDIUM] calculates the probability of at least one event occurring in a log-normal distribution
+  - says: the census as a product of uncertain factors
+- **rigor.py** `lognormal_product` — [MEDIUM] calculates a product of log-normal distributions for a list of uncertain factors
+  - says: the census as a product of uncertain factors
+- **rigor.py** `ceiling_confidence` — [MEDIUM] Returns a hard lower bound plus a named, unmeasured effect in a known direction, that closes to certainty once n_scored reaches n_entries.
+  - says: How much of a source's true ceiling has been seen, after scoring n of N entries?
 - **retry_synthesis.py** `save_side` — [MEDIUM] The function save_side is called but its implementation is not provided in the given code slice, leading to a potential runtime error or undefined behavior.
   - says: Take the MERGED mapping back, so this run's own tally counts what is actually on disk rather than only what this process rescued -- see `save_side`. The second half of that return says whether it reached disk at all; a rescue that did not land must not print like one that did, because nothing re-runs the model call behind it.
 - **resonance.py** `dominates` — [MEDIUM] returns False when neither dominates, which is the condition for incomparable pairs
   - says: answers False for both of those for an unrelated reason
-- **repass_bands.py** `PL.write_record` — [MEDIUM] The code appends to `denied` and prints a message when the write fails, which aligns with the claim that denials are counted and printed.
-  - says: AND THE DENIAL IS COUNTED, NOT ONLY PRINTED (order 6e7bebc7c601). The gate above holds, but a denial reached no summary line and no exit code
-- **repass_bands.py** `PL.write_record` — [MEDIUM] The code appends to `touched` regardless of whether the write succeeded or failed, which contradicts the claim that it ignores the return value.
-  - says: GATE ON THE WRITE. `write_record` returns whether the write LANDED; this ignored it and appended to `touched` regardless, so the run's closing "APPLIED. N rewritten" counted sources whose file was never modified.
 - **reference.py** `shelfmark` — [MEDIUM] The function returns a shelfmark that includes both upper and lower rungs, but the code may not correctly handle cases where the lengths of upper and lower do not match the expected RUNGS length
   - says: The charter's canonical Shelfmark
 - **read.py** `set_transport` — [MEDIUM] sets the transport method but the argument is not validated against the allowed choices
   - says: sets the transport method based on the argument
 - **pipeline.py** `write_record` — [MEDIUM] The function is called without verifying that the write actually reached the disk
   - says: A batch is done only when every entry in it carries a result AND the write that carries those results actually reached the disk
-- **overnight.py** `busy` — [MEDIUM] A list of statuses that are considered busy, but the code uses 'busy' to check for busy states and then proceeds to sleep, which is correct. However, the code may have a logical error in the condition where it checks 'busy and snap['cycle_seconds'] < MIN_CYCLE_SECONDS' which could be misinterpreted if 'busy' is not properly defined or if the logic is flawed.
-  - says: A list of statuses that are considered busy
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
