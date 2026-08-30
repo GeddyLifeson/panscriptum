@@ -213,12 +213,32 @@ def active():
 
 
 def _lock_acquire(targets, token):
+    # `active()` FIRST, BUT IT DOES NOT DECIDE ANYTHING. It is asked here for two things only:
+    # the friendly, informative refusal below (which needs the other holder's record), and
+    # clearing a record whose process is gone so the exclusive create can win. The decision is
+    # made by O_EXCL. This used to be a check-then-create -- active() then open(LOCK, 'w') --
+    # and two runs starting together could both observe no lock and both write one, the second
+    # silently overwriting the first's pid, started and token, which is precisely the "two
+    # mutants on disk and no way to attribute either" the lock exists to prevent.
+    # Order a693fe8a33cc.
     held, rec = active()
     if held:
         raise RuntimeError("a mutation run is already active (%s); refusing to start a second"
                            % json.dumps(rec)[:160])
     os.makedirs(os.path.dirname(LOCK), exist_ok=True)
-    with open(LOCK, "w", encoding="utf-8") as f:
+    if rec is not None:
+        # Not held, but a file is on disk -- a stale record from a dead holder. Clear it, or
+        # the O_EXCL create below would refuse forever and a dead run would block every push.
+        try:
+            os.remove(LOCK)
+        except FileNotFoundError:
+            pass
+    try:
+        fd = os.open(LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError:
+        # Somebody won the race between active() and here. That is the case this call is for.
+        raise RuntimeError("a mutation run claimed %s first; refusing to start a second" % LOCK)
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
         json.dump({"pid": os.getpid(), "started": time.time(),
                    "targets": list(targets), "token": token,
                    # WHETHER THE LIVE TREE IS AT RISK, which is the only thing a reader of this
@@ -233,7 +253,36 @@ def _lock_acquire(targets, token):
                   f, indent=2)
 
 
-def _lock_release():
+def _lock_release(token=None):
+    """Drop the lock, but only if it is still OURS.
+
+    THE TOKEN WAS WRITTEN AND NEVER READ. `_lock_acquire` stamps a per-run token into the
+    record at :222 specifically so ownership can be established, and the release was a bare
+    `os.remove(LOCK)`: in any overlap the session that finished first deleted the lock a
+    still-running session believed it held, and `publish.py` -- whose refusal to push is the
+    entire reason this lock exists after a deliberately-corrupted `prose_gate.py` reached
+    GitHub twice -- was unblocked mid-run. Order a693fe8a33cc.
+
+    `token=None` means "no ownership claim", and then the file is removed unconditionally: that
+    is the caller who acquired without recording a token (the drill nets do exactly this), and
+    refusing there would leave a lock nobody can ever drop. An UNREADABLE record is also
+    removed, for the same reason in stronger form -- with the O_EXCL acquire above, nothing
+    else can have written over our claim, so an unreadable one can only be our own, and a lock
+    no reader can parse is treated as HELD by `active()` and would block every future push.
+    """
+    if token is not None:
+        try:
+            with open(LOCK, encoding="utf-8") as f:
+                rec = json.load(f)
+        except FileNotFoundError:
+            return
+        except Exception:
+            silence.note("mutate.py:lock-release-unreadable")
+            rec = None
+        if isinstance(rec, dict) and rec.get("token") != token:
+            # Somebody else's claim. Deleting it is the failure this check exists to stop.
+            silence.note("mutate.py:lock-release-not-ours")
+            return
     try:
         os.remove(LOCK)
     except FileNotFoundError:
@@ -288,9 +337,13 @@ def _hold_lock(targets):
     try:
         yield True
     finally:
+        # The token is handed to the release explicitly rather than read back off `_HELD`,
+        # because `_HELD` has to be cleared before the release (a re-entrant caller must not see
+        # a claim this frame is in the middle of dropping) and the release now needs it to prove
+        # the lock on disk is the one this frame took. Order a693fe8a33cc.
         _HELD = None
         os.environ.pop(_TOKEN_ENV, None)
-        _lock_release()
+        _lock_release(token)
 
 
 def _read(path):
@@ -610,14 +663,25 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None):
     So a mutant is judged DIFFERENTIALLY -- killed if it makes a gate say something DIFFERENT
     from what that gate says about unmutated code. A pre-existing failure is present in the
     baseline signature too, so it cancels out and stops mattering.
+
+    `name` IS USED, AND IT WAS NOT. It was threaded through all three call sites and discarded,
+    while the function returned a bare 'TIMEOUT'/'timeout' with no idea which gate produced it
+    and every caller re-attached the name by hand. It is now carried in both halves of the
+    return, so `could_not_judge` output and the indeterminate journal rows name the gate on
+    their own. The name is a CONSTANT per gate and the comparison is always baseline-vs-mutant
+    for the SAME gate, so adding it cannot change any differential verdict. Order 7bd7f47b012d.
     """
     try:
         r = subprocess.run(cmd, cwd=(cwd or HERE), capture_output=True, text=True,
                            creationflags=_NO_WIN, timeout=timeout, env=env)
     except subprocess.TimeoutExpired:
-        return "TIMEOUT", "timeout"
+        # The `|name` suffix rides behind the existing prefixes on purpose: `could_not_judge`
+        # matches on the PREFIX, so a bare 'TIMEOUT' or 'ERROR:OSError' from an older record
+        # (or from a drill net that hands one in directly) is still recognised.
+        return "TIMEOUT|%s" % name, "%s timed out after %ds" % (name, timeout)
     except Exception as e:
-        return "ERROR:" + type(e).__name__, type(e).__name__
+        return ("ERROR:%s|%s" % (type(e).__name__, name),
+                "%s raised %s" % (name, type(e).__name__))
     out = (r.stdout or "") + (r.stderr or "")
     # The signature is the exit code plus the COUNT LINE each tool prints -- not the whole
     # output, which carries timings and paths that differ run to run and would make every
@@ -627,7 +691,8 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None):
         t = line.strip()
         if t.startswith("RESULT:") or t.startswith("DRILL:"):
             marks.append(t)
-    return "rc=%d|%s" % (r.returncode, " ".join(marks)), (marks[0] if marks else "rc=%d" % r.returncode)
+    return ("rc=%d|%s" % (r.returncode, " ".join(marks)),
+            "%s %s" % (name, marks[0] if marks else "rc=%d" % r.returncode))
 
 
 def verify_restore(path):
@@ -676,6 +741,13 @@ def _junction(link, target):
 
 JOURNAL = os.path.join(HERE, "state", "MUTANTS_SURVIVED.jsonl")
 
+# WAS THE TREE BEING EDITED WHEN THIS SESSION TOOK ITS BASELINE? Set once by `_session` from
+# `tree_is_moving()` and stamped onto every survivor row, because a survivor list is read days
+# later by somebody who has no other way to know a maintenance shift was mid-edit when the
+# baseline photograph was taken. `None` means the question was never asked (a caller that used
+# `run()` directly rather than the CLI). Order 78e796b8b9b6.
+_TREE_WAS_MOVING = None
+
 
 def _journal(target, rec):
     """Append one survivor to disk immediately. Never raises. -> None.
@@ -690,6 +762,7 @@ def _journal(target, rec):
         row = dict(rec)
         row["target"] = target
         row["at"] = time.time()
+        row["tree_was_moving"] = _TREE_WAS_MOVING
         with open(JOURNAL, "a", encoding="utf-8") as f:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
     except Exception:
@@ -725,8 +798,11 @@ ORPHAN_AGE_SECONDS = 6 * 3600
 OWNER_FILE = "_owner.json"
 
 
-    # HOW LONG A LIVE OWNER MAY PROTECT A SANDBOX. Beyond this, age wins regardless of what the
-    # owner file says. See `_owner_pid` for why this ceiling has to exist at all.
+# HOW LONG A LIVE OWNER MAY PROTECT A SANDBOX. Beyond this, age wins regardless of what the
+# owner file says. See `_owner_pid` for why this ceiling has to exist at all.
+# (Dedented from four spaces, order 0129ac1cee0a: comment-only lines emit no INDENT token so it
+# always parsed, but at module level an indented comment reads as the tail of a function body,
+# and in this file the comments are the documentation.)
 OWNERSHIP_CEILING_SECONDS = 24 * 3600
 
 
@@ -861,9 +937,14 @@ def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
             except OSError:
                 pass
         shutil.rmtree(p, ignore_errors=True)
-        # ignore_errors=True means rmtree itself never raises -- the junction case at :506-511
-        # (an unlinked-but-undeletable mount, permissions, a file still open in the pass that
-        # crashed) leaves `p` standing with no exception to catch. Check what is actually on
+        # ignore_errors=True means rmtree itself never raises -- the junction case in the
+        # unlink loop just above (an unlinked-but-undeletable mount, permissions, a file still
+        # open in the pass that crashed) leaves `p` standing with no exception to catch. The
+        # citation here used to read ":506-511", which is the `ast.Compare` branch of
+        # `_mutations` and has nothing to do with junctions; a line number inside a comment is a
+        # claim nothing can keep honest, so it is named by position instead (order b2a113a33d50,
+        # the same argument generate.py:555-558 makes for symbolic silence.note() tags). Check
+        # what is actually on
         # disk rather than trusting the call to have worked.
         if os.path.isdir(p):
             silence.note("mutate.py:reap-incomplete")
@@ -1065,6 +1146,58 @@ def unusable_gates(base):
     return [(n, s_) for n, s_ in base.items() if could_not_judge(s_)]
 
 
+def red_gates(base):
+    """-> [(gate, signature)] for gates that DID reach a verdict on clean code and it was red.
+
+    Deliberately distinct from `unusable_gates`, which is about gates that reached no verdict at
+    all. A red baseline is not by itself a reason to refuse -- see `_gate_result`: this project
+    carries a standing honest red most days, and "green or refuse" means "never runs". It is a
+    reason to refuse only in combination with a tree somebody is editing; see `tree_is_moving`.
+    """
+    return [(n, s_) for n, s_ in base.items()
+            if not could_not_judge(s_) and not s_.startswith("rc=0|")]
+
+
+def tree_is_moving(now=None):
+    """Is a maintenance shift part-way through editing src/ right now? -> (bool, why).
+
+    THE BASELINE IS A PHOTOGRAPH OF A TREE THAT MAY BE MOVING, AND THAT COST A SHIFT ITS RUN.
+    On 2026-08-29 a mutation pass was launched the moment `drill.py` was released, while a
+    second agent was doing what the standing rule requires -- reinstating each defect in turn to
+    watch its net go red before leaving it green. The sandbox snapshot froze six transient
+    breaches into the baseline. Mutants are judged by DIFFERENCE from that baseline, so for the
+    whole run those six nets were disabled as detectors (they cannot kill anything; they were
+    already red) and any mutant reproducing exactly those breaches scored SURVIVED. A mutation
+    pass exists to answer "which corruptions can this battery not see"; starting it with part of
+    the battery held down answers a different question while looking exactly like an answer to
+    the real one. Order 78e796b8b9b6.
+
+    "all gates reproducible" did not catch it and could not: it reads each gate twice seconds
+    apart, and the provocation outlasted both readings. Reproducible-over-seconds is not
+    stable-for-the-hours the run will take.
+
+    THE QUESTION IS ALREADY ANSWERED ELSEWHERE, so this asks it rather than inventing a second
+    guard: `publish.maintenance_shift_live()` reads `state/MAINTENANCE_RUN.json` and reports
+    whether a shift is mid-edit, treating a stale heartbeat as a crashed run.
+
+    FAILS CLOSED, AND THAT IS THE OPPOSITE OF PUBLISH'S RULE FOR THE SAME READING. `publish`
+    must fail OPEN because a wedged publisher is worse than one bad cycle. Here the asymmetry
+    runs the other way: a mutation pass costs hours and produces a number people act on, and
+    wasting the hours is cheaper than trusting the number. Note this only ever REFUSES in
+    combination with a red baseline, so a failure to read the guard cannot block a run on a
+    healthy tree.
+    """
+    try:
+        # Imported here, not at module scope: `publish` imports `mutate` (for `active()`), so a
+        # top-level import would be a cycle.
+        import publish as _pub
+        return _pub.maintenance_shift_live(now=now)
+    except Exception as e:
+        silence.note("mutate.py:maintenance-guard-unreadable")
+        return True, ("could not ask publish.maintenance_shift_live (%s); assuming the tree is "
+                      "being edited" % type(e).__name__)
+
+
 def could_not_judge(sig):
     """-> True if this signature means the gate never reached a verdict, on clean code OR on a
     mutant.
@@ -1079,7 +1212,11 @@ def could_not_judge(sig):
     became "the safeties noticed", inside the one number this module exists to produce. False
     kills are the direction that HIDES holes, and they look exactly like real ones.
     """
-    return sig == "TIMEOUT" or sig.startswith("ERROR:")
+    # PREFIX MATCH, not equality: `_gate_result` now names the gate in the signature itself
+    # ("TIMEOUT|drill", "ERROR:OSError|verify_math") so an indeterminate row says which gate
+    # gave up. A bare "TIMEOUT" still matches, which is what keeps older journal rows and the
+    # drill net that hands one in literally reading the same way. Order 7bd7f47b012d.
+    return sig.startswith("TIMEOUT") or sig.startswith("ERROR:")
 
 
 def flaky_gates(root, base, gates=GATES):
@@ -1204,12 +1341,14 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                     # mutant is set aside as INDETERMINATE and counted separately, so `killed`
                     # and `survived` contain only mutants that were actually judged.
                     if could_not_judge(sig):
-                        no_verdict = "%s (%s)" % (gname, sig)
+                        # `sig` and `why` both carry the gate name now (see `_gate_result`), so
+                        # the caller no longer re-attaches `gname` by hand. Order 7bd7f47b012d.
+                        no_verdict = sig
                         break
                     # DIFFERENT from clean, not merely failing. A gate that was already red on
                     # unmutated code stays red here and correctly kills nothing.
                     if sig != base.get(gname):
-                        died_at = "%s (%s)" % (gname, why)
+                        died_at = why
                         break
                 if no_verdict:
                     indeterminate.append({"line": lineno, "mutation": desc,
@@ -1334,6 +1473,7 @@ def main():
 
 def _session(a, targets):
     """One mutation session, with the lock held. -> exit code."""
+    global _TREE_WAS_MOVING
     root = sandbox()
     print("sandbox: %s" % root)
     try:
@@ -1363,6 +1503,32 @@ def _session(a, targets):
             print("set as surviving, which looks exactly like a finished run.")
             return 4
 
+        # WAS THE TREE MOVING WHEN THAT PHOTOGRAPH WAS TAKEN? See `tree_is_moving` for the
+        # 2026-08-29 incident this is the repair for. Asked AFTER the baseline rather than
+        # before, so the answer can be weighed against what the baseline actually said: a red
+        # baseline on a quiet tree may be a real standing fault the run can legitimately be
+        # judged against, and a blanket "refuse unless green" would block the very shift that
+        # is supposed to launch this. It is the COMBINATION -- red, and somebody editing --
+        # that means the redness is probably transient. Order 78e796b8b9b6.
+        moving, why_moving = tree_is_moving()
+        _TREE_WAS_MOVING = moving          # stamped onto every survivor row; see `_journal`
+        red = red_gates(base)
+        if moving:
+            print("\n*** A MAINTENANCE SHIFT IS EDITING THIS TREE: %s" % why_moving)
+            print("    The baseline above is a snapshot of source somebody is changing.")
+        if moving and red:
+            print("\nRED BASELINE TAKEN FROM A TREE UNDER EDIT — REFUSING TO MUTATE.")
+            for gname, sig_ in red:
+                print("   %-14s %s" % (gname, sig_[:90]))
+            print("\nMutants are judged by DIFFERENCE from the baseline, so a gate that is red")
+            print("in it is disabled as a detector for the whole run and any mutant that")
+            print("reproduces exactly that redness scores SURVIVED. While a shift holds the")
+            print("guard the redness is most likely a net being deliberately provoked, not the")
+            print("state of the library. Relaunch once the LAST agent touching drill.py or")
+            print("verify_math.py has finished. (A red baseline on a QUIET tree is a different")
+            print("thing and is allowed through -- it may be a real standing fault.)")
+            return 6
+
         # gates=gates + confirm, matching the call that built `base` two lines up. The default
         # (gates=GATES) always includes CONFIRM_GATES, so under --no-confirm this would score a
         # gate (e.g. drill) that `base` never ran against base.get(name) == None -- an eternal
@@ -1378,7 +1544,12 @@ def _session(a, targets):
             print("\nA gate that disagrees with itself on unmutated code judges every mutant")
             print("by coin flip, and the report looks equally confident either way.")
             return 3
-        print("all gates reproducible; mutants judged by DIFFERENCE from the above")
+        # "reproducible" is qualified out loud when the tree is moving, because the unqualified
+        # line reads as an all-clear and it is only ever a statement about two readings seconds
+        # apart -- not about the hours this run will take. Order 78e796b8b9b6.
+        print("all gates reproducible; mutants judged by DIFFERENCE from the above"
+              + ("   *** BUT THE TREE IS BEING EDITED -- reproducible over seconds is not"
+                 " stable over the hours this run takes ***" if moving else ""))
 
         # WHAT PREVIOUS RUNS ALREADY FOUND. Printed before this run starts, because a survivor
         # is a standing finding until somebody rules on it -- and a run that reports only its
@@ -1392,7 +1563,20 @@ def _session(a, targets):
                   + ", ".join("%s x%d" % (k, v) for k, v in sorted(_by.items())))
 
         total_s = 0
-        for t in targets:
+        # A REFUSAL THAT PRINTS AND DOES NOT STOP THE CALLER, INSIDE THE MODULE WRITTEN TO FIND
+        # THAT SHAPE. Both branches below used to print a full stop -- "Later targets are
+        # unreliable", "THE LIVE FILE CHANGED DURING A SANDBOXED RUN. STOP." -- escalate, and
+        # then fall straight into the next iteration: the remaining targets were mutated in the
+        # sandbox this code had just declared unreliable, their survivors were printed as
+        # findings and filed by --file-orders, and `_session` returned 0 with an OWNER halt
+        # standing on disk. `escalation.escalate()` does not raise, by its own docstring --
+        # "Raising is the CALLER's decision for rungs 1-4" -- so stopping is this loop's job and
+        # nothing else's. `main()`'s halt check only guards the START of a session. The rc is
+        # carried out of the loop and returned in place of the old unconditional `return 0`.
+        # Order 282ae72dfaec.
+        rc = 0
+        stopped_at = None
+        for i, t in enumerate(targets):
             t0 = time.time()
             r = run(t, limit=a.limit, root=root, base=base, gates=gates, confirm=confirm)
             total_s += time.time() - t0
@@ -1404,6 +1588,9 @@ def _session(a, targets):
                 escalation.escalate(escalation.MANAGER, "MUTATE_RESTORE_FAILED",
                                     "mutate.py did not restore %s in the sandbox" % t,
                                     evidence=r, source=t, who="mutate.py")
+                # Every remaining target shares `root`, so they would be judged against a
+                # sandbox this run has just declared unreliable.
+                rc, stopped_at = 4, i
             if not r["live_file_untouched"]:
                 # This must be impossible by construction -- the live path is never opened for
                 # writing. Checked anyway, and at OWNER level, because the incident that caused
@@ -1412,6 +1599,9 @@ def _session(a, targets):
                 escalation.escalate(escalation.OWNER, "MUTATE_TOUCHED_LIVE_TREE",
                                     "src/%s changed during a sandboxed mutation run" % t,
                                     evidence=r, source=t, who="mutate.py")
+                # OWNER writes the halt file, and this process must not keep deliberately
+                # corrupting code underneath a standing halt. Nothing further at all.
+                rc, stopped_at = 5, i
             if r["capped"]:
                 print("  (capped at --limit %d; this is NOT the whole set)" % a.limit)
             # NEITHER KILLED NOR SURVIVED, AND SAID SO. A gate that timed out or errored on a
@@ -1437,8 +1627,21 @@ def _session(a, targets):
                       " candidates, not findings, and must not be filed as findings.")
             if a.file_orders and r["survivors"] and confirm:
                 print("  filed %d work order(s)" % len(file_orders(r)))
+            # BREAK AFTER this target's own report, not before it: the findings for the target
+            # that tripped the check were computed before the check tripped and are still worth
+            # printing. What must not happen is the NEXT target.
+            if stopped_at is not None:
+                break
+        if stopped_at is not None:
+            skipped = targets[stopped_at + 1:]
+            print("\n*** RUN IS PARTIAL. Stopped after %s. %d target(s) not attempted%s"
+                  % (targets[stopped_at], len(skipped),
+                     "." if not skipped else ": " + ", ".join(skipped)))
+            print("    Exit code %d. The survivor list above covers %d of %d targets and is"
+                  " NOT a coverage number for this library."
+                  % (rc, stopped_at + 1, len(targets)))
         print("\ntotal %.0fs" % total_s)
-        return 0
+        return rc
     finally:
         if not a.keep_sandbox:
             shutil.rmtree(root, ignore_errors=True)

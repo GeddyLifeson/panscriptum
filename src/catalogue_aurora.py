@@ -196,6 +196,11 @@ def main():
     by_name = {r["name"]: r for r in roll}
 
     written = []
+    # WHAT THIS RUN CHANGED, BY SOURCE NAME -- the input to the compare-and-swap below. Held
+    # separately from the in-memory rows because the whole point is that the roll landed at the
+    # end of the run must be the roll ON DISK plus this run's rows, not this run's hours-old
+    # snapshot of everyone else's. (order f818a77293fc)
+    roll_changes = {}
     # EVERY REFUSAL THIS FUNCTION PRINTS, COLLECTED SO THE EXIT CODE CAN CARRY IT (order
     # 3cc35f54b235). main() returned None and `__main__` called it bare, so the process exited 0
     # in every case -- including a denied SWEEP_ROLL.json write, a folder with no roll entry and
@@ -267,10 +272,18 @@ def main():
         written.append((r, record))
         r["entry_count"] = len(entries)
         r["status"] = "catalogued"
+        roll_changes[source_name] = {"entry_count": len(entries), "status": "catalogued"}
 
     roll_landed = True
     if not args.dry_run and written:
-        # ATOMIC: four scripts write this same roll (see silence.write_json). 2026-08-25.
+        # COMPARE-AND-SWAP, BECAUSE ATOMIC WAS NEVER THE PROPERTY THIS NEEDED (order
+        # f818a77293fc). The comment here read "ATOMIC: four scripts write this same roll"; the
+        # count is SEVEN and atomicity was the wrong thing to reach for. This function reads the
+        # whole roll at the top, parses ten Aurora XML folders while mutating rows in memory,
+        # and used to land the ENTIRE document -- so a row another process wrote inside that
+        # window was overwritten by this process's older copy of it, completely and silently.
+        # `roll.update_rows` merges THIS RUN'S rows into a freshly-read roll and re-reads and
+        # re-applies if the file moved under it.
         # GATED, same discipline as `write_record_catalogue` above and for the identical reason:
         # this whole function exists to argue that a write verdict must never be discarded, and
         # this was the one call in it that still did. `write_json` returns whether the rename
@@ -279,7 +292,12 @@ def main():
         # land, but the roll saying so did not, and the next run's `entry_count == 0` selection
         # would silently re-parse sources it had already, correctly, catalogued. Found by the
         # run #33 sweep, same batch as the record-level fix above.
-        roll_landed = silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
+        import roll as _roll
+        roll_landed, roll_why = _roll.update_rows(roll_changes)
+        if roll_why:
+            # Named, never swallowed: either the swap was refused or a source this run
+            # catalogued no longer has a row, and both are things the operator acts on.
+            print("  ROLL: %s" % roll_why, flush=True)
 
     verb = "Would write" if args.dry_run else "Wrote"
     print(f"{verb} {len(written)} records from Aurora XML:\n")

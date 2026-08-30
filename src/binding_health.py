@@ -345,6 +345,14 @@ def quarantine(host, reason, last_good=None):
     read still lands `{}`, because the digest of the unreadable file matches nothing and the
     file it certifies is the one whose contents were never seen.
     """
+    # THE REASON IS STORED WHOLE. Both branches below wrote `str(reason)[:300]`, a hard slice on
+    # a STORED field, which is Hard Rule 0's exact shape -- and the reason is the only record of
+    # WHY a host was closed off. Measured for fireemblem.fandom.com, the reason a 429 produces is
+    # 330 characters, so the cut landed mid-title with the closing parenthesis gone: the record
+    # did not even read as a complete sentence, and nothing said anything had been removed. The
+    # two renderers that print it (`main()`'s `--quarantined` table and the report line above it)
+    # already truncate at their own call sites, which is where the house puts display cuts.
+    # (order d6ca84486153)
     rec, landed, detail = None, False, "not attempted"
     for _ in range(CAS_ATTEMPTS):
         # THE DIGEST IS TAKEN BEFORE THE READ -- see `_land_cas`. Read first and the digest would
@@ -352,7 +360,7 @@ def quarantine(host, reason, last_good=None):
         expected = silence.digest_of(QUARANTINE)
         q, state = _read_quarantine()
         if state == "unreadable":
-            rec = {"reason": str(reason)[:300], "at": time.time(),
+            rec = {"reason": str(reason), "at": time.time(),
                    "retry_after": time.time() + RETRY_AFTER_S,
                    "last_good": last_good, "times": None}
             landed = False
@@ -361,7 +369,7 @@ def quarantine(host, reason, last_good=None):
                       % os.path.basename(QUARANTINE))
             break
         prev = q.get(host) or {}
-        rec = {"reason": str(reason)[:300], "at": time.time(),
+        rec = {"reason": str(reason), "at": time.time(),
                "retry_after": time.time() + RETRY_AFTER_S,
                "last_good": last_good if last_good is not None else prev.get("last_good"),
                "times": int(prev.get("times", 0)) + 1}
@@ -542,15 +550,29 @@ def _probe_present(host, title):
         if err:
             errors.append(err)
             continue
-        if n >= 200:
-            # THE SECOND OPERAND WAS `len(tried)` TOO, so this always read "candidate N of N
-            # tried" -- the reader could see only that the last candidate tried was the last
-            # candidate tried, never how many were AVAILABLE to try. `len(candidates)` is the
-            # total this call planned to attempt (bounded at PRESENT_CANDIDATES), which is the
-            # number the docstring above actually promises: "the reader can see how many were
-            # asked." (order f282ba72f742)
-            return True, "%d chars from %r (candidate %d of %d tried)" % (
-                n, t, len(tried), len(candidates))
+        if n <= 0:
+            # NOTHING CAME BACK. `_fetch_chars` returns `(0, None)` for an EMPTY fetch -- not an
+            # error, but nothing for `page_looks_real` to have judged either -- so this is the one
+            # `err is None` case that is not a page. It is kept out of `errors` deliberately: the
+            # branch below distinguishes "every probe errored" from "the titles returned nothing",
+            # and an empty fetch is the second.
+            #
+            # THIS WAS `if n >= 200`, A SECOND HARDCODED COPY OF `feats.MIN_REAL_PAGE_CHARS`, and
+            # `_fetch_chars`'s own docstring names that comparison as the defect it was written to
+            # remove: "THE PAGE IS JUDGED BY `feats.page_looks_real`, NOT BY ITS LENGTH ... the
+            # caller compared them against a hardcoded 200". The caller went on doing it. Harmless
+            # while the two numbers agreed, and a false-quarantine engine the moment the constant
+            # is LOWERED -- short-but-real articles would be refused here and live hosts called
+            # dead. The length rule now lives in exactly one place. (order d66e1c8d79cb)
+            continue
+        # THE SECOND OPERAND WAS `len(tried)` TOO, so this always read "candidate N of N
+        # tried" -- the reader could see only that the last candidate tried was the last
+        # candidate tried, never how many were AVAILABLE to try. `len(candidates)` is the
+        # total this call planned to attempt (bounded at PRESENT_CANDIDATES), which is the
+        # number the docstring above actually promises: "the reader can see how many were
+        # asked." (order f282ba72f742)
+        return True, "%d chars from %r (candidate %d of %d tried)" % (
+            n, t, len(tried), len(candidates))
     if not tried:
         return False, "no catalogued title to probe with"
     if errors and len(errors) == len(tried):
@@ -559,8 +581,23 @@ def _probe_present(host, title):
         # interstitial). Both mean the same thing here -- nothing came back that proves this host
         # is still answering -- and the detail says which one it was.
         return False, "every probe failed: %s" % errors[0]
+    # EVERY TITLE THAT WAS TRIED, BY NAME. This named `tried[:4]` while the count beside it said
+    # 8, so the reader who wants to know WHICH title the probe should have hit -- the first
+    # question to ask when a live host fails its canary, per `--titles`' own help text -- could
+    # see half of them, and nothing said the rest existed. The docstring above promises "the
+    # reader can see how many were asked"; the list is what makes that actionable. The list
+    # cannot run away: `_candidate_titles` bounds it at PRESENT_CANDIDATES before the probe
+    # starts. (order d6ca84486153)
     return False, ("%d known-present title(s) all returned nothing or too little to be a page "
-                   "(tried: %s)" % (len(tried), ", ".join(repr(t) for t in tried[:4])))
+                   "(tried: %s)" % (len(tried), ", ".join(repr(t) for t in tried)))
+
+
+# The exact wording `feats.page_looks_real` refuses a BLOCK PAGE with, matched as a substring
+# rather than reconstructed -- the same way `feats._SUPERSEDED_GATE_MARK` matches that gate's
+# third layer, so the two cannot drift apart silently. It is what separates "we were blocked"
+# from "nothing resolved" in `_probe_absent`, and those two have opposite consequences for the
+# host: the first is `could not ask`, the second is a clean absence.
+_BLOCKED_MARK = "refusal marker"
 
 
 def _probe_absent(host):
@@ -572,6 +609,32 @@ def _probe_absent(host):
     The check nobody thinks to write, and the one that catches a host answering yes to
     everything -- a soft-404, a search page, a login wall dressed as an article. Without it a
     'healthy' verdict means only that something came back.
+
+    JUDGED BY `feats.page_looks_real`, THE SAME GATE `_fetch_chars` PUTS THE PRESENT PROBE
+    THROUGH, and until now it was the only fetched body in this module that was not. This read
+    `if got: return False, ...` -- ANY returned bytes convicted the host -- while its sibling
+    twenty lines up argues the case at length: "A Cloudflare interstitial, a login wall, a JS
+    challenge or a rate-limit notice is a real document and is comfortably over 200 characters",
+    and for a RAW-mode host (every API-closed wiki, D&D Wiki among them) nothing else in the
+    chain catches it because `endpoint.fetch_raw` only rejects bodies literally starting
+    `<!doctype` or `<html>`. Every word of that applies here verbatim.
+
+    IT MATTERS MORE HERE THAN ANYWHERE. `verdict()` handles `ok_absent is False` BEFORE it asks
+    about reachability -- "That IS a host fault, whether or not it is reachable" -- so this is
+    the single probe outcome that can quarantine a demonstrably live wiki with no second
+    opinion, and the recorded reason would be actively wrong: it would say the wiki answers yes
+    to everything when what happened is that we were blocked.
+
+    Symmetry is the argument for the gate, not leniency. `_probe_present` only counts a hit that
+    CLEARS `page_looks_real`, so a body that fails the same gate here cannot have made those
+    hits meaningless -- the two probes now judge "is this an article" by one rule. Three
+    outcomes, and the detail says which:
+      * an article        -> False. The host really did resolve a title nobody holds. Unchanged.
+      * a refusal marker  -> None. We were BLOCKED; that is "could not ask", not a host fault,
+                             and `verdict()` already handles the third value.
+      * too thin / no wiki markup -> True. Nothing resolved into an article, which is absence.
+    Judged on the RAW text before any stripping, exactly as `_fetch_chars` does, because the
+    refusal and markup markers live in the page as served. (order 27f445b58a76)
     """
     try:
         import feats as F
@@ -590,10 +653,19 @@ def _probe_absent(host):
         # not run; what this function must not do is invent a pass. Found by the run #34 sweep
         # (orders 9b0e5cf4dfe2 / 2cfc022d8e04, filed twice independently).
         return None, "could not ask (%s) -- NOT a verdict about this host" % type(exc).__name__
-    if got:
+    if not got:
+        return True, "correctly absent -- nothing came back for a title that cannot exist"
+    text = " ".join(str(v) for v in got.values()) if isinstance(got, dict) else str(got)
+    # NO TITLE IS PASSED, for the reason `_fetch_chars` gives: `page_looks_real` takes none, and
+    # the check a reader would infer from one must not be applied to a probe title by design.
+    real, why = F.page_looks_real(text)
+    if real:
         return False, ("resolved a title that cannot exist -- this host answers yes to "
-                       "everything, so its hits prove nothing")
-    return True, "correctly absent"
+                       "everything, so its hits prove nothing (%s)" % why)
+    if _BLOCKED_MARK in why:
+        return None, ("could not ask -- the impossible title came back as a block page (%s), so "
+                      "nothing here is a verdict about this host" % why)
+    return True, "correctly absent -- %s" % why
 
 
 def _probe_reachable(host):

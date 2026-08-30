@@ -468,8 +468,12 @@ def quantity_scores(ev, anchor, entity=None):
         sentence = q.get("sentence") or ""
         why = subject_refusal(entity, sentence, axis)
         if why:
+            # NO SLICE (order a3c5d3bfe312): `rejections` is stored on the record and a refused
+            # feat is recorded nowhere else, so a [:60] here left the only surviving evidence for
+            # a refusal as its first 60 characters. Nothing computes on this string; the console
+            # renderers trim at their own call sites, where the trim is reversible.
             rejects.append((axis, "instrument reading is not this entity's act ("
-                            + why + "): " + sentence[:60]))
+                            + why + "): " + sentence))
             continue
         s = A.axis_score(x, anchor, axis)
         if s is None:
@@ -724,6 +728,31 @@ def _resolve_citation(cited, mined, numbered=True):
     return None, "citation not in the mined feats"
 
 
+def _status_score(raw):
+    """The model's status word -> the sentinel it means. THE ONLY place this mapping lives.
+
+    The three sentinels are not interchangeable and `assay()` reads them differently: NONE earns
+    FULL coverage credit (assay.py:174), INAPPLICABLE leaves the coverage denominator entirely
+    (assay.py:930), and UNESTIMABLE stays in the denominator because it IS ignorance. So
+    flattening a status to UNESTIMABLE does not merely widen the bar -- it moves the published
+    decimal.
+
+    This mapping used to exist only inside `verify()`, i.e. only on the one-shot path, while the
+    split path (the DEFAULT for everything over ONE_SHOT_MAX) discarded 'none' and 'n/a' in two
+    independent places and answered the SAME model output with a different number: same anchor
+    and same numeric scores, one-shot gave M4.46 +/- 0.20 at coverage 0.42 and the split's
+    flattening gave M4.56 +/- 0.21 at coverage 0.25 (order d2f89bfe967d). One helper, three call
+    sites -- `verify`, `_split_assay._one_axis` (which now keeps the status STRING so this can be
+    applied where the gate can see it) and `_split_gate`.
+
+    Anything unrecognised is UNESTIMABLE, which is the honest reading of a status we cannot
+    interpret: it says we do not know, and it does not leave the denominator.
+    """
+    st = str(raw or "").strip().lower()
+    return {"none": A.NONE, "unestimable": A.UNESTIMABLE,
+            "n/a": A.INAPPLICABLE, "na": A.INAPPLICABLE}.get(st, A.UNESTIMABLE)
+
+
 def verify(entity, got, ev):
     """Apply guards 1-3. Returns (scores, worksheet, rejections).
 
@@ -756,9 +785,7 @@ def verify(entity, got, ev):
             #
             # `scores[ax]` still carries the status, which is what `assay()` reads to widen the
             # interval. Only the fabricated provenance is gone.
-            st = raw.strip().lower()
-            scores[ax] = {"none": A.NONE, "unestimable": A.UNESTIMABLE,
-                          "n/a": A.INAPPLICABLE, "na": A.INAPPLICABLE}.get(st, A.UNESTIMABLE)
+            scores[ax] = _status_score(raw)
             continue
         if not isinstance(raw, (int, float)):
             scores[ax] = A.UNESTIMABLE
@@ -798,14 +825,15 @@ def verify(entity, got, ev):
 
         # 2 RELEVANCE -- the feat has to be about this axis.
         if not AXIS_RE[ax].search(text):
-            rejects.append((ax, f"feat does not bear on {ax}: {text[:60]}"))
+            # whole sentence, not [:60] -- see order a3c5d3bfe312 at quantity_scores
+            rejects.append((ax, f"feat does not bear on {ax}: {text}"))
             scores[ax] = A.UNESTIMABLE
             continue
 
         # 3 SUBJECT -- the entity has to be the doer, and the check now reads the entity.
         why = subject_refusal(entity, text, ax)
         if why:
-            rejects.append((ax, f"entity is not the actor ({why}): {text[:60]}"))
+            rejects.append((ax, f"entity is not the actor ({why}): {text}"))
             scores[ax] = A.UNESTIMABLE
             continue
 
@@ -932,7 +960,13 @@ def _split_assay(c, entity, cand, epoch, head_note=None):
                 if best is None or not isinstance(best[0], (int, float)) or sc > best[0]:
                     best = (sc, (got.get("feat") or "").strip())
             elif best is None:
-                best = (A.UNESTIMABLE, "")
+                # KEEP THE STATUS THE MODEL ACTUALLY SAID (order d2f89bfe967d). This used to
+                # substitute A.UNESTIMABLE here, which threw away 'none' and 'n/a' before any
+                # gate could see them -- and the three sentinels are scored differently by
+                # `assay()`, so the flattening moved the published decimal. The string is passed
+                # through and `_split_gate` maps it with `_status_score`, the same mapping
+                # `verify` applies on the one-shot path.
+                best = (sc if isinstance(sc, str) else A.UNESTIMABLE, "")
         census = {"attempted": att, "answered": ans, "refused": att - ans,
                   "sentences": len(rows), "sentences_unread": unread_rows,
                   "chars_unread": unread_chars}
@@ -1082,7 +1116,7 @@ def _split_gate(got, cand, entity=None):
             # 3 SUBJECT -- the entity has to be the doer, on this path too.
             why = subject_refusal(entity, source, ax)
             if why:
-                rejects.append((ax, f"entity is not the actor ({why}): {source[:60]}"))
+                rejects.append((ax, f"entity is not the actor ({why}): {source}"))
                 scores[ax] = A.UNESTIMABLE
                 continue
             scores[ax] = max(0.0, min(9.9, float(sc)))
@@ -1092,7 +1126,12 @@ def _split_gate(got, cand, entity=None):
                             + str(why_cite)))
             scores[ax] = A.UNESTIMABLE
         else:
-            scores[ax] = A.UNESTIMABLE
+            # A STATUS IS A STATUS ON THIS PATH TOO (order d2f89bfe967d). This `else` used to
+            # assign A.UNESTIMABLE with no mapping at all, so 'none' and 'n/a' were flattened
+            # here even when `_one_axis` had carried them through -- and NONE earns full coverage
+            # credit while INAPPLICABLE leaves the denominator, so the flattening changed the
+            # weighted mean, not just the interval. Same helper `verify` uses.
+            scores[ax] = _status_score(sc)
     return scores, sheet, rejects
 
 
@@ -1292,7 +1331,15 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
     rejects.extend(q_rejects)
     for ax, q in q_scores.items():
         scores[ax] = q["score"]
-        sheet[ax] = f"INSTRUMENT {q['measured']} = {q['si']:.3g} SI  <- {q['feat'][:120]}"
+        # The worksheet is PUBLISHED on the record and is the citation licensing the score, so it
+        # carries the whole sentence and the page -- the same provenance shape the model path
+        # writes one branch up (`[{hit}] {text}  ({page})`). It used to cut the feat at 120 chars
+        # mid-word with no marker and drop the page entirely, which meant the only evidence class
+        # the Attestation ladder puts ABOVE Transcribed was the only one published truncated
+        # (order a3c5d3bfe312). Records assayed before this keep their cut strings until the
+        # entity is re-assayed; settled() will not re-run them, and that is accepted.
+        sheet[ax] = (f"INSTRUMENT {q['measured']} = {q['si']:.3g} SI  <- {q['feat']}"
+                     f"  ({q.get('page', '')})")
 
     if saturated(scores):
         return {"entity": entity, "result": None, "anchor": anchor,
@@ -1693,8 +1740,17 @@ def main():
         # `bad`; the exit code here must mean the same thing the standard it feeds does.
         return 0 if calibrate() == len(BENCHMARKS) else 1
     if a.one:
-        r = assay_entity(config(), a.one[1], a.one[0])
-        print(json.dumps(r, indent=1, ensure_ascii=False)[:4000])
+        # `ceiling=` is not optional here (order 478cc5cbb1ba): `--batch` passes
+        # `host_ceiling(h)` and `calibrate()` passes the SCOPE row's ceiling, so a hand check
+        # that skipped the clamp could not verify the batch -- it would print a plausible
+        # off-scale anchor (the M10.77 Jace shape host_ceiling's docstring records) with no sign
+        # the clamp had been skipped. host_ceiling reads data/SCOPE.json first, so for the hosts
+        # already on disk this costs a file read.
+        r = assay_entity(config(), a.one[1], a.one[0], ceiling=host_ceiling(a.one[0]))
+        # UNCAPPED (order bf5be8ac38b3): this is the hand-check path. A [:4000] slice cut ~29% of
+        # records mid-string -- unparseable, unpipeable, and the keys it dropped (rejections,
+        # transport, candidates) are the ones a person runs this command to see.
+        print(json.dumps(r, indent=1, ensure_ascii=False))
         return 0
     if a.batch:
         run_batch(host=a.host, limit=a.limit, workers=a.workers, resume=not a.fresh)

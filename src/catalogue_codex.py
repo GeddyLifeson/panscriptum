@@ -136,13 +136,29 @@ def parse_codex():
 
 
 def load_register_index():
+    """-> {norm(name): [item, ...]} -- EVERY item under a key, never just the first to arrive.
+
+    THE SAME RULING AS THE SECTION PATH, APPLIED TO THE REGISTER PATH, WHICH NEVER GOT IT
+    (order 096f6efc33d2). This built `{norm(name): item}` under `if key not in idx`, so the
+    winner of a normalised collision was decided by FILE ORDER in LOCAL_REGISTER.json -- and the
+    winner's `desc` is what the caller attaches to the codex element and writes into the record
+    under attestation "Transcribed", beneath a provenance sentence saying the description was
+    transcribed off the owner's shelf. Measured 2026-08-29 against
+    reference/keystone_volumes/LOCAL_REGISTER.json: 14,576 items, 13,602 distinct norm() keys,
+    885 colliding keys, 974 items silently dropped, and 700 of those groups carry DIFFERENT desc
+    text. For those 700 element names the attested description was a coin flip.
+
+    Forty lines below, the section path already argues why that is the one case where guessing is
+    worse than doing nothing -- so the members come back whole and `main` decides: one desc (or
+    several that agree) is used as before, disagreement falls back to the honest "no transcribed
+    description on file" string and is reported uncapped for an operator to disambiguate."""
     with open(REGISTER, encoding="utf-8") as f:
         reg = json.load(f)
     idx = {}
     for item in reg:
         key = norm(item.get("name"))
-        if key and key not in idx:
-            idx[key] = item
+        if key:
+            idx.setdefault(key, []).append(item)
     return idx
 
 
@@ -177,6 +193,7 @@ def main():
 
     written = []
     ambiguous = []      # (source_name, [candidate section titles]) -- bound to nothing on purpose
+    reg_ambiguous = {}  # norm(element) -> [register spellings] -- desc left untranscribed
     for r in roll:
         if r.get("entry_count", 0) > 0:
             continue
@@ -217,10 +234,20 @@ def main():
             if not key or key in seen:
                 continue
             seen.add(key)
-            hit = register.get(key)
+            hits = register.get(key) or []
             # Prefer the register's transcribed text; fall back to naming the type and the
             # source honestly rather than inventing a description.
-            desc = (hit or {}).get("desc") or ""
+            #
+            # WHERE THE MEMBERS OF A norm() COLLISION DISAGREE, NOTHING IS ATTESTED. Members that
+            # agree collapse harmlessly and stay silent -- the same text arriving twice is not an
+            # ambiguity. Members with different desc text are two answers to "what is this
+            # element", and picking one would write it into the corpus as transcribed evidence.
+            # (order 096f6efc33d2; see load_register_index.)
+            descs = sorted({(h.get("desc") or "").strip() for h in hits} - {""})
+            desc = descs[0] if len(descs) == 1 else ""
+            if len(descs) > 1:
+                reg_ambiguous.setdefault(
+                    key, sorted({(h.get("name") or "") for h in hits}))
             if not desc:
                 desc = (f"{etype} from {title}. No transcribed description on file in the "
                         f"Local Register; see the source material for full text.")
@@ -265,6 +292,19 @@ def main():
               "by substring and were SKIPPED rather than attested to a guess:" % len(ambiguous))
         for nm, cands in ambiguous:
             print("      %s -> %s" % (nm, " / ".join(repr(c) for c in cands)))
+        print("", flush=True)
+
+    if reg_ambiguous:
+        # Uncapped, and before the write report for the same reason the section list is: this is
+        # a list somebody reads to go and disambiguate LOCAL_REGISTER.json. Every element named
+        # here was still catalogued -- only its DESCRIPTION was left untranscribed, because two
+        # register rows normalise to one key and say different things.
+        print("  AMBIGUOUS REGISTER DESCRIPTION -- %d element key(s) collide under norm() with "
+              "DIFFERING desc text, so no description was transcribed for them (the entries are "
+              "written; the description falls back to the honest 'none on file' form):"
+              % len(reg_ambiguous))
+        for k, names in sorted(reg_ambiguous.items()):
+            print("      %s -> %s" % (k, " / ".join(repr(x) for x in names)))
         print("", flush=True)
 
     denied = []

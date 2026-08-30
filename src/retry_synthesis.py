@@ -19,9 +19,9 @@ data/SYNTHESIS_RETRY.json, which nothing else touches. Merging happens later, on
 idle, via --merge. That keeps the fix completely off the critical path.
 """
 import argparse
+import datetime
 import json
 import os
-import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -159,9 +159,24 @@ def synthesise(c, rec):
         if got is None:
             continue
 
-        band = (got.get("magnitude") or "").strip()
-        m = re.match(r"^(M(?:10|[0-9]))\b", band)
-        band = m.group(1) if m else "unassayed"
+        # THE ACCEPTANCE GATE IS THE PIPELINE'S, NOT A RESTATEMENT OF IT (order 46e3b6918dce).
+        # This used to re-spell the test as `re.match(r"^(M(?:10|[0-9]))\b", ...)` -- which is
+        # the shape of `PL.ceiling_band`, the DELIBERATELY LAXER clamp-side reader whose own
+        # docstring says "acceptance is strict, clamping is forgiving; the asymmetry is the
+        # point". The rescue path was using the forgiving one on the ACCEPTING side, so
+        # "M7.3", "M4 (planetary)" and "M9 -- universal" were shelved as M7/M4/M9 here while
+        # `phase_synthesis` refused all three as unassayed. The value lands as
+        # `synthesis.provisional_magnitude`, which `ceiling_band` then reads to CLAMP every
+        # entry in that source, so a band the main phase would have refused was setting a whole
+        # shelf's ceiling -- on the ~31 stranded sources this tool exists for, Marvel and DC
+        # among them. And the `method` string below asserts "same invariants as the main
+        # synthesis phase", which made the record itself untrue.
+        #
+        # Third instance of this drift in this one function; the prompt construction and the
+        # transport are the first two, both written up above, and both were closed the same way
+        # -- by taking the code from `pipeline` instead of restating it. `clean_band` strips
+        # whitespace itself, so the pre-strip is gone with the regex.
+        band = PL.clean_band(got.get("magnitude"))
 
         ev = (got.get("evidence") or "").strip()[:600]
         # The pipeline's own invariant: no feat, no band. A retry must not smuggle in a band
@@ -185,6 +200,12 @@ def synthesise(c, rec):
         "method": ("Band-only nomination by local model over the source's own catalogued "
                    "entries; retried after an infrastructure failure, same prompt and same "
                    "invariants as the main synthesis phase."),
+        # SAME SHAPE AS pipeline.py:1157, not merely the same contents (order 46e3b6918dce).
+        # `--merge` folds this dict straight into data/records/, so a missing key here means a
+        # synthesis block shaped unlike every other one in the corpus. Nothing in src/ reads
+        # `assessed_at` today, which is why this was shape drift rather than a live fault --
+        # and why it is one line to stop it being either.
+        "assessed_at": datetime.datetime.now().isoformat(timespec="seconds"),
     }
 
 

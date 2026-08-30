@@ -192,6 +192,23 @@ def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents
     return out, detail
 
 
+def _namecol(rows, i=0):
+    """Width of a name column, taken from the longest name ACTUALLY IN `rows`.
+
+    THE NAMES USED TO BE SLICED. All four report loops printed `{a[:24]:26s} <-> {b[:24]}` or
+    `{a[:26]:28s} -> {b[:26]}`, sitting directly under the sixteen-line argument above that
+    these listings must never be shortened because main() is the ONLY reporting surface this
+    module has. By that same argument the cut half of a source name is not recorded anywhere by
+    anybody either, and a clipped name cannot be pasted into catalog.py, corpus_db.py or the
+    roll -- which is the reader's very next action after reading a DANGLING row. Measured
+    against SWEEP_ROLL.json's 215 sources: 50 names run past 24 characters and 39 past 26.
+    Nothing was AMBIGUOUS today (no two share their first 24), which is what made it cheap to
+    fix now. The rows are already materialised before each loop, so the true width is free.
+    (order 8b08d0ecec8d)
+    """
+    return max((len(r[i]) for r in rows), default=0) + 2
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--age", type=float, default=300.0)
@@ -247,21 +264,42 @@ def main():
         rows = sorted(detail["DANGLING"], key=lambda x: -x[2])
         print(f"  DANGLING (every shared entity gone from the live records -- the thread points "
               f"at nothing) -- all {len(rows):,}, largest first:")
+        wa = _namecol(rows)
         for a, b, n, tot in rows:
-            print(f"     {n:4d}/{tot:<5d} gone     {a[:24]:26s} <-> {b[:24]}")
+            print(f"     {n:4d}/{tot:<5d} gone     {a:{wa}s} <-> {b}")
         print()
     if detail["PARTIALLY-DANGLING"]:
         rows = sorted(detail["PARTIALLY-DANGLING"], key=lambda x: -x[2])
         print(f"  partial weave drift (obligation still real, some shared entities gone) "
               f"-- all {len(rows):,}, most-drifted first:")
+        wa = _namecol(rows)
         for a, b, n, tot in rows:
-            print(f"     {n:4d}/{tot:<5d} drifted  {a[:24]:26s} <-> {b[:24]}")
+            print(f"     {n:4d}/{tot:<5d} drifted  {a:{wa}s} <-> {b}")
         print()
     if detail["RECIPROCAL"]:
         rows = sorted(detail["RECIPROCAL"], key=lambda x: -x[2])
         print(f"  reciprocal bonds (the omniverse joined) -- all {len(rows):,}, strongest first:")
+        wa = _namecol(rows)
         for a, b, n in rows:
-            print(f"     {n:4d} shared  {a[:26]:28s} <-> {b[:26]}")
+            print(f"     {n:4d} shared  {a:{wa}s} <-> {b}")
+    # THE FOURTH LISTING. ASYMMETRIC-LAWFUL was the one remaining class whose per-pair detail
+    # was computed at :188 and then discarded: main() itemised its three siblings and this one
+    # appeared only as a number in the counts block -- verbatim the defect the paragraph above
+    # describes for DANGLING. It matters here in the other direction: the excuse string IS the
+    # evidence for WAIVING a hole (the propagation arithmetic), and a waiver nobody can read is
+    # a waiver nobody can check. Latent today -- every caller passes recorded=None per Hard
+    # Rule 5, so this class is always 0 -- and it goes live the moment the Step 4 entanglement
+    # pass starts producing directed edges. Sorted by name rather than by magnitude because
+    # there is no magnitude on a waiver; alphabetical is at least deterministic. (9ba94e964314)
+    if detail["ASYMMETRIC-LAWFUL"]:
+        rows = sorted(detail["ASYMMETRIC-LAWFUL"], key=lambda x: (x[0], x[1]))
+        print()
+        print(f"  one-way WITH a lawful excuse (waived holes -- the excuse is the evidence, "
+              f"check it) -- all {len(rows):,}:")
+        wa = _namecol(rows)
+        for a, b, excuse in rows:
+            print(f"     {a:{wa}s}  -> {b}")
+            print(f"         {excuse}")
     if detail["ASYMMETRIC-SUSPECT"]:
         rows = sorted(detail["ASYMMETRIC-SUSPECT"], key=lambda x: -x[2])
         print()
@@ -270,8 +308,9 @@ def main():
         # 7bffb5634d7a).
         print(f"  one-way with no excuse (real holes, review these; left records the thread, "
               f"right does not) -- all {len(rows):,}, most shared entities first:")
+        wa = _namecol(rows)
         for a, b, n in rows:
-            print(f"     {n:4d} shared  {a[:26]:28s}  -> {b[:26]}")
+            print(f"     {n:4d} shared  {a:{wa}s}  -> {b}")
 
 
 if __name__ == "__main__":

@@ -77,6 +77,12 @@ def _log(msg):
     than a quiet one, so every failure here is swallowed into the ledger instead.
     """
     try:
+        # AND THE DIRECTORY IS MADE FIRST, the way overnight.log() has always done it. On a tree
+        # where state/ does not exist yet -- a fresh checkout, or a clean that took it -- every
+        # _log call raised, was swallowed into the ledger above, and this watchdog's ONLY voice
+        # went mute with nothing in the log to say so. The auditability of the start budget is
+        # what its own docstring calls the whole difference between a watchdog and a fork bomb.
+        os.makedirs(LOGDIR, exist_ok=True)
         with open(os.path.join(LOGDIR, "autostart.log"), "a", encoding="utf-8") as f:
             f.write("[" + time.strftime("%Y-%m-%d %H:%M:%S") + "] " + msg + chr(10))
     except Exception:
@@ -106,11 +112,57 @@ def _vbs_body():
     )
 
 
+def installed_state():
+    """What is actually in the Startup folder -> 'current' | 'stale' | 'absent' | 'unreadable'.
+
+    EXISTENCE IS NOT INSTALLATION. `--status` used to print "installed" off a bare
+    os.path.exists(VBS), and there are two real states it cannot see. A write interrupted
+    part-way (a kill, a full disk, or this machine's documented Norton interference) leaves a
+    syntactically broken .vbs that Windows fails SILENTLY at every logon -- the exact failure
+    `_vbs_body`'s own docstring is written about: "a launcher that never launches is the worst
+    kind of automation: it looks installed". And PY, HERE and SRC are BAKED IN at install time,
+    so moving the checkout or the interpreter leaves a launcher that exists, parses, runs, and
+    starts nothing. Both read as "installed" to an existence test and neither is.
+    """
+    if not os.path.exists(VBS):
+        return "absent"
+    try:
+        with open(VBS, encoding="utf-8") as f:
+            on_disk = f.read()
+    except Exception:
+        silence.note("autostart.py:vbs-read")
+        return "unreadable"
+    return "current" if on_disk == _vbs_body() else "stale"
+
+
 def install():
+    """Write the Startup launcher, land it atomically, and READ IT BACK. -> (path, verdict).
+
+    This was a plain truncating `open(VBS, "w")` followed by `return VBS, "installed"` with no
+    readback -- on the one file in this module whose whole purpose is to survive a reboot
+    unattended, and which nothing ever exercises until the next logon, when the only symptom of
+    a bad write is that nothing happens. Every other shared-state write in this tree goes
+    through silence.replace_retry for exactly this reason. Landing through a pid-named temp also
+    means an interrupted write leaves the PREVIOUS working launcher in place rather than a
+    half-file. (order e4d9dbe599a2)
+    """
     if not os.path.isdir(STARTUP):
         return None, "no Startup folder on this machine"
-    with open(VBS, "w", encoding="utf-8") as f:
-        f.write(_vbs_body())
+    body = _vbs_body()
+    tmp = "%s.%d.tmp" % (VBS, os.getpid())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(body)
+    except Exception:
+        silence.note("autostart.py:vbs-tmp")
+        return VBS, "WRITE FAILED (could not create the temp file beside it)"
+    if not silence.replace_retry(tmp, VBS):
+        # replace_retry never raises and has already recorded the denial; the previous launcher,
+        # if any, is untouched, which is the right outcome -- a stale launcher beats none.
+        return VBS, "WRITE DENIED (something is holding it open); the previous launcher stands"
+    state = installed_state()
+    if state != "current":
+        return VBS, "WROTE BUT READBACK DIFFERS (%s) -- do NOT trust this launcher" % state
     return VBS, "installed"
 
 
@@ -135,10 +187,18 @@ def supervisor_alive():
 
     An inability to observe is not an observation. `None` says so, and the callers below decline
     to act on it. That refusal is the whole difference between a watchdog and a fork bomb.
+
+    AND THE SENSOR CAN NOW SAY IT TOO (order 1d556b6ef535). This used to be `bool(...)` around
+    `ON.running`, which was itself a two-answer function: a PowerShell/CIM probe that failed
+    came back as `''` and became False here, so the `None` branch below was reachable only
+    through an import error and the "DO NOT ACT ON A BLIND SPOT" path in `watch()` never fired
+    for the failure mode it was written for. `overnight.running()` now answers None for an
+    unreadable process table; it is passed straight through rather than collapsed.
     """
     try:
         import overnight as ON
-        return bool(ON.running("overnight.py"))
+        up = ON.running("overnight.py")
+        return None if up is None else bool(up)
     except Exception:
         silence.note("autostart.py:alive")
         return None
@@ -341,6 +401,12 @@ def main():
     if a.install:
         path, why = install()
         print(f"{why}: {path}" if path else why)
+        # THE VERDICT REACHES THE EXIT CODE. install() can now come back "WRITE DENIED" or
+        # "WROTE BUT READBACK DIFFERS", and a caller that reads rc must not see those as a
+        # clean install -- this is the one file whose failure is invisible until the next
+        # logon. Matches the gated-write pattern grounding.py and allsweep.py already use.
+        if why != "installed":
+            return 1
         # `is False`, not `not`. With a tri-state sensor a bare truth test starts a supervisor on
         # "could not tell" -- and doing that during an install, when a supervisor is very likely
         # already up, is how the second one gets born. Only a definite NO starts anything.
@@ -355,7 +421,15 @@ def main():
         watch(a.read_hours)
         return 0
 
-    print("Startup launcher : " + ("installed" if os.path.exists(VBS) else "NOT installed"))
+    # THE CONTENT, NOT MERELY THE PATH. See installed_state() for the two states an existence
+    # test reports as "installed" while the machine boots to nothing.
+    _vbs_state = installed_state()
+    print("Startup launcher : " + {
+        "current": "installed (current)",
+        "stale": "installed but STALE — the baked-in paths no longer match; rerun --install",
+        "unreadable": "PRESENT BUT UNREADABLE — rerun --install",
+        "absent": "NOT installed",
+    }[_vbs_state])
     _alive = supervisor_alive()
     print("supervisor       : " + ("running" if _alive else
                                    "UNKNOWN (could not read the process table)"

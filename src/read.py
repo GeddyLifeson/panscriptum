@@ -565,8 +565,12 @@ def _local_carded(c, system, prompt, schema):
     # Order 5bf48fa9f70d: a None from any piece used to be swallowed by `(got or {})`, so a
     # total transport failure on every piece came back as {"feats": []} -- ANSWERED, not
     # unanswered, permanently caching an empty result over a passage nobody actually read. The
-    # ordinary chunk path (:521-524 above) treats a None as unanswered and benches the GPU; this
-    # path has to make the same promise, not a weaker one just because it is rarer.
+    # ordinary chunk path -- the `len(prompt) <= CHUNK + 2000` branch at the top of THIS function
+    # (:554-564) -- treats a None as unanswered and benches the GPU; this path has to make the
+    # same promise, not a weaker one just because it is rarer.
+    # (Order ce9735ec93ba: that citation read ":521-524", which is `def _local` and the opening
+    # of its docstring -- a different function, saying nothing about a None or about benching.
+    # The branch is named as well as numbered now, so the proof survives the next line shift.)
     head, _, body = prompt.partition(chr(10) + chr(10))
     merged = {"feats": []}
     for i in range(0, len(body), CHUNK):
@@ -730,9 +734,20 @@ def read_entity(c, host, name, cap_chunks=None):
     # even on the rare call that ends up local.
     size = CLOUD_CHUNK if _CASCADE_OK else CHUNK
     chunks = []
+    # Counted where the chunks are actually made, not reconstructed afterwards from a character
+    # total. Order 7265801f9528: `skipped` used to be
+    # `sum(len(b) for b in text.values()) // size - len(chunks)`, which floor-divides the WHOLE
+    # corpus once while the loop below splits each PAGE separately -- so the true chunk count is
+    # sum(ceil(len(body)/size)) per page and the formula undercounted by one per page whose
+    # length is not an exact multiple of `size` (i.e. essentially every page). Four 500-char
+    # pages, every chunk filtered out, reported 0 skipped instead of 4. The error was always in
+    # the flattering direction, and this is the number an operator reads to judge whether the
+    # _HAS_ACTION / mention filters are too aggressive.
+    generated = 0
     for title, body in text.items():
         own = _norm_q(title).lower() == _norm_q(name).lower()
         for i in range(0, len(body), size):
+            generated += 1
             ch = body[i:i + size]
             if not _HAS_ACTION.search(ch):
                 continue
@@ -768,7 +783,9 @@ def read_entity(c, host, name, cap_chunks=None):
         # `corpus_db.rebuild`'s `evidence_limit`. A caller that still passes one gets the full
         # read and a note, never a silently smaller universe written down as complete.
         silence.note("read.py:cap-chunks-ignored")
-    skipped = sum(len(b) for b in text.values()) // size - len(chunks)
+    # `generated` is the exact number of chunks the loop above cut, so this subtraction is now
+    # the exact number the filters threw away -- it can no longer go negative.
+    skipped = generated - len(chunks)
 
     # ANSWERS ARE CACHED PER CHUNK, NOT PER ENTITY.
     #
@@ -837,6 +854,9 @@ def read_entity(c, host, name, cap_chunks=None):
     out = {"entity": name, "host": host, "pages": sorted(text),
            "chunks_read": len(chunks) - unanswered, "chunks_unanswered": unanswered,
            "chunks_reused": reused,
+           # max(0, ...) is provably unnecessary now that `skipped` counts real chunks rather
+           # than a floor-divided character total; kept as a belt so a future miscount surfaces
+           # as a zero rather than as a nonsensical negative in a persisted record.
            "chunks_skipped": max(0, skipped),
            "feats": kept, "fabricated_dropped": fabricated,
            "generic_dropped": generic,
@@ -1340,7 +1360,13 @@ def main():
         print("%s: %d feats across %s (%d chunks read, %d skipped, %d dropped)"
               % (out["entity"], len(out["feats"]), ",".join(out["axes"]),
                  out["chunks_read"], out["chunks_skipped"], out["fabricated_dropped"]))
-        for f in out["feats"][:12]:
+        # NOT SLICED (order a84c002fb0e3, Hard Rule 0). This used to print `out["feats"][:12]`
+        # with no marker, so Goku's 241 feats came back as twelve rows and nothing on the page
+        # said the other 229 were rows you could have seen. `--one` is the interactive
+        # inspection path -- it exists precisely so a person can look at everything that was
+        # mined for one entity -- and the volume is bounded by the single entity, so there is
+        # nothing here worth capping and nothing to reverse a cap with.
+        for f in out["feats"]:
             print("   %-14s %s" % (f["axis"], f["feat"][:104]))
         return 0
     if a.run:

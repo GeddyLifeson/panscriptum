@@ -376,6 +376,35 @@ def mined_under_superseded_gate(doc, host):
     return any(_SUPERSEDED_GATE_MARK in str(v) for v in refused.values())
 
 
+def mined_without_name_matching(doc, host):
+    """-> was this cached `pages:` record produced before the arm name-matched? (127ec13af78a)
+
+    THE SIBLING `mined_under_superseded_gate` COULD NOT BE EXTENDED TO COVER THIS, and the reason
+    is the whole argument for the `mined_under` stamp. That predicate recognises a damaged record
+    by the WORDING OF A REFUSAL it happens to carry, which works only because the gate it is
+    about leaves one. The two faults this one is about leave no mark at all: a page put through
+    `strip_wikitext` when it should not have been (order abe49b3ba7b3) looks like any other page,
+    and a page attributed to an entity it never mentions (order 127ec13af78a) looks like
+    evidence. `A FIX WHOSE EFFECT IS CACHED AWAY IS NOT IN EFFECT` -- so the question is asked
+    structurally instead: a record mined under the corrected arm SAYS SO, and one that does not
+    say so predates it.
+
+    SCOPED TO `pages:` HOSTS WITH REGISTERED URLS, which is exactly the set both fixes changed
+    (`reads_as_wiki` is False for those and for `doc:`; `doc:` was already name-matched and was
+    already never stripped, so invalidating it would buy nothing). Five sources are in scope
+    today: A Plethora of Paladins, Guildmasters' Guide to Ravnica, KibblesTasty, all Creeper
+    World, the Sex Worker background.
+
+    IT FIRES ONCE PER ENTITY, NOT EVERY PASS. The re-mine writes the stamp, so the same record
+    is not stale again -- which is what the order asked for, because unlike a `doc:` re-mine this
+    one goes over the network. `_source_pages_text` makes that cost one fetch per URL per
+    process rather than one per entity.
+    """
+    if not (host and host.startswith("pages:")) or reads_as_wiki(host):
+        return False
+    return ((doc or {}).get("mined_under") or {}).get("attribution") != "name-match"
+
+
 
 # A regex escape arriving as a literal control character matches nothing and fails SILENTLY.
 # A word-boundary escape written through a shell heredoc has arrived here as a 0x08 backspace
@@ -1298,6 +1327,35 @@ def by_axis(text, page):
 
 # --------------------------------------------------------------------------- per-entity
 
+# ONE FETCH PER REGISTERED URL PER PROCESS, not one per entity. `endpoint.fetch_html` has no
+# cache of its own, and a `pages:` host's corpus is THE SAME handful of URLs for every entity
+# bound to it -- so a cold roll over `pages_KibblesTasty_techno_psionic_line_` alone would ask
+# that one author's site for its seven pages 1,290 times, 9,744 requests across the five `pages:`
+# sources. These are one-author sites on shared hosting, which is the reason `fetch_html` already
+# limits itself to two workers, and this project has been IP-banned once already. The memo is
+# process-local and never persisted: it exists so a run that must re-mine (see
+# `mined_without_name_matching`) costs twelve fetches rather than ten thousand.
+#
+# Per-key locks rather than one global one: two entities of the SAME host should wait for one
+# fetch, two entities of DIFFERENT hosts should not wait for each other.
+_PAGES_TEXT = {}
+_PAGES_TEXT_LOCKS = {}
+_PAGES_TEXT_GUARD = threading.Lock()
+
+
+def _source_pages_text(urls):
+    """{url: text} for a `pages:` source's registered URLs, fetched once per process."""
+    key = tuple(urls)
+    with _PAGES_TEXT_GUARD:
+        lock = _PAGES_TEXT_LOCKS.setdefault(key, threading.Lock())
+    with lock:
+        if key not in _PAGES_TEXT:
+            import endpoint as EP
+            _PAGES_TEXT[key] = EP.fetch_html(urls)
+    # A COPY, so a caller cannot edit the memo out from under the next entity.
+    return dict(_PAGES_TEXT[key])
+
+
 def evidence_for(host, name, cache=True):
     """Everything mined for one entity. Cached on disk: a re-run costs no requests."""
     # M23: the path is built by `cachekey`, and a HIT MUST PROVE IT IS THIS ENTITY'S. The four
@@ -1319,10 +1377,13 @@ def evidence_for(host, name, cache=True):
 
     if cache:
         doc, _fp = cachekey.load(CACHE, host, name, on_corrupt=_corrupt)
-        if doc is not None and mined_under_superseded_gate(doc, host):
-            # Mined by a gate that has since been corrected for this corpus. Returning it would
-            # make the correction invisible -- see `mined_under_superseded_gate`. Fall through
-            # and re-mine; for a `doc:` host that reads the book off disk and costs no request.
+        if doc is not None and (mined_under_superseded_gate(doc, host)
+                                or mined_without_name_matching(doc, host)):
+            # Mined by a gate or an arm that has since been corrected for this corpus. Returning
+            # it would make the correction invisible -- see `mined_under_superseded_gate` and
+            # `mined_without_name_matching`. Fall through and re-mine; for a `doc:` host that
+            # reads the book off disk and costs no request, and for a `pages:` host it costs one
+            # fetch per registered URL per process, not one per entity (`_source_pages_text`).
             with _COUNTS_LOCK:
                 _STALE_GATE[host] = _STALE_GATE.get(host, 0) + 1
             doc = None
@@ -1349,29 +1410,63 @@ def evidence_for(host, name, cache=True):
     # Answered by `reads_as_wiki` rather than recomputed here, so the cache-staleness check above
     # and this mining path can never disagree about what kind of corpus a host is.
     wiki_source = reads_as_wiki(host)
+
+    # THE NAME-MATCH IS HOISTED OUT OF THE `doc:` BRANCH, because BOTH corpora that have no title
+    # lookup depend on it and only one of them was doing it (order 127ec13af78a). It is a pure
+    # function of the entity name and a page's text, so there was never a reason for it to live
+    # inside one arm. `attribution` below records which way this record got its pages.
+    low = (name or "").lower()
+    words = [w for w in re.split(r"[^a-z0-9]+", low) if w]
+
+    def _mentions(t):
+        """Is this page about THIS entity? The whole name, or its first AND last token.
+
+        Deliberately NOT "any token matches": the established form in this file is the whole
+        lowercased name, or first-and-last, and loosening it would re-attribute half the corpus
+        on a shared surname. Deliberately not tightened either -- these pages are prose, and a
+        subclass named in a heading is named in the page.
+        """
+        tl = t.lower()
+        return low in tl or (bool(words) and words[0] in tl and words[-1] in tl)
+
     if plain:
         dp = os.path.join(HERE, "data", "docs", host[4:], "pages.json")
         with open(dp, encoding="utf-8") as f:
             all_pages = json.load(f)
-        low = (name or "").lower()
-        words = [w for w in re.split(r"[^a-z0-9]+", low) if w]
-
-        def _mentions(t):
-            tl = t.lower()
-            return low in tl or (bool(words) and words[0] in tl and words[-1] in tl)
-
         pages = {t: txt for t, txt in all_pages.items() if _mentions(txt)}
         titles = sorted(pages)
+        attribution = "name-match"
     else:
         import endpoint as EP
         urls = EP.source_pages(host[6:]) if host and host.startswith("pages:") else []
         if urls:
             # `wiki_source` is already False here -- `reads_as_wiki` asked this same registry.
-            pages = EP.fetch_html(urls)
+            #
+            # AND THE PAGES ARE NAME-MATCHED, WHICH THIS ARM DID NOT DO AT ALL (order
+            # 127ec13af78a). The comment four paragraphs above makes the same promise for both
+            # non-wiki arms -- "the registered URLs ARE the corpus, and the reader's name-matching
+            # does the attribution" -- and only the `doc:` arm honoured it. Without it a `pages:`
+            # source's ENTIRE corpus was attributed to EVERY ONE of its entities: measured
+            # 2026-08-29 against data/feats, all 1,290 KibblesTasty entities, all 364 Creeper
+            # World entities and all 116 Plethora-of-Paladins entities held a BYTE-IDENTICAL
+            # evidence document, provenance digest included. Nothing downstream re-filters it --
+            # `magnitude.assay_entity` feeds these candidates to the model as this entity's own
+            # evidence, under a no-evidence string that says "this entity's own source pages" --
+            # so one homebrew subclass's feat was offered to 1,289 others as citable evidence
+            # with a digest attesting it. That is `page_looks_real`'s own "verbatim provenance
+            # against the wrong source" with the wrong source being another entity's page, which
+            # no gate in this file can see.
+            #
+            # EXPECT THE TOTALS TO FALL. Most of those entities drop to zero pages and zero
+            # feats, and that is the CORRECT answer: a homebrew subclass named on none of the
+            # registered pages has no evidence. The drop is the defect leaving, not arriving.
+            pages = {t: txt for t, txt in _source_pages_text(urls).items() if _mentions(txt)}
             titles = sorted(pages)
+            attribution = "name-match"
         else:
             titles = discover(host, name)
             pages = fetch(host, titles)
+            attribution = "title-lookup"
     feats, rej, quants, text = [], [], [], {}
     unreal = {}
     for t, wt in pages.items():
@@ -1416,6 +1511,16 @@ def evidence_for(host, name, cache=True):
            # can tell "this entity has no evidence" from "we were served a block page" -- the
            # distinction the whole project keeps losing.
            "pages_refused": unreal,
+           # WHAT THIS RECORD WAS MINED UNDER, so staleness can be asked STRUCTURALLY rather
+           # than inferred from the shape of a refusal string (order fe2db0dc0f44).
+           # `mined_under_superseded_gate` can only recognise a record by the wording of a
+           # refusal it happens to carry, which is why the `strip_wikitext` gating fix
+           # (abe49b3ba7b3) and the `pages:` name-match fix (127ec13af78a) were both invisible
+           # to it: neither leaves a mark on the record it damaged. These two booleans are that
+           # mark. `stripper` says the wikitext stripper ran over this page text;
+           # `attribution` says how the pages were decided to be this entity's -- "name-match"
+           # for the two corpora with no title lookup, "title-lookup" for a wiki.
+           "mined_under": {"stripper": bool(wiki_source), "attribution": attribution},
            # PROVENANCE: a digest of the exact page text these feats were mined from. Lets a
            # later pass ask whether a citation is still PROVEN, or merely was once -- a source
            # page can be edited or deleted after mining, and the evidence file would otherwise

@@ -224,6 +224,35 @@ def _components(srcs, w, threshold):
     return sorted(out, key=lambda c: -len(c))
 
 
+def _load_groundings():
+    """Read data/GROUNDINGS.json and say whether the read SUCCEEDED: (dict, ok).
+
+    THREE STATES, NOT TWO. 'file unreadable' and 'file readable but this source is absent from
+    it' both used to arrive here as an empty/short dict, and the second is an honest finding
+    while the first is a measurement that did not happen. Callers that only compute can treat
+    them alike; callers that PUBLISH must not, because writing 'ungrounded' for all ~209 shelves
+    over a good TIERS.json is a loss of measurement -- the case completeness.land() guards with
+    SHRINK_FLOOR -- and the module's whole opening section is an argument against guessing a tier
+    without saying you guessed.
+
+    WHY THIS FAILS OPEN AND THE WRITER FAILS CLOSED. A missing GROUNDINGS.json is a legitimate
+    BOOTSTRAP state, not only a fault: pipeline.phase_cosmology calls chart() and writes
+    TIERS.json BEFORE it computes and writes GROUNDINGS.json, so on a fresh tree the file
+    genuinely does not exist yet and raising here would wedge phase 5 on the first run. The
+    refusal therefore lives at the publishing sites, which know whether an existing measurement
+    is about to be overwritten.
+    """
+    try:
+        with open(os.path.join(HERE, "data", "GROUNDINGS.json"), encoding="utf-8") as f:
+            return json.load(f), True
+    except Exception:
+        # Tagged by SYMBOL, not by line number: this key was `tiers.py:248`, which is a citation
+        # that rots the moment anything above it moves and then points the next reader
+        # confidently at the wrong handler.
+        silence.note("tiers.py:groundings-read")
+        return {}, False
+
+
 def chart(srcs=None, w=None, shared=None):
     """Assign every source its full tier stack. Returns per-source dicts."""
     if srcs is None:
@@ -241,12 +270,17 @@ def chart(srcs=None, w=None, shared=None):
         tiers[name] = {s: i for i, c in enumerate(comps) for s in c}
         tiers[name + "_groups"] = comps
 
-    try:
-        with open(os.path.join(HERE, "data", "GROUNDINGS.json"), encoding="utf-8") as f:
-            _groundings = json.load(f)
-    except Exception:
-        silence.note("tiers.py:248")
-        _groundings = {}
+    # THE READ VERDICT TRAVELS WITH THE DATA. This used to be an inline bare `except` that
+    # left `_groundings = {}`, which is indistinguishable here from a GROUNDINGS.json that
+    # simply has nothing to say: an empty dict gives every xenoverse zero votes, so
+    # `xenoverse_grounding` returns 'ungrounded' with evidence 0.0 and `hyperverse_of` returns
+    # index 5, for EVERY shelf, and nothing downstream could tell a measurement from a miss.
+    # chart() still proceeds on a failed read -- see _load_groundings for why it must -- but
+    # the WRITERS now ask first (main() below refuses to publish TIERS.json on a bad read).
+    _groundings, _groundings_readable = _load_groundings()
+    # Carried on the `tiers` dict rather than as a fourth return element, because pipeline.py
+    # unpacks chart()'s tuple by position and a widened tuple is a signature break.
+    tiers["groundings_readable"] = _groundings_readable
 
     out = {}
     for s in srcs:
@@ -289,6 +323,19 @@ def deliberate_joins(w, shared):
 
 
 def main():
+    # FAIL CLOSED, AND BEFORE THE EXPENSIVE PART. An unreadable GROUNDINGS.json used to be
+    # absorbed silently and published: every shelf came out `hyperverse: 5`,
+    # `hyperverse_type: 'ungrounded'`, and main() printed "wrote <path>" over the top of a good
+    # TIERS.json. That file is read by address_space AT IMPORT (address_space.py:129 and again
+    # in its main), so the bad write silently re-charts the top of the Ladder of Being. Checked
+    # here rather than after chart() so a bad input costs no graph build.
+    _g, readable = _load_groundings()
+    if not readable:
+        print("REFUSING TO CHART: data/GROUNDINGS.json is absent or will not parse.")
+        print("  The hyperverse comes from grounding.py and from nowhere else, so without it")
+        print("  every shelf would be published as 'ungrounded' -- a guess wearing the shape of")
+        print("  a measurement. Run `python src/grounding.py` (or the pipeline's phase 5) first.")
+        return 2
     srcs, w, shared = _graph()
     charted, tiers, multi = chart(srcs, w, shared)
 
@@ -355,12 +402,24 @@ def main():
     # GATED, like scope.py's build(): write_json returns whether the rename LANDED, and printing
     # an unconditional "wrote" line discarded that verdict -- a denied replace still reported
     # success about a file that, this round, did not change at all.
+    # Re-asked at the write, not just at the top: the graph build above takes minutes, and the
+    # read that actually produced these rows is the one inside chart(). If GROUNDINGS.json went
+    # away in between, every row here is 'ungrounded' and must not be published.
+    if not tiers.get("groundings_readable"):
+        print(f"\nREFUSING TO WRITE {out}: GROUNDINGS.json became unreadable during the chart, "
+              f"so every row above is a guess. Nothing written; rerun.")
+        return 2
     ok = silence.write_json(out, charted, indent=2, ensure_ascii=False)
     if ok:
         print(f"\nwrote {out}")
     else:
         print(f"\nWRITE DENIED: {out} did not land this round; rerun to retry")
-    return 0
+    # THE VERDICT REACHES THE EXIT CODE. `ok` says whether the rename LANDED; the print half of
+    # this gate was fixed and the rc half was not, so a caller reading rc saw a clean run over a
+    # file that did not change. On Windows a denied replace is ordinary here, because
+    # address_space holds TIERS.json open at import. Same treatment completeness.main() applies
+    # to land().
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

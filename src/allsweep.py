@@ -168,7 +168,18 @@ VERIFIERS = [
     Verifier("catalogue backscan", ["audit.py"], RC_FINDINGS),
     # identity.py returns 0 on every path it can reach.
     Verifier("continuity inventory", ["identity.py"], RC_BROKEN),
-    # reference.py: `return 0 if landed else 1` -- again a denied write, not a finding.
+    # reference.py: `return 0 if (landed and calibrated) else 1`. This comment used to read
+    # "again a denied write, not a finding", and it was an accurate description of a hole --
+    # the rc answered only whether REFERENCE_ASSAYS.json got written, so the calibration this
+    # row is here to watch could drift by any margin and still exit 0 (order d049dbbfed6e,
+    # reproduced at delta 5.44). It now carries the calibration too.
+    #
+    # STILL ONE ROW, ON PURPOSE. The two faults it can now report -- WRITE DENIED and
+    # CALIBRATION OUTSIDE -- are both BROKEN-class: a benchmark that no longer reproduces the
+    # charter's published interval is not this tool's documented "I have findings" signal the
+    # way silence.py's and audit.py's rc=1 are, it is the ruler being wrong. They are told apart
+    # by the printed line, which names which reconstruction drifted and by how much; splitting
+    # them into two VERIFIERS entries would run the file twice to learn the same rc.
     Verifier("calibration assays", ["reference.py"], RC_BROKEN),
     # Spearman rank-agreement between each franchise's OWN published scale (bounties, power
     # levels, curse grades...) and our Assay -- the module's stated purpose, and until now it
@@ -325,8 +336,29 @@ def reconcile():
     """
     out = []
 
-    def note(kind, detail, n=None):
-        out.append({"finding": kind, "detail": detail, "count": n})
+    def note(kind, detail, n=None, names=None):
+        # `names` CARRIES THE FULL SET, `detail` is only a head (order d2c3e5542551).
+        # Every list-valued row here used to join `whatever[:6]` into `detail` and store THAT,
+        # so unlike every other capped list in this file the full set existed nowhere -- not on
+        # the console, not in ALLSWEEP.json. Measured when the order was filed: "catalogued
+        # sources with no host" had count=8 and named 7, so one source was named nowhere at all;
+        # the band-ceiling row is the one that would really hurt, since a run with 400
+        # over-banded entries reported six examples and the other 394 were unrecoverable from
+        # the artifact. Compare art['bad'][:25] at the ARTIFACTS tier, which prints "... and N
+        # more" AND genuinely keeps the whole list in the JSON -- that is the shape being
+        # matched. Rows that have no list (a plain fact, or a caught exception) pass names=None.
+        out.append({"finding": kind, "detail": detail, "count": n, "names": names})
+
+    def _head(names, k=6):
+        """A console-length head of `names` that says out loud what it is not showing.
+
+        The cap exists so the RECONCILE table stays one line per finding. It is honest about
+        itself here, and it is not the record: the caller hands the same list to note(names=...)
+        and ALLSWEEP.json keeps every element.
+        """
+        names = list(names)
+        shown = ", ".join(str(x) for x in names[:k])
+        return shown if len(names) <= k else "%s, and %s more" % (shown, format(len(names) - k, ","))
 
     # --- the roll, the records, and the host map should describe the same set of sources ----
     try:
@@ -341,15 +373,16 @@ def reconcile():
 
         orphan_hosts = sorted(set(hosts) - set(recs))
         if orphan_hosts:
-            note("hosts for sources with no catalogue record", ", ".join(orphan_hosts[:6]),
-                 len(orphan_hosts))
+            note("hosts for sources with no catalogue record", _head(orphan_hosts),
+                 len(orphan_hosts), names=orphan_hosts)
         no_host = sorted(s for s in recs if not hosts.get(s))
         if no_host:
-            note("catalogued sources with no host", ", ".join(no_host[:6]), len(no_host))
+            note("catalogued sources with no host", _head(no_host), len(no_host), names=no_host)
         if roll_src:
             missing = sorted(roll_src - set(recs))
             if missing:
-                note("on the roll but never catalogued", ", ".join(missing[:6]), len(missing))
+                note("on the roll but never catalogued", _head(missing), len(missing),
+                     names=missing)
     except Exception as e:
         note("source reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
 
@@ -388,7 +421,7 @@ def reconcile():
                 if d not in live and glob.glob(os.path.join(root, d, "*.json")):
                     stale.append(f"{base}/{d}")
         if stale:
-            note("cache directories no source points to", ", ".join(stale[:6]), len(stale))
+            note("cache directories no source points to", _head(stale), len(stale), names=stale)
     except Exception as e:
         note("cache reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
 
@@ -401,7 +434,11 @@ def reconcile():
             recs = {r["source"]: r for r in WI.load_records()}
             ghosts = [s for s in purged if recs.get(s, {}).get("entries")]
             if ghosts:
-                note("purged sources that still carry entries", ", ".join(ghosts), len(ghosts))
+                # Deliberately NOT run through _head: this row was already uncapped and adding
+                # a head here would be introducing a cap, not removing one. It gains `names`
+                # so consumers get a list rather than having to split the string.
+                note("purged sources that still carry entries", ", ".join(ghosts), len(ghosts),
+                     names=ghosts)
     except Exception as e:
         note("purge reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
 
@@ -447,12 +484,18 @@ def reconcile():
                 b = _band(e.get("magnitude")) if isinstance(e, dict) else None
                 if b is not None and b > ceil:
                     over += 1
-                    if len(examples) < 6:
-                        examples.append(f"{r['source']}:{e.get('name')} "
-                                        f"{e.get('magnitude')}>{order[ceil]}")
+                    # EVERY over-banded entry is collected, not the first six (order
+                    # d2c3e5542551). `if len(examples) < 6` stopped the collection itself, so
+                    # the other entries were not merely absent from the console line -- they
+                    # never existed in the process, and ALLSWEEP.json got the same six. A run
+                    # with 400 of these reported six and the remaining 394 were unrecoverable
+                    # from the artifact, which is the worst of the five sites this order names.
+                    # The console still shows a head; `names` below is the record.
+                    examples.append(f"{r['source']}:{e.get('name')} "
+                                    f"{e.get('magnitude')}>{order[ceil]}")
         if over:
             note("ENTRIES BANDED ABOVE THEIR OWN SOURCE'S CEILING",
-                 ", ".join(examples), over)
+                 _head(examples), over, names=examples)
     except Exception as e:
         note("band reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
 
@@ -581,6 +624,29 @@ def main():
         for ln in (lr.stdout or "").splitlines():
             if "undefined name" in ln or ("local variable" in ln and "referenced before" in ln):
                 lint_bad.append(ln.strip())
+        # AND A PYFLAKES THAT DID NOT RUN IS NOT A CLEAN LINT (order bb03d4d92f4e).
+        # `lr.returncode` was never read, so the BLIND line below was appended ONLY from the
+        # `except` arm -- which covers a timeout or a failure to launch the interpreter, and
+        # NOT the far likelier case of the checker simply being absent from the environment.
+        # Measured: `python -m pyflakes_not_installed src/cachekey.py` returns rc=1 with EMPTY
+        # stdout and the reason on stderr, raising nothing; both comprehension filters then
+        # match nothing, `lint_bad` stays [], the console prints "no undefined names in any
+        # module" and the tier contributes 0 to `bad`. A tier that cannot fail is worth less
+        # than no tier, and this one gates the sweep's exit code.
+        #
+        # NOT a blanket `rc != 0`: pyflakes exits 1 as its ordinary "I found something" signal
+        # (verified here -- rc=0 on a clean file, rc=1 with the findings on stdout). The
+        # predicate is the one overnight.preflight (overnight.py:961) already uses against
+        # health.py's identical `return 1 if n else 0` contract: a code outside {0,1}, or rc=1
+        # with none of the stdout that contract requires, CONTRADICTS the contract, and that
+        # contradiction is the did-not-complete signature. Note this is dormant on this box --
+        # miniconda ships pyflakes -- and live the first time the sweep runs anywhere else.
+        if lr.returncode not in (0, 1) or (lr.returncode == 1 and not (lr.stdout or "").strip()):
+            silence.note("allsweep.py:lint-did-not-complete")
+            lint_bad.append("pyflakes DID NOT COMPLETE (rc=%d, %s) -- the lint tier is BLIND "
+                            "this sweep, not clean"
+                            % (lr.returncode,
+                               ((lr.stderr or "").strip().splitlines() or ["no stderr"])[-1][:150]))
     except Exception:
         silence.note("allsweep.py:lint")
         lint_bad.append("pyflakes did not run -- the lint tier is BLIND this sweep, not clean")
@@ -663,7 +729,11 @@ def main():
     findings = reconcile()
     for f in findings:
         n = f"{f['count']:,}" if isinstance(f["count"], int) else ""
-        print(f"   {f['finding']:<46}{n:>9}  {f['detail'][:70]}")
+        # `detail` is already a self-describing head (reconcile._head appends "and N more"), so
+        # a further silent clip to 70 characters was cutting the disclosure off the end of the
+        # very line that carried it. Print it whole and let the row be ragged; the table's
+        # readability was never worth an undisclosed second truncation of the same string.
+        print(f"   {f['finding']:<46}{n:>9}  {f['detail']}")
 
     # ATOMIC. The audit reads every file in the tree including its own output, so a plain
     # truncate-then-write leaves a zero-byte ALLSWEEP.json on disk for as long as the dump takes
@@ -707,6 +777,10 @@ def main():
     # key at all. Everything that gates on the integrity suite was reading a pass from a tier
     # that was never allowed to fail. That includes the line `lint_bad` appends when pyflakes
     # itself will not run: the tier announces it is BLIND, and being blind scored as clean.
+    # That claim was true only of the EXCEPTION path until order bb03d4d92f4e -- an absent
+    # pyflakes returns normally, so nothing was appended and blind scored as clean after all.
+    # The rc predicate beside the parse loop above closes the other half; both arms now put a
+    # BLIND line into `lint_bad`, which is what makes it count here.
     #
     # RECONCILE DELIBERATELY DOES NOT COUNT, and that is a gap rather than a decision. Its rows
     # are not all faults: `note()` carries no severity, and the same undifferentiated list holds

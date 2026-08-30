@@ -508,23 +508,44 @@ def main():
     a = ap.parse_args()
     r = scan()
     total = sum(len(v) for v in r.values())
+    # THE ITEMISATION IS DERIVED FROM THIS TUPLE, and the summary below is derived from the
+    # same tuple, so a limb added to scan() can no longer be reported as an unexplained gap in
+    # an arithmetic that does not add up. `dead_module` was exactly that (order dded1fc0e664):
+    # the limb landed, `total` counted its ten rows, and neither the print loop nor the summary
+    # named it, so `47 finding(s) — 0 + 0 + 36 + 1 + 0` was the only thing a reader ever saw.
+    KINDS = (("tautology", "CANNOT FAIL — both sides of the comparison are equal", "tautology"),
+             ("phantom", "GUARDS AN UNDEFINED NAME — raises only on the branch "
+                         "nobody takes", "phantom"),
+             ("dead", "NEVER RUNS — no caller anywhere in src/", "dead"),
+             ("dead_class", "NEVER INSTANTIATED — the class name appears nowhere "
+                            "in src/", "dead class"),
+             ("dead_module", "NEVER REACHED — nothing in src/ imports or names this module, so "
+                             "every function in it is kept alive only by its siblings",
+              "dead module"),
+             ("unparsed", "WILL NOT PARSE — excluded from every check above", "unparsed"))
     if not a.quiet:
-        for kind, label in (("tautology", "CANNOT FAIL — both sides of the comparison are equal"),
-                            ("phantom", "GUARDS AN UNDEFINED NAME — raises only on the branch "
-                                        "nobody takes"),
-                            ("dead", "NEVER RUNS — no caller anywhere in src/"),
-                            ("dead_class", "NEVER INSTANTIATED — the class name appears nowhere "
-                                           "in src/"),
-                            ("unparsed", "WILL NOT PARSE — excluded from every check above")):
+        for kind, label, _short in KINDS:
             rows = r[kind]
             print("\n%s  (%d)" % (label, len(rows)))
             print("-" * 78)
             for x in rows:
                 print("   " + x)
-    print("\nliveness: %d finding(s) — %d tautology, %d phantom, %d dead, %d dead class, "
-          "%d unparsed"
-          % (total, len(r["tautology"]), len(r["phantom"]), len(r["dead"]),
-             len(r["dead_class"]), len(r["unparsed"])))
+    print("\nliveness: %d finding(s) — %s"
+          % (total, ", ".join("%d %s" % (len(r[k]), short) for k, _l, short in KINDS)))
+    # THE DECOMPOSITION IS ASSERTED, NOT ASSUMED. A printed bucket rather than a raised
+    # AssertionError: the next limb must be visible to the reader on the day it lands, not on
+    # the day someone runs this under -O or reads the traceback. Anything scan() returns that
+    # KINDS does not name is counted and named here, so it cannot vanish the way dead_module
+    # did.
+    missing = [k for k in r if k not in {kind for kind, _l, _s in KINDS}]
+    if missing:
+        n = sum(len(r[k]) for k in missing)
+        print("liveness: %d further finding(s) in kinds this report does not itemise (%s) — "
+              "add them to KINDS in main()" % (n, ", ".join(sorted(missing))))
+        if not a.quiet:
+            for k in sorted(missing):
+                for x in r[k]:
+                    print("   [%s] %s" % (k, x))
     return 0
 
 

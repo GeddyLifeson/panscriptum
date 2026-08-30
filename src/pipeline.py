@@ -496,6 +496,21 @@ MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected",
                        # and cleanup.py's own two marks must survive the writer that carries them
                        "excluded", "topic_rejected", "thin_description", "description")
 
+# A CLEAR IS AN EDIT TOO, FOR THE TWO FIELDS THAT ENCODE ONE. `write_record`'s fold is
+# PRESENCE-gated (`if fld in se`), so it can SET a field and can never CLEAR one -- and that is
+# the right default, because `_merge_top_keys` rules that a key the caller did not write means
+# unauthored, not deleted. But `phase_entrypass` clears exactly two keys DELIBERATELY: it pops
+# `scale_note_rejected` when the note validates (:1532) and `topic_rejected` when the topic is in
+# TOPICS (:1573), and both pops mean "the earlier rejection no longer stands". Neither could
+# reach the disk copy, so an entry carried a record that its topic was REJECTED sitting beside
+# the corrected topic that supersedes it -- two contradictory claims about one judgment, and the
+# blast radius grows with every reopened batch. So these two travel as COMPANIONS of the field
+# they qualify: when the qualified field is present in the caller's entry and the rejection is
+# not, the rejection is absent ON PURPOSE and goes. Nothing else is cleared by absence.
+# (order 2f248e854b58)
+ENTRY_REJECTION_COMPANIONS = {"scale_note": "scale_note_rejected",
+                              "topic": "topic_rejected"}
+
 
 def write_record_catalogue(path, rec):
     """The CATALOGUE's side of the two-writer contract; write_record below is the pipeline's.
@@ -798,6 +813,12 @@ def write_record(path, rec):
             for fld in MERGED_ENTRY_FIELDS:
                 if fld in se:
                     de[fld] = se[fld]
+            # The two companion clears; see ENTRY_REJECTION_COMPANIONS for why these and only
+            # these. Guarded on the qualified field being present so a caller that never
+            # touched `topic` at all cannot delete a rejection it knows nothing about.
+            for fld, rej in ENTRY_REJECTION_COMPANIONS.items():
+                if fld in se and rej not in se:
+                    de.pop(rej, None)
         # NO DRIFT IS NOT NO CHANGE. Folding onto `disk` keeps every disk-authored top-level key
         # -- a `synthesis`, `purged_roster` or `ceiling_entity` another writer refreshed since
         # this record was loaded -- instead of writing the pipeline's hours-old copy whole.
@@ -1664,6 +1685,16 @@ def update_handoff(st):
         name = PHASES[phase - 1] if 1 <= phase <= len(PHASES) else "?"
         fails = sum(len(v) for v in st.get("failed", {}).values())
 
+        # AND THE SAME ARGUMENT APPLIES TO THE TABLE UNDERNEATH THE LADDER, which is still
+        # hand-written (order 4c4c8c24e34c). Its verify_math row published "237 independent
+        # checks across 17 sections" while the battery had grown to 35 numbered sections and
+        # ~967 `check(` sites -- an understatement of more than half the sections, republished
+        # after every unit into the file the owner reads to judge an unattended run. The counts
+        # are simply GONE rather than re-transcribed: nothing downstream reads them, and a
+        # description that carries no number cannot go stale. Deriving them would mean running
+        # verify_math from here, which is unsafe concurrently with the pipeline (order
+        # c349a51ee2c5). The other transcribed figures in that table were re-checked the same
+        # day and hold: tells 60+31+15+32 = 138, and `custodes.CUSTODES` is ten.
         md = f"""# PANSCRIPTUM — AUTONOMOUS RUN STATUS
 
 *Rewritten automatically by `src/pipeline.py` after every completed unit.*
@@ -1703,7 +1734,7 @@ These run standalone and do not block the sweep.
 
 | module | what it is |
 |---|---|
-| `verify_math.py` | 237 independent checks across 17 sections; recomputes, never re-calls |
+| `verify_math.py` | the battery: independent checks that recompute, never re-call |
 | `derivation.py` | the ledger: every quantity names its parents, or the graph fails |
 | `assay.py` `rigor.py` `custodes.py` | the Assay, commensuration, and the ten-Custos college |
 | `tiers.py` `sevenfold.py` `grounding.py` | the cosmological tiers and the declared 1–7 shelving |
@@ -1902,11 +1933,27 @@ def phase_cosmology(c, st):
         % (cen["exoplanets"], cen["habitable_zone_rocky"], cen["civilizations_extant"]))
     landed.append(land_json(os.path.join(HERE, "data/CENSUS.json"), cen))
 
+    # ABSENT AND CORRUPT ARE DIFFERENT ANSWERS -- the ruling phases 6 and 7 carry (:1948 and
+    # :2054) and phase 5 never got. One `except Exception` made an unparseable WORLDSEEDS.json
+    # read as an empty seed set, and the SHELFMARKS.json write below is UNCONDITIONAL: `{}` went
+    # over a file holding 1,016 world shelfmarks, `land_json` returned True, and `gate_done` saw
+    # all-True and closed phase 5 permanently. Phase 7's `_phase_input` does not catch the
+    # aftermath either, because `{}` PARSES -- so the emptied map shelves the whole library with
+    # `shelfmark: None` and closes phase 7 too. Two phases shut over a file nothing ever read.
+    _ws = os.path.join(HERE, "data/WORLDSEEDS.json")
     try:
-        seeds = json.load(open(os.path.join(HERE, "data/WORLDSEEDS.json"), encoding="utf-8"))
-    except Exception:
-        silence.note("pipeline.py:phase_cosmology-seeds")
+        seeds = json.load(open(_ws, encoding="utf-8"))
+    except FileNotFoundError:
+        # A first run legitimately has no seeds; worldseed.py has not encoded any yet.
+        silence.note("pipeline.py:phase_cosmology-seeds-absent")
         seeds = {}
+    except Exception as e:
+        silence.note("pipeline.py:phase_cosmology-seeds-corrupt")
+        log("phase 5 cosmology: WORLDSEEDS.json EXISTS BUT WILL NOT PARSE (%s) -- refusing to "
+            "re-address the library from an empty seed set (that would read as a mass "
+            "un-addressing). Leaving phase 5 open; the next run retries once it is rewritten."
+            % type(e).__name__)
+        return False
     marks = {}
     for desig in seeds:
         src = desig.split("::")[0]
@@ -1915,7 +1962,29 @@ def phase_cosmology(c, st):
                         "map_seed": AS.map_seed(addr)}
     dupes = len(marks) - len({v["address"] for v in marks.values()})
     log("  addressed %d worlds, %d collision(s)" % (len(marks), dupes))
-    landed.append(land_json(os.path.join(HERE, "data/SHELFMARKS.json"), marks))
+    # AND THE SECOND HALF OF THE SAME GUARD, which the absent path needs too. Zero marks written
+    # over a standing map is not a re-address, it is a deletion wearing the shape of one -- and
+    # nothing downstream can tell the difference, because every shelfmark in SHELVES.json comes
+    # from this file. Same asymmetry `write_record` applies to a cast: a merge never shrinks one.
+    # A SHELFMARKS.json that is present but unreadable counts as something to lose, because
+    # "I don't know what is in it" is exactly the answer Hard Rule -1 says must STOP.
+    _sm = os.path.join(HERE, "data/SHELFMARKS.json")
+    if not marks:
+        try:
+            with open(_sm, encoding="utf-8") as f:
+                standing = len(json.load(f))
+        except FileNotFoundError:
+            standing = 0        # nothing on the shelf yet, so an empty map loses nothing
+        except Exception:
+            standing = None
+        if standing is None or standing > 0:
+            silence.note("pipeline.py:phase_cosmology-would-empty-shelfmarks")
+            log("phase 5 cosmology: 0 worlds addressed, but SHELFMARKS.json already holds %s -- "
+                "refusing to write an empty map over a standing one. Leaving phase 5 open; fix "
+                "the seed set (or say so deliberately) rather than letting this land."
+                % ("an unreadable map" if standing is None else "%d shelfmark(s)" % standing))
+            return False
+    landed.append(land_json(_sm, marks))
 
     ok = gate_done(st, "cosmology", landed)
     st["units_done"] += 1
@@ -2179,11 +2248,26 @@ def phase_write(c, st):
     """
     import manifest_builder as MB
 
+    # ABSENT AND CORRUPT ARE DIFFERENT ANSWERS -- the third phase in this file to need the
+    # ruling and the last to get it (order 3aaeb798551e). One `except Exception` gave a missing
+    # COVERAGE.json and a torn one the identical `rows = []`, and with no rows the `if not ready`
+    # branch below publishes a POSITIVE VERDICT ABOUT THE CORPUS ("nothing is ready, and that is
+    # a correct outcome") and calls `mark_done`, permanently, on the strength of a file it could
+    # not read. Hard Rule -1 names this exact file: "a missing COVERAGE.json ... all refuse."
+    _cov = os.path.join(HERE, "data/COVERAGE.json")
     try:
-        rows = json.load(open(os.path.join(HERE, "data/COVERAGE.json"), encoding="utf-8"))
-    except Exception:
-        silence.note("pipeline.py:phase_write-coverage")
+        rows = json.load(open(_cov, encoding="utf-8"))
+    except FileNotFoundError:
+        # Coverage has genuinely not been computed yet, and refusing to write about unread
+        # sources is then the correct FINISHED answer rather than a failure -- as below.
+        silence.note("pipeline.py:phase_write-coverage-absent")
         rows = []
+    except Exception as e:
+        silence.note("pipeline.py:phase_write-coverage-corrupt")
+        log("phase 8 write: COVERAGE.json EXISTS BUT WILL NOT PARSE (%s) -- refusing to record "
+            "\"nothing is ready\" from a file that was not read. Leaving phase 8 open; the next "
+            "run retries once coverage is rewritten." % type(e).__name__)
+        return False
     ready, thin = [], []
     for r in rows:
         n = max(r.get("entries", 0), 1)

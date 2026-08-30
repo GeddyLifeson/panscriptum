@@ -52,6 +52,7 @@ import ast
 import glob
 import os
 import sys
+import textwrap
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -231,8 +232,25 @@ def main():
         by = {}
         for r in silent:
             by.setdefault(r["file"], []).append(r["line"])
+        # HARD RULE 0, IN THE MODULE THAT IS THIS PROJECT'S STATEMENT OF IT. This printed
+        # `lines[:12]` -- the first twelve line numbers and no more, with no "and N more" and no
+        # flag anywhere on the CLI to see the rest. Measured 2026-08-29: 180 silent handlers, 161
+        # printed, 19 with no identity on the page at all (drill.py showed 12 of 20, mutate.py 12
+        # of 17, sweep_plan.py 12 of 15). The per-file COUNT was honest, so only the identities
+        # vanished -- word for word the reasoning dashboard._watch recorded on 2026-08-24 when it
+        # retired the identical rank-6 cap on the swallowed-failures list.
+        #
+        # WRAPPED, NOT CUT. A wrapped list is readable and a cut one is wrong. Sorted because
+        # `_handlers` walks the AST, which visits nested handlers after their enclosing ones, so
+        # the numbers arrived nearly-but-not-quite in file order and a 20-entry wrapped run of
+        # them is unreadable that way.
+        head = f"   {'':>3}  {'':<24}      "
         for f, lines in sorted(by.items(), key=lambda kv: -len(kv[1])):
-            print(f"   {len(lines):>3}  {f:<24}lines {', '.join(map(str, lines[:12]))}")
+            body = textwrap.wrap(", ".join(str(n) for n in sorted(lines)),
+                                 max(20, 100 - len(head))) or [""]
+            print(f"   {len(lines):>3}  {f:<24}lines {body[0]}")
+            for cont in body[1:]:
+                print(head + cont)
     if a.all:
         for r in rows:
             if not r["silent"]:
@@ -556,8 +574,64 @@ def _ensure_import(src):
             break                      # a later, detached import block: stop here
         last = max(last, end)
     lines = src.splitlines(keepends=True)
+    if last == 0:
+        # NO TOP-LEVEL IMPORT AT ALL, which is the one case that walked straight into the failure
+        # the docstring above says this function exists to avoid: `last` starts at 0 and is only
+        # ever advanced by an Import node, so inserting at 0 puts `import silence` ABOVE the
+        # module docstring, demotes that docstring to a bare string expression and sets
+        # `__doc__` to None -- in a tree where several modules read their own docstring. No file
+        # in src/ triggers it today (every module imports something), which is exactly the
+        # condition several other guards here were in right up until they were not. Anchor after
+        # the docstring instead.
+        body = ast.parse(src).body
+        if (body and isinstance(body[0], ast.Expr)
+                and isinstance(body[0].value, ast.Constant)
+                and isinstance(body[0].value.value, str)):
+            last = getattr(body[0], "end_lineno", body[0].lineno)
     lines.insert(last, "import silence" + chr(10))
     return "".join(lines)
+
+
+def _handler_tags(tree, base):
+    """{id(ExceptHandler): "<base>:<where>"} -- a DESCRIPTIVE tag for every handler in a file.
+
+    `--instrument` used to bake `node.lineno` into the tag it wrote. A line number is a fact
+    about a file that any later edit invalidates silently, so every tag this generator ever
+    wrote rots, and the tree has been repaired one site at a time because of it: dashboard.py's
+    num-parse tag was four lines out, its metrics-badline tag said :336 while sitting at :362,
+    and catalogue_aurora.py's said :74 with the call at :96. Order 4ec15db6540b converted a batch
+    of them BY HAND and left the generator alone, so the next --instrument run reintroduces the
+    whole class over the whole tree at once.
+
+    `where` is the enclosing FunctionDef/ClassDef qualname, which the parse tree already carries
+    and which survives every edit that does not rename the function. A handler at module scope
+    gets `module-level-<n>`, and a scope holding several handlers disambiguates by ordinal.
+    Ordinals are counted over EVERY handler in the file, observed or not, so instrumenting one
+    handler cannot renumber its neighbours on the next pass.
+    """
+    order = []
+
+    def walk(node, scope):
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                walk(child, scope + [child.name])
+                continue
+            if isinstance(child, ast.ExceptHandler):
+                order.append((child, ".".join(scope)))
+            walk(child, scope)
+
+    walk(tree, [])
+    totals = {}
+    for _, qual in order:
+        key = qual or "module-level"
+        totals[key] = totals.get(key, 0) + 1
+    tags, idx = {}, {}
+    for node, qual in order:
+        key = qual or "module-level"
+        idx[key] = idx.get(key, 0) + 1
+        where = key if (qual and totals[key] == 1) else "%s-%d" % (key, idx[key])
+        tags[id(node)] = "%s:%s" % (base, where)
+    return tags
 
 
 def instrument(root=None, dry=False):
@@ -607,19 +681,24 @@ def instrument(root=None, dry=False):
             sites.append(node)
         if not sites:
             continue
+        # A QUALNAME, NOT A LINE NUMBER. See `_handler_tags` for why: the line-number tags this
+        # generator used to write went stale the moment anything above them moved, and the tree
+        # has been repaired one hand-written site at a time ever since.
+        tags = _handler_tags(tree, base)
         sites.sort(key=lambda n: n.body[0].lineno, reverse=True)
         for node in sites:
             first = node.body[0]
             i = first.lineno - 1
             col = first.col_offset
-            call = f'{" " * col}silence.note("{base}:{node.lineno}")\n'
+            tag = tags.get(id(node), "%s:%d" % (base, node.lineno))
+            call = f'{" " * col}silence.note("{tag}")\n'
             if first.lineno == node.lineno:
                 # `except X: pass` -- one-line suite. Split it so the note has somewhere to go.
                 head, _, tail = lines[i].partition(":")
                 indent = len(lines[i]) - len(lines[i].lstrip())
                 body_col = indent + 4
                 lines[i] = (head + ":\n"
-                            + " " * body_col + f'silence.note("{base}:{node.lineno}")\n'
+                            + " " * body_col + f'silence.note("{tag}")\n'
                             + " " * body_col + tail.strip() + "\n")
             else:
                 lines.insert(i, call)

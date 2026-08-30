@@ -107,8 +107,25 @@ def containment_svg(tier, label, children, width=920, height=520):
     """
     bg, fg, accent = PALETTE.get(tier, ("#111", "#eee", "#888"))
     cx, cy = width / 2, height / 2 + 10
-    n = max(1, len(children))
+    n = max(1, len(children))   # LAYOUT DIVISOR ONLY -- see the caption below
     radius = min(width, height) * 0.31
+
+    # THE CAPTION COUNTS THE CHILDREN; `n` STAYS WITH THE GEOMETRY. `max(1, ...)` is right for
+    # the divisor that places the ring and wrong as a count, and it was doing both: a node with
+    # no charted children was captioned "1 child" next to an empty ring. `universe` is exactly
+    # that node on the live tree -- children_of('universe', ...) returns [] -- while
+    # render.view() already reported {'children': 0} correctly. The dict was right and the
+    # picture was wrong, and the picture is the thing a person looks at.
+    #
+    # AND THE SPAN IS READ OUT OF THE IDS RATHER THAN ASSERTED. This clause was the literal
+    # "span 1-7", which nothing on the tree matches: hyperverse, xenoverse and metaverse
+    # children all carry ids 0..6, multiverse [0], universe []. A caption stating a fact about
+    # data it was handed and never looked at is the "check that asserts something it does not
+    # test" shape, one level over into prose. Silent when there are no children, because there
+    # is then no span to report. (order 48c1388144bd)
+    _kids = len(children)
+    _ids = [c["id"] for c in children if isinstance(c.get("id"), int)]
+    _span = f' &#183; span {min(_ids)}&#8211;{max(_ids)}' if _ids else ""
 
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
            f'width="{width}" height="{height}" role="img" '
@@ -119,7 +136,7 @@ def containment_svg(tier, label, children, width=920, height=520):
            f'{html.escape(tier.upper())} &#183; {html.escape(str(label))}</text>',
            f'<text x="{width/2}" y="66" fill="{accent}" font-family="Georgia,serif" '
            f'font-size="12.5" text-anchor="middle">'
-           f'{n} {"child" if n == 1 else "children"} &#183; span 1&#8211;7</text>']
+           f'{_kids} {"child" if _kids == 1 else "children"}{_span}</text>']
 
     # the containing node
     out.append(f'<circle cx="{cx}" cy="{cy}" r="{radius*0.30:.1f}" fill="none" '
@@ -183,7 +200,16 @@ def children_of(tier, coord, tree=None):
         if child_tier not in c:
             continue
         buckets.setdefault(c[child_tier], []).append(name)
-    return [{"id": k, "weight": len(v), "name": (v[0].split("::")[0][:24] if v else "")}
+    # THE WHOLE NAME, NOT THE FIRST 24 CHARACTERS. This carried `[:24]`, which is a cut on a
+    # RETURNED field, not a display: children_of() is the only place the name is read off the
+    # tree, so the rest of it was destroyed before any caller could see it, unmarked. Hard Rule
+    # 0 -- a display cap is reversible because the whole value is still there to widen back to,
+    # and this one was not. Live on the current tree, not hypothetical: 4 of the 22 children
+    # across the five drawn tiers hit it and were cut mid-word ('Arcanum Worlds (Odyssey ',
+    # "DMs Guild: Xanathar's Lo", ...). containment_svg already applies its own separate,
+    # reversible [:26] when it draws the label, which is the right place for a width decision
+    # because the caller who wants the whole name still has it. (order d1a008863b02)
+    return [{"id": k, "weight": len(v), "name": (v[0].split("::")[0] if v else "")}
             for k, v in sorted(buckets.items())]
 
 

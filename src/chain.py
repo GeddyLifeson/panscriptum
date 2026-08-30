@@ -554,19 +554,57 @@ def adjudicate_mutuals(edges, prov):
     # there were none. The dating below has always executed; nothing said so.
     print(f"\nmutual pairs: {len(mutual)} -- dating each side before it reaches the fit")
     out = collections.Counter(edges)
-    split = kept = unprobed = half_dated = 0
+    split = kept = unprobed = half_dated = self_split = 0
+
+    def side_epoch(e):
+        """-> (epoch, its own sentences' disagreement, whether anything probed) for one side.
+
+        EVERY PROVENANCE SENTENCE, NOT THE FIRST (order 0d71cb2b08df). `prov[e].append(src)` runs
+        once per KEPT OUTCOME in `extract` (:492), so `len(prov[e]) == edges[e]` and this side
+        can carry several sentences. Reading only `[0]` meant a side whose first sentence happens
+        not to date itself was recorded as a genuine disagreement even when a later sentence for
+        the very same edge does date it -- an adjudication reached on one sentence of several,
+        which is the same shape one level down from the half-evidence fault order 679368768c02
+        closed in the branch below. The docstring's "each mutual pair's two sentences" was only
+        ever true of an edge with exactly one recorded win.
+
+        A side whose OWN sentences date to different epochs is not resolved by list order: that
+        disagreement is itself a finding, so it is returned and the caller leaves the pair whole.
+        UNPROBED stays as it was -- a side counts as unprobed only if EVERY one of its sentences
+        failed to probe, because one sentence that answered means the run learned something.
+        """
+        eps, probed = [], False
+        for row in (prov.get(e) or [{}]):
+            try:
+                ep = ID.epoch_of((row or {}).get("sentence", ""), strict=True)
+            except ID.ProbeUnavailable:
+                continue
+            probed = True
+            if ep:
+                eps.append(ep)
+        uniq = sorted(set(eps))
+        return (uniq[0] if uniq else ""), (uniq if len(uniq) > 1 else []), probed
+
     for (w, loser) in mutual:
-        sa = (prov.get((w, loser)) or [{}])[0].get("sentence", "")
-        sb = (prov.get((loser, w)) or [{}])[0].get("sentence", "")
-        try:
-            ea, eb = ID.epoch_of(sa, strict=True), ID.epoch_of(sb, strict=True)
-        except ID.ProbeUnavailable:
+        ea, conf_a, probed_a = side_epoch((w, loser))
+        eb, conf_b, probed_b = side_epoch((loser, w))
+        if not (probed_a and probed_b):
             # UNPROBED IS NOT UNDATED. The pair is left standing either way, but it must not be
             # counted as a genuine disagreement: nothing asked, so nothing was found out.
             unprobed += 1
             silence.note("chain.py:epoch-unprobed")
             print(f"   NOT ADJUDICATED: {w} vs {loser} -- the epoch probe did not run, so this "
                   f"pair is left standing UNJUDGED rather than recorded as a disagreement")
+            continue
+        if conf_a or conf_b:
+            # A SIDE THAT DISAGREES WITH ITSELF. Two recorded wins on one edge dating to
+            # different epochs is a real finding about the record, not a list to take the head
+            # of. Re-keying the side onto either epoch would pick one by array order and bury
+            # the other, so the pair is left whole and the epochs are named.
+            self_split += 1
+            print(f"   left standing: {w} vs {loser} -- one side's own sentences date to "
+                  f"different epochs ({' / '.join(conf_a or conf_b)}), which is a finding about "
+                  f"the record rather than a chronology to split on")
             continue
         if ea and eb and ea != eb:
             # BOTH SIDES DATED, AND DATED DIFFERENTLY. The condition was a bare `ea != eb`, which
@@ -602,6 +640,8 @@ def adjudicate_mutuals(edges, prov):
             print(f"   left standing: {w} vs {loser} -- {why}")
     print(f"   {split} split by epoch, {kept} recorded as genuine disagreement"
           + (f", {half_dated} left whole -- only one side dated" if half_dated else "")
+          + (f", {self_split} left whole -- a side's own sentences date differently"
+             if self_split else "")
           + (f", {unprobed} NOT ADJUDICATED -- the probe did not run" if unprobed else ""))
     return out
 
@@ -661,7 +701,10 @@ def main():
         # The honest outcome on raw data, and on a corpus of unconnected fictions the usual one.
         # The edge list is still the finding, so it is written either way.
         print()
-        print("NO STRENGTHS RETURNED -- " + (res.get("refusal") or "")[:240])
+        # The refusal is the fit's whole explanation of why it returned nothing, and it was
+        # printed cut to 240 characters with no marker -- a truncation of the one sentence a
+        # reader is here for. Printed whole. (order 01df9304f918)
+        print("NO STRENGTHS RETURNED -- " + (res.get("refusal") or ""))
         print()
         print("Re-run with --prior 0.5 for regularised strengths. They exist for every entrant,")
         print("but order ACROSS components by the prior's assumption rather than by evidence.")
@@ -670,9 +713,19 @@ def main():
         return 0
     order = sorted(zip(res["names"], res["strengths"], strict=True), key=lambda kv: -kv[1])
     big = max(comps, key=len) if comps else set()
-    print("\nstrongest inside the largest component:")
-    for n, s in [x for x in order if x[0] in big][:14]:
-        print(f"   {s:.5f}  {n[:50]}")
+    # LABELLED, LIKE THE OTHER PREVIEW THIRTY LINES UP (order 01df9304f918). This printed
+    # "strongest inside the largest component:" over fourteen rows with no total and no word
+    # that it was a preview, which reads as the complete ranking of the component -- the exact
+    # fault the unmatched list above was corrected for, in the same function. It IS a genuine
+    # preview: `write_result` persists `names` and `strengths` whole, so the fix is to say so.
+    # The `n[:50]` cut went with it: node names carry ID.node's continuity and epoch suffixes
+    # and are therefore longer than bare names, so fifty characters was cutting the part that
+    # distinguishes two entrants with the same name.
+    inside = [x for x in order if x[0] in big]
+    print(f"\nstrongest inside the largest component: {len(inside):,} entrant(s). "
+          f"Strongest 14 (all of them are in {os.path.basename(OUT)}):")
+    for n, s in inside[:14]:
+        print(f"   {s:.5f}  {n}")
 
     write_result(edges, res, unmatched)
     print(f"\n-> {OUT}")

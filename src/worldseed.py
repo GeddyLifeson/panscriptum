@@ -164,7 +164,30 @@ def to_options(designation, name, description, band="unassayed", register="class
 
     # A world whose ceiling sits high on the Ladder is not a quiet one. Band drives how contested
     # it is -- more states, more borders, more war -- which is the map reading of a magnitude.
-    tier = 0 if band in ("unassayed", None) else max(0, int(re.sub(r"\D", "", band) or 0))
+    # PARSE THE BAND'S HEAD, NOT ITS DIGITS (order d2be0d5e0cc9). This read
+    # `int(re.sub(r"\D", "", band) or 0)`, which strips every non-digit and CONCATENATES what is
+    # left -- correct only for a bare `M<int>`. The charter's own published Assay notation is
+    # decimal (Part Three, "A M3.52 +/- 0.12"), and CLAUDE.md Hard Rule 3 says band-only is a
+    # deliberate INTERIM until that pass runs. Under the old expression 'M3.52' became tier 352
+    # and 'A M3.52 +/- 0.12' became tier 352012; since `states = min(40, 6 + tier*3 + ...)`,
+    # neither raised and neither looked wrong -- the world simply came out maximally contested,
+    # taking cultures and religions with it, and every consumer of `states` (burgs, navtree,
+    # profile, render, sevenfold) inherited it. Latent today: all 12,435 catalogued Places carry
+    # 'unassayed', 'M3', 'M2' or 'M1'. The first real Assay pass is what makes it live.
+    #
+    # Clamped to the charter's declared M0-M10 scale, and a value outside it is RECORDED rather
+    # than clamped in silence: out of range means the caller handed this something it does not
+    # understand, and that is a finding, not a rounding.
+    tier = 0
+    if band not in ("unassayed", None):
+        m = re.search(r"M\s*(\d+)", str(band))
+        if not m:
+            silence.note("worldseed.py:band-unparsed")
+        elif int(m.group(1)) > 10:
+            silence.note("worldseed.py:band-out-of-range")
+            tier = 10
+        else:
+            tier = int(m.group(1))
     states = min(40, 6 + tier * 3 + (4 if f["condition"] == "wartorn" else 0))
     if f["condition"] == "ruined":
         states = max(2, states // 3)          # ruin means fewer standing polities, not none

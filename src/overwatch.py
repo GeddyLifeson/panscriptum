@@ -244,14 +244,24 @@ def save(d):
               "are not persisted.", file=sys.stderr)
         return False
     try:
-        os.makedirs(os.path.dirname(LEDGER), exist_ok=True)
         d = _reconcile_with_disk(d)
-        tmp = LEDGER + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(d, f, indent=1, sort_keys=True)
-        # replace_retry, not a bare os.replace: the dashboard and the standards board both read
-        # this file on their own clocks, and on Windows a rename is DENIED while a reader holds
-        # the target -- which here would throw away the whole round's findings.
+        # THE TEMP NAME CARRIES PID AND THREAD. This was a hand-rolled `tmp = LEDGER + ".tmp"`,
+        # a SHARED scratch name in the one module whose own docstring above says two processes
+        # hold this ledger routinely: both writers opened `data/OVERWATCH.json.tmp`, the second
+        # truncated the first mid-dump, and whichever renamed second could land a half-written
+        # ledger over the target -- an unparseable OVERWATCH.json, which is exactly the m28 loss
+        # `load()` was rewritten for. `_merge_ledgers` and `_reconcile_with_disk` protect the
+        # CONTENT of the ledger; nothing protected the scratch file. `silence.write_json` puts
+        # pid AND thread in the temp name, writes UTF-8 explicitly, discards the temp on a
+        # denied replace, and returns the same `replace_retry` verdict this function already
+        # gates on -- so the contract below is unchanged. `write_report` twelve lines down was
+        # already doing it by hand ('%s.%d.tmp' % (REPORT, os.getpid())); this is the same fix
+        # through the helper `binding_health._land` and `runguard._land_claim` were moved onto.
+        #
+        # replace_retry (inside write_json), not a bare os.replace: the dashboard and the
+        # standards board both read this file on their own clocks, and on Windows a rename is
+        # DENIED while a reader holds the target -- which here would throw away the whole
+        # round's findings.
         #
         # GATED: the comment above names the cost and the code then dropped the verdict that
         # reports it. `round_once` saves after EVERY module precisely so a restart cannot lose
@@ -259,7 +269,7 @@ def save(d):
         # identical to a successful one, and the round went on printing its per-module lines.
         # Worse, `_SNAPSHOT["digest"]` was then re-stamped from the UNCHANGED file, so this
         # process's staleness guard agreed with disk and the loss left no trace anywhere.
-        if not silence.replace_retry(tmp, LEDGER):
+        if not silence.write_json(LEDGER, d, indent=1, sort_keys=True):
             print("overwatch: ledger write DENIED (a reader is holding %s open) -- this round's "
                   "findings did NOT land and will be re-derived next round."
                   % os.path.basename(LEDGER), file=sys.stderr)
@@ -696,7 +706,10 @@ def write_report(led, struct):
                      + ("" if not corrupt else "  — " + "; ".join(corrupt)))
     for r in (struct.get("reconcile") or []):
         n = r.get("count")
-        lines.append(f"- {r['finding']}: **{n if n is not None else ''}** {r['detail'][:80]}")
+        # WHOLE DETAIL. WATCH.md is a file, not a console: markdown wraps for free and there is
+        # no column to fit, so the [:80] here was cutting the only sentence that says what the
+        # reconciliation actually disagreed about. Same ruling as the uncapped lists below.
+        lines.append(f"- {r['finding']}: **{n if n is not None else ''}** {r['detail']}")
     lines += ["", "## What the model found in the code", ""]
     if not open_f:
         lines.append("Nothing open. Every finding so far has been fixed or was retired when the "
@@ -717,9 +730,20 @@ def write_report(led, struct):
         for f in sorted(open_f, key=lambda x: (-(x.get("severity") == "high"),
                                                -x.get("first_seen", 0))):
             sev = (f.get("severity") or "medium").upper()
+            # AND THE TEXT OF EACH FINDING WHOLE, not just the list of them. The order above
+            # removed the [:40] on the LIST and left two cuts one level down: `actual[:180]` and
+            # `claim[:160]`, neither marking that anything had been cut. Measured against the
+            # live ledger on 2026-08-29: of 435 findings recorded, 71 carry an `actual` longer
+            # than 180 characters (longest 966) and 27 a `claim` longer than 160 -- so about one
+            # finding in six reached the reader with its second half missing, and the missing
+            # half is the part saying what the code does INSTEAD, which is the whole content of
+            # a defect-of-fact finding. WATCH.md is a file, not a console, so the house
+            # exemption for console renderers (ingest_doc.py:348) does not reach it.
+            # NOT to be confused with `_fingerprint`'s actual[:80], which is a dedupe KEY --
+            # changing that would re-key every finding in the ledger. (order 80519f08d9ac)
             lines.append(f"- **{f['module']}.py** `{f.get('symbol','')}` — [{sev}] "
-                         f"{f.get('actual','')[:180]}")
-            lines.append(f"  - says: {f.get('claim','')[:160]}")
+                         f"{f.get('actual','')}")
+            lines.append(f"  - says: {f.get('claim','')}")
     lines += ["", "---", "",
               "Written by `src/overwatch.py`. Structure is checked every round; the model reads "
               "modules that changed first, then whichever has gone longest unread. A finding "
@@ -908,7 +932,12 @@ def main():
         led = load()
         for f in sorted((f for f in led["findings"].values() if f.get("state") == "open"),
                         key=lambda x: x["module"]):
-            print(f"  {f['module']}.py  {f.get('symbol','')}\n     {f.get('actual','')[:150]}")
+            # A CONSOLE renderer, so the cut stays (house exemption, ingest_doc.py:348) -- but
+            # it now SAYS it cut, so a reader knows to open WATCH.md, which prints the whole
+            # text. An unmarked cut is the part that misleads, not the cut itself.
+            _act = f.get("actual", "")
+            _act = _act if len(_act) <= 150 else _act[:150] + "... (whole text in WATCH.md)"
+            print(f"  {f['module']}.py  {f.get('symbol','')}\n     {_act}")
         return 0
 
     import codewatch

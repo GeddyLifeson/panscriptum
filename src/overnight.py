@@ -102,11 +102,37 @@ _PROCS_LOCK = None
 
 
 def _proc_lines(ttl=3.0):
-    """One process enumeration, shared. A PowerShell/WMI spawn costs hundreds of ms, and
-    `standards.check()` was calling running() twice per log file -- ~146 spawns per check, on
-    a check the dashboard polls every five seconds and the publisher runs every ten minutes
-    (found by the 2026-08-23 optimization sweep). Within the TTL every caller reads the same
-    listing; the table cannot meaningfully change faster than that."""
+    """One process enumeration, shared. -> the listing, or None meaning COULD NOT READ IT.
+
+    A PowerShell/WMI spawn costs hundreds of ms, and `standards.check()` was calling running()
+    twice per log file -- ~146 spawns per check, on a check the dashboard polls every five
+    seconds and the publisher runs every ten minutes (found by the 2026-08-23 optimization
+    sweep). Within the TTL every caller reads the same listing; the table cannot meaningfully
+    change faster than that.
+
+    THREE ANSWERS, NOT TWO (order 1d556b6ef535). This returned a STRING, so "I could not read
+    the process table" arrived at `running()` as `''` and came out the far end as "nothing is
+    running" -- a fact, acted on by every spawn site in this file. Two ways in, and neither
+    left a mark: the spawn raised and the except only called `silence.note`, leaving
+    `_PROCS['out']` at its previous value (`''` on the first call); or the spawn SUCCEEDED with
+    empty stdout and a nonzero returncode, which was never read at all because
+    `subprocess.run(...).stdout` was taken directly. The supervisor's ONE OF EACH invariant
+    rests entirely on this sensor, so a blind reading starts dashboard, publish, foreman,
+    overwatch, pipeline, roll, read and prose as DUPLICATES -- verbatim the incident this
+    module's docstring opens with -- and the keeper re-asserts the whole standing set every
+    300s on the same blind reading. It also defeated the deliberate tri-state given to
+    `autostart.supervisor_alive()`, which was `bool()` wrapped around a sensor with no way to
+    say "I don't know".
+
+    AN EMPTY LISTING IS ALSO UNKNOWN, not "no python is running". The filter is python.exe /
+    pythonw.exe and the CALLER IS ONE OF THOSE, so a probe that worked cannot come back with
+    zero rows; empty stdout means the enumeration did not happen. The nonzero-rc case is
+    checked for the same reason.
+
+    An unknown is NOT cached: `_PROCS['out']` keeps the last good listing and `_PROCS['at']`
+    is left un-stamped, so the very next caller retries the spawn rather than inheriting the
+    blindness for a TTL.
+    """
     global _PROCS_LOCK
     if _PROCS_LOCK is None:
         import threading
@@ -115,16 +141,39 @@ def _proc_lines(ttl=3.0):
         now = time.time()
         if now - _PROCS["at"] > ttl:
             try:
-                _PROCS["out"] = subprocess.run(
+                r = subprocess.run(
                     ["powershell", "-NoProfile", "-Command",
                      "Get-CimInstance Win32_Process -Filter \"Name='python.exe' or "
                      "Name='pythonw.exe'\" | "
                      "ForEach-Object { $_.ProcessId.ToString() + '|' + $_.CommandLine }"],
-                    capture_output=True, text=True, timeout=60, creationflags=_NO_WIN).stdout
-                _PROCS["at"] = now
+                    capture_output=True, text=True, timeout=60, creationflags=_NO_WIN)
             except Exception:
                 silence.note("overnight.py:proc-lines")
+                return None
+            if r.returncode != 0 or not (r.stdout or "").strip():
+                silence.note("overnight.py:proc-lines-blind")
+                return None
+            _PROCS["out"] = r.stdout
+            _PROCS["at"] = now
         return _PROCS["out"]
+
+
+_BLIND_WINDOW_SECONDS = 3600      # matches autostart.START_WINDOW_SECONDS, same purpose
+_BLIND_SAID = {}
+
+
+def _blind(where, message):
+    """Say "the process table could not be read" at most once an hour per site. -> None.
+
+    The keeper asks every 300s and the cycle asks at every stage, so an instrument that is
+    broken for an evening would otherwise write the same line into overnight.log a hundred
+    times and bury the night. `autostart.watch()` throttles its identical concession the same
+    way and for the same reason; the window constant is copied from it rather than invented.
+    """
+    now = time.time()
+    if now - _BLIND_SAID.get(where, 0.0) >= _BLIND_WINDOW_SECONDS:
+        _BLIND_SAID[where] = now
+        log(message)
 
 
 def running(fragment, include_self=False):
@@ -159,8 +208,17 @@ def running(fragment, include_self=False):
     comment was written to refuse.
 
     Additive keyword with the old behaviour as the default, so no existing caller changes.
+
+    RETURNS None WHEN THE PROBE COULD NOT SEE (order 1d556b6ef535). `_proc_lines()` can now say
+    "I could not read the process table", and that is not the same claim as "nobody is running
+    this". None is falsy, so the read-only callers that only ever ask `if running(x)` (foreman's
+    four repair gates, standards' roster) behave exactly as they did -- they were already
+    getting False from a blind probe. The SPAWN sites in this file are the ones that must not,
+    and each of them tests `is None` explicitly rather than leaning on truthiness.
     """
     out = _proc_lines()
+    if out is None:
+        return None
     if not out:
         return False
     mine = os.getpid()
@@ -319,7 +377,16 @@ def _guarded_popen(name, args, fh, banner=None):
     Suppressed like the writes it replaces: an unwritable log must not stop a job starting.
     """
     with _spawn_lock():
-        if running(os.path.basename(args[0])):
+        # FAIL CLOSED ON A BLIND PROBE (order 1d556b6ef535). The lock serialises the DECISION,
+        # never the BLINDNESS: two threads reading None would both have been told "not running"
+        # and both spawned. `is None` before truthiness, because None is falsy and the old test
+        # could not tell the two apart.
+        _up = running(os.path.basename(args[0]))
+        if _up is None:
+            _blind("guarded-popen", f"  {name}: cannot read the process table, so NOT starting "
+                                    f"it -- a blind spot is not an absence")
+            return None
+        if _up:
             log(f"  {name}: already running, left alone (found on the second check)")
             return None
         if banner is not None:
@@ -439,7 +506,16 @@ def run(name, args, logfile, timeout_h=6):
     # copy may have been started with a relative one, so a substring test on the full path never
     # matches and the guard passes when it should not. That is how a second roll got launched
     # against a live one, which is precisely the failure this supervisor exists to prevent.
-    if running(os.path.basename(args[0])):
+    #
+    # AND A BLIND PROBE IS NOT AN ABSENCE (order 1d556b6ef535). `running()` answers None when it
+    # could not read the process table; starting on that is how one unreadable table turns the
+    # whole standing set into duplicates. Distinct status so the cycle's summary line does not
+    # claim the stage was found already up.
+    _up = running(os.path.basename(args[0]))
+    if _up is None:
+        _blind("run:" + name, f"  {name}: cannot read the process table, so NOT starting it")
+        return "probe-blind"
+    if _up:
         log(f"  {name}: already running, left alone")
         return "already-running"
     lf = os.path.join(STATE, logfile)
@@ -497,7 +573,13 @@ def start(name, args, logfile):
     if held:
         log(f"  {name}: STOPPED at MANAGER rung — not started ({why})")
         return None
-    if running(os.path.basename(args[0])):
+    # A BLIND PROBE IS NOT AN ABSENCE (order 1d556b6ef535). Returns None, which every caller
+    # already treats as "did not start" -- the same shape the manager-rung gate above uses.
+    _up = running(os.path.basename(args[0]))
+    if _up is None:
+        _blind("start:" + name, f"  {name}: cannot read the process table, so NOT starting it")
+        return None
+    if _up:
         log(f"  {name}: already running, left alone")
         return None
     lf = os.path.join(STATE, logfile)
@@ -647,12 +729,23 @@ def watch_report():
         log(f"    {f.get('module','?')}.py {f.get('symbol','')}: {f.get('actual','')[:96]}")
 
 
-def ledger_report(top=8):
+def ledger_report():
     """What the swallowed failures were this cycle.
 
     Every `except` in src/ now records its class before continuing (see silence.py). This is
     where that pays: 5,590 identical HTTPErrors show up as one loud line instead of as 5,590
     entities that look like they honestly have no page.
+
+    ALL OF THE CLASSES, RANKED -- the `[:top]` slice and the `top=8` parameter that fed it are
+    gone (order 16bba34c2e68). This is the THIRD instance of the same cut removed from this one
+    file, after `did[:5]` in foreman_report and `[:top]` in watch_report, and it sat in the
+    function whose entire product IS the ranked list: 47 distinct classes and 2,197 occurrences
+    on the night it was measured, of which 39 classes were named nowhere. Nothing in the old
+    header said so, because the two numbers it printed were the OCCURRENCE total and
+    `len(rows)` -- neither of them the class count. Both quantities are now named. No caller
+    ever passed `top` (main() calls this bare), and the list is bounded by the number of
+    distinct `silence.note` tags in src/, on a per-cycle report, so there is no volume argument
+    for a cut.
     """
     path = os.path.join(HERE, "state", "failures.json")
     try:
@@ -663,8 +756,9 @@ def ledger_report(top=8):
         return
     if not d:
         return
-    rows = sorted(d.items(), key=lambda kv: -kv[1])[:top]
-    log(f"  swallowed failures: {sum(d.values()):,} recorded, top {len(rows)}:")
+    rows = sorted(d.items(), key=lambda kv: -kv[1])
+    log(f"  swallowed failures: {len(rows):,} class(es), "
+        f"{sum(d.values()):,} occurrence(s), ranked:")
     for k, v in rows:
         log(f"    {v:>8,}  {k}")
 
@@ -829,7 +923,7 @@ def coverage_snapshot():
 
 
 def preflight():
-    """Returns (n_problems, blocking). Only corrupted source blocks."""
+    """Returns (n_failing_checks, blocking). Only corrupted source blocks."""
     try:
         r = subprocess.run([PY, os.path.join(SRC, "health.py"), "--preflight"], cwd=HERE,
                            capture_output=True, text=True, timeout=1800,
@@ -850,8 +944,46 @@ def preflight():
     fails = [ln.strip() for ln in out.splitlines() if ln.strip().startswith("FAIL")]
     for ln in fails:
         log(f"    preflight {ln}")
-    blocking = "control characters in source" in out and "FAIL  control" in out
-    n = out.count("FAIL")
+    # THE BLOCKING CONDITION WAS TWO HAND-TYPED SUBSTRINGS OF ANOTHER MODULE'S CONSOLE OUTPUT
+    # (order 001c0be3e3ad). It read
+    #     blocking = "control characters in source" in out and "FAIL  control" in out
+    # -- the label is `health.CHECKS[0][0]` and the two-space "  FAIL  {label}" is health.py's
+    # print format (health.py:840), and NOTHING pinned either. Reword the check and `blocking`
+    # becomes False for ever, silently, while the supervisor spends the night doing exactly
+    # what the branch's own log line says it exists to prevent: "producing confident
+    # emptiness". `allsweep.py` carries the structurally identical cross-module string in
+    # `_HALT_REFUSAL` and it IS pinned by verify_math, "so the two cannot drift into
+    # disagreement silently"; the same discipline was absent here, on the harder-to-notice of
+    # the two. Taking the label FROM health deletes the copy rather than pinning it.
+    #
+    # The first conjunct was also dead weight: health prints the label on the PASS line too
+    # ("  ok    control characters in source"), so it was true on every clean preflight and the
+    # whole gate rested on the second term. A reader saw a two-condition guard and there was
+    # one. There is one now, and it is the real one.
+    try:
+        import health as _health
+        _control_label = _health.CHECKS[0][0]
+    except Exception:
+        # A health.py that cannot even be imported is a bigger problem than this gate, and the
+        # subprocess above would already have failed -- but the gate must not evaporate on the
+        # way. Fall back to the literal and record that the pin did not hold.
+        silence.note("overnight.py:preflight-label")
+        _control_label = "control characters in source"
+    blocking = ("FAIL  " + _control_label) in out
+    if _control_label not in out:
+        # Neither the ok line nor the FAIL line for the one blocking check: health did not get
+        # that far, or the label moved under us. Either way `blocking` is not an answer, and
+        # saying so out loud is the entire point of pinning it.
+        log(f"  preflight: the blocking check '{_control_label}' did not report at all "
+            f"-- the halt gate had nothing to read this cycle")
+    # `n` COUNTS FAILING CHECKS, NOT THE SUBSTRING (same order). `out.count("FAIL")` counted
+    # the word anywhere in stdout, including inside the indented "{what}: {detail}" lines a
+    # check emits, so a finding whose own text contained the word inflated the total. It was
+    # also a THIRD quantity for the same thing: `health.preflight` counts one per FINDING
+    # (problems += len(found)) and returns that, this counts one per failing CHECK. `len(fails)`
+    # is the honest name for what is visible from here, and main()'s log line now says which
+    # quantity it is printing.
+    n = len(fails)
     # AND A PREFLIGHT THAT DIED MID-RUN IS NOT A PREFLIGHT THAT PASSED (order 6761a8e56280).
     # The except arm above -- run #19's "it no longer passes for a pass" -- only covers a
     # health.py that could not be LAUNCHED or that timed out. One that STARTS and then dies
@@ -1031,7 +1163,18 @@ def main():
     # ONE SUPERVISOR. Two watchdogs once launched two of these twenty seconds apart; both ran
     # full cycles, their foremen shot each other's children, and the pair respawned every three
     # minutes. running() excludes this process's own pid, so a survivor here means a TWIN.
-    if running("overnight.py"):
+    # AND AN UNREADABLE PROCESS TABLE MUST NOT AUTHORISE A SECOND ONE EITHER (order
+    # 1d556b6ef535). This guard is the only thing standing between the machine and the twin
+    # incident above, and it used to be satisfied by a probe that had merely gone blind. If we
+    # cannot see whether a supervisor is up, the safe answer is to not become the second one:
+    # the watchdog will try again, and a missing supervisor for one window is recoverable
+    # where two duelling ones are not.
+    _twin = running("overnight.py")
+    if _twin is None:
+        log("cannot read the process table, so cannot tell whether a supervisor is already "
+            "running -- exiting rather than risking a twin")
+        return 0
+    if _twin:
         log("another supervisor is already running -- exiting rather than duelling it")
         return 0
 
@@ -1060,7 +1203,18 @@ def main():
                 try:
                     # Checked silently first: start() logs "left alone" for a healthy job,
                     # and five of those every five minutes is log spam wearing a uniform.
-                    if not running(os.path.basename(args[0])):
+                    #
+                    # `is None` FIRST, because None is falsy and `not running(...)` read a
+                    # blind probe as "down" (order 1d556b6ef535). This thread re-asserts the
+                    # ENTIRE standing set every 300s, so one unreadable process table here
+                    # doubles every standing job at once -- the widest blast radius the defect
+                    # had. `_blind` throttles the concession to once an hour per job.
+                    _up = running(os.path.basename(args[0]))
+                    if _up is None:
+                        _blind("keeper:" + name,
+                               f"  keeper: cannot read the process table, so cannot tell "
+                               f"whether {name} is down -- NOT restarting it")
+                    elif not _up:
                         # A SUBSYSTEM STOPPED AT THE MANAGER RUNG STAYS STOPPED, and until
                         # 2026-08-26 it did not. At 22:5x a maintenance run stopped
                         # `catalogue_web --recatalogue` because it was NULLING SYNTHESIS BLOCKS
@@ -1183,7 +1337,8 @@ def main():
             log("  producing confident emptiness. Repair and restart.")
             break
         if n:
-            log(f"  preflight: {n} problem(s) noted, continuing")
+            log(f"  preflight: {n} failing check(s) noted, continuing "
+                f"(checks, not findings -- health.py counts one per finding)")
 
         # 1. Network: gather source pages. Cheap, resumable, safe to repeat. Backgrounded --
         #    it contends with the reader for nothing, and blocking on it wasted the GPU.
@@ -1313,9 +1468,16 @@ def main():
         # the exact "a fault in one area must never close the whole park" property rung 4 exists
         # to provide, defeated by the idle counter. Same reasoning the halt branch below already
         # applies to a halted library: a job exiting on purpose is not a job failing.
-        busy = [x for x in statuses if x in ("already-running", "manager-stopped")]
+        # AND NEITHER IS "probe-blind" (order 1d556b6ef535). A stage that was skipped because
+        # the process table could not be read has not failed; the INSTRUMENT has. Counting it
+        # as a dead cycle would halt the supervisor after three laps of a transient WMI hiccup,
+        # and nothing restarts it -- `autostart.supervisor_alive()` reads the same blind sensor
+        # and correctly declines to act on it. Waiting and looking again is the whole remedy.
+        busy = [x for x in statuses if x in ("already-running", "manager-stopped",
+                                             "probe-blind")]
         if busy and snap["cycle_seconds"] < MIN_CYCLE_SECONDS:
-            log(f"  {len(busy)} job(s) already running, or stopped at the MANAGER rung; "
+            log(f"  {len(busy)} job(s) already running, stopped at the MANAGER rung, or "
+                f"skipped on a blind process probe; "
                 f"waiting {WAIT_SECONDS // 60}m before looking again")
             idle = 0
             time.sleep(WAIT_SECONDS)

@@ -613,6 +613,14 @@ CHARTER_KENSHIRO = {"ruin": 2.1, "continuity": 4.8, "celerity": 6.5, "reach": 1.
 CHARTER_KENSHIRO_INTERVAL = 0.12      # Charter Part Three, published
 CHARTER_KENSHIRO_DECIMAL = 0.52
 
+# The bottom of `calibration_report`'s sigma sweep, and its step. The floor used to be written
+# `AXIS_MIN + 0.5`, which gave the intended 0.5 only because AXIS_MIN happens to be 0.0 -- it
+# borrowed the AXIS SCORE scale's minimum to bound a SIGMA, two different quantities that would
+# part company the day either moved (order 5c06839ed0e3). Named here so the expression says what
+# it means and so the iteration count below can be derived instead of quoted.
+_SWEEP_SIGMA_FLOOR = 0.5
+_SWEEP_SIGMA_STEP = 0.005
+
 
 def calibration_report():
     """-> dict. Re-DERIVE the charter's published numbers; never assert a stored constant.
@@ -632,19 +640,26 @@ def calibration_report():
     lo = hi = None
     saved = SIGMA_BY_ATTESTATION["Witnessed"]
     # THE SWEEP TOUCHES NOTHING SHARED. This loop used to assign each trial sigma into
-    # SIGMA_BY_ATTESTATION and put it back in a `finally` -- ~800 iterations during which every
-    # other reader of that table (any concurrent `assay()`, and this runs from dashboard.py's
-    # render and from drill.py's battery) computed its interval against a scratch value and
-    # published it. It is the same fault the `weights=` override was introduced to end one
-    # screen below, and it survived on the sigma side because a try/finally looks like the
-    # cure. `sigma=` passes the trial value down the call it belongs to and nowhere else.
-    s = max(AXIS_MIN + 0.5, saved - 2.0)
+    # SIGMA_BY_ATTESTATION and put it back in a `finally` -- roughly
+    # (SIGMA_MAX - _SWEEP_SIGMA_FLOOR) / _SWEEP_SIGMA_STEP iterations, during which every other
+    # reader of that table (any concurrent `assay()`, and this runs from dashboard.py's render
+    # and from drill.py's battery) computed its interval against a scratch value and published
+    # it. It is the same fault the `weights=` override was introduced to end one screen below,
+    # and it survived on the sigma side because a try/finally looks like the cure. `sigma=`
+    # passes the trial value down the call it belongs to and nowhere else.
+    #
+    # THAT COUNT IS DERIVED, NOT QUOTED (order 5c06839ed0e3). Both this comment and `assay()`'s
+    # docstring used to say "~800", which was true before SIGMA_MAX was rebound to the Disputed
+    # grade at the table above; the ceiling now binds the top of the sweep and the real figure
+    # is 649. A number a reader can check has to be one they can re-derive, so it is written as
+    # the expression that produces it.
+    s = max(_SWEEP_SIGMA_FLOOR, saved - 2.0)
     while s <= min(SIGMA_MAX, saved + 2.0):
         if assay("M3", dict(CHARTER_KENSHIRO), attestation="Witnessed",
                  worksheet="w", sigma=s)["interval"] == CHARTER_KENSHIRO_INTERVAL:
             lo = s if lo is None else lo
             hi = s
-        s += 0.005
+        s += _SWEEP_SIGMA_STEP
     margin = None
     if lo is not None and hi is not None and hi > lo:
         margin = round(min(saved - lo, hi - saved) / ((hi - lo) / 2.0), 3)
@@ -862,7 +877,7 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
 
     `sigma=` is the same device as `weights=` and exists for the same reason. A caller that
     needs to see what the interval would be under a DIFFERENT attestation dispersion --
-    `calibration_report` sweeps ~800 of them to find the band of sigmas reproducing the
+    `calibration_report` sweeps ~650 of them to find the band of sigmas reproducing the
     charter's published +/- 0.12 -- used to assign into the module-global SIGMA_BY_ATTESTATION
     under a try/finally. That is correct alone and silently wrong the moment anything else
     reads the table mid-sweep: it is the identical pattern this file already removed from
@@ -1107,16 +1122,57 @@ def instrument(anchor, axis_scores, worksheet=None):
     grade = ["", "I", "II", "III", "IV", "V"][grade_n] if grade_n <= 5 else "V"
 
     out = {}
+    # WHICH SENTINEL MUTED A FACULTY, recorded rather than flattened (orders 72aa074235d6 and
+    # 5c656d83643b). ADDITIVE: `faculties` keeps its exact shape -- None for an axis with no
+    # reading -- and this parallel map says WHY that None is there, because INAPPLICABLE,
+    # UNESTIMABLE and NONE are three different findings and this file is emphatic elsewhere that
+    # collapsing them loses a real distinction. A faculty that HAS a reading appears in neither.
+    status = {}
+
+    def _reading(v):
+        """An axis' numeric reading, or `(None, why)` when the axis carries no reading.
+
+        THIS WAS A CRASH, and the crash was the whole fault. `_check_scores` is LAYER 1 at this
+        door as well as at `assay()`'s (order 5f99aa19c059) and it DELIBERATELY passes NONE /
+        INAPPLICABLE / UNESTIMABLE through -- they are how a caller says an axis has no reading
+        -- so a sentinel was the one class of input that cleared the gate and then died inside
+        `lo + (s / 10.0) * span` with a TypeError about str and float (and one branch earlier,
+        inside `0.5 * (a + b)`, for Constitution). That message tells the caller the Instrument
+        is broken rather than that their axis was unread, which is exactly the answer
+        `_check_weights`' docstring names as the wrong one. The Instrument already prints None
+        for an ABSENT axis; an inapplicable or unestimable one is the same absence of a reading,
+        so it prints None too and the function no longer raises out of its own arithmetic.
+
+        DELIBERATELY NOT DECIDED HERE: whether NONE -- "the axis is absent", which `assay()`
+        carries into the numerator at nil rather than striking out -- should instead print the
+        FLOOR of the band window. The Instrument publishes point faculties and has no
+        denominator to strike an axis from, so that is a charter question and not an obvious
+        one. It is recorded in `faculty_status` instead of flattened away, so the ruling can be
+        made later without re-deriving which faculties it would move.
+        """
+        if v is None:
+            return None, "unattested"
+        if v in (NONE, INAPPLICABLE, UNESTIMABLE):
+            return None, v
+        return v, None
+
     for faculty, axis in FACULTY_READS.items():
         if faculty == "Constitution":
-            a, b = axis_scores.get("continuity"), axis_scores.get("sustain")
-            s = None if a is None or b is None else 0.5 * (a + b)
+            # BOTH halves normalised BEFORE the mean, or a sentinel on either one raises out of
+            # `0.5 * (a + b)` a branch earlier than the division would.
+            a, why_a = _reading(axis_scores.get("continuity"))
+            b, why_b = _reading(axis_scores.get("sustain"))
+            if a is None or b is None:
+                s, why = None, (why_a or why_b)
+            else:
+                s, why = 0.5 * (a + b), None
         else:
-            s = axis_scores.get(axis)
+            s, why = _reading(axis_scores.get(axis))
         if s is None:
             # An axis unattested at M6+ prints no value AND no Grade: "transcendence is not
             # evidence" (Definition 5).
             out[faculty] = None
+            status[faculty] = why
             continue
         # BOUNDED AT BOTH ENDS (order 5f99aa19c059). This was `min(30, ...)`: a hard cap at the
         # top and nothing at all at the bottom, so `celerity = -40.0` printed a Dexterity of -30
@@ -1131,6 +1187,7 @@ def instrument(anchor, axis_scores, worksheet=None):
         out[faculty] = f"{value} (Grade {grade})" if grade else value
 
     return {"faculties": out, "window": [lo, hi],
+            "faculty_status": status,
             "transcendence_grade": grade or None,
             "worksheet": worksheet}
 
@@ -1239,6 +1296,13 @@ HANDS = {
 ATTESTATION_FLOOR = {"Witnessed": 0.10, "Instrumented": 0.08, "Transcribed": 0.20,
                      "Reconstructed": 0.40, "Disputed": 0.55}
 
+# The floor substituted for a grade outside the charter's five, hoisted out of the `.get()`
+# default it used to be so the refusal message can quote it (order 13a678071cbf). It sits BETWEEN
+# Reconstructed and Disputed on purpose -- an unrecognised grade is not good evidence -- but the
+# value was never the defect and must not be retuned as if it were: the defect was that nothing
+# in the returned interval said the grade had not been recognised.
+ATTESTATION_FLOOR_UNRECOGNISED = 0.30
+
 
 def interval_from_hands(readings, attestation="Transcribed"):
     """Derive the published +/- from the Hands' divergence. Vol. 0.5 §2, Theorem 4.
@@ -1262,7 +1326,16 @@ def interval_from_hands(readings, attestation="Transcribed"):
     centre = sum(vals) / len(vals)
     half_spread = (max(vals) - min(vals)) / 2.0
 
-    floor = ATTESTATION_FLOOR.get(attestation, 0.30)
+    # AN UNRECOGNISED GRADE IS NAMED, NOT ABSORBED (order 13a678071cbf, the second half of
+    # 0aefdac4a26d). This was a bare `ATTESTATION_FLOOR.get(attestation, 0.30)`: a lowercase
+    # "witnessed", a grade renamed in the charter, or a caller's typo all landed on the 0.30
+    # floor and published an interval with nothing in it saying the grade had never been read.
+    # `custodes.convene()` had the identical shape one layer UP and now flags it -- two layers
+    # absorbing the same bad input the same way is one layer and a decoy, which is the exact
+    # wording of the INDEPENDENT doctrine in CLAUDE.md, so both layers have to speak.
+    attestation_recognised = attestation in ATTESTATION_FLOOR
+    floor = (ATTESTATION_FLOOR[attestation] if attestation_recognised
+             else ATTESTATION_FLOOR_UNRECOGNISED)
 
     interval = round(math.sqrt(half_spread ** 2 + floor ** 2), 2)
 
@@ -1277,6 +1350,16 @@ def interval_from_hands(readings, attestation="Transcribed"):
         "spread": round(max(vals) - min(vals), 2),
         "prior_divergence_share": round((half_spread ** 2) / (half_spread ** 2 + floor ** 2), 2),
         "covers_all_signatures": all(abs(v - centre) <= interval for v in vals),
+        "attestation": attestation,
+        "attestation_recognised": attestation_recognised,
+        "attestation_floor": floor,
+        "attestation_source": (
+            "grade %r is one of the charter's %d" % (attestation, len(ATTESTATION_FLOOR))
+            if attestation_recognised else
+            "UNRECOGNISED grade %r: not one of %s. The quadrature floor used here is the "
+            "substituted %.2f, so this interval is derived from a grade the charter does not "
+            "define -- it is not a measurement against mid-quality evidence."
+            % (attestation, sorted(ATTESTATION_FLOOR), ATTESTATION_FLOOR_UNRECOGNISED)),
         "note": ("the interval is prior divergence, not ignorance: commissioning more feats "
                  "will NOT narrow the share attributable to the Hands' differing priors "
                  "(Vol. 0.5, Erratum 10)"),

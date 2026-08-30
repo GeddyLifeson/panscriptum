@@ -152,7 +152,11 @@ def _save():
                 silence.note("endpoint.py:save-nondict")
                 disk = {}
             disk.update(mine)
-            tmp = "%s.%d.%d.tmp" % (CACHE, os.getpid(), attempt)
+            # Thread id included for the same reason as `register()`'s temp name, even though
+            # `_SAVE_LOCK` currently serialises this process's savers: the lock is the only
+            # thing standing between this line and a same-process scratch-file collision, and a
+            # scratch name should not depend on a lock held somewhere else. (order 64f512cf98b1)
+            tmp = "%s.%d.%d.%d.tmp" % (CACHE, os.getpid(), threading.get_ident(), attempt)
             try:
                 os.makedirs(os.path.dirname(CACHE), exist_ok=True)
                 with open(tmp, "w", encoding="utf-8") as f:
@@ -318,6 +322,14 @@ def fetch_raw(host, titles, workers=2):
             silence.note("endpoint.py:fetch_raw")
             return t, None
         if not body or body.lstrip().lower().startswith(("<!doctype", "<html")):
+            # AND THE 200 THAT IS ALSO A REFUSAL. Twelve lines above, every HTTP status class is
+            # noted so the counts can tell a block apart from a missing page -- and then this
+            # branch, which catches the block page, the captcha and the login wall that all
+            # answer 200 with HTML where raw wikitext was asked for, returned None with no
+            # ledger entry at all. That is the same "a transient wearing the face of settled
+            # fact" this handler exists to end, and it is the case that matters most: a
+            # host-wide block is invisible unless the counts show it. (order c474d4cbd6dc)
+            silence.note("endpoint.py:fetch_raw-html-body")
             return t, None
         return t, body
 
@@ -356,10 +368,6 @@ def main():
     return 0
 
 
-if __name__ == "__main__":
-    sys.exit(main())
-
-
 # ============================================================================ mode: html
 #
 # HOMEBREW DOES NOT LIVE ON WIKIS.
@@ -375,6 +383,13 @@ if __name__ == "__main__":
 # source in HTML mode is read from a LIST OF PAGES rather than by asking for an entity by name --
 # see data/SOURCE_PAGES.json. The reader's own name-matching then does the attribution, which is
 # what it already does for shared wiki pages.
+#
+# AND HTML MODE IS NOT A `detect()` VERDICT. Unlike MODE_API/MODE_RAW/MODE_DEAD, which `detect`
+# earns by probing, this mode is SELECTED BY THE HOST PREFIX: `feats.py` reads a source bound
+# `pages:<source>` in WIKI_HOSTS.json through `source_pages`/`fetch_html` (feats.py:346, :1367).
+# `detect()` can never return MODE_HTML, so the constant below has no reader anywhere in the
+# tree -- kept as the honest NAME for what the prefix selects, and documented here so it does
+# not read as a mode the prober forgot to emit. (order a60c150b6303)
 
 MODE_HTML = "html"
 
@@ -421,7 +436,15 @@ def fetch_html(urls, workers=2):
             silence.note("endpoint.py:fetch_html")
             return u, None
         text = html_text(body)
-        return u, (text if len(text) > 400 else None)
+        if len(text) <= 400:
+            # A THIN PAGE AND A SHORT INTERSTITIAL ARE NOT THE SAME ANSWER, and dropping both
+            # without a note made them one. A host that starts serving "please enable
+            # JavaScript" or a consent wall reads to the caller exactly like a source whose
+            # pages are genuinely thin; only the ledger count can separate them.
+            # (order c474d4cbd6dc)
+            silence.note("endpoint.py:fetch_html-too-short")
+            return u, None
+        return u, text
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
         for u, t in ex.map(one, list(urls)):
@@ -502,7 +525,14 @@ def register(source, urls):
                 silence.note("endpoint.py:register-nondict")
                 raise ValueError("SOURCE_PAGES.json is not an object; refusing to overwrite it")
         d[source] = sorted(set((d.get(source) or []) + list(urls)))
-        tmp = "%s.%d.%d.tmp" % (PAGES_FILE, os.getpid(), attempt)
+        # THE THREAD ID BELONGS IN THE TEMP NAME, and its absence was the very collision this
+        # docstring says m100 retired repo-wide. pid + attempt is not unique within a process:
+        # two threads on the same attempt number write the same scratch path, and one can land
+        # the other's partial file over SOURCE_PAGES.json. `register()` holds no lock and is
+        # reachable from any thread that probes an endpoint. Same shape as
+        # `silence.write_json`'s `<path>.<pid>.<get_ident()>.tmp`, with `attempt` kept so a
+        # retry cannot collide with its own predecessor's leftovers. (order 64f512cf98b1)
+        tmp = "%s.%d.%d.%d.tmp" % (PAGES_FILE, os.getpid(), threading.get_ident(), attempt)
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(d, f, indent=1, sort_keys=True, ensure_ascii=False)
         landed, why = silence.replace_if_unchanged(tmp, PAGES_FILE, digest)
@@ -520,3 +550,12 @@ def register(source, urls):
     # this function returns the registered pages. It returns None on success, and raises here.
     raise RuntimeError("SOURCE_PAGES.json changed under this writer on every one of 8 attempts, "
                        "so %r's pages were NOT recorded: %s" % (source, last_why))
+
+
+# THE GUARD GOES LAST, and it used to sit at line 359 with 160 lines of module under it. Python
+# evaluates it in FILE ORDER, so running this file as a script defined nothing below that point
+# -- MODE_HTML, html_text, fetch_html, PAGES_FILE, source_pages and register simply did not
+# exist in the process that ran main(). Imports were unaffected, which is why nothing broke and
+# why it would have broken the first time a CLI flag touched html mode. (order a60c150b6303)
+if __name__ == "__main__":
+    sys.exit(main())

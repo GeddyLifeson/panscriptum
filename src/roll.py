@@ -79,6 +79,110 @@ def in_scope(name, rows=None):
     return name not in out_of_scope(rows)
 
 
+def mutate(apply, attempts=8):
+    """Land a change to the roll through a COMPARE-AND-SWAP. -> (landed, why).
+
+    ATOMIC WAS NOT ENOUGH, AND SWEEP_ROLL.json WAS THE LAST SHARED FILE STILL RELYING ON IT
+    (order f818a77293fc). Every writer of this file landed it with `silence.write_json`, which
+    closes the TORN-FILE hazard and has nothing to say about STALENESS. The cataloguers read the
+    whole roll at startup, spend a run parsing folders or fetching wikis while mutating
+    `entry_count`/`status` on their own rows in memory, and then land the ENTIRE document. Any
+    row another process wrote inside that window is overwritten by this process's older copy of
+    it. Nothing fails, nothing tears, the file is always complete and consistent -- it is simply
+    one or more rows behind. That is the m42 lost update this project has already closed for
+    ENDPOINTS.json (endpoint._save), SOURCE_PAGES.json (endpoint.register), scout._mutate,
+    workorders._mutate and runguard._land_claim, and endpoint.py's own docstring names the fault
+    in capitals: ATOMIC WAS NOT ENOUGH.
+
+    The cost here is specific: the default work selection everywhere in this pipeline is
+    `entry_count == 0`, so a lost row means a source is either silently re-catalogued from
+    scratch or silently never picked up again.
+
+    `apply(rows) -> rows` is called on a FRESHLY READ copy on every attempt, and on a refusal the
+    file is re-read and the mutation RE-APPLIED rather than the same bytes retried. That is
+    exactly right for this file because the roll merge is key-wise by source name: re-applying
+    to the winner's copy leaves the other writer's rows standing and puts ours beside them.
+    `apply` may mutate in place and return None.
+
+    AN UNREADABLE OR ABSENT ROLL IS NOT WRITTEN OVER. `data/SWEEP_ROLL.json` is one of
+    canon_backup's four non-derivable canonical files and was destroyed TWICE on 2026-08-26;
+    "we could not read it" is not evidence of what it should contain, and a mutation applied to
+    a `[]` we invented would publish that invention as canon. Same distinction endpoint.register
+    draws: absent and unreadable are different facts, and neither licenses a write here.
+    """
+    import threading
+    import time
+    last_why = "not attempted"
+    for attempt in range(attempts):
+        # The digest is taken BEFORE the read, so anything that lands between the two makes the
+        # swap fail closed rather than pass on a copy that is already behind.
+        digest = silence.digest_of(ROLL)
+        try:
+            with open(ROLL, encoding="utf-8") as f:
+                rows = json.load(f)
+        except Exception:
+            silence.note("roll.py:mutate-unreadable")
+            return False, ("%s could not be read, so nothing was written to it -- the roll is "
+                           "canonical and not derivable from a failed read" % os.path.basename(ROLL))
+        if not isinstance(rows, list):
+            silence.note("roll.py:mutate-nonlist")
+            return False, "SWEEP_ROLL.json is not a list; refusing to overwrite it"
+        out = apply(rows)
+        if out is None:
+            out = rows
+        tmp = "%s.%d.%d.%d.tmp" % (ROLL, os.getpid(), threading.get_ident(), attempt)
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(out, f, indent=2, ensure_ascii=False)
+        except Exception:
+            silence.note("roll.py:mutate-tmp")
+            return False, "could not stage the new roll next to %s" % os.path.basename(ROLL)
+        landed, why = silence.replace_if_unchanged(tmp, ROLL, digest)
+        if landed:
+            return True, ""
+        last_why = why
+        try:
+            os.remove(tmp)
+        except OSError:
+            silence.note("roll.py:mutate-tmp-cleanup")
+        time.sleep(0.05 * (attempt + 1))
+    silence.note("roll.py:mutate-contended")
+    return False, last_why
+
+
+def update_rows(changes, attempts=8):
+    """Apply `{source_name: {field: value, ...}}` to the roll, key-wise. -> (landed, why).
+
+    The shape every cataloguer needs: it knows which SOURCES it changed and what it changed
+    about them, and nothing about the rest of the file. Passing the fields rather than the whole
+    document is what makes the re-apply in `mutate` correct -- a row this writer never touched is
+    never carried backwards by it.
+
+    A name with no row in the freshly-read roll is NOT invented. The roll's rows are created by a
+    person adding a source, never by a cataloguer, so an unmatched name means the row was renamed
+    or removed under this run, and the honest response is to name it rather than to resurrect a
+    row from a stale copy. It is reported in `why` and the rest of the changes still land.
+    """
+    missed = []
+
+    def _apply(rows):
+        seen = set()
+        for row in rows:
+            ch = changes.get(row.get("name"))
+            if ch:
+                row.update(ch)
+                seen.add(row.get("name"))
+        missed[:] = sorted(n for n in changes if n not in seen)
+        return rows
+
+    landed, why = mutate(_apply, attempts=attempts)
+    if landed and missed:
+        silence.note("roll.py:update-rows-unmatched")
+        return True, ("no roll row is named %s any more, so %d change(s) had nowhere to land"
+                      % (", ".join(repr(n) for n in missed), len(missed)))
+    return landed, why
+
+
 def exclude(name, note, rows=None):
     """Mark a source out of scope, or correct the note on one already excluded. -> True if the
     roll was written.
@@ -124,6 +228,14 @@ def exclude(name, note, rows=None):
     # 26be3dba65cf) -- a DENIED write reported a successful exclusion while the source stayed
     # in scope on disk, exactly the trap this module's own header exists to close. Return what
     # actually happened.
+    #
+    # DELIBERATELY NOT ON `mutate()` ABOVE, and this is the one roll writer that is not (order
+    # f818a77293fc). The lost update `mutate` closes is a LONG window -- a cataloguer reads the
+    # roll, works for minutes, lands a stale whole document. This function loads and lands in
+    # the same breath and has no callers anywhere in src/: it is a hand-run curatorial act by
+    # one person. Moving it is still the right end state, but the live battery pins this exact
+    # call as a source string (handoff/run35/checks_L4.py, order b3da16ddfe64) and rewriting a
+    # check to fit a refactor is a shift-level decision, not a maintenance one.
     return silence.write_json(ROLL, rows, indent=2, ensure_ascii=False)
 
 

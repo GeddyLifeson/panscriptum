@@ -28,7 +28,22 @@ def norm(s):
 
 
 def main():
-    dry = "--dry-run" in sys.argv
+    # ARGPARSE, NOT A SUBSTRING TEST ON argv (order eb4a87793c19). This was
+    # `dry = "--dry-run" in sys.argv`, with no parser anywhere in the module, so every near miss
+    # -- `--dryrun`, `--dry`, `-n`, `--dry_run`, `--dry-run=true` -- left `dry` False and the
+    # script went straight on to the real `silence.write_json(ROLL, ...)`. Nothing errored and
+    # the printed output gave no way to notice: the only difference between the two modes is the
+    # word "Fixed" versus "Would fix" at the head of a table the reader is scanning for source
+    # names. The file at stake is data/SWEEP_ROLL.json -- one of canon_backup's four
+    # non-derivable canonical files, "destroyed TWICE on 2026-08-26" -- so a flag that means DO
+    # NOT TOUCH THIS FILE has to make an unrecognised spelling a hard error, which parse_args
+    # does and `in sys.argv` cannot.
+    import argparse
+    ap = argparse.ArgumentParser(
+        description="Rebuild SWEEP_ROLL.json's entry_count/status from the record files.")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="report every repair without writing data/SWEEP_ROLL.json")
+    dry = ap.parse_args().dry_run
 
     with open(ROLL, encoding="utf-8") as f:
         roll = json.load(f)
@@ -81,7 +96,17 @@ def main():
     changed = []
     relabelled = []
     unmatched_rows = []
+    unnamed_rows = 0
     for r in roll:
+        # A NAMELESS ROW USED TO TAKE THE WHOLE RESYNC DOWN. `norm(r["name"])` assumed every row
+        # carries a name, so one malformed row raised KeyError before anything was written and
+        # every OTHER row's repair was lost with it -- the least useful possible response to one
+        # bad row in an index over the record files. No such row exists on disk today (checked:
+        # 215 rows, all named), which is exactly when the guard is cheap. (order eb4a87793c19)
+        if not r.get("name"):
+            silence.note("resync_roll.py:row-without-name")
+            unnamed_rows += 1
+            continue
         hit = by_source.get(norm(r["name"]))
         if not hit:
             # A ROLL ROW WITH NO RECORD FILE IS UNCHECKED, NOT AGREED. It was skipped with a
@@ -169,6 +194,10 @@ def main():
         for name in unmatched_rows:
             print(f"  {name}")
 
+    if unnamed_rows:
+        print(f"\n{unnamed_rows} roll row(s) carry no `name` at all, so nothing could be looked "
+              f"up for them; they were skipped and are NOT counted in the figures below")
+
     if dupes:
         print(f"\n{len(dupes)} source(s) declared by more than one record file "
               f"(winner is the last name alphabetically; the rest are NOT reflected above):")
@@ -178,9 +207,10 @@ def main():
     # THE CAVEAT TRAVELS WITH THE FIGURE. Both closing lines below are counts over the whole
     # roll, and rows this run could not check are inside them.
     caveat = ""
-    if unmatched_rows or unreadable:
-        caveat = ("   [%d row(s) unchecked: no record file; %d record file(s) unreadable]"
-                  % (len(unmatched_rows), len(unreadable)))
+    if unmatched_rows or unreadable or unnamed_rows:
+        caveat = ("   [%d row(s) unchecked: no record file; %d record file(s) unreadable; "
+                  "%d row(s) with no name]"
+                  % (len(unmatched_rows), len(unreadable), unnamed_rows))
 
     if not dry and not landed:
         print(f"\nWRITE DENIED {ROLL} -- replace refused; roll is UNCHANGED on disk, "

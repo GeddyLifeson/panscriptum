@@ -63,8 +63,55 @@ LANE = os.path.join(HERE, "state", "gpu_lane")
 # spelled the same number out a third time as GATE_LOCAL_N -- three constants for one fact with
 # no link between them, so raising the daemon's parallelism silently left both gates on the old
 # number. `PANSCRIPTUM_GPU_SLOTS` still wins when set, for pinning the two together deliberately.
-MAX_SLOTS = max(1, int(os.environ.get("PANSCRIPTUM_GPU_SLOTS")
-                       or os.environ.get("OLLAMA_NUM_PARALLEL") or "2"))
+DEFAULT_SLOTS = 2
+
+
+def _slot_count():
+    """MAX_SLOTS, parsed so that a bad environment cannot make this module unimportable.
+
+    THE CRASH. This was one expression -- `max(1, int(PANSCRIPTUM_GPU_SLOTS or
+    OLLAMA_NUM_PARALLEL or "2"))` -- with a bare `int()` at module scope, so any non-integer
+    value raised at IMPORT:
+
+        OLLAMA_NUM_PARALLEL=auto python -c "import gpu_lane"
+            -> ValueError: invalid literal for int() with base 10: 'auto'
+
+    which is the opposite of what the header mandates in capitals four screens up. An
+    ImportError is not a failure path that PROCEEDS: it takes down every consumer of `lane()`
+    in all nine standing jobs at once, strictly worse than the unarbitrated lane this module
+    is already willing to accept when a claim file is corrupt.
+
+    THE QUIETER HALF, and it mattered more because it did not announce itself. `0` is Ollama's
+    own "let the server decide" setting, not a request for zero, and `max(1, 0)` read it as ONE
+    slot -- silently serialising the whole library behind a single call, the exact outcome the
+    comment above says two slots exist to avoid. An auto value is an ABSENT value here, so it
+    falls through to the default rather than being clamped up to the minimum, which would
+    invert its meaning. An explicit `PANSCRIPTUM_GPU_SLOTS=0` is refused the same way: there is
+    no coherent zero-slot lane, and if an operator meant "unlimited" that is not this knob.
+
+    Precedence is unchanged and deliberate: PANSCRIPTUM_GPU_SLOTS wins, for pinning the two
+    settings together on purpose. Every rejection is recorded rather than absorbed, so a bad
+    value is visible in the health ledger instead of showing up as mysterious throughput.
+    (order b54fbcf84962)
+    """
+    for var in ("PANSCRIPTUM_GPU_SLOTS", "OLLAMA_NUM_PARALLEL"):
+        raw = os.environ.get(var)
+        if raw is None or str(raw).strip() == "":
+            continue
+        try:
+            n = int(str(raw).strip())
+        except (ValueError, TypeError):
+            silence.note("gpu_lane.py:bad-slot-env")
+            continue
+        if n >= 1:
+            return n
+        # n <= 0: "auto" from the daemon, or nonsense from an operator. Either way this is not
+        # a slot count, so the next source gets its turn and the default has the last word.
+        silence.note("gpu_lane.py:bad-slot-env")
+    return DEFAULT_SLOTS
+
+
+MAX_SLOTS = _slot_count()
 
 # A slot is a lease, not a lock. If the holder dies mid-call its slot must return to the pool
 # without anyone intervening. Generous, because a real prose call legitimately runs for minutes

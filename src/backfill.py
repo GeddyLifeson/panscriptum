@@ -31,7 +31,6 @@ import json
 import os
 import re
 import sys
-import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -176,7 +175,10 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     have = {re.sub(r"[^a-z0-9]+", "", e["name"].lower()) for e in r["entries"]}
     names = roster(host)
     missing = [t for t in names if re.sub(r"[^a-z0-9]+", "", t.lower()) not in have]
-    # Ranked by article size, never alphabetically. A category listing comes back A-first, so a # cap applied to it takes Abo, Abura and Ackman and leaves Goku out — which is precisely the # failure this file exists to repair. Article length is the wiki's own vote on who matters: # Goku's page runs six figures, Agarizame's runs three.
+    # Ranked by article size, never alphabetically. A category listing comes back A-first, so a
+    # cap applied to it takes Abo, Abura and Ackman and leaves Goku out — which is precisely the
+    # failure this file exists to repair. Article length is the wiki's own vote on who matters:
+    # Goku's page runs six figures, Agarizame's runs three.
     sizes = {}
     size_lookup_failed = 0
     for i in range(0, len(missing), 50):
@@ -194,9 +196,18 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
             continue
         for pg in (d or {}).get("query", {}).get("pages", []):
             sizes[pg.get("title")] = pg.get("length", 0)
-    # Reported BEFORE the cap. Computing it after made "already held" the complement of the cap # rather than of the match, and printed 1,459 held for a source that holds 300 entries total.
+    # Reported BEFORE the cap. Computing it after made "already held" the complement of the cap
+    # rather than of the match, and printed 1,459 held for a source that holds 300 entries total.
     absent = len(missing)
-    # Ranked by article size so the deepest arrive first if this is ever interrupted. Order # f35826ab7a3f: this used to say "NOT truncated" directly above the cap two lines down, which # was false whenever a caller actually passed one. What is true, and is the reason a cap here # is not the Hard Rule 0 shape it looks like: --cap is opt-in and off by default ("omit for # everything, which is the intended use" -- main()'s own --cap help), it limits what is QUEUED # this pass and not the roster itself, `missing` is recomputed fresh from `have` on every call # so anything left off this run is ranked the same way and still there on the next one, and # `absent` above is the uncapped count -- so nothing here decides, silently or permanently, # that a character does not count.
+    # Ranked by article size so the deepest arrive first if this is ever interrupted. Order
+    # f35826ab7a3f: this used to say "NOT truncated" directly above the cap two lines down,
+    # which was false whenever a caller actually passed one. What is true, and is the reason a
+    # cap here is not the Hard Rule 0 shape it looks like: --cap is opt-in and off by default
+    # ("omit for everything, which is the intended use" -- main()'s own --cap help), it limits
+    # what is QUEUED this pass and not the roster itself, `missing` is recomputed fresh from
+    # `have` on every call so anything left off this run is ranked the same way and still there
+    # on the next one, and `absent` above is the uncapped count -- so nothing here decides,
+    # silently or permanently, that a character does not count.
     # `t in sizes` sorts False (UNKNOWN) before True (known) -- a title whose size lookup failed
     # is ranked WITH the deepest articles, not against them, so a transient network failure
     # cannot be the reason a --cap run drops it.
@@ -214,7 +225,10 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     if cap:
         missing = missing[:cap]
     if dry or not missing:
-        return {"source": source, "host": host, "roster": len(names), "already_held": len(names) - absent, "absent": absent, "queued": len(missing), "sample": missing[:12], "added": 0, "size_lookup_failed": size_lookup_failed}
+        return {"source": source, "host": host, "roster": len(names),
+                "already_held": len(names) - absent, "absent": absent,
+                "queued": len(missing), "sample": missing[:12], "added": 0,
+                "size_lookup_failed": size_lookup_failed}
     added = 0
     for i in range(0, len(missing), 40):
         pages = F.fetch(host, missing[i:i + 40])
@@ -231,12 +245,20 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
                 "scale_note": "",
                 "magnitude": "unassayed",
                 "wiki_page": f"https://{host}/wiki/" + title.replace(" ", "_"),
-                # Stamped, so a backfilled record is never mistaken for one the research pass # produced. The provenance travels with the entry into every later phase.
+                # Stamped, so a backfilled record is never mistaken for one the research pass
+                # produced. The provenance travels with the entry into every later phase.
                 "provenance": f"backfill:{host}",
                 "catalogued": False,
                 })
             added += 1
-            time.sleep(0.2)
+            # THE 0.2s POLITENESS SLEEP THAT USED TO SIT HERE DELAYED A DICT APPEND (order
+            # 23039b81bec0). `F.fetch` above has already completed all forty HTTP requests for
+            # the batch before this inner loop begins, and `feats._throttle` paces those
+            # requests per host adaptively -- so this was not a rate limiter, it was 8.0
+            # seconds of dead wall clock per batch charged against local work. On the case
+            # this module's docstring names, DC's 6,000-plus Category:Characters roster, that
+            # is twenty minutes of sleeping at nothing, paid again per thin source under
+            # --all. Nothing asserts the timing (grepped).
     # THE CAST-GROWING SIDE OF THE TWO-WRITER CONTRACT, not the pipeline side. This called
     # `write_record`, which is documented to keep the DISK entry list on drift because the
     # pipeline's in-memory copy is the stale one. Backfill is the opposite case and always has
@@ -311,19 +333,46 @@ def main():
         print(str(len(thin)) + " sources below a "
               + format(a.threshold, ".0%") + " Persons share", flush=True)
         tot = 0
+        # THE OUTCOMES backfill_source IS CAREFUL TO DISTINGUISH USED TO DIE HERE (order
+        # f57f145468f7). This loop read `roster`, `absent` and `added` and nothing else, so a
+        # run in which EVERY catalogue write was refused by a lock printed "added 0" on every
+        # line and "total characters added: 0" at the end -- byte-identical to a run that found
+        # nothing to add, which is the one confusion this whole module is written against. The
+        # denied-write branch says so itself: "reporting 'added N' for a write that never
+        # reached disk is the same lie in a smaller font". Same for `size_lookup_failed`, added
+        # by order 0a67628cfa8f precisely so a title whose size probe failed stays
+        # distinguishable from one measured at zero -- when it is nonzero the ranking key that
+        # decides what --cap keeps is measuring less than it looks like it is.
+        denied = probe_failed = errors = 0
         for i, x in enumerate(thin, 1):
             try:
                 res = backfill_source(x["source"], recs, hosts, cap=a.cap, dry=a.dry)
             except Exception as e:
+                # Contained per source (Hard Rule -1: a source is its own area of the park) --
+                # but COUNTED. N sources raising RosterIncomplete used to leave no mark on the
+                # closing summary at all.
+                errors += 1
                 print("  %3d/%d  %-46sERROR %s" % (i, len(thin), x["source"][:44],
                                                    type(e).__name__), flush=True)
                 continue
             tot += res.get("added", 0)
-            print("  %3d/%d  %-46sroster %5d  absent %5d  added %4d"
+            if res.get("write_denied"):
+                denied += 1
+            if res.get("size_lookup_failed"):
+                probe_failed += res["size_lookup_failed"]
+            print("  %3d/%d  %-46sroster %5d  absent %5d  added %4d%s"
                   % (i, len(thin), x["source"][:44], res.get("roster", 0),
-                     res.get("absent", 0), res.get("added", 0)), flush=True)
+                     res.get("absent", 0), res.get("added", 0),
+                     "  WRITE DENIED" if res.get("write_denied") else ""), flush=True)
         print("total characters added: %d" % tot)
-        return 0
+        print("catalogue writes DENIED: %d source(s); size probes failed: %d title(s); "
+              "sources that raised: %d" % (denied, probe_failed, errors))
+        # NONZERO WHEN A WRITE WAS REFUSED. `--all` returned 0 unconditionally, so a caller
+        # could not tell a run that added nothing from a run whose every result was thrown
+        # away by a lock. A denied write is an INFRASTRUCTURE fault, not a per-source fiction
+        # fault, so it does not fall under the one-area-of-the-park rule that justifies
+        # swallowing the exceptions above -- those stay contained and merely counted.
+        return 1 if denied else 0
 
     if not a.source:
         ap.print_help()

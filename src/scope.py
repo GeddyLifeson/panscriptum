@@ -66,6 +66,23 @@ MIN_MENTIONS = 10
 
 QUERIES = ["cosmology universe world setting", "multiverse", "universe", "world"]
 
+# THE CONTRACT A STORED RECORD WAS BUILT UNDER, stamped into the record itself.
+#
+# `build()` skips any host already keyed in SCOPE.json, which is right for a cache and wrong for
+# a cache whose PRODUCER has been repaired. The srlimit=3 + `titles[:8]` truncation fix landed
+# after data/SCOPE.json was written (file dated 2026-08-21 15:50), and membership-by-key meant no
+# run could ever reach those records again: 80 of the 146 scored hosts sat exactly ON the removed
+# eight-page cap, which is that cap's fingerprint, and `magnitude.host_ceiling` was still clamping
+# every anchor against them. A cap that survives its own repair by hiding in the memoisation is
+# the same fault one layer out.
+#
+# BUMP THIS whenever anything that changes what a probe SEES changes: `srlimit`, the `size` filter
+# in `scope_for`, `QUERIES`, `TIERS`, or `MIN_MENTIONS`. `build()` then re-probes every record
+# stamped older, so the next truncation fix heals itself instead of needing another audit to
+# notice. Version 1 was the pre-repair contract (srlimit=3, first 8 titles only); records written
+# before stamping existed carry no stamp at all and read as 0, so they are all re-probed once.
+PROBE_VERSION = 2
+
 
 def scope_for(host, verbose=False):
     titles, seen = [], set()
@@ -126,15 +143,31 @@ def scope_for(host, verbose=False):
     if verbose:
         print(f"   {host:<32}{counts}")
     return {"scope": best[0], "ceiling": best[1], "counts": counts,
-            "pages": sorted(pages)}
+            "pages": sorted(pages), "probe_version": PROBE_VERSION}
 
 
-def build(hosts):
+def _stamp(rec):
+    """The PROBE_VERSION a stored record was built under. 0 for anything unstamped.
+
+    A record may legitimately be `None` on disk -- that is the cached "read, nothing cleared
+    MIN_MENTIONS" answer the comment in `build()` argues for keeping. Those carry no stamp
+    either, so they read as 0 and are re-probed on the next contract change like everything else.
+    """
+    return (rec or {}).get("probe_version", 0) if isinstance(rec, dict) else 0
+
+
+def build(hosts, force=False):
     out = {}
     if os.path.exists(OUT):
         out = json.load(open(OUT, encoding="utf-8"))
-    todo = sorted({h for s, h in hosts.items() if h and h not in out
-                   and not F.is_wikipedia(h)})
+    # SELECTION IS BY CONTRACT, NOT BY MEMBERSHIP. This was `h not in out`, so a host was skipped
+    # for ever once it had a key, whatever produced that key -- and `main()` offered no --rebuild,
+    # --force or --host to get past it. See PROBE_VERSION above for what that cost. `force`
+    # ignores the stamp entirely, for the case where the operator knows the wikis themselves have
+    # moved rather than the code.
+    todo = sorted({h for s, h in hosts.items()
+                   if h and not F.is_wikipedia(h)
+                   and (force or _stamp(out.get(h)) < PROBE_VERSION)})
     for i, h in enumerate(todo, 1):
         try:
             sc = scope_for(h)
@@ -155,7 +188,13 @@ def build(hosts):
             print(f"  {i:>3}/{len(todo)}  {h:<34}probe FAILED -- left unscored, "
                   f"the next build retries it", flush=True)
             continue
-        out[h] = sc
+        # STAMPED EVEN WHEN THE ANSWER IS EMPTY. `sc is None` is the genuine "read, and nothing
+        # cleared MIN_MENTIONS" verdict the comment above keeps on purpose -- but a bare `None`
+        # has nowhere to carry PROBE_VERSION, so it would be re-probed on EVERY build instead of
+        # only when the contract moves, at four API calls a host. Stored as a record whose
+        # `ceiling` is None, which is what `ceiling_for()` and `magnitude.host_ceiling` already
+        # read as "no ceiling here".
+        out[h] = sc or {"scope": None, "ceiling": None, "probe_version": PROBE_VERSION}
         if sc:
             print(f"  {i:>3}/{len(todo)}  {h:<34}{sc['scope']:<12}ceiling {sc['ceiling']}",
                   flush=True)
@@ -181,21 +220,53 @@ def ceiling_for(source, hosts=None, cache=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--build", action="store_true")
-    ap.add_argument("--probe", metavar="HOST")
+    ap.add_argument("--rebuild", action="store_true",
+                    help="re-probe every non-Wikipedia host, ignoring the stored PROBE_VERSION")
+    ap.add_argument("--probe", metavar="HOST",
+                    help="print one host's scope answer without writing it")
+    ap.add_argument("--host", metavar="HOST",
+                    help="re-probe ONE host and write the result into SCOPE.json")
     a = ap.parse_args()
     if a.probe:
-        print(json.dumps(scope_for(a.probe, verbose=True), indent=1)[:900])
+        # NOT `[:900]`. This cut the JSON at 900 characters with no ellipsis and no count -- the
+        # answer simply stopped, mid-string if the cut landed inside a page title. It did not
+        # bite while every stored record was built under the removed `titles[:8]` cap (the
+        # largest was 608 chars); post-repair a probe is four searches at srlimit=500 keeping
+        # every hit over 1200 bytes, so `pages` -- the provenance of the whole verdict -- runs to
+        # hundreds of titles. `--probe` exists to let someone inspect a scope answer before
+        # trusting it, so it is the one surface that must never abbreviate one.
+        print(json.dumps(scope_for(a.probe, verbose=True), indent=1))
         return 0
-    if a.build:
+    if a.host:
+        # ONE WIKI, BY HAND. `build()` skips whatever the stamp says is current, so re-probing a
+        # single host after a wiki itself has changed had no route at all before this.
+        cache = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
+        sc = scope_for(a.host, verbose=True)
+        cache[a.host] = sc or {"scope": None, "ceiling": None,
+                               "probe_version": PROBE_VERSION}
+        if not silence.write_json(OUT, cache, indent=1, ensure_ascii=False):
+            print(f"WRITE DENIED: {a.host} was probed but did not land in {OUT}; rerun to retry")
+            return 1
+        print(f"{a.host}: {(sc or {}).get('ceiling') or 'no scope established'}  ->  {OUT}")
+        return 0
+    if a.build or a.rebuild:
         hosts = json.load(open(F.HOSTS, encoding="utf-8"))
-        out, ok = build(hosts)
-        got = sum(1 for v in out.values() if v)
+        out, ok = build(hosts, force=a.rebuild)
+        # A STAMPED EMPTY RECORD IS NOT A SCOPED WIKI. `if v` used to be the whole test, which
+        # was right while an empty answer was stored as `None`; it now stores a record carrying
+        # only the stamp, so the count asks for the ceiling itself.
+        got = sum(1 for v in out.values() if v and v.get("ceiling"))
         if ok:
             print(f"\n{got}/{len(out)} wikis scoped  ->  {OUT}")
-        else:
-            print(f"\nWRITE DENIED: {got}/{len(out)} wikis scoped this round did not land in "
-                  f"{OUT}; rerun to retry")
-        return 0
+            return 0
+        print(f"\nWRITE DENIED: {got}/{len(out)} wikis scoped this round did not land in "
+              f"{OUT}; rerun to retry")
+        # THE VERDICT REACHES THE EXIT CODE. `build()` was changed to return `(out, ok)` so its
+        # one caller could tell the difference, `main()` told it in prose, and then returned 0 on
+        # both branches -- so a denied write read as a clean run to anything checking rc, while
+        # `magnitude.host_ceiling` went on clamping every anchor against the previous round's
+        # ceilings. Same doctrine as catalogue_codex.py:315-331.
+        return 1
     ap.print_help()
     return 0
 

@@ -223,6 +223,7 @@ def _records_sig(fresh=False):
     if not fresh and _SIG_MEMO["at"] is not None and now - _SIG_MEMO["at"] < SIG_MEMO_SECONDS:
         return _SIG_MEMO["val"]
     files, newest = [], 0
+    unstattable = 0
     try:
         with os.scandir(RECORDS) as it:
             for de in it:
@@ -233,13 +234,29 @@ def _records_sig(fresh=False):
                         continue
                     m = de.stat().st_mtime
                 except OSError:
-                    # A file that vanished mid-enumeration. Same meaning the old getmtime
-                    # failure had: refuse to hand out a signature this pass.
-                    _ = "silence-exempt: an unstattable dir just skips the cache fast-path"
-                    files.sort()
-                    val = (files, None)
-                    _SIG_MEMO.update({"at": now, "val": val})
-                    return val
+                    # A file that vanished mid-enumeration. Refuse to hand out a signature this
+                    # pass -- but FINISH WALKING THE DIRECTORY (order f70e87058f66).
+                    #
+                    # This used to `return (files, None)` from inside the loop, which dropped
+                    # every entry the enumeration had not yet reached. Refusing the signature is
+                    # correct and sufficient for the caches -- `load_records` checks
+                    # `sig is not None`, so a None sig can never serve or poison one -- but the
+                    # FILE LIST is the other half of the return value and it is consumed
+                    # unconditionally: `files, sig = _records_sig()` then `for p in files`. A
+                    # truncated corpus went back to the caller looking complete, and `build()`
+                    # would then land a short ENTITY_INDEX.json / WEAVE_CANDIDATES.json over the
+                    # files weave.py, cosmology_graph.py and thread_integrity.py read as the
+                    # whole entity population. Skipping the one bad entry and continuing gives
+                    # the caller everything that IS readable; the None signature still says the
+                    # pass was not clean.
+                    #
+                    # AND IT IS NOTED. The old marker claimed exemption on the reasoning that
+                    # this "just skips the cache fast-path", which was true of the signature and
+                    # false of the file list -- an unstattable record is a real event in the one
+                    # directory the two-writer contract governs, and nothing else records it.
+                    silence.note("weave_index.py:records-entry-unstattable")
+                    unstattable += 1
+                    continue
                 files.append(de.path)
                 if m > newest:
                     newest = m
@@ -249,7 +266,9 @@ def _records_sig(fresh=False):
         # Preserved exactly: callers depend on an empty corpus being a stable answer.
         _ = "silence-exempt: an unreadable records dir reads as an empty corpus, as it always did"
     files.sort()
-    val = (files, (len(files), newest))
+    # A pass that could not stat every entry hands back a None signature -- the whole readable
+    # file list, and an honest "do not treat this pass as clean".
+    val = (files, None if unstattable else (len(files), newest))
     _SIG_MEMO.update({"at": now, "val": val})
     return val
 
@@ -260,7 +279,12 @@ def load_records():
     63MB across 216 files (marvel.json alone is 27MB), and this was re-parsed on EVERY
     dashboard poll and three separate times per allsweep run (2026-08-23 optimization sweep).
     The signature is (count, max mtime), so any write anywhere in the directory invalidates.
-    Callers get the shared list: read it, never mutate it."""
+    Callers get the shared list: read it, never mutate it.
+
+    A None signature means "this pass could not stat every entry", not "this list is short":
+    `_records_sig` finishes the enumeration either way (order f70e87058f66), so `files` is
+    every record that could be read and parsing it is sound. The None only suppresses the
+    cache, which is what it was always for."""
     files, sig = _records_sig()
     if sig is not None and sig == _REC_CACHE["sig"]:
         return _REC_CACHE["out"]
@@ -413,17 +437,37 @@ def main():
     print()
 
     spread = collections.Counter(len({h['source'] for h in v}) for v in candidates.values())
-    print("attested in N sources:")
-    for n in sorted(spread, reverse=True)[:10]:
+    # EVERY BUCKET (orders 987bf4088026 / 4cea367c9235). This was `sorted(spread, reverse=True)
+    # [:10]`, which sorts the KEYS descending and keeps ten -- so it printed the rarest,
+    # widest-attested tail and silently dropped the head of the distribution, including the
+    # 2-source bucket that by construction holds the large majority of candidates. The section
+    # is headed "attested in N sources" with no "top" in the label, so it reads as the
+    # distribution and was not one. The bucket count is bounded by the number of sources and is
+    # a couple of dozen lines in practice -- cheaper than the leaderboard printed below it.
+    print(f"attested in N sources ({len(spread)} buckets, all shown):")
+    for n in sorted(spread, reverse=True):
         print(f"   {n:3d} sources : {spread[n]:5d} entities")
     print()
 
-    top = sorted(candidates.items(), key=lambda kv: -len({h["source"] for h in kv[1]}))[:18]
+    ranked = sorted(candidates.items(), key=lambda kv: -len({h["source"] for h in kv[1]}))
+    TOP_N = 18
+    top = ranked[:TOP_N]
+    # A RANKING PLUS A STATED FLOOR AND AN HONEST "AND N MORE" -- the ruling recorded at
+    # health.py:576-585, applied here (order 4cea367c9235). Eighteen of 8,000-odd candidates
+    # were printed under a heading calling them the weave's backbone with nothing saying so,
+    # and this is a list a person reads to decide which entities to adjudicate. The eighteen
+    # stay -- ranking is allowed -- but the cut is now named, with the floor it was made at.
     print("most cross-attested entities (the weave's backbone):")
     for key, hits in top:
         srcs = sorted({h["source"] for h in hits})
         print(f"   {hits[0]['name'][:26]:28s} {len(srcs):2d} sources: "
-              f"{', '.join(s[:16] for s in srcs[:5])}{' …' if len(srcs) > 5 else ''}")
+              f"{', '.join(s[:16] for s in srcs[:5])}"
+              f"{f' … and {len(srcs) - 5} more sources' if len(srcs) > 5 else ''}")
+    if len(ranked) > TOP_N:
+        floor = len({h["source"] for h in ranked[TOP_N - 1][1]})
+        print(f"   … and {len(ranked) - TOP_N:,} more cross-attested entities, every one "
+              f"attested in {floor} sources or fewer — the full set is WEAVE_CANDIDATES.json "
+              f"(written with --write)")
 
     if args.write:
         # ATOMIC: cosmology_graph, thread_integrity and weave all read these concurrently.

@@ -329,7 +329,10 @@ def main():
                     help="diff these against whatever the automated pass produced")
     a = ap.parse_args()
 
-    out, inside = {}, 0
+    # `outside` carries the SAME per-entity delta `card()` already prints, kept so the verdict
+    # below can name which reconstruction drifted instead of only counting it (order
+    # d049dbbfed6e).
+    out, inside, outside = {}, 0, []
     for name, rec in REFERENCE.items():
         res = compute(name, rec)
         out[name] = {"reference": res, "charter": rec["charter"], "epoch": rec["epoch"],
@@ -338,7 +341,11 @@ def main():
                      "worksheet": {ax: {"score": v[0], "evidence": v[1], "locus": v[2],
                                         "provenance": v[3]} for ax, v in rec["axes"].items()}}
         val = res["decimal"] + A.LADDER.index(res["magnitude"])
-        inside += abs(val - rec["charter"][1]) <= rec["charter"][2]
+        delta = abs(val - rec["charter"][1])
+        if delta <= rec["charter"][2]:
+            inside += 1
+        else:
+            outside.append((name, delta, rec["charter"][2]))
         print(card(name, rec, res))
         print()
 
@@ -365,11 +372,36 @@ def main():
               f"and the file standards.py and zfighters.py read is the previous run's. Rerun "
               f"to retry.", file=sys.stderr)
 
+    # THE CALIBRATION IS PART OF THE VERDICT NOW (order d049dbbfed6e). Both returns below used
+    # to be `0 if landed else 1`, i.e. the exit code answered "did the OUTPUT FILE get written",
+    # and never "did the calibration this module exists to perform actually hold". `inside` was
+    # computed, printed, and dropped. That mattered because rc is the only channel out:
+    # `allsweep.py`'s "calibration assays" row runs this file specifically to catch a drifted
+    # benchmark, and a drifted benchmark exited 0. Reproduced 2026-08-29 by moving one charter
+    # value: '2/3 reconstructions land inside', delta 5.44, rc 0. A check that cannot fail looks
+    # exactly like a check that passed.
+    #
+    # THE TWO FAULTS STAY DISTINGUISHABLE, in the printout and in the words, because they have
+    # different remedies: WRITE DENIED is a locked or held file and the answer is to rerun;
+    # CALIBRATION OUTSIDE is the hand-built worksheets no longer reproducing the charter's
+    # published interval and the answer is to re-derive, never to rerun. They share ONE exit
+    # code deliberately -- both are RC_BROKEN-class faults for allsweep, not findings -- so no
+    # second VERIFIERS row is warranted; see the note beside that row in allsweep.py.
+    calibrated = not outside
+    if not calibrated:
+        for _name, _delta, _ci in outside:
+            print(f"CALIBRATION OUTSIDE -> {_name}: delta {_delta:.2f} against the charter's "
+                  f"published +/- {_ci:.2f}. The reconstruction no longer lands inside an "
+                  f"interval it was not fitted to, which is the one thing this module exists "
+                  f"to demonstrate.", file=sys.stderr)
+        print(f"CALIBRATION OUTSIDE: {len(outside)} of {len(REFERENCE)} reconstructions miss "
+              f"the charter's published interval.", file=sys.stderr)
+
     if a.compare:
         path = os.path.join(HERE, "data", "ASSAYS.json")
         if not os.path.exists(path):
             print("\nno ASSAYS.json yet - run the automated pass, then compare")
-            return 0 if landed else 1
+            return 0 if (landed and calibrated) else 1
         auto = json.load(open(path, encoding="utf-8"))
         # ASSAYS.json is keyed `host|entity` -- 'dragonball.fandom.com|Goku', never a bare
         # 'Goku'. This looked entities up by bare name, so every row fell into the fallback
@@ -441,7 +473,7 @@ def main():
               "automated pass's\npersisted per-axis scores (b03f2ab9951a) where both sides "
               "have a numeric reading for the\nsame axis; rows predating that field report "
               "'not recorded' instead of a fabricated zero.")
-    return 0 if landed else 1
+    return 0 if (landed and calibrated) else 1
 
 
 if __name__ == "__main__":

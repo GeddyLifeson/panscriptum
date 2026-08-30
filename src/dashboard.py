@@ -168,15 +168,28 @@ def quotas():
 def throughput(minutes=15):
     """Calls actually made in the recent past, per bucket. The quota panel says what is LEFT;
     this says what is being SPENT, and the two together are the whole picture."""
+    import contextlib
     import sqlite3
+    from urllib.request import pathname2url
     path = os.path.join(STATE, "cascade_scratch.db")
     out = {"window_min": minutes, "calls": 0, "per_hour": 0, "buckets": []}
+    # ABSENT IS NOT THE SAME AS UNREADABLE (order ef7a5b8b56a5). `sqlite3.connect` CREATES a
+    # missing file, so on a machine where Cascade has never run this used to mint a 0-byte
+    # database, fail the query with "no such table: usage", and post the same silence tag on
+    # every five-second poll -- 720 entries an hour in the ledger for a condition that is not a
+    # failure. The existence test comes first and carries its own tag, and the connection is
+    # opened read-only via the URI form so a monitor can never author the file it is watching.
+    if not os.path.exists(path):
+        silence.note("dashboard.py:throughput-no-db")
+        return out
     try:
-        c = sqlite3.connect(path)
-        since = time.time() - minutes * 60
-        rows = list(c.execute(
-            "select bucket, count(*), sum(outcome='ok') from usage where ts > ? "
-            "group by bucket order by 2 desc", (since,)))
+        # contextlib.closing: this ran unclosed on a 5s poll loop, leaking a handle per tick.
+        with contextlib.closing(
+                sqlite3.connect("file:%s?mode=ro" % pathname2url(path), uri=True)) as c:
+            since = time.time() - minutes * 60
+            rows = list(c.execute(
+                "select bucket, count(*), sum(outcome='ok') from usage where ts > ? "
+                "group by bucket order by 2 desc", (since,)))
         total = sum(r[1] for r in rows)
         out["calls"] = total
         out["per_hour"] = int(total * 60 / minutes) if minutes else 0
@@ -324,7 +337,12 @@ def _watch():
         out["open"] = len(openf)
         out["high"] = sum(1 for f in openf if (f.get("severity") or "").lower() == "high")
         out["findings"] = [{"module": f.get("module"), "symbol": f.get("symbol"),
-                            "actual": (f.get("actual") or "")[:160],
+                            # UNCUT (order 50c9f6130b95). This per-row [:160] survived inside the
+                            # list the cap three lines below was removed from: the longest
+                            # `actual` on disk measured exactly 160, so findings WERE being cut
+                            # mid-sentence with no ellipsis and the full text lived nowhere on
+                            # the page. The table cell wraps; /api/state has no layout at all.
+                            "actual": f.get("actual") or "",
                             "severity": f.get("severity", "medium")}
                            for f in openf]     # ALL open findings -- a monitoring cap ruled a truncation, 2026-08-24
     except Exception:
@@ -353,7 +371,9 @@ def movement(now_state):
     """What has CHANGED, not what the level is.
 
     The panel showed bars and the bars did not move, so it read as a system doing nothing --
-    which was half right and impossible to tell from the levels alone. A progress bar at 12.8%\n    looks identical whether it reached 12.8% a minute ago or three hours ago.
+    which was half right and impossible to tell from the levels alone. A progress bar at 12.8%
+    looks identical whether it reached 12.8% a minute ago or three hours
+    ago.
 
     So every reading is appended to a small history and the deltas are computed against the
     oldest sample inside the window. A number that has not moved now SAYS it has not moved,
@@ -576,7 +596,10 @@ def safety():
         import feats as _F
         import binding_health as _BH
         out["fetch"] = {"backoff": _F.backoff_state(),
-                        "quarantined": {h: r.get("reason", "")[:120]
+                        # reason uncut, same ruling as the finding text above (order
+                        # 50c9f6130b95): panelSafety renders `h + ': ' + qn[h]` verbatim, so a
+                        # [:120] here stopped a quarantine reason mid-sentence with no marker.
+                        "quarantined": {h: r.get("reason", "")
                                         for h, r in _BH.quarantined().items()}}
     except Exception:
         silence.note("dashboard.py:safety-fetch")

@@ -373,6 +373,11 @@ def status():
 
 STOPPED = os.path.join(HERE, "state", "STOPPED.json")
 
+# How many times a read-modify-write over STOPPED.json may re-read and swap again before it is
+# reported as unrecordable. Same number as `binding_health.CAS_ATTEMPTS`, which guards the same
+# shape on the other shared map this project keeps.
+STOP_CAS_ATTEMPTS = 5
+
 
 def stop_subsystem(name, reason, who="?", evidence=None):
     """Rung 4, made DURABLE. Stop one subsystem until a person resumes it. -> the record.
@@ -398,18 +403,60 @@ def stop_subsystem(name, reason, who="?", evidence=None):
     rec = escalate(MANAGER, "SUBSYSTEM_STOPPED",
                    "%s stopped: %s" % (name, reason), evidence=evidence,
                    source=name, who=who)
-    try:
-        doc = _read_stopped()
+    # A TRANSIENT RENAME DENIAL MUST NOT HALT THE LIBRARY (order 4f290dae34ef). This was one
+    # unretried `os.replace` inside `try: ... except Exception:` whose answer to ANY failure was
+    # `escalate(OWNER, ...)`. On Windows the rename is DENIED while any reader holds the target,
+    # and `subsystem_stopped()` is exactly such a reader, polled by the keeper on its own clock
+    # -- so the ordinary case that every other write in this project retries five times around
+    # closed the whole park. That is the over-eager safety shape `escalate()`'s own comment walks
+    # back for a misspelled rung name: a denial of service anyone can trigger by accident.
+    #
+    # The refusal is not weakened, only made truthful: the OWNER escalation now fires when the
+    # RETRYING, compare-and-swapped write genuinely could not land, which is the condition its
+    # sentence has always claimed to describe.
+    landed, detail = False, "not attempted"
+    for _ in range(STOP_CAS_ATTEMPTS):
+        # THE DIGEST IS TAKEN BEFORE THE READ, the same order and for the same reason as
+        # `binding_health._land_cas`: read first and the digest would match disk while the copy
+        # in hand is already stale, certifying the lost update instead of catching it.
+        expected = silence.digest_of(STOPPED)
+        try:
+            doc = _read_stopped()
+        except Exception:
+            silence.note("escalation.py:stop-read")
+            landed, detail = False, "state/STOPPED.json could not be read at all"
+            break
+        if "__unreadable__" in doc:
+            # NEVER OVERWRITE A LEDGER THAT COULD NOT BE READ. The old code wrote straight
+            # through this case, landing the `__unreadable__` marker itself into the file and
+            # destroying whatever standing stops it held -- the same fault
+            # `binding_health.quarantine` was repaired for (order dd3ff361db49). An unrecordable
+            # stop IS the OWNER case, so it falls out of the loop into the escalation below.
+            landed, detail = False, ("state/STOPPED.json could not be read as a map of stops, so "
+                                     "this stop cannot be added to the stops already in it "
+                                     "without destroying them")
+            break
         doc[str(name)] = {"at": time.time(), "reason": str(reason), "by": str(who),
                           "evidence": evidence if isinstance(evidence, (dict, list)) else None}
-        _write_stopped(doc)
-    except Exception:
+        try:
+            landed, detail = _write_stopped(doc, expected)
+        except Exception:
+            # `_write_stopped` re-raises whatever stopped the temp copy being written. A stop is
+            # already an emergency; it must not also become a traceback at its caller.
+            silence.note("escalation.py:stop-write")
+            landed, detail = False, "the temp copy could not be written"
+        if landed:
+            break
+    if not landed:
         # A stop that cannot be written down is a stop nothing else can honour, and the caller
         # must not be left believing the subsystem is closed. Raised to OWNER: this is the one
         # failure of the MANAGER rung that genuinely does need everything to halt.
         escalate(OWNER, "SUBSYSTEM_STOP_UNRECORDABLE",
-                 "could not record a MANAGER stop for %s; the keeper will restart it" % name,
-                 source=name, who=who)
+                 "could not record a MANAGER stop for %s (%s); the keeper will restart it"
+                 % (name, detail), source=name, who=who)
+    # THE VERDICT TRAVELS ON THE RECORD, exactly as `halt_landed` does one rung up, so a caller
+    # can tell an attempted stop from a recorded one without re-reading the file.
+    rec["stop_recorded"] = bool(landed)
     return rec
 
 
@@ -441,12 +488,57 @@ def _read_stopped():
     return d
 
 
-def _write_stopped(doc):
-    tmp = STOPPED + ".%d.tmp" % os.getpid()
+def _unlink(path):
+    """Remove a scratch file, and never let the removal itself become the failure."""
+    try:
+        os.remove(path)
+    except FileNotFoundError:
+        pass
+    except Exception:
+        silence.note("escalation.py:tmp-not-removed")
+
+
+def _write_stopped(doc, expected_digest=None):
+    """Land the stopped-subsystems map. -> (landed, reason). Order 4f290dae34ef.
+
+    THIS WAS THE ONLY WRITE IN THIS MODULE THAT DID NOT RETRY A DENIED RENAME. It was a
+    hand-rolled `tmp = STOPPED + '.%d.tmp' % os.getpid()` followed by a bare `os.replace`, while
+    `_raise_halt` and `clear()` twenty lines either side both go through `silence`, and the
+    comments beside them spell out why: on Windows the rename is DENIED while any reader holds
+    the target. `subsystem_stopped()` is exactly such a reader and the keeper polls it on its
+    own clock, so the destination is routinely open. The cost of the omission was paid one
+    caller up -- `stop_subsystem` answered the denial with an OWNER halt of the entire library,
+    and `resume_subsystem` did not catch it at all, leaving an uncaught PermissionError with the
+    subsystem still stopped on disk and its work order still open.
+
+    AND IT IS A COMPARE-AND-SWAP, because both callers are READ-MODIFY-WRITE over a map two
+    processes share. `expected_digest` is taken BEFORE the caller reads the file, exactly as
+    `binding_health.quarantine`/`release` take theirs: two concurrent `stop_subsystem` calls
+    each read the map, each add their own key, and whichever renames second lands a snapshot
+    taken before the other's stop existed. That write SUCCEEDS, so nothing reports it, and the
+    lost stop looks exactly like a subsystem that was never stopped -- which is the failure this
+    whole rung was added for. `None` asserts the file did not exist when it was read.
+
+    The temp name carries pid AND thread, which the old one did not: two writers otherwise
+    collide on the temp file itself and the loser can land a half-written map.
+    """
+    import threading as _th
     os.makedirs(os.path.dirname(STOPPED), exist_ok=True)
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(doc, f, indent=2)
-    os.replace(tmp, STOPPED)
+    tmp = "%s.%d.%d.tmp" % (STOPPED, os.getpid(), _th.get_ident())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            # `ensure_ascii=False` with an explicit utf-8 handle, matching `binding_health._land`:
+            # `_read_stopped` opens this file as utf-8, so the two ends now agree by construction.
+            json.dump(doc, f, indent=2, ensure_ascii=False)
+    except Exception:
+        _unlink(tmp)
+        raise
+    ok, why = silence.replace_if_unchanged(tmp, STOPPED, expected_digest)
+    if not ok:
+        # `replace_if_unchanged` leaves the temp where it is on a refusal, and litter beside a
+        # shared state file is its own small fault.
+        _unlink(tmp)
+    return ok, why
 
 
 def subsystem_stopped(name):
@@ -468,11 +560,44 @@ def resume_subsystem(name, ruling, by="?"):
     """Re-open one subsystem. Demands a written ruling, exactly as `clear` does. -> bool."""
     if not (ruling or "").strip() or len(str(ruling).strip()) < 20:
         raise ValueError("resuming a stopped subsystem needs a written ruling, not a shrug")
-    doc = _read_stopped()
-    if str(name) not in doc:
+    # THE WRITE'S VERDICT IS READ, NOT ASSUMED (order 4f290dae34ef). This was a bare
+    # `_write_stopped(doc)` with no guard at all, so the ordinary Windows rename denial came out
+    # of here as an uncaught PermissionError -- after `doc.pop`, so the operator got a traceback
+    # while the subsystem was still stopped on disk and its SUBSYSTEM_STOPPED order still open.
+    # Retried and compare-and-swapped for the same reason `stop_subsystem` is: a resume that
+    # loses its update leaves a stop standing that everybody believes was lifted.
+    landed, detail = False, "not attempted"
+    for _ in range(STOP_CAS_ATTEMPTS):
+        # The digest goes BEFORE the read -- see `_write_stopped`.
+        expected = silence.digest_of(STOPPED)
+        doc = _read_stopped()
+        if "__unreadable__" in doc:
+            # Fail closed, and say so. An unreadable ledger means the standing stops cannot be
+            # seen, so it cannot be said whether this one is held, and nothing may be written
+            # over records nobody has read. The subsystem stays stopped, which is what is on disk.
+            sys.stderr.write("NOT RESUMED: state/STOPPED.json could not be read as a map of "
+                             "stops, so %s cannot be shown to be stopped and nothing may be "
+                             "written over what it holds.\n" % name)
+            return False
+        if str(name) not in doc:
+            return False
+        doc.pop(str(name), None)
+        try:
+            landed, detail = _write_stopped(doc, expected)
+        except Exception:
+            silence.note("escalation.py:resume-write")
+            landed, detail = False, "the temp copy could not be written"
+        if landed:
+            break
+    if not landed:
+        # NOT AN EXCEPTION, AND NOT A SILENT False EITHER. The stop is still on disk, so the
+        # honest answer is that the resume did not happen -- said in the same voice `clear()`
+        # uses for its own refused write, because it is the same fact one rung down.
+        silence.note("escalation.py:resume-not-landed")
+        sys.stderr.write("NOT RESUMED: state/STOPPED.json could not be written after %d attempts "
+                         "(%s). %s is STILL STOPPED. Close whatever is holding the file and run "
+                         "this again.\n" % (STOP_CAS_ATTEMPTS, detail, name))
         return False
-    doc.pop(str(name), None)
-    _write_stopped(doc)
     escalate(JANITOR, "SUBSYSTEM_RESUMED", "%s resumed: %s" % (name, ruling),
              source=name, who=by)
     # AND THE STOP'S OWN WORK ORDER IS CLOSED HERE, because nothing else was closing it.
@@ -609,7 +734,19 @@ def main():
     a = ap.parse_args()
     if a.raise_halt:
         code, _, what = a.raise_halt.partition(":")
-        escalate(OWNER, code or "MANUAL", what or "raised by hand", who="cli")
+        # THE LANDING VERDICT IS NOT THROWN AWAY HERE EITHER (order a1addbdff907). This was
+        # `escalate(...)` / `print("halted.")` / `return 0`, so a person who deliberately halted
+        # the library was told on stdout that they had -- with a success rc for any script
+        # watching -- whether or not `state/HALT.json` ever appeared. When it does not appear
+        # every other process's `assert_clear()` finds no halt and carries straight on, which is
+        # the exact failure `escalate()` was rewritten to be able to report. Branched the same
+        # way `--clear` names which of its two worlds it is in, ten lines down.
+        rec = escalate(OWNER, code or "MANUAL", what or "raised by hand", who="cli")
+        if not rec.get("halt_landed"):
+            print("THE HALT WAS NOT RAISED — state/HALT.json could not be written (a reader is "
+                  "holding it). Nothing is halted; close whatever holds the file and run this "
+                  "again.")
+            return 1
         print("halted.")
         return 0
     if a.clear:

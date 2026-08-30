@@ -70,23 +70,57 @@ def engine():
         return _ENGINE
     if not available():
         return None
-    sys.path.insert(0, CASCADE)
-    from cascade import config as C, store as S, router as R, engine as E
-    cfg = C.load()
-    st = S.Store(os.path.join(HERE, "state", "cascade_scratch.db"))
-    # TOOLS OFF for batch work. Cascade's system prompt advertises a filesystem toolset to its
-    # coding assistant, and a routed model inherits it -- extraction calls came back carrying
-    # `tool search_text(...)` and `tool read_file(...)` instead of answers. The verbatim check
-    # threw all of it away, so nothing was corrupted, but every one of those was a wasted round
-    # trip. A feat-extraction call has nothing to read from a filesystem.
-    cfg = dict(cfg)
-    cfg["system_prompt"] = ""
-    _ROUTER = R.Router(cfg, st)
-    _ENGINE = E.Engine(cfg, st, _ROUTER)
-    for m in _ROUTER.models:
-        m.supports_tools = False
-    _CFG["cfg"] = cfg
-    return _ENGINE
+    # DOUBLE-CHECKED LOCKING, AND THE LOCK WAS ON THE WRONG HALF (order af50bab5a369).
+    #
+    # `_BUILD_LOCK` guarded only `thread_engine`'s PER-THREAD build, which needs no cross-thread
+    # coordination at all, while THIS build -- the one that publishes three module globals --
+    # ran unsynchronised. The readers run sixteen workers wide and every one of them reaches
+    # here on the same cold start, so both hazards were live:
+    #
+    #   TWO ROUTERS. Both threads see `_ENGINE is None`, both build, and the second overwrites
+    #   `_ROUTER`. Every per-thread Engine already constructed holds the FIRST Router while
+    #   `_alive`, the claim loop, `widen_candidates`, `_bucket_of`, `pools`, `cloud_buckets`,
+    #   `prove` and `try_disabled` all read the module global, which is now the second. That
+    #   breaks the one invariant `thread_engine`'s docstring gives as the reason the Router is
+    #   shared -- the in-flight reservations only pace anything if all workers consult the same
+    #   counter -- and reservations split across two counters over-admit, which is the
+    #   429-then-learned-cap failure the whole reservation design exists to prevent.
+    #
+    #   KeyError: 'cfg'. `_ENGINE` was published BEFORE `_CFG["cfg"]` was written, so a second
+    #   thread returning from `engine()` between those two statements fell straight into
+    #   `E.Engine(_CFG["cfg"], ...)` in `thread_engine` and raised. `_ask_call` calls
+    #   `thread_engine()` bare, so nothing caught it and the worker lost its call.
+    #
+    # So: the whole build happens under the lock, `_ENGINE` is published LAST, and a reader that
+    # sees a non-None `_ENGINE` is therefore guaranteed to see a complete `_CFG` and `_ROUTER`.
+    # A plain `Lock` is still correct and an `RLock` is not needed: `thread_engine` lets this
+    # function RETURN before it takes the same lock for its own build, so the two acquisitions
+    # are sequential rather than nested.
+    with _BUILD_LOCK:
+        if _ENGINE is not None:
+            return _ENGINE
+        sys.path.insert(0, CASCADE)
+        from cascade import config as C, store as S, router as R, engine as E
+        cfg = C.load()
+        st = S.Store(os.path.join(HERE, "state", "cascade_scratch.db"))
+        # TOOLS OFF for batch work. Cascade's system prompt advertises a filesystem toolset to
+        # its coding assistant, and a routed model inherits it -- extraction calls came back
+        # carrying `tool search_text(...)` and `tool read_file(...)` instead of answers. The
+        # verbatim check threw all of it away, so nothing was corrupted, but every one of those
+        # was a wasted round trip. A feat-extraction call has nothing to read from a filesystem.
+        cfg = dict(cfg)
+        cfg["system_prompt"] = ""
+        router = R.Router(cfg, st)
+        eng = E.Engine(cfg, st, router)
+        for m in router.models:
+            m.supports_tools = False
+        # PUBLICATION ORDER IS THE POINT: config, then router, then -- last -- the engine that
+        # every other reader gates on. Built into locals first so a half-built router is never
+        # visible under the global name even for an instant.
+        _CFG["cfg"] = cfg
+        _ROUTER = router
+        _ENGINE = eng
+        return _ENGINE
 
 
 _CFG = {}
@@ -786,34 +820,69 @@ def record_unrecognised(bucket, err):
         # and two genuinely different errors do not become one by differing in case alone.
         key = bucket + "|" + text[:80].lower()
         now = time.time()
+        # COMPARE-AND-SWAP, NOT A SNAPSHOT WRITE (order 853aa8990132).
+        #
+        # `_UNREC_LOCK` is a `threading.Lock`, so it orders writers inside ONE process, and this
+        # file is written from every process that imports `cascade_bridge` -- read, pipeline,
+        # feats, overwatch. The previous shape loaded the whole dict, edited it, and landed the
+        # snapshot: process A loads, process B loads, A writes, B writes, and B's rename
+        # replaces the file with a version that never contained A's key. A row -- or an
+        # incremented `count` -- was silently gone.
+        #
+        # The loss is the exact loss this ledger exists to prevent. The owner's ruling of
+        # 2026-08-25 is that an unrecognised failure is investigated the moment it is spotted,
+        # and a row that was never written is a fault nobody spots; worse, the losses bunch up
+        # in a BURST, which is both when several processes fail at once and when the row is
+        # likeliest to be the one that matters. A dropped `count` also corrupts the
+        # "how long has this been failing" signal the file is kept for.
+        #
+        # So the read-modify-write retries against a digest taken at read time, which is the
+        # shape `workorders._mutate` and `endpoint.register` already use here. The temp still
+        # carries pid AND thread (m100's fixed-`.tmp` collision race stays closed) plus the
+        # attempt number, and the landing still goes through `silence` -- `replace_if_unchanged`
+        # calls `replace_retry`, so the Windows denied-rename backoff is unchanged and the
+        # verdict is still READ rather than assumed, which is what makes the note below reachable.
         with _UNREC_LOCK:
-            try:
-                with open(UNRECOGNISED, encoding="utf-8") as f:
-                    rows = json.load(f)
-            except Exception:
-                rows = {}
-            if not isinstance(rows, dict):
-                rows = {}
-            r = rows.get(key) or {"bucket": bucket, "error": text,
-                                  "first_seen": now, "count": 0}
-            r["error"] = text
-            r["last_seen"] = now
-            r["count"] = int(r.get("count", 0)) + 1
-            rows[key] = r
-            # `silence.write_json`, NOT a hand-rolled `path + ".tmp"`. This function was written
-            # in the same session as m100 -- the sweep that found eighteen truncate-then-fill
-            # writes and closed the fixed-temp-name collision race behind them -- and then used
-            # the exact pattern m100 retired. `_UNREC_LOCK` is a threading lock, so it orders
-            # writers inside ONE process; this file is written from every process that imports
-            # `cascade_bridge` (read, pipeline, feats, overwatch), and those collide on the temp
-            # file itself. The pid+thread-unique name makes that unavailable to get wrong.
-            # AND THE VERDICT IS READ. `write_json` promises it NEVER RAISES -- a denied replace
-            # comes back as False -- so the `except` below could not see this failure and the
-            # note beneath it never fired for the one case it was written for. The recorder
-            # built to make failures visible was still, for a denied write, the one place whose
-            # own failure left no mark: exactly the run #26 fault the comment below describes,
-            # surviving underneath the fix for it.
-            if not silence.write_json(UNRECOGNISED, rows, indent=1, sort_keys=True):
+            landed = False
+            for attempt in range(8):
+                # The digest is taken BEFORE the read, so anything landing between the two makes
+                # the swap fail closed rather than pass on a copy that is already behind.
+                digest = silence.digest_of(UNRECOGNISED)
+                try:
+                    with open(UNRECOGNISED, encoding="utf-8") as f:
+                        rows = json.load(f)
+                except Exception:
+                    rows = {}
+                if not isinstance(rows, dict):
+                    rows = {}
+                # RE-DERIVED FROM THE COPY JUST READ, on every attempt. `count` and `first_seen`
+                # must come from the fresh dict, never be captured once from the first read --
+                # that is the whole reason this re-applies the change rather than merely
+                # retrying the write, so a concurrent record of the same fault is merged in
+                # instead of being overwritten.
+                r = rows.get(key) or {"bucket": bucket, "error": text,
+                                      "first_seen": now, "count": 0}
+                r["error"] = text
+                r["last_seen"] = now
+                r["count"] = int(r.get("count", 0)) + 1
+                rows[key] = r
+                os.makedirs(os.path.dirname(UNRECOGNISED), exist_ok=True)
+                tmp = "%s.%d.%d.%d.tmp" % (UNRECOGNISED, os.getpid(),
+                                           threading.get_ident(), attempt)
+                with open(tmp, "w", encoding="utf-8") as f:
+                    json.dump(rows, f, indent=1, sort_keys=True)
+                landed, _why = silence.replace_if_unchanged(tmp, UNRECOGNISED, digest)
+                if landed:
+                    break
+                try:
+                    os.remove(tmp)
+                except OSError:
+                    silence.note("cascade_bridge.py:unrecognised-tmp-cleanup")
+                time.sleep(0.05 * (attempt + 1))
+            if not landed:
+                # The verdict is READ, not assumed. A denied replace is a return value here, not
+                # an exception, so without this the recorder built to make failures visible was
+                # itself the one place whose own failure left no mark (run #26).
                 silence.note("cascade_bridge.py:record-unrecognised-denied")
     except Exception:
         # Total, but NOT untraceable. `pass` alone meant the recorder built to make failures
@@ -1167,6 +1236,12 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         if pinned is None:
             return None
         _ROUTER.reserve(pinned)
+        # SYMMETRY WITH THE OTHER TWO RESERVE SITES (order d5012fbc73c1). Nothing is lost today
+        # -- both pinning callers, `prove()` and `try_disabled()`, take their attribution from
+        # the `served` dict -- but a third caller passing `pin=` without `served=` would write
+        # the same blank metric row this order was filed about, and the cost of preventing that
+        # is one line.
+        _tried_add(pinned.bucket)
     for _ in range(4 if pin is None else 0):
         claimed = _ROUTER.claim(pool, 1)
         if not claimed:
@@ -1246,6 +1321,15 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             except Exception:
                 silence.note("cascade_bridge.py:widen-reserve")
                 continue
+            # THE WIDEN PATH NAMES ITS BUCKET TOO (order d5012fbc73c1). The tagged-pool claim
+            # loop above calls `_tried_add(cand.bucket)`; this branch reserved, pinned and
+            # returned without it, so `_tried()` was empty for every widened call and `ask()`'s
+            # metric row wrote `"model": ""` and `"tried": []`. That is the exact unattributable
+            # row the comment beside `"model"` records as already fixed -- 426 cascade calls in
+            # six hours, every one a failure, every one written down as bucket "?" -- surviving
+            # on the branch that carries nearly all the traffic, since this file's own comment
+            # above explains the tagged pool is four buckets and all four were answering 402.
+            _tried_add(m.bucket)
             pinned = m
             break
 
@@ -1264,104 +1348,117 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
     if served is not None:
         served["dispatched_to"] = pinned.id
         served["dispatched_bucket"] = pinned.bucket
-    _pace(pinned.bucket)
-    sys_msg = system
-    if schema:
-        sys_msg = (system + "\n\nReply with JSON ONLY, no prose and no code fence, "
-                   "matching this schema exactly:\n" + json.dumps(schema))
-    messages = [{"role": "system", "content": sys_msg},
-                {"role": "user", "content": prompt}]
-    out, answered, done = [], None, threading.Event()
-    # `failovers` keeps the model LABEL for the record; `reasons` is the provider's disposition
-    # ALONE, and the split is not tidiness. The label is a display string that contains the
-    # provider's NAME, and every classifier downstream matches provider names as words --
-    # the WAF test used to look for a bare "cloudflare", which appears in the label of every
-    # Cloudflare model whatever went wrong. Feeding a labelled string to a classifier makes the
-    # label decide the verdict.
-    #
-    # THE RECEIVING SIDE IS NOW CLOSED TOO (order 62f4b7caae73): `client_rejection` requires the
-    # provider name to arrive WITH a challenge word, so the two paths that still deliver
-    # provider-naming text to a classifier -- `_why = raw` keeping the engine's
-    # "All 1 candidates failed: <label>" wrapper, and `provider_error()` returning a
-    # `last_error` a provider may open with its own name -- can no longer excuse a real refusal.
-    # This split stays as it is: keeping the reason clean at the source is still the better
-    # discipline, and the guard below it is the belt to that pair of braces.
-    box = {"answered": None, "answered_id": None, "failed": False,
-           "failovers": [], "reasons": []}
-
-    # THE NEW KEYWORD IS ONLY SENT WHEN IT IS ASKED FOR. `Engine.stream_chat` grew
-    # `max_attempts` some time ago and every call here goes through one function, so passing it
-    # unconditionally would make EVERY call in the library depend on the age of whatever
-    # `CASCADE_HOME` points at -- a `TypeError` on an older engine would be a total outage of the
-    # cloud lane, bought for a parameter only `prove()` uses. Absent, the engine applies its own
-    # default, which is what this call has always got.
-    _stream_kw = {"pool": pool, "temperature": temperature,
-                  "pinned": pinned.id if pinned else None}
-    if max_attempts is not None:
-        _stream_kw["max_attempts"] = max_attempts
-
-    def pump():
-        try:
-            for ev in e.stream_chat(messages, **_stream_kw):
-                t = ev.get("type")
-                if t == "delta":
-                    out.append(ev.get("text") or ev.get("delta") or "")
-                elif t == "model":
-                    box["answered"] = ev.get("label") or ev.get("model_id")
-                    # THE ID AS WELL AS THE LABEL. `_via` wants the friendly label; deciding
-                    # WHICH BUCKET served needs the model id, which is the only field that maps
-                    # back to `Model.bucket` without guessing at a display string.
-                    box["answered_id"] = ev.get("model_id")
-                elif t == "failover":
-                    # THE EVENT THIS LOOP USED TO STEP OVER IN SILENCE, and the reason
-                    # POOL_PROOF.json has never once held a bucket-specific reason. Each
-                    # failover carries the PROVIDER's own disposition -- `HTTP 401 ...`,
-                    # `removed from the pool - no such model (HTTP 404)`, `rate limited` --
-                    # while the aggregate that arrives at the end says only "All N candidates
-                    # failed". The classifier in `dead_forever` was written against words that
-                    # only ever existed in these events.
-                    _r = str(ev.get("reason") or "")[:200]
-                    box["failovers"].append("%s: %s" % (ev.get("from") or "?", _r))
-                    if _r:
-                        box["reasons"].append(_r)
-                elif t == "error":
-                    box["failed"] = True
-                    box["error"] = str(ev.get("error") or ev.get("text") or "")[:300]
-                    return
-        except Exception as exc:
-            silence.note("cascade_bridge.py:stream-pump")
-            box["failed"] = True
-            # THE TEXT IS THE DIAGNOSIS, AND IT USED TO BE THROWN AWAY HERE.
-            # A provider whose failure ARRIVES AS AN EXCEPTION rather than as a `type:"error"`
-            # event left `box["error"]` unset, so the auth classifier below matched the empty
-            # string, never fired, and the bucket took no bench at all. That is why the bench
-            # this file's own comment promises -- "benched for hours so the rotation contains
-            # only providers that could plausibly answer" -- was not reaching `cloudflare` and
-            # `hyperbolic`, which hold hard 401s and were still being re-claimed every few
-            # minutes on 2026-08-25. Recording the text is what makes the classifier reachable.
-            box["error"] = str(exc)[:300]
-        finally:
-            done.set()
-
-    # A HARD DEADLINE, because a provider going quiet must not take a worker with it.
-    #
-    # Seventy-five seconds, against a healthy call that returns a 10,000-character extraction in
-    # one to four. The deadline is not a timeout for slow work -- it is the cost of discovering a
-    # SILENT bucket, and it has to sit well above the worst honest queueing a free tier does
-    # under sustained load, or the run benches its own best providers for being busy.
-    #
-    # Eight workers went into this call and none came out in two minutes, while the same call
-    # alone returned in eight seconds. Whatever a given free tier does when it is unhappy --
-    # throttle, hold the socket, never answer -- the run cannot be hostage to it. The stream is
-    # pumped on its own thread and abandoned at the deadline; the caller falls back to the GPU,
-    # which is slower and always answers.
-    #
-    # The abandoned thread is a daemon and will finish or die with the process. Letting it leak
-    # is the lesser fault: the alternative is a reader that stops without saying so.
-    th = threading.Thread(target=pump, daemon=True)
-    th.start()
-    finished = done.wait(timeout)
+    # THE TRY OPENS AT THE RESERVE, NOT AT THE STREAM (order e0b4a02c5133). The reservation is
+    # taken well above here -- `_ROUTER.reserve(pinned)` on the pin path and `_ROUTER.reserve(m)`
+    # on the widen fallback -- while this `try`'s `finally` used to start only at
+    # `done.wait(timeout)`, so everything in between ran with a live reservation and no release.
+    # Two faults in that gap are real rather than theoretical: `json.dumps(schema)` raises
+    # TypeError on a schema carrying a non-serialisable value, and `Thread.start()` raises
+    # RuntimeError when the process cannot make a thread -- and this module runs sixteen workers
+    # wide on a host that has already been recorded running out of ephemeral ports. A leaked
+    # reservation never heals: it permanently narrows the router's view of that bucket's
+    # headroom, shrinking the pool this file repeatedly calls the binding constraint. Opening
+    # here makes the release unconditional from the moment the reservation exists. The
+    # `if pinned is None: ... return None` exit above stays OUTSIDE, because nothing is reserved
+    # on that path.
     try:
+        _pace(pinned.bucket)
+        sys_msg = system
+        if schema:
+            sys_msg = (system + "\n\nReply with JSON ONLY, no prose and no code fence, "
+                       "matching this schema exactly:\n" + json.dumps(schema))
+        messages = [{"role": "system", "content": sys_msg},
+                    {"role": "user", "content": prompt}]
+        out, answered, done = [], None, threading.Event()
+        # `failovers` keeps the model LABEL for the record; `reasons` is the provider's disposition
+        # ALONE, and the split is not tidiness. The label is a display string that contains the
+        # provider's NAME, and every classifier downstream matches provider names as words --
+        # the WAF test used to look for a bare "cloudflare", which appears in the label of every
+        # Cloudflare model whatever went wrong. Feeding a labelled string to a classifier makes the
+        # label decide the verdict.
+        #
+        # THE RECEIVING SIDE IS NOW CLOSED TOO (order 62f4b7caae73): `client_rejection` requires the
+        # provider name to arrive WITH a challenge word, so the two paths that still deliver
+        # provider-naming text to a classifier -- `_why = raw` keeping the engine's
+        # "All 1 candidates failed: <label>" wrapper, and `provider_error()` returning a
+        # `last_error` a provider may open with its own name -- can no longer excuse a real refusal.
+        # This split stays as it is: keeping the reason clean at the source is still the better
+        # discipline, and the guard below it is the belt to that pair of braces.
+        box = {"answered": None, "answered_id": None, "failed": False,
+               "failovers": [], "reasons": []}
+
+        # THE NEW KEYWORD IS ONLY SENT WHEN IT IS ASKED FOR. `Engine.stream_chat` grew
+        # `max_attempts` some time ago and every call here goes through one function, so passing it
+        # unconditionally would make EVERY call in the library depend on the age of whatever
+        # `CASCADE_HOME` points at -- a `TypeError` on an older engine would be a total outage of the
+        # cloud lane, bought for a parameter only `prove()` uses. Absent, the engine applies its own
+        # default, which is what this call has always got.
+        _stream_kw = {"pool": pool, "temperature": temperature,
+                      "pinned": pinned.id if pinned else None}
+        if max_attempts is not None:
+            _stream_kw["max_attempts"] = max_attempts
+
+        def pump():
+            try:
+                for ev in e.stream_chat(messages, **_stream_kw):
+                    t = ev.get("type")
+                    if t == "delta":
+                        out.append(ev.get("text") or ev.get("delta") or "")
+                    elif t == "model":
+                        box["answered"] = ev.get("label") or ev.get("model_id")
+                        # THE ID AS WELL AS THE LABEL. `_via` wants the friendly label; deciding
+                        # WHICH BUCKET served needs the model id, which is the only field that maps
+                        # back to `Model.bucket` without guessing at a display string.
+                        box["answered_id"] = ev.get("model_id")
+                    elif t == "failover":
+                        # THE EVENT THIS LOOP USED TO STEP OVER IN SILENCE, and the reason
+                        # POOL_PROOF.json has never once held a bucket-specific reason. Each
+                        # failover carries the PROVIDER's own disposition -- `HTTP 401 ...`,
+                        # `removed from the pool - no such model (HTTP 404)`, `rate limited` --
+                        # while the aggregate that arrives at the end says only "All N candidates
+                        # failed". The classifier in `dead_forever` was written against words that
+                        # only ever existed in these events.
+                        _r = str(ev.get("reason") or "")[:200]
+                        box["failovers"].append("%s: %s" % (ev.get("from") or "?", _r))
+                        if _r:
+                            box["reasons"].append(_r)
+                    elif t == "error":
+                        box["failed"] = True
+                        box["error"] = str(ev.get("error") or ev.get("text") or "")[:300]
+                        return
+            except Exception as exc:
+                silence.note("cascade_bridge.py:stream-pump")
+                box["failed"] = True
+                # THE TEXT IS THE DIAGNOSIS, AND IT USED TO BE THROWN AWAY HERE.
+                # A provider whose failure ARRIVES AS AN EXCEPTION rather than as a `type:"error"`
+                # event left `box["error"]` unset, so the auth classifier below matched the empty
+                # string, never fired, and the bucket took no bench at all. That is why the bench
+                # this file's own comment promises -- "benched for hours so the rotation contains
+                # only providers that could plausibly answer" -- was not reaching `cloudflare` and
+                # `hyperbolic`, which hold hard 401s and were still being re-claimed every few
+                # minutes on 2026-08-25. Recording the text is what makes the classifier reachable.
+                box["error"] = str(exc)[:300]
+            finally:
+                done.set()
+
+        # A HARD DEADLINE, because a provider going quiet must not take a worker with it.
+        #
+        # Seventy-five seconds, against a healthy call that returns a 10,000-character extraction in
+        # one to four. The deadline is not a timeout for slow work -- it is the cost of discovering a
+        # SILENT bucket, and it has to sit well above the worst honest queueing a free tier does
+        # under sustained load, or the run benches its own best providers for being busy.
+        #
+        # Eight workers went into this call and none came out in two minutes, while the same call
+        # alone returned in eight seconds. Whatever a given free tier does when it is unhappy --
+        # throttle, hold the socket, never answer -- the run cannot be hostage to it. The stream is
+        # pumped on its own thread and abandoned at the deadline; the caller falls back to the GPU,
+        # which is slower and always answers.
+        #
+        # The abandoned thread is a daemon and will finish or die with the process. Letting it leak
+        # is the lesser fault: the alternative is a reader that stops without saying so.
+        th = threading.Thread(target=pump, daemon=True)
+        th.start()
+        finished = done.wait(timeout)
         if not finished:
             silence.note("cascade_bridge.py:deadline")
             if pinned:
@@ -1532,7 +1629,14 @@ def selftest():
     print(f"engine built. pools: {pools()}")
     ready = [m.label for m in _ROUTER.models if _ROUTER.provider_ready(m)[0]]
     print(f"models configured: {len(_ROUTER.models)}   provider-ready: {len(ready)}")
-    for lab in ready[:12]:
+    # EVERY ONE OF THEM (order c48c3de407d8, Hard Rule 0). This was `ready[:12]` with no "and N
+    # more" anywhere, and `selftest` is the command a person runs precisely to find out WHICH
+    # providers are live -- roughly forty-two models are configured here with about twenty-six
+    # holding working credentials, so the cut fired on every ordinary run and the reader had
+    # only the count above to infer from that anything had been dropped. Printing the lot costs
+    # a couple of dozen lines at this scale, which is cheaper than a truncated answer to the one
+    # question the command exists to answer.
+    for lab in ready:
         print(f"   {lab}")
     schema = {"type": "object", "properties": {"feats": {"type": "array", "items": {
         "type": "object", "properties": {"sentence": {"type": "string"},
@@ -1550,36 +1654,6 @@ def selftest():
     if got:
         print(json.dumps({k: v for k, v in got.items() if k != '_via'}, indent=1)[:400])
     return 0 if got else 1
-
-
-_USAGE = """cascade_bridge -- the router every cloud model call in this pipeline goes through.
-
-  python src/cascade_bridge.py --selftest   build the engine and make ONE live call
-  python src/cascade_bridge.py              the same thing (the historic default)
-  python src/cascade_bridge.py --help       this text, and nothing else
-
-Everything else here is used by importing it: feats.py, pipeline.py and the rest call ask().
-"""
-
-if __name__ == "__main__":
-    # `--help` MUST NOT SPEND A LIVE MODEL CALL, and until now it did. This file has no argparse,
-    # so every argv fell straight through to `selftest()` -- which builds the router, walks
-    # thirty providers and makes a real request. `allsweep.check_import` asks EVERY module
-    # `--help` precisely because it is "the cheapest total exercise of a module ... without doing
-    # any work", so once a day the IMPORT tier made a network call on this one's behalf, and when
-    # the weather was bad `selftest()` returned 1 with no traceback and the tier graded
-    # cascade_bridge a BROKEN IMPORT. That is order 2d6c9343cd32: a MAJOR work order filed
-    # against a module that imports perfectly, by a tier that cannot tell "this will not load"
-    # from "a provider was rate-limited ninety seconds ago".
-    #
-    # The live check is NOT dropped -- trading one blind spot for another is not a fix. It is now
-    # an explicit VERIFY-tier row in `allsweep.VERIFIERS` (`cascade live call`, rc graded
-    # BROKEN), which is the tier whose entire product is a verdict, and whose rows now actually
-    # reach the sweep's grade and the work order queue (order 14bd09740627, same run).
-    if set(sys.argv[1:]) & {"-h", "--help"}:
-        print(_USAGE)
-        sys.exit(0)
-    sys.exit(selftest())
 
 
 # --------------------------------------------------------------------------- proving the pool
@@ -1765,3 +1839,42 @@ def try_disabled(pool="coding", timeout=60):
                     "served": who,
                     "seconds": round(time.time() - t, 1)})
     return out
+
+
+_USAGE = """cascade_bridge -- the router every cloud model call in this pipeline goes through.
+
+  python src/cascade_bridge.py --selftest   build the engine and make ONE live call
+  python src/cascade_bridge.py              the same thing (the historic default)
+  python src/cascade_bridge.py --help       this text, and nothing else
+
+Everything else here is used by importing it: feats.py, pipeline.py and the rest call ask().
+"""
+
+if __name__ == "__main__":
+    # AT THE FOOT OF THE FILE, WHICH IT WAS NOT (order fa3900441022). This block sat at :1564
+    # with `prove()` (:1587) and `try_disabled()` (:1701) defined BELOW it, so run as a script
+    # the `sys.exit(...)` fired before those two `def` statements ever executed and neither
+    # function existed in the `__main__` namespace. Nothing was broken -- `selftest()` uses
+    # neither, and every other caller imports the module, where module-level execution completes
+    # -- but it was a trap primed for whoever next adds a `--prove` or `--try-disabled` flag here
+    # and gets a NameError that reads like a typo. It also left `_USAGE`, which describes the
+    # whole CLI, sitting above two thirds of the module's public surface. Pure relocation.
+    #
+    # `--help` MUST NOT SPEND A LIVE MODEL CALL, and until now it did. This file has no argparse,
+    # so every argv fell straight through to `selftest()` -- which builds the router, walks
+    # thirty providers and makes a real request. `allsweep.check_import` asks EVERY module
+    # `--help` precisely because it is "the cheapest total exercise of a module ... without doing
+    # any work", so once a day the IMPORT tier made a network call on this one's behalf, and when
+    # the weather was bad `selftest()` returned 1 with no traceback and the tier graded
+    # cascade_bridge a BROKEN IMPORT. That is order 2d6c9343cd32: a MAJOR work order filed
+    # against a module that imports perfectly, by a tier that cannot tell "this will not load"
+    # from "a provider was rate-limited ninety seconds ago".
+    #
+    # The live check is NOT dropped -- trading one blind spot for another is not a fix. It is now
+    # an explicit VERIFY-tier row in `allsweep.VERIFIERS` (`cascade live call`, rc graded
+    # BROKEN), which is the tier whose entire product is a verdict, and whose rows now actually
+    # reach the sweep's grade and the work order queue (order 14bd09740627, same run).
+    if set(sys.argv[1:]) & {"-h", "--help"}:
+        print(_USAGE)
+        sys.exit(0)
+    sys.exit(selftest())

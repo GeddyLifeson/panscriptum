@@ -563,30 +563,38 @@ def _target_names(t):
     return []                       # a subscript or attribute target binds no new constant
 
 
-def scan_constants(mod):
-    """Module-level UPPERCASE assignments -- the only place a new constant can hide.
+def scan_constants_with_reason(mod):
+    """-> (names, None) on success, or (None, reason) when the module could not be scanned.
 
-    READS THREE SHAPES, NOT ONE. This walked `ast.Assign` only, and only its FIRST target, so
-    three ways of writing a module constant were invisible to a scanner whose stated job is that
-    none can hide: tuple unpacking (see `_target_names`), annotated assignment (`ast.AnnAssign`
-    is a different node type and was never matched at all), and chained `A = B = value`.
-    (order 72bc85d74ccf)
+    THE REASON RIDES ALONG, in the shape `liveness._parse` was repaired into (liveness.py:89-103)
+    and for the same argument. `scan_constants` answers a bare `None` for two entirely different
+    situations -- the file is not there, and the file is there but will not parse -- and `main()`
+    rendered both as the one string `(absent)`, so a module with a SyntaxError was reported to
+    the reader as a module that does not exist. (order 6baeeb468a24)
 
-    THE LITERAL COUNT IS PER STATEMENT, and on a tuple unpack every name it binds is credited
-    with the whole right-hand side's literals. That over-states rather than omits, deliberately:
-    this is a reviewer's map of where numbers live, and a number counted twice is visible to the
-    person reading it while a number not counted at all is not.
+    The mislabel was total rather than occasional: `SCAN_MODULES` is built from `os.listdir(HERE)`
+    over the same directory this function then reads, so the file-not-found branch is unreachable
+    outside a race -- which means every `(absent)` anyone had ever seen on that map really meant
+    "this module will not parse". The parse failure was recorded, but only into the silence
+    ledger via `silence.note`, and the panel the person was actually looking at contradicted it.
+    A module that will not parse is a FINDING; a module that is not there is a RACE, and the two
+    want different reactions from the reader.
+
+    `scan_constants` is kept as the public entry point with its original return shape, so no
+    caller outside this module is broken by the distinction.
     """
     path = os.path.join(HERE, mod + ".py")
     if not os.path.exists(path):
-        return None
+        return None, "absent"
     with open(path, encoding="utf-8") as f:
         src = f.read()
     try:
         tree = ast.parse(src)
-    except SyntaxError:
+    except SyntaxError as e:
         silence.note("derivation.py:scan_constants-parse")
-        return None
+        # The line number is the whole value of the reason here: it is what turns "something in
+        # this module is broken" into somewhere a reader can go and look.
+        return None, "SyntaxError: line %s" % (e.lineno if e.lineno is not None else "?")
     names = []
     for node in tree.body:
         if isinstance(node, ast.Assign):
@@ -603,6 +611,30 @@ def scan_constants(mod):
         for nm in targets:
             if nm.isupper():
                 names.append((nm, lits))
+    return names, None
+
+
+def scan_constants(mod):
+    """Module-level UPPERCASE assignments -- the only place a new constant can hide.
+
+    Delegates to `scan_constants_with_reason` and throws the reason away, which is exactly what
+    this signature can express: a list of (NAME, literal_count), or `None` when the module could
+    not be scanned for either reason. Callers that need to tell "absent" from "will not parse"
+    apart -- `main()` does -- must use `scan_constants_with_reason`. Kept unchanged rather than
+    widened because it is a public function with callers outside this file's control.
+
+    READS THREE SHAPES, NOT ONE. This walked `ast.Assign` only, and only its FIRST target, so
+    three ways of writing a module constant were invisible to a scanner whose stated job is that
+    none can hide: tuple unpacking (see `_target_names`), annotated assignment (`ast.AnnAssign`
+    is a different node type and was never matched at all), and chained `A = B = value`.
+    (order 72bc85d74ccf)
+
+    THE LITERAL COUNT IS PER STATEMENT, and on a tuple unpack every name it binds is credited
+    with the whole right-hand side's literals. That over-states rather than omits, deliberately:
+    this is a reviewer's map of where numbers live, and a number counted twice is visible to the
+    person reading it while a number not counted at all is not.
+    """
+    names, _reason = scan_constants_with_reason(mod)
     return names
 
 
@@ -636,8 +668,24 @@ def main():
         print("  graph closes — no dangling parents, no rootless derivations, no cycles")
     print()
 
-    print("deepest derivation chains (distance from bare reality):")
-    for n in sorted(LEDGER, key=lambda x: -depth(x))[:6]:
+    # NOT TRUNCATED, and deterministically ordered (orders 7ef394911fb3 / 81410993cb8d, Hard
+    # Rule 0). This read `sorted(LEDGER, key=lambda x: -depth(x))[:6]` -- six rows out of 112
+    # quantities, 71 of which have a chain at all, with no total, no "and N more", and no way to
+    # widen it. Two separate faults: the omission was invisible, and the cut landed INSIDE A TIE
+    # -- genre_priors (6th) and world_profile (7th) both sit at depth 9, as does burg_population,
+    # so WHICH of the equally-deep chains a reader saw was decided by dict insertion order rather
+    # than by the ranking the heading claims to be showing. Every other panel in this main()
+    # reports its whole subject (the kind histogram covers all 112, check_graph() prints every
+    # problem, the constants map walks all of SCAN_MODULES); this one silently dropped 106 rows,
+    # in the one place a reader can see the evidence for depth()'s own argument that this
+    # mathematics is derived rather than decreed. Quantities at depth 0 are roots -- they have no
+    # chain to print, and they are already counted in the MEASURED/CHARTER/OWNER histogram above.
+    # The secondary sort on the name makes the row order a property of the ledger, not of dict
+    # insertion order, so an unrelated edit cannot reshuffle the panel.
+    _chains = sorted((q for q in LEDGER if depth(q) > 0), key=lambda x: (-depth(x), x))
+    print("deepest derivation chains (distance from bare reality): "
+          f"all {len(_chains):,} of the {len(LEDGER):,} quantities that have one")
+    for n in _chains:
         chain, cur = [], n
         while [p for p in LEDGER[cur]["parents"] if p in LEDGER]:
             chain.append(cur)
@@ -648,9 +696,12 @@ def main():
 
     print("where constants live (a reviewer's map, not a verdict):")
     for m in SCAN_MODULES:
-        cs = scan_constants(m)
+        cs, why = scan_constants_with_reason(m)
         if cs is None:
-            print(f"   {m:20s} (absent)")
+            # Print WHICH failure it was. `(absent)` for everything was actively wrong here:
+            # SCAN_MODULES is built from os.listdir of this same directory, so "absent" is a
+            # race and "will not parse" is the only thing a reader realistically sees.
+            print(f"   {m:20s} ({'absent' if why == 'absent' else 'will not parse: ' + why})")
         elif cs:
             print(f"   {m:20s} {len(cs):2d} constants, {sum(c[1] for c in cs):4d} literals")
     print()

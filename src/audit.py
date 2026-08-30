@@ -19,6 +19,7 @@ import os
 import random
 import re
 import sys
+import textwrap
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -43,6 +44,25 @@ _JUNK = re.compile(r"^(?:characters?\b|category:|list of |index of |gallery$|nav
                    r"appearances?$|references?$|trivia$|see also$|external links$)", re.I)
 
 VALID_BANDS = set(PL.BANDS)
+
+
+def _field(label, text, indent="     ", width=96):
+    """Print one long sample field WRAPPED, never sliced (order 01eff1b24759).
+
+    The SAMPLE pass is documented at the top of this file as "printed in full so a person can
+    read actual rows", and it was not: description came out at `[:150]` and the feat at `[:110]`
+    / `[:120]`, with no marker of any kind. The feat slice was the one that cost something --
+    the BANDED SAMPLE is introduced as "every one of these makes a claim" and prints exactly one
+    line of evidence per row, so a measurement sitting past character 120 was cut mid-sentence
+    and the reader was shown LESS than `valid_scale_note` and `meta_violations` saw. That is the
+    wrong way round for a pass whose whole job is to catch what the invariants did not think to
+    ask. These blocks are 10 and 14 rows, not a corpus dump, so the fix is to wrap rather than
+    to slice-with-a-marker.
+    """
+    body = str(text) if str(text).strip() else "(none)"
+    print(textwrap.fill(body, width=width,
+                        initial_indent=indent + label,
+                        subsequent_indent=indent + " " * len(label)))
 
 
 def audit_invariants(recs):
@@ -150,9 +170,23 @@ def main():
     for k in sorted(fails, key=lambda x: -len(fails[x])):
         v = fails[k]
         total_f += len(v)
-        rate = len(v) / max(1, stats["entries_catalogued"])
+        # THE DENOMINATOR COMES FROM THE CLASS, NOT FROM ONE COUNTER (order 220a0e95b471).
+        # Every rate here used to be divided by `entries_catalogued`, including the four
+        # synthesis-level classes above, which append once per SOURCE. Measured: a synthesis
+        # fault touching 20 of 215 sources -- 9.30% of them -- printed as "0.01% of catalogued
+        # entries". Three orders of magnitude, in the reassuring direction, on the one report
+        # whose premise is checking the pipeline's claims from outside. A source-level fault
+        # could never look like more than a rounding error, which is how a systematic synthesis
+        # defect gets read as noise. The keys already carry their own class as a prefix, so the
+        # population is read off the key, and the UNIT is printed so the reader can see which
+        # population the percentage is against.
+        if k.startswith("synthesis:"):
+            denom, unit = stats["sources_with_synthesis"], "of sources with synthesis"
+        else:
+            denom, unit = stats["entries_catalogued"], "of catalogued entries"
+        rate = len(v) / max(1, denom)
         print(f"\n  {k}")
-        print(f"     {len(v):,} occurrences ({rate:.2%} of catalogued entries)")
+        print(f"     {len(v):,} occurrences ({rate:.2%} {unit}; {denom:,} in that population)")
         for x in v[:4]:
             print(f"       - {x}")
         if len(v) > 4:
@@ -166,12 +200,16 @@ def main():
     print(f"RANDOM SAMPLE ({args.sample} of {len(pool):,} catalogued entries, seed {args.seed})")
     print("=" * 96)
     for src, e in rng.sample(pool, min(args.sample, len(pool))):
-        d = re.sub(r"\s+", " ", (e.get("description") or ""))[:150]
-        print(f"\n  [{e.get('magnitude')!s:<9}] {(e.get('name') or '?')[:44]:<46}{src[:26]}")
-        print(f"     topic={e.get('topic')}  category={(e.get('category') or '?')[:34]}")
+        # NOTHING IN THIS BLOCK IS SLICED ANY MORE (order 01eff1b24759). The name, source and
+        # category cuts were cosmetic column alignment, but a cut with no marker is a cut a
+        # reader cannot see; `{:<46}` pads a short name and leaves a long one whole, which is
+        # the alignment those slices were reaching for without the truncation.
+        d = re.sub(r"\s+", " ", (e.get("description") or ""))
+        print(f"\n  [{e.get('magnitude')!s:<9}] {(e.get('name') or '?'):<46}{src}")
+        print(f"     topic={e.get('topic')}  category={e.get('category') or '?'}")
         if e.get("scale_note"):
-            print(f"     FEAT: {e['scale_note'][:110]}")
-        print(f"     desc: {d}")
+            _field("FEAT: ", e["scale_note"])
+        _field("desc: ", d)
 
     # banded entries deserve their own look: those are the ones carrying a number
     banded = [(s, e) for s, e in pool if e.get("magnitude") not in (None, "unassayed")]
@@ -179,8 +217,8 @@ def main():
     print(f"BANDED SAMPLE ({min(10,len(banded))} of {len(banded):,} — every one of these makes a claim)")
     print("=" * 96)
     for src, e in rng.sample(banded, min(10, len(banded))):
-        print(f"\n  [{e['magnitude']}] {(e.get('name') or '?')[:44]:<46}{src[:26]}")
-        print(f"     FEAT: {(e.get('scale_note') or '(none)')[:120]}")
+        print(f"\n  [{e['magnitude']}] {(e.get('name') or '?'):<46}{src}")
+        _field("FEAT: ", e.get("scale_note") or "")
     return 1 if fails else 0
 
 

@@ -6,11 +6,13 @@ Claude, and the Ollama rung must be able to read and write files, not merely ans
 A model is text-in/text-out; FILE ACCESS IS A HARNESS PROPERTY -- so this module is the
 harness. It drives Ollama's /api/chat tool-calling loop (Qwen3 is tool-trained; the harness
 PROBES rather than assumes, and names tool-capable models that fit the card if the configured
-one is not) and hands the model four tools:
+one is not) and hands the model six tools:
 
     read_file    any file under the project, sliced -- iterative reads, never a truncation
     list_dir     one level of the tree
     grep         a regex over src/ (or a named subtree), every match with file:line
+    find_symbol  every definition of a name, with a uniqueness verdict
+    run_check    one of the repo's own verifiers, read-only
     propose_patch  an exact find->replace on ONE file, STAGED -- never applied raw
 
 WRITES GO THROUGH THE FOREMAN'S OWN BAR. A patch is applied only if: the file is not on the
@@ -49,6 +51,16 @@ MAX_TURNS = 24
 SLICE = 12000                 # chars per read_file call -- a WINDOW, not a cap: the model
                               # pages through a big file with offset, and the tool says how
                               # much remains so nothing silently falls off the end
+# THE MESSAGE CAP IS NOT THE READ WINDOW, and conflating them is what produced order
+# 1b35c5c95fdd. `run()` used to append tool output as `json.dumps(res)[:SLICE]`: a read_file
+# result whose `slice` is already SLICE characters long serialises to MORE than SLICE once the
+# envelope and the JSON escaping are added, so the cut landed INSIDE the slice string and took
+# `chars_after_slice` and `total_chars` -- the two keys that exist to stop a silent truncation
+# -- off the end with it. The model received malformed JSON and never learned how much
+# remained. The bound is kept, because a context window is finite, but it is now applied by
+# `_tool_message` to the LARGEST FIELD INSIDE the dict, so the envelope always serialises whole
+# and the model is always told what it did not get.
+TOOL_MSG_MAX = 12000          # chars per tool MESSAGE (the serialised envelope), not per read
 DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards",
             "verify_math", "local_agent",
             # THE CONTRACT-ENFORCEMENT MODULES, added 2026-08-25 (run #29, batch 16).
@@ -62,7 +74,20 @@ DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards",
             # writer's edits being dropped -- and every gate below would still pass, because
             # they check that a patch parses, lints, imports and leaves verify_math green,
             # not that it left the contract intact.
-            "pipeline", "runguard", "gpu_lane", "sweep_plan"}
+            "pipeline", "runguard", "gpu_lane", "sweep_plan",
+            # THE DETECTION MACHINERY, added 2026-08-29 (order 6f4b1f51a0c3). Order
+            # 881ff7f49438 found these five missing from `foreman.DENYLIST` and only that half
+            # was closed; this list states the SAME rule -- "each is either the thing that would
+            # have to be working to detect a bad patch, or the thing doing the patching" -- and
+            # this is the copy enforced closest to the filesystem, since `_denied_target` below
+            # is what `t_propose_patch` actually asks before writing. `drill` is the net battery
+            # Hard Rule -1 names as the PROVEN property; `escalation` is the plant-wide
+            # interlock; `codewatch` is the rc=17 stale-code interlock; `liveness` is the
+            # check-that-cannot-fail detector; `overnight` is the supervisor that starts every
+            # job. The two lists still differ deliberately -- local_agent adds itself and the
+            # four contract-enforcement modules above, which are write-contract concerns the
+            # dispatch side never touches -- but they may not differ on the detectors.
+            "drill", "escalation", "codewatch", "liveness", "overnight"}
 
 # The same bar, for files that are not python modules and therefore have no module name to
 # match on. Repo-relative, forward slashes. config.yaml is here because every module in the kit
@@ -861,6 +886,84 @@ def _chat(model, messages, host, timeout=420):
             time.sleep(60 * (attempt + 1))
 
 
+def _tool_message(res, limit=TOOL_MSG_MAX):
+    """Serialise one tool result for the transcript. ALWAYS valid JSON, never a blind prefix.
+
+    Order 1b35c5c95fdd: the dispatch site used to append `json.dumps(res)[:SLICE]`, which cut
+    the ENVELOPE. Every read of a file over ~11.9 KB -- most of src/ -- landed the cut inside
+    the `slice` string, so the delivered content did not parse and the trailing
+    `chars_after_slice` / `total_chars` keys, the two whose entire job is to say how much was
+    not shown, were deleted. A `grep` with many hits was cut mid-list with no marker at all.
+
+    The bound stays; where it applies changes. The largest field INSIDE the dict is shrunk
+    before serialising and an explicit, readable marker is added, so:
+      * the message always `json.loads()`, and
+      * whatever was dropped is named in a key the model can read.
+    For `slice` the companion `chars_after_slice` is recomputed to match the shorter slice,
+    which keeps read_file's paging arithmetic true rather than merely non-lying. For list
+    fields the count actually shown and the count omitted are both stated.
+    """
+    def dumped(d):
+        return json.dumps(d)
+    s = dumped(res)
+    if len(s) <= limit or not isinstance(res, dict):
+        return s
+    out = dict(res)
+    # Shrink whichever field is carrying the bulk, largest first, until the envelope fits.
+    # Iterating rather than computing a budget once: JSON escaping makes the serialised cost
+    # of a character unpredictable (a newline is two, a non-ASCII codepoint six), so the only
+    # honest test of "does it fit" is to serialise and look.
+    for _ in range(40):
+        s = dumped(out)
+        if len(s) <= limit:
+            return s
+        over = len(s) - limit
+        # The list fields first: dropping whole hits is far more readable than a severed one.
+        listy = [k for k in ("hits", "definitions", "entries")
+                 if isinstance(out.get(k), list) and out[k]]
+        if listy:
+            k = max(listy, key=lambda k: len(dumped(out[k])))
+            full_n = res.get(k)
+            full_n = len(full_n) if isinstance(full_n, list) else len(out[k])
+            keep = max(1, len(out[k]) - max(1, len(out[k]) * over // max(1, len(dumped(out[k])))))
+            if keep >= len(out[k]):
+                keep = len(out[k]) - 1
+            out[k] = out[k][:keep]
+            out[k + "_shown"] = keep
+            out[k + "_omitted"] = full_n - keep
+            # NOT the key `truncated`: t_run_check already returns one of its own and a marker
+            # that overwrites another tool's verdict is a second silent loss.
+            out["message_truncation"] = ("%d of %d %s shown -- narrow the pattern or ask again "
+                                         "for the rest" % (keep, full_n, k))
+            if keep <= 1 and len(dumped(out)) > limit:
+                out[k] = []
+                out[k + "_shown"] = 0
+                out[k + "_omitted"] = full_n
+            continue
+        strs = [k for k in out if isinstance(out[k], str) and out[k]]
+        if not strs:
+            # Nothing left that can be shrunk honestly. Say so rather than cut the envelope.
+            return dumped({"error": "tool result does not fit in %d characters and has no "
+                                    "shrinkable field" % limit,
+                           "keys": sorted(str(k) for k in out)})
+        k = max(strs, key=lambda k: len(out[k]))
+        keep = max(0, len(out[k]) - over - 64)
+        out[k] = out[k][:keep]
+        if k == "slice":
+            # Keep read_file's paging arithmetic TRUE, not merely present: what remains after
+            # the slice is measured from the slice actually delivered.
+            base = res.get("total_chars")
+            off = res.get("offset")
+            if isinstance(base, int) and isinstance(off, int):
+                out["chars_after_slice"] = max(0, base - off - keep)
+            out["slice_shortened_to_fit"] = keep
+        else:
+            out[k + "_shortened_to_fit"] = keep
+        out["message_truncation"] = ("field '%s' shortened to %d characters to fit the "
+                                     "%d-character tool message budget" % (k, keep, limit))
+    return dumped({"error": "tool result could not be reduced to %d characters" % limit})
+
+
 def _achievement(patches, apply):
     """-> {'attempted', 'landed', 'achievement'}: what this run actually DID to the repo.
 
@@ -993,7 +1096,22 @@ def run(task, model=None, apply=True, quiet=False):
             if not quiet:
                 print("  [%s] %s -> %s" % (fn, json.dumps(args)[:90],
                                            json.dumps(res)[:110]), flush=True)
-            messages.append({"role": "tool", "content": json.dumps(res)[:SLICE]})
+            # `json.dumps(res)[:SLICE]` here cut the ENVELOPE, not the payload -- see
+            # `_tool_message` and TOOL_MSG_MAX. Every tool message this loop appends now
+            # parses as JSON and names whatever it left out.
+            msg_content = _tool_message(res)
+            try:
+                # THE STANDING CHECK, cheap and on every message. A tool result the model
+                # cannot parse is the defect this order was filed for; if a future tool
+                # returns a shape `_tool_message` cannot reduce, the model gets a readable
+                # error instead of half a dict, and the ledger records that it happened.
+                json.loads(msg_content)
+            except ValueError:
+                silence.note("local_agent.py:tool-message-not-json")
+                msg_content = json.dumps(
+                    {"error": "the %s result could not be delivered as valid JSON; nothing "
+                              "from it is shown rather than part of it" % fn})
+            messages.append({"role": "tool", "content": msg_content})
     out = {"ok": False, "error": "turn budget (%d) exhausted" % MAX_TURNS,
            "patches": patches, "tool_calls": tool_calls_seen}
     out.update(_achievement(patches, apply))
@@ -1019,7 +1137,29 @@ def main():
                     help="stage patches for the audit trail, write nothing")
     a = ap.parse_args()
     out = run(a.task, model=a.model, apply=not a.no_apply)
-    print(json.dumps(out, indent=1, ensure_ascii=False)[:8000])
+    # THE VERDICT FIRST, UNCONDITIONALLY, AND NEVER INSIDE THE CUT (order db8460375fdc).
+    # `out['patches']` holds up to MAX_PATCHES_PER_RUN=24 audit entries carrying why/find/
+    # replace text, and it is inserted BEFORE `achievement`, `error` and `ALARM` -- so on a
+    # realistic run the dump is ~20 KB and the three keys that say what happened all fall past
+    # the 8000th character. This is the same shape the ALARM at t_propose_patch's revert path
+    # was rescued from: the durable channels were intact and the console, where a person looks
+    # first, showed a wall of patch text and no conclusion.
+    print("ok:          %s" % out.get("ok"))
+    if out.get("achievement"):
+        print("achievement: %s" % out["achievement"])
+    if out.get("error"):
+        print("error:       %s" % out["error"])
+    if out.get("ALARM"):
+        for _a in (out["ALARM"] if isinstance(out["ALARM"], list) else [out["ALARM"]]):
+            print("ALARM:       %s" % _a)
+    body = json.dumps(out, indent=1, ensure_ascii=False)
+    # The dump stays bounded -- 24 patches of stored find/replace text is not a console read --
+    # but the cut is now STATED, the way t_run_check labels its own output_tail, and the
+    # verdict above is outside it either way.
+    if len(body) > 8000:
+        print("-- full result: %d characters, showing the first 8000 --" % len(body))
+        body = body[:8000]
+    print(body)
     return 0 if out.get("ok") else 1
 
 
