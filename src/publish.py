@@ -1312,6 +1312,72 @@ def push(message=None, before=None):
     return True
 
 
+MAINTENANCE_GUARD = os.path.join(HERE, "state", "MAINTENANCE_RUN.json")
+MAINTENANCE_HEARTBEAT_SECONDS = 15 * 60
+
+
+def maintenance_shift_live(path=None, now=None):
+    """Is a maintenance run part-way through editing this tree? -> (bool, why).
+
+    THE FOURTH INTERLOCK, AND THE ONE NOBODY HAD ASKED FOR (order bb4fa3f3c9f1). `push()` is
+    well defended, but each existing lock answers a DIFFERENT question: the credential scanner
+    asks "is a secret staged", `mutate.active()` asks "is mutate.py deliberately corrupting
+    source right now", `claim_singleton` asks "is there a second publisher", and `assert_clear`
+    asks "is the library halted" -- and that last one is read once in `main()` at startup, so a
+    loop that has been up for hours is not re-asking it. Not one of them asks whether somebody
+    is in the middle of CHANGING this tree.
+
+    Measured on 2026-08-29, from the export repo's own commit log, while it was happening. The
+    four cycles before the maintenance shift began moved no source at all: 21:35, 21:45, 21:55
+    and 22:06 are each "N data/site file(s)". The shift then started sixteen agents editing
+    disjoint sets of modules at 22:14. At 22:16:29, two minutes later, commit 5f0d5e1 pushed
+    five source files -- compress_store, coverage, escalation, retry_synthesis, tuning -- to a
+    PUBLIC repository. Those five belonged to three different agents, none of which had
+    finished, verified or self-checked its work. At 22:26:58 commit 8123ef3 pushed forty-one
+    more. A public repository received, twice in eleven minutes, an arbitrary instant of a
+    sixteen-way concurrent edit.
+
+    `mutate.py`'s interlock is the exact precedent and this is built to match it: after the
+    2026-08-25 incident the conclusion drawn was "only the process doing the corrupting can
+    know, so it says so in a lock file and publish refuses". A maintenance shift is the same
+    shape of writer and already keeps the same kind of lock file -- `state/MAINTENANCE_RUN.json`
+    carries `done:false` and a heartbeat refreshed every two minutes for precisely this reason.
+    Nothing read it except the next maintenance run.
+
+    FAILS OPEN, deliberately, and this is the opposite of `subsystem_stopped`'s rule. An
+    unreadable or missing guard file means PUBLISH. Not being able to look is not a reason to
+    stop publishing, and the cost of the two mistakes is asymmetric: failing closed here would
+    let one malformed JSON file wedge the publisher silently and indefinitely, which is a worse
+    outcome than one cycle of half-finished source in a repo the next cycle overwrites. A
+    heartbeat older than MAINTENANCE_HEARTBEAT_SECONDS is treated as a crashed run, not a live
+    one, for the same reason -- a shift that died holding the guard must not stop publishing
+    forever.
+    """
+    now = time.time() if now is None else now
+    try:
+        with open(path or MAINTENANCE_GUARD, encoding="utf-8") as f:
+            rec = json.load(f)
+        if not isinstance(rec, dict):
+            return False, "guard file is not an object; failing open"
+    except FileNotFoundError:
+        return False, "no maintenance guard on disk"
+    except Exception as e:
+        silence.note("publish.py:maintenance-guard")
+        return False, "maintenance guard unreadable (%s); failing open" % type(e).__name__
+    if rec.get("done"):
+        return False, "the last maintenance run finished"
+    beat = rec.get("heartbeat")
+    if not isinstance(beat, (int, float)):
+        return False, "guard carries no usable heartbeat; failing open"
+    age = now - float(beat)
+    if age > MAINTENANCE_HEARTBEAT_SECONDS:
+        return False, ("guard held by %r but its heartbeat is %.0f minutes old (limit %d), so "
+                       "the run is treated as crashed, not live"
+                       % (rec.get("agent", "?"), age / 60.0, MAINTENANCE_HEARTBEAT_SECONDS // 60))
+    return True, ("a maintenance run (%r) holds the guard and its heartbeat is %.0fs old, so "
+                  "src/ is being edited right now" % (rec.get("agent", "?"), age))
+
+
 def main():
     # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
     # library-wide invariant has been violated, nothing starts until a person rules on it.
@@ -1366,6 +1432,23 @@ def main():
         codewatch.stamp("publish")
     while True:
         try:
+            # A MAINTENANCE SHIFT IS EDITING THIS TREE -- TAKE NO BYTES THIS CYCLE (order
+            # bb4fa3f3c9f1). Read BEFORE `sync_tree`, because the fault is the copy, not the
+            # push: once half-finished source is in the export, the commit is only the last
+            # step. See `maintenance_shift_live` for the measurement that produced this.
+            #
+            # LOOP MODE ONLY, exactly as `claim_singleton` above is loop-mode only, and for the
+            # same reason in the same words: a one-shot is not a daemon, it is a person -- or a
+            # maintenance run's own final step -- doing one thing deliberately. The shift that
+            # sets this guard must still be able to publish its own results at the end of the
+            # shift, and a guard that blocked its holder would be a guard nobody could ship with.
+            if a.loop:
+                _busy, _why = maintenance_shift_live()
+                if _busy:
+                    print("skipping this cycle: " + _why)
+                    codewatch.exit_if_stale("publish")
+                    time.sleep(a.loop * 60)
+                    continue
             # THE INTERLOCK IS READ BEFORE THE BYTES ARE TAKEN, not only at push time. `push()`
             # asks `mutate.active()` after `sync_tree` has already copied src/ into the export,
             # so a mutation run entirely inside that gap is invisible to it. Read here as well

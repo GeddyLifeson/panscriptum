@@ -1847,7 +1847,11 @@ def phase_cosmology(c, st):
     Every piece of this existed and nothing dispatched to it. `tiers.chart` places each source in
     a multiverse, metaverse, xenoverse and hyperverse from the resonance graph phase 3 built;
     `grounding` answers what each cosmos says about its own origin; `cosmography.census` gives the
-    population arithmetic; `address_space` turns a tier stack into a real 89-bit address. Four
+    population arithmetic; `address_space` turns a tier stack into a real address, `TOTAL_BITS` wide -- no
+    number transcribed here, because the upper-tier widths are read out of TIERS.json at import
+    and a re-charting moves them without touching this file (address_space.py says so at length,
+    having gone stale twice; profile.py:20 was carrying a third stale copy, 89 against a live 88,
+    when this was written). Four
     finished modules and no phase, so none of it ever ran inside the pipeline.
 
     What comes out is the shelving skeleton: which universe a thing is in, as a number the Ladder

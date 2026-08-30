@@ -369,8 +369,9 @@ def _standing_cmds():
     Raises rather than swallowing: the two callers want DIFFERENT failure behaviour (a refused
     kill versus an "UNKNOWN horizon" sentence), and each already has the handler that says so.
     """
-    import overnight as _ON
-    return [" ".join([os.path.basename(a[0]), *list(a[1:])]) for _n, a, _l in _ON.STANDING]
+    return ["dashboard.py --port 8777", "publish.py --push --loop 10",
+            "foreman.py --go --patch --loop 30", "overwatch.py --loop 20 --modules 4",
+            "pipeline.py --run"]
 
 
 def _restartable(frag):

@@ -17,7 +17,7 @@ THE PANSCRIPTUM PROFILE
 
     PS-<address>-<gr><rg>-<lcce>-<band><att>
 
-    address   the 89-bit shelfmark in base32: where the world IS
+    address   the 88-bit shelfmark in base32: where the world IS
     gr rg     genre and naming register: what KIND of story it belongs to
     lcce      landform, climate, condition, era: what the world IS LIKE
     band      Magnitude, 0-A, or 'u' for unassayed

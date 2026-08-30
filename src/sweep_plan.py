@@ -292,7 +292,17 @@ def record(run, covered, batch=None):
                 if os.path.exists(tmp):
                     os.remove(tmp)
             except Exception:
-                pass
+                # NOTED, not swallowed. A refused unlink leaves a pid-qualified scratch file
+                # beside COVERAGE, and one per failing run accumulates -- the same litter
+                # `silence.write_json` cleans up after itself and `foreman.py` notes as
+                # `for-owner-tmp-not-removed`. This was the one handler in this module that
+                # swallowed in silence (checks_L1 caught it); the note is what makes the
+                # accumulation visible instead of something found later by `ls`.
+                try:
+                    import silence
+                    silence.note("sweep_plan.py:record-fallback-tmp-not-removed")
+                except Exception:
+                    pass
         return data
 
 

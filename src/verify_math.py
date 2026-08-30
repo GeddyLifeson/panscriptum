@@ -3476,13 +3476,56 @@ check("the restart horizon for a STANDING job names the 300s keeper",
       "STANDING, so the keeper restarts it within 300s"
       in _fm19._restart_horizon(_ln19.OWNER[_ln19.PIPELINE]), True,
       note="pipeline IS standing; one blanket clause could never be true of both jobs")
+# ASSERTED AGAINST BEHAVIOUR, NOT AGAINST A SPELLING (2026-08-29 maintenance).
+#
+# This row has now been wrong in two opposite directions, which is the whole lesson. It read
+# `... in __doc__ or True` until run #24: the docstring says "STANDING is imported rather than
+# copied" and never contains the literal "import overnight", so the assertion was FALSE and
+# `or True` had been bolted on to keep it quiet -- a check that could not fail, in the file that
+# exists to fail. Run #24 re-pointed it at the FUNCTION BODY and grepped it for `import overnight`
+# and `_ON.STANDING`. That was true on the day it was typed and went red the moment order
+# 9803b72711b3 lifted the roster construction into `_standing_cmds()`, so BOTH callers
+# (`_restartable`, which refuses a kill, and `_restart_horizon`, which prices one) build the
+# comparison the same way -- strictly a better arrangement, and the grep called it a regression.
+#
+# So drive it instead. `_standing_cmds` re-reads `overnight.STANDING` through `sys.modules` on
+# every call, so swapping that roster out from under the horizon and watching the ANSWER move is
+# a direct measurement of derivation: a hand-kept copy inside foreman cannot follow it. Three
+# facts, because one alone is passable by accident:
+#   1. a job that IS standing today is priced at the 300s keeper (baseline, live roster);
+#   2. remove that job from STANDING and the SAME fragment must re-price to the main lap;
+#   3. invent a fragment that is in STANDING only in the patched roster, and it must price as
+#      standing -- so the function is reading the roster, not just failing to find things.
+# Any second hand-kept copy in foreman.py fails 2 or 3 and cannot be made to pass by renaming.
+def _horizon_derives_from_standing_b19():
+    import overnight as _ON_probe
+    _pipe = _ln19.OWNER[_ln19.PIPELINE]
+    _live = list(_ON_probe.STANDING)
+    _base = "STANDING, so the keeper restarts it within 300s" in _fm19._restart_horizon(_pipe)
+    _fake_frag = "zzz_not_a_real_job.py --probe"
+    try:
+        # (1) drop the pipeline from the roster; (2) put a fabricated job in it.
+        _ON_probe.STANDING = [
+            row for row in _live
+            if not " ".join([os.path.basename(row[1][0]), *list(row[1][1:])]).startswith(_pipe)
+        ] + [("probe", ["zzz_not_a_real_job.py", "--probe"], "probe.log")]
+        _dropped = ("NOT in the keeper's STANDING set" in _fm19._restart_horizon(_pipe))
+        _added = ("STANDING, so the keeper restarts it within 300s"
+                  in _fm19._restart_horizon(_fake_frag))
+    finally:
+        _ON_probe.STANDING = _live
+    # And the live roster must be back, or every check after this one is measuring a fake.
+    _restored = "STANDING, so the keeper restarts it within 300s" in _fm19._restart_horizon(_pipe)
+    return (_base, _dropped, _added, _restored)
+
+
 check("the horizon is derived from overnight.STANDING, not a second hand-kept copy",
-      "import overnight" in __import__("inspect").getsource(_fm19._restart_horizon)
-      and "_ON.STANDING" in __import__("inspect").getsource(_fm19._restart_horizon), True,
-      note="asserted against the FUNCTION BODY. It read `... in __doc__ or True` until run #24: "
-           "the docstring says 'STANDING is imported rather than copied' and never contains the "
-           "literal 'import overnight', so the assertion was FALSE and `or True` had been added "
-           "to keep it quiet -- a check that cannot fail, in the file that exists to fail")
+      _horizon_derives_from_standing_b19(), (True, True, True, True),
+      note="(baseline standing, follows a removal, follows an addition, roster restored). "
+           "MEASURED, not grepped: overnight.STANDING is swapped under the function and the "
+           "horizon must move with it. A grep for `import overnight` in _restart_horizon's own "
+           "body is what this row used to be, and it went red when the roster construction was "
+           "correctly lifted into the shared _standing_cmds() helper")
 
 _fm19src = open(os.path.join(_here19, "foreman.py"), encoding="utf-8").read()
 check("no remedy still ends its note with the bare 'supervisor restarts next cycle'",
@@ -3502,9 +3545,94 @@ check("restart_reader matches the shared lognames fragment instead",
 check("triage_swallowed's outer handler no longer reports success",
       "the archive/clear FAILED" in _fm19src, True,
       note="its third false-success exit; the other two were fixed when the bug was found")
+# RE-AIMED AT THE PROPERTY, NOT THE SPELLING (2026-08-29 maintenance; the class order
+# 469b4db261ef named). This row used to be the literal grep
+# `'silence.replace_retry(FOR_OWNER + ".tmp", FOR_OWNER)' in _fm19src`. The write it guards was
+# not lost -- it was STRENGTHENED by order 99b1ae2c580c, which replaced the one fixed
+# `FOR_OWNER.md.tmp` (one file that two foremen, allowed by design because the singleton claim
+# sits inside `if a.loop:`, open at once) with a pid/thread-qualified `"%s.%d.%d.tmp"` scratch
+# name. The atomicity is intact and the hazard is smaller; only the string moved. A row that
+# pins a spelling reports an improvement as a regression, and the maintainer's cheapest way out
+# is to re-type the old spelling -- i.e. the check argues for the bug.
+#
+# So assert the PROPERTY, off the parse tree: FOR_OWNER.md is landed by
+# `silence.replace_retry`/`silence.write_json` out of a scratch file that was opened for writing
+# in the same function, and NOTHING anywhere in foreman.py opens FOR_OWNER itself for writing.
+# The temp name may be spelled any way at all; a bare truncating write cannot hide behind any
+# spelling. `bare` is returned as a NAMED LIST rather than a count, so a red row says which
+# write broke it.
+import ast as _ast19
+
+
+def _for_owner_landing_b19():
+    _tree = _ast19.parse(_fm19src)
+
+    def _cname(c):
+        f = c.func
+        return f.attr if isinstance(f, _ast19.Attribute) else getattr(f, "id", "")
+
+    def _is_fo(n):
+        return isinstance(n, _ast19.Name) and n.id == "FOR_OWNER"
+
+    def _write_mode(c):
+        """The mode string of an open() call, positional or keyword; '' if not an open()."""
+        if _cname(c) != "open" or not c.args:
+            return None
+        m = ""
+        if len(c.args) > 1 and isinstance(c.args[1], _ast19.Constant):
+            m = str(c.args[1].value)
+        for kw in c.keywords:
+            if kw.arg == "mode" and isinstance(kw.value, _ast19.Constant):
+                m = str(kw.value.value)
+        return m
+
+    # (i) Anywhere in the file: is FOR_OWNER itself opened for writing, or written through a
+    #     pathlib-style helper? Either is the half-file publish.py can copy mid-write.
+    bare = []
+    for c in [n for n in _ast19.walk(_tree) if isinstance(n, _ast19.Call)]:
+        m = _write_mode(c)
+        if m is not None and any(ch in m for ch in "wax") and _is_fo(c.args[0]):
+            bare.append("open(FOR_OWNER, %r) at line %d" % (m, c.lineno))
+        if (_cname(c) in ("write_text", "write_bytes")
+                and isinstance(c.func, _ast19.Attribute)
+                and any(_is_fo(x) for x in _ast19.walk(c.func.value))):
+            bare.append("%s onto FOR_OWNER at line %d" % (_cname(c), c.lineno))
+
+    # (ii) Per scope: a scratch file opened for writing here, landed onto FOR_OWNER from here.
+    landed = from_temp = False
+    _scopes = [_tree] + [n for n in _ast19.walk(_tree)
+                         if isinstance(n, (_ast19.FunctionDef, _ast19.AsyncFunctionDef))]
+    for _sc in _scopes:
+        _calls = [n for n in _ast19.walk(_sc) if isinstance(n, _ast19.Call)]
+        _opened_w = set()
+        for c in _calls:
+            m = _write_mode(c)
+            if (m is not None and any(ch in m for ch in "wax")
+                    and isinstance(c.args[0], _ast19.Name)):
+                _opened_w.add(c.args[0].id)
+        for c in _calls:
+            nm = _cname(c)
+            if nm == "replace_retry" and len(c.args) >= 2 and _is_fo(c.args[1]):
+                landed = True
+                if isinstance(c.args[0], _ast19.Name) and c.args[0].id in _opened_w:
+                    from_temp = True
+            elif nm == "write_json" and c.args and _is_fo(c.args[0]):
+                # write_json IS the temp-then-replace_retry helper; it lands from a temp by
+                # construction (silence.py:408). Markdown rules it out here, but a future
+                # JSON sibling of this file would be just as correct.
+                landed = from_temp = True
+    return (landed, from_temp, bare)
+
+
 check("FOR_OWNER.md is written atomically like every other shared file here",
-      'silence.replace_retry(FOR_OWNER + ".tmp", FOR_OWNER)' in _fm19src, True,
-      note="publish.py copies it on its own loop, so a bare open() can be published half-written")
+      _for_owner_landing_b19(), (True, True, []),
+      note="(landed via replace_retry/write_json, landed FROM a scratch file opened in the same "
+           "scope, and no bare write to FOR_OWNER anywhere). publish.py copies FOR_OWNER.md into "
+           "the export tree on its own 10-minute loop, so a bare truncating open() can be read "
+           "mid-write and published as a half file. Asserted off the parse tree, so the temp "
+           "file's NAME is free to change -- which is what the old literal grep for "
+           "`replace_retry(FOR_OWNER + \".tmp\", FOR_OWNER)` got wrong when the scratch name was "
+           "correctly qualified with pid and thread")
 
 check("gpu_lane._alive treats an unparseable pid as ALIVE, as its docstring says",
       _gl19._alive("not-a-pid"), True,
@@ -6422,8 +6550,20 @@ with _tmp_b3.TemporaryDirectory() as _td_b3:
     _assays_path_b3 = os.path.join(_td_b3, "data", "ASSAYS.json")
     with open(_rosetta_path_b3, "w", encoding="utf-8") as _f:
         _json_b3.dump(_contradicting_rosetta_b3, _f)
+    # KEYED THE WAY ASSAYS.json IS ACTUALLY KEYED: `host|Name` (2026-08-29 maintenance).
+    # This fixture used to write bare names, matching what main()'s --check read at the time.
+    # Order 0bba50a6d76b then fixed the defect that the real file is keyed "host|Name", so
+    # `_norm(key)` gave "dragonball fandom com goku", nothing matched any scale row's bare name,
+    # all eight standing scales scored 0 overlap and --check printed an empty comparison and
+    # exited 0 while measuring nothing. --check now splits the key (`assays_by_host`) and scopes
+    # each scale to its own wiki. Against a bare-name fixture that scoping is exactly right and
+    # finds nothing: 6 assays land under 6 phantom hosts, the scale scores n=0, the row comes
+    # back UNSCORED and rc is 0 -- so this row was failing because the FIXTURE was written in
+    # the broken file's shape, not because the exit code regressed. Written as the real file is
+    # written, the canary scores rho -1.0 on n=6 and rc is 1. Do not "fix" a future red here by
+    # reverting the keys: bare keys mean this row measures nothing, which is the original defect.
     with open(_assays_path_b3, "w", encoding="utf-8") as _f:
-        _json_b3.dump({k: {"result": {"decimal": v}}
+        _json_b3.dump({("test-wiki|" + k): {"result": {"decimal": v}}
                        for k, v in _contradicting_assays_b3.items()}, _f)
     _orig_out_b3, _orig_here_b3 = _ROSx_b3.OUT, _ROSx_b3.HERE
     _ROSx_b3.OUT = _rosetta_path_b3
