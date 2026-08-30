@@ -907,6 +907,11 @@ def drill_queue():
     net(a, "COVERAGE.json unreadable is a refusal, not a pass",
         _unreadable_coverage_is_a_refusal,
         "unknown must mean stop")
+    net(a, "the answer is about the source that was ASKED for",
+        _coverage_answers_about_the_source_it_was_asked,
+        "order b27b9c2e5935, and this exact corruption reached a public repo once already: "
+        "with `and` flipped to `or` the row test matches the FIRST dict in COVERAGE.json "
+        "whatever source it describes, so an unread source inherits a read one's citations")
 
 
 def _unreadable_coverage_is_a_refusal():
@@ -943,6 +948,30 @@ def _unreadable_coverage_is_a_refusal():
         return ok is False and "COVERAGE.json" in why
     finally:
         PG._coverage_rows = real
+
+
+def _coverage_answers_about_the_source_it_was_asked():
+    """`cited_fraction` must report on the source NAMED, not on whichever row came first.
+
+    THIS EXACT CORRUPTION HAS SHIPPED. On 2026-08-25 a `publish.py --loop` daemon pushed a
+    mutated `prose_gate.py` to a public repo in which `cited_fraction()` matched every source
+    EXCEPT the one it was asked about; the same one-token change survived the whole battery
+    again in batch C01 (order b27b9c2e5935, `isinstance(r, dict) and r.get("source") == source`
+    -> `or`). Nothing above could see it: every net in this area either asks about a source that
+    is the ONLY row, or asks against an EMPTY rows list -- and with an empty list the loop body
+    never runs at all, so `and` and `or` are indistinguishable there by construction.
+
+    The attack that separates them is the one the incident was: an unmeasured source asked
+    against a NON-empty COVERAGE.json. Both halves are asserted, because a lookup that always
+    returns the first row would satisfy the second half alone.
+    """
+    rows = [{"source": "READ", "entries": 10, "cited": 10},
+            {"source": "UNREAD", "entries": 10, "cited": 2}]
+    if PG.cited_fraction("UNREAD", rows) != 0.2:
+        return False                       # answered about a different row than the one asked
+    if PG.cited_fraction("__never catalogued__", rows) is not None:
+        return False                       # a source nobody has measured came back measured
+    return not PG.evidence_ok("__never catalogued__", 0.35, rows)[0]
 
 
 # ============================================================== DISPATCH (the electronics)
@@ -982,6 +1011,16 @@ def drill_dispatch():
         "a ratification that refers to no document has ratified nothing")
     net(a, "assert_step4_open RAISES when closed",
         lambda: _refuses(lambda: PG.assert_step4_open({}), PG.ProseRefused), "")
+    # THE DISK-READ PATH, which until batch C01 no net in this area had ever entered. See the
+    # block above `_ask_both_gates` for what survived here and why an in-memory cfg cannot see it.
+    net(a, "an unreadable config.yaml closes both gates", _an_unreadable_config_closes_both_gates,
+        "orders 2e63fd03ae72 / 3b5377c4eda9: `return False` on the unreadable branch became "
+        "`return True` in both gates and nothing went red -- a config nobody can read OPENED "
+        "the gate, which is FAIL OPEN in the one module built to fail closed")
+    net(a, "the gates read what is actually in config.yaml", _the_gates_read_what_is_actually_in_config,
+        "orders 9cd7b0d0754f / 32a02c7ab338: `safe_load(f) or {}` became `and {}`, which "
+        "discards the file and leaves both gates judging an empty mapping for ever -- a gate "
+        "wired to nothing looks exactly like a gate that is closed")
 
 
 # ============================================================== THE TRAIN (restraints)
@@ -1055,6 +1094,68 @@ def drill_train():
             "◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
             "He cut the threads of fate.\n", 1)[2]),
         "the check must want the SECTION, not the word")
+    net(a, "a refusal names the block it is about", _a_refusal_names_the_block_it_refused,
+        "orders d65d43a823c4 / 22612f09489a / 9730552e6315: every net above reads the FACT of "
+        "the raise and none of them reads the message, so both `label or \"block\"` sites and "
+        "the `if not required:` guard could be corrupted with the battery still green")
+    net(a, "the shortfall says how many, and means it",
+        lambda: _the_shortfall_counts_agree_with_their_nouns(good),
+        "orders c78d23849343 / 73c814ee9295: these two lines are the only place the shortfall "
+        "report states a QUANTITY, and an operator deciding whether to withdraw a batch reads "
+        "that quantity -- every net above matches only the stem of the sentence")
+
+
+def _a_refusal_names_the_block_it_refused(label="II.A.3/Persons#1-30"):
+    """Every `ProseRefused` from `assert_block_complete` must name the block it refused.
+
+    Batch C01 mutated `label or "block"` to `label and "block"` at BOTH sites (orders
+    d65d43a823c4 and 22612f09489a) and nothing went red, because no net had ever read the
+    message -- only the fact of the raise. `ProseRefused`'s own docstring is "carries the reason
+    a person needs, never a bare False", and a refusal that cannot say WHICH of several hundred
+    chapter jobs it is about is a refusal nobody can act on. `label and "block"` renders every
+    one of them as the word "block".
+
+    The empty-manifest case is also the only attacker the `if not required:` guard has ever had
+    (order 9730552e6315). With the negation dropped, a block with nothing to check skips the
+    refusal and falls through to `present / required` -- ZeroDivisionError, which is not a
+    refusal at all, and `_refuses(..., ProseRefused)` two nets above would not catch it either.
+    """
+    try:
+        PG.assert_block_complete("", 0, label)
+        return False                    # nothing asked for, nothing delivered, and it passed
+    except PG.ProseRefused as e:
+        if label not in str(e) or "no entries" not in str(e):
+            return False
+    except Exception:
+        return False                    # a crash is not the refusal this gate promises anyone
+    try:
+        PG.assert_block_complete("◈ **A**\nShelfmark: 1\n", 1, label)
+        return False
+    except PG.ProseRefused as e:
+        return label in str(e)
+    except Exception:
+        return False
+
+
+def _the_shortfall_counts_agree_with_their_nouns(good):
+    """The ghost and extra sentences must agree in number with the count they carry.
+
+    Orders c78d23849343 and 73c814ee9295 flipped `"y" if ghosts == 1 else "ies"` to `!=` at both
+    sites and survived: every net in this area matches on the STEM of the sentence ("no ◈
+    block", "never asked for") and none of them reads the number in front of it. Smallest net in
+    the file, and it is not really about grammar -- these two lines are the only place the
+    shortfall report states a QUANTITY, and the quantity is what an operator reads when deciding
+    whether a batch comes back. "1 entries" and "3 entry" are what a report nobody proofread
+    looks like, in the one message that exists to be believed.
+    """
+    want = ((good, 2, "1 entry produced no"),
+            (good, 4, "3 entries produced no"),
+            (good * 2, 1, "1 entry the manifest never asked for"),
+            (good * 3, 1, "2 entries the manifest never asked for"))
+    for text, expected, sentence in want:
+        if not any(sentence in m for m in PG.section_shortfall(text, expected)[2]):
+            return False
+    return True
 
 
 # ============================================================== THE ASSAY (Hard Rule 3)
@@ -1090,11 +1191,77 @@ def drill_assay():
     net(a, "a floor above 1 is refused too",
         lambda: not PG.evidence_ok("S", 2.0, [{"source": "S", "entries": 10, "cited": 10}])[0],
         "")
+    net(a, "a floor that is not a number refuses everything",
+        lambda: not PG.evidence_ok("S", "as high as it needs to be",
+                                   [{"source": "S", "entries": 10, "cited": 10}])[0]
+        and not PG.evidence_ok("S", None, [{"source": "S", "entries": 10, "cited": 10}])[0],
+        "order 610839223d60: `return False` on the unparseable-floor branch became `return "
+        "True` and the battery stayed green -- the two nets above only ever hand it NUMBERS, so "
+        "a floor nobody can evaluate admitted everything, which is what a floor exists to stop")
+    net(a, "the cited set can actually credit a name", _cited_names_for_can_credit_a_name,
+        "orders c19186633734 / 38c4af8d5c02 / 953e03976d62 / 66353129da6a / 298b2269423f: five "
+        "one-token changes in cited_names_for, all with the same effect -- it returns the empty "
+        "set for everything -- and the only net watching asserted the answer is a `set`")
     net(a, "the supervisor gate agrees with the real gate on a stringy 'false'", _gates_agree,
         "AUDIT DEFEAT 7: overnight used bool(), so prose_enabled: \"false\" read as TRUE")
     net(a, "and proving that never writes the owner's gate", _drill_never_writes_the_gate,
         "run #31: the net above wrote prose_enabled: true into the LIVE config.yaml five "
         "times a cycle and restored it in a finally -- which a kill does not run")
+
+
+def _cited_names_for_can_credit_a_name():
+    """`cited_names_for` must return the names that DO carry evidence, not merely a set.
+
+    FIVE SURVIVORS, ONE HOLE (orders c19186633734, 38c4af8d5c02, 953e03976d62, 66353129da6a,
+    298b2269423f). Each is a one-token change on a different line of this one function --
+    `(json.load(f) or {})` -> `and {}`, `if not host:` -> `if host:`, `names or ()` -> `and ()`,
+    `if not n:` -> `if n:`, `(doc.get("feats") or [])` -> `and []` -- and every one of them has
+    the same effect: the function returns the EMPTY SET, for everything, always. The one net
+    watching it asserted that the answer is a `set`. It still is.
+
+    AN ALWAYS-EMPTY CITED SET IS NOT A HARMLESS OVER-REFUSAL. It is AUDIT DEFEAT 5 restored
+    verbatim -- the defeat this function was written to end, where the cited set was
+    unconditionally empty and `unearned_instrument` "was really just asking 'does this line
+    match a regex'". Every axis score in every chapter becomes unearned, the refusal stops being
+    able to tell an earned number from an invented one, and a guard that refuses everything is a
+    guard whoever it blocks eventually deletes. That is how the original prose gate was lost.
+
+    HERMETIC, so the verdict does not depend on which entities happen to be in the live feats
+    cache tonight: the host map is a scratch file under a redirected `PG.HERE`, and `cachekey.
+    load` is stood in the way `_unreadable_coverage_is_a_refusal` stands in `_coverage_rows`.
+    BOTH DIRECTIONS, because a function that simply echoed back every name it was given would
+    pass a membership check on its own.
+    """
+    cited, uncited = "Athuri of the Ninth Shelf", "A Name With Nothing Under It"
+    root = tempfile.mkdtemp(prefix="drill_cited_names_")
+    saved_here, saved_load = PG.HERE, CK.load
+
+    def stand_in(base, host, name):
+        # The host must be the one the map named. `cited_names_for` swallows exceptions from
+        # `cachekey.load` into "not cited", so raising here cannot pass by accident -- it can
+        # only produce an empty set, which breaches.
+        if host != "drill.invalid":
+            raise AssertionError("the host map was not consulted")
+        if name == cited:
+            return {"feats": [{"claim": "shelved the ninth shelf", "cite": "Vol. IX p. 2"}]}, None
+        return None, None
+
+    try:
+        os.makedirs(os.path.join(root, "data"), exist_ok=True)
+        with open(os.path.join(root, "data", "WIKI_HOSTS.json"), "w", encoding="utf-8") as f:
+            json.dump({"__drill__": "drill.invalid"}, f)
+        PG.HERE = root
+        CK.load = stand_in
+        if PG.cited_names_for("__drill__", [cited, uncited, "", None]) != {cited}:
+            return False
+        # AND IT STILL FAILS CLOSED where it is supposed to: a source with no host in the map
+        # credits nothing, so every axis score in it stays unearned. That is the safe direction
+        # and the net must not buy the direction above by giving this one away.
+        return PG.cited_names_for("__not in the host map__", [cited]) == set()
+    finally:
+        PG.HERE = saved_here
+        CK.load = saved_load
+        shutil.rmtree(root, ignore_errors=True)
 
 
 def _step4_needs_its_plan():
@@ -1128,12 +1295,19 @@ def _step4_needs_its_plan():
     if not os.path.exists(os.path.join(HERE, "STEP4_PLAN.md")):
         return False                       # the owner's plan is missing — say so, do not pass
     cfg = {"step4_enabled": True}
-    root = os.path.join(tempfile.gettempdir(), "drill_step4_root")
+    # A UNIQUE ROOT, BECAUSE A FIXED ONE IS SHARED WITH EVERY OTHER DRILL ON THIS MACHINE. This
+    # was `gettempdir()/drill_step4_root`, a hard-coded path, opened with `rmtree` and closed
+    # with `rmtree`. Two drills running at once -- which is exactly what a mutation harness with
+    # parallel sandboxes does, and what two maintenance agents do without noticing -- take turns
+    # deleting each other's stand-in plan, and this net then BREACHES on a plan that was removed
+    # by a neighbour rather than by the attack it is making. Measured on 2026-08-30 while
+    # reproducing the batch C01 survivors: a false breach here is worse than a missing net,
+    # because a net that is red for an unrelated reason is DISABLED AS A DETECTOR -- a mutant is
+    # judged by difference from the baseline, so anything already red kills nothing.
+    root = tempfile.mkdtemp(prefix="drill_step4_root_")
     plan = os.path.join(root, "STEP4_PLAN.md")
     saved = PG.HERE
     try:
-        shutil.rmtree(root, ignore_errors=True)
-        os.makedirs(root, exist_ok=True)
         with open(plan, "w", encoding="utf-8") as f:
             f.write("a stand-in for the ratified plan\n")
         PG.HERE = root
@@ -1193,6 +1367,100 @@ def _drill_never_writes_the_gate():
     _gates_agree()
     with open(real, "rb") as f:
         return f.read() == before
+
+
+# ------------------------------------------------- the gates' own DISK-READ path (batch C01)
+#
+# WHY THIS BLOCK EXISTS. Every net above hands `gate_open` and `step4_gate_open` a cfg mapping
+# in memory. That is the right way to attack the DECISION, and it leaves the whole first half of
+# both functions -- open config.yaml, parse it, decide what an unreadable or unparseable one
+# means -- with no attacker at all. A mutation run measured the consequence: `return False,
+# "config.yaml unreadable ..."` was flipped to `return True` in BOTH gates (orders 2e63fd03ae72
+# and 3b5377c4eda9) and the entire battery stayed green. An unreadable config.yaml OPENED the
+# prose gate. That is the precise inverse of the FAIL CLOSED property prose_gate's own docstring
+# claims for this path, and the failure being guarded is 145 chapters nobody asked for.
+#
+# THE PERMISSION IS NEVER TOUCHED, and that is a constraint on the nets, not an accident of
+# them. Nothing here writes `prose_enabled` or `step4_enabled` in any form, on disk or in
+# memory. The three scratch configs below are an ABSENT file, a YAML LIST and an EMPTY file, and
+# every one of them is a refusal under correct code -- what is attacked is the ENTRY the gate
+# judges, never the owner's ruling about it. `PG.HERE` is redirected exactly as
+# `_step4_needs_its_plan` redirects it: the predicate is `os.path.join(HERE, "config.yaml")`, so
+# a scratch root puts the same question to the same code about a directory this drill owns, and
+# the owner's config.yaml is never opened at all. Run #31 established that as the only
+# acceptable way for this file to ask that file anything.
+
+
+def _ask_both_gates(write):
+    """Put a scratch config.yaml in front of BOTH gates' disk-read path. -> [(name, ok, why)].
+
+    `write` is handed a scratch root and leaves whatever config.yaml the attack wants there, or
+    nothing at all. A stand-in STEP4_PLAN.md is always present, because the Step 4 gate checks
+    its plan BEFORE its flag and every answer would otherwise be "the plan is missing" -- the
+    wrong refusal, and a net satisfied by the wrong refusal is green on a neighbour's guard.
+    """
+    root = tempfile.mkdtemp(prefix="drill_gate_root_")
+    saved = PG.HERE
+    try:
+        with open(os.path.join(root, "STEP4_PLAN.md"), "w", encoding="utf-8") as f:
+            f.write("a stand-in for the ratified plan\n")
+        write(root)
+        PG.HERE = root
+        return [("gate_open",) + tuple(PG.gate_open()),
+                ("step4_gate_open",) + tuple(PG.step4_gate_open())]
+    finally:
+        PG.HERE = saved
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _an_unreadable_config_closes_both_gates():
+    """A config.yaml that cannot be read must close both gates, and must say that is why.
+
+    `ok is not False` rather than `if ok`: a gate answering None, "" or 0 has not refused, it
+    has failed to answer, and this layer's whole rule is that unknown means stop. The reason is
+    read as well as the verdict, so a redirect that silently missed -- which would put the
+    question to the LIVE config.yaml, readable, and get a refusal for a different reason --
+    breaches rather than passing on the real gate's real answer.
+    """
+    for _name, ok, why in _ask_both_gates(lambda root: None):
+        if ok is not False or "unreadable" not in why:
+            return False
+    return True
+
+
+def _the_gates_read_what_is_actually_in_config():
+    """The gates must READ config.yaml, not merely survive opening it.
+
+    Orders 9cd7b0d0754f and 32a02c7ab338 flipped `yaml.safe_load(f) or {}` to `and {}` in the
+    two gates, and both survived. It reads like a harmless idiom swap and it is not: anything
+    truthy `and {}` IS `{}`, so the file's contents are DISCARDED and both gates evaluate an
+    empty mapping for ever after. That is a gate wired to nothing -- this project's own
+    recurring shape -- and no net asking "is the gate closed?" can ever see it, because a gate
+    wired to nothing is closed. It is only visible by asking WHY it is closed.
+
+    Two documents, because they separate the two halves of the idiom. A LIST must reach the
+    isinstance check and be refused as not-a-mapping (orders bcc439b4d4a2 and 72f2cc2bc4e1 live
+    on that line and that return). An EMPTY file must be NORMALISED to an empty mapping and
+    refused for the FLAG instead -- `yaml.safe_load` answers None for an empty document, and the
+    `or {}` is the only thing that turns that into the mapping the rest of the function is
+    written against.
+    """
+    def _a_list(root):
+        with open(os.path.join(root, "config.yaml"), "w", encoding="utf-8") as f:
+            f.write("- a list is not a mapping\n- and a list is not a ruling\n")
+
+    for _name, ok, why in _ask_both_gates(_a_list):
+        if ok is not False or "did not parse to a mapping" not in why:
+            return False
+
+    def _empty(root):
+        with open(os.path.join(root, "config.yaml"), "w", encoding="utf-8") as f:
+            f.write("")
+
+    for _name, ok, why in _ask_both_gates(_empty):
+        if ok is not False or "did not parse to a mapping" in why or "is not true" not in why:
+            return False
+    return True
 
 
 # ============================================================== HARD RULE 0 (no caps, ever)
