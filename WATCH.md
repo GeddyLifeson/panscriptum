@@ -1,17 +1,17 @@
 # OVERWATCH
 
-round 210  ·  last run 2026-08-30 15:08
+round 211  ·  last run 2026-08-30 15:32
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **1** of 281,220 inspected (deep scan as of round 205)  — state\gpu_lane\slot.2.json — cannot stat
+- files that will not parse: **1** of 281,680 inspected  — state\gpu_lane\slot.0.json — cannot stat
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**21 open** (4 high). Newest first.
+**18 open** (4 high). Newest first.
 
 - **verify_math.py** `_chunk_key` — [HIGH] the key is not stable across runs
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
@@ -21,10 +21,6 @@ round 210  ·  last run 2026-08-30 15:08
   - says: fabrication rate
 - **standards.py** `unans_files` — [HIGH] count of records that do not have 'chunks_unanswered': 0 in their head
   - says: count of unanswered records
-- **worldseed.py** `write_json` — [MEDIUM] returns True on a successful write, False on denied replace
-  - says: returns False on a denied replace instead of raising
-- **worldseed.py** `unreachable_by_url` — [MEDIUM] Returns a dictionary of keys that are not in the query string, but the docstring says it's for what the profile derives that a query string cannot deliver. However, the function's actual behavior is to return a subset of the opt dictionary, which may not be the intended purpose.
-  - says: What the profile derives that a query string cannot deliver. Named, not hidden.
 - **workorders.py** `_fire` — [MEDIUM] reports a problem with the ledger chain when the chain is ok
   - says: reports a problem with the ledger chain
 - **workorders.py** `_fire` — [MEDIUM] reports a problem with the ledger structure when there are no bad rows
@@ -33,8 +29,6 @@ round 210  ·  last run 2026-08-30 15:08
   - says: Close an order: REMOVE it from the open file, append it to the paper trail.
 - **workorders.py** `file_order` — [MEDIUM] Creates a new order or updates an existing one, but does not return the order directly. Instead, it returns the record if the write landed, otherwise None.
   - says: Open (or refresh) one work order. -> the order.
-- **withdraw_chapters.py** `bad` — [MEDIUM] bad is a boolean that determines the return code based on a.go and the state of various variables
-  - says: EVERY REFUSAL ABOVE WAS PRINTED AND THEN DISCARDED. `main()` had no `return` on any path and the entry point was a bare `main()`...
 - **verify_math.py** `check` — [MEDIUM] checks if the code contains 'if span_min >= 40:'
   - says: the counters-moving standard is not gated behind a history-length check
 - **verify_math.py** `qualifier_compatible` — [MEDIUM] returns False for two DC continuities
