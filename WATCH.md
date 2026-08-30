@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 212  ·  last run 2026-08-30 16:01
+round 213  ·  last run 2026-08-30 16:24
 
 ## Structure
 
@@ -11,10 +11,8 @@ round 212  ·  last run 2026-08-30 16:01
 
 ## What the model found in the code
 
-**15 open** (3 high). Newest first.
+**12 open** (2 high). Newest first.
 
-- **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, leading to incorrect classifications for some sources
-  - says: Classifies a source based on its entries and returns genre, score, confidence, etc.
 - **verify_math.py** `_chunk_key` — [HIGH] the key is not stable across runs
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
 - **verify_math.py** `priority` — [HIGH] excludes rows with own=0 and chars >= 2000
@@ -31,10 +29,6 @@ round 212  ·  last run 2026-08-30 16:01
   - says: the counters-moving standard is not gated behind a history-length check
 - **verify_math.py** `qualifier_compatible` — [MEDIUM] returns False for two DC continuities
   - says: two DC continuities are never compatible
-- **tuning.py** `workers` — [MEDIUM] The worker count to use, but inverts the requested value when a request is made.
-  - says: The worker count to actually use.
-- **tiers.py** `deliberate_joins` — [MEDIUM] returns a sorted list of tuples with shared data, but the actual implementation does not apply the `[:3]` slice
-  - says: THE WHOLE SHARED LIST. This returned `shared.get((a, b), [])[:3]`
 - **retry_synthesis.py** `save_side` — [MEDIUM] The function save_side is called but its implementation is not provided in the given code slice, leading to a potential runtime error or undefined behavior.
   - says: Take the MERGED mapping back, so this run's own tally counts what is actually on disk rather than only what this process rescued -- see `save_side`. The second half of that return says whether it reached disk at all; a rescue that did not land must not print like one that did, because nothing re-runs the model call behind it.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
