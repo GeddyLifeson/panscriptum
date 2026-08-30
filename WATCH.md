@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 207  ·  last run 2026-08-30 13:45
+round 208  ·  last run 2026-08-30 14:13
 
 ## Structure
 
@@ -11,8 +11,12 @@ round 207  ·  last run 2026-08-30 13:45
 
 ## What the model found in the code
 
-**20 open** (6 high). Newest first.
+**22 open** (8 high). Newest first.
 
+- **verify_math.py** `_chunk_key` — [HIGH] the key is not stable across runs
+  - says: the same entity and passage still hit the same key IN A LATER PROCESS
+- **verify_math.py** `priority` — [HIGH] excludes rows with own=0 and chars >= 2000
+  - says: These are still read -- nothing here is dropped
 - **sweep_plan.py** `record` — [HIGH] Writes shard files and merges into aggregate coverage, but does not directly record modules read by a sweep
   - says: Stamp which modules a sweep actually read. `covered` is an iterable of basenames.
 - **suppressions.py** `add` — [HIGH] Stores a truncated reason (max 300 characters) instead of the full reason
@@ -25,6 +29,14 @@ round 207  ·  last run 2026-08-30 13:45
   - says: Does this `except` body leave a trace of the exception it caught? -> bool.
 - **sevenfold.py** `write_json` — [HIGH] discards the verdict and printed "wrote {p}" regardless
   - says: returns whether the rename LANDED
+- **verify_math.py** `check` — [MEDIUM] checks if the code contains 'if span_min >= 40:'
+  - says: the counters-moving standard is not gated behind a history-length check
+- **verify_math.py** `qualifier_compatible` — [MEDIUM] returns False for two DC continuities
+  - says: two DC continuities are never compatible
+- **tuning.py** `workers` — [MEDIUM] The worker count to use, but inverts the requested value when a request is made.
+  - says: The worker count to actually use.
+- **tiers.py** `deliberate_joins` — [MEDIUM] returns a sorted list of tuples with shared data, but the actual implementation does not apply the `[:3]` slice
+  - says: THE WHOLE SHARED LIST. This returned `shared.get((a, b), [])[:3]`
 - **thread_integrity.py** `out["PARTIALLY-DANGLING"]` — [MEDIUM] Incrementing the PARTIALLY-DANGLING counter and appending to its detail list
   - says: BUGS 2b4e0f497aac. Drift was only reported when EVERY shared key had gone, so a pair sharing 100 entities of which 99 had drifted printed as a clean obligation -- 99 broken threads invisible behind one survivor. Partial drift gets its own class rather than being folded into DANGLING: the pair DOES still hold live shared entities, so it is a real obligation, and calling it wholly dangling would be the opposite error.
 - **sweep_plan.py** `check_briefs` — [MEDIUM] diff what was PLANNED against `batches(n)`
@@ -37,14 +49,6 @@ round 207  ·  last run 2026-08-30 13:45
   - says: The live probe itself, with no memo in front of it. -> (ok, detail).
 - **snapshot.py** `restore` — [MEDIUM] Copies a snapshot back into a given directory, but the function is called with `into=tmp` in the main restore logic, which is a temporary directory, not the live tree. The function's default behavior is not used as intended.
   - says: Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it.
-- **scout.py** `sweep` — [MEDIUM] orders its work-list by last-attempted first, entry count only breaking ties among equally stale sources, and takes `order[:limit]`
-  - says: HARD RULE 0, AND THE SHAPE THAT LOOKED LIKE COMPLIANCE. This ordered its work-list by entry count and then took `order[:limit]`, with `foreman.scout_hostless()` calling it as `sweep(limit=4)` on a 30-second loop. Ranking is allowed and truncating is not, and the reason is visible here rather than theoretical: a source LEAVES `hostless()` only when a scout SUCCEEDS. A source that keeps failing therefore stays hostless, stays among the four largest, and is re-scouted every thirty seconds for ever -- while everything ranked fifth and below is never attempted once. The window could not rotate, because the only thing that moved a source out of it was the very success that was not happening. Measured at the time this was fixed: 15 hostless sources, of which 4 could ever be reached.
-- **rigor.py** `lognormal_product` — [MEDIUM] calculates a product of log-normal distributions for a list of factors
-  - says: the census as a product of uncertain factors
-- **rigor.py** `measure_bit_value` — [MEDIUM] The function uses the corrected value (L / 10.0), but the docstring still references the pre-fixed incorrect example (7.0 * 13.23 = 92.6).
-  - says: THE NUMBERS ABOVE WERE WRONG UNTIL 2026-08-25 (run #21) AND THE WRONG ONES ARE INSTRUCTIVE.
-- **rigor.py** `measure_bit_value` — [MEDIUM] Returns L / 10.0, where L is the band resolution, but the docstring claims it's the bit-worth of one point on a decimal axis.
-  - says: The bit-worth of ONE point on any decimal axis at a given band.
 - **retry_synthesis.py** `save_side` — [MEDIUM] The function save_side is called but its implementation is not provided in the given code slice, leading to a potential runtime error or undefined behavior.
   - says: Take the MERGED mapping back, so this run's own tally counts what is actually on disk rather than only what this process rescued -- see `save_side`. The second half of that return says whether it reached disk at all; a rescue that did not land must not print like one that did, because nothing re-runs the model call behind it.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
