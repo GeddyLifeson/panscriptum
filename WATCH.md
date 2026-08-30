@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 208  ·  last run 2026-08-30 14:13
+round 209  ·  last run 2026-08-30 14:44
 
 ## Structure
 
@@ -11,24 +11,18 @@ round 208  ·  last run 2026-08-30 14:13
 
 ## What the model found in the code
 
-**22 open** (8 high). Newest first.
+**17 open** (4 high). Newest first.
 
 - **verify_math.py** `_chunk_key` — [HIGH] the key is not stable across runs
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
 - **verify_math.py** `priority` — [HIGH] excludes rows with own=0 and chars >= 2000
   - says: These are still read -- nothing here is dropped
-- **sweep_plan.py** `record` — [HIGH] Writes shard files and merges into aggregate coverage, but does not directly record modules read by a sweep
-  - says: Stamp which modules a sweep actually read. `covered` is an iterable of basenames.
-- **suppressions.py** `add` — [HIGH] Stores a truncated reason (max 300 characters) instead of the full reason
-  - says: Record one narrow exception. A reason is REQUIRED and is not decoration.
 - **standards.py** `fab` — [HIGH] None if the reader's progress line could not be parsed
   - says: fabrication rate
 - **standards.py** `unans_files` — [HIGH] count of records that do not have 'chunks_unanswered': 0 in their head
   - says: count of unanswered records
-- **silence.py** `_handler_is_observed` — [HIGH] Checks for the presence of the substring 'raise' in the AST dump of the handler's statements, which cannot detect re-raises due to case sensitivity
-  - says: Does this `except` body leave a trace of the exception it caught? -> bool.
-- **sevenfold.py** `write_json` — [HIGH] discards the verdict and printed "wrote {p}" regardless
-  - says: returns whether the rename LANDED
+- **withdraw_chapters.py** `bad` — [MEDIUM] bad is a boolean that determines the return code based on a.go and the state of various variables
+  - says: EVERY REFUSAL ABOVE WAS PRINTED AND THEN DISCARDED. `main()` had no `return` on any path and the entry point was a bare `main()`...
 - **verify_math.py** `check` — [MEDIUM] checks if the code contains 'if span_min >= 40:'
   - says: the counters-moving standard is not gated behind a history-length check
 - **verify_math.py** `qualifier_compatible` — [MEDIUM] returns False for two DC continuities
@@ -37,12 +31,8 @@ round 208  ·  last run 2026-08-30 14:13
   - says: The worker count to actually use.
 - **tiers.py** `deliberate_joins` — [MEDIUM] returns a sorted list of tuples with shared data, but the actual implementation does not apply the `[:3]` slice
   - says: THE WHOLE SHARED LIST. This returned `shared.get((a, b), [])[:3]`
-- **thread_integrity.py** `out["PARTIALLY-DANGLING"]` — [MEDIUM] Incrementing the PARTIALLY-DANGLING counter and appending to its detail list
-  - says: BUGS 2b4e0f497aac. Drift was only reported when EVERY shared key had gone, so a pair sharing 100 entities of which 99 had drifted printed as a clean obligation -- 99 broken threads invisible behind one survivor. Partial drift gets its own class rather than being folded into DANGLING: the pair DOES still hold live shared entities, so it is a real obligation, and calling it wholly dangling would be the opposite error.
 - **sweep_plan.py** `check_briefs` — [MEDIUM] diff what was PLANNED against `batches(n)`
   - says: diff what was DISPATCHED against `batches(n)`
-- **sweep.py** `gap` — [MEDIUM] The code is using `collections.Counter.most_common()` without any argument, which by default returns all items, but the comment suggests that it was previously limited to a specific number (like 8). The comment also mentions that the list should be complete, but the code may not be truncating as intended.
-  - says: HARD RULE 0 ON BOTH LISTS BELOW. These were `most_common(10)` and `most_common(8)`, ranked and then cut with no "and N more" anywhere on the page. Measured against the live CHARACTER_SWEEP.json (141,428 rows): BIGGEST GAPS holds 6 sources, so its cut was latent, but REACHED BUT SILENT holds 168 SOURCES and printed 8 -- 160 invisible, and the count line above it reports CHARACTERS, so nothing on the page said the other 160 existed. That is the list a person reads to decide where mining is producing nothing, printed in the shape of a complete one. It also sat against this module's own docstring: "Nothing is hidden by this: every count that was printed before is still printed."
 - **standards.py** `len(w.get("broken") or []) <= MAX_BROKEN_MODULES` — [MEDIUM] counts the number of broken modules and checks if it is less than or equal to MAX_BROKEN_MODULES
   - says: every module imports
 - **standards.py** `_fandom_probe` — [MEDIUM] The function is used in a memoized cache, but the code does not prevent the probe from being called multiple times for the same host and timeout.
