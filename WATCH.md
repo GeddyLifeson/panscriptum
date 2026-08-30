@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 209  ·  last run 2026-08-30 14:44
+round 210  ·  last run 2026-08-30 15:08
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 209  ·  last run 2026-08-30 14:44
 
 ## What the model found in the code
 
-**17 open** (4 high). Newest first.
+**21 open** (4 high). Newest first.
 
 - **verify_math.py** `_chunk_key` — [HIGH] the key is not stable across runs
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
@@ -21,6 +21,18 @@ round 209  ·  last run 2026-08-30 14:44
   - says: fabrication rate
 - **standards.py** `unans_files` — [HIGH] count of records that do not have 'chunks_unanswered': 0 in their head
   - says: count of unanswered records
+- **worldseed.py** `write_json` — [MEDIUM] returns True on a successful write, False on denied replace
+  - says: returns False on a denied replace instead of raising
+- **worldseed.py** `unreachable_by_url` — [MEDIUM] Returns a dictionary of keys that are not in the query string, but the docstring says it's for what the profile derives that a query string cannot deliver. However, the function's actual behavior is to return a subset of the opt dictionary, which may not be the intended purpose.
+  - says: What the profile derives that a query string cannot deliver. Named, not hidden.
+- **workorders.py** `_fire` — [MEDIUM] reports a problem with the ledger chain when the chain is ok
+  - says: reports a problem with the ledger chain
+- **workorders.py** `_fire` — [MEDIUM] reports a problem with the ledger structure when there are no bad rows
+  - says: reports a problem with the ledger structure
+- **workorders.py** `resolve` — [MEDIUM] Attempts to close an order but does not properly handle the case where the write could not land, leading to potential confusion between 'no such order' and 'order already closed'.
+  - says: Close an order: REMOVE it from the open file, append it to the paper trail.
+- **workorders.py** `file_order` — [MEDIUM] Creates a new order or updates an existing one, but does not return the order directly. Instead, it returns the record if the write landed, otherwise None.
+  - says: Open (or refresh) one work order. -> the order.
 - **withdraw_chapters.py** `bad` — [MEDIUM] bad is a boolean that determines the return code based on a.go and the state of various variables
   - says: EVERY REFUSAL ABOVE WAS PRINTED AND THEN DISCARDED. `main()` had no `return` on any path and the entry point was a bare `main()`...
 - **verify_math.py** `check` — [MEDIUM] checks if the code contains 'if span_min >= 40:'
@@ -35,10 +47,6 @@ round 209  ·  last run 2026-08-30 14:44
   - says: diff what was DISPATCHED against `batches(n)`
 - **standards.py** `len(w.get("broken") or []) <= MAX_BROKEN_MODULES` — [MEDIUM] counts the number of broken modules and checks if it is less than or equal to MAX_BROKEN_MODULES
   - says: every module imports
-- **standards.py** `_fandom_probe` — [MEDIUM] The function is used in a memoized cache, but the code does not prevent the probe from being called multiple times for the same host and timeout.
-  - says: The live probe itself, with no memo in front of it. -> (ok, detail).
-- **snapshot.py** `restore` — [MEDIUM] Copies a snapshot back into a given directory, but the function is called with `into=tmp` in the main restore logic, which is a temporary directory, not the live tree. The function's default behavior is not used as intended.
-  - says: Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it.
 - **retry_synthesis.py** `save_side` — [MEDIUM] The function save_side is called but its implementation is not provided in the given code slice, leading to a potential runtime error or undefined behavior.
   - says: Take the MERGED mapping back, so this run's own tally counts what is actually on disk rather than only what this process rescued -- see `save_side`. The second half of that return says whether it reached disk at all; a rescue that did not land must not print like one that did, because nothing re-runs the model call behind it.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
