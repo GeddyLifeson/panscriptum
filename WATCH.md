@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 213  ·  last run 2026-08-30 16:24
+round 214  ·  last run 2026-08-30 16:54
 
 ## Structure
 
@@ -11,12 +11,10 @@ round 213  ·  last run 2026-08-30 16:24
 
 ## What the model found in the code
 
-**12 open** (2 high). Newest first.
+**10 open** (1 high). Newest first.
 
-- **verify_math.py** `_chunk_key` — [HIGH] the key is not stable across runs
-  - says: the same entity and passage still hit the same key IN A LATER PROCESS
-- **verify_math.py** `priority` — [HIGH] excludes rows with own=0 and chars >= 2000
-  - says: These are still read -- nothing here is dropped
+- **assay.py** `var` — [HIGH] var is set to the maximum of (var + cov) and 0.0, which means it's not a variance anymore but a non-negative value that could be a variance or a different quantity
+  - says: A variance is not allowed to be negative however the correlations fall. If a future matrix ever drove this below zero the formula would be returning an imaginary error bar, which would surface as a crash somewhere far away from the cause.
 - **workorders.py** `_fire` — [MEDIUM] reports a problem with the ledger chain when the chain is ok
   - says: reports a problem with the ledger chain
 - **workorders.py** `_fire` — [MEDIUM] reports a problem with the ledger structure when there are no bad rows
@@ -25,8 +23,6 @@ round 213  ·  last run 2026-08-30 16:24
   - says: Close an order: REMOVE it from the open file, append it to the paper trail.
 - **workorders.py** `file_order` — [MEDIUM] Creates a new order or updates an existing one, but does not return the order directly. Instead, it returns the record if the write landed, otherwise None.
   - says: Open (or refresh) one work order. -> the order.
-- **verify_math.py** `check` — [MEDIUM] checks if the code contains 'if span_min >= 40:'
-  - says: the counters-moving standard is not gated behind a history-length check
 - **verify_math.py** `qualifier_compatible` — [MEDIUM] returns False for two DC continuities
   - says: two DC continuities are never compatible
 - **retry_synthesis.py** `save_side` — [MEDIUM] The function save_side is called but its implementation is not provided in the given code slice, leading to a potential runtime error or undefined behavior.
