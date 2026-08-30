@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 171  ·  last run 2026-08-29 18:48
+round 172  ·  last run 2026-08-29 19:12
 
 ## Structure
 
@@ -11,18 +11,16 @@ round 171  ·  last run 2026-08-29 18:48
 
 ## What the model found in the code
 
-**5 open** (1 high). Newest first.
+**4 open** (2 high). Newest first.
 
-- **identity.py** `epoch_of` — [HIGH] Returns "" when the epoch probe is unprobed or when the response is not explicit, but the system prompt specifies that "If the sentence carries no marker at, return {"epoch": "", "
-  - says: The epoch a single sentence places itself in, or "" when it names none.
+- **mutate.py** `_lock_acquire` — [HIGH] does not acquire a lock, has no callers
+  - says: acquire a lock
+- **manifest_builder.py** `feats_index` — [HIGH] is used to fetch feats for a source, but the code handles exceptions by silently noting the failure and proceeding with an empty list
+  - says: joins feats to this source's cast by name
+- **magnitude.py** `_cite_number` — [MEDIUM] Matches a line number at the start of a citation, not just the one at the end
+  - says: A citation that is NOTHING BUT one of our line numbers
 - **liveness.py** `phantom` — [MEDIUM] a list of names used in conditions that are not defined in the module or builtins
   - says: a list of names used in conditions that are not defined
-- **liveness.py** `taut` — [MEDIUM] a list of comparisons with identical sides that are not constants
-  - says: a list of comparisons with identical sides
-- **liveness.py** `dead` — [MEDIUM] a list of module-level definitions and methods that are not referenced by the current module's attributes
-  - says: a list of module-level definitions and methods that are not referenced
-- **liveness.py** `scoped` — [MEDIUM] a dictionary mapping keys to sets of attributes that are reachable via inheritance
-  - says: a dictionary mapping keys to sets of attributes
 
 ---
 
