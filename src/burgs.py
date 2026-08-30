@@ -49,6 +49,7 @@ also be worth calibrating: render a sample of worlds, count the burgs Azgaar act
 and check the exponent against q = 1. Until that is done these are modelled, not measured.
 """
 import argparse
+import collections
 import hashlib
 import os
 import sys
@@ -133,30 +134,107 @@ def classify(pop):
     return CLASSES[-1][0], CLASSES[-1][3]
 
 
-def burgs_for(world_seed, features, limit=None):
-    """The full settlement roll for one world, by the rank-size rule."""
+def rank_population(p1, k):
+    """The modelled population of the rank-k settlement. ONE expression, three callers.
+
+    `burgs_for` materialises a roll, `class_histogram` counts one without materialising it, and
+    `_rank_at_or_above` inverts it. Three copies of the rank-size expression could disagree, and
+    two conflicting answers to one question is the fault X.10 §4 prices as beta -- so all three
+    read this.
+    """
+    return max(HAMLET_FLOOR, int(p1 / (k ** ZIPF_Q)))
+
+
+def coastal_bias(climate, landform):
+    """How likely any one settlement is to sit on water -- an archipelago is nearly all coast.
+
+    Hoisted out of `burgs_for` UNCHANGED so that the parameter dump can report the same number
+    the roll was actually built from, rather than a second copy of the rule that could drift
+    from it. Deliberately NOT rounded anywhere: the coast test compares a hundredth against this
+    float directly, and 0.55 against 0.5500000000000000444 decides differently for one burg in a
+    hundred.
+    """
+    bias = {"archipelago": 0.92, "isles": 0.85, "shattered": 0.5,
+            "continents": 0.35, "pangaea": 0.25, "highland": 0.2}.get(landform, 0.4)
+    if climate in ("oceanic",):
+        bias = min(0.95, bias + 0.2)
+    if climate in ("arid", "frozen"):
+        bias = max(0.05, bias - 0.15)
+    return bias
+
+
+def world_parameters(world_seed, features):
+    """Everything one world's ENTIRE settlement roll is derived from. -> dict.
+
+    This is what "storage: 0 bytes" means concretely. Given these numbers and the seed,
+    `burgs_for` reproduces every burg, its population, its class, its coast/port/river flags and
+    its Azgaar link -- so the parameters ARE the roll, in the only form that fits on a disk.
+    `main()` accumulates and dumps these instead of 91 million materialised burg dicts (order
+    47e4e1ace8f1).
+    """
     era = features.get("tech", "medieval")
     cond = features.get("condition", "settled")
     climate = features.get("climate", "temperate")
     landform = features.get("landform", "continents")
-
     p1 = largest_city(world_seed, era, cond)
-    n = burg_count(world_seed, era, cond, p1)
+    return {"world_seed": world_seed, "era": era, "condition": cond, "climate": climate,
+            "landform": landform, "p1": p1,
+            "burgs": burg_count(world_seed, era, cond, p1),
+            "coastal_bias": coastal_bias(climate, landform),
+            "zipf_q": ZIPF_Q, "hamlet_floor": HAMLET_FLOOR}
 
-    # Coastal likelihood follows the world's own shape -- an archipelago is nearly all coast.
-    coastal_bias = {"archipelago": 0.92, "isles": 0.85, "shattered": 0.5,
-                    "continents": 0.35, "pangaea": 0.25, "highland": 0.2}.get(landform, 0.4)
-    if climate in ("oceanic",):
-        coastal_bias = min(0.95, coastal_bias + 0.2)
-    if climate in ("arid", "frozen"):
-        coastal_bias = max(0.05, coastal_bias - 0.15)
+
+def _rank_at_or_above(p1, n, lo):
+    """How many of the first `n` ranks still hold at least `lo` people.
+
+    Closed form first -- populations fall as p1/k^q, so the last rank at or above `lo` is
+    (p1/lo)^(1/q) -- then CORRECTED against `rank_population` itself, because the closed form is
+    float arithmetic and the roll is `int()` of a float division, and the two can differ by one
+    at a boundary. The correction is at most a step or two, so this stays O(1) in practice while
+    being exact by construction: whatever the closed form says, the answer is checked with the
+    same expression `burgs_for` uses to build the burg.
+    """
+    if n <= 0:
+        return 0
+    if lo <= HAMLET_FLOOR:
+        return n            # every population is floored at HAMLET_FLOOR, so all n qualify
+    k = min(n, int((p1 / lo) ** (1.0 / ZIPF_Q)))
+    while k < n and rank_population(p1, k + 1) >= lo:
+        k += 1
+    while k > 0 and rank_population(p1, k) < lo:
+        k -= 1
+    return k
+
+
+def class_histogram(p1, n):
+    """{class name: how many of this world's `n` burgs are that class}, WITHOUT building them.
+
+    A world's roll is monotone in rank, so each class occupies a contiguous block of ranks and
+    counting it is a division rather than a loop over settlements. That is the difference
+    between reading the whole omniverse's settlement pattern in a second and materialising
+    91 million dicts to count them (order 47e4e1ace8f1). The boundaries come from CLASSES, so
+    there is no second table to keep in step.
+    """
+    counts = {name: 0 for name, _lo, _hi, _gen in CLASSES}
+    above = 0                               # ranks already claimed by a larger class
+    for name, lo, _hi, _gen in reversed(CLASSES):
+        within = _rank_at_or_above(p1, n, lo)
+        counts[name] = max(0, within - above)
+        above = max(above, within)
+    return counts
+
+
+def burgs_for(world_seed, features, limit=None):
+    """The full settlement roll for one world, by the rank-size rule."""
+    prm = world_parameters(world_seed, features)
+    climate, p1, n, bias = prm["climate"], prm["p1"], prm["burgs"], prm["coastal_bias"]
 
     out = []
     for k in range(1, (limit or n) + 1):
-        pop = max(HAMLET_FLOOR, int(p1 / (k ** ZIPF_Q)))
+        pop = rank_population(p1, k)
         name, gen = classify(pop)
         s = _stream(world_seed, f"burg{k}")
-        coast = (s % 100) / 100.0 < coastal_bias
+        coast = (s % 100) / 100.0 < bias      # the VALUE from world_parameters, not the function
         out.append({
             "rank": k,
             "seed": s % (2 ** 32),
@@ -200,19 +278,42 @@ def main():
     print("BURGS — every settlement on every world, by the rank-size rule")
     print("=" * 100)
 
+    # COUNTERS AND PARAMETERS, NOT ROSTERS (order 47e4e1ace8f1). This loop used to call
+    # `burgs_for` for every world and hold the result: 91,560,055 burg dicts on the current
+    # roll, measured at ~2.15 s and 45.6 MB of heap per 130,603-burg world, so ~25 minutes and
+    # ~32 GB before `--write` was even consulted -- and the module simply could not run on this
+    # machine. Nothing downstream reads a burg roster (navtree.py:56 takes the scalar
+    # `burg_count` and nothing else), and the roll is derivable from its world's seed by
+    # definition, which is what the "storage: 0 bytes" line below has always claimed. So the
+    # pass accumulates the per-world PARAMETERS and a class histogram computed from them, and
+    # the same figures come out in 0.02 s with no roster anywhere.
+    #
+    # AND THE KEY IS A LIST, BECAUSE `designation` IS NOT UNIQUE (order 65ae84ee4bd7).
+    # `per_world[w["designation"]] = ...` silently overwrote: 5,986 worlds carry 5,939 distinct
+    # designations, so 47 worlds were dropped, and 26 of the 44 colliding designations name
+    # worlds with genuinely DIFFERENT features ('Adventure Time::Ice Kingdom' is continents and
+    # highland; 'Adventurers League::Phlan' appears three times). Keying on the seed instead
+    # would not have helped -- the seed is derived from the designation, so the duplicates share
+    # that too. The count printed on the write line was taken from the post-loss dict, so the
+    # completeness claim could not contradict itself however many worlds went missing; it now
+    # counts worlds, not keys. Nothing is lost and nothing is merged: a designation holds every
+    # world that bears it.
     total = 0
     per_world = {}
+    cls = collections.Counter()
     for w in worlds:
-        seed = AS.map_seed(w["seed"])
-        bs = burgs_for(seed, w["features"])
-        per_world[w["designation"]] = bs
-        total += len(bs)
-    print(f"\nworlds        : {len(worlds):,}")
+        prm = world_parameters(AS.map_seed(w["seed"]), w["features"])
+        per_world.setdefault(w["designation"], []).append(prm)
+        total += prm["burgs"]
+        cls.update(class_histogram(prm["p1"], prm["burgs"]))
+    print(f"\nworlds        : {len(worlds):,}   ({len(per_world):,} distinct designations; "
+          f"{len(worlds) - len(per_world):,} share one with another world)")
     print(f"burgs         : {total:,}   ({total/max(1,len(worlds)):.0f} per world)")
     print("storage       : 0 bytes — every one is derived from its world's seed")
 
-    import collections
-    cls = collections.Counter(b["class"] for bs in per_world.values() for b in bs)
+    # The numerator and the denominator now come from the SAME pass. They did not: the histogram
+    # counted the burgs of the worlds that survived the dict while `total` counted the burgs of
+    # every world built, so the printed percentages could not sum to 100%.
     print("\nsettlement classes (the rank-size rule doing the work):")
     for k, _, _, _ in CLASSES:
         print(f"   {k:<10}{cls.get(k, 0):>7,}  {cls.get(k,0)/max(1,total):6.1%}")
@@ -226,7 +327,10 @@ def main():
         print(f"   {w0['features']}")
         print("-" * 100)
         print(f"{'rank':>5}{'population':>12}{'class':>10}   {'flags':<22}generator")
-        for b in per_world[w0["designation"]][:args.limit]:
+        # MATERIALISED HERE AND NOWHERE ELSE -- one world, on demand, for the reader's table.
+        # `--limit` is passed into `burgs_for` rather than slicing a roll that was already built,
+        # which is the same rows off the same expression without the roll.
+        for b in burgs_for(AS.map_seed(w0["seed"]), w0["features"], limit=args.limit):
             flags = ",".join(f for f in ("coast", "port", "river") if b[f]) or "inland"
             gen = GENERATORS.get(b["generator"], b["generator"])   # long form for the reader only
             print(f"{b['rank']:>5}{b['population']:>12,}{b['class']:>10}   {flags:<22}{gen}")
@@ -256,11 +360,22 @@ def main():
         # rename (Windows, a reader holding the target) rather than raising, so printing
         # "wrote {p}" unconditionally would report an artifact that is not there -- the same
         # shape as the drifted count this branch already carries a comment about.
+        #
+        # AND WHAT IT WRITES IS NOW THE PARAMETERS, NOT THE ROSTERS (order 47e4e1ace8f1). The
+        # dumped rolls came to ~16 GB of JSON for 91.5 million burgs, printed one line under
+        # "storage: 0 bytes — every one is derived from its world's seed". Both statements
+        # cannot be true, and it is the write that was wrong: P_1, the burg count, the Zipf
+        # exponent, the hamlet floor and the coastal bias are everything `burgs_for` consumes,
+        # so this file now holds the derivation rather than its output, at a few MB. Every
+        # burg is still recoverable, exactly, by handing a row back to `burgs_for`. No
+        # downstream reader is affected -- nothing in the tree reads this artifact at all.
         p = os.path.join(HERE, "data", "BURGS_SAMPLE.json")
+        n_written = sum(len(v) for v in per_world.values())
         if silence.write_json(p, per_world, indent=2,   # every world; Hard Rule 0
                               ensure_ascii=False):
-            print(f"\nwrote {p} ({len(per_world):,} worlds — every one, Hard Rule 0; "
-                  f"the SAMPLE in the filename is historical)")
+            print(f"\nwrote {p} ({n_written:,} worlds under {len(per_world):,} designations "
+                  f"— every one, Hard Rule 0; the SAMPLE in the filename is historical). "
+                  f"Each row is the PARAMETERS its whole roll derives from, not the roll.")
         else:
             print(f"\nDID NOT WRITE {p}: the rename was refused (most likely a reader holding "
                   f"it open). Nothing was changed on disk — re-run to write it.", file=sys.stderr)

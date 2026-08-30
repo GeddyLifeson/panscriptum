@@ -97,11 +97,30 @@ def affinity_order(members, weights):
     return order
 
 
+def _even_cuts(n_members, k):
+    """The k-1 cut positions of an exactly even split of `n_members`. -> sorted list.
+
+    Positions are gap indices: cutting after block[i]. Clamped into [0, n_members-2] so a cut can
+    never produce an empty chunk, and deduplicated for the case where k exceeds what the block
+    can actually be divided into.
+    """
+    step = n_members / k
+    return sorted({min(max(int(round(step * j)), 1), n_members - 1) - 1 for j in range(1, k)})
+
+
 def shelve(members, weights, span=SPAN, depth=len(TIERS)):
     """Place members into a span-ary tree of the given depth, balanced and affinity-ordered.
 
-    Balance is by construction: the ordered list is cut into `span` contiguous blocks at each
-    level, so no branch can swell into the giant component that wrecked every discovered scheme.
+    BALANCE IS BY CONSTRUCTION, AND THE BOUND IS NOW A REAL ONE. This said "the ordered list is
+    cut into `span` contiguous blocks at each level, so no branch can swell into the giant
+    component" while `seams()` was free to put every cut at one end of the block -- and on the
+    live shelving it did: the largest single address held 38 sources and the top tier's seven
+    branches ran from 1 member to 66 (order 2a48315d26e6). What bounds it now is that every cut
+    is chosen within half a step of its even-split boundary, so each child holds between roughly
+    half and one and a half times its even share, at every level, whatever the weights say.
+    Measured after the change on the same 209 sources: top branches 15-45 (was 1-66), 36 sources
+    sharing an address (was 106), largest address 2 (was 38). `main()` prints MEMBERS PER BRANCH
+    so the property is measured on every run rather than asserted in this docstring.
     """
     order = affinity_order(members, weights) if weights else sorted(members)
     coords = {m: [] for m in order}
@@ -126,21 +145,49 @@ def shelve(members, weights, span=SPAN, depth=len(TIERS)):
             gaps.append((weights.get((a, b), weights.get((b, a), 0.0)), i))
         # As many children as the block can support, never more than the declared span.
         k = max(1, min(span, len(block)))
-        # NO SIGNAL TO READ. Every `build()` call for a source's WORLDS passes `weights={}`
-        # (worldseed computes no pairwise affinity within a source), so every gap above defaults
-        # to the same 0.0 and `gaps.sort()` -- stable -- leaves them in original-index order.
-        # Slicing the first k-1 of THAT is not "the weakest seams", it is "the first six
-        # positions", and it produced exactly the giant component this function's own docstring
-        # says can't happen: shelve([100 members], {}, depth=2) gave one child everything past
-        # the sixth member. When nothing distinguishes the seams there is nothing to prefer, so
-        # divide the block into `k` evenly sized pieces instead of clustering every cut at one
-        # end of it.
-        if len({g for g, _ in gaps}) <= 1:
-            step = len(block) / k
-            cuts = {min(max(round(step * j), 1), len(block) - 1) - 1 for j in range(1, k)}
-            return sorted(cuts)
-        gaps.sort()
-        return sorted(i for _, i in gaps[:k - 1])
+        # A WEAKEST SEAM NEAR EACH EVEN BOUNDARY, WHICH IS THE ONLY FORM OF THIS THAT KEEPS THE
+        # BALANCE PROMISE (order 2a48315d26e6). Two earlier shapes of this code and why neither
+        # holds:
+        #
+        # 1. `gaps.sort(); gaps[:k-1]` -- the k-1 GLOBALLY weakest seams, wherever they fall.
+        #    Every `build()` call for a source's WORLDS passes `weights={}` (worldseed computes
+        #    no pairwise affinity within a source), so every gap is 0.0, the stable sort leaves
+        #    them in index order, and the first six positions win: `shelve([100 members], {},
+        #    depth=2)` gave one child everything past the sixth member -- the giant component
+        #    `shelve`'s own docstring says cannot happen.
+        # 2. An even split guarded by `if len({g for g, _ in gaps}) <= 1` -- i.e. only when the
+        #    block is WHOLLY tied. One nonzero seam anywhere defeats it and hands the block back
+        #    to (1). Measured on the live shelving under that guard: 106 of 209 sources (50.7%)
+        #    shared a Shelfmark, 17 addresses held more than one, the largest held 38, and the
+        #    seven top-tier branches held 1, 9, 16, 19, 43, 55 and 66 members.
+        #
+        # Extending the even split to any TIED RUN (the order's own suggested remedy) was tried
+        # and MEASURED WORSE, which is why it is not what is here: spreading cuts evenly across
+        # the positions of a tied run spreads them over where the ties are, not over the block,
+        # so on the live graph all six cuts landed inside one dense band of zero seams and the
+        # top branches came out 7, 8, 9, 9, 10, 16 and 150. A tie-run split balances the tie; the
+        # claim is about the BLOCK.
+        #
+        # So: take the even-split boundary for each of the k-1 cuts, and around each one search a
+        # window of half a step either side for the weakest seam in it, nearest boundary winning
+        # a tie. Balance is then bounded by construction -- every chunk lands within half a step
+        # of even, so no branch can swell into a giant component whatever the weights say -- and
+        # the material still chooses the exact joint, which is what reading the seams was for.
+        # A window is also what makes the affinity signal meaningful rather than global: two
+        # sources with no measured affinity at opposite ends of the order are not evidence that
+        # the shelf should be cut at both.
+        cuts = []
+        step = len(block) / k
+        for boundary in _even_cuts(len(block), k):
+            lo = max(0, int(round(boundary - step / 2)))
+            hi = min(len(gaps) - 1, int(round(boundary + step / 2)))
+            window = [g for g in gaps[lo:hi + 1] if g[1] not in cuts]
+            if not window:
+                continue
+            # (seam strength, distance from the even boundary) -- the weakest seam in the window,
+            # and of equally weak ones the one that divides the block most evenly.
+            cuts.append(min(window, key=lambda t: (t[0], abs(t[1] - boundary)))[1])
+        return sorted(set(cuts))
 
     def split(block, level):
         if level >= depth or not block:
@@ -274,15 +321,24 @@ def main():
              + ", ".join(sorted(UNSHELVED)) + ")" if UNSHELVED else "  (every world-bearing "
              "source reached the tree)"))
     print()
-    print(f"{'tier':<12}{'children per parent':<24}{'occupancy'}")
+    # MEMBERS PER BRANCH IS THE COLUMN THE BALANCE CLAIM IS ABOUT (order 2a48315d26e6). The table
+    # printed CHILDREN PER PARENT only -- a quantity `seams()` clamps to <= SPAN by construction,
+    # which is why the comment below already says "OVER SPAN" is a display that cannot print. A
+    # table of guaranteed numbers cannot report an imbalance: while one address held 38 of the
+    # 209 sources and the top branches ran 1 to 66, every row of this table read 1-7 OK. What
+    # swells is the POPULATION of a branch, so that is now measured too, with the even share
+    # beside it to read the spread against.
+    print(f"{'tier':<12}{'children per parent':<22}{'members per branch':<26}{'occupancy'}")
     for i, t in enumerate(TIERS):
         pool = coords if t in SOURCE_TIERS else worlds
         parents = collections.defaultdict(set)
+        members = collections.Counter()
         for v in pool.values():
             if t not in v:
                 continue
             key = tuple(v[x] for x in TIERS[:i] if x in v)
             parents[key].add(v[t])
+            members[key + (v[t],)] += 1
         if not parents:
             continue
         counts = sorted(len(x) for x in parents.values())
@@ -292,7 +348,10 @@ def main():
         # a discovery. Kept because it states the bound where a reader looks for it; it becomes a
         # real check only if seams() ever stops clamping.
         ok = "OK" if hi <= SPAN else "OVER SPAN"
-        print(f"{t:<12}{f'{lo}-{hi}':<24}{len(parents)} parents   {ok}")
+        msizes = sorted(members.values())
+        even = sum(msizes) / len(msizes)
+        mcol = f"{msizes[0]}-{msizes[-1]} (even {even:.1f})"
+        print(f"{t:<12}{f'{lo}-{hi}':<22}{mcol:<26}{len(parents)} parents   {ok}")
 
     print("\naffinity preserved — strongly linked sources shelved together:")
     for a, b in (("Alien", "Predator"), ("Call of Duty Zombies", "all Black Ops"),
@@ -319,7 +378,18 @@ def main():
         # gate its own.
         landed = silence.write_json(p, {"span": SPAN, "sources": coords, "worlds": worlds},
                                     indent=2, ensure_ascii=False)
-        print(f"\nwrote {p}" if landed else f"\nWRITE DENIED: {p} did not land; rerun to retry")
+        if not landed:
+            # AND THE EXIT CODE HAS TO CARRY IT TOO (order 3e65dbed45a6). The verdict was gated
+            # into the PRINT and then thrown away at `return 0`, so an automated caller could not
+            # tell a denied write from a successful one -- and whatever reads SEVENFOLD.json goes
+            # on reading the previous run's shelving, which is the identical situation
+            # `zfighters.py:492-497` answers with a 1. A line only a person reads is not a
+            # verdict; it is a hope that a person was reading.
+            silence.note("sevenfold.py:main-write-denied")
+            print(f"\nWRITE DENIED: {p} did not land; the shelving above was NOT written and "
+                  f"the file on disk is the previous run's. Rerun to retry.")
+            return 1
+        print(f"\nwrote {p}")
     return 0
 
 

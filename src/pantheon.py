@@ -35,6 +35,7 @@ import argparse
 import json
 import os
 import sys
+import textwrap
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -290,7 +291,10 @@ def main():
                      "M7": "a universe", "M8": "multiverses"}.get(b, "(no label on file for %s)" % b)
             print("  --- %s  %-16s %s" % (b, label, "-" * 44))
         epoch = rec.get("epoch") or rec["assay"].get("epoch", "")
-        print("  %-17s %-16s %s" % (n, rec["assay"]["moth_number"], epoch[:40]))
+        # `epoch[:40]` cut the last column of the ranked table for no gain: it is the LAST
+        # column, so nothing after it needs aligning and a long epoch costs only line length.
+        # Order 9d24c8a5febf, same rule as the citation cap below.
+        print("  %-17s %-16s %s" % (n, rec["assay"]["moth_number"], epoch))
 
     if a.full:
         for n, rec in rank:
@@ -304,8 +308,25 @@ def main():
             print("")
             for ax in A.WEIGHTS:
                 d = rec["axes"][ax]
-                print("   %-15s%5.1f  [%s] %s"
-                      % (ax, d["score"], d["provenance"], d["cited"][:58]))
+                # UNCAPPED, in the view whose flag is literally named --full. This printed
+                # `d["cited"][:58]`, and the cited sentence is the ENTIRE warrant for the score
+                # sitting beside it: 54 of the 66 axis citations were being cut, the longest
+                # (Vados, acumen) at 294 characters. data/PANTHEON.json held the whole text, so
+                # nothing was lost on disk -- what was lost was the reader's ability to check
+                # the claim, which is the only reason to print an axis line at all.
+                #
+                # Same shape as `tiers.deliberate_joins`, whose `shared.get((a, b), [])[:3]` was
+                # brought in line in run #27 on the owner's 2026-08-24 ruling, and that
+                # docstring's sentence carries over verbatim: a cap on the evidence for a claim
+                # is not a display convenience. WRAPPED rather than simply widened, because a
+                # citation is prose of no fixed length and one 294-character line is its own
+                # kind of unreadable; continuation lines hang under the first so the column
+                # structure survives and every character is on screen. Order 9d24c8a5febf.
+                head = "   %-15s%5.1f  [%s] " % (ax, d["score"], d["provenance"])
+                body = textwrap.wrap(str(d["cited"]), width=max(24, 92 - len(head))) or [""]
+                print(head + body[0])
+                for cont in body[1:]:
+                    print(" " * len(head) + cont)
     print("")
     if write_ok:
         print("-> " + OUT)

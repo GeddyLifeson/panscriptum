@@ -101,6 +101,40 @@ from catalogue_aurora import record_path, slug as _slug  # noqa: E402
 slug = _slug
 
 
+def _singular(s):
+    """A Fandom category name as a stored `type`. Singularise only where it is unambiguous.
+
+    THIS REPLACES `s.rstrip("s")` (order 0a5019b2527e), which was not a suffix test at all --
+    `str.rstrip(chars)` removes a SET of characters from the end, so it stripped EVERY trailing
+    's'. Run against real Fandom category names it produced: Goddesses -> Goddesse,
+    Bosses -> Bosse, Classes -> Classe, Princess -> Prince, Colossus -> Colossu. That value is
+    WRITTEN INTO THE RECORD, not merely printed, so every entry harvested from such a category
+    carried a corrupted type in data/records/.
+
+    Deliberately not an English pluraliser. Three rules, in order, and the middle one is the
+    point: where the shape is genuinely ambiguous the category name is LEFT INTACT rather than
+    guessed at. A plural type is untidy; a mangled one is wrong, and a downstream reader can
+    still singularise a plural it recognises. Every case below is at least as good as the old
+    rstrip and never worse.
+
+      -es after a sibilant -> drop 'es'   Goddesses -> Goddess, Bosses -> Boss,
+                                          Classes -> Class, Boxes -> Box, Witches -> Witch
+      -ss/-us/-is          -> unchanged   Princess, Colossus, Analysis: already singular
+      -ies/-oes            -> unchanged   Species, Deities, Movies, Heroes: 'Deities' -> 'Deity'
+                                          and 'Movies' -> 'Movie' cannot be told apart without a
+                                          dictionary, so neither is attempted
+      -s                   -> drop 's'    Characters -> Character, Places -> Place,
+                                          Vehicles -> Vehicle, Gods -> God
+    """
+    if s.endswith(("sses", "xes", "zes", "ches", "shes")):
+        return s[:-2]
+    if s.endswith(("ss", "us", "is", "ies", "oes")):
+        return s
+    if s.endswith("s"):
+        return s[:-1]
+    return s
+
+
 def load_roll():
     with open(ROLL, encoding="utf-8") as f:
         return json.load(f)
@@ -117,12 +151,34 @@ def save_roll(roll):
     GATE ON THE WRITE, like `write_record_catalogue` three lines above every call site: this
     used to run `replace_retry` and drop the verdict, so a denied replace here was invisible to
     every caller even though the record write right beside it in the same function IS checked.
+
+    AND THROUGH `silence.write_json`, NOT A HAND-ROLLED TMP (order 0924f1b5af2f). This was
+    `tmp = ROLL + ".tmp"` + open + json.dump + replace_retry -- a FIXED temp name, shared by
+    every process that writes the roll. It was the last of FIVE writers of data/SWEEP_ROLL.json
+    still on that convention: roll.py:127, resync_roll.py:115, catalogue_aurora.py:271 and
+    catalogue_codex.py:260 all land through write_json, whose temp name carries pid and thread.
+    Two processes writing the roll opened the SAME temp file; the second truncated the first and
+    whichever renamed second landed a partial roll over a finished one -- the identical hazard
+    already repaired in runguard._land (where PermissionError fired 99 times in production),
+    health._flush_ledger and pipeline.py (order e080a5f83b3c). The `_wlock` this is called under
+    serialises the three worker threads inside ONE run; the collision is between PROCESSES,
+    which is exactly the case the four siblings were migrated for.
+
+    The irony worth recording, since it is why the migration passed this site by: write_json's
+    own docstring names `catalogue_web.save_roll()` as the site that ALREADY had the atomic
+    version while its siblings did not. Being the exemplar is what kept it on the one convention
+    write_json was written to make unavailable to get wrong.
+
+    write_json returns the same landed/not-landed verdict replace_retry did, so no call site
+    changes -- catalogue_web.py:504 still gates on it.
+
+    STILL NOT A COMPARE-AND-SWAP, and that is the larger exposure this does not close: main()
+    loads the whole roll once and every worker writes the WHOLE object back, so on a large wiki
+    the in-memory snapshot is hours old and another writer's change in that window is overwritten
+    wholesale. `silence.replace_if_unchanged` exists for exactly that and its docstring cites
+    WIKI_HOSTS.json being lost this way. It spans all five writers, so it is filed on its own.
     """
-    import silence as _sil
-    tmp = ROLL + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(roll, f, indent=2, ensure_ascii=False)
-    return _sil.replace_retry(tmp, ROLL)
+    return silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
 
 
 def catalogue_composite(source_name, verbose=True):
@@ -348,7 +404,10 @@ def catalogue(source_name, verbose=True):
                 continue
             entries.append({
                 "name": title,
-                "type": cats[0].rstrip("s") if cats else canon.split(" (")[0].rstrip("s"),
+                # _singular(), never .rstrip("s") -- rstrip takes a character SET, so it ate
+                # every trailing 's' and stored Goddesse / Bosse / Classe / Prince / Colossu
+                # into the record. (Order 0a5019b2527e.)
+                "type": _singular(cats[0]) if cats else _singular(canon.split(" (")[0]),
                 "description": text,
                 "scale_note": "",
                 "category": canon,

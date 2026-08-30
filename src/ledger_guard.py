@@ -409,18 +409,66 @@ def assert_intact():
 
 
 def main():
+    """The CLI. RUNS ALL THREE MECHANISMS, because it says all three passed.
+
+    ORDER 418e83501f0f. This called `check_all()` and, on an empty result, printed "ledgers: all
+    intact" and returned 0 -- having run ONE of the three mechanisms this module's docstring
+    enumerates. It never called `verify_chain()` and never called `check_since_snapshot()`, and
+    the second of those was added on 2026-08-27 specifically because `check_all()`'s byte floor
+    and `verify_chain()`'s SHRANK test are BOTH size tests and a truncate-then-append preserves
+    size. So a broken hash chain, or a HANDOFF.md truncated to its header and regrown, printed
+    "all intact" and exited 0 out of the module whose entire subject is that failure.
+    `assert_intact()` does run all three, but it is reached only from `publish.push()`; the CLI
+    is the surface a person uses to ASK, and it was the one answering from the least evidence.
+
+    Deliberately does NOT seal. `assert_intact()` seals because it is the gate on a write that is
+    about to happen; a question asked from the command line must not change the state it is
+    asking about, or every `--check` would move the baseline the next one compares against.
+
+    Each mechanism reports separately, pass or fail. A single "all intact" line is what let the
+    gap hide: three verdicts collapsed into one sentence cannot be audited against the code.
+    """
     import argparse
     ap = argparse.ArgumentParser(description="check the relay's ledgers")
     ap.parse_args()
+    failures = 0
+
     bad = check_all()
-    if not bad:
-        print("ledgers: all intact")
-        return 0
-    for name, problems in sorted(bad.items()):
-        print("%s:" % name)
+    if bad:
+        failures += 1
+        print("STRUCTURE + FLOORS: FAILED")
+        for name, problems in sorted(bad.items()):
+            print("  %s:" % name)
+            for p in problems:
+                print("     " + p)
+    else:
+        print("STRUCTURE + FLOORS: ok (%d ledger(s) parsed, all above their byte floors)"
+              % len(MIN_BYTES))
+
+    ok, problems = verify_chain()
+    links = len(read_chain())
+    if ok:
+        print("HASH CHAIN       : ok (%d link(s) verify, no append-only ledger shrank)" % links)
+    else:
+        failures += 1
+        # Uncapped. `assert_intact()` prints the first six into an exception message, which is a
+        # different job; this is the surface somebody reads to go and repair the chain, and a
+        # truncated fault list is how a second break gets missed behind the first.
+        print("HASH CHAIN       : FAILED over %d link(s)" % links)
         for p in problems:
-            print("   " + p)
-    return 1
+            print("     " + p)
+
+    for name in APPEND_ONLY:
+        ok, why = check_since_snapshot(name)
+        if ok:
+            print("SINCE LAST SEAL  : ok  %s -- %s" % (name, why))
+        else:
+            failures += 1
+            print("SINCE LAST SEAL  : FAILED  %s -- %s" % (name, why))
+
+    print("\nledgers: all intact" if not failures
+          else "\nledgers: %d of the three mechanisms reported a fault" % failures)
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":

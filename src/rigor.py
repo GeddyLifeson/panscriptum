@@ -116,8 +116,10 @@ def measure_bit_value(band):
     THE NUMBERS ABOVE WERE WRONG UNTIL 2026-08-25 (run #21) AND THE WRONG ONES ARE INSTRUCTIVE.
     This example read `7.0 * 13.23 = 92.6`. 13.234 is `tempus.rung_description_length("M5")/10`
     -- the CUMULATIVE quantity this function deliberately stopped using, because cumulative
-    content makes every M0 axis point worth zero bits (the note below, and `tempus.py:182-186`,
-    which split `band_resolution` out for exactly this reason). The code was corrected then;
+    content makes every M0 axis point worth zero bits (the note below, and the docstring of
+    `tempus.band_resolution`, which split that function out for exactly this reason -- cited by
+    SYMBOL, because `tempus.py:182-186` named the closing paragraph of `rung_description_length`
+    instead, which is the function the split moved AWAY from). The code was corrected then;
     this worked example was not, so the file's own docstring went on quoting the pre-fix figure.
     Same failure class as everything else in this project: one fact, two copies, one of them
     fixed. Both are pinned now by §20f -- a section tag rather than a line number, because a

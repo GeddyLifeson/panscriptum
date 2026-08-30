@@ -1034,10 +1034,29 @@ def main():
     if a.once:
         print(json.dumps(state(), indent=1))
         return 0
+    # THE FINGERPRINT OF src/ AS THIS PROCESS FOUND IT, and it is taken only on the SERVING
+    # path -- `--once` prints and exits, and a one-shot has no staleness to have. See the loop
+    # below and codewatch.py. (order 1f172f5acc6f: this daemon had no codewatch call site, and
+    # it had been up 12.3 hours when that was measured. The page a person reads the library's
+    # state from was itself a photograph of the code as it stood when it started.)
+    import codewatch
+    codewatch.stamp("dashboard")
     with Server(("127.0.0.1", a.port), Handler) as srv:
         print(f"instruments on http://127.0.0.1:{a.port}   (ctrl-c to stop)")
+        # `handle_request()` IN A LOOP RATHER THAN `serve_forever()`, so the staleness check has
+        # somewhere to live. `serve_forever` never returns and offers no hook a reader of main()
+        # can see, and a check hidden in a server callback is the kind nobody can find later.
+        # `timeout` bounds the wait for a request, so an idle dashboard still notices a source
+        # change within five seconds; `daemon_threads` means each request is already served off
+        # this thread, so the loop turns over immediately under load too.
+        srv.timeout = 5
         try:
-            srv.serve_forever()
+            while True:
+                srv.handle_request()
+                # Exits rc=17 on purpose when src/ has changed and held still; the keeper's
+                # STANDING set restarts this within five minutes on the current code. Budgeted
+                # and settled, so an edit storm cannot turn this into a respawn loop.
+                codewatch.exit_if_stale("dashboard")
         except KeyboardInterrupt:
             print("\nstopped")
     return 0

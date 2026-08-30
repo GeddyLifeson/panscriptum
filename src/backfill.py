@@ -287,11 +287,20 @@ def main():
 
     if a.audit:
         rows = audit(recs, hosts)
+        # UNCAPPED (order 03c0fe609e89, Hard Rule 0). This printed `rows[:26]` and then
+        # "... and N more", which is the exact shape run #33 removed from
+        # `pipeline.phase_write`'s `refused[:5]`, and the argument recorded there applies word
+        # for word: the count stays right the whole time, which is what makes it comfortable to
+        # leave in, and NAMING which sources are thin is the entire purpose of the line. The
+        # roll bounds this at ~215 rows, the path is diagnostic-only, and `--all` already walks
+        # the full list. Ranking is kept -- thinnest share first, so an interrupted read still
+        # sees the worst -- and the count moves into the header, where it says what is being
+        # looked at instead of what is being withheld.
+        print(f"{len(rows):,} source(s) with a non-Wikipedia host, thinnest Persons share "
+              f"first -- all of them:")
         print(f"{'share':>7}{'persons':>9}{'entries':>9}   source")
-        for x in rows[:26]:
+        for x in rows:
             print(f"{x['share']:>7.1%}{x['persons']:>9,}{x['entries']:>9,}   {x['source'][:52]}")
-        if len(rows) > 26:
-            print(f"  ... and {len(rows) - 26} more")
         return 0
 
     if a.all:

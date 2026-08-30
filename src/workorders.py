@@ -188,19 +188,28 @@ def battery_faults(preflight=None, allsweep=None, now=None):
         # single severity judgement, exactly as `estate_faults` does; this reads it rather than
         # re-deriving it, because a second copy of the rule is how the two came to drift before.
         for r in (allsweep.get("verifiers") or []):
-            if "failed" not in r:
-                # FAIL-CLOSED on a report that ran the VERIFY tier and published no per-row
-                # grade: it predates this change, so its rc verdicts are unreadable here and
-                # scoring that silence as zero faults is the hole this term closes. Same
-                # reasoning, same shape, as the `estate_faults is None` arm below. It clears
-                # itself on the next sweep.
-                bad.append("verifier %s ungraded: this ALLSWEEP.json predates per-row rc "
-                           "semantics, so its verdict cannot be counted" % (r.get("check"),))
-            elif r.get("failed"):
-                why = ("timed out" if r.get("timeout") else
-                       "crashed" if r.get("crashed") else
-                       "exited rc=%s and its rc means '%s'" % (r.get("rc"), r.get("rc_means")))
-                bad.append("verifier %s %s" % (r.get("check"), why))
+            if "failed" in r:
+                if r.get("failed"):
+                    why = ("timed out" if r.get("timeout") else
+                           "crashed" if r.get("crashed") else
+                           "exited rc=%s and its rc means '%s'"
+                           % (r.get("rc"), r.get("rc_means")))
+                    bad.append("verifier %s %s" % (r.get("check"), why))
+            # A ROW FROM BEFORE THE GRADE EXISTED. Read the way it always was, and then
+            # FAIL-CLOSED on the one thing that reading cannot see: a nonzero rc whose meaning
+            # was never declared. Scoring that silence as zero faults is the hole this whole
+            # term closes, and it is the same shape as the `estate_faults is None` arm below.
+            # Gated on an rc actually being PRESENT and nonzero, because a row carrying neither
+            # a grade nor an rc is saying nothing about its exit code at all, and inventing a
+            # fault from a field that was never written is how a queue starts crying wolf. It
+            # clears itself the next time allsweep runs.
+            elif r.get("crashed") or r.get("timeout"):
+                bad.append("verifier %s %s" % (r.get("check"),
+                                               "timed out" if r.get("timeout") else "crashed"))
+            elif r.get("rc") not in (None, 0):
+                bad.append("verifier %s ungraded: it exited rc=%s and this ALLSWEEP.json "
+                           "predates per-row rc semantics, so its verdict cannot be counted"
+                           % (r.get("check"), r.get("rc")))
         for ln in (allsweep.get("lint") or []):
             bad.append("lint %s" % str(ln)[:160])
         for art in (((allsweep.get("estate") or {}).get("artifacts") or {}).get("bad") or []):
@@ -533,12 +542,20 @@ def sweep_detectors():
         silence.note("workorders.py:" + tag)
         try:
             exc = sys.exc_info()[1]
+            # THE EXCEPTION IS NOT CUT, AND THE TRACEBACK RIDES IN `evidence` (order
+            # e6385a07a3fd). This was `str(exc)[:160]`, so the one sentence explaining why an
+            # entire area of the queue is UNKNOWN was itself truncated -- and no evidence was
+            # passed, so nothing anywhere in the order held the rest of it. The caps came off
+            # `file_order` today; this composed a capped `what` one layer above it.
+            import traceback as _tb
+            _trace = "".join(_tb.format_exception(type(exc), exc, exc.__traceback__)) if exc else ""
             filed.append(file_order(
                 "DETECTOR_FAILED",
                 "the %s detector raised instead of reporting: %s: %s. Nothing it watches filed "
                 "an order this cycle, so that area of the queue is UNKNOWN, not clean."
-                % (tag, type(exc).__name__, str(exc)[:160]),
-                "RUN", "MAJOR", where=tag, found_by="workorders.sweep"))
+                % (tag, type(exc).__name__, exc),
+                "RUN", "MAJOR", where=tag, found_by="workorders.sweep",
+                evidence={"traceback": _trace}))
         except Exception:
             silence.note("workorders.py:detector-file")
 
@@ -547,12 +564,26 @@ def sweep_detectors():
         import ledger_guard as LG
         bad = LG.check_all()
         chain_ok, chain_problems = LG.verify_chain()
+        # THE COUNT, A LABELLED SAMPLE, AND THE COMPLETE LIST IN `evidence` -- the shape
+        # PREFLIGHT_PROBLEM and BATTERY_GRADED above already use, and these two did not (order
+        # e6385a07a3fd). LEDGER_STRUCTURE cut `json.dumps(bad)` at 300 characters and passed no
+        # evidence, so there was no uncapped copy of the finding anywhere in the order; LEDGER_
+        # CHAIN took `chain_problems[:3]` and did not even say it was three OF something, so an
+        # order could read "the ledger hash chain does not verify: A; B; C" with fifty problems
+        # standing behind it and nothing to signal them. Both are BLOCKING, which is exactly
+        # where a run is least able to defer and most needs the whole list. The caps in
+        # `file_order` were removed today; these compose the `what` one layer above it.
+        _bad_rows = ["%s: %s" % (name, "; ".join(str(p) for p in probs))
+                     for name, probs in sorted((bad or {}).items())]
         _fire(not bad, "LEDGER_STRUCTURE",
-              "a relay ledger is not intact: %s" % json.dumps(bad)[:300],
-              "RUN", "BLOCKING", found_by="ledger_guard")
+              "%d relay ledger(s) are not intact, first three: %s"
+              % (len(_bad_rows), " | ".join(_bad_rows[:3])),
+              "RUN", "BLOCKING", found_by="ledger_guard", evidence={"ledgers": bad})
         _fire(chain_ok, "LEDGER_CHAIN",
-              "the ledger hash chain does not verify: %s" % "; ".join(chain_problems[:3]),
-              "SESSION", "BLOCKING", found_by="ledger_guard")
+              "the ledger hash chain does not verify -- %d problem(s), first three: %s"
+              % (len(chain_problems), "; ".join(str(p) for p in chain_problems[:3])),
+              "SESSION", "BLOCKING", found_by="ledger_guard",
+              evidence={"problems": chain_problems})
         _detector("ledgers", True)
     except Exception:
         _detector("ledgers", False)
@@ -690,10 +721,18 @@ def sweep_detectors():
         # The push filter already made this distinction; this one did not, and the queue showed
         # a BLOCKING order for six documented audit-report quotations.
         hits = [h for h in raw if not str(h[2]).startswith("SUPPRESSED")]
+        # Count, labelled sample, complete list in evidence (order e6385a07a3fd). This took
+        # `hits[:5]` with no count and no evidence, on the BLOCKING order that gates publishing
+        # to a PUBLIC repo -- so an order naming five files could stand for fifty, and the
+        # sixth onward existed nowhere in the queue. `_w` is deliberately kept out of the prose
+        # and put in the evidence: it is the matched text, and the whole point of this order is
+        # that it must not be pasted where a credential-shaped value gets copied around.
+        _hit_rows = ["%s:%s" % (f, n) for f, n, _w in hits]
         _fire(not hits, "SECRET_STAGED",
-              "credential-shaped values staged for the PUBLIC repo: %s"
-              % "; ".join("%s:%s" % (f, n) for f, n, _w in hits[:5]),
-              "SESSION", "BLOCKING", found_by="publish.scan_for_secrets")
+              "%d credential-shaped value(s) staged for the PUBLIC repo, first five: %s"
+              % (len(_hit_rows), "; ".join(_hit_rows[:5])),
+              "SESSION", "BLOCKING", found_by="publish.scan_for_secrets",
+              evidence={"staged": _hit_rows})
         # The same fault filed by `publish.push` through the escalation chain, under its own code.
         if not hits:
             if resolve_code("SECRET_IN_EXPORT", "scanner is clean (suppressed findings excluded)",
@@ -796,6 +835,62 @@ def sweep_detectors():
         _detector("stranded-synthesis", True)
     except Exception:
         _detector("stranded-synthesis", False)
+
+    # AGENT SCRATCH SCRIPTS SITTING IN A PUBLISHED ROOT (order f0fe623a67c0).
+    #
+    # On 2026-08-28 the publish gate raised an OWNER halt, SECRET_IN_EXPORT, on two
+    # credential-shaped values staged for the PUBLIC repo. They were fabricated fixtures written
+    # by a sweep agent to demonstrate that the secret scanner catches such things -- it does, and
+    # nothing was pushed. THE FAULT WAS THE PATH, NOT THE STRINGS. `handoff/` is a `publish
+    # .COPY_DIRS` root, so everything written there is published; the sweep pointed sixteen
+    # agents at it to write their audits, which is right, and several of them also wrote
+    # throwaway `.py` scripts there to call `file_order`, which is not. A working file landed in
+    # a published directory because that was the directory the agent had been pointed at.
+    #
+    # SO THE CLASS GETS A DETECTOR, not just the one incident a fix. `.md` is the audit format
+    # and `.json` under `handoff/` is queue and run state; a `.py` file there is, by
+    # construction, something somebody ran once. Nothing is deleted or unpublished here --
+    # whether a given script is worth keeping is a curatorial call and this is a queue, not a
+    # janitor -- but the shift can no longer close without the list being in front of it.
+    # Self-closing: the order resolves the moment `handoff/` holds no scratch script.
+    #
+    # The list is capped in `what` and COMPLETE in `evidence`, the STRANDED_SYNTHESIS shape: a
+    # summary line may be short if the full list is one field away, and this one names how many
+    # it did not print.
+    try:
+        scratch = []
+        _hoff = os.path.join(HERE, "handoff")
+        for _root, _dirs, _files in os.walk(_hoff):
+            _dirs[:] = [d for d in _dirs if d != "__pycache__"]
+            for _f in _files:
+                if _f.endswith(".py"):
+                    scratch.append(os.path.relpath(os.path.join(_root, _f),
+                                                   HERE).replace(os.sep, "/"))
+        scratch.sort()
+        _shown = ", ".join(scratch[:12]) + (" (+%d more, all of them in `evidence`)"
+                                            % (len(scratch) - 12) if len(scratch) > 12 else "")
+        _fire(
+            not scratch,
+            "AGENT_SCRATCH_IN_PUBLISHED_TREE",
+            ("%d .py file(s) sit under handoff/, which is a publish.COPY_DIRS root -- so every "
+             "one of them is copied to the PUBLIC repo on the next push: %s. These are agent "
+             "working files, not part of the record: handoff/ takes AUDITS (.md) and queue "
+             "state (.json). This is the path fault behind the 2026-08-28 SECRET_IN_EXPORT halt, "
+             "where a sweep agent asked to demonstrate that the secret scanner catches "
+             "credentials wrote the fixtures down in a script in this directory. Nothing leaked; "
+             "the gate refused the push, which is the gate working. REMEDY, either or both: move "
+             "each script out of the published tree to the session scratchpad, and make every "
+             "sweep brief name a scratch location outside the repo before it names handoff/."
+             % (len(scratch), _shown)),
+            "RUN", "MINOR",
+            where="handoff/ as a COPY_DIRS root vs where agents write working files",
+            evidence={"proof": "os.walk(handoff/) -> %d .py file(s), __pycache__ excluded: %s"
+                               % (len(scratch), ", ".join(scratch)),
+                      "copy_dirs": "publish.COPY_DIRS includes 'handoff'"},
+            found_by="workorders.sweep handoff-scratch")
+        _detector("handoff-scratch", True)
+    except Exception:
+        _detector("handoff-scratch", False)
 
     # `file_order` returns None for a finding whose queue write did not land (it says so on
     # stderr). Those must not be counted as filed -- "swept: N filed" over an order that is not

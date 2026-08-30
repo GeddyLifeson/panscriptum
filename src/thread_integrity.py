@@ -110,7 +110,13 @@ def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents
                               entity (weave drift), for all of a pair's shared keys or
                               only some of them.
       recorded={(a,b),...}    the future directed graph. The original four-way
-                              classification runs, asymmetry classes and all.
+                              classification runs, asymmetry classes and all. RECIPROCAL
+                              requires BOTH (a,b) and (b,a); exactly one of them is the
+                              asymmetric case and the pair is reported oriented so the first
+                              name is the end that records the thread; neither of them is
+                              IMPLIED-UNRECORDED, the same class as the recorded=None line
+                              above, because a pair no directed edge touches is an unrecorded
+                              obligation and not a one-way one.
     """
     out = collections.Counter()
     detail = collections.defaultdict(list)
@@ -140,23 +146,49 @@ def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents
             out["IMPLIED-UNRECORDED"] += 1
             detail["IMPLIED-UNRECORDED"].append((a, b, len(shared)))
             continue
-        back = (b, a) in recorded
-        if back:
+        # BOTH DIRECTIONS ARE TESTED, NOT ONE (order 7bffb5634d7a). This asked only
+        # `back = (b, a) in recorded` and never whether (a, b) was recorded -- and the loop
+        # above has already collapsed each unordered pair to whichever direction it happened to
+        # meet first. So a genuinely ONE-WAY thread came out RECIPROCAL ("both ends know each
+        # other -- the omniverse is joined here") whenever the recorded direction was the mirror
+        # of the one the dedupe kept, and ASYMMETRIC-SUSPECT when it was not: the verdict was
+        # decided by the insertion order of `pairs` rather than by the evidence, on the module's
+        # two most important classes. Reproduced offline against the live module -- the same
+        # single recorded direction gave RECIPROCAL or ASYMMETRIC-SUSPECT depending only on
+        # which way round the pairs dict was iterated.
+        #
+        # LATENT UNTIL STEP 4: every caller passes recorded=None today (Hard Rule 5), so this
+        # branch is unreachable and nothing wrong has been printed. It would have gone live at
+        # exactly the moment the module was supposed to start being right.
+        fwd, back = (a, b) in recorded, (b, a) in recorded
+        if fwd and back:
             out["RECIPROCAL"] += 1
             detail["RECIPROCAL"].append((a, b, len(shared)))
             continue
-        # one-way: is there a lawful excuse?
+        if not fwd and not back:
+            # NEITHER END RECORDS IT. That is not asymmetry -- there is no direction to be
+            # asymmetric about -- it is the same obligation-awaiting-the-pass that the
+            # recorded=None branch above counts, and calling it one-way would invent a
+            # direction the evidence does not contain.
+            out["IMPLIED-UNRECORDED"] += 1
+            detail["IMPLIED-UNRECORDED"].append((a, b, len(shared)))
+            continue
+        # ONE-WAY, ORIENTED SO THE FIRST NAME IS THE END THAT RECORDS THE THREAD. "a->b is
+        # one-way" and "b->a is one-way" are different findings about different sources, and
+        # the printed arrow is the only place that distinction survives.
+        src, dst = (a, b) if fwd else (b, a)
+        # is there a lawful excuse?
         excuse = None
         if distance_fn:
-            d = distance_fn(a, b)
+            d = distance_fn(src, dst)
             if d is not None and d * 1000.0 > event_age_years:
                 excuse = f"propagation: {d*1000:.0f}yr away, event is {event_age_years:.0f}yr old"
         if excuse:
             out["ASYMMETRIC-LAWFUL"] += 1
-            detail["ASYMMETRIC-LAWFUL"].append((a, b, excuse))
+            detail["ASYMMETRIC-LAWFUL"].append((src, dst, excuse))
         else:
             out["ASYMMETRIC-SUSPECT"] += 1
-            detail["ASYMMETRIC-SUSPECT"].append((a, b, len(shared)))
+            detail["ASYMMETRIC-SUSPECT"].append((src, dst, len(shared)))
     return out, detail
 
 
@@ -233,8 +265,11 @@ def main():
     if detail["ASYMMETRIC-SUSPECT"]:
         rows = sorted(detail["ASYMMETRIC-SUSPECT"], key=lambda x: -x[2])
         print()
-        print(f"  one-way with no excuse (real holes, review these) -- all {len(rows):,}, "
-              f"most shared entities first:")
+        # The arrow is directed and it means something: the LEFT source records the thread and
+        # the right one does not. Which end is which is the finding, so it is stated (order
+        # 7bffb5634d7a).
+        print(f"  one-way with no excuse (real holes, review these; left records the thread, "
+              f"right does not) -- all {len(rows):,}, most shared entities first:")
         for a, b, n in rows:
             print(f"     {n:4d} shared  {a[:26]:28s}  -> {b[:26]}")
 

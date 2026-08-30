@@ -243,19 +243,146 @@ def run():
     vals = {}
     for name, a, res, inst, col in rows:
         vals[name] = A.LADDER.index(a["anchor"]) + (res.get("decimal") or 0.0)
-    prev = None
-    ok = True
-    for n in order:
-        if prev is not None and vals[n] < vals[prev]:
-            ok = False
-        prev = n
-    print(f"  monotone floor -> ceiling : {ok}")
-    for n in order:
-        print(f"     {n:<28} {vals[n]:6.2f}")
-    if not ok:
+
+    # EVERY INVARIANT THIS FILE GRADES, AND EVERY ONE OF THEM CAN FAIL (order 237356c82d06).
+    #
+    # run() computed an ASSAY, an INSTRUMENT reading, a COLLEGE interval and a bit value for
+    # each of the five anchors, printed all four, and gated the exit code on exactly one thing:
+    # the monotone ordering. Each anchor's `note` states a testable claim and none was tested.
+    # The ceiling's is the plainest -- "every faculty pins at 30 regardless of score, and the
+    # Transcendence Grade must read V. A ceiling that keeps climbing is a broken ruler" is an
+    # assertion written as a comment, and a comment cannot fail. These are the same claims,
+    # graded, so the file this docstring calls the place where "anything that reads absurdly
+    # here is a defect in the instrument" can now SAY so rather than print a paragraph.
+    verdicts = []
+
+    def verdict(label, passed, detail=""):
+        verdicts.append((bool(passed), label, detail))
+
+    # -- 1. the declared ladder must name every anchor, and only anchors (order 1618d9790f0d).
+    # The monotone loop below iterates `order`, so an anchor added to ANCHORS and not here was
+    # scored, printed and silently excluded from the only check that can fail this file -- the
+    # way to add a new reference was also the way to add an ungraded one. The reverse, a name in
+    # `order` with no ANCHORS row, raised KeyError on the unguarded `vals[n]` lookup instead of
+    # reporting the gap. `order` is NOT derived from ANCHORS: its ordering is the owner's
+    # declared ladder and carries the 2026-08-25 ruling recorded above, which is exactly what
+    # the instrument is being checked against. Membership is asserted instead, which keeps the
+    # declaration and refuses the drift.
+    ungraded = sorted(set(vals) - set(order))
+    unanchored = [n for n in order if n not in vals]
+    verdict("the declared ladder grades every anchor",
+            not ungraded and not unanchored,
+            ("in ANCHORS but ungraded: %s; " % ", ".join(ungraded) if ungraded else "")
+            + ("named in the ladder but absent from ANCHORS: %s"
+               % ", ".join(unanchored) if unanchored else ""))
+
+    # -- 2. the ordering itself. Skipped rather than crashed if a name is missing above.
+    if unanchored:
+        mono = False
+        mono_detail = "not evaluated -- the ladder names an anchor that does not exist"
+    else:
+        mono, prev = True, None
+        for n in order:
+            if prev is not None and vals[n] < vals[prev]:
+                mono = False
+            prev = n
+        mono_detail = "  ".join("%s %.2f" % (n, vals[n]) for n in order)
+    verdict("monotone floor -> ceiling", mono, mono_detail)
+
+    # -- 3. each anchor's OWN stated claim, in the words of its note.
+    by_name = {name: (a, res, inst, col) for name, a, res, inst, col in rows}
+
+    def _struck(a):
+        return [k for k, v in a["scores"].items() if v == A.INAPPLICABLE]
+
+    # (anchor, the claim in its note's own terms, a test over that anchor's four readings
+    # -> (held, what was read)). Driven off a table rather than written out five times so a
+    # sixth reference is one line, and so the missing-anchor case is handled once below.
+    CLAIMS = [
+        ("The Seat of the Creator",
+         "the ceiling SATURATES rather than overflows: every faculty pins at 30 and the "
+         "Transcendence Grade reads V",
+         lambda a, res, inst, col: (
+             bool(inst.get("faculties"))
+             and all(str(v).startswith("30") for v in (inst.get("faculties") or {}).values())
+             and inst.get("transcendence_grade") == "V",
+             "faculties=%r grade=%r" % (inst.get("faculties"), inst.get("transcendence_grade")))),
+        ("The Skate Guy",
+         "the floor is COMPLETE: an ordinary person carries all eleven axes, none struck, "
+         "several genuinely at nil",
+         lambda a, res, inst, col: (
+             len(a["scores"]) == 11 and not _struck(a) and bool(res.get("axes_nil")),
+             "axes=%d struck=%s nil=%s"
+             % (len(a["scores"]), _struck(a) or "none", res.get("axes_nil")))),
+        ("A Sword",
+         "the object is neither flattered nor filed as a category error: volition alone is "
+         "struck as INAPPLICABLE, and it still assays",
+         lambda a, res, inst, col: (
+             _struck(a) == ["volition"] and bool(res.get("moth_number")),
+             "struck=%s assay=%s" % (_struck(a), res.get("moth_number") or res.get("reason")))),
+        ("Goku",
+         "the standard is the one case where Volition is IDENTIFIED: theta is a number, "
+         "not a status",
+         lambda a, res, inst, col: (
+             isinstance(a["scores"].get("volition"), (int, float)),
+             "volition=%r" % (a["scores"].get("volition"),))),
+        ("Yggdrasil",
+         "the unconscious case is UNESTIMABLE rather than nil: a winless node has divergent "
+         "theta, which is not the same as being weak",
+         lambda a, res, inst, col: (
+             a["scores"].get("volition") == A.UNESTIMABLE,
+             "volition=%r" % (a["scores"].get("volition"),))),
+    ]
+    for _name, _label, _test in CLAIMS:
+        got = by_name.get(_name)
+        if got is None:
+            # A REFERENCE NAMED HERE AND ABSENT FROM ANCHORS IS A FINDING, NOT A TRACEBACK.
+            # The unguarded `by_name[name]` this replaces raised KeyError and took the whole
+            # file down before any other claim was graded -- the same unguarded-lookup shape
+            # order 1618d9790f0d reported for `vals[n]`, reintroduced one section lower.
+            verdict(_label, False,
+                    "%r is named by this check and absent from ANCHORS, so the claim could not "
+                    "be tested at all" % _name)
+            continue
+        _held, _detail = _test(*got)
+        verdict(_label, _held, _detail)
+
+    ok = all(p for p, _l, _d in verdicts)
+    for passed, label, detail in verdicts:
+        print(f"  {'HELD    ' if passed else 'VIOLATED'}  {label}")
+        if detail:
+            print(f"              {detail}")
+
+    if not mono:
         print("\n  INVARIANT VIOLATED. The anchors do not ascend from floor to ceiling, which "
               "means the instrument disagrees with the ordering it was calibrated against. "
               "This is a reading about the ASSAY, not about this script.")
+
+    # ------------------------------------------------------- REPORTED, NOT GRADED: an OWNER
+    # QUESTION, and it is the thing the missing assertions were hiding.
+    #
+    # `assay.INSTRUMENT_WINDOWS` is (30, 30) from M5 upward, and the Instrument computes
+    # `min(30, round(lo + (s/10) * span))` -- with span 0 that returns 30 for EVERY score from
+    # 0.0 to 9.9. So Goku at M5 prints all six faculties at 30, identical to the M10 ceiling,
+    # beside his own anchor comment reading `acumen=4.0, # not a planner, and the charter should
+    # not pretend otherwise`. The faculties carry no information at all for any entity at M5 or
+    # above, which is most of the library's headline entities.
+    #
+    # It is PRINTED rather than graded because the window table is charter material (X.6 §6) and
+    # may be a declared convention -- saturation at the top of the Ladder is arguably the point.
+    # Ruling on it is the owner's, not this script's. What this script can do, and now does, is
+    # refuse to let it sit unsaid: the sentence below runs on every invocation whether or not
+    # anything failed, which is the difference between a known convention and a broken ruler
+    # nobody has looked at.
+    collapsed = [b for b in A.LADDER if A.INSTRUMENT_WINDOWS[b][0] == A.INSTRUMENT_WINDOWS[b][1]]
+    if collapsed:
+        print(f"\n  OWNER QUESTION (reported, not graded): assay.INSTRUMENT_WINDOWS is a "
+              f"ZERO-WIDTH window at {len(collapsed)} of {len(A.LADDER)} bands "
+              f"({', '.join(collapsed)}), so every faculty reads "
+              f"{A.INSTRUMENT_WINDOWS[collapsed[0]][1]} there regardless of axis score -- an "
+              f"entity at {collapsed[0]} and the M10 ceiling print the same six numbers. Either "
+              f"that is charter X.6 §6's declared saturation or the Instrument stops measuring "
+              f"most of the library above {collapsed[0]}; this file cannot rule on which.")
     return rows, ok
 
 

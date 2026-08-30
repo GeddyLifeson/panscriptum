@@ -1062,8 +1062,24 @@ def unusable_gates(base):
     answer as the pre-baseline version's "everything killed", just pointing the other way.
     Both directions of that failure look exactly like a finished run.
     """
-    return [(n, s_) for n, s_ in base.items()
-            if s_ == "TIMEOUT" or s_.startswith("ERROR:")]
+    return [(n, s_) for n, s_ in base.items() if could_not_judge(s_)]
+
+
+def could_not_judge(sig):
+    """-> True if this signature means the gate never reached a verdict, on clean code OR on a
+    mutant.
+
+    THE OTHER DIRECTION OF `unusable_gates`, AND IT WAS UNGUARDED (order d2fb14ffa8c6).
+    `unusable_gates` reasons carefully about a baseline TIMEOUT producing false SURVIVORS. Once
+    the baseline is healthy, a gate returning `TIMEOUT` or `ERROR:<Type>` on a MUTANT differs
+    from the baseline signature, so the old code set `died_at` and counted a KILL -- and nothing
+    in the result, the summary or the journal could tell a mutant the safeties caught from one
+    whose gate merely failed to finish. `verify_math` reaches the network and the confirm gate
+    carries a 1200-second timeout, so on a loaded machine "the gate could not finish" silently
+    became "the safeties noticed", inside the one number this module exists to produce. False
+    kills are the direction that HIDES holes, and they look exactly like real ones.
+    """
+    return sig == "TIMEOUT" or sig.startswith("ERROR:")
 
 
 def flaky_gates(root, base, gates=GATES):
@@ -1092,6 +1108,12 @@ def run(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
     to `publish.py` just as the CLI does. Held before the first mutant is written and released
     on the failure path too. The body is `_run_mutation`; the split exists so the lock cannot be
     skipped by an edit to the body.
+
+    `base` IS REQUIRED IN EVERY REAL CALL. It still defaults to None in the signature, because
+    the signature is public and callers pass it by keyword, but None is now a SENTINEL THAT
+    REFUSES rather than a default that silently scores every mutant killed. Build one with
+    `baseline(root)` and hand it in. The refusal, and the two baseline-health guards that used
+    to live only in `_session`, are in `_run_mutation`.
     """
     with _hold_lock([target]):
         return _run_mutation(target, limit=limit, gates=gates, root=root, keep=keep,
@@ -1101,7 +1123,44 @@ def run(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
 def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
                   confirm=CONFIRM_GATES):
     """The body of `run`, with the mutation lock already held. Do not call this directly."""
-    base = {} if base is None else base
+    # A MISSING BASELINE IS REFUSED, NOT DEFAULTED (order 91c1a581453d). This was
+    # `base = {} if base is None else base`, and `run()`'s public signature defaults
+    # `base=None`, so every caller entering through `run()` -- which its own docstring names as
+    # the way in for "the drill, a work-order reproduction, a future scheduler" -- got an empty
+    # dict. The kill test is `sig != base.get(gname)`; `{}.get(x)` is None and no gate signature
+    # is ever None, so the test was TRUE for the FIRST gate of EVERY mutant. Every mutant scored
+    # killed, `survivors` came back empty, and the result dict reported a flawless score. That
+    # is verbatim the failure `_gate_result`'s docstring exists to end -- "146 killed, 0
+    # survived, a flawless score from a test that never tested anything" -- fixed on the CLI
+    # path in `_session` and left standing on the public entry point.
+    #
+    # Refusing, rather than building a baseline here, is deliberate: a baseline costs a full
+    # gate sweep and the caller has to know it is paying for one. Raising is what this function
+    # already does for a restore that is not byte-exact, for the same reason.
+    if base is None:
+        raise RuntimeError(
+            "no baseline: refusing to mutate %s. Every mutant would be scored KILLED, because "
+            "the kill test compares each gate's signature against base.get(name) and an absent "
+            "baseline answers None, which no signature ever equals. Call baseline(root) first "
+            "and pass base=." % target)
+    wanted = [g for g, _c in tuple(gates) + tuple(confirm)]
+    ungauged = [g for g in wanted if g not in base]
+    if ungauged:
+        raise RuntimeError(
+            "the baseline does not cover %s: refusing to mutate %s. A gate with no baseline "
+            "entry is compared against None and kills every mutant it is asked about."
+            % (", ".join(ungauged), target))
+    # AND THE GUARDS THAT WERE ONLY IN `_session`. `unusable_gates` refuses a run whose gates
+    # could not complete on CLEAN code -- there, `TIMEOUT == TIMEOUT` reports the whole set as
+    # SURVIVING. It was called from the CLI path alone, so a caller entering through `run()`
+    # got neither that guard nor `flaky_gates`. This is the cheap half; `flaky_gates` costs a
+    # second full sweep and stays opt-in at the CLI, which is where somebody can decide to pay.
+    dead = unusable_gates({g: base[g] for g in wanted})
+    if dead:
+        raise RuntimeError(
+            "gates that could not complete on clean code (%s): refusing to mutate %s. A gate "
+            "that cannot finish on unmutated code cannot judge a mutant."
+            % (", ".join("%s=%s" % (n, s_) for n, s_ in dead), target))
     own_sandbox = root is None
     root = root or sandbox()
     path = os.path.join(root, "src", target)
@@ -1119,38 +1178,45 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
         except SyntaxError as e:
             raise RuntimeError("%s will not parse: %s" % (target, e)) from e
 
-        muts = _mutations(tree, text)
+        not_attempted = []
+        muts = _mutations(tree, text, skipped=not_attempted)
         if limit:
             # Explicitly reported, never silent. Hard Rule 0 forbids a cap that hides a smaller
             # universe; this one is an interactive convenience and it must say so in the result.
             muts = muts[:limit]
 
         lines = text.splitlines(keepends=True)
-        survivors, killed = [], 0
+        survivors, killed, indeterminate = [], 0, []
         try:
             for lineno, desc, old_line, new_line in muts:
                 mutated = list(lines)
                 mutated[lineno - 1] = new_line
                 _write(path, "".join(mutated).encode("utf-8"))
                 died_at = None
-                for gname, cmd in gates:
+                no_verdict = None
+                for gname, cmd in tuple(gates) + tuple(confirm):
+                    # A SURVIVOR OF THE FAST GATES IS ONLY A CANDIDATE, so the expensive confirm
+                    # gate is reached only by falling off the end of the fast ones -- the loops
+                    # were merged so that the TIMEOUT/ERROR check below could not be added to one
+                    # of them and forgotten on the other, which is how this defect got in.
                     sig, why = _gate_result(gname, cmd, cwd=root)
+                    # THE GATE DID NOT REACH A VERDICT. Not a kill: see `could_not_judge`. The
+                    # mutant is set aside as INDETERMINATE and counted separately, so `killed`
+                    # and `survived` contain only mutants that were actually judged.
+                    if could_not_judge(sig):
+                        no_verdict = "%s (%s)" % (gname, sig)
+                        break
                     # DIFFERENT from clean, not merely failing. A gate that was already red on
                     # unmutated code stays red here and correctly kills nothing.
                     if sig != base.get(gname):
                         died_at = "%s (%s)" % (gname, why)
                         break
-                # A SURVIVOR OF THE FAST GATES IS ONLY A CANDIDATE. The expensive gate runs
-                # here and nowhere else, so its five minutes is spent exactly on the mutants
-                # where it can still change the answer -- which is what makes running this over
-                # 146 mutants affordable at all.
-                if not died_at:
-                    for gname, cmd in confirm:
-                        sig, why = _gate_result(gname, cmd, cwd=root)
-                        if sig != base.get(gname):
-                            died_at = "%s (%s)" % (gname, why)
-                            break
-                if died_at:
+                if no_verdict:
+                    indeterminate.append({"line": lineno, "mutation": desc,
+                                          "was": old_line.strip()[:120],
+                                          "became": new_line.strip()[:120],
+                                          "gate": no_verdict})
+                elif died_at:
                     killed += 1
                 else:
                     # APPENDED TO DISK THE MOMENT IT IS FOUND, not collected and reported at
@@ -1181,6 +1247,14 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
         live_after = _digest(_read(live))
         return {"target": target, "mutants": len(muts), "killed": killed,
                 "survived": len(survivors), "survivors": survivors,
+                # JUDGED, NOT SCORED. `killed + survived + indeterminate == mutants`, and the
+                # third term is the one that used to be silently folded into the first.
+                "indeterminate": len(indeterminate), "indeterminates": indeterminate,
+                # SITES THIS RUN COULD NOT EVEN ATTEMPT. Reported beside the mutant count so
+                # that "264 attempted" is never read as "264 attemptable" -- Hard Rule 0 applied
+                # to the tool that measures coverage. Not truncated.
+                "not_attempted": [{"line": ln, "kind": k, "why": w}
+                                  for ln, k, w in not_attempted],
                 "capped": bool(limit) and len(muts) == limit,
                 "sandbox": root,
                 "live_file_untouched": live_after == live_before,
@@ -1236,8 +1310,18 @@ def main():
     if a.list:
         for t in targets:
             text = _read(os.path.join(SRC, t)).decode("utf-8")
-            n = len(_mutations(ast.parse(text), text))
-            print("  %-18s %4d mutant(s)" % (t, n))
+            skipped = []
+            n = len(_mutations(ast.parse(text), text, skipped=skipped))
+            # THE COUNT ALONE WAS THE DEFECT. `--list` printed "N mutant(s)" and nothing said
+            # which sites produced none, so a number that had silently excluded 59% of the
+            # comparison operators in the file read as the whole attemptable set. Every skipped
+            # site is named -- no cap, no "and N more" -- because this is the listing a person
+            # reads to decide whether the coverage number means anything.
+            print("  %-18s %4d mutant(s)%s"
+                  % (t, n, "" if not skipped else
+                     "   %d SITE(S) NOT ATTEMPTED:" % len(skipped)))
+            for ln, kind, why in skipped:
+                print("       %s:%-5d %-8s %s" % (t, ln, kind, why))
         return 0
 
     # SESSION-LEVEL HOLD, above the per-target one. `--target all` is ONE continuous window in
@@ -1312,8 +1396,9 @@ def _session(a, targets):
             t0 = time.time()
             r = run(t, limit=a.limit, root=root, base=base, gates=gates, confirm=confirm)
             total_s += time.time() - t0
-            print("\n%s — %d mutants, %d killed, %d SURVIVED   (%.0fs)"
-                  % (t, r["mutants"], r["killed"], r["survived"], time.time() - t0))
+            print("\n%s — %d mutants, %d killed, %d SURVIVED, %d INDETERMINATE   (%.0fs)"
+                  % (t, r["mutants"], r["killed"], r["survived"], r["indeterminate"],
+                     time.time() - t0))
             if not r["restored_exactly"]:
                 print("  *** THE SANDBOX FILE WAS NOT RESTORED. Later targets are unreliable. ***")
                 escalation.escalate(escalation.MANAGER, "MUTATE_RESTORE_FAILED",
@@ -1329,6 +1414,20 @@ def _session(a, targets):
                                     evidence=r, source=t, who="mutate.py")
             if r["capped"]:
                 print("  (capped at --limit %d; this is NOT the whole set)" % a.limit)
+            # NEITHER KILLED NOR SURVIVED, AND SAID SO. A gate that timed out or errored on a
+            # mutant used to be counted as a kill, which is the direction that hides holes.
+            for s_ in r["indeterminates"]:
+                print("  NO VERDICT %s:%-5d %-16s  gate %s"
+                      % (t, s_["line"], s_["mutation"], s_["gate"]))
+            if r["indeterminate"]:
+                print("  %d mutant(s) were never judged. They are NOT in the killed count and"
+                      " NOT in the survived count; the score below is over %d judged mutants,"
+                      " not %d." % (r["indeterminate"], r["killed"] + r["survived"],
+                                    r["mutants"]))
+            # WHAT WAS NOT EVEN ATTEMPTED, printed in full. See `_mutations`'s `skipped`.
+            for na in r["not_attempted"]:
+                print("  NOT ATTEMPTED %s:%-5d %-8s %s"
+                      % (t, na["line"], na["kind"], na["why"]))
             for s in r["survivors"]:
                 tag = "SURVIVED " if confirm else "UNCONFIRMED"
                 print("  %s %s:%-5d %-16s  %s"

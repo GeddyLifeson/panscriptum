@@ -40,6 +40,7 @@ autonomous run may RAISE a halt; only a person may lift one. That asymmetry is t
 the last incident was caused by an automated agent removing a safety it had concluded was
 unnecessary.
 """
+import hashlib
 import json
 import os
 import sys
@@ -103,9 +104,34 @@ def brief(rec, level):
     return {k: rec[k] for k in keep if k in rec and rec[k] is not None}
 
 
+_NAME_MAX = 60
+
+
 def _safe_name(s):
+    """A source name as a filename, and NEVER the same filename for two different sources.
+
+    This returned `out[:60]`, and the result is used by `_append_log` as the per-source
+    escalation log name: `state/escalations/<safe>.log`. "Every source is its own area of the
+    park" is the doctrine this file opens with, and a truncating name silently merges two areas
+    -- two sources agreeing in their first 60 sanitised characters write into ONE file, so the
+    park map has fewer areas on it than the park has, and a person reading one source's log is
+    reading another source's escalations without being told. That is not a display cap; it is a
+    cap that changes where data is stored. The roll already runs close to it: `Kobold Press
+    (Midgard Heroes Handbook, Midgard Worldbook)` sanitises to 57 characters, and the sources
+    that collide are exactly the long parenthetical publisher-plus-title names, which are the
+    ones most likely to share a prefix. Order e8cd908ce5e4.
+
+    A length limit itself is kept -- a filename has real limits and 260-character paths are this
+    machine's own recurring fault -- but the truncation is now made INJECTIVE by appending a
+    digest of the whole sanitised name. Two sources sharing a prefix get two files, and the same
+    source gets the same file every time (sha1 of the full name, not of the truncation, so the
+    part that was cut is the part that disambiguates). Short names are untouched, so no existing
+    log on disk is renamed.
+    """
     out = "".join(c if (c.isalnum() or c in "-_") else "_" for c in str(s or "unscoped"))
-    return (out[:60] or "unscoped")
+    if len(out) > _NAME_MAX:
+        out = out[:_NAME_MAX] + "-" + hashlib.sha1(out.encode("utf-8")).hexdigest()[:10]
+    return out or "unscoped"
 
 
 def _append(path, rec):

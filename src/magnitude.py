@@ -1187,8 +1187,22 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
                            + repr(final_epoch or "nothing") + "; retried next run"),
                 "prompt_chars": len(prompt), "transport_tried": used}
 
-    anchor = got.get("anchor") if got.get("anchor") in A.LADDER else "M0"
-    if ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
+    # AN OFF-LADDER ANCHOR IS NO ANSWER, NOT AN M0 (order 8f14aff37392).
+    #
+    # This read `... else "M0"`, and M0 is an ordinary band -- a positive claim that the subject
+    # is village-scale -- not a sentinel. It flowed into the ceiling clamp below, into
+    # `quantity_scores`, into `A.assay()` and out as the record's published anchor. The split
+    # path treats the identical answer as no answer (`if not got or got.get("anchor") not in
+    # A.LADDER: return None` in `_split_assay`, which becomes status DEFERRED at the two call
+    # sites above), so one function gave a garbage anchor two different meanings and the quieter
+    # of the two published it. The split path's behaviour is the right one.
+    #
+    # `None` rather than an immediate return, so the one-shot's own in-run recovery still gets
+    # its turn: a junk one-shot commonly fails the verbatim gate as well, and the `split-retry`
+    # below re-asks axis by axis and supplies a real ladder anchor. Deferral is decided AFTER
+    # that, at the one place that knows nothing rescued it.
+    anchor = got.get("anchor") if got.get("anchor") in A.LADDER else None
+    if anchor and ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
         anchor = ceiling[1]                 # a fiction cannot be out-scaled by its own inhabitant
     ev_v = dict(ev)
     ev_v["feats"] = [flat[k][1] for k in sorted(flat)]
@@ -1224,18 +1238,44 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
                                        + repr(final_epoch or "nothing") + "; retried next run"),
                             "prompt_chars": len(prompt), "transport_tried": used}
                 anchor = got.get("anchor") if got.get("anchor") in A.LADDER else anchor
-                if ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
+                if anchor and ceiling and A.LADDER.index(anchor) > A.LADDER.index(ceiling[1]):
                     anchor = ceiling[1]
                 scores, sheet, rejects = _split_gate(got, cand, entity)
 
-    # Cross-axis citation is now checkable by INDEX rather than by lexicon: every candidate knows
-    # which axis it was offered under, so a line filed elsewhere is caught exactly.
-    for ax in AXES:
-        cited = ((got.get("axes") or {}).get(ax) or {}).get("feat", "")
-        m = re.match(r"\s*\[(\d+)\]", cited)
-        if m and int(m.group(1)) in flat and flat[int(m.group(1))][0] != ax:
-            rejects.append((ax, "cited evidence offered under " + flat[int(m.group(1))][0]))
-            scores[ax] = A.UNESTIMABLE
+    if anchor is None:
+        # Nothing on any path returned a band that is on the ladder -- see the note where
+        # `anchor` is set. The same outcome the split path gives the same answer. (8f14aff37392)
+        return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
+                "reason": ("the model returned an anchor that is not on the ladder ("
+                           + repr(str((got or {}).get("anchor"))[:40]) + "); retried next run"),
+                "prompt_chars": len(prompt), "transport_tried": used}
+
+    # Cross-axis citation, checkable by INDEX rather than by lexicon: every candidate knows which
+    # axis it was offered under, so a line filed elsewhere is caught exactly.
+    #
+    # ON THE ONE-SHOT AND LOCAL PATHS ONLY, and the claim above used to be unqualified
+    # (order d4a18a25f780). `compose()` is the only prompt that labels evidence "[N]"; the split
+    # path's per-axis prompt emits bare "- " bullets and `_split_gate` stores the raw citation, so
+    # this pattern cannot match anything split produces -- and split is the DEFAULT for everything
+    # over ONE_SHOT_MAX, i.e. the heaviest entities in the library. Measured over data/ASSAYS.json:
+    # all 37 "cited evidence offered under X" rejections sit on pool and local records, none on
+    # the 3 split records.
+    #
+    # It is SKIPPED for split rather than left to fail quietly, for two reasons. A loop that
+    # cannot match on the path it most needs to cover is the "check that cannot fail" shape, and
+    # `flat` indexes the ONE-SHOT prompt's numbering, which means nothing on a split sheet -- a
+    # split citation that merely began with a bracketed figure copied out of wiki prose would be
+    # rejected against an unrelated axis. On the split path the same fault is refused by
+    # CONSTRUCTION instead: each axis is scored only from its own candidate list, and
+    # `_split_gate` resolves the citation against that list alone, so a foreign-axis line fails
+    # the verbatim test there and never reaches here.
+    if not used.startswith("split"):
+        for ax in AXES:
+            cited = ((got.get("axes") or {}).get(ax) or {}).get("feat", "")
+            m = re.match(r"\s*\[(\d+)\]", cited)
+            if m and int(m.group(1)) in flat and flat[int(m.group(1))][0] != ax:
+                rejects.append((ax, "cited evidence offered under " + flat[int(m.group(1))][0]))
+                scores[ax] = A.UNESTIMABLE
 
     # 5 QUANTITY -- a measured reading outranks the model's judgement on its axis. An instrument
     # outranks an opinion, which is the ordering the Attestation ladder already states

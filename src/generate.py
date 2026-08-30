@@ -85,6 +85,57 @@ def save_json(path, obj):
     return landed
 
 
+def _discard_tmp(tmp):
+    """Remove a scratch file, and never let the removal itself become the failure.
+
+    Same guarded shape as `compress_store.store()`'s: the temp name carries pid and thread, so
+    repeated denials accumulate uniquely-named leftovers instead of overwriting one, and nothing
+    in this kit ever comes back for them.
+    """
+    # `os.path.exists` first, as `silence._discard_tmp` does: the write path calls this when the
+    # open itself failed, so the temp often never existed, and noting that absence would file a
+    # ledger entry for the ordinary case and bury the real denials underneath it.
+    try:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+    except OSError:
+        silence.note("generate.py:temp-unlink-denied")
+
+
+def save_raw(raw_path, body):
+    """Land one raw chapter file ATOMICALLY. -> (landed, why).
+
+    THE ONE UNGUARDED WRITE IN THE GENERATION LOOP (order 74b37b4c6c3a). This was a bare
+    `with open(raw_path, "w") ...` sitting three lines above a try/except that exists for the
+    identical failure, and OUTSIDE any handler -- the per-job try closes at the `generate_job`
+    call, so an OSError here (a reader holding the target, a full disk, a permissions fault)
+    escaped the loop and ended a multi-hour pass. Unlike every other refusal in that loop it
+    also left nothing in failures.json, so the one record of the loss was a traceback on a
+    console nobody was watching. Its own comment three lines down already argued the case:
+    "ONE BLOB THAT WOULD NOT LAND MUST NOT END THE RUN ... OPERATOR, not MANAGER."
+
+    And it was a TRUNCATE-THEN-FILL on the very file catalog.json advertises as `raw_path`,
+    rewritten while estate.py and catalog.py walk the tree -- a reader arriving in the gap gets
+    an empty or half-written chapter. Temp-then-`replace_retry`, the idiom compress_store.store()
+    beside it already uses, and the verdict is RETURNED rather than assumed: `replace_retry`
+    never raises on a denied replace by design, so a caller that ignored its answer would
+    catalogue a chapter that is not on disk.
+    """
+    import threading
+    tmp = "%s.%d.%d.tmp" % (raw_path, os.getpid(), threading.get_ident())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(body)
+    except OSError as e:
+        _discard_tmp(tmp)
+        return False, "%s while writing the chapter: %s" % (type(e).__name__, e)
+    if silence.replace_retry(tmp, raw_path):
+        return True, ""
+    _discard_tmp(tmp)
+    return False, ("the atomic replace onto %s was refused -- a reader is holding it open; "
+                   "silence recorded it as replace-denied" % os.path.basename(raw_path))
+
+
 def safe_filename(address, ext):
     s = re.sub(r"[^A-Za-z0-9]+", "_", address).strip("_")
     return f"{s}.{ext}"
@@ -486,6 +537,9 @@ def main():
 
     done_count = 0
     fail_count = 0
+    # Refusals from EARLIER runs that this run made good, counted separately from this run's
+    # failures so the closing line can say which of the two the file holds. (order b3c806f694d6)
+    cleared_count = 0
 
     for job, rh in tqdm(pending, desc="generating"):
         try:
@@ -541,8 +595,21 @@ def main():
             continue
 
         raw_path = os.path.join(raw_dir, safe_filename(job["address"], "md"))
-        with open(raw_path, "w", encoding="utf-8") as f:
-            f.write(f"<!-- {job['address']} -->\n\n{text}")
+        # FILED AND SKIPPED LIKE EVERY OTHER REFUSAL IN THIS LOOP -- see `save_raw` for what was
+        # wrong with the bare write that stood here. (order 74b37b4c6c3a)
+        raw_landed, raw_why = save_raw(raw_path, f"<!-- {job['address']} -->\n\n{text}")
+        if not raw_landed:
+            silence.note("generate.py:raw-write-failed")
+            fail_count += 1
+            failures[job["address"]] = {
+                "error": raw_why,
+                "job_type": job["type"],
+                "source_name": job["source_name"],
+                "refused": "raw chapter did not land — chapter NOT catalogued",
+                "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            }
+            save_json(cfg["paths"]["failures"], failures)
+            continue
 
         # ONE BLOB THAT WOULD NOT LAND MUST NOT END THE RUN. `compress_store.store()` now RAISES
         # when `silence.replace_retry` cannot land the blob, rather than returning a success dict
@@ -585,6 +652,19 @@ def main():
         }
         done_count += 1
 
+        # A DEAD REFUSAL MUST NOT READ LIKE A LIVE ONE (order b3c806f694d6). Nothing ever removed
+        # an address from failures.json -- there was no `failures.pop` anywhere in this module --
+        # so a chapter that failed once and succeeded later stayed listed for ever, and the file
+        # accumulated refusals from four different sessions while the closing line pointed the
+        # reader at it as though it described this run. `workorders.resolve()` settles the same
+        # question one module over and its argument applies verbatim: "an order that is resolved
+        # but still listed is indistinguishable from an open one to the next reader." Popped only
+        # AFTER the catalog entry above is built, so the address is cleared on the strength of a
+        # chapter that is on disk and recorded, never on the strength of having got this far.
+        if failures.pop(job["address"], None) is not None:
+            cleared_count += 1
+            save_json(cfg["paths"]["failures"], failures)
+
         # save incrementally so Ctrl-C doesn't lose progress
         if done_count % 5 == 0:
             save_json(cfg["paths"]["catalog"], catalog)
@@ -595,11 +675,20 @@ def main():
     # scheduler, the keeper and `overnight.py` all read that number and nothing else.
     catalog_landed = save_json(cfg["paths"]["catalog"], catalog)
     failures_landed = True
-    if failures:
+    # `or cleared_count`: a run whose pops emptied the map must still write it. The guard was
+    # `if failures:` alone, so if the pop-time save above had been DENIED and the map then went
+    # empty, the final write was skipped and the stale file stood with nobody reporting it.
+    if failures or cleared_count:
         failures_landed = save_json(cfg["paths"]["failures"], failures)
 
-    print(f"\nDone. {done_count} generated this run, {fail_count} failed "
-          f"(see {cfg['paths']['failures']}).")
+    # SAY WHICH RUN THE FILE DESCRIBES. This printed only THIS run's fail_count and then pointed
+    # the reader at a file that mixes runs -- on 2026-08-29 it held six refusals from four
+    # sessions spanning ten days. Naming the total, this run's share and what this run cleared
+    # is what lets a reader tell a live refusal from a historical one. (order b3c806f694d6)
+    print(f"\nDone. {done_count} generated this run, {fail_count} failed this run"
+          + (f", {cleared_count} earlier failure(s) cleared by a success this run"
+             if cleared_count else "")
+          + f". {cfg['paths']['failures']} now lists {len(failures)} address(es) in total.")
     if not (catalog_landed and failures_landed):
         print("BUT THE RUN'S RECORD DID NOT LAND: "
               + ", ".join(n for n, ok in (("catalog", catalog_landed),

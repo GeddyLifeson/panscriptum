@@ -2131,7 +2131,17 @@ def _suppressed_still_visible():
     # the root it was given, and suppressions are written repo-relative (`src/drill.py`). Passing
     # src/ produced `drill.py`, which matched no suppression -- a probe that measured the wrong
     # thing and reported the guard broken.
-    hits = P.scan_for_secrets(HERE)
+    #
+    # AND SCOPED TO WHAT ACTUALLY REACHES THE EXPORT (order 01a479a891a5, measured this shift).
+    # The root has to stay HERE for the reason above, but the WALK does not: this net was
+    # reading all 277,221 files under a 4.3 GB tree -- the mined corpus, the state logs, the
+    # generated output, none of which is ever published -- and did not finish in four minutes.
+    # One net dominating the runtime of the whole battery is a safety cost, not a performance
+    # one: a battery that is expensive to run is a battery that gets run less often. `only=`
+    # narrows the walk to publish's own COPY_DIRS/COPY_FILES, 552 files, which is the set the
+    # push path stages and the set the suppression table is written against -- `src/drill.py`
+    # and `handoff/*/AUDIT_*.md` both live inside it.
+    hits = P.scan_for_secrets(HERE, only=P.COPY_DIRS + P.COPY_FILES)
     # drill.py is suppressed, so its fixtures should be listed AS SUPPRESSED rather than absent.
     return any(str(w).startswith("SUPPRESSED") for _f, _n, w in hits)
 
@@ -4591,9 +4601,32 @@ def drill_codewatch():
     """
     a = "CODEWATCH — a running job is a photograph of the code it started with"
 
-    def daemons_actually_check_their_own_source():
-        """The three standing loops must call it. Checked by reading them, because a daemon
-        that merely COULD check is a daemon that does not.
+    def daemons_actually_check_their_own_source(src=None):
+        """Every daemon the keeper restarts must call it. Checked by reading them, because a
+        daemon that merely COULD check is a daemon that does not.
+
+        THE ROSTER IS DERIVED, NOT TYPED (order 1f172f5acc6f, run #37). This looped over the
+        literal `("publish.py", "foreman.py", "overwatch.py")` while its own title promised
+        "every standing daemon" -- so a daemon added to the keeper tomorrow was never noticed,
+        and on the night this was filed SIX long-lived jobs were up with no codewatch call at
+        all, four of them for more than three hours. That is the MEASURED-NOT-MAINTAINED shape
+        `derivation.SCAN_MODULES` was corrected for in run #35: a hand-typed list standing in
+        for the real population, right and then quietly wrong.
+
+        The real population is `overnight.STANDING`, read out of `overnight.py`'s parse tree so
+        that this net has no import side effect and cannot be answered by a module-level
+        variable somebody set. STANDING is the correct population and not merely a convenient
+        one: `exit_if_stale` EXITS THE PROCESS with rc=17, and the contract that makes that safe
+        is the keeper restarting the job within five minutes on the current code (CLAUDE.md,
+        Hard Rule -1). A job outside STANDING calling it would simply die. `read.py --run`,
+        `feats.py --roll`, `autostart.py --watch` and `overnight.py` itself are long-lived and
+        are NOT restarted by the keeper -- they are uncovered, they are known to be uncovered,
+        and whether a mid-crawl rc=17 is an acceptable price is an operations ruling rather than
+        something this net may decide by going red. Order 1cd18b9bd47a carries that half.
+
+        A roster that reads as empty, or shorter than the keeper's own list, FAILS: this net's
+        job is to be unsatisfiable by an absence, and "I could not find the daemons" is not
+        "every daemon checks".
 
         AND READ AS A PARSE TREE, NOT AS TEXT (run #36). Both names were substring-searched over
         the whole file, and all three daemons carry long comments about staleness that name
@@ -4612,8 +4645,26 @@ def drill_codewatch():
         was safe.
         """
         import ast
-        for f in ("publish.py", "foreman.py", "overwatch.py"):
-            tree = _ast_of(os.path.join(_srcdir(), f))
+        here = _srcdir(src)
+        # THE KEEPER'S OWN LIST, read as data. Every `.py` string constant inside the STANDING
+        # assignment is a job the keeper re-asserts; the entries are
+        # (name, [path, *args], logfile) so the module name is the only `.py` in each one.
+        on_tree = _ast_of(os.path.join(here, "overnight.py"))
+        standing = None
+        for n in ast.walk(on_tree):
+            if isinstance(n, ast.Assign) and any(
+                    isinstance(t, ast.Name) and t.id == "STANDING" for t in n.targets):
+                standing = n.value
+                break
+        if standing is None:
+            return False                       # no roster read is not "the roster is satisfied"
+        names = sorted({os.path.basename(k.value) for k in ast.walk(standing)
+                        if isinstance(k, ast.Constant) and isinstance(k.value, str)
+                        and k.value.endswith(".py")})
+        if len(names) < 3:
+            return False                       # a roster that shrank proves nothing
+        for f in names:
+            tree = _ast_of(os.path.join(here, f))
             main_fn = _defn(tree, "main")
             if main_fn is None:
                 return False
@@ -4624,7 +4675,7 @@ def drill_codewatch():
                        if isinstance(loop, (ast.While, ast.For))):
                 return False
         return True
-    net(a, "every standing daemon checks whether its own source has changed",
+    net(a, "every daemon the keeper restarts checks whether its own source has changed",
         daemons_actually_check_their_own_source,
         "a guard added at 19:00 is not in effect at 03:00 unless the job restarted")
 

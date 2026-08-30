@@ -146,23 +146,67 @@ def main():
     for name, was, now, fn in sorted(changed, key=lambda x: -(x[2] - x[1])):
         print(f"  {name[:44]:46s} {was:6d} -> {now:6d}   {fn}")
 
+    if relabelled:
+        # Its own list, because a status repair and a count repair are different findings: the
+        # count came from the record file, the label came from a rule about the count.
+        print(f"\n{verb.lower()} {len(relabelled)} row(s) whose STATUS disagreed with their "
+              f"count (the count itself may not have moved):")
+        for name, was, now, n in sorted(relabelled):
+            print(f"  {name[:44]:46s} {str(was)[:14]:16s} -> {now:14s} (entry_count {n})")
+
+    # UNCAPPED, both of them, per Hard Rule 0: these are lists a person reads in order to act --
+    # one needs the record file repaired, the other needs a record file to exist at all -- and a
+    # truncated list of them would quietly decide which sources are worth the reader's attention.
+    if unreadable:
+        print(f"\n{len(unreadable)} record file(s) could not be read, so their source was NOT "
+              f"checked against the roll and is NOT counted in the figures below:")
+        for fn in unreadable:
+            print(f"  {fn}")
+
+    if unmatched_rows:
+        print(f"\n{len(unmatched_rows)} roll row(s) have no record file declaring their source; "
+              f"nothing was verified for them either way:")
+        for name in unmatched_rows:
+            print(f"  {name}")
+
     if dupes:
         print(f"\n{len(dupes)} source(s) declared by more than one record file "
               f"(winner is the last name alphabetically; the rest are NOT reflected above):")
         for key, files in sorted(dupes.items()):
             print(f"  {' == '.join(files)}")
 
+    # THE CAVEAT TRAVELS WITH THE FIGURE. Both closing lines below are counts over the whole
+    # roll, and rows this run could not check are inside them.
+    caveat = ""
+    if unmatched_rows or unreadable:
+        caveat = ("   [%d row(s) unchecked: no record file; %d record file(s) unreadable]"
+                  % (len(unmatched_rows), len(unreadable)))
+
     if not dry and not landed:
         print(f"\nWRITE DENIED {ROLL} -- replace refused; roll is UNCHANGED on disk, "
               f"the fixes above did not land and will retry next run")
         have = sum(1 for r in roll if r.get("entry_count", 0) > 0)
-        print(f"\nroll unchanged: {have}/{len(roll)} sources catalogued (pre-fix figures)")
-        return
+        print(f"\nroll unchanged: {have}/{len(roll)} sources catalogued (pre-fix figures)"
+              + caveat)
+        # NONZERO, because this is the branch where the file on disk is NOT what the lines above
+        # describe. `main()`'s value only became the process's exit code when the module started
+        # calling `sys.exit(main())` below; before that a supervisor or a person reading $? after
+        # a cataloguing session was told the roll now agrees with the record files while the roll
+        # was untouched. Two independent defects, one signal -- the bare `return` here was the
+        # other half. (order 8605c2ed6061)
+        return 1
 
     have = sum(1 for r in roll if r.get("entry_count", 0) > 0)
     total = sum(r.get("entry_count", 0) for r in roll)
-    print(f"\nroll now: {have}/{len(roll)} sources catalogued, {total:,} entries")
+    print(f"\nroll now: {have}/{len(roll)} sources catalogued, {total:,} entries" + caveat)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    # THE EXIT CODE IS THE NUMBER THE SCHEDULER ACTUALLY LOOKS AT -- generate.py, weave_index.py,
+    # sweep.py, feats.py and handbuilt.py all say so at this same line, and this module called
+    # `main()` bare, which discards the return value entirely. A denied SWEEP_ROLL.json write
+    # exited 0, i.e. the run reported that the roll now agrees with the record files when the
+    # file on disk was unchanged. `sys.exit(None)` is 0, so a clean run is unaffected.
+    # (order 8605c2ed6061)
+    sys.exit(main())

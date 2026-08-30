@@ -400,7 +400,11 @@ def dead_forever():
                 # matters more here: that one costs a four-hour bench, this one excludes the
                 # bucket outright. A WAF turning the client away is evidence about the REQUEST,
                 # by the identical argument.
-                if local_transport(v) or _CLIENT_REJECTION.search(v):
+                # `client_rejection`, not the bare regex: a proof row whose reason merely NAMES
+                # cloudflare must not be excused from exclusion (order 62f4b7caae73). This is the
+                # costlier of the two sites -- `permanent_refusal` spends a four-hour bench, this
+                # one excludes the bucket outright until the next proof.
+                if local_transport(v) or client_rejection(v):
                     continue
                 if _DEAD_CODES.search(v) or any(w in v for w in _DEAD_WORDS):
                     out.add(r["bucket"])
@@ -550,8 +554,26 @@ def empty_content(err):
 # a curl line -- at which point four providers vanish and the ledger goes quiet about why.
 # This makes the guarantee structural instead: if the text is one of curl's own transport
 # complaints, no permanent marker can reach it, whatever anyone adds below.
+#
+# AND THE WINDOWS SOCKET FAULTS THIS HOST ACTUALLY PRODUCES (order 119ebee92481). WinError 10055
+# -- "an operation on a socket could not be performed because the system lacked sufficient buffer
+# space" -- and its neighbour 10048 ("only one usage of each socket address ... is normally
+# permitted") were not on this list, so either one reaching a classifier as text was attributable
+# to a PROVIDER. That is not hypothetical here: order f6c52ef7657f records a foreign process
+# cyclically consuming the entire ephemeral port range on this machine, during which every
+# outbound connect() returns 10055 or 10048 and the foreman reported "0 of 36 buckets answer".
+# Blaming thirty-six providers for one local socket exhaustion is the exact inversion this list
+# exists to prevent.
+#
+# QUALIFIED, NOT BARE CODES. `"10055" in err` would also match the 10055 inside a request id or
+# a token count -- m103's fault, which the code classifiers in this file carry word boundaries
+# to avoid. `local_transport` is a plain substring test, so the marker carries the `winerror`
+# prefix instead, and the two prose forms are listed beside it because a socket error reaches
+# this code as often through its message as through its number.
 _LOCAL_TRANSPORT = ("could not resolve host", "failed to connect", "could not connect",
-                    "connection reset", "connection timed out", "curl exited")
+                    "connection reset", "connection timed out", "curl exited",
+                    "winerror 10055", "winerror 10048",
+                    "lacked sufficient buffer space", "only one usage of each socket address")
 
 
 def local_transport(err):
@@ -635,8 +657,49 @@ _PERMANENT_WORDS = (
 # means here is fixable on this side, and benching hides that for four hours.
 _PERMANENT_CODES = re.compile(r"\b(401|402)\b")
 # A WAF turning the client away. Never an account fault, whatever status code it wears.
-_CLIENT_REJECTION = re.compile(r"error code:\s*10\d\d|cloudflare|browser integrity|"
-                               r"just a moment|attention required")
+#
+# `cloudflare` WAS A BARE ALTERNATIVE HERE, AND IT IS ALSO THE NAME OF A CONFIGURED PROVIDER
+# (order 62f4b7caae73). Both `permanent_refusal` and `dead_forever` OPEN by returning or skipping
+# on a client-rejection hit, so any error text that happened to name its own provider was
+# dismissed as a WAF rejection whatever status code it carried. Demonstrated offline before the
+# fix: permanent_refusal("HTTP 401 Authentication error") was True while
+# permanent_refusal("Cloudflare Workers AI: HTTP 401 Authentication error") was False, and
+# dead_forever() over two proof rows carrying the IDENTICAL 401 excluded groq:free and refused
+# cloudflare:free. This file WARNED about it at the `box` comment in `_ask_call` -- the fix
+# applied there split failovers from reasons but never narrowed the guard, and two paths still
+# deliver provider-naming text here (`_why = raw` keeps the engine's "All 1 candidates failed:
+# <label>" wrapper when no failover reason exists, and `provider_error()` returns a
+# `bucket_state.last_error` a provider may open with its own name). The corroboration is in
+# OWNER_EXCLUDED: `cloudflare:free` had to be struck off BY HAND with "HTTP 401 -- credential
+# dead, needs rotation", and the comment above that dict says dead_forever() "cannot help
+# either". One of the four hand-excluded buckets was the one bucket this classifier was
+# structurally blind to. Scanned at filing: of the 26 configured provider names, `cloudflare` is
+# the only collision with any classifier vocabulary in this module.
+#
+# So the challenge markers stand alone and the provider name does not: it is now only evidence
+# when it arrives WITH one of the companion words below, which is what a real Cloudflare block
+# page says and what a provider naming itself in a 401 does not.
+_CLIENT_REJECTION = re.compile(r"error code:\s*10\d\d|browser integrity|just a moment|"
+                               r"attention required|checking your browser|"
+                               r"enable javascript and cookies")
+_WAF_COMPANION_WORDS = ("ray id", "blocked", "captcha", "security service", "challenge",
+                        "access denied")
+
+
+def client_rejection(err):
+    """True if `err` is a WAF refusing the CLIENT -- never evidence about the account.
+
+    Two ways to qualify: a challenge marker that only a block page emits (the 1010 family,
+    "browser integrity", "just a moment", "attention required"), or the provider name
+    `cloudflare` CO-OCCURRING with a companion word from a block page. The bare name is not
+    enough, for the reason written above the patterns.
+    """
+    e = (err or "").lower()
+    if not e:
+        return False
+    if _CLIENT_REJECTION.search(e):
+        return True
+    return "cloudflare" in e and any(w in e for w in _WAF_COMPANION_WORDS)
 
 
 def permanent_refusal(err):
@@ -656,8 +719,9 @@ def permanent_refusal(err):
     if not e or local_transport(e):
         return False
     # A WAF turning us away is evidence about the REQUEST, not the provider -- the same reason
-    # `local_transport` wins above.
-    if _CLIENT_REJECTION.search(e):
+    # `local_transport` wins above. Through `client_rejection`, so the provider name alone
+    # cannot excuse a refusal (order 62f4b7caae73).
+    if client_rejection(e):
         return False
     return bool(_PERMANENT_CODES.search(e)) or any(w in e for w in _PERMANENT_WORDS)
 
@@ -1211,9 +1275,17 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
     # `failovers` keeps the model LABEL for the record; `reasons` is the provider's disposition
     # ALONE, and the split is not tidiness. The label is a display string that contains the
     # provider's NAME, and every classifier downstream matches provider names as words --
-    # `_CLIENT_REJECTION` looks for "cloudflare", which appears in the label of every Cloudflare
-    # model whatever went wrong. Feeding a labelled string to a classifier makes the label
-    # decide the verdict.
+    # the WAF test used to look for a bare "cloudflare", which appears in the label of every
+    # Cloudflare model whatever went wrong. Feeding a labelled string to a classifier makes the
+    # label decide the verdict.
+    #
+    # THE RECEIVING SIDE IS NOW CLOSED TOO (order 62f4b7caae73): `client_rejection` requires the
+    # provider name to arrive WITH a challenge word, so the two paths that still deliver
+    # provider-naming text to a classifier -- `_why = raw` keeping the engine's
+    # "All 1 candidates failed: <label>" wrapper, and `provider_error()` returning a
+    # `last_error` a provider may open with its own name -- can no longer excuse a real refusal.
+    # This split stays as it is: keeping the reason clean at the source is still the better
+    # discipline, and the guard below it is the belt to that pair of braces.
     box = {"answered": None, "answered_id": None, "failed": False,
            "failovers": [], "reasons": []}
 
@@ -1480,7 +1552,33 @@ def selftest():
     return 0 if got else 1
 
 
+_USAGE = """cascade_bridge -- the router every cloud model call in this pipeline goes through.
+
+  python src/cascade_bridge.py --selftest   build the engine and make ONE live call
+  python src/cascade_bridge.py              the same thing (the historic default)
+  python src/cascade_bridge.py --help       this text, and nothing else
+
+Everything else here is used by importing it: feats.py, pipeline.py and the rest call ask().
+"""
+
 if __name__ == "__main__":
+    # `--help` MUST NOT SPEND A LIVE MODEL CALL, and until now it did. This file has no argparse,
+    # so every argv fell straight through to `selftest()` -- which builds the router, walks
+    # thirty providers and makes a real request. `allsweep.check_import` asks EVERY module
+    # `--help` precisely because it is "the cheapest total exercise of a module ... without doing
+    # any work", so once a day the IMPORT tier made a network call on this one's behalf, and when
+    # the weather was bad `selftest()` returned 1 with no traceback and the tier graded
+    # cascade_bridge a BROKEN IMPORT. That is order 2d6c9343cd32: a MAJOR work order filed
+    # against a module that imports perfectly, by a tier that cannot tell "this will not load"
+    # from "a provider was rate-limited ninety seconds ago".
+    #
+    # The live check is NOT dropped -- trading one blind spot for another is not a fix. It is now
+    # an explicit VERIFY-tier row in `allsweep.VERIFIERS` (`cascade live call`, rc graded
+    # BROKEN), which is the tier whose entire product is a verdict, and whose rows now actually
+    # reach the sweep's grade and the work order queue (order 14bd09740627, same run).
+    if set(sys.argv[1:]) & {"-h", "--help"}:
+        print(_USAGE)
+        sys.exit(0)
     sys.exit(selftest())
 
 
@@ -1548,7 +1646,9 @@ def prove(pool="coding", timeout=45):
                         "seconds": 0, "reason": "model disabled in config", "served": ""})
             continue
         t = time.time()
-        served, reason = {}, ""
+        # `who` is bound HERE, not inside the try: the row below reads it on every path, and the
+        # exception path never reaches the line that computes it.
+        served, reason, who = {}, "", ""
         try:
             got = ask("Reply with JSON only.", 'Return {"ok": true}',
                       {"type": "object", "properties": {"ok": {"type": "boolean"}},
@@ -1560,7 +1660,24 @@ def prove(pool="coding", timeout=45):
             verdict = "answers" if got else "no answer"
             reason = str(served.get("error") or "")
             by = str(served.get("bucket") or "")
-            if verdict == "answers" and by and by != bucket:
+            # THE SERVING MODEL BY WHATEVER NAME IT CAN BE GIVEN. `by` is `_bucket_of(...)`, and
+            # that returns "" for any model id the router does not recognise -- so the raw id and
+            # the display label are kept as the fallback for the audit trail below.
+            who = by or str(served.get("model_id") or served.get("label") or "")
+            if verdict == "answers" and not by:
+                # AN UNRESOLVABLE SERVER IS NOT A PASS (order fdebedb8d0ce). The guard used to
+                # read `if verdict == "answers" and by and by != bucket`, so when `_bucket_of`
+                # answered "" the guard was SKIPPED, the verdict stayed `answers`, and the row's
+                # `served` field was written as "" -- the check and the audit trail that would
+                # let anyone reconstruct it went blank together, in the same condition. That is
+                # the fail-open direction of a check whose stated job is to catch the engine's
+                # contract changing underneath this function, which is exactly when `_bucket_of`
+                # is most likely to stop resolving. `max_attempts=1` is still the primary guard,
+                # so this is small exposure -- and it is closed in the honest direction.
+                verdict = "no answer"
+                reason = ("the serving model %s could not be mapped to a bucket"
+                          % (who or "<the engine named none>"))
+            elif verdict == "answers" and by != bucket:
                 # BELT AND BRACES, and deliberately not silent. The cap above should make this
                 # impossible; if it ever fires, the engine's contract has changed underneath
                 # this function and the honest verdict is that THIS bucket did not answer.
@@ -1573,8 +1690,10 @@ def prove(pool="coding", timeout=45):
         out.append({"bucket": bucket, "model": m.id, "verdict": verdict,
                     "seconds": round(time.time() - t, 1),
                     # WHO ACTUALLY SERVED IT, recorded whether or not it matched. A proof that
-                    # cannot name its own subject cannot be audited by anyone later.
-                    "served": str(served.get("bucket") or ""),
+                    # cannot name its own subject cannot be audited by anyone later -- which is
+                    # why this falls back to the raw model id or label when the bucket lookup
+                    # comes back empty, rather than writing "" and losing the only clue.
+                    "served": who,
                     "reason": reason[:300]})
     return out
 
@@ -1589,6 +1708,13 @@ def try_disabled(pool="coding", timeout=60):
     experiment and would comfortably take the 2,700-token chunks used now.
 
     Nothing is enabled on a guess. Each is called directly, once, and the answer decides.
+
+    AND "DIRECTLY" NOW MEANS IT (order 77d59411ca75). This function flipped `m.enabled = True`
+    and pinned the model but did not cap the candidate walk, so it carried the identical
+    isolation defect `prove()` was repaired for under c810cf64d278: a neighbouring bucket could
+    answer and be recorded as ANSWERS for the model under test. `max_attempts=1` and the
+    served-bucket cross-check are the same two halves of the same change, and the row now
+    records who served it.
     """
     e = engine()
     if not e:
@@ -1606,17 +1732,36 @@ def try_disabled(pool="coding", timeout=60):
             continue
         was = m.enabled
         t = time.time()
+        served, who = {}, ""
         try:
             m.enabled = True
             got = ask("Reply with JSON only.", 'Return {"ok": true}',
                       {"type": "object", "properties": {"ok": {"type": "boolean"}},
-                       "required": ["ok"]}, pool=pool, timeout=timeout, pin=m.id)
+                       "required": ["ok"]}, pool=pool, timeout=timeout, pin=m.id,
+                      # THE SAME ISOLATION `prove()` WAS GIVEN (order 77d59411ca75). Pinning
+                      # names a FIRST candidate, not an only one: `Router.candidates` returns
+                      # the pin followed by the rest of the pool, and `Engine.stream_chat` walks
+                      # it to the end unless capped -- so a NEIGHBOURING bucket could serve this
+                      # call and be written down as ANSWERS for the model under test. That is
+                      # worse here than it looks from the call count: this is the tool a person
+                      # reaches for precisely when they distrust the pool, and its whole product
+                      # is the sentence "this disabled model works, switch it back on".
+                      max_attempts=1, served=served)
             verdict = "ANSWERS" if got else "no answer"
+            by = str(served.get("bucket") or "")
+            who = by or str(served.get("model_id") or served.get("label") or "")
+            if verdict == "ANSWERS" and by != m.bucket:
+                # Same belt-and-braces as `prove()`, including the blank case: a server that
+                # cannot be named is not evidence that THIS model answered.
+                verdict = "no answer"
         except Exception as ex:
             silence.note("cascade_bridge.py:try_disabled")
             verdict = type(ex).__name__
         finally:
             m.enabled = was
         out.append({"model": m.id, "bucket": m.bucket, "verdict": verdict,
+                    # WHO ACTUALLY SERVED IT, for the same reason `prove()` records it: a row
+                    # that cannot name its own subject cannot be audited later.
+                    "served": who,
                     "seconds": round(time.time() - t, 1)})
     return out

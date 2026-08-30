@@ -663,13 +663,25 @@ def clean_titles(titles):
     subpage of a character already listed. Keeping them produces duplicate entries under
     slightly different names, which is exactly the near-duplicate problem the cataloguer is
     trying to avoid.
+
+    A `seen` SET BESIDE THE LIST, NOT `t not in out` (order 33ba82dab55c). The dedup used a
+    linear membership test against the list it was building, so the whole call was O(n^2).
+    Measured in-process on synthetic titles: n=2,000 -> 0.032s, n=8,000 -> 0.537s,
+    n=16,000 -> 2.066s -- quadratic. `catalogue_web.py:150` feeds this `category_members(...,
+    limit=None)`, and this module's own comments put DC's Characters category at 33,614 members,
+    so roughly nine seconds per call per category per source went on nothing but deduplication.
+    The set gives the same result -- same order, same first-wins dedup -- at O(n). Filed and
+    fixed not because it was a correctness fault but because Hard Rule 0 makes these listings
+    mandatorily uncapped, so the input only grows, and "if something is genuinely too slow" is
+    this project's stated route to somebody reaching for a cap.
     """
-    out = []
+    out, seen = [], set()
     for t in titles:
         if "/" in t:
             continue
         if re.search(r"\((disambiguation|list)\)", t, re.I):
             continue
-        if t not in out:
+        if t not in seen:
+            seen.add(t)
             out.append(t)
     return out

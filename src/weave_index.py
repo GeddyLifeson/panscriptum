@@ -116,8 +116,20 @@ def designations(records=None):
         recs = records if records is not None else load_records()
     except Exception:
         silence.note("weave_index-designations-load")
-        if cacheable:
-            _DESIGNATIONS = (sig, set())
+        # THE FAILURE IS NOT CACHED (order 75307186e12a). This stored `(sig, set())` -- an EMPTY
+        # designation set under the LIVE corpus signature -- so ONE transient read failure was
+        # served to every later call in the process, until some other writer touched a record
+        # file and moved the signature. `_SEED` and the `_EARTH` pattern went with it. With no
+        # designations "(Earth-616)" reads as a gloss rather than a continuity and Earth-616
+        # Thor folds onto Earth-1610 Thor, which the header above prices as the expensive
+        # direction: merging INVENTS a composite being and fuses two universes' evidence into
+        # one worksheet. `load_records()` below is guarded against exactly this shape -- it only
+        # writes `_REC_CACHE` after a successful read -- and this was not.
+        #
+        # Leaving `_DESIGNATIONS` untouched means the next call retries. The empty set is still
+        # returned to THIS caller, which is the fail-closed answer for one call (an unknown
+        # designation set splits nothing and merges nothing new); what it must not become is the
+        # corpus's standing answer.
         return set()
     for r in recs:
         for e in r.get("entries", []):
@@ -266,7 +278,22 @@ def load_records():
     return out
 
 
+# The shortest normalised key that is evidence of anything in CROSS-SOURCE MATCHING. "X" and
+# "Vi" collide with every other two-letter name in the omniverse, so a candidate built on one is
+# noise. It is a rule about MATCHING, and it is applied where the matching happens (main()) --
+# not in `build`, where it used to strike the entry out of ENTITY_INDEX.json itself. See the
+# comment on the candidate loop.
+MIN_MATCH_KEY = 3
+
+
 def build():
+    """-> (records, {norm-key: [attestations]}, entries seen, {reason: entries not indexed}).
+
+    The fourth member is new with order e959f566275d and `main()` is its only caller anywhere in
+    the tree (grepped): the build now has to be able to SAY what it did not index, because until
+    it could, the only two numbers the report printed -- entries and distinct keys -- were both
+    consistent with a silent loss.
+    """
     recs = load_records()
     # Hoisted: one corpus-wide answer for the whole pass, over the same record list this loop
     # already froze on the line above. Asking per entry was 197,334 directory reads for an
@@ -274,13 +301,39 @@ def build():
     known = designations()
     index = collections.defaultdict(list)     # norm-key -> [attestation dicts]
     total = 0
+    # WHAT DID NOT MAKE IT IN, BY REASON. Nothing counted these before, so `entries` and
+    # `distinct keys` were printed beside a loss the report could not mention -- 415 entries on
+    # the measurement that filed order e959f566275d, on the one line where a loss would show.
+    excluded = collections.Counter()
     for r in recs:
         src = r["source"]
         att = r.get("attestation", "Transcribed")
         for e in r["entries"]:
             total += 1
             key = norm(e.get("name"), known)
-            if not key or len(key) < 3 or key in _STOPNAMES:
+            # THE len<3 RULE IS GONE FROM HERE (order e959f566275d). It is a MATCHING rule and it
+            # was striking entries out of the STORED index -- the same fault as the [:400]
+            # description cap removed from this loop by b974e9ed76de: a rule written for
+            # candidate matching applied to data on disk. 257 real named characters ('Ed', 'X',
+            # 'Vi', 'JJ', 'Dr. J', 'A.D.A.') did not exist to `weave.load_index`, which reads
+            # ENTITY_INDEX.json as the whole entity population. The rule now lives in main()'s
+            # candidate loop, where matching actually happens; the index keeps the entry.
+            #
+            # An entry with NO key at all is still not stored, and that is not a truncation: the
+            # index is a mapping FROM the normalised key, so an entry whose name folds to the
+            # empty string has no address in it, and filing three unrelated ones under "" would
+            # merge them -- the direction this module's own header calls the expensive one.
+            # It is counted and printed instead of being dropped silently.
+            #
+            # _STOPNAMES is UNTOUCHED and deliberately so: that half is order 8f50f37255b5,
+            # which sits at OWNER because whether Fullmetal Alchemist's 'Father' is an entity of
+            # the library is a curatorial call, not a maintenance one. Its casualties are now
+            # counted here so the ruling can be made against a number.
+            if not key:
+                excluded["name folds to an empty key"] += 1
+                continue
+            if key in _STOPNAMES:
+                excluded["_STOPNAMES (order 8f50f37255b5, at OWNER)"] += 1
                 continue
             index[key].append({
                 "source": src,
@@ -295,12 +348,19 @@ def build():
                 # smaller universe wearing the shape of the real one, which is Hard Rule 0's
                 # exact wording. 119,136 of 282,822 descriptions -- 42% -- were over 400
                 # characters, and 45.4 million characters were being dropped without a word
-                # anywhere in the file saying so. The one traced consumer (weave.py:204) slices
-                # to [:400] and [:300] ITSELF for its own matching, so it is unaffected either
-                # way; the cap was only ever costing every future reader. Order b974e9ed76de.
+                # anywhere in the file saying so. Order b974e9ed76de.
+                #
+                # THE "UNAFFECTED EITHER WAY" CLAUSE THAT USED TO END THIS COMMENT WAS WRONG, and
+                # order 543cec75ad02 caught it: it said the one traced consumer sliced to [:400]
+                # and [:300] itself for its own matching, so the cap cost only future readers.
+                # It cost that consumer too. weave.filtered_index drops mechanics by looking for
+                # rules voice in the description, and the window meant rules text starting after
+                # character 300 was invisible to it -- 54 entities of 46,103 were kept that the
+                # whole-description test drops, 2 of them inside the pair-weighting band. Those
+                # windows are gone now; filtered_index searches the whole field.
                 "description": (e.get("description") or ""),
             })
-    return recs, index, total
+    return recs, index, total, excluded
 
 
 def main():
@@ -310,12 +370,23 @@ def main():
                     help="a candidate needs this many DISTINCT sources")
     args = ap.parse_args()
 
-    recs, index, total = build()
+    recs, index, total, excluded = build()
 
     # A collision only counts across DIFFERENT sources. Two entries with the same name inside
     # one source are that source's own duplication problem, not an omniverse identity.
     candidates = {}
+    short_keys = short_hits = 0
     for key, hits in index.items():
+        # THE SHORT-KEY RULE, MOVED HERE FROM `build` (order e959f566275d). "X" and "Vi" collide
+        # with every other two-letter name in the omniverse, so they are useless as MATCHING
+        # evidence -- which is a statement about candidates, not about whether the entity exists.
+        # Applied here, the entry keeps its place in ENTITY_INDEX.json (and therefore in
+        # `weave.load_index`'s population and idf table) and only stays out of the candidate
+        # list. The count is printed below rather than left to be rediscovered by the next audit.
+        if len(key) < MIN_MATCH_KEY:
+            short_keys += 1
+            short_hits += len(hits)
+            continue
         srcs = {h["source"] for h in hits}
         if len(srcs) >= args.min_sources:
             candidates[key] = hits
@@ -325,6 +396,20 @@ def main():
     print(f"distinct keys    : {len(index):,}")
     print(f"CROSS-SOURCE     : {len(candidates):,} candidate entities "
           f"({sum(len(v) for v in candidates.values()):,} attestations)")
+    # WHAT DID NOT MAKE IT, PRINTED WHERE THE TOTALS ARE (order e959f566275d). The report used to
+    # show `entries` and `distinct keys` and nothing else, so an entry excluded from the stored
+    # index left no trace at all in the one output a person reads to decide the build is sound.
+    # Two different losses, kept apart because they are not the same act: an entry NOT INDEXED is
+    # absent from ENTITY_INDEX.json and therefore from the weave's whole entity population; a
+    # short key IS in the index and is only held out of candidate matching.
+    n_ex = sum(excluded.values())
+    print(f"not indexed      : {n_ex:,} entries ({n_ex / max(1, total):.2%})"
+          + ("" if n_ex else "  — none"))
+    for reason, n in sorted(excluded.items(), key=lambda kv: -kv[1]):
+        print(f"   {n:>6,}  {reason}")
+    print(f"indexed, not matched: {short_keys:,} keys / {short_hits:,} attestations with a "
+          f"normalised key shorter than {MIN_MATCH_KEY} chars — in ENTITY_INDEX.json, held out "
+          f"of candidates only")
     print()
 
     spread = collections.Counter(len({h['source'] for h in v}) for v in candidates.values())

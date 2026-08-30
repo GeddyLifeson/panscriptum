@@ -156,20 +156,20 @@ VERIFIERS = [
     Verifier("swallowed failures", ["silence.py"], RC_FINDINGS),
     # coverage.py returns 1 only when the atomic write of data/COVERAGE.json was DENIED -- not
     # when coverage is low. That is a broken subsystem, not a finding.
-    ("citation coverage", ["coverage.py"], RC_BROKEN),
-    ("the numbers", ["verify_math.py"], RC_BROKEN),
+    Verifier("citation coverage", ["coverage.py"], RC_BROKEN),
+    Verifier("the numbers", ["verify_math.py"], RC_BROKEN),
     # thread_integrity.py's main() returns None and is called bare, so it can only exit nonzero
     # by dying. Declared BROKEN because that is what a nonzero would then mean.
-    ("thread integrity", ["thread_integrity.py"], RC_BROKEN),
+    Verifier("thread integrity", ["thread_integrity.py"], RC_BROKEN),
     # anchors.py: `sys.exit(0 if _ok else 1)` -- 1 is the assay disagreeing with the declared
     # ladder, which is the exact fault the file exists to shout about.
-    ("the instrument", ["anchors.py"], RC_BROKEN),
+    Verifier("the instrument", ["anchors.py"], RC_BROKEN),
     # audit.py is the other by-contract findings tool: `return 1 if fails else 0`.
-    ("catalogue backscan", ["audit.py"], RC_FINDINGS),
+    Verifier("catalogue backscan", ["audit.py"], RC_FINDINGS),
     # identity.py returns 0 on every path it can reach.
-    ("continuity inventory", ["identity.py"], RC_BROKEN),
+    Verifier("continuity inventory", ["identity.py"], RC_BROKEN),
     # reference.py: `return 0 if landed else 1` -- again a denied write, not a finding.
-    ("calibration assays", ["reference.py"], RC_BROKEN),
+    Verifier("calibration assays", ["reference.py"], RC_BROKEN),
     # Spearman rank-agreement between each franchise's OWN published scale (bounties, power
     # levels, curse grades...) and our Assay -- the module's stated purpose, and until now it
     # had no automated caller anywhere: only a hand-typed `rosetta.py --check`, which nobody
@@ -179,7 +179,16 @@ VERIFIERS = [
     # says the exit code "has to carry the verdict ... so nothing that gates on rc (a shell,
     # allsweep's VERIFIERS, a scheduler) could ever learn a franchise's own published ordering
     # disagreed with our Assay" -- and for eleven runs neither consumer read it.
-    ("franchise rank agreement", ["rosetta.py", "--check"], RC_BROKEN),
+    Verifier("franchise rank agreement", ["rosetta.py", "--check"], RC_BROKEN),
+    # MOVED HERE FROM THE IMPORT TIER, where it was never meant to be (order 2d6c9343cd32).
+    # cascade_bridge.py had no argparse, so `check_import`'s `--help` fell through to its
+    # `selftest()` and made a real model call -- the IMPORT tier, whose question is "does this
+    # load", was answering it with the weather at thirty providers, and filed a MAJOR order
+    # against a module that imports cleanly. `--help` is now honoured there; the live call keeps
+    # running, once per sweep exactly as before, but in the tier that grades verdicts. BROKEN
+    # rather than FINDINGS deliberately: it is what it was worth before this move, and quietly
+    # softening a check while relocating it is how a safety gets removed by accident.
+    Verifier("cascade live call", ["cascade_bridge.py", "--selftest"], RC_BROKEN),
 ]
 
 
@@ -267,7 +276,11 @@ def run_verifier(item):
     fail closed: an ungraded verifier must not be a free pass.
     """
     label, argv = item[0], item[1]
-    rc_means = item[2] if len(item) > 2 else RC_BROKEN
+    # `getattr` first so a `Verifier` answers, then the third slot so a bare tuple still can,
+    # then RC_BROKEN so an undeclared row fails closed rather than becoming a free pass.
+    rc_means = getattr(item, "rc_means", None)
+    if rc_means is None:
+        rc_means = item[2] if len(item) > 2 else RC_BROKEN
     t = time.time()
     try:
         r = subprocess.run([PY, os.path.join(SRC, argv[0]), *argv[1:]],

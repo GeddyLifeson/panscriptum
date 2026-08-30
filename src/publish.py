@@ -412,7 +412,7 @@ def _is_compiled(path):
     return "__pycache__" in parts or parts[-1].endswith((".pyc", ".pyo"))
 
 
-def scan_for_secrets(root, max_bytes=2_000_000):
+def scan_for_secrets(root, max_bytes=2_000_000, only=None):
     """LOCK THREE — read what is about to be PUBLISHED, not what we meant to publish.
 
     The two locks above run on the snapshot dict. This one walks the files actually staged in
@@ -437,14 +437,31 @@ def scan_for_secrets(root, max_bytes=2_000_000):
     reading it could only ever produce a finding about a file that is not published. It did,
     forever, on the drill's own fixture. Source files are not excluded on any ground.
 
+    `only` NARROWS THE WALK TO NAMED TOP-LEVEL ENTRIES, and it must never be passed on the push
+    path. The whole point of this lock is that it reads everything staged, so an argument that
+    can make it read less is a loaded gun: `write()`/`push()` call it with `only=None` and the
+    drill's `_secret_scan_reads_every_staged_file` fixture proves the unnarrowed walk still sees
+    an oversized file. It exists for a caller that must scan against REPO-RELATIVE paths -- the
+    suppression table is keyed that way, so `root` has to stay the repo root and cannot simply
+    be pointed at a subdirectory -- while paying for the export set rather than for a 4.3 GB
+    tree of mined corpus. Order 01a479a891a5: one drill net was walking 277,221 files to check
+    that a suppressed finding is still reported by 552 of them.
+
     Returns a list of (relative path, line number, what matched). Empty is the good state.
     """
     hits = []
     seen = set()
+    allowed = set(only) if only is not None else None
+    root_key = os.path.abspath(root)
     for base, dirs, files in os.walk(root):
         # Bytecode caches are pruned from the WALK, not just filtered per file, so the scanner
         # never pays to descend into them. See `_is_compiled` above for why they are excluded.
         dirs[:] = [x for x in dirs if x != "__pycache__"]
+        if allowed is not None and os.path.abspath(base) == root_key:
+            # Pruned at the ROOT LEVEL only, so `only` names the same top-level entries the
+            # export copies and everything beneath one of them is still scanned in full.
+            dirs[:] = [x for x in dirs if x in allowed]
+            files = [x for x in files if x in allowed]
         if ".git" in base.replace("/", os.sep).split(os.sep):
             continue
         for f in sorted(files):

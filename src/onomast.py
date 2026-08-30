@@ -371,7 +371,11 @@ def name_worlds(resolved):
     at a different world. A safety that holds for one cycle and then forgets is worse than none,
     because it reads as protection. (Order 9309a040f208.)
 
-    So retired records are carried forward here, flagged `retired`, and the memory becomes
+    A carried-forward record is RETIRED only if its cid has left `resolved` entirely. One that is
+    still in `resolved` but no longer collides is STANDING: its name is still in use, still
+    reserved, and not withdrawn. See the comment on `merged` below (order e5001f0b0153).
+
+    So prior records are carried forward here, flagged `retired` or not, and the memory becomes
     permanent rather than one-cycle. Both writers get it without either having to know, which is
     the point: the fix belongs where the invariant is, not in each caller. Retired records are
     emitted FIRST so that a consumer building a lookup from `.values()` (navtree, worldseed) sees
@@ -434,11 +438,28 @@ def name_worlds(resolved):
                          f"than shared."),
             }
 
-    # APPEND-ONLY. Retired first (so a live record wins any lookup a consumer builds by iterating
-    # values), then this run's namings, which overwrite their own retired copies if a world has
-    # come back -- and come back to the same designation, since the seed is the world's own
-    # catalogue position and its cid is excluded from `taken` above.
-    merged = {cid: {**rec, "retired": True}
+    # APPEND-ONLY. Carried-forward records first (so a live record wins any lookup a consumer
+    # builds by iterating values), then this run's namings, which overwrite their own carried
+    # copies if a world has come back -- and come back to the same designation, since the seed is
+    # the world's own catalogue position and its cid is excluded from `taken` above.
+    #
+    # STANDING IS NOT RETIRED, AND THIS USED TO FLAG BOTH THE SAME WAY (order e5001f0b0153).
+    # `out` holds only cids in `naming`, and `naming` is restricted to cids sitting in a
+    # collision group of size >= 2 -- so a world that is STILL PRESENT in `resolved` but whose
+    # shelf has shrunk to one, and therefore correctly needs no disambiguation this run, was
+    # stamped `retired: True` beside worlds that have genuinely vanished. Reproduced offline:
+    # two worlds both named Earth, then a run with the second removed and the first untouched
+    # and still present -> the first came back `retired: True` and `is_retired()` answered True
+    # for it. `is_retired`'s own docstring defines the flag as "issued and withdrawn", so any
+    # consumer filtering on it dropped the designation of a world that still exists and fell
+    # back to the bare endonym -- the exact ambiguity this module removes -- and main()'s
+    # "designations retired, never reissued" over-reported withdrawals by every shrunken shelf.
+    #
+    # The two states are now separated by the only fact that distinguishes them: whether the cid
+    # is still in `resolved`. Both are still carried forward and both still seed `taken` above
+    # (the seeding rule reads `naming`, not this flag), so the reservation that order 9309a040f208
+    # exists for is untouched -- a third run still cannot reissue a standing name to another world.
+    merged = {cid: {**rec, "retired": cid not in resolved}
               for cid, rec in prior.items()
               if isinstance(rec, dict) and rec.get("catalogue_name") and cid not in out}
     merged.update(out)
@@ -463,11 +484,20 @@ def main():
     print("=" * 92)
     print("THE ONOMASTICON — worlds that carry a name rather than share one")
     print("=" * 92)
-    print(f"\nworlds given their own designation: {len(live):,}")
-    print(f"carried names resolved            : {len(by_endonym)}")
-    print(f"designations retired, never reissued: {len(retired):,}")
+    # The retired count is now only worlds that have left `resolved` (order e5001f0b0153); a
+    # standing designation on a shelf that has shrunk to one world is counted as live, which is
+    # what it is. The line used to include those and over-reported withdrawals accordingly.
+    print(f"\nworlds holding their own designation: {len(live):,}")
+    print(f"carried names resolved              : {len(by_endonym)}")
+    print(f"designations retired, never reissued: {len(retired):,}  "
+          f"(worlds gone from the resolution; a standing name is not one of these)")
 
-    for endo in sorted(by_endonym, key=lambda k: -len(by_endonym[k]))[:4]:
+    # SAY WHAT WAS CUT, THE WAY THE INNER LOOP ALREADY DOES (order 89fc2eaf23f1, Hard Rule 0).
+    # This was `[:4]` with nothing announcing it, four lines above an inner list that prints its
+    # own "... and N more" -- two disciplines in one function, and the silent one on the outer
+    # list, which is the one that decides which carried names a reader learns exist at all.
+    _endonyms = sorted(by_endonym, key=lambda k: -len(by_endonym[k]))
+    for endo in _endonyms[:4]:
         rows = by_endonym[endo]
         print(f"\n  {endo} — {len(rows)} worlds, none of them each other:")
         for v in rows[:9]:
@@ -475,6 +505,9 @@ def main():
             print(f"     {v['catalogue_name']:<16}{v['register']:<11}{src[:34]}")
         if len(rows) > 9:
             print(f"     ... and {len(rows)-9} more")
+    if len(_endonyms) > 4:
+        print(f"\n  ... and {len(_endonyms)-4} more carried name(s) not shown; "
+              f"the whole set is in {OUT}")
 
     # ATOMIC: ONOMASTICON.json is shared. 2026-08-25 whole-tree sweep.
     if silence.write_json(OUT, named, indent=2, ensure_ascii=False):

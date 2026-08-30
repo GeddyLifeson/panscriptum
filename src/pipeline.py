@@ -2347,6 +2347,10 @@ def main():
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
             "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
     _ESC.assert_clear(os.path.basename(__file__))
+    # THE FINGERPRINT OF src/ AS THIS PROCESS FOUND IT. Taken here, before any phase runs, so
+    # `exit_if_stale` in the phase loop below has something to compare against. See codewatch.py.
+    import codewatch
+    codewatch.stamp("pipeline")
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", type=int, default=None)
     ap.add_argument("--status", action="store_true")
@@ -2437,6 +2441,16 @@ def main():
     # the open work, which is the only thing the pointer was ever for.
     stalled = None
     for ph in phases:
+        # PICK UP CODE CHANGES, AT A PHASE BOUNDARY. A running process is a photograph of the
+        # source as it was when it started: on 2026-08-25 a `publish.py --loop` daemon from
+        # 14:28 pushed deliberately-corrupted files to a public repo because the guard written
+        # at 19:00 to stop it was never in its memory. This runner is in `overnight.STANDING`,
+        # so the keeper re-asserts it within five minutes running the current code, and the
+        # state is saved and the pointer is advanced per phase -- a phase boundary is therefore
+        # the one place an exit costs nothing but the phase about to start. Exits rc=17 on
+        # purpose; budgeted and settled, so an edit storm cannot make this a respawn loop.
+        # (order 1f172f5acc6f: this daemon had no codewatch call site at all.)
+        codewatch.exit_if_stale("pipeline")
         # NAMED BEFORE IT IS DISPATCHED, and named safely. `PHASES[ph-1]` was evaluated inside
         # the not-implemented message, where an out-of-range `ph` turns a clean stop into an
         # IndexError and a negative one silently names the phase at the other end of the list.

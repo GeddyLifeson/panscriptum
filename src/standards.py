@@ -455,6 +455,59 @@ def cfg_num_ctx():
         return None
 
 
+def cfg_model():
+    """-> the model id config.yaml names, or None if it cannot be read.
+
+    Same contract as `cfg_num_ctx()` directly above, and for the same reason: no invented
+    default. A guessed model id here would silently pick a stranger's runner to measure.
+    """
+    try:
+        import yaml as _y
+        with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
+            return (_y.safe_load(f).get("model") or "").strip() or None
+    except Exception:
+        silence.note("standards.py:cfg-model")
+        return None
+
+
+def model_matches(resident_name, want):
+    """PURE. Is this /api/ps row the model config.yaml names? -> bool.
+
+    Ollama spells an unqualified tag with an explicit `:latest`, so a config saying `qwen3` and
+    a resident `qwen3:latest` are one model and must compare equal. Everything else is a literal
+    comparison on the folded name -- a LOOSE match here would reintroduce exactly the defect
+    `resident_context` was written to remove, by letting a stranger's runner answer.
+    """
+    a = (resident_name or "").strip().lower()
+    b = (want or "").strip().lower()
+    if not a or not b:
+        return False
+    return a == b or a == b + ":latest" or b == a + ":latest"
+
+
+def resident_context(rows, want_model):
+    """PURE. The context window served by the runner holding THIS project's model.
+
+    -> (served, name). `served` is None when the project's model is not resident at all, or when
+    its row carries no `context_length` -- both of which `context_verdict` reports as
+    unmeasurable rather than as agreement, which is the correct reading of "the question could
+    not be put".
+
+    IT USED TO TAKE WHICHEVER ROW /api/ps LISTED FIRST: `next((m.get("context_length") for m in
+    resident_raw if m.get("context_length")), None)`, with nothing anywhere in the block
+    consulting `cfg["model"]`. With two models resident that compares this project's configured
+    window against a stranger's runner and produces a false mismatch or a false match, both on a
+    HIGH standard. The multi-resident case is the very incident the standard was written for --
+    2026-08-27, an unrelated process had pinned qwen3:8b at 4096 with an infinite keep_alive
+    while this project asked for 12288. Pulled out pure so it can be attacked without a daemon,
+    exactly as `context_verdict` beside it is. (order dddf4d96bb3e)
+    """
+    for m in rows or []:
+        if isinstance(m, dict) and model_matches(m.get("name"), want_model):
+            return m.get("context_length"), m.get("name")
+    return None, None
+
+
 def _s(name, holds, observed, floor, order, severity="medium", group="general"):
     return {"standard": name, "group": group, "holds": bool(holds), "observed": observed,
             "floor": floor, "order": order, "severity": severity}
@@ -892,6 +945,36 @@ def check(state=None):
         "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and "
         "everything after it never runs. Missing: " + (", ".join(missing) or "none"),
         "low", "code"))
+    # THE ONE-FILE CLAIM, MADE TO RUN (order a08557925d87). tells.py says the banned-phrase list
+    # governs two things at once -- the instruction given to the writing model and the audit that
+    # checks what it wrote -- and that the prompt section is GENERATED from the list so the two
+    # cannot disagree. Only the audit half was ever in effect: nothing writes
+    # prompts/system_style.txt and nothing compared it against `tells.prompt_section()`, so
+    # adding a word to LEXICAL changed the checker and left the model's instruction untouched,
+    # silently. This is that comparison, running every time the standards are read. It is a
+    # standard rather than a drill net because the two files it compares are both editable by
+    # hand between runs, and because the repair is one command a person runs.
+    try:
+        import tells as _TL
+        _sync, _sync_why = _TL.prompt_in_sync()
+        if _sync is None:
+            # Unreadable is not agreement -- same rule as the context standard below.
+            _dropped.append("style-prompt-in-sync")
+        else:
+            out.append(_s(
+                "the style prompt matches the tell list", _sync, _sync_why, "identical",
+                "The banned-phrase block in prompts/system_style.txt is no longer the block "
+                "src/tells.py generates, so the model is being instructed with one list while "
+                "style_audit.py grades against another. A phrase banned in the prompt but "
+                "absent from the checker (or the reverse) goes unnoticed for fifty thousand "
+                "entries, which is the exact failure tells.py's WHY ONE FILE section exists to "
+                "prevent. Regenerate: `python src/tells.py --prompt` and replace the numbered "
+                "section it prints. `python src/tells.py --check` exits non-zero while they "
+                "disagree.",
+                "high", "code"))
+    except Exception:
+        silence.note("standards.py:style-prompt")
+        _dropped.append("style-prompt-in-sync")
     # PROBING IS NOT FAILING.
     #
     # This counted every swallowed exception and breached at 13,066 -- of which 11,774 were
@@ -1635,8 +1718,15 @@ def check(state=None):
             # itself failed and is never reported as a fault.
             out.append(_s(
                 "the local model has a live runner", runner is not False,
-                ("resident %s, NO llama-server process" % resident[0][:28]) if runner is False
-                else ("runner up, %d resident" % len(resident)),
+                # EVERY RESIDENT NAME, not `resident[0][:28]`. The reading is what an operator
+                # acts on and there can be more than one model resident -- naming only the first,
+                # cut at 28 characters, told them to go looking at whichever row /api/ps happened
+                # to list first. Same shape as the `served = next(...)` defect fixed one standard
+                # below (order dddf4d96bb3e); ranking is allowed here, truncating is not.
+                ("resident %s -- NO llama-server process"
+                 % ", ".join(str(n) for n in resident)) if runner is False
+                else ("runner up, %d resident: %s"
+                      % (len(resident), ", ".join(str(n) for n in resident))),
                 "a runner for every resident model",
                 "Ollama reported this model resident with no runner process on 2026-08-24; the "
                 "request queue filled behind the gap and every call returned '503 maximum "
@@ -1667,10 +1757,15 @@ def check(state=None):
             # runner, change the config, or evict whatever else is holding it), and a library
             # that refused to run whenever a context mismatched would stop for a condition it
             # can neither cause nor cure.
-            served = next((m.get("context_length") for m in resident_raw
-                           if m.get("context_length")), None)
+            # BY IDENTITY, NOT BY POSITION -- see `resident_context` above (order dddf4d96bb3e).
+            want_model = cfg_model()
+            served, served_name = resident_context(resident_raw, want_model)
             want_ctx = cfg_num_ctx()
             ctx_holds, ctx_observed = context_verdict(served, want_ctx)
+            if served_name:
+                # NAME THE RUNNER THAT WAS MEASURED. Without it the reader cannot tell whose
+                # window the row is about, which is the whole defect this block was fixed for.
+                ctx_observed += " (measured on the resident %s)" % served_name
             if ctx_holds is None:
                 # NOT a pass. An unmeasurable context is exactly the state this whole block is
                 # about, and letting it read as agreement would be the green-by-absence bug one

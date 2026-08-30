@@ -307,10 +307,32 @@ def _write_claim(path, depth, label):
 # --------------------------------------------------------------------------- the slots
 
 def _take_slot(label):
-    """Claim one of MAX_SLOTS leases, or return None if they are all live.
+    """Claim one of MAX_SLOTS leases. -> the slot path, False if BUSY, None if UNARBITRABLE.
 
     `O_CREAT|O_EXCL` is the whole mutual-exclusion mechanism: on Windows and POSIX alike it
     either creates the file or fails, atomically, with no window between the two.
+
+    THREE ANSWERS, NOT TWO, and the missing distinction cost fifteen minutes a call. This
+    returned None for two situations that need OPPOSITE responses -- "every slot is live", where
+    waiting is exactly right, and "os.open raised, I cannot arbitrate at all", whose own comment
+    below already promised the caller "proceeds unmetered". It did not proceed: `lane()`'s queue
+    loop cannot tell the two apart from one sentinel, so it went on calling this every `_POLL`
+    until `deadline = now + SLOT_LEASE_SECONDS`, i.e. 900 seconds, and then proceeded anyway.
+    Reproduced with LANE pointed at a temp dir, this forced to return None and the ceiling
+    shortened to 2s: the call was delayed 2.01s, the full ceiling. (order d316c46b67bd)
+
+    That contradicts this module's header verbatim -- "FAIL OPEN, ALWAYS ... a permissions
+    error, A SLOT THAT CANNOT BE CREATED ... all of them end in go ahead anyway" -- and `lane()`
+    fronts every model call the library makes, so one persistent `os.open` failure on
+    `state/gpu_lane` (a permissions change, or Norton, which already blocks DuckDB and Python
+    TLS on this machine) turned every model call in nine standing jobs into a 15-minute stall.
+    A lane that deadlocks nine standing jobs is worse than no lane at all, which is the whole
+    reason that mandate is written down.
+
+    So the two answers are now spelled differently: False means "busy, ask again", None means
+    "this lane cannot be arbitrated, stop asking and go". Both are falsy, so every truth test on
+    the return value -- including the `if slot:` guards in `lane()`'s own `finally` -- keeps
+    working unchanged; only the code that must distinguish them looks at which one it got.
     """
     for i in range(MAX_SLOTS):
         path = os.path.join(LANE, f"slot.{i}.json")
@@ -330,9 +352,13 @@ def _take_slot(label):
                 json.dump({"pid": os.getpid(), "label": label, "heartbeat": _now()}, f)
         except Exception:
             _remove_retry(path)          # m55: we created it and could not write it
+            # ALSO UNARBITRABLE, not busy. The slot file was created here and could not be
+            # written, so this lane's own storage is not working; polling it for fifteen
+            # minutes would reach the same answer more slowly.
             return None
         return path
-    return None
+    # Every slot exists and is live: BUSY. This is the one answer that deserves the wait.
+    return False
 
 
 def _touch(path):
@@ -480,6 +506,15 @@ def lane(label="background", priority=False):
         while _now() < deadline:
             slot = _take_slot(label)
             if slot:
+                break
+            if slot is None:
+                # CANNOT ARBITRATE -> GO NOW. `_take_slot` says None only when the lane's own
+                # storage refused it (os.open raised, or the slot file could not be written),
+                # which no amount of polling fixes -- and polling it cost the full 900-second
+                # ceiling on every model call in nine standing jobs. This is the "go ahead
+                # anyway" the module header mandates and the comment at the raise already
+                # promised. Unmetered by design: an unarbitrable lane must not be a stalled
+                # one. (order d316c46b67bd)
                 break
             time.sleep(_POLL)
         # HOLD EVERY LEASE FOR AS LONG AS THE CALL ACTUALLY RUNS (m54, completed 2026-08-24).

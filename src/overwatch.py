@@ -673,8 +673,11 @@ def write_report(led, struct):
         lines.append("- modules that will not import: **UNKNOWN — the import scan itself "
                      f"failed**  — {struct['error']}")
     else:
+        # EVERY ONE OF THEM, not the first four. See the note above the findings list below:
+        # the same cap, and this one is a WORK LIST -- module #5 that will not import is a
+        # module nobody is told about, under a count that says there are five.
         lines.append(f"- modules that will not import: **{len(broken)}**"
-                     + ("" if not broken else "  — " + ", ".join(broken[:4])))
+                     + ("" if not broken else "  — " + ", ".join(broken)))
     if struct.get("estate_error"):
         lines.append("- files that will not parse: **UNKNOWN — the artifact scan itself "
                      f"failed**  — {struct['estate_error']}")
@@ -688,7 +691,9 @@ def write_report(led, struct):
                                                        and _dor != led["rounds"]) else ""
         lines.append(f"- files that will not parse: **{len(corrupt)}** of "
                      f"{struct.get('files', 0):,} inspected{_age}"
-                     + ("" if not corrupt else "  — " + "; ".join(corrupt[:3])))
+                     # Uncapped for the same reason as the line above it: a file that will not
+                     # parse is a file somebody has to open, and the fourth one was invisible.
+                     + ("" if not corrupt else "  — " + "; ".join(corrupt)))
     for r in (struct.get("reconcile") or []):
         n = r.get("count")
         lines.append(f"- {r['finding']}: **{n if n is not None else ''}** {r['detail'][:80]}")
@@ -699,8 +704,18 @@ def write_report(led, struct):
     else:
         lines.append(f"**{len(open_f)} open** ({len(hi)} high). Newest first.")
         lines.append("")
+        # EVERY OPEN FINDING, RANKED -- NEVER THE FIRST FORTY. This list was sorted and then cut
+        # at [:40] under a header stating the true count, which is Hard Rule 0's exact shape: the
+        # ranking is kept and encouraged, the truncation is the fault. WATCH.md is the ONLY thing
+        # a person reads to learn what the standing sweep found, so finding #41 was a finding
+        # nobody would ever be told about. The identical cap has already been ruled a truncation
+        # four times in the sibling instrument -- dashboard.py's open findings, swallowed
+        # failures, breached nets and quarantined hosts -- and this is the sibling nobody
+        # visited. Fixed while it was still latent (4 findings open, 288 total, round 132), which
+        # is the cheap moment rather than the one where it has already hidden something.
+        # (order e8e095597f74)
         for f in sorted(open_f, key=lambda x: (-(x.get("severity") == "high"),
-                                               -x.get("first_seen", 0)))[:40]:
+                                               -x.get("first_seen", 0))):
             sev = (f.get("severity") or "medium").upper()
             lines.append(f"- **{f['module']}.py** `{f.get('symbol','')}` — [{sev}] "
                          f"{f.get('actual','')[:180]}")
@@ -793,8 +808,21 @@ def round_once(limit=6, local=True, skip_model=False):
     if not skip_model:
         verify_open(led, local=local, budget=limit)
         save(led)
-        mods = [m for m in A.modules()
-                if not m.startswith("_") and m not in ("overwatch", "allsweep")]
+        # THE WATCHER READS ITSELF. This was `... and m not in ("overwatch", "allsweep")`, with
+        # nothing beside it saying why, while the CLI calls this job "a standing debug sweep over
+        # every module" and the owner's brief in the docstring is "watches all modules for bugs".
+        # The two files excluded were the watching machinery itself -- the pair whose defects
+        # mean no watching happens at all, and therefore the pair whose defects nothing else in
+        # the project is positioned to find. The exclusion was also inconsistent inside this very
+        # file: `structure()` above import-scans both of them.
+        #
+        # `sweep_plan.modules()` argues the opposite position for the same reason and is right --
+        # "Not even this file, and not verify_math.py because it is only tests ... if a module is
+        # genuinely not worth auditing, that is an argument for deleting it, not for skipping
+        # it." Nothing here executes the module it reads; reading own source costs a slice of the
+        # round's budget and no more. So the exclusion is dropped rather than annotated, and the
+        # code now matches the claim two docstrings make about it. (order 97373afb2d5b)
+        mods = [m for m in A.modules() if not m.startswith("_")]
         changed, stale = rotation(led, mods)
         todo = (changed + stale)[:limit]
         print(f"model reads {len(todo)} module(s): {', '.join(todo)}", flush=True)

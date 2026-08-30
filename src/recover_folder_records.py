@@ -112,7 +112,19 @@ def main():
 
     for name in empty:
         mapped = source_map.get(name)
-        if not mapped:
+        # `is None`, NOT falsiness. An empty LIST is a source that IS in FOLDER_SOURCE_MAP and
+        # maps to nothing, and `if not mapped` filed it under "not in FOLDER_SOURCE_MAP
+        # (web-mode sources -- need real research, no local data exists)" -- the one bucket whose
+        # remedy is wrong for it. The `skipped_no_items` bucket ("mapped, but the register holds
+        # no items for them") exists for exactly this case and could never fire for it, because
+        # the empty mapping never reached the loop that fills `entries`. The two buckets
+        # prescribe different work -- go and research the source, versus fix the mapping or the
+        # register -- so the mislabel sends the reader the wrong way. Measured over the 6 roll
+        # sources with entry_count == 0: 'Lost Mines of Phandelver' and 'the Witch Tradition' are
+        # present in FOLDER_SOURCE_MAP.json with [], the other 4 are genuinely absent. An empty
+        # mapping now falls through and lands in `skipped_no_items` by the ordinary route.
+        # (order 37d3d588847a)
+        if mapped is None:
             skipped_no_map.append(name)
             continue
 

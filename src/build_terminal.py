@@ -464,11 +464,20 @@ function bindStage(){
 function shelfmark(k){
   // The breadcrumb reads in names for the same reason the map does: H0 › X0 › M3 tells you where
   // a thing sits in an array, not where it sits in the omniverse.
+  //
+  // AND THE NAME GOES THROUGH esc(). This built its crumb from the raw `nd.name` and the result
+  // reaches innerHTML at three sinks (panel, selectSource, selectWorld), so it was one of three
+  // catalogue-derived strings bypassing the rule stated at esc()'s own definition -- "every
+  // catalogue-derived string goes through this before it reaches innerHTML". Latent, because no
+  // node name in the live NAVTREE carries & < > " ' today; the exposure is the next one that
+  // does, and this project's own cited example is "Dungeons & Dragons". Escaped where the value
+  // enters the string, not at the three places it leaves, because a sink added later would
+  // otherwise inherit the hole. (order 3b37494e20db)
   let s="&#937;"; if(k==="") return s;
   const parts=k.split(".");
   for(let i=0;i<parts.length;i++){
     const key=parts.slice(0,i+1).join("."), nd=DATA.nodes[key];
-    s+=" › "+((nd&&nd.name)||LABEL[TIERS[i]]+parts[i]);
+    s+=" › "+esc((nd&&nd.name)||LABEL[TIERS[i]]+parts[i]);
   }
   return s;
 }
@@ -522,6 +531,11 @@ const TPL={archipelago:"archipelago",isles:"lowIsland",shattered:"shattered",
   const u=`https://azgaar.github.io/Fantasy-Map-Generator/?seed=${w.s}&options=default&template=${tpl}&width=${MAPW}&height=${MAPH}`;
   const cat = w.cat || w.d.split("::").pop();
   const endo = w.endo || cat;
+  // BOTH USES OF `cat` BELOW GO THROUGH esc(). The heading did and the closing note did not --
+  // the same value, escaped once and not the other time, fifteen lines apart, which is how a
+  // reader concludes the unescaped one was deliberate. Three live worlds carry an ampersand in
+  // `cat` today: Baskets & Boots, DunBroch Castle & Kingdom, Cortex Power & Gas Co.
+  // (order 3b37494e20db)
   p.innerHTML=`<h2>${esc(cat)}</h2>
     ${w.carried?`<div class="endo">endonym: <b>${esc(endo)}</b></div>`:""}
     <div class="mark">${shelfmark(rootKey)} › P<br>seed ${w.s}</div>
@@ -537,7 +551,7 @@ const TPL={archipelago:"archipelago",isles:"lowIsland",shattered:"shattered",
     <a class="hand" target="_blank" rel="noopener" href="${u}&scale=8&burg=1">Open the primate city
       <em>Azgaar &#8594; Watabou</em></a>
     <p class="note">${w.a||0} of 4 map axes attested by a source; the rest seeded.</p>
-    <p class="note"><b>${cat}</b> is the catalogue heading. Place-names on the map are the
+    <p class="note"><b>${esc(cat)}</b> is the catalogue heading. Place-names on the map are the
     world&rsquo;s own, generated with the terrain.</p>`;
 }
 

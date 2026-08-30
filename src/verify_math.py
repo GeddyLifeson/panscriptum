@@ -1245,7 +1245,40 @@ finally:
 import tempfile as _tf
 import pipeline as _PL
 
-_tdir = _tf.mkdtemp()
+# EVERY SCRATCH DIRECTORY THIS SUITE MAKES IS SWEPT AT EXIT (order af447d21d634, run #37).
+# Twelve `mkdtemp()` sites here created a directory and never removed it, and this battery runs
+# from the foreman's patch lane, from allsweep and from every maintenance pass -- several times
+# an hour, for ever. Measured in %TEMP% on 2026-08-28: 336 `panscript-ledger-*` and 148
+# `panscript-lane-*` orphans, one per run since each of those two sites was added, plus nine
+# unprefixed ones that cannot even be counted.
+#
+# `atexit` RATHER THAN try/finally at each site, deliberately: the sites are module-level
+# statements interleaved with the checks they feed, so wrapping each one would restructure a
+# third of the file, and a check that raises must still not leak. `ignore_errors=True` because
+# a scratch directory that is already gone, or that a virus scanner still holds open, is not
+# something a verification suite should fail over -- the point is to stop the growth, not to
+# add a new way to go red. Sites that already clean up after themselves (§19ab's rmtree,
+# batch2's, and the two `TemporaryDirectory()` blocks) are left exactly as they are.
+import atexit as _atexit_vm
+import shutil as _shutil_vm
+
+_TMPDIRS_VM = []
+
+
+def _mkdtemp_vm(*a, **kw):
+    """`tempfile.mkdtemp`, registered for removal when this process exits."""
+    d = _tf.mkdtemp(*a, **kw)
+    _TMPDIRS_VM.append(d)
+    return d
+
+
+@_atexit_vm.register
+def _sweep_tmpdirs_vm():
+    for _d in _TMPDIRS_VM:
+        _shutil_vm.rmtree(_d, ignore_errors=True)
+
+
+_tdir = _mkdtemp_vm()
 _rp = os.path.join(_tdir, "rec.json")
 
 _disk = {"source": "T", "entries": [
@@ -1350,7 +1383,7 @@ check("and every owner fragment names a real script",
 
 import datetime as _dt          # noqa: E402
 
-_ad = _tf.mkdtemp()
+_ad = _mkdtemp_vm()
 _ap = os.path.join(_ad, "TIERS.json")
 with open(_ap, "w", encoding="utf-8") as _f:
     _f.write('{"prior": "contents"}')
@@ -1391,7 +1424,7 @@ check("'unclassified' is not a real topic", "unclassified" in _PL.TOPICS, False)
 # survive, and an empty result must never land over a real one.
 import completeness as _CP                                             # noqa: E402
 
-_cd = _tf.mkdtemp()
+_cd = _mkdtemp_vm()
 _chosts = os.path.join(_cd, "WIKI_HOSTS.json")
 with open(_chosts, "w", encoding="utf-8") as _f:
     json.dump({"Testsource": "testsource.fandom.com"}, _f)
@@ -1904,11 +1937,13 @@ check("holding steady changes nothing", _AD.promote("series", 500), "series")
 # Until this section there was no implementation of the guard in src/ at all: the protocol lived
 # in prose and every run re-improvised the read-modify-write. These pin the invariant.
 
-import tempfile as _tf         # noqa: E402
+# (this section's `import tempfile as _tf` is gone: its scratch dir now goes through
+#  `_mkdtemp_vm`, and re-binding `_tf` with nothing left to use it made pyflakes read the §18c
+#  binding as dead -- the sweep's LINT tier is not a place to leave noise)
 import time as _time           # noqa: E402
 import runguard as _RG         # noqa: E402
 
-_gd = _tf.mkdtemp()
+_gd = _mkdtemp_vm()
 _gp = os.path.join(_gd, "GUARD.json")
 
 _ok, _ = _RG.claim("runA", _gp)
@@ -2043,7 +2078,7 @@ check("pure deletion counts the lines removed",
 check("an identical body changes nothing", _FM.lines_changed("a\nb\n", "a\nb\n"), 0)
 
 # --- completeness.land must not claim a denied write landed ------------------------------------
-_land_dir = _tf.mkdtemp()
+_land_dir = _mkdtemp_vm()
 _CP_OUT, _CP.OUT = _CP.OUT, os.path.join(_land_dir, "COMPLETENESS.json")
 _rows = [{"source": "s%d" % i, "pct": 1.0} for i in range(200)]
 try:
@@ -2084,7 +2119,7 @@ finally:
 
 import overwatch as _OW        # noqa: E402
 
-_wd = _tf.mkdtemp()
+_wd = _mkdtemp_vm()
 _OW_LEDGER = _OW.LEDGER
 _OW.LEDGER = os.path.join(_wd, "OVERWATCH.json")
 try:
@@ -2429,6 +2464,12 @@ check("the lane keeps at least one slot", _GL.MAX_SLOTS >= 1, True)
 # Rule 0 truncation with no slice in the source for a reader to find. Three defences, each
 # checked here: the budget is derived from the window, feats jobs drop the chapter-only half of
 # the system prompt, and an over-budget prompt raises instead of being sent.
+# NOT `_CB` (order a05eb35ebe4f, run #37). `_CB` is bound to `cascade_bridge` at §19h and used
+# through §19h-bis; rebinding it here to a DIFFERENT module was correct only by the accident
+# that no cascade_bridge use follows this line -- the identical accident §19v repairs twelve
+# lines below for `_row` and `_emitted`, in this same section. Any check added above that
+# reached for the cascade_bridge alias would have got context_budget and raised, which in a
+# battery reads as a crash rather than as a failing check.
 import context_budget as _CBud    # noqa: E402
 import manifest_builder as _MBd  # noqa: E402
 
@@ -2915,14 +2956,15 @@ finally:
 # these assert the MECHANISM: the beat refreshes, it cannot resurrect a released slot, it will
 # not touch another process's lease, and the slot count still binds. Everything runs against a
 # throwaway lane directory -- the live jobs' real lane is never touched.
-import tempfile as _tmp19ad      # noqa: E402
+# (the tempfile alias this section used to carry is gone: both of its sites now go through
+#  `_mkdtemp_vm`, which is the thing that actually removes the directory afterwards)
 import threading as _th19ad      # noqa: E402
 import gpu_lane as _GLx          # noqa: E402
 
 _real_lane19ad = _GLx.LANE
 _real_beat19ad = _GLx._BEAT_SECONDS
 try:
-    _GLx.LANE = os.path.join(_tmp19ad.mkdtemp(prefix="panscript-lane-"), "lane")
+    _GLx.LANE = os.path.join(_mkdtemp_vm(prefix="panscript-lane-"), "lane")
 
     check("_touch refuses to resurrect a slot that was already released",
           (lambda p: (_GLx._touch(p), os.path.exists(p))[1])(
@@ -3111,7 +3153,7 @@ def _json_try(ln):
         return None
 
 
-_ledger19ag = os.path.join(_tmp19ad.mkdtemp(prefix="panscript-ledger-"), "m.jsonl")
+_ledger19ag = os.path.join(_mkdtemp_vm(prefix="panscript-ledger-"), "m.jsonl")
 for _i19ag in range(50):
     silence.append_line(_ledger19ag, json.dumps({"i": _i19ag, "pad": "x" * 200}))
 with open(_ledger19ag, encoding="utf-8") as _f19ag:
@@ -3753,9 +3795,12 @@ check("the managed-job roster passes include_self=True",
 #
 # Order d49b40d51523: THIS COMMENT USED TO JUSTIFY THE SECTION BY A CALL SITE THAT DOES NOT
 # EXIST. It read "sweep.load's only call site (sweep.py:129) does no existence check". There is
-# no such call. `sweep.py:129` is `def sweep():`, and the evidence-cache read that actually runs
-# inside that function is `cachekey.load(F.CACHE, host, e["name"])` at `sweep.py:160` -- a
-# different function in a different module. As of this run `sweep.load` has NO caller anywhere
+# no such call. CITED BY SYMBOL, NOT BY LINE (order a09a0e003c31, run #37): the two line numbers
+# this paragraph used to give had both drifted -- ":129" was named as `def sweep():` and is now
+# a blank line, and ":160" was named as the evidence-cache read and is now a category filter.
+# The claim itself is unchanged and still true: the evidence-cache read that actually runs
+# inside `sweep.sweep()` is `cachekey.load(F.CACHE, host, e["name"])` -- a different function in
+# a different module. As of this run `sweep.load` has NO caller anywhere
 # in `src/` except this section. That is filed on its own as 2b695c192470 and is the owner's to
 # rule on; nothing in `sweep.py` is touched from here. (`sweep.load`'s own docstring repeats the
 # same ":129" claim, which is that file's to correct, not this one's.)
@@ -4282,7 +4327,7 @@ print("-" * 96)
 # the opposite. Pinned here because none of them could fail on their own.
 
 _cb20i = __import__("cascade_bridge")
-_tdir20i = _tf.mkdtemp()
+_tdir20i = _mkdtemp_vm()
 
 # --- the unrecognised ledger re-triages on read -------------------------------------------------
 # "Unrecognised" is a statement about the CURRENT classifier. Rows written before a classifier
@@ -4362,8 +4407,12 @@ check("a non-numeric got is recorded as a failed check, never raised",
 _needle20i = " or " + "True, " + "True,"
 # AND THE OTHER SPELLINGS OF IT. Run #26, found by the whole-tree sweep: the needle above is a
 # SINGLE-LINE spelling, and this file wraps the boolean expression and the `True,` want-argument
-# onto separate lines in dozens of checks (2201-2202, 2219-2220, 2911-2912 and 3878-3879 among
-# them). Disarming any of THOSE was invisible to the one guard whose entire purpose is to notice
+# onto separate lines in dozens of checks -- CITED BY ROW LABEL, NOT BY LINE (order a09a0e003c31,
+# run #37), because all four line numbers this paragraph used to give had drifted onto unrelated
+# lines: `"KE relativistic @ 0.5c uses gamma"` in §1 and this section's own `"no check in this
+# file is disarmed with a trailing always-true disjunct"` are both this shape, and an AST pass
+# over the file counted 56 of them on 2026-08-29. Disarming any of THOSE was invisible to the
+# one guard whose entire purpose is to notice
 # it -- lesson 12 reached inside the file that exists to fail, which is the worst place for it.
 # Collapsing runs of whitespace makes the wrapped and unwrapped spellings the same string, and
 # the alternates cover the disjuncts that are always-true without saying `True`.
@@ -4420,7 +4469,8 @@ _ordinary20i = ('check("a wrapped check",\n      value == other,\n'
                 '      ' + 'True' + ', note="x")')
 check("the disarm guard sees a disjunct wrapped onto the next line",
       any(_n20i in " ".join(_disarmed20i.split()) for _n20i in _needles20i), True,
-      note="the spelling it was blind to until run #26; 2201-2202 and 2911-2912 are this shape")
+      note="the spelling it was blind to until run #26; the §1 row 'KE relativistic @ 0.5c "
+           "uses gamma' and this section's own disarm row are both this shape")
 check("and it does not cry wolf on an ordinary wrapped check",
       any(_n20i in " ".join(_ordinary20i.split()) for _n20i in _needles20i), False,
       note="over-matching here would flag most of this file and the guard would be turned off")
@@ -4510,10 +4560,18 @@ check("the counters-moving standard is not gated behind a history-length check",
            "that is absent is invisible to the meta-standard that audits floors")
 check("and it reports short history honestly instead of vanishing",
       "not enough history yet" in _st20j_code, True)
-check("every standard the checker declares actually emits a row",
-      len({r["standard"] for r in __import__("standards").check(
-          __import__("dashboard").state())}) >= 40, True,
-      note="run #25 observed 39 where 40 were declared, with the meta-standard still green")
+# THE HARDCODED FLOOR IS GONE, AND ITS REPLACEMENT IS ALREADY IN THIS FILE (order ba7b55d6465f,
+# run #37). The row that stood here read `len({emitted}) >= 40` and §20k's own comment, twenty
+# lines above, named it as a defect in so many words: it "compares the emitted count against a
+# HARDCODED 40 rather than against the declared set, so a standard that never emits just lowers
+# a number nobody reconciles". Measured when order d9b895708c45 was written: 44 declared, 43
+# emitted, floor 40 -- four standards could vanish without the row moving, and even a real drop
+# below 40 reported a COUNT rather than a NAME. d9b895708c45's replacement landed in run35
+# batch1 as `[d9b895708c45] every standard standards.py declares actually emits a row (declared
+# vs emitted, not a hardcoded floor)`, which reconciles the declared set against the emitted set
+# and prints the missing names. Keeping the weak row beside the strong one bought nothing and
+# cost a reader the belief that the floor meant something, so it is retired rather than
+# duplicated. The claim it was making is still asserted; it is asserted properly.
 
 _cb20j = __import__("cascade_bridge")
 check("the empty-completion class is named", _cb20j.empty_content("no answer text produced"),
@@ -4660,14 +4718,61 @@ check("and the later run still owns what it actually read",
 # is newest and hold THAT one to the standard. `latest_run()` answers None when nothing has ever
 # swept, which must FAIL rather than pass vacuously -- an empty `missing()` over no evidence at
 # all is the trivially-empty-input shape this file refuses everywhere else. (run #31)
-_run20n = _SP20n.latest_run()
-check("the sweep coverage ledger names a run at all", _run20n is not None, True,
-      note="None means no shard on disk; without this the completeness check below would "
-           "prove the completeness of a sweep that never ran")
-check("the live sweep proves its own completeness",
-      _SP20n.missing(_run20n) if _run20n else ["<no sweep on record>"], [],
+#
+# AND THE NEWEST RUN IS NOT THE NEWEST *FINISHED* RUN (order b18acbb35760, run #37). This asked
+# `latest_run()`, which returns whichever run wrote the most recent shard, and then demanded
+# `missing() == []` of it. `sweep_plan` has no notion of a run being over, so the moment a sweep
+# called `record()` for its FIRST batch this row went red and stayed red until its LAST batch
+# landed -- and it takes the whole battery down with it, which means every remaining batch of
+# that same sweep, allsweep's VERIFIERS tier, drill, and the foreman's patch lane all fail a
+# Hard Rule -1 SAFETY row BECAUSE a sweep is running. A completeness proof that a sweep in
+# progress is incomplete is not a finding; it is a description of what "in progress" means.
+#
+# So a run is held to the standard only once it is OVER, and "over" is asked two ways because
+# neither answer alone is honest. A batch shard is written when that batch FINISHES, so a run
+# with a shard for every batch in the plan has finished every batch it planned -- that is the
+# prompt, positive signal, and it goes green the moment the sweep really is done rather than
+# some fixed lag later. A run that ABANDONS half its batches would never satisfy it, so
+# quiescence is the backstop: after a generous silence a run is over whatever it managed, and an
+# abandoned sweep then reads red, which is correct -- an abandoned sweep IS an incomplete one.
+# The window is hours because a sixteen-batch sweep is sixteen agents reading source, not a
+# script. Nothing is excluded permanently, and no run is exempted from `missing()` -- what
+# changes is only WHICH run the question is asked of.
+_QUIET20n = 3 * 3600
+import glob as _glob20n          # noqa: E402
+_at20n, _batches20n = {}, {}
+for _shard20n in _glob20n.glob(os.path.join(_SP20n.SHARDS, "*.json")):
+    try:
+        with open(_shard20n, encoding="utf-8") as _fs20n:
+            _rec20n = json.load(_fs20n)
+    except Exception:
+        # An unreadable shard is sweep_plan's own reporting job (it notes it); here it can only
+        # make a run look less finished than it is, which errs toward asking an OLDER run, never
+        # toward asking none.
+        continue
+    _lbl20n, _stamp20n = _rec20n.get("run"), _rec20n.get("at")
+    if _lbl20n is None or not isinstance(_stamp20n, (int, float)):
+        continue
+    _lbl20n = str(_lbl20n)
+    _at20n[_lbl20n] = max(_at20n.get(_lbl20n, 0.0), float(_stamp20n))
+    _batches20n.setdefault(_lbl20n, set()).add(str(_rec20n.get("batch")))
+_now20n_t = time.time()
+_planned20n = len(_SP20n.batches(16))
+_ended20n = sorted(((_t, _r) for _r, _t in _at20n.items()
+                    if len(_batches20n[_r]) >= _planned20n or _now20n_t - _t >= _QUIET20n),
+                   reverse=True)
+_run20n = _ended20n[0][1] if _ended20n else None
+check("the sweep coverage ledger names a FINISHED run at all", _run20n is not None, True,
+      note="None means no shard on disk, or that the only sweep on record is still landing its "
+           "first batches -- which on a first-ever sweep is the honest answer and still fails, "
+           "because the check below would otherwise prove the completeness of a sweep that "
+           "never finished")
+check("the newest FINISHED sweep proves its own completeness",
+      _SP20n.missing(_run20n) if _run20n else ["<no finished sweep on record>"], [],
       note="every module in src/, each recorded by the batch that read it; a non-empty list "
-           "here is either a genuinely skipped module or a broken proof, and both need chasing")
+           "here is either a genuinely skipped module or a broken proof, and both need "
+           "chasing. Held to %r, whose last shard landed %.1fh ago"
+           % (_run20n, (_now20n_t - _ended20n[0][0]) / 3600.0 if _ended20n else -1.0))
 
 # THE FILTER NOW MATCHES THE CLAIM (order 8389720500a9, run #37). This collected `r["holds"]`
 # for every UNMEASURED row and demanded []. An HONESTLY UNMEASURED-AND-RED row yields [False]
@@ -4692,9 +4797,13 @@ check("a pre-checkpoint file, which has `at` and no `complete` key, still reads 
            "one as a stalled pass would report a fault that is only a file-format change")
 
 print("    §20x  THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS")
-print("          [tagged §19s until run #36, when §19s was found to name TWO sections;")
-print("           prose_gate.py:34 cites this one as §19s. §19s now names the")
-print("           metrics-ledger-timestamp section only]")
+# BANNER RETIRED (order aaa4eb561cc0, run #37). Three further print lines here announced, every
+# run, that `prose_gate.py:34` still cited this section as §19s and that the correcting edit was
+# staged rather than applied. It has been applied -- prose_gate.py's PROVEN paragraph now reads
+# "a check in verify_math §20x", and §19s appears nowhere in that file -- so the banner had
+# become a standing statement of a fact that stopped being true, printed to every reader of
+# every run. The rename itself is still recorded in the section comment below; what is gone is
+# the claim about an outstanding edit.
 # ---- Section 20x: THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS -------------
 # RETAGGED run #36, order c30618e03a36, from §19s -- the THIRD tag collision found in this file
 # and the third fixed the same way §20e and §20f were fixed above. `§19s` named this section AND
@@ -4704,11 +4813,12 @@ print("           metrics-ledger-timestamp section only]")
 #         checks -- both writers must stamp)", HANDOFF.md records "+6: §19s x2", and run #14's
 #         own tie-break (BUGS.md m63) already awarded §19s to that section by name. It has the
 #         older claim and the most citers, so it keeps the tag and needs no edit anywhere.
-#         THIS section is now §20x -- cited by `src/prose_gate.py:34` ("a check in verify_math
-#         §19s that goes red if the layer is removed"), which is staged in
-#         handoff/run36/crossmodule_batch03.md because prose_gate.py is not this shift's to
-#         edit. Nothing dangles meanwhile: the old tag is printed above and written here, so a
-#         grep for §19s over this file OR its console output still lands on both sections.
+#         THIS section is now §20x. Its one outside citer, `src/prose_gate.py`, was staged in
+#         handoff/run36/crossmodule_batch03.md because prose_gate.py was not run #36's to edit;
+#         THAT EDIT HAS SINCE LANDED (verified run #37, order aaa4eb561cc0): prose_gate.py's
+#         PROVEN paragraph reads "a check in verify_math §20x" and §19s appears nowhere in the
+#         file. Nothing dangles: the old tag is still written here, so a grep for §19s over this
+#         file lands on both sections.
 # §20x is the next free letter after §20w (§20o is skipped on purpose -- it reads as a zero),
 # and the §20 run is the right series because this section sits inside it, between §20j and §20p.
 # ALSO NOTED WHILE READING THE CITERS, and not fixed here because it is BUGS.md's: the "Pinned by
@@ -4781,6 +4891,30 @@ check("the evidence floor is a real fraction, not 0 or 1",
 check("the prose flag is a BOOLEAN in config, not a string",
       isinstance(_raw_cfg.get("prose_enabled"), bool), True,
       note="'false' the string is truthy -- a typo must not be able to open the gate")
+
+# AND WHICH BOOLEAN, WHICH IS THE HALF THAT WAS MISSING. Order 6e0127c4f3ed closed the TYPE
+# hole; NEXT_STEPS item 7 records that its second layer was never built, and the gap is exactly
+# the shape this file exists to refuse: `isinstance(x, bool)` is true of `True`, so a flag
+# flipped from false to true cleared the entire battery. A type assertion cannot see a VALUE
+# change, and the value is the whole content of these two flags. `step4_enabled` had no check of
+# any kind -- the same shape as `prose_enabled` and, per config.yaml's own comment at :125, for
+# the same reason.
+#
+# THIS ROW IS SUPPOSED TO GO RED THE DAY A GATE IS LEGITIMATELY OPENED. That is not a defect to
+# work around; it is the guarantee. These are the two most consequential values in the
+# repository -- 145 unauthorised chapters followed the last time the prose gate came open, and
+# the finding afterwards was that NOTHING FAILED. So neither flag may change without a person
+# watching it happen. Updating this row costs exactly what opening the gate costs: a recorded
+# owner ruling. Do not relax it to `isinstance`, do not widen it to "either boolean", and do not
+# edit the flags to quiet it -- the flags are owner-held and are not this file's to move.
+check("the prose gate is CLOSED in config.yaml, by value and not merely by type",
+      _raw_cfg.get("prose_enabled"), False,
+      note="a run that finds this red must stop and find the owner ruling that opened it; if "
+           "there is none, someone flipped the most consequential flag in the repo in silence")
+check("the step 4 gate is CLOSED in config.yaml, by value and not merely by type",
+      _raw_cfg.get("step4_enabled"), False,
+      note="until today this flag had no assertion at all, so any path onto config.yaml could "
+           "open it and the battery would still read all-green")
 
 # --- LAYER 4: the train. What came back must be what was asked for.
 # The fixture carries a BODY as well as its four fields. The first version was four labels and
@@ -5686,7 +5820,12 @@ check("[canary 873330d2e98d] ...the dynamic getattr-dispatch shape",
 # order d9b895708c45 -- belongs in verify_math.py, replacing/supplementing the check at
 # "every standard the checker declares actually emits a row".
 #
-# The existing check asserts `len(emitted) >= 40`. Measured against this checkout: standards.py
+# THAT WEAK ROW HAS SINCE BEEN RETIRED (order ba7b55d6465f, run #37) -- it was left standing
+# beside this one for two runs, which is why the paragraph below still describes it in the
+# present tense. What follows is the reasoning that justified the replacement, kept as the
+# record of why the floor was the wrong instrument; §20k is where the retirement is noted.
+#
+# The retired check asserted `len(emitted) >= 40`. Measured against this checkout: standards.py
 # statically declares 44 distinct standard names (one `_s(` call site's literal name, "calls
 # that succeed", is reused across two mutually-exclusive branches, which is not a bug) and the
 # live `standards.check(dashboard.state())` on this machine actually emits 43 of them -- still
@@ -6351,7 +6490,7 @@ when this is spliced in.
 
 import os as _os_b4
 import inspect as _insp_b4
-import tempfile as _tmp_b4
+# (batch4's tempfile alias is gone: both of its scratch dirs go through `_mkdtemp_vm` now)
 
 
 # ==================================================================================================
@@ -6371,12 +6510,12 @@ def _b4_read_chain_checks():
     import ledger_guard as LG
     orig_chain = LG.CHAIN
     try:
-        missing = _os_b4.path.join(_tmp_b4.mkdtemp(), "nope.jsonl")
+        missing = _os_b4.path.join(_mkdtemp_vm(), "nope.jsonl")
         LG.CHAIN = missing
         check("read_chain() on a genuinely missing file returns [] (FileNotFoundError stays quiet)",
               LG.read_chain(), [])
 
-        broken_dir = _tmp_b4.mkdtemp()
+        broken_dir = _mkdtemp_vm()
         broken = _os_b4.path.join(broken_dir, "ledger_chain.jsonl")
         _os_b4.makedirs(broken)   # a directory where the chain file should be
         LG.CHAIN = broken
@@ -6900,9 +7039,8 @@ print("[batch5] order e86eec8ac173 -- a known non-fandom host is never re-guesse
 
 def _b5_wiki_source_nonfandom_shortcircuit():
     import json as _json_b5
-    import tempfile as _tmp_b5
     import wiki_source as WS
-    d = _tmp_b5.mkdtemp()
+    d = _mkdtemp_vm()          # tracked, so the scratch dir is swept at exit
     hosts_path = _os_b5.path.join(d, "WIKI_HOSTS.json")
     source_name = "Zzz Test Source Not In Overrides"
     assert source_name not in WS.WIKI_OVERRIDES
@@ -7179,6 +7317,9 @@ check("cascade_bridge.py docstring names where real validation happens",
 # gate: YEARS_PER_UNIT_DISTANCE is a declared FICTIONAL/curatorial anchor (Axiom M3), not a bug
 # to auto-correct. This check re-measures the graph's true diameter each run so the owner can
 # see, without re-deriving it by hand, how far the anchor prose has drifted from measurement.
+# NOT `PR` (order a05eb35ebe4f, run #37). `PR` is bound to `profile` at §14 and used through
+# that section; rebinding it here to `propagation` was safe only because nothing calls the
+# profile helpers after this point. Same repair as the `_CBud` rename in §19v.
 import propagation as _PRg  # noqa: E402
 import itertools as _it  # noqa: E402
 
@@ -7290,23 +7431,79 @@ print("    §20y  NO SECTION TAG MAY NAME TWO SECTIONS — the identifier citers
 #
 # Reads its own source line by line rather than the section list in memory, because a section
 # header is a comment: it exists only in the text and cannot be introspected any other way.
+#
+# IT READ ONLY ONE OF THE THREE SPELLINGS (order 9ef32bd37b95, run #37), and that is the worst
+# possible shape for this particular detector. This file writes a section header three ways: a
+# banner comment, a `print()` heading, and an inline dashed comment. The scan matched banner
+# comments only -- 41 of the 62 tags -- so 21 tags were invisible to it, and the invisible set
+# INCLUDED §20e and §20f, two of the three collisions the section was written to stop recurring.
+# Neither of those has ever had a banner comment, so this check could not have found either one
+# even in principle: a detector that certifies uniqueness while unable to see a third of the
+# subject is worse than no detector, because it retires the human who was doing the job.
+#
+# ADJACENT HEADERS OF DIFFERENT SPELLINGS ARE ONE SECTION, NOT A COLLISION. §20x and §20y each
+# carry a print heading immediately followed by a banner comment; occurrences of one tag within
+# a few lines of each other are therefore folded into a single section. A real collision is
+# thousands of lines apart (§19s named line 2494 and line 4663), so the window costs nothing.
+_HDRGAP20y = 12
+
+
+def _tagchars20y(s, i):
+    """The tag characters following the section sign at index `i` -- '20y', '19h-bis'."""
+    j = i + 1
+    while j < len(s) and (s[j].isalnum() or s[j] == "-"):
+        j += 1
+    return s[i + 1:j]
+
+
 _tags20y = {}
+_forms20y = {}
 _selfpath20y = os.path.join(os.path.dirname(os.path.abspath(__file__)), "verify_math.py")
 with open(_selfpath20y, encoding="utf-8") as _f20y:
     for _no20y, _ln20y in enumerate(_f20y, 1):
         _s20y = _ln20y.strip()
+        _t20y, _form20y = None, None
         if _s20y.startswith("# ---- Section ") and ":" in _s20y:
             _t20y = _s20y[len("# ---- Section "):].split(":", 1)[0].strip()
-            _tags20y.setdefault(_t20y, []).append(_no20y)
+            _form20y = "banner"
+        elif _s20y.startswith("print(") and "§" in _s20y and _s20y[6] in "\"'":
+            # A HEADING is `print("NN. §tag  TITLE")` or `print("    §tag  TITLE")`. The
+            # continuation lines that quote a RETIRED tag mid-sentence are not headings, and
+            # neither is §4/§6 of the charter in the §2 banner -- both have prose before the
+            # sign, so the test is that nothing but an ordinal precedes it.
+            _body20y = _s20y[7:]
+            _i20y = _body20y.find("§")
+            _lead20y = _body20y[:_i20y].strip()
+            if _lead20y == "" or (_lead20y.endswith(".") and _lead20y[:-1].isdigit()):
+                _t20y, _form20y = _tagchars20y(_body20y, _i20y), "print"
+        elif _s20y.startswith("# ---") and "§" in _s20y:
+            # `# ------- §20k the guard that never ran`: dashes, then the sign, nothing else.
+            _i20y = _s20y.find("§")
+            if set(_s20y[1:_i20y].strip()) <= set("-"):
+                _t20y, _form20y = _tagchars20y(_s20y, _i20y), "dashed"
+        if not _t20y:
+            continue
+        _forms20y[_form20y] = _forms20y.get(_form20y, 0) + 1
+        _prev20y = _tags20y.setdefault(_t20y, [])
+        if _prev20y and _no20y - _prev20y[-1] <= _HDRGAP20y:
+            continue                  # the same section's other header spelling, not a collision
+        _prev20y.append(_no20y)
 _dup20y = sorted("%s (lines %s)" % (t, ", ".join(str(n) for n in ns))
                  for t, ns in _tags20y.items() if len(ns) > 1)
 check("no section tag names two sections", _dup20y, [],
       note="a duplicated tag makes every outside citation of it ambiguous; rename the section "
            "with the weaker claim to the next free letter and print its old tag, as §20v, §20w "
            "and §20x each do")
-check("the section headers were actually found and read", len(_tags20y) > 40, True,
-      note="a parser that matches nothing reports zero duplicates and looks exactly like a "
-           "clean file -- so the count is asserted, not assumed")
+check("all three section-header spellings are recognised", sorted(_forms20y),
+      ["banner", "dashed", "print"],
+      note="the fault this section was repaired for: the scan read banner comments only, so a "
+           "whole spelling could go unread and the uniqueness verdict still looked clean. One "
+           "spelling matching NOTHING is the failure, and it is named here rather than hidden "
+           "inside a total")
+check("the section headers were actually found and read", len(_tags20y) >= 55, True,
+      note="62 tags on 2026-08-29 across 41 banner, 17 print and 4 dashed headers. The floor "
+           "is deliberately seven below that rather than one: it must catch a spelling going "
+           "blind without going red the day a section is legitimately retired")
 
 print()
 print("=" * 96)

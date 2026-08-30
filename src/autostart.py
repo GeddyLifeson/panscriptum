@@ -256,13 +256,50 @@ def watch(read_hours=10):
     if _twin_watchdog():
         _log("another watchdog is already running; this one exits")
         return
+    # STAMPED, AND THE STALENESS IS SAID OUT LOUD -- BUT NOT ACTED ON. (Order bee9d16f4174,
+    # partial: this closes the VISIBILITY half only.)
+    #
+    # This is the longest-lived process in the kit: started by the Startup .vbs at logon, a bare
+    # `while True` on a 180s sleep, and it had no codewatch check at all, so CLAUDE.md Hard Rule
+    # -1's fourth property was in effect against it -- a Python process does not re-read its own
+    # source. Every fix to autostart.py, including any change to MAX_STARTS_PER_HOUR or to the
+    # tri-state sensor, was silently deferred to the next logon however green the drill was.
+    #
+    # WHY `stale()` AND NOT `exit_if_stale()`, WHICH IS THE HOUSE IDIOM EVERYWHERE ELSE
+    # (foreman.py, overwatch.py, publish.py): rc=17 only helps a job that something restarts,
+    # and as `_twin_watchdog`'s own docstring says, NOTHING RESTARTS THE .vbs. Exiting here would
+    # convert "running old code" into "not running", which is strictly worse -- the supervisor
+    # would then be unwatched until the next logon. Pairing the exit with a keeper entry for this
+    # watchdog or with a self-relaunch is a design decision (a self-relaunch races its own twin
+    # check: the replacement starts while this process is still in the table, sees a twin, and
+    # exits, leaving nothing), so it is left to the shift and the order stays open for it.
+    #
+    # What can be done without that ruling is refuse to let the condition be silent. A person
+    # reading autostart.log now learns that this watchdog is on old code, and what to do about it.
+    try:
+        import codewatch
+        codewatch.stamp("autostart")
+    except Exception:
+        silence.note("autostart.py:codewatch-stamp")
+        codewatch = None
     starts = []                 # when this watchdog started a supervisor, for the hourly budget
-    said_unknown_at = 0.0       # both of these are rate-limited: at CHECK_SECONDS a persistent
-    said_budget_at = 0.0        # condition would otherwise write twenty identical lines an hour
+    said_unknown_at = 0.0       # all three of these are rate-limited: at CHECK_SECONDS a
+    said_budget_at = 0.0        # persistent condition would otherwise write twenty identical
+    said_stale_at = 0.0         # lines an hour
     while True:
         try:
             alive = supervisor_alive()
             now = time.time()
+            if codewatch is not None and now - said_stale_at >= START_WINDOW_SECONDS:
+                is_stale, why = codewatch.stale("autostart")
+                if is_stale:
+                    said_stale_at = now
+                    _log("THIS WATCHDOG IS RUNNING OLD CODE (%s). It does NOT exit on that, "
+                         "because nothing restarts the Startup .vbs and exiting would leave the "
+                         "supervisor unwatched until the next logon -- worse than lag. Every "
+                         "change to autostart.py since this process started takes effect at the "
+                         "NEXT LOGON and not before. To apply one now: kill this process and run "
+                         "%s src/autostart.py --watch" % (why, PY))
             if alive is None:
                 # DO NOT ACT ON A BLIND SPOT. See supervisor_alive().
                 if now - said_unknown_at >= START_WINDOW_SECONDS:

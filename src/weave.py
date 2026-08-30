@@ -188,6 +188,23 @@ def filtered_index(index):
     So the second gate reuses pipeline._STATBLOCK on the DESCRIPTION, which is the same test the
     scale_note gate already applies: text written in resolution procedure describes a rule, not a
     thing in a world. One detector, two callers, and it does not need updating per supplement.
+
+    BOTH TESTS READ THE WHOLE DESCRIPTION (order 543cec75ad02). They were
+    `_STATBLOCK.search(desc[:400])` and `_RULES_VOICE.search(desc[:300])`, so rules text that
+    begins after character 300 was invisible to the detector and the entity survived into the
+    entity index -- where it can then serve as evidence that two universes share a continuity,
+    which is the module docstring's own named failure ("tied two D&D supplements together through
+    Dexterity and Channel Divinity") arriving through the search WINDOW rather than through the
+    pattern. Measured against the live data/ENTITY_INDEX.json (46,103 keys) before the change:
+    54 entities were kept by the windowed test that the whole-description test drops, and 2 of
+    them appear in 2 sources each, which puts them inside surprisal_pair_weights'
+    2 <= len(srcs) <= 60 band where they actively weight a shelf pair -- e.g. "Close Quarters
+    Shooter" (Dr. Firestorm's Engineering Corps + Unearthed Arcana), whose rules voice starts at
+    about character 300 with "Finally, you have a +1 bonus to attack rolls on ranged attacks."
+
+    The [:400] window was dormant only because the on-disk index was itself still 400-capped;
+    weave_index.py is uncapped now (order b974e9ed76de), so the next regeneration would have made
+    it a live under-filter too. These are two regex scans over a field of at most a few KB.
     """
     try:
         from pipeline import _STATBLOCK
@@ -203,8 +220,8 @@ def filtered_index(index):
         nm = (hits[0].get("name") or "").strip()
         desc = hits[0].get("description") or ""
         if (_MECHANIC.match(nm)
-                or (_STATBLOCK is not None and _STATBLOCK.search(desc[:400]))
-                or _RULES_VOICE.search(desc[:300])):
+                or (_STATBLOCK is not None and _STATBLOCK.search(desc))
+                or _RULES_VOICE.search(desc)):
             dropped += 1
             continue
         out[k] = hits

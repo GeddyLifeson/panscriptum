@@ -58,6 +58,14 @@ if any(c in open(os.path.abspath(__file__), encoding='utf-8').read() for c in _B
 
 OUT = os.path.join(HERE, "data", "ROSETTA.json")
 
+# How much of the standing mine a fresh `--mine` must reproduce before it may replace it.
+# A pass that comes back with three quarters of what is already on disk is a pass that lost a
+# quarter of the library's only large-N external ground truth to a throttle, and `scales_for`
+# reports a throttled wiki as an empty one -- so the row count is the only signal there is.
+# Not a cap on anything: nothing is dropped, the whole mine is either written or refused with
+# its reason and re-run. `--force` is the deliberate override. (order 6447bcc2f18c)
+MINE_FLOOR = 0.75
+
 # What a native scale is called, across fictions. Searched per wiki; a hit only counts if the
 # page then parses into enough rows to be a scale rather than an essay about one.
 SCALE_QUERIES = [
@@ -173,11 +181,20 @@ def numeric_rows(wikitext):
 
 
 def ordinal_rows(wikitext, ladder):
-    """(name, rank-index) pairs for a published word-ladder."""
+    """(name, rank-index) pairs for a published word-ladder.
+
+    MATCHED CASE-INSENSITIVELY ON THE ORIGINAL, NEVER ON A LOWERCASED COPY (order f045ffe20c52).
+    This searched `wikitext.lower()` and then sliced the ORIGINAL with the offsets it found, and
+    `str.lower()` is not length-preserving in Unicode: 'İ'.lower() is two code points, so one
+    such character anywhere earlier in a page shifts every subsequent offset by one, and by more
+    with each additional one. The 160-character context window then drifts off the tier it is
+    supposed to sit beside and the [[names]] harvested get graded onto the wrong rung -- silently,
+    at low frequency, in the only parser the library has for fictions that publish no numbers.
+    `re.I` on the source text gives the same matches with offsets that are the real ones.
+    """
     out = {}
-    low = wikitext.lower()
     for i, tier in enumerate(ladder):
-        for m in re.finditer(r"\b" + re.escape(tier), low):
+        for m in re.finditer(r"\b" + re.escape(tier), wikitext, re.I):
             seg = wikitext[max(0, m.start() - 160):m.start()]
             for name in re.findall(r"\[\[([^\]|#]{3,40})(?:\|[^\]]*)?\]\]", seg):
                 name = name.strip()
@@ -187,15 +204,33 @@ def ordinal_rows(wikitext, ladder):
     return out
 
 
-def scales_for(host, verbose=False):
-    """Every native scale this wiki publishes, as {scale_name: {entity: value}}."""
+def scales_for(host, verbose=False, errors=None):
+    """Every native scale this wiki publishes, as {scale_name: {entity: value}}.
+
+    `errors`, if a list is passed, receives one string per search that did not come back --
+    a throttle, a 429, a block, an exception out of `F.api`. It exists because this function
+    CANNOT otherwise distinguish "this wiki publishes no scale" from "we were not allowed to
+    look": both end at `if not seen: return {}` and both read, to the caller, as an empty wiki
+    (order 6447bcc2f18c). The return value is unchanged, so every existing caller is unaffected.
+    """
     seen, found = set(), {}
     for q in SCALE_QUERIES:
         # srlimit=50, matching feats.py's discover() -- audited (m82) not to truncate. 5 was
         # below the API's OWN default of 10, and this call is the acquisition step for the
         # library's only large-N external ground truth (see the One Piece Bounty/List loss noted
         # above): a relevance-ranked page beyond the cutoff is a page this pass never sees.
-        d = F.api(host, {"action": "query", "list": "search", "srlimit": "50", "srsearch": q})
+        try:
+            d = F.api(host, {"action": "query", "list": "search",
+                             "srlimit": "50", "srsearch": q})
+        except Exception as e:
+            # PER QUERY, like binding_health.run and chain.harvest guard per item: one search
+            # raising must not cost this wiki its other thirty.
+            silence.note("rosetta.py:scales_for-api")
+            if errors is not None:
+                errors.append("%s: %s (%s)" % (q, type(e).__name__, str(e)[:60]))
+            continue
+        if d is None and errors is not None:
+            errors.append("%s: no response" % q)
         for row in (d or {}).get("query", {}).get("search", []):
             t = row["title"]
             if t in seen or not _SCALE_TITLE.search(t) or row.get("size", 0) < 1500:
@@ -204,7 +239,14 @@ def scales_for(host, verbose=False):
 
     if not seen:
         return {}
-    pages = F.fetch(host, sorted(seen))
+    try:
+        pages = F.fetch(host, sorted(seen))
+    except Exception as e:
+        silence.note("rosetta.py:scales_for-fetch")
+        if errors is not None:
+            errors.append("fetch of %d page(s): %s (%s)"
+                          % (len(seen), type(e).__name__, str(e)[:60]))
+        return {}
     for title, wt in pages.items():
         rows = numeric_rows(wt)
         kind = "numeric"
@@ -261,26 +303,91 @@ def _norm(s):
     return re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
 
 
-def check(rosetta, assays):
+def assays_by_host(assays):
+    """{host: {normalised name: decimal}} from ASSAYS.json's own `host|Name` keys.
+
+    THE KEY ALREADY CARRIES THE WIKI, which is what makes the host scoping below exact rather
+    than inferred: an assay records which host its entity was read from, so nothing has to be
+    matched up out of the corpus to know it. A key with no `|` is filed under the empty host,
+    where it can only match a scale from a wiki of that name -- i.e. nothing -- rather than
+    being quietly promoted into whichever franchise asked first.
+    """
+    out = {}
+    for k, v in assays.items():
+        h, _, n = k.partition("|")
+        out.setdefault(h, {})[_norm(n)] = v
+    return out
+
+
+def check(rosetta, assays, by_host=None):
     """Monotone agreement between each native scale and our Assay, per franchise.
 
     A low correlation is a finding about the Assay, not about the fiction. It says our ordering
     contradicts an ordering the source publishes.
+
+    SCOPED PER WIKI WHEN THE CALLER CAN SUPPLY THE SCOPING (order 0bba50a6d76b). `a_by` was ONE
+    GLOBAL map from normalised name to assay decimal and every scale row was looked up in it
+    regardless of which wiki the row came from -- `host` was never used in the lookup. That is
+    the construction `refine()`'s docstring calls "how a filter becomes a rubber stamp" and
+    deliberately avoids: against an unrefined ROSETTA.json a Star Trek row can be vouched for by
+    a One Piece assay of the same normalised name. Pass `by_host` (from `assays_by_host`) and a
+    row is only ever matched against an assay recorded on its own wiki. `by_host=None` keeps the
+    old global behaviour, because `verify_math` drives this function directly with a synthetic
+    scale and bare names.
+
+    AND THE GLOBAL PATH WAS NOT EVEN MATCHING. Measured on the live files while fixing the
+    above: ASSAYS.json is keyed `host|Name` ("dragonball.fandom.com|Goku"), so `_norm(key)` gave
+    "dragonball fandom com goku" and NOTHING matched a scale row's bare name -- all 8 standing
+    scales scored 0 overlap, every rho came back None, and rho=None rows were dropped from the
+    report entirely. So this check, an allsweep VERIFIER and the module's whole stated purpose,
+    printed an empty list and exited 0 while measuring nothing at all. `assays_by_host` splits
+    the key the way it is actually written; the Dragon Ball power-level scale scores n=4,
+    rho=0.6 with it, and did not exist in the report before.
+
+    A SCALE THAT CANNOT BE SCORED NOW GETS A ROW. `spearman` returns None below four overlapping
+    names and the scale simply vanished, so "we disagree with nothing here" and "we could not
+    test this at all" produced the same empty space -- which is exactly how the total failure
+    above stayed invisible. Those rows come back with `rho: None` and sort last; the caller
+    prints them as unscored and does not count them as disagreements.
     """
-    a_by = {_norm(k): v for k, v in assays.items()}
+    a_by, collided = {}, set()
+    if by_host is None:
+        for k, v in assays.items():
+            n = _norm(k)
+            # _norm COLLISIONS ARE COUNTED, NOT SWALLOWED. This was a dict comprehension, so two
+            # assays normalising to the same key silently kept the last one and nothing said
+            # which decimal was being used for the name.
+            if n in a_by:
+                collided.add(n)
+            a_by[n] = v
+    else:
+        for h, names in by_host.items():
+            for n in names:
+                if n in a_by and a_by[n] != names[n]:
+                    collided.add(n)
+                a_by[n] = names[n]
+        a_by = {}                      # scoped lookups go through `by_host`, never this map
     report = []
     for host, scales in rosetta.items():
+        known = a_by if by_host is None else by_host.get(host, {})
         for title, sc in scales.items():
-            pairs = []
+            pairs, unmatched = [], 0
             for name, val in sc["values"].items():
-                got = a_by.get(_norm(name))
-                if got is not None:
-                    pairs.append((val, got))
-            rho = spearman(pairs)
-            if rho is not None:
-                report.append({"host": host, "scale": title, "kind": sc["kind"],
-                               "overlap": len(pairs), "rho": rho})
-    return sorted(report, key=lambda r: r["rho"])
+                got = known.get(_norm(name))
+                if got is None:
+                    # Named on this wiki's published scale and carrying no assay from this same
+                    # wiki. It may well be assayed elsewhere under the same name; that is
+                    # precisely the vouching the scoping refuses.
+                    unmatched += 1
+                    continue
+                pairs.append((val, got))
+            report.append({"host": host, "scale": title, "kind": sc["kind"],
+                           "overlap": len(pairs), "rho": spearman(pairs),
+                           "unmatched": unmatched,
+                           "ambiguous_assay_names": len(collided)})
+    # rho None (unscorable) sorts last rather than crashing the comparison, and the scorable
+    # rows keep their worst-first ordering.
+    return sorted(report, key=lambda r: (r["rho"] is None, r["rho"] if r["rho"] is not None else 0))
 
 
 def refine(rosetta, records, hosts):
@@ -296,17 +403,9 @@ def refine(rosetta, records, hosts):
     match a Star Trek entity. Matching globally would let any 16,000 catalogued names vouch for
     any row, which is how a filter becomes a rubber stamp.
     """
-    by_host = {}
-    for _, r in records:
-        h = hosts.get(r["source"])
-        if not h:
-            continue
-        by_host.setdefault(h, set()).update(
-            _norm(e["name"]) for e in r["entries"]
-            # Persons only. Filtering on every catalogued entry let "Sabaody Archipelago" and
-            # "Cross Guild" through as graded characters, because a bounty table names places
-            # and crews too and the library does catalogue those -- as Places and Factions.
-            if (e.get("category") or "").startswith("Persons"))
+    # Built by `_persons_by_host`, which `check()` now shares: the two were doing the same job
+    # and only one of them was doing it (order 0bba50a6d76b).
+    by_host = _persons_by_host(records, hosts)
 
     out, kept, dropped = {}, 0, 0
     for host, scales in rosetta.items():
@@ -340,6 +439,9 @@ def main():
     ap.add_argument("--check", action="store_true", help="score our Assay against the scales")
     ap.add_argument("--refine", action="store_true",
                     help="drop scale rows that name nothing this library catalogues")
+    ap.add_argument("--force", action="store_true",
+                    help="let --mine overwrite a standing mine it cannot show is no smaller "
+                         "(use when a parser fix legitimately shrinks the row count)")
     a = ap.parse_args()
 
     if a.probe:
@@ -352,16 +454,78 @@ def main():
     if a.mine:
         hosts = json.load(open(F.HOSTS, encoding="utf-8"))
         uniq = sorted({h for h in hosts.values() if h and "wikipedia" not in h})
-        out = {}
+        out, empty, failed = {}, [], {}
         for i, h in enumerate(uniq, 1):
-            sc = scales_for(h)
+            # PER HOST, so one wiki raising cannot cost the pass every wiki mined before it.
+            # `scales_for` did not catch `F.api` raising and neither did this loop, so a single
+            # 429 that came back as an exception aborted the whole run BEFORE either write and
+            # lost the lot. `binding_health.run` and `chain.harvest` both guard per item for
+            # exactly this reason. (order 6447bcc2f18c)
+            errs = []
+            try:
+                sc = scales_for(h, errors=errs)
+            except Exception as e:
+                silence.note("rosetta.py:mine-host")
+                failed[h] = "%s: %s" % (type(e).__name__, str(e)[:70])
+                print(f"  {i:>3}/{len(uniq)}  {h:<38}FAILED -- {failed[h]}", flush=True)
+                continue
+            if errs:
+                failed[h] = "%d of %d searches did not come back" % (len(errs), len(SCALE_QUERIES))
             if sc:
                 out[h] = sc
                 tot = sum(v["n"] for v in sc.values())
-                print(f"  {i:>3}/{len(uniq)}  {h:<38}{len(sc)} scale(s), {tot:,} rows",
+                print(f"  {i:>3}/{len(uniq)}  {h:<38}{len(sc)} scale(s), {tot:,} rows"
+                      + (f"   [{failed[h]}]" if h in failed else ""),
                       flush=True)
-            elif i % 25 == 0:
-                print(f"  {i:>3}/{len(uniq)}  ...", flush=True)
+            else:
+                # COUNTED, not passed over in silence. A host that yields nothing is the unit
+                # this pass degrades in, and nothing was tallying them.
+                empty.append(h)
+                if h in failed:
+                    print(f"  {i:>3}/{len(uniq)}  {h:<38}nothing -- {failed[h]}", flush=True)
+                elif i % 25 == 0:
+                    print(f"  {i:>3}/{len(uniq)}  ...", flush=True)
+
+        rows = sum(v["n"] for s in out.values() for v in s.values())
+        print(f"\n{len(uniq)} wiki(s) asked: {len(out)} published a scale, {len(empty)} yielded "
+              f"nothing, {len(failed)} had at least one search fail.")
+        if failed:
+            # Named in full: which wikis were not actually measured is the whole question when
+            # the numbers below look thin (Hard Rule 0).
+            print("  searches that did not come back, by wiki: "
+                  + "; ".join(f"{h} ({why})" for h, why in sorted(failed.items())))
+
+        # DO NOT OVERWRITE A BIGGER MINE WITH A SMALLER ONE WITHOUT SAYING SO (order
+        # 6447bcc2f18c). Both files were written from the same `out` with nothing compared
+        # against the standing file first, so a throttled or blocked pass -- which `scales_for`
+        # reports as an empty wiki, not as an error -- replaced a good mine with a degraded one
+        # AND replaced the raw copy that was the only thing resembling a backup. The comment on
+        # those very lines records that a stale copy already cost "a good 3,514-row mine" once.
+        # An unreadable standing file refuses too: not being able to compare is not evidence
+        # that the new mine is at least as good.
+        prior_rows, prior_why = 0, ""
+        try:
+            with open(OUT, encoding="utf-8") as f:
+                prior = json.load(f)
+            prior_rows = sum(v["n"] for s in prior.values() for v in s.values())
+        except FileNotFoundError:
+            prior_why = ""                     # genuinely the first mine; nothing to protect
+        except Exception as e:
+            silence.note("rosetta.py:mine-prior-unreadable")
+            prior_why = ("the standing %s could not be read (%s), so this mine cannot be "
+                         "compared against it" % (os.path.basename(OUT), type(e).__name__))
+        if not prior_why and prior_rows and rows < prior_rows * MINE_FLOOR:
+            prior_why = ("this mine holds %s rows against the standing file's %s (%.0f%%, floor "
+                         "%.0f%%)" % (f"{rows:,}", f"{prior_rows:,}",
+                                      100.0 * rows / prior_rows, 100.0 * MINE_FLOOR))
+        if prior_why and not a.force:
+            print("\nREFUSING TO WRITE: %s. Nothing on disk was touched -- the standing mine and "
+                  "its raw copy still stand. Re-run when the hosts above are reachable, or pass "
+                  "--force if this smaller mine is the intended one (a parser that stopped "
+                  "accepting junk legitimately shrinks the count)." % prior_why, file=sys.stderr)
+            return 1
+        if prior_why:
+            print("\n--force: overwriting anyway. %s" % prior_why)
         # The raw mine is written alongside the working file. `--refine` is destructive and was
         # run against a stale raw copy once, which silently discarded a good 3,514-row mine and
         # replaced it with the output of the parser that had already been fixed.
@@ -373,8 +537,8 @@ def main():
                 print("rosetta: %s could not be replaced; the mine above is NOT on disk."
                       % os.path.basename(path), file=sys.stderr)
                 return 1
-        rows = sum(v["n"] for s in out.values() for v in s.values())
-        print(f"\n{len(out)} wikis publish a native scale; {rows:,} graded entities  -> {OUT}")
+        print(f"\n{len(out)} wikis publish a native scale; {rows:,} graded entities "
+              f"(standing file held {prior_rows:,})  -> {OUT}")
         return 0
 
     if a.refine:
@@ -415,14 +579,41 @@ def main():
         assays = {k: v["result"]["decimal"]
                   for k, v in json.load(open(path, encoding="utf-8")).items()
                   if v.get("result") and v["result"].get("decimal") is not None}
-        rows = check(rosetta, assays)
-        bad = []
+        # HOST-SCOPED, so a row can only be vouched for by an assay of a name this library
+        # catalogues on that same wiki (order 0bba50a6d76b). The corpus read costs a few seconds
+        # and buys the difference between a filter and a rubber stamp; if it cannot be read the
+        # check runs UNSCOPED and says so, rather than reporting a stamp as a filter.
+        try:
+            by_host = _persons_by_host(P.records(), json.load(open(F.HOSTS, encoding="utf-8")))
+            print(f"  (matching scoped per wiki: {len(by_host)} host(s) with catalogued Persons)")
+        except Exception as e:
+            silence.note("rosetta.py:check-host-scope")
+            by_host = None
+            print(f"  (WARNING: the corpus could not be read ({type(e).__name__}), so matching "
+                  f"is GLOBAL -- a row may be vouched for by another franchise's assay of the "
+                  f"same name)", file=sys.stderr)
+        rows = check(rosetta, assays, by_host=by_host)
+        bad, unscored = [], []
         for r in rows:
+            if r["rho"] is None:
+                # SAID OUT LOUD RATHER THAN OMITTED. Fewer than four overlapping names means the
+                # scale could not be ranked at all, which is a different thing from agreeing.
+                unscored.append(r)
+                print(f"  rho     --  n={r['overlap']:>4}  {r['scale'][:38]:<40}"
+                      f"{r['kind']}  UNSCORED (needs 4 overlapping names)"
+                      f"{'  [%d row(s) not catalogued on this wiki]' % r['off_host'] if r['off_host'] else ''}")
+                continue
             disagrees = r["rho"] < 0.3
             if disagrees:
                 bad.append(r)
             print(f"  rho {r['rho']:>6}  n={r['overlap']:>4}  {r['scale'][:38]:<40}"
                   f"{r['kind']}{'  DISAGREES' if disagrees else ''}")
+        if unscored:
+            print(f"\n{len(unscored)} of {len(rows)} scale(s) could NOT be scored (fewer than "
+                  f"four names overlap the Assay). That is not agreement; it is no measurement.")
+        if rows and rows[0].get("ambiguous_assay_names"):
+            print(f"{rows[0]['ambiguous_assay_names']} assay name(s) normalise onto a name "
+                  f"another assay also uses -- the last one read wins for those.")
         # THE EXIT CODE HAS TO CARRY THE VERDICT, not just the printout. This used to
         # `return 0` unconditionally, so nothing that gates on rc (a shell, allsweep's
         # VERIFIERS, a scheduler) could ever learn a franchise's own published ordering

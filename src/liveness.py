@@ -195,7 +195,28 @@ def _defs(tree, prefix=""):
 
 
 def scan():
-    """-> {'dead': [...], 'tautology': [...], 'phantom': [...]} over every module in src/."""
+    """-> {'dead', 'dead_class', 'tautology', 'phantom', 'unparsed': [...]} over all of src/.
+
+    STILL MISSING, DELIBERATELY AND ON THE RECORD: a MODULE pass. A function is credited as used
+    by `used_local[name]`, a bare-name Load anywhere in its OWN module, so every function in a
+    module nothing imports is kept alive by its siblings and that module reports ZERO findings --
+    identical to what a clean, live module reports. Measured by AST over src/ (imports,
+    from-imports, and every string constant equal to a module name or `<name>.py`, so a job
+    roster or dispatch-table entry counts): TEN modules are never imported or named by any other
+    module -- chord_field, descending_ladder, halo, handbuilt, module_index, pantheon, render,
+    scale_theories, wh40k, zfighters -- and six of them produce no row here at all. Two are
+    already known and filed (render 707fefc17465, scale_theories SWEEP34_FINDING).
+
+    It is not added here because adding it raises the finding count by about ten against
+    `drill.LIVENESS_CEILING`, and that constant must move in the SAME change or the ratchet net
+    breaches and halts the library over a detector that got sharper rather than code that got
+    worse. The class limb above fitted inside the existing headroom; this one does not.
+    (order 209391b4f990, left open for that reason.)
+
+    ALSO MEASURED AND EMPTY, recorded so it is not re-measured: a function whose only in-module
+    reference is its own recursive call would likewise be credited as used. Zero instances in the
+    tree today.
+    """
     trees, used, unparsed = {}, set(), []
     for name, path in _modules():
         t, reason = _parse(path)

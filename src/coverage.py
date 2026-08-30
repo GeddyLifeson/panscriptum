@@ -246,7 +246,11 @@ def report(rows, show=None, show_best=10):
               f"{r['entries']:>6,} entries   {r['source'][:44]}")
 
     best_all = sorted(have, key=lambda x: -x["coverage"])
-    blimit = show_best if show_best is not None else len(best_all)
+    # 0 AND None BOTH MEAN "ALL OF THEM" (order 89fc2eaf23f1). `--show-best` had no value that
+    # asked for the whole list -- its help suggested guessing a large number -- while `--show`
+    # next to it takes None for everything. A caller passing 0 plainly means "do not cap", never
+    # "print nothing", so it is read as the uncapped request the CLI previously could not make.
+    blimit = len(best_all) if not show_best else show_best
     if blimit < len(best_all):
         print(f"\nBEST COVERED (showing {blimit} of {len(best_all)}; "
               f"{len(best_all) - blimit} more not shown, --show-best to raise)")
@@ -262,9 +266,15 @@ def main():
     ap.add_argument("--show", type=int, default=None,
                      help="cap the WORST COVERED list to N rows (announced, not silent); "
                           "omit to print all of them")
+    # `--show-best 0` MEANS ALL OF THEM, AND THERE HAD TO BE SOME VALUE THAT DID (order
+    # 89fc2eaf23f1). The old help said "omit via a very large number to raise it", which is not
+    # an omit affordance at all -- there was no input that yielded the whole list, only a bigger
+    # guess, and `--show` a few lines up has always had the honest version. The default stays 10
+    # because this list is the good news and the WORST COVERED list above it is where the work
+    # is; the difference is that asking for everything is now possible and says so.
     ap.add_argument("--show-best", type=int, default=10,
                      help="cap the BEST COVERED list to N rows (announced, not silent); "
-                          "default 10, pass a larger N or omit via a very large number to raise it")
+                          "default 10, pass 0 for all of them")
     a = ap.parse_args()
     rows = measure()
     report(rows, show=a.show, show_best=a.show_best)

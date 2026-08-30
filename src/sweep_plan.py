@@ -431,11 +431,85 @@ def missing(run):
     return [m["module"] for m in modules() if m["module"] not in seen]
 
 
+def _assignment(obj):
+    """Normalise a dispatched assignment to {batch id (str): [module, ...]}.
+
+    Accepts BOTH shapes so the check can be run against whatever the coordinator has to hand:
+    the exact JSON `--batches` emits (a list of {"batch":, "modules":}) and a plain
+    {batch: [modules]} map written out by hand. Refusing one of them would just move the
+    hand-transcription step somewhere else, which is the fault being closed.
+    """
+    out = {}
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if isinstance(v, dict):                       # {"1": {"modules": [...]}}
+                v = v.get("modules") or []
+            out[str(k)] = [str(x) for x in (v or [])]
+    elif isinstance(obj, list):
+        for row in obj:
+            if isinstance(row, dict):
+                out[str(row.get("batch"))] = [str(x) for x in (row.get("modules") or [])]
+    return out
+
+
+def check_briefs(assigned, n=16):
+    """Diff what was DISPATCHED against `batches(n)`. -> a report dict; empty faults means clean.
+
+    THE COORDINATOR'S OWN BRIEFS LOST TWO MODULES AND ONLY `missing()` NOTICED (order
+    34cf5b961af1). `batches(16)` put nine modules in batch 08 and nine in batch 15; the briefs
+    written from that plan listed eight each, dropping `compress_store.py` and `lognames.py`.
+    Both agents read and recorded exactly what they were given, correctly, and both reports read
+    as complete because they WERE complete against their briefs. Nothing else in the pipeline
+    could see the gap -- not the agent summaries, not the audit files, not the order counts --
+    because the transcription step is a hand-copy of machine-generated data and nothing compared
+    the copy with the original. `missing()` caught it, but only AFTER the sweep had run.
+
+    This is that comparison, available BEFORE dispatch, so the check costs a command instead of
+    a shift. `dropped` is the fault that matters: a module the plan assigned to a batch that the
+    batch's brief does not mention. `uncovered` is the same question asked of the whole tree, and
+    is the one to read if the batching was reorganised deliberately -- a module may legitimately
+    move between batches, but it may never fall out of all of them.
+
+    -> {"planned_batches", "dispatched_batches", "dropped": {batch: [...]},
+        "added": {batch: [...]}, "undispatched": [batch, ...], "uncovered": [...], "clean": bool}
+    NO CAPS on any list here: this is read to act on, and a truncated one is the fault it hunts.
+    """
+    plan = {str(b["batch"]): list(b["modules"]) for b in batches(n)}
+    got = _assignment(assigned)
+    dropped, added = {}, {}
+    for bid, mods in plan.items():
+        if bid not in got:
+            continue                                      # counted under `undispatched` below
+        lost = [m for m in mods if m not in got[bid]]
+        extra = [m for m in got[bid] if m not in mods]
+        if lost:
+            dropped[bid] = lost
+        if extra:
+            added[bid] = extra
+    everything = set()
+    for mods in got.values():
+        everything.update(mods)
+    return {
+        "planned_batches": len(plan),
+        "dispatched_batches": len(got),
+        "dropped": dropped,
+        "added": added,
+        "undispatched": sorted(b for b in plan if b not in got),
+        # THE BOTTOM LINE, and it does not care which batch a module ended up in.
+        "uncovered": [m["module"] for m in modules() if m["module"] not in everything],
+        "clean": not dropped and not [m["module"] for m in modules()
+                                      if m["module"] not in everything],
+    }
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--batches", type=int, default=0, help="emit N balanced batches as JSON")
     ap.add_argument("--coverage", action="store_true", help="show the last recorded coverage")
     ap.add_argument("--missing", help="list modules not covered by the given run id")
+    ap.add_argument("--check-briefs", metavar="FILE",
+                    help="diff the dispatched module lists in FILE against --batches N, "
+                         "BEFORE dispatch (see check_briefs)")
     a = ap.parse_args()
     if a.batches:
         plan = batches(a.batches)
@@ -443,6 +517,23 @@ def main():
         print("# %d modules, %d lines, %d batches"
               % (sum(len(b["modules"]) for b in plan),
                  sum(b["lines"] for b in plan), len(plan)))
+    elif a.check_briefs:
+        with open(a.check_briefs, encoding="utf-8") as f:
+            rep = check_briefs(json.load(f), a.batches or 16)
+        print("planned %d batch(es), dispatched %d"
+              % (rep["planned_batches"], rep["dispatched_batches"]))
+        for bid, mods in sorted(rep["dropped"].items()):
+            print("DROPPED   batch %s is missing: %s" % (bid, ", ".join(mods)))
+        for bid, mods in sorted(rep["added"].items()):
+            print("added     batch %s also lists: %s" % (bid, ", ".join(mods)))
+        if rep["undispatched"]:
+            print("NOT DISPATCHED AT ALL: batch(es) %s" % ", ".join(rep["undispatched"]))
+        if rep["uncovered"]:
+            print("UNCOVERED BY ANY BRIEF (%d): %s"
+                  % (len(rep["uncovered"]), ", ".join(rep["uncovered"])))
+        print("clean" if rep["clean"] else "NOT CLEAN -- fix the briefs before dispatch")
+        # A NON-ZERO RC, so this can gate a dispatch script rather than only inform a reader.
+        return 0 if rep["clean"] else 1
     elif a.missing:
         miss = missing(a.missing)
         print("\n".join(miss) if miss else "nothing missing -- the sweep was complete")
@@ -466,7 +557,10 @@ def main():
     else:
         ms = modules()
         print("%d modules, %d lines" % (len(ms), sum(m["lines"] for m in ms)))
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    # THE RC IS CARRIED OUT OF main(), so `--check-briefs` can gate a dispatch. Every other
+    # path returns 0 exactly as before.
+    raise SystemExit(main())

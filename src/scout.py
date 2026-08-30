@@ -49,6 +49,30 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
     raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
 
 LOG = os.path.join(HERE, "data", "SCOUT.json")
+# WHERE THE ROLLED-OFF CYCLES GO INSTEAD OF NOWHERE (order e8cd908ce5e4). `sweep()` writes
+# `LOG` as `prev[-LOG_CYCLES:]`, so every cycle past the window used to be DELETED from disk
+# with nothing said anywhere -- a cap on a persisted history, which is the one place a cap does
+# not even leave a person the option of re-running to see the rest. `foreman.py`'s failures
+# ledger already has the house answer to this ("ARCHIVE AFTER READING, because the ledger never
+# forgets" / "ARCHIVE FIRST, AND ONLY CLEAR IF THE ARCHIVE LANDED"), and this is that answer
+# applied here: the recent window stays a readable JSON array, and nothing is ever dropped.
+# Append-only JSONL, one cycle per line, via `silence.append_line`'s single O_APPEND syscall so
+# two sweeps cannot interleave mid-record.
+#
+# DERIVED FROM `LOG`, NOT DECLARED BESIDE IT, and that is deliberate. `drill.py`'s two scout
+# nets redirect `SC.LOG` into a temp directory precisely so a drill cannot touch the real
+# ledger; a second module constant would sit there un-redirected and start writing the overflow
+# into the live `data/` directory the first time a fixture ran past `LOG_CYCLES` cycles. One
+# knob, one place the pair of them lands.
+def _archive_for(log_path):
+    """-> the append-only overflow file that belongs to this log."""
+    return os.path.splitext(log_path)[0] + "_ARCHIVE.jsonl"
+
+
+# The window `LOG` keeps in readable form. A number, not a magic literal buried in a slice, so
+# that changing it is a decision rather than an edit -- and it is only a WINDOW now, not a
+# horizon, because the archive holds everything that falls out of it.
+LOG_CYCLES = 40
 BLOCKED = os.path.join(HERE, "data", "SCOUT_BLOCKED.json")
 # WHEN EACH SOURCE WAS LAST ATTEMPTED, which is what makes `sweep`'s window a ROTATION rather
 # than a cap. Kept beside the other scout artifacts, and absent-means-never-attempted, so a
@@ -193,13 +217,37 @@ SCHEMA = {
 
 
 def _ask(prompt):
+    """-> (answer, why_not). `why_not` is None ONLY when a model actually answered.
+
+    ONE STRING FOR FOUR DIFFERENT EVENTS, until order 7f2cbf26a60e. This swallowed every
+    exception into a bare `return None`, and `scout()` then reported "model proposed nothing"
+    -- so a dead transport, a failed `read.ensure_transport`, a closed pool and a model honestly
+    answering "I do not know" were the same line in SCOUT.json. The last of those is an answer
+    the SYSTEM prompt explicitly invites ("If you do not know where this material lives, return
+    an empty list. That is the correct answer far more often than a guess"), and it is the one
+    reading that must not be confused with the other three: `sweep()` stamps the source as
+    attempted before the work, so a transport outage burned every hostless source's rotation
+    slot and wrote a clean negative result for each, and the next reader saw a completed sweep
+    that found nothing rather than a sweep that never asked. Same class as manifest_builder's
+    fix for feats_index -- "a failed lookup SAYS SO, OUT LOUD ... NOT the same finding as a
+    source with no attested feats".
+
+    A `None` FROM `read._ask` IS ALSO NOT AN ANSWER, and that is the half an exception handler
+    could never have caught: `_ask_ungated` returns None without raising when cascade mode has
+    no transport, when every bucket declines and the card is benched, or when the local call
+    times out. Nobody was asked in any of those either.
+    """
     try:
         import read as R
         R.ensure_transport(verbose=False)
-        return R._ask(R.config(), SYSTEM, prompt, SCHEMA)
-    except Exception:
+        got = R._ask(R.config(), SYSTEM, prompt, SCHEMA)
+    except Exception as e:
         silence.note("scout.py:_ask")
-        return None
+        return None, type(e).__name__
+    if got is None:
+        silence.note("scout.py:_ask-no-transport")
+        return None, "no transport answered"
+    return got, None
 
 
 def _names_in(text, names):
@@ -313,7 +361,13 @@ def scout(source, names, register=True):
               + (f"; the {len(shown)} most distinctive are listed" if _more else "")
               + f"): {', '.join(shown)}\n\n"
               f"Where is this material readable online?")
-    got = _ask(prompt)
+    got, why_not = _ask(prompt)
+    if why_not:
+        # NOT "proposed nothing" (order 7f2cbf26a60e). Nobody was asked, so this source has no
+        # result -- negative or otherwise -- and `reached` is what `sweep()` reads to give it its
+        # rotation slot back.
+        return {"source": source, "proposed": 0, "kept": [], "checked": [], "reached": False,
+                "note": "the model was never reached (%s)" % why_not}
     # Every URL the model proposes gets PROVEN, not the first eight of them. The prompt above
     # explicitly invites a spread across seven or more platforms (own site, GM Binder,
     # Homebrewery, D&D Wiki, DMs Guild, itch.io, subreddit wiki, GitHub) for one creator, so a
@@ -322,7 +376,10 @@ def scout(source, names, register=True):
     # cheap fetch each. Uncapped 2026-08-24 (Hard Rule 0).
     urls = [u for u in ((got or {}).get("urls") or []) if str(u).startswith("http")]
     if not urls:
-        return {"source": source, "proposed": 0, "kept": [], "note": "model proposed nothing"}
+        # A REAL negative: the model answered and named nowhere. `reached` says so, so this is
+        # not confused with the branch above.
+        return {"source": source, "proposed": 0, "kept": [], "checked": [], "reached": True,
+                "note": "model proposed nothing"}
 
     kept, checked = [], []
     for u in urls:
@@ -361,7 +418,7 @@ def scout(source, names, register=True):
         except Exception:
             silence.note("scout.py:blocked")
     return {"source": source, "proposed": len(urls), "kept": kept, "checked": checked,
-            "blocked": [c["url"] for c in blocked],
+            "blocked": [c["url"] for c in blocked], "reached": True,
             "note": (got or {}).get("note", "")}
 
 
@@ -448,7 +505,7 @@ def sweep(limit=None, register=True):
         results.append(r)
         if r["kept"]:
             found += 1
-            print(f"   FOUND  {src:<40}{len(r['kept'])} page(s)")
+            print(f"   FOUND  {src:<38}  {len(r['kept'])} page(s)")
             for u in r["kept"]:
                 print(f"            {u}")
         else:
@@ -461,9 +518,36 @@ def sweep(limit=None, register=True):
             # shape, then grep the tree for it"; this is that grep. `:<40` is kept as a PAD,
             # which lengthens a short name and leaves a long one whole -- alignment is a
             # courtesy and it does not get to overrule what the line says.
-            reasons = ", ".join(sorted({c.get("why", "?") for c in (r.get("checked") or [])}))
-            print(f"   none   {src:<40}{reasons}")
+            reasons = ", ".join(sorted({c.get("why", "?") for c in (r.get("checked") or [])})
+                                ) or r.get("note", "?")
+            print(f"   none   {src:<38}  {reasons}")
     print(f"\n{found} of {len(order)} sources now have somewhere to read from")
+    # A SOURCE THAT WAS NEVER ASKED HAS NOT HAD ITS TURN (order 7f2cbf26a60e). The stamp above
+    # goes on before the work on purpose -- a source that CRASHES the scout must still count as
+    # attempted, or it pins the window -- but a transport outage is not that: it burns every
+    # source's rotation slot at once and writes a clean negative result for each, so the roll
+    # comes back a cycle later looking scouted and empty. Only a stamp this pass itself just
+    # wrote is reverted, and only to the value it had before, so a concurrent sweep that stamped
+    # the same source for its own real attempt is left alone.
+    #
+    # `is False`, not falsy: a result dict without the key at all (an older log entry, a drill
+    # stub) means "this predates the distinction", and guessing on its behalf would put the
+    # rotation back where this order found it.
+    never_asked = [r["source"] for r in results if r.get("reached") is False]
+    if never_asked:
+        def _unstamp(seen_now):
+            for src in never_asked:
+                if seen_now.get(src) != now:
+                    continue          # somebody else stamped it since; not ours to take back
+                if seen.get(src) is None:
+                    seen_now.pop(src, None)
+                else:
+                    seen_now[src] = seen[src]
+
+        if not _mutate(ATTEMPTS, _unstamp)[0]:
+            silence.note("scout.py:attempts-unwritable")
+        print(f"   {len(never_asked)} source(s) were NEVER ASKED (the model could not be "
+              f"reached) and keep their place in the rotation")
     try:
         prev = json.load(open(LOG, encoding="utf-8")) if os.path.exists(LOG) else []
     except Exception:
@@ -477,7 +561,26 @@ def sweep(limit=None, register=True):
     # is advisory rather than load-bearing; recorded all the same, because "the log has no entry
     # for that cycle" and "that cycle never ran" are the two readings this note tells apart.
     # Run #36 discarded-verdict sweep.
-    if not _land(LOG, prev[-40:], sort_keys=False):
+    #
+    # AND THE ROLL-OFF IS AN ARCHIVE, NOT A DELETION (order e8cd908ce5e4). This wrote
+    # `prev[-40:]`, so on every cycle past the fortieth the oldest scouting record was dropped
+    # from disk with nothing said. Now the cycles falling out of the window are appended to
+    # `ARCHIVE` FIRST, and the window is only trimmed if every one of them landed -- the move
+    # ordering `foreman.py` already uses for its failures ledger. If an append fails, this cycle
+    # keeps the whole list in `LOG` rather than trimming: a duplicated cycle in an append-only
+    # archive is a far smaller fault than a deleted one, and the note says which happened.
+    window, roll = prev[-LOG_CYCLES:], prev[:-LOG_CYCLES]
+    if roll:
+        _arch = _archive_for(LOG)
+        _lost = [c for c in roll
+                 if not silence.append_line(_arch, json.dumps(c, ensure_ascii=False))]
+        if _lost:
+            silence.note("scout.py:archive-unwritable")
+            sys.stderr.write("scout: %d cycle(s) could not be archived to %s; keeping all %d "
+                             "in the log rather than dropping them.\n"
+                             % (len(_lost), os.path.basename(_arch), len(prev)))
+            window = prev
+    if not _land(LOG, window, sort_keys=False):
         silence.note("scout.py:log-unwritable")
         sys.stderr.write("scout: SCOUT.json write denied -- this cycle's %d results are not in "
                          "the log; the run itself was fine.\n" % len(results))
@@ -500,7 +603,12 @@ def main():
             rec = next((r for r in WI.load_records() if r["source"] == a.source), None)
             names = [e.get("name") for e in (rec or {}).get("entries", [])]
         r = scout(a.source, names or [], register=not a.dry)
-        print(json.dumps(r, indent=1)[:2000])
+        # WHOLE. This was `[:2000]`, which silently cut the single-source result a person had
+        # explicitly asked for by name -- and the part that gets cut is `checked`, the per-URL
+        # verdicts, which is the only reason to run `--source` rather than read the log. A
+        # truncated JSON document does not even parse, so the cut did not merely shorten the
+        # answer, it destroyed it as data. Order e8cd908ce5e4.
+        print(json.dumps(r, indent=1))
         return 0
     sweep(limit=a.limit, register=not a.dry)
     return 0

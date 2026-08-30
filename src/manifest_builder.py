@@ -434,6 +434,13 @@ def main():
 
     build_pool = assigned + (unassigned if args.include_unassigned else [])
 
+    # THE POOL THE VOLUME NUMBERS ARE DRAWN FROM, and it is NOT the pool being built. It is every
+    # populated source on the roll, assigned and unassigned alike, before --only or --pilot has
+    # narrowed anything -- so a source's address is a function of the ROLL and of nothing else.
+    # See the block below for what it cost when it was not. Always a superset of `build_pool`, so
+    # every source that gets built has a volume code waiting for it.
+    numbering_pool = assigned + unassigned
+
     if args.only:
         wanted = set(n.strip() for n in args.only.split(","))
         build_pool = [r for r in build_pool if r["name"] in wanted]
@@ -457,8 +464,28 @@ def main():
     # given book is stable across rebuilds. Ordering within a Series is otherwise arbitrary
     # and is NOT a curatorial claim -- if the owner wants a deliberate volume order, set it in
     # the charter's Acquisitions Index and this will follow it.
+    #
+    # AND THE NUMBERING RUNS OVER `numbering_pool`, NOT OVER `build_pool`, WHICH IS THE WHOLE
+    # POINT. This loop read `build_pool`, which the --only/--pilot filter above had ALREADY
+    # narrowed, so the volume number was a function of the FILTER rather than of the roll: a
+    # Series holding one member of the filtered pool got the bare Series code, while the same
+    # source in a full build got code.N. Measured on the roll as it stands -- 205 populated and
+    # assigned sources, 26 Series holding more than one -- 139 of 205 sources took a DIFFERENT
+    # address when built alone than in the full build (Baki II.A.1 -> II.A, Bleach II.A.2 ->
+    # II.A, Killer Instinct II.A.7.1 -> II.A.7), and `--pilot 3` moved two of its three.
+    #
+    # Which reproduces, in full, the exact failure the paragraph above says this code fixed: two
+    # SEPARATE single-source builds inside one Series produced IDENTICAL job ids -- Baki and
+    # Bleach shared 67, including 'II.A/Frontmatter' and 'II.A/Persons#1-10' -- and generate.py
+    # keys BOTH its resume catalog and its output filenames on that address, so "the sources
+    # silently overwrote each other, and resume never converged". Not a corner case either:
+    # CLAUDE.md hard rule 6 makes `--pilot 3` the documented FIRST command anybody runs.
+    #
+    # The claim two paragraphs up -- "the address of a given book is stable across rebuilds" --
+    # was therefore false for 139 of 205 sources, and is true again now. The filter chooses what
+    # gets BUILT; it may not be allowed to choose what anything is CALLED. (order 372168774ee7)
     series_members = {}
-    for r in build_pool:
+    for r in numbering_pool:
         code = spine_code_for(r["name"])
         if code == "UNASSIGNED":
             code = provisional_spine(r)

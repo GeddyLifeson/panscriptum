@@ -223,7 +223,8 @@ TOOLS = [
                        "TEST a claim before proposing a patch, and again to confirm a patch "
                        "did what you said. Allowed: 'verify_math' (the full invariant suite), "
                        "'pyflakes' (lint one file or all of src), 'compile' (does a file "
-                       "parse and import), 'silence' (the swallowed-exception audit).",
+                       "PARSE -- it is not run and it is not imported), 'silence' (the "
+                       "swallowed-exception audit).",
         "parameters": {"type": "object", "properties": {
             "check": {"type": "string", "description":
                       "verify_math | pyflakes | compile | silence"},
@@ -292,6 +293,16 @@ def t_run_check(check="", path=None, **_):
 
     Read-only by construction: none of the four writes to the tree. `propose_patch` remains the
     only path to a change, and it keeps every one of its existing gates.
+
+    AND THAT SENTENCE IS NOW TRUE, which it was not (order deeb24037ede). The 'compile' check
+    ran `py_compile.compile(path, doraise=True)`, and py_compile's whole job is to EMIT a
+    `.pyc` -- running it against a file dropped `__pycache__/<name>.cpython-313.pyc` beside it,
+    reproduced on a scratch file. The write was harmless; the CLAIM was the defect, and this
+    project's standing lesson is that a comment is not evidence. The check now uses the builtin
+    `compile()` on the file's text, which parses and byte-compiles entirely in memory: the same
+    verdict, the same SyntaxError with file and line, and nothing on disk. Fixing the code
+    rather than softening the docstring, because "read-only by construction" is the property
+    the lane is designed around and it should be the true one.
     """
     check = (check or "").strip()
     if check not in _CHECKS:
@@ -308,9 +319,14 @@ def t_run_check(check="", path=None, **_):
     elif check == "pyflakes":
         argv = [PY, "-m", "pyflakes", target or os.path.join(HERE, "src")]
     else:
+        # The builtin `compile`, NOT `py_compile` -- see the docstring. py_compile writes a
+        # `.pyc` into `__pycache__` beside whatever it is handed, which made the "read-only by
+        # construction" promise above false. This parses and byte-compiles in memory and writes
+        # nothing; a SyntaxError still names the file and the line, which is the whole product.
         argv = [PY, "-c",
-                "import py_compile,sys; py_compile.compile(sys.argv[1], doraise=True); "
-                "print('parses OK')", target or os.path.join(HERE, "src", "verify_math.py")]
+                "import sys; p = sys.argv[1]; "
+                "compile(open(p, encoding='utf-8').read(), p, 'exec'); print('parses OK')",
+                target or os.path.join(HERE, "src", "verify_math.py")]
     try:
         env = dict(os.environ, PYTHONIOENCODING="utf-8")
         r = subprocess.run(argv, cwd=HERE, capture_output=True, text=True, timeout=900,
@@ -567,8 +583,38 @@ def _gates(full, modname):
         except Exception as e:
             return "not valid YAML: " + str(e)[:100]
     if full.lower().endswith(".py") and modname:
-        r = subprocess.run([PY, "-c", "import sys; sys.path.insert(0, r'%s'); import %s"
-                            % (os.path.join(HERE, "src"), modname)],
+        # THE IMPORT GATE USED TO CHECK A DIFFERENT FILE (order deeb24037ede, run #37). `modname`
+        # is `os.path.basename(full)[:-3]`, and this ran `sys.path.insert(0, HERE/src); import
+        # <modname>` -- so for a `.py` ANYWHERE BUT src/, the gate imported whichever src module
+        # happened to share the basename. The writable surface includes `prompts/` and
+        # `handoff/`, so a `handoff/silence.py` would have had its import gate satisfied by
+        # `src/silence.py`: a file that was never patched, reporting `applied: True` on a patch
+        # that may not import at all. Reproduced on a copy in %TEMP%: a temp `handoff/harmless.py`
+        # patched to `import nosuchmodule_zzz_does_not_exist` returned `{'applied': True}`,
+        # because `src/harmless.py` imported fine, and the broken file stayed on disk.
+        #
+        # Impact was bounded -- nothing imports `handoff/` or `prompts/`, and neither holds a
+        # `.py` today -- and that is exactly the condition under which the five earlier bypasses
+        # of this same gate were also "not currently exploitable". A gate checking the wrong
+        # object is a gate, whether or not anything is standing in front of it yet.
+        #
+        # Fixed by asking WHERE the file is rather than what it is called. Inside src/, the
+        # by-name import is kept unchanged: that is the real import path, it exercises the
+        # package the way every caller will, and the existing five case-folding fixes all reason
+        # about it. Outside src/, the file is loaded BY PATH, so the thing imported is the thing
+        # patched -- with HERE/src still on sys.path so its own imports resolve exactly as they
+        # would in a real run.
+        _src_dir = os.path.join(HERE, "src")
+        _in_src = (os.path.normcase(os.path.dirname(os.path.abspath(full)))
+                   == os.path.normcase(os.path.abspath(_src_dir)))
+        if _in_src:
+            _code = "import sys; sys.path.insert(0, r'%s'); import %s" % (_src_dir, modname)
+        else:
+            _code = ("import sys, importlib.util as _u; sys.path.insert(0, r'%s'); "
+                     "_s = _u.spec_from_file_location('_gate_probe', r'%s'); "
+                     "_m = _u.module_from_spec(_s); _s.loader.exec_module(_m)"
+                     % (_src_dir, full))
+        r = subprocess.run([PY, "-c", _code],
                            capture_output=True, text=True, timeout=180,
                            env=dict(os.environ, PYTHONIOENCODING="utf-8"),
                            creationflags=_NO_WIN, cwd=HERE)

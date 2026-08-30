@@ -181,7 +181,9 @@ def charter():
     Known errata, raised and unresolved: rungs 10 (Supercluster), 11 (Filament/Void) and 16
     (Hyperverse) carry NO Magnitude band, and M0-M2 sit below rung 1. Those are faults in the
     document rather than the code, and they are reported here so they stay visible instead of
-    living in a conversation.
+    living in a conversation. Each of the four is TESTED against the charter's own two tables
+    rather than asserted, so amending the document is what clears the row -- see the block at
+    the foot of this function.
     """
     out = []
 
@@ -249,9 +251,53 @@ def charter():
     # The errata, restated every run so they cannot quietly become accepted. NOT graded faults:
     # they are defects in the DOCUMENT, already raised and recorded as open, and a standing
     # erratum that reddens every battery is how a real red gets scrolled past.
-    for rung in ("Supercluster", "Filament", "Hyperverse"):
-        if rung.lower() in text.lower():
-            note("charter erratum (open)", rung + " is a rung with no Magnitude band")
+    #
+    # EACH ROW IS NOW THE TEST ITS OWN TEXT DESCRIBES (order 7c9d763fa17c). This was
+    # `for rung in (...): if rung.lower() in text.lower()`, i.e. the finding claimed the rung has
+    # no Magnitude band while the only thing evaluated was whether the WORD occurs anywhere in
+    # the charter. Amending Part Three to give Supercluster a band would not have silenced the
+    # row -- the only way to clear it was to delete the rung's name from the document, which is
+    # the opposite of fixing it. A string-presence test standing in for behaviour, in the one
+    # function whose docstring says the charter's claims are "checkable against the code
+    # directly". The band check twelve lines above (A.LADDER against the bands the document
+    # actually names) was already a real test; this is now the same kind.
+    #
+    # The question a Magnitude band answers is Part Three's own: "what rung of reality this thing
+    # can meaningfully threaten". So the test reads the "Can threaten..." column of the Magnitude
+    # table and asks whether any band reaches the rung. Nothing in it is fuzzy: the three rung
+    # names are distinctive tokens ("supercluster" is not matched by M6's "cluster", which is why
+    # the patterns are anchored on word boundaries and allow only a plural).
+    ladder_txt = text.split("THE LADDER OF BEING", 1)[-1].split("### The Shelfmark", 1)[0]
+    band_rows = dict(re.findall(r"^\|\s*\*\*(M\d+)\*\*\s*\|[^|]*\|([^|]*)\|", text, re.M))
+    rung_rows = re.findall(r"^\|\s*(\d{1,2})\s*\|\s*([^|]+?)\s*\|", ladder_txt, re.M)
+    if set(band_rows) != {"M%d" % i for i in range(11)} or len(rung_rows) != 17:
+        # A comparison that could not be made is not a comparison that passed -- the same ruling
+        # as "could not compare bands" above. If the charter's tables are reshaped, these four
+        # errata stop being checked, and that must say so rather than read as four rows cleared.
+        note("could not read the charter's own tables, so the errata below were NOT checked",
+             f"{len(band_rows)} Magnitude bands and {len(rung_rows)} ladder rungs parsed",
+             bad=True)
+        return out
+    threatens = " ".join(band_rows.values()).lower()
+    for num, rung, pat in ((10, "Supercluster", r"\bsuperclusters?\b"),
+                           (11, "Cosmic Filament / Void", r"\bfilaments?\b|\bvoids?\b"),
+                           (16, "Hyperverse", r"\bhyperverses?\b")):
+        if not re.search(pat, threatens):
+            note("charter erratum (open)",
+                 f"rung {num} ({rung}) has no Magnitude band: no band's 'Can threaten...' "
+                 f"column in Part Three reaches it")
+    # THE FOURTH ERRATUM, which the docstring named and nothing checked. M0-M2 threaten a
+    # village, a city or nation, and a continent -- none of which is a rung of the Ladder, whose
+    # rung 1 is already a whole Planet. So the three lowest bands describe scales the shelfmark
+    # has no address for. Checked by asking whether the bottom three bands name ANY rung: a
+    # single significant word from any of the seventeen rung names, plural allowed, clears it.
+    low = "; ".join((band_rows[b] or "").strip() for b in ("M0", "M1", "M2")).lower()
+    rung_words = {w.lower() for _, r in rung_rows for w in re.findall(r"[A-Za-z]{4,}", r)}
+    if not any(re.search(r"\b" + w + r"s?\b", low) for w in sorted(rung_words)):
+        note("charter erratum (open)",
+             f"M0-M2 ({low}) name no rung of the Ladder at all, so the three lowest bands sit "
+             f"below rung 1 ({rung_rows[0][1]}) and the shelfmark has no address for what they "
+             f"threaten")
     return out
 
 

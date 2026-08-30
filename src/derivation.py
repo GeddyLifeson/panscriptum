@@ -440,9 +440,34 @@ LEDGER = {
 
 
 # ========================================================================= GRAPH INTEGRITY
+KINDS = (MEASURED, CHARTER, OWNER, DERIVED)
+
+
 def check_graph():
+    """Every rule the taxonomy above states, put to the ledger. -> [problem strings].
+
+    THE `kind` FIELD IS NOW VALIDATED, and until now it was the one thing this checker took on
+    trust. The docstring at the top of this file says "anything else is a violation" and names
+    exactly four kinds; every rule below then tested for one of those four and skipped anything
+    that was not. So a typo -- `Q("DERIVE", "", [])`, one character short -- passed clean:
+    ROOTLESS skipped it because it is not DERIVED, UNSIGNED skipped it because it is not OWNER,
+    and it has no parents to dangle. Reproduced against the live ledger, which is otherwise
+    clean: adding that entry produced zero problems. A quantity outside the taxonomy is the
+    single worst thing that can be on this ledger, because it is a number with no stated
+    provenance AT ALL, and it was the one shape nothing looked for. A check that cannot fail
+    looks exactly like a check that passed. (order 72bc85d74ccf)
+
+    UNSIGNED stays as it is, deliberately: `Q(kind, source, ...)` makes `source` a required
+    positional, so the only way to reach that rule is `Q(OWNER, "")` -- rare, but a deliberate
+    empty citation is exactly what it should catch, and deleting a rule because it is hard to
+    trip is how a real one goes missing.
+    """
     problems = []
     for name, q in LEDGER.items():
+        if q.get("kind") not in KINDS:
+            problems.append("UNKNOWN   %s declares kind %r, which is not one of %s -- a "
+                            "quantity outside the taxonomy is a number with no stated "
+                            "provenance" % (name, q.get("kind"), ", ".join(KINDS)))
         for p in q["parents"]:
             if p not in LEDGER:
                 problems.append(f"DANGLING  {name} -> {p} (parent not on the ledger)")
@@ -509,8 +534,40 @@ def provenance(name):
 SCAN_MODULES = sorted(f[:-3] for f in os.listdir(HERE) if f.endswith(".py"))
 
 
+def _target_names(t):
+    """Every name bound by one assignment target. Unwraps tuples, lists and `*rest`.
+
+    `getattr(target, "id", None)` -- what this used to be -- answers None for an `ast.Tuple`,
+    because a tuple target has no `.id`, only `.elts`. So the entire class of tuple assignment
+    was invisible to the scanner, and the demonstration is this file: the line
+    `MEASURED, CHARTER, OWNER, DERIVED = "MEASURED", ...` defines four module-level constants
+    and `scan_constants("derivation")` reported only HERE, LEDGER and SCAN_MODULES. The scanner
+    whose docstring calls module-level uppercase assignments "the only place a new constant can
+    hide" could not see the four constants in its own file. (order 72bc85d74ccf)
+    """
+    if isinstance(t, ast.Name):
+        return [t.id]
+    if isinstance(t, ast.Starred):
+        return _target_names(t.value)
+    if isinstance(t, (ast.Tuple, ast.List)):
+        return [n for e in t.elts for n in _target_names(e)]
+    return []                       # a subscript or attribute target binds no new constant
+
+
 def scan_constants(mod):
-    """Module-level UPPERCASE assignments -- the only place a new constant can hide."""
+    """Module-level UPPERCASE assignments -- the only place a new constant can hide.
+
+    READS THREE SHAPES, NOT ONE. This walked `ast.Assign` only, and only its FIRST target, so
+    three ways of writing a module constant were invisible to a scanner whose stated job is that
+    none can hide: tuple unpacking (see `_target_names`), annotated assignment (`ast.AnnAssign`
+    is a different node type and was never matched at all), and chained `A = B = value`.
+    (order 72bc85d74ccf)
+
+    THE LITERAL COUNT IS PER STATEMENT, and on a tuple unpack every name it binds is credited
+    with the whole right-hand side's literals. That over-states rather than omits, deliberately:
+    this is a reviewer's map of where numbers live, and a number counted twice is visible to the
+    person reading it while a number not counted at all is not.
+    """
     path = os.path.join(HERE, mod + ".py")
     if not os.path.exists(path):
         return None
@@ -524,10 +581,18 @@ def scan_constants(mod):
     names = []
     for node in tree.body:
         if isinstance(node, ast.Assign):
-            nm = getattr(node.targets[0], "id", None)
-            if nm and nm.isupper():
-                lits = sum(1 for s in ast.walk(node.value)
-                           if isinstance(s, ast.Constant) and isinstance(s.value, (int, float)))
+            targets = [n for t in node.targets for n in _target_names(t)]
+        elif isinstance(node, ast.AnnAssign):
+            targets = _target_names(node.target)
+        else:
+            continue
+        # `X: int` with no value is a declaration and carries no literals; it is still a name a
+        # reviewer should see on the map.
+        lits = 0 if node.value is None else sum(
+            1 for s in ast.walk(node.value)
+            if isinstance(s, ast.Constant) and isinstance(s.value, (int, float)))
+        for nm in targets:
+            if nm.isupper():
                 names.append((nm, lits))
     return names
 

@@ -26,9 +26,16 @@ for that fiction's characters; a wiki that merely shares a slug has none of them
 `action=query&titles=...` call answers for fifty names at once, which makes this cheap enough to
 run over every host on the roll rather than only the suspicious ones.
 
-    hit rate >= GOOD    the host holds the fiction
-    hit rate <= DEAD    the host answers to the name and holds something else
+    lift >= GOOD_LIFT   the host holds the fiction
+    lift <= LIFT_MIN    the host answers to the name and holds something else
     in between          a partial match, usually a wiki that covers part of a franchise
+
+LIFT, NOT THE RAW RATE, and this paragraph used to say otherwise. The verdicts in `score()` have
+been lift-based for some time; the SELECTION in `sweep(--repair)` was still comparing raw rates
+until order e2f0b13c766f, and this text was the reading that made that look correct. The two
+rate constants survive: `DEAD` separates "WRONG FICTION" from "NAMES ONLY" inside `score`, and
+`GOOD` is now only the figure quoted in prose here. An absolute hit rate is not comparable
+between hosts, which is the argument `score()`'s own docstring makes at length.
 
 The threshold matters less than the shape of the result. A right host scores 0.6 and up; a wrong
 host scores almost exactly zero, because two unrelated fictions share no proper nouns. There is

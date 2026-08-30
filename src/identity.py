@@ -360,9 +360,17 @@ def epoch_of(sentence, strict=False):
 
     `strict=True` refuses to answer instead of guessing, per the fail-closed rule: a layer that
     does not know must not authorise. It is an ADDITIVE keyword with the old behaviour as the
-    default so no existing caller changes; `chain.py:422` is the caller that should pass it, and
-    that is filed as a cross-module change in handoff/run36/crossmodule_batch04.md rather than
-    edited here, because chain.py belongs to another agent this shift.
+    default so no existing caller changes. `chain.adjudicate_mutuals()` is the caller that needs
+    it and NOW PASSES IT: it calls `ID.epoch_of(..., strict=True)` for both sentences of a mutual
+    pair and catches `ID.ProbeUnavailable`, so an unprobed pair is no longer recorded as a dated
+    genuine disagreement. (This paragraph used to describe that as a live gap and point at
+    handoff/run36/crossmodule_batch04.md for a cross-module change that has since landed.)
+
+    CITED BY SYMBOL, NOT BY LINE. Both of this docstring's references into chain.py were written
+    as line numbers and both had drifted by the time anyone read them again -- one of them into
+    the middle of an unrelated comment, where it asserted something false about a gap that had
+    already been closed. A line number is a citation with an expiry date nobody can see; a
+    function name moves with the function. (order 328c1dd39f3d)
     """
     raw = _ask(sentence.strip()[:1200])
     d = _json(raw) if raw is not None else None
@@ -384,8 +392,10 @@ def epoch_of(sentence, strict=False):
 # was deleted 2026-08-23 maintenance run #2, one cycle after being flagged dead in run #1's
 # audit: superseded by `chain.adjudicate_mutuals()`, nothing called it, and nothing anywhere in
 # src/ ever read the `winner_epoch` field it wrote (both re-verified by grep immediately before
-# deletion). `epoch_of()` above it is still live -- `chain.py:381` calls it directly -- so it
-# stays.
+# deletion). `epoch_of()` above it is still live -- `chain.adjudicate_mutuals()` calls it
+# directly -- so it stays. (The citation here read `chain.py:381`, which by the time it was
+# checked was an unrelated `ID.node` call in `chain.extract`: the conclusion held, the evidence
+# offered for it did not. Named by symbol now, for the reason `epoch_of`'s docstring gives.)
 
 
 # ---------------------------------------------------------------- epoch-mandatory sources

@@ -201,18 +201,42 @@ def _write_manifest(final, manifest):
     return tmp, dst
 
 
-def prune(keep=KEEP):
-    """Delete all but the newest `keep` snapshots. -> [removed stamps].
+# A snapshot whose zip write dies part-way leaves its scratch file behind -- `_writing-<stamp>-
+# <pid>-<tid>.zip`, a full archive's worth of bytes (~215 MB) -- and `prune` only ever looked at
+# `canon-*.zip`, so nothing anywhere reaped them (order 4965e049c8fb). Reaped by AGE, not by
+# asking whether the pid in the name is still alive: pids are reused, and a wrong answer there
+# deletes an archive that is being written right now. Six hours is far longer than any snapshot
+# this project has taken and far shorter than the interval between them.
+ORPHAN_AGE_S = 6 * 3600
 
-    Age-ordered by NAME, which is the timestamp, not by mtime -- mtime moves when a file is
-    touched and this must not be able to decide that the newest snapshot is the oldest one.
+
+def prune(keep=KEEP):
+    """Delete all but the newest `keep` snapshots, and reap abandoned scratch files.
+
+    -> [names of snapshots ACTUALLY removed]. Age-ordered by NAME, which is the timestamp, not
+    by mtime -- mtime moves when a file is touched and this must not be able to decide that the
+    newest snapshot is the oldest one.
+
+    THE DELETE VERDICT WAS BEING DISCARDED (order 4965e049c8fb). `removed.append(f)` sat outside
+    the try/except, so a denied `os.remove` -- the ordinary case on this machine when the
+    dashboard or a reader holds a snapshot open -- was recorded as a removal, and `main()` then
+    printed "pruned N old snapshot(s): ..." naming files still on disk. In the module whose whole
+    subject is not trusting a write it has not confirmed ("a backup that was never read is a
+    belief, not a backup"), that is the same defect one level down.
+
+    THE REFUSALS GO TO STDERR RATHER THAN INTO THE RETURN VALUE, and that is deliberate: this
+    returns a plain list because `overnight.canon_backup_cycle` consumes it as one, and widening
+    it to a tuple would break that caller silently at the point where it reports a backup. The
+    machine-readable record is `silence.note`, which is already where a denied write in this
+    project goes to be counted.
     """
     if not os.path.isdir(ROOT):
         return []
     snaps = sorted(f for f in os.listdir(ROOT)
                    if f.startswith("canon-") and f.endswith(".zip"))
-    removed = []
+    removed, denied = [], []
     for f in snaps[:-keep] if keep > 0 else []:
+        gone = True
         for p in (os.path.join(ROOT, f),
                   os.path.join(ROOT, f[:-4] + ".manifest.json")):
             try:
@@ -220,7 +244,26 @@ def prune(keep=KEEP):
                     os.remove(p)
             except OSError:
                 silence.note("canon_backup.py:prune-denied:" + f)
-        removed.append(f)
+                gone = False
+        # A pair half-removed counts as NOT removed. It is the worse state of the two -- an
+        # archive with no manifest is what `verify()` cannot check, and a manifest with no
+        # archive is a record of a backup that is not there -- so it must not read as a clean
+        # prune, and the next pass will try the survivor again.
+        (removed if gone else denied).append(f)
+    for f in sorted(os.listdir(ROOT)):
+        if not (f.startswith("_writing-") and f.endswith(".zip")):
+            continue
+        p = os.path.join(ROOT, f)
+        try:
+            if time.time() - os.path.getmtime(p) < ORPHAN_AGE_S:
+                continue                     # a snapshot may be writing this one right now
+            os.remove(p)
+            silence.note("canon_backup.py:orphan-reaped:" + f)
+        except OSError:
+            silence.note("canon_backup.py:orphan-denied:" + f)
+    if denied:
+        print("canon_backup: %d old snapshot(s) could NOT be fully deleted and are still on "
+              "disk: %s" % (len(denied), ", ".join(denied)), file=sys.stderr)
     return removed
 
 
@@ -240,6 +283,16 @@ def verify(path=None):
     is supposed to differ from the tree this evening. What this answers is the narrower and more
     useful question: is the archive itself still intact and readable, and which canonical files
     have changed since it was taken.
+
+    NO MANIFEST IS A FAILURE, NOT A PASS (order b6d5f70a7f19). This used to return ok=True with
+    `recorded = {}`, so `changed` was empty BY CONSTRUCTION and the notes read "archive intact,
+    0 members" / "0 canonical files changed since the snapshot" -- a comparison against nothing,
+    reported as a clean verify, with `main()` printing "VERIFY: ok" and returning 0. It is
+    precisely the failure `snapshot()`'s own run #36 comment names: "Without the manifest
+    verify() has no recorded digests to compare against, so it silently degrades to 'the zip
+    still opens'." The WRITE side was corrected to raise; the READ side was not. Reachable
+    whenever a manifest is absent -- an older snapshot, one deleted by hand, or a prune that
+    removed one of the pair and not the other.
     """
     path = path or newest()
     notes = []
@@ -248,8 +301,23 @@ def verify(path=None):
     man = path[:-4] + ".manifest.json"
     recorded = {}
     if os.path.isfile(man):
-        with open(man, encoding="utf-8") as fh:
-            recorded = (json.load(fh) or {}).get("digests") or {}
+        try:
+            with open(man, encoding="utf-8") as fh:
+                recorded = (json.load(fh) or {}).get("digests") or {}
+        except (OSError, ValueError) as e:
+            # An unparseable manifest is the same state as a missing one, and it used to leave
+            # this function by way of a raw traceback out of `main()`. It falls into the refusal
+            # below with the reason attached.
+            notes.append("manifest unreadable (%s)" % type(e).__name__)
+    if not recorded:
+        # FAIL CLOSED. "I cannot tell whether this snapshot is what it claims" is not a pass. The
+        # archive may well be perfect, and the note says that rather than alleging corruption --
+        # what is missing is any means of CHECKING, and that is a much worse thing to find out
+        # during a restore than during a verify.
+        return False, notes + [
+            "NO MANIFEST beside %s: there are no recorded digests to check this archive "
+            "against, so nothing about its contents can be verified -- only that the zip "
+            "opens. Take a fresh --snapshot, which writes one." % os.path.basename(path)]
     try:
         with zipfile.ZipFile(path) as z:
             broken = z.testzip()

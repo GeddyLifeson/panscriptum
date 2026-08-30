@@ -196,10 +196,19 @@ def main():
     by_name = {r["name"]: r for r in roll}
 
     written = []
+    # EVERY REFUSAL THIS FUNCTION PRINTS, COLLECTED SO THE EXIT CODE CAN CARRY IT (order
+    # 3cc35f54b235). main() returned None and `__main__` called it bare, so the process exited 0
+    # in every case -- including a denied SWEEP_ROLL.json write, a folder with no roll entry and
+    # a folder that parsed no elements. The whole function is an argument that a write verdict
+    # must never be discarded, and the verdict then reached the console and stopped there:
+    # a scheduled caller or wrapper reading rc was told success. `manifest_builder.main()` two
+    # files away already does the opposite (`return 0 if manifest_landed else 1`).
+    refused = []
     for folder, source_name in FOLDER_SOURCE.items():
         r = by_name.get(source_name)
         if r is None:
             print(f"  ! no roll entry for {source_name!r} (folder {folder})")
+            refused.append(f"{source_name}: no roll entry (folder {folder})")
             continue
         if r.get("entry_count", 0) > 0 and not args.force:
             continue
@@ -210,6 +219,7 @@ def main():
             print(f"  . {folder}: {len(dropped)} verbatim-duplicate elements collapsed")
         if not entries:
             print(f"  ! {folder}: no elements parsed")
+            refused.append(f"{source_name}: no elements parsed from custom/{folder}/")
             continue
         record = {
             "source": source_name,
@@ -245,6 +255,7 @@ def main():
         # siblings did not. Found by the run #25 sweep. (run #25)
         if not _P.write_record_catalogue(record_path(source_name), record):
             print(f"      -> WRITE DENIED {source_name}; roll left untouched", flush=True)
+            refused.append(f"{source_name}: record write DENIED")
             continue
         # AND GATE THE SUMMARY ON IT TOO. `written` was appended BEFORE the write was even
         # attempted, so the run #25 discipline reached the data that persists (the roll row)
@@ -281,6 +292,15 @@ def main():
         print("\n(WRITE DENIED: SWEEP_ROLL.json did not land; the records above were written "
               "to disk but the roll does not yet say so -- rerun to retry)")
 
+    # THE VERDICT LEAVES THE PROCESS. Named in full, not counted: a caller reading rc learns
+    # only that something refused, and the console is where the reader finds out what.
+    if refused or not roll_landed:
+        if not roll_landed:
+            refused.append("SWEEP_ROLL.json write DENIED")
+        print("\nEXIT 1 -- %d refusal(s): %s" % (len(refused), "; ".join(refused)))
+        return 1
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

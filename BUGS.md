@@ -1730,6 +1730,15 @@ they are the next run's work, not silently dropped.*
   page list or a chunk list — but it is a truncation of an ordered listing and the rule's text
   does not carve out logs explicitly. **Question, not a fix.** Same family as m16's diagnostics
   ruling; one decision could settle both.
+  **CLOSED 2026-08-29 (order e8cd908ce5e4) by removing the question rather than answering it.**
+  The window survives — `SCOUT.json` is still the last `LOG_CYCLES` (40) cycles in readable
+  form — but the cycles that fall out of it are now APPENDED to `data/SCOUT_ARCHIVE.jsonl`
+  before the trim, and the trim only happens if every one of them landed. So there is no longer
+  a truncation to rule on: nothing is dropped, and the ruling m25 was waiting for is only needed
+  if someone wants the window changed. The archive path is derived from `LOG` rather than
+  declared as its own constant, so `drill.py`'s two scout nets, which redirect `SC.LOG` into a
+  temp directory, redirect the overflow with it. m16's diagnostics question is untouched and
+  still open.
 - **[m37] `data/CHAIN.json` is written every cycle and NOTHING reads it — CONFIRMED run #8,
   and now the only part of m37 still open.** Verified repo-wide, not just `src/`: the string
   `CHAIN.json` occurs in exactly two places outside documentation and this ledger — `chain.py:53`

@@ -29,14 +29,18 @@ running them against `src/` on 2026-08-25 rather than from their README claims:
                      twice while the sentence claiming it did not: this entry used to read
                      `descending_ladder.py:129 from_m`, and 129 is now a different function
                      entirely. A line number in prose is a citation with a decay rate.
-                     What it reports on this tree TODAY (re-measured, 4 findings, all 100%): the
-                     `socktype` parameter of `verify_math._StubNet.getaddrinfo` and three like it
-                     in `drill.py` — every one a parameter that exists to MATCH A SIGNATURE the
-                     stub is standing in for, so every one a false positive. That is stated here
-                     rather than quietly dropped, because an advertisement for a detector that
-                     only ever lists its hits is the same overstatement this module was written
-                     to catch in the house detectors. Its value is the class it can see at all,
-                     not a running score.
+                     What it reports on this tree today is a handful of unused variables at 100%
+                     — `socktype` in `verify_math._StubNet.getaddrinfo`, `tmp_`/`dst_` in the
+                     `drill.py` net that stubs `silence.replace_retry` — and every one of them is
+                     a parameter that exists to MATCH A SIGNATURE the stub is standing in for, so
+                     every one is a false positive. Stated rather than quietly dropped, because
+                     an advertisement for a detector that only ever lists its hits is the same
+                     overstatement this module was written to catch in the house detectors. Its
+                     value is the CLASS it can see at all, not a running score.
+                     NO COUNT IS PINNED IN THIS PARAGRAPH, on purpose. It was four when this was
+                     written and three an hour later, because another shift agent touched
+                     `drill.py`; the two line numbers moved in the same hour. Run
+                     `python src/secondopinion.py` for today's, which is the only way to know it.
     detect-secrets   Yelp's scanner, with a baseline file that is the same idea as
                      `suppressions.py` arrived at independently. It found ZERO in `src/` and
                      `prompts/`, which is the most useful thing it could have said: it AGREES

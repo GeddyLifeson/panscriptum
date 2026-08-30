@@ -215,8 +215,55 @@ def prompt_section(width=96):
     return "\n".join(lines)
 
 
+STYLE_PROMPT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "prompts", "system_style.txt")
+
+
+def prompt_in_sync(path=None):
+    """Is the model actually INSTRUCTED with the block this list generates? -> (verdict, detail).
+
+    THE SAFETY THIS MODULE CLAIMS WAS NOT RUNNING (order a08557925d87). The WHY ONE FILE section
+    at the top says "the list lives here, the prompt section is GENERATED from it, and the audit
+    imports it", `style_audit.py` repeats it and `pipeline.py` records it as a delivered
+    property. Only the audit half was ever in effect: `prompt_section()` had exactly one caller
+    in the whole repository -- this file's own `--prompt` -- nothing writes
+    prompts/system_style.txt, and no check compared the two. So system_style.txt was a static
+    file generated once and pasted, and adding a word to LEXICAL changed the checker while
+    leaving the model's instruction untouched, which is precisely the drift the section warns
+    about ("a phrase banned in the prompt but absent from the checker goes unnoticed for fifty
+    thousand entries"). Nothing had drifted when this was written -- the generated block was
+    present verbatim -- so what was missing was the thing that would say so.
+
+    `verdict` is True, False, or None for "could not be read", which callers must report as
+    unmeasurable rather than as agreement -- an unreadable prompt file is the one state in which
+    this question genuinely cannot be put.
+
+    Line endings are folded before the comparison: the generated block is joined with "\\n" and a
+    prompt file saved by a Windows editor would otherwise miss on every line while being
+    character-for-character the same instruction.
+    """
+    p = path or STYLE_PROMPT
+    try:
+        with open(p, encoding="utf-8") as fh:
+            text = fh.read()
+    except Exception as e:
+        return None, "%s could not be read (%s)" % (os.path.basename(p), type(e).__name__)
+    block = prompt_section()
+    if block.replace("\r\n", "\n") in text.replace("\r\n", "\n"):
+        return True, "%s carries the generated block verbatim (%d chars)" % (
+            os.path.basename(p), len(block))
+    return False, ("%s does NOT contain the block tells.prompt_section() generates -- the "
+                   "checker and the instruction have drifted. Regenerate with "
+                   "`python src/tells.py --prompt` and replace the numbered section it "
+                   "produces." % os.path.basename(p))
+
+
 if __name__ == "__main__":
     import sys
+    if "--check" in sys.argv:
+        _ok, _why = prompt_in_sync()
+        print(("IN SYNC" if _ok else "UNREADABLE" if _ok is None else "DRIFTED") + " -- " + _why)
+        sys.exit(0 if _ok else 1)
     if "--prompt" in sys.argv:
         print(prompt_section())
     else:

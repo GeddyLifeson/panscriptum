@@ -132,6 +132,33 @@ SIZE_CLASSES = {
 }
 DEFAULT_SIZE_CLASS = "STANDARD"
 
+# WHAT EACH SIZE CLASS'S OWN DESCRIPTION PERMITS, in galaxies. Declared and reversible like every
+# other constant here, and it exists because `validate()` structurally COULD NOT FAIL a census
+# whose CATEGORY was wrong -- only one whose proportions were. Every ceiling it enforced is a
+# ratio taken inside the same scaled census (Type III against THIS census's galaxies, Type II
+# against THIS census's stars), so multiplying the whole universe by 1e-9 moves numerator and
+# denominator together and every ratio survives untouched. It can see a census whose PROPORTIONS
+# are wrong and never one whose CATEGORY is: that is the 2026-08-20 Type III correction's own
+# failure one level up. It caught six galaxy-spanning empires per galaxy, and could not catch
+# TWELVE of them inside "a closed loop, a demiplane, one stage and no sky".
+#
+# The ceilings are read off the size classes' OWN declared descriptions above, not invented here.
+# MINOR is declared "a single galaxy's worth, walled" -- one galaxy. POCKET is declared smaller
+# still, and a stage with no sky cannot hold more than the one MINOR is allowed. STANDARD is None
+# because it IS the whole observable universe by owner ruling and has nothing to be checked
+# against.
+#
+# FOR THE OWNER, AND LEFT FOR THE OWNER: with SIZE_CLASSES as it stands, POCKET computes 2.0e2
+# galaxies and MINOR 2.0e5, so both now REFUSE. Which of the two declarations is wrong -- the
+# multiplier or the description -- is a charter ruling and not a maintenance decision, so it is
+# deliberately not made here. Until it is made, the census declines to return a universe that
+# contradicts its own category, which is precisely what `validate()` says it is for.
+SIZE_CLASS_MAX_GALAXIES = {
+    "POCKET":   1.0,
+    "MINOR":    1.0,
+    "STANDARD": None,
+}
+
 
 # ================================================================================ the census
 
@@ -154,12 +181,21 @@ def kardashev_to_magnitude(watts, band_edges=None, ladder=None):
     (X.2 §4), and a civilization's power grid is not a weapon. This returns the band its budget
     REACHES, which is an upper bound on its Ruin, never its Anchor. The Anchor stays a scale
     of presence.
+
+    -> (band, annual joules), and the band is None for a budget that reaches NO band. That case
+    used to be unsayable: `reached` was initialised to `ladder[0]` and the loop below only ever
+    RAISES it, so a budget orders of magnitude beneath the lowest Ruin edge came back reported as
+    reaching M0. Measured: kardashev_to_magnitude(1e-30) is 3.156e-23 J/yr against an M0 Ruin edge
+    of 100 J, and answered 'M0'. The docstring said REACHES and the code said "at least the
+    bottom", which are different claims, and the wrong one is the flattering one. `kardashev_K`
+    already answers None for its own inadmissible input, so the two halves of this bridge now
+    spell "no admissible band" the same way. (order be783948fd66)
     """
     if band_edges is None or ladder is None:
         from assay import BAND_EDGES, LADDER          # local import: keeps this module standalone
         band_edges, ladder = BAND_EDGES, LADDER
     annual_joules = watts * SECONDS_PER_YEAR
-    reached = ladder[0]
+    reached = None                    # below the ladder entirely, until a band is actually met
     for b in ladder:
         if annual_joules >= band_edges[b]["ruin"]:
             reached = b
@@ -219,6 +255,13 @@ def validate(c):
     how many of that thing exist. These are not style preferences; a census that breaks them is
     describing an impossible universe, and publishing it would put a fabricated number into the
     Register exactly as a naked Assay would.
+
+    TWO KINDS OF WRONG, AND ONLY ONE OF THEM USED TO BE CHECKABLE HERE. The Kardashev ceilings
+    below are RATIOS taken inside the census being judged, so they scale with it and can only
+    ever catch a census whose PROPORTIONS are off. The size-class ceiling is the other kind: an
+    ABSOLUTE reading against what the class's own declared description permits, which is the only
+    way this function can catch a census that is internally consistent and categorically absurd.
+    See `SIZE_CLASS_MAX_GALAXIES`. (order be783948fd66)
     """
     problems = []
     k = c["kardashev"]
@@ -241,6 +284,16 @@ def validate(c):
         problems.append("more extant civilizations than life-bearing worlds")
     if abs(sum(KARDASHEV_MIX.values()) - 1.0) > 1e-6:
         problems.append(f"KARDASHEV_MIX sums to {sum(KARDASHEV_MIX.values())}, not 1.0")
+
+    # THE CATEGORY CHECK. Absent size_class (a hand-built dict) or an unlisted one means there is
+    # no declared description to check against, and nothing may be refused on an absence.
+    ceiling = SIZE_CLASS_MAX_GALAXIES.get(c.get("size_class"))
+    if ceiling is not None and c.get("galaxies", 0) > ceiling:
+        problems.append(
+            f"size class {c['size_class']} computes {c['galaxies']:.3e} galaxies, which its own "
+            f"declared description does not admit (at most {ceiling:.0f}). Either "
+            f"SIZE_CLASSES[{c['size_class']!r}] or that description is wrong; both are declared "
+            f"conventions and choosing between them is an owner ruling, not a calculation")
 
     c["occupancy"] = {
         "galaxies hosting a Type III": (t3 / c["galaxies"]) if c["galaxies"] else None,
