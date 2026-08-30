@@ -5250,28 +5250,77 @@ def _own_nodes20p(fn):
         stack.extend(_ast_mod.iter_child_nodes(n))
 
 
-def _writes_the_config20p(tree):
+def _path_root20p(node):
+    """The ROOT of an `os.path.join(root, ...)` path expression, as a dotted name, or None.
+
+    None means "not a join off a plain name" -- a bare literal, a computed expression, an
+    f-string. That is reported as forbidden rather than waved through: this check exists to
+    protect one specific file, and a path it cannot resolve is not a path it can clear.
+    """
+    if (isinstance(node, _ast_mod.Call) and isinstance(node.func, _ast_mod.Attribute)
+            and node.func.attr == "join" and node.args):
+        node = node.args[0]
+    if isinstance(node, _ast_mod.Name):
+        return node.id
+    if isinstance(node, _ast_mod.Attribute) and isinstance(node.value, _ast_mod.Name):
+        return "%s.%s" % (node.value.id, node.attr)
+    return None
+
+
+def _writes_the_config20p(tree, src):
+    """Every write in drill.py that lands on THE OWNER'S config.yaml. -> ["fn: open(...)"]
+
+    RE-AIMED AT THE PATH, NOT AT CO-OCCURRENCE (2026-08-30). This used to flag any function
+    that both mentioned the string "config.yaml" anywhere and opened ANY file for writing. That
+    is a proxy, and it had already been narrowed once (see `_own_nodes20p`, 2026-08-28) after it
+    manufactured a guilty parent out of two innocent nested siblings. It manufactured two more
+    on 2026-08-30: `drill._a_list` and `drill._empty`, both added to drill the "config did not
+    parse to a mapping" refusal, each of which writes a deliberately malformed config.yaml into
+    a `tempfile.mkdtemp(prefix="drill_gate_root_")` scratch root that `_ask_both_gates` deletes
+    in its own `finally`. Writing a fixture config into a temp directory is not merely harmless
+    here, it is THE MECHANISM THE NET IS MADE OF -- so the old shape reported the drill's own
+    attacks as the thing it was drilling for, and the cheapest way to quiet it would have been
+    to stop drilling those two refusals.
+
+    So read the WRITE's first argument. A write is forbidden when its path is rooted at a
+    MODULE-LEVEL name (`HERE` and friends: the live tree) or at a root this cannot resolve at
+    all; it is allowed when rooted at a local -- a parameter, or a name bound inside the
+    function, which is what a scratch root always is. That is strictly stronger in the direction
+    that matters: `open(os.path.join(HERE, "config.yaml"), "w")` -- the actual defect, where
+    `_gates_agree` wrote prose_enabled into the live file five times a cycle -- is caught by the
+    argument itself rather than by being in the neighbourhood of the word.
+    """
+    _module_names = set()
+    for _n in tree.body:
+        if isinstance(_n, _ast_mod.Assign):
+            for _t in _n.targets:
+                if isinstance(_t, _ast_mod.Name):
+                    _module_names.add(_t.id)
+        elif isinstance(_n, _ast_mod.AnnAssign) and isinstance(_n.target, _ast_mod.Name):
+            _module_names.add(_n.target.id)
     out = []
     for fn in _ast_mod.walk(tree):
         if not isinstance(fn, (_ast_mod.FunctionDef, _ast_mod.AsyncFunctionDef)):
             continue
-        names, writes = False, False
         for n in _own_nodes20p(fn):
-            if isinstance(n, _ast_mod.Constant) and n.value == "config.yaml":
-                names = True
-            if (isinstance(n, _ast_mod.Call) and isinstance(n.func, _ast_mod.Name)
+            if not (isinstance(n, _ast_mod.Call) and isinstance(n.func, _ast_mod.Name)
                     and n.func.id == "open" and len(n.args) >= 2
                     and isinstance(n.args[1], _ast_mod.Constant)
                     and isinstance(n.args[1].value, str)
                     and n.args[1].value[:1] in ("w", "a", "x")):
-                writes = True
-        if names and writes:
-            out.append(fn.name)
+                continue
+            seg = _ast_mod.get_source_segment(src, n.args[0]) or ""
+            if "config.yaml" not in seg and "CONFIG" not in seg:
+                continue
+            root = _path_root20p(n.args[0])
+            if root is None or root in _module_names:
+                out.append("%s: open(%s, %r)  [root=%s]"
+                           % (fn.name, seg, n.args[1].value, root))
     return out
 
 
 check("the drill never opens the owner's config for writing",
-      _writes_the_config20p(_ast_mod.parse(_drill20p)), [],
+      _writes_the_config20p(_ast_mod.parse(_drill20p), _drill20p), [],
       note="THE BUG: _gates_agree wrote prose_enabled into the live config.yaml five times a "
            "cycle; a kill in that window left the gate open on disk permanently")
 check("both gate layers can be asked about a config in memory",
@@ -5936,18 +5985,39 @@ check("[canary 873330d2e98d] the escalation fail-open regex still catches its ow
       note="if this goes red, `_failopen20p`'s regex may no longer match the bug it was written "
            "to catch, and `_failopen20p == []` above could be silently vacuous")
 
-# ---- canary for _writes_the_config20p (section 20p: a function that names config.yaml AND opens
-# ---- something for writing) -- this one calls the REAL function, since it already is one.
+# ---- canary for _writes_the_config20p (section 20p: a write that lands on the OWNER'S
+# ---- config.yaml) -- this one calls the REAL function, since it already is one.
+#
+# UPDATED 2026-08-30 with the matcher it controls. The old canary was `x = 'config.yaml'` plus
+# `open(x, 'w')` in one function, which is what the matcher used to look for: co-occurrence.
+# That proxy flagged `drill._a_list` and `drill._empty`, which write a deliberately malformed
+# fixture config into a `tempfile.mkdtemp` root -- the mechanism the net is MADE of. The matcher
+# now reads the write's own path argument, so the canary carries BOTH controls in one fixture:
+# `_bad` writes under the module-level `HERE` (the live tree) and must be caught; `_fine` writes
+# under a root handed in as a parameter and must not be. A positive control alone would still
+# pass if the matcher regressed to flagging everything, which is precisely how this row failed.
 _canary_writes_cfg_src_b1 = (
+    "HERE = '/repo'\n"
+    "\n"
     "def _bad():\n"
-    "    x = 'config.yaml'\n"
-    "    open(x, 'w').write('nope')\n"
+    "    with open(os.path.join(HERE, 'config.yaml'), 'w') as f:\n"
+    "        f.write('nope')\n"
+    "\n"
+    "def _fine(root):\n"
+    "    with open(os.path.join(root, 'config.yaml'), 'w') as f:\n"
+    "        f.write('a scratch fixture, which is what a drill net is built out of')\n"
 )
-check("[canary 873330d2e98d] _writes_the_config20p still catches a function that both names "
-      "and writes config.yaml",
-      _writes_the_config20p(_ast_b1.parse(_canary_writes_cfg_src_b1)), ["_bad"],
-      note="genuine positive control (calls the real function, not a copy); if this goes red, "
-           "`_writes_the_config20p(...) == []` above could be silently vacuous")
+_canary_writes_cfg_hits_b1 = sorted(
+    _h.split(":")[0] for _h in
+    _writes_the_config20p(_ast_b1.parse(_canary_writes_cfg_src_b1),
+                          _canary_writes_cfg_src_b1))
+check("[canary 873330d2e98d] _writes_the_config20p catches a write rooted at the live tree and "
+      "clears one rooted at a scratch dir",
+      _canary_writes_cfg_hits_b1, ["_bad"],
+      note="genuine positive AND negative control (calls the real function, not a copy). Red "
+           "with [] means `_writes_the_config20p(...) == []` above is silently vacuous; red "
+           "with ['_bad', '_fine'] means it is back to flagging the drill's own scratch "
+           "fixtures, which is how it failed on 2026-08-30")
 
 # ---- canary for _callers20t (section 20t: any spelling of a call to escalation.clear()) -------
 def _escalation_clear_callers_b1_873(tree):
