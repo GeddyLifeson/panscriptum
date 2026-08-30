@@ -38,30 +38,56 @@ import prose_gate as PG        # noqa: E402
 
 RESULTS = []
 
-# The ratchet for `liveness.py`. Measured 2026-08-25: 38 dead module-level functions, 0
-# syntactic tautologies, 0 phantom guards. LOWER this when code is cleaned up. Raising it to
-# make the drill go green is the move this whole layer exists to prevent -- if a new finding
-# appears, the finding is the problem, not the number.
-# RAISED 38 -> 41 on 2026-08-26, and the direction needs its justification because the rule
-# attached to this number is "lower it when you clean up, NEVER raise it to go green".
+# The ratchet for `liveness.py`. LOWER this when code is cleaned up. Raising it to make the
+# drill go green is the move this whole layer exists to prevent -- if a new finding appears, the
+# finding is the problem, not the number. There is exactly one lawful reason to raise it: the
+# DETECTOR got sharper, not the code worse. Both raises on record are that, and each is written
+# out below, because a lawful raise and a rubber stamp are the same edit and only the reasoning
+# tells them apart.
 #
-# This is the one lawful reason to raise it: the DETECTOR got sharper, not the code worse. Not
-# one line of dead code was added. `liveness`'s `used` set was a single flat, scope-blind,
+# WHAT IT COUNTS TODAY (measured 2026-08-29): the SUM of every list `liveness.scan()` returns --
+# 37 dead module-level functions and methods, 1 dead class, 10 dead MODULES, 0 syntactic
+# tautologies, 0 phantom guards, 0 unparsed files. Total 48. It has never been a count of dead
+# functions alone, and the comment this replaces still said "38 dead module-level functions"
+# three limbs after that stopped being true.
+#
+# RAISE 1, 38 -> 41 on 2026-08-26. `liveness`'s `used` set was a single flat, scope-blind,
 # module-blind bag of every identifier in `src/`, so a LOCAL LOOP VARIABLE named `_p` in
 # cleanup.py and tells.py marked every module-level `_p()` in the project as called -- and
 # `coverage._p()`, which has zero callers and is named at liveness.py:10 as the founding example
 # of why that module exists, was missing from its own report. The detector could not see its own
-# worked example.
+# worked example. Usage now resolves the way Python resolves it: a bare name only reaches
+# functions in its OWN module, and a cross-module call must arrive as `mod.name`, `from mod
+# import name`, or a string handed to getattr. Three functions that were always dead became
+# visible; 38 was a floor being ratcheted as though it were a total.
 #
-# Usage now resolves the way Python resolves it: a bare name only reaches functions in its OWN
-# module, and a cross-module call must arrive as `mod.name`, `from mod import name`, or a string
-# handed to getattr. Three functions that were always dead became visible; 38 was a floor being
-# ratcheted as though it were a total.
+# RAISE 2, 41 -> 52 on 2026-08-29 (order 209391b4f990). `scan()` gained a MODULE limb, and it is
+# the one finding the per-symbol passes cannot ever produce: a function is credited as used by a
+# bare-name Load anywhere in its OWN module, so every function in a module nothing imports is
+# kept alive by its siblings, and that module reports ZERO findings -- byte-for-byte what a
+# clean, live module reports. Ten modules in `src/` are imported and named by nothing else in
+# the tree (chord_field, descending_ladder, halo, handbuilt, module_index, pantheon, render,
+# scale_theories, wh40k, zfighters); two of them were already filed by hand as individual
+# findings (render 707fefc17465, scale_theories SWEEP34_FINDING) precisely because no instrument
+# could see them. Not one line of dead code was added to reach 48.
 #
-# The rule is unchanged and still binds: raising this to make a red drill go green is forbidden.
-# Raising it because the instrument now measures something it previously could not is the
-# opposite act, and it must be written down like this or the two become indistinguishable.
-LIVENESS_CEILING = 41
+# THE HEADROOM IS FOUR, AND IT IS CHOSEN, not left over. 48 measured, 52 here.
+#   * Not zero. Order 6c479972e838 filed the previous state -- the ceiling standing exactly at
+#     the measurement -- as a fault in its own right, and it is: the count MOVES during ordinary
+#     work. It was watched go 34 -> 35 -> 37 across this single shift, none of it from new dead
+#     code, all of it pre-existing symbols becoming visible as other agents' edits changed who
+#     references what. A ratchet that breaches on the next honest addition gets raised in a
+#     hurry by whoever is unblocking themselves, which is the rubber stamp arriving by the back
+#     door.
+#   * Not large. Four is one more than the largest drift this instrument has been watched
+#     produce in a shift, so a normal night fits and nothing else does. It is deliberately far
+#     under the ten a single orphaned module contributes, so a whole unreachable file can never
+#     hide inside the slack -- which is the specific regression this limb was added to catch.
+# EXCEEDING IT MEANS: something in `src/` acquired more unreachable code than a shift's ordinary
+# churn accounts for. Read `python src/liveness.py`, find the new rows, and fix or delete them.
+# It does NOT mean "raise the number" -- unless you can write a paragraph like the two above,
+# naming what the instrument can now see that it could not before.
+LIVENESS_CEILING = 52
 
 # GitHub's push protection scans the repo too -- a FOURTH lock, and it is
 # right: a real-looking key must not exist in source even as a fixture. Built
@@ -886,6 +912,24 @@ def drill_train():
         lambda: any("never asked for" in m
                     for m in PG.section_shortfall(good + good + good, 2)[2]),
         "AUDIT DEFEAT 3: max(0, ...) floored the ghost term, so padding was free")
+    # THE BEHAVIOUR, NOT THE MESSAGE (order 212e3096edfc). The net directly above asserts that
+    # the sentence appears in `section_shortfall`'s third return value, and verify_math section
+    # 20x asserts the same thing -- and for as long as the defect stood, BOTH were satisfied by
+    # a gate that let the block straight through. Each invented entry brought its own 5 to
+    # `present` AND its own 5 to `required`, `frac` stayed exactly 1.0, and the sentence was only
+    # ever rendered inside a `ProseRefused` that was never constructed. A message is not a price,
+    # and a net that tests the message rather than the refusal is a decoy: it is green whether
+    # the gate works or not. The ghost direction has had a RAISES net all along ("a half block
+    # raises rather than shelving"); this is its missing twin, and this is layer 4 of the gate
+    # that stands between the catalogue and 145 unauthorised chapters.
+    net(a, "a block with entries nobody asked for RAISES, not merely complains",
+        lambda: _refuses(lambda: PG.assert_block_complete(good * 3, 1, "drill"), PG.ProseRefused),
+        "an invented entry is a fabricated record -- Hard Rule 1 -- and pricing it into the "
+        "denominator is the only thing that can make assert_block_complete refuse it")
+    net(a, "and a block of exactly the entries asked for still passes",
+        lambda: PG.assert_block_complete(good * 3, 3, "drill") == 1.0,
+        "an over-refusing gate is removed by whoever it blocks; the price must fall only on "
+        "the entries nobody asked for")
     net(a, "prose that merely MENTIONS Threads does not count as the section",
         lambda: any("Threads" in m for m in PG.section_shortfall(
             "◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
@@ -4012,6 +4056,83 @@ def drill_workorders():
                     {"at": NOW - 60, "lint": ["x"]})),
         "a code nothing can ever raise is a check that cannot fail, wearing a name")
 
+    def stranded_synthesis_selects_on_the_condition():
+        """A record with entries and no synthesis must be reported, whatever LOST the synthesis.
+
+        THE DETECTOR EXISTS AND HAS NEVER BEEN WATCHED FIRE (order 1f39177464cf). It was added to
+        `sweep_detectors` because thirty-one records sat with a null synthesis until a person
+        noticed on 2026-08-28 -- 191,029 entries, Marvel and DC among them -- and the pipeline's
+        own failed set held exactly TWO of them. The other twenty-nine never failed anything:
+        their blocks were written correctly and then CLOBBERED by the catalogue-side writer.
+        `phase_synthesis` skips any source already in its done-keys, so nothing would ever have
+        revisited them.
+
+        SO THE PROPERTY UNDER TEST IS SELECTION ON THE CONDITION, NOT ON THE CAUSE, and it is the
+        whole reason the detector is worth having: a rescue tool keyed to the failed set misses
+        every casualty whose cause it did not anticipate. `stranded` here is in no failed set and
+        must still be returned; `whole` has a synthesis and must not be; `empty` has nothing to
+        synthesise FROM and is not stranded, it is empty, and a detector that fires on it would
+        file a hundred orders nobody can act on and be switched off within the day.
+
+        Driven against a fixture record set, never the live one -- `records()` is the seam,
+        exactly as `drill_two_writer` uses it.
+        """
+        import pipeline as PL
+        import retry_synthesis as RS
+        keep = PL.records
+        rows = [("stranded.json", {"source": "Stranded", "entries": [{"name": "a"}],
+                                   "synthesis": None}),
+                ("whole.json", {"source": "Whole", "entries": [{"name": "b"}],
+                                "synthesis": {"band": "M4"}}),
+                ("empty.json", {"source": "Empty", "entries": [], "synthesis": None})]
+        try:
+            PL.records = lambda: list(rows)
+            return RS.stranded_sources() == ["Stranded"]
+        finally:
+            PL.records = keep
+    net(a, "a record with entries and no synthesis is reported STRANDED",
+        stranded_synthesis_selects_on_the_condition,
+        "the pipeline's failed set held 2 of the 31 clobbered records, so a detector keyed to "
+        "the CAUSE would have found two and reported the job done")
+
+    def stranded_detector_fires_on_what_it_computes():
+        """...and the sweep must actually FILE on that list, in a reachable branch.
+
+        The half a behavioural net cannot answer. `stranded_sources()` could be perfect and the
+        detector still inert: this project's signature failure is a value computed, printed and
+        dropped, and `sweep_detectors` is exactly where that would be invisible -- a `_fire`
+        whose condition was hard-wired, or a stranded list bound and never passed, reports the
+        same "nothing outstanding" line as a clean library.
+
+        So: the call is REACHABLE inside `sweep_detectors`, the name it binds is what the
+        `_fire` guarding STRANDED_SYNTHESIS is conditioned on, and the code string is there to
+        be filed under.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "workorders.py"))
+        sweep = _defn(tree, "sweep_detectors")
+        if sweep is None or not _says(tree, "STRANDED_SYNTHESIS"):
+            return False
+        bound = _bound_from_call(tree, sweep, "retry_synthesis.stranded_sources")
+        if not bound:
+            return False
+        for call in _live_walk(sweep):
+            if not (isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+                    and call.func.id == "_fire" and len(call.args) >= 2):
+                continue
+            code = call.args[1]
+            if not (isinstance(code, ast.Constant) and code.value == "STRANDED_SYNTHESIS"):
+                continue
+            # The verdict argument must READ the computed list. `not stranded` is a UnaryOp over
+            # the bound name; anything that does not mention it is a hard-wired verdict.
+            return any(isinstance(n, ast.Name) and n.id in bound
+                       for n in ast.walk(call.args[0]))
+        return False
+    net(a, "the stranded detector files on the list it computed, not on a constant",
+        stranded_detector_fires_on_what_it_computes,
+        "a value computed, printed and dropped is this project's signature failure, and a queue "
+        "that is blind reports the same sentence as a queue that is clear")
+
 
 def _guards_are_wired_where_claimed(src=None):
     """Each interlock must be CALLED in the file that claims it — asked of the AST.
@@ -4236,10 +4357,14 @@ def drill_inspector():
         "a scope-blind used set hid coverage._p(), the case the module was written for")
 
     def liveness_does_not_worsen():
-        """A RATCHET, not a floor. The 38 dead functions here predate this work and deleting
-        them is a separate, reviewable act. What must not happen is the number GROWING -- a new
-        check that never runs is exactly how "a check that cannot fail" gets into the tree, and
-        it is invisible to every other instrument because nothing red ever appears.
+        """A RATCHET, not a floor. The findings counted here predate this work and deleting them
+        is a separate, reviewable act. What must not happen is the number GROWING -- a new check
+        that never runs is exactly how "a check that cannot fail" gets into the tree, and it is
+        invisible to every other instrument because nothing red ever appears.
+
+        The number is the SUM over every list `scan()` returns, so a limb added to the detector
+        counts the moment it lands: see `LIVENESS_CEILING` for what it stands at, what the two
+        lawful raises were, and how much headroom is deliberate.
         """
         import liveness
         r = liveness.scan()
@@ -4622,7 +4747,7 @@ def drill_codewatch():
         `feats.py --roll`, `autostart.py --watch` and `overnight.py` itself are long-lived and
         are NOT restarted by the keeper -- they are uncovered, they are known to be uncovered,
         and whether a mid-crawl rc=17 is an acceptable price is an operations ruling rather than
-        something this net may decide by going red. Order 1cd18b9bd47a carries that half.
+        something this net may decide by going red. Order 2cb8756deb0a carries that half.
 
         A roster that reads as empty, or shorter than the keeper's own list, FAILS: this net's
         job is to be unsatisfiable by an absence, and "I could not find the daemons" is not

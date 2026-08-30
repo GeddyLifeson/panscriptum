@@ -40,17 +40,37 @@ def check_sweep_passes_on_corrupt_to_cachekey_load():
 
 
 # order 29fdcb11b3cd -- src/coverage.py, _so_save()
-# dirty must only clear when replace_retry actually landed the file.
+# dirty must only clear when the write actually landed the file.
+#
+# THE PROPERTY, NOT THE SPELLING (order a8b177444e01). This asserted the literal text
+# `if _sil.replace_retry(tmp, _SO_CACHE_P):`, and _so_save has since been migrated off the
+# hand-rolled fixed `path + ".tmp"` onto silence.write_json (its own comment cites SWEEP34
+# 5a9a75916f94: the fixed temp name was shared by every concurrent writer of that cache, while
+# write_json's carries pid and thread). The invariant 29fdcb11b3cd cared about never moved --
+# coverage.py still reads `if silence.write_json(_SO_CACHE_P, _SO["d"]): _SO["dirty"] = 0` --
+# but the check failed anyway, and its failure text told whoever chased it to put the
+# fixed-tmp writer BACK. A check that is wrong in the direction of a real hazard is worse than
+# no check. What is asserted now is what the order actually wanted: EVERY clear of the dirty
+# flag sits directly inside the truth branch of a landed-verdict call, whichever of the two
+# house writers that call happens to be.
+_LANDED_CALLS = ("write_json(", "replace_retry(")
+
+
 def check_coverage_so_save_gates_dirty_on_landed_write():
     import coverage as CV
     src = inspect.getsource(CV._so_save)
-    assert 'if _sil.replace_retry(tmp, _SO_CACHE_P):' in src, \
-        "coverage._so_save() must only clear dirty inside the replace_retry() truth branch"
-    # dirty=0 must not appear unconditionally right after the write.
     lines = [ln.strip() for ln in src.splitlines()]
-    idx = next(i for i, ln in enumerate(lines) if "replace_retry(tmp, _SO_CACHE_P)" in ln)
-    assert '_SO["dirty"] = 0' in lines[idx + 1], \
-        "the dirty-clear must be the line immediately gated by the replace_retry check"
+    gates = [i for i, ln in enumerate(lines)
+             if ln.startswith("if ") and any(c in ln for c in _LANDED_CALLS)]
+    assert gates, \
+        "coverage._so_save() must gate on a landed-write verdict (silence.write_json or " \
+        "silence.replace_retry), not write and hope"
+    clears = [i for i, ln in enumerate(lines) if '_SO["dirty"] = 0' in ln]
+    assert clears, "coverage._so_save() no longer clears the dirty flag at all"
+    for i in clears:
+        assert (i - 1) in gates, \
+            "coverage._so_save() clears dirty outside the landed-write truth branch: a denied " \
+            "replace would tell the process its mtime cache is on disk when it is not"
 
 
 # order 2b10b8d71c45 -- src/ingest_doc.py, main()
@@ -62,18 +82,28 @@ def check_ingest_doc_checks_write_record_verdict():
 
 
 # order 09405680f175 -- src/backfill.py, main() --audit
-# The ranked/truncated audit table must announce its remainder.
-# THE EXEMPLAR THIS USED TO CITE IS GONE: it said "matching catalog.py's pattern" and
-# "like catalog.py:66-67", but catalog.py's `missing[:30]` + "... and N more" was itself a Hard
-# Rule 0 truncation (order 6434c1ba7b20) and has been replaced by printing the whole roster.
-# A remainder line is the WEAKER of the two answers -- honest about what it hid, but still
-# hiding it -- so it is not something to point other code at. The requirement here is unchanged
-# and stands on its own: whatever backfill.py --audit does not show, it must say it did not show.
-def check_backfill_audit_announces_remainder():
+# SUPERSEDED BY THE STRONGER ANSWER, AND RE-AIMED RATHER THAN LEFT RED. This asserted
+# `"for x in rows[:26]:" in text` and `"len(rows) - 26" in text` -- that the audit table
+# TRUNCATES at 26 and announces its remainder. Both halves of that are now wrong: order
+# 03c0fe609e89 uncapped the table (`for x in rows:`, count moved into the header), so the first
+# assertion failed and its message read "slice changed shape unexpectedly", which tells whoever
+# chases the red to put a Hard Rule 0 truncation BACK. A check that demands a cap is worse than
+# no check. The exemplar it cited is gone the same way: it pointed at catalog.py's `missing[:30]`
+# + "... and N more", which was itself a truncation and is now the whole roster (order
+# 6434c1ba7b20). A remainder line is the WEAKER of the two answers -- honest about what it hid,
+# but still hiding it -- so what is asserted now is the stronger property that replaced it:
+# --audit prints every row, and says so.
+def check_backfill_audit_prints_every_row():
     text = open(os.path.join(SRC, "backfill.py"), encoding="utf-8").read()
-    assert "for x in rows[:26]:" in text, "backfill.py --audit slice changed shape unexpectedly"
-    assert "len(rows) - 26" in text, \
-        "backfill.py --audit must print how many rows were not shown"
+    assert "for x in rows:" in text, \
+        "backfill.py --audit must iterate every row, not a slice of them"
+    # `for x in rows[:` and not a bare `rows[:`: the comment above that loop QUOTES the old
+    # `rows[:26]` as the thing it removed, and a check that reads its own history as a relapse
+    # would make the fix undocumentable.
+    assert "for x in rows[:" not in text, \
+        "backfill.py --audit has a truncating slice again (Hard Rule 0)"
+    assert "all of them:" in text, \
+        "backfill.py --audit must say the table is complete, so a reader knows nothing is folded"
 
 
 # orders 00d8436bb86d, 322cc5ab6f31, eb626e4d9dde -- stale silence.note LINE-NUMBER tags

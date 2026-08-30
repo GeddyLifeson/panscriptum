@@ -112,11 +112,55 @@ def spine_code_for(source_name: str) -> str:
     # most specific entry; `>` rather than `>=` leaves ties resolving in index order, so a tie
     # behaves as it always did. (Verified against all 215 roll entries and all 220 index names
     # before and after: no assignment changed.)
+    # AND A ONE-WORD MATCH IS NOT EVIDENCE HERE EITHER (order 3b030216a138). Order 7f9a58566f91
+    # fixed exactly this hazard in the token-overlap FALLBACK below, and this branch runs FIRST
+    # and had the same weakness: a single-token index entry matches as a whole word anywhere
+    # inside an unrelated long title, and the fallback's guard is never reached. Demonstrated
+    # live against the real index, both of them wrong:
+    #
+    #     'A Halo Around The Moon Documentary'            -> II.F.4   (Halo)
+    #     'Some Unrelated Game About Doom Marines On Mars' -> II.N.2   (Doom)
+    #
+    # 51 of the 220 index entries are a single token -- 'Alien', 'Doom', 'Dune', 'Halo',
+    # 'Diablo', 'DC' among them -- so this is a broad surface, and it does the same second harm
+    # the notes above describe: a source that matches WRONG never reaches
+    # `unassigned_sources.md`, so the owner sign-off that would have caught it is never asked
+    # for. Hard Rule 2 says never invent an address; this was a path that did.
+    #
+    # THE RULE HAS TWO PARTS, AND THE DIRECTION OF THE CONTAINMENT IS THE FIRST OF THEM.
+    #
+    # When the TARGET sits inside the INDEX NAME, the index is naming it on purpose: the
+    # appendix writes out its contents, e.g. 'Tom Clancy (all: Splinter Cell, Rainbow Six, Ghost
+    # Recon, The Division, HAWX, EndWar)', and the roll entries 'HAWX' and 'EndWar' are real
+    # single-token matches inside it. That direction is authoritative and is left untouched.
+    #
+    # When the INDEX NAME sits inside the TARGET, the index is not asserting anything about the
+    # longer title -- the word simply occurs in it. So a single-token index entry counts only if
+    # its token OPENS or CLOSES the title, which is where a work's name sits: 'Norse' closing
+    # 'Pantheon: Norse' and 'Halo' opening 'Halo (all games)' are the roll and the index writing
+    # the same work with a qualifier attached; 'Halo' in the middle of a sentence-shaped title is
+    # a coincidence of vocabulary. Two-or-more-token containment is unchanged -- 'One Piece' in
+    # 'One Piece (all arcs)' is real evidence, and the most-specific-wins scoring below already
+    # sorts out competing entries.
+    #
+    # Nothing legitimate is lost by the rejection either: 'all Doom' against index 'Doom' fails
+    # here (the word neither opens nor closes it, 'all' does) and is then matched by the token
+    # fallback, whose equal-token-set arm exists for exactly that shape. Verified against all 215
+    # roll entries and all 220 index names: no assignment changed, and the two titles above now
+    # return UNASSIGNED, which is the safe answer this fallback exists to give.
+    def _index_name_is_placed_like_a_title(w_name, w_target):
+        """The index entry sits inside the target: is it there as the title, or as vocabulary?"""
+        if len(w_name.split()) > 1:
+            return True
+        return w_target.startswith(w_name.rstrip() + " ") or w_target.endswith(" " + w_name.lstrip())
+
     w_target = _worded(source_name)
     if w_target.strip():
         best_code, best_evidence = None, 0
         for name, code in codes.items():
             w_name = _worded(name)
+            if w_name in w_target and not _index_name_is_placed_like_a_title(w_name, w_target):
+                continue
             if w_target in w_name or w_name in w_target:
                 evidence = min(len(w_target), len(w_name))
                 if evidence > best_evidence:

@@ -311,12 +311,19 @@ def assays_by_host(assays):
     matched up out of the corpus to know it. A key with no `|` is filed under the empty host,
     where it can only match a scale from a wiki of that name -- i.e. nothing -- rather than
     being quietly promoted into whichever franchise asked first.
+
+    Returns (by_host, collisions), where `collisions` names every "host|name" that two assay
+    keys normalised onto -- the last one read wins for those, and that is not something to
+    discover later from a rho that looks odd.
     """
-    out = {}
+    out, collisions = {}, []
     for k, v in assays.items():
         h, _, n = k.partition("|")
-        out.setdefault(h, {})[_norm(n)] = v
-    return out
+        n = _norm(n)
+        if n in out.setdefault(h, {}):
+            collisions.append("%s|%s" % (h, n))
+        out[h][n] = v
+    return out, sorted(collisions)
 
 
 def check(rosetta, assays, by_host=None):
@@ -351,22 +358,15 @@ def check(rosetta, assays, by_host=None):
     prints them as unscored and does not count them as disagreements.
     """
     a_by, collided = {}, set()
-    if by_host is None:
-        for k, v in assays.items():
-            n = _norm(k)
-            # _norm COLLISIONS ARE COUNTED, NOT SWALLOWED. This was a dict comprehension, so two
-            # assays normalising to the same key silently kept the last one and nothing said
-            # which decimal was being used for the name.
-            if n in a_by:
-                collided.add(n)
-            a_by[n] = v
-    else:
-        for h, names in by_host.items():
-            for n in names:
-                if n in a_by and a_by[n] != names[n]:
-                    collided.add(n)
-                a_by[n] = names[n]
-        a_by = {}                      # scoped lookups go through `by_host`, never this map
+    for k, v in assays.items():
+        n = _norm(k)
+        # _norm COLLISIONS ARE COUNTED, NOT SWALLOWED. This was a dict comprehension, so two
+        # assays normalising to the same key silently kept the last one and nothing said which
+        # decimal was being used for the name. (The scoped path reports its own collisions from
+        # `assays_by_host`, where they are per wiki and therefore the ones that can bite.)
+        if n in a_by:
+            collided.add(n)
+        a_by[n] = v
     report = []
     for host, scales in rosetta.items():
         known = a_by if by_host is None else by_host.get(host, {})
@@ -403,9 +403,17 @@ def refine(rosetta, records, hosts):
     match a Star Trek entity. Matching globally would let any 16,000 catalogued names vouch for
     any row, which is how a filter becomes a rubber stamp.
     """
-    # Built by `_persons_by_host`, which `check()` now shares: the two were doing the same job
-    # and only one of them was doing it (order 0bba50a6d76b).
-    by_host = _persons_by_host(records, hosts)
+    by_host = {}
+    for _, r in records:
+        h = hosts.get(r["source"])
+        if not h:
+            continue
+        by_host.setdefault(h, set()).update(
+            _norm(e["name"]) for e in r["entries"]
+            # Persons only. Filtering on every catalogued entry let "Sabaody Archipelago" and
+            # "Cross Guild" through as graded characters, because a bounty table names places
+            # and crews too and the library does catalogue those -- as Places and Factions.
+            if (e.get("category") or "").startswith("Persons"))
 
     out, kept, dropped = {}, 0, 0
     for host, scales in rosetta.items():
@@ -579,19 +587,15 @@ def main():
         assays = {k: v["result"]["decimal"]
                   for k, v in json.load(open(path, encoding="utf-8")).items()
                   if v.get("result") and v["result"].get("decimal") is not None}
-        # HOST-SCOPED, so a row can only be vouched for by an assay of a name this library
-        # catalogues on that same wiki (order 0bba50a6d76b). The corpus read costs a few seconds
-        # and buys the difference between a filter and a rubber stamp; if it cannot be read the
-        # check runs UNSCOPED and says so, rather than reporting a stamp as a filter.
-        try:
-            by_host = _persons_by_host(P.records(), json.load(open(F.HOSTS, encoding="utf-8")))
-            print(f"  (matching scoped per wiki: {len(by_host)} host(s) with catalogued Persons)")
-        except Exception as e:
-            silence.note("rosetta.py:check-host-scope")
-            by_host = None
-            print(f"  (WARNING: the corpus could not be read ({type(e).__name__}), so matching "
-                  f"is GLOBAL -- a row may be vouched for by another franchise's assay of the "
-                  f"same name)", file=sys.stderr)
+        # HOST-SCOPED, off ASSAYS.json's own `host|Name` keys (order 0bba50a6d76b): a scale row
+        # can only be vouched for by an assay recorded on that same wiki. This is also what
+        # makes the check match anything at all -- see check()'s docstring on the bare-name
+        # lookup that scored 0 overlap on all eight standing scales.
+        by_host, collisions = assays_by_host(assays)
+        print(f"  (matching scoped per wiki: {len(by_host)} host(s) hold an assayed decimal)")
+        if collisions:
+            print(f"  ({len(collisions)} assay name(s) collide after normalising, last read "
+                  f"wins for each: {', '.join(collisions)})")
         rows = check(rosetta, assays, by_host=by_host)
         bad, unscored = [], []
         for r in rows:
@@ -601,7 +605,7 @@ def main():
                 unscored.append(r)
                 print(f"  rho     --  n={r['overlap']:>4}  {r['scale'][:38]:<40}"
                       f"{r['kind']}  UNSCORED (needs 4 overlapping names)"
-                      f"{'  [%d row(s) not catalogued on this wiki]' % r['off_host'] if r['off_host'] else ''}")
+                      f"{'  [%d row(s) carry no assay from this wiki]' % r['unmatched'] if r['unmatched'] else ''}")
                 continue
             disagrees = r["rho"] < 0.3
             if disagrees:
@@ -611,9 +615,6 @@ def main():
         if unscored:
             print(f"\n{len(unscored)} of {len(rows)} scale(s) could NOT be scored (fewer than "
                   f"four names overlap the Assay). That is not agreement; it is no measurement.")
-        if rows and rows[0].get("ambiguous_assay_names"):
-            print(f"{rows[0]['ambiguous_assay_names']} assay name(s) normalise onto a name "
-                  f"another assay also uses -- the last one read wins for those.")
         # THE EXIT CODE HAS TO CARRY THE VERDICT, not just the printout. This used to
         # `return 0` unconditionally, so nothing that gates on rc (a shell, allsweep's
         # VERIFIERS, a scheduler) could ever learn a franchise's own published ordering

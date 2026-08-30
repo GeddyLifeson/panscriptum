@@ -274,6 +274,60 @@ _STALE_GATE = {}
 # this machine once, "fetched again" is not free. (run #37 sweep.)
 _UNCACHED = {}
 
+# WHAT THE LENGTH FILTER TOOK, per gate, so its rate is auditable (order eacc5444288c).
+#
+# `mine()` and `by_axis()` both open with `if not (20 < len(s) < 400): continue`, and until now
+# that drop reached NOTHING: not `feats`, not `gate_rejected`, not `quantities`, not roll()'s
+# summary -- the one place every other kind of loss is printed. This module's own docstring
+# promises the opposite ("it keeps everything it gathers, including what the gate turned down,
+# because the previous pass discarded its rejections and left the rejection rate unauditable"),
+# and an unrecorded cap on an evidence list is Hard Rule 0's exact shape. Measured by the audit
+# that filed the order: 0.20% of units are 400 characters or longer, extrapolating to ~62,700
+# dropped units across the cache, of which ~575 would have passed the evidence gate and ~128
+# carry a physical quantity.
+#
+# COUNTED PER GATE, not once, and the distinction is not pedantry: `evidence_for` runs the same
+# page through BOTH functions, so one shared tally would double every unit and report a rate for
+# a denominator that does not exist. The floor and the ceiling are counted apart because they
+# are different claims -- 20 characters is noise control, 400 is an upper bound on evidence, and
+# only the second is a truncation of the corpus.
+#
+# The numbers are only counted here. What to DO about the ceiling is the order's open question
+# and the owner's; this makes the answer measurable instead of invisible.
+_UNIT_DROPS = {"mine": {"seen": 0, "short": 0, "long": 0},
+               "by_axis": {"seen": 0, "short": 0, "long": 0}}
+
+# The longest unit dropped by the ceiling, per gate, so the reader can see whether the material
+# being lost is a runaway table row or a genuine paragraph of prose.
+_UNIT_LONGEST = {"mine": 0, "by_axis": 0}
+
+
+def _units(text, where):
+    """Yield the text units of `text` that clear the length gate, TALLYING what it drops.
+
+    The gate itself is unchanged -- `20 < len(s) < 400`, the same bound both call sites carried
+    inline. What is new is that the drop is recorded. See `_UNIT_DROPS`.
+    """
+    tally = _UNIT_DROPS[where]
+    for s in _SENT.split(text):
+        s = s.strip()
+        n = len(s)
+        with _COUNTS_LOCK:
+            tally["seen"] += 1
+            if n <= 20:
+                tally["short"] += 1
+            elif n >= 400:
+                tally["long"] += 1
+                if n > _UNIT_LONGEST[where]:
+                    _UNIT_LONGEST[where] = n
+        if 20 < n < 400:
+            yield s
+
+
+def unit_drops():
+    """A copy of the length-filter tallies, for anything that wants to report them."""
+    return {k: dict(v) for k, v in _UNIT_DROPS.items()}
+
 
 def reads_as_wiki(host):
     """-> is this host's material wikitext? THE ONE PLACE that question is answered.
@@ -338,8 +392,29 @@ if any(c in _SRC for c in _BAD):
 
 # --------------------------------------------------------------------------- transport
 
-def api(host, params, retries=2):
-    """One MediaWiki API call. Returns parsed JSON, or None."""
+def api(host, params, retries=2, outcome=None):
+    """One MediaWiki API call. Returns parsed JSON, or None.
+
+    `outcome` IS AN OPTIONAL CHANNEL FOR *WHY* NONE CAME BACK (order 64e4db060ad6). This
+    function already separates the failure classes for the silence ledger -- 404, HTTP error,
+    non-JSON 200, network fault -- and then throws that distinction away at the return, so every
+    caller sees one undifferentiated `None`. That is tolerable for a page fetch, where a miss is
+    a miss, and it is NOT tolerable for a liveness probe: `alive()` turned a swallowed timeout
+    into "this source has no wiki", and `resolve_hosts` cached that judgement permanently.
+
+    Pass a dict and this call stamps it with {"ok": bool, "why": str}. `why` is one of
+    "ok", "no-api", "http-404", "throttled", "http-<code>", "nonjson", "network", or "unknown"
+    -- the last being the pre-stamped default, so a path that somehow returns without stamping
+    reads as *undetermined* rather than as a clean negative. Additive keyword with the old
+    behaviour as the default: every existing caller is unchanged and ignores it.
+    """
+    def _stamp(ok, why):
+        if outcome is not None:
+            outcome["ok"], outcome["why"] = ok, why
+
+    if outcome is not None:
+        outcome.clear()
+        _stamp(False, "unknown")
     q = dict(params)
     q.update({"format": "json", "formatversion": "2"})
     # Wikipedia serves its API from /w/api.php; Fandom serves it from /api.php. Getting this
@@ -355,6 +430,9 @@ def api(host, params, retries=2):
     import endpoint as EP
     base = EP.api_url(host)
     if not base:
+        # NOT a clean negative: `endpoint.detect()` probes to decide this, so "no usable API"
+        # can itself be the answer of a failed probe. Reported as undetermined.
+        _stamp(False, "no-api")
         return None                       # no usable API here; fetch() takes the raw path
     url = base + "?" + urllib.parse.urlencode(q)
     for attempt in range(retries + 1):
@@ -373,6 +451,7 @@ def api(host, params, retries=2):
                 # enough strikes to reach THROTTLE_STRIKES and be handed to binding_health's
                 # quarantine.
                 note_ok(host)
+                _stamp(True, "ok")
                 return parsed
         except urllib.error.HTTPError as e:
             # 429 is a request to slow down, not a failure to retry at the same speed. Backing
@@ -387,6 +466,8 @@ def api(host, params, retries=2):
             # returns exactly what it returned before; only which counter it lands in changed.
             if e.code == 404:
                 silence.note("feats.py:api-404")
+                # THE ONE CLEAN NEGATIVE. The host answered and said there is nothing here.
+                _stamp(False, "http-404")
                 return None
             silence.note("feats.py:api-http-error")
             if e.code in (429, 503):
@@ -399,10 +480,12 @@ def api(host, params, retries=2):
                 # both mean "not now", and a wiki under load returns either.
                 note_throttled(host)
                 if attempt == retries:
+                    _stamp(False, "throttled")
                     return None
                 time.sleep(min(wait, 120))
                 continue
             if attempt == retries:          # 404 already returned above
+                _stamp(False, "http-%d" % e.code)
                 return None
             time.sleep(2 + attempt * 4)
         except json.JSONDecodeError:
@@ -423,17 +506,48 @@ def api(host, params, retries=2):
             # which counter it lands in changed.
             silence.note("feats.py:api-nonjson")
             if attempt == retries:
+                _stamp(False, "nonjson")
                 return None
             time.sleep(2 + attempt * 4)
         except Exception:
             silence.note("feats.py:api-network-fault")
             if attempt == retries:
+                _stamp(False, "network")
                 return None
             time.sleep(2 + attempt * 4)
 
 
+def alive_verdict(host):
+    """Is there a wiki at this host? -> (verdict, why). THREE answers, not two.
+
+    True   the API answered siteinfo: there is a wiki here.
+    False  a CLEAN negative -- the host answered 404, which is a wiki saying there is nothing
+           at this address. This is the only shape that may be cached as "no wiki".
+    None   the probe FAILED and we learned nothing: a timeout, a throttle, a 5xx, a WAF page,
+           this machine's ephemeral-port exhaustion, or an endpoint detection that could not
+           complete. NOT evidence of absence.
+
+    WHY THE THIRD ANSWER EXISTS (order 64e4db060ad6). `alive()` was `bool(api(host, ...,
+    retries=0))` -- ONE attempt, and `api()` swallows every exception into the ledger and
+    returns None -- so any transport hiccup answered "no wiki", `resolve_hosts` wrote that
+    judgement into data/WIKI_HOSTS.json as a null, and `roll()` then dropped every entity of
+    that source from the universe (`h = hosts.get(src); if not h: continue`). A cached failure
+    is indistinguishable from a genuine absence to every later reader, and to the code.
+    """
+    out = {}
+    if api(host, {"action": "query", "meta": "siteinfo"}, retries=0, outcome=out):
+        return True, "siteinfo answered"
+    why = out.get("why") or "unknown"
+    # Only an explicit 404 is treated as settled. Everything else -- including "no-api", which
+    # `endpoint.detect()` reaches by probing and can therefore reach by failing -- leaves the
+    # question open, which costs one re-probe next run and is the cheaper error by far.
+    return (False if why == "http-404" else None), why
+
+
 def alive(host):
-    return bool(api(host, {"action": "query", "meta": "siteinfo"}, retries=0))
+    """Unchanged contract: True only when the wiki answered. See `alive_verdict` for the third
+    answer, which every caller that CACHES a negative must ask for instead of this."""
+    return alive_verdict(host)[0] is True
 
 
 # --------------------------------------------------------------------------- host resolution
@@ -516,6 +630,11 @@ def resolve_hosts(records, verify=True):
         with open(HOSTS, encoding="utf-8") as f:
             known = json.load(f)
 
+    # {source: [candidate (why), ...]} for sources whose probes could not be completed this run.
+    # Reported below, UNCAPPED: this is the list a person acts on, and the whole finding is that
+    # a failed probe used to leave no trace at all.
+    unprobed = {}
+
     for _, r in records:
         src = r["source"]
         # An OVERRIDE outranks a cached guess, always. The overrides were written after the first
@@ -531,7 +650,14 @@ def resolve_hosts(records, verify=True):
         if ov and known.get(src) != ov:
             known[src] = ov
             continue
-        if src in known:
+        # A NULL IS A CACHED FAILURE, NOT AN ANSWER (order 64e4db060ad6). This tested
+        # `src in known`, and a key whose value is None is still `in` the dict -- so the first
+        # time a probe failed for a source, the None it wrote was never re-asked by any later
+        # run, and `roll()` dropped every entity of that source from the universe for ever
+        # (`h = hosts.get(src); if not h: continue`). Testing the VALUE re-probes a null; the
+        # loop below now writes one only on a clean negative, so the two together mean a
+        # transport failure costs one re-probe next run instead of a permanent deletion.
+        if known.get(src):
             continue
         # Preferred: the corpus already told us, on the entries that carry a page.
         seen = collections.Counter(
@@ -553,13 +679,30 @@ def resolve_hosts(records, verify=True):
             continue
         # Otherwise guess the slug and CHECK it. An unverified guess would silently mine the
         # wrong fiction's wiki, which is worse than mining nothing.
+        #
+        # AND ONLY A CLEAN NEGATIVE MAY BE CACHED (order 64e4db060ad6). The for/else wrote
+        # `known[src] = None` whenever no candidate answered TRUE, which folded "every candidate
+        # answered 404" together with "the network refused us four times" -- and the null it
+        # wrote was permanent. Now a candidate whose probe could not complete is collected in
+        # `undetermined`, and a source with any such candidate is left OUT of the map entirely
+        # rather than recorded as absent: absence and a missing key read identically to every
+        # consumer (`hosts.get(src)`), so nothing downstream changes, but the next run asks
+        # again instead of inheriting a verdict nobody ever reached.
+        undetermined = []
         for slug in _slugs(src):
             h = f"{slug}.fandom.com"
-            if alive(h):
+            verdict, why = alive_verdict(h)
+            if verdict is True:
                 known[src] = h
                 break
+            if verdict is None:
+                undetermined.append("%s (%s)" % (h, why))
         else:
-            known[src] = None
+            if undetermined:
+                unprobed[src] = undetermined
+                known.pop(src, None)
+            else:
+                known[src] = None
 
     # tmp + replace_retry, not a bare open("w"). This file is read by `read.py:queue()` with an
     # unguarded json.load and by completeness, ingest_doc and wiki_source besides; a truncating
@@ -592,6 +735,17 @@ def resolve_hosts(records, verify=True):
               "open). The map below is this run's, in memory; the file every other stage reads "
               "still holds the PREVIOUS map, overrides and all. Re-run `--hosts`." % HOSTS,
               flush=True)
+    # EVERY SOURCE WHOSE PROBE COULD NOT BE COMPLETED, BY NAME. Uncapped: this is the list the
+    # operator acts on, and until now a failed probe left no trace anywhere -- it was written
+    # into the map as a null and read afterwards as a settled absence. These sources are absent
+    # from the map, so this run treats them exactly as it treats a hostless source, and the next
+    # `--hosts` asks again.
+    if unprobed:
+        silence.note("feats.py:host-probe-undetermined")
+        print("PROBE UNDETERMINED for %d source(s) -- NOT recorded as 'no wiki', and re-asked "
+              "next run:" % len(unprobed), flush=True)
+        for _src in sorted(unprobed):
+            print("   %-44s %s" % (_src[:44], ", ".join(unprobed[_src])), flush=True)
     return known
 
 
@@ -760,9 +914,22 @@ def resolve_title(host, name):
     bare = _tnorm(re.sub(r"\s*\([^)]*\)", "", name))
     if not n:
         return None
-    d = api(host, {"action": "query", "list": "search", "srlimit": "8", "srsearch": name})
+    # THE CANDIDATE LIST IS RANKED, NOT CUT (order 09a410dc7457). This asked for `srlimit=8` in
+    # ONE request and followed no continuation, so the list this function ranks over was
+    # truncated by us at eight and a correct title ranked ninth by the wiki's relevance was
+    # invisible -- with no signal of any kind, since the function simply returns None or a
+    # weaker candidate. `discover()` in this same file was corrected for exactly this
+    # ("measuring a truncation is not the same as not truncating") and this call was not
+    # visited. 50 is the API's per-REQUEST maximum, not an answer: `_api_list_all` follows
+    # `continue` until the wiki says there is no more, and records a walk it could not finish in
+    # `_CAP_BOUND` so a partial list cannot read as a complete one. The ranking below is
+    # unchanged -- it is what makes this safe, and it was never the problem.
+    rows = _api_list_all(
+        host, {"action": "query", "list": "search", "srlimit": "50", "srsearch": name},
+        "srlimit",
+        lambda d: d.get("query", {}).get("search", []) or [])
     best, best_score = None, (-1, -1)
-    for row in (d or {}).get("query", {}).get("search", []):
+    for row in rows:
         t = row["title"]
         tn = _tnorm(t)
         if tn == n or (bare and tn == bare):
@@ -974,10 +1141,9 @@ def mine(text, page):
     """Sentences that clear the evidence gate, plus any physical quantities, each tagged with
     the page it came from. Rejections are kept — see the module docstring."""
     kept, rejected, quants = [], [], []
-    for s in _SENT.split(text):
-        s = s.strip()
-        if not (20 < len(s) < 400):
-            continue
+    # `_units` applies the identical `20 < len(s) < 400` gate this loop carried inline, and
+    # COUNTS what it drops -- see `_UNIT_DROPS`. (order eacc5444288c)
+    for s in _units(text, "mine"):
         if P.valid_scale_note(s):
             kept.append({"feat": s, "page": page})
         elif _QUANTITY.search(s) or re.search(r"\b(destroy|obliterat|shatter|surviv)", s, re.I):
@@ -1114,10 +1280,8 @@ def by_axis(text, page):
     particular error structurally impossible rather than caught afterwards.
     """
     out = {ax: [] for ax in AXIS_ACT}
-    for s in _SENT.split(text):
-        s = s.strip()
-        if not (20 < len(s) < 400):
-            continue
+    # Same length gate as before, now tallied -- see `_UNIT_DROPS`. (order eacc5444288c)
+    for s in _units(text, "by_axis"):
         # The statblock, patient and evidence-object gates do not depend on the axis, yet the
         # per-axis loop was re-running all three eleven times per sentence -- a 3x regex
         # redundancy over an 874MB corpus (round-2 optimization audit, finding 1). Hoisted:
@@ -1211,7 +1375,21 @@ def evidence_for(host, name, cache=True):
     feats, rej, quants, text = [], [], [], {}
     unreal = {}
     for t, wt in pages.items():
-        clean = wt if plain else strip_wikitext(wt)
+        # GATED ON `wiki_source`, NOT ON `plain` (order abe49b3ba7b3). The two are not the same
+        # question and the difference was live for the five sources bound `pages:` in
+        # WIKI_HOSTS.json: `plain` is true only for `doc:`, so a `pages:` host with registered
+        # URLs -- whose text arrives as prose already extracted from HTML by `endpoint.fetch_html`
+        # -- was still put through the wikitext stripper. That stripper eats legitimate prose:
+        # its `<[^>]+>` arm removes anything in angle brackets, so "Roll 1d20 <plus> your
+        # proficiency" loses the middle word, and its `^\s*[=*#:;]+` arm strips a leading '!',
+        # '=', ';' or ':' from a prose line as table or heading scaffolding. The comment three
+        # paragraphs above already gave the reason not to run it ("The text is already plain --
+        # running the wikitext stripper over real prose eats legitimate brackets") and then wired
+        # that reasoning to `doc:` alone. `reads_as_wiki` is the one place the question "what
+        # kind of corpus is this host?" is answered, and it is the answer used by the
+        # cache-staleness check and by `page_looks_real` on the very next line -- asking it here
+        # too is what stops those three drifting apart again.
+        clean = strip_wikitext(wt) if wiki_source else wt
         # THE CHEAP GATE IN FRONT OF THE EXPENSIVE ONE. A block page, a soft-404 or a rate-limit
         # interstitial is a real document that mines to zero feats, and "zero feats" is
         # indistinguishable from an honest absence once it is written to the cache. Recorded
@@ -1427,6 +1605,27 @@ def roll(records, hosts, workers=8, limit=None, only=None):
     else:
         print("  discovery lists: complete (every allpages/search walk followed `continue` to"
               " the end; aplimit=500 / srlimit=50 are per-request maxima, not caps)")
+    # THE LENGTH FILTER'S OWN RATE. Every other loss in this roll is printed above; this one
+    # reached nothing at all until order eacc5444288c. Printed even when it is zero, because
+    # "no unit was dropped for length" and "nobody counted" are the two readings this whole
+    # block exists to keep apart.
+    _drops = unit_drops()
+    for _gate in ("mine", "by_axis"):
+        _t = _drops[_gate]
+        if not _t["seen"]:
+            print("  length filter (%s): no text unit reached it this roll" % _gate)
+            continue
+        print(f"  length filter ({_gate}): {_t['seen']:,} unit(s) seen, "
+              f"{_t['short']:,} dropped under 20 chars "
+              f"({100.0 * _t['short'] / _t['seen']:.2f}%), "
+              f"{_t['long']:,} dropped at 400+ chars "
+              f"({100.0 * _t['long'] / _t['seen']:.2f}%, "
+              f"longest {_UNIT_LONGEST[_gate]:,} chars)")
+    if _UNIT_DROPS["mine"]["long"] or _UNIT_DROPS["by_axis"]["long"]:
+        print("    (the 400-char ceiling is an upper bound on EVIDENCE, not noise control like "
+              "the 20-char floor -- an over-long unit is discarded before the evidence gate "
+              "sees it, so it reaches neither feats nor gate_rejected nor quantities. The rate "
+              "above is the whole of what is known about what it took.)")
     if _RATE_LIMITED:
         tot = sum(_RATE_LIMITED.values())
         ranked = sorted(_RATE_LIMITED.items(), key=lambda kv: -kv[1])   # ranked, never truncated

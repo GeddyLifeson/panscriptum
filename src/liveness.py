@@ -195,23 +195,27 @@ def _defs(tree, prefix=""):
 
 
 def scan():
-    """-> {'dead', 'dead_class', 'tautology', 'phantom', 'unparsed': [...]} over all of src/.
+    """-> {'dead', 'dead_class', 'dead_module', 'tautology', 'phantom', 'unparsed'} over src/.
 
-    STILL MISSING, DELIBERATELY AND ON THE RECORD: a MODULE pass. A function is credited as used
-    by `used_local[name]`, a bare-name Load anywhere in its OWN module, so every function in a
-    module nothing imports is kept alive by its siblings and that module reports ZERO findings --
-    identical to what a clean, live module reports. Measured by AST over src/ (imports,
-    from-imports, and every string constant equal to a module name or `<name>.py`, so a job
-    roster or dispatch-table entry counts): TEN modules are never imported or named by any other
-    module -- chord_field, descending_ladder, halo, handbuilt, module_index, pantheon, render,
-    scale_theories, wh40k, zfighters -- and six of them produce no row here at all. Two are
-    already known and filed (render 707fefc17465, scale_theories SWEEP34_FINDING).
+    THE MODULE PASS IS NOW HERE (order 209391b4f990, landed 2026-08-29 with the ceiling raise it
+    needed). It was specified in this docstring and left unbuilt for one shift, because a
+    function is credited as used by `used_local[name]` -- a bare-name Load anywhere in its OWN
+    module -- so every function in a module nothing imports is kept alive by its siblings, and
+    that module reports ZERO findings, identical to what a clean, live module reports. No amount
+    of sharpening the per-symbol passes can reach that: inside an orphan file every name really
+    is reached. Measured by AST over src/ (imports, from-imports, and every string constant equal
+    to a module name or `<name>.py`, so a job roster or dispatch-table entry counts): TEN modules
+    are never imported or named by any other module -- chord_field, descending_ladder, halo,
+    handbuilt, module_index, pantheon, render, scale_theories, wh40k, zfighters -- and six of
+    them produced no row here at all before this limb existed. Two were already known and filed
+    by hand (render 707fefc17465, scale_theories SWEEP34_FINDING), which is what having no
+    instrument for a class of finding looks like.
 
-    It is not added here because adding it raises the finding count by about ten against
-    `drill.LIVENESS_CEILING`, and that constant must move in the SAME change or the ratchet net
-    breaches and halts the library over a detector that got sharper rather than code that got
-    worse. The class limb above fitted inside the existing headroom; this one does not.
-    (order 209391b4f990, left open for that reason.)
+    It had to land in the same change as `drill.LIVENESS_CEILING`, because adding it raises the
+    finding count by ten and the ratchet net would otherwise breach -- halting the library over a
+    detector that got sharper rather than code that got worse. The class limb above fitted inside
+    the existing headroom; this one did not. The ceiling moved 41 -> 52 with its reasoning
+    written out beside it.
 
     ALSO MEASURED AND EMPTY, recorded so it is not re-measured: a function whose only in-module
     reference is its own recursive call would likewise be credited as used. Zero instances in the
@@ -312,6 +316,54 @@ def scan():
                 if k2 not in seen and any(x.rsplit(".", 1)[-1] == simple for x in bases2):
                     stack.append(k2)
         scoped[key] = set().union(*[self_attr[k][1] for k in seen]) if seen else set()
+
+    # --- DEAD MODULE: a whole file nothing else reaches. THE LIMB THE PER-SYMBOL PASSES CANNOT
+    # HAVE, and the reason it had to be its own pass (order 209391b4f990). A function is credited
+    # as used by `used_local[name]`, a bare-name Load anywhere in its OWN module, so every
+    # function in a module nothing imports is kept alive by its siblings -- and that module then
+    # reports ZERO findings, which is byte-for-byte what a clean, live module reports. The
+    # per-symbol passes cannot see this by construction, however sharp they get: they ask
+    # "is this name reached", and inside an orphan file every name reaches every other.
+    #
+    # THE THREE ROUTES A MODULE IS LEGITIMATELY REACHED BY, and all three are counted, because
+    # erring toward "it is used" is this module's standing rule: `import x` / `import x as y`,
+    # `from x import ...` (and `from pkg import x`, where the imported name may itself be the
+    # module), and a STRING naming it -- `"halo"` or `"halo.py"` or a path ending in it. The
+    # string route is not generosity: `overnight.STANDING` builds every daemon's command line
+    # with `os.path.join(SRC, "pipeline.py")`, and a job roster is as real a reference as an
+    # import statement.
+    #
+    # SELF-REFERENCE DOES NOT COUNT. A module that imports itself, or names its own filename in
+    # its own `__main__` help text, has not been reached by anything -- crediting that would make
+    # this limb unable to fire on precisely the files it exists for.
+    # `trees` is keyed by FILENAME (`silence.py`) while every reference spells the module
+    # (`import silence`). Compared without stemming, the two never match and this limb reports
+    # the entire tree dead -- which is how it read on first measurement, and a limb that fires on
+    # everything is as useless as one that fires on nothing.
+    def _stem(s):
+        return s[:-3] if s.endswith(".py") else s
+
+    referenced = set()
+    for name, t in trees.items():
+        me = _stem(name)
+        for node in ast.walk(t):
+            got = ()
+            if isinstance(node, ast.Import):
+                got = [al.name.split(".")[0] for al in node.names]
+            elif isinstance(node, ast.ImportFrom):
+                got = [al.name for al in node.names]
+                if node.module:
+                    got.append(node.module.split(".")[0])
+            elif isinstance(node, ast.Constant) and isinstance(node.value, str):
+                got = [_stem(node.value.strip().replace("\\", "/").rsplit("/", 1)[-1])]
+            for g in got:
+                if g and g != me:
+                    referenced.add(g)
+    dead_module = ["%s: nothing in src/ imports or names this module, so every function in it "
+                   "is kept alive only by its siblings and the per-symbol passes above report "
+                   "it as clean" % n
+                   for n in sorted(trees)
+                   if _stem(n) not in referenced and _stem(n) not in EXEMPT]
 
     dead, dead_class, taut, phantom = [], [], [], []
     for name, t in trees.items():
@@ -445,6 +497,7 @@ def scan():
                         phantom.append("%s:%d %s names '%s', never defined in this module"
                                        % (name, line, kind, sub.id))
     return {"dead": sorted(set(dead)), "dead_class": sorted(set(dead_class)),
+            "dead_module": sorted(set(dead_module)),
             "tautology": sorted(set(taut)), "phantom": sorted(set(phantom)),
             "unparsed": sorted(set(unparsed))}
 

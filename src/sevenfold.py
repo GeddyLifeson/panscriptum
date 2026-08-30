@@ -114,13 +114,16 @@ def shelve(members, weights, span=SPAN, depth=len(TIERS)):
     BALANCE IS BY CONSTRUCTION, AND THE BOUND IS NOW A REAL ONE. This said "the ordered list is
     cut into `span` contiguous blocks at each level, so no branch can swell into the giant
     component" while `seams()` was free to put every cut at one end of the block -- and on the
-    live shelving it did: the largest single address held 38 sources and the top tier's seven
-    branches ran from 1 member to 66 (order 2a48315d26e6). What bounds it now is that every cut
+    live shelving it did: the largest single address held 41 sources and the top tier's seven
+    branches ran from 1 member to 98 (order 2a48315d26e6). What bounds it now is that every cut
     is chosen within half a step of its even-split boundary, so each child holds between roughly
-    half and one and a half times its even share, at every level, whatever the weights say.
-    Measured after the change on the same 209 sources: top branches 15-45 (was 1-66), 36 sources
-    sharing an address (was 106), largest address 2 (was 38). `main()` prints MEMBERS PER BRANCH
-    so the property is measured on every run rather than asserted in this docstring.
+    half and one and a half times its even share -- unless the material refuses, since a seam
+    stronger than its block's median is never cut and a whole window of those yields fewer
+    children rather than a split through a bond. Measured before and after in one process over
+    one graph (208 sources): top branches 15-45 (was 1-98), metaverse branches 1-5 (was 1-41),
+    largest single address 5 (was 41), and the three kin pairs `main()` prints still share all
+    three tiers. `main()` prints MEMBERS PER BRANCH so the property is measured on every run
+    rather than asserted in this docstring.
     """
     order = affinity_order(members, weights) if weights else sorted(members)
     coords = {m: [] for m in order}
@@ -168,22 +171,43 @@ def shelve(members, weights, span=SPAN, depth=len(TIERS)):
         # top branches came out 7, 8, 9, 9, 10, 16 and 150. A tie-run split balances the tie; the
         # claim is about the BLOCK.
         #
-        # So: take the even-split boundary for each of the k-1 cuts, and around each one search a
-        # window of half a step either side for the weakest seam in it, nearest boundary winning
-        # a tie. Balance is then bounded by construction -- every chunk lands within half a step
-        # of even, so no branch can swell into a giant component whatever the weights say -- and
-        # the material still chooses the exact joint, which is what reading the seams was for.
-        # A window is also what makes the affinity signal meaningful rather than global: two
-        # sources with no measured affinity at opposite ends of the order are not evidence that
-        # the shelf should be cut at both.
+        # So, two rules, and BOTH are needed -- measured in one process over one graph (208
+        # sources), reported as top tier / metaverse tier members-per-branch, largest shared
+        # address, and whether the three kin pairs main() prints still share all three tiers:
+        #
+        #   old (globally weakest k-1)                 1-98 / 1-41, largest 41, kin 3,3,3
+        #   window only                                15-45 / 1-2,  largest 2,  kin 2,2,2  <-- no
+        #   window + weaker half of the joins          15-45 / 1-5,  largest 5,  kin 3,3,3
+        #
+        # 1. A WINDOW. Take the even-split boundary for each of the k-1 cuts and search half a
+        #    step either side of it for the weakest seam, nearest boundary winning a tie. Balance
+        #    is then bounded by construction -- every chunk lands within half a step of even, so
+        #    no branch can swell into a giant component whatever the weights say -- while the
+        #    material still chooses the exact joint, which is what reading the seams was for.
+        #    Two sources with no measured affinity at opposite ends of the order were never
+        #    evidence that the shelf should be cut at both.
+        #
+        # 2. ONLY THE WEAKER HALF OF THE JOINS MAY BE CUT. Window alone splits kin: a block of
+        #    seven or fewer has exactly k-1 seams for k-1 cuts, so EVERY seam is cut however
+        #    strong -- and `Predator|Alien`, at 6,806 against that block's median of 334, went
+        #    through the middle. That is the opposite of what this function is for, and it broke
+        #    the two "kin are shelved together" checks in verify_math. Restricting candidates to
+        #    seams at or below the block's median makes real the promise this docstring has
+        #    always carried -- "fewer wherever the block does not want dividing" -- which the
+        #    code never kept, because `k` alone forced maximum branching on every small block.
+        #    The median needs no tuning constant and degrades correctly: on a wholly tied block
+        #    (every world set, `weights={}`) every seam is at the median, so all of them stay
+        #    eligible and the split is exactly even.
+        vals = sorted(v for v, _ in gaps)
+        ceiling = vals[len(vals) // 2]
+        eligible = [g for g in gaps if g[0] <= ceiling] or gaps
         cuts = []
         step = len(block) / k
         for boundary in _even_cuts(len(block), k):
-            lo = max(0, int(round(boundary - step / 2)))
-            hi = min(len(gaps) - 1, int(round(boundary + step / 2)))
-            window = [g for g in gaps[lo:hi + 1] if g[1] not in cuts]
+            lo, hi = boundary - step / 2, boundary + step / 2
+            window = [g for g in eligible if lo <= g[1] <= hi and g[1] not in cuts]
             if not window:
-                continue
+                continue          # a run the block does not want divided: fewer children, by rule
             # (seam strength, distance from the even boundary) -- the weakest seam in the window,
             # and of equally weak ones the one that divides the block most evenly.
             cuts.append(min(window, key=lambda t: (t[0], abs(t[1] - boundary)))[1])

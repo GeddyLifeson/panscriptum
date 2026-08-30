@@ -70,8 +70,8 @@ def store(text: str, compressed_dir: str) -> dict:
             silence.note("compress_store.py:temp-unlink-denied")
             tmp_state = "the temp file %s is still on disk" % tmp
         # replace_retry() FAILS CLOSED by design (see silence.py) -- it records
-        # "replace-denied:<file>" and returns False rather than raising, so the temp copy is
-        # still sitting on disk and `path` does not exist yet. The old code returned the same
+        # "replace-denied:<file>" and returns False rather than raising, so nothing landed and
+        # `path` does not exist yet (the temp is swept just above). The old code returned the same
         # success dict either way, so a blob that never landed was reported as stored, and
         # generate.py wrote that path straight into the catalogue as `compressed_path`
         # (generate.py:468) for catalog.py:97 to open later and fail on. Raising here instead

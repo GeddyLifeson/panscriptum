@@ -6,18 +6,19 @@ its paths -- the drift branch overwrote every non-`entries` key from the stale i
 with no None-guard, and the no-drift fast path wrote that copy WHOLE and never merged at all.
 The sibling writer `write_record_catalogue` was fixed for this on 2026-08-25; this one was not.
 
-Five arms, and the ones after the second are what make this evidence rather than assertion:
+Six arms, and the ones after the second are what make this evidence rather than assertion:
 
   1. NO DRIFT, disk holds a key the caller left None      -> the disk value must survive
   2. DRIFT,    disk holds a key the caller left None      -> the disk value must survive
   3. an EXPLICIT empty value ("" / {} / []) still CLEARS  -> the escape hatch must still work
   4. a caller's real value still WINS                     -> the fix must not freeze the record
-  5. NO DRIFT, the caller's per-entry JUDGMENTS reach disk -> the fold runs on both paths
+  5. NO DRIFT, the caller's per-entry JUDGMENTS reach disk -> the fold runs on the fast path
+  6. DRIFT,    the caller's per-entry JUDGMENTS reach disk -> and on the merge path too
 
 Plus two controls, one per direction the writer can break:
 
   A. the old unguarded top-key merge restored   -> arms 1 and 2 must FAIL
-  B. the per-entry fold back inside `if drift:` -> arm 5 must FAIL
+  B. the per-entry fold back inside `if drift:` -> arm 5 must FAIL, arm 6 must NOT
 
 ARM 5 AND CONTROL B ARE ORDER f3536eed6ce0, AND THE ORDER IS ABOUT THIS FILE'S OWN BLIND SPOT.
 Every arm above used ENTRIES = [{"name": "Alpha"}, {"name": "Beta"}] on BOTH sides of the round
@@ -63,8 +64,26 @@ ENTRIES = [{"name": "Alpha"}, {"name": "Beta"}]
 # The per-entry fields `write_record` is contracted to fold from the caller's copy onto the disk
 # cast. Named here rather than spelled out in arm 5 so the arm tests the contract rather than one
 # hand-picked field.
-JUDGMENTS = {"category": "person", "magnitude": "M4", "topic": "the worked example",
-             "catalogued": True, "scale_note": "settled by the entrypass"}
+#
+# AND THE LIST IS NOW THE WRITER'S OWN, not a copy of it (order 776507b529c5). This was five
+# literal keys and the writer folds six -- `scale_note_rejected` was missing, so the one judgment
+# field that records a REJECTED reading, and therefore the one whose loss looks most like a clean
+# record, was outside the fixture. Reading `P.MERGED_ENTRY_FIELDS` means a field added to the
+# writer is covered here the day it is added rather than the day someone remembers this file:
+# a check whose fixture is simpler than the data is a check that cannot fail in exactly the
+# direction the code can break, which is the finding this whole arm exists for. Unknown fields
+# get a generic authored value, because what is being proved is that the fold RUNS, not what any
+# particular field means.
+_JUDGMENT_VALUES = {
+    "category": "person",
+    "scale_note": "settled by the entrypass",
+    "scale_note_rejected": "M9 -- rejected: no cited feat supports it",
+    "magnitude": "M4",
+    "topic": "the worked example",
+    "catalogued": True,
+}
+JUDGMENTS = {f: _JUDGMENT_VALUES.get(f, "authored by the caller for %s" % f)
+             for f in P.MERGED_ENTRY_FIELDS}
 
 
 def arm(label, disk_doc, rec, check, writer=None):
@@ -108,8 +127,10 @@ def _writer_before_the_hoist(path, rec):
                 se = by_name.get(de.get("name"))
                 if not se:
                     continue
-                for fld in ("category", "scale_note", "scale_note_rejected",
-                            "magnitude", "topic", "catalogued"):
+                # The writer's own field list, for the reason given at JUDGMENTS: a control that
+                # folds a different set from the real writer is not reproducing the old shape,
+                # it is inventing a third one.
+                for fld in P.MERGED_ENTRY_FIELDS:
                     if fld in se:
                         de[fld] = se[fld]
         P._merge_top_keys(disk, rec, os.path.basename(path))
@@ -178,6 +199,21 @@ def run_all(writer=None):
          "synthesis": None},
         _judged, writer))
 
+    # 6 -- DRIFT, and the caller has judged an entry. Order 776507b529c5 asks for both paths to
+    #      be asserted, and only arm 5 was: the fold sat inside `if drift:` for a whole run, so
+    #      "it works on the drift path" was an assumption inherited from the shape of the bug
+    #      rather than a measurement. It is also the arm that would catch the OPPOSITE mistake --
+    #      a future repair that hoists the fold out of `if drift:` and, in doing so, drops it
+    #      from the drift path. Disk has an entry the caller does not, which is what
+    #      `_entry_digest` calls count drift; Alpha's judgments must still be on disk after.
+    results.append(arm(
+        "6  drift:    the caller's per-entry judgments reach disk",
+        {"entries": [{"name": "Alpha"}, {"name": "Beta"}, {"name": "Gamma"}],
+         "synthesis": {"ceiling_entity": "Superman"}},
+        {"entries": [dict({"name": "Alpha"}, **JUDGMENTS), {"name": "Beta"}],
+         "synthesis": None},
+        lambda g: _judged(g) and len(g.get("entries") or []) == 3, writer))
+
     return results
 
 
@@ -185,7 +221,7 @@ def main():
     print("WITH THE FIX")
     ok = all(run_all())
 
-    print("\nCONTROL -- the old unguarded merge restored (arms 1 and 2 must go RED)")
+    print("\nCONTROL A -- the old unguarded merge restored (arms 1 and 2 must go RED)")
     real = P._merge_top_keys
 
     def unguarded(disk, rec, label):
@@ -198,11 +234,24 @@ def main():
     control = run_all()
     P._merge_top_keys = real
     red = (control[0] is False) and (control[1] is False)
-    print("\n  control arms 1-2 went red:", red)
+    print("\n  control A arms 1-2 went red:", red)
 
-    good = ok and red
-    print("\nVERDICT:", "the top-key guard holds and is load-bearing" if good
-          else "NOT PROVEN -- do not rely on this fix")
+    # CONTROL B -- the fold back inside `if drift:`. Arm 5 is the only arm this can move, and it
+    # must move: an arm that stays green against the very shape that produced the defect is not
+    # evidence about the fold, it is evidence that the fixture has no judgment in it. That was
+    # the whole finding of order f3536eed6ce0.
+    print("\nCONTROL B -- the per-entry fold back inside `if drift:` (arm 5 must go RED)")
+    control_b = run_all(writer=_writer_before_the_hoist)
+    # ARM 5 RED, ARM 6 GREEN, and BOTH are required. Arm 6 staying green under the old shape is
+    # not a weakness in the control, it is the control's precision: the pre-hoist writer folded
+    # correctly whenever there WAS drift, and a control that reddened both arms would be
+    # reproducing something other than the defect that lost 1,496 spans.
+    red5 = control_b[4] is False and control_b[5] is True
+    print("\n  control B arm 5 went red and arm 6 stayed green:", red5)
+
+    good = ok and red and red5
+    print("\nVERDICT:", "the top-key guard and the per-entry fold both hold and are load-bearing"
+          if good else "NOT PROVEN -- do not rely on this fix")
     return 0 if good else 1
 
 
