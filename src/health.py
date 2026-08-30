@@ -147,136 +147,244 @@ def _flush():
         _flush_samples(taken_s)
 
 
+# How many read-merge-COMPARE-AND-SWAP rounds one flush will spend before giving up and keeping
+# its counts in memory for the next one. Small deliberately: `flush()` runs on the hot path (every
+# 25 notes, from every worker thread in the kit) and again from `atexit`, so a long retry loop
+# here delays process exit. A refused round costs nothing -- the counts are still in LEDGER and
+# the next flush carries them -- which is why giving up early is safe and settling early is not.
+FLUSH_CAS_ATTEMPTS = 6
+
+
+def _drop_tmp(tmp):
+    """Remove a staged temp, and never let the removal become the failure."""
+    try:
+        os.remove(tmp)
+    except OSError:
+        _ = "silence-exempt: the temp carries our own pid and thread and collides with nobody"
+
+
+def _cas_land(path, obj, expected_digest, **dump_kw):
+    """Stage `obj` and land it over `path` ONLY if `path` still holds `expected_digest`.
+
+    -> (landed, why), never raising. `silence.write_json` is ATOMIC but it is not a
+    compare-and-swap: it never checks that the target still holds what the writer read, which is
+    exactly the hole `silence.replace_if_unchanged` was grown for (m42). The temp name carries pid
+    and thread for the same reason `write_json`'s does -- two processes flushing the same ledger
+    would otherwise meet on the temp file itself.
+    """
+    import threading as _th
+    dump_kw.setdefault("indent", 1)
+    dump_kw.setdefault("sort_keys", True)
+    tmp = "%s.%d.%d.tmp" % (path, os.getpid(), _th.get_ident())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(obj, f, **dump_kw)
+    except Exception:
+        _drop_tmp(tmp)
+        silence.note("health.py:cas-stage")
+        return False, "could not stage the merged copy of %s" % os.path.basename(path)
+    ok, why = silence.replace_if_unchanged(tmp, path, expected_digest)
+    if not ok:
+        _drop_tmp(tmp)
+    return ok, why
+
+
 def _flush_ledger(taken):
+    """Merge `taken` into state/failures.json under COMPARE-AND-SWAP, then settle LEDGER.
+
+    THIS WAS A LOST UPDATE, IN THE RECORDER (order d770b1896635). The read at the top and the
+    write at the bottom were an unguarded read-modify-write over the highest-traffic shared file
+    in the project -- and a competing process's flush landing in that window was overwritten
+    whole. The loss was doubly silent: the write DID land, so LEDGER was then settled (`taken`
+    subtracted) as though the counts were safe, when what they had actually done was erase
+    somebody else's. Reproduced against a scratch ledger: on disk {'silent:foo': 10}, a
+    competitor landed {'silent:bar': 7, 'silent:foo': 10}, and the flush left {'silent:foo': 15}
+    -- the competitor's seven recorded failures gone, with nothing recording the clobber.
+    `silence.write_json` is atomic and that is not the same property: atomicity says the file is
+    never half-written, it says nothing about STALENESS.
+
+    So the whole read-merge-write now retries against a digest taken BEFORE the read, and a
+    refusal is answered by RE-READING AND RE-MERGING rather than by settling -- the counts must
+    survive a refused round or the fix would trade a silent clobber for a silent drop.
+    `workorders._mutate` is the pattern this copies; `runguard._land_claim` is the same shape on
+    the guard file.
+    """
     os.makedirs(os.path.dirname(LEDGER_PATH), exist_ok=True)
-    prev = {}
-    if os.path.exists(LEDGER_PATH):
-        try:
-            with open(LEDGER_PATH, encoding="utf-8") as f:
-                prev = json.load(f)
-        except Exception as e:
-            # An unreadable ledger must not be quietly replaced by an empty one -- that would
-            # make the failure-recorder itself the sixteenth instance of the defect it exists
-            # to expose. Keep the corrupt file and say so.
-            #
-            # THE PRESERVATION WAS A BARE `os.replace` WITH NOTHING AROUND IT. On Windows the
-            # rename is DENIED while any reader holds failures.json open -- the WinError 5 class
-            # `silence.replace_retry` exists for, and this is the highest-traffic shared file in
-            # the project, polled by the dashboard and read by standards. `flush()` is armed via
-            # `atexit` by `silence.note`, so a PermissionError here escapes an atexit handler:
-            # the recorder's own self-heal becomes the crash. Same treatment the samples ledger
-            # beside it already has.
-            #
-            # PRESERVATION IS THE PRECONDITION, NOT A COURTESY. If the wreck cannot be set
-            # aside, this flush writes NOTHING: overwriting an unreadable ledger we could not
-            # first preserve would destroy the only copy of whatever tore it. LEDGER is left
-            # intact so the counts are still in memory for the next flush attempt.
-            if not silence.replace_retry(LEDGER_PATH, LEDGER_PATH + ".corrupt"):
-                print(f"health: ledger unreadable ({type(e).__name__}) AND could not be set "
-                      f"aside as failures.json.corrupt (rename refused) -- refusing to write "
-                      f"over it; counts kept in memory for the next flush", file=sys.stderr)
-                return
-            prev = {"ledger:unreadable": 1}
-            print(f"health: ledger unreadable ({type(e).__name__}); "
-                  f"kept as failures.json.corrupt", file=sys.stderr)
-    for k, v in taken.items():
-        prev[k] = prev.get(k, 0) + v
-    # ATOMIC, and this is the write that most needed to be. foreman.py:237 already says it:
-    # "state/failures.json is the highest-traffic shared file in the project -- the dashboard
-    # polls it, standards reads it, and EVERY process read-modify-writes it through
-    # health.flush()." m18 (2026-08-24) then hardened foreman's OWN three writes and left the
-    # writer that sentence names untouched -- the canonical one, called every 25 records and
-    # again at exit, from every one-shot subprocess in the kit.
-    #
-    # A bare open("w") truncates BEFORE serialising, so an interrupted flush leaves 0 bytes.
-    # The corrupt-read branch above then does exactly what it promises: preserves the wreck as
-    # .corrupt and starts a fresh ledger -- discarding the entire accumulated failure history
-    # the file exists to hold. The recorder must not become the sixteenth instance of the
-    # defect it exists to expose, and that principle has to cover the WRITE as well as the read.
-    #
-    # LEDGER is settled only if the write LANDED. A denied replace (Windows, reader holding
-    # the file) otherwise silently discarded the counts it failed to persist.
-    #
-    # THE FIXED `.tmp` NAME WAS ITSELF A HAZARD, on the single highest-traffic shared file in
-    # the project (foreman.py:237 above). Two writers flushing at the same moment -- a targeted
-    # investigation racing the scheduled cycle, which is the normal case here, not an exotic one
-    # -- both open `failures.json.tmp` for writing; the second truncates the first, and
-    # whichever renames second lands a half-written file over the target. That is the exact
-    # interleaved-writer shape found this run: `failures.json.corrupt` held a valid 102-byte
-    # document followed by 38 bytes of a longer, older one -- two writers, not one truncated
-    # write. `silence.write_json` puts pid and thread in the temp name so two writers cannot
-    # meet there, and returns the same landed/not-landed verdict this already gated on. (found
-    # and fixed run36, not itself a filed order -- see handoff/run36/crossmodule_local06.md)
-    if silence.write_json(LEDGER_PATH, prev, indent=1, sort_keys=True):
-        with _LOCK:
-            for k, v in taken.items():
-                LEDGER[k] -= v
-                if LEDGER[k] <= 0:
-                    del LEDGER[k]
+    last_why = "not attempted"
+    for _attempt in range(FLUSH_CAS_ATTEMPTS):
+        # THE DIGEST IS TAKEN BEFORE THE READ, never after the merge: it has to describe the
+        # copy this round's arithmetic was done against, so that anything landing afterwards
+        # refuses this write instead of disappearing under it.
+        digest = silence.digest_of(LEDGER_PATH)
+        prev = {}
+        if os.path.exists(LEDGER_PATH):
+            try:
+                with open(LEDGER_PATH, encoding="utf-8") as f:
+                    prev = json.load(f)
+            except Exception as e:
+                # An unreadable ledger must not be quietly replaced by an empty one -- that would
+                # make the failure-recorder itself the sixteenth instance of the defect it exists
+                # to expose. Keep the corrupt file and say so.
+                #
+                # THE PRESERVATION WAS A BARE `os.replace` WITH NOTHING AROUND IT. On Windows the
+                # rename is DENIED while any reader holds failures.json open -- the WinError 5
+                # class `silence.replace_retry` exists for, and this is the highest-traffic shared
+                # file in the project, polled by the dashboard and read by standards. `flush()` is
+                # armed via `atexit` by `silence.note`, so a PermissionError here escapes an
+                # atexit handler: the recorder's own self-heal becomes the crash. Same treatment
+                # the samples ledger beside it already has.
+                #
+                # PRESERVATION IS THE PRECONDITION, NOT A COURTESY. If the wreck cannot be set
+                # aside, this flush writes NOTHING: overwriting an unreadable ledger we could not
+                # first preserve would destroy the only copy of whatever tore it. LEDGER is left
+                # intact so the counts are still in memory for the next flush attempt.
+                if not silence.replace_retry(LEDGER_PATH, LEDGER_PATH + ".corrupt"):
+                    print(f"health: ledger unreadable ({type(e).__name__}) AND could not be set "
+                          f"aside as failures.json.corrupt (rename refused) -- refusing to write "
+                          f"over it; counts kept in memory for the next flush", file=sys.stderr)
+                    return
+                prev = {"ledger:unreadable": 1}
+                # THE DIGEST IS RE-TAKEN, because the wreck has just been renamed away and the
+                # digest read moments ago describes a file that is no longer at this path. Left
+                # as it was, the compare-and-swap below would refuse for ever after a preserve.
+                digest = silence.digest_of(LEDGER_PATH)
+                print(f"health: ledger unreadable ({type(e).__name__}); "
+                      f"kept as failures.json.corrupt", file=sys.stderr)
+        for k, v in taken.items():
+            prev[k] = prev.get(k, 0) + v
+        landed, why = _cas_land(LEDGER_PATH, prev, digest)
+        if landed:
+            with _LOCK:
+                for k, v in taken.items():
+                    LEDGER[k] -= v
+                    if LEDGER[k] <= 0:
+                        del LEDGER[k]
+            return
+        # REFUSED, SO RE-READ AND RE-MERGE -- never settle. `taken` is still entirely in memory
+        # and the next round adds it to whatever the winner wrote, which is the difference
+        # between a ledger that is a round behind and a ledger that is wrong.
+        last_why = why
+        time.sleep(0.05 * (_attempt + 1))
+    silence.note("health.py:ledger-write-lost")
+    print("health: failure ledger write lost after %d attempt(s); counts kept in memory for the "
+          "next flush; last refusal was: %s" % (FLUSH_CAS_ATTEMPTS, last_why), file=sys.stderr)
+
+
+# THE HISTORY OF THE WRITE ABOVE, kept because it is why it looks as it does. Each layer here is
+# still in force: `_cas_land` stages into a pid+thread temp and lands through
+# `silence.replace_if_unchanged`, which calls `replace_retry` internally, so the atomicity, the
+# unshared temp name and the settle-only-if-landed rule all survive the move to compare-and-swap.
+#
+# ATOMIC, and this is the write that most needed to be. foreman.py:237 already says it:
+# "state/failures.json is the highest-traffic shared file in the project -- the dashboard
+# polls it, standards reads it, and EVERY process read-modify-writes it through
+# health.flush()." m18 (2026-08-24) then hardened foreman's OWN three writes and left the
+# writer that sentence names untouched -- the canonical one, called every 25 records and
+# again at exit, from every one-shot subprocess in the kit.
+#
+# A bare open("w") truncates BEFORE serialising, so an interrupted flush leaves 0 bytes.
+# The corrupt-read branch does exactly what it promises: preserves the wreck as .corrupt and
+# starts a fresh ledger -- discarding the entire accumulated failure history the file exists
+# to hold. The recorder must not become the sixteenth instance of the defect it exists to
+# expose, and that principle has to cover the WRITE as well as the read.
+#
+# LEDGER is settled only if the write LANDED. A denied replace (Windows, reader holding
+# the file) otherwise silently discarded the counts it failed to persist.
+#
+# THE FIXED `.tmp` NAME WAS ITSELF A HAZARD, on the single highest-traffic shared file in
+# the project (foreman.py:237 above). Two writers flushing at the same moment -- a targeted
+# investigation racing the scheduled cycle, which is the normal case here, not an exotic one
+# -- both open `failures.json.tmp` for writing; the second truncates the first, and
+# whichever renames second lands a half-written file over the target. That is the exact
+# interleaved-writer shape found this run: `failures.json.corrupt` held a valid 102-byte
+# document followed by 38 bytes of a longer, older one -- two writers, not one truncated
+# write. `silence.write_json` puts pid and thread in the temp name so two writers cannot
+# meet there, and returns the same landed/not-landed verdict this already gated on. (found
+# and fixed run36, not itself a filed order -- see handoff/run36/crossmodule_local06.md)
 
 
 def _flush_samples(taken_s):
+    """Merge `taken_s` into the evidence bag under COMPARE-AND-SWAP, then settle _SAMPLES.
+
+    SAME LOST UPDATE AS THE LEDGER (order d770b1896635), and the same repair: the read at the
+    top and the write at the bottom were an unguarded read-modify-write, so a competing flush
+    landing in between was overwritten whole -- and the samples were then dropped from memory,
+    because the write had "succeeded". A refused round re-reads and re-merges instead.
+    """
     try:
-        old = {}
-        if os.path.exists(SAMPLES_PATH):
-            try:
-                with open(SAMPLES_PATH, encoding="utf-8") as f:
-                    old = json.load(f)
-            except Exception as e:
-                # THE SELF-HEALING PATH THE COMMENT BELOW HAS BEEN ASKING FOR SINCE IT WAS
-                # WRITTEN. It described this exact hole -- a torn SAMPLES_PATH sends every
-                # future flush into the blanket `except` at THIS read, so the evidence bag
-                # goes quietly empty and stays that way for ever, with nothing recorded
-                # anywhere -- and then did not close it. A described, never-implemented fix
-                # is indistinguishable at runtime from no fix at all, and this is the
-                # recorder: it is the one component whose silent failure hides every other
-                # component's failure. So the ledger's own treatment, applied here: keep the
-                # wreck as SAMPLES.json.corrupt, say so on stderr, and carry on with a fresh
-                # bag rather than reading a corpse on every flush from now on.
-                #
-                # PRESERVATION IS THE PRECONDITION, NOT A COURTESY. If the rename does not
-                # land -- Windows, a reader holding the file, the WinError 5 class
-                # `replace_retry` exists for -- the original exception is re-raised into the
-                # blanket `except` below and this flush drops its samples exactly as it did
-                # before. That is the old behaviour and it is the safe one: overwriting an
-                # unreadable evidence file we could not first set aside would destroy the
-                # only copy of whatever tore it. (run33)
-                if not silence.replace_retry(SAMPLES_PATH, SAMPLES_PATH + ".corrupt"):
-                    raise
-                old = {}
-                print(f"health: failure samples unreadable ({type(e).__name__}); "
-                      f"kept as {os.path.basename(SAMPLES_PATH)}.corrupt, starting fresh",
-                      file=sys.stderr)
-        # THE SNAPSHOT, never the live rings -- `record()` appends to those from every worker
-        # thread, and iterating one mid-append is the same RuntimeError the ledger raised.
-        for k, ring in taken_s.items():
-            merged = (old.get(k) or []) + ring
-            old[k] = merged[-SAMPLES_KEEP:]
-        # Same treatment, and this file needs it MORE than the ledger does, not less: it
-        # has no .corrupt self-healing path. Once torn, every future flush hits the blanket
-        # `except` below at the read step and drops its samples silently and permanently --
-        # the evidence bag going quietly empty and staying that way, with nothing recorded
-        # anywhere, because the recorder cannot safely record against itself.
-        #
-        # SAME FIXED-`.tmp`-NAME HAZARD AS THE LEDGER WRITE ABOVE, same fix: `write_json`'s
-        # pid+thread temp name is unavailable for two concurrent flushes to collide on, where
-        # a shared `path + ".tmp"` was not. (found and fixed run36)
-        if silence.write_json(SAMPLES_PATH, old, indent=1, sort_keys=True, ensure_ascii=False):
-            # ONLY WHAT REACHED DISK IS DROPPED, matched by identity rather than cleared
-            # wholesale: `_SAMPLES.clear()` also threw away every sample recorded while the
-            # write was in flight, so under load the evidence bag lost exactly the evidence
-            # that arrived when the recorder was busiest.
-            with _LOCK:
-                for k, written in taken_s.items():
-                    live = _SAMPLES.get(k)
-                    if live is None:
-                        continue
-                    done = {id(x) for x in written}
-                    kept = [x for x in live if id(x) not in done]
-                    if kept:
-                        _SAMPLES[k] = kept
-                    else:
-                        _SAMPLES.pop(k, None)
+        for _attempt in range(FLUSH_CAS_ATTEMPTS):
+            # BEFORE THE READ, for the reason spelled out in _flush_ledger.
+            digest = silence.digest_of(SAMPLES_PATH)
+            old = {}
+            if os.path.exists(SAMPLES_PATH):
+                try:
+                    with open(SAMPLES_PATH, encoding="utf-8") as f:
+                        old = json.load(f)
+                except Exception as e:
+                    # THE SELF-HEALING PATH THE COMMENT BELOW HAS BEEN ASKING FOR SINCE IT WAS
+                    # WRITTEN. It described this exact hole -- a torn SAMPLES_PATH sends every
+                    # future flush into the blanket `except` at THIS read, so the evidence bag
+                    # goes quietly empty and stays that way for ever, with nothing recorded
+                    # anywhere -- and then did not close it. A described, never-implemented fix
+                    # is indistinguishable at runtime from no fix at all, and this is the
+                    # recorder: it is the one component whose silent failure hides every other
+                    # component's failure. So the ledger's own treatment, applied here: keep the
+                    # wreck as SAMPLES.json.corrupt, say so on stderr, and carry on with a fresh
+                    # bag rather than reading a corpse on every flush from now on.
+                    #
+                    # PRESERVATION IS THE PRECONDITION, NOT A COURTESY. If the rename does not
+                    # land -- Windows, a reader holding the file, the WinError 5 class
+                    # `replace_retry` exists for -- the original exception is re-raised into the
+                    # blanket `except` below and this flush drops its samples exactly as it did
+                    # before. That is the old behaviour and it is the safe one: overwriting an
+                    # unreadable evidence file we could not first set aside would destroy the
+                    # only copy of whatever tore it. (run33)
+                    if not silence.replace_retry(SAMPLES_PATH, SAMPLES_PATH + ".corrupt"):
+                        raise
+                    old = {}
+                    # The wreck has been renamed away; the digest above describes a file that is
+                    # no longer here, so the swap must assert absence instead. Same reason as the
+                    # ledger's re-take.
+                    digest = silence.digest_of(SAMPLES_PATH)
+                    print(f"health: failure samples unreadable ({type(e).__name__}); "
+                          f"kept as {os.path.basename(SAMPLES_PATH)}.corrupt, starting fresh",
+                          file=sys.stderr)
+            # THE SNAPSHOT, never the live rings -- `record()` appends to those from every worker
+            # thread, and iterating one mid-append is the same RuntimeError the ledger raised.
+            for k, ring in taken_s.items():
+                merged = (old.get(k) or []) + ring
+                old[k] = merged[-SAMPLES_KEEP:]
+            # Same treatment, and this file needs it MORE than the ledger does, not less: it
+            # has no .corrupt self-healing path. Once torn, every future flush hits the blanket
+            # `except` below at the read step and drops its samples silently and permanently --
+            # the evidence bag going quietly empty and staying that way, with nothing recorded
+            # anywhere, because the recorder cannot safely record against itself.
+            #
+            # SAME FIXED-`.tmp`-NAME HAZARD AS THE LEDGER WRITE ABOVE, same fix: the temp name
+            # `_cas_land` builds carries pid and thread, so two concurrent flushes cannot collide
+            # on it where a shared `path + ".tmp"` let them. (found and fixed run36)
+            landed, _why = _cas_land(SAMPLES_PATH, old, digest, ensure_ascii=False)
+            if landed:
+                # ONLY WHAT REACHED DISK IS DROPPED, matched by identity rather than cleared
+                # wholesale: `_SAMPLES.clear()` also threw away every sample recorded while the
+                # write was in flight, so under load the evidence bag lost exactly the evidence
+                # that arrived when the recorder was busiest.
+                with _LOCK:
+                    for k, written in taken_s.items():
+                        live = _SAMPLES.get(k)
+                        if live is None:
+                            continue
+                        done = {id(x) for x in written}
+                        kept = [x for x in live if id(x) not in done]
+                        if kept:
+                            _SAMPLES[k] = kept
+                        else:
+                            _SAMPLES.pop(k, None)
+                return
+            # Refused: somebody else landed between the read and the swap. Re-read, re-merge,
+            # and keep the snapshot in memory until a round of ours actually lands.
+            time.sleep(0.05 * (_attempt + 1))
+        silence.note("health.py:samples-write-lost")
     except Exception:
         pass          # the evidence bag must never break the ledger write
 
@@ -458,13 +566,26 @@ def check_caches():
             if len(files) < 25:
                 continue
             # SIZE, NOT PARSE. Preflight runs at the head of every supervisor cycle, and
-            # parsing 200 records for each of 147 hosts meant reading gigabytes of page text to
+            # parsing records for each of 147 hosts meant reading gigabytes of page text to
             # answer a question about emptiness. It pushed a cycle past five minutes before any
             # work began. An entry with no pages is a few hundred bytes; one with pages is
             # kilobytes at least. The file size answers this exactly, and instantly.
+            #
+            # EVERY FILE, NOT `files[:200]` -- HARD RULE 0 (order a6764f7d3d3e). glob order is
+            # the filesystem's, not a ranking, so the old cap was a PREFIX of an unordered list
+            # deciding emptiness on the corpus's behalf, and it said so out loud in the preflight
+            # line: "feats/www_dandwiki_com (200, ...)" against a directory of 805 entries. The
+            # cap's own justification had also expired -- the comment above defends 200 by PARSE
+            # cost, and this check became a stat. Measured this shift: a capped and an uncapped
+            # pass over all 256,869 json files in data/feats and data/readfeats together took
+            # 19.77 seconds, against a preflight that already runs for minutes. The two verdicts
+            # disagreed on zero hosts today, so this closed a LATENT wrong answer rather than a
+            # live one; the 89 host directories holding more than 200 files (dc 55,565; marvel
+            # 34,239) are where a live one would have appeared first. If a cost ceiling is ever
+            # wanted back it must be a RANKING plus a stated floor, never a prefix of a glob.
             empty = 0
             unreadable = 0
-            for fp in files[:200]:
+            for fp in files:
                 try:
                     if os.path.getsize(fp) < EMPTY_BYTES:
                         empty += 1
@@ -473,14 +594,16 @@ def check_caches():
             if unreadable:
                 out.append((f"{base}/{host} cache unreadable",
                             f"{unreadable} files cannot be stat'd"))
-            n = min(len(files), 200)
+            n = len(files)
+            # `empty == n` is now a statement about the WHOLE directory, so the report says so:
+            # "sampled" was accurate under the cap and would be a lie without it.
             if empty == n:
                 if host in excluded_dirs:
                     excused.append(f"{base}/{host} ({n}, source excluded from the roll)")
                 elif host in quarantined:
                     excused.append(f"{base}/{host} ({n})")
                 else:
-                    out.append((f"{base}/{host}", f"all {n} sampled entries empty"))
+                    out.append((f"{base}/{host}", f"all {n} entries empty"))
     if excused:
         # PRINTED, NOT RETURNED -- the same discipline as the re-judgement queue below: visible
         # every run, but not counted as a problem the preflight is asking anyone to act on.

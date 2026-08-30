@@ -98,8 +98,20 @@ def main():
     print(f"  demoted to unassayed: {len(demoted_sources):,} of {len(recs):,}")
     print(f"\nscale notes cleared (no longer evidence): {cleared_notes:,}")
 
-    print("\n  SURVIVORS — every one of these is an act upon an object, or a measured quantity:")
-    for s, n, b, sn in kept_entries[:14]:
+    # THE HEADING SAID "every one of these" OVER A SLICE OF FOURTEEN (order 89fc2eaf23f1). That
+    # is Hard Rule 0's exact shape -- a smaller universe wearing the same shape as the real one,
+    # and here wearing a label that explicitly claims to be the real one. The sibling DEMOTED
+    # list below has always said "a sample of"; this one now says what it is AND what it is a
+    # sample of, in `coverage.report()`'s idiom, so the reader knows how much is off the page.
+    _survivors_shown = kept_entries[:14]
+    if len(_survivors_shown) < len(kept_entries):
+        print(f"\n  SURVIVORS — each is an act upon an object, or a measured quantity "
+              f"(showing {len(_survivors_shown)} of {len(kept_entries):,}; "
+              f"{len(kept_entries) - len(_survivors_shown):,} more not shown):")
+    else:
+        print(f"\n  SURVIVORS — each is an act upon an object, or a measured quantity "
+              f"({len(kept_entries):,}, all shown):")
+    for s, n, b, sn in _survivors_shown:
         print(f"     [{b}] {str(n)[:30]:<32}{sn}")
 
     print("\n  DEMOTED — a sample of what was carrying a Magnitude:")

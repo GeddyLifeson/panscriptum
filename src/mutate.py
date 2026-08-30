@@ -309,8 +309,18 @@ def _digest(data):
 
 # --------------------------------------------------------------------------- the mutations
 
-def _mutations(tree, text):
+def _mutations(tree, text, skipped=None):
     """-> [(lineno, description, old_src, new_src)] for one module.
+
+    `skipped`, if a list is passed, receives `(lineno, kind, why)` for every mutation SITE this
+    function found in the parse tree and could not turn into a mutant. It is not decoration.
+    Until 2026-08-29 this function mutated only six of the ten `ast.cmpop` types and only when
+    `len(node.ops) == 1`, so `in`, `not in`, `is`, `is not` and every operator inside a chained
+    comparison produced NO MUTANT AT ALL -- 55 of the 93 comparison-operator sites across the
+    three targets, 59% of them, and nothing in `--list`, in the run summary or in the journal
+    said so. A tool whose only job is measuring coverage was reporting 188 attempted as though
+    it were the whole attemptable set. What cannot be attempted must be COUNTED and NAMED, or
+    the number this module exists to produce is a smaller universe wearing the same shape.
 
     SOURCE-LEVEL, NOT AST-ROUNDTRIP. Unparsing an AST and writing it back reformats the whole
     file, so every mutant would differ from the original in thousands of irrelevant ways and a
@@ -336,18 +346,62 @@ def _mutations(tree, text):
     of values is walked separately and the connective between that specific pair is what gets
     mutated -- which is what turns "one BoolOp node" into "as many mutants as connectives".
 
-    A node whose span crosses lines (a wrapped comparison, a multi-line boolean expression) is
-    not something this function's line-oriented editing was ever built to target precisely, so
-    those fall back to the previous whole-line `replace(..., 1)` behaviour rather than guessing
-    at a column that might land in the wrong place -- unchanged from before this fix, and no
-    worse than it was.
+    AN OPERATOR IS NOW LOCATED IN THE GAP BETWEEN ITS TWO OPERANDS (`_between`), not anywhere
+    inside the node's own span. The span of a `Compare` includes both operands, so searching it
+    finds the operator text sitting in an OPERAND first -- `if (a == b) == c` mutated the inner
+    `==` twice and the outer one never. The gap between one operand's `end_col_offset` and the
+    next one's `col_offset` can contain nothing but whitespace, brackets and the operator
+    itself, so a match there is the right occurrence by construction. It is also what makes a
+    CHAINED comparison mutable at all: `a < b < c` is one node with two ops, and each op has its
+    own gap.
+
+    A pair whose operands sit on different lines falls back PER PAIR, not per node. The old
+    whole-line `replace(..., 1)` fallback ran only `if not found_any`, so in a chain where one
+    connective wrapped and another did not, the wrapped one was never attempted at all -- three
+    connectives across the three targets, absent from both the killed and the survived totals.
+    The wrapped operator is now looked for on the right operand's line before it, then on the
+    left operand's line after it (comment text on that line cut off first, since a `#` following
+    an operand can only start a comment). What still cannot be found is recorded in `skipped`
+    rather than guessed at.
+
+    AND EVERY MATCH IS TOKEN-BOUNDED (`_token_pos`). The word operators make that mandatory
+    rather than tidy: `in` sits inside `print`, `index` and `min`, so a whole-line
+    `replace("in", "not in", 1)` on `print(a in b)` yields source that will not parse. A mutant
+    that cannot parse dies at the first gate for a reason that has nothing to do with the guard
+    it was meant to break -- a FALSE KILL, which is the direction that hides holes.
     """
     out = []
     lines = text.splitlines(keepends=True)
 
+    def _skip(lineno, kind, why):
+        """Record a site that exists in the tree and produced no mutant. See `skipped` above."""
+        if skipped is not None:
+            skipped.append((lineno, kind, why))
+
     def line_of(node):
         i = node.lineno - 1
         return (i, lines[i]) if 0 <= i < len(lines) else (None, None)
+
+    def _col(line, col):
+        """An AST column is a UTF-8 BYTE offset; slicing a `str` needs a CHARACTER offset. -> int.
+
+        FOUND 2026-08-29 while counting skipped sites, and it had been silently wrong since
+        occurrence-tracking was written. `prose_gate.py:201` is
+        `re.split(r"(?m)^◈\\s", text or "")`: the marker is three bytes and one character, so
+        every column the parser reports for that line is two too far right, the gap search for
+        `or` looked at `xt o`, found nothing, and the connective was NEVER ATTEMPTED. This
+        project's source is full of non-ASCII in code -- the entry marker, the assay sigil, the
+        thread glyph -- so this is not a corner case here, and the direction it fails in is the
+        bad one: a site quietly absent from both the killed and the survived counts.
+
+        The pure-ASCII line, which is almost all of them, is answered without allocating.
+        """
+        if col <= 0:
+            return 0
+        raw = line.encode("utf-8")
+        if len(raw) == len(line):
+            return col
+        return len(raw[:col].decode("utf-8", "ignore"))
 
     def _spot(node, old):
         """The exact column of `old` inside `node`'s own source span. -> (line, pos) or None.
@@ -363,53 +417,124 @@ def _mutations(tree, text):
         _, line = line_of(node)
         if line is None:
             return None
-        pos = line.find(old, node.col_offset, end_col)
+        pos = line.find(old, _col(line, node.col_offset), _col(line, end_col))
         if pos == -1:
             return None
         return line, pos
 
+    def _token_pos(line, tok, start, end):
+        """Position of `tok` inside `line[start:end]` as a STANDALONE token. -> int or -1.
+
+        The boundary test is what makes the word operators safe to mutate at all: `in` is a
+        substring of `print`, `index`, `min` and `finished`, and an unbounded match produces
+        source that will not parse. See the docstring on false kills.
+        """
+        i = line.find(tok, start, end)
+        while i != -1:
+            before = line[i - 1] if i else " "
+            after = line[i + len(tok)] if i + len(tok) < len(line) else " "
+            if not (before.isalnum() or before == "_") and not (after.isalnum() or after == "_"):
+                return i
+            i = line.find(tok, i + 1, end)
+        return -1
+
+    def _find_op(line, tok, start, end):
+        """-> (start, end) of the operator `tok` within `line[start:end]`, or None.
+
+        `tok` may be TWO words (`not in`, `is not`), and each word is located separately with
+        only whitespace permitted between them, so `x is  not None` -- legal Python, two spaces
+        -- is found rather than skipped by an exact-string search that assumes one.
+        """
+        parts = tok.split(" ")
+        pos = _token_pos(line, parts[0], start, end)
+        if pos == -1:
+            return None
+        cur = pos + len(parts[0])
+        for p in parts[1:]:
+            nxt = _token_pos(line, p, cur, end)
+            if nxt == -1 or line[cur:nxt].strip():
+                return None
+            cur = nxt + len(p)
+        return pos, cur
+
+    def _between(left, right, tok):
+        """Locate `tok` in the gap between two operands. -> (lineno, line, start, end) or None.
+
+        THE GAP, not the enclosing node's span: see the docstring. Same line is the common case
+        and is exact. Different lines is the per-PAIR fallback -- the right operand's line first
+        (a wrapped expression almost always carries the connective at the head of the
+        continuation), then the left operand's line, with any trailing comment cut off, because
+        a `#` sitting after an operand can only begin a comment and `and` inside a comment is
+        not an operator.
+        """
+        l_end_lineno = getattr(left, "end_lineno", None)
+        l_end_col = getattr(left, "end_col_offset", None)
+        if l_end_col is None or l_end_lineno is None:
+            return None
+        if l_end_lineno == right.lineno:
+            _, line = line_of(right)
+            if line is None:
+                return None
+            got = _find_op(line, tok, _col(line, l_end_col), _col(line, right.col_offset))
+            return (right.lineno, line, got[0], got[1]) if got else None
+        _, r_line = line_of(right)
+        if r_line is not None:
+            got = _find_op(r_line, tok, 0, _col(r_line, right.col_offset))
+            if got:
+                return right.lineno, r_line, got[0], got[1]
+        i = l_end_lineno - 1
+        if 0 <= i < len(lines):
+            l_line = lines[i]
+            start = _col(l_line, l_end_col)
+            cut = l_line.find("#", start)
+            got = _find_op(l_line, tok, start, cut if cut != -1 else len(l_line))
+            if got:
+                return l_end_lineno, l_line, got[0], got[1]
+        return None
+
+    # ALL TEN `ast.cmpop` TYPES, and the four added on 2026-08-29 are the ones that matter most.
+    # `is None` -> `is not None` and `not in` -> `in` are guard INVERSIONS -- precisely the
+    # defect class this branch's own comment calls the single richest source of real defects --
+    # and 49 of them stood unmutated across the three targets, 13 of the 20 operator sites in
+    # `escalation.py`, the chain of command and the halt.
+    CMP_SWAP = {ast.Lt: ("<", ">="), ast.Gt: (">", "<="), ast.LtE: ("<=", ">"),
+                ast.GtE: (">=", "<"), ast.Eq: ("==", "!="), ast.NotEq: ("!=", "=="),
+                ast.In: ("in", "not in"), ast.NotIn: ("not in", "in"),
+                ast.Is: ("is", "is not"), ast.IsNot: ("is not", "is")}
+
     for node in ast.walk(tree):
         # --- comparison operators: the single richest source of real defects
-        if isinstance(node, ast.Compare) and len(node.ops) == 1:
-            swap = {ast.Lt: ("<", ">="), ast.Gt: (">", "<="), ast.LtE: ("<=", ">"),
-                    ast.GtE: (">=", "<"), ast.Eq: ("==", "!="), ast.NotEq: ("!=", "==")}
-            got = swap.get(type(node.ops[0]))
-            if got:
-                spot = _spot(node, got[0])
-                if spot:
-                    line, pos = spot
-                    new_line = line[:pos] + got[1] + line[pos + len(got[0]):]
-                    out.append((node.lineno, "%s -> %s" % got, line, new_line))
+        if isinstance(node, ast.Compare):
+            # EVERY op, not just `node.ops[0]`, and no `len(node.ops) == 1` guard. A chained
+            # comparison holds several operators in ONE node; the old code declined the whole
+            # node rather than the operators it could not place.
+            for i, op in enumerate(node.ops):
+                got = CMP_SWAP.get(type(op))
+                if got is None:
+                    # Unreachable today -- CMP_SWAP covers all ten cmpop types. Kept so that a
+                    # cmpop added by a future Python is REPORTED rather than silently dropped,
+                    # which is the whole failure this order was filed for.
+                    _skip(node.lineno, "compare", "no swap for %s" % type(op).__name__)
+                    continue
+                left = node.left if i == 0 else node.comparators[i - 1]
+                where = _between(left, node.comparators[i], got[0])
+                if where:
+                    lineno, line, s_, e_ = where
+                    out.append((lineno, "%s -> %s" % got, line, line[:s_] + got[1] + line[e_:]))
                 else:
-                    _, line = line_of(node)
-                    if line and got[0] in line:
-                        out.append((node.lineno, "%s -> %s" % got, line,
-                                    line.replace(got[0], got[1], 1)))
+                    _skip(node.comparators[i].lineno, "compare",
+                          "`%s` not locatable between its operands" % got[0])
         # --- boolean connectives: one mutant PER CONNECTIVE, not per BoolOp node, so a chain
         # like `a and b and c` -- one node holding TWO `and`s -- gets each mutated independently.
         elif isinstance(node, ast.BoolOp):
             a, b = ("and", "or") if isinstance(node.op, ast.And) else ("or", "and")
-            found_any = False
             for left, right in zip(node.values, node.values[1:]):
-                l_end_lineno = getattr(left, "end_lineno", None)
-                l_end_col = getattr(left, "end_col_offset", None)
-                if l_end_col is None or l_end_lineno != right.lineno:
-                    continue
-                _, line = line_of(right)
-                if line is None:
-                    continue
-                pattern = " %s " % a
-                pos = line.find(pattern, l_end_col, right.col_offset)
-                if pos == -1:
-                    continue
-                found_any = True
-                new_line = line[:pos] + (" %s " % b) + line[pos + len(pattern):]
-                out.append((right.lineno, "%s -> %s" % (a, b), line, new_line))
-            if not found_any:
-                _, line = line_of(node)
-                if line and (" %s " % a) in line:
-                    out.append((node.lineno, "%s -> %s" % (a, b), line,
-                                line.replace(" %s " % a, " %s " % b, 1)))
+                where = _between(left, right, a)
+                if where:
+                    lineno, line, s_, e_ = where
+                    out.append((lineno, "%s -> %s" % (a, b), line, line[:s_] + b + line[e_:]))
+                else:
+                    _skip(right.lineno, "boolop", "`%s` not locatable between its operands" % a)
         # --- `not`, dropped. A guard that forgets its negation is a guard that inverts.
         elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
             spot = _spot(node, "not ")
@@ -421,6 +546,8 @@ def _mutations(tree, text):
                 _, line = line_of(node)
                 if line and "not " in line:
                     out.append((node.lineno, "drop `not`", line, line.replace("not ", "", 1)))
+                else:
+                    _skip(node.lineno, "not", "`not ` not locatable on its line")
         # --- the two constants that decide everything
         elif isinstance(node, ast.Constant) and node.value is True:
             spot = _spot(node, "True")
@@ -433,6 +560,8 @@ def _mutations(tree, text):
                 if line and "True" in line:
                     out.append((node.lineno, "True -> False", line,
                                 line.replace("True", "False", 1)))
+                else:
+                    _skip(node.lineno, "const", "`True` not locatable on its line")
         elif isinstance(node, ast.Constant) and node.value is False:
             spot = _spot(node, "False")
             if spot:
@@ -444,6 +573,8 @@ def _mutations(tree, text):
                 if line and "False" in line:
                     out.append((node.lineno, "False -> True", line,
                                 line.replace("False", "True", 1)))
+                else:
+                    _skip(node.lineno, "const", "`False` not locatable on its line")
 
     # Deduplicate: several AST nodes can still legitimately produce the exact same edit (e.g. an
     # equivalent node visited twice). Keyed on the RESULTING TEXT, not the description, because

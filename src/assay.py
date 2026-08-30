@@ -506,6 +506,67 @@ def _check_scores(scores, weights=None):
               "coverage figure, so a misspelt axis reads as an axis nobody supplied.")
 
 
+def _check_weights(weights):
+    """LAYER 1, THE OTHER HALF: the `weights=` override must be a table a composite can be
+    divided by. Raises AssayIntegrityError; a no-op when `weights` is None (the module table is
+    checked at import by `_check_constants`).
+
+    THE ASYMMETRY THIS CLOSES, filed as order 8b74d2b4f569 and reproduced before it was believed.
+    `_check_scores` refuses any SCORE off the axis scale -- 99.0, -5.0, "lots" -- on the stated
+    ground that a clamp "would turn a data error into a plausible reading". The `weights=` table
+    those scores are multiplied BY is a public per-call override, and nothing validated it at
+    all. Two consequences, both measured against the live module on 2026-08-29:
+
+        assay("M3", {"ruin": 5.0, "celerity": 5.0}, worksheet="w",
+              weights={"ruin": 1.0, "celerity": -1.0})        -> ZeroDivisionError
+        assay("M3", {"ruin": 5.0}, worksheet="w", weights={"ruin": 0.0})
+                                                              -> ZeroDivisionError
+        assay("M3", {"ruin": 0.0, "celerity": 9.0}, worksheet="w",
+              weights={"ruin": 1.0, "celerity": -0.5})        -> 𝔄 M3.-90, decimal -0.9
+
+    A ZeroDivisionError raised from inside the arithmetic is a worse answer than a refusal for
+    the reason this whole layer exists: it names a line, not a fault, so the caller is told the
+    instrument broke rather than that their table was not one. And 𝔄 M3.-90 is the failure mode
+    `_check_scores` was written against, arrived at from the other side -- a data error wearing
+    the shape of a reading.
+
+    WHAT IS REFUSED, AND WHAT IS DELIBERATELY NOT. Negative and non-finite values are refused: a
+    NEGATIVE weight is not an emphasis, it is an assertion that scoring well on an axis should
+    lower a being's standing, which the charter's method has no notion of, and it is the value
+    that produces both the crash and the negative decimal. A weight of exactly ZERO is ALLOWED
+    -- "this axis does not count for this reading" is a coherent thing for a caller to say, and
+    custodes-style emphasis tables are free to reach it -- but a table that is zero EVERYWHERE
+    has no composite to compute and is refused here rather than dividing by zero later.
+    """
+    if weights is None:
+        return
+    if not isinstance(weights, dict) or not weights:
+        raise AssayIntegrityError(
+            "weights= must be a non-empty {axis: weight} table; got %r. An empty override is "
+            "not 'use the defaults' -- it is a universe with no Measures in it." % (weights,))
+    bad = []
+    for k, v in weights.items():
+        if isinstance(v, bool) or not isinstance(v, (int, float)):
+            bad.append("%s=%r (not a number)" % (k, v))
+        elif not math.isfinite(float(v)):
+            bad.append("%s=%r (not finite)" % (k, v))
+        elif float(v) < 0.0:
+            bad.append("%s=%r (negative)" % (k, v))
+    if bad:
+        raise AssayIntegrityError(
+            "weights= override is not a weight table: " + "; ".join(sorted(bad))
+            + ". Weights are relative emphases and must be finite and >= 0. A negative weight "
+              "asserts that scoring well on an axis lowers a being's standing, which is not a "
+              "reweighting of the charter's method but a different method; it is refused rather "
+              "than absorbed, for the same reason a score of 99.0 is.")
+    if sum(float(v) for v in weights.values()) <= 0.0:
+        raise AssayIntegrityError(
+            "weights= override sums to zero over every axis in it, so no composite exists to "
+            "compute. Refused rather than divided by, because the alternative is a "
+            "ZeroDivisionError raised from inside the arithmetic, which names a line instead of "
+            "a fault.")
+
+
 def _check_constants():
     """The sigma table's invariants, verified AT IMPORT so a broken instrument cannot load.
 
@@ -815,6 +876,10 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     # LAYER 1: the reading must be ON the scale, and ON an axis that exists, before any
     # arithmetic touches it. `weights=` is passed through because the override IS the table the
     # composite will filter on, so it is the table an unknown key must be judged against.
+    # AND THE TABLE ITSELF IS CHECKED, not just the scores it will multiply: validating the
+    # operand while leaving the operator unconstrained was order 8b74d2b4f569, and it produced
+    # both a ZeroDivisionError and a printed 𝔄 M3.-90. See `_check_weights`.
+    _check_weights(weights)
     _check_scores(scores, weights=weights)
     if not worksheet:
         # H5 of X.6: no worksheet, no number. Thin attestation yields a band window.
@@ -840,6 +905,19 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     # absent is knowing something, and it must pull the composite down rather than be ignored.
     nil = [k for k in W if scores.get(k) == NONE]
     wsum = sum(W[k] for k in used) + sum(W[k] for k in nil)
+    # `_check_weights` has already refused negative and all-zero tables, so the only way here is
+    # a table whose POSITIVE weight sits entirely on axes this reading did not score -- e.g.
+    # weights={"ruin": 0.0, "celerity": 1.0} against scores={"ruin": 5.0}. wsum is then exactly
+    # 0.0 and the division below is a ZeroDivisionError raised from inside the arithmetic, which
+    # tells the caller a line number instead of telling them their table has no weight on
+    # anything they measured. Refused, in the same voice as every other Layer 1 refusal.
+    if wsum <= 0.0:
+        raise AssayIntegrityError(
+            "every axis this reading scored carries weight 0 in the table in force (scored: "
+            + ", ".join(sorted(used)) + (("; nil: " + ", ".join(sorted(nil))) if nil else "")
+            + "), so the composite has no denominator. A weights= override that zeroes exactly "
+              "the axes a reading covers is not a reweighting of that reading, it is the absence "
+              "of one, and it is refused rather than divided by.")
     composite = sum(W[k] * used[k] for k in used) / wsum
     value = LADDER.index(anchor) + composite / 10.0
 
@@ -853,14 +931,24 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     unestimable = sorted(k for k in W if scores.get(k) == UNESTIMABLE)
     unscored = sorted(k for k in W if k not in used and k not in nil
                       and scores.get(k) not in (INAPPLICABLE, UNESTIMABLE))
-    # `or 1.0` READS AS DEAD AND IS NOT (run #34 order 0d5ab3aab8ff, disproved this run). The
-    # reasoning that retires it is: `used` is a subset of `applicable` (a numeric score is never
-    # the INAPPLICABLE sentinel) and `assay()` has already returned when `used` is empty, so
-    # `applicable` is non-empty here. True -- and `denom` sums WEIGHTS over those axes, not axes.
-    # `weights=` is a public per-call override whose VALUES are unconstrained, and measured live:
-    # `assay("M3", {"ruin": 5.0}, worksheet="w", weights={"ruin": 1.0, "celerity": -1.0})` sums
-    # `applicable` to exactly 0.0 and returns 𝔄 M3.50 ± 0.45 through this guard, where without
-    # it the call is a ZeroDivisionError. Reachable, therefore kept.
+    # `or 1.0` READS AS DEAD AND WAS NOT (run #34 order 0d5ab3aab8ff, disproved that run). The
+    # reasoning that tried to retire it was: `used` is a subset of `applicable` (a numeric score
+    # is never the INAPPLICABLE sentinel) and `assay()` has already returned when `used` is
+    # empty, so `applicable` is non-empty here. True -- and `denom` sums WEIGHTS over those axes,
+    # not axes. `weights=` was a public per-call override whose VALUES were unconstrained, and
+    # measured live: `assay("M3", {"ruin": 5.0}, worksheet="w",
+    # weights={"ruin": 1.0, "celerity": -1.0})` summed `applicable` to exactly 0.0 and returned
+    # 𝔄 M3.50 ± 0.45 through this guard, where without it the call was a ZeroDivisionError.
+    #
+    # THAT REPRODUCTION NO LONGER REPRODUCES, and the honest thing is to say so rather than leave
+    # a citation standing that a reader would check and fail to confirm (order 8b74d2b4f569).
+    # `_check_weights` now refuses negative values at Layer 1, and the `wsum <= 0.0` refusal
+    # above fires before this line. With every weight >= 0, `used` and `nil` are both subsets of
+    # `applicable`, so `denom >= wsum > 0` by construction and this `or 1.0` cannot be taken.
+    # KEPT ANYWAY, as a structural backstop and not as a live path: it costs one token, it is the
+    # last thing standing between a future signed-weight experiment and a crash in the middle of
+    # the arithmetic, and this project's rule about removing a guard because it currently cannot
+    # fire has been paid for twice. It must not be cited as evidence of reachability again.
     denom = sum(W[k] for k in applicable) or 1.0
     coverage = wsum / denom
     interval, var_parts = _interval(scores, used, nil, applicable, attestation, denom,
@@ -874,22 +962,48 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     # Promotion is a curatorial act, not an arithmetic one (Part Three flags it via
     # promotion_watch), so this does NOT auto-promote. It clamps the printed decimal and says
     # which case it is.
+    # AND FLOOR BEHAVIOUR, which was missing (order 8b74d2b4f569). The reasoning above clamps the
+    # TOP of the notation and says nothing about the bottom, and a decimal below 0.00 is the same
+    # broken ruler read the other way round: it printed `𝔄 M3.-90 ± 0.53`, a Moth Number whose
+    # decimal field is not a decimal, from
+    #     assay("M3", {"ruin": 0.0, "celerity": 9.0}, worksheet="w",
+    #           weights={"ruin": 1.0, "celerity": -0.5})
+    # with promotion_due and at_ladder_ceiling both False -- nothing in the returned dict said
+    # anything was wrong. That specific route is now closed at Layer 1 by `_check_weights`, and
+    # with every weight >= 0 and every score in [0, 10] the composite cannot go below zero, so
+    # this branch should be unreachable. It is written anyway, and written with the SAME
+    # which-case-is-this flags the ceiling carries, because the guarantee worth having is about
+    # the NOTATION and not about any one route into it: whatever arithmetic produced it, the
+    # printed decimal is inside [0, 1) or the dict says which end it hit and why. A clamp on one
+    # end of a scale is not a clamp, it is a half-checked instrument.
     _dec = value - LADDER.index(anchor)
-    _ceiling = _promote = False
+    _ceiling = _promote = _floor = _demote = False
     if _dec >= 1.0:
         if anchor == LADDER[-1]:
             _ceiling = True          # the Ladder has no rung above this; saturation is the answer
         else:
             _promote = True          # every axis maxed: this belongs in the band above, on review
         _dec = 0.99
+    elif _dec < 0.0:
+        if anchor == LADDER[0]:
+            _floor = True            # the Ladder has no rung below M0; the bottom is the answer
+        else:
+            _demote = True           # below its own band's floor: belongs one rung down, on review
+        _dec = 0.0
     return {
         "magnitude": anchor,
         "decimal": round(_dec, 2),
         "at_ladder_ceiling": _ceiling,
         "promotion_due": _promote,
+        # The floor's mirror of the two above. Additive keys: no existing reader loses a field,
+        # and a reader that only knows about the ceiling behaves exactly as it did.
+        "at_ladder_floor": _floor,
+        "demotion_due": _demote,
         "moth_number": f"𝔄 {anchor}.{round(_dec * 100):02d} ± {interval:.2f}"
                        + (" [ceiling]" if _ceiling else "")
-                       + (" [promotion due]" if _promote else ""),
+                       + (" [promotion due]" if _promote else "")
+                       + (" [floor]" if _floor else "")
+                       + (" [demotion due]" if _demote else ""),
         "interval": interval,
         "axes_scored": sorted(used),
         # THE PRIMARY MEASUREMENT, PERSISTED (added 2026-08-26, order b03f2ab9951a).
@@ -956,6 +1070,26 @@ def instrument(anchor, axis_scores, worksheet=None):
     """
     if anchor not in INSTRUMENT_WINDOWS:
         raise ValueError(f"anchor must be one of {LADDER}")
+    # LAYER 1, HERE TOO -- order 5f99aa19c059. `_check_scores` is the module's own "LAYER 1" and
+    # it had exactly ONE call site, inside `assay()`. `instrument()` is the other public entry
+    # that takes axis scores straight from a caller and PUBLISHES numbers from them, and it
+    # validated nothing, so the same reading was refused by one door and printed by the other:
+    #
+    #   assay("M3", {"ruin": 99.0}, worksheet="w")            -> AssayIntegrityError
+    #   instrument("M4", {"ruin": 99.0, "celerity": -40.0, ...})["faculties"]
+    #                                                         -> Strength 30, Dexterity -30
+    #
+    # 99.0 arriving as a Strength of exactly 30 is the outcome `_check_scores`' own docstring
+    # refuses in words -- "a clamp would turn a data error into a plausible reading" -- because
+    # 30 is the highest the Instrument can print and is therefore indistinguishable from a
+    # legitimately maxed reading. A gate on one of two doors is not a gate, it is a preference.
+    #
+    # Validated against the FULL WEIGHTS table rather than only the axes FACULTY_READS consumes,
+    # deliberately: callers hand this the whole numeric score dict (anchors.py:186 does), so
+    # judging it against the six-or-seven read axes would refuse `reach` and `transgression` as
+    # nonexistent Measures. The invariant that matters is the same one assay() enforces -- every
+    # score is on the scale and on an axis that exists -- and it is now enforced at both doors.
+    _check_scores(axis_scores)
     if not worksheet:
         lo, hi = INSTRUMENT_WINDOWS[anchor]
         return {"printout": "uninstrumented — no faculties on file",
@@ -984,7 +1118,16 @@ def instrument(anchor, axis_scores, worksheet=None):
             # evidence" (Definition 5).
             out[faculty] = None
             continue
-        value = min(30, round(lo + (s / 10.0) * span))
+        # BOUNDED AT BOTH ENDS (order 5f99aa19c059). This was `min(30, ...)`: a hard cap at the
+        # top and nothing at all at the bottom, so `celerity = -40.0` printed a Dexterity of -30
+        # -- a number OUTSIDE the Instrument's own declared 1-30 range (X.6 §6 Definition 4),
+        # published as a faculty. `_check_scores` above now refuses that score before it ever
+        # reaches here, which is the real fix; this is the notation's own guarantee, kept for the
+        # same reason the decimal is clamped at both ends in `assay()`: what the Instrument
+        # PRINTS is inside the range it declares, whatever arithmetic got there. 1 rather than
+        # `lo`, because 1-30 is the range Definition 4 declares and the per-band window is a
+        # convention on top of it, not a tighter law.
+        value = max(1, min(30, round(lo + (s / 10.0) * span)))
         out[faculty] = f"{value} (Grade {grade})" if grade else value
 
     return {"faculties": out, "window": [lo, hi],

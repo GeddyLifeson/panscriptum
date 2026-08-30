@@ -21,7 +21,22 @@ running them against `src/` on 2026-08-25 rather than from their README claims:
                      compiled Rust binary and it RUNS on this machine, which DuckDB does not.
     vulture          dead code by a different method — it counts unused VARIABLES and ATTRIBUTES,
                      which `liveness.py` does not look at at all (it stops at module-level defs).
-                     Found `descending_ladder.py:129 from_m` and two others at 100% confidence.
+                     ITS ONE SCORED WIN, AND IT IS SPENT: vulture flagged the `from_m` parameter
+                     of `descending_ladder.shrink_report` as accepted-and-never-read, and that
+                     was true and is now REPAIRED — the report echoes `from_m`, `to_m` and
+                     `is_descent` back to its caller, and that function's own docstring records
+                     the repair. Cited here by SYMBOL rather than by line, because the line moved
+                     twice while the sentence claiming it did not: this entry used to read
+                     `descending_ladder.py:129 from_m`, and 129 is now a different function
+                     entirely. A line number in prose is a citation with a decay rate.
+                     What it reports on this tree TODAY (re-measured, 4 findings, all 100%): the
+                     `socktype` parameter of `verify_math._StubNet.getaddrinfo` and three like it
+                     in `drill.py` — every one a parameter that exists to MATCH A SIGNATURE the
+                     stub is standing in for, so every one a false positive. That is stated here
+                     rather than quietly dropped, because an advertisement for a detector that
+                     only ever lists its hits is the same overstatement this module was written
+                     to catch in the house detectors. Its value is the class it can see at all,
+                     not a running score.
     detect-secrets   Yelp's scanner, with a baseline file that is the same idea as
                      `suppressions.py` arrived at independently. It found ZERO in `src/` and
                      `prompts/`, which is the most useful thing it could have said: it AGREES

@@ -64,7 +64,14 @@ def build():
         with open(os.path.join(HERE, "data", "ONOMASTICON.json"), encoding="utf-8") as f:
             ono = json.load(f)
     except Exception:
-        silence.note("navtree.py:65")
+        # KEYED BY SYMBOL AND SUBJECT, NOT BY LINE (order 87795c671285). All three note keys in
+        # this file cited a line number, all three had drifted off the handler they named (by 1,
+        # 2 and 3 lines), and they were pointing at three different relative positions -- the
+        # signature of a citation `silence.instrument` wrote mechanically against an earlier
+        # layout. `foreman.triage_swallowed` states the contract these keys serve: "the class
+        # names the module and the line". The three handlers here guard three DIFFERENT files,
+        # so telling them apart is the entire value of the key, and a name cannot drift.
+        silence.note("navtree.py:build-onomasticon-unreadable")
         ono = {}
     by_endonym = {}
     for v in ono.values():
@@ -118,13 +125,13 @@ def build():
         with open(os.path.join(HERE, "data", "GROUNDINGS.json"), encoding="utf-8") as f:
             grounds = json.load(f)
     except Exception:
-        silence.note("navtree.py:118")
+        silence.note("navtree.py:build-groundings-unreadable")
         grounds = {}
     try:
         with open(os.path.join(HERE, "data", "GENRES.json"), encoding="utf-8") as f:
             genres = json.load(f)
     except Exception:
-        silence.note("navtree.py:123")
+        silence.note("navtree.py:build-genres-unreadable")
         genres = {}
 
     # Seven hyperverses drawn from six grounding types means some type names get used twice.

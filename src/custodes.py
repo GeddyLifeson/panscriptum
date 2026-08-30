@@ -176,7 +176,20 @@ CUSTODES = {
         dasein="The world shows up as TENSION HELD -- a chord, not a ladder. Where others see an "
                "unresolved ranking she sees a resolved finding: that no ordering exists. Hers is "
                "the only standpoint that can refuse the output rather than shift it.",
-        tilt=0.0, evidence_sensitivity=0.10,
+        # HER SENSITIVITY IS 0.0 AND IS NOW WRITTEN AS SUCH (order 39f19f7e646c). It read 0.10,
+        # and the evidential term is `tilt * evidence_sensitivity * (1 - q)` -- so with tilt 0.0
+        # her response to attestation quality was exactly 0.0 on every reading ever taken. A
+        # declared property with no mechanism behind it is the same fault as the dispersive flag
+        # filed alongside this order, and the honest resolution is the one the table already
+        # implies: her `would_change_her_mind` is "a curl that falls to zero; nothing less", and
+        # a curl is not fieldwork. Attestation quality is not her lever, because her instrument
+        # is the VETO -- the one standpoint that refuses the output rather than shifting it, and
+        # a refusal has no magnitude for evidence to shrink. Zero here is a statement, not a gap.
+        # Nothing numeric moves: 0.0 * 0.10 and 0.0 * 0.0 were always the same reading.
+        # NOTE the coupling itself survives: any future Custos with tilt 0.0 and a non-zero
+        # sensitivity would be inert in the same silent way. Nothing in the tree refuses that
+        # pairing; see the order for the check that would.
+        tilt=0.0, evidence_sensitivity=0.0,
         axis_emphasis={},
         refuses="to force a scalar through an incomparable pair",
         would_change_her_mind="a curl that falls to zero; nothing less",
@@ -238,6 +251,15 @@ CURL_VETO_THRESHOLD = 0.10   # = Saaty's CR bar, via Theorem 1
 
 ATTESTATION_QUALITY = {g: round(1.0 - b / _ATT_WORST, 4) for g, b in _ATT_BASE.items()}
 
+# What a grade outside the charter's five reads as. It is a SUBSTITUTION, not a measurement, and
+# it used to be an unnamed literal `0.4` inside `_custos_reading` -- so "TOTAL NONSENSE" produced
+# a number one hundredth away from "Transcribed" and nothing in the result said the grade had not
+# been recognised (order 0aefdac4a26d). A lowercase "witnessed", a grade renamed in the charter
+# and a caller's typo all land here. The value is kept where it was rather than retuned: this
+# order is about the SILENCE, and moving the number as well would change every published interval
+# for a class of input while claiming to be a reporting fix.
+ATTESTATION_UNRECOGNISED_QUALITY = 0.4
+
 
 def _custos_reading(name, anchor, scores, attestation, worksheet):
     """One Custos's reading of the same evidence, through their own emphasis and tilt."""
@@ -256,7 +278,7 @@ def _custos_reading(name, anchor, scores, attestation, worksheet):
         base = A.assay(anchor, scores, attestation=attestation, worksheet=worksheet,
                        weights=w)
 
-    q = ATTESTATION_QUALITY.get(attestation, 0.4)
+    q = ATTESTATION_QUALITY.get(attestation, ATTESTATION_UNRECOGNISED_QUALITY)
     # The tilt has two parts, and separating them is the whole point:
     #   PRIOR      the standpoint's own reading, which survives perfect evidence
     #   EVIDENTIAL the part that shrinks as attestation improves
@@ -353,6 +375,49 @@ def _abstained(dof):
         print("custodes.py: " + _ABSTAIN_NOTE[dof], file=sys.stderr)
 
 
+def _transit_widening(distance, years_since):
+    """The half-width the DISPERSIVE Custodes add, and which of them had no mechanism to add it.
+
+    THE FLAG IS CONSULTED HERE, WHICH IS THE PART IT WAS MISSING (order 90eba4982972). `convene`
+    derived the dispersive list from the table, placed it in the output dict, and then widened
+    the interval from `staleness_widening(...)` regardless of it -- so a second dispersive Custos
+    would have been NAMED in `dispersive_custodes` beside an interval she moved by exactly
+    nothing, which is precisely what the comment there claimed could no longer happen. Proved by
+    flipping Lumen's flag in memory with identical inputs: the interval was byte-identical and
+    only the name list changed.
+
+    The widening is now accumulated PER dispersive Custos, through the mechanism belonging to her
+    own degree of freedom. Exactly one dof has such a mechanism -- `currency`, via
+    `propagation.observed_mark` -- and a Custos flagged dispersive in any other direction is
+    returned in the fourth slot rather than absorbed, because "she declares a dispersion nobody
+    can compute" and "she contributes nothing" must not share an answer. Same rule as the
+    abstentions one level up: an absent measurement must not be readable as a zero.
+
+    -> (half-width to add, was the currency measurement taken, why, [flagged but unmechanised])
+    """
+    stale, measured, source, without = 0.0, False, None, []
+    for name in sorted(n for n, c in CUSTODES.items() if c.get("dispersive")):
+        if CUSTODES[name]["dof"] != "currency":
+            without.append(name)
+            continue
+        if distance is not None and years_since is not None:
+            stale += staleness_widening(distance, years_since)
+            measured = True
+            source = ("measured: propagation.observed_mark(distance=%r, years_since=%r)"
+                      % (distance, years_since))
+        else:
+            source = _ABSTAIN_NOTE["currency"]
+            _abstained("currency")
+    if source is None:
+        # A THIRD STATE, and it gets its own sentence rather than borrowing one of the other
+        # two: nobody in the table stands dispersive in `currency`, so no transit widening was
+        # derived and none was expected. Unreachable while Lumen carries the flag; it exists so
+        # that removing the flag reads as a change in the college rather than as a measurement.
+        source = ("no Custos in the table is marked dispersive in dof=currency, so no transit "
+                  "widening was derived and none was expected")
+    return stale, measured, source, without
+
+
 def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta=None,
             distance=None, years_since=None):
     """Convene the full college. The interval is the DISPERSION of their readings.
@@ -385,10 +450,51 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
     graph for the college to decompose. Defaulting either from in here would be inventing the
     measurement, which is the failure this file exists to refuse.
     """
+    # THE ATTENDANCE IS A FACT ABOUT THE ARGUMENTS, so it is settled before the readings are
+    # counted (order ded8418c75a6). These flags used to be computed halfway down the body, past
+    # the `len(readings) < 2` early return, so a band-only result carried {decimal, reason} and
+    # nothing else -- silent about which standpoints spoke, which is the exact silence they were
+    # added to end, surviving on the one path where the college could not reach a number at all.
+    # Whether Lumen and Threnody had anything to read depends on `distance`/`years_since`/`eta`,
+    # never on how many readings came back, so both returns can and now do carry it.
+    dispersive = sorted(n for n, c in CUSTODES.items() if c.get("dispersive"))
+    (stale, stale_measured, currency_source,
+     dispersive_unmechanised) = _transit_widening(distance, years_since)
+    if eta is None:
+        comparability_source = _ABSTAIN_NOTE["comparability"]
+        _abstained("comparability")
+    else:
+        comparability_source = ("measured: eta=%.4f from resonance.hodge_decompose "
+                                "(curl fraction %.4f, bar %.2f)"
+                                % (eta, 1.0 - eta, CURL_VETO_THRESHOLD))
+    # AN UNRECOGNISED GRADE IS NOT A MID-QUALITY GRADE (order 0aefdac4a26d). `_custos_reading`
+    # substitutes ATTESTATION_UNRECOGNISED_QUALITY for anything outside the charter's five and a
+    # number is published either way; until this flag there was nothing in the result that could
+    # tell a reader the grade had never been recognised, so "TOTAL NONSENSE" was indistinguishable
+    # from "Transcribed" apart from a hundredth on the decimal. The substituted value rides along
+    # exactly the way the abstention reasons do.
+    attestation_recognised = attestation in ATTESTATION_QUALITY
+    attendance = {
+        "staleness_measured": stale_measured,
+        "currency_source": currency_source,
+        "comparability_measured": eta is not None,
+        "comparability_source": comparability_source,
+        "attestation_recognised": attestation_recognised,
+        "attestation_source": (
+            "grade %r is one of the charter's %d" % (attestation, len(ATTESTATION_QUALITY))
+            if attestation_recognised else
+            "UNRECOGNISED grade %r: not one of %s. Every Custos read it at the substituted "
+            "quality %.2f, so any decimal and interval here are a reading of a grade the "
+            "charter does not define -- not a measurement of mid-quality evidence."
+            % (attestation, sorted(ATTESTATION_QUALITY), ATTESTATION_UNRECOGNISED_QUALITY)),
+    }
+    if not attestation_recognised:
+        attendance["attestation_substituted_quality"] = ATTESTATION_UNRECOGNISED_QUALITY
+
     readings = [r for r in (_custos_reading(n, anchor, scores, attestation, worksheet)
                             for n in CUSTODES) if r]
     if len(readings) < 2:
-        return {"decimal": None, "reason": "insufficient readings; band-only"}
+        return dict(attendance, decimal=None, reason="insufficient readings; band-only")
 
     vals = [r["reading"] for r in readings]
     perfect = [r["reading_at_perfect_evidence"] for r in readings]
@@ -405,21 +511,9 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
     # The interval must COVER every signed reading -- a college that publishes a band excluding one
     # of its own members has not measured its disagreement, it has hidden it.
     half = max(1.96 * total_sd, *(abs(v - consensus) for v in vals))
-    # Lumen's contribution: dispersive, not directional -- and `dispersive=True` in her CUSTODES
-    # entry is now READ rather than merely declared. It was a flag nobody consulted (order
-    # 2af7ca515157), which is the same defect in miniature as the argument nobody passes: a
-    # property asserted in the table and enforced nowhere. Deriving the list from the table means
-    # a second dispersive Custos would be picked up here instead of silently ignored.
-    dispersive = sorted(n for n, c in CUSTODES.items() if c.get("dispersive"))
-    stale_measured = distance is not None and years_since is not None
-    if stale_measured:
-        stale = staleness_widening(distance, years_since)
-        currency_source = ("measured: propagation.observed_mark(distance=%r, years_since=%r)"
-                           % (distance, years_since))
-    else:
-        stale = 0.0
-        currency_source = _ABSTAIN_NOTE["currency"]
-        _abstained("currency")
+    # Lumen's contribution: dispersive, not directional. `_transit_widening` above derived it
+    # from the table's own `dispersive=True`, one flagged Custos at a time -- see its docstring
+    # for why a list that only reached the output dict was not the same as a flag being read.
     half += stale
 
     out = {
@@ -431,10 +525,17 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
         "staleness_widening": round(stale, 3),
         # THE FLAG IS THE POINT, not the number beside it. `staleness_widening: 0.0` alone is
         # ambiguous between "the news has fully arrived" and "nobody told us where this being
-        # is", and in production it has only ever meant the second.
-        "staleness_measured": stale_measured,
-        "currency_source": currency_source,
+        # is", and in production it has only ever meant the second. The whole attendance --
+        # `staleness_measured`, `currency_source`, `comparability_measured`,
+        # `comparability_source`, `attestation_recognised` -- is spread in from the block at the
+        # top of this function, so the band-only return above carries exactly the same flags.
+        **attendance,
         "dispersive_custodes": dispersive,
+        # NAMED AND UNABLE TO ACT is its own state and gets its own key: a Custos the table
+        # marks dispersive whose degree of freedom has no derived widening. Empty while Lumen is
+        # the only one flagged; it is what stops the next flagged Custos being reported as a
+        # contributor to a number she cannot reach.
+        "dispersive_without_mechanism": dispersive_unmechanised,
         "prior_divergence_share": round(prior_share, 3),
         "attestation_floor_share": round(1.0 - prior_share, 3),
         "reading_spread": {r["custos"]: round(r["reading"], 3) for r in readings},
@@ -460,15 +561,9 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
     # `threnody_veto` is deliberately NOT set to False on that path: a False would state that the
     # curl was looked at and found small, which nothing in production has ever done. What is
     # published instead is `comparability_measured: False` and the reason, so the absence reads
-    # as an absence.
-    out["comparability_measured"] = eta is not None
-    if eta is None:
-        out["comparability_source"] = _ABSTAIN_NOTE["comparability"]
-        _abstained("comparability")
-    else:
-        out["comparability_source"] = ("measured: eta=%.4f from resonance.hodge_decompose "
-                                       "(curl fraction %.4f, bar %.2f)"
-                                       % (eta, 1.0 - eta, CURL_VETO_THRESHOLD))
+    # as an absence. Both keys are set in the attendance block at the top of this function now,
+    # so the band-only return carries them too (order ded8418c75a6); only the veto itself, which
+    # needs the readings, stays down here.
     if eta is not None and (1.0 - eta) >= CURL_VETO_THRESHOLD:
         out["threnody_veto"] = True
         out["decimal"] = None

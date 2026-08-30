@@ -42,25 +42,80 @@ class SnapshotFailed(RuntimeError):
 
 
 def _rel(p):
+    """An absolute path -> its path relative to the repository root. REFUSES anything outside it.
+
+    THE CONTAINMENT CHECK IS THE POINT, and it was missing. This was a bare `os.path.relpath(p,
+    HERE)`, which cheerfully answers `../some/other/file.txt` for a path outside the repository
+    -- and every consumer of that answer JOINS it onto a directory:
+
+      * `before()` joins it onto `state/snapshots/<sid>/`, so the copy lands OUTSIDE the
+        snapshot's own folder. Two snapshots of the same out-of-tree path then collide at one
+        shared location under `state/snapshots/`, each overwriting the other's copy.
+      * `restore(sid, into=tmp)` joins it onto the temp directory and writes OUTSIDE it, so
+        `verify()`'s `finally: shutil.rmtree(tmp)` does not remove what it wrote.
+      * `restore(sid)` with its default `into=HERE` writes outside the repository altogether.
+      * and `verify()` then compares the two escaped copies to each other and returns True, so
+        the escape is certified rather than caught.
+
+    Demonstrated end to end (order ca3452eb9d49) with a file under %TEMP%. Latent today --
+    the one live caller passes the in-tree relative `output/index/catalog.json` -- but `before()`
+    documents and implements absolute-path support, and this is the module that gates
+    irreversible acts, so the latent case is the whole exposure.
+
+    REFUSED RATHER THAN REWRITTEN. Silently re-rooting an out-of-tree path under the snapshot
+    directory would take the copy and then restore it to the wrong place, which is a worse
+    failure than not taking it: the caller would be told it had a backup of a file it cannot get
+    back. An absolute path that IS under `HERE` is still accepted, exactly as documented.
+    """
     p = os.path.abspath(p)
-    return os.path.relpath(p, HERE).replace(os.sep, "/")
+    try:
+        rel = os.path.relpath(p, HERE)
+    except ValueError as e:
+        # Windows: `relpath` raises outright across drive letters. Same verdict, said plainly.
+        raise SnapshotFailed(
+            "%s is not on the same drive as the repository root %s, so it has no path relative "
+            "to it and cannot be snapshotted here (%s)" % (p, HERE, e)) from e
+    if rel == os.pardir or rel.startswith(os.pardir + os.sep) or os.path.isabs(rel):
+        raise SnapshotFailed(
+            "%s resolves OUTSIDE the repository root %s. A snapshot of it would be written "
+            "outside state/snapshots/<id>/ and restored outside the directory it was restored "
+            "into, and verify() would compare the two escaped copies and pass. Snapshot only "
+            "paths under the tree." % (p, HERE))
+    return rel.replace(os.sep, "/")
 
 
-def before(label, paths, note=""):
+def before(label, paths, note="", allow_missing=False):
     """Copy `paths` (files or directories) aside. -> snapshot id. Raises if it cannot.
 
     RAISES rather than returning a falsy value, because the caller is about to do something
     irreversible and the one thing that must not happen is for a failed snapshot to read as a
     successful one at a glance.
+
+    A PARTIAL SNAPSHOT REFUSES TOO, and until now only the empty one did (order f4193095edff).
+    A missing path was `continue`d over: ask for four paths where one is a typo, a renamed
+    directory, or a file not created yet, and this returned an id, `verify()` returned True, and
+    the manifest recorded neither what was REQUESTED nor what was SKIPPED -- so the caller went
+    ahead with an irreversible step holding part of what it asked for, with nothing anywhere
+    naming the part it did not get. This module's own words for the empty case apply to the
+    partial one unchanged: "an empty snapshot is not a safe snapshot, it is a missing one
+    wearing the same name." An all-or-nothing refusal that only fires when NOTHING was captured
+    is a check that fires only in the case nobody hits.
+
+    `allow_missing=True` is for the caller who genuinely means "copy whichever of these exist",
+    and it is opt-in because that is a claim only the caller can make. It suppresses the refusal
+    and nothing else: `requested` and `skipped` go into the manifest either way, so what was not
+    taken is on the record even when it was expected.
     """
     sid = "%s-%d" % (str(label or "snap").replace(os.sep, "_"), int(time.time()))
     dest = os.path.join(ROOT, sid)
-    took = []
+    took, requested, skipped = [], [], []
     try:
         os.makedirs(dest, exist_ok=True)
         for p in paths or ():
             src = p if os.path.isabs(p) else os.path.join(HERE, p)
+            requested.append(str(p))
             if not os.path.exists(src):
+                skipped.append(str(p))
                 continue
             rel = _rel(src)
             tgt = os.path.join(dest, rel.replace("/", os.sep))
@@ -70,7 +125,11 @@ def before(label, paths, note=""):
             else:
                 shutil.copy2(src, tgt)
             took.append(rel)
-        manifest = {"id": sid, "at": time.time(), "label": label, "note": note, "took": took}
+        # `requested` AND `skipped` ARE RECORDED WHETHER OR NOT THEY MATTER HERE. The refusal
+        # below can be waived; the record cannot, because the manifest is the only thing a
+        # restore six weeks from now has to tell it what this snapshot was supposed to hold.
+        manifest = {"id": sid, "at": time.time(), "label": label, "note": note, "took": took,
+                    "requested": requested, "skipped": skipped}
         with open(os.path.join(dest, "_manifest.json"), "w", encoding="utf-8") as f:
             json.dump(manifest, f, indent=1, ensure_ascii=False)
     except Exception as e:
@@ -83,6 +142,17 @@ def before(label, paths, note=""):
         raise SnapshotFailed(
             "snapshot %r captured NOTHING -- none of the given paths exist. An empty snapshot "
             "is not a safe snapshot, it is a missing one wearing the same name." % label)
+    if skipped and not allow_missing:
+        # AFTER the manifest is written, deliberately: the snapshot directory and its record of
+        # what went wrong stay on disk for the operator to read, rather than the refusal erasing
+        # its own evidence. The caller is stopped, which is the point; nothing is cleaned up
+        # behind it, which is how they find out what was missing.
+        raise SnapshotFailed(
+            "snapshot %r captured %d of %d requested path(s) -- %s do(es) not exist. The "
+            "irreversible step must not proceed on a partial copy: pass allow_missing=True if "
+            "the absences are expected, or fix the path(s). Manifest: %s"
+            % (label, len(took), len(requested), ", ".join(repr(s) for s in skipped),
+               os.path.join(ROOT, sid, "_manifest.json")))
     return sid
 
 
@@ -155,14 +225,34 @@ def verify(sid):
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def _safe_join(base, rel):
+    """`os.path.join(base, rel)`, refusing any `rel` that climbs out of `base`.
+
+    THE SECOND HALF OF `_rel`'s CONTAINMENT CHECK (order ca3452eb9d49). Guarding `before()` stops
+    an escaping path being TAKEN; this stops one already recorded from being WRITTEN, and there
+    are two ways for one to exist: a manifest written before `_rel` refused, and a manifest
+    edited by hand. `restore()`'s default `into` is the live repository root, so an unguarded
+    `..` in `took` is an arbitrary write outside the tree performed by the module whose job is
+    to make destructive steps reversible.
+    """
+    tgt = os.path.abspath(os.path.join(base, rel.replace("/", os.sep)))
+    root = os.path.abspath(base)
+    if tgt != root and not tgt.startswith(root + os.sep):
+        raise SnapshotFailed(
+            "manifest entry %r resolves to %s, which is outside %s. Refusing to restore it: a "
+            "restore that writes outside the directory it was given is not a restore."
+            % (rel, tgt, root))
+    return tgt
+
+
 def restore(sid, into=None):
     """Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it."""
     base = into or HERE
     m = manifest(sid)
     n = 0
     for rel in m.get("took", []):
-        src = os.path.join(ROOT, sid, rel.replace("/", os.sep))
-        tgt = os.path.join(base, rel.replace("/", os.sep))
+        src = _safe_join(os.path.join(ROOT, sid), rel)
+        tgt = _safe_join(base, rel)
         if not os.path.exists(src):
             continue
         os.makedirs(os.path.dirname(tgt), exist_ok=True)

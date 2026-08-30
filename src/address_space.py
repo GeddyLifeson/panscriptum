@@ -330,7 +330,29 @@ def assign(designation, tiers):
     n = int.from_bytes(h[:HASH_BYTES], "big")
 
     def fit(v, field):
-        return (0 if v is None else int(v)) % (1 << WIDTHS[field])
+        # NO MODULO (order b6474eb0a258). This read `... % (1 << WIDTHS[field])`, and assign()
+        # is this module's only real address producer -- the one main() uses for all 1,016
+        # catalogued worlds -- so pack()'s promise to raise "rather than truncating: a silently
+        # wrapped address would name a different world" was a guard whose sole production caller
+        # pre-satisfied it. A check that cannot fail looks exactly like a check that passed.
+        # Proved both halves before removing it: pack(multiverse=10**9) raises ValueError, while
+        # assign('Demo::World', {'multiverse': 10**9}) returned an address whose unpacked
+        # multiverse was 0 -- silently, with no note and no escalation. The value now reaches
+        # pack(), which names the field and the width it overflowed.
+        #
+        # MEASURED AGAINST THE LIVE CENSUS FIRST, so this cannot break a run that works today:
+        # TIERS.json holds 209 rows with hyperverse 2..5, xenoverse 0..5, metaverse 0..7 and
+        # multiverse 0..167 against field capacities of 8/8/8/256, and all 1,016 designations in
+        # WORLDSEEDS.json address with zero out-of-range tiers. The widths are DERIVED from the
+        # census maxima, so a tier can only fall outside one if TIERS.json moved after import or
+        # carries a negative -- and re-charting the census while a run holds the old widths
+        # (order 60dc7c624c06) is precisely the circumstance in which the wrap used to fire.
+        #
+        # THE `None` -> 0 ARM IS DELIBERATELY UNCHANGED. A tier that is MISSING being addressed
+        # at zero unmarked is a different fault and has its own open order (642a95fe9f3c); this
+        # is about a tier that is PRESENT and TOO LARGE. The local keeps the name `fit` so that
+        # order's citation still resolves.
+        return 0 if v is None else int(v)
 
     def drawn(field):
         return (n >> HASH_OFFSETS[field]) % (1 << WIDTHS[field])

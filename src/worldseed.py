@@ -186,6 +186,19 @@ def to_options(designation, name, description, band="unassayed", register="class
         # doesn't produce yet rather than a stray leftover, and that's the owner's call, not a
         # cleanup. If a "primitive" tier is wanted, it needs a TECH regex of its own; if not,
         # this entry is the one to remove.
+        #
+        # EVIDENCE GATHERED FOR THAT RULING (order ad681057369a, 2026-08-29). "primitive" is NOT
+        # a stray: it is live vocabulary in three sibling modules, all keyed on the value this
+        # module publishes as `era`. `genre.py` gives the `mythology` genre the prior
+        # tech="primitive"; `onomast.py` maps ("tech", "primitive") -> the guttural register;
+        # `burgs.largest_city` gives era "primitive" a primate city of 2,500. So the asymmetry is
+        # the other way round from a leftover -- worldseed's TECH table is the ONE place in the
+        # tree that cannot produce the value, and the effect today is that no world reaches
+        # burgs' 2,500-population tier or onomast's guttural-by-tech rule through this path.
+        # Both remedies are content decisions, which is why neither is taken here: adding a
+        # matcher would re-derive `era`, `size` and every downstream burg count for whichever
+        # worlds it catches, and removing the entry would desync this module from the other
+        # three. Left for the owner.
         "size": {"spacefaring": 90, "industrial": 70, "magical": 55,
                  "medieval": 45, "primitive": 35}.get(f["tech"], 50),
         "era": f["tech"],
@@ -247,22 +260,69 @@ def unreachable_by_url(opt):
 
 
 # ==================================================================================================
+# WHAT THE LAST `build_all` COULD NOT READ. A module-level diagnostic rather than a second return
+# value, because `build_all` has seven importers (burgs, navtree, profile, render, sevenfold,
+# address_space, verify_math) and widening its signature for a warning would break every one.
+# Reset at the top of each call so it always describes the build the caller just asked for.
+LAST_BUILD = {"onomasticon": "ok", "continuity_groups": "ok", "onomasticon_bad_rows": 0}
+
+
 def build_all(limit=None):
     import pipeline as PL
+    LAST_BUILD.update({"onomasticon": "ok", "continuity_groups": "ok",
+                       "onomasticon_bad_rows": 0})
+    # AN UNREADABLE ONOMASTICON UNIFORMS THE WHOLE LIBRARY, SO IT IS SAID OUT LOUD (order
+    # ef19733afaa7). `ono = {}` gives `reg_by_group = {}` gives `reg_by_group.get(g, "classical")`
+    # for EVERY source gives CULTURE_SET["classical"] = "antique" for every world in the
+    # catalogue -- which is precisely the failure `_first`'s docstring was written against ("200
+    # of 1,068 worlds ended up sharing one identical option vector"), reached through the input
+    # file instead of through the matcher. The only trace was a `silence.note`, and main() then
+    # printed a culture_set distribution that reads as a finding ABOUT the catalogue rather than
+    # as a failed read. It now also reaches stderr and `LAST_BUILD`, so no consumer can build a
+    # uniform library and believe it derived one.
+    #
+    # AND `reg_by_group` IS BUILT INSIDE THE TRY, ROW BY ROW. It sat outside, so the try covered
+    # only the `json.load`: a well-formed ONOMASTICON whose values lack "continuity_group" or
+    # "register" raised KeyError straight out of `build_all` past the handler written for exactly
+    # this file. A malformed row is now counted and skipped -- one bad row should cost its own
+    # group's register, not the whole build.
+    reg_by_group, bad_rows = {}, 0
     try:
         with open(os.path.join(HERE, "data", "ONOMASTICON.json"), encoding="utf-8") as f:
             ono = json.load(f)
+        for v in (ono or {}).values():
+            try:
+                reg_by_group[v["continuity_group"]] = v["register"]
+            except (KeyError, TypeError):
+                bad_rows += 1
     except Exception:
-        silence.note("worldseed.py:248")
+        silence.note("worldseed.py:onomasticon-load")
         ono = {}
-    reg_by_group = {v["continuity_group"]: v["register"] for v in ono.values()}
+    LAST_BUILD["onomasticon_bad_rows"] = bad_rows
+    if not reg_by_group:
+        LAST_BUILD["onomasticon"] = "unread"
+        sys.stderr.write(
+            "worldseed: data/ONOMASTICON.json yielded NO continuity_group -> register mapping. "
+            "Every world in this build takes the 'classical' fallback, so culture_set is "
+            "'antique' library-wide -- that is a failed read, not a property of the catalogue.\n")
+    elif bad_rows:
+        LAST_BUILD["onomasticon"] = "partial"
+        sys.stderr.write("worldseed: %d ONOMASTICON row(s) lack 'continuity_group' or "
+                         "'register'; their groups fall back to 'classical'.\n" % bad_rows)
     try:
         with open(os.path.join(HERE, "data", "CONTINUITY_GROUPS.json"), encoding="utf-8") as f:
             groups = json.load(f)["groups"]
         gid = {s: i for i, g in enumerate(groups) for s in g}
     except Exception:
-        silence.note("worldseed.py:255")
+        silence.note("worldseed.py:continuity-groups")
         gid = {}
+    if not gid:
+        # Same shape, same consequence: every source collapses to group 0, so every world in the
+        # library shares one register and one climate band seed.
+        LAST_BUILD["continuity_groups"] = "unread"
+        sys.stderr.write(
+            "worldseed: data/CONTINUITY_GROUPS.json yielded no source -> group mapping. Every "
+            "source in this build is group 0, so the whole library shares one register.\n")
 
     WORLD = re.compile(r"\b(planet|world|moon|homeworld|colony|continent|realm|kingdom|empire|"
                        r"nation|island|city|region|land)\b", re.I)
@@ -306,9 +366,23 @@ def main():
     print(f"whole library at this rate: {sum(len(a) for a in addrs)/1024:.1f} KB "
           f"(a saved map is megabytes EACH)")
 
+    # THE DISTRIBUTIONS BELOW ARE ONLY A FINDING IF THE INPUTS WERE READ (order ef19733afaa7).
+    # A culture_set distribution of {'antique': 1068} is what an unreadable ONOMASTICON looks
+    # like and also what a genuinely uniform catalogue looks like, and the reader cannot tell
+    # them apart from the number. So the read verdict is printed ABOVE the numbers it explains.
+    if LAST_BUILD["onomasticon"] != "ok" or LAST_BUILD["continuity_groups"] != "ok":
+        print("\n  INPUTS NOT FULLY READ — the distributions below describe this build, not the "
+              "catalogue: ONOMASTICON=%s (%d unusable row(s)), CONTINUITY_GROUPS=%s"
+              % (LAST_BUILD["onomasticon"], LAST_BUILD["onomasticon_bad_rows"],
+                 LAST_BUILD["continuity_groups"]))
+
     import collections
     for k in ("template", "culture_set", "era"):
-        print(f"\n  {k} distribution: {dict(collections.Counter(w[k] for w in worlds).most_common(6))}")
+        # UNCAPPED. `most_common(6)` silently dropped every value past the sixth, and these
+        # vocabularies are small enough to print whole -- a distribution with its tail cut off
+        # is the shape that makes a library look more uniform than it is.
+        counts = collections.Counter(w[k] for w in worlds).most_common()
+        print(f"\n  {k} distribution: {dict(counts)}")
 
     print("\n" + "-" * 100)
     print("SAMPLE — description in, world out")
@@ -335,8 +409,28 @@ def main():
         # same class of silent failure one level up.
         path = os.path.join(HERE, "data", "WORLDSEEDS.json")
         payload = {w["designation"]: {"address": address(w), **w} for w in worlds}
+        # A STORED ROSTER THAT SHRANK ON A KEY COLLISION USED TO SAY NOTHING (order 8b86e70ce8b7).
+        # `designation` is f"{src}::{nm}", so two catalogued Places in ONE source sharing a name
+        # produce ONE row and the last one wins. Nothing compared len(payload) to len(worlds), so
+        # "worlds encoded: N" above could exceed what WORLDSEEDS.json actually holds and no
+        # reader of either file could tell. Reported rather than de-duplicated by suffixing: the
+        # designation is the world's identity here and in address_space.py, and inventing a
+        # second spelling for it would push the ambiguity downstream instead of naming it. The
+        # write still happens -- the roster minus a duplicate is worth having; the silence was
+        # not. Uncapped, because this is the list somebody reads to go and rename an entry.
+        if len(payload) != len(worlds):
+            seen, dupes = set(), []
+            for w in worlds:
+                if w["designation"] in seen:
+                    dupes.append(w["designation"])
+                seen.add(w["designation"])
+            print("\n  DESIGNATION COLLISION: %d world(s) encoded but only %d row(s) storable -- "
+                  "these designations occur more than once and only the LAST of each is kept: %s"
+                  % (len(worlds), len(payload), ", ".join(sorted(set(dupes)))))
         if silence.write_json(path, payload, indent=2, ensure_ascii=False):
-            print(f"\nwrote {path}")
+            # The STORED count, not the encoded one: the two differ on a collision and the
+            # confirmation line is where a reader looks to learn what actually landed.
+            print(f"\nwrote {path} ({len(payload):,} row(s))")
         else:
             print(f"\nWRITE DENIED {path} — replace refused; it lands on the next run")
     return 0

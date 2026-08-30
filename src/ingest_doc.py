@@ -151,16 +151,70 @@ def register(source):
     return hosts[source]
 
 
+def _slug_words_contain(hay, needle):
+    """Does `needle` sit inside `hay` as WHOLE hyphen-delimited words? Both are slugs.
+
+    `needle in hay` is a raw substring test and slugs are hyphen-joined words, so it lets
+    two letters match anywhere: `dc` is inside `swor-d-c-oast-adventurer-s-guide`, which is
+    the accident manifest_builder.load_record and address.py have each had to repair. Padding
+    both sides with '-' bounds the match on word edges (and on the ends of the string) at no
+    cost, so the shared text is words rather than a run of characters that happens to line up.
+    """
+    return ("-" + needle + "-") in ("-" + hay + "-")
+
+
 def record_path(source):
+    """Where this source's record lives. Exact name first, then a bounded containment match.
+
+    AN AMBIGUOUS MATCH IS A REFUSAL, NOT A FIRST-HIT GUESS (order 66e007cf54d5). The fallback
+    was `if want in base or base in want` over `os.listdir` order, taking whichever entry came
+    first: bare containment with no word boundary, no length floor and no complaint when several
+    files matched. data/records/ holds 32 slugs of eight characters or fewer (dc, doom, halo,
+    dune, alien, marvel, predator, arms, xcom ...) and each is a substring of plenty of real
+    source names, so calling it gave 'Marvel vs DC' -> dc.json and 'Alien vs Predator' ->
+    alien.json. mine() both LOADS the record through this path and WRITES IT BACK through
+    write_record_catalogue, and main() stamps that record's provenance with the book -- so a
+    mismatch merges an entire uncapped entity extraction into ANOTHER FRANCHISE'S record under
+    the appearance of research, and unlike a bad host it leaves no mined-host trail to find it
+    by. Latent today (all 193 sources on CHARACTER_SWEEP hit an exact slug+'.json' file), but
+    this module is the NEW-MATERIAL path -- the one place a source routinely arrives before it
+    has a record -- which is exactly the input that reaches the fallback.
+
+    Three things changed, each answering a distinct half of the defect:
+      * entries that do not end in '.json' are skipped. `fn[:-5]` assumed every directory entry
+        did; data/records/getter-robo.json.precatfix yielded the base 'getter-robo.json.pre' and
+        the function could therefore hand mine() a non-JSON path to json.load.
+      * containment must fall on a '-' boundary (`_slug_words_contain`), so a short slug can no
+        longer land in the middle of an unrelated word.
+      * MORE THAN ONE CANDIDATE RAISES. 'Alien vs Predator' matches both alien.json and
+        predator.json and there is no honest way to choose; 'Marvel vs DC' likewise. Refusing
+        turns the two demonstrated harms into a stopped ingest, and a stopped ingest is cheap
+        next to a record merged into the wrong universe. Callers report it (main() prints it
+        and exits non-zero) rather than letting a traceback out.
+    """
     p = os.path.join(RECORDS, slug(source) + ".json")
     if os.path.exists(p):
         return p
-    # The roll names sources long-form; records are slugged. Find by containment.
+    # The roll names sources long-form; records are slugged. Find by containment, both ways:
+    # a short record name inside a long source name is the legacy-truncation case, and a short
+    # source name inside a long record name is the abbreviated-roll-row case.
     want = slug(source)
-    for fn in os.listdir(RECORDS):
+    cands = []
+    for fn in sorted(os.listdir(RECORDS)):
+        if not fn.endswith(".json"):
+            continue
         base = fn[:-5]
-        if want in base or base in want:
-            return os.path.join(RECORDS, fn)
+        if not base:
+            continue
+        if _slug_words_contain(base, want) or _slug_words_contain(want, base):
+            cands.append(fn)
+    if len(cands) > 1:
+        raise ValueError(
+            "source %r (slug %r) matches %d record files by containment (%s); refusing to "
+            "guess -- name the source exactly as its record is slugged, or create %s."
+            % (source, want, len(cands), ", ".join(cands), os.path.basename(p)))
+    if cands:
+        return os.path.join(RECORDS, cands[0])
     return p
 
 
@@ -247,6 +301,13 @@ def mine(source):
 
     misses = 0
     ci = state["next"]
+    # WHAT THE DISK ACTUALLY HOLDS (order 7100890382fc). `state["found"]` is bumped in memory
+    # and reaches the disk only as a passenger on the resume-cursor write, so a denied cursor
+    # write leaves the "ingest complete: N new entries merged" line describing a number no
+    # resumed run will ever see. `landed_found` tracks the value that last actually landed, so
+    # the two can be COMPARED and the disagreement named instead of being left for whoever
+    # notices the counts differ.
+    landed_found = state["found"]
     while ci < len(chunks):
         text, chunk_pages = chunks[ci]
         got = _ask(SYSTEM, "PASSAGE (%s):\n\n%s" % (", ".join(chunk_pages), text), SCHEMA)
@@ -276,7 +337,17 @@ def mine(source):
             known.add(k)
             fresh.append({
                 "name": e["name"].strip(), "type": (e.get("type") or "").strip(),
-                "description": (e.get("description") or "").strip()[:2000],
+                # NO [:2000] (order baf4a18d1f1a, HARD RULE 0). This module's own docstring
+                # says the whole document is extracted and every chunk is mined; a silent
+                # unmarked slice on the STORED description contradicts it. Measured across the
+                # corpus at the time it was removed: 216 record files, 282,822 entries, zero
+                # descriptions sitting at exactly 2,000 -- so nothing had been cut yet -- but
+                # the longest legitimate description on disk is 11,634 characters
+                # (the-elements-beyond.json, 'Deepling'), and the files holding the most long
+                # descriptions are the homebrew sourcebooks this module targets. Other writers
+                # store them whole; the console renderers truncate at their own call sites. If a
+                # per-entry ceiling is ever wanted it must be a REFUSAL with the length stated.
+                "description": (e.get("description") or "").strip(),
                 "scale_note": (e.get("scale_note") or "").strip(),
                 "category": e.get("category") if e.get("category") in CATEGORIES
                 else CATEGORIES[0],
@@ -336,10 +407,22 @@ def mine(source):
             print("  chunk %d/%d: resume cursor NOT advanced on disk (write denied); the "
                   "entries above are saved, but a rerun will re-ask every chunk since the "
                   "last cursor that landed" % (ci + 1, len(chunks)))
+        else:
+            landed_found = state["found"]
         if (ci + 1) % 10 == 0 or fresh:
             print("  chunk %d/%d  +%d new  (%d total this ingest)"
                   % (ci + 1, len(chunks), len(fresh), state["found"]))
         ci += 1
+    # SAY WHICH NUMBER IS WHICH (order 7100890382fc). Two counts exist the moment a cursor write
+    # is denied: what this run merged, and what ingest_state.json will report to the next one.
+    # Neither is wrong, but reading either as the other is, so the gap is stated rather than
+    # left to be discovered by a reader comparing two runs' final lines.
+    if landed_found != state["found"]:
+        print("  COUNTER BEHIND DISK: %d entries merged this run, %d recorded in "
+              "ingest_state.json (the last %d landed in the record but their cursor write was "
+              "denied). The RECORD is the truth here -- the entries are on disk either way and "
+              "the next run rebuilds `known` from the record, not from this counter."
+              % (state["found"], landed_found, state["found"] - landed_found))
     if ci >= len(chunks):
         print("ingest complete: %d new entries merged" % state["found"])
         return True
@@ -377,8 +460,12 @@ def main():
         print("extracted %d pages (%d chars) -> data/docs/%s/  host=%s"
               % (len(pages), sum(len(v) for v in pages.values()), slug(a.source), host))
         # Provenance is part of the record the moment the corpus exists.
-        rp = record_path(a.source)
         try:
+            # record_path() is INSIDE the try because it now refuses an ambiguous record match
+            # rather than guessing (order 66e007cf54d5), and a refusal at this point must be a
+            # printed reason -- the corpus and the host binding have both already landed, so a
+            # traceback out of here would abandon a run that mostly succeeded.
+            rp = record_path(a.source)
             with open(rp, encoding="utf-8") as f:
                 rec = json.load(f)
             note = (" Full text of the print sourcebook supplied by the owner on "
@@ -388,16 +475,41 @@ def main():
                 rec["provenance"] = (rec.get("provenance") or "") + note
                 import pipeline as P
                 # ADVANCE ON THE WRITE, NOT ON THE INTENT (same discipline this file argues for
-                # at 233-245 re: write_record_catalogue): write_record returns whether the
+                # at the write_record_catalogue gate in mine()): write_record returns whether the
                 # rename actually landed and never raises, so a denied write must not be read as
                 # a success. The "ingest_doc" guard above makes a re-run retry this note anyway,
                 # but the operator should see the denial rather than a false "extracted" line.
                 if not P.write_record(rp, rec):
                     print("  provenance note not landed (write denied; will retry next run)")
-        except Exception:
+        except Exception as e:
             silence.note("ingest_doc.py:provenance")
+            # Said out loud, not only noted: the "extracted N pages" line above is printed
+            # whether or not the record was ever found, so a swallowed failure here reads as a
+            # clean ingest that simply has no provenance stamp.
+            print("  provenance note not written (%s)" % e)
     if a.mine:
-        mine(a.source)
+        # DON'T DISCARD THE VERDICT (order afd7aa05efb4). mine() returns True only when every
+        # chunk was processed, and False on both of its early stops -- 60 consecutive transport
+        # misses (~5h of napping) and a denied record write. Those are exactly the outcomes an
+        # operator or a scheduler needs to tell apart, and `mine(a.source); return 0` gave a run
+        # that mined 3 of 262 chunks the same exit code as one that finished the book. The --pdf
+        # half of this function has been disciplined about this since order e7b6dcc8d630; this
+        # half was not.
+        try:
+            ok = mine(a.source)
+        except ValueError as e:
+            # record_path()'s ambiguity refusal, reported rather than thrown (order 66e007cf54d5).
+            print("MINE REFUSED: %s" % e)
+            return 1
+        if not ok:
+            print("ingest INCOMPLETE and resumable: the cursor stands where the run stopped; "
+                  "rerun the same command to continue from it.")
+            return 1
+    elif not a.pdf:
+        # Neither flag: this used to do nothing at all and return 0, which is a success code for
+        # an ingest that never happened.
+        ap.error("nothing to do -- pass --pdf <path> to extract and register the corpus, "
+                 "--mine to run the entity pass, or both.")
     return 0
 
 

@@ -2316,8 +2316,14 @@ check("the roster names each job exactly once", len(set(_ON.ALL_JOBS)), len(_ON.
 
 _allsweep_src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "allsweep.py"),
                      encoding="utf-8").read()
+# ASKED OF THE CODE, NOT OF THE PROSE ABOUT THE CODE (order 469b4db261ef, run #37). `allsweep.py`
+# names ALL_JOBS in a comment as well as in the import, so deleting every real use left this row
+# green off the comment alone -- a check certifying a property nobody had established. Comment
+# tails are stripped first, the idiom §20b/§20c/§20d already use (`_fm19code`, `_on20code`,
+# `_pl20code`).
+_allsweep_code = "\n".join(ln.split("#", 1)[0] for ln in _allsweep_src.splitlines())
 check("allsweep reads the shared roster instead of keeping its own",
-      "ALL_JOBS" in _allsweep_src, True,
+      "ALL_JOBS" in _allsweep_code, True,
       note="if this fails, a private copy of the job list has grown back in allsweep")
 
 # ---- Section 19q: the entrypass prompt asks for the count it actually showed ------------------
@@ -2423,25 +2429,25 @@ check("the lane keeps at least one slot", _GL.MAX_SLOTS >= 1, True)
 # Rule 0 truncation with no slice in the source for a reader to find. Three defences, each
 # checked here: the budget is derived from the window, feats jobs drop the chapter-only half of
 # the system prompt, and an over-budget prompt raises instead of being sent.
-import context_budget as _CB     # noqa: E402
+import context_budget as _CBud    # noqa: E402
 import manifest_builder as _MBd  # noqa: E402
 
 _cbcfg = {"num_ctx": 6144}
 check("the feats system prompt drops THE ENTRY TEMPLATE",
-      "THE ENTRY TEMPLATE" in _CB.system_for("feats", "voice\nTHE ENTRY TEMPLATE\nbody"), False,
+      "THE ENTRY TEMPLATE" in _CBud.system_for("feats", "voice\nTHE ENTRY TEMPLATE\nbody"), False,
       note="feats_prompt.txt forbids the scoring that section describes")
 check("a chapter job still gets the whole system prompt",
-      "THE ENTRY TEMPLATE" in _CB.system_for("chapter", "voice\nTHE ENTRY TEMPLATE\nbody"), True)
+      "THE ENTRY TEMPLATE" in _CBud.system_for("chapter", "voice\nTHE ENTRY TEMPLATE\nbody"), True)
 check("a system prompt with no template heading is left intact",
-      _CB.system_for("feats", "just voice"), "just voice",
+      _CBud.system_for("feats", "just voice"), "just voice",
       note="degrade to today's behaviour rather than guess at a split point")
 check("the block budget GROWS with the window",
-      _CB.feats_block_budget({"num_ctx": 12288}) > _CB.feats_block_budget({"num_ctx": 6144}),
+      _CBud.feats_block_budget({"num_ctx": 12288}) > _CBud.feats_block_budget({"num_ctx": 6144}),
       True, note="the old constant had no arithmetic relationship to num_ctx at all")
 check("an over-long prompt raises instead of being truncated",
-      _raises(lambda: _CB.assert_fits(_cbcfg, "s" * 1000, "u" * 200000, "feats")), True)
+      _raises(lambda: _CBud.assert_fits(_cbcfg, "s" * 1000, "u" * 200000, "feats")), True)
 check("a prompt that fits does not raise",
-      _CB.assert_fits(_cbcfg, "s" * 100, "u" * 100, "feats")["headroom_tokens"] >= 0, True)
+      _CBud.assert_fits(_cbcfg, "s" * 100, "u" * 100, "feats")["headroom_tokens"] >= 0, True)
 
 # The packer, against the derived budget: nothing lost, and no slice over budget except the
 # single-deed case that cannot be helped (a lone deed larger than the whole window).
@@ -2450,7 +2456,7 @@ check("a prompt that fits does not raise",
 # dict and an int. It was correct only by the accident that nothing calls either helper after
 # this point, so any check added below that reached for one would raise TypeError and truncate
 # the suite at that line -- which in a battery reads as a crash, not as a failing check.
-_fb = _CB.feats_block_budget(_cbcfg)
+_fb = _CBud.feats_block_budget(_cbcfg)
 _row19v = {"entity": "E", "entry": {}, "pages": [], "feat_count": 40,
            "axis_counts": {}, "feats": [{"feat": "d" * 400, "axis": "a", "page": "p"}] * 40}
 _blocks = _MBd.pack_feats([_row19v], "S", _fb)
@@ -2475,20 +2481,20 @@ import read as _RD               # noqa: E402
 _livecfg = _RD.config()
 
 check("instruction prose is charged more efficiently than JSON content",
-      _CB.PROSE_CHARS_PER_TOKEN > _CB.CHARS_PER_TOKEN, True,
+      _CBud.PROSE_CHARS_PER_TOKEN > _CBud.CHARS_PER_TOKEN, True,
       note="prose measured 4.19-4.63 chars/token; entity JSON is denser and stays pessimistic")
 check("the prose ratio stays at or below what was MEASURED",
-      _CB.PROSE_CHARS_PER_TOKEN <= 4.19, True,
+      _CBud.PROSE_CHARS_PER_TOKEN <= 4.19, True,
       note="4.19 is the densest measured slice; going above it would under-count and truncate")
 check("the system prompt is charged at the prose rate, not the content rate",
-      _CB.measure({"num_ctx": 12288}, "p" * 4000, "u" * 100, "chapter")["system_tokens"],
-      _CB.estimate_prose_tokens("p" * 4000))
+      _CBud.measure({"num_ctx": 12288}, "p" * 4000, "u" * 100, "chapter")["system_tokens"],
+      _CBud.estimate_prose_tokens("p" * 4000))
 check("a p99-sized chapter block fits the CONFIGURED window",
-      _CB.fits(_livecfg, _CB.system_for("chapter", _cb_sys), "u" * 12000, "chapter")[0], True,
+      _CBud.fits(_livecfg, _CBud.system_for("chapter", _cb_sys), "u" * 12000, "chapter")[0], True,
       note="12,000 chars is the p99 of all 17,370 real blocks; if this fails, generation refuses "
            "again -- either num_ctx was lowered or the system prompt grew")
 check("the same block does NOT fit the window M6 was filed against",
-      _CB.fits({"num_ctx": 6144}, _CB.system_for("chapter", _cb_sys), "u" * 12000, "chapter")[0],
+      _CBud.fits({"num_ctx": 6144}, _CBud.system_for("chapter", _cb_sys), "u" * 12000, "chapter")[0],
       False, note="guards the check above from passing for the wrong reason")
 
 # ---- Section 19s: both writers of the metrics ledger stamp a timestamp -----------------------
@@ -3469,14 +3475,20 @@ check("gpu_lane._alive still answers False for a pid that does not exist",
       note="the OpenProcess path must keep working -- a ghost holder strands a slot for its lease")
 
 _ft19 = open(os.path.join(_here19, "feats.py"), encoding="utf-8").read()
+# THE LITERAL ROWS BELOW READ THE CODE, THE AST ROW BELOW THEM READS THE WHOLE FILE (order
+# 469b4db261ef, run #37). `feats.py` carries five of these tokens in COMMENTS, so a presence row
+# went green off prose describing the code and an absence row could go red off prose describing
+# what the code no longer does. Comment tails are stripped for the substring rows; `_ft19` stays
+# raw for `_follows_continuation`, which parses it and needs the file as written.
+_ft19code = "\n".join(ln.split("#", 1)[0] for ln in _ft19.splitlines())
 check("an expected 404 no longer lands in the same ledger bucket as a transport failure",
-      'silence.note("feats.py:api-404")' in _ft19, True,
+      'silence.note("feats.py:api-404")' in _ft19code, True,
       note="the note is taken after the status code is known; a 404 is an answer, not a failure")
 check("the mined quantity sentence is stored whole, not truncated to 220 characters",
-      '"sentence": s[:220]' in _ft19, False,
+      '"sentence": s[:220]' in _ft19code, False,
       note="magnitude.py copies it into the permanent citation and chain.py keys on it")
 check("the roll counts entities that RAISED separately from entities that were empty",
-      '"errored": 0' in _ft19 and 'done["errored"] += 1' in _ft19, True,
+      '"errored": 0' in _ft19code and 'done["errored"] += 1' in _ft19code, True,
       note="an exception used to increment n and nothing else -- a systemic fault with no signal")
 # PINNED TO THE PARSE TREE, NOT TO A SUBSTRING. This read
 #     '_CAP_BOUND' in _ft19 and '(ap or {}).get("continue")' in _ft19
@@ -3526,7 +3538,7 @@ def _follows_continuation(src):
 
 
 check("the discovery caps are measured rather than argued about",
-      '_CAP_BOUND' in _ft19 and _follows_continuation(_ft19), True,
+      '_CAP_BOUND' in _ft19code and _follows_continuation(_ft19), True,
       note="m82: MediaWiki's own continue token says when aplimit/srlimit withheld results. "
            "Checked structurally -- a loop that reads the token AND resubmits it -- so that "
            "renaming the helper does not turn this red and a comment cannot turn it green")
@@ -4237,11 +4249,15 @@ check("a trace id containing 429 does not read as a rate limit",
       _cb20h.named_transient("req_id 8842900f"), False)
 _pm20h = os.path.join(_here19, "..", "data", "PROVIDER_MODELS.json")
 _st20h = open(os.path.join(_here19, "standards.py"), encoding="utf-8").read()
+# COMMENT TAILS STRIPPED (order 469b4db261ef, run #37): `standards.py` names both of these
+# tokens in comments as well as in code, so deleting the real ageing logic left both rows green
+# off the prose that described it -- a row asserting a property nobody had established.
+_st20h_code = "\n".join(ln.split("#", 1)[0] for ln in _st20h.splitlines())
 check("the provider-catalogue standard ages its evidence",
-      "MAX_PROVIDER_MODELS_AGE_H" in _st20h and "getmtime" in _st20h, True,
+      "MAX_PROVIDER_MODELS_AGE_H" in _st20h_code and "getmtime" in _st20h_code, True,
       note="an empty stale-list from three days ago is the ABSENCE of a measurement")
 check("its UNMEASURED verdict does not read as a pass",
-      "UNMEASURED" in _st20h, True)
+      "UNMEASURED" in _st20h_code, True)
 _la20h = __import__("local_agent")
 check("the local model's denylist is case-folded",
       "d.lower() for d in DENYLIST" in open(
@@ -4464,8 +4480,13 @@ check("page_texts can report real progress to its caller",
            "never on a timer, so a genuinely wedged fetch still goes silent and is still killed")
 
 _bf20j = open(os.path.join(_here20j, "backfill.py"), encoding="utf-8").read()
+# COMMENT TAILS STRIPPED (order 469b4db261ef, run #37): backfill.py names write_record_catalogue
+# in a comment, so the presence half went green off prose about the code, and the absence half
+# could have gone red off a comment quoting the writer it forbids. Both halves now read code.
+_bf20j_code = "\n".join(ln.split("#", 1)[0] for ln in _bf20j.splitlines())
 check("backfill writes through the CATALOGUE side of the two-writer contract",
-      ("write_record_catalogue" in _bf20j) and ("P.write_record(path" not in _bf20j), True,
+      ("write_record_catalogue" in _bf20j_code) and ("P.write_record(path" not in _bf20j_code),
+      True,
       note="it APPENDS the missing characters, so its copy is the fresh authority; "
            "write_record keeps the DISK list on drift and the append itself guarantees drift, "
            "so every character it added was dropped on every run that added any")
@@ -4478,12 +4499,17 @@ check("backfill writes through the CATALOGUE side of the two-writer contract",
 # only inspect rows that exist. The keeper restarts the dashboard routinely, so this was not a
 # rare state. It now always appends, holding True on short history but SAYING so.
 _st20j_src = open(os.path.join(_here20j, "standards.py"), encoding="utf-8").read()
+# COMMENT TAILS STRIPPED (order 469b4db261ef, run #37): standards.py carries "not enough history
+# yet" in a comment as well as in the emitted row, so deleting the honest-short-history branch
+# left the second row green off the comment. The absence row above it is stripped for the
+# mirror-image reason -- a comment quoting the removed gate must not report it as still there.
+_st20j_code = "\n".join(ln.split("#", 1)[0] for ln in _st20j_src.splitlines())
 check("the counters-moving standard is not gated behind a history-length check",
-      "if span_min >= 40:" in _st20j_src, False,
+      "if span_min >= 40:" in _st20j_code, False,
       note="gating the APPEND made a high-severity standard disappear instead of fail; a row "
            "that is absent is invisible to the meta-standard that audits floors")
 check("and it reports short history honestly instead of vanishing",
-      "not enough history yet" in _st20j_src, True)
+      "not enough history yet" in _st20j_code, True)
 check("every standard the checker declares actually emits a row",
       len({r["standard"] for r in __import__("standards").check(
           __import__("dashboard").state())}) >= 40, True,
@@ -4643,14 +4669,20 @@ check("the live sweep proves its own completeness",
       note="every module in src/, each recorded by the batch that read it; a non-empty list "
            "here is either a genuinely skipped module or a broken proof, and both need chasing")
 
+# THE FILTER NOW MATCHES THE CLAIM (order 8389720500a9, run #37). This collected `r["holds"]`
+# for every UNMEASURED row and demanded []. An HONESTLY UNMEASURED-AND-RED row yields [False]
+# and FAILED the check -- the outcome the note below calls healthy in the same breath. The row
+# asserts "not green", so the filter asks for exactly that: UNMEASURED *and* holding. It passes
+# today for a real reason rather than by leaning on §20k's separate not-UNMEASURED assertion.
 check("an UNMEASURED fabrication guard does not read as green",
-      [r["holds"] for r in _st20k
+      [str(r["observed"])[:60] for r in _st20k
        if r["standard"] == "sentences that survive the verbatim check"
-       and str(r["observed"]).startswith("UNMEASURED")], [],
+       and str(r["observed"]).startswith("UNMEASURED") and r["holds"]], [],
       note="run #29: `True if fab is None else ...` made the one state the row's own order "
            "text names as THE FINDING the state that satisfied the standard, and work_orders() "
            "reads the boolean -- so it could never be dispatched. The list is empty either "
-           "because the guard is measured (the healthy case) or because UNMEASURED is red.")
+           "because the guard is measured (the healthy case) or because UNMEASURED is red; "
+           "an UNMEASURED row that reads as HOLDING is the only thing this collects.")
 check("a pre-checkpoint file, which has `at` and no `complete` key, still reads as a pass",
       "IN PROGRESS" in _S20m.charter_regression_verdict(
           {"at": _now20m - 3600,
@@ -5017,11 +5049,23 @@ check("the scan is actually finding the land_json calls (not silently matching n
 # settled enough to write. Those are correct outcomes, not skipped work, and they are reached
 # before any land_json runs; a check that forbade them outright would be demanding a verdict
 # about writes that never happened. (Reviewed at source, run #32 -- do not re-chase them.)
+#
+# THE SCAN ASKS ABOUT THE PHASE ITSELF, NOT ABOUT ITS NESTED HELPERS (order 6a8444cad673, run
+# #37). This collected the calls with `ast.walk(_fn20q)`, which descends through nested `def`s,
+# and the test is a CO-OCCURRENCE -- so a phase that lands artifacts and never consults the gate
+# was cleared the moment ANY helper defined inside it happened to call `gate_done`, and an
+# innocent phase could be flagged for a nested def's `land_json`. That is the identical fault
+# repaired at §20p with `_own_nodes20p`, in the same file on the same day, so it is repaired
+# with the same helper rather than a second spelling of it. Nothing is lost: the outer loop
+# visits every nested `def` in its own right, so a helper that really does both is still caught
+# -- under its own name. `pipeline.py` has three phases with nested defs today
+# (`phase_cosmology`, `phase_history`, `phase_shelve`); both spellings return [] right now, so
+# this narrows the scan before it hides something, not after.
 _nogate20q = []
 for _fn20q in _ast20q.walk(_pipe20q):
     if not isinstance(_fn20q, (_ast20q.FunctionDef, _ast20q.AsyncFunctionDef)):
         continue
-    _calls20q = {_c20q.func.id for _c20q in _ast20q.walk(_fn20q)
+    _calls20q = {_c20q.func.id for _c20q in _own_nodes20p(_fn20q)
                  if isinstance(_c20q, _ast20q.Call) and isinstance(_c20q.func, _ast20q.Name)}
     if "land_json" in _calls20q and "gate_done" not in _calls20q:
         _nogate20q.append("pipeline.py:%s:%d" % (_fn20q.name, _fn20q.lineno))
@@ -5138,8 +5182,13 @@ check("axis_score refuses a band that is not on the Ladder",
 check("axis_score refuses an axis the band edges do not carry",
       A.axis_score(1e9, "M3", "no_such_axis_exists"), None)
 _ax_valid = A.axis_score(1e9, "M3", "ruin")
+# THE POSITIVE CONTROL WAS SATISFIED BY THE THING IT CONTROLS FOR (order dbc2937118da, run #37).
+# It read `_ax_valid is None or (0.0 <= _ax_valid <= 10.0)`, so an axis_score that returned None
+# for EVERY input -- the blanket refusal named in the note one line down -- passed it. A control
+# that admits the failure it exists to exclude is not a control. The quantity must actually BE
+# one: a float, in band.
 check("and it still SCORES a well-formed quantity (the refusals are not blanket)",
-      _ax_valid is None or (0.0 <= _ax_valid <= 10.0), True,
+      isinstance(_ax_valid, float) and 0.0 <= _ax_valid <= 10.0, True,
       note="a guard that refuses everything passes every refusal test ever written")
 
 # ---- band_for_quantity: L244 (`<=` -> `>`) and L248 (`>=` -> `<`) --------------------------
@@ -6162,9 +6211,17 @@ check("[495390283745] the source assigns the constant FROM tuning, so a future e
 #
 # The needle is ASSEMBLED AT RUNTIME rather than spelled out, because a source-text check that
 # contains its own forbidden string always finds itself and can never go green.
+#
+# THAT RULE WAS APPLIED TO ONLY HALF THE PAIR (order 67c692701386, run #37). `_want_b3` was a
+# plain literal, so it matched its OWN definition line and `_want_b3 in _selfsrc_b3` was True no
+# matter what the rest of the file said: deleting the entire §19ai site this row exists to
+# enforce left the verdict at (True, False) and the row still read green. The WANTED needle is
+# now built from the symbol name the same way the BANNED one is, so the only occurrence either
+# can match is the real call site.
 _selfsrc_b3 = open(os.path.abspath(__file__), encoding="utf-8").read()
-_want_b3 = "_STx.MIN_CALLS_TO_JUDGE_RATE, _TUNx.MIN_CALLS_TO_JUDGE"
-_banned_b3 = "_STx.MIN_CALLS_TO_JUDGE_RATE, %d" % _TUNx_b3.MIN_CALLS_TO_JUDGE
+_sym_b3 = "MIN_CALLS_TO_JUDGE"
+_want_b3 = "_STx.%s_RATE, _TUNx.%s" % (_sym_b3, _sym_b3)
+_banned_b3 = "_STx.%s_RATE, %d" % (_sym_b3, _TUNx_b3.MIN_CALLS_TO_JUDGE)
 check("[495390283745] the '...already settled on' check compares against tuning, not a literal",
       (_want_b3 in _selfsrc_b3, _banned_b3 in _selfsrc_b3), (True, False),
       note="this row was `check(label, True, True)` -- a PROPOSED EDIT nobody applied, stated "
@@ -6467,7 +6524,8 @@ _b4_secondopinion_checks()
 # ==================================================================================================
 # order 1b29e38dbb17 -- belongs in verify_math.py, target src/axis_correlation.py + src/assay.py.
 #
-# LEFT FOR OWNER (see AUDIT_batch4.md) -- the fallback VALUE (0.0 on a missing/unreadable matrix)
+# LEFT FOR OWNER (see handoff/run35/AUDIT_batch4.md) -- the fallback VALUE (0.0 on a
+# missing/unreadable matrix)
 # is an already-ruled owner decision (order c00cab9d0412), not this order's bug. What this order
 # actually found is that axis_correlation.rho()'s bare fallback and assay._rho_doc's wrapped one
 # are now two INDEPENDENT implementations of that one ruling. Nothing pinned that they agree;
@@ -7059,8 +7117,11 @@ check("tempus.py no longer carries a dead C_LIGHT", hasattr(TP, "C_LIGHT"), Fals
 # a live one; a proper regression should monkeypatch ws.category_members to raise for one
 # category in ws.COMPOSITE_SOURCES and assert the returned note != "ok".
 _cw_src = open(os.path.join(SRC, "catalogue_web.py"), encoding="utf-8").read()
+# COMMENT TAILS STRIPPED (order 469b4db261ef, run #37): catalogue_web.py names failed_cats in a
+# comment, so removing the real tracking left this row green off prose about the code.
+_cw_code = "\n".join(ln.split("#", 1)[0] for ln in _cw_src.splitlines())
 check("catalogue_web.catalogue_composite tracks failed categories instead of silence-only",
-      "failed_cats" in _cw_src and "transport failed for" in _cw_src, True)
+      "failed_cats" in _cw_code and "transport failed for" in _cw_code, True)
 
 
 # ============================================================ order 6885a5ff23e5
@@ -7118,16 +7179,16 @@ check("cascade_bridge.py docstring names where real validation happens",
 # gate: YEARS_PER_UNIT_DISTANCE is a declared FICTIONAL/curatorial anchor (Axiom M3), not a bug
 # to auto-correct. This check re-measures the graph's true diameter each run so the owner can
 # see, without re-deriving it by hand, how far the anchor prose has drifted from measurement.
-import propagation as PR  # noqa: E402
+import propagation as _PRg  # noqa: E402
 import itertools as _it  # noqa: E402
 
-_g = PR.load_graph()
+_g = _PRg.load_graph()
 _names = list(_g)
-_l4d_dbz, _ = PR.shortest(_g, "Left 4 Dead", "Dragon Ball Z")
+_l4d_dbz, _ = _PRg.shortest(_g, "Left 4 Dead", "Dragon Ball Z")
 _diam = 0.0
 _diam_pair = None
 for _a, _b in _it.combinations(_names, 2):
-    _d, _ = PR.shortest(_g, _a, _b)
+    _d, _ = _PRg.shortest(_g, _a, _b)
     if _d != float("inf") and _d > _diam:
         _diam, _diam_pair = _d, (_a, _b)
 print(f"  INFO propagation graph: {len(_names)} shelves; L4D->DBZ={_l4d_dbz:.4f}; "

@@ -417,10 +417,16 @@ def _ask_ungated(c, system, prompt, schema):
             # NOT going to the GPU must not be counted as having gone there. Order 6b7f51f8ec2e:
             # this increment used to fire before that check, so the progress line's "(%d to
             # GPU)" included chunks the GPU never received.
+            #
+            # AND THE INCREMENT ITSELF HAS NOW MOVED (order 6f95694b8143). It stood here, past
+            # the cascade guard but still well above the `return _local(...)` that ends this
+            # function -- so it went on counting chunks the card never received, by a different
+            # route: `_local` returns None immediately when `_GPU_DOWN_UNTIL` is in the future
+            # (the card is benched), and nothing between here and there re-tested that. One
+            # counter with two meanings at its two sites, and the sibling increment on the quick
+            # pool above already had the right one. It now lives beside the call it describes.
             if _TRANSPORT == "cascade":
                 return None
-            with _FELL_BACK_LOCK:
-                _FELL_BACK[0] += 1
         elif _TRANSPORT == "cascade":
             # ensure_transport() came back False -- cascade_bridge would not import, or
             # CB.engine() was falsy. Order 6b7f51f8ec2e: this branch used to be absent, so
@@ -449,7 +455,18 @@ def _ask_ungated(c, system, prompt, schema):
     # until the timeout. Thirty-nine fallbacks at 180 seconds is two hours of worker time bought
     # for nothing, while thirteen cloud buckets sat available. If it has failed recently, skip it
     # and let the chunk be retried through the pool on the next pass.
-    return _local(c, system, prompt, schema)
+    #
+    # COUNTED HERE, AND ONLY ON AN ANSWER (order 6f95694b8143). Every route that reaches this
+    # line hands the chunk to the card: the backoff ladder giving up in auto mode, an
+    # `ensure_transport()` that came back False in auto mode, and an explicit `--transport
+    # ollama`. A benched or failing card returns None and that chunk went nowhere, so the "(%d
+    # to GPU)" figure counts what the GPU actually received -- which is the whole reason
+    # read.py:213-215 says the counter exists.
+    got = _local(c, system, prompt, schema)
+    if got is not None:
+        with _FELL_BACK_LOCK:
+            _FELL_BACK[0] += 1
+    return got
 
 
 _FALLBACK_MODEL = [None]
@@ -736,7 +753,21 @@ def read_entity(c, host, name, cap_chunks=None):
     # its own pages do not count.
     chunks = [(t, c) for _, _, t, c in chunks]
     if cap_chunks:
-        chunks = chunks[:cap_chunks]
+        # `cap_chunks` NO LONGER TRUNCATES (order 4f02ea2d7ecd). It used to slice the
+        # density-ranked list right here, and the partial read that produced was then written to
+        # the entity's PERMANENT cache as a finished record. The "deferred, not lost" guard
+        # below is `if unanswered: return out`, and a chunk removed by the cap never enters
+        # `chunks` at all, so it can never be counted unanswered -- `unanswered == 0`, the
+        # record lands, `read_entity` returns that cache on every later call, and `queue()`
+        # never revisits the entity. The entity is filed as finished on a fraction of its own
+        # pages, permanently. CLAUDE.md's Hard Rule 0 names this exact parameter in its own list
+        # of the four caps the rule was written about.
+        #
+        # Kept rather than deleted, because the parameter is public and `--chunks` is a
+        # documented flag; made inert on the shape order 97b39265457f gave
+        # `corpus_db.rebuild`'s `evidence_limit`. A caller that still passes one gets the full
+        # read and a note, never a silently smaller universe written down as complete.
+        silence.note("read.py:cap-chunks-ignored")
     skipped = sum(len(b) for b in text.values()) // size - len(chunks)
 
     # ANSWERS ARE CACHED PER CHUNK, NOT PER ENTITY.
@@ -970,6 +1001,94 @@ def _save_qcache(d):
         silence.note("read.py:qcache-save")
 
 
+# The unit separator, between an evidence path and the entity the memo below is ABOUT. Chosen
+# for the same reason `_chunk_key` uses it: it cannot occur in a Windows path or in an entity
+# name, so the key cannot be ambiguous about where one half ends.
+_QK = chr(31)
+
+
+def _queue_row(qcache, base, host, name):
+    """The four ranking numbers from THIS entity's own cached evidence, or None.
+
+    ONE HELPER, NOT FOUR SPELLINGS (`cachekey.py`'s docstring, section 3). `queue()` built the
+    path inline here -- `os.path.join(base, re.sub(...)[:40], re.sub(...)[:80] + ".json")`, the
+    last entity-naming copy left in src/ -- and then `os.path.exists`-tested it and read whatever
+    document was there. The string it produced was byte-identical to `cachekey.natural_path`, so
+    this was never a WRONG path; it was a MISSING OWNERSHIP PROOF, which is the half of M23 that
+    matters at READ time.
+
+    WHAT THAT COST, MEASURED (orders c812e8db852f, 8c3d5e9aac87). Over all 282,059 catalogued
+    entity/host rows, 29 natural paths on disk are shared by two distinct catalogued names each
+    -- `Magic 8 Ball`/`Magic 8-Ball`, `Ten Towns`/`Ten-Towns`, `NEMESIS`/`Nemesis`, and
+    `Tag Der Toten`/`Tag der Toten`, which NTFS folds into one file. In every one of the 29 the
+    document belongs to exactly one of the pair, so the other entity was admitted to the read
+    queue and RANKED on its neighbour's chars/own/axes/quantities; 8 of them inherited the
+    neighbour's `skip: True` memo and were dropped from the queue altogether on an empty file
+    that was not theirs. `cachekey.owns` decides that by the stored `entity`, which is the only
+    field that survives the sanitiser.
+
+    AND IT NEVER LOOKED AT THE DISAMBIGUATED SIBLING, which is where `feats.evidence_for` writes
+    (via `cachekey.write_path`) for every one of those 58 entities. There are no such files today
+    -- so nothing is lost yet, and the first one that lands would be an entity WITH cached source
+    pages that a queue whose contract is "everything with cached source pages" could not see.
+    `candidate_paths` walks both spellings, natural first.
+
+    THE MEMO KEY CARRIES THE ENTITY, for the reason `_chunk_key` above gives at length: the
+    answer is about the PAIR, not about the file, and a path-only key is exactly what let one
+    entity's verdict stand in for its neighbour's. `skip` is now the REASON rather than a bare
+    True, because the two reasons differ in what to do next -- a document belonging to somebody
+    else means try the sibling, an empty one means this entity has nothing to rank.
+    """
+    for path in cachekey.candidate_paths(base, host, name):
+        if not os.path.exists(path):
+            continue
+        # THE CACHE FILE IS OPENED ONCE PER LIFETIME, NOT ONCE PER RUN.
+        #
+        # These records carry the full cleaned page text -- 497 million characters across the
+        # tree -- and the queue only needs four numbers out of each. Parsing all of it at the
+        # head of every run took longer than the run's first hour of useful work, and from
+        # outside it looked exactly like a reader that had started and gone quiet. Keyed on
+        # mtime, so a record the roll has just rewritten is re-read and every other one is not.
+        try:
+            st = os.stat(path)
+        except OSError:
+            silence.note("read.py:queue-stat")
+            continue
+        key = path + _QK + name
+        memo = qcache.get(key)
+        if memo and memo.get("mtime") == st.st_mtime and memo.get("size") == st.st_size:
+            if memo.get("skip") == "notmine":
+                continue                     # the sibling may still hold this entity's evidence
+            if memo.get("skip"):
+                return None
+            return memo["row"]
+        try:
+            with open(path, encoding="utf-8") as fh:
+                ev = json.load(fh)
+        except Exception:
+            silence.note("read.py:queue-evidence-read")
+            continue
+        if not cachekey.owns(ev, name):
+            qcache[key] = {"mtime": st.st_mtime, "size": st.st_size, "skip": "notmine"}
+            continue
+        if not ev.get("text"):
+            qcache[key] = {"mtime": st.st_mtime, "size": st.st_size, "skip": "empty"}
+            return None
+        # An entity's OWN page is the part of its evidence that is actually about it. The rest
+        # is whatever shared index its name appeared in, and that is where the cost hides.
+        own = 0
+        for t, body in (ev.get("text") or {}).items():
+            if t.strip().lower() == name.strip().lower():
+                own = len(body)
+                break
+        row = {"chars": ev.get("chars_read", 0), "own": own,
+               "axes": len({f.get("axis") for f in ev.get("feats", [])}),
+               "quantities": len(ev.get("quantities") or [])}
+        qcache[key] = {"mtime": st.st_mtime, "size": st.st_size, "row": row}
+        return row
+    return None
+
+
 def queue(all_entries=True):
     """Everything with cached source pages, ordered by how much evidence it already shows.
 
@@ -1018,6 +1137,14 @@ def queue(all_entries=True):
             "whole read queue and this pass would report itself finished having read nothing. "
             "Restore or rebuild the file (src/feats.py --hosts) and re-run." % FF.HOSTS)
     qcache = _load_qcache()
+    # THE MEMO KEY GAINED THE ENTITY (orders c812e8db852f / 8c3d5e9aac87), so every entry written
+    # under the old path-only key is unreachable. They are DROPPED rather than left in place --
+    # `_chunk_key`'s migration could leave its stale entries alone because each is its own small
+    # file, whereas this cache is one 61 MB object rewritten whole on every pass, and keeping
+    # keys nothing can ever hit again would double it forever. Nothing is lost: every entry here
+    # is a memo of four numbers that are still on disk. The cost is one slow pass that re-reads
+    # each evidence file once, which is what this memo cost to build in the first place.
+    qcache = {k: v for k, v in qcache.items() if _QK in k}
     rows = []
     for _, r in recs:
         h = hosts.get(r["source"])
@@ -1026,52 +1153,9 @@ def queue(all_entries=True):
         for e in r["entries"]:
             if not all_entries and not (e.get("category") or "").startswith("Persons"):
                 continue
-            path = os.path.join(FF.CACHE, re.sub(r"[^A-Za-z0-9]+", "_", h)[:40],
-                                re.sub(r"[^A-Za-z0-9]+", "_", e["name"])[:80] + ".json")
-            if not os.path.exists(path):
+            row = _queue_row(qcache, FF.CACHE, h, e["name"])
+            if row is None:
                 continue
-            # THE CACHE FILE IS OPENED ONCE PER LIFETIME, NOT ONCE PER RUN.
-            #
-            # These records carry the full cleaned page text -- 497 million characters across
-            # the tree -- and the queue only needs four numbers out of each. Parsing all of it
-            # at the head of every run took longer than the run's first hour of useful work, and
-            # from outside it looked exactly like a reader that had started and gone quiet.
-            # Keyed on mtime, so a record the roll has just rewritten is re-read and every other
-            # one is not.
-            try:
-                st = os.stat(path)
-            except OSError:
-                silence.note("read.py:queue-stat")
-                continue
-            key = path
-            memo = qcache.get(key)
-            if memo and memo.get("mtime") == st.st_mtime and memo.get("size") == st.st_size:
-                if memo.get("skip"):
-                    continue
-                rows.append(dict(memo["row"], name=e["name"], host=h, source=r["source"],
-                                 category=(e.get("category") or "?")[:20]))
-                continue
-            try:
-                with open(path, encoding="utf-8") as fh:
-                    ev = json.load(fh)
-            except Exception:
-                silence.note("read.py:queue-evidence-read")
-                continue
-            if not ev.get("text"):
-                qcache[key] = {"mtime": st.st_mtime, "size": st.st_size, "skip": True}
-                continue
-            # An entity's OWN page is the part of its evidence that is actually about it. The
-            # rest is whatever shared index its name appeared in, and that is where the cost
-            # hides.
-            own = 0
-            for t, body in (ev.get("text") or {}).items():
-                if t.strip().lower() == e["name"].strip().lower():
-                    own = len(body)
-                    break
-            row = {"chars": ev.get("chars_read", 0), "own": own,
-                   "axes": len({f.get("axis") for f in ev.get("feats", [])}),
-                   "quantities": len(ev.get("quantities") or [])}
-            qcache[key] = {"mtime": st.st_mtime, "size": st.st_size, "row": row}
             rows.append(dict(row, name=e["name"], host=h, source=r["source"],
                              category=(e.get("category") or "?")[:20]))
     _save_qcache(qcache)
@@ -1204,8 +1288,13 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
         workers = capped
     except Exception:
         silence.note("read.py:tuning")
+    # SAYS SO WHEN A CAP WAS ASKED FOR AND REFUSED (order 4f02ea2d7ecd). Printing the requested
+    # number alone would tell the operator the run is capped when `read_entity` now ignores it,
+    # and a banner that disagrees with the run is this project's oldest failure shape.
+    chunks_note = ("uncapped (--chunks %s ignored, Hard Rule 0)" % cap_chunks
+                   if cap_chunks else "uncapped")
     print("read: %d entries with pages, %d workers, chunks %s"
-          % (len(todo), workers, cap_chunks if cap_chunks else "uncapped"), flush=True)
+          % (len(todo), workers, chunks_note), flush=True)
     with ThreadPoolExecutor(max_workers=workers) as ex:
         list(ex.map(work, todo))
     print("done in %.2fh  %d feats kept, %d fabrications dropped, %d chunks skipped"
@@ -1236,7 +1325,10 @@ def main():
     ap.add_argument("--workers", default="auto",
                     help="number, or 'auto' to match the count of usable remote buckets")
     ap.add_argument("--chunks", type=int, default=None,
-                    help="omit to read every chunk of every page")
+                    help="INERT (order 4f02ea2d7ecd): every chunk of every page is read whatever "
+                         "you pass. A capped read used to be written to the entity's permanent "
+                         "cache as a finished record. Accepted so existing command lines still "
+                         "run; a value logs read.py:cap-chunks-ignored")
     ap.add_argument("--persons-only", action="store_true")
     ap.add_argument("--transport", choices=("auto", "cascade", "ollama"), default="auto")
     ap.add_argument("--one", nargs=2, metavar=("HOST", "ENTITY"))

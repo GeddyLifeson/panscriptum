@@ -88,7 +88,17 @@ SCHEMA = {
 }
 
 
-def write_result(edges, res, unmatched=None):
+# Filled by `extract()`, read by `write_result()`. MODULE STATE rather than a fourth return
+# value or a fourth argument, because both of those shapes are pinned from outside this file:
+# drill.py's phase-4 net drives `pipeline.phase_chain` against a stand-in chain module whose
+# `extract` is `lambda rows, workers=8: (edges, unmatched, prov)` and whose `write_result` is
+# `lambda edges, res, unmatched: doc`, and drill.py belongs to another agent. Widening either
+# signature would break that net rather than the code it guards. `None` means "extract did not
+# report", which is NOT the same claim as "nothing failed" -- see write_result's `unanswered`.
+_LAST_EXTRACT = None
+
+
+def write_result(edges, res, unmatched=None, unanswered=None):
     """THE ONE WRITER for data/CHAIN.json, whatever schema the fit came back in.
 
     This file used to be written by two callers with two different shapes: this module's own
@@ -119,6 +129,13 @@ def write_result(edges, res, unmatched=None):
         "unmatched_distinct": (len(unmatched) if unmatched is not None else 0),
         "unmatched_mentions": (sum(unmatched.values()) if hasattr(unmatched, "values")
                                else None),
+        # HOW MUCH OF THE CORPUS WAS ACTUALLY READ, beside the edge count that came out of it.
+        # A chunk whose model call never landed yields no outcomes, which is byte-for-byte the
+        # same contribution to this file as a chunk the model read and found no contest in --
+        # so a pass that lost a third of its chunks to HTTP 503 wrote a third-smaller contest
+        # graph and said nothing. `null` here means extract did not report (an older file, or a
+        # caller that built the document some other way); it does not mean zero failures.
+        "unanswered": (unanswered if unanswered is not None else _LAST_EXTRACT),
     }
     # Write-then-rename, not a bare truncating open. This is a published phase artifact, and a
     # bare open() leaves a TORN CHAIN.json if the process dies mid-dump or a reader holds it --
@@ -137,6 +154,48 @@ def write_result(edges, res, unmatched=None):
 
 
 HARVEST_IDX = os.path.join(HERE, "state", "chain_harvest_idx.json")
+
+
+def _corpus_root_state(base):
+    """Classify `data/<base>` in the live project: 'live', 'gone' or 'unavailable'.
+
+    `publish._live_root_state`'s question, asked about a CORPUS root, because harvest's prune had
+    none of it: it turned on `glob.glob`, which returns `[]` for a directory that is missing, a
+    directory that is merely unreadable right now, and a directory that genuinely holds no JSON,
+    and never raises for any of them. `live` is built only from what globbed and the prune below
+    deletes every index entry that is not in it -- so one unreadable mount (a Norton lock, an
+    offline junction, a permissions blip on ~56,000 files) reads as "the whole feats corpus was
+    deleted", and the pass harvests a fraction of the corpus while saying nothing.
+
+    So this asks twice. A root that lists is 'live'. A root that does not list AND whose name is
+    ABSENT from a successfully enumerated `data/` is 'gone' -- positive evidence of removal,
+    because the parent answered. Anything else is 'unavailable', and the caller holds the prune
+    for that subtree. (order b9c013a041db)
+    """
+    root = os.path.join(HERE, "data", base)
+    try:
+        if os.path.isdir(root):
+            os.listdir(root)              # present is not the same as readable
+            return "live"
+    except OSError:
+        return "unavailable"
+    try:
+        present = base in os.listdir(os.path.join(HERE, "data"))
+    except OSError:
+        # We could not even read `data/`. Nothing may be withdrawn from the index on that.
+        return "unavailable"
+    return "unavailable" if present else "gone"
+
+
+def _held_root(rel, held):
+    """Does index key `rel` sit under one of the roots we could not read this pass? -> bool.
+
+    Keys are `os.path.relpath(fp, HERE)`, so they carry the platform's separator -- and an index
+    written on one platform is read on another when the kit moves. Both spellings are checked so
+    the hold cannot be defeated by a slash.
+    """
+    r = rel.replace("\\", "/")
+    return any(r.startswith("data/%s/" % b) for b in held)
 
 
 def harvest():
@@ -161,8 +220,19 @@ def harvest():
     except Exception:
         silence.note("chain.py:inv-load")
         _inv = None
-    live, changed = set(), 0
+    live, changed, held = set(), 0, []
     for base in ("readfeats", "feats"):
+        # ABSENCE OF EVIDENCE IS NOT EVIDENCE OF DELETION. A root that will not list is HELD:
+        # its index entries survive the prune below, so this pass still returns the rows it
+        # cached for them last time and the corpus does not silently shrink. A root that is
+        # genuinely 'gone' globs to nothing and prunes normally, as it always did.
+        if _corpus_root_state(base) == "unavailable":
+            held.append(base)
+            silence.note("chain.py:harvest-root-unavailable")
+            print(f"chain: data/{base} could not be listed this pass (locked? offline mount?). "
+                  f"Its index entries are HELD rather than pruned, and this harvest re-uses the "
+                  f"rows cached for them; nothing under it was re-read.", file=sys.stderr)
+            continue
         for fp in glob.glob(os.path.join(HERE, "data", base, "**", "*.json"), recursive=True):
             rel = os.path.relpath(fp, HERE)
             live.add(rel)
@@ -202,7 +272,8 @@ def harvest():
             idx[rel] = {"mt": mt, "rows": found}
             changed += 1
     # A file that vanished takes its contests with it -- an index must never outlive its corpus.
-    for rel in [k for k in idx if k not in live]:
+    # Unless we never got to look: a key under a HELD root was not proven absent, only unread.
+    for rel in [k for k in idx if k not in live and not _held_root(k, held)]:
         del idx[rel]
         changed += 1
     if changed:
@@ -321,12 +392,28 @@ def extract(rows, batch=8, limit=None, workers=8):
     prov = collections.defaultdict(list)
     unmatched = collections.Counter()
     lock = threading.Lock()
-    done = {"n": 0, "pairs": 0, "kept": 0}
+    # `unanswered_*` are the transport tally, and they are the reason the rest of these numbers
+    # can be read at all. See `work` below.
+    done = {"n": 0, "pairs": 0, "kept": 0, "unanswered_chunks": 0, "unanswered_rows": 0}
 
     def work(chunk):
         lines = [f"[{i}] (filed under: {r['entity']}) {r['sentence']}"
                  for i, r in enumerate(chunk, 1)]
         got = _ask(SYSTEM, "SENTENCES:\n" + "\n".join(lines), SCHEMA)
+        # ANSWERED WITH NOTHING IS NOT THE SAME ANSWER AS NEVER ANSWERED, and until this tally
+        # existed the two were indistinguishable everywhere downstream: `(got or {})` turns both
+        # into an empty outcome list, `done['n']` counted the chunk as read either way, and
+        # write_result persisted the smaller graph to CHAIN.json under a clean progress line.
+        # `_ask` returns None ONLY when both arms failed -- the cascade bridge raised or declined,
+        # and `pipeline.ask` returned None after its retries -- so `got is None` is exactly "no
+        # model answered". An empty `outcomes` list from a model that did answer is the common and
+        # correct result and is NOT counted here.
+        #
+        # The realistic case is partial, not total: this function's own ceiling comment records
+        # the pass that HTTP 503 dropped from 64 edges to 25. `adjudicate_mutuals` guards this
+        # exact shape one function down for the epoch probe, over a handful of pairs; this is the
+        # path that touches thousands of sentences. (order 6d35eacf252d)
+        unanswered = got is None
         local = []
         # TALLIED LOCALLY, MERGED UNDER THE LOCK, for the same reason `local` exists.
         #
@@ -382,22 +469,51 @@ def extract(rows, batch=8, limit=None, workers=8):
             else:
                 for side, k in ((w, wk), (loser, lk)):
                     if k not in idx:
-                        local_unmatched[side[:40]] += 1
+                        # THE WHOLE NAME IS THE KEY, not `side[:40]`. Hard Rule 0: an identity
+                        # key may not be a truncation -- the same repair m37 made twelve lines
+                        # above for `sentence[:120]`, and for the same reason, except that this
+                        # roster is PERSISTED (write_result stores it in CHAIN.json, uncapped,
+                        # precisely so a later reader can chase every name). "Commander Shepard
+                        # of the Systems Alliance Navy" and "... Marines" are two names sharing
+                        # a 40-character prefix, and they were arriving as one row whose count
+                        # was the sum of two different unmatched entities. A longer key can only
+                        # split rows that were wrongly merged; nothing that was counted stops
+                        # being counted. (order 29dde10c569c)
+                        local_unmatched[side] += 1
         with lock:
             unmatched.update(local_unmatched)
             done["n"] += len(chunk)
             done["pairs"] += len((got or {}).get("outcomes", []))
+            if unanswered:
+                done["unanswered_chunks"] += 1
+                done["unanswered_rows"] += len(chunk)
             for e, src in local:
                 edges[e] += 1
                 prov[e].append(src)
                 done["kept"] += 1
             if done["n"] % 200 < batch:
                 print(f"   {done['n']:>6}/{len(rows)}  pairs {done['pairs']:>5}  "
-                      f"kept {done['kept']:>5}", flush=True)
+                      f"kept {done['kept']:>5}"
+                      + (f"  UNREAD {done['unanswered_rows']:>5}"
+                         if done["unanswered_rows"] else ""), flush=True)
 
     chunks = [rows[i:i + batch] for i in range(0, len(rows), batch)]
     with ThreadPoolExecutor(max_workers=workers) as ex:
         list(ex.map(work, chunks))
+    # Handed to write_result through module state -- see `_LAST_EXTRACT` above for why it cannot
+    # ride on the return value. Set unconditionally, including the all-clear, so a zero here is a
+    # measurement rather than an absence.
+    global _LAST_EXTRACT
+    _LAST_EXTRACT = {"chunks": len(chunks), "sentences": done["n"],
+                     "chunks_unanswered": done["unanswered_chunks"],
+                     "sentences_unanswered": done["unanswered_rows"]}
+    if done["unanswered_chunks"]:
+        # Loud, and on the way out rather than only in CHAIN.json: this is the difference between
+        # "the corpus records this many contests" and "this is what we managed to read today".
+        print(f"   TRANSPORT: {done['unanswered_chunks']:,} of {len(chunks):,} chunks "
+              f"({done['unanswered_rows']:,} of {done['n']:,} sentences) were NEVER READ -- no "
+              f"model answered. The contest graph below is a floor, not the corpus.", flush=True)
+        silence.note("chain.py:extract-unanswered")
     return edges, unmatched, prov
 
 
@@ -438,7 +554,7 @@ def adjudicate_mutuals(edges, prov):
     # there were none. The dating below has always executed; nothing said so.
     print(f"\nmutual pairs: {len(mutual)} -- dating each side before it reaches the fit")
     out = collections.Counter(edges)
-    split = kept = unprobed = 0
+    split = kept = unprobed = half_dated = 0
     for (w, loser) in mutual:
         sa = (prov.get((w, loser)) or [{}])[0].get("sentence", "")
         sb = (prov.get((loser, w)) or [{}])[0].get("sentence", "")
@@ -452,23 +568,40 @@ def adjudicate_mutuals(edges, prov):
             print(f"   NOT ADJUDICATED: {w} vs {loser} -- the epoch probe did not run, so this "
                   f"pair is left standing UNJUDGED rather than recorded as a disagreement")
             continue
-        if ea != eb:
+        if ea and eb and ea != eb:
+            # BOTH SIDES DATED, AND DATED DIFFERENTLY. The condition was a bare `ea != eb`, which
+            # is also true when one side dates itself and the other does not ("" != "X") -- and
+            # the loop below then skipped the undated side on `if not ep`, so the pair was torn
+            # in half: one epoch-keyed edge, one bare edge, no longer mutual and no longer a
+            # disagreement anybody would see. A real contradiction in the record was being
+            # dissolved on half the evidence, which is the fabrication this module's docstring
+            # refuses. An undated side is not a different date. (order 679368768c02)
+            #
             # The two records place themselves at different points in the subject's history, so
             # they are longitudinal rather than contradictory. Re-key each dated side onto its
             # own node. Equal epochs are NOT split: two accounts of the same moment disagreeing
             # is a real disagreement, and re-keying it would only hide it behind a label.
             for (x, y), ep in (((w, loser), ea), ((loser, w), eb)):
-                if not ep:
-                    continue
+                # No `if not ep: continue` guard any more -- the branch condition proves both
+                # epochs are non-empty, and a guard that cannot fire is one more thing that looks
+                # like it is doing work.
                 n = out.pop((x, y))
                 out[(ID.node(x, epoch=ep), y)] += n
             split += 1
-            print(f"   split: {w} vs {loser}   [{ea or '-'}] / [{eb or '-'}]")
+            print(f"   split: {w} vs {loser}   [{ea}] / [{eb}]")
+        elif bool(ea) != bool(eb):
+            # ONE SIDE DATED, THE OTHER NOT -- its own case, counted like `unprobed` is, because
+            # it is neither a settled disagreement nor a chronology. The pair is left standing
+            # whole; splitting it would invent a date for the silent side by implication.
+            half_dated += 1
+            print(f"   left standing: {w} vs {loser} -- only one side dates itself "
+                  f"([{ea or '-'}] / [{eb or '-'}]), and an undated side is not a different date")
         else:
             kept += 1
             why = f"both dated [{ea}]" if ea else "neither sentence dates itself"
             print(f"   left standing: {w} vs {loser} -- {why}")
     print(f"   {split} split by epoch, {kept} recorded as genuine disagreement"
+          + (f", {half_dated} left whole -- only one side dated" if half_dated else "")
           + (f", {unprobed} NOT ADJUDICATED -- the probe did not run" if unprobed else ""))
     return out
 

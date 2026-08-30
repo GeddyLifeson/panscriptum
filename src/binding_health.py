@@ -240,6 +240,43 @@ def _report_not_written(code, what):
         silence.note("binding_health.py:escalate")
 
 
+def _report_not_released(host, verdict):
+    """`release()` said NOT RELEASED. Put that where somebody sees it. -> True if it was a refusal.
+
+    THE OTHER HALF OF THE ASYMMETRY `_report_not_written` DOCUMENTS, and until now the half
+    nobody carried. `release()` was rewritten so a lost compare-and-swap returns a string
+    beginning "NOT RELEASED" rather than the reason-for-release it could not honour -- but both
+    of `run()`'s call sites were BARE STATEMENTS, so the one thing that rewrite produced went
+    straight into the bin. A release that loses five CAS rounds was completely invisible:
+    `main()` printed `ok` for the host, the sweep reported it recovered, and the host stayed
+    closed off with its coverage switched off. A discarded write verdict in the function whose
+    whole rewrite was about not discarding it. (order a29c38c9eff3)
+
+    SUPERVISOR, not JANITOR, and the level follows `quarantine()`'s rather than
+    `_report_not_written`'s: a health report that does not land is an OBSERVATION going stale,
+    but a release that does not land is an ACTION REPORTED THAT DID NOT HAPPEN -- the host is
+    excused nowhere, mining stays off for it, and every downstream reader is told it recovered.
+    That is the same fault as `HOST_QUARANTINE_NOT_RECORDED` pointing the other way, so it is
+    raised at the same rung and closes the same one area of the park.
+
+    The prefix test is the contract: `release()` returns the reason-for-release on success and a
+    string starting "NOT RELEASED" on either failure path (an unreadable map, or five refused
+    swaps). Tested on the prefix rather than by re-reading the file, because re-reading would
+    race the very other writer that caused the refusal.
+    """
+    if not str(verdict or "").startswith("NOT RELEASED"):
+        return False
+    print("binding_health: %s" % verdict, file=sys.stderr)
+    try:
+        import escalation as ESC
+        ESC.escalate(ESC.SUPERVISOR, "HOST_RELEASE_NOT_RECORDED", str(verdict),
+                     source=host, who="binding_health",
+                     evidence={"path": os.path.basename(QUARANTINE)})
+    except Exception:
+        silence.note("binding_health.py:escalate")
+    return True
+
+
 def quarantined(strict=True):
     """-> {host: record}. Only those whose retry-after has not yet passed.
 
@@ -452,6 +489,19 @@ def _fetch_chars(host, title):
     return len(text.strip()), None
 
 
+def _candidate_titles(title):
+    """One title or many -> the bounded list this probe will actually attempt.
+
+    ONE PLACE, so the RECORD and the PROBE cannot disagree about what was asked. `canary()`
+    stores the candidates in its report and `_probe_present` tries them, and while each did its
+    own normalisation the report could name a set the probe never used -- most obviously the
+    `PRESENT_CANDIDATES` bound, which lived only in the prober. `known_present_titles` already
+    returns a list; a bare string is still accepted because `known_present_title` (singular) and
+    the drill's stand-ins both hand one over.
+    """
+    return ([title] if isinstance(title, str) else list(title or []))[:PRESENT_CANDIDATES]
+
+
 def _probe_present(host, title):
     """Does this host still resolve a title we know it holds? -> (ok, detail).
 
@@ -484,7 +534,7 @@ def _probe_present(host, title):
     detail rather than left implicit: a host is called dead only after that many known titles
     all came back empty, and the reader can see how many were asked.
     """
-    candidates = ([title] if isinstance(title, str) else list(title or []))[:PRESENT_CANDIDATES]
+    candidates = _candidate_titles(title)
     tried, errors = [], []
     for t in candidates:
         n, err = _fetch_chars(host, t)
@@ -652,7 +702,19 @@ def binding_verdict(sitename, source_names):
     site = _normalise_name(sitename)
     # A host can carry more than one source; the binding is right if it matches ANY of them.
     scored = [(fuzz.token_set_ratio(site, _normalise_name(n)), n) for n in source_names]
-    score, best = max(scored)
+    # THE TIE IS BROKEN BY MEASUREMENT AND THEN DECLARED, not settled by the alphabet. This was
+    # `max(scored)` over (score, name) tuples, so equal scores fell through to a comparison of
+    # the SOURCE NAMES -- and for the big shared wikis, which legitimately carry several sources
+    # at once, `matched` was then whichever co-bound source happened to sort last. That is a coin
+    # toss printed in the field a person reads to decide whether a binding is right. Two changes:
+    # among the sources tied at the top score the whole-string `ratio` picks the closest, which
+    # is evidence rather than spelling (and `max` keeps the caller's own order when even that
+    # ties, so the answer is stable across runs); and every tied source is carried out in
+    # `tied_with`, because the honest report of a tie is the tie, not one arbitrary winner.
+    # (order 18a2053bc62d)
+    score = max(s for s, _ in scored)
+    tied = [n for s, n in scored if s == score]
+    best = max(tied, key=lambda n: fuzz.ratio(site, _normalise_name(n)))
     # What the score rests on, measured beside it rather than inferred from it: `tight` is the
     # whole-string ratio, which containment does NOT flatter, so a large gap between the two is
     # the signature of a match carried entirely by one name's words sitting inside the other's.
@@ -673,7 +735,13 @@ def binding_verdict(sitename, source_names):
             # words sit wholly inside the other's, which is what `token_set_ratio` scores 100
             # whatever else the longer name carries; `tight` is the same pair judged as whole
             # strings, and the distance between them is how one-sided the match is.
-            "containment": contained, "tight": tight}
+            "containment": contained, "tight": tight,
+            # Every source that scored the same as `matched`. Empty on the ordinary one-source
+            # host; on a shared wiki it is the whole set the score could equally have named, so
+            # a reader can see that `matched` was chosen from among these rather than measured
+            # alone. Named in full -- ranking is allowed here, truncating a list a person reads
+            # to act is not.
+            "tied_with": [n for n in tied if n != best]}
 
 
 def _probe_identity(host):
@@ -743,7 +811,14 @@ def canary(host, present_title, sources=None):
         else _probe_reachable(host)
     healthy, reason = verdict(ok_p, ok_a, ok_r, det_p, det_a, det_r)
     rec = {"host": host, "at": time.time(), "healthy": healthy,
-           "present": {"title": present_title, "ok": ok_p, "detail": det_p},
+           # `titles`, PLURAL, AND ALWAYS A LIST. `run()` hands this the list from
+           # `known_present_titles`, and it was stored unchanged under the singular key `title`
+           # -- a report field whose name promised one string while holding up to
+           # PRESENT_CANDIDATES of them. Nothing read it as a string yet, which is exactly the
+           # window in which to fix it: stored data whose name lies about its type is how a
+           # future consumer inherits a bug nothing announces. (order cdcb11e3d7fa)
+           "present": {"titles": _candidate_titles(present_title),
+                       "ok": ok_p, "detail": det_p},
            "absent": {"title": ABSENT_PROBE, "ok": ok_a, "detail": det_a},
            "reachable": {"ok": ok_r, "detail": det_r},
            "reason": reason}
@@ -883,7 +958,27 @@ def run(limit=None, only=None):
     for h in hosts:
         title = known_present_titles(h, hosts_map)
         if not title:
-            out.append({"host": h, "healthy": None, "reason": "no catalogued entry to probe with"})
+            # THE STANDING QUARANTINE IS NAMED HERE, because this `continue` jumps past the whole
+            # quarantine/release cascade below and nothing else in the report ever mentions it.
+            # A host that is already held and then loses all its candidate titles -- records
+            # deleted, a source unbound, or `known_present_titles`' own `except` swallowing every
+            # record file -- is neither released nor re-quarantined by this pass, and the row it
+            # leaves behind said only that it could not be probed. (order 5e2aaac58753)
+            #
+            # NOT RELEASED, deliberately. The order's remedy reads as "release it", and that
+            # would be inventing a clean bill of health for the one host this pass has no
+            # evidence about at all -- the false-release mirror of the false-quarantine failure
+            # `_probe_present` documents. Nor is the hold permanent, which the order believed it
+            # was: `quarantined()` filters on `retry_after`, so an un-renewed quarantine ages out
+            # by itself after RETRY_AFTER_S. What was genuinely missing was the CONNECTION, and
+            # that is what is added: the row now says the host is held and unprobeable, which is
+            # the pair of facts a person needs to act on.
+            held = is_quarantined(h)
+            out.append({"host": h, "healthy": None, "at": time.time(), "quarantined": held,
+                        "reason": "no catalogued entry to probe with"
+                                  + (" -- and this host is QUARANTINED, so the hold cannot be "
+                                     "re-evidenced or lifted until it has a title to probe with"
+                                     if held else "")})
             continue
         try:
             rec = canary(h, title, sources=bound_to.get(h))
@@ -897,14 +992,18 @@ def run(limit=None, only=None):
             failed += 1
             quarantine(h, rec.get("reason") or "canary failed")
         elif rec.get("healthy") is True and is_quarantined(h):
-            release(h)
+            # THE VERDICT IS CAPTURED, not dropped. `release()` returns "NOT RELEASED: ..." when
+            # the swap never landed, and this was a bare statement, so a host that stayed
+            # quarantined was reported as recovered. (order a29c38c9eff3)
+            rec["released"] = not _report_not_released(h, release(h))
         elif rec.get("healthy") is None and is_quarantined(h):
             # A HOST HELD ON THE OLD VERDICT GOES FREE. `healthy is None` now means the host
             # answered its API and correctly refused a title nobody holds -- it is up. It was
             # quarantined under the two-valued canary, which had no way to say that, and a
             # quarantine that outlives the reasoning behind it is just an outage nobody
             # remembers starting. The binding is still suspect and is still reported.
-            release(h, "host is reachable; the failure was in the titles, not the host")
+            rec["released"] = not _report_not_released(
+                h, release(h, "host is reachable; the failure was in the titles, not the host"))
     # A PARTIAL RUN MUST NOT LAND OVER A WHOLE-ESTATE REPORT. Found 2026-08-26 by tripping it:
     # `--host eberron.fandom.com ...` for five hosts wrote BINDING_HEALTH.json with
     # `"checked": 5`, and the other ~200 hosts simply left the file. Everything downstream reads
@@ -944,14 +1043,32 @@ def run(limit=None, only=None):
             # read would destroy the very thing this guard exists to protect, so the partial
             # results are returned to the caller and nothing is written.
             silence.note("binding_health.py:merge-unreadable")
-            print("binding_health: %s could not be read, so this partial run has nothing to "
-                  "merge into and will NOT land over it. Run without --host/--limit to rebuild "
-                  "the whole report." % os.path.basename(OUT), file=sys.stderr)
+            # THROUGH `_report_not_written` LIKE THE OTHER TWO. This was the THIRD
+            # write-not-landed exit in this function and the only one that merely printed, which
+            # is exactly the inconsistency that teaches the next reader the unescalated one is
+            # deliberate. JANITOR, same as its siblings and for the same reason given there: the
+            # probes ran and their results are returned, so what went stale is the OBSERVATION on
+            # disk, not an action being faked. (order d19d705925e3)
+            _report_not_written(
+                "BINDING_HEALTH_PARTIAL_NOT_MERGED",
+                "%s could not be read, so this partial run has nothing to merge into and will "
+                "NOT land over it; the %d host(s) it probed are not in the report. Run without "
+                "--host/--limit to rebuild the whole report."
+                % (os.path.basename(OUT), len(out)))
             return out, failed
         for h in out:
             prior[h.get("host")] = h
         merged = [prior[k] for k in sorted(prior)]
-    doc = {"at": time.time(), "checked": len(merged), "failed": failed, "hosts": merged}
+    # `checked` AND `failed` NOW COUNT THE SAME POPULATION. `checked` is `len(merged)` -- the
+    # whole file, which the merge made deliberately whole-file -- while `failed` was the count
+    # from this pass alone, so a `--host` run over five hosts could land "checked: 203,
+    # failed: 1" where one of FIVE failed. Nothing in src/ reads `failed`, so the cost was
+    # entirely to the person reading the report, who is invited by two numbers side by side to
+    # read them as a ratio. Both are now taken over `merged`, and this pass's own count is kept
+    # beside them under a name that says which pass it belongs to. (order 6c5faf62b2c6)
+    failed_in_report = sum(1 for h in merged if h.get("healthy") is False)
+    doc = {"at": time.time(), "checked": len(merged), "failed": failed_in_report,
+           "failed_this_pass": failed, "hosts": merged}
     if only or limit:
         doc["partial_pass"] = {"probed": sorted(h.get("host") for h in out),
                                "note": "merged into the standing report; hosts not listed "

@@ -100,7 +100,7 @@ _PAGES_SENTINEL = "pages:"
 # different path silently returned the FIRST path's answer -- a join quietly computed against a
 # store nobody asked for. No caller passes a non-default argument today; the signature invites
 # exactly that, and a cache that ignores its own key is a wrong answer waiting for a caller.
-_CACHE = {"hosts": {}, "index": {}}
+_CACHE = {"hosts": {}, "index": {}, "index_faults": {}}
 
 
 def _norm(s):
@@ -127,16 +127,34 @@ def _norm(s):
 
 
 def host_to_sources(path=WIKI_HOSTS):
-    """{host: [source, ...]} inverted from WIKI_HOSTS.json, minus the `pages:` sentinels."""
+    """{host: [source, ...]} inverted from WIKI_HOSTS.json, minus the `pages:` sentinels.
+
+    RAISES rather than returning an empty map when the host file cannot be read, and does NOT
+    cache that emptiness (order e16a93099bbe). The old handler swallowed the failure, set
+    `wh = {}` and then cached the empty result for the life of the process with no retry -- so
+    an unreadable or missing WIKI_HOSTS.json made `feats_for_source` return [] for EVERY source,
+    for ever. That defeated the guard one level up: `manifest_builder` wraps its
+    `feats_for_source` call in `except Exception` specifically so a bug here "says so, OUT LOUD"
+    (manifest_builder.py:342-358), and its own comment says a swallowed failure here "produce[s]
+    the identical observable result to this source genuinely has no attested feats" -- but no
+    exception ever escaped this module, so that WARNING could never print and the volume was
+    built with no Feats chapter and nothing distinguishing it from a source with none. Reproduced
+    before the fix: host_to_sources('<WIKI_HOSTS>.does-not-exist') returned {} with no exception
+    and cached it. The note is kept for the ledger; the raise is what reaches the operator.
+    """
     if path in _CACHE["hosts"]:
         return _CACHE["hosts"][path]
     out = collections.defaultdict(list)
     try:
         with open(path, encoding="utf-8") as f:
             wh = json.load(f)
-    except Exception:
+    except Exception as e:
         silence.note("feats_index.host_to_sources")
-        wh = {}
+        raise RuntimeError(
+            "feats_index.host_to_sources(): %s could not be read (%s: %s) -- the source->host "
+            "binding is the whole join, so every feats lookup would silently return nothing. "
+            "This is NOT the same finding as a source with no attested feats."
+            % (path, type(e).__name__, str(e)[:110])) from e
     for src, host in (wh or {}).items():
         if isinstance(host, str) and host and not host.startswith(_PAGES_SENTINEL):
             out[host.lower()].append(src)
@@ -149,12 +167,25 @@ def load_index(root=READFEATS):
 
     Read once and cached: the store is ~1,240 small files and the manifest builder would
     otherwise re-walk it per source.
+
+    WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped (order e16a93099bbe). A record that
+    will not parse was dropped with a `silence.note` and a `continue`, and a second record
+    normalising onto an existing (host, entity) key overwrote the first without a word -- while
+    `audit()` reported `records = len(idx)`, so every such loss was subtracted from the
+    DENOMINATOR and the printed join rate went UP. That is the exact shape the module's own
+    docstring promises against: a stranded record is "counted and named rather than left to be
+    inferred from a smaller total". The tallies live in `_CACHE["index_faults"][root]` and are
+    read back through `index_faults()`.
     """
     if root in _CACHE["index"]:
         return _CACHE["index"][root]
+    # NO CAPS on either list: these name the files a person has to go and look at, and a
+    # truncated list of them is a smaller universe wearing the same shape (Hard Rule 0).
+    faults = {"unreadable": 0, "collided": 0, "unreadable_files": [], "collided_keys": []}
     idx = {}
     if not os.path.isdir(root):
         _CACHE["index"][root] = idx
+        _CACHE["index_faults"][root] = faults
         return idx
     # A directory name is `cachekey.host_dir(host)`, and that is NOT invertible by spelling:
     # it folds every run of punctuation to `_`, so `date-a-live.fandom.com` and a hypothetical
@@ -178,14 +209,38 @@ def load_index(root=READFEATS):
                     rec = json.load(f)
             except Exception:
                 silence.note("feats_index.load_index")
+                faults["unreadable"] += 1
+                faults["unreadable_files"].append(hdir + "/" + fn)
                 continue
             entity = rec.get("entity") or fn[:-5]
             host = (rec.get("host") or fallback).lower()
             rec.setdefault("entity", entity)
             rec["host"] = host
-            idx[(host, _norm(entity))] = rec
+            key = (host, _norm(entity))
+            if key in idx:
+                # LAST WRITER STILL WINS -- the resolution is not being changed here, only made
+                # visible. Two records folding onto one key is a real condition (a re-mine under
+                # a differently-punctuated title), and picking a different survivor is a
+                # curatorial call, not a bug fix. What was wrong was that the loser vanished
+                # from the total as though it had never been mined.
+                faults["collided"] += 1
+                faults["collided_keys"].append("%s | %s" % (host, entity))
+            idx[key] = rec
     _CACHE["index"][root] = idx
+    _CACHE["index_faults"][root] = faults
     return idx
+
+
+def index_faults(root=READFEATS):
+    """What `load_index` could not put in the index, for this root.
+
+    -> {"unreadable": n, "collided": n, "unreadable_files": [...], "collided_keys": [...]}.
+    Builds the index if it has not been built, so the answer is never a stale zero.
+    """
+    load_index(root)
+    return dict(_CACHE["index_faults"].get(root)
+                or {"unreadable": 0, "collided": 0, "unreadable_files": [],
+                    "collided_keys": []})
 
 
 def feats_for_source(source_name, record):
@@ -239,6 +294,12 @@ def audit():
 
     A stranded record is a mined deed no volume will ever print, so it is counted and named
     rather than left to be inferred from a smaller total.
+
+    AND SO IS A RECORD THAT NEVER REACHED THE INDEX. `records` is `len(idx)`, which cannot see a
+    file that would not parse or a record overwritten by a name collision -- both were dropped
+    inside `load_index`, so each loss SHRANK the denominator and pushed the printed join rate up.
+    `unreadable` and `collided` now ride beside `records`, and `files_seen` is the honest total
+    the join rate should be read against. (order e16a93099bbe)
     """
     sys.path.insert(0, os.path.join(HERE, "src"))
     import pipeline as PL
@@ -253,8 +314,14 @@ def audit():
     for (host, ent_norm), rec in idx.items():
         srcs = [s for s in h2s.get(host, []) if ent_norm in by_src.get(s, set())]
         (joined if srcs else stranded).append((host, rec, srcs))
+    faults = index_faults()
     return {
         "records": len(idx),
+        "unreadable": faults["unreadable"],
+        "unreadable_files": faults["unreadable_files"],
+        "collided": faults["collided"],
+        "collided_keys": faults["collided_keys"],
+        "files_seen": len(idx) + faults["unreadable"] + faults["collided"],
         "joined": len(joined),
         "stranded": len(stranded),
         "feats_joined": sum(len(r.get("feats") or []) for _, r, _ in joined),
@@ -269,11 +336,24 @@ def main():
     print("=" * 96)
     print("FEATS INDEX — can the mined deeds reach a volume?")
     print("=" * 96)
-    print(f"\nfeats records on disk : {a['records']:,}")
+    print(f"\nfeats files on disk   : {a['files_seen']:,}")
+    print(f"  in the index        : {a['records']:,}")
     print(f"  joined to a source  : {a['joined']:,}  ({a['feats_joined']:,} feats)")
     print(f"  STRANDED            : {a['stranded']:,}  ({a['feats_stranded']:,} feats)")
-    rate = 100.0 * a["joined"] / max(1, a["records"])
-    print(f"  join rate           : {rate:.1f}% of records")
+    # AGAINST THE FILES, NOT AGAINST THE SURVIVORS. Dividing by `records` let every unreadable
+    # or collided file raise the rate by leaving the denominator, which is the reporting fault
+    # order e16a93099bbe named. Both are printed whether or not they are zero, so a reader can
+    # tell "none today" from "not measured".
+    rate = 100.0 * a["joined"] / max(1, a["files_seen"])
+    print(f"  join rate           : {rate:.1f}% of files on disk")
+    print(f"  UNREADABLE records  : {a['unreadable']:,}  (skipped by load_index, not in the "
+          f"index and not in the join rate above)")
+    for f in a["unreadable_files"]:
+        print(f"      {f}")
+    print(f"  NAME COLLISIONS     : {a['collided']:,}  (two records folding onto one "
+          f"(host, name) key; the later one wins)")
+    for k in a["collided_keys"]:
+        print(f"      {k}")
     print(f"  entities catalogued in more than one source on the same host: {a['shared']:,}")
     if a["stranded_hosts"]:
         print("\nSTRANDED BY HOST — a mined deed no volume will print. The host below is the one")

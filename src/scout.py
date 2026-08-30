@@ -281,10 +281,37 @@ def verify(url, names):
 
 
 def scout(source, names, register=True):
-    """Ask where the material lives, then prove each answer before believing it."""
-    sample = [n for n in names if n and len(n) > 3][:PROBE_NAMES]
+    """Ask where the material lives, then prove each answer before believing it.
+
+    THE PROMPT IS SAMPLED; THE VERIFICATION IS NOT. Order e8cd908ce5e4 -- and this was the
+    load-bearing half of that order, not a cosmetic one. Both the prompt and `verify()` used to
+    be handed the SAME list, `[n for n in names if n and len(n) > 3][:PROBE_NAMES]`: the first
+    25 usable names IN RECORD ORDER, with no ranking anywhere. `verify()` accepts a page only
+    when at least `needed` of the names it was given appear on it, so a genuine page for a
+    source whose catalogued names all sit past index 25 scored zero hits and was REJECTED. That
+    is truncation without ranking on the input to a pass/fail decision -- the shape Hard Rule 0
+    separates from ranking-then-taking-work-in-order -- and it was silently deciding that the
+    26th name onward did not exist. Measured on the current roll: `The Elements Beyond` is
+    hostless with 681 catalogued names, of which 25 were ever probed.
+    The URL list beside it was uncapped on 2026-08-24 for the same reason; the name list it is
+    verified AGAINST was left behind.
+
+    So `verify()` now gets every probeable name. It costs nothing: `_names_in` is a regex pass
+    over page text already in memory, 681 of them on the worst source on the roll.
+
+    The PROMPT still takes a sample, and that one is a real cost (tokens), so it is RANKED
+    first -- longest name first, ties broken alphabetically for determinism. Length is the
+    available proxy for distinctiveness here: `Way of the Inkmaster` identifies a page and
+    `Warden` identifies nothing. And it says how many it is showing out of how many exist, so
+    the model is not handed a smaller universe wearing the shape of the whole one.
+    """
+    probeable = [n for n in names if n and len(n) > 3]
+    shown = sorted(probeable, key=lambda n: (-len(n), n))[:PROBE_NAMES]
+    _more = len(probeable) - len(shown)
     prompt = (f"SOURCE: {source}\n"
-              f"CATALOGUED UNDER IT: {', '.join(sample[:18])}\n\n"
+              f"CATALOGUED UNDER IT ({len(probeable)} name(s) in all"
+              + (f"; the {len(shown)} most distinctive are listed" if _more else "")
+              + f"): {', '.join(shown)}\n\n"
               f"Where is this material readable online?")
     got = _ask(prompt)
     # Every URL the model proposes gets PROVEN, not the first eight of them. The prompt above
@@ -299,7 +326,9 @@ def scout(source, names, register=True):
 
     kept, checked = [], []
     for u in urls:
-        r = verify(u, sample)
+        # `probeable`, not the prompt's sample: see this function's docstring. A page is judged
+        # against every name catalogued under the source, never against the first 25 of them.
+        r = verify(u, probeable)
         checked.append(r)
         if r["ok"]:
             kept.append(u)
@@ -386,8 +415,13 @@ def sweep(limit=None, register=True):
     if deferred:
         # NOT a truncation of the universe: these are ahead of nobody and behind everybody,
         # and each moves to the front by waiting. Named so the deferral is legible.
+        # WHOLE NAMES. This was `", ".join(s[:30] for s in deferred)`, which cut source names
+        # mid-name -- the identical shape standards.py's shelf-ranks block already removed with
+        # the note "ALL OF THEM, not [:120] characters -- that cut the joined name list
+        # mid-name". A deferral list exists so a person can see the far side of the window, and
+        # half a source name is not a source anyone can look up. Order e8cd908ce5e4.
         print(f"   {len(deferred)} waiting for a later cycle (longest-waiting first): "
-              + ", ".join(s[:30] for s in deferred))
+              + ", ".join(deferred))
     # STAMPED BEFORE THE WORK, NOT AFTER. A source that crashes the scout must still count as
     # attempted, or it sorts to the front again next cycle and pins the window exactly the way
     # the entry-count ordering did -- the same bug wearing the fix's clothes.
@@ -414,12 +448,21 @@ def sweep(limit=None, register=True):
         results.append(r)
         if r["kept"]:
             found += 1
-            print(f"   FOUND  {src[:38]:<40}{len(r['kept'])} page(s)")
+            print(f"   FOUND  {src:<40}{len(r['kept'])} page(s)")
             for u in r["kept"]:
                 print(f"            {u}")
         else:
+            # NEITHER COLUMN IS CUT ANY MORE (order e8cd908ce5e4). `src[:38]` truncated the
+            # source NAME and `reasons[:60]` cut the per-source failure reason mid-sentence --
+            # and the reason is the whole product of this line: "exists but declines readers"
+            # and "no such host or no route" are different findings with different owners, and
+            # a run of them concatenated hits 60 characters immediately. The [:60] shape is the
+            # one standards.py's unrecognised-pool block already removed with the note "fix a
+            # shape, then grep the tree for it"; this is that grep. `:<40` is kept as a PAD,
+            # which lengthens a short name and leaves a long one whole -- alignment is a
+            # courtesy and it does not get to overrule what the line says.
             reasons = ", ".join(sorted({c.get("why", "?") for c in (r.get("checked") or [])}))
-            print(f"   none   {src[:38]:<40}{reasons[:60]}")
+            print(f"   none   {src:<40}{reasons}")
     print(f"\n{found} of {len(order)} sources now have somewhere to read from")
     try:
         prev = json.load(open(LOG, encoding="utf-8")) if os.path.exists(LOG) else []

@@ -59,6 +59,13 @@ import silence  # noqa: E402
 
 DB = os.path.join(HERE, "state", "corpus.db")
 
+# THE THIRD STATE OF THE `spine` COLUMN, and it needed a name of its own. NULL means UNSHELVED --
+# the resolver looked and answered UNASSIGNED -- and that is a curatorial fact somebody may act
+# on. This value means the resolver was never able to answer at all. They were spelled the same
+# way, so one unreadable data file could make the whole roll read as a curatorial backlog. See
+# `rebuild()`. Deliberately not a code shape: nothing can mistake it for a spine code.
+SPINE_LOOKUP_FAILED = "LOOKUP FAILED"
+
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT);
 CREATE TABLE IF NOT EXISTS source (
@@ -168,6 +175,9 @@ def rebuild(include_evidence=True, evidence_limit=None):
     n_src = n_entry = 0
     unreadable_records = []
     unreadable_evidence = []
+    # A LOOKUP THAT FAILED IS NOT A VERDICT. This list is the third state the `spine` column had
+    # no way to express; see `SPINE_LOOKUP_FAILED` and the block in the loop below.
+    spine_failures = []
     for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json"))):
         try:
             with open(p, encoding="utf-8") as f:
@@ -181,14 +191,37 @@ def rebuild(include_evidence=True, evidence_limit=None):
             continue
         src = rec.get("source")
         c = cov.get(src) or {}
+        # RESOLVED, UNASSIGNED, OR NEVER ASKED -- THREE STATES, AND TWO OF THEM USED TO SHARE A
+        # SPELLING. `code = None` was initialised, the resolver was called inside a try/except
+        # that only `silence.note()`d, and the next line's comment stated the contract the except
+        # clause then broke: NULL means unshelved, and only the resolver may say so. On any
+        # exception NULL was written anyway. That matters far more than one row, because
+        # `address._load_spine_codes()` raises OUTRIGHT if data/CHARTER_SPINE_CODES.json is
+        # missing or unparseable, and `import address` still succeeds -- so `_spine_for` is
+        # truthy, the guard above catches nothing, and one unreadable data file makes ALL 216
+        # sources report as unshelved. The `unaddressed` canned query and the Datasette page then
+        # present a whole-roll curatorial backlog, which is exactly the misreading this module's
+        # header spends fifteen lines on and nearly acted on once already. The only trace was a
+        # note. Now the failure gets its own value, is counted into `meta`, and is reported by
+        # the rebuild -- so the index can say "I could not ask" instead of answering for the
+        # resolver. (order 25266fa8c2dc)
         code = None
-        if _spine_for and src:
-            try:
-                code = _spine_for(src)
-            except Exception:
-                silence.note("corpus_db.py:spine-lookup")
-            if code == "UNASSIGNED":
-                code = None            # NULL means unshelved, and only the resolver may say so
+        if src:
+            if _spine_for is None:
+                # The resolver could not be imported at all, so EVERY source is in this state.
+                # NULL for all of them is the whole-roll false backlog described above.
+                code = SPINE_LOOKUP_FAILED
+                spine_failures.append("%s (resolver unavailable)" % src)
+            else:
+                try:
+                    code = _spine_for(src)
+                except Exception as e:
+                    silence.note("corpus_db.py:spine-lookup")
+                    code = SPINE_LOOKUP_FAILED
+                    spine_failures.append("%s (%s)" % (src, type(e).__name__))
+                else:
+                    if code == "UNASSIGNED":
+                        code = None    # NULL means unshelved, and only the resolver may say so
         con.execute(
             "INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?)",
             (src, hosts.get(src), code, len(rec.get("entries") or []),
@@ -275,6 +308,11 @@ def rebuild(include_evidence=True, evidence_limit=None):
                 (str(len(unreadable_evidence)),))
     con.execute("INSERT OR REPLACE INTO meta VALUES ('evidence_included', ?)",
                 ("1" if include_evidence else "0",))
+    # And the caveat that says the `spine` column is not answering for the resolver. Travels
+    # with the index for the same reason the two above do: a reader months from now must be able
+    # to find out that some of these rows are an absence of an answer, not an answer.
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('spine_lookup_failures', ?)",
+                (str(len(spine_failures)),))
     con.commit()
     con.close()
     # THE VERDICT OF THE FINAL WRITE HAS TO REACH THE CALLER. `replace_retry` returns False
@@ -298,6 +336,7 @@ def rebuild(include_evidence=True, evidence_limit=None):
             "seconds": round(time.time() - t0, 2), "landed": landed,
             "unreadable_records": unreadable_records,
             "unreadable_evidence": unreadable_evidence,
+            "spine_failures": spine_failures,
             "evidence_included": bool(include_evidence)}
 
 
@@ -353,18 +392,26 @@ def freshness():
     when somebody actually needs the number.
     """
     out = {"built_at": None, "age_seconds": None, "stale": True,
-           "newer_records": 0, "reason": "no index"}
+           "newer_records": 0, "reason": "no index", "evidence_included": None}
     if not os.path.exists(DB):
         return out
     try:
-        cols, rows = query("SELECT value FROM meta WHERE key='built_at'")
+        # TWO KEYS, ONE QUERY. `meta.evidence_included` is carried here so `_freshness_banner()`
+        # can say it: `rebuild()` writes that row explicitly so the caveat "travels WITH the
+        # index, not only in the rebuild's stdout", and until now nothing ever read it back --
+        # the only consumer was `main()`'s own return dict, in the same process that had just
+        # built the database. See the banner for what the unread caveat cost. (order b66146e38fb5)
+        cols, rows = query("SELECT key, value FROM meta "
+                           "WHERE key IN ('built_at', 'evidence_included')")
     except Exception:
         out["reason"] = "index unreadable"
         return out
-    if not rows:
+    meta = {k: v for k, v in rows}
+    out["evidence_included"] = meta.get("evidence_included")
+    if "built_at" not in meta:
         out["reason"] = "index does not record when it was built"
         return out
-    built = float(rows[0][0])
+    built = float(meta["built_at"])
     out["built_at"] = built
     out["age_seconds"] = time.time() - built
     newer = 0
@@ -414,6 +461,20 @@ def _freshness_banner():
     this index is stale within minutes of every rebuild.
     """
     f = freshness()
+    # AND THE OTHER CAVEAT THAT CANNOT BE MISSED, for the same reason staleness cannot. An index
+    # built with `--no-evidence` has an EMPTY evidence table, so the `evidence` and `refused`
+    # canned queries answer zero rows and `meta.evidence = 0` reads exactly like a corpus with no
+    # evidence in it -- the misreading order 2326f7a4ed66 was filed about. `rebuild()` recorded
+    # the caveat in `meta` so it would "travel WITH the index", and then nothing read it: the
+    # warning existed only in the stdout of the rebuild, which the person querying the database
+    # three weeks later never saw. It is prepended rather than folded into the age line because
+    # it is a different kind of wrong from being behind, and the two must not read as one.
+    # (order b66146e38fb5)
+    caveat = ""
+    if f.get("evidence_included") == "0":
+        caveat = ("  [ EVIDENCE NOT SCANNED — this index was built with --no-evidence. The "
+                  "evidence table is EMPTY BECAUSE IT WAS NOT READ, which is not the same as a "
+                  "corpus with no evidence in it. --rebuild without --no-evidence. ]\n")
     if f["age_seconds"] is None:
         # THE REASON `freshness()` COMPUTED, not a guess. This line said "NO INDEX -- run
         # --rebuild" for all three of its causes, so an index that was present but LOCKED or
@@ -424,15 +485,40 @@ def _freshness_banner():
         # `stale_index_says_so_where_the_numbers_are` net asserts them for exactly this state,
         # and a net is not a formality to route around.
         if not os.path.exists(DB):
-            return "  [ NO INDEX — none on disk. Run --rebuild. These are not results. ]"
-        return ("  [ NO INDEX — the file IS on disk and unusable: %s. These are not results, "
-                "and --rebuild may not be the remedy. ]" % f["reason"])
+            return caveat + "  [ NO INDEX — none on disk. Run --rebuild. These are not results. ]"
+        return caveat + ("  [ NO INDEX — the file IS on disk and unusable: %s. These are not "
+                         "results, and --rebuild may not be the remedy. ]" % f["reason"])
     mins = f["age_seconds"] / 60
     if not f["stale"]:
-        return "  [ index built %.0f min ago; no record has changed since ]" % mins
-    return ("  [ STALE: index built %.0f min ago, %d record(s) written since. "
-            "Counts below are a FLOOR, not a total. --rebuild for current. ]"
-            % (mins, f["newer_records"]))
+        return caveat + "  [ index built %.0f min ago; no record has changed since ]" % mins
+    return caveat + ("  [ STALE: index built %.0f min ago, %d record(s) written since. "
+                     "Counts below are a FLOOR, not a total. --rebuild for current. ]"
+                     % (mins, f["newer_records"]))
+
+
+def _cell(v, width=40):
+    """One cell of the CLI's result table, CUT WITH A MARKER when it does not fit. -> str.
+
+    The renderer printed `str(v)[:40]` with nothing to say a value had been cut, so every long
+    field came out looking complete. Measured against the live index: 'Who Framed Roger Rabbit
+    (incl. all content from its associated crossover-toon IPs)' printed as 'Who Framed Roger
+    Rabbit (incl. all conte' -- the parenthetical saying what the source actually covers gone,
+    and the line reading as the whole name. 14 of 216 source names are cut in the canned outputs
+    (coverage, unaddressed, hostless and worst_cited all select `name`) and 10,396 of 270,529
+    distinct entity names on the --sql path. The `CANNED` block four functions up removes six
+    LIMITs on the grounds that "a truncated table looks exactly like a complete one" and the
+    renderer then did the same thing to every field in it.
+
+    A MARKER, NOT REMOVAL. House doctrine (Hard Rule 0, and workorders.py's own note on it)
+    accepts display-side truncation precisely because it is REVERSIBLE -- the value is still in
+    the database and one `--sql` away -- and refuses it when nothing says the cut happened. So
+    the width stays and the ellipsis is what changes: a reader can now see there is more.
+    (order 6160ef68b229)
+    """
+    if v is None:
+        return ""
+    s = str(v)
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
 
 
 def query(sql, args=()):
@@ -596,6 +682,19 @@ def main():
                       "counts above -- those counts are a FLOOR, not a total:" % (len(bad), label))
                 for name in bad:
                     print("      " + name)
+        # AND THE SOURCES THE RESOLVER NEVER ANSWERED FOR. Named in full for the same reason as
+        # the two lists above: this is the failure that once nearly got read as a curatorial
+        # backlog, and a count on its own is what let it. The rows carry SPINE_LOOKUP_FAILED in
+        # the `spine` column, so `--canned unaddressed` (WHERE spine IS NULL) no longer sweeps
+        # them up as deliberately unshelved. (order 25266fa8c2dc)
+        if got["spine_failures"]:
+            print("  WARNING: address.spine_code_for() COULD NOT ANSWER for %d source(s). Their "
+                  "spine column reads '%s', which is NOT the same as unshelved -- the resolver "
+                  "never gave a verdict. Recorded as meta.spine_lookup_failures; check "
+                  "data/CHARTER_SPINE_CODES.json first, it is what address.py loads:"
+                  % (len(got["spine_failures"]), SPINE_LOOKUP_FAILED))
+            for name in got["spine_failures"]:
+                print("      " + name)
         if before:
             print("  closed a gap of %d entries the index was missing" % before)
         print("  -> %s (%.1f MB)" % (DB, os.path.getsize(DB) / 1e6))
@@ -639,7 +738,7 @@ def main():
     print("  " + " | ".join(str(c) for c in cols))
     print("  " + "-" * 74)
     for r in rows:
-        print("  " + " | ".join("" if v is None else str(v)[:40] for v in r))
+        print("  " + " | ".join(_cell(v) for v in r))
     print("\n%d row(s)" % len(rows))
     return 0
 

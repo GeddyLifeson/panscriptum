@@ -522,10 +522,27 @@ def null_rate(host, by=None, exclude=None, sample=40):
     # different questions -- and a host-only key answered the second one with the first one's
     # number. The control is the whole point of this function: a baseline measured against the
     # wrong foreign set is worse than no baseline, because it still looks like one.
-    key = (host, exclude, sample)
-    with _NULL_LOCK:
-        if key in _NULL_CACHE:
-            return _NULL_CACHE[key]
+    #
+    # AND `by` IS THE SAME KIND OF PARAMETER, AND WAS STILL OUTSIDE THE KEY (order 4ff1db780b99).
+    # `exclude` decides which roster is left OUT of the control sample; `by` decides which
+    # rosters EXIST to draw it from, and the entire foreign sample is built from it. The two
+    # callers genuinely disagree about it: `sweep()` passes `entities_by_source()`, read from
+    # data/CHARACTER_SWEEP.json, while `adopt()` builds `{s: [e["name"] for e in
+    # recs[s]["entries"]]}` from `weave_index.load_records()`. Those are different universes, so
+    # the same host with the same `exclude` and `sample` has two different correct baselines.
+    # It was contained only because main() dispatches exactly one of --adopt / --repair /
+    # --rosters per process, which is a property of today's CLI and not of this module:
+    # `_NULL_CACHE` is module-level and `score(host, names, source, by=...)` is public.
+    #
+    # `by` is an unhashable dict, which is presumably why it was left out. Rather than digest the
+    # dict, THE SAMPLE ITSELF IS THE KEY -- it is what the question actually asks, so the key is
+    # exact rather than approximate: any difference in `by` that reaches the control changes it,
+    # and two different `by` maps that produce the same control sample are the same question and
+    # may honestly share an answer. Building the sample is dict work over at most three names per
+    # source; the cost this cache exists to avoid is the network probe below. `exclude` and
+    # `sample` stay in the key although the sample now subsumes them, because they are what the
+    # earlier order pinned and a key that names the question in the caller's own terms is easier
+    # to read than one that names only its result.
     foreign = []
     for src, names in (by or {}).items():
         if src == exclude:
@@ -534,6 +551,10 @@ def null_rate(host, by=None, exclude=None, sample=40):
     # Deterministic, not random: the control must be reproducible, or two runs disagree about
     # the same host for reasons nobody can inspect.
     foreign = sorted(set(foreign))[::max(1, len(foreign) // sample)][:sample]
+    key = (host, exclude, sample, tuple(foreign))
+    with _NULL_LOCK:
+        if key in _NULL_CACHE:
+            return _NULL_CACHE[key]
     r = probe(host, foreign) or {}
     rate = r.get("rate")
     # A CONTROL THAT DID NOT MEASURE IS `None`, NOT ZERO -- and this line is why the order that
@@ -679,22 +700,53 @@ def sweep(only=None, repair=False, workers=8):
             # meant a host judged NAMES ONLY at 95% could not be replaced by a host that
             # genuinely holds the fiction at 45%, and the source was unassigned instead --
             # Gundam lost `en.wikipedia.org` at 45% held and 100% about that way.
-            best = (0.0, None)
+            #
+            # RANKED BY LIFT, NOT BY RAW HIT RATE (order e2f0b13c766f). This loop read
+            # `best = (0.0, None)`, `p["rate"] > best[0]`, `best[0] >= GOOD`, `best[0] > DEAD` --
+            # every comparison in raw-rate units, in the pass that decides where a source's
+            # evidence will be mined from. `score()`'s own docstring is a sustained argument that
+            # the raw rate must not decide: "33% on D&D Wiki is thirty-three points of signal and
+            # 33% on Wikipedia is worse than chance. Both readings were made in this project and
+            # both were wrong." `adopt()` -- the sibling pass doing this same job for hostless
+            # sources -- already selects by lift, and carries its own note about an earlier
+            # version whose units changed between iterations.
+            #
+            # IT WAS BOUNDED, NOT FATAL, and the bound is worth writing down: a candidate must
+            # first pass `verdict in ("holds", "partial")`, which is itself lift-based (see
+            # `score`), so the raw-rate comparison could only ever REORDER hosts that had already
+            # cleared the lift bar -- it could not adopt one that failed it. What it did do is
+            # systematically prefer the GENEROUS survivors, en.wikipedia.org at 45% held over a
+            # specific wiki at 40% held whose lift is far larger, which is precisely the
+            # preference lift was introduced to remove. The `>= GOOD` early exit made that worse:
+            # the loop stopped at the first candidate to reach 0.35 RATE, so a better host later
+            # in the ranking was never probed at all.
+            #
+            # (lift, rate, host), shaped like `adopt()`'s tuple: the first slot is LIFT and only
+            # lift, so no iteration can compare one unit against another. The rate rides along
+            # only so the operator's line still shows the figure they are used to reading.
+            best = (0.0, 0.0, None)
             judged_any = False
             for h in candidates(src, r["host"], by=by, hosts=hosts):
                 p = score(h, by[src], src, by=by)
                 ok = p["verdict"] in ("holds", "partial")
                 judged_any = judged_any or not p["verdict"].startswith("UNREACHABLE")
-                if ok and p["rate"] is not None and p["rate"] > best[0]:
-                    best = (p["rate"], h)
+                if ok and p["lift"] is not None and p["lift"] > best[0]:
+                    best = (p["lift"], p["rate"] or 0.0, h)
                 ab = "   -" if p.get("about") is None else f"{p['about']:>4.0%}"
-                print(f"    {p['rate']:>5.0%} held  {ab} about  {h:<34}"
+                lf = "    -" if p.get("lift") is None else f"{p['lift']:>+5.0%}"
+                print(f"    {p['rate']:>5.0%} held {lf} lift  {ab} about  {h:<34}"
                       f"{p['verdict'] if not ok else ''}", flush=True)
-                if best[0] >= GOOD:
+                if best[0] >= GOOD_LIFT:
                     break
-            if best[1] and best[1] != r["host"] and best[0] > DEAD:
-                fixed[src] = best[1]
-                print(f"  -> {src}: {r['host']} => {best[1]} ({best[0]:.0%})")
+            # `> LIFT_MIN` is the lift-unit translation of the `> DEAD` this replaces: DEAD is
+            # "the host is about something else entirely" in rate, LIFT_MIN is "the result is
+            # what the host gives anyone" in lift. Nothing that passed `ok` can fail it -- the
+            # verdict already required it -- and it is kept for the same reason `adopt()` keeps
+            # its floor: the gate should state the bar even when the bar is already met.
+            if best[2] and best[2] != r["host"] and best[0] > LIFT_MIN:
+                fixed[src] = best[2]
+                print(f"  -> {src}: {r['host']} => {best[2]} "
+                      f"({best[0]:+.0%} lift, {best[1]:.0%} held)")
             elif not judged_any:
                 # Every alternative was unreachable. That is a fact about the network this
                 # afternoon, not about the omniverse, and it must not cost the source its host.
@@ -747,7 +799,16 @@ def sweep(only=None, repair=False, workers=8):
             # to a fresh read, under a compare-and-swap. The local `hosts` above stays updated
             # only so the report below and any later reader in this call see the same picture.
             landed, why = _land_hosts(fixed, "the host-fitness repair pass")
-            _land(UNFIT, unfit)
+            # THE REJECTIONS FILE HAS A VERDICT TOO, AND IT WAS BEING THROWN AWAY (order
+            # 1b15acd3f7b2). `_land_hosts` on the line above has ALREADY dropped every unfit
+            # source from WIKI_HOSTS.json by the time this runs, and `_land` ->
+            # `silence.write_json` returns False and NEVER RAISES on a denied replace -- the
+            # ordinary case here, a reader holding the file open. So a refused UNFIT write left
+            # the source gone from the host map with no finding written down anywhere, which is
+            # precisely the "gap indistinguishable from a source nobody has got to yet" the
+            # comment eight lines above says this whole file exists to end, and the line below
+            # announced the rejections file as written.
+            unfit_landed = _land(UNFIT, unfit)
             if landed:
                 print(f"\nWIKI_HOSTS.json updated: {sum(1 for v in fixed.values() if v)} "
                       f"repointed, {sum(1 for v in fixed.values() if not v)} recorded unfit")
@@ -755,11 +816,24 @@ def sweep(only=None, repair=False, workers=8):
                 # A repair that did not land must not be reported as one. This is the file the
                 # rest of the pipeline reads to know where anything lives.
                 print("\nWIKI_HOSTS.json NOT updated: " + why, file=sys.stderr)
-            print(f"-> {UNFIT}   (every rejection kept, so a gap reads as a gap)")
+            if unfit_landed:
+                print(f"-> {UNFIT}   (every rejection kept, so a gap reads as a gap)")
+            else:
+                print(f"{UNFIT} NOT updated (denied replace): {sum(1 for v in fixed.values() if not v)} "
+                      f"rejection(s) from this pass are not on file, so the sources they dropped "
+                      f"from the host map now read as sources nobody has got to yet",
+                      file=sys.stderr)
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    _land(OUT, results)
-    print(f"-> {OUT}")
+    # Gated for the same reason (order 1b15acd3f7b2): the verdict was discarded and "-> path"
+    # printed either way, so a denied replace reported this pass's fitness report over the
+    # previous one. Nothing is lost -- the pass can be re-run -- but an operator acting on a
+    # stale report they believe is today's is the expensive half of that.
+    if _land(OUT, results):
+        print(f"-> {OUT}")
+    else:
+        print(f"{OUT} NOT updated (denied replace); the fitness report on disk is the previous "
+              f"pass's, not this one's", file=sys.stderr)
     return results
 
 
@@ -843,7 +917,19 @@ def purge(dry=True, only=None):
 
     log = {}
     for src, mined, now in targets:
-        n_entries = n_files = 0
+        n_entries = n_files = n_removed = 0
+        # THE RECORD WRITE'S VERDICT NOW DECIDES WHETHER THE CACHE MAY BE DELETED (order
+        # 1b15acd3f7b2), and this is the one discarded verdict in this module that was
+        # DESTRUCTIVE. `_land` -> `silence.write_json` returns False and NEVER RAISES on a denied
+        # replace, and a denied replace is the ordinary case on this machine -- a reader holding
+        # the target open. With the verdict thrown away the sequence was: leave the wrong-fiction
+        # entries and the purged_roster note UNWRITTEN, then unconditionally os.remove() every
+        # cached page under data/feats/<host>/ and data/readfeats/<host>/, then print that the
+        # purge succeeded. The entries stayed, their only supporting evidence was gone
+        # irreversibly, and nothing on disk said so. This function's own docstring says the point
+        # is that "the gap it leaves is a recorded finding rather than a silence"; on a denied
+        # write it was a silence.
+        landed = True
         # The catalogue records live as files; load_records() hands back their contents without
         # their paths, so the purge reads the directory itself and writes each record back in
         # place. The entries are cleared and the removal is stamped INTO the record, so a later
@@ -868,7 +954,9 @@ def purge(dry=True, only=None):
                 # cast-growing pass and exactly wrong for a purge whose whole purpose is to
                 # empty one. It is made atomic here so a kill mid-dump cannot leave a record
                 # file unparseable, which would lose the entries AND the purge note together.
-                _land(fp, r, sort_keys=False, ensure_ascii=False)
+                if not _land(fp, r, sort_keys=False, ensure_ascii=False):
+                    landed = False
+                    silence.note("hostcheck.py:purge-record-denied")
         # the caches those entries wrote
         # Order 5159320dd758: this hand-spelled cachekey.host_dir()'s own formula instead of
         # calling it -- the exact "four independent copies of one convention" cachekey.py's own
@@ -881,11 +969,33 @@ def purge(dry=True, only=None):
                 continue
             for fp in glob.glob(os.path.join(d, "*.json")):
                 n_files += 1
-                if not dry:
+                if dry or not landed:
+                    continue
+                try:
                     os.remove(fp)
-        log[src] = {"mined_from": mined, "now": now, "entries": n_entries, "files": n_files}
-        verb = "would remove" if dry else "removed"
-        print(f"  {verb}: {src}  <- {mined}   {n_entries} entries, {n_files} cache files")
+                except OSError:
+                    # Counted as NOT removed rather than assumed gone. A cache file that will
+                    # not delete is a page still on disk supporting entries that are not, and
+                    # the operator has to be able to see the difference; the bare `os.remove`
+                    # this replaces would also have aborted the whole purge on one locked file.
+                    silence.note("hostcheck.py:purge-cache-remove")
+                    continue
+                n_removed += 1
+        # `landed` is None in a dry run because nothing was written, and a caller must be able
+        # to tell "not attempted" from "attempted and refused" -- the distinction this order was
+        # filed about. `removed` is what actually left the disk; `files` is what was found.
+        log[src] = {"mined_from": mined, "now": now, "entries": n_entries, "files": n_files,
+                    "removed": n_removed, "landed": None if dry else landed}
+        if dry:
+            print(f"  would remove: {src}  <- {mined}   {n_entries} entries, "
+                  f"{n_files} cache files")
+        elif landed:
+            print(f"  removed: {src}  <- {mined}   {n_entries} entries, "
+                  f"{n_removed}/{n_files} cache files")
+        else:
+            print(f"  NOT PURGED: {src}  <- {mined}   the record write was denied, so its "
+                  f"{n_entries} entries STAY and its {n_files} cache files were left in place "
+                  f"rather than deleted out from under them", file=sys.stderr)
 
     if not dry and log:
         prev = {}
@@ -896,8 +1006,15 @@ def purge(dry=True, only=None):
             except Exception:
                 silence.note("hostcheck.py:purge-log")
         prev.update(log)
-        _land(PURGED, prev)
-        print(f"-> {PURGED}")
+        # Gated (order 1b15acd3f7b2). This is the file that explains what became of the purged
+        # entries; announcing it as written when the replace was denied leaves the purge with no
+        # record of itself anywhere, which is the same silence the per-record write above was
+        # gated to prevent.
+        if _land(PURGED, prev):
+            print(f"-> {PURGED}")
+        else:
+            print(f"{PURGED} NOT updated (denied replace): this pass's purges are not on file",
+                  file=sys.stderr)
     return log
 
 
@@ -1004,8 +1121,14 @@ def roster_audit(workers=8):
           f"{len(bad)} carry a roster that never names their own fiction")
     for r in sorted(bad, key=lambda x: x["rate"]):
         print(f"   {r['source']}  ({r['host']}, looked for {', '.join(r['tokens'])})")
-    _land(ROSTERS, {r["source"]: r for r in out})
-    print(f"-> {ROSTERS}")
+    # Gated (order 1b15acd3f7b2). `purge()` reads this file to decide what to purge, so a denied
+    # replace reported as a success hands the next purge the PREVIOUS audit's verdicts -- and
+    # those name sources whose rosters it will empty and whose caches it will delete.
+    if _land(ROSTERS, {r["source"]: r for r in out}):
+        print(f"-> {ROSTERS}")
+    else:
+        print(f"{ROSTERS} NOT updated (denied replace); the roster audit on disk is the previous "
+              f"pass's, and purge() reads it", file=sys.stderr)
     return out
 
 

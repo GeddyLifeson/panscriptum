@@ -26,10 +26,26 @@ CALIBRATE = "calibrate.log"     # the daily charter regression (magnitude.py --c
 # The fragment is matched against the live command line by `overnight.running()`, so it must be
 # specific enough to distinguish two invocations of the same script: `feats.py --roll` is the
 # page roll, a bare `feats.py` is something else.
+#
+# PIPELINE CARRIES `--run` BECAUSE pipeline.py HAS INVOCATIONS THAT ARE NOT THIS JOB (order
+# 08c1fd3932a4). It was a bare `pipeline.py`, which is the rule above being broken by the table
+# the rule is written over: `pipeline.py --status` prints the handoff and exits, and a hand-run
+# `pipeline.py --phase 6` is one stage, yet either one answered "the phase runner is up" to
+# `overnight.running()` -- and through it to the stall detector, the dashboard's Jobs panel and
+# the foreman's restart remedy. The supervisor's own two invocations now pass `--run`
+# (overnight.py STANDING and the serial lap call), so the fragment names the writer of
+# pipeline_auto.log and nothing else. `--run` is optional in pipeline.py, so a bare invocation
+# still runs the phases; it is a label on the daemon, not a new mode.
+#
+# SWEEP IS DELIBERATELY BARE, and that is not the same fault. Every invocation of sweep.py runs
+# the rebuild and writes CHARACTER_SWEEP.json -- `--top` only changes how many rows the report
+# prints -- so there is no second invocation to be confused with, and a hand-run sweep.py
+# answering "the sweep is running" is a true answer. The rule asks for enough specificity to
+# distinguish two invocations; where a script has one, its name is that.
 OWNER = {
     READ:        "read.py --run",
     ROLL:        "feats.py --roll",
-    PIPELINE:    "pipeline.py",
+    PIPELINE:    "pipeline.py --run",
     RECATALOGUE: "catalogue_web.py --recatalogue",
     SWEEP:       "sweep.py",
     CALIBRATE:   "magnitude.py --calibrate",

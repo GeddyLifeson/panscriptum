@@ -94,8 +94,18 @@ def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS
                       "suppression on top of it -- fix or restore the file first")
     rows = [r for r in rows
             if not (r.get("detector") == detector and r.get("path") == path_glob)]
+    # THE REASON IS STORED WHOLE (order 7a6362fa3c91). This was `str(reason).strip()[:300]` -- a
+    # silent, unmarked cap on STORED data, one line below a docstring that says "A reason is
+    # REQUIRED and is not decoration" and in the module whose entire header argues the inline
+    # marker is wrong precisely because "it carries no REASON that a reviewer can weigh". It had
+    # already bitten: one of the three live rows was sitting at exactly 300 characters with its
+    # closing SCOPE CAVEAT cut mid-word ("...this only sur"), which is the one clause a reviewer
+    # needs to decide whether the exemption is still narrow. A display cap is reversible because
+    # the stored text is still there to widen back to; a stored cap destroys the only copy. This
+    # is a JSON file on disk and nothing here needs a cap, so there is none. The display
+    # truncations in `problems()` and `main()` are the reversible kind and stay.
     rows.append({"detector": str(detector), "path": str(path_glob),
-                 "reason": str(reason).strip()[:300], "added_by": str(added_by),
+                 "reason": str(reason).strip(), "added_by": str(added_by),
                  "added_at": time.time(),
                  "expires_at": time.time() + float(ttl_days) * 86400})
     if not _land(rows):
@@ -201,8 +211,14 @@ def main():
         return 0
     for r in rows:
         days = (r.get("expires_at", 0) - time.time()) / 86400.0
-        print("  %-22s %-34s expires in %4.0fd  %s"
-              % (r.get("detector"), r.get("path")[:34], days, r.get("reason", "")[:44]))
+        # THE PATH IS THE ROW'S IDENTITY AND IS NOT TRUNCATED. `r.get("path")[:34]` cut it to a
+        # column width, and `data/feats/bloons_fandom_com/Encrypted.json` is 43 characters -- so
+        # the one field that says WHICH file a detector has been narrowed for was clipped in the
+        # listing an operator reads to audit exactly that. The reason cap on the same line is
+        # fine and stays: it is a preview of prose whose whole copy is one `--check` away. A
+        # column that stretches is a worse-looking table and a truthful one.
+        print("  %-22s %-43s expires in %4.0fd  %s"
+              % (r.get("detector"), r.get("path"), days, r.get("reason", "")[:44]))
     return 0
 
 

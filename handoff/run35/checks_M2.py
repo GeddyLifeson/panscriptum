@@ -62,12 +62,18 @@ def check_ingest_doc_checks_write_record_verdict():
 
 
 # order 09405680f175 -- src/backfill.py, main() --audit
-# The ranked/truncated audit table must announce its remainder, matching catalog.py's pattern.
+# The ranked/truncated audit table must announce its remainder.
+# THE EXEMPLAR THIS USED TO CITE IS GONE: it said "matching catalog.py's pattern" and
+# "like catalog.py:66-67", but catalog.py's `missing[:30]` + "... and N more" was itself a Hard
+# Rule 0 truncation (order 6434c1ba7b20) and has been replaced by printing the whole roster.
+# A remainder line is the WEAKER of the two answers -- honest about what it hid, but still
+# hiding it -- so it is not something to point other code at. The requirement here is unchanged
+# and stands on its own: whatever backfill.py --audit does not show, it must say it did not show.
 def check_backfill_audit_announces_remainder():
     text = open(os.path.join(SRC, "backfill.py"), encoding="utf-8").read()
     assert "for x in rows[:26]:" in text, "backfill.py --audit slice changed shape unexpectedly"
     assert "len(rows) - 26" in text, \
-        "backfill.py --audit must print how many rows were not shown, like catalog.py:66-67"
+        "backfill.py --audit must print how many rows were not shown"
 
 
 # orders 00d8436bb86d, 322cc5ab6f31, eb626e4d9dde -- stale silence.note LINE-NUMBER tags

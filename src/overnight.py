@@ -383,8 +383,58 @@ def canon_backup_cycle():
         silence.note("overnight.py:canon-backup-failed")
 
 
+def _manager_stopped(job, args=None):
+    """Is this subsystem closed at rung 4? -> (bool, why). FAILS CLOSED.
+
+    Asked BEFORE every launch. If escalation cannot answer -- module missing, ledger unreadable
+    -- the job does NOT start: "I cannot tell whether a person closed this" has never been
+    permission to re-open it, and the failure this guards against was twenty-six records losing
+    their synthesis block while a stop went unread.
+
+    MODULE-LEVEL SINCE ORDER 4c1eaa9df7fa, AND ASKED BY `start()`/`run()` THEMSELVES. It used to
+    be a closure inside `main()` with exactly ONE caller, the keeper thread -- so the remedy for
+    the 22:5x `catalogue_web` incident (order 4e7f1e47d0a0) landed on one of the TEN places this
+    file launches jobs. The supervisor's own cycle body re-asserts the whole STANDING set at the
+    top of every lap, plus prose, roll, read and the serial pipeline, and none of those consulted
+    the ledger: a subsystem a person or a maintenance run closed at rung 4 was restarted within
+    one lap by the very code the keeper's gate was written to stop. `escalation.subsystem_stopped`
+    has no other callers in the tree, so these two functions are the whole enforcement surface;
+    the gate belongs where the spawn is, not beside one caller of it.
+
+    BOTH SPELLINGS OF THE NAME ARE HONOURED. The ledger's keys are free-form strings written by
+    whoever stopped the subsystem, and the two natural spellings for the same thing are the
+    supervisor's job name ("pipeline", "roll") and the script it runs ("pipeline", "feats").
+    A stop is a person saying "not this"; honouring only the spelling they did not use is the
+    same as not honouring it.
+    """
+    names = [str(job)]
+    if args:
+        stem = os.path.splitext(os.path.basename(str(args[0])))[0]
+        if stem and stem not in names:
+            names.append(stem)
+    try:
+        import escalation as _esc
+        for n in names:
+            held, why = _esc.subsystem_stopped(n)
+            if held:
+                return True, (why if n == str(job) else "%s (stopped as %r)" % (why, n))
+        return False, ""
+    except Exception:
+        silence.note("overnight.py:manager-stop-unreadable")
+        return True, "escalation unreadable; refusing to start on an unknown answer"
+
+
 def run(name, args, logfile, timeout_h=6):
     """Run one stage to completion, refusing to start a duplicate."""
+    # A SUBSYSTEM STOPPED AT THE MANAGER RUNG STAYS STOPPED -- HERE TOO (order 4c1eaa9df7fa).
+    # The keeper had this gate and this function did not, so the cycle body simply restarted
+    # whatever the keeper had just refused to restart. Asked before the duplicate check because
+    # the answer does not depend on it: a closed subsystem must not be launched whether or not
+    # a copy happens to be up.
+    _held, _why = _manager_stopped(name, args)
+    if _held:
+        log(f"  {name}: STOPPED at MANAGER rung — not started ({_why})")
+        return "manager-stopped"
     # Matched on BASENAME. The stage is invoked with an absolute path while an already-running
     # copy may have been started with a relative one, so a substring test on the full path never
     # matches and the guard passes when it should not. That is how a second roll got launched
@@ -436,7 +486,17 @@ def start(name, args, logfile):
     a 6.8h roll meant the model did no reading at all that cycle. Returns None if the job was
     already running -- the same basename guard as run(), which exists because a second roll was
     once launched against a live one.
+
+    AND THE SAME MANAGER-RUNG GATE AS run() (order 4c1eaa9df7fa). Every standing start at the top
+    of the cycle comes through here, as do prose, the roll and the foreman's four repairs, and
+    none of them asked the stop ledger -- so the keeper's refusal to restart a stopped subsystem
+    was undone by the next lap of the supervisor that owns the keeper. Returns None when the
+    subsystem is closed, which every caller already treats as "did not start".
     """
+    held, why = _manager_stopped(name, args)
+    if held:
+        log(f"  {name}: STOPPED at MANAGER rung — not started ({why})")
+        return None
     if running(os.path.basename(args[0])):
         log(f"  {name}: already running, left alone")
         return None
@@ -628,7 +688,10 @@ STANDING = [
      "foreman.log"),
     ("overwatch", [os.path.join(SRC, "overwatch.py"), "--loop", "20", "--modules", "4"],
      "overwatch.log"),
-    ("pipeline", [os.path.join(SRC, "pipeline.py")], LN.PIPELINE),
+    # `--run` selects the default behaviour and exists to make this command line identifiable:
+    # `lognames.OWNER[PIPELINE]` matches the fragment `pipeline.py --run`, so a hand-run
+    # `pipeline.py --status` no longer answers for the daemon. See order 08c1fd3932a4.
+    ("pipeline", [os.path.join(SRC, "pipeline.py"), "--run"], LN.PIPELINE),
 ]
 
 # Every long-lived job the kit runs, as the command-line fragment that identifies it. The
@@ -718,11 +781,42 @@ def tail(path, name, n=12):
 
 
 def coverage_snapshot():
+    """This cycle's coverage figures, or `{"error": ...}` if they were not MEASURED this cycle.
+
+    THE RETURN CODE USED TO BE DISCARDED, AND A STALE FILE READ EXACTLY LIKE A FRESH ONE
+    (order a37032c3f36a). `subprocess.run(...)` was called for its side effect and the previous
+    `data/COVERAGE.json` was then loaded unconditionally -- so a `coverage.py` that crashed, was
+    refused its own atomic write (`coverage.main` returns 1 when `replace_retry` denies the
+    landing), or died on an internal fault left LAST cycle's numbers on disk, the load succeeded,
+    no "error" key was set, and main() logged them as this cycle's measurement, wrote them into
+    STATUS.md as a fresh row and appended them to history[] as a datum. Only the timeout and the
+    unreadable-file paths ever reached the except.
+
+    Run #19 fixed how a CRASHED snapshot is REPORTED; this is the same species one level up -- a
+    snapshot that failed while still looking perfectly measured, in the module whose docstring
+    rule 5 is MEASURE EVERY CYCLE. Both halves of the check are needed and they catch different
+    faults: a nonzero rc is coverage.py saying so itself, and an unmoved mtime catches the case
+    where it exits 0 without landing a new file at all. `t0` is taken BEFORE the spawn so the
+    comparison cannot be beaten by the run's own duration.
+    """
+    t0 = time.time()
+    cov = os.path.join(HERE, "data", "COVERAGE.json")
     try:
-        subprocess.run([PY, os.path.join(SRC, "coverage.py")], cwd=HERE,
-                       capture_output=True, text=True, timeout=1800,
-                       env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
-        rows = json.load(open(os.path.join(HERE, "data", "COVERAGE.json"), encoding="utf-8"))
+        r = subprocess.run([PY, os.path.join(SRC, "coverage.py")], cwd=HERE,
+                           capture_output=True, text=True, timeout=1800,
+                           env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
+        if r.returncode != 0:
+            silence.note("overnight.py:coverage-snapshot-rc")
+            return {"error": "coverage.py %s -- COVERAGE.json on disk is the PREVIOUS run's"
+                             % name_rc(r.returncode)}
+        # A file older than the run that was supposed to write it was not written by it. One
+        # second of slack because filesystem timestamps and time.time() need not agree to the
+        # microsecond, and the failure this catches is a whole cycle stale, not a whole second.
+        if os.path.getmtime(cov) < t0 - 1:
+            silence.note("overnight.py:coverage-snapshot-stale")
+            return {"error": "coverage.py exited clean but data/COVERAGE.json was not "
+                             "rewritten -- these would be the PREVIOUS run's numbers"}
+        rows = json.load(open(cov, encoding="utf-8"))
     except Exception as e:
         silence.note("overnight.py:coverage-snapshot")
         return {"error": f"{type(e).__name__} {str(e)[:60]}"}
@@ -753,11 +847,30 @@ def preflight():
         log(f"  preflight: DID NOT RUN ({type(e).__name__}: {str(e)[:120]}) "
             f"-- continuing, but this cycle was NOT checked")
         return 0, False
-    for ln in out.splitlines():
-        if ln.strip().startswith("FAIL"):
-            log(f"    preflight {ln.strip()}")
+    fails = [ln.strip() for ln in out.splitlines() if ln.strip().startswith("FAIL")]
+    for ln in fails:
+        log(f"    preflight {ln}")
     blocking = "control characters in source" in out and "FAIL  control" in out
     n = out.count("FAIL")
+    # AND A PREFLIGHT THAT DIED MID-RUN IS NOT A PREFLIGHT THAT PASSED (order 6761a8e56280).
+    # The except arm above -- run #19's "it no longer passes for a pass" -- only covers a
+    # health.py that could not be LAUNCHED or that timed out. One that STARTS and then dies
+    # returns here normally: nonzero rc, its traceback on the stderr nothing reads, and a
+    # PARTIAL stdout. `n` is then 0 and `blocking` is False, so main() takes neither the halt
+    # branch nor the "N problem(s) noted" branch and the cycle proceeds indistinguishably from
+    # a clean run. health.py's contract is `return 1 if n else 0` (health.py:780), so a
+    # nonzero rc is not itself a fault -- but a code outside {0,1}, or rc=1 with NO FAIL line
+    # in the stdout it is supposed to have printed, CONTRADICTS that contract, and that
+    # contradiction is exactly the crash signature. Reported in the launch-failure path's own
+    # words, and deliberately non-blocking for the same reason it gives: a preflight that
+    # cannot run must not stop the cycle, it must stop being mistaken for one that ran.
+    if r.returncode not in (0, 1) or (r.returncode == 1 and not fails):
+        silence.note("overnight.py:preflight-did-not-complete")
+        log(f"  preflight: DID NOT COMPLETE ({name_rc(r.returncode)}, {len(fails)} FAIL line(s) "
+            f"parsed) -- continuing, but this cycle was NOT checked")
+        err = (r.stderr or "").strip().splitlines()
+        if err:
+            log(f"    preflight last stderr line: {err[-1][:160]}")
     return n, blocking
 
 
@@ -786,6 +899,20 @@ def safety_drill():
         return None
     line = [x for x in (r.stdout or "").splitlines() if x.startswith("DRILL:")]
     log("  safety drill: " + (line[-1] if line else "produced no summary line"))
+    # AN EXIT CODE THIS FUNCTION CANNOT NAME IS NOT "NOT BREACHED" (order b66a8b1acf50). The
+    # only branch here was `== 1`, so drill.py exiting 2 (argparse refusing its own arguments),
+    # or on a Windows NTSTATUS, or on any other nonzero code, logged the summary line -- or
+    # "produced no summary line" -- and the cycle went on to start every stage. This is the park
+    # inspection that runs before anything else on every cycle, and `name_rc` exists in this very
+    # file precisely because an unrecognised exit code is a bug rather than weather. Same
+    # wording as the except arm above, because it is the same fact: the nets were not inspected.
+    if r.returncode not in (0, 1):
+        silence.note("overnight.py:drill-did-not-complete")
+        log(f"  safety drill: DID NOT COMPLETE ({name_rc(r.returncode)}) "
+            f"-- the nets were NOT inspected this cycle")
+        err = (r.stderr or "").strip().splitlines()
+        if err:
+            log(f"    safety drill last stderr line: {err[-1][:160]}")
     if r.returncode == 1:
         for x in (r.stdout or "").splitlines():
             if x.strip().startswith("BREACHED"):
@@ -795,31 +922,85 @@ def safety_drill():
     return r.returncode
 
 
+STATUS_CYCLES_SHOWN = 12
+
+
 def write_status(cycle, history):
+    """Land STATUS.md. -> True if it landed, False if the replace was denied.
+
+    BUILT WHOLE, THEN LANDED ATOMICALLY (order 3fdf445e7c0d). This was `open(STATUS.md, "w")`
+    followed by twenty sequential `f.write()` calls -- the m6 truncate-then-serialise pattern
+    this project retired repo-wide -- on a file `publish.py` copies verbatim into the PUBLIC
+    repo and `estate.py` hashes. An exception part-way through (an unencodable value in a
+    history row, a full disk, a kill) left a half-written STATUS.md on disk and published it,
+    and there was no verdict for the caller to gate on in a module that gates every verdict it
+    can see. Same temp-name-plus-`replace_retry` idiom as `silence.write_json` and
+    `build_terminal.py`, and the denial is REPORTED rather than swallowed: a status page that
+    silently stopped updating is a status page that lies by standing still.
+    """
     p = os.path.join(HERE, "STATUS.md")
     cur = history[-1] if history else {}
     first = history[0] if history else {}
-    with open(p, "w", encoding="utf-8") as f:
-        f.write("# Overnight run\n\n")
-        f.write(f"Last update: {datetime.datetime.now():%Y-%m-%d %H:%M:%S}  ")
-        f.write(f"(cycle {cycle})\n\n")
-        f.write("## Citation coverage\n\n")
-        f.write("| | now | at start | change |\n|---|---:|---:|---:|\n")
-        for k, label in (("cited", "entries cited"), ("read", "read, no feat"),
-                         ("feats", "feats on record"),
-                         ("cited_pct", "cited %"), ("settled_pct", "settled %")):
-            a, b = cur.get(k, 0), first.get(k, 0)
-            f.write(f"| {label} | {a:,} | {b:,} | {a - b:+,} |\n")
-        f.write("\n## Cycles\n\n| cycle | time | cited | settled % | feats |\n")
-        f.write("|---|---|---:|---:|---:|\n")
-        for h in history[-12:]:
-            f.write(f"| {h.get('cycle','')} | {h.get('at','')} | {h.get('cited',0):,} | "
-                    f"{h.get('settled_pct',0)} | {h.get('feats',0):,} |\n")
-        f.write("\n## Logs\n\n`state/overnight.log` is the supervisor. Per-stage logs are\n")
-        # NAMED FROM `lognames`, not typed out. This line is the pointer a person follows when
-        # they want the evidence, and a renamed log would leave it pointing at nothing while
-        # still reading like an instruction (order bc98d8655e26).
-        f.write("`state/%s`, `state/%s`, `state/%s`.\n" % (LN.ROLL, LN.READ, LN.PIPELINE))
+    out = []
+    out.append("# Overnight run\n\n")
+    out.append(f"Last update: {datetime.datetime.now():%Y-%m-%d %H:%M:%S}  ")
+    out.append(f"(cycle {cycle})\n\n")
+    out.append("## Citation coverage\n\n")
+    out.append("| | now | at start | change |\n|---|---:|---:|---:|\n")
+    for k, label in (("cited", "entries cited"), ("read", "read, no feat"),
+                     ("feats", "feats on record"),
+                     ("cited_pct", "cited %"), ("settled_pct", "settled %")):
+        a, b = cur.get(k, 0), first.get(k, 0)
+        out.append(f"| {label} | {a:,} | {b:,} | {a - b:+,} |\n")
+    # AND THE WINDOW SAYS IT IS A WINDOW. `history[-12:]` printed the last twelve rows under a
+    # heading that read as the whole run, which is Hard Rule 0's shape -- a smaller universe
+    # wearing the same shape as the real one. `coverage.report()` is the model: announce the
+    # slice and the count it was taken from, so the reader knows what is not on the page.
+    shown = history[-STATUS_CYCLES_SHOWN:]
+    if len(shown) < len(history):
+        out.append(f"\n## Cycles\n\nShowing the last {len(shown)} of {len(history)} cycles this "
+                   f"run; the {len(history) - len(shown)} earlier ones are in "
+                   f"`state/overnight.log`.\n\n")
+    else:
+        out.append(f"\n## Cycles\n\nAll {len(history)} cycles this run.\n\n")
+    out.append("| cycle | time | cited | settled % | feats |\n")
+    out.append("|---|---|---:|---:|---:|\n")
+    for h in shown:
+        out.append(f"| {h.get('cycle','')} | {h.get('at','')} | {h.get('cited',0):,} | "
+                   f"{h.get('settled_pct',0)} | {h.get('feats',0):,} |\n")
+    out.append("\n## Logs\n\n`state/overnight.log` is the supervisor. Per-stage logs are\n")
+    # NAMED FROM `lognames`, not typed out. This line is the pointer a person follows when
+    # they want the evidence, and a renamed log would leave it pointing at nothing while
+    # still reading like an instruction (order bc98d8655e26).
+    out.append("`state/%s`, `state/%s`, `state/%s`.\n" % (LN.ROLL, LN.READ, LN.PIPELINE))
+
+    import threading as _th
+    tmp = "%s.%d.%d.tmp" % (p, os.getpid(), _th.get_ident())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write("".join(out))
+    except Exception as e:
+        # The old code would have left the truncated file behind at exactly this point. Now the
+        # damage is confined to a scratch file nobody publishes, and the previous good STATUS.md
+        # is still the one on disk.
+        silence.note("overnight.py:status-serialise")
+        with contextlib.suppress(Exception):
+            os.remove(tmp)
+        log(f"  STATUS.md: NOT WRITTEN ({type(e).__name__}: {str(e)[:120]}) "
+            f"-- the page on disk is the previous cycle's")
+        return False
+    landed = silence.replace_retry(tmp, p)
+    if not landed:
+        # `replace_retry` has already recorded the denial under its own key; this line is for
+        # the person reading the night's log, who would otherwise see a status page frozen at
+        # an earlier cycle with nothing anywhere saying why. The temp goes too -- `replace_retry`
+        # records a denial and returns False, it does not unlink, and a uniquely-named leftover
+        # per denied round accumulates (`silence.write_json` cleans up for the same reason).
+        with contextlib.suppress(Exception):
+            os.remove(tmp)
+        log("  STATUS.md: WRITE DENIED -- the page still shows an earlier cycle; "
+            "it lands next cycle")
+    return landed
 
 
 def main():
@@ -864,20 +1045,12 @@ def main():
     # length of a 4-hour roll join. This thread re-asserts the standing set every five
     # minutes from wherever the cycle happens to be blocked. start() keeps the singleton
     # guard, so the keeper can never double anything.
-    def _manager_stopped(job):
-        """Is this subsystem closed at rung 4? -> (bool, why). FAILS CLOSED.
-
-        Asked BEFORE every restart. If escalation cannot answer -- module missing, ledger
-        unreadable -- the keeper does NOT start the job: "I cannot tell whether a person closed
-        this" has never been permission to re-open it, and the failure this guards against was
-        twenty-six records losing their synthesis block while a stop went unread.
-        """
-        try:
-            import escalation as _esc
-            return _esc.subsystem_stopped(job)
-        except Exception:
-            return True, "escalation unreadable; refusing to restart on an unknown answer"
-
+    # `_manager_stopped` LIVES AT MODULE LEVEL NOW (order 4c1eaa9df7fa). It was defined here, as
+    # a closure with this thread as its only caller, which is why the gate covered one of the ten
+    # places this file launches jobs. It is asked here AND inside `start()`/`run()`; the keeper
+    # keeps its own call so the refusal is logged as the keeper's decision and so the answer is
+    # bound before the restart it gates, which is the property `drill.the_keeper_asks_before_
+    # restarting` proves.
     import threading as _th
 
     def _keep():
@@ -902,7 +1075,7 @@ def main():
                         # That is the "a decision recorded where nobody reads it" failure the
                         # roll's out-of-scope status had, arriving in the escalation chain
                         # itself.
-                        held, why = _manager_stopped(name)
+                        held, why = _manager_stopped(name, args)
                         if held:
                             log(f"  keeper: {name} is STOPPED at MANAGER rung — "
                                 f"NOT restarting ({why})")
@@ -1050,7 +1223,7 @@ def main():
         # cascade-first for a day -- its local fallback is rare and benched -- so the card sat
         # idle while 33,000 new Marvel entries waited for entrypass judgment. The phases ARE
         # the GPU's job now. running() guards the singleton as everywhere else.
-        start("pipeline", [os.path.join(SRC, "pipeline.py")], LN.PIPELINE)
+        start("pipeline", [os.path.join(SRC, "pipeline.py"), "--run"], LN.PIPELINE)
         # PROSE RUNS ITSELF. phase_write builds the manifest and used to end with a log line
         # telling a PERSON to run generate.py -- an instruction to a human inside an
         # automation (found by the 2026-08-23 sweep). generate is resumable and exits in
@@ -1100,7 +1273,7 @@ def main():
         # and `busy` is what stops a fast cycle being counted toward IDLE_LIMIT and halting the
         # supervisor. The choice is between the standing copy and the serial one; taking the
         # serial one out without answering that also re-arms the idle halt.
-        statuses.append(run("pipeline", [os.path.join(SRC, "pipeline.py")],
+        statuses.append(run("pipeline", [os.path.join(SRC, "pipeline.py"), "--run"],
                             LN.PIPELINE, timeout_h=2))
 
         canon_backup_cycle()
@@ -1134,10 +1307,16 @@ def main():
         # alive and working is the healthiest state there is, and counting it as a dead cycle
         # would halt the run precisely when everything was going well. The cycle just needs to
         # wait rather than spin.
-        busy = [x for x in statuses if x == "already-running"]
+        # AND NEITHER IS "manager-stopped" (order 4c1eaa9df7fa). A subsystem a person closed at
+        # rung 4 returns instantly by DESIGN, and counting that as a dead cycle would let a
+        # narrow, deliberate, one-subsystem stop halt the entire supervisor after three laps --
+        # the exact "a fault in one area must never close the whole park" property rung 4 exists
+        # to provide, defeated by the idle counter. Same reasoning the halt branch below already
+        # applies to a halted library: a job exiting on purpose is not a job failing.
+        busy = [x for x in statuses if x in ("already-running", "manager-stopped")]
         if busy and snap["cycle_seconds"] < MIN_CYCLE_SECONDS:
-            log(f"  {len(busy)} job(s) already running and working; waiting "
-                f"{WAIT_SECONDS // 60}m before looking again")
+            log(f"  {len(busy)} job(s) already running, or stopped at the MANAGER rung; "
+                f"waiting {WAIT_SECONDS // 60}m before looking again")
             idle = 0
             time.sleep(WAIT_SECONDS)
         elif snap["cycle_seconds"] < MIN_CYCLE_SECONDS:

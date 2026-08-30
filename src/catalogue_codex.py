@@ -156,25 +156,56 @@ def main():
     with open(ROLL, encoding="utf-8") as f:
         roll = json.load(f)
 
-    sec_by_norm = {norm(t): t for t in sections}
+    # A NORMALISED TITLE COLLISION IS REPORTED, NOT DROPPED (order 5da00dda2c8e). `norm` keeps
+    # only lowercased alphanumerics, so "The Ninth Gate" and "the-ninth-gate" normalise the same
+    # and the dict comprehension that used to build this silently kept whichever came last -- one
+    # of the owner's own codex sections would then be uncatalogable, and nothing said which.
+    sec_by_norm = {}
+    norm_clashes = {}
+    for t in sections:
+        k = norm(t)
+        if k in sec_by_norm:
+            norm_clashes.setdefault(k, [sec_by_norm[k]]).append(t)
+            continue                      # keep the FIRST, so the report names what was refused
+        sec_by_norm[k] = t
+    if norm_clashes:
+        # Uncapped: this is a list somebody reads to go and rename a section in the codex.
+        print("  CODEX SECTION TITLES COLLIDE UNDER norm(): the first of each pair is the one "
+              "bindable; the rest cannot be reached by any source name -- " +
+              "; ".join("%s -> %s" % (k, " / ".join(repr(x) for x in v))
+                        for k, v in sorted(norm_clashes.items())), flush=True)
+
     written = []
+    ambiguous = []      # (source_name, [candidate section titles]) -- bound to nothing on purpose
     for r in roll:
         if r.get("entry_count", 0) > 0:
             continue
         n = norm(r["name"])
         title = None
-        # AN EXACT MATCH WINS OUTRIGHT. The substring scan below is bidirectional and breaks on
-        # the first hit in codex-file order, so a short source name can bind to whichever
-        # unrelated section happens to contain it before its own section is reached. That is
-        # the "Curse of Strahd pointed at the Roblox CURSE Wiki" shape this module's header
-        # already names. No live collision was found, which is the moment to add the guard.
+        # AN EXACT MATCH WINS OUTRIGHT. The substring scan below is bidirectional, so a short
+        # source name can match whichever unrelated section happens to contain it. That is the
+        # "Curse of Strahd pointed at the Roblox CURSE Wiki" shape this module's header already
+        # names.
         if n and n in sec_by_norm:
             title = sec_by_norm[n]
-        if not title:
-            for k, t in sec_by_norm.items():
-                if n and (n in k or k in n):
-                    title = t
-                    break
+        if not title and n:
+            # AND AN AMBIGUOUS SUBSTRING MATCH BINDS NOTHING (order 5da00dda2c8e). This scan used
+            # to `break` on the first hit in codex-FILE order, which is not a ranking of anything
+            # -- it is the order the owner happened to write the sections in. The exact-match
+            # preference above does nothing for the case the comment describes, because the whole
+            # hazard is a source name that matches NO section exactly and two loosely. The chosen
+            # title is then used for sections[title], for every entry's `codex_section`, and for
+            # the provenance sentence "section '<title>' -- the owner's own authored document",
+            # written under attestation "Transcribed". Attesting to a transcription from the
+            # wrong section is worse than not cataloguing the source at all, and it is the one
+            # case where guessing is worse than doing nothing -- so all candidates are collected
+            # and more than one is a refusal that gets reported, not a coin flip that gets
+            # attested.
+            cands = sorted({t for k, t in sec_by_norm.items() if n in k or k in n})
+            if len(cands) == 1:
+                title = cands[0]
+            elif len(cands) > 1:
+                ambiguous.append((r["name"], cands))
         if not title:
             continue
 
@@ -226,6 +257,17 @@ def main():
         }
         written.append((r, record))
 
+    if ambiguous:
+        # Uncapped, and printed before the write report so it is not buried under it. A source
+        # named here was NOT catalogued; the operator either renames it to match a section
+        # exactly or renames the section.
+        print("  AMBIGUOUS SECTION BINDING -- %d source(s) matched more than one codex section "
+              "by substring and were SKIPPED rather than attested to a guess:" % len(ambiguous))
+        for nm, cands in ambiguous:
+            print("      %s -> %s" % (nm, " / ".join(repr(c) for c in cands)))
+        print("", flush=True)
+
+    denied = []
     verb = "Would write" if args.dry_run else "Wrote"
     print(f"{verb} {len(written)} records from the codex:\n")
     for r, rec in sorted(written, key=lambda x: -len(x[1]["entries"])):
@@ -242,6 +284,10 @@ def main():
             # one source and the corpus holding two.
             if not _P.write_record_catalogue(record_path(r["name"], RECORDS), rec):
                 print(f"      -> WRITE DENIED {r['name']}; roll left untouched", flush=True)
+                # AND IT REACHES THE PROCESS BOUNDARY (order 0e8ef2e30f2b). This verdict was
+                # honoured in prose and thrown away as a return code, so a supervisor or wrapper
+                # checking rc saw a clean run.
+                denied.append(r["name"])
                 continue
             r["entry_count"] = len(rec["entries"])
             r["status"] = "catalogued"
@@ -266,6 +312,24 @@ def main():
         print("\n(WRITE DENIED: SWEEP_ROLL.json did not land; the records above were written "
               "to disk but the roll does not yet say so -- rerun to retry)")
 
+    # THE VERDICTS REACH THE EXIT CODE (order 0e8ef2e30f2b). Both write failures in this script
+    # were captured correctly and neither left the process: main() returned None and the guard
+    # below called it bare, so a denied SWEEP_ROLL.json write -- the one whose own comment says
+    # the records land, the roll saying so does not, and the next run re-parses sources already
+    # catalogued -- exited 0 and read as a clean run to anything checking rc. `module_index.py`
+    # in the same tree gets this right and is the shape copied here: return 1 on a denied write,
+    # `sys.exit(main())` at the bottom. Ambiguous section bindings do NOT set rc: nothing failed
+    # to write, the module deliberately declined to guess, and a re-run will decline identically
+    # -- that is a curatorial item for the report, not a run failure for a supervisor to retry.
+    if denied or not roll_landed:
+        sys.stderr.write(
+            "catalogue_codex: %d record write(s) denied%s%s\n"
+            % (len(denied),
+               "" if not denied else " (%s)" % ", ".join(denied),
+               "" if roll_landed else "; SWEEP_ROLL.json write also denied"))
+        return 1
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

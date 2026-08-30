@@ -121,9 +121,27 @@ check("roll.py's SWEEP_ROLL.json writer passes ensure_ascii=False (matches its s
 with open(os.path.join(SRC, "address_space.py"), encoding="utf-8") as _f:
     _as_src = _f.read()
 import re as _re
+# ASSERT THE PROPERTY, NOT THE COUNT (order b44cdf75a80e). This was
+# `check(..., (len(_tags), len(set(_tags))), (4, 4))` -- an exact-count assertion over a file that
+# is still growing, so it failed on IMPROVEMENT rather than on regression. It fired twice in one
+# shift against two different agents adding correct gates with correct new note tags, and one of
+# them DROPPED an otherwise-wanted note to get the battery green: the check found no fault and
+# removed a diagnostic, which is the worst outcome a check has available. What order b9fe73c30bd2
+# actually asked for is that every tag be a durable SYMBOLIC label instead of a line number that
+# rots on the next edit, and that property holds at any number of tags.
+#
+# The floor is "at least one", not "at least four": address_space.py has also deliberately
+# REMOVED a note (the SHELFMARKS.json write-denied site, where replace_retry already ledgers the
+# same denial under its own name, so a note there would file one denial twice), and a ratchet on
+# the count would have failed on that correct change too.
 _tags = _re.findall(r'silence\.note\("(address_space\.py:[^"]+)"\)', _as_src)
-check("address_space.py has exactly 4 silence.note tags, all distinct",
-      (len(_tags), len(set(_tags))), (4, 4), note=str(_tags))
+check("address_space.py still notes its fallback paths at all",
+      len(_tags) > 0, True, note=str(_tags))
+check("address_space.py's silence.note tags are all distinct",
+      len(_tags), len(set(_tags)), note=str(_tags))
+check("every address_space.py silence.note tag is a symbolic content label",
+      [t for t in _tags if not _re.fullmatch(r"address_space\.py:[a-z][a-z0-9-]*", t)], [],
+      note=str(_tags))
 check("none of address_space.py's silence.note tags are bare line numbers",
       any(_re.search(r":\d+$", t) for t in _tags), False, note=str(_tags))
 

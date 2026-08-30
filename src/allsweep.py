@@ -98,31 +98,112 @@ NEVER_RUN = {
     "hostcheck", "silence", "pick_model", "navtree", "genre", "worldseed", "burgs",
 }
 
-# The verifiers, with the argv that makes each one report rather than act.
+# WHAT A NONZERO EXIT MEANS, PER ROW. Until run #37 the VERIFY tier read `rc` for the console
+# and for the report and then graded on `crashed or timeout` alone, so a verifier's own verdict
+# reached neither this sweep's exit code nor the work order queue -- the same "computed, printed
+# and dropped" hole this file already documents for LINT and for ESTATE, in the one tier whose
+# entire product IS a verdict. Order 14bd09740627.
+#
+# A blanket `rc != 0` would have been the wrong repair, and that is why the semantics live here
+# rather than in the sum: `silence.py` and `audit.py` exit 1 BY CONTRACT when they have findings,
+# so a shell can gate on them, and both are rc=1 and healthy on an ordinary day. Grading those as
+# broken would make the battery an alarm that always sounds, which this project has already had
+# to walk back once. So each row says which kind of tool it is, and the sum reads the row.
+RC_BROKEN = "broken"      # a nonzero exit is a FAULT: it fails the sweep and files a work order
+RC_FINDINGS = "findings"  # a nonzero exit is this tool's documented "I have findings" signal
+
+
+class Verifier:
+    """One row of the VERIFY tier: what to run, and what a nonzero exit MEANS.
+
+    IT ITERATES AS EXACTLY `(label, argv)`, deliberately, and that is not tidiness. A plain
+    three-tuple was the obvious shape, and it would have broken `verify_math.py:6241` --
+    `any(argv == ["rosetta.py", "--check"] for _label, argv in allsweep.VERIFIERS)`, a check
+    written in run #26 to prove this very row exists. A net that has to be edited before a
+    correctness fix can be applied is a net standing in the way of the thing it was written to
+    protect (the same lesson order 8ee268ce32cc taught `drill.py:_quarantine_...`). So the
+    semantics ride on an ATTRIBUTE, the old two-element unpack still answers, and there is still
+    only ONE table -- a parallel `{label: rc_means}` dict would be two hand-kept copies of one
+    mapping, which is how they come to disagree.
+    """
+    __slots__ = ("label", "argv", "rc_means")
+
+    def __init__(self, label, argv, rc_means=RC_BROKEN):
+        self.label, self.argv, self.rc_means = label, argv, rc_means
+
+    def __iter__(self):
+        return iter((self.label, self.argv))
+
+    def __len__(self):
+        return 2
+
+    def __getitem__(self, i):
+        return (self.label, self.argv)[i]
+
+    def __repr__(self):
+        return "Verifier(%r, %r, %r)" % (self.label, self.argv, self.rc_means)
+
+
+# The verifiers, with the argv that makes each one report rather than act, and what its rc means.
 VERIFIERS = [
-    ("preflight", ["health.py", "--preflight"]),
-    ("swallowed failures", ["silence.py"]),
-    ("citation coverage", ["coverage.py"]),
-    ("the numbers", ["verify_math.py"]),
-    ("thread integrity", ["thread_integrity.py"]),
-    ("the instrument", ["anchors.py"]),
-    ("catalogue backscan", ["audit.py"]),
-    ("continuity inventory", ["identity.py"]),
-    ("calibration assays", ["reference.py"]),
+    # `health.py --preflight` is `return 1 if n else 0` over the preflight problem count. Graded
+    # BROKEN even though `workorders.battery_faults` also raises PREFLIGHT_PROBLEM off
+    # state/preflight_last.json: the two can disagree (this runs the checks live, that reads the
+    # last artifact and can be stale), and a fault named twice is a cost this project has
+    # repeatedly decided it will pay rather than let one go unnamed.
+    Verifier("preflight", ["health.py", "--preflight"], RC_BROKEN),
+    # rc=1 means "there are swallowed failures to read", which is silence.py's whole product.
+    Verifier("swallowed failures", ["silence.py"], RC_FINDINGS),
+    # coverage.py returns 1 only when the atomic write of data/COVERAGE.json was DENIED -- not
+    # when coverage is low. That is a broken subsystem, not a finding.
+    ("citation coverage", ["coverage.py"], RC_BROKEN),
+    ("the numbers", ["verify_math.py"], RC_BROKEN),
+    # thread_integrity.py's main() returns None and is called bare, so it can only exit nonzero
+    # by dying. Declared BROKEN because that is what a nonzero would then mean.
+    ("thread integrity", ["thread_integrity.py"], RC_BROKEN),
+    # anchors.py: `sys.exit(0 if _ok else 1)` -- 1 is the assay disagreeing with the declared
+    # ladder, which is the exact fault the file exists to shout about.
+    ("the instrument", ["anchors.py"], RC_BROKEN),
+    # audit.py is the other by-contract findings tool: `return 1 if fails else 0`.
+    ("catalogue backscan", ["audit.py"], RC_FINDINGS),
+    # identity.py returns 0 on every path it can reach.
+    ("continuity inventory", ["identity.py"], RC_BROKEN),
+    # reference.py: `return 0 if landed else 1` -- again a denied write, not a finding.
+    ("calibration assays", ["reference.py"], RC_BROKEN),
     # Spearman rank-agreement between each franchise's OWN published scale (bounties, power
     # levels, curse grades...) and our Assay -- the module's stated purpose, and until now it
     # had no automated caller anywhere: only a hand-typed `rosetta.py --check`, which nobody
     # was typing, and `main()` returned 0 whatever the rhos said. `--check` now exits 1 on a
     # real disagreement (rho < 0.3), so this row can actually fail. 2026-08-26, batch 3.
-    ("franchise rank agreement", ["rosetta.py", "--check"]),
+    # AND IT NOW REACHES THE GRADE, which is the other half of that change: rosetta.py:426-436
+    # says the exit code "has to carry the verdict ... so nothing that gates on rc (a shell,
+    # allsweep's VERIFIERS, a scheduler) could ever learn a franchise's own published ordering
+    # disagreed with our Assay" -- and for eleven runs neither consumer read it.
+    ("franchise rank agreement", ["rosetta.py", "--check"], RC_BROKEN),
 ]
 
 
 # --------------------------------------------------------------------------- tier 1: import
 
 def modules():
-    return sorted(os.path.splitext(os.path.basename(p))[0]
-                  for p in glob.glob(os.path.join(SRC, "*.py")))
+    """Every module under src/, SUBDIRECTORIES INCLUDED. -> paths relative to src/, no `.py`.
+
+    `glob(SRC + "/*.py")` does not descend, and `src/deprecated/` holds `catalogue_local.py`, so
+    that file was never import-checked and never linted here -- the same non-recursive glob
+    `sweep_plan.modules()` had (order f42c55355431). Both consumers below join `SRC` with the
+    name plus `.py`, and a relative path with a separator works for that unchanged; for every
+    top-level module the name is exactly what it always was.
+
+    `__pycache__` is skipped because it holds no source.
+    """
+    out = []
+    for root, dirs, files in os.walk(SRC):
+        dirs[:] = [d for d in dirs if d != "__pycache__"]
+        for f in files:
+            if f.endswith(".py"):
+                rel = os.path.relpath(os.path.join(root, f), SRC).replace(os.sep, "/")
+                out.append(rel[:-3])
+    return sorted(out)
 
 
 def check_import(name):
@@ -173,7 +254,20 @@ def check_import(name):
 # --------------------------------------------------------------------------- tier 2: verify
 
 def run_verifier(item):
-    label, argv = item
+    """Run one verifier and PUBLISH ITS GRADE, not just its exit code.
+
+    `failed` is the single severity judgement for this row, made here and landed in
+    ALLSWEEP.json, so `main()`'s sum and `workorders.battery_faults` both READ it instead of
+    each re-deriving which rc counts. That is the same shape `estate_faults` was given in run
+    #36 for exactly the same reason: two hand-mirrored grading rules is how the sweep and the
+    queue came to disagree about `MASTER CHARTER MISSING`.
+
+    `rc_means` rides along so a person reading the report can see WHY a row was graded the way
+    it was without opening this file. A row with no declared semantics is treated as BROKEN --
+    fail closed: an ungraded verifier must not be a free pass.
+    """
+    label, argv = item[0], item[1]
+    rc_means = item[2] if len(item) > 2 else RC_BROKEN
     t = time.time()
     try:
         r = subprocess.run([PY, os.path.join(SRC, argv[0]), *argv[1:]],
@@ -185,16 +279,25 @@ def run_verifier(item):
                            encoding="utf-8", errors="replace", creationflags=_NO_WIN)
         out = (r.stdout or "") + (r.stderr or "")
         crashed = "Traceback" in out
+        # A SAFETY THAT STOPS WORK IS NOT A FAULT THAT STOPS WORK, the same ruling the IMPORT
+        # tier already honours: with the plant-wide halt standing every verifier refuses and
+        # exits nonzero, and grading that as ten broken subsystems is the run-#31 mistake in a
+        # new tier. A child that printed the halt refusal obeyed the interlock.
+        refused = _HALT_REFUSAL in out
+        failed = bool(crashed or (r.returncode != 0 and rc_means == RC_BROKEN and not refused))
         return {"check": label, "rc": r.returncode, "crashed": crashed,
+                "rc_means": rc_means, "refused": refused, "failed": failed,
                 "seconds": round(time.time() - t, 1),
                 "tail": [ln for ln in out.strip().splitlines() if ln.strip()][-14:]}
     except subprocess.TimeoutExpired:
         silence.note("allsweep.py:run_verifier-timeout")
         return {"check": label, "rc": None, "crashed": False, "timeout": True,
+                "rc_means": rc_means, "refused": False, "failed": True,
                 "seconds": round(time.time() - t, 1), "tail": ["timed out after 30 minutes"]}
     except Exception as e:
         silence.note("allsweep.py:run_verifier")
         return {"check": label, "rc": None, "crashed": True, "seconds": 0,
+                "rc_means": rc_means, "refused": False, "failed": True,
                 "tail": [f"{type(e).__name__}: {str(e)[:120]}"]}
 
 
@@ -470,8 +573,15 @@ def main():
         lint_bad.append("pyflakes did not run -- the lint tier is BLIND this sweep, not clean")
     print("\nLINT — every line, statically")
     if lint_bad:
-        for ln in lint_bad[:20]:
-            print(f"   UNDEFINED  {ln[:100]}")
+        # UNCAPPED AND UNTRUNCATED, both halves. This printed `lint_bad[:20]` with no "and N
+        # more" beside it and clipped each line to 100 characters -- so a 21st undefined name
+        # did not exist as far as the console was concerned, and on this machine the absolute
+        # path alone eats most of 100, which puts the identifier a person needs past the cut.
+        # Hard Rule 0: a cap on a list somebody reads to act is a truncation, not a sample, and
+        # the whole point of this tier is that a machine reads every line so a person does not
+        # have to. There are normally none of these; when there are, all of them matter.
+        for ln in lint_bad:
+            print(f"   UNDEFINED  {ln}")
     else:
         print("  no undefined names in any module")
 
@@ -484,12 +594,18 @@ def main():
             # A NONZERO EXIT IS NOT A CRASH HERE. `silence` and `audit` exit 1 when they HAVE
             # findings -- that is their contract, so a shell can gate on them -- and printing
             # them beside genuine crashes made two working tools look broken every run.
+            # FAILED is the new word, and it is the row's published grade rather than a second
+            # reading of rc: a declared-BROKEN verifier that exited nonzero now says so here,
+            # counts below, and reaches the queue.
             mark = ("CRASHED" if r["crashed"] else
                     "TIMEOUT" if r.get("timeout") else
-                    "ok" if r["rc"] == 0 else "findings")
-            print(f"   {mark:<9}{r['check']:<26}{r['seconds']:>7.1f}s")
+                    "refused" if r.get("refused") else
+                    "ok" if r["rc"] == 0 else
+                    "FAILED" if r.get("failed") else "findings")
+            print(f"   {mark:<9}{r['check']:<26}{r['seconds']:>7.1f}s"
+                  f"   rc={r['rc']} ({r.get('rc_means', RC_BROKEN)})")
         for r in verifiers:
-            if r["crashed"] or r.get("timeout"):
+            if r.get("failed") or r["crashed"] or r.get("timeout"):
                 print(f"\n   --- {r['check']} ---")
                 for ln in r["tail"]:
                     print(f"      {ln[:150]}")
@@ -595,8 +711,17 @@ def main():
     # `MASTER CHARTER MISSING` was therefore a finding that could never fail the battery.
     # Unlike RECONCILE, these rows now carry an explicit severity set at the `note()` call
     # (`estate.py`), so the tier can gate without guessing.
+    #
+    # AND THE VERIFY TIER'S OWN VERDICTS NOW COUNT (run #37, order 14bd09740627). The term below
+    # read `crashed or timeout` and never `rc`, so ten verifiers computed a verdict, printed it,
+    # landed it in ALLSWEEP.json -- and none of it could fail this sweep or reach the queue. It
+    # is the third spelling of the paragraph above: LINT was computed-printed-dropped until run
+    # #26, ESTATE until run #36, VERIFY until now. The concrete case this file argues for itself
+    # is `rosetta.py --check`, wired in at run #26 specifically so a franchise's own published
+    # ordering disagreeing with our Assay could fail something, and read by nobody since.
+    # `failed` is the row's PUBLISHED grade (see `run_verifier`), not a second rule here.
     bad = (len(broken)
-           + sum(1 for r in verifiers if r["crashed"] or r.get("timeout"))
+           + sum(1 for r in verifiers if r.get("failed"))
            + len(lint_bad)
            + len((est.get("artifacts") or {}).get("bad", []))
            + len(est_faults)
@@ -618,7 +743,7 @@ def main():
                 f["tier"].upper(), str(f["finding"])[:50], str(f["detail"])[:44]))
     print(f"\n{bad} subsystem(s) in a bad state.  {time.time() - t0:.0f}s.  -> {OUT}")
     print(f"   graded:   imports {len(broken)}   verifiers "
-          f"{sum(1 for r in verifiers if r['crashed'] or r.get('timeout'))}   "
+          f"{sum(1 for r in verifiers if r.get('failed'))}   "
           f"lint {len(lint_bad)}   "
           f"estate files {len((est.get('artifacts') or {}).get('bad', []))}"
           f"   estate findings {len(est_faults)}")

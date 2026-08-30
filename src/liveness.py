@@ -21,6 +21,11 @@ three mechanical shapes:
               fail because it never runs, and it silently drifts from whatever it duplicates.
               (Methods were invisible to this pass until run #36 -- it walked `Module.body` and
               stepped over every `ClassDef` whole. See `_defs`.)
+  DEAD CLASS  a class whose name is never instantiated, inherited from, imported or named as a
+              string, anywhere in src/. It was invisible to the DEAD pass above, which recurses
+              INTO a ClassDef and never judges the ClassDef -- while the class's methods keep
+              each other alive by calling one another on `self`. (order 209391b4f990; the module
+              limb of that order, a module nothing imports, is NOT here yet -- see `scan()`.)
   TAUTOLOGY   a comparison whose two sides are the same expression. Always True or always False,
               regardless of the data it claims to be checking.
   PHANTOM     a name used in a condition that is never defined, imported or assigned in its
@@ -137,6 +142,29 @@ def _classes(tree, prefix=""):
             found[label] = (bases, _self_attrs(node))
             found.update(_classes(node, label + "."))
     return found
+
+
+def _classdefs(tree, prefix=""):
+    """Every class the DEAD-CLASS pass considers, as (simple name, dotted label, node).
+
+    `_defs` recurses INTO a ClassDef but never yields the ClassDef itself, so a class was not a
+    DEAD candidate at all -- and its methods were meanwhile credited to each other through
+    `scoped`, because they call one another on `self`. A class nothing ever instantiates is
+    therefore structurally invisible to a detector whose whole subject is code that cannot run:
+    measured over this tree, `escalation.py:64 Refused` -- "An OPERATOR- or SUPERVISOR-level
+    stop: this unit or this source, not the library" -- is never raised, caught, imported or
+    named anywhere in src/, while its sibling `SystemHalted` is raised and caught in two modules.
+    Two rungs of Hard Rule -1's chain had a declared exception type with no raiser: a safety in a
+    file rather than in effect. (order 209391b4f990)
+
+    Nested classes recurse and the label carries the dotted path, exactly as `_defs` does, so a
+    row names the enclosing class rather than a bare name nobody can find.
+    """
+    for node in tree.body:
+        if isinstance(node, ast.ClassDef):
+            yield node.name, prefix + node.name, node
+            for got in _classdefs(node, prefix + node.name + "."):
+                yield got
 
 
 def _defs(tree, prefix=""):
@@ -264,8 +292,21 @@ def scan():
                     stack.append(k2)
         scoped[key] = set().union(*[self_attr[k][1] for k in seen]) if seen else set()
 
-    dead, taut, phantom = [], [], []
+    dead, dead_class, taut, phantom = [], [], [], []
     for name, t in trees.items():
+        # --- DEAD CLASS: a ClassDef whose simple name is never referenced anywhere (see
+        # `_classdefs`). Resolved with the SAME three-way rule the function pass uses, because a
+        # class is reached by exactly the same routes a function is: `Refused(...)` and
+        # `except Refused:` and `class X(Refused)` are bare Name Loads in the defining module,
+        # `mod.Refused` is an attribute, `from mod import Refused` is a from-import, and a
+        # dispatch table names it as a string. All four are already collected above. There is no
+        # `self`/`cls` limb here: a class is not reached through an instance of itself.
+        for cls, label, node in _classdefs(t):
+            if cls in EXEMPT or cls.startswith(EXEMPT_PREFIXES):
+                continue
+            if cls not in used and cls not in used_local.get(name, ()):
+                dead_class.append("%s:%d class %s" % (name, node.lineno, label))
+
         # --- DEAD: module-level defs and METHODS nobody references (see `_defs`)
         for fn, label, node in _defs(t):
             if fn in EXEMPT or fn.startswith(EXEMPT_PREFIXES) or fn.startswith("__"):
@@ -382,8 +423,9 @@ def scan():
                             and sub.id not in defined:
                         phantom.append("%s:%d %s names '%s', never defined in this module"
                                        % (name, line, kind, sub.id))
-    return {"dead": sorted(set(dead)), "tautology": sorted(set(taut)),
-            "phantom": sorted(set(phantom)), "unparsed": sorted(set(unparsed))}
+    return {"dead": sorted(set(dead)), "dead_class": sorted(set(dead_class)),
+            "tautology": sorted(set(taut)), "phantom": sorted(set(phantom)),
+            "unparsed": sorted(set(unparsed))}
 
 
 def main():
@@ -397,14 +439,18 @@ def main():
                             ("phantom", "GUARDS AN UNDEFINED NAME — raises only on the branch "
                                         "nobody takes"),
                             ("dead", "NEVER RUNS — no caller anywhere in src/"),
+                            ("dead_class", "NEVER INSTANTIATED — the class name appears nowhere "
+                                           "in src/"),
                             ("unparsed", "WILL NOT PARSE — excluded from every check above")):
             rows = r[kind]
             print("\n%s  (%d)" % (label, len(rows)))
             print("-" * 78)
             for x in rows:
                 print("   " + x)
-    print("\nliveness: %d finding(s) — %d tautology, %d phantom, %d dead, %d unparsed"
-          % (total, len(r["tautology"]), len(r["phantom"]), len(r["dead"]), len(r["unparsed"])))
+    print("\nliveness: %d finding(s) — %d tautology, %d phantom, %d dead, %d dead class, "
+          "%d unparsed"
+          % (total, len(r["tautology"]), len(r["phantom"]), len(r["dead"]),
+             len(r["dead_class"]), len(r["unparsed"])))
     return 0
 
 

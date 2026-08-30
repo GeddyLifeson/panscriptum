@@ -180,10 +180,27 @@ def battery_faults(preflight=None, allsweep=None, now=None):
         for r in (allsweep.get("imports") or []):
             if not r.get("ok"):
                 bad.append("import %s: %s" % (r.get("module"), str(r.get("detail"))[:160]))
+        # THE VERIFY TIER, READ FROM ITS PUBLISHED GRADE (run #37, order 14bd09740627). This
+        # used to test `crashed or timeout` only -- rc was never consulted -- so a verifier's
+        # own verdict reached neither allsweep's exit code nor this queue, and `rosetta.py
+        # --check` exiting 1 on a franchise whose published ordering disagrees with our Assay
+        # was invisible in both. `allsweep.run_verifier` now lands a `failed` bool per row, the
+        # single severity judgement, exactly as `estate_faults` does; this reads it rather than
+        # re-deriving it, because a second copy of the rule is how the two came to drift before.
         for r in (allsweep.get("verifiers") or []):
-            if r.get("crashed") or r.get("timeout"):
-                bad.append("verifier %s %s" % (r.get("check"),
-                                               "timed out" if r.get("timeout") else "crashed"))
+            if "failed" not in r:
+                # FAIL-CLOSED on a report that ran the VERIFY tier and published no per-row
+                # grade: it predates this change, so its rc verdicts are unreadable here and
+                # scoring that silence as zero faults is the hole this term closes. Same
+                # reasoning, same shape, as the `estate_faults is None` arm below. It clears
+                # itself on the next sweep.
+                bad.append("verifier %s ungraded: this ALLSWEEP.json predates per-row rc "
+                           "semantics, so its verdict cannot be counted" % (r.get("check"),))
+            elif r.get("failed"):
+                why = ("timed out" if r.get("timeout") else
+                       "crashed" if r.get("crashed") else
+                       "exited rc=%s and its rc means '%s'" % (r.get("rc"), r.get("rc_means")))
+                bad.append("verifier %s %s" % (r.get("check"), why))
         for ln in (allsweep.get("lint") or []):
             bad.append("lint %s" % str(ln)[:160])
         for art in (((allsweep.get("estate") or {}).get("artifacts") or {}).get("bad") or []):

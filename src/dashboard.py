@@ -74,7 +74,10 @@ def _num(s):
     try:
         return int(str(s).replace(",", ""))
     except Exception:
-        silence.note("dashboard.py:73")
+        # Descriptive tag, not a line number (order d61b06dbe66d), for the reason this file
+        # already gives at the `metrics-badline` handler below: a baked-in line number rots the
+        # moment anything above it moves, and this one was already four lines out.
+        silence.note("dashboard.py:num-parse")
         return 0
 
 
@@ -385,8 +388,14 @@ def movement(now_state):
         try:
             with open(HISTORY, encoding="utf-8") as f:
                 hist = json.load(f)
-            if not isinstance(hist, list):
-                raise ValueError("history is not a list")
+            # AND THE ELEMENTS HAVE TO BE DICTS TOO (order 62286a6c018a). A list of non-dicts --
+            # `[1, 2, 3]` -- passed this guard, and `h.get("at", 0)` then raised inside the
+            # try below, which returned [] and SKIPPED the write that would have healed the
+            # file. Every five-second poll repeated it forever: the one corrupt shape that
+            # wedged, in the repair whose own comment is "A CORRUPT HISTORY FILE MUST HEAL,
+            # NOT WEDGE". Reproduced on a temp history before and after.
+            if not isinstance(hist, list) or not all(isinstance(h, dict) for h in hist):
+                raise ValueError("history is not a list of sample dicts")
         except Exception:
             silence.note("dashboard.py:movement-corrupt-reset")
             hist = []

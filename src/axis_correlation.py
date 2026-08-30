@@ -349,16 +349,29 @@ def widening(weights, sigma, axes, doc=None):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--write", action="store_true", help="rebuild data/AXIS_CORRELATION.json")
-    ap.add_argument("--top", type=int, default=15)
+    # DEFAULT NONE = ALL OF THEM (order 89fc2eaf23f1, Hard Rule 0). This defaulted to 15 and the
+    # loop below sliced silently, so a reader saw fifteen pairs with nothing saying how many
+    # there were -- `measured_pairs` is printed two lines later, but a total beside a truncated
+    # list is not the same as knowing the list was truncated. The axes are the eight Measures, so
+    # the whole ranking is at most 28 rows: there was never a volume reason for the cap. `--top`
+    # survives for anyone who wants a short head, and it now announces what it cut, in
+    # `coverage.report()`'s idiom.
+    ap.add_argument("--top", type=int, default=None,
+                    help="cap the ranked pair list to N rows (announced, not silent); "
+                         "omit to print all of them")
     a = ap.parse_args()
     doc = measure()
     print("AXIS CORRELATION — measured over %d entities carrying >=2 numeric axis scores"
           % doc["n_entities"])
     print("=" * 78)
     ranked = sorted(doc["pairs"].items(), key=lambda kv: -abs(kv[1]["r"]))
-    for key, v in ranked[:a.top]:
+    limit = a.top if a.top is not None else len(ranked)
+    for key, v in ranked[:limit]:
         x, y = key.split("|")
         print("   r=%+.3f  n=%2d   %s x %s" % (v["r"], v["n"], x, y))
+    if limit < len(ranked):
+        print("   ... and %d more pair(s) not shown (--top to raise, omit --top for all)"
+              % (len(ranked) - limit))
     print("-" * 78)
     # `mean_r` is None when no pair cleared MIN_N (measure(), line ~157) -- `%+.4f` on None
     # raises TypeError unconditionally, in exactly the state where the reader most needs the

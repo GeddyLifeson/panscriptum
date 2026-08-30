@@ -470,6 +470,33 @@ def records():
     return out
 
 
+# THE PER-ENTRY MERGE ALLOWLIST, WRITTEN ONCE FOR BOTH WRITERS.
+#
+# Both sides of the two-writer contract fold per-entry fields across the merge, in opposite
+# directions (see each writer's docstring), and both used to spell the list out separately as
+# ('category', 'scale_note', 'scale_note_rejected', 'magnitude', 'topic', 'catalogued'). Two
+# spellings of one policy is how they came to disagree with the rest of the pipeline: `excluded`,
+# `topic_rejected`, `thin_description` and `description` are all written per-entry by sanctioned
+# callers and NONE of them was on the list, so every one of those edits was computed, reported,
+# and then dropped by the writer.
+#
+# `excluded` is the one that did damage rather than merely losing information. `cleanup.py`
+# strikes an entry by setting `catalogued = False` AND `excluded = <reason>`; the fold carried the
+# False and dropped the reason, and `entry_settled` is `catalogued or excluded` -- so the entry
+# came out NEITHER catalogued NOR excluded, i.e. unsettled, and `phase_entrypass` duly re-judged
+# it and set `catalogued = True`. The strike reverted itself, on the next pass, every time. That
+# is the reverted-exclusion cycle `batch_settled`'s docstring says was closed after the 149-entry
+# incident, surviving in the writer. Measured across data/records/ before this fix: 111 entries
+# carry `excluded` and 111 of those also carry `catalogued: True`, and `topic_rejected` -- which
+# `phase_entrypass` writes at pipeline.py:1552 -- appears 0 times in 282,822 entries.
+# (order 4866dfb2d9fc)
+MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected",
+                       "magnitude", "topic", "catalogued",
+                       # added by order 4866dfb2d9fc: the settlement pair must move together,
+                       # and cleanup.py's own two marks must survive the writer that carries them
+                       "excluded", "topic_rejected", "thin_description", "description")
+
+
 def write_record_catalogue(path, rec):
     """The CATALOGUE's side of the two-writer contract; write_record below is the pipeline's.
 
@@ -519,8 +546,7 @@ def write_record_catalogue(path, rec):
             if se is None:
                 rec.setdefault("entries", []).append(de)
                 continue
-            for fld in ("category", "scale_note", "scale_note_rejected",
-                        "magnitude", "topic", "catalogued"):
+            for fld in MERGED_ENTRY_FIELDS:
                 dv, sv = de.get(fld), se.get(fld)
                 if dv and (not sv or sv == "unassayed"):
                     se[fld] = dv
@@ -769,8 +795,7 @@ def write_record(path, rec):
             se = by_name.get(de.get("name"))
             if not se:
                 continue
-            for fld in ("category", "scale_note", "scale_note_rejected",
-                        "magnitude", "topic", "catalogued"):
+            for fld in MERGED_ENTRY_FIELDS:
                 if fld in se:
                     de[fld] = se[fld]
         # NO DRIFT IS NOT NO CHANGE. Folding onto `disk` keeps every disk-authored top-level key
@@ -2269,8 +2294,19 @@ def phase_weave(c, st):
     import onomast as O
     named = O.name_worlds(resolved)
     landed.append(land_json(os.path.join(HERE, "data/ONOMASTICON.json"), named, indent=2))
-    endos = len({v["endonym"] for v in named.values()})
-    log(f"  onomasticon: {len(named):,} worlds given designations across {endos} carried names")
+    # `named` is the WHOLE onomasticon, retired records included -- that is what makes the file
+    # append-only, and it is the point of order 9309a040f208. Counting it whole reports withdrawn
+    # designations as worlds this phase has just named, and inflates the carried-name figure with
+    # endonyms only retired records still hold. `onomast.main()` already splits the two and says
+    # why ("a count that quietly included withdrawn designations would be the same class of
+    # untruth as the one this fixes"); this is that arithmetic, in the phase's log line. No
+    # difference today because nothing is retired yet -- which is precisely why the overstatement
+    # would have arrived unannounced. (order 65e5735ba6dd)
+    live = {cid: v for cid, v in named.items() if not O.is_retired(v)}
+    endos = len({v["endonym"] for v in live.values()})
+    log(f"  onomasticon: {len(live):,} worlds given designations across {endos} carried names"
+        + (f"; {len(named) - len(live):,} retired designation(s) carried forward, never reissued"
+           if len(named) != len(live) else ""))
 
     ok = gate_done(st, "weave", landed)
     st["units_done"] += 1
@@ -2314,7 +2350,36 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", type=int, default=None)
     ap.add_argument("--status", action="store_true")
+    # AN IDENTIFIABLE INVOCATION, the same reason `read.py --run` carries one (order
+    # 08c1fd3932a4). `lognames.OWNER` names the process that writes each managed log by a
+    # command-line fragment, and the fragment must be specific enough to tell two invocations
+    # of one script apart -- but the supervisor started this runner with a BARE `pipeline.py`,
+    # so `pipeline.py --status` (which prints the handoff and exits) and a hand-run
+    # `pipeline.py --phase 6` both answered for the daemon in `overnight.running()`, the stall
+    # detector, the dashboard's Jobs panel and the foreman's restart remedy. Selecting the
+    # default behaviour explicitly is what makes the daemon's command line say which job it is.
+    # Optional on purpose: a bare `pipeline.py` still runs the phases, so nothing that already
+    # invokes it that way breaks.
+    ap.add_argument("--run", action="store_true",
+                    help="run the phases (the default); names the supervisor's invocation so "
+                         "lognames.OWNER can tell it from --status and --phase")
     args = ap.parse_args()
+
+    # --phase IS AN INDEX INTO PHASES, AND EVERY OUT-OF-RANGE VALUE USED TO FAIL DIFFERENTLY.
+    # `--phase 9` reached `IMPLEMENTED.get(9) -> None` and the "not implemented yet -- stopping
+    # cleanly" line then evaluated `PHASES[8]` and raised an uncaught IndexError: a traceback
+    # instead of the clean stop the message promises. `--phase 0` was swallowed by the truthiness
+    # test below (`[args.phase] if args.phase`) and the runner silently did a full resume run
+    # instead of the one phase asked for. `--phase -1` logged "phase -1 (shelve) is not
+    # implemented yet", naming the wrong phase from a negative index. This matters more than an
+    # operator typo usually would: `--phase N` is the documented recovery action the
+    # pointer-past-end-with-open-phases branch below tells a person to take. Validated once,
+    # here, where the value arrives. (order 4a79b0e8a375)
+    if args.phase is not None and not 1 <= args.phase <= len(PHASES):
+        raise SystemExit(
+            "--phase %s is out of range: the ladder has %d phases, numbered 1..%d (%s)."
+            % (args.phase, len(PHASES), len(PHASES),
+               ", ".join("%d %s" % (i, n) for i, n in enumerate(PHASES, 1))))
 
     st = load_state()
     if args.status:
@@ -2325,9 +2390,14 @@ def main():
     if st.get("started") is None:
         st["started"] = datetime.datetime.now().isoformat(timespec="seconds")
     c = cfg()
-    log(f"pipeline start | model={c['model']} | phase={args.phase or st['phase']}")
+    log(f"pipeline start | model={c['model']} | "
+        f"phase={args.phase if args.phase is not None else st['phase']}")
 
-    phases = [args.phase] if args.phase else list(range(st.get("phase", 1), len(PHASES) + 1))
+    # `is not None`, not truthiness -- see the validation above. 0 is now refused outright, but
+    # the flag's presence and its value are different questions and this is the spelling that
+    # says so.
+    phases = ([args.phase] if args.phase is not None
+              else list(range(st.get("phase", 1), len(PHASES) + 1)))
 
     # A RUNNER WITH AN EMPTY WORK LIST MUST SAY WHICH KIND OF EMPTY IT IS.
     #
@@ -2367,12 +2437,17 @@ def main():
     # the open work, which is the only thing the pointer was ever for.
     stalled = None
     for ph in phases:
+        # NAMED BEFORE IT IS DISPATCHED, and named safely. `PHASES[ph-1]` was evaluated inside
+        # the not-implemented message, where an out-of-range `ph` turns a clean stop into an
+        # IndexError and a negative one silently names the phase at the other end of the list.
+        # --phase is validated above; the resume range is derived from `st["phase"]`, which comes
+        # off disk and is not, so the guard stays here too. (order 4a79b0e8a375)
+        name = PHASES[ph - 1] if 1 <= ph <= len(PHASES) else "no such phase"
         fn = IMPLEMENTED.get(ph)
         if fn is None:
-            log(f"phase {ph} ({PHASES[ph-1]}) is not implemented yet -- stopping cleanly.")
+            log(f"phase {ph} ({name}) is not implemented yet -- stopping cleanly.")
             log("Build it, then re-run; state is preserved.")
             break
-        name = PHASES[ph - 1]
         if stalled is None:
             st["phase"] = ph
             save_state(st)

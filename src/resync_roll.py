@@ -51,6 +51,7 @@ def main():
     # a data-authority call this script does not make.
     by_source = {}
     dupes = {}
+    unreadable = []
     for fn in sorted(os.listdir(RECORDS)):
         if not fn.endswith(".json"):
             continue
@@ -58,7 +59,13 @@ def main():
             with open(os.path.join(RECORDS, fn), encoding="utf-8") as f:
                 rec = json.load(f)
         except Exception:
+            # COUNTED, NOT ONLY NOTED. A record file that will not parse is a source this run
+            # did NOT check, and the closing "roll now: X/Y sources catalogued" was printed over
+            # it as though it had. `silence.note` files the fault where a maintenance sweep can
+            # find it later; it says nothing to the person reading this run's output now, which
+            # is the person who can still do something about it. (order 2ab24aeb63f7)
             silence.note("resync_roll.py:record-unreadable")
+            unreadable.append(fn)
             continue
         src = rec.get("source")
         if src:
@@ -68,10 +75,20 @@ def main():
                 dupes.setdefault(key, [by_source[key][1]]).append(fn)
             by_source[key] = (rec, fn)
 
+    # `roll.py` is the single authority on what is in scope; imported once, above the loop.
+    import roll as _roll
+
     changed = []
+    relabelled = []
+    unmatched_rows = []
     for r in roll:
         hit = by_source.get(norm(r["name"]))
         if not hit:
+            # A ROLL ROW WITH NO RECORD FILE IS UNCHECKED, NOT AGREED. It was skipped with a
+            # bare `continue` and never appeared anywhere in the output, so the closing
+            # "roll now: X/Y sources catalogued" was printed over rows this run never looked
+            # at. Counted and listed below instead. (order 2ab24aeb63f7)
+            unmatched_rows.append(r["name"])
             continue
         rec, fn = hit
         n = len(rec.get("entries", []))
@@ -79,31 +96,41 @@ def main():
             changed.append((r["name"], r.get("entry_count", 0), n, fn))
             if not dry:
                 r["entry_count"] = n
-                # AN OWNER EXCLUSION IS NOT A STALE STATUS, and this line would have reverted
-                # one. The rule below is `"catalogued" if n else keep`, so any out-of-scope
-                # source that still has records on disk -- and the four excluded on 2026-08-25
-                # have 933 entries between them -- would be quietly promoted back to
-                # `catalogued` on the next routine resync, with nothing red anywhere. An
-                # exclusion a maintenance script can undo without anyone noticing is not an
-                # exclusion. `roll.py` is the single authority on what is in scope.
-                import roll as _roll
-                if r.get("status") == _roll.OUT_OF_SCOPE:
-                    pass
-                elif n:
-                    r["status"] = "catalogued"
-                else:
-                    # A ZERO IS NOT A STALE READING OF A NONZERO STATUS. `hostcheck.py`'s
-                    # `purge()` empties a record's `entries` list without touching this roll, so
-                    # a source resynced down to zero used to keep whatever status it already
-                    # had -- "catalogued" for anything that had been catalogued before the purge
-                    # -- letting `entry_count: 0` and `status: catalogued` coexist on the same
-                    # row. `entry_count == 0` is what every real consumer (`manifest_builder`,
-                    # `catalog.py`, `pipeline.py`) actually gates work-selection on, so the label
-                    # must agree with the count rather than repeat the count's own history.
-                    r["status"] = "uncatalogued"
+
+        # THE STATUS RULE IS ABOUT THE COUNT, NOT ABOUT THE COUNT HAVING MOVED.
+        #
+        # This whole block sat INSIDE the `if r.get("entry_count", 0) != n:` branch above, so a
+        # row whose count already agreed but whose LABEL did not was never visited and kept the
+        # wrong label indefinitely -- and the pair it was added to repair (entry_count == 0 with
+        # status "catalogued", left behind by `hostcheck.purge`) is exactly the pair that stops
+        # changing once the count has settled at zero. A repair reachable only while the count
+        # is still moving cannot fix the state it was written for. It is evaluated for every
+        # matched row now, and only WRITES when the label actually differs, so nothing is
+        # rewritten for the sake of it. (order 2ab24aeb63f7)
+        #
+        # AN OWNER EXCLUSION IS NOT A STALE STATUS, and this rule would have reverted one. The
+        # rule is `"catalogued" if n else "uncatalogued"`, so any out-of-scope source that still
+        # has records on disk -- and the four excluded on 2026-08-25 have 933 entries between
+        # them -- would be quietly promoted back to `catalogued` on the next routine resync,
+        # with nothing red anywhere. An exclusion a maintenance script can undo without anyone
+        # noticing is not an exclusion.
+        #
+        # A ZERO IS NOT A STALE READING OF A NONZERO STATUS. `hostcheck.py`'s `purge()` empties
+        # a record's `entries` list without touching this roll, so a source resynced down to
+        # zero used to keep whatever status it already had -- "catalogued" for anything that had
+        # been catalogued before the purge -- letting `entry_count: 0` and `status: catalogued`
+        # coexist on the same row. `entry_count == 0` is what every real consumer
+        # (`manifest_builder`, `catalog.py`, `pipeline.py`) actually gates work-selection on, so
+        # the label must agree with the count rather than repeat the count's own history.
+        if r.get("status") != _roll.OUT_OF_SCOPE:
+            want = "catalogued" if n else "uncatalogued"
+            if r.get("status") != want:
+                relabelled.append((r["name"], r.get("status"), want, n))
+                if not dry:
+                    r["status"] = want
 
     landed = True
-    if changed and not dry:
+    if (changed or relabelled) and not dry:
         # ATOMIC: this file's own docstring warned about the roll-clobber hazard while the
         # code went on truncate-then-filling it. Fixed 2026-08-25.
         #

@@ -88,9 +88,22 @@ def kinetic(mass_kg, speed_ms):
         # the shape of a real one, and nothing downstream has reason to look at it twice.
         raise ValueError(f"kinetic(): mass must be positive, got {mass_kg!r}; "
                          f"a non-positive mass is an unestimable body, not a small one")
+    if not v >= 0.0:
+        # NaN, and it was the one value that got through this whole module (order 7909342fefa4).
+        # EVERY comparison against NaN is False, so `v >= C` was False and `v < RELATIVISTIC_ABOVE
+        # * C` was False too, and the speed fell to the relativistic branch, where gamma is NaN
+        # and the joule figure is NaN -- returned with no exception, into a band, a shelfmark and
+        # eventually prose. Mass, volume and radius are all refused by `not x > 0.0`, which
+        # happens to catch NaN as a side effect of its shape; speed was the one parameter whose
+        # guard was written the other way round, as `v >= C`, and so had no such accident. This
+        # is the same test in the shape that refuses it on purpose. (`abs()` above means a
+        # negative can never reach here; only NaN can fail this.)
+        raise ValueError(f"kinetic(): speed is not a number, got {speed_ms!r}; "
+                         f"NaN is the absence of a measurement, not a large one")
     if v >= C:
         # Nothing with mass reaches c. A source that says otherwise is describing something the
-        # Assay must handle as UNESTIMABLE on this axis, not as a very large number.
+        # Assay must handle as UNESTIMABLE on this axis, not as a very large number. Infinity
+        # lands here, which is the right verdict for it.
         raise ValueError("kinetic(): a massive body cannot travel at or above c; "
                          "this feat is unestimable in joules, not merely large")
     if v < RELATIVISTIC_ABOVE * C:
@@ -118,6 +131,14 @@ def joules_for(volume_m3, material="rock", mode="pulv"):
         # downstream from a small positive one until it lands in a band and a shelfmark.
         raise ValueError(f"joules_for(): volume must be positive, got {volume_m3!r}; "
                          f"a non-positive volume is an unestimable body, not a small one")
+    if not math.isfinite(v):
+        # The other half of order 7909342fefa4. `not v > 0.0` catches NaN by accident and lets
+        # INFINITY straight through, so `joules_for(float('inf'))` returned inf -- a joule figure
+        # that is not a quantity, wearing the shape of one, on its way to a band edge. An
+        # unbounded body is UNESTIMABLE, which is a different answer from an enormous one, and
+        # `kinetic()` above already gives infinity that verdict for speed.
+        raise ValueError(f"joules_for(): volume must be finite, got {volume_m3!r}; "
+                         f"an unbounded body is unestimable in joules, not merely large")
     return v * MATERIAL[material][mode]
 
 

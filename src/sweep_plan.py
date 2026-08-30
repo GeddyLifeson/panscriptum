@@ -34,15 +34,50 @@ COVERAGE = os.path.join(HERE, "state", "SWEEP_COVERAGE.json")
 SHARDS = os.path.join(HERE, "state", "sweep_shards")
 
 
+def _src_py_files():
+    """Every `.py` file under src/, SUBDIRECTORIES INCLUDED. -> [(label, full path)].
+
+    THE GLOB SAID "EVERY MODULE IN src/" AND MEANT "every module in the TOP LEVEL of src/"
+    (order f42c55355431, run #37). `glob(SRC + "/*.py")` does not descend, and `src/deprecated/`
+    holds `catalogue_local.py` (280 lines), so that file was invisible to every sweep ever run
+    here -- never batched, never import-checked, never read by overwatch's model.
+
+    The structural half is why it mattered more than one skipped file: `missing()` is
+    `modules()` minus `covered_by(run)`, so a module `modules()` CANNOT SEE is one `missing()`
+    can never name. The completeness check could not notice this class of gap by construction,
+    which is the "a check that cannot fail looks exactly like a check that passed" shape this
+    project keeps finding. Deleting `src/deprecated/` was the order's other suggested remedy and
+    is deliberately NOT taken: its README says it is kept as a record of a failure mode, and two
+    of drill.py's nets reason about a module living there. A directory kept on purpose is a
+    directory the sweep has to read.
+
+    The label is the path relative to src/ with forward slashes, matching
+    `drill.py:_src_py_files`. For every top-level file that is exactly the basename it always
+    was, so no recorded coverage key changes meaning; only `deprecated/catalogue_local.py` is
+    new. `__pycache__` is skipped because it holds no source.
+    """
+    out = []
+    for root, dirs, files in os.walk(SRC):
+        dirs[:] = [d for d in dirs if d != "__pycache__"]
+        for f in sorted(files):
+            if f.endswith(".py"):
+                full = os.path.join(root, f)
+                out.append((os.path.relpath(full, SRC).replace(os.sep, "/"), full))
+    return sorted(out)
+
+
 def modules():
     """Every module in src/, newest-largest first. NO exclusions, deliberately.
 
     Not even this file, and not `verify_math.py` because it is "only tests" -- a check that is
     wrong is worse than a missing one, since it reports green forever. If a module is genuinely
     not worth auditing, that is an argument for deleting it, not for skipping it.
+
+    "In src/" means UNDER src/, subdirectories included -- see `_src_py_files` for why that
+    sentence had to be made true rather than merely written down.
     """
     out = []
-    for p in sorted(glob.glob(os.path.join(SRC, "*.py"))):
+    for label, p in _src_py_files():
         try:
             with open(p, encoding="utf-8", errors="replace") as f:
                 n = sum(1 for _ in f)
@@ -58,9 +93,9 @@ def modules():
                 silence.note("sweep_plan.py:module-lines")
             except Exception:
                 pass
-            out.append({"module": os.path.basename(p), "lines": 0, "unreadable": True})
+            out.append({"module": label, "lines": 0, "unreadable": True})
             continue
-        out.append({"module": os.path.basename(p), "lines": n})
+        out.append({"module": label, "lines": n})
     return sorted(out, key=lambda m: -m["lines"])
 
 
@@ -223,9 +258,6 @@ def record(run, covered, batch=None):
                 silence.note("sweep_plan.py:record-write-json-fallback")
             except Exception:
                 pass
-            tmp = "%s.%d.tmp" % (COVERAGE, os.getpid())
-            with open(tmp, "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=1, sort_keys=True)
             # AND THE FALLBACK MUST NOT BE THE THING THAT RAISES. This was a bare `os.replace`
             # sitting inside an `except` body with nothing around it, so the Windows denial the
             # rest of this module routes through `replace_retry` for would escape `record()`
@@ -234,9 +266,31 @@ def record(run, covered, batch=None):
             # Its verdict is unused for the reason given in the block above: this is the derived
             # view, it is rebuilt from the shards on the next `record()`, and `replace_retry`
             # already records a denial. The authoritative write is the shard, and that is gated.
+            #
+            # AND THE PROMISE ABOVE WAS STILL HALF TRUE UNTIL ORDER 6794cb447987. Only the
+            # LANDING was guarded; the `open` and the `json.dump` sat bare, and they are the
+            # likelier raiser of the two. `silence.write_json` re-raises a failed dump
+            # (silence.py:409-415, `except Exception: _discard_tmp(tmp); raise`), so the very
+            # condition that sends control into this fallback is usually the same condition that
+            # breaks it two lines later -- an unserialisable `data`, a full disk, a read-only
+            # state/ -- and the exception escaped `record()` into the sweep agent anyway. The
+            # whole fallback is inside the try now, and the temp is discarded on the way out so
+            # a refused landing does not leave litter beside COVERAGE, exactly as `write_json`
+            # discards its own.
+            tmp = "%s.%d.tmp" % (COVERAGE, os.getpid())
             try:
+                with open(tmp, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=1, sort_keys=True)
                 import silence as _s
                 _s.replace_retry(tmp, COVERAGE)
+            except Exception:
+                try:
+                    silence.note("sweep_plan.py:record-fallback-write-failed")
+                except Exception:
+                    pass
+            try:
+                if os.path.exists(tmp):
+                    os.remove(tmp)
             except Exception:
                 pass
         return data

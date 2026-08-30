@@ -270,11 +270,26 @@ def assert_block_complete(text, expected_entries, label=""):
         raise ProseRefused("%s: no entries found in the returned block" % (label or "block"))
     frac = present / required
     if frac < (1.0 - SECTION_LOSS_FLOOR):
+        # THE LIST SAYS HOW MUCH OF ITSELF IT IS SHOWING (order e8cd908ce5e4). This rendered
+        # `missing[:6]` behind the words "First missing:" and said nothing about the rest, so on
+        # a realistic refusal -- 30 label-only blocks yields 150 entries in `missing` -- an
+        # operator read six items and had no way to tell whether that was the whole finding or
+        # four percent of it. The truncation is kept, because 150 semicolon-joined items inside
+        # an exception message is not a readable diagnostic either; what was actually wrong is
+        # that the message did not DECLARE the truncation. Hard Rule 0 forbids ranking-then-
+        # truncating a list a person reads to act, and the honest "and N more" is the remedy it
+        # names for a display shortening. The full list is in `section_shortfall`'s third return
+        # value, and the message now says so, so nothing is only reachable by reading the source.
+        _shown = missing[:6]
+        _rest = len(missing) - len(_shown)
         raise ProseRefused(
             "%s: the block kept %d of %d required entry sections (%.0f%%). A chapter that names "
             "its entries and drops their template is what a degrading generation produces, and "
-            "the coverage check cannot see it. First missing: %s"
-            % (label or "block", present, required, 100 * frac, "; ".join(missing[:6])))
+            "the coverage check cannot see it. Missing %d in all, showing %d: %s%s"
+            % (label or "block", present, required, 100 * frac,
+               len(missing), len(_shown), "; ".join(_shown),
+               ("; ... and %d more — the complete list is section_shortfall()'s third return "
+                "value" % _rest) if _rest else ""))
     return frac
 
 

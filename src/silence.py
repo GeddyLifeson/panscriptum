@@ -115,6 +115,54 @@ class swallow:
         return not self.reraise
 
 
+# ONE LIST, READ BY BOTH SIBLINGS. `_handlers` (which COUNTS silent handlers) and `instrument`
+# (which REWRITES them) each carried their own copy of this, and the two drifted three separate
+# times -- `instrument` was missing "silence" and would have rewritten all 50 documented
+# exemption markers, and `_handlers` was missing "note", so a handler calling a bare `note(...)`
+# was SILENT to the audit and observed to its own instrumenter. Two lists that must agree and
+# are written twice will disagree again, so there is now one. (order 1e86b06e7463)
+_OBSERVED_TOKENS = ("health", "record", "log", "print", "swallow", "silence", "note", "LEDGER")
+
+
+def _handler_is_observed(node):
+    """Does this `except` body leave a trace of the exception it caught? -> bool.
+
+    ASK THE BODY, NOT THE HANDLER. Both call sites used to test `ast.dump(node)`, which
+    serialises the handler's EXCEPTION TYPE and bound name alongside its statements -- so
+    `except LogError:` with an empty body marked itself observed. The dump here is of the
+    statements only: the test must look at what the handler DOES, never at how it is spelled.
+
+    RE-RAISE IS ASKED OF THE TREE, NOT OF THE TEXT, and this is the fault that made the whole
+    unification worth doing. Both lists carried the token `"raise"`, and the test is a
+    case-sensitive substring search over `ast.dump`, which spells a raise statement `Raise(...)`
+    with a CAPITAL R. `"raise" in "Raise()"` is False, so THE TOKEN COULD NEVER MATCH A
+    RE-RAISE -- a check that cannot fire, inside the module built to find checks that cannot
+    fire, contradicting this file's own rule that "a handler that re-raises ... is observed".
+    Re-raising is the most observed handler shape there is and it was classified SILENT; a
+    `raise RuntimeError(...) from e` came back observed only by accident, through `uses_exc`
+    happening to see the bound name. The token is gone and the question is now put to the parse
+    tree, where a `Raise` node is a `Raise` node whatever it is spelled like. Walked rather than
+    matched at the top level, because a re-raise inside a nested `try`/`if` is still a re-raise.
+    (order 1e86b06e7463)
+    """
+    body = "".join(ast.dump(stmt) for stmt in node.body)
+    if any(t in body for t in _OBSERVED_TOKENS):
+        return True
+    if any(isinstance(n, ast.Raise) for stmt in node.body for n in ast.walk(stmt)):
+        return True
+    # A handler that carries the exception into its own return value is observed too.
+    #
+    # THIS TEST WAS A TAUTOLOGY UNTIL RUN #33, in the detector built to find tautologies. It
+    # read `node.name in body` where `body` was `ast.dump(node)` -- which always serialises
+    # `name='e'` -- so `'e' in body` was True for EVERY `except ... as e:`, whether or not `e`
+    # was ever touched, and `except Exception as e: return None`, the canonical fault this
+    # module exists to catch, classified itself as observed. Ask the body instead: is the bound
+    # name actually loaded anywhere inside it.
+    return bool(node.name) and any(
+        isinstance(n, ast.Name) and n.id == node.name
+        for stmt in node.body for n in ast.walk(stmt))
+
+
 def _handlers(path):
     """Every `except` in a file, with whether its body records anything."""
     try:
@@ -136,29 +184,12 @@ def _handlers(path):
     for node in ast.walk(tree):
         if not isinstance(node, ast.ExceptHandler):
             continue
-        # ASK THE BODY, NOT THE HANDLER. This read `ast.dump(node)`, which serialises the
-        # handler's EXCEPTION TYPE as well as its statements -- so `except LogError:` or any
-        # type whose name contains log/record/raise marked itself observed with an empty body.
-        # Exactly the tautology fixed one line below, one node up: the test must look at what
-        # the handler DOES, never at how it is spelled.
-        body = "".join(ast.dump(stmt) for stmt in node.body)
-        records = any(t in body for t in ("health", "record", "log", "print", "raise",
-                                          "swallow", "silence", "LEDGER"))
         # A handler that re-raises, logs, or carries the exception into its own return value
         # is observed. One that only returns or continues is not -- that is the shape that
-        # turned a 404 into "these entities have no page".
-        #
-        # THIS TEST WAS A TAUTOLOGY UNTIL RUN #33, in the detector built to find tautologies.
-        # It read `node.name in body`, and `body` is `ast.dump(node)` -- the dump of the
-        # handler itself, which always serialises `name='e'`. So `'e' in body` was True for
-        # EVERY `except ... as e:`, whether or not `e` was ever touched, and
-        # `except Exception as e: return None` -- the canonical fault this module exists to
-        # catch -- classified itself as observed. Ask the body instead: is the bound name
-        # actually loaded anywhere inside it.
-        uses_exc = bool(node.name) and any(
-            isinstance(n, ast.Name) and n.id == node.name
-            for stmt in node.body for n in ast.walk(stmt))
-        silent = not (records or uses_exc)
+        # turned a 404 into "these entities have no page". The judgment itself lives in
+        # `_handler_is_observed`, shared with `instrument`, so the counter and the rewriter
+        # cannot disagree about what counts. (order 1e86b06e7463)
+        silent = not _handler_is_observed(node)
         out.append({"file": os.path.basename(path), "line": node.lineno,
                     "type": getattr(node.type, "id", None) if node.type else "bare",
                     "silent": silent})
@@ -396,12 +427,26 @@ def write_json(path, obj, **dump_kw):
     can replace the winner's target with a partial file -- the same race `read.py:_chunk_put`
     was already fixed for individually, now unavailable to get wrong.
 
+    `indent=1` IS A DEFAULT, NOT A POLICY, and the difference is the whole of order
+    2583671339d2. This was a bare `dump_kw.setdefault("indent", 1)`, and `json.dump` writes a
+    newline plus that indent after every item separator whenever `indent` is not None -- so a
+    caller passing `separators=(",", ":")`, the universal way of saying "write this with no
+    whitespace at all", got an indented file anyway and was never told. One live caller asks for
+    it: `navtree.py:297`, writing `data/NAVTREE.json`, which is what `build_terminal`,
+    `reference` and the sweep resolve addresses through; measured, that tree is 411 KB compact
+    and 589 KB at indent=1. Nothing is lost or corrupted -- the inflation is the only cost --
+    but a helper quietly winning an argument with its caller is a shape this project keeps
+    paying for, and formatting is the one thing the caller here knows better than the helper.
+    So the default applies only where the caller has expressed NO formatting preference:
+    naming `separators` is such a preference, and it is honoured.
+
     Returns True if the file landed. Never raises on a denied replace: `replace_retry` records
     it and the caller's write lands next round, which is the established behaviour here.
     """
     import json as _j            # local, matching `replace_retry`'s own idiom: this module is
     import threading as _th      # imported by nearly everything and stays deliberately thin
-    dump_kw.setdefault("indent", 1)
+    if "indent" not in dump_kw and "separators" not in dump_kw:
+        dump_kw["indent"] = 1
     d = os.path.dirname(path)
     if d:
         os.makedirs(d, exist_ok=True)
@@ -548,23 +593,16 @@ def instrument(root=None, dry=False):
         for node in ast.walk(tree):
             if not isinstance(node, ast.ExceptHandler):
                 continue
-            # ASK THE BODY, NOT THE HANDLER -- same fix as `_handlers` above, applied here too.
-            # This checked `ast.dump(node)`, which serialises the exception type and the bound
-            # name along with the body, and its token list omitted "silence" -- so it read
-            # `_ = "silence-exempt: ..."` (this project's documented exemption marker,
-            # chain.py:141/159 and 48 others) as UNOBSERVED, because the one token that marker
-            # is built from was never in the list it was checked against. `audit()` -- which
-            # DOES include "silence" and DOES look at the body only -- correctly calls those 50
-            # handlers observed; `instrument()` disagreed with its own sibling and would have
-            # rewritten every one of them. The `uses_exc` check is copied down for the same
-            # reason: a handler that only inspects its bound exception is observed too.
-            body = "".join(ast.dump(stmt) for stmt in node.body)
-            records = any(t in body for t in ("health", "record", "log", "print", "raise",
-                                              "swallow", "silence", "note", "LEDGER"))
-            uses_exc = bool(node.name) and any(
-                isinstance(n, ast.Name) and n.id == node.name
-                for stmt in node.body for n in ast.walk(stmt))
-            if records or uses_exc:
+            # THE SAME JUDGMENT `audit()` MAKES, because it is now literally the same function.
+            # This carried its own copy of the token list and the two drifted twice: it omitted
+            # "silence", so it read `_ = "silence-exempt: ..."` (this project's documented
+            # exemption marker, chain.py:141/159 and 48 others) as UNOBSERVED and would have
+            # rewritten all fifty; and it included "note" where `_handlers` did not, so the two
+            # siblings disagreed in the opposite direction as well. Sharing the predicate is
+            # what stops a fourth drift -- and it matters most here, because this one WRITES:
+            # under the dead `"raise"` token `--instrument` would have injected a redundant
+            # `note()` ahead of every bare re-raise in the tree. (order 1e86b06e7463)
+            if _handler_is_observed(node):
                 continue
             sites.append(node)
         if not sites:

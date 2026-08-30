@@ -69,6 +69,10 @@ _NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 import sqlite3
 import sys
+# For the pid/thread-qualified scratch name in owner_queue(). FOR_OWNER.md is markdown, so it
+# cannot go through `silence.write_json`, but it needs the same collision-proof temp name --
+# see the comment there. (order 99b1ae2c580c)
+import threading
 import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -92,7 +96,26 @@ CATALOGUE_SHORTFALL = 100
 
 # Files a model may never edit. Each is either the thing that would have to be working to detect
 # a bad patch, or the thing doing the patching.
-DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards", "verify_math"}
+#
+# THE SECOND ROW WAS MISSING (order 881ff7f49438). The rule in the sentence above is the whole
+# membership test, and five modules satisfied it while sitting outside the list: `drill` is the
+# net battery Hard Rule -1 names as the PROVEN property ("a BREACHED net halts the library by
+# itself"); `escalation` is the plant-wide interlock this file's own main() refuses to start
+# without; `codewatch` is the rc=17 stale-code interlock; `liveness` is the check-that-cannot-
+# fail detector; `overnight` is the supervisor that starts every job. And `_checks_pass` does
+# not cover for the omission: it runs `import`, `verify_math` and `allsweep --quick`, and
+# `--quick` runs only the IMPORT and LINT tiers (allsweep.py:479, :498) while `drill` appears
+# nowhere in allsweep at all -- so after a patch to drill.py NOT ONE NET fires before the patch
+# is kept. verify_math's ~30 source-level assertions about drill.py and escalation.py catch a
+# deletion, not a weakened comparison inside one net, which is the shape a model patch takes.
+#
+# Adding `python src/drill.py` to `_checks_pass` would close the rest of it and is NOT done
+# here: verify_math.py:5504 records a standing rule that verify_math and drill "are not safe to
+# run" from an agent context, and drill historically wrote trial values of `prose_enabled` into
+# the live config. That is an owner ruling. This half needs none -- it only makes the list
+# satisfy the rule it states.
+DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards", "verify_math",
+            "drill", "escalation", "codewatch", "liveness", "overnight"}
 MAX_PATCH_LINES = 40
 
 
@@ -163,15 +186,20 @@ def reprove_pool():
         # decide routing, and read.py and tuning.py read it on their own clocks -- a torn read
         # costs one of them a cycle, silently. (BUGS m18, 2026-08-24.)
         _pp = os.path.join(HERE, "data", "POOL_PROOF.json")
-        with open(_pp + ".tmp", "w", encoding="utf-8") as f:
-            json.dump(rows, f, indent=1)
+        # THROUGH `silence.write_json`, NOT A HAND-ROLLED `path + ".tmp"` (order a3fd659f4ff7).
+        # The old scratch name was FIXED, so two foremen -- which this file deliberately allows,
+        # the singleton claim being inside `if a.loop:` in main() -- opened the same temp and the
+        # loser could land a half file over the target. `write_json`'s temp carries pid and
+        # thread (silence.py:408), which is the collision the helper exists to make unavailable.
+        # Same repair as the other six sites in this file (order 99b1ae2c580c).
+        #
         # A DENIED RENAME HERE IS WORSE THAN A LOST WRITE, because of the line below it.
         # Clearing `_PROVEN[0]` forces the next `_alive()` to re-read POOL_PROOF.json from
         # disk -- so if the rename did not land, we have just thrown away the in-memory proof
         # AND pointed the router at the stale file, then told round_once we handled it (which
         # makes it `break` and skip the remedy for a whole cycle). Report the failure and keep
         # the cached proof rather than invalidating it in favour of something older.
-        if not silence.replace_retry(_pp + ".tmp", _pp):
+        if not silence.write_json(_pp, rows, indent=1):
             return False, "pool re-proved but POOL_PROOF.json write was DENIED; routing still " \
                           "reads the previous proof"
         CB._PROVEN[0] = None                      # force the next _alive() to re-read
@@ -268,19 +296,23 @@ def triage_swallowed():
         # through health.flush(). Truncating it with a bare open() is the one write here that
         # could lose another process's concurrent flush outright, not merely cost it a cycle.
         # (BUGS m18, 2026-08-24.)
-        with open(arch + ".tmp", "w", encoding="utf-8") as f:
-            json.dump(prev, f, indent=1)
+        # AND THROUGH `silence.write_json`, whose temp name carries pid and thread. Both of
+        # these were hand-rolled `path + ".tmp"` opens, which is a FIXED scratch name on the
+        # file this very function calls "the highest-traffic shared file in the project" --
+        # health.py:198-210 records the interleaved-writer corruption of `state/failures.json`
+        # verbatim and was migrated to the helper for it; this writer of the same file was
+        # not. Two foremen are allowed by design (the singleton claim is inside `if a.loop:`),
+        # so this is foreman against foreman, not theory. (order 99b1ae2c580c)
+        #
         # ARCHIVE FIRST, AND ONLY CLEAR IF THE ARCHIVE LANDED. These two writes are a move,
         # not two independent saves, and the order matters in both directions: clearing a
         # ledger whose archive was denied destroys the counts outright, while archiving without
         # clearing merely re-archives them next round. Neither return value was checked, so
         # both failures reported the same cheerful "swallowed and archived".
-        if not silence.replace_retry(arch + ".tmp", arch):
+        if not silence.write_json(arch, prev, indent=1):
             return False, "failures archive write DENIED; ledger left INTACT rather than " \
                           "cleared into nothing"
-        with open(path + ".tmp", "w", encoding="utf-8") as f:
-            json.dump({}, f)
-        if not silence.replace_retry(path + ".tmp", path):
+        if not silence.write_json(path, {}, indent=1):
             return False, f"{total:,} archived, but clearing state/failures.json was DENIED; " \
                           f"the same batch will archive again next round"
     except Exception as e:
@@ -325,6 +357,22 @@ def refresh_coverage():
     return r.returncode == 0, "coverage recomputed" if r.returncode == 0 else "coverage failed"
 
 
+def _standing_cmds():
+    """The keeper's STANDING roster as command-line strings, basename-first.
+
+    ONE construction for both `_restartable` and `_restart_horizon`, which is the point: the two
+    are called in the same breath by `kill_stalled_job` -- one to decide whether a kill is
+    allowed, the other to say what it costs -- and they had built the comparison two different
+    ways, one strict and one on loose substrings, so they could disagree about the same job.
+    Deriving both from here means a change to the matching is a change to both answers.
+
+    Raises rather than swallowing: the two callers want DIFFERENT failure behaviour (a refused
+    kill versus an "UNKNOWN horizon" sentence), and each already has the handler that says so.
+    """
+    import overnight as _ON
+    return [" ".join([os.path.basename(a[0]), *list(a[1:])]) for _n, a, _l in _ON.STANDING]
+
+
 def _restartable(frag):
     """Will something bring this job back PROMPTLY if it is killed? (owner finding 2026-08-25)
 
@@ -338,10 +386,21 @@ def _restartable(frag):
     is not a remedy, it is the breach of a different standard.
     """
     try:
-        import overnight as _ON
-        for _n, args, _l in _ON.STANDING:
-            base = os.path.basename(args[0]) if args else ""
-            if base and (base in frag or frag in " ".join(args)):
+        # THE SAME STRICT TEST `_restart_horizon` USES, from the same helper (order 9803b72711b3).
+        #
+        # This was `base in frag or frag in " ".join(args)` -- two loose substrings, in the
+        # function that decides whether a job may be KILLED at all. That is the exact class
+        # `restart_reader` above documents having fixed for itself ("anything whose command line
+        # happened to contain both ... was a valid SIGTERM target"), and here it disagreed with
+        # its own sibling: `_restartable` and `_restart_horizon` are called in the same breath by
+        # `kill_stalled_job`, so one could authorise a kill while the other printed that nothing
+        # restarts it. Measured against the live roster the two agreed on all six managed
+        # fragments today -- it goes live the moment a second invocation of a STANDING script
+        # enters lognames.OWNER (`pipeline.py --phase 4`), which would then read as restartable
+        # and buy a kill costing "42-44 min typically and 4h at worst". Deriving both from
+        # `_standing_cmds` is what stops them drifting apart again.
+        for c in _standing_cmds():
+            if c.startswith(frag):
                 return True
     except Exception:
         silence.note("foreman.py:restartable")
@@ -376,8 +435,7 @@ def _restart_horizon(frag):
     tree report as four.
     """
     try:
-        import overnight as _ON
-        cmds = [" ".join([os.path.basename(a[0]), *list(a[1:])]) for _n, a, _l in _ON.STANDING]
+        cmds = _standing_cmds()
     except Exception:
         silence.note("foreman.py:restart-horizon")
         return f"{frag}: restart horizon UNKNOWN -- could not read overnight.STANDING"
@@ -663,9 +721,15 @@ def _fandom_reachable(timeout=8, _opener=None):
 def _catalogue_batch():
     """Which short sources this dispatch names, and which are waiting their turn.
 
-    -> (batch, deferred, off_roll, unnameable, universe_size, fragments), where `batch` and
-    `deferred` are lists of (source name, gap), `batch` is what goes on the command line this
-    round, and `fragments` maps a source name to the comma-free `--only` needle for it.
+    -> (batch, deferred, off_roll, unnameable, universe_size, fragments, measured), where
+    `batch` and `deferred` are lists of (source name, gap), `batch` is what goes on the command
+    line this round, `fragments` maps a source name to the comma-free `--only` needle for it,
+    and `measured` is how many rows the completeness audit actually holds.
+
+    `measured` exists so the caller can tell an EMPTY audit from a COMPLETE library (order
+    9803b72711b3). Both produce `universe_size == 0`, and data/COMPLETENESS.json has genuinely
+    been `[]` -- the comment in `run_completeness_audit` records the episode -- during which
+    "no source is short" was printed off a measurement nobody had taken.
 
     HARD RULE 0, IN THE SHAPE THAT LOOKED LIKE A RATE. `run_catalogue_gap` dispatched
     `--shortfall 100`, and in `catalogue_web` that argument is a HARD FILTER, not a rate: it
@@ -762,7 +826,7 @@ def _catalogue_batch():
         silence.note("foreman.py:catalogue-attempts-denied")
 
     return ([(s, gap[s]) for s in batch], [(s, gap[s]) for s in rest],
-            off_roll, unnameable, len(gap), frags)
+            off_roll, unnameable, len(gap), frags, len(comp))
 
 
 def run_catalogue_gap():
@@ -786,7 +850,8 @@ def run_catalogue_gap():
             return False, ("fandom.com is dropping connections (IP block or outage); "
                            "catalogue deferred rather than dispatched into it")
         try:
-            batch, deferred, off_roll, unnameable, whole, frags = _catalogue_batch()
+            (batch, deferred, off_roll, unnameable, whole,
+             frags, measured) = _catalogue_batch()
         except Exception as e:
             # FAIL CLOSED. Without a batch the only dispatch available is the old whole-universe
             # one, and widening this job's volume on a round where the audit could not be read
@@ -795,7 +860,18 @@ def run_catalogue_gap():
             return False, ("could not choose a catalogue batch (%s: %s); nothing dispatched"
                            % (type(e).__name__, str(e)[:70]))
         if not batch:
-            return False, "the completeness audit says no source is short; nothing to dispatch"
+            # AN UNMEASURED AUDIT IS NOT A FULL LIBRARY (order 9803b72711b3). This sentence read
+            # "the completeness audit says no source is short" in both cases, and the case that
+            # actually happened was data/COMPLETENESS.json == [] -- see run_completeness_audit's
+            # comment -- where the audit says nothing at all. The remedy still returns False and
+            # `run_completeness_audit` is marked `always`, so the re-measurement runs on this
+            # same round either way; only the line a person reads was untrue.
+            if not measured:
+                return False, ("the completeness audit is EMPTY -- nothing has been measured, so "
+                               "no source can be shown to be short; the re-measurement runs this "
+                               "same round")
+            return False, ("the completeness audit says no source is short (%d source(s) "
+                           "measured); nothing to dispatch" % measured)
 
         # PRINTED BY NAME, all of it. These lines go to the foreman's operational log, which is
         # the log a person actually reads, and they are the difference between a rotation and a
@@ -918,11 +994,32 @@ def restart_ollama():
     at most one automated restart per 30 minutes, so a deeper fault escalates to the owner
     instead of being restart-looped into invisibility."""
     try:
+        # FAIL CLOSED ON AN UNREADABLE STAMP (order f194d8444d12). This was a bare
+        # `except Exception: st = {"count": 0, "last": 0}`, and `last=0` makes the 30-minute
+        # test below False -- so a TORN or ZERO-BYTE stamp silently licensed another
+        # `Stop-Process -Name ollama -Force`. That is precisely the end state the comment at
+        # the write half of this function describes ("the guard failing open, silently"),
+        # reached one exit up: run #19 hardened the WRITE and left the READ as it was.
+        # Verified offline against this guard with nothing killed: a healthy 2-minute-old
+        # stamp REFUSED, the same file torn or truncated PROCEEDED.
+        #
+        # A MISSING file is the one benign case -- genuinely the first restart -- and only it
+        # is allowed to proceed. Anything else is unknown, and an unknown guard file answers
+        # STOP (Hard Rule -1), because the alternative is restart-looping the daemon on the
+        # one signal that would have stopped it. The fallback also reset `count` to 0, so the
+        # "(automated restart #N)" figure -- the only thing distinguishing a one-off wedge
+        # from a loop -- silently read 1 every time; refusing keeps the real count too.
         try:
             with open(RESTART_STAMP, encoding="utf-8") as f:
                 st = json.load(f)
-        except Exception:
+        except FileNotFoundError:
             st = {"count": 0, "last": 0}
+        except Exception as _stamp_err:
+            silence.note("foreman.py:ollama-stamp-unreadable")
+            return False, ("the 30-minute restart stamp (%s) could not be read (%s) -- REFUSING "
+                           "to restart ollama, because an unreadable rate limit is not an absent "
+                           "one; repair or remove the file and the next round proceeds"
+                           % (os.path.basename(RESTART_STAMP), type(_stamp_err).__name__))
         if time.time() - st.get("last", 0) < 1800:
             return False, ("restarted %.0f min ago and tokens still do not flow -- this is "
                            "deeper than a wedge; owner attention needed"
@@ -942,14 +1039,13 @@ def restart_ollama():
             except Exception:
                 time.sleep(5)
         st = {"count": st.get("count", 0) + 1, "last": time.time()}
-        tmp = RESTART_STAMP + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(st, f)
         # This stamp IS the 30-minute rate limit that keeps this remedy from restarting Ollama
         # in a loop. A denied rename loses the stamp, so the next round reads no recent restart
         # and is free to kill the daemon again -- the guard failing open, silently. Checked and
-        # recorded as of run #19.
-        if not silence.replace_retry(tmp, RESTART_STAMP):
+        # recorded as of run #19; routed through `silence.write_json` (pid/thread-qualified
+        # temp) as of order 99b1ae2c580c, since the fixed `.tmp` name was a second way for two
+        # foremen to lose the same stamp.
+        if not silence.write_json(RESTART_STAMP, st):
             silence.note("foreman.py:ollama-stamp-denied")
         if up:
             return True, ("ollama restarted (automated restart #%d); daemon answering, model "
@@ -1316,15 +1412,15 @@ def _retire(finding):
         # Atomic, and the read-modify-write held as tight as possible: overwatch owns this
         # file and persists after every module it reviews; a torn or stale write here would
         # silently discard its newest finding (2026-08-23 audit, finding 2).
-        tmp = path + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(led, f, indent=1, sort_keys=True)
         # CHECK THE RETURN THIS COMMENT ALREADY WARNS ABOUT (run #19). The paragraph above
         # names the exact hazard -- a torn or stale write here silently discards overwatch's
         # newest finding -- and then discarded the boolean that reports it. A denied rename
         # meant the finding was never actually retired and the standard it blocks stayed red
         # for reasons nobody could see. Same omission as triage_swallowed's, same file.
-        if not silence.replace_retry(tmp, path):
+        # Through `silence.write_json` since order 99b1ae2c580c: the hand-rolled `path + ".tmp"`
+        # was a fixed scratch name, and overwatch.py writes this same target with the safe
+        # helper -- the collision this closes is foreman against a second foreman.
+        if not silence.write_json(path, led, indent=1, sort_keys=True):
             silence.note("foreman.py:_retire-denied")
     except Exception:
         silence.note("foreman.py:_retire")
@@ -1401,10 +1497,26 @@ def owner_queue(items):
     # skipped it). FOR_OWNER.md is not private to the foreman: publish.py copies it into the
     # export tree on its own 10-minute loop, so a bare truncating open() can be read mid-write
     # and published as a half file. m18's reasoning, applied to the last writer that lacked it.
-    with open(FOR_OWNER + ".tmp", "w", encoding="utf-8") as f:
+    # AND THE SCRATCH NAME CARRIES PID AND THREAD (order 99b1ae2c580c). `silence.write_json`
+    # cannot be used here -- this file is MARKDOWN, not JSON -- but the hazard the helper was
+    # written for is the temp NAME, not the format: a fixed `FOR_OWNER.md.tmp` is one file two
+    # foremen open at once, and two foremen are allowed by design (the singleton claim in main()
+    # sits inside `if a.loop:`). The loser's half-written owner queue then lands over the
+    # winner's, and publish.py copies it into the export tree on its own clock. Same
+    # `"%s.%d.%d.tmp"` shape as silence.py:408, inline rather than a new helper.
+    _tmp = "%s.%d.%d.tmp" % (FOR_OWNER, os.getpid(), threading.get_ident())
+    with open(_tmp, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
-    if not silence.replace_retry(FOR_OWNER + ".tmp", FOR_OWNER):
+    if not silence.replace_retry(_tmp, FOR_OWNER):
         silence.note("foreman.py:for-owner-write")
+        # A denied replace leaves the scratch file on disk, and a pid/thread-qualified name is
+        # uniquely named per writer, so it accumulates rather than overwrites -- exactly the
+        # litter `silence.write_json` learned to clean up after itself (silence.py:_discard_tmp).
+        try:
+            if os.path.exists(_tmp):
+                os.remove(_tmp)
+        except Exception:
+            silence.note("foreman.py:for-owner-tmp-not-removed")
     return FOR_OWNER
 
 
@@ -1522,12 +1634,12 @@ def round_once(dry=True, patch=False):
     prev.append(log)
     # Atomic: overnight.foreman_report() reads this every supervisor cycle, so this is two
     # long-running processes on one file. (BUGS m18, 2026-08-24.)
-    with open(LOG + ".tmp", "w", encoding="utf-8") as f:
-        json.dump(prev[-200:], f, indent=1)
     # A denied rename here loses this whole round from the operational record, and
     # overnight.foreman_report() would then replay the PREVIOUS round as if it were this one --
-    # i.e. report stale repairs as current. Checked and recorded as of run #19.
-    if not silence.replace_retry(LOG + ".tmp", LOG):
+    # i.e. report stale repairs as current. Checked and recorded as of run #19; through
+    # `silence.write_json` since order 99b1ae2c580c, so the temp name cannot be shared with a
+    # second foreman writing the same log.
+    if not silence.write_json(LOG, prev[-200:], indent=1):
         silence.note("foreman.py:round-log-denied")
     return log
 

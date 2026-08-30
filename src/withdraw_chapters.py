@@ -51,6 +51,67 @@ def _abs(p):
     return p if os.path.isabs(p) else os.path.join(HERE, p)
 
 
+def _file_state(p):
+    """Classify a catalogued chapter file: 'live', 'gone' or 'unavailable'.
+
+    `publish._live_file_state`'s question, asked about a chapter (order 22394233dbad). The
+    `missing` branch below turned on a single `os.path.exists`, and `genericpath.exists`
+    catches `(OSError, ValueError)` and answers False -- so a lock, a denial, an over-long path
+    or a name the filesystem will not parse was spelled exactly like "this chapter is already
+    gone". Measured: `os.path.exists` returns False with no exception for both an over-long
+    path and a path with an embedded NUL. That mattered here more than almost anywhere, because
+    a path this loop cannot stat was counted as `missing`, was NOT added to `stuck`, and so had
+    its catalog record deleted -- the precise harm the module docstring names, "a chapter still
+    sitting in output/raw lost its catalog record anyway".
+
+    So it asks twice. A file that stats is 'live'. A file that does not stat AND whose name is
+    ABSENT from a successfully enumerated parent directory is 'gone' -- positive evidence, the
+    directory answered. Anything else is 'unavailable', and the caller keeps the record.
+    """
+    try:
+        os.stat(p)
+        return "live"
+    except FileNotFoundError:
+        pass
+    except (OSError, ValueError):
+        # The two families `os.path.exists` swallows: a denial or a lock (OSError) and a name
+        # the platform will not accept at all (ValueError). Neither is evidence of absence.
+        return "unavailable"
+    try:
+        present = os.path.basename(p) in os.listdir(os.path.dirname(p) or ".")
+    except (OSError, ValueError):
+        return "unavailable"
+    return "unavailable" if present else "gone"
+
+
+def _archive_name_free(dst):
+    """Is `dst` positively known to be an unused name in the archive? -> bool.
+
+    THE ARCHIVE IS THE ONLY COPY (order 8d14f0adda1b). `shutil.move` given a full destination
+    PATH -- not a directory -- does not raise on a name already taken: its "Destination path
+    already exists" check only fires when `dst` is a directory. Otherwise `os.rename` raises
+    FileExistsError on Windows, `move` falls through to `copy2` + `unlink`, and the file already
+    in the archive is OVERWRITTEN with no error and no record. Measured on this machine: moving
+    onto an occupied name left the mover's bytes and destroyed the occupant's. Two withdrawals
+    sharing one `--label` archive is the whole scenario, and the today's-date default makes it
+    unlikely rather than impossible -- a re-run on the same day, or an explicit `--label`, walks
+    straight into it.
+
+    Refuses on anything but a clear answer, for the same reason `_file_state` does: a bare
+    `os.path.exists` here answers False for a name it merely could not read, which would read as
+    "free" and hand the overwrite to `copy2`. Only FileNotFoundError -- the directory answering
+    that the name is not there -- counts as free. This is still a check-then-act, so it narrows
+    the window rather than closing it; the move itself remains the last word.
+    """
+    try:
+        os.stat(dst)
+    except FileNotFoundError:
+        return True
+    except (OSError, ValueError):
+        return False
+    return False
+
+
 def select(cat, sources=None, addrs=None):
     """The entries this run will withdraw. -> {addr: rec}.
 
@@ -81,9 +142,12 @@ def main():
     # `--label` would move its files into that SAME `output/withdrawn_2026-08-25/` archive,
     # which already held 148 files and, because this script MOVES rather than copies, is the
     # only copy of them. Two withdrawals sharing one archive directory is exactly the collision
-    # the `shutil.move` sweep further down still has no guard against -- it now records a move
-    # it could not make (order ead79ecf5278), but a name it CAN overwrite it will. The default
-    # is now today's date, computed when the tool runs rather than baked in when written.
+    # the `shutil.move` sweep further down had no guard against -- it recorded a move it could
+    # not make (order ead79ecf5278), but a name it COULD overwrite it did. The default is now
+    # today's date, computed when the tool runs rather than baked in when written, AND the
+    # sweep itself now refuses an occupied archive name outright (order 8d14f0adda1b) -- the
+    # date only made the collision unlikely, and "unlikely" is not a guard when the loser is
+    # the only copy of a withdrawn chapter.
     ap.add_argument("--label", default=datetime.date.today().isoformat())
     a = ap.parse_args()
 
@@ -95,15 +159,33 @@ def main():
     print("catalog entries: %d" % len(cat))
     print("selected       : %d%s" % (len(sel), "" if not filtered else
                                      "  (--source/--addr; the rest of the catalog stays)"))
-    if filtered and not sel:
-        # NAMING SOMETHING AND WITHDRAWING NOTHING IS A TYPO, NOT A RESULT. Falling through would
-        # move no file, write the catalog back unchanged, and print a clean report -- an operator
-        # would read that as "already withdrawn".
-        unknown = sorted(set(a.source or ()) - {(r or {}).get("source_name") for r in cat.values()})
-        raise SystemExit("nothing in the catalog matches that selection%s. Refusing to continue: "
-                         "matching is exact, so this is a spelling, not an empty result."
-                         % ("" if not unknown else " (no such source_name: %s)"
-                            % ", ".join(repr(u) for u in unknown)))
+    # NAMING SOMETHING AND WITHDRAWING NOTHING IS A TYPO, NOT A RESULT. Falling through would
+    # move no file, write the catalog back unchanged, and print a clean report -- an operator
+    # would read that as "already withdrawn".
+    #
+    # PER SELECTOR, NOT PER RUN (order c8ac7dbab3c5). This fired only when the WHOLE selection
+    # came back empty, so a mistyped `--addr` alongside any selector that DID match was silently
+    # ignored: the run withdrew the ones it understood, said nothing about the one it did not,
+    # and the operator read a clean report as confirmation that everything named had gone. Worse,
+    # the `unknown` list was built from `a.source` alone, so even on the empty branch -- the
+    # branch whose whole job is naming the typo -- an `--addr` typo was never named. Both
+    # selectors are now checked against the catalog independently, and ANY selector that matches
+    # nothing refuses the run. Matching is exact by design (see `select`), so an unmatched
+    # selector is a spelling; on the tool whose next step is irreversible, a spelling is a stop.
+    have_src = {(r or {}).get("source_name") for r in cat.values()}
+    unknown_src = sorted(set(a.source or ()) - have_src)
+    unknown_addr = sorted(set(a.addr or ()) - set(cat))
+    if filtered and (not sel or unknown_src or unknown_addr):
+        parts = []
+        if unknown_src:
+            parts.append("no such source_name: %s" % ", ".join(repr(u) for u in unknown_src))
+        if unknown_addr:
+            parts.append("no such address: %s" % ", ".join(repr(u) for u in unknown_addr))
+        raise SystemExit("part of that selection matches nothing in the catalog%s. Refusing to "
+                         "continue: matching is exact, so this is a spelling, not an empty "
+                         "result. %d entr(ies) WOULD have been withdrawn by the selectors that "
+                         "did match; fix the name and re-run so the whole selection is deliberate."
+                         % ("" if not parts else " (%s)" % "; ".join(parts), len(sel)))
 
     if a.go:
         # A COPY BEFORE THE IRREVERSIBLE STEP. This script moves rather than unlinks, which was
@@ -126,15 +208,48 @@ def main():
     moved = {"raw": 0, "compressed": 0}
     missing = 0
     stuck = set()
+    unreadable = []   # (addr, path) -- could not be statted, so absence was never established
+    collided = []     # (addr, path) -- the archive already holds this name; NOT overwritten
+    amended = []      # (addr, key, new_path) -- half the entry left, so its record was rewritten
     for _addr, rec in sel.items():
+        # WHICH HALF OF THE ENTRY LEFT (order 1687ff8084b9). `raw_path` and `compressed_path`
+        # move independently, and `stuck.add(_addr); continue` kept the WHOLE record when the
+        # second failed -- including a `raw_path` pointing at a file that had already moved to
+        # the archive. "A failed move keeps its record" is right per FILE and wrong per ENTRY
+        # when only half the entry moved, so the two halves are tracked separately here and the
+        # surviving record is amended below.
+        entry_left = []   # [(key, dst)] -- files of this entry that actually reached the archive
         for key, sub in (("raw_path", "raw"), ("compressed_path", "compressed")):
             src = _abs(rec.get(key))
-            if not src or not os.path.exists(src):
+            if not src:
+                missing += 1
+                continue
+            state = _file_state(src)
+            if state == "unavailable":
+                # STAT REFUSED TO ANSWER, WHICH IS NOT ABSENCE. Counting this as `missing` and
+                # falling through dropped the record of a file that may still be in the library
+                # -- the one outcome this module exists to prevent. It is a kept record and a
+                # printed line, exactly like a failed move.
+                print("  could not stat: %s (record kept, absence not established)" % src)
+                unreadable.append((_addr, src))
+                stuck.add(_addr)
+                continue
+            if state == "gone":
                 missing += 1
                 continue
             if a.go:
+                dst = os.path.join(arch, sub, os.path.basename(src))
+                if not _archive_name_free(dst):
+                    # A NAME ALREADY IN THE ARCHIVE IS A REFUSAL, NOT A MOVE. `shutil.move` would
+                    # overwrite it (see `_archive_name_free`), and the archive is the only copy of
+                    # whatever is sitting there. Leaving the chapter where it is costs one line in
+                    # the report; taking it costs the other withdrawal, permanently.
+                    print("  archive name taken, NOT moved: %s -> %s" % (src, dst))
+                    collided.append((_addr, dst))
+                    stuck.add(_addr)
+                    continue
                 try:
-                    shutil.move(src, os.path.join(arch, sub, os.path.basename(src)))
+                    shutil.move(src, dst)
                 except Exception as e:
                     print("  move failed: %s (%s)" % (src, e))
                     # A FAILED MOVE KEEPS ITS RECORD. The file is still in the library; dropping
@@ -143,7 +258,18 @@ def main():
                     # the tool whose one job is preserving the record of what was withdrawn.
                     stuck.add(_addr)
                     continue
+                entry_left.append((key, dst))
             moved[sub] += 1
+        if a.go and _addr in stuck and entry_left:
+            # THE RECORD IS KEPT AND MADE TRUE. This entry stays in the catalog because part of
+            # it is still in the library, but the part that DID leave is not where the record
+            # says any more. Rewriting the path to the archive is chosen over moving the file
+            # back: the move already succeeded, and undoing it is a second irreversible act on
+            # the strength of the first one's failure. `rec` is the same object `remaining`
+            # carries, so the amendment lands in catalog.json with the rest of the write.
+            for key, dst in entry_left:
+                rec[key] = os.path.relpath(dst, HERE)
+                amended.append((_addr, key, rec[key]))
 
     # Anything left in output/raw that the catalog never claimed -- the pilot's strays.
     # ONLY ON A WHOLE-CATALOG WITHDRAWAL. An unclaimed file belongs to no source and no address,
@@ -166,8 +292,16 @@ def main():
             if not os.path.isfile(src):
                 continue
             if a.go:
+                dst = os.path.join(arch, "raw", f)
+                # SAME COLLISION GUARD AS THE CATALOGUED MOVES (order 8d14f0adda1b). A stray
+                # sharing a name with something already archived would overwrite it just as
+                # silently, and a stray is by definition the copy nothing has a record of.
+                if not _archive_name_free(dst):
+                    print("  stray NOT moved, archive name taken: %s -> %s" % (src, dst))
+                    stray_stuck.append(f)
+                    continue
                 try:
-                    shutil.move(src, os.path.join(arch, "raw", f))
+                    shutil.move(src, dst)
                 except Exception as e:
                     print("  stray move failed: %s (%s)" % (src, e))
                     stray_stuck.append(f)
@@ -211,18 +345,36 @@ def main():
         # the 2026-08-25 behaviour, arrived at by measurement instead of by assumption.
         catalog_landed = silence.write_json(CATALOG, remaining, indent=2)
 
-    print("raw moved         : %d  (+%d unclaimed by the catalog)" % (moved["raw"], extra))
-    print("compressed moved  : %d" % moved["compressed"])
-    print("paths already gone: %d" % missing)
+    # PATHS AND ENTRIES ARE DIFFERENT UNITS and these lines used to hide it: `moved` and
+    # `missing` count PATHS (two per entry) while `stuck` counts ENTRIES, and every line read
+    # like an entry count (order 1687ff8084b9). The unit is now written into each label.
+    print("raw paths moved       : %d  (+%d unclaimed by the catalog)" % (moved["raw"], extra))
+    print("compressed paths moved: %d" % moved["compressed"])
+    print("paths already gone    : %d" % missing)
     if stuck:
+        # UNCAPPED. This is the list a person reads to go and look at the files, so a ranked
+        # first-six would hide exactly the entries that need hands on them.
         print("MOVE FAILED, RECORD KEPT: %d entr(ies) stay in the catalog because their files "
-              "are still in the library -- %s" % (len(stuck), ", ".join(sorted(stuck)[:6])))
+              "are still in the library -- %s" % (len(stuck), ", ".join(sorted(stuck))))
+    if unreadable:
+        print("COULD NOT STAT, RECORD KEPT: %d path(s) neither moved nor proven absent -- a lock "
+              "or a denial reads the same as a deletion, so the record stays: %s"
+              % (len(unreadable), ", ".join("%s (%s)" % (ad, p) for ad, p in unreadable)))
+    if collided:
+        print("ARCHIVE NAME ALREADY TAKEN: %d path(s) were NOT moved because %s already holds "
+              "the name and moving would have overwritten the only copy. Re-run those with a "
+              "different --label: %s"
+              % (len(collided), arch, ", ".join("%s -> %s" % (ad, p) for ad, p in collided)))
+    if amended:
+        print("PARTIAL WITHDRAWAL, RECORD AMENDED: %d path(s) left while the rest of their entry "
+              "stayed, so the kept record now points at the archive copy: %s"
+              % (len(amended), ", ".join("%s %s=%s" % t for t in amended)))
     if stray_stuck:
         # Unclaimed by the catalog, so no entry needs amending -- but a file the sweep meant to
         # take and did not is still a difference between what this run reports and what is on
         # disk, and it is only a difference anybody can see if it is printed.
         print("STRAY MOVE FAILED: %d unclaimed file(s) are still in output/raw -- %s"
-              % (len(stray_stuck), ", ".join(stray_stuck[:6])))
+              % (len(stray_stuck), ", ".join(stray_stuck)))
     if a.go:
         if not record_landed:
             # The archive's own manifest. Named separately from the catalog line below because

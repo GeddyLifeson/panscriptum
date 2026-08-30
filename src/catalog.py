@@ -60,11 +60,22 @@ def cmd_stats(cfg, catalog):
               f"({ratio:.1f}x)")
     missing = [r["name"] for r in populated if r["name"] not in sources_with_books]
     if missing:
+        # EVERY MISSING SOURCE, NO SLICE (order 6434c1ba7b20, HARD RULE 0). This was
+        # `for n in missing[:30]` followed by an "... and N more" line. Measured live when the
+        # order was filed: 209 populated sources had no books, 30 were printed and 179 were
+        # hidden, and the 30 shown were the alphabetical head (2112 (Rush) .. Curious DM
+        # Investigations) -- the first name past the cutoff was "Curse of Strahd". No flag
+        # anywhere in this module printed the rest, so the roster was unreachable rather than
+        # merely folded, and this is the exact pathology Hard Rule 0 names by example
+        # ("cap=250 took the alphabetical head of every missing-cast repair").
+        #
+        # It matters more here than in most places: CLAUDE.md's "When you're done with a batch"
+        # section tells the operator to report coverage from THIS command, so the truncation was
+        # feeding a report that a person acts on. Ranking this roster would still be fine;
+        # cutting it is not.
         print(f"\nPopulated sources with NO books yet ({len(missing)}):")
-        for n in missing[:30]:
+        for n in missing:
             print(f"  - {n}")
-        if len(missing) > 30:
-            print(f"  ... and {len(missing) - 30} more")
 
 
 def cmd_search(cfg, catalog, query):

@@ -788,6 +788,22 @@ def check(state=None):
             "corpus read is progressing", prog > 0, f"{prog:.1%}", "above 0",
             "No chunk has completed. Check that read.py printed its transport banner and that "
             "the queue is not empty.", "high", "read"))
+    else:
+        # A VANISHED STANDARD IS NOT A MET ONE (order b8686a5c9772). These four used to be
+        # emitted under a bare `if read:` with nothing recorded when the job was absent, so a
+        # dashboard state carrying no `corpus read` entry DELETED them: `report()`'s denominator
+        # shrank, the page read greener, and verify_math's declared-vs-emitted check
+        # [d9b895708c45] -- which exempts one name only -- would show them as unexplained
+        # misses. Routed to `_dropped`, which is this file's existing mechanism for "could not
+        # be measured" and is named by the aggregate standard at the bottom of check().
+        #
+        # `_dropped` rather than four holds=False rows, and the difference is deliberate: the
+        # reader is a main-lap job that is legitimately DOWN between supervisor laps, and
+        # `corpus read is progressing` carries `restart_reader` in foreman.REMEDIES. Emitting it
+        # red on an absent job would dispatch a restart against a job nothing is wrong with,
+        # which is the false-alarm half of the same fault. The two LIBRARY blocks below are
+        # emitted instead, because their inputs are files rather than a process -- see there.
+        _dropped.append("corpus-read-standards")
 
     roll = jobs.get("page roll")
     if roll:
@@ -798,32 +814,63 @@ def check(state=None):
             "Mining has not finished its pass. It is network-bound and unaffected by model "
             "quota, so a stall here is a host problem: check the failure ledger for a spike of "
             "HTTPError against one host.", "low", "read"))
+    else:
+        # Same fault, same reasoning as the corpus-read block above (order b8686a5c9772):
+        # `page roll complete` carries `rerun_roll` in foreman.REMEDIES and the roll is a
+        # main-lap job that is legitimately down between laps, so its absence is RECORDED rather
+        # than reported as a breach that would dispatch a rerun against nothing.
+        _dropped.append("page-roll-standard")
 
     # ------------------------------------------------------------------ the library
+    #
+    # THE TWO LIBRARY BLOCKS ARE EMITTED EVEN WHEN THEY CANNOT BE MEASURED (order b8686a5c9772).
+    # Unlike the two job blocks above, what is missing here is a FILE-derived figure, not a
+    # process that is allowed to be down -- there is no state of this library in which "how much
+    # of it is catalogued" and "how many sources have a host" are legitimately unaskable. They
+    # were emitted under `if cov:` and `if src.get("total")`, so an empty or unreadable
+    # library block deleted three standards silently. `sources with a reachable wiki` is the
+    # worst of the three to lose: MIN_HOST_COVERAGE is 1.0 precisely so the standard stays
+    # breached and the foreman keeps scouting, so its disappearance made the page greener AND
+    # stopped `adopt_hosts`/`scout_hostless` from being dispatched. Emitting them red with an
+    # UNMEASURED reading keeps both the row and the remedy, and the reading says which of the
+    # two things went wrong -- the file's own doctrine on the fabrication standard: "UNMEASURED
+    # is a reading; silence is not."
     cov = lib.get("coverage") or {}
-    if cov:
-        out.append(_s(
-            "coverage figures are current", cov.get("age_h", 99) <= MAX_COVERAGE_AGE_H,
-            f"{cov.get('age_h', 0):.1f}h", f"{MAX_COVERAGE_AGE_H}h",
-            "The cited/settled percentages predate whatever has run since. coverage.py runs at "
-            "the end of each supervisor cycle; if it is stale, cycles are not completing.",
-            "low", "library"))
-        n = max(cov.get("entries", 1), 1)
-        out.append(_s(
-            "entries settled", cov.get("settled", 0) / n >= MIN_SETTLED,
-            f"{cov.get('settled', 0) / n:.0%}", f"{MIN_SETTLED:.0%}",
-            "Settled means cited or read-with-nothing-found. Unsettled entries are ones nobody "
-            "has looked at. Raising it is the corpus read's job.", "low", "library"))
+    out.append(_s(
+        "coverage figures are current",
+        bool(cov) and cov.get("age_h", 99) <= MAX_COVERAGE_AGE_H,
+        (f"{cov.get('age_h', 0):.1f}h" if cov else
+         "UNMEASURED -- the dashboard state carries no library.coverage block at all, so the "
+         "age of the figures could not be read. This is the audit failing to measure, NOT "
+         "fresh coverage."),
+        f"{MAX_COVERAGE_AGE_H}h",
+        "The cited/settled percentages predate whatever has run since. coverage.py runs at "
+        "the end of each supervisor cycle; if it is stale, cycles are not completing.",
+        "low", "library"))
+    _cov_n = max(cov.get("entries", 1), 1)
+    out.append(_s(
+        "entries settled",
+        bool(cov) and cov.get("settled", 0) / _cov_n >= MIN_SETTLED,
+        (f"{cov.get('settled', 0) / _cov_n:.0%}" if cov else
+         "UNMEASURED -- no library.coverage block, so nothing was counted. Zero settled and "
+         "zero counted are not the same reading."),
+        f"{MIN_SETTLED:.0%}",
+        "Settled means cited or read-with-nothing-found. Unsettled entries are ones nobody "
+        "has looked at. Raising it is the corpus read's job.", "low", "library"))
     src = lib.get("sources") or {}
-    if src.get("total"):
-        frac = src.get("with_host", 0) / src["total"]
-        out.append(_s(
-            "sources with a reachable wiki", frac >= MIN_HOST_COVERAGE, f"{frac:.0%}",
-            f"{MIN_HOST_COVERAGE:.0%}",
-            "Sources without a host are uncitable by construction. Run "
-            "`python src/hostcheck.py --adopt --go`. For homebrew, try D&D Wiki and the "
-            "publisher's own site -- homebrew is inconsistent about where it lives.",
-            "medium", "library"))
+    _src_total = src.get("total") or 0
+    out.append(_s(
+        "sources with a reachable wiki",
+        bool(_src_total) and src.get("with_host", 0) / _src_total >= MIN_HOST_COVERAGE,
+        ("%.0f%%" % (100 * src.get("with_host", 0) / _src_total) if _src_total else
+         "UNMEASURED -- the dashboard state's library.sources block reports no total, so the "
+         "roll could not be counted. This is the audit failing to measure, NOT every source "
+         "lacking a host."),
+        f"{MIN_HOST_COVERAGE:.0%}",
+        "Sources without a host are uncitable by construction. Run "
+        "`python src/hostcheck.py --adopt --go`. For homebrew, try D&D Wiki and the "
+        "publisher's own site -- homebrew is inconsistent about where it lives.",
+        "medium", "library"))
 
     # ------------------------------------------------------------------ the code
     out.append(_s(
@@ -1084,9 +1131,37 @@ def check(state=None):
                 mine = float(str(band)[1:]) + float(got.get("decimal", 0))
                 if abs(mine - published) <= tol:
                     inside += 1
+        # NO DENOMINATOR IS NOT A PASS -- the same lesson the catalogue-coverage standard a
+        # hundred lines below states in capitals, applied to the instrument standard. This read
+        # `inside >= len(refs) if refs else True`, which Python parses as
+        # `(inside >= len(refs)) if refs else True`, so a REFERENCE_ASSAYS.json holding `{}`
+        # reported holds=True with observed '0/0'. That is the one shape that read green: a
+        # non-dict file raises on `.values()` above and is correctly routed to `_dropped`, and a
+        # populated file is genuinely measured. An all-clear off zero references is the wrong
+        # direction to fail for the standard guarding the library's one original claim, so the
+        # empty and all-unscoreable cases now report the ABSENCE of a measurement, by name, and
+        # do not hold. (order c426af1de74f)
+        # The denominator stays len(refs), deliberately: a row the loop above could not score is
+        # a reference assay that is NOT confirmed against the charter, and counting only the
+        # scoreable ones would let an unparseable row quietly leave the standard.
+        scoreable = sum(1 for v in refs.values()
+                        if isinstance(v, dict) and len((v.get("charter") or [])) >= 3
+                        and (v.get("reference") or {}).get("magnitude"))
+        if not scoreable:
+            assay_reading = ("UNMEASURED -- %d row(s) in REFERENCE_ASSAYS.json, %d scoreable "
+                             "(a row needs a 3-part charter interval and a reference "
+                             "magnitude), so no comparison was made. This is the audit failing "
+                             "to measure, NOT the instrument agreeing with the charter."
+                             % (len(refs), scoreable))
+        else:
+            assay_reading = "%d/%d" % (inside, len(refs))
+            if scoreable < len(refs):
+                assay_reading += (" -- and %d of those %d row(s) could not be scored at all"
+                                  % (len(refs) - scoreable, len(refs)))
         out.append(_s(
-            "hand-built assays match the charter", inside >= len(refs) if refs else True,
-            f"{inside}/{len(refs)}", "all of them",
+            "hand-built assays match the charter",
+            bool(refs) and inside >= len(refs),
+            assay_reading, "all of them",
             "The three reference assays reconstruct values the charter published. If one falls "
             "outside its interval, the instrument has drifted from the document it implements -- "
             "check assay.SIGMA_BY_ATTESTATION and the axis weights before trusting any new "
@@ -1294,6 +1369,14 @@ def check(state=None):
         import lognames as LN
         now = time.time()
         stalled, watched, cur = [], 0, {}
+        # A JOB THAT CANNOT BE MEASURED IS THE ONE MOST LIKELY TO BE IN TROUBLE, and it used to
+        # be the one that LEFT THE WATCH (order 1def9a6ce0d5). Both handlers in the loop below
+        # noted the failure and `continue`d, so `watched` shrank by one and the standard went on
+        # reporting "%d running, all advancing" -- "could not tell about read.py" was
+        # indistinguishable from "read.py is advancing", which is this file's founding complaint
+        # in the check written to end it. They are collected by name here, printed in `observed`,
+        # and counted against the standard.
+        unmeasurable = []
         # THE MANAGED JOBS, BY NAME, not every *.log in the directory. Deriving the job from the
         # log filename asked whether `read_auto.py` was running -- no such script exists -- so
         # the three jobs that matter were never watched, while stale legacy logs whose stems
@@ -1306,6 +1389,15 @@ def check(state=None):
                 size = os.path.getsize(path)
             except Exception:
                 silence.note("standards.py:job-size")
+                unmeasurable.append("%s (its log could not be statted)" % job)
+                # AND KEEP THE PREVIOUS STAMP. `cur` replaces JOB_WATCH wholesale, so dropping
+                # the job here also erased its size history -- the silence clock restarted the
+                # moment the log became readable again, and a stall spanning an unreadable spell
+                # could never accumulate. Carrying the last known reading forward cannot invent
+                # a stall: if the log has grown by the next successful stat, job_stamp re-stamps
+                # it and `held` is False.
+                if prev.get(job):
+                    cur[job] = prev[job]
                 continue
 
             # WHEN DID IT LAST MOVE, not when did this check last run. `at` was re-stamped to
@@ -1328,6 +1420,12 @@ def check(state=None):
                 alive = bool(_ON.running(owner))
             except Exception:
                 silence.note("standards.py:job-alive")
+                # A PROBE THAT THREW IS NOT A JOB THAT IS DOWN. Leaving `alive` False here sent
+                # the job through the `if not alive: continue` below on the same path as a job
+                # that has legitimately finished, so an unanswerable liveness probe read exactly
+                # like a healthy completed run. Named instead. (order 1def9a6ce0d5)
+                unmeasurable.append("%s (its liveness probe threw)" % job)
+                continue
             if not alive:
                 continue
             watched += 1
@@ -1348,16 +1446,29 @@ def check(state=None):
         if not silence.write_json(JOB_WATCH, cur):
             raise RuntimeError("job_progress.json replace denied; size stamps not persisted")
 
+        job_reading = ", ".join(stalled) or ("%d running, all advancing" % watched)
+        if unmeasurable:
+            # NOT folded into the count above: `watched` is jobs this pass could actually put
+            # the question to, and these are the ones it could not. Phrased so `kill_stalled_job`
+            # in foreman.py -- which parses `NAME (<n> min` out of this string to learn which job
+            # to end -- cannot match one of these and kill a job on the strength of a failed
+            # measurement.
+            job_reading += ("; %d job(s) could NOT be measured and are outside that count: %s"
+                            % (len(unmeasurable), ", ".join(unmeasurable)))
         out.append(_s(
-            "every running job is advancing", not stalled,
-            ", ".join(stalled) or ("%d running, all advancing" % watched),
+            "every running job is advancing", not stalled and not unmeasurable,
+            job_reading,
             "no silent job",
             "A process that is UP and producing nothing is the failure this whole library is "
             "built to refuse, and until now the only check on it asked whether the process "
             "existed. Read the named log's tail: a job repeating one line is looping, a job "
             "silent from its first line is wedged on its first unit of work. `dashboard.py` "
             "already flags this in its movement panel -- if the panel says stalled and this "
-            "standard does not, the two are measuring different things and this one is wrong.",
+            "standard does not, the two are measuring different things and this one is wrong. "
+            "If the reading names jobs that could NOT be measured, that is this standard "
+            "refusing to answer for them: a log nothing can stat (a reader holding it, a "
+            "permissions fault) or a liveness probe that throws is not evidence of a job "
+            "advancing, and the first move is to find out why the question could not be put.",
             "high", "machine"))
     except Exception:
         silence.note("standards.py:job-advance")

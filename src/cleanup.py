@@ -194,7 +194,15 @@ def main():
                     changed = True
             if len(cd) < _THIN:
                 thin.append((src, nm, cd))
-                if args.apply:
+                # THE MARK IS ONLY AN EDIT THE FIRST TIME (order 2b83e058be3f). Setting the flag
+                # unconditionally set `changed` unconditionally too, so every later --apply run
+                # re-wrote every record holding a thin entry -- and most records hold one -- with
+                # no net change to the file. That is needless traffic through the two-writer
+                # contract with a live pipeline. Its two sibling branches cannot re-fire because
+                # an already-struck entry is skipped by `if not e.get("catalogued")`; this one had
+                # no such guard, so it gets its own. The REPORT is untouched: `thin` is appended
+                # above, outside the guard, so a re-run still lists every thin entry it found.
+                if args.apply and not e.get("thin_description"):
                     e["thin_description"] = True
                     # `changed` was never set on this branch, so a record whose ONLY edit was
                     # a thin-description mark was never handed to write_record -- the flag was

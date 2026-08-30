@@ -56,8 +56,16 @@ real caller of `convene()`, passes none. So eta 1.0 is never asserted and the ve
 declined; it is simply never asked. Every scalar the library has published was published without
 anyone having measured whether a scalar was faithful to it.
 // This is the fourth property from HARD RULE -1: a safety that exists in a file is not a safety
-// that is running. The arithmetic below is correct and has been correct for weeks. It has also
-// been, for exactly that long, unreachable from anything the library actually prints.
+// that is running. It has been unreachable from anything the library actually prints for weeks.
+//
+// AND THIS PARAGRAPH USED TO SAY "the arithmetic below is correct and has been correct for
+// weeks", WHICH WAS FALSE (order 6e1c72cddfeb). The sweep in `hodge_decompose` was plain Jacobi
+// on the graph Laplacian, which does not converge on a BIPARTITE component -- so an exact,
+// zero-residual ladder as ordinary as "one entity beats three others" measured eta 0.0: 100%
+// irreducibly chord, theorem_2_error_floor 1.0, with `no_evidence` False, i.e. shaped exactly
+// like a confident measurement. It is Gauss-Seidel now, with a convergence test, and it must
+// stay that way; the reasoning and the measured before/after are in that function's docstring.
+// The one mercy in the timing is that nothing consumed the wrong number.
 
 WIRING IT IS A CHANGE IN `anchors.py`, NOT HERE, and it needs a real input rather than a call:
 `hodge_decompose` consumes a pairwise contest flow, and the library does not currently build one
@@ -74,7 +82,11 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ============================================================ 1. THE CURL AND THE INDEX (η)
 
-def hodge_decompose(edges):
+SWEEP_BUDGET = 5000
+SWEEP_TOL = 1e-9
+
+
+def hodge_decompose(edges, sweeps=SWEEP_BUDGET, tol=SWEEP_TOL):
     """Least-squares HodgeRank: split a pairwise flow into gradient (ranking) + residual (curl).
 
     `edges` maps (a, b) -> flow, read as "a beats b by this much" (antisymmetric: F(b,a) = -F(a,b)).
@@ -83,19 +95,36 @@ def hodge_decompose(edges):
     the ladder cannot explain is the curl, and its share is what Theorem 2 bounds every scalar
     assay's error by.
 
-    Implemented as plain JACOBI iteration on the graph Laplacian: no dependencies, and the whole
-    point is that a Hand must be able to recompute it.
+    GAUSS-SEIDEL, AND THE METHOD IS LOAD-BEARING, NOT A STYLE CHOICE (order 6e1c72cddfeb).
+    This was plain JACOBI (every neighbour term read out of the previous sweep's theta) under a
+    fixed 600-sweep budget, and Jacobi on the graph Laplacian has iteration matrix D^-1 A, which
+    has an eigenvalue of -1 on any BIPARTITE component. Theta there oscillates with period 2 for
+    ever; the gauge-fix below subtracts the constant mode, not the alternating one; and the fixed
+    budget then sampled whichever phase parity 600 happened to land on. Measured before the fix:
 
-    THE METHOD IS NAMED CORRECTLY HERE BECAUSE THE ITERATION BUDGET DEPENDS ON IT. This said
-    "Gauss-Seidel" until the run #33 sweep (batch 8) read the loop against the claim. It is not:
-    every neighbour term in a sweep is read out of `theta`, the PREVIOUS sweep's fully-settled
-    state, and none of a sweep's own updates are visible until the next one -- which is Jacobi by
-    definition. Gauss-Seidel updates each node in place and uses already-refreshed neighbours
-    within the same sweep, and converges markedly faster on a system like this. Both reach the
-    same fixed point in the limit, so no answer here was ever wrong; what was wrong was a reader
-    sizing the fixed 600-sweep budget against the faster method. If `eta` ever looks
-    under-converged on a well-connected graph, that budget -- not the arithmetic -- is the thing
-    to revisit, and switching methods is a deliberate numerical change, not a typo fix.
+        STAR (a beats b, c and d -- one entity beating three others, the commonest contest
+        shape there is)                                    -> eta 0.0, truth 1.0
+        BIPARTITE 4x4, every hero beats every villain by 1.0, exactly reproduced by
+        theta_h=+0.5 / theta_v=-0.5                        -> eta 0.0, truth 1.0
+        4-node PATH a>b>c>d                                -> eta 0.8889, truth 1.0
+        theta[h1] over the first eight sweeps of the 4x4   -> 1, 0, 1, 0, 1, 0, 1, 0
+
+    and at sweeps=599 eta came out 0.8, at 600 eta 0.0, at 601 eta 0.8 -- NO budget reaches the
+    right answer, because the sequence does not converge. So the run #33 sweep's correction went
+    the wrong way: it renamed the method to match the loop when the loop should have been changed
+    to match the name. Gauss-Seidel -- each node updated IN PLACE, reading neighbours already
+    refreshed this sweep -- converges on a symmetric positive-semidefinite consistent system
+    (the divergence of an antisymmetric flow is orthogonal to the constant nullspace, so this one
+    is consistent), bipartite or not. Measured after: STAR, BIPARTITE 4x4 and PATH4 all reach
+    eta 1.0 in 2, 2 and 18 sweeps; the 3-cycle and the 4-cycle still give eta 0.0 in one sweep,
+    which is the right answer for a pure curl.
+
+    AND THE BUDGET IS NO LONGER TRUSTED SILENTLY. The loop stops when the largest per-node shift
+    falls below `tol`, and if it exhausts `sweeps` instead, this returns `converged: False` with
+    eta and everything derived from it as None. An eta read off an unconverged iteration is the
+    exact failure this module is about -- a confident measurement of nothing -- and it was
+    especially dangerous here because it erred toward "the omniverse is MAXIMALLY
+    non-transitive" while `no_evidence` came back False.
     """
     nodes = sorted({n for e in edges for n in e})
     if not nodes:
@@ -107,7 +136,8 @@ def hodge_decompose(edges):
         # module's own signature failure, applied to itself. `eta` and everything derived from
         # it come back None here, with `no_evidence: True` so a caller can tell the two apart.
         return {"theta": {}, "eta": None, "curl_fraction": None, "ladder_representable": None,
-                "irreducibly_chord": None, "theorem_2_error_floor": None, "no_evidence": True}
+                "irreducibly_chord": None, "theorem_2_error_floor": None, "no_evidence": True,
+                "converged": None, "sweeps": 0}
     theta = {n: 0.0 for n in nodes}
 
     nbrs = collections.defaultdict(list)
@@ -115,16 +145,52 @@ def hodge_decompose(edges):
         nbrs[a].append((b, f))
         nbrs[b].append((a, -f))
 
-    # theta_a = mean over neighbours of (theta_b + F_ab)
-    for _ in range(600):
-        new = {}
+    # ASSERTED ONCE, NOT TESTED EVERY SWEEP AND NEVER TRUE (order 9803b72711b3). The sweep below
+    # carried `if not nbrs[n]: new[n] = theta[n]; continue`, a branch that cannot execute:
+    # `nodes` is built from the edge keys themselves and the loop above appends to `nbrs[a]` and
+    # `nbrs[b]` for every one of them, so every member of `nodes` necessarily has a neighbour.
+    # Verified across three edge sets -- no node with an empty neighbour list in any of them.
+    # A defence that has never refused anything is the mechanical shape `liveness.py` exists to
+    # catch, and it sat in the module whose docstring is about safeties that are not in effect.
+    # Kept as a real check rather than deleted: if the construction above ever changes, the
+    # alternative to this line is a ZeroDivisionError from inside the sweep with no name on it.
+    _isolated = [n for n in nodes if not nbrs[n]]
+    if _isolated:
+        # Named in full, not sampled: this can only fire on a construction bug, and the names
+        # are the whole diagnosis (Hard Rule 0).
+        raise ValueError("hodge_decompose: %d node(s) built from the edge set have no neighbour "
+                         "(%s) -- the adjacency construction above is broken, and the sweep "
+                         "would divide by zero" % (len(_isolated), ", ".join(map(str, _isolated))))
+
+    # theta_a = mean over neighbours of (theta_b + F_ab), UPDATED IN PLACE so the rest of this
+    # sweep sees the refreshed value -- that in-place read is the whole difference between
+    # Gauss-Seidel and the Jacobi sweep that never converged on a bipartite component.
+    converged = False
+    used = 0
+    for used in range(1, sweeps + 1):
+        prev = theta
+        theta = dict(theta)
         for n in nodes:
-            if not nbrs[n]:
-                new[n] = theta[n]
-                continue
-            new[n] = sum(theta[b] + f for b, f in nbrs[n]) / len(nbrs[n])
-        shift = sum(new.values()) / len(new)          # gauge-fix: mean zero
-        theta = {n: v - shift for n, v in new.items()}
+            theta[n] = sum(theta[b] + f for b, f in nbrs[n]) / len(nbrs[n])
+        mean = sum(theta.values()) / len(theta)       # gauge-fix: mean zero
+        theta = {n: v - mean for n, v in theta.items()}
+        # THE LARGEST PER-NODE SHIFT, not the mean of them: a mean shift hides one node still
+        # swinging behind a hundred that have settled, and one unsettled node is an unsettled
+        # theta. Measured against the gauge-fixed values, so the fix itself cannot register as
+        # movement.
+        if max(abs(theta[n] - prev[n]) for n in nodes) < tol:
+            converged = True
+            break
+    if not converged:
+        # NO ETA AT ALL RATHER THAN AN ETA NOBODY CAN TRUST. This is the fail-closed direction:
+        # the caller that reads this is `custodes.convene()`'s Threnody curl-veto, and a wrong
+        # eta there is a veto that fires or abstains on arithmetic that never settled.
+        return {"theta": {n: round(v, 4) for n, v in theta.items()}, "eta": None,
+                "curl_fraction": None, "ladder_representable": None,
+                "irreducibly_chord": None, "theorem_2_error_floor": None,
+                "no_evidence": False, "converged": False, "sweeps": used,
+                "why": "the iteration did not settle within %d sweeps (tol %g) -- there IS "
+                       "evidence here, but no measurement of it" % (sweeps, tol)}
 
     grad_sq = res_sq = 0.0
     for (a, b), f in edges.items():
@@ -140,7 +206,8 @@ def hodge_decompose(edges):
     if eta is None:
         return {"theta": {n: round(v, 4) for n, v in theta.items()}, "eta": None,
                 "curl_fraction": None, "ladder_representable": None,
-                "irreducibly_chord": None, "theorem_2_error_floor": None, "no_evidence": True}
+                "irreducibly_chord": None, "theorem_2_error_floor": None, "no_evidence": True,
+                "converged": True, "sweeps": used}
     return {
         "theta": {n: round(v, 4) for n, v in theta.items()},
         "eta": round(eta, 4),
@@ -149,6 +216,11 @@ def hodge_decompose(edges):
         "irreducibly_chord": round((1.0 - eta) * 100, 1),
         "theorem_2_error_floor": round(1.0 - eta, 4),
         "no_evidence": False,
+        # REPORTED, NOT ASSUMED. Every dict this function returns now carries the same two keys,
+        # so "did the arithmetic settle?" is answerable from the result rather than from the
+        # budget the caller hopes was enough.
+        "converged": True,
+        "sweeps": used,
     }
 
 
@@ -175,6 +247,13 @@ def incomparability_rate(vectors):
     the numerator. They are now split out: UNMEASURED (no shared axis) is excluded from the rate
     entirely, and TIED (dominates both ways on equality, i.e. identical on every shared axis) is
     counted as a decided pair but not an incomparable one.
+
+    `examples` IS EVERY INCOMPARABLE PAIR, NOT THE FIRST FIVE (order 89fc2eaf23f1, Hard Rule 0).
+    This was `if len(examples) < 5`, capping a list in a RETURN VALUE rather than in a print --
+    so 20 vectors with 40 incomparable pairs handed the caller five of them with nothing in the
+    dict distinguishing "five examples" from "five incomparable pairs exist". The count was
+    recoverable from `incomparable` beside it; the roster was not, and the roster is the evidence.
+    A caller that wants a sample can take one, knowing what it is a sample of.
     """
     names = sorted(vectors)
     total = unmeasured = tied = inc = 0
@@ -191,8 +270,7 @@ def incomparability_rate(vectors):
             continue
         if not dominates(va, vb) and not dominates(vb, va):
             inc += 1
-            if len(examples) < 5:
-                examples.append((a, b))
+            examples.append((a, b))
     decidable = total - unmeasured
     return {"pairs": total, "unmeasured": unmeasured, "tied": tied, "incomparable": inc,
             "rate": round(inc / decidable, 4) if decidable else None,
