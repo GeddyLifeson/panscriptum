@@ -1,18 +1,22 @@
 # OVERWATCH
 
-round 198  ·  last run 2026-08-30 08:50
+round 199  ·  last run 2026-08-30 09:15
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 279,878 inspected (deep scan as of round 193)
+- files that will not parse: **1** of 280,497 inspected  — state\gpu_lane\slot.2.json — cannot stat
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**15 open** (4 high). Newest first.
+**21 open** (6 high). Newest first.
 
+- **pipeline.py** `phase_chain` — [HIGH] This function is supposed to implement phase 4, but it does not actually do so. It imports the chain module and reads data, but does not perform the necessary processing or writing to disk as expected.
+  - says: Phase 4 -- the Chain of Defeats. See chain.py for the reasoning.
+- **physics.py** `joules_for` — [HIGH] Returns the product of volume and the specific energy for the material and mode, but does not validate the material or mode against the known ones.
+  - says: Energy to do `mode` to `volume_m3` of `material`.
 - **mutate.py** `_lock_acquire` — [HIGH] acquires a lock without checking ownership
   - says: acquire a lock with a token
 - **mutate.py** `_lock_release` — [HIGH] removes a lock regardless of ownership
@@ -21,6 +25,14 @@ round 198  ·  last run 2026-08-30 08:50
   - says: start a service with given arguments
 - **mutate.py** `_lock_release` — [HIGH] does not exist in the code
   - says: release a lock previously acquired by `_lock_acquire`
+- **pipeline.py** `phases` — [MEDIUM] derive the resume range from `args.phase` and `st['phase']`
+  - says: derive the resume range from `st['phase']`
+- **pipeline.py** `write_record` — [MEDIUM] The function is called without verifying that the write actually reached the disk
+  - says: A batch is done only when every entry in it carries a result AND the write that carries those results actually reached the disk
+- **pick_model.py** `refused` — [MEDIUM] keeps the models that are refused for VRAM and scored (but not the ones that are excluded)
+  - says: keeps the models refused for VRAM
+- **pick_model.py** `scored` — [MEDIUM] keeps the models that are scored (including both resident and refused models)
+  - says: keeps the resident and usable models
 - **pantheon.py** `main` — [MEDIUM] return 0 if write_ok else 1
   - says: return 0 if write_ok else 1
 - **overnight.py** `busy` — [MEDIUM] A list of statuses that are considered busy, but the code uses 'busy' to check for busy states and then proceeds to sleep, which is correct. However, the code may have a logical error in the condition where it checks 'busy and snap['cycle_seconds'] < MIN_CYCLE_SECONDS' which could be misinterpreted if 'busy' is not properly defined or if the logic is flawed.
