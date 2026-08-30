@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 179  ·  last run 2026-08-29 22:17
+round 180  ·  last run 2026-08-29 22:41
 
 ## Structure
 
@@ -11,20 +11,18 @@ round 179  ·  last run 2026-08-29 22:17
 
 ## What the model found in the code
 
-**6 open** (2 high). Newest first.
+**5 open** (2 high). Newest first.
 
-- **binding_health.py** `canary` — [HIGH] The function is named 'canary' but the code does not perform any canary-related logic or data collection. It simply returns a record of probe results without any canary-specific pr
-  - says: All three probes for one host, plus its identity when the titles failed. -> record.
-- **binding_health.py** `quarantine` — [HIGH] Can overwrite existing records without compare-and-swap, leading to data loss.
-  - says: Record a host as failing, WITH ITS REASON. Never a silent skip, never a deletion.
-- **coverage.py** `state_of` — [MEDIUM] returns (state, n_feats, n_pages) for a file, but in the code, it's called with `state_of(host, e['name'])` which may not be the correct usage as the function is supposed to take a
-  - says: -> (state, n_feats, n_pages) for ONE candidate file, or None if it is not usable.
-- **chain.py** `local_unmatched` — [MEDIUM] local_unmatched[side] += 1
-  - says: THE WHOLE NAME IS THE KEY, not `side[:40]`
-- **chain.py** `unanswered` — [MEDIUM] got is None is exactly 'no model answered'
-  - says: got is None
-- **binding_health.py** `quarantined` — [MEDIUM] Returns hosts with retry_after > now, but the docstring says it returns hosts that are quarantined and not yet released.
-  - says: Only those whose retry-after has not yet passed.
+- **assay.py** `interval` — [HIGH] the interval is the square root of the sum of half_spread squared and floor squared, which represents the combined variance of prior divergence and evidence-quality noise
+  - says: the interval is prior divergence, not ignorance
+- **assay.py** `_interval` — [HIGH] The code calculates variance but misses the covariance term which is the larger half of the error bar calculation.
+  - says: Half-width of the honest error bar, in BAND units, by variance propagation.
+- **autostart.py** `subprocess.Popen` — [MEDIUM] return a Popen object without properly closing file handles
+  - says: start a new process
+- **assay.py** `denom` — [MEDIUM] sums WEIGHTS over applicable axes but adds 1.0 as a fallback when the sum is zero
+  - says: sums WEIGHTS over applicable axes
+- **assay.py** `_rho` — [MEDIUM] Returns 0.0 when no documentation is available, but the code delegates to axis_correlation.rho which is supposed to handle the correlation calculation.
+  - says: Measured correlation between two Measures. -> float in [-1, 1].
 
 ---
 

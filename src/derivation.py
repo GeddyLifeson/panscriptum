@@ -134,9 +134,18 @@ LEDGER = {
     "f_complex":          Q(OWNER, "X.7 census: life-bearing worlds reaching complex life"),
     "f_civilization":     Q(OWNER, "X.7 census: complex-life worlds reaching civilization"),
     "f_survives":         Q(OWNER, "X.7 census: civilizations extant rather than fallen"),
-    "beta_constants":     Q(OWNER, "X.9: the six adjudication costs, 8 to 128 bits",
+    # THE RANGE READ "8 to 128 bits" AND THE TABLE IT DESCRIBES HOLDS A ZERO (order
+    # 08c1b6828384). `chord_field.ADJUDICATIONS` carries 64, 96, 8, 0, 128, 32: A4, the
+    # equivalence principle, costs nothing because its `must_declare` is literally "Nothing" --
+    # under a Randall-Sundrum bulk, exported mass stops sourcing brane gravity by construction
+    # and no extension has to be written. A cost of zero for an adjudication that declares
+    # nothing is the honest entry; the ledger's stated range is what had drifted away from it,
+    # and it is also why `rigor.main()`'s MDL audit prices five of the six.
+    "beta_constants":     Q(OWNER, "X.9: the six adjudication costs, 0 to 128 bits",
                             note="ordinal spacing is argued in X.9 §3 from how much of the record "
-                                 "each patched law touches; the absolute scale is declared"),
+                                 "each patched law touches; the absolute scale is declared. The "
+                                 "zero is A4, which declares no extension at all, so there is no "
+                                 "exception to price"),
     "currency_rates":     Q(OWNER, "X.12: local mints, each with a purchasing-power anchor",
                             ["joules_per_standard"],
                             note="rates are fiction, ANCHORS are the honest part -- move an "

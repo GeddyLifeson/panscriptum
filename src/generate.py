@@ -127,6 +127,11 @@ def save_raw(raw_path, body):
         with open(tmp, "w", encoding="utf-8") as f:
             f.write(body)
     except OSError as e:
+        # Noted HERE, inside the handler, where the exception is still live: `silence.note`
+        # records `sys.exc_info()`, so the same call made at the caller's `if not landed` -- with
+        # no exception being handled -- would file the site with the class "None" and no sample,
+        # which is a ledger row nobody can reproduce from.
+        silence.note("generate.py:raw-write-failed")
         _discard_tmp(tmp)
         return False, "%s while writing the chapter: %s" % (type(e).__name__, e)
     if silence.replace_retry(tmp, raw_path):
@@ -599,7 +604,10 @@ def main():
         # wrong with the bare write that stood here. (order 74b37b4c6c3a)
         raw_landed, raw_why = save_raw(raw_path, f"<!-- {job['address']} -->\n\n{text}")
         if not raw_landed:
-            silence.note("generate.py:raw-write-failed")
+            # No `silence.note` here: `save_raw` notes the OSError inside its own handler, and a
+            # denied replace is already recorded by `silence.replace_retry` as
+            # "replace-denied:<file>". A second note from outside any except would file the row
+            # with no exception attached.
             fail_count += 1
             failures[job["address"]] = {
                 "error": raw_why,

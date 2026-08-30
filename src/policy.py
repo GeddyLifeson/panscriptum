@@ -208,6 +208,14 @@ RECORD_RULES = [
      "why": "unstamped means written before 2026-08-25, not written wrongly; watch the trend"},
 ]
 
+# EVALUATED BY `main()` OVER `data/feats` SINCE ORDER ab820740fb85. It had ZERO consumers before
+# that -- `grep -rn EVIDENCE_RULES src/*.py` returned only this definition -- so its three
+# invariants were not red and not green, they were ABSENT, which is word for word the failure
+# this module's own opening thesis describes ("a HIGH guard reading a job-dict key nothing sets,
+# so it never appeared on the page at all"). A rule table nothing runs is documentation wearing
+# the shape of a check. The corpus was NOT in breach when the order was filed (5,000 of the
+# 255,855 files sampled by hand: 0 unreadable, 0 failures, 0 vacuous passes) -- the defect was
+# the absent evaluation, and the remedy is the sweep in `main()`, not a change to these rules.
 EVIDENCE_RULES = [
     {"id": "evidence.entity", "path": "entity", "op": "nonempty", "severity": "BLOCKING",
      "why": "M23: a cache file that does not name its entity cannot be proved to be its own"},
@@ -254,6 +262,15 @@ def main():
                          "stored order for coverage). Default: no limit, the whole corpus. "
                          "A spot check, never a default -- the run is labelled PARTIAL when "
                          "this is set.")
+    # THE EVIDENCE SWEEP IS ON BY DEFAULT, because a table nothing evaluates is the defect that
+    # put it here (order ab820740fb85). It is the slow part -- a quarter of a million cache
+    # files -- so there is a way to say "structure only" out loud, and the summary says so when
+    # it was used. There is no way to say it quietly.
+    ap.add_argument("--skip-evidence", action="store_true",
+                    help="do not sweep data/feats against EVIDENCE_RULES. The run is labelled "
+                         "EVIDENCE NOT SWEPT; those files are then unchecked, not passing.")
+    ap.add_argument("--evidence-workers", type=int, default=min(16, (os.cpu_count() or 4)),
+                    help="threads for the evidence sweep (it is file-I/O bound)")
     a = ap.parse_args()
     if not a.run:
         ap.print_help()
@@ -290,6 +307,51 @@ def main():
         for row in rows:
             evals.append(evaluate(row, COVERAGE_RULES, str(row.get("source"))[:40]))
 
+    # THE EVIDENCE CACHE (order ab820740fb85). `EVIDENCE_RULES` declared three invariants and
+    # nothing evaluated them; this is the sweep that makes them real, and it is the only
+    # structural pass over `data/feats` the project has. `evidence.entity` in particular is the
+    # M23 invariant the whole of `cachekey.py` enforces at READ time, one file at a time, with
+    # no corpus-wide answer anywhere until now.
+    #
+    # AGGREGATED, NOT STORED PER FILE, AND THAT IS NOT A CAP. Every failure, every vacuous pass
+    # and every unreadable file is named in full, here and in the report. What is not stored is
+    # the 261,000 individual PASS records -- those are counted, because a report holding one
+    # dict per passing cache file is a ~130 MB artefact that says the same thing as an integer.
+    # Nothing is decided by the omission and nothing that failed is left out of it.
+    ev_total = ev_read = ev_passed = 0
+    ev_unreadable = []
+    ev_interesting = []
+    if not a.skip_evidence:
+        import concurrent.futures as _cf
+        feats_root = os.path.join(HERE, "data", "feats")
+        all_feats = sorted(glob.glob(os.path.join(feats_root, "*", "*.json")))
+        ev_total = len(all_feats)
+        feats = all_feats if a.limit is None else all_feats[:a.limit]
+        ev_read = len(feats)
+
+        def _sweep_one(p):
+            subject = os.path.relpath(p, feats_root).replace(os.sep, "/")
+            try:
+                with open(p, encoding="utf-8") as fh:
+                    return evaluate(json.load(fh), EVIDENCE_RULES, subject)
+            except Exception as exc:
+                # SAME DISCIPLINE AS THE RECORD LOOP ABOVE: an unreadable file is a finding, not
+                # a gap in the sample. A cache file that cannot be parsed is one whose evidence
+                # nothing downstream can read either.
+                silence.note("policy.py:evidence-unreadable")
+                return (subject, "%s: %s" % (type(exc).__name__, str(exc)[:70]))
+
+        if feats:
+            with _cf.ThreadPoolExecutor(max_workers=max(1, a.evidence_workers)) as pool:
+                for out in pool.map(_sweep_one, feats):
+                    if isinstance(out, tuple):
+                        ev_unreadable.append(out)
+                    elif out["failed"] or out["vacuous"]:
+                        ev_interesting.append(out)
+                    else:
+                        ev_passed += 1
+        evals.extend(ev_interesting)
+
     # WHAT WAS AND WAS NOT LOOKED AT, first, before any verdict. A window nobody can see the far
     # side of reads exactly like a complete list, so the scope is stated whether or not it is
     # partial -- a run that says "216 of 216" cannot be mistaken for one that says "40 of 216".
@@ -298,11 +360,27 @@ def main():
         "limit": a.limit, "partial": partial,
         "records_total": len(all_records), "records_evaluated": len(records),
         "coverage_total": cov_total, "coverage_evaluated": cov_read,
+        "evidence_swept": not a.skip_evidence,
+        "evidence_total": ev_total, "evidence_evaluated": ev_read,
+        "evidence_passed": ev_passed, "evidence_unreadable": len(ev_unreadable),
+        "evidence_stored": len(ev_interesting),
+        "evidence_note": ("only failing/vacuous evidence files are stored individually; "
+                          "passes are counted" if not a.skip_evidence else
+                          "--skip-evidence: data/feats was NOT swept this run"),
         "records_skipped": [os.path.basename(p) for p in all_records[a.limit:]] if partial else [],
     })
     print("scope: records %d of %d, coverage rows %d of %d%s"
           % (len(records), len(all_records), cov_read, cov_total,
              "   *** PARTIAL RUN (--limit %d) ***" % a.limit if partial else ""))
+    if a.skip_evidence:
+        print("  *** EVIDENCE NOT SWEPT (--skip-evidence): data/feats was not looked at. Those "
+              "files are unchecked, not passing. ***")
+    else:
+        print("  evidence cache: %d of %d file(s) swept against EVIDENCE_RULES, %d clean, "
+              "%d with a finding, %d unreadable"
+              % (ev_read, ev_total, ev_passed, len(ev_interesting), len(ev_unreadable)))
+        for subj, why in ev_unreadable:
+            print("  UNREAD %-40s %s" % (subj[:40], why))
     if partial:
         skipped_rec = all_records[a.limit:]
         print("  PARTIAL: %d record(s) and %d coverage row(s) were NOT evaluated. They are not "
@@ -317,7 +395,13 @@ def main():
     info = [(e["subject"], r) for e in evals for r in e["failed"]
             if r.get("severity") == "INFO"]
     vacuous = [(e["subject"], r) for e in evals for r in e["vacuous"]]
-    print("%d document(s) evaluated" % len(evals))
+    # SAY WHICH DOCUMENTS. `len(evals)` counts records, coverage rows and the evidence files
+    # that had something to report -- the clean evidence files are counted on the scope line
+    # above rather than stored, so a bare total here would understate what was looked at by a
+    # quarter of a million and read like the whole corpus.
+    print("%d document(s) evaluated in detail (records, coverage rows, and the %d evidence "
+          "file(s) with a finding); %d further evidence file(s) passed clean"
+          % (len(evals), len(ev_interesting), ev_passed))
     if unreadable:
         print("%d record(s) COULD NOT BE READ and were never evaluated -- not a pass"
               % len(unreadable))

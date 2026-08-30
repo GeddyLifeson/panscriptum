@@ -565,6 +565,61 @@ def _bound_from_call(tree, node, want, reachable=True):
     return out
 
 
+def _carries_result_of(tree, node, want, reachable=True):
+    """Every name in `node` carrying a call to `want`'s result, DIRECTLY OR THROUGH A CONTAINER.
+
+    -> set. A superset of `_bound_from_call`, and the reason it had to exist is that
+    `_bound_from_call` only sees `x = want()`. A guard is free to hold its readings in a list,
+    a tuple or a dict and unpack them in a loop, which is what `publish.push` does now that it
+    takes TWO readings of `mutate.active()` (order d56228616f9c): `readings = [("at push time",
+    _MUT.active())]` then `for _when, (_busy, _rec) in readings:`. Not one name there is bound
+    directly to the call, so `_bound_from_call` returned an empty set and the net that asks
+    "does the ANSWER reach the branch" reported BREACHED against a stronger interlock than the
+    one it was written for. A net that goes red when a guard is improved teaches people to
+    stop improving guards.
+
+    IT IS STILL A DATA-DEPENDENCE TEST, not a widening into "any name in the function". A name
+    enters the set only by being bound from an expression that either CALLS `want` or mentions a
+    name already in the set, so a body with no call to `want` in it yields nothing at all and a
+    fixture carrying no interlock logic still cannot satisfy a net built on this.
+    """
+    import ast
+    maps = _import_maps(tree)
+    nodes = _live_walk(node) if reachable else list(ast.walk(node))
+
+    def _calls_want(sub):
+        return any(isinstance(x, ast.Call) and _spelled(_spellings_of_call(tree, x, maps), want)
+                   for x in ast.walk(sub))
+
+    out = set()
+    for _ in range(8):        # a fixpoint; real chains here are one or two links long
+        grew = False
+        for n in nodes:
+            if isinstance(n, (ast.Assign, ast.AnnAssign)):
+                src = n.value
+                targets = n.targets if isinstance(n, ast.Assign) else [n.target]
+            elif isinstance(n, (ast.For, ast.AsyncFor)):
+                src, targets = n.iter, [n.target]
+            elif isinstance(n, ast.withitem):
+                src = n.context_expr
+                targets = [n.optional_vars] if n.optional_vars else []
+            else:
+                continue
+            if src is None or not targets:
+                continue
+            if not (_calls_want(src)
+                    or any(isinstance(x, ast.Name) and x.id in out for x in ast.walk(src))):
+                continue
+            for t in targets:
+                for e in ast.walk(t):
+                    if isinstance(e, ast.Name) and e.id not in out:
+                        out.add(e.id)
+                        grew = True
+        if not grew:
+            break
+    return out
+
+
 def _guarded_by(tree, if_node, names, want=None):
     """Is this `if` conditioned on one of `names` (or on a direct call to `want`)? -> bool."""
     import ast
@@ -2873,6 +2928,28 @@ def _withdrawal_takes_a_snapshot(path=None):
             and _reaches_call(tree, "snapshot.verify"))
 
 
+def _a_waived_partial_snapshot_still_records_what_it_missed():
+    """`allow_missing=True` suppresses the refusal and NOTHING ELSE. -> bool.
+
+    The waiver is the half that makes the partial-capture refusal survivable, and a waiver that
+    also erased the record would be worse than no refusal at all: the caller would get an id, no
+    exception, and a manifest that cannot say which of its paths were never taken. `requested`
+    and `skipped` go in either way. Cleaned up by name, like the empty-snapshot litter above.
+    """
+    import shutil as _sh
+    import snapshot as SNAP
+    sid = None
+    try:
+        sid = SNAP.before("drill-partial", ["config.yaml", "no/such/path"], allow_missing=True)
+        m = SNAP.manifest(sid)
+        return (m.get("skipped") == ["no/such/path"]
+                and "config.yaml" in (m.get("requested") or [])
+                and bool(m.get("took")))
+    finally:
+        if sid:
+            _sh.rmtree(os.path.join(SNAP.ROOT, sid), ignore_errors=True)
+
+
 def drill_snapshot():
     a = "THE UNDO — is there a copy behind an irreversible step, and does it restore?"
     import snapshot as SNAP
@@ -2913,6 +2990,25 @@ def drill_snapshot():
         lambda: _refuses(lambda: SNAP.before(_EMPTY, ["no/such/path"]),
                          SNAP.SnapshotFailed),
         "a snapshot that captured nothing is a missing one wearing the same name")
+    # THE SIBLING OF THE NET ABOVE, and the case that actually happens (order f4193095edff).
+    # All-or-nothing refusal fired only when NOTHING was captured, which is the one shape nobody
+    # hits: ask for four paths where one is a typo, a renamed directory or a file not created
+    # yet, and `before()` returned an id, `verify()` returned True, and the caller went ahead
+    # with an irreversible step holding PART of what it asked for. A check that fires only in
+    # the case nobody reaches is furniture. Three assertions, because the refusal is not the
+    # whole fix: the manifest must record what was REQUESTED and what was SKIPPED either way --
+    # that is what a restore six weeks from now has to read -- and `allow_missing=True` must
+    # still be a way through for the caller who genuinely means "whichever of these exist",
+    # since a guard that blocks correct work is a guard somebody deletes.
+    net(a, "a PARTIAL snapshot raises too, not just an empty one",
+        lambda: _refuses(lambda: SNAP.before(_EMPTY, ["config.yaml", "no/such/path"]),
+                         SNAP.SnapshotFailed),
+        "an irreversible step must not proceed on part of the copy it asked for, with nothing "
+        "anywhere naming the part it did not get")
+    net(a, "and allow_missing is still a way through, with the absences on the record",
+        _a_waived_partial_snapshot_still_records_what_it_missed,
+        "a guard that blocks the caller who genuinely means 'whichever of these exist' is a "
+        "guard that gets an allow_missing=True typed in front of every call site")
     try:
         import shutil as _sh0
         for _new in (set(os.listdir(SNAP.ROOT)) - _empty_before
@@ -5197,6 +5293,80 @@ def _a_new_source_does_not_queue_behind_the_old_ones():
         shutil.rmtree(d, ignore_errors=True)
 
 
+def _the_log_roll_off_archives_before_it_trims():
+    """No scouting cycle is ever DELETED — and a failed archive costs a duplicate, not a loss.
+
+    THE BRANCH THE BATTERY DID NOT EXECUTE (order 207dd7c41347). Order e8cd908ce5e4 turned
+    `scout.sweep`'s roll-off from `_land(LOG, prev[-40:])` -- a silent delete of the oldest
+    cycle, every cycle past the fortieth -- into an ARCHIVE-THEN-TRIM move: the overflow is
+    appended to `_archive_for(LOG)` first, and the window is trimmed only if every append
+    landed. That ordering IS the guarantee, and an ordering is exactly what a later edit
+    reverses without noticing. The two existing scout nets run four-cycle fixtures against
+    `LOG_CYCLES = 40`, so neither has ever entered this branch: the one piece of scout that
+    carries a "nothing is ever lost" promise was the one piece nothing attacked.
+
+    FOUR ASSERTIONS, and the fourth is the one worth the net:
+      1. after a sweep, `LOG` holds exactly `LOG_CYCLES` entries;
+      2. the archive holds exactly the overflow, in order, one JSON object per line;
+      3. their union is the original list -- nothing missing, nothing duplicated;
+      4. with `silence.append_line` forced to fail, `LOG` still holds EVERYTHING. A failed
+         archive must cost a duplicated cycle, never a deleted one.
+
+    And a fifth, small: `_archive_for(SC.LOG)` must land inside the redirected directory. The
+    archive path is derived from `LOG` rather than declared as its own constant precisely so
+    that redirecting one redirects the other; nothing proved that it did, and a net that wrote
+    into the live `data/` while proving a fixture is how this net's own subject got filed.
+    """
+    import contextlib
+    import io
+    import json as _json
+    import shutil
+    import scout as SC
+    import silence as _S
+    d = tempfile.mkdtemp(prefix="drillscout3_")
+    keep = (SC.hostless, SC.ATTEMPTS, SC.LOG, SC.scout, _S.append_line)
+    try:
+        table = _synthetic_hostless()
+        SC.hostless = lambda: dict(table)
+        SC.ATTEMPTS = os.path.join(d, "SCOUT_ATTEMPTS.json")
+        SC.LOG = os.path.join(d, "SCOUT.json")
+        SC.scout = lambda source, names, register=True: {
+            "source": source, "proposed": 0, "kept": [], "checked": [], "note": "drill stub"}
+        arch = SC._archive_for(SC.LOG)
+        if os.path.dirname(os.path.abspath(arch)) != os.path.abspath(d):
+            return False              # the overflow would have gone to the LIVE archive
+
+        # OVERFULL BY THREE. `sweep` appends one cycle of its own, so seeding LOG_CYCLES + 2
+        # leaves exactly three to roll off.
+        seed = [{"at": "seed-%03d" % i, "results": []} for i in range(SC.LOG_CYCLES + 2)]
+        with open(SC.LOG, "w", encoding="utf-8") as fh:
+            _json.dump(seed, fh)
+        with contextlib.redirect_stdout(io.StringIO()):
+            SC.sweep(limit=1, register=False)
+        kept = _json.load(open(SC.LOG, encoding="utf-8"))
+        rolled = [_json.loads(ln) for ln in open(arch, encoding="utf-8").read().splitlines() if ln]
+        if len(kept) != SC.LOG_CYCLES or [c["at"] for c in rolled] != [c["at"] for c in seed[:3]]:
+            return False
+        # NOTHING MISSING AND NOTHING DUPLICATED across the two files, checked as a sequence
+        # rather than as a set so a re-ordering counts as a loss too.
+        whole = [c["at"] for c in rolled] + [c["at"] for c in kept]
+        if whole != [c["at"] for c in seed] + [kept[-1]["at"]]:
+            return False
+
+        # 4 -- THE ORDERING PROPERTY. Archive refused; the log must keep everything.
+        with open(SC.LOG, "w", encoding="utf-8") as fh:
+            _json.dump(seed, fh)
+        _S.append_line = lambda *a_, **k_: False
+        with contextlib.redirect_stdout(io.StringIO()), \
+                contextlib.redirect_stderr(io.StringIO()):
+            SC.sweep(limit=1, register=False)
+        after = _json.load(open(SC.LOG, encoding="utf-8"))
+        return len(after) == len(seed) + 1
+    finally:
+        SC.hostless, SC.ATTEMPTS, SC.LOG, SC.scout, _S.append_line = keep
+        shutil.rmtree(d, ignore_errors=True)
+
+
 def drill_scout():
     """The hostless work-list — a rate is a cost decision; a cap is a smaller universe."""
     a = "THE WORK-LIST — does the scouting window rotate, or is it the universe wearing a limit?"
@@ -5208,6 +5378,213 @@ def drill_scout():
         _a_new_source_does_not_queue_behind_the_old_ones,
         "absent-means-never-attempted is what keeps the attempts ledger from becoming a "
         "registry somebody has to seed by hand")
+    net(a, "a cycle rolling out of the log is ARCHIVED before the log is trimmed",
+        _the_log_roll_off_archives_before_it_trims,
+        "the ordering is the whole guarantee, and both existing scout nets run four-cycle "
+        "fixtures against LOG_CYCLES=40 -- so this branch had never once been executed")
+
+
+def drill_recorders_and_lane():
+    """Four fixes that landed this shift and had never been watched refuse.
+
+    Each of these is a real repair with a real incident behind it, and each arrived with no net
+    -- which by this project's own standing rule means it is not yet evidence of anything. "A
+    guard nobody has watched refuse is a guard nobody has evidence about", and a fix in that
+    state is indistinguishable, from outside, from a fix that does not work. They are gathered
+    in one area rather than scattered because none of the four subsystems had a drill area of
+    its own, and inventing four one-net areas would bury them.
+    """
+    a = "RECENT REPAIRS — a fix nobody has watched refuse is not yet evidence"
+
+    def a_lost_release_reaches_an_escalation():
+        """`release()` saying NOT RELEASED must be REPORTED, not returned into a bare statement.
+
+        `binding_health.release()` was rewritten so a lost compare-and-swap returns a string
+        beginning "NOT RELEASED" rather than the reason-for-release it could not honour -- and
+        both of `run()`'s call sites were bare statements, so the one thing that rewrite
+        produced went into the bin. A release that loses five CAS rounds was completely
+        invisible: `main()` printed `ok` for the host, the sweep reported it recovered, and the
+        host stayed closed off with its coverage switched off (order a29c38c9eff3).
+
+        BOTH DIRECTIONS AND THE RUNG. A refusal must escalate at SUPERVISOR -- a release that
+        did not land is an ACTION REPORTED THAT DID NOT HAPPEN, which closes one area of the
+        park, not a JANITOR-level observation going stale -- and an ordinary successful release
+        must escalate NOTHING, because an alarm that also sounds on the healthy case is
+        furniture within a week.
+        """
+        import contextlib
+        import io
+        import binding_health as BH
+        import escalation as ESC
+        seen = []
+        real = ESC.escalate
+        try:
+            ESC.escalate = lambda level, code, what, **k: seen.append((level, code))
+            with contextlib.redirect_stderr(io.StringIO()):
+                refused = BH._report_not_released(
+                    "drill.invalid", "NOT RELEASED: HOST_QUARANTINE.json could not be written")
+                quiet = BH._report_not_released("drill.invalid", "canary passed")
+        finally:
+            ESC.escalate = real
+        return (refused is True and quiet is False
+                and seen == [(ESC.SUPERVISOR, "HOST_RELEASE_NOT_RECORDED")])
+    net(a, "a release that did not land reaches an escalation, not a bare statement",
+        a_lost_release_reaches_an_escalation,
+        "the host stays quarantined with its coverage off while main() prints ok for it")
+
+    def the_release_verdict_is_actually_passed_to_the_reporter(src=None):
+        """...and `run()` must hand it the verdict, in a reachable branch.
+
+        The behavioural net above proves the reporter works. It cannot prove anything reaches
+        it, and "the value was computed and dropped" is the exact defect that was filed: a
+        `_report_not_released` sitting in the file with `release(h)` still called as a bare
+        statement beside it would satisfy every behavioural check ever written.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(src), "binding_health.py"))
+        run = _defn(tree, "run")
+        if run is None or _defn(tree, "_report_not_released") is None:
+            return False
+        for call in _live_walk(run):
+            if not (isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+                    and call.func.id == "_report_not_released"):
+                continue
+            if any(isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+                   and n.func.id == "release" for arg in call.args for n in ast.walk(arg)):
+                return True
+        return False
+    net(a, "and run() passes release()'s verdict into it rather than discarding it",
+        the_release_verdict_is_actually_passed_to_the_reporter,
+        "a discarded write verdict in the function whose whole rewrite was about not "
+        "discarding it")
+
+    def an_unarbitrable_lane_proceeds_immediately():
+        """None from `_take_slot` means GO NOW; False means wait. -> bool.
+
+        `_take_slot` returned one sentinel for two situations needing opposite responses --
+        "every slot is live", where waiting is right, and "os.open raised, I cannot arbitrate at
+        all", whose own comment promised the caller "proceeds unmetered". It did not proceed:
+        `lane()`'s queue loop polled until `deadline = now + SLOT_LEASE_SECONDS`, 900 seconds,
+        and then went ahead anyway. `lane()` fronts EVERY model call this library makes, so one
+        persistent `os.open` failure on `state/gpu_lane` -- a permissions change, or Norton,
+        which already blocks DuckDB and Python TLS on this machine -- turned every model call in
+        nine standing jobs into a fifteen-minute stall (order d316c46b67bd).
+
+        DRIVEN WITH THE LEASE SHORTENED, which is the only way to tell the fix from the fault
+        inside a battery: at the real 900 seconds the two answers look identical for the first
+        fifteen minutes. With the ceiling at two seconds the unarbitrable call must return in
+        well under it, and -- the control that makes the first half mean anything -- a BUSY lane
+        must still pay the full wait. A net that only proved "None is fast" would also pass
+        against a `lane()` that never waited for anything.
+
+        Pointed at a temp `LANE` directory so no real slot is taken or released.
+        """
+        import shutil
+        import gpu_lane as GL
+        d = tempfile.mkdtemp(prefix="drill_lane_")
+        keep = (GL.LANE, GL.SLOT_LEASE_SECONDS, GL._take_slot, GL.foreground_active)
+        try:
+            GL.LANE = os.path.join(d, "gpu_lane")
+            GL.SLOT_LEASE_SECONDS = 2.0
+            GL.foreground_active = lambda ignore_pid=None: False
+            GL._take_slot = lambda label: None            # cannot arbitrate
+            t0 = time.time()
+            with GL.lane("drill"):
+                pass
+            unarbitrable = time.time() - t0
+            GL._take_slot = lambda label: False           # genuinely busy
+            t0 = time.time()
+            with GL.lane("drill"):
+                pass
+            busy = time.time() - t0
+            return unarbitrable < 0.5 <= busy
+        finally:
+            (GL.LANE, GL.SLOT_LEASE_SECONDS, GL._take_slot,
+             GL.foreground_active) = keep
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a lane that cannot be arbitrated proceeds AT ONCE, and a busy one still waits",
+        an_unarbitrable_lane_proceeds_immediately,
+        "one os.open failure on state/gpu_lane put a 15-minute stall in front of every model "
+        "call in nine standing jobs, and the module header mandates the opposite")
+
+    def a_misaddressed_blob_is_refused():
+        """The filename IS a checksum, and `load()` must read it. -> bool.
+
+        `store()` names every blob by `content_hash(text)` and `load()` returned the
+        decompressed bytes without ever hashing them back -- declining the one property
+        content-addressing gives away for free. It matters concretely: the temp-then-replace
+        repair in `store()` stops NEW torn blobs and can do nothing about one already on disk,
+        because `store()` never revisits a path that exists. A verifying `load()` is the only
+        thing that will ever find one, and it finds it when the damage matters -- as the chapter
+        is served to a reader.
+
+        THREE CASES, because a checker that refuses everything is as useless as one that refuses
+        nothing: the honest blob must come back, the substituted one must RAISE, and a file
+        whose name is not a content address at all must not have a failure invented for it.
+        """
+        import shutil
+        import compress_store as CS
+        d = tempfile.mkdtemp(prefix="drill_store_")
+        try:
+            good = CS.store("the custodian records the specimen" * 20, d)
+            if CS.load(good["path"], good["codec"]) != "the custodian records the specimen" * 20:
+                return False
+            # SUBSTITUTED UNDER ITS OWN NAME: what a torn write or a replaced file looks like.
+            other = CS.store("something else entirely" * 20, d)
+            shutil.copyfile(other["path"], good["path"])
+            if not _refuses(lambda: CS.load(good["path"], good["codec"]), RuntimeError):
+                return False
+            # NOT CONTENT-ADDRESSED: no address to check, so no failure to invent.
+            plain = os.path.join(d, "hand-copied" + os.path.splitext(good["path"])[1])
+            shutil.copyfile(other["path"], plain)
+            return CS.load(plain, other["codec"]) == "something else entirely" * 20
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a blob that is not what its own filename claims is REFUSED, not served",
+        a_misaddressed_blob_is_refused,
+        "returning text that is not what was stored is the quietest corpus corruption "
+        "available to this project")
+
+    def a_competing_flush_cannot_clobber_the_recorder():
+        """`health._cas_land` must refuse a write staged against a copy that has moved on.
+
+        THE LOST UPDATE WAS IN THE RECORDER (order d770b1896635) -- the one component whose
+        silent failure hides every other component's failure. Two concurrent flushes each read
+        the ledger, each merged their own samples, and whichever renamed second landed a
+        snapshot taken before the other's edit existed. The write SUCCEEDS, which is why nothing
+        ever reported it, and the lost samples look exactly like samples that were never taken.
+
+        Both directions: the stale digest must be refused, and the current one must still land,
+        or the recorder has simply been broken into never writing.
+        """
+        import shutil
+        import health as H
+        import silence as S
+        d = tempfile.mkdtemp(prefix="drill_health_")
+        try:
+            p = os.path.join(d, "SAMPLES.json")
+            with open(p, "w", encoding="utf-8") as fh:
+                json.dump({"a": [1]}, fh)
+            stale = S.digest_of(p)
+            # ...a competitor lands between our read and our write.
+            with open(p, "w", encoding="utf-8") as fh:
+                json.dump({"a": [1], "b": [2]}, fh)
+            landed, _why = H._cas_land(p, {"a": [1, 99]}, stale)
+            if landed:
+                return False
+            with open(p, encoding="utf-8") as fh:
+                if json.load(fh) != {"a": [1], "b": [2]}:   # the competitor's write survives
+                    return False
+            fresh = S.digest_of(p)
+            landed2, _why2 = H._cas_land(p, {"a": [1], "b": [2], "c": [3]}, fresh)
+            with open(p, encoding="utf-8") as fh:
+                return landed2 and json.load(fh) == {"a": [1], "b": [2], "c": [3]}
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a flush staged against a stale copy is refused, and a current one still lands",
+        a_competing_flush_cannot_clobber_the_recorder,
+        "a lost update in the evidence bag looks exactly like evidence that was never "
+        "collected, and it is the recorder that hides every other component's failure")
 
 
 def drill_mutation():
@@ -5703,7 +6080,14 @@ def drill_mutation():
             return False
         if not _calls_within(tree, push, "mutate.active", reachable=True):
             return False
-        answered = _bound_from_call(tree, push, "mutate.active")
+        # THROUGH A CONTAINER TOO (2026-08-29). `_bound_from_call` alone sees only
+        # `x = mutate.active()`, and `push()` now takes TWO readings and unpacks them out of a
+        # list in a `for` (order d56228616f9c) -- a STRONGER interlock, which this net reported
+        # as BREACHED for want of a direct assignment. `_carries_result_of` follows the value
+        # through the container; it is still a data-dependence test, so an interlock-free
+        # fixture still yields nothing and still fails at the next line.
+        answered = (_bound_from_call(tree, push, "mutate.active")
+                    | _carries_result_of(tree, push, "mutate.active"))
         if not answered:
             return False                      # active() called and its answer thrown away
         for n in live:
@@ -5876,16 +6260,32 @@ def drill_scope():
             if not any(isinstance(c, ast.Attribute) and c.attr == "OUT_OF_SCOPE"
                        for c in n.test.comparators):
                 continue
-            # The branch must LEAVE the status alone; a guard that then rewrites it is not one.
-            body = ast.Module(body=_live_stmts(n.body), type_ignores=[])
-            if _subscript_assigns(body, "r", "status"):
+            # WHICH ARM IS THE EXCLUDED ONE DEPENDS ON THE OPERATOR, and reading only one of
+            # them is what made this net breach against correct code (2026-08-29). It assumed
+            # `if status == OUT_OF_SCOPE: ... else: <relabel>` and required every write to sit
+            # in the `else`. The module now spells the identical rule the other way round --
+            # `if r.get("status") != _roll.OUT_OF_SCOPE:` with the relabel in the BODY -- which
+            # is the same guarantee and arguably the clearer form, and the net called it an
+            # exclusion a maintenance script could undo. A guard is not two shapes; it is one
+            # property, and the property is that the write is unreachable when the source is
+            # out of scope. Both spellings are now read, and a `Compare` that is neither `==`
+            # nor `!=` is declined rather than guessed at.
+            if len(n.test.ops) != 1 or not isinstance(n.test.ops[0], (ast.Eq, ast.NotEq)):
                 continue
-            guards.append(n)
+            is_eq = isinstance(n.test.ops[0], ast.Eq)
+            excluded_arm = n.body if is_eq else n.orelse
+            protected_arm = n.orelse if is_eq else n.body
+            # The EXCLUDED arm must leave the status alone; a guard that then rewrites it in
+            # the very branch it was protecting is not a guard.
+            if _subscript_assigns(ast.Module(body=_live_stmts(excluded_arm), type_ignores=[]),
+                                  "r", "status"):
+                continue
+            guards.append(protected_arm)
         if not guards:
             return False
         protected = set()
-        for g in guards:
-            for w in _live_stmt_walk(_live_stmts(g.orelse)):
+        for arm in guards:
+            for w in _live_stmt_walk(_live_stmts(arm)):
                 protected.add(id(w))
         writes = [w for w in _live_walk(tree) if isinstance(w, ast.Assign)
                   and _subscript_assigns(ast.Module(body=[w], type_ignores=[]), "r", "status")]
@@ -6214,7 +6614,7 @@ def main():
                drill_snapshot, drill_stale_writer, drill_policy, drill_binding_identity,
                drill_fetch, drill_cascade, drill_park,
                drill_workorders, drill_inspector, drill_no_top_ups, drill_probe_honesty, drill_rung_four, drill_codewatch, drill_scout,
-               drill_defect_classes, drill_mutation,
+               drill_defect_classes, drill_recorders_and_lane, drill_mutation,
                drill_scope, drill_correlation,
                drill_outside):
         # AN AREA THAT DIES IS A BREACH OF THAT AREA, NOT THE END OF THE RUN (order

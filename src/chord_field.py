@@ -32,9 +32,16 @@ similar. It is that they are drawing on and discharging into the same account.
 """
 import math
 
+# ONLY THE TWO THIS FILE ACTUALLY USES. `G_NEWTON` and `HBAR` stood here and were referenced
+# zero times in the module -- hand-copied duplicates of the derivation ledger's `G` and `hbar`,
+# which is the exact failure `derivation.py`'s header exists to prevent, and which `tempus.py`
+# already names this file in a comment about ("a fourth hand-copied instance of quantities
+# already declared in cosmography.py, chord_field.py"). Removed rather than re-declared, on the
+# precedent of tempus's own dead `SECONDS_PER_YEAR`/`C_LIGHT` pair: a second source of truth for
+# a constant drifts silently, and one nothing reads drifts without even being wrong yet.
+# `C_LIGHT` is used by `recoil_momentum` and `K_BOLTZMANN` by `landauer_floor`. (Order
+# 08c1b6828384.)
 C_LIGHT = 2.99792458e8
-G_NEWTON = 6.67430e-11
-HBAR = 1.054571817e-34
 K_BOLTZMANN = 1.380649e-23
 
 

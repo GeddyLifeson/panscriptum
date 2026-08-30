@@ -475,6 +475,30 @@ def resume_subsystem(name, ruling, by="?"):
     _write_stopped(doc)
     escalate(JANITOR, "SUBSYSTEM_RESUMED", "%s resumed: %s" % (name, ruling),
              source=name, who=by)
+    # AND THE STOP'S OWN WORK ORDER IS CLOSED HERE, because nothing else was closing it.
+    # `stop_subsystem` escalates at MANAGER, and `escalate` turns every escalation into a work
+    # order -- so a stop opens a MAJOR order keyed (SUBSYSTEM_STOPPED, name). Lifting the stop
+    # emptied `state/STOPPED.json` and filed a SECOND, separate SUBSYSTEM_RESUMED order, but left
+    # the first one OPEN: the queue went on saying a subsystem was stopped after it had been
+    # resumed, at MAJOR, addressed to RUN. Measured on 2026-08-29 -- `state/STOPPED.json` was
+    # `{}` and nothing was stopped, while orders 16d29e625d29 (`pipeline`) and a4b8fb03956e
+    # (`feats`) still stood open claiming otherwise, left behind by a scratch test harness at
+    # 22:21. The drill's own probe never exposed this because the drill closes its orders BY
+    # HAND afterwards; any other caller of the sanctioned API leaks one.
+    #
+    # A false MAJOR is not clutter. This is the rung whose entire purpose is that a real stop --
+    # `catalogue_web --recatalogue` nulling synthesis blocks, order 4e7f1e47d0a0 -- can be found
+    # in the record, and it cannot be found among stale copies of itself.
+    #
+    # Defensive exactly like `escalate`'s own workorder call: a queue that will not accept the
+    # closure must never take the resume down with it. The stop has already been lifted above,
+    # which is the part that matters, and a lingering order is recoverable by the next sweep.
+    try:
+        import workorders as WO
+        WO.resolve_code("SUBSYSTEM_STOPPED",
+                        "resumed by %s: %s" % (by, ruling), where=str(name), by=str(by))
+    except Exception:
+        silence.note("escalation.py:resume-order")
     return True
 
 

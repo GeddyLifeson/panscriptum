@@ -810,6 +810,14 @@ def main():
           f"(Noether conservations + structural)")
     ratios = []
     _underpriced = []
+    # FIVE ROWS FOR SIX ADJUDICATIONS, AND THE SIXTH IS ABSENT ON PURPOSE (order 08c1b6828384).
+    # `chord_field.ADJUDICATIONS` also holds A4, the equivalence principle, at beta 0 -- its
+    # `must_declare` is "Nothing", because under a Randall-Sundrum bulk exported mass stops
+    # sourcing brane gravity by construction. There is no exception to price, so there is no
+    # floor to audit it against; a row here would be pricing a patch that was never applied.
+    # Said out loud because an unexplained omission from an audit table reads as an oversight,
+    # and the one value not audited was also the one that used to contradict the ledger's stated
+    # 8-to-128 range (now corrected there to 0-to-128).
     for nm, laws, regimes, params, declared in [
             ("coherence", 1, 2, 0, 8), ("thermodynamics", 1, 4, 1, 32),
             ("energy", 2, 4, 1, 64), ("momentum", 2, 8, 2, 96),
