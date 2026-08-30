@@ -728,6 +728,21 @@ def main():
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--clear", action="store_true")
     ap.add_argument("--ruling", default="")
+    # WHO ACTUALLY LIFTED IT, and until now the record could not say. `--clear` hardcoded
+    # `by="owner-cli"`, which is the CLI's default label and NOT evidence that a person ruled --
+    # and order c614f7c145fc exists because exactly that happened: a halt was lifted at 00:55 on
+    # a scheduled run with nobody present, and the ledger recorded `who=owner-cli`, so the only
+    # way anybody learned an automated actor had done it was by reading the handoff prose.
+    #
+    # The runtime guard (`_by_a_person_at_the_cli`) asks whether this file is the program being
+    # run, which is the strongest question code can ask; what it cannot ask is whether the hands
+    # at the CLI belong to a person. That gap is not closable from here. What IS closable is the
+    # record's ability to be honest when the caller volunteers the truth, so an automated run
+    # that lifts a halt under the self-caused clause can sign its own name instead of wearing
+    # the owner's. The default is unchanged, so a person at a terminal still records as before.
+    ap.add_argument("--by", default="owner-cli",
+                    help="who is lifting it. An automated run MUST pass its own name rather "
+                         "than leaving the owner-cli default, which reads as a person.")
     ap.add_argument("--raise-halt", dest="raise_halt", default="",
                     help="code:what — raise a halt by hand (testing, or a person stopping the "
                          "library deliberately)")
@@ -755,7 +770,7 @@ def main():
         # not happen and here is why. Uncaught, it printed a traceback instead of the sentence
         # the exception carefully spells out.
         try:
-            did = clear(a.ruling, by="owner-cli")
+            did = clear(a.ruling, by=a.by)
         except (ValueError, PermissionError) as e:
             print("refused: %s" % e)
             return 2

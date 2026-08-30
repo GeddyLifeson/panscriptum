@@ -3716,7 +3716,12 @@ check("the roll counts entities that RAISED separately from entities that were e
 # object and FEED IT BACK into a request, inside a loop. That is what "the caps are measured
 # rather than argued about" means. It cannot be satisfied by a comment, and it survives the
 # function being renamed again.
-import ast as _ast19
+#
+# `_ast19` is already bound above (§19's bare-write scan imports it); re-importing it here
+# under the same alias was a second binding of the same module and the only pyflakes finding in
+# the tree. Removed rather than renamed: one alias per module per file is the house shape, and a
+# second spelling of the same import is how two call sites come to disagree about which one
+# they mean.
 
 
 def _follows_continuation(src):

@@ -3548,21 +3548,48 @@ def drill_stale_writer():
             a write that did not land. The two halves of the return disagreed, and the half that
             reaches a human was the wrong one.
 
-            The denial is taken by a stand-in for `replace_retry`, because the real one only
-            fails when Windows actually refuses a rename -- a condition no test can schedule, and
-            waiting for it is how this went unnoticed. The file must also be untouched afterwards:
-            a reason is not evidence if the write happened anyway.
+            THE SEAM MOVED, AND THIS NET WENT RED ON CORRECT CODE (2026-08-30). It used to take
+            the denial from a stand-in for `S.replace_retry`, because `replace_if_unchanged`
+            handed the rename to it. Order fede605db64f then moved the retry loop INTO
+            `replace_if_unchanged` -- rightly: the compare and the swap have to be adjacent, and
+            the sleeping helper between them was losing writes -- and `replace_retry` stopped
+            being called from this path at all. The stand-in intercepted nothing, no denial
+            could occur, `ok` came back True, and this net BREACHED against a fix. A net whose
+            seam has moved measures nothing, and it is worse than an absent one because it
+            halts the library while doing it.
+
+            SO THE DENIAL IS NOW REAL, which the paragraph this replaces said no test could
+            schedule. On Windows `os.replace` onto a file somebody holds open raises
+            PermissionError -- CPython's `open` does not grant FILE_SHARE_DELETE -- so holding a
+            read handle on the target drives the genuine `except PermissionError` branch rather
+            than a mock of it, and there is no seam left to move. `attempts=1` so the real
+            backoff (0.3 + 0.6 + 0.9 + 1.2 s) is not paid on every battery run. Off Windows,
+            where an open handle does not deny a rename, `os.replace` is stood in for instead.
+
+            The file must also be untouched afterwards: a reason is not evidence if the write
+            happened anyway.
             """
             t3 = dst + ".tmp3"
             with open(t3, "w", encoding="utf-8") as f:
                 f.write('{"v":"DENIED"}')
             before = open(dst, encoding="utf-8").read()
-            real = S.replace_retry
+            expected = S.digest_of(dst)
+            holder = saved = None
+            if os.name == "nt":
+                holder = open(dst, encoding="utf-8")
+            else:
+                saved = os.replace
+
+                def _denied(_tmp, _dst):
+                    raise PermissionError("stand-in: only Windows denies this for real")
+                os.replace = _denied
             try:
-                S.replace_retry = lambda tmp_, dst_, attempts=5: False
-                ok, why = S.replace_if_unchanged(t3, dst, S.digest_of(dst))
+                ok, why = S.replace_if_unchanged(t3, dst, expected, attempts=1)
             finally:
-                S.replace_retry = real
+                if holder is not None:
+                    holder.close()
+                if saved is not None:
+                    os.replace = saved
             return (ok is False and why != "landed" and "could not be renamed" in why
                     and open(dst, encoding="utf-8").read() == before)
         net(a, "a DENIED rename gives back the reason it was denied, not 'landed'",

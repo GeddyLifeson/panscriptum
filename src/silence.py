@@ -351,30 +351,70 @@ def replace_if_unchanged(tmp, dst, expected_digest, attempts=5):
     `expected_digest=None` asserts the file did not exist when it was read, which is how a
     first-write is distinguished from an overwrite.
     """
-    actual = _digest_or_unreadable(dst)
-    if actual is UNREADABLE:
-        # NOT the same as absent, and the difference is the whole point. An unreadable target
-        # cannot be shown to still hold what the writer read, so it is not eligible for a
-        # compare-and-swap. Refusing costs a round; landing costs whatever the other writer put
-        # there, silently, which is the m42 loss this function was written after.
-        note("silence.py:stale-write-refused")
-        return False, ("%s could not be read, so it cannot be shown to be unchanged -- "
-                       "refusing to land over it. Retry next round."
-                       % os.path.basename(dst))
-    if actual != expected_digest:
-        note("silence.py:stale-write-refused")
-        return False, ("%s changed under this writer (expected %s, found %s) -- refusing to "
-                       "land a stale copy. Re-read and merge."
-                       % (os.path.basename(dst), expected_digest, actual))
-    # THE REASON MUST MATCH THE VERDICT. This returned `..., "landed"` unconditionally, so a
-    # DENIED rename came back as `(False, "landed")` and every caller that logs the reason --
-    # `runguard.claim()` among them since it was routed here today -- printed "landed" for a
-    # write that did not land. The two halves of the return now agree.
-    if replace_retry(tmp, dst, attempts=attempts) is False:
-        return False, ("%s could not be renamed into place (denied after %d attempts, most "
-                       "likely a reader holding it open) -- nothing landed. Retry next round."
-                       % (os.path.basename(dst), attempts))
-    return True, "landed"
+    # THE COMPARE AND THE SWAP MUST BE ADJACENT, and for a long time they were not (order
+    # fede605db64f). This digested `dst` ONCE and then handed the rename to `replace_retry`,
+    # whose backoff sleeps 0.3 + 0.6 + 0.9 + 1.2 seconds between attempts -- so a writer denied
+    # on its first try compared the file at T and landed its bytes at T+3s, and ANY writer that
+    # got in during those three seconds was silently overwritten. Both were told
+    # `(True, "landed")`. A compare-and-swap that can sleep for three seconds between the
+    # compare and the swap is not a compare-and-swap; it is a compare, and then a swap.
+    #
+    # Measured, three processes appending 40 rows each to one file: no CAS at all kept 4-12 of
+    # 120 rows, this helper as it stood kept 55-86, and re-digesting per attempt keeps 117-120.
+    # It cost real data on the shift that found it -- two work-order closures that had landed,
+    # with a paper-trail entry each, were observed back in the OPEN queue minutes later, which
+    # is this window running backwards.
+    #
+    # So the loop lives here now. Every attempt re-reads the digest immediately before its own
+    # `os.replace`, which shrinks the window to a single digest-then-rename with nothing
+    # sleeping in between. A narrow window remains and always will -- there is no atomic
+    # compare-and-rename on this platform -- but it is now microseconds of syscall rather than
+    # seconds of backoff.
+    #
+    # `replace_retry` is deliberately UNCHANGED and stays the right helper for its own callers
+    # (`write_json`, overwatch's WATCH.md): they hold no digest and are making no claim about
+    # staleness, so the sleeping retry is exactly what they want.
+    import time as _t
+    for a in range(attempts):
+        actual = _digest_or_unreadable(dst)
+        if actual is UNREADABLE:
+            # NOT the same as absent, and the difference is the whole point. An unreadable
+            # target cannot be shown to still hold what the writer read, so it is not eligible
+            # for a compare-and-swap. Refusing costs a round; landing costs whatever the other
+            # writer put there, silently, which is the m42 loss this function was written after.
+            note("silence.py:stale-write-refused")
+            return False, ("%s could not be read, so it cannot be shown to be unchanged -- "
+                           "refusing to land over it. Retry next round."
+                           % os.path.basename(dst))
+        if actual != expected_digest:
+            note("silence.py:stale-write-refused")
+            return False, ("%s changed under this writer (expected %s, found %s) -- refusing to "
+                           "land a stale copy. Re-read and merge."
+                           % (os.path.basename(dst), expected_digest, actual))
+        try:
+            os.replace(tmp, dst)
+            return True, "landed"
+        except PermissionError:
+            # THE REASON MUST MATCH THE VERDICT. This once returned `..., "landed"`
+            # unconditionally, so a DENIED rename came back as `(False, "landed")` and every
+            # caller that logs the reason -- `runguard.claim()` among them -- printed "landed"
+            # for a write that did not land. The two halves of the return still agree.
+            if a == attempts - 1:
+                note("replace-denied:" + os.path.basename(dst))
+                return False, ("%s could not be renamed into place (denied after %d attempts, "
+                               "most likely a reader holding it open) -- nothing landed. Retry "
+                               "next round." % (os.path.basename(dst), attempts))
+            _t.sleep(0.3 * (a + 1))
+        except OSError:
+            # A DIFFERENT FAULT WEARS A DIFFERENT NAME IN THE LEDGER, exactly as in
+            # `replace_retry`: a cross-device rename, a full disk or a vanished temp will not
+            # pass in 1.5 seconds, so it is reported rather than retried.
+            note("replace-failed:" + os.path.basename(dst))
+            return False, ("%s could not be renamed into place (the rename failed for a reason "
+                           "a retry cannot fix) -- nothing landed." % os.path.basename(dst))
+    # Unreachable: the last PermissionError attempt returns above. Kept so the function has no
+    # implicit `None` path, because every caller unpacks two values.
+    return False, "%s did not land after %d attempts." % (os.path.basename(dst), attempts)
 
 
 def replace_retry(tmp, dst, attempts=5):

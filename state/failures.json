@@ -1,7 +1,0 @@
-{
- "silent:dashboard.py:failures:FileNotFoundError": 1,
- "silent:dashboard.py:library-coverage:FileNotFoundError": 1,
- "silent:dashboard.py:library-hosts:FileNotFoundError": 1,
- "silent:dashboard.py:tail:FileNotFoundError": 2,
- "silent:dashboard.py:watch:FileNotFoundError": 1
-}

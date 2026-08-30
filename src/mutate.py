@@ -1087,11 +1087,21 @@ def sandbox():
     # that gate -- the exact worthless-perfect-score failure the baseline check exists to catch,
     # reintroduced by the fix for it. The gates need the state they read.
     #
-    # JSON only, and no logs. `state/` is 109 MB, almost all of it log files no check reads,
-    # and copying those per run would cost more than the mutation testing itself.
+    # JSON AND JSONL, and no logs. `state/` is 109 MB, almost all of it `.log` files no check
+    # reads, and copying those per run would cost more than the mutation testing itself.
+    #
+    # `.jsonl` WAS EXCLUDED WITH THE LOGS AND IS NOT A LOG (order f8f74627266f). The append-only
+    # ledgers live under that extension -- `ledger_chain.jsonl` (the tamper-evident chain),
+    # `workorders_closed.jsonl` (the paper trail), `reap_ledger.jsonl`, `model_metrics.jsonl` --
+    # and several checks read them, so five more nets sat BREACHED in the baseline of every
+    # mutation run, which disables them as detectors for that whole run exactly as the missing
+    # STEP4_PLAN.md did. Measured 2026-08-30: all six `.jsonl` files together are 14.1 MB, and
+    # `sandbox()` is built ONCE per run rather than once per mutant, so the cost the original
+    # rationale was avoiding does not apply to them. The `.log` exclusion stands unchanged; that
+    # is where the 109 MB actually is.
     os.makedirs(os.path.join(root, "state"), exist_ok=True)
     for f in os.listdir(os.path.join(HERE, "state")):
-        if f.endswith(".json"):
+        if f.endswith(".json") or f.endswith(".jsonl"):
             try:
                 shutil.copy2(os.path.join(HERE, "state", f), os.path.join(root, "state", f))
             except OSError:
@@ -1110,10 +1120,73 @@ def sandbox():
     idx = os.path.join(HERE, "output", "index")
     if os.path.isdir(idx):
         _junction(os.path.join(root, "output", "index"), idx)
-    for f in ("config.yaml", "requirements.txt"):
+    # THE DOCUMENTS A GATE READS ARE PART OF THE GATE (order f8f74627266f). `STEP4_PLAN.md` was
+    # not on this list, and `step4_gate_open` checks the PLAN before it checks the FLAG -- so in
+    # the baseline of every mutation run ever made, the plan was absent, `_step4_needs_its_plan`
+    # was BREACHED, and every step-4 net short-circuited on the same missing document instead of
+    # discriminating. A net that is red in the baseline is DISABLED AS A DETECTOR, because
+    # mutants are judged by DIFFERENCE from the baseline: it cannot kill anything.
+    #
+    # Measured while reproducing batch C01 on 2026-08-30: a sandbox baseline read `271 nets,
+    # 265 held`; copying this one 15 KB file in turned that net green and dropped the breaches
+    # to five. FIVE of that batch's twenty-two reported "survivors" were this artefact and
+    # nothing else -- each is killed by an EXISTING net the moment the sandbox has the plan. The
+    # mutation report was measuring the sandbox and reading exactly like a report about the
+    # battery, which is this project's signature failure wearing a new hat.
+    #
+    # `config.yaml` was already here for the same reason and the plan belongs beside it: both
+    # are repository-root documents a gate's predicate names, and a sandbox that silently omits
+    # one produces confident nonsense.
+    # DERIVED FROM PUBLISH'S OWN MANIFEST, not hand-kept (order 21ae41adc29c). `publish` already
+    # maintains the authoritative list of what constitutes this library as a thing outside src/
+    # -- COPY_FILES is every root document and COPY_DIRS every directory -- and the gates read
+    # those documents: `ledger_guard` parses HANDOFF.md, BUGS.md, NEXT_STEPS.md and
+    # MAINTENANCE.md by name, and the suppression nets scan COPY_DIRS for credential-shaped
+    # values. A second hand-kept copy of that list here is exactly how the two come to disagree,
+    # which is what happened: STEP4_PLAN.md was in publish's list and not in this one for the
+    # whole life of the mutation tester.
+    #
+    # Measured 2026-08-30, sandbox baseline before this: `278 nets, 273 held, 5 BREACHED` --
+    # `no suppression is expired or dangling`, `a suppressed finding is still REPORTED`, `the
+    # live ledgers are intact`, `a TRUNCATION padded back to length is refused`, `an empty
+    # overwrite is refused`. Every one of the five was the sandbox missing a file, not a defect,
+    # and every one was therefore disabled as a detector for the whole run.
+    #
+    # COPIED, NOT JUNCTIONED, unlike data/prompts/reference above: a junction would let a
+    # sandboxed run write into the REAL handoff/ and the real ledgers, and the whole point of a
+    # sandbox is that a deliberately-corrupted library cannot reach the live one. 12.7 MB, once
+    # per run. Imported lazily because `publish` imports `mutate` for its own interlock, and a
+    # module-level import here would be a cycle; the literal fallback keeps the sandbox buildable
+    # if publish is ever unimportable, which is the condition mutation testing most wants to
+    # survive.
+    try:
+        import publish as _pub
+        root_files, root_dirs = _pub.COPY_FILES, _pub.COPY_DIRS
+    except Exception:
+        silence.note("mutate.py:sandbox-manifest")
+        root_files = ("CLAUDE.md", "README.md", "config.yaml", "requirements.txt", "WATCH.md",
+                      "STATUS.md", "HANDOFF.md", "BUGS.md", "NEXT_STEPS.md", "MAINTENANCE.md",
+                      "STEP4_PLAN.md")
+        root_dirs = ("src", "prompts", "reference", "registry_terminal", "handoff")
+    for f in root_files:
         p_ = os.path.join(HERE, f)
-        if os.path.exists(p_):
-            shutil.copy2(p_, os.path.join(root, f))
+        if os.path.isfile(p_):
+            try:
+                shutil.copy2(p_, os.path.join(root, f))
+            except OSError:
+                silence.note("mutate.py:sandbox-copy:" + f)
+    for d in root_dirs:
+        # src is copied above file by file; the three shared corpora are junctioned above and
+        # must stay that way -- they are gigabytes and nothing in the gate path writes to them.
+        if d in ("src", "data", "prompts", "reference"):
+            continue
+        s_ = os.path.join(HERE, d)
+        if os.path.isdir(s_) and not os.path.exists(os.path.join(root, d)):
+            try:
+                shutil.copytree(s_, os.path.join(root, d),
+                                ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+            except OSError:
+                silence.note("mutate.py:sandbox-copy-dir:" + d)
     return root
 
 
