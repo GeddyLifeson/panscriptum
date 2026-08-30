@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 201  ·  last run 2026-08-30 10:09
+round 202  ·  last run 2026-08-30 10:39
 
 ## Structure
 
@@ -11,10 +11,14 @@ round 201  ·  last run 2026-08-30 10:09
 
 ## What the model found in the code
 
-**13 open** (1 high). Newest first.
+**12 open** (1 high). Newest first.
 
-- **overnight.py** `start` — [HIGH] calls a function named start that is not defined in this slice
-  - says: start a service with given arguments
+- **resync_roll.py** `main` — [HIGH] the exit code is not used as the scheduler looks at the return value of main()
+  - says: the exit code is the number the scheduler actually looks at
+- **retry_synthesis.py** `save_side` — [MEDIUM] The function save_side is called but its implementation is not provided in the given code slice, leading to a potential runtime error or undefined behavior.
+  - says: Take the MERGED mapping back, so this run's own tally counts what is actually on disk rather than only what this process rescued -- see `save_side`. The second half of that return says whether it reached disk at all; a rescue that did not land must not print like one that did, because nothing re-runs the model call behind it.
+- **resonance.py** `dominates` — [MEDIUM] returns False when neither dominates, which is the condition for incomparable pairs
+  - says: answers False for both of those for an unrelated reason
 - **repass_bands.py** `PL.write_record` — [MEDIUM] The code appends to `denied` and prints a message when the write fails, which aligns with the claim that denials are counted and printed.
   - says: AND THE DENIAL IS COUNTED, NOT ONLY PRINTED (order 6e7bebc7c601). The gate above holds, but a denial reached no summary line and no exit code
 - **repass_bands.py** `PL.write_record` — [MEDIUM] The code appends to `touched` regardless of whether the write succeeded or failed, which contradicts the claim that it ignores the return value.
@@ -27,12 +31,6 @@ round 201  ·  last run 2026-08-30 10:09
   - says: A batch is done only when every entry in it carries a result AND the write that carries those results actually reached the disk
 - **overnight.py** `busy` — [MEDIUM] A list of statuses that are considered busy, but the code uses 'busy' to check for busy states and then proceeds to sleep, which is correct. However, the code may have a logical error in the condition where it checks 'busy and snap['cycle_seconds'] < MIN_CYCLE_SECONDS' which could be misinterpreted if 'busy' is not properly defined or if the logic is flawed.
   - says: A list of statuses that are considered busy
-- **overnight.py** `preflight` — [MEDIUM] Returns (0, False) when preflight fails, but does not properly handle all failure cases or correctly identify blocking checks
-  - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
-- **overnight.py** `coverage_snapshot` — [MEDIUM] This cycle's coverage figures, or `{
-  - says: This cycle's coverage figures, or `{
-- **overnight.py** `os.path.samefile` — [MEDIUM] check if script is the same file as the one in src, but the script is constructed with psutil.Process(pid).cwd() which may not be the same as the original script path
-  - says: check if script is the same file as the one in src
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
