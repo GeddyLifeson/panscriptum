@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 176  ·  last run 2026-08-29 20:54
+round 177  ·  last run 2026-08-29 21:24
 
 ## Structure
 
@@ -11,10 +11,12 @@ round 176  ·  last run 2026-08-29 20:54
 
 ## What the model found in the code
 
-**2 open** (0 high). Newest first.
+**3 open** (1 high). Newest first.
 
-- **rosetta.py** `refine` — [MEDIUM] refines the rosetta data by applying filters and updating the data structure
-  - says: drop scale rows that name nothing this library catalogues
+- **secondopinion.py** `mine_says` — [HIGH] is never called in the code slice
+  - says: returns the same questions, asked by code this project did not write
+- **reference.py** `shelfmark` — [MEDIUM] generates a shelfmark based on tier_key and lower_rungs, but the code does not correctly handle the mapping of the RUNGS tuple to the upper and lower parts
+  - says: The charter's canonical Shelfmark
 - **overnight.py** `main` — [MEDIUM] the code around it says it should be derived
   - says: the main function
 
