@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 203  ·  last run 2026-08-30 11:02
+round 204  ·  last run 2026-08-30 11:33
 
 ## Structure
 
@@ -11,10 +11,26 @@ round 203  ·  last run 2026-08-30 11:02
 
 ## What the model found in the code
 
-**14 open** (1 high). Newest first.
+**20 open** (2 high). Newest first.
 
+- **secondopinion.py** `main` — [HIGH] not defined
+  - says: entry point for command line interface
 - **resync_roll.py** `main` — [HIGH] the exit code is not used as the scheduler looks at the return value of main()
   - says: the exit code is the number the scheduler actually looks at
+- **scout.py** `window, roll = prev[-LOG_CYCLES:]` — [MEDIUM] slice with LOG_CYCLES as the end index
+  - says: split into window and roll
+- **scout.py** `seen` — [MEDIUM] used as a dictionary to track timestamps for sources, but the code does not actually mark them as never attempted
+  - says: unreadable ledger -> everything reads as never attempted
+- **scout.py** `sweep` — [MEDIUM] orders its work-list by last-attempted first, entry count only breaking ties among equally stale sources, and takes `order[:limit]`
+  - says: HARD RULE 0, AND THE SHAPE THAT LOOKED LIKE COMPLIANCE. This ordered its work-list by entry count and then took `order[:limit]`, with `foreman.scout_hostless()` calling it as `sweep(limit=4)` on a 30-second loop. Ranking is allowed and truncating is not, and the reason is visible here rather than theoretical: a source LEAVES `hostless()` only when a scout SUCCEEDS. A source that keeps failing therefore stays hostless, stays among the four largest, and is re-scouted every thirty seconds for ever -- while everything ranked fifth and below is never attempted once. The window could not rotate, because the only thing that moved a source out of it was the very success that was not happening. Measured at the time this was fixed: 15 hostless sources, of which 4 could ever be reached.
+- **scout.py** `EP.register` — [MEDIUM] registers the URLs with the registry, which may cause the source to no longer be hostless
+  - says: NOT reported as a success: the URLs passed verification and the registry does not have them, so the source stays hostless and will be re-scouted, which is the correct self-healing outcome as long as the log says why.
+- **rigor.py** `lognormal_product` — [MEDIUM] calculates a product of log-normal distributions for a list of factors
+  - says: the census as a product of uncertain factors
+- **rigor.py** `measure_bit_value` — [MEDIUM] The function uses the corrected value (L / 10.0), but the docstring still references the pre-fixed incorrect example (7.0 * 13.23 = 92.6).
+  - says: THE NUMBERS ABOVE WERE WRONG UNTIL 2026-08-25 (run #21) AND THE WRONG ONES ARE INSTRUCTIVE.
+- **rigor.py** `measure_bit_value` — [MEDIUM] Returns L / 10.0, where L is the band resolution, but the docstring claims it's the bit-worth of one point on a decimal axis.
+  - says: The bit-worth of ONE point on any decimal axis at a given band.
 - **rosetta.py** `silence.write_json` — [MEDIUM] may not write if the file is not found or permissions are denied
   - says: writes JSON to a file
 - **roll.py** `apply` — [MEDIUM] apply is a nested function inside update_rows that modifies rows in-place and returns them, but the code uses apply(rows) and then assigns out = apply(rows), which is redundant since apply already returns rows
@@ -31,10 +47,6 @@ round 203  ·  last run 2026-08-30 11:02
   - says: answers False for both of those for an unrelated reason
 - **reference.py** `shelfmark` — [MEDIUM] The function returns a shelfmark that includes both upper and lower rungs, but the code may not correctly handle cases where the lengths of upper and lower do not match the expected RUNGS length
   - says: The charter's canonical Shelfmark
-- **read.py** `set_transport` — [MEDIUM] sets the transport method but the argument is not validated against the allowed choices
-  - says: sets the transport method based on the argument
-- **pipeline.py** `write_record` — [MEDIUM] The function is called without verifying that the write actually reached the disk
-  - says: A batch is done only when every entry in it carries a result AND the write that carries those results actually reached the disk
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
