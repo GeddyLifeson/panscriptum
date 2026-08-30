@@ -6424,9 +6424,58 @@ print("[batch3] order 5b85ab54b176 -- a standard that fails to read its input no
 _VANISHING_NAMES_B3 = [
     "reader-gate", "roster-audit", "shelfmarks", "reference-assays", "charter-regression",
     "counters-moving", "allsweep", "catalogue-coverage", "sweep-freshness", "job-advance",
-    "unrecognised-pool", "fandom-reachable", "disk", "shelf-ranks", "ollama-runner-standard",
+    "unrecognised-pool", "fandom-reachable", "disk", "shelf-ranks",
     "token-flow-standard", "jobs-alive", "publish-age", "provider-models", "self-check",
 ]
+# `ollama-runner-standard` LEFT THIS LIST BY BEING FIXED PROPERLY, 2026-08-30, and it is
+# replaced below by a STRONGER assertion rather than merely deleted -- a name quietly dropped
+# from a pairing list is indistinguishable from the pairing rotting apart, which is precisely
+# what this row exists to catch.
+#
+# Drop-tracking is the CONSOLATION PRIZE. It keeps a vanished standard countable in the "every
+# standard could read its own input" aggregate, but the row itself is still gone: nothing can
+# read it, `declared != emitted`, and `work_orders()` dispatches off a boolean on a row that was
+# never appended. The two local-model standards took the better fix (see standards.py's own
+# comment at the block): they are appended OUTSIDE the try, unconditionally, and carry an
+# UNMEASURED reading that BREACHES when Ollama cannot be asked. There is nothing left to drop.
+#
+# This mattered because the rung here fails INTERMITTENTLY -- an unrelated process exhausts the
+# ephemeral ports (order f6c52ef7657f) -- so these rows were present on a good minute and gone
+# on a bad one. Measured inside one shift on 2026-08-29/30: 46 declared / 46 emitted, then 46 /
+# 43 with these two among the missing.
+_UNCONDITIONAL_NAMES_B3 = [
+    "the local model has a live runner",
+    "the resident runner serves the context this project asks for",
+]
+import ast as _ast_b3x                                                   # noqa: E402
+
+_std_tree_b3 = _ast_b3x.parse(_standards_src_b3)
+_try_spans_b3 = [(_n.body[0].lineno, _n.body[-1].end_lineno)
+                 for _n in _ast_b3x.walk(_std_tree_b3)
+                 if isinstance(_n, _ast_b3x.Try) and _n.body]
+_conditional_b3, _found_b3 = [], set()
+for _n_b3s in _ast_b3x.walk(_std_tree_b3):
+    if (isinstance(_n_b3s, _ast_b3x.Call) and isinstance(_n_b3s.func, _ast_b3x.Name)
+            and _n_b3s.func.id == "_s" and _n_b3s.args
+            and isinstance(_n_b3s.args[0], _ast_b3x.Constant)
+            and _n_b3s.args[0].value in _UNCONDITIONAL_NAMES_B3):
+        _found_b3.add(_n_b3s.args[0].value)
+        for _lo_b3, _hi_b3 in _try_spans_b3:
+            if _lo_b3 <= _n_b3s.lineno <= _hi_b3:
+                _conditional_b3.append("%s (line %d, inside a try body at %d-%d)"
+                                       % (_n_b3s.args[0].value, _n_b3s.lineno, _lo_b3, _hi_b3))
+                break
+# AN _s() CALL THAT IS GONE ALTOGETHER IS THE SAME DEFECT, not a pass by having no line number.
+_absent_b3 = ["%s (no _s() call site at all)" % _nm
+              for _nm in _UNCONDITIONAL_NAMES_B3 if _nm not in _found_b3]
+check("[5b85ab54b176] the two local-model standards are emitted from OUTSIDE every try, so a "
+      "dead Ollama breaches them instead of deleting them",
+      sorted(_conditional_b3 + _absent_b3), [],
+      note="these two are the reason the declared-vs-emitted reconciliation (d9b895708c45) "
+           "went red on 2026-08-29: the daemon stopped answering and both rows stopped "
+           "existing. An UNMEASURED reading on a breaching row is the honest outcome; an "
+           "absent row is green-by-absence, and moving them back inside the try -- or back "
+           "onto _dropped -- reopens exactly that")
 _unpaired_b3 = []
 for _name_b3 in _VANISHING_NAMES_B3:
     _pat_b3 = (r'silence\.note\("standards\.py:' + _re_b3.escape(_name_b3) + r'"\)\s*\n\s*'

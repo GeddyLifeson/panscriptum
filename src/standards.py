@@ -1689,6 +1689,35 @@ def check(state=None):
         _dropped.append("shelf-ranks")
 
     # ------------------------------------------------------ the local model is really serving
+    #
+    # BOTH ROWS ARE EMITTED UNCONDITIONALLY, INCLUDING WHEN THE DAEMON CANNOT BE ASKED AT ALL
+    # (2026-08-29). The previous repair got half of this: it stopped the rows falling through to
+    # NOWHERE and routed them to `_dropped`, which at least made the loss countable in the
+    # "every standard could read its own input" aggregate. But `_dropped` is still an ABSENCE --
+    # the row does not exist, `declared != emitted`, nothing can read the standard, and
+    # `work_orders()` dispatches off a boolean on a row that was never appended, so the finding
+    # cannot reach anyone. This file already settled the question one standard to the left:
+    # "UNMEASURED is a reading; silence is not", and "UNMEASURED IS NOT GREEN". So an unaskable
+    # daemon emits a row that BREACHES and says why, exactly as the fabrication standard does.
+    #
+    # It matters here more than almost anywhere, because this machine's local rung is
+    # INTERMITTENTLY dead rather than reliably dead: an unrelated process exhausts the ephemeral
+    # ports and Ollama stops answering for minutes at a time (order f6c52ef7657f). A standard
+    # that disappears exactly when its subject is broken, and comes back when the subject
+    # recovers, is worse than no standard at all -- every run that happened to catch a good
+    # minute reported a full denominator and a clean sheet. Measured 2026-08-29 within one
+    # maintenance shift: the same battery read 46 declared / 46 emitted, then 46 declared / 43
+    # emitted minutes later with these two among the missing, and the declared-vs-emitted
+    # reconciliation (order d9b895708c45) was the only thing in the tree that noticed.
+    _runner_holds, _runner_reading = False, ""
+    _ctx_holds, _ctx_reading = False, ""
+    _unaskable = ("UNMEASURED -- Ollama's /api/ps did not answer inside 8s, or answered with no "
+                  "resident model, so %s could not be established. TREAT THIS READING AS THE "
+                  "FINDING rather than as a pass: this row used to VANISH in exactly this "
+                  "state, which is why it now breaches instead. The local rung here dies "
+                  "intermittently when an unrelated process exhausts its ephemeral ports "
+                  "(order f6c52ef7657f) -- check what is holding connections to 11434 before "
+                  "assuming the model itself is at fault, then restart ollama.exe.")
     try:
         import urllib.request as _ur
         resident, resident_raw = None, []
@@ -1697,18 +1726,11 @@ def check(state=None):
                 resident_raw = json.load(r).get("models") or []
                 resident = [m.get("name") for m in resident_raw]
         except Exception:
+            silence.note("standards.py:ollama-ps")
             resident = None          # a daemon that will not answer at all is another question
         if not resident:
-            # A STANDARD THAT COULD NOT BE ASKED MUST NOT SIMPLY VANISH. This used to fall
-            # straight through: an 8s timeout against a busy daemon, or no model resident, and
-            # the row was never appended -- so `N/N standards met` quietly counted a smaller
-            # denominator and the standard read as fine by being absent. Measured on 2026-08-27:
-            # the same battery passed with 44 standards declared and 44 emitted, then minutes
-            # later emitted 42 while Ollama was saturated by an unrelated process holding ~9,600
-            # connections to it, and the only reason anyone noticed was a check comparing
-            # declared against emitted. `_dropped` is the mechanism this file already has for
-            # exactly this, and the aggregate standard it feeds names what went missing.
-            _dropped.append("ollama-runner-standard")
+            _runner_reading = _unaskable % "whether a runner process holds a resident model"
+            _ctx_reading = _unaskable % "the context the resident runner is serving"
         else:
             runner = ollama_runner_up()
             # The contradiction IS the fault: the daemon cannot have a model resident with no
@@ -1716,25 +1738,17 @@ def check(state=None):
             # runner and stayed full, so every call 503'd forever and nothing recovered on its
             # own -- it needed `ollama.exe` restarting by hand. `runner is None` means the probe
             # itself failed and is never reported as a fault.
-            out.append(_s(
-                "the local model has a live runner", runner is not False,
-                # EVERY RESIDENT NAME, not `resident[0][:28]`. The reading is what an operator
-                # acts on and there can be more than one model resident -- naming only the first,
-                # cut at 28 characters, told them to go looking at whichever row /api/ps happened
-                # to list first. Same shape as the `served = next(...)` defect fixed one standard
-                # below (order dddf4d96bb3e); ranking is allowed here, truncating is not.
+            _runner_holds = runner is not False
+            # EVERY RESIDENT NAME, not `resident[0][:28]`. The reading is what an operator acts
+            # on and there can be more than one model resident -- naming only the first, cut at
+            # 28 characters, told them to go looking at whichever row /api/ps happened to list
+            # first. Same shape as the `served = next(...)` defect fixed one standard below
+            # (order dddf4d96bb3e); ranking is allowed here, truncating is not.
+            _runner_reading = (
                 ("resident %s -- NO llama-server process"
                  % ", ".join(str(n) for n in resident)) if runner is False
                 else ("runner up, %d resident: %s"
-                      % (len(resident), ", ".join(str(n) for n in resident))),
-                "a runner for every resident model",
-                "Ollama reported this model resident with no runner process on 2026-08-24; the "
-                "request queue filled behind the gap and every call returned '503 maximum "
-                "pending requests exceeded' for 31 minutes while `/api/tags` kept answering "
-                "200, so every other liveness check in this project called it healthy. If this "
-                "fires, restart ollama.exe -- the tray app respawns it -- then confirm a real "
-                "call completes. Nothing drains that queue on its own.",
-                "high", "machine"))
+                      % (len(resident), ", ".join(str(n) for n in resident))))
 
             # AND THE CONTEXT THE RUNNER IS ACTUALLY SERVING, WHICH NOTHING CHECKED.
             #
@@ -1761,32 +1775,52 @@ def check(state=None):
             want_model = cfg_model()
             served, served_name = resident_context(resident_raw, want_model)
             want_ctx = cfg_num_ctx()
-            ctx_holds, ctx_observed = context_verdict(served, want_ctx)
+            ctx_verdict, ctx_observed = context_verdict(served, want_ctx)
             if served_name:
                 # NAME THE RUNNER THAT WAS MEASURED. Without it the reader cannot tell whose
                 # window the row is about, which is the whole defect this block was fixed for.
                 ctx_observed += " (measured on the resident %s)" % served_name
-            if ctx_holds is None:
-                # NOT a pass. An unmeasurable context is exactly the state this whole block is
-                # about, and letting it read as agreement would be the green-by-absence bug one
-                # standard to the left.
-                _dropped.append("ollama-context-matches-config")
+            if ctx_verdict is None:
+                # NOT a pass, and no longer a disappearance either. An unmeasurable context is
+                # exactly the state this whole block is about; letting it read as agreement
+                # would be green-by-absence, and letting it delete the row was green-by-absence
+                # wearing a different hat -- the reader saw neither a breach nor a standard.
+                _ctx_holds = False
+                _ctx_reading = "UNMEASURED -- %s" % ctx_observed
             else:
-                out.append(_s(
-                    "the resident runner serves the context this project asks for",
-                    ctx_holds, ctx_observed,
-                    "the served context equals the configured one",
-                    "A mismatch does not fail, it STALLS: every request rebuilds the runner, "
-                    "which on a full card is minutes per call and can never drain. Either "
-                    "re-pin the model at the configured size, or change config.yaml to what is "
-                    "actually being served, or find what else pinned it -- on 2026-08-27 an "
-                    "unrelated process had pinned qwen3:8b at 4096 with an infinite keep_alive "
-                    "while this project asked for 12288, and the read pass was running at an "
-                    "ETA of 1.7 years.",
-                    "high", "machine"))
+                _ctx_holds, _ctx_reading = ctx_verdict, ctx_observed
     except Exception:
         silence.note("standards.py:ollama-runner-standard")
-        _dropped.append("ollama-runner-standard")
+        # THE PROBE RAISING IS ITSELF A READING. Whichever of the two was not reached keeps a
+        # reading that says so, rather than the row going missing -- the defect this block was
+        # rewritten for. A reading already set above is left alone: it is the more specific one.
+        _raised = ("UNMEASURED -- the local-model probe raised before this standard could be "
+                   "measured; see state/failures.json for the class "
+                   "(standards.py:ollama-runner-standard).")
+        _runner_reading = _runner_reading or _raised
+        _ctx_reading = _ctx_reading or _raised
+    out.append(_s(
+        "the local model has a live runner", _runner_holds, _runner_reading,
+        "a runner for every resident model",
+        "Ollama reported this model resident with no runner process on 2026-08-24; the "
+        "request queue filled behind the gap and every call returned '503 maximum "
+        "pending requests exceeded' for 31 minutes while `/api/tags` kept answering "
+        "200, so every other liveness check in this project called it healthy. If this "
+        "fires, restart ollama.exe -- the tray app respawns it -- then confirm a real "
+        "call completes. Nothing drains that queue on its own.",
+        "high", "machine"))
+    out.append(_s(
+        "the resident runner serves the context this project asks for",
+        _ctx_holds, _ctx_reading,
+        "the served context equals the configured one",
+        "A mismatch does not fail, it STALLS: every request rebuilds the runner, "
+        "which on a full card is minutes per call and can never drain. Either "
+        "re-pin the model at the configured size, or change config.yaml to what is "
+        "actually being served, or find what else pinned it -- on 2026-08-27 an "
+        "unrelated process had pinned qwen3:8b at 4096 with an infinite keep_alive "
+        "while this project asked for 12288, and the read pass was running at an "
+        "ETA of 1.7 years.",
+        "high", "machine"))
 
     # The runner check's inverse, found the same day it landed: runner ALIVE, model fully
     # GPU-resident, tags answering -- and a trivial generate timed out for two hours while
