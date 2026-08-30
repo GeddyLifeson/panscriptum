@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 170  ·  last run 2026-08-29 18:25
+round 171  ·  last run 2026-08-29 18:48
 
 ## Structure
 
@@ -11,18 +11,18 @@ round 170  ·  last run 2026-08-29 18:25
 
 ## What the model found in the code
 
-**5 open** (2 high). Newest first.
+**5 open** (1 high). Newest first.
 
-- **ingest_doc.py** `main` — [HIGH] return sys.exit(main())
-  - says: return 0
-- **generate.py** `generate_job` — [HIGH] does not exist in this code slice
-  - says: generates a job's text
-- **gpu_lane.py** `_take_slot` — [MEDIUM] Attempts to create a file with O_CREAT|O_EXCL but may return None on failure without proper error handling
-  - says: Claim one of MAX_SLOTS leases, or return None if they are all live
-- **gpu_lane.py** `_write_claim` — [MEDIUM] Returns a boolean indicating success, but the actual replacement is handled by replace_retry which may not be properly handled in some cases
-  - says: Write a claim to a file, ensuring it's replaced
-- **generate.py** `_PG` — [MEDIUM] used as a variable name for the prose_gate module, not the module itself
-  - says: imported module for prose gate checks
+- **identity.py** `epoch_of` — [HIGH] Returns "" when the epoch probe is unprobed or when the response is not explicit, but the system prompt specifies that "If the sentence carries no marker at, return {"epoch": "", "
+  - says: The epoch a single sentence places itself in, or "" when it names none.
+- **liveness.py** `phantom` — [MEDIUM] a list of names used in conditions that are not defined in the module or builtins
+  - says: a list of names used in conditions that are not defined
+- **liveness.py** `taut` — [MEDIUM] a list of comparisons with identical sides that are not constants
+  - says: a list of comparisons with identical sides
+- **liveness.py** `dead` — [MEDIUM] a list of module-level definitions and methods that are not referenced by the current module's attributes
+  - says: a list of module-level definitions and methods that are not referenced
+- **liveness.py** `scoped` — [MEDIUM] a dictionary mapping keys to sets of attributes that are reachable via inheritance
+  - says: a dictionary mapping keys to sets of attributes
 
 ---
 
