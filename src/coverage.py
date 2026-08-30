@@ -68,8 +68,20 @@ def _so_load():
         try:
             with open(_SO_CACHE_P, encoding="utf-8") as f:
                 _SO["d"] = json.load(f)
-        except Exception:
+        except FileNotFoundError:
             _ = "silence-exempt: no cache yet is the normal first state"
+        except Exception:
+            # THE EXEMPTION NAMED A NARROWER CAUSE THAN THE HANDLER COVERED. `except Exception`
+            # also swallowed a JSONDecodeError from a truncated cache and a PermissionError from
+            # a reader holding it -- neither of which is "no cache yet", and neither of which
+            # left any trace, because the exemption marker's own text made silence.audit() read
+            # this handler as OBSERVED. The cost is performance, not correctness (the memo is
+            # derived and rebuilding gives the same answers), but the rebuild is a full reparse
+            # of the ~874MB evidence corpus every run -- and coverage.py sits on
+            # foreman.refresh_coverage's AUTO remedy path under a 600s timeout (foreman.py:324),
+            # so a permanently unreadable memo could quietly convert that remedy into a timeout
+            # with nothing anywhere saying why. Now it says why.
+            silence.note("coverage.py:so-load-unreadable")
         _SO["loaded"] = True
     return _SO["d"]
 

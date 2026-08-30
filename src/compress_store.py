@@ -55,6 +55,20 @@ def store(text: str, compressed_dir: str) -> dict:
         f.write(blob)
     landed = silence.replace_retry(tmp, path)
     if not landed:
+        # SWEEP THE TEMP BEFORE RAISING. The message below names the leftover, which was honest
+        # but not sufficient: the temp name carries pid and thread (deliberately, see above), so
+        # repeated denials on a hot path accumulate UNIQUELY-NAMED files instead of overwriting
+        # one, and nothing else in the kit ever comes back for them. Removing it loses nothing --
+        # the blob is reproducible from `text`, which the caller (generate.py:554) still holds and
+        # which it re-derives on retry. Same shape as the silence.write_json leak (b464a0311775).
+        # The unlink is itself guarded: failing to clean up must not replace the real error
+        # (a denied replace) with a confusing one from the cleanup path.
+        try:
+            os.unlink(tmp)
+            tmp_state = "the temp file %s was removed" % tmp
+        except OSError:
+            silence.note("compress_store.py:temp-unlink-denied")
+            tmp_state = "the temp file %s is still on disk" % tmp
         # replace_retry() FAILS CLOSED by design (see silence.py) -- it records
         # "replace-denied:<file>" and returns False rather than raising, so the temp copy is
         # still sitting on disk and `path` does not exist yet. The old code returned the same
@@ -65,8 +79,8 @@ def store(text: str, compressed_dir: str) -> dict:
         # a poisoned catalogue entry.
         raise RuntimeError(
             "compress_store.store(): %s could not be renamed into place after retries -- "
-            "nothing landed at the content-addressed path; the temp file %s is still on disk"
-            % (path, tmp))
+            "nothing landed at the content-addressed path; %s"
+            % (path, tmp_state))
 
     return {
         "hash": h,
@@ -77,14 +91,53 @@ def store(text: str, compressed_dir: str) -> dict:
     }
 
 
+def _address_in(path: str) -> str:
+    """The content hash a store path CLAIMS, or "" if the name is not a content address.
+
+    store() names every blob `<content_hash(text)>.zst` / `.gz`, and content_hash is
+    sha256(...)[:32] -- so a store path's stem is exactly 32 lowercase hex characters. Anything
+    else (a hand-copied file, a path from some future naming scheme) has no address to check
+    against, and load() must not invent a failure for it.
+    """
+    stem = os.path.splitext(os.path.basename(path))[0]
+    if len(stem) == 32 and all(c in "0123456789abcdef" for c in stem):
+        return stem
+    return ""
+
+
 def load(path: str, codec: str) -> str:
+    """Read a stored blob back, VERIFYING it against the address it is filed under.
+
+    THE FILENAME IS A CHECKSUM AND THIS FUNCTION USED NOT TO READ IT. store() computes
+    content_hash(text), writes it into the name, and the loader returned the decompressed bytes
+    without ever hashing them back -- declining the one property content-addressing gives away
+    for free. It matters concretely: the temp-then-replace repair in store() stops NEW torn
+    blobs and can do nothing about any already on disk from before it, because store() never
+    revisits a path that exists. A verifying load() is the only thing that will ever find one,
+    and it finds it at the moment the damage matters -- when catalog.py:97 serves the chapter to
+    a reader. Refusing loudly beats returning text that is not what was stored, which is the
+    quietest corpus corruption available to this project.
+    """
     with open(path, "rb") as f:
         blob = f.read()
     if codec == "zstd":
         if not _HAVE_ZSTD:
             raise RuntimeError("zstandard package not installed; cannot decompress .zst file")
         dctx = zstd.ZstdDecompressor()
-        return dctx.decompress(blob).decode("utf-8")
+        text = dctx.decompress(blob).decode("utf-8")
     elif codec == "gzip":
-        return gzip.decompress(blob).decode("utf-8")
-    raise ValueError(f"unknown codec: {codec}")
+        text = gzip.decompress(blob).decode("utf-8")
+    else:
+        raise ValueError(f"unknown codec: {codec}")
+
+    claimed = _address_in(path)
+    if claimed:
+        got = content_hash(text)
+        if got != claimed:
+            silence.note("compress_store.py:address-mismatch")
+            raise RuntimeError(
+                "compress_store.load(): %s decompressed to text whose content hash is %s, not "
+                "the %s its own filename claims -- the blob on disk is not what was stored "
+                "(a torn write, or the file was replaced). Refusing to return it."
+                % (path, got, claimed))
+    return text

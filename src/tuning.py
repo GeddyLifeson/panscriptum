@@ -101,7 +101,14 @@ PROFILES = {
                     note="nothing is answering reliably; one caller, long patience"),
 }
 
-_CACHE = {"at": 0.0, "regime": None, "why": ""}
+# `buckets` is cached ALONGSIDE the verdict, not re-read beside it. profile() used to call
+# _answering_buckets() again, unconditionally and uncached, to size the cloud worker count -- so
+# a label cached from a five-bucket reading could hand out max(4, min(16, 0 + 2)) = 4 workers
+# against a POOL_PROOF.json that now says zero, with the label and the number coming from two
+# moments up to RECHECK_SECONDS apart. In the one module whose premise is that the regime is
+# re-read on a timer BECAUSE it changes underneath a long job, the two halves of the answer must
+# come from the same reading. It also saves a file read per profile() call.
+_CACHE = {"at": 0.0, "regime": None, "why": "", "buckets": 0}
 
 
 def _ollama_host():
@@ -208,7 +215,7 @@ def regime(force=False):
     else:
         r = "starved"
         why += "; ollama down"
-    _CACHE.update({"at": now, "regime": r, "why": why})
+    _CACHE.update({"at": now, "regime": r, "why": why, "buckets": n})
     return r
 
 
@@ -216,8 +223,10 @@ def profile(force=False):
     r = regime(force=force)
     p = dict(PROFILES[r])
     if r == "cloud":
-        n, _ = _answering_buckets()
-        p["workers"] = max(4, min(16, n + 2))
+        # The count that sizes the workers is the SAME reading that produced the label -- see
+        # the note on _CACHE. regime() has just run or just served its cache, and either way it
+        # left `buckets` holding the count that decided the verdict.
+        p["workers"] = max(4, min(16, _CACHE["buckets"] + 2))
     p["regime"] = r
     p["why"] = _CACHE["why"]
     return p

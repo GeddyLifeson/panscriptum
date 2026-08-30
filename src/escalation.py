@@ -78,13 +78,18 @@ SRC_LOGS = os.path.join(HERE, "state", "escalations")
 # Passing the whole record upward is how an alarm becomes unreadable: the OWNER rung exists to
 # buy one decision, and a decision drowned in transport detail is a decision not made. The
 # janitor's log keeps EVERYTHING -- that is its job, and it is the only rung that gets the lot.
+#
+# `halt_landed` is admitted at the two rungs that can carry it: the janitor keeps everything, and
+# an OWNER escalation whose halt file never appeared is an OWNER-rung fact in its own right. It
+# is set by `escalate()` AFTER `_raise_halt` returns, so it is absent from the record the halt
+# file itself is distilled from -- see the `level >= OWNER` arm.
 _FIELDS = {
-    JANITOR:    ("at", "level_name", "code", "what", "source", "who", "evidence"),
+    JANITOR:    ("at", "level_name", "code", "what", "source", "who", "evidence", "halt_landed"),
     OPERATOR:   ("at", "level_name", "code", "what", "source", "who"),
     SUPERVISOR: ("at", "level_name", "code", "what", "source"),
     SAFETY:     ("at", "level_name", "code", "what", "source"),
     MANAGER:    ("at", "level_name", "code", "what", "source", "who"),
-    OWNER:      ("at", "code", "what", "source", "evidence", "who"),
+    OWNER:      ("at", "code", "what", "source", "evidence", "who", "halt_landed"),
 }
 
 
@@ -211,7 +216,33 @@ def escalate(level, code, what, evidence=None, source=None, who=None):
     except Exception:
         silence.note("escalation.py:workorder")
     if level >= OWNER:
-        _raise_halt(rec)
+        # THE VERDICT USED TO STOP ONE FRAME SHORT OF HERE. `_raise_halt` was fixed in run #34 to
+        # return whether the halt file actually LANDED -- on Windows the rename is DENIED while
+        # any reader holds the target, and this file has readers on their own clocks (every
+        # `assert_clear` opens it, the dashboard polls it). This call site then threw that answer
+        # away: `_raise_halt(rec)` / `return rec`. So the record handed back to the actor that
+        # escalated to OWNER could not distinguish a halt that took from a halt that never
+        # appeared, and when it never appears every other process's `assert_clear()` finds no
+        # halt file and carries straight on.
+        #
+        # Two changes, both required. The verdict goes ON the returned record, so a caller can
+        # see it; and when it is False a SECOND janitor line is appended, because `_append_log`
+        # above already ran BEFORE the write was attempted -- the first line says an OWNER fault
+        # was raised, this one says the top rung did not actually engage. The janitor's rung is
+        # where the whole story is supposed to live even when the top rung fires, and until now
+        # this half of the story was only a generic silence.note counter and a stderr line that
+        # nothing running under CREATE_NO_WINDOW has a reader for.
+        landed = _raise_halt(rec)
+        rec["halt_landed"] = bool(landed)
+        if not landed:
+            _append_log({"at": time.time(), "level": OWNER, "level_name": "OWNER",
+                         "code": "HALT_NOT_RAISED",
+                         "what": "the halt for %s was escalated to OWNER but state/HALT.json did "
+                                 "NOT land, so every other process's assert_clear() will find no "
+                                 "halt and carry on: %s" % (rec["code"], rec["what"]),
+                         "source": rec.get("source"), "who": rec.get("who"),
+                         "evidence": {"halt_landed": False, "of_code": rec["code"]},
+                         "halt_landed": False})
     return rec
 
 
@@ -532,12 +563,33 @@ def main():
         print("halted.")
         return 0
     if a.clear:
+        # PermissionError is caught alongside ValueError because `clear()` raises it for a
+        # non-person caller, and the two refusals are the same event to a reader: the lift did
+        # not happen and here is why. Uncaught, it printed a traceback instead of the sentence
+        # the exception carefully spells out.
         try:
             did = clear(a.ruling, by="owner-cli")
-        except ValueError as e:
+        except (ValueError, PermissionError) as e:
             print("refused: %s" % e)
             return 2
-        print("halt cleared." if did else "nothing was halted.")
+        if did:
+            print("halt cleared.")
+            return 0
+        # `clear()` RETURNS False FOR TWO ENTIRELY DIFFERENT WORLDS -- `if not halted: return
+        # False` and `if not landed: ... return False` -- and this line used to collapse them
+        # into one sentence: "nothing was halted." A person lifting a STANDING halt whose write
+        # was refused (a reader holding HALT.json, which the module's own comment calls the
+        # ordinary Windows case) was told on stdout that there had never been anything wrong,
+        # while stderr said the opposite on the same console. That is the mirror of the defect
+        # `clear()`'s own comment says it fixed, and it is the more expensive wrong belief of
+        # the two. Re-read the file and name which world this is; rc follows, so a script can
+        # tell a refused lift from a no-op as well.
+        halted, _rec = status()
+        if halted:
+            print("THE HALT IS STILL STANDING — the write to state/HALT.json was refused.\n"
+                  "Nothing was lifted. Close whatever is holding the file and run this again.")
+            return 1
+        print("nothing was halted.")
         return 0
     halted, rec = status()
     if not halted:

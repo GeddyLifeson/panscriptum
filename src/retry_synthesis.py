@@ -222,7 +222,11 @@ def do_merge():
         merged += 1
     print(f"merged {merged}, skipped {skipped} (already had synthesis), "
           f"{denied} denied (write refused -- rerun the merge)")
-    return 0
+    # A PARTIALLY APPLIED MERGE IS NOT A SUCCESS. This returned 0 unconditionally, so an
+    # automated caller could not tell "12 merged" from "6 merged, 6 denied" -- the denials were
+    # printed and then thrown away at the exit code. Matches the run path's `return 0 if landed
+    # else 1` at the bottom of main() and cleanup.py's `return 1 if unwritten else 0`.
+    return 1 if denied else 0
 
 
 def main():
