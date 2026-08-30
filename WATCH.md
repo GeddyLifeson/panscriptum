@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 200  ·  last run 2026-08-30 09:44
+round 201  ·  last run 2026-08-30 10:09
 
 ## Structure
 
@@ -11,34 +11,20 @@ round 200  ·  last run 2026-08-30 09:44
 
 ## What the model found in the code
 
-**21 open** (7 high). Newest first.
+**13 open** (1 high). Newest first.
 
-- **publish.py** `prune_export` — [HIGH] Deletes files from the export copy that are not in the wanted set, and removes entire directories that are no longer in the export root.
-  - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
-- **publish.py** `_scrub` — [HIGH] does not refuse credential-shaped data in the state dict
-  - says: refuses anything credential-shaped even if a future edit puts one in the state dict by accident
-- **pipeline.py** `phase_chain` — [HIGH] This function is supposed to implement phase 4, but it does not actually do so. It imports the chain module and reads data, but does not perform the necessary processing or writing to disk as expected.
-  - says: Phase 4 -- the Chain of Defeats. See chain.py for the reasoning.
-- **physics.py** `joules_for` — [HIGH] Returns the product of volume and the specific energy for the material and mode, but does not validate the material or mode against the known ones.
-  - says: Energy to do `mode` to `volume_m3` of `material`.
-- **mutate.py** `_lock_acquire` — [HIGH] acquires a lock without checking ownership
-  - says: acquire a lock with a token
-- **mutate.py** `_lock_release` — [HIGH] removes a lock regardless of ownership
-  - says: release a lock held by the current process
 - **overnight.py** `start` — [HIGH] calls a function named start that is not defined in this slice
   - says: start a service with given arguments
+- **repass_bands.py** `PL.write_record` — [MEDIUM] The code appends to `denied` and prints a message when the write fails, which aligns with the claim that denials are counted and printed.
+  - says: AND THE DENIAL IS COUNTED, NOT ONLY PRINTED (order 6e7bebc7c601). The gate above holds, but a denial reached no summary line and no exit code
+- **repass_bands.py** `PL.write_record` — [MEDIUM] The code appends to `touched` regardless of whether the write succeeded or failed, which contradicts the claim that it ignores the return value.
+  - says: GATE ON THE WRITE. `write_record` returns whether the write LANDED; this ignored it and appended to `touched` regardless, so the run's closing "APPLIED. N rewritten" counted sources whose file was never modified.
+- **reference.py** `shelfmark` — [MEDIUM] The function returns a shelfmark that includes both upper and lower rungs, but the code may not correctly handle cases where the lengths of upper and lower do not match the expected RUNGS length
+  - says: The charter's canonical Shelfmark
 - **read.py** `set_transport` — [MEDIUM] sets the transport method but the argument is not validated against the allowed choices
   - says: sets the transport method based on the argument
-- **pipeline.py** `phases` — [MEDIUM] derive the resume range from `args.phase` and `st['phase']`
-  - says: derive the resume range from `st['phase']`
 - **pipeline.py** `write_record` — [MEDIUM] The function is called without verifying that the write actually reached the disk
   - says: A batch is done only when every entry in it carries a result AND the write that carries those results actually reached the disk
-- **pick_model.py** `refused` — [MEDIUM] keeps the models that are refused for VRAM and scored (but not the ones that are excluded)
-  - says: keeps the models refused for VRAM
-- **pick_model.py** `scored` — [MEDIUM] keeps the models that are scored (including both resident and refused models)
-  - says: keeps the resident and usable models
-- **pantheon.py** `main` — [MEDIUM] return 0 if write_ok else 1
-  - says: return 0 if write_ok else 1
 - **overnight.py** `busy` — [MEDIUM] A list of statuses that are considered busy, but the code uses 'busy' to check for busy states and then proceeds to sleep, which is correct. However, the code may have a logical error in the condition where it checks 'busy and snap['cycle_seconds'] < MIN_CYCLE_SECONDS' which could be misinterpreted if 'busy' is not properly defined or if the logic is flawed.
   - says: A list of statuses that are considered busy
 - **overnight.py** `preflight` — [MEDIUM] Returns (0, False) when preflight fails, but does not properly handle all failure cases or correctly identify blocking checks
@@ -47,8 +33,6 @@ round 200  ·  last run 2026-08-30 09:44
   - says: This cycle's coverage figures, or `{
 - **overnight.py** `os.path.samefile` — [MEDIUM] check if script is the same file as the one in src, but the script is constructed with psutil.Process(pid).cwd() which may not be the same as the original script path
   - says: check if script is the same file as the one in src
-- **navtree.py** `silence.write_json` — [MEDIUM] write_json is called with a path that is not the correct one for the operation
-  - says: write_json
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
