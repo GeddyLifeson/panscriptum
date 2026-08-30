@@ -59,8 +59,12 @@ def store(text: str, compressed_dir: str) -> dict:
         # but not sufficient: the temp name carries pid and thread (deliberately, see above), so
         # repeated denials on a hot path accumulate UNIQUELY-NAMED files instead of overwriting
         # one, and nothing else in the kit ever comes back for them. Removing it loses nothing --
-        # the blob is reproducible from `text`, which the caller (generate.py:554) still holds and
-        # which it re-derives on retry. Same shape as the silence.write_json leak (b464a0311775).
+        # the blob is reproducible from `text`, which the caller still holds and
+        # which it re-derives on retry -- `generate.py`'s `compress_store.store(text,
+        # compressed_dir)` call, named rather than numbered: this said `generate.py:554`, which
+        # had drifted onto generate.py's own comment about not putting line numbers in strings,
+        # the joke writing itself. Order bf22c557852e.
+        # Same shape as the silence.write_json leak (b464a0311775).
         # The unlink is itself guarded: failing to clean up must not replace the real error
         # (a denied replace) with a confusing one from the cleanup path.
         try:
@@ -74,7 +78,9 @@ def store(text: str, compressed_dir: str) -> dict:
         # `path` does not exist yet (the temp is swept just above). The old code returned the same
         # success dict either way, so a blob that never landed was reported as stored, and
         # generate.py wrote that path straight into the catalogue as `compressed_path`
-        # (generate.py:468) for catalog.py:97 to open later and fail on. Raising here instead
+        # (the catalog[job["address"]] assignment in its generation loop -- this cited
+        # generate.py:468, drifted; order bf22c557852e) for `catalog.cmd_read` to open later
+        # and fail on. Raising here instead
         # of returning gives the caller (generate.py) something to catch and retry, rather than
         # a poisoned catalogue entry.
         raise RuntimeError(

@@ -106,11 +106,28 @@ def before(label, paths, note="", allow_missing=False):
     and nothing else: `requested` and `skipped` go into the manifest either way, so what was not
     taken is on the record even when it was expected.
     """
-    sid = "%s-%d" % (str(label or "snap").replace(os.sep, "_"), int(time.time()))
+    # THE ID HAS TO BE UNIQUE OR TWO SNAPSHOTS ARE ONE (order da72c19bef09). It was
+    # `label + "-" + int(time.time())` -- a WHOLE-SECOND clock -- against
+    # `os.makedirs(dest, exist_ok=True)`, so two `before()` calls with the same label in the same
+    # second shared one directory: the second copytree wrote into the first's tree and the second
+    # `_manifest.json` REPLACED the first's. The manifest is the only record of what a snapshot
+    # holds (`restore` and `verify` read `m["took"]` and nothing else), so the first snapshot's
+    # contents became unrestorable -- present on disk, invisible to the tool -- while `before()`
+    # handed an id to both callers as though each had its own copy. `exist_ok=True` made that
+    # collision silent BY CONSTRUCTION, in the module whose whole job is that an irreversible act
+    # always has a copy behind it.
+    #
+    # Nanoseconds plus the pid: the clock separates two calls in one process, the pid separates
+    # two processes that hit the same nanosecond. And `exist_ok=False`, so if the id ever DOES
+    # collide the answer is SnapshotFailed -- already this module's contract for "the copy did
+    # not happen" -- rather than a silent merge.
+    sid = "%s-%d-%d" % (str(label or "snap").replace(os.sep, "_"),
+                        time.time_ns(), os.getpid())
     dest = os.path.join(ROOT, sid)
     took, requested, skipped = [], [], []
     try:
-        os.makedirs(dest, exist_ok=True)
+        os.makedirs(ROOT, exist_ok=True)
+        os.makedirs(dest, exist_ok=False)
         for p in paths or ():
             src = p if os.path.isabs(p) else os.path.join(HERE, p)
             requested.append(str(p))
@@ -130,8 +147,30 @@ def before(label, paths, note="", allow_missing=False):
         # restore six weeks from now has to tell it what this snapshot was supposed to hold.
         manifest = {"id": sid, "at": time.time(), "label": label, "note": note, "took": took,
                     "requested": requested, "skipped": skipped}
-        with open(os.path.join(dest, "_manifest.json"), "w", encoding="utf-8") as f:
-            json.dump(manifest, f, indent=1, ensure_ascii=False)
+        # THROUGH `silence.write_json`, NOT A BARE open(..., "w") (order da72c19bef09). This was
+        # the one unhardened write left in the kit. A bare open truncates BEFORE serialising, so
+        # an interrupted flush leaves a snapshot whose FILES are all on disk and whose index is
+        # 0 bytes: `manifest()` raises, `verify()` returns (False, "manifest unreadable"), and
+        # `restore()` raises -- the copy taken before an irreversible step cannot be used, which
+        # is precisely the failure this module was written to make impossible. health.py, read.py
+        # and pipeline.py were all moved off that formula for the same reason.
+        #
+        # AND THE VERDICT IS NOT DISCARDED. `write_json` returns False rather than raising on a
+        # denied replace, so the `except -> SnapshotFailed` wrapper around this block cannot see
+        # it (the discarded-verdict shape health.py :846-876 was fixed for). A snapshot whose
+        # manifest did not land is a snapshot that does not exist, so it raises.
+        if not silence.write_json(os.path.join(dest, "_manifest.json"), manifest,
+                                  indent=1, ensure_ascii=False):
+            raise SnapshotFailed(
+                "snapshot %r copied %d path(s) but its manifest could not be landed at %s. "
+                "The manifest is the only record of what the copy holds -- restore() and "
+                "verify() read nothing else -- so a snapshot without one cannot be used and "
+                "must not be reported as taken."
+                % (label, len(took), os.path.join(dest, "_manifest.json")))
+    except SnapshotFailed:
+        # Already the right exception with the right sentence -- re-wrapping it in the generic
+        # one below would bury the manifest's specific failure inside "could not snapshot".
+        raise
     except Exception as e:
         silence.note("snapshot.py:before")
         raise SnapshotFailed(

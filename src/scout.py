@@ -389,20 +389,50 @@ def scout(source, names, register=True):
         checked.append(r)
         if r["ok"]:
             kept.append(u)
+    registered, reg_note = True, ""
     if kept and register:
         import endpoint as EP
-        EP.register(source, kept)
+        # THE PAGE REGISTRATION IS GUARDED, LIKE THE HOST REGISTRATION TEN LINES BELOW ALWAYS
+        # WAS (order d57377577891). `endpoint.register` raises DELIBERATELY -- an unreadable or
+        # wrong-shaped SOURCE_PAGES.json is re-raised immediately, and eight consecutive
+        # compare-and-swap refusals under contention end in RuntimeError -- and it returns None
+        # on success, so the raise is its only signal. This call had no handler, and neither
+        # does `sweep()`'s loop, so one raise took down the WHOLE CYCLE rather than one source:
+        # `results` was discarded, so the SCOUT.json write and the ARCHIVE append never ran and
+        # nothing anywhere recorded that the cycle happened; the `never_asked` unstamp never
+        # ran; and the attempt stamps written BEFORE the work still stood, so every source in
+        # the batch -- including the ones already scouted successfully, whose kept URLs are in
+        # SOURCE_PAGES.json but in no log -- had spent its rotation slot for nothing. On
+        # foreman's 30-second scout_hostless loop that is a repeating burn.
+        #
+        # NOT reported as a success: the URLs passed verification and the registry does not
+        # have them, so the source stays hostless and will be re-scouted, which is the correct
+        # self-healing outcome as long as the log says why.
         try:
-            import feats as F
+            EP.register(source, kept)
+        except Exception as e:
+            silence.note("scout.py:register-pages")
+            registered = False
+            reg_note = ("%d page(s) verified but NOT registered (%s: %s)"
+                        % (len(kept), type(e).__name__, str(e)[:120]))
+        # AND THE HOST ADOPTION IS GATED ON THE PAGE REGISTRATION HAVING WORKED. The mapping
+        # written below is literally `hosts[source] = "pages:" + source` -- it tells `feats` to
+        # read this source's pages OUT OF SOURCE_PAGES.json. Adopting it while the pages are not
+        # in that file points the reader at nothing and, worse, takes the source off
+        # `hostless()`, so the self-healing re-scout this branch is counting on would never
+        # happen. The two registrations are one fact and must land or fail together.
+        if registered:
+            try:
+                import feats as F
 
-            def _adopt(hosts):
-                hosts[source] = "pages:" + source
+                def _adopt(hosts):
+                    hosts[source] = "pages:" + source
 
-            landed, _ = _mutate(F.HOSTS, _adopt)
-            if not landed:
+                landed, _ = _mutate(F.HOSTS, _adopt)
+                if not landed:
+                    silence.note("scout.py:register-host")
+            except Exception:
                 silence.note("scout.py:register-host")
-        except Exception:
-            silence.note("scout.py:register-host")
     # Pages that exist and decline us are a finding for the owner, not a retry target.
     blocked = [c for c in checked if c.get("code") in (401, 403, 429)]
     if blocked:
@@ -417,9 +447,16 @@ def scout(source, names, register=True):
                 silence.note("scout.py:blocked")
         except Exception:
             silence.note("scout.py:blocked")
+    # `registered` rides in the result so `sweep()` can log the source as scouted-but-
+    # unregistered and move on. The model's own note is kept: the registration failure is
+    # PREPENDED rather than substituted, because both are findings and the second one does not
+    # stop being true because the first happened.
+    _note = (got or {}).get("note", "")
+    if reg_note:
+        _note = reg_note + ("; " + _note if _note else "")
     return {"source": source, "proposed": len(urls), "kept": kept, "checked": checked,
             "blocked": [c["url"] for c in blocked], "reached": True,
-            "note": (got or {}).get("note", "")}
+            "registered": registered, "note": _note}
 
 
 def hostless():
@@ -503,11 +540,22 @@ def sweep(limit=None, register=True):
     for src in order:
         r = scout(src, todo[src], register=register)
         results.append(r)
-        if r["kept"]:
+        if r["kept"] and r.get("registered", True):
             found += 1
             print(f"   FOUND  {src:<38}  {len(r['kept'])} page(s)")
             for u in r["kept"]:
                 print(f"            {u}")
+        elif r["kept"]:
+            # PAGES VERIFIED, REGISTRY DID NOT TAKE THEM (order d57377577891). Not counted in
+            # `found`, because `found` is the count of sources that now have somewhere to read
+            # from and this one does not. Deliberately NOT unstamped either: the source did have
+            # its turn -- a model call was spent on it -- and a registry that is persistently
+            # unwritable would otherwise unstamp the same sources every cycle and pin the
+            # rotation window, which is the exact failure the stamp-before-the-work rule above
+            # exists to prevent. It stays hostless, so `hostless()` returns it again and the
+            # ordinary rotation re-scouts it; this line is what makes that legible rather than
+            # mysterious.
+            print(f"   UNSAVED {src:<37}  {r.get('note') or 'registration failed'}")
         else:
             # NEITHER COLUMN IS CUT ANY MORE (order e8cd908ce5e4). `src[:38]` truncated the
             # source NAME and `reasons[:60]` cut the per-source failure reason mid-sentence --

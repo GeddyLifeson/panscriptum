@@ -201,7 +201,11 @@ def runs_script(argv, module, root=None, cwd=None):
     except OSError:
         # One of them does not exist (a sandbox already reaped, a path from another machine).
         # Fall back to comparing normalised absolute paths rather than guessing.
-        return os.path.normcase(os.path.abspath(resolved)) ==                os.path.normcase(os.path.abspath(target))
+        # (Rewrapped: this arrived as one line carrying a run of sixteen spaces where the
+        # continuation used to be -- the mild end of the transit corruption `_BAD_CHARS` guards
+        # against. Behaviour is unchanged.)
+        return (os.path.normcase(os.path.abspath(resolved))
+                == os.path.normcase(os.path.abspath(target)))
 
 
 def twins(module, exclude_pid=None):
@@ -295,15 +299,44 @@ def stamp(who="?"):
     return _START["digest"]
 
 
-def _budget_left(who):
-    """-> (remaining, used). Restarts are counted per job per rolling hour."""
+def _read_ledger():
+    """The restart ledger as a dict, or {} if it is absent or unreadable.
+
+    ONE READER FOR THREE CALLERS. `_budget_left`, `_take_locked` and `main()` each carried their
+    own copy of this open-and-parse plus the rolling-hour filter below, and the copies are what
+    let the TESTED arithmetic and the LIVE arithmetic drift apart with nothing red -- the drill
+    net drives `_budget_left` while `exit_if_stale` goes through `_take_locked`. An unreadable
+    ledger is deliberately not recorded: the ordinary case is a job whose ledger has never been
+    written, and a note on every first restart would be noise, not observation.
+    """
     try:
         with open(LEDGER, encoding="utf-8") as f:
-            doc = json.load(f)
+            return json.load(f)
     except Exception:
-        doc = {}
+        return {}
+
+
+def _recent_restarts(doc, who):
+    """`who`'s restart timestamps inside the rolling hour. The whole enforcement mechanism.
+
+    Drop the `> cutoff` filter and a job that restarted four times last week can never restart
+    again; drop the rolling window and a daemon bounces for ever. Shared so that the copy the
+    drill net measures IS the copy `_take_locked` spends against.
+    """
     cutoff = time.time() - 3600
-    recent = [t for t in (doc.get(who) or []) if isinstance(t, (int, float)) and t > cutoff]
+    return [t for t in (doc.get(who) or []) if isinstance(t, (int, float)) and t > cutoff]
+
+
+def _budget_left(who):
+    """-> (remaining, used). Restarts are counted per job per rolling hour.
+
+    NO PRODUCTION CALLER: since the run #36 fix, `exit_if_stale` claims through
+    `_claim_restart_slot` -> `_take_locked`, and this survives as the read-only window the drill
+    net can drive safely (the live path escalates and exits the process). It now delegates to
+    the same two helpers `_take_locked` uses, so a net that passes here is measuring the
+    arithmetic that actually runs rather than a verbatim duplicate of it.
+    """
+    recent = _recent_restarts(_read_ledger(), who)
     return BUDGET_PER_HOUR - len(recent), len(recent)
 
 
@@ -367,13 +400,8 @@ def _take_locked(who, enforce):
     restart storm was silently absent. A budget whose accounting can fail unnoticed is not a
     budget. If the spend cannot be recorded, it is not authorised.
     """
-    try:
-        with open(LEDGER, encoding="utf-8") as f:
-            doc = json.load(f)
-    except Exception:
-        doc = {}
-    cutoff = time.time() - 3600
-    recent = [t for t in (doc.get(who) or []) if isinstance(t, (int, float)) and t > cutoff]
+    doc = _read_ledger()
+    recent = _recent_restarts(doc, who)
     if enforce and len(recent) >= BUDGET_PER_HOUR:
         return False, len(recent)
     used_before = len(recent)
@@ -534,18 +562,14 @@ def main():
     print("CODEWATCH — every running job is a photograph of the code it started with")
     print("=" * 78)
     print("  current src/ fingerprint : %s" % fingerprint())
-    try:
-        with open(LEDGER, encoding="utf-8") as f:
-            doc = json.load(f)
-    except Exception:
-        doc = {}
-    cutoff = time.time() - 3600
+    doc = _read_ledger()
     if not doc:
         print("  no source-change restarts recorded")
-    for who, times in sorted(doc.items()):
-        recent = [t for t in times if isinstance(t, (int, float)) and t > cutoff]
+    for who in sorted(doc):
+        # The third copy of the rolling-hour filter used to live here too. Same helper as the
+        # enforcement path, so the number a person reads is the number the budget spends.
         print("  %-16s %d restart(s) in the last hour (budget %d)"
-              % (who, len(recent), BUDGET_PER_HOUR))
+              % (who, len(_recent_restarts(doc, who)), BUDGET_PER_HOUR))
     print("\n  rc=%d means 'my code changed, restart me'. It is not a crash." % RC_STALE)
     return 0
 

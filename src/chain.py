@@ -531,9 +531,13 @@ def adjudicate_mutuals(edges, prov):
     collapsing them manufactures a contradiction the source never contained -- then feeds it to
     Bradley-Terry, which has no way to know and dutifully splits the difference.
 
-    So each mutual pair's two sentences are dated (identity.epoch_of, one model call each), and
-    where they date differently the winner is re-keyed onto an epoch-specific node. Where neither
-    sentence dates itself, the pair is LEFT STANDING: that is a real disagreement in the record,
+    So EVERY provenance sentence recorded for each side of a mutual pair is dated
+    (identity.epoch_of, one model call each -- an edge carries one sentence per recorded win, not
+    one in total), a side takes the epoch its sentences agree on, and where the two sides date
+    differently the winner is re-keyed onto an epoch-specific node. Where a single side's own
+    sentences date to different epochs the pair is left whole and that is reported: it is a
+    finding about the record, not a chronology. Where neither side dates itself, the pair is
+    LEFT STANDING: that is a real disagreement in the record,
     and dissolving it with an invented chronology would be the same fabrication this library
     exists to refuse.
 

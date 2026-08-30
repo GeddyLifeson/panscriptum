@@ -4,11 +4,18 @@ Rebuilds SWEEP_ROLL.json's entry_count/status from the record files on disk.
 
 The record files are the authority; the roll is an index over them. They can drift apart:
 every cataloguer (catalogue_web.py, catalogue_aurora.py, catalogue_codex.py,
-recover_folder_records.py) rewrites the whole roll after each source, so two of them running
-concurrently will have one clobber the other's counters with a stale copy read minutes
+recover_folder_records.py) USED TO rewrite the whole roll after each source, so two of them
+running concurrently had one clobber the other's counters with a stale copy read minutes
 earlier. That happened once here -- the Aurora run wrote 425 entries for Dr. Firestorm's
 Engineering Corps and 681 for The Elements Beyond, then the wiki run's final save reset both
 to 0 while leaving the record files untouched.
+
+That class is closed at the source as of order f818a77293fc: every writer of the roll,
+including this one, now lands its own rows through `roll.mutate`'s compare-and-swap, which
+re-reads and re-applies key-wise by source name rather than landing a whole stale document.
+This script remains the repair for the drift that is left -- a record file written or emptied
+without the roll being told (hostcheck.purge does exactly that), and any row still carrying a
+count from before the fix.
 
 Running this after any cataloguing session makes the roll agree with reality again. It is
 safe to run at any time and changes nothing else about the roll.
@@ -97,6 +104,10 @@ def main():
     relabelled = []
     unmatched_rows = []
     unnamed_rows = 0
+    # {source name: {field: value}} -- this run's repairs, re-applied to a FRESHLY READ roll by
+    # the compare-and-swap below rather than landed as this process's whole copy of the file.
+    # (order f818a77293fc)
+    repairs = {}
     for r in roll:
         # A NAMELESS ROW USED TO TAKE THE WHOLE RESYNC DOWN. `norm(r["name"])` assumed every row
         # carries a name, so one malformed row raised KeyError before anything was written and
@@ -121,6 +132,7 @@ def main():
             changed.append((r["name"], r.get("entry_count", 0), n, fn))
             if not dry:
                 r["entry_count"] = n
+                repairs.setdefault(r["name"], {})["entry_count"] = n
 
         # THE STATUS RULE IS ABOUT THE COUNT, NOT ABOUT THE COUNT HAVING MOVED.
         #
@@ -153,18 +165,51 @@ def main():
                 relabelled.append((r["name"], r.get("status"), want, n))
                 if not dry:
                     r["status"] = want
+                    repairs.setdefault(r["name"], {})["status"] = want
 
     landed = True
     if (changed or relabelled) and not dry:
         # ATOMIC: this file's own docstring warned about the roll-clobber hazard while the
         # code went on truncate-then-filling it. Fixed 2026-08-25.
         #
-        # THE VERDICT IS NOT OPTIONAL. write_json returns False rather than raising on a
+        # AND ATOMIC WAS STILL NOT THE PROPERTY (order f818a77293fc). This module exists BECAUSE
+        # of a lost update -- the opening docstring records the wiki run's final save resetting
+        # two counters to 0 while leaving the record files untouched -- and it then landed its
+        # own whole in-memory copy of the roll, which is the same act from the other side. The
+        # repair is now key-wise: `roll.mutate` re-reads the file, re-applies only THIS run's
+        # rows, and on a refusal re-reads and re-applies rather than retrying the same bytes.
+        #
+        # THE EXCLUSION GUARD IS RE-CHECKED ON THE FRESH ROW, not just on the snapshot. A source
+        # a person marked out-of-scope while this run was walking the record folder must not be
+        # promoted back by a repair computed before that ruling existed; that is the trap
+        # roll.py's header and the drill net of the same name are both about.
+        #
+        # THE VERDICT IS NOT OPTIONAL. The writer returns False rather than raising on a
         # denied replace (silence.py:366-367), and this call used to discard that return --
         # so on the exact Windows reader-holds-target case this module's own docstring
         # describes, data/SWEEP_ROLL.json stayed unchanged while the summary below still
         # printed "Fixed". Reported instead, same idiom as worldseed.py's write.
-        landed = silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
+        def _apply(rows):
+            for r in rows:
+                fix = repairs.get(r.get("name"))
+                if not fix:
+                    continue
+                if "entry_count" in fix:
+                    r["entry_count"] = fix["entry_count"]
+                if "status" not in fix:
+                    continue
+                # A BARE `!=` COMPARE, deliberately, and not folded into the line above as an
+                # `and`. The exclusion guard is a property the drill net reads out of this
+                # module's parse tree -- every reachable write to a row's status must sit inside
+                # an out-of-scope guard -- and a BoolOp is not the shape it can read. Same rule,
+                # written so the net can still see it holding.
+                if r.get("status") != _roll.OUT_OF_SCOPE:
+                    r["status"] = fix["status"]
+            return rows
+
+        landed, why = _roll.mutate(_apply, path=ROLL)
+        if why:
+            print("\nROLL: %s" % why)
 
     verb = "Would fix" if dry else "Fixed"
     print(f"{verb} {len(changed)} roll entries out of sync with their record files:\n")

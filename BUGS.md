@@ -18,24 +18,28 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   FAIL CLOSED. Separately `escalation.py:97-106` appends the janitor log with buffered
   `open(path,"a")` instead of `silence.append_line` (the m62 torn-line class).
 
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29.** The write-verdict limb is closed by
+  order `ESCALATE_DISCARDS_HALT_WRITE_VERDICT`. `escalate()`'s `level >= OWNER` arm bound nothing:
+  `_raise_halt(rec)` then `return rec`, so the fix that stopped `_raise_halt` discarding its own
+  verdict in run #34 stopped one frame short of its caller. It now binds
+  `landed = _raise_halt(rec)`, puts it on the returned record as `rec["halt_landed"]`, and — because
+  `_append_log(rec)` runs BEFORE the write is attempted, so the first janitor line predates the
+  verdict — appends a SECOND janitor line coded `HALT_NOT_RAISED` when the halt did not appear;
+  `halt_landed` was admitted to the `_FIELDS` whitelist so `brief()` does not drop it. That matters
+  because the only durable trace before was a generic `silence.note` plus a stderr line, and every
+  standing daemon here runs under `CREATE_NO_WINDOW`. The **non-disambiguated tmp filename** is
+  also closed: `_raise_halt` lands through `silence.write_json`, whose tmp name carries PID and
+  thread. **STILL OPEN, both verified at source this pass:** `_raise_halt` (`escalation.py:285-321`)
+  still does a read-modify-write of the halt file with **no lock**, so two concurrent first-time
+  OWNER halts can still have the second overwrite the first rather than record it as corroboration;
+  and `escalation._append` (`:137-146`) still appends the janitor log with a buffered
+  `open(path, "a")` + `f.write` instead of `silence.append_line` — the m62 torn-line class, which
+  m62's own fix did not carry into this file.
+
 - **[M39 — OPEN, VERIFIED run #32] `catalogue_web.py` WRITES RECORDS STRAIGHT THROUGH A STANDING
   HALT.** Its `main()` never imports `escalation` and never calls `assert_clear()`; batch 10
   traced that `pipeline.write_record_catalogue()` does not check either. A library-wide OWNER halt
   is supposed to mean nothing starts — this cataloguer does not ask.
-
-- **[M40 — OPEN, VERIFIED run #32] `withdraw_chapters.py:66-98` HAS NO CHAPTER-SELECTION LOGIC AT
-  ALL.** The docstring frames it as a targeted withdrawal of the 145 flagged chapters; `--go`
-  actually iterates the **entire** `catalog.json`, moves every entry's files, and wipes the
-  catalog to `{}` unconditionally. A destructive tool whose comment describes a selectivity the
-  code does not implement. **Do not run it.**
-
-- **[M41 — OPEN, VERIFIED run #32] `overwatch.py:369-378,421-430,647-648` MAKES PARTIAL COVERAGE
-  INDISTINGUISHABLE FROM A FULL REVIEW.** Once the per-round `CLOUD_BUDGET` is spent, `_ask`
-  returns None, `review()` swallows it as "no findings," and the module is **still marked seen
-  with a fresh digest and timestamp** — so it goes to the back of the re-review queue and can be
-  starved indefinitely while the system reports it reviewed. Same shape at `:485-497`, where
-  `last_verified` is stamped even on a failed re-check. *(Batch 15 confirmed the finding-closing
-  path itself is safe: only an explicit "refuted" verdict closes a finding.)*
 
 - **[M42 — OPEN, VERIFIED run #32] `local_agent.py:526-535` PUTS AN UNVETTED MODEL-AUTHORED PATCH
   IN THE LIVE IMPORT PATH.** `t_propose_patch` writes the candidate **straight to the live `src/`
@@ -46,11 +50,19 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   `data/records/`, the charter, `output/index/` and `state/` is a string-prefix test a symlink
   would walk around.
 
-- **[M43 — OPEN, VERIFIED run #32] `assay.py:496-531` MUTATES `SIGMA_BY_ATTESTATION` UNLOCKED
-  UNDER A THREADING SERVER.** `calibration_report()` mutates the global that every printed
-  Magnitude's interval is built from, with no lock anywhere in `assay.py`/`dashboard.py`; two
-  concurrent `/api/state` polls can leave it **permanently** shifted, because the restoring
-  thread's "saved" value can itself be mid-sweep garbage from the other thread.
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29.** The `_safe` limb is closed. It no
+  longer decides on the path as written: `src/local_agent.py:388-406` resolves with `realpath` on
+  both sides (because `HERE` may itself sit under a link) and the resolved path is put to
+  `_denied_target`, which asks all three questions — module denylist, `DENYLIST_PATHS`,
+  `DENYLIST_PREFIXES` — rather than only the region prefixes. The junction bypass was found by the
+  run-35 sweep; order `6e0127c4f3ed` closed its residue, where `handoff/cfg` → the repo root made
+  `config.yaml` reachable and reproducibly rewrote `prose_enabled` on disk. Tonight order
+  `deeb24037ede` separately fixed `_gates`' import gate importing a DIFFERENT file for any `.py`
+  outside `src/`. **STILL OPEN, unchanged and verified at source:** `t_propose_patch` still writes
+  the candidate straight to the live file and gates afterwards — `open(full, "w")` with the replaced
+  text, then `fail = _gates(full, modname)` (`src/local_agent.py:775-780`) — and still holds no
+  lock, so the window in which any running job that imports that module gets the unvetted code is
+  exactly as this entry measures it.
 
 - **[M44 — OPEN, VERIFIED run #32] `address.py:101-114` INVENTS ADDRESSES — HARD RULE 2, INSIDE
   THE MECHANISM THAT ENFORCES IT.** Live-confirmed: `spine_code_for("Alien Predator Doom
@@ -65,30 +77,18 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   rather than depend on the supervisor reading the failure. **Also: nothing in `src/` imports
   `binding_health` at all.** See NEXT_STEPS §1 for the owner question about who wrote it.
 
-### Major
-- **[M34 — OPEN, OWNER RULING NEEDED] THE ASSAY DISAGREES WITH ITS OWN CALIBRATION LADDER, AND
-  THE SWEEP HAS BEEN GRADING THAT GREEN.** Surfaced run #31 the moment M32's import-tier fix
-  landed, converging with batch 09's independent reading of the same lines. `anchors.py` scores a
-  fixed ladder of reference entities and asserts it ascends floor → ceiling. It does not:
-  ```
-    The Skate Guy              0.22
-    A Sword                    0.10      <- below the floor anchor
-    Yggdrasil                  6.18
-    Goku                       5.42      <- below the anchor above it
-    The Seat of the Creator   10.99
-  ```
-  The script exits non-zero and says so in plain words — *"the instrument disagrees with the
-  ordering it was calibrated against. This is a reading about the ASSAY, not about this
-  script."* — and **`allsweep` reported it as importing cleanly on every run**, because it exits
-  via `SystemExit` and prints no traceback (M32). A live disagreement in the instrument every
-  printed Magnitude depends on has been visible and unread.
-  **Why NOT fixed here:** there are two different repairs and they mean opposite things. Either
-  the declared `order` is wrong (Goku should sit above Yggdrasil, and the assay is right), or the
-  assay is mis-scoring one of them against the charter's intent. **Which of a world-tree holding
-  nine realms and a martial artist who moves planets ranks higher is a curatorial judgment the
-  charter makes, not a bug a maintenance run may decide.** Two anchors are involved: `A Sword`
-  (0.10) also sits below the floor anchor `The Skate Guy` (0.22). **NEXT_STEPS §1.**
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29.** The second half is no longer true:
+  `binding_health` **is** imported from `src/` now — `dashboard.py:577` and three `drill.py` nets —
+  and tonight's shift filed and closed several `BH_*` orders against it, so it is neither orphaned
+  nor unowned. **STILL OPEN:** the first half, that a sweep should notice mid-run arrivals rather
+  than depend on the supervisor reading the failure. Tonight's order `f42c55355431` fixed the same
+  shape one level over without touching this one — `sweep_plan.modules()` and `allsweep.modules()`
+  globbed `src/*.py` non-recursively while the docstring said *"Every module in src/, NO
+  exclusions, deliberately"*, so `src/deprecated/catalogue_local.py` was a module `missing()` could
+  never name, by construction. Both now walk `src/` with `os.walk`. The structural lesson is this
+  entry's: the completeness proof cannot notice a gap in its own denominator.
 
+### Major
 - **[M35 — OPEN, OWNER ACTION NEEDED] FOUR PROVIDERS THAT CANNOT ANSWER ARE STILL BEING CALLED,
   ~40 TIMES AN HOUR, AND THE FAILURES COUNT AGAINST THE READER'S OWN THROTTLE.** Measured run
   #31 from `state/cascade_scratch.db` rather than inferred. Each bucket's `last_error` is a
@@ -309,27 +309,6 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   **Why NOT patched:** acquiring the local gate only around the local call changes concurrency
   against a shared GPU *and* a free-tier pool at once. **Owner ruling needed — NEXT_STEPS §1.**
 
-- **[M20] THE ENTRYPASS DONE-MARKER IS A POSITIONAL KEY OVER A LIST THAT ANOTHER WRITER
-  MUTATES.** Found run #27 by `health --preflight`, which went from 1 problem to 2. `check_state`
-  (`health.py:256`) counts entries with no `catalogued` flag sitting inside a batch already
-  recorded done. **227 stranded, every one in a single source (`Gundam (all centuries, incl. G
-  Gundam)`).** The marker is `f"{source}#{start}"` — an INDEX. Close `Gundam#0` over entries
-  0-19, then let the cast-growing side insert or re-sort, and that key now claims a different
-  twenty; whatever slid into a closed range is never entrypassed, because nothing re-opens a
-  batch. Appending alone is harmless — new entries land in new, unclosed ranges — so this only
-  bites on insertion or re-ordering, which is why it appeared in one source and not the corpus.
-  Same class as the truncated/positional dict keys already fixed at m37 and still open at
-  `chain.py:354`. **Why NOT patched:** re-keying by content invalidates every done-marker on disk
-  and re-runs entrypass across the corpus — real model spend on a pool that is currently the
-  binding constraint. **Owner ruling needed — NEXT_STEPS §1.**
-
-  **UPDATE, run #29: THIS IS ACCRUING, NOT FROZEN — AND THE "ONE SOURCE" REASONING NO LONGER
-  HOLDS.** `health --preflight` now reports **412 stranded, across TWO sources**: Gundam 227
-  (unchanged) and **SpongeBob SquarePants 185 (new)**. The single-source containment was the main
-  reason this looked cheap to defer — it read as one historical re-sort in one fiction. A second
-  source appearing means the insertion/re-order path is still live and still closing entries out
-  of reach, so the cost of deferring grows with every catalogue pass. The ruling is now more
-  urgent than when it was filed, and the back-fill option is 412 entries rather than 227.
 - **[M18] `axis_score()` RETURNS A FLAT 9.9 FOR EVERY INPUT AT M10, AND `ledger.py` RESOLVES THE
   SAME EDGE CASE A DIFFERENT, INCOMPATIBLE WAY.** Found by the run #21 `assay.py` audit (first
   end-to-end read of the file), **verified numerically before filing**: `A.axis_score(x, "M10",
@@ -403,6 +382,25 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
     (`feats.py:807-809`). **An entire source is lost to one network blip, silently, forever.**
   **Not fixed:** the repair changes `api()`'s return contract across every caller, which is a
   public-signature change needing a review cycle. NEXT_STEPS §2.
+
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29.** The second bullet — the expensive one,
+  where an entire source is lost to one network blip — is closed by order
+  `FEATS_RESOLVE_HOSTS_FREEZES_A_FAILED_PROBE_AS_NO_WIKI`. Three changes, all in `src/feats.py`:
+  the retry guard tests the VALUE (`if known.get(src): continue`, not `if src in known`, since a
+  key whose value is None is still `in` the dict); `api()` gained an **additive** `outcome` dict
+  stamped `ok` / `no-api` / `http-404` / `throttled` / `http-<code>` / `nonjson` / `network` at each
+  return, with a pre-stamped `unknown` default so an unstamped path reads as undetermined rather
+  than as a clean negative; and a new `alive_verdict(host)` has three answers, with only an explicit
+  404 treated as settled — `no-api` deliberately is not, because `endpoint.detect()` reaches that
+  answer by probing and can therefore reach it by failing. `resolve_hosts` writes `known[src] = None`
+  only when every candidate returned a clean negative, and an undetermined source is left out of the
+  map and printed uncapped. **Note the repair did NOT require the public-signature change this entry
+  said blocked it:** `alive()` keeps its exact old contract as a one-line wrapper. **STILL OPEN:**
+  the first bullet. `evidence_for()`'s record now carries `pages_refused` so a block page or
+  rate-limit interstitial is legible, but a transport failure returning no pages at all still writes
+  `pages_read: []`, `chars_read: 0`, `feats: []` with **no fetch-failed flag**
+  (`src/feats.py:1412-1426`) — byte-identical to a genuine absence, and read back by
+  `evidence_for(cache=True)`.
 
 ### Minor-but-new (run #26 — the fifth whole-tree sweep)
 
@@ -731,6 +729,23 @@ once, and the fix stopped one letter short.*
   what the project believes about itself and deserves a deliberate pass, not a patch at the end
   of a run. **NEXT_STEPS §2.**
 
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29.** Two of the four proofs are closed.
+  `last_verified` is no longer bumped when the verifying `_ask()` returned None (order
+  `c6f64c1424fa`; the full account is under M41 in the paper trail). And WATCH.md's `[:40]` cap is
+  gone — order `e8e095597f74` removed the slice while leaving the severity-then-recency sort
+  untouched, and uncapped `broken[:4]` and `corrupt[:3]` beside it, which were WORK LISTS printed
+  inline under a count that told the truth: the fifth module that will not import is a module
+  somebody has to go fix, and it was invisible under a number saying there were nine. Verified by
+  driving `write_report()` against a synthetic ledger of 45 open findings. Separately, order
+  `97373afb2d5b` dropped `round_once`'s unstated `m not in ("overwatch", "allsweep")` exclusion, so
+  the watching machinery is now read too — 115 eligible modules. **STILL OPEN, and both still bias
+  toward undercount:** the fid-skip fires first (`if fid in led["findings"]: continue`,
+  `src/overwatch.py:850-851`), so a closed or retired finding can never reopen even if the identical
+  defect returns; and `structure()`'s reconcile filter is still a whitelist
+  (`src/overwatch.py:392-395`: `r["finding"].isupper()` or three named substrings), so most of
+  `allsweep.reconcile()`'s finding classes — its own exception handlers included — still cannot reach
+  WATCH.md.
+
 - **[m134 — MAJOR, OPEN] `dashboard.py:335-349` — CONCURRENT POLLERS CORRUPT THE HISTORY FILE
   AND THE MOVEMENT PANEL THEN GOES SILENTLY AND PERMANENTLY BLANK.** `ThreadingTCPServer` with
   `daemon_threads=True` and a 5s client poll race on a fixed `dashboard_history.json.tmp` name
@@ -738,6 +753,19 @@ once, and the fix stopped one letter short.*
   (`JSONDecodeError: Extra data`), and once corrupted there is **no self-heal** — unlike
   `health.py`'s LEDGER. Related and also open: `:341-342`'s `HISTORY[-2000:]` retention drops
   below the 30-minute stall window at roughly 6 concurrent pollers (measured).
+
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29.** Both halves of the headline are closed.
+  The write goes through `silence.write_json`, whose PID+thread-qualified tmp name ends the race two
+  concurrent pollers had on the fixed `dashboard_history.json.tmp`, and the comment at the site says
+  that is why. The load is isolated from the write, so a corrupt file self-heals rather than being
+  re-thrown on every five-second poll; order `62286a6c018a` extended the guard to a list of
+  NON-DICTS — `[1, 2, 3]` passed the `isinstance(hist, list)` test and then raised inside the try
+  below, which returned `[]` and skipped the write that would have healed it, the one corrupt shape
+  that still wedged the repair whose own comment reads *"A CORRUPT HISTORY FILE MUST HEAL, NOT
+  WEDGE."* **STILL OPEN:** the retention limb this entry files as *related and also open*.
+  `src/dashboard.py:425` trims `[h for h in hist if h.get("at", 0) > cutoff][-2000:]` against
+  `MOVED_WINDOW_MIN = 30`, so on a five-second poll roughly six concurrent pollers still push the
+  2,000-sample cap inside the stall window.
 
 - **[m135 — OPEN] `hostcheck.adopt()` NEVER RECORDS THE "GENUINELY HOSTLESS" VERDICT ITS OWN
   DOCSTRING PROMISES**, so `sources with a reachable wiki` is permanently red and its remedy
@@ -1045,6 +1073,17 @@ they are the next run's work, not silently dropped.*
   `src/*.py` during a model patch — it has a backup and an auto-revert, which is why it is not
   urgent, but a crash mid-write leaves a corrupt module). Mechanical now that
   `silence.write_json` exists; left undone rather than rushed at the end of a long session.
+
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29.** Ten of the fourteen are done and were
+  verified at source this pass: `genre.py`, `halo.py`, `navtree.py`, `pantheon.py`, `rosetta.py`
+  (both sites) and `sevenfold.py` now hold **no** bare `open(..., "w")` at all, and
+  `build_terminal.py`, `burgs.py`, `module_index.py` and `overnight.py` build whole and land
+  atomically. **STILL OPEN, three of them:** `render.py:245` (the SVG view writer), `publish.py:996`
+  — `open(PAGE, "w")`, the published page itself — and `foreman.py:1370`, which is this entry's
+  `foreman.py:996` after drift and is the one that writes a LIVE `src/*.py` during a model patch.
+  This entry's own reason for ranking that last one non-urgent (it has a backup and an auto-revert)
+  still holds, and so does its caveat that a crash mid-write leaves a corrupt module.
+
 - **[m106 — OPEN, VERIFIED] `endpoint.py:200-233` IS THE SHARED ROOT OF M16, m93 AND m94.**
   `fetch_raw()` returns an identical `(t, None)` for a confirmed 404/410, an HTTP refusal, an
   exception, and an HTML error body — **no caller can distinguish "absent" from "request
@@ -1052,9 +1091,6 @@ they are the next run's work, not silently dropped.*
   `detect()` (`:143-172`) compounds it: it treats a timeout/DNS/5xx exactly like a clean negative
   and caches the merged verdict as `MODE_DEAD` for 24h, poisoning a host off one bad network
   window. **A ruling on M16 should settle all four at once.**
-- **[m107 — OPEN, VERIFIED] A FOURTH INSTANCE OF THE SAME CLASS: `scope.py:108-118`.** A
-  transient network failure during `--build` permanently caches a host as "no scope", and
-  `h not in out` never retries it.
 
 ### Minor-but-new (run #22)
 
@@ -1081,41 +1117,12 @@ they are the next run's work, not silently dropped.*
   `HOST_UNFIT.json`. **Not fixed deliberately:** the repair needs `fetch_raw` to distinguish
   "confirmed absent" (404/410) from "request never completed", which changes its return contract
   across callers — the same shape as **M16**, and a design call.
-- **[m94 — HIGH IMPACT, VERIFIED AT SOURCE, NOT FIXED] `hostcheck.null_rate()` TURNS A FAILED
-  CONTROL PROBE INTO A FABRICATED 0.0 BASELINE AND CACHES IT FOR THE WHOLE RUN.**
-  ```python
-  r = probe(host, foreign) or {}                      # hostcheck.py:418-422
-  rate = r.get("rate")
-  rate = 0.0 if rate is None else rate
-  with _NULL_LOCK:
-      _NULL_CACHE[host] = rate
-  ```
-  `probe()` legitimately returns `rate=None` on a failed request (and, via **m93**, sometimes a
-  fake 0.0 instead). This line collapses "I don't know" into "this host answers 0% of foreign
-  names" and locks it into `_NULL_CACHE` for the rest of the process, so every later `score()`
-  call for that host uses a corrupt baseline. **Second-order effect worth the HIGH label:**
-  `score()` only applies the aboutness veto when `base >= ABOUT_VETO_ABOVE` (0.25). A generous
-  host like `en.wikipedia.org` (documented at `hostcheck.py:432` as ~50% baseline) whose control
-  probe transiently failed gets cached at 0.0 — **silently disabling the aboutness veto for that
-  host for the whole run**, which is the "Rocket League nearly adopted onto Wikipedia" failure the
-  design exists to prevent. **Not fixed:** propagating `None` changes what `score()` must do with
-  an unjudgeable baseline; ruling wanted.
-- **[m95 — MINOR, VERIFIED] `cascade_bridge.dead_forever()` CHECKS `PROOF_TTL` ONLY ONCE PER
-  PROCESS.** `_PROVEN[0]` is memoised on first call (`cascade_bridge.py:303-319`), so a
-  `POOL_PROOF.json` written later in a multi-hour run — recording a newly-proved 401/402/404/410
-  — is never picked up. The TTL constant's own comment says *"a proof this old is no longer
-  evidence about now"*; the memoisation makes the check vacuous after the first call.
 - **[m96 — MINOR, VERIFIED] A BUCKET THAT RETURNS UNPARSEABLE JSON HAS ITS STRIKES CLEARED
   ANYWAY.** `_clear(pinned.bucket)` runs on transport success (`cascade_bridge.py:673-681`)
   **before** `_extract_json` is attempted, so a bucket that reliably answers prose instead of JSON
   — a failure mode the module docstring itself calls out for cloud models — is never deprioritised
   and keeps winning claims. Deliberately left: benching on a parse failure is a routing-policy
   change, queued as a question in NEXT_STEPS §2 B.
-- **[m97 — COSMETIC, VERIFIED] `hostcheck.py:918-919`'s `--purge` HELP TEXT PROMISES A SAFETY
-  CHECK THAT `purge()`'s OWN DOCSTRING SAYS NEVER EXISTED.** The help string still reads *"remove
-  rosters the audit rejected AND whose host was independently rejected"*; the docstring at
-  `hostcheck.py:642-647` records that *"it never did (the check was loaded and unused)"*. The
-  docstring was corrected, the user-facing `--help` was not.
 
 ### Minor-but-new (run #21)
 - **[m90] `assay.interval_from_hands()` CARRIES A SECOND, UNCALIBRATED COPY OF THE ATTESTATION →
@@ -1145,54 +1152,13 @@ they are the next run's work, not silently dropped.*
   filed the opposite and checked first.
   **Not fixed:** the config is `C:\Users\imarl\cascade\config.json`, which belongs to the Cascade
   project, not this repo. Owner. NEXT_STEPS §2.
-- **[m92] `assay.instrument()` HAS AN UNDOCUMENTED PRECONDITION THAT ITS OWN FILE'S CONTRACT
-  INVITES YOU TO BREAK.** `assay.py:152-188` establishes four statuses available on EVERY axis
-  (a number, `NONE`, `UNESTIMABLE`, `INAPPLICABLE`) as a load-bearing epistemic distinction. But
-  `instrument()` (`assay.py:511-517`) special-cases only Python `None`; the other three are
-  strings, so `s is None` is False and it falls through to `s / 10.0` and raises `TypeError`.
-  **Not live-broken** — both callers (`anchors.py:186-188`, `verify_math.py`) pre-filter with
-  `isinstance(v, (int, float))`. It is the natural trap for the next caller that passes the same
-  `scores` dict used for `assay()` straight into `instrument()`. Fix is a docstring precondition
-  plus an explicit raise; queued rather than done because it is a public-signature question.
 
 ### Minor-but-new (run #20)
-- **[m86] `overnight.foreman_report()` REPLAYS THE FOREMAN'S LAST ROUND UNDER THE SUPERVISOR'S
-  CLOCK, MISDATING EVERY REMEDY IT PRINTS.** Found run #20 while investigating what looked like a
-  kill against a recycled PID -- it was not; the timestamp was the lie. `foreman_report()` reads
-  `FOREMAN.json`'s `rounds[-1]` and logs it when the supervisor's lap comes round, but `log()`
-  prefixes each line with the supervisor's CURRENT time. A kill the foreman performed at
-  **22:00:55** appeared in `state/overnight.log` as
-  `[2026-08-24 22:39:04] ... kill_stalled_job: killed stalled read_auto:42972` -- **misdated by
-  38 minutes**, up to a full lap in the general case.
-  **Why it matters more than a cosmetic timestamp:** M15's entire evidence base is start/finish
-  and remedy timestamps read out of this one file. A run reconstructing what killed the reader
-  and when can attribute a kill to the wrong lap and therefore to the wrong cause. The header
-  line always carried the true time (`applied at {last['at']}`); the indented lines people
-  actually quote did not.
-  **FIXED, run #20** -- each replayed line now carries the foreman's own timestamp in brackets.
-  Same edit removed `did[:5]`, which truncated the list under a header announcing the true count
-  ("6 remedy(ies) applied" above five lines). Nothing downstream parses that log.
+
+*Its one entry, m86, moved to the paper trail in the run #38 reconciliation — its own body had
+said FIXED since run #20 and nobody had moved it.*
 
 ### Minor-but-new (run #19)
-- **[m84] A SINGLE FAILED PROCESS PROBE READS AS "EVERY MANAGED JOB IS DOWN", AND A DUPLICATE
-  CAN BE SPAWNED ON THE STRENGTH OF IT.** Observed live, run #19. `state/foreman.log` recorded
-  `OWNER  every managed job is running: foreman.py (floor all up)` -- the foreman naming
-  **itself** as down, in the file it was in the middle of writing -- and **four minutes later a
-  second foreman process existed** (PID 50896 alongside the long-running PID 5420). No duplicate
-  survived to the next check, so nothing was damaged this time.
-  **Mechanism, verified at source:** `overnight.running()` opens `out = _proc_lines()` and
-  `if not out: return False`. One failed or empty probe therefore answers "not running" for
-  **every job at once**, and both the liveness standard and the keeper act on that answer.
-  The page shows the same flapping from the other side: at 22:14 it reported `publish.py,read.py`
-  down while `publish.py` (PID 38312) was demonstrably alive.
-  **Why it is Minor and not Major:** the failure is transient and self-correcting, the keeper is
-  idempotent for STANDING jobs, and `kill_duplicate_jobs` exists precisely to reap the loser.
-  **Why it is worth recording anyway:** an empty probe result and a genuinely empty process table
-  are the same value here, which is the exact shape of M16 (`api()` returning `None` for both a
-  timeout and a real absence) and of the `preflight()` `(0, False)` fixed this run. A probe that
-  cannot distinguish "I could not look" from "I looked and saw nothing" will eventually be
-  believed. **No fix attempted** -- the repair is a return-contract change on a function the
-  supervisor, the keeper and the standards tree all call. NEXT_STEPS section 2.
 - **[m85] `kill_duplicate_jobs` KEEPS THE OLDEST INSTANCE, WHICH IS THE ONE CARRYING THE STALEST
   CODE.** Verified at source (`foreman.py`, the `CreationDate` sort). Its reasoning is sound for
   its own purpose -- the oldest process is the one holding the work in progress. But combined
@@ -1211,18 +1177,6 @@ they are the next run's work, not silently dropped.*
   (`feats.py:313`) and never call it. **So that loss is, per the call graph, still unmitigated.**
   Same census found `_page_exists()` (350), `remine()` (778) and `axis_evidence()` (659) also at
   zero callers. Wiring or retiring is a decision — NEXT_STEPS §2.
-- **[m81] EVERY line-number `silence.note()` label in `feats.py` is stale, by 8 to 140 lines.**
-  Verified: label `"feats.py:125"` sits at line 137 (its `except` is 133); `"feats.py:139"` at
-  149 (except 148); `"feats.py:374"` at 425 (except 424); `"feats.py:695"` at **836** (except
-  835). The labels are baked once by `silence.py --instrument` and never move as the file grows.
-  **This bug bit this run's own task prompt**, which cited "feats.py:139" — 9 lines off. The
-  same drift exists in `overnight.py` (5 labels, 60–260 lines off). Renaming splits the ledger's
-  cumulative counts off their history, so it is a decision, not a chore — NEXT_STEPS §2.
-- **[m82] `feats.py:327,334` — `aplimit=500` and `srlimit=50` with NO continuation handling.**
-  Verified: no `apcontinue`/`sroffset`/`continue` token anywhere in the file. Both feed
-  `discover()`'s title list, which `fetch()` then reads — **acted on, not display-only**, and
-  unlogged when the cap binds. Hard Rule 0 question: an entity with more than 500 subpages or
-  50 search hits is silently read in part. Nothing measures how often it binds.
 - **[m83] `overnight.py:579` vs `605-608` — the post-reader pipeline pass can silently no-op.**
   Reported by audit, quoted from source: `start("pipeline")` fires background at 579, then
   `run("pipeline", timeout_h=2)` at 607 whose comment promises it *"runs after the reader so it
@@ -1231,6 +1185,17 @@ they are the next run's work, not silently dropped.*
   pass does not happen that cycle. `pipeline` is also in `STANDING`, so a third actor can start
   it. **Not verified by me at source beyond the quoted lines** — treat as high-confidence audit
   finding pending a read.
+
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29, and now read at source rather than
+  quoted.** The *silently* is gone: `run()`'s already-running path logs `{name}: already running,
+  left alone` and returns the distinct status `already-running`, deliberately *"so the cycle's
+  summary line does not claim the stage was found already up"*, and a blind process probe returns
+  `probe-blind` rather than either answer (`src/overnight.py:501-520`). **STILL OPEN:** the no-op
+  itself. `start("pipeline", ...)` at `src/overnight.py:1342` and `run("pipeline", ...)` at `:1392`
+  are both still in the cycle body, so if the backgrounded instance is alive the promised
+  post-reader pass does not happen that cycle; `pipeline` is still in `STANDING` (`:778`), so a
+  third actor can still start it.
+
 - **[M14] THE PUBLIC PAGE REPORTS A DEAD READER'S NUMBERS AS LIVE, AND THE READER KEEPS DYING.**
   Found run #17. Two halves, and each is harmless-looking without the other.
   *The reader stops, and nothing brings it back.* `state/overnight.log` records the corpus read
@@ -1442,33 +1407,6 @@ they are the next run's work, not silently dropped.*
   puts the participants under a 2-slot cap while the actual GPU holders ignore it. **Also, a
   second Claude session was live in this repo during run #12** (its probe process was observed
   on the daemon), which is not a moment to restart nine jobs. Ordered recipe in `NEXT_STEPS.md`.
-- **[m55] `gpu_lane` DELETES ITS LEASE FILES WITH AN UNRETRIED `os.remove`, and on Windows that
-  is the one operation this project already knows fails under contention.** Six sites —
-  `gpu_lane.py:195, 224, 253, 265, 326` and the foreground path — every one wrapped in a bare
-  `contextlib.suppress(Exception)`; `grep -c replace_retry src/gpu_lane.py` is **0**. On Windows
-  `os.remove` raises `WinError 32` while any concurrent `_read()` holds the file open, which is
-  exactly the sharing violation `silence.replace_retry` exists to outwait. A release that
-  silently fails leaves a lease that is neither held nor expired, and that slot index is then
-  unavailable to everyone — including the process that thinks it released it — until the full
-  `SLOT_LEASE_SECONDS` (900) ages out.
-  **VERIFIED at source by this pass; the stranding was reproduced by a subagent** running 8
-  real processes against a scratch-redirected lane dir: `os.remove` failed 2 of 20 releases,
-  and once a slot stranded, 5 of 8 workers got no slot for the rest of the run. **Latent only
-  because m56 means nothing uses the lane yet** — it would bite on the first bounce, under
-  exactly the nine-process load the lane exists to serve. Fails open (a caller that never gets
-  a slot still proceeds), so it degrades to "no arbitration", never to a deadlock.
-- **[m54] `gpu_lane._touch` — the heartbeat refresh the module's own docstring calls essential —
-  IS DEAD CODE.** Defined at `gpu_lane.py:271`, **zero call sites in the entire repo**
-  (verified: the only other `_touch` hits are `foreman.regex_touched` and
-  `rigor.adjudication_beta`'s `n_laws_touched`, unrelated names). So a heartbeat is written once
-  at acquire and never updated, while `_expired()` (`gpu_lane.py:156-162`) checks heartbeat age
-  **before** it checks whether the PID is alive. Any call outliving its lease has its own live
-  lease judged stale: `CLAIM_LEASE_SECONDS` is **300 s** for a foreground claim against
-  `config.yaml:106 request_timeout: 1800`, and `generate.py:151`'s own comment says a real prose
-  call "legitimately runs for minutes". Consequences, in order of nastiness: a long foreground
-  prose call stops advertising itself after 5 minutes so background callers stop yielding to it;
-  and when it finally returns, its `finally: os.remove(slot)` deletes whatever now occupies that
-  path — **possibly another process's live lease**. Latent with m56; same first-bounce trigger.
 - **[m59] THE CLOUD LANE IS IN A HOT RETRY LOOP AT A 2.8% SUCCESS RATE, and the pool proof
   cannot see it because it measures reachability, not capacity.** Measured run #12 from
   `state/model_metrics.jsonl`: **1,571 cloud calls in the last 60 minutes, 44 succeeded
@@ -1485,16 +1423,6 @@ they are the next run's work, not silently dropped.*
   bucket that fails N consecutive live calls be stood down until the next proof, and should the
   proof measure a rate rather than a single answer?** Filed rather than patched because backoff
   policy is a design decision and m24's paper trail shows how easily a bucket gets buried.
-- **[m57] A NAIVE SINGULARISER IS MANGLING ENTRY TYPES ACROSS THE CORPUS.**
-  `catalogue_web.py:212` does `cats[0].rstrip("s")`, which (a) strips EVERY trailing `s`, not
-  one, and (b) does not handle `-ies`. Measured over the live manifest's 85,882 entries:
-  **`Abilitie` 205, `Citie` 139, `Countrie` 81** — 425 entries carrying a mangled type, plus
-  `Valkyrie` 39 which is a false positive of my own detector (a genuine word ending in "ie",
-  listed here so the next reader does not re-count it as damage). **Not fixed this run**
-  because entry `type` feeds classification and matching, and this project's rule is that a
-  matching-logic change is not verified until the whole corpus is diffed before and after —
-  which is not a thing to start while another session is live in the repo. Small, real,
-  self-contained; the fix is a proper singulariser plus a re-derive.
 - **[m58] THE `folder-mechanical` ROUTER FILES RACES AND BACKGROUNDS UNDER "Places &
   Locations" — QUESTION, because the mode may be doing exactly what it says.** Found while
   root-causing the manifest's largest job (`NEXT_STEPS` run #11 item 3.4, now closed): the
@@ -1632,23 +1560,6 @@ they are the next run's work, not silently dropped.*
   present and is not `python-urllib`, a 200 opens the gate, a 403 does not, and the URL names a
   content host).
 ### Minor
-- **[m62] `state/model_metrics.jsonl` IS BEING TORN BY CONCURRENT APPENDS — 5 corrupt lines,
-  and it is ONGOING, not a healed historical event.** Two writers (`cascade_bridge._metric`
-  and `pipeline._metric`) share the file, and it is appended from at least five live processes
-  (`read`, `feats --roll`, `pipeline`, `foreman`, `overwatch`), each with a plain
-  `open(path, "a")` + `f.write(...)`. Three of the five bad lines are **record fragments split
-  mid-write** — `'11657, "out_chars": 1353}'`, `'}'`, `'0}'` — and two are stray blanks. Dated
-  by walking back to the nearest parseable neighbour: 08-23 20:38, 08-23 20:57, 08-24 07:17,
-  and **08-24 13:07 and 13:08**, so it is still happening.
-  **Exposure is low and worth stating honestly:** 5 of 26,970 lines (0.019%), and the one
-  in-repo consumer (`dashboard.metrics()`) parses per line inside a `try`, so nothing crashes —
-  the cost is the lost records plus any ad-hoc reader that assumes the file is clean. **The
-  NEXT_STEPS m59 one-liner is exactly such a reader and dies on it** (`JSONDecodeError` on the
-  first blank), which is how this was found.
-  **Not fixed this run, deliberately:** the remedy is a single atomic append (one `os.write` to
-  an `O_APPEND` handle, or the project's lock discipline) at both writers, and changing the
-  write path of a hot ledger held open by five live processes is not a change to make in the
-  same run as M7's. Fix pattern exists; needs its own quiet window.
 - **[m47] an exception inside the feats join silently becomes "this source has no feats."**
   `manifest_builder.py`'s Feats block wraps `feats_index.feats_for_source` in
   `except Exception: silence.note(...); feat_rows = []`, and the job-creating block below is
@@ -1663,6 +1574,18 @@ they are the next run's work, not silently dropped.*
   actually reads — `output/index/failures.json` is the file CLAUDE.md points at and manifest-
   build-time skips never reach it). This is the exact shape `silence.py`'s own header essay
   names as the project's recurring defect: the loss gets filed as a result.
+
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29.** The indistinguishability is gone. The
+  Feats block's exception path now PRINTS as well as noting — *"feats lookup FAILED for X (…) --
+  this volume will carry no Feats chapter, which is NOT the same finding as a source with no
+  attested feats"* — so a raised join no longer reads as a source with nothing mined (found by the
+  run-33 sweep, batch 15). **STILL OPEN:** the blast radius and the filing question, which is what
+  this entry actually asked a ruling on. The job-creating block is still gated on `if feat_rows:`
+  (`src/manifest_builder.py:359`), so one non-dict item anywhere in a source's entries or in one
+  `readfeats` file still costs that source its ENTIRE Feats chapter rather than the one entity that
+  broke, and the skip still never reaches `output/index/failures.json`, which is the file CLAUDE.md
+  points at.
+
 - **[m48] 70 sources carry catalogue entries whose names collide under `feats_index._norm`,
   and only the first survives the join map.** `entries_by_norm.setdefault(_norm(name), e)`
   keeps the first entry per normalised key. Measured across all 209 record files: **70 sources
@@ -1700,14 +1623,6 @@ they are the next run's work, not silently dropped.*
   Mines of Phandelver, Twilight Imperium, +2) and **16 catalogued sources with no host** —
   scout/adopt remedies keep retrying; some (music albums, board games) may be permanently
   hostless and deserve an owner ruling on whether they stay on the roll.
-- **[m12] `thread_integrity.py`'s asymmetric-thread detection is structurally unreachable** —
-  `implied_threads()` builds `pairs` symmetrically by construction, so `classify()`'s `back =
-  pairs.get((b,a))` is always truthy and every implied thread reports RECIPROCAL; the
-  ASYMMETRIC-LAWFUL/-SUSPECT branches (including the propagation-distance "lawful excuse"
-  logic) can never fire. `DANGLING` is a documented output category that is never computed.
-  This looks design-shaped rather than a one-line fix — HUMAN CALL: is the module meant to
-  compare the weave's implied threads against a separately-recorded directed thread graph it
-  currently isn't given? See NEXT_STEPS.
 - **[m13] `pipeline.py phase_synthesis`'s 14-entity ceiling-nomination sample can silently
   clamp the whole source to a lesser band** — the sampled 14 (by feat-count then description
   length) may not include the source's true strongest entity; that entity's own later-mined M6
@@ -1725,20 +1640,6 @@ they are the next run's work, not silently dropped.*
   class name, or `provider disabled`/`no API key`). It becomes live the moment a verdict carries
   an exception *message* instead of its class name. Contract question rather than a defect:
   should those three be permanent exclusions (then document them) or not (then drop them)?
-- **[m25] `scout.sweep` keeps only the last 40 run entries** (`prev[-40:]` into `SCOUT.json`).
-  Judged NOT a Hard Rule 0 violation this run — a run history is not a roster, an entry list, a
-  page list or a chunk list — but it is a truncation of an ordered listing and the rule's text
-  does not carve out logs explicitly. **Question, not a fix.** Same family as m16's diagnostics
-  ruling; one decision could settle both.
-  **CLOSED 2026-08-29 (order e8cd908ce5e4) by removing the question rather than answering it.**
-  The window survives — `SCOUT.json` is still the last `LOG_CYCLES` (40) cycles in readable
-  form — but the cycles that fall out of it are now APPENDED to `data/SCOUT_ARCHIVE.jsonl`
-  before the trim, and the trim only happens if every one of them landed. So there is no longer
-  a truncation to rule on: nothing is dropped, and the ruling m25 was waiting for is only needed
-  if someone wants the window changed. The archive path is derived from `LOG` rather than
-  declared as its own constant, so `drill.py`'s two scout nets, which redirect `SC.LOG` into a
-  temp directory, redirect the overflow with it. m16's diagnostics question is untouched and
-  still open.
 - **[m37] `data/CHAIN.json` is written every cycle and NOTHING reads it — CONFIRMED run #8,
   and now the only part of m37 still open.** Verified repo-wide, not just `src/`: the string
   `CHAIN.json` occurs in exactly two places outside documentation and this ledger — `chain.py:53`
@@ -1760,6 +1661,16 @@ they are the next run's work, not silently dropped.*
   `--patch` live, overwrite the wrong function with a fix meant for the other — syntactically
   valid, so `_checks_pass` need not catch it. Verified in source; not fixed this run because the
   right behaviour (refuse an ambiguous symbol? honour the qualifier?) is a contract choice.
+
+  **PARTIALLY CLOSED — run #38 reconciliation, 2026-08-29.** The contract choice this entry left
+  open was made, in favour of *honour the qualifier*. `foreman._function_source`
+  (`src/foreman.py:1129-1153`) resolves a dotted symbol against the enclosing scope, so a finding
+  naming `ClassA.validate` can no longer be handed `ClassB.validate`'s body — the harm this entry
+  names, and the comment there cites `verify_math.py`'s five `__init__`s as the live surface.
+  A qualifier naming no scope in the file falls through unchanged. **STILL OPEN:** the bare-name
+  fallback at `:1155-1160` still takes whichever same-named function `ast.walk` reaches first, with
+  no uniqueness check, so an UNQUALIFIED ambiguous symbol is still resolved by walk order.
+
 - **[m29] `cleanup.py`'s `_EMPTY_MECHANIC` predicate cannot tell a rules construct from a real
   entity whose description failed to fetch.** It strikes an entry when the description is empty
   AND the name ends in `variant|feature|trait|slot|...`. But an empty description is a signal this
@@ -1801,6 +1712,588 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+### Run #38 (2026-08-29) — the reconciliation shift: twenty entries the ledger outlived
+
+*Not a sweep. Tonight's shift closed over 430 work orders straight from the queue, and the
+agents that closed them had no reason to open this file — so `## Open` was reconciled against
+`state/workorders_closed.jsonl` and, in every case below, against the source itself. **The
+rule applied was verify-before-you-move**: a work-order resolution claiming a fix was treated
+as a pointer, not as evidence, and the code it named was read. Twenty entries moved. Ten more
+were found PARTLY closed and stay Open with a dated note saying which limb shut and which did
+not — among them M16, M38, M42, m105, m133 and m134, each of which reads as fixed from the
+work-order trail and is not. Eleven were confirmed STILL LIVE at the line they cite,
+including M44, whose live symptom (`spine_code_for("Alien Predator Doom Crossover") -> II.N`)
+reproduces today even though two orders hardened the branches either side of it.*
+
+*Not everything below was fixed tonight, and the dates say so. Several were repaired days or
+weeks ago — m54 was already recorded as fixed inside M7's own update in this ledger, m86's
+body has said **FIXED** since run #20, and m25's said **CLOSED** this morning. The ledger was
+simply never asked. That is the finding worth keeping from this pass: a bug list nobody
+reconciles rots in the direction nobody watches, and the entry that says OPEN over code that
+is fixed costs the next reader the same hour every time.*
+
+*No commits are cited. This working repo has no commits of its own — it publishes from a
+separate export tree — so the paper trail here is the work-order id and the module, which is
+what a successor can actually follow.*
+
+- **[M20 — RESOLVED, reconciled run #38] THE ENTRYPASS DONE-MARKER IS A POSITIONAL KEY OVER A LIST THAT ANOTHER WRITER
+  MUTATES.** Found run #27 by `health --preflight`, which went from 1 problem to 2. `check_state`
+  (`health.py:256`) counts entries with no `catalogued` flag sitting inside a batch already
+  recorded done. **227 stranded, every one in a single source (`Gundam (all centuries, incl. G
+  Gundam)`).** The marker is `f"{source}#{start}"` — an INDEX. Close `Gundam#0` over entries
+  0-19, then let the cast-growing side insert or re-sort, and that key now claims a different
+  twenty; whatever slid into a closed range is never entrypassed, because nothing re-opens a
+  batch. Appending alone is harmless — new entries land in new, unclosed ranges — so this only
+  bites on insertion or re-ordering, which is why it appeared in one source and not the corpus.
+  Same class as the truncated/positional dict keys already fixed at m37 and still open at
+  `chain.py:354`. **Why NOT patched:** re-keying by content invalidates every done-marker on disk
+  and re-runs entrypass across the corpus — real model spend on a pool that is currently the
+  binding constraint. **Owner ruling needed — NEXT_STEPS §1.**
+
+  **UPDATE, run #29: THIS IS ACCRUING, NOT FROZEN — AND THE "ONE SOURCE" REASONING NO LONGER
+  HOLDS.** `health --preflight` now reports **412 stranded, across TWO sources**: Gundam 227
+  (unchanged) and **SpongeBob SquarePants 185 (new)**. The single-source containment was the main
+  reason this looked cheap to defer — it read as one historical re-sort in one fiction. A second
+  source appearing means the insertion/re-order path is still live and still closing entries out
+  of reach, so the cost of deferring grows with every catalogue pass. The ruling is now more
+  urgent than when it was filed, and the back-fill option is 412 entries rather than 227.
+
+  **Root cause, and why the ruling this entry was waiting for was never needed.** The marker
+  really is an INDEX — `phase_entrypass` still builds `key = f"{src}#{start}"` — but the harm
+  named above does not follow from it any more, because nothing skips on the key alone.
+  `pipeline.batch_settled` (`src/pipeline.py:1407-1425`) gates the skip on **membership AND a
+  fully judged span**: `key in done_keys and all(entry_settled(e) for e in batch)`. So a span
+  that acquired an unjudged entry by insertion, append or re-sort is REOPENED and re-judged on
+  the next pass, and the comment above the call says so in as many words — *"the gate is
+  therefore the work, not the bookkeeping."* The repair was taken on the work rather than on the
+  key, which is exactly why the re-key this entry priced as an owner ruling (invalidating every
+  done-marker on disk, re-running entrypass across the corpus, real model spend) was never
+  required and never paid.
+  **Measured tonight, and this is what closes it rather than the reading of the source.** Order
+  `ENTRYPASS_DONE_KEYS_NAME_UNSETTLED_SPANS` was filed asking a person to authorise clearing the
+  affected keys, on the stated premise that *"the pipeline will never revisit them on its own and
+  no amount of running it will repair this."* It was **closed as a mistaken remedy on a real
+  finding**: the residue is draining unaided. At filing, 1,496 of 4,559 recorded `done.entrypass`
+  keys named spans unsettled on disk; now **1,124 of 5,389** — 372 fewer unsettled while 830 MORE
+  keys were recorded, which is only possible if the pipeline is both advancing and repairing. The
+  two sources this entry's successors quoted as evidence are the plainest: **DC 195 → 4, Final
+  Fantasy 151 → 0.** Marvel's 677 has not moved and is the one thing here worth watching — it is
+  the largest record, so the honest reading is that phase 2 has not reached it again, not that
+  anything skips it. No export-repo commit: this working repo carries no commits of its own.
+
+- **[M34 — RESOLVED, the owner ruled 2026-08-25] THE ASSAY DISAGREES WITH ITS OWN CALIBRATION LADDER, AND
+  THE SWEEP HAS BEEN GRADING THAT GREEN.** Surfaced run #31 the moment M32's import-tier fix
+  landed, converging with batch 09's independent reading of the same lines. `anchors.py` scores a
+  fixed ladder of reference entities and asserts it ascends floor → ceiling. It does not:
+  ```
+    The Skate Guy              0.22
+    A Sword                    0.10      <- below the floor anchor
+    Yggdrasil                  6.18
+    Goku                       5.42      <- below the anchor above it
+    The Seat of the Creator   10.99
+  ```
+  The script exits non-zero and says so in plain words — *"the instrument disagrees with the
+  ordering it was calibrated against. This is a reading about the ASSAY, not about this
+  script."* — and **`allsweep` reported it as importing cleanly on every run**, because it exits
+  via `SystemExit` and prints no traceback (M32). A live disagreement in the instrument every
+  printed Magnitude depends on has been visible and unread.
+  **Why NOT fixed here:** there are two different repairs and they mean opposite things. Either
+  the declared `order` is wrong (Goku should sit above Yggdrasil, and the assay is right), or the
+  assay is mis-scoring one of them against the charter's intent. **Which of a world-tree holding
+  nine realms and a martial artist who moves planets ranks higher is a curatorial judgment the
+  charter makes, not a bug a maintenance run may decide.** Two anchors are involved: `A Sword`
+  (0.10) also sits below the floor anchor `The Skate Guy` (0.22). **NEXT_STEPS §1.**
+
+  **Root cause: the instrument was right and the DECLARATION was wrong, at two of its four
+  steps.** This entry framed the disagreement as *either* the declared `order` is wrong *or* the
+  assay is mis-scoring, and correctly refused to pick. The owner picked, on 2026-08-25, and picked
+  the same way twice — *"obviously the tree holds higher"* on the Goku/Yggdrasil pair, and *"the
+  assay is right here for the sword vs skate guy."* Both rulings are recorded verbatim in
+  `src/anchors.py` above the ladder, with the charter reasoning attached: Yggdrasil is a REACH and
+  CONTINUITY object, a structure nine realms hang from, against Goku's RUIN and CELERITY, and the
+  ladder's rungs are rung-threat scales rather than combat records. `order` now reads
+  `["A Sword", "The Skate Guy", "Goku", "Yggdrasil", "The Seat of the Creator"]` and the invariant
+  holds against the live scores.
+  **The lesson the file keeps, and it is the better half of this bug:** the invariant had been red
+  for weeks and was read as *the assay has drifted from its calibration*. A failing invariant says
+  two things disagree; it does not say which is lying, and this script's own message — *"a reading
+  about the ASSAY"* — quietly asserted that it did.
+  **What tonight's shift added around it.** Order `237356c82d06`: `run()` computed an assay, an
+  instrument reading, a college interval and a bit value for every anchor, printed all four, and
+  gated the exit code on the monotone ordering alone — every anchor's `note` states a testable
+  claim and none was tested. Each is graded now (saturation at the ceiling, floor completeness,
+  the identified-theta case, the UNESTIMABLE case), printed HELD or VIOLATED with the values it
+  was read from, and `ok` is all of them. Order `1618d9790f0d`: the ladder is asserted to name
+  every anchor and only anchors, so adding a reference is no longer also the way to add an
+  ungraded one, and a name in `order` with no ANCHORS row reports a violation instead of raising
+  KeyError. **Live run today: seven verdicts, all HELD, exit 0.** The M10 saturation question that
+  surfaced underneath — `INSTRUMENT_WINDOWS` is (30,30) for M5 through M10, so Goku at M5 prints
+  every faculty at 30 — is not this script's call and was not made; it is PRINTED as an OWNER
+  QUESTION on every run rather than filed here again.
+
+- **[M40 — RESOLVED] `withdraw_chapters.py:66-98` HAS NO CHAPTER-SELECTION LOGIC AT
+  ALL.** The docstring frames it as a targeted withdrawal of the 145 flagged chapters; `--go`
+  actually iterates the **entire** `catalog.json`, moves every entry's files, and wipes the
+  catalog to `{}` unconditionally. A destructive tool whose comment describes a selectivity the
+  code does not implement. **Do not run it.**
+
+  **Root cause: a one-occasion script left in the tree as a general tool.** It was written for the
+  145-chapter withdrawal of 2026-08-25 and its `--go` was hardcoded to that occasion, which is why
+  the docstring's selectivity and the code's behaviour disagreed. Order `cda7b9e2b4e1` gave it the
+  selection the comment described: `select()` (`src/withdraw_chapters.py:115`) is a **pure**
+  function of `--source` / `--addr`, matching exactly rather than fuzzily *because* this is the
+  destructive step, and **the catalog is edited, not erased** — `remaining` is written back and
+  anything that failed to move keeps its record.
+  **Four of tonight's orders hardened the destructive step itself**, all in
+  `src/withdraw_chapters.py`:
+  * `8d14f0adda1b` — two withdrawals sharing a `--label` silently destroyed each other. `shutil.move`
+    onto a full destination PATH skips its own exists-check (that branch runs only when dst is a
+    directory), so `os.rename` raises on Windows and it falls through to copy2+unlink. The archive
+    is the ONLY copy of a withdrawn chapter. A taken name is now a refusal, and the classifier only
+    calls a name free on positive evidence (`FileNotFoundError`), never on a bare `exists()`.
+  * `22394233dbad` — an entry whose file could not be STATTED lost its catalog record, because
+    `os.path.exists` answers False for an unreadable path exactly as readily as for an absent one
+    (measured, on a 300-char path and on one with an embedded NUL). `_file_state()` now separates
+    *gone* from *unavailable*, and the module's stated contract — anything that failed to move
+    keeps its record — holds for the stat half as well as the move half.
+  * `1687ff8084b9` — a half-moved entry kept a record pointing at a file already in the archive.
+  * `c8ac7dbab3c5` — an `--addr` matching nothing was ignored whenever any other selector matched,
+    and the refusal branch whose whole purpose is naming a typo computed `unknown` from `--source`
+    alone. Both selectors are checked independently now and either one unmatched stops the run.
+  **The "Do not run it" warning is retired.**
+
+- **[M41 — RESOLVED] `overwatch.py:369-378,421-430,647-648` MAKES PARTIAL COVERAGE
+  INDISTINGUISHABLE FROM A FULL REVIEW.** Once the per-round `CLOUD_BUDGET` is spent, `_ask`
+  returns None, `review()` swallows it as "no findings," and the module is **still marked seen
+  with a fresh digest and timestamp** — so it goes to the back of the re-review queue and can be
+  starved indefinitely while the system reports it reviewed. Same shape at `:485-497`, where
+  `last_verified` is stamped even on a failed re-check. *(Batch 15 confirmed the finding-closing
+  path itself is safe: only an explicit "refuted" verdict closes a finding.)*
+
+  **Root cause: one value meaning two things — *nobody looked* recorded as *looked and found
+  nothing*.** Both limbs of this entry are that sentence, and both are closed.
+  * Order `a3ee0d1d2d4c`: `overwatch.review()` returns `(kept, complete)`, with `complete` going
+    False the moment any slice's `_ask` comes back None, and `round_once` stamps
+    `led["seen"][m]` **only when `complete` is True**. A yielded review leaves the module's old
+    timestamp in place, so it stays near the front of `rotation()`'s stale queue instead of being
+    sorted to the back as if it had just been read.
+  * Order `c6f64c1424fa`: the identical treatment for `last_verified` in `verify_open`
+    (`src/overwatch.py:598-605`). A finding the model never answered for is counted as **yielded**,
+    keeps its old timestamp, and stays at the FRONT of the oldest-verification-first queue. The
+    round no longer prints "N re-verified" for an N of zero.
+  Module: `src/overwatch.py`. *(This does NOT cover the four undercount proofs in m133 — two of
+  those are still open and m133 stays where it is with a dated note.)*
+
+- **[M43 — RESOLVED] `assay.py:496-531` MUTATES `SIGMA_BY_ATTESTATION` UNLOCKED
+  UNDER A THREADING SERVER.** `calibration_report()` mutates the global that every printed
+  Magnitude's interval is built from, with no lock anywhere in `assay.py`/`dashboard.py`; two
+  concurrent `/api/state` polls can leave it **permanently** shifted, because the restoring
+  thread's "saved" value can itself be mid-sweep garbage from the other thread.
+
+  **Root cause, and the fix is not the lock this entry expected.** `calibration_report()` sweeps
+  ~800 trial sigmas to find the band that reproduces the charter's published ±0.12, and it did so
+  by assigning each into the module-global `SIGMA_BY_ATTESTATION` and restoring it in a `finally`
+  — correct alone, and silently wrong the moment anything else reads the table mid-sweep, which
+  under `dashboard.py`'s threading server and `drill.py`'s battery it does. A lock would have
+  serialised the window rather than removed it. Order `6797f36117ce` removed the mutation instead:
+  `assay()` gained a per-call `sigma=` parameter, the same device `weights=` already was and
+  introduced for the same reason, so a trial value travels with the call it belongs to and is
+  invisible to every other caller by construction.
+  **Verified at source rather than taken from the resolution:** `src/assay.py` now contains **not
+  one assignment** into `SIGMA_BY_ATTESTATION` — only its definition at `:396` and three reads
+  (`:416`, `:589`, `:633`). There is no window left to lock.
+
+- **[m12 — RESOLVED] `thread_integrity.py`'s asymmetric-thread detection is structurally unreachable** —
+  `implied_threads()` builds `pairs` symmetrically by construction, so `classify()`'s `back =
+  pairs.get((b,a))` is always truthy and every implied thread reports RECIPROCAL; the
+  ASYMMETRIC-LAWFUL/-SUSPECT branches (including the propagation-distance "lawful excuse"
+  logic) can never fire. `DANGLING` is a documented output category that is never computed.
+  This looks design-shaped rather than a one-line fix — HUMAN CALL: is the module meant to
+  compare the weave's implied threads against a separately-recorded directed thread graph it
+  currently isn't given? See NEXT_STEPS.
+
+  **Root cause: the module was comparing its own input against itself.** `implied_threads` builds
+  the pair map SYMMETRICALLY by construction, so every implied pair reported RECIPROCAL and the
+  ASYMMETRIC classes were unreachable — it was measuring its own input's shape and calling it the
+  omniverse's. The HUMAN CALL this entry asked for was answered by the owner on 2026-08-24 (*FIX
+  IT ALL*), and `classify()`'s docstring in `src/thread_integrity.py` records the ruling by this
+  bug's own number: asymmetry is real only against a DIRECTED record of which entries carry a
+  Thread, and per Hard Rule 5 that graph does not exist until the Step 4 entanglement pass. So
+  with `recorded=None` — every caller today — implied pairs classify as **IMPLIED-UNRECORDED**, an
+  honest name for an obligation awaiting that pass rather than reciprocity nobody verified, and
+  **DANGLING and PARTIALLY-DANGLING are computed for real** against the live records: this entry's
+  "documented output category that is never computed" is now a measured one. Order
+  `THREAD_INTEGRITY_DANGLING_CLASS_NEVER_PRINTED` (2026-08-27) then got it printed as well as
+  counted, DANGLING first, because it is the worst class and was the one class never shown.
+  **Tonight closed the last of it.** Order `7bffb5634d7a`: `classify()` deduped to one direction
+  per unordered pair and then asked only `back = (b, a) in recorded`, never whether `(a, b)` was —
+  so on the future directed graph the verdict would have been decided by the insertion order of
+  the `pairs` dict rather than by the evidence, and the module's two most important classes were
+  the ones it would get wrong. Reproduced before changing anything: reversing the dict's insertion
+  order flipped the verdict with the evidence held constant. RECIPROCAL now requires both
+  directions; exactly one is the asymmetric case and the pair is reported ORIENTED so the first
+  name is the end that records the thread; neither is IMPLIED-UNRECORDED, because there is no
+  direction to be asymmetric about and calling it one-way would invent one. Latency unchanged —
+  every caller still passes `recorded=None` and the live run still reads 5,782 IMPLIED-UNRECORDED
+  at 100.0%.
+
+- **[m25 — RESOLVED] `scout.sweep` keeps only the last 40 run entries** (`prev[-40:]` into `SCOUT.json`).
+  Judged NOT a Hard Rule 0 violation this run — a run history is not a roster, an entry list, a
+  page list or a chunk list — but it is a truncation of an ordered listing and the rule's text
+  does not carve out logs explicitly. **Question, not a fix.** Same family as m16's diagnostics
+  ruling; one decision could settle both.
+  **CLOSED 2026-08-29 (order e8cd908ce5e4) by removing the question rather than answering it.**
+  The window survives — `SCOUT.json` is still the last `LOG_CYCLES` (40) cycles in readable
+  form — but the cycles that fall out of it are now APPENDED to `data/SCOUT_ARCHIVE.jsonl`
+  before the trim, and the trim only happens if every one of them landed. So there is no longer
+  a truncation to rule on: nothing is dropped, and the ruling m25 was waiting for is only needed
+  if someone wants the window changed. The archive path is derived from `LOG` rather than
+  declared as its own constant, so `drill.py`'s two scout nets, which redirect `SC.LOG` into a
+  temp directory, redirect the overflow with it. m16's diagnostics question is untouched and
+  still open.
+
+  **Root cause and fix are already stated in the body above; recorded here so the ledger's Open
+  section stops carrying a closed question.** Order `e8cd908ce5e4` removed the question rather
+  than answering it: cycles falling out of the 40-cycle window are APPENDED to
+  `data/SCOUT_ARCHIVE.jsonl` before the trim, and the trim happens only if every one of them
+  landed (`src/scout.py:565-568`, following the ledger's own house rule *"ARCHIVE FIRST, AND ONLY
+  CLEAR IF THE ARCHIVE LANDED"*). Nothing is dropped, so there is no truncation left to rule on.
+  The archive path is derived from `LOG` rather than declared as its own constant, so the drill's
+  two scout nets — which redirect `SC.LOG` into a temp directory — redirect the overflow with it.
+  *(m16's diagnostics question is untouched and still open; one decision no longer settles both.)*
+
+- **[m54 — RESOLVED] `gpu_lane._touch` — the heartbeat refresh the module's own docstring calls essential —
+  IS DEAD CODE.** Defined at `gpu_lane.py:271`, **zero call sites in the entire repo**
+  (verified: the only other `_touch` hits are `foreman.regex_touched` and
+  `rigor.adjudication_beta`'s `n_laws_touched`, unrelated names). So a heartbeat is written once
+  at acquire and never updated, while `_expired()` (`gpu_lane.py:156-162`) checks heartbeat age
+  **before** it checks whether the PID is alive. Any call outliving its lease has its own live
+  lease judged stale: `CLAIM_LEASE_SECONDS` is **300 s** for a foreground claim against
+  `config.yaml:106 request_timeout: 1800`, and `generate.py:151`'s own comment says a real prose
+  call "legitimately runs for minutes". Consequences, in order of nastiness: a long foreground
+  prose call stops advertising itself after 5 minutes so background callers stop yielding to it;
+  and when it finally returns, its `finally: os.remove(slot)` deletes whatever now occupies that
+  path — **possibly another process's live lease**. Latent with m56; same first-bounce trigger.
+
+  **Root cause: a heartbeat that was written once and never refreshed, in front of an
+  `_expired()` that checks heartbeat age BEFORE it checks whether the PID is alive.** So any call
+  outliving its lease had its own live lease judged stale — `CLAIM_LEASE_SECONDS` is 300 s against
+  a `request_timeout` of 1800 — and its `finally: os.remove(slot)` could then delete whatever now
+  occupied that path. `_touch` is wired now: `src/gpu_lane.py:414` records the defect it closes by
+  this bug's number (*"THE DEFECT THIS CLOSES (m54, measured 2026-08-24)"*), the refresh is called
+  from the held-slot path at `:444`, and `_touch` additionally refuses to re-create a file the
+  release path has already removed, so the fix cannot resurrect a released lease. **M7's own
+  run-#15b update in this ledger already recorded m54 as fixed and pinned by `verify_math` §19ad;
+  the Open entry was simply never moved.**
+
+- **[m55 — RESOLVED] `gpu_lane` DELETES ITS LEASE FILES WITH AN UNRETRIED `os.remove`, and on Windows that
+  is the one operation this project already knows fails under contention.** Six sites —
+  `gpu_lane.py:195, 224, 253, 265, 326` and the foreground path — every one wrapped in a bare
+  `contextlib.suppress(Exception)`; `grep -c replace_retry src/gpu_lane.py` is **0**. On Windows
+  `os.remove` raises `WinError 32` while any concurrent `_read()` holds the file open, which is
+  exactly the sharing violation `silence.replace_retry` exists to outwait. A release that
+  silently fails leaves a lease that is neither held nor expired, and that slot index is then
+  unavailable to everyone — including the process that thinks it released it — until the full
+  `SLOT_LEASE_SECONDS` (900) ages out.
+  **VERIFIED at source by this pass; the stranding was reproduced by a subagent** running 8
+  real processes against a scratch-redirected lane dir: `os.remove` failed 2 of 20 releases,
+  and once a slot stranded, 5 of 8 workers got no slot for the rest of the run. **Latent only
+  because m56 means nothing uses the lane yet** — it would bite on the first bounce, under
+  exactly the nine-process load the lane exists to serve. Fails open (a caller that never gets
+  a slot still proceeds), so it degrades to "no arbitration", never to a deadlock.
+
+  **Root cause: the project's own remedy applied to `os.replace` and never carried to
+  `os.remove`.** Six release sites deleted lease files with a bare `os.remove` under
+  `contextlib.suppress(Exception)`, and on Windows that raises `WinError 32` while any concurrent
+  `_read()` holds the file — the same sharing violation `silence.replace_retry` exists to outwait.
+  A silently-failed release left a slot neither held nor expired, and therefore unavailable to
+  everyone including the process that thought it released it, until the full 900-second lease aged
+  out. `src/gpu_lane.py:447` now holds `_remove_retry(path, attempts=4)`, reasoned from and citing
+  `replace_retry`, and every release goes through it — `:214`, `:263`, `:343`, `:354`, `:546` —
+  each carrying an `# m55` marker. Verified: the only bare `os.remove` left in the file is the one
+  inside `_remove_retry` itself. It still fails open, which is right: a caller that never gets a
+  slot proceeds unmetered, so the degradation is "no arbitration", never a deadlock.
+
+- **[m57 — RESOLVED, code and corpus] A NAIVE SINGULARISER IS MANGLING ENTRY TYPES ACROSS THE CORPUS.**
+  `catalogue_web.py:212` does `cats[0].rstrip("s")`, which (a) strips EVERY trailing `s`, not
+  one, and (b) does not handle `-ies`. Measured over the live manifest's 85,882 entries:
+  **`Abilitie` 205, `Citie` 139, `Countrie` 81** — 425 entries carrying a mangled type, plus
+  `Valkyrie` 39 which is a false positive of my own detector (a genuine word ending in "ie",
+  listed here so the next reader does not re-count it as damage). **Not fixed this run**
+  because entry `type` feeds classification and matching, and this project's rule is that a
+  matching-logic change is not verified until the whole corpus is diffed before and after —
+  which is not a thing to start while another session is live in the repo. Small, real,
+  self-contained; the fix is a proper singulariser plus a re-derive.
+
+  **Root cause: `str.rstrip(chars)` removes a character SET, not a suffix.** So
+  `cats[0].rstrip("s")` ate every trailing `s`, and the value went INTO the record rather than to
+  a console — `Goddesses → Goddesse`, `Bosses → Bosse`, `Classes → Classe`, `Princess → Prince`,
+  `Colossus → Colossu`, `Boss → Bo`.
+  **The code**, order `0a5019b2527e`: both halves of `src/catalogue_web.py:410` now go through a
+  module-level `_singular()`. It is deliberately NOT an English pluraliser — three ordered rules,
+  and the middle one is the point: where the shape is genuinely undecidable the category name is
+  left INTACT rather than guessed at, because a plural type is untidy while a mangled one is wrong
+  (`Deities` and `Movies` stay plural; `Deities → Deity` cannot be told from `Movies → Movie`
+  without a dictionary). The first draft of the function was worse than `rstrip` on the common
+  case and the measurement caught it, which is why the sibilant rule exists.
+  **The corpus**, order `2d9f78a0c4d5` — the repair pass this entry called for, and it was
+  reported before it was performed. 10,876 entries across 14 record files, rewritten through
+  `pipeline.write_record_catalogue`, the project's only sanctioned record writer, with every
+  landed verdict checked: **Abilitie→Ability 9,337, Citie→City 1,052, Countrie→Country 486,
+  Heroe→Hero 1.** Matched on those four exact values only, never a general re-singularisation. A
+  dry run planned exactly 10,876 and the applied total was exactly 10,876, 0 denied, 0 unreadable.
+  Typed entries stood at 282,790 before and after and a full type-histogram diff shows only those
+  four pairs moved, summing to zero — a value rewrite, not an add or a delete. **The 58 legitimate
+  look-alikes this entry warned the next reader not to re-count — `Valkyrie` 39 among them — were
+  confirmed unchanged one by one.**
+
+- **[m62 — RESOLVED] `state/model_metrics.jsonl` IS BEING TORN BY CONCURRENT APPENDS — 5 corrupt lines,
+  and it is ONGOING, not a healed historical event.** Two writers (`cascade_bridge._metric`
+  and `pipeline._metric`) share the file, and it is appended from at least five live processes
+  (`read`, `feats --roll`, `pipeline`, `foreman`, `overwatch`), each with a plain
+  `open(path, "a")` + `f.write(...)`. Three of the five bad lines are **record fragments split
+  mid-write** — `'11657, "out_chars": 1353}'`, `'}'`, `'0}'` — and two are stray blanks. Dated
+  by walking back to the nearest parseable neighbour: 08-23 20:38, 08-23 20:57, 08-24 07:17,
+  and **08-24 13:07 and 13:08**, so it is still happening.
+  **Exposure is low and worth stating honestly:** 5 of 26,970 lines (0.019%), and the one
+  in-repo consumer (`dashboard.metrics()`) parses per line inside a `try`, so nothing crashes —
+  the cost is the lost records plus any ad-hoc reader that assumes the file is clean. **The
+  NEXT_STEPS m59 one-liner is exactly such a reader and dies on it** (`JSONDecodeError` on the
+  first blank), which is how this was found.
+  **Not fixed this run, deliberately:** the remedy is a single atomic append (one `os.write` to
+  an `O_APPEND` handle, or the project's lock discipline) at both writers, and changing the
+  write path of a hot ledger held open by five live processes is not a change to make in the
+  same run as M7's. Fix pattern exists; needs its own quiet window.
+
+  **Root cause: a buffered append is not one write.** Both `_metric` writers used
+  `open(path, "a")` plus `f.write(...)`; Python may split one line into several underlying writes,
+  and two of the five live appenders interleaving mid-line produce a row that parses as neither.
+  The remedy is `silence.append_line` (`src/silence.py:245`), which names this bug in its own
+  docstring and states its own limits honestly: one `os.write` to an `O_APPEND` descriptor is a
+  single syscall in which the kernel does the seek-to-end and the write together — *"not a general
+  atomicity guarantee for arbitrary sizes, but for a sub-page JSON line it is the difference
+  between interleaved-and-corrupt and interleaved-but-whole."* Both `cascade_bridge._metric` and
+  `pipeline._metric` go through it, each with a comment citing m62 and each still best-effort, so
+  a metrics failure never costs a call. The quiet window this entry wanted was taken.
+
+- **[m81 — RESOLVED] EVERY line-number `silence.note()` label in `feats.py` is stale, by 8 to 140 lines.**
+  Verified: label `"feats.py:125"` sits at line 137 (its `except` is 133); `"feats.py:139"` at
+  149 (except 148); `"feats.py:374"` at 425 (except 424); `"feats.py:695"` at **836** (except
+  835). The labels are baked once by `silence.py --instrument` and never move as the file grows.
+  **This bug bit this run's own task prompt**, which cited "feats.py:139" — 9 lines off. The
+  same drift exists in `overnight.py` (5 labels, 60–260 lines off). Renaming splits the ledger's
+  cumulative counts off their history, so it is a decision, not a chore — NEXT_STEPS §2.
+
+  **Root cause: labels baked once by `silence.py --instrument` and never moved as the files
+  grew.** The label IS the key `state/failures.json` aggregates on and the one `ledger_report()`
+  prints every cycle, so a reader chasing a specific swallowed failure was sent to the wrong lines
+  — this entry noted it had already misdirected a task prompt by 9 lines. The decision it flagged
+  (renaming splits the ledger's cumulative counts off their history) was taken, in favour of
+  **content labels**: `src/feats.py` and `src/overnight.py` between them now carry **zero**
+  line-number `silence.note` labels. `overnight.py:656-662` records the change and its reasoning,
+  names the five keys it replaced (`overnight.py:203`, `:229`, `:253`, `:124`, `:141` — line
+  numbers from a version of the file that had not existed for two refactors), and cites this bug
+  and m5 as the same drift already repaired in `dashboard` and `wiki_source`. Descriptive keys
+  survive the next refactor; the numeric ones did not survive one.
+
+- **[m82 — RESOLVED] `feats.py:327,334` — `aplimit=500` and `srlimit=50` with NO continuation handling.**
+  Verified: no `apcontinue`/`sroffset`/`continue` token anywhere in the file. Both feed
+  `discover()`'s title list, which `fetch()` then reads — **acted on, not display-only**, and
+  unlogged when the cap binds. Hard Rule 0 question: an entity with more than 500 subpages or
+  50 search hits is silently read in part. Nothing measures how often it binds.
+
+  **Root cause, and the counter was mistaken for the cure.** `aplimit=500` and `srlimit=50` are
+  the API's own per-request maxima, and a query with more results answers with a top-level
+  `continue` object meaning *ask again from here*. The old code read that object only to INCREMENT
+  A COUNTER — the very measurement this entry asked for, so that the cap could be ranked against
+  Hard Rule 0 — and then iterated the first page it already had. `feats._api_list_all`
+  (`src/feats.py:761`) now merges `continue` into the next request verbatim and walks to
+  exhaustion, following whatever continuation the wiki offers without needing to know which list
+  it is reading. Its docstring makes the distinction explicit: *"The tally is not the fix;
+  measuring a truncation is not the same as not truncating."*
+  **The one stop condition is not a cap.** A wiki returning the same continuation token twice is
+  looping, not offering more, and that case — together with a mid-walk `api()` failure — increments
+  `_CAP_BOUND`, because a partial list nothing recorded is exactly the silent smaller universe the
+  rule exists to prevent. Order `051244c2628f` closed the last hole in that: the guard was
+  `if rows:`, so a walk whose very FIRST request failed counted nothing and returned `[]` — which
+  is byte-for-byte what "this entity has no pages" looks like, while the caller's *"discovery
+  lists: complete"* banner still printed.
+
+- **[m84 — RESOLVED] A SINGLE FAILED PROCESS PROBE READS AS "EVERY MANAGED JOB IS DOWN", AND A DUPLICATE
+  CAN BE SPAWNED ON THE STRENGTH OF IT.** Observed live, run #19. `state/foreman.log` recorded
+  `OWNER  every managed job is running: foreman.py (floor all up)` -- the foreman naming
+  **itself** as down, in the file it was in the middle of writing -- and **four minutes later a
+  second foreman process existed** (PID 50896 alongside the long-running PID 5420). No duplicate
+  survived to the next check, so nothing was damaged this time.
+  **Mechanism, verified at source:** `overnight.running()` opens `out = _proc_lines()` and
+  `if not out: return False`. One failed or empty probe therefore answers "not running" for
+  **every job at once**, and both the liveness standard and the keeper act on that answer.
+  The page shows the same flapping from the other side: at 22:14 it reported `publish.py,read.py`
+  down while `publish.py` (PID 38312) was demonstrably alive.
+  **Why it is Minor and not Major:** the failure is transient and self-correcting, the keeper is
+  idempotent for STANDING jobs, and `kill_duplicate_jobs` exists precisely to reap the loser.
+  **Why it is worth recording anyway:** an empty probe result and a genuinely empty process table
+  are the same value here, which is the exact shape of M16 (`api()` returning `None` for both a
+  timeout and a real absence) and of the `preflight()` `(0, False)` fixed this run. A probe that
+  cannot distinguish "I could not look" from "I looked and saw nothing" will eventually be
+  believed. **No fix attempted** -- the repair is a return-contract change on a function the
+  supervisor, the keeper and the standards tree all call. NEXT_STEPS section 2.
+
+  **Root cause is the sentence this entry itself wrote:** a probe that cannot distinguish *I could
+  not look* from *I looked and saw nothing* will eventually be believed. `running()` opened
+  `out = _proc_lines()` and answered `if not out: return False`, so one failed or empty probe said
+  *not running* for **every job at once**, and both the liveness standard and the keeper acted on
+  it. Order `1d556b6ef535` gave `overnight.running()` a third answer: **`None` when the process
+  table could not be read.** The return-contract change this entry said needed a review cycle was
+  made additively — `None` is falsy, so the read-only callers that only ever ask `if running(x)`
+  (the foreman's four repair gates, standards' roster) behave exactly as before, since a blind
+  probe was already handing them False. It is the SPAWN sites that must not, and each of them in
+  `src/overnight.py` now tests `is None` explicitly, logs through `_blind(...)` and returns the
+  distinct status `probe-blind` rather than starting a duplicate on the strength of a probe that
+  never saw anything.
+
+- **[m86 — RESOLVED, run #19/#20] `overnight.foreman_report()` REPLAYS THE FOREMAN'S LAST ROUND UNDER THE SUPERVISOR'S
+  CLOCK, MISDATING EVERY REMEDY IT PRINTS.** Found run #20 while investigating what looked like a
+  kill against a recycled PID -- it was not; the timestamp was the lie. `foreman_report()` reads
+  `FOREMAN.json`'s `rounds[-1]` and logs it when the supervisor's lap comes round, but `log()`
+  prefixes each line with the supervisor's CURRENT time. A kill the foreman performed at
+  **22:00:55** appeared in `state/overnight.log` as
+  `[2026-08-24 22:39:04] ... kill_stalled_job: killed stalled read_auto:42972` -- **misdated by
+  38 minutes**, up to a full lap in the general case.
+  **Why it matters more than a cosmetic timestamp:** M15's entire evidence base is start/finish
+  and remedy timestamps read out of this one file. A run reconstructing what killed the reader
+  and when can attribute a kill to the wrong lap and therefore to the wrong cause. The header
+  line always carried the true time (`applied at {last['at']}`); the indented lines people
+  actually quote did not.
+  **FIXED, run #20** -- each replayed line now carries the foreman's own timestamp in brackets.
+  Same edit removed `did[:5]`, which truncated the list under a header announcing the true count
+  ("6 remedy(ies) applied" above five lines). Nothing downstream parses that log.
+
+  **Recorded here because the body above already says FIXED and the entry was never moved.**
+  Confirmed at source: `overnight.foreman_report()` (`src/overnight.py:670`) stamps each replayed
+  line with the foreman's own timestamp — *"STAMP EACH LINE WITH THE FOREMAN'S OWN TIME, AND SHOW
+  ALL OF THEM"* — instead of letting `log()` prefix the supervisor's current time, and the
+  `did[:5]` truncation printed under a header announcing the true count is gone. Root cause was a
+  REPLAY rendered under the reader's clock rather than the event's, which matters here beyond
+  cosmetics: M15's entire evidence base is start/finish and remedy timestamps read out of this one
+  file, so a misdated kill attributes a cause to the wrong lap.
+
+- **[m92 — RESOLVED] `assay.instrument()` HAS AN UNDOCUMENTED PRECONDITION THAT ITS OWN FILE'S CONTRACT
+  INVITES YOU TO BREAK.** `assay.py:152-188` establishes four statuses available on EVERY axis
+  (a number, `NONE`, `UNESTIMABLE`, `INAPPLICABLE`) as a load-bearing epistemic distinction. But
+  `instrument()` (`assay.py:511-517`) special-cases only Python `None`; the other three are
+  strings, so `s is None` is False and it falls through to `s / 10.0` and raises `TypeError`.
+  **Not live-broken** — both callers (`anchors.py:186-188`, `verify_math.py`) pre-filter with
+  `isinstance(v, (int, float))`. It is the natural trap for the next caller that passes the same
+  `scores` dict used for `assay()` straight into `instrument()`. Fix is a docstring precondition
+  plus an explicit raise; queued rather than done because it is a public-signature question.
+
+  **Root cause, and it turned out to be worse than the trap this entry described.** The natural
+  reading was that `instrument()` special-cases only Python `None` while the other three statuses
+  are strings, so `s is None` is False and the value falls through to `s / 10.0`. True — but the
+  deeper fault was that `_check_scores`, the module's own **LAYER 1**, had exactly ONE call site,
+  inside `assay()`. `instrument()` is the other public entry that takes axis scores straight from
+  a caller and PUBLISHES numbers from them, and it validated nothing: order `5f99aa19c059`
+  reproduced `assay("M3", {"ruin": 99.0}, worksheet="w")` raising `AssayIntegrityError` while
+  `instrument()` printed a Strength of exactly **30** for the same reading — the maximum the
+  Instrument can print, and therefore indistinguishable from a legitimately maxed one — and a
+  Dexterity of **−30**, outside the 1-30 range X.6 §6 Definition 4 declares.
+  **Fixed at both doors.** `instrument()` calls `_check_scores(axis_scores)` immediately after the
+  anchor check and before the H5 no-worksheet return, mirroring `assay()`'s ordering, and validates
+  against the full `WEIGHTS` table rather than only the axes `FACULTY_READS` consumes — because
+  real callers hand it the whole numeric score dict (`anchors.py:186` does), so the narrower table
+  would refuse `reach` and `transgression` as nonexistent Measures. The faculty conversion is now
+  bounded at both ends rather than capped only at the top. **Verified live this pass:** all three
+  string statuses — `NONE`, `UNESTIMABLE`, `INAPPLICABLE` — now raise a named `AssayIntegrityError`
+  naming the offending axis, which is the explicit raise this entry asked for, in place of a bare
+  `TypeError`. Both public doors now give the same answer to the same reading.
+
+- **[m94 — RESOLVED] `hostcheck.null_rate()` TURNS A FAILED
+  CONTROL PROBE INTO A FABRICATED 0.0 BASELINE AND CACHES IT FOR THE WHOLE RUN.**
+  ```python
+  r = probe(host, foreign) or {}                      # hostcheck.py:418-422
+  rate = r.get("rate")
+  rate = 0.0 if rate is None else rate
+  with _NULL_LOCK:
+      _NULL_CACHE[host] = rate
+  ```
+  `probe()` legitimately returns `rate=None` on a failed request (and, via **m93**, sometimes a
+  fake 0.0 instead). This line collapses "I don't know" into "this host answers 0% of foreign
+  names" and locks it into `_NULL_CACHE` for the rest of the process, so every later `score()`
+  call for that host uses a corrupt baseline. **Second-order effect worth the HIGH label:**
+  `score()` only applies the aboutness veto when `base >= ABOUT_VETO_ABOVE` (0.25). A generous
+  host like `en.wikipedia.org` (documented at `hostcheck.py:432` as ~50% baseline) whose control
+  probe transiently failed gets cached at 0.0 — **silently disabling the aboutness veto for that
+  host for the whole run**, which is the "Rocket League nearly adopted onto Wikipedia" failure the
+  design exists to prevent. **Not fixed:** propagating `None` changes what `score()` must do with
+  an unjudgeable baseline; ruling wanted.
+
+  **Root cause: `rate = 0.0 if rate is None else rate` — *I don't know* collapsed into *this host
+  answers 0% of names it has no reason to hold*, which is the most generous baseline available,
+  and then cached for the whole process.** `src/hostcheck.py`'s `null_rate()` now returns `None`
+  and **does not cache it**, with the reasoning written beside the branch: a failure is a fact
+  about this moment, not about this host, and caching it would make one throttled probe stand as
+  the host's baseline for the rest of the run. The docstring leads with the contract — *"RETURNS
+  None WHEN THE CONTROL COULD NOT BE MEASURED ... None is not zero, and callers must not default
+  it to zero"* — and the comment at the branch names the direction that made this HIGH: seventy-four
+  throttled probes reading as 0% unassigned `warhammer40k.fandom.com`, and the same failure on the
+  CONTROL side would silently ADOPT hosts instead, which is the worse direction. So the
+  transiently-failed generous host that silently disables the aboutness veto — the
+  "Rocket League nearly adopted onto Wikipedia" shape — can no longer arise.
+  **Tonight finished the same question from the other side.** Order `4ff1db780b99`: `by` decides
+  which rosters EXIST to draw the control from and was still outside the cache key, while
+  `sweep()` draws from `data/CHARACTER_SWEEP.json` and `adopt()` from `weave_index.load_records()`
+  — genuinely different universes, contained only by the fact that `main()` dispatches one mode per
+  process, which is a property of today's CLI and not of the module. The key is now the foreign
+  sample itself rather than a digest of the dict, which is exact in both directions.
+
+- **[m95 — RESOLVED] `cascade_bridge.dead_forever()` CHECKS `PROOF_TTL` ONLY ONCE PER
+  PROCESS.** `_PROVEN[0]` is memoised on first call (`cascade_bridge.py:303-319`), so a
+  `POOL_PROOF.json` written later in a multi-hour run — recording a newly-proved 401/402/404/410
+  — is never picked up. The TTL constant's own comment says *"a proof this old is no longer
+  evidence about now"*; the memoisation makes the check vacuous after the first call.
+
+  **Root cause: a memo in front of a TTL makes the TTL vacuous.** `_PROVEN[0]` was set on the
+  first call and returned unconditionally thereafter, so a `POOL_PROOF.json` written later in a
+  multi-hour run — recording a newly-proved 401/402/404/410 — was never seen, and `PROOF_TTL`'s own
+  comment (*"a proof this old is no longer evidence about now"*) described a check that could not
+  run. `src/cascade_bridge.py:368-413` now memoises on the proof file's **stamp** rather than on
+  having answered once: `if _PROVEN[0] is not None and _PROVEN[0][0] == stamp: return
+  _PROVEN[0][1]`, so a newer file re-reads and the TTL comparison at `:388` is reachable on every
+  call.
+
+- **[m97 — RESOLVED] `hostcheck.py:918-919`'s `--purge` HELP TEXT PROMISES A SAFETY
+  CHECK THAT `purge()`'s OWN DOCSTRING SAYS NEVER EXISTED.** The help string still reads *"remove
+  rosters the audit rejected AND whose host was independently rejected"*; the docstring at
+  `hostcheck.py:642-647` records that *"it never did (the check was loaded and unused)"*. The
+  docstring was corrected, the user-facing `--help` was not.
+
+  **Root cause: the docstring was corrected and the user-facing string was not** — which is the
+  whole of it, and the reason it was worth closing rather than leaving as decoration is that a
+  help string overstating a safety is how an operator comes to rely on one that is not there.
+  `src/hostcheck.py`'s `--purge` help now reads *"remove the roster for each source named with
+  `--source`, after a human has read the audit shortlist; **no automated host check gates this**"*
+  — it states the absence rather than promising the check, so `--help` and `purge()`'s docstring
+  say the same thing about the same behaviour.
+
+- **[m107 — RESOLVED] A FOURTH INSTANCE OF THE SAME CLASS: `scope.py:108-118`.** A
+  transient network failure during `--build` permanently caches a host as "no scope", and
+  `h not in out` never retries it.
+
+  **Root cause: a failure written into the same map that decides what gets retried.** `build()`
+  wrote `out[h] = None` in its exception handler while `todo` excluded every host already a KEY in
+  `out` regardless of its value — so one network blip, one 500 from a wiki, one unparseable
+  response permanently retired that host from scoping, and `data/SCOPE.json` then reported it as
+  *attempted, nothing to score*, which is the one thing that had not happened.
+  `src/scope.py:142-157` leaves a failed host **out of `out` entirely**, prints that the next build
+  will retry it, and lets it simply reappear in the next `todo`. The comment at the site states the
+  mechanism in this entry's own terms: *"A FAILURE IS NOT A VERDICT, AND IT MUST NOT BE CACHED AS
+  ONE."*
+  *(This does NOT settle the family. `m106` — `endpoint.fetch_raw`'s single `(t, None)` return for
+  a 404, a refusal, an exception and an HTML error body alike — and M16's `evidence_for` half are
+  both still open.)*
+
 
 ### Run #37 (2026-08-28/29) — the shift that found the pipeline was throwing away its own work
 

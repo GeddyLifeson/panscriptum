@@ -736,9 +736,9 @@ def ledger_report():
     where that pays: 5,590 identical HTTPErrors show up as one loud line instead of as 5,590
     entities that look like they honestly have no page.
 
-    ALL OF THE CLASSES, RANKED -- the `[:top]` slice and the `top=8` parameter that fed it are
+    ALL OF THE CLASSES, RANKED -- the trailing slice and the `top` parameter that fed it are
     gone (order 16bba34c2e68). This is the THIRD instance of the same cut removed from this one
-    file, after `did[:5]` in foreman_report and `[:top]` in watch_report, and it sat in the
+    file, after the one in foreman_report and the one in watch_report, and it sat in the
     function whose entire product IS the ranked list: 47 distinct classes and 2,197 occurrences
     on the night it was measured, of which 39 classes were named nowhere. Nothing in the old
     header said so, because the two numbers it printed were the OCCURRENCE total and

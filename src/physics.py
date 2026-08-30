@@ -88,6 +88,17 @@ def kinetic(mass_kg, speed_ms):
         # the shape of a real one, and nothing downstream has reason to look at it twice.
         raise ValueError(f"kinetic(): mass must be positive, got {mass_kg!r}; "
                          f"a non-positive mass is an unestimable body, not a small one")
+    if not math.isfinite(m):
+        # THE OTHER HALF OF THE SAME ASYMMETRY (order 3598ae9a4aad). `joules_for()` was given an
+        # explicit finiteness test for exactly this and mass was not, so `kinetic(inf, 10)`
+        # returned inf: this module refused infinity for SPEED and for VOLUME and accepted it
+        # for MASS. `not m > 0.0` above catches NaN as a side effect of its shape and lets
+        # infinity straight through, which is the cause `joules_for()`'s own comment already
+        # diagnoses. An inf joule figure is not a large quantity, it is the absence of one, and
+        # it propagates to a band edge, a shelfmark and prose with nothing downstream having
+        # reason to look at it twice.
+        raise ValueError(f"kinetic(): mass must be finite, got {mass_kg!r}; "
+                         f"an unbounded body is unestimable in joules, not merely large")
     if not v >= 0.0:
         # NaN, and it was the one value that got through this whole module (order 7909342fefa4).
         # EVERY comparison against NaN is False, so `v >= C` was False and `v < RELATIVISTIC_ABOVE
@@ -157,6 +168,12 @@ def sphere_volume(radius_m):
     if not r > 0.0:
         raise ValueError(f"sphere_volume(): radius must be positive, got {radius_m!r}; "
                          f"a non-positive radius is an unestimable body, not a small one")
+    if not math.isfinite(r):
+        # `sphere_volume(inf)` returned inf and fed it straight to `joules_for()`, which refuses
+        # an infinite VOLUME -- so the refusal fired one function late and named the wrong
+        # argument. Refused here, where the unbounded body actually is (order 3598ae9a4aad).
+        raise ValueError(f"sphere_volume(): radius must be finite, got {radius_m!r}; "
+                         f"an unbounded body is unestimable in joules, not merely large")
     return 4.0 / 3.0 * math.pi * r ** 3
 
 
@@ -180,11 +197,26 @@ def binding_energy(mass_kg, radius_m):
     if not r > 0.0:
         raise ValueError(f"binding_energy(): radius must be positive, got {radius_m!r}; "
                          f"U = 3GM^2/5R has no value for a body of no extent")
+    if not math.isfinite(r):
+        # R is the DENOMINATOR, so an infinite radius returned a perfectly finite-looking 0.0 --
+        # "this body is not bound at all", published as a measurement of a body of unbounded
+        # extent. That is the quietest of the four (order 3598ae9a4aad): the other three
+        # returned inf, which at least looks wrong.
+        raise ValueError(f"binding_energy(): radius must be finite, got {radius_m!r}; "
+                         f"an unbounded body is unestimable in joules, not merely large; "
+                         f"U -> 0 here is not a body that is easy to unbind")
     m = float(mass_kg)
     if not m >= 0.0:
         raise ValueError(f"binding_energy(): mass must be non-negative, got {mass_kg!r}; "
                          f"M^2 silently discards the sign of a negative mass, which is not a "
                          f"physical body")
+    if not math.isfinite(m):
+        # `binding_energy(inf, 1)` returned inf. `not m >= 0.0` carries the NaN and sign cases
+        # and nothing else -- infinity passes it, exactly as it passed `kinetic()`'s mass guard
+        # (order 3598ae9a4aad). The accidental OverflowError out of `m ** 2` at 1e200 is not a
+        # guard: it names arithmetic, not a domain error, and it does not fire for inf at all.
+        raise ValueError(f"binding_energy(): mass must be finite, got {mass_kg!r}; "
+                         f"an unbounded body is unestimable in joules, not merely large")
     return 3.0 * G * m ** 2 / (5.0 * r)
 
 

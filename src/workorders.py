@@ -37,6 +37,7 @@ precisely because resolved things linger in the Open section; the discipline tha
 honest is enforced here by construction instead of by remembering.
 """
 import argparse
+import collections
 import hashlib
 import json
 import os
@@ -478,8 +479,25 @@ def resolve(oid, how, by=""):
         os.makedirs(os.path.dirname(CLOSED_LOG), exist_ok=True)
         with open(CLOSED_LOG, "a", encoding="utf-8") as f:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-    except Exception:
+    except Exception as exc:
+        # THE CLOSURE IS ALREADY IRREVERSIBLE BY THE TIME WE GET HERE (order 2ea28274a02e).
+        # The ordering above is right and the docstring defends it, but it means a failed append
+        # leaves the order gone from state/workorders.json with its resolution recorded in NO
+        # FILE AT ALL -- and this handler used to be a bare `silence.note`, so `main()` went on
+        # to print "closed <id>" and return 0. That is exactly the state the paper trail exists
+        # to prevent, arrived at from the other direction.
+        #
+        # The note stays (it is the counter a maintenance sweep reads) and stderr carries the
+        # part a person can act on. `_detector()` below makes this same argument in full: a
+        # silence.note "bumps a class-name counter in state/failures.json that nobody on the
+        # handler ladder is described as reading". So the console gets the id, the code and the
+        # resolution text, which is everything needed to re-enter the closure by hand.
         silence.note("workorders.py:closed-log")
+        sys.stderr.write(
+            "workorders: order %s WAS CLOSED (removed from the open queue) but its paper-trail "
+            "entry could not be appended to %s: %s. The resolution is recorded nowhere; it "
+            "was, under code %s: %s\n"
+            % (oid, CLOSED_LOG, exc, rec.get("code", "?"), how))
     return rec
 
 
@@ -508,6 +526,86 @@ def for_ladder():
         if got:
             out[rung] = got
     return out
+
+
+# THE FOUR LENGTHS THIS QUEUE USED TO CUT ITS OWN FIELDS AT. Until 2026-08-28 `file_order`
+# stored `what[:600]`, `where[:200]` and `found_by[:80]`, and `resolve` stored `how[:400]`, all
+# silently. The caps are gone (see the comments in both functions) and the damage to the OPEN
+# queue was repaired the same week -- but removing a cap does not restore what it already ate,
+# and nothing anywhere in the battery would have NOTICED either the damage or a regression.
+LEGACY_CAP_BOUNDARY = {"what": 600, "where": 200, "found_by": 80, "resolution": 400}
+
+
+def cap_boundary_scan():
+    """Count stored order fields sitting EXACTLY on a legacy cap boundary. -> dict.
+
+    WHY AN EXACT-LENGTH TEST IS THE RIGHT INSTRUMENT (order 8dc37c208839). A field landing
+    exactly on 600 / 200 / 80 / 400 is not PROOF of truncation -- a sentence can end at 600
+    characters by chance -- but it is a cheap, exact, zero-false-NEGATIVE flag, and this
+    project's whole doctrine is that an unnoticed smaller universe is worse than a noisy alarm.
+    There is a second reason it has to be a standing check rather than a habit: `file_order`
+    refreshes an order only when its detector fires again, and NOT ONE of the 43 orders damaged
+    by the old caps was under a code any detector owns. They were hand-filed sweep findings.
+    Nothing would ever have rewritten them, and nothing would ever have counted them.
+
+    THE TWO HALVES ARE DIFFERENT KINDS OF FACT, and the caller must keep them apart:
+
+      `open_hits`   THE RATCHET. Zero as of 2026-08-29, after 39 of the 43 damaged orders were
+                    refiled untruncated under the same code and `where` (so every id, first_seen
+                    and queue position held). Any non-zero from here is a REGRESSION -- a cap
+                    reintroduced somewhere, or a composed `what` cut one layer above this
+                    module, which is a fault this file has had twice already.
+
+      `closed_*`    A MEASUREMENT, NOT A FAILURE. The closed log is append-only history and was
+                    deliberately not rewritten. 221 rows hold a `what` at exactly 600 and 532
+                    hold a `resolution` at exactly 400 when this was written; those resolutions
+                    are unrecoverable, because a finding is written down somewhere before it is
+                    filed while a RESOLUTION is composed at the moment of closing and typed
+                    straight into the CLI. Reporting it honestly is the whole remedy available.
+
+    Cheap by construction: one parse of the open queue (which `sweep_detectors` reads anyway)
+    and one line scan of the closed log, no field ever held twice.
+    """
+    open_hits, open_counts = [], collections.Counter()
+    for oid, o in sorted(_load().items()):
+        if not isinstance(o, dict):
+            continue
+        for field, bound in LEGACY_CAP_BOUNDARY.items():
+            v = o.get(field)
+            if isinstance(v, str) and len(v) == bound:
+                open_hits.append("%s %s=%d" % (oid, field, bound))
+                open_counts[field] += 1
+
+    closed_counts, closed_rows, closed_either = collections.Counter(), 0, 0
+    try:
+        with open(CLOSED_LOG, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                closed_rows += 1
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    # A row that will not parse is counted as a row and nothing else. It is not
+                    # evidence of truncation and it must not be swallowed into a clean total.
+                    closed_counts["unparseable"] += 1
+                    continue
+                hit = False
+                for field, bound in LEGACY_CAP_BOUNDARY.items():
+                    v = r.get(field)
+                    if isinstance(v, str) and len(v) == bound:
+                        closed_counts[field] += 1
+                        hit = True
+                closed_either += bool(hit)
+    except FileNotFoundError:
+        pass
+    return {"boundaries": dict(LEGACY_CAP_BOUNDARY),
+            "open_hits": open_hits,
+            "open_counts": dict(open_counts),
+            "closed_rows": closed_rows,
+            "closed_counts": dict(closed_counts),
+            "closed_rows_cut_in_some_field": closed_either}
 
 
 # The two codes a settled identity verdict can be filed under. A host has ONE identity, so at
@@ -941,6 +1039,45 @@ def sweep_detectors():
     except Exception:
         _detector("handoff-scratch", False)
 
+    # THE QUEUE WATCHES ITSELF FOR ITS OWN OLD CAPS (order 8dc37c208839). Nothing in the battery
+    # noticed that a STORED order was sitting exactly on a legacy cap boundary, and that is why
+    # the cap damage survived four shifts after the caps themselves were removed: 43 open orders
+    # were still cut at exactly 600 characters, 34 of them addressed to OWNER, whose action line
+    # was the missing part. This is a RATCHET, not a measurement -- the open queue is clean as of
+    # 2026-08-29, so any hit at all is a regression -- and it self-closes the moment the count
+    # returns to zero, like every other detector here.
+    #
+    # THE CLOSED LOG IS DELIBERATELY NOT PART OF THE VERDICT. It is append-only history, it
+    # cannot be repaired, and grading it would be an alarm that can never be silenced. It rides
+    # in `evidence` and is printed by `main()` instead, which is the honest treatment: 34.5% of
+    # this project's record of its own closed work is cut in one field or the other, and the
+    # thing to do about that is to say so, not to fail a battery over it every night.
+    try:
+        _cap = cap_boundary_scan()
+        _fire(
+            not _cap["open_hits"],
+            "LEGACY_CAP_BOUNDARY_IN_OPEN_QUEUE",
+            ("%d stored field(s) across the open queue sit EXACTLY on a legacy cap boundary "
+             "(%s): %s. The open queue measured ZERO of these on 2026-08-29, after the cap "
+             "damage was repaired, so this is a REGRESSION and not history -- either a cap has "
+             "been reintroduced in `file_order`/`resolve`, or a `what` is being composed and cut "
+             "one layer ABOVE this module, which is a fault this file has already had twice "
+             "(orders e6385a07a3fd, 8dc37c208839). An exact-length hit is not proof that a "
+             "field was truncated -- a sentence can end at 600 characters by chance -- but a "
+             "work order's REMEDY is written at its END, so a cut order keeps a finding that "
+             "reads as complete and loses the instruction. Check each id listed before assuming "
+             "coincidence. FOR CONTEXT, NOT FOR ACTION: the append-only closed log holds %d rows "
+             "cut in some field out of %d; that is history, cannot be repaired, and is not part "
+             "of this order's verdict."
+             % (len(_cap["open_hits"]), _cap["boundaries"], "; ".join(_cap["open_hits"]),
+                _cap["closed_rows_cut_in_some_field"], _cap["closed_rows"])),
+            "RUN", "MAJOR",
+            where="state/workorders.json (open queue), boundaries 600/200/80/400",
+            evidence=_cap, found_by="workorders.sweep cap-boundary")
+        _detector("cap-boundary", True)
+    except Exception:
+        _detector("cap-boundary", False)
+
     # `file_order` returns None for a finding whose queue write did not land (it says so on
     # stderr). Those must not be counted as filed -- "swept: N filed" over an order that is not
     # in the file is the same lie as a green check that never ran.
@@ -967,6 +1104,23 @@ def main():
     if a.sweep:
         filed, closed = sweep_detectors()
         print("swept: %d filed/refreshed, %d closed" % (len(filed), len(closed)))
+        # THE CLOSED LOG'S CAP DAMAGE IS REPORTED, NEVER GRADED (order 8dc37c208839). The
+        # detector above ratchets the OPEN queue, which is repairable and is clean. This is the
+        # other half: history that was cut by the caps this module used to apply, which cannot
+        # be restored and must therefore be stated rather than failed over -- the alternative is
+        # a paper trail that reads as intact. Printed on every sweep so the number cannot
+        # quietly become a fact nobody has looked at since the shift that measured it.
+        try:
+            _cap = cap_boundary_scan()
+            _cut = _cap["closed_rows_cut_in_some_field"]
+            _rows = _cap["closed_rows"] or 1
+            print("closed log: %d of %d rows (%.1f%%) hold a field sitting exactly on a legacy "
+                  "cap boundary %s -- %s. Append-only history; NOT repairable, NOT graded."
+                  % (_cut, _cap["closed_rows"], 100.0 * _cut / _rows, _cap["boundaries"],
+                     ", ".join("%s=%d" % kv for kv in sorted(_cap["closed_counts"].items()))
+                     or "none"))
+        except Exception:
+            silence.note("workorders.py:cap-report")
 
     # AN UNREADABLE QUEUE IS NOT AN EMPTY ONE, AND THE DIFFERENCE IS THE WHOLE POINT (order
     # 5d3794de8b81). Before this, a corrupt state/workorders.json reached the reader as `{}` and

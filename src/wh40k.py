@@ -31,6 +31,7 @@ transgression and the worst discipline.
 import argparse
 import os
 import sys
+import textwrap
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -260,7 +261,18 @@ def main():
             print("")
             for ax in A.WEIGHTS:
                 d = rec["axes"][ax]
-                print("   %-15s%5.1f  %s" % (ax, d["score"], d["cited"][:56]))
+                # WRAPPED, NOT CUT. `d["cited"][:56]` ended the line inside the quotation with
+                # no ellipsis and no marker, so a cut citation read as a short one -- in the ONE
+                # view in this module that exists to show the evidence behind a score. Measured
+                # over the live roster: 47 of 55 axis citations exceed 56 characters and the
+                # longest is 234, so --full was showing a fraction of its own subject in the
+                # shape of the whole of it. Same repair, same day, in the twins halo.py and
+                # zfighters.py, which carried the identical construction at [:54] and [:60] --
+                # three widths for one decision nobody made.
+                body = textwrap.wrap(d["cited"], 56) or [""]
+                print("   %-15s%5.1f  %s" % (ax, d["score"], body[0]))
+                for cont in body[1:]:
+                    print("   %-15s%5s  %s" % ("", "", cont))
     # ATOMIC, for the same reason and by the same hand as `zfighters.py:478`. That file is this
     # one's twin -- same shape, same job, same `main()` ending in a hand-built assay dump -- and
     # it was made atomic as "the m100 tail" on 2026-08-25 while this line was left standing. The

@@ -378,8 +378,19 @@ def _bodies(host, titles):
 
 # --------------------------------------------------------------------------- candidates
 
-def candidates(source, current, by=None, hosts=None):
-    """Other hosts worth probing for this source, best first.
+def candidates_split(source, current, by=None, hosts=None):
+    """-> (grounded, speculative). The two halves apart, for a caller that must bound one.
+
+    `candidates()` below is the ordinary entry point and returns `grounded + spec`; this exists
+    because a caller taking `cands[:n]` off that concatenation has NO WAY TO KNOW WHERE THE
+    BOUNDARY IS, so its bound can silently eat evidence the moment the grounded prefix grows
+    past n. `hosts.discover` was doing exactly that with n=24, and the comment above its slice
+    asserted an invariant nothing enforced. Returning the boundary makes the guarantee the
+    caller's to keep rather than the caller's to assume. (order 0b43bb663c36)
+
+    Everything below documents how the two lists are built.
+
+    Other hosts worth probing for this source, best first.
 
     Fandom's CrossWiki search API used to answer this. It returns 404 now, and it had been
     returning 404 on every call -- 124 of them -- while this function swallowed the error and
@@ -480,6 +491,19 @@ def candidates(source, current, by=None, hosts=None):
     #
     # The interleave was itself a repair for this exact bug in a smaller form. The repair was to
     # promote one grounded host. The fix is to promote all of them.
+    return grounded, spec
+
+
+def candidates(source, current, by=None, hosts=None):
+    """Other hosts worth probing for this source, best first: grounded, then speculation.
+
+    Unchanged for every caller: the same flat `grounded + spec` list it has always returned.
+    A CALLER THAT MEANS TO BOUND THE TAIL MUST USE `candidates_split` INSTEAD -- see its
+    docstring -- because a slice taken off this concatenation cannot tell where the evidence
+    ends and the guessing begins, and that is how `en.wikipedia.org` was lost at position
+    nineteen of a list cut at eighteen. (order 0b43bb663c36)
+    """
+    grounded, spec = candidates_split(source, current, by=by, hosts=hosts)
     return grounded + spec
 
 
@@ -557,7 +581,22 @@ def null_rate(host, by=None, exclude=None, sample=40):
         foreign.extend(names[:3])
     # Deterministic, not random: the control must be reproducible, or two runs disagree about
     # the same host for reasons nobody can inspect.
-    foreign = sorted(set(foreign))[::max(1, len(foreign) // sample)][:sample]
+    #
+    # DEDUPE FIRST, THEN STRIDE (order cb8bc5afa58f). This was one expression --
+    # `sorted(set(foreign))[::max(1, len(foreign) // sample)][:sample]` -- and the right-hand
+    # side is evaluated before the assignment, so `len(foreign)` counted the list WITH
+    # duplicates while the stride was applied to the deduplicated one. Whenever rosters share
+    # names the stride came out too coarse and the control ended up SMALLER than `sample`,
+    # silently. Measured on the live corpus: 561 raw foreign names, 538 distinct, stride
+    # 561//40 = 14, giving 39 control names where the deduplicated stride 538//40 = 13 gives 40.
+    # One name today, which is why this was filed INFO -- but the gap scales with name reuse
+    # (150 raw / 63 distinct yields 21 names instead of 40), and this function's own comment
+    # argues that "a baseline measured against the wrong foreign set is worse than no baseline,
+    # because it still looks like one". The cache key below carries `tuple(foreign)`, so it
+    # stays exact and no previously cached baseline is silently reinterpreted under the new
+    # sample -- a changed control is a changed key.
+    uniq = sorted(set(foreign))
+    foreign = uniq[::max(1, len(uniq) // sample)][:sample]
     key = (host, exclude, sample, tuple(foreign))
     with _NULL_LOCK:
         if key in _NULL_CACHE:

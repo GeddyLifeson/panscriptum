@@ -39,6 +39,7 @@ def main():
     kept_entries = []
     cleared_notes = 0
     touched = []
+    denied = []
 
     for path, rec in recs:
         changed = False
@@ -84,6 +85,14 @@ def main():
             if PL.write_record(path, rec):
                 touched.append(src)
             else:
+                # AND THE DENIAL IS COUNTED, NOT ONLY PRINTED (order 6e7bebc7c601). The gate
+                # above holds, but a denial reached no summary line and no exit code: a run that
+                # demoted 400 entries and landed 350 printed "APPLIED. 350 record files
+                # rewritten" and exited clean, while the other 50 still carry on disk a
+                # Magnitude this pass has just refused. Nothing re-queues a refused record --
+                # the next `--apply` finds it, but only if somebody knows to run one. Same
+                # treatment `completeness.land()` gives the identical failure.
+                denied.append(src)
                 print("  WRITE DENIED %s; left as it was" % src, flush=True)
 
     total_banded = len(demoted_entries) + len(kept_entries)
@@ -120,6 +129,15 @@ def main():
     for s, n, b, sn in demoted_entries[:8]:
         print(f"     [{b}] {str(n)[:30]:<32}{sn}")
 
+    if args.apply and denied:
+        # "Some of them are still there" is the one outcome this script's closing line must not
+        # omit -- removing unearned claims from the corpus is its whole job, and a refused write
+        # leaves the claim standing. The names are uncapped: this is the list somebody re-runs
+        # against. rc=1 so a supervisor or wrapper sees it too.
+        print(f"\nAPPLIED. {len(touched)} record files rewritten, {len(denied)} REFUSED (a "
+              f"reader held them open); those sources still carry the demoted bands on disk -- "
+              f"re-run: {', '.join(sorted(denied))}")
+        return 1
     if args.apply:
         print(f"\nAPPLIED. {len(touched)} record files rewritten.")
     else:

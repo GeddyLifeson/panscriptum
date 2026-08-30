@@ -536,13 +536,21 @@ const TPL={archipelago:"archipelago",isles:"lowIsland",shattered:"shattered",
   // reader concludes the unescaped one was deliberate. Three live worlds carry an ampersand in
   // `cat` today: Baskets & Boots, DunBroch Castle & Kingdom, Cortex Power & Gas Co.
   // (order 3b37494e20db)
+  // AND THE FOUR `f.*` ROWS BELOW ARE THE SINKS THAT FIX LEFT BEHIND (order c000fbc3c378).
+  // landform, climate, condition and tech went into innerHTML raw, against esc()'s own stated
+  // rule that every catalogue-derived string passes through it first. LATENT TODAY, MEASURED:
+  // across the 1,569 worlds in data/NAVTREE.json these are closed enums -- landform 6 values,
+  // climate 6, condition 3, tech 4 -- and not one contains & < > " '. The exposure is the next
+  // cosmology pass that widens any of them, which is the same "latent, the exposure is the next
+  // one that does" argument this module already accepted for shelfmark(): escape where the
+  // value ENTERS the string, not at the places it happens to be safe today.
   p.innerHTML=`<h2>${esc(cat)}</h2>
     ${w.carried?`<div class="endo">endonym: <b>${esc(endo)}</b></div>`:""}
     <div class="mark">${shelfmark(rootKey)} › P<br>seed ${w.s}</div>
-    <div class="row"><span>landform</span><span>${f.landform||"?"}</span></div>
-    <div class="row"><span>climate</span><span>${f.climate||"?"}</span></div>
-    <div class="row"><span>condition</span><span>${f.condition||"?"}</span></div>
-    <div class="row"><span>era</span><span>${f.tech||"?"}</span></div>
+    <div class="row"><span>landform</span><span>${esc(f.landform||"?")}</span></div>
+    <div class="row"><span>climate</span><span>${esc(f.climate||"?")}</span></div>
+    <div class="row"><span>condition</span><span>${esc(f.condition||"?")}</span></div>
+    <div class="row"><span>era</span><span>${esc(f.tech||"?")}</span></div>
     <div class="row"><span>attested axes</span><span>${w.a||0}/4</span></div>
     <div class="row"><span>primate city</span><span>${(w.b||0).toLocaleString()}</span></div>
     <div class="row"><span>burgs (est.)</span><span>${(w.nb||0).toLocaleString()}</span></div>
@@ -598,9 +606,28 @@ def main():
     landed = silence.replace_retry(tmp, OUT)
     if landed:
         print(f"wrote {OUT}  ({len(html)/1024:.0f} KB)")
-    else:
-        print(f"WRITE DENIED: {OUT} did not land this round; rerun to retry")
-    return 0
+        return 0
+    # THE VERDICT REACHES THE EXIT CODE, AND THE SCRATCH FILE GOES (order ca499449f966).
+    #
+    # This printed the denial and then fell through to `return 0`, which `sys.exit(main())`
+    # below turns into a clean exit for a run whose only product is not on disk -- exactly what
+    # `catalogue_codex.py:315-331` and `generate.py:700-706` already settle the other way in
+    # this same tree, both citing `module_index.py` as the shape: return 1 on a denied write.
+    #
+    # And `silence.replace_retry` does NOT unlink `tmp` when it fails -- it notes
+    # `replace-denied`/`replace-failed` and returns False. Because the temp name carries pid and
+    # thread, every denial otherwise left a uniquely-named
+    # `output/registry_terminal.html.<pid>.<tid>.tmp` behind, and nothing in this kit ever comes
+    # back for them. Same guarded-unlink idiom as `generate._discard_tmp`: `exists` first, so a
+    # temp that was never created does not file a ledger row, and a failed removal is recorded
+    # rather than allowed to replace a survivable denial with a traceback.
+    print(f"WRITE DENIED: {OUT} did not land this round; rerun to retry")
+    try:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+    except OSError:
+        silence.note("build_terminal.py:temp-unlink-denied")
+    return 1
 
 
 if __name__ == "__main__":

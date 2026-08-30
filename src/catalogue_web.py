@@ -140,8 +140,8 @@ def load_roll():
         return json.load(f)
 
 
-def save_roll(roll):
-    """-> True if the write landed.
+def save_roll(roll, names=None):
+    """-> True if the write landed. `names` limits the merge to those sources' rows.
 
     Atomic for the same reason the record write beside it is: SWEEP_ROLL.json is written from
     three worker threads here and read elsewhere by `load_roll` and `resync_roll.py`, BOTH of
@@ -154,7 +154,8 @@ def save_roll(roll):
 
     AND THROUGH `silence.write_json`, NOT A HAND-ROLLED TMP (order 0924f1b5af2f). This was
     `tmp = ROLL + ".tmp"` + open + json.dump + replace_retry -- a FIXED temp name, shared by
-    every process that writes the roll. It was the last of FIVE writers of data/SWEEP_ROLL.json
+    every process that writes the roll. It was the last of the then-FIVE writers of the file
+    (there are SEVEN, counted for order f818a77293fc) of data/SWEEP_ROLL.json
     still on that convention: roll.py:127, resync_roll.py:115, catalogue_aurora.py:271 and
     catalogue_codex.py:260 all land through write_json, whose temp name carries pid and thread.
     Two processes writing the roll opened the SAME temp file; the second truncated the first and
@@ -172,13 +173,25 @@ def save_roll(roll):
     write_json returns the same landed/not-landed verdict replace_retry did, so no call site
     changes -- catalogue_web.py:504 still gates on it.
 
-    STILL NOT A COMPARE-AND-SWAP, and that is the larger exposure this does not close: main()
-    loads the whole roll once and every worker writes the WHOLE object back, so on a large wiki
-    the in-memory snapshot is hours old and another writer's change in that window is overwritten
-    wholesale. `silence.replace_if_unchanged` exists for exactly that and its docstring cites
-    WIKI_HOSTS.json being lost this way. It spans all five writers, so it is filed on its own.
+    AND NOW IT IS A COMPARE-AND-SWAP, which is the exposure the paragraph that used to stand
+    here described and left open (order f818a77293fc). main() loads the whole roll once and every
+    worker wrote the WHOLE object back, so on a large wiki the in-memory snapshot is hours old
+    and another writer's change inside that window was overwritten wholesale -- complete,
+    consistent, atomic, and one row behind. `roll.update_rows` re-reads the file, merges only the
+    rows named in `names`, and re-applies rather than retrying the same bytes if the file moved.
+
+    `names` IS OPTIONAL FOR THE SIGNATURE, NOT FOR CORRECTNESS. Passing it is what makes the
+    merge key-wise; omitting it merges every row of the caller's copy, which is the old
+    whole-document semantics with the torn-file and staleness hazards closed but the caller's
+    stale rows still carried. The one call site in this module names the source it just wrote.
     """
-    return silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
+    import roll as _roll
+    rows = roll if names is None else [r for r in roll if r.get("name") in set(names)]
+    landed, why = _roll.update_rows({r["name"]: {k: v for k, v in r.items() if k != "name"}
+                                     for r in rows if r.get("name")}, path=ROLL)
+    if why:
+        print("      -> ROLL: %s" % why, flush=True)
+    return landed
 
 
 def catalogue_composite(source_name, verbose=True):
@@ -339,9 +352,27 @@ def catalogue(source_name, verbose=True):
         # the raw listing instead would just take the alphabetically-first names -- that is
         # how an earlier run built a Bleach catalogue with no Ichigo Kurosaki in it.
         titles = []
+        # PROVENANCE IS RECORDED AS THE TITLES ARRIVE (order 6eb20e8d3565). This loop used to
+        # flatten every category of the class into one list and keep no title->category map, so
+        # the only category still in hand when the entries were built was `cats[0]` -- and every
+        # entry in the class was stored with THAT as its `type`. `cats[0]` is not the primary or
+        # the largest category either: `ws.find_categories` returns the hardcoded CATEGORY_PROBES
+        # guess that answered, followed by discovered ones, so the winner was an artefact of
+        # probe order. Measured over the 156 mode='web' records on disk when this was filed:
+        # 3,521 Media entries typed 'Ability', 1,696 Vessels & Things typed 'Character', 690
+        # Events typed 'Total War: Warhammer' -- a video game's name stored as an entity type.
+        # `setdefault` keeps the FIRST category a title was found in, which is the honest answer
+        # when a title is a member of several.
+        first_cat = {}
         for _ci, c in enumerate(cats, 1):
-            titles += ws.category_members(sub, c, limit=None)
+            got = ws.category_members(sub, c, limit=None)
+            for _t in got:
+                first_cat.setdefault(_t, c)
+            titles += got
             _beat(_short + " cats", _ci, len(cats))
+        # Keyed on the RAW title, deliberately: `clean_titles` only filters and de-duplicates and
+        # `rank_by_size` only reorders, so every string that survives into `wanted` below is one
+        # of these exact strings. Nothing normalises them in between, so nothing can drift.
         titles = ws.clean_titles(titles)
         # Was `if len(titles) > MAX_PER_CATEGORY:` -- and MAX_PER_CATEGORY is None, so this
         # line raised TypeError for every category that had any titles at all. It was left
@@ -356,7 +387,7 @@ def catalogue(source_name, verbose=True):
             # of mistake already caused once).
             progress=lambda d, t, _short=_short: _beat(_short + " ranking", d, t))
         if titles:
-            planned.append((canon, cats, titles))
+            planned.append((canon, titles, first_cat))
 
     if not planned:
         return None, "wiki resolved but no usable categories"
@@ -377,7 +408,7 @@ def catalogue(source_name, verbose=True):
     # those titles is right -- an entry with no description is not evidence -- but dropping
     # them SILENTLY made a partial fetch indistinguishable from a complete one.
     no_text = 0
-    for canon, cats, titles in planned:
+    for canon, titles, first_cat in planned:
         # Rebind for THIS fetch unit -- the discovery loop above left `_short` on the last
         # canonical class that had categories, and the fetch progress heartbeat closed over
         # that stale value, so every "<class> fetching d/t" line named whatever discovery
@@ -404,10 +435,22 @@ def catalogue(source_name, verbose=True):
                 continue
             entries.append({
                 "name": title,
+                # THE CATEGORY THIS TITLE ACTUALLY CAME FROM (order 6eb20e8d3565), not
+                # `cats[0]` -- see the discovery loop above for what that cost. The fallback is
+                # the CANONICAL CLASS rather than another category: a title with no recorded
+                # provenance is one ranking or cleaning dropped and re-found, and "Event" is
+                # then the true and least-wrong thing that can be said about it.
+                #
+                # This is not a cosmetic field. corpus_db.py indexes `type` into the queryable
+                # corpus index, and manifest_builder.py puts the entry dict itself into the
+                # model prompt while prompts/system_style.txt tells the model to pick the
+                # closest fit to the entry's type -- so a wrong type is carried into finished
+                # prose.
+                #
                 # _singular(), never .rstrip("s") -- rstrip takes a character SET, so it ate
                 # every trailing 's' and stored Goddesse / Bosse / Classe / Prince / Colossu
                 # into the record. (Order 0a5019b2527e.)
-                "type": _singular(cats[0]) if cats else _singular(canon.split(" (")[0]),
+                "type": _singular(first_cat.get(title) or canon.split(" (")[0]),
                 "description": text,
                 "scale_note": "",
                 "category": canon,
@@ -560,7 +603,9 @@ def main():
                 return
             roll_by_name[name]["entry_count"] = len(record["entries"])
             roll_by_name[name]["status"] = "catalogued"
-            if not save_roll(roll):
+            # NAMED, so the roll write is a key-wise merge of the row this worker just changed
+            # rather than a land of a snapshot taken when the run began (order f818a77293fc).
+            if not save_roll(roll, [name]):
                 # The record already landed (checked above); only the roll's bookkeeping of it
                 # did not. Not a failed catalogue -- entry_count/status just don't reflect it in
                 # SWEEP_ROLL.json yet, so a later save_roll() (or a rebuild) is what recovers it.

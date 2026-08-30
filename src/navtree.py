@@ -311,6 +311,23 @@ def main():
     elif args.write:
         print("\nNOT WRITTEN — audit must be clean first")
         return 1
+    # THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT (order 3726ed72236c), and this
+    # function returned 0 down two paths where the run did not do what it printed:
+    #
+    #   * the audit record was DENIED. The paragraph above the write is an argument that
+    #     "printed output that scrolls off is a finding that exists nowhere" -- and then the one
+    #     channel that does NOT scroll off said success.
+    #   * the audit found problems on a read-only run. `--write` is already refused when
+    #     `problems` is non-empty (rc 1 just above); a run WITHOUT `--write` reported every
+    #     problem and exited 0, so the same tree gave two different verdicts depending on a flag
+    #     that does not change what was found.
+    #
+    # This is the shape resync_roll.py was corrected for under order 8605c2ed6061 ("generate.py,
+    # weave_index.py, sweep.py, feats.py and handbuilt.py all say so at this same line"). It is
+    # LATENT today -- nothing in src/ shells out to navtree.py -- which is exactly why it is one
+    # line now rather than an outage the first time something does.
+    if not audit_landed or problems:
+        return 1
     return 0
 
 

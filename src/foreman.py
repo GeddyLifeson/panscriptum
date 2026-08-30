@@ -1504,11 +1504,10 @@ def owner_queue(items):
     # sits inside `if a.loop:`). The loser's half-written owner queue then lands over the
     # winner's, and publish.py copies it into the export tree on its own clock. Same
     # `"%s.%d.%d.tmp"` shape as silence.py:408, inline rather than a new helper.
-    _scratch_owner_queue = "%s.%d.%d.partial" % (FOR_OWNER, os.getpid(), threading.get_ident())
-    _tmp = _scratch_owner_queue
-    with open(_scratch_owner_queue, "w", encoding="utf-8") as f:
+    _tmp = "%s.%d.%d.tmp" % (FOR_OWNER, os.getpid(), threading.get_ident())
+    with open(_tmp, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
-    if not silence.replace_retry(_scratch_owner_queue, FOR_OWNER):
+    if not silence.replace_retry(_tmp, FOR_OWNER):
         silence.note("foreman.py:for-owner-write")
         # A denied replace leaves the scratch file on disk, and a pid/thread-qualified name is
         # uniquely named per writer, so it accumulates rather than overwrites -- exactly the

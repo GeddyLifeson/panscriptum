@@ -89,6 +89,29 @@ def _log(msg):
         silence.note("autostart.py:log")
 
 
+def _launcher_py():
+    """The interpreter to BAKE INTO the launcher: pythonw.exe where one exists beside PY.
+
+    `PY = sys.executable` is right for the children this module spawns, because every one of
+    those carries `_NO_WIN` and Windows honours it. The .vbs has no such flag -- WScript.Shell
+    only gets a window STYLE -- so the interpreter itself is the only place the owner's "no
+    console window may ever appear" directive can be enforced at logon.
+
+    IT ALSO MAKES THE NEW STALENESS TEST HONEST. The launcher installed on this machine runs
+    `pythonw.exe` while `sys.executable` under an interactive shell is `python.exe`, so a body
+    built from PY differs from what is on disk in exactly one word -- and installed_state()
+    would have reported a perfectly good launcher as STALE and invited an operator to overwrite
+    it with the console-allocating twin. Falls back to PY when there is no pythonw beside it
+    (a non-Windows tree, or an embedded interpreter), which is the honest answer there.
+    """
+    base, name = os.path.split(PY)
+    if name.lower() == "python.exe":
+        cand = os.path.join(base, "pythonw.exe")
+        if os.path.exists(cand):
+            return cand
+    return PY
+
+
 def _vbs_body():
     """A hidden launcher. WScript.Shell with window style 0 leaves no console behind.
 
@@ -103,7 +126,7 @@ def _vbs_body():
     # installed.
     q = ' & Chr(34) & '
     script = os.path.join(SRC, "autostart.py")
-    cmd = ('Chr(34) & "' + PY + '"' + q + '" -u "' + q + '"' + script + '"' + q +
+    cmd = ('Chr(34) & "' + _launcher_py() + '"' + q + '" -u "' + q + '"' + script + '"' + q +
            '" --watch"')
     return (
         'Set sh = CreateObject("WScript.Shell")' + chr(10) +
@@ -336,6 +359,14 @@ def watch(read_hours=10):
     #
     # What can be done without that ruling is refuse to let the condition be silent. A person
     # reading autostart.log now learns that this watchdog is on old code, and what to do about it.
+    #
+    # AND NOT `codewatch.claim_singleton("autostart")`, WHICH THE ORDER ALSO ASKS FOR. That
+    # helper is `twins(who)` plus an exit, and `_twin_watchdog()` above is the STRICTER version
+    # of the same idea: it additionally requires "--watch" in the candidate's argv. autostart.py
+    # is also invoked as `--install` and `--status`, so a bare twins() check would see a
+    # concurrent `--status` run as a twin and exit the only watchdog on the machine. Swapping it
+    # in would be a regression, so the singleton half of that order is already satisfied, by the
+    # better instrument. (checked maintenance-2026-08-29 queueC05)
     try:
         import codewatch
         codewatch.stamp("autostart")

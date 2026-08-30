@@ -153,19 +153,42 @@ def audit(texts):
     }
 
 
+def _cut(shown, total, unit):
+    """The house line for a ranking that had to be cut, from repass_bands.py:106-113.
+
+    THREE OF THE FOUR RANKINGS IN `report` WERE CUT WITH NO REMAINDER (order 1cb7bd3ad0ce).
+    OPENING SHAPES, EXACT OPENERS and VOCABULARY printed a `most_common(...)` window under a
+    heading that describes the CORPUS -- "two entries should not start the same way" -- with no
+    count of how many shapes or openers there were in total, so a corpus with 400 repeated
+    openers and a corpus with 9 printed identically. This is the report a person reads to decide
+    whether the voice is converging, i.e. a ranking somebody reads to act on: ranking is fine
+    and stays, the REMAINDER has to be visible (Hard Rule 0).
+    """
+    if shown < total:
+        return (f"showing {shown:,} of {total:,} {unit}; "
+                f"{total - shown:,} more not shown")
+    return f"{total:,} {unit}, all shown"
+
+
 def report(a, top=8):
     n = a["entries"]
     print("=" * 84)
     print(f"STYLE AUDIT — {n:,} entries")
     print("=" * 84)
 
-    print("\nOPENING SHAPES (two entries should not start the same way)")
-    for shape, c in a["shapes"].most_common(top):
+    shapes = a["shapes"].most_common(top)
+    print(f"\nOPENING SHAPES (two entries should not start the same way) "
+          f"— {_cut(len(shapes), len(a['shapes']), 'distinct shapes')}")
+    for shape, c in shapes:
         flag = "  OVERUSED" if c / max(1, n) > 0.12 else ""
         print(f"   {c:>5}  {c/max(1,n):>6.1%}  {shape}{flag}")
 
-    print("\nEXACT OPENERS repeated")
+    # TWO CUTS, NOT ONE: the `most_common(top)` window AND the `c > 1` filter. The population
+    # this block is about is the openers that REPEAT, so that is what the remainder counts --
+    # saying "8 of 40,000 openers" here would answer a question nobody asked.
+    repeated_total = sum(1 for c in a["openers"].values() if c > 1)
     reps = [(o, c) for o, c in a["openers"].most_common(top) if c > 1]
+    print(f"\nEXACT OPENERS repeated — {_cut(len(reps), repeated_total, 'repeated openers')}")
     if reps:
         for o, c in reps:
             print(f"   {c:>5}  {o}")
@@ -188,10 +211,18 @@ def report(a, top=8):
     print(f"   entries ending on a turn  {a['turn_endings']:,}  ({a['turn_rate']:.1%})"
           f"{'   OVER (target <= 25%)' if a['turn_rate'] > 0.25 else ''}")
 
-    print("\nVOCABULARY carrying unusual weight")
-    for w, c in a["vocab"].most_common(10):
-        if c / max(1, n) > 0.5:
-            print(f"   {c:>5}  {c/max(1,n):>5.2f}/entry  {w}")
+    # THE CAP IS GONE HERE RATHER THAN DECLARED (order 1cb7bd3ad0ce). This was
+    # `most_common(10)` with the rate test applied INSIDE the loop, which is two separate cuts:
+    # a word carrying more than half an occurrence per entry could be ranked eleventh and never
+    # print at all, and nothing said so. The rate test is the population -- these are the words
+    # actually carrying unusual weight -- so it is applied first and every one of them prints.
+    # The filter keeps the list naturally short; a corpus where it does not is a corpus whose
+    # whole list a reader needs.
+    heavy = [(w, c) for w, c in a["vocab"].most_common() if c / max(1, n) > 0.5]
+    print(f"\nVOCABULARY carrying unusual weight "
+          f"— {_cut(len(heavy), len(heavy), 'words over 0.50/entry')}")
+    for w, c in heavy:
+        print(f"   {c:>5}  {c/max(1,n):>5.2f}/entry  {w}")
 
 
 def main():
@@ -201,15 +232,61 @@ def main():
     args = ap.parse_args()
 
     if args.self_test:
-        # The checker has to catch a corpus that is obviously repetitive, or it proves nothing.
+        # THIS SELF-TEST USED TO PASS WITH THE SHAPE DETECTOR COMPLETELY BROKEN (order
+        # 2487a74f7027). It asserted `a["banned"] and max(a["shapes"].values()) >= 2`, and
+        # `max(...) >= 2` is satisfied by ANY two entries sharing a shape -- including the
+        # degenerate case where `opener_shape` returns the SAME value for every entry.
+        # Reproduced by monkeypatching it to return "": the shapes became {"": 3} and ok was
+        # STILL True, the broken detector reporting MORE apparent repetition (3) than the
+        # working one (2). Over-collapsing is precisely the regression `opener_shape`'s own
+        # docstring records -- "reported 27% repetition where there was none" -- so the test was
+        # blind to the one fault the function has actually had. `a["banned"]` truthiness had the
+        # same hole: a `TELLS.scan` degenerated to matching one pattern still satisfies it.
+        # And there was no negative control at all, so a detector that flagged EVERYTHING passed
+        # too. A check that cannot fail looks exactly like a check that passed, and this one
+        # returns an exit code, so it gets read as a verdict.
+        #
+        # The fixtures are now asserted by NAME and by COUNT, which fails an over-split as
+        # loudly as an over-collapse, and a second VARIED fixture is required to come back
+        # clean.
         bad = ["◈ ALPHA\nThe Record. Alpha is a city of the northern reach. It endures.\n"
                "◈ BETA\nThe Record. Beta is a city of the southern reach. It endures.\n"
                "◈ GAMMA\nThe Record. Gamma is not merely a fortress; it is a warning — and it "
                "stands as a testament to the age. And so it remains.\n"]
+        # THE NEGATIVE CONTROL: three entries that share no construction and trip no tell.
+        # Deliberately plain prose -- if this one ever comes back dirty, the finding is in the
+        # detector, not in the fixture.
+        good = ["◈ DELTA\nThe Record. Delta rose from silt at the mouth of a slow river.\n"
+                "◈ EPSILON\nThe Record. Merchants keep three ledgers here, and audit none of "
+                "them.\n"
+                "◈ ZETA\nThe Record. Nobody agrees where the wall ends.\n"]
         a = audit(bad)
         report(a)
-        ok = (a["banned"] and max(a["shapes"].values()) >= 2)
-        print(f"\nself-test {'PASSED' if ok else 'FAILED'} — the checker detects repetition")
+        b = audit(good)
+
+        # The three tells GAMMA is built to trip, asserted as a SUBSET rather than as the exact
+        # set on purpose: `tells.py` is the single source for the banned list and it is expected
+        # to GROW, so an equality here would be a net that has to be edited before an unrelated
+        # addition can land. The over-firing direction is covered from the other side instead --
+        # the varied fixture must report NO tell at all.
+        want_tells = {"not merely X but Y", "stands as a testament", "word: testament"}
+        checks = [
+            ("the repetitive fixture splits into its three entries", a["entries"] == 3),
+            ("ALPHA and BETA collide on one shape", a["shapes"].get("NAME is a city") == 2),
+            ("GAMMA does not join them", a["shapes"].get("NAME is not merely") == 1),
+            ("and no shape is invented or collapsed away", len(a["shapes"]) == 2),
+            ("GAMMA's tells are found by name: " + ", ".join(sorted(want_tells)),
+             want_tells <= set(a["banned"])),
+            ("the varied fixture splits into its three entries", b["entries"] == 3),
+            ("a varied corpus repeats no shape", max(b["shapes"].values()) == 1),
+            ("and trips no banned tell", not b["banned"]),
+        ]
+        print()
+        for label, passed in checks:
+            print(f"   {'ok  ' if passed else 'FAIL'}  {label}")
+        ok = all(passed for _, passed in checks)
+        print(f"\nself-test {'PASSED' if ok else 'FAILED'} — the checker detects repetition, "
+              f"and leaves a corpus that has none alone")
         return 0 if ok else 1
 
     files = sorted(glob.glob(os.path.join(args.path, "**", "*.md"), recursive=True)) + \

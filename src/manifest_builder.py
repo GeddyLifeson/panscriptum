@@ -541,27 +541,46 @@ def main():
     # answer to a question nobody re-asked.
     report_path = os.path.join(HERE, "output/index/unassigned_sources.md")
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
-    if not unassigned or args.include_unassigned:
-        with open(report_path, "w", encoding="utf-8") as f:
-            f.write("# Sources with no spine code yet\n\n")
-            f.write("**None.** Every populated source on the Acquisitions Roll resolves to a "
-                    "real spine code as of this manifest build.\n"
-                    if not unassigned else
-                    "Generated with `--include-unassigned`: provisional codes were used, so "
-                    "nothing was skipped. These still need real assignments.\n")
+    # ONE WRITER, AND THE LIST IS NEVER THE THING THAT VARIES (order 90cefdab8da8). There were
+    # two writers here, and only the SKIPPED branch named the sources. Run with
+    # `--include-unassigned` the file said "These still need real assignments." and then listed
+    # nothing -- a sentence with no antecedent, in the file CLAUDE.md's Hard Rule 2 points the
+    # operator at, on the one run after which somebody actually has to go and assign spine codes
+    # to the sources just shelved under UNSORTED.<Category>.PROVISIONAL. Which sources were
+    # BUILT under a provisional code and which were SKIPPED is a difference of header, not of
+    # whether the reader is told who they are; the provisional code each one received is printed
+    # too, since that is the string that has to be replaced in the charter.
+    if unassigned and args.include_unassigned:
+        header = (f"{len(unassigned)} populated sources aren't in the charter's Acquisitions "
+                  f"Index appendix yet (00_MASTER_CHARTER.md). Generated with "
+                  f"`--include-unassigned`: provisional codes were used, so nothing was skipped "
+                  f"-- these books exist, shelved under clearly-marked provisional codes. They "
+                  f"still need real assignments; extend the appendix following its existing "
+                  f"Collection/Set groupings and rebuild.\n\n")
+    elif unassigned:
+        header = (f"{len(unassigned)} populated sources aren't in the charter's Acquisitions "
+                  f"Index appendix yet (00_MASTER_CHARTER.md), so they were skipped from this "
+                  f"manifest. Assign real spine codes for these (extending the appendix, "
+                  f"following its existing Collection/Set groupings) before generating their "
+                  f"books, or re-run with --include-unassigned to generate them now under "
+                  f"clearly-marked provisional codes.\n\n")
+    else:
+        header = ("**None.** Every populated source on the Acquisitions Roll resolves to a "
+                  "real spine code as of this manifest build.\n")
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write("# Sources with no spine code yet\n\n")
+        f.write(header)
+        # Uncapped, per Hard Rule 0: this is the outstanding curatorial work, in full.
+        for r in sorted(unassigned, key=lambda r: r["category"]):
+            f.write(f"- **{r['name']}** ({r['category']}, {r.get('entry_count', 0)} entries)"
+                    + (f" -- built as `{provisional_spine(r)}`\n"
+                       if args.include_unassigned else "\n"))
     if unassigned and not args.include_unassigned:
-        with open(report_path, "w", encoding="utf-8") as f:
-            f.write("# Sources with no spine code yet\n\n")
-            f.write(f"{len(unassigned)} populated sources aren't in the charter's Acquisitions "
-                    f"Index appendix yet (00_MASTER_CHARTER.md), so they were skipped from this "
-                    f"manifest. Assign real spine codes for these (extending the appendix, "
-                    f"following its existing Collection/Set groupings) before generating their "
-                    f"books, or re-run with --include-unassigned to generate them now under "
-                    f"clearly-marked provisional codes.\n\n")
-            for r in sorted(unassigned, key=lambda r: r["category"]):
-                f.write(f"- **{r['name']}** ({r['category']}, {r.get('entry_count', 0)} entries)\n")
         print(f"\n{len(unassigned)} populated sources have NO spine code in the charter yet -- "
               f"skipped. See {report_path}")
+    elif unassigned:
+        print(f"\n{len(unassigned)} populated sources have NO spine code in the charter yet -- "
+              f"BUILT under provisional codes. Each one is named in {report_path}")
 
     # The unassigned-sources report above is refreshed either way -- it describes the ROLL, not
     # the manifest, and letting a denied manifest write leave it stale would be the same defect

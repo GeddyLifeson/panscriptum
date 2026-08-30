@@ -240,9 +240,28 @@ def run():
     # rungs are rung-threat scales, not combat records. And an inert blade has no agency to score
     # on most axes at all, while a person who acts does, however modestly.
     order = ["A Sword", "The Skate Guy", "Goku", "Yggdrasil", "The Seat of the Creator"]
-    vals = {}
+    # AN ASSAY REFUSAL IS NOT A READING AT THE BAND FLOOR (order cdec5a03b731). This was
+    # `vals[name] = A.LADDER.index(a["anchor"]) + (res.get("decimal") or 0.0)`, and `assay.assay`
+    # has two documented paths that return `decimal: None` with a reason -- no worksheet
+    # (assay.py:886, honesty theorem H5) and "no axis scored from cited feats; band-only"
+    # (assay.py:897). The first is unreachable here because every call passes
+    # `worksheet='anchors.py'`; the SECOND is one edit away in a file whose scores are
+    # hand-written constants. `or 0.0` turned that refusal into a ladder value pinned at the band
+    # floor and then the monotone invariant graded it as though it were a reading, with the
+    # reason printed by `run()` and thrown away -- "A CHECK WHOSE RESULT IS PRINTED AND DISCARDED
+    # CANNOT FAIL", which is this file's own __main__ comment. It also collapsed a genuine
+    # decimal of 0.0 into the refusal case, so the two could not be told apart at all.
+    #
+    # `bool` is excluded explicitly because it is a subclass of `int`: a `decimal` of True would
+    # otherwise arrive here as the number 1 and grade cleanly.
+    scored = {name: a for name, a, _res, _inst, _col in rows}
+    vals, refused = {}, []
     for name, a, res, inst, col in rows:
-        vals[name] = A.LADDER.index(a["anchor"]) + (res.get("decimal") or 0.0)
+        dec = res.get("decimal")
+        if isinstance(dec, bool) or not isinstance(dec, (int, float)):
+            refused.append((name, str(res.get("reason") or "no reason recorded")))
+            continue
+        vals[name] = A.LADDER.index(a["anchor"]) + dec
 
     # EVERY INVARIANT THIS FILE GRADES, AND EVERY ONE OF THEM CAN FAIL (order 237356c82d06).
     #
@@ -268,19 +287,35 @@ def run():
     # declared ladder and carries the 2026-08-25 ruling recorded above, which is exactly what
     # the instrument is being checked against. Membership is asserted instead, which keeps the
     # declaration and refuses the drift.
-    ungraded = sorted(set(vals) - set(order))
-    unanchored = [n for n in order if n not in vals]
+    # MEMBERSHIP IS ASKED OF `scored`, NOT OF `vals`. They were the same dict until an assay
+    # refusal stopped putting its anchor in `vals`; asking this question of `vals` would report a
+    # refused anchor as ABSENT FROM ANCHORS, which is a different fault with a different repair.
+    ungraded = sorted(set(scored) - set(order))
+    unanchored = [n for n in order if n not in scored]
     verdict("the declared ladder grades every anchor",
             not ungraded and not unanchored,
             ("in ANCHORS but ungraded: %s; " % ", ".join(ungraded) if ungraded else "")
             + ("named in the ladder but absent from ANCHORS: %s"
                % ", ".join(unanchored) if unanchored else ""))
 
-    # -- 2. the ordering itself. Skipped rather than crashed if a name is missing above.
+    # -- 1b. and every anchor must have produced a DECIMAL to order by. Graded ahead of the
+    # monotone check because it decides whether that check has anything to read (cdec5a03b731).
+    verdict("every anchor produced a decimal",
+            not refused,
+            "; ".join("%s: %s" % (n, why) for n, why in refused))
+
+    # -- 2. the ordering itself. Skipped rather than crashed if a name is missing above, and
+    # skipped rather than graded against a floor value if an assay declined to produce one.
+    mono_evaluated = False
     if unanchored:
         mono = False
         mono_detail = "not evaluated -- the ladder names an anchor that does not exist"
+    elif refused:
+        mono = False
+        mono_detail = ("not evaluated -- %s produced no decimal, so there is no reading to place "
+                       "on the ladder" % ", ".join(n for n, _why in refused))
     else:
+        mono_evaluated = True
         mono, prev = True, None
         for n in order:
             if prev is not None and vals[n] < vals[prev]:
@@ -353,10 +388,25 @@ def run():
         if detail:
             print(f"              {detail}")
 
-    if not mono:
-        print("\n  INVARIANT VIOLATED. The anchors do not ascend from floor to ceiling, which "
-              "means the instrument disagrees with the ordering it was calibrated against. "
-              "This is a reading about the ASSAY, not about this script.")
+    # THE MESSAGE NO LONGER NAMES A CULPRIT (order e954295c02e1). The comment ninety lines above
+    # records the finding worth keeping from the 2026-08-25 ruling -- "A failing invariant says
+    # two things disagree; it does not say which is lying, and this file's own message ('a
+    # reading about the ASSAY') quietly asserted that it did" -- and the message was never
+    # changed. It said the assay had drifted; the ruling found the DECLARED LADDER wrong at two
+    # of its four steps and the instrument right at both, and this project spent weeks reading a
+    # red invariant as assay drift on the strength of that sentence. The printed values line is
+    # the useful half and is kept.
+    #
+    # Only printed when the check actually RAN. `mono` is also False when the ordering was
+    # skipped, and telling a reader the anchors do not ascend when nothing was compared would be
+    # the same fault in the other direction; the skipped case already states itself in
+    # `mono_detail` above.
+    if mono_evaluated and not mono:
+        print("\n  INVARIANT VIOLATED. The anchors do not ascend from floor to ceiling: the "
+              "assay and the DECLARED LADDER above disagree. This does not say which is wrong "
+              "-- on 2026-08-25 the declared ladder was wrong at two of four steps and the "
+              "instrument was right at both. Read the scores against the charter's axes before "
+              "assuming the assay drifted.")
 
     # ------------------------------------------------------- REPORTED, NOT GRADED: an OWNER
     # QUESTION, and it is the thing the missing assertions were hiding.

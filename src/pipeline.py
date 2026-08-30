@@ -2380,8 +2380,22 @@ def phase_weave(c, st):
     # thirty distinct worlds are all called Earth, and a catalogue that knows this and still files
     # them under one name is worse off than before resolution ran.
     import onomast as O
-    named = O.name_worlds(resolved)
-    landed.append(land_json(os.path.join(HERE, "data/ONOMASTICON.json"), named, indent=2))
+    # UNREADABLE PRIOR -> NO WRITE, and the phase stays open so the next run redoes it.
+    # `name_worlds` used to be handed `{}` for a corrupt ONOMASTICON.json and this line wrote
+    # that back, destroying every designation the file held in one cycle (order 549069e9c298).
+    # The loader now refuses instead, and the refusal is turned into a False in `landed` --
+    # `gate_done` below already leaves the unit open on a False, which is exactly the right
+    # outcome: nothing here can repair the file, and the phase must not be marked complete
+    # sitting over an onomasticon nobody could read.
+    try:
+        named = O.name_worlds(resolved)
+    except O.OnomasticonUnreadable as e:
+        log("  onomasticon: REFUSED — %s" % e)
+        silence.note("pipeline.py:phase_weave-onomasticon-unreadable")
+        named = None
+        landed.append(False)
+    if named is not None:
+        landed.append(land_json(os.path.join(HERE, "data/ONOMASTICON.json"), named, indent=2))
     # `named` is the WHOLE onomasticon, retired records included -- that is what makes the file
     # append-only, and it is the point of order 9309a040f208. Counting it whole reports withdrawn
     # designations as worlds this phase has just named, and inflates the carried-name figure with
@@ -2390,11 +2404,12 @@ def phase_weave(c, st):
     # untruth as the one this fixes"); this is that arithmetic, in the phase's log line. No
     # difference today because nothing is retired yet -- which is precisely why the overstatement
     # would have arrived unannounced. (order 65e5735ba6dd)
-    live = {cid: v for cid, v in named.items() if not O.is_retired(v)}
-    endos = len({v["endonym"] for v in live.values()})
-    log(f"  onomasticon: {len(live):,} worlds given designations across {endos} carried names"
-        + (f"; {len(named) - len(live):,} retired designation(s) carried forward, never reissued"
-           if len(named) != len(live) else ""))
+    if named is not None:
+        live = {cid: v for cid, v in named.items() if not O.is_retired(v)}
+        endos = len({v["endonym"] for v in live.values()})
+        log(f"  onomasticon: {len(live):,} worlds given designations across {endos} carried names"
+            + (f"; {len(named) - len(live):,} retired designation(s) carried forward, never"
+               f" reissued" if len(named) != len(live) else ""))
 
     ok = gate_done(st, "weave", landed)
     st["units_done"] += 1

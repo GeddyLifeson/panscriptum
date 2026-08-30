@@ -581,6 +581,40 @@ def dof_coverage():
             "one_to_one": len(missing) == 0 and len(CUSTODES) == len(DEGREES_OF_FREEDOM)}
 
 
+def table_faults():
+    """Properties the CUSTODES table ASSERTS that its own arithmetic makes inert. -> [str].
+
+    ZERO TILT WITH A NON-ZERO SENSITIVITY IS THE ONE THIS EXISTS FOR (order d27e95a57233).
+    `_custos_reading` computes `evidential_part = tilt * evidence_sensitivity * (1 - q)`, so a
+    Custos entered with `tilt=0.0` is frozen against attestation quality no matter what her
+    `evidence_sensitivity` declares -- while the column's own header two hundred lines above says
+    "High sensitivity means their disagreement IS reducible by fieldwork". Threnody sat exactly
+    there: she declared 0.10 and her evidential part was 0.0 on every reading ever taken, found
+    by audit rather than by anything in the tree, and closed as an INSTANCE (order 39f19f7e646c).
+    Both zero-tilt Custodes declare 0.0 today, so the table is consistent as it stands; what was
+    unrefused was the COUPLING, which is why this module keeps producing the same class of
+    finding one entry at a time (see also the dispersive flag, 90eba4982972, and the arguments
+    no caller passes, 2af7ca515157 / f467f662be4b).
+
+    Returns a list of sentences, empty when the table is clean, in the shape `dof_coverage()`
+    above uses: a property of the table, computed rather than asserted, so a caller can print it
+    or fail on it. THE BATTERY HOOK IS DELIBERATELY NOT WIRED HERE -- `src/verify_math.py` and
+    `src/drill.py` were owned by another agent for the 2026-08-29 shift, which is the same reason
+    the order was filed rather than fixed. One line there against this function turns the next
+    occurrence into a red battery instead of an audit finding three sweeps later.
+    """
+    faults = []
+    for name, c in sorted(CUSTODES.items()):
+        if c.get("tilt") == 0.0 and c.get("evidence_sensitivity"):
+            faults.append(
+                "%s declares evidence_sensitivity=%s with tilt=0.0, so her evidential part is "
+                "0.0 on every reading -- the sensitivity is a property asserted in the table and "
+                "enforced nowhere. Either give her a tilt or declare the sensitivity 0.0 with a "
+                "written reason, as Threnody's and Lumen's entries do."
+                % (name, c.get("evidence_sensitivity")))
+    return faults
+
+
 def main():
     print("=" * 96)
     print("THE COLLEGE OF CUSTODES — one standpoint per degree of freedom")
@@ -590,6 +624,13 @@ def main():
     print(f"Custodes                        : {cov['custodes']}   "
           f"one-to-one: {cov['one_to_one']}")
     print(f"unmanned directions             : {cov['unmanned'] or 'none'}")
+    # Printed beside the coverage line because it is the same kind of fact: a property of the
+    # table rather than of a reading. Uncapped -- every fault is named, there is never a long
+    # list of these, and a table fault is precisely what a person is here to act on.
+    _faults = table_faults()
+    print(f"table faults                    : {len(_faults) or 'none'}")
+    for _f in _faults:
+        print(f"   FAULT: {_f}")
 
     print(f"\n{'Custos':<11}{'degree of freedom':<17}{'origin':<16}refuses")
     print("-" * 96)

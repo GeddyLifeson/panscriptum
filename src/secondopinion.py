@@ -94,6 +94,21 @@ _SCRIPTS = os.path.join(os.path.dirname(sys.executable), "Scripts")
 _NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 
+def _message(s, width=160):
+    """A finding's message, cut to `width` WITH A MARKER when it does not fit. -> str.
+
+    Both cuts below used to be a bare `[:160]` with nothing saying the message had been shortened
+    -- so a reader could not tell a terse finding from a clipped one. House doctrine settled this
+    at `corpus_db._cell` (order 6160ef68b229): display truncation is fine because it is
+    reversible, and refused when nothing marks it. It matters more here than the small numbers
+    suggest (measured live: 2 of 1,071 ruff findings run past 160, the longest 162), because
+    `file_orders()` puts `hits[0]["message"]` straight into a work order body, and the queue's own
+    field is uncapped precisely because a cap once ate the remedy off 43 of them.
+    """
+    s = str(s or "")
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
+
+
 def _exe(name):
     """-> a runnable path for a console script, or None. Checks the interpreter's own Scripts
     directory before PATH, because on this machine that directory is not on PATH."""
@@ -247,7 +262,7 @@ def _ruff(paths):
         out.append({"tool": "ruff", "code": x.get("code") or "?",
                     "file": os.path.basename(x.get("filename") or ""),
                     "line": loc.get("row") or 0,
-                    "message": (x.get("message") or "")[:160]})
+                    "message": _message(x.get("message"))})
     return "RAN", out
 
 
@@ -273,7 +288,7 @@ def _vulture(paths, min_confidence=90):
             continue
         out.append({"tool": "vulture", "code": "vulture",
                     "file": os.path.basename(parts[0]),
-                    "line": lineno, "message": parts[2].strip()[:160]})
+                    "line": lineno, "message": _message(parts[2].strip())})
     # VULTURE'S CONTRACT, MEASURED ON THIS MACHINE 2026-08-27 RATHER THAN ASSUMED:
     #   rc=0  it looked and found nothing
     #   rc=3  it looked and FOUND DEAD CODE -- the normal, useful outcome
@@ -356,9 +371,31 @@ def missing(got):
 
 
 def mine_says(paths=None):
-    """The house detectors' verdict on the same three questions, for comparison. -> dict."""
+    """The house detectors' verdict on the same three questions, for comparison. -> dict.
+
+    SCOPED WHERE SCOPING IS POSSIBLE, AND SAID OUT LOUD WHERE IT IS NOT (order 87e0f463f23a).
+    The comment below records this function being fixed once already, for exactly this: "THE
+    SAME GROUND, or the comparison is worthless ... Comparing unlike measurements is this
+    project's most expensive recurring reporting bug." The fix reached ONE of the three house
+    detectors and the other two were left, so `report(['src', 'prompts'])` printed outside-tool
+    counts over two trees against house counts over one, and a secrets column measured against
+    `paths[0]` alone -- three different denominators on one line, under the word "vs". The
+    default `[SRC]` hid all of it, which is why it would have been wrong the first time anybody
+    scoped the call rather than the first time anybody ran it.
+
+    Three detectors, three different capabilities, and the record now says which is which:
+      * `silence.audit(root=None)` DOES take a root, and now gets one -- every root, summed,
+        because `run(paths)` hands every path to the outside tools too.
+      * `publish.scan_for_secrets(root)` took `(paths or [SRC])[0]` and silently dropped
+        `paths[1:]`. Summed over every root for the same reason.
+      * `liveness.scan()` takes NO root (src/liveness.py:197) and always reads `src/`. It cannot
+        be scoped, so it is REPORTED as unscoped rather than passed off as like-for-like --
+        `liveness_scope` carries the ground it actually measured, and `report` prints it whenever
+        that is not the ground everything else was measured on.
+    """
     import liveness
-    out = {}
+    roots = [str(p) for p in (paths or [SRC])]
+    out = {"scope": list(roots), "liveness_scope": [SRC]}
     try:
         lv = liveness.scan()
         out["liveness"] = sum(len(v) for v in lv.values())
@@ -366,7 +403,7 @@ def mine_says(paths=None):
         silence.note("secondopinion.py:mine-liveness")
         out["liveness"] = None
     try:
-        out["silence"] = len(silence.audit() or [])
+        out["silence"] = sum(len(silence.audit(r) or []) for r in roots)
     except Exception:
         silence.note("secondopinion.py:mine-silence")
         out["silence"] = None
@@ -378,8 +415,7 @@ def mine_says(paths=None):
         # and the house scanner's 9 against the outsider's 0 looked like a disagreement when it
         # was an artefact of scope. Comparing unlike measurements is this project's most
         # expensive recurring reporting bug.
-        root = (paths or [SRC])[0]
-        out["secrets"] = len(publish.scan_for_secrets(root) or [])
+        out["secrets"] = sum(len(publish.scan_for_secrets(r) or []) for r in roots)
     except Exception:
         silence.note("secondopinion.py:mine-secrets")
         out["secrets"] = None
@@ -434,9 +470,55 @@ def file_orders(got, found_by="secondopinion"):
     return ids
 
 
+def _tree_fingerprint(roots):
+    """-> a digest of the .py files in `roots`, or None if any of them could not be read.
+
+    `codewatch.fingerprint` is the project's existing implementation of exactly this and is
+    called rather than reimplemented -- a second fingerprint that disagrees with the keeper's
+    would be worse than none. None propagates: an unreadable tree is not a matching digest, and
+    `report` treats "could not fingerprint" the same way it treats "the tree moved".
+    """
+    try:
+        import codewatch
+    except Exception:
+        silence.note("secondopinion.py:fingerprint-import")
+        return None
+    parts = []
+    for r in roots:
+        one = codewatch.fingerprint(r)
+        if one is None:
+            return None
+        parts.append(one)
+    return tuple(parts)
+
+
 def report(paths=None):
+    # THE TREE MUST HOLD STILL, OR NO NUMBER ON THIS PAGE IS A VERDICT (order 25a24f24716c).
+    # Observed three times in a row on 2026-08-29, minutes apart, against a src/ that held no
+    # secret: run 1 `secrets=0` with the AGREEMENT line, run 2 `secrets=1` with NO agreement
+    # line, run 3 `secrets=0` and the line back. `publish.scan_for_secrets` called directly
+    # between runs 2 and 3 returned []. Nothing was ever in src/ -- another shift agent was
+    # mid-write on a file when run 2's scan walked past it, and a partially-written line scanned
+    # as a hit. ruff moved 1033 -> 1067 and silence 737 -> 774 across the same three runs, for
+    # the same reason.
+    #
+    # The exposure is the whole product of this module. Its own docstring says the 0-vs-0
+    # agreement "is the most useful thing it could have said"; the inverse is that `secrets=1`
+    # against detect-secrets' 0 tells a reader the house scanner found something a mature outside
+    # tool missed -- this module's stated MINE-NOT-THEIRS finding, which is meant to be filed and
+    # investigated -- and nothing on the page distinguished that from a torn read. It is also the
+    # module's own doctrine turned on itself: it exists because "no findings looks exactly like a
+    # clean bill of health", and the mirror is that a tool reading a file mid-write produces a
+    # finding, and a finding looks exactly like a fault.
+    #
+    # Neither scanner is at fault -- both are correct on the bytes they were given -- so the fix
+    # is reporting, not detection: fingerprint the ground before and after, and say so loudly if
+    # it moved underneath the scan.
+    _roots = [str(p) for p in (paths or [SRC])]
+    _before = _tree_fingerprint(_roots)
     got = run(paths)
     mine = mine_says(paths)
+    _after = _tree_fingerprint(_roots)
     print("SECOND OPINION — the same questions, asked by code this project did not write")
     print("=" * 78)
     for name, v in got.items():
@@ -461,12 +543,38 @@ def report(paths=None):
             print("  %-15s       of which %d are house-style divergences with a written reason "
                   "(NOT_FILED) — counted, not queued" % ("", waived))
     print("-" * 78)
+    # `liveness` CANNOT BE SCOPED, so the line says so rather than letting the reader assume the
+    # three counts share a denominator (order 87e0f463f23a).
+    _lv = mine["liveness"]
+    if [os.path.abspath(p) for p in (mine.get("liveness_scope") or [])] \
+            != [os.path.abspath(p) for p in (mine.get("scope") or [])]:
+        _lv = "%s (src/ only — liveness.scan() takes no root and cannot be scoped)" % _lv
     print("  house detectors: liveness=%s  silence=%s  secrets=%s"
-          % (mine["liveness"], mine["silence"], mine["secrets"]))
+          % (_lv, mine["silence"], mine["secrets"]))
+    if len(_roots) > 1:
+        print("  measured over: %s (silence and secrets summed across all of them)"
+              % ", ".join(_roots))
     ds = got["detect-secrets"]
+    _torn = (_before is None or _after is None or _before != _after)
+    if _torn:
+        print("  THE TREE CHANGED UNDERNEATH THIS SCAN (or could not be fingerprinted). "
+              "NO NUMBER ON THIS PAGE IS A VERDICT — the two scanners did not read the same "
+              "bytes, and a file caught mid-write scans as a finding. Re-run when the tree is "
+              "quiet before filing anything from it.")
     if ds["status"] == "RAN" and not ds["findings"] and mine["secrets"] == 0:
         print("  AGREEMENT: two independently-written scanners both find no secret. That is"
               " worth more than either of them saying it alone.")
+    elif ds["status"] == "RAN":
+        # THE ABSENCE OF THE AGREEMENT LINE IS NOT A SENTENCE. Until now a disagreement was
+        # reported by the agreement line simply not being printed, so "the two scanners differ"
+        # and "nobody checked" looked identical on the page. Named explicitly, with the two
+        # counts, so it can be read as the finding it is -- or dismissed as the torn read the
+        # line above may already have called it.
+        print("  DISAGREEMENT: detect-secrets found %d and publish.scan_for_secrets found %s. "
+              "%s" % (len(ds["findings"]), mine["secrets"],
+                      "Read the line above first." if _torn
+                      else "Two independent scanners differ; that IS the finding this module "
+                           "exists to surface. Re-scan the differing files before filing."))
     if ran_clean(got):
         print("  ALL THREE RAN AND ALL THREE FOUND NOTHING. This is the only sentence on this"
               " page that is an all-clear, and it requires every tool to have actually run.")

@@ -110,7 +110,13 @@ def load(path):
 
 
 def rosetta_index():
-    """{normalised name: (scale title, value, rank-within-scale)} across every mined scale."""
+    """{normalised name: (scale title, value, rank-within-scale, rows in that scale)}.
+
+    The fourth slot is not decoration and the docstring was a field behind the code: the
+    comparison eight lines down (`sc["n"] > idx[k][3]`) is what implements the
+    finer-grained-scale-wins rule, and `sweep()` reads `hit[3]` as the `of` field of
+    `row["native"]`. Both readers would break on the 3-tuple this used to promise.
+    """
     p = os.path.join(HERE, "data", "ROSETTA.json")
     if not os.path.exists(p):
         return {}
@@ -284,17 +290,32 @@ def report(rows, top=18):
         print(f"   {r['axes']:>4}{r['quantities']:>5}{r['chars']:>10,}   "
               f"{r['name'][:29]:<30}{r['source'][:25]:<26}{nat}")
 
+    # HARD RULE 0 ON BOTH LISTS BELOW. These were `most_common(10)` and `most_common(8)`, ranked
+    # and then cut with no "and N more" anywhere on the page. Measured against the live
+    # CHARACTER_SWEEP.json (141,428 rows): BIGGEST GAPS holds 6 sources, so its cut was latent,
+    # but REACHED BUT SILENT holds 168 SOURCES and printed 8 -- 160 invisible, and the count line
+    # above it reports CHARACTERS, so nothing on the page said the other 160 existed. That is the
+    # list a person reads to decide where mining is producing nothing, printed in the shape of a
+    # complete one. It also sat against this module's own docstring: "Nothing is hidden by this:
+    # every count that was printed before is still printed."
+    #
+    # The source name is no longer cut either. It is the LAST column, so nothing after it needs
+    # aligning, and it is the identity of the row a person acts on (one of the 168 runs to 82
+    # characters). `DEEPEST EVIDENCE` above keeps its `[:top]` -- that is an explicit --top
+    # request for the best N and is documented as such.
     print("\nBIGGEST GAPS — sources whose characters are unreachable")
     gap = collections.Counter(r["source"] for r in rows if not r["host"])
-    for s, c in gap.most_common(10):
-        print(f"   {c:>6,}  {s[:60]}")
+    print(f"   {len(gap):,} source(s)")
+    for s, c in gap.most_common():
+        print(f"   {c:>6,}  {s}")
 
     print("\nREACHED BUT SILENT — read, yet no axis found anything")
     sil = [r for r in rows if r["pages"] and not r["axes"]]
     bysrc = collections.Counter(r["source"] for r in sil)
-    print(f"   {len(sil):,} characters ({len(sil)/max(f['read'],1):.0%} of those read)")
-    for s, c in bysrc.most_common(8):
-        print(f"   {c:>6,}  {s[:60]}")
+    print(f"   {len(sil):,} characters ({len(sil)/max(f['read'],1):.0%} of those read) "
+          f"across {len(bysrc):,} source(s)")
+    for s, c in bysrc.most_common():
+        print(f"   {c:>6,}  {s}")
     return f
 
 

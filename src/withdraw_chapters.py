@@ -393,6 +393,30 @@ def main():
     else:
         print("DRY RUN -- pass --go to move")
 
+    # EVERY REFUSAL ABOVE WAS PRINTED AND THEN DISCARDED. `main()` had no `return` on any path
+    # and the entry point was a bare `main()`, so this tool exited 0 unconditionally -- including
+    # when the catalog write was DENIED, which is the state the module docstring calls "a file
+    # the library no longer knows it has", inverted: the files have moved and the catalog has
+    # not. The same for a missing archive manifest (a re-run cannot reproduce it), and for
+    # chapters that are still in the library or whose absence was never established.
+    #
+    # THE SIBLING IN THIS SAME TREE ALREADY ARGUED IT OUT. `address_space.py:467-480` hits the
+    # identical condition -- a denied `silence.write_json` on a file other modules read -- and
+    # returns 1: "Nothing here can retry the rename, so the honest act is to say so and exit
+    # nonzero ... a shelfmark read as fresh while it is stale is not recoverable by anything
+    # downstream." It applies with more force here, because this tool has already MOVED files by
+    # the time the write is refused.
+    #
+    # Console output is not the machine-readable channel: this is a `--go` tool an operator or a
+    # wrapper script runs, and rc 0 is the only thing a shell `&&`, a scheduled job or a keeper
+    # restart looks at. Every printed line above is unchanged -- the rc is additive, and the
+    # per-condition wording is still what a person reads. The dry-run path returns 0; a selector
+    # that matched nothing already raised SystemExit at :184 and never reaches here.
+    # Order b422c125e93e.
+    bad = ((not catalog_landed) or (not record_landed)
+           or bool(stuck or unreadable or collided or stray_stuck))
+    return 1 if (a.go and bad) else 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -42,6 +42,8 @@ THEORIES = {
             "he cannot be carried, thrown, or ride an insect",
             "he sinks through any floor rated below 70 kg on a 1 mm^2 footprint",
         ],
+        # `falsified` is THE SWITCH; `falsified_by` is the ARGUMENT. See surviving_theory.
+        "falsified": True,
         "falsified_by": "He rides a flying ant. Attested repeatedly. T1 is DEAD on the evidence.",
         "beta_scale": "very high, and rising as 3*log2(1/r)",
     },
@@ -56,6 +58,7 @@ THEORIES = {
             "every shrink is a multi-gigaton detonation",
             "every growth demands gigatons from nowhere",
         ],
+        "falsified": True,
         "falsified_by": "He shrinks indoors without levelling the building. T2 is DEAD.",
         "beta_scale": "catastrophic; conservation is the most expensive law in the codebook",
     },
@@ -77,6 +80,7 @@ THEORIES = {
             "the channel is a Vector asset -- if mass can traverse the bulk, so can he",
             "the Quantum Realm is the bulk seen from inside, not a small room",
         ],
+        "falsified": False,
         "falsified_by": "Nothing attested. This is the surviving theory.",
         "beta_scale": "moderate and CONSTANT -- the patch is the bulk's existence, paid once, "
                       "not per metre of shrink",
@@ -93,6 +97,7 @@ THEORIES = {
             "his chemistry changes with size; his neurons should not fire the same",
             "shrunk, he ought to perceive time differently by the same factor",
         ],
+        "falsified": True,
         "falsified_by": "He converses normally at any size. Strains T4 badly.",
         "beta_scale": "high; rewriting the mass-generation mechanism is a deep patch",
     },
@@ -143,6 +148,27 @@ def penetration_pressure(mass_kg, velocity_ms, contact_area_m2, contact_time_s=1
 
 
 def surviving_theory():
-    """Which candidate survives the attested evidence?"""
-    return {name: t for name, t in THEORIES.items()
-            if t["falsified_by"].startswith("Nothing attested")}
+    """Which candidate survives the attested evidence? -> {name: theory}, exactly one.
+
+    SELECTED ON A FIELD, NOT ON A PROSE PREFIX (order e7dc70db782b). This read
+    `t["falsified_by"].startswith("Nothing attested")`, so the module's entire output turned on
+    the first two words of an English sentence written to be READ. Reword T3's argument at all --
+    "No attested feat falsifies this", "Nothing on the record" -- and the function returns `{}`,
+    which says "no theory survives the evidence", silently, with nothing anywhere asserting that
+    exactly one should. A check that answers "no survivor" to a copy-edit is a check that cannot
+    fail in the useful direction, and this module's whole product is which theory stands.
+
+    So the switch and the argument are separate fields: `falsified` decides, `falsified_by` says
+    why and is free to be edited as prose. The arity is asserted rather than assumed -- an edit
+    that leaves two survivors or none RAISES instead of returning a plausible dict. Raised, not
+    `assert`ed, because `python -O` strips assertions and this is the guarantee the callers of
+    this module (once it has any -- see the open SWEEP34_FINDING order) will be relying on.
+    """
+    survivors = {name: t for name, t in THEORIES.items() if not t["falsified"]}
+    if len(survivors) != 1:
+        raise ValueError(
+            "scale_theories: exactly one theory must survive the evidence, and %d do (%s). "
+            "The candidate set was edited without re-deciding which one stands; fix the "
+            "`falsified` flags in THEORIES rather than letting this return a plausible answer."
+            % (len(survivors), ", ".join(sorted(survivors)) or "none"))
+    return survivors

@@ -270,6 +270,16 @@ def main():
             try:
                 with open(os.path.join(HERE, "data", path), encoding="utf-8") as f:
                     for k, v in json.load(f).items():
+                        # UNDERSCORE KEYS ARE NOT FIGHTERS. `zfighters.py` now records a failed
+                        # carry-in as `_incomplete: ["Son Goku"]` inside the file rather than
+                        # only in the silence ledger, so a reader can tell a partial roster from
+                        # a whole one. `value()` below would crash on it, and a merge that
+                        # crashes on the marker is a worse answer than the silence it replaced.
+                        if k.startswith("_"):
+                            if k == "_incomplete" and v:
+                                print("  NOTE: %s is missing %s -- the ranking below is "
+                                      "incomplete." % (path, ", ".join(map(str, v))))
+                            continue
                         combined.setdefault(k, v)
             except Exception:
                 silence.note("pantheon.py:merge")
@@ -286,9 +296,18 @@ def main():
             # Charter Part Two's magnitude table (00_MASTER_CHARTER.md), "Can threaten..." column.
             # M2-M4 and M7 are the bands Z_FIGHTERS.json actually populates today, which is why
             # M1/M5/M6 went unnoticed missing here -- add a band there and this must not go blank.
-            label = {"M1": "a city or nation", "M2": "a continent", "M3": "a planet",
-                     "M4": "a stellar system", "M5": "star clusters", "M6": "a galaxy",
-                     "M7": "a universe", "M8": "multiverses"}.get(b, "(no label on file for %s)" % b)
+            #
+            # ALL ELEVEN NOW, M0 THROUGH M10. That repair added M1/M5/M6 and left M0, M9 and M10
+            # out, so the comment above described a table more complete than the one under it --
+            # `estate.charter()` reads eleven bands off the live document and `assay.LADDER`
+            # scores against all eleven. Nothing went blank, because of the `.get` fallback, and
+            # that is exactly what made it survive: a gap with a fallback under it is invisible
+            # until the day a roster reaches the band. Order 1e1d0ddea7f2.
+            label = {"M0": "a village", "M1": "a city or nation", "M2": "a continent",
+                     "M3": "a planet", "M4": "a stellar system", "M5": "star clusters",
+                     "M6": "a galaxy", "M7": "a universe", "M8": "multiverses",
+                     "M9": "metaverses and xenoverses", "M10": "everything",
+                     }.get(b, "(no label on file for %s)" % b)
             print("  --- %s  %-16s %s" % (b, label, "-" * 44))
         epoch = rec.get("epoch") or rec["assay"].get("epoch", "")
         # `epoch[:40]` cut the last column of the ranked table for no gain: it is the LAST
@@ -332,7 +351,14 @@ def main():
         print("-> " + OUT)
     else:
         print("WRITE DENIED: %s did not land this round; rerun to retry" % OUT)
-    return 0
+    # AND THE EXIT CODE CARRIES IT TOO. The comment at :261-264 documented this repair for the
+    # PRINTED line and stopped one step short of the return value, so any script, scheduler or
+    # sweep row that shells this module recorded a clean success for a run in which
+    # data/PANTHEON.json was not written. A denied replace is routine on Windows -- it is what
+    # the ATOMIC comments throughout this tree are about -- so this is not a theoretical path.
+    # Matches the named sibling `cosmology_graph.main()` (cosmology_graph.py:238-239), which
+    # given the same gated write and the same denial returns 1. Order a012b799a6c9.
+    return 0 if write_ok else 1
 
 
 if __name__ == "__main__":

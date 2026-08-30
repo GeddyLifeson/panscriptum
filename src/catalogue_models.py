@@ -127,7 +127,15 @@ def ask_provider(name, prov, timeout=30):
                 empty_at = url
         except Exception as e:
             silence.note("catalogue_models.py:ask_provider")
-            last = f"{type(e).__name__}: {str(e)[:70]}"
+            # NOT CUT. `str(e)[:70]` was a Hard Rule 0 cap on a PERSISTED field: this string
+            # becomes `providers[].error` and `unverified[].why` in data/PROVIDER_MODELS.json,
+            # which standards.py reads, and it is the one thing that tells a reader whether to
+            # add a key, top up an account or fix a URL. These are single-line exception reprs,
+            # not documents -- a URL plus a status line already passes 70 characters, so the cut
+            # was landing on the reason itself. (order 6d354a508b96)
+            # Whitespace is collapsed rather than trimmed: nothing is dropped, and the row stays
+            # one console line even if some provider client ever raises a multi-line message.
+            last = "%s: %s" % (type(e).__name__, " ".join(str(e).split()))
     if empty_at is not None:
         return {"provider": name, "outcome": EMPTY_LIST, "url": empty_at, "models": [],
                 "error": "endpoint answered with an EMPTY model list -- the API is alive and "
@@ -172,7 +180,8 @@ def sweep(config_path=None, workers=6):
     # A PROVIDER NOBODY COULD ASK IS NOT A PROVIDER WITH NOTHING WRONG. The loop below used to
     # `continue` past every provider that produced no list, so those providers contributed
     # nothing to `stale` and nothing to any count -- they simply were not in the arithmetic.
-    # `standards.py:1400` then reported "0 stale in the cloud pool" over a pool that, in the
+    # `standards.py`'s `model IDs their providers still serve` standard then reported "0 stale
+    # in the cloud pool" over a pool that, in the
     # 2026-08-25 20:21 snapshot, had 14 of its 26 providers never produce a list at all: 10 with
     # no key configured and 4 that failed the request outright. Zero stale out of twelve verified
     # is a fact; zero stale out of twenty-six is what that line was read as.
@@ -212,9 +221,9 @@ def sweep(config_path=None, workers=6):
         for name in sorted({s["provider"] for s in stale}):
             r = live.get(name)
             if r:
-                # THE WHOLE LIST HERE TOO. `[:10]` was the same Hard Rule 0 cap as the one
-                # fixed at line 151 in run #26, surviving on the console line rather than in
-                # the record -- and this line is the one a person actually reads while
+                # THE WHOLE LIST HERE TOO. `[:10]` was the same Hard Rule 0 cap as the
+                # `available_sample` fix in this same `sweep()` (run #26), surviving on the
+                # console line rather than in the record -- and this line is the one a person actually reads while
                 # choosing the replacement for a retired model name. The persisted copy being
                 # complete does not help someone looking at the terminal: an eleventh-ranked
                 # model that was the right substitute simply was not there to be picked, and
@@ -232,7 +241,14 @@ def sweep(config_path=None, workers=6):
               f"unasked. An unreachable provider is not a fresh provider.")
         for u in sorted(unverified, key=lambda u: (u["outcome"], u["provider"])):
             asks = ", ".join(u["config_asks_for"]) or "(config asks for nothing here)"
-            print(f"  {u['outcome'].upper():<13}{u['provider']:<16}{u['why'][:52]}")
+            # THE REASON IS THE PAYLOAD OF THIS LINE, so it is not cut. `[:52]` was a third cut
+            # on the same string (:130 stored it, this clipped the console copy) on the one line
+            # whose stated purpose, four lines up, is "Every unverified provider by name, with
+            # the outcome that made it unverifiable". Moved onto its own continuation line
+            # beside the existing `unchecked:` line so the column stays aligned and the reason
+            # gets the full width. (order 6d354a508b96)
+            print(f"  {u['outcome'].upper():<13}{u['provider']}")
+            print(f"                {' ' * 16}why:       {u['why']}")
             print(f"                {' ' * 16}unchecked: {asks}")
     print(f"\nstale count is measured over {len(verified)} verified provider(s) of {len(rows)}.")
 

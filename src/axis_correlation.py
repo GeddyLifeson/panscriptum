@@ -166,8 +166,10 @@ def observations():
     skipped with a bare `continue` and left no trace: `measure()`'s return and the file
     `write()` produces named only the resulting entity/pair counts, so the matrix could
     silently shrink -- fewer entities, different correlations, a different mean_r -- while
-    looking exactly as authoritative as before. All seven SOURCES exist today; this is what
-    would catch it the day one of them does not.
+    looking exactly as authoritative as before. Every entry in SOURCES exists today; this is
+    what would catch it the day one of them does not. (Phrased without a count on purpose:
+    this read "all seven" while SOURCES had held eight since run #34 added `data/ASSAYS.json`,
+    and a sentence carrying a number nobody re-counts drifts the moment the tuple grows.)
     """
     rows, read, absent = [], [], []
     for rel in SOURCES:
@@ -373,9 +375,13 @@ def main():
         print("   ... and %d more pair(s) not shown (--top to raise, omit --top for all)"
               % (len(ranked) - limit))
     print("-" * 78)
-    # `mean_r` is None when no pair cleared MIN_N (measure(), line ~157) -- `%+.4f` on None
-    # raises TypeError unconditionally, in exactly the state where the reader most needs the
-    # report to speak: "nothing measurable yet" rather than a crash. The guard two lines below
+    # `mean_r` is None when no pair cleared MIN_N (see measure()'s `mean_r` expression) --
+    # named rather than numbered: this cited "line ~157", which landed inside `_scores_of`'s
+    # docstring some 72 lines short of the expression it meant, per the rule dashboard.py:77-80
+    # records for exactly this ("a baked-in line number rots the moment anything above it
+    # moves"). `%+.4f` on None raises TypeError unconditionally, in exactly the state where the
+    # reader most needs the report to speak: "nothing measurable yet" rather than a crash. The
+    # guard two lines below
     # already handles None correctly (`if doc["mean_r"] and ...`); this print did not.
     mean_str = "%+.4f" % doc["mean_r"] if doc["mean_r"] is not None else "n/a (no pair reached MIN_N)"
     print("   %d pair(s) measured, mean r = %s" % (doc["measured_pairs"], mean_str))

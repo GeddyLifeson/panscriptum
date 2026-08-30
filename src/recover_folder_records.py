@@ -109,6 +109,14 @@ def main():
     empty = [r["name"] for r in roll if r.get("entry_count", 0) == 0]
 
     written, skipped_no_map, skipped_no_items, skipped_populated = [], [], [], []
+    # Set by either write gate below; carried out through main()'s return so a denied write is
+    # a nonzero exit and not merely a printed line. See the two sites for the argument.
+    denied = False
+    # This run's roll rows, by source name -- the input to the compare-and-swap at the bottom.
+    # The comment at line 161 already says the roll is a SNAPSHOT and the record folder is the
+    # truth; landing the whole snapshot back is how that snapshot became everyone else's truth
+    # too. (order f818a77293fc)
+    roll_changes = {}
 
     for name in empty:
         mapped = source_map.get(name)
@@ -159,7 +167,9 @@ def main():
 
         # THE ROLL IS A SNAPSHOT; THE RECORD FOLDER IS THE TRUTH. `empty` was selected from
         # SWEEP_ROLL.json as it stood when this process started, and the roll is written by
-        # four different scripts (see `silence.write_json`'s own account of it). If another
+        # SEVEN different scripts (four, in `silence.write_json`'s older account of it; the
+        # count was already stale and the roll writes are compare-and-swapped now, order
+        # f818a77293fc -- but this snapshot is still a snapshot). If another
         # writer -- the cloud session, `ingest.py`, `resync_roll.py`, or a concurrent run of
         # this very tool -- landed real researched entries in that record since the snapshot,
         # writing here would replace research with a truncated folder-mechanical transcription
@@ -205,9 +215,17 @@ def main():
             # is not. (run #25)
             if not silence.write_json(path, record, indent=2, ensure_ascii=False):
                 print(f"  WRITE DENIED {name}; roll left untouched", flush=True)
+                # AND THE VERDICT LEAVES THE PROCESS (order aff81a1f1029). This branch printed
+                # and continued, main() fell off its end returning None, and the entry point
+                # discarded even that -- so a run in which EVERY write was denied exited 0 and
+                # any caller gating on rc learned nothing. The comment above says at length why
+                # a silently-dropped verdict here is unrecoverable; this is that same argument
+                # one level up.
+                denied = True
                 continue
             roll_entry["entry_count"] = len(entries)
             roll_entry["status"] = "catalogued"
+            roll_changes[name] = {"entry_count": len(entries), "status": "catalogued"}
         written.append((name, len(entries), os.path.basename(path)))
 
     # ATOMIC: `resync_roll.py`'s docstring names THIS script as a roll-clobber source.
@@ -215,20 +233,38 @@ def main():
     # a denied replace here leaves every recovered source still reading `entry_count: 0`
     # while its record sits on disk, and work selection is `entry_count == 0` -- so the
     # next run would transcribe them all again over records that are now good.
-    if (not args.dry_run and written
-            and not silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)):
-        print("  ROLL WRITE DENIED; the records landed but SWEEP_ROLL.json still reads "
-              "entry_count: 0 for them -- re-run to update the roll", flush=True)
+    # AND A COMPARE-AND-SWAP RATHER THAN A WHOLE-DOCUMENT LAND (order f818a77293fc). Atomic was
+    # never the property this needed: this tool reads the roll at startup, walks the register,
+    # and used to write its own startup-time copy of every other writer's rows back over them.
+    # `roll.update_rows` merges only the rows recovered here into a freshly-read roll.
+    if not args.dry_run and written:
+        import roll as _roll
+        roll_landed, roll_why = _roll.update_rows(roll_changes, path=ROLL)
+        if not roll_landed:
+            print("  ROLL WRITE DENIED; the records landed but SWEEP_ROLL.json still reads "
+                  "entry_count: 0 for them -- re-run to update the roll", flush=True)
+            denied = True
+        if roll_why:
+            print("  ROLL: %s" % roll_why, flush=True)
 
     verb = "Would write" if args.dry_run else "Wrote"
     print(f"{verb} {len(written)} records, {sum(n for _, n, _ in written):,} entries:\n")
     for name, n, fn in sorted(written, key=lambda x: -x[1]):
         print(f"  {n:5d}  {name[:48]:50s} -> {fn}")
 
+    # NAMED, NOT COUNTED (order aff81a1f1029). `skipped_populated` below has always printed its
+    # sources by name; these two printed a bare number. Order 37d3d588847a separated these
+    # buckets precisely BECAUSE they prescribe different work -- go and research the source,
+    # versus fix the mapping or the register -- and a count tells the reader neither which
+    # sources nor which remedy. There are at most a handful, and every one is printed.
     print(f"\nStill empty and NOT recoverable here: {len(skipped_no_map) + len(skipped_no_items)}")
     print(f"  {len(skipped_no_map):3d} not in FOLDER_SOURCE_MAP (web-mode sources -- need real "
           f"research, no local data exists)")
+    for name in sorted(skipped_no_map):
+        print(f"        {name}")
     print(f"  {len(skipped_no_items):3d} mapped, but the register holds no items for them")
+    for name in sorted(skipped_no_items):
+        print(f"        {name}")
 
     if skipped_populated:
         print(f"\nLeft alone: {len(skipped_populated)} record(s) already hold entries on disk. "
@@ -237,7 +273,11 @@ def main():
             print(f"  {name}")
     if args.dry_run:
         print("\n(dry run -- nothing written)")
+    # 1 means at least one write this run was DENIED -- not "nothing to do" and not a finding
+    # about the corpus. Every other module in this family (feats, chain, weave, reference,
+    # backfill, module_index) already carries its verdict out this way.
+    return 1 if denied else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

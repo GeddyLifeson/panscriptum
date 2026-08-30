@@ -42,6 +42,20 @@ FILE = os.path.join(HERE, "data", "SUPPRESSIONS.json")
 DEFAULT_TTL_DAYS = 180
 
 
+def _preview(s, width):
+    """A reason cut to a column width, WITH A MARKER saying it was cut. -> str.
+
+    House doctrine, settled by `corpus_db._cell` under order 6160ef68b229: display-side
+    truncation is accepted here precisely because it is REVERSIBLE -- the whole reason is one
+    `--check` away, which is the argument the comment in `main()` already makes -- and refused
+    when nothing says the cut happened. A marker, not removal. Live today: all three active
+    suppression reasons run 137, 175 and 300 characters, so every one of them is cut at both
+    sites below and neither said so.
+    """
+    s = str(s or "")
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
+
+
 def _load():
     """-> (rows, ok). `ok` is False only when the file EXISTS and could not be read -- a missing
     file is an honest zero suppressions and `ok` stays True for it.
@@ -172,7 +186,7 @@ def problems():
     for r in rows:
         if (r.get("expires_at") or 0) <= now:
             out.append("EXPIRED: %s on %s (%s) -- re-justify it or delete it"
-                       % (r.get("detector"), r.get("path"), r.get("reason", "")[:60]))
+                       % (r.get("detector"), r.get("path"), _preview(r.get("reason"), 60)))
             continue
         pat = r.get("path", "")
         if any(ch in pat for ch in "*?["):
@@ -216,9 +230,11 @@ def main():
         # the one field that says WHICH file a detector has been narrowed for was clipped in the
         # listing an operator reads to audit exactly that. The reason cap on the same line is
         # fine and stays: it is a preview of prose whose whole copy is one `--check` away. A
-        # column that stretches is a worse-looking table and a truthful one.
+        # column that stretches is a worse-looking table and a truthful one. The preview now
+        # goes through `_preview`, which keeps the width and adds the ellipsis -- that sentence
+        # is the argument for a MARKER, not the argument against one.
         print("  %-22s %-43s expires in %4.0fd  %s"
-              % (r.get("detector"), r.get("path"), days, r.get("reason", "")[:44]))
+              % (r.get("detector"), r.get("path"), days, _preview(r.get("reason"), 44)))
     return 0
 
 

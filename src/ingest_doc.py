@@ -242,7 +242,22 @@ def mine(source):
     """The uncapped entity pass, chunk by chunk, merged as it goes."""
     import pipeline as P
     d = os.path.join(DOCS, slug(source))
-    with open(os.path.join(d, "pages.json"), encoding="utf-8") as f:
+    corpus = os.path.join(d, "pages.json")
+    # THE ONE READ IN THIS MODULE THAT WAS NOT A SENTENCE (order 0c007141d39f). Every other
+    # refusal here prints a reason and returns 1; this one exited by FileNotFoundError
+    # traceback, for the two ordinary ways of arriving without a corpus -- a typo in the source
+    # name, or running the docstring's two commands in the wrong order. It matters more than a
+    # tidy-up because `slug(source)` is the ONLY thing joining `--pdf` to `--mine`: `extract`
+    # writes to `data/docs/<slug>/` and this reads from it, while `record_path` resolves the
+    # record by a different and far more forgiving route. So a name that slugs differently from
+    # the one that was extracted presented as a stack trace rather than as "no corpus under
+    # that name". Raised as ValueError because `main()` already catches that and turns it into
+    # the existing "MINE REFUSED: ..." / return 1 path.
+    if not os.path.exists(corpus):
+        raise ValueError("no corpus at %s; run --pdf <path> --source \"%s\" first, and check "
+                         "that the source name slugs to %s"
+                         % (os.path.relpath(corpus, HERE), source, slug(source)))
+    with open(corpus, encoding="utf-8") as f:
         pages = json.load(f)
     state_p = os.path.join(d, "ingest_state.json")
     try:
@@ -387,9 +402,19 @@ def mine(source):
         state["next"] = ci + 1
         # Atomic, like every other resume cursor in this project: a crash between `open` and
         # `json.dump` left a zero-byte state file, which `mine()` reads as "start from chunk 0".
-        tmp_state = state_p + ".tmp"
-        with open(tmp_state, "w", encoding="utf-8") as f:
-            json.dump(state, f)
+        #
+        # AND THROUGH `silence.write_json`, NOT A SHARED `path + ".tmp"` (order 58e01a5c1cf0).
+        # The comment above is right about the hazard it names and blind to the other one: two
+        # writers of this path collided on the TEMP FILE ITSELF, the second truncating the
+        # first, and whichever renamed second could land a half-written cursor. Not exotic for
+        # THIS module: `mine()` sleeps 300s per transport miss and tolerates 60 of them, so a
+        # run that is working normally against a drained free-tier pool sits silent for up to
+        # five hours -- exactly the situation in which an operator concludes it has hung and
+        # starts a second one on the same source. A torn cursor reads back as chunk 0 and
+        # re-asks the model for the entire book. `write_json` puts pid and thread in the temp
+        # name, writes explicit UTF-8, and returns the same landed/refused boolean this code
+        # already branches on, so the cursor-denied message and the `landed_found` bookkeeping
+        # below are unchanged. This module already uses the helper at :119 and :148.
         # THE CURSOR MAY LAG; IT MAY NEVER LEAD. That asymmetry is why this denial is reported
         # rather than acted on (order e7b6dcc8d630). A denied cursor write leaves `state[next]`
         # on disk BEHIND the work already merged into the record -- the safe direction, and the
@@ -402,7 +427,7 @@ def mine(source):
         # against a free-tier tide; a persistently denied cursor means the whole run's progress
         # is unrecorded and the next run re-asks the model for every chunk of it. That is a
         # bill the operator should see arriving, not discover.
-        if not silence.replace_retry(tmp_state, state_p):
+        if not silence.write_json(state_p, state):
             silence.note("ingest_doc.py:cursor-write-denied")
             print("  chunk %d/%d: resume cursor NOT advanced on disk (write denied); the "
                   "entries above are saved, but a rerun will re-ask every chunk since the "

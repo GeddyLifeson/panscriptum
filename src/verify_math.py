@@ -98,6 +98,47 @@ def check(label, got, want, tol=1e-6, note=""):
         print(f"       {note}")
 
 
+# --------------------------------------------------------------------------------------------
+# A DEFECT-PATTERN SCAN MATCHES ITS OWN EXPLANATION. This battery learned that once already:
+# §20a's `restart_reader` row carries the comment "Read CODE, not prose: the comment recording
+# this repair necessarily quotes the pattern it removed", and patched itself with
+# `ln.split("#", 1)[0]`. That strips COMMENTS and not DOCSTRINGS, so the same trap re-sprang on
+# 2026-08-29: `overnight.ledger_report`'s docstring names `did[:5]` while recording that it was
+# removed, and the row asserting `did[:5]` is gone went red against clean code. `scope.py`'s
+# `titles[:8]` row had no stripping at all and went red against three comments describing the
+# fix. Both patterns exist NOWHERE as code -- verified by walking the parse tree for a Subscript
+# whose source segment contains them; there are none.
+#
+# So ask the PARSE TREE, which cannot see prose at all: a truncation is a `Subscript` whose
+# slice is a `Slice`, and a comment quoting one is not a Subscript. That is strictly stronger
+# than the string scan in the other direction too -- `did[:5]` and `did[:6]` are the same Hard
+# Rule 0 defect, and a row naming only the number it happened to see lets the next one through.
+#
+# FAILS TOWARD NOISE, NOT SILENCE: a file that will not parse returns a loud sentinel row rather
+# than `[]`, because an empty list reads exactly like a clean file -- the shape this battery
+# exists to refuse.
+
+
+def _slices_of(src, name):
+    """Every `name[...]` SLICE in `src` that is real code, as source segments.
+
+    Stronger than grepping one literal: `did[:5]` and `did[:6]` are the same defect, and a row
+    that names only the number it happened to see lets the next one through.
+    """
+    _ast0 = __import__("ast")
+    try:
+        _tree = _ast0.parse(src)
+    except Exception:
+        silence.note("verify_math.py:_slices_of")
+        return ["<unparseable: %s>" % name]          # loud, never a clean empty list
+    _out = []
+    for _n in _ast0.walk(_tree):
+        if (isinstance(_n, _ast0.Subscript) and isinstance(_n.slice, _ast0.Slice)
+                and isinstance(_n.value, _ast0.Name) and _n.value.id == name):
+            _out.append("line %d: %s" % (_n.lineno, _ast0.get_source_segment(src, _n)))
+    return _out
+
+
 print("=" * 96)
 print("1. PHYSICAL CONSTANTS — recomputed from first principles")
 print("=" * 96)
@@ -3737,8 +3778,16 @@ _on20code = "\n".join(ln.split("#", 1)[0] for ln in _on20.splitlines())
 check("replayed foreman lines carry the foreman's own timestamp, not the supervisor's",
       '[{when}]' in _on20code, True,
       note="a kill at 22:00:55 was appearing in the log under 22:39:04; M15 is dated from this file")
+# ASKED OF THE PARSE TREE, NOT OF THE TEXT (2026-08-29 maintenance). This was
+# `"did[:5]" in _on20code`, where `_on20code` strips `#` comments and nothing else. On
+# 2026-08-29 `ledger_report`'s docstring grew the sentence "This is the THIRD instance of the
+# same cut removed from this one file, after `did[:5]` in foreman_report" -- overnight.py:741,
+# prose, inside a triple-quoted string the comment strip does not reach -- and this row went red
+# against code that is clean. The truncation is gone: there is no `did` slice anywhere in
+# overnight.py as code. Reported as the LIST of offending slices so a red row names the line,
+# and it now catches `did[:6]` too, which the old literal would have waved through.
 check("the foreman replay no longer truncates the remedy list it just counted",
-      "did[:5]" in _on20code, False,
+      _slices_of(_on20, "did"), [],
       note="the header announced 6 and the list showed 5; nothing downstream parses it")
 
 _fm20 = open(os.path.join(_here19, "foreman.py"), encoding="utf-8").read()
@@ -6233,8 +6282,14 @@ def _scope_source_b2():
 _scope_src_b2 = _scope_source_b2()
 check("b68ca666da79: scope.py no longer hard-caps srlimit at 3",
       '"srlimit": "3"' in _scope_src_b2, False)
+# ASKED OF THE PARSE TREE, NOT OF THE TEXT (2026-08-29 maintenance). This was
+# `_re_b2.search(r"titles\[:8\]", _scope_src_b2)` against the RAW source -- no comment stripping
+# at all -- so the three comments scope.py carries recording that this very cap was removed
+# (lines 72, 109, 233: "the srlimit=3 + `titles[:8]` truncation fix landed ...") turned the row
+# red the moment the third one was written. There is no `titles` slice in scope.py as code. The
+# tree cannot see prose, and it catches `titles[:12]` as well, which the literal would not.
 check("b68ca666da79: scope.py no longer truncates fetched titles to 8",
-      bool(_re_b2.search(r"titles\[:8\]", _scope_src_b2)), False)
+      _slices_of(_scope_src_b2, "titles"), [])
 check("b68ca666da79: scope.py fetches the FULL titles list",
       bool(_re_b2.search(r"F\.fetch\(host,\s*titles\)", _scope_src_b2)), True)
 check("b68ca666da79: scope.py records when the wiki still withheld results past the raised cap",

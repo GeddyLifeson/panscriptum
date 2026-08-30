@@ -37,6 +37,7 @@ import argparse
 import json
 import os
 import sys
+import textwrap
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -437,9 +438,23 @@ def main():
         with open(p, encoding="utf-8") as f:
             out["Son Goku"] = json.load(f)["Son Goku"]
     except Exception:
+        # SAID OUT LOUD, AND CARRIED INTO THE FILE. The note stays -- this must not raise, the
+        # local roster is still worth printing -- but a silence-ledger row is not something the
+        # person reading the table will ever see, and the table prints under a banner claiming
+        # to be THE Z FIGHTERS BY MAGNITUDE while missing the fighter the module's own header
+        # ranks everyone else against. `data/Z_FIGHTERS.json` was then written without him and
+        # `pantheon.py` merged that partial roster with no way to tell it from a whole one.
         silence.note("zfighters.py:goku")
+        print("INCOMPLETE ROSTER: Son Goku's sheet could not be read from "
+              "data/REFERENCE_ASSAYS_PRESENCE.json, so the ranking below and the file written "
+              "at the end are missing him. Every placement relative to Goku is unstated.")
+        out["_incomplete"] = ["Son Goku"]
 
-    rank = sorted(out.items(), key=lambda kv: -value(kv[1]))
+    # `_incomplete` is a marker, not a fighter. Keys opening with an underscore are skipped by
+    # everything that ranks, here and in `pantheon.py`'s merge, so the fact can ride in the JSON
+    # without becoming a row in it.
+    rank = sorted(((n, r) for n, r in out.items() if not n.startswith("_")),
+                  key=lambda kv: -value(kv[1]))
     print("=" * 86)
     print("THE Z FIGHTERS, BY MAGNITUDE  (presence thesis; epoch fixed per fighter)")
     print("=" * 86)
@@ -455,8 +470,14 @@ def main():
         # and epoch at the top level -- both are inside the assay result there.
         anchor = rec.get("anchor") or rec["assay"].get("magnitude", "?")
         epoch = rec.get("epoch") or rec["assay"].get("epoch", "")
+        # `epoch[:38]` cut the LAST column of the table for no gain -- nothing after it needs
+        # aligning, so a long epoch costs line length and nothing else, while a cut one costs the
+        # thing the header spends two paragraphs on: a fixed epoch is what makes each row a
+        # measurement of a SPECIFIED subject. Five of the fourteen were cut (Vegeta 46 chars,
+        # Gohan 44, Chiaotzu 43, Piccolo 42, Krillin 39). Same ruling as pantheon.py:294-297,
+        # order 9d24c8a5febf, on the identical last-column cut in this table's sibling.
         print("  %-16s %-16s %-9s %s"
-              % (n, rec["assay"]["moth_number"], anchor, epoch[:38]))
+              % (n, rec["assay"]["moth_number"], anchor, epoch))
 
     if a.full:
         for n, rec in rank:
@@ -478,8 +499,19 @@ def main():
                 # meant Z_FIGHTERS.json (below, read by pantheon.py) never got refreshed,
                 # because the crash lands before that write. A missing label prints as an
                 # honest blank rather than fabricating a "canon"/"wiki" this sheet never claimed.
-                print("   %-15s%5.1f  [%s] %s"
-                      % (ax, d["score"], d.get("provenance", ""), d["cited"][:60]))
+                # WRAPPED, NOT CUT. `--full`'s help text is "print every worksheet line" and
+                # `d["cited"][:60]` truncated every one of them, with no ellipsis and nothing
+                # saying the sentence continued. Measured against the live roster: 100 of the 154
+                # worksheet citations run past 60 characters and the worst three lose 97
+                # characters each, so --full showed 39% of the evidence in the shape of all of
+                # it. The cited sentence IS the worksheet -- this module's header stakes the
+                # provenance mark on the sentence being in the mined cache VERBATIM. Same repair
+                # in the twins wh40k.py and halo.py, which cut at 56 and 54.
+                prov = d.get("provenance", "")
+                body = textwrap.wrap(d["cited"], 60) or [""]
+                print("   %-15s%5.1f  [%s] %s" % (ax, d["score"], prov, body[0]))
+                for cont in body[1:]:
+                    print("   %-15s%5s  %s %s" % ("", "", " " * (len(prov) + 2), cont))
 
     # ATOMIC. `data/Z_FIGHTERS.json` is read by `pantheon.py`, so a crash mid-write corrupts a
     # file another module consumes. The m100 tail, 2026-08-25.

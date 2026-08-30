@@ -79,7 +79,7 @@ def in_scope(name, rows=None):
     return name not in out_of_scope(rows)
 
 
-def mutate(apply, attempts=8):
+def mutate(apply, attempts=8, path=None):
     """Land a change to the roll through a COMPARE-AND-SWAP. -> (landed, why).
 
     ATOMIC WAS NOT ENOUGH, AND SWEEP_ROLL.json WAS THE LAST SHARED FILE STILL RELYING ON IT
@@ -109,35 +109,47 @@ def mutate(apply, attempts=8):
     "we could not read it" is not evidence of what it should contain, and a mutation applied to
     a `[]` we invented would publish that invention as canon. Same distinction endpoint.register
     draws: absent and unreadable are different facts, and neither licenses a write here.
+
+    `path` DEFAULTS TO THIS MODULE'S ROLL AND EVERY CALLER PASSES ITS OWN. Each writer module
+    carries its own `ROLL` constant, and the test harnesses repoint THAT constant to a temp file
+    in order to avoid touching the live roll -- so a helper that silently wrote to `roll.ROLL`
+    instead would turn "sandbox this test" into "overwrite data/SWEEP_ROLL.json", which is
+    precisely how the live 216-source roll was destroyed twice on 2026-08-26 (see `exclude`'s
+    docstring). The parameter exists so the caller's own constant is always the file written.
     """
     import threading
     import time
+    path = ROLL if path is None else path
     last_why = "not attempted"
     for attempt in range(attempts):
         # The digest is taken BEFORE the read, so anything that lands between the two makes the
         # swap fail closed rather than pass on a copy that is already behind.
-        digest = silence.digest_of(ROLL)
+        digest = silence.digest_of(path)
         try:
-            with open(ROLL, encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 rows = json.load(f)
         except Exception:
             silence.note("roll.py:mutate-unreadable")
             return False, ("%s could not be read, so nothing was written to it -- the roll is "
-                           "canonical and not derivable from a failed read" % os.path.basename(ROLL))
+                           "canonical and not derivable from a failed read"
+                           % os.path.basename(path))
         if not isinstance(rows, list):
             silence.note("roll.py:mutate-nonlist")
             return False, "SWEEP_ROLL.json is not a list; refusing to overwrite it"
         out = apply(rows)
         if out is None:
             out = rows
-        tmp = "%s.%d.%d.%d.tmp" % (ROLL, os.getpid(), threading.get_ident(), attempt)
+        # pid + thread + attempt in the temp name, for the reason silence.write_json carries
+        # them: a fixed `.tmp` suffix is a second collision between the very writers this
+        # function exists to keep from overwriting each other.
+        tmp = "%s.%d.%d.%d.tmp" % (path, os.getpid(), threading.get_ident(), attempt)
         try:
             with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(out, f, indent=2, ensure_ascii=False)
         except Exception:
             silence.note("roll.py:mutate-tmp")
-            return False, "could not stage the new roll next to %s" % os.path.basename(ROLL)
-        landed, why = silence.replace_if_unchanged(tmp, ROLL, digest)
+            return False, "could not stage the new roll next to %s" % os.path.basename(path)
+        landed, why = silence.replace_if_unchanged(tmp, path, digest)
         if landed:
             return True, ""
         last_why = why
@@ -150,7 +162,7 @@ def mutate(apply, attempts=8):
     return False, last_why
 
 
-def update_rows(changes, attempts=8):
+def update_rows(changes, attempts=8, path=None):
     """Apply `{source_name: {field: value, ...}}` to the roll, key-wise. -> (landed, why).
 
     The shape every cataloguer needs: it knows which SOURCES it changed and what it changed
@@ -162,6 +174,8 @@ def update_rows(changes, attempts=8):
     person adding a source, never by a cataloguer, so an unmatched name means the row was renamed
     or removed under this run, and the honest response is to name it rather than to resurrect a
     row from a stale copy. It is reported in `why` and the rest of the changes still land.
+
+    `path` is passed straight to `mutate` -- see there for why every caller supplies its own.
     """
     missed = []
 
@@ -175,7 +189,7 @@ def update_rows(changes, attempts=8):
         missed[:] = sorted(n for n in changes if n not in seen)
         return rows
 
-    landed, why = mutate(_apply, attempts=attempts)
+    landed, why = mutate(_apply, attempts=attempts, path=path)
     if landed and missed:
         silence.note("roll.py:update-rows-unmatched")
         return True, ("no roll row is named %s any more, so %d change(s) had nowhere to land"

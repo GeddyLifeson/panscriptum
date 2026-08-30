@@ -293,7 +293,7 @@ def main():
         # would silently re-parse sources it had already, correctly, catalogued. Found by the
         # run #33 sweep, same batch as the record-level fix above.
         import roll as _roll
-        roll_landed, roll_why = _roll.update_rows(roll_changes)
+        roll_landed, roll_why = _roll.update_rows(roll_changes, path=ROLL)
         if roll_why:
             # Named, never swallowed: either the swap was refused or a source this run
             # catalogued no longer has a row, and both are things the operator acts on.

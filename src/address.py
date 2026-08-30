@@ -220,6 +220,26 @@ def spine_code_for(source_name: str) -> str:
 
 
 def slugify(name: str) -> str:
+    """Mint a slug from a label. NOT TRUNCATED -- see below.
+
+    THE [:60] IS GONE (order 5d317e3e47f0). This function used to end `[:60]`, the same cap on
+    the same kind of value that `catalogue_web.py:68-95` spends thirty lines documenting: its
+    own slug function's trailing [:60] wrote a record under a 79-character slug's first sixty
+    characters and produced "a roll row that is not missing, a record that is not orphaned, and
+    no path between them". This is the ADDRESSING module and slugify's output is used as a
+    path/label component, so it is the last place a silent truncation belongs -- a cap here does
+    not fail, it mints a DIFFERENT identity that looks like the right one.
+
+    LATENT WHEN REMOVED, and verified so rather than assumed: slugify has exactly two call sites
+    -- `chapter_slug()`'s fallback for a label not in CHAPTER_SLUGS, and manifest_builder.py:247
+    on `roll_entry['category']` -- and all 17 distinct category values on the live roll slugify
+    to between 5 and 29 characters, while every CHAPTER_SLUGS key is mapped explicitly so the
+    fallback never sees the long chapter labels. Removing the cap changed no current output.
+
+    If a bound is ever genuinely wanted for a filesystem it belongs at the point a PATH is
+    built, with the full value kept in the data -- not inside the function that mints the
+    identity.
+    """
     cleaned = re.sub(r"[^\w\s-]", "", name)
     parts = re.split(r"[\s_-]+", cleaned.strip())
     parts = [p for p in parts if p]
@@ -227,7 +247,7 @@ def slugify(name: str) -> str:
         parts = parts[1:]
     if not parts:
         parts = ["Untitled"]
-    return "".join(p[:1].upper() + p[1:] for p in parts)[:60]
+    return "".join(p[:1].upper() + p[1:] for p in parts)
 
 
 CHAPTER_SLUGS = {

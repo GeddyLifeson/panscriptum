@@ -341,7 +341,27 @@ def rebuild(include_evidence=True, evidence_limit=None):
 
 
 def age_seconds():
-    """How old the index is in seconds, or None. -> float|None.
+    """NOTHING IN THIS TREE CALLS THIS. Kept as a public helper; `freshness()` is the reader.
+
+    Say that first because five separate sweep audits have now re-derived it from scratch
+    (sweep33 batch17, sweep34 batch04, sweep36 batch09, sweep37 batch09, sweep38 batch10 ->
+    order a25e919309cb). `grep -rn 'age_seconds()'` over the repo finds this def, two prose
+    mentions in comments at :96 and :722, and nothing else; every real reader takes the value
+    off `freshness()`'s dict instead -- `_freshness_banner()` at :478 and :491, `main()` at :728
+    and :733, and drill.py. The migration happened and this function stayed.
+
+    IT IS NOT DEAD WEIGHT THAT READS AS DEAD WEIGHT, which is why it needed saying. The
+    `finally` block below carries a real Windows fix (a held handle is a denied rename, the
+    exact way `rebuild()` fails to land), so the whole function reads as live, load-bearing
+    machinery and the next person to change `freshness()` could reasonably think there are two
+    supported entry points to keep in step. There is one. If you are inside src/, call
+    `freshness()`: it distinguishes the three causes of None that this function cannot.
+
+    Nothing mechanical watches this: liveness.py does not flag it, and vulture at
+    min_confidence 90 will not either -- an uncalled module-level def is a 60-confidence
+    finding.
+
+    How old the index is in seconds, or None. -> float|None.
 
     None IS AMBIGUOUS AND CALLERS MUST NOT RESOLVE IT THEMSELVES. It means any of: no database
     file, a database that cannot be opened (locked by a writer, or corrupt), or one that does

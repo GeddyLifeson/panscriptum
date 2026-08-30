@@ -284,8 +284,11 @@ def unreachable_by_url(opt):
 
 # ==================================================================================================
 # WHAT THE LAST `build_all` COULD NOT READ. A module-level diagnostic rather than a second return
-# value, because `build_all` has seven importers (burgs, navtree, profile, render, sevenfold,
-# address_space, verify_math) and widening its signature for a warning would break every one.
+# value, because `build_all` has SIX callers (burgs, navtree, profile, render, sevenfold,
+# verify_math) and widening its signature for a warning would break every one. The roster said
+# SEVEN and named `address_space` -- which does not import worldseed at all and never calls
+# build_all; it only mentions the module in prose near the top of its own file. The argument
+# survives unchanged at six; only the count and the roster were wrong. (order bf22c557852e)
 # Reset at the top of each call so it always describes the build the caller just asked for.
 LAST_BUILD = {"onomasticon": "ok", "continuity_groups": "ok", "onomasticon_bad_rows": 0}
 

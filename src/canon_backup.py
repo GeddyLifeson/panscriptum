@@ -142,8 +142,15 @@ def snapshot(stamp=None):
     sources = {rel: digest(p) for rel, p in items}
     missing = sorted(r for r, d in sources.items() if d is None)
     if missing:
+        # UNCAPPED, like `members()` eight lines above, and for its reason. This was
+        # `missing[:5]`: an honest count over a truncated list, which is the same shape one
+        # level down as the thing `members()` refuses -- "a backup of what happens to be
+        # present would verify perfectly and restore a smaller library than the one that was
+        # lost". This is the message a person reads when a backup of the whole canonical corpus
+        # refuses, the set is bounded by the canonical inventory, and it only prints on a
+        # refusal, so there is no volume argument for cutting it. Order d111c05f5368.
         raise RuntimeError("%d canonical file(s) could not be read: %s"
-                           % (len(missing), ", ".join(missing[:5])))
+                           % (len(missing), ", ".join(missing)))
 
     # PID AND THREAD IN THE TEMP NAME, the convention `silence.write_json` set after two
     # writers sharing one fixed temp filename cost this project real data. A second-resolution
@@ -172,7 +179,10 @@ def snapshot(stamp=None):
                 bad.append(rel + " (digest differs from source)")
     if bad:
         os.remove(tmp)
-        raise RuntimeError("snapshot failed verification and was deleted: %s" % "; ".join(bad[:5]))
+        # UNCAPPED, and this is the worst of the three `[:5]`s that were here: the archive is
+        # deleted on the line above, so this string is the ONLY surviving record of which
+        # members failed to verify. Order d111c05f5368.
+        raise RuntimeError("snapshot failed verification and was deleted: %s" % "; ".join(bad))
 
     final = os.path.join(ROOT, "canon-%s.zip" % stamp)
     if silence.replace_retry(tmp, final) is False:
@@ -185,20 +195,27 @@ def snapshot(stamp=None):
     # run #36 sweep found in ten other modules, committed here in the module whose entire job is
     # not to trust a write it has not confirmed. Without the manifest `verify()` has no recorded
     # digests to compare against, so it silently degrades to "the zip still opens".
-    if silence.replace_retry(*_write_manifest(final, manifest)) is False:
+    # THROUGH `silence.write_json`, WHICH IS THE ONLY WRITER IN THIS PROJECT THAT GETS THE TEMP
+    # NAME RIGHT. This went through a hand-rolled `_write_manifest` whose scratch file was
+    # `dst + '.writing'` -- a FIXED name, eight lines after the comment above forbidding exactly
+    # that for the zip beside it. Two snapshots overlapping would write one scratch manifest and
+    # the loser's bytes would land beside the winner's archive, and a crossed manifest is worse
+    # than an absent one: `verify()` fails CLOSED with no manifest (:312-320) but a present one
+    # parses, `recorded` is non-empty, and it reports "archive intact, N members" having
+    # compared this archive against another one's digests. `write_json` carries pid and thread
+    # in the temp, discards the temp on a denied replace, and returns the verdict this line
+    # already gates on. Order 112bed050c3a.
+    #
+    # NOT FULLY CLOSED, and deliberately left so: two snapshots starting in the same second
+    # share `stamp`, hence share `final` and this destination name. Closing that means putting
+    # the pid into `stamp` itself, which changes the archive naming `prune()` and `newest()`
+    # read, so it is a separate decision from this one.
+    if not silence.write_json(final[:-4] + ".manifest.json", manifest,
+                              indent=2, sort_keys=True):
         raise RuntimeError(
             "the snapshot landed at %s but its manifest could not be written, so nothing records "
             "what it contains and verify() cannot check it. Re-run the snapshot." % final)
     return final, manifest
-
-
-def _write_manifest(final, manifest):
-    """-> (tmp, dst) for the manifest beside a snapshot, already written to tmp."""
-    dst = final[:-4] + ".manifest.json"
-    tmp = dst + ".writing"
-    with open(tmp, "w", encoding="utf-8") as fh:
-        json.dump(manifest, fh, indent=2, sort_keys=True)
-    return tmp, dst
 
 
 # A snapshot whose zip write dies part-way leaves its scratch file behind -- `_writing-<stamp>-
@@ -334,8 +351,11 @@ def verify(path=None):
     if added:
         notes.append("%d canonical files are new since the snapshot" % len(added))
     if gone:
+        # UNCAPPED. A canonical record file that has disappeared from the live tree is the
+        # single most actionable thing this module can tell anyone, and `sorted(gone)[:5]` named
+        # the alphabetical head and decided the rest had not happened. Order d111c05f5368.
         notes.append("%d canonical files present in the snapshot are GONE from the live tree: %s"
-                     % (len(gone), ", ".join(sorted(gone)[:5])))
+                     % (len(gone), ", ".join(sorted(gone))))
     return True, notes
 
 

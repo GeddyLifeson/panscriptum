@@ -124,8 +124,9 @@ def save_config(cfg):
         return False
     # Atomic: config.yaml is re-read by nine running modules; a truncated mid-write copy
     # hands one of them a YAML parse error at whatever instant it reloads. The tmp name
-    # carries PID and thread (silence.write_json's convention, silence.py:370-373) so two
-    # writers of config.yaml can't collide on the temp file itself.
+    # carries PID and thread (`silence.write_json`'s own tmp construction -- cited by symbol
+    # because this said silence.py:370-373, which had drifted into replace_retry's docstring;
+    # order bf22c557852e) so two writers of config.yaml can't collide on the temp file itself.
     tmp = "%s.%d.%d.tmp" % (p, os.getpid(), threading.get_ident())
     with open(tmp, "w", encoding="utf-8") as f:
         f.write(new_raw)
@@ -295,10 +296,17 @@ def main():
         sys.exit(1)
 
     budget = (total_vram_gb() or 10.0) - VRAM_RESERVE_GB
-    scored, refused = [], []
+    # TWO REASONS A MODEL IS ABSENT, COUNTED SEPARATELY (order 7b4ac0fde9ef). `scored` drops
+    # non-text models (EXCLUDE_PATTERNS: embed, clip, llava, moondream ...) AND models the
+    # GPU-only residency gate refuses, and the lines below then reported on `scored` as though
+    # the only reason a model is missing from it is that it cannot generate text. A refused model
+    # IS a text model; it is refused for VRAM. `excluded` keeps the two apart so the diagnosis can
+    # name the right one.
+    scored, refused, excluded = [], [], []
     for m in models:
         s = score_model(m)
         if s is None:
+            excluded.append(m)
             continue
         if RESIDENT_ONLY and not resident(m, budget):
             refused.append((s, m))
@@ -308,7 +316,8 @@ def main():
     refused.sort(key=lambda x: -x[0])
 
     vram_gb = free_vram_gb()
-    print(f"{len(models)} models installed, {len(scored)} usable for text generation.")
+    print(f"{len(models)} models installed: {len(scored)} resident and usable, "
+          f"{len(refused)} refused for VRAM, {len(excluded)} not text models.")
     if vram_gb:
         print(f"~{vram_gb:.1f}GB VRAM currently free (close browsers/wallpaper apps to raise "
               f"this):\n")
@@ -327,8 +336,21 @@ def main():
         print(f"  [{s:5.1f}] {m['name']:35s} tier={tier} ~{params:.0f}B params{note}")
 
     if not scored:
-        print("\nNothing usable installed (only embedding/vision models found?). Pull a text "
-              "model -- see the no-models message above for suggestions.")
+        # THE DIAGNOSIS FOLLOWS THE BUCKET THAT IS ACTUALLY NON-EMPTY. This printed "only
+        # embedding/vision models found?" whatever emptied the list, so on a machine whose text
+        # models are all too big it told the operator to pull text models they already have --
+        # and the REFUSED block printed directly above it said the opposite. The suggestions
+        # happen to be right for a residency refusal too (qwen3:8b, llama3.1:8b are small
+        # enough), so the operator did the right thing for a reason the tool got wrong and
+        # learned nothing about the 10GB budget that actually refused their models.
+        if refused:
+            print("\nEvery text model installed was REFUSED under the GPU-only residency ruling "
+                  f"(budget {budget:.1f}GB). These are text models; they do not fit. Pull "
+                  "something smaller:")
+            print_pull_suggestions()
+        else:
+            print("\nNothing usable installed (only embedding/vision models found?). Pull a text "
+                  "model -- see the no-models message above for suggestions.")
         sys.exit(1)
 
     best_score, best = scored[0]

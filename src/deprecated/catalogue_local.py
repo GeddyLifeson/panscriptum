@@ -40,6 +40,59 @@ import sys
 import time
 import urllib.request
 
+# --------------------------------------------------------------------------- QUARANTINED
+# THE QUARANTINE IS IN THE FILE NOW, NOT ONLY IN THE README (order 2bf50e1ae6ce).
+#
+# `src/deprecated/README.md` has said "Deprecated -- do not run" since this module was retired,
+# and Hard Rule -1's fourth property is that a safety which exists in a document is not a safety
+# that is running. Every entry point below was still fully live, with no refusal of any kind,
+# and running it does real damage to shared state:
+#
+#   * it writes `data/records/<slug>.json` with a bare `open(path, "w")` + `json.dump`, bypassing
+#     `pipeline.write_record_catalogue` -- a THIRD writer against a two-writer contract, and
+#     exactly the region `local_agent.DENYLIST_PREFIXES` guards with the comment
+#     "data/records/  # two-writer contract: pipeline.write_record only";
+#   * it rewrites the whole of `data/SWEEP_ROLL.json` non-atomically INSIDE the per-source loop,
+#     so a Ctrl-C lands a truncated roll;
+#   * `main()` returns None, so the process exits 0 whatever happened;
+#   * there is no `escalation.assert_clear`, no `import silence`, no export-copy marker check and
+#     no `_BAD_CHARS` transit guard -- every sibling job in the tree carries all four;
+#   * `slug()` still has the `[:60]` identity truncation `catalogue_aurora.slug` documents at
+#     length as the thing that orphans a record from its roll row;
+#   * `catalogue_source()` files a failed Ollama call as `per_cat[key] = 0` with no note -- a
+#     network failure recorded as "this source has nothing in this category", which is the
+#     founding defect `silence.py` was written to end.
+#
+# THOSE SIX ARE DELIBERATELY NOT REPAIRED. The file is kept as the record of a failure mode --
+# it catalogued from model recall and produced Bleach's Yasutora Sado as "Chad (Seraura
+# Urahara)" -- and repairing it would make it look usable again. What is removed is the loaded
+# gun: the refusal sits above every path, so importing this module stops as hard as running it,
+# before any config is read or any file is touched.
+#
+# `--help` IS THE ONE EXEMPTION, AND IT IS NOT A HOLE. It prints this notice and touches
+# nothing. `allsweep.check_import` asks EVERY module under `src/` for `--help` and grades a
+# non-zero rc as a BROKEN IMPORT, and `sweep_plan._src_py_files` made this directory visible to
+# that tier in order f42c55355431 -- so a bare refusal here would file a MAJOR order against a
+# module behaving exactly as intended. That is order 2d6c9343cd32's mistake, which
+# `cascade_bridge` was given an argv guard to avoid. Every other argv, including none at all,
+# refuses.
+_REFUSAL = """catalogue_local.py is DEPRECATED and REFUSES TO RUN.
+
+It catalogued franchises from local model recall -- guesses wearing a citation -- and it writes
+data/records/ and data/SWEEP_ROLL.json by routes this project has since made unavailable. See
+src/deprecated/README.md for the full account.
+
+Superseded by:
+  src/catalogue_web.py      real wiki retrieval, Attestation: Transcribed
+  src/catalogue_aurora.py   the owner's own XML
+
+The file is kept as a record of the failure mode, not as a tool."""
+
+if set(sys.argv[1:]) & {"-h", "--help"}:
+    print(_REFUSAL)
+    raise SystemExit(0)
+raise SystemExit(_REFUSAL)
+
 sys.path.insert(0, os.path.dirname(__file__))
 
 import yaml  # noqa: E402

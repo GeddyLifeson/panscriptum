@@ -36,6 +36,7 @@ widening the pool safe rather than a loosening of standards.
 """
 import json
 import os
+import random
 import re
 import sys
 import threading
@@ -790,6 +791,30 @@ def provider_error(bucket, max_age_s=180):
     return ""
 
 
+def _row_survived(key, count):
+    """Is `key` on disk in POOL_UNRECOGNISED.json with at least `count` occurrences?
+
+    The read-back half of `record_unrecognised`'s compare-and-swap, and it is needed because
+    the swap is not one instruction: `silence.replace_if_unchanged` digests the target and THEN
+    renames over it, so two processes that digest the same value both pass the compare and the
+    later rename silently discards the earlier one -- while BOTH are told they landed. Asking
+    the file whether the row is actually there turns that undetectable loss into one more
+    attempt. `>=` rather than `==` because a concurrent writer bumping the same key further is
+    not a loss; a smaller count, or no row at all, is.
+
+    Total, like everything else on this path: a read that fails cannot be evidence the row
+    survived, so it answers False and the caller retries.
+    """
+    try:
+        with open(UNRECOGNISED, encoding="utf-8") as f:
+            rows = json.load(f)
+        r = rows.get(key)
+        return isinstance(r, dict) and int(r.get("count", 0)) >= int(count)
+    except Exception:
+        silence.note("cascade_bridge.py:unrecognised-readback")
+        return False
+
+
 def record_unrecognised(bucket, err):
     """Write down a pool failure that matched no known disposition, so it can be investigated.
 
@@ -844,7 +869,14 @@ def record_unrecognised(bucket, err):
         # verdict is still READ rather than assumed, which is what makes the note below reachable.
         with _UNREC_LOCK:
             landed = False
-            for attempt in range(8):
+            # TWELVE ATTEMPTS AND A JITTERED BACKOFF, not the flat eight `workorders._mutate`
+            # uses. Measured while fixing this: three processes recording forty rows each with
+            # no think time between them landed 91 of 120 on a flat backoff, because every loser
+            # slept the SAME interval and collided again on the next attempt. Jitter breaks the
+            # lockstep, and the extra attempts cost nothing on a path that has already spent a
+            # provider deadline. The refusal is still reported rather than assumed if all twelve
+            # go -- losing a row quietly is the fault this whole change is about.
+            for attempt in range(12):
                 # The digest is taken BEFORE the read, so anything landing between the two makes
                 # the swap fail closed rather than pass on a copy that is already behind.
                 digest = silence.digest_of(UNRECOGNISED)
@@ -872,13 +904,34 @@ def record_unrecognised(bucket, err):
                 with open(tmp, "w", encoding="utf-8") as f:
                     json.dump(rows, f, indent=1, sort_keys=True)
                 landed, _why = silence.replace_if_unchanged(tmp, UNRECOGNISED, digest)
-                if landed:
+                if landed and _row_survived(key, r["count"]):
                     break
-                try:
-                    os.remove(tmp)
-                except OSError:
-                    silence.note("cascade_bridge.py:unrecognised-tmp-cleanup")
-                time.sleep(0.05 * (attempt + 1))
+                # AND THE COMPARE-AND-SWAP IS READ BACK, because it is not actually atomic.
+                # `silence.replace_if_unchanged` digests the target ONCE and then hands the
+                # rename to `replace_retry`, whose denied-rename backoff can sleep for seconds
+                # before the rename actually happens -- so content can land validated against a
+                # digest that is by then long stale, and BOTH writers are told they landed.
+                #
+                # MEASURED, three processes recording forty rows each at a 50 ms cadence, out of
+                # 120 rows: the old snapshot write kept 4-12; this compare-and-swap keeps 55-86;
+                # the same test with the helper tightened to re-digest before each rename
+                # attempt keeps 117-120. So the read-back below is NOT what makes this whole
+                # today -- the remaining loss is the helper's, it is a wider fault than this
+                # function (`workorders._mutate` and `endpoint.register` land the work-order
+                # queue and the page registry through the same window), and it is filed as its
+                # own order. The read-back stays because it turns a loss this function CAN see
+                # into one more attempt instead of a silent drop, and because it is the belt to
+                # that brace once the helper is repaired.
+                if not landed:
+                    # Only when the rename was REFUSED is `tmp` still there to remove; after a
+                    # landed-but-clobbered write the file has already been renamed away, and
+                    # removing it would note a cleanup failure that is not one.
+                    try:
+                        os.remove(tmp)
+                    except OSError:
+                        silence.note("cascade_bridge.py:unrecognised-tmp-cleanup")
+                landed = False
+                time.sleep(0.02 * (attempt + 1) * (1.0 + random.random()))
             if not landed:
                 # The verdict is READ, not assumed. A denied replace is a return value here, not
                 # an exception, so without this the recorder built to make failures visible was

@@ -109,7 +109,19 @@ def check_scope_build_signature_has_no_dead_param():
     tree = ast.parse(src)
     fn = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name == "build")
     args = [a.arg for a in fn.args.args]
-    assert args == ["hosts"], "scope.build() signature drifted: %r" % (args,)
+    # NO DEAD PARAM -- which is what this check is named for and what the order fixed. It used
+    # to assert `args == ["hosts"]`, an exact-signature pin, and on 2026-08-29 scope.build()
+    # legitimately gained `force=False`: it is read in the todo comprehension
+    # (`force or _stamp(out.get(h)) < PROBE_VERSION`) and passed from main() as `force=a.rebuild`,
+    # the escape hatch for a host frozen out for ever once it had a key. A live parameter is not
+    # drift. Assert the PROPERTY instead -- every declared parameter is actually read in the body
+    # -- which still fails the day a dead one is re-added, under any name, and no longer fails
+    # the day a used one is added.
+    body_names = {n.id for n in ast.walk(fn) if isinstance(n, ast.Name)}
+    dead = [a for a in args if a not in body_names]
+    assert not dead, "scope.build() has dead parameter(s): %r (signature %r)" % (dead, args)
+    assert args and args[0] == "hosts", \
+        "scope.build() no longer takes hosts as its first parameter: %r" % (args,)
     assert "P.records(" not in src, "scope.py still calls pipeline.records() somewhere"
 
 

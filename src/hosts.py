@@ -167,16 +167,37 @@ def discover(only=None, workers=6, per_source=24):
             return None
         cur = primary_host(source)
         try:
-            cands = HC.candidates(source, cur, by=by, hosts=prim)
+            grounded, spec = HC.candidates_split(source, cur, by=by, hosts=prim)
         except Exception:
             silence.note("hosts.py:candidates")
             return None
-        # `candidates` returns grounded hosts first and speculation after. Probing every
-        # invented subdomain costs a network round trip each to learn it does not exist, so the
-        # tail is bounded -- but the bound sits AFTER the evidence, never through it, and what
-        # it drops is guesses rather than known hosts.
-        if per_source and len(cands) > per_source:
-            cands = cands[:per_source]
+        # THE BOUND IS APPLIED TO THE SPECULATION, AND IT CAN NO LONGER REACH THE EVIDENCE.
+        #
+        # This read `cands = HC.candidates(...)` followed by `cands[:per_source]`, over a flat
+        # concatenation, under a comment asserting that "the bound sits AFTER the evidence,
+        # never through it, and what it drops is guesses rather than known hosts". Nothing
+        # enforced that. It was true only because the grounded prefix happened to be shorter
+        # than 24: measured over the whole live roll on 2026-08-29, 175 sources with a roster,
+        # the longest candidate list ran to 75 while the largest grounded prefix was 15, no
+        # source exceeded 24 grounded, and no grounded host was actually dropped. Nine hosts of
+        # headroom, on a grounded list that is bounded by nothing -- www.dandwiki.com, every
+        # pairwise and single-token slug, EVERY NEIGHBOUR HOST whose roster shares max(3, 25%)
+        # of this source's names (an unbounded loop over all ~193 sources), every feats._slugs
+        # variant, and en.wikipedia.org. The D&D shelf already sits at the top of that table, so
+        # a franchise added to the roll with many overlapping rosters pushes the prefix up with
+        # no signal at all, and the day it passes 24 the slice starts eating real hosts in
+        # silence. hostcheck.py records the last time this exact slice did that: en.wikipedia.org
+        # at position nineteen of a list cut at eighteen, so every pantheon and astrology source
+        # was reported as having no wiki. (order 0b43bb663c36)
+        #
+        # `candidates_split` hands back the boundary instead of making the caller guess where it
+        # is, so the bound now provably lands on guesses only. Probing an invented subdomain
+        # still costs a round trip to learn it does not exist, which is what the bound is for.
+        withheld = 0
+        if per_source and len(spec) > per_source:
+            withheld = len(spec) - per_source
+            spec = spec[:per_source]
+        cands = grounded + spec
         keep = []
         for h in cands:
             if h == cur:
@@ -197,13 +218,18 @@ def discover(only=None, workers=6, per_source=24):
                 why = r.get("verdict") if specialist else "about=" + str(about)
                 keep.append((r.get("lift") or 0, h, why, r.get("rate")))
         keep.sort(reverse=True)
-        return (source, keep)
+        return (source, keep, withheld)
 
+    # 615 speculative probes were withheld across the roll on the day this was measured and
+    # nothing anywhere said so. A bound is allowed to exist; a bound nobody can see the size of
+    # is how a smaller universe gets mistaken for the whole one, so the total is reported.
+    withheld_total = 0
     with ThreadPoolExecutor(max_workers=workers) as ex:
         for res in ex.map(work, todo):
             if not res:
                 continue
-            source, keep = res
+            source, keep, withheld = res
+            withheld_total += withheld
             for lift, h, verdict, rate in keep:
                 landed = add(source, h, evidence=verdict + " lift=" + str(lift), score=rate)
                 if landed:
@@ -226,6 +252,13 @@ def discover(only=None, workers=6, per_source=24):
                          "SOURCE_HOSTS was denied and these are lost until the next walk: %s\n"
                          % (len(lost), "; ".join("%s -> %s" % (s, h) for s, h in lost)))
         silence.note("hosts.py:discover-lost")
+    if withheld_total:
+        # Speculation only -- `candidates_split` guarantees the bound cannot reach a grounded
+        # host -- so this is a cost figure, not a loss figure. It is printed because it is the
+        # number that says how much guessing the per_source bound is buying back, and because
+        # an unstated bound is indistinguishable from no bound at all.
+        print("  (%d speculative host guess(es) withheld by per_source=%d; grounded hosts are "
+              "never bounded)" % (withheld_total, per_source))
     return added, rows
 
 

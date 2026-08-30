@@ -293,6 +293,33 @@ def _deed_shortfall(ents, text):
     return traced, total, (traced / total if total else 1.0)
 
 
+class ChapterRefused(RuntimeError):
+    """A refusal that carries the FULL offender list, not only the sentence about it.
+
+    THE DURABLE RECORD OF *WHICH* ENTRIES A CHAPTER FAILED ON WAS TRUNCATED ON DISK (order
+    4e437987e382). Two refusals below name entities in their message -- `missing[:8]` for
+    entries the model never wrote, `_unearned[:5]` for entities given Instrument axis scores
+    with no cited feat -- and `main()` stores `str(e)` as the `error` field of failures.json.
+    So the only place the complete list existed was the exception's own formatting, and the
+    only way to recover it was to re-run the job. The counts are stated, which makes the
+    strings honest; it does not make the names reachable.
+
+    The house standard elsewhere in this tree is stricter than honest-truncation: `mutate.py
+    --list` prints every skipped site with the note "no cap, no 'and N more' -- because this is
+    the listing a person reads to decide whether the coverage number means anything", and
+    `thread_integrity.main()` and catalogue_codex's two collision reports are uncapped for the
+    same reason. The split adopted here keeps the human-readable `error` sentence short, where
+    length genuinely costs something, and puts the whole list beside it under its own key --
+    so nothing is only reachable by re-running the job.
+    """
+
+    def __init__(self, message, **lists):
+        super().__init__(message)
+        # Empty lists are dropped rather than stored as `[]`, so a key's PRESENCE in the record
+        # means "this refusal named these", not "this refusal exists".
+        self.lists = {k: list(v) for k, v in lists.items() if v}
+
+
 def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
     """One manifest job -> the full text, written in verified blocks.
 
@@ -397,18 +424,27 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         _cited = _PG.cited_names_for(job.get("source_name"), [e.get("name") for e in g])
         _unearned = _PG.unearned_instrument(text, _cited)
         if _unearned:
-            raise RuntimeError(
+            # The sentence names five; `unearned=` carries all of them into failures.json under
+            # its own key. See ChapterRefused.
+            raise ChapterRefused(
                 "block %d/%d printed Instrument axis scores for %d entit%s with no cited feat: "
-                "%s. Hard Rule 3 forbids a fabricated assay, and a precise number is the most "
+                "%s%s. Hard Rule 3 forbids a fabricated assay, and a precise number is the most "
                 "convincing thing a model can invent."
                 % (gi + 1, len(groups), len(_unearned),
-                   "y" if len(_unearned) == 1 else "ies", "; ".join(_unearned[:5])))
+                   "y" if len(_unearned) == 1 else "ies", "; ".join(_unearned[:5]),
+                   " (+%d more, all of them under 'unearned')" % (len(_unearned) - 5)
+                   if len(_unearned) > 5 else ""),
+                unearned=_unearned)
 
         parts.append(text.strip())
         missing.extend(e.get("name", "?") for e in lacking)
     if missing:
-        raise RuntimeError(f"entries not written after retry: {', '.join(missing[:8])}"
-                           + (f" (+{len(missing) - 8} more)" if len(missing) > 8 else ""))
+        # Eight names in the sentence, every name under `missing_entries`. See ChapterRefused.
+        raise ChapterRefused(
+            f"entries not written after retry: {', '.join(missing[:8])}"
+            + (f" (+{len(missing) - 8} more, all of them under 'missing_entries')"
+               if len(missing) > 8 else ""),
+            missing_entries=missing)
     return "\n\n".join(parts)
 
 
@@ -509,12 +545,17 @@ def main():
         pending.append((job, rh))
 
     if refused_src:
-        print("\nEVIDENCE FLOOR — %d source(s) held back at %.0f%% cited:"
+        # ALL OF THEM (order 4e437987e382). This printed the first twenty and "... and N more",
+        # which the count keeps honest but does not make actionable: this listing is exactly
+        # what an operator reads to decide WHICH sources to go and finish reading, and the ones
+        # past twenty were named nowhere. `mutate.py --list` states the standard -- "no cap, no
+        # 'and N more' -- because this is the listing a person reads to decide whether the
+        # coverage number means anything". One line per source, bounded by the roll at ~215,
+        # printed once per invocation. Sorted, so an interrupted read still has a stable order.
+        print("\nEVIDENCE FLOOR — %d source(s) held back at %.0f%% cited, all of them:"
               % (len(refused_src), 100 * floor))
-        for s, w in sorted(refused_src.items(), key=lambda kv: str(kv[0]))[:20]:
+        for s, w in sorted(refused_src.items(), key=lambda kv: str(kv[0])):
             print("   %s" % w)
-        if len(refused_src) > 20:
-            print("   ... and %d more" % (len(refused_src) - 20))
         print("   These are NOT failures. They are sources the reader has not finished.\n")
 
     if stale_count:
@@ -564,6 +605,12 @@ def main():
                 "source_name": job["source_name"],
                 "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
             }
+            # THE COMPLETE OFFENDER LISTS, WHERE A LATER READER CAN REACH THEM (order
+            # 4e437987e382). `str(e)` is the short sentence; a `ChapterRefused` also carries the
+            # untruncated names, and they land as their own keys (`missing_entries`,
+            # `unearned`). `getattr` rather than an isinstance branch so an ordinary
+            # RuntimeError from anywhere else in the job simply adds nothing.
+            failures[job["address"]].update(getattr(e, "lists", {}))
             save_json(cfg["paths"]["failures"], failures)
             continue
 

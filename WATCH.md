@@ -1,28 +1,36 @@
 # OVERWATCH
 
-round 180  ·  last run 2026-08-29 22:41
+round 181  ·  last run 2026-08-29 23:17
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 276,686 inspected (deep scan as of round 175)
+- files that will not parse: **0** of 277,455 inspected
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**5 open** (2 high). Newest first.
+**9 open** (4 high). Newest first.
 
-- **assay.py** `interval` — [HIGH] the interval is the square root of the sum of half_spread squared and floor squared, which represents the combined variance of prior divergence and evidence-quality noise
-  - says: the interval is prior divergence, not ignorance
-- **assay.py** `_interval` — [HIGH] The code calculates variance but misses the covariance term which is the larger half of the error bar calculation.
-  - says: Half-width of the honest error bar, in BAND units, by variance propagation.
-- **autostart.py** `subprocess.Popen` — [MEDIUM] return a Popen object without properly closing file handles
-  - says: start a new process
-- **assay.py** `denom` — [MEDIUM] sums WEIGHTS over applicable axes but adds 1.0 as a fallback when the sum is zero
-  - says: sums WEIGHTS over applicable axes
-- **assay.py** `_rho` — [MEDIUM] Returns 0.0 when no documentation is available, but the code delegates to axis_correlation.rho which is supposed to handle the correlation calculation.
-  - says: Measured correlation between two Measures. -> float in [-1, 1].
+- **assay.py** `instrument` — [HIGH] Returns 'uninstrumented — no faculties on file' when no worksheet is provided, which is a refusal rather than a conversion.
+  - says: Deterministic conversion to the six faculties, 1-30, plus Transcendence Grade.
+- **assay.py** `calibration_report` — [HIGH] the loop touches nothing shared and does not modify SIGMA_BY_ATTESTATION
+  - says: The loop used to assign each trial sigma into SIGMA_BY_ATTESTATION and put it back in a `finally`
+- **assay.py** `calibration_report` — [HIGH] asserts stored constants by comparing to CHARTER_KENSHIRO_INTERVAL and CHARTER_KENSHIRO_DECIMAL
+  - says: Re-DERIVE the charter's published numbers; never assert a stored constant.
+- **address_space.py** `assign` — [HIGH] assign is called with a designation and a tier stack, but the second argument is a continuity-group integer instead of a tier stack
+  - says: assign(desig, tiers.get(src) or {})
+- **assay.py** `_check_scores` — [MEDIUM] Validates scores against the FULL WEIGHTS table, but the comment suggests it only validates against the axes FACULTY_READS consumes, leading to confusion.
+  - says: Validated against the FULL WEIGHTS table rather than only the axes FACULTY_READS consumes
+- **assay.py** `_rho_source` — [MEDIUM] constructs fallback reason
+  - says: provenance stamp for correlations
+- **assay.py** `RHO_FALLBACK_REASON` — [MEDIUM] announces fallback reason
+  - says: guard against missing matrix
+- **anchors.py** `unanchored` — [MEDIUM] a list of names in the ladder not in ANCHORS
+  - says: the declared ladder must name every anchor, and only anchors
+- **anchors.py** `ungraded` — [MEDIUM] a list of anchors not in the ladder
+  - says: the declared ladder must name every anchor, and only anchors
 
 ---
 

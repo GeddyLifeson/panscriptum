@@ -79,9 +79,11 @@ import json
 import os
 import re
 import sys
+import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cachekey                                                         # noqa: E402
 import silence                                                          # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
@@ -144,8 +146,14 @@ def _titles(host_dir):
     return out
 
 
-def mine(root=None):
+def mine(root=None, hosts=None):
     """Build the designator inventory from the cache.
+
+    `hosts` restricts the mine to those host directories and is EXACT, not an approximation:
+    `inv[host]` is computed from that host's directory and nothing else, so mining a subset
+    produces byte-identical entries to mining the whole tree. It exists because `load()`'s
+    staleness repair needs to add the directories the cache has never seen without re-reading
+    the 261,000 files it already has answers for -- see the note there.
 
     Returns `{host: {designator: {"bearers": n, "shared": n}}}`, where SHARED counts the bearers
     that also appear under some other designator or bare. Shared is the branch signature: the
@@ -155,9 +163,12 @@ def mine(root=None):
     Uses every title present -- no sampling. A designator that only appears in the tail of a
     host's cache is exactly the alternate timeline most at risk of being merged away.
     """
-    root = root or os.path.join(HERE, "data", "feats")
+    root = _feats_root(root)
     inv = {}
+    want = set(hosts) if hosts is not None else None
     for host in sorted(os.listdir(root)) if os.path.isdir(root) else []:
+        if want is not None and host not in want:
+            continue
         hd = os.path.join(root, host)
         if not os.path.isdir(hd):
             continue
@@ -170,10 +181,17 @@ def mine(root=None):
             seen[base].add(desig)          # None means the bare title was also mined
             if desig:
                 bearers[desig].add(base)
-        if bearers:
-            inv[host] = {d: {"bearers": len(b),
-                             "shared": sum(1 for x in b if len(seen[x]) > 1)}
-                         for d, b in bearers.items()}
+        # A VISITED DIRECTORY GETS A KEY EVEN WHEN IT HAS NO DESIGNATORS. This used to be
+        # `if bearers:`, which is the same answer to a caller -- `continuities()` returns {}
+        # either way -- but a very different answer to `stale_hosts()` below, which asks "is
+        # there a feats directory this inventory has never seen?" as its staleness test. A host
+        # whose titles carry no parenthetical at all would otherwise be permanently absent from
+        # the cache and would therefore report the cache as permanently stale, re-mining the
+        # whole corpus on every load. An empty dict says "mined, nothing found", which is a
+        # different fact from "never mined" and is the fact the staleness test needs.
+        inv[host] = {d: {"bearers": len(b),
+                         "shared": sum(1 for x in b if len(seen[x]) > 1)}
+                     for d, b in bearers.items()}
     return inv
 
 
@@ -216,13 +234,128 @@ def _is_continuity(desig, stat):
     return n >= 2 and shared >= max(2, 0.5 * n)
 
 
-def load(refresh=False):
+def _feats_root(root=None):
+    return root or os.path.join(HERE, "data", "feats")
+
+
+def stale_hosts(inv, root=None):
+    """Host directories under data/feats that this inventory has no key for. -> sorted list
+
+    THE STALENESS TEST, and it is deliberately not a threshold or a timestamp comparison.
+    `mine()` gives every directory it visits a key (see the note there), so a feats directory
+    absent from the inventory is unambiguous evidence that the inventory predates the corpus.
+    No judgment call, nothing to tune, and it cannot report a fresh cache as stale.
+    """
+    root = _feats_root(root)
+    if not os.path.isdir(root):
+        return []
+    return sorted(d for d in os.listdir(root)
+                  if os.path.isdir(os.path.join(root, d)) and d not in inv)
+
+
+def staleness(inv=None, root=None):
+    """-> {'indexed', 'on_disk', 'missing', 'age_hours'} for the banner CLAUDE.md mandates.
+
+    corpus_db's rule, applied to the other derived index in this tree: "Every result is
+    therefore printed under a banner saying how far behind the index is ... Treat stale counts
+    as a FLOOR." The recognised-continuity counts this module reports are exactly that -- a
+    floor -- because every host the inventory has never seen answers {} , and {} is
+    indistinguishable downstream from "this source records one history".
+    """
+    inv = inv if inv is not None else load(refresh_if_stale=False)
+    root = _feats_root(root)
+    on_disk = ([d for d in os.listdir(root) if os.path.isdir(os.path.join(root, d))]
+               if os.path.isdir(root) else [])
+    age = None
+    if os.path.exists(CACHE):
+        try:
+            age = (time.time() - os.path.getmtime(CACHE)) / 3600.0
+        except OSError:
+            _ = "silence-exempt: an unstattable cache still reports its counts, just not its age"
+    return {"indexed": len(inv), "on_disk": len(on_disk),
+            "missing": stale_hosts(inv, root), "age_hours": age}
+
+
+def staleness_banner(inv=None, root=None):
+    """One line, the corpus_db shape: '93 hosts indexed, 142 on disk, 178h old'."""
+    s = staleness(inv, root)
+    age = "unknown age" if s["age_hours"] is None else "%.0fh old" % s["age_hours"]
+    line = "designator inventory: %d hosts indexed, %d on disk, %s" % (
+        s["indexed"], s["on_disk"], age)
+    if s["missing"]:
+        line += (" -- %d NEVER MINED, so every title on them answers 'no continuity', which is "
+                 "indistinguishable from a single-timeline source. Counts below are a FLOOR."
+                 % len(s["missing"]))
+    return line
+
+
+# Set once per process by `load()` when it re-mines because the cache was stale. A denied write
+# would otherwise make every subsequent load() in the same process re-mine the whole corpus,
+# which is minutes of work each time -- the caller already holds the fresh inventory, and the
+# problem it is trying to report is the DISK copy, which re-mining again cannot fix.
+_STALE_REMINED = False
+
+
+def load(refresh=False, refresh_if_stale=True):
+    """The designator inventory, re-mined when the cache demonstrably predates the corpus.
+
+    THE CACHE IS NOT SELF-HEALING AND ITS STALENESS MERGES CONTINUITIES (order f5800fff55f6).
+    The fast path below used to serve whatever was on disk with no TTL, no comparison against
+    the corpus it is derived FROM, and no banner; only a hand-run `--refresh` ever moved it and
+    nothing schedules one. Measured 2026-08-29: the file was 179 hours old, held 93 hosts while
+    142 sat under data/feats, and 51 mined host directories -- 16,963 cache files -- had no key
+    at all. Every title on those hosts got `(base, None)` out of `identify()`, chain.harvest
+    stored `continuity: None` for it, and chain.extract then keyed both fighters onto bare
+    nodes: two branches of one being handed to Bradley-Terry as one entity's inconsistent
+    record. That is the WRONG MERGE this module's docstring calls unrecoverable, and it is
+    invisible because None is also a real answer meaning "this source records one history".
+
+    THE STALE REPAIR IS INCREMENTAL, AND THAT IS A CORRECTNESS-NEUTRAL COST DECISION. `inv[h]`
+    is computed from host directory `h` and nothing else, so mining only the directories the
+    cache has never seen yields byte-identical entries for them. A whole-tree re-mine reads all
+    261,000 files under data/feats -- tens of minutes on this machine -- and `load()`'s callers
+    are `chain.harvest` (deliberately incremental, per-file mtime) and allsweep's `identity.py`
+    row, neither of which can absorb that on every pass. What the incremental repair does NOT
+    do is notice a host that was already indexed and has since GROWN; `--refresh` is still the
+    only whole-tree pass, which is why the banner reports the cache's age and says its counts
+    are a FLOOR rather than claiming freshness it does not have.
+
+    `refresh_if_stale=False` is for a caller that explicitly wants the frozen copy -- the
+    staleness report itself, and anything measuring the cache rather than using it.
+    """
+    global _STALE_REMINED
     if not refresh and os.path.exists(CACHE):
         try:
             with open(CACHE, encoding="utf-8") as f:
-                return json.load(f)
+                inv = json.load(f)
         except Exception:
             silence.note("identity.py:load")
+        else:
+            if not refresh_if_stale or _STALE_REMINED:
+                return inv
+            missing = stale_hosts(inv)
+            if not missing:
+                return inv
+            # Once per process, whatever the write does. A denied replace would otherwise make
+            # every later load() in this process mine the same directories again, and the
+            # caller already holds the corrected inventory -- the unfixed thing is the disk
+            # copy, which re-mining cannot fix.
+            _STALE_REMINED = True
+            silence.note("identity.py:cache-predates-corpus")
+            print("identity: %s has no key for %d host director%s under data/feats (%s%s) -- "
+                  "mining them now, because serving the cache as-is answers 'no continuity' "
+                  "for every title on them and a wrong merge is not recoverable."
+                  % (CACHE, len(missing), "y" if len(missing) == 1 else "ies",
+                     ", ".join(missing[:6]), "" if len(missing) <= 6 else
+                     ", and %d more" % (len(missing) - 6)),
+                  file=sys.stderr)
+            inv.update(mine(hosts=missing))
+            if not silence.write_json(CACHE, inv, indent=1, sort_keys=True):
+                silence.note("identity.py:cache-write-denied")
+                print("identity: %s NOT updated (replace denied) -- this process has the "
+                      "repaired inventory, but every other reader still sees the previous one."
+                      % CACHE, file=sys.stderr)
+            return inv
     inv = mine()
     # silence.write_json, not a hand-rolled tmp + json.dump + replace_retry (order 92a07b4ba203):
     # the old tmp name carried no pid/thread, so two concurrent --refresh runs shared one temp
@@ -240,6 +373,34 @@ def load(refresh=False):
     # being told the wrong thing. Never raised and the return value is unchanged: the caller
     # holding `inv` has the correct inventory in hand either way, and this is a report about
     # the DISK copy the other processes will read.
+    #
+    # AND AN UNREADABLE CORPUS IS NEVER PERSISTED AS A POSITIVE ANSWER (order f5800fff55f6).
+    # `mine()` over an absent or empty feats root returns {} , and this used to write that {}
+    # to disk and then serve it from the fast path above indefinitely -- "no continuities
+    # anywhere", cached, from a corpus nobody could read. The failure mode of this cache is
+    # never "absent, so re-mine"; it is "present and wrong". So: an inventory mined from a root
+    # that does not exist is not written at all, and an EMPTY inventory is never landed over a
+    # non-empty one. The caller still gets what was mined -- this refuses to make the disk copy
+    # worse, not to answer.
+    root = _feats_root()
+    if not os.path.isdir(root):
+        silence.note("identity.py:mine-root-absent")
+        print("identity: %s does not exist -- returning an empty inventory WITHOUT writing it. "
+              "An unreadable corpus must not be cached as 'no continuities'." % root,
+              file=sys.stderr)
+        return inv
+    if not inv and os.path.exists(CACHE):
+        try:
+            with open(CACHE, encoding="utf-8") as f:
+                prior = json.load(f)
+        except Exception:
+            prior = {}
+        if prior:
+            silence.note("identity.py:refused-empty-over-populated")
+            print("identity: the mine found no designators at all while %s holds %d host(s) -- "
+                  "REFUSING to overwrite it. Something is wrong with the read of %s, not with "
+                  "the corpus." % (CACHE, len(prior), root), file=sys.stderr)
+            return inv
     if not silence.write_json(CACHE, inv, indent=1, sort_keys=True):
         silence.note("identity.py:cache-write-denied")
         print("identity: %s NOT updated (replace denied) -- this process has the fresh "
@@ -248,11 +409,40 @@ def load(refresh=False):
     return inv
 
 
+def _inv_keys(host):
+    """The spellings this host's inventory key could wear, best first.
+
+    `cachekey.host_dir()` FIRST, because that is what actually created the directory names
+    `mine()` keys on (order a1bb663bd51d). This function used to build the key by hand as
+    `host.replace(".", "_").replace("-", "_")`, which agrees with `re.sub("[^A-Za-z0-9]+", "_",
+    host)[:40]` only for hosts whose sole punctuation is dots and hyphens and which are under
+    40 characters. Six hosts on data/HOSTS.json today are not -- `pages:A Plethora of Paladins`,
+    `doc:arcanum-worlds-odyssey-of-the-dragonlords` (which hits the 40-char cap),
+    `pages:Guildmasters' Guide to Ravnica`, `pages:KibblesTasty (techno-psionic line)`,
+    `pages:all Creeper World` and `pages:the Sex Worker background` -- and for those the lookup
+    could never succeed however fresh the cache was. It failed the way this project's failures
+    always fail: by returning {} , which reads as "this source records one history".
+
+    cachekey.py's own docstring says it exists to be the ONE spelling of this path component
+    ("four independent copies of one convention is four chances for the next edit to drift");
+    identity.py was a fifth site its survey did not catch.
+
+    The old spellings are kept as fallbacks, not replaced: an inventory mined before this
+    change is keyed on whatever `os.listdir` returned, which is the cachekey spelling anyway,
+    and a hand-written or partial cache keyed the old way must still answer.
+    """
+    hand = (host or "").replace(".", "_").replace("-", "_")
+    return [cachekey.host_dir(host), host, hand]
+
+
 def continuities(host, inv=None):
     """The designators on this host that behave like continuities."""
     inv = inv if inv is not None else load()
-    key = host.replace(".", "_").replace("-", "_")
-    counts = inv.get(key) or inv.get(host) or {}
+    counts = {}
+    for k in _inv_keys(host):
+        if inv.get(k):
+            counts = inv[k]
+            break
     return {d: (v["bearers"] if isinstance(v, dict) else v)
             for d, v in counts.items() if _is_continuity(d, v)}
 
@@ -461,9 +651,20 @@ def main():
     a = ap.parse_args()
 
     inv = load(refresh=a.refresh)
+    # THE BANNER FIRST, ON EVERY PATH. CLAUDE.md mandates it for every derived index in this
+    # tree ("Every result is therefore printed under a banner saying how far behind the index
+    # is ... Treat stale counts as a FLOOR"), and this index had none at all -- which is how it
+    # sat 179 hours behind a corpus that had grown by 51 host directories without anyone
+    # reading its output learning so. Order f5800fff55f6.
+    print(staleness_banner(inv))
     if a.host:
-        key = a.host.replace(".", "_").replace("-", "_")
-        counts = inv.get(key, {})
+        # Same key resolution the library uses -- see `_inv_keys`. Hand-rolling it here a
+        # second time is how the two spellings drifted apart in the first place.
+        counts = {}
+        for _k in _inv_keys(a.host):
+            if inv.get(_k):
+                counts = inv[_k]
+                break
         cont = continuities(a.host, inv)
         print(f"{a.host}: {len(counts)} distinct parentheticals, "
               f"{len(cont)} behave like continuities\n")

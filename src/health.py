@@ -394,13 +394,28 @@ def summary():
 
     THE ONE READER OF failures.json IN THIS FILE THAT COULD NOT SURVIVE READING IT. `flush()`
     twenty lines up treats a torn ledger as a preserve-and-report case, and both external readers
-    (dashboard.py:331-339, standards.py:797-800) wrap the read; this one had nothing around it,
+    wrap the read; this one had nothing around it,
     so a `--failures` run against the exact fault the file exists to record -- an interrupted
     write leaving 0 bytes -- died with a JSONDecodeError instead of reporting anything.
     Deliberately NOT returning `{}`: main() prints "no failures recorded" for an empty summary,
     and answering "could not read the ledger" with "there are no failures" is the reporting
     failure this module was written to expose. The unreadable state is itself a recorded class,
     spelled the same way `flush()` spells it, so it shows up in the count table as a row.
+
+    THE TWO EXTERNAL READERS, NAMED BY THEIR silence TAG RATHER THAN BY A LINE NUMBER (order
+    f467390925c5). This used to cite "dashboard.py:331-339, standards.py:797-800". Both had
+    drifted: standards.py:790-805 is the reader's-gate standard (GATE_CLOUD_N / tuning.regime
+    prose) and holds no read of failures.json at all -- the guarded one is about two hundred
+    lines below, and the dashboard's had moved too. A reader checking the premise of this
+    docstring landed on unrelated code and could not confirm it. Line numbers in another file
+    are a citation with a short shelf life; the `silence.note` tag beside each guard is not,
+    because moving the guard moves the tag with it:
+
+        dashboard.py   try/except around the failures.json read, tag "dashboard.py:failures"
+        standards.py   try/except around the ledger measurement, tag "standards.py:ledger"
+
+    Grep for those two strings. As of this writing they sit at dashboard.py:350-360 and
+    standards.py:1000-1028.
     """
     if os.path.exists(LEDGER_PATH):
         try:
@@ -774,7 +789,15 @@ def reopen_stranded(dry=True):
         return []
     verb = "would re-open" if dry else "re-opened"
     print(f"{verb} {len(reopen)} batch(es) holding {entries} uncatalogued entries")
-    for k in reopen[:20]:
+    # ALL OF THEM (order b749bcf87350). This was `reopen[:20]` with no marker at all, so past
+    # twenty the `source#startIndex` spans simply were not shown. The count on the line above
+    # is not a substitute: `--reopen` without `--go` exists so an operator can READ which spans
+    # are about to be re-opened before authorising it, and this listing IS that review step.
+    # The comment further up records 149 entries having had their `excluded` reason silently
+    # reverted by an over-broad reopen -- a review that shows the first twenty of an unordered
+    # list is what this project calls a check that cannot fail. Human-invoked repair tool, one
+    # short line per batch, no hot path: printing all of them costs nothing that matters.
+    for k in reopen:
         print("   " + k)
     if not dry:
         st["done"]["entrypass"] = [k for k in done if k not in set(reopen)]

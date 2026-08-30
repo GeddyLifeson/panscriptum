@@ -30,8 +30,16 @@ because a guard that costs anything gets skipped on the run that most needed it.
 import json
 import os
 import re
+import sys
+import threading
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# This module is imported by `publish.push` -> `assert_intact` from processes whose sys.path may
+# not carry src/, so it is put there rather than assumed -- the same two lines every other
+# module in this directory opens with. `silence` is needed by seal() below, which used to
+# swallow its one failure with a bare `pass` and therefore left no trace in state/failures.json.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silence                                                          # noqa: E402
 
 APPEND_ONLY = ("HANDOFF.md",)
 # Floors, set well below the current sizes so ordinary editing never trips them. They exist to
@@ -219,18 +227,44 @@ def seal():
     # strictly a subset of the history the live file should still contain -- so a failure here
     # cannot wave a truncation through, only report one late. That is why it does not fail the
     # seal it rides along with.
+    #
+    # THAT REASONING IS TRUE OF STALE AND FALSE OF TORN (order be7b01fe1467). The temp file was
+    # a FIXED, SHARED name -- `HANDOFF.md.tmp` -- and seal() is reached from `assert_intact()`,
+    # which `publish.push()` calls before every push, while this project runs a `publish.py
+    # --loop` daemon alongside manual pushes. Two sealers meeting here is an ordinary
+    # situation, not a rarity: both open the same temp, the second truncates the first, and the
+    # first's `os.replace` lands whatever was in the file at that instant. A torn snapshot is a
+    # PREFIX of HANDOFF.md, and `_one_insertion(old=prefix, new=live)` returns True for any live
+    # file that still begins with that prefix, because the longest common prefix already covers
+    # the whole of `old`. So `check_since_snapshot` would answer "history preserved" for a
+    # HANDOFF.md truncated and regrown -- precisely the attack it was added on 2026-08-27 (run
+    # #36, order db2728e0f4bb) to catch, and which its own docstring records having passed
+    # check_all(), verify_chain() and assert_intact() before it existed. The weakening is
+    # proportional to the tear and was completely silent, because `except Exception: pass` did
+    # not even reach the ledger.
+    #
+    # Unique per writer, matching `hostcheck._land_hosts` and `silence.write_json`; noted rather
+    # than swallowed; and the temp is unlinked on failure so a shared state directory is not
+    # littered with half-written snapshots. NOT failing the seal is still deliberate and
+    # unchanged -- only the silence and the shared name are gone.
     for n in APPEND_ONLY:
         text = _read(n)
         if text is None:
             continue
+        tmp = os.path.join(SNAPSHOT_DIR,
+                           "%s.%d.%d.tmp" % (n, os.getpid(), threading.get_ident()))
         try:
             os.makedirs(SNAPSHOT_DIR, exist_ok=True)
-            tmp = os.path.join(SNAPSHOT_DIR, n + ".tmp")
             with open(tmp, "w", encoding="utf-8") as f:
                 f.write(text)
             os.replace(tmp, os.path.join(SNAPSHOT_DIR, n))
         except Exception:
-            pass
+            silence.note("ledger_guard.py:snapshot")
+            try:
+                os.unlink(tmp)
+            except OSError:
+                # Never written, or already renamed away. Nothing to clean and nothing to say.
+                pass
     return rec
 
 

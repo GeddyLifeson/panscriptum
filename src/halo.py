@@ -27,6 +27,7 @@ setting does not get promoted for being well written.
 import argparse
 import os
 import sys
+import textwrap
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -189,7 +190,13 @@ def main():
             print("")
             for ax in A.WEIGHTS:
                 d = rec["axes"][ax]
-                print("   %-15s%5.1f  %s" % (ax, d["score"], d["cited"][:54]))
+                # WRAPPED, NOT CUT -- see the paragraph on this line's twin at wh40k.py. Measured
+                # here: 27 of 33 axis citations exceed the old [:54] and the longest is 341
+                # characters, so --full lost most of the evidence it exists to show, silently.
+                body = textwrap.wrap(d["cited"], 54) or [""]
+                print("   %-15s%5.1f  %s" % (ax, d["score"], body[0]))
+                for cont in body[1:]:
+                    print("   %-15s%5s  %s" % ("", "", cont))
     # ATOMIC -- the m100 tail, 2026-08-25.
     #
     # GATED: `write_json` returns whether the rename LANDED and this dropped the verdict, then

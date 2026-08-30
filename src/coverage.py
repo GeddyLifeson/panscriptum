@@ -78,7 +78,9 @@ def _so_load():
             # this handler as OBSERVED. The cost is performance, not correctness (the memo is
             # derived and rebuilding gives the same answers), but the rebuild is a full reparse
             # of the ~874MB evidence corpus every run -- and coverage.py sits on
-            # foreman.refresh_coverage's AUTO remedy path under a 600s timeout (foreman.py:324),
+            # foreman.refresh_coverage's AUTO remedy path under its 600s timeout (cited by
+            # SYMBOL: this read `foreman.py:324`, which had drifted onto triage_swallowed's
+            # third-false-success comment, order bf22c557852e),
             # so a permanently unreadable memo could quietly convert that remedy into a timeout
             # with nothing anywhere saying why. Now it says why.
             silence.note("coverage.py:so-load-unreadable")
@@ -213,8 +215,12 @@ def report(rows, show=None, show_best=10):
     untried = sum(r.get("not_attempted", 0) for r in rows)
     nohost = sum(r["no_host"] for r in rows)
     feats = sum(r["feats"] for r in rows)
-    d = max(n, 1)  # SWEEP34 6cf2a6486075: measure() guards every division with max(n, 1)
-    # (lines 185-186 below); report() must not be the one place a division here is unguarded.
+    d = max(n, 1)  # SWEEP34 6cf2a6486075: measure() guards every division with max(n, 1) --
+    # see its `coverage`/`settled` keys, in the function ABOVE this one; report() must not be
+    # the one place a division here is unguarded. (Cited by symbol: this read "lines 185-186
+    # below", which was wrong three ways -- the guards are two lines further on, measure() is
+    # above report() and not below it, and 185-186 are `_so_load()` and `rows = []`.
+    # Order bf22c557852e.)
     print("=" * 84)
     print(f"CITATION COVERAGE — {n:,} entries across {len(rows)} sources")
     print("=" * 84)

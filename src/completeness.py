@@ -172,7 +172,13 @@ def category_size_probe(sub, category):
     inversion of what a transport failure means. 313 URLErrors were recorded at this site as of
     run #2, all of them silently deciding a row did not exist.
 
-    `category_size` stays as it was for every caller that only wants the number."""
+    `category_size` stays as it was -- but for NO caller, which is the part this sentence used
+    to get wrong. It read "for every caller that only wants the number", true when this function
+    was split out of it in the m3 fix and a comment about an empty set ever since: grepping
+    `category_size` (excluding this name) finds only its own `def` and docstring mentions. A
+    stale claim of callers is load-bearing here, because the next reader takes it as evidence
+    that something depends on the None-means-two-things behaviour and leaves it alone.
+    (order 551256c7dc68)"""
     d = _cs_load()
     k = sub + "|" + category
     hit = d.get(k)
@@ -200,7 +206,16 @@ def category_size(sub, category):
     uncached that was ~1,300 live calls per half hour to the domain that has IP-banned this
     machine once already (round-2 optimization audit, finding 3). Category counts move on a
     days clock; the standard's job is to keep the shortfall visible, not to re-ask fandom
-    the same question 48 times a day."""
+    the same question 48 times a day.
+
+    NO CALLER TODAY; KEPT AS THE PLAIN-NUMBER FORM (order 551256c7dc68). Every call site moved
+    to `category_size_probe` when the m3 fix split the error out, and `liveness.py` reports this
+    function as dead. It is not deleted: the house rule is that a public function is not removed
+    by a maintenance pass, and this is the one-line form a hand-run query wants. Said in the
+    present tense so the next sweep re-finds the fact rather than the function. If you are
+    adding a caller, use `category_size_probe` -- `None` here means BOTH "no such category" and
+    "the wiki did not answer", and that ambiguity is what dropped an all-errors source out of
+    COMPLETENESS.json entirely."""
     return category_size_probe(sub, category)[0]
 
 
@@ -474,8 +489,21 @@ def audit(only=None, workers=6):
             return _unmeasured(src, host,
                                ("host unreachable: %s did not answer its API at audit time, "
                                 "so no denominator could be requested. Not probed further, "
-                                "deliberately -- see completeness.host_reachable." % host),
-                               probe_failures=len(probes))
+                                "deliberately -- see completeness.host_reachable. No category "
+                                "probe was attempted, so there are no probe failures to "
+                                "report: %d probe(s) were DECLINED, not run and lost."
+                                % (host, len(probes))))
+    # `probe_failures` IS NOT PASSED HERE, AND THAT IS THE FIX (order 1065e3eb7cd3). It used to
+    # be `probe_failures=len(probes)` against the default `probes_run=0`, so every row on this
+    # branch recorded eight failures that never occurred -- measured on data/COMPLETENESS.json,
+    # 196 of 216 rows carrying `probe_failures: 8, probes_run: 0`, i.e. 1,568 phantom transport
+    # failures in the one file whose stated job is telling a real measurement from an unmeasured
+    # one. The whole argument of this branch, in the comment above and asserted by verify_math
+    # ("its probes_run is honestly zero"), is that a blocked host is deliberately NOT probed. A
+    # probe that was never attempted cannot have failed. The count of declined probes is not
+    # lost: `unreliable` now says it in words, which is where the reason for every other
+    # unmeasured row already lives, and it keeps the unmeasured row the same SHAPE as a measured
+    # one rather than growing a field only half the rows carry.
 
         sizes = {}
         failed = 0

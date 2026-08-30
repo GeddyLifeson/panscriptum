@@ -60,13 +60,52 @@ _NAV = re.compile(
     r"|characters?\b|gameplay\b|mechanics\b|controls\b|achievements?\b|trophies\b"
     r"|downloadable content\b|patch notes?\b|version history\b|soundtrack\b)", re.I)
 
+def _ruby_question_mark(m):
+    """Drop a ruby annotation's trailing `?` -- and ONLY a ruby annotation's.
+
+    The rule below was written for the '(France WP (フランス, Furansu ? )' shape, where the `?`
+    is MediaWiki's romaji marker and is furniture. It was unconditional, so it also deleted the
+    question mark from every ordinary English parenthetical that happened to end in one, and
+    `clean_description` runs over every catalogued description with `--apply` rewriting the
+    record. Measured over all 282,756 catalogued descriptions in data/records/: 6,085 sites, of
+    which 55 are plain English -- 'Ensign Sonya Gomez (Q Who?)', a real episode title, became
+    '(Q Who)'; '(a murder attempted?)' became a statement; '(or manifestation of mental
+    illness?)' likewise. All 55 were still intact on disk, so no --apply run had reached them
+    yet. This module's docstring calls the description "the evidence every later volume quotes
+    from", and the original text would have to come back off the wiki to repair one.
+
+    THE TEST IS THE ENCLOSING PARENTHETICAL, scanned back from the `?` to its opening paren and
+    counting nesting on the way. Nesting matters: the real ruby shape is
+    '( 女神 ( めがみ ) , Megami ? )', so a pattern that cannot cross an inner pair would have
+    left 178 genuine annotations un-stripped. Measured after the change: 6,030 ruby sites still
+    stripped (unchanged), 55 English question marks kept, 0 sites left unclassified.
+    """
+    s, i = m.string, m.start()
+    depth = 0
+    j = i - 1
+    while j >= 0:
+        if s[j] == ")":
+            depth += 1
+        elif s[j] == "(":
+            if depth == 0:
+                break
+            depth -= 1
+        j -= 1
+    if j < 0:
+        return m.group(0)          # no enclosing paren at all: not the shape this was written for
+    return "" if any(ord(c) > 127 for c in s[j:i]) else m.group(0)
+
+
 # Wikipedia link markers, broken ruby annotations, citation stubs.
 _MARKUP = [
     (re.compile(r"\s*\bWP\b(?=\s*[\(,]|\s*$)"), ""),          # "France WP (..." link marker
     (re.compile(r"\s*\(\s*[^()]*?,\s*[A-Za-z]+\s*\?\s*\)"), ""),   # "(フランス, Furansu ? )"
     (re.compile(r"\s*\[\s*\d+\s*\]"), ""),                    # [1] citation stubs
     (re.compile(r"\s*\[(?:citation needed|edit|sic)\]", re.I), ""),
-    (re.compile(r"\s*\?\s*(?=\))"), ""),                      # stray ? before a close paren
+    # Stray ? before a close paren -- but only inside a ruby annotation. The pattern is
+    # unchanged (so it stays on the mangled-escape roster below, which reads `_p.pattern`);
+    # what changed is that the replacement is a FUNCTION that declines on plain English.
+    (re.compile(r"\s*\?\s*(?=\))"), _ruby_question_mark),
     (re.compile(r"\s+([,.;:!?])"), r"\1"),        # "on Luna , and" -- wiki spacing
     (re.compile(r"\(\s+"), "("),
     (re.compile(r"\s+\)"), ")"),

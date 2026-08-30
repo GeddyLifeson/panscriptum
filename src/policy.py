@@ -99,6 +99,33 @@ def resolve(doc, path):
     return cur, True
 
 
+OBSERVED_CHARS = 120
+
+
+def _observed(value):
+    """`repr(value)`, and if it had to be shortened it SAYS SO. -> str.
+
+    THE ONE FIELD THIS MODULE EXISTS TO RECORD WAS STORED `repr(value)` CUT AT 120 WITH NO MARKER
+    (order 93d80b85fcec). The opening thesis of this file is that the evaluator records the
+    OBSERVED VALUE of every rule on every run, because "a rule that passed because it looked at
+    None is then visible in the report as a rule that looked at None, which is the only way a
+    vacuous pass can be told from a real one without reading the source". A list, a dict or a
+    long string cut mid-repr reads as the whole value, so the field that exists to prove what a
+    rule looked at could itself misrepresent it.
+
+    The bound is KEPT, because this report can hold a quarter of a million rows and an
+    unbounded repr of a large record is a state file nobody can open -- but a cut now declares
+    itself and its size, so a short value and a shortened one are distinguishable. Display caps
+    stay where they belong, at the call sites (`r['observed'][:34]` on the FAIL line), which is
+    the same argument `workorders.file_order`'s comment makes for having removed `what[:600]`
+    from the queue: a cap is acceptable exactly where it is reversible.
+    """
+    s = repr(value)
+    if len(s) <= OBSERVED_CHARS:
+        return s
+    return s[:OBSERVED_CHARS] + ("... (+%d chars)" % (len(s) - OBSERVED_CHARS))
+
+
 def check_rule(doc, rule):
     """Evaluate one rule against one document. -> a record, never a bare bool."""
     for req in ("id", "path", "op"):
@@ -121,13 +148,13 @@ def check_rule(doc, rule):
         ok = bool(OPS[op](value, rule.get("arg")))
     except Exception as e:
         ok = False
-        return {"id": rule["id"], "ok": False, "observed": repr(value)[:120],
+        return {"id": rule["id"], "ok": False, "observed": _observed(value),
                 "found": found, "op": op, "error": "%s: %s" % (type(e).__name__, e),
                 "severity": rule.get("severity", "MINOR"), "why": rule.get("why", "")}
     return {"id": rule["id"], "ok": ok,
             # THE OBSERVED VALUE, ALWAYS. A pass with `observed: None, found: False` is a rule
             # that examined a field that does not exist -- visible here, invisible in a boolean.
-            "observed": repr(value)[:120], "found": found, "op": op,
+            "observed": _observed(value), "found": found, "op": op,
             "severity": rule.get("severity", "MINOR"), "why": rule.get("why", "")}
 
 
@@ -356,7 +383,17 @@ def main():
     # side of reads exactly like a complete list, so the scope is stated whether or not it is
     # partial -- a run that says "216 of 216" cannot be mistaken for one that says "40 of 216".
     partial = a.limit is not None
-    report(evals, scope={
+    # THE LANDED VERDICT IS PART OF THE ANSWER (order 6a27d28ce4a1). `report()` returns whether
+    # the atomic replace landed, and this call used to drop it. A denied replace leaves the
+    # PREVIOUS run's `evaluations`, `at` stamp and `scope` block on disk -- so a run whose rules
+    # all passed but whose report did not land exited 0, and the stale state/policy_report.json
+    # could afterwards be read as THIS run's answer. A `--limit 40` scope block outliving a
+    # full-corpus run is the precise scenario the scope block was added after, and the one
+    # `report()`'s own docstring says its entire purpose is the word "later". The stderr line is
+    # loud but scrollback is not an exit code, and this module runs under
+    # `raise SystemExit(main())`. Same gating `completeness.main()` does with `land()` and
+    # `roll.exclude()` with `write_json`.
+    landed = report(evals, scope={
         "limit": a.limit, "partial": partial,
         "records_total": len(all_records), "records_evaluated": len(records),
         "coverage_total": cov_total, "coverage_evaluated": cov_read,
@@ -422,7 +459,17 @@ def main():
     print("%d VACUOUS pass(es) -- rule looked at a field that does not exist" % len(vacuous))
     for subj, r in vacuous:
         print("  VOID  %-26s %-28s %s" % (subj[:26], r["id"], r["why"][:38]))
-    return 1 if failed else 0
+    # TWO DIFFERENT BAD OUTCOMES, TWO CODES (order 6a27d28ce4a1). 1 still means what it always
+    # meant -- rules failed -- so nothing that treats nonzero as bad changes. 2 is the new one:
+    # the rules passed but the report on disk is NOT this run's, so anything reading
+    # state/policy_report.json afterwards is reading an earlier answer. A caller that cares
+    # only whether the library is well-formed keeps checking `rc == 1`; a caller about to trust
+    # the report file has to look at `rc != 0`.
+    if failed:
+        return 1
+    if not landed:
+        return 2
+    return 0
 
 
 if __name__ == "__main__":

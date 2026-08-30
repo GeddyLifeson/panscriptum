@@ -773,8 +773,17 @@ def resolve_hosts(records, verify=True):
         silence.note("feats.py:host-probe-undetermined")
         print("PROBE UNDETERMINED for %d source(s) -- NOT recorded as 'no wiki', and re-asked "
               "next run:" % len(unprobed), flush=True)
+        # THE NAME IS PADDED, NEVER CUT. This printed `_src[:44]`, three lines under a comment
+        # promising the list is uncapped -- and a truncated NAME is worse than a truncated list,
+        # because it still looks like an entry the operator can act on. Measured against the live
+        # data/SWEEP_ROLL.json (215 sources), 11 names exceed 44 characters and were cut
+        # mid-word: `Kobold Press (Midgard Heroes Handbook, Midga`, `DMs Guild: Xanathar's Lost
+        # Notes to Everythi`. No two roll sources collide on their first 44 characters TODAY, and
+        # the two `DMs Guild: ...` families are the shape that collides first as the roll grows,
+        # at which point two different sources would print as one line. `%-44s` still pads the
+        # short names, so the column survives for as long as it is honest. (order b0e69b869473)
         for _src in sorted(unprobed):
-            print("   %-44s %s" % (_src[:44], ", ".join(unprobed[_src])), flush=True)
+            print("   %-44s %s" % (_src, ", ".join(unprobed[_src])), flush=True)
     return known
 
 
@@ -1753,10 +1762,27 @@ def _show(ev):
     # page" are the two readings this display exists to keep apart. Listed in full and not
     # truncated like the feats and quantities above it -- a cap on a diagnostic hides exactly
     # the tail you opened it to read.
+    # AND THE ROWS ARE NOT CUT EITHER. The list was uncapped and every row was truncated --
+    # `t[:60]` and `why[:80]` -- so the comment above was true of the list and false of its
+    # contents. Measured by calling `page_looks_real` directly, its three refusal reasons are 95,
+    # 97 and 124 characters and all three were cut mid-sentence at 80: "only 0 chars -- too thin
+    # to be an article, and an empty fetch must not read as a", "carries a refusal marker (...)
+    # -- this is a block page, not ". The half that was cut is the half that explains WHY the
+    # distinction matters, which is the sentence this display exists to show. (order b0e69b869473)
     for t, why in sorted((ev.get("pages_refused") or {}).items()):
-        print(f"       ! {t[:60]} -- {why[:80]}")
+        print(f"       ! {t} -- {why}")
+    # THE PREVIEWS SAY THEY ARE PREVIEWS. These are genuine previews and defensible as such --
+    # the true counts print two lines above -- but an unmarked `[:6]` is indistinguishable from
+    # "this entity has six feats", which is the reading the comment above spends its length
+    # refusing. Marked the way `chain.main()` marks its own: the count, and where the rest is.
+    _nf, _nq = len(ev["feats"]), len(ev["quantities"])
+    if _nf:
+        print(f"       feats, first {min(6, _nf)} of {_nf} (all of them are in the record):")
     for f in ev["feats"][:6]:
         print(f"       * {f['feat'][:120]}")
+    if _nq:
+        print(f"       quantities, first {min(4, _nq)} of {_nq} "
+              f"(all of them are in the record):")
     for q in ev["quantities"][:4]:
         print(f"       # {q['value']} {q['unit']}  <- {q['sentence'][:80]}")
 

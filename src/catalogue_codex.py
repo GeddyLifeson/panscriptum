@@ -192,6 +192,10 @@ def main():
                         for k, v in sorted(norm_clashes.items())), flush=True)
 
     written = []
+    # This run's roll rows, by source name -- the input to the compare-and-swap at the bottom.
+    # See roll.mutate: landing the whole in-memory document is what loses another writer's row.
+    # (order f818a77293fc)
+    roll_changes = {}
     ambiguous = []      # (source_name, [candidate section titles]) -- bound to nothing on purpose
     reg_ambiguous = {}  # norm(element) -> [register spellings] -- desc left untranscribed
     for r in roll:
@@ -331,21 +335,34 @@ def main():
                 continue
             r["entry_count"] = len(rec["entries"])
             r["status"] = "catalogued"
+            roll_changes[r["name"]] = {"entry_count": len(rec["entries"]),
+                                       "status": "catalogued"}
 
     roll_landed = True
     if not args.dry_run and written:
         # ATOMIC: `catalogue_web.save_roll()` already wrote this file atomically with a comment
         # warning an interrupted write here "kills the next run of either script outright";
-        # this sibling did not. Four scripts write this roll. Fixed 2026-08-25.
+        # this sibling did not. Fixed 2026-08-25. SEVEN scripts write this roll, not four --
+        # the count in that older note was already stale when it was written (order
+        # f818a77293fc), and atomicity was never the property it needed anyway; see below.
         #
         # GATED, exactly as `catalogue_aurora.py` was: the per-record write eleven lines above
         # already honours its verdict and skips the roll row on denial, and then this -- the
         # write that PERSISTS those roll rows -- threw its own verdict away. So the records
         # really did land, the roll saying so did not, and the next run's `entry_count == 0`
         # selection would re-parse sources already correctly catalogued. Run #36 sweep.
-        roll_landed = silence.write_json(ROLL, roll, indent=2, ensure_ascii=False)
+        #
+        # AND A COMPARE-AND-SWAP, NOT A WHOLE-DOCUMENT LAND (order f818a77293fc). Atomic closed
+        # the torn-file hazard and says nothing about staleness: this function reads the roll
+        # once, works through every section of the codex, and used to write its own hours-old
+        # copy of every OTHER writer's rows back over them. `roll.update_rows` merges only the
+        # rows this run actually catalogued into a freshly-read roll.
+        import roll as _roll
+        roll_landed, roll_why = _roll.update_rows(roll_changes, path=ROLL)
         if not roll_landed:
             silence.note("catalogue_codex.py:roll-write-denied")
+        if roll_why:
+            print("  ROLL: %s" % roll_why, flush=True)
     if args.dry_run:
         print("\n(dry run -- nothing written)")
     elif not roll_landed:

@@ -41,9 +41,9 @@ and it should -- but the entity is not therefore unmeasurable, it is unmeasurabl
 That is a real limit of the instrument and it is worth writing down next to the sheet.
 """
 import argparse
-import json
 import os
 import sys
+import textwrap
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -450,10 +450,17 @@ def main():
     # regenerated while every stale copy on disk went on looking current. A display encoding
     # must never be able to cost the file. Writing first makes the console strictly cosmetic;
     # the reconfigure below then keeps the console working too.
-    tmp = OUT + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
-    if not silence.replace_retry(tmp, OUT):
+    # THROUGH `silence.write_json`, NOT A HAND-ROLLED FIXED TEMP NAME (order f9c7a2c55536).
+    # The five lines this replaces staged to `OUT + ".tmp"`, which costs two things silence.py
+    # documents against itself: (1) the temp name carried no pid/thread, so two writers of this
+    # path collide on the TEMP FILE and the loser can replace the target with a partial one
+    # (silence.py:425-428, and the same repair already made at standards.py:1521 and
+    # retry_synthesis.py:47-49); (2) a denied replace leaked `HANDBUILT_ASSAYS.json.tmp` beside
+    # the target permanently, with no cleaner anywhere in the tree (silence.py:461-472) -- and a
+    # denied replace is the ORDINARY case on Windows, which is why replace_retry exists at all.
+    # This module's three twins -- halo.py, wh40k.py, zfighters.py -- already route this way.
+    # The ORDERING is unchanged and must stay so: see the note above on the console encoding.
+    if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
         silence.note("handbuilt.py:write-did-not-land")
         print("WRITE DID NOT LAND: " + OUT)
         return 1
@@ -485,8 +492,20 @@ def main():
                 # above already landed and nothing downstream of it was checked again.
                 score_str = ("%5.1f" % score if isinstance(score, (int, float))
                              and not isinstance(score, bool) else "%5s" % score)
-                print("   %-15s%s  [%s] %s"
-                      % (ax, score_str, d["provenance"], d["cited"][:58]))
+                # THE WHOLE CITATION, WRAPPED -- NOT `d["cited"][:58]` (order 9c6a23625865).
+                # This is the one view whose entire purpose is to show the evidence a score
+                # rests on: compute()'s provenance work above exists so a reader checking
+                # whether a high score rests on a citation or on the assayer's judgment can do
+                # so, and the citations run to 250+ characters. At 58 the reader got as far as
+                # the first clause of the argument for a 9.9. catalogue_models.py:215-221
+                # already ruled on the console half of this exact shape -- "the persisted copy
+                # being complete does not help someone looking at the terminal". Wrapped rather
+                # than widened: the fix this tree applies to a truncated field is removal.
+                head = "   %-15s%s  [%s] " % (ax, score_str, d["provenance"])
+                lines = textwrap.wrap(str(d["cited"]), max(30, 88 - len(head))) or [""]
+                print(head + lines[0])
+                for extra in lines[1:]:
+                    print(" " * len(head) + extra)
         print("")
     return 0
 

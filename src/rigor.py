@@ -2,23 +2,41 @@
 """
 RIGOR — the commensuration engine, and the proof that the library's three rankings are one.
 
-THE PROBLEM THIS FILE SOLVES
-----------------------------
+THE PROBLEM THIS FILE SOLVED — AND IT IS CLOSED (see the note at the end of this section)
+-----------------------------------------------------------------------------------------
 The Assay carries eleven Measures. Eight are physical (Ruin, Celerity, Reach, Sustain, ...) and
-three are faculties (Acumen, Discernment, Suasion). And the composite weights read:
+three are faculties (Acumen, Discernment, Suasion). When this file was written, the composite
+weights gave every one of the three faculties a weight of ZERO while the eight physical Measures
+carried the charter proportions between them.
 
-    WEIGHTS         ruin 0.20, continuity 0.15, celerity 0.12, ... (sums to 1)
-    FACULTY_WEIGHTS acumen 0.0, discernment 0.0, suasion 0.0
+**The faculties WERE weighted zero.** They are instrumented in X.6 §6 and, at that point,
+contributed nothing to Magnitude. So the Assay, which presents itself as a general measure of a
+being, was in fact a Str/Dex/Con scale that carried Int/Wis/Cha as an appendix. Every claim that
+the library could rank a schemer against a destroyer was, until the erratum below, false.
 
-**The faculties are weighted zero.** They are instrumented in X.6 §6 and then contribute nothing
-to Magnitude. So the Assay, which presents itself as a general measure of a being, is in fact a
-Str/Dex/Con scale that carries Int/Wis/Cha as an appendix. Every claim that the library can rank
-a schemer against a destroyer has been, to this point, false.
-
-The reason is not laziness. It is that nobody could say what a point of Wisdom is WORTH against a
-point of Ruin, and rather than invent an exchange rate the charter set the rate to zero -- which
-is itself an exchange rate, and the worst one available, chosen by default rather than by
+The reason was not laziness. It is that nobody could say what a point of Wisdom is WORTH against
+a point of Ruin, and rather than invent an exchange rate the charter set the rate to zero --
+which is itself an exchange rate, and the worst one available, chosen by default rather than by
 argument.
+
+**CLOSED by `assay.py`'s ERRATUM (X.11).** The argument below was accepted and the table was
+changed: the faculties now sit at PARITY with the physical Measures at k = 1, each carrying
+1/11, and the eight charter physical weights are scaled by 8/11 so that all eleven sum to 1.
+The live tables are `assay.FACULTY_WEIGHTS` and, for the unscaled charter proportions the
+scaling is applied to, `assay.CHARTER_PHYSICAL_WEIGHTS`.
+
+DELIBERATELY NO NUMBERS ARE RESTATED HERE (order d444e7a90cff). This paragraph used to quote the
+weight table in the present tense -- `ruin 0.20 ... FACULTY_WEIGHTS acumen 0.0, discernment 0.0,
+suasion 0.0` -- and the erratum stranded every figure in it: measured 2026-08-29, each faculty
+reads 0.0909 and ruin reads 0.1455, not 0.20. So the module opened by asserting a defect that
+`main()` section 1, thirty lines of output later, correctly reported as closed. That is the same
+one-fact-two-copies shape `measure_bit_value`'s docstring records below, and the repair is the
+same: name the live tables, never copy them, so the next re-weighting cannot strand this
+paragraph a second time. The ARGUMENT below is untouched -- it is the reasoning the erratum was
+granted on, and it is still what justifies the rate that is in force.
+
+`main()` section 1 no longer asserts the finding either: it derives `_muted` from the live
+`assay.FACULTY_WEIGHTS` and prints the closure when every axis carries a non-zero weight.
 
 THE RESOLUTION IS ALREADY IN THE LIBRARY
 ----------------------------------------
@@ -48,7 +66,7 @@ rate, and it is worth being exact about what is proved and what is chosen:
              adopt absent an argument for another.
 
 That is an MDL argument, not a physical derivation, and it should be read as one. What it
-decisively rules out is k = 0, the rate currently in force: zero is not the absence of a choice.
+decisively rules out is k = 0, the rate THEN in force: zero is not the absence of a choice.
 It is the strongest possible claim -- that no quantity of foresight, insight or influence can ever
 register on a being's Magnitude -- and it is the one value a shared unit positively forbids.
 
@@ -908,7 +926,27 @@ def main():
     mr = mathematical_resonance()
     print(f"   quantities {mr['quantities']}   relations {mr['relations']}   "
           f"density {mr['density']}   max depth {mr['max_depth']}")
-    print("   load-bearing: " + ", ".join(f"{k}({v})" for k, v in mr["load_bearing"][:6]))
+    # THE DISPLAY CUT IS DECLARED, AND IT DOES NOT SPLIT A TIE (order 52c99c58c50d).
+    # This printed `mr['load_bearing'][:6]` with no count and no marker. Measured 2026-08-29:
+    # the field holds 75 entries and six were shown, while the 7th (name_surprisal, fanout 4)
+    # carries the SAME fanout as entries 2 through 6 -- so the report told a reader that five
+    # quantities have a fanout of 4 when six do, and nothing on the line said anything had been
+    # withheld. `mathematical_resonance()` is right to return the whole ranking and says so at
+    # its own comment ("Ranked, never truncated ... The sole consumer slices for display"); the
+    # sole consumer is this line, so that reasoning stopped exactly one line short of the cut it
+    # was describing. A display cut is legitimate. A display cut with no marker is not, and one
+    # that splits a tie is not even the ranking it claims to show.
+    #
+    # So: extend the head through every entry tying the last printed fanout -- which makes the
+    # boundary a property of the data rather than of the number 6 -- and state the remainder.
+    _lb = mr["load_bearing"]
+    _cut = min(6, len(_lb))
+    while _cut < len(_lb) and _lb[_cut][1] == _lb[_cut - 1][1]:
+        _cut += 1
+    print("   load-bearing: " + ", ".join(f"{k}({v})" for k, v in _lb[:_cut]))
+    if _cut < len(_lb):
+        print(f"   ... and {len(_lb) - _cut:,} more ({len(_lb):,} quantities have dependents; "
+              f"the full ranking is mathematical_resonance()['load_bearing'], never truncated)")
     print()
     print("=" * 96)
     return 0

@@ -15,9 +15,20 @@ consumer, so a corrupt cache is indistinguishable from a cache that is genuinely
 confusion so expensive. It is the project's signature defect, at rest, across its largest
 surface.
 
-So: every file, opened. No sampling. On this machine that is about a minute across fourteen
-workers, which is a cheap price for the difference between "44,926 records" and "44,926 records,
-of which some number are unreadable and nobody knows which".
+So: every file, and every one whose type can be PARSED is opened and parsed. No sampling. On
+this machine that is about a minute across fourteen workers, which is a cheap price for the
+difference between "44,926 records" and "44,926 records, of which some number are unreadable
+and nobody knows which".
+
+THAT SENTENCE USED TO READ "every file, opened", AND THE CODE DID NOT DO IT (order 19fc2fdda102).
+`inspect()` opened `.json` and `TEXT_EXT` and sized everything else, so five `.jsonl` ledgers and
+the whole hand-made backup family (`.presilence` x16, `.precatfix`, `.postsweep`, `.prewiden`,
+`.prev`, `.new` and nine more spellings) were never read at all. The `.jsonl` files were the
+consequential ones: `state/model_metrics.jsonl` is appended by five processes and its only
+failure mode is a torn line, which is neither zero bytes nor a checked extension -- and the
+first pass after this was fixed found exactly that, on line 1831. Binaries and free-form logs
+are still only sized, deliberately; `inspect()`'s docstring now lists which is which, so the
+promise and the pass say the same thing.
 
 WHAT ELSE IS AUDITED HERE
 -------------------------
@@ -69,6 +80,14 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 
 SKIP_DIRS = {"__pycache__", ".git", ".venv", "node_modules"}
 TEXT_EXT = (".py", ".md", ".txt", ".yaml", ".yml", ".js", ".html", ".css")
+# Everything `inspect()` actually OPENS. `.jsonl` is parsed a line at a time rather than whole,
+# so it is listed here beside `.json` rather than folded into it.
+CHECKED_EXT = (".json", ".jsonl") + TEXT_EXT
+# A `.corrupt` copy is the tree's own name for "this is the damaged one, kept as evidence"
+# (`state/failures.json.corrupt`, `state/failure_samples.json.corrupt`). Reporting it as damaged
+# would be a permanently red row that no repair can ever clear, which is precisely the auditor
+# that cries wolf `inspect()`'s docstring refuses to become. Sized, never opened.
+KEPT_DAMAGED_EXT = (".corrupt",)
 
 
 # --------------------------------------------------------------------------- every file
@@ -80,8 +99,45 @@ def _walk(root):
             yield os.path.join(base, f)
 
 
+def _effective_ext(path):
+    """The extension whose content rules apply here -- a backup marker peeled off first.
+
+    THE HAND-MADE BACKUP FAMILY WAS ONLY EVER SIZED (order 19fc2fdda102). This tree keeps
+    copies named `<original>.<marker>`: `.presilence` (16 of them), `.precatfix`, `.postsweep`,
+    `.prewiden`, `.precapfix`, `.prepool`, `.prewindow`, `.prebandfix`, `.preprobe`, `.prefix`,
+    `.pre-run36`, `.reconstructed-20260826`, `.new`, `.prev`. None of those is a checked
+    extension, so every one of them got `getsize` and nothing else -- while the file underneath
+    the marker is ordinary Python or JSON.
+
+    Peeling the marker and re-deriving the extension is deliberately preferred to listing the
+    markers: the list above was already fourteen spellings long on the day this was written and
+    a fifteenth is one `cp` away, so an enumerated list would go stale silently, which is the
+    shape this module exists to catch rather than commit. A marker whose inner extension is not
+    one we check (`read_auto.log.prev`) falls back to the marker itself and is still only sized,
+    exactly as it is today.
+    """
+    ext = os.path.splitext(path)[1].lower()
+    if ext in CHECKED_EXT or ext in KEPT_DAMAGED_EXT:
+        return ext
+    inner = os.path.splitext(os.path.splitext(path)[0])[1].lower()
+    return inner if inner in CHECKED_EXT else ext
+
+
 def inspect(path):
-    """One file, opened and actually read. Size is a hint; parsing is the answer."""
+    """One file, opened and actually read where its type can be parsed. Size is a hint.
+
+    WHAT IS OPENED, exactly, because the header used to promise more than this performed:
+    `.json` (loaded whole), `.jsonl` (every non-empty line loaded on its own), and `TEXT_EXT`
+    -- with `.py` additionally handed to `ast.parse`. A hand-made backup is judged by the
+    extension UNDER its marker; see `_effective_ext`.
+
+    WHAT IS ONLY SIZED, and why that is right: binaries (`.db`, `.db-wal`, `.zip`), logs
+    (`.log`, `.out`, `.err` -- free-form and not necessarily UTF-8; `state/runner.out` is
+    cp1252 today), and the `.corrupt` copies this tree keeps on purpose. Saying so here rather
+    than leaving the module header's "every file, opened" to stand is the point: a stale
+    comment in this codebase actively misleads, and a promise the code does not keep is the
+    same defect as a check that cannot fail.
+    """
     rec = {"path": os.path.relpath(path, HERE), "bytes": 0}
     try:
         rec["bytes"] = os.path.getsize(path)
@@ -99,8 +155,35 @@ def inspect(path):
             return rec
         rec["error"] = "zero bytes"
         return rec
-    ext = os.path.splitext(path)[1].lower()
-    if ext == ".json":
+    ext = _effective_ext(path)
+    if ext == ".jsonl":
+        # A TORN LINE IS NEITHER ZERO BYTES NOR A CHECKED EXTENSION, so until now this battery
+        # could not see the one corruption mode these files actually have.
+        # `state/model_metrics.jsonl` is the live cloud-lane ledger appended by five processes,
+        # and `cascade_bridge._metric`'s own comment explains it uses a single unbuffered
+        # syscall precisely because "a buffered append can be split mid-line, producing rows
+        # that parse as neither writer's". Found on the first pass after adding this: line 1831
+        # of that file is exactly such a row. Reported the same shape as the `.py` branch below
+        # -- the FIRST bad line number, because that is what a person needs to go and look at.
+        try:
+            with open(path, encoding="utf-8") as f:
+                for lineno, line in enumerate(f, 1):
+                    if not line.strip():
+                        continue
+                    try:
+                        json.loads(line)
+                    except json.JSONDecodeError as e:
+                        silence.note("estate.py:jsonl-malformed")
+                        rec["error"] = ("malformed JSON on line %d: %s"
+                                        % (lineno, str(e)[:50]))
+                        break
+        except UnicodeDecodeError as e:
+            silence.note("estate.py:jsonl-not-utf8")
+            rec["error"] = "not utf-8: " + str(e)[:60]
+        except Exception as e:
+            silence.note("estate.py:jsonl-unreadable")
+            rec["error"] = type(e).__name__ + ": " + str(e)[:60]
+    elif ext == ".json":
         try:
             with open(path, encoding="utf-8") as f:
                 json.load(f)
@@ -349,8 +432,19 @@ def written():
             try:
                 with open(p, encoding="utf-8") as f:
                     d = json.load(f)
-                if d:
-                    note(label, f"{len(d)} records")
+                # THE ROW IS ALWAYS EMITTED (order f856ff7445b0). This was gated on `if d:`, so
+                # an index file that exists and parses but is EMPTY produced no row at all --
+                # indistinguishable, on the page, from the `continue` twelve lines up for a file
+                # that is not there. `output/index/catalog.json` holds exactly `{}` today, so
+                # the report showed no 'generation catalog' row whatever, which is the same
+                # vanishing-row fault the `sources on the roll` handler above was repaired for
+                # in this very function: "a missing row reads exactly like a row that was never
+                # supposed to be there", and the missing denominator is the worse half, since
+                # `chapters written 0` with nothing beside it is unreadable. Zero is a
+                # legitimate and expected finding here -- Phases 5-8 are unbuilt -- so it stays
+                # `bad=False`, exactly like `chapters written 0`. What must not happen is the
+                # row disappearing.
+                note(label, f"{len(d)} records")
             except Exception as e:
                 note(label + " UNREADABLE", str(e)[:70], bad=True)
         else:

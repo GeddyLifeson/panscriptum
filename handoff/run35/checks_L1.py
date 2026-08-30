@@ -18,11 +18,41 @@ sys.path.insert(0, SRC)
 # main()'s printed breakdown must always sum to the printed total, including the unparsed
 # bucket -- the bug was exactly that the total counted a kind the breakdown never named.
 def check_liveness_unparsed_is_reported():
+    # DRIVEN, NOT GREPPED (2026-08-29 maintenance). The second assert here used to be
+    # `"%d unparsed" in text`, a hand-written summary fragment. main() was then rewritten to
+    # DERIVE both the itemisation and the summary from one `KINDS` tuple, precisely so that a
+    # limb added to scan() can no longer be counted in the total and named nowhere -- the
+    # `dead_module` defect, order dded1fc0e664, where "47 finding(s) — 0 + 0 + 36 + 1 + 0" was
+    # all a reader ever saw. The literal fragment disappeared because the improvement removed
+    # every hand-written fragment; the count is still printed. Pinning the spelling made the
+    # fix look like the regression, so drive main() instead: stub scan(), capture stdout, and
+    # read the summary line. A future limb that goes uncounted fails this for real.
+    import contextlib
+    import io as _io
+    import liveness
     text = open(os.path.join(SRC, "liveness.py"), encoding="utf-8").read()
     assert '"unparsed"' in text.split("def main")[1].split("\ndef ")[0], \
         "liveness.py main() no longer displays the 'unparsed' bucket"
-    assert "%d unparsed" in text, \
-        "liveness.py main()'s summary line no longer names the unparsed count"
+    fixture = {"dead": [], "dead_class": [], "dead_module": [], "tautology": [],
+               "phantom": [], "unparsed": ["fake_a.py: will not parse",
+                                           "fake_b.py: will not parse"]}
+    real_scan, real_argv = liveness.scan, sys.argv
+    buf = _io.StringIO()
+    try:
+        liveness.scan = lambda *a, **k: dict(fixture)
+        sys.argv = ["liveness.py", "--quiet"]
+        with contextlib.redirect_stdout(buf):
+            liveness.main()
+    finally:
+        liveness.scan, sys.argv = real_scan, real_argv
+    out = buf.getvalue()
+    assert "2 unparsed" in out, (
+        "liveness.py main()'s summary line no longer names the unparsed count -- two unparsed "
+        "files were fed in and the report said: %r" % out.strip()[-200:])
+    # ...and the total must count them, or the bucket is named over an arithmetic that hides it.
+    assert "2 finding(s)" in out, (
+        "liveness.py main()'s total no longer includes the unparsed bucket: %r"
+        % out.strip()[-200:])
 
 
 # order 444c88673a15 -- src/dashboard.py

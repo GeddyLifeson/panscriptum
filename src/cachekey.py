@@ -34,6 +34,13 @@ So the fix is not a re-key at all, and costs no re-mine:
      sites is not applied (standing lesson 14), and four independent copies of one convention is
      four chances for the next edit to drift.
 
+     IT WAS FIVE. `identity.py` built the host component by hand as
+     `host.replace(".", "_").replace("-", "_")` to look up the very directories `host_dir()`
+     created, and this survey did not catch it -- so for the six hosts whose names carry other
+     punctuation or run past HOST_CAP the lookup could never succeed (order a1bb663bd51d).
+     `identity._inv_keys` now calls `host_dir()` first. If a sixth site is ever found, add it
+     to this list rather than to the drift.
+
 ON NOT CHANGING THE KEY ITSELF. The natural path is deliberately left byte-identical to what the
 four sites already produced, so all 86,288 existing files stay live and no rename runs underneath
 `read.py`, which writes into these directories continuously. The disambiguating suffix appears

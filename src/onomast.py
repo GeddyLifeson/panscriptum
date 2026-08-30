@@ -334,17 +334,47 @@ def register_for(group_id, genre_register=None, features=None):
     return genre_register if genre_register in tied else tied[0]
 
 
+class OnomasticonUnreadable(RuntimeError):
+    """The onomasticon exists on disk and cannot be parsed.
+
+    A distinct type so `name_worlds`' two callers can tell it from any other failure and refuse
+    the WRITE specifically -- see `load_onomasticon` for why the write is the thing that must
+    not happen.
+    """
+
+
 def load_onomasticon():
-    """The onomasticon as it currently stands on disk. Best-effort: a missing or unreadable file
-    means nothing is standing yet, not that naming should refuse to proceed."""
+    """The onomasticon as it currently stands on disk. -> dict.
+
+    MISSING AND UNREADABLE ARE NOT THE SAME ANSWER, AND TREATING THEM AS ONE DESTROYED THE
+    APPEND-ONLY RECORD IN A SINGLE CYCLE (order 549069e9c298). This used to answer a corrupt
+    ONOMASTICON.json with `{}` -- the same answer it gives a missing one -- after a
+    `silence.note` that stopped nothing. `name_worlds` then seeded `taken` from nothing, so a
+    designation already issued was free to be handed to a different world, and carried no prior
+    record forward, so its return held only what THIS call coined. Both writers of the file
+    (`main()` below and `phase_weave` in pipeline.py) write that return value straight back over
+    ONOMASTICON.json, so ONE unreadable read wiped the record the file exists to be. Reproduced:
+    two worlds both named Earth, then a second run with one gone from `resolved` -- healthy
+    prior gave {'cid_a': standing, 'cid_b': retired}; corrupt prior gave {}.
+
+    FileNotFoundError STILL MEANS `{}`, and so does an empty-but-parsed file: on a first run
+    nothing is standing, which is true. What changed is only the unreadable case. A file that
+    exists and will not parse is EVIDENCE THAT SOMETHING IS STANDING and cannot currently be
+    read, and the honest response to that is to refuse rather than to overwrite it -- see
+    `name_worlds`' docstring: "A safety that holds for one cycle and then forgets is worse than
+    none, because it reads as protection."
+    """
     try:
         with open(OUT, encoding="utf-8") as f:
             return json.load(f) or {}
     except FileNotFoundError:
         return {}
-    except Exception:
-        silence.note("onomast.py:name_worlds-onomasticon-unreadable")
-        return {}
+    except Exception as e:
+        silence.note("onomast.py:load_onomasticon-unreadable")
+        raise OnomasticonUnreadable(
+            "%s exists and will not parse (%s). Designations are already standing in it and "
+            "cannot be read, so naming refuses rather than overwriting the append-only record "
+            "with only what this run coined." % (OUT, type(e).__name__)) from e
 
 
 def is_retired(rec):
@@ -409,6 +439,10 @@ def name_worlds(resolved):
     # designation freshly recomputed below, so seeding those too would make coin_well_formed see
     # its own prior answer as taken and bump every unchanged world to a different name on every
     # rerun -- breaking the exact reproducibility this module's docstring promises.
+    # RAISES `OnomasticonUnreadable` if the file is on disk and will not parse, and is allowed
+    # to propagate on purpose: both callers write this function's return value over
+    # ONOMASTICON.json, so a return of any kind here is a write, and a write over a prior
+    # nobody could read is the wipe order 549069e9c298 is about. Missing file -> `{}` still.
     prior = load_onomasticon()
     taken = set()
     for cid, rec in prior.items():
@@ -469,7 +503,16 @@ def name_worlds(resolved):
 def main():
     with open(RESOLVED, encoding="utf-8") as f:
         resolved = json.load(f)
-    named = name_worlds(resolved)
+    try:
+        named = name_worlds(resolved)
+    except OnomasticonUnreadable as e:
+        # Refusing is the whole point: the alternative is writing a fresh, smaller onomasticon
+        # over one that could not be read. Nothing here can repair the file, so say so and
+        # carry it in the exit code. (Order 549069e9c298.)
+        print("\nREFUSING TO NAME: %s" % e)
+        print("Repair or remove the file by hand; nothing on this path can decide which "
+              "designations it held.")
+        return 1
     # `named` is the WHOLE onomasticon, retired records included -- that is what makes it
     # append-only. The report counts the live ones, because a count that quietly included
     # withdrawn designations would be the same class of untruth as the one this fixes.
@@ -510,10 +553,25 @@ def main():
               f"the whole set is in {OUT}")
 
     # ATOMIC: ONOMASTICON.json is shared. 2026-08-25 whole-tree sweep.
-    if silence.write_json(OUT, named, indent=2, ensure_ascii=False):
-        print(f"\nwrote {OUT}")
-    else:
-        print(f"\nWRITE DENIED {OUT} — replace refused; it lands on the next run")
+    #
+    # AND THE EXIT CODE HAS TO CARRY THE DENIAL TOO (order dc5c92aad5c1, the run #36
+    # discarded-verdict ruling 3e65dbed45a6). This branch printed and then fell through to
+    # `return 0`, and called no `silence.note`, so a denied replace reached neither the exit
+    # code nor state/failures.json -- its only trace was a line on a console nobody watches
+    # during an unattended run. Every sibling repaired by that sweep does the opposite
+    # (genre.py:327-331, sevenfold.py:412-415, wh40k.py:277-282). The stake here is that
+    # navtree.py and worldseed.py read ONOMASTICON.json, so a denied write leaves them on the
+    # previous run's designations while the run reports success.
+    #
+    # The old wording said "it lands on the next run", which is a promise this module cannot
+    # make -- it is only true if a next run happens, the assumption `_landed`'s docstring in
+    # pipeline.py exists to refuse.
+    if not silence.write_json(OUT, named, indent=2, ensure_ascii=False):
+        silence.note("onomast.py:main-write-denied")
+        print(f"\nWRITE DENIED {OUT} — replace refused; the designations above did NOT land "
+              f"and the file on disk is the previous run's. Rerun to retry.")
+        return 1
+    print(f"\nwrote {OUT}")
     print("\nEvery designation is reproducible: reseeded from the world's own catalogue")
     print("position, so a Custos who reruns this gets these names and not others.")
     return 0
