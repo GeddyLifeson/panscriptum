@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 173  ·  last run 2026-08-29 19:35
+round 174  ·  last run 2026-08-29 20:00
 
 ## Structure
 
@@ -11,14 +11,12 @@ round 173  ·  last run 2026-08-29 19:35
 
 ## What the model found in the code
 
-**3 open** (0 high). Newest first.
+**2 open** (0 high). Newest first.
 
 - **overnight.py** `main` — [MEDIUM] the code around it says it should be derived
   - says: the main function
 - **navtree.py** `max` — [MEDIUM] returns the maximum element based on a key, but the comment indicates it should handle ties deterministically by using the name as a secondary key
   - says: returns the maximum element based on a key
-- **navtree.py** `register_for` — [MEDIUM] returns a register for a node, but the comment indicates it should handle ties deterministically, and the code uses max() which is not deterministic on ties
-  - says: returns a register for a node
 
 ---
 
