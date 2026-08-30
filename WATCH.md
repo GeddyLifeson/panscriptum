@@ -1,26 +1,24 @@
 # OVERWATCH
 
-round 172  ·  last run 2026-08-29 19:12
+round 173  ·  last run 2026-08-29 19:35
 
 ## Structure
 
-- modules that will not import: **0**
+- modules that will not import: **1**  — cascade_bridge: exited without a traceback, saying: live call -> FAILED
 - files that will not parse: **0** of 275,602 inspected (deep scan as of round 169)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secret
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major
 
 ## What the model found in the code
 
-**4 open** (2 high). Newest first.
+**3 open** (0 high). Newest first.
 
-- **mutate.py** `_lock_acquire` — [HIGH] does not acquire a lock, has no callers
-  - says: acquire a lock
-- **manifest_builder.py** `feats_index` — [HIGH] is used to fetch feats for a source, but the code handles exceptions by silently noting the failure and proceeding with an empty list
-  - says: joins feats to this source's cast by name
-- **magnitude.py** `_cite_number` — [MEDIUM] Matches a line number at the start of a citation, not just the one at the end
-  - says: A citation that is NOTHING BUT one of our line numbers
-- **liveness.py** `phantom` — [MEDIUM] a list of names used in conditions that are not defined in the module or builtins
-  - says: a list of names used in conditions that are not defined
+- **overnight.py** `main` — [MEDIUM] the code around it says it should be derived
+  - says: the main function
+- **navtree.py** `max` — [MEDIUM] returns the maximum element based on a key, but the comment indicates it should handle ties deterministically by using the name as a secondary key
+  - says: returns the maximum element based on a key
+- **navtree.py** `register_for` — [MEDIUM] returns a register for a node, but the comment indicates it should handle ties deterministically, and the code uses max() which is not deterministic on ties
+  - says: returns a register for a node
 
 ---
 
