@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 221  ·  last run 2026-08-30 20:31
+round 222  ·  last run 2026-08-30 20:55
 
 ## Structure
 
@@ -11,22 +11,28 @@ round 221  ·  last run 2026-08-30 20:31
 
 ## What the model found in the code
 
-**10 open** (0 high). Newest first.
+**13 open** (0 high). Newest first.
 
+- **estate.py** `note` — [MEDIUM] appends a dictionary with 'finding', 'detail', and 'bad' keys
+  - says: appends a finding to the out list
+- **escalation.py** `clear` — [MEDIUM] The function `clear()` is called with `by=a.by` but the code does not check if `clear()` actually returned a value or handled its return value correctly, leading to potential incorrect handling of the refusal cases.
+  - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller, and the two refusals are the same event to a reader: the lift did not happen and here is why.
+- **escalation.py** `clear` — [MEDIUM] Lifts the halt if called from the CLI, but does not verify that the caller is a person. The function allows programmatic calls if the caller is the CLI, which may not be a person.
+  - says: Lift the halt. A PERSON ONLY, and refused at run time if the caller is not one.
+- **drill.py** `LA.MAX_FILES_PER_RUN` — [MEDIUM] set to zero, but then immediately overwritten by the value from the previous run
+  - says: taken to zero
+- **drill.py** `LA.MAX_PATCHES_PER_RUN` — [MEDIUM] set to zero, but then immediately overwritten by the value from the previous run
+  - says: taken to zero
 - **dashboard.py** `out` — [MEDIUM] out is a dictionary that is being populated with various keys, but the initial value is not used as it is overwritten in subsequent assignments
   - says: out = {"halted": None, "prose_gate": None, "drill": None, "escalation_recent": None}
 - **dashboard.py** `throughput` — [MEDIUM] Calculates total calls and per-hour rate, but does not accurately represent the actual calls made in the recent past due to potential data aggregation issues.
   - says: Calls actually made in the recent past, per bucket. The quota panel says what is LEFT; this says what is being SPENT, and the two together are the whole picture.
-- **coverage.py** `measure` — [MEDIUM] measure() does not guard divisions in the report() function
-  - says: measure() guards every division with max(n, 1)
 - **codewatch.py** `main` — [MEDIUM] prints the current src/ fingerprint and information about restarts
   - says: print the current src/ fingerprint
 - **codewatch.py** `exit_if_stale` — [MEDIUM] reads the budget and records the restart in separate operations with a gap in the middle
   - says: CHECK AND TAKE TOGETHER. Reading the budget here and recording the restart further down was two operations with a gap in the middle that two twins could both walk through.
 - **allsweep.py** `bad` — [MEDIUM] sum of bad findings from broken, verifiers' failed, lint_bad, and est's bad artifacts
   - says: sum of bad findings from broken, verifiers, lint_bad, and est's bad artifacts
-- **workorders.py** `resolve` — [MEDIUM] Attempts to close an order but does not properly handle the case where the write could not land, leading to potential confusion between 'no such order' and 'order already closed'.
-  - says: Close an order: REMOVE it from the open file, append it to the paper trail.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
