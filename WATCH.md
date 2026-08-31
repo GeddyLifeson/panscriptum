@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 232  ·  last run 2026-08-31 02:25
+round 233  ·  last run 2026-08-31 04:12
 
 ## Structure
 
@@ -11,10 +11,16 @@ round 232  ·  last run 2026-08-31 02:25
 
 ## What the model found in the code
 
-**13 open** (1 high). Newest first.
+**14 open** (2 high). Newest first.
 
+- **pipeline.py** `merged` — [HIGH] initially set to `rec` and only becomes the disk-merged version if the read succeeds
+  - says: carries the caller's fresh per-entry judgments
 - **pipeline.py** `phase_chain` — [HIGH] This function is not implemented and causes the runner to stop at phase 4 because the function is missing.
   - says: Phase 4 -- the Chain of Defeats. See chain.py for the reasoning.
+- **profile.py** `encode` — [MEDIUM] the code does something else
+  - says: the code says it does
+- **pipeline.py** `write_record` — [MEDIUM] write_record is called without checking if the write actually reached the disk
+  - says: A batch is done only when every entry in it carries a result AND the write that carries those results actually reached the disk
 - **pipeline.py** `pairs` — [MEDIUM] the list comprehension filters out entries with weight below the threshold (if v >= thr)
   - says: the WHOLE list is included (Hard Rule 0)
 - **pipeline.py** `drift` — [MEDIUM] can be 'count', 'content', or None
@@ -31,10 +37,6 @@ round 232  ·  last run 2026-08-31 02:25
   - says: Return `(base, continuity)` for a resolved wiki title.
 - **hostcheck.py** `score` — [MEDIUM] score is called with by=by, but the by parameter is already passed as by[src], making the by=by redundant and possibly incorrect
   - says: score(host, by[src], src, by=by)
-- **workorders.py** `_detector` — [MEDIUM] marks as detected regardless of whether an exception occurred
-  - says: detects a problem and marks it as detected
-- **publish.py** `_may_delete_in_export` — [MEDIUM] Checks if SITE is a different directory from HERE and if the marker file exists, but the function is supposed to determine if deletion is allowed based on the marker file alone
-  - says: May anything be DELETED under `SITE` at all? -> bool
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
