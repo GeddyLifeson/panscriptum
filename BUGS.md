@@ -6,6 +6,20 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ## Open
 
+> **MEASURED 2026-08-30 (run #39): 56 of the 108 labelled entries below say RESOLVED in their own
+> label and were never moved to the paper trail — 52% of this section, 1,687 lines of a 4,269-line
+> file. 52 are genuinely open.** This is the rot the header above forbids, and the rot
+> `workorders.resolve` cites *by name* as the reason it deletes an order on close rather than
+> trusting anyone to prune: "an order that is resolved but still listed is indistinguishable from
+> an open one to the next reader, which is exactly how BUGS.md's Open section rotted."
+>
+> It was **not** bulk-moved, deliberately. Several entries carry PARTIALLY CLOSED notes — M38,
+> M16, M42, m105, m133, m134 among them — where one limb shut and another did not, and run #38's
+> reconciliation found ten of that kind. A regex that moved everything labelled RESOLVED would
+> move those too and silently close live faults. Order **ca0a93856e2a** carries the remedy: move
+> them one at a time, each verified against the source it cites, the way run #38 moved twenty and
+> deliberately left ten.
+
 ### Major
 
 - **[M38 — OPEN, VERIFIED run #32] THE FAIL-CLOSED LAYER CAN FAIL OPEN.** `escalation.py:154-183`:
@@ -1712,6 +1726,63 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+### Run #39 (2026-08-30) — the mutation tester was measuring its own sandbox
+
+*A shift, not a reconciliation: this section records what run #39 closed in the WORK-ORDER queue,
+because those closures are where the evidence is. The full resolutions, uncapped, are in
+`state/workorders_closed.jsonl` under the ids below. Nothing was moved out of `## Open` this run;
+see the marker at the top of that section and order `ca0a93856e2a` for why.*
+
+**Root causes, not symptoms:**
+
+- **`21ae41adc29c` — the mutation sandbox was never a copy of the library.** `state/` was walked
+  one level deep, so `state/sweep_shards/` never arrived; and the six logs `dashboard` reads went
+  out with the blanket `.log` exclusion. Five `verify_math` rows were therefore RED in the
+  baseline of every mutation run this project has ever made, and a net that is red in the baseline
+  is disabled as a detector. Baseline 1055/5 FAILED → **1063/0**. Fixed in `mutate.sandbox()`:
+  recursive `os.walk` over `state/` for `.json`/`.jsonl` (whole payload 0.23 MB), plus the six
+  logs derived from `lognames`' own constants rather than hand-kept (4.3 MB).
+- **`5a24b2956be8` — `drill.denied()` counted "no such file" as a gate refusal**, so the one net
+  proving the allowlist's fail-closed half against a name invented after the lists were written
+  held over an agent with every gate deleted. Reproduced before fixing. Knock-on: six *more* nets
+  in the same area were passing for the wrong reason inside every mutation sandbox, because the
+  four junctioned trees resolve outside it. Sandbox drill **6 BREACHED → 0**.
+- **`c24fcbb8a291` — 62.6% of the paper trail was the battery rehearsing itself.** Eight ids,
+  1,852 of 2,960 rows, three of them recorded at MAJOR on the RUN rung. Rehearsals now go to
+  `state/workorders_selftest.jsonl`. The existing rows were **not** rewritten — append-only
+  history is not tidied. The drill's own litter net was widened to watch the closed log, and
+  watched going red against the pre-fix behaviour.
+- **`5905045ff433` — `publish.py --loop` asserted the halt once at startup and never again.** An
+  OWNER halt raised while the daemon was up never reached it, and it kept pushing to the PUBLIC
+  repo on its timer. `codewatch` does not cover this: it fingerprints `src/`, and a halt is stale
+  STATE, not stale code. Now re-asserted every cycle, and it BREAKS rather than retrying.
+- **`455e2ba51fcf` — the secret gate failed OPEN.** With the export tree absent the scan did not
+  run, and both BLOCKING orders were then closed, `SECRET_IN_EXPORT` with the literal resolution
+  "scanner is clean". Now gated on the scan having happened.
+- **`82adb37c6cfc` / `7dd2672546b1` — the free rung could not do anything.** `t_grep` refused a
+  file as `subtree` and the model burned 24 turns and 70 tool calls retrying the same rejected
+  call; and a run producing neither a patch nor an answer reported `ok: true`.
+- **`1d54acf05414` / `9b54659bc403` — 13 of 28 LOCAL orders (46%) were undeliverable**, addressed
+  to a rung structurally forbidden to write their target. Re-addressed to RUN, and a detector
+  added.
+- **`fff84beb3e0f` — a confirmed non-equivalent mutant had no check behind it.** Two rows added to
+  `verify_math` for `assay()`'s epoch field, watched going red against the exact mutation.
+- **`07cb6bdabd36` — allsweep's daemon roster was a mention test.** It reported "publish.py: 2
+  processes" against a process table holding one. Fixed to ask `_cmd_is_running` — and that helper
+  was then found to have the same hole for `python -m <tool> <files>`, which is its own docstring's
+  example. Both fixed; the helper is shared with `codewatch.twins()`, which halted the library
+  over this class once.
+- **`498dd8b128f7`, `2f679246a6e4`, `9ab5bfa26f14`, `97894a93eab5`, `2d6c9343cd32`,
+  `32eaec248adf`, `21e2ad81de88`** — a vacuous halt-marker row made unconditional; two uncapped
+  breached-net lists (in the file that enforces Hard Rule 0 on everybody else); a duplicate row
+  label; a `tol=` that `check()` silently discarded; and two battery orders that recovered.
+
+**One regression, introduced and closed in the same shift (`21e2ad81de88`):** the net added for
+`5905045ff433` used `ast.walk` where every sibling uses `_live_walk`, so a `publish.py` with the
+guard parked in a trailing `while False:` passed. Found by sweep39-batch02 with that incident's own
+fixture; fixed and re-verified. **The net had been red-watched when it was added, and the red-watch
+passed** — none of the three probes was dead code, so none could find it.
 
 ### Run #38 (2026-08-29) — the reconciliation shift: twenty entries the ledger outlived
 

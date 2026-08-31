@@ -40,6 +40,7 @@ import argparse
 import collections
 import hashlib
 import json
+import re
 import os
 import sys
 import time
@@ -50,6 +51,34 @@ import silence  # noqa: E402
 
 OPEN_FILE = os.path.join(HERE, "state", "workorders.json")
 CLOSED_LOG = os.path.join(HERE, "state", "workorders_closed.jsonl")
+
+# WHERE A DETECTOR'S REHEARSAL OF ITSELF IS RECORDED, so that it is not recorded in the
+# paper trail (order c24fcbb8a291, shape (a)). The drill and the local agent each file a
+# real order and immediately close it, every battery run, to prove the queue accepts and
+# releases one. That evidence is worth keeping -- a drill net nobody can prove executed is
+# the exact fault this project cares most about -- but it is not history, and it was
+# drowning the history. Measured 2026-08-29: eight ids were 49.0% of the trail. Measured
+# again 2026-08-30, one day later: 1,852 of 2,960 rows, 62.6%. The honest fraction falls
+# every day the battery runs, which is every day.
+#
+# It is not tidiness. Three of the eight are recorded at MAJOR on the RUN rung and their
+# `what` reads "__drill_rung4__ stopped: drill probe" -- distinguishable from a real
+# MANAGER-rung subsystem stop only by recognising the probe's name. Anybody asking "how
+# often has a subsystem been stopped in this library" got 628 hits, and the one that
+# matters (order 4e7f1e47d0a0, catalogue_web stopped for nulling synthesis blocks) was
+# buried under rehearsals of itself.
+#
+# THE EXISTING ROWS ARE NOT REWRITTEN. The closed log is append-only history and editing it
+# to look tidier is the one thing a paper trail must never allow. This changes where FUTURE
+# rehearsals go; the 1,852 already written stay where they are, and `main()` says so.
+SELFTEST_LOG = os.path.join(HERE, "state", "workorders_selftest.jsonl")
+
+# The reserved subject convention the drill ALREADY keeps for its synthetic subsystems --
+# `__drill__`, `__drill_rung4__`, `__drill_rung4b__`, `__drill_litter_probe__`. Marking on
+# the SUBJECT rather than on a code prefix is what fits the facts: `SUBSYSTEM_STOPPED` is a
+# real code that a real stop must still record in the real trail, so the code cannot be the
+# discriminator -- the subject is.
+SELFTEST_SUBJECT = re.compile(r"^__drill[A-Za-z0-9_]*__$")
 
 # The handler ladder, cheapest first. The index IS the order.
 LADDER = ["LOCAL", "BOTS", "RUN", "SESSION", "OWNER"]
@@ -426,7 +455,32 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
     return rec
 
 
-def resolve(oid, how, by=""):
+def is_selftest(rec):
+    """Is this order a detector rehearsing itself, rather than a fault? -> bool.
+
+    TWO WAYS TO BE ONE, because the eight repeaters are not all the same shape (measured
+    2026-08-30):
+
+      * SEVEN of them carry a reserved synthetic SUBJECT in `where` -- `__drill__`,
+        `__drill_rung4__`, `__drill_rung4b__`, `__drill_litter_probe__`. The drill already names
+        them that way, so this only reads a convention it already keeps.
+      * The EIGHTH, `LOCAL_AGENT_BLAST_CAP` (314 rows), carries `where=""`, and it must: the
+        blast-radius cap is a real safety that fires on real runs, so the ORDER is not synthetic.
+        Only the drill's closure of it is. That one is marked by the CLOSER, which is the only
+        actor that knows.
+
+    So an order is a self-test if it was FILED as one or CLOSED as one -- and a real blast-cap
+    order closed by anybody else still lands in the real paper trail, which is the property that
+    actually matters here.
+    """
+    if not isinstance(rec, dict):
+        return False
+    if rec.get("synthetic"):
+        return True
+    return bool(SELFTEST_SUBJECT.match(str(rec.get("where") or "")))
+
+
+def resolve(oid, how, by="", synthetic=False):
     """Close an order: REMOVE it from the open file, append it to the paper trail.
 
     Deletion is the ruling, and it is enforced here rather than trusted to a person remembering
@@ -475,9 +529,12 @@ def resolve(oid, how, by=""):
     # THE PAPER TRAIL IS APPENDED ONLY AFTER THE DELETION LANDS. Appending first would write a
     # closed-log entry for an order still sitting open -- the two files would disagree, and the
     # closed log is what the next run trusts when it reconciles them.
+    # A REHEARSAL IS RECORDED, BUT NOT IN THE HISTORY (order c24fcbb8a291). See
+    # SELFTEST_LOG for the measurement and for why the existing rows are not rewritten.
+    trail = SELFTEST_LOG if (synthetic or is_selftest(rec)) else CLOSED_LOG
     try:
-        os.makedirs(os.path.dirname(CLOSED_LOG), exist_ok=True)
-        with open(CLOSED_LOG, "a", encoding="utf-8") as f:
+        os.makedirs(os.path.dirname(trail), exist_ok=True)
+        with open(trail, "a", encoding="utf-8") as f:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
     except Exception as exc:
         # THE CLOSURE IS ALREADY IRREVERSIBLE BY THE TIME WE GET HERE (order 2ea28274a02e).
@@ -497,13 +554,18 @@ def resolve(oid, how, by=""):
             "workorders: order %s WAS CLOSED (removed from the open queue) but its paper-trail "
             "entry could not be appended to %s: %s. The resolution is recorded nowhere; it "
             "was, under code %s: %s\n"
-            % (oid, CLOSED_LOG, exc, rec.get("code", "?"), how))
+            % (oid, trail, exc, rec.get("code", "?"), how))
     return rec
 
 
-def resolve_code(code, how, where="", by=""):
-    """Close by fault identity rather than by id -- what a detector does when it stops firing."""
-    return resolve(order_id(code, where), how, by=by)
+def resolve_code(code, how, where="", by="", synthetic=False):
+    """Close by fault identity rather than by id -- what a detector does when it stops firing.
+
+    `synthetic=True` says THE CLOSER knows this closure is a rehearsal. See
+    `is_selftest`: it is how `LOCAL_AGENT_BLAST_CAP` is separated, because that order is
+    a real safety firing and only the drill's self-test closure of it is synthetic.
+    """
+    return resolve(order_id(code, where), how, by=by, synthetic=synthetic)
 
 
 def open_orders(handler=None, severity=None):
@@ -650,6 +712,80 @@ def _supersede_binding_suspect(host, call, closed):
     for code, how in superseded:
         if resolve_code(code, how, where=host, by="workorders.sweep"):
             closed.append(code + ":" + host)
+
+
+def closed_at(rows=None):
+    """-> {order id: the LATEST resolved_at recorded for it} from the paper trail.
+
+    `rows` is for the drill: an iterable of already-parsed records stands in for the file, so a
+    net can drive this with synthetic history without writing to an append-only ledger.
+    """
+    out = {}
+    if rows is None:
+        rows = _closed_rows()
+    for row in rows:
+        rid = (row or {}).get("id")
+        if rid:
+            out[rid] = max(out.get(rid, 0.0), float(row.get("resolved_at") or 0.0))
+    return out
+
+
+def _closed_rows():
+    """Every parseable record in the paper trail, oldest first."""
+    try:
+        fh = open(CLOSED_LOG, encoding="utf-8")
+    except OSError:
+        return
+    with fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                yield json.loads(line)
+            except ValueError:
+                # An unreadable row cannot date a close, and skipping it can only make the
+                # detector above QUIETER, never louder -- it errs toward missing a ghost rather
+                # than inventing one. `ledger_guard` owns the corrupt-row finding.
+                continue
+
+
+def ghost_orders(open_map=None, rows=None):
+    """Open orders whose record predates their own recorded close. -> {ghosts, recurrences}.
+
+    THE INVARIANT IS NOT "THE TWO FILES ARE DISJOINT", and getting that wrong would have made
+    this detector useless on its first run. Orders 263f3ae18375 and 2ea46665a2ea both proposed
+    exactly that check -- refuse if any id in the closed log is also open -- and `order_id` is
+    derived from `code` and `where`, so a fault that RECURS after being closed is re-filed under
+    the SAME id and legitimately appears in both files. Measured 2026-08-30 before this was
+    written: 168 open orders, 1,078 distinct ids in the closed log, 5 present in both, and all
+    five were genuine recurrences. The disjointness check would have cried wolf five times on its
+    first run, which is how a detector gets turned off.
+
+    TIME SEPARATES THEM EXACTLY. `resolve()` DELETES the record before appending to the paper
+    trail, so a detector re-firing afterwards finds no `prev` and `file_order` stamps both
+    `first_seen` and `last_seen` fresh -- strictly after `resolved_at`. A restored stale snapshot
+    carries the record as it stood BEFORE the close, so its `last_seen` is older than its own
+    resolution. No honest re-file can be older than the close it follows.
+
+    `open_map` and `rows` are injection points for the drill, so a net can hand this a synthetic
+    ghost and a synthetic recurrence and watch it separate them, rather than waiting for the
+    fault to happen again in production.
+    """
+    when = closed_at(rows)
+    ghosts, recurrences = [], 0
+    for oid, rec in (open_map if open_map is not None else (_load() or {})).items():
+        stamp = when.get(oid)
+        if stamp is None:
+            continue
+        seen_at = float((rec or {}).get("last_seen") or 0.0)
+        if seen_at < stamp:
+            ghosts.append("%s last_seen=%.1f but closed at %.1f (seen=%s, filed by %r)"
+                          % (oid, seen_at, stamp, (rec or {}).get("seen"),
+                             (rec or {}).get("found_by")))
+        else:
+            recurrences += 1
+    return {"ghosts": sorted(ghosts), "legitimate_recurrences": recurrences}
 
 
 def sweep_detectors():
@@ -861,7 +997,24 @@ def sweep_detectors():
     # 4. secrets staged for the public repo
     try:
         import publish as P
-        raw = P.scan_for_secrets(P.SITE) if os.path.isdir(P.SITE) else []
+        # "COULD NOT SCAN" IS NOT "CLEAN", AND THIS IS THE ONE GATE WHERE NEXT RUN IS NOT
+        # A RECOVERY (order 455e2ba51fcf, sweep39-batch14). This read
+        # `raw = P.scan_for_secrets(P.SITE) if os.path.isdir(P.SITE) else []` -- so with the
+        # export tree absent the scan did not run, `hits` was empty, and the two lines below
+        # then CLOSED both blocking orders, `SECRET_IN_EXPORT` with the literal resolution
+        # "scanner is clean". A sentence that is false: the scanner did not report clean,
+        # it did not report. The battery section thirty lines below fails closed on exactly
+        # this shape (`_detector` files DETECTOR_FAILED so the area reads UNKNOWN rather
+        # than clean); this one failed open, on the gate whose own module docstring says a
+        # key pushed to a public repo is public even if the next commit removes it.
+        #
+        # An absent export tree is an ORDINARY state, not a fault -- a fresh clone has
+        # never run `publish --init` -- so it does not file anything. What it must not do is
+        # discharge a BLOCKING order on evidence it never gathered. The two closes are now
+        # gated on the scan having actually happened, and the resolution says what was
+        # actually established.
+        scanned = os.path.isdir(P.SITE)
+        raw = P.scan_for_secrets(P.SITE) if scanned else []
         # SUPPRESSED FINDINGS ARE REPORTED, NOT ACTIONED. `scan_for_secrets` deliberately still
         # lists a waived finding so the waiver stays auditable -- so a caller that treats every
         # returned row as a fault re-files a work order for something already ruled on, for ever.
@@ -875,14 +1028,20 @@ def sweep_detectors():
         # and put in the evidence: it is the matched text, and the whole point of this order is
         # that it must not be pasted where a credential-shaped value gets copied around.
         _hit_rows = ["%s:%s" % (f, n) for f, n, _w in hits]
-        _fire(not hits, "SECRET_STAGED",
-              "%d credential-shaped value(s) staged for the PUBLIC repo, first five: %s"
-              % (len(_hit_rows), "; ".join(_hit_rows[:5])),
-              "SESSION", "BLOCKING", found_by="publish.scan_for_secrets",
-              evidence={"staged": _hit_rows})
+        # `_fire(True, ...)` RESOLVES, so it is only allowed to say "no hits" when the
+        # scan ran. When it did not, neither arm fires: nothing is filed (an absent
+        # export is not a fault) and nothing is closed (an unrun scan proves nothing).
+        if scanned:
+            _fire(not hits, "SECRET_STAGED",
+                  "%d credential-shaped value(s) staged for the PUBLIC repo, first five: %s"
+                  % (len(_hit_rows), "; ".join(_hit_rows[:5])),
+                  "SESSION", "BLOCKING", found_by="publish.scan_for_secrets",
+                  evidence={"staged": _hit_rows})
         # The same fault filed by `publish.push` through the escalation chain, under its own code.
-        if not hits:
-            if resolve_code("SECRET_IN_EXPORT", "scanner is clean (suppressed findings excluded)",
+        if scanned and not hits:
+            if resolve_code("SECRET_IN_EXPORT",
+                            "the export tree was scanned and is clean (suppressed "
+                            "findings excluded)",
                             by="workorders.sweep"):
                 closed.append("SECRET_IN_EXPORT")
         _detector("secrets", True)
@@ -1077,6 +1236,119 @@ def sweep_detectors():
         _detector("cap-boundary", True)
     except Exception:
         _detector("cap-boundary", False)
+
+    # A CLOSED ORDER THAT CAME BACK OPEN (orders 263f3ae18375, 2ea46665a2ea). Twice on
+    # 2026-08-29 an order was closed -- `resolve()` returned the record, the paper trail took the
+    # full resolution -- and minutes later the same record was back in the open queue carrying
+    # `seen: 1` and `last_seen == first_seen` byte-identical to the pre-close original. That is
+    # not a detector re-filing a fault; it is a whole-queue snapshot taken BEFORE the close being
+    # written back AFTER it, and `_mutate`'s compare-and-swap printed nothing. The paper trail
+    # and the open queue disagreed for six minutes and nothing anywhere reported it. The
+    # dangerous direction is the same event landing on a `file_order`: a finding a detector paid
+    # to make, deleted by a stale snapshot, with no paper trail to notice it by.
+    #
+    # THE INVARIANT IS NOT "THE TWO FILES ARE DISJOINT", AND THAT MATTERS. Both orders proposed
+    # exactly that check -- refuse if any id in the closed log is also open -- and it is wrong,
+    # because `order_id` is derived from `code` and `where`, so a fault that RECURS after being
+    # closed is re-filed under the SAME id and legitimately appears in both. Measured 2026-08-30
+    # before writing this: 168 open orders, 1,078 distinct ids in the closed log, 5 in both, and
+    # all five were genuine recurrences. The disjointness check would have fired five false
+    # alarms on its first run, and a detector that cries wolf on its first day is one somebody
+    # turns off.
+    #
+    # What actually separates the two is TIME, and it separates them exactly. A genuine re-file
+    # lands after the close, so `resolve()` has already deleted the record and `file_order`'s
+    # `prev` is empty -- first_seen and last_seen are both stamped fresh, AFTER `resolved_at`. A
+    # restored stale snapshot carries the record as it was BEFORE the close, so its `last_seen`
+    # is older than its own resolution. There is no way for an honest re-file to be older than
+    # the close it follows, so this reports the ghost and nothing else. Zero hits on 2026-08-30,
+    # which makes it a ratchet: any hit at all is the fault recurring.
+    try:
+        _gh = ghost_orders()
+        _ghosts, _recurrences = _gh["ghosts"], _gh["legitimate_recurrences"]
+        _fire(
+            not _ghosts,
+            "CLOSED_ORDER_BACK_IN_THE_OPEN_QUEUE",
+            ("%d order(s) are open with a `last_seen` OLDER than their own recorded close, which "
+             "no honest re-file can be: %s. `resolve()` deletes the record before appending to "
+             "the paper trail, so a detector re-firing afterwards stamps first_seen and "
+             "last_seen fresh -- strictly after `resolved_at`. A record older than its own close "
+             "is the pre-deletion record restored, i.e. a whole-queue snapshot written back over "
+             "a landed compare-and-swap. Work that was actually done is now queued to be done "
+             "again, against source that has already been changed, and the same event landing on "
+             "a `file_order` would DELETE a finding with no paper trail to notice it by. Find "
+             "the writer: a long-lived process holding the pre-CAS `_mutate` in memory (a Python "
+             "process does not re-read its own source -- Hard Rule -1's fourth property, and the "
+             "hypothesis both filing orders ranked first), a restore from canon_backup that "
+             "replaces rather than merges, or a hand edit. For contrast, %d order(s) are open and "
+             "also in the closed log with a LATER last_seen: those are ordinary recurrences of a "
+             "fault under the same content-derived id, and are not part of this verdict."
+             % (len(_ghosts), "; ".join(_ghosts), _recurrences)),
+            "RUN", "MAJOR",
+            where="state/workorders.json vs state/workorders_closed.jsonl, by resolved_at",
+            evidence={"ghosts": _ghosts, "legitimate_recurrences": _recurrences,
+                      "measured_clean": "0 ghosts / 5 recurrences on 2026-08-30"},
+            found_by="workorders.sweep ghost-order")
+        _detector("ghost-order", True)
+    except Exception:
+        _detector("ghost-order", False)
+
+    # AN ORDER ADDRESSED TO A RUNG THAT CANNOT REACH ITS TARGET IS AN ORDER NOBODY WORKS.
+    #
+    # Measured 2026-08-30: 13 of the 28 orders on the LOCAL rung named a `where` target that is
+    # entirely on `local_agent.DENYLIST` -- foreman, drill, escalation, sweep_plan, standards,
+    # verify_math. The local model is structurally forbidden to write any of them, so those
+    # thirteen could never be worked by the handler they were addressed to, however many shifts
+    # read them. They are not stalled; they are undeliverable, and the queue could not say so.
+    #
+    # This matters more than ordinary tidiness because the owner's standing instruction is to
+    # route everything the local model can carry to that rung: an undeliverable order at LOCAL
+    # looks exactly like cheap work waiting to be picked up, and each shift re-reads it and
+    # moves on. Same shape as `_detector` above -- an area of the queue that is UNKNOWN rather
+    # than clean -- one level up, in the addressing rather than the detecting.
+    #
+    # THE DENYLIST IS ASKED, NOT COPIED. `local_agent` is the authority on what it may write and
+    # a second hand-kept list here is how the two come to disagree. Import failure files under
+    # `_detector` rather than guessing, because a queue that cannot read the denylist does not
+    # know whether it has this fault.
+    try:
+        import local_agent as _LA
+        _rx_mod = __import__("re").compile(r"\b([A-Za-z_][A-Za-z0-9_]*)\.py\b")
+        _stuck = []
+        for _oid, _rec in sorted((_load() or {}).items()):
+            if (_rec or {}).get("handler") != "LOCAL":
+                continue
+            _mods = set(_rx_mod.findall(str(_rec.get("where") or "")))
+            if not _mods:
+                # No module named in `where` at all -- this detector has nothing to say, and
+                # guessing from the prose would invent findings. `where` is the declared target.
+                continue
+            _denied = sorted(m for m in _mods if m in _LA.DENYLIST)
+            if _denied and not [m for m in _mods if m not in _LA.DENYLIST]:
+                _stuck.append("%s [%s] -> %s" % (_oid, _rec.get("severity"), ", ".join(_denied)))
+        _fire(
+            not _stuck,
+            "ORDER_ADDRESSED_TO_A_RUNG_THAT_CANNOT_REACH_IT",
+            ("%d order(s) sit on the LOCAL rung whose `where` target is ENTIRELY on "
+             "`local_agent.DENYLIST`, so the local model is structurally forbidden to write any "
+             "of it and the order can never be worked by the handler it is addressed to: %s. "
+             "These are not stalled orders, they are undeliverable ones, and an undeliverable "
+             "order at LOCAL is worse than an open order at RUN because the rung is the cheap "
+             "one -- it reads as work waiting to be picked up, and every shift re-reads it and "
+             "moves on. REMEDY: re-address each to RUN (the denylist exists because these are "
+             "the checking machinery and the supervisors; that is a decision about who may "
+             "write them, not about whether the work is needed), and file future orders against "
+             "these modules at RUN in the first place. Self-closing: this resolves the moment "
+             "the LOCAL rung holds nothing it cannot reach."
+             % (len(_stuck), "; ".join(_stuck))),
+            "RUN", "MINOR",
+            where="handler=LOCAL vs local_agent.DENYLIST",
+            evidence={"stuck": _stuck, "denylist": sorted(_LA.DENYLIST),
+                      "measured": "13 of 28 LOCAL orders on 2026-08-30, before re-routing"},
+            found_by="workorders.sweep misrouted-local")
+        _detector("misrouted-local", True)
+    except Exception:
+        _detector("misrouted-local", False)
 
     # `file_order` returns None for a finding whose queue write did not land (it says so on
     # stderr). Those must not be counted as filed -- "swept: N filed" over an order that is not

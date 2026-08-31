@@ -80,9 +80,17 @@ PY = sys.executable
 ENV = dict(os.environ, PYTHONIOENCODING="utf-8")
 
 # The sentence `escalation.assert_clear` raises with when the plant-wide halt is standing. A
-# child that prints this REFUSED; it did not break. Taken from the live message rather than
-# guessed, and pinned by verify_math so the two cannot drift into disagreement silently.
-_HALT_REFUSAL = "THE LIBRARY IS HALTED"
+# child that prints this REFUSED; it did not break.
+#
+# IMPORTED, NOT RE-SPELLED (order 498dd8b128f7). This used to be its own copy of the literal,
+# "pinned by verify_math so the two cannot drift" -- and that pin could only compare them for
+# real while a halt was actually standing. On a healthy library both sides of the row were the
+# same string constant and it could not fail, so the guarantee was live exactly when the library
+# was broken and absent the rest of the time. One spelling in one place is the fix the row was
+# standing in for.
+import escalation as _esc          # noqa: E402
+
+_HALT_REFUSAL = _esc.HALT_REFUSAL
 OUT = os.path.join(HERE, "data", "ALLSWEEP.json")
 
 # Modules whose no-argument run does real, expensive or mutating work. They are still IMPORT
@@ -513,9 +521,25 @@ def reconcile():
         # straight. Nothing was down; the roster simply could not see them. A hand-kept subset
         # of a list that lives somewhere else is a false negative with a delay fuse, and this
         # is the reading a later run would trust to decide a job had died.
+        # ...AND IT ASKS WHETHER THE JOB IS BEING RUN, NOT WHETHER IT IS MENTIONED
+        # (sweep39-batch11). This was `job in ln` against whole command lines, which is
+        # the exact defect `overnight._cmd_is_running` was written to end -- and that
+        # function's own docstring names THIS command as the proof: allsweep lints with
+        # `pyflakes src/codewatch.py src/publish.py src/foreman.py src/overwatch.py`, one
+        # command line naming four daemons, so for the ~120 seconds the linter runs every
+        # one of them read as UP -- and, being counted, as DUPLICATED.
+        #
+        # Observed live on 2026-08-30: this sweep reported "MORE THAN ONE INSTANCE
+        # RUNNING -- publish.py: 2 processes" while the process table held exactly one.
+        # A false duplicate here is not cosmetic: two writers into one export repo is the
+        # failure `publish.push` documents at length, so this reading invites somebody to
+        # kill a publisher that was never doubled.
+        #
+        # The helper is imported from the module the roster already comes from, so the
+        # two spellings of one rule that let these sites drift apart do not come back.
         import overnight as _ON
         for job in _ON.ALL_JOBS:
-            n = sum(1 for ln in live if job in ln)
+            n = sum(1 for ln in live if _ON._cmd_is_running(job, ln))
             if n > 1:
                 note("MORE THAN ONE INSTANCE RUNNING", f"{job}: {n} processes", n)
             elif n:

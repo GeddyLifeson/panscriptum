@@ -53,6 +53,16 @@ import silence  # noqa: E402
 HALT_FILE = os.path.join(HERE, "state", "HALT.json")
 LOG = os.path.join(HERE, "state", "escalation.log")
 
+# THE SENTENCE A HALT REFUSES WITH, AND THE ONLY PLACE IT IS SPELLED. `allsweep` reads a child's
+# output for this to tell REFUSED from BROKEN -- run #31 found it grading eight jobs that were
+# obeying the halt as "8 subsystem(s) in a bad state" -- and it used to carry its own copy of the
+# string. verify_math then had a row asserting the two copies matched, which could only compare
+# them for real while the library was actually halted; on a healthy library both sides of that
+# row collapsed to the same literal and it could not fail. Two files agreeing on a sentence by
+# coincidence is the fault; one spelling in one place removes it rather than testing for it
+# (lesson 14). Order 498dd8b128f7.
+HALT_REFUSAL = "THE LIBRARY IS HALTED"
+
 JANITOR, OPERATOR, SUPERVISOR, SAFETY, MANAGER, OWNER = range(6)
 NAMES = {JANITOR: "JANITOR", OPERATOR: "OPERATOR", SUPERVISOR: "SUPERVISOR",
          SAFETY: "SAFETY", MANAGER: "MANAGER", OWNER: "OWNER"}
@@ -637,7 +647,7 @@ def assert_clear(who="?"):
     if not halted:
         return True
     raise SystemHalted(
-        "THE LIBRARY IS HALTED and %s may not proceed.\n"
+        HALT_REFUSAL + " and %s may not proceed.\n"
         "  code     : %s\n  what     : %s\n  raised by: %s\n  source   : %s\n"
         "This is the top rung of the escalation chain: an invariant that spans the whole library "
         "was violated, so everything stopped rather than continuing on uncertain ground.\n"

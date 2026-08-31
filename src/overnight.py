@@ -310,8 +310,24 @@ def _cmd_is_running(fragment, cmd):
     # minute of the first version being written.
     if "python" not in os.path.basename(toks[0]).lower():
         return False
+    # `-m` MEANS THE INTERPRETER IS RUNNING A MODULE, AND ANY .py AFTER IT IS THAT
+    # MODULE'S ARGUMENT, NOT THE SCRIPT (found 2026-08-30, sweep39-batch11 + this run).
+    # The loop below takes the FIRST token ending in ".py" as the script -- so
+    # `python -m pyflakes src/codewatch.py src/publish.py src/foreman.py
+    # src/overwatch.py` reported codewatch.py as RUNNING. That is this function's own
+    # docstring example: it names that exact command as the mention-vs-run defect it was
+    # written to end, and it still let the first of the four through. Measured before the
+    # fix: mention-test said all four were up, this said one was.
+    #
+    # A linter, a formatter, a test runner and `pip` are all `python -m <tool> <files>`,
+    # so this is the common shape, not an exotic one. Refusing outright is right rather
+    # than conservative: `-m` genuinely means no .py on that line is being run as a
+    # script, and every caller here -- allsweep's roster, `codewatch.twins`,
+    # `autostart.supervisor_alive` -- is asking about scripts.
     script = None
-    for i, tok in enumerate(toks):
+    for i, tok in enumerate(toks[1:], start=1):
+        if tok == "-m":
+            return False
         if tok.endswith(".py"):
             script = tok
             rest = toks[i + 1:]

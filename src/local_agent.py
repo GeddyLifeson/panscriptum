@@ -525,27 +525,49 @@ def t_list_dir(path=".", **_):
 
 
 def t_grep(pattern, subtree="src", **_):
+    """Search a regex over a directory OR A SINGLE FILE. -> {pattern, matches, hits}.
+
+    A FILE USED TO BE A HARD ERROR AND IT COST THE WHOLE LOCAL RUNG A SHIFT. This required
+    `os.path.isdir` and answered `no such subtree: src/drill.py` for a file -- a message that
+    is true, useless, and does not say what to pass instead. Measured 2026-08-30 on a real work
+    order: the model was told to confirm a symbol in `src/drill.py`, called
+    `grep(pattern=..., subtree="src/drill.py")`, got that error, and RETRIED THE SAME CALL for
+    all 24 turns and 70 tool calls before the turn budget killed it. Nothing was written and the
+    order was not worked. Naming a specific file is the most natural thing a brief can ask for,
+    so this refusal turned the free rung -- the one the owner's standing instruction says to
+    route everything possible to -- into a deadlock generator.
+    """
     full = _safe(subtree)
-    if not full or not os.path.isdir(full):
-        return {"error": "no such subtree: " + str(subtree)}
+    if not full or not os.path.exists(full):
+        return {"error": "no such path inside the project: %s. Pass a directory (e.g. 'src') "
+                         "or a single file (e.g. 'src/drill.py')." % subtree}
     try:
         rx = re.compile(pattern)
     except re.error as e:
         return {"error": "bad regex: " + str(e)[:120]}
     hits = []
-    for base, dirs, files in os.walk(full):
-        dirs[:] = [d for d in dirs if d not in ("__pycache__", ".git")]
-        for f in files:
-            if not f.endswith((".py", ".md", ".txt", ".yaml", ".json")):
-                continue
-            fp = os.path.join(base, f)
-            try:
-                for i, ln in enumerate(open(fp, encoding="utf-8", errors="replace"), 1):
-                    if rx.search(ln):
-                        hits.append(os.path.relpath(fp, HERE) + ":" + str(i) + ": "
-                                    + ln.strip()[:200])
-            except Exception:
-                _ = "silence-exempt: an unreadable stray file is not this search's problem"
+
+    def _scan(fp):
+        try:
+            for i, ln in enumerate(open(fp, encoding="utf-8", errors="replace"), 1):
+                if rx.search(ln):
+                    hits.append(os.path.relpath(fp, HERE) + ":" + str(i) + ": "
+                                + ln.strip()[:200])
+        except Exception:
+            _ = "silence-exempt: an unreadable stray file is not this search's problem"
+
+    if os.path.isfile(full):
+        # NO EXTENSION FILTER ON AN EXPLICIT FILE. The filter below exists to keep a directory
+        # walk off binaries and the mined corpus; a caller who named one file has already made
+        # that choice, and second-guessing it would be another silent refusal.
+        _scan(full)
+    else:
+        for base, dirs, files in os.walk(full):
+            dirs[:] = [d for d in dirs if d not in ("__pycache__", ".git")]
+            for f in files:
+                if not f.endswith((".py", ".md", ".txt", ".yaml", ".json")):
+                    continue
+                _scan(os.path.join(base, f))
     return {"pattern": pattern, "matches": len(hits), "hits": hits}
 
 
@@ -964,7 +986,7 @@ def _tool_message(res, limit=TOOL_MSG_MAX):
     return dumped({"error": "tool result could not be reduced to %d characters" % limit})
 
 
-def _achievement(patches, apply):
+def _achievement(patches, apply, answer=None):
     """-> {'attempted', 'landed', 'achievement'}: what this run actually DID to the repo.
 
     OK USED TO MEAN "THE MODEL STOPPED TALKING WITHOUT BREAKING ANYTHING", which is the one
@@ -980,11 +1002,27 @@ def _achievement(patches, apply):
     it. A run that attempted none is an answer-only task -- a question, a survey, a
     --no-apply dry pass -- and its verdict is left alone, because "changed no files" is the
     correct outcome there and failing it would make the flag lie in the other direction.
+
+    ...EXCEPT WHEN THE ANSWER IS BLANK, which is the same lie one step over. Measured
+    2026-08-30 on a real work order: the model read one file, said nothing at all, and the run
+    returned `{"ok": true, "answer": "", "patches": []}` with the achievement line
+    "no patch was attempted (answer-only run)". Neither work nor an answer, reported as success.
+    The empty-answer guard that already existed covered only `turn == 0` -- "the model is not
+    tool-trained" -- so a model that stopped talking on any LATER turn came back clean. An
+    answer-only run whose answer is empty produced nothing at all, and a caller closing an order
+    on `ok` gets exactly the outcome `_achievement` was written to stop.
+
+    `answer=None` means the caller did not say, and is left alone: the drill's fixtures put
+    patch lists to this function without one, and widening their meaning is not this guard's
+    job.
     """
     attempted = len(patches)
     key = "staged" if not apply else "applied"
     landed = sum(1 for p in patches if (p.get("outcome") or {}).get(key) is True)
-    if not attempted:
+    if not attempted and answer is not None and not str(answer).strip():
+        say = ("no patch was attempted AND the answer is empty -- this run produced nothing at "
+               "all. Do not record it as work done.")
+    elif not attempted:
         say = "no patch was attempted (answer-only run) -- nothing was written"
     elif landed:
         say = "%d of %d proposed patch(es) %s" % (landed, attempted,
@@ -993,7 +1031,9 @@ def _achievement(patches, apply):
         say = ("%d patch(es) proposed and NONE %s -- every one was refused or reverted. "
                "This run changed nothing; do not record it as work done."
                % (attempted, "staged" if not apply else "landed"))
-    return {"attempted": attempted, "landed": landed, "achievement": say}
+    return {"attempted": attempted, "landed": landed, "achievement": say,
+            "produced_nothing": bool(not attempted and answer is not None
+                                     and not str(answer).strip())}
 
 
 def run(task, model=None, apply=True, quiet=False):
@@ -1052,10 +1092,15 @@ def run(task, model=None, apply=True, quiet=False):
                         "patches": patches}
             out = {"ok": not unreverted, "answer": answer, "turns": turn + 1,
                    "tool_calls": tool_calls_seen, "patches": patches}
-            got = _achievement(patches, apply)
+            got = _achievement(patches, apply, answer=answer)
             out.update(got)
             if got["attempted"] and not got["landed"]:
                 # TRIED AND LANDED NOTHING IS NOT SUCCESS. See the note on _achievement.
+                out["ok"] = False
+                out.setdefault("error", got["achievement"])
+            elif got["produced_nothing"]:
+                # NEITHER WORK NOR AN ANSWER IS NOT SUCCESS EITHER, and it read as one
+                # until 2026-08-30. Same rule as the line above, one step over.
                 out["ok"] = False
                 out.setdefault("error", got["achievement"])
             if unreverted:

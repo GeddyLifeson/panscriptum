@@ -1099,13 +1099,61 @@ def sandbox():
     # `sandbox()` is built ONCE per run rather than once per mutant, so the cost the original
     # rationale was avoiding does not apply to them. The `.log` exclusion stands unchanged; that
     # is where the 109 MB actually is.
+    # RECURSIVE, NOT ONE LEVEL (order 21ae41adc29c). `os.listdir` names the top of `state/` and
+    # nothing under it, so `state/sweep_shards/` -- 155 files, 30 KB -- was absent from the
+    # baseline of every mutation run ever made. The two sweep-coverage rows in verify_math read
+    # those shards to find the newest FINISHED sweep; with no shard on disk the first goes red
+    # ("the sweep coverage ledger names a FINISHED run at all") and the second reports
+    # `['<no finished sweep on record>']`. Both were therefore DISABLED AS DETECTORS for the
+    # whole run, which is the same fault as the missing STEP4_PLAN.md one paragraph down,
+    # arriving through the directory walk instead of the manifest.
+    #
+    # The whole `.json`/`.jsonl` payload under every subdirectory of `state/` is 0.23 MB
+    # measured 2026-08-30 -- `backups/` is 359 MB but almost all of it is `.zip` and
+    # `.pre*` source snapshots, which this filter never had any reason to take. There is no
+    # volume argument against the recursive walk, only the accident that it was written flat.
     os.makedirs(os.path.join(root, "state"), exist_ok=True)
-    for f in os.listdir(os.path.join(HERE, "state")):
-        if f.endswith(".json") or f.endswith(".jsonl"):
+    _live_state = os.path.join(HERE, "state")
+    for _dirpath, _, _files in os.walk(_live_state):
+        _rel = os.path.relpath(_dirpath, _live_state)
+        _dest = os.path.join(root, "state") if _rel == "." else os.path.join(root, "state", _rel)
+        for f in _files:
+            if not (f.endswith(".json") or f.endswith(".jsonl")):
+                continue
             try:
-                shutil.copy2(os.path.join(HERE, "state", f), os.path.join(root, "state", f))
+                os.makedirs(_dest, exist_ok=True)
+                shutil.copy2(os.path.join(_dirpath, f), os.path.join(_dest, f))
             except OSError:
                 pass
+    # AND THE SIX LOGS THE DASHBOARD ACTUALLY READS, which the blanket `.log` exclusion took
+    # with the other 109 MB. `dashboard._read_row` tails `state/read_auto.log` for the `dropped`
+    # count -- the model sentences the verbatim check rejected -- and `standards.check` turns
+    # that into the HIGH standard `sentences that survive the verbatim check`. With the log
+    # absent the row reads UNMEASURED, so three more verify_math rows sat red in every baseline:
+    # `and it is MEASURED, not merely present`, `the reader's job dict carries the count the
+    # guard needs`, and `every standard standards.py declares actually emits a row` (five of the
+    # 46 declared standards cannot emit without their logs).
+    #
+    # DERIVED FROM `lognames`, NOT HAND-KEPT, for the same reason the root manifest above is
+    # taken from `publish`: a second copy of a list is how the two come to disagree. `lognames`
+    # is the module the dashboard itself names these files by, so a log added there travels here
+    # without anyone remembering to. The six together are 4.3 MB, copied once per run.
+    try:
+        import lognames as _ln
+        _gate_logs = sorted({getattr(_ln, _k) for _k in dir(_ln) if _k.isupper()
+                             if isinstance(getattr(_ln, _k), str)
+                             and getattr(_ln, _k).endswith(".log")})
+    except Exception:
+        silence.note("mutate.py:sandbox-lognames")
+        _gate_logs = ("read_auto.log", "roll_auto.log", "pipeline_auto.log",
+                      "recatalogue.log", "sweep.log", "calibrate.log")
+    for f in _gate_logs:
+        p_ = os.path.join(_live_state, f)
+        if os.path.isfile(p_):
+            try:
+                shutil.copy2(p_, os.path.join(root, "state", f))
+            except OSError:
+                silence.note("mutate.py:sandbox-copy-log:" + f)
     # HALT AND LOCK DO NOT TRAVEL. A halt copied into the sandbox would make every gate refuse
     # on purpose, and a copied mutation lock would make the sandbox refuse to mutate. Both are
     # facts about the LIVE library, not about this throwaway copy of it.
@@ -1601,6 +1649,32 @@ def _session(a, targets):
             print("verify_math.py has finished. (A red baseline on a QUIET tree is a different")
             print("thing and is allowed through -- it may be a real standing fault.)")
             return 6
+        if red:
+            # A RED BASELINE ON A QUIET TREE IS ALLOWED THROUGH, AND IT MUST STILL BE
+            # SAID (order 90a5d3d6b96f, sweep39-batch07). `red_gates` was computed and
+            # its answer used only by the `moving and red` arm above, so on a quiet tree
+            # the list was discarded and the very next line printed "all gates
+            # reproducible" -- with part of the battery disabled for the whole run.
+            #
+            # Disabled is exactly what it means, in this module's own words: mutants are
+            # judged by DIFFERENCE from the baseline, so a gate that is already red
+            # matches every mutant's signature and cannot kill anything. A run reporting
+            # survivors while a detector is switched off reads exactly like a run
+            # reporting survivors while it is not, which is the failure this whole module
+            # exists to measure, arriving inside the measurement.
+            #
+            # Named rather than refused: the refusal above is deliberately narrow (a red
+            # baseline is allowed through on a quiet tree because it may be a real
+            # standing fault, and "green or refuse" means "never runs"). The fix is to
+            # stop it being SILENT, not to stop it happening.
+            print("\nRED IN THE BASELINE ON A QUIET TREE — RUNNING ANYWAY, BUT THESE "
+                  "GATES ARE DISABLED:")
+            for gname, sig_ in red:
+                print("   %-14s %s" % (gname, sig_[:90]))
+            print("   Each is already red on UNMUTATED code, so it matches every mutant "
+                  "and kills none.")
+            print("   Any survivor below may be this and not a hole in the battery. "
+                  "Read these first.")
 
         # gates=gates + confirm, matching the call that built `base` two lines up. The default
         # (gates=GATES) always includes CONFIRM_GATES, so under --no-confirm this would score a

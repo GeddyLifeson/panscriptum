@@ -164,9 +164,18 @@ check("assay M5 floor uses the LITERATURE value, not the uniform one",
 # Kinetic energy, Newtonian and relativistic
 check("KE 75kg @ 10 m/s (J)", PH.kinetic(75, 10), 3750.0, tol=1e-9)
 gamma = 1 / math.sqrt(1 - 0.5 ** 2)
-check("KE relativistic @ 0.5c uses gamma", round(PH.kinetic(1.0, 0.5 * 2.99792458e8)),
-      round((gamma - 1) * 1.0 * 2.99792458e8 ** 2), tol=1e-9,
-      note="must switch to relativistic above 0.1c")
+# THE `tol=` HERE WAS SILENTLY DISCARDED (order 97894a93eab5). `round(x)` with one
+# argument returns an INT, so `want` was an int, `check()` never took its
+# `isinstance(want, float)` branch, and the comparison fell through to exact equality --
+# two integers near 4.6e16 compared bit for bit under a label promising a tolerance. It
+# passed, because exact is STRICTER than intended, so nothing was wrong except what the
+# next reader would believe. An AST scan of all 68 rows passing `tol=` found this was the
+# only one whose `want` was provably not a float. The intent is made REAL rather than
+# dropped: the unrounded joules are compared and the tolerance does the work it says it
+# does. The numbers are unchanged.
+check("KE relativistic @ 0.5c uses gamma", PH.kinetic(1.0, 0.5 * 2.99792458e8),
+      (gamma - 1) * 1.0 * 2.99792458e8 ** 2, tol=1.0,
+      note="must switch to relativistic above 0.1c; the bar is 1 joule against a quantity near 4.6e16, i.e. floating-point noise and nothing wider")
 
 # Pulverisation volume math
 check("pulverise 1000 m^3 concrete (J)", PH.joules_for(1000, "concrete", "pulv"), 1.7e11, tol=1e-9)
@@ -607,6 +616,22 @@ check("scoring the faculties actually moves the Magnitude",
       A.assay("M3", dict(_ks, acumen=9.0, discernment=8.0, suasion=7.0),
               attestation="Witnessed", worksheet="x")["decimal"] != 0.49, True,
       note="the point of the erratum: Int/Wis/Cha can now register at all")
+
+# THE EPOCH FIELD OF A RETURNED ASSAY HAD NO ASSERTION ANYWHERE, and the mutation pass found it:
+# `"epoch": epoch or "unstamped"` in assay.assay() was corrupted to `epoch and "unstamped"` and
+# the whole battery still passed (order fff84beb3e0f). The two spellings differ on EVERY input --
+# with an epoch given, `and` throws it away and publishes the sheet as unstamped; with none given,
+# `and` stores a bare None where every reader expects the sentinel string. A stamped assay that
+# loses its epoch is not a loose measurement, it is a measurement of an unspecified subject (the
+# automated pass anchored Goku at M3 against a published M7.62 for exactly this reason), and the
+# None is what `identity.epoch_acceptable` reads when it refuses an unstamped sheet from an
+# epoch-mandatory host. The first row kills the mutant; the second pins the sentinel identity.py
+# depends on, which is the half a "not None" assertion would miss.
+check("an assay carries the epoch it was given",
+      A.assay("M3", {"ruin": 5.0}, worksheet="w", epoch="Gear Five")["epoch"],
+      "Gear Five")
+check("an assay with no epoch is stamped 'unstamped', never None",
+      A.assay("M3", {"ruin": 5.0}, worksheet="w")["epoch"], "unstamped")
 
 check("attestation quality is DERIVED from assay's own table, not a second one",
       CU.ATTESTATION_QUALITY["Disputed"] < CU.ATTESTATION_QUALITY["Transcribed"]
@@ -1432,7 +1457,7 @@ with open(_ap, "w", encoding="utf-8") as _f:
 check("land_json lands a good write", _PL.land_json(_ap, {"charted": [1, 2]}), True)
 check("and the artifact is what was asked for",
       json.load(open(_ap, encoding="utf-8")), {"charted": [1, 2]})
-check("and no .tmp is left behind", os.path.exists(_ap + ".tmp"), False)
+check("and land_json leaves no .tmp behind", os.path.exists(_ap + ".tmp"), False)
 check("indent is honoured", "\n  " in open(os.path.join(_ad, "B.json"), encoding="utf-8").read()
       if _PL.land_json(os.path.join(_ad, "B.json"), {"k": 1}, indent=2) else False, True)
 check("default= carries the CHRONICLE case",
@@ -1566,7 +1591,7 @@ _CP.HOSTS, _CP.RECORDS, _CP.category_size_probe = _cp_hosts, _cp_recs, _cp_probe
 _cp_out = _CP.OUT
 _CP.OUT = os.path.join(_cd, "COMPLETENESS.json")
 check("a real result lands", _CP.land([{"source": "A", "unreliable": None}]), True)
-check("and no .tmp is left behind", os.path.exists(_CP.OUT + ".tmp"), False)
+check("and completeness.land leaves no .tmp behind", os.path.exists(_CP.OUT + ".tmp"), False)
 check("an empty result REFUSES to overwrite it", _CP.land([]), False)
 check("and the real rows are untouched", len(json.load(open(_CP.OUT, encoding="utf-8"))), 1)
 check("a --only slice never lands over the whole-corpus file",
@@ -4584,21 +4609,56 @@ check("a non-numeric got is recorded as a failed check, never raised",
       note="the probe above is deliberately failing and is scrubbed from the tally; what is "
            "asserted is that it FAILED rather than taking the suite down with it")
 
-# needle assembled at runtime: written as a literal it would match its OWN source line and
-# fail forever -- the self-referential version of the bug it is checking for.
-_needle20i = " or " + "True, " + "True,"
-# AND THE OTHER SPELLINGS OF IT. Run #26, found by the whole-tree sweep: the needle above is a
-# SINGLE-LINE spelling, and this file wraps the boolean expression and the `True,` want-argument
-# onto separate lines in dozens of checks -- CITED BY ROW LABEL, NOT BY LINE (order a09a0e003c31,
-# run #37), because all four line numbers this paragraph used to give had drifted onto unrelated
-# lines: `"KE relativistic @ 0.5c uses gamma"` in §1 and this section's own `"no check in this
-# file is disarmed with a trailing always-true disjunct"` are both this shape, and an AST pass
-# over the file counted 56 of them on 2026-08-29. Disarming any of THOSE was invisible to the
-# one guard whose entire purpose is to notice
-# it -- lesson 12 reached inside the file that exists to fail, which is the worst place for it.
-# Collapsing runs of whitespace makes the wrapped and unwrapped spellings the same string, and
-# the alternates cover the disjuncts that are always-true without saying `True`.
-_needles20i = (_needle20i, " or " + "1, " + "True,", " or " + "True), " + "True,")
+# THE GUARD ASKS THE PARSE TREE, NOT THE CHARACTERS. Every earlier version of this row searched
+# the collapsed source for assembled needles -- ' or True, True,', ' or 1, True,',
+# ' or True), True,' -- and EVERY ONE OF THEM REQUIRED A COMMA AFTER THE `want` ARGUMENT. A row
+# written `check("x", expr or True, True)` (no note=, no tol=, so `want` closes the call)
+# collapses to '... or True, True)' and matched nothing. Measured on the 7,710-line revision of
+# 2026-08-29: 207 rows in this file close ', True,' and 211 close ', True)'. The guard saw the
+# 207 and was blind to the larger half -- and its own two positive controls both carried
+# note="x", so they exercised only the spelling that was not blind. That is the run #26 lesson
+# ("a detector nothing ever trips is not a detector") reached one spelling over, inside the file
+# that exists to fail. Order 128b4ba2281c.
+#
+# The AST predicate is formatting-independent -- a reflow cannot false-fail it, a comment cannot
+# satisfy it -- and it subsumes all of: `or True`, `or 1`, `or "anything"`, the parenthesised
+# form, the wrapped form, and the bare `check(label, True, True)` tautology that order
+# 96c4be60fb92 had to find by hand. It also retires the assembled-at-runtime needles: those
+# existed only because a literal needle would have matched its own source line, and a string
+# constant is not a Call node, so the fixtures below can be written plainly.
+import ast as _ast20i                                                  # noqa: E402
+
+
+def _disarmed_rows20i(_src20i):
+    """-> [(lineno, why, label)] for every `check(...)` whose `got` argument cannot be False."""
+    _out20i = []
+    for _n20i in _ast20i.walk(_ast20i.parse(_src20i)):
+        if not isinstance(_n20i, _ast20i.Call):
+            continue
+        if not (isinstance(_n20i.func, _ast20i.Name) and _n20i.func.id == "check"):
+            continue
+        if len(_n20i.args) < 2:
+            continue
+        _got20i = _n20i.args[1]
+        _why20i = ""
+        if isinstance(_got20i, _ast20i.Constant) and _got20i.value:
+            _why20i = "constant truthy `got`"
+        else:
+            # ANY nesting depth, because `a or (b or True)` disarms exactly as well as the flat
+            # spelling and reads as an ordinary expression.
+            for _sub20i in _ast20i.walk(_got20i):
+                if (isinstance(_sub20i, _ast20i.BoolOp)
+                        and isinstance(_sub20i.op, _ast20i.Or)
+                        and any(isinstance(_v20i, _ast20i.Constant) and _v20i.value
+                                for _v20i in _sub20i.values)):
+                    _why20i = "always-true disjunct"
+                    break
+        if _why20i:
+            _lab20i = _n20i.args[0]
+            _out20i.append((_got20i.lineno, _why20i,
+                            _lab20i.value if isinstance(_lab20i, _ast20i.Constant)
+                            else "<computed label>"))
+    return _out20i
 # --- the supervisor can NAME a job's exit code --------------------------------------------------
 # `rc=<number>` is not a diagnosis. read.py exited 4294967295 three times running and the bare
 # number let run #23 file the first two as a harmless process bounce -- a guess the third
@@ -4631,31 +4691,54 @@ check("and an ordinary editable file is still admitted",
       _la20i._safe("src/tells.py") is not None, True,
       note="the fix must not over-block; a gate that refuses everything is also broken")
 
+# REPORTED AS A LIST, NOT A BOOLEAN, so a red row NAMES the row it caught. The old spelling
+# asserted `any(...) == False` and a failure said only "True != False" -- which tells whoever
+# reads it that something in a 7,700-line file is disarmed and nothing about where.
 check("no check in this file is disarmed with a trailing always-true disjunct",
-      any(_n20i in " ".join(open(os.path.join(_here19, "verify_math.py"),
-                                 encoding="utf-8").read().split())
-          for _n20i in _needles20i),
-      False,
+      _disarmed_rows20i(open(os.path.join(_here19, "verify_math.py"),
+                             encoding="utf-8").read()),
+      [],
       note="§20i's third case: the STANDING-horizon check asserted against a docstring that "
            "never contained the string, so an always-true disjunct had been added to keep it "
            "quiet -- a check that cannot fail, in the file that exists to fail")
 
 # AND THE GUARD IS EXERCISED, NOT MERELY DECLARED. Run #26: the check above read green for nine
 # runs while blind to the wrapped spelling, which is the exact failure it exists to report -- so
-# asserting that it says False over a clean file proves nothing at all. These two feed it a
-# disarmed check in each spelling and require it to SEE them, then require it to leave an
-# ordinary wrapped check alone. A detector nothing ever trips is not a detector.
-_disarmed20i = ('check("a wrapped check",\n      value == other or ' + 'True' + ',\n'
-                '      ' + 'True' + ', note="x")')
-_ordinary20i = ('check("a wrapped check",\n      value == other,\n'
-                '      ' + 'True' + ', note="x")')
-check("the disarm guard sees a disjunct wrapped onto the next line",
-      any(_n20i in " ".join(_disarmed20i.split()) for _n20i in _needles20i), True,
-      note="the spelling it was blind to until run #26; the §1 row 'KE relativistic @ 0.5c "
-           "uses gamma' and this section's own disarm row are both this shape")
-check("and it does not cry wolf on an ordinary wrapped check",
-      any(_n20i in " ".join(_ordinary20i.split()) for _n20i in _needles20i), False,
+# asserting that it says clean over a clean file proves nothing at all. THE OLD PAIR OF CONTROLS
+# WAS ITSELF BLIND: both fixtures carried note="x", i.e. both were written in the trailing-comma
+# spelling, which is the one the needles could see. Every spelling the needles MISSED is now a
+# control -- most importantly the no-trailing-comma form, which is the larger half of this file.
+_disarmed20i = {
+    "wrapped, trailing comma": ('check("a wrapped check",\n      value == other or True,\n'
+                                '      True, note="x")'),
+    "single line, no trailing comma": 'check("a check", value == other or True, True)',
+    "wrapped, no trailing comma": ('check("a wrapped check",\n      value == other\n'
+                                   '      or True, True)'),
+    "parenthesised": 'check("a check", (value == other or True), True)',
+    "or 1": 'check("a check", value == other or 1, True)',
+    'or "a string"': 'check("a check", value == other or "x", True)',
+    "bare tautology": 'check("a check", True, True)',
+}
+_ordinary20i = {
+    "ordinary wrapped": ('check("a wrapped check",\n      value == other,\n'
+                         '      True, note="x")'),
+    "ordinary single line": 'check("a check", value == other, True)',
+    # THE DISJUNCT ON THE **WANT** ARGUMENT IS NOT A DISARM: `want` is what the row asserts
+    # against, and over-reaching onto it would flag rows that are doing nothing wrong.
+    "or True on want, not got": 'check("a check", value, other or True)',
+}
+check("the disarm guard sees EVERY spelling of a disjunct, not just the one it was written for",
+      sorted(k for k, v in _disarmed20i.items() if not _disarmed_rows20i(v)), [],
+      note="the four the needles were blind to are here: no-trailing-comma single line and "
+           "wrapped, parenthesised, and `or 1`. Measured 2026-08-29: 211 rows in this file "
+           "close ', True)' and 207 close ', True,'; the guard could only see the 207")
+check("and it does not cry wolf on an ordinary check",
+      sorted(k for k, v in _ordinary20i.items() if _disarmed_rows20i(v)), [],
       note="over-matching here would flag most of this file and the guard would be turned off")
+check("a red guard NAMES the row it caught, rather than saying only True != False",
+      _disarmed_rows20i('check("the label it must report", x or True, True)')[0][2],
+      "the label it must report",
+      note="the reason this returns a list of (line, why, label) instead of a boolean")
 
 print()
 print("31. §20j  RUN #25 — A GUARD THAT ONLY RECOGNISES THE UNOBFUSCATED SPELLING")
@@ -5346,16 +5429,46 @@ check("a refused publish does not return success",
 # where run #31 found it reporting "8 subsystem(s) in a bad state" over eight jobs obeying it.
 _alls20p = __import__("allsweep")
 _esc20p = __import__("escalation")
+# THIS ROW USED TO BE CONDITIONAL AND THEREFORE VACUOUS ON A HEALTHY LIBRARY (order 498dd8b268f7
+# -> 498dd8b128f7). It read `(marker in msg) if msg else "no live halt to check against"` against
+# a want of the same string literal, so with no halt standing `got` and `want` were identical by
+# construction. Its own note conceded it ("when a halt IS standing this compares them for real"),
+# which means the guarantee existed only while the library was broken -- the state it is supposed
+# to be furthest from. It happened to compare for real on 2026-08-29 only because a DRILL_BREACH
+# halt was up.
+#
+# Two things replace it, and neither can be satisfied by a coincidence. First, the second copy of
+# the sentence is GONE: allsweep now imports `escalation.HALT_REFUSAL` instead of re-spelling it,
+# so the row below asserts they are the same object rather than that two literals happen to
+# match. Second, the sentence escalation ACTUALLY RAISES is checked unconditionally, by pointing
+# escalation at a scratch HALT file and driving `assert_clear` for real -- so the row means the
+# same thing on a healthy library as on a halted one.
+check("allsweep does not keep its own copy of the halt refusal",
+      _alls20p._HALT_REFUSAL is _esc20p.HALT_REFUSAL, True,
+      note="one spelling in one place; the previous row tested that two copies matched")
+_keep20p = _esc20p.HALT_FILE
+_tmpdir20p = _tf.mkdtemp(prefix="vm_halt_probe_")
 try:
-    _esc20p.assert_clear("verify_math probe")
-    _msg20p = None
-except _esc20p.SystemHalted as _e20p:
-    _msg20p = str(_e20p)
+    _esc20p.HALT_FILE = os.path.join(_tmpdir20p, "HALT.json")
+    with open(_esc20p.HALT_FILE, "w", encoding="utf-8") as _fh20p:
+        json.dump({"code": "PROBE", "what": "a synthetic halt raised by verify_math",
+                   "by": "verify_math", "source": None, "cleared": False}, _fh20p)
+    try:
+        _esc20p.assert_clear("verify_math probe")
+        _msg20p = None
+    except _esc20p.SystemHalted as _e20p:
+        _msg20p = str(_e20p)
+finally:
+    _esc20p.HALT_FILE = _keep20p
+    _shutil_vm.rmtree(_tmpdir20p, ignore_errors=True)
+check("a synthetic halt really does refuse, so the row below is asking a live question",
+      _msg20p is not None, True,
+      note="if assert_clear stopped raising, the marker check would pass over a None and mean "
+           "nothing -- the failure this whole row was rewritten to escape")
 check("the marker allsweep reads a halt by is the sentence escalation actually raises",
-      (_alls20p._HALT_REFUSAL in _msg20p) if _msg20p else "no live halt to check against",
-      True if _msg20p else "no live halt to check against",
-      note="two files agreeing on a sentence by coincidence is how a refusal starts reading "
-           "as a crash again; when a halt IS standing this compares them for real")
+      _alls20p._HALT_REFUSAL in (_msg20p or ""), True,
+      note="allsweep reads a child's output for this to tell REFUSED from BROKEN; run #31 "
+           "found it grading eight jobs that were obeying the halt as eight in a bad state")
 check("the import tier is not blind to a bare SystemExit",
       "exited without a traceback" in _src20p("allsweep.py"), True,
       note="absence of a traceback used to mean 'imported cleanly', so every module's own "

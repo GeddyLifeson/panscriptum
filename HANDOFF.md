@@ -9,6 +9,178 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-30 — Run #39: THE QUEUE IS NOT EMPTY. 458 orders stand, 293 of them filed in the last hour by the sweep.
+
+**READ THIS BEFORE ANYTHING ELSE.** The daily standard is an empty queue, and this run does not
+meet it. It is not a partial run in the usual sense — the arithmetic is:
+
+| | |
+|---|---|
+| open at shift start | 170 |
+| closed this shift (distinct ids, each with a written resolution) | **25** |
+| filed by run #39 itself | 6 |
+| **filed by the sixteen sweep agents, in the last hour** | **293** |
+| open now | **458** |
+
+The comprehensive sweep is the reason. It read all 115 modules in full for the first time this
+week and found 293 things; a queue that grows after a sweep is the sweep working, not the shift
+failing. But it means **the next run inherits a large queue and should not treat it as a backlog
+of neglect.** The 293 are fresh, uncapped, each carrying its own remedy, and a good many are
+MINOR citation drift that the LOCAL rung can now actually take (see below).
+
+**The queue file is the authority on what is open — `state/workorders.json`, 458 rows, by rung:
+RUN 135, LOCAL 122, OWNER 97, SESSION 58, BOTS 46.** Listing 458 ids here would be a worse index
+than the file itself. What follows is the reading of it.
+
+**Start with these, in this order.** They are the MAJORs the sweep found that no run has touched:
+
+- **`a3d518d078c3` (SESSION)** — 44 sources holding 6,629 entries are selected by
+  `phase_synthesis`'s todo filter as needing a ceiling and then skipped one line later by
+  `if src in done_keys`, and `retry_synthesis.stranded_sources()` covers **0 of the 44**.
+  Independently re-measured by this run: 49 records without a ceiling, 44 of them already in
+  `done.synthesis`, retry coverage zero. Overwatch — the source the docstring names as worth
+  re-nominating — is one of them. The order carries the full 44 and two candidate remedies; which
+  one is right is a spend decision, which is why it is SESSION and not RUN.
+- **`9495caa65d06` (RUN)** — `drill._no_runtime_clear` calls the REAL `escalation.clear()` four
+  times with a valid ruling, so the only thing between the battery and lifting a standing OWNER
+  halt is the guard the net exists to test. The fix pattern is already in the file.
+- **`38afd14f22e8` (RUN)** — `standards.ollama_runner_up()` has a three-valued contract read in
+  two branches, so "could not tell" publishes "runner up, 1 resident" with `holds=True` on a HIGH
+  standard.
+- **`90516d53d696` (RUN)** — `derivation.check_graph()` detects a ledger cycle and then loops for
+  ever in the deepest-chain walk, so the verdict line is never reached and callers see a timeout.
+- **`gpu_lane._take_slot`** cannot reclaim a corrupt slot file (batch 9), which answers BUSY and
+  makes `lane()` poll the full 900 s — a permanent fifteen-minute stall on every model call in
+  nine standing jobs.
+- **`read.py:160-191`** silently discards real feats for 4,939 catalogued entities whose names
+  carry no ASCII word over three characters (Ash, Ike, Vi, `Suì-Fēng`), after the model has been
+  paid for them and the feats verbatim-verified.
+
+**THE MUTATION PASS IS STILL RUNNING** and will not finish tonight. It is unbuffered this time, so
+`state/mutate_20260830.log` is readable while it goes. **No survivor count can be reported for it
+yet**, and the counts on record from earlier runs are not usable — see below for why.
+
+### Run #39, continued — the mutation tester was measuring its own sandbox, and the paper trail was two-thirds rehearsal
+
+**FOR THE OWNER — READ THESE FIRST.**
+
+**1. NOTHING IS HALTED, AND NOTHING WAS HALTED THIS SHIFT.** No halt was raised by run #39 and
+none was standing when it opened. The `DRILL_BREACH` in `state/HALT.json` is run #38's, already
+lifted by run #38 under the self-caused clause. No halt was lifted by this run.
+
+**2. THE MACHINE-LEVEL FAULT IS STILL THERE, AND IT IS STILL NOT OURS TO FIX** (order
+**f6c52ef7657f**, OWNER, standing since run #37). `pythonw -m semsearch.cli watch` — **not part of
+this project** — re-measured live with `netstat -ano`:
+
+| | |
+|---|---|
+| host TCP sockets, total | 900 |
+| sockets touching `127.0.0.1:11434` | 804 (89%) |
+| held by `semsearch.cli watch` | **396 ESTABLISHED** |
+| held by `ollama.exe`, the other end | 398 |
+
+Run #39 hit it head-on: two `local_agent` dispatches died with `WinError 10055 — the system
+lacked sufficient buffer space`, which is socket exhaustion, not a fault in this library. The five
+throttled-host orders on BOTS, the stalled `roll_auto`, and a `PREFLIGHT_PROBLEM` that filed and
+self-closed mid-shift (`aneurism.fandom.com` unreachable at 22:0x, answering 200 by 23:1x) are all
+the same cause. One `Stop-Process` reopens the local rung, the crawl and the cloud pool. Three
+runs have now declined to kill another project's daemon.
+
+**3. RUN #38 NEVER CLOSED ITS SHIFT.** Its guard was still `done:false` with a 14-hour-stale
+heartbeat, and it left no `HANDOFF.md` entry. Its work is real and is in the closed-order paper
+trail; it is simply narrated nowhere. Run #39 claimed the guard on that basis.
+
+---
+
+### THE TWO THINGS THIS SHIFT ACTUALLY FOUND
+
+**THE MUTATION TESTER HAS NEVER MEASURED THIS LIBRARY.** It measured a sandbox that was missing
+pieces of it, and every survivor count on record was taken with part of the battery switched off.
+
+- `state/` was copied **one level deep**, so `state/sweep_shards/` (155 files, 30 KB) never
+  arrived. Two sweep-coverage rows in `verify_math` were red in every baseline ever taken.
+- The six logs `dashboard` reads were swept up with the blanket `.log` exclusion, so the
+  fabrication guard read UNMEASURED and three more rows went red.
+
+A net that is red in the baseline is **disabled as a detector** — mutants are judged by difference
+from the baseline, so it matches every mutant and kills nothing. Baseline went **1055 passed / 5
+FAILED → 1063 / 0**. Then `drill` in the sandbox went red on six *different* nets, because this
+shift also stopped `drill.denied()` accepting `"no such file"` as a gate refusal — and inside a
+sandbox every path under the four junctioned trees resolves outside it and comes back with exactly
+that message. Fixed by asking `local_agent._safe()` directly. Sandbox drill: **6 BREACHED → 0**.
+
+**The mutation pass now runs against a fully green baseline on both gates for the first time.**
+The counts on record from earlier runs — `assay.py x27, escalation.py x8, prose_gate.py x24` —
+were all taken against a crippled battery and should be re-derived, not carried forward.
+
+**TWO-THIRDS OF THE PAPER TRAIL WAS THE BATTERY REHEARSING ITSELF.** Order c24fcbb8a291 measured
+eight repeating ids at 49.0% of `workorders_closed.jsonl` on 2026-08-29. Re-measured a day later
+before fixing: **1,852 of 2,960 rows, 62.6%**, and climbing every time the battery ran — including
+during this shift. Three of the eight are recorded at MAJOR on the RUN rung with a `what` reading
+`__drill_rung4__ stopped: drill probe`, distinguishable from a real MANAGER-rung subsystem stop
+only by recognising the probe's name. Anybody asking how often a subsystem has been stopped got
+628 hits; the one that matters (`catalogue_web` stopped for nulling synthesis blocks) was buried
+under rehearsals of itself.
+
+Fixed in the shape the order recommended: rehearsals now go to `state/workorders_selftest.jsonl`,
+so the evidence that they ran is kept and the history is left to hold history. Seven are marked by
+the reserved subject convention `drill.py` already keeps (`__drill*__`); the eighth,
+`LOCAL_AGENT_BLAST_CAP`, is a real safety firing and only its *closure* is a rehearsal, so the
+closer declares it. **The 1,852 existing rows were not rewritten** — the log is append-only and
+editing it to look tidier is the one thing a paper trail must never allow. Proof: `drill.py` run
+end to end, paper trail 2,960 rows before and 2,960 after, all eight rehearsals in the new log.
+
+---
+
+### THE FREE RUNG WAS BROKEN IN THREE WAYS, AND ALL THREE ARE FIXED
+
+The owner's standing instruction is to route everything the local model can carry to it. It could
+not carry anything.
+
+1. **`t_grep` refused a FILE as `subtree`** and answered `no such subtree: src/drill.py` — true,
+   useless, and silent about what to pass instead. The model retried the same call for all 24
+   turns and 70 tool calls before the budget killed it. Nothing was written and the order was not
+   worked. It now takes a directory or a single file, and says so when it can't find either.
+2. **A run that produced neither a patch nor an answer reported `ok: true`.** The existing
+   blank-answer guard covered only turn 0. `_achievement` now takes the answer and `run()` fails
+   on it, in the same shape as the TRIED-AND-LANDED-NOTHING arm beside it.
+3. **13 of the 28 orders on the LOCAL rung — 46% — named a target on `local_agent.DENYLIST`**
+   (foreman, drill, escalation, sweep_plan, standards, verify_math). Not stalled: *undeliverable*,
+   and the queue could not say so. All 13 re-addressed to RUN through the queue's own
+   compare-and-swap, and a detector added so it cannot recur silently.
+
+---
+
+### THE SWEEP HAS A COVERAGE HAZARD THAT LEAVES NO TRACE
+
+`sweep_plan.batches(n)` packs greedily by **live line counts**, so a shift editing `src/`
+re-shuffles which modules a batch number owns. An agent that derives its list at spawn and calls
+`record()` at the end stamps coverage on modules it never opened. **Four batches hit it; three
+caught themselves and rewrote their shards.** `missing()` does not catch this — the modules look
+covered.
+
+So run #39 cross-checked every shard against the audit its own agent wrote, counting a module only
+if the audit names it: **106 corroborated, 0 suspect**. Do that before calling any sweep complete.
+Filed three times over, at SESSION, BOTS and OWNER. The cheap fix is in the brief (hand agents the
+list they were dispatched with, never a recomputed one); the real fix is for `batches()` to pack
+against a manifest frozen for the life of a run.
+
+---
+
+### AND THE SWEEP CAUGHT ME
+
+`_the_loop_reasks_the_halt`, a net this shift added, used `ast.walk` where every sibling uses
+`_live_walk`. Batch 2 defeated it with order 5905045ff433's own incident verbatim: a `publish.py`
+whose live `while True:` never asks the halt and pushes for ever, with the guard parked in a
+trailing `while False:`. The net said HELD. Fixed and re-verified against that fixture.
+
+Worth recording as a lesson, not just a fix: **the net was added with a red-watch, and the
+red-watch passed.** I removed the block, removed the ask, and turned the `break` into a `continue`
+— red on all three. None of those probes was dead code, so none of them could find this. A
+red-watch proves a net notices the defeats you thought of.
+
+---
+
 ## 2026-08-28 — Run #36c: the local rung fixed, and the standing BLOCKING bug closed
 
 **The queue holds ZERO BLOCKING orders for the first time in this project's recent history.**

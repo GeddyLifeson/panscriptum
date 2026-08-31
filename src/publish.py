@@ -1432,6 +1432,44 @@ def main():
         codewatch.stamp("publish")
     while True:
         try:
+            # THE HALT IS RE-ASKED EVERY CYCLE (order 5905045ff433). `main()` asserts it once at
+            # startup, above, and this loop used to run for hours without asking again -- so an
+            # OWNER halt raised by ANY other job while the daemon was up did not stop it, and it
+            # went on committing and pushing the whole tree to the PUBLIC repo on its timer until
+            # somebody killed the process by hand.
+            #
+            # `codewatch.exit_if_stale` below does NOT cover this. It fingerprints `src/` and
+            # fires when CODE changes; a halt is data in a state file. So this is exactly Hard
+            # Rule -1's own 2026-08-25 incident in the dimension the codewatch fix did not close:
+            # that one was "the daemon has stale CODE", and this is "the daemon has stale STATE"
+            # -- a halt raised at 19:00 stays unread by the 14:28 daemon for ever, because src/
+            # never changed. publish.py was the ONE standing daemon in the tree not doing this,
+            # and the only one whose action is irreversible and outward-facing.
+            #
+            # THE HOUSE PATTERN, COPIED DELIBERATELY from overnight.py's cycle loop, including
+            # the re-import: a deleted or unparseable escalation.py must be a SystemExit here
+            # rather than something the `except Exception` below swallows into "rc=1, loop
+            # again". `assert_clear` re-reads the halt file on every call, so this costs one file
+            # read per cycle.
+            #
+            # AND IT BREAKS, IT DOES NOT RETRY. Letting SystemHalted fall into the generic
+            # handler would set rc=1 and loop again ten minutes later, for ever: a halted library
+            # must STOP the publisher, not make it knock repeatedly.
+            try:
+                import escalation as _ESC_CYCLE
+            except ImportError as _esc_gone_cycle:
+                raise SystemExit(
+                    "STOPPING: the escalation chain (src/escalation.py) could not be imported "
+                    "mid-loop (%s), so the halt can no longer be read. Hard Rule -1."
+                    % _esc_gone_cycle) from _esc_gone_cycle
+            try:
+                _ESC_CYCLE.assert_clear("publish.py cycle")
+            except _ESC_CYCLE.SystemHalted as _halted:
+                print(str(_halted).splitlines()[0])
+                print("STOPPING THE PUBLISHER: a halt is standing, so this daemon takes no more "
+                      "bytes and pushes nothing further. Only a person may lift it.")
+                rc = 1
+                break
             # A MAINTENANCE SHIFT IS EDITING THIS TREE -- TAKE NO BYTES THIS CYCLE (order
             # bb4fa3f3c9f1). Read BEFORE `sync_tree`, because the fault is the copy, not the
             # push: once half-finished source is in the export, the commit is only the last
