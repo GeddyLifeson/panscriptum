@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 233  ·  last run 2026-08-31 04:12
+round 234  ·  last run 2026-08-31 04:36
 
 ## Structure
 
@@ -11,12 +11,20 @@ round 233  ·  last run 2026-08-31 04:12
 
 ## What the model found in the code
 
-**14 open** (2 high). Newest first.
+**18 open** (4 high). Newest first.
 
+- **read.py** `a.one` — [HIGH] the code prints only the first 12 feats
+  - says: the interactive inspection path
+- **read.py** `priority` — [HIGH] Sorts by own-page size and yield_per_chunk, not depth first
+  - says: Depth first, because depth is what the model is actually better at.
 - **pipeline.py** `merged` — [HIGH] initially set to `rec` and only becomes the disk-merged version if the read succeeds
   - says: carries the caller's fresh per-entry judgments
 - **pipeline.py** `phase_chain` — [HIGH] This function is not implemented and causes the runner to stop at phase 4 because the function is missing.
   - says: Phase 4 -- the Chain of Defeats. See chain.py for the reasoning.
+- **repass_bands.py** `if PL.write_record(path, rec):` — [MEDIUM] The code checks the return value of `write_record`; it only appends to `touched` when the write succeeds, contrary to the comment
+  - says: `write_record` return value is ignored and `touched` is always appended, causing the run to count rewritten records even when the write failed
+- **read.py** `_card_gate` — [MEDIUM] It only checks/acquires _GATE_LOCAL, but the docstring and logic imply it should handle the gate returned by _gate(), which could be _GATE_CLOUD.
+  - says: Hold one of the card's GATE_LOCAL_N permits -- unless this thread already holds one.
 - **profile.py** `encode` — [MEDIUM] the code does something else
   - says: the code says it does
 - **pipeline.py** `write_record` — [MEDIUM] write_record is called without checking if the write actually reached the disk
