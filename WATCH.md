@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 227  ·  last run 2026-08-30 23:51
+round 228  ·  last run 2026-08-31 00:15
 
 ## Structure
 
@@ -11,34 +11,34 @@ round 227  ·  last run 2026-08-30 23:51
 
 ## What the model found in the code
 
-**28 open** (10 high). Newest first.
+**25 open** (5 high). Newest first.
 
 - **workorders.py** `_fire` — [HIGH] fires an order only if the first argument is True, but the code uses it with a negated condition
   - says: fire an order with the given parameters
-- **publish.py** `prune_export` — [HIGH] Deletes files from the export copy that are not in the 'wanted' set, including entire directories that are no longer in COPY_DIRS
-  - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
-- **mutate.py** `could_not_judge` — [HIGH] THE GATE DID REACH A VERDICT
-  - says: THE GATE DID NOT REACH A VERDICT
-- **mutate.py** `_lock_acquire` — [HIGH] does not exist in the code slice
-  - says: acquire a lock
 - **mutate.py** `_lock_release` — [HIGH] does not exist in the code slice
   - says: release a lock previously acquired by `_lock_acquire`
 - **allsweep.py** `bad` — [HIGH] sum of counts including ungraded reconcile rows
   - says: count of bad subsystems
-- **local_agent.py** `verify_math.py` — [HIGH] the gate runs only for Python files
-  - says: the whole-suite gate runs for every file type, not just Python
 - **escalation.py** `clear` — [HIGH] clear() returns False for two different reasons
   - says: clear() raises PermissionError for non-person callers
 - **drill.py** `a_pure_ladder_is_all_ladder` — [HIGH] The function returns True if the decomposition result has converged, no evidence is False, eta is 1.0, curl fraction is 0.0, and irreducibly_chord is 0.0. However, the claim states that the STAR shape should return eta 0.0, which contradicts the actual code's expectation of eta 1.0.
   - says: A STAR is EXACTLY representable: theta_a = 0.75, the three losers -0.25 each, reproducing every edge. eta must be 1.0 and the curl fraction 0.0. Under Jacobi this was 0.0 -- the answer for a shape with NO ladder in it at all, returned for a shape that is nothing but ladder.
-- **drill.py** `catalog_matches_disk` — [HIGH] only checks that the catalog does not claim chapters that do not exist on disk
-  - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
+- **identity.py** `identify` — [MEDIUM] Returns `(base, continuity)` only if `desig` is in `continuities`
+  - says: Return `(base, continuity)` for a resolved wiki title.
+- **hostcheck.py** `purge-cache-remove` — [MEDIUM] the code does not do
+  - says: the code says it does
+- **hostcheck.py** `purge-record-denied` — [MEDIUM] the code does not do
+  - says: the code says it does
+- **hostcheck.py** `score` — [MEDIUM] score is called with by=by, but the by parameter is already passed as by[src], making the by=by redundant and possibly incorrect
+  - says: score(host, by[src], src, by=by)
+- **hostcheck.py** `HOST_MERGE_ATTEMPTS` — [MEDIUM] The symbol HOST_MERGE_ATTEMPTS is used but not defined in this slice of code.
+  - says: A constant representing the number of merge attempts.
+- **hostcheck.py** `merge` — [MEDIUM] The function is used to merge data into the hosts dictionary, but the variable 'merge' is not defined in this slice of code.
+  - says: Merge the provided hosts into the existing hosts file.
 - **workorders.py** `_detector` — [MEDIUM] marks as detected regardless of whether an exception occurred
   - says: detects a problem and marks it as detected
 - **publish.py** `_may_delete_in_export` — [MEDIUM] Checks if SITE is a different directory from HERE and if the marker file exists, but the function is supposed to determine if deletion is allowed based on the marker file alone
   - says: May anything be DELETED under `SITE` at all? -> bool
-- **publish.py** `os.path.exists` — [MEDIUM] Returns False for both absent and unreadable, but the comment says it's used to check for the marker file, which is not the case
-  - says: Answers False for absent and for unreadable alike, and both of those mean 'not proven to be the export copy'
 - **overnight.py** `snap` — [MEDIUM] snap is used to check for 'error' and other keys, but the code does not verify that 'error' is the only key present
   - says: A crashed snapshot carries ONLY an "error" key
 - **overnight.py** `run` — [MEDIUM] Does not run after the reader; it runs concurrently with the reader due to the pipeline being started in the background
@@ -51,8 +51,6 @@ round 227  ·  last run 2026-08-30 23:51
   - says: A list of Verifier objects with the argv that makes each one report rather than act
 - **allsweep.py** `Verifier` — [MEDIUM] An iterable that yields a two-element tuple (label, argv), but the __iter__ method returns iter((self.label, self.argv)) which is a tuple, not a list
   - says: An iterable that yields exactly (label, argv)
-- **local_agent.py** `rel_real` — [MEDIUM] path the filesystem actually resolves to relative to real_here
-  - says: path the filesystem actually resolves to
 - **escalation.py** `status` — [MEDIUM] returns (not rec.get("cleared", False)), rec
   - says: -> (halted: bool, record or None).
 - **escalation.py** `WO.file_order` — [MEDIUM] the code is passing 'where' and 'evidence' as keyword arguments, but the function may not be designed to handle them, leading to potential misuse or incorrect behavior
@@ -61,10 +59,6 @@ round 227  ·  last run 2026-08-30 23:51
   - says: Report something amiss at `level`, recording it at every rung beneath as well.
 - **drill.py** `main` — [MEDIUM] raises SystemExit on main()
   - says: entry point for the module
-- **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] checks that the states do not sum PAST the entry count
-  - says: No source's states may sum PAST its own entry count. One direction, and only one.
-- **generate.py** `save_raw` — [MEDIUM] is called with text that was not skipped
-  - says: FILED AND SKIPPED LIKE EVERY OTHER REFUSAL IN THIS LOOP
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
