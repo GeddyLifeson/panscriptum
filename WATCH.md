@@ -1,40 +1,28 @@
 # OVERWATCH
 
-round 228  ·  last run 2026-08-31 00:15
+round 229  ·  last run 2026-08-31 00:41
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 283,040 inspected (deep scan as of round 223)
+- files that will not parse: **0** of 283,526 inspected
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
-- on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
+- on the roll but never catalogued: **7** DC, HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, and 1 more
 
 ## What the model found in the code
 
-**25 open** (5 high). Newest first.
+**16 open** (2 high). Newest first.
 
-- **workorders.py** `_fire` — [HIGH] fires an order only if the first argument is True, but the code uses it with a negated condition
-  - says: fire an order with the given parameters
-- **mutate.py** `_lock_release` — [HIGH] does not exist in the code slice
-  - says: release a lock previously acquired by `_lock_acquire`
 - **allsweep.py** `bad` — [HIGH] sum of counts including ungraded reconcile rows
   - says: count of bad subsystems
 - **escalation.py** `clear` — [HIGH] clear() returns False for two different reasons
   - says: clear() raises PermissionError for non-person callers
-- **drill.py** `a_pure_ladder_is_all_ladder` — [HIGH] The function returns True if the decomposition result has converged, no evidence is False, eta is 1.0, curl fraction is 0.0, and irreducibly_chord is 0.0. However, the claim states that the STAR shape should return eta 0.0, which contradicts the actual code's expectation of eta 1.0.
-  - says: A STAR is EXACTLY representable: theta_a = 0.75, the three losers -0.25 each, reproducing every edge. eta must be 1.0 and the curl fraction 0.0. Under Jacobi this was 0.0 -- the answer for a shape with NO ladder in it at all, returned for a shape that is nothing but ladder.
+- **magnitude.py** `assay_entity` — [MEDIUM] returns a deferred status when the anchor is not in the ladder
+  - says: assays an entity by trying different methods
 - **identity.py** `identify` — [MEDIUM] Returns `(base, continuity)` only if `desig` is in `continuities`
   - says: Return `(base, continuity)` for a resolved wiki title.
-- **hostcheck.py** `purge-cache-remove` — [MEDIUM] the code does not do
-  - says: the code says it does
-- **hostcheck.py** `purge-record-denied` — [MEDIUM] the code does not do
-  - says: the code says it does
 - **hostcheck.py** `score` — [MEDIUM] score is called with by=by, but the by parameter is already passed as by[src], making the by=by redundant and possibly incorrect
   - says: score(host, by[src], src, by=by)
-- **hostcheck.py** `HOST_MERGE_ATTEMPTS` — [MEDIUM] The symbol HOST_MERGE_ATTEMPTS is used but not defined in this slice of code.
-  - says: A constant representing the number of merge attempts.
-- **hostcheck.py** `merge` — [MEDIUM] The function is used to merge data into the hosts dictionary, but the variable 'merge' is not defined in this slice of code.
-  - says: Merge the provided hosts into the existing hosts file.
 - **workorders.py** `_detector` — [MEDIUM] marks as detected regardless of whether an exception occurred
   - says: detects a problem and marks it as detected
 - **publish.py** `_may_delete_in_export` — [MEDIUM] Checks if SITE is a different directory from HERE and if the marker file exists, but the function is supposed to determine if deletion is allowed based on the marker file alone
@@ -53,12 +41,6 @@ round 228  ·  last run 2026-08-31 00:15
   - says: An iterable that yields exactly (label, argv)
 - **escalation.py** `status` — [MEDIUM] returns (not rec.get("cleared", False)), rec
   - says: -> (halted: bool, record or None).
-- **escalation.py** `WO.file_order` — [MEDIUM] the code is passing 'where' and 'evidence' as keyword arguments, but the function may not be designed to handle them, leading to potential misuse or incorrect behavior
-  - says: file_order is called with parameters including 'where' and 'evidence'
-- **escalation.py** `escalate` — [MEDIUM] Reports at the level specified, but does not actually record at every rung beneath as described. The function only records at the level specified and the log files are not guaranteed to capture all rungs beneath.
-  - says: Report something amiss at `level`, recording it at every rung beneath as well.
-- **drill.py** `main` — [MEDIUM] raises SystemExit on main()
-  - says: entry point for the module
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
