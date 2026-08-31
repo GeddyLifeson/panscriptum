@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 242  ·  last run 2026-08-31 11:26
+round 243  ·  last run 2026-08-31 11:54
 
 ## Structure
 
@@ -11,14 +11,18 @@ round 242  ·  last run 2026-08-31 11:26
 
 ## What the model found in the code
 
-**14 open** (3 high). Newest first.
+**14 open** (4 high). Newest first.
 
-- **thread_integrity.py** `out["IMPLIED-UNRECORDED"]` — [HIGH] used in two places where the code is supposed to count pairs where neither end records the thread, but the code is commented to indicate that this was a bug where the branch was unreachable
-  - says: counts pairs where neither end records the thread
-- **thread_integrity.py** `out["PARTIALLY-DANGLING"]` — [HIGH] increments the count for partially dangling pairs but the code is commented to indicate that this was a bug where drift was only reported when all shared keys had gone
-  - says: counts the number of pairs that are partially dangling
+- **withdraw_chapters.py** `shutil.move` — [HIGH] THE RECORD IS NOT KEPT (entry_left is not updated).
+  - says: THE RECORD IS KEPT AND MADE TRUE.
+- **withdraw_chapters.py** `shutil.move` — [HIGH] A FAILED MOVE discards the record (adds to stuck).
+  - says: A FAILED MOVE KEEPS ITS RECORD.
+- **wiki_source.py** `resolve_wiki` — [HIGH] Does not consult the library's host map and instead relies on guessing subdomains
+  - says: Return (subdomain, sitename) for a verified wiki, or (None, None). THE LIBRARY'S OWN HOST MAP IS CONSULTED FIRST.
 - **standards.py** `now` — [HIGH] variable `now` is referenced but not defined anywhere in this file or its imports, causing a NameError.
   - says: records the current time for the token‑flow update.
+- **withdraw_chapters.py** `bad` — [MEDIUM] The variable 'bad' is computed based on conditions that may not align with the actual exit code logic, potentially leading to incorrect exit codes.
+  - says: EVERY REFUSAL ABOVE WAS PRINTED AND THEN DISCARDED. `main()` had no `return` on any path and the entry point was a bare `main()`...
 - **tiers.py** `main` — [MEDIUM] returns 0 if the write was successful, else 1
   - says: returns 0 if the rename landed, else 1
 - **standards.py** `unans_files` — [MEDIUM] count of records that have 'chunks_unanswered' but not 0
@@ -29,16 +33,12 @@ round 242  ·  last run 2026-08-31 11:26
   - says: num_ctx FROM CONFIG, never a literal -- see the docstring.
 - **standards.py** `fab` — [MEDIUM] fabrication rate only if parsed successfully, else None
   - says: fabrication rate
-- **standards.py** `unans_files` — [MEDIUM] count of records that do not have 'chunks_unanswered' or have it set to 0
-  - says: count of unanswered records
 - **standards.py** `silence` — [MEDIUM] not defined in this file or its imports
   - says: used to log exceptions
 - **standards.py** `HERE` — [MEDIUM] not defined in this file or its imports
   - says: used to locate config and metrics files
 - **silence.py** `_handler_is_observed` — [MEDIUM] The function is used to determine if a handler is observed, but the code in the module suggests that the function's logic may not correctly identify re-raised exceptions, leading to potential misclassification of handlers as silent.
   - says: A handler that re-raises, logs, or carries the exception into its own return value is observed.
-- **profile.py** `encode` — [MEDIUM] the code does something else
-  - says: the code says it does
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 
