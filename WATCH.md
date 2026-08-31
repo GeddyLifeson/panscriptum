@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 225  ·  last run 2026-08-30 22:58
+round 226  ·  last run 2026-08-30 23:38
 
 ## Structure
 
@@ -11,8 +11,18 @@ round 225  ·  last run 2026-08-30 22:58
 
 ## What the model found in the code
 
-**17 open** (6 high). Newest first.
+**30 open** (11 high). Newest first.
 
+- **publish.py** `prune_export` — [HIGH] Deletes files from the export copy that are not in the 'wanted' set, including entire directories that are no longer in COPY_DIRS
+  - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
+- **mutate.py** `could_not_judge` — [HIGH] THE GATE DID REACH A VERDICT
+  - says: THE GATE DID NOT REACH A VERDICT
+- **mutate.py** `_lock_acquire` — [HIGH] does not exist in the code slice
+  - says: acquire a lock
+- **mutate.py** `_lock_release` — [HIGH] does not exist in the code slice
+  - says: release a lock previously acquired by `_lock_acquire`
+- **allsweep.py** `bad` — [HIGH] sum of counts including ungraded reconcile rows
+  - says: count of bad subsystems
 - **local_agent.py** `verify_math.py` — [HIGH] the gate runs only for Python files
   - says: the whole-suite gate runs for every file type, not just Python
 - **escalation.py** `clear` — [HIGH] clear() returns False for two different reasons
@@ -25,6 +35,22 @@ round 225  ·  last run 2026-08-30 22:58
   - says: These are still read -- nothing here is dropped
 - **verify_math.py** `AS.map_seed` — [HIGH] the same function object is used, not a re-computed value
   - says: DERIVED — an independently loaded copy of the module recomputes it
+- **publish.py** `_may_delete_in_export` — [MEDIUM] Checks if SITE is a different directory from HERE and if the marker file exists, but the function is supposed to determine if deletion is allowed based on the marker file alone
+  - says: May anything be DELETED under `SITE` at all? -> bool
+- **publish.py** `os.path.exists` — [MEDIUM] Returns False for both absent and unreadable, but the comment says it's used to check for the marker file, which is not the case
+  - says: Answers False for absent and for unreadable alike, and both of those mean 'not proven to be the export copy'
+- **overnight.py** `snap` — [MEDIUM] snap is used to check for 'error' and other keys, but the code does not verify that 'error' is the only key present
+  - says: A crashed snapshot carries ONLY an "error" key
+- **overnight.py** `run` — [MEDIUM] Does not run after the reader; it runs concurrently with the reader due to the pipeline being started in the background
+  - says: Runs after the reader so it sees the evidence the reader just produced
+- **overnight.py** `preflight` — [MEDIUM] Returns (n_failing_checks, blocking) but the blocking check is based on a substring that may not be reliable due to potential changes in the label
+  - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
+- **overnight.py** `start` — [MEDIUM] Launches a job and returns a dictionary with the process and file handle
+  - says: Launch a job without waiting for it.
+- **allsweep.py** `VERIFIERS` — [MEDIUM] A list of Verifier objects with the argv that makes each one report rather than act, but the Verifier class's __iter__ method returns a tuple of (label, argv) instead of the actual arguments
+  - says: A list of Verifier objects with the argv that makes each one report rather than act
+- **allsweep.py** `Verifier` — [MEDIUM] An iterable that yields a two-element tuple (label, argv), but the __iter__ method returns iter((self.label, self.argv)) which is a tuple, not a list
+  - says: An iterable that yields exactly (label, argv)
 - **local_agent.py** `rel_real` — [MEDIUM] path the filesystem actually resolves to relative to real_here
   - says: path the filesystem actually resolves to
 - **escalation.py** `status` — [MEDIUM] returns (not rec.get("cleared", False)), rec
