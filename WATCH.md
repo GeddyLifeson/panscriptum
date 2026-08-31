@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 237  ·  last run 2026-08-31 07:47
+round 238  ·  last run 2026-08-31 08:43
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 237  ·  last run 2026-08-31 07:47
 
 ## What the model found in the code
 
-**12 open** (1 high). Newest first.
+**9 open** (1 high). Newest first.
 
 - **read.py** `priority` — [HIGH] Sorts by own-page size and yield_per_chunk, not depth first
   - says: Depth first, because depth is what the model is actually better at.
@@ -27,16 +27,10 @@ round 237  ·  last run 2026-08-31 07:47
   - says: the exit code is the number the scheduler actually looks at
 - **repass_bands.py** `if PL.write_record(path, rec):` — [MEDIUM] The code checks the return value of `write_record`; it only appends to `touched` when the write succeeds, contrary to the comment
   - says: `write_record` return value is ignored and `touched` is always appended, causing the run to count rewritten records even when the write failed
-- **read.py** `_card_gate` — [MEDIUM] It only checks/acquires _GATE_LOCAL, but the docstring and logic imply it should handle the gate returned by _gate(), which could be _GATE_CLOUD.
-  - says: Hold one of the card's GATE_LOCAL_N permits -- unless this thread already holds one.
 - **profile.py** `encode` — [MEDIUM] the code does something else
   - says: the code says it does
-- **pipeline.py** `write_record` — [MEDIUM] write_record is called without checking if the write actually reached the disk
-  - says: A batch is done only when every entry in it carries a result AND the write that carries those results actually reached the disk
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
-- **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
-  - says: kill stalled jobs
 
 ---
 
