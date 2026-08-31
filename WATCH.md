@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 238  ·  last run 2026-08-31 08:43
+round 239  ·  last run 2026-08-31 09:37
 
 ## Structure
 
@@ -11,10 +11,10 @@ round 238  ·  last run 2026-08-31 08:43
 
 ## What the model found in the code
 
-**9 open** (1 high). Newest first.
+**7 open** (0 high). Newest first.
 
-- **read.py** `priority` — [HIGH] Sorts by own-page size and yield_per_chunk, not depth first
-  - says: Depth first, because depth is what the model is actually better at.
+- **silence.py** `_handler_is_observed` — [MEDIUM] The function is used to determine if a handler is observed, but the code in the module suggests that the function's logic may not correctly identify re-raised exceptions, leading to potential misclassification of handlers as silent.
+  - says: A handler that re-raises, logs, or carries the exception into its own return value is observed.
 - **scout.py** `prev.append` — [MEDIUM] Appends to the in‑memory list but never writes the log to disk, so the log write is not gated nor persisted.
   - says: GATED, exactly as the `_mutate` call twenty lines above already is.
 - **scout.py** `EP.register` — [MEDIUM] has a handler that logs the error and continues, so the whole cycle does not take down
@@ -23,10 +23,6 @@ round 238  ·  last run 2026-08-31 08:43
   - says: NOT reported as a success: the URLs passed verification and the registry does not have them, so the source stays hostless and will be re-scouted, which is the correct self-healing outcome as long as the log says why.
 - **rosetta.py** `silence.write_json` — [MEDIUM] writes JSON to a file but the code around it suggests it should be used to overwrite existing files, but the function's behavior is not clearly defined in the code
   - says: writes JSON to a file
-- **resync_roll.py** `main` — [MEDIUM] the exit code is the number the scheduler actually looks at
-  - says: the exit code is the number the scheduler actually looks at
-- **repass_bands.py** `if PL.write_record(path, rec):` — [MEDIUM] The code checks the return value of `write_record`; it only appends to `touched` when the write succeeds, contrary to the comment
-  - says: `write_record` return value is ignored and `touched` is always appended, causing the run to count rewritten records even when the write failed
 - **profile.py** `encode` — [MEDIUM] the code does something else
   - says: the code says it does
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
