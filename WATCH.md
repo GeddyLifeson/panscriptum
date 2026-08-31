@@ -1,17 +1,17 @@
 # OVERWATCH
 
-round 241  ·  last run 2026-08-31 10:34
+round 242  ·  last run 2026-08-31 11:26
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 285,721 inspected
+- files that will not parse: **0** of 285,721 inspected (deep scan as of round 241)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**15 open** (3 high). Newest first.
+**14 open** (3 high). Newest first.
 
 - **thread_integrity.py** `out["IMPLIED-UNRECORDED"]` — [HIGH] used in two places where the code is supposed to count pairs where neither end records the thread, but the code is commented to indicate that this was a bug where the branch was unreachable
   - says: counts pairs where neither end records the thread
@@ -19,6 +19,8 @@ round 241  ·  last run 2026-08-31 10:34
   - says: counts the number of pairs that are partially dangling
 - **standards.py** `now` — [HIGH] variable `now` is referenced but not defined anywhere in this file or its imports, causing a NameError.
   - says: records the current time for the token‑flow update.
+- **tiers.py** `main` — [MEDIUM] returns 0 if the write was successful, else 1
+  - says: returns 0 if the rename landed, else 1
 - **standards.py** `unans_files` — [MEDIUM] count of records that have 'chunks_unanswered' but not 0
   - says: count of unanswered records
 - **standards.py** `len(w.get("broken") or []) <= MAX_BROKEN_MODULES` — [MEDIUM] counts broken modules
@@ -35,10 +37,6 @@ round 241  ·  last run 2026-08-31 10:34
   - says: used to locate config and metrics files
 - **silence.py** `_handler_is_observed` — [MEDIUM] The function is used to determine if a handler is observed, but the code in the module suggests that the function's logic may not correctly identify re-raised exceptions, leading to potential misclassification of handlers as silent.
   - says: A handler that re-raises, logs, or carries the exception into its own return value is observed.
-- **scout.py** `prev.append` — [MEDIUM] Appends to the in‑memory list but never writes the log to disk, so the log write is not gated nor persisted.
-  - says: GATED, exactly as the `_mutate` call twenty lines above already is.
-- **scout.py** `EP.register` — [MEDIUM] has a handler that logs the error and continues, so the whole cycle does not take down
-  - says: This call had no handler, and neither does `sweep()`'s loop, so one raise took down the WHOLE CYCLE rather than one source
 - **profile.py** `encode` — [MEDIUM] the code does something else
   - says: the code says it does
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
