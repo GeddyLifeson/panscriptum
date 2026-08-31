@@ -1,34 +1,28 @@
 # OVERWATCH
 
-round 217  ·  last run 2026-08-30 18:28
+round 218  ·  last run 2026-08-30 19:11
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 282,409 inspected
+- files that will not parse: **0** of 282,409 inspected (deep scan as of round 217)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**13 open** (4 high). Newest first.
+**10 open** (3 high). Newest first.
 
 - **canon_backup.py** `newest` — [HIGH] returns the newest canonical file
   - says: returns the newest snapshot
 - **build_terminal.py** `DATA` — [HIGH] contains data
   - says: contains data
-- **build_terminal.py** `shelfmark` — [HIGH] generates a shelfmark
-  - says: generates a shelfmark
 - **build_terminal.py** `esc` — [HIGH] escapes HTML characters
   - says: escapes HTML characters
 - **allsweep.py** `bad` — [MEDIUM] sum of bad findings from broken, verifiers' failed, lint_bad, and est's bad artifacts
   - says: sum of bad findings from broken, verifiers, lint_bad, and est's bad artifacts
 - **allsweep.py** `lint_bad` — [MEDIUM] collects undefined names and pyflakes completion status
   - says: collects undefined names from pyflakes output
-- **binding_health.py** `F.page_looks_real` — [MEDIUM] checks if the text is an article, but the code does not handle the case where the host is in RAW mode and the page is not properly formatted
-  - says: checks if the text is an article
-- **backfill.py** `missing` — [MEDIUM] The list is sorted with a key that sorts titles not in 'sizes' last, which is the opposite of the intended behavior. The comment indicates that the key should sort unmeasured titles first, but the actual key sorts them last, leading to incorrect ordering.
-  - says: Ranked by article size so the deepest arrive first if this is ever interrupted.
 - **workorders.py** `resolve` — [MEDIUM] Attempts to close an order but does not properly handle the case where the write could not land, leading to potential confusion between 'no such order' and 'order already closed'.
   - says: Close an order: REMOVE it from the open file, append it to the paper trail.
 - **verify_math.py** `qualifier_compatible` — [MEDIUM] returns False for two DC continuities
