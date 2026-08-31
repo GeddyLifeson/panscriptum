@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 243  ·  last run 2026-08-31 11:54
+round 244  ·  last run 2026-08-31 12:20
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 243  ·  last run 2026-08-31 11:54
 
 ## What the model found in the code
 
-**14 open** (4 high). Newest first.
+**10 open** (4 high). Newest first.
 
 - **withdraw_chapters.py** `shutil.move` — [HIGH] THE RECORD IS NOT KEPT (entry_left is not updated).
   - says: THE RECORD IS KEPT AND MADE TRUE.
@@ -31,14 +31,6 @@ round 243  ·  last run 2026-08-31 11:54
   - says: every module imports
 - **standards.py** `int(cfg.get("num_ctx", 6144))` — [MEDIUM] uses a hard‑coded literal default of 6144 when the config key is missing.
   - says: num_ctx FROM CONFIG, never a literal -- see the docstring.
-- **standards.py** `fab` — [MEDIUM] fabrication rate only if parsed successfully, else None
-  - says: fabrication rate
-- **standards.py** `silence` — [MEDIUM] not defined in this file or its imports
-  - says: used to log exceptions
-- **standards.py** `HERE` — [MEDIUM] not defined in this file or its imports
-  - says: used to locate config and metrics files
-- **silence.py** `_handler_is_observed` — [MEDIUM] The function is used to determine if a handler is observed, but the code in the module suggests that the function's logic may not correctly identify re-raised exceptions, leading to potential misclassification of handlers as silent.
-  - says: A handler that re-raises, logs, or carries the exception into its own return value is observed.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 
