@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 218  ·  last run 2026-08-30 19:11
+round 219  ·  last run 2026-08-30 19:37
 
 ## Structure
 
@@ -11,14 +11,18 @@ round 218  ·  last run 2026-08-30 19:11
 
 ## What the model found in the code
 
-**10 open** (3 high). Newest first.
+**12 open** (2 high). Newest first.
 
+- **completeness.py** `probe_failures` — [HIGH] IS PASSED HERE
+  - says: IS NOT PASSED HERE, AND THAT IS THE FIX
 - **canon_backup.py** `newest` — [HIGH] returns the newest canonical file
   - says: returns the newest snapshot
-- **build_terminal.py** `DATA` — [HIGH] contains data
-  - says: contains data
-- **build_terminal.py** `esc` — [HIGH] escapes HTML characters
-  - says: escapes HTML characters
+- **codewatch.py** `main` — [MEDIUM] prints the current src/ fingerprint and information about restarts
+  - says: print the current src/ fingerprint
+- **codewatch.py** `exit_if_stale` — [MEDIUM] reads the budget and records the restart in separate operations with a gap in the middle
+  - says: CHECK AND TAKE TOGETHER. Reading the budget here and recording the restart further down was two operations with a gap in the middle that two twins could both walk through.
+- **cleanup.py** `clean_ceiling` — [MEDIUM] Returns the ceiling as-is if no match is found, but the docstring says it should leave it alone and report it as unresolved
+  - says: Reduce a prose ceiling to the name it is about.
 - **allsweep.py** `bad` — [MEDIUM] sum of bad findings from broken, verifiers' failed, lint_bad, and est's bad artifacts
   - says: sum of bad findings from broken, verifiers, lint_bad, and est's bad artifacts
 - **allsweep.py** `lint_bad` — [MEDIUM] collects undefined names and pyflakes completion status
