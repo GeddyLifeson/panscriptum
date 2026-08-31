@@ -1,18 +1,30 @@
 # OVERWATCH
 
-round 240  ·  last run 2026-08-31 09:59
+round 241  ·  last run 2026-08-31 10:34
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 284,847 inspected (deep scan as of round 235)
+- files that will not parse: **0** of 285,721 inspected
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**11 open** (0 high). Newest first.
+**15 open** (3 high). Newest first.
 
+- **thread_integrity.py** `out["IMPLIED-UNRECORDED"]` — [HIGH] used in two places where the code is supposed to count pairs where neither end records the thread, but the code is commented to indicate that this was a bug where the branch was unreachable
+  - says: counts pairs where neither end records the thread
+- **thread_integrity.py** `out["PARTIALLY-DANGLING"]` — [HIGH] increments the count for partially dangling pairs but the code is commented to indicate that this was a bug where drift was only reported when all shared keys had gone
+  - says: counts the number of pairs that are partially dangling
+- **standards.py** `now` — [HIGH] variable `now` is referenced but not defined anywhere in this file or its imports, causing a NameError.
+  - says: records the current time for the token‑flow update.
+- **standards.py** `unans_files` — [MEDIUM] count of records that have 'chunks_unanswered' but not 0
+  - says: count of unanswered records
+- **standards.py** `len(w.get("broken") or []) <= MAX_BROKEN_MODULES` — [MEDIUM] counts broken modules
+  - says: every module imports
+- **standards.py** `int(cfg.get("num_ctx", 6144))` — [MEDIUM] uses a hard‑coded literal default of 6144 when the config key is missing.
+  - says: num_ctx FROM CONFIG, never a literal -- see the docstring.
 - **standards.py** `fab` — [MEDIUM] fabrication rate only if parsed successfully, else None
   - says: fabrication rate
 - **standards.py** `unans_files` — [MEDIUM] count of records that do not have 'chunks_unanswered' or have it set to 0
@@ -27,10 +39,6 @@ round 240  ·  last run 2026-08-31 09:59
   - says: GATED, exactly as the `_mutate` call twenty lines above already is.
 - **scout.py** `EP.register` — [MEDIUM] has a handler that logs the error and continues, so the whole cycle does not take down
   - says: This call had no handler, and neither does `sweep()`'s loop, so one raise took down the WHOLE CYCLE rather than one source
-- **scout.py** `EP.register` — [MEDIUM] raises an exception which is caught and logged, but the source is still marked as hostless and will be re-scouted
-  - says: NOT reported as a success: the URLs passed verification and the registry does not have them, so the source stays hostless and will be re-scouted, which is the correct self-healing outcome as long as the log says why.
-- **rosetta.py** `silence.write_json` — [MEDIUM] writes JSON to a file but the code around it suggests it should be used to overwrite existing files, but the function's behavior is not clearly defined in the code
-  - says: writes JSON to a file
 - **profile.py** `encode` — [MEDIUM] the code does something else
   - says: the code says it does
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
