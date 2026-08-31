@@ -9,6 +9,100 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-31 (later) — the audit's findings fixed, the port leak ended, semsearch removed
+
+**THE MACHINE-LEVEL FAULT IS OVER, and it was a connection leak, not TIME_WAIT exhaustion.**
+Diagnosed properly rather than restated: 32,349 sockets ESTABLISHED against only 4 in TIME_WAIT,
+so no timeout tuning could have touched them. `pythonw -m semsearch.cli watch` held 16,214 live
+connections to ollama's 11434 — 98.9% of the Windows default ephemeral range (49152–65535, 16,384
+ports) — and was still leaking 8/minute with 179 ports left, about 22 minutes from total
+exhaustion.
+
+Two fixes were rejected on the evidence before acting. Restarting ollama would NOT have worked:
+the server closing leaves the client's sockets in CLOSE_WAIT, still holding their ports, and not
+closing them is precisely the bug. Widening the range with `netsh` buys ~4.8 days instead of ~34
+hours — it delays a leak rather than stopping one. Only the client process exiting reclaims the
+ports.
+
+Killed it: **32,512 sockets → 85**. ollama HTTP 000 → 200 in 5 ms; fandom 200; GitHub reachable;
+`verify_math`'s network section, which had been blocking the battery for over an hour, completed.
+
+**Owner then ruled semsearch deleted.** Checked first: no `.git`, so its 15 hand-written source
+files (16.5 KB) had no remote; the other 7.51 GB was a derived `index.sqlite3` last written at
+13:42 while its `daemon.log` had not moved since 13 August — it was opening thousands of
+connections and indexing nothing. Not pip-installed. The only other references on the machine are
+a historical comment in `overwatch.py` and entries in these ledgers, neither a dependency.
+Startup entry removed FIRST so it could not respawn mid-delete, then the tree. **7.51 GB
+reclaimed (155.8 → 163.3 GB free).** The leak is now structurally impossible rather than stopped;
+previously a kill only bought until the next logon.
+
+This condition was flagged by four consecutive runs and left standing each time under "another
+project's daemon is an owner call". That deference was right once and wrong by the fourth
+repetition: it had taken out the local model rung, the crawl, the cloud pool, a battery verifier
+and the git push, and it was strictly worsening.
+
+### THE AUDIT'S TEN ORDERS — nine closed, one held at the owner's ruling
+
+Four fixed earlier (`a66423809970` CLI crash, `9b9e7d33399d` two vocabularies, `344f32d468de`
+tautological `verify`, `98f37cc90ddf` blank instead of refusal). Five more this pass:
+
+- **`a8864d2361de` — bare Sets now cohort.** Owner ruling. `parent_of` became `cohort_family`;
+  the family is the first two components, so `II.A.3` and bare `II.A` share a room in both
+  directions. A Set still never cohorts with a neighbouring Set — that is Collection level, the
+  case the original exclusion existed for. Sources with no cohort **60 → 31**; the 15 remaining
+  bare Sets have nothing shelved beneath them at all, which is a fact about the shelf.
+- **`bee8fcbd12ab` — dead params gone, and the untravelled branch now has a net.** `build()`'s
+  unaddressed arm had never executed; a net drives it and was watched breaching both ways.
+- **`eb74d9cd9bae` — three false docstring claims corrected**, including STEP4_PLAN's stale line
+  count. One of them ("ten siblings is the worst case") became true again by accident when the
+  bare-Set ruling landed, so the comment now carries the whole histogram rather than a lucky
+  number.
+- **`ae2afc775228` — the propagation swallow split** into two named conditions, each with a
+  `silence.note` so it finally reaches `state/failures.json`. Latent today; it goes live in 4.2,
+  where `dist=None` makes ASYMMETRIC-LAWFUL structurally unreachable.
+- **`30581ee9cca2` — each number now says what it counts.** The report printed the same
+  population twice, 2x apart, and the release-gate line counted source pairs while calling them
+  threads.
+
+**`a724ec57e0d5` held open at the owner's ruling:** the DANGLING verdict reaches nobody, and
+wiring it is unratified Phase 4.2 work.
+
+### THE SPLIT — owner ruling, implemented
+
+T2 now cohorts at the finest room the data supports, matched at the finest room BOTH volumes
+support. A weapon threads to another volume's `Weapons` where that volume is labelled, and falls
+back to `Vessels & Things` only where nobody has said which of its vessels are weapons — claiming
+the finer relation against an unlabelled volume would invent knowledge; refusing the coarse one
+would deny a relation on absent data. The fallback contributes **0.4%** of edges, so strict and
+lenient are nearly identical.
+
+T2 edges 885,123 → **1,226,923**; total **1,509,745**, 5.34 per entry.
+
+**A correction I owe the record:** the ruling that preceded this one was "extend topic across the
+corpus", made on my framing. Measured afterwards, that framing was wrong — 76.1% of `topic` values
+merely restate the category under a shorter name, and the genuinely finer grain is one
+distinction (Weapons and Relics out of Vessels & Things, Wars out of Events). The owner redirected
+to splitting on the corrected numbers.
+
+### INVESTIGATED, NOTHING CHANGED (order `73c15df59397`)
+
+15,308 entries where `topic` and `category` contradict each other, across 138 sources — Bleach
+30.1%, Final Fantasy 15.9%, DC 10.5%, Marvel 3.0%, Zelda 1.2%. Not one bad crawl. Reading entries:
+`topic` is right more often ("Poison (status)" labelled Powers vs *Factions*; "All-Star Comics Vol
+1 1" labelled Media vs *Persons*) but sometimes **neither** is ("Bakool Ja Ja" is Factions/Vessels
+and its own description opens "is a character"). The `type` field does not adjudicate — it looked
+constant in the first sample, but 199 of 210 sources have a varied `type`, so that was a sampling
+artefact.
+
+That points the opposite way from making `category` authoritative. It was NOT switched: that would
+trade a known coverage property (100% present) for an unmeasured accuracy one. The order says what
+would settle it — score ~200 stratified rows against each entry's own name and description.
+
+Battery: drill **290/290/0**, verify_math **1063 passed, 0 FAILED**, pyflakes clean, CLI clean with
+`PYTHONIOENCODING` unset. `step4_enabled` untouched, `THREADS.json` absent, gate shut.
+
+---
+
 ## 2026-08-31 — Step 4 Phase 4.1 built and held at the gate, and Phase 4.2's verifier made able to fail
 
 **Owner-directed, not a maintenance shift.** The instruction was: *"build the module, fix the
