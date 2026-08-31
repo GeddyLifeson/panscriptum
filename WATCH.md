@@ -1,22 +1,22 @@
 # OVERWATCH
 
-round 229  ·  last run 2026-08-31 00:41
+round 230  ·  last run 2026-08-31 01:05
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 283,526 inspected
+- files that will not parse: **0** of 283,526 inspected (deep scan as of round 229)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
-- on the roll but never catalogued: **7** DC, HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, and 1 more
+- on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**16 open** (2 high). Newest first.
+**13 open** (1 high). Newest first.
 
 - **allsweep.py** `bad` — [HIGH] sum of counts including ungraded reconcile rows
   - says: count of bad subsystems
-- **escalation.py** `clear` — [HIGH] clear() returns False for two different reasons
-  - says: clear() raises PermissionError for non-person callers
+- **manifest_builder.py** `feats_index.feats_for_source` — [MEDIUM] attempt to retrieve feats and handle exceptions to avoid emitting a Feats chapter
+  - says: retrieve feats for the source
 - **magnitude.py** `assay_entity` — [MEDIUM] returns a deferred status when the anchor is not in the ladder
   - says: assays an entity by trying different methods
 - **identity.py** `identify` — [MEDIUM] Returns `(base, continuity)` only if `desig` is in `continuities`
@@ -35,12 +35,6 @@ round 229  ·  last run 2026-08-31 00:41
   - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
 - **overnight.py** `start` — [MEDIUM] Launches a job and returns a dictionary with the process and file handle
   - says: Launch a job without waiting for it.
-- **allsweep.py** `VERIFIERS` — [MEDIUM] A list of Verifier objects with the argv that makes each one report rather than act, but the Verifier class's __iter__ method returns a tuple of (label, argv) instead of the actual arguments
-  - says: A list of Verifier objects with the argv that makes each one report rather than act
-- **allsweep.py** `Verifier` — [MEDIUM] An iterable that yields a two-element tuple (label, argv), but the __iter__ method returns iter((self.label, self.argv)) which is a tuple, not a list
-  - says: An iterable that yields exactly (label, argv)
-- **escalation.py** `status` — [MEDIUM] returns (not rec.get("cleared", False)), rec
-  - says: -> (halted: bool, record or None).
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
