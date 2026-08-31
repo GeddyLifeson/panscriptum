@@ -1,15 +1,15 @@
 # PANSCRIPTUM — AUTONOMOUS RUN STATUS
 
 *Rewritten automatically by `src/pipeline.py` after every completed unit.*
-*Last update: 2026-08-31 13:25:17*
+*Last update: 2026-08-31 13:49:22*
 
 ## Where the run is
 
 | | |
 |---|---|
 | Current phase | **2 — entrypass** |
-| Units completed this run | 8,294 |
-| Failures logged | 874 |
+| Units completed this run | 8,311 |
+| Failures logged | 888 |
 
 ## Corpus
 
@@ -19,7 +19,7 @@
 | Records with entries | 210 |
 | Total entries | **282,822** |
 | Sources with a ceiling nominated (phase 1) | 210/210 |
-| Entries through the judgment pass (phase 2) | 138,945/282,822 |
+| Entries through the judgment pass (phase 2) | 139,230/282,822 |
 
 ## Phase ladder
 
@@ -44,7 +44,7 @@ These run standalone and do not block the sweep.
 
 | module | what it is |
 |---|---|
-| `verify_math.py` | 237 independent checks across 17 sections; recomputes, never re-calls |
+| `verify_math.py` | the battery: independent checks that recompute, never re-call |
 | `derivation.py` | the ledger: every quantity names its parents, or the graph fails |
 | `assay.py` `rigor.py` `custodes.py` | the Assay, commensuration, and the ten-Custos college |
 | `tiers.py` `sevenfold.py` `grounding.py` | the cosmological tiers and the declared 1–7 shelving |
