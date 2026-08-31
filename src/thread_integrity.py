@@ -312,6 +312,38 @@ def main():
         for a, b, n in rows:
             print(f"     {n:4d} shared  {a:{wa}s}  -> {b}")
 
+    # THE VERDICT REACHES THE EXIT CODE, WHICH IS THE ONLY THING WATCHING (order
+    # aa075aa80f5c). `main()` had no `return` on any path and was invoked bare, so the
+    # process always exited 0 -- and `allsweep` reads the rc and nothing else. A run in
+    # which EVERY implied thread was DANGLING was byte-identical, to its only automated
+    # consumer, to a run in which none was. The comment two hundred lines up states the
+    # premise ("main() is the ONLY reporting surface this module has") and stopped one
+    # step short of the consequence. Same defect `allsweep` records as just fixed for
+    # rosetta.py: "main() returned 0 whatever the rhos said".
+    #
+    # DANGLING ALONE IS THE FAILURE, and the other two classes are deliberately not.
+    #   * IMPLIED-UNRECORDED is 100% today and that is CORRECT -- no directed thread
+    #     graph exists before Step 4, so every implied direction is unrecorded by
+    #     construction. Grading it would make this row red until the entanglement pass
+    #     ships, i.e. an alarm that always sounds, which this project has had to walk
+    #     back once already.
+    #   * PARTIALLY-DANGLING means SOME shared entities went; it is degradation, not a
+    #     pointer at nothing, and its meaning changes once a real graph exists. It is
+    #     reported and left ungraded until there is a graph to read it against -- the
+    #     ruling STEP4_PLAN.md §8 makes ("DANGLING = 0 is a release gate, not a metric")
+    #     names only the one class.
+    #
+    # MEASURED BEFORE LANDING, so the next sweep's colour is known rather than
+    # discovered: DANGLING 0, PARTIALLY-DANGLING 0, IMPLIED-UNRECORDED 5,782 of 5,782.
+    # This returns 0 today and turns red the first time a thread points at nothing.
+    dangling = counts.get("DANGLING", 0)
+    if dangling:
+        print()
+        print(f"THREAD INTEGRITY FAILED: {dangling:,} thread(s) point at nothing. "
+              f"A thread that resolves to nothing is not a weak thread, it is a broken "
+              f"one (STEP4_PLAN.md §1).")
+    return 1 if dangling else 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

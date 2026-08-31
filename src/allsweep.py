@@ -166,9 +166,19 @@ VERIFIERS = [
     # when coverage is low. That is a broken subsystem, not a finding.
     Verifier("citation coverage", ["coverage.py"], RC_BROKEN),
     Verifier("the numbers", ["verify_math.py"], RC_BROKEN),
-    # thread_integrity.py's main() returns None and is called bare, so it can only exit nonzero
-    # by dying. Declared BROKEN because that is what a nonzero would then mean.
-    Verifier("thread integrity", ["thread_integrity.py"], RC_BROKEN),
+    # thread_integrity.py now RETURNS its verdict and the module exits on it (order
+    # aa075aa80f5c). Until 2026-08-31 `main()` returned None and was called bare, so it
+    # could only exit nonzero by dying -- and this row read the rc and nothing else, so
+    # a library in which every thread pointed at nothing graded exactly like a healthy
+    # one. Both halves had to move together: grading the verdict without reclassifying
+    # this row would turn the sweep red for the wrong reason the first time a thread
+    # dangled, calling a finding a broken subsystem.
+    #
+    # FINDINGS, not BROKEN, for the same reason `silence` and `audit` are: a dangling
+    # thread is weave drift the library is meant to report, not a module that failed to
+    # run. rc=1 here means "threads point at nothing", which is a SUPERVISOR-level fault
+    # for the source concerned (STEP4_PLAN.md §8), not a dead verifier.
+    Verifier("thread integrity", ["thread_integrity.py"], RC_FINDINGS),
     # anchors.py: `sys.exit(0 if _ok else 1)` -- 1 is the assay disagreeing with the declared
     # ladder, which is the exact fault the file exists to shout about.
     Verifier("the instrument", ["anchors.py"], RC_BROKEN),

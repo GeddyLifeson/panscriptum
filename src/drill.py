@@ -5541,6 +5541,149 @@ def drill_rung_four():
         "'I cannot tell whether a person closed this' is not permission to re-open it")
 
 
+def drill_threads():
+    """The entanglement pass — the one place a citation can be invented.
+
+    STEP4_PLAN.md §8 requires every Step 4 phase to add its own attack before it ships, and names
+    the one that matters most: *can a thread be emitted that points at nothing?* A thread that
+    resolves to nothing is not a weak thread, it is a broken one (§1), and the whole design rests
+    on the claim that dangling is prevented BY CONSTRUCTION rather than caught afterwards.
+
+    The second attack is the §7B ruling, which is a rule about AUTHORSHIP rather than about code:
+    the Great Identifications are "where the walls come down entirely" and a claim of that weight
+    must have a person's name on it. `threads.py` must be unable to machine-derive one.
+    """
+    a = "THE ENTANGLEMENT PASS — can a citation be invented?"
+    import threads as TH
+
+    KNOWN = {"II.A.3", "II.A.5"}
+
+    def refused(**kw):
+        """Did `edge()` refuse, as opposed to failing for some unrelated reason?"""
+        try:
+            TH.edge(**kw)
+            return False
+        except TH.ThreadRefused:
+            return True
+        except Exception:
+            return False        # a TypeError is not a refusal; it is a broken probe
+
+    net(a, "a thread cannot be emitted that points at nothing",
+        lambda: refused(to="II.Z.99", cls="T1", why="x", frm="II.A.3", known_codes=KNOWN),
+        "the plan names this the attack that matters most: dangling is supposed to be "
+        "impossible by construction, not caught afterwards by the verifier")
+    net(a, "nor at an UNASSIGNED source, which is not an address",
+        lambda: refused(to="UNASSIGNED", cls="T1", why="x", frm="II.A.3", known_codes=KNOWN),
+        "an unaddressed source has nothing to thread to; emitting one would be a dangling "
+        "thread wearing a placeholder's name")
+    net(a, "nor at nothing at all",
+        lambda: refused(to="", cls="T2", why="x", frm="II.A.3", known_codes=KNOWN),
+        "")
+    net(a, "and an address that DOES resolve is still admitted",
+        lambda: TH.edge(to="II.A.5", cls="T2", why="x", frm="II.A.3",
+                        known_codes=KNOWN)["to"] == "II.A.5",
+        "a gate that refuses everything is also broken")
+
+    # THE AUTHORSHIP RULING, WHICH NO AMOUNT OF CORRECT CODE CAN SUBSTITUTE FOR.
+    net(a, "the Great Identifications cannot be machine-derived",
+        lambda: refused(to="II.A.5", cls="T5", why="x", frm="II.A.3", known_codes=KNOWN),
+        "STEP4_PLAN.md §7B: T5 is owner-authored ONLY -- never derived, never inferred, never "
+        "emitted by threads.py, because it is the strongest cross-verse claim the charter makes")
+    net(a, "nor may an unauthorised later phase be reached by a new path",
+        lambda: (refused(to="II.A.5", cls="T3", why="x", frm="II.A.3", known_codes=KNOWN)
+                 and refused(to="II.A.5", cls="T4", why="x", frm="II.A.3", known_codes=KNOWN)),
+        "T3 (the Chronicle join) and T4 (Law citations) are unauthorised by the §7E ruling; "
+        "the refusal lives in edge() so a future caller cannot route around it")
+
+    def every_addressed_entry_gets_a_home():
+        """§6's "quiet one": a Threads section present but EMPTY.
+
+        Indistinguishable from "pending" to a reader and from "done" to a checker. An entry with
+        zero threads after T1 is impossible by construction -- T1 is its own home volume -- so
+        zero means the pass did not run for that entry. Driven against a fixture rather than the
+        live corpus, so the net answers the same on a fresh clone.
+        """
+        recs = [{"source": "Alpha", "entries": [{"topic": "Persons"}, {"topic": "Places"}]},
+                {"source": "Beta", "entries": [{"topic": "Persons"}]}]
+        keep = TH.ADDR.spine_code_for
+        try:
+            TH.ADDR.spine_code_for = lambda n: {"Alpha": "II.A.1", "Beta": "II.A.2"}.get(n, "UNASSIGNED")
+            g = TH.build(recs)
+            for src, rec in g["sources"].items():
+                for cat in rec["by_category"]:
+                    if not TH.threads_for(g, src, {"topic": cat}):
+                        return False
+            # and the home thread really is the source's own volume, not a neighbour's
+            return (g["sources"]["Alpha"]["T1"]["to"] == "II.A.1"
+                    and g["sources"]["Beta"]["T1"]["to"] == "II.A.2"
+                    and TH.verify(g) == [])
+        finally:
+            TH.ADDR.spine_code_for = keep
+    net(a, "every addressed entry carries at least its home volume",
+        every_addressed_entry_gets_a_home,
+        "a Threads section that is present but empty reads as pending to a person and as done "
+        "to a checker, which is the worst of both")
+
+    def the_write_needs_the_owners_ratification(src=None):
+        """`main()` must consult `prose_gate.step4_gate_open` before it writes.
+
+        ASKED OF THE PARSE TREE, like the other gate nets in this file: the call has to be a
+        call, inside `main`, and reachable. The plan makes the ratification the first gate of the
+        whole pass and says nothing in the automation may flip it -- so a pass that derived its
+        graph and landed it without asking would have skipped the only step the owner holds.
+        """
+        tree = _ast_of(os.path.join(_srcdir(src), "threads.py"))
+        main = _defn(tree, "main")
+        return bool(main) and _calls_within(tree, main, "prose_gate.step4_gate_open",
+                                            reachable=True)
+    net(a, "the pass asks the owner's ratification before it writes",
+        the_write_needs_the_owners_ratification,
+        "step4_enabled is owner-held and asserts three things at once: the plan has been read, "
+        "its rulings are answered, and Phase 4.0 is done")
+
+    net(a, "and it is refusing right now, because the gate is shut",
+        lambda: not __import__("prose_gate").step4_gate_open()[0],
+        "if this ever goes red without the owner having ruled, the gate has been opened by "
+        "something that is not a person")
+
+    def the_cli_can_actually_finish():
+        """RUN IT. Every other net in this area reads the source or asks the gate.
+
+        That is how a green area coexisted with a CLI that could not complete a single
+        invocation on this machine: `threads.py` printed one U+2192, `sys.stdout.encoding` is
+        cp1252 here, and the crash sat BEFORE the ratification gate -- so on the day
+        `step4_enabled` was set the pass would have derived the whole graph, died on a print and
+        written nothing. Eight parse-tree and gate nets were green throughout, because none of
+        them ran the program.
+
+        `PYTHONIOENCODING` IS DELIBERATELY REMOVED FROM THE CHILD'S ENVIRONMENT. Every harness in
+        this project -- allsweep, foreman, overwatch, overnight, autostart, local_agent -- sets
+        it for its children, and nothing launches this module, so inheriting it here would
+        reproduce the exact blind spot: the bug is invisible to anyone who tests through a
+        harness and immediate to the owner at a prompt.
+
+        `--dry-run` writes nothing and does not need the ratification, so this is safe to run on
+        a live library every cycle.
+        """
+        import subprocess
+        env = dict(os.environ)
+        env.pop("PYTHONIOENCODING", None)
+        env["PYTHONUTF8"] = "0"          # and do not let the interpreter opt itself back in
+        # CREATE_NO_WINDOW, like every other spawn in this file. Missing it is a black
+        # console flashing on the owner's desktop once per battery run, and verify_math
+        # catches the omission by name -- which is how this one was found, one run after
+        # it was written.
+        r = subprocess.run([sys.executable, os.path.join(_srcdir(), "threads.py"), "--dry-run"],
+                           capture_output=True, text=True, errors="replace", env=env,
+                           cwd=HERE, timeout=600,
+                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        return r.returncode == 0 and "DRY RUN" in (r.stdout or "")
+    net(a, "the pass's own CLI runs to completion on this machine's console",
+        the_cli_can_actually_finish,
+        "eight nets read its source and were green while one arrow character made every "
+        "invocation die, before the gate, with the whole graph already derived")
+
+
 def drill_codewatch():
     """Stale daemons — the failure that made every other safety here conditional.
 
@@ -7439,7 +7582,7 @@ def main():
                drill_fetch, drill_cascade, drill_park,
                drill_workorders, drill_inspector, drill_no_top_ups, drill_probe_honesty, drill_rung_four, drill_codewatch, drill_scout,
                drill_defect_classes, drill_recorders_and_lane, drill_mutation,
-               drill_scope, drill_correlation, drill_resonance,
+               drill_scope, drill_correlation, drill_resonance, drill_threads,
                drill_outside):
         # AN AREA THAT DIES IS A BREACH OF THAT AREA, NOT THE END OF THE RUN (order
         # 5c87268a388c, run #37).

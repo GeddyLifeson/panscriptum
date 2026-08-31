@@ -9,6 +9,167 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-31 — Step 4 Phase 4.1 built and held at the gate, and Phase 4.2's verifier made able to fail
+
+**Owner-directed, not a maintenance shift.** The instruction was: *"build the module, fix the
+repair, then I'll make judgement on beginning phase 4."* Both are done. **Nothing was run as the
+pass, `step4_enabled` was not touched, and `data/THREADS.json` does not exist.** The module
+refuses to write and says why.
+
+### FOR THE OWNER, FIRST: THE MACHINE HAS RUN OUT OF TCP PORTS (order `28f79d511879`)
+
+Measured today with `netstat`: **31,867 host TCP sockets, 31,791 of them (99.8%) on port 11434**,
+split almost exactly between `ollama.exe serve` (15,896) and PID 25716,
+`pythonw -m semsearch.cli watch` (15,895). `curl http://127.0.0.1:11434/api/tags` returns HTTP
+000 — not refused, not slow: there is no port left to connect from.
+
+This is order `f6c52ef7657f`, standing since run #37, and its text is left untouched — what is new
+is the magnitude. Yesterday: 900 host sockets, 804 on 11434, 396 held by semsearch. Today that is
+a **~40x increase and the range is full**. It is why allsweep grades `OLLAMA UNREACHABLE` and
+reports one subsystem bad; it is the same cause behind the local rung's `WinError 10055`, fandom
+being unreachable, and "0 usable cloud buckets". Four runs have now diagnosed pieces of it
+separately.
+
+`semsearch` is not this library's process, so no run may kill it — which is correct, and is also
+why it has been left to grow for four shifts. **One `Stop-Process` on that pid ends it.** Nothing
+here should be changed to work around it: a retry loop or a longer timeout would turn a loud,
+correct, diagnosable failure into a slow one.
+
+### THE REPAIR — Phase 4.2's release gate could not fail (order `aa075aa80f5c`, closed)
+
+`thread_integrity.main()` had no `return` on any path and was invoked bare, so the process always
+exited 0 — and `allsweep` reads the rc and nothing else. A library in which **every** implied
+thread was DANGLING graded byte-identically to a healthy one. The module's own comment stated the
+premise ("main() is the ONLY reporting surface this module has") and stopped one step short of
+the consequence.
+
+Both halves landed together, because either alone turns the sweep red for the wrong reason:
+`main()` now returns its verdict and the module ends with `sys.exit(main())`; allsweep's row moved
+`RC_BROKEN → RC_FINDINGS`, since a dangling thread is weave drift the library is meant to report,
+not a module that failed to run.
+
+**Only DANGLING is graded.** IMPLIED-UNRECORDED is 100% today and that is *correct* — no directed
+graph exists before Step 4, so grading it would hold the row red until the pass ships, an alarm
+that always sounds. PARTIALLY-DANGLING is degradation rather than a pointer at nothing and its
+meaning changes once a graph exists; it is reported and left ungraded, with the reasoning in the
+code. STEP4_PLAN.md §8 names one class: *"DANGLING = 0 is a release gate, not a metric."*
+
+Measured before landing so the next sweep's colour was known rather than discovered: **DANGLING 0,
+PARTIALLY-DANGLING 0, IMPLIED-UNRECORDED 5,782 of 5,782**, over 210 sources and 266,437 entity
+keys. Watched it go red on a synthetic dangling pair (rc 1 and a named failure), green again
+restored.
+
+### THE MODULE — `src/threads.py`, T1 + T2, derived and verified but not written
+
+Dry run against the live corpus:
+
+| | |
+|---|---|
+| addressed sources | 210 |
+| entries behind them | 282,822 |
+| T1 edges (home) | 282,822 |
+| T2 edges (cohort) | 605,372 |
+| **total** | **888,194 — 3.14 per entry** |
+| sources with no address | **0** |
+| `verify()` problems | none |
+
+Monkey D. Luffy's Threads section, as an example, is now `II.A.3 (home volume)` plus nine sibling
+volumes under `II.A` that also hold Persons — real, resolvable, and uncapped.
+
+**Phase 4.0 is fully closed, which the plan did not know.** `Bone (Jeff Smith)` — the one source
+§7A called genuinely unshelved — is now an exact entry in the Acquisitions Index mapping to
+`II.D.4`. Every one of the 216 records resolves; nothing falls to UNASSIGNED.
+
+**What refuses, and each was watched refusing:** the plant-wide halt first; `step4_gate_open()`
+before any write; an address that does not resolve *now* is never emitted; T5 cannot be
+machine-derived (§7B — the Great Identifications are owner-authored only); T3 and T4 cannot be
+reached by a new path. Nine nets under **THE ENTANGLEMENT PASS — can a citation be invented?**,
+drill now 288/288/0. Each was defeated deliberately and went red: the resolve check deleted → the
+three dangling nets breach; T5 admitted to the derivable set → the two authorship nets breach; the
+home thread pointed elsewhere → the home net breaches; the ratification call removed from `main()`
+→ the parse-tree net returns False. Restored → 9/9.
+
+### A DEVIATION FROM THE RATIFIED PLAN, FLAGGED RATHER THAN MADE QUIETLY (order `2d777ab20bf7`, OWNER)
+
+§4 specifies `{shelfmark: [...]}`. **Per-entity shelfmarks do not exist** —
+`address.placeholder_shelfmark` is per-source and returns `Ω › ? › ? › … [UNCHARTED]`, because
+Hard Rule 4 forbids inventing one. Keying on the placeholder would collide every entry of a source
+under one key; minting a synthetic id would be inventing the address the rule forbids. The graph
+is therefore stored normalised by (source, category), with `threads_for()` expanding it to the
+per-entry view. Lossless — T1/T2 derive from the address space and the record, never from the
+entry's own text — and kilobytes instead of ~136 MB.
+
+**Verified over the whole corpus rather than asserted:** 282,822 entries expand to **1,370** distinct (source, category) thread lists; every entry sharing a key gets a byte-identical list, and **zero** entries come back with an empty Threads section. The order puts the choice to the owner.
+
+### THE MODULE WAS AUDITED BEFORE IT WAS ACCEPTED, AND IT WAS WRONG IN FOUR PLACES
+
+Creating `threads.py` turned `verify_math` red on its completeness check — a module in `src/` no
+sweep had read. Rather than excuse it, an independent audit read both files in full
+(`handoff/sweep39/AUDIT_threads.md`, coverage recorded under run39 batch 17). It filed **10
+orders, 2 MAJOR**, and every defect it found was mine. Four are fixed:
+
+- **`a66423809970` (MAJOR) — the CLI could not finish on this machine.** One `→` in a print;
+  `sys.stdout.encoding` is cp1252 here. It survived every test because I set
+  `PYTHONIOENCODING=utf-8` on every invocation, and *nothing launches this module*, so it never
+  inherits the utf-8 environment every harness sets for its children. Reproduced independently
+  with it unset: `UnicodeEncodeError`, rc=1. **The crash sat before the ratification gate**, so on
+  the day `step4_enabled` was set the pass would have derived the whole graph, died on a print and
+  written nothing. Fixed twice over (arrow gone; `sys.stdout.reconfigure`), and a tenth net now
+  **runs** the CLI as a subprocess with the encoding deliberately unset. The nine existing nets all
+  read the parse tree or asked the gate — none ran the program, which is how nine green nets
+  coexisted with a CLI that could not complete a single invocation.
+- **`9b9e7d33399d` (MAJOR) — the cohort key space was two vocabularies.** My `_category_of`
+  docstring asserted both fields are on every entry; I had measured that on *one record*. Live:
+  `category` on 100% of 282,822 entries, `topic` on 49.1%, nine short values against seven long.
+  Cohorting is exact string equality, so `"Persons"` and `"Persons (named individual characters,
+  real or fictional)"` were different rooms. Fixed by preferring the always-present authoritative
+  field folded to its head word. **T2 edges 605,372 → 885,123; total 888,194 → 1,167,945 (4.13 per
+  entry).**
+- **`344f32d468de` — `verify()` was four tautologies**, feeding a `REFUSING TO WRITE` branch that
+  was dead code, in a module whose whole subject is refusals. Now pointed at the round-tripped
+  graph, where the invariants are not guaranteed by construction, and demonstrated failing on four
+  separate corruptions.
+- **`98f37cc90ddf` — `threads_for()` returned a blank** for an unaddressed source while citing an
+  OPERATOR-level refusal that did not exist. It now raises, distinguishing "no resolvable spine
+  code" from "no such source".
+
+**Two things I got wrong while fixing these, recorded because the pattern is the point.** My first
+repair of `verify()` put the emptiness check back in a form that was *a tautology for the second
+time* — `threads_for` prepends T1 unconditionally, so it can never be empty. I caught it only
+because the probe written to prove `verify()` could now fail returned `[]` for that case. It is
+removed rather than rewritten a third time. And my first docstring for the category fold claimed
+`Weapons`/`Relics`/`Wars` "stay their own keys"; measuring where they actually land showed they
+fold into their parent category — asserting something the code did not do, which is the same sin
+the audit had just caught me in. Both corrected.
+
+Filed rather than decided: **`d3b606c4243d`** asks the owner what grain a cohort thread should be
+cut at, since seven categories puts a weapon in a room with a spaceship. *(That order's id is
+mis-cited as `68ab7d5eef52` inside the closed resolution for `9b9e7d33399d` — the paper trail is
+append-only, so the correction is recorded here.)*
+
+### WHAT PHASE 4.2 WOULD SEE, measured without wiring it (4.2 is unauthorised)
+
+Handing the derived graph to `thread_integrity.classify(recorded=…)` activates the asymmetry
+classes for the first time — they have been *structurally unreachable* since m12 was filed:
+
+```
+recorded=None (today)          IMPLIED-UNRECORDED 5,782
+recorded=<the derived graph>   IMPLIED-UNRECORDED 5,545   RECIPROCAL 237   DANGLING 0
+```
+
+237 reciprocal pairs, no dangling. No ASYMMETRIC yet, and that is expected rather than a gap: T2
+cohort edges are symmetric by construction, so asymmetry is T3's to produce. m12 closes as a side
+effect exactly as the plan predicted.
+
+### WHAT IS NOT DONE, DELIBERATELY
+
+Phase 4.2 (wiring the verifier to the graph), 4.3 (the Chronicle join — **the history of the
+omniverse itself**), 4.4 and 4.5 are all unauthorised by the §7E ruling: *"PHASE 4.0 AND 4.1 ONLY,
+then stop and look."* `data/EVENTS.json` does not exist; parsing the Chronicle's event spine into
+stable codes is 4.3's own first task. The prose gate stays shut throughout, untouched.
+
+---
+
 ## 2026-08-30 — Run #39: THE QUEUE IS NOT EMPTY. 458 orders stand, 293 of them filed in the last hour by the sweep.
 
 **READ THIS BEFORE ANYTHING ELSE.** The daily standard is an empty queue, and this run does not

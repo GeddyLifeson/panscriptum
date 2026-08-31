@@ -129,6 +129,7 @@
 - **sweep_plan** — Partition EVERY module in `src/` into balanced audit batches, and record what got covered
 - **tempus** — DE TEMPORE — time across the omniverse, and what "now" can possibly mean
 - **thread_integrity** — THREAD INTEGRITY — does the omniverse hold together when you walk it?
+- **threads** — THREADS — Step 4, Phase 4.1: the T1/T2 entanglement pass
 - **tiers** — THE COSMOLOGICAL TIERS — the xenoverse charted, and the hyperverse declined with cause
 - **weave** — PHASE 3 — THE WEAVE. Cross-source entity resolution, with homonymy as the default
 - **wh40k** — WARHAMMER 40,000 — the top of the setting, assayed under the presence thesis
