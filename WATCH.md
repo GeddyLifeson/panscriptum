@@ -1,18 +1,20 @@
 # OVERWATCH
 
-round 216  ·  last run 2026-08-30 17:59
+round 217  ·  last run 2026-08-30 18:28
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **1** of 281,680 inspected (deep scan as of round 211)  — state\gpu_lane\slot.0.json — cannot stat
+- files that will not parse: **0** of 282,409 inspected
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**13 open** (3 high). Newest first.
+**13 open** (4 high). Newest first.
 
+- **canon_backup.py** `newest` — [HIGH] returns the newest canonical file
+  - says: returns the newest snapshot
 - **build_terminal.py** `DATA` — [HIGH] contains data
   - says: contains data
 - **build_terminal.py** `shelfmark` — [HIGH] generates a shelfmark
@@ -31,8 +33,6 @@ round 216  ·  last run 2026-08-30 17:59
   - says: Close an order: REMOVE it from the open file, append it to the paper trail.
 - **verify_math.py** `qualifier_compatible` — [MEDIUM] returns False for two DC continuities
   - says: two DC continuities are never compatible
-- **retry_synthesis.py** `save_side` — [MEDIUM] The function save_side is called but its implementation is not provided in the given code slice, leading to a potential runtime error or undefined behavior.
-  - says: Take the MERGED mapping back, so this run's own tally counts what is actually on disk rather than only what this process rescued -- see `save_side`. The second half of that return says whether it reached disk at all; a rescue that did not land must not print like one that did, because nothing re-runs the model call behind it.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
