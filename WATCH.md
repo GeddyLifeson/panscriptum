@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 226  ·  last run 2026-08-30 23:38
+round 227  ·  last run 2026-08-30 23:51
 
 ## Structure
 
@@ -11,8 +11,10 @@ round 226  ·  last run 2026-08-30 23:38
 
 ## What the model found in the code
 
-**30 open** (11 high). Newest first.
+**28 open** (10 high). Newest first.
 
+- **workorders.py** `_fire` — [HIGH] fires an order only if the first argument is True, but the code uses it with a negated condition
+  - says: fire an order with the given parameters
 - **publish.py** `prune_export` — [HIGH] Deletes files from the export copy that are not in the 'wanted' set, including entire directories that are no longer in COPY_DIRS
   - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
 - **mutate.py** `could_not_judge` — [HIGH] THE GATE DID REACH A VERDICT
@@ -31,10 +33,8 @@ round 226  ·  last run 2026-08-30 23:38
   - says: A STAR is EXACTLY representable: theta_a = 0.75, the three losers -0.25 each, reproducing every edge. eta must be 1.0 and the curl fraction 0.0. Under Jacobi this was 0.0 -- the answer for a shape with NO ladder in it at all, returned for a shape that is nothing but ladder.
 - **drill.py** `catalog_matches_disk` — [HIGH] only checks that the catalog does not claim chapters that do not exist on disk
   - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
-- **verify_math.py** `priority` — [HIGH] excludes rows with own=0 and chars < 2000
-  - says: These are still read -- nothing here is dropped
-- **verify_math.py** `AS.map_seed` — [HIGH] the same function object is used, not a re-computed value
-  - says: DERIVED — an independently loaded copy of the module recomputes it
+- **workorders.py** `_detector` — [MEDIUM] marks as detected regardless of whether an exception occurred
+  - says: detects a problem and marks it as detected
 - **publish.py** `_may_delete_in_export` — [MEDIUM] Checks if SITE is a different directory from HERE and if the marker file exists, but the function is supposed to determine if deletion is allowed based on the marker file alone
   - says: May anything be DELETED under `SITE` at all? -> bool
 - **publish.py** `os.path.exists` — [MEDIUM] Returns False for both absent and unreadable, but the comment says it's used to check for the marker file, which is not the case
@@ -65,10 +65,6 @@ round 226  ·  last run 2026-08-30 23:38
   - says: No source's states may sum PAST its own entry count. One direction, and only one.
 - **generate.py** `save_raw` — [MEDIUM] is called with text that was not skipped
   - says: FILED AND SKIPPED LIKE EVERY OTHER REFUSAL IN THIS LOOP
-- **verify_math.py** `check` — [MEDIUM] a function that checks a condition and raises an error if it fails
-  - says: a function that checks a condition and raises an error if it fails
-- **verify_math.py** `_KEY_SPELLING` — [MEDIUM] a string used to find code that rebuilds the entity cache path by hand
-  - says: a string used to find code that rebuilds the entity cache path by hand
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
