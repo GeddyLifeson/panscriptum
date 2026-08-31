@@ -70,9 +70,15 @@ WHAT REFUSES, AND WHY EACH REFUSAL EXISTS
     a Threads section that is present but empty is indistinguishable from "pending" to a reader
     and from "done" to a checker.
 
-HARD RULE 0 APPLIES IN FULL. There is no `[:n]` anywhere in this pass. If an entry has forty
-lawful threads it carries forty. A thread list truncated at five silently decides the sixth
-relation does not exist, which is the precise shape the rule exists to forbid.
+HARD RULE 0 APPLIES IN FULL. No LIST in this pass is ever truncated: if an entry has forty
+lawful threads it carries forty, and a thread list cut at five would silently decide the
+sixth relation does not exist, which is the precise shape the rule exists to forbid.
+
+The one `[:n]` in this file is `parts[:2]` in `cohort_family`, which decomposes an ADDRESS
+into its Collection and Set -- not a listing, and not a cap on anything a reader would
+count. This paragraph used to claim "there is no `[:n]` anywhere in this pass", which was
+false as written and is the kind of absolute sentence this file's audience reads as a
+checked fact (order eb74d9cd9bae).
 """
 import argparse
 import collections
@@ -107,18 +113,43 @@ class ThreadRefused(Exception):
     """A thread this module is not permitted to derive, or one that resolves to nothing."""
 
 
-def parent_of(code):
-    """The Collection.Set a volume code sits under. -> str or None.
+def cohort_family(code):
+    """The Collection.Set whose members cohort with each other. -> str or None.
 
-    `II.A.3` -> `II.A`. A bare `II.P` (a Set with no Series) has no parent ABOVE it that this
-    pass threads within, so it returns None rather than `II`: cohorting at Collection level
-    would put every D&D supplement in a room with every anime, which is not what "sibling
-    volumes under a shared parent" means.
+    `II.A.3` -> `II.A`, and `II.A` -> `II.A` as well. Both a Series and the bare Set it sits
+    under belong to the same room.
+
+    THE BARE SET USED TO BE EXCLUDED, AND THE OWNER RULED IT IN (2026-08-31, order
+    a8864d2361de). This was `if len(parts) >= 3 else None`, so any two-component code returned
+    None and a source shelved at a bare Set could neither carry nor receive a cohort thread.
+    Measured then: 60 of 210 sources (29%) and 465 of 1,370 (source, category) keys had an empty
+    cohort list, their entries carrying exactly one thread -- the home volume -- for ever. It
+    also produced an asymmetry nobody had ruled on: a source at `II.A.3` cohorted with the other
+    `II.A.n` volumes but never with a source shelved at bare `II.A`, which is the very Set those
+    siblings live in.
+
+    WHAT IS STILL EXCLUDED, AND WHY THAT IS THE SAME RULE RATHER THAN AN EXCEPTION. The family
+    is the FIRST TWO components, so a Set still never cohorts with its neighbouring Sets:
+    `II.A` and `II.B` remain different rooms. Cohorting there would be Collection level, which
+    would put every D&D supplement in a room with every anime -- the case the original exclusion
+    was written for, and it is untouched. `III.1` and `III.7` are two Sets under Collection III,
+    so the eleven pantheons still do not cohort with each other.
+
+    MEASURED AFTER THE RULING: of the 26 two-component codes, 11 gain siblings because Series
+    exist beneath them (II.A, II.C, II.D, II.F, II.H, II.I, II.J, II.K, II.L, II.N, II.P); 15
+    do not, because nothing is shelved beneath them at all (II.E, II.Q, the eleven III.n
+    pantheons, VII.6, VII.7). An empty cohort for those is a fact about the shelf, not a gap in
+    the pass, and `main()` now reports the count either way.
+
+    THE RULING'S EFFECT, measured immediately after it landed: sources with no cohort at
+    all fell from 60 of 210 to 31 of 210, and T2 edges rose from 885,123 to 1,226,923
+    (5.34 threads per entry, up from 4.13). The 31 that remain are the 15 childless Sets
+    above plus sources whose category holds no counterpart anywhere in their family.
     """
     if not code or code == UNADDRESSED:
         return None
     parts = [p for p in str(code).split(".") if p]
-    return ".".join(parts[:2]) if len(parts) >= 3 else None
+    return ".".join(parts[:2]) if len(parts) >= 2 else None
 
 
 def _resolves(code, known_codes):
@@ -153,51 +184,67 @@ def edge(to, cls, why, frm, known_codes):
     return {"to": to, "class": cls, "why": why, "from": frm}
 
 
-def canonical_category(entry):
-    """The catalogue category an entry belongs to, in ONE vocabulary. -> str or None.
+# The three `topic` values that are NOT simply a shorter spelling of a `category`. Measured over
+# the live corpus 2026-08-31: of the 139,289 entries carrying a topic, 76.1% restate their
+# category under a shorter name ("Places" for "Places & Locations") and add nothing, 11.0%
+# CONTRADICT it (a catalogue fault, under investigation, deliberately not split on), and 12.9%
+# -- these three -- carve a genuinely finer room out of a coarser one.
+FINER = {"Weapons": "Vessels & Things", "Relics": "Vessels & Things", "Wars": "Events"}
 
-    THE KEY SPACE WAS TWO VOCABULARIES AND IT COST ~17,000 LAWFUL COHORT THREADS (audit T-2).
-    This took `topic` first and `category` second and asserted in its own docstring that "both
-    are present on every entry measured" -- which was measured on ONE record. Across the live
-    corpus: `category` is on 100% of 282,822 entries, `topic` on 49.1%. Cohort membership is
-    exact string equality, so `"Persons"` and
-    `"Persons (named individual characters, real or fictional)"` were two different rooms, and a
-    sibling volume holding the same catalogue category under the other spelling never cohorted
-    in either direction. Nothing failed; the artifact just silently decided those relations did
-    not exist, which is precisely the shape Hard Rule 0 forbids.
 
-    THE FOLD IS THE LONG FORM'S HEAD WORD, AND NOTHING ELSE. `Persons (named individual
-    characters, real or fictional)` -> `Persons`, which is exactly the short form. That is a
-    SPELLING reconciliation and it is safe.
+def _key(path):
+    """A path as one JSON-safe string. `("Vessels & Things", "Weapons")` -> the two rooms
+    joined by " > ", coarsest first, so the stored key reads as the shelf reads."""
+    return " > ".join(path)
 
-    `category` IS PREFERRED BECAUSE IT IS THE AUTHORITATIVE FIELD, not merely the present one: it
-    is on 100% of entries and carries exactly the seven catalogue categories, while `topic` is on
-    49.1% and carries nine values. The extra two are `Weapons`, `Relics` and `Wars` (against
-    `Media`, which is both) -- finer RE-CUTS rather than synonyms.
 
-    SO THOSE RE-CUTS DO LAND INSIDE THEIR PARENT CATEGORY, AND THAT IS DERIVED, NOT DECIDED HERE.
-    An entry whose `topic` is `Weapons` carries `category: Vessels & Things (...)`, so it cohorts
-    as a Vessel because THE RECORD SAYS SO -- this function never asserts an equivalence of its
-    own. Measured over the live corpus: `Weapons` -> `Vessels & Things` (14,214 entries),
-    `Relics` -> `Vessels & Things` (2,568), `Wars` -> `Events` (263). The result is one vocabulary
-    of exactly seven keys.
+def category_path(entry):
+    """The category rooms an entry belongs to, coarsest first. -> tuple.
 
-    WHETHER SEVEN IS THE RIGHT GRAIN IS A CURATORIAL QUESTION AND IS FILED, NOT ANSWERED. Cohorting
-    at `Vessels & Things` puts a weapon in a room with a spaceship; a finer grain would mean fewer
-    and more meaningful cohort threads. This module derives, it does not rule.
+    `("Vessels & Things",)` for a vessel with no finer label; `("Vessels & Things", "Weapons")`
+    for one the catalogue has actually called a weapon.
 
-    The cross-tab also shows the two fields genuinely DISAGREEING in places -- 781 entries carry
-    `topic: Persons` under `category: Places & Locations`, and 1,361 carry `topic: Media` under
-    `category: Vessels & Things`. Those are catalogue-level inconsistencies, not threading ones,
-    and they are reported in the same order rather than papered over here.
+    OWNER RULING 2026-08-31: SPLIT. The pass used to cohort at the seven catalogue categories
+    alone, which put a weapon in a room with a spaceship. It now cohorts at the finest room the
+    data supports -- but at the finest room BOTH volumes support, which is the part that matters
+    and is why this returns a path rather than a single key.
+
+    WHY NOT SIMPLY KEY ON THE FINEST VALUE. Because `topic` is not evenly present: 175 of 210
+    sources carry it on every entry, and 35 carry it on some (Marvel is missing it on 45,590
+    entries, DC on 16,417). Keying on the finest value alone would mean a labelled weapon never
+    cohorts with an unlabelled one, which is the two-vocabulary defect of order 9b9e7d33399d
+    wearing new clothes -- and worse, it would be asserting that Marvel holds no weapons when
+    what is true is that nobody has said which of its vessels are weapons.
+
+    SO: a volume qualifies as a cohort if it holds ANY room on the path, and the edge is recorded
+    at the FINEST room the two share. Against a fully-labelled sibling a weapon threads to
+    `Weapons` and never to that sibling's spaceships, which is the split. Against an unlabelled
+    one it threads at `Vessels & Things`, which claims only what is known. Nothing is invented in
+    either direction, and no relation is denied on absent data.
+
+    The 11.0% where `topic` and `category` contradict each other are NOT split on: only the three
+    values in `FINER` open a finer room, and each is checked against the parent it is supposed to
+    sit inside. A `topic: Powers` under `category: Vessels & Things` is a catalogue fault, not a
+    finer grain, and it is being investigated separately rather than encoded into the graph.
     """
     long_form = (entry or {}).get("category")
+    coarse = None
     if isinstance(long_form, str) and long_form.strip():
-        return long_form.split("(")[0].strip() or long_form.strip()
+        coarse = long_form.split("(")[0].strip() or long_form.strip()
     short = (entry or {}).get("topic")
-    if isinstance(short, str) and short.strip():
-        return short.strip()
-    return None
+    short = short.strip() if isinstance(short, str) and short.strip() else None
+    if coarse is None:
+        # No category at all. `topic` is the only thing on offer, so it IS the coarse room.
+        return (short,) if short else ()
+    if short in FINER and FINER[short] == coarse:
+        return (coarse, short)
+    return (coarse,)
+
+
+def canonical_category(entry):
+    """The coarsest room an entry belongs to. -> str or None. The `by_category` key."""
+    path = category_path(entry)
+    return path[0] if path else None
 
 
 def survey(records=None):
@@ -219,9 +266,13 @@ def survey(records=None):
         n_of[src] = len(entries)
         cats = collections.Counter()
         for e in entries:
-            c = canonical_category(e)
-            if c:
-                cats[c] += 1
+            # THE WHOLE PATH IS THE KEY, so two entries cohort identically only when the
+            # catalogue says the same thing about both. Every ROOM on the path is also
+            # counted separately, so `cats_at_code` knows a source holds both
+            # "Vessels & Things" and "Weapons" and a cohort can match at either level.
+            path = category_path(e)
+            if path:
+                cats[path] += 1
         cats_of[src] = cats
     return code_of, cats_of, n_of
 
@@ -240,14 +291,18 @@ def build(records=None):
     # Which categories does each ADDRESS hold? A volume code can be shared by several sources
     # (II.L.7 holds a dozen D&D titles), so the cohort question is asked of the address, not of
     # the source: "does that sibling volume contain anything of this kind?"
+    # Which ROOMS does each address hold? Flattened from the paths, so a code whose
+    # entries are labelled `Weapons` holds both "Weapons" and its parent
+    # "Vessels & Things", and a cohort can match at whichever level both sides support.
     cats_at_code = collections.defaultdict(set)
     for src, code in code_of.items():
         if code in known:
-            cats_at_code[code] |= set(cats_of.get(src, ()))
+            for path in cats_of.get(src, ()):
+                cats_at_code[code] |= set(path)
 
     siblings = collections.defaultdict(set)
     for code in known:
-        p = parent_of(code)
+        p = cohort_family(code)
         if p:
             siblings[p].add(code)
 
@@ -262,17 +317,40 @@ def build(records=None):
             continue
         home = edge(code, "T1", "home volume", code, known)
         cohort = {}
-        for cat in sorted(cats_of.get(src, ())):
-            sibs = sorted(s for s in siblings.get(parent_of(code), ()) if s != code
-                          and cat in cats_at_code[s])
-            # UNCAPPED. Ten siblings is the measured worst case today; if it becomes forty, the
-            # entry carries forty (Hard Rule 0).
-            cohort[cat] = [edge(s, "T2",
-                                "sibling volume under %s also holding %s" % (parent_of(code), cat),
-                                code, known)
-                           for s in sibs]
+        for path in sorted(cats_of.get(src, ())):
+            # A sibling qualifies on ANY room of the path, and the edge is recorded at
+            # the FINEST room the two share -- so a weapon threads to another volume's
+            # `Weapons` where that volume is labelled, and only falls back to
+            # `Vessels & Things` where nobody has said which of its vessels are weapons.
+            # Claiming the finer relation against an unlabelled volume would be inventing
+            # knowledge; refusing the coarse one would be denying a relation on absent
+            # data. Neither is allowed, so it matches at the level actually shared.
+            sibs = []
+            for s_ in sorted(siblings.get(cohort_family(code), ())):
+                if s_ == code:
+                    continue
+                shared = [room for room in path if room in cats_at_code[s_]]
+                if shared:
+                    sibs.append((s_, shared[-1]))
+            # UNCAPPED. If a cohort becomes forty the entry carries forty (Hard Rule 0).
+            #
+            # THE NUMBER IN THIS COMMENT WAS WRONG AND IS NOW RIGHT BY ACCIDENT, which is
+            # worth saying rather than quietly leaving correct. It read "ten siblings is
+            # the measured worst case"; when order eb74d9cd9bae checked it the true
+            # maximum was NINE. The bare-Set ruling of 2026-08-31 then raised it to ten.
+            # A claim that drifts back into truth is still a claim nobody measured, so
+            # here is the whole distribution instead of a single number -- cohort sizes
+            # over the live graph, measured after the ruling:
+            #   0 x170  1 x49  2 x66  3 x74  4 x109  5 x112  6 x166  7 x213  8 x56
+            #   9 x17  10 x53
+            cohort[_key(path)] = [
+                edge(s_, "T2",
+                     "sibling volume under %s also holding %s" % (cohort_family(code), room),
+                     code, known)
+                for s_, room in sibs]
         out[src] = {"code": code, "entries": n_of.get(src, 0), "T1": home,
-                    "T2": cohort, "by_category": dict(cats_of.get(src, {}))}
+                    "T2": cohort,
+                    "by_category": {_key(k): v for k, v in cats_of.get(src, {}).items()}}
 
     return {"classes": list(DERIVABLE), "sources": out, "unaddressed": refused,
             "counts": counts(out)}
@@ -289,8 +367,8 @@ def counts(sources):
     t1 = sum(v["entries"] for v in sources.values())
     t2 = 0
     for v in sources.values():
-        for cat, n in (v.get("by_category") or {}).items():
-            t2 += n * len(v["T2"].get(cat, ()))
+        for key, n in (v.get("by_category") or {}).items():
+            t2 += n * len(v["T2"].get(key, ()))
     return {"sources": len(sources), "entries": t1,
             "T1_edges": t1, "T2_edges": t2, "total_edges": t1 + t2,
             "edges_per_entry": round((t1 + t2) / t1, 3) if t1 else 0.0}
@@ -326,9 +404,12 @@ def threads_for(graph, source, entry):
             % (source, "the source has no resolvable spine code, so the pass did not run for it"
                if source in unaddressed else "no such source in this graph"))
     out = [dict(rec["T1"])]
-    cat = canonical_category(entry)
-    if cat:
-        out.extend(dict(e) for e in rec["T2"].get(cat, ()))
+    # Looked up by the entry's whole path, so a labelled weapon gets the weapon cohort
+    # and an unlabelled vessel gets the vessel cohort -- the two are different rooms and
+    # the store keeps them apart.
+    key = _key(category_path(entry))
+    if key:
+        out.extend(dict(e) for e in rec["T2"].get(key, ()))
     return out
 
 
@@ -394,7 +475,7 @@ def verify(graph):
     return problems
 
 
-def recorded_pairs(graph, code_of=None):
+def recorded_pairs(graph):
     """The directed source→source relation `thread_integrity.classify(recorded=...)` wants.
 
     Phase 4.2 wires the verifier to this. Threads are emitted per ADDRESS, and the verifier
@@ -469,6 +550,14 @@ def main():
     print("   total                    : %s  (%.2f per entry)"
           % (format(c["total_edges"], ","), c["edges_per_entry"]))
     print("   sources with NO address  : %d" % len(graph["unaddressed"]))
+    # A SOURCE WITH NO COHORT IS REPORTED, because a reader cannot otherwise tell "this
+    # volume has no siblings" from "the cohort pass did not reach it" (order
+    # a8864d2361de). That is section 6's quiet one a level up: an empty cohort is a fact
+    # about the shelf for a childless Set, and would be a defect for anything else.
+    _no_cohort = sorted(src for src, rec in graph["sources"].items()
+                        if not any(rec["T2"].values()))
+    print("   sources with NO cohort   : %d (their entries carry the home volume alone)"
+          % len(_no_cohort))
     for u in graph["unaddressed"]:
         print("      %s (%s entries) — %s" % (u["source"], format(u["entries"], ","), u["why"]))
     print("   recorded source->source directions: %s" % format(len(recorded_pairs(graph)), ","))

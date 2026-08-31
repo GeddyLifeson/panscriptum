@@ -40,6 +40,11 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+# Imported so a swallowed failure is COUNTED. `silence.py` is a battery verifier exactly
+# so that swallows are countable; this module had one that never reached
+# state/failures.json (order ae2afc775228).
+import silence          # noqa: E402
+
 
 def load_entities():
     """Every catalogued entity, by source, with its normalised key.
@@ -219,19 +224,52 @@ def main():
     print(f"distinct entity keys             : {len(names):,}")
 
     pairs = implied_threads()
-    print(f"implied thread directions        : {len(pairs):,}")
+    # NAMED FOR WHAT IT COUNTS (order 30581ee9cca2). `implied_threads` adds both (a,b)
+    # and (b,a) for every shared entity, so this is DIRECTED and is exactly twice the
+    # deduped pair count `classify` reports two lines below -- the same population,
+    # printed twice, 2x apart, with nothing on the page saying so.
+    print(f"implied thread directions        : {len(pairs):,} (directed; {len(pairs)//2:,} unordered source pairs)")
     print()
 
+    # THREE DIFFERENT FAILURES USED TO PRINT ONE SENTENCE, AND NONE OF THEM WAS COUNTED
+    # (order ae2afc775228). `import propagation`, `load_graph()` and the `dist` definition sat
+    # inside one bare `except Exception`, which set dist=None and printed
+    # "(propagation graph unavailable; ...)" for a missing module, a corrupt graph file and a
+    # raising loader alike -- with the exception type never named and no `silence.note`, so the
+    # swallow never reached state/failures.json. `silence.py` is a battery verifier precisely so
+    # swallowed failures are countable, and this one was not counted.
+    #
+    # IT MATTERS MORE THAN IT LOOKS ONCE `recorded=` IS WIRED IN PHASE 4.2. `excuse` is only
+    # assignable inside `if distance_fn:`, so with dist=None EVERY one-way thread falls to
+    # ASYMMETRIC-SUSPECT and ASYMMETRIC-LAWFUL becomes structurally unreachable. STEP4_PLAN.md
+    # §7C rules that one-way threads are lawful by default -- so the class that implements the
+    # ruling is exactly the one that would quietly disappear, under a line that reads like a
+    # footnote. The two conditions are told apart and both are recorded.
+    dist = None
     try:
         import propagation as P
-        adj = P.load_graph()
+    except Exception as exc:
+        silence.note("thread_integrity.py:propagation-import")
+        print("(propagation module could not be imported: %s: %s -- asymmetry cannot be excused "
+              "by distance, so every one-way thread will read as SUSPECT)"
+              % (type(exc).__name__, exc))
+    else:
+        try:
+            adj = P.load_graph()
 
-        def dist(a, b):
-            d, path = P.shortest(adj, a, b)
-            return None if not path else d
-    except Exception:
-        dist = None
-        print("(propagation graph unavailable; asymmetry cannot be excused by distance)")
+            # Defined under its own name and then bound, rather than shadowing the
+            # `dist = None` above: the shadow read to pyflakes as a redefinition of an
+            # unused name, which is noise in the one file whose job is to be read.
+            def _measure(a, b):
+                d, path = P.shortest(adj, a, b)
+                return None if not path else d
+
+            dist = _measure
+        except Exception as exc:
+            silence.note("thread_integrity.py:propagation-graph")
+            print("(propagation graph could not be loaded: %s: %s -- asymmetry cannot be excused "
+                  "by distance, so every one-way thread will read as SUSPECT)"
+                  % (type(exc).__name__, exc))
 
     counts, detail = classify(pairs, dist, args.age, ents=ents)
     total = sum(counts.values())
@@ -339,7 +377,12 @@ def main():
     dangling = counts.get("DANGLING", 0)
     if dangling:
         print()
-        print(f"THREAD INTEGRITY FAILED: {dangling:,} thread(s) point at nothing. "
+        # THE UNIT IS SOURCE PAIRS, NOT THREADS, and this is the line the module will be
+        # read on as a release gate (STEP4_PLAN.md §8), so it says which. Each DANGLING
+        # row prints n of tot keys gone, so one pair here can stand for a hundred
+        # vanished entities.
+        print(f"THREAD INTEGRITY FAILED: {dangling:,} source pair(s) whose every shared "
+              f"entity has gone -- their threads point at nothing. "
               f"A thread that resolves to nothing is not a weak thread, it is a broken "
               f"one (STEP4_PLAN.md §1).")
     return 1 if dangling else 0

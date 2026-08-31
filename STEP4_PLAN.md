@@ -46,7 +46,7 @@ And the charter's own worked example:
 
 | Asset | State | Role in Step 4 |
 |---|---|---|
-| `thread_integrity.py` (184 ln) | **Written, and its design is right.** Classifies RECIPROCAL / ASYMMETRIC-LAWFUL / ASYMMETRIC-SUSPECT / DANGLING, and correctly treats one-way threads as *lawful* under the Aperture Doctrine or propagation delay | **The verifier.** m12 says its detection is "structurally unreachable" — it compares implied threads against a directed thread graph **it is never given**. Step 4 builds that graph. m12 closes as a side effect. |
+| `thread_integrity.py` (349 ln, was 184 when this plan was drafted) | **Written, and its design is right.** Classifies RECIPROCAL / ASYMMETRIC-LAWFUL / ASYMMETRIC-SUSPECT / DANGLING, and correctly treats one-way threads as *lawful* under the Aperture Doctrine or propagation delay | **The verifier.** m12 says its detection is "structurally unreachable" — it compares implied threads against a directed thread graph **it is never given**. Step 4 builds that graph. m12 closes as a side effect. |
 | `data/CHARTER_SPINE_CODES.json` | 219 codes; **ONE** catalogued source still unaddressed | The target space for volume-level threads |
 | `VIII_MASTER_CHRONICLE.md` | Written (24 KB event spine) | The source of **event-codes** (`VIII.n`) |
 | `I9_THE_CONCORDANCE.md` | Written | Political geography — governs which threads are *lawful* |

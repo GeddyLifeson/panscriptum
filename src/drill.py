@@ -5624,6 +5624,46 @@ def drill_threads():
         "a Threads section that is present but empty reads as pending to a person and as done "
         "to a checker, which is the worst of both")
 
+    def an_unaddressed_source_is_recorded_and_refused():
+        """THE BRANCH WITH NO TRAFFIC (order bee8fcbd12ab).
+
+        `build()`'s `unaddressed` arm has never run: every one of the 210 catalogued sources
+        resolves through `spine_code_for` today, so the code was correct only as far as reading
+        could tell. It goes live the first time a source is added to the roll ahead of the
+        Acquisitions Index -- which CLAUDE.md Hard Rule 2 calls the ORDINARY case, not an
+        exotic one.
+
+        Two properties, and the second is the one that matters. An unaddressed source must be
+        RECORDED in the artifact rather than silently dropped, because it is a curatorial gap a
+        person has to see; and asking it for a Threads section must REFUSE rather than hand back
+        a blank, which is STEP4_PLAN.md §6's "quiet one" (order 98f37cc90ddf).
+        """
+        import threads as TH
+        recs = [{"source": "Addressed", "entries": [{"category": "Persons (x)"}]},
+                {"source": "Homeless", "entries": [{"category": "Persons (x)"}]}]
+        keep = TH.ADDR.spine_code_for
+        try:
+            TH.ADDR.spine_code_for = lambda n: ("II.A.1" if n == "Addressed"
+                                                else TH.UNADDRESSED)
+            g = TH.build(recs)
+            if [u["source"] for u in g["unaddressed"]] != ["Homeless"]:
+                return False                      # dropped instead of recorded
+            if "Homeless" in g["sources"]:
+                return False                      # threaded anyway
+            try:
+                TH.threads_for(g, "Homeless", {"category": "Persons (x)"})
+                return False                      # handed back a blank
+            except TH.ThreadRefused:
+                pass
+            return bool(TH.threads_for(g, "Addressed", {"category": "Persons (x)"}))
+        finally:
+            TH.ADDR.spine_code_for = keep
+    net(a, "a source with no address is recorded, and asking it for threads REFUSES",
+        an_unaddressed_source_is_recorded_and_refused,
+        "the branch had never executed -- all 210 sources resolve today -- and it goes live the "
+        "first time a source reaches the roll before the Acquisitions Index, which Hard Rule 2 "
+        "calls the ordinary case")
+
     def the_write_needs_the_owners_ratification(src=None):
         """`main()` must consult `prose_gate.step4_gate_open` before it writes.
 
