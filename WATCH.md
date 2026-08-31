@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 236  ·  last run 2026-08-31 06:26
+round 237  ·  last run 2026-08-31 07:47
 
 ## Structure
 
@@ -11,10 +11,18 @@ round 236  ·  last run 2026-08-31 06:26
 
 ## What the model found in the code
 
-**11 open** (1 high). Newest first.
+**12 open** (1 high). Newest first.
 
 - **read.py** `priority` — [HIGH] Sorts by own-page size and yield_per_chunk, not depth first
   - says: Depth first, because depth is what the model is actually better at.
+- **scout.py** `prev.append` — [MEDIUM] Appends to the in‑memory list but never writes the log to disk, so the log write is not gated nor persisted.
+  - says: GATED, exactly as the `_mutate` call twenty lines above already is.
+- **scout.py** `EP.register` — [MEDIUM] has a handler that logs the error and continues, so the whole cycle does not take down
+  - says: This call had no handler, and neither does `sweep()`'s loop, so one raise took down the WHOLE CYCLE rather than one source
+- **scout.py** `EP.register` — [MEDIUM] raises an exception which is caught and logged, but the source is still marked as hostless and will be re-scouted
+  - says: NOT reported as a success: the URLs passed verification and the registry does not have them, so the source stays hostless and will be re-scouted, which is the correct self-healing outcome as long as the log says why.
+- **rosetta.py** `silence.write_json` — [MEDIUM] writes JSON to a file but the code around it suggests it should be used to overwrite existing files, but the function's behavior is not clearly defined in the code
+  - says: writes JSON to a file
 - **resync_roll.py** `main` — [MEDIUM] the exit code is the number the scheduler actually looks at
   - says: the exit code is the number the scheduler actually looks at
 - **repass_bands.py** `if PL.write_record(path, rec):` — [MEDIUM] The code checks the return value of `write_record`; it only appends to `touched` when the write succeeds, contrary to the comment
@@ -25,12 +33,6 @@ round 236  ·  last run 2026-08-31 06:26
   - says: the code says it does
 - **pipeline.py** `write_record` — [MEDIUM] write_record is called without checking if the write actually reached the disk
   - says: A batch is done only when every entry in it carries a result AND the write that carries those results actually reached the disk
-- **pipeline.py** `drift` — [MEDIUM] can be 'count', 'content', or None
-  - says: indicates a drift by content
-- **pick_model.py** `refused` — [MEDIUM] keeps the tuples of (score, model) for models refused for VRAM
-  - says: keeps the models refused for VRAM
-- **physics.py** `main` — [MEDIUM] returns 0 unconditionally
-  - says: the main function
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 - **foreman.py** `kill_stalled` — [MEDIUM] kill stalled jobs that can be restarted, and escalate those that cannot
