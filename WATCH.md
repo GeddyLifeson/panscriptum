@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 239  ·  last run 2026-08-31 09:37
+round 240  ·  last run 2026-08-31 09:59
 
 ## Structure
 
@@ -11,8 +11,16 @@ round 239  ·  last run 2026-08-31 09:37
 
 ## What the model found in the code
 
-**7 open** (0 high). Newest first.
+**11 open** (0 high). Newest first.
 
+- **standards.py** `fab` — [MEDIUM] fabrication rate only if parsed successfully, else None
+  - says: fabrication rate
+- **standards.py** `unans_files` — [MEDIUM] count of records that do not have 'chunks_unanswered' or have it set to 0
+  - says: count of unanswered records
+- **standards.py** `silence` — [MEDIUM] not defined in this file or its imports
+  - says: used to log exceptions
+- **standards.py** `HERE` — [MEDIUM] not defined in this file or its imports
+  - says: used to locate config and metrics files
 - **silence.py** `_handler_is_observed` — [MEDIUM] The function is used to determine if a handler is observed, but the code in the module suggests that the function's logic may not correctly identify re-raised exceptions, leading to potential misclassification of handlers as silent.
   - says: A handler that re-raises, logs, or carries the exception into its own return value is observed.
 - **scout.py** `prev.append` — [MEDIUM] Appends to the in‑memory list but never writes the log to disk, so the log write is not gated nor persisted.
