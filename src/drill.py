@@ -1015,10 +1015,24 @@ def drill_dispatch():
     net(a, "the live gate is closed right now",
         lambda: not PG.gate_open()[0],
         "prose is held by owner ruling pending Step 4")
-    # THE STEP 4 GATE — the plan must be ratified before the entanglement pass can fire.
-    net(a, "the Step 4 gate is closed until its plan is ratified",
-        lambda: not PG.step4_gate_open()[0],
-        "the owner's instruction: plan Step 4 before beginning Step 4")
+    # THE STEP 4 GATE — RATIFIED AND OPEN SINCE 2026-08-31, by a recorded owner ruling.
+    # This row asserted the gate was CLOSED, which was correct for as long as the plan was
+    # unratified and is why it breached the moment the owner opened it. That breach was
+    # the system working: the flag is the second most consequential value in the
+    # repository and nothing may move it without a net going red.
+    #
+    # It is REPOINTED, not removed and not relaxed -- the gate is still pinned to an exact
+    # state, so a silent CLOSE is now caught exactly as loudly as a silent open was. The
+    # three sibling rows below (stringy flag, missing plan, assert_step4_open) are
+    # untouched: they test HOW the gate decides, which the ruling does not change.
+    #
+    # SCOPE: STEP4_PLAN.md §7E authorises Phase 4.0 and 4.1 ONLY. `prose_enabled` is a
+    # separate flag, is untouched, and the row four lines above still pins it CLOSED.
+    net(a, "the Step 4 gate stands where the owner ruled it -- OPEN since 2026-08-31",
+        lambda: PG.step4_gate_open()[0],
+        "the owner ruled the plan ratified after Phase 4.0 measured closed; if this goes "
+        "red, find the ruling that closed the gate, and if there is none then something "
+        "that is not a person moved it")
     net(a, "the Step 4 gate refuses a stringy flag too",
         lambda: not PG.step4_gate_open({"step4_enabled": "true"})[0],
         "same strict identity as the prose gate; a typo is not a ratification")
@@ -5681,10 +5695,16 @@ def drill_threads():
         "step4_enabled is owner-held and asserts three things at once: the plan has been read, "
         "its rulings are answered, and Phase 4.0 is done")
 
-    net(a, "and it is refusing right now, because the gate is shut",
-        lambda: not __import__("prose_gate").step4_gate_open()[0],
-        "if this ever goes red without the owner having ruled, the gate has been opened by "
-        "something that is not a person")
+    # THIS NET ASSERTED THE GATE WAS SHUT AND IS NOW ASSERTED THE OTHER WAY, on the same
+    # terms it was written under: "if this ever goes red without the owner having ruled,
+    # the gate has been opened by something that is not a person". The owner ruled on
+    # 2026-08-31 and the pass has run. The net still pins the gate to an exact state, so
+    # a silent CLOSE is caught as loudly as a silent open was.
+    net(a, "the gate stands where the owner ruled it -- OPEN since 2026-08-31",
+        lambda: __import__("prose_gate").step4_gate_open()[0],
+        "the flag is owner-held in BOTH directions; if this goes red, find the ruling "
+        "that closed it, and if there is none then something that is not a person moved "
+        "the most consequential flag in the repository after prose_enabled")
 
     def the_cli_can_actually_finish():
         """RUN IT. Every other net in this area reads the source or asks the gate.
@@ -5717,6 +5737,27 @@ def drill_threads():
                            capture_output=True, text=True, errors="replace", env=env,
                            cwd=HERE, timeout=600,
                            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        # A SAFETY THAT STOPS WORK IS NOT A FAULT THAT STOPS WORK, and this net breached
+        # on exactly that confusion the first time a halt stood. `main()` asserts the
+        # plant-wide halt before anything else, so under a halt the CLI REFUSES -- which
+        # is the correct behaviour, and the first version of this net read it as "the CLI
+        # cannot finish". That made the net unable to pass while any halt was up,
+        # which means it added a second breach to every halt and helped keep it alive.
+        # It is the conflation this project refuses everywhere else, committed inside the
+        # battery.
+        #
+        # So the expected answer depends on the state of the halt, and both answers are
+        # "the program ran to completion and said something coherent" -- which is the
+        # only thing this net was ever about.
+        out = (r.stdout or "") + (r.stderr or "")
+        try:
+            import escalation as _E
+            halted = _E.status()[0]
+            refusal = _E.HALT_REFUSAL
+        except Exception:
+            halted, refusal = False, "THE LIBRARY IS HALTED"
+        if halted:
+            return refusal in out
         return r.returncode == 0 and "DRY RUN" in (r.stdout or "")
     net(a, "the pass's own CLI runs to completion on this machine's console",
         the_cli_can_actually_finish,

@@ -5176,10 +5176,24 @@ check("the prose gate is CLOSED in config.yaml, by value and not merely by type"
       _raw_cfg.get("prose_enabled"), False,
       note="a run that finds this red must stop and find the owner ruling that opened it; if "
            "there is none, someone flipped the most consequential flag in the repo in silence")
-check("the step 4 gate is CLOSED in config.yaml, by value and not merely by type",
-      _raw_cfg.get("step4_enabled"), False,
-      note="until today this flag had no assertion at all, so any path onto config.yaml could "
-           "open it and the battery would still read all-green")
+# OPENED 2026-08-31 BY A RECORDED OWNER RULING, which is exactly what the paragraph above
+# says this costs. The owner instructed it in session -- "go flip it to true yourself
+# right now" -- after Phase 4.0 was measured closed (0 of 216 sources unaddressed), the
+# section 7 rulings were answered, and Phase 4.1 was built and independently audited.
+#
+# THE ROW IS UPDATED, NOT RELAXED. It still asserts an exact VALUE, so the flag cannot
+# move again -- in either direction -- without turning this red and requiring another
+# ruling. It was not widened to `isinstance`, not softened to "either boolean", and the
+# flag was not edited to quiet a red row. The guarantee is unchanged; only the value the
+# owner has ruled for has changed.
+#
+# SCOPE OF THE RULING: STEP4_PLAN.md section 7E authorises Phase 4.0 and 4.1 ONLY.
+# 4.2 through 4.5 are NOT authorised by it. `prose_enabled` is untouched and the row
+# above still pins it CLOSED.
+check("the step 4 gate is OPEN in config.yaml, by the owner ruling of 2026-08-31",
+      _raw_cfg.get("step4_enabled"), True,
+      note="a run that finds this red must stop and find the ruling that CLOSED it; the "
+           "flag is owner-held in both directions and no automated actor may move it")
 
 # --- LAYER 4: the train. What came back must be what was asked for.
 # The fixture carries a BODY as well as its four fields. The first version was four labels and

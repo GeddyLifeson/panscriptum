@@ -9,6 +9,80 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-08-31 (evening) — PHASE 4.1 HAS RUN. The Step 4 gate is open by owner ruling.
+
+**`data/THREADS.json` EXISTS.** 210 sources, 282,822 entries, **1,509,745 threads** — 282,822 T1
+(home volume) and 1,226,923 T2 (cohort), 5.34 per entry, 0 unaddressed sources, 1.1 MB. Every
+entry in the library now carries a real, resolvable Threads section for the first time. Hard Rule
+5's "Threads stay pending" no longer describes the library.
+
+**The gate was opened by the owner, in session, explicitly** — "go flip it to true yourself right
+now" — after Phase 4.0 measured closed (0 of 216 sources unaddressed, `Bone (Jeff Smith)` now an
+exact Acquisitions Index entry at II.D.4) and §7's rulings A–E were answered. The ruling is
+recorded in `config.yaml` beside the flag, in both guards, and in `state/HALT.json`'s cleared
+record. The previous config is backed up.
+
+**SCOPE, and it must not be read wider than it is.** §7E authorises Phase 4.0 and 4.1 ONLY.
+**4.2 (wiring `thread_integrity` to the graph), 4.3 (the Chronicle join — the history of the
+omniverse), 4.4 and 4.5 each need their own owner ruling.** `data/EVENTS.json` does not exist. The
+prose gate is untouched and remains CLOSED.
+
+### A HALT WAS RAISED AND LIFTED, BOTH BY THIS SESSION
+
+Three guards pin `step4_enabled` by exact value. I updated two against the ruling and **missed the
+third** — `drill.py:1019`, "the Step 4 gate is closed until its plan is ratified". It breached on
+the next drill run and raised `DRILL_BREACH` at the OWNER rung, stopping the library. That was the
+design working: nothing moves that flag without a net going red. The fault was mine and it was a
+failure to enumerate before acting, not a fault in the library.
+
+Repointed to assert the gate is OPEN — still pinned to an exact state, so a silent CLOSE is caught
+as loudly as a silent open was. Not deleted, not relaxed; its three siblings (stringy flag,
+missing plan, `assert_step4_open` raising) are untouched because they test HOW the gate decides.
+
+**The halt then paid for itself.** The re-run breached a *second* net — "the pass's own CLI runs to
+completion" — because `threads.py` asserts the plant-wide halt first, so under a halt it correctly
+REFUSES, and the net read that refusal as "the CLI cannot finish". That is the refusal-versus-fault
+conflation this project refuses everywhere else, committed inside the battery, and it made the net
+unable to pass while ANY halt stood — a phantom second breach on every future halt, helping keep it
+alive. It now expects the refusal when a halt is up and rc=0 when it is not.
+
+Proved before lifting: drill **290/290/0**, verify_math **1063 passed, 0 FAILED** with the updated
+row and the gate open, pyflakes clean, `prose_enabled` verified still False.
+
+### WHAT PHASE 4.2 WILL SEE, measured against the real file on disk
+
+Handing `THREADS.json` to `thread_integrity.classify(recorded=…)`:
+
+```
+recorded=None            IMPLIED-UNRECORDED 5,782
+with THREADS.json        IMPLIED-UNRECORDED 5,385   RECIPROCAL 397   DANGLING 0
+```
+
+397 reciprocal pairs, **zero dangling** — the release gate §8 names. The asymmetry classes have
+been structurally unreachable since m12 was filed; m12 closes as a side effect, exactly as the
+plan predicted. No ASYMMETRIC yet, which is expected: T2 cohort edges are symmetric by
+construction, so asymmetry is T3's to produce.
+
+### THE SPLIT IS LIVE IN THE ARTIFACT
+
+A weapon in One Piece threads to `II.A.3` (home) then to `II.A`, `II.A.1`, `II.A.2`, `II.A.4` —
+*"sibling volume under II.A also holding **Weapons**"*, not holding spaceships. It falls back to
+`Vessels & Things` only against volumes where nobody has said which vessels are weapons.
+
+### STILL OPEN FOR THE OWNER
+
+- **`2d777ab20bf7`** — the schema deviation. The plan specifies `{shelfmark: [...]}`; per-entity
+  shelfmarks do not exist and Hard Rule 4 forbids inventing them, so the graph is stored
+  normalised by (source, category-path) with `threads_for()` expanding it. Verified lossless over
+  the whole corpus. **The file now exists, so changing its shape is no longer free.**
+- **`73c15df59397`** — 15,308 entries where `topic` and `category` contradict each other.
+  Investigated, nothing changed; the graph keys off `category` and ignores contradicting topics.
+- **`a724ec57e0d5`** — the DANGLING verdict reaches nobody. Held at the owner's ruling; it is 4.2.
+- **The PAT** — not expired. `ls-remote` succeeds, `push --dry-run` returns 403. Read works, write
+  does not: a scope gap, not expiry. Commits are held locally.
+
+---
+
 ## 2026-08-31 (later) — the audit's findings fixed, the port leak ended, semsearch removed
 
 **THE MACHINE-LEVEL FAULT IS OVER, and it was a connection leak, not TIME_WAIT exhaustion.**

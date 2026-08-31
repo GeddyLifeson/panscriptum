@@ -129,7 +129,14 @@ prose_min_cited_fraction: 0.35
 #
 # Setting this true asserts: the plan has been read, its four rulings are answered, and Phase 4.0
 # (the addressing gap) is done. Nothing in the automation may flip it.
-step4_enabled: false
+# OPENED 2026-08-31 BY THE OWNER, in session, explicitly: "go flip it to true yourself
+# right now". Recorded here because a gate whose ruling nobody can find has not been
+# ratified, only remembered. Setting this asserts three things at once: the plan has been
+# read, its section 7 rulings are answered, and Phase 4.0 is done -- all three were true
+# and measured (0 of 216 sources unaddressed) before the flip.
+# SCOPE: section 7E authorises Phase 4.0 and 4.1 ONLY. 4.2-4.5 are NOT authorised by this.
+# The prose gate is untouched and stays closed.
+step4_enabled: true
 
 # how many source entries to fold into a single chapter-generation call. Big chapters (e.g.
 # Marvel Persons at 275 entries) get split into multiple calls of this size so they fit
