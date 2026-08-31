@@ -1,22 +1,22 @@
 # OVERWATCH
 
-round 230  ·  last run 2026-08-31 01:05
+round 231  ·  last run 2026-08-31 01:29
 
 ## Structure
 
-- modules that will not import: **0**
+- modules that will not import: **UNKNOWN — the import scan itself failed**  — TimeoutExpired: Command '['C:\\Users\\imarl\\miniconda3\\pythonw.exe', 'C:\\Users\\imarl\\panscriptum-libr
 - files that will not parse: **0** of 283,526 inspected (deep scan as of round 229)
-- catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
-- on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**13 open** (1 high). Newest first.
+**14 open** (1 high). Newest first.
 
-- **allsweep.py** `bad` — [HIGH] sum of counts including ungraded reconcile rows
-  - says: count of bad subsystems
-- **manifest_builder.py** `feats_index.feats_for_source` — [MEDIUM] attempt to retrieve feats and handle exceptions to avoid emitting a Feats chapter
-  - says: retrieve feats for the source
+- **pipeline.py** `phase_chain` — [HIGH] This function is not implemented and causes the runner to stop at phase 4 because the function is missing.
+  - says: Phase 4 -- the Chain of Defeats. See chain.py for the reasoning.
+- **pipeline.py** `phases` — [MEDIUM] The 'phases' variable is assigned a list of phases based on 'st.get("phase")' and 'len(PHASES)', but the code does not correctly handle the case where the phase pointer is past the last phase and there are no completion markers, which is the scenario the comment explicitly describes.
+  - says: A RUNNER WITH AN EMPTY WORK LIST MUST SAY WHICH KIND OF EMPTY IT IS.
+- **pipeline.py** `merged` — [MEDIUM] initialised to `rec` and overwritten by `disk` if read succeeds
+  - says: carries the caller's fresh per-entry judgments
 - **magnitude.py** `assay_entity` — [MEDIUM] returns a deferred status when the anchor is not in the ladder
   - says: assays an entity by trying different methods
 - **identity.py** `identify` — [MEDIUM] Returns `(base, continuity)` only if `desig` is in `continuities`
