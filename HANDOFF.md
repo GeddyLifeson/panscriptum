@@ -9,6 +9,87 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-01 (post-run-#40, owner-directed) — THREE AXES, NOT TWO. `subroom` ADDED.
+
+**This was owner-directed work after run #40 had already closed and published.** Two rulings came
+in: shelfmarks wait for the omniverse ordering, and `category` overrules `topic`. Acting on the
+second uncovered that the premise underneath it — mine, not the owner's — was wrong.
+
+### THE MISTAKE, AND IT IS THE ENTRY THAT MATTERS
+
+`topic` and `category` share six vocabulary words, so ~87% of topic's values have a same-named
+category and the two "contradict" on ~11% of rows. **I read that as redundancy. It is not.**
+`pipeline.py`'s own header says what `topic` is for — *the Encyclopedia of the Omniverse: Wars
+A-Z, Persons of Importance A-Z, Relics A-Z, Powers A-Z, Weapons A-Z, Media A-Z, Events A-Z* — and
+the classifier prompt says *"organised by TOPIC ACROSS THE WHOLE OMNIVERSE, not by which work it
+came from."* It is a **publication** axis. `category` is the **catalogue room**. Two axes, allowed
+to disagree.
+
+Acting on the misreading, I rewrote **7,909 topics** to match their categories — moving 1,459
+entities out of *Powers A-Z* into *Media A-Z*, 1,158 out of *Media* into *Places*, 846 out of
+*Persons* into *Places*. Caught before the follow-on step, which would have **cleared 126,136
+topics and emptied the planned Persons of Importance / Media / Powers / Events / Factions
+volumes**. Reverted: 5,293 of the 5,418 still-identifiable rows restored, field-level so the
+category corrections below survived.
+
+**The test that would have caught it in a minute:** the classifier schema asks the model for
+`category` AND `topic` separately, for the same entry, in the same call. If they were one label
+that would be pointless. Filed as `THREE_AXES_NOT_TWO_CATEGORY_TOPIC_SUBROOM` (OWNER).
+
+### WHAT STANDS
+
+- **3,373 `category` corrections**, made while `topic` could still testify. The bar was two
+  independent witnesses: `topic` and the free-text `type` agreeing *against* category, with
+  ambiguous types abstaining. 1,615 Powers filed under *Vessels & Things*, 507 Persons under
+  *Places*, 469 Persons under *Vessels & Things*. These are catalogue-room fixes and hold on any
+  axis — `type: Character` under *Vessels & Things* is wrong however you read the other fields.
+- **`subroom`, a third axis** — the shelf *within* a room, which is what "vehicles and weapons
+  separate" actually needs. Nine shelves under *Vessels & Things* (Weapons, Vehicles, Armour,
+  Relics, Consumables, Materials, Accessories, Documents, Technology) and Wars under *Events*.
+  Legality is checked **per room**: a `Wars` written under *Vessels & Things* is rejected, not
+  accepted for being in the vocabulary. Required of the classifier with an explicit `"none"`
+  rather than an absent key (BUGS m14), out-of-vocabulary answers kept in `subroom_rejected`,
+  and added to `MERGED_ENTRY_FIELDS` so it survives a record merge.
+- **11,186 entries shelved** from `type`, only where exactly one shelf pattern matched — two
+  matches or none writes `"none"`, a real answer meaning no shelf is claimed. Weapons 7,887 ·
+  Wars 1,706 · Vehicles 862 · Relics 331 · Accessories 144 · Armour 84 · Technology 60 ·
+  Consumables 55 · Documents 37 · Materials 20. The other 271,636 carry an explicit `"none"`.
+- **The graph reads it.** `threads.category_path` prefers `subroom` and **falls back** to topic's
+  FINER values — the fallback is the migration, not tidiness: reading `subroom` alone would have
+  shrunk every finer room the moment it landed, a regression dressed as a correction.
+  **The thread graph now opens TEN finer rooms where it opened three.** *Vessels & Things /
+  Vehicles* is a room of its own for the first time (857), separate from Weapons (18,985).
+  `THREADS.json` rebuilt: T2 edges 1,226,923 → 1,225,831 as cohorts re-split correctly. Previous
+  graph at `state/THREADS.json.pre-subroom-2026-09-01.bak`.
+
+### WHAT WAS NOT DONE, AND WHY
+
+- **`worldseed` was left alone.** It keys on `topic == "Places"`. I had planned to move it to
+  `category` — that was only necessary because I was going to clear `topic`. With `topic` staying,
+  the change would silently widen worldseed's input from 14,840 places to ~40,000 and that is not
+  a maintenance decision.
+- **Shelfmarks stay keyed by `(source, category)`**, per the owner's ruling, until the omniverse
+  ordering makes real per-entity shelfmarks possible. Recorded with its trigger.
+
+### A DEFECT FOUND BY THE REVERT
+
+`pipeline.write_record` **returns True and silently drops the change** for any entry whose `name`
+is not unique in its record: the merge keys on name, so N entries sharing one collapse to a single
+in-memory entry and edits to the others cannot be expressed. Measured — of 125 rows that would not
+restore across repeated passes, **125 of 125 had duplicate names and 0 had unique ones**, with the
+writer answering True every time. Duplicate names are ordinary here. Filed as
+`WRITE_RECORD_CANNOT_ADDRESS_DUPLICATE_NAMED_ENTRIES` (RUN, MAJOR). The 125 rows were left alone
+rather than hand-edited around the sanctioned writer.
+
+### GATES
+
+`drill` **364/364, 0 BREACHED** · `verify_math` **1,064 passed, 0 FAILED** · pyflakes clean on
+every file touched. Backups: `state/topic_rework_backup_2026-09-01` (pre-rewrite),
+`state/labels_rework_backup_2026-09-01b` (pre-category-corrections),
+`state/THREADS.json.pre-subroom-2026-09-01.bak`.
+
+---
+
 ## 2026-09-01 (overnight, run #40) — 79 MUTATION SURVIVORS KILLED; THE WHOLE TREE SWEPT; THE LOCAL RUNG WAS SHUT
 
 ### FOR THE OWNER, AT THE TOP
