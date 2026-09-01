@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 251  ·  last run 2026-09-01 04:24
+round 252  ·  last run 2026-09-01 05:59
 
 ## Structure
 
@@ -12,18 +12,36 @@ round 251  ·  last run 2026-09-01 04:24
 
 ## What the model found in the code
 
-**15 open** (5 high). Newest first.
+**23 open** (7 high). Newest first.
 
-- **corpus_db.py** `code` — [HIGH] code is set to None when the resolver returns 'UNASSIGNED', which is supposed to represent unshelved sources. However, the code is then set to None, which is the same value as when the resolver is unavailable or an exception occurs. This leads to ambiguity in distinguishing between these states.
-  - says: RESOLVED, UNASSIGNED, OR NEVER ASKED -- THREE STATES, AND TWO OF THEM USED TO SHARE A SPELLING. `code = None` was initialised, the resolver was called inside a try/except that only `silence.note()`d, and the next line's comment stated the contract the except clause then broke: NULL means unshelved, and only the resolver may say so. On any exception NULL was written anyway. That matters far more than one row, because `address._load_spine_codes()` raises OUTRIGHT if data/CHARTER_SPINE_CODES.json is missing or unparseable, and `import address` still succeeds -- so `_spine_for` is truthy, the guard above catches nothing, and one unreadable data file makes ALL 216 sources report as unshelved. The `unaddressed` canned query and the Datasette page then present a whole-roll curatorial backlog, which is exactly the misreading this module's header spends fifteen lines on and nearly acted on once already. The only trace was a note. Now the failure gets its own value, is counted into `meta`, and is reported by the rebuild -- so the index can say "I could not ask" instead of answering for the resolver. (order 25266fa8c2dc)
+- **foreman.py** `clear_learned_caps` — [HIGH] it does instead
+  - says: the code says it does
+- **feats.py** `roll` — [HIGH] the return value of roll() is discarded and 0 is returned unconditionally
+  - says: THE COUNTERS REACH THE EXIT CODE
+- **feats.py** `extra` — [HIGH] is now a parameter that is checked for being numeric
+  - says: was a cap on a ranked page list
+- **escalation.py** `clear` — [HIGH] clear() is not called here and its behavior is not used in this code slice
+  - says: clear() raises PermissionError for non-person callers
 - **allsweep.py** `run_verifier` — [HIGH] the code does not call `run_verifier`
   - says: Run one verifier and PUBLISH ITS GRADE, not just its exit code.
 - **allsweep.py** `check_import` — [HIGH] the code does not call `check_import`
   - says: Does it import, and does its CLI parse?
 - **allsweep.py** `sweep_plan.modules()` — [HIGH] the code does not call `sweep_plan.modules()`
   - says: had (order f42c55355431). Both consumers below join `SRC` with the name plus `.py`
-- **drill.py** `a_raised_halt_reads_back_as_halted` — [HIGH] returns True only if the halt is marked as cleared, which contradicts the claim that it reads back as standing
-  - says: a halt that was raised reads back as standing
+- **foreman.py** `lines_changed` — [MEDIUM] uses difflib to measure the actual content difference
+  - says: measuring `abs(len(new) - len(old))` -- a net total
+- **foreman.py** `lines_changed` — [MEDIUM] measures the number of lines changed, not the actual content difference
+  - says: bounding how much of a function a model rewrite may touch
+- **foreman.py** `frag` — [MEDIUM] a value from _LN.OWNER[_LN.READ], which is not the fragment for each managed job
+  - says: the one fragment that identifies each managed job
+- **feats.py** `_AXIS_ACT_RE` — [MEDIUM] compiles regex patterns for axis keywords but uses the same pattern for all axes
+  - says: compiles regex patterns for axis keywords
+- **feats.py** `val` — [MEDIUM] constructed by concatenating the mantissa and exponent, but the exponent is not properly parsed
+  - says: value of the quantity
+- **feats.py** `_QUANTITY` — [MEDIUM] matches regex patterns for physical quantities but does not tag them with the page
+  - says: physical quantities, each tagged with the page it came from
+- **escalation.py** `_read_halt_raw` — [MEDIUM] returns None when there is no halt file, but returns the fail-closed stand-in when the file exists but is unreadable
+  - says: -> the halt record, None when there is no halt file, or the fail-closed stand-in.
 - **dashboard.py** `codewatch.exit_if_stale` — [MEDIUM] Exits when the dashboard code has changed and is held still
   - says: Exits rc=17 on purpose when src/ has changed and held still
 - **dashboard.py** `tick` — [MEDIUM] Does not handle errors properly when fetching state
@@ -38,8 +56,6 @@ round 251  ·  last run 2026-09-01 04:24
   - says: it would have broken verify_math.py:6824-6825
 - **allsweep.py** `allsweep.VERIFIERS` — [MEDIUM] a list of Verifier objects
   - says: A plain three-tuple was the obvious shape
-- **drill.py** `the_verdict_travels_on_the_record` — [MEDIUM] returns True if the halt_landed is True, but the comment suggests it's about whether the halt was successful, which may not be the same
-  - says: the record says whether the halt actually landed
 - **drill.py** `net` — [MEDIUM] net runs a test that is not properly scoped to the function it's testing
   - says: net runs a test
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
