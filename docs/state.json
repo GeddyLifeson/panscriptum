@@ -1,5 +1,5 @@
 {
- "at": "2026-09-01 03:23:36",
+ "at": "2026-09-01 03:33:50",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -128,9 +128,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 29,
+     "left": 33,
      "cap": 200,
-     "frac": 0.145
+     "frac": 0.165
     },
     {
      "name": "rpm",
@@ -139,7 +139,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.145
+   "worst": 0.165
   },
   {
    "bucket": "dashscope:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 2,
+     "left": 16,
      "cap": 1000,
-     "frac": 0.002
+     "frac": 0.016
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.002
+   "worst": 0.016
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -248,9 +248,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 36,
+     "left": 39,
      "cap": 250,
-     "frac": 0.144
+     "frac": 0.156
     },
     {
      "name": "rpm",
@@ -259,7 +259,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.144
+   "worst": 0.156
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -268,9 +268,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 2,
+     "left": 7,
      "cap": 250,
-     "frac": 0.008
+     "frac": 0.028
     },
     {
      "name": "rpm",
@@ -279,7 +279,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.008
+   "worst": 0.028
   },
   {
    "bucket": "github:free",
@@ -308,13 +308,13 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 63,
+     "left": 67,
      "cap": 311,
-     "frac": 0.2026
+     "frac": 0.2154
     },
     {
      "name": "tpd",
-     "left": 499030,
+     "left": 499036,
      "cap": 500000,
      "frac": 0.9981
     },
@@ -331,7 +331,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.2026
+   "worst": 0.2154
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -346,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 142433,
+     "left": 142633,
      "cap": 200000,
-     "frac": 0.7122
+     "frac": 0.7132
     },
     {
      "name": "rpm",
@@ -372,15 +372,15 @@
    "windows": [
     {
      "name": "tpd",
-     "left": 45185,
+     "left": 44305,
      "cap": 100000,
-     "frac": 0.4518
+     "frac": 0.443
     },
     {
      "name": "rpd",
-     "left": 499,
+     "left": 504,
      "cap": 1000,
-     "frac": 0.499
+     "frac": 0.504
     },
     {
      "name": "rpm",
@@ -395,7 +395,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.4518
+   "worst": 0.443
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -404,15 +404,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 7,
      "cap": 833,
-     "frac": 0.0
+     "frac": 0.0084
     },
     {
      "name": "tpd",
-     "left": 74135,
+     "left": 75587,
      "cap": 200000,
-     "frac": 0.3707
+     "frac": 0.3779
     },
     {
      "name": "rpm",
@@ -427,7 +427,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0084
   },
   {
    "bucket": "huggingface:free",
@@ -678,9 +678,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 73,
+     "left": 76,
      "cap": 300,
-     "frac": 0.2433
+     "frac": 0.2533
     },
     {
      "name": "rpm",
@@ -689,7 +689,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.2433
+   "worst": 0.2533
   },
   {
    "bucket": "together:free",
@@ -718,9 +718,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 85,
+     "left": 90,
      "cap": 500,
-     "frac": 0.17
+     "frac": 0.18
     },
     {
      "name": "rpm",
@@ -729,41 +729,26 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.17
+   "worst": 0.18
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 17,
-  "per_hour": 68,
+  "calls": 11,
+  "per_hour": 44,
   "buckets": [
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 7,
-    "ok": 7
-   },
-   {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 2,
-    "ok": 1
-   },
-   {
-    "bucket": "ollama:qwen3:8b",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 1,
-    "ok": 0
+    "calls": 3,
+    "ok": 3
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 3,
+    "ok": 1
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
     "calls": 1,
     "ok": 0
    },
@@ -773,7 +758,17 @@
     "ok": 1
    },
    {
+    "bucket": "ollama:qwen3:8b",
+    "calls": 1,
+    "ok": 0
+   },
+   {
     "bucket": "sambanova:free",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
     "calls": 1,
     "ok": 0
    }
@@ -814,7 +809,7 @@
    "read": 211404,
    "settled": 236153,
    "feats": 112281,
-   "age_h": 3.0
+   "age_h": 3.2
   },
   "phases": [
    {
@@ -853,10 +848,16 @@
   "readfeats": 1945
  },
  "watch": {
-  "open": 19,
-  "high": 3,
+  "open": 32,
+  "high": 5,
   "rounds": 248,
   "findings": [
+   {
+    "module": "drill",
+    "symbol": "brief_drops_none_but_keeps_falsey",
+    "actual": "brief keeps falsey fields and drops only the absent ones",
+    "severity": "medium"
+   },
    {
     "module": "drill",
     "symbol": "ESC",
@@ -868,6 +869,18 @@
     "symbol": "coverage_totals_never_exceed_their_entry_count",
     "actual": "checks that the sum of states does not exceed the entry count",
     "severity": "medium"
+   },
+   {
+    "module": "cascade_bridge",
+    "symbol": "key",
+    "actual": "the key is folded to lowercase, while the text is stored verbatim",
+    "severity": "medium"
+   },
+   {
+    "module": "genre",
+    "symbol": "classify_source",
+    "actual": "Truncates the entry list in stored order, which changes the classification for some sources",
+    "severity": "high"
    },
    {
     "module": "drill",
@@ -882,9 +895,39 @@
     "severity": "medium"
    },
    {
+    "module": "build_terminal",
+    "symbol": "silence.replace_retry",
+    "actual": "does unlink `tmp` when it fails",
+    "severity": "medium"
+   },
+   {
+    "module": "genre",
+    "symbol": "silence",
+    "actual": "undefined variable",
+    "severity": "medium"
+   },
+   {
     "module": "drill",
     "symbol": "filters",
     "actual": "is a boolean flag that is set to True if any condition in a comprehension uses the exclusion list",
+    "severity": "medium"
+   },
+   {
+    "module": "drill",
+    "symbol": "the_verdict_travels_on_the_record",
+    "actual": "returns True if the halt_landed is True, but the comment suggests it's about whether the halt was successful, which may not be the same",
+    "severity": "medium"
+   },
+   {
+    "module": "cascade_bridge",
+    "symbol": "local_transport",
+    "actual": "It is used in a condition to skip entries where the `v` string matches `local_transport` or `client_rejection`.",
+    "severity": "medium"
+   },
+   {
+    "module": "cascade_bridge",
+    "symbol": "key",
+    "actual": "the key is derived from the bucket and text.lower()",
     "severity": "medium"
    },
    {
@@ -913,8 +956,26 @@
    },
    {
     "module": "drill",
+    "symbol": "a_raised_halt_reads_back_as_halted",
+    "actual": "returns True only if the halt is marked as cleared, which contradicts the claim that it reads back as standing",
+    "severity": "high"
+   },
+   {
+    "module": "drill",
     "symbol": "restore_then_mangle",
     "actual": "modifies the file after restoration but does not return the modified file handle",
+    "severity": "medium"
+   },
+   {
+    "module": "drill",
+    "symbol": "net",
+    "actual": "net runs a test that is not properly scoped to the function it's testing",
+    "severity": "medium"
+   },
+   {
+    "module": "build_terminal",
+    "symbol": "descend",
+    "actual": "descend(key) calls layout, draw, resetView, and panel, which may cause the page to rebuild, but the function's name suggests it should only navigate without rebuilding",
     "severity": "medium"
    },
    {
@@ -927,6 +988,12 @@
     "module": "drill",
     "symbol": "_is_process_output",
     "actual": "Determines if an AST node represents an expression that plausibly holds the text a subprocess printed",
+    "severity": "medium"
+   },
+   {
+    "module": "build_terminal",
+    "symbol": "esc",
+    "actual": "esc is a function that escapes HTML characters, but the code does not use it in the context of innerHTML",
     "severity": "medium"
    },
    {
@@ -970,6 +1037,12 @@
     "symbol": "band_edges_ruin",
     "actual": "X.2 \u00a74 band edges",
     "severity": "medium"
+   },
+   {
+    "module": "drill",
+    "symbol": "coverage_totals_never_exceed_their_entry_count",
+    "actual": "Checks if the sum of states (cited, read, no_page, no_host) exceeds the entry count, returning False if it does.",
+    "severity": "medium"
    }
   ],
   "broken": [],
@@ -992,7 +1065,7 @@
    ],
    [
     "silent:cascade_bridge.py:deadline:None",
-    192
+    194
    ],
    [
     "silent:standards.py:token-flow:TimeoutError",
@@ -1011,20 +1084,20 @@
     34
    ],
    [
+    "silent:custodes.py:abstained-comparability:None",
+    27
+   ],
+   [
+    "silent:custodes.py:abstained-currency:None",
+    27
+   ],
+   [
     "silent:mutate.py:owner-claim-expired:None",
     26
    ],
    [
     "silent:mutate.py:reap-skipped-live-owner:None",
     26
-   ],
-   [
-    "silent:custodes.py:abstained-comparability:None",
-    25
-   ],
-   [
-    "silent:custodes.py:abstained-currency:None",
-    25
    ],
    [
     "escalation:MANAGER:SUBSYSTEM_STOPPED:__drill_litter_probe__ stopped: drill probe: a probe must not litter the queue",
@@ -1079,6 +1152,10 @@
     15
    ],
    [
+    "silent:cascade_bridge.py:extract_json-brace:JSONDecodeError",
+    9
+   ],
+   [
     "silent:compress_store.py:address-mismatch:None",
     9
    ],
@@ -1125,10 +1202,6 @@
    [
     "silent:wiki_source.py:non-fandom-known-host:None",
     8
-   ],
-   [
-    "silent:cascade_bridge.py:extract_json-brace:JSONDecodeError",
-    7
    ],
    [
     "silent:cascade_bridge.py:extract_json-fence:JSONDecodeError",
@@ -1179,6 +1252,10 @@
     1
    ],
    [
+    "escalation:JANITOR:CODEWATCH_RESTART:overwatch exited to pick up changed source (src/ changed 615e90a47736a684 -> 8f6250c7681a28ce and held for 10199s since src/ was last written)",
+    1
+   ],
+   [
     "escalation:JANITOR:CODEWATCH_RESTART:overwatch exited to pick up changed source (src/ changed e1a07fedade02d24 -> 615e90a47736a684 and held for 17593s since src/ was last written)",
     1
    ],
@@ -1219,12 +1296,12 @@
     1
    ]
   ],
-  "swallowed_total": 3585
+  "swallowed_total": 3594
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1195,
+   "n": 1192,
    "p50": 2.0,
    "p95": 75.6,
    "ok_pct": 34,
@@ -1236,7 +1313,7 @@
    "p50": 4.0,
    "p95": 626.1,
    "ok_pct": null,
-   "tps": 24.3
+   "tps": 24.7
   },
   {
    "tag": "assay-split",
@@ -1248,11 +1325,11 @@
   },
   {
    "tag": "entrypass",
-   "n": 42,
+   "n": 43,
    "p50": 199.2,
    "p95": 1052.9,
    "ok_pct": null,
-   "tps": 13.6
+   "tps": 13.9
   },
   {
    "tag": "ask",
@@ -1290,12 +1367,12 @@
    "breached": [],
    "liveness": 48,
    "liveness_ceiling": 52,
-   "age_min": 169.0
+   "age_min": 179.3
   },
   "escalation_recent": {
-   "SUPERVISOR": 90,
-   "MANAGER": 476,
-   "JANITOR": 256,
+   "MANAGER": 472,
+   "SUPERVISOR": 88,
+   "JANITOR": 254,
    "OWNER": 11
   },
   "step4_gate": {
@@ -1323,7 +1400,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 68,
+   "observed": 44,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1341,7 +1418,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "9% dry",
+   "observed": "6% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1359,7 +1436,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "UNMEASURED -- 17 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "observed": "UNMEASURED -- 11 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
    "floor": "50%",
    "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
    "severity": "medium"
@@ -1422,7 +1499,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "3.0h",
+   "observed": "3.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1458,7 +1535,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 3,
+   "observed": 5,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1485,7 +1562,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "1,422",
+   "observed": "1,431",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1548,7 +1625,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 4 of 6 benchmarks done, started 0.8h ago -- pending: Goku, Jace Beleren",
+   "observed": "0/5 consistent, 1 unscored, 0h old",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1584,7 +1661,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "3.0h",
+   "observed": "3.2h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1611,7 +1688,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "calibrate (21 min, 317769 bytes), pipeline_auto (41 min, 489753 bytes), roll_auto (41 min, 1705180 bytes)",
+   "observed": "pipeline_auto (51 min, 489753 bytes), roll_auto (51 min, 1705180 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1620,7 +1697,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:openai/gpt-oss-120b: transport: curl exited 3221225794 (x3, 13.6h old); deepinfra:free: All 1 candidates failed: Qwen3 8B (local) (x8, 15.6h old); gemini:models/gemini-2.5-flash: All 1 candidates failed: Gemini 3.6 Flash -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash` is at fault. (x1, 15.6h old); novita:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `novita:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `novita:free` is at fault. (x8, 15.6h old); github:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x7, 16.2h old); anthropic:paid: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x15, 16.4h old); anthropic:paid: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x5, 16.6h old); moonshot:free: All 1 candidates failed: Llama 3.1 8B (Groq) -- NOTE: the pinned bucket `moonshot:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `moonshot:free` is at fault. (x2, 16.6h old); dashscope:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `dashscope:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `dashscope:free` is at fault. (x5, 17.1h old); nebius:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `nebius:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `nebius:free` is at fault. (x14, 17.3h old); mistral:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) (x2, 17.8h old); cerebras:free: All 1 candidates failed: Gemini 3.1 Flash-Lite (x3, 19.7h old); gemini:models/gemini-2.5-flash: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash` is at fault. (x3, 20.7h old)",
+   "observed": "groq:openai/gpt-oss-120b: transport: curl exited 3221225794 (x3, 13.8h old); deepinfra:free: All 1 candidates failed: Qwen3 8B (local) (x8, 15.7h old); gemini:models/gemini-2.5-flash: All 1 candidates failed: Gemini 3.6 Flash -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash` is at fault. (x1, 15.7h old); novita:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `novita:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `novita:free` is at fault. (x8, 15.8h old); github:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x7, 16.3h old); anthropic:paid: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x15, 16.6h old); anthropic:paid: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x5, 16.7h old); moonshot:free: All 1 candidates failed: Llama 3.1 8B (Groq) -- NOTE: the pinned bucket `moonshot:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `moonshot:free` is at fault. (x2, 16.8h old); dashscope:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `dashscope:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `dashscope:free` is at fault. (x5, 17.3h old); nebius:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `nebius:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `nebius:free` is at fault. (x14, 17.5h old); mistral:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) (x2, 18.0h old); cerebras:free: All 1 candidates failed: Gemini 3.1 Flash-Lite (x3, 19.9h old); gemini:models/gemini-2.5-flash: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash` is at fault. (x3, 20.8h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1629,7 +1706,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 172.66.2.166",
+   "observed": "reachable over IPv4 at 162.159.142.170",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1775,5 +1852,5 @@
    "stalled": false
   }
  ],
- "generated": "2026-09-01T03:23:44"
+ "generated": "2026-09-01T03:33:58"
 }

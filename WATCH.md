@@ -1,19 +1,21 @@
 # OVERWATCH
 
-round 247  ·  last run 2026-08-31 13:49
+round 248  ·  last run 2026-08-31 21:33
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 286,381 inspected
+- files that will not parse: **0** of 286,381 inspected (deep scan as of round 247)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**25 open** (7 high). Newest first.
+**32 open** (5 high). Newest first.
 
+- **drill.py** `a_raised_halt_reads_back_as_halted` — [HIGH] returns True only if the halt is marked as cleared, which contradicts the claim that it reads back as standing
+  - says: a halt that was raised reads back as standing
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, which changes the classification for some sources
   - says: Classifies a source based on its entries and returns genre, score, confidence, etc.
 - **drill.py** `excluded` — [HIGH] fetches the exclusions from a variable that is not used elsewhere in the code
@@ -22,12 +24,30 @@ round 247  ·  last run 2026-08-31 13:49
   - says: ESC.SUPERVISOR is accessed as if ESC is a module or object with a SUPERVISOR attribute
 - **drill.py** `RESULTS` — [HIGH] RESULTS is never defined or imported in this module, so referencing it raises a NameError
   - says: net() appends a dict to the global RESULTS list to record the attack outcome
-- **allsweep.py** `bad` — [HIGH] sum of various counts including reconcile findings which are not all faults
-  - says: count of bad subsystems
-- **cosmology_graph.py** `components` — [HIGH] clusters at weight >= threshold, but the threshold is not applied correctly in the function
-  - says: CANDIDATE CLUSTERS at weight >= {args.threshold} : {len(comps)}
-- **withdraw_chapters.py** `shutil.move` — [HIGH] THE RECORD IS NOT KEPT (entry_left is not updated).
-  - says: THE RECORD IS KEPT AND MADE TRUE.
+- **drill.py** `the_verdict_travels_on_the_record` — [MEDIUM] returns True if the halt_landed is True, but the comment suggests it's about whether the halt was successful, which may not be the same
+  - says: the record says whether the halt actually landed
+- **drill.py** `net` — [MEDIUM] net runs a test that is not properly scoped to the function it's testing
+  - says: net runs a test
+- **drill.py** `brief_drops_none_but_keeps_falsey` — [MEDIUM] brief keeps falsey fields and drops only the absent ones
+  - says: brief keeps present fields and drops only the absent ones
+- **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] Checks if the sum of states (cited, read, no_page, no_host) exceeds the entry count, returning False if it does.
+  - says: No source's states may sum PAST its own entry count.
+- **derivation.py** `band_edges_ruin` — [MEDIUM] X.2 §4 band edges
+  - says: X.2 §4 band edges
+- **cascade_bridge.py** `key` — [MEDIUM] the key is folded to lowercase, while the text is stored verbatim
+  - says: folding here cannot hide anything: `text` -- the thing a person reads and classifies -- is stored verbatim
+- **cascade_bridge.py** `key` — [MEDIUM] the key is derived from the bucket and text.lower()
+  - says: the key is derived from the bucket and text
+- **cascade_bridge.py** `client_rejection` — [MEDIUM] It is used in a condition to skip entries where the `v` string matches `local_transport` or `client_rejection`.
+  - says: A FAULT ON THIS MACHINE IS NOT EVIDENCE ABOUT A PROVIDER'S ACCOUNT, and now that the provider's raw text reaches this line, it can arrive carrying one.
+- **cascade_bridge.py** `local_transport` — [MEDIUM] It is used in a condition to skip entries where the `v` string matches `local_transport` or `client_rejection`.
+  - says: A FAULT ON THIS MACHINE IS NOT EVIDENCE ABOUT A PROVIDER'S ACCOUNT, and now that the provider's raw text reaches this line, it can arrive carrying one.
+- **build_terminal.py** `silence.replace_retry` — [MEDIUM] does unlink `tmp` when it fails
+  - says: does NOT unlink `tmp` when it fails
+- **build_terminal.py** `descend` — [MEDIUM] descend(key) calls layout, draw, resetView, and panel, which may cause the page to rebuild, but the function's name suggests it should only navigate without rebuilding
+  - says: descend(key) is supposed to navigate to a key
+- **build_terminal.py** `esc` — [MEDIUM] esc is a function that escapes HTML characters, but the code does not use it in the context of innerHTML
+  - says: Every catalogue-derived string goes through this before it reaches innerHTML
 - **genre.py** `HERE` — [MEDIUM] undefined variable
   - says: used to construct file path
 - **genre.py** `silence` — [MEDIUM] undefined variable
@@ -56,12 +76,6 @@ round 247  ·  last run 2026-08-31 13:49
   - says: One string that says everything — including, if the alphabet is wrong, something else.
 - **drill.py** `PG.step4_gate_open` — [MEDIUM] the redirect never reached the predicate
   - says: the redirect never reached the predicate
-- **thread_integrity.py** `out["IMPLIED-UNRECORDED"]` — [MEDIUM] used in two places, once for partially dangling pairs and once for pairs where neither end records the thread, leading to potential double-counting
-  - says: counts pairs where neither end records the thread
-- **thread_integrity.py** `out["PARTIALLY-DANGLING"]` — [MEDIUM] increments the count for partially dangling pairs, but the comment indicates that this should be for pairs that have drifted
-  - says: counts the number of pairs that are partially dangling
-- **withdraw_chapters.py** `bad` — [MEDIUM] The variable 'bad' is computed based on conditions that may not align with the actual exit code logic, potentially leading to incorrect exit codes.
-  - says: EVERY REFUSAL ABOVE WAS PRINTED AND THEN DISCARDED. `main()` had no `return` on any path and the entry point was a bare `main()`...
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 
