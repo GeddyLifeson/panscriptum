@@ -1,18 +1,19 @@
 # OVERWATCH
 
-round 252  ·  last run 2026-09-01 05:59
+round 253  ·  last run 2026-09-01 09:49
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 286,381 inspected (deep scan as of round 247)
+- files that will not parse: **1** of 287,541 inspected  — state\model_metrics.jsonl — malformed JSON on line 102599: Expecting value: line 1 column 1 (char 0)
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
+- NOT RUNNING: **0** pipeline.py
 
 ## What the model found in the code
 
-**23 open** (7 high). Newest first.
+**21 open** (4 high). Newest first.
 
 - **foreman.py** `clear_learned_caps` — [HIGH] it does instead
   - says: the code says it does
@@ -22,12 +23,10 @@ round 252  ·  last run 2026-09-01 05:59
   - says: was a cap on a ranked page list
 - **escalation.py** `clear` — [HIGH] clear() is not called here and its behavior is not used in this code slice
   - says: clear() raises PermissionError for non-person callers
-- **allsweep.py** `run_verifier` — [HIGH] the code does not call `run_verifier`
-  - says: Run one verifier and PUBLISH ITS GRADE, not just its exit code.
-- **allsweep.py** `check_import` — [HIGH] the code does not call `check_import`
-  - says: Does it import, and does its CLI parse?
-- **allsweep.py** `sweep_plan.modules()` — [HIGH] the code does not call `sweep_plan.modules()`
-  - says: had (order f42c55355431). Both consumers below join `SRC` with the name plus `.py`
+- **health.py** `silence.write_json` — [MEDIUM] silence.write_json returns False when denied, but the code does not handle this case properly, leading to a potential failure to record problems
+  - says: NEVER FATAL. A preflight that dies because it could not write its own report is worse than one that cannot report
+- **generate.py** `generate_job` — [MEDIUM] generate_job is called but the code does not handle any exceptions or errors that may occur during generation
+  - says: generate_job is called to generate the job's text
 - **foreman.py** `lines_changed` — [MEDIUM] uses difflib to measure the actual content difference
   - says: measuring `abs(len(new) - len(old))` -- a net total
 - **foreman.py** `lines_changed` — [MEDIUM] measures the number of lines changed, not the actual content difference
@@ -52,8 +51,6 @@ round 252  ·  last run 2026-09-01 05:59
   - says: Vector on the 0-10 decimal scale, derived from the Ladder's own height. No new quantity.
 - **allsweep.py** `bad` — [MEDIUM] counts some subsystems but excludes reconcile findings and some estate findings
   - says: count the number of bad subsystems
-- **allsweep.py** `allsweep.Verifier.__iter__` — [MEDIUM] returns an iterator over (label, argv)
-  - says: it would have broken verify_math.py:6824-6825
 - **allsweep.py** `allsweep.VERIFIERS` — [MEDIUM] a list of Verifier objects
   - says: A plain three-tuple was the obvious shape
 - **drill.py** `net` — [MEDIUM] net runs a test that is not properly scoped to the function it's testing
