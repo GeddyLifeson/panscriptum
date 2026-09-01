@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 249  ·  last run 2026-09-01 03:24
+round 250  ·  last run 2026-09-01 03:57
 
 ## Structure
 
@@ -9,11 +9,10 @@ round 249  ·  last run 2026-09-01 03:24
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
-- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**19 open** (4 high). Newest first.
+**16 open** (4 high). Newest first.
 
 - **allsweep.py** `run_verifier` — [HIGH] the code does not call `run_verifier`
   - says: Run one verifier and PUBLISH ITS GRADE, not just its exit code.
@@ -23,6 +22,8 @@ round 249  ·  last run 2026-09-01 03:24
   - says: had (order f42c55355431). Both consumers below join `SRC` with the name plus `.py`
 - **drill.py** `a_raised_halt_reads_back_as_halted` — [HIGH] returns True only if the halt is marked as cleared, which contradicts the claim that it reads back as standing
   - says: a halt that was raised reads back as standing
+- **chain.py** `side_epoch` — [MEDIUM] returns (epoch, its own sentences' disagreement, whether anything probed) for one side, but the 'epoch' is the minimum of the unique epochs, which may not be the one that the side's sentences actually date to
+  - says: -> (epoch, its own sentences' disagreement, whether anything probed) for one side.
 - **anchors.py** `vector_score` — [MEDIUM] Returns a value derived from the LADDER_RUNGS constant, which is 17, but the comment says it's derived from the Ladder's own height. The function is named 'vector_score' but the comment says it's derived from the Ladder's own height, which is not the same as the LADDER_RUNGS constant.
   - says: Vector on the 0-10 decimal scale, derived from the Ladder's own height. No new quantity.
 - **allsweep.py** `bad` — [MEDIUM] counts some subsystems but excludes reconcile findings and some estate findings
@@ -43,14 +44,6 @@ round 249  ·  last run 2026-09-01 03:24
   - says: No source's states may sum PAST its own entry count.
 - **derivation.py** `band_edges_ruin` — [MEDIUM] X.2 §4 band edges
   - says: X.2 §4 band edges
-- **cascade_bridge.py** `key` — [MEDIUM] the key is folded to lowercase, while the text is stored verbatim
-  - says: folding here cannot hide anything: `text` -- the thing a person reads and classifies -- is stored verbatim
-- **cascade_bridge.py** `key` — [MEDIUM] the key is derived from the bucket and text.lower()
-  - says: the key is derived from the bucket and text
-- **cascade_bridge.py** `client_rejection` — [MEDIUM] It is used in a condition to skip entries where the `v` string matches `local_transport` or `client_rejection`.
-  - says: A FAULT ON THIS MACHINE IS NOT EVIDENCE ABOUT A PROVIDER'S ACCOUNT, and now that the provider's raw text reaches this line, it can arrive carrying one.
-- **cascade_bridge.py** `local_transport` — [MEDIUM] It is used in a condition to skip entries where the `v` string matches `local_transport` or `client_rejection`.
-  - says: A FAULT ON THIS MACHINE IS NOT EVIDENCE ABOUT A PROVIDER'S ACCOUNT, and now that the provider's raw text reaches this line, it can arrive carrying one.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 
