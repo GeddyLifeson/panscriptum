@@ -1,5 +1,5 @@
 {
- "at": "2026-09-01 14:55:53",
+ "at": "2026-09-01 15:06:07",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 163,
+     "left": 169,
      "cap": 1000,
-     "frac": 0.163
+     "frac": 0.169
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.163
+   "worst": 0.169
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -268,9 +268,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 2,
      "cap": 250,
-     "frac": 0.0
+     "frac": 0.008
     },
     {
      "name": "rpm",
@@ -279,7 +279,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.008
   },
   {
    "bucket": "github:free",
@@ -308,9 +308,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 2,
      "cap": 236,
-     "frac": 0.0
+     "frac": 0.0085
     },
     {
      "name": "tpd",
@@ -331,7 +331,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0085
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -340,15 +340,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 10,
      "cap": 342,
-     "frac": 0.0
+     "frac": 0.0292
     },
     {
      "name": "tpd",
-     "left": 141112,
+     "left": 142557,
      "cap": 200000,
-     "frac": 0.7056
+     "frac": 0.7128
     },
     {
      "name": "rpm",
@@ -363,7 +363,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0292
   },
   {
    "bucket": "groq:openai/gpt-oss-20b",
@@ -372,15 +372,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 1,
      "cap": 267,
-     "frac": 0.0
+     "frac": 0.0037
     },
     {
      "name": "tpd",
-     "left": 48728,
+     "left": 48799,
      "cap": 100000,
-     "frac": 0.4873
+     "frac": 0.488
     },
     {
      "name": "rpm",
@@ -395,7 +395,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0037
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -404,15 +404,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 2,
      "cap": 247,
-     "frac": 0.0
+     "frac": 0.0081
     },
     {
      "name": "tpd",
-     "left": 85688,
+     "left": 86143,
      "cap": 200000,
-     "frac": 0.4284
+     "frac": 0.4307
     },
     {
      "name": "rpm",
@@ -427,7 +427,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0081
   },
   {
    "bucket": "huggingface:free",
@@ -678,9 +678,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 6,
      "cap": 300,
-     "frac": 0.0
+     "frac": 0.02
     },
     {
      "name": "rpm",
@@ -689,7 +689,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.02
   },
   {
    "bucket": "together:free",
@@ -718,9 +718,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 91,
+     "left": 94,
      "cap": 500,
-     "frac": 0.182
+     "frac": 0.188
     },
     {
      "name": "rpm",
@@ -729,19 +729,14 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.182
+   "worst": 0.188
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 9,
-  "per_hour": 36,
+  "calls": 7,
+  "per_hour": 28,
   "buckets": [
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 3,
-    "ok": 0
-   },
    {
     "bucket": "groq:openai/gpt-oss-120b",
     "calls": 2,
@@ -755,6 +750,11 @@
    {
     "bucket": "zai:free",
     "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 1,
     "ok": 0
    }
   ]
@@ -794,7 +794,7 @@
    "read": 211596,
    "settled": 236411,
    "feats": 114425,
-   "age_h": 3.9
+   "age_h": 4.1
   },
   "phases": [
    {
@@ -833,8 +833,8 @@
   "readfeats": 2016
  },
  "watch": {
-  "open": 16,
-  "high": 7,
+  "open": 19,
+  "high": 8,
   "rounds": 257,
   "findings": [
    {
@@ -868,6 +868,12 @@
     "severity": "medium"
    },
    {
+    "module": "magnitude",
+    "symbol": "anchor",
+    "actual": "assigned based on got.get(\"anchor\") and ceiling[1]",
+    "severity": "medium"
+   },
+   {
     "module": "overnight",
     "symbol": "preflight",
     "actual": "Returns (n_failing_checks, blocking) even when preflight fails to run, which can lead to incorrect blocking decisions",
@@ -880,10 +886,22 @@
     "severity": "medium"
    },
    {
+    "module": "standards",
+    "symbol": "fab",
+    "actual": "fabrication rate only if the reader has progress line and the line can be parsed",
+    "severity": "medium"
+   },
+   {
     "module": "drill",
     "symbol": "net",
     "actual": "net runs a test that is not properly scoped to the function it's testing",
     "severity": "medium"
+   },
+   {
+    "module": "standards",
+    "symbol": "ollama_token_flow",
+    "actual": "Hardcodes a context size of 512, which may not match the actual configuration, leading to incorrect probe results.",
+    "severity": "high"
    },
    {
     "module": "pipeline",
@@ -1122,32 +1140,32 @@
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1053,
-   "p50": 4.9,
-   "p95": 75.9,
+   "n": 1043,
+   "p50": 4.8,
+   "p95": 75.8,
    "ok_pct": 48,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 255,
+   "n": 272,
    "p50": 4.0,
-   "p95": 903.9,
+   "p95": 903.8,
    "ok_pct": null,
-   "tps": 29.4
+   "tps": 29.6
   },
   {
    "tag": "ask",
-   "n": 77,
-   "p50": 133.3,
+   "n": 76,
+   "p50": 143.7,
    "p95": 990.9,
    "ok_pct": null,
    "tps": 27.8
   },
   {
    "tag": "entrypass",
-   "n": 67,
-   "p50": 439.9,
+   "n": 66,
+   "p50": 446.9,
    "p95": 1035.5,
    "ok_pct": null,
    "tps": 24.4
@@ -1180,7 +1198,7 @@
    "breached": [],
    "liveness": 48,
    "liveness_ceiling": 52,
-   "age_min": 203.8
+   "age_min": 214.0
   },
   "escalation_recent": {
    "SUPERVISOR": 36,
@@ -1217,7 +1235,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 36,
+   "observed": 28,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1235,7 +1253,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "28% dry",
+   "observed": "9% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1253,7 +1271,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "UNMEASURED -- 9 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "observed": "UNMEASURED -- 7 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
    "floor": "50%",
    "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
    "severity": "medium"
@@ -1262,7 +1280,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": true,
-   "observed": "cloud, 16 of 16 permits (4 answering)",
+   "observed": "cloud, 16 of 16 permits (4 answering (proof is 1.1h old))",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1316,7 +1334,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "3.9h",
+   "observed": "4.1h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1352,7 +1370,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 7,
+   "observed": 8,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1442,7 +1460,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 3 of 6 benchmarks done, started 4.1h ago -- pending: Naruto Uzumaki, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 3 of 6 benchmarks done, started 4.2h ago -- pending: Naruto Uzumaki, Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1478,7 +1496,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": false,
-   "observed": "14.5h",
+   "observed": "14.7h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1505,7 +1523,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "calibrate (21 min, 323517 bytes), pipeline_auto (52 min, 518217 bytes), roll_auto (31 min, 1816833 bytes)",
+   "observed": "calibrate (31 min, 323517 bytes), pipeline_auto (62 min, 518217 bytes), roll_auto (41 min, 1816833 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1523,7 +1541,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 172.66.2.166",
+   "observed": "reachable over IPv4 at 162.159.142.170",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1669,5 +1687,5 @@
    "stalled": true
   }
  ],
- "generated": "2026-09-01T14:56:02"
+ "generated": "2026-09-01T15:06:14"
 }
