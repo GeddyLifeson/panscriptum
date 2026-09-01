@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 254  ·  last run 2026-09-01 10:38
+round 255  ·  last run 2026-09-01 11:08
 
 ## Structure
 
@@ -12,8 +12,18 @@ round 254  ·  last run 2026-09-01 10:38
 
 ## What the model found in the code
 
-**19 open** (5 high). Newest first.
+**23 open** (9 high). Newest first.
 
+- **pipeline.py** `phases` — [HIGH] uses args.phase which is validated to be in range, but the code later uses PHASES[ph-1] which could be out of range if ph is 0 or len(PHASES)+1
+  - says: derive the range of phases to run based on --phase and state
+- **pipeline.py** `gate_done` — [HIGH] The code is using `gate_done` to mark phase 8 as done based on the `landed` list, which may be empty or contain False, leading to incorrect phase completion in cases where all sources refused to build.
+  - says: A THIRD ARM WAS ADDED HERE ON 2026-09-01 AND REVERTED THE SAME SHIFT. Recorded so the next reader does not re-derive it a third time.
+- **pipeline.py** `phase_chain` — [HIGH] Phase 4 -- the Chain of Defeats. See chain.py for the reasoning. This existed as a standalone module and NOT as a phase, so the runner reached phase 4, found no `phase_chain`, and stopped cleanly every single time -- reporting "not implemented yet" about a module that was finished and working. Phase 4 only ever ran when somebody invoked it by hand, and phases 5 through 8 were never even attempted, because the runner never got past the gap. A finished stage that nothing dispatches to is indistinguishable from a stage that was never written, which is this project's defect wearing yet another hat.
+  - says: Phase 4 -- the Chain of Defeats. See chain.py for the reasoning.
+- **pipeline.py** `_PATIENT` — [HIGH] Matches text that describes something done TO the subject (PATIENT), which should be rejected, but the code returns an empty string, effectively discarding the failure the comment says is important
+  - says: The entity must be the AGENT. 'must be located, activated, and destroyed to save a planet' describes something done TO the subject and was licensing an M3.
+- **pipeline.py** `write_record_catalogue` — [HIGH] The function is supposed to write the catalogue's side of the two-writer contract, but the code inside does not correctly handle the merge logic as described in the docstring. It does not reconcile the cast and write `rec` whole, leading to potential data loss or incorrect merging.
+  - says: The CATALOGUE's side of the two-writer contract; write_record below is the pipeline's.
 - **magnitude.py** `band_hits` — [HIGH] counts BAND MATCHES ONLY (got_band == band), but the code returns it as the verdict which requires all scored rows to be consistent
   - says: counts BAND MATCHES ONLY (got_band == band)
 - **foreman.py** `clear_learned_caps` — [HIGH] it does instead
@@ -22,8 +32,8 @@ round 254  ·  last run 2026-09-01 10:38
   - says: THE COUNTERS REACH THE EXIT CODE
 - **feats.py** `extra` — [HIGH] is now a parameter that is checked for being numeric
   - says: was a cap on a ranked page list
-- **escalation.py** `clear` — [HIGH] clear() is not called here and its behavior is not used in this code slice
-  - says: clear() raises PermissionError for non-person callers
+- **overnight.py** `preflight` — [MEDIUM] Returns (n_failing_checks, blocking) even when preflight fails to run, which can lead to incorrect blocking decisions
+  - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
 - **magnitude.py** `anchor` — [MEDIUM] assigned based on got.get("anchor") and ceiling[1]
   - says: a fiction cannot be out-scaled by its own inhabitant
 - **magnitude.py** `quantity_scores` — [MEDIUM] Axis scores computed from quantities, but the function does not properly handle the case where the entity is not the one performing the act, and the function does not properly handle the case where the quantity is not convertible to the required units.
@@ -44,8 +54,6 @@ round 254  ·  last run 2026-09-01 10:38
   - says: value of the quantity
 - **feats.py** `_QUANTITY` — [MEDIUM] matches regex patterns for physical quantities but does not tag them with the page
   - says: physical quantities, each tagged with the page it came from
-- **escalation.py** `_read_halt_raw` — [MEDIUM] returns None when there is no halt file, but returns the fail-closed stand-in when the file exists but is unreadable
-  - says: -> the halt record, None when there is no halt file, or the fail-closed stand-in.
 - **allsweep.py** `allsweep.VERIFIERS` — [MEDIUM] a list of Verifier objects
   - says: A plain three-tuple was the obvious shape
 - **drill.py** `net` — [MEDIUM] net runs a test that is not properly scoped to the function it's testing
