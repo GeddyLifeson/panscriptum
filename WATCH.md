@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 248  ·  last run 2026-08-31 21:33
+round 249  ·  last run 2026-09-01 03:24
 
 ## Structure
 
@@ -9,21 +9,30 @@ round 248  ·  last run 2026-08-31 21:33
 - catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
+- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**32 open** (5 high). Newest first.
+**19 open** (4 high). Newest first.
 
+- **allsweep.py** `run_verifier` — [HIGH] the code does not call `run_verifier`
+  - says: Run one verifier and PUBLISH ITS GRADE, not just its exit code.
+- **allsweep.py** `check_import` — [HIGH] the code does not call `check_import`
+  - says: Does it import, and does its CLI parse?
+- **allsweep.py** `sweep_plan.modules()` — [HIGH] the code does not call `sweep_plan.modules()`
+  - says: had (order f42c55355431). Both consumers below join `SRC` with the name plus `.py`
 - **drill.py** `a_raised_halt_reads_back_as_halted` — [HIGH] returns True only if the halt is marked as cleared, which contradicts the claim that it reads back as standing
   - says: a halt that was raised reads back as standing
-- **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order, which changes the classification for some sources
-  - says: Classifies a source based on its entries and returns genre, score, confidence, etc.
-- **drill.py** `excluded` — [HIGH] fetches the exclusions from a variable that is not used elsewhere in the code
-  - says: fetches the exclusions on the path the program actually runs
-- **drill.py** `ESC` — [HIGH] ESC is not defined anywhere in this slice or its visible imports; referencing it raises NameError
-  - says: ESC.SUPERVISOR is accessed as if ESC is a module or object with a SUPERVISOR attribute
-- **drill.py** `RESULTS` — [HIGH] RESULTS is never defined or imported in this module, so referencing it raises a NameError
-  - says: net() appends a dict to the global RESULTS list to record the attack outcome
+- **anchors.py** `vector_score` — [MEDIUM] Returns a value derived from the LADDER_RUNGS constant, which is 17, but the comment says it's derived from the Ladder's own height. The function is named 'vector_score' but the comment says it's derived from the Ladder's own height, which is not the same as the LADDER_RUNGS constant.
+  - says: Vector on the 0-10 decimal scale, derived from the Ladder's own height. No new quantity.
+- **allsweep.py** `bad` — [MEDIUM] counts some subsystems but excludes reconcile findings and some estate findings
+  - says: count the number of bad subsystems
+- **allsweep.py** `allsweep.Verifier.__iter__` — [MEDIUM] returns an iterator over (label, argv)
+  - says: it would have broken verify_math.py:6824-6825
+- **allsweep.py** `allsweep.VERIFIERS` — [MEDIUM] a list of Verifier objects
+  - says: A plain three-tuple was the obvious shape
+- **address_space.py** `HASH_BYTES` — [MEDIUM] Hardcoded to 16 bytes, but the calculation attempts to derive it from _HASH_SPAN
+  - says: Derived from the offsets, floored at the historical 16 bytes so today's addresses are unchanged.
 - **drill.py** `the_verdict_travels_on_the_record` — [MEDIUM] returns True if the halt_landed is True, but the comment suggests it's about whether the halt was successful, which may not be the same
   - says: the record says whether the halt actually landed
 - **drill.py** `net` — [MEDIUM] net runs a test that is not properly scoped to the function it's testing
@@ -42,40 +51,6 @@ round 248  ·  last run 2026-08-31 21:33
   - says: A FAULT ON THIS MACHINE IS NOT EVIDENCE ABOUT A PROVIDER'S ACCOUNT, and now that the provider's raw text reaches this line, it can arrive carrying one.
 - **cascade_bridge.py** `local_transport` — [MEDIUM] It is used in a condition to skip entries where the `v` string matches `local_transport` or `client_rejection`.
   - says: A FAULT ON THIS MACHINE IS NOT EVIDENCE ABOUT A PROVIDER'S ACCOUNT, and now that the provider's raw text reaches this line, it can arrive carrying one.
-- **build_terminal.py** `silence.replace_retry` — [MEDIUM] does unlink `tmp` when it fails
-  - says: does NOT unlink `tmp` when it fails
-- **build_terminal.py** `descend` — [MEDIUM] descend(key) calls layout, draw, resetView, and panel, which may cause the page to rebuild, but the function's name suggests it should only navigate without rebuilding
-  - says: descend(key) is supposed to navigate to a key
-- **build_terminal.py** `esc` — [MEDIUM] esc is a function that escapes HTML characters, but the code does not use it in the context of innerHTML
-  - says: Every catalogue-derived string goes through this before it reaches innerHTML
-- **genre.py** `HERE` — [MEDIUM] undefined variable
-  - says: used to construct file path
-- **genre.py** `silence` — [MEDIUM] undefined variable
-  - says: used to write JSON atomically
-- **drill.py** `filters` — [MEDIUM] is a boolean flag that is set to True if any condition in a comprehension uses the exclusion list
-  - says: checks if the exclusion list is used in a comprehension filter
-- **drill.py** `reap_orphans` — [MEDIUM] deletes directories based on age and ownership claims
-  - says: reaping a directory to demonstrate the net now requires that directory to have a dead or absent owner
-- **drill.py** `_a_scan_can_tell_code_from_prose_about_code` — [MEDIUM] The other half of the same family, and it cost a halt this morning
-  - says: The other half of the same family, and it cost a halt this morning
-- **drill.py** `_counts_decided_by_substring` — [MEDIUM] -> [site] where a gate reads a NUMBER out, but the logic is flawed and may not correctly identify all cases
-  - says: -> [site] where a gate reads a NUMBER out of process output with `in`
-- **drill.py** `_is_process_output` — [MEDIUM] Determines if an AST node represents an expression that plausibly holds the text a subprocess printed
-  - says: Determines if an AST node represents an expression that plausibly holds the text a subprocess printed
-- **drill.py** `_calls_within` — [MEDIUM] Checks if a function `main` in a module calls a specific function `codewatch.claim_singleton`
-  - says: Checks if a function `main` in a module calls a specific function `codewatch.claim_singleton`
-- **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] checks that the sum of states does not exceed the entry count
-  - says: No source's states may sum PAST its own entry count. One direction, and only one.
-- **drill.py** `restore_then_mangle` — [MEDIUM] modifies the file after restoration but does not return the modified file handle
-  - says: mangles the file after restoration
-- **drill.py** `SNAP.verify` — [MEDIUM] returns a tuple where the first element is a boolean indicating success
-  - says: must return False with a reason that says the bytes differ
-- **drill.py** `snapshot` — [MEDIUM] A function that creates temporary directories and verifies snapshots, but does not actually prove directories file by file as described
-  - says: A snapshotted DIRECTORY must be proved file by file, not by the folder still existing.
-- **drill.py** `drill_profile` — [MEDIUM] A function that runs tests related to the profile's decoding behavior
-  - says: One string that says everything — including, if the alphabet is wrong, something else.
-- **drill.py** `PG.step4_gate_open` — [MEDIUM] the redirect never reached the predicate
-  - says: the redirect never reached the predicate
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 
