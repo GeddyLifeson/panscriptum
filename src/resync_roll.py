@@ -185,7 +185,8 @@ def main():
         # roll.py's header and the drill net of the same name are both about.
         #
         # THE VERDICT IS NOT OPTIONAL. The writer returns False rather than raising on a
-        # denied replace (silence.py:366-367), and this call used to discard that return --
+        # denied replace (silence.replace_if_unchanged's PermissionError/OSError branches),
+        # and this call used to discard that return --
         # so on the exact Windows reader-holds-target case this module's own docstring
         # describes, data/SWEEP_ROLL.json stayed unchanged while the summary below still
         # printed "Fixed". Reported instead, same idiom as worldseed.py's write.

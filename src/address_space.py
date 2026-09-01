@@ -456,8 +456,9 @@ def main():
         #
         # GATED, like scope.py's build() and zfighters.py's main(). `write_json` returns whether
         # the rename LANDED and this dropped the verdict, so a denied replace -- the ordinary
-        # Windows case here, since `pipeline.py:2024` reads this file as a phase input and
-        # `standards.py:1009` reads it on its own clock, and either holding it open is enough --
+        # Windows case here, since `pipeline.py:2138` (`_phase_input("SHELFMARKS.json")`) reads
+        # this file as a phase input and `standards.py:1177` reads it on its own clock, and
+        # either holding it open is enough --
         # still reached the unconditional `wrote {out}` below and exit 0. The addresses printed
         # above would then be the ones this run computed while the file both readers consult
         # held the PREVIOUS run's, which is the shape that makes a re-address look applied when

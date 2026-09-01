@@ -46,10 +46,10 @@ and it grows) -- to count hamlets is not a plan. So the rank-size rule stands in
 below are estimates of what Azgaar WOULD produce rather than claims about what it did.
 
 Those two figures used to read "a thousand worlds" and "1,521 times", both stale by about four
-times, in a file whose own body already said 5,986 at :292 -- so the header and the body of one
+times, in a file whose own body already said 5,986 at :301 -- so the header and the body of one
 file disagreed by a factor of four and the header was the one stated in the present tense as the
 reason this module exists. It is phrased not to need maintaining, because the count moved by one
-between the order being filed and being worked. The 5,986 at :292 is correct as written: it is a
+between the order being filed and being worked. The 5,986 at :301 is correct as written: it is a
 DATED measurement inside a historical note about order 65ae84ee4bd7, not a present-tense claim.
 (Order d5a06f9c6dee.)
 
@@ -333,7 +333,7 @@ def main():
         w0 = worlds[0]
         print("\n" + "-" * 100)
         # NOT `[:60]`. The designation is the world's IDENTITY -- and not even a unique one, see
-        # the collision note at :291 -- so cutting it is cutting the one field that says WHICH
+        # the collision note at :300 -- so cutting it is cutting the one field that says WHICH
         # world the table below describes, on a header line where nothing needs aligning.
         # `suppressions.main()` made the same ruling about its own path column: "A column that
         # stretches is a worse-looking table and a truthful one." (order 0a87f4dcd5a7)

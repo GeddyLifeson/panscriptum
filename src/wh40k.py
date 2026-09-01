@@ -273,7 +273,8 @@ def main():
                 print("   %-15s%5.1f  %s" % (ax, d["score"], body[0]))
                 for cont in body[1:]:
                     print("   %-15s%5s  %s" % ("", "", cont))
-    # ATOMIC, for the same reason and by the same hand as `zfighters.py:478`. That file is this
+    # ATOMIC, for the same reason and by the same hand as the gated write at the end of
+    # `zfighters.main()`. That file is this
     # one's twin -- same shape, same job, same `main()` ending in a hand-built assay dump -- and
     # it was made atomic as "the m100 tail" on 2026-08-25 while this line was left standing. The
     # sibling one module over is the shape lesson 14 exists for: the ruling was made, applied

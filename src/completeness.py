@@ -68,7 +68,7 @@ def subdomain(host):
 # `pages:<source>` and `doc:<slug>` are PROVENANCE SENTINELS, not hosts: an owner-supplied
 # document or a hand-registered page list, recorded in the same column because that column is
 # "where this source's material comes from". The project's own idiom for telling them apart is
-# `str(h).startswith(("pages:", "doc:"))` -- binding_health.py:406 and health.py:255-257 both
+# `str(h).startswith(("pages:", "doc:"))` -- binding_health.py:1018 and health.py:486-488 both
 # do exactly this, and health.py's comment says why: probing one as a host is meaningless.
 SENTINELS = ("pages:", "doc:")
 
@@ -342,7 +342,7 @@ def host_reachable(host, timeout=8):
         # A RAW-MODE WIKI IS NOT AN UNREACHABLE WIKI. Fixed run #28.
         #
         # This asked `api_url(host)` and treated None as "unreachable". But `api_url` returns
-        # None for MODE_RAW exactly as it does for MODE_DEAD -- `endpoint.py:176-179` -- and
+        # None for MODE_RAW exactly as it does for MODE_DEAD -- `endpoint.py:275-278` -- and
         # MODE_RAW means the opposite of dead: the wiki closed its API and serves
         # `index.php?action=raw` instead, which `endpoint` knows how to read and which the rest
         # of this project reads from happily. So every RAW host on the corpus has been scored

@@ -243,8 +243,8 @@ def run():
     # AN ASSAY REFUSAL IS NOT A READING AT THE BAND FLOOR (order cdec5a03b731). This was
     # `vals[name] = A.LADDER.index(a["anchor"]) + (res.get("decimal") or 0.0)`, and `assay.assay`
     # has two documented paths that return `decimal: None` with a reason -- no worksheet
-    # (assay.py:886, honesty theorem H5) and "no axis scored from cited feats; band-only"
-    # (assay.py:897). The first is unreachable here because every call passes
+    # (reason: "no worksheet supplied; band-only per honesty theorem H5") and "no axis scored
+    # from cited feats; band-only". The first is unreachable here because every call passes
     # `worksheet='anchors.py'`; the SECOND is one edit away in a file whose scores are
     # hand-written constants. `or 0.0` turned that refusal into a ladder value pinned at the band
     # floor and then the monotone invariant graded it as though it were a reading, with the

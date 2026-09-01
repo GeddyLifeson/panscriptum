@@ -156,8 +156,10 @@ def save_roll(roll, names=None):
     `tmp = ROLL + ".tmp"` + open + json.dump + replace_retry -- a FIXED temp name, shared by
     every process that writes the roll. It was the last of the then-FIVE writers of the file
     (there are SEVEN, counted for order f818a77293fc) of data/SWEEP_ROLL.json
-    still on that convention: roll.py:127, resync_roll.py:115, catalogue_aurora.py:271 and
-    catalogue_codex.py:260 all land through write_json, whose temp name carries pid and thread.
+    still on that convention: every roll writer now lands through `roll.update_rows` /
+    `roll.mutate` (catalogue_codex.py:361, resync_roll.py:211), which stages its own
+    pid+thread+attempt-qualified temp name and lands it through `silence.replace_if_unchanged`
+    directly, not through `write_json` -- the same pid/thread discipline, hand-rolled instead.
     Two processes writing the roll opened the SAME temp file; the second truncated the first and
     whichever renamed second landed a partial roll over a finished one -- the identical hazard
     already repaired in runguard._land (where PermissionError fired 99 times in production),
@@ -171,7 +173,7 @@ def save_roll(roll, names=None):
     write_json was written to make unavailable to get wrong.
 
     write_json returns the same landed/not-landed verdict replace_retry did, so no call site
-    changes -- catalogue_web.py:504 still gates on it.
+    changes -- the gate is save_roll's call site in `_one`, still gating on it.
 
     AND NOW IT IS A COMPARE-AND-SWAP, which is the exposure the paragraph that used to stand
     here described and left open (order f818a77293fc). main() loads the whole roll once and every
@@ -587,7 +589,8 @@ def main():
             import pipeline as _P
             # GATE ON THE WRITE, like every other caller. write_record_catalogue returns whether
             # the rename LANDED, and it returns it precisely so a denied write is not recorded as
-            # done (pipeline.py:381-396; pipeline.py:641 and ingest_doc.py:246 both check it).
+            # done (`pipeline.write_record_catalogue`, checked by `ingest_doc.mine`, `backfill`,
+            # `catalogue_aurora` and `catalogue_codex`).
             # This was the one call site throwing the verdict away and then setting
             # `status = "catalogued"` regardless -- so a persistent PermissionError left a stale
             # record on disk beside a roll claiming N entries. The default work selection is

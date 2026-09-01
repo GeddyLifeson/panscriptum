@@ -510,7 +510,31 @@ def main():
     # ONCE per source and cached, then applied to every job of that source. It fails closed on an
     # unmeasured source, because "not in COVERAGE.json" is indistinguishable from "nothing has
     # ever been read here", and that is exactly the state the withdrawn batch was written from.
-    floor = float(cfg.get("prose_min_cited_fraction", 0.35) or 0.0)
+    # THE `or 0.0` IS GONE, AND THE ANSWER IS ACTED ON (order ef86e2081687). This read
+    # `float(cfg.get("prose_min_cited_fraction", 0.35) or 0.0)`, so a config value of 0, null or
+    # "" was COERCED to 0.0 -- and 0.0 is outside (0, 1], which `prose_gate.evidence_ok` treats
+    # as MISCONFIGURED and refuses every source for. Each of those refusals landed in
+    # `refused_src` and was printed below under "EVIDENCE FLOOR — N source(s) held back at 0%
+    # cited" with the footer "These are NOT failures. They are sources the reader has not
+    # finished." That footer was a WRONG DIAGNOSIS: the readings were fine and the safety's own
+    # configuration was broken. The run then printed "0 pending", "0 generated, 0 failed", fell
+    # off the end of main() and EXITED 0 -- a run that did nothing reporting exactly like a run
+    # that did everything, which is the one number the keeper and the scheduler actually read.
+    #
+    # It gets the treatment the sibling condition twenty lines down already gets. A corrupt
+    # COVERAGE.json halted loudly and exited 1; a misconfigured floor -- the same class of
+    # fault, a broken SAFETY rather than thin DATA -- halted silently and green. Asked once,
+    # before the job loop, through `prose_gate.floor_ok`, which is the same predicate
+    # `evidence_ok` applies, so the two cannot drift apart.
+    floor = cfg.get("prose_min_cited_fraction", 0.35)
+    _floor_ok, _floor_why = PG.floor_ok(floor)
+    if not _floor_ok:
+        print("REFUSING EVERYTHING: the evidence floor is misconfigured — %s\n"
+              "This is NOT a reading problem. Nothing was held back for want of citations; the "
+              "gate itself cannot be applied. Fix `prose_min_cited_fraction` in config.yaml."
+              % _floor_why)
+        return 1
+    floor = float(floor)
     try:
         cov_rows = PG._coverage_rows()
     except Exception as e:
@@ -616,7 +640,7 @@ def main():
 
         # THE P8 META-LANGUAGE BAN, ENFORCED FOR THE FIRST TIME. `pipeline.assert_in_universe`
         # was written to reject prose that breaks the in-fiction frame -- "as a DM you might",
-        # "in this sourcebook" -- and `pipeline.py:2122` states the ban "is enforced in code
+        # "in this sourcebook" -- and `pipeline.py:2647` states the ban "is enforced in code
         # like scale_note and the Marginalia cap before it". It was not. The function had **zero
         # callers anywhere in src/**, and this module, which is the only thing that turns a
         # manifest into prose, does not import `pipeline` at all. The only reader of

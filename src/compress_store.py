@@ -120,7 +120,7 @@ def load(path: str, codec: str) -> str:
     for free. It matters concretely: the temp-then-replace repair in store() stops NEW torn
     blobs and can do nothing about any already on disk from before it, because store() never
     revisits a path that exists. A verifying load() is the only thing that will ever find one,
-    and it finds it at the moment the damage matters -- when catalog.py:97 serves the chapter to
+    and it finds it at the moment the damage matters -- when catalog.cmd_read serves the chapter to
     a reader. Refusing loudly beats returning text that is not what was stored, which is the
     quietest corpus corruption available to this project.
     """

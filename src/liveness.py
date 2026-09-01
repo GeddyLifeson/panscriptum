@@ -4,9 +4,11 @@ THE STANDING LESSON THIS AUTOMATES. "A check that cannot fail looks exactly like
 passed" is the most-repeated finding in this project's ledger, and every instance has been found
 by a person reading the file. Instances already caught by hand:
 
-  * `profile.py:182-187` -- a round-trip self-test comparing a decoded field against the input it
-    was handed, so `d["profile"] != r["profile"]` is tautologically False. Green for ever.
-  * `cleanup.py:77-80` -- a guard whose condition names a regex that is never defined.
+  * `profile.py`'s round trip -- FIXED, now at `profile.py:196-208`: it used to compare a decoded
+    field against the input it was handed, so `d["profile"] != r["profile"]` was tautologically
+    False, green for ever. It now re-encodes what `decode()` extracted and compares THAT.
+  * `cleanup.py`'s `_ruby_question_mark` -- FIXED: the guard whose condition named a regex that
+    was never defined is gone; the function is now a plain scan with no such guard.
   * `coverage._p()` -- a fully documented cache-path helper with no callers, free to drift out of
     step with the real formula it duplicates.
   * `overnight._prose_enabled` -- for one commit, a docstring-only "FAILS CLOSED" claim tested by
@@ -37,11 +39,12 @@ this project keeps losing money on: is this code capable of running, and is this
 capable of being false?
 
 AND ITS HONEST LIMIT, STATED BECAUSE THE ALTERNATIVE IS FALSE ASSURANCE. The TAUTOLOGY pass is
-SYNTACTIC: it finds comparisons whose two sides are the same expression. It does NOT find the
-`profile.py:182-187` instance that motivated it, because that one is SEMANTIC --
-`d = decode(r["profile"])` and then `d["profile"] != r["profile"]`, which is always False only
-if you know what `decode` returns. Two different expressions, one guaranteed answer. Catching
-that class needs dataflow this module does not do, so `profile.py` stays on the human list.
+SYNTACTIC: it finds comparisons whose two sides are the same expression. It would NOT have found
+the `profile.py` instance that motivated it (now fixed, see above), because that one was
+SEMANTIC -- `d = decode(r["profile"])` and then `d["profile"] != r["profile"]`, which was always
+False only if you knew what `decode` returned. Two different expressions, one guaranteed answer.
+Catching that class needs dataflow this module does not do -- a live instance of that shape,
+were one to appear elsewhere, would still land on the human list, not here.
 Reporting zero tautologies must not be read as "there are none".
 
 FALSE POSITIVES ARE EXPECTED AND ARE NOT SUPPRESSED SILENTLY. Entry points, CLI handlers, tool
@@ -151,7 +154,7 @@ def _classdefs(tree, prefix=""):
     DEAD candidate at all -- and its methods were meanwhile credited to each other through
     `scoped`, because they call one another on `self`. A class nothing ever instantiates is
     therefore structurally invisible to a detector whose whole subject is code that cannot run:
-    measured over this tree, `escalation.py:64 Refused` -- "An OPERATOR- or SUPERVISOR-level
+    measured over this tree, `escalation.py`'s `class Refused` -- "An OPERATOR- or SUPERVISOR-level
     stop: this unit or this source, not the library" -- is never raised, caught, imported or
     named anywhere in src/, while its sibling `SystemHalted` is raised and caught in two modules.
     Two rungs of Hard Rule -1's chain had a declared exception type with no raiser: a safety in a
@@ -184,7 +187,9 @@ def _defs(tree, prefix=""):
     used. What surfaces is the method nothing ever names.
 
     Nested classes recurse, and the label carries the dotted path so a report line names the
-    class -- `entity_match.py:88 Resolver.rebuild()` is answerable, `rebuild()` is not.
+    class -- e.g. `foo.py:12 Bar.baz()` is answerable, `baz()` is not. (`entity_match.py`'s one
+    class, `MatchReason`, is a bare constant namespace with no methods, so it cannot supply a
+    real example here; this is illustrative, not a citation.)
     """
     for node in tree.body:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):

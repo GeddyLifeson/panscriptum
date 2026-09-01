@@ -664,8 +664,36 @@ def main():
         print("GRAPH FAILURES")
         for p in problems:
             print("   " + p)
-    else:
-        print("  graph closes — no dangling parents, no rootless derivations, no cycles")
+        # THE VERDICT IS DELIVERED HERE, AND UNTIL NOW IT NEVER WAS (order 90516d53d696).
+        #
+        # `check_graph()` detects a CYCLE correctly and then main() walked on into the
+        # deepest-chain panel below, whose loop has no visited set and no bound:
+        # `while [p for p in LEDGER[cur]["parents"] if p in LEDGER]: chain.append(cur); cur =
+        # max(..., key=depth)`. `depth()` does not memoise, and its own `seen` guard gives a
+        # two-node cycle depth(a)=2 and depth(b)=1 -- so `max(..., key=depth)` picks a parent
+        # every iteration and the walk OSCILLATES. Verified by injecting a two-node cycle into a
+        # live import: check_graph() returned ['CYCLE zz_a -> zz_b -> zz_a'] and the chain walk
+        # had not terminated after 50 steps.
+        #
+        # So the one fault this module exists to name was the one it could not report. The
+        # VERDICT banner below was never reached, main() never returned, and a caller judging
+        # this module by its return code saw a TIMEOUT rather than "N FAILURES".
+        #
+        # RETURNING EARLY RATHER THAN BOUNDING THE WALK, of the order's two remedies. The
+        # deepest-chain panel is the evidence for `depth()`'s "derived rather than decreed"
+        # argument, and that argument is meaningless over a ledger that does not close: a
+        # truncated chain through a cycle is not weaker evidence, it is evidence of nothing.
+        # Printing the verdict and stopping is both the smaller change and the more honest
+        # report.
+        print()
+        print("=" * 96)
+        print("VERDICT: %d FAILURES" % len(problems))
+        print("=" * 96)
+        print("The panels below are NOT printed: the deepest-chain walk does not terminate over "
+              "a ledger with a cycle in it, and a derivation depth measured on a graph that "
+              "does not close is not a measurement. Fix the failures above and run this again.")
+        return 1
+    print("  graph closes — no dangling parents, no rootless derivations, no cycles")
     print()
 
     # NOT TRUNCATED, and deterministically ordered (orders 7ef394911fb3 / 81410993cb8d, Hard

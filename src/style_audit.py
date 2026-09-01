@@ -154,7 +154,8 @@ def audit(texts):
 
 
 def _cut(shown, total, unit):
-    """The house line for a ranking that had to be cut, from repass_bands.py:106-113.
+    """The house line for a ranking that had to be cut, from repass_bands.py's SURVIVORS print
+    block ("showing X of Y; N more not shown").
 
     THREE OF THE FOUR RANKINGS IN `report` WERE CUT WITH NO REMAINDER (order 1cb7bd3ad0ce).
     OPENING SHAPES, EXACT OPENERS and VOCABULARY printed a `most_common(...)` window under a

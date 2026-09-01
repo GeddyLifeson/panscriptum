@@ -386,7 +386,9 @@ def main():
 #
 # AND HTML MODE IS NOT A `detect()` VERDICT. Unlike MODE_API/MODE_RAW/MODE_DEAD, which `detect`
 # earns by probing, this mode is SELECTED BY THE HOST PREFIX: `feats.py` reads a source bound
-# `pages:<source>` in WIKI_HOSTS.json through `source_pages`/`fetch_html` (feats.py:346, :1367).
+# `pages:<source>` in WIKI_HOSTS.json through `source_pages`, called from `feats.reads_as_wiki`
+# and `feats.evidence_for`, and through `fetch_html`, called from `feats._source_pages_text` --
+# named by symbol, not line, because feats.py's line numbers have already drifted once (order 2b90cd079ac6).
 # `detect()` can never return MODE_HTML, so the constant below has no reader anywhere in the
 # tree -- kept as the honest NAME for what the prefix selects, and documented here so it does
 # not read as a mode the prober forgot to emit. (order a60c150b6303)

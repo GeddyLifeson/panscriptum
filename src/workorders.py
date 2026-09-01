@@ -368,7 +368,8 @@ def _mutate(change, attempts=8):
         # scratch file and interleaved their writes -- and `escalation.escalate` reaches
         # `file_order` from threaded passes, which is the likeliest way the corrupt queue that
         # the order above describes actually gets made. `silence.write_json` carries pid and
-        # thread for exactly this reason (silence.py:408); this is the same fix.
+        # thread for exactly this reason (silence.write_json's temp-name construction); this is
+        # the same fix.
         tmp = "%s.%d.%d.%d.tmp" % (OPEN_FILE, os.getpid(), _th.get_ident(), a)
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(d, f, indent=1, sort_keys=True, ensure_ascii=False)

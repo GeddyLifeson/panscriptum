@@ -43,12 +43,40 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   because the only durable trace before was a generic `silence.note` plus a stderr line, and every
   standing daemon here runs under `CREATE_NO_WINDOW`. The **non-disambiguated tmp filename** is
   also closed: `_raise_halt` lands through `silence.write_json`, whose tmp name carries PID and
-  thread. **STILL OPEN, both verified at source this pass:** `_raise_halt` (`escalation.py:285-321`)
-  still does a read-modify-write of the halt file with **no lock**, so two concurrent first-time
-  OWNER halts can still have the second overwrite the first rather than record it as corroboration;
-  and `escalation._append` (`:137-146`) still appends the janitor log with a buffered
-  `open(path, "a")` + `f.write` instead of `silence.append_line` — the m62 torn-line class, which
-  m62's own fix did not carry into this file.
+  thread.
+
+  **THE TORN-LINE LIMB IS CLOSED — run #40, 2026-09-01.** `escalation._append` no longer uses a
+  buffered `open(path, "a")` + `f.write`; it goes through `silence.append_line`, one `os.write` to
+  an `O_APPEND` descriptor, which is what m62's own fix used on `state/model_metrics.jsonl` and
+  never carried into this file. The stakes here are higher than m62's: `state/escalation.log` is
+  the janitor's rung, the one log this module's docstring says "always holds the whole story even
+  when the top rung fires", and every standing job appends to it. The verdict is still returned
+  truthfully — `append_line` answers True/False exactly as the old code did.
+
+  **THE RACE LIMB IS NARROWED ~25×, MEASURED, AND STILL OPEN — run #40.** `_raise_halt` is now
+  compare-and-swapped (digest taken *before* the read, landed through
+  `silence.replace_if_unchanged`, retried) **and verified by read-back**, because the CAS alone
+  was not enough: both writers could still report `halt_landed: True` with only one fault in the
+  file, which is the original defect wearing the fix's clothes. A loser now goes round, reads the
+  winner's halt, and appends itself to its `also`. **Measured on this machine, both versions built
+  in memory and stressed through one harness, 25 trials each:** two concurrent first halts —
+  ORIGINAL lost a fault in **25/25** trials, NOW **1/25**; four concurrent — ORIGINAL **25/25**
+  trials and 75 faults, NOW **7/25** and 7 faults. It is **not closed**, because
+  `replace_if_unchanged` re-reads its digest immediately before `os.replace` and that pair is not
+  atomic, and because the retry is bounded at `STOP_CAS_ATTEMPTS`. The real fix is an
+  **`O_CREAT|O_EXCL` lock** around the read-modify-write — the idiom `codewatch.py` already uses —
+  with a staleness steal and a **fail-open** fallback, since a halt that cannot be raised because
+  a lockfile is stuck is far worse than a lost corroboration entry. That is a design decision about
+  the halt path and was deliberately not landed at the end of a shift. Carried as order
+  `HALT_WRITE_RACE_NARROWED_25X_BUT_NOT_CLOSED` (OWNER), with the numbers.
+
+  **A NOTE ON THE NET, because it is the more general lesson.** A threaded race net was written
+  for this limb and then deliberately **replaced**. It failed about 1 run in 25 — and a net that
+  flaky raises a spurious OWNER halt roughly every twenty-fifth battery, which is worse than no
+  net at all, because it teaches people that a red drill means nothing. What is netted instead is
+  the **conflict path**, deterministically: a competitor is landed exactly once between our digest
+  and our rename, and our fault must end up in the winner's `also`. It was watched go red against
+  the single-shot write and green against the fix.
 
 - **[M39 — OPEN, VERIFIED run #32] `catalogue_web.py` WRITES RECORDS STRAIGHT THROUGH A STANDING
   HALT.** Its `main()` never imports `escalation` and never calls `assert_clear()`; batch 10
@@ -78,7 +106,7 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   lock, so the window in which any running job that imports that module gets the unvetted code is
   exactly as this entry measures it.
 
-- **[M44 — OPEN, VERIFIED run #32] `address.py:101-114` INVENTS ADDRESSES — HARD RULE 2, INSIDE
+- **[M44 — OPEN, and now also work order `07258ace3a09` (RUN, MAJOR), re-reproduced live by the run40 sweep on 2026-09-01: `spine_code_for("Alien Predator Doom Crossover") -> "II.N"`] `address.py:101-114` INVENTS ADDRESSES — HARD RULE 2, INSIDE
   THE MECHANISM THAT ENFORCES IT.** Live-confirmed: `spine_code_for("Alien Predator Doom
   Crossover")` returns `"II.N"` (Alien's code) instead of UNASSIGNED. Root cause is the coverage
   formula at `:110`, `overlap / min(len(target), len(name))`, which lets any single-word spine

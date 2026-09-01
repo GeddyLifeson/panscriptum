@@ -242,8 +242,9 @@ def surprisal_pair_weights(occ, sur, min_sources=2, max_sources=60):
                 w[p] += s
                 # NO CAP. `if len(shared[p]) < 8` was the last cap standing in the weave, and it
                 # was invisible because it sat in the BUILDER while both consumers -- this
-                # module's own writer and `pipeline.py:1761`, the production path that writes
-                # `data/RESONANCE_GRAPH.json` -- carried the comment "WHOLE list -- Hard Rule 0,
+                # module's own writer and `pipeline.py`'s own RESONANCE_GRAPH.json write (the
+                # `shared_sample` line inside the block that lands `data/RESONANCE_GRAPH.json`) --
+                # carried the comment "WHOLE list -- Hard Rule 0,
                 # ruled 2026-08-24" directly above it. The comment described the ruling; the data
                 # had been truncated eight entries earlier. A cap LABELLED AS COMPLIANCE is the
                 # worst shape a cap can take, because the label is what stops anyone looking.

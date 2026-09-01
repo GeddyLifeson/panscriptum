@@ -236,8 +236,8 @@ def _read_row(out, LN):
             # THE FABRICATION GUARD HAD NO INPUT, SO IT NEVER RAN ONCE. Run #28.
             # `RE_READ` has captured `dropped` -- the count of model sentences the verbatim
             # check REJECTED as not present in the source -- since the regex was written, and
-            # this dict threw it away one line after parsing it. `standards.py:663` then read
-            # `read.get("raw")`, a key NOTHING in the tree has ever set, so `drop` was always
+            # this dict threw it away one line after parsing it. `standards.py` (~1086-1122)
+            # then read `read.get("raw")`, a key NOTHING in the tree has ever set, so `drop` was always
             # None, `fab` stayed None, and the HIGH standard `sentences that survive the
             # verbatim check` was never even APPENDED to the standards list. It did not read
             # green: it did not exist. A guard against the model inventing text, silently

@@ -275,7 +275,7 @@ def _flush_ledger(taken):
 # `silence.replace_if_unchanged`, which calls `replace_retry` internally, so the atomicity, the
 # unshared temp name and the settle-only-if-landed rule all survive the move to compare-and-swap.
 #
-# ATOMIC, and this is the write that most needed to be. foreman.py:237 already says it:
+# ATOMIC, and this is the write that most needed to be. `foreman.triage_swallowed` already says it:
 # "state/failures.json is the highest-traffic shared file in the project -- the dashboard
 # polls it, standards reads it, and EVERY process read-modify-writes it through
 # health.flush()." m18 (2026-08-24) then hardened foreman's OWN three writes and left the
@@ -292,7 +292,7 @@ def _flush_ledger(taken):
 # the file) otherwise silently discarded the counts it failed to persist.
 #
 # THE FIXED `.tmp` NAME WAS ITSELF A HAZARD, on the single highest-traffic shared file in
-# the project (foreman.py:237 above). Two writers flushing at the same moment -- a targeted
+# the project (`foreman.triage_swallowed` above). Two writers flushing at the same moment -- a targeted
 # investigation racing the scheduled cycle, which is the normal case here, not an exotic one
 # -- both open `failures.json.tmp` for writing; the second truncates the first, and
 # whichever renames second lands a half-written file over the target. That is the exact

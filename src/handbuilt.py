@@ -163,9 +163,11 @@ ROSTER = {
  # record is 2,310 characters, and everything known about him is known through the thing he
  # built. Charter Part Three's answer to that is a STATUS, not a guess -- an axis with no
  # evidence takes `unestimable` and the interval widens to say so. Every other entity in this
- # file scores eleven axes; this one scores five, and its published interval is four times
- # wider as a direct result. That is the instrument being honest about a thin record rather
- # than manufacturing a number to fill the row.
+ # file scores all eleven axes and publishes ± 0.15; this one scores five (the other six are
+ # `unestimable`) and publishes ± 0.19 -- about a quarter wider, not the four-times-wider figure
+ # once claimed here (measured by calling `compute()` directly: every other sheet's interval is
+ # 0.15, Zalama's is 0.19, a ratio of ~1.27, not 4). That is the instrument being honest about a
+ # thin record rather than manufacturing a number to fill the row.
  "Zalama": dict(
   anchor="M8", host="dragonball.fandom.com", epoch="the Dragon God, before recorded history",
   why_missed="not catalogued; his own page is 2,310 chars with a single feat. The scale "
@@ -454,9 +456,9 @@ def main():
     # The five lines this replaces staged to `OUT + ".tmp"`, which costs two things silence.py
     # documents against itself: (1) the temp name carried no pid/thread, so two writers of this
     # path collide on the TEMP FILE and the loser can replace the target with a partial one
-    # (silence.py:425-428, and the same repair already made at standards.py:1521 and
+    # (silence.py:511, and the same repair already made at standards.py:1534 and
     # retry_synthesis.py:47-49); (2) a denied replace leaked `HANDBUILT_ASSAYS.json.tmp` beside
-    # the target permanently, with no cleaner anywhere in the tree (silence.py:461-472) -- and a
+    # the target permanently, with no cleaner anywhere in the tree (silence.py:519-530) -- and a
     # denied replace is the ORDINARY case on Windows, which is why replace_retry exists at all.
     # This module's three twins -- halo.py, wh40k.py, zfighters.py -- already route this way.
     # The ORDERING is unchanged and must stay so: see the note above on the console encoding.
@@ -486,7 +488,7 @@ def main():
                 d = rec["axes"][ax]
                 score = d["score"]
                 # A SCORE CAN BE A SENTINEL, NOT A NUMBER. Zalama's ruin, continuity, celerity,
-                # vector, volition and discernment are all the string "unestimable" (:182-201),
+                # vector, volition and discernment are all the string "unestimable" (:184-203),
                 # and `%5.1f` on a string raises TypeError -- which killed `--full` on the one
                 # sheet the module documents as its most instructive, because the JSON write
                 # above already landed and nothing downstream of it was checked again.
@@ -497,7 +499,7 @@ def main():
                 # rests on: compute()'s provenance work above exists so a reader checking
                 # whether a high score rests on a citation or on the assayer's judgment can do
                 # so, and the citations run to 250+ characters. At 58 the reader got as far as
-                # the first clause of the argument for a 9.9. catalogue_models.py:215-221
+                # the first clause of the argument for a 9.9. catalogue_models.py:227-228
                 # already ruled on the console half of this exact shape -- "the persisted copy
                 # being complete does not help someone looking at the terminal". Wrapped rather
                 # than widened: the fix this tree applies to a truncated field is removal.

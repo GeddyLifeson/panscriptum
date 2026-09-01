@@ -33,6 +33,7 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import cachekey as CK          # noqa: E402
+import assay as ASSAY          # noqa: E402
 import escalation as ESC       # noqa: E402
 import prose_gate as PG        # noqa: E402
 
@@ -54,7 +55,7 @@ RESULTS = []
 # RAISE 1, 38 -> 41 on 2026-08-26. `liveness`'s `used` set was a single flat, scope-blind,
 # module-blind bag of every identifier in `src/`, so a LOCAL LOOP VARIABLE named `_p` in
 # cleanup.py and tells.py marked every module-level `_p()` in the project as called -- and
-# `coverage._p()`, which has zero callers and is named at liveness.py:10 as the founding example
+# `coverage._p()`, which has zero callers and is named at liveness.py:12 as the founding example
 # of why that module exists, was missing from its own report. The detector could not see its own
 # worked example. Usage now resolves the way Python resolves it: a bare name only reaches
 # functions in its OWN module, and a cross-module call must arrive as `mod.name`, `from mod
@@ -164,6 +165,46 @@ def _refuses(fn, exc):
         return False
     except exc:
         return True
+
+
+def _deliberately_failing(fn):
+    """Run a probe whose WHOLE POINT is to make a guard record a failure -- without that record
+    landing in the library's own failure ledger. -> fn's answer.
+
+    THE LITTER THIS STOPS, measured on 2026-08-31. `state/failures.json` is the operational
+    ledger: `standards` grades from it, `foreman.triage_swallowed()` names its classes and then
+    archives and clears it, and a person reads those names to decide what is wrong with the
+    library. Two nets in this file deliberately corrupt a blob and deliberately stage a stale
+    write, both guards call `silence.note`, and `silence.note` calls `health.record` -- so EVERY
+    DRILL RUN added one `silent:compress_store.py:address-mismatch` and one
+    `silent:silence.py:stale-write-refused` to that ledger.
+
+    The counts were 6 and 13 when this was found, and the first of them reads as CORPUS
+    CORRUPTION: `compress_store.load()` refusing a blob whose content hash does not match the
+    address it is filed under. Order 842025c83c3c cited exactly that class as its flagship
+    example of a real fault being archived unspoken. It was this net's own probe. Confirmed by
+    running `drill_recorders_and_lane` and watching both counters rise by exactly one, and by
+    scanning every stored blob under output/ and data/ and finding no genuine mismatch at all.
+    A drill of the whole tree currently contributes both entries per run.
+
+    That is worse than noise. It is a probe manufacturing the exact signal it exists to prove
+    the library can raise, in the file a person consults to find out whether the library has
+    raised it -- so a REAL misaddressed blob would arrive indistinguishable from six copies of
+    this rehearsal, in a ledger that gets cleared. It is the same discipline `_sweep_probe_litter`
+    and `a_probe_leaves_no_order_behind` already enforce for the WORK ORDER queue, applied to
+    the other ledger a probe can write to.
+
+    SCOPED AS TIGHTLY AS POSSIBLE, on purpose: only the call that is SUPPOSED to fail is wrapped,
+    so an unrelated fault raised during the same net is still recorded. The nets assert the
+    RAISE, never the ledger entry, so nothing under test is being suppressed.
+    """
+    import health as _H
+    real = _H.record
+    _H.record = lambda *a, **k: None
+    try:
+        return fn()
+    finally:
+        _H.record = real
 
 
 def _sweep_probe_litter(subsystem, site):
@@ -1933,7 +1974,45 @@ def _failed_revert_is_escalated(src=None):
     import ast
     tree = _ast_of(os.path.join(_srcdir(src), "local_agent.py"))
     maps = _import_maps(tree)
-    for n in _live_walk(tree):
+    # SCOPED TO `run`, NOT TO THE MODULE (order 616e761094a5, run #40). This walked
+    # `_live_walk(tree)`, and `_live_walk` descends into every `def` in the file whether or not
+    # anything calls it -- this file says so itself at :506-513: "`_calls(..., reachable=True)`
+    # answers 'on a path that can be entered', which an UNCALLED HELPER still satisfies". So the
+    # ALARM branch, the `escalation.escalate` call and the `escalation.SAFETY` rung could all
+    # live in a function nothing invokes, and the net would still report HELD.
+    #
+    # PROVED, not reasoned: a `local_agent.py` whose real `run()` sets `out["ALARM"]`, prints it,
+    # escalates nothing and returns -- with the SAFETY escalation parked in
+    # `_a_helper_nothing_ever_calls` -- returned True. That is verbatim the outcome this net's
+    # own expectation names: "a half-written module on disk while the run reports success is the
+    # worst outcome this lane has."
+    #
+    # Its two siblings in this area were the model and were correctly scoped all along:
+    # `_write_lane_checks_the_halt` and `_run_marks_a_landless_run_failed` both take
+    # `_defn(tree, "run")` first and refuse if it is absent.
+    run = _defn(tree, "run")
+    if run is None:
+        return False
+    # THE SCOPE IS `run` AND WHAT `run` HANDS WORK TO -- not the module, and not `run` alone.
+    #
+    # Module-wide was the defect. `run` alone is too tight and would have breached against
+    # CORRECT code, which in this file means an OWNER halt over a working library: the real
+    # ALARM lives in `t_propose_patch` (local_agent.py:849 sets it, :868 escalates at SAFETY),
+    # because `run` COLLECTS the alarms its tools raise rather than raising them itself.
+    #
+    # `t_propose_patch` reaches the loop through the `impl` DISPATCH TABLE, so it is a bare
+    # NAME reference inside `run` and never a syntactic call there. `_call_spellings` -- what
+    # `mutation_never_touches_the_live_tree` uses to build its `bodies` list at :7942-7946 --
+    # would not see it. Name references are therefore what is followed, which is the same
+    # relation one step looser and is exactly the relation a dispatch table creates: a function
+    # `run` names is a function `run` can invoke. A function nothing in `run` mentions -- the
+    # uncalled helper this order is about -- is still out.
+    bodies = [run]
+    for name in sorted({n.id for n in ast.walk(run) if isinstance(n, ast.Name)}):
+        d = _defn(tree, name)
+        if d is not None and d is not run and d not in bodies:
+            bodies.append(d)
+    for n in [x for b in bodies for x in _live_walk(b)]:
         if not isinstance(n, ast.If):
             continue
         if not _subscript_assigns(n, "out", "ALARM", reachable=True):
@@ -2307,7 +2386,7 @@ def drill_local_agent():
         IT ONLY EVER CHECKED ONE COUNTER, AND ONLY AFTER SOMETHING ELSE HAD ALREADY RESET IT
         (order 9ada7602a356, run #37). The net was `(LA.blast_reset() or True) and
         LA._BLAST["patches"] == 0`. `_BLAST` is `{"files": set(), "patches": 0}` and
-        `blast_reset` clears both (local_agent.py:157-159), but `files` was never looked at: the
+        `blast_reset` clears both (local_agent.py:163, :182-184), but `files` was never looked at: the
         sweep charged the budget to `{"files": {"a.py", "b.py"}, "patches": 5}`, replaced
         `blast_reset` with one that clears `patches` and forgets `files`, and this net returned
         True -- leaving two of MAX_FILES_PER_RUN=8 permanently spent at the start of every
@@ -2386,14 +2465,36 @@ def _no_runtime_clear():
     escalation.py and that its immediate caller be escalation's own `main()`, so every spelling
     below is refused for the same reason, from anywhere that is not a person at that CLI.
 
-    SAFE WITH A HALT STANDING, AND CHECKED AGAINST THE SOURCE BEFORE IT WAS RUN. `clear()`
-    validates the ruling, then calls `_by_a_person_at_the_cli()`, and only then consults
-    `status()` -- so this drill (whose `__main__` is drill.py) is turned away at the second step,
-    before the halt file is read and long before anything is written. The ruling passed in is a
-    real sentence on purpose: a short one would be refused by the FIRST check and this net would
-    silently be re-testing the two `ValueError` nets above instead of the guard it names. Those
-    two stay exactly where they are -- they pin the ORDER of the refusals, which `clear()`
-    deliberately preserves and documents.
+    IT NO LONGER ATTACKS THE OWNER'S HALT (order 9495caa65d06). This called the REAL `clear()`
+    four times against the LIVE `state/HALT.json`, and the only thing between it and lifting a
+    standing halt was the very guard it exists to test. `clear()` validates the ruling, then
+    `_by_a_person_at_the_cli()`, then `status()`, then writes `cleared: true`. The ruling here
+    is a real 47-character sentence ON PURPOSE, so the first check is passed deliberately --
+    which left the caller-identity check as the sole run-time barrier, and that check is
+    precisely the thing that has failed if this net is ever going to refuse. A regression in it,
+    or a reordering that put the caller check after the status read, turned this net into the
+    thing it forbids: four lifts of the owner's halt, followed by a breach that raised a fresh
+    halt over the one it had just cleared.
+
+    The old answer to that was a line of prose -- "CHECKED AGAINST THE SOURCE BEFORE IT WAS RUN"
+    -- an assurance taken once, at authoring time, against a function whose own docstring says
+    "Order of refusals is part of what is tested here". An assurance about code that is expected
+    to be edited is a comment, not a safety.
+
+    So the probes now run against a SCRATCH halt file, exactly as `_halt_fails_closed` does, and
+    drill.py has removed this same shape from itself twice before with the reasoning written out
+    at length: `_gates_agree` (run #31) wrote the live config.yaml, and `_step4_needs_its_plan`
+    renamed the owner's STEP4_PLAN.md. Even a completely broken caller check now cannot reach
+    the owner's halt.
+
+    AND THE NET GOT THE PROPERTY IT WAS MISSING. A synthetic STANDING halt is written into the
+    scratch file first, and after the four probes the file is asserted BYTE-IDENTICAL to what
+    was written. An exception coming back proves only that something refused; comparing the
+    bytes proves the refusal happened BEFORE any write, which is the actual guarantee -- a
+    `clear()` that wrote the file and then raised would have satisfied the old net completely.
+
+    The two `ValueError` nets above stay exactly where they are: they pin the ORDER of the
+    refusals, which `clear()` deliberately preserves and documents.
 
     This is the one place in drill.py that calls `clear`, which is why `verify_math`'s AST check
     exempts this file by name.
@@ -2401,9 +2502,28 @@ def _no_runtime_clear():
     import escalation as _alias
     from escalation import clear as _fromimport
     r = "a ruling long enough to pass the written-ruling check"
-    return all(_refuses(c, PermissionError) for c in (
-        lambda: ESC.clear(r), lambda: _alias.clear(r),
-        lambda: getattr(ESC, "clear")(r), lambda: _fromimport(r)))
+    real = ESC.HALT_FILE
+    d = tempfile.mkdtemp(prefix="drill_runtime_clear_")
+    scratch = os.path.join(d, "HALT.json")
+    standing = json.dumps({"raised_at": 0.0, "code": "DRILL_SYNTHETIC_HALT",
+                           "what": "a synthetic standing halt, so the four probes below have "
+                                   "something to fail to lift",
+                           "evidence": None, "source": None, "by": "drill.py",
+                           "cleared": False, "ruling": None, "also": []},
+                          indent=1, ensure_ascii=False)
+    try:
+        with open(scratch, "w", encoding="utf-8") as fh:
+            fh.write(standing)
+        ESC.HALT_FILE = scratch
+        refused = all(_refuses(c, PermissionError) for c in (
+            lambda: ESC.clear(r), lambda: _alias.clear(r),
+            lambda: getattr(ESC, "clear")(r), lambda: _fromimport(r)))
+        with open(scratch, encoding="utf-8") as fh:
+            untouched = fh.read() == standing
+        return refused and untouched
+    finally:
+        ESC.HALT_FILE = real
+        shutil.rmtree(d, ignore_errors=True)
 
 
 def _no_programmatic_clear(src=None):
@@ -3567,7 +3687,7 @@ def _withdrawal_takes_a_snapshot(path=None):
     """`withdraw_chapters.py` must CALL for a copy, and must VERIFY it, before it moves a file.
 
     THIS NET WAS SATISFIED BY A COMMENT. It tested `"snapshot" in <the file's text>`, and the
-    word appears at `withdraw_chapters.py:50` inside the paragraph that sits directly above the
+    word appears at `withdraw_chapters.py:216-219` inside the paragraph that sits directly above the
     code — "A COPY BEFORE THE IRREVERSIBLE STEP ... the instinct was the ONLY thing standing
     behind 145 chapters". So the import, the `SNAP.before(...)`, the `SNAP.verify(...)` and the
     refusal that raises on a bad copy could all be deleted and this net would go on holding, on
@@ -4315,8 +4435,8 @@ def _local_buckets_excluded_from_cloud_claims(src=None):
       * a guard whose body is `pass`, with an ollama bucket served straight past it -> HELD;
       * the same guard parked in dead code after a `return` -> HELD;
       * and the finding that matters -- the REAL `cascade_bridge.py` with the router's actual
-        skip at lines 1118-1120 DELETED -> still HELD, answered instead by the catalogue
-        de-duplication `if` at `cascade_bridge.py:282`, which is in `cloud_buckets` and has
+        skip at lines 1334-1336 DELETED -> still HELD, answered instead by the catalogue
+        de-duplication `if` at `cascade_bridge.py:317`, which is in `cloud_buckets` and has
         nothing to do with handing a worker a bucket to call.
 
     A net satisfied by an unrelated line elsewhere in the file is not measuring the guard; it is
@@ -4334,15 +4454,36 @@ def _local_buckets_excluded_from_cloud_claims(src=None):
     `claim` is asked for by method name rather than through `_ROUTER`, deliberately: pinning a
     net to one spelling of the object it goes through is what order 7cc460706efe filed against
     two nets in this file, and a net that breaches over a rename halts the library.
+
+    AND "THERE EXISTS A GATED SITE" WAS STILL THE WRONG QUANTIFIER (order 8ab131910911, run
+    #40). Every correction above sharpened WHERE the net looked and left it a `return True` on
+    the first qualifying `if` -- so it asked whether ONE correctly-gated claim loop could be
+    found, when the property is that NO local bucket is handed out. Adding a second, UNGATED
+    candidate loop beside the correct one restored the whole fault with the net reporting HELD.
+    PROVED with a fixture driven through the real function.
+
+    This is verbatim order 5ed81099fc49, which this same file records against
+    `_identity_probe_is_gated` twenty lines up: "adding an UNGATED `_probe_identity(h)` beside
+    it restored the whole fault with the net green ... The property was never 'a gate exists
+    somewhere'; it is 'no probe happens outside the gate', and those differ by one added line."
+    That net was rewritten to the universal form; this one's own docstring said it was modelled
+    on `resync_cannot_revert_an_exclusion`, which IS universal, and it was not.
+
+    STATED UNIVERSALLY NOW, and anchored on the CLAIM rather than on the guard. Every reachable
+    `claim` call is found; each is attributed to its INNERMOST enclosing loop -- the candidate
+    loop that hands that bucket out; and EVERY such loop must carry a reachable
+    `<x>.bucket.startswith(LOCAL_PREFIX)` guard whose arm ends the candidate's turn. Anchoring
+    on the claim rather than on the guard is what makes an added loop count: a new way to hand
+    out a bucket brings its own claim with it and must bring its own skip, while a net that
+    starts from the guards can only ever count the guards that are there. `bool(loops)` keeps
+    the net from passing vacuously on a file that claims nothing at all.
     """
     import ast
     tree = _ast_of(os.path.join(_srcdir(src), "cascade_bridge.py"))
-    for fn in ast.walk(tree):
-        if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            continue
-        if not _calls_within(tree, fn, "claim", reachable=True):
-            continue                     # not a path that hands a worker a bucket
-        for n in _live_walk(fn):
+
+    def ends_the_turn(loop):
+        """Does this loop skip a local bucket, on a path the program can reach?"""
+        for n in _live_walk(loop):
             if not isinstance(n, ast.If):
                 continue
             guards = False
@@ -4360,8 +4501,28 @@ def _local_buckets_excluded_from_cloud_claims(src=None):
             arm = _live_stmt_walk(_live_stmts(n.body))
             if any(isinstance(x, (ast.Continue, ast.Break, ast.Return, ast.Raise))
                    for x in arm):
-                return True              # the candidate's turn ENDS here, which is the property
-    return False
+                return True
+        return False
+
+    loops = []
+    for fn in ast.walk(tree):
+        if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        if not _calls_within(tree, fn, "claim", reachable=True):
+            continue                     # not a path that hands a worker a bucket
+        # The innermost loop around each reachable claim: that is the candidate loop, and a
+        # skip in an OUTER loop does not protect an inner one that serves buckets of its own.
+        for n in _live_walk(fn):
+            if not isinstance(n, (ast.For, ast.AsyncFor)):
+                continue
+            if not _calls_within(tree, n, "claim", reachable=True):
+                continue
+            if any(isinstance(inner, (ast.For, ast.AsyncFor)) and inner is not n
+                   and _calls_within(tree, inner, "claim", reachable=True)
+                   for inner in _live_walk(n)):
+                continue                 # an enclosing loop; the inner one is the candidate loop
+            loops.append(n)
+    return bool(loops) and all(ends_the_turn(n) for n in loops)
 
 
 def _throttle_hands_off():
@@ -4503,7 +4664,7 @@ def _backoff_stops_at_its_ceiling():
 
     THE OLD NET WAS `1.0 < F.BACKOFF_MAX <= 128.0`. That is an assertion about a number nobody
     was going to change, and it never drove a call: the clamp it is named after is
-    `feats.py:148`, `min(BACKOFF_MAX, _BACKOFF.get(host, 1.0) * BACKOFF_GROWTH)`, and deleting
+    `feats.py:159`, `min(BACKOFF_MAX, _BACKOFF.get(host, 1.0) * BACKOFF_GROWTH)`, and deleting
     the `min(...)` leaves the constant exactly as it was. Its sibling `_backoff_adapts` walks
     growth and recovery but never approaches the ceiling, so nothing in this file had ever seen
     the clamp bite. Third time this shape has been removed from this file (run #33 took two).
@@ -4734,7 +4895,7 @@ def drill_cascade():
         THE OLD NET WAS `hasattr(CB, "pool_exhausted") and callable(...)`. That asks whether a
         name exists. `pool_exhausted` could have been rewritten to `return False` — every
         multi-candidate failure then falling through to the unrecognised ledger and, worse,
-        reaching the `permanent_refusal` branch at `cascade_bridge.py:1192` that BENCHES a
+        reaching the `permanent_refusal` branch at `cascade_bridge.py:1621-1622` that BENCHES a
         bucket for four hours on evidence that was never about that bucket — with both halves
         of this net still true. Found by the run #34 sweep; third time this shape has been cut
         out of this file.
@@ -4932,7 +5093,7 @@ def _guards_are_wired_where_claimed(src=None):
     SATISFIED BY PROSE IN HALF ITS FILES, until run #34. It was `token in <file text>`, and
     for three of the six the token occurs only in explanation: `coverage.py:53` names
     cachekey in a docstring ("verifies via `cachekey.owns()` before believing a file"),
-    `pipeline.py:822` in a comment, `feats.py:918-923` in a comment block. Those three files
+    `pipeline.py:988` in a comment, `feats.py:1370-1374` in a comment block. Those three files
     could lose the import and every call and this net — named "every guard is present in the
     file that claims it", expectation "the last incident was a guard DELETED, not a guard
     that failed" — would have kept holding on the paragraphs describing the deleted guard.
@@ -5096,7 +5257,7 @@ def drill_inspector():
 
     def the_meta_language_ban_is_actually_enforced():
         """A BAN NOTHING CHECKS IS A STYLE NOTE. `pipeline.assert_in_universe` rejects prose that
-        breaks the in-fiction frame, and `pipeline.py:2122` states the ban "is enforced in code
+        breaks the in-fiction frame, and `pipeline.py:2647` states the ban "is enforced in code
         like scale_note and the Marginalia cap before it". It was not: the function had ZERO
         callers anywhere in `src/`, and `generate.py` -- the only thing that turns a manifest
         into prose -- did not import `pipeline` at all. The sole reader of `meta_violations` was
@@ -5131,7 +5292,7 @@ def drill_inspector():
         "one 'as a DM you might' in a finished volume breaks the frame for every entry near it")
 
     def liveness_sees_its_own_founding_example():
-        """THE DETECTOR MUST CATCH THE CASE IT WAS WRITTEN FOR. `liveness.py:10` names
+        """THE DETECTOR MUST CATCH THE CASE IT WAS WRITTEN FOR. `liveness.py:12` names
         `coverage._p()` -- "a fully documented cache-path helper with no callers" -- as one of
         the instances that motivated the module. For an unknown length of time it was NOT in
         `scan()['dead']`, because the `used` set was scope-blind and a LOCAL LOOP VARIABLE named
@@ -5538,21 +5699,1308 @@ def drill_rung_four():
         cannot be permission to run things."""
         import escalation as E
         saved = E.STOPPED
-        E.STOPPED = os.path.join(tempfile.gettempdir(), "drill_stopped_bad.json")
+        d = tempfile.mkdtemp(prefix="drill_stopped_bad_")
+        E.STOPPED = os.path.join(d, "STOPPED.json")
         try:
             with open(E.STOPPED, "w", encoding="utf-8") as fh:
                 fh.write("{ not json at all")
             held, why = E.subsystem_stopped("anything at all")
             return held is True
         finally:
-            try:
-                os.remove(E.STOPPED)
-            except OSError:
-                pass
             E.STOPPED = saved
+            shutil.rmtree(d, ignore_errors=True)
     net(a, "an unreadable stop ledger reports everything stopped",
         an_unreadable_stop_ledger_stops_everything,
         "'I cannot tell whether a person closed this' is not permission to re-open it")
+
+
+def _esc_sandbox():
+    """A temp directory the escalation chain can be driven inside, with its side effects off.
+
+    RETURNS a (dir, restore) pair. `restore()` puts every redirected module constant back and
+    removes the directory. Written as a pair rather than a context manager because `net()`
+    takes a zero-argument callable and every probe below wants the same four redirections; a
+    helper that both callers and `finally` blocks can name is easier to keep honest than four
+    copies of the same try/finally.
+
+    WHAT IS REDIRECTED, AND WHY EACH ONE HAS TO BE. `escalation.py` resolves its paths once, at
+    import, from `HERE` -- so a probe that calls `escalate(OWNER, ...)` for real writes the
+    LIVE `state/HALT.json` and halts the library, which is a battery that stops the plant every
+    time it runs. HALT_FILE, LOG, SRC_LOGS and STOPPED are therefore all pointed at scratch.
+
+    AND THE TWO SIDE EFFECTS ARE STOPPED AS WELL, which the path redirection alone does not
+    reach. `escalate()` calls `health.record` and `workorders.file_order` through a late
+    `import`, so both resolve out of `sys.modules` at call time and both write real files: a
+    probe that raises forty synthetic escalations would file forty real work orders and forty
+    real failure rows. That is the litter `drill_rung_four`'s own `_sweep_probe_litter` exists
+    to clean up after two calls; at this area's volume, cleaning up afterwards is the wrong
+    shape and not filing them at all is the right one. The calls still HAPPEN -- the probe below
+    that asserts an escalation reaches the queue reads the recorder to prove it -- they simply
+    land in a list instead of in the library's ledgers.
+    """
+    d = tempfile.mkdtemp(prefix="drill_escbehav_")
+    saved = {k: getattr(ESC, k) for k in ("HALT_FILE", "LOG", "SRC_LOGS", "STOPPED")}
+    ESC.HALT_FILE = os.path.join(d, "HALT.json")
+    ESC.LOG = os.path.join(d, "escalation.log")
+    ESC.SRC_LOGS = os.path.join(d, "escalations")
+    ESC.STOPPED = os.path.join(d, "STOPPED.json")
+
+    filed, recorded = [], []
+    import workorders as _WO
+    import health as _H
+    real_file_order, real_record = _WO.file_order, _H.record
+    _WO.file_order = lambda *args, **kw: filed.append((args, kw))
+    _H.record = lambda *args, **kw: recorded.append((args, kw))
+
+    def restore():
+        _WO.file_order, _H.record = real_file_order, real_record
+        for k, v in saved.items():
+            setattr(ESC, k, v)
+        shutil.rmtree(d, ignore_errors=True)
+
+    return d, filed, restore
+
+
+def _esc_probe(fn):
+    """Run one behavioural probe inside a fresh sandbox. -> whatever `fn(d, filed)` returns.
+
+    The sandbox is torn down even when the probe raises, and the raise travels: `net()` grades
+    an exception during an attack as a BREACH, which is the correct reading here -- these
+    probes assert on real return values, and a probe that dies has not shown the net holding.
+    """
+    d, filed, restore = _esc_sandbox()
+    try:
+        return fn(d, filed)
+    finally:
+        restore()
+
+
+def drill_escalation_behaviour():
+    """The chain of command, DRIVEN rather than read. Orders MUTANT_SURVIVED_ESCALATION_*.
+
+    WHY THIS AREA EXISTS. `mutate.py` corrupts one token of `escalation.py` at a time and asks
+    whether the whole battery notices. On the run before this was written it reported **68
+    survivors in this one file** -- 68 places where `escalation.py` could be silently wrong and
+    every check in the library still passed. That is not 68 defects; it is one, and it is
+    structural: every net that touches this module reads its SOURCE. `_no_programmatic_clear`
+    parses the tree, `_failed_revert_is_escalated` walks branches, `_halt_fails_closed` is the
+    lone exception and covers a single arm of a single function. Source-shaped nets prove the
+    code SAYS the right thing. None of them proves it DOES it, so `return True` became
+    `return False`, `if not landed` lost its `not`, `False, "not attempted"` became
+    `True, "not attempted"` -- and the battery was green for all of it.
+
+    The distinction matters most exactly here. This module's promise is that a halt cannot be
+    lifted by a program, that an unreadable ledger fails closed, and that a write which did not
+    land is reported as not having landed. Every one of those is a RUNTIME property. A file
+    that describes them and a file that has them are indistinguishable to a parser and are not
+    remotely the same file to the library.
+
+    So: real calls, real return values, scratch state. The nets are grouped by the function
+    they drive, and each names the specific corruption it refuses -- because a net whose
+    expectation is 'it works' is the kind that survives the mutation that breaks it.
+    """
+    a = "THE CHAIN, DRIVEN — escalation.py's runtime promises, not its source"
+
+    # ------------------------------------------------------------------ _safe_name
+    #
+    # The per-source log filename. Its whole job is INJECTIVITY: "every source is its own area
+    # of the park", and two sources sharing one log file is a park map with fewer areas on it
+    # than the park has. Order e8cd908ce5e4 fixed the truncation; nothing ever checked the fix.
+
+    net(a, "a source name survives sanitisation intact",
+        lambda: ESC._safe_name("Kobold_Press") == "Kobold_Press",
+        "with `or` flipped to `and` in the character test every alphanumeric becomes '_' and "
+        "every source's log collapses into one file named for none of them")
+    net(a, "an empty source name gets the documented stand-in",
+        lambda: ESC._safe_name("") == "unscoped",
+        "`return out or 'unscoped'` flipped to `and` returns 'unscoped' for EVERY source, "
+        "which is the same collapse arriving from the other side")
+    net(a, "a short name is not given a digest it does not need",
+        lambda: "-" not in ESC._safe_name("Marvel"),
+        "`len(out) > _NAME_MAX` flipped to `<=` suffixes every short name and truncates no "
+        "long one -- it renames every existing log on disk and stops disambiguating the "
+        "names that actually collide")
+
+    def two_long_names_sharing_a_prefix_get_two_files():
+        """The exact fault order e8cd908ce5e4 was filed for, asserted rather than described."""
+        stem = "Kobold_Press__Midgard_Heroes_Handbook__Midgard_Worldbook"
+        one, two = ESC._safe_name(stem + "__volume_one"), ESC._safe_name(stem + "__volume_two")
+        return one != two and len(one) > ESC._NAME_MAX
+    net(a, "two long source names sharing a 60-character prefix do NOT share a log",
+        two_long_names_sharing_a_prefix_get_two_files,
+        "a truncating name silently merges two areas of the park, and a person reading one "
+        "source's escalations is reading another's without being told")
+
+    # ------------------------------------------------------------------ brief()
+    #
+    # The whitelist that decides what each rung is told. A blacklist leaks; this is the net
+    # that proves the whitelist is still a whitelist and still admits what it promises.
+
+    def brief_keeps_what_the_rung_needs_and_drops_the_rest():
+        rec = {"at": 1.0, "level_name": "SAFETY", "code": "C", "what": "W", "source": "S",
+               "who": "me", "evidence": {"k": 1}, "level": 3, "secret": "must not travel"}
+        out = ESC.brief(rec, ESC.SUPERVISOR)
+        return ("secret" not in out and "who" not in out
+                and out.get("code") == "C" and out.get("source") == "S")
+    net(a, "a rung is told what it must act on and nothing else",
+        brief_keeps_what_the_rung_needs_and_drops_the_rest,
+        "a field added later must be admitted on purpose rather than leaking upward")
+
+    def brief_drops_none_but_keeps_falsey():
+        """`rec[k] is not None` flipped to `is None` empties every brief. A record whose
+        fields are all present must come back with them; a field that is None must not."""
+        rec = {"at": 0.0, "code": "", "what": "W", "source": None, "level_name": "SAFETY"}
+        out = ESC.brief(rec, ESC.SAFETY)
+        return out.get("what") == "W" and "source" not in out and "at" in out and "code" in out
+    net(a, "brief keeps present fields and drops only the absent ones",
+        brief_drops_none_but_keeps_falsey,
+        "`is not None` flipped to `is None` hands every rung an empty record -- the alarm "
+        "sounds and says nothing")
+
+    # ------------------------------------------------------------------ escalate(), the rungs
+    #
+    # Level coercion is on the error path by construction: every call site that gets it wrong
+    # is itself handling a fault. That is precisely why it was untested -- and why a mutation
+    # run found a real problem, tried to report it, and watched the alarm crash instead.
+
+    net(a, "a rung named as a string resolves to that rung",
+        lambda: _esc_probe(lambda d, f: ESC.escalate("SAFETY", "C", "W")["level"] == ESC.SAFETY),
+        "`escalate('OWNER', ...)` used to raise ValueError from inside an error handler; "
+        "`if _named is None` flipped to `is not None` sends every correctly-named rung to "
+        "MANAGER instead")
+    net(a, "a rung named as a number resolves to that rung",
+        lambda: _esc_probe(lambda d, f: ESC.escalate(ESC.SUPERVISOR, "C", "W")["level"]
+                           == ESC.SUPERVISOR),
+        "the bounds test `JANITOR <= level <= OWNER` flipped to `>` rejects every VALID rung "
+        "and accepts every invalid one")
+
+    def an_unknown_rung_lands_at_manager_with_the_bad_value_kept():
+        def probe(d, filed):
+            rec = ESC.escalate("MANGER", "C", "W", evidence={"keep": "me"})
+            ev = rec.get("evidence") or {}
+            return (rec["level"] == ESC.MANAGER
+                    and ev.get("unrecognised_level") == "MANGER"
+                    and ev.get("keep") == "me")
+        return _esc_probe(probe)
+    net(a, "a misspelled rung stops the SUBSYSTEM, never the library, and keeps the evidence",
+        an_unknown_rung_lands_at_manager_with_the_bad_value_kept,
+        "resolving a typo to OWNER makes `escalate('Owner ', ...)` a denial of service "
+        "anyone can trigger by accident; `dict(evidence or {})` flipped to `and` throws the "
+        "caller's evidence away and leaves the typo unfixable")
+
+    net(a, "an out-of-range rung number also lands at MANAGER",
+        lambda: _esc_probe(lambda d, f: ESC.escalate(99, "C", "W")["level"] == ESC.MANAGER),
+        "unknown must stop something real without handing a slip of the keyboard the park")
+
+    net(a, "the caller's name is recorded, not the process's",
+        lambda: _esc_probe(lambda d, f: ESC.escalate(ESC.SAFETY, "C", "W",
+                                                     who="drill-probe")["who"] == "drill-probe"),
+        "`who or basename(argv[0])` flipped to `and` records the SCRIPT for every escalation, "
+        "so every alarm in the log claims to come from whatever ran it")
+
+    def evidence_travels_as_given_and_a_non_mapping_is_stringified():
+        def probe(d, filed):
+            keeps = ESC.escalate(ESC.SAFETY, "C", "W", evidence={"a": 1})["evidence"] == {"a": 1}
+            lists = ESC.escalate(ESC.SAFETY, "C", "W", evidence=[1, 2])["evidence"] == [1, 2]
+            other = ESC.escalate(ESC.SAFETY, "C", "W", evidence=7)["evidence"] == "7"
+            return keeps and lists and other
+        return _esc_probe(probe)
+    net(a, "evidence survives as a mapping or a list, and anything else becomes text",
+        evidence_travels_as_given_and_a_non_mapping_is_stringified,
+        "`evidence is None or isinstance(...)` flipped to `is not None` stringifies every "
+        "real evidence mapping into `\"{'a': 1}\"`, which no reader can index")
+
+    # ------------------------------------------------------------------ escalate() -> the queue
+    #
+    # Severity and addressee are deliberately different axes. The map that joins them is the
+    # thing a queue full of MAJORs comes from when it drifts.
+
+    def an_escalation_reaches_the_queue_addressed_and_graded():
+        def probe(d, filed):
+            ESC.escalate(ESC.SAFETY, "PROBE_CODE", "probe what", source="probe-source",
+                         who="drill-probe")
+            if not filed:
+                return False
+            args, kw = filed[-1]
+            return (args[0] == "PROBE_CODE" and args[2] == "RUN" and args[3] == "MAJOR"
+                    and kw.get("where") == "probe-source"
+                    and kw.get("found_by") == "drill-probe")
+        return _esc_probe(probe)
+    net(a, "every escalation becomes a work order, addressed and graded",
+        an_escalation_reaches_the_queue_addressed_and_graded,
+        "owner ruling 2026-08-25; `rec.get('source') or ''` flipped to `and` files every "
+        "order with an EMPTY subject, so the queue can no longer say what an alarm is about")
+
+    # ------------------------------------------------------------------ the halt, raised
+    #
+    # The rung that actually stops the plant. Every one of these ran against the live
+    # state/HALT.json before this area existed, which is why none of them ran at all.
+
+    def only_the_owner_rung_writes_a_halt():
+        def probe(d, filed):
+            ESC.escalate(ESC.MANAGER, "C", "not the top rung")
+            if os.path.exists(ESC.HALT_FILE):
+                return False
+            ESC.escalate(ESC.OWNER, "C", "the top rung")
+            return os.path.exists(ESC.HALT_FILE)
+        return _esc_probe(probe)
+    net(a, "a halt file appears at OWNER and at no rung below it",
+        only_the_owner_rung_writes_a_halt,
+        "`if level >= OWNER` flipped to `<` halts the library on every JANITOR note and "
+        "lets a real OWNER fault pass without stopping anything")
+
+    def a_raised_halt_reads_back_as_halted():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "PROBE_HALT", "probe what")
+            halted, rec = ESC.status()
+            return halted is True and rec.get("code") == "PROBE_HALT" and rec.get("ruling") is None
+        return _esc_probe(probe)
+    net(a, "a halt that was raised reads back as standing",
+        a_raised_halt_reads_back_as_halted,
+        "`'cleared': False` flipped to True in the payload means every halt is born already "
+        "lifted -- the alarm is written down and nothing obeys it")
+
+    def the_verdict_travels_on_the_record():
+        def probe(d, filed):
+            return ESC.escalate(ESC.OWNER, "C", "W").get("halt_landed") is True
+        return _esc_probe(probe)
+    net(a, "the record says whether the halt actually landed",
+        the_verdict_travels_on_the_record,
+        "run #34: `landed = False` left unchanged reports every successful halt as not "
+        "raised, and `landed = True` reports every FAILED one as raised -- which is the "
+        "failure the whole verdict was added to expose")
+
+    def a_second_fault_corroborates_and_does_not_bury_the_first():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "FIRST", "the first thing that went wrong")
+            ESC.escalate(ESC.OWNER, "SECOND", "a louder later symptom")
+            halted, rec = ESC.status()
+            also = rec.get("also") or []
+            return (halted and rec.get("code") == "FIRST" and len(also) == 1
+                    and also[0].get("code") == "SECOND")
+        return _esc_probe(probe)
+    net(a, "a second fault while halted is appended, never written over the first",
+        a_second_fault_corroborates_and_does_not_bury_the_first,
+        "the FIRST thing that went wrong is the one a person needs; "
+        "`not cur.get('cleared', False)` flipped to True replaces it with the symptom")
+
+    def a_halt_that_loses_the_race_is_kept_as_corroboration():
+        """The compare-and-swap's conflict path, driven deterministically.
+
+        BUGS.md M38's remaining limb: `_raise_halt` did an unlocked read-modify-write, so two
+        processes raising a FIRST halt at once each read "no halt" and whichever renamed second
+        REPLACED the other's -- one OWNER fault lost, silently, on a successful write.
+
+        WHY THIS IS NOT A THREADED RACE TEST, AND THE MEASUREMENT THAT DECIDED IT. A threaded
+        version of this net was written first and MEASURED: 25 trials of two concurrent first
+        halts lost a fault in 1 of them, and at four writers in 7 of 25. The compare-and-swap
+        plus read-back is a large improvement -- the same harness against the ORIGINAL code lost
+        a fault in 25 of 25 trials at both widths, 75 faults in total at four writers -- but it
+        does NOT close the race, because `replace_if_unchanged` re-reads its digest immediately
+        before `os.replace` and that pair is not atomic. A net that fails 1 run in 25 would raise
+        a spurious OWNER halt roughly every twenty-fifth battery, and a flaky safety is worse
+        than an absent one: it teaches people that a red drill means nothing. The residual is
+        recorded as an order instead, with the numbers, and M38 stays open on that limb.
+
+        What IS deterministic, and is what the new machinery has to get right, is the CONFLICT
+        PATH: when the file moves under us, our fault must end up in the winner's `also` rather
+        than being dropped or overwriting them. A competitor is landed exactly once, between our
+        digest and our rename, by making the first `replace_if_unchanged` refuse the way a real
+        collision refuses.
+        """
+        d, filed, restore = _esc_sandbox()
+        real = ESC.silence.replace_if_unchanged
+        state = {"first": True}
+
+        def collides_once(tmp, dst, expected, attempts=5):
+            if state["first"]:
+                state["first"] = False
+                ESC.silence.write_json(dst, {
+                    "raised_at": 0.0, "code": "COMPETITOR", "what": "this one landed first",
+                    "evidence": None, "source": None, "by": "probe",
+                    "cleared": False, "ruling": None, "also": []}, indent=1)
+                ESC._unlink(tmp)
+                return False, "%s changed under this writer" % os.path.basename(dst)
+            return real(tmp, dst, expected, attempts)
+        try:
+            ESC.silence.replace_if_unchanged = collides_once
+            rec = ESC.escalate(ESC.OWNER, "OURS", "the fault that lost the race")
+            ESC.silence.replace_if_unchanged = real
+            halted, cur = ESC.status()
+            also = [x.get("code") for x in (cur.get("also") or [])]
+            return (halted is True
+                    and cur.get("code") == "COMPETITOR"      # the winner keeps the top slot
+                    and "OURS" in also                       # and ours is NOT lost
+                    and rec.get("halt_landed") is True)      # and we are told it landed
+        finally:
+            ESC.silence.replace_if_unchanged = real
+            restore()
+    net(a, "a halt that loses the write race is kept as corroboration, not dropped",
+        a_halt_that_loses_the_race_is_kept_as_corroboration,
+        "BUGS.md M38: an unlocked read-modify-write on the one ledger that must never lose a "
+        "fault -- the loser's OWNER escalation used to disappear on a SUCCESSFUL write, and "
+        "`halt_landed: True` said it had not")
+
+    def a_cleared_halt_is_replaced_not_appended_to():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "OLD", "an old fault, since ruled on")
+            rec = ESC._read_halt_raw()
+            rec["cleared"] = True
+            ESC.silence.write_json(ESC.HALT_FILE, rec, indent=1)
+            ESC.escalate(ESC.OWNER, "NEW", "a new fault after the lift")
+            cur = ESC._read_halt_raw()
+            return cur.get("code") == "NEW" and not cur.get("also") and cur.get("cleared") is False
+        return _esc_probe(probe)
+    net(a, "a NEW fault after a lift starts a new halt rather than joining the old one",
+        a_cleared_halt_is_replaced_not_appended_to,
+        "appending to a cleared halt leaves `cleared: true` standing, so the new fault is "
+        "recorded inside a halt that nothing obeys")
+
+    # ------------------------------------------------------------------ the halt, read
+    #
+    # FAIL CLOSED is this module's second declared property. It had exactly one net.
+
+    net(a, "no halt file at all is the only thing that means clear",
+        lambda: _esc_probe(lambda d, f: ESC.status() == (False, None)),
+        "`return False, None` flipped to `True, None` halts a library with no halt in it, "
+        "and every job refuses forever with nothing to read")
+
+    def a_cleared_halt_is_not_a_halt():
+        def probe(d, filed):
+            ESC.silence.write_json(ESC.HALT_FILE, {"cleared": True, "code": "OLD", "ruling": "ruled"})
+            halted, rec = ESC.status()
+            return halted is False and rec is not None
+        return _esc_probe(probe)
+    net(a, "a halt a person has ruled on is not standing",
+        a_cleared_halt_is_not_a_halt,
+        "`(not rec.get('cleared', False))` flipped to a bare True never lets the library "
+        "start again -- the lift becomes unreachable and only a file deletion helps")
+
+    def every_wrong_shape_reads_as_halted():
+        """Valid JSON of the WRONG SHAPE is the shape a half-written file most easily takes."""
+        def probe(d, filed):
+            for blob in ("null", "[]", '"halted"', "3"):
+                with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                    f.write(blob)
+                halted, rec = ESC.status()
+                if not (halted and (rec or {}).get("code") == "HALT_FILE_UNREADABLE"
+                        and rec.get("unreadable") is True):
+                    return False
+            return True
+        return _esc_probe(probe)
+    net(a, "a halt file of the wrong SHAPE reads as halted, not as absent",
+        every_wrong_shape_reads_as_halted,
+        "`if rec is None` flipped to `is not None`, or `not isinstance(rec, dict)` losing its "
+        "`not`, hands a list or a bare string straight back and every caller gets "
+        "AttributeError where the fail-closed promise says SystemHalted")
+
+    def assert_clear_is_the_interlock():
+        def probe(d, filed):
+            if ESC.assert_clear("probe") is not True:
+                return False
+            ESC.escalate(ESC.OWNER, "PROBE_HALT", "probe what")
+            try:
+                ESC.assert_clear("probe")
+                return False
+            except ESC.SystemHalted as e:
+                return ESC.HALT_REFUSAL in str(e) and "PROBE_HALT" in str(e)
+        return _esc_probe(probe)
+    net(a, "assert_clear passes a running library and refuses a halted one, by name",
+        assert_clear_is_the_interlock,
+        "this is the rung that makes the chain real; without it a halt is a note in a file "
+        "that the running jobs never read")
+
+    def the_destructive_tool_asks_before_it_moves_anything():
+        """The interlock is only real where it is WIRED, and this was the gap (bd107a18b13e).
+
+        `withdraw_chapters.py` `shutil.move`s every catalogued chapter out of the library, moves
+        every unclaimed stray in `output/raw`, and rewrites `output/index/catalog.json` -- the
+        file `generate.py` and `publish.py` both read. It MOVES rather than copies, so the
+        archive is the only copy afterwards. It was the one tool in its batch with an
+        irreversible action and the one not calling `assert_clear`.
+
+        DRIVEN, NOT READ. `verify_math`'s `_INTERLOCKED` roster now covers the two SOURCE
+        properties (no fail-open `except ImportError: pass`, and a "REFUSING TO" sentence). This
+        asks the behavioural question those cannot: with a halt actually standing, does `main()`
+        raise before it touches anything? Run with `--go` -- the destructive form -- on purpose:
+        a net that only proves the dry run refuses proves nothing about the run that moves files.
+        """
+        import withdraw_chapters as WC
+        d, filed, restore = _esc_sandbox()
+        argv = sys.argv
+        try:
+            ESC.silence.write_json(ESC.HALT_FILE, {
+                "raised_at": 0.0, "code": "DRILL_SYNTHETIC_HALT",
+                "what": "a synthetic standing halt for the interlock probe",
+                "by": "drill.py", "source": None, "cleared": False, "ruling": None, "also": []})
+            sys.argv = ["withdraw_chapters.py", "--go"]
+            return _refuses(WC.main, ESC.SystemHalted)
+        finally:
+            sys.argv = argv
+            restore()
+    net(a, "the tool that MOVES chapters out of the library asks about the halt first",
+        the_destructive_tool_asks_before_it_moves_anything,
+        "a halt is raised when a library-wide invariant has been violated, and moving the "
+        "chapters out and rewriting the index of them is the last thing that should proceed "
+        "on uncertain ground -- the move is one-way, so the archive is the only copy")
+
+    # ------------------------------------------------------------------ clear(), the asymmetry
+    #
+    # An autonomous run may RAISE a halt; only a person may lift one. `_no_programmatic_clear`
+    # proves no CALLER exists in src/. These prove the CAPABILITY refuses.
+
+    net(a, "a halt cannot be lifted by a program, whatever it calls itself",
+        lambda: _esc_probe(lambda d, f: _refuses(
+            lambda: ESC.clear("a ruling long enough to pass the words test"), PermissionError)),
+        "the incident this chain exists for was an automated agent removing a safety it had "
+        "concluded was unnecessary; the three identity tests in `_by_a_person_at_the_cli` are "
+        "one flipped `==` away from admitting every caller")
+
+    net(a, "a lift with no ruling is refused, and refused FIRST",
+        lambda: _esc_probe(lambda d, f: _refuses(lambda: ESC.clear(""), ValueError)
+                           and _refuses(lambda: ESC.clear("ok"), ValueError)),
+        "order of refusals is part of the contract: a caller check running ahead of the "
+        "ruling check answers these probes with the wrong refusal and leaves the ruling "
+        "rule untested")
+
+    # ------------------------------------------------------------------ rung four, read back
+    #
+    # `drill_rung_four` proves a stop is recorded and that resuming demands a ruling. These are
+    # the arms it does not reach: the fail-closed read, and the refusals that return False.
+
+    def an_unreadable_stop_ledger_stops_everything():
+        def probe(d, filed):
+            with open(ESC.STOPPED, "w", encoding="utf-8") as f:
+                f.write("[]")
+            held, why = ESC.subsystem_stopped("anything-at-all")
+            return held is True and "not an object" in why
+        return _esc_probe(probe)
+    net(a, "a stop ledger of the wrong shape reports EVERY subsystem stopped",
+        an_unreadable_stop_ledger_stops_everything,
+        "the file only exists to say what must not run, so failing to read it cannot be "
+        "permission to run things; this arm failed OPEN until run #36 found it")
+
+    def a_stop_reads_back_with_its_reason_and_its_author():
+        def probe(d, filed):
+            ESC.stop_subsystem("probe-sub", "a probe reason", who="drill-probe")
+            held, why = ESC.subsystem_stopped("probe-sub")
+            clear_, _ = ESC.subsystem_stopped("some-other-sub")
+            return held is True and "a probe reason" in why and "drill-probe" in why and not clear_
+        return _esc_probe(probe)
+    net(a, "a stopped subsystem reads back stopped, and its neighbours do not",
+        a_stop_reads_back_with_its_reason_and_its_author,
+        "a fault in one source must never close the park; `return True, ...` flipped in the "
+        "hit arm reports every subsystem running while the ledger says otherwise")
+
+    def the_stop_verdict_travels_on_the_record():
+        def probe(d, filed):
+            return ESC.stop_subsystem("probe-sub", "r", who="p").get("stop_recorded") is True
+        return _esc_probe(probe)
+    net(a, "the record says whether the stop was actually written down",
+        the_stop_verdict_travels_on_the_record,
+        "`landed, detail = False, 'not attempted'` flipped to True reports a stop that was "
+        "never recorded as recorded -- the twenty-five-minute failure, restored")
+
+    def resuming_something_that_is_not_stopped_is_refused():
+        def probe(d, filed):
+            return ESC.resume_subsystem("never-stopped", "a ruling long enough to pass") is False
+        return _esc_probe(probe)
+    net(a, "resuming a subsystem that was never stopped returns False",
+        resuming_something_that_is_not_stopped_is_refused,
+        "`if str(name) not in doc` flipped to `in` refuses every REAL resume and accepts "
+        "every meaningless one, so a genuinely stopped subsystem can never be re-opened")
+
+    def a_resume_lifts_the_stop_and_leaves_the_others_standing():
+        def probe(d, filed):
+            ESC.stop_subsystem("sub-a", "reason a", who="p")
+            ESC.stop_subsystem("sub-b", "reason b", who="p")
+            ok = ESC.resume_subsystem("sub-a", "a ruling long enough to pass the words test")
+            a_held, _ = ESC.subsystem_stopped("sub-a")
+            b_held, _ = ESC.subsystem_stopped("sub-b")
+            return ok is True and a_held is False and b_held is True
+        return _esc_probe(probe)
+    net(a, "a resume lifts exactly its own stop",
+        a_resume_lifts_the_stop_and_leaves_the_others_standing,
+        "the compare-and-swap exists because two concurrent stops each read the map and the "
+        "second writer lands a snapshot taken before the first's stop existed")
+
+    def a_resume_over_an_unreadable_ledger_writes_nothing():
+        def probe(d, filed):
+            with open(ESC.STOPPED, "w", encoding="utf-8") as f:
+                f.write("[]")
+            ok = ESC.resume_subsystem("anything", "a ruling long enough to pass the words test")
+            with open(ESC.STOPPED, encoding="utf-8") as f:
+                return ok is False and f.read().strip() == "[]"
+        return _esc_probe(probe)
+    net(a, "a resume never writes over a stop ledger nobody could read",
+        a_resume_over_an_unreadable_ledger_writes_nothing,
+        "the fault `binding_health.quarantine` was repaired for: writing through the "
+        "unreadable case lands the marker itself and destroys every standing stop")
+
+    # ------------------------------------------------------------------ _append, the janitor
+    #
+    # The lowest rung, on duty at all hours. Its return value is the only thing that says
+    # whether the record that outlives the process actually got written.
+
+    def the_janitor_writes_and_says_so():
+        def probe(d, filed):
+            path = os.path.join(d, "deep", "deeper", "j.log")
+            first = ESC._append(path, {"a": 1})
+            second = ESC._append(path, {"a": 2})
+            with open(path, encoding="utf-8") as f:
+                rows = [json.loads(line) for line in f if line.strip()]
+            return first is True and second is True and len(rows) == 2
+        return _esc_probe(probe)
+    net(a, "the janitor's log is created, appended to, and reports that it landed",
+        the_janitor_writes_and_says_so,
+        "`exist_ok=True` flipped to False makes the SECOND record of any run fail; "
+        "`return True` flipped to False says every successful write failed")
+
+    def the_janitor_reports_a_write_it_could_not_make():
+        def probe(d, filed):
+            blocker = os.path.join(d, "blocker")
+            with open(blocker, "w", encoding="utf-8") as f:
+                f.write("a file where a directory would have to be")
+            return ESC._append(os.path.join(blocker, "sub", "j.log"), {"a": 1}) is False
+        return _esc_probe(probe)
+    net(a, "a janitor write that could not happen is reported as not having happened",
+        the_janitor_reports_a_write_it_could_not_make,
+        "`return False` flipped to True in the handler reports every lost record as kept, "
+        "which is the one thing the bottom rung must never do")
+
+    def the_record_keeps_the_characters_it_was_given():
+        def probe(d, filed):
+            path = os.path.join(d, "j.log")
+            ESC._append(path, {"what": "Skånska — a source with a name"})
+            with open(path, encoding="utf-8") as f:
+                raw = f.read()
+            return "Skånska" in raw and "\\u" not in raw
+        return _esc_probe(probe)
+    net(a, "a record is written in the characters it was given, not in escapes",
+        the_record_keeps_the_characters_it_was_given,
+        "`ensure_ascii=False` flipped to True turns every non-ASCII source name in the "
+        "ledgers into `\\uXXXX`, and the person reading the log at the worst moment is the "
+        "one who has to decode it")
+
+    net(a, "an escalation with no named author records the program that raised it",
+        lambda: _esc_probe(lambda d, f: ESC.escalate(ESC.SAFETY, "C", "W")["who"]
+                           not in (None, "", "?")),
+        "`sys.argv[0] or '?'` flipped to `and` records a bare '?' for every escalation that "
+        "does not name itself, so the log cannot say which job raised the alarm")
+
+    # ------------------------------------------------------------------ the write that did NOT land
+    #
+    # Run #34's finding, and the reason `halt_landed` exists at all: on Windows the rename is
+    # DENIED while any reader holds the target, and this file HAS readers on their own clocks.
+    # A halt that did not land is a halt every other process's assert_clear() will not find.
+    # Nothing exercised these arms, because nothing could make the write fail on purpose.
+
+    def _with_refused_writes(d, fn, raising=False):
+        """Run `fn` with EVERY landing mechanism refused (or raising). -> fn's answer.
+
+        BOTH SPELLINGS, AND THAT IS THE POINT. This stubbed `silence.write_json` alone, and when
+        `_raise_halt` was compare-and-swapped it moved to `silence.replace_if_unchanged` -- so
+        four nets in this area went red against CORRECT code, because the helper was pinned to
+        one spelling of "land a file" rather than to the property. That is the same defect
+        `_failed_revert_is_escalated` was filed for one directory over: a net that names an
+        implementation instead of a behaviour breaks when the implementation improves, and in
+        this file a breach is an OWNER halt of a working library.
+
+        The two have different contracts and the stub honours both: `write_json` answers a bool,
+        `replace_if_unchanged` answers `(landed, why)`. `why` is "raised" rather than "changed"
+        deliberately -- "changed" means a competing writer got there first, which `_raise_halt`
+        RETRIES, and a probe that returned it would spin instead of testing the refusal path.
+        """
+        real_json = ESC.silence.write_json
+        real_cas = ESC.silence.replace_if_unchanged
+
+        def refuse_json(*args, **kw):
+            if raising:
+                raise OSError("refused on purpose")
+            return False
+
+        def refuse_cas(*args, **kw):
+            if raising:
+                raise OSError("refused on purpose")
+            return False, "raised"
+        ESC.silence.write_json = refuse_json
+        ESC.silence.replace_if_unchanged = refuse_cas
+        try:
+            return fn()
+        finally:
+            ESC.silence.write_json = real_json
+            ESC.silence.replace_if_unchanged = real_cas
+
+    def a_refused_halt_write_is_reported_as_not_raised():
+        def probe(d, filed):
+            rec = _with_refused_writes(d, lambda: ESC.escalate(ESC.OWNER, "PROBE", "probe what"))
+            if rec.get("halt_landed") is not False:
+                return False
+            with open(ESC.LOG, encoding="utf-8") as f:
+                rows = [json.loads(line) for line in f if line.strip()]
+            second = [r for r in rows if r.get("code") == "HALT_NOT_RAISED"]
+            return (len(second) == 1
+                    and second[0].get("evidence", {}).get("halt_landed") is False
+                    and second[0].get("evidence", {}).get("of_code") == "PROBE"
+                    and second[0].get("halt_landed") is False)
+        return _esc_probe(probe)
+    net(a, "a halt whose write was refused is recorded as NOT having been raised",
+        a_refused_halt_write_is_reported_as_not_raised,
+        "run #34: the verdict used to stop one frame short, so the actor that escalated to "
+        "OWNER could not tell a halt that took from one that never appeared -- and when it "
+        "never appears every other process carries straight on")
+
+    def a_halt_write_that_throws_is_also_reported():
+        def probe(d, filed):
+            rec = _with_refused_writes(
+                d, lambda: ESC.escalate(ESC.OWNER, "PROBE", "probe what"), raising=True)
+            return rec.get("halt_landed") is False
+        return _esc_probe(probe)
+    net(a, "a halt write that raises is reported as not raised, not as raised",
+        a_halt_write_that_throws_is_also_reported,
+        "`return False` flipped to True in the one handler that is allowed to be loud on "
+        "stderr reports the worst case in the module as a success")
+
+    def a_halt_keeps_the_characters_of_the_fault_it_records():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "PROBE", "the source Skånska broke an invariant")
+            with open(ESC.HALT_FILE, encoding="utf-8") as f:
+                raw = f.read()
+            return "Skånska" in raw and "\\u" not in raw
+        return _esc_probe(probe)
+    net(a, "the halt file is written in the characters of the fault it records",
+        a_halt_keeps_the_characters_of_the_fault_it_records,
+        "the halt file is what a person opens at the worst moment; escaping the one field "
+        "that names what broke is a cost paid exactly then")
+
+    # ------------------------------------------------------------------ fail closed on a MISSING key
+    #
+    # A half-written or hand-edited halt record is the realistic corruption, and `cleared` is
+    # the field the whole interlock turns on. Its ABSENCE must read as standing, not as lifted.
+
+    def a_halt_record_with_no_cleared_key_is_standing():
+        def probe(d, filed):
+            ESC.silence.write_json(ESC.HALT_FILE, {"code": "OLD", "what": "a fault"}, indent=1)
+            halted, rec = ESC.status()
+            return halted is True and rec.get("code") == "OLD"
+        return _esc_probe(probe)
+    net(a, "a halt record that has lost its `cleared` field is treated as STANDING",
+        a_halt_record_with_no_cleared_key_is_standing,
+        "`rec.get('cleared', False)` with its default flipped to True lifts every halt whose "
+        "record was truncated mid-write -- a halt that a corrupted file can lift is not a halt")
+
+    def a_second_fault_corroborates_a_halt_that_lost_its_cleared_key():
+        def probe(d, filed):
+            ESC.silence.write_json(ESC.HALT_FILE, {"code": "OLD", "what": "a fault"}, indent=1)
+            ESC.escalate(ESC.OWNER, "NEW", "a second fault")
+            cur = ESC._read_halt_raw()
+            also = cur.get("also") or []
+            return cur.get("code") == "OLD" and len(also) == 1 and also[0].get("code") == "NEW"
+        return _esc_probe(probe)
+    net(a, "a new fault does not overwrite a halt whose `cleared` field is missing",
+        a_second_fault_corroborates_a_halt_that_lost_its_cleared_key,
+        "the same default, one function along: with it flipped the standing halt is replaced "
+        "and the FIRST thing that went wrong -- the one a person needs -- is gone")
+
+    # ------------------------------------------------------------------ rung four, the failures
+    #
+    # `stop_subsystem`'s whole point is that the stop OUTLIVES the process that set it. Every
+    # arm that reports it did not is below, because each one flipped to True reports the
+    # twenty-five-minute failure as a stop that was written down.
+
+    def _stop_reports_failure(d, break_it):
+        real_read, real_write = ESC._read_stopped, ESC._write_stopped
+        break_it()
+        try:
+            return ESC.stop_subsystem("probe-sub", "a reason", who="p").get("stop_recorded")
+        finally:
+            ESC._read_stopped, ESC._write_stopped = real_read, real_write
+
+    def a_stop_that_could_not_be_read_is_not_recorded():
+        def probe(d, filed):
+            def boom():
+                def raise_it():
+                    raise OSError("unreadable on purpose")
+                ESC._read_stopped = raise_it
+            return _stop_reports_failure(d, boom) is False
+        return _esc_probe(probe)
+    net(a, "a stop over a ledger that could not be read at all is reported as not recorded",
+        a_stop_that_could_not_be_read_is_not_recorded,
+        "`landed, detail = False, ...` flipped to True in the read handler tells the caller "
+        "the subsystem is closed while nothing on disk says so")
+
+    def a_stop_over_an_unreadable_ledger_is_not_recorded():
+        def probe(d, filed):
+            with open(ESC.STOPPED, "w", encoding="utf-8") as f:
+                f.write("[]")
+            rec = ESC.stop_subsystem("probe-sub", "a reason", who="p")
+            with open(ESC.STOPPED, encoding="utf-8") as f:
+                untouched = f.read().strip() == "[]"
+            return rec.get("stop_recorded") is False and untouched
+        return _esc_probe(probe)
+    net(a, "a stop never writes over a ledger nobody could read, and says it did not land",
+        a_stop_over_an_unreadable_ledger_is_not_recorded,
+        "writing through the unreadable case lands the marker itself and destroys every "
+        "standing stop -- the fault `binding_health.quarantine` was repaired for")
+
+    def a_stop_whose_temp_copy_failed_is_not_recorded():
+        def probe(d, filed):
+            def boom():
+                def raise_it(*args, **kw):
+                    raise OSError("temp copy refused on purpose")
+                ESC._write_stopped = raise_it
+            return _stop_reports_failure(d, boom) is False
+        return _esc_probe(probe)
+    net(a, "a stop whose temp copy could not be written is reported as not recorded",
+        a_stop_whose_temp_copy_failed_is_not_recorded,
+        "a stop is already an emergency; it must not also become a traceback at its caller, "
+        "and it must never be reported as taken when it was not")
+
+    def a_resume_whose_write_failed_leaves_the_subsystem_stopped():
+        def probe(d, filed):
+            ESC.stop_subsystem("probe-sub", "a reason", who="p")
+            real = ESC._write_stopped
+
+            def raise_it(*args, **kw):
+                raise OSError("temp copy refused on purpose")
+            ESC._write_stopped = raise_it
+            try:
+                ok = ESC.resume_subsystem("probe-sub",
+                                          "a ruling long enough to pass the words test")
+            finally:
+                ESC._write_stopped = real
+            held, _ = ESC.subsystem_stopped("probe-sub")
+            return ok is False and held is True
+        return _esc_probe(probe)
+    net(a, "a resume that could not be written leaves the stop standing and says so",
+        a_resume_whose_write_failed_leaves_the_subsystem_stopped,
+        "order 4f290dae34ef: the operator got a traceback while the subsystem was still "
+        "stopped on disk; reporting it as resumed instead is the same fault told as good news")
+
+    def a_refused_write_leaves_no_litter_beside_the_ledger():
+        def probe(d, filed):
+            ESC.stop_subsystem("probe-sub", "a reason", who="p")
+            # A digest taken from a state the file is no longer in: the compare-and-swap must
+            # refuse, and refuse without leaving its temp copy behind.
+            ok, why = ESC._write_stopped({"x": {}}, "a digest this file never had")
+            litter = [n for n in os.listdir(d) if n.endswith(".tmp")]
+            return ok is False and not litter
+        return _esc_probe(probe)
+    net(a, "a compare-and-swap that refuses leaves no temp file beside the ledger",
+        a_refused_write_leaves_no_litter_beside_the_ledger,
+        "`if not ok` losing its `not` unlinks on SUCCESS and litters on refusal, so the "
+        "state directory fills with half-written maps of what must not run")
+
+    def the_stop_ledger_keeps_the_characters_it_was_given():
+        def probe(d, filed):
+            ESC.stop_subsystem("Skånska-jobb", "stängd", who="p")
+            with open(ESC.STOPPED, encoding="utf-8") as f:
+                raw = f.read()
+            held, _ = ESC.subsystem_stopped("Skånska-jobb")
+            return held is True and "Skånska-jobb" in raw and "\\u" not in raw
+        return _esc_probe(probe)
+    net(a, "a subsystem with a non-ASCII name is stopped under the name it was given",
+        the_stop_ledger_keeps_the_characters_it_was_given,
+        "`_read_stopped` opens this file as utf-8, so the two ends agree by construction -- "
+        "flipping `ensure_ascii` breaks the agreement the comment claims is structural")
+
+    # ------------------------------------------------------------------ who may lift a halt
+    #
+    # `_by_a_person_at_the_cli` asks three questions, and a single flipped comparison in any of
+    # them admits every caller. The first net proves the guard refuses; these prove each of the
+    # three questions is load-bearing on its own -- a guard whose parts are individually inert
+    # is a guard that passes review and stops nothing.
+
+    def _call_clear_from(filename, funcname):
+        """Call `ESC.clear` from a function whose code object claims that file and name.
+
+        The frame `_by_a_person_at_the_cli` inspects is its caller's caller, so forging the
+        frame is the only honest way to ask whether each identity test carries weight. The
+        `__main__` module is pointed at escalation.py for the duration so the FIRST test passes
+        and the other two are the ones actually being asked.
+        """
+        import io as _io
+        ns = {"ESC": ESC}
+        src = "def %s():\n    return ESC.clear('a ruling long enough to pass')\n" % funcname
+        exec(compile(src, filename, "exec"), ns)
+        main_mod = sys.modules.get("__main__")
+        had = hasattr(main_mod, "__file__")
+        was = getattr(main_mod, "__file__", None)
+        main_mod.__file__ = ESC.__file__
+        try:
+            return _refuses(ns[funcname], PermissionError)
+        finally:
+            if had:
+                main_mod.__file__ = was
+            else:
+                del main_mod.__file__
+            del _io
+
+    net(a, "a caller inside escalation.py that is not main() may still not lift a halt",
+        lambda: _esc_probe(lambda d, f: _call_clear_from(ESC.__file__, "not_main")),
+        "the caller-NAME test is one flipped `==` from admitting any function in this file, "
+        "so a helper added later would inherit the owner's authority without anyone deciding "
+        "that it should")
+    net(a, "a caller named main() in another file may not lift a halt either",
+        lambda: _esc_probe(lambda d, f: _call_clear_from(
+            os.path.join(os.path.dirname(ESC.__file__), "not_escalation.py"), "main")),
+        "the caller-FILE test is the other half: a module that reaches in and calls a "
+        "borrowed `main()` must not be able to lift the library's halt")
+
+    # ------------------------------------------------------------------ the lift itself
+    #
+    # Everything past the person check was unreachable from any test, which is why every line
+    # of it survived mutation. The authorisation is asserted above and stubbed here, on
+    # purpose: whether a program may lift a halt and whether a lift does the right thing are
+    # two questions, and testing the second must not require answering the first wrongly.
+
+    def _as_a_person(fn):
+        real = ESC._by_a_person_at_the_cli
+        ESC._by_a_person_at_the_cli = lambda: True
+        try:
+            return fn()
+        finally:
+            ESC._by_a_person_at_the_cli = real
+
+    def lifting_an_unhalted_library_changes_nothing():
+        def probe(d, filed):
+            return _as_a_person(lambda: ESC.clear("a ruling long enough to pass")) is False
+        return _esc_probe(probe)
+    net(a, "lifting a halt that is not standing reports that nothing was lifted",
+        lifting_an_unhalted_library_changes_nothing,
+        "`if not halted` losing its `not` refuses every REAL lift and accepts every empty "
+        "one, so the halt becomes permanent and the CLI says it cleared")
+
+    def a_lift_records_the_ruling_beside_the_original_fault():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "ORIGINAL", "the fault that stopped the library",
+                         source="a-source")
+            ruling = "read the evidence and decided it was a false alarm"
+            did = _as_a_person(lambda: ESC.clear(ruling, by="drill-probe"))
+            halted, rec = ESC.status()
+            return (did is True and halted is False
+                    and rec.get("cleared") is True
+                    and rec.get("ruling") == ruling
+                    and rec.get("cleared_by") == "drill-probe"
+                    and rec.get("code") == "ORIGINAL"
+                    and rec.get("source") == "a-source")
+        return _esc_probe(probe)
+    net(a, "a lift keeps the ruling WITH the fault it was given for",
+        a_lift_records_the_ruling_beside_the_original_fault,
+        "the halt exists to buy a decision; `dict(rec or {})` flipped to `and` throws the "
+        "original fault away and leaves a ruling about nothing, and `'cleared': True` "
+        "flipped to False leaves the library halted while reporting that it is not")
+
+    def a_lift_whose_write_was_refused_is_reported_as_not_lifted():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "ORIGINAL", "the fault that stopped the library")
+            did = _with_refused_writes(
+                d, lambda: _as_a_person(lambda: ESC.clear("a ruling long enough to pass")))
+            halted, _ = ESC.status()
+            return did is False and halted is True
+        return _esc_probe(probe)
+    net(a, "a lift whose write was refused is reported as not lifted, and the halt stands",
+        a_lift_whose_write_was_refused_is_reported_as_not_lifted,
+        "the mirror of `_raise_halt`'s discarded verdict: a person walks away believing the "
+        "library is running while every job goes on refusing")
+
+    def a_lift_that_did_not_land_writes_no_ledger_entry():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "ORIGINAL", "the fault that stopped the library")
+            _with_refused_writes(
+                d, lambda: _as_a_person(lambda: ESC.clear("a ruling long enough to pass")))
+            with open(ESC.LOG, encoding="utf-8") as f:
+                rows = [json.loads(line) for line in f if line.strip()]
+            return not [r for r in rows if r.get("code") == "HALT_CLEARED"]
+        return _esc_probe(probe)
+    net(a, "no HALT_CLEARED line is written for a lift that did not happen",
+        a_lift_that_did_not_land_writes_no_ledger_entry,
+        "a ledger entry for a lift that did not happen is worse than no entry, because it "
+        "is what the next reader trusts when the file and the log disagree")
+
+    # ------------------------------------------------------------------ the CLI
+    #
+    # What a person actually reads, and the return codes a script actually branches on. The
+    # `--status` display could not be exercised at all without a standing halt, so none of it
+    # was: every line of the HALTED report survived mutation.
+
+    def _cli(argv):
+        """Run `escalation.main()` under a forged argv. -> (rc, stdout)."""
+        import contextlib as _c
+        import io as _io
+        buf = _io.StringIO()
+        was = sys.argv
+        sys.argv = ["escalation.py"] + list(argv)
+        try:
+            with _c.redirect_stdout(buf):
+                rc = ESC.main()
+        finally:
+            sys.argv = was
+        return rc, buf.getvalue()
+
+    def the_status_report_names_the_fault():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "PROBE_CODE", "the invariant that broke",
+                         source="a-source", who="drill-probe")
+            rc, out = _cli(["--status"])
+            return (rc == 1 and "HALTED" in out and "PROBE_CODE" in out
+                    and "the invariant that broke" in out and "a-source" in out
+                    and "drill-probe" in out)
+        return _esc_probe(probe)
+    net(a, "the status report names the code, the fault, the source and who raised it",
+        the_status_report_names_the_fault,
+        "`(rec or {}).get(k)` flipped to `and` prints None for every field, so the one "
+        "screen a person reads while the library is stopped says nothing at all")
+
+    def the_status_report_counts_the_corroborating_faults():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "FIRST", "the first fault")
+            ESC.escalate(ESC.OWNER, "SECOND", "a later symptom")
+            rc, out = _cli(["--status"])
+            return "+1 further fault" in out
+        return _esc_probe(probe)
+    net(a, "the status report says how many further faults arrived while halted",
+        the_status_report_counts_the_corroborating_faults,
+        "`(rec or {}).get('also')` flipped to `and` always reads an empty mapping, so a "
+        "halt with a dozen corroborating faults reports none of them")
+
+    def a_clear_library_reports_itself_running():
+        def probe(d, filed):
+            rc, out = _cli(["--status"])
+            return rc == 0 and "clear" in out
+        return _esc_probe(probe)
+    net(a, "a library with no halt reports itself running, with a zero return code",
+        a_clear_library_reports_itself_running,
+        "every job in this project branches on this rc; `if not halted` losing its `not` "
+        "inverts the answer for all of them")
+
+    def raising_a_halt_by_hand_reports_the_landing():
+        def probe(d, filed):
+            rc, out = _cli(["--raise-halt", "BY_HAND:a person stopped the library"])
+            halted, rec = ESC.status()
+            return (rc == 0 and "halted." in out and halted is True
+                    and rec.get("code") == "BY_HAND"
+                    and rec.get("what") == "a person stopped the library")
+        return _esc_probe(probe)
+    net(a, "a halt raised by hand carries the code and the words it was given",
+        raising_a_halt_by_hand_reports_the_landing,
+        "`what or 'raised by hand'` flipped to `and` discards what the person typed and "
+        "records the placeholder for every deliberate halt")
+
+    def a_hand_raised_halt_that_did_not_land_returns_nonzero():
+        def probe(d, filed):
+            rc, out = _cli([])          # warm the parser path with no halt standing
+            rc, out = _with_refused_writes(
+                d, lambda: _cli(["--raise-halt", "BY_HAND:stopping the library"]))
+            return rc == 1 and "NOT RAISED" in out
+        return _esc_probe(probe)
+    net(a, "a hand-raised halt that never landed says so, with a non-zero return code",
+        a_hand_raised_halt_that_did_not_land_returns_nonzero,
+        "order a1addbdff907: a person who deliberately halted the library was told on stdout "
+        "that they had, with a success rc for any script watching, whether or not the file "
+        "ever appeared")
+
+    def the_cli_identity_admits_the_one_caller_it_is_supposed_to():
+        """The guard's POSITIVE direction, which no other net here asks for.
+
+        Every check above proves `_by_a_person_at_the_cli` REFUSES. A guard that refuses
+        everything passes all of them and breaks the only way a halt can ever be lifted --
+        which is not a safe failure, it is a library that can be stopped and never started.
+        `python src/escalation.py --clear` is the sanctioned path and it has to keep working.
+        """
+        def probe(d, filed):
+            ns = {"ESC": ESC}
+            src = "def main():\n    return ESC.clear('a ruling long enough to pass')\n"
+            exec(compile(src, ESC.__file__, "exec"), ns)
+            main_mod = sys.modules.get("__main__")
+            had = hasattr(main_mod, "__file__")
+            was = getattr(main_mod, "__file__", None)
+            main_mod.__file__ = ESC.__file__
+            try:
+                return ns["main"]() is False      # admitted, and nothing was standing to lift
+            except PermissionError:
+                return False                      # the sanctioned path was refused. Breach.
+            finally:
+                if had:
+                    main_mod.__file__ = was
+                else:
+                    del main_mod.__file__
+        return _esc_probe(probe)
+    net(a, "the sanctioned CLI lift is ADMITTED, so the halt is not one-way",
+        the_cli_identity_admits_the_one_caller_it_is_supposed_to,
+        "the program-identity test is one flipped operator from refusing its own CLI, and a "
+        "halt nobody can lift stops the library permanently over a fault that was ruled on")
+
+    def a_refused_halt_write_is_loud_on_stderr():
+        """The one failure in this module allowed to be loud, and the only reader some jobs have.
+
+        Everything here runs under CREATE_NO_WINDOW, so stderr is frequently the only channel a
+        person sees at the moment the halt does not land. The `silence.note` counter and the
+        janitor line are both asserted elsewhere; this asserts the sentence, and asserts it is
+        NOT printed when the write did land -- a warning that fires on the good path is a
+        warning people learn to scroll past.
+        """
+        def probe(d, filed):
+            import contextlib as _c
+            import io as _io
+            noisy, quiet = _io.StringIO(), _io.StringIO()
+            with _c.redirect_stderr(noisy):
+                _with_refused_writes(d, lambda: ESC.escalate(ESC.OWNER, "PROBE", "probe what"))
+            with _c.redirect_stderr(quiet):
+                ESC.escalate(ESC.OWNER, "PROBE2", "probe what")
+            return ("CANNOT WRITE HALT FILE" in noisy.getvalue()
+                    and "CANNOT WRITE HALT FILE" not in quiet.getvalue())
+        return _esc_probe(probe)
+    net(a, "a halt whose rename was refused says so on stderr, and only then",
+        a_refused_halt_write_is_loud_on_stderr,
+        "`if not landed` losing its `not` prints the alarm on every SUCCESSFUL halt and stays "
+        "silent on the one that did not land, which is the failure inverted rather than caught")
+
+    def a_lift_keeps_the_characters_of_the_ruling():
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "ORIGINAL", "the fault that stopped the library")
+            ruling = "läste bevisen och beslutade att det var falsklarm"
+            _as_a_person(lambda: ESC.clear(ruling, by="drill-probe"))
+            with open(ESC.HALT_FILE, encoding="utf-8") as f:
+                raw = f.read()
+            _halted, rec = ESC.status()
+            return ruling in raw and "\\u" not in raw and rec.get("ruling") == ruling
+        return _esc_probe(probe)
+    net(a, "the ruling is kept in the characters it was written in",
+        a_lift_keeps_the_characters_of_the_ruling,
+        "the ruling is the whole reason the halt was worth having; storing it as `\\uXXXX` "
+        "makes the record of the decision less readable than the fault it settled")
+
+
+def drill_assay_behaviour():
+    """The scoring engine, DRIVEN at the arms the battery could not see. Orders MUTANT_SURVIVED_ASSAY_*.
+
+    The mutation pass reported ELEVEN survivors in `assay.py` -- eleven single-token corruptions
+    that `verify_math.py` and every existing drill area passed straight over. They cluster, and
+    the cluster is legible: `verify_math` checks the ARITHMETIC (does the composite come out
+    where the charter says), and `drill_assay`/`drill_assay_engine` check the HAPPY PATH and the
+    published invariants. What neither reaches is the REFUSALS and the SENTINEL bookkeeping --
+    the Layer-1 weight validation, the nil/unscored partition, the floor half of the ladder
+    clamp, and the reason a faculty prints no value. Those are the arms that only run when a
+    caller gets something wrong, which is exactly when they have to be right.
+
+    Every net below drives the real public function and asserts on the real returned dict.
+    """
+    a = "THE ASSAY, DRIVEN — the refusals and the sentinels, not the arithmetic"
+
+    # ------------------------------------------------------------------ Layer 1: the weight table
+    #
+    # `weights=` is a PUBLIC per-call override. custodes.py builds one per Custos. Everything
+    # downstream -- the composite, the denominator, the error bar -- trusts that this checked it.
+
+    net(a, "an empty weight table is refused, not read as 'use the defaults'",
+        lambda: _refuses(lambda: ASSAY._check_weights({}), ASSAY.AssayIntegrityError),
+        "`not isinstance(weights, dict) or not weights` flipped to `and` admits `{}`, and an "
+        "empty override is not the defaults -- it is a universe with no Measures in it")
+    net(a, "a weight table that is not a table is refused as a weight table",
+        lambda: _refuses(lambda: ASSAY._check_weights([1, 2]), ASSAY.AssayIntegrityError),
+        "with the same flip a truthy non-dict walks past the guard and dies on `.items()` "
+        "one frame later, so the caller gets AttributeError where the contract promises "
+        "AssayIntegrityError")
+    net(a, "a boolean is not a weight",
+        lambda: _refuses(lambda: ASSAY._check_weights({"ruin": True}),
+                         ASSAY.AssayIntegrityError),
+        "`isinstance(v, bool) or not isinstance(v, (int, float))` flipped to `and` admits "
+        "True/False -- which ARE ints in Python, so they would score silently as 1 and 0 "
+        "rather than being named as the mistake they are")
+    net(a, "a negative weight is still refused, and a zero weight is still allowed",
+        lambda: (_refuses(lambda: ASSAY._check_weights({"ruin": -1.0}),
+                          ASSAY.AssayIntegrityError)
+                 and ASSAY._check_weights({"ruin": 0.0, "celerity": 1.0}) is None),
+        "a negative weight asserts that scoring well LOWERS a being's standing, which is a "
+        "different method; 'this axis does not count for this reading' is a coherent thing "
+        "for a caller to say and must survive the guard that stops the other one")
+
+    # ------------------------------------------------------------------ the nil / unscored partition
+    #
+    # Three states an axis can be in and they carry three different dispersions. Swapping any
+    # two changes every published error bar in the library and changes no arithmetic anywhere
+    # that `verify_math` looks.
+
+    def a_nil_axis_is_narrower_than_an_unscored_one():
+        """NIL is knowledge; UNSCORED is ignorance. The bars must say so.
+
+        ASSERTED PER AXIS, not on the published total, and the difference matters. Comparing
+        one assay's interval against another's caught the partition mutation at line 947 and
+        NOT the dispersion mutation at line 802: swapping which branch gets the nil factor
+        moves BOTH assays in the same direction, so the `<` between them still held while
+        every nil axis in the library was silently carrying the dispersion of ignorance and
+        every ignorant one the nil factor. `reach` and `volition` are given identical weights
+        by WEIGHTS, so their variance terms in ONE assay are directly comparable and the
+        comparison is about the dispersion alone.
+        """
+        scored = {"ruin": 7.0, "celerity": 6.0}
+        plain = ASSAY.assay("M3", dict(scored), worksheet="w")
+        with_nil = ASSAY.assay("M3", dict(scored, reach=ASSAY.NONE), worksheet="w")
+        var = with_nil["variance_by_axis"]
+        return (with_nil["interval"] < plain["interval"]
+                and with_nil["axes_nil"] == ["reach"]
+                and "reach" not in with_nil["axes_unscored"]
+                and "volition" in with_nil["axes_unscored"]
+                and ASSAY.WEIGHTS["reach"] == ASSAY.WEIGHTS["volition"]
+                and var["reach"] < var["volition"])
+    net(a, "an axis known to be nil tightens the bar; an unscored one does not",
+        a_nil_axis_is_narrower_than_an_unscored_one,
+        "`elif k in nil` flipped to `not in` gives every nil axis the dispersion of ignorance "
+        "and every ignorant axis the nil factor -- every error bar in the library moves and "
+        "no arithmetic check notices")
+
+    def the_unscored_list_is_the_axes_with_no_score():
+        r = ASSAY.assay("M3", {"ruin": 7.0, "celerity": 6.0}, worksheet="w")
+        unscored, scored = set(r["axes_unscored"]), set(r["scores"])
+        return (unscored == set(ASSAY.WEIGHTS) - scored and not (unscored & scored)
+                and "ruin" not in unscored and "reach" in unscored)
+    net(a, "the unscored axes are the ones that were not scored",
+        the_unscored_list_is_the_axes_with_no_score,
+        "`k not in used` flipped to `in` publishes the SCORED axes as the unscored ones, so "
+        "the coverage figure and the ignorance term both invert while the composite stays put")
+
+    def an_inapplicable_axis_is_not_charged_as_ignorance():
+        """INAPPLICABLE leaves the denominator; UNESTIMABLE stays in it. That is the whole
+        distinction, and it is the one a reader of a published bar is trusting."""
+        base = {"ruin": 7.0, "celerity": 6.0}
+        na = ASSAY.assay("M3", dict(base, suasion=ASSAY.INAPPLICABLE), worksheet="w")
+        un = ASSAY.assay("M3", dict(base, suasion=ASSAY.UNESTIMABLE), worksheet="w")
+        return (na["axes_unestimable"] == [] and un["axes_unestimable"] == ["suasion"]
+                and "suasion" not in na["axes_unscored"]
+                and "suasion" not in un["axes_unscored"]
+                and "suasion" not in na["variance_by_axis"]
+                and "suasion" in un["variance_by_axis"])
+    net(a, "an inapplicable axis leaves the denominator and an unestimable one does not",
+        an_inapplicable_axis_is_not_charged_as_ignorance,
+        "charging ignorance for an axis that cannot apply punishes an assessor for knowing "
+        "that a landslide has no Suasion")
+
+    # ------------------------------------------------------------------ the ladder clamp, both ends
+    #
+    # A clamp on one end of a scale is not a clamp, it is a half-checked instrument -- the
+    # file's own words. The ceiling end is exercised; the FLOOR end never was, and all three of
+    # its lines survived mutation.
+
+    def the_floor_end_of_the_ladder_says_which_case_it_is():
+        """The floor arm is DEFENCE IN DEPTH, and reaching it means going round Layer 1.
+
+        `_check_weights` now refuses the negative weight that produced the original
+        `MOTH M3.-90`, so with the public API intact the composite cannot go below zero and
+        this arm is unreachable -- which is exactly why all three of its lines survived
+        mutation. The file's own comment says the arm is written anyway, because the guarantee
+        worth having is about the NOTATION and not about any one route into it. That is a
+        testable claim, so it is tested: Layer 1 is stood down for the length of the call and
+        the historical route (order 8b74d2b4f569, quoted verbatim in `assay()`) is driven
+        through the arm it was filed for. Layer 1 is restored in `finally`, and the net above
+        proves it still refuses.
+        """
+        real = ASSAY._check_weights
+        ASSAY._check_weights = lambda w: None
+        try:
+            bad = {"ruin": 1.0, "celerity": -0.5}
+            below_band = ASSAY.assay("M3", {"ruin": 0.0, "celerity": 9.0},
+                                     worksheet="w", weights=bad)
+            at_floor = ASSAY.assay("M0", {"ruin": 0.0, "celerity": 9.0},
+                                   worksheet="w", weights=bad)
+        finally:
+            ASSAY._check_weights = real
+        return (at_floor["decimal"] == 0.0
+                and at_floor["at_ladder_floor"] is True
+                and at_floor["demotion_due"] is False
+                and below_band["decimal"] == 0.0
+                and below_band["at_ladder_floor"] is False
+                and below_band["demotion_due"] is True
+                and "-" not in below_band["moth_number"].split("±")[0])
+    net(a, "the floor end names which case it is: saturation at M0, demotion above it",
+        the_floor_end_of_the_ladder_says_which_case_it_is,
+        "`anchor == LADDER[0]` flipped to `!=` swaps the two answers, so a being pinned at "
+        "the bottom of the scale is reported as needing demotion below it and a genuinely "
+        "over-anchored one is reported as saturated -- and both flags exist precisely so a "
+        "reviewer can tell those apart")
+
+    def the_ceiling_end_still_says_which_case_it_is():
+        """The mirror, kept beside it: a net that only checks the newly-broken end is how the
+        other end becomes the next survivor."""
+        top = {k: 10.0 for k in ASSAY.WEIGHTS}
+        at_ceiling = ASSAY.assay("M10", top, worksheet="w")
+        above_band = ASSAY.assay("M5", top, worksheet="w")
+        return (at_ceiling["at_ladder_ceiling"] is True and at_ceiling["promotion_due"] is False
+                and above_band["at_ladder_ceiling"] is False and above_band["promotion_due"] is True
+                and at_ceiling["decimal"] == 0.99)
+    net(a, "the ceiling end names which case it is too",
+        the_ceiling_end_still_says_which_case_it_is,
+        "the printed decimal is inside [0, 1) or the dict says which end it hit and why")
+
+    # ------------------------------------------------------------------ the instrument's silences
+    #
+    # "Transcendence is not evidence" (Definition 5). A faculty with nothing behind it prints no
+    # value AND no Grade -- and it has to print WHY, or the silence is indistinguishable from a
+    # bug in the caller.
+
+    def a_half_read_constitution_says_which_half_was_missing():
+        """Constitution is the mean of two axes, so it has a failure mode the others do not:
+        either half can be the sentinel, and the reason must survive whichever it is."""
+        first = ASSAY.instrument("M6", {"continuity": ASSAY.NONE, "sustain": 5.0},
+                                 worksheet="w")
+        second = ASSAY.instrument("M6", {"continuity": 5.0, "sustain": ASSAY.UNESTIMABLE},
+                                  worksheet="w")
+        both = ASSAY.instrument("M6", {"continuity": 5.0, "sustain": 5.0}, worksheet="w")
+        return (first["faculties"]["Constitution"] is None
+                and first["faculty_status"]["Constitution"] == ASSAY.NONE
+                and second["faculties"]["Constitution"] is None
+                and second["faculty_status"]["Constitution"] == ASSAY.UNESTIMABLE
+                and both["faculties"]["Constitution"] is not None)
+    net(a, "a faculty that prints no value says which of its readings was missing",
+        a_half_read_constitution_says_which_half_was_missing,
+        "`(why_a or why_b)` flipped to `and` returns None whenever the FIRST half is the "
+        "sentinel, so the commonest case prints a blank Grade with no reason beside it and "
+        "reads as a defect in the instrument rather than as an unattested axis")
+
+    # ------------------------------------------------------------------ the attestation floor
+    #
+    # Order 13a678071cbf: an unrecognised grade is NAMED, not absorbed. Two layers have to
+    # speak, because two layers absorbing the same bad input the same way is one layer and a decoy.
+
+    def a_recognised_grade_uses_its_own_floor_and_an_unknown_one_is_named():
+        readings = {"AVAR": 3.0, "QUILL": 3.2, "MOTH": 3.1}
+        tight = ASSAY.interval_from_hands(readings, "Instrumented")
+        loose = ASSAY.interval_from_hands(readings, "Disputed")
+        typo = ASSAY.interval_from_hands(readings, "witnessed")
+        proper = ASSAY.interval_from_hands(readings, "Witnessed")
+        return (tight["interval"] < loose["interval"]
+                and tight["attestation_recognised"] is True
+                and tight["attestation_floor"] == ASSAY.ATTESTATION_FLOOR["Instrumented"]
+                and typo["attestation_recognised"] is False
+                and typo["attestation_floor"] == ASSAY.ATTESTATION_FLOOR_UNRECOGNISED
+                and "UNRECOGNISED" in typo["attestation_source"]
+                and typo["interval"] != proper["interval"])
+    net(a, "a recognised attestation uses its own floor; an unrecognised one is not absorbed",
+        a_recognised_grade_uses_its_own_floor_and_an_unknown_one_is_named,
+        "`attestation in ATTESTATION_FLOOR` flipped to `not in` gives every RECOGNISED grade "
+        "the unrecognised floor and raises KeyError on every typo -- so the five grades the "
+        "charter defines stop meaning anything and the bad input crashes instead of speaking")
+
+    # ------------------------------------------------------------------ the calibration report
+    #
+    # The single worked example the charter fixes by hand. `holds` is the one field anything
+    # reads, and it is an AND of two independent agreements.
+
+    def calibration_holds_only_when_BOTH_halves_agree():
+        real_i, real_d = ASSAY.CHARTER_KENSHIRO_INTERVAL, ASSAY.CHARTER_KENSHIRO_DECIMAL
+        try:
+            if not ASSAY.calibration_report()["holds"]:
+                return False                      # the real table must agree with itself
+            ASSAY.CHARTER_KENSHIRO_DECIMAL = real_d + 0.5
+            half = ASSAY.calibration_report()
+            return half["holds"] is False and half["interval"] == half["want_interval"]
+        finally:
+            ASSAY.CHARTER_KENSHIRO_INTERVAL = real_i
+            ASSAY.CHARTER_KENSHIRO_DECIMAL = real_d
+    net(a, "the calibration holds only when the interval AND the decimal both agree",
+        calibration_holds_only_when_BOTH_halves_agree,
+        "`and` flipped to `or` reports the charter's worked example as holding when only one "
+        "of its two published figures still matches, which is the check certifying itself")
 
 
 def drill_threads():
@@ -5880,11 +7328,14 @@ def drill_codewatch():
         None must never be compared equal to a stored digest -- that would silently stop the
         watching without stopping the reporting."""
         import codewatch as CW
-        empty = os.path.join(tempfile.gettempdir(), "drill_codewatch_none")
-        os.makedirs(empty, exist_ok=True)
-        fp = CW.fingerprint(empty)
-        # An empty directory legitimately fingerprints; the None path is the unreadable one.
-        return fp is not None and CW.fingerprint(os.path.join(empty, "does_not_exist")) is None
+        empty = tempfile.mkdtemp(prefix="drill_codewatch_none_")
+        try:
+            fp = CW.fingerprint(empty)
+            # An empty directory legitimately fingerprints; the None path is the unreadable one.
+            return (fp is not None
+                    and CW.fingerprint(os.path.join(empty, "does_not_exist")) is None)
+        finally:
+            shutil.rmtree(empty, ignore_errors=True)
     net(a, "an unreadable source tree is not mistaken for an unchanged one",
         unreadable_source_is_not_reported_as_unchanged,
         "None must never compare equal to a digest")
@@ -5911,13 +7362,10 @@ def drill_codewatch():
         write a job into it.
         """
         import codewatch as CW
-        import shutil
         real = CW.LEDGER
-        d = os.path.join(tempfile.gettempdir(), "drill_codewatch_budget")
+        d = tempfile.mkdtemp(prefix="drill_codewatch_budget_")
         who = "__drill__"
         try:
-            shutil.rmtree(d, ignore_errors=True)
-            os.makedirs(d, exist_ok=True)
             CW.LEDGER = os.path.join(d, "CODEWATCH.json")
 
             def ledger(times):
@@ -6488,7 +7936,9 @@ def drill_recorders_and_lane():
             # SUBSTITUTED UNDER ITS OWN NAME: what a torn write or a replaced file looks like.
             other = CS.store("something else entirely" * 20, d)
             shutil.copyfile(other["path"], good["path"])
-            if not _refuses(lambda: CS.load(good["path"], good["codec"]), RuntimeError):
+            if not _deliberately_failing(
+                    lambda: _refuses(lambda: CS.load(good["path"], good["codec"]),
+                                     RuntimeError)):
                 return False
             # NOT CONTENT-ADDRESSED: no address to check, so no failure to invent.
             plain = os.path.join(d, "hand-copied" + os.path.splitext(good["path"])[1])
@@ -6525,7 +7975,12 @@ def drill_recorders_and_lane():
             # ...a competitor lands between our read and our write.
             with open(p, "w", encoding="utf-8") as fh:
                 json.dump({"a": [1], "b": [2]}, fh)
-            landed, _why = H._cas_land(p, {"a": [1, 99]}, stale)
+            # Wrapped for the same reason the blob probe above is: the REFUSAL calls
+            # `silence.note`, which writes `silent:silence.py:stale-write-refused` into the
+            # library's operational ledger -- one per drill run, in the file whose whole job is
+            # to say what is genuinely going wrong. See `_deliberately_failing`.
+            landed, _why = _deliberately_failing(
+                lambda: H._cas_land(p, {"a": [1, 99]}, stale))
             if landed:
                 return False
             with open(p, encoding="utf-8") as fh:
@@ -6541,6 +7996,73 @@ def drill_recorders_and_lane():
         a_competing_flush_cannot_clobber_the_recorder,
         "a lost update in the evidence bag looks exactly like evidence that was never "
         "collected, and it is the recorder that hides every other component's failure")
+
+    def a_probe_leaves_the_failure_LEDGER_alone():
+        """The other ledger a probe can write to, and nothing was watching it.
+
+        `a_probe_leaves_no_order_behind` enforces exactly this discipline for the WORK ORDER
+        queue, and was written because rung-4 probes were decorating it once per battery run.
+        The identical thing was happening to `state/failures.json` and nobody had pointed a net
+        at it: the two deliberately-failing probes in this area make real guards call
+        `silence.note`, which calls `health.record`, so every drill run added one
+        `silent:compress_store.py:address-mismatch` and one
+        `silent:silence.py:stale-write-refused` to the operational ledger.
+
+        WHY THAT MATTERS MORE THAN THE COUNT. `standards` grades from that file, and
+        `foreman.triage_swallowed()` names its classes and then archives and CLEARS it. The
+        first of those two classes is `compress_store.load()` refusing a blob whose content hash
+        does not match the address it is filed under -- corpus corruption, the quietest kind
+        this project has. Order 842025c83c3c cited that very class, at x10, as its flagship
+        example of a real fault being erased unspoken. It was this file's own rehearsal. A
+        genuine misaddressed blob would have arrived indistinguishable from it.
+
+        ASSERTED BY DOING IT, not by reading the source: the ledger is captured, the two
+        deliberate failures are performed exactly as the probes above perform them, `health` is
+        flushed, and the ledger must be BYTE-IDENTICAL afterwards. Unwrapping either probe turns
+        this red. Compared as bytes rather than by counting keys, because an unrelated recorder
+        adding one entry while a probe leaked one would net to zero.
+        """
+        import shutil
+        import compress_store as CS
+        import health as H
+        import silence as S
+        ledger = os.path.join(HERE, "state", "failures.json")
+
+        def snapshot():
+            try:
+                with open(ledger, "rb") as fh:
+                    return fh.read()
+            except FileNotFoundError:
+                return None
+
+        H.flush()
+        before = snapshot()
+        d = tempfile.mkdtemp(prefix="drill_ledger_probe_")
+        try:
+            # 1 -- a blob substituted under its own name: `load()` must refuse, quietly.
+            good = CS.store("the custodian records the specimen" * 20, d)
+            other = CS.store("something else entirely" * 20, d)
+            shutil.copyfile(other["path"], good["path"])
+            refused_blob = _deliberately_failing(
+                lambda: _refuses(lambda: CS.load(good["path"], good["codec"]), RuntimeError))
+            # 2 -- a flush staged against a copy that has moved on: `_cas_land` must refuse.
+            p = os.path.join(d, "SAMPLES.json")
+            with open(p, "w", encoding="utf-8") as fh:
+                json.dump({"a": [1]}, fh)
+            stale = S.digest_of(p)
+            with open(p, "w", encoding="utf-8") as fh:
+                json.dump({"a": [1], "b": [2]}, fh)
+            landed, _why = _deliberately_failing(
+                lambda: H._cas_land(p, {"a": [1, 99]}, stale))
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        H.flush()
+        return refused_blob and not landed and snapshot() == before
+    net(a, "a probe's DELIBERATE failures stay out of the library's failure ledger",
+        a_probe_leaves_the_failure_LEDGER_alone,
+        "a rehearsal recorded in the ledger a person reads to find real faults is worse than "
+        "noise: it manufactures the exact signal it exists to prove the library can raise, so "
+        "a genuine misaddressed blob arrives indistinguishable from six copies of the drill")
 
 
 def drill_mutation():
@@ -6563,10 +8085,9 @@ def drill_mutation():
         """Two mutation runs at once means two mutants on disk and no way to attribute either."""
         import mutate as M
         saved = M.LOCK
-        M.LOCK = os.path.join(tempfile.gettempdir(), "drill_mut_excl.json")
+        d = tempfile.mkdtemp(prefix="drill_mut_excl_")
+        M.LOCK = os.path.join(d, "LOCK.json")
         try:
-            if os.path.exists(M.LOCK):
-                os.remove(M.LOCK)
             M._lock_acquire(["a.py"], "t1")
             try:
                 M._lock_acquire(["b.py"], "t2")
@@ -6577,6 +8098,7 @@ def drill_mutation():
                 M._lock_release()
         finally:
             M.LOCK = saved
+            shutil.rmtree(d, ignore_errors=True)
     net(a, "a second mutation run cannot start while one is active", lock_is_exclusive,
         "two mutants on disk at once is a corruption nobody can attribute")
 
@@ -6600,11 +8122,10 @@ def drill_mutation():
         """
         import mutate as M
         saved_lock, saved_body, saved_held = M.LOCK, M._run_mutation, M._HELD
-        M.LOCK = os.path.join(tempfile.gettempdir(), "drill_mut_held.json")
+        d = tempfile.mkdtemp(prefix="drill_mut_held_")
+        M.LOCK = os.path.join(d, "LOCK.json")
         seen = []
         try:
-            if os.path.exists(M.LOCK):
-                os.remove(M.LOCK)
             M._HELD = None
             M._run_mutation = lambda *a, **k: seen.append(M.active()[0]) or {"ok": True}
             M.run("scope.py")
@@ -6630,17 +8151,15 @@ def drill_mutation():
         'I could not read the claim' is not permission to publish over it."""
         import mutate as M
         saved = M.LOCK
-        M.LOCK = os.path.join(tempfile.gettempdir(), "drill_mut_bad.json")
+        d = tempfile.mkdtemp(prefix="drill_mut_bad_")
+        M.LOCK = os.path.join(d, "LOCK.json")
         try:
             with open(M.LOCK, "w", encoding="utf-8") as fh:
                 fh.write("{ this is not json")
             return M.active()[0] is True
         finally:
-            try:
-                os.remove(M.LOCK)
-            except OSError:
-                pass
             M.LOCK = saved
+            shutil.rmtree(d, ignore_errors=True)
     net(a, "an unreadable lock is treated as HELD, not as absent", unreadable_lock_counts_as_HELD,
         "an unparseable claim is still a claim")
 
@@ -6649,18 +8168,16 @@ def drill_mutation():
         an outage wearing a safety's clothes."""
         import mutate as M
         saved = M.LOCK
-        M.LOCK = os.path.join(tempfile.gettempdir(), "drill_mut_stale.json")
+        d = tempfile.mkdtemp(prefix="drill_mut_stale_")
+        M.LOCK = os.path.join(d, "LOCK.json")
         try:
             with open(M.LOCK, "w", encoding="utf-8") as fh:
                 json.dump({"pid": 999999999, "started": 0, "targets": ["x.py"]}, fh)
             held, rec = M.active()
             return held is False and bool(rec and rec.get("stale"))
         finally:
-            try:
-                os.remove(M.LOCK)
-            except OSError:
-                pass
             M.LOCK = saved
+            shutil.rmtree(d, ignore_errors=True)
     net(a, "a lock whose process died is reported stale, not held forever",
         dead_holder_does_not_block_forever,
         "a safety that cannot be released is an outage, and it reports as protection")
@@ -7501,7 +9018,7 @@ def drill_outside():
 
         AND AN ENVIRONMENTAL WRITE FAILURE IS NOT A BREACH. Since the run #36 fix,
         `datasette_metadata` returns None when the atomic replace is denied -- which
-        `corpus_db.py:488-539` names as the EXPECTED case, because a running `datasette` holding
+        `corpus_db.py:597-610` names as the EXPECTED case, because a running `datasette` holding
         the file open is enough to cause it on Windows. This net then did `open(None)`, which
         `net()` records as a breach and `main()` escalates to OWNER: an ordinary file lock would
         have halted the library, and the sweep reproduced it end to end. A path that could not
@@ -7664,6 +9181,8 @@ def main():
                drill_workorders, drill_inspector, drill_no_top_ups, drill_probe_honesty, drill_rung_four, drill_codewatch, drill_scout,
                drill_defect_classes, drill_recorders_and_lane, drill_mutation,
                drill_scope, drill_correlation, drill_resonance, drill_threads,
+               drill_escalation_behaviour,
+               drill_assay_behaviour,
                drill_outside):
         # AN AREA THAT DIES IS A BREACH OF THAT AREA, NOT THE END OF THE RUN (order
         # 5c87268a388c, run #37).
@@ -7718,7 +9237,7 @@ def main():
     # sweep, and both are about a result being believed longer than it is true for.
     #
     # `open(out, "w")` is a TRUNCATE-THEN-FILL, not a write. This file has two live readers --
-    # `dashboard.py:529`, which puts it on the page, and `workorders.py:564`, which GRADES THE
+    # `dashboard.py:607`, which puts it on the page, and `workorders.py:1086-1098`, which GRADES THE
     # BATTERY from it and closes a DRILL_BREACH order on the strength of it -- so a reader
     # arriving in the gap sees an empty or half-written verdict about the safety layer. And the
     # `except: pass` around it meant a write that never landed left the PREVIOUS run's result

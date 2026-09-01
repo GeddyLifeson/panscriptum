@@ -270,7 +270,7 @@ def record(run, covered, batch=None):
             # AND THE PROMISE ABOVE WAS STILL HALF TRUE UNTIL ORDER 6794cb447987. Only the
             # LANDING was guarded; the `open` and the `json.dump` sat bare, and they are the
             # likelier raiser of the two. `silence.write_json` re-raises a failed dump
-            # (silence.py:409-415, `except Exception: _discard_tmp(tmp); raise`), so the very
+            # (silence.py:515-517, `except Exception: _discard_tmp(tmp); raise`), so the very
             # condition that sends control into this fallback is usually the same condition that
             # breaks it two lines later -- an unserialisable `data`, a full disk, a read-only
             # state/ -- and the exception escaped `record()` into the sweep agent anyway. The

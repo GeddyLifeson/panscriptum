@@ -490,7 +490,7 @@ def write_json(path, obj, **dump_kw):
     newline plus that indent after every item separator whenever `indent` is not None -- so a
     caller passing `separators=(",", ":")`, the universal way of saying "write this with no
     whitespace at all", got an indented file anyway and was never told. One live caller asks for
-    it: `navtree.py:297`, writing `data/NAVTREE.json`, which is what `build_terminal`,
+    it: `navtree.py:304`, writing `data/NAVTREE.json`, which is what `build_terminal`,
     `reference` and the sweep resolve addresses through; measured, that tree is 411 KB compact
     and 589 KB at indent=1. Nothing is lost or corrupted -- the inflation is the only cost --
     but a helper quietly winning an argument with its caller is a shape this project keeps
@@ -524,7 +524,7 @@ def write_json(path, obj, **dump_kw):
         # makes each leak uniquely named, so they accumulate rather than overwrite. A denied
         # replace is the ORDINARY case here (it is the entire reason `replace_retry` exists), so
         # the leak was proportional to how contended a file is: the hottest files littered most.
-        # `hostcheck.py:170` records the same litter one layer up for `replace_if_unchanged`.
+        # `hostcheck.py:177-178` records the same litter one layer up for `replace_if_unchanged`.
         # The temp holds nothing anyone can use -- the caller's write lands next round from the
         # live object, never from this file -- so dropping it loses no data.
         _discard_tmp(tmp)
@@ -710,7 +710,7 @@ def instrument(root=None, dry=False):
             # THE SAME JUDGMENT `audit()` MAKES, because it is now literally the same function.
             # This carried its own copy of the token list and the two drifted twice: it omitted
             # "silence", so it read `_ = "silence-exempt: ..."` (this project's documented
-            # exemption marker, chain.py:141/159 and 48 others) as UNOBSERVED and would have
+            # exemption marker, chain.py:213/242 and 48 others) as UNOBSERVED and would have
             # rewritten all fifty; and it included "note" where `_handlers` did not, so the two
             # siblings disagreed in the opposite direction as well. Sharing the predicate is
             # what stops a fourth drift -- and it matters most here, because this one WRITES:

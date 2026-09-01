@@ -125,7 +125,7 @@ class Verifier:
     """One row of the VERIFY tier: what to run, and what a nonzero exit MEANS.
 
     IT ITERATES AS EXACTLY `(label, argv)`, deliberately, and that is not tidiness. A plain
-    three-tuple was the obvious shape, and it would have broken `verify_math.py:6241` --
+    three-tuple was the obvious shape, and it would have broken `verify_math.py:6824-6825` --
     `any(argv == ["rosetta.py", "--check"] for _label, argv in allsweep.VERIFIERS)`, a check
     written in run #26 to prove this very row exists. A net that has to be edited before a
     correctness fix can be applied is a net standing in the way of the thing it was written to
@@ -204,7 +204,7 @@ VERIFIERS = [
     # had no automated caller anywhere: only a hand-typed `rosetta.py --check`, which nobody
     # was typing, and `main()` returned 0 whatever the rhos said. `--check` now exits 1 on a
     # real disagreement (rho < 0.3), so this row can actually fail. 2026-08-26, batch 3.
-    # AND IT NOW REACHES THE GRADE, which is the other half of that change: rosetta.py:426-436
+    # AND IT NOW REACHES THE GRADE, which is the other half of that change: rosetta.py:618-624
     # says the exit code "has to carry the verdict ... so nothing that gates on rc (a shell,
     # allsweep's VERIFIERS, a scheduler) could ever learn a franchise's own published ordering
     # disagreed with our Assay" -- and for eleven runs neither consumer read it.
@@ -670,7 +670,7 @@ def main():
         #
         # NOT a blanket `rc != 0`: pyflakes exits 1 as its ordinary "I found something" signal
         # (verified here -- rc=0 on a clean file, rc=1 with the findings on stdout). The
-        # predicate is the one overnight.preflight (overnight.py:961) already uses against
+        # predicate is the one overnight.preflight (overnight.py:1007-1015) already uses against
         # health.py's identical `return 1 if n else 0` contract: a code outside {0,1}, or rc=1
         # with none of the stdout that contract requires, CONTRADICTS the contract, and that
         # contradiction is the did-not-complete signature. Note this is dormant on this box --

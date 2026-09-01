@@ -9,6 +9,243 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-01 (overnight, run #40) — 79 MUTATION SURVIVORS KILLED; THE WHOLE TREE SWEPT; THE LOCAL RUNG WAS SHUT
+
+### FOR THE OWNER, AT THE TOP
+
+**1. A HALT WAS RAISED AND LIFTED, BOTH BY THIS RUN, AND IT WAS SELF-CAUSED.** I added a third arm
+to `pipeline.phase_write` (acting on run40 sweep order `97d5b256fbdc`) that held phase 8 open when
+every ready source built an *empty* job list. That contradicted a decision the library already
+nets: `drill._write_phase_stays_open_when_everything_refuses` drives exactly that fixture and its
+second half **requires** the vacuous case to close — *"the vacuous case is still allowed to close,
+or the phase never finishes."* The net went red and raised `DRILL_BREACH`. **The cause is
+removed** — the arm is reverted, the net holds on its own again, and a note is left in
+`phase_write` so this is not re-derived a third time. Both gates were green before the lift:
+**drill 363/363, 0 breached; verify_math 1,064 passed, 0 FAILED.** The lift is signed
+`maintenance-2026-08-31 (automated run #40)`, not the `owner-cli` default, because no person was
+present. **The underlying observation was not dropped** — it is refiled as
+`Q_PHASE8_EMPTY_RECORD_CLOSES_SILENTLY` (OWNER), because settling it the sweep's way means
+changing the NET first, and editing a net to admit a change one is making is exactly what the
+ratchet exists to prevent.
+
+**2. A GAME IS HOLDING THE GPU, AND IT CLOSED THE ENTIRE LOCAL RUNG.** `Overwatch.exe` was among
+the GPU's compute clients all shift, holding ~9.7 GB of the card's 10.2 GB. Ollama is resident but
+starved: a bare `/api/chat` asking for the single word "ready" did not answer in **300 s**, and the
+same request at `num_ctx=2048`/`num_predict=16` did not answer in **90 s** — so it is not prompt
+size and not `local_agent`'s 420 s timeout being marginal. One real `local_agent` task ran **75
+minutes** and returned `transport: TimeoutError timed out`. **115 LOCAL orders could not be
+worked.** Nothing in this repo is at fault and no code change is implied. **Not acted on,
+deliberately — the remedy is to stop somebody's running game, and a maintenance run does not get
+to do that.** Filed as `LOCAL_RUNG_UNWORKABLE_GPU_CONTENDED` (OWNER).
+
+Separate from the *other* foreign-process order: **`f6c52ef7657f` (semsearch holding 804 sockets on
+11434) is NOT what is happening tonight.** Re-measured with `netstat -ano`: **3** sockets on that
+port, two ollama's own and one this project's `pipeline.py`. Two different foreign processes, two
+different mechanisms — check which one you have.
+
+**3. THE BATTERY IS GREEN EXCEPT ONE EXTERNALLY-CAUSED CHECK.** `allsweep` grades **1 subsystem
+bad**: the `cascade live call` verifier, which tried every cloud and local model and got nothing
+back. Same family as item 2. Tracked as `2d6c9343cd32`. Everything else is green (§THE BATTERY).
+
+**4. `2cb8756deb0a` IS ONE RUNG TOO LOW.** It is addressed to RUN, but what it needs is an owner
+ruling on *what restarts* `read.py`, `feats.py`, `autostart.py` and `overnight.py` — not code. Not
+re-addressed here, because re-routing someone else's order is itself a judgement.
+
+### WHAT THIS SHIFT DID
+
+Opened clean — status clear, previous guard `done:true`, no halt standing. `corpus_db --rebuild`
+ran first as the card requires: **216 sources, 282,822 entries, 270,172 evidence rows, 147 s.**
+
+**~190 work orders closed.** The queue went **540 → 423**; it did not fall by the full amount
+because the whole-tree sweep correctly filed 39 new ones.
+
+### THE BIG ONE: 79 SURVIVING MUTANTS, AND WHY THEY WERE ONE DEFECT
+
+The queue's largest cluster was **79 `MUTANT_SURVIVED_*` orders at MAJOR** — 68 in
+`escalation.py`, 11 in `assay.py`: places where one token of the code could be wrong and the whole
+battery still passed.
+
+They were not 79 defects. They were **one, and it was structural: every net that touched
+`escalation.py` read its SOURCE.** Source-shaped nets prove the code *says* the right thing. None
+proved it *does* it — so `return True` became `return False`, `if not landed` lost its `not`, and
+the battery was green for all of it. "A halt cannot be lifted by a program", "an unreadable ledger
+fails closed", "a write that did not land is reported as not having landed" are all RUNTIME
+properties, and a file that describes them and a file that has them are indistinguishable to a
+parser.
+
+**Two new drill areas driving the real functions against scratch state:**
+`drill_escalation_behaviour` (61 nets) and `drill_assay_behaviour` (12). Both redirect
+`HALT_FILE`/`LOG`/`SRC_LOGS`/`STOPPED` to a temp directory and stub `workorders.file_order` and
+`health.record`, so the probes drive the real chain without halting the library or decorating its
+ledgers.
+
+**Measured, not asserted: 73 of the 79 die.** Each mutation was applied **in memory** — the module
+recompiled with one line replaced and swapped in — so `escalation.py` and `assay.py` on disk were
+never touched and the mutation lock and publisher were unaffected. Kills went 27 → 60 → 63 of 68
+for escalation, and 9 → 10 of 11 for assay, as the nets were sharpened.
+
+**The remaining 6 were decided by reading, not assumed.** Three are DEAD STORES, proved from the
+parse tree (`landed` assigned at 317 and 320, first read at 327; the two CAS-loop initialisers
+likewise). One is unreachable in CPython (`sys._getframe(2)`'s `except ValueError` — something
+must call `clear()` for it to be running). One is a predicate whose third clause subsumes the
+first two for **every** input, checked against 18 values. One is a `zip` whose sequences are the
+same length by construction. Each is closed with its proof — **and the unreachable one is
+flagged**: it is the one arm of that guard whose current value fails CLOSED, so the `False` is
+load-bearing and must not be "simplified away" as dead.
+
+### SAFETY FIXES — EACH REPRODUCED BEFORE, VERIFIED AFTER
+
+- **A drill probe could lift the owner's halt.** `_no_runtime_clear` called the real `clear()` four
+  times against the LIVE `state/HALT.json`, with only the guard it was testing in between. Now runs
+  against a scratch halt file **and asserts it is byte-identical afterwards** — proving the refusal
+  happened *before* any write, not merely that an exception came back. **Proved both ways:** guard
+  intact → holds, live file unchanged; `_by_a_person_at_the_cli` monkeypatched to return True (the
+  exact regression) → goes red, live file *still* byte-identical (sha256 before/after).
+- **BUGS.md M38: one limb CLOSED, the other NARROWED ~25× AND STILL OPEN.** Stated carefully,
+  because the difference matters. *Closed:* `escalation._append` no longer appends the janitor's
+  log with a buffered `open(path, "a")` — it goes through `silence.append_line`, one `os.write` to
+  an `O_APPEND` descriptor, which is m62's own fix finally carried into the file where the stakes
+  are highest. *Not closed:* `_raise_halt`'s **unlocked read-modify-write**. It is now
+  compare-and-swapped **and verified by read-back** — the CAS alone was not enough, because both
+  writers could still report `halt_landed: True` with only one fault in the file, which is the
+  original defect wearing the fix's clothes. **Measured, both versions built in memory and stressed
+  through one harness, 25 trials each:** two concurrent first halts — ORIGINAL lost a fault in
+  **25/25** trials, NOW **1/25**; four concurrent — ORIGINAL **25/25** and 75 faults, NOW **7/25**
+  and 7. Not closed because `replace_if_unchanged` re-reads its digest immediately before
+  `os.replace` and that pair is not atomic. The real fix is an `O_CREAT|O_EXCL` lock with a
+  staleness steal and a **fail-open** fallback — a halt that cannot be raised because a lockfile is
+  stuck is far worse than a lost corroboration entry — and that is a design decision about the halt
+  path, not something to land at the end of a shift. Carried as order
+  `HALT_WRITE_RACE_NARROWED_25X_BUT_NOT_CLOSED` (OWNER), with the numbers.
+- **AND THE NET FOR IT WAS DELIBERATELY REPLACED, which is the more general lesson.** A threaded
+  race net was written first and **measured to fail about 1 run in 25**. A net that flaky raises a
+  spurious OWNER halt roughly every twenty-fifth battery, and a flaky safety is worse than an
+  absent one because it teaches people that a red drill means nothing. What is netted instead is
+  the **conflict path**, deterministically: a competitor is landed exactly once between our digest
+  and our rename, and our fault must end up in the winner's `also`. Watched go red against the
+  single-shot write, green against the fix, and run five times for flakiness.
+- **The most destructive tool in the kit never asked about the halt.** `withdraw_chapters.py`
+  `shutil.move`s every catalogued chapter out of the library and rewrites the index of them. Wired
+  with the fail-closed import-and-assert pair, above argparse and above the catalog read. Given
+  **two** checks: `verify_math`'s `_INTERLOCKED` roster and a new net driving `main()` with `--go`
+  under a standing halt. Watched go red against a version recompiled without the guard.
+- **`generate.py` reported a run that did nothing exactly like a run that did everything.**
+  `float(cfg.get(...) or 0.0)` coerced a config `0` to `0.0`, which `prose_gate` treats as
+  MISCONFIGURED and refuses every source for — then printed them under "These are NOT failures" and
+  exited **0**. The `or 0.0` is gone; the floor is asked once, before the job loop, through a new
+  `prose_gate.floor_ok()` that `evidence_ok` also calls, so there is **one spelling** of the
+  predicate; a misconfigured floor gets its own header and `return 1`.
+- **`derivation.py` could name a cycle and then never deliver the verdict.** Reproduced in a
+  subprocess: killed at 90 s with no verdict. Now prints it and returns 1.
+- **A pool memo overrode its own TTL** (`cascade_bridge.dead_forever`, keyed on mtime alone).
+  Reproduced with `PROOF_TTL` at 1 s: two workers in one run disagreed about the pool. Fixed;
+  they agree. **And the mirror of it, from the sweep:** `_DEAD_WORDS` listed three of `is_dead()`'s
+  **four** wordings, so a bucket the engine had *permanently* disabled ("model rejected by the
+  provider") was never excluded. Verified against the engine before acting. **Both errors were live
+  at once, pointing opposite ways.**
+- **`feats.py --roll` always exited 0.** A roll that mined nothing was indistinguishable, to
+  `overnight.join()` — its one automated consumer — from a roll that mined everything. Now returns
+  1 on a denied hosts write, on `n == 0`, or on `errored >= n`. Driven all four ways.
+- **`magnitude --calibrate`'s exit code did not mean what its own comment promised.** It gated on a
+  BAND-MATCH count while the standard it feeds requires every scored row *consistent* plus a
+  freshness bound. `calibrate()` now returns `standards.charter_regression_verdict`'s own
+  `(holds, observed)` pair. Both disputed cases verified and they **invert**: six band matches with
+  nothing consistent now exits 1 (was 0); two consistent rows with four unscored now exits 0
+  (was 1). **This broke an L3 battery check that pinned the old, weaker predicate** — that check was
+  *strengthened*, not deleted, and rewritten to ask the AST; it now refuses three separate reverts,
+  including `return 0 if calibrate() else 1`, which is always truthy now the function returns a pair.
+- **`ledger_guard` did not guard the file with the engineering history in it.**
+  `handoff/HANDOFF.md` — which `pipeline.py`'s own commentary records already losing 629 lines to
+  exactly this failure class — was outside all three mechanisms. Added, with the snapshot writer
+  taught to flatten a name containing a separator (without that, it would have been a guard that
+  reports itself installed and takes no copy). **5 ledgers now, and the fifth has its first
+  snapshot.**
+- **`allsweep` promises READ-ONLY and was writing.** Its IMPORT tier runs every module as `--help`;
+  `build_terminal.py` had no argument handling, so `main()` ran and rewrote
+  `output/registry_terminal.html` every sweep — measured by mtime. Fixed and proved by mtime.
+- **Two Hard Rule 0 caps on lines a person acts on**: `standards.py` cut source names at 18
+  characters in the action field of a HIGH standard (18-char prefixes collide, so the operator
+  could not tell which source to re-catalogue); `foreman.triage_swallowed()` named 3 failure classes
+  and then archived and CLEARED the ledger. **Re-measured live: 52 classes, 1,308 events — 49 would
+  have been erased unspoken.**
+
+### THE DRILL WAS MANUFACTURING A CORPUS-CORRUPTION SIGNAL
+
+Chasing the foreman cap's flagship example — `silent:compress_store.py:address-mismatch`, "i.e.
+CORPUS CORRUPTION" — found **it was the drill's own rehearsal.** Two nets deliberately corrupt a
+blob and stage a stale write; both guards call `silence.note`, so every drill run added one of each
+to `state/failures.json`. Confirmed twice: running that area moved both counters by exactly +1, and
+a read-only scan of every `.zst`/`.gz` blob under `output/` and `data/` against its own content
+address found **zero** genuine mismatches.
+
+Worse than noise: `standards` grades from that ledger and `foreman` clears it, so a *real*
+misaddressed blob would arrive indistinguishable from N copies of the drill. Fixed with a
+tightly-scoped `_deliberately_failing()` wrapper and — the part that matters — **a net that asserts
+it by doing it**: it performs both deliberate failures and requires `failures.json` to be
+byte-identical afterwards. Watched go red with the wrapper bypassed. **Including a correction**: the
+resolution written earlier against the foreman order repeats its "CORPUS CORRUPTION" reading, and
+that reading is wrong. The cap fix stands; only the example was mistaken.
+
+### §4 — THE WHOLE-TREE SWEEP (run40): COMPLETE
+
+**All 116 modules read, 16 parallel batches, `sweep_plan.missing('run40')` returns 0.** 16 audit
+files under `handoff/sweep40/`. **39 orders filed**, 5 MAJOR. Four were verified and fixed this
+shift; `07258ace3a09` (`address.spine_code_for` inventing a spine for a crossover title — the
+long-standing BUGS.md **M44**, finally an order) is left open as a curatorial call.
+
+**Then the stale-citation cluster: 66 orders across 39 files.** Normally LOCAL work; the LOCAL rung
+was shut, so six agents partitioned **by file** took it. **~60 orders closed, ~70 citation sites
+corrected.** Groups E and F replaced line numbers with **symbolic references** (function names,
+quoted sentences) rather than re-baking numbers — **that is the durable fix and the convention to
+adopt**, because a line number in a comment is a claim nothing can keep honest. Several agents
+correctly **distrusted the order text and trusted the live file**, which had drifted again since
+filing; one found a cited symbol (`entity_match.Resolver.rebuild`) that does not exist at all and
+rewrote the claim rather than inventing a line.
+
+A tree-wide scan also ran: **176 citations in `src/`, 0 pointing past end-of-file.** The remaining
+rot is all semantic.
+
+### MUTATION — LAUNCHED, STOPPED ON PURPOSE, RELAUNCHED AT THE END
+
+Launched early per the card. It came up and correctly reported that **a maintenance shift was
+editing its own gates** — `drill.py` and `verify_math.py` are two of the three gates a mutant is
+judged against, and both were being rewritten. A mutant judged against a different `drill.py` than
+the baseline is not a measurement, so it was **stopped** rather than left to produce a survivor
+list that would have to be discarded. The lock self-healed.
+
+**It was relaunched as the last act of the shift, on a quiet tree, and it will not have finished.**
+`state/mutate_2026-09-01.log` must be read by the next run. **The arithmetic is the real problem
+and deserves a ruling:** 154 mutants each pay a full `verify_math`, and `verify_math` currently
+takes **15–20 minutes** instead of its usual ~32 s because `standards.check()` probes the starved
+daemon. That is >30 hours. Either the GPU gets freed, or `mutate`'s FAST_GATES need a `verify_math`
+variant that skips live probes — and **that is a design question, not a maintenance decision**,
+because the probes are part of what makes the gate meaningful.
+
+### THE BATTERY
+
+`drill` **364 nets, 364 held, 0 BREACHED** (from 290 at shift start; the new nets are the mutation
+work plus the halt, ledger-litter and interlock nets). `verify_math` **1,064 passed, 0 FAILED.** `codewatch` ok. `silence` ok. `liveness`
+48 findings, under its ratchet. `health --preflight` all checks pass. `axis_correlation` 45
+entities, mean r = +0.3193 — **unchanged from the stored matrix, so no `--write` was needed**.
+`secondopinion` ran all three external tools (none `NOT INSTALLED`): ruff 1,115, vulture 2,
+**detect-secrets 0 — agreeing with the house scanner that there are no secrets.** `pyflakes` over
+`src/`: **0**. All 116 modules compile. `ledger_guard`: **5 ledgers intact**.
+`allsweep`: **1 bad** — the `cascade live call` verifier, external, see item 3.
+
+### TWO THINGS THAT BIT THIS RUN AND WILL BITE THE NEXT
+
+**Never write regexes, backslashes or backticks through a shell `-c` string or heredoc.** It
+happened **three separate times** tonight — twice to subagents, whose work-order text arrived
+corrupted and had to be refiled, and once here. Write a `.py` file and run it. The card says this;
+it is not theoretical.
+
+**A literal cannot tell code from prose about code.** While verifying the `generate.py` floor fix,
+the structural check searched the source for the removed literal and went **red against the new
+comment quoting it while explaining why it went** — this project's own recurring defect, hit while
+verifying a fix for a different one. Ask the AST.
+
+---
+
 ## 2026-08-31 (evening) — PHASE 4.1 HAS RUN. The Step 4 gate is open by owner ruling.
 
 **`data/THREADS.json` EXISTS.** 210 sources, 282,822 entries, **1,509,745 threads** — 282,822 T1

@@ -313,7 +313,8 @@ def main():
     if args.write:
         p = os.path.join(HERE, "data", "GENRES.json")
         # ATOMIC. `GENRES.json` is read by `navtree.py` and `profile.py`; a truncate-then-fill
-        # leaves it empty for the length of the write, and `profile.py:129-138` turns a failed
+        # leaves it empty for the length of the write, and `profile.build_all`'s GENRES.json load
+        # turns a failed
         # load into a silent `{}` fallback that produces a fully-populated, blanket-default
         # catalogue indistinguishable downstream from real data. The m100 tail, 2026-08-25.
         #

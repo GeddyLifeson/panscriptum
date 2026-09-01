@@ -160,6 +160,38 @@ def cited_fraction(source, rows=None):
     return None
 
 
+def floor_ok(floor):
+    """-> (ok, reason). Is this a usable evidence floor? Asked in ONE place, by both layers.
+
+    THE FLOOR HAS A FLOOR. `evidence_ok(..., floor=0)` admitted a source with literally zero
+    cited entries -- the exact incident scenario -- because `frac < 0` is never true. Nothing in
+    code prevented a future `prose_min_cited_fraction: 0` in config.yaml from silently deleting
+    this entire layer, and a disabled interlock that still appears in the stack is worse than an
+    absent one. A floor at or below zero is MISCONFIGURED, and a misconfigured safety refuses
+    rather than waves through.
+
+    LIFTED OUT OF `evidence_ok` SO THERE IS ONE SPELLING (order ef86e2081687). The question
+    "is this floor usable" and the question "has this source been read enough" are different
+    questions with different answers -- the first is about the CONFIGURATION and the second is
+    about the DATA -- and collapsing them is what let a broken safety report as thin data.
+    `generate.py` now asks this one before its job loop and exits 1, exactly as it already does
+    for an unreadable COVERAGE.json; `evidence_ok` asks the same function rather than carrying
+    its own copy of the predicate. Two hand-kept copies of one rule is how they come to
+    disagree, and this one decides whether an entire layer of the stack is switched on.
+    """
+    try:
+        floor = float(floor)
+    except (TypeError, ValueError):
+        return False, ("the evidence floor is not a number (%r) — refusing everything until it "
+                       "is fixed, because a floor nobody can evaluate is not a floor" % (floor,))
+    if not (0.0 < floor <= 1.0):
+        return False, ("the evidence floor is %r, outside (0, 1] — refusing. A floor of 0 admits "
+                       "a source with no citations at all, which is the failure this layer "
+                       "exists for; a floor above 1 admits nothing and is equally broken."
+                       % (floor,))
+    return True, ""
+
+
 def evidence_ok(source, floor, rows=None):
     """-> (bool, reason). Has this source been read enough to be worth writing about?
 
@@ -173,16 +205,15 @@ def evidence_ok(source, floor, rows=None):
     # deleting this entire layer, and a disabled interlock that still appears in the stack is
     # worse than an absent one. A floor at or below zero is treated as MISCONFIGURED, and a
     # misconfigured safety refuses rather than waves through.
-    try:
-        floor = float(floor)
-    except (TypeError, ValueError):
-        return False, ("the evidence floor is not a number (%r) — refusing everything until it "
-                       "is fixed, because a floor nobody can evaluate is not a floor" % (floor,))
-    if not (0.0 < floor <= 1.0):
-        return False, ("the evidence floor is %r, outside (0, 1] — refusing. A floor of 0 admits "
-                       "a source with no citations at all, which is the failure this layer "
-                       "exists for; a floor above 1 admits nothing and is equally broken."
-                       % (floor,))
+    ok, why = floor_ok(floor)
+    if not ok:
+        # AND THE REASON NAMES THE SOURCE, like the two branches below it (order ef86e2081687).
+        # It did not, so a misconfigured floor -- which refuses EVERY source -- produced N
+        # identical unattributable lines in `generate.py`'s "all of them" listing, and the one
+        # listing an operator reads to decide which sources to go and finish reading said
+        # nothing about any source at all.
+        return False, "%s: %s" % (source, why)
+    floor = float(floor)
     frac = cited_fraction(source, rows)
     if frac is None:
         return False, ("%s is not measured in COVERAGE.json — refusing, because an unmeasured "

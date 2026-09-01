@@ -307,10 +307,12 @@ def deliberate_joins(w, shared):
     """The links no statistical process explains -- the evidence a xenoverse is artificial.
 
     THE WHOLE SHARED LIST. This returned `shared.get((a, b), [])[:3]`, which is the fourth
-    member of a family the owner ruled on 2026-08-24: `weave.py:478` and `pipeline.py:1795`
+    member of a family the owner ruled on 2026-08-24: `weave.py:519` and `pipeline.py:2401`
     both carry `# WHOLE list -- Hard Rule 0, ruled 2026-08-24` on this same shared-evidence key,
-    and `cosmology_graph.py:86` was brought in line in run #26 (m144) after keeping an `< 8`
-    cap on it. This one was never visited.
+    and `cosmology_graph.py:209` was brought in line in run #26 (m144) after keeping an `< 8`
+    cap on it. This one was never visited. (All three citations were stale and were re-checked
+    against the live files on 2026-09-01: they had read :478, :1795 and :86, and :86 in
+    particular had drifted onto an unrelated constant, `UBIQUITOUS_CUTOFF`.)
 
     It matters more here than the key name suggests. The function's own docstring calls this
     list THE EVIDENCE that a xenoverse is artificial, and its only caller prints it as the

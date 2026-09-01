@@ -2606,7 +2606,7 @@ check("the same block does NOT fit the window M6 was filed against",
 
 # ---- Section 19s: both writers of the metrics ledger stamp a timestamp -----------------------
 # KEEPS THE TAG. Run #36 (order c30618e03a36) found §19s naming this section AND the prose
-# interlocks at ~line 4642. This one has the older claim -- run #14's tie-break awarded it §19s
+# interlocks (now §20x). This one has the older claim -- run #14's tie-break awarded it §19s
 # by name, and BUGS.md m61/m63 and HANDOFF.md all cite it as §19s -- so the interlocks moved to
 # §20x and every existing citation of §19s still resolves here, unchanged.
 # Added 2026-08-24 (run #13). `state/model_metrics.jsonl` has TWO writers -- cascade_bridge._metric
@@ -3684,7 +3684,7 @@ def _for_owner_landing_b19():
                     from_temp = True
             elif nm == "write_json" and c.args and _is_fo(c.args[0]):
                 # write_json IS the temp-then-replace_retry helper; it lands from a temp by
-                # construction (silence.py:408). Markdown rules it out here, but a future
+                # construction (silence.py:511, 518). Markdown rules it out here, but a future
                 # JSON sibling of this file would be just as correct.
                 landed = from_temp = True
     return (landed, from_temp, bare)
@@ -4064,8 +4064,8 @@ print()
 # numbering the whole §19 run, which is exactly the renumbering that produced the collisions
 # this paragraph is about -- so it is left, deliberately, and the note now says so rather than
 # vouching for a sequence that has a hole in it. The §-tags are
-# NOT touched -- BUGS.md, rigor.py:123 and this file's own comments cite them by name, and they
-# are the stable identifier.
+# NOT touched -- BUGS.md, rigor.measure_bit_value's docstring and this file's own comments cite
+# them by name, and they are the stable identifier.
 #
 # THE COLLISION HALF IS DONE, run #36, order a5018a0c8ee2. §20e and §20f each named TWO sections
 # (24 and 25; 26 and 27), so a citation to either resolved to a coin flip. Renaming is an
@@ -4073,7 +4073,8 @@ print()
 # renumbering, and it was resolved by asking which section each existing citer meant:
 #   §20e  kept by §25 (no console windows)  -- cited by BUGS.md m127
 #         §24 (liveness/the reporter) is now §20v -- cited by BUGS.md M17 and m87
-#   §20f  kept by §26 (rigor's prose)       -- cited by rigor.py:123 and BUGS.md m88, m89
+#   §20f  kept by §26 (rigor's prose)       -- cited by rigor.measure_bit_value's docstring and
+#                                                BUGS.md m88, m89
 #         §27 (the auth bench) is now §20w  -- cited by BUGS.md m108 and m98
 # The two renamed sections PRINT their old tag and who cites it, so no existing citation dangles
 # in the meantime: grepping this file or its console output for §20e still lands on both. The
@@ -4082,7 +4083,7 @@ print()
 # renames take the next free letters after §20u.
 #
 # AND A THIRD PAIR, later the same run, order c30618e03a36: §19s named both the metrics-ledger
-# timestamp section (~line 2494) and the prose-interlock battery (~line 4642).
+# timestamp section and the prose-interlock battery.
 #   §19s  kept by the metrics timestamp -- cited by BUGS.md m61 and m63 and by HANDOFF.md
 #         the prose interlocks are now §20x -- cited by src/prose_gate.py:34, staged in the
 #         same handoff file
@@ -5302,8 +5303,13 @@ def _src20p(name):
         return f.read()
 
 
+# `withdraw_chapters.py` joined this roster on 2026-08-31 (order bd107a18b13e). It was
+# the one tool in its batch whose action is irreversible -- it `shutil.move`s every
+# catalogued chapter out of the library and rewrites the index of them -- and it was the
+# one not wired to the plant-wide interlock. Being on this list is what keeps the wiring
+# from being removed again quietly: both rows below now cover it.
 _INTERLOCKED = ("dashboard.py", "feats.py", "foreman.py", "overnight.py", "overwatch.py",
-                "pipeline.py", "publish.py", "read.py")
+                "pipeline.py", "publish.py", "read.py", "withdraw_chapters.py")
 _failopen20p = []
 for _f20p in _INTERLOCKED:
     _t20p = _src20p(_f20p)
@@ -7163,10 +7169,11 @@ Two of this batch's orders are NOT represented here, on purpose:
     nothing yet to pin.
   * f53381169f79 (corpus_db.py's `CANNED` LIMIT clauses) is DISPROVED -- the finding was already
     true in run33 (see handoff/sweep33/AUDIT_batch17_corpus_db.md Q1) but corpus_db.py has since
-    been edited by another session: every LIMIT is already gone, and the module's own comment at
-    corpus_db.py:426-440 now documents exactly this history. A check pinning "the bug that no
-    longer exists doesn't exist" would just be `"LIMIT" not in str(CANNED)`, which duplicates
-    what reading the source already shows; adding it would misrepresent a non-finding as a fix.
+    been edited by another session: every LIMIT is already gone, and the module's own comments
+    at corpus_db.py:532, 562 and 575 now document exactly this history. A check pinning "the bug
+    that no longer exists doesn't exist" would just be `"LIMIT" not in str(CANNED)`, which
+    duplicates what reading the source already shows; adding it would misrepresent a non-finding
+    as a fix.
 """
 
 import os as _os_b5
@@ -7870,7 +7877,8 @@ print("    §20y  NO SECTION TAG MAY NAME TWO SECTIONS — the identifier citers
 # Added run #36 alongside order c30618e03a36. THREE collisions were found in this one file in
 # one shift -- §20e, §20f and §19s -- each by a human or an audit reading the source, and each
 # after outside files had already cited the ambiguous tag. The tags are the STABLE IDENTIFIER
-# this file is cited by (BUGS.md, HANDOFF.md, rigor.py:123, prose_gate.py:34), so a duplicate is
+# this file is cited by (BUGS.md, HANDOFF.md, rigor.measure_bit_value's docstring,
+# prose_gate.py:34), so a duplicate is
 # not cosmetic: it makes every existing citation resolve to a coin flip, and it does it
 # silently, which is this project's signature failure. Nothing asserted uniqueness, so the only
 # detector was somebody's eye.
@@ -7890,7 +7898,8 @@ print("    §20y  NO SECTION TAG MAY NAME TWO SECTIONS — the identifier citers
 # ADJACENT HEADERS OF DIFFERENT SPELLINGS ARE ONE SECTION, NOT A COLLISION. §20x and §20y each
 # carry a print heading immediately followed by a banner comment; occurrences of one tag within
 # a few lines of each other are therefore folded into a single section. A real collision is
-# thousands of lines apart (§19s named line 2494 and line 4663), so the window costs nothing.
+# thousands of lines apart (§19s's banner and §20x's banner sit thousands of lines apart in
+# this file), so the window costs nothing.
 _HDRGAP20y = 12
 
 
@@ -7947,7 +7956,7 @@ check("all three section-header spellings are recognised", sorted(_forms20y),
            "spelling matching NOTHING is the failure, and it is named here rather than hidden "
            "inside a total")
 check("the section headers were actually found and read", len(_tags20y) >= 55, True,
-      note="62 tags on 2026-08-29 across 41 banner, 17 print and 4 dashed headers. The floor "
+      note="62 tags on 2026-08-29 across 41 banner, 19 print and 4 dashed headers. The floor "
            "is deliberately seven below that rather than one: it must catch a spelling going "
            "blind without going red the day a section is legitimately retired")
 

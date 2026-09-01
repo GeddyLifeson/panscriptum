@@ -964,7 +964,7 @@ def preflight():
     # (order 001c0be3e3ad). It read
     #     blocking = "control characters in source" in out and "FAIL  control" in out
     # -- the label is `health.CHECKS[0][0]` and the two-space "  FAIL  {label}" is health.py's
-    # print format (health.py:840), and NOTHING pinned either. Reword the check and `blocking`
+    # print format (its `print(f"  FAIL  {label}")` line), and NOTHING pinned either. Reword the check and `blocking`
     # becomes False for ever, silently, while the supervisor spends the night doing exactly
     # what the branch's own log line says it exists to prevent: "producing confident
     # emptiness". `allsweep.py` carries the structurally identical cross-module string in
@@ -1006,7 +1006,7 @@ def preflight():
     # returns here normally: nonzero rc, its traceback on the stderr nothing reads, and a
     # PARTIAL stdout. `n` is then 0 and `blocking` is False, so main() takes neither the halt
     # branch nor the "N problem(s) noted" branch and the cycle proceeds indistinguishably from
-    # a clean run. health.py's contract is `return 1 if n else 0` (health.py:780), so a
+    # a clean run. health.py's contract is its own `return 1 if n else 0` line, so a
     # nonzero rc is not itself a fault -- but a code outside {0,1}, or rc=1 with NO FAIL line
     # in the stdout it is supposed to have printed, CONTRADICTS that contract, and that
     # contradiction is exactly the crash signature. Reported in the launch-failure path's own

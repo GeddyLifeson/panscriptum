@@ -129,6 +129,31 @@ def select(cat, sources=None, addrs=None):
 
 
 def main():
+    # THE PLANT-WIDE INTERLOCK, AND THIS TOOL WAS NOT WIRED TO IT (order bd107a18b13e).
+    #
+    # `escalation.assert_clear`'s own docstring opens "EVERY entry point calls this before doing
+    # anything." Fourteen modules in src/ did. This one -- which `shutil.move`s every catalogued
+    # chapter out of the library, moves every unclaimed stray in output/raw, and then rewrites
+    # output/index/catalog.json, the file generate.py and publish.py both read -- did not. A halt
+    # is raised precisely when a library-wide invariant has been violated and nothing may start
+    # until a person rules on it (Hard Rule -1), and moving the chapters out and rewriting the
+    # index of them is the last thing that should proceed on uncertain ground. Every action here
+    # is a MOVE, so the archive is the only copy afterwards.
+    #
+    # IT SITS ABOVE THE ARGPARSE BLOCK AND ABOVE THE CATALOG READ, so there is no path into this
+    # job that skips it -- including `--go` typed in a hurry while the library is stopped.
+    #
+    # FAIL CLOSED ON THE IMPORT, copied from publish.py:1385-1398 and NOT wrapped in a bare
+    # except: `except ImportError: pass` is how a deleted or unparseable escalation.py silently
+    # switched the halt off in nine jobs at once (run #31). A job that cannot ask whether the
+    # library is halted has no business starting.
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--go", action="store_true", help="actually move; otherwise dry-run")
     ap.add_argument("--source", action="append", metavar="NAME",

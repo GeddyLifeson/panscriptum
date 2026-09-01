@@ -733,7 +733,8 @@ def _status_score(raw):
 
     The three sentinels are not interchangeable and `assay()` reads them differently: NONE earns
     FULL coverage credit (assay.py:174), INAPPLICABLE leaves the coverage denominator entirely
-    (assay.py:930), and UNESTIMABLE stays in the denominator because it IS ignorance. So
+    (the `applicable` filter inside assay.assay), and UNESTIMABLE stays in the denominator
+    because it IS ignorance. So
     flattening a status to UNESTIMABLE does not merely widen the bar -- it moves the published
     decimal.
 
@@ -1531,7 +1532,42 @@ def calibrate():
     print("-" * 96)
     print(f"anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays")
     _land(rows, len(rows) == len(BENCHMARKS))
-    return band_hits
+    # THE VERDICT, NOT A COUNT -- AND ASKED OF THE ONE FUNCTION THAT DEFINES IT
+    # (orders f4171126348f and b68c9523874e, the second found independently by the run40 sweep).
+    #
+    # This returned `band_hits`, and `main()` gated on `band_hits == len(BENCHMARKS)` under a
+    # comment promising "the exit code here must mean the same thing the standard it feeds
+    # does". It did not. `band_hits` counts BAND MATCHES ONLY (`got_band == band`), while
+    # `standards.charter_regression_verdict` -- the check behind "the automation reproduces the
+    # charter" -- requires every scored row `consistent`, which is the strictly stronger
+    # `got_band == band and abs(got_val - val) <= ci + got_ci`, plus a freshness bound.
+    #
+    # The two disagreed in BOTH directions. Six band matches whose decimals all fall outside the
+    # combined intervals: band_hits == 6, exit 0, standard RED. Four benchmarks that could not be
+    # scored plus two consistent ones: band_hits == 2, exit 1, while the verdict holds -- it
+    # requires zero INCONSISTENT scored rows, not that every benchmark scored.
+    #
+    # So the question is now asked once, of the function that owns it, against the payload
+    # `_land` has just written. Two hand-kept implementations of one predicate is how they come
+    # to disagree, and this pair had already done it. Returning the (holds, observed) pair rather
+    # than a bool so the CLI can PRINT why, which a bare exit code cannot say.
+    #
+    # Defensive around the import and the read: a calibration pass that completed must not be
+    # reported as a failure because the verdict could not be computed, so that case is named on
+    # stdout and falls back to the old count -- which is weaker, and says so, rather than
+    # silently inverting.
+    try:
+        import standards as _ST
+        with open(_cr, encoding="utf-8") as _f:
+            _reg = json.load(_f)
+        return _ST.charter_regression_verdict(_reg)
+    except Exception as _e:
+        silence.note("magnitude.py:calibrate-verdict")
+        print("   could not compute the standard's own verdict (%s); falling back to the "
+              "BAND-MATCH count, which is weaker than the standard and may disagree with it"
+              % type(_e).__name__)
+        return band_hits == len(BENCHMARKS), ("verdict unavailable; %d/%d bands reproduced"
+                                              % (band_hits, len(BENCHMARKS)))
 
 
 def queue(host=None, limit=None):
@@ -1733,12 +1769,15 @@ def main():
     a = ap.parse_args()
 
     if a.calibrate:
-        # `calibrate()` returns band_hits, 0-len(BENCHMARKS), not a pass/fail flag -- `if
-        # calibrate()` was truthy on ANY nonzero count, so one benchmark out of six reproducing
-        # its band exited 0. `standards.py`'s own `charter_regression_verdict` (the check behind
-        # "the automation reproduces the charter") requires EVERY scored row consistent, zero
-        # `bad`; the exit code here must mean the same thing the standard it feeds does.
-        return 0 if calibrate() == len(BENCHMARKS) else 1
+        # `calibrate()` now returns `standards.charter_regression_verdict`'s own (holds,
+        # observed) pair, computed from the file it has just written -- so this exit code and
+        # that standard are the same judgement rather than two that were meant to agree. The
+        # history is at the end of `calibrate()`; the short version is that a count of BAND
+        # matches is not the standard's question, and the two disagreed in both directions.
+        _holds, _observed = calibrate()
+        print("\nstandard 'the automation reproduces the charter': %s -- %s"
+              % ("HOLDS" if _holds else "DOES NOT HOLD", _observed))
+        return 0 if _holds else 1
     if a.one:
         # `ceiling=` is not optional here (order 478cc5cbb1ba): `--batch` passes
         # `host_ceiling(h)` and `calibrate()` passes the SCOPE row's ceiling, so a hand check

@@ -407,8 +407,8 @@ def main():
             # into the PRINT and then thrown away at `return 0`, so an automated caller could not
             # tell a denied write from a successful one -- and whatever reads SEVENFOLD.json goes
             # on reading the previous run's shelving, which is the identical situation
-            # `zfighters.py:492-497` answers with a 1. A line only a person reads is not a
-            # verdict; it is a hope that a person was reading.
+            # zfighters.main()'s write-denied branch answers with a 1. A line only a person
+            # reads is not a verdict; it is a hope that a person was reading.
             silence.note("sevenfold.py:main-write-denied")
             print(f"\nWRITE DENIED: {p} did not land; the shelving above was NOT written and "
                   f"the file on disk is the previous run's. Rerun to retry.")

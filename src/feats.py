@@ -1838,7 +1838,41 @@ def main():
     if a.roll:
         recs = P.records()
         hosts = resolve_hosts(recs, verify=False)
-        roll(recs, hosts, workers=a.workers, limit=a.limit, only=a.only)
+        done = roll(recs, hosts, workers=a.workers, limit=a.limit, only=a.only)
+        # THE COUNTERS REACH THE EXIT CODE (order f4f4b9d5f935, run40 sweep). This threw
+        # `roll()`'s return away and returned 0 unconditionally, so a roll with NO jobs at all --
+        # an empty or unresolved host map -- and a roll in which every entity's `evidence_for()`
+        # raised both exited 0.
+        #
+        # That is not a cosmetic loss. `overnight.py` launches this exact invocation as a
+        # supervised background job and its `join()` only tails the log and reports anything
+        # other than "ok" when rc != 0, so to the ONE automated consumer of this exit code a roll
+        # that mined nothing was indistinguishable from a roll that mined everything. The crawl
+        # can then be dead for hours with the supervisor reporting it fine, which is this
+        # project's signature failure -- a fault that presents as nothing at all.
+        #
+        # The sibling branches in this same file already do it: `--hosts` twenty lines up returns
+        # `1 if _HOSTS_DENIED else 0`, and `resolve_hosts`'s own docstring promises "main() exits
+        # nonzero on it". `--roll` was the one place the pattern was never applied, even though
+        # `roll()` has always returned exactly the counters needed.
+        #
+        # THREE FAILING CONDITIONS, each named on stdout so the rc is never the only evidence.
+        # A denied WIKI_HOSTS.json write counts too, for the same reason `--hosts` counts it.
+        _n = int((done or {}).get("n") or 0)
+        _err = int((done or {}).get("errored") or 0)
+        _bad = []
+        if _HOSTS_DENIED:
+            _bad.append("the WIKI_HOSTS.json write was denied")
+        if not _n:
+            _bad.append("the roll had NOTHING to do -- 0 entities were walked, which usually "
+                        "means an empty or unresolved host map rather than a finished crawl")
+        elif _err >= _n:
+            _bad.append("every one of the %d entities walked raised in evidence_for(), so "
+                        "nothing was mined" % _n)
+        if _bad:
+            print("\nROLL FAILED, exiting nonzero so the supervisor can see it: "
+                  + "; ".join(_bad))
+            return 1
         return 0
 
     if a.probe:

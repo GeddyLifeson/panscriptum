@@ -363,7 +363,29 @@ _DEAD_CODES = re.compile(r"\b(401|402|404|410)\b")
 # The prose half. `no such model`, `needs billing on that provider` and `retired by the
 # provider` are the engine's OWN wordings from `is_dead()`, which is where these arrive from;
 # they are distinctive enough that an accidental hit is not a realistic failure.
-_DEAD_WORDS = ("no such model", "needs billing", "bad key", "retired by the provider")
+# `model rejected by the provider` WAS MISSING, AND IT IS A REAL ESCAPE (run40 sweep).
+#
+# `is_dead()` in the engine has FOUR wordings, not three. The 404/410/402 branch yields "no such
+# model" / "retired by the provider" / "needs billing on that provider", and a fourth branch --
+# HTTP 400 or 422 whose body names the model as not found, unknown, invalid, unsupported or
+# decommissioned -- yields "model rejected by the provider" (engine.py:545, read directly).
+#
+# That fourth reason reaches `POOL_PROOF.json`'s `reason` field verbatim, and NOTHING here
+# recognised it: 400 and 422 are not in `_DEAD_CODES` (401|402|404|410) and the phrase was not
+# in this tuple. So a bucket the ENGINE has permanently disabled for a genuinely unrecoverable
+# reason was never added to the exclusion set, and the widen-fallback path went on re-selecting
+# it indefinitely -- the pool-WIDENING error, the mirror of the pool-narrowing one fixed in
+# `dead_forever()`'s memo this same shift.
+#
+# `bad key` IS KEPT, AND THE COMMENT NO LONGER CLAIMS IT IS AN ENGINE WORDING. Verified: the
+# only occurrence of that phrase anywhere in the cascade tree is a SOURCE COMMENT at
+# engine.py:225 ("401/403 mean a bad key -- a long cooldown stops us hammering it"); the engine
+# never returns it, and 401/403 take the ordinary bench path rather than the permanent one. It
+# is therefore a marker for text the engine does not emit. It is left in place deliberately:
+# removing a marker SHRINKS the exclusion set, which is the pool-widening direction and the more
+# expensive error, and a marker that matches nothing costs one substring test.
+_DEAD_WORDS = ("no such model", "needs billing", "bad key", "retired by the provider",
+               "model rejected by the provider")
 
 
 def dead_forever():
@@ -416,7 +438,31 @@ def dead_forever():
         stamp = os.path.getmtime(PROOF)
     except Exception:
         stamp = None
-    if _PROVEN[0] is not None and _PROVEN[0][0] == stamp:
+    # AND THE MEMO CARRIES FRESHNESS AS WELL AS IDENTITY (order 90bd64fe676d).
+    #
+    # Keying on the mtime alone MOVED the override without removing it. `PROOF_TTL` says a proof
+    # older than an hour is not evidence about now -- but this line short-circuited BEFORE the
+    # freshness test below, so as long as POOL_PROOF.json was not rewritten the mtime never
+    # changed, the memo never invalidated, and the stale exclusion set was returned for the life
+    # of the process. That is the same "quietly overrode it with forever" the comment above says
+    # it fixed, one trigger along: it now takes a stalled `prove()` rather than a stalled
+    # `dead_forever()`.
+    #
+    # REPRODUCED with PROOF_TTL shrunk to 1.0s against a scratch proof file: at t=0 the call
+    # returned ['acme:free']; at t=1.6s, the file untouched, the CACHED call still returned
+    # ['acme:free'] while the same call with `_PROVEN` cleared returned []. That third value is
+    # what a process starting one second later computes from the identical file -- so two of the
+    # sixteen workers in one run disagree about which buckets are in the pool, which is the
+    # "two views of the same pool disagreeing" defect this module's own widen-path comment
+    # names. The error direction is pool-NARROWING, on the resource this file repeatedly calls
+    # the binding constraint, and the readers affected are exactly the long-lived worker
+    # processes the memo was written for.
+    #
+    # The entry now records WHEN it was computed as well as which file it was computed from, and
+    # is discarded once the proof it rests on has aged past PROOF_TTL. The recompute costs one
+    # open of a small JSON file, an hour apart at most.
+    if (_PROVEN[0] is not None and _PROVEN[0][0] == stamp
+            and (stamp is None or time.time() - stamp <= PROOF_TTL)):
         return _PROVEN[0][1]
     out = set()
     try:

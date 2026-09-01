@@ -738,7 +738,7 @@ def write_report(led, struct):
             # finding in six reached the reader with its second half missing, and the missing
             # half is the part saying what the code does INSTEAD, which is the whole content of
             # a defect-of-fact finding. WATCH.md is a file, not a console, so the house
-            # exemption for console renderers (ingest_doc.py:348) does not reach it.
+            # exemption for console renderers (ingest_doc.py:363) does not reach it.
             # NOT to be confused with `_fingerprint`'s actual[:80], which is a dedupe KEY --
             # changing that would re-key every finding in the ledger. (order 80519f08d9ac)
             lines.append(f"- **{f['module']}.py** `{f.get('symbol','')}` — [{sev}] "
@@ -932,7 +932,7 @@ def main():
         led = load()
         for f in sorted((f for f in led["findings"].values() if f.get("state") == "open"),
                         key=lambda x: x["module"]):
-            # A CONSOLE renderer, so the cut stays (house exemption, ingest_doc.py:348) -- but
+            # A CONSOLE renderer, so the cut stays (house exemption, ingest_doc.py:363) -- but
             # it now SAYS it cut, so a reader knows to open WATCH.md, which prints the whole
             # text. An unmarked cut is the part that misleads, not the cut itself.
             _act = f.get("actual", "")

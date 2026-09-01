@@ -248,11 +248,12 @@ def harvest():
                 with open(fp, encoding="utf-8") as f:
                     d = json.load(f)
             except Exception:
-                # Named for WHAT FAILED, not for where it sat. This was `chain.py:91` and the
-                # line moved to 169 -- a tag that points at an unrelated line is worse than an
-                # opaque one, because it sends the next reader somewhere confidently wrong.
-                # Same repair as ingest_doc.py's, which run #35 pinned with a check that no
-                # `silence.note` tag in that file is a bare number.
+                # Named for WHAT FAILED, not for where it sat. This tag used to carry a bare
+                # line number that drifted the moment code above it moved -- a tag that points
+                # at an unrelated line is worse than an opaque one, because it sends the next
+                # reader somewhere confidently wrong. Same repair as ingest_doc.py's, which
+                # run #35 pinned with a check that no `silence.note` tag in that file is a bare
+                # number. This is `harvest()`'s unreadable-JSON guard.
                 silence.note("chain.py:harvest-feats-unreadable")
                 continue
             ent = d.get("entity")
@@ -361,14 +362,14 @@ def _ask(system, prompt, schema):
             if got is not None:
                 return got
     except Exception:
-        silence.note("chain.py:ask-cloud")   # was `chain.py:155`; the line is now 276
+        silence.note("chain.py:ask-cloud")   # was tagged chain.py:155; this is _ask's cloud arm
         pass
     try:
         import pipeline as P
         import read as R
         return P.ask(R.config(), system, prompt, schema, timeout=300)
     except Exception:
-        silence.note("chain.py:ask-local")   # was `chain.py:161`; the line is now 283
+        silence.note("chain.py:ask-local")   # was tagged chain.py:161; this is _ask's local arm
         return None
 
 
@@ -446,7 +447,7 @@ def extract(rows, batch=8, limit=None, workers=8):
             try:
                 pos = int(o.get("index", 0)) - 1
             except (TypeError, ValueError):
-                # was `chain.py:252`; the line is now 345
+                # was tagged chain.py:252; this is extract()'s bad-index guard
                 silence.note("chain.py:extract-bad-index")
                 continue
             if not (0 <= pos < len(chunk)):

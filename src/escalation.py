@@ -145,12 +145,28 @@ def _safe_name(s):
 
 
 def _append(path, rec):
-    """Append one line of JSON. Never the reason a caller dies."""
+    """Append one line of JSON. Never the reason a caller dies.
+
+    THROUGH `silence.append_line`, NOT A BUFFERED `open(path, "a")` (BUGS.md M38's last limb,
+    open and verified since run #32). This wrote with `open(..., "a")` + `f.write`, which is a
+    BUFFERED write: Python may split one line into several underlying writes, and two processes
+    interleaving mid-line produce a row that parses as neither. That is the m62 torn-line class,
+    measured on `state/model_metrics.jsonl` in run #24 and fixed there with this same helper.
+
+    The exposure here is the same shape and the stakes are higher. `state/escalation.log` is the
+    JANITOR'S RUNG -- the one log this module's own docstring says "always holds the whole story
+    even when the top rung fires" -- and every process that can escalate appends to it, which is
+    every standing job. A torn line in the metrics ledger costs a data point; a torn line here
+    costs the record of why the library stopped, at the moment somebody is reading it to find
+    out. One `os.write` to an `O_APPEND` descriptor is one syscall, and for a sub-page JSON line
+    that is the difference between interleaved-and-corrupt and interleaved-but-whole.
+
+    The verdict is still returned truthfully: `append_line` answers True/False exactly as this
+    did, so `_append_log`'s caller and the drill nets that assert on it are unaffected.
+    """
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "a", encoding="utf-8") as f:
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-        return True
+        return silence.append_line(path, json.dumps(rec, ensure_ascii=False))
     except Exception:
         silence.note("escalation.py:log")
         return False
@@ -292,6 +308,82 @@ def _raise_halt(rec):
     the FIRST thing that went wrong is the one a person needs to see, and a later, louder symptom
     must not bury it.
     """
+    # COMPARE-AND-SWAPPED, because this is a READ-MODIFY-WRITE on the one ledger that must never
+    # lose a fault (BUGS.md M38's remaining limb, open and verified since run #32).
+    #
+    # The read below, the merge under it and the write at the bottom were three separate steps
+    # with nothing between them. Two processes raising a FIRST halt at the same moment each read
+    # "no halt", each built a fresh payload, and whichever renamed second replaced the other's --
+    # so one OWNER fault vanished, silently, with a successful write. That is the corroboration
+    # rule inverted: the `also` list exists precisely so a second fault cannot bury the first, and
+    # without a CAS the race bypassed it entirely. It is not hypothetical here; the drill, the
+    # keeper, the foreman and nine standing jobs can all reach `escalate(OWNER, ...)`, and a
+    # library-wide invariant breaking tends to break for several of them at once.
+    #
+    # The digest is taken BEFORE the read, the same order and for the same reason as
+    # `_write_stopped` and `binding_health._land_cas` in this same tree: read first and the digest
+    # would match disk while the copy in hand is already stale, certifying the lost update instead
+    # of catching it. `None` asserts the file did not exist when it was read, which is exactly the
+    # first-halt case this race is about.
+    # RETRIED ON ANY REFUSAL, not on a parsed reason. The first version of this loop broke out
+    # unless `why == "changed"` -- a token `silence.replace_if_unchanged` never returns. It
+    # answers a SENTENCE ("... changed under this writer (expected X, found Y) -- refusing to
+    # ..."), so the equality was false on every path, the loop ran once, and the loser of a race
+    # reported its halt as not raised instead of appending it as corroboration. The race net
+    # caught that immediately, which is the whole reason it was written.
+    #
+    # Matching `stop_subsystem`'s loop in this same file: go round on ANY failure, bounded by
+    # STOP_CAS_ATTEMPTS. A digest mismatch means somebody landed first and the next pass appends
+    # to their `also`; a transient denial means a reader was holding the file and the next pass
+    # may get it. Both want another attempt, and after five neither is transient any more.
+    landed, why = False, "not attempted"
+    for _attempt in range(STOP_CAS_ATTEMPTS):
+        expected = silence.digest_of(HALT_FILE)
+        landed, why = _land_halt(rec, expected)
+        if landed and _halt_file_records(rec):
+            return True
+        # READ BACK, AND DO NOT TRUST `landed` ALONE. The compare-and-swap NARROWS this race and
+        # cannot close it: `replace_if_unchanged` re-reads the digest immediately before its own
+        # `os.replace`, so there is still a window between that read and the rename in which
+        # another writer can land. Two threads released together from a barrier hit it, and BOTH
+        # reported `halt_landed: True` while the file held only one of their faults -- which is
+        # the original defect wearing the fix's clothes, and strictly worse than the defect
+        # because now there is a verdict saying it did not happen.
+        #
+        # Verifying convergence is what actually closes it. If our fault is not in the file we
+        # just wrote, somebody landed over us; go round, and this pass reads THEIR halt and
+        # appends ours to its `also`. That terminates: each pass either finds our record or finds
+        # a newer halt to attach it to, and the loop is bounded.
+        landed = False
+    # ONLY NOW IS IT LOUD. `_land_halt` is silent about a single refused attempt on purpose --
+    # printing "CANNOT WRITE HALT FILE" for the intermediate pass of a working compare-and-swap
+    # would be an alarm about the mechanism succeeding.
+    silence.note("escalation.py:halt-write-denied")
+    sys.stderr.write("CANNOT WRITE HALT FILE after %d attempts (%s) — %s: %s\n"
+                     % (STOP_CAS_ATTEMPTS, why, rec["code"], rec["what"]))
+    return landed
+
+
+def _halt_file_records(rec):
+    """Is THIS fault actually in the halt file now? -> bool.
+
+    Identity is (code, at): `code` alone is not enough because a retrying job can raise the same
+    code twice, and `at` alone is not enough because it is a float somebody could round. The
+    fault counts as recorded whether it is the STANDING halt or one of its corroborating `also`
+    entries -- both are "the record kept it", which is the only property that matters here.
+    """
+    cur = _read_halt_raw()
+    if not isinstance(cur, dict):
+        return False
+    mine = (str(rec.get("code")), rec.get("at"))
+    if (str(cur.get("code")), cur.get("raised_at")) == mine:
+        return True
+    return any((str(x.get("code")), x.get("at")) == mine
+               for x in (cur.get("also") or []) if isinstance(x, dict))
+
+
+def _land_halt(rec, expected):
+    """One compare-and-swapped attempt at the halt file. -> (landed, why)."""
     cur = _read_halt_raw()
     if isinstance(cur, dict) and not cur.get("cleared", False):
         cur.setdefault("also", []).append(brief(rec, OWNER))
@@ -314,21 +406,31 @@ def _raise_halt(rec):
     #
     # The `except` arm below was already loud, correctly, for the case where the WRITE throws.
     # It just never covered the case where the write succeeds and the LANDING is refused.
-    landed = False
+    landed, why = False, "not attempted"
     try:
         os.makedirs(os.path.dirname(HALT_FILE), exist_ok=True)
-        landed = silence.write_json(HALT_FILE, payload, indent=1, ensure_ascii=False)
+        # Through a temp + `replace_if_unchanged` rather than `write_json`, so the rename is
+        # refused when the target moved under us. `write_json` retries a DENIED rename, which is
+        # the right behaviour for a reader holding the file and the wrong one for a competing
+        # WRITER -- it would land the stale payload just as happily.
+        import threading as _th
+        tmp = "%s.%d.%d.tmp" % (HALT_FILE, os.getpid(), _th.get_ident())
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=1, ensure_ascii=False)
+        landed, why = silence.replace_if_unchanged(tmp, HALT_FILE, expected)
+        if not landed:
+            # Silent: this is ONE attempt of a compare-and-swap and the caller retries. It is
+            # `_raise_halt` that decides the attempts are exhausted, and `_raise_halt` that is
+            # loud about it.
+            _unlink(tmp)
+            return False, why
     except Exception:
         # A halt that cannot be written is the worst case, so it is the ONE thing that is
         # allowed to be loud on stderr as well as recorded.
         silence.note("escalation.py:halt-write")
         sys.stderr.write("CANNOT WRITE HALT FILE — %s: %s\n" % (rec["code"], rec["what"]))
-        return False
-    if not landed:
-        silence.note("escalation.py:halt-write-denied")
-        sys.stderr.write("CANNOT WRITE HALT FILE (the rename was refused, a reader is holding "
-                         "it) — %s: %s\n" % (rec["code"], rec["what"]))
-    return landed
+        return False, "raised"
+    return landed, why
 
 
 def _unreadable_halt(why):

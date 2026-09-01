@@ -199,14 +199,67 @@ def check_physics_negative_inputs_refused():
 
 
 # order 85a1d426681d -- src/magnitude.py, main()'s --calibrate exit code
-# --calibrate must exit 0 only when EVERY charter benchmark reproduced its band, not on any
-# nonzero count.
+# --calibrate must exit 0 only when the charter regression actually HOLDS.
+#
+# STRENGTHENED 2026-09-01 (orders f4171126348f / b68c9523874e). This asserted the literal
+# `calibrate() == len(BENCHMARKS)`, which was the fix for the ORIGINAL defect (`if calibrate()`
+# was truthy on any nonzero count) but was itself too weak, and pinning it as a string blocked
+# the correction: `band_hits == len(BENCHMARKS)` counts BAND MATCHES, while the standard this
+# exit code feeds -- `standards.charter_regression_verdict` -- requires every scored row
+# `consistent`, which is `got_band == band AND abs(got_val - val) <= ci + got_ci`, plus a
+# freshness bound. The two disagree in BOTH directions: six band matches whose decimals all fall
+# outside the combined intervals exited 0 with the standard RED, and two consistent rows plus
+# four unscored exited 1 while the standard held.
+#
+# So the property is unchanged -- a partial reproduction must not exit 0 -- and the check now
+# asserts the STRONGER form that delivers it: `calibrate()` asks
+# `standards.charter_regression_verdict`, and `main()` returns 0 only on its `holds`.
+#
+# ASKED OF THE PARSE TREE, not of the text, because both previous versions of this check were
+# substring tests and this file polices exactly that mistake elsewhere: a literal cannot tell
+# code from prose about code, and the comment block above `calibrate()`'s return now QUOTES both
+# retired spellings while explaining why they went.
 def check_magnitude_calibrate_exit_requires_full_reproduction():
-    src = open(os.path.join(SRC, "magnitude.py"), encoding="utf-8").read()
-    assert "return 0 if calibrate() else 1" not in src, (
-        "magnitude.py main() reverted to treating calibrate()'s band_hits count as a bool")
-    assert "calibrate() == len(BENCHMARKS)" in src, (
-        "magnitude.py main() no longer requires full charter reproduction to exit 0")
+    import ast
+    tree = ast.parse(open(os.path.join(SRC, "magnitude.py"), encoding="utf-8").read())
+    fns = {n.name: n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)}
+
+    calibrate = fns.get("calibrate")
+    assert calibrate is not None, "magnitude.calibrate() has gone"
+    asks_standard = any(
+        isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+        and n.func.attr == "charter_regression_verdict"
+        for n in ast.walk(calibrate))
+    assert asks_standard, (
+        "magnitude.calibrate() no longer asks standards.charter_regression_verdict -- the exit "
+        "code and the standard it feeds are two implementations of one question again")
+
+    main = fns.get("main")
+    assert main is not None, "magnitude.main() has gone"
+    # The band-count predicate must NOT be what the exit gates on any more: it is the weaker
+    # question, and reinstating it is the regression this check now guards against.
+    for n in ast.walk(main):
+        if not (isinstance(n, ast.Compare) and len(n.comparators) == 1):
+            continue
+        left, right = n.left, n.comparators[0]
+        counts = (isinstance(left, ast.Call) and getattr(left.func, "id", "") == "calibrate"
+                  and isinstance(right, ast.Call)
+                  and getattr(right.func, "id", "") == "len")
+        assert not counts, (
+            "magnitude.main() gates --calibrate on a BAND-MATCH count again; that is weaker "
+            "than the standard it feeds and the two disagree in both directions")
+    # And the conditional it returns on must be the UNPACKED VERDICT, never the raw call.
+    # `return 0 if calibrate() else 1` is the original defect resurrected in a worse form now
+    # that calibrate() answers a (holds, observed) PAIR: a non-empty tuple is always truthy, so
+    # that spelling exits 0 unconditionally -- it would not even reproduce one band. The test of
+    # the exit expression must therefore be a plain name bound from the unpacking, not a Call.
+    conds = [n.value for n in ast.walk(main)
+             if isinstance(n, ast.Return) and isinstance(n.value, ast.IfExp)]
+    assert conds, "magnitude.main() no longer returns a conditional exit code for --calibrate"
+    gated = [c for c in conds if isinstance(c.test, ast.Name)]
+    assert gated, (
+        "magnitude.main()'s --calibrate exit is not gated on an unpacked verdict; a bare "
+        "`calibrate()` as the test is always truthy now that it returns a (holds, observed) pair")
 
 
 if __name__ == "__main__":

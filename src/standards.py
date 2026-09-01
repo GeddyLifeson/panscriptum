@@ -1366,8 +1366,21 @@ def check(state=None):
         # "which is lesson 14: fix a shape, then grep the tree for it"): it silently decided
         # which sources "count" as the worst-covered, and every source past the cutoff read
         # as fine on the page that exists to catch exactly this.
+        # AND THE NAMES ARE WHOLE (order 20d17c02e0ce). The ROW cap went in the repair above;
+        # the PER-NAME character cut survived it, and it is the same rule broken at a smaller
+        # scale. `str(c["source"])[:18]` cut every source name at eighteen characters with no
+        # ellipsis and no marker, in the `observed` field of a HIGH standard whose remedy is
+        # `catalogue_web --recatalogue --shortfall 100` -- run against a source the operator has
+        # to be able to NAME. Real roll names routinely pass eighteen ("Lost Mines of
+        # Phandelver" is 24), and eighteen-character prefixes COLLIDE: every source of the form
+        # "Warhammer Fantasy *" folded onto one string, so the page could not say which one was
+        # worst-covered. This file has already fixed the identical shape twice, at :1671 ("ALL
+        # OF THEM, not [:120] characters -- that cut the joined name list mid-name") and at
+        # :1742 ("EVERY RESIDENT NAME ... ranking is allowed here, truncating is not"). The
+        # list stays ordered worst-first, which is the ranking Hard Rule 0 permits; nothing
+        # downstream aligns on this field, so no width argument applies.
         worst = sorted(good, key=lambda c: c.get("coverage", 0))
-        detail = "; ".join("%s %.1f%%" % (str(c["source"])[:18], 100 * c.get("coverage", 0))
+        detail = "; ".join("%s %.1f%%" % (c["source"], 100 * c.get("coverage", 0))
                            for c in worst)
         # NO DENOMINATOR IS NOT ZERO COVERAGE. With an empty or all-unreliable COMPLETENESS.json
         # the arithmetic above yields a clean-looking `0.0% (0 of 0)`, and this standard is HIGH
@@ -1738,17 +1751,46 @@ def check(state=None):
             # runner and stayed full, so every call 503'd forever and nothing recovered on its
             # own -- it needed `ollama.exe` restarting by hand. `runner is None` means the probe
             # itself failed and is never reported as a fault.
+            # THREE-VALUED, LIKE THE PROBE (order 38afd14f22e8). `ollama_runner_up()` has a
+            # documented three-valued contract -- "`None` means 'could not tell' and is never
+            # reported as a fault" -- and it returns None whenever the tasklist spawn raises or
+            # passes its 25s timeout. This reading had only TWO branches, so None fell into the
+            # else and a HIGH standard published "runner up, N resident: ..." about a process
+            # NOBODY LOOKED AT, holding, with `_runner_holds = runner is not False` = True.
+            # Reproduced all three ways: True -> holds, "runner up"; False -> breach, "NO
+            # llama-server process"; None -> holds, "runner up" -- an affirmative claim from a
+            # failed probe. A tasklist timeout on this machine is ordinary rather than exotic;
+            # the duplicates handler in this same file already argues that for its own
+            # Get-CimInstance probe.
+            #
+            # "`None` is never reported as a FAULT" is honoured -- this is not a breach -- but
+            # not-a-fault is not an affirmative reading. It is the third state, and this block's
+            # own comment says so in capitals: "UNMEASURED is a reading; silence is not",
+            # "UNMEASURED IS NOT GREEN". Its sibling half, the context verdict below, already
+            # handles the identical third state correctly with an explicit "UNMEASURED --"
+            # reading; the two halves of one block disagreed about the same question.
+            #
+            # `_runner_holds` stays True for None so a probe failure cannot raise a HIGH
+            # standard against a library that may be perfectly healthy -- the same argument the
+            # context verdict makes for its own unmeasurable case -- but the reading now SAYS
+            # the probe failed, so nobody reads it as evidence the runner is up.
             _runner_holds = runner is not False
             # EVERY RESIDENT NAME, not `resident[0][:28]`. The reading is what an operator acts
             # on and there can be more than one model resident -- naming only the first, cut at
             # 28 characters, told them to go looking at whichever row /api/ps happened to list
             # first. Same shape as the `served = next(...)` defect fixed one standard below
             # (order dddf4d96bb3e); ranking is allowed here, truncating is not.
-            _runner_reading = (
-                ("resident %s -- NO llama-server process"
-                 % ", ".join(str(n) for n in resident)) if runner is False
-                else ("runner up, %d resident: %s"
-                      % (len(resident), ", ".join(str(n) for n in resident))))
+            _names = ", ".join(str(n) for n in resident)
+            if runner is False:
+                _runner_reading = "resident %s -- NO llama-server process" % _names
+            elif runner is None:
+                _runner_reading = (
+                    "UNMEASURED -- the llama-server process probe could not tell (it raised or "
+                    "passed its timeout), so nothing here is evidence that a runner is up. "
+                    "%d resident per /api/ps: %s. Re-run when the machine is quieter, or look "
+                    "at the process list by hand." % (len(resident), _names))
+            else:
+                _runner_reading = "runner up, %d resident: %s" % (len(resident), _names)
 
             # AND THE CONTEXT THE RUNNER IS ACTUALLY SERVING, WHICH NOTHING CHECKED.
             #

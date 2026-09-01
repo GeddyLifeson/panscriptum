@@ -943,7 +943,8 @@ def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
         # citation here used to read ":506-511", which is the `ast.Compare` branch of
         # `_mutations` and has nothing to do with junctions; a line number inside a comment is a
         # claim nothing can keep honest, so it is named by position instead (order b2a113a33d50,
-        # the same argument generate.py:555-558 makes for symbolic silence.note() tags). Check
+        # the same argument generate.py's "NAMED, NOT NUMBERED" comment on `job-failed` makes for
+        # symbolic silence.note() tags). Check
         # what is actually on
         # disk rather than trusting the call to have worked.
         if os.path.isdir(p):

@@ -474,8 +474,8 @@ def main():
         # aligning, so a long epoch costs line length and nothing else, while a cut one costs the
         # thing the header spends two paragraphs on: a fixed epoch is what makes each row a
         # measurement of a SPECIFIED subject. Five of the fourteen were cut (Vegeta 46 chars,
-        # Gohan 44, Chiaotzu 43, Piccolo 42, Krillin 39). Same ruling as pantheon.py:294-297,
-        # order 9d24c8a5febf, on the identical last-column cut in this table's sibling.
+        # Gohan 44, Chiaotzu 43, Piccolo 42, Krillin 39). Same ruling as the identical last-column
+        # cut in pantheon.py's ranked-table loop, order 9d24c8a5febf, this table's sibling.
         print("  %-16s %-16s %-9s %s"
               % (n, rec["assay"]["moth_number"], anchor, epoch))
 

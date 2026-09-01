@@ -128,7 +128,8 @@ _EMPTY_MECHANIC = re.compile(
 # violations and looks like success. This refuses to load rather than pass quietly.
 #
 # THE ROSTER USED TO CARRY `("_SETTING_META", None)`, which `_p is not None` always skipped --
-# `_SETTING_META` is not a name in this file at all, it lives at `pipeline.py:1204` (imported
+# `_SETTING_META` is not a name in this file at all, it lives at `pipeline.py`'s own
+# `_SETTING_META` definition (imported
 # above as `PL`) and is exactly the `\b`-fenced shape this guard exists to catch. And `_MARKUP`
 # (above) was not on the roster at all, though its own first pattern opens with the identical
 # `\bWP\b` escape -- if either arrived mangled, `clean_description` would silently strip nothing.
@@ -252,7 +253,7 @@ def main():
                     changed = True
 
         if changed:
-            # GATED, like every other caller of the two-writer contract (`catalogue_web.py:498`
+            # GATED, like every other caller of the two-writer contract (`catalogue_web.main`
             # gates `write_record_catalogue` the same way). `write_record` answers False for two
             # separate refusals -- a denied atomic replace, and its own deliberate "could not
             # read this record to merge, REFUSING to write the in-memory copy over it" -- and

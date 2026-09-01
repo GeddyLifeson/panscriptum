@@ -62,7 +62,7 @@ Every pair that shares at least one entity is written to data/SHARED_STAGE_GRAPH
 weight. A consumer that wants only strong pairs applies its own threshold to the `weight` field
 it is handed; the stored artifact stays complete and describes itself honestly. (Until
 2026-08-25 an undeclared `if w >= 1.0` at the write dropped 2,666 of 3,753 pairs -- 71% -- while
-the file recorded `"threshold": 3.0`, a number that had selected nothing. `resonance.py:157`
+the file recorded `"threshold": 3.0`, a number that had selected nothing. `resonance.py:290`
 reads this file to answer "are these two shelves in relation at all", so for 71% of genuinely
 co-attesting pairs it returned "no shared furniture". Order 9861c18b8485.)
 
@@ -112,11 +112,11 @@ def build_graph():
             for j in range(i + 1, n):
                 p = (sources[i], sources[j])
                 pair_w[p] += w
-                # WHOLE list, no cap -- Hard Rule 0, ruled 2026-08-24. `weave.py:478` and
-                # `pipeline.py:1795` write this same `shared_sample` key and were both brought in
+                # WHOLE list, no cap -- Hard Rule 0, ruled 2026-08-24. `weave.py:519` and
+                # `pipeline.py:2401` write this same `shared_sample` key and were both brought in
                 # line under that ruling; this file is the one member of the family that was
                 # missed, and it kept an `< 8` cap for two more days. The cap was not cosmetic:
-                # `resonance.py:146` reads `shared_sample` back as the pair's actual shared
+                # `resonance.py:295` reads `shared_sample` back as the pair's actual shared
                 # evidence, so a ninth shared entity simply did not exist to anything downstream.
                 # The key name is kept exactly as the siblings keep it, for resonance's sake.
                 pair_shared[p].append(name)

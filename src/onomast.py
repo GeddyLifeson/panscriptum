@@ -559,7 +559,7 @@ def main():
     # `return 0`, and called no `silence.note`, so a denied replace reached neither the exit
     # code nor state/failures.json -- its only trace was a line on a console nobody watches
     # during an unattended run. Every sibling repaired by that sweep does the opposite
-    # (genre.py:327-331, sevenfold.py:412-415, wh40k.py:277-282). The stake here is that
+    # (genre.py:327-331, sevenfold.py:412-415, wh40k.py:290-295). The stake here is that
     # navtree.py and worldseed.py read ONOMASTICON.json, so a denied write leaves them on the
     # previous run's designations while the run reports success.
     #

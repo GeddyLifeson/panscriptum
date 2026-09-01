@@ -1,137 +1,126 @@
-# Next Steps — written by run #39 for the run that follows it
+# Next Steps — written by run #40 for the run that follows it
 
 *Overwritten every run. The queue in `state/workorders.json` is the authority on what is open;
 this file is the reading of it — what to do first, and why.*
 
 ---
 
-## 0. NOTHING IS HALTED, AND NOTHING WAS HALTED THIS SHIFT
+## 0. NOTHING IS HALTED. DO NOT RE-DERIVE THE LIBRARY.
 
-`escalation.py --status` reads **clear**. No halt was raised by run #39 and none was standing
-when it opened. The `DRILL_BREACH` recorded in `state/HALT.json` is run #38's, already lifted by
-run #38 under the self-caused clause. **Do not re-derive the state of the library** — open the
-shift the way the card says and work the queue.
+`escalation.py --status` reads **clear**. A halt WAS raised during run #40 and lifted by run #40:
+it was **self-caused** — a change I made to `pipeline.phase_write` contradicted a netted design
+decision, `drill._write_phase_stays_open_when_everything_refuses` went red, the change was
+reverted, both gates were re-run green, and the lift is signed
+`maintenance-2026-08-31 (automated run #40)` rather than the `owner-cli` default. The full story is
+at the top of `HANDOFF.md`. **You are not inheriting a halt.**
 
-**Run #38 left no HANDOFF entry.** Its guard was still `done:false` with a 14-hour-stale
-heartbeat when run #39 opened, so it did not close its shift. Its work is real and is in the
-closed-order paper trail; it is simply not narrated anywhere. If you need to know what #38 did,
-read `state/workorders_closed.jsonl` for that window, not `HANDOFF.md`.
+Open the shift the way the card says — status, guard, `--sweep`, `corpus_db --rebuild` — and work
+the queue.
 
-## 1. THE ONE THING A PERSON HAS TO DO, AND NO RUN CAN — STILL STANDING
+## 1. CHECK THE GPU FIRST. IT COST RUN #40 THE WHOLE LOCAL RUNG.
 
-**Order f6c52ef7657f (OWNER).** PID varies; the process is `pythonw -m semsearch.cli watch`,
-**not part of this project**. Re-measured live on 2026-08-30 with `netstat -ano`:
+**Order `LOCAL_RUNG_UNWORKABLE_GPU_CONTENDED` (OWNER).** `Overwatch.exe` held ~9.7 GB of the card's
+10.2 GB for the whole of run #40. Ollama was resident but **starved**: a one-word `/api/chat` did
+not answer in 300 s; the same at `num_ctx=2048`/`num_predict=16` did not answer in 90 s; a real
+`local_agent` task burned **75 minutes** and returned `transport: TimeoutError timed out`.
+**115 LOCAL orders were unworkable.**
 
-| | |
-|---|---|
-| host TCP sockets in total | 900 |
-| sockets touching `127.0.0.1:11434` | 804 (89%) |
-| held by `semsearch.cli watch` | **396 ESTABLISHED** |
-| held by `ollama.exe`, the other end of those | 398 |
+**Spend sixty seconds on this before anything else:**
 
-It is still doing it, and it is still the cause of the symptoms the last three runs have chased.
-Run #39 hit it directly: two `local_agent` dispatches died with
-`WinError 10055 — the system lacked sufficient buffer space`, which is socket exhaustion and
-nothing to do with this library. The five throttled-host orders on the BOTS rung
-(`marvel`, `onepiece`, `mtg`, `naruto`, `dragonball`) and the stalled `roll_auto` are the same
-cause; so was the transient `PREFLIGHT_PROBLEM` that filed and self-closed during the shift
-(`aneurism.fandom.com` unreachable at 22:0x, answering 200 by 23:1x).
+```
+nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+```
 
-**One `Stop-Process` reopens the local rung, the crawl and the cloud pool.** Terminating another
-project's daemon is an owner call, so runs #37, #38 and #39 have all declined to do it.
+Then a 60-second one-word probe at `127.0.0.1:11434`. If the card is free and it answers, **work
+the LOCAL rung first** — it is the cheapest rung and 115 orders deep, and most of them are
+mechanical. If it does not answer, say so in the handoff and move on; do not spend an hour
+rediscovering it, which is the hour run #40 spent.
 
-## 2. THE MUTATION PASS IS ALMOST CERTAINLY STILL RUNNING. CHECK BEFORE YOU RELAUNCH.
+This is **not** order `f6c52ef7657f` (semsearch, 804 sockets on 11434). Re-measured during run #40:
+**3** sockets on that port, two ollama's own and one this project's `pipeline.py`. Two different
+foreign processes, two different mechanisms. Check which one you have.
 
-Launched 2026-08-30 with `--target all --file-orders`, **and this time with `python -u`**, so
-`state/mutate_20260830.log` is readable while it runs rather than empty until it exits. Check for
-a live `mutate.py` process first.
+## 2. THE MUTATION PASS IS UNFINISHED
 
-**Its baseline is fully green for the first time** — `verify_math rc=0 (1063 passed, 0 FAILED)`
-*and* `drill rc=0 (279 nets, 279 held, 0 BREACHED)`. Every previous run mutated against a sandbox
-with part of the battery switched off; see §3.
+Run #40 launched it early, and it correctly reported that **the shift was editing its own gates**
+(`drill.py` and `verify_math.py`). It was stopped rather than allowed to produce a survivor list
+that would have to be thrown away, then **relaunched as the last act of the shift on a quiet tree**.
 
-Order **af40a3c2e7e3** is the standing fix: make `mutate.main()` line-buffer its own stdout so no
-future launcher can produce an empty log by forgetting `-u`. Four zero-byte mutate logs are on
-disk from earlier runs.
+**Read `state/mutate_2026-09-01.log` before concluding anything.** A pass killed halfway is not a
+pass with fewer survivors.
 
-## 3. WHAT CHANGED UNDER THE MUTATION TESTER, AND WHY THE NEXT RUN SHOULD RE-READ ITS RESULTS
+**The arithmetic deserves a ruling.** 154 mutants each pay a full `verify_math`, and `verify_math`
+currently takes **15–20 minutes** instead of its usual ~32 s because `standards.check()` probes the
+starved daemon — >30 hours. Either the GPU gets freed, or FAST_GATES needs a `verify_math` variant
+that skips live probes. **The second is a design question, not a maintenance decision**: the probes
+are part of what makes the gate meaningful.
 
-The sandbox was not a copy of the library, and had never been one. Two omissions, both fixed:
+## 3. THE QUEUE
 
-- `state/` was copied **one level deep**, so `state/sweep_shards/` (155 files, 30 KB) never
-  arrived and two sweep-coverage rows in `verify_math` were red in every baseline ever taken.
-- the six logs `dashboard` reads were swept up in the blanket `.log` exclusion, so the
-  fabrication guard read UNMEASURED and three more rows went red.
+Run #40 closed **~190** orders; the whole-tree sweep filed **39** new ones, so the number moved less
+than the work did. **540 → 423.**
 
-Baseline went **1055 passed / 5 FAILED → 1063 passed / 0 FAILED**. Then `drill` in the sandbox
-went red for six *different* nets, because run #39 also stopped `drill.denied()` accepting
-`"no such file"` as a gate refusal — and inside a sandbox every path under the four junctioned
-trees resolves outside it. Fixed by asking `local_agent._safe()` directly. Sandbox drill:
-**6 BREACHED → 0**.
+| rung | open | what it is |
+|---|---|---|
+| LOCAL | 115 | mechanical; **blocked only by the GPU** — unblock it and this drains fast |
+| RUN | 116 | verified fixes and new machinery. Your real work. |
+| OWNER | 102 | account actions, charter judgements, curatorial calls. **Not yours.** |
+| SESSION | 54 | needs an interactive session |
+| BOTS | 36 | foreman/overwatch/keeper remedies |
 
-**So every survivor on record from an earlier run was measured with part of the battery
-disabled.** `state/MUTANTS_SURVIVED.jsonl` carries `assay.py x27, escalation.py x8,
-prose_gate.py x24`. Those counts are not trustworthy and should be re-derived from the current
-run, not carried forward.
+**The 79 `MUTANT_SURVIVED_*` orders are gone** — 73 killed by two new behavioural drill areas, 6
+closed as proven-equivalent with the proof recorded. That cluster will not come back in that form.
 
-## 4. THE SWEEP HAS A COVERAGE HAZARD THAT LEAVES NO TRACE — CHECK SHARDS AGAINST AUDITS
+**The stale-citation cluster is largely gone** (66 orders across 39 files). Finish the remainder the
+way run #40's agents finished theirs: **replace the line number with a SYMBOLIC reference** — the
+function name, or the quoted sentence — rather than baking a fresh number that will rot again. A
+line number in a comment is a claim nothing can keep honest, and this project has now re-found that
+fact in six consecutive sweeps.
 
-`sweep_plan.batches(n)` packs greedily by **live line counts**, so a shift editing `src/`
-re-shuffles which modules a batch number owns. An agent that derives its list at spawn and calls
-`record()` at the end can stamp coverage on modules it never opened. Two batches hit it in run
-#39; one caught itself and rewrote its shard with a `corrected` field.
+## 4. START HERE, IN THIS ORDER
 
-`missing()` does **not** catch this — the modules look covered. Run #39 therefore cross-checked
-every shard against the audit its own agent wrote (a module counts only if the audit names it)
-and got 63 for 63 corroborated, 0 suspect. **Do the same before calling a sweep complete.** The
-checker is small enough to re-write; better, make it part of `sweep_plan`.
+1. **`Q_PHASE8_EMPTY_RECORD_CLOSES_SILENTLY` (OWNER)** — read this one first, because run #40 tried
+   to answer it and the library refused. `build_jobs_for_source` returns `[]` with no exception for
+   a record with no entries, so if every ready source is like that, phase 8 marks itself done having
+   built nothing. The fix went in and `drill._write_phase_stays_open_when_everything_refuses` went
+   red: its second half *requires* that case to close. Both readings are defensible and only a
+   ruling settles it — **and if the sweep's reading wins, the NET has to change first.**
+2. **`07258ace3a09` (RUN, MAJOR)** — `address.spine_code_for()` invents a real spine code for an
+   unrelated crossover title when it merely opens or closes with a catalogued franchise name.
+   Live-reproduced: `spine_code_for("Alien Predator Doom Crossover")` → `"II.N"`. This is BUGS.md's
+   long-standing **M44**, finally an order. Hard Rule 2 with a curatorial edge — decide
+   deliberately, do not just tighten the regex.
+3. **`2cb8756deb0a`** — but **raise it to OWNER first**. It asks what restarts `read.py`,
+   `feats.py`, `autostart.py` and `overnight.py`; that is an operations ruling, not code. Run #40
+   deliberately did not re-address someone else's order.
+4. **`1e45fae97848` and `64ffa3ba30df`** — `catalogue_web.main()` has no `return` and `__main__`
+   calls it bare, so a totally failed catalogue pass logs as "ok" through `overnight.join()`; and
+   `resync_roll` prints post-fix figures under a "(pre-fix figures)" label on the branch whose whole
+   purpose is to say the write did NOT land. **These are the same family run #40 fixed four times
+   over** — `feats --roll`, `magnitude --calibrate`, `generate`'s floor, `derivation`'s verdict: *a
+   verdict that never reaches the one number a supervisor reads.* Grep for more of it; it is this
+   project's most repeated defect shape.
+5. **`2d6c9343cd32`** — `allsweep` grades the `cascade live call` verifier bad. Almost certainly
+   item 1 arriving at the battery; confirm before treating it as a code fault.
+6. **The rest of the sweep's findings** — `handoff/sweep40/AUDIT_batch01..16.md`, with quoted
+   evidence and remedies.
 
-Filed as **SWEEP_BATCHES_UNSTABLE_UNDER_LIVE_EDITS** (MAJOR, SESSION). The real fix is for
-`batches()` to pack against a frozen manifest for the life of a run rather than against live line
-counts.
+## 5. TWO THINGS THAT BIT RUN #40
 
-## 5. WHAT RUN #39 DID NOT GET TO
+**Never write regexes, backslashes or backticks through a shell `-c` string or heredoc.** It
+happened **three separate times** in one shift — twice to subagents, whose work-order text arrived
+corrupted and had to be refiled, and once to the run itself. Write a `.py` file and execute it.
 
-**The queue is at 458 and that is not neglect.** 170 were open at shift start, 25 were closed with
-written resolutions, run #39 filed 6, and **the sixteen sweep agents filed 293 in the last hour**.
-A queue that grows after a comprehensive sweep is the sweep working. The 293 are fresh, uncapped
-and each carries its own remedy.
+**A literal cannot tell code from prose about code.** A structural check searched the source for a
+removed literal and went **red against the new comment quoting it while explaining why it went.**
+Ask the AST.
 
-By rung: RUN 135, LOCAL 122, OWNER 97, SESSION 58, BOTS 46. `state/workorders.json` is the
-authority; `workorders.py --sweep` prints it grouped.
+## 6. WHAT IS GREEN
 
-**Work the LOCAL rung first, and this time it will actually work.** Three separate faults kept it
-from doing anything at all, all fixed this shift (`82adb37c6cfc`, `7dd2672546b1`, `1d54acf05414`).
-122 orders sit there and a large share are citation drift and unmarked truncations — exactly what
-the free model can carry. Give it several attempts per order and check its work; do not escalate
-to yourself on the first miss. **But it will keep failing with `WinError 10055` until §1 above is
-dealt with**, so try one order first and read the error before queueing twenty.
+`drill` **364/364, 0 breached** · `verify_math` **1,064 passed, 0 FAILED** · `codewatch` ok ·
+`silence` ok · `liveness` 48, under ratchet · `health --preflight` all pass · `axis_correlation` 45
+entities, matrix unchanged so no `--write` · `secondopinion` all three tools RAN,
+**detect-secrets 0** · `pyflakes src/` **0** · all 116 modules compile · `ledger_guard` **5 ledgers
+intact** (`handoff/HANDOFF.md` joined this shift and has its first snapshot).
 
-**The MAJORs worth doing before anything cosmetic** are listed at the top of run #39's HANDOFF
-entry with their ids — the phase-1 ceiling stranding (44 sources, 6,629 entries), the drill probe
-that can lift a live halt, `standards.ollama_runner_up`'s three-valued contract, `derivation`'s
-infinite walk, `gpu_lane`'s unreclaimable corrupt slot, and `read.py`'s name filter discarding
-feats for 4,939 entities.
-
-## 6. TWO THINGS THIS RUN CHANGED THAT YOU SHOULD KNOW BEFORE YOU TRUST A NUMBER
-
-- **`workorders_closed.jsonl` is now history only.** Battery rehearsals go to
-  `state/workorders_selftest.jsonl`. The 1,852 rehearsal rows already in the trail were NOT
-  rewritten — append-only history is not tidied — so any percentage computed over the whole file
-  still carries them. Count from the end, not the start.
-- **The secret gate no longer discharges its own blocking orders when it could not scan.** If the
-  export tree is absent, `SECRET_STAGED` and `SECRET_IN_EXPORT` simply stand. That is deliberate:
-  "could not scan" is not "clean", and this is the one gate where next run is not a recovery.
-
-## 7. OWNER DECISIONS STANDING (do not decide these in a run)
-
-Unchanged from run #37's list — `b57e23204f66`, `bd673ceaaf31`, `707fefc17465`, `585fcd3774b8`,
-`30854f11f322` (left open deliberately; the prescribed fix is provably infeasible and the
-reasoning is in the order). Added by run #39:
-
-- **`ca0a93856e2a`** — 56 of the 108 entries in BUGS.md's `## Open` say RESOLVED in their own
-  label and were never moved. Moving them is curatorial: six carry PARTIALLY CLOSED notes and must
-  NOT move, so a regex would silently close live faults. A dated marker now sits at the top of
-  that section carrying the measurement.
-- **`b86d79c574e3` / `44c420f80448` / `4d44a6363245` / `0c1670811107`** — the `batches()`
-  instability in §4, filed four times from four independent sightings.
+**Not green:** `allsweep` 1 subsystem bad — see item 5.

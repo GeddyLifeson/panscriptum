@@ -345,10 +345,13 @@ def age_seconds():
 
     Say that first because five separate sweep audits have now re-derived it from scratch
     (sweep33 batch17, sweep34 batch04, sweep36 batch09, sweep37 batch09, sweep38 batch10 ->
-    order a25e919309cb). `grep -rn 'age_seconds()'` over the repo finds this def, two prose
-    mentions in comments at :96 and :722, and nothing else; every real reader takes the value
-    off `freshness()`'s dict instead -- `_freshness_banner()` at :478 and :491, `main()` at :728
-    and :733, and drill.py. The migration happened and this function stayed.
+    order a25e919309cb). `grep -rn 'age_seconds()'` over the repo finds this def, a self-
+    reference inside this docstring's own grep pattern, and two prose mentions in comments --
+    the rebuild's stale-`built_at` warning (`replace_retry`'s comment, :321) and the no-SQL
+    branch's ABSENT/UNREADABLE note in `main()` (:742) -- and nothing else; every real reader
+    takes the value off `freshness()`'s dict instead -- `_freshness_banner()`'s `age_seconds is
+    None` branch and its `mins =` line, `main()`'s `--serve` and no-SQL branches, and drill.py.
+    The migration happened and this function stayed.
 
     IT IS NOT DEAD WEIGHT THAT READS AS DEAD WEIGHT, which is why it needed saying. The
     `finally` block below carries a real Windows fix (a held handle is a denied rename, the
@@ -600,11 +603,11 @@ def datasette_metadata(path=None):
     to deny it on Windows -- and returning the path anyway asserts a file that was never
     written. Two callers acted on that assertion: `main()` printed "wrote <path> (N canned
     queries, generated from CANNED)" and then handed over a serve command pointing at the STALE
-    config, and `drill.py:5441`'s net -- the one whose whole subject is that the CLI and the
-    browser must not answer the same question differently -- opened the returned path and
-    checked the OLD file's queries against CANNED, so a denied write could be graded as a pass
-    on a config nobody had just generated. A verification that reads a file it believes it wrote
-    is the failure this module's docstring is about, one level up.
+    config, and drill.py's `datasette_config_is_generated_not_copied` net -- "the web UI's
+    queries come from CANNED, not a second copy" -- opened the returned path and checked the OLD
+    file's queries against CANNED, so a denied write could be graded as a pass on a config
+    nobody had just generated. A verification that reads a file it believes it wrote is the
+    failure this module's docstring is about, one level up.
 
     THE APP THE OWNER ASKED FOR, AND WHY IT IS THIS ONE. `--sql` above is a query tool for
     someone who already knows SQL and already knows the schema. Datasette is the browsable

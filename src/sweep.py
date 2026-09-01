@@ -81,10 +81,12 @@ def cache_path(host, name):
 def load(path):
     """Read one evidence cache file, or None if there isn't one yet.
 
-    THE ABSENT FILE IS THE NORMAL PATH, NOT A FAILURE. The only call site (`:129`) asks for the
+    THE ABSENT FILE IS THE NORMAL PATH, NOT A FAILURE. The caller this exists for asks for the
     evidence of every Person-category entry in the library and does no existence check first, so
     every character the reader has not reached yet raises FileNotFoundError here. That is the
-    expected majority: ~45,000 entries against ~1,200 readfeats records on 2026-08-25.
+    expected majority: ~45,000 entries against ~1,200 readfeats records on 2026-08-25. The live
+    path today is `cachekey.load` inside `sweep()`; `load` itself currently has no caller
+    (order 2b695c192470).
 
     Recording those as swallowed failures made the ledger useless as an alarm. Measured that day:
     18,418 of 21,764 entries in the whole project's swallowed-failure ledger -- 85% -- came from

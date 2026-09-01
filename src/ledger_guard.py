@@ -41,11 +41,25 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import silence                                                          # noqa: E402
 
-APPEND_ONLY = ("HANDOFF.md",)
+# `handoff/HANDOFF.md` JOINED THIS LIST ON 2026-08-31 (order 42db308cc85d, run40 sweep).
+#
+# The four root-level ledgers were guarded and this one was not, while the project's own file
+# headers describe it as the durable carrier of "the project's deep engineering history,
+# doctrine, and architecture" -- the reference book to the root HANDOFF.md's run journal. That
+# is a ledger by every definition this module uses, and `pipeline.py`'s own commentary records
+# it ALREADY LOSING 629 LINES to exactly the truncation class this file exists to prevent.
+# None of the three mechanisms here could see it, and `publish.py` copies the whole `handoff/`
+# directory into the public export tree with no integrity check on the way.
+#
+# The module docstring's claim that four files "are the ONLY thing carrying continuity" was a
+# false completeness claim -- the most expensive kind in this project, because it reads as
+# coverage. Five now, and the fifth is the one with the history in it.
+APPEND_ONLY = ("HANDOFF.md", "handoff/HANDOFF.md")
 # Floors, set well below the current sizes so ordinary editing never trips them. They exist to
 # catch a TRUNCATION -- a file that lost its history -- not to police how much a run writes.
+# handoff/HANDOFF.md is ~58 KB today; 20000 is the same proportional slack the root ledger gets.
 MIN_BYTES = {"HANDOFF.md": 20000, "BUGS.md": 8000, "NEXT_STEPS.md": 3000,
-             "MAINTENANCE.md": 5000}
+             "MAINTENANCE.md": 5000, "handoff/HANDOFF.md": 20000}
 REQUIRED_SECTIONS = {"BUGS.md": ("## Open", "## Resolved")}
 
 
@@ -251,13 +265,19 @@ def seal():
         text = _read(n)
         if text is None:
             continue
+        # FLATTENED, because a guarded name may now contain a path separator. With
+        # `handoff/HANDOFF.md` on the list the old spelling built a snapshot path inside a
+        # `handoff/` SUBDIRECTORY of SNAPSHOT_DIR that nothing creates, so the write would have
+        # raised, been swallowed into `silence.note`, and left the one file this order added
+        # unsnapshotted -- a guard that reports itself installed and takes no copy.
+        flat = n.replace("/", "__").replace(os.sep, "__")
         tmp = os.path.join(SNAPSHOT_DIR,
-                           "%s.%d.%d.tmp" % (n, os.getpid(), threading.get_ident()))
+                           "%s.%d.%d.tmp" % (flat, os.getpid(), threading.get_ident()))
         try:
             os.makedirs(SNAPSHOT_DIR, exist_ok=True)
             with open(tmp, "w", encoding="utf-8") as f:
                 f.write(text)
-            os.replace(tmp, os.path.join(SNAPSHOT_DIR, n))
+            os.replace(tmp, os.path.join(SNAPSHOT_DIR, flat))
         except Exception:
             silence.note("ledger_guard.py:snapshot")
             try:

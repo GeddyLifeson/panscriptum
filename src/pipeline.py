@@ -2329,6 +2329,27 @@ def phase_write(c, st):
         log("  every ready source refused to build; phase 8 stays open rather than "
             "recording an empty manifest as a finished one")
         landed.append(False)
+    # A THIRD ARM WAS ADDED HERE ON 2026-09-01 AND REVERTED THE SAME SHIFT. Recorded so the
+    # next reader does not re-derive it a third time.
+    #
+    # The run40 sweep filed order 97d5b256fbdc: `build_jobs_for_source` returns an EMPTY LIST,
+    # with no exception, for a record whose `entries` list is empty -- so if every ready source
+    # is like that, `jobs` and `refused` are both empty, neither arm above runs, and `gate_done`
+    # marks phase 8 done on `all([]) == True` having built nothing. That reading is CORRECT as
+    # far as it goes, and an `elif names:` arm was added to hold the phase open for it.
+    #
+    # IT CONTRADICTED A DELIBERATE DECISION THAT ALREADY HAS A NET ON IT.
+    # `drill._write_phase_stays_open_when_everything_refuses` drives exactly this fixture --
+    # `load_record` returning `{"entries": []}` and `build_jobs_for_source` returning `[]` -- and
+    # its second half REQUIRES the phase to close: "the vacuous case is still allowed to close,
+    # or the phase never finishes." The drill went red, and a breached net is an OWNER halt.
+    #
+    # So the question is settled the other way, on purpose: a source with no entries is not a
+    # failure to build, it is nothing to build, and holding phase 8 open for it would hold it
+    # open for ever on a library that has simply catalogued a source it has not read yet. The
+    # order was reopened as a QUESTION for the owner rather than re-fixed -- if the silent close
+    # IS wrong, the net is what has to change first, and that is a curatorial call about what
+    # phase 8 means, not a maintenance one.
     ok = gate_done(st, "write", landed)
     st["units_done"] += 1
     save_state(st)

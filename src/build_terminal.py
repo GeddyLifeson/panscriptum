@@ -580,6 +580,26 @@ window.addEventListener("resize",()=>{applyView();});
 
 
 def main():
+    # `--help` MUST NOT REBUILD THE PAGE (found by the run40 sweep, batch 11).
+    #
+    # `allsweep.py`'s IMPORT tier runs every module in `src/` as `<module>.py --help` and its own
+    # docstring promises the whole sweep is "READ-ONLY ... changes nothing ... safe to run at any
+    # time, including against live jobs". That promise rests entirely on `--help` doing no work,
+    # and this module had no argument handling at all: the flag was ignored and `main()` ran to
+    # completion, REWRITING output/registry_terminal.html on every sweep. Measured: that file's
+    # mtime tracked the last allsweep run while its source data/NAVTREE.json was a week older.
+    #
+    # Nothing was corrupted by it -- the write is atomic and the output is a pure function of
+    # NAVTREE.json -- but a read-only sweep that writes is a promise that is not true, and the
+    # next person to rely on it will rely on it for something that does matter.
+    #
+    # argparse rather than a bare `sys.argv` test, so `--help` also prints something useful and
+    # exits 0, which is what the IMPORT tier grades on.
+    import argparse
+    argparse.ArgumentParser(
+        description="rebuild output/registry_terminal.html from data/NAVTREE.json"
+    ).parse_args()
+
     with open(DATA, encoding="utf-8") as f:
         data = f.read()
 

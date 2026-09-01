@@ -104,16 +104,19 @@ CATALOGUE_SHORTFALL = 100
 # without; `codewatch` is the rc=17 stale-code interlock; `liveness` is the check-that-cannot-
 # fail detector; `overnight` is the supervisor that starts every job. And `_checks_pass` does
 # not cover for the omission: it runs `import`, `verify_math` and `allsweep --quick`, and
-# `--quick` runs only the IMPORT and LINT tiers (allsweep.py:479, :498) while `drill` appears
-# nowhere in allsweep at all -- so after a patch to drill.py NOT ONE NET fires before the patch
-# is kept. verify_math's ~30 source-level assertions about drill.py and escalation.py catch a
-# deletion, not a weakened comparison inside one net, which is the shape a model patch takes.
+# `--quick` skips only the VERIFY and ESTATE tiers (allsweep.py:702, :727) -- IMPORT and LINT
+# still run unconditionally. `drill` IS among the modules `allsweep.modules()` walks (it is
+# just a file under src/), so the IMPORT tier does smoke-check that drill.py still imports and
+# its CLI still parses -- but that is import-level coverage only: it catches a deletion or a
+# syntax break, not a weakened comparison inside a working net, which is the shape a model
+# patch takes. verify_math's ~30 source-level assertions about drill.py and escalation.py catch
+# the same shallow class of fault, for the same reason.
 #
 # Adding `python src/drill.py` to `_checks_pass` would close the rest of it and is NOT done
-# here: verify_math.py:5504 records a standing rule that verify_math and drill "are not safe to
-# run" from an agent context, and drill historically wrote trial values of `prose_enabled` into
-# the live config. That is an owner ruling. This half needs none -- it only makes the list
-# satisfy the rule it states.
+# here: verify_math.py:6051 (and again at :6283) records a standing rule that verify_math.py
+# and drill.py "are not safe to run" concurrently from an agent context, and drill historically
+# wrote trial values of `prose_enabled` into the live config. That is an owner ruling. This half
+# needs none -- it only makes the list satisfy the rule it states.
 DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards", "verify_math",
             "drill", "escalation", "codewatch", "liveness", "overnight"}
 MAX_PATCH_LINES = 40
@@ -190,7 +193,7 @@ def reprove_pool():
         # The old scratch name was FIXED, so two foremen -- which this file deliberately allows,
         # the singleton claim being inside `if a.loop:` in main() -- opened the same temp and the
         # loser could land a half file over the target. `write_json`'s temp carries pid and
-        # thread (silence.py:408), which is the collision the helper exists to make unavailable.
+        # thread (silence.py:511), which is the collision the helper exists to make unavailable.
         # Same repair as the other six sites in this file (order 99b1ae2c580c).
         #
         # A DENIED RENAME HERE IS WORSE THAN A LOST WRITE, because of the line below it.
@@ -271,7 +274,29 @@ def triage_swallowed():
         return False, "no ledger"
     if not d:
         return False, "ledger empty"
-    top = sorted(d.items(), key=lambda kv: -kv[1])[:3]
+    # EVERY CLASS, NOT THE FIRST THREE (order 842025c83c3c, Hard Rule 0).
+    #
+    # This named `[:3]` classes and then ARCHIVED AND CLEARED the live ledger in the same
+    # breath -- so every class past the third was erased from state/failures.json having never
+    # been named in the one log a person reads, and with no "and N more" the line read exactly
+    # like a complete list. MEASURED on 2026-08-29: the ledger held 58 distinct classes over
+    # 2,827 events, the top three were one URLError class and two HTTPError classes, and 55
+    # names went to the archive unspoken. Among them were
+    # `silent:compress_store.py:address-mismatch` x10 -- `compress_store.load()` refusing a blob
+    # whose content hash does not match the address it is filed under, which is CORPUS
+    # CORRUPTION -- and `silent:silence.py:stale-write-refused` x21. Neither would ever have
+    # reached the log. The archive's three most recent snapshots hold 21, 24 and 56 classes, so
+    # more than three is the normal case and not an outlier.
+    #
+    # This function's own siblings in this file already refuse the shape for the same reason:
+    # `owner_queue()` ("EVERY url, not the first three ... A cap here is Hard Rule 0's exact
+    # shape aimed at a human decision") and `_catalogue_batch`, which prints every deferred
+    # source by name.
+    #
+    # Ranking is kept -- worst first is what makes the line readable, and Hard Rule 0 permits
+    # ranking. The secondary sort on the class name makes the order a property of the ledger
+    # rather than of dict insertion order, so two runs over the same ledger read the same.
+    top = sorted(d.items(), key=lambda kv: (-kv[1], kv[0]))
     total = sum(d.values())
     detail = "; ".join(f"{k} x{v:,}" for k, v in top)
 
@@ -472,7 +497,7 @@ def restart_reader():
     # documents having fixed exactly this loose-match class for its own matching and got the
     # remedy: `lognames.OWNER` publishes the one fragment that identifies each managed job,
     # precisely so the killer and the launcher cannot drift apart. This site was left behind.
-    # The fragment is "read.py --run", which is how overnight.py:619 actually launches it.
+    # The fragment is "read.py --run", which is how overnight.py:1425 actually launches it.
     import lognames as _LN
     frag = _LN.OWNER[_LN.READ]
     killed = []
@@ -1503,7 +1528,7 @@ def owner_queue(items):
     # foremen open at once, and two foremen are allowed by design (the singleton claim in main()
     # sits inside `if a.loop:`). The loser's half-written owner queue then lands over the
     # winner's, and publish.py copies it into the export tree on its own clock. Same
-    # `"%s.%d.%d.tmp"` shape as silence.py:408, inline rather than a new helper.
+    # `"%s.%d.%d.tmp"` shape as silence.py:511, inline rather than a new helper.
     _tmp = "%s.%d.%d.tmp" % (FOR_OWNER, os.getpid(), threading.get_ident())
     with open(_tmp, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
