@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 257  ·  last run 2026-09-01 14:27
+round 258  ·  last run 2026-09-01 15:28
 
 ## Structure
 
@@ -13,8 +13,10 @@ round 257  ·  last run 2026-09-01 14:27
 
 ## What the model found in the code
 
-**21 open** (8 high). Newest first.
+**21 open** (9 high). Newest first.
 
+- **threads.py** `main` — [HIGH] returns 1 on success
+  - says: returns 0 on success
 - **standards.py** `ollama_token_flow` — [HIGH] Hardcodes a context size of 512, which may not match the actual configuration, leading to incorrect probe results.
   - says: Does a generation actually COMPLETE? The third liveness lesson in two days.
 - **resync_roll.py** `return 1` — [HIGH] Indicates a failure, but the comment says it's for when the roll is unchanged and the fixes didn't land. However, the code returns 1 when the roll is unchanged, which contradicts the comment's explanation.
@@ -31,6 +33,8 @@ round 257  ·  last run 2026-09-01 14:27
   - says: The entity must be the AGENT. 'must be located, activated, and destroyed to save a planet' describes something done TO the subject and was licensing an M3.
 - **magnitude.py** `band_hits` — [HIGH] counts BAND MATCHES ONLY (got_band == band), but the code returns it as the verdict which requires all scored rows to be consistent
   - says: counts BAND MATCHES ONLY (got_band == band)
+- **thread_integrity.py** `implied_threads` — [MEDIUM] implied_threads is used in a context where it's expected to return unordered pairs, but the comment suggests it returns directed pairs (i.e., both (a,b) and (b,a)), which may not be the case
+  - says: NAMED FOR WHAT IT COUNTS (order 30581ee9cca2). `implied_threads` adds both (a,b) and (b,a) for every shared entity, so this is DIRECTED and is exactly twice the deduped pair count `classify` reports two lines below -- the same population, printed twice, 2x apart, with nothing on the page saying so.
 - **sweep.py** `sil` — [MEDIUM] list of rows with pages but no axes
   - says: REACHED BUT SILENT — read, yet no axis found anything
 - **sweep.py** `gap` — [MEDIUM] counts the number of sources with no host
@@ -45,10 +49,6 @@ round 257  ·  last run 2026-09-01 14:27
   - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
 - **magnitude.py** `anchor` — [MEDIUM] assigned based on got.get("anchor") and ceiling[1]
   - says: a fiction cannot be out-scaled by its own inhabitant
-- **magnitude.py** `quantity_scores` — [MEDIUM] Axis scores computed from quantities, but the function does not properly handle the case where the entity is not the one performing the act, and the function does not properly handle the case where the quantity is not convertible to the required units.
-  - says: Axis scores computed arithmetically from measured quantities. No model opinion involved.
-- **health.py** `silence.write_json` — [MEDIUM] silence.write_json returns False when denied, but the code does not handle this case properly, leading to a potential failure to record problems
-  - says: NEVER FATAL. A preflight that dies because it could not write its own report is worse than one that cannot report
 - **generate.py** `generate_job` — [MEDIUM] generate_job is called but the code does not handle any exceptions or errors that may occur during generation
   - says: generate_job is called to generate the job's text
 - **allsweep.py** `allsweep.VERIFIERS` — [MEDIUM] a list of Verifier objects
