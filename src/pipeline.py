@@ -124,6 +124,61 @@ PHASES = ["synthesis", "entrypass", "weave", "chain", "cosmology", "history", "s
 TOPICS = ["Persons", "Places", "Factions", "Weapons", "Relics",
           "Powers", "Events", "Wars", "Media"]
 
+# SUBROOMS -- the finer room INSIDE a catalogue `category`. A THIRD AXIS, added 2026-09-01 by
+# owner ruling, and it is worth being exact about why it is not either of the other two.
+#
+#   `category`  WHICH ROOM this entry sits in, in its source's catalogue. On 100% of entries.
+#               Drives `threads.category_path` and the shelfmark chapter slugs.
+#   `topic`     WHICH ENCYCLOPEDIA SERIES this entity publishes into, across the whole
+#               omniverse -- Persons of Importance A-Z, Weapons A-Z, Wars A-Z. A publication
+#               axis, deliberately independent of which work the entry came from.
+#   `subroom`   WHICH SHELF WITHIN THE ROOM. A vehicle and a sword are both `Vessels & Things`
+#               and they are not the same kind of thing; nothing could say so until now.
+#
+# THE THREE WERE CONFLATED AND IT COST A DAY. `topic` and `category` share six vocabulary words
+# (Persons, Places, Factions, Powers, Events, Media), which reads as redundancy and is not: they
+# answer different questions and are allowed to differ. A run acting on that misreading rewrote
+# 7,909 topics to match their categories -- moving 1,459 entities out of Powers A-Z into Media
+# A-Z, among others -- and it was reverted. Do not re-derive this: they are three axes.
+#
+# WHY `Vessels & Things` NEEDED THIS MOST. It holds 42,485 entries, half of them typed literally
+# `Item`, and its only finer labels came from `topic`'s Weapons/Relics -- which are SERIES, not
+# shelves. Measured: of 14,984 entries whose topic said `Weapons`, only 1,191 had a `type` of
+# Weapon, and 966 vehicles were filed inside it.
+#
+# `Wars` sits under Events as both a series and a shelf; that is not a conflict, it is one word
+# doing honest work on two axes.
+SUBROOMS = {
+    "Vessels & Things": ("Weapons", "Vehicles", "Armour", "Relics", "Consumables",
+                         "Materials", "Accessories", "Documents", "Technology"),
+    "Events": ("Wars",),
+}
+# Every legal value, and the two sentinels. A SENTINEL CAN BE COUNTED; AN ABSENT KEY CANNOT
+# (BUGS m14, which cost `worldseed` and `weave` a silent permanent exclusion when `topic` went
+# missing). The two are deliberately different facts:
+#   "none"          this category has no finer shelves, or none applies. A CORRECT answer, and
+#                   the right one for every Person, Place, Faction, Power and Media entry.
+#   "unclassified"  the classifier offered something outside the vocabulary. A FAULT, and the
+#                   offered value is kept in `subroom_rejected` so it is fixable rather than
+#                   merely survived.
+SUBROOM_VALUES = tuple(sorted({v for vs in SUBROOMS.values() for v in vs}))
+SUBROOM_NONE = "none"
+SUBROOM_UNCLASSIFIED = "unclassified"
+
+
+def subroom_ok(category, subroom):
+    """Is this subroom legal for this category? -> bool.
+
+    Legality is per-ROOM, not global: `Wars` is a shelf in Events and nowhere else, and
+    `Vehicles` is a shelf in Vessels & Things and nowhere else. A subroom that is merely in the
+    vocabulary is not thereby correct for the room it was written into -- that is the same
+    mistake `threads.FINER` avoids by checking each finer value against its declared parent.
+    """
+    if subroom in (SUBROOM_NONE, SUBROOM_UNCLASSIFIED):
+        return True
+    coarse = (category or "").split("(")[0].strip()
+    return subroom in SUBROOMS.get(coarse, ())
+
 # Magnitude bands, strongest first. Persons of Importance is shelved BY BAND THEN A-Z
 # (owner ruling, 2026-08-20): "Persons of Importance: M7 A-Z", "... M6 A-Z", and so on, with
 # unassayed entities in their own trailing series. This is why phase 2 assigns a band to every
@@ -490,7 +545,8 @@ def records():
 # carry `excluded` and 111 of those also carry `catalogued: True`, and `topic_rejected` -- which
 # `phase_entrypass` writes at pipeline.py:1552 -- appears 0 times in 282,822 entries.
 # (order 4866dfb2d9fc)
-MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected",
+MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected", "subroom",
+                       "subroom_rejected",
                        "magnitude", "topic", "catalogued",
                        # added by order 4866dfb2d9fc: the settlement pair must move together,
                        # and cleanup.py's own two marks must survive the writer that carries them
@@ -1218,6 +1274,30 @@ For each entry return:
       Wars     a sustained armed conflict specifically (a subset of Events, filed separately)
       Media    a work existing INSIDE the fiction (in-universe book, song, broadcast)
 
+  * `subroom` - which SHELF inside the entry's category. This is NOT the same question as
+    `topic`: `topic` says which encyclopedia volume the entity publishes into across the whole
+    omniverse, `subroom` says where it sits on the shelf in this source's own catalogue.
+
+    Answer "none" unless the category is one of the two that has shelves. "none" is the
+    correct, expected answer for most entries -- every Person, Place, Faction, Power and Media
+    entry is "none".
+
+      Vessels & Things:
+        Weapons      an object whose attested use is combat, including sacred and relic weapons
+        Vehicles     a thing that carries or conveys -- ship, craft, tank, mount, mecha
+        Armour       worn protection: armour, shields, helms
+        Relics       a NON-weapon object of historical, sacred or reality-affecting significance
+        Consumables  used up in the using: potions, food, ammunition-as-supply
+        Materials    raw stuff and components, not yet a finished object
+        Accessories  worn or carried minor items: rings, amulets, charms, trinkets
+        Documents    written or recorded things: scrolls, tomes, maps, keys-as-tokens
+        Technology   devices, machines, engines and systems that are objects rather than powers
+      Events:
+        Wars         a sustained armed conflict specifically
+
+    If the entry is a vessel or thing and none of those shelves fits, answer "none" rather than
+    forcing it. A wrong shelf is worse than an unshelved object.
+
 BE TERSE. `scale_note` is at most 15 words when present, and "" otherwise -- and "" is the
 right answer for most entries. Output length is the dominant cost of this pass: every wasted
 word is multiplied by 52,000 entries.
@@ -1240,8 +1320,13 @@ ENTRY_SCHEMA = {
                     "topic": {"type": "string", "enum": [
                         "Persons", "Places", "Factions", "Weapons", "Relics",
                         "Powers", "Events", "Wars", "Media"]},
+                    # REQUIRED, with an explicit "none" rather than optional. An absent key is
+                    # the one shape that cannot be counted (BUGS m14); "none" is a real answer
+                    # and the correct one for most entries.
+                    "subroom": {"type": "string", "enum": list(SUBROOM_VALUES) + ["none"]},
                 },
-                "required": ["index", "category", "scale_note", "magnitude", "topic"],
+                "required": ["index", "category", "scale_note", "magnitude", "topic",
+                             "subroom"],
             },
         }
     },
@@ -1596,6 +1681,17 @@ def phase_entrypass(c, st):
                     batch[i]["topic"] = "unclassified"
                     if topic:
                         batch[i]["topic_rejected"] = topic[:120]
+                # The same shape for `subroom`, and CHECKED AGAINST THE ROOM rather than only
+                # against the vocabulary: `Wars` is a shelf in Events and nowhere else, so a
+                # `Wars` written under Vessels & Things is a rejection, not an acceptance.
+                sub = (res.get("subroom") or "").strip()
+                if sub and subroom_ok(batch[i].get("category"), sub):
+                    batch[i]["subroom"] = sub
+                    batch[i].pop("subroom_rejected", None)
+                else:
+                    batch[i]["subroom"] = SUBROOM_UNCLASSIFIED if sub else SUBROOM_NONE
+                    if sub:
+                        batch[i]["subroom_rejected"] = sub[:120]
                 batch[i]["catalogued"] = True
 
             landed = write_record(path, rec)

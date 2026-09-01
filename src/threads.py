@@ -191,6 +191,16 @@ def edge(to, cls, why, frm, known_codes):
 # -- these three -- carve a genuinely finer room out of a coarser one.
 FINER = {"Weapons": "Vessels & Things", "Relics": "Vessels & Things", "Wars": "Events"}
 
+# Which room each SUBROOM shelf belongs to -- the same shape as FINER above and for the same
+# reason: a shelf that names the wrong room must open nothing. Derived from `pipeline.SUBROOMS`
+# rather than restated, because two hand-kept copies of one mapping is how they come to
+# disagree, and this one decides the shape of the thread graph.
+try:
+    import pipeline as _PL
+    SUBROOM_PARENT = {v: room for room, vs in _PL.SUBROOMS.items() for v in vs}
+except Exception:                       # pragma: no cover -- import cycle or a partial tree
+    SUBROOM_PARENT = {}
+
 
 def _key(path):
     """A path as one JSON-safe string. `("Vessels & Things", "Weapons")` -> the two rooms
@@ -236,6 +246,27 @@ def category_path(entry):
     if coarse is None:
         # No category at all. `topic` is the only thing on offer, so it IS the coarse room.
         return (short,) if short else ()
+
+    # `subroom` FIRST, `topic` AS THE FALLBACK (2026-09-01). The finer room is a CATALOGUE fact
+    # -- which shelf inside this room -- and `subroom` is the field that answers exactly that.
+    # `topic` was standing in for it, badly: it is the ENCYCLOPEDIA SERIES axis, so its
+    # `Weapons` means "publishes into Weapons A-Z", not "sits on the weapons shelf". Those
+    # coincide often enough to have been mistaken for each other and not always: of 14,984
+    # entries whose topic said Weapons, only 1,191 were typed as a weapon and 966 were vehicles.
+    #
+    # THE FALLBACK IS NOT TIDINESS, IT IS THE MIGRATION. `subroom` is populated on a minority of
+    # entries today and fills in as the catalogue passes re-run. Reading it alone would SHRINK
+    # every finer room in the graph the moment this landed, which is a regression dressed as a
+    # correction; reading it first and falling back keeps today's rooms and improves them as the
+    # field arrives. When coverage is complete the fallback can go, and that is a measurement
+    # somebody should take rather than a date somebody should pick.
+    #
+    # Both are checked against the parent they claim to sit inside, exactly as before: a shelf
+    # that names the wrong room is not a finer grain, it is a fault, and it opens nothing.
+    sub = (entry or {}).get("subroom")
+    sub = sub.strip() if isinstance(sub, str) and sub.strip() else None
+    if sub and sub not in ("none", "unclassified") and SUBROOM_PARENT.get(sub) == coarse:
+        return (coarse, sub)
     if short in FINER and FINER[short] == coarse:
         return (coarse, short)
     return (coarse,)
