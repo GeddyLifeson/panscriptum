@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 255  ·  last run 2026-09-01 11:08
+round 256  ·  last run 2026-09-01 13:15
 
 ## Structure
 
@@ -12,8 +12,12 @@ round 255  ·  last run 2026-09-01 11:08
 
 ## What the model found in the code
 
-**23 open** (9 high). Newest first.
+**23 open** (10 high). Newest first.
 
+- **resync_roll.py** `return 1` — [HIGH] Indicates a failure, but the comment says it's for when the roll is unchanged and the fixes didn't land. However, the code returns 1 when the roll is unchanged, which contradicts the comment's explanation.
+  - says: Nonzero, because this is the branch where the file on disk is NOT what the lines above describe. `main()`'s value only became the process's exit code when the module started calling `sys.exit(main())` below; before that a supervisor or a person reading $? after a cataloguing session was told the roll now agrees with the record files while the roll was untouched. Two independent defects, one signal -- the bare `return` here was the other half.
+- **prose_gate.py** `section_shortfall` — [HIGH] Returns present, required, missing without raising exceptions
+  - says: Raise unless every entry in this block carries every required section.
 - **pipeline.py** `phases` — [HIGH] uses args.phase which is validated to be in range, but the code later uses PHASES[ph-1] which could be out of range if ph is 0 or len(PHASES)+1
   - says: derive the range of phases to run based on --phase and state
 - **pipeline.py** `gate_done` — [HIGH] The code is using `gate_done` to mark phase 8 as done based on the `landed` list, which may be empty or contain False, leading to incorrect phase completion in cases where all sources refused to build.
@@ -30,8 +34,10 @@ round 255  ·  last run 2026-09-01 11:08
   - says: the code says it does
 - **feats.py** `roll` — [HIGH] the return value of roll() is discarded and 0 is returned unconditionally
   - says: THE COUNTERS REACH THE EXIT CODE
-- **feats.py** `extra` — [HIGH] is now a parameter that is checked for being numeric
-  - says: was a cap on a ranked page list
+- **prose_gate.py** `evidence_ok` — [MEDIUM] Checks if frac < floor, but the comment says it should fail closed on an unmeasured source
+  - says: Has this source been read enough to be worth writing about?
+- **prose_gate.py** `floor_ok` — [MEDIUM] Returns False for floor <= 0, but the comment says a floor at or below zero is MISCONFIGURED and should refuse
+  - says: Is this a usable evidence floor? Asked in ONE place, by both layers.
 - **overnight.py** `preflight` — [MEDIUM] Returns (n_failing_checks, blocking) even when preflight fails to run, which can lead to incorrect blocking decisions
   - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
 - **magnitude.py** `anchor` — [MEDIUM] assigned based on got.get("anchor") and ceiling[1]
@@ -48,12 +54,6 @@ round 255  ·  last run 2026-09-01 11:08
   - says: bounding how much of a function a model rewrite may touch
 - **foreman.py** `frag` — [MEDIUM] a value from _LN.OWNER[_LN.READ], which is not the fragment for each managed job
   - says: the one fragment that identifies each managed job
-- **feats.py** `_AXIS_ACT_RE` — [MEDIUM] compiles regex patterns for axis keywords but uses the same pattern for all axes
-  - says: compiles regex patterns for axis keywords
-- **feats.py** `val` — [MEDIUM] constructed by concatenating the mantissa and exponent, but the exponent is not properly parsed
-  - says: value of the quantity
-- **feats.py** `_QUANTITY` — [MEDIUM] matches regex patterns for physical quantities but does not tag them with the page
-  - says: physical quantities, each tagged with the page it came from
 - **allsweep.py** `allsweep.VERIFIERS` — [MEDIUM] a list of Verifier objects
   - says: A plain three-tuple was the obvious shape
 - **drill.py** `net` — [MEDIUM] net runs a test that is not properly scoped to the function it's testing
