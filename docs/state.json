@@ -1,5 +1,5 @@
 {
- "at": "2026-09-01 14:24:51",
+ "at": "2026-09-01 14:35:26",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 166,
+     "left": 164,
      "cap": 1000,
-     "frac": 0.166
+     "frac": 0.164
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.166
+   "worst": 0.164
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -268,9 +268,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 1,
+     "left": 0,
      "cap": 250,
-     "frac": 0.004
+     "frac": 0.0
     },
     {
      "name": "rpm",
@@ -279,7 +279,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.004
+   "worst": 0.0
   },
   {
    "bucket": "github:free",
@@ -340,15 +340,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 2,
+     "left": 0,
      "cap": 342,
-     "frac": 0.0058
+     "frac": 0.0
     },
     {
      "name": "tpd",
-     "left": 143706,
+     "left": 141910,
      "cap": 200000,
-     "frac": 0.7185
+     "frac": 0.7096
     },
     {
      "name": "rpm",
@@ -363,7 +363,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0058
+   "worst": 0.0
   },
   {
    "bucket": "groq:openai/gpt-oss-20b",
@@ -718,25 +718,51 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 93,
+     "left": 91,
      "cap": 500,
-     "frac": 0.186
+     "frac": 0.182
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.186
+   "worst": 0.182
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 0,
-  "per_hour": 0,
-  "buckets": []
+  "calls": 9,
+  "per_hour": 36,
+  "buckets": [
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 2,
+    "ok": 1
+   },
+   {
+    "bucket": "ollama:qwen3:8b",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.6-flash",
+    "calls": 1,
+    "ok": 0
+   }
+  ]
  },
  "jobs": [
   {
@@ -773,7 +799,7 @@
    "read": 211596,
    "settled": 236411,
    "feats": 114425,
-   "age_h": 3.4
+   "age_h": 3.6
   },
   "phases": [
    {
@@ -812,9 +838,9 @@
   "readfeats": 2016
  },
  "watch": {
-  "open": 21,
-  "high": 8,
-  "rounds": 256,
+  "open": 11,
+  "high": 2,
+  "rounds": 257,
   "findings": [
    {
     "module": "resync_roll",
@@ -832,12 +858,6 @@
     "module": "health",
     "symbol": "silence.write_json",
     "actual": "silence.write_json returns False when denied, but the code does not handle this case properly, leading to a potential failure to record problems",
-    "severity": "medium"
-   },
-   {
-    "module": "generate",
-    "symbol": "generate_job",
-    "actual": "generate_job is called but the code does not handle any exceptions or errors that may occur during generation",
     "severity": "medium"
    },
    {
@@ -871,39 +891,9 @@
     "severity": "medium"
    },
    {
-    "module": "pipeline",
-    "symbol": "phase_chain",
-    "actual": "Phase 4 -- the Chain of Defeats. See chain.py for the reasoning. This existed as a standalone module and NOT as a phase, so the runner reached phase 4, found no `phase_chain`, and stopped cleanly every single time -- reporting \"not implemented yet\" about a module that was finished and working. Phase 4 only ever ran when somebody invoked it by hand, and phases 5 through 8 were never even attempted, because the runner never got past the gap. A finished stage that nothing dispatches to is indistinguishable from a stage that was never written, which is this project's defect wearing yet another hat.",
-    "severity": "high"
-   },
-   {
     "module": "magnitude",
     "symbol": "quantity_scores",
     "actual": "Axis scores computed from quantities, but the function does not properly handle the case where the entity is not the one performing the act, and the function does not properly handle the case where the quantity is not convertible to the required units.",
-    "severity": "medium"
-   },
-   {
-    "module": "magnitude",
-    "symbol": "band_hits",
-    "actual": "counts BAND MATCHES ONLY (got_band == band), but the code returns it as the verdict which requires all scored rows to be consistent",
-    "severity": "high"
-   },
-   {
-    "module": "foreman",
-    "symbol": "lines_changed",
-    "actual": "uses difflib to measure the actual content difference",
-    "severity": "medium"
-   },
-   {
-    "module": "pipeline",
-    "symbol": "gate_done",
-    "actual": "The code is using `gate_done` to mark phase 8 as done based on the `landed` list, which may be empty or contain False, leading to incorrect phase completion in cases where all sources refused to build.",
-    "severity": "high"
-   },
-   {
-    "module": "foreman",
-    "symbol": "lines_changed",
-    "actual": "measures the number of lines changed, not the actual content difference",
     "severity": "medium"
    },
    {
@@ -911,30 +901,6 @@
     "symbol": "evidence_ok",
     "actual": "Checks if frac < floor, but the comment says it should fail closed on an unmeasured source",
     "severity": "medium"
-   },
-   {
-    "module": "pipeline",
-    "symbol": "_PATIENT",
-    "actual": "Matches text that describes something done TO the subject (PATIENT), which should be rejected, but the code returns an empty string, effectively discarding the failure the comment says is important",
-    "severity": "high"
-   },
-   {
-    "module": "foreman",
-    "symbol": "clear_learned_caps",
-    "actual": "it does instead",
-    "severity": "high"
-   },
-   {
-    "module": "foreman",
-    "symbol": "frag",
-    "actual": "a value from _LN.OWNER[_LN.READ], which is not the fragment for each managed job",
-    "severity": "medium"
-   },
-   {
-    "module": "prose_gate",
-    "symbol": "section_shortfall",
-    "actual": "Returns present, required, missing without raising exceptions",
-    "severity": "high"
    },
    {
     "module": "allsweep",
@@ -958,28 +924,28 @@
     42
    ],
    [
+    "silent:dashboard.py:metrics-badline:JSONDecodeError",
+    42
+   ],
+   [
     "silent:hostcheck.py:probe:HTTPError",
     40
    ],
    [
-    "silent:dashboard.py:metrics-badline:JSONDecodeError",
-    34
+    "silent:publish.py:push-held:RuntimeError",
+    33
    ],
    [
     "silent:publish.py:main-push-held:PushHeld",
-    24
-   ],
-   [
-    "silent:publish.py:push-held:RuntimeError",
-    24
+    32
    ],
    [
     "silent:custodes.py:abstained-comparability:None",
-    8
+    10
    ],
    [
     "silent:custodes.py:abstained-currency:None",
-    8
+    10
    ],
    [
     "silent:scout.py:verify-http:HTTPError",
@@ -1126,37 +1092,37 @@
     1
    ]
   ],
-  "swallowed_total": 1091
+  "swallowed_total": 1120
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1067,
-   "p50": 4.4,
+   "n": 1063,
+   "p50": 4.8,
    "p95": 75.9,
    "ok_pct": 49,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 239,
+   "n": 243,
    "p50": 4.0,
    "p95": 903.9,
    "ok_pct": null,
-   "tps": 29.7
+   "tps": 29.5
   },
   {
    "tag": "ask",
-   "n": 73,
-   "p50": 143.7,
+   "n": 77,
+   "p50": 133.3,
    "p95": 990.9,
    "ok_pct": null,
    "tps": 27.8
   },
   {
    "tag": "entrypass",
-   "n": 68,
-   "p50": 369.4,
+   "n": 66,
+   "p50": 439.9,
    "p95": 1004.4,
    "ok_pct": null,
    "tps": 24.6
@@ -1189,12 +1155,12 @@
    "breached": [],
    "liveness": 48,
    "liveness_ceiling": 52,
-   "age_min": 172.8
+   "age_min": 183.4
   },
   "escalation_recent": {
-   "MANAGER": 248,
-   "SUPERVISOR": 37,
-   "JANITOR": 86,
+   "JANITOR": 82,
+   "SUPERVISOR": 36,
+   "MANAGER": 244,
    "OWNER": 11
   },
   "step4_gate": {
@@ -1226,7 +1192,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 0,
+   "observed": 36,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1244,7 +1210,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "22% dry",
+   "observed": "28% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1262,7 +1228,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "UNMEASURED -- 0 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "observed": "UNMEASURED -- 9 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
    "floor": "50%",
    "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
    "severity": "medium"
@@ -1325,7 +1291,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "3.4h",
+   "observed": "3.6h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1361,7 +1327,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 8,
+   "observed": 2,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1388,7 +1354,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "534",
+   "observed": "563",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1451,7 +1417,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 3 of 6 benchmarks done, started 3.6h ago -- pending: Naruto Uzumaki, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 3 of 6 benchmarks done, started 3.7h ago -- pending: Naruto Uzumaki, Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1487,7 +1453,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": false,
-   "observed": "14.0h",
+   "observed": "14.2h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1514,7 +1480,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "pipeline_auto (21 min, 518217 bytes)",
+   "observed": "pipeline_auto (31 min, 518217 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1568,7 +1534,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in 21.4s",
+   "observed": "probe completed in ledgers",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. Read the detail before acting: a WEDGE is cured by restarting ollama.exe (the tray app respawns it) and nothing drains that queue on its own, but a daemon that is DOWN or answering an HTTP error needs starting or reading, not restarting.",
    "severity": "high"
@@ -1678,5 +1644,5 @@
    "stalled": false
   }
  ],
- "generated": "2026-09-01T14:25:20"
+ "generated": "2026-09-01T14:35:34"
 }
