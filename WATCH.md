@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 278  ·  last run 2026-09-02 12:15
+round 279  ·  last run 2026-09-02 12:51
 
 ## Structure
 
@@ -9,61 +9,54 @@ round 278  ·  last run 2026-09-02 12:15
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
+- NOT RUNNING: **0** pipeline.py
 
 ## What the model found in the code
 
-**28 open** (5 high). Newest first.
+**24 open** (8 high). Newest first.
 
+- **verify_math.py** `_cb20i.UNRECOGNISED` — [HIGH] replaces the UNRECOGNISED attribute with the path
+  - says: retrieves the path to the unrecognised ledger
+- **verify_math.py** `check` — [HIGH] the k-th burg holds P1/k, but the code compares it to a value that is not derived from P1/k and instead uses a hardcoded value that is incorrect
+  - says: the k-th burg holds P1/k, independently recomputed
+- **drill.py** `drill_no_top_ups` — [HIGH] The function's implementation does not align with the ruling's intent, as it does not properly distinguish between cooldown and pay-to-continue scenarios.
+  - says: OWNER RULING 2026-08-26: cooldown is fine; pay-to-continue is axed.
+- **drill.py** `net` — [HIGH] reads a subset of the corpus and skips unreadable records
+  - says: the live corpus passes its structural rules
+- **drill.py** `_consults_the_halt` — [HIGH] only checks the first branch and ignores subsequent ones
+  - says: checks that each branch handles the halt properly
 - **workorders.py** `_detector` — [HIGH] is called with a boolean that is the inverse of the actual detection status
   - says: detects a problem and triggers a detector
 - **catalogue_models.py** `sweep` — [HIGH] sweep
   - says: sweep
 - **catalogue_aurora.py** `parse_folder` — [HIGH] does not collect dropped entries
   - says: collects what collapsed
-- **verify_math.py** `A.calibration_report` — [HIGH] the function may not return a dict and instead return None or another type
-  - says: calibration_report answers with a dict at all
-- **verify_math.py** `_stamp` — [HIGH] the stamp lies about which arithmetic produced the bar
-  - says: the correlation stamp names its provenance
-- **local_agent.py** `rel_real` — [MEDIUM] the resolved path is compared to the real path relative to the real HERE, which may not be the same as the original path's relative position
-  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
+- **profile.py** `encode` — [MEDIUM] the code does not use it correctly
+  - says: the code says it does
+- **verify_math.py** `_ALL_SRC` — [MEDIUM] list of all .py files in the current directory (which may not be the src directory)
+  - says: list of all .py files in the src directory
+- **verify_math.py** `_KEY_SPELLING` — [MEDIUM] a string used as a search pattern for the key spelling in source files
+  - says: "_", name)[:80]
+- **verify_math.py** `check` — [MEDIUM] checks if the code contains 'not enough history yet'
+  - says: and it reports short history honestly instead of vanishing
+- **thread_integrity.py** `dangling` — [MEDIUM] dangling is assigned the value of counts.get("DANGLING", 0), which is the count of DANGLING entries, not the actual list of DANGLING entries
+  - says: THE UNIT IS SOURCE PAIRS, NOT THREADS, and this is the line the module will be read on as a release gate (STEP4_PLAN.md §8), so it says which. Each DANGLING row prints n of tot keys gone, so one pair here can stand for a hundred vanished entities.
+- **thread_integrity.py** `implied_threads` — [MEDIUM] implied_threads is called but its output is not used in the code slice provided
+  - says: NAMED FOR WHAT IT COUNTS (order 30581ee9cca2). `implied_threads` adds both (a,b) and (b,a) for every shared entity, so this is DIRECTED and is exactly twice the deduped pair count `classify` reports two lines below -- the same population, printed twice, 2x apart, with nothing on the page saying so.
+- **drill.py** `breached` — [MEDIUM] list of results where 'held' is False
+  - says: list of results where 'held' is False
+- **drill.py** `held` — [MEDIUM] count of results where 'held' is True
+  - says: sum(1 for r in RESULTS if r['held'])
+- **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] sums all five columns but the docstring says it only checks one direction
+  - says: No source's states may sum PAST its own entry count. One direction, and only one.
+- **drill.py** `catalog_matches_disk` — [MEDIUM] only checks catalog to disk, not disk to catalog
+  - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
+- **drill.py** `dead_forever` — [MEDIUM] buries the permanent codes and the timeout code
+  - says: buries the permanent codes and ONLY those
 - **coverage.py** `measure` — [MEDIUM] does not guard divisions in `coverage`/`settled` keys
   - says: guards every division with max(n, 1)
 - **codewatch.py** `exit_if_stale` — [MEDIUM] Exits the process if its code is out of date, but the code does not actually exit the process.
   - says: Exits the process if its code is out of date.
-- **catalog.py** `cmd_address` — [MEDIUM] Prints 'No entry for address' if the address is not found, but the function is named 'cmd_address' which implies it handles addresses
-  - says: Prints the entry for the given address
-- **binding_health.py** `quarantined` — [MEDIUM] Silences the error instead of raising it when strict is False.
-  - says: RAISES `QuarantineUnreadable` when the file exists and cannot be read.
-- **verify_math.py** `check` — [MEDIUM] only consults `tol` inside `if isinstance(want, float)`
-  - says: consults `tol` inside `if isinstance(want, float)`
-- **verify_math.py** `check` — [MEDIUM] the check is for the assay not being at the ceiling, but the actual result is that the assay is considered to be at the ceiling when it's not
-  - says: check('an ordinary assay is NOT at the Ladder's ceiling', ...)
-- **verify_math.py** `check` — [MEDIUM] the check is for the fallback stamp containing the reason, but the actual result is that the stamp does not include the reason due to a logical error in the code
-  - says: check('a FALLBACK correlation stamp names its cause instead of trailing off', ...)
-- **verify_math.py** `check` — [MEDIUM] the check is for the fallback reason after a successful load, but the actual result is that the fallback reason is set to 'load() returned nothing'
-  - says: check('a matrix that loads cleanly files NO fallback reason', ...)
-- **verify_math.py** `check` — [MEDIUM] the check is for the result of axis_score when a band edge is half-defined, but the actual result is an exception raised instead of None
-  - says: check('axis_score refuses a HALF-DEFINED band edge (floor present, ceiling missing)', ...)
-- **verify_math.py** `check` — [MEDIUM] the condition is checking for a dict _cal and whether margin is None or the band is valid, but the actual check is for the presence of a margin and the band being valid
-  - says: check('the calibration margin is None unless a real passing band was bracketed', ...)
-- **verify_math.py** `A.assay` — [MEDIUM] the function may incorrectly categorize INAPPLICABLE and UNESTIMABLE Measures
-  - says: unscored is the list of Measures nobody read
-- **verify_math.py** `A.instrument` — [MEDIUM] the function may incorrectly compute Constitution when only one axis is attested
-  - says: Constitution prints nothing when only one of its two axes is attested
-- **verify_math.py** `A._interval` — [MEDIUM] the function may incorrectly compute between-hand variance for a single reading
-  - says: Between-hand dispersion is only defined for MORE THAN ONE reading
-- **verify_math.py** `A.assay` — [MEDIUM] the assay function may not correctly compute promotion_watch due to a condition change
-  - says: promotion_watch is a curatorial trigger that must fire on the boundary and not below it
-- **verify_math.py** `A.null_instrument` — [MEDIUM] returns a null but does not indicate it is computed
-  - says: Theorem 3(ii) is that the mathematics RETURNS a null for a degenerate agent; a null that does not claim to be computed is indistinguishable from a missing reading
-- **verify_math.py** `measure_bit_value` — [MEDIUM] the function is NOT the cumulative figure the stale docstring quoted
-  - says: the function is NOT the cumulative figure the stale docstring quoted
-- **verify_math.py** `measure_bit_value` — [MEDIUM] the function uses band_resolution, not the cumulative length
-  - says: the function uses band_resolution, not the cumulative length
-- **verify_math.py** `_read_frag19` — [MEDIUM] the reader is identified by a slice of the lognames.OWNER attribute, which is not a contiguous fragment
-  - says: the reader is still identified by one contiguous lognames fragment
-- **verify_math.py** `_CBud` — [MEDIUM] the budget is derived from the window's num_ctx
-  - says: the budget is derived from the window
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
   - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller, and the two refusals are the same event to a reader: the lift did not happen and here is why.
 - **cascade_bridge.py** `selftest` — [MEDIUM] executes the live check
