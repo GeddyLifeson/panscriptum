@@ -3231,6 +3231,27 @@ check("append_line reports failure rather than raising",
       silence.append_line(os.path.join(_ledger19ag, "not-a-dir", "x.jsonl"), "{}"), False,
       note="a metrics failure must never cost a model call")
 
+# WHAT THE THREE ROWS ABOVE DO NOT MEASURE, said here because for eight days nobody noticed
+# (2026-09-01). They write from ONE process. Tearing is by definition what happens when there
+# are TWO, so the hazard m62 was landed to prevent is precisely the one thing this section
+# cannot produce -- it passed every run while the live ledger was losing 22% of its rows to
+# exactly that fault. The concurrency case now belongs to drill.py's "a shared ledger keeps
+# EVERY row when six processes append at once", which spawns real processes and is far too slow
+# to live here; this section keeps the single-process contract and says out loud that it is only
+# half the question. A check whose scope is smaller than its name is how an unfixed defect reads
+# as fixed.
+#
+# The one part of the concurrency fix that IS cheap to assert here is its second limb: the
+# descriptor must be BINARY. Without `O_BINARY` the Windows CRT rewrites every `\n` this
+# function appends into `\r\n`, so the "one syscall of exactly these bytes" the docstring
+# describes was the CRT writing different, longer bytes -- measured on the live ledger at
+# 104,810 CRLF rows against 3 bare LF.
+with open(_ledger19ag, "rb") as _fb19ag:
+    _bytes19ag = _fb19ag.read()
+check("append_line writes LF, not the CRT's CRLF", _bytes19ag.count(b"\r\n"), 0,
+      note="os.open without O_BINARY gives a text-mode descriptor on Windows")
+check("and the row count is unchanged by that", _bytes19ag.count(b"\n"), 50)
+
 
 # ---- Section 19ah: the reader's queue keeps everything, and its cache answers the right entity -
 #

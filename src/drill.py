@@ -8377,6 +8377,75 @@ def drill_recorders_and_lane():
         "noise: it manufactures the exact signal it exists to prove the library can raise, so "
         "a genuine misaddressed blob arrives indistinguishable from six copies of the drill")
 
+    def a_shared_ledger_keeps_every_row_under_concurrency():
+        """`silence.append_line` must not lose or tear rows when processes collide.
+
+        WHY THIS NET EXISTS AND THE ONE ABOVE IT DID NOT CATCH ANYTHING (2026-09-01).
+        `verify_math` section 19ag already checks `append_line`: it writes 50 rows and requires
+        50 whole rows back. It passes, it has always passed, and it cannot fail -- it writes
+        them from ONE process, and tearing is by definition what happens when there are two.
+        The hazard the function was WRITTEN for was the one thing its check did not create, so
+        m62 read as proven for eight days while the live ledger was still losing rows.
+
+        WHAT WAS ACTUALLY HAPPENING. `O_APPEND` makes the seek-to-end and the write one
+        operation on POSIX. On Windows the CRT implements it as a seek FOLLOWED BY a write, so
+        two processes seek to the same offset and the second lands ON the first rather than
+        after it. Measured with eight processes and 400 rows each: 3,200 expected, 2,496
+        arrived, **704 destroyed outright** and 3 torn -- in the ledger
+        `standards.ollama_token_flow` grades from. Fixed by taking an OS-level lock for the
+        write, and by asking for `O_BINARY` so the CRT stops rewriting every `\\n` into `\\r\\n`
+        behind the comment that says it writes exactly the bytes it was handed.
+
+        SIX PROCESSES, EIGHTY ROWS, sized by measurement rather than by feel: against the
+        unfixed function that configuration lost 84 of 480 rows in 1.2 seconds, and four
+        processes at sixty rows still lost 30. The net therefore goes red on the real defect
+        comfortably inside a second, which is what lets it live in the standing battery.
+
+        The assertion is EVERY row, by identity, not a count -- a count can be satisfied by the
+        right number of wrong rows.
+        """
+        import subprocess
+        d = tempfile.mkdtemp(prefix="drill_append_race_")
+        led = os.path.join(d, "ledger.jsonl")
+        child = os.path.join(d, "appender.py")
+        procs, rows = 6, 80
+        try:
+            with open(child, "w", encoding="utf-8") as fh:
+                fh.write("import json, sys\n"
+                         "sys.path.insert(0, %r)\n" % _srcdir() +
+                         "import silence\n"
+                         "led, who, n = sys.argv[1], sys.argv[2], int(sys.argv[3])\n"
+                         "for i in range(n):\n"
+                         "    silence.append_line(led, json.dumps("
+                         "{'who': who, 'i': i, 'pad': who * 300}))\n")
+            # CREATE_NO_WINDOW: nothing this project starts may pop a console window.
+            kids = [subprocess.Popen([sys.executable, child, led, chr(65 + k), str(rows)],
+                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                     creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+                    for k in range(procs)]
+            for k in kids:
+                k.wait()
+            with open(led, "rb") as fh:
+                raw = fh.read()
+            seen = set()
+            for line in raw.split(b"\n"):
+                if not line.strip():
+                    continue
+                try:
+                    row = json.loads(line)
+                except Exception:
+                    return False                      # a torn row is a breach on its own
+                seen.add((row.get("who"), row.get("i")))
+            want = {(chr(65 + k), i) for k in range(procs) for i in range(rows)}
+            return seen == want
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a shared ledger keeps EVERY row when six processes append at once",
+        a_shared_ledger_keeps_every_row_under_concurrency,
+        "O_APPEND is atomic on POSIX and is a seek-then-write on Windows; the existing check "
+        "wrote its 50 rows from one process, so the one hazard the function exists for was the "
+        "one thing it could not produce -- 704 of 3,200 rows were being destroyed silently")
+
 
 def drill_mutation():
     """The mutation lock — because breaking code on purpose is only safe if everyone knows.

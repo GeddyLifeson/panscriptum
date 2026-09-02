@@ -1473,9 +1473,16 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                         died_at = why
                         break
                 if no_verdict:
+                    # UNCUT (order c99634cb840e): this is the permanent record of the diff, not
+                    # a console line. A [:120] slice here is indistinguishable from a short line
+                    # -- Hard Rule 0 -- and it silently violates the module's own docstring
+                    # promise (mutate.py:33) that a survivor "is filed with its exact diff rather
+                    # than a count". Any bound belongs only at the point of printing (see the
+                    # `[:70]` on the console summary line below, which is reversible because the
+                    # full value lives here), never on what gets journaled or filed.
                     indeterminate.append({"line": lineno, "mutation": desc,
-                                          "was": old_line.strip()[:120],
-                                          "became": new_line.strip()[:120],
+                                          "was": old_line.strip(),
+                                          "became": new_line.strip(),
                                           "gate": no_verdict})
                 elif died_at:
                     killed += 1
@@ -1491,13 +1498,19 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                     # Anything that can crash, be killed, lose power or hit a full disk between
                     # the finding and the report will take the finding with it, and the longer
                     # the run the likelier that is.
+                    #
+                    # UNCUT (order c99634cb840e): see the comment on the indeterminate branch
+                    # above. `was`/`became` here are what `_journal` persists to
+                    # MUTANTS_SURVIVED.jsonl and what `file_orders` pastes verbatim into the
+                    # permanent work order -- Hard Rule 0 forbids truncating either without a
+                    # marker, and the module's own docstring already promises the exact diff.
                     _journal(target, {"line": lineno, "mutation": desc,
-                                      "was": old_line.strip()[:120],
-                                      "became": new_line.strip()[:120],
+                                      "was": old_line.strip(),
+                                      "became": new_line.strip(),
                                       "confirmed": bool(confirm)})
                     survivors.append({"line": lineno, "mutation": desc,
-                                      "was": old_line.strip()[:120],
-                                      "became": new_line.strip()[:120],
+                                      "was": old_line.strip(),
+                                      "became": new_line.strip(),
                                       "confirmed": bool(confirm)})
         finally:
             _write(path, original)
