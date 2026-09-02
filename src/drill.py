@@ -167,6 +167,26 @@ def _refuses(fn, exc):
         return True
 
 
+def _quietly(fn):
+    """Run a probe whose guard is SUPPOSED to shout on stderr, without the shout. -> fn's answer.
+
+    The sibling of `_deliberately_failing`, for the other channel. Two paths in escalation.py --
+    `_raise_halt` exhausting its attempts and `_land_halt` catching a throwing write -- are
+    deliberately loud on stderr as well as in the ledger, because a halt that cannot be written
+    is the worst case this project has. The nets that prove those paths refuse correctly have to
+    trigger them, and a drill run that prints CANNOT WRITE HALT FILE twice while every net holds
+    is a run whose own output argues against its verdict.
+
+    Scoped to the single call under test, exactly as `_deliberately_failing` is, and asserting
+    the RETURN VALUE rather than the absence of the message -- nothing under test is suppressed,
+    only its echo in this process's terminal.
+    """
+    import contextlib
+    import io as _io
+    with contextlib.redirect_stderr(_io.StringIO()):
+        return fn()
+
+
 def _deliberately_failing(fn):
     """Run a probe whose WHOLE POINT is to make a guard record a failure -- without that record
     landing in the library's own failure ledger. -> fn's answer.
@@ -1802,6 +1822,31 @@ def drill_park():
         "alias, a from-import and a getattr each walk straight past")
     net(a, "no module in src/ clears the halt programmatically", _no_programmatic_clear,
         "an agent may RAISE a halt; only a person may lift one")
+    # THE TWELVE MUTATIONS OF 2026-08-31 (mutate.py --target escalation). Six were real holes and
+    # six were equivalent; these six nets are the half that was real, plus the constant the other
+    # half's equivalence silently rests on.
+    net(a, "escalation's per-source log name is really sanitised",
+        _the_log_name_actually_sanitises,
+        "one character turns the keep-set inside out and a source name walks into a file path")
+    net(a, "a halt is raised on the FILE's word, never the writer's",
+        _a_halt_is_not_raised_on_the_writer_s_word,
+        "`and` -> `or` deletes the read-back and both racing writers report a halt the file "
+        "holds once")
+    net(a, "an unreadable halt file confirms no record",
+        _an_unreadable_halt_file_confirms_nothing,
+        "'I cannot read it' must never come back as 'yes, it is in there'")
+    net(a, "escalation.main() under a BORROWED argv is not a person at the CLI",
+        _a_borrowed_main_is_not_a_person,
+        "every existing net called clear() from a frame the second guard refuses, so the first "
+        "guard could be inverted and nothing anywhere noticed")
+    net(a, "a landing that was refused says it was refused",
+        _a_refused_landing_reports_that_it_was_refused,
+        "the read-back caught both inversions end to end, which is defence in depth working -- "
+        "and no measurement at all of the layer underneath it")
+    net(a, "the compare-and-swap loop runs at least once",
+        _the_retry_loop_runs_at_least_once,
+        "four 'not attempted' initialisers are equivalent only while the loop that overwrites "
+        "them executes; at 0 attempts all four become the answer")
     # A REMEDY MUST NOT CAUSE THE BREACH IT PREVENTS (owner finding, 2026-08-25).
     net(a, "a remedy never kills a job nothing would restart", _no_unrestartable_kill,
         "read.py was killed at 10:59 and stayed dead; every library counter went flat, and the "
@@ -1931,6 +1976,222 @@ def _halt_fails_closed():
             os.rmdir(d)
         except OSError:
             pass
+
+
+# ---- THE MUTATION SURVIVORS OF 2026-08-31 -------------------------------------------------
+#
+# `mutate.py` broke escalation.py on purpose in twelve places and the WHOLE battery -- 1064
+# checks and 364 nets -- noticed none of them. Six of those twelve were genuinely equivalent
+# under the code as it stands and are recorded as such below; the other six were real holes,
+# and each one has its attack here. The rule this file is built on is that a safety nobody has
+# seen refuse is not evidence of anything, and a safety a deliberate corruption walks past is
+# the same statement with the proof attached.
+
+def _the_log_name_actually_sanitises():
+    """`escalation._safe_name` must return a FILENAME, not the string it was handed.
+
+    THE MUTATION THIS REFUSES (order deae02ab8c7e). One character of `_safe_name` --
+    `c if (c.isalnum() or c in "-_")` -> `... or c not in "-_"` -- inverts the keep-set from
+    "alphanumerics, dash and underscore" to "everything except dash and underscore". The
+    function still runs, still returns a string, still passes every existing check, and now
+    passes `/`, `\\`, `:` and `..` straight through into `state/escalations/<name>.log`. That is
+    a path built out of an unsanitised source name, which is the one thing this function exists
+    to make impossible, and the entire battery said nothing.
+
+    Asked as a POSITIVE property of the output rather than by reading the line: the answer may
+    hold only the characters the docstring promises. A future rewrite that keeps the promise
+    passes; one that quietly stops sanitising cannot.
+    """
+    hostile = 'Kobold Press: ../../etc/passwd\\x00 & "quoted" (Midgard)'
+    out = ESC._safe_name(hostile)
+    kept = set(out) - set("-_")
+    return (out and all(c.isalnum() for c in kept)
+            and "/" not in out and "\\" not in out and ":" not in out and ".." not in out
+            # and it still separates two different sources, which is the other half of the
+            # contract `_safe_name` was rewritten for (order e8cd908ce5e4).
+            and ESC._safe_name("a" * 80 + "one") != ESC._safe_name("a" * 80 + "two"))
+
+
+def _a_halt_is_not_raised_on_the_writer_s_word():
+    """`_raise_halt` must verify the record LANDED; a write that merely claims to is not one.
+
+    THE MUTATION THIS REFUSES (order 74094dcc8063). `if landed and _halt_file_records(rec):`
+    -> `if landed or _halt_file_records(rec):`. The `and` is the read-back that escalation.py's
+    own comment calls "the original defect wearing the fix's clothes" when it is missing: two
+    writers released together both reported `halt_landed: True` while the file held one of
+    them. With `or`, the verdict comes from the WRITER'S OWN claim and the file is never
+    consulted -- and no check in the battery was reading the file either.
+
+    The attack is a `_land_halt` that lies: it reports (True, "landed") and writes nothing. The
+    net holds when `_raise_halt` still answers False, because the fault is not in the file.
+
+    THROUGH `_deliberately_failing`, AND ITS STDERR IS SWALLOWED TOO. `_raise_halt`'s exhausted
+    path is one of the few things in this project allowed to be loud on both channels: it calls
+    `silence.note("escalation.py:halt-write-denied")` and writes CANNOT WRITE HALT FILE to
+    stderr. Both are correct, and both are exactly what this probe is manufacturing -- so
+    letting them through would put a rehearsal of the worst fault the library can have into the
+    ledger a person reads to find out whether it has happened, once per drill run.
+    """
+    real_file, real_land = ESC.HALT_FILE, ESC._land_halt
+    d = tempfile.mkdtemp(prefix="drill_halt_readback_")
+    scratch = os.path.join(d, "HALT.json")
+    rec = {"code": "DRILL_READBACK", "what": "a fault whose write is going to lie about landing",
+           "at": 1.0, "who": "drill.py"}
+    try:
+        ESC.HALT_FILE = scratch
+        ESC._land_halt = lambda _rec, _expected: (True, "landed")
+        raised = _deliberately_failing(lambda: _quietly(lambda: ESC._raise_halt(rec)))
+        # Nothing was ever written, so the halt was NOT raised -- and that is what it must say.
+        return raised is False and not os.path.exists(scratch)
+    finally:
+        ESC.HALT_FILE, ESC._land_halt = real_file, real_land
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _an_unreadable_halt_file_confirms_nothing():
+    """`_halt_file_records` must answer False when it cannot read the file at all.
+
+    THE MUTATION THIS REFUSES (order 3d984bc25048). The guard is
+    `cur = _read_halt_raw(); if not isinstance(cur, dict): return False`, and `False -> True`
+    turns "I could not read the halt file" into "yes, your fault is recorded in it". That is the
+    exact inversion `_unreadable_halt` exists to prevent one function away -- a record we cannot
+    read is not a record that says what we hoped -- and it is the answer `_raise_halt` gates its
+    whole retry loop on, so a corrupt file would end the loop reporting the halt raised.
+
+    Both unreadable shapes are attacked: a file that is not JSON, and a file that parses to
+    something that is not a record.
+    """
+    real = ESC.HALT_FILE
+    d = tempfile.mkdtemp(prefix="drill_halt_records_")
+    rec = {"code": "DRILL_RECORDS", "what": "not in any file", "at": 2.0}
+    try:
+        answers = []
+        for body in ("{ this is not json", '["a list is not a record"]', ""):
+            p = os.path.join(d, "HALT.json")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(body)
+            ESC.HALT_FILE = p
+            answers.append(ESC._halt_file_records(rec))
+        # And the absent file, which is the first-halt case.
+        ESC.HALT_FILE = os.path.join(d, "nothing-here.json")
+        answers.append(ESC._halt_file_records(rec))
+        return all(x is False for x in answers)
+    finally:
+        ESC.HALT_FILE = real
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _a_borrowed_main_is_not_a_person():
+    """`escalation.main()` called from ANOTHER program may not lift the halt.
+
+    THE MUTATION THIS REFUSES (order 8b3929252ee5), and it is the most serious of the twelve.
+    `_by_a_person_at_the_cli` has two guards: `__main__` must BE escalation.py, and the caller
+    two frames up must be escalation's own `main`. Flipping the first one's `return False` to
+    `return True` leaves the second standing, which is why every existing net still passed --
+    they all call `clear` from drill.py, whose frame is not named `main`, so the second guard
+    refuses them and the hole never shows.
+
+    The case it opens is the one `_by_a_person_at_the_cli`'s own docstring names and no net was
+    asking about: `escalation.main()` under a BORROWED argv. Import escalation from any script,
+    call its `main`, and frame 2 is a function named `main` whose file IS escalation.py -- so
+    with the mutation both guards pass and an autonomous run lifts the halt. That is precisely
+    the incident the whole escalation chain was built after.
+
+    The attack synthesises exactly that frame: a function named `main`, compiled under
+    escalation.py's own filename, calling `clear()` with a ruling long enough to clear the
+    written-ruling check, while `__main__` is whatever is running drill. It runs against a
+    SCRATCH halt file -- as `_no_runtime_clear` does -- so a breach cannot lift the real one.
+    """
+    real = ESC.HALT_FILE
+    d = tempfile.mkdtemp(prefix="drill_borrowed_main_")
+    scratch = os.path.join(d, "HALT.json")
+    standing = json.dumps({"raised_at": 0.0, "code": "DRILL_SYNTHETIC_HALT",
+                           "what": "a synthetic standing halt for the borrowed-main probe",
+                           "evidence": None, "source": None, "by": "drill.py",
+                           "cleared": False, "ruling": None, "also": []},
+                          indent=1, ensure_ascii=False)
+    src = "def main():\n    return _ESC.clear(_RULING)\n"
+    glb = {"_ESC": ESC, "_RULING": "a ruling long enough to pass the written-ruling check"}
+    exec(compile(src, ESC.__file__, "exec"), glb)          # noqa: S102 -- the frame IS the probe
+    try:
+        with open(scratch, "w", encoding="utf-8") as fh:
+            fh.write(standing)
+        ESC.HALT_FILE = scratch
+        refused = _refuses(glb["main"], PermissionError)
+        with open(scratch, encoding="utf-8") as fh:
+            untouched = fh.read() == standing
+        return refused and untouched
+    finally:
+        ESC.HALT_FILE = real
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _a_refused_landing_reports_that_it_was_refused():
+    """`_land_halt` must return landed=False on BOTH of its failure paths.
+
+    THE MUTATIONS THIS REFUSES (orders 05daf8a1d2e1 and 0c792a51a1f4): `return False, why` ->
+    `return True, why` in the compare-and-swap's refusal arm, and `return False, "raised"` ->
+    `return True, "raised"` in the `except`. Both survived the whole battery, and the reason
+    they survived is worth keeping: `_raise_halt`'s read-back CATCHES them end to end, so the
+    library's observable behaviour is unchanged and the loop still terminates correctly. That is
+    defence in depth working exactly as designed.
+
+    It is still a hole. Nothing measured `_land_halt`'s own contract, so the read-back was
+    load-bearing without anybody knowing it was -- and the moment it is relaxed for any reason,
+    two inverted returns become a halt that reports itself raised and is not. A layer that is
+    silently the only thing holding is the shape this project files as a fault. So the inner
+    contract is now measured directly, one net per arm.
+    """
+    real = ESC.HALT_FILE
+    d = tempfile.mkdtemp(prefix="drill_land_halt_")
+    scratch = os.path.join(d, "HALT.json")
+    rec = {"code": "DRILL_LAND", "what": "a fault for the refused-landing probe", "at": 3.0}
+    try:
+        # ARM 1 -- the compare-and-swap refuses, because the digest we hand it is not the
+        # file's. `_land_halt` must say it did not land.
+        with open(scratch, "w", encoding="utf-8") as fh:
+            fh.write(json.dumps({"raised_at": 0.0, "code": "STANDING", "what": "x",
+                                 "cleared": False, "also": []}))
+        before = open(scratch, encoding="utf-8").read()
+        ESC.HALT_FILE = scratch
+        stale, why_stale = ESC._land_halt(rec, "not-the-digest-on-disk")
+        after = open(scratch, encoding="utf-8").read()
+        arm1 = (stale is False and after == before and bool(str(why_stale).strip()))
+
+        # ARM 2 -- the write itself throws, because the halt file's PARENT is a regular file.
+        # `makedirs` raises, the `except` arm runs, and it must report a refusal too.
+        blocker = os.path.join(d, "a-file-not-a-directory")
+        with open(blocker, "w", encoding="utf-8") as fh:
+            fh.write("x")
+        ESC.HALT_FILE = os.path.join(blocker, "HALT.json")
+        # Loud on both channels by design, and this is the rehearsal -- see `_quietly`.
+        threw, why_threw = _deliberately_failing(
+            lambda: _quietly(lambda: ESC._land_halt(rec, None)))
+        arm2 = (threw is False and why_threw == "raised")
+        return arm1 and arm2
+    finally:
+        ESC.HALT_FILE = real
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _the_retry_loop_runs_at_least_once():
+    """`STOP_CAS_ATTEMPTS` must be >= 1, because four other mutations depend on it silently.
+
+    WHAT THIS IS ACTUALLY PINNING (orders 939dd7430619, a380a696d364, b20396a54027,
+    081a64e8e120). Four `landed, ... = False, "not attempted"` initialisers were mutated to
+    `True` and every one survived. Read carefully, all four ARE equivalent: each sits directly
+    above `for _ in range(STOP_CAS_ATTEMPTS):`, every path out of those loops reassigns
+    `landed`, so the initial value is never the one returned. They are recorded here as
+    equivalent rather than filed as defects.
+
+    They are equivalent for exactly one reason, though, and it is a reason nothing was checking:
+    the loop must RUN. Set `STOP_CAS_ATTEMPTS = 0` -- a plausible edit, and the kind a person
+    makes while disabling a retry they think is causing trouble -- and all four initialisers
+    become the returned value at once. Three of them would then report a halt raised, a
+    subsystem stopped and a subsystem resumed, none of which was ever attempted. So the constant
+    that makes the equivalence true is now held by a net instead of by luck.
+    """
+    return isinstance(ESC.STOP_CAS_ATTEMPTS, int) and ESC.STOP_CAS_ATTEMPTS >= 1
 
 
 # ============================================================== THE NIGHT STAFF (local_agent)
