@@ -198,6 +198,22 @@ DEAD = 0.05        # at or below: the host is about something else entirely
 PROBE = 40         # names per host. One API call takes 50; forty leaves room for redirects.
 ABOUT = 0.40       # of the articles that exist, this fraction must actually be about the source
 MIN_PROBE = 5      # under five names, a hit rate is noise -- 1/2 reads as 50% and means nothing
+# THE SAME ARGUMENT, APPLIED TO THE OTHER HALF OF THE JUDGEMENT (order 44ae72489678). `ABOUT` is
+# a rate over the article bodies that came back readable, and until now nothing put a floor under
+# that denominator -- so the reasoning one line up, which the roster rate has enforced since it
+# was written, was never applied to the rate that VETOES. `_bodies`' own docstring records what
+# that costs: "Twelve titles came back with a single extract, so aboutness was computed over one
+# article and reported as a rate. Polynesian myth scored 98% held and 0% about that way." The
+# prop=revisions fix removed that particular CAUSE; it did not stop a generous host returning two
+# readable bodies and a two-article rate deciding NAMES ONLY, which in the repair pass repoints
+# or unassigns a wiki.
+#
+# THREE, NOT MIN_PROBE'S FIVE, and the difference is deliberate. A floor is an opinion, and this
+# is the smallest one that covers exactly the shape argued above -- n of 1 (the recorded defect)
+# and n of 2 (the thinnest case still reachable, since `hits >= 2` is tested first). Five would
+# be the stronger reading and would also bite the RAW path hard, which samples at most eight
+# bodies. Raising it is one constant and the owner's call.
+ABOUT_MIN = 3      # article bodies. Under this, an aboutness rate is not a measurement
 # LIFT thresholds, in points above the host's own baseline for foreign names.
 LIFT_MIN = 0.05    # at or below this, the result is what the host gives anyone
 GOOD_LIFT = 0.25   # at or above this, the host holds the fiction
@@ -300,7 +316,16 @@ def _tokens(source):
 
 
 def relevance(host, titles, source, sample=12):
-    """Of the articles that DO exist here, how many are about this fiction?
+    """Of the articles that DO exist here, how many are about this fiction? -> (rate, n).
+
+    THE DENOMINATOR TRAVELS WITH THE RATE, and it did not before (order 44ae72489678). This
+    returned a bare rounded rate, `score` stored it as `r["about"]` and then dropped the titles,
+    so `data/HOST_FITNESS.json` published an aboutness rate with NO sample size -- and the two
+    paths into `_bodies` do not even use the same one: the API path samples up to twelve titles
+    (`sample=12`, below) and the RAW path up to eight (`EP.fetch_raw(host, list(titles)[:8])`).
+    Two rows could carry `about: 0.5` off different n with nothing on file saying which was one
+    of two and which was six of twelve. `n` is None only for the domain-named short-circuit
+    below, where the evidence is the host's own name and no sample was taken at all.
 
     Existence is not aboutness, and on a general encyclopedia the difference is everything.
     `Rocket League` scored 72% on Wikipedia because its entities are ordinary words that have
@@ -314,7 +339,7 @@ def relevance(host, titles, source, sample=12):
     titles = [t for t in titles if t][:sample]
     toks = _tokens(source)
     if not titles or not toks:
-        return None
+        return None, 0
 
     # A token already spelled into the host's own domain proves nothing when found in its
     # articles. `lost.fandom.com` scored a perfect 100% aboutness for "Lost Mines of Phandelver"
@@ -327,15 +352,16 @@ def relevance(host, titles, source, sample=12):
         # the fiction. `metro.fandom.com` for Metro, `bindingofisaac.fandom.com` for The Binding
         # of Isaac. That is stronger evidence than any article body could give, so the aboutness
         # test has nothing left to add.
-        return 1.0
+        # n is None, not 0: no sample was taken, and 0 would read as an empty one.
+        return 1.0, None
     # The longest words are the distinctive ones. "war" and "world" appear everywhere;
     # "warships" and "phandelver" appear where the fiction does.
     toks = sorted(rest, key=len, reverse=True)[:3]
     bodies = _bodies(host, titles)
     if not bodies:
-        return None
+        return None, 0
     about = sum(1 for b in bodies if any(t in b for t in toks))
-    return round(about / len(bodies), 3)
+    return round(about / len(bodies), 3), len(bodies)
 
 
 def _bodies(host, titles):
@@ -671,8 +697,11 @@ def score(host, names, source, by=None):
     # The aboutness veto only applies to GENEROUS hosts, and generosity is what the baseline
     # measures. With no baseline there is no such thing as "generous enough to need a veto",
     # and `base >= ABOUT_VETO_ABOVE` on None raises TypeError besides.
-    r["about"] = (relevance(host, r.get("titles") or [], source)
-                  if r["hits"] and base is not None and base >= ABOUT_VETO_ABOVE else None)
+    # `about_n` IS PART OF THE ANSWER, NOT A DIAGNOSTIC. It rides into HOST_FITNESS.json with the
+    # rate so a reader can tell six-of-twelve from one-of-two, and the verdict below reads it.
+    r["about"], r["about_n"] = (
+        relevance(host, r.get("titles") or [], source)
+        if r["hits"] and base is not None and base >= ABOUT_VETO_ABOVE else (None, None))
     r.pop("titles", None)
 
     if rate is None:
@@ -690,6 +719,24 @@ def score(host, names, source, by=None):
     elif r["hits"] < 2 or r["lift"] <= LIFT_MIN:
         # Indistinguishable from what this host gives anybody who asks.
         r["verdict"] = "WRONG FICTION" if rate <= DEAD else "NAMES ONLY"
+    elif (r["about"] is not None and r["about"] < ABOUT
+          and r["about_n"] is not None and r["about_n"] < ABOUT_MIN):
+        # THE VETO IS DUE AND ITS INPUT IS TOO THIN TO CARRY IT (order 44ae72489678). This host
+        # is generous enough that only the pages can separate coverage from coincidence, and
+        # fewer than ABOUT_MIN of them came back readable -- so the aboutness figure here is the
+        # 1/2-reads-as-50% case MIN_PROBE already refuses one measurement over.
+        #
+        # UNREACHABLE RATHER THAN A SILENT ABSTENTION, and that is the whole point. Letting the
+        # veto simply not fire hands the verdict to lift alone, which lands on `holds` or on
+        # `partial` -- and `partial` is inside JUDGED, so an unmeasured host would still have
+        # gone to the repair pass. This bucket is the one `score` already uses two branches up
+        # for exactly this class of fact ("the control probe failed, so this host has no
+        # baseline"): the probe answered, a control the verdict depends on did not, so nothing
+        # is decided. `sweep` leaves these hosts exactly as they are and retries another day,
+        # `adopt`/`recover` will not promote one, and no correct wiki is unassigned on two
+        # articles. An unmeasurable condition does not come back as a measured zero.
+        r["verdict"] = ("UNREACHABLE — only %d article body(ies) could be read, too few to judge "
+                        "aboutness" % r["about_n"])
     elif r["about"] is not None and r["about"] < ABOUT:
         r["verdict"] = "NAMES ONLY"
     elif r["lift"] >= GOOD_LIFT:
@@ -823,7 +870,12 @@ def sweep(only=None, repair=False, workers=8):
                     unfit[k] = {"rejected": hosts.get(k),
                                 "verdict": results[k]["verdict"],
                                 "held": results[k]["rate"],
-                                "about": results[k].get("about")}
+                                # WITH ITS DENOMINATOR. A rejection filed as `about: 0.0` and
+                                # nothing else cannot be re-read later for how much was actually
+                                # looked at, which is the first thing anyone reviewing an
+                                # unassignment wants to know.
+                                "about": results[k].get("about"),
+                                "about_n": results[k].get("about_n")}
             hosts.update({k: v for k, v in fixed.items() if v})
             for k, v in fixed.items():
                 if v is None:
@@ -943,11 +995,43 @@ def purge(dry=True, only=None):
         print("  --source is required: the audit shortlists, a person decides.")
         print("  Pass --source NAME (repeatable) to purge exactly those.")
         print("")
+        # THE SHORTLIST IS SPLIT BY `judgeable`, AND UNTIL NOW IT WAS NOT (order 601435e86a76).
+        # `roster_audit` computes `judgeable` for every row -- False when the title names a
+        # PRODUCT rather than a world (a homebrew class page has no reason to say "Unearthed
+        # Arcana") or when its only token is too common to carry information ("Extra Life"
+        # reduces to "life"). `standards.py` already filters on it, with the comment "a standard
+        # that counts findings nobody can act on is a standard nobody reads". This shortlist did
+        # not, and it is the more dangerous of the two places to omit it: it is what a person
+        # reads immediately before running the irreversible `--purge --go`.
+        #
+        # MEASURED ON THE LIVE AUDIT, 2026-09-01: 43 rows, 3 below the rate bar, and ALL THREE
+        # of them not judgeable -- Explorer's Guide to Wildemount, Extra Life, Player's Handbook.
+        # So every entry on the shortlist was a source the audit itself says it cannot speak to,
+        # presented under a heading asserting the host was wrong.
+        #
+        # SPLIT, NOT FILTERED (Hard Rule 0). Dropping the unjudgeable rows would be a truncation
+        # of the same listing by another name -- a person who has seen this shortlist should not
+        # have to wonder what was left out of it. They are printed under their own heading that
+        # says what their low rate does and does not mean.
+        low = sorted((kv for kv in audit.items() if kv[1]["rate"] < 0.10),
+                     key=lambda kv: kv[1]["rate"])
+        actionable = [kv for kv in low if kv[1].get("judgeable", True)]
+        unjudgeable = [kv for kv in low if not kv[1].get("judgeable", True)]
         print("  shortlist -- the pages mined for these sources never name them, which means")
         print("  the HOST was wrong. Read each roster before concluding the ENTRIES are:")
-        for src, r in sorted(audit.items(), key=lambda kv: kv[1]["rate"]):
-            if r["rate"] < 0.10:
-                print(f"     {r['rate']:>4.0%}  {src}  <- {r['host']}")
+        if not actionable:
+            print("     (none)")
+        for src, r in actionable:
+            print(f"     {r['rate']:>4.0%}  {src}  <- {r['host']}")
+        if unjudgeable:
+            print("")
+            print("  BELOW THE BAR BUT NOT JUDGEABLE BY THIS TEST -- these are NOT evidence of a")
+            print("  wrong host. The title names a product rather than a world, or its only")
+            print("  token is too common to carry information, so a low rate here means the")
+            print("  test could not speak, not that the roster is foreign:")
+            for src, r in unjudgeable:
+                print(f"     {r['rate']:>4.0%}  {src}  <- {r['host']}  "
+                      f"(looked for {', '.join(r['tokens'])})")
         return []
 
     targets = []
@@ -1159,14 +1243,34 @@ def roster_audit(workers=8):
             if not r:
                 continue
             out.append(r)
-            mark = "" if r["rate"] >= 0.10 else "   <-- ROSTER FROM ANOTHER FICTION"
+            # THE MARKER READS `judgeable` NOW (order 601435e86a76). It asserted "ROSTER FROM
+            # ANOTHER FICTION" purely on the rate, on rows this same function has just decided
+            # the test cannot speak to -- so a Player's Handbook, which no spell page has any
+            # reason to name, was flagged as evidence of a wrong host.
+            if r.get("judgeable", True):
+                mark = "" if r["rate"] >= 0.10 else "   <-- ROSTER FROM ANOTHER FICTION"
+            else:
+                mark = "   <-- not judgeable: the test cannot speak to this title"
+            # HARD RULE 0: the source name is printed WHOLE. This was `r['source'][:44]` inside
+            # a `:<46` field -- a silent mid-name cut on the one column a person uses to tell two
+            # sources apart, and the roll's longest names are exactly the publisher-plus-title
+            # forms that share prefixes. The column still pads; it no longer truncates.
             print(f"  {r['rate']:>5.0%}  {r['naming_source']:>4}/{r['pages']:<5} "
-                  f"{r['source'][:44]:<46}{mark}", flush=True)
-    bad = [r for r in out if r["rate"] < 0.10]
+                  f"{r['source']:<46}{mark}", flush=True)
+    low = [r for r in out if r["rate"] < 0.10]
+    bad = [r for r in low if r.get("judgeable", True)]
+    unjudgeable = [r for r in low if not r.get("judgeable", True)]
     print(f"\n{len(out)} sources with enough mined text to judge; "
           f"{len(bad)} carry a roster that never names their own fiction")
     for r in sorted(bad, key=lambda x: x["rate"]):
         print(f"   {r['source']}  ({r['host']}, looked for {', '.join(r['tokens'])})")
+    if unjudgeable:
+        # Counted and named separately rather than folded into `bad` or dropped: the first
+        # overstates the finding, the second hides rows a person has a right to see.
+        print(f"{len(unjudgeable)} more sit below the bar but are NOT judgeable by this test "
+              f"-- a low rate here means the test could not speak, not that the host is wrong")
+        for r in sorted(unjudgeable, key=lambda x: x["rate"]):
+            print(f"   {r['source']}  ({r['host']}, looked for {', '.join(r['tokens'])})")
     # Gated (order 1b15acd3f7b2). `purge()` reads this file to decide what to purge, so a denied
     # replace reported as a success hands the next purge the PREVIOUS audit's verdicts -- and
     # those name sources whose rosters it will empty and whose caches it will delete.

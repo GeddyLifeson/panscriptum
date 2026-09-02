@@ -87,6 +87,22 @@ UBIQUITOUS_CUTOFF = 12      # attested in more sources than this -> penalised, n
 UBIQUITOUS_PENALTY = 0.15   # ...by this factor. Never 0: faint evidence is still evidence.
 
 
+def _cut(v, width):
+    """One console field, CUT WITH A MARKER when it does not fit. -> str.
+
+    The same rule `corpus_db._cell` settled (order 6160ef68b229) and the same one character of
+    ellipsis: house doctrine accepts a display-side cut precisely because it is REVERSIBLE --
+    `--write` emits every pair and every cluster in full -- and refuses it when nothing says the
+    cut happened. `main()` below already marked its two LIST slices (`names[:4]` carries
+    "(+N more shared)", `c[:6]` carries "(+N more)") and left the four STRING slices bare, so a
+    source called 'Who Framed Roger Rabbit (incl. all content from its associated crossover-toon
+    IPs)' printed as 'Who Framed Roger Rabbit' -- which is a real, different, smaller source
+    name, and the line read as complete. Order 19f3436936b5.
+    """
+    s = "" if v is None else str(v)
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
+
+
 def build_graph():
     with open(CAND, encoding="utf-8") as f:
         cand = json.load(f)
@@ -169,7 +185,7 @@ def main():
         names = pair_shared[(a, b)]
         shared = ", ".join(names[:4])
         more = f" (+{len(names) - 4:,} more shared)" if len(names) > 4 else ""
-        print(f"  {w:6.1f}  {a[:24]:26s} <-> {b[:24]:26s}  {shared[:52]}{more}")
+        print(f"  {w:6.1f}  {_cut(a, 24):26s} <-> {_cut(b, 24):26s}  {_cut(shared, 52)}{more}")
     if shown < len(ranked):
         print(f"  ... {len(ranked) - shown:,} further pairs not printed here (of "
               f"{len(ranked):,}). Screen framing, not a filter: --show 0 prints them all, "
@@ -179,7 +195,7 @@ def main():
     comps = components(pair_w, args.threshold)
     print(f"CANDIDATE CLUSTERS at weight >= {args.threshold} : {len(comps)}")
     for c in comps[:shown]:
-        head = ", ".join(s[:20] for s in c[:6])
+        head = ", ".join(_cut(s, 20) for s in c[:6])
         tail = f" (+{len(c) - 6} more)" if len(c) > 6 else ""
         print(f"  [{len(c):3d}] {head}{tail}")
     if shown < len(comps):

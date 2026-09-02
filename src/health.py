@@ -82,7 +82,12 @@ def record(kind, detail="", sample=None):
         LEDGER[key] += 1
         if sample:
             ring = _SAMPLES.setdefault(key, [])
-            ring.append({"at": time.strftime("%Y-%m-%d %H:%M:%S"), "sample": str(sample)[:240]})
+            # FULL repr, NOT A PRODUCER-SIDE CUT (order 7d85937fc436). This ring is "the evidence
+            # bag" the docstring above names -- a repr cut at a fixed width can lose exactly the
+            # part that identifies the instance, and SAMPLES_KEEP already bounds how MANY samples
+            # are kept, which is the bound that actually controls file size. A display ceiling,
+            # if wanted, belongs at the print site, where it is reversible.
+            ring.append({"at": time.strftime("%Y-%m-%d %H:%M:%S"), "sample": str(sample)})
             del ring[:-SAMPLES_KEEP]
 
 
@@ -453,7 +458,7 @@ def check_context_budget():
         import read as R
         cfg = R.config()
     except Exception as e:
-        return [("read.py config unreadable", str(e)[:60])]
+        return [("read.py config unreadable", str(e))]
     ctx = cfg.get("num_ctx", 6144)
     sys_toks = len(R.SYSTEM) / 4
     body_toks = R.CHUNK / 3.7
@@ -478,7 +483,7 @@ def check_api_paths():
         import feats as F
         hosts = json.load(open(F.HOSTS, encoding="utf-8"))
     except Exception as e:
-        return [("host map unreadable", str(e)[:60])]
+        return [("host map unreadable", str(e))]
     fams = {}
     for h in hosts.values():
         if not h:
@@ -525,6 +530,11 @@ def check_caches():
     except Exception:
         # FAIL LOUD, NOT QUIET. If the quarantine record cannot be read we do not know that a
         # host is excused, so nothing is excused and every empty cache reports as before.
+        # Same discipline as the excluded_dirs handler below (order 67f1a3ea4996): the
+        # fail-closed behaviour here was already correct, but it recorded nothing, so if
+        # `binding_health.quarantined()` broke or its record became unreadable, nothing
+        # anywhere would say this exemption had stopped working.
+        silence.note("health.py:quarantine-unreadable")
         quarantined = set()
     # AND A HOST WHOSE SOURCES HAVE ALL BEEN EXCLUDED, which the quarantine exemption above
     # could not cover because it is TTL-gated. A quarantine lapses -- `RETRY_AFTER_S` is 24h --
@@ -635,7 +645,7 @@ def check_state():
         st = json.load(open(os.path.join(HERE, "state", "PIPELINE_STATE.json"),
                             encoding="utf-8"))
     except Exception as e:
-        return [("state unreadable", str(e)[:60])]
+        return [("state unreadable", str(e))]
     # NAME THE SOURCES, NOT JUST THE COUNT. A bare `227` says a number is wrong and nothing
     # about where to look, so the next run re-derives the breakdown by hand before it can even
     # start diagnosing -- run #27 did exactly that, and the answer took one query: all 227 sat
@@ -855,11 +865,18 @@ def preflight(verbose=True, stamp=True):
         try:
             found = fn()
         except Exception as e:
-            found = [("check itself failed", f"{type(e).__name__} {str(e)[:60]}")]
+            # FULL text, not [:60] (order 7d85937fc436) -- this is the exception a preflight
+            # check raised, the string an operator diagnoses a broken check from, and it then
+            # passes through workorders.sweep_detectors into a work order verbatim.
+            found = [("check itself failed", f"{type(e).__name__} {str(e)}")]
         if found:
             problems += len(found)
-            rows.extend({"check": label, "what": str(a)[:200], "detail": str(b)[:300]}
-                        for a, b in found)
+            # FULL STRINGS, NOT A PRODUCER-SIDE CUT (order f767adf965f0). These rows are the
+            # machine-readable trace this stamp exists to leave (docstring above), and they land
+            # verbatim in a work order via workorders.sweep_detectors -- a cut here is not
+            # reversible downstream the way a cut at a PRINT site would be. state/preflight_last.json
+            # is a small file; Hard Rule 0 applies to it the same as any other evidence list.
+            rows.extend({"check": label, "what": str(a), "detail": str(b)} for a, b in found)
             if verbose:
                 print(f"  FAIL  {label}")
                 for a, b in found:
@@ -920,10 +937,17 @@ def main():
         for k, v in sorted(s.items(), key=lambda kv: -kv[1]):
             print(f"{v:>8}  {k}")
         return 0
-    print("PREFLIGHT")
-    n = preflight()
-    print(f"\n{n} problem(s)" if n else "\nall checks pass")
-    return 1 if n else 0
+    # `a.preflight` is named explicitly (order c6726717282a): it used to work only by
+    # coincidence of being the fall-through default after --reopen and --failures both return
+    # above, so a future branch inserted ahead of this one would silently change what
+    # allsweep.py's Verifier('preflight', ...) and overnight.py's `[PY, health.py, '--preflight']`
+    # actually run, with no error -- the module would still exit 0/1 on whatever it did instead.
+    if a.preflight or not (a.reopen or a.failures):
+        print("PREFLIGHT")
+        n = preflight()
+        print(f"\n{n} problem(s)" if n else "\nall checks pass")
+        return 1 if n else 0
+    return 0
 
 
 if __name__ == "__main__":

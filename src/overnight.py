@@ -705,8 +705,11 @@ def foreman_report():
         # the cap bought nothing and cost the sixth remedy its only mention.
         when = last.get("at", "?")
         log(f"  foreman: {len(did)} remedy(ies) applied at {when}")
+        # THE 70-CHARACTER CLIP WENT THE SAME WAY `did[:5]` DID, ABOVE (order fc7d688c1c6a). A
+        # log line has no width constraint; this is the foreman's own remedy result, the whole
+        # content of the line, printed directly under a header that already announces the count.
         for a in did:
-            log(f"    [{when}] {a['standard']} -> {a['remedy']}: {a.get('result', '')[:70]}")
+            log(f"    [{when}] {a['standard']} -> {a['remedy']}: {a.get('result', '')}")
     owner = last.get("owner") or []
     if owner:
         log(f"  foreman: {len(owner)} order(s) need the owner -- see FOR_OWNER.md")
@@ -741,8 +744,10 @@ def watch_report():
     # "(N high)" headline and simultaneously sorted as not-high -- reachable by construction,
     # never triggered yet because every stored severity today happens to already be lowercase.
     # One fix for both: stop capping, and sort on the same lowered value the count uses.
+    # THE 96-CHARACTER CLIP WENT THE SAME WAY `[:top]` DID, ABOVE (order fc7d688c1c6a): `actual`
+    # is the whole content of the overwatch finding, not decoration around it.
     for f in sorted(open_f, key=lambda x: -((x.get("severity") or "").lower() == "high")):
-        log(f"    {f.get('module','?')}.py {f.get('symbol','')}: {f.get('actual','')[:96]}")
+        log(f"    {f.get('module','?')}.py {f.get('symbol','')}: {f.get('actual','')}")
 
 
 def ledger_report():
@@ -886,8 +891,11 @@ def tail(path, name, n=12):
         log(f"    {name}: exited nonzero and wrote NOTHING -- it died before its first output")
         return
     log(f"    {name}: last {min(n, len(lines))} lines --")
+    # UNCLIPPED (order fc7d688c1c6a): this docstring's own point is that a bare exit code is
+    # the plausible-negative the supervisor must not be fooled by -- clipping a failed job's
+    # last words at 160 characters is the same shape of loss on the line that exists to prevent it.
     for ln in lines[-n:]:
-        log(f"      {ln[:160]}")
+        log(f"      {ln}")
 
 
 def coverage_snapshot():
@@ -1018,7 +1026,10 @@ def preflight():
             f"parsed) -- continuing, but this cycle was NOT checked")
         err = (r.stderr or "").strip().splitlines()
         if err:
-            log(f"    preflight last stderr line: {err[-1][:160]}")
+            # UNCLIPPED (order fc7d688c1c6a): the last stderr line of a preflight that did NOT
+            # complete is forensic evidence, not decoration -- the module's own log() has no
+            # width constraint.
+            log(f"    preflight last stderr line: {err[-1]}")
     return n, blocking
 
 
@@ -1060,7 +1071,9 @@ def safety_drill():
             f"-- the nets were NOT inspected this cycle")
         err = (r.stderr or "").strip().splitlines()
         if err:
-            log(f"    safety drill last stderr line: {err[-1][:160]}")
+            # UNCLIPPED (order fc7d688c1c6a): same reasoning as preflight's stderr line above --
+            # the last stderr line of a safety drill that did NOT complete is the evidence.
+            log(f"    safety drill last stderr line: {err[-1]}")
     if r.returncode == 1:
         for x in (r.stdout or "").splitlines():
             if x.strip().startswith("BREACHED"):

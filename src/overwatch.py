@@ -276,8 +276,10 @@ def save(d):
             return False
         _SNAPSHOT["digest"] = _digest(LEDGER)
         return True
-    except Exception:
+    except Exception as e:
         silence.note("overwatch.py:save")
+        print("overwatch: ledger save FAILED (%s: %s) -- this round's findings did NOT land."
+              % (type(e).__name__, e), file=sys.stderr)
         return False
 
 
@@ -890,11 +892,13 @@ def round_once(limit=6, local=True, skip_model=False):
             print(f"   {m:<24}{len(found):>3} raw  {fresh:>3} new   {time.time()-t:>5.0f}s"
                   + note, flush=True)
 
-    save(led)
+    saved = save(led)
     wrote = write_report(led, struct)
     open_n = sum(1 for f in led["findings"].values() if f.get("state") == "open")
     print(f"\n{open_n} finding(s) open  ->  "
-          + (REPORT if wrote else REPORT + "  (NOT UPDATED -- see stderr)"))
+          + (REPORT if wrote else REPORT + "  (NOT UPDATED -- see stderr)")
+          + ("" if saved else "   [LEDGER NOT SAVED -- this round's model reads did not "
+                               "persist, see stderr]"))
     return open_n
 
 

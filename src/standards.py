@@ -169,7 +169,16 @@ def _flow_failure(exc, secs):
         return "the daemon answered HTTP %s -- it is up and refusing, not wedged" % status
     if reason is not None:
         return "the probe never reached the daemon (%s: %s)" % (type(reason).__name__, reason)
-    return "the probe failed before any tokens (%s: %s)" % (type(exc).__name__, str(exc)[:80])
+    # UNCUT (order 1f7e733a20f3). This is the UNCLASSIFIED branch -- reached only when the
+    # exception carries neither `code` nor `reason` and is not a bare TimeoutError -- so the raw
+    # exception text is the only diagnosis there is. It is returned as `secs` and printed
+    # verbatim as the entire `observed` of the HIGH standard "the local model produces tokens",
+    # whose own order text says "Read the detail before acting" because the remedy differs per
+    # cause. A [:80] cut with no marker on the one field that carries the cause is the same
+    # shape already repaired at standards.py:604 and catalogue_models.py:130-138; whitespace is
+    # collapsed instead so a multi-line exception message still prints as one row.
+    return "the probe failed before any tokens (%s: %s)" % (
+        type(exc).__name__, " ".join(str(exc).split()))
 
 
 def ollama_token_flow(ttl=300.0, timeout=300):
@@ -600,8 +609,19 @@ def provider_pool_denominator(pm):
         n_ver = len([r for r in rows if r.get("models")])
         n_unver = n_prov - n_ver
         unchecked = None
+        # UNCUT (orders 5802e8899e4f, c1ab7302613e). This branch's own comment above says the
+        # error string is the ONLY surviving evidence for why a provider went unverified in a
+        # pre-`counts` snapshot -- "the derived figure cannot tell `no key` from `the provider
+        # refused`: only the fixed sweep records that" -- and the function's docstring at :576
+        # promises "NOTHING IS CAPPED -- every unverified provider is named". A [:40] slice cut
+        # the REASON, not the name, with no marker. catalogue_models.py:130-138 removed the
+        # identical cut on the identical upstream string one module over (order 6d354a508b96,
+        # "a URL plus a status line already passes 70 characters, so the cut was landing on the
+        # reason itself") -- forty is tighter than the seventy already found too short there.
+        # Whitespace is collapsed instead, matching that same repair, so a multi-line error
+        # still renders as one console row without losing any of its text.
         names = sorted("%s (%s)" % (r.get("provider") or "?",
-                                    str(r.get("error") or "no model list")[:40])
+                                    " ".join(str(r.get("error") or "no model list").split()))
                        for r in rows if not r.get("models"))
         derived = (" [denominator DERIVED from the provider rows: this snapshot predates the "
                    "`counts`/`unverified` block, so the reason each provider went unverified "
@@ -1257,9 +1277,9 @@ def check(state=None):
     # The standard above proves the ARITHMETIC; this one proves the AUTOMATION. calibrate()
     # runs the charter's six published assays through the whole live chain -- evidence mine,
     # split, epoch mandate, ceiling clamp, cascade transport -- and persists the verdict.
-    # Consistency is interval overlap (see calibrate's docstring). A file older than 26h means
-    # the regression has not run today and the foreman dispatches it; that is the freshness
-    # floor, not a fault in the instrument.
+    # Consistency is interval overlap (see calibrate's docstring). A file older than
+    # CHARTER_REGRESSION_MAX_AGE_H means the regression has not run today and the foreman
+    # dispatches it; that is the freshness floor, not a fault in the instrument.
     try:
         reg_path = os.path.join(HERE, "data", "CHARTER_REGRESSION.json")
         try:
@@ -1271,7 +1291,17 @@ def check(state=None):
         holds, obs = charter_regression_verdict(reg)
         out.append(_s(
             "the automation reproduces the charter", holds, obs,
-            "every scored reference overlaps its published interval, within 26h",
+            # INTERPOLATED, NOT HAND-COPIED (order f18c50e8a513). This was the literal `26h`,
+            # restated by hand from CHARTER_REGRESSION_MAX_AGE_H (:525) the way every other
+            # floor in this function is not -- MAX_SWEEP_AGE_H, MAX_PUBLISH_AGE_H,
+            # MAX_COVERAGE_AGE_H, MIN_DISK_GB and MAX_SWALLOWED_NEW are all f-string-interpolated
+            # from their constants. A restated literal silently disagrees with what is actually
+            # enforced the moment the constant moves, and the module's own "every declared floor
+            # is measured" self-check cannot see it: CHARTER_REGRESSION_MAX_AGE_H already appears
+            # twice in comment-stripped code (its declaration and its use inside
+            # charter_regression_verdict), which is all that check requires.
+            f"every scored reference overlaps its published interval, within "
+            f"{CHARTER_REGRESSION_MAX_AGE_H}h",
             "The charter's six published assays re-run end-to-end through the live automation "
             "daily -- the same code path a stranger's entity takes. A reference that stops "
             "overlapping its published interval means something in the chain drifted (prompt, "

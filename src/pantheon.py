@@ -316,9 +316,16 @@ def main():
         print("  %-17s %-16s %s" % (n, rec["assay"]["moth_number"], epoch))
 
     if a.full:
+        # UNCAPPED, in the view whose flag is literally named --full (order aee512bff722). This
+        # used to skip any ranked entry not in `out` (the six hand-built GODS), silently dropping
+        # the fifteen Z_FIGHTERS.json entries the table above prints fine -- 71% of the ranking,
+        # gone from the one view whose name promises the opposite, with no count and no note.
+        # VERIFIED, NOT ASSUMED: the order that found this claimed every Z_FIGHTERS entry carries
+        # score/cited/provenance on all eleven axes; that is true for fourteen of the fifteen but
+        # NOT "Son Goku", whose axes carry score/cited with no `provenance` at all (a data gap in
+        # data/Z_FIGHTERS.json, not this display bug) -- so the fixed loop below reads provenance
+        # defensively rather than trusting the claim that produced the guard's removal.
         for n, rec in rank:
-            if n not in out:
-                continue
             print("")
             print("=" * 88)
             print("%s   %s" % (n, rec["assay"]["moth_number"]))
@@ -341,7 +348,7 @@ def main():
                 # citation is prose of no fixed length and one 294-character line is its own
                 # kind of unreadable; continuation lines hang under the first so the column
                 # structure survives and every character is on screen. Order 9d24c8a5febf.
-                head = "   %-15s%5.1f  [%s] " % (ax, d["score"], d["provenance"])
+                head = "   %-15s%5.1f  [%s] " % (ax, d["score"], d.get("provenance", "?"))
                 body = textwrap.wrap(str(d["cited"]), width=max(24, 92 - len(head))) or [""]
                 print(head + body[0])
                 for cont in body[1:]:

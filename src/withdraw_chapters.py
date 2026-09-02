@@ -353,7 +353,39 @@ def main():
         # record of what was withdrawn. It cannot be undone by retrying either: the files have
         # already moved, so a second run finds nothing to withdraw and writes an EMPTY record
         # over the gap. That is why it is reported rather than merely returned.
-        record_landed = silence.write_json(record_path, withdrawn, indent=2)
+        # MERGE WITH AN EXISTING MANIFEST RATHER THAN REPLACE IT (order 959ac19ac3f7). The
+        # file-collision guard above (`_archive_name_free`) only protects the CHAPTER FILES --
+        # two `--go` runs sharing a `--label` (the default is just today's date) put both sets
+        # of files safely side by side in the same archive directory, because their basenames
+        # differ. This manifest has no such disambiguator: it is one fixed name inside that
+        # directory, so the second run's unconditional replace erased the first run's record
+        # even though the first run's files are still sitting right there, un-overwritten. The
+        # archive would then hold chapters from two withdrawals under a manifest listing only
+        # one -- "a heap of files with no manifest" for whichever run lost the race, in the tool
+        # whose one job is preserving the record of what was withdrawn. Both withdrawals really
+        # are in that directory, so the union, keyed by address, is the true manifest; a repeated
+        # address (the same entry withdrawn twice under one label) keeps the later record, same
+        # rule `_UNPRESERVED`-style merges elsewhere in this project use for "whichever writer
+        # has more to say wins the key."
+        existing_manifest = {}
+        try:
+            with open(record_path, encoding="utf-8") as f:
+                existing_manifest = json.load(f)
+        except FileNotFoundError:
+            pass
+        except (OSError, ValueError) as e:
+            print("  existing manifest at %s could not be read (%s) -- not merging; the new "
+                  "manifest will hold only this run's withdrawals." % (record_path, e))
+        merged_manifest = dict(existing_manifest)
+        merged_manifest.update(withdrawn)
+        if existing_manifest:
+            new_from_existing = len(existing_manifest) - sum(
+                1 for k in existing_manifest if k in withdrawn)
+            print("  manifest at %s already existed (%d entr(ies)) -- merged with this run's "
+                  "%d, %d kept from the earlier withdrawal, %d entr(ies) total"
+                  % (record_path, len(existing_manifest), len(withdrawn),
+                     new_from_existing, len(merged_manifest)))
+        record_landed = silence.write_json(record_path, merged_manifest, indent=2)
         # ATOMIC, AND THE VERDICT KEPT. This ran AFTER every chapter file above has already
         # been moved, on the one file generate.py and publish.py both read -- same collision
         # hazard as scout._land, on a shared file. The hand-rolled `CATALOG + ".tmp"` plus a

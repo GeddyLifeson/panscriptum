@@ -322,6 +322,17 @@ def verify(url, names):
         return {"url": url, "ok": False, "why": "page has almost no text (script-rendered?)"}
     hits = _names_in(text, names)
     probeable = sum(1 for n in names if (n or "").strip() and len((n or "").strip()) > 3)
+    if probeable == 0:
+        # THE MIRROR CASE `MIN_NAME_HITS` DID NOT CLOSE. `max(1, ...)` below stops the bar
+        # from being unreachable when there is ONE usable name, but when there are ZERO the
+        # floor still sets `needed = 1` against a `hits` that is structurally 0 forever --
+        # `_names_in` skips every name under four characters, so nothing can ever be counted.
+        # That reported as the ordinary "0 catalogued name(s) present, 1 needed", which reads
+        # as a wrong guess rather than a check that was unsatisfiable before it ran. Say so.
+        return {"url": url, "ok": False, "unverifiable": True, "hits": 0, "needed": 1,
+                "chars": len(text),
+                "why": "unverifiable: this source has no catalogued name longer than three "
+                       "characters to probe a page with"}
     needed = max(1, min(MIN_NAME_HITS, probeable))
     return {"url": url, "ok": hits >= needed, "hits": hits, "needed": needed,
             "chars": len(text),
@@ -389,7 +400,15 @@ def scout(source, names, register=True):
         checked.append(r)
         if r["ok"]:
             kept.append(u)
-    registered, reg_note = True, ""
+    # THREE STATES, LIKE `reached` (order 7f2cbf26a60e; order a17efd461050 for this field).
+    # `True` everywhere else in this module means "the registry took them" -- using it as the
+    # INITIAL value made "nobody tried" indistinguishable from "it worked", which is exactly
+    # how `--dry` (register=False) ended up reporting sources as FOUND having registered
+    # nothing: `sweep()` read the untouched default straight through. `None` means nobody
+    # attempted registration (register=False, or nothing was kept to register); `True` means
+    # both the page registration and the host adoption landed; `False` means one of them was
+    # attempted and failed.
+    registered, reg_note = None, ""
     if kept and register:
         import endpoint as EP
         # THE PAGE REGISTRATION IS GUARDED, LIKE THE HOST REGISTRATION TEN LINES BELOW ALWAYS
@@ -410,6 +429,7 @@ def scout(source, names, register=True):
         # self-healing outcome as long as the log says why.
         try:
             EP.register(source, kept)
+            registered = True
         except Exception as e:
             silence.note("scout.py:register-pages")
             registered = False
@@ -420,7 +440,9 @@ def scout(source, names, register=True):
         # read this source's pages OUT OF SOURCE_PAGES.json. Adopting it while the pages are not
         # in that file points the reader at nothing and, worse, takes the source off
         # `hostless()`, so the self-healing re-scout this branch is counting on would never
-        # happen. The two registrations are one fact and must land or fail together.
+        # happen. The two registrations are one fact and must land or fail together -- so a
+        # failed adoption takes `registered` back to False even though the page registration
+        # itself succeeded; `True` is reserved for both landing.
         if registered:
             try:
                 import feats as F
@@ -431,8 +453,20 @@ def scout(source, names, register=True):
                 landed, _ = _mutate(F.HOSTS, _adopt)
                 if not landed:
                     silence.note("scout.py:register-host")
-            except Exception:
+                    registered = False
+                    reg_note = ("%d page(s) registered but the host map could not be updated"
+                                % len(kept))
+            except Exception as e:
                 silence.note("scout.py:register-host")
+                registered = False
+                reg_note = ("%d page(s) registered but host adoption failed (%s: %s)"
+                            % (len(kept), type(e).__name__, str(e)[:120]))
+    elif kept:
+        # register=False (--dry): pages were verified but nobody was ever asked to save them.
+        # `registered` stays None -- nobody tried, which is neither a success nor a failure --
+        # and the note says so, so `sweep()`'s FOUND/UNSAVED print reads correctly under --dry
+        # instead of defaulting to "registered".
+        reg_note = "%d page(s) verified (--dry: not registered)" % len(kept)
     # Pages that exist and decline us are a finding for the owner, not a retry target.
     blocked = [c for c in checked if c.get("code") in (401, 403, 429)]
     if blocked:
@@ -459,11 +493,38 @@ def scout(source, names, register=True):
             "registered": registered, "note": _note}
 
 
+class HostsUnreadable(RuntimeError):
+    """WIKI_HOSTS.json could not be read as the shared host map it is."""
+
+
 def hostless():
-    """Sources with nowhere to read from — the only ones worth scouting."""
+    """Sources with nowhere to read from — the only ones worth scouting.
+
+    THE READ SIDE NOW HAS THE DISCIPLINE `_mutate` HAS ALWAYS ARGUED FOR ON THE WRITE SIDE
+    (order a0dddab8a9bc). `hostcheck.adopt()` writes WIKI_HOSTS.json from a SEPARATE process --
+    the exact hazard `_mutate`'s docstring is about -- so a torn read or a wrong-shape file
+    here is not hypothetical. Raises rather than falling back to `{}`: an empty host map would
+    make EVERY source look hostless and put the whole roll into the scout rotation.
+    `foreman.scout_hostless` already wraps `SC.sweep()` in a broad `except Exception`, so this
+    still surfaces as a reported failure on the standing path -- now a distinguishing one.
+    """
     import weave_index as WI
     import feats as F
-    hosts = json.load(open(F.HOSTS, encoding="utf-8"))
+    try:
+        with open(F.HOSTS, encoding="utf-8") as f:
+            hosts = json.load(f)
+    except Exception as e:
+        silence.note("scout.py:hosts-unreadable")
+        raise HostsUnreadable(
+            "%s is unreadable (%s) -- refusing to read it as an empty host map, because an "
+            "unreadable shared artifact is not an empty one"
+            % (os.path.basename(F.HOSTS), type(e).__name__)) from e
+    if not isinstance(hosts, dict):
+        silence.note("scout.py:hosts-wrong-shape")
+        raise HostsUnreadable(
+            "%s holds %s, not an object -- refusing to read it as an empty host map, because "
+            "wrong-shape is the same fact as unparseable"
+            % (os.path.basename(F.HOSTS), type(hosts).__name__))
     out = {}
     for r in WI.load_records():
         s = r["source"]
@@ -540,7 +601,12 @@ def sweep(limit=None, register=True):
     for src in order:
         r = scout(src, todo[src], register=register)
         results.append(r)
-        if r["kept"] and r.get("registered", True):
+        # `is True`, not truthy/default-True (order a17efd461050): `registered` is now a
+        # three-state field (None = nobody tried, True = landed, False = tried and failed), so
+        # only an actual landing counts as FOUND. Under --dry every result's `registered` is
+        # None, so `found` stays honestly 0 rather than the field's old default standing in for
+        # a registration that never happened.
+        if r["kept"] and r.get("registered") is True:
             found += 1
             print(f"   FOUND  {src:<38}  {len(r['kept'])} page(s)")
             for u in r["kept"]:
@@ -569,7 +635,16 @@ def sweep(limit=None, register=True):
             reasons = ", ".join(sorted({c.get("why", "?") for c in (r.get("checked") or [])})
                                 ) or r.get("note", "?")
             print(f"   none   {src:<38}  {reasons}")
-    print(f"\n{found} of {len(order)} sources now have somewhere to read from")
+    if register:
+        print(f"\n{found} of {len(order)} sources now have somewhere to read from")
+    else:
+        # --dry NEVER registers, so `found` (which now requires `registered is True`) is
+        # always 0 here -- that is correct, not a regression, but printing it bare would still
+        # read as "found nothing" rather than "found nothing to register on purpose". Report
+        # what --dry actually measured: sources whose pages verified and WOULD have been kept.
+        verified = sum(1 for r in results if r["kept"])
+        print(f"\n{verified} of {len(order)} sources would give somewhere to read from "
+              "(--dry: nothing registered)")
     # A SOURCE THAT WAS NEVER ASKED HAS NOT HAD ITS TURN (order 7f2cbf26a60e). The stamp above
     # goes on before the work on purpose -- a source that CRASHES the scout must still count as
     # attempted, or it pins the window -- but a transport outage is not that: it burns every

@@ -164,7 +164,15 @@ def discover(only=None, workers=6, per_source=24):
         # the back half of a cast could not be told from one that holds none of it. (run #26)
         names = list(by.get(source) or [])
         if len(names) < 4:
-            return None
+            # A DISTINGUISHABLE NEGATIVE, NOT A SILENT DROP (order f28f27da7c1f). Three names
+            # is too thin a roster to score a host against, and that bound is sound -- but the
+            # consumer below used to test `if not res: continue`, which reads a bare `None` the
+            # same way whether the source was probed and held nothing or was never probed at
+            # all. `discover()`'s own summary already makes this argument for its OTHER bound
+            # (the per-source speculation cap, printed a few lines down): "an unstated bound is
+            # indistinguishable from no bound at all." Return a sentinel `discover()` can tally
+            # and name instead of a bare None.
+            return (source, None, 0)
         cur = primary_host(source)
         try:
             grounded, spec = HC.candidates_split(source, cur, by=by, hosts=prim)
@@ -224,11 +232,18 @@ def discover(only=None, workers=6, per_source=24):
     # nothing anywhere said so. A bound is allowed to exist; a bound nobody can see the size of
     # is how a smaller universe gets mistaken for the whole one, so the total is reported.
     withheld_total = 0
+    not_probed = []
     with ThreadPoolExecutor(max_workers=workers) as ex:
         for res in ex.map(work, todo):
             if not res:
                 continue
             source, keep, withheld = res
+            if keep is None:
+                # A THIN ROSTER, NOT A CANDIDATE THAT LOST. Counted and named beside the
+                # speculative-guess figure below, so "probed, nothing held" and "never probed"
+                # stay two different findings. Uncapped, like the two lists next to it.
+                not_probed.append(source)
+                continue
             withheld_total += withheld
             for lift, h, verdict, rate in keep:
                 landed = add(source, h, evidence=verdict + " lift=" + str(lift), score=rate)
@@ -259,6 +274,9 @@ def discover(only=None, workers=6, per_source=24):
         # an unstated bound is indistinguishable from no bound at all.
         print("  (%d speculative host guess(es) withheld by per_source=%d; grounded hosts are "
               "never bounded)" % (withheld_total, per_source))
+    if not_probed:
+        print("  (%d source(s) not probed: fewer than 4 roster names to score a host against: "
+              "%s)" % (len(not_probed), ", ".join(not_probed)))
     return added, rows
 
 

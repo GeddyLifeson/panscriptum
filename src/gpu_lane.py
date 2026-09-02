@@ -220,6 +220,30 @@ def _read(path):
         return None
 
 
+def _unreadable_and_stale(path, lease=SLOT_LEASE_SECONDS):
+    """Is this a slot file that exists, will not parse, and nobody is maintaining? -> bool.
+
+    The half of `_expired` that cannot be asked of a record, because there is no record to ask.
+    `_read` collapses "absent" and "unparseable" into the same None (see `_take_slot`), and the
+    difference between them is the difference between a free slot and a stranded one.
+
+    JUDGED BY MTIME, on purpose, and it is the only honest clock available here: an unreadable
+    file has no heartbeat to read. The bar is deliberately the SAME lease every readable holder
+    is judged by, so an unreadable slot is reclaimed on exactly the condition a readable one is
+    -- nobody has touched it within the lease -- rather than on a special rule of its own.
+
+    FAILS CLOSED TOWARDS LEAVING IT ALONE. A file that vanished between the read and the stat,
+    or that cannot be statted at all, answers False: not reclaimable by us. A slot wrongly left
+    in place costs one lease; a slot wrongly reclaimed is handed to a second holder while the
+    first is still working, and the lane's whole purpose is that that does not happen.
+    """
+    try:
+        age = _now() - os.path.getmtime(path)
+    except OSError:
+        return False
+    return age > lease
+
+
 def _expired(rec, lease):
     """A record nobody is maintaining any more."""
     if not isinstance(rec, dict):
@@ -384,7 +408,35 @@ def _take_slot(label):
     for i in range(MAX_SLOTS):
         path = os.path.join(LANE, f"slot.{i}.json")
         rec = _read(path)
-        if rec is not None and _expired(rec, SLOT_LEASE_SECONDS):
+        if rec is None:
+            # `_read` ANSWERS None TO TWO DIFFERENT QUESTIONS, and only one of them is a strand
+            # (order 763b56061157). It returns None for "there is no such file" -- the ordinary
+            # free slot, which the O_EXCL create below is about to claim -- and ALSO for "the
+            # file is there and will not parse". The guard here used to be
+            # `if rec is not None and _expired(...)`, which filters out the second case before
+            # asking, so `_expired`'s own first line -- `if not isinstance(rec, dict): return
+            # True  # unreadable/corrupt: reclaim rather than strand` -- was UNREACHABLE from
+            # the one call site it was written for. A corrupt or zero-byte slot file therefore
+            # fell straight through to `os.open(O_EXCL)`, which raised FileExistsError because
+            # the file does exist, and `continue` skipped it. Forever: nothing in the lane ever
+            # removed it. MAX_SLOTS such files turn every model call in every standing job into
+            # a permanent wait on a pool that can never refill.
+            #
+            # AND IT MUST NOT SIMPLY DELETE WHAT IT CANNOT READ, which is the trap in the
+            # obvious fix. A zero-byte slot file is exactly what a slot looks like in the window
+            # between the `os.open(O_CREAT|O_EXCL)` below and the `json.dump` that follows it --
+            # so "unreadable, therefore reclaim" would delete a slot another process claimed
+            # microseconds ago and hand the same slot to two callers, which is worse than the
+            # strand: the lane would be silently over-subscribed rather than visibly stuck.
+            #
+            # MTIME IS THE FALLBACK HEARTBEAT. A slot mid-creation is milliseconds old; a
+            # stranded one ages past the same lease every other holder is judged by. So an
+            # unreadable file is reclaimed on exactly the condition a readable one is -- that
+            # nobody has touched it within the lease -- and the racing writer is safe because it
+            # cannot be that old.
+            if _unreadable_and_stale(path):
+                _remove_retry(path)
+        elif _expired(rec, SLOT_LEASE_SECONDS):
             # the holder is gone; the lease returns to the pool (m55: retried, because a
             # denial here silently leaves the slot claimed by a process that no longer exists)
             _remove_retry(path)
@@ -577,8 +629,6 @@ def lane(label="background", priority=False):
                                         name="gpu-lane-beat", daemon=True)
                 beat.start()
         yield
-    except Exception:
-        raise
     finally:
         # ORDER MATTERS: stop the heartbeat BEFORE releasing, or a beat landing between the
         # remove and the thread noticing would re-create the file. `_touch` refuses to
@@ -597,8 +647,18 @@ def lane(label="background", priority=False):
 
 
 def status():
-    """What is holding the card right now -- every holder, never a sample."""
-    out = {"slots": [], "foreground": [], "max_slots": MAX_SLOTS}
+    """What is holding the card right now -- every holder, never a sample.
+
+    `partial` is the honesty half of that promise. The listing walks a directory that
+    competitors are creating and deleting underneath it, so a lease removed between
+    `listdir` and `_read`, or a permissions denial on one entry, can raise part-way
+    through the loop. Returning the rows gathered so far with no marker would make an
+    INTERRUPTED look at the lane indistinguishable from a complete one -- an idle card
+    and a card I could not finish reading would both come back as an empty list. The
+    flag is the difference, and Hard Rule 0 is why it exists: a partial listing is
+    allowed, a partial listing presented as whole is not. (order 4822b2c5744e)
+    """
+    out = {"slots": [], "foreground": [], "max_slots": MAX_SLOTS, "partial": False}
     try:
         if not os.path.isdir(LANE):
             return out
@@ -616,5 +676,9 @@ def status():
             elif name.startswith("fg."):
                 out["foreground"].append(row)
     except Exception:
-        pass
+        # NOT a bare swallow: this is the only one in the module that carried neither a
+        # silence.note nor a documented fail-open reason. status() reports, it does not
+        # arbitrate, so it still returns what it has -- but it says so.
+        silence.note("gpu_lane.py:status-partial")
+        out["partial"] = True
     return out

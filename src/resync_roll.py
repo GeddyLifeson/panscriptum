@@ -55,6 +55,14 @@ def main():
     with open(ROLL, encoding="utf-8") as f:
         roll = json.load(f)
 
+    # SNAPSHOT THE ON-DISK FIGURES BEFORE THE REPAIR LOOP CAN TOUCH `roll` (order 590964e48e63).
+    # The loop below mutates these SAME dicts in place (`r["entry_count"] = n`,
+    # `r["status"] = want`) before any write is attempted, so recomputing "have" from `roll`
+    # after the loop -- which the denied-write branch used to do -- reads the REPAIRED figures,
+    # not the disk figures, even though that branch exists specifically to report that the
+    # write did NOT land. Kept separately so the denied branch has something honest to print.
+    have_on_disk = sum(1 for r in roll if r.get("entry_count", 0) > 0)
+
     # index every record file by its declared `source`, which is more reliable than the
     # filename slug (slugging rules differ between the cataloguers)
     # SORTED, because two record files can declare the SAME source -- that is exactly why this
@@ -261,8 +269,7 @@ def main():
     if not dry and not landed:
         print(f"\nWRITE DENIED {ROLL} -- replace refused; roll is UNCHANGED on disk, "
               f"the fixes above did not land and will retry next run")
-        have = sum(1 for r in roll if r.get("entry_count", 0) > 0)
-        print(f"\nroll unchanged: {have}/{len(roll)} sources catalogued (pre-fix figures)"
+        print(f"\nroll unchanged: {have_on_disk}/{len(roll)} sources catalogued (pre-fix figures)"
               + caveat)
         # NONZERO, because this is the branch where the file on disk is NOT what the lines above
         # describe. `main()`'s value only became the process's exit code when the module started

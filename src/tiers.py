@@ -367,9 +367,17 @@ def main():
     order = ["multiverse", "metaverse", "xenoverse"]
     counts = [len(multi)] + [len(tiers[n + "_groups"]) for n, _, _ in CUTS]
     print(f"   {' -> '.join(f'{n} {c}' for n, c in zip(order, counts, strict=True))}")
-    ok = all(counts[i] >= counts[i + 1] for i in range(len(counts) - 1))
-    print(f"   monotone: {ok}")
-    bad = 0
+    # ITS OWN NAME. This was `ok`, and `ok` is REASSIGNED at the write below to the verdict of
+    # silence.write_json -- so the nesting answer was unreadable by the time anything looked,
+    # and `return 0 if ok else 1` reported the WRITE, never the chart. Two verdicts, two names.
+    monotone = all(counts[i] >= counts[i + 1] for i in range(len(counts) - 1))
+    print(f"   monotone: {monotone}")
+    # DIAGNOSTIC, NOT A GATE, deliberately: the three counts do not come from one builder.
+    # `multi` is complete linkage via weave.components and the other two are single-linkage via
+    # _components, which drops any source with no adjacency at all -- so the numbers are not
+    # strictly comparable and a False here would not by itself prove a broken nesting. The
+    # containment scan below is the check with standing, and it is the one that refuses.
+    split_sources = []
     for s in srcs:
         c = charted[s]
         if c["xenoverse"] is None:
@@ -377,9 +385,16 @@ def main():
         for lo, hi in (("multiverse", "metaverse"), ("metaverse", "xenoverse")):
             peers = [t for t in srcs if charted[t][lo] == c[lo] and c[lo] is not None]
             if peers and len({charted[t][hi] for t in peers}) > 1:
-                bad += 1
+                split_sources.append((s, lo, hi))
                 break
-    print(f"   containment violations (a lower group split across two higher ones): {bad}")
+    # RELABELLED. The scan `break`s after the first offending (lo, hi) pair for a source, so it
+    # has always counted SOURCES with at least one violation -- never violations. The old label
+    # said the second and the number said the first.
+    print(f"   sources whose lower group is split across two higher ones: {len(split_sources)}")
+    # NAMED, not counted. Hard Rule 0: a bare count is not actionable, and this is the roster a
+    # person would have to reconstruct by hand to act on the refusal below. Whole list.
+    for s, lo, hi in split_sources:
+        print(f"      {s}   ({lo} {charted[s][lo]} spans more than one {hi})")
 
     print("\n" + "-" * 96)
     print("THE DELIBERATE JOINS — why a xenoverse is 'artificial'")
@@ -410,6 +425,21 @@ def main():
     if not tiers.get("groundings_readable"):
         print(f"\nREFUSING TO WRITE {out}: GROUNDINGS.json became unreadable during the chart, "
               f"so every row above is a guess. Nothing written; rerun.")
+        return 2
+    # THE INVARIANT REACHES THE WRITE. The containment scan above was computed, printed and then
+    # gated on nothing: a run with violations still published TIERS.json and still exited 0.
+    # This module states the rule as doctrine twice in the same words -- "a tier that does not
+    # contain its own members is not a tier" (:111 and again at :156-157) -- and address_space
+    # reads data/TIERS.json AT IMPORT, so a bad write silently re-charts the top of the Ladder
+    # of Being. Same shape and same exit code as the groundings refusal directly above: a
+    # measurement that contradicts itself is not published. Measured 2026-09-01 against the
+    # live data/TIERS.json: 0 violations over 208 shelves, so this gate refuses nothing today.
+    if split_sources:
+        print(f"\nREFUSING TO WRITE {out}: {len(split_sources)} source(s) sit in a lower group "
+              f"that is split across two higher ones, named above.")
+        print("  A tier that does not contain its own members is not a tier, so these rows do "
+              "not describe a nesting and must not be published over one that did.")
+        print("  Nothing written; the existing TIERS.json stands.")
         return 2
     ok = silence.write_json(out, charted, indent=2, ensure_ascii=False)
     if ok:

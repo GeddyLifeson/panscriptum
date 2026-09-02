@@ -561,9 +561,30 @@ def report(paths=None):
               "NO NUMBER ON THIS PAGE IS A VERDICT — the two scanners did not read the same "
               "bytes, and a file caught mid-write scans as a finding. Re-run when the tree is "
               "quiet before filing anything from it.")
-    if ds["status"] == "RAN" and not ds["findings"] and mine["secrets"] == 0:
-        print("  AGREEMENT: two independently-written scanners both find no secret. That is"
-              " worth more than either of them saying it alone.")
+    # THREE BRANCHES KEYED ON THE COMPARISON, NOT ON ZERO (order cee96f28fea4). The old test was
+    # `not ds["findings"] and mine["secrets"] == 0`, which conflated two things `mine_says`
+    # itself keeps apart: `mine["secrets"] is None` on ANY exception (a scanner that ERRORED, not
+    # one that found nothing) and `None == 0` is False, so a house-scanner crash fell straight
+    # into "elif ds['status'] == 'RAN': DISAGREEMENT" -- a tool that did not run reported as a
+    # tool that dissented, the exact confusion this module's own docstring exists to forbid, one
+    # line after the fix for the SAME shape in the outside tools (`status == "NOT INSTALLED"`).
+    # And the old AGREEMENT branch required `not ds["findings"]`, so two scanners that both found
+    # the SAME real secret skipped it and fell to DISAGREEMENT too, printing "detect-secrets
+    # found 1 and publish.scan_for_secrets found 1" under the word DISAGREEMENT -- a sentence
+    # that contradicts its own numbers on the one line a reader uses to decide whether a secret
+    # is real.
+    if mine["secrets"] is None:
+        print("  UNMEASURED, not a disagreement: publish.scan_for_secrets raised (see the "
+              "silence ledger, secondopinion.py:mine-secrets) and did not answer at all. "
+              "detect-secrets found %d; the house scanner is silent, not zero." % len(ds["findings"]))
+    elif ds["status"] == "RAN" and len(ds["findings"]) == mine["secrets"]:
+        if mine["secrets"] == 0:
+            print("  AGREEMENT: two independently-written scanners both find no secret. That is"
+                  " worth more than either of them saying it alone.")
+        else:
+            print("  AGREEMENT on a count, not on zero: both scanners found %d. Go look -- "
+                  "agreement on a nonzero count is not the same all-clear as agreement on none."
+                  % mine["secrets"])
     elif ds["status"] == "RAN":
         # THE ABSENCE OF THE AGREEMENT LINE IS NOT A SENTENCE. Until now a disagreement was
         # reported by the agreement line simply not being printed, so "the two scanners differ"

@@ -328,14 +328,26 @@ def widening(weights, sigma, axes, doc=None):
     the quietest: `load()` returning None here does not produce one suspicious number, it makes
     EVERY pair below fall to rho = 0, so `cov` comes back exactly 0.0 and `factor` exactly 1.0 --
     "measured: the covariance term is worth nothing" in the same shape as a real reading. The
-    announcement fires once here rather than 55 times inside `rho()`; `MATRIX_FALLBACK_REASON` is
-    the thing to read afterwards. The RETURN SHAPE is deliberately unchanged (three values, same
-    order): `drill.py:correlation_actually_widens_the_bar` unpacks it, and that net is what
-    actually stands guard -- it fails BREACHED on exactly this factor-1.0 result.
+    announcement fires ONCE here -- not 55 times inside `rho()` (order 2fb079d45d2e fixed the
+    part where it actually did: `doc` used to stay `None` past this point, so every one of the
+    55 rho() calls below re-executed `load()` -- 55 redundant filesystem reads on the path that
+    is already the degraded one -- and re-fired `_no_matrix('rho-no-matrix')`, which overwrote
+    `MATRIX_FALLBACK_REASON` with the wrong site: the last call's name, not the one that actually
+    produced the numbers a caller is holding). A sentinel doc is built instead and handed to
+    every rho() call, so `load()` runs at most once here and `rho()` never sees `doc=None` at
+    all; `{"pairs": {}, "mean_r": 0.0}` reproduces today's rho = 0 EXACTLY (no pair hits, and the
+    `doc.get("mean_r")` fallback below is never reached because `rho()` always finds `doc` truthy
+    and takes the `hit`-missing branch instead), so this is not a second ruling on top of
+    c00cab9d0412 -- it is the same fixed value, just not re-derived 55 times. `MATRIX_FALLBACK_REASON`
+    is the thing to read afterwards, and it now stays stamped with the site that actually ran.
+    The RETURN SHAPE is deliberately unchanged (three values, same order):
+    `drill.py:correlation_actually_widens_the_bar` unpacks it, and that net is what actually
+    stands guard -- it fails BREACHED on exactly this factor-1.0 result.
     """
     doc = doc or load()
     if not doc:
         _no_matrix("widening-no-matrix")
+        doc = {"pairs": {}, "mean_r": 0.0}
     denom = sum(weights[k] for k in axes)
     if not denom:
         return 1.0, 0.0, 0.0

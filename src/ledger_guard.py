@@ -225,15 +225,56 @@ def seal():
     if links:
         prev = links[-1].get("self")
     import time
+    # ONE READ PER LEDGER, AND THE UNITS SAY WHAT THEY ARE (order 016fcf397818).
+    #
+    # This was `{"digest": _digest(_read(n) or ""), "bytes": len((_read(n) or ""))}`, which had
+    # two faults in one expression. It read every ledger from DISK TWICE, so a file edited
+    # between the two reads got a digest of one state and a size of another -- a link that
+    # describes nothing that ever existed. And `len()` on text decoded as UTF-8 counts
+    # CHARACTERS, which it then stored under the key `bytes` and `verify_chain()` printed to an
+    # operator as bytes, in the same CLI run where `check_structure` measures the real thing
+    # (`len(text.encode("utf-8"))`) against MIN_BYTES. Two numbers, two units, one label, not
+    # comparable -- and these ledgers carry em dashes and ellipses, so the two genuinely differ.
+    #
+    # THE NAME WAS RIGHT AND THE MEASUREMENT WAS WRONG, so the measurement changed: `bytes` now
+    # means bytes, matching MIN_BYTES and every other size in this file. `chars` rides along
+    # because the chain already holds 948 legacy links whose `bytes` is really a character
+    # count, and the SHRANK test compares a link against its PREDECESSOR -- without a
+    # same-unit number to compare, the one boundary link between the old records and the new
+    # would have been structurally unable to fire (UTF-8 bytes >= characters always, so
+    # `now < was` cannot hold there), a silent one-link hole in a truncation detector. With
+    # `chars` recorded, verify_chain() compares that boundary chars-to-chars and keeps its
+    # coverage. Nothing already written is touched: the chain is append-only evidence.
+    _texts = {n: (_read(n) or "") for n in sorted(MIN_BYTES)}
     rec = {"at": time.time(), "prev": prev,
-           "ledgers": {n: {"digest": _digest(_read(n) or ""), "bytes": len((_read(n) or ""))}
-                       for n in sorted(MIN_BYTES)}}
+           "ledgers": {n: {"digest": _digest(t),
+                           "bytes": len(t.encode("utf-8")),
+                           "chars": len(t)}
+                       for n, t in sorted(_texts.items())}}
     rec["self"] = _digest(json.dumps({k: rec[k] for k in ("at", "prev", "ledgers")},
                                      sort_keys=True))
+    # THROUGH `silence.append_line`, NOT A BARE `open(CHAIN, "a")` (order f7b611d107cb,
+    # sweep41-batch10). This was the exact pattern measured on 2026-09-01 losing 704 of 3,200
+    # rows: `O_APPEND` makes the seek-to-end and the write one operation on POSIX, and the
+    # Windows CRT implements it as a seek FOLLOWED BY a write, so two processes seek to the same
+    # end offset and the second lands ON the first. `silence.append_line` was written that same
+    # day to close it -- an OS-level lock on a sidecar plus `O_BINARY` -- and this call site, in
+    # the module whose own commentary quotes that measurement, was still using the old shape.
+    #
+    # AND THE LOSS MODE HERE IS THE ONE `verify_chain()` CANNOT SEE. A torn line is caught: the
+    # read side now reports unparseable lines as problems. But a cleanly LOST WHOLE LINK is not,
+    # because the surviving link's `prev` still points at its true predecessor -- the chain
+    # simply has one fewer link and hangs together perfectly. That is a checker unable to fail on
+    # precisely the failure this file documents, in the ledger that exists to prove the records
+    # were not altered.
+    #
+    # NOT HYPOTHETICAL: `publish.py` deliberately allows two writers at once (the `--push --loop`
+    # daemon and a hand-run one-shot, exempted from the singleton claim), and each calls
+    # `assert_intact()`, which seals.
     try:
         os.makedirs(os.path.dirname(CHAIN), exist_ok=True)
-        with open(CHAIN, "a", encoding="utf-8") as f:
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        if not silence.append_line(CHAIN, json.dumps(rec, ensure_ascii=False)):
+            return None
     except Exception:
         return None
     # AND KEEP THE TEXT, not only its digest, for the append-only ones. A stale or missing
@@ -270,14 +311,14 @@ def seal():
         # `handoff/` SUBDIRECTORY of SNAPSHOT_DIR that nothing creates, so the write would have
         # raised, been swallowed into `silence.note`, and left the one file this order added
         # unsnapshotted -- a guard that reports itself installed and takes no copy.
-        flat = n.replace("/", "__").replace(os.sep, "__")
+        flat = os.path.basename(_snapshot_path(n))
         tmp = os.path.join(SNAPSHOT_DIR,
                            "%s.%d.%d.tmp" % (flat, os.getpid(), threading.get_ident()))
         try:
             os.makedirs(SNAPSHOT_DIR, exist_ok=True)
             with open(tmp, "w", encoding="utf-8") as f:
                 f.write(text)
-            os.replace(tmp, os.path.join(SNAPSHOT_DIR, flat))
+            os.replace(tmp, _snapshot_path(n))
         except Exception:
             silence.note("ledger_guard.py:snapshot")
             try:
@@ -288,9 +329,33 @@ def seal():
     return rec
 
 
+def _snapshot_path(name):
+    """Where the sealed copy of `name` lives. ONE SPELLING, used by the writer and the reader.
+
+    THE TWO HAD DRIFTED, AND THE GATE WENT DARK. `seal()` flattened the separator (the comment
+    above it says why: `handoff/HANDOFF.md` would otherwise be written into a `handoff/`
+    subdirectory nothing creates) and `_read_snapshot` did not, so it opened
+    `state/ledger_snapshot/handoff/HANDOFF.md`, got FileNotFoundError, and returned None --
+    which `check_since_snapshot` reads as "no sealed snapshot yet", returns TRUE on, and prints
+    as `SINCE LAST SEAL : ok`. The copy was on disk the whole time, correctly written, under
+    `handoff__HANDOFF.md`.
+
+    So the append-only enforcement on `handoff/HANDOFF.md` was inert from the day that file
+    joined APPEND_ONLY (2026-08-31, order 42db308cc85d) and reported itself passing on every
+    run -- a checker that cannot fail, on the ledger whose own commentary records it ALREADY
+    LOSING 629 LINES to the truncation class this module exists to catch, and which
+    `assert_intact()` is the only gate on before `publish.push()`. Found 2026-09-01 while
+    working orders 016fcf397818 / 77b098d099e6; not in any order.
+
+    A shared function rather than the same two `.replace()` calls in two places, per the rule
+    this project restates everywhere: two spellings of one fact are two things that can drift.
+    """
+    return os.path.join(SNAPSHOT_DIR, name.replace("/", "__").replace(os.sep, "__"))
+
+
 def _read_snapshot(name):
     try:
-        with open(os.path.join(SNAPSHOT_DIR, name), encoding="utf-8") as f:
+        with open(_snapshot_path(name), encoding="utf-8") as f:
             return f.read()
     except FileNotFoundError:
         return None
@@ -374,32 +439,154 @@ def read_chain():
     (and, in `workorders.py`'s sweep, files a DETECTOR_FAILED order instead of a clean one) —
     fail closed, per the project rule that a layer that does not know must never authorise.
     """
+    return _read_chain_lines()[0]
+
+
+def _read_chain_lines():
+    """-> (links, [unparseable line numbers]). The reader `read_chain()` is the front of.
+
+    AND THE SECOND HALF OF THE SAME ARGUMENT, one level down (order 77b098d099e6). The
+    docstring above records that the blanket `except Exception: return []` around the whole
+    FILE was removed because "cannot tell" must never be collapsed into "no chain yet" -- and
+    the per-LINE handler underneath it was doing exactly that, `except Exception: continue`,
+    with no `silence.note` and nothing in the returned value to say a link had been dropped.
+    A dropped link is indistinguishable from a link that was never written, which is precisely
+    what a tamperer and a torn write both produce, inside the one function whose subject is
+    telling those apart.
+
+    NOT HYPOTHETICAL ON THIS MACHINE. `seal()` appends with a plain `open(..., "a")` +
+    `write()`, and this project measured the Windows behaviour of exactly that pattern on
+    2026-09-01: eight concurrent writers against an O_APPEND ledger lost 704 of 3,200 rows and
+    tore 3 more, because the append is a seek-then-write rather than an atomic one there. A
+    half-written final line is a thing that happens here.
+
+    A dropped INTERIOR line is still caught downstream -- the next link's `prev` stops matching
+    -- but a dropped FINAL line is caught by nothing at all, and `verify_chain()` then reports
+    the shorter chain as intact. So the line numbers travel out of here and `verify_chain()`
+    turns them into problems, which makes `assert_intact()` fail closed on them: a layer that
+    does not know must never authorise.
+    """
     out = []
+    unparseable = []
     try:
         with open(CHAIN, encoding="utf-8") as f:
-            for ln in f:
+            for lineno, ln in enumerate(f, 1):
                 ln = ln.strip()
                 if ln:
                     try:
                         out.append(json.loads(ln))
                     except Exception:
-                        continue
+                        silence.note("ledger_guard.py:chain-line-unparseable")
+                        unparseable.append(lineno)
+    except FileNotFoundError:
+        return [], []
+    return out, unparseable
+
+
+# AN ACKNOWLEDGED SHRINK IS STILL REPORTED, EVERY RUN. NEVER HIDDEN. (owner ruling 2026-09-02,
+# order be33a61be79f -- option (a) of the three the self-report offered.)
+#
+# On 2026-09-01 a maintenance probe written to prove the append-only gate can refuse repointed
+# only half of this module's globals, sealed a two-hundred-line fixture into the REAL snapshot
+# directory and appended fixture links to the REAL chain. No ledger content was lost -- the live
+# files were never touched -- but links 948 and 949 now truthfully record the sealed state
+# shrinking, and the chain is append-only, so `verify_chain()` reported three SHRANK problems for
+# ever and `assert_intact()` blocked every push. The run that caused it refused to rewrite the
+# chain and refused to add a quiet override, and left the choice to a person.
+#
+# The person chose an ACKNOWLEDGEMENT with these properties, each of which is load-bearing:
+#   * SPECIFIC. It names a closed link range AND the ledger names it covers. A shrink outside
+#     that range, or of a ledger not named, still FAILS -- there is no blanket waiver here.
+#   * ATTRIBUTED AND REASONED. It carries the order id, the reason, who ruled and when. An entry
+#     missing any of those is refused, i.e. it does not acknowledge anything, which is the
+#     fail-closed direction: an unparseable or half-written acknowledgement file changes nothing.
+#   * STILL REPORTED. `verify_chain(with_acknowledged=True)` hands the acknowledged problems
+#     back beside the live ones, `main()` prints them under their own heading every single run,
+#     and `assert_intact()` prints them on every push. The chain's evidence is intact and the
+#     reader always sees it; what changed is only that a fault a person has ruled on no longer
+#     stops the presses on its own. That is `suppressions.py`'s standing rule -- a suppressed
+#     finding is still REPORTED -- applied to the hash chain.
+ACKNOWLEDGED = os.path.join(HERE, "state", "ledger_chain_acknowledged.json")
+_ACK_REASON_MIN = 40
+
+
+def _load_acknowledgements():
+    """-> [well-formed acknowledgement records]. Malformed entries are dropped AND noted.
+
+    Fails closed in the only direction that is safe: an entry this cannot read acknowledges
+    nothing, so the shrink it would have covered still fails. Nothing here can widen a waiver.
+    """
+    try:
+        with open(ACKNOWLEDGED, encoding="utf-8") as f:
+            raw = json.load(f)
     except FileNotFoundError:
         return []
+    except Exception:
+        silence.note("ledger_guard.py:acknowledgements-unreadable")
+        return []
+    if not isinstance(raw, list):
+        silence.note("ledger_guard.py:acknowledgements-shape")
+        return []
+    out = []
+    for rec in raw:
+        ok = (isinstance(rec, dict)
+              and isinstance(rec.get("links"), list) and len(rec["links"]) == 2
+              and all(isinstance(x, int) for x in rec["links"])
+              and rec["links"][0] <= rec["links"][1]
+              and isinstance(rec.get("ledgers"), list) and rec["ledgers"]
+              and all(isinstance(x, str) for x in rec["ledgers"])
+              and isinstance(rec.get("reason"), str) and len(rec["reason"].strip()) >= _ACK_REASON_MIN
+              and isinstance(rec.get("order"), str) and rec["order"].strip()
+              and isinstance(rec.get("by"), str) and rec["by"].strip())
+        if ok:
+            out.append(rec)
+        else:
+            silence.note("ledger_guard.py:acknowledgement-refused")
     return out
 
 
-def verify_chain():
-    """-> (ok, [problems]). Recompute every link and report the first that does not verify.
+def _acknowledgement_for(name, i_prev, i, acks):
+    """The acknowledgement covering a SHRANK of `name` between links i_prev and i, or None.
 
-    Two distinct faults are reported separately, because they mean different things:
+    Both link indices must sit inside the closed range, and the ledger must be named. A range
+    that covers only one end of the pair covers nothing: the shrink happened BETWEEN the two.
+    """
+    for rec in acks:
+        lo, hi = rec["links"]
+        if name in rec["ledgers"] and lo <= i_prev and i <= hi:
+            return rec
+    return None
+
+
+def verify_chain(with_acknowledged=False):
+    """-> (ok, [problems]), or (ok, [problems], [acknowledged]) when asked.
+
+    An ACKNOWLEDGED problem is one a person has ruled on by name (see `ACKNOWLEDGED` above). It
+    is removed from `problems` -- so it does not fail the chain -- and returned separately so it
+    is still reported. The two-tuple form is kept for every existing caller.
+
+    Recompute every link and report the first that does not verify.
+
+    Three distinct faults are reported separately, because they mean different things:
+      UNPARSEABLE   a line of the chain file will not read as JSON. The link it held is GONE
+                    from every check below, and a dropped FINAL link is invisible to all of
+                    them -- so it is a fault in its own right, not a line to skip past.
+                    (order 77b098d099e6)
       BROKEN LINK   the chain itself was edited -- someone rewrote history
       SHRANK        a ledger got SMALLER between two links. Not proof of wrongdoing (a file can
                     legitimately be rewritten) but it is exactly the shape of a truncation, and
                     it is invisible to every other check once the write has happened.
     """
-    links = read_chain()
+    links, unparseable = _read_chain_lines()
     problems = []
+    acknowledged = []
+    acks = _load_acknowledgements()
+    for lineno in unparseable:
+        problems.append(
+            "chain line %d will not parse -- the link it held is missing from every check "
+            "below, and a torn or edited FINAL line is invisible to all of them. Inspect "
+            "%s at that line; do NOT rebuild the chain, it is the evidence."
+            % (lineno, CHAIN))
     prev = None
     for i, rec in enumerate(links):
         body = {k: rec.get(k) for k in ("at", "prev", "ledgers")}
@@ -409,8 +596,20 @@ def verify_chain():
             problems.append("link %d does not follow link %d" % (i, i - 1))
         if i:
             for name, cur in (rec.get("ledgers") or {}).items():
-                was = ((links[i - 1].get("ledgers") or {}).get(name) or {}).get("bytes")
-                now = (cur or {}).get("bytes")
+                old_l = ((links[i - 1].get("ledgers") or {}).get(name) or {})
+                cur_l = cur or {}
+                # SAME UNIT ON BOTH SIDES, ALWAYS. Links written before order 016fcf397818
+                # store a CHARACTER count under `bytes` and carry no `chars` key; links written
+                # after store real bytes plus `chars`. Comparing across that boundary in mixed
+                # units would be a comparison that cannot fail (UTF-8 bytes >= characters), so
+                # the pair is measured in whichever unit both links actually have.
+                if "chars" in old_l or "chars" in cur_l:
+                    unit = "bytes" if ("chars" in old_l and "chars" in cur_l) else "characters"
+                else:
+                    unit = "characters"      # both legacy: `bytes` there means characters
+                key = "bytes" if unit == "bytes" else "chars"
+                was = old_l.get(key, old_l.get("bytes"))
+                now = cur_l.get(key, cur_l.get("bytes"))
                 # `is not None`, not truthiness: a ledger wiped to a genuinely EMPTY file records
                 # `now == 0`, which is falsy, and the old `was and now and ...` short-circuited
                 # to False on exactly the total truncation this check exists to catch. That it
@@ -418,9 +617,17 @@ def verify_chain():
                 # first -- redundancy in the caller, not a property of this function, and any
                 # standalone caller (a drill, a health check) got a clean pass on a wiped ledger.
                 if was is not None and now is not None and name in APPEND_ONLY and now < was:
-                    problems.append("%s SHRANK between link %d and %d (%d -> %d bytes)"
-                                    % (name, i - 1, i, was, now))
+                    msg = ("%s SHRANK between link %d and %d (%d -> %d %s)"
+                           % (name, i - 1, i, was, now, unit))
+                    ack = _acknowledgement_for(name, i - 1, i, acks)
+                    if ack is None:
+                        problems.append(msg)
+                    else:
+                        acknowledged.append("%s -- ACKNOWLEDGED by %s (order %s): %s"
+                                            % (msg, ack["by"], ack["order"], ack["reason"]))
         prev = rec.get("self")
+    if with_acknowledged:
+        return (not problems), problems, acknowledged
     return (not problems), problems
 
 
@@ -437,10 +644,27 @@ def assert_intact():
         raise LedgerViolation(
             "the relay's ledgers are not intact:\n"
             + "\n".join("  %s: %s" % (n, "; ".join(p)) for n, p in sorted(bad.items())))
-    ok, problems = verify_chain()
+    ok, problems, acknowledged = verify_chain(with_acknowledged=True)
+    # REPORTED ON EVERY PUSH, before the verdict, whatever the verdict is. An acknowledgement
+    # that stopped being printed would be a waiver, and this module does not have those.
+    for line in acknowledged:
+        print("ledger chain: carried  " + line)
     if not ok:
+        # THE CUT IS KEPT AND THE CUT IS DECLARED (order e62a650c6c41). The split with `main()`
+        # is deliberate and stays: an exception message is not a repair sheet, and `main()` two
+        # functions down prints the list uncapped for the person actually going to fix it. What
+        # was wrong is that this stopped at six saying NOTHING -- and `verify_chain` appends up
+        # to three problems per link, so three bad links already overflow it. An operator whose
+        # push was blocked read six faults and had no way to know there were fifty, which is
+        # how a second break hides behind the first. House doctrine (Hard Rule 0, and
+        # `corpus_db._cell`'s ruling on it, order 6160ef68b229) allows a display cut precisely
+        # because it is reversible, and refuses one that is silent.
+        head = problems[:6]
+        more = ("\n  ... and %d further problem(s) not shown here; run "
+                "`python src/ledger_guard.py` for the full list" % (len(problems) - 6)
+                ) if len(problems) > 6 else ""
         raise LedgerViolation(
-            "the ledger hash chain does not verify:\n  " + "\n  ".join(problems[:6]))
+            "the ledger hash chain does not verify:\n  " + "\n  ".join(head) + more)
     # THE APPEND-ONLY RULE, ENFORCED RATHER THAN DECLARED. Before this, `APPEND_ONLY` was a
     # tuple nothing consulted on any production path: `check_append_only` had no caller outside
     # `drill.py`, and the two checks that DO run here are both size tests that a
@@ -499,10 +723,13 @@ def main():
         print("STRUCTURE + FLOORS: ok (%d ledger(s) parsed, all above their byte floors)"
               % len(MIN_BYTES))
 
-    ok, problems = verify_chain()
+    ok, problems, acknowledged = verify_chain(with_acknowledged=True)
     links = len(read_chain())
-    if ok:
+    if ok and not acknowledged:
         print("HASH CHAIN       : ok (%d link(s) verify, no append-only ledger shrank)" % links)
+    elif ok:
+        print("HASH CHAIN       : ok (%d link(s) verify; %d acknowledged shrink(s) carried -- "
+              "ruled on by a person, listed below, never hidden)" % (links, len(acknowledged)))
     else:
         failures += 1
         # Uncapped. `assert_intact()` prints the first six into an exception message, which is a
@@ -511,6 +738,8 @@ def main():
         print("HASH CHAIN       : FAILED over %d link(s)" % links)
         for p in problems:
             print("     " + p)
+    for line in acknowledged:
+        print("     carried: " + line)
 
     for name in APPEND_ONLY:
         ok, why = check_since_snapshot(name)

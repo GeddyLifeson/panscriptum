@@ -318,7 +318,12 @@ def assays_by_host(assays):
     """
     out, collisions = {}, []
     for k, v in assays.items():
-        h, _, n = k.partition("|")
+        h, sep, n = k.partition("|")
+        # str.partition puts the WHOLE string in the head when the separator is absent, so a
+        # bare key "Goku" once became host="Goku", name="" -- the opposite of the docstring's
+        # promise that a bare key files under the empty host with its name intact. Split only
+        # when "|" is actually present (order 52a73082c56b).
+        h, n = (h, n) if sep else ("", h)
         n = _norm(n)
         if n in out.setdefault(h, {}):
             collisions.append("%s|%s" % (h, n))

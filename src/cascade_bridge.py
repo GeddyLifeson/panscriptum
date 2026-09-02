@@ -1444,6 +1444,12 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         if served is not None:
             served["outcome"] = "no bucket free"
         return None
+    # INVARIANT, STATED ONCE (order 8b0338b019ce): `pinned` is a non-None router Model from HERE
+    # to the end of this function -- the only way out with `pinned` still None was the `return
+    # None` immediately above. Every `if pinned:` / `pinned and ...` guard below this point
+    # (there are eight) is therefore belt-and-braces, not a live condition; none of them can be
+    # False. That is deliberate, not dead code -- read them as documentation of which branches
+    # touch the pinned bucket, not as a reachability check.
     if served is not None:
         served["dispatched_to"] = pinned.id
         served["dispatched_bucket"] = pinned.bucket

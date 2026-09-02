@@ -109,7 +109,7 @@ def designations(records=None):
     # next -- a worse staleness than the one being fixed. Explicit callers always recompute.
     cacheable = records is None
     sig = _records_sig()[1] if cacheable else None
-    if cacheable and _DESIGNATIONS is not None and _DESIGNATIONS[0] == sig:
+    if cacheable and sig is not None and _DESIGNATIONS is not None and _DESIGNATIONS[0] == sig:
         return _DESIGNATIONS[1]
     seen = {}
     try:
@@ -141,7 +141,7 @@ def designations(records=None):
     out = {k for k, v in seen.items() if len(v) >= DESIGNATION_MIN_NAMES}
     out |= _SEED
     out |= {k for k in seen if _EARTH.match(k)}
-    if cacheable:
+    if cacheable and sig is not None:
         _DESIGNATIONS = (sig, out)
     return out
 

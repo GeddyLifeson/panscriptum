@@ -386,7 +386,19 @@ def movement(now_state):
         "entities read": (now_state.get("library") or {}).get("readfeats"),
         "chunks": next((j.get("done") for j in (now_state.get("jobs") or [])
                         if j.get("name") == "corpus read"), None),
-        "standards met": sum(1 for x in (now_state.get("standards") or []) if x.get("holds")),
+        # UNMEASURED IS NOT ZERO. This read `sum(1 for x in (... or []) ...)`, which yields an
+        # int on EVERY path -- so it was the one key here that could never be dropped by the
+        # `if v is not None` filter below, and the one key whose absence was reported as a
+        # measurement. state() sets s["standards"] = [] on ANY exception out of standards.check
+        # (see its `silence.note("dashboard.py:standards")` handler), so a standards subsystem
+        # that FAILED recorded "standards met: 0". Against the previous sample's real count that
+        # is a negative delta, and the `reset` branch below then blanks it -- `reset` being a
+        # label written for the benign in-process chunks counter. A dead standards pass was
+        # therefore rendering as an ordinary restart, routing a real fault into the exact blind
+        # spot ("every counter flat while every job is up") that the comment on `reset` was
+        # written about. None instead: no standards read, no row, the same as every sibling.
+        "standards met": (None if not now_state.get("standards")
+                          else sum(1 for x in now_state["standards"] if x.get("holds"))),
     }
     row = {"at": time.time(), **{k: v for k, v in keys.items() if v is not None}}
     # A CORRUPT HISTORY FILE MUST HEAL, NOT WEDGE.

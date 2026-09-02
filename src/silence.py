@@ -51,6 +51,7 @@ import argparse
 import ast
 import glob
 import os
+import re
 import sys
 import textwrap
 
@@ -95,7 +96,22 @@ class swallow:
 
     def __init__(self, kind, detail="", reraise=False):
         self.kind = kind
-        self.detail = str(detail)[:60]
+        # THE DETAIL IS THE DISCRIMINATOR AND IS KEPT WHOLE (Hard Rule 0, order e1c3aebfedd4).
+        # This was `str(detail)[:60]`: a mid-value cut, with no marker, on the one field that
+        # tells two failures of the same kind apart. The documented usage is
+        # `with swallow("fetch", host)`, and a host, a path, a source name or a wiki title runs
+        # past sixty characters routinely -- so two genuinely different failures landed under an
+        # identical `health.record` key and the count read as one repeated failure. That is the
+        # exact inversion of what this class's docstring above says it is for: the pattern it
+        # makes visible was being manufactured by the truncation rather than observed.
+        #
+        # `health.record` folds the detail into its aggregation key, so keeping the whole value
+        # does raise key cardinality in `state/failures.json`. That is the correct trade: a
+        # ledger with more distinct keys is a ledger that still holds the evidence, and a short
+        # form for DISPLAY belongs at print time in `health.py`, where the full value is still
+        # there to shorten. This class has no live callers in src/ today, so nothing downstream
+        # was relying on the old width.
+        self.detail = str(detail)
         self.reraise = reraise
         self.failed = False
         self.error = None
@@ -124,6 +140,28 @@ class swallow:
 # are written twice will disagree again, so there is now one. (order 1e86b06e7463)
 _OBSERVED_TOKENS = ("health", "record", "log", "print", "swallow", "silence", "note", "LEDGER")
 
+# AND MATCHED AS WORDS, NOT AS SUBSTRINGS (order a04cbfab2473). A bare `t in body` over an
+# `ast.dump` asks "does this handler MENTION something spelled like a recorder", which is not the
+# question. `ast.dump` serialises identifiers, attribute names and string-literal contents alike,
+# so `LEDGER` matched `LEDGER_LOCK`, and `log` is inside catalogue, dialogue, prologue and login;
+# `note` inside notes, notebook and denote; `record` inside recorded.
+#
+# It was not hypothetical. `codewatch.py`'s `except FileExistsError:` around the ledger lock --
+# which checks the lock's mtime, may remove it and continue, and otherwise sleeps -- records
+# nothing and re-raises nothing. It is exactly the shape this module exists to find, and it was
+# classified OBSERVED solely because its body names `LEDGER_LOCK`.
+#
+# The direction of failure is the one that HIDES, and it hits both siblings: a handler wrongly
+# marked observed drops out of the SILENT count `main()` prints AND out of the rewrite list
+# `instrument` builds, so it is neither counted nor instrumented.
+#
+# MEASURED BEFORE THE CHANGE, across all 856 handlers in src/: exactly ONE handler's
+# classification moves, and it is that codewatch one. The 29 documented `_ = "silence-exempt:
+# ..."` markers still match (`-` is not a word character, so `\bsilence\b` holds inside
+# `silence-exempt`), and no observed handler is demoted. Compiled once here rather than per
+# handler because `audit()` calls this for every handler in the tree.
+_OBSERVED_RX = tuple(re.compile(r"\b" + t + r"\b") for t in _OBSERVED_TOKENS)
+
 
 def _handler_is_observed(node):
     """Does this `except` body leave a trace of the exception it caught? -> bool.
@@ -145,9 +183,13 @@ def _handler_is_observed(node):
     tree, where a `Raise` node is a `Raise` node whatever it is spelled like. Walked rather than
     matched at the top level, because a re-raise inside a nested `try`/`if` is still a re-raise.
     (order 1e86b06e7463)
+
+    AND THE TOKENS ARE MATCHED AS WORDS. See `_OBSERVED_RX`: a bare substring test read a
+    handler that merely NAMES something spelled like a recorder as one that calls it.
+    (order a04cbfab2473)
     """
     body = "".join(ast.dump(stmt) for stmt in node.body)
-    if any(t in body for t in _OBSERVED_TOKENS):
+    if any(rx.search(body) for rx in _OBSERVED_RX):
         return True
     if any(isinstance(n, ast.Raise) for stmt in node.body for n in ast.walk(stmt)):
         return True
@@ -316,7 +358,14 @@ def append_line(path, text):
     and notes it rather than blocking a model call behind a ledger. A dropped metrics row is a
     gap in a measurement; a stalled call is a gap in the library.
     """
+    # `lock_fd is None` after the block below IS the "we did not get the lock" flag; a separate
+    # boolean would be a second spelling of one fact, and the two can disagree.
     lock_fd = None
+    # Bound unconditionally, never left to the failure path to create: this name is read inside
+    # the `if lock_fd is None` guard below, and a guard on a name that only sometimes exists is
+    # the shape `liveness.py` is pointed at. It is only ever READ when the lock failed, which is
+    # exactly when the handler has overwritten it with the real reason.
+    why = "NoException"
     lock_path = path + ".applock"
     try:
         data = text.encode("utf-8") if isinstance(text, str) else text
@@ -326,7 +375,7 @@ def append_line(path, text):
             os.makedirs(os.path.dirname(lock_path) or ".", exist_ok=True)
             lock_fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o644)
             _lock_exclusive(lock_fd)
-        except Exception:
+        except Exception as lock_exc:
             # THE LOCK IS A GUARD, NOT A GATE. If it cannot be taken -- a read-only directory, a
             # platform with neither primitive, contention past the bound -- the row is still
             # written the old way. That is the pre-2026-09-01 behaviour, which is imperfect and
@@ -335,13 +384,41 @@ def append_line(path, text):
             if lock_fd is not None:
                 _close_quietly(lock_fd)
                 lock_fd = None
-            note("silence.py:append_line-unlocked")
+            # AND THE REASON IS CARRIED OUT OF THIS BLOCK BY HAND. Moving the note below the
+            # write (correctly -- see there) put it outside the `except`, and `note()` reads
+            # `sys.exc_info()`, which is empty once the handler has exited: the class recorded
+            # `append_line-unlocked:None` and the sample repr went missing entirely. So the one
+            # question a person asks of that class -- WHY could the lock not be taken, a
+            # read-only directory or a missing primitive or contention -- had no answer in the
+            # ledger. `note()`'s own docstring is that a class with a count but no instance
+            # costs a grep and a reproduction; this keeps the reason in the class name, where
+            # the count still aggregates by it.
+            why = type(lock_exc).__name__
         fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND | getattr(os, "O_BINARY", 0),
                      0o644)
         try:
             os.write(fd, data)
         finally:
             os.close(fd)
+        # RECORDED HERE, NOT IN THE `except` ABOVE, AND THE DIFFERENCE IS THE WHOLE POINT. The
+        # note started life inside that handler, which meant it fired whenever the LOCK could not
+        # be taken -- including every case where the lock failed because the TARGET ITSELF is
+        # unwritable, where the append then fails too and `append_line` below records that. One
+        # cause, two ledger classes, and the second of them describing a row that was never
+        # written.
+        #
+        # Measured within an hour of landing the lock: `verify_math` section 19ag deliberately
+        # appends to `<a file>/not-a-dir/x.jsonl` to prove this function reports failure rather
+        # than raising, so EVERY battery run added one `append_line-unlocked` to
+        # `state/failures.json` -- five of them by the time it was noticed. That is the litter
+        # `drill._deliberately_failing` exists to stop: a rehearsal recorded in the ledger a
+        # person reads to find real faults.
+        #
+        # The condition actually worth a ledger class is "a row LANDED without the lock", i.e.
+        # this ledger may hold a torn or lost line. That can only be known after the write
+        # succeeds, so it is asked after the write succeeds.
+        if lock_fd is None:
+            note("silence.py:append_line-unlocked:" + why)
         return True
     except Exception:
         note("silence.py:append_line")
@@ -509,8 +586,12 @@ def replace_if_unchanged(tmp, dst, expected_digest, attempts=5):
             note("replace-failed:" + os.path.basename(dst))
             return False, ("%s could not be renamed into place (the rename failed for a reason "
                            "a retry cannot fix) -- nothing landed." % os.path.basename(dst))
-    # Unreachable: the last PermissionError attempt returns above. Kept so the function has no
-    # implicit `None` path, because every caller unpacks two values.
+    # REACHED ONLY WHEN `attempts` IS NON-POSITIVE, which no caller passes today (order
+    # ca6bf8095a8d). This line used to claim it was unreachable, and the claim was a statement
+    # about callers rather than about the code: `attempts` is a public keyword argument, and at
+    # `attempts <= 0` the loop above does not execute at all and control falls straight through
+    # to here. Every other exit from the loop does return. Kept -- and kept honest -- so the
+    # function has no implicit `None` path, because every caller unpacks two values.
     return False, "%s did not land after %d attempts." % (os.path.basename(dst), attempts)
 
 
@@ -587,7 +668,9 @@ def write_json(path, obj, **dump_kw):
     newline plus that indent after every item separator whenever `indent` is not None -- so a
     caller passing `separators=(",", ":")`, the universal way of saying "write this with no
     whitespace at all", got an indented file anyway and was never told. One live caller asks for
-    it: `navtree.py:304`, writing `data/NAVTREE.json`, which is what `build_terminal`,
+    it: `navtree.py`'s `data/NAVTREE.json` write -- named symbolically, because this citation has
+    already gone stale once (order 9695113f0191) and the next edit above it would do that
+    again -- which is what `build_terminal`,
     `reference` and the sweep resolve addresses through; measured, that tree is 411 KB compact
     and 589 KB at indent=1. Nothing is lost or corrupted -- the inflation is the only cost --
     but a helper quietly winning an argument with its caller is a shape this project keeps
@@ -621,7 +704,11 @@ def write_json(path, obj, **dump_kw):
         # makes each leak uniquely named, so they accumulate rather than overwrite. A denied
         # replace is the ORDINARY case here (it is the entire reason `replace_retry` exists), so
         # the leak was proportional to how contended a file is: the hottest files littered most.
-        # `hostcheck.py:177-178` records the same litter one layer up for `replace_if_unchanged`.
+        # `hostcheck.py` records the same litter one layer up: the `_unlink(tmp)` it runs
+        # immediately AFTER a refused `silence.replace_if_unchanged`, not the one on its
+        # json.dump error path -- the two are near-identical and sit in the same function, and
+        # citing them by line number pointed at the wrong mechanism once already (order
+        # a51c3a3c1b7d).
         # The temp holds nothing anyone can use -- the caller's write lands next round from the
         # live object, never from this file -- so dropping it loses no data.
         _discard_tmp(tmp)
@@ -692,6 +779,23 @@ def _ensure_import(src):
     last top-level Import node is the one position that is always correct.
     """
     tree = ast.parse(src)
+    # ALREADY-IMPORTED IS ASKED OF THE WHOLE MODULE BODY, BEFORE ANY ANCHOR IS CHOSEN
+    # (order 75e67515af40). This test used to sit INSIDE the anchor loop below -- which breaks
+    # out at the first detached import block -- so an `import silence` living in a LATER block
+    # was never reached, the loop broke first, and a SECOND one was inserted. A duplicate import
+    # is a no-op at runtime, but `instrument()` WRITES to src/, so repeated `--instrument` runs
+    # accumulated imports in such a file and the pass was not idempotent. The two questions are
+    # independent -- "is it already imported" is about the whole module, "where does it go" is
+    # about the head block -- and they are now two separate passes.
+    #
+    # `asname` must be absent: `import silence as _s` binds `_s`, not `silence`, so it does not
+    # satisfy the `silence.note(...)` calls this function exists to make resolvable. No module in
+    # src/ imports it that way at top level today; drill.py's aliased imports are all inside
+    # functions and so are not in `tree.body` at all.
+    for node in tree.body:
+        if isinstance(node, ast.Import) and any(
+                a.name == "silence" and not a.asname for a in node.names):
+            return src
     # THE HEAD BLOCK, NOT THE LAST IMPORT IN THE FILE.
     #
     # Several modules here import inline all the way down -- verify_math.py opens a new section
@@ -704,8 +808,6 @@ def _ensure_import(src):
     for node in tree.body:
         if not isinstance(node, (ast.Import, ast.ImportFrom)):
             continue
-        if any(getattr(a, "name", "") == "silence" for a in getattr(node, "names", [])):
-            return src
         end = getattr(node, "end_lineno", node.lineno)
         if last and node.lineno > last + 3:
             break                      # a later, detached import block: stop here
@@ -807,12 +909,20 @@ def instrument(root=None, dry=False):
             # THE SAME JUDGMENT `audit()` MAKES, because it is now literally the same function.
             # This carried its own copy of the token list and the two drifted twice: it omitted
             # "silence", so it read `_ = "silence-exempt: ..."` (this project's documented
-            # exemption marker, chain.py:213/242 and 48 others) as UNOBSERVED and would have
-            # rewritten all fifty; and it included "note" where `_handlers` did not, so the two
+            # exemption marker -- chain.py carries two of them, and it is not the only file) as
+            # UNOBSERVED and would have rewritten EVERY ONE OF THEM in the tree; and it included
+            # "note" where `_handlers` did not, so the two
             # siblings disagreed in the opposite direction as well. Sharing the predicate is
             # what stops a fourth drift -- and it matters most here, because this one WRITES:
             # under the dead `"raise"` token `--instrument` would have injected a redundant
             # `note()` ahead of every bare re-raise in the tree. (order 1e86b06e7463)
+            #
+            # NO COUNT IS FROZEN INTO THIS COMMENT ANY MORE. It used to say "chain.py:141/159
+            # and 48 others" and "all fifty"; the line numbers were wrong, the marker was not at
+            # either of them, and `grep -rn 'silence-exempt' src/*.py` reports 29 real markers,
+            # not 50. Run that grep for the live number. A stale count in a comment inside the
+            # module whose own __doc__ refuses to freeze the handler count into prose is that
+            # same defect one level up. (order c87266a33fdb)
             if _handler_is_observed(node):
                 continue
             sites.append(node)

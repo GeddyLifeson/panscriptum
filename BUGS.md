@@ -22,6 +22,82 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
+- **[M64 — OPEN, RAISED run #41] WORK-ORDER TEXT PASSED THROUGH A SHELL IS EXECUTED.** Order
+  `1c99df1f69c1`. A remedy field reading ``run `python src/chain.py` `` was passed to
+  `workorders.py` as a Bash argument; command substitution **ran it**, starting a full chain
+  pipeline (model calls, rewrites `data/CHAIN.json`) under Python314 rather than miniconda, which
+  ran 16 minutes before being stopped. Nothing corrupted — `chain_harvest_idx.json` parses at
+  271,129 rows, `CHAIN.json` untouched, no temp litter. Two other orders (`525dd7bbffed`,
+  `7209d442c73e`) had words silently eaten by the same mechanism and cannot be repaired, the
+  closed log being append-only. Order text is data; a remedy field is the field most likely to
+  contain a command; routing it through a shell makes the queue an execution path. Remedy: text on
+  stdin or from a file, or the Python API — never interpolated into a command line.
+
+- **[M65 — OPEN, RAISED run #41] THE SWEEP'S OWN COVERAGE PROOF ACCEPTS ANY STRING.** Order
+  `f307490add1e`. `sweep_plan.record()` validates nothing, so three spellings arrived from three
+  batches of run41 (`drill.py`, `src/publish.py`, `foreman`) and only the first matched
+  `missing()`, which then reported **26 of 116 modules as never read when every one had been read
+  in full**. It fails in both directions: a name matching no module is also accepted silently —
+  a batch could claim coverage it does not have and `missing()` would agree. Confirmed live: one
+  shard held `catalogue_local.py`, which `sweep_plan` spells `deprecated/catalogue_local.py`, and
+  nothing noticed. Shards were normalised onto names `sweep_plan` itself emits and only those.
+
+### Resolved this run (paper trail, run #41 — 2026-09-02)
+
+- **[M63 — RESOLVED 2026-09-02, owner ruling (a)] THE CHAIN DAMAGE IS ACKNOWLEDGED, STILL
+  REPORTED, NEVER ERASED.** Order `be33a61be79f` closed on the owner's in-session choice.
+  `ledger_guard` gained `state/ledger_chain_acknowledged.json` -- one record naming links
+  947-949, both append-only ledgers, the order, the reason, who ruled and when. The named
+  shrinks are carried (returned by `verify_chain(with_acknowledged=True)`, printed by `main()`
+  every run and by `assert_intact()` every push); anything outside the range or ledger list
+  still fails; a malformed record is refused and acknowledges nothing. Chain untouched: 955
+  links verify. `assert_intact()` passes; publishing unblocked. Net: 'an acknowledged shrink is
+  carried, still reported, and covers nothing beyond its name', watched red two ways.
+  Root cause (a probe redirecting half of ledger_guard's paths) was fixed on 2026-09-01 and the
+  helper now covers `ACKNOWLEDGED` too.
+
+- **[m62b — RESOLVED run #41] `silence.append_line` WAS NEVER ATOMIC ON THIS PLATFORM.** m62
+  landed `append_line` on 2026-08-24 reasoning that one `os.write` to an `O_APPEND` descriptor is
+  a single syscall. That is a POSIX guarantee; the Windows CRT implements `_O_APPEND` as
+  seek-then-write, so two processes seek to the same end offset and the second lands **on** the
+  first. **Measured: eight processes × 400 sub-page JSON rows — 3,200 expected, 2,496 arrived,
+  704 destroyed outright, 3 torn**, in `state/model_metrics.jsonl`, the ledger
+  `standards.ollama_token_flow` grades from. Second defect in the same call: no `O_BINARY`, so the
+  CRT rewrote every LF to CRLF (104,810 against 3 bare LF), meaning the "one syscall of exactly
+  these bytes" comment described bytes that were not written. **Fixed** with an OS-level exclusive
+  lock on a `<path>.applock` sidecar (`msvcrt.locking` / `fcntl.flock`, released by the OS on
+  close or process death) plus explicit `O_BINARY`; bounded and best-effort, so a metrics failure
+  still never costs a model call. Live ledger repaired: 104,807 rows kept, 2 unrecoverable torn
+  fragments dropped, endings normalised. **Why nothing caught it, which is the more important
+  half:** `verify_math` §19ag checks `append_line` by writing 50 rows *from one process*, and
+  tearing is by definition what happens when there are two — the hazard the function exists for is
+  the one thing its own check cannot produce, and it passed every run for eight days. Net:
+  drill.py "a shared ledger keeps EVERY row when six processes append at once", watched red
+  against the pre-fix function and green after. Order `7c9a1797d70e`.
+
+- **[m66 — RESOLVED run #41] THE APPEND-ONLY GATE WAS INERT AND PRINTED `ok` FOR A DAY.** Order
+  `fc7f5b371e6e`. `ledger_guard.seal()` flattens `handoff/HANDOFF.md` to `handoff__HANDOFF.md`;
+  `_read_snapshot()` did not, so it opened a path the writer never writes, got `FileNotFoundError`,
+  and `check_since_snapshot` read None as "nothing sealed yet" and answered True. Enforcement on
+  that file was dead from the moment it joined `APPEND_ONLY` on 2026-08-31 — on the ledger whose
+  own commentary records it having already lost 629 lines, and which gates `publish.push()`.
+  Fixed with a shared `_snapshot_path()` used by writer and reader. Verified by watching it
+  refuse: unchanged → ok, honest append → ok, truncation to half its lines → False naming the
+  loss. Netted for every name in `APPEND_ONLY`, not just the one that was dark.
+
+- **[m67 — RESOLVED run #41] `gpu_lane` COULD STRAND ITS OWN SLOT POOL.** Order `763b56061157`.
+  `_read()` answers None to both "no such file" and "will not parse"; the reclaim guard read
+  `if rec is not None and _expired(...)`, filtering out the corrupt case before asking — so
+  `_expired`'s own "unreadable/corrupt: reclaim rather than strand" line was unreachable from its
+  one call site, and `os.open(O_EXCL)` then skipped the file for ever. `MAX_SLOTS` such files put
+  every model call in every standing job behind a pool that can never refill. **The obvious fix is
+  worse than the fault** — a zero-byte slot is also what a slot looks like between `O_EXCL`
+  creating it and the `json.dump` landing, so reclaiming on unreadability alone hands one slot to
+  two callers and oversubscribes the card silently. Fixed with `_unreadable_and_stale()` using
+  mtime as the fallback heartbeat against the same lease. Net attacks **both** directions and was
+  watched red against each.
+
+
 - **[M38 — OPEN, VERIFIED run #32] THE FAIL-CLOSED LAYER CAN FAIL OPEN.** `escalation.py:154-183`:
   `_raise_halt()` takes **no lock** and uses a non-disambiguated tmp filename, so two concurrent
   first-time OWNER halts can have the second **overwrite** the first rather than record it as

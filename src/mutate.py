@@ -456,6 +456,38 @@ def _mutations(tree, text, skipped=None):
             return col
         return len(raw[:col].decode("utf-8", "ignore"))
 
+    # PER-(LINE, TOKEN) CURSOR FOR THE WHOLE-LINE FALLBACK (order bed9a7e93c29). `_spot` handles
+    # the common case exactly, by column; this dict is only consulted when `_spot` gives up
+    # because a node's span crosses lines (or an old Python lacks `end_col_offset`), and the
+    # code falls back to finding the bare token text on the line the node STARTS on. The naive
+    # form of that fallback was `line.replace(old, new, 1)`, which always rewrites the token at
+    # its FIRST position on the line -- so two same-token nodes (`not`/`True`/`False`) whose
+    # spans both cross lines and which both start on the same line produced the IDENTICAL
+    # new_src, and the dedup step below (keyed on (lineno, new_src)) silently collapsed them into
+    # one mutant. Because the fallback SUCCEEDED, `_skip` was never called either, so the lost
+    # site was invisible in both the mutant list and `not_attempted` -- the one path in this
+    # function where that could happen in both directions at once. Tracking where the last
+    # fallback match on this exact (line, token) ended, and searching forward from there, gives
+    # each such node its own occurrence; when none remains, the site is `_skip`ped rather than
+    # silently reusing an already-claimed spot.
+    _fallback_next = {}
+
+    def _fallback_spot(idx, token):
+        """Find `token` in `lines[idx]`, after any prior fallback match on this (line, token).
+
+        -> (line, pos) or None. See `_fallback_next` above for why "after any prior match" and
+        not "at the first occurrence" -- the latter is exactly the bug this exists to close.
+        """
+        if idx is None:
+            return None
+        line = lines[idx]
+        start = _fallback_next.get((idx, token), 0)
+        pos = line.find(token, start)
+        if pos == -1:
+            return None
+        _fallback_next[(idx, token)] = pos + len(token)
+        return line, pos
+
     def _spot(node, old):
         """The exact column of `old` inside `node`'s own source span. -> (line, pos) or None.
 
@@ -596,9 +628,12 @@ def _mutations(tree, text, skipped=None):
                 new_line = line[:pos] + line[pos + len("not "):]
                 out.append((node.lineno, "drop `not`", line, new_line))
             else:
-                _, line = line_of(node)
-                if line and "not " in line:
-                    out.append((node.lineno, "drop `not`", line, line.replace("not ", "", 1)))
+                idx, _line = line_of(node)
+                spot2 = _fallback_spot(idx, "not ")
+                if spot2:
+                    line, pos = spot2
+                    out.append((node.lineno, "drop `not`", line,
+                               line[:pos] + line[pos + len("not "):]))
                 else:
                     _skip(node.lineno, "not", "`not ` not locatable on its line")
         # --- the two constants that decide everything
@@ -609,10 +644,12 @@ def _mutations(tree, text, skipped=None):
                 new_line = line[:pos] + "False" + line[pos + len("True"):]
                 out.append((node.lineno, "True -> False", line, new_line))
             else:
-                _, line = line_of(node)
-                if line and "True" in line:
+                idx, _line = line_of(node)
+                spot2 = _fallback_spot(idx, "True")
+                if spot2:
+                    line, pos = spot2
                     out.append((node.lineno, "True -> False", line,
-                                line.replace("True", "False", 1)))
+                               line[:pos] + "False" + line[pos + len("True"):]))
                 else:
                     _skip(node.lineno, "const", "`True` not locatable on its line")
         elif isinstance(node, ast.Constant) and node.value is False:
@@ -622,10 +659,12 @@ def _mutations(tree, text, skipped=None):
                 new_line = line[:pos] + "True" + line[pos + len("False"):]
                 out.append((node.lineno, "False -> True", line, new_line))
             else:
-                _, line = line_of(node)
-                if line and "False" in line:
+                idx, _line = line_of(node)
+                spot2 = _fallback_spot(idx, "False")
+                if spot2:
+                    line, pos = spot2
                     out.append((node.lineno, "False -> True", line,
-                                line.replace("False", "True", 1)))
+                               line[:pos] + "True" + line[pos + len("False"):]))
                 else:
                     _skip(node.lineno, "const", "`False` not locatable on its line")
 
@@ -645,7 +684,32 @@ def _mutations(tree, text, skipped=None):
 
 # --------------------------------------------------------------------------- running them
 
-def _gate_result(name, cmd, timeout=1200, env=None, cwd=None):
+def _row_ids(out):
+    """-> [str] the individual failing-row identities inside one gate's raw output.
+
+    Order 2461a04d8849: `baseline()` kept only the gate's SIGNATURE (the `RESULT:`/`DRILL:`
+    count line), never WHICH rows were red, so a refusal like
+        verify_math    rc=1|RESULT: 1055 passed, 5 FAILED
+    was the whole of what a run said. Learning which five rows were red took building a sandbox
+    by hand and diffing against the live tree -- and it turned out all five were sandbox
+    omissions (a missing state/sweep_shards/ and six dashboard logs), not library defects. Those
+    five had been red, and therefore DISABLED AS DETECTORS, in every mutation run this project
+    has ever made, and nothing said so.
+
+    Both gates already print the row identity on its own line, so no gate-specific parser is
+    needed -- only a prefix match on the stripped line: verify_math with
+    `  FAILED <label>: got ..., want ... <note>` (verify_math.py:7990) and drill with
+    `  BREACHED  <net name>` (drill.py:9604). An unrecognised gate, or a clean run, yields [].
+    """
+    rows = []
+    for line in out.splitlines():
+        t = line.strip()
+        if t.startswith("FAILED ") or t.startswith("BREACHED "):
+            rows.append(t)
+    return rows
+
+
+def _gate_result(name, cmd, timeout=1200, env=None, cwd=None, rows_out=None):
     """Run one gate and return a SIGNATURE of what it said. -> (signature, detail).
 
     A SIGNATURE, NOT A BOOLEAN, and this is the correction for the failure that made the first
@@ -670,6 +734,13 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None):
     return, so `could_not_judge` output and the indeterminate journal rows name the gate on
     their own. The name is a CONSTANT per gate and the comparison is always baseline-vs-mutant
     for the SAME gate, so adding it cannot change any differential verdict. Order 7bd7f47b012d.
+
+    `rows_out`, IF GIVEN, IS FILLED AS A SIDE EFFECT: `rows_out[name] = [row id, ...]` (order
+    2461a04d8849), the individual `FAILED <label>` / `BREACHED <net>` lines from this gate's raw
+    output -- see `_row_ids`. A side channel rather than a wider return tuple on purpose: this
+    function is called from three places and two of them (`flaky_gates`, the per-mutant judging
+    loop in `_run_mutation`) unpack a fixed 2-tuple; changing the arity would break both. Left
+    None, the default, this costs nothing extra and behaves exactly as before.
     """
     try:
         r = subprocess.run(cmd, cwd=(cwd or HERE), capture_output=True, text=True,
@@ -678,8 +749,12 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None):
         # The `|name` suffix rides behind the existing prefixes on purpose: `could_not_judge`
         # matches on the PREFIX, so a bare 'TIMEOUT' or 'ERROR:OSError' from an older record
         # (or from a drill net that hands one in directly) is still recognised.
+        if rows_out is not None:
+            rows_out[name] = []
         return "TIMEOUT|%s" % name, "%s timed out after %ds" % (name, timeout)
     except Exception as e:
+        if rows_out is not None:
+            rows_out[name] = []
         return ("ERROR:%s|%s" % (type(e).__name__, name),
                 "%s raised %s" % (name, type(e).__name__))
     out = (r.stdout or "") + (r.stderr or "")
@@ -691,6 +766,8 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None):
         t = line.strip()
         if t.startswith("RESULT:") or t.startswith("DRILL:"):
             marks.append(t)
+    if rows_out is not None:
+        rows_out[name] = _row_ids(out)
     return ("rc=%d|%s" % (r.returncode, " ".join(marks)),
             "%s %s" % (name, marks[0] if marks else "rc=%d" % r.returncode))
 
@@ -1239,7 +1316,7 @@ def sandbox():
     return root
 
 
-def baseline(root, gates=GATES):
+def baseline(root, gates=GATES, rows_out=None):
     """What does each gate say about UNMUTATED code? -> {gate: signature}.
 
     This is the reference every mutant is compared against. It does NOT require the tree to be
@@ -1247,10 +1324,17 @@ def baseline(root, gates=GATES):
     requires the gates to be REPRODUCIBLE: a gate whose signature changes between two clean runs
     is a gate that cannot judge anything, and `flaky_gates()` finds those before they produce
     imaginary survivors.
+
+    `rows_out`, IF GIVEN, IS FILLED AS A SIDE EFFECT (order 2461a04d8849): {gate: [row id, ...]}
+    naming the individual `FAILED`/`BREACHED` rows inside each gate's own output, not merely the
+    signature -- so a caller can say WHICH checks are down when it reports a red baseline, rather
+    than just that the gate is down. The return type is unchanged so every existing caller that
+    treats `base` as {gate: signature} (`red_gates`, `unusable_gates`, `flaky_gates`,
+    `_run_mutation`'s kill test, `run()`'s public contract) needs no changes.
     """
     out = {}
     for name, cmd in gates:
-        out[name] = _gate_result(name, cmd, cwd=root)[0]
+        out[name] = _gate_result(name, cmd, cwd=root, rows_out=rows_out)[0]
     return out
 
 
@@ -1420,6 +1504,15 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
             "gates that could not complete on clean code (%s): refusing to mutate %s. A gate "
             "that cannot finish on unmutated code cannot judge a mutant."
             % (", ".join("%s=%s" % (n, s_) for n, s_ in dead), target))
+    # WHICH GATES CANNOT KILL ANYTHING THIS RUN, CARRIED ALONGSIDE THE RESULT (order
+    # 1b9a090fee64). `_session` already prints this list when it is non-empty (order
+    # 90a5d3d6b96f) -- but only on the CLI path, and only at the console, where a survivor read
+    # days later from `state/MUTANTS_SURVIVED.jsonl` or the result dict cannot see it. A gate
+    # that is red in `base` matches every mutant's signature and kills nothing (the kill test is
+    # `sig != base.get(gname)`), so a survivor scored while a detector was down needs that fact
+    # travelling WITH it, not only printed once at launch. `red_gates` is a pure read of `base`
+    # (no subprocess call), so recomputing it here costs nothing.
+    red_at_baseline = [g for g, _s in red_gates({g: base[g] for g in wanted})]
     own_sandbox = root is None
     root = root or sandbox()
     path = os.path.join(root, "src", target)
@@ -1504,14 +1597,20 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                     # MUTANTS_SURVIVED.jsonl and what `file_orders` pastes verbatim into the
                     # permanent work order -- Hard Rule 0 forbids truncating either without a
                     # marker, and the module's own docstring already promises the exact diff.
+                    # "red_gates_disabled" TRAVELS WITH THE ROW (order 1b9a090fee64), beside
+                    # `tree_was_moving` (which `_journal` stamps on itself) -- so a survivor read
+                    # days later shows which detectors were down when it was scored, not only
+                    # that some were.
                     _journal(target, {"line": lineno, "mutation": desc,
                                       "was": old_line.strip(),
                                       "became": new_line.strip(),
-                                      "confirmed": bool(confirm)})
+                                      "confirmed": bool(confirm),
+                                      "red_gates_disabled": red_at_baseline})
                     survivors.append({"line": lineno, "mutation": desc,
                                       "was": old_line.strip(),
                                       "became": new_line.strip(),
-                                      "confirmed": bool(confirm)})
+                                      "confirmed": bool(confirm),
+                                      "red_gates_disabled": red_at_baseline})
         finally:
             _write(path, original)
 
@@ -1521,6 +1620,11 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
         live_after = _digest(_read(live))
         return {"target": target, "mutants": len(muts), "killed": killed,
                 "survived": len(survivors), "survivors": survivors,
+                # WHICH GATES COULD NOT KILL ANYTHING THIS RUN (order 1b9a090fee64) -- a gate
+                # already red in `base` matches every mutant and cannot judge one. Empty on a
+                # clean baseline; named here (not just printed once by `_session`) so a caller
+                # reading this dict, rather than the console, can see the same fact.
+                "red_gates_disabled": red_at_baseline,
                 # JUDGED, NOT SCORED. `killed + survived + indeterminate == mutants`, and the
                 # third term is the one that used to be silently folded into the first.
                 "indeterminate": len(indeterminate), "indeterminates": indeterminate,
@@ -1560,6 +1664,30 @@ def file_orders(result, found_by="mutate"):
 
 
 def main():
+    # LINE-BUFFER STDOUT AS THE FIRST ACT (order af40a3c2e7e3). Python block-buffers stdout the
+    # moment it is redirected to a file, so `python src/mutate.py ... > state/mutate_<date>.log`
+    # writes NOTHING until the buffer fills or the process exits cleanly -- a run that is still
+    # going, or that was killed, leaves a zero-byte log. Measured 2026-08-30 and before:
+    # mutate_20260825.log, mutate_20260827.log and mutate_20260828.log were all 0 bytes, and the
+    # 2026-08-30 run reproduced it on its OWN first launch despite run #37's NEXT_STEPS naming
+    # the fix (`python -u`) explicitly, because the launch line lived in the maintenance card and
+    # not in the module -- four different launchers (the card, the keeper, an owner at a prompt,
+    # a scheduled run) and only one of them has to forget the flag. Doing it here means the log
+    # is readable WHILE a multi-hour run is still in progress, no matter how it was started. This
+    # does not change what gets logged or how a run is judged -- only when the bytes reach disk --
+    # so it is safe to land under a mutation pass already in flight (that pass copied the tree at
+    # launch and will not re-read this file).
+    #
+    # THE EMPTY LOG WAS NEVER A LOST RUN. `state/MUTANTS_SURVIVED.jsonl`, the filed work orders,
+    # and `survivors_on_record()` are written independently of stdout and are unaffected either
+    # way -- a zero-byte log is a reporting failure, not a data loss. Say that plainly if this is
+    # ever the reason someone opens an old empty log expecting nothing to be recoverable.
+    try:
+        sys.stdout.reconfigure(line_buffering=True)
+    except Exception:
+        # stdout may already be closed, replaced, or a stream without `reconfigure` (rare, but
+        # this must never be the reason the run itself fails to start).
+        pass
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--target", choices=TARGETS + ("all",), default="prose_gate.py")
     ap.add_argument("--limit", type=int, help="stop after N mutants (interactive only)")
@@ -1622,7 +1750,14 @@ def _session(a, targets):
         # produced that way is worse than no number, because it is believable.
         gates = FAST_GATES
         confirm = () if a.no_confirm else CONFIRM_GATES
-        base = baseline(root, gates=gates + confirm)
+        # base_rows IS THE SIDE CHANNEL (order 2461a04d8849): {gate: [row id, ...]}, the
+        # individual FAILED/BREACHED lines behind each gate's signature. See `baseline`'s
+        # docstring and `_row_ids` for why a red baseline used to be reported by SIGNATURE ALONE
+        # -- "verify_math rc=1|RESULT: 1055 passed, 5 FAILED" and nothing naming which five --
+        # which cost a shift a hand-built sandbox and a manual diff to learn the answer was five
+        # sandbox omissions, not library defects.
+        base_rows = {}
+        base = baseline(root, gates=gates + confirm, rows_out=base_rows)
         print("baseline signatures:")
         for gname, sig in base.items():
             print("   %-14s %s" % (gname, sig[:90]))
@@ -1633,6 +1768,8 @@ def _session(a, targets):
             print("\nGATES THAT COULD NOT COMPLETE ON CLEAN CODE — REFUSING TO MUTATE.")
             for gname, sig_ in dead:
                 print("   %-14s %s" % (gname, sig_))
+                for rid in base_rows.get(gname) or []:
+                    print("       %s" % rid)
             print("\nA gate that cannot finish on unmutated code cannot judge a mutant. Every")
             print("comparison against it would read TIMEOUT == TIMEOUT and report the whole")
             print("set as surviving, which looks exactly like a finished run.")
@@ -1655,6 +1792,8 @@ def _session(a, targets):
             print("\nRED BASELINE TAKEN FROM A TREE UNDER EDIT — REFUSING TO MUTATE.")
             for gname, sig_ in red:
                 print("   %-14s %s" % (gname, sig_[:90]))
+                for rid in base_rows.get(gname) or []:
+                    print("       %s" % rid)
             print("\nMutants are judged by DIFFERENCE from the baseline, so a gate that is red")
             print("in it is disabled as a detector for the whole run and any mutant that")
             print("reproduces exactly that redness scores SURVIVED. While a shift holds the")
@@ -1685,6 +1824,11 @@ def _session(a, targets):
                   "GATES ARE DISABLED:")
             for gname, sig_ in red:
                 print("   %-14s %s" % (gname, sig_[:90]))
+                # NAMED, NOT JUST SIGNATURED (order 2461a04d8849). Which rows are actually red
+                # is what tells a reader whether this is a real standing fault or a sandbox
+                # artefact -- the finding that cost a shift a hand-built sandbox to learn once.
+                for rid in base_rows.get(gname) or []:
+                    print("       %s" % rid)
             print("   Each is already red on UNMUTATED code, so it matches every mutant "
                   "and kills none.")
             print("   Any survivor below may be this and not a hole in the battery. "

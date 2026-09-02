@@ -452,11 +452,23 @@ def freshness():
 
 
 def drift():
-    """The exact entry-count gap between the index and the records. -> (indexed, real, gap).
+    """The exact entry-count gap between the index and the records.
+
+    -> (indexed, real, gap, unreadable_records)
 
     The expensive, precise version of `freshness()`. Costs a full pass over the records, which
     is why it is not on the query path -- but when the answer matters, an approximation of how
     wrong the index is would just be a second thing to be wrong about.
+
+    WHICH IS WHY THE UNPARSEABLE RECORDS ARE NAMED, not merely noted (order d8e0efe5b528). The
+    `silence.note` below has always been here, so the failure reached `state/failures.json` --
+    but `real` was a FLOOR the moment any record would not parse, and nothing in the return
+    value or in `--drift`'s printed line said so. A floor read as a total is exactly wrong in
+    the direction that matters here: a record that will not parse subtracts from `real`, which
+    SHRINKS the reported gap, so the one condition that should make an operator distrust the
+    index instead makes the index look healthier. `rebuild()` a few functions up was fixed for
+    the same thing (see its docstring) and names every unreadable file in full under a "FLOOR,
+    not a total" warning; this is the other half of the same CLI finally agreeing with it.
     """
     indexed = None
     try:
@@ -466,14 +478,18 @@ def drift():
     except Exception:
         silence.note("corpus_db.py:drift-index")
     real = 0
+    unreadable = []
     for p in glob.glob(os.path.join(HERE, "data", "records", "*.json")):
         try:
             with open(p, encoding="utf-8") as f:
                 real += len(json.load(f).get("entries") or [])
-        except Exception:
+        except Exception as e:
             silence.note("corpus_db.py:drift-record")
+            # Same shape as `rebuild()`'s list at :190 -- basename plus the exception class, so
+            # the two halves of this CLI report an unreadable record identically.
+            unreadable.append("%s (%s)" % (os.path.basename(p), type(e).__name__))
     gap = None if indexed is None else real - indexed
-    return indexed, real, gap
+    return indexed, real, gap, unreadable
 
 
 def _freshness_banner():
@@ -670,8 +686,17 @@ def main():
     a = ap.parse_args()
 
     if a.drift:
-        indexed, real, gap = drift()
+        indexed, real, gap, unreadable = drift()
         print("  indexed %s | records %s | gap %s" % (indexed, real, gap))
+        # THE SAME WARNING AND THE SAME FULL LIST --rebuild PRINTS BELOW. A record that will not
+        # parse contributes 0 entries to `records`, which pulls `gap` toward zero -- so without
+        # this the run that most needs the caveat is the one whose numbers look best.
+        if unreadable:
+            print("  WARNING: %d record file(s) COULD NOT BE PARSED and are missing from the "
+                  "counts above -- 'records' is a FLOOR, not a total, and 'gap' is therefore "
+                  "an UNDERSTATEMENT of how far the index is from the corpus:" % len(unreadable))
+            for name in unreadable:
+                print("      " + name)
         print(_freshness_banner())
         return 0
 
@@ -680,7 +705,7 @@ def main():
         # A rebuild that reports 117,908 entries tells you its own size; one that reports
         # "closed a gap of 8,613" tells you how wrong the answers were until you ran it, which
         # is the number that decides how often this needs running.
-        _, _, before = drift()
+        _, _, before, _ = drift()
         got = rebuild(include_evidence=not a.no_evidence)
         if not got["landed"]:
             # A rebuild that could not land is not a rebuild. Say so and fail, rather than

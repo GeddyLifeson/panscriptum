@@ -193,6 +193,19 @@ def children_of(tier, coord, tree=None):
     if child_tier is None:
         return []
     prefix = TIER_ORDER[:idx + 1]
+    # AT LEAST ONE PREFIX KEY MUST BE IN `coord`, OR THIS FILTER CANNOT REJECT ANYTHING
+    # (order 3270e0172391, 2026-09-01). `any(... for t in prefix if t in coord)` is a generator
+    # that produces nothing when `coord` shares no key with `prefix` -- `any([])` is False, so
+    # every entry in the pool passes and children_of("hyperverse", {}, tree) silently returns
+    # the WHOLE POOL bucketed by child tier, mislabelled as one node's children. There are 7
+    # distinct hyperverse ids on the live tree, so this is not a singleton root that can safely
+    # go unaddressed -- "which hyperverse" is a real question with a wrong-by-default answer.
+    # Refusing rather than degrading to "everything": a caller that wants a specific node's
+    # children must say which node.
+    if not any(t in coord for t in prefix):
+        raise ValueError(
+            f"children_of({tier!r}, {coord!r}): coord names none of {prefix}, so nothing "
+            "would be filtered and the whole pool would be returned as this node's children")
     buckets = {}
     for name, c in pools.items():
         if any(c.get(t) != coord.get(t) for t in prefix if t in coord):
@@ -224,16 +237,44 @@ def view(tier, coord=None, map_seed=None, galaxy=None, star=None, rank=None, tre
     if tier == "galaxy":
         return {"kind": "url", "url": galaxy_view(galaxy)}
     if tier in DRAWN:
-        kids = children_of(tier, coord or {}, tree)
-        label = coord.get(tier, "?") if coord else "?"
+        # NO LONGER `coord or {}` (order 3270e0172391). That silently turned a missing
+        # coordinate into "every prefix key absent", which is exactly the input
+        # `children_of` now refuses -- so the refusal is left to fire here rather than
+        # smoothed over into an empty dict a caller never actually asked for.
+        if coord is None:
+            raise ValueError(f"view({tier!r}): coord is required for a drawn tier")
+        kids = children_of(tier, coord, tree)
+        label = coord.get(tier, "?")
         return {"kind": "svg", "tier": tier, "children": len(kids),
                 "svg": containment_svg(tier, label, kids)}
     raise ValueError(f"unknown tier {tier!r}")
 
 
+def _probe(url, timeout=8):
+    """HEAD the URL and say whether it answered. Never raises -- a probe that can crash the
+    report it is meant to add confidence to is worse than no probe.
+    """
+    import urllib.error
+    import urllib.request
+    try:
+        req = urllib.request.Request(url, method="HEAD",
+                                      headers={"User-Agent": "PanscriptumRenderProbe/1.0"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return "reachable (HTTP %d)" % r.status
+    except urllib.error.HTTPError as e:
+        # A real answer, even an error one -- the host exists and is talking.
+        return "answered HTTP %d" % e.code
+    except Exception as e:
+        return "UNREACHABLE (%s: %s)" % (type(e).__name__, e)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--probe", action="store_true",
+                     help="HEAD each FETCHED tier's external generator and report whether it "
+                          "actually answers, rather than only formatting its URL (order "
+                          "ea182ee53f5f)")
     args = ap.parse_args()
 
     tree = _tree()
@@ -250,17 +291,34 @@ def main():
     sample = next(iter(tree["worlds"].values()))
 
     rows = []
+    probes = {}
     for t in TIER_ORDER:
         if t in FETCHED:
             v = view(t, map_seed=seed, galaxy=54167113046, star=42873198, rank=1)
             rows.append((t, "url", v["url"][:64]))
+            if args.probe:
+                probes[t] = _probe(v["url"])
         else:
             v = view(t, coord=sample, tree=tree)
             rows.append((t, "svg", f"{v['children']} children, {len(v['svg']):,} bytes"))
     for t, k, how in rows:
         print(f"{t:<14}{k:<8}{how}")
+        if t in probes:
+            print(f"{'':<14}{'':<8}probe: {probes[t]}")
 
-    print(f"\nall {len(TIER_ORDER)} tiers viewable")
+    # HONEST ABOUT WHAT WAS ACTUALLY ESTABLISHED (order ea182ee53f5f). This used to say
+    # "all N tiers viewable" unconditionally after the loop above, but the loop only ever
+    # calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view
+    # / planet_view / burg_view), no request made. Nothing established that GALAXY or FMG
+    # answers, or that the ?burg= hand-off still exists; only --probe (a HEAD per tier) can say
+    # that. The five DRAWN tiers ARE genuinely exercised -- the SVG is generated and its byte
+    # count printed above -- so only they get "viewable" without qualification.
+    if args.probe:
+        print(f"\n{len(DRAWN)} tiers drawn and viewable; {len(FETCHED)} tiers addressed and "
+              "probed (see probe: lines above)")
+    else:
+        print(f"\n{len(DRAWN)} tiers drawn and viewable; {len(FETCHED)} tiers addressed only "
+              "-- their URLs were formatted, not contacted (pass --probe to check reachability)")
 
     if args.write:
         out = os.path.join(HERE, "output", "views")

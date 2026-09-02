@@ -45,6 +45,164 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # state/failures.json (order ae2afc775228).
 import silence          # noqa: E402
 
+# ------------------------------------------------------ PHASE 4.2 (STEP4_PLAN.md §7F, 2026-09-02)
+#
+# Until this date every caller passed `recorded=None` and this module printed, unconditionally,
+# "no directed thread graph exists yet". That sentence had been false since 2026-09-01 11:34,
+# when Phase 4.1 emitted `data/THREADS.json` -- 210 sources, 1,508,653 threads -- and the
+# verifier written to read it had simply never been taught where it was. 100% of 5,782 source
+# pairs read as IMPLIED-UNRECORDED against 1.5M recorded threads. Phase 4.1's own deliverable
+# says "verify with thread_integrity.py, which finally has its graph"; this is that wiring, and
+# the plan's build order assigns it to 4.2.
+#
+# TWO DIFFERENT THINGS ARE CALLED DANGLING, and 4.2 gates on both:
+#   * `classify()`'s DANGLING -- weave drift: an implied pair whose every shared entity has gone
+#     from the live records. Computed against `ents`, unchanged here.
+#   * the plan's DANGLING (§1, §6, §8) -- a thread that resolves to NO ADDRESS. That is the
+#     failure the whole design claims to prevent by construction, and `load_thread_graph`
+#     re-checks it afterwards, per §8: "DANGLING = 0 is a release gate, not a metric."
+THREADS = os.path.join(HERE, "data", "THREADS.json")
+FLOOR = os.path.join(HERE, "state", "THREAD_INTEGRITY_FLOOR.json")
+SPINE_CODES = os.path.join(HERE, "data", "CHARTER_SPINE_CODES.json")
+
+
+class ThreadGraphUnreadable(RuntimeError):
+    """`data/THREADS.json` EXISTS and cannot be read as a graph.
+
+    OWNER-level by STEP4_PLAN.md §8, "because every entry in the library cites it". An absent
+    file is a different thing -- the pre-4.1 state -- and is not this."""
+
+
+def _charter_codes():
+    """Every spine code the owner-extended Acquisitions Index knows. -> set of str.
+
+    A childless Set is still an address a thread may lawfully point at, so the address space is
+    the charter index UNION the codes the graph itself assigns; a code in neither is nothing."""
+    try:
+        with open(SPINE_CODES, encoding="utf-8") as f:
+            raw = json.load(f)
+    except FileNotFoundError:
+        return set()
+    except Exception:
+        silence.note("thread_integrity.py:spine-codes-unreadable")
+        return set()
+    out = set()
+    vals = raw.values() if isinstance(raw, dict) else (raw if isinstance(raw, list) else [])
+    for v in vals:
+        if isinstance(v, str):
+            out.add(v)
+        elif isinstance(v, dict):
+            for k in ("code", "spine", "spine_code"):
+                if isinstance(v.get(k), str):
+                    out.add(v[k])
+    return out
+
+
+def load_thread_graph(path=None):
+    """Read Phase 4.1's graph. -> None (no graph yet), or (recorded, unresolvable, meta).
+
+      recorded      {(source_a, source_b), ...} -- the DIRECTED graph `classify(recorded=)`
+                    wants, in ITS key space (source names). THREADS.json is keyed source ->
+                    spine CODE, and a code is an address a whole Set of sources can share, so
+                    an edge from a to code C records a -> b for every source b filed under C
+                    other than a itself. That is what "the thread resolves" means at source
+                    level: b is a volume a's reader can actually open.
+      unresolvable  [(source, class, to), ...] -- every thread whose target is an address
+                    that EXISTS NOWHERE: not in the charter index, not assigned to any source.
+                    The plan's DANGLING. Uncapped (Hard Rule 0).
+      meta          the file's own `counts` plus what was derived here.
+
+    RAISES `ThreadGraphUnreadable` when the file exists and is not a graph -- not JSON, not a
+    mapping, no `sources`, or a source row that is not a mapping with a code. That is deliberate
+    and it is the fail-closed direction: an unreadable graph must never come back as an empty
+    one, because an empty graph verifies perfectly. Returns None only when the file is ABSENT.
+    """
+    p = path or THREADS
+    try:
+        with open(p, encoding="utf-8") as f:
+            doc = json.load(f)
+    except FileNotFoundError:
+        return None
+    except Exception as exc:
+        raise ThreadGraphUnreadable("%s: %s: %s" % (p, type(exc).__name__, exc))
+    if not isinstance(doc, dict) or not isinstance(doc.get("sources"), dict):
+        raise ThreadGraphUnreadable("%s is not a thread graph: no `sources` mapping" % p)
+    sources = doc["sources"]
+    code_to_sources = collections.defaultdict(list)
+    for src, row in sources.items():
+        if not isinstance(row, dict) or not isinstance(row.get("code"), str) or not row["code"]:
+            raise ThreadGraphUnreadable("%s: source %r has no spine code -- not a graph row" % (p, src))
+        code_to_sources[row["code"]].append(src)
+    addresses = _charter_codes() | set(code_to_sources)
+
+    recorded = set()
+    unresolvable = []
+    edges = 0
+    for src, row in sources.items():
+        targets = []
+        t1 = row.get("T1")
+        if isinstance(t1, dict):
+            targets.append(("T1", t1.get("to")))
+        for cat, lst in (row.get("T2") or {}).items():
+            for e in (lst or []):
+                if isinstance(e, dict):
+                    targets.append(("T2", e.get("to")))
+        for cls, to in targets:
+            edges += 1
+            if not isinstance(to, str) or to not in addresses:
+                unresolvable.append((src, cls, to))
+                continue
+            for b in code_to_sources.get(to, ()):
+                if b != src:
+                    recorded.add((src, b))
+    meta = dict(doc.get("counts") or {})
+    meta.update({"path": p, "sources": len(sources), "source_level_edges": edges,
+                 "recorded_directions": len(recorded), "addresses": len(addresses)})
+    return recorded, unresolvable, meta
+
+
+def _floor_verdict(measured, path=None):
+    """The ASYMMETRIC-SUSPECT regression floor. -> (state, measured, bar).
+
+    RULING C AND PHASE 4.2, RECONCILED. §7C says one-way threads are lawful by default and
+    ASYMMETRIC is reported as a count and a list, NEVER failed, through 4.2. §4's Phase 4.2 says
+    ASYMMETRIC-SUSPECT "gets a floor". Both hold at once when the floor is a REGRESSION gate:
+    asymmetry that exists never fails; asymmetry that GROWS past the recorded baseline does. The
+    first measurement records the baseline; a lower measurement ratchets it down; it is never
+    raised by anything in the automation -- §8's rule that no phase may lower a floor to go
+    green, read in the direction this floor points.
+
+      baseline   no floor on record; this measurement becomes it
+      held       measured == bar
+      ratcheted  measured <  bar; bar lowered to measured
+      REGRESSED  measured >  bar (fails)
+      UNREADABLE the floor file exists and cannot be read (fails closed: cannot judge)
+    """
+    p = path or FLOOR
+    try:
+        with open(p, encoding="utf-8") as f:
+            cur = json.load(f)
+        bar = int(cur["asymmetric_suspect_max"])
+    except FileNotFoundError:
+        silence.write_json(p, {"asymmetric_suspect_max": int(measured),
+                               "set_at": __import__("time").time(),
+                               "by": "thread_integrity: first measurement (Phase 4.2 baseline)"},
+                           indent=1)
+        return "baseline", measured, measured
+    except Exception:
+        silence.note("thread_integrity.py:floor-unreadable")
+        return "UNREADABLE", measured, None
+    if measured > bar:
+        return "REGRESSED", measured, bar
+    if measured < bar:
+        silence.write_json(p, {"asymmetric_suspect_max": int(measured),
+                               "set_at": __import__("time").time(),
+                               "by": "thread_integrity: ratcheted down from %d" % bar,
+                               "was": bar},
+                           indent=1)
+        return "ratcheted", measured, bar
+    return "held", measured, bar
+
 
 def load_entities():
     """Every catalogued entity, by source, with its normalised key.
@@ -271,11 +429,38 @@ def main():
                   "by distance, so every one-way thread will read as SUSPECT)"
                   % (type(exc).__name__, exc))
 
-    counts, detail = classify(pairs, dist, args.age, ents=ents)
+    # PHASE 4.2 (§7F): the graph this verifier was written to read, finally read.
+    graph = None
+    try:
+        graph = load_thread_graph()
+    except ThreadGraphUnreadable as exc:
+        silence.note("thread_integrity.py:graph-unreadable")
+        print("THREAD GRAPH UNREADABLE: %s" % exc)
+        print("STEP4_PLAN.md §8: a corrupt or unreadable THREADS.json is OWNER-level, because "
+              "every entry in the library cites it. An unreadable graph is not an empty one.")
+        try:
+            import escalation as _ESC
+            _ESC.escalate(_ESC.OWNER, "THREAD_GRAPH_UNREADABLE",
+                          "data/THREADS.json exists and cannot be read as a graph: %s" % exc,
+                          who="thread_integrity.py")
+        except Exception:
+            silence.note("thread_integrity.py:graph-unreadable-escalation")
+        return 1
+    recorded = graph[0] if graph else None
+    unresolvable = graph[1] if graph else []
+    counts, detail = classify(pairs, dist, args.age, recorded=recorded, ents=ents)
     total = sum(counts.values())
     print("THREAD INTEGRITY")
-    print("(no directed thread graph exists yet -- Hard Rule 5; asymmetry classes activate "
-          "with the Step 4 entanglement pass)")
+    if graph is None:
+        print("(no directed thread graph exists yet -- Hard Rule 5; asymmetry classes activate "
+              "with the Step 4 entanglement pass)")
+    else:
+        m = graph[2]
+        print("(directed thread graph %s -- %d sources, %s threads on record, %d source-level "
+              "edges, %d recorded directions over %d addresses)"
+              % (os.path.relpath(m["path"], HERE), m["sources"],
+                 format(m.get("total_edges", 0), ","), m["source_level_edges"],
+                 m["recorded_directions"], m["addresses"]))
     for k in ("IMPLIED-UNRECORDED", "RECIPROCAL", "ASYMMETRIC-LAWFUL", "ASYMMETRIC-SUSPECT",
               "PARTIALLY-DANGLING", "DANGLING"):
         if counts.get(k):
@@ -385,7 +570,57 @@ def main():
               f"entity has gone -- their threads point at nothing. "
               f"A thread that resolves to nothing is not a weak thread, it is a broken "
               f"one (STEP4_PLAN.md §1).")
-    return 1 if dangling else 0
+    failed = bool(dangling)
+
+    # PHASE 4.2 RELEASE GATE (§8): a thread that resolves to NO ADDRESS. Every offender is
+    # printed, by source, uncapped -- and each offending source is refused at SUPERVISOR,
+    # which closes THAT source's area and nothing else (Hard Rule -1: every source is its own
+    # area of the park).
+    if unresolvable:
+        failed = True
+        by_src = collections.defaultdict(list)
+        for src, cls, to in unresolvable:
+            by_src[src].append((cls, to))
+        print()
+        print(f"THREAD INTEGRITY FAILED: {len(unresolvable):,} thread(s) resolve to NO ADDRESS "
+              f"-- all of them, by source (STEP4_PLAN.md §8, DANGLING = 0 is a release gate):")
+        for src in sorted(by_src):
+            print(f"   {src}")
+            for cls, to in by_src[src]:
+                print(f"      {cls} -> {to!r}")
+        try:
+            import escalation as _ESC
+            for src, items in sorted(by_src.items()):
+                _ESC.escalate(_ESC.SUPERVISOR, "THREAD_UNRESOLVABLE",
+                              "%d thread(s) from %s resolve to no address: %s"
+                              % (len(items), src, ", ".join(repr(t) for _, t in items)),
+                              source=src, who="thread_integrity.py")
+        except Exception:
+            silence.note("thread_integrity.py:unresolvable-escalation")
+
+    # THE ASYMMETRIC-SUSPECT REGRESSION FLOOR (§7F). Only meaningful once a graph exists;
+    # before that the class is structurally zero and a floor of zero would be a lie.
+    if recorded is not None:
+        state, measured, bar = _floor_verdict(counts.get("ASYMMETRIC-SUSPECT", 0))
+        print()
+        if state == "baseline":
+            print(f"ASYMMETRIC-SUSPECT floor: {measured:,} recorded as the Phase 4.2 baseline "
+                  f"(state/THREAD_INTEGRITY_FLOOR.json); a later count above it fails, below it "
+                  f"ratchets the floor down. Existing asymmetry is not a failure (ruling C).")
+        elif state == "held":
+            print(f"ASYMMETRIC-SUSPECT floor: held at {measured:,}")
+        elif state == "ratcheted":
+            print(f"ASYMMETRIC-SUSPECT floor: {bar:,} -> {measured:,}, ratcheted down")
+        elif state == "REGRESSED":
+            failed = True
+            print(f"THREAD INTEGRITY FAILED: ASYMMETRIC-SUSPECT REGRESSED, {measured:,} against "
+                  f"a floor of {bar:,}. Asymmetry that exists is lawful (ruling C); asymmetry "
+                  f"that GROWS is a hole opening, and the floor may not be raised to hide it.")
+        else:
+            failed = True
+            print("THREAD INTEGRITY FAILED: the ASYMMETRIC-SUSPECT floor file exists and cannot "
+                  "be read, so the regression gate cannot be judged. Fail closed.")
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

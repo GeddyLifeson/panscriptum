@@ -295,7 +295,24 @@ def main():
         print_pull_suggestions()
         sys.exit(1)
 
-    budget = (total_vram_gb() or 10.0) - VRAM_RESERVE_GB
+    # THE FALLBACK VRAM VALUE IS A GUESS, NOT A MEASUREMENT, AND MUST SAY SO (order 322e45cf2ea1).
+    # `total_vram_gb()` returns None on ANY failure (nvidia-smi absent, non-zero return, timeout,
+    # a parse error), and `or 10.0` used to substitute a 10GB card silently -- driving the HARD
+    # REFUSAL below and printing "vs {budget:.1f}GB budget" as though it had been read off the
+    # hardware. On a real 24GB card with a broken nvidia-smi, that refused every model over
+    # ~7.8GB and told the operator the budget was measured when it was invented. `vram_measured`
+    # carries the provenance to both places that need it: the printed budget (via
+    # `_budget_note()` below) and the residency gate itself, which a guess should not be allowed
+    # to enforce -- refusing real models for a reason the tool cannot support is worse than not
+    # refusing at all.
+    _measured_vram = total_vram_gb()
+    vram_measured = _measured_vram is not None
+    budget = (_measured_vram or 10.0) - VRAM_RESERVE_GB
+
+    def _budget_note():
+        return (f"{budget:.1f}GB" if vram_measured
+                else f"assumed {budget:.1f}GB (nvidia-smi unavailable)")
+
     # TWO REASONS A MODEL IS ABSENT, COUNTED SEPARATELY (order 7b4ac0fde9ef). `scored` drops
     # non-text models (EXCLUDE_PATTERNS: embed, clip, llava, moondream ...) AND models the
     # GPU-only residency gate refuses, and the lines below then reported on `scored` as though
@@ -308,13 +325,18 @@ def main():
         if s is None:
             excluded.append(m)
             continue
-        if RESIDENT_ONLY and not resident(m, budget):
+        if RESIDENT_ONLY and vram_measured and not resident(m, budget):
             refused.append((s, m))
             continue
         scored.append((s, m))
     scored.sort(key=lambda x: -x[0])
     refused.sort(key=lambda x: -x[0])
 
+    if not vram_measured:
+        print("WARNING: nvidia-smi could not be read -- VRAM is UNMEASURED, not budgeted at "
+              "10.0GB. The GPU-only residency ruling is NOT being enforced this run (a guard on "
+              "a guess would refuse real models for a reason it cannot support); every model is "
+              "scored as if it fits. Fix nvidia-smi and re-run before trusting this pick.\n")
     vram_gb = free_vram_gb()
     print(f"{len(models)} models installed: {len(scored)} resident and usable, "
           f"{len(refused)} refused for VRAM, {len(excluded)} not text models.")
@@ -327,7 +349,7 @@ def main():
         print("REFUSED under the GPU-only residency ruling (2026-08-24) -- would offload:")
         for sc, m in refused:
             print(f"   {m['name']:<55} ~{weight_gb(m) + KV_GB:.1f}GB needed vs "
-                  f"{budget:.1f}GB budget")
+                  f"{_budget_note()} budget")
         print("")
     for s, m in scored:
         tier = family_tier(m["name"])
@@ -345,7 +367,7 @@ def main():
         # learned nothing about the 10GB budget that actually refused their models.
         if refused:
             print("\nEvery text model installed was REFUSED under the GPU-only residency ruling "
-                  f"(budget {budget:.1f}GB). These are text models; they do not fit. Pull "
+                  f"(budget {_budget_note()}). These are text models; they do not fit. Pull "
                   "something smaller:")
             print_pull_suggestions()
         else:

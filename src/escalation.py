@@ -566,6 +566,47 @@ def stop_subsystem(name, reason, who="?", evidence=None):
         escalate(OWNER, "SUBSYSTEM_STOP_UNRECORDABLE",
                  "could not record a MANAGER stop for %s (%s); the keeper will restart it"
                  % (name, detail), source=name, who=who)
+        # AND THE FALSE `SUBSYSTEM_STOPPED` ORDER GOES WITH IT (order b1ffe2a0e293).
+        #
+        # The MANAGER escalation at the top of this function ran BEFORE any disk was touched,
+        # and `escalate` turns every escalation into a work order -- so a MAJOR order keyed
+        # (SUBSYSTEM_STOPPED, name) and addressed to RUN already exists, saying this subsystem
+        # is stopped. It is not: the write did not land and state/STOPPED.json does not hold
+        # the name. `resume_subsystem` is the only sanctioned path that closes that order, and
+        # it returns early on `if str(name) not in doc` long before reaching its resolve_code
+        # -- correctly, because refusing to write over a map that does not hold the name is
+        # right -- so nothing anywhere could ever close this one. It is the same leak the
+        # comment in `resume_subsystem` documents and repairs, entered through the failed-write
+        # door instead of the resume door, with the same measured precedent: orders
+        # 16d29e625d29 (pipeline) and a4b8fb03956e (feats) stood open against an empty
+        # STOPPED.json. A false MAJOR is not clutter -- this rung's whole worth is that a real
+        # stop can be FOUND in the queue, and it cannot be found among false copies of itself.
+        #
+        # THE RE-READ IS NOT OPTIONAL AND IS NOT A TIDY-UP. `landed` False does not by itself
+        # prove the subsystem is running: if this name was ALREADY stopped by an earlier call
+        # that did land, the order is TRUE and closing it would erase a live alarm. So the
+        # ledger is asked, and `subsystem_stopped` fails closed -- an unreadable STOPPED.json
+        # answers "stopped", which leaves the order standing, which is the safe reading. The
+        # order is closed only where the ledger positively shows the name absent.
+        #
+        # Guarded in try/except with a silence.note, exactly as the resolve in
+        # `resume_subsystem` is: a queue that will not accept the closure must never take the
+        # OWNER escalation above down with it. Nothing here lifts anything -- no halt is
+        # cleared, no stop is removed, no refusal is relaxed; the OWNER rung has already fired
+        # and stands. This closes a claim that was never true.
+        try:
+            _still_stopped, _ = subsystem_stopped(name)
+        except Exception:
+            silence.note("escalation.py:stop-unlanded-recheck")
+            _still_stopped = True        # cannot tell -> leave the order standing
+        if not _still_stopped:
+            try:
+                import workorders as WO
+                WO.resolve_code("SUBSYSTEM_STOPPED",
+                                "stop was escalated but never recorded (%s); the subsystem is "
+                                "NOT stopped" % detail, where=str(name), by=str(who))
+            except Exception:
+                silence.note("escalation.py:stop-unlanded-order")
     # THE VERDICT TRAVELS ON THE RECORD, exactly as `halt_landed` does one rung up, so a caller
     # can tell an attempted stop from a recorded one without re-reading the file.
     rec["stop_recorded"] = bool(landed)
@@ -669,7 +710,35 @@ def subsystem_stopped(name):
 
 
 def resume_subsystem(name, ruling, by="?"):
-    """Re-open one subsystem. Demands a written ruling, exactly as `clear` does. -> bool."""
+    """Re-open one subsystem. Demands a written ruling, exactly as `clear` does. -> bool.
+
+    THIN WRAPPER OVER `resume_subsystem_verdict` (order 7209d442c73e). This is a public function
+    with a documented `-> bool`, so the signature stays -- but a bare bool collapses two
+    entirely different worlds into one sentence, the exact shape `main()`'s `--clear` arm was
+    already repaired for (see the `clear()` call site comment). World (a): the subsystem was
+    never stopped, nothing to do, no fault. World (b): the write to state/STOPPED.json could not
+    be landed after STOP_CAS_ATTEMPTS -- the subsystem is STILL STOPPED and this resume did not
+    happen. `resume_subsystem_verdict` tells the two apart; a caller that only wants the bool
+    (most of them) still gets exactly what it got before.
+    """
+    ok, _reason = resume_subsystem_verdict(name, ruling, by)
+    return ok
+
+
+def resume_subsystem_verdict(name, ruling, by="?"):
+    """Re-open one subsystem. -> (bool, reason). The three-valued sibling of `resume_subsystem`.
+
+    `drill.py`'s three rung-4 probes call `resume_subsystem` in a `finally` and discard the
+    return, and this shift found live evidence of what that costs: state/STOPPED.json held
+    three orphaned probe stops (`__drill_rung4__`, `__drill_rung4b__`, `__drill_litter_probe__`)
+    written 34 seconds earlier by a drill run whose resumes had not landed, with nothing
+    anywhere reporting it. A caller that wants to notice -- a probe that cannot clean up after
+    itself is leaving state behind on a live library -- can call this instead and read `reason`,
+    which carries a `NOT RESUMED:` prefix on the real-failure branch (world (b) above) and a
+    plain, unprefixed reason on the "nothing to do" branch (world (a)), the same contract
+    `binding_health.release()` and `_report_not_released` already use for the identical shape
+    one rung over.
+    """
     if not (ruling or "").strip() or len(str(ruling).strip()) < 20:
         raise ValueError("resuming a stopped subsystem needs a written ruling, not a shrug")
     # THE WRITE'S VERDICT IS READ, NOT ASSUMED (order 4f290dae34ef). This was a bare
@@ -687,12 +756,16 @@ def resume_subsystem(name, ruling, by="?"):
             # Fail closed, and say so. An unreadable ledger means the standing stops cannot be
             # seen, so it cannot be said whether this one is held, and nothing may be written
             # over records nobody has read. The subsystem stays stopped, which is what is on disk.
-            sys.stderr.write("NOT RESUMED: state/STOPPED.json could not be read as a map of "
-                             "stops, so %s cannot be shown to be stopped and nothing may be "
-                             "written over what it holds.\n" % name)
-            return False
+            reason = ("NOT RESUMED: state/STOPPED.json could not be read as a map of stops, "
+                      "so %s cannot be shown to be stopped and nothing may be written over "
+                      "what it holds." % name)
+            sys.stderr.write(reason + "\n")
+            return False, reason
         if str(name) not in doc:
-            return False
+            # WORLD (a): NEVER STOPPED, NOTHING TO DO, NO FAULT. Deliberately no `NOT RESUMED:`
+            # prefix -- that prefix is what `_report_not_released`-style callers test on to
+            # decide whether to raise an alarm, and there is nothing here to alarm about.
+            return False, "%s was not stopped; nothing to resume" % name
         doc.pop(str(name), None)
         try:
             landed, detail = _write_stopped(doc, expected)
@@ -706,10 +779,11 @@ def resume_subsystem(name, ruling, by="?"):
         # honest answer is that the resume did not happen -- said in the same voice `clear()`
         # uses for its own refused write, because it is the same fact one rung down.
         silence.note("escalation.py:resume-not-landed")
-        sys.stderr.write("NOT RESUMED: state/STOPPED.json could not be written after %d attempts "
-                         "(%s). %s is STILL STOPPED. Close whatever is holding the file and run "
-                         "this again.\n" % (STOP_CAS_ATTEMPTS, detail, name))
-        return False
+        reason = ("NOT RESUMED: state/STOPPED.json could not be written after %d attempts "
+                  "(%s). %s is STILL STOPPED. Close whatever is holding the file and run "
+                  "this again." % (STOP_CAS_ATTEMPTS, detail, name))
+        sys.stderr.write(reason + "\n")
+        return False, reason
     escalate(JANITOR, "SUBSYSTEM_RESUMED", "%s resumed: %s" % (name, ruling),
              source=name, who=by)
     # AND THE STOP'S OWN WORK ORDER IS CLOSED HERE, because nothing else was closing it.
@@ -736,7 +810,7 @@ def resume_subsystem(name, ruling, by="?"):
                         "resumed by %s: %s" % (by, ruling), where=str(name), by=str(by))
     except Exception:
         silence.note("escalation.py:resume-order")
-    return True
+    return True, "%s resumed: %s" % (name, ruling)
 
 
 def assert_clear(who="?"):

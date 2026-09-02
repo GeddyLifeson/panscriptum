@@ -82,6 +82,21 @@ EXEMPT = {
 # Prefixes for tool callbacks dispatched by name through a table rather than called directly.
 EXEMPT_PREFIXES = ("t_", "test_", "cmd_", "phase_", "check_", "drill_")
 
+# Modules that are legitimately never imported or named from inside src/, with the reason.
+# SEPARATE FROM `EXEMPT` ON PURPOSE (order e3451d1e056d, 2026-09-01). `EXEMPT` above is a table
+# of FUNCTION and METHOD names -- main, __init__, do_GET, and so on -- and the module-dead pass
+# used to test a MODULE STEM against it (`_stem(n) not in EXEMPT`). No file in src/ is named
+# after any of those keys, so that conjunct was always True and the clause never filtered a row;
+# had it ever matched by coincidence, the attached reason ("CLI entry point, called by
+# __main__") would have been the wrong one for a whole module being unreached. A module reached
+# only from OUTSIDE src/ -- a scheduled task line, a `python src/x.py` in a shell script, a job
+# roster entry the string pass above cannot see -- is a real, legitimate case; it now has
+# somewhere honest to be recorded, with its own reason, instead of nowhere. Empty today: nothing
+# currently claims this exemption. Add an entry here, never to `EXEMPT`, if one is found to need
+# it -- the function pass and the module pass need different reasons, and one table serving both
+# is how the reason stops matching the finding.
+EXEMPT_MODULES = {}
+
 
 def _modules():
     for f in sorted(os.listdir(SRC)):
@@ -320,7 +335,11 @@ def scan():
             for k2, (bases2, _a) in self_attr.items():
                 if k2 not in seen and any(x.rsplit(".", 1)[-1] == simple for x in bases2):
                     stack.append(k2)
-        scoped[key] = set().union(*[self_attr[k][1] for k in seen]) if seen else set()
+        # `seen` always holds at least `key` itself (added the moment the loop above pops it),
+        # so the `if seen else set()` here could never take its `else` arm -- order 114a34e9a97a,
+        # 2026-09-01. A conditional that cannot take one branch, left in the file whose whole
+        # subject is checks that cannot fail.
+        scoped[key] = set().union(*[self_attr[k][1] for k in seen])
 
     # --- DEAD MODULE: a whole file nothing else reaches. THE LIMB THE PER-SYMBOL PASSES CANNOT
     # HAVE, and the reason it had to be its own pass (order 209391b4f990). A function is credited
@@ -368,7 +387,7 @@ def scan():
                    "is kept alive only by its siblings and the per-symbol passes above report "
                    "it as clean" % n
                    for n in sorted(trees)
-                   if _stem(n) not in referenced and _stem(n) not in EXEMPT]
+                   if _stem(n) not in referenced and _stem(n) not in EXEMPT_MODULES]
 
     dead, dead_class, taut, phantom = [], [], [], []
     for name, t in trees.items():

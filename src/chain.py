@@ -312,6 +312,92 @@ def harvest():
     return rows
 
 
+def refresh_continuity(attempts=8):
+    """Patch harvest-index rows still stamped `continuity: None` that a CURRENT designator
+    inventory can now resolve. -> (patched row count, distinct host count), or (None, None) if
+    the write never landed. (order 9382fee6e9df)
+
+    WHY THIS EXISTS. `order f5800fff55f6` found `data/DESIGNATORS.json` 179 hours stale -- 51
+    mined host directories had no key in it at all -- and fixed the INVENTORY. It could not fix
+    the ~56,000 already-harvested rows, because `harvest()` is deliberately incremental (per-file
+    mtime), the feats files themselves never changed, only the inventory did, and a row's
+    `continuity` was computed once, at harvest time, against whatever inventory existed then.
+
+    A PATCH, NOT AN INVALIDATION. The obvious remedy -- drop the mtime-keyed cache entries under
+    the 51 host directories and let `harvest()` re-open and re-derive them -- is what the order
+    proposes and it is correct, but it is not the cheapest correct thing: `continuity` is
+    `ID.identify(page, host, inv)`, and every row already carries its own `page` and `host`. This
+    recomputes it directly from those two stored fields, which gets the identical answer
+    `harvest()` would derive without reopening a single one of the ~900MB feats files. Measured
+    on the live index (2026-08-31, after `f5800fff55f6` closed): of 8,039 harvested contest rows,
+    7,803 carry `continuity: None`, and recomputing every one of them against the CURRENT
+    inventory flips 44, across 11 hosts -- the rest are honestly None (their title carries no
+    continuity marker at all, which `identify()` returns regardless of inventory freshness, per
+    its own docstring: "None is a real answer here"). Every row is checked; nothing is sampled.
+
+    SAFE EVEN IF `chain.harvest()` IS MID-PASS, which is why this was not done as a bare script
+    from the queue: `chain.py` owns `HARVEST_IDX` and may be holding it during a shift. Structured
+    exactly like `workorders._mutate` -- the digest is read immediately before the file, the
+    whole read-recompute-write is retried against a fresh copy on any mismatch, and the land goes
+    through `silence.replace_if_unchanged`, the same atomic-replace primitive `silence.write_json`
+    itself is built on, never a bare `open(path, "w")`. A `harvest()` write landing in the gap is
+    not lost: this re-reads its output and re-applies the patch on top of it.
+    """
+    import time as _t
+    import threading as _th
+    for a in range(attempts):
+        digest = silence.digest_of(HARVEST_IDX)
+        try:
+            with open(HARVEST_IDX, encoding="utf-8") as f:
+                idx = json.load(f)
+        except FileNotFoundError:
+            return 0, 0     # nothing to patch; harvest()'s next pass rebuilds whole anyway
+        except Exception:
+            silence.note("chain.py:refresh-continuity-unreadable")
+            print("chain: harvest index exists but could not be parsed; REFUSING to patch it -- "
+                  "same line harvest() itself draws by rebuilding rather than healing a corrupt "
+                  "cache.", file=sys.stderr)
+            return None, None
+        try:
+            inv = ID.load()
+        except Exception:
+            silence.note("chain.py:refresh-continuity-inv")
+            print("chain: could not load the designator inventory; refusing to patch continuity "
+                  "against nothing.", file=sys.stderr)
+            return None, None
+        patched, hosts = 0, set()
+        for entry in idx.values():
+            for r in entry.get("rows") or []:
+                if r.get("continuity") is not None:
+                    continue
+                _, cont = ID.identify(r.get("page") or "", r.get("host") or "", inv=inv)
+                if cont is not None:
+                    r["continuity"] = cont
+                    patched += 1
+                    hosts.add(r.get("host"))
+        if not patched:
+            return 0, 0
+        # THE TEMP NAME CARRIES THE THREAD AS WELL AS THE PID, matching `workorders._mutate`
+        # (order c5431186cc05): pid + attempt alone lets two threads of one process collide on
+        # the same scratch file and interleave their writes.
+        tmp = "%s.%d.%d.%d.tmp" % (HARVEST_IDX, os.getpid(), _th.get_ident(), a)
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(idx, f, ensure_ascii=False)
+        landed, why = silence.replace_if_unchanged(tmp, HARVEST_IDX, digest)
+        if landed:
+            return patched, len(hosts)
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        _t.sleep(0.05 * (a + 1))
+    silence.note("chain.py:refresh-continuity-lost")
+    print("chain: the continuity patch did not land after %d attempt(s) (harvest() kept writing "
+          "underneath it); nothing was written, and nothing was lost -- safe to re-run."
+          % attempts, file=sys.stderr)
+    return None, None
+
+
 def _partials(name):
     """Keys a name might also be known by: surname, given name, the head of a title.
 
@@ -664,10 +750,20 @@ def main():
     ap.add_argument("--limit", type=int)
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--harvest-only", action="store_true")
+    ap.add_argument("--refresh-continuity", action="store_true",
+                    help="patch harvest-index rows whose continuity was derived against a stale "
+                         "designator inventory (order 9382fee6e9df), then exit")
     ap.add_argument("--prior", type=float, default=0.0,
                     help="virtual contests per pair; >0 returns regularised strengths on a "
                          "disconnected graph instead of refusing")
     a = ap.parse_args()
+
+    if a.refresh_continuity:
+        patched, hosts = refresh_continuity()
+        if patched is None:
+            return 1
+        print("continuity patched: %d row(s) across %d host(s)" % (patched, hosts))
+        return 0
 
     rows = harvest()
     print(f"contest sentences harvested: {len(rows):,}")

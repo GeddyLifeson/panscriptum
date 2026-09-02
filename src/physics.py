@@ -118,9 +118,25 @@ def kinetic(mass_kg, speed_ms):
         raise ValueError("kinetic(): a massive body cannot travel at or above c; "
                          "this feat is unestimable in joules, not merely large")
     if v < RELATIVISTIC_ABOVE * C:
-        return 0.5 * m * v * v
-    gamma = 1.0 / math.sqrt(1.0 - (v / C) ** 2)
-    return (gamma - 1.0) * m * C * C
+        result = 0.5 * m * v * v
+    else:
+        gamma = 1.0 / math.sqrt(1.0 - (v / C) ** 2)
+        result = (gamma - 1.0) * m * C * C
+    if not math.isfinite(result):
+        # THE RESULT, NOT JUST THE INPUTS (order 371088645964). Every guard above refuses an
+        # infinite ARGUMENT; none of them refuses an infinite ANSWER, and `kinetic(1e308, 1e5)`
+        # -- two entirely finite, entirely accepted arguments -- overflows inside the arithmetic
+        # and returns `inf` anyway. It arrives by a different door from the one order 3598ae9a4aad
+        # shut, and it arrives from inputs this function has no grounds to refuse: 1e308 kg is
+        # absurd, but refusing it outright would be an arbitrary mass ceiling, a different and
+        # worse decision than testing what the arithmetic actually produced. Same wording as the
+        # input guards, because it is the same fact from the other side: an inf joule figure is
+        # not a large quantity, it is the absence of one, and nothing downstream has reason to
+        # look at it twice before it reaches a band edge, a shelfmark and prose.
+        raise ValueError(f"kinetic(): mass={mass_kg!r}, speed={speed_ms!r} produced a "
+                         f"non-finite result; this feat is unestimable in joules, not merely "
+                         f"large")
+    return result
 
 
 def joules_for(volume_m3, material="rock", mode="pulv"):
@@ -150,7 +166,17 @@ def joules_for(volume_m3, material="rock", mode="pulv"):
         # `kinetic()` above already gives infinity that verdict for speed.
         raise ValueError(f"joules_for(): volume must be finite, got {volume_m3!r}; "
                          f"an unbounded body is unestimable in joules, not merely large")
-    return v * MATERIAL[material][mode]
+    result = v * MATERIAL[material][mode]
+    if not math.isfinite(result):
+        # THE RESULT, NOT JUST THE ARGUMENT (order 371088645964). A finite volume can still
+        # overflow the multiply for `vapor`, the dearest mode by orders of magnitude; the same
+        # `sphere_volume(1e100)` that raises OverflowError below feeds a finite-looking huge
+        # volume in here, which then overflows silently. Checked here for the same reason
+        # `kinetic()` now checks its result.
+        raise ValueError(f"joules_for(): volume={volume_m3!r} of {material!r} ({mode}) "
+                         f"produced a non-finite result; this feat is unestimable in joules, "
+                         f"not merely large")
+    return result
 
 
 def sphere_volume(radius_m):
@@ -174,7 +200,20 @@ def sphere_volume(radius_m):
         # argument. Refused here, where the unbounded body actually is (order 3598ae9a4aad).
         raise ValueError(f"sphere_volume(): radius must be finite, got {radius_m!r}; "
                          f"an unbounded body is unestimable in joules, not merely large")
-    return 4.0 / 3.0 * math.pi * r ** 3
+    try:
+        result = 4.0 / 3.0 * math.pi * r ** 3
+    except OverflowError:
+        # `r ** 3` OVERFLOWS FOR A LARGE FINITE `r`, AND THE EXCEPTION NAMES ARITHMETIC, NOT
+        # A DOMAIN ERROR (order 371088645964) -- exactly the wrong answer `assay.py`'s
+        # `_check_weights` docstring already names: "it names a line, not a fault, so the
+        # caller is told the instrument broke rather than that their table was not one."
+        # Caught and re-raised in this module's own voice, naming the argument that caused it.
+        raise ValueError(f"sphere_volume(): radius={radius_m!r} produced a non-finite volume; "
+                         f"this feat is unestimable in joules, not merely large") from None
+    if not math.isfinite(result):
+        raise ValueError(f"sphere_volume(): radius={radius_m!r} produced a non-finite volume; "
+                         f"this feat is unestimable in joules, not merely large")
+    return result
 
 
 def binding_energy(mass_kg, radius_m):
@@ -217,7 +256,26 @@ def binding_energy(mass_kg, radius_m):
         # guard: it names arithmetic, not a domain error, and it does not fire for inf at all.
         raise ValueError(f"binding_energy(): mass must be finite, got {mass_kg!r}; "
                          f"an unbounded body is unestimable in joules, not merely large")
-    return 3.0 * G * m ** 2 / (5.0 * r)
+    try:
+        m2 = m ** 2
+    except OverflowError:
+        # `binding_energy(1e200, 1) -> OverflowError` out of `m ** 2` (order 371088645964). The
+        # exception fires BEFORE any result exists, so there is nothing to test with
+        # `math.isfinite` the way `kinetic()` and `sphere_volume()` do -- it has to be caught at
+        # the point of overflow instead. It is not a mitigation as-is: it names arithmetic
+        # rather than the domain error that caused it (`_check_weights`' exact complaint in
+        # assay.py), and unlike `kinetic()`'s inf it does not even reach a value a caller could
+        # mistake for real -- it just crashes two modules away from the body that caused it.
+        # Re-raised in the module's own voice, naming the mass that overflowed.
+        raise ValueError(f"binding_energy(): mass={mass_kg!r} produced a non-finite result "
+                         f"(M^2 overflowed); this feat is unestimable in joules, not merely "
+                         f"large") from None
+    result = 3.0 * G * m2 / (5.0 * r)
+    if not math.isfinite(result):
+        raise ValueError(f"binding_energy(): mass={mass_kg!r}, radius={radius_m!r} produced a "
+                         f"non-finite result; this feat is unestimable in joules, not merely "
+                         f"large")
+    return result
 
 
 def main():

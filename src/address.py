@@ -148,11 +148,53 @@ def spine_code_for(source_name: str) -> str:
     # fallback, whose equal-token-set arm exists for exactly that shape. Verified against all 215
     # roll entries and all 220 index names: no assignment changed, and the two titles above now
     # return UNASSIGNED, which is the safe answer this fallback exists to give.
+    # PRECOMPUTED ONCE, for the opens/closes exception below to check the REST of the title
+    # against, not just the matched token. (order 07258ace3a09)
+    _worded_index = [(nm, _worded(nm)) for nm in codes]
+
     def _index_name_is_placed_like_a_title(w_name, w_target):
-        """The index entry sits inside the target: is it there as the title, or as vocabulary?"""
+        """The index entry sits inside the target: is it there as the title, or as vocabulary?
+
+        Opening or closing the title is only good evidence when nothing else CATALOGUED
+        survives on that side of the match. `_index_name_is_placed_like_a_title` only ever
+        checked the matched token's position, never what the rest of the title said -- so an
+        invented crossover/anthology title that happens to open or close with one catalogued
+        single-token name (e.g. "Alien Predator Doom Crossover", which opens with "Alien" and
+        also contains "Doom") was shelved under that franchise at full confidence, instead of
+        falling through to UNASSIGNED as a title naming more than one catalogued work should.
+        Once the matched name is stripped off the matched end, if what remains still names
+        ANOTHER catalogued work as a whole word, this is vocabulary for a crossover/anthology
+        title, not evidence that the title belongs to the work that happened to sit first or
+        last -- so the match is refused here and the caller falls through (to UNASSIGNED, or to
+        the token-overlap fallback's stricter equal-token-set test).
+        """
         if len(w_name.split()) > 1:
             return True
-        return w_target.startswith(w_name.rstrip() + " ") or w_target.endswith(" " + w_name.lstrip())
+        if w_target.startswith(w_name.rstrip() + " "):
+            remainder = " " + w_target[len(w_name):].strip() + " "
+        elif w_target.endswith(" " + w_name.lstrip()):
+            remainder = " " + w_target[:len(w_target) - len(w_name)].strip() + " "
+        else:
+            return False
+        remainder_tokens = remainder.split()
+        for other_name, w_other in _worded_index:
+            if w_other == w_name or not w_other.strip():
+                continue
+            if w_other in remainder:
+                return False
+            # PLURAL-INSENSITIVE for a single-token other name. "Doom Marines vs Aliens
+            # Anthology" opens with "Doom" and its remainder says "aliens", not "alien" -- the
+            # exact-substring check above misses it on spelling alone, and a crossover title is
+            # at least as likely to pluralise the other franchise's name as not. A trailing-`s`
+            # strip on both sides catches that without touching anything shorter than four
+            # letters, where stripping one letter off the end risks colliding with an unrelated
+            # word (e.g. an index entry that really is "as" or "is").
+            other_tokens = w_other.split()
+            if len(other_tokens) == 1 and len(other_tokens[0]) > 3:
+                stem = other_tokens[0].rstrip("s")
+                if stem and any(tok.rstrip("s") == stem for tok in remainder_tokens):
+                    return False
+        return True
 
     w_target = _worded(source_name)
     if w_target.strip():

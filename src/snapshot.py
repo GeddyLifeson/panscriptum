@@ -285,14 +285,31 @@ def _safe_join(base, rel):
 
 
 def restore(sid, into=None):
-    """Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it."""
+    """Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it.
+    -> the number of paths restored. RAISES SnapshotFailed if any of the manifest's `took`
+    entries could not be copied back -- it does not silently return fewer than it promised.
+
+    A SNAPSHOT PARTLY LOST BETWEEN CAPTURE AND RESTORE (files deleted, moved, or never fully
+    copied) used to be a `continue` here: the loop just skipped whatever `os.path.exists(src)`
+    said no to, and the only signal was the returned count being smaller than `len(m['took'])`
+    -- which nothing compared. `verify()` catches this because it independently walks
+    `m['took']` itself and checks every path exists in the restored copy, but `verify()` restores
+    into a TEMP directory; `restore(sid)` with its default `into=HERE` is the actual recovery
+    after an irreversible step, and until now that path had no such check at all. Same shape
+    `before()` was hardened against under order f4193095edff, arriving from the restore end
+    instead of the capture end (order 9681220bad8f). `SnapshotFailed` is already this module's
+    word for "the copy did not happen" -- a restore that silently returns part of a snapshot
+    deserves the same refusal `before()` gives a capture that silently takes part of one.
+    """
     base = into or HERE
     m = manifest(sid)
     n = 0
+    missing = []
     for rel in m.get("took", []):
         src = _safe_join(os.path.join(ROOT, sid), rel)
         tgt = _safe_join(base, rel)
         if not os.path.exists(src):
+            missing.append(rel)
             continue
         os.makedirs(os.path.dirname(tgt), exist_ok=True)
         if os.path.isdir(src):
@@ -300,6 +317,12 @@ def restore(sid, into=None):
         else:
             shutil.copy2(src, tgt)
         n += 1
+    if missing:
+        raise SnapshotFailed(
+            "restore(%r) is missing %d of %d manifest path(s) that its own record says it took: "
+            "%s. The snapshot on disk no longer matches its manifest; restoring the rest and "
+            "saying nothing would read as a whole recovery when it is a partial one."
+            % (sid, len(missing), len(m.get("took", [])), ", ".join(missing)))
     return n
 
 

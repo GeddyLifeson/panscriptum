@@ -92,7 +92,14 @@ def norm(s):
 # 683c59f43829 against catalogue_aurora.py; that record's `mode` is "web", so catalogue_web.py is
 # the writer that produced it, and this module carried the identical cap.
 def slug(s):
-    """The record's identity, derived from the source name. UNCAPPED -- see above."""
+    """NOTHING IN THIS TREE CALLS THIS (order c158b93e2e07). Kept as a public helper;
+    `record_path()` below is the entry point `main()` actually uses (see its own comment at
+    :326-329ish). Say that first so a future sweep does not re-derive it: `grep -rn 'slug'
+    src/catalogue_codex.py` finds this def and three comment mentions and no caller, and an
+    AST walk of every `.py` file under `src/` for `X.slug(...)`, bare `slug(...)`, and
+    `from catalogue_codex import slug` finds none either -- verified 2026-09-01, not assumed.
+
+    The record's identity, derived from the source name. UNCAPPED -- see above."""
     from catalogue_aurora import slug as _slug
     return _slug(s)
 
@@ -333,8 +340,13 @@ def main():
                 # checking rc saw a clean run.
                 denied.append(r["name"])
                 continue
-            r["entry_count"] = len(rec["entries"])
-            r["status"] = "catalogued"
+            # NOT `r["entry_count"] = ...` / `r["status"] = ...` any more (order 09f3105df988).
+            # `r` is a row of the in-memory `roll` list read once at the top of this function;
+            # since the compare-and-swap migration (order f818a77293fc) persistence goes
+            # exclusively through `roll_changes` against a FRESHLY-READ roll below, so mutating
+            # `r` was a leftover of the whole-document write this function used to do and was
+            # never read again -- it made the in-memory roll look like it was still the thing
+            # being persisted, which is exactly the misreading that migration was filed to end.
             roll_changes[r["name"]] = {"entry_count": len(rec["entries"]),
                                        "status": "catalogued"}
 

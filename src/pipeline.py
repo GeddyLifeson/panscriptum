@@ -862,10 +862,26 @@ def write_record(path, rec):
         # judgment fields -- so the check could not see the fields it was dropping. Hoisted here
         # rather than duplicated into the `else`, so the two paths cannot drift apart again.
         by_name = {e.get("name"): e for e in rec.get("entries") or []}
+        # ORDER b67dc1990af6: `by_name` is keyed on `name`, and `name` is demonstrably not a
+        # per-entry identity -- duplicate names are ordinary here ('2112 (Rush)' carries two
+        # entries called 'The Guitar'). Every disk entry sharing a duplicated name folds from
+        # whichever in-memory entry the dict comprehension above happened to keep last, so the
+        # OTHER duplicates' judgments are silently discarded even though this function still
+        # returns True. Giving every entry a stable identity that survives the merge is a data
+        # model decision for the owner (index? content hash? (name, type, description) triple?)
+        # and is not made here. What IS done, per the order's own "cheaper interim": count the
+        # collapses and say so, so a caller -- or a human reading the log -- can tell a write
+        # was partial instead of finding out by diffing the file.
+        name_counts = collections.Counter(
+            e.get("name") for e in rec.get("entries") or [] if isinstance(e, dict))
+        dup_names = {n for n, c in name_counts.items() if n and c > 1}
+        collapsed = 0
         for de in disk.get("entries") or []:
             se = by_name.get(de.get("name"))
             if not se:
                 continue
+            if de.get("name") in dup_names:
+                collapsed += 1
             for fld in MERGED_ENTRY_FIELDS:
                 if fld in se:
                     de[fld] = se[fld]
@@ -875,6 +891,13 @@ def write_record(path, rec):
             for fld, rej in ENTRY_REJECTION_COMPANIONS.items():
                 if fld in se and rej not in se:
                     de.pop(rej, None)
+        if collapsed:
+            log(f"    write_record: {os.path.basename(path)} {collapsed} disk entr"
+                f"{'y shares' if collapsed == 1 else 'ies share'} a duplicated name with "
+                f"{len(dup_names)} distinct name(s) in the in-memory cast -- only the LAST "
+                f"in-memory entry per name survived the merge, so the others' judgments were "
+                f"not written even though this call returns True. See order b67dc1990af6.")
+            silence.note("pipeline.py:write_record-duplicate-name-collapse")
         # NO DRIFT IS NOT NO CHANGE. Folding onto `disk` keeps every disk-authored top-level key
         # -- a `synthesis`, `purged_roster` or `ceiling_entity` another writer refreshed since
         # this record was loaded -- instead of writing the pipeline's hours-old copy whole.
@@ -1989,13 +2012,23 @@ def phase_cosmology(c, st):
     import cosmography as CG
     import address_space as AS
 
-    # chart() returns a tuple; the first element is the per-source tier stack. Unpacking by
-    # position rather than assuming a dict, because assuming cost a TypeError on the first run.
-    charted = T.chart()
-    if isinstance(charted, tuple):
-        charted = charted[0]
-    log("phase 5 cosmology: %d sources charted across the tiers" % len(charted))
-    landed = [land_json(os.path.join(HERE, "data/TIERS.json"), charted)]
+    # ORDER 525dd7bbffed: GROUNDINGS.json now lands BEFORE TIERS.json, not after. `T.chart()`
+    # derives the hyperverse/own_grounding columns from data/GROUNDINGS.json AS IT STANDS ON
+    # DISK (`_load_groundings`), so charting before this run's groundings were written meant
+    # TIERS.json always reflected the PREVIOUS run's groundings -- and on a fresh tree, where
+    # GROUNDINGS.json does not exist yet when chart() first reads it, every row came out
+    # hyperverse 5 / hyperverse_type 'ungrounded' / own_grounding 'ungrounded'. `address_space`
+    # reads TIERS.json AT IMPORT and a re-charting moves the upper-tier widths (its own header
+    # says so), so a bootstrap run silently re-charted the top of the Ladder of Being. This is
+    # remedy (a) from the order: compute and land GROUNDINGS.json first, THEN chart and land
+    # TIERS.json, so the two agree within a single run. `classify_source` does not depend on
+    # anything `chart()` produces, so nothing else here has to change.
+    #
+    # `srcs, w, shared` are fetched via `tiers._graph()` -- the exact call `chart()` makes
+    # internally when given none -- so grounds are computed over the SAME source domain
+    # `charted` used to be built from, and handed to `chart()` below so it does not redo the
+    # graph build a second time.
+    srcs, w, shared = T._graph()
 
     # classify_source takes the RECORD, not the source name -- it reads the catalogue's ORIGIN
     # entries to see what a cosmos says about its own beginning. Passing the name gave 209
@@ -2006,7 +2039,7 @@ def phase_cosmology(c, st):
     import weave_index as WI
     records = {r["source"]: r for r in WI.load_records()}
     grounds = {}
-    for src in charted:
+    for src in srcs:
         rec = records.get(src)
         if not rec:
             grounds[src] = {"type": G.UNGROUNDED, "why": "no catalogue record"}
@@ -2022,7 +2055,17 @@ def phase_cosmology(c, st):
         return str(v)
     kinds = collections.Counter(_kind(v) for v in grounds.values())
     log("  grounding: " + ", ".join("%s %d" % (k, n) for k, n in kinds.most_common(6)))
-    landed.append(land_json(os.path.join(HERE, "data/GROUNDINGS.json"), grounds))
+    landed = [land_json(os.path.join(HERE, "data/GROUNDINGS.json"), grounds)]
+
+    # chart() returns a tuple; the first element is the per-source tier stack. Unpacking by
+    # position rather than assuming a dict, because assuming cost a TypeError on the first run.
+    # `srcs, w, shared` passed through so this reuses the graph built above instead of
+    # recomputing it, and so `chart()` reads the GROUNDINGS.json this same call just landed.
+    charted = T.chart(srcs, w, shared)
+    if isinstance(charted, tuple):
+        charted = charted[0]
+    log("phase 5 cosmology: %d sources charted across the tiers" % len(charted))
+    landed.append(land_json(os.path.join(HERE, "data/TIERS.json"), charted))
 
     cen = CG.census("STANDARD")
     log("  census: %.3g worlds, %.3g in a habitable zone, %.3g civilisations extant"

@@ -99,6 +99,112 @@ def check(label, got, want, tol=1e-6, note=""):
 
 
 # --------------------------------------------------------------------------------------------
+# A REHEARSAL MUST NOT LAND IN THE LEDGER A PERSON READS TO FIND REAL FAULTS.
+#
+# `state/failures.json` is the OPERATIONAL ledger: `standards` grades from it, the dashboard
+# polls it, and `foreman.triage_swallowed()` names its top classes -- and since order
+# 842025c83c3c that function's own docstring refuses to clear it, because clearing would be
+# deleting the evidence. So anything a PROBE puts in there is permanent.
+#
+# This battery was putting fifteen entries in there every single run. Measured 2026-09-01 by
+# wrapping `health.record` and running the suite: ten sites in this file plus three in
+# checks_L6.py, each one a check that deliberately provokes a guard into recording a failure --
+# a torn JSON file handed to `pipeline.write_record`, a raising accept-predicate, a stubbed
+# resolver with no A record, `record_unrecognised(None, None)`, an unwritable path handed to
+# `silence.append_line`. The live counts agreed exactly: `pipeline.py:write_record-merge` at 30,
+# `standards.py:catalogue-coverage` at 30, `silence.py:append_line` at 30,
+# `wiki_source.py:non-fandom-known-host` at 30, `custodes.py:abstained-*` at 87 (three a run),
+# against roughly thirty battery runs. Not one of them was a fault.
+#
+# That is worse than noise. It is a probe MANUFACTURING the exact signal it exists to prove the
+# library can raise, in the file a person consults to find out whether the library has raised
+# it -- so a real torn record would arrive indistinguishable from thirty copies of this
+# rehearsal. `drill._deliberately_failing` states this doctrine and this is the same discipline
+# applied to the other battery. `_raises()` above already carries the narrow form of it.
+#
+# TWO RULES, both taken from `_deliberately_failing`'s docstring and both load-bearing:
+#   * SCOPE IT TO THE CALL THAT IS SUPPOSED TO FAIL, never to a whole section, so an unrelated
+#     fault raised during the same check is still recorded.
+#   * ASSERT THE RETURN VALUE, never the absence of a ledger entry. Nothing under test is
+#     suppressed here -- only its echo.
+#
+# AND THE SUPPRESSION IS ITSELF MEASURED. A wrapper that silently stopped working would give
+# back exactly the litter it was added to stop, so `health.record` is replaced FIRST by a spy
+# that forwards to the real recorder and remembers the battery line it came from; the row at the
+# very end of this file asserts that no unwrapped site is left. That is the ratchet: a new probe
+# that leaks names itself on the day it is written, instead of thirty runs later.
+import contextlib as _ctx_vm    # noqa: E402
+import health as _H_vm          # noqa: E402
+import traceback as _tb_vm      # noqa: E402
+
+_LEDGER_ESCAPES_VM = []
+_REAL_RECORD_VM = _H_vm.record
+
+
+def _spy_record_vm(*_a_vm, **_k_vm):
+    """Forward to the real recorder, and remember WHICH battery line let it through."""
+    # THE SPY'S OWN FRAME IS NOT THE SITE. `extract_stack()` includes this function, which lives
+    # in verify_math.py, so an unfiltered `[-1]` blamed every leak on this line -- including the
+    # ones from checks_L6.py, which is how it was noticed.
+    _fr_vm = [_f for _f in _tb_vm.extract_stack()
+              if os.path.basename(_f.filename).startswith(("verify_math", "checks_L"))
+              and _f.name != "_spy_record_vm"]
+    _LEDGER_ESCAPES_VM.append(
+        "%s -> %s" % ("%s:%d" % (os.path.basename(_fr_vm[-1].filename), _fr_vm[-1].lineno)
+                      if _fr_vm else "<outside the battery>",
+                      _a_vm[0] if _a_vm else "<no key>"))
+    return _REAL_RECORD_VM(*_a_vm, **_k_vm)
+
+
+_H_vm.record = _spy_record_vm
+
+
+@_ctx_vm.contextmanager
+def _no_ledger_vm():
+    """Run a probe whose WHOLE POINT is to make a guard record a failure, without that record
+    landing in the library's own failure ledger.
+
+    Restores whatever was there before rather than the spy by name, so nesting this inside
+    another patch of `health.record` cannot lose the outer one.
+    """
+    _saved_vm = _H_vm.record
+    _H_vm.record = lambda *_a, **_k: None
+    try:
+        yield
+    finally:
+        _H_vm.record = _saved_vm
+
+
+# THE WRAPPER IS EXERCISED, not merely declared -- the whole point of the ratchet below is that
+# it can only be trusted if the thing it depends on is proven to work. Three properties: it
+# suppresses, it RESTORES (a wrapper that leaked the no-op would silence the real ledger for the
+# rest of the run, which is far worse than the litter it removes), and it does not swallow the
+# exception or the answer of the code under test.
+_probe_calls_vm = []
+_outer_vm = _H_vm.record
+_H_vm.record = lambda *_a, **_k: _probe_calls_vm.append(_a[0] if _a else None)
+try:
+    _H_vm.record("before")
+    with _no_ledger_vm():
+        _H_vm.record("inside")
+    _H_vm.record("after")
+    _raised_vm = False
+    try:
+        with _no_ledger_vm():
+            _H_vm.record("inside-then-raise")
+            raise ValueError("the code under test still raises")
+    except ValueError:
+        _raised_vm = True
+    _H_vm.record("after-raise")
+finally:
+    _H_vm.record = _outer_vm
+check("the ledger wrapper suppresses only what it wraps, and restores the recorder",
+      (_probe_calls_vm, _raised_vm), (["before", "after", "after-raise"], True),
+      note="a wrapper that failed to restore would silence the LIVE ledger for the remainder "
+           "of the run -- worse than the probe litter it exists to remove")
+
+
+# --------------------------------------------------------------------------------------------
 # A DEFECT-PATTERN SCAN MATCHES ITS OWN EXPLANATION. This battery learned that once already:
 # §20a's `restart_reader` row carries the comment "Read CODE, not prose: the comment recording
 # this repair necessarily quotes the pattern it removed", and patched itself with
@@ -110,9 +216,17 @@ def check(label, got, want, tol=1e-6, note=""):
 # whose source segment contains them; there are none.
 #
 # So ask the PARSE TREE, which cannot see prose at all: a truncation is a `Subscript` whose
-# slice is a `Slice`, and a comment quoting one is not a Subscript. That is strictly stronger
-# than the string scan in the other direction too -- `did[:5]` and `did[:6]` are the same Hard
-# Rule 0 defect, and a row naming only the number it happened to see lets the next one through.
+# slice is a `Slice`, and a comment quoting one is not a Subscript. It is stronger about the
+# NUMBER -- `did[:5]` and `did[:6]` are the same Hard Rule 0 defect, and a row naming only the
+# one it happened to see lets the next one through.
+#
+# IT WAS NOT "STRICTLY STRONGER", AND THAT WORD IS NOW GONE (orders 58c5bd288074, 6543b7ef2b53).
+# The first version matched only a Subscript whose `.value` was a bare `ast.Name`, so
+# `self.did[:5]`, `led.did[:5]`, `d["did"][:5]` and `obj.get("did")[:5]` were all invisible --
+# and the literal grep it replaced DID match `self.did[:5]`, because the substring is simply
+# there. Trading a false-red against prose for a silent blind spot against code is the exact
+# trade this battery exists to refuse, so the base test below now accepts all four spellings and
+# the canary underneath holds both directions of it.
 #
 # FAILS TOWARD NOISE, NOT SILENCE: a file that will not parse returns a loud sentinel row rather
 # than `[]`, because an empty list reads exactly like a clean file -- the shape this battery
@@ -120,12 +234,33 @@ def check(label, got, want, tol=1e-6, note=""):
 
 
 def _slices_of(src, name):
-    """Every `name[...]` SLICE in `src` that is real code, as source segments.
+    """Every SLICE in `src`, in real code, whose base names `name`, as source segments.
+
+    Four spellings of the base count, because all four truncate the same list: the bare local
+    `did[:5]`, the attribute `self.did[:5]`, the key `d["did"][:5]`, and the getter
+    `obj.get("did")[:5]`. A comment or docstring quoting any of them is not a Subscript node and
+    is therefore invisible here, which is the whole reason this asks the tree.
 
     Stronger than grepping one literal: `did[:5]` and `did[:6]` are the same defect, and a row
     that names only the number it happened to see lets the next one through.
     """
     _ast0 = __import__("ast")
+
+    def _base_names(_b):
+        """Does this Subscript's base refer to `name`, in any of the four spellings?"""
+        if isinstance(_b, _ast0.Name):
+            return _b.id == name                                  # did[:5]
+        if isinstance(_b, _ast0.Attribute):
+            return _b.attr == name                                # self.did[:5], led.did[:5]
+        if isinstance(_b, _ast0.Subscript):
+            return (isinstance(_b.slice, _ast0.Constant)
+                    and _b.slice.value == name)                   # d["did"][:5]
+        if isinstance(_b, _ast0.Call):
+            return (isinstance(_b.func, _ast0.Attribute) and _b.func.attr == "get"
+                    and len(_b.args) >= 1 and isinstance(_b.args[0], _ast0.Constant)
+                    and _b.args[0].value == name)                 # obj.get("did")[:5]
+        return False
+
     try:
         _tree = _ast0.parse(src)
     except Exception:
@@ -134,9 +269,44 @@ def _slices_of(src, name):
     _out = []
     for _n in _ast0.walk(_tree):
         if (isinstance(_n, _ast0.Subscript) and isinstance(_n.slice, _ast0.Slice)
-                and isinstance(_n.value, _ast0.Name) and _n.value.id == name):
+                and _base_names(_n.value)):
             _out.append("line %d: %s" % (_n.lineno, _ast0.get_source_segment(src, _n)))
     return _out
+
+
+# THE CANARY ORDER 873330d2e98d ASKED FOR ON EVERY NEGATIVE SCAN, and `_slices_of` is one: both
+# of its call sites assert `== []`, so a typo'd node type or attribute name would leave it
+# matching nothing, forever, on every future file, and both rows would go on reading green.
+# BOTH DIRECTIONS ARE CONTROLLED -- a positive control alone still passes if the predicate
+# regressed to matching everything, which is how a sibling row in this file actually failed.
+_canary_slice_hits = {k: bool(_slices_of(v, "did")) for k, v in {
+    "bare local":  "x = did[:5]\n",
+    "attribute":   "x = self.did[:5]\n",
+    "key":         "x = d['did'][:5]\n",
+    "getter":      "x = obj.get('did')[:5]\n",
+    "parenthesised": "x = (did)[:5]\n",
+    "a different number": "x = did[:6]\n",
+}.items()}
+_canary_slice_clean = {k: bool(_slices_of(v, "did")) for k, v in {
+    "a different name":       "x = other[:5]\n",
+    "an INDEX, not a slice":  "x = did[5]\n",
+    "the word in a comment":  "# this used to say did[:5]\n",
+    "the word in a docstring": "'''removed: did[:5]'''\n",
+}.items()}
+check("the truncation scan sees every spelling of the base, not just a bare local",
+      sorted(k for k, v in _canary_slice_hits.items() if not v), [],
+      note="the three it was blind to are here: self.did[:5], d['did'][:5] and "
+           "obj.get('did')[:5]. The literal grep this replaced matched the first of them")
+check("and it stays blind to prose and to a plain index",
+      sorted(k for k, v in _canary_slice_clean.items() if v), [],
+      note="a scan that matched the comment recording a fix is what sent both call sites red "
+           "against clean code in the first place")
+with _no_ledger_vm():                # the SyntaxError is the fixture; see the wrapper's note
+    _canary_slice_unparseable = _slices_of("def (\n", "did")
+check("an unparseable file is a LOUD sentinel, never a clean empty list",
+      _canary_slice_unparseable, ["<unparseable: did>"],
+      note="an empty list reads exactly like a clean file, which is how absence gets read as "
+           "an all-clear")
 
 
 print("=" * 96)
@@ -169,10 +339,17 @@ gamma = 1 / math.sqrt(1 - 0.5 ** 2)
 # `isinstance(want, float)` branch, and the comparison fell through to exact equality --
 # two integers near 4.6e16 compared bit for bit under a label promising a tolerance. It
 # passed, because exact is STRICTER than intended, so nothing was wrong except what the
-# next reader would believe. An AST scan of all 68 rows passing `tol=` found this was the
-# only one whose `want` was provably not a float. The intent is made REAL rather than
-# dropped: the unrounded joules are compared and the tolerance does the work it says it
-# does. The numbers are unchanged.
+# next reader would believe. The intent is made REAL rather than dropped: the unrounded
+# joules are compared and the tolerance does the work it says it does. The numbers are
+# unchanged.
+#
+# THE SENTENCE THAT USED TO STAND HERE IS GONE (order 1036c659495d). It read: "An AST scan
+# of all 68 rows passing `tol=` found this was the only one whose `want` was provably not a
+# float." Re-running that scan on 2026-09-01 found a SECOND one -- the burg row at §3, which
+# spelt its `want` `max(30, int(...))` -- so the comment was vouching for a count that had
+# moved, in a file whose whole argument is that a measurement must be re-taken rather than
+# remembered. A prose count cannot notice the next one either. So the scan is now a ROW, at
+# the end of §20z, and it is asserted every run instead of quoted once.
 check("KE relativistic @ 0.5c uses gamma", PH.kinetic(1.0, 0.5 * 2.99792458e8),
       (gamma - 1) * 1.0 * 2.99792458e8 ** 2, tol=1.0,
       note="must switch to relativistic above 0.1c; the bar is 1 joule against a quantity near 4.6e16, i.e. floating-point noise and nothing wider")
@@ -226,7 +403,7 @@ print("3. THE CENSUS — chain arithmetic and physical constraints")
 print("=" * 96)
 
 c = C.census("STANDARD")
-g_, s_ = C.GALAXIES_DEFAULT, C.GALAXIES_DEFAULT * C.STARS_PER_GALAXY_MEAN
+_, s_ = C.GALAXIES_DEFAULT, C.GALAXIES_DEFAULT * C.STARS_PER_GALAXY_MEAN
 check("stars = galaxies x stars/galaxy", c["stars"], s_, tol=1e-9)
 check("exoplanets = stars x planets/star", c["exoplanets"], s_ * C.PLANETS_PER_STAR, tol=1e-9)
 check("habitable = stars x eta-Earth", c["habitable_zone_rocky"], s_ * C.ETA_EARTH, tol=1e-9)
@@ -533,7 +710,13 @@ check("no two Custodes share a degree of freedom",
 check("the charter's three Hands are preserved, not replaced",
       all(n in CU.CUSTODES for n in ("Quill", "Moth", "Avar")), True)
 
-_r = CU.convene("M3", _ks, attestation="Witnessed", worksheet="x")
+# WRAPPED: this fixture supplies no vantage and no contest graph, so two Custodes abstain and
+# `custodes._abstained` notes each one -- once per process, hence only this first convene needs
+# it. Those two classes stood at 87 in the live ledger, three a run for thirty runs, describing
+# a fixture rather than the library. The abstention itself is NOT suppressed: `_r` below is the
+# real answer and the rows that follow assert on it.
+with _no_ledger_vm():
+    _r = CU.convene("M3", _ks, attestation="Witnessed", worksheet="x")
 check("the interval covers EVERY signed reading", _r["covers_every_reading"], True,
       note="a college publishing a band that excludes one of its own has hidden its "
            "disagreement, not measured it")
@@ -918,6 +1101,39 @@ check("Alien and Predator share a multiverse",
 check("the deliberate joins are an order of magnitude above the rest",
       TI.DELIBERATE_JOIN > 365 * 4, True,
       note="the cliff that makes a xenoverse 'artificial' rather than merely resonant")
+
+# ---- Section 4.2: the entanglement pass has a verifier that can SEE it (STEP4_PLAN.md §7F) ----
+#
+# Until 2026-09-02 `thread_integrity.classify` was called by every caller with recorded=None and
+# printed "no directed thread graph exists yet" -- while data/THREADS.json held 1,508,653
+# threads. A verifier that cannot see its subject passes for ever. These rows are cheap on
+# purpose (the graph loads in well under a second; the corpus join lives in drill.py's net) and
+# they assert the three facts 4.2 rests on: the graph is a graph, nothing in it points at no
+# address, and the classifier can now reach a class it could never reach before.
+import thread_integrity as _TI42
+_g42 = _TI42.load_thread_graph()
+check("Phase 4.1's graph loads as a graph", _g42 is not None, True,
+      note="None means the file is absent; a corrupt file RAISES rather than reading as empty")
+check("no thread on record resolves to no address (the Phase 4.2 release gate)",
+      len(_g42[1]) if _g42 else -1, 0,
+      note="DANGLING = 0 is a release gate, not a metric (STEP4_PLAN.md §8)")
+check("the graph carries recorded directions, not just addresses",
+      (_g42[2]["recorded_directions"] > 0) if _g42 else False, True)
+_pair42 = next(((a, b) for (a, b) in (_g42[0] if _g42 else ()) if (b, a) in _g42[0]), None)
+check("the verifier is no longer blind: RECIPROCAL is reachable against the live graph",
+      _TI42.classify({_pair42: {"k"}, _pair42[::-1]: {"k"}}, recorded=_g42[0])[0].get("RECIPROCAL", 0)
+      if _pair42 else -1, 1,
+      note="before 4.2 this class was structurally unreachable -- every caller passed recorded=None")
+_floor42 = os.path.join(_TI42.HERE, "state", "THREAD_INTEGRITY_FLOOR.json")
+try:
+    with open(_floor42, encoding="utf-8") as _f42:
+        _fl42 = json.load(_f42).get("asymmetric_suspect_max")
+except Exception:
+    _fl42 = None
+check("the ASYMMETRIC-SUSPECT floor is on record and is a count",
+      isinstance(_fl42, int) and _fl42 >= 0, True,
+      note="read, never re-judged here: _floor_verdict writes on a ratchet and a battery row must "
+           "not move the baseline it reports on")
 # Order fbdb7fe3bd4c: `AS.assign(...)` was compared to itself -- the same defect as the map_seed
 # tautology above, and the same repair. "Deterministic" is a claim about repeating across loads
 # and about being insensitive to what must not matter; f(x) == f(x) tests neither.
@@ -1049,7 +1265,7 @@ print("=" * 96)
 import sevenfold as SF       # noqa: E402
 import collections as _co    # noqa: E402
 
-_srcs, _coords, _w, _worlds = SF.build()
+_, _coords, _, _worlds = SF.build()      # sources and weights are not read by this section
 
 def _branching(pool, tier_idx):
     t = SF.TIERS[tier_idx]
@@ -1102,9 +1318,23 @@ _f = {"landform": "continents", "climate": "temperate",
       "condition": "settled", "tech": "medieval"}
 _bs = BG.burgs_for(424242, _f)
 
+# TWO FAULTS IN ONE ROW, order 1036c659495d, and the second falsified a comment.
+#   1. This read `max(30, ...)` while `burgs.HAMLET_FLOOR` is 40 -- the floor was RE-SPELT here
+#      rather than read, which is the "one spelling in one place" rule broken. It passed only
+#      because `int(P1/10)` is large for every seed the fixture produces: measured over seeds
+#      1/7/42/999/424242/123456, P1 runs 16,912-24,352 and P1/10 runs 1,691-2,435, so the clamp
+#      never engaged and the wrong number never showed. A roll whose head is under 400 would
+#      have made this row assert a floor the module does not have. :1287 and the batch6 row both
+#      read `BG.HAMLET_FLOOR` correctly; only this one re-spelt it.
+#   2. `max(int, int)` is an int, so `want` was an int, so `check()` never took its
+#      `isinstance(want, float)` branch and the comparison fell through to EXACT equality -- the
+#      `tol=1e-9` was silently discarded, exactly as at :346. Populations ARE integers, so exact
+#      is the honest comparison and the tolerance is simply removed rather than made real: a
+#      `tol=` that does nothing is a promise to the next reader that the code does not keep.
 check("the k-th burg holds P1/k, independently recomputed",
-      _bs[9]["population"], max(30, int(_bs[0]["population"] / 10)), tol=1e-9,
-      note="Auerbach 1913 / Zipf 1949; q = 1 is the classical rule")
+      _bs[9]["population"], max(BG.HAMLET_FLOOR, int(_bs[0]["population"] / 10)),
+      note="Auerbach 1913 / Zipf 1949; q = 1 is the classical rule. Integer populations, "
+           "compared exactly -- no tolerance, because a tolerance on two ints is discarded")
 check("populations are strictly non-increasing by rank",
       all(_bs[i]["population"] >= _bs[i + 1]["population"] for i in range(len(_bs) - 1)), True)
 check("the ranking runs down to the hamlet floor and stops",
@@ -1323,8 +1553,25 @@ import pipeline as _PL
 # third of the file, and a check that raises must still not leak. `ignore_errors=True` because
 # a scratch directory that is already gone, or that a virus scanner still holds open, is not
 # something a verification suite should fail over -- the point is to stop the growth, not to
-# add a new way to go red. Sites that already clean up after themselves (§19ab's rmtree,
-# batch2's, and the two `TemporaryDirectory()` blocks) are left exactly as they are.
+# add a new way to go red.
+#
+# THE ENUMERATION THAT USED TO CLOSE THIS PARAGRAPH OVER-CLAIMED, and is corrected here (order
+# 41e4489aa545). It read: "Sites that already clean up after themselves (§19ab's rmtree,
+# batch2's, and the two `TemporaryDirectory()` blocks) are left exactly as they are." Two of
+# those three claims did not hold. Batch2's `_codewatch_concurrency_b2` removed its directory
+# AFTER a `json.load` that can raise -- so it leaked precisely on the short-count failure the
+# check exists to detect, the worst moment to lose the evidence; its rmtree is now in a
+# `finally`. And §21's corrupt-evidence-cache probe was not a mkdtemp site at all, so it was
+# not in the enumeration and not swept: it wrote `panscriptum_corrupt_cache_21.json` straight
+# into `gettempdir()` and removed it inside a `try`, leaving one behind per raising run. It now
+# writes into a tracked `_mkdtemp_vm` directory.
+#
+# WHAT IS ACTUALLY EXEMPT, re-enumerated by reading every temp-making site in this file rather
+# than by trusting the old list: §19ab's token-flow root and §20p's halt-probe root, each
+# rmtree'd from a `finally`; the two `TemporaryDirectory()` blocks; and batch6's `_tmp_guard`,
+# which is a single FILE removed in a `finally`. That is five, not three -- §20p's was doing
+# the right thing and was not credited. Everything else that makes a scratch directory goes
+# through `_mkdtemp_vm` and is swept at exit.
 import atexit as _atexit_vm
 import shutil as _shutil_vm
 
@@ -1498,121 +1745,146 @@ _crecs = os.path.join(_cd, "records")
 os.makedirs(_crecs, exist_ok=True)
 
 _cp_hosts, _cp_recs, _cp_probe = _CP.HOSTS, _CP.RECORDS, _CP.category_size_probe
-_CP.HOSTS, _CP.RECORDS = _chosts, _crecs
-_nprobes = len(_CP.ws.CATEGORY_PROBES[_CP.PERSONS])
+# EVERY OVERRIDE IN THIS SECTION IS RESTORED FROM A `finally` -- order d472818df177. The
+# five saves below used to be put back by plain module-level statements, so ANY raise in
+# between -- a `json.load` of a file a land() did not produce, `_CP.audit()` itself -- left
+# `completeness` pointed at `_cd`, a scratch directory that is deleted at process exit, for
+# the whole remainder of the suite. The comment further down describes exactly that damage
+# from the PREVIOUS omission ('any later check reading it was reading a fixture, not the
+# library'); the repair that comment records restored the value but did not make the restore
+# exception-safe, so the hazard it names was still reachable by a different road. §19m
+# overrides the SAME module's OUT and has used try/finally all along, which is the shape
+# copied here. The row after the `finally` is kept as belt and braces -- it is now a second
+# opinion rather than the only thing standing between a raise and a poisoned module.
+_cp_reach, _cp_out = _CP.host_reachable, _CP.OUT
+try:
+    _CP.HOSTS, _CP.RECORDS = _chosts, _crecs
+    _nprobes = len(_CP.ws.CATEGORY_PROBES[_CP.PERSONS])
 
 
-def _stub(pattern):
-    """pattern: list of (n, err) consumed in probe order, one call per probe."""
-    seq = list(pattern)
-    order = {c: i for i, c in enumerate(_CP.ws.CATEGORY_PROBES[_CP.PERSONS])}
-    return lambda sub, cand: seq[order[cand]]
+    def _stub(pattern):
+        """pattern: list of (n, err) consumed in probe order, one call per probe."""
+        seq = list(pattern)
+        order = {c: i for i, c in enumerate(_CP.ws.CATEGORY_PROBES[_CP.PERSONS])}
+        return lambda sub, cand: seq[order[cand]]
 
 
-_E, _N, _V = (None, "URLError"), (None, None), (1000, None)
+    _E, _N, _V = (None, "URLError"), (None, None), (1000, None)
 
-# These checks exercise the PROBE branch, so the reachability gate in front of it is held open.
-# Without this they test the gate instead and silently stop covering what they were written for
-# (2026-08-24: adding `host_reachable` broke exactly three of them, which is the gate proving it
-# short-circuits -- correct behaviour, wrong thing under test).
-_cp_reach = _CP.host_reachable
-_CP.host_reachable = lambda host, timeout=8: True
+    # These checks exercise the PROBE branch, so the reachability gate in front of it is held open.
+    # Without this they test the gate instead and silently stop covering what they were written for
+    # (2026-08-24: adding `host_reachable` broke exactly three of them, which is the gate proving it
+    # short-circuits -- correct behaviour, wrong thing under test).
+    _CP.host_reachable = lambda host, timeout=8: True
 
-_CP.category_size_probe = _stub([_E] * _nprobes)
-check("all probes failed -> row KEPT as unreliable", len(_CP.audit(workers=1)), 1)
+    _CP.category_size_probe = _stub([_E] * _nprobes)
+    check("all probes failed -> row KEPT as unreliable", len(_CP.audit(workers=1)), 1)
 
-_CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_N])
-_r = _CP.audit(workers=1)
-check("one clean miss among transport failures -> row still KEPT", len(_r), 1)
-check("and it is marked unreliable, not scored", bool(_r[0]["unreliable"]) if _r else False, True)
-check("and it carries its failure count", _r[0]["probe_failures"] if _r else None, _nprobes - 1)
+    _CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_N])
+    _r19d = _CP.audit(workers=1)
+    check("one clean miss among transport failures -> row still KEPT", len(_r19d), 1)
+    check("and it is marked unreliable, not scored", bool(_r19d[0]["unreliable"]) if _r19d else False, True)
+    check("and it carries its failure count", _r19d[0]["probe_failures"] if _r19d else None, _nprobes - 1)
 
-_CP.category_size_probe = _stub([_N] * _nprobes)
-check("genuine absence (every probe answered, no categories) -> row dropped",
-      len(_CP.audit(workers=1)), 0)
+    _CP.category_size_probe = _stub([_N] * _nprobes)
+    check("genuine absence (every probe answered, no categories) -> row dropped",
+          len(_CP.audit(workers=1)), 0)
 
-# THE NUMERATOR HAS TO EXIST BEFORE THIS CAN ASK ABOUT THE DENOMINATOR, and until run #35 the
-# fixture never gave it one: `records/` was created EMPTY, so `Testsource` had no catalogue
-# record and the row was unmeasurable for a reason that had nothing to do with the probes this
-# check is about. It passed anyway, because at the time nothing distinguished "no numerator" from
-# "measured and zero" -- when run #35 taught `audit()` to say so (order 662b9fc2d7e2), this check
-# went red and correctly refused to keep vouching for a fixture that was never testing what its
-# own label claims. The record below makes the transport failures the only variable.
-with open(os.path.join(_crecs, "Testsource.json"), "w", encoding="utf-8") as _f:
-    json.dump({"source": "Testsource",
-               "entries": [{"category": "Persons"} for _ in range(40)]}, _f)
-_CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_V])
-_r = _CP.audit(workers=1)
-check("a real denominator among failures is still measurable",
-      bool(_r) and not _r[0]["unreliable"], True)
-check("and the coverage it reports is the real ratio, not a stand-in zero",
-      round(_r[0]["coverage"], 4) if _r else None, round(40 / 1000, 4),
-      note="40 catalogued Persons against a probed denominator of 1000")
-check("while the failed probes ride along on the row rather than being discarded",
-      _r[0]["probe_failures"] if _r else None, _nprobes - 1)
-# And the other half of the distinction run #35 drew: WITHOUT a catalogue record the same probe
-# pattern must NOT report a measured zero, because nobody measured anything.
-os.remove(os.path.join(_crecs, "Testsource.json"))
-_CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_V])
-_r_norec = _CP.audit(workers=1)
-check("an UNCATALOGUED source with a good denominator is unmeasured, not measured-and-zero",
-      bool(_r_norec) and bool(_r_norec[0]["unreliable"]), True,
-      note="coverage 0.0 with no numerator on disk reads exactly like a source that was "
-           "catalogued and genuinely has nobody in it")
+    # THE NUMERATOR HAS TO EXIST BEFORE THIS CAN ASK ABOUT THE DENOMINATOR, and until run #35 the
+    # fixture never gave it one: `records/` was created EMPTY, so `Testsource` had no catalogue
+    # record and the row was unmeasurable for a reason that had nothing to do with the probes this
+    # check is about. It passed anyway, because at the time nothing distinguished "no numerator" from
+    # "measured and zero" -- when run #35 taught `audit()` to say so (order 662b9fc2d7e2), this check
+    # went red and correctly refused to keep vouching for a fixture that was never testing what its
+    # own label claims. The record below makes the transport failures the only variable.
+    with open(os.path.join(_crecs, "Testsource.json"), "w", encoding="utf-8") as _f:
+        json.dump({"source": "Testsource",
+                   "entries": [{"category": "Persons"} for _ in range(40)]}, _f)
+    _CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_V])
+    _r19d = _CP.audit(workers=1)
+    check("a real denominator among failures is still measurable",
+          bool(_r19d) and not _r19d[0]["unreliable"], True)
+    check("and the coverage it reports is the real ratio, not a stand-in zero",
+          round(_r19d[0]["coverage"], 4) if _r19d else None, round(40 / 1000, 4),
+          note="40 catalogued Persons against a probed denominator of 1000")
+    check("while the failed probes ride along on the row rather than being discarded",
+          _r19d[0]["probe_failures"] if _r19d else None, _nprobes - 1)
+    # And the other half of the distinction run #35 drew: WITHOUT a catalogue record the same probe
+    # pattern must NOT report a measured zero, because nobody measured anything.
+    os.remove(os.path.join(_crecs, "Testsource.json"))
+    _CP.category_size_probe = _stub([_E] * (_nprobes - 1) + [_V])
+    _r_norec = _CP.audit(workers=1)
+    check("an UNCATALOGUED source with a good denominator is unmeasured, not measured-and-zero",
+          bool(_r_norec) and bool(_r_norec[0]["unreliable"]), True,
+          note="coverage 0.0 with no numerator on disk reads exactly like a source that was "
+               "catalogued and genuinely has nobody in it")
 
-# ---- the reachability gate itself -------------------------------------------------------------
-# An unreachable host must still produce a ROW -- a source missing from COMPLETENESS.json reads
-# downstream as "nothing on the wiki", the opposite of "we could not ask", and losing every
-# fandom source during an outage is the empty-file catastrophe wearing a smaller hat. It must
-# also cost ZERO category probes: the whole point is not walking a blocked host into eight
-# 42-second failures.
-_probe_calls = []
-_CP.category_size_probe = lambda sub, cand: (_probe_calls.append(cand), _V)[1]
-_CP.host_reachable = lambda host, timeout=8: False
-_r = _CP.audit(workers=1)
-check("an unreachable host still yields a row", len(_r), 1)
-check("marked unreliable, naming the host",
-      bool(_r) and "host unreachable" in (_r[0]["unreliable"] or ""), True)
-check("and it is NOT probed even once", len(_probe_calls), 0)
-check("its probes_run is honestly zero", _r[0]["probes_run"] if _r else None, 0)
+    # ---- the reachability gate itself -------------------------------------------------------------
+    # An unreachable host must still produce a ROW -- a source missing from COMPLETENESS.json reads
+    # downstream as "nothing on the wiki", the opposite of "we could not ask", and losing every
+    # fandom source during an outage is the empty-file catastrophe wearing a smaller hat. It must
+    # also cost ZERO category probes: the whole point is not walking a blocked host into eight
+    # 42-second failures.
+    _probe_calls = []
+    _CP.category_size_probe = lambda sub, cand: (_probe_calls.append(cand), _V)[1]
+    _CP.host_reachable = lambda host, timeout=8: False
+    _r19d = _CP.audit(workers=1)
+    check("an unreachable host still yields a row", len(_r19d), 1)
+    check("marked unreliable, naming the host",
+          bool(_r19d) and "host unreachable" in (_r19d[0]["unreliable"] or ""), True)
+    check("and it is NOT probed even once", len(_probe_calls), 0)
+    check("its probes_run is honestly zero", _r19d[0]["probes_run"] if _r19d else None, 0)
 
-_CP.host_reachable = _cp_reach
-_CP.HOSTS, _CP.RECORDS, _CP.category_size_probe = _cp_hosts, _cp_recs, _cp_probe
+    _CP.host_reachable = _cp_reach
+    _CP.HOSTS, _CP.RECORDS, _CP.category_size_probe = _cp_hosts, _cp_recs, _cp_probe
 
-# The write contract: an empty measurement must not be able to erase a real one.
-#
-# SAVED LIKE EVERY SIBLING OVERRIDE, which this one alone was not. HOSTS, RECORDS,
-# category_size_probe and host_reachable are all stashed above and put back; `OUT` was
-# reassigned to a tempdir with nothing kept, so the module's idea of where COMPLETENESS.json
-# lives never came back. Section 19m then saved that ALREADY-CLOBBERED value as its own
-# original and restored the tempdir path in its `finally`, so from here to the end of the suite
-# `completeness.OUT` pointed at a directory that gets deleted -- and any later check reading it
-# was reading a fixture, not the library.
-_cp_out = _CP.OUT
-_CP.OUT = os.path.join(_cd, "COMPLETENESS.json")
-check("a real result lands", _CP.land([{"source": "A", "unreliable": None}]), True)
-check("and completeness.land leaves no .tmp behind", os.path.exists(_CP.OUT + ".tmp"), False)
-check("an empty result REFUSES to overwrite it", _CP.land([]), False)
-check("and the real rows are untouched", len(json.load(open(_CP.OUT, encoding="utf-8"))), 1)
-check("a --only slice never lands over the whole-corpus file",
-      json.load(open(_CP.OUT, encoding="utf-8"))[0]["source"]
-      if _CP.land([{"source": "B", "unreliable": None}], only="B") else "?", "A")
+    # The write contract: an empty measurement must not be able to erase a real one.
+    #
+    # SAVED LIKE EVERY SIBLING OVERRIDE, which this one alone was not. HOSTS, RECORDS,
+    # category_size_probe and host_reachable are all stashed above and put back; `OUT` was
+    # reassigned to a tempdir with nothing kept, so the module's idea of where COMPLETENESS.json
+    # lives never came back. Section 19m then saved that ALREADY-CLOBBERED value as its own
+    # original and restored the tempdir path in its `finally`, so from here to the end of the suite
+    # `completeness.OUT` pointed at a directory that gets deleted -- and any later check reading it
+    # was reading a fixture, not the library.
+    _CP.OUT = os.path.join(_cd, "COMPLETENESS.json")
+    check("a real result lands", _CP.land([{"source": "A", "unreliable": None}]), True)
+    check("and completeness.land leaves no .tmp behind", os.path.exists(_CP.OUT + ".tmp"), False)
+    check("an empty result REFUSES to overwrite it", _CP.land([]), False)
+    check("and the real rows are untouched", len(json.load(open(_CP.OUT, encoding="utf-8"))), 1)
+    check("a --only slice never lands over the whole-corpus file",
+          json.load(open(_CP.OUT, encoding="utf-8"))[0]["source"]
+          if _CP.land([{"source": "B", "unreliable": None}], only="B") else "?", "A")
 
-# Empty was never the only way to lose the measurement, and guarding only against it left the
-# door open beside the one that was locked: 164 rows -> 3 rows landed silently. Kept LAST in this
-# block because it necessarily rewrites the file the checks above assert against.
-_CP.land([{"source": "S%d" % i, "unreliable": None} for i in range(20)])
-check("a run that loses most of the corpus REFUSES too",
-      _CP.land([{"source": "A", "unreliable": None}]), False)
-check("and the fuller measurement survives it",
-      len(json.load(open(_CP.OUT, encoding="utf-8"))), 20)
-check("while an ordinary fluctuation still lands",
-      _CP.land([{"source": "S%d" % i, "unreliable": None} for i in range(18)]), True)
-_CP.OUT = _cp_out
+    # Empty was never the only way to lose the measurement, and guarding only against it left the
+    # door open beside the one that was locked: 164 rows -> 3 rows landed silently. Kept LAST in this
+    # block because it necessarily rewrites the file the checks above assert against.
+    _CP.land([{"source": "S%d" % i, "unreliable": None} for i in range(20)])
+    check("a run that loses most of the corpus REFUSES too",
+          _CP.land([{"source": "A", "unreliable": None}]), False)
+    check("and the fuller measurement survives it",
+          len(json.load(open(_CP.OUT, encoding="utf-8"))), 20)
+    check("while an ordinary fluctuation still lands",
+          _CP.land([{"source": "S%d" % i, "unreliable": None} for i in range(18)]), True)
+    _CP.OUT = _cp_out
+finally:
+    _CP.HOSTS, _CP.RECORDS = _cp_hosts, _cp_recs
+    _CP.category_size_probe, _CP.host_reachable = _cp_probe, _cp_reach
+    _CP.OUT = _cp_out
 check("and completeness.OUT is back to the real artifact, not this section's tempdir",
       os.path.basename(_CP.OUT) == "COMPLETENESS.json" and _cd not in _CP.OUT, True,
       note="every later section that reads it -- 19m among them -- was reading a fixture path "
            "that gets deleted, because this override was the one nobody put back")
+check("and so are the other four attributes this section overrode",
+      [_n19d for _n19d, _v19d in (("HOSTS", _CP.HOSTS is _cp_hosts),
+                                  ("RECORDS", _CP.RECORDS is _cp_recs),
+                                  ("category_size_probe", _CP.category_size_probe is _cp_probe),
+                                  ("host_reachable", _CP.host_reachable is _cp_reach))
+       if not _v19d], [],
+      note="named individually and reported as a list, because 'OUT is back' says nothing about "
+           "the other four and this section overrides five. A stubbed host_reachable or a "
+           "stubbed category_size_probe left standing would make every later fandom check "
+           "answer from this fixture")
 
 
 # ---- Section 19e: the error bar is built from the weights the composite was built from -------
@@ -1824,7 +2096,7 @@ class _M:                                          # the one attribute widen_can
 
 
 _models = [_M("mistral:free"), _M("anthropic:paid"), _M("ollama:qwen3"), _M("gemini:free")]
-_cand = [m.bucket for m in _CB.widen_candidates(_models)]
+_cand19h = [m.bucket for m in _CB.widen_candidates(_models)]
 
 _cbsrc = open(os.path.join(_here19h, "cascade_bridge.py"), encoding="utf-8").read()
 for _gone in ("PAID_PREFIX", "PAID_LANE_RETIRED", "paid_lane_open", "_PAID_LOCK",
@@ -1842,9 +2114,9 @@ for _fgone in ("PAID_BURST", "est_usd_per_call", "paid burst lane"):
 # The behavioural half: the bucket is not blocked, it is simply not special. This is the
 # difference between a retired lane and an erased one, and it is deliberate -- a config that
 # still names an `anthropic:` bucket now gets no bespoke treatment of any kind.
-check("locals are still excluded", [b for b in _cand if b.startswith("ollama:")], [])
+check("locals are still excluded", [b for b in _cand19h if b.startswith("ollama:")], [])
 check("every non-local bucket is a candidate, with no paid-lane exception",
-      _cand, ["mistral:free", "anthropic:paid", "gemini:free"],
+      _cand19h, ["mistral:free", "anthropic:paid", "gemini:free"],
       note="NOT a regression: nothing can spend money any more, so nothing needs excluding. "
            "The money gate lived in Cascade's config; this file no longer has an opinion.")
 
@@ -1870,19 +2142,23 @@ try:
         os.remove(_CB.UNRECOGNISED)
     _CB.record_unrecognised("probe:bucket", "  HTTP 418   I am a   teapot  ")
     _CB.record_unrecognised("probe:bucket", "HTTP 418 I am a teapot")
-    _rows = _CB.unrecognised_open()
-    check("an unrecognised failure lands in the ledger", len(_rows), 1,
+    _rows19h = _CB.unrecognised_open()
+    check("an unrecognised failure lands in the ledger", len(_rows19h), 1,
           note="same bucket + same leading text collapses to one row, so a repeating fault "
                "does not flood the file")
     check("the ledger keeps the error TEXT, not just a count",
-          _rows[0]["error"], "HTTP 418 I am a teapot",
+          _rows19h[0]["error"], "HTTP 418 I am a teapot",
           note="whitespace normalised; a count alone cannot be classified")
-    check("repeats are counted", _rows[0]["count"], 2)
+    check("repeats are counted", _rows19h[0]["count"], 2)
     check("an aged-out row leaves the page by itself",
           _CB.unrecognised_open(max_age_h=0), [],
           note="a resolved fault should stop being reported without anyone editing a file")
-    check("recording never raises, whatever it is handed",
-          _CB.record_unrecognised(None, None), None,
+    # WRAPPED: `record_unrecognised(None, None)` is SUPPOSED to hit its own guard, which notes
+    # `cascade_bridge.py:record-unrecognised:TypeError`. That class stood at 31 in the live
+    # ledger, one per battery run. The return value is what this row asserts, not the silence.
+    with _no_ledger_vm():
+        _rec_none = _CB.record_unrecognised(None, None)
+    check("recording never raises, whatever it is handed", _rec_none, None,
           note="this sits on the hot path of every failed call")
 finally:
     try:
@@ -2012,8 +2288,8 @@ import runguard as _RG         # noqa: E402
 _gd = _mkdtemp_vm()
 _gp = os.path.join(_gd, "GUARD.json")
 
-_ok, _ = _RG.claim("runA", _gp)
-check("a run can claim a free guard", _ok, True)
+_ok19k, _ = _RG.claim("runA", _gp)
+check("a run can claim a free guard", _ok19k, True)
 check("and refresh its own heartbeat", _RG.beat("runA", _gp), True)
 
 # Someone else takes the guard. This is the m27 state, reproduced exactly.
@@ -2058,8 +2334,8 @@ check("a heartbeat-less record does not block",
 os.remove(_gp)
 json.dump({"started": 1.0, "heartbeat": 2.0, "done": False, "agent": "crashed"},
            open(_gp, "w"))
-_ok, _ = _RG.claim("runD", _gp)
-check("a stale record can be taken over", _ok, True)
+_ok19k, _ = _RG.claim("runD", _gp)
+check("a stale record can be taken over", _ok19k, True)
 check("and the takeover names the run it superseded",
       _RG.read(_gp)["superseded"]["agent"], "crashed",
       note="a crashed run's work is unfinished by definition; the next run should be able to "
@@ -2105,8 +2381,12 @@ check("a full answer is accepted",
 # A predicate that raises must not take the call down with it, and must not be read as consent.
 def _boom(_g):
     raise RuntimeError("predicate blew up")
+# WRAPPED: the predicate is MEANT to blow up, and `pipeline`'s guard notes
+# `pipeline.py:pool-accept:RuntimeError` when it catches it -- 31 in the live ledger, one a run.
+with _no_ledger_vm():
+    _boom_verdict = _PL._pool_answer_usable({"results": [{"index": 0}]}, _SCH, _boom)
 check("a raising accept-predicate is a miss, not a crash and not an acceptance",
-      _PL._pool_answer_usable({"results": [{"index": 0}]}, _SCH, _boom), False)
+      _boom_verdict, False)
 
 # A schema with no `required` list must not become a gate that rejects everything.
 check("a schema declaring nothing required accepts any dict",
@@ -2146,9 +2426,9 @@ check("an identical body changes nothing", _FM.lines_changed("a\nb\n", "a\nb\n")
 # --- completeness.land must not claim a denied write landed ------------------------------------
 _land_dir = _mkdtemp_vm()
 _CP_OUT, _CP.OUT = _CP.OUT, os.path.join(_land_dir, "COMPLETENESS.json")
-_rows = [{"source": "s%d" % i, "pct": 1.0} for i in range(200)]
+_rows19m = [{"source": "s%d" % i, "pct": 1.0} for i in range(200)]
 try:
-    check("land() reports success when the rename lands", _CP.land(_rows), True)
+    check("land() reports success when the rename lands", _CP.land(_rows19m), True)
     check("and the rows are genuinely on disk",
           len(json.load(open(_CP.OUT, encoding="utf-8"))), 200)
 
@@ -2156,7 +2436,7 @@ try:
     _real_rr = silence.replace_retry
     silence.replace_retry = lambda tmp, dst, attempts=5: False
     try:
-        check("land() reports FAILURE when the rename is denied", _CP.land(_rows), False,
+        check("land() reports FAILURE when the rename is denied", _CP.land(_rows19m), False,
               note="its own docstring promises 'Returns True if the file now holds rows'; "
                    "returning True on a denied rename made that line false in the one case "
                    "the caller needed to hear about -- main() exits 0 on a stale file")
@@ -2169,7 +2449,7 @@ try:
     # The guards that were already there must still hold -- this fix must not weaken them.
     check("an empty measurement is still refused over real rows", _CP.land([]), False)
     check("and a 98% shrink is still refused",
-          _CP.land(_rows[:3]), False,
+          _CP.land(_rows19m[:3]), False,
           note="SHRINK_FLOOR; the new return path must not become a way past it")
 finally:
     _CP.OUT = _CP_OUT
@@ -2405,7 +2685,7 @@ check("two disambiguated forms of one character stay DISTINCT",
 # These checks fail if anyone re-hardcodes a roster next to the real one.
 import overnight as _ON      # noqa: E402
 
-_standing_basenames = [os.path.basename(args[0]) for _n, args, _l in _ON.STANDING]
+_standing_basenames = [os.path.basename(args[0]) for _, args, _ in _ON.STANDING]
 check("every job the keeper restarts is visible to the roster readers",
       [j for j in _standing_basenames if j not in _ON.ALL_JOBS], [],
       note="a STANDING job absent from ALL_JOBS is invisible to every 'is it up?' check")
@@ -2616,8 +2896,12 @@ check("the same block does NOT fit the window M6 was filed against",
 # repro) were invisible, and local call VOLUME had never been measurable at all. The reading
 # looked complete because the rows it dropped could not appear in it. This check reads the two
 # writers' source directly, because the symptom is only visible in a file neither writer owns.
+# A PLAIN LIST OF MODULE NAMES (order debf1670b1be). This iterated (module, function) pairs and
+# read only the module half; `_mx_fn` was bound and never used, and both tuples named "_metric"
+# anyway, so the pairing carried no information at all -- it read as though the function name
+# were part of what is being selected, and it was not.
 _mx_src = {}
-for _mx_mod, _mx_fn in (("pipeline", "_metric"), ("cascade_bridge", "_metric")):
+for _mx_mod in ("pipeline", "cascade_bridge"):
     _mx_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), _mx_mod + ".py")
     _mx_src[_mx_mod] = open(_mx_path, encoding="utf-8").read()
 
@@ -2748,7 +3032,11 @@ _V4, _V6 = "162.159.142.170", "2606:4700:7::29e"
 _both = {_StubNet.AF_INET: [_V4], _StubNet.AF_INET6: [_V6]}
 
 _net_blocked = _StubNet(_both, {_V6})            # the 2026-08-24 shape, exactly
-_blocked_ok, _blocked_where = _STx.fandom_ipv4_reachable(_sk=_net_blocked)
+# WRAPPED, all three: these are STUBBED resolvers whose whole job is to make the probe fail in
+# three different ways, and the probe's guard notes `standards.py:fandom-v4-dns:OSError` when it
+# does -- 31 in the live ledger against thirty runs, describing a stub rather than the network.
+with _no_ledger_vm():
+    _blocked_ok, _blocked_where = _STx.fandom_ipv4_reachable(_sk=_net_blocked)
 check("an IPv6-only route does NOT certify fandom as reachable",
       _blocked_ok, False,
       note=f"probe answered {_blocked_ok!r} ({_blocked_where}); content wikis are "
@@ -2758,11 +3046,13 @@ check("the fandom probe asks the resolver for IPv4 and nothing else",
       note="AF_UNSPEC lets the first family that answers speak for both -- that is the bug")
 
 _net_up = _StubNet(_both, {_V4, _V6})
-_up_ok, _up_where = _STx.fandom_ipv4_reachable(_sk=_net_up)
+with _no_ledger_vm():
+    _up_ok, _up_where = _STx.fandom_ipv4_reachable(_sk=_net_up)
 check("a live IPv4 leg still reads as reachable", (_up_ok, _up_where), (True, _V4))
 
 _net_nov4 = _StubNet({_StubNet.AF_INET6: [_V6]}, {_V6})
-_nov4_ok, _nov4_where = _STx.fandom_ipv4_reachable(_sk=_net_nov4)
+with _no_ledger_vm():
+    _nov4_ok, _nov4_where = _STx.fandom_ipv4_reachable(_sk=_net_nov4)
 check("a host with no A record fails the probe instead of raising",
       (_nov4_ok, _nov4_where.startswith("no A record")), (False, True))
 
@@ -3227,8 +3517,18 @@ with open(_ledger19ag, encoding="utf-8") as _f19ag:
 check("every appended row is a whole line", len(_lines19ag), 50)
 check("every appended row parses",
       sum(1 for ln in _lines19ag if isinstance(_json_try(ln), dict)), 50)
-check("append_line reports failure rather than raising",
-      silence.append_line(os.path.join(_ledger19ag, "not-a-dir", "x.jsonl"), "{}"), False,
+# WRAPPED. `_ledger19ag` is a FILE, so `<file>/not-a-dir/x.jsonl` cannot be created and
+# `append_line` correctly returns False -- and on the way out it notes
+# `silence.py:append_line:FileNotFoundError`, which `health.record` puts in the LIVE
+# `state/failures.json`. Measured 2026-09-01: that class stood at 30, one for every battery run
+# since 19ag was written, in the ledger `standards` grades from and `foreman.triage_swallowed`
+# names classes out of -- and which, per order 842025c83c3c, is deliberately never cleared.
+# Scoped to this one call, so an unrelated fault raised elsewhere in the section is still
+# recorded, and the assertion is on the RETURN VALUE: nothing under test is suppressed here,
+# only its echo.
+with _no_ledger_vm():
+    _refused19ag = silence.append_line(os.path.join(_ledger19ag, "not-a-dir", "x.jsonl"), "{}")
+check("append_line reports failure rather than raising", _refused19ag, False,
       note="a metrics failure must never cost a model call")
 
 # WHAT THE THREE ROWS ABOVE DO NOT MEASURE, said here because for eight days nobody noticed
@@ -4056,7 +4356,16 @@ try:
           _sw21.load(os.path.join(_here19, "no-such-evidence-cache-21.json")), None)
     check("and is NOT recorded as a swallowed failure", _noted21, [],
           note="this is the 85%; recording it made the standard permanently red and useless")
-    _bad21 = os.path.join(_tf.gettempdir(), "panscriptum_corrupt_cache_21.json")
+    # WRITTEN INTO A TRACKED SCRATCH DIRECTORY, not straight into %TEMP% -- order 41e4489aa545.
+    # This built its path from `_tf.gettempdir()` and removed it two lines down INSIDE the try;
+    # the `finally` restores `_si21.note` and nothing else, so any raise above left one
+    # `panscriptum_corrupt_cache_21.json` in %TEMP% for good, one per run. That is exactly the
+    # growth order af447d21d634 was filed to stop (336 `panscript-ledger-*` plus 148
+    # `panscript-lane-*` orphans, plus nine unprefixed ones that could not even be counted).
+    # `_mkdtemp_vm` registers the directory with §18c's atexit sweep, so the file goes with it
+    # however this block ends.
+    _bad21 = os.path.join(_mkdtemp_vm(prefix="panscript-cache21-"),
+                          "panscriptum_corrupt_cache_21.json")
     with open(_bad21, "w", encoding="utf-8") as _f21:
         _f21.write('{"pages_read": [1, 2')
     check("a CORRUPT cache still returns None", _sw21.load(_bad21), None)
@@ -4521,7 +4830,12 @@ check("a config fault is not swallowed by a lone word",
       note="'connection' as a bare substring used to match this; phrases only now")
 check("a trace id containing 429 does not read as a rate limit",
       _cb20h.named_transient("req_id 8842900f"), False)
-_pm20h = os.path.join(_here19, "..", "data", "PROVIDER_MODELS.json")
+# `_pm20h` STOOD HERE AND WAS READ BY NOTHING (order debf1670b1be): it computed the path of
+# data/PROVIDER_MODELS.json -- the artifact the §20h(b) provider-catalogue standard is about --
+# and was left behind when that check became a source grep of standards.py. A constant naming
+# the very file a standard measures, consulted by no row, is the kind of thing that reads as
+# coverage. Found by an AST Store/Load reconciliation over the whole module; pyflakes reports
+# none of this class, because a module-level assignment is neither an import nor a local.
 _st20h = open(os.path.join(_here19, "standards.py"), encoding="utf-8").read()
 # COMMENT TAILS STRIPPED (order 469b4db261ef, run #37): `standards.py` names both of these
 # tokens in comments as well as in code, so deleting the real ageing logic left both rows green
@@ -4604,8 +4918,14 @@ for _fn20i, _lbl20i in ((_PL.write_record, "write_record"),
     with open(_torn, "w", encoding="utf-8") as _f:
         _f.write('{"source": "T", "entries": [')      # a file caught mid-write
     _before20i = open(_torn, encoding="utf-8").read()
+    # WRAPPED: the torn file is the fixture, so the guard is SUPPOSED to fire and note
+    # `pipeline.py:write_record-merge:JSONDecodeError` (and the catalogue twin). Both stood at
+    # 30 in the live ledger -- one pair per battery run -- and a real torn record would have
+    # arrived indistinguishable from thirty copies of this rehearsal.
+    with _no_ledger_vm():
+        _refused20i = _fn20i(_torn, {"source": "T", "entries": [{"name": "A"}]})
     check("%s refuses to write over a file it could not read" % _lbl20i,
-          _fn20i(_torn, {"source": "T", "entries": [{"name": "A"}]}), False,
+          _refused20i, False,
           note="returning False is this module's own idiom -- the caller leaves its unit open")
     check("and %s leaves that file byte-for-byte untouched" % _lbl20i,
           open(_torn, encoding="utf-8").read(), _before20i)
@@ -5334,7 +5654,7 @@ _INTERLOCKED = ("dashboard.py", "feats.py", "foreman.py", "overnight.py", "overw
 _failopen20p = []
 for _f20p in _INTERLOCKED:
     _t20p = _src20p(_f20p)
-    for _m20p in __import__("re").finditer(
+    for _ in __import__("re").finditer(
             r"import escalation as _ESC\s*\n\s*_ESC\.assert_clear[^\n]*\n\s*except ImportError:"
             r"\s*\n\s*pass", _t20p):
         _failopen20p.append(_f20p)
@@ -5342,9 +5662,131 @@ check("no job swallows a missing escalation module", _failopen20p, [],
       note="THE BUG: `except ImportError: pass` around the halt check meant deleting "
            "escalation.py disabled the plant-wide halt in eight jobs at once, quietly")
 for _f20p in _INTERLOCKED:
-    check("%s refuses to start when the chain is unimportable" % _f20p,
+    check("%s carries a REFUSING TO message somewhere in the file" % _f20p,
           "REFUSING TO" in _src20p(_f20p), True,
-          note="fail closed: a job that cannot read the halt has no business starting")
+          note="MESSAGE QUALITY ONLY, AND IT SAYS SO NOW. This row is a whole-file substring "
+               "search for two words: it does not know which refusal it found, and publish.py "
+               "carries five of them (RENDER, ledger_guard, the mutation interlock, an active "
+               "mutation run) while read.py carries two. Gutting the escalation interlock in "
+               "either module left this row GREEN -- measured on scratch copies, order "
+               "6dc4bde7fab6. The interlock guarantee rests on the AST rows below, not here")
+
+# --- THE INTERLOCK ITSELF, ASKED OF THE PARSE TREE ----------------------------------------------
+# Order 6dc4bde7fab6. The two rows above are what Hard Rule -1 USED to rest on, and neither of
+# them sees the interlock being REMOVED rather than replaced with `pass`: `_failopen20p` is a
+# regex for one specific old shape, and the 'REFUSING TO' row is satisfied by any refusal
+# message anywhere in the file for any reason. Reproduced on scratch copies (src/ untouched):
+# replacing publish.py's and read.py's `raise SystemExit('REFUSING TO START: ...')` with `pass`
+# left BOTH rows green in both modules. The six that WERE caught were caught only by the
+# accident that they carry no second refusal string -- so adding one unrelated 'REFUSING TO'
+# message to any of them would have silently retired that module's row too.
+#
+# WHAT A GUARD IS, precisely, because the distinction is the whole check: an ast.Try whose body
+# is EXACTLY ONE `import escalation` statement and nothing else. That is the fail-closed
+# spelling. A Try that imports escalation AND USES it in the same body is a different animal --
+# foreman.kill_stalled_job's escalate-on-stall, overnight.subsystem_stopped, overnight's
+# halted-wait -- and those are deliberately allowed to swallow, because losing an advisory
+# escalate is not the same as starting a job that cannot read the halt. Widening the predicate
+# to every Try that mentions escalation would flag all three and the row would be turned off.
+import ast as _ast20p                                                  # noqa: E402
+
+
+def _esc_aliases20p(_node):
+    """-> [alias] if `_node` is an `import escalation` statement, else []."""
+    if isinstance(_node, _ast20p.Import):
+        return [a.asname or a.name for a in _node.names if a.name == "escalation"]
+    if isinstance(_node, _ast20p.ImportFrom) and _node.module == "escalation":
+        return [a.asname or a.name for a in _node.names]
+    return []
+
+
+def _interlock20p(_src):
+    """-> (guard_linenos, complaints) for every fail-closed escalation-import guard in `_src`."""
+    _tree = _ast20p.parse(_src)
+    _guards, _bad = [], []
+    for _n in _ast20p.walk(_tree):
+        if not (isinstance(_n, _ast20p.Try) and len(_n.body) == 1):
+            continue
+        _al = _esc_aliases20p(_n.body[0])
+        if not _al:
+            continue
+        _guards.append(_n.lineno)
+        if not _n.handlers:
+            _bad.append("line %d: the import guard has no handler at all" % _n.lineno)
+        for _h in _n.handlers:
+            # A RAISE ANYWHERE IN THE HANDLER, at any nesting depth -- `pass`, a log-and-carry-on,
+            # a bare `return`, and an empty body are all the same fault wearing different clothes.
+            if not any(isinstance(_x, _ast20p.Raise) for _x in _ast20p.walk(_h)):
+                _bad.append("line %d: the handler does not raise" % _n.lineno)
+    return _guards, _bad
+
+
+# THE COUNT IS PINNED PER MODULE, not merely "at least one". `publish.py` and `overnight.py`
+# each carry TWO guards -- the startup interlock in main() and a second one inside the --loop /
+# cycle body, because a halt raised MID-CYCLE must stop the next cycle and a process that has
+# already started never re-reads its startup guard. Measured on scratch copies: deleting ONLY
+# the startup guard in either module leaves the other standing, so a `>= 1` row would have read
+# green over exactly that deletion. A legitimate new guard turns this row red on purpose: a
+# person should look at a new place the plant-wide halt is being consulted.
+_EXPECT20p = {"overnight.py": 2, "publish.py": 2}
+_noguard20p, _openguard20p, _noclear20p = [], [], []
+for _f20p in _INTERLOCKED:
+    _t20p = _src20p(_f20p)
+    _g20p, _b20p = _interlock20p(_t20p)
+    if len(_g20p) != _EXPECT20p.get(_f20p, 1):
+        # THE VACUOUS CASE, WHICH IS THE ONE THAT MATTERS. A module with the whole try/except
+        # deleted has nothing to complain about, so a complaints-only row would read green over
+        # exactly the deletion Hard Rule -1 exists to refuse.
+        _noguard20p.append("%s: %d fail-closed escalation guards, expected %d"
+                           % (_f20p, len(_g20p), _EXPECT20p.get(_f20p, 1)))
+    _openguard20p.extend("%s %s" % (_f20p, _x) for _x in _b20p)
+    if not [_n for _n in _ast20p.walk(_ast20p.parse(_t20p))
+            if isinstance(_n, _ast20p.Call) and isinstance(_n.func, _ast20p.Attribute)
+            and _n.func.attr == "assert_clear"]:
+        _noclear20p.append(_f20p)
+check("every interlocked job still carries its full count of fail-closed escalation guards",
+      _noguard20p, [],
+      note="reported as a list of module names, so a red row says WHICH job lost its interlock. "
+           "This is the row the regex and the substring search both missed: deleting the guard "
+           "outright left them green (measured on scratch copies of read.py, pipeline.py and "
+           "foreman.py, and on publish.py/overnight.py once the count is pinned at two)")
+check("and no such guard swallows the missing chain instead of raising",
+      _openguard20p, [],
+      note="`except ImportError: pass` was the original incident -- eight jobs' plant-wide halt "
+           "switched off at once, quietly. Any non-raising handler now names its module and line")
+check("and every interlocked job actually ASKS the chain whether the library is halted",
+      _noclear20p, [],
+      note="importing escalation and never calling assert_clear() is a guard that imports a "
+           "safety and then does not consult it")
+
+# AND THE MATCHER IS EXERCISED, per the house rule order 873330d2e98d states for every negative
+# scan: a typo'd node type would leave this silently matching nothing, forever. All four attack
+# shapes below are fixtures, not live code.
+_fix20p = {
+    "handler is a bare pass": ("try:\n    import escalation as _ESC\nexcept ImportError:\n"
+                               "    pass\n_ESC.assert_clear('x')\n"),
+    "handler logs and carries on": ("try:\n    import escalation as _ESC\n"
+                                    "except ImportError as e:\n    log('no chain: %s' % e)\n"),
+    "handler is empty but for a docstring": ("try:\n    import escalation as _ESC\n"
+                                             "except ImportError:\n    'nothing to do'\n"),
+    "from-import spelling, swallowed": ("try:\n    from escalation import assert_clear\n"
+                                        "except ImportError:\n    pass\n"),
+}
+check("[control] the interlock matcher catches every swallowing spelling of the guard",
+      sorted(_k for _k, _v in _fix20p.items() if not _interlock20p(_v)[1]), [],
+      note="a positive control on the MATCHER, not on the library: if a node test is typo'd, "
+           "the three rows above go silently vacuous rather than red")
+_ok20p = ("try:\n    import escalation as _ESC\nexcept ImportError as e:\n"
+          "    raise SystemExit('REFUSING TO START: %s' % e) from e\n_ESC.assert_clear('x')\n")
+check("[control] and it does not cry wolf on the real fail-closed shape",
+      _interlock20p(_ok20p), ([1], []),
+      note="over-matching would flag all nine jobs and the row would be turned off")
+_advisory20p = ("try:\n    import escalation as _ESC\n    _ESC.escalate('x')\n"
+                "except Exception:\n    silence.note('advisory')\n")
+check("[control] and an advisory escalate that swallows is NOT read as a broken interlock",
+      _interlock20p(_advisory20p), ([], []),
+      note="foreman.kill_stalled_job and overnight.subsystem_stopped are this shape on purpose; "
+           "the guard predicate is 'a Try whose body is ONLY the import', not 'mentions escalation'")
 
 _drill20p = _src20p("drill.py")
 # ASKED OF THE AST, NOT OF THE TEXT -- and this one caught me writing the same bug I had just
@@ -5629,9 +6071,23 @@ for _f20t in sorted(os.listdir(_src20t)):
     try:
         with open(_p20t, encoding="utf-8") as _fh20t:
             _tree20t = _ast20t.parse(_fh20t.read(), filename=_f20t)
-    except (OSError, SyntaxError) as _e20t:
+    except Exception as _e20t:
         # An unparseable module is NOT a pass. It is a file this check could not read, which is
         # exactly the shape ("absence read as clean") the whole project is built against.
+        #
+        # `except Exception`, NOT `except (OSError, SyntaxError)` -- order b842cd1e27da. SECTION
+        # 20e states the reason at its own parse guard in so many words: a null byte or a bad
+        # encoding raises ValueError or UnicodeDecodeError, neither of which is a SyntaxError,
+        # and both of which would otherwise take the WHOLE SUITE down out of this module-level
+        # loop instead of being reported as the unreadable file they are. RESULT would never
+        # print, sys.exit(1) would never run, and allsweep would grade verify_math BROKEN rather
+        # than red -- which means the assertion CLAUDE.md's Hard Rule -1 names BY LOCATION
+        # ("escalation.clear() ... is asserted by verify_math to have no caller anywhere in
+        # src/") would not run at all. local_agent.py patches files in this tree under model
+        # control and SECTION 20g records this codebase's history of mid-write truncation, so a
+        # broken src/*.py is not hypothetical. SECTION 19ab and SECTION 20e were widened for this
+        # reason already; this was the third whole-tree scan and it had been left behind.
+        silence.note("verify_math.py:S20t-parse")
         _callers20t.append("%s: UNPARSEABLE (%s)" % (_f20t, type(_e20t).__name__))
         continue
     # Every name this file binds the escalation MODULE to, and every name it binds `clear` to.
@@ -5735,32 +6191,60 @@ _sig_order = ["Instrumented", "Witnessed", "Transcribed", "Reconstructed", "Disp
 _sig_saved = dict(A.SIGMA_BY_ATTESTATION)
 
 
-def _sigma_table_refuses(table):
-    """Does the module's own integrity check reject this table? -> bool."""
+def _sigma_table_verdict(table):
+    """What did the module's own integrity check DO with this table? -> str.
+
+    TRI-STATE, NOT A BOOLEAN (order 0b93667baf8d). This returned `bool` and answered False both
+    for "the module examined the table and accepted it" and for "the module could not run at
+    all". On the two negative rows below that conflation fails loud, which is fine. On the
+    POSITIVE CONTROL -- `and the real table passes its own check`, which wants False -- it did
+    the opposite: a `_check_constants()` raising KeyError, TypeError or anything else returned
+    exactly the answer that row asserts, so an integrity check that CANNOT RUN read as an
+    integrity check that PASSED. Success reported for work not done, in the row whose whole job
+    is to prove the checker still works on good input -- and that is also the only two-sided
+    control here, since a checker that rejected EVERY table would pass both negative rows.
+    A crash now reports itself by name instead of borrowing a verdict.
+    """
     A.SIGMA_BY_ATTESTATION.clear()
     A.SIGMA_BY_ATTESTATION.update(table)
     try:
         A._check_constants()
-        return False
+        return "ACCEPTED"
     except A.AssayIntegrityError:
-        return True
-    except Exception:
-        return False
+        return "REFUSED"
+    except Exception as _e_sig:
+        return "RAISED " + type(_e_sig).__name__
     finally:
         A.SIGMA_BY_ATTESTATION.clear()
         A.SIGMA_BY_ATTESTATION.update(_sig_saved)
 
 
+# `_sig_order` IS NOW LOAD-BEARING (order debf1670b1be). It was assigned above and read by
+# nothing: both malformed tables were built from `_sig_saved` with the attestation names spelt
+# out again, so the list naming the very ordering this block is about carried no information.
+# The row below asserts it against the module's live table, and the two fixtures are built from
+# it -- so a change to the attestation ladder reaches these fixtures instead of leaving them
+# quietly testing a ladder that no longer exists.
+check("the attestation ladder runs from the tightest testimony to the loosest",
+      sorted(_sig_order, key=lambda _a: _sig_saved[_a]), _sig_order,
+      note="better testimony, less uncertainty; this is the ordering the two fixtures below "
+           "deliberately break")
 _out_of_order = dict(_sig_saved)
-_out_of_order["Instrumented"], _out_of_order["Disputed"] = (
-    _sig_saved["Disputed"], _sig_saved["Instrumented"])
+_out_of_order[_sig_order[0]], _out_of_order[_sig_order[-1]] = (
+    _sig_saved[_sig_order[-1]], _sig_saved[_sig_order[0]])
 check("an OUT-OF-ORDER attestation table is refused (better testimony, more uncertainty)",
-      _sigma_table_refuses(_out_of_order), True)
+      _sigma_table_verdict(_out_of_order), "REFUSED")
 _duplicated = dict(_sig_saved)
-_duplicated["Witnessed"] = _sig_saved["Transcribed"]
+_duplicated[_sig_order[1]] = _sig_saved[_sig_order[2]]
 check("a DUPLICATED attestation sigma is refused (two grades that cannot be told apart)",
-      _sigma_table_refuses(_duplicated), True)
-check("and the real table passes its own check", _sigma_table_refuses(_sig_saved), False)
+      _sigma_table_verdict(_duplicated), "REFUSED")
+check("and the real table passes its own check", _sigma_table_verdict(_sig_saved), "ACCEPTED",
+      note="ACCEPTED, not 'did not refuse'. A checker that raised on good input used to answer "
+           "this row correctly by accident")
+check("[control] and a checker that cannot run reports itself rather than borrowing a verdict",
+      _sigma_table_verdict({"Instrumented": object()}).startswith("RAISED "), True,
+      note="an unorderable value makes `_check_constants` raise something that is NOT an "
+           "AssayIntegrityError -- the exact case the old boolean folded into 'accepted'")
 
 # ---- the Hands' interval: L1078, L1089, L1098 ----------------------------------------------
 # interval_from_hands is where the published +/- comes from, and NOTHING in the battery called
@@ -5869,17 +6353,17 @@ check("and the two are told apart by the decimal, which is what the flag reads",
 # Between-hand dispersion is only defined for MORE THAN ONE reading -- the sample sd divides by
 # (n-1), so a single reading would divide by zero. The mutation inverts the guard, which turns
 # the one safe case into the crash case and vice versa.
-_one = A._interval(dict(A.CHARTER_KENSHIRO), set(A.CHARTER_KENSHIRO), set(),
+_one20r = A._interval(dict(A.CHARTER_KENSHIRO), set(A.CHARTER_KENSHIRO), set(),
                    list(A.WEIGHTS), "Witnessed", 1.0, hand_readings=[7.4],
                    weights=A.WEIGHTS)
 check("one hand reading contributes no between-hand variance (n-1 would be zero)",
-      "_between_hands" not in _one[1], True)
-_two = A._interval(dict(A.CHARTER_KENSHIRO), set(A.CHARTER_KENSHIRO), set(),
+      "_between_hands" not in _one20r[1], True)
+_two20r = A._interval(dict(A.CHARTER_KENSHIRO), set(A.CHARTER_KENSHIRO), set(),
                    list(A.WEIGHTS), "Witnessed", 1.0, hand_readings=[7.4, 7.9],
                    weights=A.WEIGHTS)
 check("two hand readings DO contribute between-hand variance",
-      "_between_hands" in _two[1], True)
-check("and disagreement widens the bar rather than narrowing it", _two[0] >= _one[0], True)
+      "_between_hands" in _two20r[1], True)
+check("and disagreement widens the bar rather than narrowing it", _two20r[0] >= _one20r[0], True)
 
 # ---- the Constitution faculty: L962 (`or` -> `and`) ----------------------------------------
 # Constitution is the mean of two axes and prints NOTHING when either is unattested --
@@ -5913,12 +6397,25 @@ check("while INAPPLICABLE is not ignorance and is not on it",
 # The margin is only meaningful when BOTH ends of the passing band were found and they bracket
 # a real interval. The mutation computes a margin from a half-open or empty band, which is a
 # division by a zero-or-negative width dressed up as a calibration figure.
+#
+# THE `if isinstance(_cal, dict):` THAT USED TO WRAP THIS ROW IS GONE -- order c8704a41a70f.
+# Two faults in one line. The guard was DEAD: `assay.calibration_report` has exactly one return
+# statement, a dict literal, so the condition could not evaluate False and the `if` asserted
+# nothing. And on the day it COULD -- a future early return, a None on a missing file -- the row
+# would have VANISHED rather than failed, and an absent row is invisible to every count that
+# audits this file. That is green-by-absence: §20k's "it did not read green; it was ABSENT,
+# which on a page of green looks identical", and §20p's vacuous conditional row (order
+# 498dd8b268f7) are the same shape, and both were refused. The shape is now stated as its own
+# red-able row instead of as a silent precondition.
 _cal = A.calibration_report()
-if isinstance(_cal, dict):
-    check("the calibration margin is None unless a real passing band was bracketed",
-          _cal.get("margin") is None
-          or (_cal.get("band_lo") is not None and _cal.get("band_hi") is not None
-              and _cal["band_hi"] > _cal["band_lo"]), True)
+check("calibration_report answers with a dict at all", isinstance(_cal, dict), True,
+      note="what the retired `if` assumed. A non-dict here now FAILS instead of quietly "
+           "deleting the margin row underneath it")
+check("the calibration margin is None unless a real passing band was bracketed",
+      isinstance(_cal, dict)
+      and (_cal.get("margin") is None
+           or (_cal.get("band_lo") is not None and _cal.get("band_hi") is not None
+               and _cal["band_hi"] > _cal["band_lo"])), True)
 
 # ---- axis_score's ONE-SIDED band edge: L228 (`or` -> `and`) --------------------------------
 # The refusal above only reaches the mutation when exactly ONE of the two edges is missing.
@@ -6412,8 +6909,18 @@ def _instrument_classification_b2(tmp_dir):
         import silence as _silence_b2
         changed = _silence_b2.instrument(root=tmp_dir, dry=True)
     finally:
-        with __import__("contextlib").suppress(OSError):
+        try:
             os.remove(scratch)
+        except OSError:
+            # NOT A BARE SUPPRESS -- order 3fa9f4ac0265. This file states the doctrine on a
+            # structurally identical cleanup: "Every other deliberate swallow in this tree
+            # records its site, and so does this one." An inventory of every ExceptHandler here
+            # found this and the batch6 runguard cleanup were the only two that neither noted
+            # their site nor declared an exemption, so a reader could not tell which was meant.
+            # It removes a SCRATCH file, so the cost of a failure is a leaked temp file rather
+            # than a hidden fault -- but that is a reason to write the sentence down, not to
+            # leave it out.
+            silence.note("verify_math.py:b2-instrument-cleanup")
     # `changed` is [(basename, n_sites)]; the exempt handler must NOT be counted, the silent one
     # must be the only site found.
     for _base, _n in changed:
@@ -6455,15 +6962,23 @@ def _codewatch_concurrency_b2():
         for _ in range(calls_each):
             _cw_b2._record_restart(who)
 
-    threads = [threading.Thread(target=worker, args=(n,)) for n in names]
-    [t.start() for t in threads]
-    [t.join() for t in threads]
+    # THE RMTREE IS IN A `finally` -- order 41e4489aa545. It used to sit AFTER the `json.load`
+    # below, which is the one line here that can raise: a short-count failure (the fault this
+    # check exists to detect) or a ledger the workers never managed to write leaves the load
+    # throwing, and the directory then leaked precisely on the run whose evidence matters most.
+    # §18c's enumeration of the sites that "already clean up after themselves" named this one,
+    # and it did not -- not on the path that counts.
     import json as _json_b2
-    with open(_cw_b2.LEDGER, encoding="utf-8") as f:
-        doc = _json_b2.load(f)
     import shutil as _shutil_b2
-    _shutil_b2.rmtree(scratch_dir, ignore_errors=True)
-    return {n: len(doc.get(n, [])) for n in names}
+    try:
+        threads = [threading.Thread(target=worker, args=(n,)) for n in names]
+        [t.start() for t in threads]
+        [t.join() for t in threads]
+        with open(_cw_b2.LEDGER, encoding="utf-8") as f:
+            doc = _json_b2.load(f)
+        return {n: len(doc.get(n, [])) for n in names}
+    finally:
+        _shutil_b2.rmtree(scratch_dir, ignore_errors=True)
 
 check("d99b11ec050e: concurrent _record_restart calls lose no entries",
       _codewatch_concurrency_b2(), {"foreman": 20, "overwatch": 20, "publish": 20},
@@ -6743,8 +7258,12 @@ _clean_rows_b3 = _STx_b3.check(_state_b3)
 _clean_names_b3 = {r["standard"] for r in _clean_rows_b3}
 
 _bi_b3.open = _breaking_open_b3
+# WRAPPED: `_breaking_open_b3` raises OSError on COVERAGE-shaped reads ON PURPOSE, and
+# `standards` notes `standards.py:catalogue-coverage:OSError` when it catches it -- 30 in the
+# live ledger, one a run, describing this simulation rather than an unreadable file.
 try:
-    _rows_b3 = _STx_b3.check(_state_b3)
+    with _no_ledger_vm():
+        _rows_b3 = _STx_b3.check(_state_b3)
 finally:
     _bi_b3.open = _real_open_b3
 
@@ -7155,8 +7674,14 @@ def _b4_axis_correlation_checks():
     try:
         AC.load = lambda: None      # simulate "matrix missing, unreadable, or carrying no pairs"
         A._RHO_CACHE[0] = None
+        # WRAPPED: the missing matrix is simulated, so both fallbacks are SUPPOSED to announce
+        # themselves -- `axis_correlation.py:rho-no-matrix` stood at 30 in the live ledger, one
+        # a run. The stderr banner is deliberately left alone: it is addressed to whoever is
+        # reading this run, and only the permanent ledger echo is suppressed.
+        with _no_ledger_vm():
+            _rho_ac, _rho_a = AC.rho("reach", "ruin"), A._rho("reach", "ruin")
         check("axis_correlation.rho() and assay._rho() agree on the missing-matrix fallback",
-              AC.rho("reach", "ruin"), A._rho("reach", "ruin"),
+              _rho_ac, _rho_a,
               note="both must currently read 0.0 -- a mismatch means one side's fallback moved "
                    "without the other's, re-opening order c00cab9d0412 by accident")
     finally:
@@ -7477,14 +8002,65 @@ def _b5_backfill_cap_visible():
     check("backfill_source's cap parameter defaults to None (uncapped -- 'the intended use')",
           sig.parameters["cap"].default, None)
     src_txt = _insp.getsource(BF.backfill_source)
-    check("the comment no longer claims the ranked list is 'NOT truncated' next to a cap that "
-          "truncates it",
-          "NOT" in src_txt and "truncated" in src_txt
-          and "if cap:" in src_txt.split("truncated")[-1][:40],
-          False,
-          note="the old comment's false claim sat in the ~40 chars right before `if cap:`")
     check("the returned dict always carries the pre-cap 'absent' key",
           '"absent": absent' in src_txt, True)
+
+    # THE PROSE ROW THAT USED TO STAND HERE IS RETIRED (order 2c51552725b1). It read:
+    #
+    #   "NOT" in src_txt and "truncated" in src_txt
+    #       and "if cap:" in src_txt.split("truncated")[-1][:40]
+    #
+    # -- a three-way co-occurrence whose verdict turned on CHARACTER DISTANCE. Measured against
+    # the live function: 'NOT' occurs once and 'truncated' once, both inside the comment that
+    # RECORDS the fix ("f35826ab7a3f: this used to say 'NOT truncated' directly above the cap
+    # two lines down"), and `if cap:` is twenty-two lines further on, so the 40-character tail
+    # is "\" directly above the cap two lines down," and the third conjunct is False. The row
+    # passed for a reason unrelated to what it asserts: move `if cap:` closer and it goes red
+    # against clean code; put a genuinely false claim 41 characters above `if cap:` and it stays
+    # green. The `[-1]` also means only the LAST 'truncated' is ever examined, so a second
+    # comment using the word relocates the window entirely.
+    #
+    # It could not tell the fault from the RECORD of the fault -- the same trap §20b, §20p and
+    # the `_slices_of` repair at the top of this file were each written to escape. Tuning the
+    # window would only move the accident. So the guarantee is restated as a property of the
+    # CODE, which is what it was always about: the ranked list may be truncated ONLY under an
+    # explicit cap. That is Hard Rule 0's actual shape, and no comment can satisfy it.
+    import textwrap as _tw_b5
+    _bfast = _ast20p.parse(_tw_b5.dedent(src_txt))
+
+    def _unguarded_truncations(_tree, _guard):
+        """-> ["line N: <stmt>"] for each `missing = missing[...]` not inside an `if cap`."""
+        _bad = []
+
+        def _walk(_node, _guarded):
+            for _child in _ast20p.iter_child_nodes(_node):
+                _g = _guarded
+                if isinstance(_node, _ast20p.If) and _child in _node.body:
+                    _g = _guarded or any(
+                        isinstance(_x, _ast20p.Name) and _x.id == _guard
+                        for _x in _ast20p.walk(_node.test))
+                if (isinstance(_child, _ast20p.Assign)
+                        and any(isinstance(_t, _ast20p.Name) and _t.id == "missing"
+                                for _t in _child.targets)
+                        and isinstance(_child.value, _ast20p.Subscript)
+                        and isinstance(_child.value.slice, _ast20p.Slice)
+                        and not _g):
+                    _bad.append("line %d" % _child.lineno)
+                _walk(_child, _g)
+
+        _walk(_tree, False)
+        return _bad
+
+    check("the ranked list is truncated ONLY under an explicit cap",
+          _unguarded_truncations(_bfast, "cap"), [],
+          note="Hard Rule 0 as a property of the parse tree rather than of the prose around it: "
+               "ranking is encouraged, ranking then truncating is not, and `cap` is opt-in and "
+               "None by default (asserted above). `missing[:12]` is the printed SAMPLE, not an "
+               "assignment back to the queue, so it is correctly not counted here")
+    check("[control] and an unguarded truncation of that list IS reported",
+          _unguarded_truncations(_ast20p.parse("def f(cap=None):\n    missing = missing[:20]\n"),
+                                 "cap"), ["line 2"],
+          note="the row above asserts an empty list, which is also what a broken walker returns")
 
 
 _b5_backfill_cap_visible()
@@ -7539,7 +8115,10 @@ def _b5_wiki_source_nonfandom_shortcircuit():
         def _boom(*a, **k):
             raise AssertionError("resolve_wiki must not call _api for a known non-fandom host")
         WS._api = _boom
-        sub, sitename = WS.resolve_wiki(source_name)
+        # WRAPPED: the fixture host map is built so this lookup MUST decline, and the decline
+        # notes `wiki_source.py:non-fandom-known-host` -- 30 in the live ledger, one a run.
+        with _no_ledger_vm():
+            sub, sitename = WS.resolve_wiki(source_name)
         check("resolve_wiki returns (None, None) for a known non-fandom host with no override",
               (sub, sitename), (None, None))
     finally:
@@ -7738,9 +8317,24 @@ check("catalogue_web.catalogue_composite tracks failed categories instead of sil
 
 # ============================================================ order 6885a5ff23e5
 #                                                                (withdraw_chapters.py)
-import argparse as _ap, datetime as _dt  # noqa: E402
+# `_ap36`, NOT `_ap` -- order 7916f7063ee0, and the same repair §19v made twice and §20u once.
+# `_ap` is bound at §19c to a SCRATCH ARTIFACT PATH (a str, `<tmp>/TIERS.json`, read through the
+# land_json fixture) and this line used to rebind it to the argparse MODULE. Those three earlier
+# repairs each carry the same warning and it applies unchanged here: the arrangement is correct
+# only by the ACCIDENT that nothing reads the earlier binding after this point, and any check
+# added in between would raise TypeError and truncate the suite at that line -- which in a
+# battery reads as a crash, not as a failing check. This one was worse typed than the three that
+# were caught, and it was not caught.
+#
+# Six more cross-type module-level rebinds were renamed in the same pass, for the same reason:
+# `_cand19h` (a list of bucket names, against §19f's dict of feats), `_rows19h` and `_rows19m`
+# (against §19b's profile rows), `_ok19k` (a bool, against §19f's tuple), `_r19d` (§19d's audit
+# rows, against §2's convene result) and `_one20r`/`_two20r` (tuples that §20r subscripts,
+# against §19g's floats). Rebinding a name to the SAME module -- `_dt`, `_tf`, `_time`, `_PL`,
+# `_CP`, `_STx`, `_RD`, `BG`, `D` -- is harmless and was deliberately left alone.
+import argparse as _ap36, datetime as _dt  # noqa: E402
 
-_ap_probe = _ap.ArgumentParser()
+_ap_probe = _ap36.ArgumentParser()
 _ap_probe.add_argument("--label", default=_dt.date.today().isoformat())
 check("withdraw_chapters --label no longer hardcodes 2026-08-25",
       _ap_probe.parse_args([]).label != "2026-08-25", True,
@@ -7766,7 +8360,11 @@ try:
     # agentA's now-stale `rec` (own name, done:False, fresh heartbeat) must be REFUSED, not
     # silently overwrite agentB's claim -- the exact m27 shape this workorder found.
     rec["heartbeat"] = 0
-    ok_stale, _ = RG._land_claim(rec, _tmp_guard, expected)
+    # WRAPPED: the stale write is staged deliberately, so `silence`'s guard is SUPPOSED to
+    # refuse it and note `silence.py:stale-write-refused` -- 37 in the live ledger. `drill.py`
+    # wraps its own copy of this exact probe for this exact reason.
+    with _no_ledger_vm():
+        ok_stale, _ = RG._land_claim(rec, _tmp_guard, expected)
     final_owner = (RG.read(_tmp_guard) or {}).get("agent")
     check("runguard: a successor's claim survives a racing predecessor's stale beat",
           (ok0, okB, ok_stale, final_owner), (True, True, False, "agentB"))
@@ -7774,7 +8372,11 @@ finally:
     try:
         os.remove(_tmp_guard)
     except OSError:
-        pass
+        # NOT A BARE PASS -- order 3fa9f4ac0265, and the same sentence as the §b2 instrument
+        # cleanup above. A leaked scratch guard file is the whole cost here, which is why this
+        # is an INFO-grade repair and not a MINOR one; what it buys is that the next reader does
+        # not have to work out whether the silence was intended.
+        silence.note("verify_math.py:b6-runguard-cleanup")
 
 
 # ============================================================ order 3d74ba8262a9
@@ -7893,6 +8495,374 @@ for _p36 in _run35_files:
                    "verified, which is worse than an empty file because it looks covered")
 
 print()
+print("    §20ac  THE ONOMASTICON REFUSES RATHER THAN OVERWRITING WHAT IT COULD NOT READ")
+# ---- Section 20ac: order 9be574e5722c --------------------------------------------------------
+#
+# `onomast.load_onomasticon()` used to answer a corrupt ONOMASTICON.json with `{}` -- the same
+# answer it gives a MISSING one -- and both writers (`onomast.main()` and pipeline's weave
+# phase) write `name_worlds()`'s return value straight back over the file. One unreadable read
+# therefore wiped the append-only record in a single cycle: reproduced as a healthy prior giving
+# {'cid_a': standing, 'cid_b': retired} and a corrupt prior giving {}. Order 549069e9c298 fixed
+# it on 2026-08-31 and asked for this check; batch C04 could not add it, because this file was
+# not theirs. Without it the refusal is a behaviour nothing defends, in the module whose own
+# docstring says a safety that holds for one cycle and then forgets is worse than none.
+#
+# THREE-SIDED ON PURPOSE. A one-sided check would invite the refusal being "fixed" by widening
+# it: a MISSING file must still mean `{}` (a first run, nothing standing) and an EMPTY-BUT-
+# PARSED file must still mean "nothing issued yet" and must still name worlds. Only the
+# unreadable case changed.
+import contextlib as _ctx20ac                                          # noqa: E402
+import onomast as _Oac                                                 # noqa: E402
+
+_ac_dir = _mkdtemp_vm(prefix="panscript-onomast20ac-")
+_ac_resolved = {
+    "cid_a": {"canonical_name": "Earth", "key": "earth",
+              "continuity_group": "g1", "attestations": ["Alpha"]},
+    "cid_b": {"canonical_name": "Earth", "key": "earth",
+              "continuity_group": "g2", "attestations": ["Beta"]},
+}
+_ac_saved = (_Oac.OUT, _Oac.RESOLVED)
+try:
+    _Oac.OUT = os.path.join(_ac_dir, "ONOMASTICON.json")
+    _ac_missing = sorted(_Oac.name_worlds(_ac_resolved))
+    with open(_Oac.OUT, "w", encoding="utf-8") as _fac:
+        _fac.write("{}")
+    _ac_empty = sorted(_Oac.name_worlds(_ac_resolved))
+    _ac_prior = _Oac.name_worlds(_ac_resolved)
+    with open(_Oac.OUT, "w", encoding="utf-8") as _fac:
+        json.dump(_ac_prior, _fac)
+    with open(_Oac.OUT, "a", encoding="utf-8") as _fac:
+        _fac.write("TRUNCATED")                    # a file caught mid-write, exactly
+    _ac_bytes_before = open(_Oac.OUT, encoding="utf-8").read()
+    _ac_refused = _ac_shorter = None
+    with _no_ledger_vm():                          # the refusal notes its site; a rehearsal
+        try:
+            _ac_shorter = _Oac.name_worlds(_ac_resolved)
+            _ac_refused = False
+        except _Oac.OnomasticonUnreadable:
+            _ac_refused = True
+    _ac_bytes_after = open(_Oac.OUT, encoding="utf-8").read()
+
+    # AND THE FIRST CALLER: `onomast.main()` must carry the refusal out in its exit code, since
+    # rc is the only channel a scheduled run reads. Driven for real against the same truncated
+    # file, with RESOLVED pointed at a fixture. stdout is swallowed for the call only -- what is
+    # asserted is the return code, never the absence of the message.
+    _Oac.RESOLVED = os.path.join(_ac_dir, "RESOLVED_ENTITIES.json")
+    with open(_Oac.RESOLVED, "w", encoding="utf-8") as _fac:
+        json.dump(_ac_resolved, _fac)
+    with _no_ledger_vm(), _ctx20ac.redirect_stdout(__import__("io").StringIO()):
+        _ac_rc_bad = _Oac.main()
+    os.remove(_Oac.OUT)                            # a first run: nothing standing
+    with _ctx20ac.redirect_stdout(__import__("io").StringIO()):
+        _ac_rc_ok = _Oac.main()
+finally:
+    _Oac.OUT, _Oac.RESOLVED = _ac_saved
+
+check("a MISSING onomasticon is a first run: worlds are still named",
+      _ac_missing, ["cid_a", "cid_b"],
+      note="the half that must NOT change. Widening the refusal to cover this would hold the "
+           "first run of a fresh tree open forever")
+check("and an EMPTY-but-parsed onomasticon still means 'nothing issued yet'",
+      _ac_empty, ["cid_a", "cid_b"])
+check("but an UNREADABLE onomasticon REFUSES instead of returning a shorter dict",
+      (_ac_refused, _ac_shorter), (True, None),
+      note="the wipe was `{}` returned for a corrupt prior and written straight back over a "
+           "record that was already standing -- one cycle, no error, no smaller universe "
+           "reported anywhere")
+check("and the file it could not read is byte-for-byte untouched",
+      __import__("hashlib").sha256(_ac_bytes_after.encode("utf-8")).hexdigest(),
+      __import__("hashlib").sha256(_ac_bytes_before.encode("utf-8")).hexdigest(),
+      note="compared as a digest only so the row prints in one line; the comparison is still "
+           "over every byte of the file, which is the claim")
+check("onomast.main() carries that refusal out in its exit code",
+      _ac_rc_bad, 1,
+      note="rc is the only channel out of a scheduled run; a refusal that exits 0 is a refusal "
+           "nothing downstream can act on")
+check("[control] and main() still exits 0 when there is simply nothing standing yet",
+      _ac_rc_ok, 0,
+      note="a nonzero on the ordinary path would make the refusal indistinguishable from the "
+           "normal case, which is the same fault pointing the other way")
+
+# THE SECOND CALLER, ASKED OF THE PARSE TREE AND SAID OUT LOUD AS SUCH. `pipeline.phase_weave`
+# is not driven here: it runs the whole weave, and this row is about one handler in it. So this
+# is a STRUCTURAL assertion, not a behavioural one -- it establishes that the handler appends a
+# False to `landed` (which is what makes `gate_done` leave the weave unit open) and that it does
+# NOT write the file on that path. It does not prove the phase behaves that way at runtime; the
+# rows above prove the refusal that reaches it, and drill.py owns the end-to-end weave nets.
+_ac_weave = [_n for _n in _ast20p.walk(_ast20p.parse(_src20p("pipeline.py")))
+             if isinstance(_n, _ast20p.FunctionDef) and _n.name == "phase_weave"]
+_ac_handlers = [_h for _fn in _ac_weave for _h in _ast20p.walk(_fn)
+                if isinstance(_h, _ast20p.ExceptHandler)
+                and "OnomasticonUnreadable" in (_ast20p.dump(_h.type) if _h.type else "")]
+check("pipeline.phase_weave has exactly one handler for an unreadable onomasticon",
+      len(_ac_handlers), 1,
+      note="a parse-coverage net: zero handlers would make both rows below vacuously green")
+check("and that handler appends a False to `landed` and lands no file",
+      [_x for _x in (
+          "appends False to landed" if not any(
+              isinstance(_c, _ast20p.Call) and isinstance(_c.func, _ast20p.Attribute)
+              and _c.func.attr == "append" and _c.args
+              and isinstance(_c.args[0], _ast20p.Constant) and _c.args[0].value is False
+              for _h in _ac_handlers for _c in _ast20p.walk(_h)) else None,
+          "calls no land_json" if any(
+              isinstance(_c, _ast20p.Call) and isinstance(_c.func, _ast20p.Name)
+              and _c.func.id == "land_json"
+              for _h in _ac_handlers for _c in _ast20p.walk(_h)) else None)
+       if _x], [],
+      note="a False in `landed` is how gate_done leaves the weave unit open; without it the "
+           "phase would be marked complete sitting over an onomasticon nobody could read")
+
+
+print()
+print("    §20ab  ABSENT AND CORRUPT ARE DIFFERENT ANSWERS — in ALL FOUR phases, not two")
+# ---- Section 20ab: order d1bab3f5de6b -------------------------------------------------------
+#
+# Phases 6 and 7 of pipeline.py had the absent-vs-corrupt ruling for months and nothing noticed
+# that phases 5 and 8 never got it. Order 80204a4f87f8 (phase_cosmology writing `{}` over 1,016
+# shelfmarks) and order 3aaeb798551e (phase_write marking itself done off an unreadable
+# COVERAGE.json) both landed on 2026-08-29, and BOTH asked for a battery check that neither
+# could add, because this file belonged to another agent that shift. That is the point of
+# pinning them: two sibling phases carried the guard and these two regressed without anything
+# failing.
+#
+# DRIVEN FOR REAL, not asserted off the source text. `pipeline.HERE` is pointed at a tracked
+# scratch tree and `save_state`, `log` and `update_handoff` are stubbed, so nothing here touches
+# live state. `tiers._graph` and `weave_index.load_records` are stubbed to a two-source toy
+# graph as well -- ONLY because the real ones read the whole corpus and take 34 seconds, and the
+# charting they feed is scenery for this test: the guard under examination is the WORLDSEEDS /
+# SHELFMARKS read that happens after it. With the stubs the four cases run in 0.03s.
+import pipeline as _PLab                                               # noqa: E402
+import tiers as _Tab                                                   # noqa: E402
+import weave_index as _WIab                                            # noqa: E402
+
+_ab_saved = (_PLab.HERE, _PLab.save_state, _PLab.log, _PLab.update_handoff,
+             _Tab._graph, _WIab.load_records)
+_ab_sand = _mkdtemp_vm(prefix="panscript-phases20ab-")
+os.makedirs(os.path.join(_ab_sand, "data"), exist_ok=True)
+_ab_seeds = os.path.join(_ab_sand, "data", "WORLDSEEDS.json")
+_ab_marks = os.path.join(_ab_sand, "data", "SHELFMARKS.json")
+_ab_cov = os.path.join(_ab_sand, "data", "COVERAGE.json")
+
+
+def _ab_phase5(seedtext, standing=None):
+    """-> (returned, marked_done, what SHELFMARKS.json holds afterwards)."""
+    if seedtext is None:
+        if os.path.exists(_ab_seeds):
+            os.remove(_ab_seeds)
+    else:
+        with open(_ab_seeds, "w", encoding="utf-8") as _fab:
+            _fab.write(seedtext)
+    if standing is None:
+        if os.path.exists(_ab_marks):
+            os.remove(_ab_marks)
+    else:
+        with open(_ab_marks, "w", encoding="utf-8") as _fab:
+            json.dump(standing, _fab)
+    _st_ab = {"units_done": 0, "phases": {}}
+    # The refusals note their site on the way out, deliberately; those are rehearsals and must
+    # not reach the live ledger. See the wrapper's own note at the top of this file.
+    with _no_ledger_vm():
+        _rc_ab = _PLab.phase_cosmology({}, _st_ab)
+    _after_ab = (json.load(open(_ab_marks, encoding="utf-8"))
+                 if os.path.exists(_ab_marks) else None)
+    return _rc_ab, bool(_st_ab.get("done", {}).get("cosmology")), _after_ab
+
+
+def _ab_phase8(covtext):
+    """-> (returned, marked_done)."""
+    if covtext is None:
+        if os.path.exists(_ab_cov):
+            os.remove(_ab_cov)
+    else:
+        with open(_ab_cov, "w", encoding="utf-8") as _fab:
+            _fab.write(covtext)
+    _st_ab = {"units_done": 0, "phases": {}}
+    with _no_ledger_vm():
+        _rc_ab = _PLab.phase_write({}, _st_ab)
+    return _rc_ab, bool(_st_ab.get("done", {}).get("write"))
+
+
+try:
+    _PLab.HERE = _ab_sand
+    _PLab.save_state = lambda *_a, **_k: None
+    _PLab.log = lambda *_a, **_k: None
+    _PLab.update_handoff = lambda *_a, **_k: None
+    _Tab._graph = lambda: (["Alpha", "Beta"], {("Alpha", "Beta"): 0.9}, {})
+    _WIab.load_records = lambda *_a, **_k: [{"source": "Alpha", "entries": []},
+                                            {"source": "Beta", "entries": []}]
+    _ab_torn = _ab_phase5('{"a::b": ')
+    _ab_over = _ab_phase5("{}", standing={"x": {"address": 1}})
+    _ab_fresh = _ab_phase5("{}")
+    _ab_missing = _ab_phase5(None)
+    _ab8_torn = _ab_phase8('[{"source": "A"')
+    _ab8_missing = _ab_phase8(None)
+    _ab8_empty = _ab_phase8("[]")
+finally:
+    (_PLab.HERE, _PLab.save_state, _PLab.log, _PLab.update_handoff,
+     _Tab._graph, _WIab.load_records) = _ab_saved
+
+check("phase 5 REFUSES an unparseable WORLDSEEDS.json instead of re-addressing from nothing",
+      (_ab_torn[0], _ab_torn[1]), (False, False),
+      note="one `except Exception` used to make a torn seed file read as an empty seed set, and "
+           "the SHELFMARKS write below it is unconditional: `{}` went over 1,016 world "
+           "shelfmarks, land_json returned True, and gate_done closed phase 5 permanently")
+check("and writes no shelfmark map at all on that path", _ab_torn[2], None)
+check("phase 5 refuses to write an EMPTY map over a standing one even from a clean seed file",
+      (_ab_over[0], _ab_over[1], _ab_over[2]), (False, False, {"x": {"address": 1}}),
+      note="zero marks over a standing map is a deletion wearing the shape of a re-address, and "
+           "nothing downstream can tell: every shelfmark in SHELVES.json comes from this file")
+check("[control] but an empty map over NOTHING still lands and still closes the phase",
+      (_ab_fresh[0], _ab_fresh[1], _ab_fresh[2]), (True, True, {}),
+      note="a guard that refused every empty map would pass both rows above and would hold "
+           "phase 5 open forever on a first run")
+check("[control] and an ABSENT seed file is a first run, not a fault",
+      (_ab_missing[0], _ab_missing[1]), (True, True),
+      note="absent and corrupt are different answers -- that is the whole ruling, and a fix "
+           "that collapsed them the other way would be just as wrong")
+
+check("phase 8 REFUSES an unparseable COVERAGE.json instead of recording 'nothing is ready'",
+      (_ab8_torn[0], _ab8_torn[1]), (False, False),
+      note="with no rows the `if not ready` branch publishes a POSITIVE VERDICT about the "
+           "corpus and calls mark_done, permanently, on the strength of a file it could not "
+           "read. CLAUDE.md's Hard Rule -1 names this exact file")
+check("[control] while an ABSENT COVERAGE.json is still phase 8's finished answer",
+      (_ab8_missing[0], _ab8_missing[1]), (True, True),
+      note="coverage genuinely not computed yet, so refusing to write about unread sources IS "
+           "the correct outcome; conflating this with the torn case is the fault in reverse")
+check("[control] and so is a coverage file that legitimately holds no ready source",
+      (_ab8_empty[0], _ab8_empty[1]), (True, True))
+
+
+print()
+print("    §20aa  THREE FIXES THAT LANDED WITH NOTHING IN THE BATTERY BEHIND THEM")
+# ---- Section 20aa: order a48411f06543 --------------------------------------------------------
+#
+# Four orders landed repairs on 2026-08-29 and each asked, in its own remedy, for the check that
+# would keep the repair. None could be written that shift because this file belonged to another
+# agent. A fix with nothing asserting it is a fix that lasts until the next person has a reason
+# to undo it, which is the shape Hard Rule -1's own incident began with.
+import contextlib as _ctx20aa                                          # noqa: E402
+
+# 1. `assay.instrument()` AND THE THREE SENTINELS (orders 72aa074235d6 and 5c656d83643b).
+#    `instrument()` used to raise a bare TypeError out of `lo + (s / 10.0) * span` on NONE
+#    ('none'), INAPPLICABLE ('n/a') or UNESTIMABLE ('unestimable') -- inputs `_check_scores`
+#    DELIBERATELY admits, because they are how a caller says an axis has no reading. The battery
+#    only ever handed `instrument()` numeric dicts, which is why nothing caught it. Both public
+#    doors are exercised here, and `faculty_status` is asserted to name WHICH sentinel muted the
+#    faculty: assay.py is emphatic that NONE, INAPPLICABLE and UNESTIMABLE are three different
+#    findings ("'it has none' asserts a fact about the being; 'inapplicable' denies the
+#    question"), so a row that only checked for None would let that distinction be collapsed.
+_base20aa = dict(A.CHARTER_KENSHIRO)
+for _sent20aa in (A.NONE, A.INAPPLICABLE, A.UNESTIMABLE):
+    _sc20aa = dict(_base20aa)
+    _sc20aa["ruin"] = _sent20aa
+    check("assay() accepts a %r Ruin rather than raising" % _sent20aa,
+          isinstance(A.assay("M3", dict(_sc20aa), worksheet="w").get("decimal"), float), True)
+    _inst20aa = A.instrument("M4", dict(_sc20aa), worksheet="w")
+    check("instrument() prints no Strength for a %r Ruin" % _sent20aa,
+          _inst20aa["faculties"]["Strength"], None,
+          note="it used to raise TypeError on str * float, telling the caller the Instrument "
+               "was broken rather than that their axis was unread")
+    check("and faculty_status names WHICH sentinel muted it: %r" % _sent20aa,
+          _inst20aa["faculty_status"]["Strength"], _sent20aa,
+          note="NONE, INAPPLICABLE and UNESTIMABLE are three different findings; a bare None "
+               "would lose the distinction assay.py:147-189 exists to keep")
+# The Constitution pair, which failed one branch EARLIER than the others -- inside `0.5*(a+b)`,
+# before the division that the other five faculties die in. Both halves are normalised before
+# the mean now, and this is the case that proves it.
+_con20aa = dict(_base20aa)
+_con20aa["continuity"], _con20aa["sustain"] = A.INAPPLICABLE, 5.0
+_ic20aa = A.instrument("M4", _con20aa, worksheet="w")
+check("a sentinel on ONE half of the Constitution pair mutes it without raising",
+      (_ic20aa["faculties"]["Constitution"], _ic20aa["faculty_status"]["Constitution"]),
+      (None, A.INAPPLICABLE),
+      note="`0.5 * (a + b)` raised a branch earlier than the other faculties did, so a fix "
+           "verified only on Strength would have left this one throwing")
+check("and an all-numeric reading still prints a Constitution, so the guard is not a blanket",
+      isinstance(A.instrument("M4", dict(_base20aa), worksheet="w")["faculties"]["Constitution"],
+                 (int, str)), True,
+      note="a mute that muted everything would pass every row above; this is the other side")
+
+# 2. reference.py's EXIT CODE NOW CARRIES THE CALIBRATION (order d049dbbfed6e). Both returns
+#    were `0 if landed else 1` -- the WRITE verdict only -- so a drifted benchmark exited clean
+#    and `allsweep`'s "calibration assays" row, which runs this file specifically to catch that,
+#    could not. Driven for real: OUT is redirected into a tracked scratch dir and one charter
+#    interval is moved far enough to miss.
+import reference as _RF20aa                                            # noqa: E402
+
+_rfout20aa = _RF20aa.OUT
+_rfkey20aa = sorted(_RF20aa.REFERENCE)[0]
+_rfchart20aa = _RF20aa.REFERENCE[_rfkey20aa]["charter"]
+_rfargv20aa = sys.argv
+try:
+    _RF20aa.OUT = os.path.join(_mkdtemp_vm(prefix="panscript-ref20aa-"), "REFERENCE_ASSAYS.json")
+    sys.argv = ["reference.py"]
+    # STDOUT AND STDERR BOTH SWALLOWED, for the duration of these two calls only. main() prints
+    # a card per entity and, in the drifted run, a CALIBRATION OUTSIDE banner -- and a battery
+    # run that prints CALIBRATION OUTSIDE while every row is green is a run whose own output
+    # argues against its verdict. `drill._quiet_halt_writes` states this doctrine; what is
+    # asserted here is the RETURN CODE, never the absence of the message.
+    with _ctx20aa.redirect_stdout(__import__("io").StringIO()), \
+            _ctx20aa.redirect_stderr(__import__("io").StringIO()):
+        _rc_live20aa = _RF20aa.main()
+        _RF20aa.REFERENCE[_rfkey20aa]["charter"] = (_rfchart20aa[0],
+                                                    _rfchart20aa[1] + 5.44, _rfchart20aa[2])
+        _rc_drift20aa = _RF20aa.main()
+finally:
+    _RF20aa.REFERENCE[_rfkey20aa]["charter"] = _rfchart20aa
+    _RF20aa.OUT = _rfout20aa
+    sys.argv = _rfargv20aa
+check("reference.main() exits 0 while the hand-built benchmark still reproduces the charter",
+      _rc_live20aa, 0)
+check("and NONZERO once a reconstruction drifts outside the published interval",
+      _rc_drift20aa, 1,
+      note="delta 5.44 on %r. rc is the only channel out of this module: a drifted benchmark "
+           "used to exit 0, and a check that cannot fail looks exactly like one that passed"
+      % _rfkey20aa)
+check("[control] and the charter tuple this section moved is back",
+      _RF20aa.REFERENCE[_rfkey20aa]["charter"], _rfchart20aa,
+      note="every later reader of REFERENCE would otherwise be reading this fixture")
+
+# 3. physics.py's FOUR FINITENESS REFUSALS (order 3598ae9a4aad). `joules_for()`'s volume already
+#    refused a non-finite value; `kinetic()`'s mass, `sphere_volume()`'s radius and
+#    `binding_energy()`'s mass AND radius did not, so this module refused infinity for SPEED and
+#    for VOLUME and accepted it for MASS. The quietest of the four was `binding_energy(m, inf)`:
+#    R is the denominator, so an infinite radius returned a perfectly finite-looking 0.0 -- "this
+#    body is not bound at all" -- published as a measurement of a body of unbounded extent.
+#    The sign and NaN cases are asserted alongside them deliberately: they sit on the same three
+#    lines, and a later edit could easily collapse the two guards into one that catches neither.
+_inf20aa, _nan20aa = float("inf"), float("nan")
+_phys20aa = {
+    "kinetic mass = inf": lambda: PH.kinetic(_inf20aa, 10.0),
+    "kinetic mass = nan": lambda: PH.kinetic(_nan20aa, 10.0),
+    "kinetic mass <= 0": lambda: PH.kinetic(-1.0, 10.0),
+    "sphere_volume radius = inf": lambda: PH.sphere_volume(_inf20aa),
+    "sphere_volume radius = nan": lambda: PH.sphere_volume(_nan20aa),
+    "sphere_volume radius <= 0": lambda: PH.sphere_volume(0.0),
+    "binding_energy mass = inf": lambda: PH.binding_energy(_inf20aa, 1.0),
+    "binding_energy mass < 0": lambda: PH.binding_energy(-1.0, 1.0),
+    "binding_energy radius = inf": lambda: PH.binding_energy(1.0, _inf20aa),
+    "binding_energy radius = nan": lambda: PH.binding_energy(1.0, _nan20aa),
+    "binding_energy radius <= 0": lambda: PH.binding_energy(1.0, 0.0),
+    "joules_for volume = inf": lambda: PH.joules_for(_inf20aa),
+}
+check("every unbounded or unphysical argument is REFUSED, not quietly computed",
+      sorted(_k for _k, _fn in _phys20aa.items() if not _raises(_fn)), [],
+      note="reported as a list so a red row names which guard came back. The asymmetry is the "
+           "point: one of these four functions had the finiteness test and three did not")
+_ok20aa = {
+    "an ordinary kinetic": lambda: PH.kinetic(75.0, 10.0),
+    "an ordinary sphere": lambda: PH.sphere_volume(2.0),
+    "an ordinary binding": lambda: PH.binding_energy(5.972e24, 6.371e6),
+    "a zero mass, which IS physical here": lambda: PH.binding_energy(0.0, 1.0),
+    "an ordinary pulverisation": lambda: PH.joules_for(1000.0),
+}
+check("[control] and an ordinary reading is still computed, so the guards are not blanket",
+      sorted(_k for _k, _fn in _ok20aa.items() if _raises(_fn)), [],
+      note="a refusal that refuses everything passes every row above and is also broken")
+
+
+print()
 print("    §20y  NO SECTION TAG MAY NAME TWO SECTIONS — the identifier citers rely on")
 # ---- Section 20y: the section tags are unique, and a fourth collision cannot arrive quietly --
 # Added run #36 alongside order c30618e03a36. THREE collisions were found in this one file in
@@ -7980,6 +8950,326 @@ check("the section headers were actually found and read", len(_tags20y) >= 55, T
       note="62 tags on 2026-08-29 across 41 banner, 19 print and 4 dashed headers. The floor "
            "is deliberately seven below that rather than one: it must catch a spelling going "
            "blind without going red the day a section is legitimately retired")
+
+
+# ---- Section 20z: the battery leaves nothing behind in the ledger a person reads -------------
+#
+# THE RATCHET FOR THE WRAPPER AT THE TOP OF THIS FILE. `_spy_record_vm` has been sitting on
+# `health.record` since line 1, forwarding every call to the real recorder and remembering the
+# battery line it came from -- so this row does not ask whether the wrapping LOOKS right, it
+# asks what actually reached `state/failures.json` during this run.
+#
+# It is placed last because that is the only place it can see the whole run, and it is reported
+# as a LIST of "file:line -> class" so a red row names the probe that leaked rather than saying
+# a number. Measured before the wrapping: fifteen entries a run, ten from this file.
+#
+# WHAT THIS ROW DOES NOT MEASURE, said out loud. It sees `health.record`, which is the only door
+# into `state/failures.json`. It does NOT see the work-order queue, stderr banners, or anything
+# a probe writes directly to disk -- `drill._sweep_probe_litter` and
+# `a_probe_leaves_no_order_behind` own the queue, and the stderr banners are deliberately left
+# alone because they are addressed to whoever is reading this run and vanish with it.
+_escaped20z = sorted(set(_LEDGER_ESCAPES_VM))
+check("no probe anywhere in this battery writes into the live failure ledger", _escaped20z, [],
+      note="a rehearsal recorded in the ledger a person reads to find real faults manufactures "
+           "the exact signal it exists to prove the library can raise -- and per order "
+           "842025c83c3c that ledger is deliberately never cleared, so it is permanent. "
+           "Thirteen sites were doing it every run until 2026-09-01: ten here and three in "
+           "handoff/run35/checks_L6.py, which this row also covers")
+
+# AND THE DETECTOR IS EXERCISED, because a row asserting `== []` over a run in which the spy had
+# quietly stopped working would read exactly the same as a clean run -- which is the whole
+# lesson this file is built on. The spy is driven directly, through the same `health.record`
+# attribute every noting guard reaches, and must both report the leak and forward it.
+_probe20z = []
+_seen20z = list(_LEDGER_ESCAPES_VM)
+_savedrec20z, _savedreal20z = _H_vm.record, _REAL_RECORD_VM
+try:
+    # The spy forwards to `_REAL_RECORD_VM`; point that at a list for this one call so the
+    # control asserts the FORWARDING too, without writing a control row into the real ledger.
+    _REAL_RECORD_VM = lambda *_a, **_k: _probe20z.append(_a[0])   # noqa: E731
+    _H_vm.record = _spy_record_vm
+    _H_vm.record("silent:verify_math.py:S20z-detector-control", "NoException")
+finally:
+    _H_vm.record, _REAL_RECORD_VM = _savedrec20z, _savedreal20z
+_caught20z = [_e for _e in _LEDGER_ESCAPES_VM if _e not in _seen20z]
+del _LEDGER_ESCAPES_VM[len(_seen20z):]      # the control is not a leak; do not leave it in
+check("[control] the leak detector still sees a call and still forwards it",
+      (len(_caught20z), _caught20z[0].endswith("S20z-detector-control") if _caught20z else False,
+       _probe20z), (1, True, ["silent:verify_math.py:S20z-detector-control"]),
+      note="the row above asserts an empty list, and an empty list is exactly what a BROKEN "
+           "detector returns. This is the other direction of it")
+
+
+# ---- and no two rows in this battery answer to the same name --------------------------------
+#
+# THE OPTIONAL HALF OF ORDER 9ab5bfa26f14, filed separately as 87fc2109afd1 so it would not be
+# lost as a note. That order's mechanical half is done -- the two rows that both read "and no
+# .tmp is left behind" (pipeline.land_json at §19c, completeness.land at §19d) are renamed --
+# and this is the guard that stops the next collision.
+#
+# The end-of-run dump prints label, got, want and note, and nothing else. Two rows sharing a
+# label and carrying no note render IDENTICALLY, so a red row cannot say which writer broke and
+# a reader has to grep an 8,000-line file to find out. That is §20y's section-tag collision one
+# level down, and §20y's own argument applies unchanged: a duplicated identifier makes every
+# citation of it ambiguous, and it does it silently.
+#
+# ASKED OF THE RUN, NOT OF THE SOURCE, and the difference cuts both ways -- said here rather
+# than left for the next reader to discover:
+#   * STRONGER than the AST scan the order proposed. Roughly a fifth of this file's labels are
+#     built with `%`, so a scan collecting literal first arguments to `check()` cannot see
+#     `"%s refuses to start" % f` at all, and two loops over overlapping lists would collide
+#     invisibly. These are the labels that were actually PRINTED.
+#   * WEAKER in one specific way: a row inside a branch this run did not take is not in the
+#     tally, so it is not checked. That is the §20k shape (absent reads like green) and it is
+#     bounded here by the fact that this battery has no optional rows by design -- every
+#     conditional row §20k and §20p found has since been made unconditional.
+# It cannot see its own two rows either, which are appended after this line runs.
+def _dup_labels20z(_labels):
+    """-> the labels appearing more than once, sorted. A LIST, so a red row names them."""
+    _seen20z, _dup20z2 = set(), set()
+    for _l20z in _labels:
+        (_dup20z2 if _l20z in _seen20z else _seen20z).add(_l20z)
+    return sorted(_dup20z2)
+
+
+_labels20z = [_r20z[0] for _r20z in PASS] + [_r20z[0] for _r20z in FAIL]
+check("no two rows in this battery answer to the same label",
+      _dup_labels20z(_labels20z), [],
+      note="the label is the ONLY identifier a FAILED line carries. Measured across %d rows "
+           "this run" % len(_labels20z))
+check("[control] and the collision detector can actually find one",
+      _dup_labels20z(["a", "b", "a", "c", "b", "d"]), ["a", "b"],
+      note="a ratchet nobody has watched go red is a ratchet nobody has evidence about; the "
+           "row above asserts an empty list, which is also what a broken detector returns")
+
+
+# ---- and no row promises a tolerance that check() will throw away ---------------------------
+#
+# ORDER 1036c659495d, and this row exists because a COMMENT used to hold this guarantee. At
+# :337 the file recorded "an AST scan of all 68 rows passing `tol=` found this was the only one
+# whose `want` was provably not a float", and re-running that scan two days later found a
+# second. A count written down once is a measurement that stops being taken.
+#
+# THE DEFECT: `check()` only consults `tol` inside `if isinstance(want, float)`. Hand it an int
+# `want` and the comparison falls through to exact equality, so the tolerance is silently
+# discarded and the row is STRICTER than its author wrote. Nothing fails; the next reader simply
+# believes something untrue. `max(30, int(x))`, `round(x)` with one argument, `len(...)` and
+# `int(...)` are all ints, and all read like numbers.
+def _int_valued20z(_n):
+    """-> True if this expression provably evaluates to an int, never a float."""
+    if isinstance(_n, _ast20p.Constant):
+        return isinstance(_n.value, int)           # bool included: `True` is not a float either
+    if isinstance(_n, _ast20p.Call) and isinstance(_n.func, _ast20p.Name):
+        if _n.func.id in ("int", "len", "ord"):
+            return True
+        # `round(x)` returns an int; `round(x, 2)` returns whatever x is. Only the one-argument
+        # spelling is provable, and getting that backwards is how a scan flags four honest rows.
+        if _n.func.id == "round":
+            return len(_n.args) == 1
+        if _n.func.id in ("max", "min", "sum", "abs"):
+            return bool(_n.args) and all(_int_valued20z(_a) for _a in _n.args)
+    if isinstance(_n, _ast20p.BinOp) and isinstance(
+            _n.op, (_ast20p.Add, _ast20p.Sub, _ast20p.Mult, _ast20p.FloorDiv,
+                    _ast20p.Mod, _ast20p.Pow)):
+        return _int_valued20z(_n.left) and _int_valued20z(_n.right)
+    return False
+
+
+def _discarded_tol20z(_src20z):
+    """-> ["line N: <want>"] for every `check(..., tol=...)` whose `want` cannot be a float."""
+    _out20z, _n20z2 = [], 0
+    for _c20z in _ast20p.walk(_ast20p.parse(_src20z)):
+        if not (isinstance(_c20z, _ast20p.Call) and isinstance(_c20z.func, _ast20p.Name)
+                and _c20z.func.id == "check"):
+            continue
+        if not any(_k20z.arg == "tol" for _k20z in _c20z.keywords) or len(_c20z.args) < 3:
+            continue
+        _n20z2 += 1
+        _w20z = _c20z.args[2]
+        if _int_valued20z(_w20z):
+            _out20z.append("line %d: %s" % (_w20z.lineno,
+                                            _ast20p.get_source_segment(_src20z, _w20z)))
+    return _out20z, _n20z2
+
+
+_tolbad20z, _toln20z = _discarded_tol20z(
+    open(os.path.join(_here19, "verify_math.py"), encoding="utf-8").read())
+check("no row passes a tol= that check() will silently discard", _tolbad20z, [],
+      note="reported as a list of line numbers and source segments, so a red row names the "
+           "offender. Scanned %d rows carrying tol= this run" % _toln20z)
+check("and the tol= scan is looking at a real population, not at nothing",
+      _toln20z >= 60, True,
+      note="an empty scan and a clean scan print the same []; this is the parse-coverage net "
+           "beside it. 68 rows carried tol= on 2026-09-01")
+_tolfix20z = {
+    "max of two ints": 'check("x", got, max(30, int(y / 10)), tol=1e-9)',
+    "one-argument round": 'check("x", got, round(y), tol=1e-9)',
+    "a bare int literal": 'check("x", got, 4, tol=1e-9)',
+    "len()": 'check("x", got, len(y), tol=1e-9)',
+    "int arithmetic": 'check("x", got, 3 * len(y) + 1, tol=1e-9)',
+}
+_tolok20z = {
+    "two-argument round": 'check("x", got, round(y, 2), tol=1e-9)',
+    "a float literal": 'check("x", got, 4.0, tol=1e-9)',
+    "an ordinary expression": 'check("x", got, y / 10, tol=1e-9)',
+    "no tol at all": 'check("x", got, max(30, int(y / 10)))',
+}
+check("[control] the discarded-tol scan catches every int-valued spelling of want",
+      sorted(_k for _k, _v in _tolfix20z.items() if not _discarded_tol20z(_v)[0]), [],
+      note="`round(x)` is an int and `round(x, 2)` is not, and a scan that confuses them "
+           "either misses the real one or reddens four honest rows")
+check("[control] and does not cry wolf on a want that can be a float",
+      sorted(_k for _k, _v in _tolok20z.items() if _discarded_tol20z(_v)[0]), [])
+
+
+# ---- and no row proves a property of CODE by finding the words in a COMMENT ------------------
+#
+# ORDER 13357b913e3e, the residual of 469b4db261ef. That order fixed seven rows by hand and
+# measured a wider class it could not finish: rows asserting a literal needle against a target
+# module's RAW file text, where the target names the same token in a comment or a docstring. 48
+# assert PRESENCE (which can go green off prose) and 8 assert ABSENCE (which can go red off it),
+# and it called for a per-row pass because each one needs its target module read.
+#
+# A PER-ROW PASS IS A MEASUREMENT SOMEBODY TAKES ONCE. This is the same measurement, taken every
+# run. For each `"needle" in <raw source>` membership test in this file, it resolves the raw
+# binding to its target module, blanks that module's comments and docstrings IN PLACE (so
+# layout survives and a multi-token needle like `def restart_reader` still matches where it is
+# real code), and asks whether the needle survives. A needle that lives ONLY in prose is a row
+# proving nothing. Measured 2026-09-01 across every such row in this file: 33 needles are code
+# only, 3 are in code and also in prose (harmless today, and this row is what catches the day
+# the code use is removed), 5 are legitimately absent because the row asserts absence, and
+# exactly 2 are prose-only -- both deliberately so, both named below.
+#
+# WHAT IT DOES NOT EXAMINE, said out loud rather than left as an implied all-clear:
+#   * REGEX searches (`_re_b3.search(r'...', _standards_src_b3)`). A pattern is not a substring
+#     and would need its own machinery; the three §b3 standards rows are that shape.
+#   * bindings whose target file is not a literal in the binding line -- `inspect.getsource(fn)`
+#     and the like. Their count is pinned below so the unexamined half cannot grow in silence.
+#   * anything that is not a Python module: `_cb_sys` reads `prompts/system_style.txt`, which is
+#     prose by design and where the question does not arise.
+def _blank_prose20z(_text):
+    """`_text` with every comment and docstring replaced by spaces, IN PLACE.
+
+    Not `"\\n".join(ln.split("#", 1)[0] ...)`, the idiom this file uses at a dozen sites: that
+    one cuts at a `#` inside a string literal, and it does not touch DOCSTRINGS at all -- which
+    is how the §20a repair re-sprang in 2026-08-29, on a docstring quoting the pattern it had
+    removed. Blanking rather than deleting keeps every offset, so a needle spanning two tokens
+    still matches where it is genuinely code.
+    """
+    import io as _io20z
+    import tokenize as _tk20z
+    _lines = _text.splitlines(True)
+    _kill = []
+    for _n in _ast20p.walk(_ast20p.parse(_text)):
+        if isinstance(_n, (_ast20p.Module, _ast20p.FunctionDef, _ast20p.AsyncFunctionDef,
+                           _ast20p.ClassDef)):
+            _b = _n.body[0] if _n.body else None
+            if (isinstance(_b, _ast20p.Expr) and isinstance(_b.value, _ast20p.Constant)
+                    and isinstance(_b.value.value, str)):
+                _kill.append((_b.lineno, _b.col_offset, _b.end_lineno, _b.end_col_offset))
+    for _t in _tk20z.generate_tokens(_io20z.StringIO(_text).readline):
+        if _t.type == _tk20z.COMMENT:
+            _kill.append((_t.start[0], _t.start[1], _t.end[0], _t.end[1]))
+    for (_r1, _c1, _r2, _c2) in _kill:
+        for _r in range(_r1, _r2 + 1):
+            _ln = _lines[_r - 1]
+            _a = _c1 if _r == _r1 else 0
+            _b2 = _c2 if _r == _r2 else len(_ln)
+            _lines[_r - 1] = _ln[:_a] + " " * (_b2 - _a) + _ln[_b2:]
+    return "".join(_lines)
+
+
+def _prose_backed20z(_self_src, _read):
+    """-> (prose_only_rows, unresolved_bindings, examined_needles).
+
+    `_read(filename) -> source text`, so the scan can be driven against a fixture.
+    """
+    import re as _re20z
+    _tree20z = _ast20p.parse(_self_src)
+    _binds20z = {}
+    for _n in _ast20p.walk(_tree20z):
+        if not (isinstance(_n, _ast20p.Assign) and len(_n.targets) == 1
+                and isinstance(_n.targets[0], _ast20p.Name)):
+            continue
+        _seg = _ast20p.get_source_segment(_self_src, _n.value) or ""
+        if ".read()" not in _seg and "getsource(" not in _seg and "_src20p(" not in _seg:
+            continue
+        _m = (_re20z.search(r'"([A-Za-z_][A-Za-z0-9_]*\.py)"', _seg)
+              or _re20z.search(r"'([A-Za-z_][A-Za-z0-9_]*\.py)'", _seg))
+        _binds20z[_n.targets[0].id] = _m.group(1) if _m else None
+    _prose, _unresolved, _examined = [], set(), 0
+    _cache20z = {}
+    for _c in _ast20p.walk(_tree20z):
+        # ONLY a substring membership test: `"needle" in <raw source>`. A regex search is a
+        # different question and is excluded rather than answered badly.
+        if not (isinstance(_c, _ast20p.Compare) and len(_c.ops) == 1
+                and isinstance(_c.ops[0], (_ast20p.In, _ast20p.NotIn))
+                and isinstance(_c.left, _ast20p.Constant)
+                and isinstance(_c.left.value, str)
+                and isinstance(_c.comparators[0], _ast20p.Name)):
+            continue
+        _var = _c.comparators[0].id
+        if _var not in _binds20z:
+            continue
+        _file = _binds20z[_var]
+        if _file is None:
+            _unresolved.add(_var)
+            continue
+        if _file not in _cache20z:
+            _whole = _read(_file)
+            _cache20z[_file] = (_whole, _blank_prose20z(_whole))
+        _whole, _code = _cache20z[_file]
+        _needle = _c.left.value
+        _examined += 1
+        if _needle not in _code and _needle in _whole:
+            # KEYED ON (needle, file) AND NOT ON A LINE NUMBER. A pinned line number turns this
+            # row red every time anything above it grows by a line, which trains a reader to
+            # re-pin it without looking -- and a ratchet that is routinely re-pinned is a
+            # ratchet that is off. The needle and the file are enough to find the row.
+            _prose.append("%r is in %s only as prose" % (_needle, _file))
+    return sorted(_prose), sorted(_unresolved), _examined
+
+
+_prose20z, _unres20z, _seen20zn = _prose_backed20z(
+    open(os.path.join(_here19, "verify_math.py"), encoding="utf-8").read(), _src20p)
+check("no row proves a property of CODE by finding the words in a comment",
+      _prose20z,
+      ["'_pool_answer_usable' is in cascade_bridge.py only as prose",
+       "'get(\"TEMP\")' is in publish.py only as prose"],
+      note="TWO DELIBERATE EXCEPTIONS, NAMED RATHER THAN EXEMPTED, and both say so in their own "
+           "labels: §19aj asserts that the PAPER TRAIL survives its own comment-stripping guard, "
+           "and the §3d74ba8262a9 row is explicitly about what cascade_bridge's DOCSTRING says. "
+           "Anything else appearing here is a row that would read green over deleted code")
+check("and the scan is looking at a real population, not at nothing",
+      _seen20zn >= 30, True,
+      note="33 substring rows resolved to a target module on 2026-09-01; a scan that matched "
+           "nothing would print the same [] as a clean one")
+check("and the bindings it cannot resolve to a file are still the same four",
+      _unres20z, ["_probe_src19ab", "_src20g", "_t", "src_txt"],
+      note="THE UNEXAMINED HALF, PINNED so it cannot grow in silence. Three are "
+           "`inspect.getsource(<function>)`, whose target is not a literal in the binding line "
+           "(standards.ollama_token_flow, silence.write_json, backfill.backfill_source and the "
+           "hostcheck module); `_t` is §20j's whole-src loop, where the file is the loop "
+           "variable. All four were resolved by hand on 2026-09-01 and every needle in them is "
+           "code: `\"num_ctx\"`, `os.getpid()`, `get_ident()`, `\"absent\": absent`, "
+           "`cachekey.host_dir(mined)`, and `cachekey` in all six modules §20j names")
+_fixture20z = {
+    "prose only": ('_t = open("t.py").read()\ncheck("x", "SECRET" in _t, True)\n',
+                   "# SECRET was removed\nx = 1\n", 1),
+    "in code": ('_t = open("t.py").read()\ncheck("x", "SECRET" in _t, True)\n',
+                "SECRET = 1\n", 0),
+    "in a docstring only": ('_t = open("t.py").read()\ncheck("x", "SECRET" in _t, True)\n',
+                            '"""mentions SECRET"""\nx = 1\n', 1),
+    "in a string literal, which IS code": (
+        '_t = open("t.py").read()\ncheck("x", "SECRET" in _t, True)\n',
+        'x = "SECRET"\n', 0),
+}
+check("[control] the prose-backed scan reports exactly the rows it should",
+      sorted("%s:%d" % (_k, len(_prose_backed20z(_v[0], lambda _f, _s=_v[1]: _s)[0]))
+             for _k, _v in _fixture20z.items()),
+      sorted("%s:%d" % (_k, _v[2]) for _k, _v in _fixture20z.items()),
+      note="a comment and a docstring are both prose; a string LITERAL is code, and blanking "
+           "it too would flag every row whose needle is a message the target prints")
 
 print()
 print("=" * 96)

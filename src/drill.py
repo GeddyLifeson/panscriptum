@@ -21,6 +21,7 @@ Usage:
     python src/drill.py --to-halt       # ... and finish by genuinely halting the library
 """
 import argparse
+import contextlib
 import json
 import os
 import re
@@ -46,11 +47,21 @@ RESULTS = []
 # out below, because a lawful raise and a rubber stamp are the same edit and only the reasoning
 # tells them apart.
 #
-# WHAT IT COUNTS TODAY (measured 2026-08-29, late in the shift): the SUM of every list
-# `liveness.scan()` returns -- 35 dead module-level functions and methods, 1 dead class, 10 dead
-# MODULES, 0 syntactic tautologies, 0 phantom guards, 0 unparsed files. Total 46. It has never
-# been a count of dead functions alone, and the comment this replaces still said "38 dead
-# module-level functions" three limbs after that stopped being true.
+# WHAT IT COUNTS: the SUM of every list `liveness.scan()` returns -- dead module-level functions
+# and methods, dead classes, dead MODULES, syntactic tautologies, phantom guards, unparsed files.
+# It has never been a count of dead functions alone, and the comment this replaces still said "38
+# dead module-level functions" three limbs after that stopped being true.
+#
+# THE MEASUREMENT IS NOT RESTATED HERE ANY MORE, and that is the point of this paragraph rather
+# than an omission from it (orders b99192e41488 and f5549e17b43a, both filed against the number
+# that used to sit on this line). It said "Total 46" and was 47 by the time the first order was
+# written, 48 by the time either was worked -- three wrong values inside four days, in the file
+# whose own `drill_inspector` lists "a comment asserting a measurement that was backwards" among
+# the four failures it was built for. A number that moves twice in an afternoon cannot be
+# maintained in prose, and a prose copy of a measurement is exactly the thing this layer exists
+# to distrust. `python src/liveness.py` prints the live figure, and the drill's own verdict file
+# carries `liveness` and `ceiling` side by side on every run, with a time on it. Read either.
+# Observed band while these paragraphs were written: 46 to 48, no dead code added or removed.
 #
 # RAISE 1, 38 -> 41 on 2026-08-26. `liveness`'s `used` set was a single flat, scope-blind,
 # module-blind bag of every identifier in `src/`, so a LOCAL LOOP VARIABLE named `_p` in
@@ -72,7 +83,8 @@ RESULTS = []
 # findings (render 707fefc17465, scale_theories SWEEP34_FINDING) precisely because no instrument
 # could see them. Not one line of dead code was added to reach 48.
 #
-# THE HEADROOM IS CHOSEN, not left over. 46 measured, 52 here, so six.
+# THE HEADROOM IS CHOSEN, not left over: the ceiling sits a handful above whatever the current
+# measurement is, and the width of that handful is the thing argued for below, not its endpoints.
 #   * Not zero. Order 6c479972e838 filed the previous state -- the ceiling standing exactly at
 #     the measurement -- as a fault in its own right, and it is: the count MOVES during ordinary
 #     work. It was watched go 34 -> 35 -> 37 across this single shift, none of it from new dead
@@ -81,19 +93,21 @@ RESULTS = []
 #     hurry by whoever is unblocking themselves, which is the rubber stamp arriving by the back
 #     door -- and here it does not merely annoy somebody, it HALTS THE LIBRARY, because a
 #     breached drill net escalates to OWNER.
-#   * Not large. Six is still deliberately far under the TEN a single orphaned module
+#   * Not large. The gap must stay deliberately far under the TEN a single orphaned module
 #     contributes, so a whole unreachable file can never hide inside the slack -- which is the
 #     specific regression the module limb was added to catch, and it is the property that
-#     actually has to hold. Anything from four to nine satisfies it.
+#     actually has to hold. Anything from four to nine satisfies it, and the gap has been
+#     everywhere in that band since 52 was set, purely because the measurement wanders.
 #
-# WHY IT IS SIX AND NOT FOUR TODAY, AND WHY THAT IS NOT A DRIFT UPWARD (order 859a95edf44f,
-# ruled 2026-08-29). The ceiling has not moved. The MEASUREMENT has: 48 when the paragraphs
-# above were written, 47 when that order was filed a few hours later, 46 when it was ruled on,
-# all inside one shift and none of it from anybody deleting dead code on purpose. That is the
-# third independent observation of the same phenomenon and it is the whole case for the
-# headroom existing. The order asked for the ceiling to be lowered to "the measured value",
-# which was 47 when it was written and is already wrong by one; a ceiling set to a number that
-# moves twice in an afternoon is a halt waiting for the next honest edit.
+# WHY THE GAP IS WHATEVER IT IS ON A GIVEN DAY, AND WHY THAT IS NOT A DRIFT UPWARD (order
+# 859a95edf44f, ruled 2026-08-29). The ceiling has not moved. The MEASUREMENT has: 48 when the
+# paragraphs above were written, 47 when that order was filed a few hours later, 46 when it was
+# ruled on, 47 by the next sweep and 48 again four days later -- none of it from anybody adding
+# or deleting dead code on purpose. That is now five independent observations of the same
+# phenomenon and it is the whole case for the headroom existing. The order asked for the ceiling
+# to be lowered to "the measured value", which was 47 when it was written and was already wrong
+# by one before it was read; a ceiling set to a number that moves twice in an afternoon is a
+# halt waiting for the next honest edit.
 #
 # The order is also right that headroom is slack, and the answer to that is the ten-module
 # floor, not zero: what the slack must never be able to hide is a whole unreachable FILE, and
@@ -109,6 +123,18 @@ RESULTS = []
 # It does NOT mean "raise the number" -- unless you can write a paragraph like the two above,
 # naming what the instrument can now see that it could not before.
 LIVENESS_CEILING = 52
+
+# WHERE THE CASCADE'S CONFIG LIVES, for the one net that reads outside this repository.
+# `paid_access_stays_switched_off` checks a ruling recorded in ANOTHER project's config (the
+# owner holds `allow_paid`), and it used to carry that project's absolute path as a literal --
+# one machine's directory layout, written into the safety layer, with doubled backslashes that
+# made it read as an escaped path when it was not one (order eed51b638439). Taken from the
+# environment now, so a different machine says where its own config is instead of making the net
+# wrong; the fallback is where it sits on this one. Absent is a legitimate answer and the net
+# treats it as "not this machine" rather than as a pass.
+CASCADE_CONFIG = os.environ.get(
+    "PANSCRIPTUM_CASCADE_CONFIG",
+    os.path.join(os.path.expanduser("~"), "cascade", "config.json"))
 
 # GitHub's push protection scans the repo too -- a FOURTH lock, and it is
 # right: a real-looking key must not exist in source even as a fixture. Built
@@ -165,6 +191,55 @@ def _refuses(fn, exc):
         return False
     except exc:
         return True
+
+
+@contextlib.contextmanager
+def _ledger_redirected(root):
+    """Point EVERY path `ledger_guard` writes at `root`, together, and put them all back.
+
+    WRITTEN AFTER THIS HELPER'S ABSENCE CORRUPTED THE REAL LEDGER STATE (2026-09-01). Two nets
+    were added the same day to prove the append-only gate works. Each repointed the module
+    globals it happened to think about: the first set `HERE` and `SNAPSHOT_DIR`, the second set
+    `HERE` and `CHAIN`. `ledger_guard.seal()` writes BOTH -- a sealed copy of every append-only
+    ledger into `SNAPSHOT_DIR`, and a hash-chain link into `CHAIN`. So each net redirected half
+    of what it drove and sent the other half into the live tree: the first appended fixture
+    links to the real `state/ledger_chain.jsonl`, the second overwrote the real sealed snapshots
+    of `HANDOFF.md` and `handoff/HANDOFF.md` with two hundred lines reading `line 0`, `line 1`.
+
+    No LEDGER CONTENT was lost -- the live files were never touched, and were still 589,120 and
+    58,748 bytes afterwards -- but the sealed copies they are compared against were, and the
+    chain now carries links describing a fixture. It is the exact shape this project files as a
+    fault: a probe that reaches live state, in the module whose subject is not losing history.
+
+    THE FIX IS THE SHAPE, NOT THE TWO CALL SITES. Fixing only those two nets leaves the next one
+    to remember three globals correctly. Redirection is now ONE operation over a named list, so a
+    net cannot redirect a subset by accident, and a path added to `ledger_guard` later is a path
+    this helper must be taught about -- which the assertion below makes loud rather than silent:
+    every redirected value must end up under `root`, checked before the body runs.
+    """
+    import ledger_guard as _LG
+    # EVERY path the module writes or reads as state. `ACKNOWLEDGED` joined this list the same
+    # day it was added to ledger_guard (2026-09-02): a probe that seals fixtures and then writes
+    # an acknowledgement for them would otherwise land that acknowledgement in the LIVE registry
+    # -- and an acknowledgement is a waiver, so that is the worst file in the module to litter.
+    names = ("HERE", "SNAPSHOT_DIR", "CHAIN", "ACKNOWLEDGED")
+    keep = {n: getattr(_LG, n) for n in names}
+    try:
+        _LG.HERE = root
+        _LG.SNAPSHOT_DIR = os.path.join(root, "state", "ledger_snapshot")
+        _LG.CHAIN = os.path.join(root, "state", "ledger_chain.jsonl")
+        _LG.ACKNOWLEDGED = os.path.join(root, "state", "ledger_chain_acknowledged.json")
+        real = os.path.abspath(keep["HERE"])
+        for n in names:
+            got = os.path.abspath(getattr(_LG, n))
+            if not got.startswith(os.path.abspath(root)) or got.startswith(real + os.sep):
+                raise AssertionError("ledger_guard.%s still points into the live tree (%s) -- "
+                                     "refusing to run a probe that would write there" % (n, got))
+        yield
+    finally:
+        for n in names:
+            setattr(_LG, n, keep[n])
+        shutil.rmtree(root, ignore_errors=True)
 
 
 def _quietly(fn):
@@ -525,7 +600,8 @@ def _call_spellings(tree, node=None, reachable=False):
     """Every call spelling inside `node` (default: the whole module), resolved through the
     module's imports.
 
-    Split out of `_called_names` so a net can ask the question of ONE FUNCTION rather than of a
+    Split out of `_called_names` (HISTORY -- that helper was deleted by order 78f04bec15ad and
+    nothing here is offering it) so a net can ask the question of ONE FUNCTION rather than of a
     whole file: "the escalation happens in the failure branch" and "the file mentions escalate
     somewhere" are different claims, and the nets that used a text window around an anchor
     string were reaching for the first while only ever testing the second.
@@ -554,8 +630,27 @@ def _call_spellings(tree, node=None, reachable=False):
 #
 # All four now ask `_reaches_call` instead, so there is no caller left and the helper is gone
 # rather than kept "in case": a convenience that answers a weaker question than the one anybody
-# wants is how the weaker question gets asked again next quarter. `_called_names(path,
-# reachable=True)` remains for the honest middle form, and `_spelled` is unchanged.
+# wants is how the weaker question gets asked again next quarter.
+#
+# SO THE THREE DEGREES AVAILABLE TODAY, NAMED, because this paragraph is where a reader lands
+# when they want to know which one to reach for. Weakest to strongest:
+#   * `_call_spellings(tree, node)` -- the name is called somewhere in this subtree, dead code
+#     included. Almost never the question anybody means.
+#   * `_call_spellings(tree, node, reachable=True)` (and `_calls_within(..., reachable=True)`,
+#     its boolean form) -- the honest MIDDLE form: the call is on a path execution can enter.
+#     An uncalled helper still satisfies it, which is why it is the middle and not the top.
+#   * `_reaches_call(tree, want, entries)` -- the strict one: the running program can get there
+#     from a named entry point. This is what every "the guard is wired" net now asks.
+# `_spelled` is unchanged.
+#
+# THIS BLOCK USED TO OFFER `_called_names(path, reachable=True)` HERE as the middle form, in the
+# present tense, two lines under the paragraph explaining that `_called_names` had been deleted
+# (order e75b265c1d3c). There is no such helper and there has not been one for a shift; a reader
+# taking the offer would have had to re-invent it, and the shape they would most likely have
+# reached for is the file-wide one this very paragraph says was removed for being too weak. The
+# two remaining mentions of the old names -- at `_call_spellings` ("Split out of `_called_names`")
+# and at `_calls_within` ("the scoped form of `_calls`") -- are HISTORY and are marked as such
+# where they sit; this one made a present-tense claim, which is the difference that mattered.
 
 
 def _entry_nodes(tree, names):
@@ -623,7 +718,8 @@ def _spelled(got, want):
 
 
 def _calls_within(tree, node, want, reachable=False):
-    """Does the subtree `node` CALL `want`? The scoped form of `_calls`.
+    """Does the subtree `node` CALL `want`? The scoped form of `_calls` (HISTORY -- `_calls`
+    itself was deleted by order 78f04bec15ad; see the block above `_entry_nodes`).
 
     `reachable=True` asks the stricter question -- can the running program make that call --
     which is the difference between a wired guard and one sitting in a dead branch.
@@ -1100,7 +1196,8 @@ def drill_dispatch():
     net(a, "the Step 4 gate refuses if the PLAN ITSELF is missing", _step4_needs_its_plan,
         "a ratification that refers to no document has ratified nothing")
     net(a, "assert_step4_open RAISES when closed",
-        lambda: _refuses(lambda: PG.assert_step4_open({}), PG.ProseRefused), "")
+        lambda: _refuses(lambda: PG.assert_step4_open({}), PG.ProseRefused),
+        "the assert form must stop the caller, not hand back a False for it to ignore")
     # THE DISK-READ PATH, which until batch C01 no net in this area had ever entered. See the
     # block above `_ask_both_gates` for what survived here and why an in-memory cfg cannot see it.
     net(a, "an unreadable config.yaml closes both gates", _an_unreadable_config_closes_both_gates,
@@ -1133,17 +1230,20 @@ def drill_train():
     net(a, "an entry that lost its Shelfmark is caught",
         lambda: any("Shelfmark" in m for m in PG.section_shortfall(
             "◈ **A**\nClass: Person\nMagnitude: M2\nThreads: pending\n", 1)[2]),
-        "")
+        "the sibling of the Threads net above: an entry with no Shelfmark cannot be cited "
+        "back to anything, and it was filed as complete just as often")
     net(a, "entries that never appeared at all are caught",
         lambda: any("no ◈ block" in m for m in PG.section_shortfall(good, 4)[2]),
         "three missing entries must not read as 100% of the one that arrived")
     net(a, "an empty block raises rather than shelving",
         lambda: _refuses(lambda: PG.assert_block_complete("", 3, "drill"), PG.ProseRefused),
-        "")
+        "nothing at all is the easiest shortfall to produce and the easiest to shelve as "
+        "'three entries, all complete'")
     net(a, "a half block raises rather than shelving",
         lambda: _refuses(lambda: PG.assert_block_complete(
             "◈ **A**\nShelfmark: 1\n", 1, "drill"), PG.ProseRefused),
-        "")
+        "a block that started and stopped is the shape 71% of the withdrawn batch had; it must "
+        "raise rather than shelve, exactly as an empty one does")
     # --- the five defeats an adversarial audit actually achieved, 2026-08-25. Each of these
     # PASSED the first version of the guard. They are kept as nets so they cannot come back.
     stub = ("◈ Athuri\nShelfmark: UNCHARTED\nClass: Person\nMagnitude: unassayed\n"
@@ -1269,18 +1369,39 @@ def drill_assay():
             set()) != [],
         "AUDIT DEFEAT 4: the model emits bold constantly; this slipped through silently")
     net(a, "bold-outside-colon does not hide one either",
-        lambda: PG.unearned_instrument("◈ A\n**Strength**: 30\n", set()) != [], "")
+        lambda: PG.unearned_instrument("◈ A\n**Strength**: 30\n", set()) != [],
+        "the other half of AUDIT DEFEAT 4: bold around the LABEL hides an axis score just as "
+        "well as bold around the whole line, and the model emits both")
+    # THIS NET WAS SATISFIED BY THE CONDITION ITS OWN EXPECTATION NAMES AS THE DEFEAT (order
+    # 29fceddad360). It asserted `cited_names_for(...) is not None and isinstance(..., set)` --
+    # and AUDIT DEFEAT 5 is an ALWAYS-EMPTY set, which is a `set`, and passes both clauses. It
+    # also called the function twice with identical arguments and tested `is not None` beside an
+    # `isinstance` that already implies it.
+    #
+    # AND IT IS THE LIVE-CORPUS HALF, WHICH IS NOT WHAT `_cited_names_for_can_credit_a_name`
+    # BELOW COVERS. That one is deliberately hermetic -- scratch host map, stood-in
+    # `cachekey.load` -- so it proves the FUNCTION credits a name given evidence on disk. Defeat
+    # 5 was not a function fault: it was that no entry in any of the 216 record files carried a
+    # feats/cited key at all, so the set was empty for a corpus reason and the hermetic net
+    # would have reported HELD throughout. This asks the corpus. Both directions, because a
+    # `cited_names_for` that echoed back everything handed to it would pass a membership check
+    # on its own. Measured live: the real name comes back credited, the invented one comes back
+    # empty, and a list holding both returns only the real one.
     net(a, "the cited set is looked up, not read off a key that does not exist",
-        lambda: PG.cited_names_for("Marvel", ["Bruce Banner (Earth-616)"]) is not None
-        and isinstance(PG.cited_names_for("Marvel", ["Bruce Banner (Earth-616)"]), set),
-        "AUDIT DEFEAT 5: no entry in any of the 216 record files carries a feats/cited key, so "
-        "the old set was ALWAYS empty and this guard could not tell earned from invented")
+        lambda: (PG.cited_names_for("Marvel", ["Bruce Banner (Earth-616)"])
+                 == {"Bruce Banner (Earth-616)"}
+                 and PG.cited_names_for("Marvel", ["A Name No Record Anywhere Carries"])
+                 == set()),
+        "AUDIT DEFEAT 5: no entry in any of the 216 record files carried a feats/cited key, so "
+        "the old set was ALWAYS empty and this guard could not tell earned from invented -- and "
+        "the net watching it accepted an empty set, because an empty set is a set")
     net(a, "a floor of zero is treated as misconfigured, not as permission",
         lambda: not PG.evidence_ok("S", 0.0, [{"source": "S", "entries": 5000, "cited": 0}])[0],
         "AUDIT DEFEAT 6: frac < 0 is never true, so floor=0 deleted this layer silently")
     net(a, "a floor above 1 is refused too",
         lambda: not PG.evidence_ok("S", 2.0, [{"source": "S", "entries": 10, "cited": 10}])[0],
-        "")
+        "the mirror of the zero floor: a fraction can never reach 2.0, so a floor above 1 "
+        "refuses everything for ever, which is misconfiguration and not a standard")
     net(a, "a floor that is not a number refuses everything",
         lambda: not PG.evidence_ok("S", "as high as it needs to be",
                                    [{"source": "S", "entries": 10, "cited": 10}])[0]
@@ -1584,13 +1705,72 @@ def drill_no_caps():
     net(a, "the richest material still lands in the FIRST block", ranking_survives,
         "Hard Rule 0 permits ranking and encourages it; it forbids truncating after ranking")
 
-    def feat_bearing_path_unchanged():
+    def a_short_featless_source_is_not_dropped_either():
+        """The feat-LESS arm again, at a size under one block. Named for what it drives.
+
+        THIS NET WAS CALLED `feat_bearing_path_unchanged` AND PRINTED "the feat-bearing path is
+        untouched by the fix", AND IT NEVER TOUCHED THAT PATH (order a5de2dcb9447). Its fixture
+        is `{"source": "T", ...}`; `pipeline._mined_feats` looks "T" up in data/WIKI_HOSTS.json,
+        finds no host, and returns `{}` -- verified, "T" is not in the map -- so `with_feats` is
+        empty, `blocks = ([with_feats chunks] or [rest chunks])` takes the `or` arm, and this was
+        `nomination_drops_nothing` again with 30 entries instead of 97 and a `sum(len(b))`
+        instead of a name comparison. A net's printed NAME is what people trust, and it may not
+        promise more than the code delivers -- which is the exact fault
+        `coverage_totals_never_exceed_their_entry_count` was renamed for.
+
+        Kept rather than deleted, because a size under the 14-entry block width is a real second
+        case for the `or` arm and the sibling above only covers 97. Renamed to say so, and the
+        feat-bearing path is now driven for real by the net below.
+        """
         rec = {"source": "T", "entries": [{"name": "f%02d" % i, "description": "d"}
                                           for i in range(30)]}
         blocks, _ = PL.synthesis_blocks(rec)
         return sum(len(b) for b in blocks) == 30
-    net(a, "the feat-bearing path is untouched by the fix", feat_bearing_path_unchanged,
-        "a fix that quietly changes the healthy path too is a second bug")
+    net(a, "a short feat-less source is not dropped either",
+        a_short_featless_source_is_not_dropped_either,
+        "30 entries is two blocks and a bit; the fallback must chunk it, not sample it")
+
+    def the_feat_bearing_path_really_is_untouched():
+        """AND NOW ACTUALLY THE FEAT-BEARING PATH -- with feats standing in, not hoped for.
+
+        `_mined_feats` is the seam, exactly as `PL.records` is the seam for the stranded-
+        synthesis net and `CK.load` is for `_cited_names_for_can_credit_a_name`: it is the one
+        call that decides which arm `synthesis_blocks` takes, and standing in for it is the only
+        way to reach the other arm without a live host map and a populated feats cache. Nothing
+        real is touched and the original is restored in a `finally`.
+
+        Every entry carries a feat here, so `with_feats` is the whole source and the `or` never
+        comes into it. The property is the same one Hard Rule 0 puts on the fallback: 30 in, 30
+        out, chunked and not sampled. The RANKING is asserted too -- feats descending -- because
+        the feat arm sorts by feat count and a sort silently reversed or dropped would still
+        deliver all 30.
+
+        WHAT THIS DELIBERATELY DOES NOT ASSERT, and it is an OWNER QUESTION rather than a
+        finding. `blocks = ([with_feats chunks] or [rest chunks])` SHORT-CIRCUITS, so the moment
+        ONE entry in a source has mined feats, every feat-less entry is dropped from nomination
+        entirely. No net in this area states that rule, tests it, or distinguishes it from the
+        ranked truncation this area exists to forbid. It may well be the intended selection rule
+        -- the owner's 2026-08-25 ruling was about the feat-LESS fallback specifically and says
+        nothing about the mixed case -- and it is not a drill's place to decide it. Order
+        a5de2dcb9447 stays open for that ruling; when it comes, the mixed fixture belongs here.
+        """
+        rec = {"source": "T", "entries": [{"name": "f%02d" % i, "description": "d"}
+                                          for i in range(30)]}
+        keep = PL._mined_feats
+        try:
+            PL._mined_feats = lambda r: {e["name"]: [{"claim": "c"}] * (1 + i % 3)
+                                         for i, e in enumerate(r["entries"])}
+            blocks, feats_for = PL.synthesis_blocks(rec)
+        finally:
+            PL._mined_feats = keep
+        got = [e["name"] for b in blocks for e in b]
+        counts = [len(feats_for[n]) for n in got]
+        return (sorted(got) == sorted(e["name"] for e in rec["entries"])
+                and len(got) == 30 and counts == sorted(counts, reverse=True))
+    net(a, "the feat-bearing path is untouched by the fix",
+        the_feat_bearing_path_really_is_untouched,
+        "a fix that quietly changes the healthy path too is a second bug -- and for a shift the "
+        "net named for this path drove the other one, so nothing was watching it at all")
 
 
 # ============================================================== THE RIDE RECORD (M23)
@@ -1601,7 +1781,9 @@ def drill_cache():
         lambda: not CK.owns({"entity": "Magic 8-Ball"}, "Magic 8 Ball"),
         "the live collision this fix exists for")
     net(a, "its own document is accepted",
-        lambda: CK.owns({"entity": "Magic 8 Ball"}, "Magic 8 Ball"), "")
+        lambda: CK.owns({"entity": "Magic 8 Ball"}, "Magic 8 Ball"),
+        "an ownership check that rejects the entity's own document rejects the whole corpus, "
+        "and passes every refusal test ever written while doing it")
     # PROVENANCE (the in-toto materials idea, stdlib-sized). Three outcomes, and the third is
     # the one that matters: nothing recorded must read as UNVERIFIABLE, never as verified.
     net(a, "unchanged source text verifies as PROVEN",
@@ -1620,10 +1802,14 @@ def drill_cache():
         lambda: not CK.owns({"feats": [1]}, "Magic 8 Ball"),
         "all 86,288 files carry one; a file without it was written by something else")
     net(a, "a document with a null entity is not trusted",
-        lambda: not CK.owns({"entity": None}, "Magic 8 Ball"), "")
+        lambda: not CK.owns({"entity": None}, "Magic 8 Ball"),
+        "the sibling of the missing-field net above: a null entity is a field that is present "
+        "and says nothing, which a `.get('entity')` truth test reads the same as a match")
     net(a, "the writer does not overwrite a neighbour",
         lambda: CK.disambiguated_path("b", "h", "Magic 8 Ball")
-        != CK.natural_path("b", "h", "Magic 8 Ball"), "")
+        != CK.natural_path("b", "h", "Magic 8 Ball"),
+        "the disambiguated form has to land somewhere ELSE; if the two paths coincide the "
+        "collision this whole area exists for is resolved by silently clobbering one of them")
 
     _PAIRS = [("pixar.fandom.com", "Magic 8 Ball", "Magic 8-Ball"),
               ("forgottenrealms.fandom.com", "Ten Towns", "Ten-Towns")]
@@ -1715,11 +1901,15 @@ def drill_assay_engine():
     net(a, "a negative score is refused",
         lambda: _refuses(lambda: A.assay("M3", dict(A.CHARTER_KENSHIRO, ruin=-5.0),
                                          attestation="Witnessed", worksheet="w"),
-                         A.AssayIntegrityError), "")
+                         A.AssayIntegrityError),
+        "the other end of the scale from the net above -- a bound checked on one side only is "
+        "half a bound, and the arithmetic absorbs a negative as readily as a 99")
     net(a, "a non-numeric score is refused",
         lambda: _refuses(lambda: A.assay("M3", dict(A.CHARTER_KENSHIRO, ruin="lots"),
                                          attestation="Witnessed", worksheet="w"),
-                         A.AssayIntegrityError), "")
+                         A.AssayIntegrityError),
+        "a range check only ever sees NUMBERS; a score nobody can evaluate must be refused "
+        "before it reaches the arithmetic rather than coerced on the way in")
     net(a, "a real reading is still accepted",
         lambda: A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed",
                         worksheet="w")["decimal"] is not None,
@@ -1731,7 +1921,10 @@ def drill_assay_engine():
     net(a, "better testimony never buys a wider bar", _sigmas_monotone,
         "the pre-fix table let an UNREAD axis publish a tighter interval than a witnessed one")
     net(a, "ignorance is never narrower than the worst testimony",
-        lambda: A.SIGMA_UNKNOWN >= max(A.SIGMA_BY_ATTESTATION.values()), "")
+        lambda: A.SIGMA_UNKNOWN >= max(A.SIGMA_BY_ATTESTATION.values()),
+        "the table's own shape, checked as a constant rather than through a reading: if "
+        "SIGMA_UNKNOWN ever slips below the worst attested sigma, knowing NOTHING about an axis "
+        "buys a tighter bar than reading it badly")
     net(a, "marking axes INAPPLICABLE cannot buy a tighter bar", _inapplicable_not_gameable,
         "measured clean: n/a renormalises the remaining weights, so the bar WIDENS")
     net(a, "a broken sigma table refuses to load", _broken_table_refuses,
@@ -1815,7 +2008,9 @@ def drill_park():
         lambda: _refuses(lambda: ESC.clear(""), ValueError),
         "the halt exists to buy a decision; lifting it with none buys nothing")
     net(a, "a lazy ruling is refused too",
-        lambda: _refuses(lambda: ESC.clear("ok"), ValueError), "")
+        lambda: _refuses(lambda: ESC.clear("ok"), ValueError),
+        "the empty-string net above is defeated by two characters; a halt exists to buy a "
+        "DECISION, and 'ok' is a keystroke pretending to be one")
     net(a, "the halt refuses a programmatic lift AT RUN TIME, in every spelling",
         _no_runtime_clear,
         "the rule was enforced only by a substring scan for two spellings, which an import "
@@ -2429,27 +2624,73 @@ def drill_local_agent():
 
         Attacked with a REAL junction, created and removed here, because the whole point is that
         the filesystem disagrees with the string and only the filesystem can demonstrate that.
-        Skips rather than fails if the junction cannot be created (no mklink, a filesystem that
-        does not support them) -- and says so through the return value rather than passing
-        quietly, since a net that cannot run is not a net that held.
+
+        IT SAID "SKIPS" AND IT HALTED THE LIBRARY (order ef0b67732a3b). The docstring promised a
+        skip when the junction could not be staged; the code returned False, `net()` records
+        False as held=False, and `main()` escalates a breached net to OWNER -- a full stop, not a
+        skip. Off Windows it was worse: `subprocess.run(["cmd", ...])` raises FileNotFoundError,
+        and `net()` records a raised attack as a breach too, so the entire battery halted the
+        library on any machine without `cmd`. Two nets in this one file were answering the same
+        question in opposite directions, because `datasette_config_is_generated_not_copied` had
+        already ruled the other way, and ruled correctly: "A path that could not be written is a
+        measurement that did not happen, and a measurement that did not happen must not be graded
+        either way." So this follows that ruling now -- an unstageable junction is NOTED and
+        returns True, which is a measurement declining to be taken rather than an alarm about the
+        writable-surface gate. The alarm it used to sound was about the probe, and it was aimed at
+        the owner.
+
+        THAT IS NOT "ABSENCE READ AS CLEAN", and the difference is worth being exact about,
+        because this file is built against that shape. The gate under test is exercised by five
+        other nets in this same area against string-level bypasses; this one adds the
+        directory-level case, and on a machine that cannot make a junction there is no
+        directory-level case to have. What is refused is grading an attack that was never
+        delivered. The note is the record that it was not.
         """
         import subprocess as _sp
         import silence as _si
         import local_agent as LA
         link = os.path.join(LA.HERE, "src", "__drill_junction_probe__")
-        _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "state")],
-                capture_output=True, text=True,
-                creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+
+        def unstage():
+            """Remove the probe whether or not it ever became usable. -> None.
+
+            A DANGLING JUNCTION IS STILL A JUNCTION, and this is the litter the old shape left.
+            `mklink /J` SUCCEEDS against a target that does not exist -- it makes a junction
+            pointing at nothing -- and `os.path.isdir` on one of those is False. The staging
+            check therefore read "could not stage" and returned without removing anything, so on
+            any tree with no `state/` directory yet (a fresh clone, a mutation sandbox, a scratch
+            copy) every run left `src/__drill_junction_probe__` behind. `src` is in
+            `publish.COPY_DIRS`. Reproduced in a scratch tree while this net was being worked.
+            """
+            for remove in (os.rmdir, os.unlink):
+                try:
+                    remove(link)
+                    return
+                except FileNotFoundError:
+                    return
+                except OSError:
+                    continue
+            if os.path.lexists(link):
+                _si.note("drill.py:junction-probe-cleanup")
+
+        try:
+            _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "state")],
+                    capture_output=True, text=True,
+                    creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+        except OSError:
+            # No `cmd` at all -- not Windows. FileNotFoundError is an OSError.
+            unstage()
+            _si.note("drill.py:junction-probe-unstageable")
+            return True
         if not os.path.isdir(link):
-            return False                      # could not stage the attack; not evidence of safety
+            unstage()
+            _si.note("drill.py:junction-probe-unstageable")
+            return True                       # could not stage the attack; not evidence either way
         try:
             through_link = LA._safe("src/__drill_junction_probe__/failures.json")
             ordinary = LA._safe("src/lognames.py")
         finally:
-            try:
-                os.rmdir(link)
-            except OSError:
-                _si.note("drill.py:junction-probe-cleanup")
+            unstage()
         # Refused through the link, and the ordinary path still permitted -- a gate that refuses
         # everything passes every refusal test ever written.
         return through_link is None and bool(ordinary) and not os.path.exists(link)
@@ -2567,7 +2808,9 @@ def drill_local_agent():
     net(a, "it cannot edit the CHARTER", lambda: denied(
         "reference/keystone_volumes/00_MASTER_CHARTER.md"),
         "an autonomous model must not edit the document defining what it may do")
-    net(a, "it cannot edit the catalog", lambda: denied("output/index/catalog.json"), "")
+    net(a, "it cannot edit the catalog", lambda: denied("output/index/catalog.json"),
+        "output/ is what the library has produced; a night-shift model that can rewrite the "
+        "catalog can rewrite the record of its own work")
     def cannot_edit_shared_run_state():
         """A SCRATCH FILE IN `state/`, because the halt file is not always there to point at.
 
@@ -2593,10 +2836,19 @@ def drill_local_agent():
                 fh.write('{"drill": "state-surface probe, created and deleted by drill.py"}\n')
             return denied("state/__drill_state_probe__.json")
         finally:
+            # A FAILED CLEANUP IS NOT NOTHING, and this one litters the LIVE shared run-state
+            # directory -- the place every job looks to find out what is going on. Was
+            # `except OSError: pass`; a denied `os.remove` on Windows needs nothing exotic (a
+            # reader holding the file, or this machine's documented Norton interference) and the
+            # reason it failed was thrown away at the moment it was known. Same discipline as
+            # the junction-probe and blast-cap cleanups. Not a reason to FAIL the net: failing
+            # to tidy up is not a fault, and killing the battery over a permissions error would
+            # lose every other verdict with it.
             try:
                 os.remove(probe)
             except OSError:
-                pass
+                import silence as _si
+                _si.note("drill.py:state-probe-cleanup")
     net(a, "it cannot edit shared run state", cannot_edit_shared_run_state,
         "least of all the halt file")
     net(a, "it CAN still be given ordinary work", lambda: not denied("src/scope.py"),
@@ -2664,10 +2916,17 @@ def drill_local_agent():
         finally:
             LA.MAX_PATCHES_PER_RUN, LA.MAX_FILES_PER_RUN = keep_caps
             LA.blast_reset()
+            # AND THIS ONE LEAKS INTO THE PUBLIC EXPORT. The probe lives under `handoff/`, which
+            # is in `publish.COPY_DIRS`, so a removal that quietly failed would PUBLISH
+            # `handoff/__drill_blast_probe__.md` to the public repo on the next cycle with
+            # nothing anywhere recording why. It was `except OSError: pass` while the work-order
+            # cleanup twenty lines below -- with a weaker consequence -- already noted its own
+            # failure under a paragraph making exactly this argument. (Order 5442da43c9f8.)
             try:
                 os.remove(probe)
             except OSError:
-                pass
+                import silence as _si
+                _si.note("drill.py:blast-probe-cleanup")
             # The cap escalates when it bites, and an escalation files a work order -- so this
             # probe would leave one behind on every cycle. Same discipline as the DRILL_AREA
             # probe: a test that litters the real queue is a test with a side effect, and a
@@ -2730,7 +2989,9 @@ def drill_local_agent():
     net(a, "a path on NO denylist is still refused if it is outside the surface",
         lambda: denied("data/COVERAGE.json"),
         "a denylist fails open on anything nobody thought of; this is the closed half")
-    net(a, "it cannot write into data/ at all", lambda: denied("data/WIKI_HOSTS.json"), "")
+    net(a, "it cannot write into data/ at all", lambda: denied("data/WIKI_HOSTS.json"),
+        "data/ is the corpus and its bindings; WIKI_HOSTS.json in particular decides which wiki "
+        "every source is read from, so a write here redirects the whole library quietly")
     def cannot_write_an_unlisted_top_level_file():
         """A REAL FILE AT A NAME NOBODY LISTED, so the ALLOWLIST is what refuses it.
 
@@ -2756,10 +3017,14 @@ def drill_local_agent():
                          "MARKER-ONCE\n")
             return denied("__drill_unlisted_probe__.txt")
         finally:
+            # Recorded, not swallowed, for the third time in this area: a failed removal leaves
+            # `__drill_unlisted_probe__.txt` at the repository ROOT, which is the one place a
+            # stray file is most likely to be read as somebody's work in progress.
             try:
                 os.remove(probe)
             except OSError:
-                pass
+                import silence as _si
+                _si.note("drill.py:unlisted-probe-cleanup")
     net(a, "it cannot write a brand-new top-level file",
         cannot_write_an_unlisted_top_level_file,
         "the test that matters: a path invented AFTER the lists were written")
@@ -2971,7 +3236,10 @@ def drill_publish():
         lambda: not redacted("The custodian recorded the specimen in the usual manner."),
         "a scrubber that redacts the library is not a scrubber")
     net(a, "a low-entropy passphrase is not mistaken for a key",
-        lambda: not redacted("password = correct horse battery"), "")
+        lambda: not redacted("password = correct horse battery"),
+        "the entropy arm above has to be able to say NO: a scrubber that redacts every line "
+        "with the word password in it redacts this project's own documentation, and a gate "
+        "that cries wolf on every run is one somebody switches off")
     # STRUCTURED SUPPRESSION (trivy/prowler discipline). An exception must be data, carry a
     # reason and an expiry, stay VISIBLE in the report, and never widen into a class.
     import suppressions as SUP
@@ -3042,26 +3310,55 @@ def _the_scanner_reads_files_over_two_megabytes():
         from both halves. `_SCAN_OVERLAP` is what makes it survive, and this is what tests it.
 
     And a clean file of the same size must still come back quiet, or the net is a wall.
+
+    THE SEAM ARM USED TO GUESS WHERE THE SEAM WAS (orders 73264e58fdeb and a51a546185ec, filed
+    separately against the same line). It read `seam = P._SCAN_BLOCK and 2_000_000  # the default
+    line cap`, and every clause of that was wrong about something. `_SCAN_BLOCK` is 262,144 and
+    is the READ-BLOCK size, not the line cap; the conjunct never changes the result, so the
+    expression is the literal `2_000_000` for any truthy `_SCAN_BLOCK`; and that literal is a
+    hand-copy of `scan_for_secrets`'s `max_bytes` default living in a different module. Two ways
+    to fail, in opposite directions. If `_SCAN_BLOCK` were renamed or made falsy, `seam` becomes
+    0 or None, the slice raises, and `net()` records a raised attack as a BREACH -- an OWNER halt
+    over a constant rename somewhere else. And if the default simply MOVED, the credential at
+    1,999,990 would land in the middle of a segment, the arm would silently stop being a seam
+    test, and the net would report HELD over a scanner that could no longer see a secret across a
+    boundary. Measured before the change: with the segment at 300,000 and `_SCAN_OVERLAP` cut to
+    8 -- the overlap repair effectively deleted -- the old fixture still returned True.
+
+    So the cap is CHOSEN AND PASSED IN. `only()` hands `max_bytes` to the scanner and the
+    fixture is built from that same local, which makes the straddle true by construction and
+    makes this arm cheap (600 KB rather than three megabytes) into the bargain. The oversized
+    arms keep the real default, since their claim is about files nobody sized for the scanner.
+    (`_SCAN_OVERLAP = 0` is NOT the regression to test against: `seg[-0:]` is the whole segment,
+    so a zero overlap carries everything forward rather than nothing. A short non-zero overlap is
+    the honest deletion, and 8 is what this was watched go red against.)
     """
     import shutil
     import publish as P
     d = tempfile.mkdtemp(prefix="scanbig_")
     filler = "the custodian recorded the specimen in the usual manner. "
     try:
-        def only(name, body):
+        def only(name, body, cap=None):
             for f in os.listdir(d):
                 os.remove(os.path.join(d, f))
             with open(os.path.join(d, name), "w", encoding="utf-8") as fh:
                 fh.write(body)
-            return P.scan_for_secrets(d)
+            return (P.scan_for_secrets(d, max_bytes=cap) if cap is not None
+                    else P.scan_for_secrets(d))
 
         long_line = filler * 55_000                     # ~3.1 MB, no newline anywhere
+        # The two oversized arms take the REAL default, because "size is not a reason to skip"
+        # is a claim about what the scanner does to files nobody sized for it.
         if not only("big.md", filler * 40_000 + _AWS_EXAMPLE + "\n"):
             return False
         if not only("register.json", _AWS_EXAMPLE + long_line):
             return False
-        seam = P._SCAN_BLOCK and 2_000_000              # the default line cap
-        if not only("minified.js", long_line[:seam - 10] + _AWS_EXAMPLE + long_line[:400_000]):
+        # THE SEAM ARM CHOOSES ITS SEGMENT SIZE instead of guessing it, so the credential
+        # straddles by construction whatever the module default happens to be.
+        seam = 300_000
+        straddling = (long_line[:seam - 10] + _AWS_EXAMPLE
+                      + long_line[:seam])              # material on the far side of the cut
+        if not only("minified.js", straddling, cap=seam):
             return False
         return not only("clean.md", filler * 40_000)
     finally:
@@ -3120,25 +3417,51 @@ def _publish_never_swallows_a_missing_safety(path=None):
     Asked of the AST because that is the lesson of the same morning: `_no_programmatic_clear`
     breached today on a COMMENT quoting the strings it grepped for, and a `grep -c` here would
     fail the same way the first time somebody writes the phrase in a docstring explaining why it
-    is banned. A handler passes only if it raises. The count is asserted too -- three arms must
-    still BE there, or a net that requires every handler to raise is satisfied by a file with no
-    handlers left at all.
+    is banned. A handler passes only if it raises.
+
+    THE RAISE MUST BE REACHABLE, NOT MERELY PRESENT (order 1c1e61dbfea4). This walked each
+    handler with a plain `ast.walk`, which accepts a `raise` parked after a `return` or inside an
+    `if False:` -- so `except ImportError: print(...); return None` with a dead `raise` beneath it
+    read exactly like a handler that fails closed. That is the same defeat orders c54a22a4e6fc
+    and 78f04bec15ad removed from four other nets in this file, and the instrument for it
+    (`_live_stmt_walk` over `_live_stmts`) was already sitting upstairs unused by this one.
+
+    AND THE CENSUS WENT, BECAUSE IT BREACHED ON AN IMPROVEMENT. The last line was
+    `return arms >= 3`, a floor on HANDLERS PRESENT. Making any one of `ledger_guard`,
+    `escalation` or `mutate` an unconditional top-level import -- strictly stronger, since there
+    is then no handler left to swallow anything -- drops the count and returns False, and a False
+    here is a breach, and a breach raises an OWNER halt. The library would stop because somebody
+    made a guard harder to switch off. This file names that hazard in its own words a few hundred
+    lines up ("a net that goes red when a guard is improved teaches people to stop improving
+    guards") and order 8ee268ce32cc exists for it.
+
+    The docstring's worry was real, though: a for-all over handlers is satisfied vacuously by a
+    file with no handlers. The answer is to assert what must still BE THERE rather than to count
+    the handlers. So the floor is now on GUARDS PRESENT -- the three interlocks must be REACHABLY
+    CALLED from the entry point each one actually guards -- which is the guarantee anybody
+    actually wants and which no amount of import-hardening can take away.
     """
     import ast
     src = path or os.path.join(os.path.dirname(os.path.abspath(__file__)), "publish.py")
     with open(src, encoding="utf-8") as f:
         tree = ast.parse(f.read(), filename="publish.py")
-    arms = 0
     for n in ast.walk(tree):
         if not isinstance(n, ast.ExceptHandler):
             continue
         names = [x.id for x in ast.walk(n.type or ast.Pass()) if isinstance(x, ast.Name)]
         if "ImportError" not in names:
             continue
-        arms += 1
-        if not any(isinstance(b, ast.Raise) for b in ast.walk(n)):
+        if not any(isinstance(b, ast.Raise)
+                   for b in _live_stmt_walk(_live_stmts(n.body))):
             return False
-    return arms >= 3
+    # AND THE GUARDS THEMSELVES ARE STILL WIRED, each from the door it actually stands behind:
+    # the ledger check and the mutation interlock inside `push()`, the plant-wide halt at the top
+    # of `main()`. Removing a handler by hardening its import cannot fail this; deleting the
+    # guard, or moving it into a branch nothing enters, does.
+    return all(_reaches_call(tree, want, entries) for want, entries in (
+        ("ledger_guard.assert_intact", ("push",)),
+        ("mutate.active", ("push",)),
+        ("escalation.assert_clear", ("main",))))
 
 
 def _maintenance_guard_fixture(d, name, body):
@@ -3214,10 +3537,18 @@ def _a_broken_maintenance_guard_fails_open():
     A net that only checked the refusal would let exactly that regression in unnoticed -- the
     wedge is silent, so nothing else in the tree would report it either.
 
-    Six ways of not being a live shift, every one of which must answer PUBLISH: the file is
-    absent, it is not JSON at all, it parses to something that is not an object, it says the run
-    finished, it carries no usable heartbeat, and its heartbeat is one second past the limit so
-    the run is treated as crashed rather than live.
+    Eight ways of not being a live shift, every one of which must answer PUBLISH: the file is
+    absent, it is not JSON at all, it parses to something that is not an object, it parses to a
+    JSON STRING rather than an object, it says the run finished, it carries no heartbeat at all,
+    its heartbeat is not a number, and its heartbeat is one second past the limit so the run is
+    treated as crashed rather than live.
+
+    THE COUNT IS STATED BECAUSE IT IS CHECKABLE, and it was wrong: this paragraph said "Six" and
+    listed six while `cases` below held eight (order b99192e41488). The two it omitted -- the
+    JSON string and the non-numeric heartbeat -- are separate labelled cases with their own
+    fixtures, so the prose was understating the net it describes rather than overstating it, but
+    a reader counting the list against the sentence would have concluded one of them was stale
+    and had no way to tell which.
     """
     import publish as P
     d = tempfile.mkdtemp(prefix="drill_maintopen_")
@@ -3412,7 +3743,9 @@ def drill_ledgers():
         lambda: not LG.check_append_only("HANDOFF.md", "## NEW\n" + "x" * 200000)[0],
         "length comparison would wave this through; containment does not")
     net(a, "an empty overwrite is refused",
-        lambda: not LG.check_append_only("HANDOFF.md", "")[0], "")
+        lambda: not LG.check_append_only("HANDOFF.md", "")[0],
+        "the degenerate truncation, and the one a crashed writer produces by accident: an "
+        "empty proposal contains nothing of what came before, so containment must refuse it")
     net(a, "a bug in BOTH Open and Resolved is caught",
         lambda: not LG.check_structure(
             "BUGS.md",
@@ -3420,7 +3753,159 @@ def drill_ledgers():
             "- **[m99] x**\n" + "y" * 9000)[0],
         "run in this project by HAND at the end of every session; now it is a check")
     net(a, "a ledger that lost its sections is caught",
-        lambda: not LG.check_structure("BUGS.md", "nothing here" * 900)[0], "")
+        lambda: not LG.check_structure("BUGS.md", "nothing here" * 900)[0],
+        "the length check above would wave 10 KB of filler straight through; a BUGS.md with no "
+        "Open, Watching or Resolved heading is a ledger nobody can read a bug out of")
+
+    def the_writer_and_the_reader_of_a_snapshot_agree():
+        """Every APPEND_ONLY name `seal()` writes must be a name `_read_snapshot()` can find.
+
+        THE GATE THAT WAS DARK FOR A DAY AND SAID `ok` THE WHOLE TIME (order fc7f5b371e6e,
+        found 2026-09-01). `seal()` FLATTENS a nested ledger name -- `handoff/HANDOFF.md` is
+        written to `state/ledger_snapshot/handoff__HANDOFF.md`, deliberately, because the
+        separator would otherwise send it into a subdirectory nothing creates.
+        `_read_snapshot()` did not flatten. It opened `state/ledger_snapshot/handoff/HANDOFF.md`,
+        got `FileNotFoundError`, and returned None -- which `check_since_snapshot` reads as
+        "nothing has been sealed yet" and answers True to. The snapshot was on disk the entire
+        time and correctly written; the reader was looking where the writer never writes.
+
+        So append-only enforcement on `handoff/HANDOFF.md` was INERT from the moment that file
+        joined `APPEND_ONLY` on 2026-08-31, and printed `SINCE LAST SEAL : ok` on every run in
+        between. That is this project's oldest lesson wearing its most convincing disguise: a
+        check that cannot fail looks exactly like a check that passed -- on the ledger whose own
+        commentary records it having already lost 629 lines, and which `assert_intact()` gates
+        `publish.push()` on.
+
+        THE NET IS THE SHAPE, NOT THE ONE FILENAME. Asking "does `handoff/HANDOFF.md` work now"
+        would pass forever and catch nothing the next time a name is added. What must hold is
+        that the two functions agree for EVERY name in `APPEND_ONLY`, whatever those names
+        become -- so a future nested entry cannot go dark the way this one did.
+        """
+        d = tempfile.mkdtemp(prefix="drill_snapshot_names_")
+        with _ledger_redirected(d):
+            for name in LG.APPEND_ONLY:
+                p = os.path.join(d, name)
+                os.makedirs(os.path.dirname(p) or d, exist_ok=True)
+                with open(p, "w", encoding="utf-8") as fh:
+                    fh.write("".join("line %d\n" % i for i in range(200)))
+            LG.seal()
+            for name in LG.APPEND_ONLY:
+                if LG._read_snapshot(name) is None:
+                    return False              # sealed, and the reader cannot find it
+                ok, _ = LG.check_since_snapshot(name)
+                if not ok:
+                    return False              # a freshly sealed ledger must read as preserved
+                # AND IT MUST STILL BE ABLE TO REFUSE. A reader that finds the snapshot but
+                # compares nothing would pass the two checks above and be just as dark.
+                with open(os.path.join(d, name), "w", encoding="utf-8") as fh:
+                    fh.write("line 0\n")
+                if LG.check_since_snapshot(name)[0]:
+                    return False
+            return True
+    net(a, "the writer and the reader of a sealed snapshot agree, for EVERY append-only name",
+        the_writer_and_the_reader_of_a_snapshot_agree,
+        "seal() flattened a nested name and _read_snapshot() did not, so a missing file read as "
+        "'nothing sealed yet' and the gate printed ok on every run for a day")
+
+    def an_unparseable_chain_line_fails_the_chain():
+        """A hash-chain line that will not parse must FAIL the chain, not be skipped past.
+
+        `read_chain` used to `continue` past any line it could not parse -- inside the function
+        whose entire job is detecting tampering. A dropped line is indistinguishable from a line
+        that was never there, which is exactly what both an attacker and a torn write produce,
+        and the chain then verified as a shorter chain that hangs together perfectly.
+
+        Not hypothetical on this machine: `silence.append_line` was found the same day losing
+        704 of 3,200 rows and tearing 3 more under concurrency, because `O_APPEND` is atomic on
+        POSIX and a seek-then-write on Windows. Torn lines in an append-only ledger are a
+        measured local phenomenon.
+
+        THE FINAL LINE IS TESTED SEPARATELY, on purpose: it is both the likeliest to be torn (it
+        is the one being written when a process dies) and the easiest for a loop to treat as an
+        ordinary end-of-file.
+        """
+        d = tempfile.mkdtemp(prefix="drill_chain_torn_")
+        with _ledger_redirected(d):
+            os.makedirs(os.path.dirname(LG.CHAIN), exist_ok=True)
+            for name in LG.APPEND_ONLY:
+                p = os.path.join(d, name)
+                os.makedirs(os.path.dirname(p) or d, exist_ok=True)
+                with open(p, "w", encoding="utf-8") as fh:
+                    fh.write("".join("line %d\n" % i for i in range(200)))
+            LG.seal()
+            LG.seal()
+            with open(LG.CHAIN, encoding="utf-8") as fh:
+                good = [ln for ln in fh.read().split("\n") if ln.strip()]
+            if len(good) < 2 or not LG.verify_chain()[0]:
+                return False                  # the honest chain must verify first
+            for where in ("middle", "final"):
+                torn = list(good)
+                idx = 0 if where == "middle" else len(torn) - 1
+                torn[idx] = torn[idx][: max(4, len(torn[idx]) // 2)]
+                with open(LG.CHAIN, "w", encoding="utf-8") as fh:
+                    fh.write("\n".join(torn) + "\n")
+                if _deliberately_failing(lambda: LG.verify_chain()[0]):
+                    return False              # a torn link read as an intact chain
+            return True
+    net(a, "a chain line that will not parse FAILS the chain, final line included",
+        an_unparseable_chain_line_fails_the_chain,
+        "read_chain skipped past unparseable lines inside the function whose job is detecting "
+        "tampering, so a torn write verified as a shorter chain that hangs together perfectly")
+
+    def an_acknowledged_shrink_is_carried_and_nothing_else_is():
+        """The owner's ruling (a) on order be33a61be79f, attacked from every side it has.
+
+        An acknowledgement must (1) stop the NAMED shrink failing the chain, (2) still REPORT it,
+        (3) cover nothing outside its link range, (4) cover nothing for a ledger it does not
+        name, and (5) be refused when malformed. A waiver that fails any of the last three is a
+        blanket, and the ruling was explicit that this is not one. Driven in a redirected tree,
+        never against the live chain (see `_ledger_redirected`, and why it exists).
+        """
+        d = tempfile.mkdtemp(prefix="drill_chain_ack_")
+        with _ledger_redirected(d):
+            def write_ledgers(n):
+                for name in LG.APPEND_ONLY:
+                    p = os.path.join(d, name)
+                    os.makedirs(os.path.dirname(p) or d, exist_ok=True)
+                    with open(p, "w", encoding="utf-8") as fh:
+                        fh.write("".join("line %d\n" % i for i in range(n)))
+
+            def ack(links, ledgers, reason="a written reason long enough to pass the floor set for one"):
+                os.makedirs(os.path.dirname(LG.ACKNOWLEDGED), exist_ok=True)
+                with open(LG.ACKNOWLEDGED, "w", encoding="utf-8") as fh:
+                    json.dump([{"links": links, "ledgers": list(ledgers), "reason": reason,
+                                "order": "drill", "by": "drill.py"}], fh)
+
+            write_ledgers(200); LG.seal()                     # link 0
+            write_ledgers(200); LG.seal()                     # link 1
+            write_ledgers(100); LG.seal()                     # link 2: SHRANK (1 -> 2), both
+            ok, probs = LG.verify_chain()
+            if ok or len(probs) != 2:
+                return False                                  # the shrink must fail unacknowledged
+            ack([1, 2], LG.APPEND_ONLY)
+            ok, probs, carried = LG.verify_chain(with_acknowledged=True)
+            if not ok or probs or len(carried) != 2:
+                return False                                  # (1) stops failing, (2) still reported
+            write_ledgers(50); LG.seal()                      # link 3: a NEW shrink (2 -> 3)
+            ok, probs, carried = LG.verify_chain(with_acknowledged=True)
+            if ok or len(probs) != 2 or len(carried) != 2:
+                return False                                  # (3) range covers nothing outside it
+            ack([1, 3], [LG.APPEND_ONLY[0]])                  # widen the range, drop a ledger
+            ok, probs, carried = LG.verify_chain(with_acknowledged=True)
+            if ok or len(probs) != 2 or len(carried) != 2:
+                return False                                  # (4) the unnamed ledger still fails
+            ack([1, 3], LG.APPEND_ONLY, reason="too short")
+            ok, probs = LG.verify_chain()
+            if ok or len(probs) != 4:
+                return False                                  # (5) malformed = refused = all fail
+            ack([1, 3], LG.APPEND_ONLY)
+            ok, probs, carried = LG.verify_chain(with_acknowledged=True)
+            return ok and not probs and len(carried) == 4     # and a proper one carries all four
+    net(a, "an acknowledged shrink is carried, still reported, and covers nothing beyond its name",
+        an_acknowledged_shrink_is_carried_and_nothing_else_is,
+        "ruling (a) on be33a61be79f: a fault a person has ruled on stops the presses no longer, "
+        "is printed on every run and every push, and a waiver with no range, no ledger, no "
+        "reason or no author acknowledges nothing")
 
 
 # ============================================================== THE CORPUS (two-writer contract)
@@ -3434,7 +3919,9 @@ def drill_two_writer():
         "most of the corpus predates stamping; that is not evidence of good provenance")
     PL.stamp_record(rec, "pipeline.write_record")
     net(a, "a sanctioned write verifies",
-        lambda: PL.verify_record_provenance(rec)[0] == "OK", "")
+        lambda: PL.verify_record_provenance(rec)[0] == "OK",
+        "a provenance check that never returns OK reports the whole corpus as suspect, which "
+        "is the same as reporting nothing")
 
     def third_writer_detected():
         r = dict(rec, entries=list(rec["entries"]) + [{"name": "C-injected"}])
@@ -3454,8 +3941,18 @@ def drill_two_writer():
     # forever. These attack the gate BEHAVIOURALLY rather than reading pipeline.py's text, per
     # standing lesson 26: a source-literal net here would pass on a comment mentioning gate_done.
     def denied_write_leaves_phase_open():
+        # THROUGH `_deliberately_failing`, AND IT IS THE ONLY PIPELINE-DRIVING NET HERE THAT WAS
+        # NOT (sweep41-batch01, order 5fa88a896c3f). This probe's whole subject is a write that
+        # did NOT land, so `gate_done`'s refusal branch runs for real: it writes a line to
+        # `state/pipeline.log` and a `silent:pipeline.py:phase-not-marked-done` row into
+        # `state/failures.json`, once per drill run, for ever -- `foreman.triage_swallowed`
+        # deliberately never clears that ledger (order 842025c83c3c), so the litter is permanent.
+        # Its two sibling nets below drive the SUCCESS path and leave no trace, which is exactly
+        # why the omission was invisible: the net that manufactures the alarm is the one that
+        # looks the same as the ones that do not.
         st = {"done": {}}
-        PL.gate_done(st, "cosmology", [True, True, False, True])
+        _deliberately_failing(lambda: _quietly(
+            lambda: PL.gate_done(st, "cosmology", [True, True, False, True])))
         return "cosmology" not in st["done"]
     net(a, "a phase whose write did NOT land is left open",
         denied_write_leaves_phase_open,
@@ -4227,6 +4724,101 @@ def drill_stale_writer():
             reason_matches_verdict,
             "runguard.claim() printed 'landed' for a write that did not land, because the "
             "reason string was returned unconditionally beside a False verdict")
+
+        def the_loser_of_a_race_is_refused_mid_backoff():
+            """THE COMPARE AND THE SWAP HAVE TO BE ADJACENT -- driven, not asserted.
+
+            THE FAULT THIS REPRODUCES (order fede605db64f, repaired 2026-08-29).
+            `replace_if_unchanged` digested the target ONCE and then handed the rename to
+            `replace_retry`, whose backoff sleeps 0.3 + 0.6 + 0.9 + 1.2 seconds between
+            attempts. A writer denied on its first try therefore compared the file at T and
+            landed its bytes at T+3s, and ANY writer that got in during those three seconds was
+            silently overwritten -- both of them told `(True, "landed")`. It cost this project
+            two work-order closures on the shift that found it, each of which had already
+            written a paper-trail entry, and they were watched reappear in the OPEN queue
+            minutes later. That is this window running backwards.
+
+            AND THE REPAIR HAD NO ADVERSARY. It was measured once -- three processes, forty rows
+            each, 120 of 120 surviving where the old helper kept 55 to 86 -- and a measurement
+            taken once is not a standing guard. `a stale write is REFUSED` above covers the
+            plain race, where the change lands before the swap is ever attempted; nothing
+            covered the one that actually bit, where the change lands DURING THE BACKOFF, after
+            the digest the writer is holding was taken and before its rename succeeds. A compare
+            that cannot fail is indistinguishable from a compare that passed, which is standing
+            lesson 9 and the reason this file exists.
+
+            SO THE SEQUENCE IS DRIVEN END TO END, in the order it happened: the loser reads its
+            digest, its first `os.replace` is DENIED, the other writer lands its bytes while the
+            loser is in the backoff, and nothing stands between the loser and a successful
+            rename on its next attempt EXCEPT the re-digest. Four assertions, and the last two
+            are what make it evidence rather than a story: the retrying writer is REFUSED, the
+            reason says the file changed under it rather than that anything landed, the winner's
+            bytes are still on disk afterwards, and `os.replace` was reached exactly ONCE -- the
+            second rename was never attempted, because the compare ran before it. A reason is
+            not a refusal if the write happened anyway.
+
+            THE DENIAL IS STOOD IN FOR, AND ONLY THE DENIAL. `reason_matches_verdict` above
+            already drives a genuine Windows PermissionError through this function, so the
+            handler is proved real next door; what this net needs is a denial it can schedule an
+            event INSIDE, which no held handle can give it. Everything the net actually asserts
+            -- that the loop re-digests before its second rename, and refuses -- runs for real,
+            and the stand-in is released before anything is read back. It is also the same seam
+            the sibling uses off Windows, so there is no new one.
+
+            WATCHED GO RED against the pre-fix shape (digest once, then hand the rename to
+            `replace_retry`): the loser is told `(True, "landed")` and the winner's bytes are
+            gone.
+
+            The three callers whose correctness rests on this: `workorders._mutate` (the work
+            order queue itself), `endpoint.register`, and `runguard.claim`.
+            """
+            race = os.path.join(d, "raced.json")
+            with open(race, "w", encoding="utf-8") as f:
+                f.write('{"v":"original"}')
+            held = S.digest_of(race)             # what the losing writer read, before the race
+            loser = race + ".loser"
+            with open(loser, "w", encoding="utf-8") as f:
+                f.write('{"v":"STALE LOSER"}')
+
+            saved, attempts_seen = os.replace, []
+
+            def denied_once_then_allowed(tmp, dst):
+                attempts_seen.append(1)
+                if len(attempts_seen) == 1:
+                    # The other writer lands its work in the window the backoff opens. This is
+                    # the whole fault: on the old shape the digest was already taken and would
+                    # not be taken again, so these bytes were about to be overwritten silently.
+                    with open(race, "w", encoding="utf-8") as fh:
+                        fh.write('{"v":"WINNER"}')
+                    raise PermissionError(13, "a reader is holding the target open")
+                return saved(tmp, dst)
+
+            os.replace = denied_once_then_allowed
+            try:
+                # Wrapped because the REFUSAL calls `silence.note`, which would put
+                # `silent:silence.py:stale-write-refused` into the library's operational ledger
+                # once per drill run -- in the file a person reads to find out what is actually
+                # going wrong. Same reason as the two probes in `drill_recorders_and_lane`; see
+                # `_deliberately_failing`. The raise is what is asserted, never the ledger row.
+                ok, why = _deliberately_failing(
+                    lambda: S.replace_if_unchanged(loser, race, held, attempts=3))
+            finally:
+                os.replace = saved
+
+            with open(race, encoding="utf-8") as fh:
+                on_disk = fh.read()
+            # EXACTLY ONE RENAME WAS ATTEMPTED, and that is the sharp end of it: the second
+            # attempt never reached `os.replace` at all, because the re-digest at the top of the
+            # loop stopped it. On the old shape the digest was taken once, outside the loop, and
+            # this second rename went through.
+            return (len(attempts_seen) == 1 and ok is False
+                    and "changed under this writer" in (why or "")
+                    and on_disk == '{"v":"WINNER"}')
+        net(a, "a writer whose target changed DURING ITS BACKOFF is still refused",
+            the_loser_of_a_race_is_refused_mid_backoff,
+            "the compare and the swap were three seconds of sleep apart, so both writers were "
+            "told they landed and one of them had not -- two work-order closures with paper "
+            "trail entries were lost to exactly this and watched reappear in the open queue")
     finally:
         import shutil
         shutil.rmtree(d, ignore_errors=True)
@@ -5399,6 +5991,59 @@ def drill_workorders():
         "a value computed, printed and dropped is this project's signature failure, and a queue "
         "that is blind reports the same sentence as a queue that is clear")
 
+    def no_open_order_sits_on_a_legacy_cap_boundary():
+        """HARD RULE 0, ASKED OF THE QUEUE ITSELF -- from outside the module that keeps it.
+
+        FOUR SHIFTS OF CAP DAMAGE SURVIVED THE CAPS (orders 8dc37c208839, 3025ac8aa20f). Work
+        orders were once stored truncated -- `what` at 600 characters, `where` at 200, `found_by`
+        at 80, a closed row's `resolution` at 400 -- and when those caps were removed from the
+        writers, nothing anywhere noticed that the ROWS ALREADY ON DISK were still cut. A stored
+        field sitting exactly on one of those four numbers is the fingerprint, and for four
+        shifts no instrument in this project looked for it. That order named three empty places:
+        no entry in `workorders.sweep_detectors`, no check in `verify_math`, and no net here.
+        The detector exists now and self-closes when the open queue is clean; this is the layer
+        that does not share its failure modes.
+
+        WHY THAT IS NOT A DUPLICATE, and it is the CLAUDE.md INDEPENDENT property spelled out. A
+        detector living inside `workorders.py` cannot report `workorders.py` failing to import,
+        its sweep never being run, or `_load` raising QueueUnreadable -- and from the outside
+        every one of those reads byte-for-byte like a clean queue. This net calls the same
+        function rather than re-deriving the measurement, because two hand-kept copies of one
+        number is precisely how they come to disagree; what it adds is a SECOND CALLER, on a
+        different schedule, whose failure to get an answer at all is itself a breach.
+
+        A RATCHET, AND ONLY OVER THE OPEN QUEUE. Measured zero on the day it was written and
+        zero again today, so any future non-zero is a regression and the ids are named so a
+        person can look at each row rather than at a count. The CLOSED log is deliberately NOT
+        graded: it is append-only history, it cannot be repaired, and a battery that fails on it
+        nightly is an alarm nobody can ever silence -- which is how alarms get switched off. The
+        honest figure, for the record, since this file has no channel for a measurement that is
+        not a verdict: of 3,171 closed rows, 221 carry a `what` at exactly 600 and 532 a
+        `resolution` at exactly 400, and 548 rows are cut in some field. Roughly a sixth of this
+        project's record of its own closed work is truncated, and the 532 resolutions have no
+        second copy anywhere. That is permanent. `python src/workorders.py --sweep` prints it
+        fresh every sweep.
+        """
+        hits = W.cap_boundary_scan()["open_hits"]
+        if hits:
+            # THE IDS, NOT THE COUNT, and delivered through the one channel `net()` prints
+            # verbatim. A person has to open each of these and decide whether the text was
+            # truncated or merely happens to end there; a number tells them neither which rows
+            # nor where to start. Raising is how a net says something a bare False cannot --
+            # `net()` records the message in `error` and `main()` prints it under the breach --
+            # and it is the same rule `_a_refusal_names_the_block_it_refused` puts on the
+            # library. Not truncated on the way out, for reasons that should not need saying in
+            # the net named after cap damage.
+            raise AssertionError(
+                "%d open work order field(s) sit exactly on a legacy cap boundary: %s"
+                % (len(hits), "; ".join(sorted(str(h) for h in hits))))
+        return True
+    net(a, "no OPEN work order sits on a legacy cap boundary",
+        no_open_order_sits_on_a_legacy_cap_boundary,
+        "a stored field ending exactly on 600 / 200 / 80 / 400 is cap damage that outlived the "
+        "cap, and it went unseen for four shifts because the only thing that could have looked "
+        "lived inside the module keeping the queue")
+
 
 def _guards_are_wired_where_claimed(src=None):
     """Each interlock must be CALLED in the file that claims it — asked of the AST.
@@ -5412,8 +6057,8 @@ def _guards_are_wired_where_claimed(src=None):
     that failed" — would have kept holding on the paragraphs describing the deleted guard.
     A guard's explanation is the part MOST likely to survive its removal.
 
-    `_calls` resolves through each file's own imports, so `import cachekey as CK; CK.load()`
-    counts and a same-named local method does not. The four cache files are asked for a call
+    Call spellings resolve through each file's own imports, so `import cachekey as CK; CK.load()`
+    counts and a same-named local method does not. The FIVE cache files are asked for a call
     on the MODULE, which is the honest form of "cachekey is wired in here"; the two gate
     files are asked for the specific function, because there the identity of the call is the
     whole claim.
@@ -5427,11 +6072,23 @@ def _guards_are_wired_where_claimed(src=None):
     also closes the uncalled-helper form of the same trick, which plain `reachable=True` does
     not -- `_live_walk` descends into every `def` in a file whether or not anything calls it.
 
-    THE ENTRY POINTS ARE NAMED PER FILE, and they are a claim in their own right. Five of these
+    THE ENTRY POINTS ARE NAMED PER FILE, and they are a claim in their own right. All but one
     are reached from `main`; `pipeline.py`'s cache check lives under `synthesis_blocks`, which
     is the door other modules come in through rather than its CLI. Naming the wrong door would
     make this net breach against correct code, so each was measured against the live tree before
     it was written down.
+
+    THE COVERAGE LIST IS ITSELF A CLAIM, AND IT OMITTED THE BIGGEST SITE (order 87615a030864).
+    `read.py` was not in this dict, and it is the largest cachekey call site in the tree -- the
+    helper at `cache_path`, `cachekey.load`, `cachekey.write_path` -- and until the shift that
+    filed this it ALSO built the per-entity evidence path by hand inside `queue()`, which is
+    precisely the defect this net exists to catch. The net reported HELD across the whole time
+    that fifth spelling was live, because the file containing it was not in the set. That is
+    this net's own named failure shape wearing a different hat: a guard's coverage list is a
+    claim, and a claim that omits the site where the guard was actually missing is a green light
+    of unknown provenance. `read.py` reaches `cachekey.` from `main` by two routes (main -> run
+    -> queue -> _queue_row, and main -> run -> read_entity), both measured against the live tree
+    before the entry was written down.
 
     MODULE LEVEL, LIKE THE OTHER SOURCE-SHAPE NETS, and for the reason `_srcdir` gives: it was a
     closure carrying an unusable `src=` parameter, so the one way to prove it still refuses --
@@ -5445,7 +6102,8 @@ def _guards_are_wired_where_claimed(src=None):
             "coverage.py": ("cachekey.", ("main",)),
             "feats.py": ("cachekey.", ("main",)),
             "pipeline.py": ("cachekey.", ("main", "synthesis_blocks")),
-            "hostcheck.py": ("cachekey.", ("main",))}
+            "hostcheck.py": ("cachekey.", ("main",)),
+            "read.py": ("cachekey.", ("main",))}
     return all(_reaches_call(_ast_of(os.path.join(src, f)), token, entries)
                for f, (token, entries) in want.items())
 
@@ -5539,6 +6197,25 @@ def drill_inspector():
 
         The overflow direction stays exactly as it was and is worth keeping on its own: states
         summing past the total mean an entry counted twice, which is the M23 shape.
+
+        AND IT SUMMED FOUR OF THE FIVE COLUMNS IT NAMES (order 63b8b84d7504). The paragraph above
+        lists `cited`, `read`, `no_page`, `no_host` and `not_attempted`; the code left
+        `not_attempted` out. Because those five sum to `entries` exactly -- re-verified today
+        against the live data/COVERAGE.json: 210 rows, `not_attempted` present in every one, 0
+        over and 0 under -- the four-column sum is identically `entries - not_attempted`, so it
+        could only ever exceed `entries` if `not_attempted` went NEGATIVE. An entry
+        double-counted into `not_attempted`, which is the M23 shape in one of the five buckets
+        and the exact thing this net is named for, could not move the check at all. That is a
+        docstring naming a fifth column the code did not read, in the net whose own history is a
+        docstring outrunning its code, which is why the correction is written down rather than
+        quietly applied.
+
+        The equality claim stays OUT. Overflow is the direction worth grading; it simply has to
+        cover every column it names.
+
+        A NOTE ON THE ABSENT-FILE PASS below: no COVERAGE.json returns True, consistent with the
+        other inspector nets, and it is the one soft edge here -- if that file is ever expected
+        to exist, this is where the expectation would have to be stated.
         """
         p = path or os.path.join(HERE, "data", "COVERAGE.json")
         if not os.path.exists(p):
@@ -5547,7 +6224,8 @@ def drill_inspector():
         for r in rows:
             if not isinstance(r, dict):
                 continue
-            parts = sum(r.get(k, 0) for k in ("cited", "read", "no_page", "no_host"))
+            parts = sum(r.get(k, 0) for k in
+                        ("cited", "read", "no_page", "no_host", "not_attempted"))
             if parts > r.get("entries", 0):
                 return False
         return True
@@ -5759,13 +6437,51 @@ def drill_no_top_ups():
         "1010 is a client-fingerprint refusal; a real UA fixed it outright")
 
     def paid_access_stays_switched_off():
+        """`allow_paid` is owner-held. Nothing automatic may switch it on.
+
+        FOUR FAULTS IN EIGHT LINES, all of them found at once (order eed51b638439).
+
+        1. THE PATH WAS A LITERAL, AND A MALFORMED ONE. It was an r-string with DOUBLED
+           backslashes, so the parsed constant carried eight of them; Windows collapses repeated
+           separators and the file opened anyway, which made it latent rather than live -- an
+           escaped path that is not one, inside a safety battery. It also hard-coded one
+           machine's directory layout, and it reached OUT of the repository by absolute path from
+           a file whose own header says every attack is built in memory or in a scratch
+           directory. `CASCADE_CONFIG` above takes it from the environment instead, with this
+           machine's location as the fallback, so another machine says where its config is rather
+           than making this net wrong.
+
+        2. `except Exception: return True` CONFLATED FOUR CONDITIONS -- "not this machine"
+           (intended), corrupt JSON, a denied read, and a changed schema. Every one of them made
+           the net unfailable, silently, which is the absence-read-as-clean shape this whole file
+           exists against. They are separated now: FileNotFoundError is the honest "not this
+           machine"; anything else is a measurement that did not happen and follows the ruling at
+           `datasette_config_is_generated_not_copied` -- noted, not graded -- under its own name
+           in the ledger, so the two are distinguishable afterwards.
+
+        3. AND THE OTHER DIRECTION HALTED THE LIBRARY. `cfg.get("allow_paid") is False` returns
+           False when the key is merely ABSENT, because None is not False. A missing key in an
+           unrelated project's config file would breach this net, and a breached net escalates to
+           OWNER. Absent is not switched on; the ruling is satisfied by absence and by an explicit
+           False, and by nothing else -- a stringy "false" is still a breach, because that is a
+           value somebody wrote, and this project has already been bitten by `bool("false")`.
+        """
         import json as _j
+        import silence as _si
         try:
-            with open(r"C:\\Users\\imarl\\cascade\\config.json", encoding="utf-8") as fh:
+            with open(CASCADE_CONFIG, encoding="utf-8") as fh:
                 cfg = _j.load(fh)
-        except Exception:
+        except FileNotFoundError:
+            _si.note("drill.py:paid-lane-config-absent")
             return True          # not this machine; the ruling is still recorded in the config
-        return cfg.get("allow_paid") is False
+        except Exception:
+            _si.note("drill.py:paid-lane-config-unreadable")
+            return True          # unreadable or corrupt: a measurement that did not happen
+        if not isinstance(cfg, dict):
+            _si.note("drill.py:paid-lane-config-unreadable")
+            return True
+        val = cfg.get("allow_paid")
+        return val is False or val is None
     net(a, "the cascade never switches paid access on", paid_access_stays_switched_off,
         "allow_paid is owner-held; anything that flips it is a bug")
 
@@ -7353,7 +8069,8 @@ def drill_threads():
         "thread wearing a placeholder's name")
     net(a, "nor at nothing at all",
         lambda: refused(to="", cls="T2", why="x", frm="II.A.3", known_codes=KNOWN),
-        "")
+        "an empty target is the one a truthiness check catches by accident and a membership "
+        "check misses; it is still a thread pointing at no address")
     net(a, "and an address that DOES resolve is still admitted",
         lambda: TH.edge(to="II.A.5", cls="T2", why="x", frm="II.A.3",
                         known_codes=KNOWN)["to"] == "II.A.5",
@@ -7524,6 +8241,109 @@ def drill_threads():
         the_cli_can_actually_finish,
         "eight nets read its source and were green while one arrow character made every "
         "invocation die, before the gate, with the whole graph already derived")
+
+    # ------------------------------------------------- PHASE 4.2 (STEP4_PLAN.md §7F, 2026-09-02)
+    # The verifier can finally see the graph. These attack the reading, not the writing: every
+    # one drives `thread_integrity`'s pure functions against fixtures or the live artifact and
+    # none of them reaches `main()`, which escalates for real.
+    import thread_integrity as TI
+
+    def _graph(d, rows):
+        p = os.path.join(d, "THREADS.json")
+        with open(p, "w", encoding="utf-8") as fh:
+            json.dump({"sources": rows, "counts": {}}, fh)
+        return p
+
+    def a_thread_to_no_address_is_caught_after_the_fact():
+        """§8: 'thread_integrity re-checks afterwards, and DANGLING = 0 is a release gate'."""
+        d = tempfile.mkdtemp(prefix="drill_graph_")
+        try:
+            rows = {"A": {"code": "II.A.3", "T1": {"to": "II.A.3"},
+                          "T2": {"Persons": [{"to": "II.ZZ.999"}]}},
+                    "B": {"code": "II.A.5", "T1": {"to": "II.A.5"}, "T2": {}}}
+            rec, unres, meta = TI.load_thread_graph(_graph(d, rows))
+            return unres == [("A", "T2", "II.ZZ.999")] and ("A", "B") not in rec
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    def siblings_are_recorded_both_ways_and_never_to_self():
+        """The code->sources fold: a Set's members thread to each other, nobody threads to
+        itself, and a T2 edge to a sibling code reaches every source filed under it."""
+        d = tempfile.mkdtemp(prefix="drill_graph_")
+        try:
+            rows = {"A": {"code": "II.C.2", "T1": {"to": "II.C.2"},
+                          "T2": {"Events": [{"to": "II.C.1"}]}},
+                    "B": {"code": "II.C.2", "T1": {"to": "II.C.2"}, "T2": {}},
+                    "C": {"code": "II.C.1", "T1": {"to": "II.C.1"},
+                          "T2": {"Events": [{"to": "II.C.2"}]}}}
+            rec, unres, _ = TI.load_thread_graph(_graph(d, rows))
+            return (not unres
+                    and {("A", "B"), ("B", "A"), ("A", "C"), ("C", "A"), ("C", "B")} <= rec
+                    and ("B", "C") not in rec
+                    and all(x != y for x, y in rec))
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    def a_corrupt_graph_is_refused_not_read_as_empty():
+        """An unreadable graph must never come back as an empty one: an empty graph verifies
+        perfectly. §8 makes a corrupt THREADS.json OWNER-level for exactly that reason."""
+        d = tempfile.mkdtemp(prefix="drill_graph_")
+        try:
+            p = os.path.join(d, "THREADS.json")
+            for body in ("{ not json", '{"sources": [1, 2]}', '{"sources": {"A": {"T1": {}}}}',
+                         '["a list"]'):
+                with open(p, "w", encoding="utf-8") as fh:
+                    fh.write(body)
+                try:
+                    TI.load_thread_graph(p)
+                    return False                              # read a corrupt file as a graph
+                except TI.ThreadGraphUnreadable:
+                    pass
+            return TI.load_thread_graph(os.path.join(d, "absent.json")) is None
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    def the_live_graph_has_no_thread_to_nowhere():
+        """THE RELEASE GATE, against the real artifact. A breach here halts the library, which
+        is what §8 asks for when 'thread_integrity becomes a drill net'."""
+        g = TI.load_thread_graph()
+        return g is not None and g[1] == [] and g[2]["recorded_directions"] > 0
+
+    def the_floor_never_rises_to_go_green():
+        """§8's ratchet, read in the direction this floor points: a baseline is recorded once,
+        lowered when the count drops, and NEVER raised by anything in the automation."""
+        d = tempfile.mkdtemp(prefix="drill_floor_")
+        try:
+            p = os.path.join(d, "floor.json")
+            s = [TI._floor_verdict(5, path=p)[0], TI._floor_verdict(7, path=p)[0],
+                 TI._floor_verdict(3, path=p)[0], TI._floor_verdict(4, path=p)[0]]
+            with open(p, "w", encoding="utf-8") as fh:
+                fh.write("{ broken")
+            s.append(TI._floor_verdict(0, path=p)[0])
+            return s == ["baseline", "REGRESSED", "ratcheted", "REGRESSED", "UNREADABLE"]
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    net(a, "a thread that resolves to no address is caught after the fact, by the verifier",
+        a_thread_to_no_address_is_caught_after_the_fact,
+        "edge() prevents it by construction; the verifier is the second, independent layer, and "
+        "a second layer that shares the first's failure mode is one layer and a decoy")
+    net(a, "a Set's members thread to each other, both ways, and never to themselves",
+        siblings_are_recorded_both_ways_and_never_to_self,
+        "the graph is keyed source->code and classify() wants source->source; a wrong fold here "
+        "would report reciprocity that does not exist or asymmetry that does")
+    net(a, "a corrupt graph is REFUSED, never read as an empty one",
+        a_corrupt_graph_is_refused_not_read_as_empty,
+        "an empty graph verifies perfectly, which is why an unreadable one must fail closed "
+        "(OWNER-level, §8)")
+    net(a, "no thread on record resolves to no address -- the Phase 4.2 release gate",
+        the_live_graph_has_no_thread_to_nowhere,
+        "DANGLING = 0 is a release gate, not a metric (§8); measured 0 over 1,508,653 threads "
+        "on the day 4.2 was authorised")
+    net(a, "the ASYMMETRIC-SUSPECT floor only ever ratchets down",
+        the_floor_never_rises_to_go_green,
+        "no phase may lower a floor to go green (§8); ruling C keeps existing asymmetry lawful, "
+        "so the gate fails only on growth")
 
 
 def drill_codewatch():
@@ -8223,6 +9043,71 @@ def drill_recorders_and_lane():
         an_unarbitrable_lane_proceeds_immediately,
         "one os.open failure on state/gpu_lane put a 15-minute stall in front of every model "
         "call in nine standing jobs, and the module header mandates the opposite")
+
+    def a_corrupt_slot_refills_and_a_fresh_one_is_never_stolen():
+        """A stranded slot file must return to the pool -- and a slot mid-claim must not.
+
+        THE STRAND (order 763b56061157). `_read()` answers None to two different questions:
+        "there is no such file" and "the file is there and will not parse". The reclaim guard
+        was `if rec is not None and _expired(rec, ...)`, which filters the second out before
+        asking -- so `_expired`'s own first line, `if not isinstance(rec, dict): return True  #
+        unreadable/corrupt: reclaim rather than strand`, was UNREACHABLE from the one call site
+        written for it. A corrupt or zero-byte slot then fell through to `os.open(O_EXCL)`,
+        which raised `FileExistsError` because the file does exist, and `continue` skipped it.
+        Forever. `MAX_SLOTS` such files put every model call in every standing job behind a pool
+        that can never refill.
+
+        AND THE HALF THAT MAKES THIS NET WORTH MORE THAN THE FIX. The obvious remedy -- reclaim
+        whatever will not parse -- is WRONG, and worse than the strand. A zero-byte slot file is
+        exactly what a slot looks like in the window between `os.open(O_CREAT|O_EXCL)` creating
+        it and the `json.dump` that follows, so "unreadable, therefore reclaim" deletes a slot
+        another process claimed microseconds ago and hands one slot to two callers. That fails
+        SILENTLY -- the card is oversubscribed and nothing says so -- where the strand at least
+        announces itself as a stall. So both directions are attacked here, and a future
+        simplification that keeps only the first will go red on the second.
+
+        The reclaim bar is mtime, the only clock an unreadable file has, judged against the same
+        lease every readable holder is judged by: a slot mid-creation is milliseconds old, a
+        stranded one is older than the lease.
+
+        Pointed at a temp `LANE` so the live lane -- which is arbitrating real model calls -- is
+        never touched.
+        """
+        import gpu_lane as GL
+        d = tempfile.mkdtemp(prefix="drill_lane_strand_")
+        keep = GL.LANE
+        try:
+            GL.LANE = d
+            # (1) EVERY slot a stranded zero-byte file, aged past the lease. The pool must refill.
+            for i in range(GL.MAX_SLOTS):
+                p = os.path.join(d, "slot.%d.json" % i)
+                open(p, "w").close()
+                old = time.time() - (GL.SLOT_LEASE_SECONDS + 60)
+                os.utime(p, (old, old))
+            got = GL._take_slot("drill-strand")
+            if not got:
+                return False                  # the pool stayed stranded
+            for f in os.listdir(d):
+                os.remove(os.path.join(d, f))
+            # (2) ONE FRESH zero-byte slot: another process between O_EXCL and its json.dump.
+            #     A competitor must leave it alone and report BUSY, not take it.
+            fresh = os.path.join(d, "slot.0.json")
+            open(fresh, "w").close()
+            before = os.path.getmtime(fresh)
+            taken = GL._take_slot("drill-thief")
+            if GL.MAX_SLOTS == 1 and taken:
+                return False                  # it stole a slot that was being claimed
+            if not os.path.exists(fresh) or os.path.getmtime(fresh) != before:
+                return False                  # it deleted or rewrote somebody's live claim
+            return True
+        finally:
+            GL.LANE = keep
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a lane of corrupt slot files refills, and a slot mid-claim is never stolen",
+        a_corrupt_slot_refills_and_a_fresh_one_is_never_stolen,
+        "_read() collapses 'absent' and 'unreadable' into one None, so the reclaim branch could "
+        "never fire and MAX_SLOTS corrupt files stranded every model call in the library -- "
+        "while the obvious fix hands one slot to two callers, silently")
 
     def a_misaddressed_blob_is_refused():
         """The filename IS a checksum, and `load()` must read it. -> bool.
@@ -9302,9 +10187,17 @@ def drill_outside():
                 newer += 1
         # It may not UNDERSTATE. Claiming fresh while records have moved is the breach; a small
         # overstatement from a file written between the two passes is not.
-        if newer > 0 and not f["stale"]:
-            return False
-        return f["stale"] == (newer > 0) or newer == 0
+        #
+        # AND THAT IS THE WHOLE ASSERTION. A second line used to follow --
+        # `return f["stale"] == (newer > 0) or newer == 0` -- which reads as a check and cannot
+        # evaluate to False in any of the four states: with `newer > 0` and stale, True == True;
+        # with `newer > 0` and not stale, the guard above has already returned; with `newer == 0`
+        # the `or` rescues both remaining cases whatever `stale` says. It was a second assertion
+        # that never assessed anything, two lines from the only line doing work, in the file whose
+        # entire purpose is removing checks that cannot fail (order 9e2fe6e222d9). Deleted rather
+        # than tightened, because the overstating direction is deliberately not graded and the
+        # comment above already says why.
+        return not (newer > 0 and not f["stale"])
     net(a, "the SQL index admits when it is behind the records",
         index_admits_when_it_is_behind,
         "it cannot be fresh; it can be honest, and a silent stale index is the real fault")
@@ -9604,8 +10497,18 @@ def main():
         print("  %s  %s" % (mark, r["net"]))
         if r["error"]:
             print("            %s" % r["error"])
-        if not r["held"] and r["expected"]:
-            print("            expected: %s" % r["expected"])
+        # A BREACH ALWAYS SAYS SOMETHING ABOUT WHAT WAS EXPECTED, even when nobody wrote one
+        # down. This read `if not r["held"] and r["expected"]:`, so a net whose expectation was
+        # the empty string printed its name and nothing else -- twenty of them, and an operator
+        # reading a 3am breach on "a low-entropy passphrase is not mistaken for a key" got no
+        # statement of what should have happened. The omission was invisible at RUNTIME, which is
+        # the wrong place for it to be invisible; it is now visible in the output, where a
+        # reviewer will fix it. This is the same rule `_a_refusal_names_the_block_it_refused`
+        # enforces on the library: a refusal carries the reason a person needs, never a bare
+        # False. (Order 6e7ecf6b9fbd.)
+        if not r["held"]:
+            print("            expected: %s"
+                  % (r["expected"] or "(no expectation was recorded for this net)"))
 
     held = sum(1 for r in RESULTS if r["held"])
     breached = [r for r in RESULTS if not r["held"]]

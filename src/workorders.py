@@ -800,7 +800,7 @@ def sweep_detectors():
     filed, closed = [], []
 
     def _fire(ok, code, what, handler, severity, where="", evidence=None, found_by=""):
-        if ok:
+        if not ok:
             if resolve_code(code, "detector stopped firing", where=where, by="workorders.sweep"):
                 closed.append(code)
         else:
@@ -916,8 +916,22 @@ def sweep_detectors():
         try:
             with open(BH2.OUT, encoding="utf-8") as f:
                 rec = json.load(f)
-        except Exception:
+        except FileNotFoundError:
+            # ABSENT IS HONESTLY EMPTY (order cb217c3c2c32). A fresh tree that has never run
+            # `binding_health` has nothing to say here, and nothing is filed or closed on that
+            # silence -- same line `_load()` draws for the queue itself.
             rec = {}
+        # ANY OTHER FAILURE IS NOT "NOTHING TO SAY" (order cb217c3c2c32). This used to be a bare
+        # `except Exception: rec = {}`, which collapsed a torn/half-written BINDING_HEALTH.json
+        # or a file held open by another reader into the same silence as a fresh tree -- and the
+        # silence was total: `suspect` below came back empty so no BINDING_SUSPECT /
+        # BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES / BINDING_HOST_SERVES_ANOTHER_WIKI order was
+        # filed, the recovery pass a few lines down iterates the same empty `rec.get("hosts")`
+        # so it closes nothing either, and `_detector("binding-suspect", True)` at the bottom of
+        # this section then told the queue this area ran clean. Re-raising routes the failure to
+        # this section's own `except Exception: _detector("binding-suspect", False)` below, which
+        # files it under DETECTOR_FAILED with the traceback, instead of reporting a corrupt
+        # canary record as an area with nothing wrong in it.
         suspect = [h for h in (rec.get("hosts") or [])
                    if h.get("healthy") is None and "no catalogued title resolved"
                    in str(h.get("reason") or "")]

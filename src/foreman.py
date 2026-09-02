@@ -538,7 +538,10 @@ def kill_stalled_job():
         return False, "could not read the standards to learn which job stalled"
 
     row = next((r for r in rows if r["standard"] == "every running job is advancing"), None)
-    if not row or row.get("holds"):
+    if row is None:
+        return False, ("the 'every running job is advancing' standard was not in the "
+                        "report, so whether a job is stalled is UNKNOWN; nothing killed")
+    if row.get("holds"):
         return True, "no job is stalled now"
 
     names = _re.findall(r"([A-Za-z0-9_]+) \(\d+ min", str(row.get("observed") or ""))
@@ -1053,6 +1056,7 @@ def restart_ollama():
                         "Stop-Process -Name llama-server -Force -ErrorAction SilentlyContinue; "
                         "Stop-Process -Name ollama -Force -ErrorAction SilentlyContinue"],
                        capture_output=True, text=True, timeout=60, creationflags=_NO_WIN)
+        _t0 = time.time()
         time.sleep(12)
         import urllib.request as _ur
         up = False
@@ -1075,7 +1079,8 @@ def restart_ollama():
         if up:
             return True, ("ollama restarted (automated restart #%d); daemon answering, model "
                           "reloads on first call" % st["count"])
-        return False, "ollama killed but the tray did not respawn it within 40s -- owner needed"
+        return False, ("ollama killed but the tray did not respawn it within %.0fs -- owner needed"
+                       % (time.time() - _t0))
     except Exception as e:
         silence.note("foreman.py:restart_ollama")
         return False, "restart failed: " + type(e).__name__ + " " + str(e)[:80]

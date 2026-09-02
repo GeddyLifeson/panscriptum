@@ -45,6 +45,7 @@ import subprocess
 _NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 import sys
+import threading
 import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -537,8 +538,27 @@ def snapshot():
     try:
         import standards as ST
         s["standards"] = ST.check(s)
-    except Exception:
+    except Exception as e:
+        # ORDER 6e92acd502fa: on this exception `s["standards"]` used to keep whatever `D.state()`
+        # had already put there (a real list, or dashboard.py's own `[]` fallback -- `state()`
+        # never leaves the key genuinely absent) with no trace of THIS call having failed, which
+        # is this project's single most repeated bug shape (secondopinion.py's own docstring
+        # names it: "an optional tool that is not installed produces no findings, and no findings
+        # looks exactly like a clean bill of health"). The remedy is NOT to put a dict where the
+        # list belongs: `dashboard.PAGE`'s `panelStandards` does `d.standards||[]` then
+        # `.filter(...)` on it unconditionally -- a dict there is truthy, so `S.filter` would
+        # throw inside the render loop and take the WHOLE published page down with it, a strictly
+        # worse failure than the one being fixed. So the list stays a list (forced to `[]` here,
+        # same convention `dashboard.py:state()` already uses on its own ST.check failure) and
+        # the failure travels on a SEPARATE key nothing currently reads, so a later reader of
+        # state.json -- human or script -- can tell "the check ran and found nothing" apart from
+        # "the check did not run". Whether `dashboard.PAGE` ever surfaces this key is its own
+        # question. `note()` is kept alongside, unchanged.
         silence.note("publish.py:standards")
+        s["standards"] = []
+        s["standards_unavailable"] = {
+            "error": type(e).__name__, "detail": str(e)[:200],
+            "note": "standards.check raised -- this is NOT a clean standards pass"}
     s["generated"] = time.strftime("%Y-%m-%dT%H:%M:%S")
     return _scrub(s)
 
@@ -943,10 +963,51 @@ def sync_tree():
         print("pruned %d file(s) no longer in the live project" % pruned)
     # Mark the copy AS a copy. Every module imports silence, which refuses to run from a tree
     # carrying this marker -- so a command aimed at the wrong directory fails loudly instead of
-    # succeeding into nothing.
-    with open(os.path.join(SITE, ".is-export-copy"), "w", encoding="utf-8") as f:
-        f.write("Published copy of the Panscriptum. The project lives elsewhere." + chr(10))
+    # succeeding into nothing. Atomic (order 7d2d5f2d0d57's same-shape, low-stakes sibling):
+    # a torn write here is a tiny file with low stakes, but the primitive is free, so it rides
+    # along rather than being left as the one bare `open(..., "w")` in this function.
+    _write_text_atomic(os.path.join(SITE, ".is-export-copy"),
+                        "Published copy of the Panscriptum. The project lives elsewhere."
+                        + chr(10))
     return n
+
+
+def _write_text_atomic(path, text):
+    """Land a plain-text file through the SAME primitive `silence.write_json` uses for JSON.
+
+    `write()` below routes `docs/state.json` through `silence.write_json` -- pid+thread-stamped
+    temp name, then `silence.replace_retry` -- and its own docstring is a long argument for why
+    a bare `open(path, "w")` is wrong for a published, two-writer file: it truncates before a
+    single byte of the replacement lands, so a crash or a kill in that window leaves the file
+    empty or partial PERMANENTLY, and this module's own `main()` deliberately allows two writers
+    at once (the `--push --loop` daemon and a hand-run one-shot, exempted from the singleton
+    claim). `docs/index.html` had the bare version -- order 7d2d5f2d0d57 -- and so did the tiny
+    `.gitignore` / `.nojekyll` / `.is-export-copy` marker writes nearby. `silence` has no
+    text-mode sibling to `write_json` today, so this inlines the same three steps rather than
+    adding one to a module outside this batch. -> True if the file landed, False if the replace
+    was denied (the caller's old copy is untouched; `silence.replace_retry` has already noted
+    the denial).
+    """
+    d = os.path.dirname(path)
+    if d:
+        os.makedirs(d, exist_ok=True)
+    tmp = "%s.%d.%d.tmp" % (path, os.getpid(), threading.get_ident())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(text)
+    except Exception:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        raise
+    landed = silence.replace_retry(tmp, path)
+    if not landed:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+    return landed
 
 
 def _swap(html, old, new, what):
@@ -993,8 +1054,17 @@ def render_page():
         "<code>python src/dashboard.py</code> on the machine itself.",
         "the snapshot caveat")
     os.makedirs(DOCS, exist_ok=True)
-    with open(PAGE, "w", encoding="utf-8") as f:
-        f.write(html)
+    # ATOMIC, LIKE `write()` BELOW (order 7d2d5f2d0d57). A bare `open(PAGE, "w")` truncates the
+    # page before a single byte of the replacement lands, and unlike state.json this file is
+    # rewritten from a value held in memory each cycle only implicitly -- it is regenerated from
+    # `dashboard.PAGE` next cycle, so a truncated file here is repaired eventually, but only
+    # after `git add -A` (publish.py:1214-ish) has already staged and pushed the broken page to
+    # the PUBLIC repo. Gate on the verdict rather than swallowing it, same as `write()`.
+    if not _write_text_atomic(PAGE, html):
+        silence.note("publish.py:index-html-denied")
+        raise RuntimeError(
+            "docs/index.html could not be replaced after five attempts -- a reader is holding "
+            "it open. Nothing was written; the published page keeps whatever it already had.")
     return PAGE
 
 
@@ -1003,11 +1073,11 @@ def ensure_site(remote=None):
     if not os.path.isdir(os.path.join(SITE, ".git")):
         git("init", "-q")
         git("checkout", "-q", "-B", "main")
-    with open(os.path.join(SITE, ".gitignore"), "w", encoding="utf-8") as f:
-        f.write("".join(ln + chr(10) for ln in gitignore_lines()))
+    # Atomic, same low-stakes ride-along as sync_tree's marker (order 7d2d5f2d0d57).
+    _write_text_atomic(os.path.join(SITE, ".gitignore"),
+                        "".join(ln + chr(10) for ln in gitignore_lines()))
     # Pages serves from /docs on the default branch; .nojekyll stops Jekyll hiding anything.
-    with open(os.path.join(DOCS, ".nojekyll"), "w", encoding="utf-8") as f:
-        f.write("")
+    _write_text_atomic(os.path.join(DOCS, ".nojekyll"), "")
     if remote:
         git("remote", "remove", "origin", check=False)
         git("remote", "add", "origin", remote)

@@ -9,6 +9,266 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-02 (owner session, post-run-#41) — THREE RULINGS, AND PHASE 4.2 SHIPPED
+
+**Owner present, in session.** Three rulings were given on the run #41 handoff and acted on in
+this order. Battery at close: `verify_math` **1130 passed, 0 FAILED** · `drill` **384 nets,
+0 BREACHED** · pyflakes clean.
+
+### RULING (a) — the chain I damaged is ACKNOWLEDGED, not erased, and still reported
+
+Order `be33a61be79f` is closed on the owner's choice of option (a). `ledger_guard` gained a
+registry, `state/ledger_chain_acknowledged.json`, holding exactly one record: links **947–949**,
+ledgers `HANDOFF.md` and `handoff/HANDOFF.md`, the order id, the reason in full, who ruled and
+when. `verify_chain(with_acknowledged=True)` hands the acknowledged shrinks back beside the live
+ones; `main()` prints them under their own heading **on every run** and `assert_intact()` prints
+them **on every push**. The chain reads `ok (955 link(s) verify; 3 acknowledged shrink(s)
+carried -- ruled on by a person, listed below, never hidden)`. **Nothing in the chain was
+rewritten.** A shrink outside that range, or of a ledger not named, still fails; a record missing
+its range, ledgers, a 40-character reason, an order or an author is refused and acknowledges
+nothing. One net attacks all five properties and was watched red against a matcher that ignores
+range and ledger, and against a loader that accepts a malformed record. `_ledger_redirected`
+now also redirects `ACKNOWLEDGED`, so no probe can ever write a waiver into the live registry.
+`assert_intact()` passes; **publishing is unblocked.**
+
+### RULING (F) — Phase 4.2 authorised, recorded in STEP4_PLAN.md §7 and config.yaml's SCOPE
+
+Ruled on measurement, after the "stop and look" §7E asked for: `data/THREADS.json` at 210
+sources, 1,508,653 threads, `unaddressed: []`, **0 threads resolving to no address** (measured
+directly), and all six `drill_threads` attacks holding. The owner's words: *"wire the thread
+integrity to classify, as that's 4.2, and begin 4.2."* 4.3–4.5 remain unauthorised. The
+`step4_enabled` value is untouched; the prose gate is untouched and closed.
+
+### PHASE 4.2 — the verifier can finally see the graph
+
+`thread_integrity.py` had never been taught to read the artifact it was written to verify: every
+caller passed `recorded=None` and it printed, unconditionally, "no directed thread graph exists
+yet" — against 1.5M recorded threads. Now:
+
+- **`load_thread_graph()`** reads `THREADS.json` and folds it into `classify()`'s key space. The
+  graph is keyed source→spine code and a code is an address a whole Set shares, so an edge from
+  *a* to code *C* records *a→b* for every source *b* filed under *C*. **An absent file returns
+  None; a corrupt one RAISES** — an unreadable graph must never come back as an empty one,
+  because an empty graph verifies perfectly (§8: OWNER-level, and `main()` escalates it).
+- **The release gate:** every thread's target must be an address that exists — charter index ∪
+  graph-assigned codes. Offenders are printed uncapped, by source, and each offending source is
+  refused at **SUPERVISOR** (its area closes; nothing else does). Measured on the live graph:
+  **0 of 6,558 source-level edges** (expanding to 1,508,653 threads) resolve to nothing.
+- **The result, first time the verifier could see:** 6,303 recorded directions over 96
+  addresses; **RECIPROCAL 711 (12.3%)**, IMPLIED-UNRECORDED 5,071 (87.7%), ASYMMETRIC 0.
+  The 87.7% is honest and expected: T1/T2 are purely structural (home + siblings), while the
+  weave's 5,782 implied pairs are entity-shared cross-verse obligations — **that is T3's job,
+  and 4.3 is not authorised.**
+- **The ASYMMETRIC-SUSPECT floor** is a *regression* gate — ruling C stands, existing asymmetry
+  never fails, asymmetry that grows past the recorded baseline does, and the baseline only
+  ratchets down. **CAVEAT FOR 4.3, stated now so it is not discovered then:** the baseline
+  recorded today is **0**, because T1/T2 are sibling-symmetric by construction. The first
+  genuinely one-way T3 thread will trip it. That is correct today and will need a deliberate
+  re-baseline as part of 4.3's own ruling, not a quiet edit.
+- Five drill nets (no-address caught after the fact; siblings both ways and never to self;
+  corrupt graph refused not empty; the live release gate; the floor only ratchets down) and five
+  `verify_math` rows, every net watched red against its exact defect. None reaches `main()`,
+  which escalates for real.
+
+### ALSO THIS SESSION
+
+- **The comprehensive scrub found the library sound.** All standing jobs under miniconda
+  `pythonw`; halt clear; nothing stopped; index rebuilt; the one bad allsweep verifier is the
+  cascade live call (upstream quota). Two things that looked wrong were not: "dashboard NOT
+  RUNNING" was a between-restarts snapshot (HTTP 200), and `DC#2120 write denied` is a
+  three-day-old stale key on a healthy record.
+- **Mutation run finished two of three targets:** `prose_gate.py` **62/62 killed**; `assay.py`
+  117/119 killed, the sole survivor being the `zip(strict=True)` site ruled equivalent (re-filed
+  by id and re-closed on the same ruling), plus one INDETERMINATE that hangs the gate
+  (`assay.py:1343`, `>`→`<=`, a loop that never terminates — a kill in practice the harness
+  rightly refuses to score). `escalation.py` was mid-pass; its journal already shows my six
+  real-hole nets killing their mutants and only the five ruled-equivalent ones surviving. The
+  harness has no ruled-equivalent registry and will reopen those orders every pass — filed as
+  `35ba53586e6f`.
+- **GitHub push: deferred by the owner** ("ignore github for now"). The export will keep
+  committing locally and the push will keep reading HELD until `GITHUB_TOKEN` is unset for the
+  daemons or the PAT is granted write access. Nothing here touched credentials.
+- The clock confusion in run #41's close-out was mine: the pipeline logs were in local time and
+  correct.
+
+---
+
+## 2026-09-02 (run #41, daily maintenance) — A PROBE OF THE HISTORY GATE DAMAGED THE HISTORY GATE
+
+### CORRECTION, added after the entry above was written and the shift guard was closed
+
+**Read this before the numbers above.** The `verify_math.py` batch reported ~2.4 hours after the
+rest of the shift, having landed substantial work in that file after my final verification. The
+battery figures in the entry above were true when written and are now stale; and one conclusion
+that batch reached is **wrong**, which matters more than the numbers.
+
+**Re-verified against the live tree after its work landed:** `verify_math` **1125 passed, 0
+FAILED** (not 1088) · `drill` **378 nets, 0 BREACHED** (unchanged) · pyflakes clean. Nineteen
+further orders closed, bringing this shift to **110 closed with written resolutions**.
+
+**Its largest find is real and larger than mine.** I had reported §19ag as ONE probe writing into
+`state/failures.json`. Instrumenting `health.record` across a whole run found **fifteen calls per
+battery run across thirteen sites** — ten in `verify_math.py`, three in `handoff/run35/checks_L6.py`
+— corroborated exactly by live ledger counts (`pipeline.py:write_record-merge` 30,
+`standards.py:catalogue-coverage` 30, `silence.py:append_line` 30,
+`wiki_source.py:non-fandom-known-host` 30, `reference.py:shelfmark-shape` 30). Not one was a
+fault; all thirteen are now scoped with the `_deliberately_failing` doctrine.
+
+**AND THE PART THAT IS WRONG.** It made those permanent with a new §20z: a spy on `health.record`
+installed at line 1, with the file's last row asserting nothing escaped. It reports clean. It also
+concluded that the residual `custodes.py:abstained-*` growth was **not** the battery but production
+traffic from `anchors.py` in the standing jobs, on the strength of that spy reporting zero.
+
+Measured black-box instead of trusted:
+
+    one full verify_math run   -> custodes.py:abstained-comparability 136 -> 137
+                                  custodes.py:abstained-currency      136 -> 137
+    140s CONTROL, no battery   -> NOTHING changed, in any class
+
+The standing jobs ran throughout the control and contributed nothing. **The growth is the battery,
+deterministically, and §20z cannot see it.** A detector that cannot see the thing it is pointed at
+is this project's oldest defect, and it has now appeared *inside* the check written to end that
+class — while silently validating a conclusion the next run would have believed. Filed as
+**`8aaddf34adf3`** (RUN, MAJOR), with the hypothesis (an in-process spy cannot see a call made in a
+child process, and this battery now drives several CLIs for real) explicitly labelled as
+unverified. The remedy that belongs first is the one that actually caught it: compare
+`state/failures.json` before and after the run, which needs no spy and measures the property that
+matters rather than a proxy for it.
+
+**Unchanged by any of this:** publishing is still blocked by `be33a61be79f`, the chain still
+carries the three SHRANK links my probe caused, and the export is still 124 commits behind for the
+separate `GITHUB_TOKEN` reason. One more paper-trail entry (`9be574e5722c`) lost a word to shell
+backtick substitution — the third instance of `1c99df1f69c1` this shift.
+
+### FOR THE OWNER, FIVE THINGS, AND THE FIRST TWO BLOCK PUBLISHING
+
+**1. I DAMAGED THE TAMPER-EVIDENT CHAIN MYSELF, AND `publish --push` NOW REFUSES.** Order
+`be33a61be79f` (OWNER) is the full self-report. Earlier in the shift I fixed a genuinely dark
+gate — `ledger_guard.seal()` flattens `handoff/HANDOFF.md` to `handoff__HANDOFF.md`,
+`_read_snapshot()` did not, so it looked where the writer never writes, got `FileNotFoundError`,
+and `check_since_snapshot` read that as "nothing sealed yet" and printed **ok** on every run.
+Append-only enforcement on that file had been **inert since 2026-08-31** (order `fc7f5b371e6e`).
+I then wrote two drill nets to prove the repaired gate can refuse — and **each net repointed only
+the `ledger_guard` globals it happened to think of.** `seal()` writes two places. The first net
+redirected `SNAPSHOT_DIR` but not `CHAIN`; the second redirected `CHAIN` but not `SNAPSHOT_DIR`.
+Between them they appended fixture links to the real chain and overwrote the real sealed
+snapshots with two hundred lines reading `line 0`, `line 1`.
+
+**No ledger content was lost.** The live files were never touched — `HANDOFF.md` 589,120 bytes /
+7,862 lines, `handoff/HANDOFF.md` 58,748 / 896 — and both are re-sealed correctly;
+`SINCE LAST SEAL` reads **ok** for both, `STRUCTURE + FLOORS` **ok**. What remains is permanent:
+the chain is append-only and links 948–949 truthfully record that the *sealed* state shrank,
+so `verify_chain()` reports three SHRANK problems over 955 links for ever. `assert_intact()`
+raises on any chain problem and `publish.py:1217` calls it before every push.
+
+**I did not rewrite the chain and did not invent a waiver.** Rewriting destroys the only evidence
+the chain exists to keep, and quietly adding an override to a tamper-evidence guard so my own
+mistake stops blocking me is precisely the act this project's escalation chain was built after.
+The order lays out three options and recommends an audited acknowledgement mechanism that still
+*reports* on every run, in the spirit of `suppressions.py`. **That call is yours.**
+
+The cause is fixed and watched: `drill._ledger_redirected(root)` now repoints `HERE`,
+`SNAPSHOT_DIR` and `CHAIN` together and **asserts all three land under the temp root before the
+probe body runs**, raising rather than proceeding. Both nets were re-run and
+`state/ledger_snapshot/*.md` and `state/ledger_chain.jsonl` were confirmed md5-identical before
+and after.
+
+**2. THE PUBLIC REPO IS 124 COMMITS BEHIND, and it was never an account problem.** `git push`
+fails **403 Permission denied to GeddyLifeson**. Isolated: a fine-grained `GITHUB_TOKEN` is
+exported into this environment and `gh` prefers it over the keyring login; that PAT has no write
+access, while the keyring account (`gho_`, scopes `gist, read:org, repo, workflow`) does. With
+`GITHUB_TOKEN` unset the same push succeeds — verified by `--dry-run`, which reported it *would*
+push `d11edd9..2508fba`. **I changed no credential.** `publish.git()` already strips
+`GITHUB_TOKEN`/`GH_TOKEN` and repairs PATH for exactly this reason; the failures logged after
+that fix landed came from daemons still running pre-fix code (Hard Rule -1's fourth property).
+What the log *showed* was a different message — an apparent missing `gh.exe` — because
+`publish.git()` clips git's diagnostic at 220 characters (open order `f5fdaab825a6`). **A Hard
+Rule 0 truncation was disguising a 403 as a missing binary for days.**
+
+**3. A halt was NOT standing at any point** — `escalation.py --status` read *clear* at the open
+and at the close. Order `c614f7c145fc` (the 2026-08-26 automated halt-lift recorded as
+`who=owner-cli`) is 7 days old and still wants your ruling.
+
+**4. WORK-ORDER TEXT PASSED THROUGH A SHELL IS EXECUTED, NOT JUST MANGLED** (order
+`1c99df1f69c1`). Two agents had words silently eaten from `--how` strings by command
+substitution — permanently, the closed log being append-only. The third case was worse: a remedy
+field reading ``run `python src/chain.py` `` caused Bash to **run it**. A full chain pipeline —
+model calls, rewrites `data/CHAIN.json` — started under the wrong interpreter (Python314, not
+miniconda) and ran 16 minutes before I stopped it. Nothing was corrupted:
+`chain_harvest_idx.json` still parses at 271,129 rows, `CHAIN.json` untouched, no temp litter.
+Order text is *data*; a remedy field is the field most likely to contain a command; routing it
+through a shell makes the queue an execution path.
+
+**5. A SILENT 22% ROW LOSS, MEASURED, IN A LEDGER A STANDARD IS GRADED FROM.**
+`silence.append_line` has been this project's atomic appender since m62 on the reasoning that one
+`os.write` to an `O_APPEND` descriptor is a single syscall. That is POSIX. The Windows CRT
+implements it as seek-then-write. Measured, eight processes × 400 sub-page rows: **3,200
+expected, 2,496 arrived, 704 destroyed outright, 3 torn.** Fixed with an OS-level lock on a
+`.applock` sidecar plus `O_BINARY` (the CRT had also been rewriting every LF to CRLF — 104,810
+against 3). `state/model_metrics.jsonl` repaired: 104,807 rows kept, 2 unrecoverable fragments
+dropped, endings normalised. **The reason nothing caught it is the finding:** `verify_math`
+§19ag proves `append_line` does not tear by writing 50 rows *from one process*, and tearing is by
+definition what two do. It passed every run for eight days while the ledger bled.
+
+### THE QUEUE
+
+**440 open at the start, 371 at the end**, with 89 closed carrying written resolutions — and the
+end number is higher than the middle because run41's sweep filed 30 new findings on top.
+RUN 129→53, BOTS 40→22. Thirteen repair agents worked file-partitioned batches; one partition was
+mine and wrong (`escalation.py` sat in one batch while an order in another also targeted it, so
+two agents edited the plant-wide interlock concurrently). Both changes survived; I verified the
+file parses, imports, retains both additions and reports clear.
+
+### THE TWELVE MUTATION SURVIVORS OF 2026-08-31 — ALL RESOLVED
+
+Six were real holes, six genuinely equivalent, each **read** rather than assumed. The real ones
+now carry attacks in `drill.py` watched red against their exact mutation and green against
+correct code. The most serious: `_by_a_person_at_the_cli`'s first guard could be inverted and
+every existing net still passed, because they all call `clear()` from a frame the *second* guard
+refuses — so the documented "`escalation.main()` under a borrowed argv" hole was open and
+untested. Four "not attempted" initialisers were equivalent only because `STOP_CAS_ATTEMPTS >= 1`;
+that constant is now held by a net instead of by luck.
+
+### THE COMPREHENSIVE SWEEP (run41)
+
+All 16 batches, **116 of 116 modules read in full**, `sweep_plan.missing('run41')` now empty.
+Getting that proof was itself a finding (order `f307490add1e`, MAJOR): `record()` accepts any
+string, three different spellings arrived from three batches (`drill.py`, `src/publish.py`,
+`foreman`), and only one matched — `missing()` reported 26 read modules as never read. It fails
+in **both** directions: a name matching no module at all is also accepted silently, which is a
+check that cannot fail. Shards were normalised onto names `sweep_plan` itself emits and only
+those; one entry it did not know was left exactly as recorded rather than guessed at.
+
+Sweep findings worth naming: `ledger_guard.seal()` was *still* appending with the bare
+`open(CHAIN,"a")` this same file's commentary indicts — fixed to route through `append_line`, and
+the loss mode there is the one `verify_chain` cannot see, because a cleanly lost whole link leaves
+the survivor's `prev` pointing correctly. Also: `liveness.py` and `silence.py` both list `src/`
+non-recursively, so the check-that-cannot-fail detector and the silent-handler auditor are both
+blind to `src/deprecated/`; a seventh `local_agent` gate bypass (NTFS hard links) verified
+experimentally; `feats.py --roll` silently skipping 9 hostless sources (727 entries).
+
+### BATTERY AT CLOSE
+
+`verify_math` **1088 passed, 0 FAILED** · `drill` **378 nets, 0 BREACHED** · pyflakes clean ·
+`liveness` 47 · `health --preflight` all pass · `secondopinion` all three tools RAN, **secrets 0
+by two independent scanners** · `axis_correlation` unchanged at n=45, no `--write` needed.
+
+One transient red is worth recording rather than hiding: `codewatch`'s concurrent-restart race
+check failed once mid-shift with `publish: 0` while fifteen sweep agents were running and the
+real publish daemon was bouncing on rc=17. It passes cleanly now and I did not change that code.
+
+### MUTATION RUN — INCOMPLETE, AND SAYING SO
+
+`mutate.py --target all --file-orders` was relaunched at 22:46 against the *improved* battery
+(its baseline records drill at 371 nets, i.e. after the seven escalation nets landed) and was
+**still running at close**, ~2 hours in, with no survivors journaled yet. A pass that has not
+finished is not a pass with fewer survivors. It is sandboxed — `src/` is not corrupt — and it
+will write its own log and file its own orders. **Read `state/mutate_2026-09-01.log` before
+trusting any survivor count.** Its results describe the battery as it stood at 22:46 and will not
+include the eleven nets added afterwards.
+
+---
+
 ## 2026-09-01 (post-run-#40, owner-directed) — THREE AXES, NOT TWO. `subroom` ADDED.
 
 **This was owner-directed work after run #40 had already closed and published.** Two rulings came

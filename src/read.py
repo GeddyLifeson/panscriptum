@@ -40,6 +40,7 @@ import re
 import sys
 import threading
 import time
+import unicodedata
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -157,6 +158,22 @@ def _norm_q(t):
     return ' '.join(t.translate(_QMAP).split())
 
 
+def _fold_diacritics(s):
+    """Strip combining marks after NFKD decomposition: 'Zanpakutō' -> 'Zanpakuto'.
+
+    Added alongside the Unicode-aware split below (order e61e1c8e9ac4). Splitting on `\\w`
+    instead of `[^A-Za-z]+` keeps an accented word whole rather than shattering it, but a
+    whole-name comparison then needs the ACCENT itself to be optional, because the wiki prose
+    and the catalogue disagree about carrying it -- "Zanpakuto" (2 unaccented instances measured
+    live) against the catalogue's "Zanpakutō". The old ASCII-only split passed this one case
+    by accident, by treating the macron as a separator and truncating both sides down to a
+    common stem; folding is the same outcome on purpose, without shattering names that need
+    their non-Latin letters kept together (Morgaen, and CJK/Cyrillic names with nothing to
+    fold at all -- NFKD leaves those untouched).
+    """
+    return ''.join(c for c in unicodedata.normalize('NFKD', s) if not unicodedata.combining(c))
+
+
 def _names(sentence, entity):
     """Is the entity actually the subject of this sentence?
 
@@ -164,8 +181,18 @@ def _names(sentence, entity):
     interchangeably across a wiki), or a personal pronoun. Rejects the generic subjects a
     techniques index uses -- "the user", "the wielder", "this technique".
     """
-    low = sentence.lower()
-    parts = [w for w in re.split(r'[^A-Za-z]+', entity) if len(w) > 3]
+    low = _fold_diacritics(sentence).lower()
+    entity_f = _fold_diacritics(entity)
+    # UNICODE-AWARE SPLIT (order e61e1c8e9ac4, 2026-09-01). This was `[^A-Za-z]+`, which treats
+    # every accented or non-Latin letter as a separator: "Morgaen" split into "Mo"/"rgae"/"n",
+    # none of which clears the length-4 floor below, so 391 catalogued names with a non-ASCII
+    # letter (Morgaen, Quang Tri, Aule, Koenig, 'El Nino', ...) had NO usable word here at all.
+    # `\w` is Unicode-aware for str patterns by default, matching feats_index._norm's own
+    # `c.isalnum()` folding rather than hand-spelling a fifth, ASCII-only convention. Both sides
+    # are folded through `_fold_diacritics` first (see above) so a name kept whole here can
+    # still match prose that dropped its accent -- measured live on the full corpus diff, one
+    # regression (Zanpakutō/Zanpakuto) surfaced without the fold and is why it is here.
+    parts = [w for w in re.split(r'\W+', entity_f) if len(w) > 3]
     # A NAME WORD MUST START A WORD OF THE SENTENCE. This was raw substring containment
     # (`w.lower() in low`), directly under a comment explaining why the pronoun test below was
     # tokenised -- the boundary discipline was applied to the second check and not the first.
@@ -180,8 +207,24 @@ def _names(sentence, entity):
     # 'Geraldos') and a name word is a stem far more often than it is a whole token. Matching at
     # the START of a token keeps every one of those 265 and removes 37 sentences, every one of
     # them a suffix collision of the MetalGarurumon/Planet kind. 0 real matches lost.
-    if any(t.startswith(w.lower()) for t in re.split(r'[^a-z0-9]+', low) if t for w in parts):
+    if any(t.startswith(w.lower()) for t in re.split(r'\W+', low) if t for w in parts):
         return True
+    # NO WORD ABOVE THE FLOOR (order e61e1c8e9ac4). 4,939 catalogued entities -- Ash, Vi, Ike,
+    # Uub, 'The Six', 'Mr. Fox' -- have no single word longer than three letters, so `parts` is
+    # empty and every sentence naming them outright, with no pronoun, fell through to `False`
+    # and was counted as `generic_dropped` -- the OPPOSITE of what that counter documents.
+    # read_entity's chunk-selection filter (read.py:731) already falls back to the whole name
+    # for exactly this case; this is the same fallback, but phrase-bound rather than a raw
+    # substring test, because a raw substring here would let a short word like "The" (half of
+    # 'The Six') match on its own -- the exact generic-word risk the length floor exists to
+    # stop. Instead the entity's own words are required TOGETHER, in order, with the same
+    # token-start rule as above applied to the whole phrase.
+    if not parts:
+        whole = [w for w in re.split(r'\W+', entity_f) if w]
+        if whole:
+            pattern = r'\b' + r'\s+'.join(re.escape(w) for w in whole)
+            if re.search(pattern, low, re.IGNORECASE):
+                return True
     # Tokenised rather than pattern-matched. A word-boundary escape has been eaten in
     # transit six times in this project, and here the failure would have been
     # invisible-but-total: with no boundaries, 'he' matches inside 'the' and every
@@ -1188,7 +1231,8 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
     if limit:
         todo = todo[:limit]
 
-    done = {"n": 0, "feats": 0, "fab": 0, "chunks": 0, "skipped": 0, "unanswered": 0}
+    done = {"n": 0, "feats": 0, "fab": 0, "chunks": 0, "skipped": 0, "unanswered": 0,
+             "errored": 0, "last_error": None}
     lock = threading.Lock()
     t0 = time.time()
 
@@ -1200,6 +1244,15 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
             out = None
         with lock:
             done["n"] += 1
+            # A CRASHED ENTITY IS NOT A "NOTHING TO REPORT" ENTITY (order 337233a185f2).
+            # `out is None` on this path means read_entity RAISED -- distinct from every other
+            # `out` falsy case (there is none; read_entity always returns a dict) -- and until
+            # now nothing here told the difference between "raised" and "read cleanly". The
+            # silence ledger records the CLASS; this records the COUNT and an instance to
+            # reproduce from, on the same progress line and closing line as every other outcome.
+            if out is None:
+                done["errored"] += 1
+                done["last_error"] = "%s / %s" % (r.get("host"), r.get("name"))
             if out:
                 done["unanswered"] += out.get("chunks_unanswered", 0)
                 done["feats"] += len(out["feats"])
@@ -1241,10 +1294,11 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
                     crate = done["chunks"] / max(el, 1e-9)
                 left = max(0, CHUNK_BUDGET - done["chunks"])
                 print("  %6d/%d  %5.2f chunks/s  feats %7d  dropped %5d  chunks %7d/%d "
-                      "(%d to GPU, %d UNANSWERED, not cached, %d skipped)  eta %.1fh%s"
+                      "(%d to GPU, %d UNANSWERED, not cached, %d skipped, %d ERRORED)  "
+                      "eta %.1fh%s"
                       % (n, len(todo), crate, done["feats"], done["fab"], done["chunks"],
                          CHUNK_BUDGET, _FELL_BACK[0], done["unanswered"], done["skipped"],
-                         left / max(crate, 1e-9) / 3600, dead), flush=True)
+                         done["errored"], left / max(crate, 1e-9) / 3600, dead), flush=True)
 
     from concurrent.futures import ThreadPoolExecutor
     # cap_chunks is None by default and must stay printable as such. Hard Rule 0 made the
@@ -1317,8 +1371,11 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
           % (len(todo), workers, chunks_note), flush=True)
     with ThreadPoolExecutor(max_workers=workers) as ex:
         list(ex.map(work, todo))
-    print("done in %.2fh  %d feats kept, %d fabrications dropped, %d chunks skipped"
-          % ((time.time() - t0) / 3600, done["feats"], done["fab"], done["skipped"]))
+    err_note = ("  0 entities errored" if not done["errored"] else
+                "  %d entities ERRORED (last: %s -- see silence ledger read.py:work-read-entity)"
+                % (done["errored"], done["last_error"]))
+    print("done in %.2fh  %d feats kept, %d fabrications dropped, %d chunks skipped%s"
+          % ((time.time() - t0) / 3600, done["feats"], done["fab"], done["skipped"], err_note))
 
 
 def main():

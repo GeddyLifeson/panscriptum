@@ -228,13 +228,28 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
         return {"source": source, "host": host, "roster": len(names),
                 "already_held": len(names) - absent, "absent": absent,
                 "queued": len(missing), "sample": missing[:12], "added": 0,
-                "size_lookup_failed": size_lookup_failed}
+                "size_lookup_failed": size_lookup_failed,
+                "not_fetched": 0, "dropped_as_stub": 0}
     added = 0
+    # TWO MORE WAYS `added < queued` GOES UNEXPLAINED, alongside `size_lookup_failed` (order
+    # a9fb5e3cb8de). `F.fetch` returns only the titles it actually resolved -- `feats.py` skips a
+    # page that is `missing` or has no revisions, and skips a bad revision after a `silence.note`
+    # -- so a title requested here can vanish with nothing counting it; `not_fetched` is the
+    # per-batch shortfall between what was asked for and what came back. And `len(desc) < 40`
+    # below drops the rest, uncounted until now; `dropped_as_stub` names it. Neither is a write
+    # failure and neither belongs under `size_lookup_failed` (a different phase, a different
+    # cause) -- but without them, `added < queued` has no explanation on the page and a source
+    # whose fetches quietly failed prints identically to one that is genuinely all stubs.
+    not_fetched = 0
+    dropped_as_stub = 0
     for i in range(0, len(missing), 40):
-        pages = F.fetch(host, missing[i:i + 40])
+        chunk = missing[i:i + 40]
+        pages = F.fetch(host, chunk)
+        not_fetched += len(chunk) - len(pages)
         for title, wt in pages.items():
             desc = lead(wt)
             if len(desc) < 40:
+                dropped_as_stub += 1
                 continue # a stub is not a record
             r["entries"].append({
                 "name": title,
@@ -278,7 +293,8 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
                 "queued": len(missing), "missing": len(missing),
                 "added": 0, "write_denied": True,
                 "entries_now": len(r["entries"]) - added,
-                "size_lookup_failed": size_lookup_failed}
+                "size_lookup_failed": size_lookup_failed,
+                "not_fetched": not_fetched, "dropped_as_stub": dropped_as_stub}
     # `absent` is the PRE-cap truth and the dry path has always returned it; the real path
     # returned only a post-cap `missing`, so main()'s `res.get("absent", 0)` found no key and
     # printed **absent 0 for every source on every non-dry run** -- a completeness report that
@@ -288,7 +304,8 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
             "already_held": len(names) - absent, "absent": absent,
             "queued": len(missing), "missing": len(missing),
             "added": added, "entries_now": len(r["entries"]),
-            "size_lookup_failed": size_lookup_failed}
+            "size_lookup_failed": size_lookup_failed,
+            "not_fetched": not_fetched, "dropped_as_stub": dropped_as_stub}
 
 
 def main():
@@ -344,6 +361,10 @@ def main():
         # distinguishable from one measured at zero -- when it is nonzero the ranking key that
         # decides what --cap keeps is measuring less than it looks like it is.
         denied = probe_failed = errors = 0
+        # `not_fetched` AND `dropped_as_stub`, SUMMED HERE TOO (order a9fb5e3cb8de) -- the same
+        # reason `size_lookup_failed` is summed above them: a run whose adds went missing to a
+        # fetch failure or a stub cutoff must not print like a run that found nothing to add.
+        not_fetched_tot = dropped_as_stub_tot = 0
         for i, x in enumerate(thin, 1):
             try:
                 res = backfill_source(x["source"], recs, hosts, cap=a.cap, dry=a.dry)
@@ -360,13 +381,16 @@ def main():
                 denied += 1
             if res.get("size_lookup_failed"):
                 probe_failed += res["size_lookup_failed"]
+            not_fetched_tot += res.get("not_fetched", 0)
+            dropped_as_stub_tot += res.get("dropped_as_stub", 0)
             print("  %3d/%d  %-46sroster %5d  absent %5d  added %4d%s"
                   % (i, len(thin), x["source"][:44], res.get("roster", 0),
                      res.get("absent", 0), res.get("added", 0),
                      "  WRITE DENIED" if res.get("write_denied") else ""), flush=True)
         print("total characters added: %d" % tot)
         print("catalogue writes DENIED: %d source(s); size probes failed: %d title(s); "
-              "sources that raised: %d" % (denied, probe_failed, errors))
+              "sources that raised: %d; not fetched: %d title(s); dropped as stubs: %d title(s)"
+              % (denied, probe_failed, errors, not_fetched_tot, dropped_as_stub_tot))
         # NONZERO WHEN A WRITE WAS REFUSED. `--all` returned 0 unconditionally, so a caller
         # could not tell a run that added nothing from a run whose every result was thrown
         # away by a lock. A denied write is an INFRASTRUCTURE fault, not a per-source fiction

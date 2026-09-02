@@ -615,9 +615,25 @@ def audit(only=None, workers=6):
     return rows
 
 
+SKIPPED_ONLY = "skipped-only"   # truthy, but `is not True` -- see land()'s three outcomes below
+
+
 def land(rows, only=None):
     """Write COMPLETENESS.json atomically, and REFUSE to replace a real measurement with an
-    empty one. Returns True if the file now holds `rows`.
+    empty one. Returns one of THREE outcomes, not two, and they are not interchangeable:
+
+      * `True`  -- the file now holds `rows`.
+      * `False` -- it does not: the write was refused (shrink floor, denied rename) or the
+        content was empty against a real prior file. The measurement did not land.
+      * `SKIPPED_ONLY` -- nothing was attempted, ON PURPOSE, because `--only` makes `rows` a
+        slice rather than a whole-corpus answer. This is neither of the above: the file was
+        left exactly as it was, deliberately, and that is success -- but it is a DIFFERENT
+        success than "I wrote your rows", which is why it is not spelled `True`. It is still
+        truthy (`if land(...):` reads correctly either way) so callers that only care whether
+        the run may proceed do not need to change; a caller that needs to tell "wrote" from
+        "declined on purpose" can check `is True` / `is SKIPPED_ONLY` (order e7614eb0d821 --
+        before this, both cases returned `True` and were indistinguishable from each other,
+        which is the same discarded-verdict shape the write-denial fix below closes).
 
     Two faults in one line, both of them this project's oldest species. The old write was
     `open(OUT, "w")` + `json.dump` -- the m6 pattern, which truncates the target BEFORE
@@ -638,7 +654,7 @@ def land(rows, only=None):
     if only:
         sys.stderr.write("completeness: --only is a spot check; COMPLETENESS.json not written "
                          "(it would replace the whole-corpus measurement with a slice)\n")
-        return True
+        return SKIPPED_ONLY
     prior = []
     try:
         with open(OUT, encoding="utf-8") as f:

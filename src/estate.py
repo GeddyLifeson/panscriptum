@@ -88,6 +88,31 @@ CHECKED_EXT = (".json", ".jsonl") + TEXT_EXT
 # would be a permanently red row that no repair can ever clear, which is precisely the auditor
 # that cries wolf `inspect()`'s docstring refuses to become. Sized, never opened.
 KEPT_DAMAGED_EXT = (".corrupt",)
+# EXTENSIONS WHOSE WHOLE NATURE IS TRANSIENT (order 553f5a2f5499, 2026-09-01). Shared by both
+# `inspect()`'s zero-bytes check and its cannot-stat check below, so the two cannot drift apart
+# on what "transient" means. `.applock` was added after `silence.append_line` started taking an
+# OS-level lock on a `<path>.applock` sidecar (m62 follow-up): that file is only ever `os.open()`
+# and locked for the duration of one append, nothing is ever written into it, so zero bytes is
+# its correct and ONLY state -- not a symptom, and not something `silence.py` should be made to
+# paper over with a filler byte just to satisfy this scanner.
+TRANSIENT_EXT = (".log", ".tmp", ".out", ".err", ".applock")
+
+
+def _brief(e, n):
+    """str(e), cut to at most `n` characters, with a marker when it actually was cut.
+
+    Order 59be2731de66: sixteen sites in this module cut an exception's message with a bare
+    `str(e)[:n]` and none of them appended anything, so a report row that ends mid-word is
+    indistinguishable from one that simply ended there. This matters more here than almost
+    anywhere else in the tree BECAUSE of which message gets cut: `json.JSONDecodeError` renders
+    as "Expecting value: line 1831 column 1 (char 84213)" -- the line and column, i.e. the only
+    actionable part, sit at the END, which is exactly what a plain `[:50]`/`[:60]` removes. This
+    module exists to tell a person which of ~45,000 files is damaged and WHERE; a cut that
+    silently drops the "where" is this module's own signature defect (a corrupt record read as
+    an empty one) turned on its own output.
+    """
+    s = str(e)
+    return s if len(s) <= n else s[:n] + "..."
 
 
 # --------------------------------------------------------------------------- every file
@@ -142,6 +167,22 @@ def inspect(path):
     try:
         rec["bytes"] = os.path.getsize(path)
     except OSError:
+        # A FILE THAT VANISHED DURING THE SCAN IS NOT A CORRUPT FILE (order 553f5a2f5499,
+        # coordinator note 2026-09-01). `artifacts()` lists a snapshot with `_walk` and this
+        # function's `getsize` runs later, on a thread pool, against a tree thirteen agents are
+        # concurrently writing to today -- a concurrent writer's OWN temp file
+        # (`state/workorders.json.<pid>.<tid>.0.tmp`) can legitimately disappear, renamed onto
+        # its target, in that gap. That race is the write mechanism working, not damage, and it
+        # is not new or gpu_lane-specific. Extension-exempt the same way the zero-bytes check
+        # below does, and for the same reason: a file whose whole nature is transient is
+        # reported as a note distinct from `error`, so `artifacts()`'s `bad` count (keyed on
+        # `error`) does not fold a race into a fault. Anything else that vanishes really is
+        # gone and stays one.
+        if os.path.splitext(path)[1].lower() in TRANSIENT_EXT:
+            silence.note("estate.py:stat-failed-transient")
+            rec["note"] = "vanished during scan (transient extension; a concurrent writer's " \
+                           "own temp/lock file, not a fault)"
+            return rec
         silence.note("estate.py:stat-failed")
         rec["error"] = "cannot stat"
         return rec
@@ -150,8 +191,10 @@ def inspect(path):
         # supervisor wrote nothing to stderr, which is the best possible news, and reporting it
         # as corruption teaches the reader to skim past the corruption list. An auditor that
         # cries wolf is worse than no auditor: it produces exactly the "one known failure we
-        # ignore" habit that let four broken modules sit unnoticed.
-        if os.path.splitext(path)[1].lower() in (".log", ".tmp", ".out", ".err"):
+        # ignore" habit that let four broken modules sit unnoticed. `.applock` sidecars belong
+        # here for a stronger reason than the others: they are not merely ALLOWED to be zero
+        # bytes, they can never legitimately be anything else (see TRANSIENT_EXT above).
+        if os.path.splitext(path)[1].lower() in TRANSIENT_EXT:
             return rec
         rec["error"] = "zero bytes"
         return rec
@@ -175,38 +218,38 @@ def inspect(path):
                     except json.JSONDecodeError as e:
                         silence.note("estate.py:jsonl-malformed")
                         rec["error"] = ("malformed JSON on line %d: %s"
-                                        % (lineno, str(e)[:50]))
+                                        % (lineno, _brief(e, 80)))
                         break
         except UnicodeDecodeError as e:
             silence.note("estate.py:jsonl-not-utf8")
-            rec["error"] = "not utf-8: " + str(e)[:60]
+            rec["error"] = "not utf-8: " + _brief(e, 60)
         except Exception as e:
             silence.note("estate.py:jsonl-unreadable")
-            rec["error"] = type(e).__name__ + ": " + str(e)[:60]
+            rec["error"] = type(e).__name__ + ": " + _brief(e, 60)
     elif ext == ".json":
         try:
             with open(path, encoding="utf-8") as f:
                 json.load(f)
         except UnicodeDecodeError as e:
             silence.note("estate.py:json-not-utf8")
-            rec["error"] = "not utf-8: " + str(e)[:60]
+            rec["error"] = "not utf-8: " + _brief(e, 60)
         except json.JSONDecodeError as e:
             silence.note("estate.py:json-malformed")
-            rec["error"] = "malformed JSON: " + str(e)[:60]
+            rec["error"] = "malformed JSON: " + _brief(e, 80)
         except Exception as e:
             silence.note("estate.py:json-unreadable")
-            rec["error"] = type(e).__name__ + ": " + str(e)[:60]
+            rec["error"] = type(e).__name__ + ": " + _brief(e, 60)
     elif ext in TEXT_EXT:
         try:
             with open(path, encoding="utf-8") as f:
                 text = f.read()
         except UnicodeDecodeError as e:
             silence.note("estate.py:text-not-utf8")
-            rec["error"] = "not utf-8: " + str(e)[:60]
+            rec["error"] = "not utf-8: " + _brief(e, 60)
             return rec
         except Exception as e:
             silence.note("estate.py:text-unreadable")
-            rec["error"] = type(e).__name__ + ": " + str(e)[:60]
+            rec["error"] = type(e).__name__ + ": " + _brief(e, 60)
             return rec
         hits = sum(text.count(c) for c in _BAD_CHARS)
         if hits:
@@ -302,7 +345,7 @@ def charter():
                 codes = json.load(f)
             note("spine codes parsed from the Acquisitions Index", f"{len(codes)} sources")
         except Exception as e:
-            note("spine codes unreadable", str(e)[:80], bad=True)
+            note("spine codes unreadable", _brief(e, 80), bad=True)
         # A SECOND HANDLER, because these are two subsystems. Reading the records is
         # `weave_index`'s work, not the spine file's, and one handler over both reported a
         # malformed record or a bug in `weave_index` as "spine codes unreadable" -- which sends
@@ -322,7 +365,7 @@ def charter():
                          f"{len(un)} — e.g. " + ", ".join(un[:4]))
             except Exception as e:
                 note("records unreadable — could not compare them against the spine codes",
-                     str(e)[:80], bad=True)
+                     _brief(e, 80), bad=True)
     else:
         note("CHARTER_SPINE_CODES.json MISSING", spine, bad=True)
 
@@ -421,7 +464,7 @@ def written():
         # docstring above says the number is the entire point of the tier. Run #36, batch 08.
         silence.note("estate.py:written-sources")
         note("SOURCES ON THE ROLL UNREADABLE — the denominator is missing from this report",
-             type(e).__name__ + ": " + str(e)[:70], bad=True)
+             type(e).__name__ + ": " + _brief(e, 70), bad=True)
     for fn, label in (("catalog.json", "generation catalog"),
                       ("failures.json", "generation failures on record"),
                       ("unassigned_sources.md", "sources with no spine code")):
@@ -446,7 +489,7 @@ def written():
                 # row disappearing.
                 note(label, f"{len(d)} records")
             except Exception as e:
-                note(label + " UNREADABLE", str(e)[:70], bad=True)
+                note(label + " UNREADABLE", _brief(e, 70), bad=True)
         else:
             note(label, f"{os.path.getsize(p):,} bytes")
     return out
@@ -479,7 +522,7 @@ def terminal():
             with open(p, encoding="utf-8") as fh:
                 body = fh.read()
         except Exception as e:
-            note(f + " UNREADABLE", str(e)[:70], bad=True)
+            note(f + " UNREADABLE", _brief(e, 70), bad=True)
             continue
         if len(body) < 64:
             # A husk is the exact fault this tier was written to find: a data file that loads
@@ -503,14 +546,43 @@ def external():
             tags = json.loads(r.read().decode("utf-8", "replace"))
         names = [m.get("name") for m in tags.get("models", [])]
         note("Ollama", f"up, {len(names)} model(s) installed")
+        # FOUR CONDITIONS, FOUR ROWS (order 553f5a2f5499). This used to be one try wrapping
+        # `import yaml`, opening config.yaml, parsing it, AND the model lookup, with one handler
+        # -- "config.yaml unreadable" -- covering all of it. PyYAML missing, config.yaml absent,
+        # and config.yaml malformed are three different things to go fix, and one message sent
+        # whoever read the estate report to open the wrong one. That is exactly the mis-routing
+        # `charter()`'s own SECOND HANDLER (a few functions above) was already split out to
+        # prevent, in those words. Split the same way here: import, then existence, then parse,
+        # each with its own note text.
+        cfg = None
         try:
             import yaml
-            cfg = yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
-            want = cfg.get("model")
-            if want and want not in names:
-                note("config.yaml NAMES A MODEL OLLAMA DOES NOT HAVE", want, bad=True)
         except Exception as e:
-            note("config.yaml unreadable", str(e)[:70], bad=True)
+            note("PyYAML not installed", _brief(e, 70), bad=True)
+            yaml = None
+        if yaml is not None:
+            cfg_path = os.path.join(HERE, "config.yaml")
+            if not os.path.exists(cfg_path):
+                note("config.yaml missing", cfg_path, bad=True)
+            else:
+                try:
+                    with open(cfg_path, encoding="utf-8") as f:
+                        cfg = yaml.safe_load(f)
+                except Exception as e:
+                    note("config.yaml malformed", _brief(e, 70), bad=True)
+        if isinstance(cfg, dict):
+            want = cfg.get("model")
+            # THE FOURTH CONDITION, WHICH USED TO EMIT NOTHING AT ALL. `if want and want not in
+            # names` was skipped entirely when the config carried no `model` key, so "the config
+            # names no model" was invisible and read exactly like "the config names a model
+            # Ollama has" -- the vanishing-row fault this module was already repaired for twice
+            # (written()'s sources-on-the-roll handler and its catalog.json branch). Graded per
+            # this module's own stated rule: a missing denominator is a fault, not a plain
+            # measurement.
+            if not want:
+                note("config.yaml names no model", "no 'model' key set", bad=True)
+            elif want not in names:
+                note("config.yaml NAMES A MODEL OLLAMA DOES NOT HAVE", want, bad=True)
     except Exception as e:
         # GRADED RED, and it will redden the sweep whenever the daemon is down. That is the
         # intended reading: this project's model calls all land here, and an unreachable Ollama
@@ -539,5 +611,5 @@ def external():
         if free < 10:
             note("DISK NEARLY FULL", "the roll writes hundreds of MB an hour", bad=True)
     except Exception as e:
-        note("disk check failed", str(e)[:60], bad=True)
+        note("disk check failed", _brief(e, 60), bad=True)
     return out

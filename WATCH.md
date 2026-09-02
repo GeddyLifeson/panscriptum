@@ -1,54 +1,73 @@
 # OVERWATCH
 
-round 260  ·  last run 2026-09-01 16:50
+round 278  ·  last run 2026-09-02 12:15
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **1** of 288,246 inspected (deep scan as of round 259)  — state\model_metrics.jsonl — malformed JSON on line 102599: Expecting value: line 1 column 1 (char 0)
-- catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, The Elements Beyond, and 2 more
+- files that will not parse: **0** of 289,399 inspected (deep scan as of round 277)
+- catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
-- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**18 open** (9 high). Newest first.
+**28 open** (5 high). Newest first.
 
-- **workorders.py** `_fire` — [HIGH] fires an alert regardless of the condition because the first argument is inverted
-  - says: fires an alert based on a condition
-- **withdraw_chapters.py** `catalog_landed` — [HIGH] the catalog is written unconditionally without checking if the write was successful
-  - says: THE CATALOG IS EDITED, NOT ERASED. This wrote `{}` unconditionally, which was right for exactly one run and wrong in general
-- **withdraw_chapters.py** `select` — [HIGH] the code does not check the `--addr` selector against the catalog, only the `--source` selector. The `unknown_addr` list is built from `a.addr` alone, not by comparing against the catalog. This means that if `--addr` contains entries not present in the catalog, they are not detected, and the run proceeds without checking the `--addr` selector against the catalog.
-  - says: PER SELECTOR, NOT PER RUN (order c8ac7dbab3c5). This fired only when the WHOLE selection came back empty, so a mistyped `--addr` alongside any selector that DID match was silently ignored: the run withdrew the ones it understood, said nothing about the one it did not, and the operator read a clean report as confirmation that everything named had gone. Worse, the `unknown` list was built from `a.source` alone, so even on the empty branch -- the branch whose whole job is naming the typo -- an `--addr` typo was never named. Both selectors are now checked against the catalog independently, and ANY selector that matches nothing refuses the run. Matching is exact by design (see `select`), so an unmatched selector is a spelling; on the tool whose next step is irreversible, a spelling is a stop.
-- **verify_math.py** `land_json` — [HIGH] the callers discard the verdict and append their done-key unconditionally
-  - says: the writers now return the verdict and the callers gate their done-keys on it
-- **verify_math.py** `check` — [HIGH] compares with exact equality when want is an integer
-  - says: compares with tolerance
-- **threads.py** `main` — [HIGH] returns 1 on success
-  - says: returns 0 on success
-- **standards.py** `ollama_token_flow` — [HIGH] Hardcodes a context size of 512, which may not match the actual configuration, leading to incorrect probe results.
-  - says: Does a generation actually COMPLETE? The third liveness lesson in two days.
-- **prose_gate.py** `section_shortfall` — [HIGH] Returns present, required, missing without raising exceptions
-  - says: Raise unless every entry in this block carries every required section.
-- **pipeline.py** `phase_chain` — [HIGH] Phase 4 -- the Chain of Defeats. See chain.py for the reasoning. This existed as a standalone module and NOT as a phase, so the runner reached phase 4, found no `phase_chain`, and stopped cleanly every single time -- reporting "not implemented yet" about a module that was finished and working. Phase 4 only ever ran when somebody invoked it by hand, and phases 5 through 8 were never even attempted, because the runner never got past the gap. A finished stage that nothing dispatches to is indistinguishable from a stage that was never written, which is this project's defect wearing yet another hat.
-  - says: Phase 4 -- the Chain of Defeats. See chain.py for the reasoning.
-- **workorders.py** `_detector` — [MEDIUM] is called unconditionally in both except blocks, which may not indicate a problem
+- **workorders.py** `_detector` — [HIGH] is called with a boolean that is the inverse of the actual detection status
   - says: detects a problem and triggers a detector
-- **verify_math.py** `check` — [MEDIUM] returns a value that is used in further checks
-  - says: asserts a condition
-- **thread_integrity.py** `implied_threads` — [MEDIUM] implied_threads is used in a context where it's expected to return unordered pairs, but the comment suggests it returns directed pairs (i.e., both (a,b) and (b,a)), which may not be the case
-  - says: NAMED FOR WHAT IT COUNTS (order 30581ee9cca2). `implied_threads` adds both (a,b) and (b,a) for every shared entity, so this is DIRECTED and is exactly twice the deduped pair count `classify` reports two lines below -- the same population, printed twice, 2x apart, with nothing on the page saying so.
-- **sweep.py** `gap` — [MEDIUM] counts the number of sources with no host
-  - says: HARD RULE 0 ON BOTH LISTS BELOW. These were `most_common(10)` and `most_common(8)`, ranked
-- **standards.py** `fab` — [MEDIUM] fabrication rate only if the reader has progress line and the line can be parsed
-  - says: fabrication rate
-- **prose_gate.py** `evidence_ok` — [MEDIUM] Checks if frac < floor, but the comment says it should fail closed on an unmeasured source
-  - says: Has this source been read enough to be worth writing about?
-- **generate.py** `generate_job` — [MEDIUM] generate_job is called but the code does not handle any exceptions or errors that may occur during generation
-  - says: generate_job is called to generate the job's text
-- **drill.py** `net` — [MEDIUM] net runs a test that is not properly scoped to the function it's testing
-  - says: net runs a test
+- **catalogue_models.py** `sweep` — [HIGH] sweep
+  - says: sweep
+- **catalogue_aurora.py** `parse_folder` — [HIGH] does not collect dropped entries
+  - says: collects what collapsed
+- **verify_math.py** `A.calibration_report` — [HIGH] the function may not return a dict and instead return None or another type
+  - says: calibration_report answers with a dict at all
+- **verify_math.py** `_stamp` — [HIGH] the stamp lies about which arithmetic produced the bar
+  - says: the correlation stamp names its provenance
+- **local_agent.py** `rel_real` — [MEDIUM] the resolved path is compared to the real path relative to the real HERE, which may not be the same as the original path's relative position
+  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
+- **coverage.py** `measure` — [MEDIUM] does not guard divisions in `coverage`/`settled` keys
+  - says: guards every division with max(n, 1)
+- **codewatch.py** `exit_if_stale` — [MEDIUM] Exits the process if its code is out of date, but the code does not actually exit the process.
+  - says: Exits the process if its code is out of date.
+- **catalog.py** `cmd_address` — [MEDIUM] Prints 'No entry for address' if the address is not found, but the function is named 'cmd_address' which implies it handles addresses
+  - says: Prints the entry for the given address
+- **binding_health.py** `quarantined` — [MEDIUM] Silences the error instead of raising it when strict is False.
+  - says: RAISES `QuarantineUnreadable` when the file exists and cannot be read.
+- **verify_math.py** `check` — [MEDIUM] only consults `tol` inside `if isinstance(want, float)`
+  - says: consults `tol` inside `if isinstance(want, float)`
+- **verify_math.py** `check` — [MEDIUM] the check is for the assay not being at the ceiling, but the actual result is that the assay is considered to be at the ceiling when it's not
+  - says: check('an ordinary assay is NOT at the Ladder's ceiling', ...)
+- **verify_math.py** `check` — [MEDIUM] the check is for the fallback stamp containing the reason, but the actual result is that the stamp does not include the reason due to a logical error in the code
+  - says: check('a FALLBACK correlation stamp names its cause instead of trailing off', ...)
+- **verify_math.py** `check` — [MEDIUM] the check is for the fallback reason after a successful load, but the actual result is that the fallback reason is set to 'load() returned nothing'
+  - says: check('a matrix that loads cleanly files NO fallback reason', ...)
+- **verify_math.py** `check` — [MEDIUM] the check is for the result of axis_score when a band edge is half-defined, but the actual result is an exception raised instead of None
+  - says: check('axis_score refuses a HALF-DEFINED band edge (floor present, ceiling missing)', ...)
+- **verify_math.py** `check` — [MEDIUM] the condition is checking for a dict _cal and whether margin is None or the band is valid, but the actual check is for the presence of a margin and the band being valid
+  - says: check('the calibration margin is None unless a real passing band was bracketed', ...)
+- **verify_math.py** `A.assay` — [MEDIUM] the function may incorrectly categorize INAPPLICABLE and UNESTIMABLE Measures
+  - says: unscored is the list of Measures nobody read
+- **verify_math.py** `A.instrument` — [MEDIUM] the function may incorrectly compute Constitution when only one axis is attested
+  - says: Constitution prints nothing when only one of its two axes is attested
+- **verify_math.py** `A._interval` — [MEDIUM] the function may incorrectly compute between-hand variance for a single reading
+  - says: Between-hand dispersion is only defined for MORE THAN ONE reading
+- **verify_math.py** `A.assay` — [MEDIUM] the assay function may not correctly compute promotion_watch due to a condition change
+  - says: promotion_watch is a curatorial trigger that must fire on the boundary and not below it
+- **verify_math.py** `A.null_instrument` — [MEDIUM] returns a null but does not indicate it is computed
+  - says: Theorem 3(ii) is that the mathematics RETURNS a null for a degenerate agent; a null that does not claim to be computed is indistinguishable from a missing reading
+- **verify_math.py** `measure_bit_value` — [MEDIUM] the function is NOT the cumulative figure the stale docstring quoted
+  - says: the function is NOT the cumulative figure the stale docstring quoted
+- **verify_math.py** `measure_bit_value` — [MEDIUM] the function uses band_resolution, not the cumulative length
+  - says: the function uses band_resolution, not the cumulative length
+- **verify_math.py** `_read_frag19` — [MEDIUM] the reader is identified by a slice of the lognames.OWNER attribute, which is not a contiguous fragment
+  - says: the reader is still identified by one contiguous lognames fragment
+- **verify_math.py** `_CBud` — [MEDIUM] the budget is derived from the window's num_ctx
+  - says: the budget is derived from the window
+- **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
+  - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller, and the two refusals are the same event to a reader: the lift did not happen and here is why.
+- **cascade_bridge.py** `selftest` — [MEDIUM] executes the live check
+  - says: The live check is NOT dropped
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 

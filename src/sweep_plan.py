@@ -107,11 +107,21 @@ def batches(n=16):
     bins stays tight enough that every agent gets a context it can hold.
     """
     n = max(1, int(n))
-    bins = [{"batch": i + 1, "lines": 0, "modules": []} for i in range(n)]
+    bins = [{"batch": i + 1, "lines": 0, "modules": [], "unreadable": []} for i in range(n)]
     for m in modules():
         b = min(bins, key=lambda b: b["lines"])
         b["modules"].append(m["module"])
         b["lines"] += m["lines"]
+        if m.get("unreadable"):
+            # Carry the flag `modules()` recorded THROUGH to the plan a coordinator actually
+            # dispatches (order 32b2d67eebd4). `modules()`'s own comment already says intent --
+            # "Recorded, and marked so the plan itself carries the fault" -- but this function
+            # kept only `m["module"]`, so an unreadable file packed into a bin at lines: 0 and
+            # read in the emitted plan exactly like an empty stub. `b["modules"]` stays a plain
+            # list of labels (check_briefs() and the --batches JSON both depend on that shape);
+            # this is an additive key so the agent that receives the batch can see which of its
+            # modules could not be sized and report it rather than silently skip a stub.
+            b["unreadable"].append(m["module"])
     return [b for b in bins if b["modules"]]
 
 
@@ -214,6 +224,16 @@ def record(run, covered, batch=None):
                   "refused). This batch's %d module(s) are unprovable and `--missing %s` will "
                   "name them; call record() again."
                   % (run, batch, len(covered), run), file=_sys.stderr)
+            # Mirror the COVERAGE fallback below: a refused replace leaves the temp on disk,
+            # and `_shard_path` embeds run+batch+pid so a denied record() leaves a UNIQUELY
+            # NAMED file each time rather than overwriting one -- pure litter in
+            # state/sweep_shards/, never read as a shard (every reader globs `*.json`), but it
+            # accumulates. NOTED, not swallowed, same as `record-fallback-tmp-not-removed`.
+            try:
+                if os.path.exists(tmp):
+                    os.remove(tmp)
+            except Exception:
+                silence.note("sweep_plan.py:shard-tmp-not-removed")
     except Exception:
         try:
             import silence
@@ -389,49 +409,19 @@ def covered_by(run):
     return out
 
 
-def latest_run():
-    """The run label of the most recently written shard, or None if nothing has ever swept.
-
-    THE COMPLETENESS CHECK MUST NOT NAME A RUN IN A LITERAL. `verify_math`'s "the live sweep
-    proves its own completeness" asked `missing("run29")`, hardcoded -- so from run #30 onward
-    it was answering a question about a sweep that had already finished, and no later sweep,
-    however complete or however skipped, could move it. It is the THIRD spelling of the same
-    defect in three consecutive runs: #28 found `record()` losing an update, #29 found
-    `missing()` asking "was run N the LAST to read X?" instead of "did run N read X?", and this
-    is #31's -- the instrument frozen on a past run. Lesson 25 keeps being right: the sweep
-    audits the sweep, and that is where the best finding keeps being.
-
-    Returns None rather than a guess when there is no evidence, so the caller can FAIL CLOSED
-    instead of proving the completeness of a sweep that never happened.
-    """
-    newest = None
-    try:
-        paths = glob.glob(os.path.join(SHARDS, "*.json"))
-    except Exception:
-        try:
-            import silence
-            silence.note("sweep_plan.py:latest-run-glob-failed")
-        except Exception:
-            pass
-        paths = []
-    for p in paths:
-        try:
-            with open(p, encoding="utf-8") as f:
-                rec = json.load(f)
-        except Exception:
-            try:
-                import silence
-                silence.note("sweep_plan.py:shard-unreadable")
-            except Exception:
-                pass
-            continue
-        at = rec.get("at")
-        run = rec.get("run")
-        if run is None or not isinstance(at, (int, float)):
-            continue
-        if newest is None or at > newest[0]:
-            newest = (at, str(run))
-    return newest[1] if newest else None
+# `latest_run()` (the run label of the most recently written shard) was REMOVED here (order
+# 03da766af24d). It was written as the fix for "the completeness check must not name a run in
+# a literal" but was superseded before it gained a caller: `latest_run` has no notion of a run
+# being OVER, so it goes red the moment a sweep records its first batch, and order b18acbb35760
+# replaced it in verify_math.py with a finished-run rule (a shard for every planned batch, or
+# 3h quiescence) that scans state/sweep_shards/ itself rather than calling this function --
+# verify_math.py:5007-5028, `_at20n`/`_batches20n`/`_run20n`. grep -rn 'latest_run(' src/*.py
+# found only that def and two comment lines describing what the check USED to do. Deleting it
+# is the smaller of the two remedies the order offered; the preferred one -- moving
+# verify_math's finished-run selection INTO this module as `latest_finished_run(planned_batches)`
+# so the shard-reading rule has one implementation instead of two -- needs an edit to
+# verify_math.py, which is outside this file's ownership for this shift. Left as a note for
+# whoever owns verify_math.py next.
 
 
 def missing(run):
@@ -527,6 +517,11 @@ def main():
         print("# %d modules, %d lines, %d batches"
               % (sum(len(b["modules"]) for b in plan),
                  sum(b["lines"] for b in plan), len(plan)))
+        unreadable = sorted(m for b in plan for m in b.get("unreadable", []))
+        if unreadable:
+            # Self-announcing, on a console listing only (Hard Rule 0 concerns a listing that
+            # loses evidence silently; this states its own count and every name, nothing is cut).
+            print("# %d module(s) UNREADABLE: %s" % (len(unreadable), ", ".join(unreadable)))
     elif a.check_briefs:
         with open(a.check_briefs, encoding="utf-8") as f:
             rep = check_briefs(json.load(f), a.batches or 16)

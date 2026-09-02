@@ -30,6 +30,7 @@ sys.path.insert(0, HERE)
 
 import pipeline as PL          # noqa: E402
 import silence                 # noqa: E402
+import catalogue_aurora as _AU  # noqa: E402 -- record_path(), the shared source-name resolver
 
 SIDE = os.path.join(ROOT, "data", "SYNTHESIS_RETRY.json")
 
@@ -216,10 +217,12 @@ def do_merge():
         print("nothing to merge")
         return 0
     merged = skipped = denied = 0
+    seen = set()
     for path, rec in PL.records():
         src = rec["source"]
         if src not in side:
             continue
+        seen.add(src)
         if rec.get("synthesis"):
             skipped += 1
             continue
@@ -241,13 +244,30 @@ def do_merge():
             denied += 1
             continue
         merged += 1
+    # A `side` KEY NEVER VISITED IS NOT A SKIP OR A DENIAL -- IT IS SILENCE. The loop above only
+    # ever looks at records `PL.records()` actually yields; a source whose record was renamed,
+    # removed, or had its `source` field changed since the rescue ran is never reached, and
+    # `merged + skipped + denied` could come out strictly less than `len(side)` with nothing said
+    # (order bd7438a901c8). This module's opening paragraph says these are synthesis blocks "the
+    # pipeline will never revisit ... on its own" -- a silently unmerged one reaches the write
+    # phase with no ceiling and no band, which is verbatim the outcome this module exists to
+    # prevent. UNCAPPED per Hard Rule 0: every unmerged source is named, with the path a record
+    # for it is expected at (`catalogue_aurora.record_path`, the one resolver `catalogue_web.py`
+    # and `ingest_doc.py` already share -- not a second, possibly-mismatched slug rule here).
+    unmerged = sorted(k for k in side if k not in seen)
+    if unmerged:
+        print(f"UNMERGED (in {SIDE} but never reached by PL.records()): {len(unmerged)} source(s)")
+        for src in unmerged:
+            print("  %s -- expected at %s" % (src, _AU.record_path(src)))
     print(f"merged {merged}, skipped {skipped} (already had synthesis), "
-          f"{denied} denied (write refused -- rerun the merge)")
+          f"{denied} denied (write refused -- rerun the merge), "
+          f"{len(unmerged)} unmerged (record not found -- see above)")
     # A PARTIALLY APPLIED MERGE IS NOT A SUCCESS. This returned 0 unconditionally, so an
     # automated caller could not tell "12 merged" from "6 merged, 6 denied" -- the denials were
     # printed and then thrown away at the exit code. Matches the run path's `return 0 if landed
-    # else 1` at the bottom of main() and cleanup.py's `return 1 if unwritten else 0`.
-    return 1 if denied else 0
+    # else 1` at the bottom of main() and cleanup.py's `return 1 if unwritten else 0`. An unmerged
+    # rescue is not a successful merge either, so it now nets on the exit code beside denied.
+    return 1 if (denied or unmerged) else 0
 
 
 def main():

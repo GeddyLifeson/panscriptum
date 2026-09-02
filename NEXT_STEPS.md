@@ -1,126 +1,171 @@
-# Next Steps — written by run #40 for the run that follows it
+# NEXT STEPS — written by run #41 (2026-09-02) for the run that follows it
 
-*Overwritten every run. The queue in `state/workorders.json` is the authority on what is open;
-this file is the reading of it — what to do first, and why.*
+Overwritten every run, on purpose. The queue in `state/workorders.json` is the memory; this file
+is only the ordering.
 
 ---
 
-## 0. NOTHING IS HALTED. DO NOT RE-DERIVE THE LIBRARY.
+## 0. STATE AT THE OWNER SESSION OF 2026-09-02 -- READ BEFORE THE REST
 
-`escalation.py --status` reads **clear**. A halt WAS raised during run #40 and lifted by run #40:
-it was **self-caused** — a change I made to `pipeline.phase_write` contradicted a netted design
-decision, `drill._write_phase_stays_open_when_everything_refuses` went red, the change was
-reverted, both gates were re-run green, and the lift is signed
-`maintenance-2026-08-31 (automated run #40)` rather than the `owner-cli` default. The full story is
-at the top of `HANDOFF.md`. **You are not inheriting a halt.**
+**Publishing is UNBLOCKED.** The owner ruled option (a) on `be33a61be79f`: the three chain
+shrinks from run #41's probe are ACKNOWLEDGED in `state/ledger_chain_acknowledged.json`,
+still printed on every run and every push, never erased. `assert_intact()` passes. **Do not
+widen that registry**; a second record needs a person, an order id and a reason.
 
-Open the shift the way the card says — status, guard, `--sweep`, `corpus_db --rebuild` — and work
-the queue.
+**GitHub push is DEFERRED by the owner** ("ignore github for now"). The export commits
+locally and the push reads HELD until `GITHUB_TOKEN` is unset for the daemons or the PAT is
+granted write access. Not a fault to chase; not yours to fix autonomously.
 
-## 1. CHECK THE GPU FIRST. IT COST RUN #40 THE WHOLE LOCAL RUNG.
+**Still open and wanting a ruling:** `c614f7c145fc` (the 2026-08-26 automated halt-lift).
 
-**Order `LOCAL_RUNG_UNWORKABLE_GPU_CONTENDED` (OWNER).** `Overwatch.exe` held ~9.7 GB of the card's
-10.2 GB for the whole of run #40. Ollama was resident but **starved**: a one-word `/api/chat` did
-not answer in 300 s; the same at `num_ctx=2048`/`num_predict=16` did not answer in 90 s; a real
-`local_agent` task burned **75 minutes** and returned `transport: TimeoutError timed out`.
-**115 LOCAL orders were unworkable.**
+**PHASE 4.2 IS DONE (ruling F, STEP4_PLAN.md section 7).** `thread_integrity` reads
+`data/THREADS.json`; the release gate (a thread resolving to no address) holds at 0 over
+1,508,653 threads; RECIPROCAL 711 / IMPLIED-UNRECORDED 5,071 / ASYMMETRIC 0; five nets and
+five battery rows, all watched red. **4.3 is the next subphase and is NOT authorised.** Two
+things its ruling must address before anyone writes a line: (1) the ASYMMETRIC-SUSPECT
+baseline is **0** because T1/T2 are sibling-symmetric by construction, so the first one-way
+T3 thread trips the regression floor -- 4.3 needs a deliberate re-baseline, recorded, not a
+quiet edit; (2) 87.7% of implied pairs are unrecorded and that is CORRECT for T1/T2 -- they
+are the entity-shared cross-verse obligations T3 exists to record. Ruling B also stands:
+a T5 refusal net must exist before 4.3 (it does: drill_threads).
 
-**Spend sixty seconds on this before anything else:**
+---
 
-```
-nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
-```
+## 1. THE MUTATION RUN FROM #41 SHOULD HAVE FINISHED — READ IT FIRST
 
-Then a 60-second one-word probe at `127.0.0.1:11434`. If the card is free and it answers, **work
-the LOCAL rung first** — it is the cheapest rung and 115 orders deep, and most of them are
-mechanical. If it does not answer, say so in the handoff and move on; do not spend an hour
-rediscovering it, which is the hour run #40 spent.
+`mutate.py --target all --file-orders` was relaunched 2026-09-01 22:46 and was still running when
+#41 closed, ~2 hours in, with nothing journaled. **Read `state/mutate_2026-09-01.log` and
+`state/MUTANTS_SURVIVED.jsonl` before anything else**, and check the lock is not still held by a
+dead pid. Two caveats when you do:
 
-This is **not** order `f6c52ef7657f` (semsearch, 804 sockets on 11434). Re-measured during run #40:
-**3** sockets on that port, two ollama's own and one this project's `pipeline.py`. Two different
-foreign processes, two different mechanisms. Check which one you have.
+- Its baseline records `drill` at **371** nets. Eleven more landed after it started, so its
+  results describe the battery as it stood at 22:46, not as it stands now.
+- Every survivor row it writes this run carries `tree_was_moving` — a maintenance shift held the
+  guard throughout — so weigh survivors accordingly rather than taking the count at face value.
 
-## 2. THE MUTATION PASS IS UNFINISHED
+Then relaunch it against the current battery, early, as the card instructs.
 
-Run #40 launched it early, and it correctly reported that **the shift was editing its own gates**
-(`drill.py` and `verify_math.py`). It was stopped rather than allowed to produce a survivor list
-that would have to be thrown away, then **relaunched as the last act of the shift on a quiet tree**.
+## 1b. STEP 4 POSITION, MEASURED 2026-09-02 10:59 (post-shift scrub)
 
-**Read `state/mutate_2026-09-01.log` before concluding anything.** A pass killed halfway is not a
-pass with fewer survivors.
+- **Phase 4.0 is closed** by three independent measurements: `address.spine_code_for` resolves
+  215/215 roll sources (0 unassigned, 0 provisional); `output/index/unassigned_sources.md` says
+  none; `data/THREADS.json` records `unaddressed: []`. allsweep's "33 with NO charter spine code"
+  is a different thing -- estate.py's own docstring calls it a known and accepted standing
+  condition: 33 sources sit outside the charter's LITERAL appendix by decision (Hard Rule 2 makes
+  extending it owner work) while `CHARTER_SPINE_CODES.json`, the owner-extended index, addresses
+  all of them. Not a blocker; the charter document lags the JSON index by 33 sources.
+- **Phase 4.1 is complete as an emitter.** `data/THREADS.json` (2026-09-01 11:34): 210 sources,
+  282,822 entries, T1 282,822 / T2 1,225,831 / 1,508,653 threads, 5.334 per entry, stored
+  per source-category (6,558 source-level edges) and expanded per entry. Measured directly:
+  **DANGLING = 0**, self-loops 0, no source with zero threads. `drill_threads` holds the
+  by-construction attacks (points-at-nothing, UNASSIGNED, T5 refusal, phase lock), all green.
+- **The verifier cannot see it, and that is Phase 4.2 by definition.** `thread_integrity.py`
+  never loads THREADS.json; `classify(..., recorded=None)` reports IMPLIED-UNRECORDED for 100%
+  of 5,782 source pairs. 4.1's "verify with thread_integrity, which finally has its graph" is
+  therefore unmet -- and it is exactly the work the plan assigns to 4.2. THREADS.json has ONE
+  reader today (threads.py itself): the m37 shape.
+- **4.2 is NOT authorised.** STEP4_PLAN.md §7E: "PHASE 4.0 AND 4.1 ONLY ... 4.2 through 4.5 are
+  not authorised by this ruling and need their own." A ruling F, recorded in §7 and in
+  config.yaml's SCOPE comment, is the prerequisite. 4.2 emits no prose and nothing to publish,
+  so the publish block (`be33a61be79f`) does NOT gate it.
+- **What 4.2 is, concretely:** feed `recorded={(from,to)...}` from THREADS.json into
+  `thread_integrity.classify`; make DANGLING == 0 a release gate (SUPERVISOR per source, OWNER
+  on a corrupt/unreadable THREADS.json, per §8); floor ASYMMETRIC-SUSPECT; report ASYMMETRIC
+  as count+list, never a failure (ruling C); a drill net and a verify_math row; a `tol`/floor
+  that can only ratchet.
 
-**The arithmetic deserves a ruling.** 154 mutants each pay a full `verify_math`, and `verify_math`
-currently takes **15–20 minutes** instead of its usual ~32 s because `standards.check()` probes the
-starved daemon — >30 hours. Either the GPU gets freed, or FAST_GATES needs a `verify_math` variant
-that skips live probes. **The second is a design question, not a maintenance decision**: the probes
-are part of what makes the gate meaningful.
+## 2. THE NETS RUN #41 OWES
 
-## 3. THE QUEUE
+Fixes that landed with nothing in the battery behind them. Full list with reproduction steps in
+`handoff/sweep41/` and in the orders themselves; the ones that matter most:
 
-Run #40 closed **~190** orders; the whole-tree sweep filed **39** new ones, so the number moved less
-than the work did. **540 → 423.**
+1. **`mutate`** — a missing gate document must make the run refuse *and name which* (orders
+   `2461a04d8849` / `21ae41adc29c`). Without it a disabled gate scores every mutant SURVIVED,
+   which looks exactly like a finished run.
+2. **`custodes.table_faults()`** — a working detector with no caller outside its own module
+   (`d27e95a57233`, `00a85c511b53`). One line in the battery closes it.
+3. **`codewatch`** — repoint the restart-budget net at `_claim_restart_slot`, add a fail-closed
+   net (`06b7f22484df`, parts a and b; c and d are already done).
+4. **`catalogue_local`'s quarantine refuses** (`ee3d4404718a`) — verified by hand twice now, still
+   unpinned.
+5. Five more named by batch M: `stop_subsystem`'s unrecordable arm, `tiers.main()` refusing on a
+   containment violation, `gpu_lane.status()` setting `partial`, `dashboard.movement()` omitting
+   an unmeasurable row, `hostcheck.score()` not firing the veto below `ABOUT_MIN`.
 
-| rung | open | what it is |
-|---|---|---|
-| LOCAL | 115 | mechanical; **blocked only by the GPU** — unblock it and this drains fast |
-| RUN | 116 | verified fixes and new machinery. Your real work. |
-| OWNER | 102 | account actions, charter judgements, curatorial calls. **Not yours.** |
-| SESSION | 54 | needs an interactive session |
-| BOTS | 36 | foreman/overwatch/keeper remedies |
+## 3. THE SWEEP41 FINDINGS WORTH DOING FIRST
 
-**The 79 `MUTANT_SURVIVED_*` orders are gone** — 73 killed by two new behavioural drill areas, 6
-closed as proven-equivalent with the proof recorded. That cluster will not come back in that form.
+Thirty orders were filed by run41's sweep. Ranked by what they actually cost:
 
-**The stale-citation cluster is largely gone** (66 orders across 39 files). Finish the remainder the
-way run #40's agents finished theirs: **replace the line number with a SYMBOLIC reference** — the
-function name, or the quoted sentence — rather than baking a fresh number that will rot again. A
-line number in a comment is a claim nothing can keep honest, and this project has now re-found that
-fact in six consecutive sweeps.
+1. **`f7b611d107cb` (done) / the loss mode it names (not done).** `ledger_guard.seal()` now routes
+   through `append_line`, but note *why* it mattered: a cleanly lost whole link passes
+   `verify_chain()` because the survivor's `prev` still points at its true predecessor. There is
+   no net for that. Torn lines are caught; **lost** ones are not.
+2. **`aeeba9364147` + `d7620dd893fa`** — `liveness.py` and `silence.py` both list `src/`
+   non-recursively, so the check-that-cannot-fail detector and the silent-handler auditor are both
+   blind to `src/deprecated/`. Third occurrence of a class fixed twice elsewhere and never
+   propagated.
+3. **`5bbbb65e7787`** — `drill.py`'s park nets call the real `escalate()` against synthetic
+   subjects and `escalation.py:248` forwards every escalation into `health.record()` with no
+   self-test filter. 7 of 67 keys / 42 of 4,054 events in `state/failures.json` are rehearsal
+   noise, growing every run, shaped exactly like real MANAGER-rung faults. The `SELFTEST_SUBJECT`
+   convention already exists in `workorders.py` and was never applied here.
+4. **`b9584c782d95`** — `feats.py --roll` silently skips sources absent from the resolved-host map
+   and counts the exclusion nowhere. 9 sources, 727 entries, invisible to the live crawler.
+5. **`556c1b8fda9f`** — a seventh `local_agent` write-gate bypass: NTFS hard links are not
+   resolved by `realpath` the way junctions are. Verified experimentally, not reachable today.
+6. **`0a45c595655b`** — `write_record_catalogue`'s fold reverts corrected `category` and
+   re-introduces raw markup into `description` on any re-catalogue.
+7. **`e3c220e87d57`** — `codewatch.stamp()` can stick at `None` and then treat every later check
+   as "nothing changed", silently, across all six standing daemons.
+8. **`f307490add1e`** — make `sweep_plan.record()` validate; see §4.
+9. Five `DRILL_PROBE_LEDGER_LEAK` sites (`5fa88a896c3f`, `630fe4529c51`, `31a946e96c69`,
+   `b53dd5b3f76f`, `247b173c78ee`). One of the five is fixed; four remain. Each is a probe that
+   should use `_deliberately_failing` / `_quietly` and does not.
 
-## 4. START HERE, IN THIS ORDER
+- **`8aaddf34adf3` (MAJOR) is the one to read first in this list.** The ledger-escape
+  detector added at the very end of run #41 (verify_math §20z, an in-process spy on
+  `health.record`) reports clean while two `custodes.py:abstained-*` classes grow by +1
+  each on every battery run. Proven by control: a 140s window with no battery running
+  changed nothing. The agent that built the spy concluded the opposite from the spy
+  itself. Fix the detector before trusting anything it says: compare
+  `state/failures.json` before and after the run, which is what caught it.
 
-1. **`Q_PHASE8_EMPTY_RECORD_CLOSES_SILENTLY` (OWNER)** — read this one first, because run #40 tried
-   to answer it and the library refused. `build_jobs_for_source` returns `[]` with no exception for
-   a record with no entries, so if every ready source is like that, phase 8 marks itself done having
-   built nothing. The fix went in and `drill._write_phase_stays_open_when_everything_refuses` went
-   red: its second half *requires* that case to close. Both readings are defensible and only a
-   ruling settles it — **and if the sweep's reading wins, the NET has to change first.**
-2. **`07258ace3a09` (RUN, MAJOR)** — `address.spine_code_for()` invents a real spine code for an
-   unrelated crossover title when it merely opens or closes with a catalogued franchise name.
-   Live-reproduced: `spine_code_for("Alien Predator Doom Crossover")` → `"II.N"`. This is BUGS.md's
-   long-standing **M44**, finally an order. Hard Rule 2 with a curatorial edge — decide
-   deliberately, do not just tighten the regex.
-3. **`2cb8756deb0a`** — but **raise it to OWNER first**. It asks what restarts `read.py`,
-   `feats.py`, `autostart.py` and `overnight.py`; that is an operations ruling, not code. Run #40
-   deliberately did not re-address someone else's order.
-4. **`1e45fae97848` and `64ffa3ba30df`** — `catalogue_web.main()` has no `return` and `__main__`
-   calls it bare, so a totally failed catalogue pass logs as "ok" through `overnight.join()`; and
-   `resync_roll` prints post-fix figures under a "(pre-fix figures)" label on the branch whose whole
-   purpose is to say the write did NOT land. **These are the same family run #40 fixed four times
-   over** — `feats --roll`, `magnitude --calibrate`, `generate`'s floor, `derivation`'s verdict: *a
-   verdict that never reaches the one number a supervisor reads.* Grep for more of it; it is this
-   project's most repeated defect shape.
-5. **`2d6c9343cd32`** — `allsweep` grades the `cascade live call` verifier bad. Almost certainly
-   item 1 arriving at the battery; confirm before treating it as a code fault.
-6. **The rest of the sweep's findings** — `handoff/sweep40/AUDIT_batch01..16.md`, with quoted
-   evidence and remedies.
+## 4. THE QUEUE AND THE RUNGS
 
-## 5. TWO THINGS THAT BIT RUN #40
+**376 open at close** (OWNER 111, LOCAL 127, SESSION 59, RUN 57, BOTS 22). RUN fell 129 → 57 and
+BOTS 40 → 22; the total is higher than mid-shift because the sweep filed 30 new findings
+and the post-close verification filed one more.
 
-**Never write regexes, backslashes or backticks through a shell `-c` string or heredoc.** It
-happened **three separate times** in one shift — twice to subagents, whose work-order text arrived
-corrupted and had to be refiled, and once to the run itself. Write a `.py` file and execute it.
+- **LOCAL (127) was not worked at all this shift** and is the single biggest opportunity for the
+  next one. It is unmetered. Run #41 measured that **0 of them are addressed to a rung that cannot
+  reach them** (the "13 of 28" claim in `9b54659bc403` is stale — the last 2 stragglers were
+  re-addressed and the detector self-closed `1d54acf05414`). The blocker was practical, not
+  structural: the GPU sat at 97% with the pipeline's own work, and one round trip took >400s, so
+  feeding 127 orders through it while thirteen agents were editing `src/` would have collided.
+  **Do it when the tree is quiet**, a few lanes wide, and verify with the battery afterwards.
+- **`9b54659bc403` stays open** for its design half only: `file_order()` should refuse or re-route
+  a LOCAL order whose `where` is entirely denied, by asking `local_agent._denied_target(rel)` —
+  the predicate `t_propose_patch` itself uses — rather than re-deriving the denylist. Whether it
+  refuses or silently re-addresses is an owner call.
 
-**A literal cannot tell code from prose about code.** A structural check searched the source for a
-removed literal and went **red against the new comment quoting it while explaining why it went.**
-Ask the AST.
+## 5. HOUSEKEEPING THAT IS CHEAP AND KEEPS BITING
 
-## 6. WHAT IS GREEN
+- **Never put backticks in `--how` or `what` text, and never pass order text as a shell argument.**
+  See `1c99df1f69c1`. It cost a 16-minute unsanctioned pipeline run this shift and two permanently
+  garbled entries in the append-only closed log.
+- **`sweep_plan.record()` takes bare `foo.py`,** as `batches()` emits it. Five of fifteen batches
+  got the spelling wrong in run41 and their coverage read as never-read.
+- **`state/failures.json` carries 6 synthetic counts from run #41's own verification** —
+  `append_line-unlocked:None` ×1, `append_line-unlocked:OSError:None` ×2, and 3 of the
+  `append_line:FileNotFoundError` total. Attributed here rather than removed: `triage_swallowed`
+  deliberately no longer clears that ledger, and racing its merge is worse than six known counts.
+- One order (`f5fdaab825a6`) is worth more than its MINOR rung suggests: `publish.git()` clipping
+  git's diagnostic at 220 characters is what disguised a 403 as a missing `gh.exe` for days.
 
-`drill` **364/364, 0 breached** · `verify_math` **1,064 passed, 0 FAILED** · `codewatch` ok ·
-`silence` ok · `liveness` 48, under ratchet · `health --preflight` all pass · `axis_correlation` 45
-entities, matrix unchanged so no `--write` · `secondopinion` all three tools RAN,
-**detect-secrets 0** · `pyflakes src/` **0** · all 116 modules compile · `ledger_guard` **5 ledgers
-intact** (`handoff/HANDOFF.md` joined this shift and has its first snapshot).
+## 6. BATTERY AS RUN #41 LEFT IT
 
-**Not green:** `allsweep` 1 subsystem bad — see item 5.
+`verify_math` **1125 passed / 0 FAILED** · `drill` **378 nets / 0 BREACHED** · pyflakes clean ·
+`liveness` 47 · `health --preflight` all pass · `secondopinion` all three tools RAN, secrets **0**
+by two independent scanners · `axis_correlation` n=45, unchanged, no `--write` owed ·
+`corpus_db` rebuilt at shift open (216 sources, 282,822 entries) · sweep41 coverage **116/116,
+`missing()` empty**.

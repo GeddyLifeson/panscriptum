@@ -220,6 +220,27 @@ means — and they surface the reciprocity question against real data, which is 
 basis for revisiting C than this document is. **4.2 through 4.5 are not authorised by this
 ruling** and need their own.
 
+**F. Phase 4.2 — AUTHORISED 2026-09-02, by the owner, in session.** Ruled after the "stop and
+look" that E asked for, on measurements rather than on the plan: `data/THREADS.json` stands at
+210 sources, 282,822 entries, 1,508,653 threads (5.334 per entry), `unaddressed: []`; measured
+directly against the live graph, **0 threads resolve to no address, 0 self-loops, 0 sources with
+zero threads**; the six `drill_threads` attacks (points-at-nothing, UNASSIGNED, empty target,
+T5 refusal, T3/T4 phase lock, every-entry-has-a-home) all hold. What stopped the pass being
+verifiable was that `thread_integrity.py` had never been taught to read the graph it was
+written to verify — `classify(recorded=None)` reported 100% of 5,782 source pairs as
+IMPLIED-UNRECORDED against 1.5M recorded threads — and that wiring is 4.2 by definition.
+
+The owner's words: *"wire the thread integrity to classify, as that's 4.2, and begin 4.2."*
+
+**Scope of F, and only this:** feed the directed graph into `thread_integrity.classify`; make
+"a thread that resolves to no address" a release gate at **DANGLING = 0** — SUPERVISOR per
+source, OWNER on a corrupt or unreadable `THREADS.json`, per §8; give ASYMMETRIC-SUSPECT its
+floor **as a regression gate only** — ruling C stands unchanged, so asymmetry that exists is
+reported as a count and a list and never fails, while asymmetry that *grows* past the recorded
+baseline does, and the baseline may only ratchet down (§8, "no phase may lower a floor to go
+green"); a drill net and a battery row for each. **4.3 through 4.5 remain unauthorised** and
+need their own ruling. The prose gate is untouched and stays closed.
+
 ---
 
 ## 7b. The original questions, kept for the record

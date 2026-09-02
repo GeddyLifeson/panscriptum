@@ -233,7 +233,14 @@ def start_supervisor(read_hours=10):
     Detached deliberately: the watchdog must be able to die without taking the supervisor with
     it, and vice versa. Two processes that can only fail together are one process wearing a
     disguise.
+
+    THE DIRECTORY IS MADE FIRST, matching `_log` (order 6d3eb126941f). On a tree where state/
+    does not exist yet -- a fresh checkout, or a clean that took it -- this used to open the two
+    log files with no `os.makedirs` first, so `--install` on such a tree printed "installed" and
+    then died on an uncaught FileNotFoundError from this open() -- a success line immediately
+    followed by a crash, on the one command whose whole job is to be trusted unattended.
     """
+    os.makedirs(LOGDIR, exist_ok=True)
     env = dict(os.environ, PYTHONIOENCODING="utf-8")
     out = open(os.path.join(LOGDIR, "overnight_stdout.log"), "a", encoding="utf-8")
     err = open(os.path.join(LOGDIR, "overnight_stderr.log"), "a", encoding="utf-8")
@@ -413,7 +420,13 @@ def watch(read_hours=10):
                          % (len(starts), MAX_STARTS_PER_HOUR))
         except Exception as e:
             silence.note("autostart.py:watch")
-            _log("watchdog error: " + type(e).__name__)
+            # THE MESSAGE NAMES THE EXCEPTION'S OWN STR, NOT JUST ITS CLASS (order 6d3eb126941f).
+            # "watchdog error: FileNotFoundError" does not say which file or directory was
+            # missing, so a missing state/ (which this loop self-heals: `_log` above makes the
+            # directory on its way out, and `starts` is not appended, so no start budget is
+            # consumed) read identically to any other FileNotFoundError in autostart.log. The str
+            # is what makes the two conditions distinguishable after the fact.
+            _log("watchdog error: %s: %s" % (type(e).__name__, e))
         time.sleep(CHECK_SECONDS)
 
 

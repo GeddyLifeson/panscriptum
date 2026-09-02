@@ -18,6 +18,42 @@ if SRC not in sys.path:
     sys.path.insert(0, SRC)
 
 
+# --------------------------------------------------------------------------------------------
+# A REHEARSAL MUST NOT LAND IN THE LEDGER A PERSON READS TO FIND REAL FAULTS.
+#
+# Three checks in this file deliberately drive a guard into recording a failure, and
+# `silence.note` calls `health.record`, which writes `state/failures.json` -- the operational
+# ledger `standards` grades from, the dashboard polls, and `foreman.triage_swallowed` names
+# classes out of. Per order 842025c83c3c that ledger is deliberately never cleared, so anything
+# a probe puts in it is permanent.
+#
+# Measured 2026-09-01 by instrumenting `health.record` over a whole battery run: these three
+# added one entry each, every run. The live counts agreed -- `mutate.py:reap-incomplete` 31,
+# `mutate.py:reap-skipped-live-owner` 35, `reference.py:shelfmark-shape` 30, against roughly
+# thirty runs. Not one was a fault. A real misreaped sandbox would have arrived
+# indistinguishable from thirty copies of this rehearsal.
+#
+# Same shape and same two rules as `drill._deliberately_failing` and verify_math's
+# `_no_ledger_vm`: scope it to the single call that is SUPPOSED to fail, so an unrelated fault
+# raised during the same check is still recorded, and go on asserting the RETURN VALUE rather
+# than the absence of a ledger entry. Nothing under test is suppressed here -- only its echo.
+# verify_math.py's §20z watches `health.record` for the whole run and will name any probe that
+# starts leaking again.
+import contextlib as _ctx_L6      # noqa: E402
+import health as _H_L6            # noqa: E402
+
+
+@_ctx_L6.contextmanager
+def _no_ledger_L6():
+    """Suppress the ledger echo of a deliberately-provoked guard, and nothing else."""
+    _saved = _H_L6.record
+    _H_L6.record = lambda *_a, **_k: None
+    try:
+        yield
+    finally:
+        _H_L6.record = _saved
+
+
 # order 0b15581132d0 -- src/secondopinion.py, NOT_FILED
 # Every code named as a waiver must actually be selectable by RUFF_RULES, or the waiver can
 # never match a finding and the count of "deliberate divergences" is fiction.
@@ -101,7 +137,13 @@ def check_mutate_reap_orphans_does_not_over_report():
     held_path = os.path.join(p, "locked.txt")
     f = open(held_path, "w")
     try:
-        removed = M.reap_orphans(older_than=-1)  # -1s cutoff: everything qualifies by age
+        # WRAPPED: the held-open file is the fixture, so reap_orphans is SUPPOSED to fail to
+        # delete this sandbox and note `mutate.py:reap-incomplete` -- and on a busy machine it
+        # also notes `reap-skipped-live-owner` for whatever real sandbox is in flight. Both were
+        # landing in the live ledger once per battery run. The assertion below is on the
+        # RETURNED list against what is on disk, which is unchanged.
+        with _no_ledger_L6():
+            removed = M.reap_orphans(older_than=-1)  # -1s cutoff: everything qualifies by age
         still_there = os.path.isdir(p)
         assert (p in removed) != still_there, (
             "reap_orphans's removed-list disagrees with what is actually on disk for %s" % p)
@@ -161,7 +203,11 @@ def check_sevenfold_occupancy_uses_source_capacity():
 def check_reference_shelfmark_handles_oversized_shape():
     import reference as R
     rec = {"tier_key": "a.b.c.d.e", "lower_rungs": ["1", "2", "3", "4", "5"]}
-    mark = R.shelfmark(rec)   # must not raise IndexError
+    # WRAPPED: the oversized shape IS the fixture, so `reference.shelfmark` is supposed to
+    # notice it and note `reference.py:shelfmark-shape`. That class stood at 30 in the live
+    # ledger, one per battery run, describing this rehearsal and nothing else.
+    with _no_ledger_L6():
+        mark = R.shelfmark(rec)   # must not raise IndexError
     assert mark.startswith("Ω"), "shelfmark should still render the Omega-prefixed address"
 
 
@@ -185,7 +231,11 @@ def check_ledger_guard_assert_intact_raises_on_failed_seal():
     orig_verify = LG.verify_chain
     orig_check = LG.check_all
     LG.check_all = lambda: {}
-    LG.verify_chain = lambda: (True, [])
+    # Mirrors the real signature since 2026-09-02: `verify_chain(with_acknowledged=False)`
+    # returns a 2-tuple, or a 3-tuple with the acknowledged list when asked. `assert_intact`
+    # asks for the 3-tuple, so a stub that cannot answer it breaks the probe, not the subject.
+    LG.verify_chain = (lambda with_acknowledged=False:
+                       (True, [], []) if with_acknowledged else (True, []))
     LG.seal = lambda: None   # simulate the on-disk write failing
     try:
         try:

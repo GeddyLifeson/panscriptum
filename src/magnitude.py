@@ -155,11 +155,22 @@ def _ask(c, system, prompt, schema, timeout=420):
         except Exception:
             silence.note("magnitude.py:_ask-cascade")
     try:
-        # Sized, not defaulted: a split slice is ~8k chars and fits 4096 tokens with room; the
-        # config default of 6144 was both too big for slices (wasted KV on a shared card) and
-        # too small for anything larger (Ollama truncates the tail silently, no error).
-        nc = 4096 if len(prompt) + len(system) < 11000 else 8192
-        return P.ask(c, system, prompt, schema, timeout=timeout, num_ctx=nc, tag="assay-split")
+        # RULING (order f60d431f79ad), REPLACING THE SIZED-NOT-DEFAULTED COMMENT THAT USED TO BE
+        # HERE. That comment's premise -- "the config default of 6144 was both too big for
+        # slices and too small for anything larger" -- described a default that no longer
+        # exists: config.yaml raised num_ctx to 12288 on 2026-08-24 (order details in
+        # config.yaml itself), which comfortably covers a split slice (~8k chars, the comment's
+        # own estimate) with room to spare. Passing an explicit `num_ctx` here that flips
+        # between 4096 and 8192 fought the SAME fix `assay_entity`'s one-shot call already
+        # carries one function down: "Asking for 8,192 anyway bought a runner REBUILD, not a
+        # bigger window, because Ollama holds a model at one size" (order 706215aabc5f,
+        # measured). Every split call ran on the ONE shared resident runner alongside every
+        # one-shot call, so the two call sites disagreeing on num_ctx meant a session mixing
+        # both transports reloaded the model on EVERY switch between them, not merely between
+        # slices. `num_ctx` is no longer passed, so this call inherits config's 12288 via
+        # `pipeline.ask`'s own fallback (`num_ctx or c.get('num_ctx', 6144)`) -- the same window
+        # every other caller in this process already runs at.
+        return P.ask(c, system, prompt, schema, timeout=timeout, tag="assay-split")
     except Exception:
         silence.note("magnitude.py:_ask-local")
         return None
