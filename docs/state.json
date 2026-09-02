@@ -1,5 +1,5 @@
 {
- "at": "2026-09-01 22:29:18",
+ "at": "2026-09-01 22:39:32",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -128,18 +128,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 6,
+     "left": 8,
      "cap": 200,
-     "frac": 0.03
+     "frac": 0.04
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
-   "worst": 0.03
+   "worst": 0.04
   },
   {
    "bucket": "dashscope:free",
@@ -227,19 +227,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 195,
-     "cap": 1000,
-     "frac": 0.195
+     "name": "rpm",
+     "left": 0,
+     "cap": 2,
+     "frac": 0.0
     },
     {
-     "name": "rpm",
-     "left": 2,
-     "cap": 2,
-     "frac": 1.0
+     "name": "rpd",
+     "left": 188,
+     "cap": 1000,
+     "frac": 0.188
     }
    ],
-   "worst": 0.195
+   "worst": 0.0
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -308,15 +308,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 14155,
+     "left": 14161,
      "cap": 14400,
-     "frac": 0.983
+     "frac": 0.9834
     },
     {
      "name": "tpd",
-     "left": 497376,
+     "left": 498255,
      "cap": 500000,
-     "frac": 0.9948
+     "frac": 0.9965
     },
     {
      "name": "rpm",
@@ -331,7 +331,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.983
+   "worst": 0.9834
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -346,15 +346,15 @@
     },
     {
      "name": "tpd",
-     "left": 133594,
+     "left": 131935,
      "cap": 200000,
-     "frac": 0.668
+     "frac": 0.6597
     },
     {
      "name": "rpm",
-     "left": 30,
+     "left": 28,
      "cap": 30,
-     "frac": 1.0
+     "frac": 0.9333
     },
     {
      "name": "tpm",
@@ -372,30 +372,30 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 1,
      "cap": 255,
-     "frac": 0.0
+     "frac": 0.0039
     },
     {
      "name": "tpd",
-     "left": 50805,
+     "left": 50697,
      "cap": 100000,
-     "frac": 0.5081
-    },
-    {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
+     "frac": 0.507
     },
     {
      "name": "tpm",
-     "left": 12000,
+     "left": 10227,
      "cap": 12000,
-     "frac": 1.0
+     "frac": 0.8522
+    },
+    {
+     "name": "rpm",
+     "left": 29,
+     "cap": 30,
+     "frac": 0.9667
     }
    ],
-   "worst": 0.0
+   "worst": 0.0039
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -410,21 +410,21 @@
     },
     {
      "name": "tpd",
-     "left": 92755,
+     "left": 90728,
      "cap": 200000,
-     "frac": 0.4638
-    },
-    {
-     "name": "rpm",
-     "left": 30,
-     "cap": 30,
-     "frac": 1.0
+     "frac": 0.4536
     },
     {
      "name": "tpm",
-     "left": 8000,
+     "left": 5973,
      "cap": 8000,
-     "frac": 1.0
+     "frac": 0.7466
+    },
+    {
+     "name": "rpm",
+     "left": 29,
+     "cap": 30,
+     "frac": 0.9667
     }
    ],
    "worst": 0.0
@@ -644,9 +644,9 @@
     },
     {
      "name": "rpm",
-     "left": 19,
+     "left": 18,
      "cap": 20,
-     "frac": 0.95
+     "frac": 0.9
     }
    ],
    "worst": 0.0
@@ -677,19 +677,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 2,
-     "cap": 300,
-     "frac": 0.0067
+     "name": "rpm",
+     "left": 0,
+     "cap": 2,
+     "frac": 0.0
     },
     {
-     "name": "rpm",
-     "left": 10,
-     "cap": 10,
-     "frac": 1.0
+     "name": "rpd",
+     "left": 4,
+     "cap": 300,
+     "frac": 0.0133
     }
    ],
-   "worst": 0.0067
+   "worst": 0.0
   },
   {
    "bucket": "together:free",
@@ -718,48 +718,63 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 115,
+     "left": 117,
      "cap": 500,
-     "frac": 0.23
+     "frac": 0.234
     },
     {
      "name": "rpm",
-     "left": 1,
+     "left": 2,
      "cap": 2,
-     "frac": 0.5
+     "frac": 1.0
     }
    ],
-   "worst": 0.23
+   "worst": 0.234
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 19,
-  "per_hour": 76,
+  "calls": 43,
+  "per_hour": 172,
   "buckets": [
    {
-    "bucket": "openrouter:free",
-    "calls": 5,
-    "ok": 4
-   },
-   {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 4,
-    "ok": 0
+    "calls": 8,
+    "ok": 1
    },
    {
     "bucket": "ollama:qwen3:8b",
-    "calls": 3,
+    "calls": 7,
+    "ok": 1
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 7,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:groq/compound-mini",
+    "calls": 5,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 4,
     "ok": 1
    },
    {
     "bucket": "cohere:free",
-    "calls": 2,
+    "calls": 3,
     "ok": 0
    },
    {
+    "bucket": "openrouter:free",
+    "calls": 3,
+    "ok": 1
+   },
+   {
     "bucket": "zai:free",
-    "calls": 2,
+    "calls": 3,
     "ok": 0
    },
    {
@@ -768,14 +783,14 @@
     "ok": 0
    },
    {
-    "bucket": "groq:groq/compound-mini",
+    "bucket": "groq:openai/gpt-oss-20b",
     "calls": 1,
-    "ok": 0
+    "ok": 1
    },
    {
-    "bucket": "sambanova:free",
+    "bucket": "groq:qwen/qwen3.6-27b",
     "calls": 1,
-    "ok": 0
+    "ok": 1
    }
   ]
  },
@@ -793,11 +808,11 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 230000,
+   "done": 230200,
    "total": 282059,
-   "detail": "278,513 pages  \u00b7  3716M characters  \u00b7  18.5/s",
+   "detail": "278,841 pages  \u00b7  3717M characters  \u00b7  13.7/s",
    "warn": "",
-   "eta_h": 0.8
+   "eta_h": 1.1
   }
  ],
  "library": {
@@ -814,7 +829,7 @@
    "read": 211869,
    "settled": 236734,
    "feats": 115356,
-   "age_h": 0.1
+   "age_h": 0.3
   },
   "phases": [
    {
@@ -850,11 +865,11 @@
     "built": true
    }
   ],
-  "readfeats": 2022
+  "readfeats": 2023
  },
  "watch": {
-  "open": 11,
-  "high": 5,
+  "open": 6,
+  "high": 2,
   "rounds": 261,
   "findings": [
    {
@@ -862,18 +877,6 @@
     "symbol": "check",
     "actual": "compares with exact equality when want is an integer",
     "severity": "high"
-   },
-   {
-    "module": "generate",
-    "symbol": "generate_job",
-    "actual": "generate_job is called but the code does not handle any exceptions or errors that may occur during generation",
-    "severity": "medium"
-   },
-   {
-    "module": "sweep",
-    "symbol": "gap",
-    "actual": "counts the number of sources with no host",
-    "severity": "medium"
    },
    {
     "module": "ingest_doc",
@@ -888,21 +891,9 @@
     "severity": "medium"
    },
    {
-    "module": "pipeline",
-    "symbol": "phase_chain",
-    "actual": "Phase 4 -- the Chain of Defeats. See chain.py for the reasoning. This existed as a standalone module and NOT as a phase, so the runner reached phase 4, found no `phase_chain`, and stopped cleanly every single time -- reporting \"not implemented yet\" about a module that was finished and working. Phase 4 only ever ran when somebody invoked it by hand, and phases 5 through 8 were never even attempted, because the runner never got past the gap. A finished stage that nothing dispatches to is indistinguishable from a stage that was never written, which is this project's defect wearing yet another hat.",
-    "severity": "high"
-   },
-   {
     "module": "verify_math",
     "symbol": "land_json",
     "actual": "the callers discard the verdict and append their done-key unconditionally",
-    "severity": "high"
-   },
-   {
-    "module": "withdraw_chapters",
-    "symbol": "select",
-    "actual": "the code does not check the `--addr` selector against the catalog, only the `--source` selector. The `unknown_addr` list is built from `a.addr` alone, not by comparing against the catalog. This means that if `--addr` contains entries not present in the catalog, they are not detected, and the run proceeds without checking the `--addr` selector against the catalog.",
     "severity": "high"
    },
    {
@@ -916,12 +907,6 @@
     "symbol": "check",
     "actual": "returns a value that is used in further checks",
     "severity": "medium"
-   },
-   {
-    "module": "withdraw_chapters",
-    "symbol": "catalog_landed",
-    "actual": "the catalog is written unconditionally without checking if the write was successful",
-    "severity": "high"
    }
   ],
   "broken": [],
@@ -936,7 +921,7 @@
    ],
    [
     "silent:cascade_bridge.py:deadline:None",
-    143
+    168
    ],
    [
     "silent:hostcheck.py:probe:HTTPError",
@@ -984,6 +969,10 @@
    ],
    [
     "silent:silence.py:stale-write-refused:None",
+    9
+   ],
+   [
+    "silent:mutate.py:reap-skipped-live-owner:None",
     7
    ],
    [
@@ -991,8 +980,40 @@
     6
    ],
    [
-    "silent:mutate.py:reap-skipped-live-owner:None",
+    "silent:mutate.py:reap-incomplete:None",
     5
+   ],
+   [
+    "escalation:JANITOR:SUBSYSTEM_RESUMED:__drill_litter_probe__ resumed: drill probe complete; releasing the synthetic stop",
+    4
+   ],
+   [
+    "escalation:JANITOR:SUBSYSTEM_RESUMED:__drill_rung4__ resumed: drill probe complete; releasing the synthetic stop",
+    4
+   ],
+   [
+    "escalation:JANITOR:SUBSYSTEM_RESUMED:__drill_rung4b__ resumed: drill probe complete; releasing the synthetic stop",
+    4
+   ],
+   [
+    "escalation:MANAGER:LOCAL_AGENT_BLAST_CAP:blast-radius cap: 1 patches in one run (limit 0). A repair does not look like this; stopping and asking for a person.",
+    4
+   ],
+   [
+    "escalation:MANAGER:SUBSYSTEM_STOPPED:__drill_litter_probe__ stopped: drill probe: a probe must not litter the queue",
+    4
+   ],
+   [
+    "escalation:MANAGER:SUBSYSTEM_STOPPED:__drill_rung4__ stopped: drill probe: rung 4 must outlive the process that set it",
+    4
+   ],
+   [
+    "escalation:MANAGER:SUBSYSTEM_STOPPED:__drill_rung4b__ stopped: drill probe: resuming must not be casual",
+    4
+   ],
+   [
+    "escalation:SUPERVISOR:DRILL_AREA:drill: one area closing",
+    4
    ],
    [
     "escalation:SUPERVISOR:STALLED_UNRESTARTABLE:stalled and deliberately NOT killed, because nothing would bring them back promptly: roll_auto:39292",
@@ -1011,7 +1032,11 @@
     4
    ],
    [
-    "silent:mutate.py:reap-incomplete:None",
+    "silent:mutate.py:owner-claim-expired:None",
+    4
+   ],
+   [
+    "silent:pipeline.py:phase-not-marked-done:None",
     4
    ],
    [
@@ -1027,7 +1052,19 @@
     4
    ],
    [
+    "silent:publish.py:maintenance-guard:JSONDecodeError",
+    4
+   ],
+   [
     "silent:reference.py:shelfmark-shape:None",
+    4
+   ],
+   [
+    "silent:replace-denied:shared.json:PermissionError",
+    4
+   ],
+   [
+    "silent:scout.py:archive-unwritable:None",
     4
    ],
    [
@@ -1047,59 +1084,7 @@
     4
    ],
    [
-    "escalation:JANITOR:SUBSYSTEM_RESUMED:__drill_litter_probe__ resumed: drill probe complete; releasing the synthetic stop",
-    3
-   ],
-   [
-    "escalation:JANITOR:SUBSYSTEM_RESUMED:__drill_rung4__ resumed: drill probe complete; releasing the synthetic stop",
-    3
-   ],
-   [
-    "escalation:JANITOR:SUBSYSTEM_RESUMED:__drill_rung4b__ resumed: drill probe complete; releasing the synthetic stop",
-    3
-   ],
-   [
-    "escalation:MANAGER:LOCAL_AGENT_BLAST_CAP:blast-radius cap: 1 patches in one run (limit 0). A repair does not look like this; stopping and asking for a person.",
-    3
-   ],
-   [
-    "escalation:MANAGER:SUBSYSTEM_STOPPED:__drill_litter_probe__ stopped: drill probe: a probe must not litter the queue",
-    3
-   ],
-   [
-    "escalation:MANAGER:SUBSYSTEM_STOPPED:__drill_rung4__ stopped: drill probe: rung 4 must outlive the process that set it",
-    3
-   ],
-   [
-    "escalation:MANAGER:SUBSYSTEM_STOPPED:__drill_rung4b__ stopped: drill probe: resuming must not be casual",
-    3
-   ],
-   [
-    "escalation:SUPERVISOR:DRILL_AREA:drill: one area closing",
-    3
-   ],
-   [
     "silent:estate.py:jsonl-malformed:JSONDecodeError",
-    3
-   ],
-   [
-    "silent:mutate.py:owner-claim-expired:None",
-    3
-   ],
-   [
-    "silent:pipeline.py:phase-not-marked-done:None",
-    3
-   ],
-   [
-    "silent:publish.py:maintenance-guard:JSONDecodeError",
-    3
-   ],
-   [
-    "silent:replace-denied:shared.json:PermissionError",
-    3
-   ],
-   [
-    "silent:scout.py:archive-unwritable:None",
     3
    ],
    [
@@ -1143,40 +1128,40 @@
     1
    ]
   ],
-  "swallowed_total": 2892
+  "swallowed_total": 2935
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 966,
-   "p50": 1.6,
+   "n": 960,
+   "p50": 1.7,
    "p95": 75.7,
    "ok_pct": 29,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 360,
+   "n": 362,
    "p50": 4.0,
-   "p95": 786.2,
+   "p95": 707.5,
    "ok_pct": null,
    "tps": 30.9
   },
   {
    "tag": "ask",
-   "n": 78,
-   "p50": 330.5,
-   "p95": 1006.8,
+   "n": 82,
+   "p50": 307.4,
+   "p95": 995.1,
    "ok_pct": null,
-   "tps": 25.9
+   "tps": 25.6
   },
   {
    "tag": "entrypass",
-   "n": 76,
-   "p50": 399.3,
+   "n": 77,
+   "p50": 397.1,
    "p95": 1191.5,
    "ok_pct": null,
-   "tps": 22.6
+   "tps": 22.4
   },
   {
    "tag": "assay-split",
@@ -1188,11 +1173,11 @@
   },
   {
    "tag": "assay-local",
-   "n": 5,
-   "p50": 131.0,
-   "p95": 794.9,
+   "n": 6,
+   "p50": 201.1,
+   "p95": 949.2,
    "ok_pct": null,
-   "tps": 18.4
+   "tps": 18.7
   }
  ],
  "safety": {
@@ -1209,18 +1194,18 @@
    "why": "prose_enabled is not true in config.yaml \u2014 prose generation is held by owner ruling 2026-08-25 pending the Step 4 entanglement pass"
   },
   "drill": {
-   "nets": 364,
-   "held": 364,
+   "nets": 371,
+   "held": 371,
    "breached": [],
    "liveness": 48,
    "liveness_ceiling": 52,
-   "age_min": 13.7
+   "age_min": 5.6
   },
   "escalation_recent": {
-   "JANITOR": 70,
    "MANAGER": 236,
+   "JANITOR": 70,
    "SUPERVISOR": 34,
-   "OWNER": 8
+   "OWNER": 7
   },
   "step4_gate": {
    "open": true,
@@ -1252,7 +1237,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 76,
+   "observed": 172,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1261,7 +1246,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 30,
+   "observed": 29,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -1270,7 +1255,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "19% dry",
+   "observed": "22% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1288,16 +1273,16 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "UNMEASURED -- 19 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "observed": "14% ok of 43",
    "floor": "50%",
-   "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
+   "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
   },
   {
    "standard": "the reader's gate is open",
    "group": "pool",
-   "holds": true,
-   "observed": "cloud, 16 of 16 permits (4 answering)",
+   "holds": false,
+   "observed": "local, 1 of 16 permits (4 answering; 14% ok over 43 calls; ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1351,7 +1336,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.1h",
+   "observed": "0.3h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1387,7 +1372,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 5,
+   "observed": 2,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1414,7 +1399,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "1,367",
+   "observed": "1,410",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1477,7 +1462,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 1 of 6 benchmarks done, started 0.3h ago -- pending: Kenshiro, Monkey D. Luffy, Naruto Uzumaki, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 3 of 6 benchmarks done, started 0.5h ago -- pending: Naruto Uzumaki, Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1513,7 +1498,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.1h",
+   "observed": "0.3h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1540,7 +1525,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "calibrate (19 min, 326118 bytes), pipeline_auto (15 min, 532607 bytes), read_auto (65 min, 283364 bytes), roll_auto (65 min, 1929282 bytes)",
+   "observed": "pipeline_auto (26 min, 532607 bytes), read_auto (76 min, 283364 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1659,7 +1644,7 @@
    "metric": "cited",
    "now": 24865,
    "delta": 22,
-   "minutes": 35,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   },
@@ -1667,7 +1652,7 @@
    "metric": "settled",
    "now": 236734,
    "delta": 131,
-   "minutes": 35,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   },
@@ -1675,34 +1660,34 @@
    "metric": "feats",
    "now": 115356,
    "delta": 141,
-   "minutes": 35,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "entities read",
-   "now": 2022,
-   "delta": 0,
-   "minutes": 35,
+   "now": 2023,
+   "delta": 1,
+   "minutes": 31,
    "reset": false,
-   "stalled": true
+   "stalled": false
   },
   {
    "metric": "chunks",
    "now": 7532,
    "delta": 0,
-   "minutes": 35,
+   "minutes": 31,
    "reset": false,
    "stalled": true
   },
   {
    "metric": "standards met",
-   "now": 34,
-   "delta": 2,
-   "minutes": 35,
+   "now": 33,
+   "delta": 1,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   }
  ],
- "generated": "2026-09-01T22:29:26"
+ "generated": "2026-09-01T22:39:43"
 }

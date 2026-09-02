@@ -1839,6 +1839,9 @@ def drill_park():
         _a_borrowed_main_is_not_a_person,
         "every existing net called clear() from a frame the second guard refuses, so the first "
         "guard could be inverted and nothing anywhere noticed")
+    net(a, "a caller the halt gate cannot SEE is not a person either",
+        _an_unfetchable_frame_is_not_a_person,
+        "'I could not establish who is calling' must not come back as 'a person is calling'")
     net(a, "a landing that was refused says it was refused",
         _a_refused_landing_reports_that_it_was_refused,
         "the read-back caught both inversions end to end, which is defence in depth working -- "
@@ -2124,6 +2127,55 @@ def _a_borrowed_main_is_not_a_person():
     finally:
         ESC.HALT_FILE = real
         shutil.rmtree(d, ignore_errors=True)
+
+
+def _an_unfetchable_frame_is_not_a_person():
+    """When `_by_a_person_at_the_cli` cannot SEE the caller, the answer is no.
+
+    THE MUTATION THIS REFUSES (order 8b3929252ee5, and it is a different line from the one
+    `_a_borrowed_main_is_not_a_person` covers). `f = sys._getframe(2)` is wrapped in
+    `except ValueError: return False` -- the arm that runs when the stack is shallower than the
+    three frames the check counts on. Flipping it to `return True` turns "I could not establish
+    who is calling" into "a person is calling", in the one gate that decides whether the halt
+    may be lifted. That is the fail-OPEN direction, in the place this project least tolerates it.
+
+    Reachability is honestly the reason nothing caught it: `clear()` must be called by
+    something, so frame 2 almost always exists, and no ordinary run reaches this arm. The net
+    is here anyway, because a default nobody can trigger today is still the answer the code
+    gives tomorrow -- and `_unreadable_halt` one screen away is the same decision made the
+    right way, for the same reason. An unreadable answer is more alarming than a bad one, never
+    less.
+
+    The stack cannot be made shallow from inside a test, so the CONDITION is injected instead:
+    `sys._getframe` is made to raise exactly the ValueError the arm names, for exactly one call.
+    The first guard has to be satisfied too, or the check returns at `__main__` and never
+    reaches the `try` -- so `__main__.__file__` is pointed at escalation.py for the same one
+    call, which is also the harder case: everything else about this caller looks legitimate.
+    """
+    real_main = sys.modules.get("__main__")
+    had_file = hasattr(real_main, "__file__")
+    real_file = getattr(real_main, "__file__", None)
+    real_getframe = sys._getframe
+
+    def _no_such_frame(_depth):
+        raise ValueError("call stack is not deep enough")
+
+    try:
+        if real_main is None:
+            return False                      # no __main__ at all: cannot pose the question
+        real_main.__file__ = ESC.__file__
+        sys._getframe = _no_such_frame
+        answered = ESC._by_a_person_at_the_cli()
+    finally:
+        sys._getframe = real_getframe
+        if had_file:
+            real_main.__file__ = real_file
+        else:
+            try:
+                del real_main.__file__
+            except AttributeError:
+                pass
+    return answered is False
 
 
 def _a_refused_landing_reports_that_it_was_refused():
