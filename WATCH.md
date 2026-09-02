@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 279  ·  last run 2026-09-02 12:51
+round 280  ·  last run 2026-09-02 14:18
 
 ## Structure
 
@@ -9,11 +9,10 @@ round 279  ·  last run 2026-09-02 12:51
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
-- NOT RUNNING: **0** pipeline.py
 
 ## What the model found in the code
 
-**24 open** (8 high). Newest first.
+**20 open** (5 high). Newest first.
 
 - **verify_math.py** `_cb20i.UNRECOGNISED` — [HIGH] replaces the UNRECOGNISED attribute with the path
   - says: retrieves the path to the unrecognised ledger
@@ -25,12 +24,8 @@ round 279  ·  last run 2026-09-02 12:51
   - says: the live corpus passes its structural rules
 - **drill.py** `_consults_the_halt` — [HIGH] only checks the first branch and ignores subsequent ones
   - says: checks that each branch handles the halt properly
-- **workorders.py** `_detector` — [HIGH] is called with a boolean that is the inverse of the actual detection status
-  - says: detects a problem and triggers a detector
-- **catalogue_models.py** `sweep` — [HIGH] sweep
-  - says: sweep
-- **catalogue_aurora.py** `parse_folder` — [HIGH] does not collect dropped entries
-  - says: collects what collapsed
+- **repass_bands.py** `PL.write_record` — [MEDIUM] The code appends to `touched` regardless of the result of `write_record`
+  - says: GATE ON THE WRITE. `write_record` returns whether the write LANDED; this ignored it and appended to `touched` regardless, so the run's closing "APPLIED. N rewritten" counted sources whose file was never modified.
 - **profile.py** `encode` — [MEDIUM] the code does not use it correctly
   - says: the code says it does
 - **verify_math.py** `_ALL_SRC` — [MEDIUM] list of all .py files in the current directory (which may not be the src directory)
@@ -53,10 +48,6 @@ round 279  ·  last run 2026-09-02 12:51
   - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
 - **drill.py** `dead_forever` — [MEDIUM] buries the permanent codes and the timeout code
   - says: buries the permanent codes and ONLY those
-- **coverage.py** `measure` — [MEDIUM] does not guard divisions in `coverage`/`settled` keys
-  - says: guards every division with max(n, 1)
-- **codewatch.py** `exit_if_stale` — [MEDIUM] Exits the process if its code is out of date, but the code does not actually exit the process.
-  - says: Exits the process if its code is out of date.
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
   - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller, and the two refusals are the same event to a reader: the lift did not happen and here is why.
 - **cascade_bridge.py** `selftest` — [MEDIUM] executes the live check
