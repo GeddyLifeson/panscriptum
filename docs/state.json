@@ -1,5 +1,5 @@
 {
- "at": "2026-09-01 18:49:32",
+ "at": "2026-09-01 19:09:50",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -346,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 139930,
+     "left": 140599,
      "cap": 200000,
-     "frac": 0.6996
+     "frac": 0.703
     },
     {
      "name": "rpm",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 49764,
+     "left": 51251,
      "cap": 100000,
-     "frac": 0.4976
+     "frac": 0.5125
     },
     {
      "name": "rpm",
@@ -410,9 +410,9 @@
     },
     {
      "name": "tpd",
-     "left": 85092,
+     "left": 88704,
      "cap": 200000,
-     "frac": 0.4255
+     "frac": 0.4435
     },
     {
      "name": "rpm",
@@ -718,9 +718,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 103,
+     "left": 105,
      "cap": 500,
-     "frac": 0.206
+     "frac": 0.21
     },
     {
      "name": "rpm",
@@ -729,14 +729,35 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.206
+   "worst": 0.21
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 0,
-  "per_hour": 0,
-  "buckets": []
+  "calls": 7,
+  "per_hour": 28,
+  "buckets": [
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "ollama:qwen3:8b",
+    "calls": 2,
+    "ok": 2
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 2,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:qwen/qwen3.6-27b",
+    "calls": 1,
+    "ok": 1
+   }
+  ]
  },
  "jobs": [
   {
@@ -752,11 +773,11 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 229400,
+   "done": 229600,
    "total": 282059,
-   "detail": "277,412 pages  \u00b7  3712M characters  \u00b7  228.9/s",
+   "detail": "277,698 pages  \u00b7  3713M characters  \u00b7  54.0/s",
    "warn": "",
-   "eta_h": 0.1
+   "eta_h": 0.3
   }
  ],
  "library": {
@@ -773,7 +794,7 @@
    "read": 211760,
    "settled": 236603,
    "feats": 115215,
-   "age_h": 0.4
+   "age_h": 0.7
   },
   "phases": [
    {
@@ -1112,7 +1133,7 @@
    "n": 961,
    "p50": 2.0,
    "p95": 75.7,
-   "ok_pct": 35,
+   "ok_pct": 34,
    "tps": null
   },
   {
@@ -1175,7 +1196,7 @@
    "breached": [],
    "liveness": 48,
    "liveness_ceiling": 52,
-   "age_min": 56.0
+   "age_min": 76.3
   },
   "escalation_recent": {
    "SUPERVISOR": 34,
@@ -1213,7 +1234,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 0,
+   "observed": 28,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1249,7 +1270,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "UNMEASURED -- 0 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "observed": "UNMEASURED -- 7 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
    "floor": "50%",
    "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
    "severity": "medium"
@@ -1258,7 +1279,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": true,
-   "observed": "cloud, 16 of 16 permits (3 answering)",
+   "observed": "cloud, 16 of 16 permits (3 answering (proof is 1.1h old))",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1312,7 +1333,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.4h",
+   "observed": "0.7h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1438,7 +1459,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 4 of 6 benchmarks done, started 2.5h ago -- pending: Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 4 of 6 benchmarks done, started 2.8h ago -- pending: Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1474,7 +1495,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": false,
-   "observed": "18.5h",
+   "observed": "18.9h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1501,7 +1522,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "calibrate (36 min, 324969 bytes), pipeline_auto (36 min, 528891 bytes), read_auto (36 min, 282174 bytes), roll_auto (36 min, 1928988 bytes)",
+   "observed": "calibrate (56 min, 324969 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1519,7 +1540,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 162.159.142.170",
+   "observed": "reachable over IPv4 at 172.66.2.166",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1619,26 +1640,26 @@
   {
    "metric": "cited",
    "now": 24843,
-   "delta": 2,
+   "delta": 0,
    "minutes": 36,
    "reset": false,
-   "stalled": false
+   "stalled": true
   },
   {
    "metric": "settled",
    "now": 236603,
-   "delta": 8,
+   "delta": 0,
    "minutes": 36,
    "reset": false,
-   "stalled": false
+   "stalled": true
   },
   {
    "metric": "feats",
    "now": 115215,
-   "delta": 87,
+   "delta": 0,
    "minutes": 36,
    "reset": false,
-   "stalled": false
+   "stalled": true
   },
   {
    "metric": "entities read",
@@ -1665,5 +1686,5 @@
    "stalled": false
   }
  ],
- "generated": "2026-09-01T18:59:44"
+ "generated": "2026-09-01T19:20:02"
 }
