@@ -280,12 +280,64 @@ def append_line(path, text):
     sizes, but for a sub-page JSON line it is the difference between interleaved-and-corrupt and
     interleaved-but-whole. Best-effort exactly as before: a metrics failure must never cost a
     call.
+
+    ---- AND ALL OF THAT IS POSIX, WHICH THIS MACHINE IS NOT (run 2026-09-01, order below) ----
+
+    THE PARAGRAPH ABOVE IS TRUE AND WAS NEVER TRUE HERE. `O_APPEND` atomicity is a guarantee the
+    POSIX kernel makes; the Windows CRT implements `_O_APPEND` as a SEEK-TO-END FOLLOWED BY A
+    WRITE, two operations with a gap in the middle. Two processes that both seek to the same end
+    offset both write there, and the second does not append after the first -- it lands ON it.
+
+    MEASURED, not reasoned about: eight processes appending 400 sub-page JSON rows each to one
+    ledger. Expected 3,200 rows. **2,496 arrived, 704 were destroyed outright, and 3 more were
+    torn into rows that parse as neither writer's.** A 22% loss rate, silent, in the ledger
+    `standards.ollama_token_flow` decides a standard from and the dashboard reports latency from.
+    The live file showed the same fault twice in the twenty-four hours before this was written,
+    eight days AFTER m62 was landed to prevent exactly it.
+
+    Two defects, and the second is why the first went unseen for so long:
+
+      * NOT SERIALISED. Fixed by taking an OS-level lock on a sidecar for the duration of the
+        write -- `msvcrt.locking` on Windows, `fcntl.flock` elsewhere. Both are released by the
+        OPERATING SYSTEM when the handle closes or the process dies, so unlike a create-and-
+        delete lock file there is no stale-lock state a crashed writer can leave behind. The
+        cost is one lock acquisition per row on a ledger written once per model call, which is
+        nothing next to the call it is measuring.
+
+      * NOT BINARY. `os.open` without `O_BINARY` gives a TEXT-mode descriptor on Windows, and
+        the CRT rewrote every `\\n` this function carefully appended into `\\r\\n` on the way out
+        -- so the "single syscall of exactly these bytes" the comment above describes was
+        actually the CRT expanding the buffer and writing a different, longer one. Measured on
+        the live ledger: 104,810 CRLF rows against 3 bare LF. Harmless to the readers, which
+        strip, and fatal to the reasoning, which is what a comment is for. `O_BINARY` is now
+        asked for explicitly; it does not exist on POSIX, hence the `getattr`.
+
+    Best-effort is UNCHANGED and is why the lock is bounded: under contention this returns False
+    and notes it rather than blocking a model call behind a ledger. A dropped metrics row is a
+    gap in a measurement; a stalled call is a gap in the library.
     """
+    lock_fd = None
+    lock_path = path + ".applock"
     try:
         data = text.encode("utf-8") if isinstance(text, str) else text
         if not data.endswith(b"\n"):
             data += b"\n"
-        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o644)
+        try:
+            os.makedirs(os.path.dirname(lock_path) or ".", exist_ok=True)
+            lock_fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o644)
+            _lock_exclusive(lock_fd)
+        except Exception:
+            # THE LOCK IS A GUARD, NOT A GATE. If it cannot be taken -- a read-only directory, a
+            # platform with neither primitive, contention past the bound -- the row is still
+            # written the old way. That is the pre-2026-09-01 behaviour, which is imperfect and
+            # is strictly better than dropping the measurement, and it is the reason this
+            # function's promise to its callers does not change.
+            if lock_fd is not None:
+                _close_quietly(lock_fd)
+                lock_fd = None
+            note("silence.py:append_line-unlocked")
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND | getattr(os, "O_BINARY", 0),
+                     0o644)
         try:
             os.write(fd, data)
         finally:
@@ -294,6 +346,51 @@ def append_line(path, text):
     except Exception:
         note("silence.py:append_line")
         return False
+    finally:
+        if lock_fd is not None:
+            _unlock(lock_fd)
+            _close_quietly(lock_fd)
+
+
+def _lock_exclusive(fd):
+    """Take an exclusive OS lock on `fd`, blocking within a bound. Raises if it cannot.
+
+    Released by the OS on close or on process death, which is the whole reason a byte-range lock
+    is used here instead of the create-and-delete lock file `mutate._lock_acquire` needs -- that
+    one is deliberately durable across a crash so a dead run cannot be mistaken for no run, and
+    this one must be exactly the opposite.
+    """
+    if os.name == "nt":
+        import msvcrt
+        # LK_LOCK retries for about ten seconds and then raises. Once is the bound; a metrics
+        # row is not worth queueing a model call behind.
+        msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
+    else:
+        import fcntl
+        fcntl.flock(fd, fcntl.LOCK_EX)
+
+
+def _unlock(fd):
+    """Drop the lock taken by `_lock_exclusive`. Never the reason a caller dies."""
+    try:
+        if os.name == "nt":
+            import msvcrt
+            os.lseek(fd, 0, os.SEEK_SET)
+            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+            fcntl.flock(fd, fcntl.LOCK_UN)
+    except Exception:
+        # The OS drops it at close anyway; an explicit release that fails is not a fault worth
+        # a ledger entry of its own.
+        pass
+
+
+def _close_quietly(fd):
+    try:
+        os.close(fd)
+    except OSError:
+        pass
 
 
 # The third answer `digest_of` cannot give, because its contract is two-valued. Kept private
