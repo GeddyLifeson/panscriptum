@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 280  ·  last run 2026-09-02 14:18
+round 281  ·  last run 2026-09-02 15:14
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 280  ·  last run 2026-09-02 14:18
 
 ## What the model found in the code
 
-**20 open** (5 high). Newest first.
+**18 open** (3 high). Newest first.
 
 - **verify_math.py** `_cb20i.UNRECOGNISED` — [HIGH] replaces the UNRECOGNISED attribute with the path
   - says: retrieves the path to the unrecognised ledger
@@ -20,10 +20,6 @@ round 280  ·  last run 2026-09-02 14:18
   - says: the k-th burg holds P1/k, independently recomputed
 - **drill.py** `drill_no_top_ups` — [HIGH] The function's implementation does not align with the ruling's intent, as it does not properly distinguish between cooldown and pay-to-continue scenarios.
   - says: OWNER RULING 2026-08-26: cooldown is fine; pay-to-continue is axed.
-- **drill.py** `net` — [HIGH] reads a subset of the corpus and skips unreadable records
-  - says: the live corpus passes its structural rules
-- **drill.py** `_consults_the_halt` — [HIGH] only checks the first branch and ignores subsequent ones
-  - says: checks that each branch handles the halt properly
 - **repass_bands.py** `PL.write_record` — [MEDIUM] The code appends to `touched` regardless of the result of `write_record`
   - says: GATE ON THE WRITE. `write_record` returns whether the write LANDED; this ignored it and appended to `touched` regardless, so the run's closing "APPLIED. N rewritten" counted sources whose file was never modified.
 - **profile.py** `encode` — [MEDIUM] the code does not use it correctly
