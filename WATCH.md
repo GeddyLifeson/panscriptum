@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 284  ·  last run 2026-09-02 17:02
+round 285  ·  last run 2026-09-02 17:27
 
 ## Structure
 
@@ -12,10 +12,10 @@ round 284  ·  last run 2026-09-02 17:02
 
 ## What the model found in the code
 
-**11 open** (1 high). Newest first.
+**9 open** (0 high). Newest first.
 
-- **build_terminal.py** `descend` — [HIGH] descend(key) is called with key as the rootKey, but the function does not actually set rootKey or trigger layout and draw as intended
-  - says: descend(key) is called with key as the rootKey, and it triggers layout and draw
+- **address_space.py** `HASH_BYTES` — [MEDIUM] Hardcoded to 16 bytes regardless of the offset calculation
+  - says: Derived from the offsets, floored at the historical 16 bytes so today's addresses are unchanged.
 - **build_terminal.py** `silence.replace_retry` — [MEDIUM] does NOT unlink tmp when it fails
   - says: THE VERDICT REACHES THE EXIT CODE, AND THE SCRATCH FILE GOES (order ca499449f966).
 - **entity_match.py** `similarity` — [MEDIUM] Calculates similarity between base names but also uses the `difflib.SequenceMatcher.ratio` which is order-sensitive and contiguity-sensitive, contradicting the claim that qualifiers are not considered.
@@ -24,10 +24,6 @@ round 284  ·  last run 2026-09-02 17:02
   - says: What the profile derives that a query string cannot deliver. Named, not hidden.
 - **worldseed.py** `seed_for` — [MEDIUM] Generates a 32-bit seed, but the hash is 64 characters long, and the first 8 hex digits are used, which is 32 bits. However, the function returns an integer, which can be up to 2^32 - 1, which is correct for a 32-bit seed.
   - says: 32-bit seed. Deterministic, so a world regenerates identically for anyone who has its row.
-- **repass_bands.py** `PL.write_record` — [MEDIUM] The code appends to `touched` regardless of the result of `write_record`
-  - says: GATE ON THE WRITE. `write_record` returns whether the write LANDED; this ignored it and appended to `touched` regardless, so the run's closing "APPLIED. N rewritten" counted sources whose file was never modified.
-- **verify_math.py** `_ALL_SRC` — [MEDIUM] list of all .py files in the current directory (which may not be the src directory)
-  - says: list of all .py files in the src directory
 - **thread_integrity.py** `implied_threads` — [MEDIUM] implied_threads is called but its output is not used in the code slice provided
   - says: NAMED FOR WHAT IT COUNTS (order 30581ee9cca2). `implied_threads` adds both (a,b) and (b,a) for every shared entity, so this is DIRECTED and is exactly twice the deduped pair count `classify` reports two lines below -- the same population, printed twice, 2x apart, with nothing on the page saying so.
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
