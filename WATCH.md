@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 291  ·  last run 2026-09-02 20:50
+round 292  ·  last run 2026-09-02 21:18
 
 ## Structure
 
@@ -13,12 +13,20 @@ round 291  ·  last run 2026-09-02 20:50
 
 ## What the model found in the code
 
-**5 open** (0 high). Newest first.
+**9 open** (0 high). Newest first.
 
-- **autostart.py** `codewatch.stale` — [MEDIUM] checks if the code is stale, but the code around it suggests it should exit on staleness
-  - says: checks if the code is stale
-- **assay.py** `var` — [MEDIUM] var is set to the maximum of (var + cov) and 0.0, which ensures it is non-negative
-  - says: A variance is not allowed to be negative however the correlations fall. If a future matrix ever drove this below zero the formula would be returning an imaginary error bar, which would surface as a crash somewhere far away from the cause.
+- **cascade_bridge.py** `key` — [MEDIUM] text is stored verbatim but key is folded (lowercase) for deduplication
+  - says: folding here cannot hide anything: `text` -- the thing a person reads and classifies -- is stored verbatim
+- **cascade_bridge.py** `key` — [MEDIUM] the key is derived from bucket and text.lower()
+  - says: the key is derived from bucket and text
+- **cascade_bridge.py** `client_rejection` — [MEDIUM] It is used in a condition to skip entries where the `v` string matches either `local_transport` or `client_rejection`.
+  - says: A FAULT ON THIS MACHINE IS NOT EVIDENCE ABOUT A PROVIDER'S ACCOUNT, and now that the provider's raw text reaches this line, it can arrive carrying one.
+- **cascade_bridge.py** `local_transport` — [MEDIUM] It is used in a condition to skip entries where the `v` string matches either `local_transport` or `client_rejection`.
+  - says: A FAULT ON THIS MACHINE IS NOT EVIDENCE ABOUT A PROVIDER'S ACCOUNT, and now that the provider's raw text reaches this line, it can arrive carrying one.
+- **axis_correlation.py** `mean_str` — [MEDIUM] formatted as a float with 4 decimal places if doc['mean_r'] is not None, else 'n/a (no pair reached MIN_N)'
+  - says: formatted as a float with 4 decimal places or 'n/a (no pair reached MIN_N)'
+- **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
+  - says: The index entry sits inside the target: is it there as the title, or as vocabulary?
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
   - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller, and the two refusals are the same event to a reader: the lift did not happen and here is why.
 - **cascade_bridge.py** `selftest` — [MEDIUM] executes the live check
