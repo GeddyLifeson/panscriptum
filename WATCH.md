@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 309  ·  last run 2026-09-03 11:30
+round 310  ·  last run 2026-09-03 12:02
 
 ## Structure
 
@@ -9,14 +9,13 @@ round 309  ·  last run 2026-09-03 11:30
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
-- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**18 open** (5 high). Newest first.
+**14 open** (5 high). Newest first.
 
-- **withdraw_chapters.py** `shutil.move` — [HIGH] A failed move may overwrite existing files in the archive
-  - says: A failed move keeps its record
+- **codewatch.py** `exit_if_stale` — [HIGH] Exits the process if its code is out of date, but the code references a function that is no longer present in the module (e.g., _budget_left(who)), which is a defect of fact.
+  - says: Exits the process if its code is out of date.
 - **standards.py** `_dup` — [HIGH] a variable that is not appended to the out list
   - says: one instance of each job
 - **standards.py** `errs` — [HIGH] sum of all calls minus successful ones
@@ -25,22 +24,14 @@ round 309  ·  last run 2026-09-03 11:30
   - says: sum of successful calls
 - **silence.py** `audit` — [HIGH] undefined
   - says: audit
+- **coverage.py** `measure` — [MEDIUM] divides by d which is max(n, 1) but does not guard divisions in the print statements
+  - says: guards every division with max(n, 1)
 - **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal
   - says: this whole function exists to argue that a write verdict must never be discarded, and this was the one call in it that still did
-- **catalog.py** `cmd_stats` — [MEDIUM] Prints populated sources with no books but truncates the list to 30 entries
-  - says: Prints populated sources with no books
 - **render.py** `view` — [MEDIUM] calls view() for the four FETCHED tiers, but the comment says that the loop only ever calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet, no request made. However, the code actually calls view() for the four FETCHED tiers, which may involve making requests. The comment is misleading as it suggests no requests are made, but the code may actually make requests.
   - says: calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet_view / burg_view), no request made
 - **pick_model.py** `vram_measured` — [MEDIUM] is a boolean indicating whether _measured_vram was not None
   - says: carries the provenance to both places that need it: the printed budget (via _budget_note() below) and the residency gate itself
-- **foreman.py** `reprove_pool` — [MEDIUM] corpus read finishes inside a day are not handled
-  - says: corpus read finishes inside a day
-- **foreman.py** `reprove_pool` — [MEDIUM] chunks nobody answered are not handled
-  - says: chunks nobody answered
-- **foreman.py** `reprove_pool` — [MEDIUM] corpus read is not progressing
-  - says: corpus read is progressing
-- **foreman.py** `reprove_pool` — [MEDIUM] buckets with headroom are not handled
-  - says: buckets with headroom
 - **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
   - says: raises an order for a problem
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
