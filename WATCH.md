@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 303  ·  last run 2026-09-03 07:15
+round 304  ·  last run 2026-09-03 08:15
 
 ## Structure
 
@@ -9,11 +9,24 @@ round 303  ·  last run 2026-09-03 07:15
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
+- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**27 open** (0 high). Newest first.
+**29 open** (0 high). Newest first.
 
+- **foreman.py** `reprove_pool` — [MEDIUM] corpus read finishes inside a day are not handled
+  - says: corpus read finishes inside a day
+- **foreman.py** `reprove_pool` — [MEDIUM] chunks nobody answered are not handled
+  - says: chunks nobody answered
+- **foreman.py** `reprove_pool` — [MEDIUM] corpus read is not progressing
+  - says: corpus read is progressing
+- **foreman.py** `reprove_pool` — [MEDIUM] buckets with headroom are not handled
+  - says: buckets with headroom
+- **foreman.py** `reprove_pool` — [MEDIUM] model calls per hour are not tracked
+  - says: model calls per hour
+- **foreman.py** `reprove_pool` — [MEDIUM] the library's counters are not moving
+  - says: the library's counters are moving
 - **worldseed.py** `write_json` — [MEDIUM] returns False on a denied replace but the code treats it as a failure and returns 1
   - says: returns False on a denied replace instead of raising
 - **workorders.py** `hits` — [MEDIUM] filters out suppressed findings but does not count or sample as described
@@ -52,16 +65,8 @@ round 303  ·  last run 2026-09-03 07:15
   - says: Land the page's data file. -> its path.
 - **onomast.py** `well_formed` — [MEDIUM] Enforces constraints that may not align with the intended pronounceability checks
   - says: Is this a name a Custos could say aloud and write down twice the same way?
-- **manifest_builder.py** `manifest_landed` — [MEDIUM] is assigned the return value of write_json, which is a boolean indicating JSON write success
-  - says: returns whether the rename LANDED
-- **magnitude.py** `census` — [MEDIUM] only contains attempted, answered, refused, sentences, sentences_unread
-  - says: count of attempted, answered, refused, etc.
-- **magnitude.py** `_HANDOFF` — [MEDIUM] Matches patterns where the entity is not the doer
-  - says: The entity must be the DOER
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
   - says: The drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD that is -- an age is not decoration here, it is the difference between "57 nets held" and "57 nets held, at some point, possibly before the change you are looking at".
-- **drill.py** `drill_no_top_ups` — [MEDIUM] The function defines and runs tests related to ruling on provider behaviors, but the actual implementation does not directly enforce the ruling. The ruling is more about the logic in the tests rather than the function itself.
-  - says: OWNER RULING 2026-08-26: cooldown is fine; pay-to-continue is axed.
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
   - says: The index entry sits inside the target: is it there as the title, or as vocabulary?
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
