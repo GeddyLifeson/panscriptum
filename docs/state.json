@@ -1,5 +1,5 @@
 {
- "at": "2026-09-03 17:35:55",
+ "at": "2026-09-03 17:46:12",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -134,8 +134,8 @@
     },
     {
      "name": "rpm",
-     "left": 2,
-     "cap": 2,
+     "left": 10,
+     "cap": 10,
      "frac": 1.0
     }
    ],
@@ -227,19 +227,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
+     "name": "rpd",
+     "left": 80,
+     "cap": 1000,
+     "frac": 0.08
     },
     {
-     "name": "rpd",
-     "left": 91,
-     "cap": 1000,
-     "frac": 0.091
+     "name": "rpm",
+     "left": 1,
+     "cap": 2,
+     "frac": 0.5
     }
    ],
-   "worst": 0.0
+   "worst": 0.08
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -345,16 +345,16 @@
      "frac": 0.0
     },
     {
-     "name": "rpm",
-     "left": 20,
-     "cap": 30,
-     "frac": 0.6667
+     "name": "tpd",
+     "left": 143544,
+     "cap": 200000,
+     "frac": 0.7177
     },
     {
-     "name": "tpd",
-     "left": 143092,
-     "cap": 200000,
-     "frac": 0.7155
+     "name": "rpm",
+     "left": 24,
+     "cap": 30,
+     "frac": 0.8
     },
     {
      "name": "tpm",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 55236,
+     "left": 56858,
      "cap": 100000,
-     "frac": 0.5524
+     "frac": 0.5686
     },
     {
      "name": "rpm",
@@ -718,9 +718,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 22,
+     "left": 11,
      "cap": 500,
-     "frac": 0.044
+     "frac": 0.022
     },
     {
      "name": "rpm",
@@ -729,48 +729,48 @@
      "frac": 0.5
     }
    ],
-   "worst": 0.044
+   "worst": 0.022
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 62,
-  "per_hour": 248,
+  "calls": 160,
+  "per_hour": 640,
   "buckets": [
    {
     "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 37,
+    "calls": 104,
     "ok": 2
    },
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 7,
+    "calls": 17,
     "ok": 1
    },
    {
     "bucket": "ollama:qwen3:8b",
-    "calls": 6,
+    "calls": 15,
     "ok": 0
    },
    {
     "bucket": "zai:free",
-    "calls": 6,
+    "calls": 15,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 2,
+    "calls": 3,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 2,
+    "calls": 3,
     "ok": 0
    },
    {
     "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 2,
-    "ok": 1
+    "calls": 3,
+    "ok": 0
    }
   ]
  },
@@ -778,12 +778,12 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 10763,
+   "done": 10806,
    "total": 403066,
-   "detail": "1,405/238,005 entities  \u00b7  54,377 feats  \u00b7  0.01 chunks/s",
-   "warn": "30 unanswered",
-   "dropped": 11981,
-   "eta_h": 11114.9
+   "detail": "1,415/238,005 entities  \u00b7  54,816 feats  \u00b7  0.05 chunks/s",
+   "warn": "39 unanswered",
+   "dropped": 12041,
+   "eta_h": 2287.2
   },
   {
    "name": "page roll",
@@ -809,7 +809,7 @@
    "read": 213261,
    "settled": 238431,
    "feats": 120434,
-   "age_h": 5.6
+   "age_h": 5.8
   },
   "phases": [
    {
@@ -848,8 +848,8 @@
   "readfeats": 2162
  },
  "watch": {
-  "open": 13,
-  "high": 2,
+  "open": 12,
+  "high": 1,
   "rounds": 316,
   "findings": [
    {
@@ -905,12 +905,6 @@
     "symbol": "qualifier_compatible",
     "actual": "Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.",
     "severity": "medium"
-   },
-   {
-    "module": "descending_ladder",
-    "symbol": "rung_for_length",
-    "actual": "Returns (rung, name) for sizes within the descending rungs, but returns (FOLD_RUNG, \"Below the Fold\") for sizes below the Planck length and (None, None) for sizes above the continental crust. However, the code's logic for determining the best rung is flawed because it starts with DESCENDING[0] (continental crust) and then iterates through the DESCENDING list, which is ordered from the largest to the smallest. This means that the code will incorrectly return the continental crust rung for sizes that are larger than the continental crust but smaller than the next rung (e.g., 5e6 m, which is larger than the continental crust's 1e6 m but smaller than the next rung's 1e5 m). The function's logic is flawed because it should iterate through the DESCENDING list in reverse order to find the correct rung.",
-    "severity": "high"
    },
    {
     "module": "address",
@@ -1087,43 +1081,43 @@
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 919,
+   "n": 957,
    "p50": 0.9,
    "p95": 6.3,
-   "ok_pct": 17,
+   "ok_pct": 14,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 237,
+   "n": 208,
    "p50": 5.6,
-   "p95": 378.9,
+   "p95": 376.3,
    "ok_pct": null,
-   "tps": 18.9
+   "tps": 18.7
   },
   {
    "tag": "assay-split",
-   "n": 147,
-   "p50": 184.9,
+   "n": 158,
+   "p50": 166.1,
    "p95": 1029.2,
    "ok_pct": null,
-   "tps": 16.2
+   "tps": 16.1
   },
   {
    "tag": "entrypass",
-   "n": 138,
-   "p50": 73.0,
-   "p95": 847.5,
+   "n": 96,
+   "p50": 107.9,
+   "p95": 869.3,
    "ok_pct": null,
    "tps": 13.5
   },
   {
    "tag": "ask",
-   "n": 64,
-   "p50": 131.8,
-   "p95": 712.9,
+   "n": 66,
+   "p50": 125.5,
+   "p95": 740.0,
    "ok_pct": null,
-   "tps": 15.8
+   "tps": 15.9
   },
   {
    "tag": "assay-local",
@@ -1153,7 +1147,7 @@
    "breached": [],
    "liveness": 46,
    "liveness_ceiling": 52,
-   "age_min": 61.4
+   "age_min": 71.7
   },
   "escalation_recent": {
    "SUPERVISOR": 35,
@@ -1193,7 +1187,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 248,
+   "observed": 640,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1202,7 +1196,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 27,
+   "observed": 28,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -1211,7 +1205,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "31% dry",
+   "observed": "28% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1229,7 +1223,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "6% ok of 62",
+   "observed": "2% ok of 160",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1238,7 +1232,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": false,
-   "observed": "local, 1 of 16 permits (4 answering; 6% ok over 62 calls; ollama up)",
+   "observed": "local, 1 of 16 permits (4 answering; 2% ok over 160 calls; ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1247,7 +1241,7 @@
    "standard": "chunks nobody answered",
    "group": "read",
    "holds": false,
-   "observed": "30 unanswered",
+   "observed": "39 unanswered",
    "floor": "none",
    "order": "A passage was sent to every transport and none replied. The entity is NOT cached when this happens so nothing is lost -- but it means the pool and the GPU declined together, which is capacity, not reading.",
    "severity": "high"
@@ -1256,7 +1250,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "11114.9h",
+   "observed": "2287.2h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -1265,7 +1259,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "5.05",
+   "observed": "5.07",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -1292,7 +1286,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "5.6h",
+   "observed": "5.8h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1328,7 +1322,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 2,
+   "observed": 1,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1418,7 +1412,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 2 of 6 benchmarks done, started 0.3h ago -- pending: Monkey D. Luffy, Naruto Uzumaki, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 3 of 6 benchmarks done, started 0.5h ago -- pending: Naruto Uzumaki, Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1454,7 +1448,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": false,
-   "observed": "19.3h",
+   "observed": "19.4h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1472,7 +1466,7 @@
    "standard": "the character sweep is newer than the catalogue",
    "group": "library",
    "holds": false,
-   "observed": "1.2h behind the newest record",
+   "observed": "1.4h behind the newest record",
    "floor": "fresh",
    "order": "A record was re-catalogued after the sweep last ran, so every consumer of CHARACTER_SWEEP.json -- the assay queue, the host fitness roster, the chain's entity index -- is working from a cast list that no longer matches the shelves. The remedy starts `sweep.py`; the feats roll and the reader then pick the new entities up on their own next cycle.",
    "severity": "high"
@@ -1600,7 +1594,7 @@
    "metric": "cited",
    "now": 25170,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 30,
    "reset": false,
    "stalled": true
   },
@@ -1608,7 +1602,7 @@
    "metric": "settled",
    "now": 238431,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 30,
    "reset": false,
    "stalled": true
   },
@@ -1616,7 +1610,7 @@
    "metric": "feats",
    "now": 120434,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 30,
    "reset": false,
    "stalled": true
   },
@@ -1624,15 +1618,15 @@
    "metric": "entities read",
    "now": 2162,
    "delta": 1,
-   "minutes": 31,
+   "minutes": 30,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "chunks",
-   "now": 10763,
-   "delta": 18,
-   "minutes": 31,
+   "now": 10806,
+   "delta": 61,
+   "minutes": 30,
    "reset": false,
    "stalled": false
   },
@@ -1640,10 +1634,10 @@
    "metric": "standards met",
    "now": 33,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 30,
    "reset": false,
    "stalled": true
   }
  ],
- "generated": "2026-09-03T17:36:06"
+ "generated": "2026-09-03T17:46:23"
 }

@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 315  ·  last run 2026-09-03 16:28
+round 316  ·  last run 2026-09-03 17:10
 
 ## Structure
 
@@ -12,14 +12,12 @@ round 315  ·  last run 2026-09-03 16:28
 
 ## What the model found in the code
 
-**17 open** (3 high). Newest first.
+**13 open** (2 high). Newest first.
 
 - **descending_ladder.py** `rung_for_length` — [HIGH] Returns (rung, name) for sizes within the descending rungs, but returns (FOLD_RUNG, "Below the Fold") for sizes below the Planck length and (None, None) for sizes above the continental crust. However, the code's logic for determining the best rung is flawed because it starts with DESCENDING[0] (continental crust) and then iterates through the DESCENDING list, which is ordered from the largest to the smallest. This means that the code will incorrectly return the continental crust rung for sizes that are larger than the continental crust but smaller than the next rung (e.g., 5e6 m, which is larger than the continental crust's 1e6 m but smaller than the next rung's 1e5 m). The function's logic is flawed because it should iterate through the DESCENDING list in reverse order to find the correct rung.
   - says: Which descending rung does a given size belong to? Returns (rung, name).
 - **verify_math.py** `check` — [HIGH] the key is not stable across runs due to using hash()
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
-- **verify_math.py** `silence.append_line` — [HIGH] append_line raises an exception when the file path is invalid
-  - says: append_line reports failure rather than raising
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **verify_math.py** `_open20i` — [MEDIUM] contains buckets that are not open unknowns
@@ -30,12 +28,6 @@ round 315  ·  last run 2026-09-03 16:28
   - says: is NOT the cumulative figure the stale docstring quoted
 - **verify_math.py** `measure_bit_value` — [MEDIUM] uses band_resolution, not the cumulative length
   - says: uses band_resolution, not the cumulative length
-- **verify_math.py** `check` — [MEDIUM] the k-th burg holds P1/k, but the code compares it to a value that is the floor of P1/k, and the comparison is exact rather than using a tolerance
-  - says: the k-th burg holds P1/k, independently recomputed
-- **verify_math.py** `A.axis_score` — [MEDIUM] returns the clamped value at the band's floor
-  - says: a firecracker and the band floor both read 0.0 — this is why NONE exists
-- **policy.py** `ev_interesting` — [MEDIUM] not used after assignment
-  - says: interesting feats files
 - **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal
   - says: this whole function exists to argue that a write verdict must never be discarded, and this was the one call in it that still did
 - **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
