@@ -33,7 +33,7 @@ genuinely equivalent, and which it is has to be decided, never assumed.
   this reason. Remedy is money or waiting; the standing answer to money is no.
 - The **`LOCAL` rung is starved** — Ollama answers `maximum pending requests exceeded` while the
   model sits resident, because the library's own daemons saturate the single GPU lane. A trivial
-  `local_agent` task ran >15 min and wrote nothing. **126 open orders are addressed to LOCAL and
+  `local_agent` task ran >15 min and wrote nothing. **124 open orders are addressed to LOCAL and
   are effectively parked.**
 - **`verify_math` §20z is flaky** and its flakiness is what keeps cancelling the mutation pass.
   Several of its probes make live cascade calls; a throttled provider turns the row red. Measured
@@ -65,9 +65,9 @@ The scheduling question is the owner's, but this half is not: **`local_agent` sh
 loudly and immediately when Ollama reports a saturated queue**, instead of burning fifteen
 minutes and exiting 0. A handler that cannot handle should not report success.
 
-## 4. WORK THE QUEUE — 371 open (LOCAL 126 · BOTS 23 · RUN 47 · SESSION 60 · OWNER 115)
+## 4. WORK THE QUEUE — 370 open (LOCAL 124 · BOTS 23 · RUN 48 · SESSION 60 · OWNER 115)
 
-Sweep 42 filed 49 new orders, every one carrying its file, line and reasoning. **43 were closed
+Sweep 42 filed 50 new orders, every one carrying its file, line and reasoning. **45 were closed
 this shift.** The RUN rung is where your leverage is; LOCAL is parked until item 3 or the GPU
 frees up. Two standing cautions, both learned the hard way this shift:
 
@@ -82,8 +82,14 @@ frees up. Two standing cautions, both learned the hard way this shift:
 - **The queue carries TWINS, and fixing a line closes only the order you were looking at.** Three
   orders closed late in this shift were the same defects as three closed earlier under this
   shift's own codes, filed by sweeps 38/39 in different words. The dedup key is `(code, where)`,
-  so two sweeps describing one line differently create two orders. **Worth a dedicated pass: how
-  many of the 371 are twins?** A cheap start is grouping open orders by `where`.
+  so two sweeps describing one line differently create two orders. **Measured, and filed as
+  `QUEUE_CARRIES_TWINS_ONE_FAULT_MANY_ORDERS`:** `cleanup.py`'s five rosters were held by THREE
+  orders from three sweeps; five twins were closed today. Of 370 open, 297 name a `src/` file and
+  **74 carry no `src/` path at all** — those cannot be grouped and are invisible to any twin
+  check, so normalising `where` at filing time is the cheap structural fix. Then work the
+  concentrated files (`feats.py` 13, `pipeline.py` 11, `verify_math`/`foreman`/`catalogue_web`/
+  `mutate`/`publish` 8 each), reading each file's orders together. **One at a time, each verified
+  against source** — a bulk merge on similarity would silently close live faults.
 - **`--handler <RUNG>` does not filter.** It is declared at `workorders.py:1407` and its value is
   read nowhere, so it prints the whole queue and accepts a misspelled rung silently. Filed
   (`WORKORDERS_HANDLER_FLAG_IS_NEVER_READ`); it was left unfixed only because a mutation run was

@@ -126,8 +126,8 @@ it is trusted.**
 against source (a hard `SystemExit` refusal above every path) before recording the correct
 spelling. **Coverage was not recorded on trust.**
 
-**49 orders filed, 43 closed** (queue 365 → 371; it grows because the detectors found more than I
-could close). Closures span every batch and are individually verified — after each, pyflakes clean,
+**50 orders filed, 45 closed** (queue 365 → 370; it grows because the detectors found more than I
+could close, and partly because one fault can hold several orders — see the twins note below). Closures span every batch and are individually verified — after each, pyflakes clean,
 module imports, `drill` 386/386, `verify_math` 1130/0. As a final check every one of the **38
 edited modules** was run with `--help`; all 38 exit 0, so no argparse or module-level breakage
 was introduced.
@@ -138,7 +138,20 @@ end of the shift were the *same defects* I had already closed under this shift's
 sweep 38/39 under **different `code` strings**. The dedup key is `(code, where)`, so a second
 sweep describing the same line in its own words creates a second order, and fixing the line closes
 only the one you were looking at. Each was re-verified against source before closing, not closed
-on the strength of its twin. **Worth a proper look: how many of the 371 are twins of each other?**
+on the strength of its twin.
+
+I then **measured it** rather than leaving it as a worry, and it is worse than three: `cleanup.py`'s
+five truncated rosters were held by **three** separate orders, filed by three different sweeps over
+three weeks, all describing the same five slices. **Five twins were closed today.** Of the 370 now
+open, **297 name a `src/` file and 74 carry no `src/` path at all** — and an order whose `where`
+cannot be parsed cannot be grouped with anything, so it is invisible to any twin check. That is the
+cheap structural fix: normalise `where` at filing time. Grouping the rest by file shows where the
+remaining twins will be — `feats.py` 13 open orders, `pipeline.py` 11, then `verify_math`,
+`foreman`, `catalogue_web`, `mutate` and `publish` at 8 each — each drawn from four or five
+different sweeps, which is exactly the condition that breeds them. Filed as
+`QUEUE_CARRIES_TWINS_ONE_FAULT_MANY_ORDERS` with the method, so the next run starts from a number.
+**Not a bulk merge on a similarity score** — that would silently close live faults, the mistake
+order `ca0a93856e2a` already warns about for `BUGS.md`.
 
 **`workorders.py --handler <RUNG>` is declared, documented and silently ignored.** Found by *using*
 it: `--handler BOTS` returned all 371 orders starting with LOCAL. The argument is added at
@@ -206,7 +219,7 @@ number and a 57th piece of rot.
 
 ### LEFT UNDONE, EXPLICITLY
 
-* **371 orders remain open** (LOCAL 126, BOTS 23, RUN 47, SESSION 60, OWNER 115). I did not empty
+* **370 orders remain open** (LOCAL 124, BOTS 23, RUN 48, SESSION 60, OWNER 115). I did not empty
   the queue. The LOCAL rung — a third of it — was unavailable for the reason in item 4, and the
   OWNER and SESSION rungs (175 between them) are not mine to close.
 * **The mutation pass was still running at close.** Read `state/mutate_2026-09-02.log` first thing.
