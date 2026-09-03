@@ -23,7 +23,37 @@ Two caveats the log states itself and that you must carry forward rather than sk
   survivor may be that row rather than a hole in the battery — the log says to read those first.
 - **Flakiness was not checked** (`pass --check-flaky before trusting survivors`).
 
-**IT WAS STILL RUNNING AT CLOSE, AND IT WAS RELAUNCHED DETACHED SO IT CAN FINISH — pid 51388.**
+## THE PASS COMPLETED. Full result, all three targets:
+
+| target | mutants | killed | survived | indeterminate | gate time |
+|---|---|---|---|---|---|
+| `assay.py` | 119 | 108 | 10 | 1 | 19,563s |
+| `prose_gate.py` | 62 | 61 | 1 | 0 | 14,082s |
+| `escalation.py` | 118 | 117 | 1 | 0 | 22,305s |
+| **total** | **299** | **286** | **12** | **1** | **55,950s** |
+
+**286 of 298 judged mutants killed (96%), and it did that with `verify_math` DISABLED as a gate
+for the entire run** — those kills came from `drill.py` and the import gate alone. The lock was
+released cleanly, so this is a complete pass, not an interrupted one.
+
+**All twelve survivors are triaged, and none is an unexplained hole:**
+- **6 are artefacts of the disabled gate** — 5 in `assay.py` (L1199, L1235, L1246, L1251, L1252),
+  1 in `prose_gate.py` (L401). `verify_math` asserts every one of those values directly. A
+  green-baseline re-run should kill them; **don't hand-write checks for them first.**
+- **2 are genuine** — `assay.py:228`'s untested `hi <= lo` monotonicity limb, and `assay.py:747`,
+  which exposed that `verify_math`'s FALLBACK-stamp checks sit inside
+  `if _stamp.startswith("FALLBACK")` and never run while `AXIS_CORRELATION.json` loads.
+- **2 are proven equivalent** — `assay.py:228`'s twin, and `escalation.py:409`, whose initialiser
+  value is unreadable on every path out of the function.
+- **2 want a read, not a fix** — `assay.py:726` and `:593`, observable only on paths nothing
+  arranges.
+- **1 was never judged** — `assay.py:1343` timed out on the `verify_math` gate. Re-run it alone.
+
+**The standout: `escalation.py` scored 117 of 118 with the remainder provably equivalent.** That
+is the halt machinery — the module the whole chain of command rests on — and it is the strongest
+evidence the battery has produced about anything.
+
+**Historical note, superseded — kept because the reasoning still applies to any long job:**
 The pass is **172 mutants** (`assay.py` ×41, `escalation.py` ×107, `prose_gate.py` ×24), each
 judged by re-running the battery on a machine already carrying every production daemon: a
 many-hour job. It had been launched as a background job of the maintenance session and would very

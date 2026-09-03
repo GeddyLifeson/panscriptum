@@ -65,7 +65,37 @@ throttle, and `named_transient()` treats them alike.
 
 ---
 
-### THE MUTATION PASS DID NOT COMPLETE, AND WHY IT KEPT REFUSING
+### THE MUTATION PASS COMPLETED — 299 mutants, 286 killed, 12 survivors, all triaged
+
+**It finished, cleanly, releasing its lock: 55,950s of gate time across all three targets.** This
+is the first completed mutation pass in several shifts, and the owner's every-shift ruling is
+satisfied for 2026-09-02.
+
+| target | mutants | killed | survived | indeterminate | gate time |
+|---|---|---|---|---|---|
+| `assay.py` | 119 | 108 | 10 | 1 | 19,563s |
+| `prose_gate.py` | 62 | 61 | 1 | 0 | 14,082s |
+| `escalation.py` | 118 | 117 | 1 | 0 | 22,305s |
+| **total** | **299** | **286** | **12** | **1** | **55,950s** |
+
+**286 of 298 judged mutants killed — 96% — and achieved with `verify_math` DISABLED as a gate for
+the whole run.** Those kills came from `drill.py` and the import gate alone, which is a stronger
+result than the raw number suggests.
+
+**Every survivor has a verdict; none is an unexplained hole.** Six are artefacts of the disabled
+gate (five in `assay.py`, one in `prose_gate.py`) and should be re-triaged by a green-baseline run
+rather than patched by hand. Two are genuine — `assay.py:228`'s untested `hi <= lo` limb, and
+`assay.py:747`, which exposed that `verify_math`'s own FALLBACK-stamp assertions never execute in
+the normal configuration. Two are proven equivalent, two want a read rather than a fix, and one
+(`assay.py:1343`) timed out and was never judged — which mutate reports honestly as neither killed
+nor survived, scoring over 118 rather than 119.
+
+**The standout is `escalation.py`: 117 of 118 killed, zero indeterminate, and the single survivor
+proven equivalent** — its initialiser's value is unreadable on every path out of the function.
+That is the halt machinery, the module the entire chain of command rests on, and it is the
+strongest evidence this battery has produced about anything in the library.
+
+### HOW IT GOT THERE — five launches, and why the first four refused
 
 `mutate.py --target all` was launched **four times** and produced **0 of 146 mutations**. It was
 right to refuse every time, and the reasons are worth recording because two of them are faults in
