@@ -1,18 +1,18 @@
 # OVERWATCH
 
-round 312  ·  last run 2026-09-03 14:10
+round 313  ·  last run 2026-09-03 15:13
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 292,042 inspected (deep scan as of round 307)
+- files that will not parse: **0** of 292,446 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**23 open** (5 high). Newest first.
+**20 open** (3 high). Newest first.
 
 - **verify_math.py** `check` — [HIGH] the key is not stable across runs due to using hash()
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
@@ -20,10 +20,8 @@ round 312  ·  last run 2026-09-03 14:10
   - says: append_line reports failure rather than raising
 - **codewatch.py** `exit_if_stale` — [HIGH] Exits the process if its code is out of date, but the code references a function that is no longer present in the module (e.g., _budget_left(who)), which is a defect of fact.
   - says: Exits the process if its code is out of date.
-- **standards.py** `_dup` — [HIGH] a variable that is not appended to the out list
-  - says: one instance of each job
-- **standards.py** `errs` — [HIGH] sum of all calls minus successful ones
-  - says: sum of failed calls
+- **profile.py** `encode` — [MEDIUM] encodes a world's profile but uses the wrong address
+  - says: encodes a world's profile
 - **verify_math.py** `_open20i` — [MEDIUM] contains buckets that are not open unknowns
   - says: contains buckets that are open unknowns
 - **verify_math.py** `_cb20i.UNRECOGNISED` — [MEDIUM] assigns the file path to the attribute
@@ -38,10 +36,6 @@ round 312  ·  last run 2026-09-03 14:10
   - says: a firecracker and the band floor both read 0.0 — this is why NONE exists
 - **policy.py** `ev_interesting` — [MEDIUM] not used after assignment
   - says: interesting feats files
-- **policy.py** `ev_unreadable` — [MEDIUM] not used after assignment
-  - says: unreadable feats files
-- **policy.py** `ev_passed` — [MEDIUM] not used after assignment
-  - says: number of feats files that passed
 - **policy.py** `ev_read` — [MEDIUM] not used after assignment
   - says: number of feats files read
 - **policy.py** `ev_total` — [MEDIUM] not used after assignment
