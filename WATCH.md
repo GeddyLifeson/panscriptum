@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 290  ·  last run 2026-09-02 20:22
+round 291  ·  last run 2026-09-02 20:50
 
 ## Structure
 
@@ -13,10 +13,12 @@ round 290  ·  last run 2026-09-02 20:22
 
 ## What the model found in the code
 
-**4 open** (0 high). Newest first.
+**5 open** (0 high). Newest first.
 
-- **zfighters.py** `rank` — [MEDIUM] rank is a sorted list of fighters with their rankings
-  - says: rank is a marker, not a fighter
+- **autostart.py** `codewatch.stale` — [MEDIUM] checks if the code is stale, but the code around it suggests it should exit on staleness
+  - says: checks if the code is stale
+- **assay.py** `var` — [MEDIUM] var is set to the maximum of (var + cov) and 0.0, which ensures it is non-negative
+  - says: A variance is not allowed to be negative however the correlations fall. If a future matrix ever drove this below zero the formula would be returning an imaginary error bar, which would surface as a crash somewhere far away from the cause.
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
   - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller, and the two refusals are the same event to a reader: the lift did not happen and here is why.
 - **cascade_bridge.py** `selftest` — [MEDIUM] executes the live check
