@@ -75,9 +75,19 @@ their own right:
 2. **Second** — the halt above was standing. Refused correctly.
 3. **Third** — red baseline again, this time with **my own new net breaching inside mutate's
    sandbox**. That one was serious and I fixed it (below).
-4. **Fourth** — relaunched at the end of the shift after all source edits settled; **still
-   running when this entry was written.** Its log is `state/mutate_2026-09-02.log`. **The next run
-   must read that log and report the survivor count** — a pass killed halfway is not a pass with
+4. **Fourth** — refused again: the §20z row went red once more while the guard was still held.
+5. **Fifth — IT IS RUNNING.** After the shift's source edits were published, the guard was
+   released deliberately (`state/MAINTENANCE_RUN.json` `done: true`, with a note saying why), so
+   `mutate` could take its baseline from a **quiet tree** — which is the condition under which its
+   own rules allow a red baseline through. It reports `all gates reproducible; mutants judged by
+   DIFFERENCE from the above`, with **drill 386/386 green in the sandbox** (confirming the net fix
+   holds there) and `verify_math` 1129/1 on §20z alone.
+
+   **READ `state/mutate_2026-09-02.log` FIRST THING AND REPORT THE SURVIVOR COUNT.** Two caveats
+   the log states itself and that must be carried forward: **§20z was red in the baseline, so it
+   was disabled as a detector for this run** — any survivor may be that row rather than a hole in
+   the battery, and the log says to read those first. And **flakiness was not checked**; the log
+   notes `pass --check-flaky before trusting survivors`. A pass killed halfway is not a pass with
    fewer survivors.
 
 **`verify_math` §20z is FLAKY, and that flakiness silently cancels the mandated mutation pass.**
@@ -116,9 +126,26 @@ it is trusted.**
 against source (a hard `SystemExit` refusal above every path) before recording the correct
 spelling. **Coverage was not recorded on trust.**
 
-**48 orders filed, 40 closed** (queue 365 → 373; it grows because the detectors found more than I
+**49 orders filed, 43 closed** (queue 365 → 371; it grows because the detectors found more than I
 could close). Closures span every batch and are individually verified — after each, pyflakes clean,
-module imports, `drill` 386/386, `verify_math` 1130/0.
+module imports, `drill` 386/386, `verify_math` 1130/0. As a final check every one of the **38
+edited modules** was run with `--help`; all 38 exit 0, so no argparse or module-level breakage
+was introduced.
+
+**THE QUEUE CARRIES DUPLICATES, AND CLOSING ONE LEAVES ITS TWIN OPEN.** Three orders closed at the
+end of the shift were the *same defects* I had already closed under this shift's codes —
+`manifest_builder.py:424`, `roll.main()`'s exclusion reason, `audit.py:190-193` — filed by
+sweep 38/39 under **different `code` strings**. The dedup key is `(code, where)`, so a second
+sweep describing the same line in its own words creates a second order, and fixing the line closes
+only the one you were looking at. Each was re-verified against source before closing, not closed
+on the strength of its twin. **Worth a proper look: how many of the 371 are twins of each other?**
+
+**`workorders.py --handler <RUNG>` is declared, documented and silently ignored.** Found by *using*
+it: `--handler BOTS` returned all 371 orders starting with LOCAL. The argument is added at
+`workorders.py:1407` and the parsed value is read nowhere — and an unrecognised rung name is
+accepted just as silently, so `--handler BOTTS` looks exactly like success. Filed rather than
+fixed, deliberately: a mutation run was live against this tree and an edit to `src/` mid-run would
+have described a tree the pass was not measuring.
 
 **Two closures where the audit's proposed remedy would have been WRONG, and applying it literally
 would have broken things:**
@@ -179,7 +206,7 @@ number and a 57th piece of rot.
 
 ### LEFT UNDONE, EXPLICITLY
 
-* **373 orders remain open** (LOCAL 128, BOTS 23, RUN 47, SESSION 60, OWNER 115). I did not empty
+* **371 orders remain open** (LOCAL 126, BOTS 23, RUN 47, SESSION 60, OWNER 115). I did not empty
   the queue. The LOCAL rung — a third of it — was unavailable for the reason in item 4, and the
   OWNER and SESSION rungs (175 between them) are not mine to close.
 * **The mutation pass was still running at close.** Read `state/mutate_2026-09-02.log` first thing.

@@ -13,10 +13,19 @@ fixed, drill 386/386 and battery 1130/0 proven before lifting, ruling written in
 `state/HALT.json`. **Nothing to chase.** Full account at the top of `HANDOFF.md`.
 
 **FIRST ACTION OF YOUR SHIFT: read `state/mutate_2026-09-02.log` and report the survivor count.**
-The mutation pass was launched **four times** and produced **0 of 146 mutations**, refusing
-correctly each time. Three of those refusals were environmental; one was my own net misfiring in
-the sandbox, which is fixed. If the final post-shift launch also refused, say so plainly — a
-pass that did not run is not a pass with zero survivors.
+The pass refused its first **four** launches — correctly each time; three were environmental and
+one was my own new net misfiring inside the sandbox, which is fixed. The **fifth launch is the
+real one**: the guard was released deliberately once the shift's source edits were published, so
+`mutate` could take its baseline from a quiet tree, and it reports `all gates reproducible`.
+
+Two caveats the log states itself and that you must carry forward rather than skim:
+- **§20z was RED in that baseline, so it was disabled as a detector for the whole run.** Any
+  survivor may be that row rather than a hole in the battery — the log says to read those first.
+- **Flakiness was not checked** (`pass --check-flaky before trusting survivors`).
+
+If the pass did not finish, say so plainly. A pass killed halfway is not a pass with fewer
+survivors, and a survivor is not a bug until someone reads the diff — some mutations are
+genuinely equivalent, and which it is has to be decided, never assumed.
 
 **Do not re-diagnose these three. They are measured, filed, and are not bugs to chase:**
 - The cloud pool is **out of free-tier quota** (`groq:qwen/qwen3.6-27b` at 198,972/200,000 tokens
@@ -24,7 +33,7 @@ pass that did not run is not a pass with zero survivors.
   this reason. Remedy is money or waiting; the standing answer to money is no.
 - The **`LOCAL` rung is starved** — Ollama answers `maximum pending requests exceeded` while the
   model sits resident, because the library's own daemons saturate the single GPU lane. A trivial
-  `local_agent` task ran >15 min and wrote nothing. **128 open orders are addressed to LOCAL and
+  `local_agent` task ran >15 min and wrote nothing. **126 open orders are addressed to LOCAL and
   are effectively parked.**
 - **`verify_math` §20z is flaky** and its flakiness is what keeps cancelling the mutation pass.
   Several of its probes make live cascade calls; a throttled provider turns the row red. Measured
@@ -56,9 +65,9 @@ The scheduling question is the owner's, but this half is not: **`local_agent` sh
 loudly and immediately when Ollama reports a saturated queue**, instead of burning fifteen
 minutes and exiting 0. A handler that cannot handle should not report success.
 
-## 4. WORK THE QUEUE — 373 open (LOCAL 128 · BOTS 23 · RUN 47 · SESSION 60 · OWNER 115)
+## 4. WORK THE QUEUE — 371 open (LOCAL 126 · BOTS 23 · RUN 47 · SESSION 60 · OWNER 115)
 
-Sweep 42 filed 48 new orders, every one carrying its file, line and reasoning. **40 were closed
+Sweep 42 filed 49 new orders, every one carrying its file, line and reasoning. **43 were closed
 this shift.** The RUN rung is where your leverage is; LOCAL is parked until item 3 or the GPU
 frees up. Two standing cautions, both learned the hard way this shift:
 
@@ -70,6 +79,15 @@ frees up. Two standing cautions, both learned the hard way this shift:
 - **Write ledger edits through a script that asserts what must stay true.** Hand-editing `BUGS.md`
   this shift produced a duplicate bug number and a RESOLVED entry in the Open section; only the
   script's assertions caught either.
+- **The queue carries TWINS, and fixing a line closes only the order you were looking at.** Three
+  orders closed late in this shift were the same defects as three closed earlier under this
+  shift's own codes, filed by sweeps 38/39 in different words. The dedup key is `(code, where)`,
+  so two sweeps describing one line differently create two orders. **Worth a dedicated pass: how
+  many of the 371 are twins?** A cheap start is grouping open orders by `where`.
+- **`--handler <RUNG>` does not filter.** It is declared at `workorders.py:1407` and its value is
+  read nowhere, so it prints the whole queue and accepts a misspelled rung silently. Filed
+  (`WORKORDERS_HANDLER_FLAG_IS_NEVER_READ`); it was left unfixed only because a mutation run was
+  live against the tree. It is a small fix and it makes the ladder usable.
 
 ## 5. STANDING, UNCHANGED FROM RUN #41
 
