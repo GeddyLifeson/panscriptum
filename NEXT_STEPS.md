@@ -61,6 +61,33 @@ and which it is has to be decided by reading, never assumed.
 
 ---
 
+## 0b. THE MUTATION PASS ALREADY FOUND SOMETHING — ACT ON IT
+
+`ASSAY_BAND_EDGES_MONOTONICITY_LIMB_IS_UNTESTED`. Two survivors landed at `assay.py:228` before
+the relaunch, on `axis_score()`'s guard `if not lo or not hi or hi <= lo`. **They do not have the
+same verdict** — one is a genuinely equivalent mutant (checked against every reachable input; no
+action), and one is real: `not lo or (not hi and hi <= lo)` makes the `hi <= lo` limb **dead** when
+both edges are present, so an inverted or degenerate band is no longer refused. It then divides by
+`log(hi) - log(lo)`: `ZeroDivisionError` at `hi == lo`, and at `hi < lo` a negative denominator
+that **silently inverts the score**.
+
+It survived because nothing in the battery ever gives `axis_score()` a band pair whose upper edge
+is not above its lower one. Two cheap fixes, both measured-true today so they land green and stay
+as ratchets:
+1. Extend `_check_constants()` to assert `BAND_EDGES` is strictly increasing along `LADDER` for
+   every axis, and that adjacent bands carry the same axis set.
+2. Add a battery row driving `axis_score()` with an inverted band pair and asserting `None` —
+   that is what would have killed the survivor.
+
+**This is the third independent signal on the same weakness**, alongside `6d132aa1e8aa` and
+`ASSAY_ATTESTATION_FLOOR_UNGUARDED`: `assay.py`'s constant tables are guarded unevenly
+(`SIGMA_BY_ATTESTATION` is checked at import; `BAND_EDGES` and `ATTESTATION_FLOOR` are not), and
+they sit inside every published ± in the library. Worth doing all three together.
+
+**Also useful to know:** survivors are written incrementally to `state/MUTANTS_SURVIVED.jsonl`
+(172 → 174 rows during the stopped run), so an interrupted pass loses its *position*, not its
+findings. Check that file, not just the log.
+
 ## 1. THE HIGHEST-VALUE THING YOU CAN DO (order M66 / `VERIFY_MATH_S20Z_DEPENDS_ON_LIVE_NETWORK`)
 
 **Make §20z independent of the network, and the mandated mutation pass starts working again.**

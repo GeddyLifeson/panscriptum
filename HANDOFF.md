@@ -116,6 +116,42 @@ their own right:
    not checked**; the log notes `pass --check-flaky before trusting survivors`. A survivor is not
    a bug until someone reads the diff.
 
+   **AND IT ALREADY PAID FOR ITSELF — the first real mutation result in several shifts.** Note
+   first that **survivors are recorded incrementally** to `state/MUTANTS_SURVIVED.jsonl`, so the
+   run I stopped did not lose its findings, only its position in the mutant list; that file went
+   from 172 rows to 174 while it ran. Both new rows are `or -> and` at **`assay.py:228`**, on
+   `axis_score()`'s guard `if not lo or not hi or hi <= lo: return None` — and **they do not have
+   the same verdict**, which is exactly why the ruling says a survivor must be read:
+
+   * **`not lo and not hi or hi <= lo` — EQUIVALENT, no action.** Every reachable case checked:
+     both edges present it reduces to `hi <= lo`, identical; both absent it returns `None`,
+     identical; exactly one absent would raise `TypeError`, but that cannot arise — I measured
+     `BAND_EDGES` and its coverage is complete and symmetric (11 bands × 5 axes, zero asymmetric
+     adjacent pairs). Recorded so nobody re-derives it.
+   * **`not lo or not hi and hi <= lo` — NOT equivalent, and it is the finding.** `and` binds
+     tighter, so it parses as `not lo or (not hi and hi <= lo)`: when both edges are present the
+     second limb is dead and **the guard never refuses an inverted or degenerate band at all**.
+     The original returns `None`; the mutant divides by `log(hi) - log(lo)` — `ZeroDivisionError`
+     at `hi == lo`, and at `hi < lo` a negative denominator that silently **inverts the score**.
+     A scoring function returning a confident wrong number instead of refusing.
+
+   It survived because **nothing in the battery ever hands `axis_score()` a band pair whose upper
+   edge is not above its lower one**, so that limb has never been exercised in either direction.
+   It is unreachable today only because `BAND_EDGES` happens to be well-ordered — measured, zero
+   offending pairs — which is precisely what the guard exists to protect against a future edit
+   breaking.
+
+   **It corroborates an open order from a third direction.** There is **no import-time ordering
+   check on `BAND_EDGES` anywhere** in `src/`, while its sibling `SIGMA_BY_ATTESTATION` is
+   protected by `_check_constants()`. That is the same unevenness order `6d132aa1e8aa` and this
+   shift's `ASSAY_ATTESTATION_FLOOR_UNGUARDED` already report for `ATTESTATION_FLOOR` — two
+   sweeps and now a mutation survivor all pointing at `assay.py`'s constant tables, which sit
+   inside every published ± in the library. Filed as
+   `ASSAY_BAND_EDGES_MONOTONICITY_LIMB_IS_UNTESTED` with the remedy: extend `_check_constants()`
+   to assert `BAND_EDGES` is strictly increasing along `LADDER` per axis (both properties measured
+   true, so it lands green and stays as a ratchet), and add a battery row driving `axis_score()`
+   with an inverted band pair — which is what would have killed survivor 2.
+
 **`verify_math` §20z is FLAKY, and that flakiness silently cancels the mandated mutation pass.**
 Filed. The row asserts *no probe writes into the live failure ledger*, but several of its probes
 make **live cascade calls**; when a provider is throttled at that moment the row goes red.
