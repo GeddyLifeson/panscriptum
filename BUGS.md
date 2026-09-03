@@ -22,6 +22,47 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
+- **[M66 — OPEN, RAISED 2026-09-02] A BATTERY ROW'S VERDICT DEPENDS ON A THIRD PARTY'S NETWORK,
+  AND IT CANCELS THE MUTATION PASS.** `verify_math` §20z asserts that no probe writes into the
+  live failure ledger, but several of its probes make **live cascade calls**
+  (`verify_math.py:3639, 4692, 4902`); when a provider is throttled at that moment the call
+  records `silent:cascade_bridge.py:provider-error` and the row goes red. Measured on an unchanged
+  tree: **1130/0, then 1129/1 minutes later, then green again.** Consequence is not cosmetic —
+  `mutate.py` correctly refuses a red baseline (a gate red in the baseline is disabled as a
+  detector for the whole run, so every mutant reproducing that redness scores SURVIVED), so a
+  transient throttle **silently cancels the entire 146-mutation pass the owner ruled must run every
+  shift**. Remedy is unapplied because it touches the battery's own semantics: either exclude the
+  live-call probes from the 20z scan by construction, or attribute the ledger write to the probe
+  rather than to `cascade_bridge`.
+
+- **[M67 — OPEN, RAISED 2026-09-02] THE `LOCAL` HANDLER RUNG IS STARVED BY THE LIBRARY'S OWN
+  DAEMONS.** One `local_agent` invocation on a single trivial task ran **>15 minutes, produced no
+  output, and exited 0 having written nothing**. `POST /api/generate` returns `maximum pending
+  requests exceeded` while `/api/ps` shows `qwen3:8b` fully resident — the model is **up** and the
+  **queue is saturated** by `read.py`, `feats.py --roll`, `pipeline.py` and `overnight.py`.
+  **128 of 373 open orders are addressed to LOCAL**, so they are not cheap, they are *parked*, and
+  a shift that dutifully routes them there does no work and reports no failure — a handler that
+  cannot handle, reporting success by exiting 0. `cascade_bridge` already refuses to route to local
+  buckets for this reason and records the same measurement. One limb is a plain defect fixable
+  independently of the scheduling policy: **`local_agent` should refuse loudly and at once on a
+  saturated queue** instead of burning the time and exiting 0.
+
+- **[M68 — OPEN, RAISED 2026-09-02] PROVING A BEHAVIOURAL NET COSTS AN OUTAGE.** The hard rules
+  require a new guard's attack be watched going red once. Source-shape nets have `_SRC_OVERRIDE`
+  for exactly that; **behavioural nets have no equivalent**, so the only way to demonstrate the
+  M65 net was to revert `local_agent.py` in place and run the real `drill.py` — which raised
+  `DRILL_BREACH` at OWNER rung and **halted the library** (self-caused, fixed, lifted with a
+  written ruling the same shift). Sharper second consequence: the first two versions of that net
+  were both wrong in opposite directions — one went **green against vulnerable code** because the
+  content-sensitive backstop had already reverted the write, the other went **red inside
+  `mutate.py`'s sandbox**, where `data/` is junctioned outward so a different and equally correct
+  gate refuses with different wording. The second is the dangerous one: a net red in the baseline
+  is **disabled as a detector for the whole mutation run**, so a misfiring net silently switches
+  the pass off. Remedy proposed: give behavioural nets the same scratch-tree affordance
+  (a throwaway harness doing this was written ad hoc and proved the final net in all three
+  worlds — live-fixed HELD, sandbox HELD, vulnerable RED). **Standing lesson either way: exercise
+  a new net in the sandbox as well as on the live tree before trusting it.**
+
 - **[M64 — OPEN, RAISED run #41] WORK-ORDER TEXT PASSED THROUGH A SHELL IS EXECUTED.** Order
   `1c99df1f69c1`. A remedy field reading ``run `python src/chain.py` `` was passed to
   `workorders.py` as a Bash argument; command substitution **ran it**, starting a full chain
@@ -1830,6 +1871,26 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+- **[M69 — RESOLVED 2026-09-02, scheduled maintenance] LOCAL_AGENT ALLOWLIST BYPASS, CLASS SEVEN.**
+  `t_propose_patch` tested the writable-surface **allowlist** against the path *as written*
+  (`local_agent.py:737` builds `rel` from the unresolved `full`), while `_safe()` re-asks only the
+  **denylist** of the *resolved* path. The two lists are not complements — `DENYLIST_PREFIXES`
+  holds `data/records/`, not `data/` — so a junction anywhere on the writable surface pointing at
+  a merely *unlisted* directory satisfied the allowlist as written and the denylist as resolved,
+  and the write landed off the writable surface. **Reproduced end to end** (`mklink /J
+  src/__probe__ -> data/`, then a patch on `src/__probe__/__probe__.txt`): the patch was
+  **APPLIED** and only then rolled back by the downstream `verify_math`/lint/import gate. That
+  rollback is why it nearly went unnoticed — and why it matters, since the backstop is
+  **content-sensitive** and a write to a non-Python file regresses nothing and would have been
+  **kept**. Root cause: "the same question" was being asked of two different spellings of one
+  path, the fifth-and-sixth lesson of that file arriving a seventh time. Fix: the allowlist is now
+  asked of *both* spellings, with the resolved one named in the refusal; kept in `t_propose_patch`
+  rather than `_safe()` because `_safe()` guards reads too and the model may read far more than it
+  may write. Net added — *"a junction to a merely UNLISTED place is refused, not just a denied
+  one"* — which asserts the refusal **reason** (`gate` absent, so execution never reached the
+  gates) rather than the aftermath, and was watched BREACHED before the fix and HELD after.
+  `drill` 386/386, `verify_math` 1130/0, pyflakes clean.
 
 ### Run #39 (2026-08-30) — the mutation tester was measuring its own sandbox
 

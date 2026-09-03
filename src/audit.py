@@ -187,10 +187,15 @@ def main():
         rate = len(v) / max(1, denom)
         print(f"\n  {k}")
         print(f"     {len(v):,} occurrences ({rate:.2%} {unit}; {denom:,} in that population)")
-        for x in v[:4]:
+        # EVERY OCCURRENCE, IN THE PASS THIS MODULE'S OWN DOCSTRING CALLS EXHAUSTIVE.
+        #
+        # Hard Rule 0 (sweep42-batch13). This ranked and then truncated to four with an "and N
+        # more" -- which is the marked form, and the rule still refuses it: a count of what was
+        # dropped is not the thing that was dropped, and the whole product of an audit is the
+        # list of what it found. overwatch.py named and removed the identical shape, calling it
+        # "Hard Rule 0's exact shape"; this is the same list one module over.
+        for x in v:
             print(f"       - {x}")
-        if len(v) > 4:
-            print(f"       ... and {len(v)-4:,} more")
     print(f"\n  TOTAL violations: {total_f:,}")
 
     # ---------------------------------------------------------------- readable sample

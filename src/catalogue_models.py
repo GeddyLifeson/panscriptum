@@ -173,7 +173,24 @@ def sweep(config_path=None, workers=6):
     with ThreadPoolExecutor(max_workers=workers) as ex:
         rows = list(ex.map(lambda kv: ask_provider(kv[0], kv[1]), sorted(provs.items())))
 
-    live = {r["provider"]: r for r in rows if r.get("models")}
+    # ON THE OUTCOME, NOT ON TRUTHINESS (sweep42-batch14).
+    #
+    # This read `if r.get("models")`, and an empty list is falsy -- so a provider whose outcome
+    # is EMPTY_LIST was dropped out of `live` and fell into the `if not r` branch below, where
+    # it was printed as unverifiable and its configured model ids were counted as UNVERIFIED.
+    #
+    # But EMPTY_LIST is the opposite of unverifiable. The constant's own definition two hundred
+    # lines up says it: "answered 200 with a WELL-FORMED, EMPTY list -- serves nothing". That is
+    # a SUCCESSFUL measurement with a definite result, and the correct reading of it is that
+    # every model id the config asks that provider for is STALE -- the provider serves none of
+    # them. Recording a completed measurement as a measurement that never happened is the same
+    # arithmetic error the long comment below this line was written about, arriving through the
+    # one outcome that comment did not anticipate.
+    #
+    # With the provider in `live`, `have` is the empty set, every ask lands in `missing`, and
+    # the rows print and count as stale, which is what they are.
+    live = {r["provider"]: r for r in rows
+            if r.get("outcome") in (LISTED, EMPTY_LIST)}
     by_name = {r["provider"]: r for r in rows}
     print(f"{len(live)} of {len(rows)} providers answered with a model list\n")
     stale = []
@@ -233,7 +250,12 @@ def sweep(config_path=None, workers=6):
     # THE DENOMINATOR, PRINTED. Every unverified provider by name, with the outcome that made it
     # unverifiable and how many configured model ids went unchecked because of it -- so nobody
     # reads "N stale" without also reading how much of the pool that N was measured over.
-    verified = [r for r in rows if r.get("outcome") == LISTED]
+    # EMPTY_LIST COUNTS AS VERIFIED HERE TOO, for the same reason it now counts as live above
+    # (sweep42-batch14): a provider that answered with a well-formed empty list HAS been asked
+    # and HAS answered, so it belongs in the denominator this line exists to make honest. Left
+    # out of it, the "measured over N providers" figure understated the pool by exactly the
+    # providers whose answer was most definite.
+    verified = [r for r in rows if r.get("outcome") in (LISTED, EMPTY_LIST)]
     if unverified:
         n_unchecked = sum(u["unchecked"] for u in unverified)
         print(f"\n{len(unverified)} of {len(rows)} provider(s) produced NO model list, so their "

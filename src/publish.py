@@ -1272,12 +1272,26 @@ def push(message=None, before=None):
                       "publish refused: %d credential-shaped value(s) staged for the PUBLIC "
                       "repo. First: %s:%s (%s)"
                       % (len(leaks), leaks[0][0], leaks[0][1], leaks[0][2]),
-                      evidence=[{"file": f, "line": n, "why": w} for f, n, w in leaks[:20]],
+                      # EVERY LEAK, NOT THE FIRST TWENTY (Hard Rule 0, sweep42-batch10).
+                      #
+                      # This was `leaks[:20]` in the escalation evidence and `leaks[:10]` in the
+                      # exception, with the remainder unmarked in both. The list is not even
+                      # ranked -- `scan_for_secrets` walks the tree, so the order is
+                      # alphabetical by path, and the cut therefore kept whichever secrets
+                      # happen to live early in the alphabet and dropped the rest.
+                      #
+                      # Of every truncated list in this project this is the worst one to have.
+                      # When it fires, a person has to remove ALL of these values before the
+                      # push can be unblocked, and both the halt evidence and the message they
+                      # will actually read told them about ten or twenty of them. A remediation
+                      # that is silently partial ends with a credential still in the public
+                      # repo and every gate reporting green.
+                      evidence=[{"file": f, "line": n, "why": w} for f, n, w in leaks],
                       who="publish.py")
         raise RuntimeError(
             "PUBLISH REFUSED — %d credential-shaped value(s) are staged for the public repo:\n"
             % len(leaks)
-            + "\n".join("    %s:%s  %s" % (f, n, w) for f, n, w in leaks[:10])
+            + "\n".join("    %s:%s  %s" % (f, n, w) for f, n, w in leaks)
             + "\nNothing was pushed, and the library has been halted. Remove the value, then "
               "clear the halt with a ruling. If it is a false positive, say so in the ruling.")
 

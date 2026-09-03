@@ -353,8 +353,22 @@ def main():
             bad += 0 if ok else 1
         print("\n%d snapshot(s), %d failed to restore" % (len(ids), bad))
         return 1 if bad else 0
+    # THE `broken` FLAG IS READ (sweep42-batch16). `listing()` has always set {"id": sid,
+    # "broken": True} for a snapshot whose manifest would not open, and this printer never
+    # looked at it -- so a CORRUPTED snapshot rendered as `<id>  0  ` and an EMPTY healthy one
+    # rendered as `<id>  0  `, identically. A detector whose verdict nothing consumes is a check
+    # that cannot fail, and this one guards the answer to "can I restore from that backup?".
+    broken = 0
     for m in listing():
+        if m.get("broken"):
+            broken += 1
+            print("  %-40s BROKEN — its manifest could not be read; treat this snapshot as "
+                  "UNUSABLE until that is explained" % (m.get("id"),))
+            continue
         print("  %-40s %s  %s" % (m.get("id"), len(m.get("took") or []), m.get("label", "")))
+    if broken:
+        print("\n%d snapshot(s) are BROKEN and cannot be counted on for a restore." % broken)
+        return 1
     return 0
 
 

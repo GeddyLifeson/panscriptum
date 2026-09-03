@@ -577,7 +577,14 @@ def main():
         try:
             record, note = catalogue(name)
         except Exception as e:
-            record, note = None, f"error: {type(e).__name__} {str(e)[:60]}"
+            # TAGGED AND UNCUT (sweep42-batch08). Two faults in one line: the exception was
+            # swallowed with no `silence.note`, so it never reached the detector that counts
+            # untagged swallows, and its text was cut at 60 characters -- short enough that a
+            # traceback-free error message routinely ended before the part naming what failed.
+            # This is the per-source catalogue path, so the note is the only trace a skipped
+            # source leaves anywhere.
+            silence.note("catalogue_web.py:catalogue")
+            record, note = None, f"error: {type(e).__name__} {e}"
         with _wlock:
             if not record:
                 print(f"      -> SKIPPED {name} ({note})", flush=True)

@@ -473,8 +473,12 @@ def main():
     multi = [g for g in groups if len(g) > 1]
     print(f"\ncontinuity groups: {len(groups)}  ({len(multi)} multi-source, "
           f"{len(groups)-len(multi)} singleton universes)")
-    for g in multi[:12]:
-        print(f"   {len(g):>3}  {[x[:26] for x in g[:4]]}{' ...' if len(g) > 4 else ''}")
+    # UNCUT (Hard Rule 0, sweep42-batch11). Size-sorted and then cut to twelve groups, each
+    # group cut to four members, each member cut to 26 characters -- three nested truncations
+    # in one line, none marked. A continuity group outside the window simply did not exist as
+    # far as this report was concerned.
+    for g in multi:
+        print(f"   {len(g):>3}  {list(g)}")
 
     resolved, homonyms = resolve(index, groups)
     fused = sum(1 for v in resolved.values() if v["n_attestations"] > 1)
@@ -485,15 +489,21 @@ def main():
           f"{sum(1 for v in resolved.values() if v['band_conflict']):,}")
 
     print("\n  strongest genuine fusions:")
-    for v in sorted(resolved.values(), key=lambda x: -x["n_attestations"])[:8]:
-        print(f"     {v['canonical_name'][:30]:<32}{v['n_attestations']:>3}  "
-              f"{[x[:18] for x in v['attestations'][:3]]}")
+    # UNCUT (Hard Rule 0, sweep42-batch11). Ranked by attestation count, then truncated to
+    # eight, with the name cut at 30 and the attestation list cut to three sources each.
+    for v in sorted(resolved.values(), key=lambda x: -x["n_attestations"]):
+        print(f"     {v['canonical_name']:<32}{v['n_attestations']:>3}  "
+              f"{list(v['attestations'])}")
 
     byk = collections.Counter(v["key"] for v in resolved.values())
     print("\n  most-split homonyms (one name, many universes):")
-    for k, n in byk.most_common(6):
+    # UNCUT (Hard Rule 0, sweep42-batch11). `most_common(6)` is a rank-then-truncate, and the
+    # `if n > 1` below it means the printed count was already unpredictable -- six candidates
+    # of which an unknown number qualified. `most_common()` with no argument keeps the ordering
+    # and drops the cap.
+    for k, n in byk.most_common():
         if n > 1:
-            print(f"     {names.get(k, k)[:26]:<28} {n} distinct entities")
+            print(f"     {names.get(k, k):<28} {n} distinct entities")
 
     if args.write:
         # ATOMIC, and the file handles now actually close. These three were

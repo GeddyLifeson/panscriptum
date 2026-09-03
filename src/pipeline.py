@@ -506,7 +506,12 @@ def ask(c, system, prompt, schema, retries=2, timeout=None, num_ctx=None, tag=""
             return json.loads(raw.get("response", "{}"))
         except Exception as e:
             if attempt == retries:
-                log(f"    ollama failed after {retries + 1} tries: {type(e).__name__} {str(e)[:80]}")
+                # UNCUT (Hard Rule 0, sweep42-batch03). This line is the ONLY record that a
+                # local call failed after exhausting its retries, and the exception text was cut
+                # at 80 characters -- shorter than most Ollama error bodies, which put the
+                # actionable part (a 503 queue refusal, a model name, a context overflow) after
+                # the first clause. A diagnostic too short to diagnose.
+                log(f"    ollama failed after {retries + 1} tries: {type(e).__name__} {e}")
                 return None
             time.sleep(5 + attempt * 10)
 

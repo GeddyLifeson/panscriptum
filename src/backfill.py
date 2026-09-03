@@ -227,7 +227,29 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     if dry or not missing:
         return {"source": source, "host": host, "roster": len(names),
                 "already_held": len(names) - absent, "absent": absent,
-                "queued": len(missing), "sample": missing[:12], "added": 0,
+                # THE WHOLE ROSTER IS CARRIED, ALONGSIDE THE RANKED HEAD (Hard Rule 0,
+                # sweep42-batch08).
+                #
+                # `--dry` exists to answer one question: what would a real run do? It answered
+                # with twelve names and a count, and the remaining names existed NOWHERE -- not
+                # in this dict, not on the console, not on disk -- so the only way to learn what
+                # backfill was about to add was to let it add them, which is the opposite of
+                # what a dry run is for.
+                #
+                # `sample` IS KEPT, AND KEPT CAPPED, DELIBERATELY. It is not decoration: it is
+                # this function's post-ranking HEAD, and `verify_math`'s b5 section asserts
+                # against it that titles whose size lookup failed rank with the deepest
+                # articles rather than below a title merely known to be small. Uncapping it in
+                # place would have made that row assert over the whole roster, which includes
+                # the one title that ranks last by design, and the battery would have gone red
+                # on a correct ranking. (Nearly done exactly that; the row's own comment saying
+                # "`sample` is backfill_source's own post-ranking head" is what caught it.)
+                #
+                # So the cap that carried meaning stays, under the name that documents it, and
+                # the complete list arrives beside it under a name that cannot be mistaken for
+                # a sample.
+                "queued": len(missing), "sample": missing[:12], "queued_titles": list(missing),
+                "added": 0,
                 "size_lookup_failed": size_lookup_failed,
                 "not_fetched": 0, "dropped_as_stub": 0}
     added = 0
@@ -373,8 +395,11 @@ def main():
                 # but COUNTED. N sources raising RosterIncomplete used to leave no mark on the
                 # closing summary at all.
                 errors += 1
-                print("  %3d/%d  %-46sERROR %s" % (i, len(thin), x["source"][:44],
-                                                   type(e).__name__), flush=True)
+                # Source name UNCUT, and the exception SAID rather than merely classed (Hard
+                # Rule 0). `type(e).__name__` alone gives "RosterIncomplete" with no hint which
+                # roster or why, on the one line recording that a source was skipped entirely.
+                print("  %3d/%d  %-46sERROR %s: %s" % (i, len(thin), x["source"],
+                                                       type(e).__name__, e), flush=True)
                 continue
             tot += res.get("added", 0)
             if res.get("write_denied"):
@@ -384,9 +409,16 @@ def main():
             not_fetched_tot += res.get("not_fetched", 0)
             dropped_as_stub_tot += res.get("dropped_as_stub", 0)
             print("  %3d/%d  %-46sroster %5d  absent %5d  added %4d%s"
-                  % (i, len(thin), x["source"][:44], res.get("roster", 0),
+                  % (i, len(thin), x["source"], res.get("roster", 0),
                      res.get("absent", 0), res.get("added", 0),
                      "  WRITE DENIED" if res.get("write_denied") else ""), flush=True)
+            # ON A DRY RUN, NAME WHAT WOULD BE ADDED (Hard Rule 0, sweep42-batch08). `--all
+            # --dry` is the form a person actually runs to decide whether to let backfill
+            # loose, and it printed only counts -- so the roster it was about to fetch could
+            # not be reviewed before the fact from any output this tool produced.
+            if a.dry and res.get("queued_titles"):
+                for _t in res["queued_titles"]:
+                    print("           would add: %s" % (_t,), flush=True)
         print("total characters added: %d" % tot)
         print("catalogue writes DENIED: %d source(s); size probes failed: %d title(s); "
               "sources that raised: %d; not fetched: %d title(s); dropped as stubs: %d title(s)"

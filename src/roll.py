@@ -260,8 +260,13 @@ def main():
     print("=" * 78)
     for name, why in sorted(excluded.items()):
         n = next((r.get("entry_count") or 0 for r in rows if r.get("name") == name), 0)
-        print("  %-46s %6d entries" % ((name or "?")[:45], n))
-        print("      %s" % why[:150])
+        # UNCUT, BOTH OF THEM (Hard Rule 0, sweep42-batch15). The name was cut at 45 and the
+        # reason at 150, unmarked. This module's own documentation says it "RETURNS THE REASON,
+        # NOT JUST THE NAME" -- and the reason is the whole reason the line exists. `%-46s`
+        # still pads a short name into the column; a long one now overruns it, which is what a
+        # column should do when the truth does not fit.
+        print("  %-46s %6d entries" % (name or "?", n))
+        print("      %s" % why)
     print("\nExcluded sources keep their records. They are removed from WORK, not from disk.")
     return 0
 

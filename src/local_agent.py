@@ -593,8 +593,16 @@ def _gates(full, modname):
             ast.parse(open(full, encoding="utf-8").read())
         except SyntaxError as e:
             return "does not parse: " + str(e)[:100]
+        # PYTHONIOENCODING, LIKE EVERY OTHER SUBPROCESS IN THIS FILE (sweep42-batch16). The
+        # three sibling calls all set it; this one did not, so pyflakes printing a non-ASCII
+        # identifier or path could die on a UnicodeDecodeError on this machine. It fails safe --
+        # the branch below treats a tool that did not run as a gate that did not pass, and the
+        # patch is reverted -- so this is flakiness rather than a bypass. But a safety that
+        # intermittently cannot run is a safety of unknown provenance, and the fix is one
+        # argument long.
         r = subprocess.run([PY, "-m", "pyflakes", full], capture_output=True, text=True,
-                           timeout=120, creationflags=_NO_WIN)
+                           timeout=120, creationflags=_NO_WIN,
+                           env=dict(os.environ, PYTHONIOENCODING="utf-8"))
         # A gate that cannot run has not passed. This tested `r.stdout` alone, so a pyflakes
         # that never executed -- uninstalled, or dying on its own traceback -- produced empty
         # stdout and was read as "no undefined names", waving the patch through. The very next
@@ -770,13 +778,44 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     # deliberate: the name denylist runs first because it is the narrowest and gives the most
     # specific refusal message ("the checking machinery may not edit itself"), which is the one
     # worth surfacing when both would fire.
-    if not (any(_rel_l.startswith(p) for p in WRITABLE_PREFIXES)
-            or _rel_l in {f.lower() for f in WRITABLE_FILES}):
-        return _settle({"applied": False,
-                "error": "%s is outside the writable surface. The local model may write %s and "
-                         "%s -- everything else is refused by default, including anything added "
-                         "to this repo after this list was written."
-                         % (rel, ", ".join(WRITABLE_PREFIXES), ", ".join(WRITABLE_FILES))})
+    # ASKED OF BOTH SPELLINGS OF THE PATH — BYPASS CLASS SEVEN (found by sweep42-batch16,
+    # verified against source and reproduced before fixing, 2026-09-02).
+    #
+    # `rel` is the path AS WRITTEN. `_safe()` above re-asks the DENYLIST of the RESOLVED path
+    # when the two disagree, precisely because a junction can point one at the other — but it
+    # never re-asks THIS list, and the two lists are not complements. A junction anywhere on the
+    # writable surface (`src/`, `prompts/`, `handoff/`) pointing at a file that is merely
+    # UNLISTED rather than denied therefore passed both gates: `src/link/COVERAGE.json` satisfies
+    # the allowlist on the written spelling, and `data/COVERAGE.json` is on no denylist —
+    # `DENYLIST_PREFIXES` holds `data/records/`, not `data/`. The write lands outside the
+    # writable surface with every gate reporting a pass.
+    #
+    # That is the fifth-then-sixth lesson of this file arriving a seventh time, and it is the
+    # same sentence each time: THE SAME QUESTION HAS TO MEAN THE SAME QUESTION. `_safe()`'s own
+    # comment says it, about the denylist, forty lines up. The allowlist is the gate that FAILS
+    # CLOSED, so leaving it asking about a string the filesystem has already disagreed with is
+    # the more serious half of the pair — a denylist that misses is one hole, an allowlist that
+    # misses is every file nobody thought to list.
+    #
+    # The check stays in `t_propose_patch` rather than moving into `_safe()` deliberately:
+    # `_safe()` guards READS as well as writes, and the model is allowed to read a great deal
+    # more of the project than it may write. Putting a write-surface test in there would refuse
+    # honest reads.
+    _spellings = [_rel_l]
+    _real = os.path.realpath(full)
+    _real_here = os.path.realpath(HERE)
+    if _real == _real_here or _real.startswith(_real_here + os.sep):
+        _spellings.append(os.path.relpath(_real, _real_here).replace(os.sep, "/").lower())
+    for _s in _spellings:
+        if not (any(_s.startswith(p) for p in WRITABLE_PREFIXES)
+                or _s in {f.lower() for f in WRITABLE_FILES}):
+            return _settle({"applied": False,
+                    "error": "%s is outside the writable surface%s. The local model may write %s "
+                             "and %s -- everything else is refused by default, including anything "
+                             "added to this repo after this list was written."
+                             % (rel, ("" if _s == _rel_l else
+                                      " (it resolves to %s, which is not)" % _s),
+                                ", ".join(WRITABLE_PREFIXES), ", ".join(WRITABLE_FILES))})
     # M24: whole protected REGIONS, folded the same way and for the same reason. Checked before
     # anything is read, so a protected path never even reaches the find/replace. Erring toward
     # refusal is the harmless direction.

@@ -745,6 +745,13 @@ def check_state():
 def reopen_stranded(dry=True):
     """Re-open entry batches marked done that still contain uncatalogued entries.
 
+    RETURN CONTRACT, and it is load-bearing (fixed 2026-09-02, sweep42-batch10): a LIST of the
+    batch keys re-opened, which may legitimately be EMPTY when nothing was stranded -- or None
+    when the repair could not be carried out at all, because PIPELINE_STATE.json was unreadable
+    or the write was denied. `main()` maps None to a non-zero exit and everything else to zero.
+    Do not collapse the two: `[]` and None mean opposite things here, and the whole defect this
+    contract was written for was a repair that could not repair reporting success.
+
     A batch once closed on WRITE rather than on RESULT, which stranded 378 entries permanently:
     the key said done, the entries said uncatalogued, and nothing in the pipeline ever looked at
     both. The write bug is fixed; this clears what it left behind, and stays because the same
@@ -764,7 +771,9 @@ def reopen_stranded(dry=True):
         # absent file and a torn one call for opposite responses (run it later vs. restore it).
         print(f"health: PIPELINE_STATE.json unreadable ({type(e).__name__}: {e}); "
               f"nothing re-opened", file=sys.stderr)
-        return []
+        # None, NOT []. See the docstring note on the return contract: `[]` is a SUCCESSFUL run
+        # that found nothing stranded, and this is a run that could not look.
+        return None
     done = st.get("done", {}).get("entrypass", [])
     doneset = set(done)
     B = P.ENTRY_BATCH
@@ -830,7 +839,7 @@ def reopen_stranded(dry=True):
             # Do not report a repair that did not land. Returning the list unchanged would read
             # to the caller as "these were re-opened".
             print("health: PIPELINE_STATE.json write DENIED; nothing re-opened", file=sys.stderr)
-            return []
+            return None                      # a denied write is a failure, not an empty result
     return reopen
 
 
@@ -926,8 +935,18 @@ def main():
     ap.add_argument("--failures", action="store_true")
     a = ap.parse_args()
     if a.reopen:
-        reopen_stranded(dry=not a.go)
-        return 0
+        # THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s
+        # return value and returned 0 unconditionally, so a repair that could not read or write
+        # PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail
+        # shape, on a repair. It is invoked from scripts, which have nothing else to read.
+        #
+        # `is None`, NOT truthiness, and the distinction is the whole fix. The audit that found
+        # this proposed gating on the return value directly; that would have been WRONG, because
+        # `[]` was returned by three different paths -- unreadable state, denied write, and the
+        # ordinary healthy case of nothing being stranded -- so `0 if ... else 1` would have
+        # failed every clean run. The two failure paths now return None and the empty success
+        # case still returns []. Verified `main()` is the only caller before changing it.
+        return 1 if reopen_stranded(dry=not a.go) is None else 0
     if a.failures:
         s = summary()
         if not s:

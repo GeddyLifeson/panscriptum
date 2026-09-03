@@ -394,6 +394,17 @@ def load(refresh=False, refresh_if_stale=True):
             with open(CACHE, encoding="utf-8") as f:
                 prior = json.load(f)
         except Exception:
+            # TAGGED, AND THE REASON MATTERS HERE MORE THAN USUAL (sweep42-batch13).
+            #
+            # `prior` is the ONLY thing standing between an empty mine and an empty cache: the
+            # branch below refuses to overwrite a populated inventory with nothing. Reading an
+            # unreadable or corrupted cache as `{}` therefore does not merely lose a diagnostic
+            # -- it disarms that guard, silently, in exactly the case where the cache is already
+            # known to be damaged. Absence read as clean, guarding against absence read as clean.
+            silence.note("identity.py:cache-unreadable")
+            print("identity: %s exists but could not be read; the guard against overwriting a "
+                  "populated inventory with an empty one CANNOT be applied on this run."
+                  % CACHE, file=sys.stderr)
             prior = {}
         if prior:
             silence.note("identity.py:refused-empty-over-populated")

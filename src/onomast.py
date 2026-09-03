@@ -261,8 +261,35 @@ def coin_well_formed(base, register, taken, max_tries=400):
     # That is not a naming problem, it is a register that has run out of namespace, and it must
     # be LOUD rather than a quietly duplicated shelfmark. Recorded, then the caller still gets a
     # designation -- refusing to name anything would be the worse failure.
-    silence.note("onomast.py:coin-exhausted")
-    return coin_name(f"{base}|fallback", register)
+    # THE FALLBACK NAME IS INSPECTED AND ITS VERDICT RECORDED (sweep42-batch16).
+    #
+    # WHAT IS DELIBERATE AND IS NOT CHANGED: this function still returns a designation rather
+    # than refusing. The paragraph above says why -- refusing to name anything is the worse
+    # failure -- and that is a design decision, not an oversight, so it stands.
+    #
+    # WHAT WAS MISSING: the fallback was returned WITHOUT ever asking the two questions the
+    # whole function exists to ask. So in the one case where a collision is actually likely, the
+    # library could not tell afterwards whether it had happened. `silence.note` bumps a
+    # class-name counter; it does not distinguish "exhausted, fallback was clean" from
+    # "exhausted, and we then issued a name already in use" -- and those are very different
+    # facts about the register, because a name here is an IDENTITY and a duplicate shelfmark is
+    # a silent merge of two beings.
+    #
+    # The name is still returned either way. It is now returned with the collision named on
+    # stderr, so the condition is diagnosable from a log rather than only reproducible.
+    nm = coin_name(f"{base}|fallback", register)
+    _bad = [] if well_formed(nm) else ["malformed"]
+    if nm.lower() in taken:
+        _bad.append("ALREADY TAKEN — this designation now names two things")
+    if _bad:
+        silence.note("onomast.py:coin-exhausted-fallback-unusable")
+        print("onomast: register %r exhausted for base %r; the fallback designation %r is %s. "
+              "It is being returned anyway (refusing to name is the worse failure) but this "
+              "register needs widening." % (register, base, nm, " and ".join(_bad)),
+              file=sys.stderr)
+    else:
+        silence.note("onomast.py:coin-exhausted")
+    return nm
 
 
 # How a world's OWN character bends the register its source handed it.

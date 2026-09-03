@@ -719,7 +719,11 @@ def _resolve_citation(cited, mined, numbered=True):
         return exact[0], None
 
     if not _substantial(rn):
-        return None, ("citation too short to identify one feat (" + repr(raw[:40])
+        # UNCUT, AND IT IS PERSISTED (Hard Rule 0, sweep42-batch08). This reason is written into
+        # ASSAYS.json under "rejections", so the cut was not a console nicety -- it put a
+        # half-quoted citation into the file a later pass reads to decide whether the rejection
+        # was correct. Judging a rejection needs the whole citation.
+        return None, ("citation too short to identify one feat (" + repr(raw)
                       + "); quote the evidence line verbatim")
 
     if numbered:
@@ -1297,8 +1301,10 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
         # Nothing on any path returned a band that is on the ladder -- see the note where
         # `anchor` is set. The same outcome the split path gives the same answer. (8f14aff37392)
         return {"entity": entity, "host": host, "result": None, "status": "DEFERRED",
+                # UNCUT, AND IT IS PERSISTED (Hard Rule 0, sweep42-batch08). The offending
+                # anchor is the entire evidence for a DEFERRED verdict and lands in ASSAYS.json.
                 "reason": ("the model returned an anchor that is not on the ladder ("
-                           + repr(str((got or {}).get("anchor"))[:40]) + "); retried next run"),
+                           + repr(str((got or {}).get("anchor"))) + "); retried next run"),
                 "prompt_chars": len(prompt), "transport_tried": used}
 
     # Cross-axis citation, checkable by INDEX rather than by lexicon: every candidate knows which
@@ -1520,7 +1526,10 @@ def calibrate():
         row["at"] = time.time()
         if not res or res.get("decimal") is None:
             row.update({"status": r.get("status") or "NO_SCORE",
-                        "reason": (r.get("reason") or "band only")[:120], "consistent": None})
+                        # UNCUT, AND IT IS PERSISTED (Hard Rule 0, sweep42-batch08). Written
+                        # into CHARTER_REGRESSION.json, which is read to decide whether a
+                        # calibration drifted; a reason cut at 120 chars is one nobody can act on.
+                        "reason": (r.get("reason") or "band only"), "consistent": None})
             rows.append(row)
             _land(rows, False)
             print(f"{name:<20}{_published(band, val):>10}{'--':>12}{'--':>7}"
@@ -1724,7 +1733,10 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
         except Exception as e:
             silence.note("magnitude.py:run_batch")
             r = {"entity": n, "host": h, "result": None,
-                 "reason": type(e).__name__ + ": " + str(e)[:160]}
+                 # UNCUT, AND IT IS PERSISTED (Hard Rule 0, sweep42-batch08). run_batch's
+                 # exception text goes into ASSAYS.json; a truncated traceback message is the
+                 # difference between diagnosing a batch failure and re-running it blind.
+                 "reason": type(e).__name__ + ": " + str(e)}
         with lock:
             done[h + "|" + n] = r
             tally["n"] += 1

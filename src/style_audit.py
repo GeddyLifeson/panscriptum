@@ -198,7 +198,12 @@ def report(a, top=8):
 
     print(f"\nMACHINE TELLS  ({_WATCHED} patterns watched, style prompt Rule 7)")
     if a["banned"]:
-        for k, c in sorted(a["banned"].items(), key=lambda kv: -kv[1])[:14]:
+        # THE FOURTH RANKING, FIXED LIKE THE OTHER THREE (Hard Rule 0, sweep42-batch04). Order
+        # 1cb7bd3ad0ce removed exactly this cap from the other three rankings in this function
+        # and left this one at [:14]. Ranking by frequency is encouraged; ranking then
+        # truncating is the thing the rule forbids, and a machine tell that fell outside the
+        # window is precisely a tell nobody will fix.
+        for k, c in sorted(a["banned"].items(), key=lambda kv: -kv[1]):
             rate = c / max(1, n)
             flag = "  OVERUSED" if rate > 0.05 else ""
             print(f"   {c:>5}  {rate:>6.2%}/entry  {k}{flag}")

@@ -274,8 +274,16 @@ def seal():
     try:
         os.makedirs(os.path.dirname(CHAIN), exist_ok=True)
         if not silence.append_line(CHAIN, json.dumps(rec, ensure_ascii=False)):
+            silence.note("ledger_guard.py:seal-append-denied")
             return None
     except Exception:
+        # TAGGED, like every sibling except-block in this file (sweep42-batch05). This one was
+        # the exception: a bare `return None` that discarded the reason a SEAL failed. The
+        # tamper-evident chain is the thing a person consults to find out whether the ledger has
+        # been altered, so a seal that silently does not happen leaves a gap in exactly the
+        # record whose completeness is the whole point -- and leaves it looking like a stretch
+        # where nothing needed sealing.
+        silence.note("ledger_guard.py:seal")
         return None
     # AND KEEP THE TEXT, not only its digest, for the append-only ones. A stale or missing
     # snapshot makes the next `check_since_snapshot()` compare against an OLDER state, which is

@@ -428,7 +428,11 @@ def main():
             if not got or got.get("decimal") is None:
                 status = row.get("status") or "no result"
                 print(f"{name:<20}{'--':>12}{status.lower():>12}"
-                      f"{'':>8}  {str(row.get('reason') or '')[:44]}")
+                      # UNCUT (Hard Rule 0, sweep42-batch03). This is the diagnostic explaining
+                      # why a reference row has no result; cut at 44 characters it stopped
+                      # roughly where the actual cause begins. estate.py's _brief() helper
+                      # exists in this codebase for precisely this shape.
+                      f"{'':>8}  {str(row.get('reason') or '')}")
                 continue
             r = out[name]["reference"]
             rv = r["decimal"] + A.LADDER.index(r["magnitude"])

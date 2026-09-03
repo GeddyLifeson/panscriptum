@@ -617,8 +617,18 @@ def _local_carded(c, system, prompt, schema):
     head, _, body = prompt.partition(chr(10) + chr(10))
     merged = {"feats": []}
     for i in range(0, len(body), CHUNK):
+        # 360s HERE TOO (sweep42-batch13). This loop hands out `body[i:i + CHUNK]` -- pieces of
+        # the SAME full CHUNK size the branch forty lines above is sized for -- and it was
+        # passing timeout=180, which is precisely the value that branch's comment records as the
+        # 2026-08-24 thrash: the card at 98% while 94% of handed chunks died at the deadline
+        # AFTER their compute had been spent. The known-bad number survived in the sibling path
+        # because the fix was reasoned about the ordinary route and applied only there.
+        #
+        # This path is the re-split for oversized prompts, so it is rarer -- and rarity is why
+        # it went unnoticed, not a reason it deserves a tighter deadline. A completed slow call
+        # beats a fast discard here for the same reason it does there.
         got = P.ask(c, system, head + chr(10) + chr(10) + body[i:i + CHUNK],
-                    schema, timeout=180)
+                    schema, timeout=360)
         if got is None:
             _GPU_DOWN_UNTIL[0] = time.time() + GPU_BENCH
             return None
@@ -1424,7 +1434,12 @@ def main():
         # mined for one entity -- and the volume is bounded by the single entity, so there is
         # nothing here worth capping and nothing to reverse a cap with.
         for f in out["feats"]:
-            print("   %-14s %s" % (f["axis"], f["feat"][:104]))
+            # UNCUT (Hard Rule 0, sweep42-batch13). The comment four lines up already claims
+            # there is "nothing here worth capping"; this line was capping the feat sentence at
+            # 104 characters anyway, which is exactly the shape where a comment stops describing
+            # the code and starts hiding it. A feat sentence IS the evidence `--one` exists to
+            # show.
+            print("   %-14s %s" % (f["axis"], f["feat"]))
         return 0
     if a.run:
         w = a.workers

@@ -460,8 +460,13 @@ def main():
     print("most cross-attested entities (the weave's backbone):")
     for key, hits in top:
         srcs = sorted({h["source"] for h in hits})
-        print(f"   {hits[0]['name'][:26]:28s} {len(srcs):2d} sources: "
-              f"{', '.join(s[:16] for s in srcs[:5])}"
+        # UNCUT (Hard Rule 0, sweep42-batch07). Two unmarked cuts sat on this line -- the entity
+        # name at 26 and each source name at 16 -- beside a THIRD cut, `srcs[:5]`, which was
+        # correctly marked with "… and N more sources". One line disclosing one of its three
+        # truncations is the clearest possible statement that the other two were oversights.
+        # The source list keeps its marked cap; the two silent name cuts are gone.
+        print(f"   {hits[0]['name']:28s} {len(srcs):2d} sources: "
+              f"{', '.join(srcs[:5])}"
               f"{f' … and {len(srcs) - 5} more sources' if len(srcs) > 5 else ''}")
     if len(ranked) > TOP_N:
         floor = len({h["source"] for h in ranked[TOP_N - 1][1]})

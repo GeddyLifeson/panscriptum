@@ -535,8 +535,27 @@ def resolve(oid, how, by="", synthetic=False):
     trail = SELFTEST_LOG if (synthetic or is_selftest(rec)) else CLOSED_LOG
     try:
         os.makedirs(os.path.dirname(trail), exist_ok=True)
-        with open(trail, "a", encoding="utf-8") as f:
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        # THROUGH `silence.append_line`, LIKE EVERY OTHER SHARED LEDGER (sweep42-batch12).
+        #
+        # This was a bare `open(trail, "a")` plus `f.write(...)` -- the exact shape m62 measured
+        # tearing `state/model_metrics.jsonl`: a buffered write may be split into several
+        # underlying writes, and two processes interleaving mid-line produce a row that parses
+        # as neither. Five corrupt lines were found there on 2026-08-24, three of them
+        # mid-record fragments.
+        #
+        # The open-file side of this module is hardened with compare-and-swap; the CLOSE side
+        # was not, and the close side is the append-only history. A torn or lost row here is a
+        # resolved order whose resolution was recorded nowhere -- which is indistinguishable
+        # from an order deleted to tidy the queue, the one outcome this file's whole design
+        # exists to make impossible. Concurrency is not hypothetical: the sweep, an interactive
+        # session and this run can all close orders, and `publish.py` deliberately permits two
+        # writers at once elsewhere.
+        #
+        # `append_line` returns False rather than raising when the write is refused; the handler
+        # below already treats a failed append as the serious event it is, so the result is
+        # turned into the exception that handler is written for.
+        if not silence.append_line(trail, json.dumps(rec, ensure_ascii=False)):
+            raise OSError("append to the paper trail %s was refused" % (trail,))
     except Exception as exc:
         # THE CLOSURE IS ALREADY IRREVERSIBLE BY THE TIME WE GET HERE (order 2ea28274a02e).
         # The ordering above is right and the docstring defends it, but it means a failed append
@@ -735,7 +754,16 @@ def _closed_rows():
     """Every parseable record in the paper trail, oldest first."""
     try:
         fh = open(CLOSED_LOG, encoding="utf-8")
+    except FileNotFoundError:
+        return                       # no closes yet is a real, honest, empty paper trail
     except OSError:
+        # A DAMAGED PAPER TRAIL IS NOT AN EMPTY ONE (sweep42-batch12). This was a single
+        # `except OSError: return`, so a locked, truncated or permission-denied log read as "no
+        # closed rows" -- and `ghost_orders()`, which is built on this generator, then reported
+        # ZERO GHOSTS FOUND rather than "could not check". That is the absence-read-as-clean
+        # shape sitting inside the queue's own integrity check, and both `_load()` and
+        # `cap_boundary_scan()` in this same file already tag their equivalents.
+        silence.note("workorders.py:closed-log-unreadable")
         return
     with fh:
         for line in fh:

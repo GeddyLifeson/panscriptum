@@ -69,7 +69,19 @@ def _load():
     try:
         with open(FILE, encoding="utf-8") as f:
             d = json.load(f)
-        return (d if isinstance(d, list) else []), True
+        # A WRONG SHAPE IS A CORRUPTION, NOT AN EMPTY FILE (sweep42-batch10).
+        #
+        # The docstring above already explains why an UNREADABLE file must not read as empty:
+        # this module's whole job is surfacing expired and dangling suppressions, so reporting
+        # zero problems over a broken file is the exact inversion of its purpose. That reasoning
+        # was implemented for only ONE corruption shape -- a file that will not parse. A file
+        # that parses to the wrong TYPE (an object where the list should be, which is what a
+        # half-finished hand edit most often leaves) fell through `d if isinstance(d, list)
+        # else []` and was handed back with ok=True: a clean, confident, empty answer.
+        if not isinstance(d, list):
+            silence.note("suppressions.py:load-wrong-shape")
+            return [], False
+        return d, True
     except FileNotFoundError:
         return [], True
     except Exception:

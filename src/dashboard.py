@@ -1028,7 +1028,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 self._send(json.dumps(state()), "application/json; charset=utf-8")
             except Exception as e:
                 silence.note("dashboard.py:state")
-                self._send(json.dumps({"error": f"{type(e).__name__}: {str(e)[:120]}"}),
+                # UNCUT (Hard Rule 0, sweep42-batch15). This is the ONLY thing a reader of a
+                # broken /api/state gets, and it was cut at 120 characters -- shorter than most
+                # tracebackless messages this handler actually produces. This file has already
+                # removed the identical cut twice (the findings text and the quarantine reasons).
+                self._send(json.dumps({"error": f"{type(e).__name__}: {e}"}),
                            "application/json; charset=utf-8")
             return
         self._send(PAGE, "text/html; charset=utf-8")

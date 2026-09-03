@@ -421,7 +421,13 @@ def main():
     if _excluded:
         print("excluded by owner ruling (records kept, work stopped):")
         for _n, _why in sorted(_excluded.items()):
-            print("   %-44s %s" % ((_n or "?")[:43], _why[:90]))
+            # UNCUT, BOTH FIELDS (Hard Rule 0, sweep42-batch04). The name was cut at 43 and the
+            # ruling at 90. `roll.out_of_scope()`'s own docstring says its job is preserving
+            # what is being skipped and ON WHOSE AUTHORITY -- and the authority is carried
+            # entirely in `_why`, which is a sentence, not a label. Ninety characters routinely
+            # ended before the reason did, on the one line recording that a source was removed
+            # from the library's work by an owner ruling.
+            print("   %-44s %s" % (_n or "?", _why))
     roll = [r for r in roll if r.get("name") not in _excluded]
 
     populated = [r for r in roll if r.get("entry_count", 0) > 0]

@@ -772,7 +772,9 @@ def sweep(only=None, repair=False, workers=8):
             flag = "" if r["verdict"] == "holds" else f"   <-- {r['verdict']}"
             lift = "    -" if r.get("lift") is None else f"{r['lift']:>+5.0%}"
             print(f"  {r['rate']:>5.0%} held {lift} lift  {r['hits']:>3}/{r['probed']:<3} "
-                  f"{r['host']:<34}{r['source'][:34]}{flag}", flush=True)
+                  # UNCUT (Hard Rule 0, sweep42-batch14). `[:34]` cut the source name with no
+                  # marker -- the same bug class this file's own roster_audit() already fixed.
+                  f"{r['host']:<34}{r['source']}{flag}", flush=True)
 
     # A host that could not be reached is not a host that failed. Only verdicts reflecting an
     # ANSWER from the wiki are eligible for repair; anything else is retried another day.
@@ -1334,10 +1336,12 @@ def adopt(dry=True, workers=4):
         for src, (lift, rate, host, verdict) in ex.map(one, hostless):
             if host:
                 found[src] = host
-                print("   {:>+5.0%} lift  {:<9}{:<34}{}".format(lift, verdict, host, src[:40]),
+                # UNCUT, BOTH BRANCHES (Hard Rule 0, sweep42-batch14). `src[:40]` cut the source
+                # name in the two lines that report what --adopt did and did not adopt.
+                print("   {:>+5.0%} lift  {:<9}{:<34}{}".format(lift, verdict, host, src),
                       flush=True)
             else:
-                print("      -   none      {:<34}{}".format("", src[:40]), flush=True)
+                print("      -   none      {:<34}{}".format("", src), flush=True)
 
     print("")
     print("{} adopted, {} genuinely without a wiki".format(

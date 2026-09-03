@@ -449,8 +449,11 @@ def main():
                   "placeholder and not a charting)")
         print(f"   worlds addressed : {len(addrs):,}")
         print(f"   collisions       : {len(addrs) - len(set(addrs.values()))}")
-        for d, a in list(addrs.items())[:6]:
-            print(f"     {d[:44]:<46}{shelfmark(a)}")
+        # UNCUT (Hard Rule 0, sweep42-batch05). Six rows out of `len(addrs):,` with no marker,
+        # and the designation itself cut at 44. The SHELFMARKS.json write below is uncapped, so
+        # this was a preview disagreeing with the file it previews.
+        for d, a in addrs.items():
+            print(f"     {d:<46}{shelfmark(a)}")
         out = os.path.join(HERE, "data", "SHELFMARKS.json")
         # ATOMIC: pipeline.py and standards.py both read SHELFMARKS.json.
         #

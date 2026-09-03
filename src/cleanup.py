@@ -269,23 +269,32 @@ def main():
     print("=" * 96)
     print("CLEANUP — presentation defects from the backscan")
     print("=" * 96)
+    # FIVE ROSTERS, ALL OF THEM UNCAPPED (Hard Rule 0, sweep42-batch03).
+    #
+    # Every one of these was cut to four, five or six rows with nothing said about the
+    # remainder, while the `unwritten` list twelve lines below has always been printed in full
+    # with its own comment explaining why summarising it would be dishonest. One function
+    # holding both spellings is the clearest evidence available that the caps here were
+    # oversight rather than policy -- and the counts these lists sit under are frequently in
+    # the thousands, so "showed 5" against "{len(nav):,}" was a rounding error presented as a
+    # sample. The per-name character cuts in the same statements go with them.
     print(f"\n1. wiki navigation removed from the catalogue : {len(nav):,}")
-    for s, n in nav[:5]:
-        print(f"     {s[:26]:<28}{n}")
+    for s, n in nav:
+        print(f"     {s:<28}{n}")
     print(f"\n2. ceiling entities reduced to a name        : {len(ceil_fixed):,}")
-    for s, before, after, how in ceil_fixed[:6]:
-        print(f"     {s[:22]:<24}{how:<10}{before!r}")
+    for s, before, after, how in ceil_fixed:
+        print(f"     {s:<24}{how:<10}{before!r}")
         print(f"     {'':<24}{'-> ':<10}{after!r}")
     print(f"   still unresolved (left alone, not guessed) : {len(ceil_unres):,}")
-    for s, ce in ceil_unres[:4]:
-        print(f"     {s[:26]:<28}{ce}")
+    for s, ce in ceil_unres:
+        print(f"     {s:<28}{ce}")
     print(f"\n3. descriptions with markup stripped         : {len(desc_fixed):,}")
-    for s, n, b, a in desc_fixed[:5]:
-        print(f"     {str(n)[:22]:<24}{b!r}")
+    for s, n, b, a in desc_fixed:
+        print(f"     {str(n):<24}{b!r}")
         print(f"     {'':<24}-> {a!r}")
     print(f"\n4. descriptions too thin to write from       : {len(thin):,}  (marked, not deleted)")
-    for s, n, d in thin[:5]:
-        print(f"     {str(n)[:26]:<28}{d!r}")
+    for s, n, d in thin:
+        print(f"     {str(n):<28}{d!r}")
 
     if unwritten:
         # The counts above are what this pass FOUND. These are the records it could not land,

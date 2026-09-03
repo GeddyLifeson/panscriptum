@@ -569,9 +569,15 @@ def main():
         print(f"rows kept          : {kept:,}   dropped: {dropped:,}")
         print(f"scales surviving   : {sum(len(v) for v in out.values())} "
               f"across {len(out)} wikis")
-        for host, scales in sorted(out.items(), key=lambda kv: -sum(v["n"] for v in kv[1].values()))[:12]:
+        # UNCUT, BOTH CUTS (Hard Rule 0, sweep42-batch09). The host list was ranked by row count
+        # and then truncated to twelve with no "and N more", and the per-host scale names were
+        # cut at 44 characters on top of that -- so a wiki outside the window contributed
+        # nothing visible, and one inside it reported an unknowable fraction of its scales.
+        # Ranking stays; the truncation goes.
+        for host, scales in sorted(out.items(),
+                                   key=lambda kv: -sum(v["n"] for v in kv[1].values())):
             tot = sum(v["n"] for v in scales.values())
-            print(f"   {tot:>5}  {host:<34}{', '.join(sorted(scales))[:44]}")
+            print(f"   {tot:>5}  {host:<34}{', '.join(sorted(scales))}")
         return 0
 
     if a.check:

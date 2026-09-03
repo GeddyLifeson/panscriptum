@@ -2700,6 +2700,118 @@ def drill_local_agent():
         "shape as the five bypasses before it, and mutate.py junctions three directories as a "
         "matter of course, so this is a technique the project already uses on itself")
 
+    def _junction_to_an_unlisted_but_undenied_place():
+        """BYPASS CLASS SEVEN, and the one the net above does not cover (2026-09-02).
+
+        The junction net above points at `state/`, which is on `DENYLIST_PREFIXES` — so it
+        proves the DENYLIST is asked of the resolved path, which `_safe` does. It says nothing
+        about the ALLOWLIST, and the two lists are not complements. `t_propose_patch` tested
+        `WRITABLE_PREFIXES` against the path AS WRITTEN, so a junction pointing anywhere merely
+        UNLISTED — `data/`, whose only denied child is `data/records/` — satisfied every gate:
+        allowlist passes on `src/...`, denylist passes on `data/...`, and the write lands off
+        the writable surface entirely.
+
+        ATTACKED THROUGH `t_propose_patch`, not `_safe`, because that is where the allowlist
+        lives and a net that asks the wrong function proves nothing about the right one. The
+        target is a probe file this net creates and removes, so the breaching case damages only
+        its own scratch file — a net whose failure mode is corrupting real state is not a net
+        anyone will keep enabled.
+        """
+        import subprocess as _sp
+        import silence as _si
+        import local_agent as LA
+        link = os.path.join(LA.HERE, "src", "__drill_surface_probe__")
+        probe = os.path.join(LA.HERE, "data", "__drill_surface_probe__.txt")
+
+        def unstage():
+            for remove in (os.rmdir, os.unlink):
+                try:
+                    remove(link)
+                    break
+                except FileNotFoundError:
+                    break
+                except OSError:
+                    continue
+            if os.path.lexists(link):
+                _si.note("drill.py:surface-probe-cleanup")
+            try:
+                os.unlink(probe)
+            except FileNotFoundError:
+                pass
+            except OSError:
+                _si.note("drill.py:surface-probe-cleanup")
+
+        try:
+            os.makedirs(os.path.dirname(probe), exist_ok=True)
+            with open(probe, "w", encoding="utf-8") as fh:
+                fh.write("CANARY\n")
+        except OSError:
+            unstage()
+            _si.note("drill.py:surface-probe-unstageable")
+            return True
+        try:
+            _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "data")],
+                    capture_output=True, text=True,
+                    creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+        except OSError:
+            unstage()
+            _si.note("drill.py:surface-probe-unstageable")
+            return True
+        if not os.path.isdir(link):
+            unstage()
+            _si.note("drill.py:surface-probe-unstageable")
+            return True               # could not stage the attack; not evidence either way
+        try:
+            got = LA.t_propose_patch("src/__drill_surface_probe__/__drill_surface_probe__.txt",
+                                     "CANARY", "BREACHED", why="drill: bypass class seven")
+            after = ""
+            try:
+                with open(probe, encoding="utf-8") as fh:
+                    after = fh.read()
+            except OSError:
+                _si.note("drill.py:surface-probe-readback")
+            # An ordinary in-surface path must still be reachable: a gate that refuses
+            # everything passes every refusal test ever written.
+            ordinary = LA._safe("src/lognames.py")
+        finally:
+            unstage()
+        # IT MUST BE REFUSED BEFORE THE GATES RUN, NOT MERELY UNDONE AFTERWARDS.
+        #
+        # TWO WRONG ASSERTIONS WERE WRITTEN HERE BEFORE THIS ONE, and both are worth recording
+        # because they fail in opposite directions.
+        #
+        # The first asserted `not applied` and an unchanged file. It went GREEN against the
+        # unfixed code -- which is how the assertion was found to be wrong rather than the bug
+        # absent. The patch had been APPLIED and then rolled back by the downstream
+        # `verify_math`/lint/import gate, so a working allowlist and a defeated one had
+        # identical end states. That backstop is real defence in depth but it is
+        # CONTENT-SENSITIVE: it re-runs the battery, so a write to a non-Python file -- a JSON
+        # record, a YAML config, anything under `data/` -- regresses nothing and would have been
+        # KEPT. Asserting on the aftermath tested the backstop, not the gate.
+        #
+        # The second over-corrected and demanded the refusal message contain "writable surface".
+        # That passed on the live tree and BREACHED inside `mutate.py`'s sandbox, where `data/`
+        # is itself a junction to the real repository (see `mutate.sandbox`): the probe then
+        # resolves OUTSIDE the sandbox root, `_safe()` refuses it first for that reason, and the
+        # wording is different. The refusal was correct and the net called it a breach -- and
+        # because `mutate` grades every mutant by DIFFERENCE from a baseline, a net that is red
+        # in the baseline is disabled as a detector for that entire run. A net that misfires in
+        # the sandbox does not merely cry wolf; it quietly switches off the mutation pass.
+        #
+        # So the assertion is the narrowest property that actually separates the two worlds, and
+        # it is indifferent to WHICH gate refused: the write was refused, and it was refused
+        # before execution ever reached the gate stage. `gate` present is precisely the
+        # applied-then-reverted signature the vulnerable build produced.
+        return (not got.get("applied")
+                and "gate" not in got
+                and bool(got.get("error"))
+                and "BREACHED" not in after and bool(ordinary))
+    net(a, "a junction to a merely UNLISTED place is refused, not just a denied one",
+        _junction_to_an_unlisted_but_undenied_place,
+        "the allowlist is the gate that fails closed, and it was asking about a string the "
+        "filesystem had already disagreed with -- a denylist that misses is one hole, an "
+        "allowlist that misses is every file nobody thought to list")
+
     def _write_lane_checks_the_halt(src=None):
         """`local_agent.run` must CALL assert_clear, not merely mention it.
 
@@ -6424,6 +6536,60 @@ def drill_no_top_ups():
     net(a, "a provider on cooldown is kept, not axed", cooldowns_stay_in_the_pool,
         "benching a 429 throws away a provider that returns within the hour")
 
+    def an_unparseable_reply_names_itself(src=None):
+        """THE ONE FAILURE THAT WAS THE MODEL'S OWN FAULT, AND THE ONLY ONE THAT HAD NO NAME.
+
+        `_ask_call` sets `served["outcome"] = "answered"` the moment the stream closes -- true of
+        the transport, not of the call. If the provider answered with prose, an apology or a
+        truncated fence, `_extract_json` returns None and the function returned None too, leaving
+        the caller's `served` dict still reading "answered", with no error text and the reply
+        itself discarded. Measured 2026-09-02: `--selftest` printed a bare `live call -> FAILED`
+        against buckets that were answering, and nothing in `served` or in the metrics row could
+        separate an unparseable answer from a dead account.
+
+        ASKED OF THE PARSE TREE, not of the text, so a comment mentioning the fix cannot satisfy
+        it -- this file's own recurring lesson (run #36, the `cascade_bridge` router net above).
+        The assertion is narrow and behavioural: inside `_ask_call`, the `if` guarding the
+        `_extract_json` result must not be a bare `return None`; it must write `served`. That is
+        the property, and it is the property a future tidy-up would delete.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(src), "cascade_bridge.py"))
+        fn = next((n for n in ast.walk(tree)
+                   if isinstance(n, ast.FunctionDef) and n.name == "_ask_call"), None)
+        if fn is None:
+            return False
+        # The call that parses the reply, and the `if <name> is None:` that follows it.
+        parsed_into = None
+        for node in ast.walk(fn):
+            if (isinstance(node, ast.Assign) and isinstance(node.value, ast.Call)
+                    and isinstance(node.value.func, ast.Name)
+                    and node.value.func.id == "_extract_json"
+                    and node.targets and isinstance(node.targets[0], ast.Name)):
+                parsed_into = node.targets[0].id
+        if parsed_into is None:
+            return False
+        for node in ast.walk(fn):
+            if not isinstance(node, ast.If):
+                continue
+            t = node.test
+            if not (isinstance(t, ast.Compare) and isinstance(t.left, ast.Name)
+                    and t.left.id == parsed_into
+                    and any(isinstance(o, ast.Is) for o in t.ops)):
+                continue
+            # It must SAY something before it gives up: a subscript store into `served`.
+            for sub in ast.walk(node):
+                if (isinstance(sub, ast.Assign) and sub.targets
+                        and isinstance(sub.targets[0], ast.Subscript)
+                        and isinstance(sub.targets[0].value, ast.Name)
+                        and sub.targets[0].value.id == "served"):
+                    return True
+            return False
+        return False
+    net(a, "a reply that will not parse is recorded as such, not as 'answered'",
+        an_unparseable_reply_names_itself,
+        "the transport succeeding is not the call succeeding, and served must not say it was")
+
     def a_waf_rejection_is_not_an_account_fault():
         """MEASURED, not assumed. groq and cerebras both answered `403 error code: 1010` -- a
         Cloudflare browser-integrity refusal. A real User-Agent turned groq's into a 200. Had
@@ -8704,11 +8870,25 @@ def _a_scan_can_tell_code_from_prose_about_code():
                     "WHY = 'escalation.clear( is refused; only a person may lift a halt'\n")
         if not _no_programmatic_clear(src=prose):
             return False                      # a comment about the rule is not a breach of it
+        # THE FIFTH SPELLING IS DRIVEN TOO (sweep42-batch01). `_no_programmatic_clear` grew
+        # detection for the BOUND-NAME ALIAS class -- `f = escalation.clear` and then `f(...)`,
+        # order f016ae5433b1 -- and this fixture list was never extended to exercise it, so four
+        # of the five documented bypass classes were proven and the fifth was asserted. On the
+        # guard that stands over the one function able to lift a halt, "we added a check for it"
+        # and "the check works" are not the same claim, and only the second one is evidence.
+        #
+        # Probed before adding: all three alias spellings below are ALREADY caught by the
+        # current scan, so this is a coverage gap being closed rather than a hole being found.
+        # It is worth having precisely because a future simplification of that scan would now
+        # take this net red instead of passing quietly.
         for i, body in enumerate((
                 "import escalation\nescalation.clear('x')\n",
                 "import escalation as X\nX.clear('x')\n",
                 "from escalation import clear\nclear('x')\n",
-                "import escalation as e\ngetattr(e, 'clear')('x')\n")):
+                "import escalation as e\ngetattr(e, 'clear')('x')\n",
+                "import escalation\nf = escalation.clear\nf('x')\n",
+                "import escalation as E\ng = E.clear\ng('x')\n",
+                "from escalation import clear as c\nc('x')\n")):
             sub = os.path.join(d, "call%d" % i)
             os.makedirs(sub)
             with open(os.path.join(sub, "caller.py"), "w", encoding="utf-8") as f:

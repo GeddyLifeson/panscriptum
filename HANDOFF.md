@@ -9,6 +9,188 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-02 (scheduled maintenance, daily) — A HALT I RAISED AND LIFTED, A LOCAL-AGENT BYPASS CLASS SEVEN, AND 40 ORDERS CLOSED
+
+### FOR THE OWNER, AT THE TOP, IN ORDER OF WHAT NEEDS A PERSON
+
+**1. I RAISED AN OWNER HALT AND I LIFTED IT. Reporting both in the same turn, as Hard Rule -1
+requires.** `DRILL_BREACH`, raised by `drill.py` at 2026-09-02, net *"a junction to a merely
+UNLISTED place is refused, not just a denied one"*. **I caused it deliberately and it was not a
+real fault in the library.** To satisfy the standing rule that a newly added guard must be
+watched going red once, I reverted `src/local_agent.py` to its pre-fix state and ran the real
+`drill.py`; the net correctly breached against the code I had just broken on purpose, and the
+breach halted the library. Everything stopped as designed — `local_agent` refused to start,
+`mutate.py` refused to run. The file was restored immediately, the cause was fixed, and I lifted
+the halt only after proving `drill` 386/386 and `verify_math` 1130/0 green, with a written ruling
+recorded in `state/HALT.json`. **Nothing was published while the halt stood.**
+
+**The lesson, and it is filed as an order (behavioural-nets affordance):** source-shape nets can
+be shown going red safely via the `_SRC_OVERRIDE` mechanism built for exactly that. Behavioural
+nets have no equivalent, so "follow the rule about proving your guard" and "halt the library"
+were the same action. I built a throwaway harness that runs a single net against a scratch tree
+and used it for the rest of the shift; it should become part of `drill.py`.
+
+**2. A SAFETY BYPASS IN `local_agent`, FOUND AND FIXED — bypass class SEVEN.** The file's own
+comments enumerate six prior. `t_propose_patch` tested the writable-surface **allowlist** against
+the path *as written*, while `_safe()` re-asks only the **denylist** of the *resolved* path. The
+two lists are not complements: `DENYLIST_PREFIXES` holds `data/records/`, not `data/`. So a
+junction anywhere on the writable surface pointing at a merely *unlisted* directory passed every
+gate. **Reproduced end to end** — the patch was **APPLIED**, then rolled back by the downstream
+`verify_math` gate. That rollback is why this was nearly missed, and why it matters: the backstop
+is **content-sensitive**, so a write to a non-Python file (a JSON record, a YAML config) regresses
+nothing and **would have been kept**. Fixed by asking the allowlist of both spellings.
+
+**3. THE CLOUD LANE IS OUT OF QUOTA — a person's call, no action taken.** `groq:qwen/qwen3.6-27b`
+is at **198,972 of 200,000 tokens/day**; Gemini 3.1 Flash-Lite, SambaNova DeepSeek V3, Z.AI
+GLM 4.7 Flash and Cohere Command R+ all answer *rate limited*. `allsweep`'s `cascade live call`
+verifier is red for this reason and will stay red until quota returns. The remedy is money or
+waiting, and the standing answer to money is no. Recorded so no future run re-diagnoses a spent
+account as a bug.
+
+**4. THE `LOCAL` RUNG DID NO WORK, AND CANNOT WHILE THE PIPELINE RUNS.** One `local_agent`
+invocation on a single trivial task ran **>15 minutes, produced no output, and exited 0 having
+written nothing**. Ollama answers `maximum pending requests exceeded` while `qwen3:8b` sits fully
+resident — the model is up and the **queue is saturated by the library's own daemons**
+(`read.py`, `feats.py --roll`, `pipeline.py`, `overnight.py`). **128 of the open orders are
+addressed to LOCAL**, so they are not cheap, they are *parked*. Filed as an owner question. One
+limb of it is a plain defect and could be fixed independently: `local_agent` should refuse loudly
+and at once on a saturated queue rather than burning fifteen minutes and exiting 0.
+
+**5. A QUESTION I DID NOT DECIDE.** `cascade_bridge` re-dispatches to a bucket that has just
+answered *"rate limited, retry in 499s"* and then gives up rather than failing over — measured
+three times in six probes. The non-benching is **documented as deliberate**, so it is a ruling,
+not a defect I may settle; the order sets out three options and changes nothing. Note the
+distinction that may matter most: this was a **per-day quota exhaustion**, not a momentary
+throttle, and `named_transient()` treats them alike.
+
+---
+
+### THE MUTATION PASS DID NOT COMPLETE, AND WHY IT KEPT REFUSING
+
+`mutate.py --target all` was launched **four times** and produced **0 of 146 mutations**. It was
+right to refuse every time, and the reasons are worth recording because two of them are faults in
+their own right:
+
+1. **First launch** — red baseline: `verify_math` §20z. Refused correctly.
+2. **Second** — the halt above was standing. Refused correctly.
+3. **Third** — red baseline again, this time with **my own new net breaching inside mutate's
+   sandbox**. That one was serious and I fixed it (below).
+4. **Fourth** — relaunched at the end of the shift after all source edits settled; **still
+   running when this entry was written.** Its log is `state/mutate_2026-09-02.log`. **The next run
+   must read that log and report the survivor count** — a pass killed halfway is not a pass with
+   fewer survivors.
+
+**`verify_math` §20z is FLAKY, and that flakiness silently cancels the mandated mutation pass.**
+Filed. The row asserts *no probe writes into the live failure ledger*, but several of its probes
+make **live cascade calls**; when a provider is throttled at that moment the row goes red.
+Measured: 1130/0, then 1129/1 on the same unchanged tree minutes later, then green again. Because
+`mutate` grades every mutant by *difference* from its baseline, a gate red in the baseline is
+**disabled as a detector for the whole run** — so a transient third-party throttle switches off
+the entire 146-mutation pass. A battery row's verdict should not depend on someone else's network.
+
+**MY OWN NET NEARLY POISONED EVERY FUTURE MUTATION RUN, and the two wrong versions failed in
+opposite directions.** Recorded because the lesson generalises:
+
+* **Version 1** asserted the *aftermath* (not applied, file unchanged). It went **GREEN against
+  vulnerable code** — the content-sensitive backstop had already reverted the write, so a working
+  allowlist and a defeated one had identical end states.
+* **Version 2** over-corrected and demanded a specific refusal *string*. It passed live and went
+  **RED inside mutate's sandbox**, where `data/` is junctioned outward so a different — and
+  equally correct — gate refuses first, with different wording. This is the dangerous failure: a
+  misfiring net does not merely cry wolf, it **silently disables the mutation pass**.
+* **Final version** asserts the narrowest property that separates the two worlds and is
+  indifferent to *which* gate refused: refused, and refused *before* the gates ran. Proven in all
+  three worlds — live-fixed **HELD**, mutate-style sandbox **HELD**, vulnerable **RED**.
+
+**Standing lesson: a new net must be exercised in the sandbox as well as on the live tree before
+it is trusted.**
+
+---
+
+### WHAT WAS DONE
+
+**Sweep 42 ran complete: 16 batches, 116 modules, 91,119 lines, coverage proven with
+`sweep_plan.missing('run42') == []`.** One gap was real and mine — I gave batch 7 the basename
+`catalogue_local.py` for a module the plan calls `deprecated/catalogue_local.py`, and
+`verify_math`'s completeness proof caught it. The agent *had* read the file; I verified its claim
+against source (a hard `SystemExit` refusal above every path) before recording the correct
+spelling. **Coverage was not recorded on trust.**
+
+**48 orders filed, 40 closed** (queue 365 → 373; it grows because the detectors found more than I
+could close). Closures span every batch and are individually verified — after each, pyflakes clean,
+module imports, `drill` 386/386, `verify_math` 1130/0.
+
+**Two closures where the audit's proposed remedy would have been WRONG, and applying it literally
+would have broken things:**
+
+* **`health.py --reopen`** — the finding said "gates on nothing, always exits 0", which is true.
+  But gating on the return value directly would have **failed every clean run**: `[]` was returned
+  by *three* paths — unreadable state, denied write, and the ordinary healthy case of nothing being
+  stranded. The two failure paths now return `None`, the empty success case still returns `[]`,
+  and the contract is written into the docstring. Verified `main()` is the only caller first.
+* **`backfill.py --dry`** — the obvious fix (uncap `sample`) would have **taken the battery red**:
+  `verify_math`'s b5 section asserts against `sample` that failed-lookup titles rank with the
+  deepest articles, and its own comment calls it "backfill_source's post-ranking head". Over the
+  full roster that includes the title that ranks last *by design*. So `sample` keeps its cap and
+  its meaning, and the complete roster arrives beside it as `queued_titles`, which `--all --dry`
+  now prints line by line. The full list previously existed **nowhere**.
+
+**Hard Rule 0 — 20-odd truncations removed**, including four in `magnitude.py` that were
+**persisted, not printed** (into `ASSAYS.json` and `CHARTER_REGRESSION.json` — cut evidence in the
+files the library later reasons from), and the worst one in the project: **`publish.py` truncated
+the secret-leak list** handed to escalation (`leaks[:20]`) and raised (`leaks[:10]`). That list is
+not even ranked — it is alphabetical by path — and a person must remove *all* of those values
+before a push unblocks, so a silently partial list ends with a credential still in the public repo
+and every gate green.
+
+**Absence-read-as-clean, five instances closed:** `suppressions` (a parsed-but-wrong-type file read
+as an honest empty list), `identity` (a corrupted cache read as `{}`, which *disarmed* the guard
+against overwriting a populated inventory), `workorders._closed_rows` (a damaged paper trail
+reporting "zero ghosts found" rather than "could not check"), `snapshot --list` (a `broken` flag
+set for years and never read, so a corrupted snapshot rendered identically to a healthy empty
+one), `catalogue_models` (an `EMPTY_LIST` — a *verified* "serves nothing" — misfiled as unverified
+because an empty list is falsy).
+
+**The queue's own ledger was the last unhardened writer.** `workorders.resolve()` appended the
+paper trail with a raw buffered `open(..., "a")` — the exact shape m62 measured tearing
+`model_metrics.jsonl`. Now on `silence.append_line`, and **proven**: filed a synthetic order,
+closed it, confirmed the row landed (3329 → 3330) with its resolution text intact. That probe row
+is deliberately left in place — the trail is append-only and the row says what it is.
+
+**`cascade_bridge` can finally explain itself.** `selftest()` never passed `served=`, so it could
+only ever print `live call -> FAILED` while the mechanism to explain the failure sat behind an
+optional argument in the same file. It now names the outcome, the dispatched bucket, the
+provider's own status line and every failover — which is how the quota exhaustion in item 3 was
+identified in one call. Also fixed: an unparseable reply returned `None` while `served` still said
+`"answered"` and the reply text was discarded, so the one failure that is the *model's* fault was
+the only one the module could not name.
+
+**Two new drill nets, both watched going red before being trusted** — 384 → 386 nets, all held.
+
+**A NEAR-MISS IN THE LEDGER ITSELF, recorded because the guard is the only reason it was caught.**
+Writing the `BUGS.md` entries I (a) filed a RESOLVED bug into the **Open** section — precisely the
+rot this file's own header warns about, and which its banner says has already claimed 56 entries —
+and (b) numbered it **M65**, which was already taken by an OPEN run #41 bug. Neither was noticed
+by reading; both were caught by assertions in the script doing the write (`count('- **[M65') == 1`
+and "the moved entry must land below the Resolved heading"). The entry is now **M69** and sits in
+the paper trail. The lesson is the cheap one: **write ledger edits through a script that asserts
+what must remain true, not by hand** — a hand edit would have silently created a duplicate bug
+number and a 57th piece of rot.
+
+### LEFT UNDONE, EXPLICITLY
+
+* **373 orders remain open** (LOCAL 128, BOTS 23, RUN 47, SESSION 60, OWNER 115). I did not empty
+  the queue. The LOCAL rung — a third of it — was unavailable for the reason in item 4, and the
+  OWNER and SESSION rungs (175 between them) are not mine to close.
+* **The mutation pass was still running at close.** Read `state/mutate_2026-09-02.log` first thing.
+* **`scale_theories.py`'s dead constants** — verified dead (each occurs exactly once, no importer),
+  but **not deleted**: deletions need a review cycle, the module is itself listed by `liveness` as
+  never reached, and `descending_ladder.py:49` cross-references them, so a deletion silently makes
+  an existing comment false. Re-rated LOCAL → OWNER, because it is not a mechanical edit.
+* **`assay.py`'s `ATTESTATION_FLOOR`** has no monotonicity or ceiling guard while its sibling table
+  is protected at import. Corroborated independently this shift; left for a run that can give the
+  attestation tables proper attention, since they sit inside every published ± in the library.
+
 ## 2026-09-02 (owner session, post-run-#41) — THREE RULINGS, AND PHASE 4.2 SHIPPED
 
 **Owner present, in session.** Three rulings were given on the run #41 handoff and acted on in

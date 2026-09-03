@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 292  ·  last run 2026-09-02 21:18
+round 293  ·  last run 2026-09-02 21:57
 
 ## Structure
 
@@ -10,6 +10,7 @@ round 292  ·  last run 2026-09-02 21:18
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 - NOT RUNNING: **0** read.py
+- NOT RUNNING: **0** feats.py --roll
 
 ## What the model found in the code
 

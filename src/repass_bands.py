@@ -123,11 +123,16 @@ def main():
     for s, n, b, sn in _survivors_shown:
         print(f"     [{b}] {str(n)[:30]:<32}{sn}")
 
-    print("\n  DEMOTED — a sample of what was carrying a Magnitude:")
+    # NOT A SAMPLE ANY MORE (Hard Rule 0, sweep42-batch04). The comment beside the SURVIVORS
+    # list one block above records order 89fc2eaf23f1 uncapping it, and names THIS list as the
+    # known-unrepaired twin. It was [:8] labelled "a sample of", with no remainder count -- so
+    # the reader could not tell eight from eight hundred. The entity name was cut at 30 in the
+    # same statement; that goes too.
+    print("\n  DEMOTED — everything that was carrying a Magnitude:")
     by_band = collections.Counter(b for _, _, b, _ in demoted_entries)
     print(f"     by band: {dict(sorted(by_band.items()))}")
-    for s, n, b, sn in demoted_entries[:8]:
-        print(f"     [{b}] {str(n)[:30]:<32}{sn}")
+    for s, n, b, sn in demoted_entries:
+        print(f"     [{b}] {str(n):<32}{sn}")
 
     if args.apply and denied:
         # "Some of them are still there" is the one outcome this script's closing line must not

@@ -658,13 +658,29 @@ def main():
             _PL.assert_in_universe(text, where=job["address"])
         except ImportError:
             silence.note("generate.py:meta-ban-unavailable")
-        except ValueError as _meta:
+        except Exception as _meta:
+            # BROAD, LIKE EVERY OTHER FAILURE POINT IN THIS LOOP (sweep42-batch06).
+            #
+            # This caught `ValueError` alone. `assert_in_universe` raises only ValueError today,
+            # so nothing was misbehaving -- but generate_job, save_raw and compress_store.store
+            # in this same loop are all deliberately caught with a broad `except Exception`, for
+            # the stated reason that one bad chapter must not kill a multi-hour run. This gate
+            # was the exception to that rule, and it is the gate that runs on EVERY chapter: any
+            # new raise inside the meta-language check -- a TypeError on an odd `text`, an
+            # AttributeError after a refactor -- would have taken the whole run down mid-flight.
+            #
+            # Failing closed is preserved and is the point: whatever went wrong, the chapter is
+            # recorded as refused and NOT written. A meta-ban that cannot run is not a meta-ban
+            # that passed.
             fail_count += 1
             failures[job["address"]] = {
-                "error": str(_meta),
+                "error": "%s: %s" % (type(_meta).__name__, _meta),
                 "job_type": job["type"],
                 "source_name": job["source_name"],
-                "refused": "meta-language (Charter P8) — chapter NOT written",
+                "refused": ("meta-language (Charter P8) — chapter NOT written"
+                            if isinstance(_meta, ValueError) else
+                            "the meta-language check (Charter P8) could not complete — chapter "
+                            "NOT written, because a gate that cannot run has not passed"),
                 "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
             }
             save_json(cfg["paths"]["failures"], failures)

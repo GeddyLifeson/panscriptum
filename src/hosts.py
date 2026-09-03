@@ -307,7 +307,10 @@ def main():
         added, rows = discover(only=a.only, workers=a.workers)
         after = coverage()
         for src, hs in rows:
-            print("  %-40s + %s" % (str(src)[:39], ", ".join(hs)))
+            # UNCUT (Hard Rule 0, sweep42-batch05). This file has already treated the identical
+            # pattern as a defect once -- see work()'s comment on removing a [:40] roster cap --
+            # and the same cut survived here in --discover.
+            print("  %-40s + %s" % (str(src), ", ".join(hs)))
         print("")
         print("hosts added: %d" % added)
         print("sources with more than one host: %d -> %d"

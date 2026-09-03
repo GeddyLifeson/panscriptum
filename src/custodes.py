@@ -635,7 +635,9 @@ def main():
     print(f"\n{'Custos':<11}{'degree of freedom':<17}{'origin':<16}refuses")
     print("-" * 96)
     for n, c in CUSTODES.items():
-        print(f"{n:<11}{c['dof']:<17}{c['charter']:<16}{c['refuses'][:44]}")
+        # UNCUT (Hard Rule 0, sweep42-batch11). `refuses` says what a custos will not do; cut at
+        # 44 characters it says roughly half of that, with nothing to mark the loss.
+        print(f"{n:<11}{c['dof']:<17}{c['charter']:<16}{c['refuses']}")
 
     ks = dict(ruin=0.6, continuity=4.8, celerity=6.5, reach=1.2,
               transgression=8.7, sustain=7.4, vector=0.8, volition=9.6)
@@ -658,7 +660,11 @@ def main():
     print(f"   staleness measured (Lumen)       : {r['staleness_measured']}")
     print(f"   comparability measured (Threnody): {r['comparability_measured']}")
     for _dof in sorted(ABSTENTIONS):
-        print(f"   ABSTAINED [{_dof}] — {ABSTENTIONS[_dof][:76]}...")
+        # UNCUT (Hard Rule 0, sweep42-batch11). The explanation was cut at 76 characters and a
+        # bare "..." appended -- so every abstention ended in an ellipsis whether or not
+        # anything had been dropped, which makes the marker useless in both directions. An
+        # abstention's explanation is the entire content of the abstention.
+        print(f"   ABSTAINED [{_dof}] — {ABSTENTIONS[_dof]}")
 
     print("\n\nTHE SAME BEING, POORLY ATTESTED — what fieldwork can and cannot fix")
     print("-" * 96)

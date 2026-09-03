@@ -250,7 +250,10 @@ def main():
     verb = "Would write" if args.dry_run else "Wrote"
     print(f"{verb} {len(written)} records, {sum(n for _, n, _ in written):,} entries:\n")
     for name, n, fn in sorted(written, key=lambda x: -x[1]):
-        print(f"  {n:5d}  {name[:48]:50s} -> {fn}")
+        # UNCUT (Hard Rule 0, sweep42-batch07). `name[:48]` cut the source name with no marker,
+        # against this codebase's own display-truncation doctrine (corpus_db._cell(), order
+        # 6160ef68b229). The padding stays so short names still line up.
+        print(f"  {n:5d}  {name:50s} -> {fn}")
 
     # NAMED, NOT COUNTED (order aff81a1f1029). `skipped_populated` below has always printed its
     # sources by name; these two printed a bare number. Order 37d3d588847a separated these

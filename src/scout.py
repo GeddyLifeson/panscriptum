@@ -37,6 +37,7 @@ import json
 import os
 import re
 import sys
+import threading
 import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -158,7 +159,13 @@ def _mutate(path, change, attempts=8):
                            "wrong-shape is the same fact as unparseable"
                            % (os.path.basename(path), type(d).__name__))
         value = change(d)
-        tmp = "%s.%d.%d.tmp" % (path, os.getpid(), a)
+        # THE THREAD ID BELONGS IN THE TEMP NAME (sweep42-batch12). pid and attempt alone are
+        # not unique within one process: two THREADS mutating the same file on the same attempt
+        # number build the identical temp path, and the loser's write is silently lost under the
+        # winner's. This exact shape was found and fixed in workorders.py, runguard.py and
+        # silence.py after a measured same-process multi-thread collision; scout was missed.
+        # It guards SCOUT_ATTEMPTS.json, SCOUT_BLOCKED.json and feats.HOSTS.
+        tmp = "%s.%d.%d.%d.tmp" % (path, os.getpid(), threading.get_ident(), a)
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(d, f, indent=1, sort_keys=True)
         landed, why = silence.replace_if_unchanged(tmp, path, digest)

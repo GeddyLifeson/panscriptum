@@ -458,7 +458,14 @@ def main():
             # confirmation line is where a reader looks to learn what actually landed.
             print(f"\nwrote {path} ({len(payload):,} row(s))")
         else:
-            print(f"\nWRITE DENIED {path} — replace refused; it lands on the next run")
+            # A DENIED WRITE FAILS THE EXIT CODE (sweep42-batch16), matching the sibling fix
+            # already applied to onomast.py, genre.py, sevenfold.py and wh40k.py. The old text
+            # also repeated the claim those fixes debunked -- that the write "lands on the next
+            # run" -- which is not true of a one-shot command nobody re-runs, and reporting
+            # success for it is how a phase gets marked done over a file that was never written.
+            print(f"\nWRITE DENIED {path} — replace refused; NOTHING WAS WRITTEN. Re-run this "
+                  f"command once whatever holds the file has released it.", file=sys.stderr)
+            return 1
     return 0
 
 

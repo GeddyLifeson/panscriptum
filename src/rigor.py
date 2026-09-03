@@ -467,8 +467,12 @@ def bradley_terry(wins, iters=500, tol=1e-12, prior=0.0):
     if not identified:
         out["strengths"] = None
         out["refusal"] = (
+            # UNCUT (Hard Rule 0, sweep42-batch11). Two nested cuts: four of the components,
+            # three members of each. This string IS the refusal -- it is what a reader gets
+            # instead of a ranking -- so the components it names are the evidence for why no
+            # ranking is possible, and naming a quarter of them makes the refusal unauditable.
             f"comparison graph is not strongly connected: {len(comps)} components "
-            f"{[c[:3] for c in comps][:4]}. Ford (1957) — the MLE is identified only within a "
+            f"{[list(c) for c in comps]}. Ford (1957) — the MLE is identified only within a "
             f"component, and BETWEEN components the scale is arbitrary. A cross-component "
             f"ranking would be an artifact of the solver, not a finding about the entrants.")
     elif undefeated or winless:

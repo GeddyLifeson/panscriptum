@@ -1333,6 +1333,17 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         # test whichever bucket happened to be least busy, twenty-eight times.
         pinned = next((m for m in _ROUTER.models if m.id == pin), None)
         if pinned is None:
+            # NAME THE REFUSAL. Every other exit from this function writes `served["outcome"]`,
+            # and this one left the placeholder `"not started"` standing -- so a caller pinning
+            # a model id that no longer exists in the config (a renamed or retired model, which
+            # this pool sees regularly) read back a dict saying the call had never begun, which
+            # is indistinguishable from the engine being absent. `prove()` and `try_disabled()`
+            # are precisely the callers that pass a pin, and both take their whole verdict from
+            # this dict; a retired model id would otherwise be recorded as an untried bucket
+            # rather than as a configuration fault. Found by sweep42-batch05.
+            if served is not None:
+                served["outcome"] = "no such model"
+                served["error"] = "pinned model id %r is not in the router's model list" % (pin,)
             return None
         _ROUTER.reserve(pinned)
         # SYMMETRY WITH THE OTHER TWO RESERVE SITES (order d5012fbc73c1). Nothing is lost today
@@ -1718,8 +1729,31 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
     finally:
         if pinned:
             _ROUTER.release(pinned)
-    got = _extract_json("".join(out))
+    _reply = "".join(out)
+    got = _extract_json(_reply)
     if got is None:
+        # A REPLY THAT WOULD NOT PARSE IS A FAILURE, AND UNTIL NOW IT WAS AN INVISIBLE ONE.
+        #
+        # `served["outcome"]` is set to "answered" a dozen lines above, the moment the stream
+        # closes -- which is true of the TRANSPORT and false of the CALL. If the provider
+        # answered with prose, an apology, a truncated fence or an empty string, `_extract_json`
+        # returns None, this function returns None, and the `served` dict the caller reads still
+        # says "answered" with no error text and the reply itself discarded. So the one failure
+        # mode that is entirely the MODEL's fault -- as opposed to the account's or the
+        # network's -- was the only one this module could not name, and a caller measuring
+        # provider quality would score it as a success that mysteriously produced nothing.
+        #
+        # Measured 2026-09-02: `selftest()` reported a bare "live call -> FAILED" against a pool
+        # whose buckets were answering fine, and neither the metrics row nor `served` held
+        # anything to distinguish an unparseable answer from a dead account.
+        #
+        # The reply is recorded UNTRUNCATED. It is the evidence, this is the only place it
+        # exists, and Hard Rule 0 applies to the diagnostic as much as to the report.
+        if served is not None:
+            served["outcome"] = "unparseable reply"
+            served["error"] = ("model answered but the reply is not JSON matching the schema; "
+                               "raw reply follows: " + _reply)
+        silence.note("cascade_bridge.py:unparseable-reply")
         return None
     if isinstance(got, dict):
         got["_via"] = answered or "cascade"
@@ -1747,9 +1781,20 @@ def selftest():
         "type": "object", "properties": {"sentence": {"type": "string"},
                                          "axis": {"type": "string"}},
         "required": ["sentence", "axis"]}}}, "required": ["feats"]}
-    got = ask("You extract feats. Copy sentences verbatim.",
-              "ENTITY: Test\n\nHe lifted the boulder over his head and hurled it across the "
-              "valley. He liked tea.\n\nReturn feats.", schema)
+    # ASK FOR THE DIAGNOSIS, NOT JUST THE VERDICT (order filed 2026-09-02, sweep42-batch05).
+    #
+    # `selftest` is the command a person runs to find out whether the cloud lane works, and for
+    # its whole life it could answer only "OK" or "FAILED" -- while `_ask_call` had, sitting
+    # right there behind an optional argument this call did not pass, the bucket it dispatched
+    # to, the provider's own status line, and every failover on the way. `allsweep` grades this
+    # command's exit code as a battery row, so a red row said a subsystem was broken and gave
+    # the reader nothing whatsoever to act on. Measured this shift: three consecutive FAILED
+    # runs, cause invisible; with `served` passed it took one call to see a Groq tokens-per-day
+    # quota at 198,972 of 200,000.
+    served = {}
+    got = _ask_call("You extract feats. Copy sentences verbatim.",
+                    "ENTITY: Test\n\nHe lifted the boulder over his head and hurled it across "
+                    "the valley. He liked tea.\n\nReturn feats.", schema, served=served)
     # `if got` is TRUTHINESS, not type. `_extract_json` can return a list, and a non-empty list
     # is truthy -- so this line would raise AttributeError on exactly the reply shape the metrics
     # line above was fixed for. Same bug, same file, one path further down, and the AST check in
@@ -1757,7 +1802,23 @@ def selftest():
     _via = (got.get("_via") if isinstance(got, dict) else None)
     print(f"\nlive call -> {'OK via ' + str(_via) if got else 'FAILED'}")
     if got:
-        print(json.dumps({k: v for k, v in got.items() if k != '_via'}, indent=1)[:400])
+        # UNCUT (Hard Rule 0). This was `[:400]`, in the same function whose `ready[:12]` cap the
+        # comment above records as removed for exactly this reason. A self-test's whole output is
+        # the evidence it exists to produce, and this answer is one small object.
+        print(json.dumps({k: v for k, v in got.items() if k != '_via'}, indent=1))
+    else:
+        # WHY, NOT JUST THAT. Everything below came back in `served` and was previously thrown
+        # away -- see the note at the call site.
+        print(f"   outcome        : {served.get('outcome')}")
+        print(f"   dispatched to  : {served.get('dispatched_to')}"
+              f"  (bucket {served.get('dispatched_bucket')})")
+        if served.get("error"):
+            print(f"   provider said  : {served['error']}")
+        for _f in served.get("failovers") or []:
+            print(f"   failover       : {_f}")
+        if not served.get("error") and not served.get("failovers"):
+            print("   (no provider text was recorded — this is itself a fault, "
+                  "report it with the outcome above)")
     return 0 if got else 1
 
 

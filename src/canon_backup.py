@@ -371,10 +371,25 @@ def restore(rel, path=None, dest=None):
         raise RuntimeError("no snapshot to restore from")
     dest = dest or os.path.join(ROOT, "restored", os.path.basename(rel))
     os.makedirs(os.path.dirname(dest), exist_ok=True)
-    with zipfile.ZipFile(path) as z, open(dest, "wb") as out:
-        with z.open(rel) as fh:
+    # THE SOURCE IS OPENED BEFORE THE DESTINATION (sweep42-batch10).
+    #
+    # This was `with zipfile.ZipFile(path) as z, open(dest, "wb") as out:` -- the destination
+    # created and TRUNCATED first, and `z.open(rel)` attempted afterwards. So a `rel` that is
+    # not in that snapshot (a typo, or a file added after the snapshot was taken) raised KeyError
+    # having already left a 0-byte file sitting at `dest`, named exactly as the restored file
+    # should be named. This is a RESTORE tool: it is reached for when something has already
+    # gone wrong, and the failure mode it had was manufacturing a plausible-looking empty file
+    # in that moment. Every other writer in this module lands atomically.
+    #
+    # Opening the member first means a bad `rel` raises before anything is created, and the
+    # write is staged beside the destination and renamed, so an interrupted extraction cannot
+    # leave a partial file under the real name either.
+    tmp = "%s.%d.%d.part" % (dest, os.getpid(), threading.get_ident())
+    with zipfile.ZipFile(path) as z:
+        with z.open(rel) as fh, open(tmp, "wb") as out:
             for block in iter(lambda: fh.read(1 << 20), b""):
                 out.write(block)
+    os.replace(tmp, dest)
     return dest
 
 
