@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 310  ·  last run 2026-09-03 12:02
+round 311  ·  last run 2026-09-03 13:35
 
 ## Structure
 
@@ -12,8 +12,10 @@ round 310  ·  last run 2026-09-03 12:02
 
 ## What the model found in the code
 
-**14 open** (5 high). Newest first.
+**14 open** (6 high). Newest first.
 
+- **ingest_doc.py** `write_record_catalogue` — [HIGH] the code does not call write_record_catalogue but instead uses a different method
+  - says: this is a cast-growing writer, and write_record's disk-wins merge DISCARDED the first 14 entities this module ever found
 - **codewatch.py** `exit_if_stale` — [HIGH] Exits the process if its code is out of date, but the code references a function that is no longer present in the module (e.g., _budget_left(who)), which is a defect of fact.
   - says: Exits the process if its code is out of date.
 - **standards.py** `_dup` — [HIGH] a variable that is not appended to the out list
@@ -30,8 +32,6 @@ round 310  ·  last run 2026-09-03 12:02
   - says: this whole function exists to argue that a write verdict must never be discarded, and this was the one call in it that still did
 - **render.py** `view` — [MEDIUM] calls view() for the four FETCHED tiers, but the comment says that the loop only ever calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet, no request made. However, the code actually calls view() for the four FETCHED tiers, which may involve making requests. The comment is misleading as it suggests no requests are made, but the code may actually make requests.
   - says: calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet_view / burg_view), no request made
-- **pick_model.py** `vram_measured` — [MEDIUM] is a boolean indicating whether _measured_vram was not None
-  - says: carries the provenance to both places that need it: the printed budget (via _budget_note() below) and the residency gate itself
 - **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
   - says: raises an order for a problem
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
