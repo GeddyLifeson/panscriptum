@@ -1,5 +1,5 @@
 {
- "at": "2026-09-03 16:37:21",
+ "at": "2026-09-03 16:44:33",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 86,
+     "left": 89,
      "cap": 1000,
-     "frac": 0.086
+     "frac": 0.089
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.086
+   "worst": 0.089
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -346,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 146834,
+     "left": 145909,
      "cap": 200000,
-     "frac": 0.7342
+     "frac": 0.7295
     },
     {
      "name": "rpm",
@@ -372,9 +372,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 5,
+     "left": 6,
      "cap": 239,
-     "frac": 0.0209
+     "frac": 0.0251
     },
     {
      "name": "tpd",
@@ -395,7 +395,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0209
+   "worst": 0.0251
   },
   {
    "bucket": "groq:qwen/qwen3.6-27b",
@@ -410,9 +410,9 @@
     },
     {
      "name": "tpd",
-     "left": 84229,
+     "left": 86153,
      "cap": 200000,
-     "frac": 0.4211
+     "frac": 0.4308
     },
     {
      "name": "rpm",
@@ -718,9 +718,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 39,
+     "left": 38,
      "cap": 500,
-     "frac": 0.078
+     "frac": 0.076
     },
     {
      "name": "rpm",
@@ -729,17 +729,17 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.078
+   "worst": 0.076
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 15,
-  "per_hour": 60,
+  "calls": 18,
+  "per_hour": 72,
   "buckets": [
    {
     "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 6,
+    "calls": 9,
     "ok": 1
    },
    {
@@ -794,7 +794,7 @@
    "read": 213261,
    "settled": 238431,
    "feats": 120434,
-   "age_h": 4.6
+   "age_h": 4.8
   },
   "phases": [
    {
@@ -1092,17 +1092,17 @@
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 895,
+   "n": 893,
    "p50": 0.9,
-   "p95": 6.7,
+   "p95": 6.8,
    "ok_pct": 17,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 261,
+   "n": 262,
    "p50": 5.4,
-   "p95": 352.1,
+   "p95": 360.1,
    "ok_pct": null,
    "tps": 18.9
   },
@@ -1116,8 +1116,8 @@
   },
   {
    "tag": "assay-split",
-   "n": 147,
-   "p50": 129.6,
+   "n": 148,
+   "p50": 137.8,
    "p95": 1029.2,
    "ok_pct": null,
    "tps": 16.1
@@ -1158,7 +1158,7 @@
    "breached": [],
    "liveness": 46,
    "liveness_ceiling": 52,
-   "age_min": 2.8
+   "age_min": 10.0
   },
   "escalation_recent": {
    "SUPERVISOR": 35,
@@ -1198,7 +1198,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 60,
+   "observed": 72,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1234,7 +1234,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "UNMEASURED -- 15 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
+   "observed": "UNMEASURED -- 18 call(s) in the 15-min window, below the 20 needed to judge a rate. This is too thin a sample to measure, NOT a pool measuring healthy.",
    "floor": "50%",
    "order": "The pool is not being ASKED enough to tell whether it answers. Read `model calls per hour` above -- it is the same fault seen from the volume side, and it is the one to work. Do not read this line as a failure rate either way.",
    "severity": "medium"
@@ -1297,7 +1297,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "4.6h",
+   "observed": "4.8h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1423,7 +1423,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 2 of 6 benchmarks done, started 0.4h ago -- pending: Monkey D. Luffy, Naruto Uzumaki, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 3 of 6 benchmarks done, started 0.5h ago -- pending: Naruto Uzumaki, Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1432,7 +1432,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "1/4 moved in 44m",
+   "observed": "1/4 moved in 41m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1459,7 +1459,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": false,
-   "observed": "18.3h",
+   "observed": "18.4h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1486,7 +1486,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "read_auto (34 min, 411270 bytes), roll_auto (25 min, 2280722 bytes)",
+   "observed": "read_auto (41 min, 411270 bytes), roll_auto (32 min, 2280722 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1513,7 +1513,7 @@
    "standard": "disk space",
    "group": "machine",
    "holds": true,
-   "observed": "85 GB",
+   "observed": "84 GB",
    "floor": "10 GB",
    "order": "The roll writes hundreds of megabytes an hour. Out of disk, every stage fails at once and most of them fail quietly.",
    "severity": "high"
@@ -1557,8 +1557,8 @@
   {
    "standard": "one instance of each job",
    "group": "machine",
-   "holds": false,
-   "observed": "publish.py x2",
+   "holds": true,
+   "observed": "one each",
    "floor": "one each",
    "order": "Two copies of the same job race on one cache and split one quota. The supervisor excludes by process basename before launching, so a duplicate means one was started outside it -- find and stop the older.",
    "severity": "high"
@@ -1567,7 +1567,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.2h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1605,7 +1605,7 @@
    "metric": "cited",
    "now": 25170,
    "delta": 0,
-   "minutes": 34,
+   "minutes": 31,
    "reset": false,
    "stalled": true
   },
@@ -1613,7 +1613,7 @@
    "metric": "settled",
    "now": 238431,
    "delta": 0,
-   "minutes": 34,
+   "minutes": 31,
    "reset": false,
    "stalled": true
   },
@@ -1621,15 +1621,15 @@
    "metric": "feats",
    "now": 120434,
    "delta": 0,
-   "minutes": 34,
+   "minutes": 31,
    "reset": false,
    "stalled": true
   },
   {
    "metric": "entities read",
    "now": 2157,
-   "delta": 2,
-   "minutes": 34,
+   "delta": 1,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   },
@@ -1637,18 +1637,18 @@
    "metric": "chunks",
    "now": 10656,
    "delta": 0,
-   "minutes": 34,
+   "minutes": 31,
    "reset": false,
    "stalled": true
   },
   {
    "metric": "standards met",
-   "now": 33,
-   "delta": 0,
-   "minutes": 34,
+   "now": 34,
+   "delta": 1,
+   "minutes": 31,
    "reset": false,
-   "stalled": true
+   "stalled": false
   }
  ],
- "generated": "2026-09-03T16:37:30"
+ "generated": "2026-09-03T16:44:40"
 }
