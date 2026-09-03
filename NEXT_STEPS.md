@@ -91,6 +91,22 @@ and which it is has to be decided by reading, never assumed.
 
 ---
 
+## 0a-i. A GREEN BASELINE IS ACHIEVABLE RIGHT NOW — CONSIDER RE-RUNNING THE PASS FIRST
+
+Checked immediately after the pass finished: `verify_math` **1130 passed, 0 FAILED**, drill
+386/386, pyflakes clean, halt clear. So §20z is genuinely intermittent and a **clean baseline is
+available**, which was not true when this shift's pass took its own.
+
+**A re-run would settle six of the twelve survivors automatically** — every artefact below — and
+would give the first mutation score in this project's recent history that was taken with the main
+battery switched *on*. It costs roughly 15.5 hours of gate time.
+
+**I did not start it.** The owner's ruling is one pass per shift and the mandated one completed;
+launching a second 15-hour job that competes with every production daemon is a resource decision
+that belongs to a person, not to a run acting on its own initiative. It is surfaced here rather
+than taken. If you do run it, launch it **detached** (see below) and expect the artefact list to
+shrink to the two genuine findings.
+
 ## 0a. THE `assay.py` TARGET FINISHED — AND MOST OF ITS SURVIVORS ARE NOISE
 
 **`assay.py`: 119 mutants, 108 killed, 10 SURVIVED, 1 INDETERMINATE.** The run filed nine

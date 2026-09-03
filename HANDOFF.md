@@ -90,6 +90,15 @@ the normal configuration. Two are proven equivalent, two want a read rather than
 (`assay.py:1343`) timed out and was never judged — which mutate reports honestly as neither killed
 nor survived, scoring over 118 rather than 119.
 
+**A GREEN BASELINE IS AVAILABLE NOW, AND I DELIBERATELY DID NOT USE IT.** Checked the moment the
+pass finished: `verify_math` **1130 passed, 0 FAILED**, drill 386/386, pyflakes clean, halt clear.
+So §20z is genuinely intermittent, and a re-run would settle all six artefacts automatically and
+produce the first mutation score here taken with the main battery switched *on*. It costs about
+15.5 hours of gate time. **I left that decision to a person:** the ruling is one pass per shift,
+the mandated one completed, and starting a second fifteen-hour job that competes with every
+production daemon is a resource call a run should surface rather than make on its own authority.
+It is written up as the first item in `NEXT_STEPS.md`.
+
 **The standout is `escalation.py`: 117 of 118 killed, zero indeterminate, and the single survivor
 proven equivalent** — its initialiser's value is unreadable on every path out of the function.
 That is the halt machinery, the module the entire chain of command rests on, and it is the
