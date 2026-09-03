@@ -23,22 +23,26 @@ Two caveats the log states itself and that you must carry forward rather than sk
   survivor may be that row rather than a hole in the battery — the log says to read those first.
 - **Flakiness was not checked** (`pass --check-flaky before trusting survivors`).
 
-**IT WAS STILL RUNNING WHEN THE SHIFT CLOSED, AND IT MAY NOT HAVE SURVIVED.** Measured at close:
-pid 40268, alive and healthy 60 minutes in, with a child `verify_math.py` actively running a gate
-for a mutant — so it was working, not hung. But **172 mutants** are on the list
-(`assay.py` ×41, `escalation.py` ×107, `prose_gate.py` ×24) and each is judged by re-running the
-battery, so this is a many-hour job competing with every production daemon for the same machine.
-It was launched as a background job of the maintenance session, **so if that session ended, the
-job may have been killed with it.**
+**IT WAS STILL RUNNING AT CLOSE, AND IT WAS RELAUNCHED DETACHED SO IT CAN FINISH — pid 51388.**
+The pass is **172 mutants** (`assay.py` ×41, `escalation.py` ×107, `prose_gate.py` ×24), each
+judged by re-running the battery on a machine already carrying every production daemon: a
+many-hour job. It had been launched as a background job of the maintenance session and would very
+likely have been killed at session end having produced nothing — the outcome the every-shift
+ruling exists to prevent. It was therefore stopped and restarted with `pythonw.exe` and
+`DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP` (no console window), trading an hour of progress for
+a run that can actually complete. The live tree was re-linted clean after the kill before the
+relaunch; mutation is sandboxed, so the live tree was never at risk.
 
 **So check before you conclude anything:**
-1. Read `state/mutate_2026-09-02.log`. If it still ends at the `all gates reproducible` line, the
-   pass produced **no results** — that is a pass that did not run, not a pass with zero survivors.
-2. Check `state/MUTATION_ACTIVE.json` and test whether its `pid` is still alive. If it is, leave
-   it alone and let it finish.
-3. If the pid is dead and the log has no results, **relaunch it** — and prefer launching it
-   detached, so it outlives the session that starts it. Also reap the orphaned sandbox it left
-   under `%TEMP%\panscriptum_mutate_*` if the keeper has not.
+1. Read `state/mutate_2026-09-02.log`. If it ends at a `all gates reproducible` line with no
+   results under it, the pass produced **no results** — that is a pass that did not run, not a
+   pass with zero survivors.
+2. Check `state/MUTATION_ACTIVE.json` and test whether its `pid` is alive. If it is, leave it
+   alone and let it finish.
+3. If the pid is dead and the log has no results, relaunch it — **detached**, the same way, so it
+   outlives the session that starts it.
+4. **Two sandboxes may want reaping** under `%TEMP%\panscriptum_mutate_*`; the killed run's
+   (`…_xouij84i`) is orphaned with a dead owner pid, which mutate's six-hour reaper should collect.
 
 A survivor is not a bug until someone reads the diff — some mutations are genuinely equivalent,
 and which it is has to be decided by reading, never assumed.

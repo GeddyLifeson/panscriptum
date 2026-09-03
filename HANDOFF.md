@@ -83,24 +83,32 @@ their own right:
    DIFFERENCE from the above`, with **drill 386/386 green in the sandbox** (confirming the net fix
    holds there) and `verify_math` 1129/1 on §20z alone.
 
-   **IT WAS STILL RUNNING WHEN THE SHIFT CLOSED, AND IT MAY NOT HAVE SURVIVED.** Measured at
-   close: pid 40268, alive and healthy sixty minutes in, with a child `verify_math.py` actively
-   running a gate for a mutant — so it was working, not hung. (An earlier check suggested
-   otherwise and was wrong: 2.5s of parent CPU and "no children" came from a malformed process
-   filter, not from an idle process. The parent *should* show almost no CPU; it spends its life
-   waiting on gate subprocesses.) But **172 mutants** are listed — `assay.py` ×41,
-   `escalation.py` ×107, `prose_gate.py` ×24 — each judged by re-running the battery, on a machine
-   already carrying every production daemon. That is a many-hour job, and it was launched as a
-   background job of this maintenance session, **so if the session ended it may have been killed
-   with it.**
+   **IT WAS STILL RUNNING AT CLOSE, AND IT WAS RELAUNCHED DETACHED SO IT CAN FINISH.** The first
+   run of it reached sixty minutes healthy — pid 40268, with a child `verify_math.py` actively
+   running a gate for a mutant. (An earlier check of mine suggested it was idle and was wrong:
+   2.5s of parent CPU and "no children" came from a malformed process filter. The parent *should*
+   show almost no CPU; it spends its life waiting on gate subprocesses.) But **172 mutants** are
+   listed — `assay.py` ×41, `escalation.py` ×107, `prose_gate.py` ×24 — each judged by re-running
+   the battery, on a machine already carrying every production daemon. That is a many-hour job,
+   and it had been launched as a **background job of the maintenance session**, so it would very
+   likely have been killed at session end having produced nothing — which is the outcome the
+   owner's every-shift ruling exists to prevent, and which has now happened several shifts
+   running.
+
+   So it was stopped and **relaunched DETACHED**: `pythonw.exe` with
+   `DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP` (no console window, per the standing rule),
+   **pid 51388**, its launcher exited, lock re-taken, fresh sandbox built. An hour of progress was
+   traded for a run that can actually finish. Killing it was safe by construction: mutation
+   happens in a sandbox (`sandboxed: true`) so the live tree is untouched, and `mutate.py`'s lock
+   treats a record whose pid is gone as stale rather than blocking forever. The live tree was
+   re-linted clean after the kill before the relaunch, not assumed.
 
    **READ `state/mutate_2026-09-02.log` FIRST THING — but check whether the pass survived before
-   concluding anything from it.** If the log still ends at the `all gates reproducible` line, that
-   is a pass that **did not run**, not a pass with zero survivors. Check whether
-   `state/MUTATION_ACTIVE.json`'s pid is still alive; if it is, leave it be. If it is dead and the
-   log holds no results, relaunch — and prefer launching it **detached**, so it outlives the
-   session that starts it, which is the flaw in how this shift ran it. Reap the orphaned sandbox
-   under `%TEMP%\panscriptum_mutate_*` if the keeper has not.
+   concluding anything from it.** If the log still ends at a `all gates reproducible` line with no
+   results under it, that is a pass that **did not run**, not a pass with zero survivors. Check
+   whether `state/MUTATION_ACTIVE.json`'s pid is alive; if it is, leave it be. **Two sandboxes may
+   need reaping** under `%TEMP%\panscriptum_mutate_*` — the killed run's (`…_xouij84i`) is
+   orphaned and its owner pid is dead, which mutate's own six-hour reaper should collect.
 
    Two further caveats the log states itself and that must be carried forward: **§20z was red in
    the baseline, so it was disabled as a detector for this run** — any survivor may be that row
