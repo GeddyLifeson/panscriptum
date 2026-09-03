@@ -1,11 +1,11 @@
 # OVERWATCH
 
-round 307  ·  last run 2026-09-03 10:22
+round 308  ·  last run 2026-09-03 10:52
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 292,042 inspected
+- files that will not parse: **0** of 292,042 inspected (deep scan as of round 307)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
@@ -13,8 +13,10 @@ round 307  ·  last run 2026-09-03 10:22
 
 ## What the model found in the code
 
-**22 open** (4 high). Newest first.
+**20 open** (5 high). Newest first.
 
+- **withdraw_chapters.py** `shutil.move` — [HIGH] A failed move may overwrite existing files in the archive
+  - says: A failed move keeps its record
 - **standards.py** `_dup` — [HIGH] a variable that is not appended to the out list
   - says: one instance of each job
 - **standards.py** `errs` — [HIGH] sum of all calls minus successful ones
@@ -43,14 +45,8 @@ round 307  ·  last run 2026-09-03 10:22
   - says: Count, labelled sample, complete list in evidence
 - **workorders.py** `scanned` — [MEDIUM] checks if the directory exists, not if the scan was run
   - says: gated on the scan having actually happened
-- **workorders.py** `filed` — [MEDIUM] appends file orders for binding issues but the code is designed to close orders when hosts recover
-  - says: appends file orders for binding issues
-- **workorders.py** `filed` — [MEDIUM] is a list of orders to be filed and closed
-  - says: is a list of orders to be filed
 - **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
   - says: raises an order for a problem
-- **workorders.py** `allsweep` — [MEDIUM] re-derives the severity from the `failed` flag, not reading the precomputed grade
-  - says: reads it rather than re-deriving it, because a second copy of the rule is how the two came to drift before
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
   - says: The drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD that is -- an age is not decoration here, it is the difference between "57 nets held" and "57 nets held, at some point, possibly before the change you are looking at".
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
