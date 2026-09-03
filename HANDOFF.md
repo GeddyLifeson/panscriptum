@@ -83,12 +83,30 @@ their own right:
    DIFFERENCE from the above`, with **drill 386/386 green in the sandbox** (confirming the net fix
    holds there) and `verify_math` 1129/1 on §20z alone.
 
-   **READ `state/mutate_2026-09-02.log` FIRST THING AND REPORT THE SURVIVOR COUNT.** Two caveats
-   the log states itself and that must be carried forward: **§20z was red in the baseline, so it
-   was disabled as a detector for this run** — any survivor may be that row rather than a hole in
-   the battery, and the log says to read those first. And **flakiness was not checked**; the log
-   notes `pass --check-flaky before trusting survivors`. A pass killed halfway is not a pass with
-   fewer survivors.
+   **IT WAS STILL RUNNING WHEN THE SHIFT CLOSED, AND IT MAY NOT HAVE SURVIVED.** Measured at
+   close: pid 40268, alive and healthy sixty minutes in, with a child `verify_math.py` actively
+   running a gate for a mutant — so it was working, not hung. (An earlier check suggested
+   otherwise and was wrong: 2.5s of parent CPU and "no children" came from a malformed process
+   filter, not from an idle process. The parent *should* show almost no CPU; it spends its life
+   waiting on gate subprocesses.) But **172 mutants** are listed — `assay.py` ×41,
+   `escalation.py` ×107, `prose_gate.py` ×24 — each judged by re-running the battery, on a machine
+   already carrying every production daemon. That is a many-hour job, and it was launched as a
+   background job of this maintenance session, **so if the session ended it may have been killed
+   with it.**
+
+   **READ `state/mutate_2026-09-02.log` FIRST THING — but check whether the pass survived before
+   concluding anything from it.** If the log still ends at the `all gates reproducible` line, that
+   is a pass that **did not run**, not a pass with zero survivors. Check whether
+   `state/MUTATION_ACTIVE.json`'s pid is still alive; if it is, leave it be. If it is dead and the
+   log holds no results, relaunch — and prefer launching it **detached**, so it outlives the
+   session that starts it, which is the flaw in how this shift ran it. Reap the orphaned sandbox
+   under `%TEMP%\panscriptum_mutate_*` if the keeper has not.
+
+   Two further caveats the log states itself and that must be carried forward: **§20z was red in
+   the baseline, so it was disabled as a detector for this run** — any survivor may be that row
+   rather than a hole in the battery, and the log says to read those first. And **flakiness was
+   not checked**; the log notes `pass --check-flaky before trusting survivors`. A survivor is not
+   a bug until someone reads the diff.
 
 **`verify_math` §20z is FLAKY, and that flakiness silently cancels the mandated mutation pass.**
 Filed. The row asserts *no probe writes into the live failure ledger*, but several of its probes
