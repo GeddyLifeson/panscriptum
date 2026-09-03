@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 297  ·  last run 2026-09-03 01:56
+round 298  ·  last run 2026-09-03 02:58
 
 ## Structure
 
@@ -12,18 +12,20 @@ round 297  ·  last run 2026-09-03 01:56
 
 ## What the model found in the code
 
-**25 open** (5 high). Newest first.
+**26 open** (4 high). Newest first.
 
+- **magnitude.py** `band_hits` — [HIGH] counts BAND MATCHES ONLY (got_band == band), while the verdict requires every scored row consistent (got_band == band and abs(got_val - val) <= ci + got_ci)
+  - says: anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays
+- **ledger_guard.py** `silence.append_line` — [HIGH] used bare `open(CHAIN, "a")`
+  - says: THROUGH `silence.append_line`, NOT A BARE `open(CHAIN, "a")` (order f7b611d107cb, sweep41-batch10). This was the exact pattern measured on 2026-09-01 losing 704 of 3,200 rows: `O_APPEND` makes the seek-to-end and the write one operation on POSIX, and the Windows CRT implements it as a seek FOLLOWED BY a write, so two processes seek to the same end offset and the second lands ON the first. `silence.append_line` was written that same day to close it -- an OS-level lock on a sidecar plus `O_BINARY` -- and this call site, in the module whose own commentary quotes that measurement, was still using the old shape.
 - **drill.py** `ESC.escalate` — [HIGH] rejects every VALID rung and accepts every invalid one
   - says: the bounds test `JANITOR <= level <= OWNER`
 - **drill.py** `ESC.brief` — [HIGH] hands every rung an empty record
   - says: a field that is None must not
-- **drill.py** `ESC._safe_name` — [HIGH] a truncating name silently merges two areas of the park
-  - says: two long source names sharing a 60-character prefix do NOT share a log
-- **drill.py** `ESC._safe_name` — [HIGH] renames every existing log on disk and stops disambiguating the names that actually collide
-  - says: a short name is not given a digest it does not need
-- **drill.py** `ESC._safe_name` — [HIGH] collapses into one file named for none of them
-  - says: INJECTIVITY: every source is its own area of the park
+- **magnitude.py** `census` — [MEDIUM] only contains attempted, answered, refused, sentences, sentences_unread
+  - says: count of attempted, answered, refused, etc.
+- **magnitude.py** `_HANDOFF` — [MEDIUM] Matches patterns where the entity is not the doer
+  - says: The entity must be the DOER
 - **hostcheck.py** `purge-record` — [MEDIUM] the entries are cleared and the removal is stamped into the record
   - says: the gap it leaves is a recorded finding rather than a silence
 - **health.py** `preflight` — [MEDIUM] the function is called but its return value is not used in the code's logic
