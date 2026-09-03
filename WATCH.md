@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 308  ·  last run 2026-09-03 10:52
+round 309  ·  last run 2026-09-03 11:30
 
 ## Structure
 
@@ -13,7 +13,7 @@ round 308  ·  last run 2026-09-03 10:52
 
 ## What the model found in the code
 
-**20 open** (5 high). Newest first.
+**18 open** (5 high). Newest first.
 
 - **withdraw_chapters.py** `shutil.move` — [HIGH] A failed move may overwrite existing files in the archive
   - says: A failed move keeps its record
@@ -25,6 +25,10 @@ round 308  ·  last run 2026-09-03 10:52
   - says: sum of successful calls
 - **silence.py** `audit` — [HIGH] undefined
   - says: audit
+- **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal
+  - says: this whole function exists to argue that a write verdict must never be discarded, and this was the one call in it that still did
+- **catalog.py** `cmd_stats` — [MEDIUM] Prints populated sources with no books but truncates the list to 30 entries
+  - says: Prints populated sources with no books
 - **render.py** `view` — [MEDIUM] calls view() for the four FETCHED tiers, but the comment says that the loop only ever calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet, no request made. However, the code actually calls view() for the four FETCHED tiers, which may involve making requests. The comment is misleading as it suggests no requests are made, but the code may actually make requests.
   - says: calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet_view / burg_view), no request made
 - **pick_model.py** `vram_measured` — [MEDIUM] is a boolean indicating whether _measured_vram was not None
@@ -37,14 +41,6 @@ round 308  ·  last run 2026-09-03 10:52
   - says: corpus read is progressing
 - **foreman.py** `reprove_pool` — [MEDIUM] buckets with headroom are not handled
   - says: buckets with headroom
-- **foreman.py** `reprove_pool` — [MEDIUM] model calls per hour are not tracked
-  - says: model calls per hour
-- **foreman.py** `reprove_pool` — [MEDIUM] the library's counters are not moving
-  - says: the library's counters are moving
-- **workorders.py** `hits` — [MEDIUM] filters out suppressed findings but does not count or sample as described
-  - says: Count, labelled sample, complete list in evidence
-- **workorders.py** `scanned` — [MEDIUM] checks if the directory exists, not if the scan was run
-  - says: gated on the scan having actually happened
 - **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
   - says: raises an order for a problem
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
