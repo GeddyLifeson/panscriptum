@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 311  ·  last run 2026-09-03 13:35
+round 312  ·  last run 2026-09-03 14:10
 
 ## Structure
 
@@ -12,26 +12,44 @@ round 311  ·  last run 2026-09-03 13:35
 
 ## What the model found in the code
 
-**14 open** (6 high). Newest first.
+**23 open** (5 high). Newest first.
 
-- **ingest_doc.py** `write_record_catalogue` — [HIGH] the code does not call write_record_catalogue but instead uses a different method
-  - says: this is a cast-growing writer, and write_record's disk-wins merge DISCARDED the first 14 entities this module ever found
+- **verify_math.py** `check` — [HIGH] the key is not stable across runs due to using hash()
+  - says: the same entity and passage still hit the same key IN A LATER PROCESS
+- **verify_math.py** `silence.append_line` — [HIGH] append_line raises an exception when the file path is invalid
+  - says: append_line reports failure rather than raising
 - **codewatch.py** `exit_if_stale` — [HIGH] Exits the process if its code is out of date, but the code references a function that is no longer present in the module (e.g., _budget_left(who)), which is a defect of fact.
   - says: Exits the process if its code is out of date.
 - **standards.py** `_dup` — [HIGH] a variable that is not appended to the out list
   - says: one instance of each job
 - **standards.py** `errs` — [HIGH] sum of all calls minus successful ones
   - says: sum of failed calls
-- **standards.py** `calls` — [HIGH] sum of all calls minus successful ones
-  - says: sum of successful calls
-- **silence.py** `audit` — [HIGH] undefined
-  - says: audit
+- **verify_math.py** `_open20i` — [MEDIUM] contains buckets that are not open unknowns
+  - says: contains buckets that are open unknowns
+- **verify_math.py** `_cb20i.UNRECOGNISED` — [MEDIUM] assigns the file path to the attribute
+  - says: replaces the UNRECOGNISED path with a file
+- **verify_math.py** `measure_bit_value` — [MEDIUM] is NOT the cumulative figure the stale docstring quoted
+  - says: is NOT the cumulative figure the stale docstring quoted
+- **verify_math.py** `measure_bit_value` — [MEDIUM] uses band_resolution, not the cumulative length
+  - says: uses band_resolution, not the cumulative length
+- **verify_math.py** `check` — [MEDIUM] the k-th burg holds P1/k, but the code compares it to a value that is the floor of P1/k, and the comparison is exact rather than using a tolerance
+  - says: the k-th burg holds P1/k, independently recomputed
+- **verify_math.py** `A.axis_score` — [MEDIUM] returns the clamped value at the band's floor
+  - says: a firecracker and the band floor both read 0.0 — this is why NONE exists
+- **policy.py** `ev_interesting` — [MEDIUM] not used after assignment
+  - says: interesting feats files
+- **policy.py** `ev_unreadable` — [MEDIUM] not used after assignment
+  - says: unreadable feats files
+- **policy.py** `ev_passed` — [MEDIUM] not used after assignment
+  - says: number of feats files that passed
+- **policy.py** `ev_read` — [MEDIUM] not used after assignment
+  - says: number of feats files read
+- **policy.py** `ev_total` — [MEDIUM] not used after assignment
+  - says: total number of feats files
 - **coverage.py** `measure` — [MEDIUM] divides by d which is max(n, 1) but does not guard divisions in the print statements
   - says: guards every division with max(n, 1)
 - **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal
   - says: this whole function exists to argue that a write verdict must never be discarded, and this was the one call in it that still did
-- **render.py** `view` — [MEDIUM] calls view() for the four FETCHED tiers, but the comment says that the loop only ever calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet, no request made. However, the code actually calls view() for the four FETCHED tiers, which may involve making requests. The comment is misleading as it suggests no requests are made, but the code may actually make requests.
-  - says: calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet_view / burg_view), no request made
 - **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
   - says: raises an order for a problem
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
