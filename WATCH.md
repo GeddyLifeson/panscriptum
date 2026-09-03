@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 298  ·  last run 2026-09-03 02:58
+round 299  ·  last run 2026-09-03 04:22
 
 ## Structure
 
@@ -12,16 +12,28 @@ round 298  ·  last run 2026-09-03 02:58
 
 ## What the model found in the code
 
-**26 open** (4 high). Newest first.
+**30 open** (7 high). Newest first.
 
+- **publish.py** `leaks` — [HIGH] leaks is a list of findings that are not suppressed, and the code raises an error for them
+  - says: Suppressed findings are REPORTED by the scanner and excluded from the refusal
+- **publish.py** `prune_export` — [HIGH] deletes files from the live project
+  - says: REFUSES TO RUN ANYWHERE BUT THE EXPORT COPY
+- **pipeline.py** `write_record` — [HIGH] write_record returns True even if the merge is partial (i.e., some entries are not written due to name collisions), but the function does not ensure all entries are written to disk. The function may return True even if the merge is partial, which contradicts the docstring's claim that it was written to stop the 30,207-entries-to-1,051 revert.
+  - says: write_record: ... returns True, 0 of 20 settled on disk
+- **pipeline.py** `gate_done` — [HIGH] Marks a phase done if all artifacts landed, but the docstring says that the callers did not use the verdict from _landed(), leading to incorrect marking even if some artifacts failed to land.
+  - says: Mark a phase done ONLY if every artifact it wrote actually landed.
+- **onomast.py** `merged` — [HIGH] retired is True if cid is not in resolved
+  - says: STANDING IS NOT RETIRED, AND THIS USED TO FLAG BOTH THE SAME WAY
 - **magnitude.py** `band_hits` — [HIGH] counts BAND MATCHES ONLY (got_band == band), while the verdict requires every scored row consistent (got_band == band and abs(got_val - val) <= ci + got_ci)
   - says: anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays
 - **ledger_guard.py** `silence.append_line` — [HIGH] used bare `open(CHAIN, "a")`
   - says: THROUGH `silence.append_line`, NOT A BARE `open(CHAIN, "a")` (order f7b611d107cb, sweep41-batch10). This was the exact pattern measured on 2026-09-01 losing 704 of 3,200 rows: `O_APPEND` makes the seek-to-end and the write one operation on POSIX, and the Windows CRT implements it as a seek FOLLOWED BY a write, so two processes seek to the same end offset and the second lands ON the first. `silence.append_line` was written that same day to close it -- an OS-level lock on a sidecar plus `O_BINARY` -- and this call site, in the module whose own commentary quotes that measurement, was still using the old shape.
-- **drill.py** `ESC.escalate` — [HIGH] rejects every VALID rung and accepts every invalid one
-  - says: the bounds test `JANITOR <= level <= OWNER`
-- **drill.py** `ESC.brief` — [HIGH] hands every rung an empty record
-  - says: a field that is None must not
+- **publish.py** `write` — [MEDIUM] Writes the data file with a temporary name based on pid and thread to avoid collisions
+  - says: Land the page's data file. -> its path.
+- **onomast.py** `well_formed` — [MEDIUM] Enforces constraints that may not align with the intended pronounceability checks
+  - says: Is this a name a Custos could say aloud and write down twice the same way?
+- **manifest_builder.py** `manifest_landed` — [MEDIUM] is assigned the return value of write_json, which is a boolean indicating JSON write success
+  - says: returns whether the rename LANDED
 - **magnitude.py** `census` — [MEDIUM] only contains attempted, answered, refused, sentences, sentences_unread
   - says: count of attempted, answered, refused, etc.
 - **magnitude.py** `_HANDOFF` — [MEDIUM] Matches patterns where the entity is not the doer
@@ -54,10 +66,6 @@ round 298  ·  last run 2026-09-03 02:58
   - says: THE HALT IS CHECKED HERE, AND UNTIL RUN #35 IT WAS NOT CHECKED ANYWHERE ON THIS LANE.
 - **drill.py** `GL._take_slot` — [MEDIUM] return None or False
   - says: arbitrate a slot
-- **drill.py** `GL.lane` — [MEDIUM] create a context manager that does nothing
-  - says: arbitrate a lane
-- **drill.py** `CW._budget_left` — [MEDIUM] the ledger path is swapped to a scratch file for the same litter discipline
-  - says: the ledger path is swapped to a scratch file
 - **drill.py** `drill_no_top_ups` — [MEDIUM] The function defines and runs tests related to ruling on provider behaviors, but the actual implementation does not directly enforce the ruling. The ruling is more about the logic in the tests rather than the function itself.
   - says: OWNER RULING 2026-08-26: cooldown is fine; pay-to-continue is axed.
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
