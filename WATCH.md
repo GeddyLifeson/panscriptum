@@ -1,18 +1,18 @@
 # OVERWATCH
 
-round 294  ·  last run 2026-09-02 22:35
+round 295  ·  last run 2026-09-03 00:19
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 289,998 inspected (deep scan as of round 289)
+- files that will not parse: **0** of 290,960 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**24 open** (11 high). Newest first.
+**23 open** (11 high). Newest first.
 
 - **drill.py** `ESC.escalate` — [HIGH] rejects every VALID rung and accepts every invalid one
   - says: the bounds test `JANITOR <= level <= OWNER`
@@ -54,8 +54,6 @@ round 294  ·  last run 2026-09-02 22:35
   - says: the code says it does instead
 - **drill.py** `WO.resolve_code` — [MEDIUM] The code attempts to resolve a work order but does not handle the case where the cleanup failed, leading to a potential leak of the LOCAL_AGENT_BLAST_CAP order in the live queue.
   - says: A FAILED CLEANUP IS NOT NOTHING. Was `except Exception: pass`; a resolve that did not happen leaves a LOCAL_AGENT_BLAST_CAP order standing in the live queue on every cycle, and the reason it did not happen was thrown away at the moment it was known. Recorded now, in the ledger the rest of the project uses for exactly this.
-- **drill.py** `_consults_the_halt` — [MEDIUM] checks that each branch consults the halt and the give-up is properly guarded
-  - says: checks that each branch consults the halt
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
   - says: The index entry sits inside the target: is it there as the title, or as vocabulary?
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
