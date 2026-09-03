@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 299  ·  last run 2026-09-03 04:22
+round 300  ·  last run 2026-09-03 05:24
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 299  ·  last run 2026-09-03 04:22
 
 ## What the model found in the code
 
-**30 open** (7 high). Newest first.
+**31 open** (7 high). Newest first.
 
 - **publish.py** `leaks` — [HIGH] leaks is a list of findings that are not suppressed, and the code raises an error for them
   - says: Suppressed findings are REPORTED by the scanner and excluded from the refusal
@@ -28,6 +28,12 @@ round 299  ·  last run 2026-09-03 04:22
   - says: anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays
 - **ledger_guard.py** `silence.append_line` — [HIGH] used bare `open(CHAIN, "a")`
   - says: THROUGH `silence.append_line`, NOT A BARE `open(CHAIN, "a")` (order f7b611d107cb, sweep41-batch10). This was the exact pattern measured on 2026-09-01 losing 704 of 3,200 rows: `O_APPEND` makes the seek-to-end and the write one operation on POSIX, and the Windows CRT implements it as a seek FOLLOWED BY a write, so two processes seek to the same end offset and the second lands ON the first. `silence.append_line` was written that same day to close it -- an OS-level lock on a sidecar plus `O_BINARY` -- and this call site, in the module whose own commentary quotes that measurement, was still using the old shape.
+- **recover_folder_records.py** `record_path` — [MEDIUM] the existing file is checked for existence, but the code does not actually check if the file is populated (i.e., contains entries) before considering it as already populated
+  - says: the existing file wins where there is one, so a record written under the old 60-character cap is FOUND (and therefore correctly seen as already populated by the guard below) instead of being shadowed by a second file under the un-truncated name.
+- **read.py** `cachekey.candidate_paths` — [MEDIUM] generates paths for both spellings
+  - says: walks both spellings, natural first
+- **read.py** `cachekey.owns` — [MEDIUM] checks if the evidence belongs to the entity
+  - says: decides that by the stored `entity`
 - **publish.py** `write` — [MEDIUM] Writes the data file with a temporary name based on pid and thread to avoid collisions
   - says: Land the page's data file. -> its path.
 - **onomast.py** `well_formed` — [MEDIUM] Enforces constraints that may not align with the intended pronounceability checks
@@ -62,10 +68,6 @@ round 299  ·  last run 2026-09-03 04:22
   - says: The interlocks, as data. The FIRST thing the page shows and the first thing a run reads.
 - **catalogue_models.py** `sweep` — [MEDIUM] The code processes rows where the outcome is either LISTED or EMPTY_LIST, but the comment explains that the code should consider EMPTY_LIST as a successful measurement. However, the code's logic for determining 'live' and 'verified' includes EMPTY_LIST, which aligns with the comment's intention. The comment's confusion might be due to a misunderstanding of how the code handles these outcomes, but the code itself correctly includes EMPTY_LIST in the live and verified lists.
   - says: ON THE OUTCOME, NOT ON TRUTHINESS (sweep42-batch14).
-- **local_agent.py** `run` — [MEDIUM] The function does check the halt condition via `assert_clear` but does not handle the case where the model's answer is empty and no patches were attempted, which is a failure case that should set `ok=False`.
-  - says: THE HALT IS CHECKED HERE, AND UNTIL RUN #35 IT WAS NOT CHECKED ANYWHERE ON THIS LANE.
-- **drill.py** `GL._take_slot` — [MEDIUM] return None or False
-  - says: arbitrate a slot
 - **drill.py** `drill_no_top_ups` — [MEDIUM] The function defines and runs tests related to ruling on provider behaviors, but the actual implementation does not directly enforce the ruling. The ruling is more about the logic in the tests rather than the function itself.
   - says: OWNER RULING 2026-08-26: cooldown is fine; pay-to-continue is axed.
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
