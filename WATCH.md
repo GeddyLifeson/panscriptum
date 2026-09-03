@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 304  ·  last run 2026-09-03 08:15
+round 305  ·  last run 2026-09-03 08:47
 
 ## Structure
 
@@ -13,8 +13,10 @@ round 304  ·  last run 2026-09-03 08:15
 
 ## What the model found in the code
 
-**29 open** (0 high). Newest first.
+**23 open** (1 high). Newest first.
 
+- **mutate.py** `mutate` — [HIGH] it does something else instead
+  - says: the code says it does
 - **foreman.py** `reprove_pool` — [MEDIUM] corpus read finishes inside a day are not handled
   - says: corpus read finishes inside a day
 - **foreman.py** `reprove_pool` — [MEDIUM] chunks nobody answered are not handled
@@ -27,8 +29,6 @@ round 304  ·  last run 2026-09-03 08:15
   - says: model calls per hour
 - **foreman.py** `reprove_pool` — [MEDIUM] the library's counters are not moving
   - says: the library's counters are moving
-- **worldseed.py** `write_json` — [MEDIUM] returns False on a denied replace but the code treats it as a failure and returns 1
-  - says: returns False on a denied replace instead of raising
 - **workorders.py** `hits` — [MEDIUM] filters out suppressed findings but does not count or sample as described
   - says: Count, labelled sample, complete list in evidence
 - **workorders.py** `scanned` — [MEDIUM] checks if the directory exists, not if the scan was run
@@ -47,24 +47,12 @@ round 304  ·  last run 2026-09-03 08:15
   - says: returns whether the rename LANDED
 - **snapshot.py** `restore` — [MEDIUM] Copies a snapshot back into a given directory, but returns the number of paths restored, and raises SnapshotFailed if any of the manifest's `took` entries could not be copied back. However, the function does not handle the case where the `into` directory is not writable or does not exist, which could lead to errors not being properly handled.
   - says: Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it. -> the number of paths restored. RAISES SnapshotFailed if any of the manifest's `took` entries could not be copied back -- it does not silently return fewer than it promised.
-- **scout.py** `scout` — [MEDIUM] scout is called with names or [] but the intended behavior is to pass names directly
-  - says: scout(a.source, names or [], register=not a.dry)
-- **scout.py** `never_asked` — [MEDIUM] sources that were never reached (i.e., not attempted)
-  - says: sources that were never asked
 - **scout.py** `found` — [MEDIUM] count of sources that have been registered (i.e., landed)
   - says: count of sources that now have somewhere to read from
-- **rigor.py** `faculty_parity_weights` — [MEDIUM] prints the actual derived weights, but the comment suggests it always prints a flat zero
-  - says: DERIVED, NOT ASSERTED. This printed a flat "Int/Wis/Cha cannot affect a Magnitude at all" regardless of the data
-- **recover_folder_records.py** `record_path` — [MEDIUM] the existing file is checked for existence, but the code does not actually check if the file is populated (i.e., contains entries) before considering it as already populated
-  - says: the existing file wins where there is one, so a record written under the old 60-character cap is FOUND (and therefore correctly seen as already populated by the guard below) instead of being shadowed by a second file under the un-truncated name.
 - **read.py** `cachekey.candidate_paths` — [MEDIUM] generates paths for both spellings
   - says: walks both spellings, natural first
 - **read.py** `cachekey.owns` — [MEDIUM] checks if the evidence belongs to the entity
   - says: decides that by the stored `entity`
-- **publish.py** `write` — [MEDIUM] Writes the data file with a temporary name based on pid and thread to avoid collisions
-  - says: Land the page's data file. -> its path.
-- **onomast.py** `well_formed` — [MEDIUM] Enforces constraints that may not align with the intended pronounceability checks
-  - says: Is this a name a Custos could say aloud and write down twice the same way?
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
   - says: The drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD that is -- an age is not decoration here, it is the difference between "57 nets held" and "57 nets held, at some point, possibly before the change you are looking at".
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
