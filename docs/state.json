@@ -1,5 +1,5 @@
 {
- "at": "2026-09-03 02:23:31",
+ "at": "2026-09-03 02:33:48",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 23,
+     "left": 31,
      "cap": 1000,
-     "frac": 0.023
+     "frac": 0.031
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.023
+   "worst": 0.031
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -718,9 +718,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 9,
+     "left": 12,
      "cap": 500,
-     "frac": 0.018
+     "frac": 0.024
     },
     {
      "name": "rpm",
@@ -729,7 +729,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.018
+   "worst": 0.024
   }
  ],
  "throughput": {
@@ -745,7 +745,7 @@
    {
     "bucket": "groq:qwen/qwen3.6-27b",
     "calls": 4,
-    "ok": 1
+    "ok": 0
    },
    {
     "bucket": "ollama:qwen3:8b",
@@ -773,11 +773,11 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 237400,
+   "done": 237600,
    "total": 282740,
-   "detail": "288,972 pages  \u00b7  3758M characters  \u00b7  17.3/s",
+   "detail": "289,303 pages  \u00b7  3759M characters  \u00b7  14.7/s",
    "warn": "",
-   "eta_h": 0.7
+   "eta_h": 0.9
   }
  ],
  "library": {
@@ -794,7 +794,7 @@
    "read": 212694,
    "settled": 237736,
    "feats": 118142,
-   "age_h": 4.1
+   "age_h": 4.3
   },
   "phases": [
    {
@@ -833,7 +833,7 @@
   "readfeats": 2079
  },
  "watch": {
-  "open": 14,
+  "open": 24,
   "high": 5,
   "rounds": 297,
   "findings": [
@@ -844,9 +844,27 @@
     "severity": "high"
    },
    {
+    "module": "dashboard",
+    "symbol": "safety",
+    "actual": "The function returns a dictionary with various safety-related data, but the code does not explicitly state that this is the first thing the page shows or the first thing a run reads. The function's implementation does not directly relate to the page's initial display or the first thing a run reads.",
+    "severity": "medium"
+   },
+   {
+    "module": "dashboard",
+    "symbol": "safety",
+    "actual": "The function imports the `feats` and `binding_health` modules and processes the backoff and quarantine data. However, the code does not explicitly state that the backoff and quarantine data are used to identify hosts being paced slower or quarantined for persistent throttling, as described in the comment.",
+    "severity": "medium"
+   },
+   {
     "module": "drill",
     "symbol": "drill_no_top_ups",
     "actual": "The function defines and runs tests related to ruling on provider behaviors, but the actual implementation does not directly enforce the ruling. The ruling is more about the logic in the tests rather than the function itself.",
+    "severity": "medium"
+   },
+   {
+    "module": "dashboard",
+    "symbol": "codewatch.exit_if_stale",
+    "actual": "Exits rc=17 on purpose when src/ has changed and held still",
     "severity": "medium"
    },
    {
@@ -856,9 +874,21 @@
     "severity": "medium"
    },
    {
+    "module": "dashboard",
+    "symbol": "safety",
+    "actual": "The function does not explicitly mention the polling interval or the denial-of-service concerns related to running the drill or liveness checks. The code focuses on reading data from files and does not address these specific polling or performance issues.",
+    "severity": "medium"
+   },
+   {
     "module": "ingest_doc",
     "symbol": "mine",
     "actual": "mine(a.source) is called but its return value is not checked for the early stops conditions",
+    "severity": "medium"
+   },
+   {
+    "module": "health",
+    "symbol": "preflight",
+    "actual": "the function is called but its return value is not used in the code's logic",
     "severity": "medium"
    },
    {
@@ -892,6 +922,24 @@
     "severity": "medium"
    },
    {
+    "module": "generate",
+    "symbol": "generate_job",
+    "actual": "generate_job is called but the code does not handle the case where the job generation fails, leading to unhandled exceptions",
+    "severity": "medium"
+   },
+   {
+    "module": "dashboard",
+    "symbol": "safety",
+    "actual": "The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.",
+    "severity": "medium"
+   },
+   {
+    "module": "dashboard",
+    "symbol": "safety",
+    "actual": "The function imports the `assay` module and calls `calibration_report()`, which is used to derive the calibration data. However, the code does not explicitly state that this calibration is re-derived and not read from a constant, as mentioned in the comment.",
+    "severity": "medium"
+   },
+   {
     "module": "escalation",
     "symbol": "clear",
     "actual": "clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.",
@@ -902,6 +950,18 @@
     "symbol": "ESC._safe_name",
     "actual": "renames every existing log on disk and stops disambiguating the names that actually collide",
     "severity": "high"
+   },
+   {
+    "module": "dashboard",
+    "symbol": "safety",
+    "actual": "The function reads data from files (e.g., escalation, prose_gate, assay, feats, binding_health), but some fields may be computed or derived from these files rather than being directly read. For example, the 'age_min' in the 'drill' section is computed based on the file's modification time.",
+    "severity": "medium"
+   },
+   {
+    "module": "health",
+    "symbol": "preflight",
+    "actual": "Returns the number of problems found, but the function's purpose is to run checks and write a stamp, not just count problems",
+    "severity": "medium"
    },
    {
     "module": "drill",
@@ -1098,7 +1158,7 @@
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 926,
+   "n": 916,
    "p50": 0.8,
    "p95": 4.8,
    "ok_pct": 13,
@@ -1106,16 +1166,16 @@
   },
   {
    "tag": "overwatch",
-   "n": 290,
+   "n": 311,
    "p50": 5.0,
-   "p95": 257.5,
+   "p95": 276.5,
    "ok_pct": null,
-   "tps": 20.7
+   "tps": 20.5
   },
   {
    "tag": "entrypass",
-   "n": 150,
-   "p50": 65.3,
+   "n": 143,
+   "p50": 65.9,
    "p95": 622.9,
    "ok_pct": null,
    "tps": 13.3
@@ -1131,10 +1191,10 @@
   {
    "tag": "ask",
    "n": 45,
-   "p50": 114.6,
+   "p50": 115.0,
    "p95": 646.0,
    "ok_pct": null,
-   "tps": 16.8
+   "tps": 16.6
   },
   {
    "tag": "assay-local",
@@ -1164,7 +1224,7 @@
    "breached": [],
    "liveness": 46,
    "liveness_ceiling": 52,
-   "age_min": 159.6
+   "age_min": 169.8
   },
   "escalation_recent": {
    "JANITOR": 62,
@@ -1302,7 +1362,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "4.1h",
+   "observed": "4.3h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1437,7 +1497,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": false,
-   "observed": "0/4 moved in 44m",
+   "observed": "0/4 moved in 41m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1464,7 +1524,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "4.1h",
+   "observed": "4.2h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1491,7 +1551,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "pipeline_auto (31 min, 611052 bytes), read_auto (31 min, 359731 bytes), roll_auto (31 min, 2161371 bytes)",
+   "observed": "pipeline_auto (41 min, 611052 bytes), read_auto (41 min, 359731 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1500,7 +1560,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "novita:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `novita:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `novita:free` is at fault. (x1, 12.5h old); ai21:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `ai21:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ai21:free` is at fault. (x2, 13.2h old); github:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x8, 14.2h old); gemini:models/gemini-2.5-flash: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash` is at fault. (x4, 14.2h old); gemini:models/gemini-2.5-flash-lite: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash-lite` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash-lite` is at fault. (x3, 15.8h old); deepinfra:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `deepinfra:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `deepinfra:free` is at fault. (x2, 15.8h old)",
+   "observed": "novita:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `novita:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `novita:free` is at fault. (x1, 12.7h old); ai21:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `ai21:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ai21:free` is at fault. (x2, 13.3h old); github:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x8, 14.3h old); gemini:models/gemini-2.5-flash: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash` is at fault. (x4, 14.4h old); gemini:models/gemini-2.5-flash-lite: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash-lite` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash-lite` is at fault. (x3, 15.9h old); deepinfra:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `deepinfra:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `deepinfra:free` is at fault. (x2, 16.0h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1509,7 +1569,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 172.66.2.166",
+   "observed": "reachable over IPv4 at 162.159.142.170",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1655,5 +1715,5 @@
    "stalled": false
   }
  ],
- "generated": "2026-09-03T02:23:42"
+ "generated": "2026-09-03T02:33:58"
 }
