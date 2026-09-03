@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 287  ·  last run 2026-09-02 18:36
+round 288  ·  last run 2026-09-02 19:14
 
 ## Structure
 
@@ -13,14 +13,14 @@ round 287  ·  last run 2026-09-02 18:36
 
 ## What the model found in the code
 
-**6 open** (1 high). Newest first.
+**6 open** (0 high). Newest first.
 
-- **generate.py** `generate_job` — [HIGH] does not exist in the current scope
-  - says: generates a job's content
+- **recover_folder_records.py** `record_path` — [MEDIUM] the existing file wins where there is one, so a record written under the old 60-character cap is FOUND (and therefore correctly seen as already populated by the guard below) instead of being shadowed by a second file under the un-truncated name.
+  - says: THE ROLL IS A SNAPSHOT; THE RECORD FOLDER IS THE TRUTH. `empty` was selected from SWEEP_ROLL.json as it stood when this process started, and the roll is written by SEVEN different scripts (four, in silence.write_json's older account of it; the count was already stale and the roll writes are compare-and-swapped now, but this snapshot is still a snapshot). If another writer -- the cloud session, ingest.py, resync_roll.py, or a concurrent run of this very tool -- landed real researched entries in that record since the snapshot, writing here would replace research with a truncated folder-mechanical transcription and mark the roll catalogued over it, with nothing in the output saying so. An unreadable file counts as populated: not knowing what is there is not evidence that nothing is, and this direction is the recoverable one.
+- **prose_gate.py** `evidence_ok` — [MEDIUM] Uses floor_ok to check floor, but floor_ok returns False for floor <= 0, which is supposed to be MISCONFIGURED and refuse
+  - says: Has this source been read enough to be worth writing about?
 - **endpoint.py** `one` — [MEDIUM] returns None for HTTP errors and HTML bodies, but returns the body for non-HTML content
   - says: fetch raw content from a URL and return it if successful
-- **thread_integrity.py** `implied_threads` — [MEDIUM] implied_threads is called but its output is not used in the code slice provided
-  - says: NAMED FOR WHAT IT COUNTS (order 30581ee9cca2). `implied_threads` adds both (a,b) and (b,a) for every shared entity, so this is DIRECTED and is exactly twice the deduped pair count `classify` reports two lines below -- the same population, printed twice, 2x apart, with nothing on the page saying so.
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
   - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller, and the two refusals are the same event to a reader: the lift did not happen and here is why.
 - **cascade_bridge.py** `selftest` — [MEDIUM] executes the live check
