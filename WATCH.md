@@ -1,19 +1,21 @@
 # OVERWATCH
 
-round 295  ·  last run 2026-09-03 00:19
+round 296  ·  last run 2026-09-03 01:00
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 290,960 inspected
+- files that will not parse: **0** of 290,960 inspected (deep scan as of round 295)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**23 open** (11 high). Newest first.
+**19 open** (9 high). Newest first.
 
+- **catalogue_web.py** `record_path` — [HIGH] returns the path to the record file
+  - says: returns whether the rename LANDED
 - **drill.py** `ESC.escalate` — [HIGH] rejects every VALID rung and accepts every invalid one
   - says: the bounds test `JANITOR <= level <= OWNER`
 - **drill.py** `ESC.brief` — [HIGH] hands every rung an empty record
@@ -30,18 +32,10 @@ round 295  ·  last run 2026-09-03 00:19
   - says: The file must also be untouched afterwards: a reason is not evidence if the write happened anyway.
 - **drill.py** `drill_stale_writer` — [HIGH] The function tests for a denied rename but the code does not actually perform the rename operation, leaving the file untouched and not testing the denial scenario.
   - says: A denied rename must not come back describing itself as a landing.
-- **drill.py** `LG.seal()` — [HIGH] flattens a nested name and _read_snapshot() did not
-  - says: gates `publish.push()` on
-- **drill.py** `denied` — [HIGH] Confuses 'no such file' (file absence) with gate refusal, leading to false positives
-  - says: The code distinguishes between gate refusals and ordinary failures
-- **drill.py** `denied` — [HIGH] Returns True for 'no such file' errors, which are not gate refusals but file absence
-  - says: Was the path refused BY A GATE, as opposed to failing for an unrelated reason?
-- **local_agent.py** `out` — [MEDIUM] the code returns a dictionary that may not have 'ALARM' key if the 'unreverted' condition is not met
-  - says: the code says it returns a dictionary with 'ok', 'error', 'patches', 'tool_calls', and 'ALARM' keys
+- **catalogue_models.py** `sweep` — [MEDIUM] The code processes rows where the outcome is either LISTED or EMPTY_LIST, but the comment explains that the code should consider EMPTY_LIST as a successful measurement. However, the code's logic for determining 'live' and 'verified' includes EMPTY_LIST, which aligns with the comment's intention. The comment's confusion might be due to a misunderstanding of how the code handles these outcomes, but the code itself correctly includes EMPTY_LIST in the live and verified lists.
+  - says: ON THE OUTCOME, NOT ON TRUTHINESS (sweep42-batch14).
 - **local_agent.py** `run` — [MEDIUM] The function does check the halt condition via `assert_clear` but does not handle the case where the model's answer is empty and no patches were attempted, which is a failure case that should set `ok=False`.
   - says: THE HALT IS CHECKED HERE, AND UNTIL RUN #35 IT WAS NOT CHECKED ANYWHERE ON THIS LANE.
-- **local_agent.py** `apply` — [MEDIUM] apply is used in a condition that checks if the patch is not applied, but the code proceeds to apply the patch regardless
-  - says: apply is a flag that determines whether the patch is applied
 - **drill.py** `GL._take_slot` — [MEDIUM] return None or False
   - says: arbitrate a slot
 - **drill.py** `GL.lane` — [MEDIUM] create a context manager that does nothing
@@ -52,8 +46,6 @@ round 295  ·  last run 2026-09-03 00:19
   - says: OWNER RULING 2026-08-26: cooldown is fine; pay-to-continue is axed.
 - **drill.py** `CB.permanent_refusal` — [MEDIUM] the code contradicts
   - says: the code says it does instead
-- **drill.py** `WO.resolve_code` — [MEDIUM] The code attempts to resolve a work order but does not handle the case where the cleanup failed, leading to a potential leak of the LOCAL_AGENT_BLAST_CAP order in the live queue.
-  - says: A FAILED CLEANUP IS NOT NOTHING. Was `except Exception: pass`; a resolve that did not happen leaves a LOCAL_AGENT_BLAST_CAP order standing in the live queue on every cycle, and the reason it did not happen was thrown away at the moment it was known. Recorded now, in the ledger the rest of the project uses for exactly this.
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
   - says: The index entry sits inside the target: is it there as the title, or as vocabulary?
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
