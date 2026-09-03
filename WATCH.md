@@ -1,18 +1,18 @@
 # OVERWATCH
 
-round 301  ·  last run 2026-09-03 05:49
+round 302  ·  last run 2026-09-03 06:45
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 291,426 inspected
+- files that will not parse: **0** of 291,426 inspected (deep scan as of round 301)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**30 open** (5 high). Newest first.
+**29 open** (5 high). Newest first.
 
 - **rosetta.py** `check` — [HIGH] returns 0 unconditionally
   - says: THE EXIT CODE HAS TO CARRY THE VERDICT, not just the printout.
@@ -24,6 +24,10 @@ round 301  ·  last run 2026-09-03 05:49
   - says: REFUSES TO RUN ANYWHERE BUT THE EXPORT COPY
 - **ledger_guard.py** `silence.append_line` — [HIGH] used bare `open(CHAIN, "a")`
   - says: THROUGH `silence.append_line`, NOT A BARE `open(CHAIN, "a")` (order f7b611d107cb, sweep41-batch10). This was the exact pattern measured on 2026-09-01 losing 704 of 3,200 rows: `O_APPEND` makes the seek-to-end and the write one operation on POSIX, and the Windows CRT implements it as a seek FOLLOWED BY a write, so two processes seek to the same end offset and the second lands ON the first. `silence.append_line` was written that same day to close it -- an OS-level lock on a sidecar plus `O_BINARY` -- and this call site, in the module whose own commentary quotes that measurement, was still using the old shape.
+- **weave.py** `write_json` — [MEDIUM] writes JSON to a file and returns a boolean indicating success
+  - says: returns whether the rename LANDED
+- **snapshot.py** `restore` — [MEDIUM] Copies a snapshot back into a given directory, but returns the number of paths restored, and raises SnapshotFailed if any of the manifest's `took` entries could not be copied back. However, the function does not handle the case where the `into` directory is not writable or does not exist, which could lead to errors not being properly handled.
+  - says: Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it. -> the number of paths restored. RAISES SnapshotFailed if any of the manifest's `took` entries could not be copied back -- it does not silently return fewer than it promised.
 - **scout.py** `scout` — [MEDIUM] scout is called with names or [] but the intended behavior is to pass names directly
   - says: scout(a.source, names or [], register=not a.dry)
 - **scout.py** `never_asked` — [MEDIUM] sources that were never reached (i.e., not attempted)
@@ -58,14 +62,8 @@ round 301  ·  last run 2026-09-03 05:49
   - says: generate_job is called to generate text for a job
 - **dashboard.py** `codewatch.exit_if_stale` — [MEDIUM] Exits rc=17 on purpose when src/ has changed and held still
   - says: Exits rc=17 on purpose when src/ has changed and held still
-- **dashboard.py** `safety` — [MEDIUM] The function imports the `feats` and `binding_health` modules and processes the backoff and quarantine data. However, the code does not explicitly state that the backoff and quarantine data are used to identify hosts being paced slower or quarantined for persistent throttling, as described in the comment.
-  - says: Hosts currently being paced slower than their base rate, and any host quarantined for persistent throttling. A backoff that nothing reports is indistinguishable from a slow network, which is how "we are being blocked" becomes "this source is empty".
-- **dashboard.py** `safety` — [MEDIUM] The function imports the `assay` module and calls `calibration_report()`, which is used to derive the calibration data. However, the code does not explicitly state that this calibration is re-derived and not read from a constant, as mentioned in the comment.
-  - says: The calibration is RE-DERIVED here, not read from a constant -- it is the one number every printed Magnitude in the library inherits, and the halved interval survived for months because the checks that watched it had been recorded from its own bad output.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
   - says: The drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD that is -- an age is not decoration here, it is the difference between "57 nets held" and "57 nets held, at some point, possibly before the change you are looking at".
-- **dashboard.py** `safety` — [MEDIUM] The function does not explicitly mention the polling interval or the denial-of-service concerns related to running the drill or liveness checks. The code focuses on reading data from files and does not address these specific polling or performance issues.
-  - says: The dashboard polls every five seconds; a panel that ran the drill would be a denial-of-service against its own library, and a panel that ran `liveness` would take a minute per poll.
 - **drill.py** `drill_no_top_ups` — [MEDIUM] The function defines and runs tests related to ruling on provider behaviors, but the actual implementation does not directly enforce the ruling. The ruling is more about the logic in the tests rather than the function itself.
   - says: OWNER RULING 2026-08-26: cooldown is fine; pay-to-continue is axed.
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
