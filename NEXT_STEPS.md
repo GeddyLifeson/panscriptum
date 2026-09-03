@@ -61,6 +61,33 @@ and which it is has to be decided by reading, never assumed.
 
 ---
 
+## 0a. THE `assay.py` TARGET FINISHED — AND MOST OF ITS SURVIVORS ARE NOISE
+
+**`assay.py`: 119 mutants, 108 killed, 10 SURVIVED, 1 INDETERMINATE.** The run filed nine
+`MUTANT_SURVIVED_ASSAY_L*` orders automatically. **Read
+`ASSAY_MUTATION_SURVIVORS_TRIAGED_MOST_ARE_ARTEFACTS` before you touch any of them** — I triaged
+all ten against source and nothing was closed on inference.
+
+**Why most are noise: `verify_math` was DISABLED AS A GATE for the whole run.** mutate says so in
+its own log — §20z was red from live cascade provider errors (the exhausted quota), and a gate red
+on unmutated code matches every mutant and kills none. So that score was taken with the library's
+main battery switched off. **This is the measured cost of the §20z flake**, and the reason item 1
+below is the highest-value fix on this list.
+
+- **Five are almost certainly artefacts** (L1199, L1235, L1246, L1251, L1252): `verify_math`
+  asserts those exact values directly and unconditionally at lines 6286–6314. Don't hand-write
+  checks for them; a green-baseline re-run will re-triage them for free.
+- **Two are genuine and worth acting on regardless** — L228 (see 0b) and **L747**, which exposes a
+  second finding that is about `verify_math`, not `assay.py`: its FALLBACK-stamp checks sit inside
+  `if _stamp.startswith("FALLBACK")`, so while `AXIS_CORRELATION.json` loads — the normal case —
+  that branch never executes. **A check that cannot fail in the configuration the library actually
+  runs in.**
+- **Two want a read, not a fix** (L726, L593): both are effectively equivalent in normal operation
+  and observable only on paths the battery never arranges.
+- **One was never judged at all**: `assay.py:1343` (`>` → `<=`) timed out on the `verify_math`
+  gate. mutate correctly scores it in neither column and says the result is over 118 mutants, not
+  119. An unjudged mutant is an unknown, not a pass — re-run 1343 on its own.
+
 ## 0b. THE MUTATION PASS ALREADY FOUND SOMETHING — ACT ON IT
 
 `ASSAY_BAND_EDGES_MONOTONICITY_LIMB_IS_UNTESTED`. Two survivors landed at `assay.py:228` before

@@ -116,6 +116,33 @@ their own right:
    not checked**; the log notes `pass --check-flaky before trusting survivors`. A survivor is not
    a bug until someone reads the diff.
 
+   **THE `assay.py` TARGET FINISHED WHILE THIS ENTRY WAS BEING WRITTEN: 119 mutants, 108 killed,
+   10 SURVIVED, 1 INDETERMINATE (19,563s of gate time).** It filed nine `MUTANT_SURVIVED_ASSAY_L*`
+   orders itself. I triaged all ten against source and filed
+   `ASSAY_MUTATION_SURVIVORS_TRIAGED_MOST_ARE_ARTEFACTS`; **nothing was closed on inference**, and
+   that order should be read before anyone works the nine.
+
+   **Most of those survivors are noise, and the reason is the §20z flake.** `verify_math` was
+   **disabled as a gate for the entire run** — mutate says so in its own log, because §20z was red
+   from live cascade provider errors, and a gate red on unmutated code matches every mutant and
+   kills none. So the score was taken with the library's main battery switched off. That is the
+   measured cost of M66, in numbers: a 119-mutant pass whose survivor list is roughly two-thirds
+   artefact. Five of the ten (L1199, L1235, L1246, L1251, L1252) are asserted directly and
+   unconditionally by `verify_math` at 6286–6314 and would have been killed; its own comment there
+   records an earlier mutation run finding the same cluster, which is how those checks came to
+   exist.
+
+   **Two survivors are genuine, and one of them is a finding about the battery rather than about
+   `assay.py`.** `L747` turns the FALLBACK provenance stamp into one that trails off without
+   saying why — and `verify_math` *has* a check for exactly that, sitting inside
+   `if _stamp.startswith("FALLBACK")`. While `AXIS_CORRELATION.json` loads, which is the normal
+   case and was true all shift, the stamp reads `measured:` and that branch never runs. **An
+   assertion that cannot fail in the configuration the library actually runs in.** `L726` and
+   `L593` are effectively equivalent in normal operation, observable only on paths nothing
+   arranges. And **one mutant was never judged at all** — `assay.py:1343` timed out on the
+   `verify_math` gate; mutate scores it in neither column and says so plainly, which is the right
+   way to report it, but an unjudged mutant is an unknown rather than a pass.
+
    **AND IT ALREADY PAID FOR ITSELF — the first real mutation result in several shifts.** Note
    first that **survivors are recorded incrementally** to `state/MUTANTS_SURVIVED.jsonl`, so the
    run I stopped did not lose its findings, only its position in the mutant list; that file went

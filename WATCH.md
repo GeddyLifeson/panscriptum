@@ -1,33 +1,37 @@
 # OVERWATCH
 
-round 300  ·  last run 2026-09-03 05:24
+round 301  ·  last run 2026-09-03 05:49
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 290,960 inspected (deep scan as of round 295)
+- files that will not parse: **0** of 291,426 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**31 open** (7 high). Newest first.
+**30 open** (5 high). Newest first.
 
+- **rosetta.py** `check` — [HIGH] returns 0 unconditionally
+  - says: THE EXIT CODE HAS TO CARRY THE VERDICT, not just the printout.
+- **roll.py** `main` — [HIGH] The function returns 0 regardless of the reason, not returning the reason as stated in the documentation.
+  - says: This module's own documentation says it "RETURNS THE REASON, NOT JUST THE NAME" -- and the reason is the whole reason the line exists.
 - **publish.py** `leaks` — [HIGH] leaks is a list of findings that are not suppressed, and the code raises an error for them
   - says: Suppressed findings are REPORTED by the scanner and excluded from the refusal
 - **publish.py** `prune_export` — [HIGH] deletes files from the live project
   - says: REFUSES TO RUN ANYWHERE BUT THE EXPORT COPY
-- **pipeline.py** `write_record` — [HIGH] write_record returns True even if the merge is partial (i.e., some entries are not written due to name collisions), but the function does not ensure all entries are written to disk. The function may return True even if the merge is partial, which contradicts the docstring's claim that it was written to stop the 30,207-entries-to-1,051 revert.
-  - says: write_record: ... returns True, 0 of 20 settled on disk
-- **pipeline.py** `gate_done` — [HIGH] Marks a phase done if all artifacts landed, but the docstring says that the callers did not use the verdict from _landed(), leading to incorrect marking even if some artifacts failed to land.
-  - says: Mark a phase done ONLY if every artifact it wrote actually landed.
-- **onomast.py** `merged` — [HIGH] retired is True if cid is not in resolved
-  - says: STANDING IS NOT RETIRED, AND THIS USED TO FLAG BOTH THE SAME WAY
-- **magnitude.py** `band_hits` — [HIGH] counts BAND MATCHES ONLY (got_band == band), while the verdict requires every scored row consistent (got_band == band and abs(got_val - val) <= ci + got_ci)
-  - says: anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays
 - **ledger_guard.py** `silence.append_line` — [HIGH] used bare `open(CHAIN, "a")`
   - says: THROUGH `silence.append_line`, NOT A BARE `open(CHAIN, "a")` (order f7b611d107cb, sweep41-batch10). This was the exact pattern measured on 2026-09-01 losing 704 of 3,200 rows: `O_APPEND` makes the seek-to-end and the write one operation on POSIX, and the Windows CRT implements it as a seek FOLLOWED BY a write, so two processes seek to the same end offset and the second lands ON the first. `silence.append_line` was written that same day to close it -- an OS-level lock on a sidecar plus `O_BINARY` -- and this call site, in the module whose own commentary quotes that measurement, was still using the old shape.
+- **scout.py** `scout` — [MEDIUM] scout is called with names or [] but the intended behavior is to pass names directly
+  - says: scout(a.source, names or [], register=not a.dry)
+- **scout.py** `never_asked` — [MEDIUM] sources that were never reached (i.e., not attempted)
+  - says: sources that were never asked
+- **scout.py** `found` — [MEDIUM] count of sources that have been registered (i.e., landed)
+  - says: count of sources that now have somewhere to read from
+- **rigor.py** `faculty_parity_weights` — [MEDIUM] prints the actual derived weights, but the comment suggests it always prints a flat zero
+  - says: DERIVED, NOT ASSERTED. This printed a flat "Int/Wis/Cha cannot affect a Magnitude at all" regardless of the data
 - **recover_folder_records.py** `record_path` — [MEDIUM] the existing file is checked for existence, but the code does not actually check if the file is populated (i.e., contains entries) before considering it as already populated
   - says: the existing file wins where there is one, so a record written under the old 60-character cap is FOUND (and therefore correctly seen as already populated by the guard below) instead of being shadowed by a second file under the un-truncated name.
 - **read.py** `cachekey.candidate_paths` — [MEDIUM] generates paths for both spellings
@@ -62,12 +66,6 @@ round 300  ·  last run 2026-09-03 05:24
   - says: The drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD that is -- an age is not decoration here, it is the difference between "57 nets held" and "57 nets held, at some point, possibly before the change you are looking at".
 - **dashboard.py** `safety` — [MEDIUM] The function does not explicitly mention the polling interval or the denial-of-service concerns related to running the drill or liveness checks. The code focuses on reading data from files and does not address these specific polling or performance issues.
   - says: The dashboard polls every five seconds; a panel that ran the drill would be a denial-of-service against its own library, and a panel that ran `liveness` would take a minute per poll.
-- **dashboard.py** `safety` — [MEDIUM] The function reads data from files (e.g., escalation, prose_gate, assay, feats, binding_health), but some fields may be computed or derived from these files rather than being directly read. For example, the 'age_min' in the 'drill' section is computed based on the file's modification time.
-  - says: Every field here is READ from a file, never computed by running the thing it reports on.
-- **dashboard.py** `safety` — [MEDIUM] The function returns a dictionary with various safety-related data, but the code does not explicitly state that this is the first thing the page shows or the first thing a run reads. The function's implementation does not directly relate to the page's initial display or the first thing a run reads.
-  - says: The interlocks, as data. The FIRST thing the page shows and the first thing a run reads.
-- **catalogue_models.py** `sweep` — [MEDIUM] The code processes rows where the outcome is either LISTED or EMPTY_LIST, but the comment explains that the code should consider EMPTY_LIST as a successful measurement. However, the code's logic for determining 'live' and 'verified' includes EMPTY_LIST, which aligns with the comment's intention. The comment's confusion might be due to a misunderstanding of how the code handles these outcomes, but the code itself correctly includes EMPTY_LIST in the live and verified lists.
-  - says: ON THE OUTCOME, NOT ON TRUTHINESS (sweep42-batch14).
 - **drill.py** `drill_no_top_ups` — [MEDIUM] The function defines and runs tests related to ruling on provider behaviors, but the actual implementation does not directly enforce the ruling. The ruling is more about the logic in the tests rather than the function itself.
   - says: OWNER RULING 2026-08-26: cooldown is fine; pay-to-continue is axed.
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
