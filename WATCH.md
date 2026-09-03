@@ -1,25 +1,23 @@
 # OVERWATCH
 
-round 313  ·  last run 2026-09-03 15:13
+round 314  ·  last run 2026-09-03 16:02
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 292,446 inspected
+- files that will not parse: **0** of 292,446 inspected (deep scan as of round 313)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**20 open** (3 high). Newest first.
+**18 open** (2 high). Newest first.
 
 - **verify_math.py** `check` — [HIGH] the key is not stable across runs due to using hash()
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
 - **verify_math.py** `silence.append_line` — [HIGH] append_line raises an exception when the file path is invalid
   - says: append_line reports failure rather than raising
-- **codewatch.py** `exit_if_stale` — [HIGH] Exits the process if its code is out of date, but the code references a function that is no longer present in the module (e.g., _budget_left(who)), which is a defect of fact.
-  - says: Exits the process if its code is out of date.
 - **profile.py** `encode` — [MEDIUM] encodes a world's profile but uses the wrong address
   - says: encodes a world's profile
 - **verify_math.py** `_open20i` — [MEDIUM] contains buckets that are not open unknowns
@@ -40,8 +38,6 @@ round 313  ·  last run 2026-09-03 15:13
   - says: number of feats files read
 - **policy.py** `ev_total` — [MEDIUM] not used after assignment
   - says: total number of feats files
-- **coverage.py** `measure` — [MEDIUM] divides by d which is max(n, 1) but does not guard divisions in the print statements
-  - says: guards every division with max(n, 1)
 - **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal
   - says: this whole function exists to argue that a write verdict must never be discarded, and this was the one call in it that still did
 - **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
