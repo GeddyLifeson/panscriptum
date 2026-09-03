@@ -88,6 +88,22 @@ below is the highest-value fix on this list.
   gate. mutate correctly scores it in neither column and says the result is over 118 mutants, not
   119. An unjudged mutant is an unknown, not a pass — re-run 1343 on its own.
 
+### `prose_gate.py` also finished — and it is the best-covered module in the battery
+
+**62 mutants, 61 killed, 1 survived, 0 indeterminate** — and the single survivor
+(`prose_gate.py:401`, order `0f9872d8c1ae`) is **also a disabled-gate artefact**:
+`verify_math.py:5566` asserts the exact returned names (`== ["Athuri"]`) and would have killed
+it. Verdict filed as `PROSE_GATE_L401_SURVIVOR_IS_A_DISABLED_GATE_ARTEFACT`. With `verify_math`
+enabled this file is effectively fully covered — which is the right outcome for the owner-held
+gate whose deletion once cost 145 unauthorised chapters.
+
+It also exposes a **general principle worth keeping**: `drill.py`'s prose-gate nets assert only
+emptiness (`!= []`, `== []`), while `verify_math` asserts the values by name. That division is
+deliberate and sensible — drill holds the safety property, verify_math holds the value property —
+but it means that **whenever `verify_math` is disabled, the name-level correctness of every gate
+is unguarded**, and mutation scores taken in that state over-report survivors in exactly this
+shape. That is why the artefact rate this run was so high.
+
 ## 0b. THE MUTATION PASS ALREADY FOUND SOMETHING — ACT ON IT
 
 `ASSAY_BAND_EDGES_MONOTONICITY_LIMB_IS_UNTESTED`. Two survivors landed at `assay.py:228` before
