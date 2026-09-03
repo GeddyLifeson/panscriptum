@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 302  ·  last run 2026-09-03 06:45
+round 303  ·  last run 2026-09-03 07:15
 
 ## Structure
 
@@ -12,18 +12,24 @@ round 302  ·  last run 2026-09-03 06:45
 
 ## What the model found in the code
 
-**29 open** (5 high). Newest first.
+**27 open** (0 high). Newest first.
 
-- **rosetta.py** `check` — [HIGH] returns 0 unconditionally
-  - says: THE EXIT CODE HAS TO CARRY THE VERDICT, not just the printout.
-- **roll.py** `main` — [HIGH] The function returns 0 regardless of the reason, not returning the reason as stated in the documentation.
-  - says: This module's own documentation says it "RETURNS THE REASON, NOT JUST THE NAME" -- and the reason is the whole reason the line exists.
-- **publish.py** `leaks` — [HIGH] leaks is a list of findings that are not suppressed, and the code raises an error for them
-  - says: Suppressed findings are REPORTED by the scanner and excluded from the refusal
-- **publish.py** `prune_export` — [HIGH] deletes files from the live project
-  - says: REFUSES TO RUN ANYWHERE BUT THE EXPORT COPY
-- **ledger_guard.py** `silence.append_line` — [HIGH] used bare `open(CHAIN, "a")`
-  - says: THROUGH `silence.append_line`, NOT A BARE `open(CHAIN, "a")` (order f7b611d107cb, sweep41-batch10). This was the exact pattern measured on 2026-09-01 losing 704 of 3,200 rows: `O_APPEND` makes the seek-to-end and the write one operation on POSIX, and the Windows CRT implements it as a seek FOLLOWED BY a write, so two processes seek to the same end offset and the second lands ON the first. `silence.append_line` was written that same day to close it -- an OS-level lock on a sidecar plus `O_BINARY` -- and this call site, in the module whose own commentary quotes that measurement, was still using the old shape.
+- **worldseed.py** `write_json` — [MEDIUM] returns False on a denied replace but the code treats it as a failure and returns 1
+  - says: returns False on a denied replace instead of raising
+- **workorders.py** `hits` — [MEDIUM] filters out suppressed findings but does not count or sample as described
+  - says: Count, labelled sample, complete list in evidence
+- **workorders.py** `scanned` — [MEDIUM] checks if the directory exists, not if the scan was run
+  - says: gated on the scan having actually happened
+- **workorders.py** `filed` — [MEDIUM] appends file orders for binding issues but the code is designed to close orders when hosts recover
+  - says: appends file orders for binding issues
+- **workorders.py** `filed` — [MEDIUM] is a list of orders to be filed and closed
+  - says: is a list of orders to be filed
+- **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
+  - says: raises an order for a problem
+- **workorders.py** `allsweep` — [MEDIUM] re-derives the severity from the `failed` flag, not reading the precomputed grade
+  - says: reads it rather than re-deriving it, because a second copy of the rule is how the two came to drift before
+- **workorders.py** `allsweep` — [MEDIUM] only tracks imports, crashed/timed-out verifiers, and the graded ESTATE findings; lint and bad estate artifacts are not tracked
+  - says: Tracks allsweep's own `bad` formula term for term -- imports, crashed/timed-out verifiers, lint, bad estate artifacts, and the graded ESTATE findings
 - **weave.py** `write_json` — [MEDIUM] writes JSON to a file and returns a boolean indicating success
   - says: returns whether the rename LANDED
 - **snapshot.py** `restore` — [MEDIUM] Copies a snapshot back into a given directory, but returns the number of paths restored, and raises SnapshotFailed if any of the manifest's `took` entries could not be copied back. However, the function does not handle the case where the `into` directory is not writable or does not exist, which could lead to errors not being properly handled.
@@ -52,16 +58,6 @@ round 302  ·  last run 2026-09-03 06:45
   - says: count of attempted, answered, refused, etc.
 - **magnitude.py** `_HANDOFF` — [MEDIUM] Matches patterns where the entity is not the doer
   - says: The entity must be the DOER
-- **hostcheck.py** `purge-record` — [MEDIUM] the entries are cleared and the removal is stamped into the record
-  - says: the gap it leaves is a recorded finding rather than a silence
-- **health.py** `preflight` — [MEDIUM] the function is called but its return value is not used in the code's logic
-  - says: actually run, with no error -- the module would still exit 0/1 on whatever it did instead.
-- **health.py** `preflight` — [MEDIUM] Returns the number of problems found, but the function's purpose is to run checks and write a stamp, not just count problems
-  - says: Run every preflight check. -> the number of problems found.
-- **generate.py** `generate_job` — [MEDIUM] generate_job is called but the code does not handle the case where the job generation fails, leading to unhandled exceptions
-  - says: generate_job is called to generate text for a job
-- **dashboard.py** `codewatch.exit_if_stale` — [MEDIUM] Exits rc=17 on purpose when src/ has changed and held still
-  - says: Exits rc=17 on purpose when src/ has changed and held still
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
   - says: The drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD that is -- an age is not decoration here, it is the difference between "57 nets held" and "57 nets held, at some point, possibly before the change you are looking at".
 - **drill.py** `drill_no_top_ups` — [MEDIUM] The function defines and runs tests related to ruling on provider behaviors, but the actual implementation does not directly enforce the ruling. The ruling is more about the logic in the tests rather than the function itself.
