@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 316  ·  last run 2026-09-03 17:10
+round 317  ·  last run 2026-09-03 17:57
 
 ## Structure
 
@@ -12,22 +12,14 @@ round 316  ·  last run 2026-09-03 17:10
 
 ## What the model found in the code
 
-**13 open** (2 high). Newest first.
+**9 open** (0 high). Newest first.
 
-- **descending_ladder.py** `rung_for_length` — [HIGH] Returns (rung, name) for sizes within the descending rungs, but returns (FOLD_RUNG, "Below the Fold") for sizes below the Planck length and (None, None) for sizes above the continental crust. However, the code's logic for determining the best rung is flawed because it starts with DESCENDING[0] (continental crust) and then iterates through the DESCENDING list, which is ordered from the largest to the smallest. This means that the code will incorrectly return the continental crust rung for sizes that are larger than the continental crust but smaller than the next rung (e.g., 5e6 m, which is larger than the continental crust's 1e6 m but smaller than the next rung's 1e5 m). The function's logic is flawed because it should iterate through the DESCENDING list in reverse order to find the correct rung.
-  - says: Which descending rung does a given size belong to? Returns (rung, name).
-- **verify_math.py** `check` — [HIGH] the key is not stable across runs due to using hash()
-  - says: the same entity and passage still hit the same key IN A LATER PROCESS
+- **compress_store.py** `load` — [MEDIUM] Reads a stored blob back, decompresses it, and checks the filename against the content hash of the decompressed text, but does not verify that the decompressed text matches the content hash of the original text before compression.
+  - says: Read a stored blob back, VERIFYING it against the address it is filed under.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **verify_math.py** `_open20i` — [MEDIUM] contains buckets that are not open unknowns
   - says: contains buckets that are open unknowns
-- **verify_math.py** `_cb20i.UNRECOGNISED` — [MEDIUM] assigns the file path to the attribute
-  - says: replaces the UNRECOGNISED path with a file
-- **verify_math.py** `measure_bit_value` — [MEDIUM] is NOT the cumulative figure the stale docstring quoted
-  - says: is NOT the cumulative figure the stale docstring quoted
-- **verify_math.py** `measure_bit_value` — [MEDIUM] uses band_resolution, not the cumulative length
-  - says: uses band_resolution, not the cumulative length
 - **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal
   - says: this whole function exists to argue that a write verdict must never be discarded, and this was the one call in it that still did
 - **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
