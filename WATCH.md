@@ -1,11 +1,11 @@
 # OVERWATCH
 
-round 306  ·  last run 2026-09-03 09:38
+round 307  ·  last run 2026-09-03 10:22
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 291,426 inspected (deep scan as of round 301)
+- files that will not parse: **0** of 292,042 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
@@ -13,8 +13,16 @@ round 306  ·  last run 2026-09-03 09:38
 
 ## What the model found in the code
 
-**21 open** (0 high). Newest first.
+**22 open** (4 high). Newest first.
 
+- **standards.py** `_dup` — [HIGH] a variable that is not appended to the out list
+  - says: one instance of each job
+- **standards.py** `errs` — [HIGH] sum of all calls minus successful ones
+  - says: sum of failed calls
+- **standards.py** `calls` — [HIGH] sum of all calls minus successful ones
+  - says: sum of successful calls
+- **silence.py** `audit` — [HIGH] undefined
+  - says: audit
 - **render.py** `view` — [MEDIUM] calls view() for the four FETCHED tiers, but the comment says that the loop only ever calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet, no request made. However, the code actually calls view() for the four FETCHED tiers, which may involve making requests. The comment is misleading as it suggests no requests are made, but the code may actually make requests.
   - says: calls view() for the four FETCHED tiers -- four pure f-strings (galaxy_view / system_view / planet_view / burg_view), no request made
 - **pick_model.py** `vram_measured` — [MEDIUM] is a boolean indicating whether _measured_vram was not None
@@ -43,12 +51,6 @@ round 306  ·  last run 2026-09-03 09:38
   - says: raises an order for a problem
 - **workorders.py** `allsweep` — [MEDIUM] re-derives the severity from the `failed` flag, not reading the precomputed grade
   - says: reads it rather than re-deriving it, because a second copy of the rule is how the two came to drift before
-- **workorders.py** `allsweep` — [MEDIUM] only tracks imports, crashed/timed-out verifiers, and the graded ESTATE findings; lint and bad estate artifacts are not tracked
-  - says: Tracks allsweep's own `bad` formula term for term -- imports, crashed/timed-out verifiers, lint, bad estate artifacts, and the graded ESTATE findings
-- **weave.py** `write_json` — [MEDIUM] writes JSON to a file and returns a boolean indicating success
-  - says: returns whether the rename LANDED
-- **snapshot.py** `restore` — [MEDIUM] Copies a snapshot back into a given directory, but returns the number of paths restored, and raises SnapshotFailed if any of the manifest's `took` entries could not be copied back. However, the function does not handle the case where the `into` directory is not writable or does not exist, which could lead to errors not being properly handled.
-  - says: Copy a snapshot back. `into` defaults to the live tree -- pass a temp dir to test it. -> the number of paths restored. RAISES SnapshotFailed if any of the manifest's `took` entries could not be copied back -- it does not silently return fewer than it promised.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
   - says: The drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD that is -- an age is not decoration here, it is the difference between "57 nets held" and "57 nets held, at some point, possibly before the change you are looking at".
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
