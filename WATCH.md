@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 286  ·  last run 2026-09-02 18:06
+round 287  ·  last run 2026-09-02 18:36
 
 ## Structure
 
@@ -13,14 +13,12 @@ round 286  ·  last run 2026-09-02 18:06
 
 ## What the model found in the code
 
-**7 open** (0 high). Newest first.
+**6 open** (1 high). Newest first.
 
-- **address_space.py** `HASH_BYTES` — [MEDIUM] Hardcoded to 16 bytes regardless of the offset calculation
-  - says: Derived from the offsets, floored at the historical 16 bytes so today's addresses are unchanged.
-- **build_terminal.py** `silence.replace_retry` — [MEDIUM] does NOT unlink tmp when it fails
-  - says: THE VERDICT REACHES THE EXIT CODE, AND THE SCRATCH FILE GOES (order ca499449f966).
-- **entity_match.py** `similarity` — [MEDIUM] Calculates similarity between base names but also uses the `difflib.SequenceMatcher.ratio` which is order-sensitive and contiguity-sensitive, contradicting the claim that qualifiers are not considered.
-  - says: Base-name similarity in [0,1]. Qualifiers are NOT considered -- the gate handles those.
+- **generate.py** `generate_job` — [HIGH] does not exist in the current scope
+  - says: generates a job's content
+- **endpoint.py** `one` — [MEDIUM] returns None for HTTP errors and HTML bodies, but returns the body for non-HTML content
+  - says: fetch raw content from a URL and return it if successful
 - **thread_integrity.py** `implied_threads` — [MEDIUM] implied_threads is called but its output is not used in the code slice provided
   - says: NAMED FOR WHAT IT COUNTS (order 30581ee9cca2). `implied_threads` adds both (a,b) and (b,a) for every shared entity, so this is DIRECTED and is exactly twice the deduped pair count `classify` reports two lines below -- the same population, printed twice, 2x apart, with nothing on the page saying so.
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two different reasons, but the code treats them as the same event, leading to incorrect messages about the lift not happening.
