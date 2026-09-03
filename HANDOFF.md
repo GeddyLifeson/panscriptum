@@ -207,6 +207,16 @@ the only one the module could not name.
 
 **Two new drill nets, both watched going red before being trusted** — 384 → 386 nets, all held.
 
+**One question chased to the ground and found to be nothing, which is also a result.**
+`feats._QUANTITY` (`feats.py:1174`) lists a bare `kili` among otherwise complete unit words, and
+it reads exactly like the eaten-escape corruption this project calls its oldest bug — so
+sweep42-batch07 raised it, correctly, as a **question rather than a finding**. It is deliberate:
+`magnitude.py:417` says in terms that `"power level"` and `"kili"` are franchise-internal, and
+`3,000 kili` is a worked example in three modules; the two sit adjacent in the pattern because
+both are Dragon Ball scouter units, consumed by `zfighters.py`. **No change made.** Filed as INFO
+with the evidence, and with the only useful action attached — put a comment beside the alternation
+so the answer lives where the question occurs to the next reader.
+
 **A NEAR-MISS IN THE LEDGER ITSELF, recorded because the guard is the only reason it was caught.**
 Writing the `BUGS.md` entries I (a) filed a RESOLVED bug into the **Open** section — precisely the
 rot this file's own header warns about, and which its banner says has already claimed 56 entries —
