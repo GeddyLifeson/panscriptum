@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 329  ·  last run 2026-09-04 03:52
+round 330  ·  last run 2026-09-04 04:23
 
 ## Structure
 
@@ -12,10 +12,18 @@ round 329  ·  last run 2026-09-04 03:52
 
 ## What the model found in the code
 
-**24 open** (1 high). Newest first.
+**24 open** (2 high). Newest first.
 
+- **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
+  - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **local_agent.py** `run` — [HIGH] The function `run` does not check for a halt, but the comment claims it does.
   - says: THE HALT IS CHECKED HERE, AND UNTIL RUN #35 IT WAS NOT CHECKED ANYWHERE ON THIS LANE.
+- **hostcheck.py** `one` — [MEDIUM] processes a host and source pair but uses the wrong function 'score'
+  - says: processes a host and source pair to score them
+- **health.py** `old` — [MEDIUM] old is initialized to an empty dict if the file is unreadable, but not updated after the corrupt file is renamed
+  - says: old is the content read from SAMPLES_PATH
+- **health.py** `digest` — [MEDIUM] digest is overwritten after the corrupt file is renamed, leading to incorrect comparison
+  - says: digest is the digest of the SAMPLES_PATH before the read
 - **catalogue_models.py** `LAST_WRITE_LANDED` — [MEDIUM] used as a flag to determine if the write to disk was successful
   - says: ATOMIC: standards.py polls PROVIDER_MODELS.json on its own cycle.
 - **catalogue_models.py** `sweep` — [MEDIUM] The code processes providers based on their outcome, but the comment indicates that the code should consider the truthiness of the outcome, not just the outcome itself.
@@ -44,14 +52,6 @@ round 329  ·  last run 2026-09-04 03:52
   - says: index every record file by its declared `source`
 - **pipeline.py** `batch_settled` — [MEDIUM] the function is used to determine if a batch is settled (i.e., all entries are judged), and skips processing if true
   - says: was written to kill; that fix stopped batches closing over unjudged entries, but nothing reopened a batch that acquired unjudged entries afterwards.
-- **mutate.py** `confirm` — [MEDIUM] the gates to be mutated
-  - says: the gates to be confirmed
-- **mutate.py** `gates` — [MEDIUM] the gates to be confirmed
-  - says: the gates to be mutated
-- **mutate.py** `os.walk` — [MEDIUM] copy files recursively
-  - says: copy files recursively
-- **mutate.py** `os.makedirs` — [MEDIUM] create state directory
-  - says: create state directory
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
