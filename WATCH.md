@@ -1,19 +1,18 @@
 # OVERWATCH
 
-round 343  ·  last run 2026-09-04 15:14
+round 344  ·  last run 2026-09-04 16:09
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 294,545 inspected
+- files that will not parse: **0** of 294,545 inspected (deep scan as of round 343)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
-- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**11 open** (2 high). Newest first.
+**10 open** (2 high). Newest first.
 
 - **verify_math.py** `check` — [HIGH] the k-th burg holds P1/k, but the code compares it to a value that is not the correct calculation due to a hardcoded value and incorrect use of max
   - says: the k-th burg holds P1/k, independently recomputed
@@ -23,8 +22,6 @@ round 343  ·  last run 2026-09-04 15:14
   - says: opens the file and processes its contents
 - **verify_math.py** `_cb20i.UNRECOGNISED` — [MEDIUM] assigns the file path to the UNRECOGNISED attribute
   - says: replaces the UNRECOGNISED path with a file
-- **policy.py** `a.limit` — [MEDIUM] default is None (no limit)
-  - says: default is None (no limit)
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
   - says: An unknown rung REFUSES rather than falling back to "show everything"
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
