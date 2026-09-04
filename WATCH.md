@@ -1,23 +1,21 @@
 # OVERWATCH
 
-round 330  ·  last run 2026-09-04 04:23
+round 331  ·  last run 2026-09-04 05:18
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 293,038 inspected (deep scan as of round 325)
+- files that will not parse: **0** of 293,419 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**24 open** (2 high). Newest first.
+**19 open** (1 high). Newest first.
 
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
-- **local_agent.py** `run` — [HIGH] The function `run` does not check for a halt, but the comment claims it does.
-  - says: THE HALT IS CHECKED HERE, AND UNTIL RUN #35 IT WAS NOT CHECKED ANYWHERE ON THIS LANE.
 - **hostcheck.py** `one` — [MEDIUM] processes a host and source pair but uses the wrong function 'score'
   - says: processes a host and source pair to score them
 - **health.py** `old` — [MEDIUM] old is initialized to an empty dict if the file is unreadable, but not updated after the corrupt file is renamed
@@ -44,14 +42,6 @@ round 330  ·  last run 2026-09-04 04:23
   - says: count of sources catalogued
 - **resync_roll.py** `relabelled` — [MEDIUM] THE VERDICT IS NOT OPTIONAL
   - says: THE VERDICT IS NOT OPTIONAL
-- **resync_roll.py** `relabelled` — [MEDIUM] THE STATUS RULE IS ABOUT THE COUNT, NOT ABOUT THE COUNT HAVING MOVED
-  - says: THE STATUS RULE IS ABOUT THE COUNT, NOT ABOUT THE COUNT HAVING MOVED
-- **resync_roll.py** `relabelled` — [MEDIUM] A ROLL ROW WITH NO RECORD FILE IS UNCHECKED, NOT AGREED
-  - says: A ROLL ROW WITH NO RECORD FILE IS UNCHECKED, NOT AGREED
-- **resync_roll.py** `dupes` — [MEDIUM] stores duplicate source filenames in a list
-  - says: index every record file by its declared `source`
-- **pipeline.py** `batch_settled` — [MEDIUM] the function is used to determine if a batch is settled (i.e., all entries are judged), and skips processing if true
-  - says: was written to kill; that fix stopped batches closing over unjudged entries, but nothing reopened a batch that acquired unjudged entries afterwards.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
