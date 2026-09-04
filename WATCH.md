@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 328  ·  last run 2026-09-04 03:13
+round 329  ·  last run 2026-09-04 03:52
 
 ## Structure
 
@@ -16,6 +16,10 @@ round 328  ·  last run 2026-09-04 03:13
 
 - **local_agent.py** `run` — [HIGH] The function `run` does not check for a halt, but the comment claims it does.
   - says: THE HALT IS CHECKED HERE, AND UNTIL RUN #35 IT WAS NOT CHECKED ANYWHERE ON THIS LANE.
+- **catalogue_models.py** `LAST_WRITE_LANDED` — [MEDIUM] used as a flag to determine if the write to disk was successful
+  - says: ATOMIC: standards.py polls PROVIDER_MODELS.json on its own cycle.
+- **catalogue_models.py** `sweep` — [MEDIUM] The code processes providers based on their outcome, but the comment indicates that the code should consider the truthiness of the outcome, not just the outcome itself.
+  - says: ON THE OUTCOME, NOT ON TRUTHINESS (sweep42-batch14).
 - **local_agent.py** `apply` — [MEDIUM] returns a staged patch without applying it
   - says: run started with --no-apply; patch recorded for the audit trail
 - **corpus_db.py** `code` — [MEDIUM] code is set to None when the resolver is unavailable, and when there's an exception during resolution, but the comment says that NULL means unshelved and only the resolver may say so. However, the code is set to None in cases where the resolver is unavailable or an exception occurs, which may not be correct according to the comment's contract.
@@ -48,10 +52,6 @@ round 328  ·  last run 2026-09-04 03:13
   - says: copy files recursively
 - **mutate.py** `os.makedirs` — [MEDIUM] create state directory
   - says: create state directory
-- **ledger_guard.py** `verify_chain` — [MEDIUM] Three distinct faults are reported separately, but the description is incomplete and the explanation about dropped FINAL links is not fully accurate.
-  - says: Three distinct faults are reported separately, because they mean different things: UNPARSEABLE a line of the chain file will not read as JSON. The link it held is GONE from every check below, and a dropped FINAL link is invisible to all of them -- so it is a fault in its own right, not a line to skip past. (order 77b098d098d099e6)
-- **ledger_guard.py** `verify_chain` — [MEDIUM] An ACKNOWLEDGED problem is one a person has ruled on by name (see `ACKNOWLEDGED` above). It is removed from `problems` -- so it does not fail the chain -- and returned separately so it is still reported.
-  - says: An ACKNOWLEDGED problem is one a person has ruled on by name (see `ACKNOWLEDGED` above). It is removed from `problems` -- so it does not fail the chain -- and returned separately so it is still reported.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
