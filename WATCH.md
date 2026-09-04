@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 323  ·  last run 2026-09-03 23:27
+round 324  ·  last run 2026-09-03 23:50
 
 ## Structure
 
@@ -13,22 +13,32 @@ round 323  ·  last run 2026-09-03 23:27
 
 ## What the model found in the code
 
-**14 open** (7 high). Newest first.
+**19 open** (5 high). Newest first.
 
-- **canon_backup.py** `replace_retry` — [HIGH] the function is called but its return value is checked for False, which is the opposite of what it is supposed to do
-  - says: THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by contract; it reports False.
-- **burgs.py** `burg_link` — [HIGH] not defined in the provided code slice
-  - says: generates the link to a burg's map through Azgaar
-- **burgs.py** `burgs_for` — [HIGH] not defined in the provided code slice
-  - says: generates the list of burgs for a world
-- **burgs.py** `GENERATORS` — [HIGH] not defined in the provided code slice
-  - says: defines the generator types for the burgs
-- **burgs.py** `CLASSES` — [HIGH] not defined in the provided code slice
-  - says: defines the settlement classes for the rank-size rule
-- **burgs.py** `class_histogram` — [HIGH] not defined in the provided code slice
-  - says: computes the histogram of burg classes
-- **burgs.py** `world_parameters` — [HIGH] not defined in the provided code slice
-  - says: constructs the parameters for a world's burgs
+- **ledger_guard.py** `check_all` — [HIGH] only checks one of three mechanisms
+  - says: check the relay's ledgers
+- **drill.py** `reap_orphans` — [HIGH] always returns an empty list when called with older_than=10 ** 9
+  - says: reaps orphans based on age and ownership
+- **drill.py** `the_loser_of_a_race_is_refused_mid_backoff` — [HIGH] The function does not properly handle the case where a writer lands during the backoff period. It does not ensure the retrying writer is refused and the file remains untouched if the write happened anyway.
+  - says: THE COMPARE AND THE SWAP HAVE TO BE ADJACENT -- driven, not asserted. ... A reason is not a refusal if the write happened anyway.
+- **drill.py** `reason_matches_verdict` — [HIGH] The function raises a PermissionError on Windows, but the code does not handle it, leading to an uncaught exception. The function also does not ensure the file remains untouched if the rename is denied.
+  - says: A denied rename must not come back describing itself as a landing. ... The file must also be untouched afterwards: a reason is not evidence if the write happened anyway.
+- **drill.py** `PL._chain_landed` — [HIGH] PL._chain_landed is used to determine if a write landed, but the code checks if the disk content matches the built document, which is the opposite of what the comment says it should do.
+  - says: Phase 4's done-key must be gated on the artifact, not on the writer's say-so.
+- **ledger_guard.py** `verify_chain` — [MEDIUM] Three distinct faults are reported separately, but the description is incomplete and the explanation about dropped FINAL links is not fully accurate.
+  - says: Three distinct faults are reported separately, because they mean different things: UNPARSEABLE a line of the chain file will not read as JSON. The link it held is GONE from every check below, and a dropped FINAL link is invisible to all of them -- so it is a fault in its own right, not a line to skip past. (order 77b098d098d099e6)
+- **ledger_guard.py** `verify_chain` — [MEDIUM] An ACKNOWLEDGED problem is one a person has ruled on by name (see `ACKNOWLEDGED` above). It is removed from `problems` -- so it does not fail the chain -- and returned separately so it is still reported.
+  - says: An ACKNOWLEDGED problem is one a person has ruled on by name (see `ACKNOWLEDGED` above). It is removed from `problems` -- so it does not fail the chain -- and returned separately so it is still reported.
+- **foreman.py** `refresh_coverage` — [MEDIUM] Returns a boolean indicating if the coverage.py script ran successfully, without indicating whether the coverage was actually recomputed or if there were errors.
+  - says: Re-measure cited/settled. Stale figures understate the library and mislead every other standard that reads them.
+- **drill.py** `silence.write_json` — [MEDIUM] writes to a file that may not be accessible due to the exception handling
+  - says: this project's stated one correct way to land a shared file
+- **drill.py** `ESC.escalate` — [MEDIUM] the code may not be handling out-of-range rung numbers correctly
+  - says: unknown must stop something real without handing a slip of the keyboard the park
+- **drill.py** `ESC.escalate` — [MEDIUM] the code may not be handling evidence correctly or typo resolution as described
+  - says: resolving a typo to OWNER makes `escalate('Owner ', ...)` a denial of service anyone can trigger by accident; `dict(evidence or {})` flipped to `and` throws the caller's evidence away and leaves the typo unfixable
+- **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] the code checks for overflow (summing past entry count) but the docstring says it's only checking one direction
+  - says: No source's states may sum PAST its own entry count. One direction, and only one.
 - **coverage.py** `blimit` — [MEDIUM] cap the BEST COVERED list to N rows (announced, not silent); default 10, pass 0 for all of them
   - says: cap the BEST COVERED list to N rows (announced, not silent); default 10, pass 0 for all of them
 - **cleanup.py** `changed` — [MEDIUM] is set to True
