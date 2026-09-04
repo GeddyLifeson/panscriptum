@@ -1,23 +1,21 @@
 # OVERWATCH
 
-round 319  ·  last run 2026-09-03 20:10
+round 320  ·  last run 2026-09-03 21:03
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 292,747 inspected
+- files that will not parse: **0** of 292,747 inspected (deep scan as of round 319)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**9 open** (1 high). Newest first.
+**8 open** (1 high). Newest first.
 
 - **threads.py** `main` — [HIGH] return 0
   - says: return 1
-- **endpoint.py** `one` — [MEDIUM] returns None for HTTP errors and HTML bodies, but not for other failures
-  - says: fetch raw content from a URL and return it if successful
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal
