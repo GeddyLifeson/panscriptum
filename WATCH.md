@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 332  ·  last run 2026-09-04 06:30
+round 333  ·  last run 2026-09-04 07:22
 
 ## Structure
 
@@ -12,10 +12,18 @@ round 332  ·  last run 2026-09-04 06:30
 
 ## What the model found in the code
 
-**18 open** (1 high). Newest first.
+**20 open** (1 high). Newest first.
 
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
+- **scout.py** `scout` — [MEDIUM] scout is called with names or [] but the actual intended parameter is names, not names or []
+  - says: scout(a.source, names or [], register=not a.dry)
+- **scout.py** `silence.note` — [MEDIUM] Records a note about the mutation process, but in some cases, it may not provide sufficient detail about the reason for failure, leading to potential confusion or misinterpretation of the error.
+  - says: Record a note about the mutation process.
+- **scout.py** `silence.digest_of` — [MEDIUM] Computes the digest of a file, but if the file is unreadable, it returns an empty string or a default value, which may not accurately represent the file's actual digest.
+  - says: Compute the digest of a file.
+- **scout.py** `silence.replace_if_unchanged` — [MEDIUM] Replaces the content of `path` with the content of `tmp` if the digest of `path` matches the digest of `tmp` only when the target is readable as bytes at write time. If the target is unreadable, it refuses to write over it, even if the digest matches.
+  - says: Replace the content of `path` with the content of `tmp` if the digest of `path` matches the digest of `tmp`.
 - **hostcheck.py** `one` — [MEDIUM] processes a host and source pair but uses the wrong function 'score'
   - says: processes a host and source pair to score them
 - **health.py** `old` — [MEDIUM] old is initialized to an empty dict if the file is unreadable, but not updated after the corrupt file is renamed
@@ -32,12 +40,8 @@ round 332  ·  last run 2026-09-04 06:30
   - says: RESOLVED, UNASSIGNED, OR NEVER ASKED -- THREE STATES, AND TWO OF THEM USED TO SHARE A SPELLING. `code = None` was initialised, the resolver was called inside a try/except that only `silence.note()`d, and the next line's comment stated the contract the except clause then broke: NULL means unshelved, and only the resolver may say so. On any exception NULL was written anyway. That matters far more than one row, because `address._load_spine_codes()` raises OUTRIGHT if data/CHARTER_SPINE_CODES.json is missing or unparseable, and `import address` still succeeds -- so `_spine_for` is truthy, the guard above catches nothing, and one unreadable data file makes ALL 216 sources report as unshelved. The `unaddressed` canned query and the Datasette page then present a whole-roll curatorial backlog, which is exactly the misreading this module's header spends fifteen lines on and nearly acted on once already. The only trace was a note. Now the failure gets its own value, is counted into `meta`, and is reported by the rebuild -- so the index can say "I could not ask" instead of answering for the resolver. (order 25266fa8c2dc)
 - **chain.py** `kept` — [MEDIUM] recorded as genuine disagreement
   - says: recorded as genuine disagreement
-- **chain.py** `split` — [MEDIUM] split by epoch
-  - says: split by epoch
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
   - says: An unknown rung REFUSES rather than falling back to "show everything"
-- **secondopinion.py** `mine` — [MEDIUM] the code says it does
-  - says: the code says it does
 - **resync_roll.py** `relabelled` — [MEDIUM] THE VERDICT IS NOT OPTIONAL
   - says: THE VERDICT IS NOT OPTIONAL
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
