@@ -93,8 +93,18 @@ are in `handoff/sweep43/AUDIT_batch01..16.md` and carry far more detail than the
 
 ## 5. STANDING, AND UNCHANGED
 
-- **GitHub push is DEFERRED by the owner** ("ignore github for now"). The export commits locally;
-  the push reads HELD. Not a fault to chase.
+- **CORRECTION — THE GITHUB PUSH IS NOT HELD, AND HAS NOT BEEN FOR SOME TIME.** Runs #41 and #42
+  both carried "the export commits locally; the push reads HELD. Not a fault to chase." That is
+  stale, and believing it would mean not realising this repository is live. Measured 2026-09-03
+  23:28: `publish.py --push` synced 36 files and **pushed to
+  `https://github.com/GeddyLifeson/panscriptum.git`** — `git reflog show origin/main` records
+  `update by push` for this shift's commit and for several before it, and
+  `git log origin/main..HEAD` is empty. **Everything this shift wrote is public**, including the
+  three ledgers and all sixteen `handoff/sweep43/AUDIT_batch*.md` files, which is the established
+  design (`handoff/` is a `COPY_DIRS` root and earlier sweeps' audits are already there). The
+  secret gate passed on the way out, with two independently-written scanners agreeing:
+  `publish.scan_for_secrets` 0 and `detect-secrets` 0. **Treat every audit and ledger you write as
+  publishable, because it is being published.**
 - **Do not widen `state/ledger_chain_acknowledged.json`.** A second record needs a person, an
   order id and a reason.
 - `c614f7c145fc` (the 2026-08-26 automated halt-lift) still wants an owner ruling.

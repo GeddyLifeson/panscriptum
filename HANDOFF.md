@@ -8714,3 +8714,75 @@ one of the three the polarity fix brought back into view.
   the safe direction. That is a review-cycle decision, not a night-shift one.
 - The `hosts.py` orders are closed but note that module still has **no production caller**; the
   fixes are correct and currently exercise only its own CLI.
+
+## RUN #43 — CLOSING ADDENDUM, WRITTEN AFTER THE PUSH
+
+### THE MUTATION PASS WAS STILL RUNNING WHEN THIS SHIFT CLOSED. IT IS NOT A RESULT YET.
+
+At 23:29 it was still working through `assay.py` — 53 of 186 mutants, with `escalation.py` x108
+and `prose_gate.py` x25 not started. It runs the whole battery per mutant, so this is normal, not
+a hang; the process was confirmed alive and the sandbox's `assay.py` confirmed being rewritten
+minute by minute. **Log: `state/mutate_2026-09-03.log`. Read it before doing anything else next
+run, and do not read a launched pass as a completed one.**
+
+**The achievement to record is that it runs at all.** It had been refusing outright — a red
+baseline caused by `state/cascade_scratch.db` being absent from the sandbox — so every mutation
+pass this project believed it was performing was in fact being cancelled at the door. It was
+launched with `--file-orders`, so survivors will arrive in the queue by themselves with their
+exact diffs. Two caveats for whoever reads that log: flakiness was **not** checked
+(`--check-flaky` was not passed), and two nets were added to `drill.py` AFTER the baseline was
+taken, so the live battery is now slightly stronger than the one judging these mutants — a
+survivor may already be dead.
+
+### A CORRECTION TO A STANDING NOTE: THE GITHUB PUSH IS NOT HELD
+
+Runs #41 and #42 both handed forward "GitHub push is DEFERRED by the owner; the export commits
+locally; the push reads HELD. Not a fault to chase." **That is stale.** Measured this shift:
+`publish.py --push` synced 36 files and pushed to
+`https://github.com/GeddyLifeson/panscriptum.git`. `git reflog show origin/main` records
+`update by push` for this commit and several before it, and `git log origin/main..HEAD` is empty.
+
+So **everything this shift wrote is now public** — the three ledgers and all sixteen
+`handoff/sweep43/AUDIT_batch*.md` files, which is the established design rather than an accident
+(`handoff/` is a `COPY_DIRS` root and earlier sweeps' audits already sit there). The gate did its
+job on the way out: `publish.scan_for_secrets` 0 and `detect-secrets` 0, two independently-written
+scanners agreeing. **The operational consequence, and the reason this is flagged rather than
+buried: write every audit and every ledger entry as publishable, because it is being published.**
+
+### AN ERROR THIS SHIFT MADE, AND FIXED
+
+`1bc825e806a9` was closed on one of its three limbs. A selector matching every `burgs.py` order
+with "LIMIT" in its code swept up a second, different finding, and the resolution written into
+the paper trail described only the `limit=0` fix. **Caught by reading the closed record back.**
+The order was re-opened under its own id and finished properly rather than left closed on a
+partial fix — the remaining limbs were the real one: a limit LARGER than the world's burg count
+ran the loop past the end and FABRICATED settlements (`--limit 983` against a world of 483
+invented 500 rows indistinguishable from real ones), and the sample table never printed the
+world's own burg count so a reader could not tell five rows from five of three thousand. Both
+fixed and measured; the paper trail carries the premature close and the corrected one, in order.
+**A closed order nobody can distinguish from a completed one is the exact rot this queue exists
+to prevent, so the correction is recorded rather than tidied away.**
+
+### DAEMONS
+
+`foreman` and `overwatch` were bounced at 23:27 and confirmed back up on the current fingerprint.
+Both had been running since ~00:30 on pre-shift code and **could not self-bounce**, because the
+fix that makes them exit rc=17 postdated their start — the condition run #42 diagnosed and asked
+the next run to clear. It mattered beyond hygiene: the old `foreman` was still executing the
+`LIKE '%"rpm": 1%'` remedy that wipes legitimate learned rate caps of 10, 15, 19 and 100, which
+this shift fixed. The keeper restored both on its own next cycle, which is the mechanism working.
+No other daemon needed a bounce.
+
+An empty file literally named `=` was found at the repo root (an agent's shell-redirect slip, 0
+bytes, 22:35) and removed before the push. `handoff/sweep43/` was checked for agent scratch before
+publishing and contains only the sixteen audits — the 18 `.py` files under `handoff/run35/` are
+the pre-existing `AGENT_SCRATCH_IN_PUBLISHED_TREE` order, untouched.
+
+### THE HONEST SHAPE OF THIS SHIFT
+
+**The queue did not empty and will not in one shift: 416 open at close** (LOCAL 141 · BOTS 24 ·
+RUN 67 · SESSION 57 · OWNER 122), against 386 at open. It grew because sweep 43 read every module
+in `src/` and filed ~40 new findings, while 23 were closed. That is the sweep working, not the
+shift failing — but it should be said plainly rather than dressed up, and the three orders left
+open at RUN/MAJOR are named with their reasons in `NEXT_STEPS.md` §1–2 so the next run starts from
+this position instead of rediscovering it.
