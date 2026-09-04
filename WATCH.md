@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 326  ·  last run 2026-09-04 01:29
+round 327  ·  last run 2026-09-04 01:56
 
 ## Structure
 
@@ -13,30 +13,16 @@ round 326  ·  last run 2026-09-04 01:29
 
 ## What the model found in the code
 
-**38 open** (11 high). Newest first.
+**28 open** (2 high). Newest first.
 
-- **workorders.py** `resolve_code` — [HIGH] is called with a code and a message, but the code is not resolved; it's appended to a list of closed codes
-  - says: resolves a code to a resolution
-- **workorders.py** `filed` — [HIGH] files an order
-  - says: closes
-- **workorders.py** `_detector` — [HIGH] files an order
-  - says: RESOLVES
-- **workorders.py** `_fire` — [HIGH] files an order
-  - says: RESOLVES
-- **pipeline.py** `landed` — [HIGH] landed is a list that contains JSON landings and a False value when all sources refused to build
-  - says: landed is a list of booleans indicating whether each job was successfully landed
-- **pipeline.py** `merged` — [HIGH] merged is assigned the value of `disk` before any merge operations
-  - says: Folding onto `disk` keeps every disk-authored top-level key
-- **pipeline.py** `gate_done` — [HIGH] Marks a phase done unconditionally, ignoring the landed status of artifacts.
-  - says: Mark a phase done ONLY if every artifact it wrote actually landed.
-- **mutate.py** `absent` — [HIGH] list of missing target directories
-  - says: list of missing target files
+- **local_agent.py** `run` — [HIGH] The function `run` does not check for a halt, but the comment claims it does.
+  - says: THE HALT IS CHECKED HERE, AND UNTIL RUN #35 IT WAS NOT CHECKED ANYWHERE ON THIS LANE.
 - **drill.py** `reap_orphans` — [HIGH] always returns an empty list when called with older_than=10 ** 9
   - says: reaps orphans based on age and ownership
-- **drill.py** `the_loser_of_a_race_is_refused_mid_backoff` — [HIGH] The function does not properly handle the case where a writer lands during the backoff period. It does not ensure the retrying writer is refused and the file remains untouched if the write happened anyway.
-  - says: THE COMPARE AND THE SWAP HAVE TO BE ADJACENT -- driven, not asserted. ... A reason is not a refusal if the write happened anyway.
-- **drill.py** `reason_matches_verdict` — [HIGH] The function raises a PermissionError on Windows, but the code does not handle it, leading to an uncaught exception. The function also does not ensure the file remains untouched if the rename is denied.
-  - says: A denied rename must not come back describing itself as a landing. ... The file must also be untouched afterwards: a reason is not evidence if the write happened anyway.
+- **local_agent.py** `apply` — [MEDIUM] returns a staged patch without applying it
+  - says: run started with --no-apply; patch recorded for the audit trail
+- **corpus_db.py** `code` — [MEDIUM] code is set to None when the resolver is unavailable, and when there's an exception during resolution, but the comment says that NULL means unshelved and only the resolver may say so. However, the code is set to None in cases where the resolver is unavailable or an exception occurs, which may not be correct according to the comment's contract.
+  - says: RESOLVED, UNASSIGNED, OR NEVER ASKED -- THREE STATES, AND TWO OF THEM USED TO SHARE A SPELLING. `code = None` was initialised, the resolver was called inside a try/except that only `silence.note()`d, and the next line's comment stated the contract the except clause then broke: NULL means unshelved, and only the resolver may say so. On any exception NULL was written anyway. That matters far more than one row, because `address._load_spine_codes()` raises OUTRIGHT if data/CHARTER_SPINE_CODES.json is missing or unparseable, and `import address` still succeeds -- so `_spine_for` is truthy, the guard above catches nothing, and one unreadable data file makes ALL 216 sources report as unshelved. The `unaddressed` canned query and the Datasette page then present a whole-roll curatorial backlog, which is exactly the misreading this module's header spends fifteen lines on and nearly acted on once already. The only trace was a note. Now the failure gets its own value, is counted into `meta`, and is reported by the rebuild -- so the index can say "I could not ask" instead of answering for the resolver. (order 25266fa8c2dc)
 - **chain.py** `kept` — [MEDIUM] recorded as genuine disagreement
   - says: recorded as genuine disagreement
 - **chain.py** `split` — [MEDIUM] split by epoch
@@ -65,8 +51,6 @@ round 326  ·  last run 2026-09-04 01:29
   - says: copy files recursively
 - **mutate.py** `os.makedirs` — [MEDIUM] create state directory
   - says: create state directory
-- **mutate.py** `missed` — [MEDIUM] list of files that were not copied
-  - says: list of files that were not copied
 - **ledger_guard.py** `verify_chain` — [MEDIUM] Three distinct faults are reported separately, but the description is incomplete and the explanation about dropped FINAL links is not fully accurate.
   - says: Three distinct faults are reported separately, because they mean different things: UNPARSEABLE a line of the chain file will not read as JSON. The link it held is GONE from every check below, and a dropped FINAL link is invisible to all of them -- so it is a fault in its own right, not a line to skip past. (order 77b098d098d099e6)
 - **ledger_guard.py** `verify_chain` — [MEDIUM] An ACKNOWLEDGED problem is one a person has ruled on by name (see `ACKNOWLEDGED` above). It is removed from `problems` -- so it does not fail the chain -- and returned separately so it is still reported.
@@ -77,10 +61,6 @@ round 326  ·  last run 2026-09-04 01:29
   - says: this project's stated one correct way to land a shared file
 - **drill.py** `ESC.escalate` — [MEDIUM] the code may not be handling out-of-range rung numbers correctly
   - says: unknown must stop something real without handing a slip of the keyboard the park
-- **drill.py** `ESC.escalate` — [MEDIUM] the code may not be handling evidence correctly or typo resolution as described
-  - says: resolving a typo to OWNER makes `escalate('Owner ', ...)` a denial of service anyone can trigger by accident; `dict(evidence or {})` flipped to `and` throws the caller's evidence away and leaves the typo unfixable
-- **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] the code checks for overflow (summing past entry count) but the docstring says it's only checking one direction
-  - says: No source's states may sum PAST its own entry count. One direction, and only one.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
