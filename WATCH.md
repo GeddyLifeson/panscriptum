@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 317  ·  last run 2026-09-03 17:57
+round 318  ·  last run 2026-09-03 18:49
 
 ## Structure
 
@@ -12,14 +12,20 @@ round 317  ·  last run 2026-09-03 17:57
 
 ## What the model found in the code
 
-**9 open** (0 high). Newest first.
+**12 open** (3 high). Newest first.
 
+- **feats.py** `roll` — [HIGH] the return value is discarded and 0 is returned unconditionally
+  - says: THE COUNTERS REACH THE EXIT CODE
+- **feats.py** `_QUANTITY` — [HIGH] fails to capture mantissa value when exponent is present
+  - says: extracts physical quantities
+- **feats.py** `_QUANTITY` — [HIGH] captures exponent but discards mantissa value
+  - says: extracts physical quantities
+- **endpoint.py** `one` — [MEDIUM] returns None for HTTP errors and HTML bodies, but not for other failures
+  - says: fetch raw content from a URL and return it if successful
 - **compress_store.py** `load` — [MEDIUM] Reads a stored blob back, decompresses it, and checks the filename against the content hash of the decompressed text, but does not verify that the decompressed text matches the content hash of the original text before compression.
   - says: Read a stored blob back, VERIFYING it against the address it is filed under.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
-- **verify_math.py** `_open20i` — [MEDIUM] contains buckets that are not open unknowns
-  - says: contains buckets that are open unknowns
 - **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal
   - says: this whole function exists to argue that a write verdict must never be discarded, and this was the one call in it that still did
 - **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
