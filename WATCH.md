@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 335  ·  last run 2026-09-04 08:34
+round 336  ·  last run 2026-09-04 09:15
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 335  ·  last run 2026-09-04 08:34
 
 ## What the model found in the code
 
-**15 open** (1 high). Newest first.
+**12 open** (1 high). Newest first.
 
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
@@ -26,14 +26,8 @@ round 335  ·  last run 2026-09-04 08:34
   - says: Compute the digest of a file.
 - **scout.py** `silence.replace_if_unchanged` — [MEDIUM] Replaces the content of `path` with the content of `tmp` if the digest of `path` matches the digest of `tmp` only when the target is readable as bytes at write time. If the target is unreadable, it refuses to write over it, even if the digest matches.
   - says: Replace the content of `path` with the content of `tmp` if the digest of `path` matches the digest of `tmp`.
-- **hostcheck.py** `one` — [MEDIUM] processes a host and source pair but uses the wrong function 'score'
-  - says: processes a host and source pair to score them
-- **health.py** `old` — [MEDIUM] old is initialized to an empty dict if the file is unreadable, but not updated after the corrupt file is renamed
-  - says: old is the content read from SAMPLES_PATH
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
   - says: An unknown rung REFUSES rather than falling back to "show everything"
-- **resync_roll.py** `relabelled` — [MEDIUM] THE VERDICT IS NOT OPTIONAL
-  - says: THE VERDICT IS NOT OPTIONAL
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
