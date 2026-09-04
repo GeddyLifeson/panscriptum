@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 347  ·  last run 2026-09-04 17:43
+round 348  ·  last run 2026-09-04 18:10
 
 ## Structure
 
@@ -12,10 +12,16 @@ round 347  ·  last run 2026-09-04 17:43
 
 ## What the model found in the code
 
-**7 open** (1 high). Newest first.
+**10 open** (2 high). Newest first.
 
+- **feats.py** `extra` — [HIGH] is now a parameter that is checked for being numeric and raised an error
+  - says: was a cap on a ranked page list
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
+- **feats.py** `resolve_hosts` — [MEDIUM] Derived from stored pages where possible, guessed but not verified unless explicitly instructed, with some conditions that may prevent verification.
+  - says: Derived from stored pages where possible, guessed and VERIFIED otherwise.
+- **endpoint.py** `one` — [MEDIUM] returns None for HTTP errors and HTML bodies, but returns the body for 200 responses that are not HTML
+  - says: fetch raw content from a URL and return it if successful
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
   - says: An unknown rung REFUSES rather than falling back to "show everything"
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
