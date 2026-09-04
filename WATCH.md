@@ -1,11 +1,11 @@
 # OVERWATCH
 
-round 342  ·  last run 2026-09-04 14:48
+round 343  ·  last run 2026-09-04 15:14
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 294,141 inspected (deep scan as of round 337)
+- files that will not parse: **0** of 294,545 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
@@ -13,14 +13,16 @@ round 342  ·  last run 2026-09-04 14:48
 
 ## What the model found in the code
 
-**10 open** (1 high). Newest first.
+**11 open** (2 high). Newest first.
 
+- **verify_math.py** `check` — [HIGH] the k-th burg holds P1/k, but the code compares it to a value that is not the correct calculation due to a hardcoded value and incorrect use of max
+  - says: the k-th burg holds P1/k, independently recomputed
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
-- **thread_integrity.py** `dangling` — [MEDIUM] dangling is set to counts.get("DANGLING", 0), which is the count of DANGLING entries, not the actual entries themselves
-  - says: THE UNIT IS SOURCE PAIRS, NOT THREADS
-- **policy.py** `ap.add_argument` — [MEDIUM] default is None (no limit)
-  - says: default is None (no limit)
+- **verify_math.py** `_cb20i.unrecognised_open()` — [MEDIUM] calls a method that may not handle the file correctly
+  - says: opens the file and processes its contents
+- **verify_math.py** `_cb20i.UNRECOGNISED` — [MEDIUM] assigns the file path to the UNRECOGNISED attribute
+  - says: replaces the UNRECOGNISED path with a file
 - **policy.py** `a.limit` — [MEDIUM] default is None (no limit)
   - says: default is None (no limit)
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
