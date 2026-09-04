@@ -1,18 +1,18 @@
 # OVERWATCH
 
-round 331  ·  last run 2026-09-04 05:18
+round 332  ·  last run 2026-09-04 06:30
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 293,419 inspected
+- files that will not parse: **0** of 293,419 inspected (deep scan as of round 331)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**19 open** (1 high). Newest first.
+**18 open** (1 high). Newest first.
 
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
@@ -38,8 +38,6 @@ round 331  ·  last run 2026-09-04 05:18
   - says: An unknown rung REFUSES rather than falling back to "show everything"
 - **secondopinion.py** `mine` — [MEDIUM] the code says it does
   - says: the code says it does
-- **resync_roll.py** `have` — [MEDIUM] count of sources with entry_count > 0
-  - says: count of sources catalogued
 - **resync_roll.py** `relabelled` — [MEDIUM] THE VERDICT IS NOT OPTIONAL
   - says: THE VERDICT IS NOT OPTIONAL
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
