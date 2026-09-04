@@ -1,18 +1,18 @@
 # OVERWATCH
 
-round 337  ·  last run 2026-09-04 10:31
+round 338  ·  last run 2026-09-04 11:47
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 294,141 inspected
+- files that will not parse: **0** of 294,141 inspected (deep scan as of round 337)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**14 open** (2 high). Newest first.
+**10 open** (2 high). Newest first.
 
 - **retry_synthesis.py** `PL.ask_pool_first` — [HIGH] calls a different model than `phase_synthesis`
   - says: the same transport `phase_synthesis` uses
@@ -22,14 +22,6 @@ round 337  ·  last run 2026-09-04 10:31
   - says: the pipeline's own invariant: no feat, no band
 - **weave_index.py** `build` — [MEDIUM] build
   - says: build
-- **scout.py** `scout` — [MEDIUM] scout is called with names or [] but the actual intended parameter is names, not names or []
-  - says: scout(a.source, names or [], register=not a.dry)
-- **scout.py** `silence.note` — [MEDIUM] Records a note about the mutation process, but in some cases, it may not provide sufficient detail about the reason for failure, leading to potential confusion or misinterpretation of the error.
-  - says: Record a note about the mutation process.
-- **scout.py** `silence.digest_of` — [MEDIUM] Computes the digest of a file, but if the file is unreadable, it returns an empty string or a default value, which may not accurately represent the file's actual digest.
-  - says: Compute the digest of a file.
-- **scout.py** `silence.replace_if_unchanged` — [MEDIUM] Replaces the content of `path` with the content of `tmp` if the digest of `path` matches the digest of `tmp` only when the target is readable as bytes at write time. If the target is unreadable, it refuses to write over it, even if the digest matches.
-  - says: Replace the content of `path` with the content of `tmp` if the digest of `path` matches the digest of `tmp`.
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
   - says: An unknown rung REFUSES rather than falling back to "show everything"
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
