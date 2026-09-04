@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 333  ·  last run 2026-09-04 07:22
+round 334  ·  last run 2026-09-04 08:08
 
 ## Structure
 
@@ -12,10 +12,12 @@ round 333  ·  last run 2026-09-04 07:22
 
 ## What the model found in the code
 
-**20 open** (1 high). Newest first.
+**18 open** (1 high). Newest first.
 
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
+- **weave_index.py** `build` — [MEDIUM] build
+  - says: build
 - **scout.py** `scout` — [MEDIUM] scout is called with names or [] but the actual intended parameter is names, not names or []
   - says: scout(a.source, names or [], register=not a.dry)
 - **scout.py** `silence.note` — [MEDIUM] Records a note about the mutation process, but in some cases, it may not provide sufficient detail about the reason for failure, leading to potential confusion or misinterpretation of the error.
@@ -34,12 +36,6 @@ round 333  ·  last run 2026-09-04 07:22
   - says: ATOMIC: standards.py polls PROVIDER_MODELS.json on its own cycle.
 - **catalogue_models.py** `sweep` — [MEDIUM] The code processes providers based on their outcome, but the comment indicates that the code should consider the truthiness of the outcome, not just the outcome itself.
   - says: ON THE OUTCOME, NOT ON TRUTHINESS (sweep42-batch14).
-- **local_agent.py** `apply` — [MEDIUM] returns a staged patch without applying it
-  - says: run started with --no-apply; patch recorded for the audit trail
-- **corpus_db.py** `code` — [MEDIUM] code is set to None when the resolver is unavailable, and when there's an exception during resolution, but the comment says that NULL means unshelved and only the resolver may say so. However, the code is set to None in cases where the resolver is unavailable or an exception occurs, which may not be correct according to the comment's contract.
-  - says: RESOLVED, UNASSIGNED, OR NEVER ASKED -- THREE STATES, AND TWO OF THEM USED TO SHARE A SPELLING. `code = None` was initialised, the resolver was called inside a try/except that only `silence.note()`d, and the next line's comment stated the contract the except clause then broke: NULL means unshelved, and only the resolver may say so. On any exception NULL was written anyway. That matters far more than one row, because `address._load_spine_codes()` raises OUTRIGHT if data/CHARTER_SPINE_CODES.json is missing or unparseable, and `import address` still succeeds -- so `_spine_for` is truthy, the guard above catches nothing, and one unreadable data file makes ALL 216 sources report as unshelved. The `unaddressed` canned query and the Datasette page then present a whole-roll curatorial backlog, which is exactly the misreading this module's header spends fifteen lines on and nearly acted on once already. The only trace was a note. Now the failure gets its own value, is counted into `meta`, and is reported by the rebuild -- so the index can say "I could not ask" instead of answering for the resolver. (order 25266fa8c2dc)
-- **chain.py** `kept` — [MEDIUM] recorded as genuine disagreement
-  - says: recorded as genuine disagreement
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
   - says: An unknown rung REFUSES rather than falling back to "show everything"
 - **resync_roll.py** `relabelled` — [MEDIUM] THE VERDICT IS NOT OPTIONAL
