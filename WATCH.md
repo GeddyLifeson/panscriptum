@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 321  ·  last run 2026-09-03 21:30
+round 323  ·  last run 2026-09-03 23:27
 
 ## Structure
 
@@ -9,23 +9,32 @@ round 321  ·  last run 2026-09-03 21:30
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
+- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**10 open** (2 high). Newest first.
+**14 open** (7 high). Newest first.
 
-- **assay.py** `instrument` — [HIGH] returns a dictionary with 'printout' as 'uninstrumented — no faculties on file' when worksheet is missing, which is a refusal due to H5 thin-data ban, but the function is supposed to convert to the six faculties
-  - says: Deterministic conversion to the six faculties, 1-30, plus Transcend, and two refusals are built in
-- **threads.py** `main` — [HIGH] return 0
-  - says: return 1
-- **axis_correlation.py** `mean_str` — [MEDIUM] raises TypeError unconditionally, in exactly the state where the reader most needs the report to speak: "nothing measurable yet" rather than a crash
-  - says: named rather than numbered: this cited "line ~157", which landed inside `_scores_of`'s docstring some 72 lines short of the expression it meant, per the rule dashboard.py:77-80 records for exactly this ("a baked-in line number rots the moment anything above it moves")
+- **canon_backup.py** `replace_retry` — [HIGH] the function is called but its return value is checked for False, which is the opposite of what it is supposed to do
+  - says: THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by contract; it reports False.
+- **burgs.py** `burg_link` — [HIGH] not defined in the provided code slice
+  - says: generates the link to a burg's map through Azgaar
+- **burgs.py** `burgs_for` — [HIGH] not defined in the provided code slice
+  - says: generates the list of burgs for a world
+- **burgs.py** `GENERATORS` — [HIGH] not defined in the provided code slice
+  - says: defines the generator types for the burgs
+- **burgs.py** `CLASSES` — [HIGH] not defined in the provided code slice
+  - says: defines the settlement classes for the rank-size rule
+- **burgs.py** `class_histogram` — [HIGH] not defined in the provided code slice
+  - says: computes the histogram of burg classes
+- **burgs.py** `world_parameters` — [HIGH] not defined in the provided code slice
+  - says: constructs the parameters for a world's burgs
+- **coverage.py** `blimit` — [MEDIUM] cap the BEST COVERED list to N rows (announced, not silent); default 10, pass 0 for all of them
+  - says: cap the BEST COVERED list to N rows (announced, not silent); default 10, pass 0 for all of them
+- **cleanup.py** `changed` — [MEDIUM] is set to True
+  - says: was never set on this branch
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
-- **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal
-  - says: this whole function exists to argue that a write verdict must never be discarded, and this was the one call in it that still did
-- **workorders.py** `_fire` — [MEDIUM] appends to `filed` and may close orders
-  - says: raises an order for a problem
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
   - says: The drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD that is -- an age is not decoration here, it is the difference between "57 nets held" and "57 nets held, at some point, possibly before the change you are looking at".
 - **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
