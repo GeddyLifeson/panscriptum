@@ -1,11 +1,11 @@
 # OVERWATCH
 
-round 324  ·  last run 2026-09-03 23:50
+round 325  ·  last run 2026-09-04 00:43
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 292,747 inspected (deep scan as of round 319)
+- files that will not parse: **0** of 293,038 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
@@ -13,10 +13,16 @@ round 324  ·  last run 2026-09-03 23:50
 
 ## What the model found in the code
 
-**19 open** (5 high). Newest first.
+**31 open** (8 high). Newest first.
 
-- **ledger_guard.py** `check_all` — [HIGH] only checks one of three mechanisms
-  - says: check the relay's ledgers
+- **pipeline.py** `landed` — [HIGH] landed is a list that contains JSON landings and a False value when all sources refused to build
+  - says: landed is a list of booleans indicating whether each job was successfully landed
+- **pipeline.py** `merged` — [HIGH] merged is assigned the value of `disk` before any merge operations
+  - says: Folding onto `disk` keeps every disk-authored top-level key
+- **pipeline.py** `gate_done` — [HIGH] Marks a phase done unconditionally, ignoring the landed status of artifacts.
+  - says: Mark a phase done ONLY if every artifact it wrote actually landed.
+- **mutate.py** `absent` — [HIGH] list of missing target directories
+  - says: list of missing target files
 - **drill.py** `reap_orphans` — [HIGH] always returns an empty list when called with older_than=10 ** 9
   - says: reaps orphans based on age and ownership
 - **drill.py** `the_loser_of_a_race_is_refused_mid_backoff` — [HIGH] The function does not properly handle the case where a writer lands during the backoff period. It does not ensure the retrying writer is refused and the file remains untouched if the write happened anyway.
@@ -25,6 +31,28 @@ round 324  ·  last run 2026-09-03 23:50
   - says: A denied rename must not come back describing itself as a landing. ... The file must also be untouched afterwards: a reason is not evidence if the write happened anyway.
 - **drill.py** `PL._chain_landed` — [HIGH] PL._chain_landed is used to determine if a write landed, but the code checks if the disk content matches the built document, which is the opposite of what the comment says it should do.
   - says: Phase 4's done-key must be gated on the artifact, not on the writer's say-so.
+- **resync_roll.py** `have` — [MEDIUM] count of sources with entry_count > 0
+  - says: count of sources catalogued
+- **resync_roll.py** `relabelled` — [MEDIUM] THE VERDICT IS NOT OPTIONAL
+  - says: THE VERDICT IS NOT OPTIONAL
+- **resync_roll.py** `relabelled` — [MEDIUM] THE STATUS RULE IS ABOUT THE COUNT, NOT ABOUT THE COUNT HAVING MOVED
+  - says: THE STATUS RULE IS ABOUT THE COUNT, NOT ABOUT THE COUNT HAVING MOVED
+- **resync_roll.py** `relabelled` — [MEDIUM] A ROLL ROW WITH NO RECORD FILE IS UNCHECKED, NOT AGREED
+  - says: A ROLL ROW WITH NO RECORD FILE IS UNCHECKED, NOT AGREED
+- **resync_roll.py** `dupes` — [MEDIUM] stores duplicate source filenames in a list
+  - says: index every record file by its declared `source`
+- **pipeline.py** `batch_settled` — [MEDIUM] the function is used to determine if a batch is settled (i.e., all entries are judged), and skips processing if true
+  - says: was written to kill; that fix stopped batches closing over unjudged entries, but nothing reopened a batch that acquired unjudged entries afterwards.
+- **mutate.py** `confirm` — [MEDIUM] the gates to be mutated
+  - says: the gates to be confirmed
+- **mutate.py** `gates` — [MEDIUM] the gates to be confirmed
+  - says: the gates to be mutated
+- **mutate.py** `os.walk` — [MEDIUM] copy files recursively
+  - says: copy files recursively
+- **mutate.py** `os.makedirs` — [MEDIUM] create state directory
+  - says: create state directory
+- **mutate.py** `missed` — [MEDIUM] list of files that were not copied
+  - says: list of files that were not copied
 - **ledger_guard.py** `verify_chain` — [MEDIUM] Three distinct faults are reported separately, but the description is incomplete and the explanation about dropped FINAL links is not fully accurate.
   - says: Three distinct faults are reported separately, because they mean different things: UNPARSEABLE a line of the chain file will not read as JSON. The link it held is GONE from every check below, and a dropped FINAL link is invisible to all of them -- so it is a fault in its own right, not a line to skip past. (order 77b098d098d099e6)
 - **ledger_guard.py** `verify_chain` — [MEDIUM] An ACKNOWLEDGED problem is one a person has ruled on by name (see `ACKNOWLEDGED` above). It is removed from `problems` -- so it does not fail the chain -- and returned separately so it is still reported.
@@ -39,10 +67,6 @@ round 324  ·  last run 2026-09-03 23:50
   - says: resolving a typo to OWNER makes `escalate('Owner ', ...)` a denial of service anyone can trigger by accident; `dict(evidence or {})` flipped to `and` throws the caller's evidence away and leaves the typo unfixable
 - **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] the code checks for overflow (summing past entry count) but the docstring says it's only checking one direction
   - says: No source's states may sum PAST its own entry count. One direction, and only one.
-- **coverage.py** `blimit` — [MEDIUM] cap the BEST COVERED list to N rows (announced, not silent); default 10, pass 0 for all of them
-  - says: cap the BEST COVERED list to N rows (announced, not silent); default 10, pass 0 for all of them
-- **cleanup.py** `changed` — [MEDIUM] is set to True
-  - says: was never set on this branch
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
