@@ -8786,3 +8786,154 @@ in `src/` and filed ~40 new findings, while 23 were closed. That is the sweep wo
 shift failing — but it should be said plainly rather than dressed up, and the three orders left
 open at RUN/MAJOR are named with their reasons in `NEXT_STEPS.md` §1–2 so the next run starts from
 this position instead of rediscovering it.
+
+## RUN #43 — THE MUTATION RESULT, WHICH ARRIVED THE NEXT AFTERNOON AND IS NOT WHAT IT LOOKS LIKE
+
+The pass launched at 22:33 on 2026-09-03 finished at **14:55 on 2026-09-04** — 58,709 seconds,
+16.3 hours — and it is the first complete mutation pass this project has had in some time, because
+until this shift fixed the sandbox's missing `cascade_scratch.db` it had been refusing at the door.
+
+    assay.py         119 mutants, 118 killed, 0 SURVIVED, 1 INDETERMINATE   (17,601s)
+    prose_gate.py     62 mutants,  62 killed, 0 SURVIVED, 0 INDETERMINATE   (15,615s)
+    escalation.py    118 mutants, 118 killed, 0 SURVIVED, 0 INDETERMINATE   (25,493s)
+    ------------------------------------------------------------------------
+    total            299 mutants, 298 killed, 0 SURVIVED, 1 INDETERMINATE
+
+The indeterminate is `assay.py:1343  > -> <=`, a **verify_math TIMEOUT**, and the tool is explicit
+that it is in neither count: "1 mutant(s) were never judged ... the score below is over 118 judged
+mutants, not 119." That is the harness being honest, and it is worth noting as the one place it
+was.
+
+Note also that the mutant set has grown: 299 against the 186 on record from earlier runs
+(assay 53 -> 119, escalation 108 -> 118, prose_gate 25 -> 62). That is the 2026-08-29 repair to the
+comparison-operator coverage landing — the generator used to attempt only six of the ten `cmpop`
+types and only unchained comparisons.
+
+### AND THEN THE RESULT FAILED ITS OWN SMELL TEST
+
+**A perfect score is the shape this project has learned to distrust**, so it was checked rather
+than filed. **Two of the 298 "killed" mutants are provably undetectable by any test.** Filed as
+`fd31021ea49a` (RUN/MAJOR).
+
+- **`escalation.py:409`**, `landed, why = False, "not attempted"` -> `True, "not attempted"`. All
+  four exit paths of that function were re-read from source this shift: the success path
+  unconditionally reassigns both names from `silence.replace_if_unchanged`; the `if not landed:`
+  branch returns `False` and the `why` that came back from that call; **the `except Exception:`
+  arm returns the LITERAL `False, "raised"` rather than `landed`**, so even an exception raised
+  before the reassignment cannot expose the initial value; and the closing `return landed, why` is
+  reachable only after the reassignment. The initialiser is unobservable on every path out. Order
+  `e5954a534604` reached this independently on 2026-09-02 and called it correctly unkillable.
+- **`assay.py:228`**, `if not lo or not hi or hi <= lo:` -> `if not lo and not hi or hi <= lo:`.
+  Both edges present, it reduces to `hi <= lo` — identical. Both absent, `(True and True) or ...`
+  short-circuits — identical. Exactly one absent, it would raise where the original returns
+  `None` — and that case cannot arise. **Re-verified against the live table rather than taken on
+  trust:** `assay.BAND_EDGES` holds 11 bands x 5 axes (celerity, continuity, reach, ruin, sustain)
+  = 55 entries, every one present as a float, none missing. Order `d9c8aab72a2c`.
+
+**An equivalent mutant cannot be killed — that is what equivalent means.** So at least two of the
+298 kills were produced by something other than the mutation being detected, and the score cannot
+be read as coverage. **The direction of the error is the dangerous one:** a false survivor wastes a
+reader's time; a false kill hides a real gap in the battery and reports it as covered. All 296
+remaining kills inherit the same doubt.
+
+The immediate practical cost: this run re-attempted **every** line named by the eleven standing
+`MUTANT_SURVIVED_*` orders — verified by enumerating `mutate._mutations` per target, all present —
+and reported all of them killed. On a trustworthy instrument that would have retired eleven MAJOR
+orders in one stroke. **They were deliberately left open.** Closing a real fault on a false kill is
+the more expensive mistake, and the standing rule that a survivor must be READ and never assumed
+cuts in this direction too.
+
+### THE HYPOTHESIS, FLAGGED AS A HYPOTHESIS
+
+Judging is DIFFERENTIAL: a mutant is killed when a gate's signature differs from the same gate's
+signature on unmutated code, and **the baseline is taken once, at launch**. `sandbox()` copies
+`src/` and `state/` but **JUNCTIONS `data/`, `prompts/` and `reference/` out to the LIVE tree** —
+and this pass ran for 16.3 hours while `feats.py --roll` and `pipeline.py` rewrote `data/`
+continuously. A mutant judged at t=14h is therefore compared against a baseline taken at t=0 over
+materially different data, and any data-dependent row that moved in between changes the signature
+and reads as a kill. It would explain a *perfect* score rather than a merely good one, and it sits
+comfortably beside the verify_math timeout — the gates were plainly under load.
+
+**That is consistent with the evidence and it is NOT established.** `--check-flaky` was not passed
+on the main run, which is exactly the control that separates "the gate is noisy" from "the mutation
+was detected". So this shift started that control before closing:
+`mutate --target prose_gate.py --check-flaky --limit 2`, logging to
+`state/mutate_flakycheck_20260904.log`. Read it first next run. **If the gates come back
+reproducible, then the hypothesis is wrong and the two equivalence proofs above are what need
+re-examining instead** — both are written out in full in their orders so they can be attacked
+directly rather than re-derived.
+
+### WHAT THIS DOES NOT UNDO
+
+The sandbox fix stands on its own and is not in question: the baseline went from red to green with
+the database copy as the only change, and the pass ran to completion for the first time. What is in
+question is only how much the *verdicts* from a 16-hour differential run can be trusted — which is a
+question nobody could ask while the pass was refusing to start at all.
+
+## RUN #43 — THE MUTATION RESULT, SETTLED BY EXPERIMENT (and one of my own claims corrected)
+
+The section above filed `fd31021ea49a` claiming that **two** provably-equivalent mutants had been
+scored KILLED. Rather than leave that as an argument, both were **re-attacked directly**: a fresh
+sandbox, the exact single-line splice `mutate` uses, the full `GATES` set, signatures compared
+against a clean baseline taken in the same sandbox minutes earlier
+(`state/equivalent_mutant_test_20260904.log`). The result SPLIT.
+
+    escalation.py:409  False -> True   import SAME   verify_math SAME 1130/0   drill SAME   => SURVIVED
+    assay.py:228       or -> and       import SAME   verify_math DIFFERENT 1129/1  drill SAME  => KILLED
+
+**The finding survives on one confirmed instance, and that is enough.** `escalation.py:409` is
+undetectable — every gate signature identical — and the 16.3-hour run reported it KILLED. That is a
+**confirmed false kill**, and a false kill is the dangerous direction: it hides a gap in the battery
+and reports it as covered. Superseded order refiled as `58a00e909217`.
+
+**The other half was my error, and it is the more instructive one.** `assay.py:228` is genuinely
+killable, so its "killed" verdict was correct — and order `d9c8aab72a2c`'s ruling that it is "a
+genuinely equivalent mutant" is wrong. The failing row names itself:
+
+    FAILED axis_score refuses a HALF-DEFINED band edge (floor present, ceiling missing):
+           got 'RAISED TypeError', want None
+
+The equivalence argument — `d9c8aab72a2c`'s and then mine — rested on the asymmetric case being
+unreachable because `BAND_EDGES` is complete and symmetric. **That premise is true**: 11 bands x 5
+axes = 55 entries, all present, and a scan over every reachable `(band, axis)` pair finds ZERO
+behavioural divergence. The error is in what the premise licenses. **verify_math does not reach
+that guard through the production table — it SYNTHESISES a half-defined edge and demands a
+refusal**, which is exactly what a guard is for. So: **"unreachable with today's data" is not
+"equivalent."** An equivalence proof has to quantify over every input the function can be CALLED
+with, not the inputs it currently happens to receive. Filed as
+`ASSAY_L228_SURVIVOR_1_IS_NOT_EQUIVALENT_AFTER_ALL`, as its own order rather than by editing
+`d9c8aab72a2c`, whose other limb (survivor 2 is a real finding) is untouched and still stands.
+
+### THIS ALSO EXPLAINS THE ELEVEN STANDING SURVIVORS
+
+The 2026-09-02 run that filed them took a **RED baseline** — `verify_math` 1129/1, from the missing
+`cascade_scratch.db` this shift fixed — and its own log says what that means:
+`RED IN THE BASELINE ON A QUIET TREE — RUNNING ANYWAY, BUT THESE GATES ARE DISABLED: verify_math`.
+With verify_math disabled, every mutant only verify_math could catch scored SURVIVED.
+`assay.py:228` is precisely such a mutant, which is why it survived that day and dies now. **So
+most of the eleven are probably FALSE SURVIVORS from a disabled gate** — and they still must be
+retired one at a time by re-attack, never in bulk on the word of a run that also produced a false
+kill. The method is cheap; the script is in the log named above and costs minutes per mutant.
+
+### WHAT WAS RULED OUT, SO THE NEXT RUN DOES NOT SPEND A SHIFT THERE
+
+**Short-term gate flakiness is excluded.** `mutate --target prose_gate.py --check-flaky --limit 2`
+reported **"all gates reproducible"** (`state/mutate_flakycheck_20260904.log`, 2 mutants, 2 killed,
+250s), and the escalation mutant survives cleanly in a minutes-long sandbox. Two back-to-back runs
+on clean code agree. **The difference is something about a SIXTEEN-HOUR run**, and the leading
+candidate is unchanged and still unproven: `sandbox()` copies `src/` and `state/` but JUNCTIONS
+`data/` out to the live tree, which `feats.py --roll` and `pipeline.py` rewrite continuously, while
+judging is differential against a baseline taken once at launch. The tool says it itself:
+*"reproducible over seconds is not stable over the hours this run takes."*
+
+### A METHOD NOTE, BECAUSE THE FIRST ATTEMPT AT THIS EXPERIMENT WAS WRONG
+
+The first run of it reported BOTH mutants killed with every gate at `rc=1` and an empty signature —
+**including the `import` gate**, which is the tell. `_mutations` yields
+`(lineno, desc, old_line, new_line)` where the last two are single LINES; the script wrote
+`new_line` as the whole file, so the module could not import and both mutants "died" for a reason
+that had nothing to do with the mutation. Caught by noticing that `import` cannot fail for a
+one-token edit. **The live tree was never touched** — the damage was confined to a throwaway
+sandbox, which is what the sandbox is for — and `src/escalation.py:409` and `src/assay.py:228` were
+confirmed byte-identical afterwards. Recorded because a false result that agrees with your
+hypothesis is the one you are least likely to check.

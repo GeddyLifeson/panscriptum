@@ -22,6 +22,48 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
+- **[M72 — OPEN, RAISED 2026-09-04, run #43] A SIXTEEN-HOUR MUTATION RUN SCORED AN UNKILLABLE
+  MUTANT AS KILLED, SO A 100% SCORE IS NOT A COVERAGE FIGURE.** The 2026-09-03 pass reported 299
+  mutants, 298 killed, **0 SURVIVED**, 1 indeterminate (58,709s). Settled by experiment rather than
+  argument: both suspect mutants were re-attacked in a fresh sandbox with the exact single-line
+  splice `mutate` uses, full `GATES`, signatures compared against a clean baseline taken minutes
+  earlier (`state/equivalent_mutant_test_20260904.log`).
+  - `escalation.py:409` `False -> True` — **import SAME, verify_math SAME, drill SAME ⇒ SURVIVED.**
+    Undetectable by construction: the success path reassigns both names, the `if not landed:`
+    branch returns the reassigned `why`, the `except` arm returns the LITERAL `False, "raised"`
+    rather than `landed`, and the closing return is reachable only after the reassignment. The
+    long run called it KILLED. **One confirmed false kill, and a false kill is the dangerous
+    direction — it hides a gap and reports it as covered.** Orders `a380a696d364` and
+    `e5954a534604` are therefore CORRECT and must not be closed.
+  - `assay.py:228` `or -> and` — genuinely KILLED (`axis_score refuses a HALF-DEFINED band edge`),
+    which **corrects both this run's initial claim and order `d9c8aab72a2c`**. See M73.
+  **Ruled out:** short-term flakiness — `--check-flaky` reported *all gates reproducible*
+  (`state/mutate_flakycheck_20260904.log`) and the escalation mutant survives cleanly in a
+  minutes-long sandbox. **Leading hypothesis, unproven:** `sandbox()` copies `src/` and `state/`
+  but JUNCTIONS `data/` to the live tree, which the crawl rewrites continuously, while judging is
+  differential against a baseline taken once at launch — so a mutant judged at t=14h is compared
+  against data from t=0. The tool's own banner: *"reproducible over seconds is not stable over the
+  hours this run takes."* **Remedy to test:** re-take the baseline periodically through a long run,
+  or snapshot the `data/` subset the gates read, then confirm `escalation.py:409` reports as a
+  survivor. **Until then, do not close a `MUTANT_SURVIVED_*` order on a later run's word, and do
+  not quote a kill score as coverage.** Order `58a00e909217`.
+
+- **[M73 — OPEN, RAISED 2026-09-04, run #43] "UNREACHABLE WITH TODAY'S DATA" WAS MISTAKEN FOR
+  "EQUIVALENT", TWICE, BY TWO DIFFERENT RUNS.** Order `d9c8aab72a2c` (2026-09-02) ruled the first
+  `assay.py:228` survivor — `if not lo and not hi or hi <= lo:` — "a genuinely equivalent mutant,
+  no action", and run #43 initially agreed. **Both were wrong.** Re-attacked 2026-09-04: verify_math
+  goes 1129/1 and the failing row names itself — `axis_score refuses a HALF-DEFINED band edge
+  (floor present, ceiling missing): got 'RAISED TypeError', want None`. The shared premise is TRUE
+  and was re-verified (BAND_EDGES is complete and symmetric, 11 bands × 5 axes = 55 entries all
+  present; a scan over every reachable `(band, axis)` pair finds **zero** behavioural divergence).
+  The error is in what it licenses: **verify_math does not reach the guard through the production
+  table — it SYNTHESISES a half-defined edge and demands a refusal, which is what a guard is for.**
+  An equivalence proof must quantify over every input the function can be CALLED with, not the
+  inputs it currently receives. This matters beyond the one mutant: it is the reasoning error that
+  will retire real findings as "equivalent" whenever a survivor is triaged against current data.
+  `d9c8aab72a2c`'s OTHER limb — that survivor 2 is not equivalent and is a real finding about a
+  guard that stops refusing inverted bands — is unaffected and still stands.
+
 - **[M66 — STILL OPEN, BUT THE ROOT CAUSE WAS WRONG; HALF OF IT IS FIXED — corrected 2026-09-03,
   run #43] A BATTERY ROW'S VERDICT DEPENDS ON A FILE, NOT ON A THIRD PARTY'S NETWORK.**
   `verify_math` §20z asserts that no probe writes into the live failure ledger, and the three

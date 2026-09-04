@@ -1,28 +1,63 @@
 # NEXT STEPS — written by the daily maintenance run of 2026-09-03 (run #43)
 
-## 0. READ THE MUTATION LOG FIRST. IT WAS STILL RUNNING WHEN THIS SHIFT CLOSED.
+## 0. THE MUTATION PASS FINISHED, SCORED 100%, AND THAT IS THE PROBLEM
 
-    state/mutate_2026-09-03.log
+    state/mutate_2026-09-03.log        the run    (58,709s / 16.3h, finished 2026-09-04 14:55)
+    state/mutate_flakycheck_20260904.log   the control this run started; read it
 
-**Do not read a launched pass as a completed one.** This shift UNBLOCKED the mutation pass — it
-had been refusing to run at all — and then launched it. At shift close it was still working
-through `assay.py` (53 of 186 mutants; `escalation.py` x108 and `prose_gate.py` x25 had not
-started). It runs the whole battery per mutant, so several hours is normal.
+**Result: 299 mutants, 298 killed, ZERO survivors, 1 indeterminate** (assay.py 119/118/0/1,
+prose_gate.py 62/62/0/0, escalation.py 118/118/0/0; the indeterminate is `assay.py:1343 > -> <=`,
+a verify_math TIMEOUT, honestly excluded from both counts).
 
-It was launched with `--file-orders`, so **survivors arrive in the queue by themselves** with
-their exact diffs. Your first act should be to read that log and work them.
+**Do not report that as coverage.** Order **`58a00e909217`** (RUN/MAJOR) records why. This was
+**settled by experiment, not argument** — both suspect mutants were re-attacked directly in a
+fresh sandbox and the result SPLIT, correcting one of this run's own claims along the way
+(`state/equivalent_mutant_test_20260904.log`):
 
-- If it finished: put the survivor count in your handoff. **A survivor is not automatically a
-  bug** — some mutations are genuinely equivalent — but which it is has to be decided by reading
-  it, never assumed.
-- If it did not finish, say so. A pass killed halfway is not a pass with fewer survivors.
-- It was launched with `--no-confirm` NOT set, so survivors are confirmed. Flakiness was **not**
-  checked (`--check-flaky` was not passed); if a survivor looks impossible, that is the first
-  thing to suspect.
-- **Caveat, stated so you can weigh it:** `src/` was edited during the run (the sandbox is a
-  copy taken at launch, so the results are sound, but they describe the tree as it stood at
-  22:33). Two nets were ADDED to `drill.py` after the baseline, so the real battery is now
-  slightly stronger than the one that judged these mutants — a survivor may already be killed.
+    escalation.py:409  False -> True    import SAME  verify_math SAME  drill SAME  => SURVIVED
+    assay.py:228       or -> and        import SAME  verify_math 1129/1  drill SAME => KILLED
+
+- **`escalation.py:409` is a CONFIRMED FALSE KILL.** It survives cleanly — every gate signature
+  identical to baseline — and the 16.3-hour run called it killed. It is undetectable by
+  construction: the success path reassigns both names, the `if not landed:` branch returns the
+  reassigned `why`, the `except` arm returns the LITERAL `False, "raised"` rather than `landed`,
+  and the closing return is reachable only after the reassignment. **So orders `a380a696d364`
+  and `e5954a534604` are CORRECT and must not be closed.**
+- **`assay.py:228` is genuinely killed, and the earlier "equivalent" ruling was wrong** — mine and
+  order `d9c8aab72a2c`'s. Correction filed as `ASSAY_L228_SURVIVOR_1_IS_NOT_EQUIVALENT_AFTER_ALL`.
+  The failing row names itself: `axis_score refuses a HALF-DEFINED band edge (floor present,
+  ceiling missing): got 'RAISED TypeError', want None`. **The lesson is worth more than the fix:**
+  the equivalence argument rested on the asymmetric case being unreachable because `BAND_EDGES` is
+  complete (verified — 55/55 entries, and zero behavioural divergence over every reachable
+  `(band, axis)` pair). But verify_math does not reach the guard through the table; it
+  *synthesises* a half-defined edge and demands a refusal. **"Unreachable with today's data" is
+  not "equivalent."** A guard exists for inputs that do not currently occur.
+
+**One confirmed false kill is enough:** the score is not coverage, and the other 297 verdicts
+inherit the doubt. A false survivor wastes your time; **a false kill hides a real gap and reports
+it as covered.**
+
+**Consequences for what you do next:**
+
+- **Do NOT close the eleven `MUTANT_SURVIVED_*` orders** on the strength of this run. It did
+  re-attempt every one of those exact lines (verified by enumerating `mutate._mutations`), and a
+  trustworthy instrument would have retired most of them — the 2026-09-02 run that filed them took
+  a **RED baseline with verify_math DISABLED** (its own log says so), which is precisely why
+  `assay.py:228` survived that day and dies now. Most are probably false survivors. **Retire them
+  one at a time by re-attack, never in bulk on the word of a run that also produced a false kill.**
+  The method is in `state/equivalent_mutant_test_20260904.log`'s script and takes minutes per
+  mutant.
+- **Short-term flakiness is RULED OUT**, so do not spend the shift there:
+  `mutate --target prose_gate.py --check-flaky --limit 2` reported **"all gates reproducible"**
+  (`state/mutate_flakycheck_20260904.log`), and the escalation mutant survives cleanly in a
+  minutes-long sandbox. The difference is something about a **sixteen-hour** run.
+- **The leading hypothesis, still not proven:** `sandbox()` copies `src/` and `state/` but
+  JUNCTIONS `data/` out to the live tree, which `feats.py --roll` and `pipeline.py` rewrite
+  continuously, while judging is differential against a baseline taken once at launch. The tool's
+  own banner says it: *"reproducible over seconds is not stable over the hours this run takes."*
+  **Test it by re-taking the baseline periodically through a long run** (or snapshotting the
+  `data/` subset the gates read), then re-run and check that `escalation.py:409` is correctly
+  reported as a survivor.
 
 ## 1. THE THING TO FIX FIRST
 
