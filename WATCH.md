@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 334  ·  last run 2026-09-04 08:08
+round 335  ·  last run 2026-09-04 08:34
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 334  ·  last run 2026-09-04 08:08
 
 ## What the model found in the code
 
-**18 open** (1 high). Newest first.
+**15 open** (1 high). Newest first.
 
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
@@ -30,12 +30,6 @@ round 334  ·  last run 2026-09-04 08:08
   - says: processes a host and source pair to score them
 - **health.py** `old` — [MEDIUM] old is initialized to an empty dict if the file is unreadable, but not updated after the corrupt file is renamed
   - says: old is the content read from SAMPLES_PATH
-- **health.py** `digest` — [MEDIUM] digest is overwritten after the corrupt file is renamed, leading to incorrect comparison
-  - says: digest is the digest of the SAMPLES_PATH before the read
-- **catalogue_models.py** `LAST_WRITE_LANDED` — [MEDIUM] used as a flag to determine if the write to disk was successful
-  - says: ATOMIC: standards.py polls PROVIDER_MODELS.json on its own cycle.
-- **catalogue_models.py** `sweep` — [MEDIUM] The code processes providers based on their outcome, but the comment indicates that the code should consider the truthiness of the outcome, not just the outcome itself.
-  - says: ON THE OUTCOME, NOT ON TRUTHINESS (sweep42-batch14).
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
   - says: An unknown rung REFUSES rather than falling back to "show everything"
 - **resync_roll.py** `relabelled` — [MEDIUM] THE VERDICT IS NOT OPTIONAL
