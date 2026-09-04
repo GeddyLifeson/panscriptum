@@ -1,11 +1,11 @@
 # OVERWATCH
 
-round 325  ·  last run 2026-09-04 00:43
+round 326  ·  last run 2026-09-04 01:29
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 293,038 inspected
+- files that will not parse: **0** of 293,038 inspected (deep scan as of round 325)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
@@ -13,8 +13,16 @@ round 325  ·  last run 2026-09-04 00:43
 
 ## What the model found in the code
 
-**31 open** (8 high). Newest first.
+**38 open** (11 high). Newest first.
 
+- **workorders.py** `resolve_code` — [HIGH] is called with a code and a message, but the code is not resolved; it's appended to a list of closed codes
+  - says: resolves a code to a resolution
+- **workorders.py** `filed` — [HIGH] files an order
+  - says: closes
+- **workorders.py** `_detector` — [HIGH] files an order
+  - says: RESOLVES
+- **workorders.py** `_fire` — [HIGH] files an order
+  - says: RESOLVES
 - **pipeline.py** `landed` — [HIGH] landed is a list that contains JSON landings and a False value when all sources refused to build
   - says: landed is a list of booleans indicating whether each job was successfully landed
 - **pipeline.py** `merged` — [HIGH] merged is assigned the value of `disk` before any merge operations
@@ -29,8 +37,14 @@ round 325  ·  last run 2026-09-04 00:43
   - says: THE COMPARE AND THE SWAP HAVE TO BE ADJACENT -- driven, not asserted. ... A reason is not a refusal if the write happened anyway.
 - **drill.py** `reason_matches_verdict` — [HIGH] The function raises a PermissionError on Windows, but the code does not handle it, leading to an uncaught exception. The function also does not ensure the file remains untouched if the rename is denied.
   - says: A denied rename must not come back describing itself as a landing. ... The file must also be untouched afterwards: a reason is not evidence if the write happened anyway.
-- **drill.py** `PL._chain_landed` — [HIGH] PL._chain_landed is used to determine if a write landed, but the code checks if the disk content matches the built document, which is the opposite of what the comment says it should do.
-  - says: Phase 4's done-key must be gated on the artifact, not on the writer's say-so.
+- **chain.py** `kept` — [MEDIUM] recorded as genuine disagreement
+  - says: recorded as genuine disagreement
+- **chain.py** `split` — [MEDIUM] split by epoch
+  - says: split by epoch
+- **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
+  - says: An unknown rung REFUSES rather than falling back to "show everything"
+- **secondopinion.py** `mine` — [MEDIUM] the code says it does
+  - says: the code says it does
 - **resync_roll.py** `have` — [MEDIUM] count of sources with entry_count > 0
   - says: count of sources catalogued
 - **resync_roll.py** `relabelled` — [MEDIUM] THE VERDICT IS NOT OPTIONAL
