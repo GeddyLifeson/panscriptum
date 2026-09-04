@@ -22,18 +22,41 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
-- **[M66 — OPEN, RAISED 2026-09-02] A BATTERY ROW'S VERDICT DEPENDS ON A THIRD PARTY'S NETWORK,
-  AND IT CANCELS THE MUTATION PASS.** `verify_math` §20z asserts that no probe writes into the
-  live failure ledger, but several of its probes make **live cascade calls**
-  (`verify_math.py:3639, 4692, 4902`); when a provider is throttled at that moment the call
-  records `silent:cascade_bridge.py:provider-error` and the row goes red. Measured on an unchanged
-  tree: **1130/0, then 1129/1 minutes later, then green again.** Consequence is not cosmetic —
-  `mutate.py` correctly refuses a red baseline (a gate red in the baseline is disabled as a
-  detector for the whole run, so every mutant reproducing that redness scores SURVIVED), so a
-  transient throttle **silently cancels the entire 146-mutation pass the owner ruled must run every
-  shift**. Remedy is unapplied because it touches the battery's own semantics: either exclude the
-  live-call probes from the 20z scan by construction, or attribute the ledger write to the probe
-  rather than to `cascade_bridge`.
+- **[M66 — STILL OPEN, BUT THE ROOT CAUSE WAS WRONG; HALF OF IT IS FIXED — corrected 2026-09-03,
+  run #43] A BATTERY ROW'S VERDICT DEPENDS ON A FILE, NOT ON A THIRD PARTY'S NETWORK.**
+  `verify_math` §20z asserts that no probe writes into the live failure ledger, and the three
+  probes it catches are the ones this entry already named (`verify_math.py:3639, 4692, 4902`).
+  **The diagnosis below them was wrong: none of those three makes a network call.** Read them:
+  `cascade_bridge.provider_error` is a single `mode=ro` SQLite read of
+  `state/cascade_scratch.db` and notes in its `except`; `tuning.cloud_success` connects to the
+  same database *without* `mode=ro`, so a missing file is CREATED empty and the following
+  `select ... from usage` then fails on the absent table, and notes too. Both were reproduced
+  directly by pointing `SCRATCH_DB` at a path that does not exist. **The row goes red when that
+  DATABASE READ FAILS — not when a provider is throttled.**
+  - **The sandbox half is FIXED (run #43).** `mutate.sandbox()` copied `state/` selectively —
+    `.json`, `.jsonl` and six named `.log` files — and `cascade_scratch.db` is none of those, so
+    it was absent from *every* mutation baseline, deterministically. That is the fourth instance
+    of a defect class the sandbox code already documents three times (the missing
+    `STEP4_PLAN.md`, the excluded `.jsonl` ledgers, the flat `state/` walk that lost
+    `sweep_shards/`). It now travels, by name from `cascade_bridge.SCRATCH_DB` and through
+    SQLite's backup API so a live writer cannot hand the sandbox a torn copy. **Controlled A/B on
+    the exact failing row: red baseline before, green baseline after, the DB copy the only
+    change.**
+  - **The live-tree half is still open, and the corrected cause makes it a different bug.** This
+    entry's own measurement — "1130/0, then 1129/1 minutes later, then green again" — is exactly
+    what CONTENTION on a live SQLite file looks like: `provider_error` allows 1.0s and
+    `cloud_success` 2.0s, and Cascade writes this database continuously, so a long write outlasts
+    the timeout and the read notes. **That is strongly indicated but NOT yet proven** (forcing a
+    lock on the live DB was not attempted while jobs were running), and it is written here as an
+    inference so the next run tests it rather than inherits it.
+  - **The remedy therefore changes.** Neither option this entry originally proposed addresses a
+    file read: the real fix is that a probe in a verification battery should not depend on
+    ambient mutable state at all — point these three at a fixture, or give the reads a
+    contention-tolerant retry. Consequence is unchanged and still not cosmetic: `mutate.py`
+    correctly refuses a red baseline (a gate red in the baseline is disabled as a detector for the
+    whole run, so every mutant reproducing that redness scores SURVIVED), so a red row here
+    **silently cancels the entire mutation pass the owner ruled must run every shift** — which is
+    precisely what it did on 2026-09-03 before the sandbox half was fixed.
 
 - **[M67 — OPEN, RAISED 2026-09-02] THE `LOCAL` HANDLER RUNG IS STARVED BY THE LIBRARY'S OWN
   DAEMONS.** One `local_agent` invocation on a single trivial task ran **>15 minutes, produced no
@@ -46,6 +69,21 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   buckets for this reason and records the same measurement. One limb is a plain defect fixable
   independently of the scheduling policy: **`local_agent` should refuse loudly and at once on a
   saturated queue** instead of burning the time and exiting 0.
+  - **CORRECTION, MEASURED 2026-09-03 (run #43): DO NOT IMPLEMENT THAT LAST SENTENCE.** It was
+    re-measured under the same conditions this entry describes — `/api/generate` returning
+    `maximum pending requests exceeded` instantly to a direct curl, every remote bucket
+    rate-limited at once. A real task through `local_agent --no-apply` ran **5m52s and
+    SUCCEEDED**: two turns, one tool call, a real answer, rc=0. That wall-clock is almost exactly
+    `_chat`'s own backoff ladder (four attempts sleeping 60s, 120s, 180s). **The 503 is
+    TRANSIENT, and the retry loop is doing the job its comment claims** — so refusing on the
+    first 503 would convert a slow success into a fast failure, precisely when the library is
+    busiest and the free rung is worth most. The time is not being burned, it is being waited,
+    and the wait pays. What the measurement *did* expose is different and still real: the run
+    returned `rc=0`/`ok:true` for an answer whose own text says it could not do the task, and the
+    rung costs up to ~6 minutes of pure backoff per call under contention. Detecting "the model
+    said it could not" is a heuristic, and heuristics on that path are how a gate gets loosened,
+    so it is an owner judgment rather than a quick predicate — filed as order `171ade4c7d27`.
+    **The starvation and scheduling question this entry raises is untouched and stands.**
 
 - **[M68 — OPEN, RAISED 2026-09-02] PROVING A BEHAVIOURAL NET COSTS AN OUTAGE.** The hard rules
   require a new guard's attack be watched going red once. Source-shape nets have `_SRC_OVERRIDE`
@@ -82,6 +120,157 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   a batch could claim coverage it does not have and `missing()` would agree. Confirmed live: one
   shard held `catalogue_local.py`, which `sweep_plan` spells `deprecated/catalogue_local.py`, and
   nothing noticed. Shards were normalised onto names `sweep_plan` itself emits and only those.
+
+### Resolved this run (paper trail, run #43 — 2026-09-03)
+
+- **[M70 — RESOLVED 2026-09-03, run #43] THE WORK-ORDER SWEEP'S DETECTOR LAYER RAN INVERTED, AND
+  THE SILENT DIRECTION WAS THE DANGEROUS ONE.** `workorders.sweep_detectors._fire(ok, ...)` read
+  `if not ok: resolve_code(...) else: file_order(...)`. Every one of its eleven call sites passes
+  a predicate that is TRUE when the thing it watches is HEALTHY — `not bad`, `chain_ok`,
+  `not hits`, `n <= _D.LIVENESS_CEILING`, `f is None`, `not stranded`, `not scratch`,
+  `not _ghosts`. So a clean tree FILED the order and a real fault CLOSED it, writing "detector
+  stopped firing" into the append-only paper trail as the resolution.
+  **Root cause:** the two branch bodies were the wrong way round. The module's own comment at the
+  `SECRET_STAGED` call site already stated the intended contract in one line — "`_fire(True, ...)`
+  RESOLVES" — while the code did the opposite, so prose and code had drifted apart with nothing
+  asserting either.
+  **How it presented:** three permanently-red BLOCKING orders that each reported ZERO problems
+  ("the ledger hash chain does not verify -- 0 problem(s)", "0 relay ledger(s) are not intact",
+  "0 credential-shaped value(s) staged for the PUBLIC repo"), `LIVENESS_RATCHET` calling
+  46-against-a-ceiling-of-52 a breach, and two battery orders whose `what` was the empty string
+  because `(f or {}).get("what", "")` has nothing to say when there is no fault. Those empty and
+  zero-valued fields are what a healthy detector's message looks like when it is composed anyway.
+  Verified against reality before any edit: `check_all()` `{}`, `verify_chain()` True/0 problems,
+  liveness 46.
+  **Why it mattered more than the noise:** the quiet arm. A genuinely broken ledger chain, or a
+  real credential staged for the public repo, would have RESOLVED its own BLOCKING order and said
+  nothing. And three BLOCKING orders that always stand are an alarm that always sounds, which
+  Hard Rule -1 calls furniture. Swapping the arms closed **nine** false orders on the next sweep
+  and immediately surfaced **three real faults the inversion had been auto-closing**:
+  `BATTERY_GRADED`, `CODEWATCH_BUDGET` and `PREFLIGHT_STALE`.
+  **Netted:** `drill.py`'s `sweep_fire_polarity` asserts on the SOURCE — running the sweep writes
+  the live queue and a net may not do that — that the true arm reaches `resolve_code` and only
+  that, and the false arm `file_order` and only that, with the parameter still named `ok` and the
+  test still a bare `if ok:`. Watched BREACHED against a re-inverted copy of the tree and HELD
+  against the live one. Battery at close: drill 389/389, verify_math 1130/0.
+
+- **[M71 — RESOLVED 2026-09-03, run #43] THE MANDATED MUTATION PASS WAS CANCELLED EVERY RUN BY A
+  FILE THE SANDBOX DID NOT COPY.** `mutate --target all` refused with `RED BASELINE TAKEN FROM A
+  TREE UNDER EDIT`; the single red row was §20z, `no probe anywhere in this battery writes into
+  the live failure ledger`, naming three escapes. The live tree was GREEN at the same moment
+  (1130/0) — only the sandbox was red.
+  **Root cause:** `sandbox()` copies `state/` selectively (`.json`, `.jsonl`, six named `.log`),
+  and `state/cascade_scratch.db` is none of those. All three escapes are that one missing file;
+  see the corrected M66 above for the mechanism. This is the FOURTH instance of a defect class
+  the sandbox code already documents three times in its own comments — a file the gates read is
+  absent, a check goes red in the baseline, and **a red baseline disables that check as a
+  detector for the whole run** because mutants are judged by difference from it. This instance
+  was worse than disabling a row: it took the entire pass down, silently, every run.
+  **Fix:** the database now travels into the sandbox, copied **by name** — derived from
+  `cascade_bridge.SCRATCH_DB` rather than spelled a second time, for the reason the log list is
+  derived from `lognames` — and **through SQLite's backup API**, not `shutil.copy2`, because
+  Cascade writes it while the sandbox is being built and a torn byte copy would restore the same
+  three escapes INTERMITTENTLY, which is harder to diagnose than a failure that happens every
+  time. Chosen by name over a blanket `.db` filter deliberately: that would also drag in
+  `state/corpus.db`, 78 MB of derived index nothing in the gate path reads, for 88.6 MB a run
+  instead of 14.6.
+  **Verified:** controlled A/B on the exact failing row — red baseline before, green baseline
+  after, the DB copy the only change; the copy lands intact in the sandbox (134,639 `usage` rows
+  readable); the pass then ran.
+
+- **[m178 — RESOLVED 2026-09-03, run #43] `cleanup.py --apply` WOULD HAVE DELETED AUTHORED
+  ENGLISH FROM THE CORPUS.** `_MARKUP[1]` stripped any `(anything, Word ? )` parenthetical
+  outright. Its sibling `_ruby_question_mark`, one list entry above it, was given a non-ASCII
+  guard after it deleted 55 real English question marks; this pattern never received that guard
+  and deletes the WHOLE aside rather than a stray `?`. **Root cause:** a remedy applied to one of
+  two adjacent instances of the same fault. **Fix:** the replacement is now the function
+  `_ruby_parenthetical`, which strips only when the match contains a non-ASCII character — the
+  identical remedy in the identical shape; the PATTERN is unchanged so it keeps its place on the
+  mangled-escape roster, which reads `_p.pattern`. **Measured over all 216 record files:** 1,191
+  matching sites, 1,188 genuine ruby annotations (still stripped, unaffected) and **3 pieces of
+  authored English that would have been destroyed with the sentence closing over the gap** —
+  `marvel.json` entries/7610 "(and, uh, Hawkeye?)", `transformers.json` entries/1178 "(odd for
+  someone who likes trees, no?)" and entries/3477 "(Strange, huh?)". **No data pass is needed:**
+  nothing on disk is damaged, `--apply` was never run, and the fix prevents future damage.
+
+- **[m179 — RESOLVED 2026-09-03, run #43] THE LEDGER TRUNCATION DETECTOR COULD NOT SEE A
+  DUPLICATED LINE.** `ledger_guard._lost_fraction` compared `{set} - {set}`, so a deleted line
+  counted as lost only if its exact text appeared NOWHERE else in the file. In a markdown ledger
+  duplicate lines are the texture, not an edge case: repeated headings, bare dates, `**Why:**`,
+  the same one-line verdict under twenty entries. **Measured:** `handoff/HANDOFF.md` holds 733
+  substantive lines and 700 distinct — **33 lines, 4.50% of the file, deletable for a measured
+  loss of exactly ZERO against a `MAX_LOST_FRACTION` of 0.05**, on the only gate `assert_intact()`
+  puts in front of `publish.push()`, and on the ledger whose own commentary records it already
+  losing 629 lines to the truncation class this module exists to catch. **Fix:** a `Counter`
+  multiset; `Counter - Counter` keeps only positive differences, which is exactly "how many copies
+  did the old file have that the new one does not". The property the set was chosen for survives —
+  `Counter` is unordered, so a reordering still measures 0.0, and a reflowed paragraph is a loss
+  under both spellings. **Netted** by `ledger_loss_counts_duplicate_lines`, watched BREACHED
+  against the old set diff. (For scale, the root `HANDOFF.md` sits at 1.12% and `BUGS.md` at
+  0.24%; `handoff/HANDOFF.md` was the exposed one.)
+
+- **[m180 — RESOLVED 2026-09-03, run #43] A REMEDY THAT DESTROYED EXACTLY WHAT IT WAS WRITTEN TO
+  PROTECT.** `foreman.clear_learned_caps` cleared rows matching `learned LIKE '%"rpm": 1%'`.
+  `LIKE '%...%'` is a substring test, so "1" matched the FIRST DIGIT of 10, 15, 19 and 100 — and
+  the function's own docstring names "documented caps of 10, 10 and 15" as the values the remedy
+  exists to restore. **Proven on a throwaway in-memory table:** against rows holding rpm
+  1, 1, 10, 15, 19, 100, 2 and an rpd-only row, the old predicate cleared SIX and the new
+  `json_valid(learned) and json_extract(learned, '$.rpm') = 1` clears the TWO genuine pins.
+  `json_valid` guards the extract and is deliberately a refusal rather than a fallback: a blob
+  that will not parse is not evidence of a stale cap, and clearing it would be destroying state on
+  a guess. Run against the live databases after the fix: 0 cleared, which is correct — all six
+  learned values currently sit at the floor of 2, so **no damage had occurred yet.**
+
+- **[m181 — RESOLVED 2026-09-03, run #43] THE REACHABILITY PRIMITIVE HAD `while/else` BACKWARDS IN
+  BOTH DIRECTIONS.** `drill._live_walk` is the instrument under roughly two dozen nets that say
+  "the call is made" rather than "the name appears". It knew that `if False:` runs its `else` and
+  `if True:` does not, and had both loop cases wrong: `while False:` terminates without a break so
+  its `else` RUNS (live code was being discarded as dead — a false BREACH), and `while True:` can
+  leave only by `break`/`return`/`raise`, all of which SKIP the `else` (**provably dead code was
+  being walked as reachable**). The second is the direction that matters: it is the same fault the
+  run #36 sweep used to make `_halt_is_not_breakage` report HELD against a fixture carrying its
+  tokens in a dead `if False:` block after a `break`, arriving through the loop spelling instead.
+  **Fix:** `while False:` contributes its `orelse` in `_live_stmts`; the `while True:` `orelse` is
+  skipped in `_live_walk`, because the loop BODY still has to be walked and only the else is
+  unreachable. **Scope confirmed independently: no `while ... else:` exists anywhere in `src/`
+  today**, so no net was returning a wrong verdict on this tree — latent infrastructure, repaired
+  before anything came to depend on it. **Netted** by `the reachability walker knows a loop has an
+  else, and when it runs`, watched BREACHED against a reconstruction of the old behaviour.
+  Regression check across the nets built on it: drill 389/389, verify_math 1130/0, liveness
+  unchanged at 46.
+
+- **[m182 — RESOLVED 2026-09-03, run #43] SIX SMALLER FIXES, EACH VERIFIED AGAINST SOURCE OR
+  DATA.** `coverage.measure()` read the three-writer host map with no handler at all while
+  `read.py` reads the same file behind a four-attempt retry — now guarded and **failing closed**,
+  because an empty map would report every entry as hostless and print a coverage figure that is
+  confidently wrong rather than absent (`444097b5796f`). `resync_roll` crashed the whole pass on a
+  record that parses but is not an object, one line past a handler covering only the parse
+  (`9dde97efb821`). `hosts._load` collapsed absent and corrupt into `{}` (`3ace1adc47ff`), and
+  `hosts.discover()` dropped a source whose probe RAISED without counting it anywhere — the same
+  fault fixed four lines above it for thin rosters and never applied to the arm beside it
+  (`9acd09b65d3a`). `canon_backup.restore()` landed with the module's last bare `os.replace`, on
+  the disaster-recovery path; now `replace_retry` **with its verdict checked**, since it never
+  raises by contract and ignoring its `False` would have been strictly worse than the bare call
+  (`c07bf65dd1c6`). `pipeline.ENTRY_REJECTION_COMPANIONS` was missing `subroom`, the one field
+  added after the mechanism was written (`0c0021372963`) — **honest correction to the finding's
+  implied severity: scanning all 282,822 entries found ZERO actual contradictions**, all 79
+  entries carrying `subroom_rejected` are in the intended state, and a first scan that reported 79
+  was wrong because `subroom_ok()` returns True for `unclassified` by an early return.
+
+- **[m183 — RESOLVED 2026-09-03, run #43] THREE HARD RULE 0 VIOLATIONS, ONE OF THEM THE STANDARD
+  THE OTHERS WERE MEASURED AGAINST.** `cleanup`'s `unwritten` roster was capped at 12 while the
+  comment twelve lines above cited it, by name, as the uncapped standard the five rosters were
+  being held to when `sweep42-batch03` uncapped them — **the exemplar was the last violation**
+  (`c352cf29e386`). `repass_bands`' SURVIVORS list was capped at 14: order `89fc2eaf23f1` had
+  fixed the LABEL and left the SLICE, and **a disclosed cut is still a smaller universe** — Hard
+  Rule 0 is not a disclosure rule, and the fully uncapped DEMOTED twin eleven lines below in the
+  same function is the evidence that fourteen was inertia, not policy (`600d25f5137e`); it now
+  prints all 402. And the queue listing's own `what[:70]` cut carried no marker, so a complete
+  one-line summary and the first 70 characters of a 3,500-character finding rendered identically —
+  marking it immediately revealed findings of 2,340 and 3,528 characters that every shift had been
+  reading as 70 (`2681c431ce1d`). Also `workorders --handler` was declared and never read, so it
+  printed the whole queue and accepted a misspelled rung in silence; it now filters and REFUSES an
+  unknown rung rather than falling back to the unfiltered list (`83660a321243`).
 
 ### Resolved this run (paper trail, run #41 — 2026-09-02)
 

@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 320  ·  last run 2026-09-03 21:03
+round 321  ·  last run 2026-09-03 21:30
 
 ## Structure
 
@@ -12,10 +12,14 @@ round 320  ·  last run 2026-09-03 21:03
 
 ## What the model found in the code
 
-**8 open** (1 high). Newest first.
+**10 open** (2 high). Newest first.
 
+- **assay.py** `instrument` — [HIGH] returns a dictionary with 'printout' as 'uninstrumented — no faculties on file' when worksheet is missing, which is a refusal due to H5 thin-data ban, but the function is supposed to convert to the six faculties
+  - says: Deterministic conversion to the six faculties, 1-30, plus Transcend, and two refusals are built in
 - **threads.py** `main` — [HIGH] return 0
   - says: return 1
+- **axis_correlation.py** `mean_str` — [MEDIUM] raises TypeError unconditionally, in exactly the state where the reader most needs the report to speak: "nothing measurable yet" rather than a crash
+  - says: named rather than numbered: this cited "line ~157", which landed inside `_scores_of`'s docstring some 72 lines short of the expression it meant, per the rule dashboard.py:77-80 records for exactly this ("a baked-in line number rots the moment anything above it moves")
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **catalogue_aurora.py** `update_rows` — [MEDIUM] the function is called and its return value is checked, but the error message is printed and the script exits with 1 if there's a refusal

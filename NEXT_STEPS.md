@@ -1,252 +1,147 @@
-# NEXT STEPS — written by the scheduled maintenance run of 2026-09-02 for the run that follows it
+# NEXT STEPS — written by the daily maintenance run of 2026-09-03 (run #43)
 
-Overwritten every run, on purpose. The queue in `state/workorders.json` is the memory; this file
-is only the ordering.
+## 0. READ THE MUTATION LOG FIRST. IT WAS STILL RUNNING WHEN THIS SHIFT CLOSED.
 
----
+    state/mutate_2026-09-03.log
 
-## 0. READ THIS FIRST
+**Do not read a launched pass as a completed one.** This shift UNBLOCKED the mutation pass — it
+had been refusing to run at all — and then launched it. At shift close it was still working
+through `assay.py` (53 of 186 mutants; `escalation.py` x108 and `prose_gate.py` x25 had not
+started). It runs the whole battery per mutant, so several hours is normal.
 
-**A halt was raised and lifted during the 2026-09-02 shift. It was self-caused and it is closed.**
-`DRILL_BREACH`, from deliberately reverting `local_agent.py` to watch a new net go red. Cause
-fixed, drill 386/386 and battery 1130/0 proven before lifting, ruling written into
-`state/HALT.json`. **Nothing to chase.** Full account at the top of `HANDOFF.md`.
+It was launched with `--file-orders`, so **survivors arrive in the queue by themselves** with
+their exact diffs. Your first act should be to read that log and work them.
 
-**FIRST ACTION OF YOUR SHIFT: read `state/mutate_2026-09-02.log` and report the survivor count.**
-The pass refused its first **four** launches — correctly each time; three were environmental and
-one was my own new net misfiring inside the sandbox, which is fixed. The **fifth launch is the
-real one**: the guard was released deliberately once the shift's source edits were published, so
-`mutate` could take its baseline from a quiet tree, and it reports `all gates reproducible`.
+- If it finished: put the survivor count in your handoff. **A survivor is not automatically a
+  bug** — some mutations are genuinely equivalent — but which it is has to be decided by reading
+  it, never assumed.
+- If it did not finish, say so. A pass killed halfway is not a pass with fewer survivors.
+- It was launched with `--no-confirm` NOT set, so survivors are confirmed. Flakiness was **not**
+  checked (`--check-flaky` was not passed); if a survivor looks impossible, that is the first
+  thing to suspect.
+- **Caveat, stated so you can weigh it:** `src/` was edited during the run (the sandbox is a
+  copy taken at launch, so the results are sound, but they describe the tree as it stood at
+  22:33). Two nets were ADDED to `drill.py` after the baseline, so the real battery is now
+  slightly stronger than the one that judged these mutants — a survivor may already be killed.
 
-Two caveats the log states itself and that you must carry forward rather than skim:
-- **§20z was RED in that baseline, so it was disabled as a detector for the whole run.** Any
-  survivor may be that row rather than a hole in the battery — the log says to read those first.
-- **Flakiness was not checked** (`pass --check-flaky before trusting survivors`).
+## 1. THE THING TO FIX FIRST
 
-## THE PASS COMPLETED. Full result, all three targets:
+**`0f815b38363f CLEAR_HALT_NOT_CAS`** (`escalation.py:900`, RUN/MAJOR). `clear()` writes
+`state/HALT.json` with a plain `silence.write_json` — atomic, but NOT a compare-and-swap — while
+every other writer of that same file (`_raise_halt`, `_write_stopped`) is CAS'd for exactly this
+reason. A fault escalating to OWNER concurrently with a human's `--clear` can be silently dropped
+from the halt record and the halt lifted anyway.
 
-| target | mutants | killed | survived | indeterminate | gate time |
-|---|---|---|---|---|---|
-| `assay.py` | 119 | 108 | 10 | 1 | 19,563s |
-| `prose_gate.py` | 62 | 61 | 1 | 0 | 14,082s |
-| `escalation.py` | 118 | 117 | 1 | 0 | 22,305s |
-| **total** | **299** | **286** | **12** | **1** | **55,950s** |
+**It was left open for one reason only: `escalation.py` is a live mutation TARGET and `mutate`
+asserts the target's digest is unchanged, so editing it mid-pass would have aborted the pass.**
+Once the mutation run above has finished, this is unblocked and small.
 
-**286 of 298 judged mutants killed (96%), and it did that with `verify_math` DISABLED as a gate
-for the entire run** — those kills came from `drill.py` and the import gate alone. The lock was
-released cleanly, so this is a complete pass, not an interrupted one.
+## 2. THE OTHER TWO MAJORS LEFT OPEN, AND WHY NEITHER IS A QUICK PATCH
 
-**All twelve survivors are triaged, and none is an unexplained hole:**
-- **6 are artefacts of the disabled gate** — 5 in `assay.py` (L1199, L1235, L1246, L1251, L1252),
-  1 in `prose_gate.py` (L401). `verify_math` asserts every one of those values directly. A
-  green-baseline re-run should kill them; **don't hand-write checks for them first.**
-- **2 are genuine** — `assay.py:228`'s untested `hi <= lo` monotonicity limb, and `assay.py:747`,
-  which exposed that `verify_math`'s FALLBACK-stamp checks sit inside
-  `if _stamp.startswith("FALLBACK")` and never run while `AXIS_CORRELATION.json` loads.
-- **2 are proven equivalent** — `assay.py:228`'s twin, and `escalation.py:409`, whose initialiser
-  value is unreadable on every path out of the function.
-- **2 want a read, not a fix** — `assay.py:726` and `:593`, observable only on paths nothing
-  arranges.
-- **1 was never judged** — `assay.py:1343` timed out on the `verify_math` gate. Re-run it alone.
+- **`a4b5ffc46f95 WRITE_RECORD_STALE_TOPKEY_CLOBBER`** (`pipeline.py:769-810,909`). The
+  top-level-key fold treats any non-`None` key in the caller's in-memory `rec` as "authored this
+  call", but `rec` is loaded once per phase and reused across every write for that source —
+  `phase_entrypass` calls `write_record` ~1,500 times for a large source, each re-stamping the
+  load-time snapshot back onto disk and reverting anything `write_record_catalogue` wrote in
+  between. **This is the same incident class as the 31-nulled-synthesis bug, reintroduced via
+  staleness rather than `None`.** The remedy is an explicit per-call allow-list of authored keys,
+  which is a design decision. Do not rush it, and do not "fix" it mechanically.
+- **`bf729d9664b1 CORPUS_DB_FRESHNESS_MISSES_DELETIONS`** (`corpus_db.py:440-448`). `freshness()`
+  detects staleness only from the mtimes of records that still EXIST, so a deleted record file is
+  invisible: the banner can say "no record has changed" while the index still holds ghost rows.
+  Directly contradicts the module's "always admit how stale it is" contract. Needs `meta` to track
+  source basenames, not just mtimes.
 
-**The standout: `escalation.py` scored 117 of 118 with the remainder provably equivalent.** That
-is the halt machinery — the module the whole chain of command rests on — and it is the strongest
-evidence the battery has produced about anything.
+## 3. TWO BUGS IN `binding_health.py` THAT MUST BE FIXED TOGETHER, NOT SEPARATELY
 
-**Historical note, superseded — kept because the reasoning still applies to any long job:**
-The pass is **172 mutants** (`assay.py` ×41, `escalation.py` ×107, `prose_gate.py` ×24), each
-judged by re-running the battery on a machine already carrying every production daemon: a
-many-hour job. It had been launched as a background job of the maintenance session and would very
-likely have been killed at session end having produced nothing — the outcome the every-shift
-ruling exists to prevent. It was therefore stopped and restarted with `pythonw.exe` and
-`DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP` (no console window), trading an hour of progress for
-a run that can actually complete. The live tree was re-linted clean after the kill before the
-relaunch; mutation is sandboxed, so the live tree was never at risk.
+This is the one piece of sequencing knowledge this shift can hand you that you would otherwise
+have to rediscover:
 
-**So check before you conclude anything:**
-1. Read `state/mutate_2026-09-02.log`. If it ends at a `all gates reproducible` line with no
-   results under it, the pass produced **no results** — that is a pass that did not run, not a
-   pass with zero survivors.
-2. Check `state/MUTATION_ACTIVE.json` and test whether its `pid` is alive. If it is, leave it
-   alone and let it finish.
-3. If the pid is dead and the log has no results, relaunch it — **detached**, the same way, so it
-   outlives the session that starts it.
-4. **Two sandboxes may want reaping** under `%TEMP%\panscriptum_mutate_*`; the killed run's
-   (`…_xouij84i`) is orphaned with a dead owner pid, which mutate's six-hour reaper should collect.
+- `cd7492eec3bc` — `binding_health.py:1027` `if limit:` reads `--limit 0` as "no limit" and runs
+  the full ~200-host sweep (the same falsy-zero slip fixed in `burgs.py` this shift).
+- `f1901d2178ba` — `binding_health.py:1091` the whole-estate-empty guard is
+  `if not (only or limit) and not out:`, so when a FILTER matched zero hosts it falls through to
+  the merge path and lands a re-stamped `BINDING_HEALTH.json` with `at` bumped to now, having
+  verified nothing.
 
-A survivor is not a bug until someone reads the diff — some mutations are genuinely equivalent,
-and which it is has to be decided by reading, never assumed.
+**Fixing the first alone makes the second newly reachable** — `--limit 0` would begin producing
+an empty host list, which is precisely the input the second bug mishandles. That is why this
+shift fixed neither. Take them as one change.
 
-**Do not re-diagnose these three. They are measured, filed, and are not bugs to chase:**
-- The cloud pool is **out of free-tier quota** (`groq:qwen/qwen3.6-27b` at 198,972/200,000 tokens
-  per day; four other providers rate-limited). `allsweep`'s `cascade live call` row is red for
-  this reason. Remedy is money or waiting; the standing answer to money is no.
-- The **`LOCAL` rung is starved** — Ollama answers `maximum pending requests exceeded` while the
-  model sits resident, because the library's own daemons saturate the single GPU lane. A trivial
-  `local_agent` task ran >15 min and wrote nothing. **124 open orders are addressed to LOCAL and
-  are effectively parked.**
-- **`verify_math` §20z is flaky** and its flakiness is what keeps cancelling the mutation pass.
-  Several of its probes make live cascade calls; a throttled provider turns the row red. Measured
-  green → red → green on an unchanged tree.
+## 4. THE QUEUE — 416 OPEN, AND IT WILL NOT EMPTY IN ONE SHIFT
 
----
+    LOCAL 144 · BOTS 24 · RUN 68 · SESSION 58 · OWNER 122   (at close, before mutation survivors)
 
-## 0a-i. A GREEN BASELINE IS ACHIEVABLE RIGHT NOW — CONSIDER RE-RUNNING THE PASS FIRST
+**23 orders were closed this shift** (14 worked directly; 9 auto-closed the moment the inverted
+`_fire` was corrected). Sweep 43 filed ~40 new ones, each with file, line and reasoning, and
+`sweep_plan.missing('run43')` returns **0** — every module in `src/` was read in full. The audits
+are in `handoff/sweep43/AUDIT_batch01..16.md` and carry far more detail than the orders do.
 
-Checked immediately after the pass finished: `verify_math` **1130 passed, 0 FAILED**, drill
-386/386, pyflakes clean, halt clear. So §20z is genuinely intermittent and a **clean baseline is
-available**, which was not true when this shift's pass took its own.
+- **The RUN rung is still where the leverage is.** Verify every finding against source before
+  acting — audits are wrong in both directions, and this shift caught one of its own: a scan
+  reported 79 `subroom` contradictions and every one was the INTENDED state, because
+  `subroom_ok()` returns True for `unclassified` by an early return.
+- **LOCAL is workable again but slow.** Ollama's 503 is transient and `local_agent`'s retry rides
+  it out (measured: a real task succeeded in 5m52s while the queue was saturated). Budget ~6
+  minutes of backoff per call under contention. **Do NOT implement run #42's "refuse immediately
+  on a saturated queue"** — see the correction in `BUGS.md` M67 and order `171ade4c7d27`; it would
+  turn a slow success into a fast failure.
+- **The queue carries TWINS.** The dedup key is `(code, where)`, so two sweeps describing one line
+  differently create two orders. Work the concentrated files by reading all their orders together
+  — one at a time, each verified against source. A bulk merge on similarity would close live
+  faults.
 
-**A re-run would settle six of the twelve survivors automatically** — every artefact below — and
-would give the first mutation score in this project's recent history that was taken with the main
-battery switched *on*. It costs roughly 15.5 hours of gate time.
-
-**I did not start it.** The owner's ruling is one pass per shift and the mandated one completed;
-launching a second 15-hour job that competes with every production daemon is a resource decision
-that belongs to a person, not to a run acting on its own initiative. It is surfaced here rather
-than taken. If you do run it, launch it **detached** (see below) and expect the artefact list to
-shrink to the two genuine findings.
-
-## 0a. THE `assay.py` TARGET FINISHED — AND MOST OF ITS SURVIVORS ARE NOISE
-
-**`assay.py`: 119 mutants, 108 killed, 10 SURVIVED, 1 INDETERMINATE.** The run filed nine
-`MUTANT_SURVIVED_ASSAY_L*` orders automatically. **Read
-`ASSAY_MUTATION_SURVIVORS_TRIAGED_MOST_ARE_ARTEFACTS` before you touch any of them** — I triaged
-all ten against source and nothing was closed on inference.
-
-**Why most are noise: `verify_math` was DISABLED AS A GATE for the whole run.** mutate says so in
-its own log — §20z was red from live cascade provider errors (the exhausted quota), and a gate red
-on unmutated code matches every mutant and kills none. So that score was taken with the library's
-main battery switched off. **This is the measured cost of the §20z flake**, and the reason item 1
-below is the highest-value fix on this list.
-
-- **Five are almost certainly artefacts** (L1199, L1235, L1246, L1251, L1252): `verify_math`
-  asserts those exact values directly and unconditionally at lines 6286–6314. Don't hand-write
-  checks for them; a green-baseline re-run will re-triage them for free.
-- **Two are genuine and worth acting on regardless** — L228 (see 0b) and **L747**, which exposes a
-  second finding that is about `verify_math`, not `assay.py`: its FALLBACK-stamp checks sit inside
-  `if _stamp.startswith("FALLBACK")`, so while `AXIS_CORRELATION.json` loads — the normal case —
-  that branch never executes. **A check that cannot fail in the configuration the library actually
-  runs in.**
-- **Two want a read, not a fix** (L726, L593): both are effectively equivalent in normal operation
-  and observable only on paths the battery never arranges.
-- **One was never judged at all**: `assay.py:1343` (`>` → `<=`) timed out on the `verify_math`
-  gate. mutate correctly scores it in neither column and says the result is over 118 mutants, not
-  119. An unjudged mutant is an unknown, not a pass — re-run 1343 on its own.
-
-### `prose_gate.py` also finished — and it is the best-covered module in the battery
-
-**62 mutants, 61 killed, 1 survived, 0 indeterminate** — and the single survivor
-(`prose_gate.py:401`, order `0f9872d8c1ae`) is **also a disabled-gate artefact**:
-`verify_math.py:5566` asserts the exact returned names (`== ["Athuri"]`) and would have killed
-it. Verdict filed as `PROSE_GATE_L401_SURVIVOR_IS_A_DISABLED_GATE_ARTEFACT`. With `verify_math`
-enabled this file is effectively fully covered — which is the right outcome for the owner-held
-gate whose deletion once cost 145 unauthorised chapters.
-
-It also exposes a **general principle worth keeping**: `drill.py`'s prose-gate nets assert only
-emptiness (`!= []`, `== []`), while `verify_math` asserts the values by name. That division is
-deliberate and sensible — drill holds the safety property, verify_math holds the value property —
-but it means that **whenever `verify_math` is disabled, the name-level correctness of every gate
-is unguarded**, and mutation scores taken in that state over-report survivors in exactly this
-shape. That is why the artefact rate this run was so high.
-
-## 0b. THE MUTATION PASS ALREADY FOUND SOMETHING — ACT ON IT
-
-`ASSAY_BAND_EDGES_MONOTONICITY_LIMB_IS_UNTESTED`. Two survivors landed at `assay.py:228` before
-the relaunch, on `axis_score()`'s guard `if not lo or not hi or hi <= lo`. **They do not have the
-same verdict** — one is a genuinely equivalent mutant (checked against every reachable input; no
-action), and one is real: `not lo or (not hi and hi <= lo)` makes the `hi <= lo` limb **dead** when
-both edges are present, so an inverted or degenerate band is no longer refused. It then divides by
-`log(hi) - log(lo)`: `ZeroDivisionError` at `hi == lo`, and at `hi < lo` a negative denominator
-that **silently inverts the score**.
-
-It survived because nothing in the battery ever gives `axis_score()` a band pair whose upper edge
-is not above its lower one. Two cheap fixes, both measured-true today so they land green and stay
-as ratchets:
-1. Extend `_check_constants()` to assert `BAND_EDGES` is strictly increasing along `LADDER` for
-   every axis, and that adjacent bands carry the same axis set.
-2. Add a battery row driving `axis_score()` with an inverted band pair and asserting `None` —
-   that is what would have killed the survivor.
-
-**This is the third independent signal on the same weakness**, alongside `6d132aa1e8aa` and
-`ASSAY_ATTESTATION_FLOOR_UNGUARDED`: `assay.py`'s constant tables are guarded unevenly
-(`SIGMA_BY_ATTESTATION` is checked at import; `BAND_EDGES` and `ATTESTATION_FLOOR` are not), and
-they sit inside every published ± in the library. Worth doing all three together.
-
-**Also useful to know:** survivors are written incrementally to `state/MUTANTS_SURVIVED.jsonl`
-(172 → 174 rows during the stopped run), so an interrupted pass loses its *position*, not its
-findings. Check that file, not just the log.
-
-## 1. THE HIGHEST-VALUE THING YOU CAN DO (order M66 / `VERIFY_MATH_S20Z_DEPENDS_ON_LIVE_NETWORK`)
-
-**Make §20z independent of the network, and the mandated mutation pass starts working again.**
-This one fix unblocks the single largest piece of standing work the schedule asks for. Either
-exclude the live-call probes from the 20z scan by construction, or attribute the ledger write to
-the probe rather than to `cascade_bridge` — so a genuine fault is still caught while a provider
-throttle is not counted as one. It touches the battery's own semantics, which is why this shift
-filed it rather than changing it at the end of a long run.
-
-## 2. THEN GIVE BEHAVIOURAL NETS A SCRATCH TREE (order M68)
-
-Adding a guard currently obliges you to halt the library to prove it works, because only
-source-shape nets have `_SRC_OVERRIDE`. A throwaway harness that does this properly was written
-ad hoc during this shift and proved the new net in three worlds; make it a permanent part of
-`drill.py`. **Standing lesson meanwhile: exercise every new net inside `mutate`'s sandbox as well
-as on the live tree** — `data/` is junctioned outward there, so a different gate refuses first,
-and a net red in the baseline is *disabled as a detector for the whole mutation run*.
-
-## 3. THE ONE-LIMB FIX INSIDE THE LOCAL-RUNG PROBLEM (order M67)
-
-The scheduling question is the owner's, but this half is not: **`local_agent` should refuse
-loudly and immediately when Ollama reports a saturated queue**, instead of burning fifteen
-minutes and exiting 0. A handler that cannot handle should not report success.
-
-## 4. WORK THE QUEUE — 370 open (LOCAL 124 · BOTS 23 · RUN 48 · SESSION 60 · OWNER 115)
-
-Sweep 42 filed 50 new orders, every one carrying its file, line and reasoning. **45 were closed
-this shift.** The RUN rung is where your leverage is; LOCAL is parked until item 3 or the GPU
-frees up. Two standing cautions, both learned the hard way this shift:
-
-- **Verify every finding against source before acting. Audits are wrong in both directions.**
-  Two of the closures would have caused damage if applied literally: gating `health --reopen` on
-  its return value would have **failed every clean run** (`[]` meant three different things), and
-  uncapping `backfill`'s `sample` would have **taken the battery red**, because `verify_math`
-  asserts against it as a *post-ranking head*.
-- **Write ledger edits through a script that asserts what must stay true.** Hand-editing `BUGS.md`
-  this shift produced a duplicate bug number and a RESOLVED entry in the Open section; only the
-  script's assertions caught either.
-- **The queue carries TWINS, and fixing a line closes only the order you were looking at.** Three
-  orders closed late in this shift were the same defects as three closed earlier under this
-  shift's own codes, filed by sweeps 38/39 in different words. The dedup key is `(code, where)`,
-  so two sweeps describing one line differently create two orders. **Measured, and filed as
-  `QUEUE_CARRIES_TWINS_ONE_FAULT_MANY_ORDERS`:** `cleanup.py`'s five rosters were held by THREE
-  orders from three sweeps; five twins were closed today. Of 370 open, 297 name a `src/` file and
-  **74 carry no `src/` path at all** — those cannot be grouped and are invisible to any twin
-  check, so normalising `where` at filing time is the cheap structural fix. Then work the
-  concentrated files (`feats.py` 13, `pipeline.py` 11, `verify_math`/`foreman`/`catalogue_web`/
-  `mutate`/`publish` 8 each), reading each file's orders together. **One at a time, each verified
-  against source** — a bulk merge on similarity would silently close live faults.
-- **`--handler <RUNG>` does not filter.** It is declared at `workorders.py:1407` and its value is
-  read nowhere, so it prints the whole queue and accepts a misspelled rung silently. Filed
-  (`WORKORDERS_HANDLER_FLAG_IS_NEVER_READ`); it was left unfixed only because a mutation run was
-  live against the tree. It is a small fix and it makes the ladder usable.
-
-## 5. STANDING, UNCHANGED FROM RUN #41
+## 5. STANDING, AND UNCHANGED
 
 - **GitHub push is DEFERRED by the owner** ("ignore github for now"). The export commits locally;
-  the push reads HELD. Not a fault to chase, not yours to fix autonomously.
+  the push reads HELD. Not a fault to chase.
 - **Do not widen `state/ledger_chain_acknowledged.json`.** A second record needs a person, an
   order id and a reason.
 - `c614f7c145fc` (the 2026-08-26 automated halt-lift) still wants an owner ruling.
+- **Never open `prose_enabled` or `step4_enabled`.** A gate that looks unnecessary is what a
+  working gate looks like.
+- `publish.py:293`'s `_AMBIGUOUS` case-sensitivity was filed and **deliberately not taken**: the
+  change makes the placeholder-credential test more permissive, i.e. it loosens the gate in front
+  of a public push. It currently fails toward over-blocking, which is the safe direction. That is
+  a review-cycle decision, not a night-shift one.
 
-## 6. QUESTIONS WAITING ON A PERSON, NOT ON A RUN
+## 6. QUESTIONS WAITING ON A PERSON
 
-- `cascade_bridge` re-dispatches to a bucket that just said *"retry in 499s"* and then gives up
-  instead of failing over. The non-benching is **documented as deliberate**, so it is a ruling.
-  Three options are set out in the order; nothing was changed. Note that the case observed was a
-  **per-day quota exhaustion**, which `named_transient()` treats as a momentary throttle.
-- `scale_theories.py`'s five dead constants: verified dead, **deliberately not deleted** —
-  deletions need a review cycle, the module is itself never reached, and `descending_ladder.py:49`
-  cross-references them. Re-rated LOCAL → OWNER.
-- `assay.py`'s `ATTESTATION_FLOOR` has no monotonicity or ceiling guard while its sibling table is
-  protected at import. These tables sit inside every published ± in the library.
+- `88982cef258d` — every remote provider rate-limited at once while local Ollama is saturated.
+  An account/quota condition, not a code fault, and the one non-green row in the battery.
+- `171ade4c7d27` — `local_agent` returns `rc=0`/`ok:true` for an answer whose own text says it
+  could not do the task. Detecting "the model said it could not" is a heuristic, and heuristics on
+  that path are how a gate gets loosened. Wants a ruling, not a predicate.
+- `codewatch`'s `runs_script`/`twins`/`claim_singleton` deliberately FAIL OPEN, reasoned in their
+  own docstring but in tension with Hard Rule -1's "every layer answers 'I don't know' with STOP".
+  Is twin-detection meant to be exempt?
+- `runguard.read()`/`holder_is_live()` likewise fail OPEN on a corrupt guard record.
+- `assay.py`'s `ATTESTATION_FLOOR` still has no monotonicity or ceiling guard while its sibling
+  table is protected at import. These tables sit inside every published ± in the library.
+- `scale_theories.py`'s five dead constants: verified dead, deliberately not deleted.
+
+## 7. TWO PROCESS LESSONS WORTH CARRYING
+
+1. **Never pass finding prose through a shell.** Two sweep agents independently had work-order
+   text corrupted because backticks in the prose executed as shell command substitution under
+   `bash -c`. Write the prose to a script file and run the file. Both caught it by re-reading the
+   order from disk afterwards, which is the habit to keep.
+2. **Close an order against the whole order, not the limb you happened to fix.** This shift closed
+   `1bc825e806a9` on one of its three limbs because a selector matched too broadly; it was
+   re-opened and finished properly, and the paper trail records both. A closed order that is
+   indistinguishable from a completed one is the exact rot the queue exists to prevent.
+
+## 8. HOUSEKEEPING
+
+- **`foreman` and `overwatch` were bounced at the end of this shift** and are the ONLY two that
+  needed it. Both had been up ~23 hours on pre-shift code and could not self-bounce, because the
+  fix that makes them exit rc=17 postdated their start — the condition run #42 diagnosed as
+  `838be29f9e58` and asked the next run to clear. This mattered beyond hygiene: the old `foreman`
+  was still running the `LIKE '%"rpm": 1%'` remedy that wipes legitimate rate caps of 10, 15, 19
+  and 100. **Confirm they are up and on the current fingerprint before trusting anything they
+  report.**
+- `dashboard` spent its restart budget (4/hour) during this shift's `src/` edits and may be
+  deliberately running stale code; it self-corrects once the tree is quiet.
+- `state/_queue_snapshot_20260903.json` is a working file this run left behind; safe to delete.
+- `data/records/getter-robo.json.precatfix` is still a non-`.json` leftover in the records
+  directory (carried from run #42).

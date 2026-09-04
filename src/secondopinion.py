@@ -73,6 +73,7 @@ that caused this project's longest outage. It escalates to JANITOR (record it), 
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -277,18 +278,37 @@ def _vulture(paths, min_confidence=90):
         return "NOT INSTALLED", []
     r = subprocess.run([exe, *list(paths), "--min-confidence", str(min_confidence)],
                        capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
+    # SPLIT ON `:<digits>:`, NOT ON THE FIRST COLON (sweep43-batch05). `line.split(":", 2)` reads
+    # a WINDOWS DRIVE LETTER as the filename: `C:\...\foo.py:123: msg` yields parts[0]="C",
+    # parts[1]="\...\foo.py", `int(parts[1])` raises, and the `continue` DROPS THE FINDING IN
+    # SILENCE. That matters more here than almost anywhere else in the tree, because this module
+    # is the only genuinely INDEPENDENT opinion the battery has -- three house detectors written
+    # by one author share one blind spot -- and a silent drop turns it into a tool that reports
+    # fewer findings while still reporting RAN. "An uninstalled checker is not counted as an
+    # all-clear" is already a drill net; a checker whose output is being eaten is the same fault
+    # wearing a passing status.
+    #
+    # MEASURED, so the severity is not overstated: today it drops NOTHING. vulture prints paths
+    # relative to the CURRENT WORKING DIRECTORY even when handed an absolute root, and
+    # `paths or [SRC]` hands it the absolute `src/` while every documented invocation runs from
+    # the repo root -- so the emitted lines read `src\verify_math.py:3020: ...` with no drive
+    # letter, and 2 of 2 findings parsed correctly on 2026-09-03. It breaks when the cwd is not
+    # an ancestor of the scanned tree, which is a supported way to call this module and the way
+    # the sweep agent reproduced it.
+    #
+    # The regex is non-greedy up to the first `:<digits>:`, so a drive letter cannot be mistaken
+    # for a filename, and it still rejects vulture's rc=1 "Error: ... could not be found" line
+    # exactly as the old parse did -- that line carries no `:<digits>:` and matches nothing.
+    row = re.compile(r"^(?P<path>.+?):(?P<line>\d+):\s*(?P<message>.*)$")
     out = []
     for line in (r.stdout or "").splitlines():
-        parts = line.split(":", 2)
-        if len(parts) != 3:
-            continue
-        try:
-            lineno = int(parts[1])
-        except ValueError:
+        m = row.match(line)
+        if not m:
             continue
         out.append({"tool": "vulture", "code": "vulture",
-                    "file": os.path.basename(parts[0]),
-                    "line": lineno, "message": _message(parts[2].strip())})
+                    "file": os.path.basename(m.group("path")),
+                    "line": int(m.group("line")),
+                    "message": _message(m.group("message").strip())})
     # VULTURE'S CONTRACT, MEASURED ON THIS MACHINE 2026-08-27 RATHER THAN ASSUMED:
     #   rc=0  it looked and found nothing
     #   rc=3  it looked and FOUND DEAD CODE -- the normal, useful outcome

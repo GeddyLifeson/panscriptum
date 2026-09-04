@@ -828,7 +828,33 @@ def sweep_detectors():
     filed, closed = [], []
 
     def _fire(ok, code, what, handler, severity, where="", evidence=None, found_by=""):
-        if not ok:
+        # `ok` IS THE HEALTHY PREDICATE. Healthy resolves; NOT healthy files. The two arms were
+        # the other way round, and every one of the eleven call sites below passes a predicate
+        # that is TRUE when the thing it watches is FINE (`not bad`, `chain_ok`, `not hits`,
+        # `n <= CEILING`, `f is None`, `not stranded`, `not scratch`, `not _ghosts`, ...). So the
+        # whole detector layer of this sweep ran INVERTED: a clean tree filed the order and a
+        # real fault CLOSED it, with "detector stopped firing" written into the paper trail as
+        # the resolution.
+        #
+        # It presented as three BLOCKING orders that each reported ZERO problems -- "0 relay
+        # ledger(s) are not intact", "the ledger hash chain does not verify -- 0 problem(s)",
+        # "0 credential-shaped value(s) staged for the PUBLIC repo" -- plus LIVENESS_RATCHET
+        # announcing 46 against a ceiling of 52 as a breach, and two battery orders whose `what`
+        # was the empty string, because `(f or {}).get("what", "")` has nothing to say when
+        # there is no fault `f`. Those empty and zero-valued fields were the tell: they are what
+        # a healthy detector's message looks like when it is composed anyway.
+        #
+        # The dangerous arm is the other one. A genuinely broken ledger chain, or a real
+        # credential staged for the public repo, would have RESOLVED its own BLOCKING order and
+        # reported nothing at all -- and the module's own comment at the SECRET_STAGED call site
+        # already stated the intended contract in one line, "`_fire(True, ...)` RESOLVES", while
+        # the code did the opposite. Three permanently-red BLOCKING orders are also how the
+        # severity stops meaning anything: an alarm that always sounds is furniture (Hard Rule
+        # -1), and this one had been sounding for every shift that read the queue.
+        #
+        # Netted by `drill.py`'s SWEEP_FIRE_POLARITY: a healthy tree must file none of these,
+        # and an injected fault must file its order rather than close it.
+        if ok:
             if resolve_code(code, "detector stopped firing", where=where, by="workorders.sweep"):
                 closed.append(code)
         else:
@@ -1453,7 +1479,27 @@ def main():
     if not rungs:
         print("no open work orders -- the nets found nothing outstanding")
         return 0
-    for rung in LADDER:
+    # `--handler` IS NOW ACTUALLY READ. It was declared, documented as "show only this rung",
+    # and its value used NOWHERE -- so it printed the whole queue and accepted a misspelled rung
+    # in silence, which is the worst of the three possible behaviours: a run that asked for
+    # LOCAL and got everything reads the first screen and believes it is looking at LOCAL.
+    #
+    # An unknown rung REFUSES rather than falling back to "show everything", because this is the
+    # flag someone reaches for when the queue is 380 orders long and the fallback is precisely
+    # the output they were trying not to get. Fail closed: an unrecognised filter is an
+    # unanswerable question, not a request for the unfiltered list.
+    shown = LADDER
+    if a.handler:
+        want = a.handler.strip().upper()
+        if want not in LADDER:
+            sys.stderr.write("workorders: %r is not a rung\n" % a.handler)
+            print("REFUSING: --handler %r names no rung. The ladder is %s. Nothing was "
+                  "filtered and nothing is shown, because printing the WHOLE queue in answer "
+                  "to a filter nobody can satisfy is how a misspelled rung reads as a clean "
+                  "one." % (a.handler, ", ".join(LADDER)))
+            return 2
+        shown = [want]
+    for rung in shown:
         rows = rungs.get(rung)
         if not rows:
             continue
@@ -1461,7 +1507,17 @@ def main():
         print("-" * 78)
         for r in rows:
             age_h = (time.time() - r.get("first_seen", 0)) / 3600.0
-            print("  [%-8s] %-12s %s" % (r.get("severity"), r.get("id"), r.get("what", "")[:70]))
+            # A CUT THAT SAYS IT IS A CUT (Hard Rule 0, order 2681c431ce1d). This was
+            # `r.get("what", "")[:70]` with no marker, so a one-line summary and the first 70
+            # characters of a 2,000-character finding rendered identically -- and every shift
+            # reads this listing to decide what to work. The uncut text is not lost (it is in
+            # `state/workorders.json` under the id printed on this very line), so the fault was
+            # never that the data was gone; it was that nothing on screen said to go and get it.
+            _what = str(r.get("what", "")).replace("\n", " ")
+            if len(_what) > 70:
+                _what = "%s... (+%d chars -- the whole finding is on order %s)" % (
+                    _what[:70], len(_what) - 70, r.get("id"))
+            print("  [%-8s] %-12s %s" % (r.get("severity"), r.get("id"), _what))
             print("             seen %dx, first %.1fh ago, from %s"
                   % (r.get("seen", 1), age_h, r.get("found_by", "?")))
     return 0

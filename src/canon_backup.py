@@ -389,7 +389,27 @@ def restore(rel, path=None, dest=None):
         with z.open(rel) as fh, open(tmp, "wb") as out:
             for block in iter(lambda: fh.read(1 << 20), b""):
                 out.write(block)
-    os.replace(tmp, dest)
+    # THROUGH `replace_retry`, LIKE LINE 188 AND UNLIKE ITSELF (sweep43-batch10). This was a
+    # bare `os.replace`, the only one left in a module whose own comment four lines up says
+    # "every other writer in this module lands atomically". On this machine a rename is DENIED
+    # while any reader holds the target open -- the documented Windows behaviour this project
+    # wrote `replace_retry` for, and which took an assay worker down mid-batch on 2026-08-23 --
+    # and this is the RESTORE path, reached for precisely when something has already gone wrong
+    # and other processes are most likely to be scrabbling at the same files.
+    #
+    # THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by
+    # contract; it reports False. Swapping the call in and ignoring the result would have made
+    # this strictly worse than the bare `os.replace` it replaces: the function would return
+    # `dest` to a caller that reads it as "restored", with the recovered bytes still sitting in
+    # a `.part` file and the damaged original untouched. A restore that did not happen must not
+    # be reported as one.
+    if silence.replace_retry(tmp, dest) is False:
+        raise RuntimeError(
+            "restore staged %s but could NOT land it on %s -- the atomic replace was denied "
+            "after every retry, most likely because another process is holding the "
+            "destination open. The recovered bytes are intact in the staged file; nothing was "
+            "overwritten. Close the reader and re-run rather than treating this as restored."
+            % (tmp, dest))
     return dest
 
 

@@ -372,17 +372,43 @@ def _read_snapshot(name):
 def _lost_fraction(old, new):
     """How much of `old`'s substance is missing from `new`. -> float in [0, 1].
 
-    Lines rather than bytes, and set membership rather than position, so a reordering or a
+    Lines rather than bytes, and MULTISET membership rather than position, so a reordering or a
     reflowed paragraph is not read as a loss. Blank and rule-only lines are dropped because a
     markdown ledger is full of them and they carry no history.
+
+    A MULTISET, NOT A SET, AND THE DIFFERENCE IS THE WHOLE MEASURE (sweep43-batch05). This was
+    `{...}` on both sides, so a deleted line counted as lost ONLY IF ITS EXACT TEXT APPEARED
+    NOWHERE ELSE IN THE FILE. Duplicate lines are not an edge case in a markdown ledger -- they
+    are its texture: repeated section headings, `**Why:**`, bare dates, `python src/drill.py`,
+    the same one-line verdict written under twenty different entries. Every one of those is a
+    free deletion under a set diff.
+
+    MEASURED ON THE REAL FILE, 2026-09-03, before the change: `handoff/HANDOFF.md` holds 733
+    substantive lines of which only 700 are distinct. That is 33 lines -- 4.50% of the file --
+    that could have been deleted and registered as EXACTLY ZERO loss, against a
+    `MAX_LOST_FRACTION` of 0.05. The margin between "invisible" and "refused" was half a
+    percentage point, on the only gate `assert_intact()` puts in front of `publish.push()`, and
+    on the specific ledger whose own commentary records it ALREADY LOSING 629 LINES to the
+    truncation class this module exists to catch.
+
+    The property the set was there for is kept: `Counter` is unordered, so a reordering still
+    measures zero, and a reflowed paragraph changes the line text and is a loss under both
+    spellings. What changes is only that deleting the second of two identical lines now counts
+    as deleting a line, which it is.
+
+    Netted by `drill.py`'s `ledger_loss_counts_duplicate_lines`.
     """
+    from collections import Counter
+
     def body(t):
-        return {ln.strip() for ln in (t or "").splitlines()
-                if ln.strip() and set(ln.strip()) - set("-=*_# ")}
+        return Counter(ln.strip() for ln in (t or "").splitlines()
+                       if ln.strip() and set(ln.strip()) - set("-=*_# "))
     was = body(old)
     if not was:
         return 0.0
-    return len(was - body(new)) / len(was)
+    # `Counter - Counter` keeps only POSITIVE differences, which is exactly "how many copies of
+    # this line did `old` have that `new` does not".
+    return sum((was - body(new)).values()) / sum(was.values())
 
 
 def check_since_snapshot(name):

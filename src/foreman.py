@@ -156,8 +156,25 @@ def clear_learned_caps():
         try:
             c = sqlite3.connect(db)
             try:
+                # MATCHED ON THE VALUE, NOT ON THE TEXT (sweep43-batch09). This was
+                # `learned like '%"rpm": 1%'`, and LIKE '%...%' is a substring test, so "1"
+                # matched the FIRST DIGIT of every cap that starts with one: 10, 15, 19, 100.
+                # The docstring immediately above names "documented caps of 10, 10 and 15" as
+                # the real values this remedy exists to restore -- so the remedy destroyed
+                # exactly the thing it was written to protect, and did it silently, reporting
+                # the wipe as "cleared N bucket(s) pinned at one request per minute".
+                #
+                # Proven on a throwaway table, 2026-09-03: against rows holding rpm 1, 1, 10,
+                # 15, 19, 100, 2 and an rpd-only row, the old predicate cleared SIX and the new
+                # one clears TWO -- the two that are genuinely pinned at one request a minute.
+                #
+                # `json_valid` guards the extract and is deliberately a REFUSAL, not a fallback:
+                # a `learned` blob that will not parse is not evidence of a stale cap, and
+                # clearing a value nobody can read would be destroying state on a guess. Such a
+                # row keeps its contents and is reported by the row count not moving.
                 n += c.execute("update bucket_state set learned=NULL "
-                               "where learned like '%\"rpm\": 1%' or learned like '%\"rpm\":1%'"
+                               "where json_valid(learned) "
+                               "and json_extract(learned, '$.rpm') = 1"
                                ).rowcount
                 c.commit()
             finally:

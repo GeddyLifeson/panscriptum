@@ -8495,3 +8495,222 @@ transcribed the briefs by hand and silently dropped two modules; only `missing()
 - foreman (15:05) and overwatch (15:10) ran the whole shift on pre-shift code. Cause now
   diagnosed as 838be29f9e58 — **which this shift fixed** — so they should bounce on their own
   once restarted once. Bounce them early next run.
+
+---
+
+# 2026-09-03 — DAILY MAINTENANCE RUN #43: THE SWEEP WAS REPORTING BACKWARDS
+
+## FOR THE OWNER — READ THESE FIVE, THE REST IS DETAIL
+
+1. **The work-order sweep's detector layer ran INVERTED, for an unknown span, and the direction
+   that failed silently is the dangerous one.** `workorders.sweep_detectors._fire` filed an order
+   when its predicate said HEALTHY and CLOSED one when it said BROKEN. All eleven call sites pass
+   a healthy predicate (`not bad`, `chain_ok`, `not hits`, `n <= CEILING`, `f is None`, ...). So a
+   clean tree filed three BLOCKING orders, and **a genuinely broken ledger chain, or a real
+   credential staged for the public repo, would have RESOLVED its own BLOCKING order and reported
+   nothing at all** — writing "detector stopped firing" into the paper trail as the resolution.
+   Fixed, netted, and the queue's three permanently-red BLOCKING orders are gone.
+2. **Nothing was actually leaking.** The three BLOCKING orders were noise, and both secret
+   scanners agree the tree is clean: `publish.scan_for_secrets` 0, `detect-secrets` 0, and the
+   batch-10 audit of `publish.py` found no committed credential. That agreement is worth more
+   than either alone.
+3. **`cleanup.py --apply` would have DELETED three pieces of authored English** from
+   `marvel.json` and `transformers.json`, with the sentence closing over the gap. Fixed before
+   any apply; measured across all 216 record files (1,188 legitimate ruby strips unaffected).
+   **No data pass is needed — the fix stops future damage and nothing on disk is damaged today.**
+4. **The mandated mutation pass was BLOCKED and is now unblocked.** It refused on a red baseline
+   caused by `state/cascade_scratch.db` being missing from its sandbox — the fourth instance of a
+   defect class the sandbox code already documents three times. Fixed; the pass is now RUNNING.
+   **See the mutation section at the bottom of this entry for what it actually found — do not
+   read a launched pass as a completed one.**
+5. **One RUN-rung MAJOR was deliberately left open:** `0f815b38363f CLEAR_HALT_NOT_CAS`
+   (`escalation.py:900` writes `state/HALT.json` non-atomically where every sibling writer uses a
+   compare-and-swap). `escalation.py` is a live mutation TARGET and `mutate` asserts its digest is
+   unchanged, so editing it mid-pass would have aborted the pass. **It is the first thing to fix
+   next run.** Two more are noted under "left open" below.
+
+**No halt was standing when this shift opened, and none was raised. I lifted nothing.**
+
+## THE INVERSION, AND HOW IT PRESENTED
+
+The tell was that all three BLOCKING orders reported **zero problems**:
+
+    the ledger hash chain does not verify -- 0 problem(s), first three:
+    0 relay ledger(s) are not intact, first three:
+    0 credential-shaped value(s) staged for the PUBLIC repo, first five:
+
+plus `LIVENESS_RATCHET` announcing "dead code rose to 46 against a ceiling of 52" — which is
+46 **under** 52 — and two battery orders whose `what` was the empty string, because
+`(f or {}).get("what", "")` has nothing to say when there is no fault `f`. Those empty and
+zero-valued fields are what a healthy detector's message looks like when it is composed anyway.
+
+Verified against reality before touching anything: `check_all()` returned `{}`, `verify_chain()`
+returned True with 0 problems, liveness measured 46 against 52. Everything the queue was
+screaming about was fine. **The module's own comment at the `SECRET_STAGED` call site already
+stated the intended contract in one line — "`_fire(True, ...)` RESOLVES" — while the code did
+the opposite.**
+
+Swapping the arms closed nine false orders on the next sweep **and surfaced three real faults the
+inversion had been auto-closing**: `BATTERY_GRADED` (allsweep grading the cascade live call bad),
+`CODEWATCH_BUDGET`, and `PREFLIGHT_STALE`. That is the clearest evidence of the cost: the queue's
+most severe channel was pure noise in one direction and pure silence in the other.
+
+Netted by `drill.py`'s `sweep_fire_polarity`, which asserts on the SOURCE (running the sweep
+writes the live queue, and a net may not do that): the true arm must reach `resolve_code` and only
+that, the false arm `file_order` and only that. **Watched it go BREACHED against a re-inverted
+copy of the tree and HELD against the live one.**
+
+## THE MUTATION BLOCKER — A RED BASELINE FROM A MISSING FILE
+
+`mutate --target all` refused outright: `RED BASELINE TAKEN FROM A TREE UNDER EDIT`. The single
+red row was `no probe anywhere in this battery writes into the live failure ledger`, naming three
+escapes — one `tuning.py:cloud-success` and two `cascade_bridge.py:provider-error`.
+
+**The live tree was green (verify_math 1130/0); only the sandbox was red.** All three escapes
+trace to ONE missing file. `sandbox()` copies `state/` selectively — `.json`, `.jsonl`, and six
+named `.log` files — and `cascade_scratch.db` is none of those. `provider_error` opens it
+`mode=ro` and notes when that raises; `tuning.cloud_success` connects WITHOUT `mode=ro`, which
+creates an empty file and then fails on `select ... from usage` because the table is not there,
+and notes too. Both reproduced directly by pointing `SCRATCH_DB` at a path that does not exist.
+
+This is the same defect the surrounding comments already record three times (the missing
+`STEP4_PLAN.md`, the excluded `.jsonl` ledgers, the flat `state/` walk that lost `sweep_shards/`),
+arriving through the file-extension filter. **A file the gates read is absent, a check goes red in
+the baseline, and a red baseline DISABLES that check as a detector for the whole run** — mutants
+are judged by difference from it. This one was worse than disabling a row: it took the pass down.
+
+Copied **by name** (from `cascade_bridge.SCRATCH_DB`, not a second spelling) rather than by
+extension — a blanket `.db` would drag in `state/corpus.db`, 78 MB of derived index nothing in
+the gate path reads, for 88.6 MB a run instead of 14.6. Copied through **SQLite's backup API**,
+not `shutil.copy2`: Cascade writes this database while the sandbox is being built, and a torn byte
+copy would put the same three escapes back INTERMITTENTLY — and a baseline that is red one run in
+five is harder to diagnose than one that is red every run.
+
+## WHAT ELSE WAS FIXED, ALL VERIFIED AGAINST SOURCE OR DATA
+
+- **`cleanup.py` ruby strip ate English** (`bb3f38dd09ee`). `_MARKUP[1]` deleted any
+  `(anything, Word ? )` parenthetical. Its sibling `_ruby_question_mark`, one entry above, was
+  given a non-ASCII guard after it ate 55 real English question marks; this one never got it, and
+  deletes the WHOLE aside rather than a stray `?`. Same remedy, same shape. Measured over 216
+  files: 1,191 matching sites, 1,188 genuine ruby (unaffected), **3 authored English** —
+  `marvel.json` "(and, uh, Hawkeye?)", `transformers.json` "(odd for someone who likes trees,
+  no?)" and "(Strange, huh?)".
+- **The ledger truncation detector could not see duplicated lines** (`b8bba1074079`).
+  `_lost_fraction` did a SET diff, so a deleted line counted as lost only if its exact text
+  appeared nowhere else. `handoff/HANDOFF.md` holds 733 substantive lines and 700 distinct — **33
+  lines, 4.50%, deletable for a measured loss of exactly zero against a `MAX_LOST_FRACTION` of
+  0.05**, on the only gate `assert_intact()` puts in front of `publish.push()`. Now a
+  `Counter` multiset; reordering still measures 0.0. Netted
+  (`ledger_loss_counts_duplicate_lines`), watched red against the old implementation.
+  *(For scale: the root `HANDOFF.md` sits at 1.12%, `BUGS.md` 0.24% — `handoff/HANDOFF.md` was
+  the exposed one.)*
+- **A remedy that destroyed what it was written to protect** (`c23914b73005`).
+  `foreman.clear_learned_caps` matched `learned LIKE '%"rpm": 1%'` — a substring test, so "1"
+  matched the first digit of 10, 15, 19, 100, **the exact "documented caps of 10, 10 and 15" its
+  own docstring names**. Proven on a throwaway table: old predicate cleared 6 rows, new
+  `json_extract(learned,'$.rpm') = 1` clears the 2 genuine pins. Ran against the live databases:
+  0 cleared, correct — all six learned values currently sit at the floor of 2.
+- **`coverage.measure()` read the three-writer host map with no handler at all**
+  (`444097b5796f`) while `read.py` reads the same file behind a four-attempt retry. Given that
+  retry, and made to FAIL CLOSED: an empty map would report every entry as hostless and print a
+  coverage figure that is confidently wrong rather than absent, and that figure gets quoted.
+- **`resync_roll` crashed the whole pass on a record that parses but is not an object**
+  (`9dde97efb821`) — `json.load` accepts `[]` happily and `.get` then raises past a handler that
+  only covered the parse.
+- **`hosts._load` collapsed absent and corrupt into `{}`** (`3ace1adc47ff`); and
+  **`discover()` dropped a source whose probe RAISED without counting it anywhere**
+  (`9acd09b65d3a`) — the same fault fixed four lines above it for thin rosters, never applied to
+  the arm beside it. Both now distinguishable, the second reported on stderr.
+- **`canon_backup.restore()` landed with a bare `os.replace`** (`c07bf65dd1c6`), the last one in
+  a module whose comment says every writer lands atomically — on the DISASTER RECOVERY path. Now
+  `replace_retry`, **with its verdict checked**: it never raises by contract, so swapping it in
+  and ignoring the result would have been strictly worse than the bare call.
+- **The reachability primitive had `while/else` backwards in both directions**
+  (`2e1c9162662a`). `_live_walk` backs ~two dozen "the call is made" nets. `while False:` runs its
+  else (live code read as dead); `while True:` can only exit by break/return/raise, all of which
+  skip the else (**dead code read as reachable** — the exact fault a fixture once used to make a
+  net report HELD). Latent: no `while ... else:` exists in `src/` today. Netted and watched red.
+- **`pipeline.ENTRY_REJECTION_COMPANIONS` was missing `subroom`** (`0c0021372963`) — the one
+  field added after the mechanism was written. **Honest correction to the finding's implied
+  severity: scanning all 282,822 entries found ZERO actual contradictions.** All 79 entries
+  carrying `subroom_rejected` are in the INTENDED state. My own first scan reported 79
+  contradictions and was WRONG, because `subroom_ok()` returns True for `unclassified` by an
+  early return. Latent fix; no data pass needed.
+- **Hard Rule 0, twice.** `cleanup`'s `unwritten` roster was capped at 12 while the comment twelve
+  lines above cited it as the uncapped standard the five rosters were held to — the exemplar was
+  the last violation. `repass_bands`' SURVIVORS list was capped at 14; order 89fc2eaf23f1 had
+  fixed the LABEL and left the SLICE, and **a disclosed cut is still a smaller universe**. Both
+  now print in full (402 survivors, not 14).
+- **`workorders --handler` was declared and never read**, so it printed the whole queue and
+  accepted a misspelled rung in silence; now filters, and REFUSES an unknown rung rather than
+  falling back to the unfiltered list. And the queue listing's unmarked `[:70]` cut on `what` now
+  says it is a cut — which immediately revealed findings of 2,340 and 3,528 characters that had
+  been rendering as 70.
+
+## A CORRECTION TO THE PREDECESSOR'S DIAGNOSIS — DO NOT IMPLEMENT ITS ITEM 3
+
+Run #42's NEXT_STEPS asked for "`local_agent` should refuse loudly and immediately when Ollama
+reports a saturated queue, instead of burning fifteen minutes and exiting 0". It was reasonable
+from what that run could see. **It is wrong, and implementing it would make the LOCAL rung worse.**
+
+Measured, not argued. Ollama was returning HTTP 503 "maximum pending requests exceeded" instantly
+to a direct curl, and every remote bucket was simultaneously rate-limited. A real task through
+`local_agent --no-apply` then took **5m52s and SUCCEEDED** — two turns, one tool call, a real
+answer, rc=0. That is almost exactly `_chat`'s own backoff ladder (60+120+180s). **The 503 is
+transient; the retry loop is doing the job its comment claims.** Refusing on the first 503 would
+convert a slow success into a fast failure, exactly when the library is busiest and the free rung
+is most worth having. Filed as `171ade4c7d27` (OWNER) so the decision is on the record.
+
+Two real things the measurement DID expose, neither of them the one proposed: the run returned
+`rc=0`/`ok:true` for an answer whose own text says it could not do the task; and the rung costs up
+to ~6 minutes of pure backoff per call under contention, which is worth knowing when deciding how
+much of a queue to route to LOCAL. Detecting "the model said it could not" is a heuristic, and
+heuristics on that path are how a gate gets loosened — so it is a judgment, not a quick predicate.
+
+## SWEEP 43 — SIXTEEN BATCHES, COVERAGE PROVEN
+
+Every module in `src/` was read in full by one of sixteen parallel agents.
+**`sweep_plan.missing('run43')` returns 0 — that is proof, not a claim.** ~40 new orders filed,
+each carrying file, line and reasoning. Highlights not already fixed above are in the "left open"
+list below; the full audits are in `handoff/sweep43/AUDIT_batch01..16.md`.
+
+**A process lesson, hit independently by two agents and worth repeating in every sweep brief:**
+filing an order by passing the finding prose inline through `bash -c` lets **backticks execute as
+shell command substitution**, silently eating words from the stored text. Both caught it by
+re-reading the order from disk. `file_order`'s content-addressed id meant re-filing from a script
+file repaired the entry in place. **Write the prose to a script file; never pass it through a
+shell.** Later batches were briefed on this and none were corrupted.
+
+## THE BATTERY AT THE CLOSE — GREEN
+
+    drill.py           389 nets attacked, 389 held, 0 BREACHED   (2 nets added this shift)
+    verify_math.py     1130 passed, 0 FAILED
+    liveness.py        46 findings against a ceiling of 52       (unchanged)
+    health --preflight all checks pass
+    pyflakes           clean over all of src/
+    secondopinion.py   ruff / vulture / detect-secrets all RAN — none reported NOT INSTALLED
+    axis_correlation   n_entities 45, unchanged from the stored matrix; no --write needed
+    allsweep.py        1 subsystem bad — see below, environmental
+
+**The one non-green item is environmental, not a code fault.** `allsweep`'s "cascade live call"
+verifier exits rc=1 because every remote provider is rate-limited at once and local Ollama is
+saturated. It is real and it is already filed for the owner as an account/quota condition
+(`88982cef258d`). It is also, notably, a fault **the inverted `_fire` had been silently closing** —
+one of the three the polarity fix brought back into view.
+
+## LEFT OPEN, WITH THE REASON — START HERE NEXT RUN
+
+- `0f815b38363f` **CLEAR_HALT_NOT_CAS** (`escalation.py:900`, RUN/MAJOR) — blocked only by the
+  live mutation pass holding that file's digest. Fix it first.
+- `a4b5ffc46f95` **WRITE_RECORD_STALE_TOPKEY_CLOBBER** (`pipeline.py`, RUN/MAJOR) — a genuine
+  design question (an explicit per-call allow-list of authored keys), not a mechanical patch. Do
+  not rush it; `write_record` is where the 31-nulled-synthesis incident came from.
+- `bf729d9664b1` **CORPUS_DB_FRESHNESS_MISSES_DELETIONS** (RUN/MAJOR) — the staleness banner is
+  blind to a DELETED record file, so it can say "no record has changed" while the index holds
+  ghost rows. Needs `meta` to track source basenames, not just mtimes.
+- `publish.py:293` `_AMBIGUOUS` case-sensitivity (filed LOCAL by batch 10) — **deliberately NOT
+  taken autonomously.** The change makes the placeholder-credential test MORE permissive, i.e. it
+  loosens the gate in front of a public push. It currently fails toward over-blocking, which is
+  the safe direction. That is a review-cycle decision, not a night-shift one.
+- The `hosts.py` orders are closed but note that module still has **no production caller**; the
+  fixes are correct and currently exercise only its own CLI.

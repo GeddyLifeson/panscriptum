@@ -239,7 +239,24 @@ def burgs_for(world_seed, features, limit=None):
     climate, p1, n, bias = prm["climate"], prm["p1"], prm["burgs"], prm["coastal_bias"]
 
     out = []
-    for k in range(1, (limit or n) + 1):
+    # A LIMIT MAY ONLY EVER NARROW (order 1bc825e806a9, sweep39-batch16). This was
+    # `range(1, (limit or n) + 1)`, which was wrong in two independent directions:
+    #
+    #   * `limit=0` was FALSY, so it fell through to `n` and returned the whole roll. "Give me
+    #     none" answered with "here is everything" -- the same falsy-zero slip as
+    #     `binding_health`'s `if limit:`. Measured: `limit=0` returned 483 rows, now returns 0.
+    #   * `limit` LARGER than `n` ran the loop PAST the number of settlements the rank-size rule
+    #     says this world has, FABRICATING them: `rank_population` keeps returning
+    #     HAMLET_FLOOR-floored values for every rank beyond the end, so the extra rows are
+    #     indistinguishable from real ones. `n` for a medieval/settled world falls between
+    #     roughly 300 and 700, so `--limit 1000` was enough to invent settlements. That is Hard
+    #     Rule 0's shape running the other way -- not a smaller universe, an INVENTED one -- and
+    #     it is worse than a truncation, because a reader can at least suspect a cut.
+    #
+    # `min(int(limit), n)` makes the flag a narrowing view of a world that already exists, and
+    # `max(0, ...)` keeps a negative from wrapping the range.
+    stop = n if limit is None else max(0, min(int(limit), n))
+    for k in range(1, stop + 1):
         pop = rank_population(p1, k)
         name, gen = classify(pop)
         s = _stream(world_seed, f"burg{k}")
@@ -344,10 +361,24 @@ def main():
         # MATERIALISED HERE AND NOWHERE ELSE -- one world, on demand, for the reader's table.
         # `--limit` is passed into `burgs_for` rather than slicing a roll that was already built,
         # which is the same rows off the same expression without the roll.
-        for b in burgs_for(AS.map_seed(w0["seed"]), w0["features"], limit=args.limit):
+        _rows = burgs_for(AS.map_seed(w0["seed"]), w0["features"], limit=args.limit)
+        for b in _rows:
             flags = ",".join(f for f in ("coast", "port", "river") if b[f]) or "inland"
             gen = GENERATORS.get(b["generator"], b["generator"])   # long form for the reader only
             print(f"{b['rank']:>5}{b['population']:>12,}{b['class']:>10}   {flags:<22}{gen}")
+        # AND THE TABLE SAYS WHAT IT IS A SAMPLE OF (order 1bc825e806a9). The world's own burg
+        # count was never printed, so a reader seeing twenty rows could not tell whether that was
+        # all of them or twenty of several hundred -- the Hard Rule 0 shape exactly: nothing
+        # fails, the table is well-formed, and it describes a smaller world. The cut itself is
+        # legitimate (this is a sample block for a human, and the full roll is what `--write`
+        # lands uncapped); what was missing was the marker, in the discipline
+        # `suppressions._preview` settled.
+        _total = world_parameters(AS.map_seed(w0["seed"]), w0["features"])["burgs"]
+        if len(_rows) < _total:
+            print(f"   ... and {_total - len(_rows):,} more of this world's {_total:,} burgs "
+                  f"(showing {len(_rows):,}; --limit controls this, and can only narrow)")
+        else:
+            print(f"   all {_total:,} of this world's burgs are shown")
         print()
         print("   largest, via Azgaar's own burg link (it makes the Watabou hand-off itself):")
         print(f"   {burg_link(AS.map_seed(w0['seed']), 1)}")

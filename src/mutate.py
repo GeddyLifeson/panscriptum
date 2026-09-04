@@ -1232,6 +1232,53 @@ def sandbox():
                 shutil.copy2(p_, os.path.join(root, "state", f))
             except OSError:
                 silence.note("mutate.py:sandbox-copy-log:" + f)
+    # AND CASCADE'S SCRATCH DB, WHICH IS NEITHER `.json`, `.jsonl` NOR `.log` AND SO FELL
+    # THROUGH EVERY FILTER ABOVE. Same fault as the missing STEP4_PLAN.md, the excluded `.jsonl`
+    # ledgers and the flat `state/` walk that lost `sweep_shards/` -- a file the gates read is
+    # absent from the sandbox, a check goes red in the BASELINE, and a red baseline DISABLES
+    # that check as a detector for the entire mutation run, because mutants are judged by
+    # difference from it. This one was worse than disabling a row: it took the whole pass down.
+    # Measured 2026-09-03 -- `mutate --target all` REFUSED to run at all, on
+    # "RED BASELINE TAKEN FROM A TREE UNDER EDIT", and the single red row was
+    # `no probe anywhere in this battery writes into the live failure ledger`, reporting three
+    # escapes: `verify_math.py:3639 -> silent:tuning.py:cloud-success` and two
+    # `-> silent:cascade_bridge.py:provider-error`. All three are the SAME missing file.
+    # `cascade_bridge.provider_error` opens it `mode=ro` and notes when that raises;
+    # `tuning.cloud_success` connects without `mode=ro`, which CREATES an empty file and then
+    # fails on `select ... from usage` because the table is not there, and notes too. Both were
+    # reproduced directly by pointing `SCRATCH_DB` at a path that does not exist.
+    #
+    # BY NAME, NOT BY EXTENSION. A blanket `.db` would also drag in `state/corpus.db` -- 78 MB
+    # of DERIVED index that nothing in the gate path reads and that was not red in any baseline
+    # -- for 88.6 MB a run instead of 14.6. The name is taken from `cascade_bridge.SCRATCH_DB`
+    # rather than written out here, for the reason the log list is taken from `lognames`: a
+    # second copy of a path is how the two come to disagree.
+    #
+    # COPIED THROUGH SQLITE'S BACKUP API, NOT `shutil.copy2`. Cascade writes this database while
+    # the sandbox is being built, and a byte copy of a live SQLite file can be torn -- which
+    # would fail the same `select` and put the same three escapes back, INTERMITTENTLY. A
+    # baseline that is red one run in five is harder to diagnose than one that is red every run,
+    # so the consistent-snapshot path is the one that belongs here.
+    try:
+        import sqlite3 as _sq3
+        import cascade_bridge as _cb_sb
+        _scratch = _cb_sb.SCRATCH_DB
+        if os.path.isfile(_scratch):
+            _src_con = _sq3.connect("file:%s?mode=ro" % _scratch, uri=True, timeout=5.0)
+            try:
+                _dst_con = _sq3.connect(os.path.join(root, "state",
+                                                     os.path.basename(_scratch)))
+                try:
+                    _src_con.backup(_dst_con)
+                finally:
+                    _dst_con.close()
+            finally:
+                _src_con.close()
+    except Exception:
+        # NOTED, NOT RAISED, and deliberately loud in the ledger: the sandbox is still usable
+        # without it, but the baseline will carry those three escapes again and the run will
+        # refuse. The note is what tells the next shift which of the two it is looking at.
+        silence.note("mutate.py:sandbox-copy-scratch-db")
     # HALT AND LOCK DO NOT TRAVEL. A halt copied into the sandbox would make every gate refuse
     # on purpose, and a copied mutation lock would make the sandbox refuse to mutate. Both are
     # facts about the LIVE library, not about this throwaway copy of it.

@@ -569,8 +569,19 @@ MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected", "subroom
 # they qualify: when the qualified field is present in the caller's entry and the rejection is
 # not, the rejection is absent ON PURPOSE and goes. Nothing else is cleared by absence.
 # (order 2f248e854b58)
+#
+# AND `subroom`, WHICH WAS THE ONE FIELD ADDED AFTER THIS MECHANISM WAS WRITTEN
+# (sweep43-batch03). The judging loop treats it identically to `topic` -- `:1718` pops
+# `subroom_rejected` the moment a subroom passes `subroom_ok`, exactly as `:1707` pops
+# `topic_rejected` -- and `subroom_rejected` is already declared in `MERGED_ENTRY_FIELDS` at
+# :554. It was simply never added here, so the pop stayed in memory and could not reach disk:
+# the per-entry fold can SET a field and never CLEAR one on absence, which is the whole reason
+# this map exists. The result is the precise fault the comment above describes, on the newest of
+# the three fields -- a corrected subroom sitting on disk beside a `subroom_rejected` note
+# asserting the opposite, with no way for any later run to retract it.
 ENTRY_REJECTION_COMPANIONS = {"scale_note": "scale_note_rejected",
-                              "topic": "topic_rejected"}
+                              "topic": "topic_rejected",
+                              "subroom": "subroom_rejected"}
 
 
 def write_record_catalogue(path, rec):

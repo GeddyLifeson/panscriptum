@@ -96,10 +96,40 @@ def _ruby_question_mark(m):
     return "" if any(ord(c) > 127 for c in s[j:i]) else m.group(0)
 
 
+def _ruby_parenthetical(m):
+    """Strip a WHOLE ruby aside -- but only when it is actually a ruby aside.
+
+    THE SAME FAULT ITS SIBLING WAS REPAIRED FOR, one entry higher in this very list, and worse
+    in degree. `_ruby_question_mark` deletes a stray `?`; it was given the non-ASCII test above
+    after it ate 55 real English question marks. This pattern deletes the ENTIRE parenthetical,
+    and had no such test -- so `(フランス, Furansu ? )` and `(and, uh, Hawkeye?)` were the same
+    shape to it, and only one of them is markup.
+
+    MEASURED ACROSS THE WHOLE CORPUS, 2026-09-03, not argued: 216 record files, 1,191 sites
+    matching this pattern. 1,188 carry a non-ASCII character and are genuine ruby annotations,
+    which still strip exactly as before. THREE are pure ASCII and are authored English that the
+    next `cleanup --apply` would have deleted outright, with the sentence closing over the gap
+    so that nothing downstream could tell anything had been removed:
+
+        marvel.json        entries/7610  "(and, uh, Hawkeye?)"
+        transformers.json  entries/1178  "(odd for someone who likes trees, no?)"
+        transformers.json  entries/3477  "(Strange, huh?)"
+
+    That is the danger this project files under Hard Rule 0's heading rather than its letter: a
+    destructive pass that does not fail, and returns a slightly smaller universe wearing the
+    same shape as the real one.
+
+    The PATTERN is deliberately unchanged, so it keeps its place on the mangled-escape roster
+    below (which reads `_p.pattern`); what changes is that the replacement is a FUNCTION that
+    declines on plain English -- the identical remedy, in the identical shape, as the sibling.
+    """
+    return "" if any(ord(c) > 127 for c in m.group(0)) else m.group(0)
+
+
 # Wikipedia link markers, broken ruby annotations, citation stubs.
 _MARKUP = [
     (re.compile(r"\s*\bWP\b(?=\s*[\(,]|\s*$)"), ""),          # "France WP (..." link marker
-    (re.compile(r"\s*\(\s*[^()]*?,\s*[A-Za-z]+\s*\?\s*\)"), ""),   # "(フランス, Furansu ? )"
+    (re.compile(r"\s*\(\s*[^()]*?,\s*[A-Za-z]+\s*\?\s*\)"), _ruby_parenthetical),  # "(フランス, Furansu ? )"
     (re.compile(r"\s*\[\s*\d+\s*\]"), ""),                    # [1] citation stubs
     (re.compile(r"\s*\[(?:citation needed|edit|sic)\]", re.I), ""),
     # Stray ? before a close paren -- but only inside a ruby annotation. The pattern is
@@ -303,10 +333,16 @@ def main():
         print(f"\nNOT WRITTEN — {len(unwritten):,} record(s) refused the write (a denied "
               f"atomic replace, or write_record declining to overwrite a record it could not "
               f"read to merge). Their corrections above are NOT on disk; re-run to retry.")
-        for s in unwritten[:12]:
+        # AND THIS ONE IS NOW ACTUALLY UNCAPPED, which the comment above has been asserting it
+        # was. `sweep42-batch03` uncapped the five rosters and cited THIS list as the standard
+        # they were being held to -- "has always been printed in full with its own comment
+        # explaining why summarising it would be dishonest" -- while the code twelve lines
+        # below it read `unwritten[:12]` with an `... and N more`. The exemplar was the last
+        # violation. The ceiling is the roll: there are 216 record files, so the whole list is
+        # at most 216 names, and every one of them is a record whose corrections are NOT on
+        # disk and which a person has to re-run to recover.
+        for s in unwritten:
             print(f"     {s}")
-        if len(unwritten) > 12:
-            print(f"     ... and {len(unwritten) - 12:,} more")
 
     if not args.apply:
         print("\nDRY RUN. Re-run with --apply to write.")

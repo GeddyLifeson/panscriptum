@@ -97,6 +97,22 @@ def main():
             silence.note("resync_roll.py:record-unreadable")
             unreadable.append(fn)
             continue
+        # PARSES IS NOT THE SAME AS IS-A-RECORD (sweep43-batch15). `json.load` is perfectly
+        # happy with `[]`, `"x"`, `null` or `3`, none of which have `.get`, so the next line
+        # raised an uncaught AttributeError and took the WHOLE resync down -- past the handler
+        # directly above it, which only ever covered the parse. A half-written or hand-edited
+        # record is exactly the file most likely to be in that state, and it is the same fault
+        # class already fixed in `wiki_source.py`'s read of the hosts file and never carried
+        # over here.
+        #
+        # Folded into `unreadable` rather than given a category of its own, because it means
+        # the same thing to the person reading the output: this is a source this run did NOT
+        # check, and the closing "roll now: X/Y sources catalogued" must not be printed over it
+        # as though it had been.
+        if not isinstance(rec, dict):
+            silence.note("resync_roll.py:record-not-an-object")
+            unreadable.append(fn)
+            continue
         src = rec.get("source")
         if src:
             key = norm(src)

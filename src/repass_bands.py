@@ -112,16 +112,18 @@ def main():
     # and here wearing a label that explicitly claims to be the real one. The sibling DEMOTED
     # list below has always said "a sample of"; this one now says what it is AND what it is a
     # sample of, in `coverage.report()`'s idiom, so the reader knows how much is off the page.
-    _survivors_shown = kept_entries[:14]
-    if len(_survivors_shown) < len(kept_entries):
-        print(f"\n  SURVIVORS — each is an act upon an object, or a measured quantity "
-              f"(showing {len(_survivors_shown)} of {len(kept_entries):,}; "
-              f"{len(kept_entries) - len(_survivors_shown):,} more not shown):")
-    else:
-        print(f"\n  SURVIVORS — each is an act upon an object, or a measured quantity "
-              f"({len(kept_entries):,}, all shown):")
-    for s, n, b, sn in _survivors_shown:
-        print(f"     [{b}] {str(n)[:30]:<32}{sn}")
+    # AND NOW IT IS ACTUALLY UNCAPPED, not merely honest about being capped (sweep43-batch05).
+    # Order 89fc2eaf23f1 fixed the LABEL -- the heading had claimed "every one of these" over a
+    # slice of fourteen -- and left the slice in place, disclosed. Hard Rule 0 is not a
+    # disclosure rule: "Ranking is still allowed and is encouraged ... Ranking then truncating
+    # is not." A stated cut is better than a silent one and is still a smaller universe, and the
+    # DEMOTED twin eleven lines below was fully uncapped by sweep42-batch04 in the same
+    # function, which is the clearest evidence available that fourteen was inertia rather than
+    # policy. The `str(n)[:30]` name cut goes with it, exactly as the twin's did.
+    print(f"\n  SURVIVORS — each is an act upon an object, or a measured quantity "
+          f"({len(kept_entries):,}):")
+    for s, n, b, sn in kept_entries:
+        print(f"     [{b}] {str(n):<32}{sn}")
 
     # NOT A SAMPLE ANY MORE (Hard Rule 0, sweep42-batch04). The comment beside the SURVIVORS
     # list one block above records order 89fc2eaf23f1 uncapping it, and names THIS list as the

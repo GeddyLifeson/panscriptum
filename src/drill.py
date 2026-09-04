@@ -541,6 +541,24 @@ def _live_stmts(body):
 
     So: statements after an unconditional `return`/`raise`/`break`/`continue` are dropped, an
     `if False:` contributes only its `else`, and an `if True:` contributes only its body.
+
+    AND A `while` CARRIES AN `else` TOO, WHICH THIS GOT BACKWARDS IN BOTH DIRECTIONS
+    (sweep43-batch01). Python runs a loop's `else` when the loop ends WITHOUT a `break`:
+
+      * `while False:` never enters the body and therefore terminates without breaking, so its
+        `else` RUNS IMMEDIATELY. This dropped the whole statement -- `inner = []` -- and read
+        that live code as dead. A net asking "is the call made" would answer no about a call
+        that is made, i.e. a false BREACH.
+      * `while True:` can only leave through `break`, `return` or `raise`, and all three SKIP
+        the `else`. That arm fell through to `inner = None`, the node was appended whole, and
+        `_live_walk` then descended into the `orelse` like any other block -- reading provably
+        dead code as reachable. That is the direction this whole function exists to prevent,
+        and it is the one that makes a net report HELD on a fixture that never runs the code.
+
+    The `while True:` half is fixed in `_live_walk`, not here, because the loop body still has
+    to be walked normally and only the `else` is unreachable. Verified 2026-09-03 that no
+    `while ... else:` exists anywhere in `src/`, so no net was giving a wrong verdict on today's
+    tree -- this is a latent defect in shared infrastructure, repaired before it is depended on.
     """
     import ast
     out = []
@@ -549,7 +567,8 @@ def _live_stmts(body):
         if isinstance(s, (ast.If, ast.While)):
             k = _static_truth(s.test)
             if k is False:
-                inner = _live_stmts(s.orelse) if isinstance(s, ast.If) else []
+                # Both spellings run the `else` and neither runs the body.
+                inner = _live_stmts(s.orelse)
             elif k is True and isinstance(s, ast.If):
                 inner = _live_stmts(s.body)
         if inner is None:
@@ -582,6 +601,17 @@ def _live_walk(node):
                 items = value
                 if (field in ("body", "orelse", "finalbody") and value
                         and all(isinstance(x, ast.stmt) for x in value)):
+                    # THE `else` OF A `while True:` IS UNREACHABLE, and it is the one block
+                    # `_live_stmts` cannot drop on its own -- the loop body still has to be
+                    # walked, so the node is appended whole and its fields are descended here.
+                    # A loop's `else` runs only when the loop ends WITHOUT a break, and a
+                    # `while True:` can end only by `break`, `return` or `raise`, every one of
+                    # which skips it. Left alone, this fed dead code to every net built on
+                    # `_live_walk` -- the exact fault the `if False:` handling exists to stop,
+                    # arriving through the loop spelling. (sweep43-batch01)
+                    if (field == "orelse" and isinstance(n, ast.While)
+                            and _static_truth(n.test) is True):
+                        continue
                     items = _live_stmts(value)
                 for x in items:
                     if isinstance(x, ast.AST):
@@ -3869,6 +3899,37 @@ def drill_ledgers():
         "the length check above would wave 10 KB of filler straight through; a BUGS.md with no "
         "Open, Watching or Resolved heading is a ledger nobody can read a bug out of")
 
+    def ledger_loss_counts_duplicate_lines():
+        """DELETING THE SECOND OF TWO IDENTICAL LINES IS DELETING A LINE.
+
+        `_lost_fraction` compared `{set} - {set}`, so a removed line counted as lost only if its
+        exact text appeared NOWHERE else in the file. In a markdown ledger that is a large
+        exemption, not a corner: repeated headings, bare dates, `**Why:**`, the same one-line
+        verdict under twenty entries. Measured on the real `handoff/HANDOFF.md` on 2026-09-03,
+        733 substantive lines and 700 distinct -- 33 lines, 4.50% of the file, deletable for a
+        measured loss of EXACTLY ZERO, against `MAX_LOST_FRACTION` of 0.05. This is the only
+        gate `assert_intact()` puts in front of `publish.push()`.
+
+        Attacked on a FIXTURE rather than on the live ledger, so the net measures the function
+        and not today's contents of a file that changes every shift. Both halves are asserted,
+        because a multiset that reports loss on a REORDER would be a new false alarm on a gate
+        that must not cry wolf: eight lines, four of them the same line repeated, minus two of
+        those repeats must read as 2/8; the same eight shuffled must read as 0.
+        """
+        import ledger_guard as LG
+        old = "\n".join(["alpha", "**Why:**", "beta", "**Why:**",
+                         "gamma", "**Why:**", "delta", "**Why:**"])
+        # Two of the four duplicate lines removed; every distinct line still present.
+        fewer = "\n".join(["alpha", "**Why:**", "beta", "**Why:**", "gamma", "delta"])
+        shuffled = "\n".join(["delta", "**Why:**", "gamma", "**Why:**",
+                              "beta", "**Why:**", "alpha", "**Why:**"])
+        return (abs(LG._lost_fraction(old, fewer) - 0.25) < 1e-9
+                and LG._lost_fraction(old, shuffled) == 0.0
+                and LG._lost_fraction(old, old) == 0.0)
+    net(a, "losing a DUPLICATED line still counts as loss", ledger_loss_counts_duplicate_lines,
+        "a set diff let 33 lines of the real HANDOFF.md be deleted for a measured loss of zero, "
+        "half a percentage point under the threshold that gates the public push")
+
     def the_writer_and_the_reader_of_a_snapshot_agree():
         """Every APPEND_ONLY name `seal()` writes must be a name `_read_snapshot()` can find.
 
@@ -6000,6 +6061,68 @@ def drill_workorders():
             W.BATTERY_WHERE.get(c) for c in W.BATTERY_CODES),
         "resolve_code closes order_id(code, where) -- a detector filing under one `where` and "
         "clearing under another files orders nobody can ever close")
+
+    def sweep_fire_polarity():
+        """THE ARMS OF `_fire` MUST NOT BE THE OTHER WAY ROUND.
+
+        Every net above this one proves `battery_faults` COMPUTES the right faults. Not one of
+        them followed the answer one layer further, to the helper that decides whether a
+        computed fault gets FILED or CLOSED -- and on 2026-09-03 that helper was inverted. All
+        eleven call sites in `sweep_detectors` pass a predicate that is TRUE when the thing is
+        HEALTHY (`not bad`, `chain_ok`, `not hits`, `n <= CEILING`, `f is None`, `not stranded`,
+        `not scratch`, `not _ghosts`), and `_fire` filed on the true arm. So a clean tree filed
+        the order and a REAL fault closed it, writing "detector stopped firing" into the paper
+        trail as the resolution.
+
+        It stood in the queue as three BLOCKING orders each reporting ZERO problems, two battery
+        orders whose `what` was the empty string, and LIVENESS_RATCHET calling 46-against-52 a
+        breach. The severity was the part that rotted first: three permanently-red BLOCKING
+        orders are an alarm that always sounds, which Hard Rule -1 calls furniture. The arm that
+        mattered was the quiet one -- a real credential staged for the PUBLIC repo would have
+        RESOLVED its own BLOCKING order and said nothing.
+
+        Asserted on the SOURCE, not by running the sweep, because running it writes the live
+        queue and a net may not do that. `ok` is the healthy predicate: the true arm must reach
+        `resolve_code` and only `resolve_code`, and the false arm must reach `file_order` and
+        only `file_order`. Pinned this way so that swapping the two bodies, negating the test,
+        or renaming the parameter all read as BREACHED rather than as a passing rewrite.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "workorders.py"))
+        fire = None
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef) and node.name == "sweep_detectors":
+                for inner in node.body:
+                    if isinstance(inner, ast.FunctionDef) and inner.name == "_fire":
+                        fire = inner
+        if fire is None:
+            return False
+        # The parameter it branches on must still be the FIRST one, and still be the healthy
+        # predicate by name -- a rename here is a contract change, not a refactor.
+        if not fire.args.args or fire.args.args[0].arg != "ok":
+            return False
+        branch = next((s for s in fire.body if isinstance(s, ast.If)), None)
+        if branch is None:
+            return False
+        # A bare `if ok:` -- not `if not ok:`, and not a compare that happens to read the same.
+        if not (isinstance(branch.test, ast.Name) and branch.test.id == "ok"):
+            return False
+
+        def calls(stmts):
+            got = set()
+            for s in stmts:
+                for n in ast.walk(s):
+                    if isinstance(n, ast.Call) and isinstance(n.func, ast.Name):
+                        got.add(n.func.id)
+            return got
+        healthy, faulty = calls(branch.body), calls(branch.orelse)
+        return ("resolve_code" in healthy and "file_order" not in healthy
+                and "file_order" in faulty and "resolve_code" not in faulty)
+    net(a, "the sweep files on the FAULT and closes on the HEALTH, not the reverse",
+        sweep_fire_polarity,
+        "inverted for an unknown span to 2026-09-03: a clean tree filed three BLOCKING orders "
+        "and a real staged credential would have closed its own")
+
     import binding_health as _BH33
     net(a, "a host that is UP but resolves no title is NOT quarantined",
         lambda: _BH33.verdict(False, True, True)[0] is None,
@@ -6428,6 +6551,51 @@ def drill_inspector():
         return n <= LIVENESS_CEILING
     net(a, "no NEW dead code or unfailable check has appeared", liveness_does_not_worsen,
         "the ceiling is a ratchet: lower it when you clean up, never raise it to go green")
+
+    def the_reachability_primitive_understands_loop_else():
+        """`_live_walk` IS THE INSTRUMENT, so a blind spot in it is a blind spot in ~two dozen
+        nets at once -- every net that says "the call is made" rather than "the name appears".
+
+        It knew that `if False:` runs its `else` and `if True:` does not, and it had BOTH loop
+        cases backwards (sweep43-batch01). A loop's `else` runs when the loop ends without a
+        `break`, so `while False:` runs its `else` immediately -- that was being discarded as
+        dead, which turns into a false BREACH -- and `while True:` can leave only by `break`,
+        `return` or `raise`, every one of which skips the `else`, so that block is provably dead
+        and was being walked as live. The second is the direction that matters: it is exactly
+        the "dead code read as reachable" fault the run #36 sweep used to beat
+        `_halt_is_not_breakage` with an `if False:` block after a `break`, arriving through the
+        loop spelling instead.
+
+        Asserted on the two properties rather than on node counts, so a later rewrite of the
+        walker is judged on what it can SEE, not on how it is built.
+        """
+        import ast
+        live = ast.parse(
+            "def f():\n"
+            "    while False:\n"
+            "        only_in_dead_loop_body()\n"
+            "    else:\n"
+            "        reached_because_loop_never_ran()\n")
+        dead = ast.parse(
+            "def g():\n"
+            "    while True:\n"
+            "        breaks_out()\n"
+            "        break\n"
+            "    else:\n"
+            "        can_never_run()\n")
+
+        def names(tree):
+            return {n.func.id for n in _live_walk(tree)
+                    if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)}
+        seen_live, seen_dead = names(live), names(dead)
+        return ("reached_because_loop_never_ran" in seen_live
+                and "only_in_dead_loop_body" not in seen_live
+                and "breaks_out" in seen_dead
+                and "can_never_run" not in seen_dead)
+    net(a, "the reachability walker knows a loop has an else, and when it runs",
+        the_reachability_primitive_understands_loop_else,
+        "both loop cases were inverted: a `while True:` else was walked as live code, which is "
+        "the fault that let a dead fixture make a net report HELD")
 
 
 def _twins_ignores_a_foreign_tree():

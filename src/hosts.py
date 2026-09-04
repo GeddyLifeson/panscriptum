@@ -41,13 +41,46 @@ PRIMARY = os.path.join(HERE, "data", "WIKI_HOSTS.json")
 EXTRA = os.path.join(HERE, "data", "SOURCE_HOSTS.json")
 
 
+# A source whose candidate generation RAISED. Distinct from `None`, which `discover()` uses for
+# "roster too thin to score", so the two cannot be confused by the consumer.
+_PROBE_FAILED = object()
+
+
 def _load(path, default):
+    """Read one host map. ABSENT and CORRUPT are not the same answer (sweep43-batch12).
+
+    This caught every exception and returned `default` for all of them, under one unkeyed note,
+    so a WIKI_HOSTS.json that had been truncated mid-write read exactly like one that had never
+    been created: `{}`, silently, to every caller. That is the shape `workorders._load` was
+    hardened against ("an unreadable queue is not an empty one, and the difference is the whole
+    point") and the same one `hostcheck._land_hosts`, the writer of this very file, already
+    refuses to heal.
+
+    A missing file IS legitimately the default -- a fresh tree has no host map yet. Anything
+    else is a fault, and it RAISES, because every consumer here answers an empty map by
+    reporting that a source has no wiki, which is a real and quotable claim about the library
+    rather than an absence of one. The note is now keyed by file so the ledger says WHICH map
+    failed.
+    """
     try:
         with open(path, encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        silence.note("hosts.py:load")
+            got = json.load(f)
+    except FileNotFoundError:
         return default
+    except Exception as exc:
+        silence.note("hosts.py:load:" + os.path.basename(path))
+        raise RuntimeError(
+            "%s exists and could not be read (%s: %s). This is NOT an empty host map: every "
+            "lookup here answers 'this source has no wiki' from it, so treating a corrupt file "
+            "as an absent one would report the library as having lost its hosts. Restore or "
+            "rebuild it (src/feats.py --hosts)." % (path, type(exc).__name__, exc))
+    if not isinstance(got, dict):
+        silence.note("hosts.py:load-not-an-object:" + os.path.basename(path))
+        raise RuntimeError(
+            "%s parsed but is %s, not an object of source -> host(s). Same reasoning as above: "
+            "this cannot be quietly treated as an empty map."
+            % (path, type(got).__name__))
+    return got
 
 
 def primary_host(source):
@@ -177,8 +210,14 @@ def discover(only=None, workers=6, per_source=24):
         try:
             grounded, spec = HC.candidates_split(source, cur, by=by, hosts=prim)
         except Exception:
+            # A THIRD DISTINGUISHABLE OUTCOME, NOT A BARE None (sweep43-batch12). This returned
+            # `None`, and the consumer's `if not res: continue` dropped it without counting it
+            # anywhere -- not in `not_probed`, not in `lost`, not in `withheld_total`. So a
+            # source whose candidate generation RAISED was indistinguishable from one that was
+            # never in `todo` at all, which is precisely the fault order f28f27da7c1f fixed four
+            # lines above this one for thin rosters, left unapplied to the arm right beside it.
             silence.note("hosts.py:candidates")
-            return None
+            return (source, _PROBE_FAILED, 0)
         # THE BOUND IS APPLIED TO THE SPECULATION, AND IT CAN NO LONGER REACH THE EVIDENCE.
         #
         # This read `cands = HC.candidates(...)` followed by `cands[:per_source]`, over a flat
@@ -233,11 +272,20 @@ def discover(only=None, workers=6, per_source=24):
     # is how a smaller universe gets mistaken for the whole one, so the total is reported.
     withheld_total = 0
     not_probed = []
+    probe_failed = []
     with ThreadPoolExecutor(max_workers=workers) as ex:
         for res in ex.map(work, todo):
             if not res:
+                # `work` now returns a 3-tuple on every path, so this is unreachable by design
+                # -- and it is kept, loud, rather than deleted, because the whole finding here
+                # was that a falsy result got dropped in silence. If one ever appears again it
+                # is a fault in `work`, not a source with nothing to say.
+                silence.note("hosts.py:discover-empty-result")
                 continue
             source, keep, withheld = res
+            if keep is _PROBE_FAILED:
+                probe_failed.append(source)
+                continue
             if keep is None:
                 # A THIN ROSTER, NOT A CANDIDATE THAT LOST. Counted and named beside the
                 # speculative-guess figure below, so "probed, nothing held" and "never probed"
@@ -277,6 +325,15 @@ def discover(only=None, workers=6, per_source=24):
     if not_probed:
         print("  (%d source(s) not probed: fewer than 4 roster names to score a host against: "
               "%s)" % (len(not_probed), ", ".join(not_probed)))
+    if probe_failed:
+        # ON STDERR AND ESCALATED, like `lost` above and unlike `not_probed`. A thin roster is a
+        # fact about the source; a raised exception is a fault in this walk, and the two must
+        # not read the same. Uncapped, for the reason every list in this function is uncapped.
+        sys.stderr.write(
+            "hosts: %d SOURCE(S) COULD NOT BE PROBED -- candidate generation RAISED for them, "
+            "so they were neither scored nor rejected and this walk says nothing about whether "
+            "they have a wiki: %s\n" % (len(probe_failed), ", ".join(probe_failed)))
+        silence.note("hosts.py:discover-probe-failed")
     return added, rows
 
 

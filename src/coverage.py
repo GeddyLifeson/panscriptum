@@ -184,7 +184,37 @@ def _state_of_file(fp, name, cache):
 
 
 def measure():
-    hosts = json.load(open(F.HOSTS, encoding="utf-8"))
+    # THE SAME GUARD `read.py` ALREADY PUTS ON THIS EXACT FILE (sweep43-batch13). This was a
+    # bare `json.load(open(F.HOSTS))` with no handler at all, while `read.py:1192` reads the
+    # same map behind a four-attempt retry whose comment states the reason: "the host map has
+    # three writers; an unguarded load meant a single racing write could end the whole run with
+    # a JSONDecodeError and no note". All three writers land it through
+    # `silence.replace_retry`, so a racing write leaves the file unreadable for milliseconds --
+    # long enough to kill a pass that opens it once, short enough that a retry always wins.
+    #
+    # FAIL CLOSED, not `except: hosts = {}`. Every source's host is looked up in this map, so an
+    # empty one makes every entry read as having no host, and the coverage number this function
+    # exists to produce would come back confidently wrong rather than absent -- the shape run
+    # #36 recorded in `read.py` as "a total loss wearing the face of there was nothing left to
+    # do". A number nobody can trust is worse here than no number, because this one is quoted.
+    import time as _time
+    hosts = None
+    for _attempt in range(4):
+        try:
+            with open(F.HOSTS, encoding="utf-8") as _hf:
+                hosts = json.load(_hf)
+            break
+        except Exception:
+            silence.note("coverage.py:hosts-unreadable")
+            hosts = None
+            if _attempt < 3:
+                _time.sleep(0.3 * (_attempt + 1))
+    if not isinstance(hosts, dict) or not hosts:
+        raise SystemExit(
+            "REFUSING TO MEASURE: the host map (%s) did not load as a non-empty object after 4 "
+            "attempts. Every source's host is looked up in it, so an empty map would report "
+            "every entry as hostless and print a coverage figure that is wrong rather than "
+            "missing. Restore or rebuild the file (src/feats.py --hosts) and re-run." % F.HOSTS)
     _so_load()
     rows = []
     for _, r in P.records():
