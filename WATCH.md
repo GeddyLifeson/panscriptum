@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 338  ·  last run 2026-09-04 11:47
+round 339  ·  last run 2026-09-04 12:45
 
 ## Structure
 
@@ -9,19 +9,22 @@ round 338  ·  last run 2026-09-04 11:47
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
+- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**10 open** (2 high). Newest first.
+**11 open** (2 high). Newest first.
 
 - **retry_synthesis.py** `PL.ask_pool_first` — [HIGH] calls a different model than `phase_synthesis`
   - says: the same transport `phase_synthesis` uses
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
+- **withdraw_chapters.py** `record_landed` — [MEDIUM] the manifest is merged with existing entries, but the code does not ensure that the new manifest is written only if all files were successfully moved
+  - says: This ran AFTER every chapter file above has already been moved
+- **withdraw_chapters.py** `catalog_landed` — [MEDIUM] the catalog minus the entries whose files actually left
+  - says: This wrote `{}` unconditionally, which was right for exactly one run and wrong in general
 - **retry_synthesis.py** `PL.valid_scale_note` — [MEDIUM] checks for a valid scale note, but the code around it says it should be derived
   - says: the pipeline's own invariant: no feat, no band
-- **weave_index.py** `build` — [MEDIUM] build
-  - says: build
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
   - says: An unknown rung REFUSES rather than falling back to "show everything"
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
