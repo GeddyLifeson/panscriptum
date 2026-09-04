@@ -1,21 +1,25 @@
 # OVERWATCH
 
-round 336  ·  last run 2026-09-04 09:15
+round 337  ·  last run 2026-09-04 10:31
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 293,419 inspected (deep scan as of round 331)
+- files that will not parse: **0** of 294,141 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**12 open** (1 high). Newest first.
+**14 open** (2 high). Newest first.
 
+- **retry_synthesis.py** `PL.ask_pool_first` — [HIGH] calls a different model than `phase_synthesis`
+  - says: the same transport `phase_synthesis` uses
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
+- **retry_synthesis.py** `PL.valid_scale_note` — [MEDIUM] checks for a valid scale note, but the code around it says it should be derived
+  - says: the pipeline's own invariant: no feat, no band
 - **weave_index.py** `build` — [MEDIUM] build
   - says: build
 - **scout.py** `scout` — [MEDIUM] scout is called with names or [] but the actual intended parameter is names, not names or []
