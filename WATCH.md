@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 327  ·  last run 2026-09-04 01:56
+round 328  ·  last run 2026-09-04 03:13
 
 ## Structure
 
@@ -9,16 +9,13 @@ round 327  ·  last run 2026-09-04 01:56
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
-- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**28 open** (2 high). Newest first.
+**24 open** (1 high). Newest first.
 
 - **local_agent.py** `run` — [HIGH] The function `run` does not check for a halt, but the comment claims it does.
   - says: THE HALT IS CHECKED HERE, AND UNTIL RUN #35 IT WAS NOT CHECKED ANYWHERE ON THIS LANE.
-- **drill.py** `reap_orphans` — [HIGH] always returns an empty list when called with older_than=10 ** 9
-  - says: reaps orphans based on age and ownership
 - **local_agent.py** `apply` — [MEDIUM] returns a staged patch without applying it
   - says: run started with --no-apply; patch recorded for the audit trail
 - **corpus_db.py** `code` — [MEDIUM] code is set to None when the resolver is unavailable, and when there's an exception during resolution, but the comment says that NULL means unshelved and only the resolver may say so. However, the code is set to None in cases where the resolver is unavailable or an exception occurs, which may not be correct according to the comment's contract.
@@ -55,12 +52,6 @@ round 327  ·  last run 2026-09-04 01:56
   - says: Three distinct faults are reported separately, because they mean different things: UNPARSEABLE a line of the chain file will not read as JSON. The link it held is GONE from every check below, and a dropped FINAL link is invisible to all of them -- so it is a fault in its own right, not a line to skip past. (order 77b098d098d099e6)
 - **ledger_guard.py** `verify_chain` — [MEDIUM] An ACKNOWLEDGED problem is one a person has ruled on by name (see `ACKNOWLEDGED` above). It is removed from `problems` -- so it does not fail the chain -- and returned separately so it is still reported.
   - says: An ACKNOWLEDGED problem is one a person has ruled on by name (see `ACKNOWLEDGED` above). It is removed from `problems` -- so it does not fail the chain -- and returned separately so it is still reported.
-- **foreman.py** `refresh_coverage` — [MEDIUM] Returns a boolean indicating if the coverage.py script ran successfully, without indicating whether the coverage was actually recomputed or if there were errors.
-  - says: Re-measure cited/settled. Stale figures understate the library and mislead every other standard that reads them.
-- **drill.py** `silence.write_json` — [MEDIUM] writes to a file that may not be accessible due to the exception handling
-  - says: this project's stated one correct way to land a shared file
-- **drill.py** `ESC.escalate` — [MEDIUM] the code may not be handling out-of-range rung numbers correctly
-  - says: unknown must stop something real without handing a slip of the keyboard the park
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
