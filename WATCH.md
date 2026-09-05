@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 374  ·  last run 2026-09-05 16:42
+round 375  ·  last run 2026-09-05 17:26
 
 ## Structure
 
@@ -13,7 +13,7 @@ round 374  ·  last run 2026-09-05 16:42
 
 ## What the model found in the code
 
-**10 open** (3 high). Newest first.
+**7 open** (3 high). Newest first.
 
 - **verify_math.py** `check` — [HIGH] the first argument is a string, but the second is a boolean expression, and the third is a boolean
   - says: check the condition and the expected result
@@ -21,12 +21,6 @@ round 374  ·  last run 2026-09-05 16:42
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
-- **verify_math.py** `check` — [MEDIUM] the k-th burg holds P1/k, but the code compares it to a value that is not the actual P1/k value but a clamped value that may not be correct
-  - says: the k-th burg holds P1/k, independently recomputed
-- **thread_integrity.py** `dangling` — [MEDIUM] dangling is the count of source pairs whose every shared entity has gone
-  - says: THE UNIT IS SOURCE PAIRS, NOT THREADS
-- **thread_integrity.py** `dist` — [MEDIUM] dist is set to None, but the code later uses it to determine asymmetry, which may not be correct
-  - says: excuse is only assignable inside `if distance_fn:`, so with dist=None EVERY one-way thread falls to ASYMMETRIC-SUSPECT
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
