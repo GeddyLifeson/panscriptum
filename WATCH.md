@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 363  ·  last run 2026-09-05 06:06
+round 364  ·  last run 2026-09-05 07:12
 
 ## Structure
 
@@ -12,21 +12,15 @@ round 363  ·  last run 2026-09-05 06:06
 
 ## What the model found in the code
 
-**11 open** (3 high). Newest first.
+**8 open** (2 high). Newest first.
 
-- **roll.py** `main` — [HIGH] The function returns 0 regardless of the reason
-  - says: This module's own documentation says it "RETURNS THE REASON, NOT JUST THE NAME" -- and the reason is the whole reason the line exists.
-- **health.py** `preflight` — [HIGH] exits with 1 if it could not write its stamp, even though the docstring says it should not
-  - says: Run every preflight check. -> the number of problems found.
+- **scout.py** `found` — [HIGH] count of sources that were registered (i.e., landed)
+  - says: count of sources that now have somewhere to read from
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
-- **roll.py** `apply` — [MEDIUM] apply is a nested function inside update_rows that modifies rows in place and returns them, but the code uses it to assign to out and then uses out in json.dump
-  - says: apply(rows) is called to apply changes to rows
 - **rigor.py** `denom` — [MEDIUM] sum of N[i,j]/(p[i]+p[j]) for i != j and N[i,j] > 0
   - says: denominator for strength calculation
 - **manifest_builder.py** `series_members` — [MEDIUM] Builds series_members using numbering_pool, which is correct, but the subsequent volume_code assignment uses build_pool, leading to inconsistent volume codes for sources in different build contexts
-  - says: Resolve each source to its Series code first, THEN hand out Volume numbers where a Series holds more than one source.
-- **manifest_builder.py** `volume_code` — [MEDIUM] Assigns volume codes based on the filtered build_pool, not the full numbering_pool, leading to inconsistent addresses for sources in different build contexts
   - says: Resolve each source to its Series code first, THEN hand out Volume numbers where a Series holds more than one source.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
