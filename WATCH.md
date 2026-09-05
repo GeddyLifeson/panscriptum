@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 358  ·  last run 2026-09-05 03:10
+round 359  ·  last run 2026-09-05 03:38
 
 ## Structure
 
@@ -13,18 +13,18 @@ round 358  ·  last run 2026-09-05 03:10
 
 ## What the model found in the code
 
-**11 open** (5 high). Newest first.
+**11 open** (3 high). Newest first.
 
 - **catalogue_codex.py** `main` — [HIGH] returns 0 when roll_landed is False and denied is False
   - says: return 1 on a denied write
 - **foreman.py** `rate` — [HIGH] rate is the count of sources with gap[s] >= CATALOGUE_SHORTFALL, which is a hard filter, not a rate
   - says: rate is derived from the same audit each round, so the rate tracks whatever the old behaviour would have done while the MEMBERSHIP rotates underneath it.
-- **magnitude.py** `verify` — [HIGH] deciding on the SENTENCE alone
-  - says: the entity must be the DOER
-- **local_agent.py** `t_propose_patch` — [HIGH] appends to the `unreverted` list but does not raise alarms or trigger safety escalations
-  - says: raises the durable alarms for this case -- a SAFETY escalation and a `silence.note`
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
+- **cascade_bridge.py** `text` — [MEDIUM] the text is truncated to 300 characters and split into words before being stored
+  - says: the text is stored verbatim
+- **cascade_bridge.py** `key` — [MEDIUM] the key is derived from the bucket and the text lowercased, but the text is not stored verbatim
+  - says: the key is derived from the bucket and the text
 - **workorders.py** `resolve_code` — [MEDIUM] is used in a context where it's supposed to close orders but may not be called correctly
   - says: resolves a code to a resolution
 - **workorders.py** `is_selftest` — [MEDIUM] checks if the order was FILED as one or CLOSED as one, but the code uses it to determine if the order is a real blast-cap order closed by anybody else
