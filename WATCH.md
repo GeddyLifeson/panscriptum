@@ -1,11 +1,11 @@
 # OVERWATCH
 
-round 367  ·  last run 2026-09-05 10:40
+round 368  ·  last run 2026-09-05 11:25
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 295,860 inspected
+- files that will not parse: **0** of 295,860 inspected (deep scan as of round 367)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
