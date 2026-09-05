@@ -1,21 +1,19 @@
 # OVERWATCH
 
-round 348  ·  last run 2026-09-04 18:10
+round 349  ·  last run 2026-09-04 18:39
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 294,545 inspected (deep scan as of round 343)
+- files that will not parse: **0** of 294,893 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**10 open** (2 high). Newest first.
+**9 open** (1 high). Newest first.
 
-- **feats.py** `extra` — [HIGH] is now a parameter that is checked for being numeric and raised an error
-  - says: was a cap on a ranked page list
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **feats.py** `resolve_hosts` — [MEDIUM] Derived from stored pages where possible, guessed but not verified unless explicitly instructed, with some conditions that may prevent verification.
