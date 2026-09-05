@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 362  ·  last run 2026-09-05 05:39
+round 363  ·  last run 2026-09-05 06:06
 
 ## Structure
 
@@ -9,24 +9,25 @@ round 362  ·  last run 2026-09-05 05:39
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
-- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**10 open** (2 high). Newest first.
+**11 open** (3 high). Newest first.
 
+- **roll.py** `main` — [HIGH] The function returns 0 regardless of the reason
+  - says: This module's own documentation says it "RETURNS THE REASON, NOT JUST THE NAME" -- and the reason is the whole reason the line exists.
 - **health.py** `preflight` — [HIGH] exits with 1 if it could not write its stamp, even though the docstring says it should not
   - says: Run every preflight check. -> the number of problems found.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
+- **roll.py** `apply` — [MEDIUM] apply is a nested function inside update_rows that modifies rows in place and returns them, but the code uses it to assign to out and then uses out in json.dump
+  - says: apply(rows) is called to apply changes to rows
+- **rigor.py** `denom` — [MEDIUM] sum of N[i,j]/(p[i]+p[j]) for i != j and N[i,j] > 0
+  - says: denominator for strength calculation
 - **manifest_builder.py** `series_members` — [MEDIUM] Builds series_members using numbering_pool, which is correct, but the subsequent volume_code assignment uses build_pool, leading to inconsistent volume codes for sources in different build contexts
   - says: Resolve each source to its Series code first, THEN hand out Volume numbers where a Series holds more than one source.
 - **manifest_builder.py** `volume_code` — [MEDIUM] Assigns volume codes based on the filtered build_pool, not the full numbering_pool, leading to inconsistent addresses for sources in different build contexts
   - says: Resolve each source to its Series code first, THEN hand out Volume numbers where a Series holds more than one source.
-- **hostcheck.py** `one` — [MEDIUM] processes a host and source to score but uses the wrong function 'score'
-  - says: processes a host and source to score
-- **dashboard.py** `safety` — [MEDIUM] The function imports the `binding_health` module and processes the quarantined hosts, but the code does not explicitly mention the backoff mechanism or the distinction between a slow network and a blocked source. The implementation focuses on data retrieval rather than explaining these specific issues.
-  - says: Hosts currently being paced slower than their base rate, and any host quarantined for persistent throttling. A backoff that nothing reports is indistinguishable from a slow network, which is how "we are being blocked" becomes "this source is empty".
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
