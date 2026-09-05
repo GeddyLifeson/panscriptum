@@ -1489,7 +1489,7 @@ def flaky_gates(root, base, gates=GATES):
 
 
 def run(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
-        confirm=CONFIRM_GATES):
+        confirm=CONFIRM_GATES, rebaseline_every=None):
     """Mutate one module IN A SANDBOX and report which mutants survived. -> dict.
 
     THE LOCK IS TAKEN HERE, around the whole of it, and here rather than only in `main()`
@@ -1507,11 +1507,12 @@ def run(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
     """
     with _hold_lock([target]):
         return _run_mutation(target, limit=limit, gates=gates, root=root, keep=keep,
-                             base=base, confirm=confirm)
+                             base=base, confirm=confirm,
+                             rebaseline_every=rebaseline_every)
 
 
 def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
-                  confirm=CONFIRM_GATES):
+                  confirm=CONFIRM_GATES, rebaseline_every=None):
     """The body of `run`, with the mutation lock already held. Do not call this directly."""
     # A MISSING BASELINE IS REFUSED, NOT DEFAULTED (order 91c1a581453d). This was
     # `base = {} if base is None else base`, and `run()`'s public signature defaults
@@ -1586,8 +1587,58 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
 
         lines = text.splitlines(keepends=True)
         survivors, killed, indeterminate = [], 0, []
+        # THE BASELINE IS A PHOTOGRAPH, AND THIS RUN TAKES SIXTEEN HOURS.
+        #
+        # Every mutant is judged by DIFFERENCE from a signature taken once, before the first
+        # mutant, and then trusted until the end. That is sound for a run of seconds and it is
+        # an assumption for a run of hours -- this module's own banner says so: "reproducible
+        # over seconds is not stable over the hours this run takes." `sandbox()` copies `src/`
+        # and `state/` but JUNCTIONS `data/` out to the LIVE tree, which `feats.py --roll` and
+        # `pipeline.py` rewrite continuously. If a gate's signature moves for that reason and
+        # nothing re-asks, every mutant after the move differs from a stale photograph and is
+        # scored KILLED for a change that was never its doing.
+        #
+        # That is not hypothetical. The 2026-09-03 pass reported 299 mutants, 298 killed, ZERO
+        # survivors -- and `escalation.py:409 False -> True` was re-attacked directly in a fresh
+        # sandbox afterwards and SURVIVED cleanly, every gate signature identical to baseline.
+        # A confirmed FALSE KILL. Short-run flakiness was ruled out separately
+        # (`--check-flaky` reported all gates reproducible), so the difference is the sixteen
+        # hours, and a false kill is the expensive direction: a false survivor wastes a reader's
+        # time, a false kill hides a real gap and reports it as covered.
+        #
+        # So the photograph is RE-TAKEN periodically, on restored code, between mutants. Two
+        # things come out of it, and the second is why this is worth the gate sweeps it costs:
+        #   * every mutant judged after a refresh is compared against a CURRENT signature; and
+        #   * when a refresh disagrees with the one before it, the drift is RECORDED, with the
+        #     mutants judged in that window named -- so the run stops silently converting drift
+        #     into kills and starts reporting it as the doubt it is.
+        # Mutants in a drifted window are not re-judged here: re-attacking a window costs about
+        # an hour and would make the run's length depend on how busy the tree happened to be.
+        # They are flagged instead, which is enough to re-attack them one at a time later, which
+        # is the method that settled this question in the first place.
+        drifted, judged_since, last_base = [], [], time.time()
+
+        def _refresh_baseline():
+            """Re-photograph the gates on RESTORED code. -> True if anything moved."""
+            _write(path, original)
+            fresh = baseline(root, gates=tuple(gates) + tuple(confirm))
+            moved = {g: (base.get(g), fresh.get(g)) for g in fresh if fresh.get(g) != base.get(g)}
+            if moved:
+                # THE WINDOW IS NAMED, NOT JUST THE EVENT. A drift with no list of what was
+                # judged under the stale signature is a warning nobody can act on; with the
+                # list, every verdict it casts doubt over can be re-attacked by name.
+                drifted.append({"at": time.time(), "gates_that_moved":
+                                {g: {"was": w, "now": n} for g, (w, n) in moved.items()},
+                                "verdicts_now_in_doubt": list(judged_since)})
+                base.update(fresh)
+            del judged_since[:]
+            return bool(moved)
+
         try:
             for lineno, desc, old_line, new_line in muts:
+                if rebaseline_every and (time.time() - last_base) >= rebaseline_every:
+                    _refresh_baseline()
+                    last_base = time.time()
                 mutated = list(lines)
                 mutated[lineno - 1] = new_line
                 _write(path, "".join(mutated).encode("utf-8"))
@@ -1612,6 +1663,14 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                     if sig != base.get(gname):
                         died_at = why
                         break
+                # WHAT WAS JUDGED UNDER THE PHOTOGRAPH CURRENTLY IN HAND. Kept so that a drift
+                # detected at the NEXT refresh can name the verdicts it casts doubt over. A kill
+                # is the one worth naming -- it is the direction that hides a gap -- but all
+                # three are recorded, because which verdict a stale baseline produces depends on
+                # which way the signature moved.
+                judged_since.append({"line": lineno, "mutation": desc,
+                                     "verdict": ("indeterminate" if no_verdict
+                                                 else "killed" if died_at else "survived")})
                 if no_verdict:
                     # UNCUT (order c99634cb840e): this is the permanent record of the diff, not
                     # a console line. A [:120] slice here is indistinguishable from a short line
@@ -1681,6 +1740,14 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 "not_attempted": [{"line": ln, "kind": k, "why": w}
                                   for ln, k, w in not_attempted],
                 "capped": bool(limit) and len(muts) == limit,
+                # DID THE BASELINE MOVE UNDER THIS RUN? Empty when it was re-photographed
+                # and never disagreed with itself, and `None` when it was never re-asked at
+                # all -- which are different claims and must not read the same. Each entry
+                # names the gates that moved and every verdict judged under the stale
+                # signature, so a false kill can be re-attacked by name instead of being
+                # inherited as coverage.
+                "baseline_drifts": drifted if rebaseline_every else None,
+                "rebaselined_every_s": rebaseline_every,
                 "sandbox": root,
                 "live_file_untouched": live_after == live_before,
                 "restored_exactly": _digest(_read(path)) == _digest(original)}
@@ -1744,6 +1811,11 @@ def main():
                     help="leave the sandbox on disk for inspection")
     ap.add_argument("--check-flaky", action="store_true",
                     help="run the gates twice on clean code first; doubles startup cost")
+    ap.add_argument("--rebaseline-every", type=int, default=1800, metavar="SECONDS",
+                    help="re-photograph the gates on restored code every N seconds, and "
+                         "record it when the signature has moved. 0 disables it and "
+                         "restores the single-photograph behaviour that produced a "
+                         "confirmed false kill over a 16-hour run. Default 1800.")
     ap.add_argument("--no-confirm", action="store_true",
                     help="skip the slow confirm gate; SURVIVORS BECOME UNCONFIRMED")
     a = ap.parse_args()
@@ -1930,11 +2002,26 @@ def _session(a, targets):
         stopped_at = None
         for i, t in enumerate(targets):
             t0 = time.time()
-            r = run(t, limit=a.limit, root=root, base=base, gates=gates, confirm=confirm)
+            r = run(t, limit=a.limit, root=root, base=base, gates=gates, confirm=confirm,
+                    rebaseline_every=a.rebaseline_every or None)
             total_s += time.time() - t0
             print("\n%s — %d mutants, %d killed, %d SURVIVED, %d INDETERMINATE   (%.0fs)"
                   % (t, r["mutants"], r["killed"], r["survived"], r["indeterminate"],
                      time.time() - t0))
+            # THE DRIFT, SAID OUT LOUD AND BESIDE THE SCORE, because a score is what gets
+            # quoted and this is the fact that decides whether it means anything.
+            for d in (r.get("baseline_drifts") or []):
+                moved = ", ".join(sorted(d["gates_that_moved"]))
+                doubt = d["verdicts_now_in_doubt"]
+                kills = [v for v in doubt if v["verdict"] == "killed"]
+                print("  *** BASELINE DRIFTED on clean code (%s). %d verdict(s) were "
+                      "judged against the stale signature, %d of them KILLS -- those kills "
+                      "are NOT evidence of coverage. ***" % (moved, len(doubt), len(kills)))
+                for v in kills:
+                    print("        in doubt: %s:%d %s" % (t, v["line"], v["mutation"]))
+            if r.get("baseline_drifts") == []:
+                print("  baseline re-photographed every %ds and never disagreed with "
+                      "itself." % (a.rebaseline_every,))
             if not r["restored_exactly"]:
                 print("  *** THE SANDBOX FILE WAS NOT RESTORED. Later targets are unreliable. ***")
                 escalation.escalate(escalation.MANAGER, "MUTATE_RESTORE_FAILED",

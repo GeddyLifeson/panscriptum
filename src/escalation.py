@@ -884,28 +884,113 @@ def clear(ruling, by="owner"):
             "chain exists for was an automated agent removing a safety it had concluded was "
             "unnecessary. Lift it by hand:\n"
             "    python src/escalation.py --clear --ruling \"<what you decided and why>\"")
-    halted, rec = status()
-    if not halted:
-        return False
-    rec = dict(rec or {})
-    rec.update({"cleared": True, "ruling": str(ruling).strip(), "cleared_by": by,
-                "cleared_at": time.time()})
-    # THE SAME DISCARDED VERDICT AS `_raise_halt`, and the mirror-image consequence: the write
-    # was never checked, so a refused rename left `cleared: false` on disk while this returned
-    # True and the CLI printed "halt cleared." A person would walk away believing the library was
-    # running, and every job would go on refusing. Reported as not-cleared instead, and the
-    # HALT_CLEARED line is only appended once the lift has actually landed -- a ledger entry for
-    # a lift that did not happen is worse than no entry, because it is what the next reader
-    # trusts when the file and the log disagree.
-    landed = silence.write_json(HALT_FILE, rec, indent=1, ensure_ascii=False)
-    if not landed:
-        silence.note("escalation.py:halt-clear-denied")
-        sys.stderr.write("THE HALT WAS NOT LIFTED: the write to state/HALT.json was refused (a "
-                         "reader is holding it). The library is STILL HALTED. Try again.\n")
-        return False
-    _append_log({"at": time.time(), "level": OWNER, "level_name": "OWNER", "code": "HALT_CLEARED",
-                 "what": str(ruling).strip(), "who": by})
-    return True
+    # COMPARE-AND-SWAPPED, for the same reason `_raise_halt` and `_write_stopped` are, and this
+    # was the last writer of `state/HALT.json` that was not (order 0f815b38363f). The read below,
+    # the merge under it and the write at the bottom were three separate steps with nothing
+    # between them, so a fault escalating to OWNER concurrently with a person's `--clear` was
+    # SILENTLY DROPPED: `_land_halt` appends it to `also`, this function then landed a payload
+    # built from the record as it stood BEFORE that append, and the fault vanished with a
+    # successful write. Worse than the raise-side race it mirrors, because it takes the halt down
+    # with it -- the library resumes on a ruling that was written about a different set of facts.
+    #
+    # The digest is taken BEFORE the read, the same ordering and for the same reason as
+    # `_raise_halt`: read first and the digest would match disk while the record in hand is
+    # already stale, certifying the lost update instead of catching it.
+    #
+    # A DIGEST MISMATCH DOES NOT RETRY THE LIFT. That is the one place this deliberately differs
+    # from the raise side. `_raise_halt` goes round because appending a fault to whatever is
+    # standing now is still the right act; a LIFT is a person's ruling about specific facts, and
+    # re-merging it onto a record that has grown a fault they never read would launder their
+    # signature onto a decision they did not make. So the file changing under this call is
+    # reported, with the new fault named, and the halt STAYS UP until the person rules again.
+    # Only a transient refusal -- the digest still exactly what we read -- is retried.
+    first = None
+    landed, why = False, "not attempted"
+    for _attempt in range(STOP_CAS_ATTEMPTS):
+        expected = silence.digest_of(HALT_FILE)
+        halted, rec = status()
+        if not halted:
+            return False
+        if first is None:
+            first = _halt_identity(rec)
+        elif _halt_identity(rec) != first:
+            silence.note("escalation.py:halt-clear-raced")
+            sys.stderr.write(
+                "THE HALT WAS NOT LIFTED: state/HALT.json changed while this lift was being "
+                "written -- a fault landed that your ruling was not written about. The library "
+                "is STILL HALTED, deliberately. Read the halt again (python src/escalation.py "
+                "--status) and rule on what it says now.\n")
+            return False
+        rec = dict(rec)
+        rec.update({"cleared": True, "ruling": str(ruling).strip(), "cleared_by": by,
+                    "cleared_at": time.time()})
+        # THE SAME DISCARDED VERDICT AS `_raise_halt`, and the mirror-image consequence: the write
+        # was never checked, so a refused rename left `cleared: false` on disk while this returned
+        # True and the CLI printed "halt cleared." A person would walk away believing the library
+        # was running, and every job would go on refusing. Reported as not-cleared instead, and
+        # the HALT_CLEARED line is only appended once the lift has actually landed -- a ledger
+        # entry for a lift that did not happen is worse than no entry, because it is what the
+        # next reader trusts when the file and the log disagree.
+        landed, why = _land_clear(rec, expected)
+        # READ BACK, AND DO NOT TRUST `landed` ALONE, for the reason spelled out in `_raise_halt`:
+        # `replace_if_unchanged` re-reads the digest immediately before its own rename, so a
+        # writer can still land in the gap between that read and the rename. The file saying
+        # `cleared` is the only evidence the lift actually happened.
+        if landed and _halt_file_cleared():
+            _append_log({"at": time.time(), "level": OWNER, "level_name": "OWNER",
+                         "code": "HALT_CLEARED", "what": str(ruling).strip(), "who": by})
+            return True
+        landed = False
+    silence.note("escalation.py:halt-clear-denied")
+    sys.stderr.write("THE HALT WAS NOT LIFTED after %d attempts (%s): the write to "
+                     "state/HALT.json could not land. The library is STILL HALTED. Try again.\n"
+                     % (STOP_CAS_ATTEMPTS, why))
+    return False
+
+
+def _halt_identity(rec):
+    """What this halt RECORDS, as a comparable value -- the standing fault plus every
+    corroborating one. Used by `clear()` to tell a transient write refusal (identity unchanged,
+    worth another attempt) from a fault landing mid-lift (identity grown, and the person's ruling
+    no longer covers the file). Deliberately ignores the mutable fields a lift itself writes."""
+    rec = rec if isinstance(rec, dict) else {}
+    also = tuple(sorted((str(x.get("code")), x.get("at"))
+                        for x in (rec.get("also") or []) if isinstance(x, dict)))
+    return (str(rec.get("code")), rec.get("raised_at"), also)
+
+
+def _halt_file_cleared():
+    """Does the halt file on disk actually say `cleared` now? -> bool. The readback that makes
+    the lift's verdict evidence rather than an assumption."""
+    cur = _read_halt_raw()
+    return isinstance(cur, dict) and bool(cur.get("cleared", False))
+
+
+def _land_clear(rec, expected):
+    """One compare-and-swapped attempt at lifting the halt. -> (landed, why).
+
+    A sibling of `_land_halt`, and through a temp + `replace_if_unchanged` for the same reason:
+    `write_json` retries a DENIED rename, which is right for a reader holding the file and wrong
+    for a competing WRITER -- it would land the stale payload just as happily, which is the
+    lost-update this whole function exists to stop.
+    """
+    try:
+        os.makedirs(os.path.dirname(HALT_FILE), exist_ok=True)
+        import threading as _th
+        tmp = "%s.%d.%d.clear.tmp" % (HALT_FILE, os.getpid(), _th.get_ident())
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(rec, f, indent=1, ensure_ascii=False)
+        landed, why = silence.replace_if_unchanged(tmp, HALT_FILE, expected)
+        if not landed:
+            # Silent: this is ONE attempt of a compare-and-swap and `clear()` decides when the
+            # attempts are exhausted, and is loud about it.
+            _unlink(tmp)
+        return landed, why
+    except Exception as e:
+        silence.note("escalation.py:halt-clear")
+        sys.stderr.write("CANNOT WRITE HALT FILE while lifting the halt — %s: %s\n"
+                         % (type(e).__name__, e))
+        return False, "raised"
 
 
 def main():

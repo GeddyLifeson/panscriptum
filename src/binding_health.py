@@ -1022,9 +1022,19 @@ def run(limit=None, only=None):
     for source, h in hosts_map.items():
         if h:
             bound_to.setdefault(h, []).append(source)
+    # WAS THIS PASS FILTERED AT ALL? Asked once, here, and used for every downstream decision,
+    # because the three sites below each asked it again as `only or limit` and a falsy-but-given
+    # `--limit 0` answered "no" to all of them (orders cd7492eec3bc and f1901d2178ba).
+    filtered = bool(only) or limit is not None
+    bound_hosts = len(hosts)                    # before the filter, so a refusal can say "0 of N"
     if only:
         hosts = [h for h in hosts if h in set(only)]
-    if limit:
+    # `is not None`, NOT truthiness. `--limit` defaults to None and `argparse` gives it `type=int`,
+    # so `--limit 0` arrives as the integer 0 -- which `if limit:` read as "no limit given" and
+    # answered by canarying the WHOLE ~200-host estate. The operator asked for nothing and got
+    # every host on the roll: the same falsy-zero slip fixed in `burgs.py`, and here it turns a
+    # deliberate no-op into the most expensive command this module has.
+    if limit is not None:
         hosts = hosts[:limit]
     out, failed = [], 0
     for h in hosts:
@@ -1088,7 +1098,7 @@ def run(limit=None, only=None):
     # Merged rather than refused, because a targeted probe IS the useful thing and its results
     # should be kept: each host's record is replaced by the fresh one, every host not probed
     # keeps the verdict it had, and `checked` counts the whole file rather than this pass.
-    if not (only or limit) and not out:
+    if not out and not filtered:
         # AND THE SAME REFUSAL ONE STEP LATER. The hosts map was readable and non-empty and this
         # pass still produced no host record -- every binding is a `pages:`/`doc:` pseudo-host,
         # or the map is not the shape this function reads. Whatever the cause, a 0-host
@@ -1100,11 +1110,35 @@ def run(limit=None, only=None):
             "were read and none of them yielded a canaryable host. %s keeps the verdicts it "
             "already has." % (len(hosts_map), os.path.basename(OUT)))
         return out, failed
+    if not out:
+        # A FILTER THAT MATCHED NOTHING MUST NOT RE-STAMP THE REPORT (order f1901d2178ba). The
+        # guard above was `not (only or limit) and not out`, so a FILTERED pass that probed zero
+        # hosts -- `--host a-name-with-no-binding`, or `--limit 0` once the line above stopped
+        # reading it as "no limit" -- fell straight through to the merge path. That path is
+        # whole-file: `merged` becomes every PRIOR host, `at` is bumped to now, and the file
+        # lands with `partial_pass.probed: []`. Nothing was canaried, no verdict changed, and the
+        # report's own freshness stamp now says otherwise -- which is the one field every reader
+        # of this file uses to decide whether to trust it. `workorders.sweep`'s binding detector
+        # and `allsweep`'s reconciliation both read it as the estate's current state.
+        #
+        # This is why the two orders had to be taken together and neither alone: fixing the
+        # falsy-zero above is what makes `--limit 0` START producing an empty host list, which is
+        # precisely the input this branch mishandles. The first fix would have armed the second.
+        _report_not_written(
+            "BINDING_FILTER_MATCHED_NOTHING",
+            "REFUSING to re-stamp %s: this pass was filtered (%s), selected %d of %d bound "
+            "host(s) and produced 0 host records, so it canaried nothing. Landing it would bump "
+            "the report's `at` to now while every verdict in it came from an earlier run."
+            % (os.path.basename(OUT),
+               ", ".join(filter(None, ["--host " + "/".join(sorted(only)) if only else "",
+                                       "--limit %d" % limit if limit is not None else ""])),
+               len(hosts), bound_hosts))
+        return out, failed
     merged, prior = list(out), {}
     # READ THE DIGEST BEFORE THE CONTENT, so a file that moves between the two cannot be merged
     # into silently -- see `_land_cas`. Meaningless on the whole-estate path, which reads nothing.
-    prior_digest = silence.digest_of(OUT) if (only or limit) else None
-    if only or limit:
+    prior_digest = silence.digest_of(OUT) if filtered else None
+    if filtered:
         try:
             with open(OUT, encoding="utf-8") as f:
                 prior = {h.get("host"): h for h in (json.load(f).get("hosts") or [])}
@@ -1141,7 +1175,7 @@ def run(limit=None, only=None):
     failed_in_report = sum(1 for h in merged if h.get("healthy") is False)
     doc = {"at": time.time(), "checked": len(merged), "failed": failed_in_report,
            "failed_this_pass": failed, "hosts": merged}
-    if only or limit:
+    if filtered:
         doc["partial_pass"] = {"probed": sorted(h.get("host") for h in out),
                                "note": "merged into the standing report; hosts not listed "
                                        "here carry the verdict from an earlier pass"}

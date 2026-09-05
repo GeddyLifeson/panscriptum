@@ -5037,6 +5037,83 @@ def _partial_canary_merges(tmp=None):
             and after.get("checked") == 2)
 
 
+def _binding_health_filters(tmp=None):
+    """`--limit 0` must select NOTHING, and a filter that matched nothing must not re-stamp.
+
+    Two faults that had to be fixed together, which is why they are measured together (orders
+    cd7492eec3bc and f1901d2178ba). `if limit:` read the integer 0 -- `--limit` defaults to
+    `None`, so 0 is a value the operator gave -- as "no limit given", and answered a request for
+    nothing by canarying the whole ~200-host estate. Fixing that alone ARMS the second: an empty
+    host list is precisely the input the whole-estate-empty guard mishandled, because it was
+    written `not (only or limit) and not out` and a filtered pass skipped it, fell through to the
+    whole-file merge path, and landed a report with `at` bumped to now having verified nothing.
+    Every downstream reader -- `workorders.sweep`'s binding detector, allsweep's reconcile --
+    takes that stamp as the estate's current state.
+
+    Driven against the real `run()` with the network stubbed, counting CANARIES rather than
+    reading source: the first limb is about how many hosts get probed, and a source-shaped net
+    would pass against a fix that says the right thing and probes the estate anyway.
+    """
+    import binding_health as BH
+    tmpdir = tmp or tempfile.mkdtemp(prefix="drill_binding_filters_")
+    out_path = os.path.join(tmpdir, "BINDING_HEALTH.json")
+    seeded = {"at": 0, "checked": 2, "failed": 0,
+              "hosts": [{"host": "a.example.invalid", "healthy": True},
+                        {"host": "b.example.invalid", "healthy": True}]}
+    saved_out, saved_canary, saved_titles, saved_load, saved_note = (
+        BH.OUT, BH.canary, BH.known_present_titles, BH._load, BH._report_not_written)
+    probed, refused = [], []
+    try:
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(seeded, f)
+        BH.OUT = out_path
+        BH.known_present_titles = lambda h, m=None, **kw: "Any Title"
+        BH.canary = lambda h, t, sources=None: (probed.append(h),
+                                                {"host": h, "healthy": True,
+                                                 "reason": "stubbed"})[1]
+        BH._load = lambda path, default: ({"A": "a.example.invalid", "B": "b.example.invalid",
+                                           "C": "c.example.invalid"}
+                                          if path.endswith("WIKI_HOSTS.json")
+                                          else saved_load(path, default))
+        # Recorded rather than escalated: the refusal is the net's evidence, and a drill run
+        # should not leave JANITOR rows in the live ledger for faults it staged itself.
+        BH._report_not_written = lambda code, what: refused.append(code)
+
+        # LIMB 1 -- `--limit 0` asks for no hosts. Nothing may be canaried.
+        BH.run(limit=0)
+        limb1 = not probed and refused == ["BINDING_FILTER_MATCHED_NOTHING"]
+
+        # LIMB 2 -- and the report it did not probe must be untouched, `at` included.
+        with open(out_path, encoding="utf-8") as f:
+            after_zero = json.load(f)
+        limb2 = after_zero == seeded
+
+        # LIMB 3 -- a `--host` filter matching no bound host is the same refusal by the other
+        # road, and this is the one that fell through to the merge before.
+        probed.clear(), refused.clear()
+        BH.run(only=["no-such-host.example.invalid"])
+        with open(out_path, encoding="utf-8") as f:
+            after_miss = json.load(f)
+        limb3 = (not probed and refused == ["BINDING_FILTER_MATCHED_NOTHING"]
+                 and after_miss == seeded)
+
+        # LIMB 4 -- and none of this may have broken the ordinary filtered pass, which must
+        # still probe its host and merge it into the standing report.
+        probed.clear(), refused.clear()
+        BH.run(only=["a.example.invalid"])
+        with open(out_path, encoding="utf-8") as f:
+            after_real = json.load(f)
+        limb4 = (probed == ["a.example.invalid"] and not refused
+                 and {h.get("host") for h in after_real.get("hosts") or []}
+                 == {"a.example.invalid", "b.example.invalid"}
+                 and after_real.get("at") != 0)
+    finally:
+        (BH.OUT, BH.canary, BH.known_present_titles, BH._load,
+         BH._report_not_written) = (saved_out, saved_canary, saved_titles, saved_load, saved_note)
+        shutil.rmtree(tmpdir, ignore_errors=True)
+    return limb1 and limb2 and limb3 and limb4
+
+
 def _battery_asks_the_network_once():
     """The battery must not open one live socket per check that happens to ask.
 
@@ -5327,6 +5404,11 @@ def drill_binding_identity():
         "probing five hosts by name wrote a report saying the library has five hosts, and the "
         "binding detector reads that file AS the estate -- the same smaller-universe shape as "
         "a cap, arrived at while INVESTIGATING a binding")
+    net(a, "an EMPTY filter canaries nothing and re-stamps nothing",
+        _binding_health_filters,
+        "`--limit 0` read as 'no limit' answers a request for nothing by canarying the whole "
+        "estate, and a filter matching no host lands a report with `at` bumped to now having "
+        "verified nothing -- which is the one field every downstream reader trusts")
     net(a, "settling a host's identity CLOSES the undecided order it replaces",
         _supersession_is_called,
         "splitting one code into two only ever ADDS unless the old order is resolved: the host "
@@ -7953,6 +8035,57 @@ def drill_escalation_behaviour():
         "the halt exists to buy a decision; `dict(rec or {})` flipped to `and` throws the "
         "original fault away and leaves a ruling about nothing, and `'cleared': True` "
         "flipped to False leaves the library halted while reporting that it is not")
+
+    def a_fault_landing_mid_lift_is_not_swallowed_by_the_lift():
+        """The attack order 0f815b38363f describes, driven end to end.
+
+        `clear()` was an unlocked read-modify-write on the one file that must never lose a
+        fault: read the record, merge the ruling, write the whole thing back. A fault escalating
+        to OWNER in that gap is appended to `also` by `_land_halt` and then OVERWRITTEN by the
+        lift's payload, which was built from the record as it stood before the append. The write
+        succeeds, so nothing ever reported it -- and unlike the raise-side race this one takes
+        the halt DOWN as it goes, resuming the library on a ruling written about facts that are
+        no longer what the file says.
+
+        The attack injects exactly that: a competing OWNER fault arrives between the person's
+        read and their write. The net holds when the lift is REFUSED, the halt still stands, and
+        the fault that arrived is still in the record. It is deliberately not "retry until it
+        lands" -- a lift is a person's ruling about specific facts, and re-merging it onto a
+        record that has grown a fault they never read would sign their name to a decision they
+        did not make.
+        """
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "ORIGINAL", "the fault that stopped the library")
+            real_status, seen = ESC.status, {"n": 0}
+
+            def racing_status():
+                out = real_status()
+                seen["n"] += 1
+                if seen["n"] == 1:          # the gap between the person's read and their write
+                    ESC.escalate(ESC.OWNER, "ARRIVED_MID_LIFT",
+                                 "a fault nobody has ruled on yet")
+                return out
+
+            ESC.status = racing_status
+            try:
+                did = _quietly(
+                    lambda: _as_a_person(lambda: ESC.clear("a ruling long enough to pass")))
+            finally:
+                ESC.status = real_status
+            halted, rec = ESC.status()
+            kept = [x.get("code") for x in (rec.get("also") or []) if isinstance(x, dict)]
+            with open(ESC.LOG, encoding="utf-8") as f:
+                rows = [json.loads(line) for line in f if line.strip()]
+            return (did is False and halted is True
+                    and rec.get("cleared") is False
+                    and "ARRIVED_MID_LIFT" in kept
+                    and not [r for r in rows if r.get("code") == "HALT_CLEARED"])
+        return _esc_probe(probe)
+    net(a, "a fault that lands mid-lift refuses the lift instead of being overwritten by it",
+        a_fault_landing_mid_lift_is_not_swallowed_by_the_lift,
+        "an unlocked read-modify-write on state/HALT.json drops a concurrent OWNER fault with "
+        "a SUCCESSFUL write and lifts the halt anyway, so the library resumes on a ruling "
+        "about facts the person never saw")
 
     def a_lift_whose_write_was_refused_is_reported_as_not_lifted():
         def probe(d, filed):
