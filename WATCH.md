@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 371  ·  last run 2026-09-05 13:15
+round 372  ·  last run 2026-09-05 13:59
 
 ## Structure
 
@@ -12,8 +12,10 @@ round 371  ·  last run 2026-09-05 13:15
 
 ## What the model found in the code
 
-**5 open** (1 high). Newest first.
+**6 open** (2 high). Newest first.
 
+- **navtree.py** `silence.write_json` — [HIGH] write_json is called with a path that is not being written to, but the code is attempting to write to OUT
+  - says: write_json
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
