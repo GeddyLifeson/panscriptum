@@ -1,31 +1,28 @@
 # OVERWATCH
 
-round 373  ·  last run 2026-09-05 15:09
+round 374  ·  last run 2026-09-05 16:42
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 296,173 inspected
+- files that will not parse: **0** of 296,173 inspected (deep scan as of round 373)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
+- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**12 open** (4 high). Newest first.
+**10 open** (3 high). Newest first.
 
 - **verify_math.py** `check` — [HIGH] the first argument is a string, but the second is a boolean expression, and the third is a boolean
   - says: check the condition and the expected result
 - **verify_math.py** `check` — [HIGH] the key is not stable across processes due to using hash()
   - says: the same entity and passage still hit the same key IN A LATER PROCESS
-- **navtree.py** `silence.write_json` — [HIGH] write_json is called with a path that is not being written to, but the code is attempting to write to OUT
-  - says: write_json
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **verify_math.py** `check` — [MEDIUM] the k-th burg holds P1/k, but the code compares it to a value that is not the actual P1/k value but a clamped value that may not be correct
   - says: the k-th burg holds P1/k, independently recomputed
-- **thread_integrity.py** `failed` — [MEDIUM] failed is set to True if dangling is non-zero
-  - says: THE VERDICT REACHES THE EXIT CODE
 - **thread_integrity.py** `dangling` — [MEDIUM] dangling is the count of source pairs whose every shared entity has gone
   - says: THE UNIT IS SOURCE PAIRS, NOT THREADS
 - **thread_integrity.py** `dist` — [MEDIUM] dist is set to None, but the code later uses it to determine asymmetry, which may not be correct
