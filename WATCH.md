@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 350  ·  last run 2026-09-04 19:45
+round 351  ·  last run 2026-09-04 20:19
 
 ## Structure
 
@@ -12,12 +12,10 @@ round 350  ·  last run 2026-09-04 19:45
 
 ## What the model found in the code
 
-**8 open** (1 high). Newest first.
+**7 open** (1 high). Newest first.
 
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
-- **feats.py** `resolve_hosts` — [MEDIUM] Derived from stored pages where possible, guessed but not verified unless explicitly instructed, with some conditions that may prevent verification.
-  - says: Derived from stored pages where possible, guessed and VERIFIED otherwise.
 - **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only changes to a single rung if a.handler is valid
   - says: An unknown rung REFUSES rather than falling back to "show everything"
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
