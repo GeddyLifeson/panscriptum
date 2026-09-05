@@ -1,20 +1,20 @@
 # Overnight run
 
-Last update: 2026-09-04 16:03:51  (cycle 7)
+Last update: 2026-09-05 06:05:49  (cycle 8)
 
 ## Citation coverage
 
 | | now | at start | change |
 |---|---:|---:|---:|
-| entries cited | 25,467 | 24,761 | +706 |
-| read, no feat | 214,500 | 211,452 | +3,048 |
-| feats on record | 125,460 | 112,319 | +13,141 |
-| cited % | 9.0 | 8.75 | +0.25 |
-| settled % | 84.85 | 83.52 | +1.3299999999999983 |
+| entries cited | 25,544 | 24,761 | +783 |
+| read, no feat | 214,864 | 211,452 | +3,412 |
+| feats on record | 126,752 | 112,319 | +14,433 |
+| cited % | 9.03 | 8.75 | +0.27999999999999936 |
+| settled % | 85.0 | 83.52 | +1.480000000000004 |
 
 ## Cycles
 
-All 7 cycles this run.
+All 8 cycles this run.
 
 | cycle | time | cited | settled % | feats |
 |---|---|---:|---:|---:|
@@ -25,6 +25,7 @@ All 7 cycles this run.
 | 5 | 11:59 | 25,170 | 84.3 | 120,434 |
 | 6 | 02:01 | 25,309 | 84.53 | 122,249 |
 | 7 | 16:03 | 25,467 | 84.85 | 125,460 |
+| 8 | 06:05 | 25,544 | 85.0 | 126,752 |
 
 ## Logs
 
