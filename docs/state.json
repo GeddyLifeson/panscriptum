@@ -1,5 +1,5 @@
 {
- "at": "2026-09-05 18:17:03",
+ "at": "2026-09-05 18:27:22",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 53,
+     "left": 62,
      "cap": 1000,
-     "frac": 0.053
+     "frac": 0.062
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.053
+   "worst": 0.062
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -248,9 +248,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 1,
      "cap": 250,
-     "frac": 0.0
+     "frac": 0.004
     },
     {
      "name": "rpm",
@@ -259,7 +259,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.004
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -308,15 +308,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 4,
      "cap": 234,
-     "frac": 0.0
+     "frac": 0.0171
     },
     {
      "name": "tpd",
-     "left": 492848,
+     "left": 492885,
      "cap": 500000,
-     "frac": 0.9857
+     "frac": 0.9858
     },
     {
      "name": "rpm",
@@ -331,7 +331,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0171
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -346,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 147353,
+     "left": 150003,
      "cap": 200000,
-     "frac": 0.7368
+     "frac": 0.75
     },
     {
      "name": "rpm",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 55153,
+     "left": 56478,
      "cap": 100000,
-     "frac": 0.5515
+     "frac": 0.5648
     },
     {
      "name": "rpm",
@@ -404,15 +404,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 3,
+     "left": 11,
      "cap": 715,
-     "frac": 0.0042
+     "frac": 0.0154
     },
     {
      "name": "tpd",
-     "left": 84879,
+     "left": 87827,
      "cap": 200000,
-     "frac": 0.4244
+     "frac": 0.4391
     },
     {
      "name": "rpm",
@@ -427,7 +427,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0042
+   "worst": 0.0154
   },
   {
    "bucket": "huggingface:free",
@@ -718,9 +718,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 24,
+     "left": 32,
      "cap": 500,
-     "frac": 0.048
+     "frac": 0.064
     },
     {
      "name": "rpm",
@@ -729,7 +729,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.048
+   "worst": 0.064
   }
  ],
  "throughput": {
@@ -773,7 +773,7 @@
    "read": 215073,
    "settled": 240680,
    "feats": 128306,
-   "age_h": 5.4
+   "age_h": 5.5
   },
   "phases": [
    {
@@ -911,7 +911,7 @@
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 922,
+   "n": 916,
    "p50": 0.8,
    "p95": 8.0,
    "ok_pct": 11,
@@ -919,7 +919,7 @@
   },
   {
    "tag": "overwatch",
-   "n": 206,
+   "n": 205,
    "p50": 5.4,
    "p95": 418.1,
    "ok_pct": null,
@@ -935,9 +935,9 @@
   },
   {
    "tag": "entrypass",
-   "n": 132,
-   "p50": 70.4,
-   "p95": 836.5,
+   "n": 141,
+   "p50": 69.0,
+   "p95": 558.1,
    "ok_pct": null,
    "tps": 13.5
   },
@@ -977,10 +977,10 @@
    "breached": [],
    "liveness": 46,
    "liveness_ceiling": 52,
-   "age_min": 730.5
+   "age_min": 740.8
   },
   "escalation_recent": {
-   "SUPERVISOR": 33,
+   "SUPERVISOR": 32,
    "MANAGER": 12,
    "JANITOR": 14
   },
@@ -1025,7 +1025,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 28,
+   "observed": 29,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -1034,7 +1034,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "25% dry",
+   "observed": "19% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1115,7 +1115,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "5.4h",
+   "observed": "5.5h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1277,7 +1277,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": false,
-   "observed": "19.2h",
+   "observed": "19.3h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1295,7 +1295,7 @@
    "standard": "the character sweep is newer than the catalogue",
    "group": "library",
    "holds": false,
-   "observed": "1.6h behind the newest record",
+   "observed": "1.8h behind the newest record",
    "floor": "fresh",
    "order": "A record was re-catalogued after the sweep last ran, so every consumer of CHARACTER_SWEEP.json -- the assay queue, the host fitness roster, the chain's entity index -- is working from a cast list that no longer matches the shelves. The remedy starts `sweep.py`; the feats roll and the reader then pick the new entities up on their own next cycle.",
    "severity": "high"
@@ -1304,7 +1304,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "pipeline_auto (41 min, 937410 bytes), roll_auto (31 min, 2648261 bytes)",
+   "observed": "pipeline_auto (52 min, 937410 bytes), roll_auto (41 min, 2648261 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1313,7 +1313,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1339. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x220, 0.8h old)",
+   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1339. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x220, 1.0h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1322,7 +1322,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 162.159.142.170",
+   "observed": "reachable over IPv4 at 172.66.2.166",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1462,11 +1462,11 @@
   {
    "metric": "standards met",
    "now": 29,
-   "delta": null,
+   "delta": 0,
    "minutes": 31,
-   "reset": true,
-   "stalled": false
+   "reset": false,
+   "stalled": true
   }
  ],
- "generated": "2026-09-05T18:17:15"
+ "generated": "2026-09-05T18:27:33"
 }
