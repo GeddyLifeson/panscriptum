@@ -1,19 +1,21 @@
 # OVERWATCH
 
-round 355  ·  last run 2026-09-05 00:44
+round 356  ·  last run 2026-09-05 01:51
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 295,231 inspected
+- files that will not parse: **0** of 295,231 inspected (deep scan as of round 355)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**20 open** (8 high). Newest first.
+**19 open** (8 high). Newest first.
 
+- **foreman.py** `rate` — [HIGH] rate is the count of sources with gap[s] >= CATALOGUE_SHORTFALL, which is a hard filter, not a rate
+  - says: rate is derived from the same audit each round, so the rate tracks whatever the old behaviour would have done while the MEMBERSHIP rotates underneath it.
 - **magnitude.py** `verify` — [HIGH] deciding on the SENTENCE alone
   - says: the entity must be the DOER
 - **local_agent.py** `t_propose_patch` — [HIGH] appends to the `unreverted` list but does not raise alarms or trigger safety escalations
@@ -26,8 +28,6 @@ round 355  ·  last run 2026-09-05 00:44
   - says: allow_paid is owner-held. Nothing automatic may switch it on.
 - **drill.py** `coverage_totals_never_exceed_their_entry_count` — [HIGH] The code sums four of the five columns mentioned in the docstring and excludes 'not_attempted', which means it does not check for the exact sum that the docstring claims to verify.
   - says: No source's states may sum PAST its own entry count. One direction, and only one.
-- **drill.py** `fired` — [HIGH] returns the set of faults that should be closed
-  - says: returns the set of faults that should be filed
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **mutate.py** `os.makedirs` — [MEDIUM] create the state directory if it doesn't exist
@@ -42,8 +42,6 @@ round 355  ·  last run 2026-09-05 00:44
   - says: landed is used to determine if the halt was lifted
 - **escalation.py** `landed` — [MEDIUM] landed is set to False in the except block, but the code returns False in the case where the file wasn't cleared
   - says: landed is set to False if the attempt failed
-- **binding_health.py** `F.page_looks_real` — [MEDIUM] check if text is an article
-  - says: check if text is an article
 - **binding_health.py** `F.fetch` — [MEDIUM] import feats and call fetch
   - says: fetch a host and title
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
