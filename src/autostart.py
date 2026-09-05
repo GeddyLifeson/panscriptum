@@ -489,10 +489,22 @@ def main():
         # roster its own comment in overnight.py says exists so nothing keeps a partial copy;
         # `autostart.py`/`overnight.py` are skipped here because this report already named them
         # above, as the launcher and supervisor lines.
+        # AND THE TRI-STATE IS KEPT, exactly as the supervisor line ten lines above already keeps
+        # it (sweep 44, batch 3). `overnight.running()` returns None -- not False -- when the
+        # probe could not read the process table, and its own docstring says callers "test
+        # `is None` explicitly rather than leaning on truthiness". This loop leaned on
+        # truthiness, so "I could not see" was printed as "not running": the one answer an
+        # operator acts on, produced by the one condition that means nobody knows. That is the
+        # FAIL-CLOSED property inverted -- a report that answers "I don't know" with a confident
+        # negative -- and it sat four lines under the same file's correct handling of the same
+        # tri-state for the supervisor, which is how a reader learns the wrong one is deliberate.
         for job in ON.ALL_JOBS:
             if job in ("autostart.py", "overnight.py"):
                 continue
-            print(f"  {job:<16}" + ("running" if ON.running(job) else "not running"))
+            _up = ON.running(job)
+            print(f"  {job:<16}" + ("running" if _up else
+                                    "UNKNOWN (could not read the process table)"
+                                    if _up is None else "not running"))
     except Exception:
         silence.note("autostart.py:status")
     return 0

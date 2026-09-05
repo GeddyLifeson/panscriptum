@@ -2642,6 +2642,47 @@ def drill_local_agent():
     a = "THE NIGHT STAFF — can the local model edit what it must not?"
     import local_agent as LA
 
+    def the_gate_and_the_public_door_are_denied():
+        """The local model may not write the prose gate, nor the module that pushes to the public.
+
+        NOT A STRING BYPASS -- the first six attacks in this area were all "a name the filesystem
+        resolves differently". This one is the list simply not naming two files it says it names.
+        `local_agent.DENYLIST`'s own stated rule is that each entry "is either the thing that
+        would have to be working to detect a bad patch, or the thing doing the patching", and
+        until 2026-09-04 it omitted both of these while `src/` sat on `WRITABLE_PREFIXES`.
+        Measured before the fix: `_denied_target` answered False for both.
+
+          * `prose_gate.py` is THE gate -- the one an autonomous run deleted for looking like an
+            instruction to a human, with 145 unauthorised chapters after it. The prefix denylist's
+            comment says "config.yaml holds the prose gate", which is true of the FLAG and not of
+            the ENFORCEMENT, so the switch was protected and the wiring was writable. Nothing had
+            to touch the flag: `overnight.py` has already demonstrated, in this repository, that
+            reimplementing this check with `bool()` makes `prose_enabled: "false"` OPEN it, and
+            every gate below stays green because they ask whether a patch parses, lints, imports
+            and leaves verify_math passing -- not whether it left a decision intact.
+          * `publish.py` is the only module the local model could reach that takes an
+            IRREVERSIBLE, OUTWARD action, and it carries `scan_for_secrets` in front of that push.
+            It is both halves of the rule at once, and it is the module that pushed
+            deliberately-corrupted source to the public repo twice on 2026-08-25.
+
+        The net asks the LIVE gate, not the constant, because `_denied_target` is what
+        `t_propose_patch` actually consults and a module denylist that the resolver never reaches
+        would pass a source-shaped check while refusing nothing. The control arm matters as much
+        as the attack: an ordinary repair target must still be writable, or the honest way to make
+        this net green is to deny everything.
+        """
+        denied = all(LA._denied_target(p) for p in ("src/prose_gate.py", "src/publish.py"))
+        # CONTROL -- the LOCAL rung still has a job. If these came back denied too, the net above
+        # would be measuring a gate that refuses its own purpose.
+        still_open = not any(LA._denied_target(p) for p in
+                             ("src/rosetta.py", "src/hostcheck.py", "src/magnitude.py"))
+        return denied and still_open
+    net(a, "the local model may not write the prose gate or the module that pushes to the public",
+        the_gate_and_the_public_door_are_denied,
+        "the gate whose deletion cost this project 145 unauthorised chapters was writable by "
+        "the autonomous local model, and so was the module that pushes to a public repo behind "
+        "the secret scanner -- protecting config.yaml protects the switch, not the wiring")
+
     def _junction_out_of_the_writable_surface():
         """The sixth bypass: a name inside the project that is not a PLACE inside the project.
 
@@ -5037,6 +5078,115 @@ def _partial_canary_merges(tmp=None):
             and after.get("checked") == 2)
 
 
+def _a_boolean_is_not_a_score():
+    """`True` must not be accepted as an axis score of 1.0. -> bool.
+
+    Every numeric-score gate in `magnitude.py` was `isinstance(x, (int, float))`, and `bool` is
+    a subclass of `int` -- so a model answering the `score` field with JSON `true` had it taken
+    as the number 1.0 and carried onto the worksheet and into a published +/- interval, by the
+    one input shape that should have routed to `_status_score` or been refused as UNESTIMABLE
+    (sweep 44, batch 8). Six sites, one rule, now `_is_score`.
+
+    The zero case is the half that matters as much: this project's other recurring slip is the
+    FALSY-ZERO one, and the obvious "fix" -- testing truthiness instead of type -- would refuse a
+    legitimate score of 0. So the net pins both directions, and pins `float` and `int` alike.
+    """
+    import magnitude as MG
+    rejects = all(MG._is_score(v) is False for v in (True, False, "n/a", None, "", [], {}))
+    accepts = all(MG._is_score(v) is True for v in (0, 0.0, 1, 1.5, -3, 10.0))
+    return rejects and accepts
+
+
+def _status_reports_i_do_not_know_as_itself(src=None):
+    """`autostart --status` must not print an unreadable process table as "not running". -> bool.
+
+    `overnight.running()` is TRI-STATE and its own docstring says so: None means the probe could
+    not see, and callers "test `is None` explicitly rather than leaning on truthiness". The
+    per-job loop in `autostart.main()` leaned on truthiness, so "I could not tell" was rendered
+    as "not running" -- the one answer an operator acts on, produced by the one condition in
+    which nobody knows anything. It sat ten lines below the SAME file's correct handling of the
+    same tri-state for the supervisor, which is how a reader learns the wrong one is deliberate.
+
+    Driven, not read: `running` is stubbed to return None and the real `--status` is run with
+    its output captured, so the net measures what an operator would actually see.
+    """
+    import contextlib
+    import io as _io
+    import autostart as AU
+    import overnight as ON
+    real_running, real_argv = ON.running, sys.argv
+    buf = _io.StringIO()
+    try:
+        ON.running = lambda *_a, **_k: None          # the probe could not read the table
+        sys.argv = ["autostart.py", "--status"]
+        with contextlib.redirect_stdout(buf):
+            AU.main()
+    except SystemExit:
+        pass
+    finally:
+        ON.running, sys.argv = real_running, real_argv
+    out = buf.getvalue()
+    # Every roster job must be reported as UNKNOWN, and none of them as a confident negative.
+    jobs = [j for j in ON.ALL_JOBS if j not in ("autostart.py", "overnight.py")]
+    if not jobs:
+        return False                                  # an empty roster proves nothing
+    lines = [ln for ln in out.splitlines()
+             if any(ln.strip().startswith(j) for j in jobs)]
+    return bool(lines) and all("UNKNOWN" in ln for ln in lines)
+
+
+def _meta_ban_has_no_fall_through(src=None):
+    """No handler around the P8 meta-language ban may let the chapter be WRITTEN. -> bool.
+
+    `generate.py` is the only thing that turns a manifest into prose, and the last statement
+    before it writes is `pipeline.assert_in_universe`, the Charter P8 meta-language gate. Its
+    `except Exception` arm refuses the chapter and files it, and states the rule in its own
+    words: "a gate that cannot run has not passed."
+
+    Directly above it sat `except ImportError: silence.note(...)` -- and Python takes the FIRST
+    matching clause, so an unimportable `pipeline` was caught THERE, noted, and fell through to
+    the write. The gate was off and the chapter was published, for every chapter of the run,
+    while the run reported success. `pipeline.py` is large and frequently edited in this same
+    tree; one syntax error inside it is all that condition needs. Found by sweep 44, batch 7.
+
+    THE INVARIANT IS "NO HANDLER FALLS THROUGH", not "there is no ImportError arm". Naming the
+    one exception type would be a net that a differently-spelled fall-through walks past --
+    `except ModuleNotFoundError`, `except (ImportError, AttributeError)`, or a bare `except:`
+    added later would each pass it while reopening exactly this hole. So every handler on that
+    `try` is required to END the iteration: the last statement of each must be `continue`,
+    `raise` or `return`. That is the property the write depends on, and it is checkable without
+    naming a single exception class.
+
+    Source-shaped, and it has to be: the behaviour lives inside a multi-hour generation loop
+    that needs a config, a manifest and a live model to reach. What is asserted is a structural
+    fact about the code that runs, not a comment about it.
+    """
+    import ast
+    tree = _ast_of(os.path.join(_srcdir(src), "generate.py"))
+    guarded = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Try):
+            continue
+        calls = [n for n in ast.walk(ast.Module(body=node.body, type_ignores=[]))
+                 if isinstance(n, ast.Call)
+                 and getattr(n.func, "attr", None) == "assert_in_universe"]
+        if calls:
+            guarded.append(node)
+    # THE GATE MUST STILL BE THERE. An empty list is the "absence read as clean" shape: delete
+    # the call and every handler check below is vacuously true.
+    if len(guarded) != 1:
+        return False
+    node = guarded[0]
+    if not node.handlers:
+        return False
+    for h in node.handlers:
+        if not h.body or not isinstance(h.body[-1], (ast.Continue, ast.Raise, ast.Return)):
+            return False
+    # AND NOTHING MAY RUN AFTER THE HANDLERS. An `else`/`finally` that wrote the chapter would
+    # satisfy every check above and reopen the hole one line lower.
+    return not node.orelse and not node.finalbody
+
+
 def _binding_health_filters(tmp=None):
     """`--limit 0` must select NOTHING, and a filter that matched nothing must not re-stamp.
 
@@ -5404,6 +5554,20 @@ def drill_binding_identity():
         "probing five hosts by name wrote a report saying the library has five hosts, and the "
         "binding detector reads that file AS the estate -- the same smaller-universe shape as "
         "a cap, arrived at while INVESTIGATING a binding")
+    net(a, "a boolean is not an axis score, and zero still is",
+        _a_boolean_is_not_a_score,
+        "`bool` subclasses `int`, so `isinstance(x, (int, float))` took JSON `true` as the "
+        "number 1.0 and published it inside an assay interval -- while the obvious truthiness "
+        "'fix' would refuse a legitimate score of 0")
+    net(a, "`--status` reports an unreadable process table as UNKNOWN, not as 'not running'",
+        _status_reports_i_do_not_know_as_itself,
+        "`running()` is tri-state and None means nobody knows; rendering that as the confident "
+        "negative an operator acts on is the fail-closed property inverted")
+    net(a, "the P8 meta-language ban has no handler that falls through to the write",
+        _meta_ban_has_no_fall_through,
+        "`except ImportError: note()` above the fail-closed arm caught an unimportable "
+        "`pipeline` FIRST and fell through, so the gate was off and the chapter was published "
+        "-- for every chapter of the run, while the run reported success")
     net(a, "an EMPTY filter canaries nothing and re-stamps nothing",
         _binding_health_filters,
         "`--limit 0` read as 'no limit' answers a request for nothing by canarying the whole "

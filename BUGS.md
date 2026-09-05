@@ -163,6 +163,112 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   shard held `catalogue_local.py`, which `sweep_plan` spells `deprecated/catalogue_local.py`, and
   nothing noticed. Shards were normalised onto names `sweep_plan` itself emits and only those.
 
+### Resolved this run (paper trail, run #44 — 2026-09-04)
+
+*Seven bugs, each fixed and each covered by a `drill.py` net that was **watched going red against
+the pre-fix code before being accepted as green**. Root cause first, then what the measurement
+actually showed. Export-repo commit: this run's `publish.py --push`.*
+
+- **[M73 — RESOLVED, run #44] `escalation.clear()` WAS AN UNLOCKED READ-MODIFY-WRITE ON THE ONE
+  FILE THAT MUST NEVER LOSE A FAULT.** Order `0f815b38363f`. Every other writer of
+  `state/HALT.json` — `_raise_halt`, `_write_stopped` — is compare-and-swapped for exactly this
+  reason; `clear()` was not. **Root cause:** read the record, merge the ruling, write the whole
+  thing back, with nothing between the three steps. A fault escalating to OWNER in that gap is
+  appended to `also` by `_land_halt` and then overwritten by a payload built from the record as it
+  stood *before* the append. **Measured pre-fix, driven end to end:** `also: []` — the concurrent
+  `ARRIVED_MID_LIFT` fault vanished with a **successful write**, `did=True`, `halted=False`, and
+  `HALT_CLEARED` was written to the ledger. Worse than the raise-side race it mirrors, because it
+  takes the halt *down* with it: the library resumes on a ruling written about facts that are no
+  longer what the file says. **Fix:** digest taken before the read (the `_raise_halt` ordering);
+  new `_land_clear` through a temp + `replace_if_unchanged` — never `write_json`, which retries a
+  denied rename and would land the stale payload just as happily; `_halt_identity` to tell a
+  transient refusal from a fault landing mid-lift; `_halt_file_cleared` as a readback, because
+  `replace_if_unchanged` cannot close the gap between its own digest read and the rename. A
+  transient refusal retries; **a digest mismatch deliberately does not** — re-merging a person's
+  ruling onto a record that has grown a fault they never read would sign their name to a decision
+  they did not make. Net: *"a fault that lands mid-lift refuses the lift instead of being
+  overwritten by it."*
+
+- **[M74 — RESOLVED, run #44] `binding_health --limit 0` CANARIED THE WHOLE ESTATE, AND A FILTER
+  THAT MATCHED NOTHING RE-STAMPED THE REPORT.** Orders `cd7492eec3bc` and `f1901d2178ba`, **taken
+  as one change** because fixing the first *arms* the second. **Root cause (first):** `--limit`
+  defaults to `None` with `type=int`, so `--limit 0` arrives as the integer `0` and `if limit:`
+  read it as "no limit given" — the falsy-zero slip already fixed in `burgs.py`. **Root cause
+  (second):** the whole-estate-empty guard was `not (only or limit) and not out`, so a *filtered*
+  pass that probed zero hosts skipped it and fell through to the whole-file merge path.
+  **Measured pre-fix on a three-host stub estate:** `run(limit=0)` canaried **all three**;
+  `run(only=["no-such-host"])` canaried **nothing** and still landed the report with `at` bumped
+  from `0` to now — the one field `workorders.sweep`'s binding detector and `allsweep`'s
+  reconciliation use to decide whether to trust the estate. **Fix:** one `filtered = bool(only) or
+  limit is not None`, computed once and used at all four sites that each previously re-asked
+  `only or limit`; `if limit is not None:`; and a new `BINDING_FILTER_MATCHED_NOTHING` refusal that
+  writes nothing and names the filter, how many of the bound hosts it selected, and why. Net: *"an
+  EMPTY filter canaries nothing and re-stamps nothing"*, four limbs, the fourth proving an ordinary
+  filtered pass still probes and merges.
+
+- **[M75 — RESOLVED, run #44] THE LOCAL MODEL COULD WRITE THE PROSE GATE AND THE MODULE THAT
+  PUSHES TO THE PUBLIC REPO.** Order `0434fc05eb95`. **Root cause:** `local_agent.DENYLIST` states
+  its own membership rule — "the thing that would have to be working to detect a bad patch, or the
+  thing doing the patching" — and omitted two modules that rule names, while `src/` sits on
+  `WRITABLE_PREFIXES`. The `DENYLIST_PREFIXES` comment says "config.yaml holds the prose gate",
+  which is true of the **flag** and false of the **enforcement**: the switch was denied and
+  `src/prose_gate.py` was not. **Measured pre-fix:** `_denied_target("src/prose_gate.py")` and
+  `_denied_target("src/publish.py")` both `False`. Nothing needed to touch the flag —
+  `overnight.py` has already demonstrated in this repository that reimplementing the check with
+  `bool()` makes `prose_enabled: "false"` *open* it, and the patch gates below only ask whether a
+  patch parses, lints, imports and leaves `verify_math` green. **Fix:** both added to the
+  denylist. Net asks the **live** `_denied_target` rather than the constant, and carries a control
+  arm proving ordinary repair targets stay writable. **Consequence flagged for the owner:** this
+  narrows the LOCAL rung; four `publish.py` orders were re-routed LOCAL → RUN. **And it was not in
+  effect until the daemons bounced** — `foreman` had been up 23 hours; killed and restarted, see
+  the handoff.
+
+- **[M76 — RESOLVED, run #44] THE CHARTER P8 META-LANGUAGE BAN FAILED **OPEN** ON AN `ImportError`
+  AND CHAPTERS WERE WRITTEN PAST IT.** Order `7c5e216850a8`. **Root cause:** `generate.py` had
+  `except ImportError: silence.note(...)` directly above `except Exception:`, and Python takes the
+  **first** matching clause — so an unimportable `pipeline` was caught there, noted, and fell
+  through **to the write**. Every chapter of such a run would be published with the ban never run,
+  while the run reported success. The arm three lines below already states the rule: *"a gate that
+  cannot run has not passed."* Not hypothetical: `pipeline.py` is large and frequently edited in
+  this same tree. **Fix:** the special case is removed so an `ImportError` reaches the fail-closed
+  arm like any other failure and the chapter is refused and filed; the `silence.note` is preserved
+  inside that arm because the detectors read it. **The net pins the property, not the spelling** —
+  *no handler on that `try` may fall through* — and was watched red against four reconstructions:
+  the exact pre-fix shape, a `ModuleNotFoundError` spelling, a bare `except:`, and the gate deleted
+  entirely.
+
+- **[M77 — RESOLVED, run #44] A BOOLEAN COULD BE PUBLISHED AS AN ASSAY SCORE.** Order
+  `ad7655372e8f`. **Root cause:** `bool` subclasses `int`, and all six numeric-score gates in
+  `magnitude.py` were `isinstance(x, (int, float))`. Scores arrive as JSON from a model, `true` is
+  valid JSON, and the value reaches the worksheet and then `A.assay()` — inside every published ±
+  in the library. Hard Rule 3's territory (*don't fake the Assay decimals*) reached by a
+  type-system accident rather than by anyone deciding anything. **Fix:** one `_is_score` predicate
+  at all six sites, written as a single helper so the rule cannot drift between them. **The net
+  pins both directions** and was watched red twice — against the pre-fix `isinstance`, *and*
+  against the tempting truthiness "fix", which would refuse a legitimate score of `0`.
+
+- **[M78 — RESOLVED, run #44] `autostart --status` REPORTED "I COULD NOT TELL" AS "NOT RUNNING".**
+  Order `bbc6dd725a9f`. **Root cause:** `overnight.running()` is tri-state and returns `None` when
+  `_proc_lines()` could not read the process table; its own docstring says callers must test
+  `is None` rather than lean on truthiness. The per-job loop leaned on truthiness. So the one
+  answer an operator acts on was produced by the one condition in which nobody knows anything —
+  the FAIL CLOSED property inverted — **ten lines below the same file's correct handling of the
+  same tri-state** for the supervisor line, which is how a reader learns the wrong one is
+  deliberate. **Fix:** the loop now keeps the tri-state in the supervisor line's own words. Net is
+  **driven**, not source-shaped: `running` stubbed to `None`, the real `--status` run with stdout
+  captured, every roster line required to say `UNKNOWN`.
+
+- **[M79 — RESOLVED, run #44] `binding_health`'s PARTIAL-MERGE WRITE WAS THE ONE `_land_cas` CALL
+  WITH NO HANDLER.** Order `e64d54c00f5f`. **Root cause:** `_land_cas` deliberately **re-raises**
+  whatever stopped its temp copy being written. `quarantine()` and `release()` both wrap it in
+  `try/except` with a `silence.note`, for the stated reason that neither may lose its sweep to one
+  failed write; `run()`'s merge did not. A full disk or denied temp file would therefore propagate
+  out of `run()` and take the whole `--run` down, **discarding host records it had already
+  probed** — the opposite of what every other exit from that function does and of what the comment
+  directly above it promises. On this module's own escalation reasoning, a report that cannot land
+  is an observation going stale (JANITOR), not a reason to lose the pass. **Fix:** guarded in the
+  same shape as its two siblings.
+
 ### Resolved this run (paper trail, run #43 — 2026-09-03)
 
 - **[M70 — RESOLVED 2026-09-03, run #43] THE WORK-ORDER SWEEP'S DETECTOR LAYER RAN INVERTED, AND

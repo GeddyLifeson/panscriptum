@@ -7,6 +7,236 @@ writer). Bug ledger: `BUGS.md`. Priority queue for the next run: `NEXT_STEPS.md`
 tree is not itself a git repo — commits happen through `src/publish.py --push` into the export
 repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
+> **NAVIGATION FAULT, NOTED 2026-09-04 AND DELIBERATELY NOT "FIXED" BY MOVING ANYTHING.** Run #43's
+> entry (**2026-09-03 — DAILY MAINTENANCE RUN #43: THE SWEEP WAS REPORTING BACKWARDS**) is at the
+> **BOTTOM** of this file, not the top, and is written as an `#` heading rather than the `##` every
+> other entry uses — so it appears in no heading list beside its siblings. A reader following this
+> header's own "newest on top" rule reads the 2026-09-04 entry, then the 2026-09-02 one, and
+> concludes run #43 never happened. It did, and it is the run that proved the mutation false kill.
+> Left in place rather than relocated because this file's first rule is *append, never overwrite*,
+> and silently moving three hundred lines of somebody else's record to tidy the index is the larger
+> risk. Filed as a work order; whoever takes it should move it **and** say in the entry that it was
+> moved.
+
+---
+
+## 2026-09-04 (scheduled maintenance, daily) — THE GATE WAS WRITABLE BY THE LOCAL MODEL, THE PROSE GATE FAILED OPEN ON AN IMPORT, AND THE MUTATION INSTRUMENT WAS REBUILT BEFORE BEING TRUSTED
+
+### FOR THE OWNER, AT THE TOP, IN ORDER OF WHAT NEEDS A PERSON
+
+**No halt was raised and no halt was lifted this shift.** `escalation.py --status` read clear at
+open and reads clear at close.
+
+**1. THE LOCAL MODEL COULD WRITE THE PROSE GATE, AND THE MODULE THAT PUSHES TO THE PUBLIC REPO. I
+TIGHTENED IT, AND THAT NARROWS A RUNG — PLEASE RULE ON IT.** `local_agent.DENYLIST` states its own
+membership rule in its own comment: each entry "is either the thing that would have to be working
+to detect a bad patch, or the thing doing the patching". Two modules named by that rule were
+missing from it while `src/` sits on `WRITABLE_PREFIXES`. **Measured, not read:** before the fix,
+`local_agent._denied_target("src/prose_gate.py")` and `_denied_target("src/publish.py")` both
+returned `False`.
+
+* `prose_gate.py` is **the** gate — the one an autonomous run deleted for looking like an
+  instruction to a human, with 145 unauthorised chapters after it. The comment on
+  `DENYLIST_PREFIXES` says "config.yaml holds the prose gate", which is true of the **flag** and
+  not of the **enforcement**: the switch was protected and the wiring was writable. Nothing had to
+  touch the flag — `overnight.py` has already demonstrated, in this repository, that
+  reimplementing this check with `bool()` makes `prose_enabled: "false"` *open* it, and every gate
+  below `local_agent`'s patch path stays green because they ask whether a patch parses, lints,
+  imports and leaves `verify_math` passing, not whether it left a decision intact.
+* `publish.py` is the only module the local model could reach that takes an **irreversible,
+  outward** action, and it carries `scan_for_secrets` in front of that push. It is both halves of
+  the rule at once, and it is the module that pushed deliberately-corrupted source to the public
+  repo twice on 2026-08-25.
+
+**What I did:** added both to the denylist, with the reasoning in place; new drill net *"the local
+model may not write the prose gate or the module that pushes to the public"*, which asks the
+**live** gate (`_denied_target`, what `t_propose_patch` actually consults) and carries a control
+arm asserting ordinary repair targets are still writable — without that arm the cheapest way to
+make the net green would be to deny everything. Watched it go red against the pre-fix list and
+green after. **The ruling I need:** this narrows what the LOCAL rung may repair. Four open orders
+against `publish.py` were re-routed LOCAL → RUN as a consequence. That is the trade I think is
+right — the cheapest labour available should not be the labour that can quietly reopen the gate or
+loosen the secret scanner — but it is a policy narrowing made by a maintenance run.
+Order `0434fc05eb95`, filed and closed with the measurement in it.
+
+**2. THE P8 META-LANGUAGE BAN FAILED OPEN ON AN `ImportError`, AND CHAPTERS WERE PUBLISHED PAST
+IT.** Found by sweep 44 batch 7 and verified against source before acting. `generate.py` is the
+only thing that turns a manifest into prose; the last gate before it writes is
+`pipeline.assert_in_universe`. It had `except ImportError: silence.note(...)` sitting directly
+above `except Exception:` — and Python takes the **first** matching clause, so an unimportable
+`pipeline` was caught there, noted, and fell straight through **to the write**. The chapter was
+published with the ban never run, for every chapter of the run, while the run reported success.
+The arm three lines below already states the rule in its own words: *"a gate that cannot run has
+not passed."* `pipeline.py` is large and frequently edited in this same tree; one syntax error
+inside it is all that condition needs. Fixed, with a drill net that pins the property rather than
+the spelling. Order `7c5e216850a8`.
+
+**3. A BOOLEAN COULD BE PUBLISHED AS AN ASSAY SCORE.** Every numeric-score gate in `magnitude.py`
+was `isinstance(x, (int, float))`, and `bool` subclasses `int` — so JSON `true` from a model was
+carried as the number 1.0 onto the worksheet and into `A.assay()`, which is inside every published
+± in the library. That is Hard Rule 3's territory reached by a type-system accident rather than by
+anyone deciding anything. One predicate, `_is_score`, now used at all six sites. Order
+`ad7655372e8f`.
+
+**4. THREE QUESTIONS I DELIBERATELY DID NOT DECIDE**, filed at OWNER with both readings written
+out:
+* `d3acbb793ef2` — `cascade_bridge`'s **pin path has no local-bucket exclusion** while the non-pin
+  claim loop does, and `try_disabled()`'s gate admits *disabled local Ollama models*. Batch 6
+  traced this against your live `cascade/config.json`: six disabled `provider:"ollama"` entries
+  sit in the `coding` pool right now, and running `try_disabled()` today would pin one and
+  dispatch a live call to a local GPU bucket — which this file's own commentary states as an
+  absolute invariant never to do. The remedy is small; the module is the one CLAUDE.md says not to
+  touch lightly.
+* `5c962f306e58` — the **MODEL-patch lane's safety gate calls `allsweep --quick`, which skips the
+  entire VERIFY tier**, so a model patch that breaks a verifier's CLI contract is accepted as
+  "verified" by a gate that never ran it. `rosetta.py` carried exactly that class of regression
+  for eleven runs. It may be a deliberate cost trade against the foreman's 20-minute loop.
+* `6fc71f8ab76e` — `pipeline`'s `with_feats or rest` means a source's **feat-less entries are
+  never nominated for the power ceiling** once any entry has feats. The two readings differ about
+  what the absence of a feat *means*, which is a question about the library, not the code.
+
+**5. ONE NON-GREEN BATTERY ROW, AND IT IS NOT A CODE FAULT — BUT THE CLASSIFIER AROUND IT IS.**
+`allsweep`'s `cascade live call` failed on the first run with Groq returning *"Request too large …
+on output tokens per minute (OTPM): Limit 1000, Requested 1045"*. That is an **account tier**
+property, so this bucket is near-useless for long-form work as configured. The code finding is
+separate and filed as `af47010df391`: Groq labels it `rate_limit_exceeded` and ends with "try
+again", so three of `_TRANSIENT_WORDS` match and the router files a **permanent per-request size
+refusal as a transient throttle** — cooling the bucket and retrying a request that can never fit.
+It passed on the second run, which is exactly what makes it easy to keep missing.
+
+---
+
+### THE STATE OF THE BATTERY AT CLOSE
+
+| check | result |
+|---|---|
+| `escalation --status` | clear |
+| `verify_math` | **1130 passed, 0 FAILED** |
+| `drill` | **395 nets, 395 held, 0 BREACHED** (389 → 395; six nets added this shift) |
+| `allsweep` | rc=1 on the first pass (`cascade live call`, external), **rc=1 on the second only for a file I had littered — removed, see below** |
+| `health --preflight` | all checks pass |
+| `liveness` | 46 findings, unchanged — ratchet holds |
+| `secondopinion` | `ruff`, `vulture`, `detect-secrets` all **RAN**; **0 secrets, and two independently-written scanners agree** |
+| `axis_correlation` | 45 entities, mean r = +0.3193 — **identical to the stored matrix, so no `--write` was needed** |
+| `pyflakes src/` | clean |
+| `codewatch` | all four daemons on the current fingerprint (see below) |
+
+**I littered `state/` and the estate check caught me.** `sweep_plan.py --batches 16` prints its
+JSON followed by a `# 116 modules …` summary line, so redirecting it to `state/sweep44_plan.json`
+produced a file that is *not* valid JSON, and `allsweep`'s estate pass graded it `1 unreadable or
+corrupt`. Removed, along with the predecessor's noted `state/_queue_snapshot_20260903.json`. Worth
+recording because the estate check did its job on the run that was auditing everything else.
+
+**`foreman` and `overwatch` were 23 hours stale and I bounced them.** `state/CODEWATCH.json` shows
+their last *keeper* restart 46 hours ago, but their real processes were started 2026-09-03 23:27 —
+they run under **`pythonw.exe`**, not `python.exe`, which is worth knowing because a process search
+that only asks about `python.exe` finds neither. Either way they predated **today's**
+`local_agent.py` denylist change, so the safety in item 1 was written and *not in effect* for the
+lane that dispatches model patches. Killed both; the keeper brought them back at 23:14 on current
+code. This is Hard Rule -1's fourth property doing exactly what it exists to do.
+
+---
+
+### THE MUTATION INSTRUMENT — REBUILT, THEN LAUNCHED, THEN REBUILT AGAIN
+
+The predecessor left one finding above all others: the 16.3-hour pass scored **298/299 killed,
+zero survivors**, and `escalation.py:409` was afterwards proved a **confirmed false kill**. Their
+leading hypothesis was that the baseline is a single photograph held for sixteen hours while
+`sandbox()` junctions `data/` out to a live tree that `feats.py --roll` and `pipeline.py` rewrite
+continuously.
+
+**I implemented the test they asked for, as a permanent feature rather than an experiment.**
+`mutate.py` now takes `--rebaseline-every SECONDS` (default 1800; the run below uses 3600). Between
+mutants, on restored code, it re-photographs the gates. Two things come out of it, and the second
+is why it is worth the gate sweeps it costs: every mutant judged after a refresh is compared
+against a **current** signature; and when a refresh disagrees with the one before it, the drift is
+**recorded with the verdicts judged under the stale signature named**, so the run stops silently
+converting drift into kills and starts reporting it as the doubt it is.
+
+**Then sweep 44 batch 5 found a MAJOR defect in that code, hours old, and it was right.**
+`_refresh_baseline` adopted a fresh baseline with no `unusable_gates` check — so a gate that merely
+**timed out** during a mid-run refresh would have had `TIMEOUT` adopted as the signature to judge
+against, which is the `TIMEOUT == TIMEOUT` failure `unusable_gates` exists to refuse, arriving by a
+door the guard was not standing at. Worse than the drift it was written to catch: the launch guard
+refuses the *run*, whereas this would have poisoned it from the middle. An unusable refresh is now
+**discarded, not adopted**, the previous known-good photograph stays in force and says so;
+drift records are `_journal`ed **to disk the moment they are found** (they were memory-only, which
+is the exact lesson `_journal`'s own docstring was written about); and `red_at_baseline` is
+re-derived in place after a refresh so a survivor row cannot carry a launch-time claim about which
+detectors were down.
+
+**I killed the running pass and relaunched it on the corrected code.** It had not yet mutated
+anything, so nothing was lost. Launching an 18-hour pass on an instrument I already knew could be
+poisoned mid-run would have repeated the 2026-09-02 mistake of taking a red baseline, one level up.
+The tool's own launch banner also warned *"a maintenance shift is editing this tree"*, so the
+relaunch was deliberately held until my `src/` edits were finished.
+
+**Status at close: RUNNING, launched 2026-09-04 ~23:1x, `state/mutate_20260904.log`, sandbox
+`panscriptum_mutate_axiwiyu8`.** It will not have finished when the next run opens. **Read the log
+before doing anything else** — see `NEXT_STEPS.md` §0.
+
+---
+
+### SWEEP 44 — SIXTEEN BATCHES, 116 MODULES, 92,633 LINES, `missing('run44')` RETURNS **0**
+
+Every module in `src/` was read in full and each agent recorded its own coverage. Audits are in
+`handoff/sweep44/AUDIT_batch01..16.md` and carry far more detail than the orders do.
+
+**32 orders filed, 10 closed, and I want to be plain that the queue grew.** It stood at 411 open at
+the start and 441 at the close (LOCAL 150 · BOTS 22 · RUN 86 · SESSION 57 · OWNER 126). A
+comprehensive sweep of 92,633 lines files more than one shift can work, and the honest reading is
+that the sweep is doing its job while the queue is now the binding constraint — not that the shift
+under-delivered. What I did **not** do is sample it, which Hard Rule 0 forbids of my own shift too.
+
+Fixed and closed this shift, each with a drill net **watched going red first**:
+
+1. `0f815b38363f` — **`escalation.clear()` is now compare-and-swapped**, the last writer of
+   `state/HALT.json` that was not. A fault escalating to OWNER concurrently with a person's
+   `--clear` was silently dropped *with a successful write*, and the halt lifted anyway. Measured
+   pre-fix: `also: []` — the concurrent fault vanished and `HALT_CLEARED` was logged. A digest
+   mismatch deliberately does **not** retry the lift: re-merging a person's ruling onto a record
+   that has grown a fault they never read would sign their name to a decision they did not make.
+2. `cd7492eec3bc` + `f1901d2178ba` — **the `binding_health` pair, taken as one change** exactly as
+   the predecessor's §3 instructed. Measured pre-fix on a 3-host stub estate: `run(limit=0)`
+   canaried **all three** hosts, and `run(only=["no-such-host"])` canaried nothing and still landed
+   the report with `at` bumped from 0 to now. Fixing the first is what makes an empty host list
+   reachable, which is precisely the input the second mishandled.
+3. `0434fc05eb95` — the denylist, item 1 above.
+4. `7c5e216850a8` — the P8 meta-language ban, item 2 above.
+5. `ad7655372e8f` — the boolean assay score, item 3 above.
+6. `bbc6dd725a9f` — **`autostart --status` collapsed a tri-state.** `overnight.running()` returns
+   `None` when it could not read the process table, and its own docstring says callers must test
+   `is None` rather than lean on truthiness. This loop leaned on truthiness, so *"I could not tell"*
+   printed as *"not running"* — the one answer an operator acts on, produced by the one condition
+   in which nobody knows anything. It sat ten lines under the same file's **correct** handling of
+   the same tri-state, which is how a reader learns the wrong one is deliberate.
+7. `e64d54c00f5f` — `binding_health`'s partial-merge `_land_cas` had no `try/except` while both its
+   siblings do, so a failed temp write would take the whole `--run` down and discard results it had
+   already probed.
+
+---
+
+### PROCESS NOTES WORTH CARRYING
+
+1. **The heredoc ate my escapes, exactly like the backticks did.** Appending order prose to a
+   filing script through a `bash` heredoc turned `\n` into real newlines and produced an
+   unterminated string literal. The standing rule ("never pass prose through a shell") is usually
+   quoted about backticks; it is not about backticks, it is about **any** shell-mediated text. I
+   rewrote the block with the file tool and read one order back off disk afterwards to confirm the
+   text was intact. **Keep the read-back habit.**
+2. **A net that only catches the spelling it was written against is not measuring the invariant.**
+   The meta-ban net asserts *no handler falls through* rather than *there is no `ImportError` arm*,
+   and it was watched red against four reconstructions — the exact pre-fix shape, a
+   `ModuleNotFoundError` spelling, a bare `except:`, and the gate deleted entirely.
+3. **Pin both directions when the fix is about a type.** The boolean-score net also refuses the
+   *tempting* fix — testing truthiness — because that would reject a legitimate score of `0`, which
+   is this project's other recurring slip. It was watched red against both.
+4. **`replace_retry` is not a content writer.** I opened the shift by calling
+   `silence.replace_retry(path, json_string)`, which is `os.replace` with a backoff; it returned
+   `False` and wrote nothing rather than raising, which is the module behaving exactly as its
+   docstring promises. `silence.write_json` is the one correct way. No damage; recorded because
+   the next reader will reach for the same wrong name.
+
 ---
 
 ## 2026-09-02 (scheduled maintenance, daily) — A HALT I RAISED AND LIFTED, A LOCAL-AGENT BYPASS CLASS SEVEN, AND 40 ORDERS CLOSED

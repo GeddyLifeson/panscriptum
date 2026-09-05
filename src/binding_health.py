@@ -1183,7 +1183,21 @@ def run(limit=None, only=None):
         # here is the guard working: another writer landed a report after this pass read one, and
         # the merged copy in hand no longer describes what is on disk. Nothing is written and the
         # probe results are still returned, exactly as on the unreadable-report branch above.
-        landed, why = _land_cas(OUT, doc, prior_digest)
+        # GUARDED LIKE ITS TWO SIBLINGS, which it was not (sweep 44, batch 16). `_land_cas`
+        # deliberately RE-RAISES whatever stopped the temp copy being written -- its own body
+        # says so -- and `quarantine()` and `release()` both wrap the identical call in
+        # try/except with a `silence.note`, for the stated reason that neither may lose its
+        # sweep to one failed write. This third call site had no handler, so a full disk or a
+        # denied temp file would propagate out of `run()` and take the whole `--run` down,
+        # DISCARDING the host records it had already probed -- the opposite of what every other
+        # exit from this function does, and of what the comment directly above promises ("the
+        # probe results are still returned"). A partial pass that cannot land is an observation
+        # going stale, which this module records at JANITOR; it is not a reason to lose the pass.
+        try:
+            landed, why = _land_cas(OUT, doc, prior_digest)
+        except Exception:
+            silence.note("binding_health.py:partial-merge-write")
+            landed, why = False, "the temp copy could not be written"
         if not landed:
             _report_not_written(
                 "BINDING_HEALTH_PARTIAL_NOT_MERGED",

@@ -87,7 +87,39 @@ DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards",
             # job. The two lists still differ deliberately -- local_agent adds itself and the
             # four contract-enforcement modules above, which are write-contract concerns the
             # dispatch side never touches -- but they may not differ on the detectors.
-            "drill", "escalation", "codewatch", "liveness", "overnight"}
+            "drill", "escalation", "codewatch", "liveness", "overnight",
+            # THE GATE ITSELF, AND THE DOOR TO THE PUBLIC, added 2026-09-04 (maintenance run
+            # #44). Both are named by the rule this list already states -- "each is either the
+            # thing that would have to be working to detect a bad patch, or the thing doing the
+            # patching" -- and both were missing from it. MEASURED, not read: before this line,
+            # `_denied_target("src/prose_gate.py")` and `_denied_target("src/publish.py")` both
+            # answered False, so the local model could write either.
+            #
+            # `prose_gate` is THE gate. The incident this whole project's chain of command was
+            # built after is an autonomous run deleting it because it looked like an instruction
+            # to a human, and 145 unauthorised chapters following. The comment on
+            # DENYLIST_PREFIXES below says "config.yaml holds the prose gate", and that is true
+            # of the FLAG and not of the ENFORCEMENT: `config.yaml` is denied, `src/prose_gate.py`
+            # was not. Protecting the switch and leaving the wiring writable is the same half-fix
+            # that order 881ff7f49438 found on the detector list. And the failure mode is already
+            # on the record one module over -- `overnight.py` reimplemented this gate with
+            # `bool()` instead of the strict check and `prose_enabled: "false"` OPENED it. A model
+            # need never touch the flag to defeat the gate; it only has to relax the code that
+            # reads it, and every gate below would stay green, because they check that a patch
+            # parses, lints, imports and leaves verify_math passing.
+            #
+            # `publish` is the only module here that takes an IRREVERSIBLE, OUTWARD action: it
+            # pushes to a public GitHub repository, and it carries `scan_for_secrets` in front of
+            # that push. It is therefore both halves of the rule at once -- the thing that would
+            # have to be working to detect a leaked credential, and the thing that makes the leak
+            # permanent. It is also the module that, on 2026-08-25, pushed deliberately-corrupted
+            # source to the public repo twice. A patch that loosened the scanner would be graded
+            # by gates that do not look at the scanner at all.
+            #
+            # This NARROWS what the LOCAL rung may repair -- open orders against both modules now
+            # need the RUN rung -- which is the intended trade and is flagged for the owner in
+            # this run's handoff.
+            "prose_gate", "publish"}
 
 # The same bar, for files that are not python modules and therefore have no module name to
 # match on. Repo-relative, forward slashes. config.yaml is here because every module in the kit

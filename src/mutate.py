@@ -1622,15 +1622,58 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
             """Re-photograph the gates on RESTORED code. -> True if anything moved."""
             _write(path, original)
             fresh = baseline(root, gates=tuple(gates) + tuple(confirm))
+            # A REFRESH THAT COULD NOT COMPLETE IS NOT A NEW BASELINE (sweep 44, batch 5 found
+            # this in the first version of this function, hours after it was written). The launch
+            # baseline is guarded by `unusable_gates` and this one was not -- so a gate that
+            # merely TIMED OUT during a refresh would have had `TIMEOUT` adopted as the signature
+            # to judge against, and `sig != base.get(gname)` would then be FALSE for every
+            # subsequent mutant that also timed out and TRUE for every one that ran normally.
+            # That is the `TIMEOUT == TIMEOUT` failure `unusable_gates` exists to refuse, arriving
+            # by a door the guard was not standing at. It would have been worse than the drift it
+            # was written to catch: the launch guard refuses the RUN, whereas this would have
+            # silently poisoned it from the middle, and if the process died before the next
+            # refresh the correction would have gone with it.
+            #
+            # So an unusable refresh is DISCARDED, not adopted. The previous photograph was known
+            # good and stays in force, which is exactly the behaviour before this feature existed
+            # -- the run is no worse off than it was, and it now says so out loud instead of
+            # trusting a signature nothing could take.
+            unusable = unusable_gates(fresh)
+            if unusable:
+                ev = {"at": time.time(), "refresh_unusable":
+                      {n: s_ for n, s_ in unusable}, "kept_previous_baseline": True,
+                      "verdicts_since_last_good_baseline": list(judged_since)}
+                drifted.append(ev)
+                _journal(target, {"baseline_event": ev})
+                sys.stderr.write(
+                    "mutate: a mid-run baseline refresh could not complete (%s) -- KEEPING the "
+                    "previous baseline rather than adopting a signature no gate could take.\n"
+                    % ", ".join(n for n, _s in unusable))
+                return False
             moved = {g: (base.get(g), fresh.get(g)) for g in fresh if fresh.get(g) != base.get(g)}
             if moved:
                 # THE WINDOW IS NAMED, NOT JUST THE EVENT. A drift with no list of what was
                 # judged under the stale signature is a warning nobody can act on; with the
                 # list, every verdict it casts doubt over can be re-attacked by name.
-                drifted.append({"at": time.time(), "gates_that_moved":
-                                {g: {"was": w, "now": n} for g, (w, n) in moved.items()},
-                                "verdicts_now_in_doubt": list(judged_since)})
+                ev = {"at": time.time(), "gates_that_moved":
+                      {g: {"was": w, "now": n} for g, (w, n) in moved.items()},
+                      "verdicts_now_in_doubt": list(judged_since)}
+                drifted.append(ev)
+                # TO DISK THE MOMENT IT IS FOUND, for the reason `_journal`'s own docstring
+                # gives about survivors: a sixteen-hour run must not hold its findings in memory
+                # until it finishes. A drift record is worth MORE than a survivor row on that
+                # argument, not less -- it is the thing that says which of the other rows can be
+                # believed -- and it was memory-only in the first version of this code.
+                _journal(target, {"baseline_event": ev})
                 base.update(fresh)
+                # AND THE "WHICH DETECTORS WERE DOWN" ANNOTATION IS RE-DERIVED, in place, from
+                # the baseline that is now in force (sweep 44, batch 5). `red_at_baseline` was
+                # computed once before the loop and travels with every survivor row and out in
+                # the result; leaving it stale after a refresh would attach a launch-time claim
+                # about the detectors to a verdict reached under a different photograph, which
+                # is the one thing that annotation exists to prevent. `red_gates` is a pure read
+                # of `base` with no subprocess call, so this costs nothing.
+                red_at_baseline[:] = [g for g, _s in red_gates({g: base[g] for g in wanted})]
             del judged_since[:]
             return bool(moved)
 

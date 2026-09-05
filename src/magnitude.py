@@ -769,6 +769,22 @@ def _status_score(raw):
             "n/a": A.INAPPLICABLE, "na": A.INAPPLICABLE}.get(st, A.UNESTIMABLE)
 
 
+def _is_score(x):
+    """Is this a NUMERIC axis score, as opposed to a status or a stray type? -> bool.
+
+    `bool` IS A SUBCLASS OF `int`, and every numeric-score gate in this module was written as
+    `isinstance(x, (int, float))`, which therefore admits `True` and `False` (sweep 44, batch 8).
+    The scores arrive as JSON from a model, `true` and `false` are valid JSON, and a model that
+    answers the score field with a boolean would have had it silently accepted as 1.0 or 0.0 --
+    a fabricated numeric score, on the worksheet, inside a published +/- interval, produced by
+    the one input shape that should route to `_status_score` or be refused as unestimable.
+
+    Excluded explicitly rather than by reordering the checks, because the correct behaviour is
+    the same at all six sites and a rule that lives in one place cannot drift between them.
+    """
+    return isinstance(x, (int, float)) and not isinstance(x, bool)
+
+
 def verify(entity, got, ev):
     """Apply guards 1-3. Returns (scores, worksheet, rejections).
 
@@ -803,7 +819,7 @@ def verify(entity, got, ev):
             # interval. Only the fabricated provenance is gone.
             scores[ax] = _status_score(raw)
             continue
-        if not isinstance(raw, (int, float)):
+        if not _is_score(raw):
             scores[ax] = A.UNESTIMABLE
             continue
 
@@ -867,7 +883,7 @@ def _overlap(a, b):
 
 def saturated(scores):
     """Guard 4. Every scored axis at the top means the model did not refuse anywhere."""
-    nums = [v for v in scores.values() if isinstance(v, (int, float))]
+    nums = [v for v in scores.values() if _is_score(v)]
     return len(nums) >= 6 and min(nums) >= 9.0
 
 
@@ -972,8 +988,8 @@ def _split_assay(c, entity, cand, epoch, head_note=None):
                 continue
             ans += 1
             sc = got.get("score")
-            if isinstance(sc, (int, float)):
-                if best is None or not isinstance(best[0], (int, float)) or sc > best[0]:
+            if _is_score(sc):
+                if best is None or not _is_score(best[0]) or sc > best[0]:
                     best = (sc, (got.get("feat") or "").strip())
             elif best is None:
                 # KEEP THE STATUS THE MODEL ACTUALLY SAID (order d2f89bfe967d). This used to
@@ -1128,7 +1144,7 @@ def _split_gate(got, cand, entity=None):
         hit, why_cite = (_resolve_citation(ft, pool, numbered=False) if ft
                          else (None, "no citation given"))
         source = pool[hit] if hit is not None else None
-        if isinstance(sc, (int, float)) and source is not None:
+        if _is_score(sc) and source is not None:
             # 3 SUBJECT -- the entity has to be the doer, on this path too.
             why = subject_refusal(entity, source, ax)
             if why:
@@ -1137,7 +1153,7 @@ def _split_gate(got, cand, entity=None):
                 continue
             scores[ax] = max(0.0, min(9.9, float(sc)))
             sheet[ax] = ft
-        elif isinstance(sc, (int, float)):
+        elif _is_score(sc):
             rejects.append((ax, "split citation not verbatim in this axis's candidates: "
                             + str(why_cite)))
             scores[ax] = A.UNESTIMABLE

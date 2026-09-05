@@ -653,12 +653,29 @@ def main():
         # lands in `failures` beside every other refusal -- visible, re-runnable, and never
         # silently published. A single meta leak in a finished volume breaks the frame for every
         # entry around it, which is why it must not reach disk at all.
+        # AND THE IMPORT FAILURE FAILS CLOSED TOO, which it did not until 2026-09-04 (sweep 44,
+        # batch 7). This was `except ImportError: silence.note(...)` sitting directly above the
+        # `except Exception` arm below -- and because Python takes the FIRST matching clause, an
+        # unimportable `pipeline` was caught there, noted, and then fell straight through to the
+        # write. The chapter was published with the P8 meta-language ban never run.
+        #
+        # The arm below already says why that is wrong, in its own words: "a gate that cannot run
+        # has not passed." An `ImportError` is the purest form of a gate that could not run --
+        # Hard Rule -1's FAIL CLOSED property is that every layer answers "I don't know" with
+        # STOP, and a missing module is the layer answering "I don't know". It is also not
+        # hypothetical: `pipeline.py` is a large, frequently-edited module in this same tree, and
+        # a syntax error or a broken import inside it would silently switch this gate off for
+        # every chapter of a multi-hour run while the run reported success.
+        #
+        # The special case is simply removed, so an ImportError reaches the fail-closed arm like
+        # any other failure and the chapter is refused and filed. The `silence.note` is kept
+        # there, because the detectors read it; what is dropped is the fall-through.
         try:
             import pipeline as _PL
             _PL.assert_in_universe(text, where=job["address"])
-        except ImportError:
-            silence.note("generate.py:meta-ban-unavailable")
         except Exception as _meta:
+            if isinstance(_meta, ImportError):
+                silence.note("generate.py:meta-ban-unavailable")
             # BROAD, LIKE EVERY OTHER FAILURE POINT IN THIS LOOP (sweep42-batch06).
             #
             # This caught `ValueError` alone. `assert_in_universe` raises only ValueError today,
