@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 375  ·  last run 2026-09-05 17:26
+round 376  ·  last run 2026-09-05 17:51
 
 ## Structure
 
@@ -13,12 +13,8 @@ round 375  ·  last run 2026-09-05 17:26
 
 ## What the model found in the code
 
-**7 open** (3 high). Newest first.
+**5 open** (1 high). Newest first.
 
-- **verify_math.py** `check` — [HIGH] the first argument is a string, but the second is a boolean expression, and the third is a boolean
-  - says: check the condition and the expected result
-- **verify_math.py** `check` — [HIGH] the key is not stable across processes due to using hash()
-  - says: the same entity and passage still hit the same key IN A LATER PROCESS
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
