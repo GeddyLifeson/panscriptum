@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 387  ·  last run 2026-09-06 03:11
+round 388  ·  last run 2026-09-06 04:25
 
 ## Structure
 
@@ -12,12 +12,14 @@ round 387  ·  last run 2026-09-06 03:11
 
 ## What the model found in the code
 
-**25 open** (11 high). Newest first.
+**27 open** (12 high). Newest first.
 
-- **feats.py** `wiki_source` — [HIGH] Used to gate the expensive `strip_wikitext` call, but the logic is inverted
-  - says: The CHEAP GATE IN FRONT OF THE EXPENSIVE ONE. A block page, a soft-404 or a rate-limit interstitial is a real document that mines to zero feats, and "zero feats" is indistinguishable from an honest absence once it is written to the cache.
-- **feats.py** `wiki_source` — [HIGH] Recomputed here, not answered by `reads_as_wiki`
-  - says: Answered by `reads_as_wiki` rather than recomputed here, so the cache-staleness check above and this mining path can never disagree about what kind of corpus a host is.
+- **magnitude.py** `band_hits` — [HIGH] counts BAND MATCHES ONLY (got_band == band), while standards.charter_regression_verdict requires every scored row consistent
+  - says: anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays
+- **hostcheck.py** `purge-cache-remove` — [HIGH] the cache files are not deleted if the record write is denied, leaving the entries unsupported
+  - says: the cache files are deleted out from under the entries
+- **hostcheck.py** `purge-record` — [HIGH] the function leaves the gap as a silence by not writing the purged_roster note and the cache files
+  - says: the gap it leaves is a recorded finding rather than a silence
 - **estate.py** `note` — [HIGH] appends a finding to, but the code in the comment says it should append nothing
   - says: appends a finding to the report
 - **estate.py** `note` — [HIGH] appends a finding to the report
@@ -36,6 +38,12 @@ round 387  ·  last run 2026-09-06 03:11
   - says: allow_paid is owner-held. Nothing automatic may switch it on.
 - **drill.py** `catalog_matches_disk` — [HIGH] Only checks that the catalog claims exist on disk (catalog -> disk), but not the reverse (disk -> catalog)
   - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
+- **liveness.py** `scoped` — [MEDIUM] the code says it does instead
+  - says: the code says it does instead
+- **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
+  - says: searches for replacements for hosts that failed to hold their fiction
+- **hostcheck.py** `candidates` — [MEDIUM] Returns the same flat list as `candidates_split`
+  - says: Unchanged for every caller: the same flat `grounded + spec` list it has always returned.
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair.
 - **health.py** `silence.write_json` — [MEDIUM] is called and the return value is checked, but the code does not handle the case where it returns False
@@ -56,10 +64,6 @@ round 387  ·  last run 2026-09-06 03:11
   - says: Ensure that a raise is present in the handler
 - **drill.py** `return all(_reaches_call(tree, want, entries) for want, entries in (` — [MEDIUM] Check that three guards are callable from their entry points, but the code does not verify that they are actually called
   - says: Check that three guards are reachable from their entry points
-- **dashboard.py** `silence.write_json` — [MEDIUM] the write is attempted regardless of whether it succeeds, and the function returns [] on failure
-  - says: this server is threaded (daemon_threads=True) and every /api/state poll runs this function, so two concurrent pollers on a fixed temp name collide on the temp file itself. The PID+thread-qualified tmp name write_json uses closes that race.
-- **completeness.py** `work` — [MEDIUM] A HOST THAT IS DOWN STILL GETS A ROW. Asking the domain once and emitting an honest `unreliable` row costs one socket call; probing it 8 times per source costs ~17 minutes per source under a block and produces the identical conclusion. The row matters: a source missing from COMPLETENESS.json reads downstream as "nothing on the wiki", which is the opposite of "we could not ask", and a file that loses every fandom source during an outage is the empty-file catastrophe of 2026-08-24 wearing a smaller hat.
-  - says: A HOST THAT IS DOWN STILL GETS A ROW. Asking the domain once and emitting an honest `unreliable` row costs one socket call; probing it 8 times per source costs ~17 minutes per source under a block and produces the identical conclusion. The row matters: a source missing from COMPLETENESS.json reads downstream as "nothing on the wiki", which is the opposite of "we could not ask", and a file that loses every fandom source during an outage is the empty-file catastrophe of 2026-08-30 wearing a smaller hat.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
