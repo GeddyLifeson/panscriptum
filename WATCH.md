@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 394  ·  last run 2026-09-06 11:22
+round 395  ·  last run 2026-09-06 13:06
 
 ## Structure
 
@@ -12,8 +12,10 @@ round 394  ·  last run 2026-09-06 11:22
 
 ## What the model found in the code
 
-**44 open** (9 high). Newest first.
+**45 open** (10 high). Newest first.
 
+- **ledger_guard.py** `silence.append_line` — [HIGH] silence.append_line is used but the code does not actually call it. Instead, the code calls `silence.append_line(CHAIN, json.dumps(rec, ensure_ascii=False))` which is a call to the function, but the actual implementation of `silence.append_line` is not provided here, and the comment suggests that the function was meant to be used to avoid the issue described, but the code is still using the old method (bare `open(CHAIN, "a")`), which is not present in the code. The code is using the old method, which is not the same as the function that was supposed to be used.
+  - says: THROUGH `silence.append_line`, NOT A BARE `open(CHAIN, "a")` (order f7b611d107cb, sweep41-batch10). This was the exact pattern measured on 2026-09-01 losing 704 of 3,200 rows: `O_APPEND` makes the seek-to-end and the write one operation on POSIX, and the Windows CRT implements it as a seek FOLLOWED BY a write, so two processes seek to the same end offset and the second lands ON the first. `silence.append_line` was written that same day to close it -- an OS-level lock on a sidecar plus `O_BINARY` -- and this call site, in the module whose own commentary quotes that measurement, was still using the old shape.
 - **foreman.py** `kill_stalled_job` — [HIGH] Kills stalled jobs, but the code comments indicate it should only kill jobs that are not in the standing set and not restartable, which is a contradiction.
   - says: A job that is UP and writing nothing is worse than a job that is down.
 - **workorders.py** `resolve_code` — [HIGH] resolve_code is called with a code and a resolution message, but the code is not checked against any condition; it always returns True
@@ -32,6 +34,14 @@ round 394  ·  last run 2026-09-06 11:22
   - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
 - **overnight.py** `run` — [HIGH] does not order anything and cannot run after the reader
   - says: Runs after the reader so it sees the evidence the reader just produced
+- **resync_roll.py** `total` — [MEDIUM] sum(r.get("entry_count", 0) for r in roll)
+  - says: sum(r.get("entry_count", 0) for r in roll)
+- **resync_roll.py** `have` — [MEDIUM] sum(1 for r in roll if r.get("entry_count", 0) > 0)
+  - says: sum(1 for r in roll if r.get("entry_count", 0) > 0)
+- **ledger_guard.py** `verify_chain` — [MEDIUM] only checks the hash chain integrity, not the entire ledger
+  - says: check the relay's ledgers
+- **ledger_guard.py** `check_all` — [MEDIUM] only checks the structure and floors, not the entire ledger integrity
+  - says: check the relay's ledgers
 - **foreman.py** `refresh_coverage` — [MEDIUM] Returns a boolean indicating if the coverage script ran successfully, without capturing or reporting any output or error details.
   - says: Re-measure cited/settled. Stale figures understate the library and mislead every other standard that reads them.
 - **generate.py** `failures.pop` — [MEDIUM] removes a failure from the failures list even if the chapter was not actually failed
@@ -86,14 +96,6 @@ round 394  ·  last run 2026-09-06 11:22
   - says: A SURVIVOR OF THE FAST GATES IS ONLY A CANDIDATE
 - **mutate.py** `no_verdict` — [MEDIUM] no_verdict is assigned the value of sig, which is used to indicate a verdict, but the comment suggests it should represent the absence of a verdict
   - says: THE GATE DID NOT REACH A VERDICT. Not a kill: see `could_not_judge`.
-- **mutate.py** `missed` — [MEDIUM] list of files that were not copied due to sandbox issues
-  - says: list of files that were not copied due to sandbox issues
-- **mutate.py** `absent` — [MEDIUM] list of targets that are not files in the sandbox
-  - says: list of targets missing from the sandbox
-- **mutate.py** `suppressed_on_record` — [MEDIUM] returns entries with 'ruled_equivalent' key, which may not be suppressed
-  - says: every survivor a standing ruling kept out of the queue
-- **mutate.py** `survivors_on_record` — [MEDIUM] filters out baseline_event and ruled_equivalent entries, but includes entries with 'line' key
-  - says: FILTERED TO ACTUAL SURVIVORS
 - **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
   - says: searches for replacements for hosts that failed to hold their fiction
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
