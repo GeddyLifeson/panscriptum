@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 389  ·  last run 2026-09-06 05:18
+round 390  ·  last run 2026-09-06 06:44
 
 ## Structure
 
@@ -12,18 +12,14 @@ round 389  ·  last run 2026-09-06 05:18
 
 ## What the model found in the code
 
-**35 open** (13 high). Newest first.
+**36 open** (7 high). Newest first.
 
+- **pipeline.py** `phases` — [HIGH] the code proceeds to process phases even when the list is empty
+  - says: A RUNNER WITH AN EMPTY WORK LIST MUST SAY WHICH KIND OF EMPTY IT IS.
+- **pipeline.py** `landed` — [HIGH] The code adds a third arm to handle the case where all sources have no entries, but this contradicts a deliberate decision that this case should not keep phase 8 open.
+  - says: A THIRD ARM WAS ADDED HERE ON 2026-09-01 AND REVERTED THE SAME SHIFT. Recorded so the next reader does not re-derive it a third time.
 - **overnight.py** `run` — [HIGH] does not order anything and cannot run after the reader
   - says: Runs after the reader so it sees the evidence the reader just produced
-- **onomast.py** `well_formed` — [HIGH] Implements seven constraints, but the docstring claims it was supposed to implement four, and three of the four original constraints were misattributed
-  - says: Is this a name a Custos could say aloud and write down twice the same way?
-- **magnitude.py** `band_hits` — [HIGH] counts BAND MATCHES ONLY (got_band == band), while standards.charter_regression_verdict requires every scored row consistent
-  - says: anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays
-- **hostcheck.py** `purge-cache-remove` — [HIGH] the cache files are not deleted if the record write is denied, leaving the entries unsupported
-  - says: the cache files are deleted out from under the entries
-- **hostcheck.py** `purge-record` — [HIGH] the function leaves the gap as a silence by not writing the purged_roster note and the cache files
-  - says: the gap it leaves is a recorded finding rather than a silence
 - **estate.py** `note` — [HIGH] appends a finding to, but the code in the comment says it should append nothing
   - says: appends a finding to the report
 - **estate.py** `note` — [HIGH] appends a finding to the report
@@ -32,14 +28,20 @@ round 389  ·  last run 2026-09-06 05:18
   - says: One compare-and-swapped attempt at lifting the halt. -> (landed, why).
 - **drill.py** `R.hodge_decompose` — [HIGH] returns a result that does not match the expected values for a pure ladder
   - says: A pure ladder measures as 100% ladder
-- **drill.py** `generator_actually_skips_an_excluded_source` — [HIGH] the function checks if exclusions are filtered but does not verify they are skipped
-  - says: The manifest builder must consult `roll`, not just read the file.
-- **drill.py** `drill_scope` — [HIGH] the function checks if excluded sources have reasons but does not enforce exclusion
-  - says: An owner exclusion must actually exclude — the status that did nothing for five days.
-- **drill.py** `drill_does_not_halt_during_a_mutation_run` — [HIGH] the function returns False when a breach is detected, which raises an OWNER halt
-  - says: a breach during a mutation run is reported but does not halt the library
-- **drill.py** `paid_access_stays_switched_off` — [HIGH] returns True when the config file is absent, which could allow paid access even if the owner hasn't explicitly set it
-  - says: allow_paid is owner-held. Nothing automatic may switch it on.
+- **profile.py** `decode` — [MEDIUM] raises ValueError on invalid profiles but does not validate the decoded components against the B32 alphabet
+  - says: decodes a world profile string into its components
+- **policy.py** `main` — [MEDIUM] The function returns 0, 1, or 2 based on the presence of failures, unreadable records, and whether the report was landed. The comment suggests that the function should print all failures and vacuous passes, but the code only returns exit codes without printing all the details.
+  - says: Every failure and every vacuous pass is named. These printed 12 and stopped, which on a 216-record corpus meant the 13th failure onward existed only in state/policy_report.json -- and the line above it announced a count that looked like the whole list.
+- **policy.py** `ev_read` — [MEDIUM] initialized to 0 and then set to the length of feats, which is the number of evidence files that were processed
+  - says: counts the number of evidence files that were read
+- **policy.py** `ev_total` — [MEDIUM] initialized to 0 and then set to the length of all_feats, which is the total number of evidence files
+  - says: counts the total number of evidence files
+- **policy.py** `nonempty` — [MEDIUM] Checks if the value has a __len__ attribute and its length is greater than zero, which would include numbers if they are containers (like a list or dict) but not numbers in a name field.
+  - says: Spelled as what it means: a non-empty container or string.
+- **pipeline.py** `batch_settled` — [MEDIUM] skips when the batch is already in done_keys
+  - says: skip when the span as it stands right now is fully judged
+- **overwatch.py** `round_once` — [MEDIUM] The function resets the _LOCAL_BUSY counter to 0 at the beginning of each round, but the comment suggests that the budget was previously per process and not per round, implying that the function may not correctly handle the budgeting logic as intended.
+  - says: THE BUDGET IS PER ROUND, AND UNTIL NOW IT WAS PER PROCESS. CLOUD_BUDGET's own comment calls it "calls the watcher may take from the shared pool in one round", and the yield it guards is explicitly meant to last "for as long as the busy period lasted" -- but nothing ever reset the counter. In `--loop` mode (the standing sweep, which runs for days) one busy stretch pushed the lifetime total past 20 and every later GPU-busy call returned None forever after, with no cloud fallback. The watcher quietly stopped watching, which this file's own comment names as the thing it exists to prevent. Reset where the round begins.
 - **overnight.py** `drill_rc` — [MEDIUM] assigned the value of safety_drill() which is not checked against any condition
   - says: supposed to stop us still able to? Cheap (no model calls, no network) and it is the only check that would notice a safety having been REMOVED rather than having failed.
 - **overnight.py** `run` — [MEDIUM] Runs a stage to completion, but does not properly handle the case where the process is already running, leading to potential duplicate runs.
