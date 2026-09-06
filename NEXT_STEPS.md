@@ -57,15 +57,32 @@ questions**, so one answer closes several. Highest value, in order:
 
 ## 2. THE UNFINISHED HALF OF THE SHELL-SAFETY FIX — `1c99df1f69c1`
 
-`workorders.py` now has `--how-file` and stdin, and text round-trips byte for byte. **The caller
-half is unfixed and it is a documentation change, not a code one**: the shift briefs (including
-mine, at the start of run #45) instruct agents to pass `--how` as a Bash argument. Work-order text
-passed that way is **executed**, not merely mangled. Replace that block wherever it appears with:
+`workorders.py` now has `--how-file` and stdin, and text round-trips byte for byte. Work-order text
+passed on argv is **executed**, not merely mangled.
+
+**THERE IS NOTHING LEFT TO PATCH IN THIS REPO — do not go looking.** A `--how` / `--resolve` search
+across the tracked tree was run twice on 2026-09-05 and verified independently by the coordinator:
+the unsafe form appears **only** in past-tense audit prose under `handoff/`, in `workorders.py`
+itself, and in `state/foreman_backups/` copies of it. `MAINTENANCE.md`, `CLAUDE.md` and `prompts/`
+carry **no** instruction to shell `--how`. (An earlier note in this shift's own reporting said the
+docs did; that was wrong, and correcting it here is the point of this paragraph — the next run
+should not spend a search on a file that does not exist.)
+
+**The whole remaining remedy is the wording of the session brief a coordinator writes when it
+spawns agents**, which is not a repo file and cannot be fixed by editing one. Whoever writes that
+brief next should use:
 
 ```
 write the resolution with the Write tool to <scratchpad>/how_<id>.txt, then
   python src/workorders.py --resolve <id> --how-file "<scratchpad>/how_<id>.txt"
 ```
+
+**The mechanism has bitten at least four times across two separate sweeps, months apart** — which
+is the order's own argument that this is structural rather than an agent being careless. The fourth
+predates the three the order names: `handoff/run35/AUDIT_batch2.md:107-109` records that
+`b68ca666da79`'s resolution "got truncated mid-sentence by an unescaped backtick in the shell
+command (bash read `` `continue` `` as command substitution)" and ends abruptly at `"...and "`. It
+joins `525dd7bbffed` and `7209d442c73e` as unrepairable — the closed log is append-only.
 
 Also note `shell_active()` under-reports: it misses `;` `|` `&` `>` `<` newline `!` and the single
 quote (order `ebdd80dc9e68`).

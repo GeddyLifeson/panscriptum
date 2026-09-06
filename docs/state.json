@@ -1,5 +1,5 @@
 {
- "at": "2026-09-05 23:32:56",
+ "at": "2026-09-05 23:34:03",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -830,11 +830,11 @@
   },
   "coverage": {
    "entries": 282822,
-   "cited": 25659,
-   "read": 215310,
-   "settled": 240969,
-   "feats": 129263,
-   "age_h": 0.2
+   "cited": 25661,
+   "read": 215312,
+   "settled": 240973,
+   "feats": 129265,
+   "age_h": 0.0
   },
   "phases": [
    {
@@ -1260,7 +1260,7 @@
    "breached": [],
    "liveness": 46,
    "liveness_ceiling": 52,
-   "age_min": 0.4
+   "age_min": 1.5
   },
   "escalation_recent": {
    "SUPERVISOR": 40,
@@ -1399,7 +1399,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.2h",
+   "observed": "0.0h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1534,7 +1534,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "not enough history yet (40m of 40)",
+   "observed": "4/4 moved in 41m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1561,7 +1561,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "0.3h",
+   "observed": "0.4h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1588,7 +1588,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "read_auto (23 min, 674779 bytes), roll_auto (63 min, 2772234 bytes)",
+   "observed": "read_auto (24 min, 674779 bytes), roll_auto (64 min, 2772234 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1659,8 +1659,8 @@
   {
    "standard": "one instance of each job",
    "group": "machine",
-   "holds": true,
-   "observed": "one each",
+   "holds": false,
+   "observed": "publish.py x2",
    "floor": "one each",
    "order": "Two copies of the same job race on one cache and split one quota. The supervisor excludes by process basename before launching, so a duplicate means one was started outside it -- find and stop the older.",
    "severity": "high"
@@ -1705,25 +1705,25 @@
  "movement": [
   {
    "metric": "cited",
-   "now": 25659,
-   "delta": 2,
-   "minutes": 30,
+   "now": 25661,
+   "delta": 4,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "settled",
-   "now": 240969,
-   "delta": 21,
-   "minutes": 30,
+   "now": 240973,
+   "delta": 25,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "feats",
-   "now": 129263,
-   "delta": 199,
-   "minutes": 30,
+   "now": 129265,
+   "delta": 201,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   },
@@ -1731,7 +1731,7 @@
    "metric": "entities read",
    "now": 2344,
    "delta": 3,
-   "minutes": 30,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   },
@@ -1739,18 +1739,18 @@
    "metric": "chunks",
    "now": 14841,
    "delta": 28,
-   "minutes": 30,
+   "minutes": 31,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "standards met",
-   "now": 31,
-   "delta": 0,
-   "minutes": 30,
-   "reset": false,
-   "stalled": true
+   "now": 30,
+   "delta": null,
+   "minutes": 31,
+   "reset": true,
+   "stalled": false
   }
  ],
- "generated": "2026-09-05T23:33:11"
+ "generated": "2026-09-05T23:34:17"
 }
