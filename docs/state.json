@@ -1,5 +1,5 @@
 {
- "at": "2026-09-06 14:08:53",
+ "at": "2026-09-06 14:19:13",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 20,
+     "left": 23,
      "cap": 1000,
-     "frac": 0.02
+     "frac": 0.023
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.02
+   "worst": 0.023
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -308,9 +308,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 3,
+     "left": 4,
      "cap": 231,
-     "frac": 0.013
+     "frac": 0.0173
     },
     {
      "name": "tpd",
@@ -331,7 +331,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.013
+   "worst": 0.0173
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -404,15 +404,15 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 35,
+     "left": 50,
      "cap": 367,
-     "frac": 0.0954
+     "frac": 0.1362
     },
     {
      "name": "tpd",
-     "left": 96203,
+     "left": 98256,
      "cap": 200000,
-     "frac": 0.481
+     "frac": 0.4913
     },
     {
      "name": "rpm",
@@ -427,7 +427,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0954
+   "worst": 0.1362
   },
   {
    "bucket": "huggingface:free",
@@ -718,9 +718,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 16,
+     "left": 19,
      "cap": 500,
-     "frac": 0.032
+     "frac": 0.038
     },
     {
      "name": "rpm",
@@ -729,7 +729,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.032
+   "worst": 0.038
   }
  ],
  "throughput": {
@@ -1021,11 +1021,11 @@
    ],
    [
     "silent:mutate.py:reap-skipped-live-owner:None",
-    132
+    134
    ],
    [
     "silent:silence.py:stale-write-refused:None",
-    132
+    134
    ],
    [
     "silent:publish.py:agent-scratch-refused:None",
@@ -1041,35 +1041,35 @@
    ],
    [
     "escalation:MANAGER:LOCAL_AGENT_BLAST_CAP:blast-radius cap: 1 patches in one run (limit 0). A repair does not look like this; stopping and asking for a person.",
-    66
+    67
    ],
    [
     "silent:codewatch.py:record-denied:None",
-    66
+    67
    ],
    [
     "silent:ledger_guard.py:acknowledgement-refused:None",
-    66
+    67
    ],
    [
     "silent:mutate.py:owner-claim-expired:None",
-    66
+    67
    ],
    [
     "silent:publish.py:maintenance-guard:JSONDecodeError",
-    66
+    67
    ],
    [
     "silent:replace-denied:shared.json:PermissionError",
-    66
+    67
    ],
    [
     "silent:scout.py:archive-unwritable:None",
-    66
+    67
    ],
    [
     "silent:thread_integrity.py:floor-unreadable:JSONDecodeError",
-    66
+    67
    ],
    [
     "silent:custodes.py:abstained-comparability:None",
@@ -1132,7 +1132,7 @@
     1
    ]
   ],
-  "swallowed_total": 4925
+  "swallowed_total": 4937
  },
  "metrics": [
   {
@@ -1203,12 +1203,12 @@
    "breached": [],
    "liveness": 46,
    "liveness_ceiling": 52,
-   "age_min": 6.0
+   "age_min": 4.3
   },
   "escalation_recent": {
-   "SUPERVISOR": 103,
-   "MANAGER": 326,
-   "JANITOR": 249,
+   "SUPERVISOR": 104,
+   "MANAGER": 330,
+   "JANITOR": 252,
    "OWNER": 2
   },
   "step4_gate": {
@@ -1286,7 +1286,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": false,
-   "observed": "local, 1 of 16 permits (1 answering; ollama up)",
+   "observed": "local, 1 of 16 permits (1 answering (proof is 1.1h old); ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1403,7 +1403,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": false,
-   "observed": "2,159",
+   "observed": "2,171",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1475,7 +1475,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "3/4 moved in 41m",
+   "observed": "3/4 moved in 42m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1502,7 +1502,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": false,
-   "observed": "14.9h",
+   "observed": "15.1h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1529,7 +1529,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "pipeline_auto (52 min, 1068858 bytes), read_auto (31 min, 681667 bytes), roll_auto (52 min, 2773323 bytes)",
+   "observed": "pipeline_auto (63 min, 1068858 bytes), read_auto (42 min, 681667 bytes), roll_auto (63 min, 2773323 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1538,7 +1538,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1225. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x260, 0.9h old); ovh:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `ovh:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ovh:free` is at fault. (x3, 11.6h old); huggingface:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `huggingface:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `huggingface:free` is at fault. (x8, 11.7h old); together:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `together:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `together:free` is at fault. (x3, 11.7h old)",
+   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1225. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x260, 1.1h old); ovh:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `ovh:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ovh:free` is at fault. (x3, 11.7h old); huggingface:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `huggingface:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `huggingface:free` is at fault. (x8, 11.9h old); together:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `together:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `together:free` is at fault. (x3, 11.9h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1583,7 +1583,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in ledgers",
+   "observed": "probe completed in 42.2s",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. Read the detail before acting: a WEDGE is cured by restarting ollama.exe (the tray app respawns it) and nothing drains that queue on its own, but a daemon that is DOWN or answering an HTTP error needs starting or reading, not restarting.",
    "severity": "high"
@@ -1647,24 +1647,24 @@
   {
    "metric": "cited",
    "now": 25741,
-   "delta": 3,
-   "minutes": 31,
+   "delta": 2,
+   "minutes": 32,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "settled",
    "now": 241377,
-   "delta": 14,
-   "minutes": 31,
+   "delta": 10,
+   "minutes": 32,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "feats",
    "now": 130571,
-   "delta": 5,
-   "minutes": 31,
+   "delta": 4,
+   "minutes": 32,
    "reset": false,
    "stalled": false
   },
@@ -1672,7 +1672,7 @@
    "metric": "entities read",
    "now": 2393,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 32,
    "reset": false,
    "stalled": true
   },
@@ -1680,7 +1680,7 @@
    "metric": "chunks",
    "now": 15863,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 32,
    "reset": false,
    "stalled": true
   },
@@ -1688,10 +1688,10 @@
    "metric": "standards met",
    "now": 31,
    "delta": 0,
-   "minutes": 31,
+   "minutes": 32,
    "reset": false,
    "stalled": true
   }
  ],
- "generated": "2026-09-06T14:09:07"
+ "generated": "2026-09-06T14:20:06"
 }
