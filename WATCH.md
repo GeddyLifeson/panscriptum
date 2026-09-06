@@ -1,33 +1,39 @@
 # OVERWATCH
 
-round 390  ·  last run 2026-09-06 06:44
+round 391  ·  last run 2026-09-06 08:11
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 296,661 inspected (deep scan as of round 385)
+- files that will not parse: **0** of 297,340 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**36 open** (7 high). Newest first.
+**37 open** (4 high). Newest first.
 
-- **pipeline.py** `phases` — [HIGH] the code proceeds to process phases even when the list is empty
-  - says: A RUNNER WITH AN EMPTY WORK LIST MUST SAY WHICH KIND OF EMPTY IT IS.
-- **pipeline.py** `landed` — [HIGH] The code adds a third arm to handle the case where all sources have no entries, but this contradicts a deliberate decision that this case should not keep phase 8 open.
-  - says: A THIRD ARM WAS ADDED HERE ON 2026-09-01 AND REVERTED THE SAME SHIFT. Recorded so the next reader does not re-derive it a third time.
+- **read.py** `_ask` — [HIGH] is the local GPU, unconditionally
+  - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
 - **overnight.py** `run` — [HIGH] does not order anything and cannot run after the reader
   - says: Runs after the reader so it sees the evidence the reader just produced
 - **estate.py** `note` — [HIGH] appends a finding to, but the code in the comment says it should append nothing
   - says: appends a finding to the report
 - **estate.py** `note` — [HIGH] appends a finding to the report
   - says: appends a finding to the report
-- **escalation.py** `landed, why` — [HIGH] A variable that is used but never defined in this file or its imports
-  - says: One compare-and-swapped attempt at lifting the halt. -> (landed, why).
-- **drill.py** `R.hodge_decompose` — [HIGH] returns a result that does not match the expected values for a pure ladder
-  - says: A pure ladder measures as 100% ladder
+- **reference.py** `shelfmark` — [MEDIUM] generates a shelfmark based on the tier_key and lower_rungs, but the code may mislabel rungs if the lengths of upper and lower do not match the expected 3 and 4 elements respectively
+  - says: The charter's canonical Shelfmark
+- **read.py** `_chunk_put` — [MEDIUM] is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
+  - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
+- **read.py** `_chunk_get` — [MEDIUM] is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
+  - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
+- **read.py** `CLOUD_CHUNK` — [MEDIUM] The value of CLOUD_CHUNK is hardcoded to CHUNK, which is 10000. The code around it suggests it should be derived based on the model's context size and token length, but it's set as a fixed value.
+  - says: The CLOUD_UNIT — MEASURED, AND THE MEASUREMENT SAID NO. The reasoning was sound: pool models carry contexts an order of magnitude larger than the local one, free tiers meter REQUESTS rather than tokens, and reading a page in four big pieces instead of fourteen small ones is the same text for a quarter of the calls. 47,757 chunks across the corpus would have become 13,265.
+- **read.py** `CHUNK` — [MEDIUM] The value of CHUNK is hardcoded to 10000, which is not derived from any calculation or variable in the code. The code around it suggests it should be derived based on the num_ctx and token length, but it's set as a fixed value.
+  - says: THE GPU-SAFE UNIT. Ollama runs at num_ctx 6144, and English wiki prose is about 3.7 characters per token, so 10,000 characters is roughly 2,700 tokens of passage plus the system prompt -- comfortably inside the window. Sending more does not error: Ollama truncates in silence, which is what produced the "51% fabrication rate" that was really a cut-off passage.
+- **publish.py** `prune_export` — [MEDIUM] a function that deletes files not in `wanted` but also deletes entire directories that are not in `COPY_DIRS` or `EXPORT_OWN_DIRS`
+  - says: a function that deletes files not in `wanted`
 - **profile.py** `decode` — [MEDIUM] raises ValueError on invalid profiles but does not validate the decoded components against the B32 alphabet
   - says: decodes a world profile string into its components
 - **policy.py** `main` — [MEDIUM] The function returns 0, 1, or 2 based on the presence of failures, unreadable records, and whether the report was landed. The comment suggests that the function should print all failures and vacuous passes, but the code only returns exit codes without printing all the details.
@@ -78,10 +84,6 @@ round 390  ·  last run 2026-09-06 06:44
   - says: escalate(...)
 - **escalation.py** `clear` — [MEDIUM] clear() is not called here and the code does not handle its exceptions
   - says: clear() raises it for a non-person caller
-- **escalation.py** `why` — [MEDIUM] being initialized to 'not attempted' and then overwritten in the loop, but the loop may not have run at all
-  - says: tracking the reason for failure
-- **escalation.py** `landed` — [MEDIUM] being set to False after the loop, but the loop may not have run at all
-  - says: tracking whether the halt was successfully landed
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
