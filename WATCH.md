@@ -1,11 +1,11 @@
 # OVERWATCH
 
-round 378  ·  last run 2026-09-05 19:01
+round 379  ·  last run 2026-09-05 19:42
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 296,173 inspected (deep scan as of round 373)
+- files that will not parse: **1** of 296,341 inspected  — state\gpu_lane\slot.0.json — cannot stat
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
@@ -13,14 +13,12 @@ round 378  ·  last run 2026-09-05 19:01
 
 ## What the model found in the code
 
-**8 open** (4 high). Newest first.
+**7 open** (3 high). Newest first.
 
 - **feats.py** `roll` — [HIGH] the return code is always 0
   - says: THE COUNTERS REACH THE EXIT CODE
 - **feats.py** `_QUANTITY` — [HIGH] exponent is captured but not used in value calculation, leading to incorrect magnitude
   - says: exponent is kept alongside for auditable reading
-- **allsweep.py** `allsweep.VERIFIERS` — [HIGH] Iterates as a three-tuple `(label, argv, rc_means)`
-  - says: Iterates as exactly `(label, argv)`, deliberately
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
