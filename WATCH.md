@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 383  ·  last run 2026-09-05 22:35
+round 384  ·  last run 2026-09-05 23:27
 
 ## Structure
 
@@ -12,26 +12,34 @@ round 383  ·  last run 2026-09-05 22:35
 
 ## What the model found in the code
 
-**10 open** (4 high). Newest first.
+**14 open** (4 high). Newest first.
 
+- **autostart.py** `ON.running` — [HIGH] leans on truthiness
+  - says: callers "test `is None` explicitly rather than leaning on truthiness"
 - **assay.py** `instrument` — [HIGH] Raises ValueError if anchor is not in INSTRUMENT_WINDOWS, which may not be the same as LADDER
   - says: Deterministic conversion to the six faculties, 1-30, plus Transcendence Grade.
 - **address_space.py** `assign` — [HIGH] assign(desig, tiers.get(src) or {}) with wrong second argument
   - says: assign(desig, tiers.get(src) or {})
 - **address_space.py** `pack` — [HIGH] pack(**fields) with fields having wrong keys
   - says: pack(3, 11, ...)
-- **address_space.py** `FIELDS` — [HIGH] hyperverse and xenoverse ARE fields with computed widths counting toward TOTAL_BITS
-  - says: hyperverse and xenoverse are NOT fields ... reserving bits for them would invite filling them in
+- **cascade_bridge.py** `record_unrecognised` — [MEDIUM] The key is folded by lowercasing the text, which may cause different errors with the same folded text to be merged, potentially losing case sensitivity information.
+  - says: Keyed by bucket + the error's leading text so a provider repeating one fault stays one row with a count rather than flooding the file.
+- **cascade_bridge.py** `record_unrecognised` — [MEDIUM] Attempts to write down a pool failure but may overwrite existing entries due to the re-derivation logic and the compare-and-swap mechanism which is not atomic.
+  - says: Write down a pool failure that matched no known disposition, so it can be investigated.
+- **canon_backup.py** `restore` — [MEDIUM] Attempts to restore a file by extracting it from a snapshot and replacing the destination file, but the code's comment and docstring indicate it should handle restoration with atomic operations and error handling.
+  - says: Extract ONE canonical file from a snapshot. -> written path.
+- **canon_backup.py** `final` — [MEDIUM] the final name includes the stamp which includes seconds, leading to sorted order
+  - says: THE NAMING CONVENTION STILL SORTS
+- **canon_backup.py** `stamp` — [MEDIUM] used to generate a unique filename by combining with PID and thread ID
+  - says: a second-resolution stamp is not a disambiguator
+- **autostart.py** `watch` — [MEDIUM] Exits if another watchdog is running, but does not handle staleness or budgeting as described
+  - says: Keep the supervisor alive. The one thing it cannot do for itself.
+- **audit.py** `audit_invariants` — [MEDIUM] audit_invariants is called with recs, but the function is not defined in the provided code slice
+  - says: audit_invariants is called with recs
 - **allsweep.py** `bad` — [MEDIUM] sum of various counts including ungraded reconcile rows
   - says: count of bad subsystems
-- **address_space.py** `drawn` — [MEDIUM] drawn field from the digest, but the comment says it's a hash draw and the code contradicts the comment
-  - says: drawn field from the digest
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
-- **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.
-  - says: The drill writes `state/drill_last.json` when it runs and this reports what it found and HOW OLD that is -- an age is not decoration here, it is the difference between "57 nets held" and "57 nets held, at some point, possibly before the change you are looking at".
-- **address.py** `_index_name_is_placed_like_a_title` — [MEDIUM] The function checks if the index name is placed like a title, but the logic is flawed in how it handles pluralization and partial matches, leading to incorrect categorization of vocabulary vs title evidence.
-  - says: The index entry sits inside the target: is it there as the title, or as vocabulary?
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
   - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 
