@@ -1,24 +1,23 @@
 # Overnight run
 
-Last update: 2026-09-06 10:27:08  (cycle 55)
+Last update: 2026-09-06 10:39:08  (cycle 56)
 
 ## Citation coverage
 
 | | now | at start | change |
 |---|---:|---:|---:|
-| entries cited | 25,714 | 25,661 | +53 |
-| read, no feat | 215,501 | 215,312 | +189 |
-| feats on record | 130,197 | 129,265 | +932 |
+| entries cited | 25,715 | 25,661 | +54 |
+| read, no feat | 215,508 | 215,312 | +196 |
+| feats on record | 130,374 | 129,265 | +1,109 |
 | cited % | 9.09 | 9.07 | +0.019999999999999574 |
 | settled % | 85.29 | 85.2 | +0.09000000000000341 |
 
 ## Cycles
 
-Showing the last 12 of 55 cycles this run; the 43 earlier ones are in `state/overnight.log`.
+Showing the last 12 of 56 cycles this run; the 44 earlier ones are in `state/overnight.log`.
 
 | cycle | time | cited | settled % | feats |
 |---|---|---:|---:|---:|
-| 44 | 08:13 | 25,709 | 85.28 | 130,054 |
 | 45 | 08:25 | 25,710 | 85.28 | 130,056 |
 | 46 | 08:37 | 25,710 | 85.28 | 130,157 |
 | 47 | 08:49 | 25,710 | 85.28 | 130,157 |
@@ -30,6 +29,7 @@ Showing the last 12 of 55 cycles this run; the 43 earlier ones are in `state/ove
 | 53 | 10:03 | 25,714 | 85.29 | 130,197 |
 | 54 | 10:15 | 25,714 | 85.29 | 130,197 |
 | 55 | 10:27 | 25,714 | 85.29 | 130,197 |
+| 56 | 10:39 | 25,715 | 85.29 | 130,374 |
 
 ## Logs
 
