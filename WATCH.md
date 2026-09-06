@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 395  ·  last run 2026-09-06 13:06
+round 396  ·  last run 2026-09-06 13:34
 
 ## Structure
 
@@ -12,14 +12,10 @@ round 395  ·  last run 2026-09-06 13:06
 
 ## What the model found in the code
 
-**45 open** (10 high). Newest first.
+**36 open** (7 high). Newest first.
 
-- **ledger_guard.py** `silence.append_line` — [HIGH] silence.append_line is used but the code does not actually call it. Instead, the code calls `silence.append_line(CHAIN, json.dumps(rec, ensure_ascii=False))` which is a call to the function, but the actual implementation of `silence.append_line` is not provided here, and the comment suggests that the function was meant to be used to avoid the issue described, but the code is still using the old method (bare `open(CHAIN, "a")`), which is not present in the code. The code is using the old method, which is not the same as the function that was supposed to be used.
-  - says: THROUGH `silence.append_line`, NOT A BARE `open(CHAIN, "a")` (order f7b611d107cb, sweep41-batch10). This was the exact pattern measured on 2026-09-01 losing 704 of 3,200 rows: `O_APPEND` makes the seek-to-end and the write one operation on POSIX, and the Windows CRT implements it as a seek FOLLOWED BY a write, so two processes seek to the same end offset and the second lands ON the first. `silence.append_line` was written that same day to close it -- an OS-level lock on a sidecar plus `O_BINARY` -- and this call site, in the module whose own commentary quotes that measurement, was still using the old shape.
 - **foreman.py** `kill_stalled_job` — [HIGH] Kills stalled jobs, but the code comments indicate it should only kill jobs that are not in the standing set and not restartable, which is a contradiction.
   - says: A job that is UP and writing nothing is worse than a job that is down.
-- **workorders.py** `resolve_code` — [HIGH] resolve_code is called with a code and a resolution message, but the code is not checked against any condition; it always returns True
-  - says: resolve_code is called with a code and a resolution message, and it is expected to file a work order if the resolution is not met
 - **verify_math.py** `check` — [HIGH] the success floor sits above the standard's 50% ok bar
   - says: the success floor sits below the standard's 50% ok bar
 - **verify_math.py** `check` — [HIGH] the check is using a hardcoded payload to test the predicate instead of calling the actual function
@@ -30,8 +26,6 @@ round 395  ·  last run 2026-09-06 13:06
   - says: check that a condition is true
 - **verify_math.py** `A.assay` — [HIGH] assay a single axis's scores and attestation
   - says: assay an anchor's scores and attestation
-- **rosetta.py** `stand_rows` — [HIGH] does not parse Stand parameters as described, but instead appears to be a placeholder or incomplete implementation
-  - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
 - **overnight.py** `run` — [HIGH] does not order anything and cannot run after the reader
   - says: Runs after the reader so it sees the evidence the reader just produced
 - **resync_roll.py** `total` — [MEDIUM] sum(r.get("entry_count", 0) for r in roll)
@@ -46,8 +40,6 @@ round 395  ·  last run 2026-09-06 13:06
   - says: Re-measure cited/settled. Stale figures understate the library and mislead every other standard that reads them.
 - **generate.py** `failures.pop` — [MEDIUM] removes a failure from the failures list even if the chapter was not actually failed
   - says: A DEAD REFUSAL MUST NOT READ LIKE A LIVE ONE
-- **workorders.py** `resolve_code` — [MEDIUM] checking if the resolve is in the loaded data
-  - says: reading the exit code, was told the resolution never applied when in fact it was a transient failure that should be RETRIED.
 - **verify_math.py** `A.axis_score` — [MEDIUM] the guards were present, live, and never once asked to refuse anything
   - says: quantity FIRST. Getting that wrong here raised a TypeError rather than quietly asserting nothing, which is the behaviour a check should have when its author is confused; a check that swallows its own misuse is worse than no check.
 - **verify_math.py** `tol=1e-9` — [MEDIUM] tol=1e-9 is discarded because the comparison is exact
@@ -80,22 +72,12 @@ round 395  ·  last run 2026-09-06 13:06
   - says: counts the total number of evidence files
 - **policy.py** `nonempty` — [MEDIUM] Checks if the value has a __len__ attribute and its length is greater than zero, which would include numbers if they are containers (like a list or dict) but not numbers in a name field.
   - says: Spelled as what it means: a non-empty container or string.
-- **pipeline.py** `batch_settled` — [MEDIUM] skips when the batch is already in done_keys
-  - says: skip when the span as it stands right now is fully judged
 - **overwatch.py** `round_once` — [MEDIUM] The function resets the _LOCAL_BUSY counter to 0 at the beginning of each round, but the comment suggests that the budget was previously per process and not per round, implying that the function may not correctly handle the budgeting logic as intended.
   - says: THE BUDGET IS PER ROUND, AND UNTIL NOW IT WAS PER PROCESS. CLOUD_BUDGET's own comment calls it "calls the watcher may take from the shared pool in one round", and the yield it guards is explicitly meant to last "for as long as the busy period lasted" -- but nothing ever reset the counter. In `--loop` mode (the standing sweep, which runs for days) one busy stretch pushed the lifetime total past 20 and every later GPU-busy call returned None forever after, with no cloud fallback. The watcher quietly stopped watching, which this file's own comment names as the thing it exists to prevent. Reset where the round begins.
 - **overnight.py** `drill_rc` — [MEDIUM] assigned the value of safety_drill() which is not checked against any condition
   - says: supposed to stop us still able to? Cheap (no model calls, no network) and it is the only check that would notice a safety having been REMOVED rather than having failed.
 - **overnight.py** `run` — [MEDIUM] Runs a stage to completion, but does not properly handle the case where the process is already running, leading to potential duplicate runs.
   - says: Run one stage to completion, refusing to start a duplicate.
-- **onomast.py** `load_onomasticon` — [MEDIUM] returns {} on FileNotFoundError and catches all exceptions, raising OnomasticonUnreadable only if the file exists and cannot be parsed
-  - says: RAISES `OnomasticonUnreadable` if the file is on disk and will not parse, and is allowed to propagate on purpose
-- **mutate.py** `dead` — [MEDIUM] dead is assigned the result of unusable_gates(base), which is a list of gates that could not complete on clean code
-  - says: dead = unusable_gates(base)
-- **mutate.py** `no_verdict` — [MEDIUM] no_verdict is used to represent a verdict, but the comment suggests it should be a candidate for being a survivor
-  - says: A SURVIVOR OF THE FAST GATES IS ONLY A CANDIDATE
-- **mutate.py** `no_verdict` — [MEDIUM] no_verdict is assigned the value of sig, which is used to indicate a verdict, but the comment suggests it should represent the absence of a verdict
-  - says: THE GATE DID NOT REACH A VERDICT. Not a kill: see `could_not_judge`.
 - **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
   - says: searches for replacements for hosts that failed to hold their fiction
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
