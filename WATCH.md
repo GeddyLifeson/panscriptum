@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 377  ·  last run 2026-09-05 18:34
+round 378  ·  last run 2026-09-05 19:01
 
 ## Structure
 
@@ -13,8 +13,12 @@ round 377  ·  last run 2026-09-05 18:34
 
 ## What the model found in the code
 
-**6 open** (2 high). Newest first.
+**8 open** (4 high). Newest first.
 
+- **feats.py** `roll` — [HIGH] the return code is always 0
+  - says: THE COUNTERS REACH THE EXIT CODE
+- **feats.py** `_QUANTITY` — [HIGH] exponent is captured but not used in value calculation, leading to incorrect magnitude
+  - says: exponent is kept alongside for auditable reading
 - **allsweep.py** `allsweep.VERIFIERS` — [HIGH] Iterates as a three-tuple `(label, argv, rc_means)`
   - says: Iterates as exactly `(label, argv)`, deliberately
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
