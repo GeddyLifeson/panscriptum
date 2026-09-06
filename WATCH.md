@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 399  ·  last run 2026-09-06 17:09
+round 400  ·  last run 2026-09-06 18:05
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 399  ·  last run 2026-09-06 17:09
 
 ## What the model found in the code
 
-**17 open** (6 high). Newest first.
+**13 open** (3 high). Newest first.
 
 - **foreman.py** `kill_stalled_job` — [HIGH] Kills stalled jobs, but the code comments indicate it should only kill jobs that are not in the standing set and not restartable, which is a contradiction.
   - says: A job that is UP and writing nothing is worse than a job that is down.
@@ -20,12 +20,6 @@ round 399  ·  last run 2026-09-06 17:09
   - says: the success floor sits below the standard's 50% ok bar
 - **verify_math.py** `check` — [HIGH] the check is using a hardcoded payload to test the predicate instead of calling the actual function
   - says: the token-flow probe counts tokens, not prose
-- **verify_math.py** `max(BG.HAMLET_FLOOR, int(_bs[0][` — [HIGH] max(int, int) which is an int
-  - says: max(BG.HAMLET_FLOOR, int(...))
-- **verify_math.py** `check` — [HIGH] check that a condition is false
-  - says: check that a condition is true
-- **verify_math.py** `A.assay` — [HIGH] assay a single axis's scores and attestation
-  - says: assay an anchor's scores and attestation
 - **roll.py** `main` — [MEDIUM] returns 0
   - says: RETURNS THE REASON, NOT JUST THE NAME
 - **manifest_builder.py** `manifest_landed` — [MEDIUM] is the result of write_json
@@ -38,8 +32,6 @@ round 399  ·  last run 2026-09-06 17:09
   - says: Re-measure cited/settled. Stale figures understate the library and mislead every other standard that reads them.
 - **verify_math.py** `A.axis_score` — [MEDIUM] the guards were present, live, and never once asked to refuse anything
   - says: quantity FIRST. Getting that wrong here raised a TypeError rather than quietly asserting nothing, which is the behaviour a check should have when its author is confused; a check that swallows its own misuse is worse than no check.
-- **verify_math.py** `tol=1e-9` — [MEDIUM] tol=1e-9 is discarded because the comparison is exact
-  - says: tol=1e-9
 - **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
   - says: searches for replacements for hosts that failed to hold their fiction
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
