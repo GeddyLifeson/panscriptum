@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 398  ·  last run 2026-09-06 16:24
+round 399  ·  last run 2026-09-06 17:09
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 398  ·  last run 2026-09-06 16:24
 
 ## What the model found in the code
 
-**21 open** (6 high). Newest first.
+**17 open** (6 high). Newest first.
 
 - **foreman.py** `kill_stalled_job` — [HIGH] Kills stalled jobs, but the code comments indicate it should only kill jobs that are not in the standing set and not restartable, which is a contradiction.
   - says: A job that is UP and writing nothing is worse than a job that is down.
@@ -32,8 +32,6 @@ round 398  ·  last run 2026-09-06 16:24
   - says: returns whether the rename LANDED
 - **manifest_builder.py** `feats_index.feats_for_source` — [MEDIUM] The code attempts to compute a budget for feats blocks but the actual issue is that the `feats_index.feats_for_source` call is not properly handling the case where the feats lookup fails, leading to an incorrect assumption about the presence of feats in the source.
   - says: DERIVED, NOT DECLARED (m46). `FEATS_BLOCK_CHARS` had no arithmetic relationship to `num_ctx`
-- **ledger_guard.py** `verify_chain` — [MEDIUM] only checks the hash chain integrity, not the entire ledger
-  - says: check the relay's ledgers
 - **ledger_guard.py** `check_all` — [MEDIUM] only checks the structure and floors, not the entire ledger integrity
   - says: check the relay's ledgers
 - **foreman.py** `refresh_coverage` — [MEDIUM] Returns a boolean indicating if the coverage script ran successfully, without capturing or reporting any output or error details.
@@ -42,12 +40,6 @@ round 398  ·  last run 2026-09-06 16:24
   - says: quantity FIRST. Getting that wrong here raised a TypeError rather than quietly asserting nothing, which is the behaviour a check should have when its author is confused; a check that swallows its own misuse is worse than no check.
 - **verify_math.py** `tol=1e-9` — [MEDIUM] tol=1e-9 is discarded because the comparison is exact
   - says: tol=1e-9
-- **reference.py** `shelfmark` — [MEDIUM] generates a shelfmark based on the tier_key and lower_rungs, but the code may mislabel rungs if the lengths of upper and lower do not match the expected 3 and 4 elements respectively
-  - says: The charter's canonical Shelfmark
-- **read.py** `_chunk_put` — [MEDIUM] is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
-  - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
-- **read.py** `_chunk_get` — [MEDIUM] is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
-  - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
 - **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
   - says: searches for replacements for hosts that failed to hold their fiction
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
