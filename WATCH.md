@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 392  ·  last run 2026-09-06 09:24
+round 393  ·  last run 2026-09-06 09:49
 
 ## Structure
 
@@ -12,16 +12,36 @@ round 392  ·  last run 2026-09-06 09:24
 
 ## What the model found in the code
 
-**35 open** (4 high). Newest first.
+**43 open** (8 high). Newest first.
 
-- **rosetta.py** `check` — [HIGH] code requires a host-scoped assay
-  - says: docstring says it matches anything at all
+- **workorders.py** `resolve_code` — [HIGH] resolve_code is called with a code and a resolution message, but the code is not checked against any condition; it always returns True
+  - says: resolve_code is called with a code and a resolution message, and it is expected to file a work order if the resolution is not met
+- **verify_math.py** `check` — [HIGH] the success floor sits above the standard's 50% ok bar
+  - says: the success floor sits below the standard's 50% ok bar
+- **verify_math.py** `check` — [HIGH] the check is using a hardcoded payload to test the predicate instead of calling the actual function
+  - says: the token-flow probe counts tokens, not prose
+- **verify_math.py** `max(BG.HAMLET_FLOOR, int(_bs[0][` — [HIGH] max(int, int) which is an int
+  - says: max(BG.HAMLET_FLOOR, int(...))
+- **verify_math.py** `check` — [HIGH] check that a condition is false
+  - says: check that a condition is true
+- **verify_math.py** `A.assay` — [HIGH] assay a single axis's scores and attestation
+  - says: assay an anchor's scores and attestation
 - **rosetta.py** `stand_rows` — [HIGH] does not parse Stand parameters as described, but instead appears to be a placeholder or incomplete implementation
   - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
-- **read.py** `_ask` — [HIGH] is the local GPU, unconditionally
-  - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
 - **overnight.py** `run` — [HIGH] does not order anything and cannot run after the reader
   - says: Runs after the reader so it sees the evidence the reader just produced
+- **workorders.py** `resolve_code` — [MEDIUM] checking if the resolve is in the loaded data
+  - says: reading the exit code, was told the resolution never applied when in fact it was a transient failure that should be RETRIED.
+- **verify_math.py** `A.axis_score` — [MEDIUM] the guards were present, live, and never once asked to refuse anything
+  - says: quantity FIRST. Getting that wrong here raised a TypeError rather than quietly asserting nothing, which is the behaviour a check should have when its author is confused; a check that swallows its own misuse is worse than no check.
+- **verify_math.py** `tol=1e-9` — [MEDIUM] tol=1e-9 is discarded because the comparison is exact
+  - says: tol=1e-9
+- **sweep_plan.py** `clean` — [MEDIUM] not dropped and not [m["module"] for m in modules() if m["module"] not in everything]
+  - says: not dropped and not [m["module"] for m in modules() if m["module"] not in everything]
+- **sweep_plan.py** `silence.write_json` — [MEDIUM] write_json is called but the code does not handle exceptions that may occur during the write operation
+  - says: write_json is used to write the coverage data to the JSON file
+- **sweep_plan.py** `silence.replace_retry` — [MEDIUM] replace_retry is called but the code does not handle the case where the replacement fails, leading to potential data loss
+  - says: replace_retry is called to replace the temporary file with the final name
 - **reference.py** `shelfmark` — [MEDIUM] generates a shelfmark based on the tier_key and lower_rungs, but the code may mislabel rungs if the lengths of upper and lower do not match the expected 3 and 4 elements respectively
   - says: The charter's canonical Shelfmark
 - **read.py** `_chunk_put` — [MEDIUM] is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
@@ -76,10 +96,6 @@ round 392  ·  last run 2026-09-06 09:24
   - says: Unchanged for every caller: the same flat `grounded + spec` list it has always returned.
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair.
-- **health.py** `silence.write_json` — [MEDIUM] is called and the return value is checked, but the code does not handle the case where it returns False
-  - says: RETURNS False rather than raising when the atomic replace is denied
-- **feats.py** `_QUANTITY` — [MEDIUM] does not capture the exponent part of a quantity
-  - says: captures the exponent part of a quantity
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
