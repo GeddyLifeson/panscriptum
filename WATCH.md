@@ -1,27 +1,27 @@
 # OVERWATCH
 
-round 391  ·  last run 2026-09-06 08:11
+round 392  ·  last run 2026-09-06 09:24
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 297,340 inspected
+- files that will not parse: **0** of 297,340 inspected (deep scan as of round 391)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**37 open** (4 high). Newest first.
+**35 open** (4 high). Newest first.
 
+- **rosetta.py** `check` — [HIGH] code requires a host-scoped assay
+  - says: docstring says it matches anything at all
+- **rosetta.py** `stand_rows` — [HIGH] does not parse Stand parameters as described, but instead appears to be a placeholder or incomplete implementation
+  - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
 - **read.py** `_ask` — [HIGH] is the local GPU, unconditionally
   - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
 - **overnight.py** `run` — [HIGH] does not order anything and cannot run after the reader
   - says: Runs after the reader so it sees the evidence the reader just produced
-- **estate.py** `note` — [HIGH] appends a finding to, but the code in the comment says it should append nothing
-  - says: appends a finding to the report
-- **estate.py** `note` — [HIGH] appends a finding to the report
-  - says: appends a finding to the report
 - **reference.py** `shelfmark` — [MEDIUM] generates a shelfmark based on the tier_key and lower_rungs, but the code may mislabel rungs if the lengths of upper and lower do not match the expected 3 and 4 elements respectively
   - says: The charter's canonical Shelfmark
 - **read.py** `_chunk_put` — [MEDIUM] is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline
@@ -80,10 +80,6 @@ round 391  ·  last run 2026-09-06 08:11
   - says: RETURNS False rather than raising when the atomic replace is denied
 - **feats.py** `_QUANTITY` — [MEDIUM] does not capture the exponent part of a quantity
   - says: captures the exponent part of a quantity
-- **escalation.py** `escalate` — [MEDIUM] escalate is not called here and the code does not handle its exceptions
-  - says: escalate(...)
-- **escalation.py** `clear` — [MEDIUM] clear() is not called here and the code does not handle its exceptions
-  - says: clear() raises it for a non-person caller
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
