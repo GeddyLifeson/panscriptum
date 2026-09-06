@@ -1,18 +1,18 @@
 # OVERWATCH
 
-round 396  ·  last run 2026-09-06 13:34
+round 397  ·  last run 2026-09-06 14:56
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 297,340 inspected (deep scan as of round 391)
+- files that will not parse: **0** of 297,695 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**36 open** (7 high). Newest first.
+**34 open** (6 high). Newest first.
 
 - **foreman.py** `kill_stalled_job` — [HIGH] Kills stalled jobs, but the code comments indicate it should only kill jobs that are not in the standing set and not restartable, which is a contradiction.
   - says: A job that is UP and writing nothing is worse than a job that is down.
@@ -26,8 +26,10 @@ round 396  ·  last run 2026-09-06 13:34
   - says: check that a condition is true
 - **verify_math.py** `A.assay` — [HIGH] assay a single axis's scores and attestation
   - says: assay an anchor's scores and attestation
-- **overnight.py** `run` — [HIGH] does not order anything and cannot run after the reader
-  - says: Runs after the reader so it sees the evidence the reader just produced
+- **manifest_builder.py** `manifest_landed` — [MEDIUM] is the result of write_json
+  - says: returns whether the rename LANDED
+- **manifest_builder.py** `feats_index.feats_for_source` — [MEDIUM] The code attempts to compute a budget for feats blocks but the actual issue is that the `feats_index.feats_for_source` call is not properly handling the case where the feats lookup fails, leading to an incorrect assumption about the presence of feats in the source.
+  - says: DERIVED, NOT DECLARED (m46). `FEATS_BLOCK_CHARS` had no arithmetic relationship to `num_ctx`
 - **resync_roll.py** `total` — [MEDIUM] sum(r.get("entry_count", 0) for r in roll)
   - says: sum(r.get("entry_count", 0) for r in roll)
 - **resync_roll.py** `have` — [MEDIUM] sum(1 for r in roll if r.get("entry_count", 0) > 0)
@@ -72,12 +74,6 @@ round 396  ·  last run 2026-09-06 13:34
   - says: counts the total number of evidence files
 - **policy.py** `nonempty` — [MEDIUM] Checks if the value has a __len__ attribute and its length is greater than zero, which would include numbers if they are containers (like a list or dict) but not numbers in a name field.
   - says: Spelled as what it means: a non-empty container or string.
-- **overwatch.py** `round_once` — [MEDIUM] The function resets the _LOCAL_BUSY counter to 0 at the beginning of each round, but the comment suggests that the budget was previously per process and not per round, implying that the function may not correctly handle the budgeting logic as intended.
-  - says: THE BUDGET IS PER ROUND, AND UNTIL NOW IT WAS PER PROCESS. CLOUD_BUDGET's own comment calls it "calls the watcher may take from the shared pool in one round", and the yield it guards is explicitly meant to last "for as long as the busy period lasted" -- but nothing ever reset the counter. In `--loop` mode (the standing sweep, which runs for days) one busy stretch pushed the lifetime total past 20 and every later GPU-busy call returned None forever after, with no cloud fallback. The watcher quietly stopped watching, which this file's own comment names as the thing it exists to prevent. Reset where the round begins.
-- **overnight.py** `drill_rc` — [MEDIUM] assigned the value of safety_drill() which is not checked against any condition
-  - says: supposed to stop us still able to? Cheap (no model calls, no network) and it is the only check that would notice a safety having been REMOVED rather than having failed.
-- **overnight.py** `run` — [MEDIUM] Runs a stage to completion, but does not properly handle the case where the process is already running, leading to potential duplicate runs.
-  - says: Run one stage to completion, refusing to start a duplicate.
 - **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
   - says: searches for replacements for hosts that failed to hold their fiction
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
