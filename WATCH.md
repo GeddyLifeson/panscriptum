@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 393  ·  last run 2026-09-06 09:49
+round 394  ·  last run 2026-09-06 11:22
 
 ## Structure
 
@@ -12,8 +12,10 @@ round 393  ·  last run 2026-09-06 09:49
 
 ## What the model found in the code
 
-**43 open** (8 high). Newest first.
+**44 open** (9 high). Newest first.
 
+- **foreman.py** `kill_stalled_job` — [HIGH] Kills stalled jobs, but the code comments indicate it should only kill jobs that are not in the standing set and not restartable, which is a contradiction.
+  - says: A job that is UP and writing nothing is worse than a job that is down.
 - **workorders.py** `resolve_code` — [HIGH] resolve_code is called with a code and a resolution message, but the code is not checked against any condition; it always returns True
   - says: resolve_code is called with a code and a resolution message, and it is expected to file a work order if the resolution is not met
 - **verify_math.py** `check` — [HIGH] the success floor sits above the standard's 50% ok bar
@@ -30,6 +32,10 @@ round 393  ·  last run 2026-09-06 09:49
   - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
 - **overnight.py** `run` — [HIGH] does not order anything and cannot run after the reader
   - says: Runs after the reader so it sees the evidence the reader just produced
+- **foreman.py** `refresh_coverage` — [MEDIUM] Returns a boolean indicating if the coverage script ran successfully, without capturing or reporting any output or error details.
+  - says: Re-measure cited/settled. Stale figures understate the library and mislead every other standard that reads them.
+- **generate.py** `failures.pop` — [MEDIUM] removes a failure from the failures list even if the chapter was not actually failed
+  - says: A DEAD REFUSAL MUST NOT READ LIKE A LIVE ONE
 - **workorders.py** `resolve_code` — [MEDIUM] checking if the resolve is in the loaded data
   - says: reading the exit code, was told the resolution never applied when in fact it was a transient failure that should be RETRIED.
 - **verify_math.py** `A.axis_score` — [MEDIUM] the guards were present, live, and never once asked to refuse anything
@@ -88,12 +94,8 @@ round 393  ·  last run 2026-09-06 09:49
   - says: every survivor a standing ruling kept out of the queue
 - **mutate.py** `survivors_on_record` — [MEDIUM] filters out baseline_event and ruled_equivalent entries, but includes entries with 'line' key
   - says: FILTERED TO ACTUAL SURVIVORS
-- **liveness.py** `scoped` — [MEDIUM] the code says it does instead
-  - says: the code says it does instead
 - **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
   - says: searches for replacements for hosts that failed to hold their fiction
-- **hostcheck.py** `candidates` — [MEDIUM] Returns the same flat list as `candidates_split`
-  - says: Unchanged for every caller: the same flat `grounded + spec` list it has always returned.
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
